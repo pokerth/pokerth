@@ -2986,18 +2986,32 @@ void gameTableImpl::changeLineEditBetValue(int value) {
 	else {
 		if(horizontalSlider_bet->maximum() <= 1000 ) {
 			temp = (int)((value/10)*10);
-			if(temp < horizontalSlider_bet->minimum())
-				lineEdit_betValue->setText(QString::number(horizontalSlider_bet->minimum()));
-			else
-				lineEdit_betValue->setText(QString::number(temp));
+                        if(temp < horizontalSlider_bet->minimum())
+                                lineEdit_betValue->setText(QString::number(horizontalSlider_bet->minimum()));
+                        else
+                                lineEdit_betValue->setText(QString::number(temp));
 		}
-		else {
+                else if(horizontalSlider_bet->maximum() > 1000 && horizontalSlider_bet->maximum() <= 10000) {
 			temp = (int)((value/50)*50);
-			if(temp < horizontalSlider_bet->minimum())
-				lineEdit_betValue->setText(QString::number(horizontalSlider_bet->minimum()));
-			else
-				lineEdit_betValue->setText(QString::number(temp));
+                        if(temp < horizontalSlider_bet->minimum())
+                                lineEdit_betValue->setText(QString::number(horizontalSlider_bet->minimum()));
+                        else
+                                lineEdit_betValue->setText(QString::number(temp));
 		}
+                else if(horizontalSlider_bet->maximum() > 10000 && horizontalSlider_bet->maximum() <= 100000) {
+                        temp = (int)((value/500)*500);
+                        if(temp < horizontalSlider_bet->minimum())
+                                lineEdit_betValue->setText(QString::number(horizontalSlider_bet->minimum()));
+                        else
+                                lineEdit_betValue->setText(QString::number(temp));
+                }
+                else {
+                        temp = (int)((value/5000)*5000);
+                        if(temp < horizontalSlider_bet->minimum())
+                                lineEdit_betValue->setText(QString::number(horizontalSlider_bet->minimum()));
+                        else
+                                lineEdit_betValue->setText(QString::number(temp));
+                }
 	}
 }
 
