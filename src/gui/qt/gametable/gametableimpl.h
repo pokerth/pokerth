@@ -87,7 +87,6 @@ signals:
 	void signalRefreshGameLabels(int);
 
 	void signalSetPlayerAvatar(int, QString);
-
 	void signalGuiUpdateDone();
 
 	void signalMeInAction();
@@ -125,6 +124,8 @@ signals:
 	void signalStartVoteOnKick(unsigned playerId, unsigned voteStarterPlayerId, int timeoutSec, int numVotesNeededToKick);
 	void signalChangeVoteOnKickButtonsState(bool showHide);
 	void signalEndVoteOnKick();
+
+        void signalNetClientPlayerLeft(unsigned playerId);
 
 public slots:
 
@@ -301,6 +302,7 @@ public slots:
 	void saveGameTableGeometry();
 	void restoreGameTableGeometry();
 
+        void netClientPlayerLeft(unsigned playerId);
 private: 
 
 	boost::shared_ptr<GuiInterface> myServerGuiInterface;
@@ -354,7 +356,7 @@ private:
 	QLabel *cashTopLabelArray[MAX_NUMBER_OF_PLAYERS];
 	MySetLabel *setLabelArray[MAX_NUMBER_OF_PLAYERS];
 	QLabel *actionLabelArray[MAX_NUMBER_OF_PLAYERS];
-	QLabel *playerNameLabelArray[MAX_NUMBER_OF_PLAYERS];
+        MyNameLabel *playerNameLabelArray[MAX_NUMBER_OF_PLAYERS];
 	MyAvatarLabel *playerAvatarLabelArray[MAX_NUMBER_OF_PLAYERS];
         MyTimeoutLabel *timeoutLabelArray[MAX_NUMBER_OF_PLAYERS];
 
@@ -370,7 +372,6 @@ private:
 	//Sound
 	SDLPlayer *mySDLPlayer;
 	QString myAppDataPath;
-
 
 	int distributePotAnimCounter;
 	int playingMode;

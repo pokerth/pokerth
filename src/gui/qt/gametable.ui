@@ -108,7 +108,7 @@
           <bool>true</bool>
          </property>
         </widget>
-        <widget class="QLabel" name="label_PlayerName3">
+        <widget class="MyNameLabel" name="label_PlayerName3">
          <property name="geometry">
           <rect>
            <x>70</x>
@@ -326,7 +326,7 @@
           <bool>true</bool>
          </property>
         </widget>
-        <widget class="QLabel" name="label_PlayerName2">
+        <widget class="MyNameLabel" name="label_PlayerName2">
          <property name="geometry">
           <rect>
            <x>70</x>
@@ -551,7 +551,7 @@
           <bool>true</bool>
          </property>
         </widget>
-        <widget class="QLabel" name="label_PlayerName4">
+        <widget class="MyNameLabel" name="label_PlayerName4">
          <property name="geometry">
           <rect>
            <x>70</x>
@@ -756,7 +756,7 @@
           <bool>true</bool>
          </property>
         </widget>
-        <widget class="QLabel" name="label_PlayerName5">
+        <widget class="MyNameLabel" name="label_PlayerName5">
          <property name="geometry">
           <rect>
            <x>70</x>
@@ -961,7 +961,7 @@
           <bool>true</bool>
          </property>
         </widget>
-        <widget class="QLabel" name="label_PlayerName6">
+        <widget class="MyNameLabel" name="label_PlayerName6">
          <property name="geometry">
           <rect>
            <x>70</x>
@@ -1186,7 +1186,7 @@
           <bool>true</bool>
          </property>
         </widget>
-        <widget class="QLabel" name="label_PlayerName7">
+        <widget class="MyNameLabel" name="label_PlayerName7">
          <property name="geometry">
           <rect>
            <x>70</x>
@@ -1404,7 +1404,7 @@
           <bool>true</bool>
          </property>
         </widget>
-        <widget class="QLabel" name="label_PlayerName8">
+        <widget class="MyNameLabel" name="label_PlayerName8">
          <property name="geometry">
           <rect>
            <x>70</x>
@@ -2061,7 +2061,7 @@
           <bool>true</bool>
          </property>
         </widget>
-        <widget class="QLabel" name="label_PlayerName1">
+        <widget class="MyNameLabel" name="label_PlayerName1">
          <property name="geometry">
           <rect>
            <x>70</x>
@@ -2266,7 +2266,7 @@
           <bool>true</bool>
          </property>
         </widget>
-        <widget class="QLabel" name="label_PlayerName0">
+        <widget class="MyNameLabel" name="label_PlayerName0">
          <property name="geometry">
           <rect>
            <x>70</x>
@@ -2471,7 +2471,7 @@
           <bool>true</bool>
          </property>
         </widget>
-        <widget class="QLabel" name="label_PlayerName9">
+        <widget class="MyNameLabel" name="label_PlayerName9">
          <property name="geometry">
           <rect>
            <x>70</x>
@@ -3741,6 +3741,11 @@
    <class>MyTimeoutLabel</class>
    <extends>QLabel</extends>
    <header>mytimeoutlabel.h</header>
+  </customwidget>
+  <customwidget>
+   <class>MyNameLabel</class>
+   <extends>QLabel</extends>
+   <header>mynamelabel.h</header>
   </customwidget>
  </customwidgets>
  <resources>

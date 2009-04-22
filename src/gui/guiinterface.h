@@ -55,11 +55,10 @@ public:
 	virtual void refreshGameLabels(GameState state) const=0;
 	
 	virtual void setPlayerAvatar(int myUniqueID, const std::string &myAvatar) const=0;
+        virtual void waitForGuiUpdateDone() const=0;
 
-	virtual void waitForGuiUpdateDone() const=0;
-
+        // Karten-Funktionen
 	virtual void dealBeRoCards(int) =0;
-// 	// Karten-Funktionen
 	virtual void dealHoleCards()=0;
 	virtual void dealFlopCards()=0;
 	virtual void dealTurnCard()=0;
@@ -82,15 +81,10 @@ public:
 	virtual void riverAnimation2()=0;
 
 	virtual void postRiverAnimation1()=0;
-	virtual void postRiverRunAnimation1()=0;
-// 	virtual void postRiverAnimation2()=0;
+        virtual void postRiverRunAnimation1()=0;
 	virtual void flipHolecardsAllIn()=0;
 
-// 	virtual void startNewHand() const=0;
 	virtual void nextRoundCleanGui()=0;
-// 	
-// 	virtual void userWidgetsBackgroudColor() const=0;
-// 	virtual void timerBlockerFalse() const=0;
 	virtual void meInAction()=0;
 	virtual	void updateMyButtonsState()=0;
 	virtual void disableMyButtons()=0;

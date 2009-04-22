@@ -71,6 +71,9 @@ public:
 	void setMyActiveStatus(bool theValue);
 	bool getMyActiveStatus() const;
 
+        void setMyStayOnTableStatus(bool theValue);
+        bool getMyStayOnTableStatus() const;
+
 	void setMyCards(int* theValue);
 	void getMyCards(int* theValue) const;
 
@@ -163,6 +166,7 @@ private:
 	int myAction; // 0 = none, 1 = fold, 2 = check, 3 = call, 4 = bet, 5 = raise, 6 = allin
 	int myButton; // 0 = none, 1 = dealer, 2 =small, 3 = big
 	bool myActiveStatus; // 0 = inactive, 1 = active
+        bool myStayOnTableStatus; // 0 = left, 1 = stay
 	bool myTurn; // 0 = no, 1 = yes
 	bool myCardsFlip; // 0 = cards are not fliped, 1 = cards are already flipped,
 	int myRoundStartCash;

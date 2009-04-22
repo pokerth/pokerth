@@ -193,7 +193,8 @@ HEADERS += src/game.h \
     src/gui/qt/gametable/mychancelabel.h \
     src/gui/qt/serverlistdialog/serverlistdialogimpl.h \
     src/gui/qt/gametable/mymenubar.h \
-    src/gui/qt/gametable/mytimeoutlabel.h
+    src/gui/qt/gametable/mytimeoutlabel.h \
+    src/gui/qt/gametable/mynamelabel.h
 FORMS += src/gui/qt/gametable.ui \
     src/gui/qt/aboutpokerth.ui \
     src/gui/qt/connecttoserverdialog.ui \
@@ -256,7 +257,8 @@ SOURCES += src/pokerth.cpp \
     src/gui/qt/gametable/mychancelabel.cpp \
     src/gui/qt/serverlistdialog/serverlistdialogimpl.cpp \
     src/gui/qt/gametable/mymenubar.cpp \
-    src/gui/qt/gametable/mytimeoutlabel.cpp
+    src/gui/qt/gametable/mytimeoutlabel.cpp \
+    src/gui/qt/gametable/mynamelabel.cpp
 TRANSLATIONS = ts/pokerth_bg.ts \
     ts/pokerth_de.ts \
     ts/pokerth_dk.ts \

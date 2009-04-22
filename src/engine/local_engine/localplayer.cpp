@@ -850,7 +850,7 @@ static const RoundData FlopValues[] =
 #define NUM_FLOP_VALUES (sizeof(FlopValues)/sizeof(RoundData))
 
 LocalPlayer::LocalPlayer(ConfigFile *c, BoardInterface *b, int id, unsigned uniqueId, PlayerType type, std::string name, std::string avatar, int sC, bool aS, int mB)
-: PlayerInterface(), myConfig(c), currentHand(0), currentBoard(b), myCardsValue(0), myID(id), myUniqueID(uniqueId), myType(type), myName(name), myAvatar(avatar), myDude(0), myDude4(0), myCardsValueInt(0), myOdds(-1.0), myCash(sC), mySet(0), myLastRelativeSet(0), myAction(0), myButton(mB), myActiveStatus(aS), myTurn(0), myRoundStartCash(0), lastMoneyWon(0), sBluff(0), sBluffStatus(0)
+: PlayerInterface(), myConfig(c), currentHand(0), currentBoard(b), myCardsValue(0), myID(id), myUniqueID(uniqueId), myType(type), myName(name), myAvatar(avatar), myDude(0), myDude4(0), myCardsValueInt(0), myOdds(-1.0), myCash(sC), mySet(0), myLastRelativeSet(0), myAction(0), myButton(mB), myActiveStatus(aS), myStayOnTableStatus(1), myTurn(0), myRoundStartCash(0), lastMoneyWon(0), sBluff(0), sBluffStatus(0)
 {
 
 	// !!!!!!!!!!!!!!!!!!!!!!!! testing !!!!!!!!!!!!!!!!!!!!!!!!

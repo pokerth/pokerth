@@ -104,7 +104,6 @@ Game::Game(GuiInterface* gui, boost::shared_ptr<EngineFactory> factory,
 		}
 		(*runningPlayerList) = (*activePlayerList);
 
-		
 	}
 
 	currentBoard->setPlayerLists(seatsList, activePlayerList, runningPlayerList);
@@ -154,7 +153,7 @@ void Game::initHand()
 	while( it!=activePlayerList->end() ) {
 
 		if((*it)->getMyCash() == 0) {
-			(*it)->setMyActiveStatus(false);
+                        (*it)->setMyActiveStatus(false);
 			it = activePlayerList->erase(it);
 		} else {
 			it++;
@@ -191,13 +190,10 @@ void Game::initHand()
 			dealerPosition = (*it_c)->getMyUniqueID();
 			break;
 		}
-
 	}
 	if(!nextDealerFound) {
 		throw LocalException(__FILE__, __LINE__, ERR_NEXT_DEALER_NOT_FOUND);
 	}
-
-
 }
 
 void Game::startHand()

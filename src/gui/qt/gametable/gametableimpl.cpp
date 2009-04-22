@@ -508,6 +508,8 @@ gameTableImpl::gameTableImpl(ConfigFile *c, QMainWindow *parent)
 	connect(this, SIGNAL(signalChangeVoteOnKickButtonsState(bool)), this, SLOT(changeVoteOnKickButtonsState(bool)));
 	connect(this, SIGNAL(signalEndVoteOnKick()), this, SLOT(endVoteOnKick()));
 
+        connect(this, SIGNAL(signalNetClientPlayerLeft(unsigned)), this, SLOT(netClientPlayerLeft(unsigned)));
+
 }
 
 gameTableImpl::~gameTableImpl() {
@@ -772,41 +774,70 @@ void gameTableImpl::refreshButton() {
 
 void gameTableImpl::refreshPlayerName() {
 
-	HandInterface *currentHand = myStartWindow->getSession()->getCurrentGame()->getCurrentHand();
+        if(myStartWindow->getSession()->getCurrentGame()) {
+                HandInterface *currentHand = myStartWindow->getSession()->getCurrentGame()->getCurrentHand();
 
-	PlayerListConstIterator it_c;
-	for (it_c=currentHand->getSeatsList()->begin(); it_c!=currentHand->getSeatsList()->end(); it_c++) {
-		if((*it_c)->getMyActiveStatus()) { 
-			playerNameLabelArray[(*it_c)->getMyID()]->setText(QString::fromUtf8((*it_c)->getMyName().c_str()));
-			
-		} else {
-			playerNameLabelArray[(*it_c)->getMyID()]->setText(""); 
-		
-		}
-	}
+                PlayerListConstIterator it_c;
+                for (it_c=currentHand->getSeatsList()->begin(); it_c!=currentHand->getSeatsList()->end(); it_c++) {
+                        if((*it_c)->getMyActiveStatus()) {
+                                playerNameLabelArray[(*it_c)->getMyID()]->setText(QString::fromUtf8((*it_c)->getMyName().c_str()));
+
+                        } else {
+                                if((myStartWindow->getSession()->getGameType() == Session::GAME_TYPE_INTERNET || myStartWindow->getSession()->getGameType() == Session::GAME_TYPE_NETWORK)) {
+                                        if((*it_c)->getMyStayOnTableStatus() == TRUE && (*it_c)->getMyType() != PLAYER_TYPE_COMPUTER) {
+                                                playerNameLabelArray[(*it_c)->getMyID()]->setText(QString::fromUtf8((*it_c)->getMyName().c_str()), TRUE);
+                                        }
+                                        else {
+                                                playerNameLabelArray[(*it_c)->getMyID()]->setText("");
+                                        }
+                                }
+                                else {
+                                        playerNameLabelArray[(*it_c)->getMyID()]->setText("");
+                                }
+                        }
+                }
+        }
 }
 
 void gameTableImpl::refreshPlayerAvatar() {
 
-	QPixmap onePix = QPixmap::fromImage(QImage(myAppDataPath +"gfx/gui/misc/1px.png"));
+        if(myStartWindow->getSession()->getCurrentGame()) {
 
-	HandInterface *currentHand = myStartWindow->getSession()->getCurrentGame()->getCurrentHand();
+                QPixmap onePix = QPixmap::fromImage(QImage(myAppDataPath +"gfx/gui/misc/1px.png"));
 
-	PlayerListConstIterator it_c;
-	for (it_c=currentHand->getSeatsList()->begin(); it_c!=currentHand->getSeatsList()->end(); it_c++) {
-		if((*it_c)->getMyActiveStatus()) { 
+                HandInterface *currentHand = myStartWindow->getSession()->getCurrentGame()->getCurrentHand();
 
-			if((*it_c)->getMyAvatar() == "" || !QFile::QFile(QString::fromUtf8((*it_c)->getMyAvatar().c_str())).exists()) {
-				playerAvatarLabelArray[(*it_c)->getMyID()]->setPixmap(QPixmap::fromImage(QImage(myGameTableStyle->getDefaultAvatar())));
-			}
-			else {
-				playerAvatarLabelArray[(*it_c)->getMyID()]->setPixmap(QPixmap::fromImage(QImage(QString::fromUtf8((*it_c)->getMyAvatar().c_str()))));
-			}
-		}	
-		else {
-			playerAvatarLabelArray[(*it_c)->getMyID()]->setPixmap(onePix);
-		}		
-	}
+                PlayerListConstIterator it_c;
+                for (it_c=currentHand->getSeatsList()->begin(); it_c!=currentHand->getSeatsList()->end(); it_c++) {
+                        if((*it_c)->getMyActiveStatus()) {
+
+                                if((*it_c)->getMyAvatar() == "" || !QFile::QFile(QString::fromUtf8((*it_c)->getMyAvatar().c_str())).exists()) {
+                                        playerAvatarLabelArray[(*it_c)->getMyID()]->setPixmap(QPixmap::fromImage(QImage(myGameTableStyle->getDefaultAvatar())));
+                                }
+                                else {
+                                        playerAvatarLabelArray[(*it_c)->getMyID()]->setPixmap(QPixmap::fromImage(QImage(QString::fromUtf8((*it_c)->getMyAvatar().c_str()))));
+                                }
+                        }
+                        else {
+                                if((myStartWindow->getSession()->getGameType() == Session::GAME_TYPE_INTERNET || myStartWindow->getSession()->getGameType() == Session::GAME_TYPE_NETWORK)) {
+                                        if((*it_c)->getMyStayOnTableStatus() == TRUE && (*it_c)->getMyType() != PLAYER_TYPE_COMPUTER) {
+                                                if((*it_c)->getMyAvatar() == "" || !QFile::QFile(QString::fromUtf8((*it_c)->getMyAvatar().c_str())).exists()) {
+                                                        playerAvatarLabelArray[(*it_c)->getMyID()]->setPixmap(QPixmap::fromImage(QImage(myGameTableStyle->getDefaultAvatar())), TRUE);
+                                                }
+                                                else {
+                                                        playerAvatarLabelArray[(*it_c)->getMyID()]->setPixmap(QPixmap::fromImage(QImage(QString::fromUtf8((*it_c)->getMyAvatar().c_str()))), TRUE);
+                                                }
+                                        }
+                                        else {
+                                                playerAvatarLabelArray[(*it_c)->getMyID()]->setPixmap(onePix);
+                                        }
+                                }
+                                else {
+                                        playerAvatarLabelArray[(*it_c)->getMyID()]->setPixmap(onePix);
+                                }
+                        }
+                }
+        }
 }
 
 void gameTableImpl::setPlayerAvatar(int myID, QString myAvatar) {
@@ -3322,4 +3353,18 @@ void gameTableImpl::restoreGameTableGeometry()
 			this->resize(myConfig->readConfigInt("GameTableWidthSave"), myConfig->readConfigInt("GameTableHeightSave"));
 		}		
 	}
+}
+
+void gameTableImpl::netClientPlayerLeft(unsigned playerId) {
+
+        assert(myStartWindow->getSession()->getCurrentGame());
+        if (myStartWindow->getSession()->isNetworkClientRunning()) {
+
+                boost::shared_ptr<PlayerInterface> tmpPlayer = myStartWindow->getSession()->getCurrentGame()->getPlayerByUniqueId(playerId);
+                if (tmpPlayer.get()) {
+                                tmpPlayer->setMyStayOnTableStatus(0);
+                                refreshPlayerAvatar();
+                                refreshPlayerName();
+                }
+        }
 }

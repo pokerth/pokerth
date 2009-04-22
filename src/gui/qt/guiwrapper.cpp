@@ -144,6 +144,7 @@ void GuiWrapper::SignalNetClientPlayerLeft(unsigned playerId, const string &play
 {
 	QString tmpName(QString::fromUtf8(playerName.c_str()));
 	myStartWindow->signalNetClientPlayerLeft(playerId, tmpName);
+        myW->signalNetClientPlayerLeft(playerId);
 	if (!playerName.empty() && playerName[0] != '#')
 		myLog->signalLogPlayerLeftMsg(tmpName, removeReason == NTF_NET_REMOVED_KICKED);
 }

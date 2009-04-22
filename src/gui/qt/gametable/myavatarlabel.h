@@ -36,18 +36,22 @@ public slots:
 	void sendTriggerVoteOnKickSignal();	
 	void setEnabledContextMenu(bool);
 	void setVoteOnKickContextMenuEnabled(bool);
-
 	void setVoteRunning ( bool theValue ) {	voteRunning = theValue;	}
-	
+
+        void setPixmap ( const QPixmap &, const bool = FALSE);
+
+        void paintEvent(QPaintEvent*);
 private: 
 
 	gameTableImpl *myW;
 	QMenu *myContextMenu;
 	QAction *action_VoteForKick;
+        QPixmap myPixmap;
 
 	int myId;
 	bool myContextMenuEnabled;	
 	bool voteRunning;
+        bool transparent;
 };
 
 #endif
