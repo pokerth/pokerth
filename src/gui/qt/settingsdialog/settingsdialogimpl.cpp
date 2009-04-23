@@ -943,8 +943,14 @@ void settingsDialogImpl::setSelectedGameTableStyleActivated()
 
 void settingsDialogImpl::addGameTableStyle()
 {
+        QDir dir(QString::fromUtf8(myConfig->readConfigString("LastGameTableStyleDir").c_str()));
+        QString dirString;
+
+        if(dir.exists()) dirString = dir.absolutePath();
+        else dirString = QDir::home().absolutePath();
+
 	QString fileName = QFileDialog::getOpenFileName(this, tr("Please select your game table style"),
-                                               QDir::home().absolutePath(),
+                                               dirString,
                                                 tr("PokerTH game table styles (*.xml)"));
 
      	if (!fileName.isEmpty()) {
@@ -977,6 +983,8 @@ void settingsDialogImpl::addGameTableStyle()
 					QMessageBox::Ok);	
 			}	
 		}
+                //save current filepath
+                myConfig->writeConfigString("LastGameTableStyleDir",QFileInfo(fileName).absolutePath().toUtf8().constData());
 	}	
 }
 
@@ -1038,8 +1046,14 @@ void settingsDialogImpl::setSelectedCardDeckStyleActivated()
 
 void settingsDialogImpl::addCardDeckStyle()
 {
+        QDir dir(QString::fromUtf8(myConfig->readConfigString("LastCardDeckStyleDir").c_str()));
+        QString dirString;
+
+        if(dir.exists()) dirString = dir.absolutePath();
+        else dirString = QDir::home().absolutePath();
+
 	QString fileName = QFileDialog::getOpenFileName(this, tr("Please select your card deck style"),
-                                               QDir::home().absolutePath(),
+                                               dirString,
                                                 tr("PokerTH card deck styles (*.xml)"));
 
      	if (!fileName.isEmpty()) {
@@ -1072,6 +1086,8 @@ void settingsDialogImpl::addCardDeckStyle()
 					QMessageBox::Ok);	
 			}	
 		}
+                //save current filepath
+                myConfig->writeConfigString("LastCardDeckStyleDir",QFileInfo(fileName).absolutePath().toUtf8().constData());
 	}	
 }
 
