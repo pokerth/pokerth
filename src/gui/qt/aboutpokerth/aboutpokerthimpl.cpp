@@ -33,7 +33,7 @@ aboutPokerthImpl::aboutPokerthImpl(QWidget *parent, ConfigFile *c)
 	setupUi(this);
 
 	myAppDataPath = QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str());
-	
+
 	QPalette myPalette = textBrowser_licence->palette();
 	QColor myColor = myPalette.color(QPalette::Window);
 	myPalette.setColor(QPalette::Base, myColor);

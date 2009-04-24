@@ -62,62 +62,70 @@ void CardDeckStyleReader::readStyleFile(QString file) {
 
 	if(doc.RootElement()) {
 		TiXmlHandle docHandle( &doc );	
-	
-		TiXmlElement* itemsList = docHandle.FirstChild( "PokerTH" ).FirstChild( "CardDeck" ).FirstChild().ToElement();
-		for( ; itemsList; itemsList=itemsList->NextSiblingElement()) {
-			const char *tmpStr1 = itemsList->Attribute("value");
-			if (tmpStr1) {
-				tempString1 = tmpStr1;
 
-				if(itemsList->ValueStr() == "StyleDescription") { StyleDescription = QString::fromUtf8(tempString1.c_str()); }
-				else if(itemsList->ValueStr() == "StyleMaintainerName") { StyleMaintainerName = QString::fromUtf8(tempString1.c_str()); }
-				else if(itemsList->ValueStr() == "StyleMaintainerEMail") { StyleMaintainerEMail = QString::fromUtf8(tempString1.c_str()); }
-				else if(itemsList->ValueStr() == "StyleCreateDate") { StyleCreateDate = QString::fromUtf8(tempString1.c_str()); }
-				else if(itemsList->ValueStr() == "PokerTHStyleFileVersion") { PokerTHStyleFileVersion = QString::fromUtf8(tempString1.c_str()); }
-				else if (itemsList->ValueStr() == "Preview") { Preview = currentDir+QString::fromUtf8(tempString1.c_str()); }
-			}
-		}
-                //check if style items are left and show warning
-                leftItems.clear();
-
-                if(StyleDescription == "") { leftItems << "StyleDescription"; }
-                if(StyleMaintainerName == "") { leftItems << "StyleMaintainerName"; }
-                if(StyleMaintainerEMail == "") { leftItems << "StyleMaintainerEMail"; }
-                if(StyleCreateDate == "") { leftItems << "StyleCreateDate"; }
-                if(PokerTHStyleFileVersion == "") { leftItems << "PokerTHStyleFileVersion"; }
-
-                //check if all files are there
-                cardsLeft.clear();
-                int i;
-                for(i=0; i<52; i++) {
-                        QString cardString(QString::number(i)+".png");
-                        if(!QDir(currentDir).exists(cardString)) {
-                                cardsLeft << cardString;
-                        }
+                TiXmlElement *GameTableElement = docHandle.FirstChild( "PokerTH" ).FirstChild( "TableStyle" ).ToElement();
+                if(GameTableElement) {
+                        QMessageBox::warning(myW, tr("Card Deck Style Error"),
+                                tr("You wanna add a card deck style but selected a game table style.\nPlease choose a card deck style and try again!"),
+                                QMessageBox::Ok);
                 }
-                if(!QDir(currentDir).exists("flipside.png")) {
-                                cardsLeft << "flipside.png";
-                }
-
-                // set loadedSuccessfull TRUE if everything works
-                if(leftItems.isEmpty() && cardsLeft.isEmpty() && PokerTHStyleFileVersion != "" && PokerTHStyleFileVersion.toInt() == POKERTH_CD_STYLE_FILE_VERSION)
-                        loadedSuccessfull = 1;
-                else
-                        loadedSuccessfull = 0;
-
-                if(!leftItems.isEmpty() && myW != 0) showLeftItemsErrorMessage(StyleDescription, leftItems, StyleMaintainerEMail);
                 else {
-                        if(!cardsLeft.isEmpty() && myW != 0) showCardsLeftErrorMessage(StyleDescription, cardsLeft, StyleMaintainerEMail);
-                        //check for style file version
-                        if(PokerTHStyleFileVersion != "" && PokerTHStyleFileVersion.toInt() != POKERTH_CD_STYLE_FILE_VERSION) {
-                                QString EMail;
-                                if(StyleMaintainerEMail != "NULL") EMail = StyleMaintainerEMail;
-                                QMessageBox::warning(myW, tr("Card Deck Style Error"),
-                                        tr("Selected card deck style \"%1\" seems to be outdated. \n The current PokerTH card deck style version is \"%2\", but this style has version \"%3\" set. \n\nPlease contact the game table style builder %4.").arg(StyleDescription).arg(POKERTH_CD_STYLE_FILE_VERSION).arg(PokerTHStyleFileVersion).arg(EMail),
-                                        QMessageBox::Ok);
+
+                        TiXmlElement* itemsList = docHandle.FirstChild( "PokerTH" ).FirstChild( "CardDeck" ).FirstChild().ToElement();
+                        for( ; itemsList; itemsList=itemsList->NextSiblingElement()) {
+                                const char *tmpStr1 = itemsList->Attribute("value");
+                                if (tmpStr1) {
+                                        tempString1 = tmpStr1;
+
+                                        if(itemsList->ValueStr() == "StyleDescription") { StyleDescription = QString::fromUtf8(tempString1.c_str()); }
+                                        else if(itemsList->ValueStr() == "StyleMaintainerName") { StyleMaintainerName = QString::fromUtf8(tempString1.c_str()); }
+                                        else if(itemsList->ValueStr() == "StyleMaintainerEMail") { StyleMaintainerEMail = QString::fromUtf8(tempString1.c_str()); }
+                                        else if(itemsList->ValueStr() == "StyleCreateDate") { StyleCreateDate = QString::fromUtf8(tempString1.c_str()); }
+                                        else if(itemsList->ValueStr() == "PokerTHStyleFileVersion") { PokerTHStyleFileVersion = QString::fromUtf8(tempString1.c_str()); }
+                                        else if (itemsList->ValueStr() == "Preview") { Preview = currentDir+QString::fromUtf8(tempString1.c_str()); }
+                                }
+                        }
+                        //check if style items are left and show warning
+                        leftItems.clear();
+
+                        if(StyleDescription == "") { leftItems << "StyleDescription"; }
+                        if(StyleMaintainerName == "") { leftItems << "StyleMaintainerName"; }
+                        if(StyleMaintainerEMail == "") { leftItems << "StyleMaintainerEMail"; }
+                        if(StyleCreateDate == "") { leftItems << "StyleCreateDate"; }
+                        if(PokerTHStyleFileVersion == "") { leftItems << "PokerTHStyleFileVersion"; }
+
+                        //check if all files are there
+                        cardsLeft.clear();
+                        int i;
+                        for(i=0; i<52; i++) {
+                                QString cardString(QString::number(i)+".png");
+                                if(!QDir(currentDir).exists(cardString)) {
+                                        cardsLeft << cardString;
+                                }
+                        }
+                        if(!QDir(currentDir).exists("flipside.png")) {
+                                        cardsLeft << "flipside.png";
+                        }
+
+                        // set loadedSuccessfull TRUE if everything works
+                        if(leftItems.isEmpty() && cardsLeft.isEmpty() && PokerTHStyleFileVersion != "" && PokerTHStyleFileVersion.toInt() == POKERTH_CD_STYLE_FILE_VERSION)
+                                loadedSuccessfull = 1;
+                        else
+                                loadedSuccessfull = 0;
+
+                        if(!leftItems.isEmpty() && myW != 0) showLeftItemsErrorMessage(StyleDescription, leftItems, StyleMaintainerEMail);
+                        else {
+                                if(!cardsLeft.isEmpty() && myW != 0) showCardsLeftErrorMessage(StyleDescription, cardsLeft, StyleMaintainerEMail);
+                                //check for style file version
+                                if(PokerTHStyleFileVersion != "" && PokerTHStyleFileVersion.toInt() != POKERTH_CD_STYLE_FILE_VERSION) {
+                                        QString EMail;
+                                        if(StyleMaintainerEMail != "NULL") EMail = StyleMaintainerEMail;
+                                        QMessageBox::warning(myW, tr("Card Deck Style Error"),
+                                                tr("Selected card deck style \"%1\" seems to be outdated. \n The current PokerTH card deck style version is \"%2\", but this style has version \"%3\" set. \n\nPlease contact the game table style builder %4.").arg(StyleDescription).arg(POKERTH_CD_STYLE_FILE_VERSION).arg(PokerTHStyleFileVersion).arg(EMail),
+                                                QMessageBox::Ok);
+                                }
                         }
                 }
-
         }
         else {
             loadedSuccessfull = 0;

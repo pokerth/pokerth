@@ -3535,9 +3535,6 @@
      <height>25</height>
     </rect>
    </property>
-   <property name="autoFillBackground">
-    <bool>false</bool>
-   </property>
    <widget class="QMenu" name="menuView">
     <property name="title">
      <string>&amp;View</string>
