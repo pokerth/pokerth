@@ -729,6 +729,8 @@ ServerLobbyThread::HandleNetPacketAvatarEnd(SessionWrapper session, const NetPac
 					session.playerData->SetAvatarFile(avatarFileName);
 				// Init finished - start session.
 				EstablishSession(session);
+				LOG_MSG("Client \"" << session.sessionData->GetClientAddr() << "\" uploaded avatar \""
+					<< boost::filesystem::path(avatarFileName).file_string() << "\".");
 			}
 			else
 				SessionError(session, ERR_NET_WRONG_AVATAR_SIZE);
@@ -1195,7 +1197,6 @@ ServerLobbyThread::HandleNewConnection(boost::shared_ptr<ConnectData> connData)
 			tmpAddress[sizeof(tmpAddress) - 1] = 0; // paranoia
 			sessionData->SetClientAddr(tmpAddress);
 		}
-		LOG_MSG("Client address: " << sessionData->GetClientAddr());
 	}
 	else
 	{
