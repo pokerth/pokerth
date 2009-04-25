@@ -1,3 +1,12 @@
+2009-04-25 version 0.7-beta2:
+- Fixed problems with paths which contain special (non-ascii) characters
+- Timeout animation moved so it no longer hides sets
+- Improved bet slider handling for higher start cash like $1000000
+- Minimum blinds adjusted for higher start cash
+- Remember last styles directory 
+- New stay-on-table animation when a user is inactive but not disconnected
+- Avatar uploads are logged (because of possible legal issues)
+
 2009-04-15 version 0.7-beta1: 
 - Supporting up to 10 players on a table
 - Easily choose different table and card styles
