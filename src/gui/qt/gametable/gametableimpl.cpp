@@ -3371,8 +3371,7 @@ void gameTableImpl::restoreGameTableGeometry()
 
 void gameTableImpl::netClientPlayerLeft(unsigned playerId) {
 
-        assert(myStartWindow->getSession()->getCurrentGame());
-        if (myStartWindow->getSession()->isNetworkClientRunning()) {
+        if (myStartWindow->getSession()->getCurrentGame() && myStartWindow->getSession()->isNetworkClientRunning()) {
 
                 boost::shared_ptr<PlayerInterface> tmpPlayer = myStartWindow->getSession()->getCurrentGame()->getPlayerByUniqueId(playerId);
                 if (tmpPlayer.get()) {
