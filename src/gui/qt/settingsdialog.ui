@@ -3213,7 +3213,7 @@ p, li { white-space: pre-wrap; }
                    </size>
                   </property>
                   <property name="text">
-                   <string>Opponent 10:</string>
+                   <string>Opponent 9:</string>
                   </property>
                   <property name="alignment">
                    <set>Qt::AlignCenter</set>
