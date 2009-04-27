@@ -362,7 +362,7 @@ gameTableImpl::gameTableImpl(ConfigFile *c, QMainWindow *parent)
 	pushButton_break->setMinimumSize(width+10,20);
 
 	//set inputvalidator for lineeditbetvalue
-	QRegExp rx("[1-9]\\d{0,4}");
+        QRegExp rx("[1-9]\\d{0,7}");
  	QValidator *validator = new QRegExpValidator(rx, this);
  	lineEdit_betValue->setValidator(validator);
 

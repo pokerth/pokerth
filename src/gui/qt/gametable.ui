@@ -2974,6 +2974,9 @@
                <height>21</height>
               </size>
              </property>
+             <property name="maxLength">
+              <number>10000000</number>
+             </property>
             </widget>
            </item>
            <item>
