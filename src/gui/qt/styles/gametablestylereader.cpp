@@ -103,7 +103,7 @@ void GameTableStyleReader::readStyleFile(QString file) {
                 TiXmlElement *CardDeckElement = docHandle.FirstChild( "PokerTH" ).FirstChild( "CardDeck" ).ToElement();
                 if(CardDeckElement) {
                         QMessageBox::warning(myW, tr("Game Table Style Error"),
-                                tr("You wanna add a game table style but selected a card deck style.\nPlease choose a game table style and try again!"),
+                                tr("A card deck style was selected instead of a game table style.\nPlease select a game table style and try again!"),
                                 QMessageBox::Ok);
                 }
                 else {
@@ -511,7 +511,7 @@ void GameTableStyleReader::showItemPicsLeftErrorMessage(QString style, QStringLi
         if(email != "NULL") EMail = email;
 
 	QMessageBox::warning(myW, tr("Game Table Style Error"),
-                                tr("One or more pictures from current game table style \"%1\" where not found: \n\n\"%2\" \n\nPlease contact the game table style builder %3.").arg(style).arg(pics).arg(EMail),
+                                tr("One or more pictures from current game table style \"%1\" were not found: \n\n\"%2\" \n\nPlease contact the game table style builder %3.").arg(style).arg(pics).arg(EMail),
                                 QMessageBox::Ok);
 }
 

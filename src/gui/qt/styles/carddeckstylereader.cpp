@@ -66,7 +66,7 @@ void CardDeckStyleReader::readStyleFile(QString file) {
                 TiXmlElement *GameTableElement = docHandle.FirstChild( "PokerTH" ).FirstChild( "TableStyle" ).ToElement();
                 if(GameTableElement) {
                         QMessageBox::warning(myW, tr("Card Deck Style Error"),
-                                tr("You wanna add a card deck style but selected a game table style.\nPlease choose a card deck style and try again!"),
+                                tr("A game table style was selected instead of a card deck style.\nPlease select a card deck style and try again!"),
                                 QMessageBox::Ok);
                 }
                 else {
