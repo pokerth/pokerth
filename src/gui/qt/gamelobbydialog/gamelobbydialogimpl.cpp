@@ -272,10 +272,10 @@ void gameLobbyDialogImpl::updateGameItem(QTreeWidgetItem *item, unsigned gameId)
 
 	if (info.isPasswordProtected) {
 		item->setIcon(3, QIcon(myAppDataPath+"gfx/gui/misc/lock.png"));
-		item->setData(3, Qt::UserRole, 1);
+		item->setData(3, Qt::DisplayRole, " ");
 	}
 	else {
-		item->setData(3, Qt::UserRole, 0);
+		item->setData(3, Qt::DisplayRole, "");
 	}
 
 	refreshGameStats();
