@@ -1594,37 +1594,37 @@ p, li { white-space: pre-wrap; }
         <translation type="obsolete">Spiel</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable.ui" line="3567"/>
+        <location filename="../src/gui/qt/gametable.ui" line="3570"/>
         <source>Ctrl+N</source>
         <translation>Strg+N</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable.ui" line="3572"/>
+        <location filename="../src/gui/qt/gametable.ui" line="3575"/>
         <source>Quit</source>
         <translation>Schließen</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable.ui" line="3580"/>
+        <location filename="../src/gui/qt/gametable.ui" line="3583"/>
         <source>About PokerTH ...</source>
         <translation>Über PokerTH...</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable.ui" line="3585"/>
+        <location filename="../src/gui/qt/gametable.ui" line="3588"/>
         <source>Settings ...</source>
         <translation>Einstellungen...</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable.ui" line="3590"/>
+        <location filename="../src/gui/qt/gametable.ui" line="3593"/>
         <source>Create Network Game ...</source>
         <translation>Netzwerkspiel erstellen...</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable.ui" line="3598"/>
+        <location filename="../src/gui/qt/gametable.ui" line="3601"/>
         <source>Join Network Game ...</source>
         <translation>Netzwerkspiel beitreten...</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable.ui" line="3610"/>
+        <location filename="../src/gui/qt/gametable.ui" line="3613"/>
         <source>Fullscreen</source>
         <translation>Vollbild</translation>
     </message>
@@ -1644,7 +1644,7 @@ p, li { white-space: pre-wrap; }
         <translation>Log</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable.ui" line="3564"/>
+        <location filename="../src/gui/qt/gametable.ui" line="3567"/>
         <source>Start Local Game ...</source>
         <translation>Lokales Spiel starten...</translation>
     </message>
@@ -1654,57 +1654,57 @@ p, li { white-space: pre-wrap; }
         <translation type="obsolete">Netzwerkspiel</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable.ui" line="3648"/>
+        <location filename="../src/gui/qt/gametable.ui" line="3651"/>
         <source>Internet Game ...</source>
         <translation>Internetspiel...</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable.ui" line="3575"/>
+        <location filename="../src/gui/qt/gametable.ui" line="3578"/>
         <source>Ctrl+Q</source>
         <translation>Strg+Q</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable.ui" line="3618"/>
+        <location filename="../src/gui/qt/gametable.ui" line="3621"/>
         <source>Show/Hide Chat Window</source>
         <translation>Chat-Fenster zeigen/verstecken</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable.ui" line="3640"/>
+        <location filename="../src/gui/qt/gametable.ui" line="3643"/>
         <source>Show/Hide Log Window</source>
         <translation>Log-Fenster zeigen/verstecken</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable.ui" line="3632"/>
+        <location filename="../src/gui/qt/gametable.ui" line="3635"/>
         <source>Show/Hide Hands Window</source>
         <translation>Blätter-Fenster zeigen/verstecken</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable.ui" line="3593"/>
+        <location filename="../src/gui/qt/gametable.ui" line="3596"/>
         <source>Ctrl+O</source>
         <translation>Strg+O</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable.ui" line="3601"/>
+        <location filename="../src/gui/qt/gametable.ui" line="3604"/>
         <source>Ctrl+J</source>
         <translation>Strg+J</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable.ui" line="3613"/>
+        <location filename="../src/gui/qt/gametable.ui" line="3616"/>
         <source>Ctrl+F</source>
         <translation>Strg+F</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable.ui" line="3621"/>
+        <location filename="../src/gui/qt/gametable.ui" line="3624"/>
         <source>Ctrl+T</source>
         <translation>Strg+T</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable.ui" line="3635"/>
+        <location filename="../src/gui/qt/gametable.ui" line="3638"/>
         <source>Ctrl+H</source>
         <translation>Strg+H</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable.ui" line="3643"/>
+        <location filename="../src/gui/qt/gametable.ui" line="3646"/>
         <source>Ctrl+L</source>
         <translation>Strg+L</translation>
     </message>
@@ -1714,7 +1714,7 @@ p, li { white-space: pre-wrap; }
         <translation type="obsolete">PokerTH 0.6 - Die Open-Source Texas Holdem Engine</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable.ui" line="3651"/>
+        <location filename="../src/gui/qt/gametable.ui" line="3654"/>
         <source>Ctrl+I</source>
         <translation>Strg+I</translation>
     </message>
@@ -1749,12 +1749,12 @@ p, li { white-space: pre-wrap; }
         <translation>PokerTH 0.6-beta - Die Open-Source Texas Holdem Engine</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable.ui" line="3656"/>
+        <location filename="../src/gui/qt/gametable.ui" line="3659"/>
         <source>Show/Hide Away Window</source>
         <translation>Abwesend-Fenster zeigen/verstecken</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable.ui" line="3659"/>
+        <location filename="../src/gui/qt/gametable.ui" line="3662"/>
         <source>Ctrl+A</source>
         <translation>Strg+A</translation>
     </message>
@@ -1789,17 +1789,17 @@ p, li { white-space: pre-wrap; }
         <translation type="obsolete">Einstellungen</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable.ui" line="3668"/>
+        <location filename="../src/gui/qt/gametable.ui" line="3671"/>
         <source>Configure PokerTH ...</source>
         <translation>Konfiguriere PokerTH...</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable.ui" line="3677"/>
+        <location filename="../src/gui/qt/gametable.ui" line="3680"/>
         <source>Close</source>
         <translation>Schließen</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable.ui" line="3680"/>
+        <location filename="../src/gui/qt/gametable.ui" line="3683"/>
         <source>Ctrl+X</source>
         <translation>Strg+X</translation>
     </message>
@@ -1809,23 +1809,28 @@ p, li { white-space: pre-wrap; }
         <translation>Abstimmung gestartet von:</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable.ui" line="3685"/>
+        <location filename="../src/gui/qt/gametable.ui" line="3688"/>
         <source>Show/Hide Chance Window</source>
         <translation>Chancenfenster zeigen/verstecken</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable.ui" line="3688"/>
+        <location filename="../src/gui/qt/gametable.ui" line="3691"/>
         <source>Ctrl+C</source>
         <translation>Strg+C</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable.ui" line="3543"/>
+        <location filename="../src/gui/qt/gametable.ui" line="3546"/>
         <source>&amp;View</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable.ui" line="3555"/>
+        <location filename="../src/gui/qt/gametable.ui" line="3558"/>
         <source>&amp;Settings</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/gametable.ui" line="3520"/>
+        <source>Shortcut: &lt;Shift&gt;</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -3410,7 +3415,7 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>settingsDialogImpl</name>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="607"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="608"/>
         <source>Settings Error</source>
         <translation>Einstellungsfehler</translation>
     </message>
@@ -3429,7 +3434,7 @@ Please select an valid directory!</source>
 Bitte wählen Sie ein gültiges Verzeichnis!</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="654"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="655"/>
         <source>Select your flipside picture</source>
         <translation>Wähle das Rückseitenbild</translation>
     </message>
@@ -3439,22 +3444,22 @@ Bitte wählen Sie ein gültiges Verzeichnis!</translation>
         <translation type="obsolete">Bilder (*.png)</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="754"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="755"/>
         <source>Open Directory</source>
         <translation>Öffne Verzeichnis</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="656"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="657"/>
         <source>Images (*.png *.jpg *.gif)</source>
         <translation>Bilder (*.png *.jpg *.gif)</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="862"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="863"/>
         <source>Blinds Error</source>
         <translation>Blinds-Fehler</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="863"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="864"/>
         <source>The first element in your manual-blinds-list 
 is smaller than current first-small-blind!
 This first-small-blind-value will be set to maximum allowed value.</source>
@@ -3493,27 +3498,27 @@ Der erste Small Blind wird auf den größten erlaubten Wert gesetzt.</translatio
         <translation type="obsolete">Norsk (Norwegisch)</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="64"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="65"/>
         <source>Portuguese</source>
-        <translation>Português (Portugiesisch)</translation>
+        <translation type="obsolete">Português (Portugiesisch)</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="65"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="66"/>
         <source>Russian</source>
         <translation>Russian (Russisch)</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="69"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="70"/>
         <source>Turkish</source>
         <translation>Turkçe (Türkisch)</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="637"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="638"/>
         <source>Language Changed</source>
         <translation>Sprache geändert</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="638"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="639"/>
         <source>You have changed application language to %1.
 Please restart PokerTH to load new language!</source>
         <translation>Sie haben die Sprache auf %1 geändert.
@@ -3525,19 +3530,19 @@ Bitte starten Sie PokerTH neu um die neue Sprache zu laden!</translation>
         <translation>Italiano (Italienisch)</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="66"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="67"/>
         <source>Slovak</source>
         <translation>Slovak (Slowakisch)</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="556"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="557"/>
         <source>The entered flipside picture doesn&apos;t exist.
 Please enter an valid picture!</source>
         <translation>Das Rückseitenbild existiert nicht.
 Bitte geben Sie ein gültiges Bild an!</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="609"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="610"/>
         <source>The log file directory doesn&apos;t exist.
 Please select an valid directory!</source>
         <translation>Das Logdateien-Verzeichnis existiert nicht.
@@ -3549,7 +3554,7 @@ Bitte wählen Sie ein gültiges Verzeichnis!</translation>
         <translation>Norsk (Norwegisch)</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="67"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="68"/>
         <source>Spanish</source>
         <translation>Español (Spanisch)</translation>
     </message>
@@ -3574,12 +3579,12 @@ Bitte wählen Sie ein gültiges Verzeichnis!</translation>
         <translation>Ελληνικά (Griechisch)</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="68"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="69"/>
         <source>Swedish</source>
         <translation>Svenska (Schwedisch)</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="506"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="507"/>
         <source>The entered server list address is not a valid URL.
 Please enter a valid server list address!</source>
         <translation>Die eingegebene Adresse ist keine gültige URL.
@@ -3596,112 +3601,122 @@ Bitte geben Sie eine gültige Serverlisten-Adresse ein!</translation>
         <translation>Dansk (Dänisch)</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="1019"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="1020"/>
         <source>Maintainer Name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="1020"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="1021"/>
         <source>Maintainer EMail</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="1021"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="1022"/>
         <source>Create Date</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="905"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="906"/>
         <source>Windows Behaviour</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="906"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="907"/>
         <source>scaleable</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="907"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="908"/>
         <source>fixed</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="908"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="909"/>
         <source>Minimum Size</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="909"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="910"/>
         <source>Maximum Size</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="910"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="911"/>
         <source>Fixed Size</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="952"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="953"/>
         <source>Please select your game table style</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="954"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="955"/>
         <source>PokerTH game table styles (*.xml)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="967"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="968"/>
         <source>Game Table Style Error</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="968"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="969"/>
         <source>Selected game table style file is already in the list. 
 Please select another one to add!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="981"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="982"/>
         <source>Game Table Style File Error</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="982"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="983"/>
         <source>Could not load game table style file correctly. 
 Style will not be placed into list!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="1055"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="1056"/>
         <source>Please select your card deck style</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="1057"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="1058"/>
         <source>PokerTH card deck styles (*.xml)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="1070"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="1071"/>
         <source>Card Deck Style Error</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="1071"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="1072"/>
         <source>Selected card deck style file is already in the list. 
 Please select another one to add!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="1084"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="1085"/>
         <source>Card Deck Style File Error</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="1085"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="1086"/>
         <source>Could not load card deck style file correctly. 
 Style will not be placed into list!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="64"/>
+        <source>Portuguese (Brazilian)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="65"/>
+        <source>Portuguese (Portuguese)</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

@@ -3516,6 +3516,9 @@
                <property name="focusPolicy">
                 <enum>Qt::NoFocus</enum>
                </property>
+               <property name="toolTip">
+                <string>Shortcut: &lt;Shift&gt;</string>
+               </property>
               </widget>
              </item>
             </layout>
@@ -3535,7 +3538,7 @@
      <x>0</x>
      <y>0</y>
      <width>1024</width>
-     <height>25</height>
+     <height>27</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuView">
