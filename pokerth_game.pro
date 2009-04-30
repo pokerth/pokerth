@@ -3,8 +3,8 @@ isEmpty( PREFIX ):PREFIX = /usr
 TEMPLATE = app
 CODECFORSRC = UTF-8
 
-#CONFIG += qt thread embed_manifest_exe exceptions rtti stl warn_on release
-CONFIG += qt thread embed_manifest_exe exceptions rtti stl warn_on debug
+CONFIG += qt thread embed_manifest_exe exceptions rtti stl warn_on release
+#CONFIG += qt thread embed_manifest_exe exceptions rtti stl warn_on debug
 
 # ####Uncomment this for RELEASE on Linux/Unix/BSD (only for static Qt)
 # QTPLUGIN += qjpeg qgif
@@ -345,7 +345,7 @@ win32 {
 !win32:DEPENDPATH += src/net/linux/ \
     src/core/linux
 unix:# workaround for problems with boost_filesystem exceptions
-QMAKE_LFLAGS += -no_dead_strip_inits_and_terms
+#QMAKE_LFLAGS += -no_dead_strip_inits_and_terms
 unix:!mac { 
     # #### My release static build options
     # QMAKE_CXXFLAGS += -ffunction-sections -fdata-sections
