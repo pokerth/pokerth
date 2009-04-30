@@ -3,8 +3,8 @@ isEmpty( PREFIX ):PREFIX = /usr
 TEMPLATE = app
 CODECFORSRC = UTF-8
 
-CONFIG += qt thread embed_manifest_exe exceptions rtti stl warn_on release
-#CONFIG += qt thread embed_manifest_exe exceptions rtti stl warn_on debug
+#CONFIG += qt thread embed_manifest_exe exceptions rtti stl warn_on release
+CONFIG += qt thread embed_manifest_exe exceptions rtti stl warn_on debug
 
 # ####Uncomment this for RELEASE on Linux/Unix/BSD (only for static Qt)
 # QTPLUGIN += qjpeg qgif
@@ -268,6 +268,7 @@ TRANSLATIONS = ts/pokerth_bg.ts \
     ts/pokerth_tr.ts \
     ts/pokerth_gr.ts \
     ts/pokerth_ptbr.ts \
+    ts/pokerth_ptpt.ts \
     ts/pokerth_zhcn.ts \
     ts/pokerth_fi.ts \
     ts/pokerth_START_HERE.ts

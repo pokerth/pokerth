@@ -260,7 +260,7 @@
          <property name="geometry">
           <rect>
            <x>12</x>
-           <y>70</y>
+           <y>68</y>
            <width>52</width>
            <height>10</height>
           </rect>
@@ -478,7 +478,7 @@
          <property name="geometry">
           <rect>
            <x>12</x>
-           <y>61</y>
+           <y>62</y>
            <width>52</width>
            <height>10</height>
           </rect>
@@ -703,7 +703,7 @@
          <property name="geometry">
           <rect>
            <x>12</x>
-           <y>70</y>
+           <y>68</y>
            <width>52</width>
            <height>10</height>
           </rect>
@@ -908,7 +908,7 @@
          <property name="geometry">
           <rect>
            <x>12</x>
-           <y>70</y>
+           <y>68</y>
            <width>52</width>
            <height>10</height>
           </rect>
@@ -1113,7 +1113,7 @@
          <property name="geometry">
           <rect>
            <x>12</x>
-           <y>70</y>
+           <y>68</y>
            <width>52</width>
            <height>10</height>
           </rect>
@@ -1338,7 +1338,7 @@
          <property name="geometry">
           <rect>
            <x>12</x>
-           <y>70</y>
+           <y>68</y>
            <width>52</width>
            <height>10</height>
           </rect>
@@ -1556,7 +1556,7 @@
          <property name="geometry">
           <rect>
            <x>12</x>
-           <y>61</y>
+           <y>62</y>
            <width>52</width>
            <height>10</height>
           </rect>
@@ -2213,7 +2213,7 @@
          <property name="geometry">
           <rect>
            <x>12</x>
-           <y>61</y>
+           <y>62</y>
            <width>52</width>
            <height>10</height>
           </rect>
@@ -2418,7 +2418,7 @@
          <property name="geometry">
           <rect>
            <x>12</x>
-           <y>61</y>
+           <y>62</y>
            <width>52</width>
            <height>10</height>
           </rect>
@@ -2623,7 +2623,7 @@
          <property name="geometry">
           <rect>
            <x>12</x>
-           <y>61</y>
+           <y>62</y>
            <width>52</width>
            <height>10</height>
           </rect>
@@ -3538,7 +3538,7 @@
      <x>0</x>
      <y>0</y>
      <width>1024</width>
-     <height>27</height>
+     <height>25</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuView">
