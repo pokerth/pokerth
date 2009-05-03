@@ -5,7 +5,7 @@
     <message>
         <location filename="../src/gui/qt/styles/carddeckstylereader.cpp" line="156"/>
         <source>Card Deck Style Error</source>
-        <translation type="unfinished"></translation>
+        <translation>Speelkaartenstijlfout</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/styles/carddeckstylereader.cpp" line="124"/>
@@ -13,14 +13,19 @@
  The current PokerTH card deck style version is &quot;%2&quot;, but this style has version &quot;%3&quot; set. 
 
 Please contact the game table style builder %4.</source>
-        <translation type="unfinished"></translation>
+        <translation>De geselecteerde speelkaartenstijl &quot;%1&quot; lijkt te oud.
+De huidige versie van speelkaartenstijlen voor PokerTH is &quot;%2&quot; maar deze stijl heeft versie &quot;%3&quot;. 
+
+De maker van de stijl is te bereiken via %4.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/styles/carddeckstylereader.cpp" line="133"/>
         <source>Cannot load card deck style file: %1 
 
 Please check the style file or choose another style!</source>
-        <translation type="unfinished"></translation>
+        <translation>Kan het stijlbestand %1 voor de speelkaarten niet laden.
+
+Controleer het stijlbestand of kies een andere stijl.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/styles/carddeckstylereader.cpp" line="146"/>
@@ -29,7 +34,11 @@ Please check the style file or choose another style!</source>
 The value(s) of &quot;%2&quot; is/are missing. 
 
 Please contact the game table style builder %3.</source>
-        <translation type="unfinished"></translation>
+        <translation>De geselecteerde speelkaartenstijl &quot;%1&quot; bevat onvolledigheden en/of fouten.
+
+De waarde(s) &quot;%2&quot; ontbreekt/ontbreken.
+
+De maker van de stijl is te bereiken via %3.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/styles/carddeckstylereader.cpp" line="157"/>
@@ -37,13 +46,17 @@ Please contact the game table style builder %3.</source>
 The card picture(s) &quot;%2&quot; is/are not available. 
 
 Please contact the card deck style builder %3.</source>
-        <translation type="unfinished"></translation>
+        <translation>De geselecteerde speelkaartenstijl &quot;%1&quot; bevat onvolledigheden en/of fouten.
+De kaartafbeelding(en) &quot;%2&quot; is/zijn niet beschikbaar.
+
+De maker van de stijl is te bereiken via %3.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/styles/carddeckstylereader.cpp" line="69"/>
         <source>A game table style was selected instead of a card deck style.
 Please select a card deck style and try again!</source>
-        <translation type="unfinished"></translation>
+        <translation>Er is een speeltafelstijl geselecteerd in plaats van een speelkaartenstijl.
+Selecteer een speelkaartenstijl en probeer het opnieuw.</translation>
     </message>
 </context>
 <context>
@@ -64,7 +77,7 @@ Please select a card deck style and try again!</source>
     <message>
         <location filename="../src/gui/qt/styles/gametablestylereader.cpp" line="513"/>
         <source>Game Table Style Error</source>
-        <translation type="unfinished"></translation>
+        <translation>Speeltafelstijlfout</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/styles/gametablestylereader.cpp" line="482"/>
@@ -72,14 +85,19 @@ Please select a card deck style and try again!</source>
  The current PokerTH game table style version is &quot;%2&quot;, but this style has version &quot;%3&quot; set. 
 
 Please contact the game table style builder %4.</source>
-        <translation type="unfinished"></translation>
+        <translation>De geselecteerde speeltafelstijl &quot;%1&quot; lijkt te oud.
+De huidige versie van speeltafelstijlen voor PokerTH is &quot;%2&quot; maar deze stijl heeft versie &quot;%3&quot;.
+
+De maker van de stijl is te bereiken via %4.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/styles/gametablestylereader.cpp" line="491"/>
         <source>Cannot load game table style file: %1 
 
 Please check the style file or choose another style!</source>
-        <translation type="unfinished"></translation>
+        <translation>Kan het stijlbestand %1 voor de speeltafel niet laden.
+
+Controleer het stijlbestand of kies een andere stijl.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/styles/gametablestylereader.cpp" line="503"/>
@@ -88,13 +106,18 @@ Please check the style file or choose another style!</source>
 The value(s) of &quot;%2&quot; is/are missing. 
 
 Please contact the game table style builder %3.</source>
-        <translation type="unfinished"></translation>
+        <translation>De geselecteerde speeltafelstijl &quot;%1&quot; bevat onvolledigheden en/of fouten.
+
+De waarde(s) &quot;%2&quot; ontbreekt/ontbreken.
+
+De maker van de stijl is te bereiken via %3.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/styles/gametablestylereader.cpp" line="106"/>
         <source>A card deck style was selected instead of a game table style.
 Please select a game table style and try again!</source>
-        <translation type="unfinished"></translation>
+        <translation>Er is een speelkaartenstijl geselecteerd in plaats van een speeltafelstijl.
+Selecteer een speeltafelstijl en probeer het opnieuw.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/styles/gametablestylereader.cpp" line="514"/>
@@ -103,7 +126,11 @@ Please select a game table style and try again!</source>
 &quot;%2&quot; 
 
 Please contact the game table style builder %3.</source>
-        <translation type="unfinished"></translation>
+        <translation>Kan een of meer afbeeldingen van de huidige speeltafelstijl &quot;%1&quot; niet vinden: 
+
+&quot;%2&quot; 
+
+De maker van de stijl is te bereiken via %3.</translation>
     </message>
 </context>
 <context>
@@ -124,12 +151,12 @@ Please contact the game table style builder %3.</source>
         <translation>als gebruiker</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/lobbychat/lobbychat.cpp" line="104"/>
+        <location filename="" line="0"/>
         <source>Network Notification</source>
         <translation type="obsolete">Netwerkmelding</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/lobbychat/lobbychat.cpp" line="105"/>
+        <location filename="" line="0"/>
         <source>You were kicked from the server.</source>
         <translation type="obsolete">U bent verwijderd van de server.</translation>
     </message>
@@ -172,7 +199,7 @@ Please contact the game table style builder %3.</source>
 <context>
     <name>MyAvatarLabel</name>
     <message>
-        <location filename="../src/gui/qt/gametable/myavatarlabel.cpp" line="23"/>
+        <location filename="" line="0"/>
         <source>Vote for kick this user</source>
         <translation type="obsolete">Stem om deze gebruiker te verwijderen</translation>
     </message>
@@ -187,17 +214,17 @@ Please contact the game table style builder %3.</source>
     <message>
         <location filename="../src/gui/qt/serverlistdialog.ui" line="14"/>
         <source>Server List</source>
-        <translation type="unfinished"></translation>
+        <translation>Serverlijst</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/serverlistdialog.ui" line="27"/>
         <source>Server Name</source>
-        <translation type="unfinished"></translation>
+        <translation>Servernaam</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/serverlistdialog.ui" line="32"/>
         <source>Country/Region</source>
-        <translation type="unfinished"></translation>
+        <translation>Land/regio</translation>
     </message>
 </context>
 <context encoding="UTF-8">
@@ -213,7 +240,7 @@ Please contact the game table style builder %3.</source>
         <translation>Project</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/pokerth/pokerth/src/gui/qt/aboutpokerth.ui" line="111"/>
+        <location filename="" line="0"/>
         <source>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:9pt; font-weight:400; font-style:normal; text-decoration:none;&quot;&gt;
@@ -242,7 +269,7 @@ p, li { white-space: pre-wrap; }
         <translation>Licentie</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/pokerth/pokerth/ts" line="7471221"/>
+        <location filename="" line="0"/>
         <source>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:9pt; font-weight:400; font-style:normal; text-decoration:none;&quot;&gt;
@@ -945,12 +972,12 @@ p, li { white-space: pre-wrap; }
         <translation>Met dank aan</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/pokerth/pokerth/src/gui/qt/aboutpokerth.ui" line="14"/>
+        <location filename="" line="0"/>
         <source>About PokerTH 0.5</source>
         <translation type="obsolete">Info over PokerTH 0.5</translation>
     </message>
     <message encoding="UTF-8">
-        <location filename="../../../../../tmp/kde-user/pokerth/pokerth/src/gui/qt/aboutpokerth.ui" line="66"/>
+        <location filename="" line="0"/>
         <source>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:9pt; font-weight:400; font-style:normal; text-decoration:none;&quot;&gt;
@@ -984,7 +1011,7 @@ p, li { white-space: pre-wrap; }
         <translation>Vertaling</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/pokerth/pokerth/src/gui/qt/aboutpokerth.ui" line="150"/>
+        <location filename="" line="0"/>
         <source>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:9pt; font-weight:400; font-style:normal; text-decoration:none;&quot;&gt;
@@ -997,7 +1024,7 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;     &amp;&amp;gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/pokerth/pokerth/src/gui/qt/aboutpokerth.ui" line="177"/>
+        <location filename="" line="0"/>
         <source>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:9pt; font-weight:400; font-style:normal; text-decoration:none;&quot;&gt;
@@ -1028,12 +1055,12 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;     - voor het zelf opgenomen geluid van fiches&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/aboutpokerth.ui" line="14"/>
+        <location filename="" line="0"/>
         <source>About PokerTH 0.6</source>
         <translation type="obsolete">Info over PokerTH 0.6</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/aboutpokerth.ui" line="51"/>
+        <location filename="" line="0"/>
         <source>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
@@ -1044,7 +1071,7 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:12pt; font-weight:600;&quot;&gt;PokerTH 0.6&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message encoding="UTF-8">
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/aboutpokerth.ui" line="64"/>
+        <location filename="" line="0"/>
         <source>- Poker Engine for the popular &quot;Texas Holdem&quot; Poker
 - Singleplayer games with up to 6 computer-opponents
 - Multiplayer network games
@@ -1066,7 +1093,7 @@ p, li { white-space: pre-wrap; }
         <translation>&lt;a href=&quot;http://www.pokerth.net&quot; target=&quot;_blank&quot;&gt;http://www.pokerth.net&lt;a&gt;</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/aboutpokerth.ui" line="157"/>
+        <location filename="" line="0"/>
         <source>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
@@ -1109,7 +1136,7 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;          - MacOS-pakket&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/aboutpokerth.ui" line="211"/>
+        <location filename="" line="0"/>
         <source>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
@@ -1120,7 +1147,7 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Jan Hein Dijkstra - Nederlands - janheyn@gmail.com&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/pokerth/pokerth/src/gui/qt/aboutpokerth.ui" line="249"/>
+        <location filename="" line="0"/>
         <source>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
@@ -1151,7 +1178,7 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;     - voor zelf opgenomen fichegeluiden&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/aboutpokerth.ui" line="249"/>
+        <location filename="" line="0"/>
         <source>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
@@ -1188,7 +1215,7 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;     - voor zelf opgenomen fichegeluiden&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/aboutpokerth.ui" line="157"/>
+        <location filename="" line="0"/>
         <source>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Sans Serif&apos;; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
@@ -1231,7 +1258,7 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;Nimbus Sans L&apos;;&quot;&gt;          - MacOS-pakket&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/aboutpokerth.ui" line="201"/>
+        <location filename="" line="0"/>
         <source>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Sans Serif&apos;; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
@@ -1242,7 +1269,7 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;Nimbus Sans L&apos;;&quot;&gt;Jan Hein Dykstra - Nederlands - janheyn@gmail.com&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/aboutpokerth.ui" line="239"/>
+        <location filename="" line="0"/>
         <source>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Sans Serif&apos;; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
@@ -1279,12 +1306,12 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;Nimbus Sans L&apos;;&quot;&gt;     - voor zelf opgenomen fichegeluiden&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/aboutpokerth.ui" line="14"/>
+        <location filename="" line="0"/>
         <source>About PokerTH 0.6-beta</source>
         <translation type="obsolete">Info over PokerTH 0.6 bèta</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/aboutpokerth.ui" line="51"/>
+        <location filename="" line="0"/>
         <source>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
@@ -1295,7 +1322,7 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:12pt; font-weight:600;&quot;&gt;PokerTH 0.6 bèta&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/aboutpokerth.ui" line="157"/>
+        <location filename="" line="0"/>
         <source>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
@@ -1338,7 +1365,7 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;          - MacOS-pakket&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/aboutpokerth.ui" line="249"/>
+        <location filename="" line="0"/>
         <source>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
@@ -1375,7 +1402,7 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;     - voor zelf opgenomen geluiden van fiches&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/aboutpokerth.ui" line="147"/>
+        <location filename="" line="0"/>
         <source>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Sans Serif&apos;; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
@@ -1418,7 +1445,7 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;Nimbus Sans L&apos;;&quot;&gt;          - MacOS-pakket&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message encoding="UTF-8">
-        <location filename="../src/gui/qt/aboutpokerth.ui" line="64"/>
+        <location filename="" line="0"/>
         <source>- Poker engine for the popular &quot;Texas Hold&apos;em&quot; Poker
 - Singleplayer games with up to 6 computer-opponents
 - Multiplayer network games
@@ -1435,7 +1462,7 @@ p, li { white-space: pre-wrap; }
 © 2006-2007, FHammer, FThauer, LMay</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/aboutpokerth.ui" line="147"/>
+        <location filename="" line="0"/>
         <source>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-weight:400; font-style:normal;&quot;&gt;
@@ -1478,7 +1505,7 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;          - MacOS-pakket&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/aboutpokerth.ui" line="201"/>
+        <location filename="" line="0"/>
         <source>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-weight:400; font-style:normal;&quot;&gt;
@@ -1489,7 +1516,7 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Jan Hein Dykstra - Nederlands - janheyn@gmail.com&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/aboutpokerth.ui" line="239"/>
+        <location filename="" line="0"/>
         <source>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-weight:400; font-style:normal;&quot;&gt;
@@ -1526,7 +1553,7 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;     - voor zelf opgenomen fichegeluiden&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message encoding="UTF-8">
-        <location filename="../src/gui/qt/aboutpokerth.ui" line="48"/>
+        <location filename="" line="0"/>
         <source>- Poker engine for the popular &quot;Texas Hold&apos;em&quot; Poker
 - Singleplayer games with up to 6 computer-opponents
 - Multiplayer network games
@@ -1543,7 +1570,7 @@ p, li { white-space: pre-wrap; }
 © 2006-2008, FHammer, FThauer, LMay</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/aboutpokerth.ui" line="119"/>
+        <location filename="" line="0"/>
         <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
@@ -1584,7 +1611,7 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;          - grafisch ontwerp van de interface&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/aboutpokerth.ui" line="160"/>
+        <location filename="" line="0"/>
         <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
@@ -1597,7 +1624,7 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Jan Hein Dykstra - janheyn@gmail.com&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/aboutpokerth.ui" line="219"/>
+        <location filename="" line="0"/>
         <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
@@ -1636,7 +1663,7 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;     - voor het hosten en beheren van de internetserver&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/aboutpokerth.ui" line="187"/>
+        <location filename="" line="0"/>
         <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
@@ -1678,7 +1705,7 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;danuxi&lt;/span&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;    - voor het ontwerp van de achtergrond van het startvenster&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
-    <message encoding="UTF-8">
+    <message>
         <location filename="../src/gui/qt/aboutpokerth.ui" line="49"/>
         <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
@@ -1690,8 +1717,18 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;
 &lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;
 &lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;© 2006-2009, FHammer, FThauer, LMay&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&#xa9; 2006-2009, FHammer, FThauer, LMay&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <translation type="obsolete">&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;- Pokersimulator voor het populaire Texas Hold&apos;em poker&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;- Eenspelermodus met maximaal 9 computertegenstanders&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;- Meerspelermodus via het netwerk&lt;br /&gt;- Spelen op internet&lt;br /&gt;- Aangepaste interfacestijlen beschikbaar via internet&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;© 2006-2009, FHammer, FThauer, LMay&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/aboutpokerth.ui" line="165"/>
@@ -1700,7 +1737,11 @@ p, li { white-space: pre-wrap; }
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:8pt; font-weight:400; font-style:normal;&quot;&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Sans Serif&apos;;&quot;&gt;translator name - mail address&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:8pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Sans Serif&apos;;&quot;&gt;Jan Hein Dykstra - janheyn@gmail.com&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/aboutpokerth.ui" line="192"/>
@@ -1726,7 +1767,28 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Sans Serif&apos;;&quot;&gt;    - for startwindow background gfx and danuxi1 table background&lt;/span&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Sans Serif&apos;; font-weight:600;&quot;&gt;heyn&lt;/span&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Sans Serif&apos;;&quot;&gt;    - for moderating forum and organise bugtracker and feature requests&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:8pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://commons.wikimedia.org/wiki/Main_Page&quot;&gt;&lt;span style=&quot; font-family:&apos;Sans Serif&apos;; font-weight:600; text-decoration: underline; color:#0000ff;&quot;&gt;Wikimedia Commons&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Sans Serif&apos;; font-weight:600;&quot;&gt;     - &lt;/span&gt;&lt;span style=&quot; font-family:&apos;Sans Serif&apos;;&quot;&gt;voor hun populaire afbeeldingen die als avatars gebruikt worden&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Sans Serif&apos;; font-weight:600;&quot;&gt;Benedikt, Erhard, Felix, Florian, Linus, Lothar, Steffi, Caro&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Sans Serif&apos;;&quot;&gt;     - voor hun avatarfoto&apos;s&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Sans Serif&apos;; font-weight:600;&quot;&gt;ZeiZei&lt;/span&gt;&lt;span style=&quot; font-family:&apos;Sans Serif&apos;;&quot;&gt; &lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Sans Serif&apos;;&quot;&gt;    - voor overige avatarafbeeldingen&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://kde-look.org/&quot;&gt;&lt;span style=&quot; font-family:&apos;Sans Serif&apos;; font-weight:600; text-decoration: underline; color:#0000ff;&quot;&gt;http://kde-look.org/&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Sans Serif&apos;;&quot;&gt;     - voor de geluiden met GPL-licentie&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Sans Serif&apos;; font-weight:600;&quot;&gt;doc_dos&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Sans Serif&apos;;&quot;&gt;     - voor de zelf opgenomen fichegeluiden&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Sans Serif&apos;; font-weight:600;&quot;&gt;thiger, dunkanx, BerndA, coldz&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Sans Serif&apos;;&quot;&gt;     - voor hun patches&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Sans Serif&apos;; font-weight:600;&quot;&gt;kraut&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Sans Serif&apos;;&quot;&gt;     - voor het hosten en beheren van de internetserver&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Sans Serif&apos;; font-weight:600;&quot;&gt;danuxi&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Sans Serif&apos;;&quot;&gt;    - voor de achtergrond van het startvenster en de danuxi1-speeltafel&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Sans Serif&apos;; font-weight:600;&quot;&gt;heyn&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Sans Serif&apos;;&quot;&gt;    - voor de bijdrage aan het forum en het bijhouden van bugs en verzoeken&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/aboutpokerth.ui" line="124"/>
@@ -1749,6 +1811,39 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Sans Serif&apos;;&quot;&gt;          - basic architecture, network development, windows package, MacOS package&lt;/span&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Sans Serif&apos;;&quot;&gt;     Oskar Lindqvist (&lt;/span&gt;&lt;a href=&quot;mailto:tranberry@pokerth.net&quot;&gt;&lt;span style=&quot; font-family:&apos;Sans Serif&apos;; text-decoration: underline; color:#0000ff;&quot;&gt;tranberry@pokerth.net&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; font-family:&apos;Sans Serif&apos;;&quot;&gt;)&lt;/span&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Sans Serif&apos;;&quot;&gt;          - initial gui graphics design&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <translation>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:8pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Sans Serif&apos;; font-weight:600;&quot;&gt;Projectpagina:&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Sans Serif&apos;;&quot;&gt;     &lt;/span&gt;&lt;a href=&quot;http://www.pokerth.net&quot;&gt;&lt;span style=&quot; font-family:&apos;Sans Serif&apos;; text-decoration: underline; color:#0000ff;&quot;&gt;http://www.pokerth.net&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;Sans Serif&apos;;&quot;&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Sans Serif&apos;; font-weight:600;&quot;&gt;IRC: &lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Sans Serif&apos;;&quot;&gt;     #pokerth (irc.freenode.net)&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;Sans Serif&apos;;&quot;&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Sans Serif&apos;; font-weight:600;&quot;&gt;Authors: &lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Sans Serif&apos;;&quot;&gt;     Felix Hammer (&lt;/span&gt;&lt;a href=&quot;mailto:doitux@pokerth.net&quot;&gt;&lt;span style=&quot; font-family:&apos;Sans Serif&apos;; text-decoration: underline; color:#0000ff;&quot;&gt;doitux@pokerth.net&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; font-family:&apos;Sans Serif&apos;;&quot;&gt;)&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Sans Serif&apos;;&quot;&gt;          - idee, basisarchitectuur, implementatie van de interface, onderhoud van de grafische interface en het Linux-pakket&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Sans Serif&apos;;&quot;&gt;     Florian Thauer (&lt;/span&gt;&lt;a href=&quot;mailto:floty@pokerth.net&quot;&gt;&lt;span style=&quot; font-family:&apos;Sans Serif&apos;; text-decoration: underline; color:#0000ff;&quot;&gt;floty@pokerth.net&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; font-family:&apos;Sans Serif&apos;;&quot;&gt;)&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Sans Serif&apos;;&quot;&gt;          - idee, basisarchitectuur en ontwikkeling van de simulator&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Sans Serif&apos;;&quot;&gt;     Lothar May (&lt;/span&gt;&lt;a href=&quot;mailto:lotodore@pokerth.net&quot;&gt;&lt;span style=&quot; font-family:&apos;Sans Serif&apos;; text-decoration: underline; color:#0000ff;&quot;&gt;lotodore@pokerth.net&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; font-family:&apos;Sans Serif&apos;;&quot;&gt;)&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Sans Serif&apos;;&quot;&gt;          - basisarchitectuur, ontwikkeling van de netwerkfuncties, Windows-pakket en MacOS-pakket&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Sans Serif&apos;;&quot;&gt;     Oskar Lindqvist (&lt;/span&gt;&lt;a href=&quot;mailto:tranberry@pokerth.net&quot;&gt;&lt;span style=&quot; font-family:&apos;Sans Serif&apos;; text-decoration: underline; color:#0000ff;&quot;&gt;tranberry@pokerth.net&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; font-family:&apos;Sans Serif&apos;;&quot;&gt;)&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Sans Serif&apos;;&quot;&gt;          - oorspronkelijk ontwerp van de grafische interface&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+    </message>
+    <message encoding="UTF-8">
+        <location filename="../src/gui/qt/aboutpokerth.ui" line="49"/>
+        <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;- Poker engine for the popular &quot;Texas Hold&apos;em&quot; Poker&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;- Singleplayer games with up to 9 computer-opponents&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;- Multiplayer network games&lt;br /&gt;- Internet online games&lt;br /&gt;- Changeable gui with online style gallery&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;© 2006-2009, FHammer, FThauer, LMay&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1823,12 +1918,12 @@ p, li { white-space: pre-wrap; }
         <translation>Toevoegen</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/changecompleteblindsdialog.ui" line="216"/>
+        <location filename="" line="0"/>
         <source>After this:</source>
         <translation type="obsolete">Hierna:</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/changecompleteblindsdialog.ui" line="240"/>
+        <location filename="" line="0"/>
         <source>Always raise about:</source>
         <translation type="obsolete">Blijven verhogen met:</translation>
     </message>
@@ -1838,7 +1933,7 @@ p, li { white-space: pre-wrap; }
         <translation>$</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/changecompleteblindsdialog.ui" line="263"/>
+        <location filename="" line="0"/>
         <source>Stay at last blind</source>
         <translation type="obsolete">Bij laatste blind blijven</translation>
     </message>
@@ -1938,7 +2033,7 @@ p, li { white-space: pre-wrap; }
         <translation>Spel maken</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/pokerth/pokerth/src/gui/qt/createinternetgamedialog.ui" line="37"/>
+        <location filename="" line="0"/>
         <source>Game Settings</source>
         <translation type="obsolete">Instellingen van spel</translation>
     </message>
@@ -1948,12 +2043,12 @@ p, li { white-space: pre-wrap; }
         <translation>Speelsnelheid van computertegenstanders:</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/pokerth/pokerth/ts" line="7471221"/>
+        <location filename="" line="0"/>
         <source>Hands before raise small blind:</source>
         <translation type="obsolete">Rondes voordat blinds omhooggaan:</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/createinternetgamedialog.ui" line="132"/>
+        <location filename="" line="0"/>
         <source>Timeout for player action (sec):</source>
         <translation type="obsolete">Bedenktijd voor de spelers (sec):</translation>
     </message>
@@ -1968,7 +2063,7 @@ p, li { white-space: pre-wrap; }
         <translation>Startgeld:</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/pokerth/pokerth/src/gui/qt/createinternetgamedialog.ui" line="145"/>
+        <location filename="" line="0"/>
         <source>Small Blind:</source>
         <translation type="obsolete">Kleine blind:</translation>
     </message>
@@ -1983,7 +2078,7 @@ p, li { white-space: pre-wrap; }
         <translation>Annuleren</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/pokerth/pokerth/src/gui/qt/createinternetgamedialog.ui" line="78"/>
+        <location filename="" line="0"/>
         <source>Hands before raise blinds:</source>
         <translation type="obsolete">Rondes voordat de blinds stijgen:</translation>
     </message>
@@ -2046,7 +2141,7 @@ p, li { white-space: pre-wrap; }
         <translation>Startgeld:</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/pokerth/pokerth/src/gui/qt/createnetworkgamedialog.ui" line="65"/>
+        <location filename="" line="0"/>
         <source>Small Blind:</source>
         <translation type="obsolete">Kleine blind:</translation>
     </message>
@@ -2061,12 +2156,12 @@ p, li { white-space: pre-wrap; }
         <translation>Annuleren</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/pokerth/pokerth/ts" line="7471221"/>
+        <location filename="" line="0"/>
         <source>Hands before raise small blind:</source>
         <translation type="obsolete">Rondes voordat blinds omhooggaan:</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/createnetworkgamedialog.ui" line="117"/>
+        <location filename="" line="0"/>
         <source>Timeout for player action (sec):</source>
         <translation type="obsolete">Bedenktijd voor de spelers (sec):</translation>
     </message>
@@ -2081,7 +2176,7 @@ p, li { white-space: pre-wrap; }
         <translation>Speelsnelheid van computertegenstanders:</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/pokerth/pokerth/src/gui/qt/createnetworkgamedialog.ui" line="85"/>
+        <location filename="" line="0"/>
         <source>Hands before raise blinds:</source>
         <translation type="obsolete">Rondes voordat de blinds stijgen:</translation>
     </message>
@@ -2119,57 +2214,57 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>gameLobbyDialog</name>
     <message>
-        <location filename="../../../../../tmp/kde-user/pokerth/pokerth/src/gui/qt/gamelobbydialog.ui" line="13"/>
+        <location filename="" line="0"/>
         <source>Game Lobby</source>
         <translation type="obsolete">Spellobby</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog.ui" line="466"/>
+        <location filename="../src/gui/qt/gamelobbydialog.ui" line="463"/>
         <source>Lobby-Chat</source>
         <translation>Lobby - Chat</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog.ui" line="86"/>
+        <location filename="../src/gui/qt/gamelobbydialog.ui" line="84"/>
         <source>Game</source>
         <translation>Spel</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/pokerth/pokerth/ts" line="7471221"/>
+        <location filename="" line="0"/>
         <source>Player</source>
         <translation type="obsolete">Speler</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog.ui" line="101"/>
+        <location filename="../src/gui/qt/gamelobbydialog.ui" line="99"/>
         <source>Private</source>
         <translation>Privé</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog.ui" line="130"/>
+        <location filename="../src/gui/qt/gamelobbydialog.ui" line="128"/>
         <source>Game Info</source>
         <translation>Info over spel</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog.ui" line="155"/>
+        <location filename="../src/gui/qt/gamelobbydialog.ui" line="156"/>
         <source>Connected Players</source>
         <translation>Spelers met verbinding</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog.ui" line="188"/>
+        <location filename="../src/gui/qt/gamelobbydialog.ui" line="195"/>
         <source>Start Game</source>
         <translation>Spel starten</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/pokerth/pokerth/ts" line="7471221"/>
+        <location filename="" line="0"/>
         <source>Kick</source>
         <translation type="obsolete">Verwijderen</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/pokerth/pokerth/ts" line="7471221"/>
+        <location filename="" line="0"/>
         <source>Leave</source>
         <translation type="obsolete">Weggaan</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/pokerth/pokerth/ts" line="7471221"/>
+        <location filename="" line="0"/>
         <source>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:9pt; font-weight:400; font-style:normal; text-decoration:none;&quot;&gt;
@@ -2180,7 +2275,7 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Rondes voordat blinds omhooggaan:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/pokerth/pokerth/ts" line="7471221"/>
+        <location filename="" line="0"/>
         <source>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:9pt; font-weight:400; font-style:normal; text-decoration:none;&quot;&gt;
@@ -2191,7 +2286,7 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Maximale aantal spelers:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/pokerth/pokerth/ts" line="7471221"/>
+        <location filename="" line="0"/>
         <source>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:9pt; font-weight:400; font-style:normal; text-decoration:none;&quot;&gt;
@@ -2202,7 +2297,7 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Kleine blind:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/pokerth/pokerth/ts" line="7471221"/>
+        <location filename="" line="0"/>
         <source>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:9pt; font-weight:400; font-style:normal; text-decoration:none;&quot;&gt;
@@ -2213,7 +2308,7 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Startgeld:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/pokerth/pokerth/ts" line="7471221"/>
+        <location filename="" line="0"/>
         <source>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:9pt; font-weight:400; font-style:normal; text-decoration:none;&quot;&gt;
@@ -2224,133 +2319,137 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Bedenktijd voor de spelers (sec):&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog.ui" line="163"/>
+        <location filename="../src/gui/qt/gamelobbydialog.ui" line="164"/>
         <source>Fill up with computer opponents</source>
         <translation>Tafel vol maken met computerspelers</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog.ui" line="450"/>
+        <location filename="../src/gui/qt/gamelobbydialog.ui" line="441"/>
         <source>Create Game</source>
         <translation>Spel maken</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog.ui" line="457"/>
+        <location filename="../src/gui/qt/gamelobbydialog.ui" line="448"/>
         <source>Join Game</source>
         <translation>Meedoen met spel</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/pokerth/pokerth/ts" line="7471221"/>
+        <location filename="" line="0"/>
         <source>Hands to raise small blind:</source>
         <translation type="obsolete">Rondes voordat blinds omhooggaan:</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/pokerth/pokerth/src/gui/qt/gamelobbydialog.ui" line="216"/>
+        <location filename="" line="0"/>
         <source>Maximum number of players:</source>
         <translation type="obsolete">Maximale aantal spelers:</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/pokerth/pokerth/src/gui/qt/gamelobbydialog.ui" line="223"/>
+        <location filename="" line="0"/>
         <source>Small Blind:</source>
         <translation type="obsolete">Kleine blind:</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/pokerth/pokerth/src/gui/qt/gamelobbydialog.ui" line="251"/>
+        <location filename="" line="0"/>
         <source>Start Cash:</source>
         <translation type="obsolete">Startgeld:</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/pokerth/pokerth/src/gui/qt/gamelobbydialog.ui" line="258"/>
+        <location filename="" line="0"/>
         <source>Timeout for player action (sec):</source>
         <translation type="obsolete">Bedenktijd voor de spelers (sec):</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/pokerth/pokerth/src/gui/qt/gamelobbydialog.ui" line="202"/>
+        <location filename="" line="0"/>
         <source>Hands before raise blinds:</source>
         <translation type="obsolete">Rondes voordat de blinds stijgen:</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog.ui" line="391"/>
+        <location filename="../src/gui/qt/gamelobbydialog.ui" line="398"/>
         <source>Leave Game</source>
         <translation>Spel verlaten</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog.ui" line="65"/>
+        <location filename="../src/gui/qt/gamelobbydialog.ui" line="63"/>
         <source>Available Players</source>
         <translation>Beschikbare spelers</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog.ui" line="195"/>
+        <location filename="../src/gui/qt/gamelobbydialog.ui" line="202"/>
         <source>Kick Player</source>
         <translation>Speler verwijderen</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog.ui" line="91"/>
+        <location filename="../src/gui/qt/gamelobbydialog.ui" line="89"/>
         <source>Players</source>
         <translation>Spelers</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog.ui" line="96"/>
+        <location filename="../src/gui/qt/gamelobbydialog.ui" line="94"/>
         <source>State</source>
         <translation>Status</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog.ui" line="206"/>
+        <location filename="../src/gui/qt/gamelobbydialog.ui" line="213"/>
         <source>Maximum number of players: </source>
         <translation>Maximale aantal spelers: </translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog.ui" line="224"/>
+        <location filename="../src/gui/qt/gamelobbydialog.ui" line="231"/>
         <source>Start Cash: </source>
         <translation>Startgeld: </translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog.ui" line="242"/>
+        <location filename="../src/gui/qt/gamelobbydialog.ui" line="249"/>
         <source>First small blind: </source>
         <translation>Eerste kleine blind: </translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/pokerth/src/gui/qt/gamelobbydialog.ui" line="224"/>
+        <location filename="" line="0"/>
         <source>Blinds raise intervall: </source>
         <translation type="obsolete">Interval verhoging blinds: </translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog.ui" line="281"/>
+        <location filename="../src/gui/qt/gamelobbydialog.ui" line="288"/>
         <source>Blinds raise mode: </source>
         <translation>Verhoogmodus blinds: </translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog.ui" line="308"/>
+        <location filename="../src/gui/qt/gamelobbydialog.ui" line="315"/>
         <source>Manual blinds list:</source>
         <translation>Aangepaste lijst met blinds:</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog.ui" line="335"/>
+        <location filename="../src/gui/qt/gamelobbydialog.ui" line="342"/>
         <source>Timeout for player action (sec): </source>
         <translation>Bedenktijd voor de spelers (sec): </translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog.ui" line="25"/>
+        <location filename="../src/gui/qt/gamelobbydialog.ui" line="26"/>
         <source>Internet Game Lobby</source>
         <translation>Lobby van internetspel</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog.ui" line="260"/>
+        <location filename="../src/gui/qt/gamelobbydialog.ui" line="267"/>
         <source>Blinds raise interval: </source>
         <translation>Interval verhoging blinds: </translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog.ui" line="411"/>
+        <location filename="../src/gui/qt/gamelobbydialog.ui" line="418"/>
         <source>Join any game</source>
         <translation>Meedoen met willekeurig spel</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog.ui" line="523"/>
+        <location filename="../src/gui/qt/gamelobbydialog.ui" line="520"/>
         <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://www.pokerth.net&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;http://www.pokerth.net&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://www.pokerth.net&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;http://www.pokerth.net&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
 </context>
 <context>
@@ -2371,7 +2470,7 @@ p, li { white-space: pre-wrap; }
         <translation>U mag zichzelf niet uit dit spel verwijderen.</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="136"/>
+        <location filename="" line="0"/>
         <source>game</source>
         <translation type="obsolete">spel</translation>
     </message>
@@ -2449,12 +2548,12 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>gameTable</name>
     <message>
-        <location filename="../../../../../tmp/kde-user/pokerth/pokerth/ts" line="7471221"/>
+        <location filename="" line="0"/>
         <source>QMainWindow { background-image: url(:/guiv2/resources/guiv2/table.png); background-position: bottom center; background-origin: content; }</source>
         <translation type="obsolete">QMainWindow { background-image: url(:/guiv2/resources/guiv2/table.png); background-position: bottom center; background-origin: content; }</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/pokerth/pokerth/ts" line="7471221"/>
+        <location filename="" line="0"/>
         <source>QGroupBox { background-image: url(:/graphics/resources/graphics/toolboxFrameBG.png) }</source>
         <translation type="obsolete">QGroupBox { background-image: url(:/graphics/resources/graphics/toolboxFrameBG.png) }</translation>
     </message>
@@ -2464,17 +2563,17 @@ p, li { white-space: pre-wrap; }
         <translation>Snelheid:</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/gametable.ui" line="3208"/>
+        <location filename="" line="0"/>
         <source>Stop</source>
         <translation type="obsolete">Stop</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable.ui" line="3042"/>
+        <location filename="" line="0"/>
         <source>View</source>
         <translation type="obsolete">Beeld</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable.ui" line="2929"/>
+        <location filename="" line="0"/>
         <source>Game</source>
         <translation type="obsolete">Spel</translation>
     </message>
@@ -2539,12 +2638,12 @@ p, li { white-space: pre-wrap; }
         <translation>Ctrl+Q</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/pokerth/pokerth/ts" line="7471221"/>
+        <location filename="" line="0"/>
         <source>PokerTH 0.5 - The Open-Source Texas Holdem Engine</source>
         <translation type="obsolete">PokertTH 0.5 - De Open-Source Texas Holdem Simulator</translation>
     </message>
     <message encoding="UTF-8">
-        <location filename="../../../../../tmp/kde-user/pokerth/pokerth/ts" line="7471221"/>
+        <location filename="" line="0"/>
         <source>⌘F</source>
         <translation type="obsolete">⌘F</translation>
     </message>
@@ -2554,12 +2653,12 @@ p, li { white-space: pre-wrap; }
         <translation>Chat-venster aan/uit</translation>
     </message>
     <message encoding="UTF-8">
-        <location filename="../../../../../tmp/kde-user/pokerth/pokerth/ts" line="7471221"/>
+        <location filename="" line="0"/>
         <source>⌘C</source>
         <translation type="obsolete">⌘C</translation>
     </message>
     <message encoding="UTF-8">
-        <location filename="../../../../../tmp/kde-user/pokerth/pokerth/ts" line="7471221"/>
+        <location filename="" line="0"/>
         <source>⌘H</source>
         <translation type="obsolete">⌘H</translation>
     </message>
@@ -2569,7 +2668,7 @@ p, li { white-space: pre-wrap; }
         <translation>Log-venster aan/uit</translation>
     </message>
     <message encoding="UTF-8">
-        <location filename="../../../../../tmp/kde-user/pokerth/pokerth/ts" line="7471221"/>
+        <location filename="" line="0"/>
         <source>⌘L</source>
         <translation type="obsolete">⌘L</translation>
     </message>
@@ -2582,6 +2681,11 @@ p, li { white-space: pre-wrap; }
         <location filename="../src/gui/qt/gametable.ui" line="3596"/>
         <source>Ctrl+O</source>
         <translation>Ctrl+O</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/gametable.ui" line="3520"/>
+        <source>Shortcut: &lt;Shift&gt;</source>
+        <translation>Sneltoets: &lt;Shift&gt;</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gametable.ui" line="3604"/>
@@ -2609,12 +2713,12 @@ p, li { white-space: pre-wrap; }
         <translation>Ctrl+L</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/gametable.ui" line="25"/>
+        <location filename="" line="0"/>
         <source>PokerTH 0.6 - The Open-Source Texas Holdem Engine</source>
         <translation type="obsolete">PokertTH 0.6 - De Open-Source Texas Holdem Simulator </translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable.ui" line="2933"/>
+        <location filename="" line="0"/>
         <source>Network Game</source>
         <translation type="obsolete">Netwerkspel</translation>
     </message>
@@ -2629,7 +2733,7 @@ p, li { white-space: pre-wrap; }
         <translation>Ctrl+I</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/gametable.ui" line="2174"/>
+        <location filename="" line="0"/>
         <source>All In</source>
         <translation type="obsolete">All-in</translation>
     </message>
@@ -2656,10 +2760,10 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/gui/qt/gametable.ui" line="29"/>
         <source>PokerTH 0.6-beta - The Open-Source Texas Holdem Engine</source>
-        <translation>PokertTH 0.6 bèta - De Open-Source Texas Holdem-simulator</translation>
+        <translation>PokertTH 0.6 bèta - De Open-Source Texas Hold&apos;em-simulator</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/gametable.ui" line="2907"/>
+        <location filename="" line="0"/>
         <source>Back to lobby</source>
         <translation type="obsolete">Terug naar de lobby</translation>
     </message>
@@ -2699,7 +2803,7 @@ p, li { white-space: pre-wrap; }
         <translation>Kansen</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable.ui" line="3054"/>
+        <location filename="" line="0"/>
         <source>Settings</source>
         <translation type="obsolete">Instellingen</translation>
     </message>
@@ -2736,163 +2840,158 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/gui/qt/gametable.ui" line="3546"/>
         <source>&amp;View</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Beeld</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gametable.ui" line="3558"/>
         <source>&amp;Settings</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/gui/qt/gametable.ui" line="3520"/>
-        <source>Shortcut: &lt;Shift&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Instellingen</translation>
     </message>
 </context>
 <context>
     <name>gameTableImpl</name>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="474"/>
+        <location filename="" line="0"/>
         <source>Ctrl+N to start a new game</source>
         <translation type="obsolete">Ctrl+N om een nieuw spel te starten</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/gametable/gametableimpl.cpp" line="2072"/>
+        <location filename="" line="0"/>
         <source>F1 - Fold/All-In | F2 - Check/Call | F3 - Bet/Raise</source>
         <translation type="obsolete">F1 - Folden/All-In | F2 - Checken/Callen | F3 - Betten/Raisen</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3313"/>
+        <location filename="" line="0"/>
         <source>Network Error</source>
         <translation type="obsolete">Netwerkfout</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3071"/>
+        <location filename="" line="0"/>
         <source>Server address was not set.</source>
         <translation type="obsolete">Er is geen serveradres ingesteld.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3076"/>
+        <location filename="" line="0"/>
         <source>An invalid port was set (ports 0-1023 are not allowed).</source>
         <translation type="obsolete">Ongeldige poort ingesteld (poorten 0-1023 zijn niet toegestaan).</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3081"/>
+        <location filename="" line="0"/>
         <source>Could not create a socket for TCP communication.</source>
         <translation type="obsolete">Kan geen socket maken voor TCP-communicatie.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3086"/>
+        <location filename="" line="0"/>
         <source>Could not set the IP address.</source>
         <translation type="obsolete">Kan het IP-adres niet instellen.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3091"/>
+        <location filename="" line="0"/>
         <source>Could not set the port for this type of address.</source>
         <translation type="obsolete">Kan de poort niet instellen voor dit adrestype.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3096"/>
+        <location filename="" line="0"/>
         <source>The server name could not be resolved.</source>
         <translation type="obsolete">Kan geen server met die naam vinden.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3101"/>
+        <location filename="" line="0"/>
         <source>Bind failed - please choose a different port.</source>
         <translation type="obsolete">Kan niet verbinden - kies een andere poort.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3106"/>
+        <location filename="" line="0"/>
         <source>Internal network error: &quot;listen&quot; failed.</source>
         <translation type="obsolete">Interne netwerkfout: &quot;listen&quot; niet uitvoerbaar.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3111"/>
+        <location filename="" line="0"/>
         <source>Server execution was terminated.</source>
         <translation type="obsolete">Het uitvoeren op de server is afgebroken.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3116"/>
+        <location filename="" line="0"/>
         <source>Could not connect to the server.</source>
         <translation type="obsolete">Kan geen verbinding maken met de server.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3126"/>
+        <location filename="" line="0"/>
         <source>Internal network error: &quot;select&quot; failed.</source>
         <translation type="obsolete">Interne netwerkfout: &quot;select&quot; niet uitvoerbaar.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3131"/>
+        <location filename="" line="0"/>
         <source>Internal network error: &quot;send&quot; failed.</source>
         <translation type="obsolete">Interne netwerkfout: &quot;send&quot; niet uitvoerbaar.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3142"/>
+        <location filename="" line="0"/>
         <source>Internal network error: Duplicate TCP connection.</source>
         <translation type="obsolete">Interne netwerkfout: Dubbele TCP-verbinding.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3147"/>
+        <location filename="" line="0"/>
         <source>An invalid network packet was received.
 Please make sure that all players use the same version of PokerTH.</source>
         <translation type="obsolete">Ongeldig netwerkpakket ontvangen.
 Zorg ervoor dat alle spelers dezelfde versie van PokerTH gebruiken.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3152"/>
+        <location filename="" line="0"/>
         <source>Internal state error.
 Please make sure that all players use the same version of PokerTH.</source>
         <translation type="obsolete">Interne statusfout.
 Zorg ervoor dat alle spelers dezelfde versie van PokerTH gebruiken.</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/gametable/gametableimpl.cpp" line="3444"/>
+        <location filename="" line="0"/>
         <source>The PokerTH server does not support this version of the game.
 Please update PokerTH.</source>
         <translation type="obsolete">De PokerTH-server ondersteunt deze versie van het spel niet.
 Zorg ervoor dat u de nieuwste versie van PokerTH heeft.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3203"/>
+        <location filename="" line="0"/>
         <source>Sorry, this server is already full.</source>
         <translation type="obsolete">Deze server is al vol.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3342"/>
+        <location filename="" line="0"/>
         <source>Unable to join - the server has already started the game.</source>
         <translation type="obsolete">Kan niet meedoen - de server heeft het spel al gestart.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3352"/>
+        <location filename="" line="0"/>
         <source>Invalid password when joining the game.
 Please reenter the password and try again.</source>
         <translation type="obsolete">Ongeldig wachtwoord bij het verbinden.
 Voer het wachtwoord opnieuw in en probeer het opnieuw.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3213"/>
+        <location filename="" line="0"/>
         <source>The password is too long. Please choose another one.</source>
         <translation type="obsolete">Het wachtwoord is te lang. Kies een ander wachtwoord.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3217"/>
+        <location filename="" line="0"/>
         <source>Your player name is already used by another player.
 Please choose a different name.</source>
         <translation type="obsolete">Uw spelersnaam is al in gebruik door een andere speler.
 Kies een andere naam.</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/pokerth/pokerth/ts" line="7471221"/>
+        <location filename="" line="0"/>
         <source>The player name is either too short or too long. Please choose another one.</source>
         <translation type="obsolete">De spelersnaam is te kort of te lang. Kies een andere naam.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3314"/>
+        <location filename="" line="0"/>
         <source>An internal error occured.</source>
         <translation type="obsolete">Interne fout opgetreden.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="472"/>
+        <location filename="" line="0"/>
         <source>Cmd+N to start a new game</source>
         <translation type="obsolete">Cmd+N om een nieuw spel te starten</translation>
     </message>
@@ -2907,7 +3006,7 @@ Kies een andere naam.</translation>
         <translation>Stop</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3121"/>
+        <location filename="" line="0"/>
         <source>Connection timed out.
 Please check the server address.
 
@@ -2918,62 +3017,62 @@ Controleer het serveradres.
 Als de server zich achter een NAT-router bevindt, controleer dan daar of port forwarding goed ingesteld is.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3137"/>
+        <location filename="" line="0"/>
         <source>Connection was closed by the server.</source>
         <translation type="obsolete">De verbinding is verbroken door de server.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3241"/>
+        <location filename="" line="0"/>
         <source>The server referred to an unknown player. Aborting.</source>
         <translation type="obsolete">De server verwees naar een onbekende speler. Verbinding verbroken.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3257"/>
+        <location filename="" line="0"/>
         <source>You were kicked from the server.</source>
         <translation type="obsolete">U bent verwijderd van de server.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3274"/>
+        <location filename="" line="0"/>
         <source>The client player count is invalid.</source>
         <translation type="obsolete">Het aantal spelers dat meedoet klopt niet.</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/gametable/gametableimpl.cpp" line="3467"/>
+        <location filename="" line="0"/>
         <source>The player name is too short, too long or reserved. Please choose another one.</source>
         <translation type="obsolete">De spelersnaam is te kort, te lang, of al opgeëist. Kies een andere naam.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3226"/>
+        <location filename="" line="0"/>
         <source>The game name is either too short or too long. Please choose another one.</source>
         <translation type="obsolete">De naam van het spel is te kort of te lang. Kies een andere naam.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3231"/>
+        <location filename="" line="0"/>
         <source>The game could not be found.</source>
         <translation type="obsolete">Kan het spel niet vinden.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3236"/>
+        <location filename="" line="0"/>
         <source>The chat text is invalid.</source>
         <translation type="obsolete">Ongeldige chattekst.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3364"/>
+        <location filename="" line="0"/>
         <source>Network Notification</source>
         <translation type="obsolete">Netwerkmelding</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3330"/>
+        <location filename="" line="0"/>
         <source>You were kicked from the game.</source>
         <translation type="obsolete">U bent uit het spel verwijderd.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3336"/>
+        <location filename="" line="0"/>
         <source>Sorry, this game is already full.</source>
         <translation type="obsolete">Dit spel is al vol.</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/gametable/gametableimpl.cpp" line="2074"/>
+        <location filename="" line="0"/>
         <source>F1 - Bet/Raise | F2 - Check/Call | F3 - Fold/All-In</source>
         <translation type="obsolete">F1 - Betten/Raisen | F2 - Checken/Callen | F3 - Folden/All-In</translation>
     </message>
@@ -2983,98 +3082,98 @@ Als de server zich achter een NAT-router bevindt, controleer dan daar of port fo
         <translation>Chat</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="2700"/>
+        <location filename="" line="0"/>
         <source>Manual mode set. You&apos;ve got to choose yourself now.</source>
         <translation type="obsolete">Handmatige modus ingesteld. U moet nu zelf kiezen.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="2702"/>
+        <location filename="" line="0"/>
         <source>Auto mode set: Check or call any.</source>
         <translation type="obsolete">Automatische modus ingesteld: altijd checken of callen.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="2704"/>
+        <location filename="" line="0"/>
         <source>Auto mode set: Check or fold.</source>
         <translation type="obsolete">Automatische modus ingesteld: checken of folden.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="923"/>
+        <location filename="" line="0"/>
         <source>You cannot join Internet-Game-Lobby with &quot;Human Player&quot; as nickname.
 Please choose another one.</source>
         <translation type="obsolete">U kunt met de standaardnaam geen verbinding maken met de lobby van het internetspel.
 Kies een andere naam.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3246"/>
+        <location filename="" line="0"/>
         <source>Internal error: The current player could not be found.</source>
         <translation type="obsolete">Interne fout: De huidige speler kan niet worden gevonden.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3251"/>
+        <location filename="" line="0"/>
         <source>Internal error: The current player is not active.</source>
         <translation type="obsolete">Interne fout: De huidige speler is niet actief.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3279"/>
+        <location filename="" line="0"/>
         <source>Too many manual blinds were set. Please reconfigure the manual blinds.</source>
         <translation type="obsolete">Er zijn te veel blinds ingesteld. Pas de blinds opnieuw aan.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3285"/>
+        <location filename="" line="0"/>
         <source>An invalid avatar file was configured. Please choose a different avatar.</source>
         <translation type="obsolete">Er is een ongeldig avatarbestand ingesteld. Kies een andere avatar.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3290"/>
+        <location filename="" line="0"/>
         <source>The selected avatar file is too large. Please choose a different avatar.</source>
         <translation type="obsolete">Het geselecteerde avatarbestand is te groot. Kies een andere avatar.</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/gametable/gametableimpl.cpp" line="3274"/>
+        <location filename="" line="0"/>
         <source>The server requested a non-existing avatar.</source>
         <translation type="obsolete">De server vroeg om een niet-bestaande avatar.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3305"/>
+        <location filename="" line="0"/>
         <source>Could not start game: Synchronization failed.</source>
         <translation type="obsolete">Kan spel niet starten: Synchronisatie mislukt.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="1546"/>
+        <location filename="" line="0"/>
         <source>F1 - Fold | F2 - Check/Call | F3 - Bet/Raise | F4 - All-In</source>
         <translation type="obsolete">F1 - Folden | F2 - Checken/Callen | F3 - Betten/Raisen | F4 - All-In</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="1548"/>
+        <location filename="" line="0"/>
         <source>F1 - All-In | F2 - Bet/Raise | F3 - Check/Call | F4 - Fold</source>
         <translation type="obsolete">F1 - All-In | F2 - Betten/Raisen | F3 - Checken/Callen | F4 - Folden</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/gametable/gametableimpl.cpp" line="3179"/>
+        <location filename="" line="0"/>
         <source>The PokerTH server does not support this version of the game.
 Please go to &lt;a href=&quot;http://www.pokerth.net/&quot; target=&quot;_blank&quot;&gt;http://www.pokerth.net/&lt;a/&gt; and download the latest version.</source>
         <translation type="obsolete">De PokerTH-server ondersteunt deze versie van het spel niet.
 Ga naar &lt;a href=&quot;http://www.pokerth.net/&quot; target=&quot;_blank&quot;&gt;http://www.pokerth.net/&lt;a/&gt; en download de nieuwste versie.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3221"/>
+        <location filename="" line="0"/>
         <source>The player name is too short, too long or invalid. Please choose another one.</source>
         <translation type="obsolete">De spelersnaam is te kort, te lang of ongeldig. Kies een andere naam.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3310"/>
+        <location filename="" line="0"/>
         <source>The server is down for maintenance. Please try again later.</source>
         <translation type="obsolete">Wegens onderhoud is de server niet beschikbaar. Probeer het later opnieuw.</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/gametable/gametableimpl.cpp" line="3314"/>
+        <location filename="" line="0"/>
         <source>A new release of PokerTH is available.
 Please go to &lt;a href=&quot;http://www.pokerth.net/&quot; target=&quot;_blank&quot;&gt;http://www.pokerth.net/&lt;a/&gt; and download the latest version.</source>
         <translation type="obsolete">Er is een nieuwe release van PokerTH beschikbaar.
 Ga naar &lt;a href=&quot;http://www.pokerth.net/&quot; target=&quot;_blank&quot;&gt;http://www.pokerth.net/&lt;a/&gt; en download de nieuwste versie.</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/gametable/gametableimpl.cpp" line="3319"/>
+        <location filename="" line="0"/>
         <source>This beta release of PokerTH is outdated.
 Please go to &lt;a href=&quot;http://www.pokerth.net/&quot; target=&quot;_blank&quot;&gt;http://www.pokerth.net/&lt;a/&gt; and download the latest version.</source>
         <translation type="obsolete">Deze bètarelease van PokerTH is te oud.Ga naar &lt;a href=&quot;http://www.pokerth.net/&quot; target=&quot;_blank&quot;&gt;http://www.pokerth.net/&lt;a/&gt; en download de nieuwste versie.</translation>
@@ -3090,17 +3189,17 @@ Please go to &lt;a href=&quot;http://www.pokerth.net/&quot; target=&quot;_blank&
         <translation>U bent de server van dit spel. Wilt u PokerTH toch sluiten?</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3195"/>
+        <location filename="" line="0"/>
         <source>The PokerTH server does not support this version of the game.&lt;br&gt;Please go to &lt;a href=&quot;http://www.pokerth.net/&quot; target=&quot;_blank&quot;&gt;http://www.pokerth.net&lt;/a&gt; and download the latest version.</source>
         <translation type="obsolete">De PokerTH-server ondersteunt deze versie van het spel niet.&lt;br&gt;Ga naar &lt;a href=&quot;http://www.pokerth.net/&quot; target=&quot;_blank&quot;&gt;http://www.pokerth.net/&lt;/a&gt; en download de nieuwste versie.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3357"/>
+        <location filename="" line="0"/>
         <source>A new release of PokerTH is available.&lt;br&gt;Please go to &lt;a href=&quot;http://www.pokerth.net/&quot; target=&quot;_blank&quot;&gt;http://www.pokerth.net&lt;/a&gt; and download the latest version.</source>
         <translation type="obsolete">Er is een nieuwe release van PokerTH beschikbaar.&lt;br&gt;Ga naar&lt;a href=&quot;http://www.pokerth.net/&quot; target=&quot;_blank&quot;&gt;http://www.pokerth.net&lt;/a&gt; en download de nieuwste versie.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3365"/>
+        <location filename="" line="0"/>
         <source>This beta release of PokerTH is outdated.&lt;br&gt;Please go to &lt;a href=&quot;http://www.pokerth.net/&quot; target=&quot;_blank&quot;&gt;http://www.pokerth.net&lt;/a&gt; and download the latest version.</source>
         <translation type="obsolete">Deze bètarelease van PokerTH is te oud.&lt;br&gt;Ga naar &lt;a href=&quot;http://www.pokerth.net/&quot; target=&quot;_blank&quot;&gt;http://www.pokerth.net/&lt;/a&gt; en download de nieuwste versie.</translation>
     </message>
@@ -3124,75 +3223,75 @@ en teruggaan naar de lobby?</translation>
     <message>
         <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="398"/>
         <source>PokerTH %1 - The Open-Source Texas Holdem Engine</source>
-        <translation>PokertTH %1 - De Open-Source Texas Holdem-simulator</translation>
+        <translation>PokertTH %1 - De Open-Source Texas Hold&apos;em-simulator</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3300"/>
+        <location filename="" line="0"/>
         <source>An internal avatar error occured. Please report this to an admin in the lobby chat.</source>
         <translation type="obsolete">Er is een interne avatarfout opgetreden. Meld dit bij het chatten in de lobby aan een administrator.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3263"/>
+        <location filename="" line="0"/>
         <source>You were temporarily banned from the server.</source>
         <translation type="obsolete">U bent tijdelijk verbannen van de server.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3269"/>
+        <location filename="" line="0"/>
         <source>Your server connection timed out due to inactivity. You are very welcome to reconnect!</source>
         <translation type="obsolete">Uw verbinding met de server is verlopen wegens gebrek aan activiteit, maar u kunt gewoon opnieuw verbinding maken!</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3295"/>
+        <location filename="" line="0"/>
         <source>You cannot upload a new avatar file at this time. Please try again in a few seconds.</source>
         <translation type="obsolete">U kunt momenteel geen nieuw avatarbestand uploaden. Wacht enkele seconden en probeer het opnieuw.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3347"/>
+        <location filename="" line="0"/>
         <source>Your admin state timed out due to inactivity. Feel free to create a new game!</source>
         <translation type="obsolete">Uw status van spelleider is verlopen wegens gebrek aan activiteit, maar u kunt gewoon een nieuw spel maken!</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3158"/>
+        <location filename="" line="0"/>
         <source>Invalid server list URL.
 Please correct the address in the settings.</source>
         <translation type="obsolete">Ongeldige URL van serverlijst.
 Voer het juiste adres in bij de instellingen.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3163"/>
+        <location filename="" line="0"/>
         <source>Could not open the server list MD5 file.
 Please make sure that the server list URL is correct.</source>
         <translation type="obsolete">Kan het MD5-bestand van de serverlijst niet openen.
 Zorg ervoor dat de serverlijst-URL juist is.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3168"/>
+        <location filename="" line="0"/>
         <source>Synchronization of the PokerTH internet server list has failed.
 Please make sure that the server list URL is correct.</source>
         <translation type="obsolete">De synchronisatie van de internetserverlijst van PokerTH is mislukt.
 Zorg ervoor dat de serverlijst-URL juist is.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3173"/>
+        <location filename="" line="0"/>
         <source>The PokerTH internet server list contains invalid data.
 If you use a custom server list, please make sure its format is correct.</source>
         <translation type="obsolete">De internetserverlijst van PokerTH bevat ongeldige gegevens.
 Als u een aangepaste serverlijst gebruikt, is de indeling ervan mogelijk onjuist.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3178"/>
+        <location filename="" line="0"/>
         <source>Could not unzip the PokerTH internet server list.</source>
         <translation type="obsolete">Kan de internetserverlijst van PokerTH niet decomprimeren.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3185"/>
+        <location filename="" line="0"/>
         <source>Could not download the PokerTH internet server list.
 Please make sure you are directly connected to the internet.</source>
         <translation type="obsolete">Kan de internetserverlijst van PokerTH niet downloaden.
 Zorg ervoor dat u een directe verbinding met internet hebt.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3190"/>
+        <location filename="" line="0"/>
         <source>Could not open the target file when downloading the server list.</source>
         <translation type="obsolete">Kan het doelbestand niet openen bij het downloaden van de serverlijst.</translation>
     </message>
@@ -3227,24 +3326,24 @@ Zorg ervoor dat u een directe verbinding met internet hebt.</translation>
         <translation>stemmen</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3219"/>
+        <location filename="" line="0"/>
         <source>Player &lt;b&gt;%1&lt;/b&gt; has &lt;b&gt;%2&lt;/b&gt; %3&lt;br&gt;against him. &lt;b&gt;%4&lt;/b&gt; votes needed to kick.</source>
         <translation type="obsolete">&lt;b&gt;%2&lt;/b&gt; %3 uitgebracht tegen &lt;b&gt;%1&lt;/b&gt;.&lt;br&gt;&lt;b&gt;%4&lt;/b&gt; stemmen zijn nodig voor verwijdering.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3222"/>
+        <location filename="" line="0"/>
         <source>You have &lt;b&gt;%1&lt;/b&gt; %2 against you.&lt;br&gt;&lt;b&gt;%3&lt;/b&gt; votes needed to kick.</source>
         <translation type="obsolete">U heeft &lt;b&gt;%1&lt;/b&gt; %2 tegen zich.&lt;br&gt;&lt;b&gt;%3&lt;/b&gt; stemmen zijn nodig voor verwijdering.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3183"/>
         <source>Player &lt;b&gt;%1&lt;/b&gt; has &lt;b&gt;%2&lt;/b&gt; %3&lt;br&gt;against him. &lt;b&gt;%4&lt;/b&gt; vote(s) needed to kick.</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;b&gt;%2&lt;/b&gt; %3 uitgebracht tegen &lt;b&gt;%1&lt;/b&gt;.&lt;br&gt;Nog &lt;b&gt;%4&lt;/b&gt; stem(men) nodig voor verwijderen.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3186"/>
         <source>You have &lt;b&gt;%1&lt;/b&gt; %2 against you.&lt;br&gt;&lt;b&gt;%3&lt;/b&gt; vote(s) needed to kick.</source>
-        <translation type="unfinished"></translation>
+        <translation>U heeft &lt;b&gt;%1&lt;/b&gt; %2 tegen zich.&lt;br&gt; Nog &lt;b&gt;%3&lt;/b&gt; stem(men) nodig voor verwijderen.</translation>
     </message>
 </context>
 <context>
@@ -3345,7 +3444,7 @@ Zorg ervoor dat u een directe verbinding met internet hebt.</translation>
         <translation>SCTP gebruiken</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/joinnetworkgamedialog.ui" line="138"/>
+        <location filename="" line="0"/>
         <source>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:9pt; font-weight:400; font-style:normal; text-decoration:none;&quot;&gt;
@@ -3356,7 +3455,7 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;  &lt;a href=&quot;http://nl.wikipedia.org/wiki/Stream_Control_Transmission_Protocol&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Wat is dit?&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/joinnetworkgamedialog.ui" line="181"/>
+        <location filename="" line="0"/>
         <source>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:9pt; font-weight:400; font-style:normal; text-decoration:none;&quot;&gt;
@@ -3409,7 +3508,7 @@ p, li { white-space: pre-wrap; }
         <translation>Fout bij het opslaan van het serverprofiel</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/pokerth/pokerth/ts" line="7471221"/>
+        <location filename="" line="0"/>
         <source>A profile with the name: &quot;</source>
         <translation type="obsolete">Een profiel met de naam: &quot;</translation>
     </message>
@@ -3461,7 +3560,7 @@ Wilt u dat profiel overschrijven?</translation>
         <translation>Toevoegen</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/manualblindsorderdialog.ui" line="63"/>
+        <location filename="" line="0"/>
         <source>After this:</source>
         <translation type="obsolete">Hierna:</translation>
     </message>
@@ -3471,7 +3570,7 @@ Wilt u dat profiel overschrijven?</translation>
         <translation>Blinds blijven verdubbelen</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/manualblindsorderdialog.ui" line="87"/>
+        <location filename="" line="0"/>
         <source>Always raise about:</source>
         <translation type="obsolete">Blijven verhogen met:</translation>
     </message>
@@ -3481,7 +3580,7 @@ Wilt u dat profiel overschrijven?</translation>
         <translation>$</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/manualblindsorderdialog.ui" line="110"/>
+        <location filename="" line="0"/>
         <source>Stay at last blind</source>
         <translation type="obsolete">Bij laatste blind blijven</translation>
     </message>
@@ -3555,7 +3654,7 @@ Wilt u dat profiel overschrijven?</translation>
         <translation>Startgeld:</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/pokerth/pokerth/src/gui/qt/newgamedialog.ui" line="131"/>
+        <location filename="" line="0"/>
         <source>Small Blind:</source>
         <translation type="obsolete">Kleine blind:</translation>
     </message>
@@ -3565,12 +3664,12 @@ Wilt u dat profiel overschrijven?</translation>
         <translation>Aantal spelers:</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/pokerth/pokerth/ts" line="7471221"/>
+        <location filename="" line="0"/>
         <source>Hands before raise small blind:</source>
         <translation type="obsolete">Rondes voordat blinds omhooggaan:</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/pokerth/pokerth/src/gui/qt/newgamedialog.ui" line="151"/>
+        <location filename="" line="0"/>
         <source>Hands before raise blinds:</source>
         <translation type="obsolete">Rondes voordat de blinds stijgen:</translation>
     </message>
@@ -3636,7 +3735,7 @@ Wilt u dat profiel overschrijven?</translation>
         <translation>Selecteer een avatar uit de lijst.</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/pokerth/src/gui/qt/settingsdialog/selectavatardialog/selectavatardialogimpl.cpp" line="248"/>
+        <location filename="" line="0"/>
         <source>The entered avatar picture doesn&apos;t exists.
 Please enter an valid picture!</source>
         <translation type="obsolete">De ingestelde avatar bestaat niet.
@@ -3648,7 +3747,7 @@ Stel een geldige afbeelding in!</translation>
         <translation>Een externe avatar selecteren</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/pokerth/pokerth/ts" line="7471221"/>
+        <location filename="" line="0"/>
         <source>Images (*.png)</source>
         <translation type="obsolete">Afbeeldingen (*.png)</translation>
     </message>
@@ -3685,7 +3784,7 @@ Stel een geldige afbeelding in.</translation>
         <translation>Kaartachterkant</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/settingsdialog.ui" line="266"/>
+        <location filename="" line="0"/>
         <source>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:9pt; font-weight:400; font-style:normal; text-decoration:none;&quot;&gt;
@@ -3698,12 +3797,12 @@ p, li { white-space: pre-wrap; }
         <translation>Standaard</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/pokerth/pokerth/ts" line="7471221"/>
+        <location filename="" line="0"/>
         <source>Local Game Default Settings</source>
         <translation type="obsolete">Standaardinstellingen van lokaal spel</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/pokerth/pokerth/ts" line="7471221"/>
+        <location filename="" line="0"/>
         <source>Small Blind:</source>
         <translation type="obsolete">Kleine blind:</translation>
     </message>
@@ -3713,12 +3812,12 @@ p, li { white-space: pre-wrap; }
         <translation>Startgeld:</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/pokerth/pokerth/src/gui/qt/settingsdialog.ui" line="625"/>
+        <location filename="" line="0"/>
         <source>Engine Version:</source>
         <translation type="obsolete">Simulatorversie:</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/pokerth/pokerth/ts" line="7471221"/>
+        <location filename="" line="0"/>
         <source>Server Settings</source>
         <translation type="obsolete">Server-instellingen</translation>
     </message>
@@ -3738,7 +3837,7 @@ p, li { white-space: pre-wrap; }
         <translation>Serverwachtwoord:</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/pokerth/pokerth/ts" line="7471221"/>
+        <location filename="" line="0"/>
         <source>Network Game Default Settings</source>
         <translation type="obsolete">Standaardinstellingen van netwerkspel</translation>
     </message>
@@ -3780,15 +3879,15 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="1888"/>
         <source>Human Player:</source>
-        <translation>Menselijke Speler:</translation>
+        <translation>Speler:</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="1595"/>
+        <location filename="" line="0"/>
         <source>Player Nicks</source>
         <translation type="obsolete">Spelersnamen</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="2889"/>
+        <location filename="" line="0"/>
         <source>Day(s)</source>
         <translation type="obsolete">dag(en)</translation>
     </message>
@@ -3820,7 +3919,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="302"/>
         <source>Own flipside picture:</source>
-        <translation>Eigen afbeelding voor kaartachterkant:</translation>
+        <translation>Eigen afbeelding voor de kaartachterkant:</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="219"/>
@@ -3828,7 +3927,7 @@ p, li { white-space: pre-wrap; }
         <translation>Fade out-animatie van niet-winnende kaarten weergeven</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="174"/>
+        <location filename="" line="0"/>
         <source>Show intro on startup</source>
         <translation type="obsolete">Introductie weergeven bij het starten</translation>
     </message>
@@ -3843,7 +3942,7 @@ p, li { white-space: pre-wrap; }
         <translation>Linkertoolbox weergeven</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="195"/>
+        <location filename="" line="0"/>
         <source>Show statusbar messages</source>
         <translation type="obsolete">Berichten weergeven in de statusbalk</translation>
     </message>
@@ -3853,7 +3952,7 @@ p, li { white-space: pre-wrap; }
         <translation>Instellingenvenster weergeven voor elk nieuw spel</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/pokerth/pokerth/ts" line="7471221"/>
+        <location filename="" line="0"/>
         <source>Hands before raise small blind:</source>
         <translation type="obsolete">Rondes voordat blinds omhooggaan:</translation>
     </message>
@@ -3878,7 +3977,7 @@ p, li { white-space: pre-wrap; }
         <translation>Speelsnelheid van computertegenstanders:</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/pokerth/pokerth/src/gui/qt/settingsdialog.ui" line="893"/>
+        <location filename="" line="0"/>
         <source>Engine Version for computer opponents:</source>
         <translation type="obsolete">Simulatorversie van computertegenstanders:</translation>
     </message>
@@ -3908,7 +4007,7 @@ p, li { white-space: pre-wrap; }
         <translation>Geluidseffecten afspelen</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/pokerth/pokerth/src/gui/qt/settingsdialog.ui" line="901"/>
+        <location filename="" line="0"/>
         <source>0.4 (current)</source>
         <translation type="obsolete">0.4 (huidige)</translation>
     </message>
@@ -3928,7 +4027,7 @@ p, li { white-space: pre-wrap; }
         <translation>&lt;a href=&quot;http://nl.wikipedia.org/wiki/Stream_Control_Transmission_Protocol&quot;&gt;Wat is dit?&lt;/a&gt;</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/settingsdialog.ui" line="2401"/>
+        <location filename="" line="0"/>
         <source>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:9pt; font-weight:400; font-style:normal; text-decoration:none;&quot;&gt;
@@ -3959,7 +4058,7 @@ p, li { white-space: pre-wrap; }
         <translation>10</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/settingsdialog.ui" line="963"/>
+        <location filename="" line="0"/>
         <source>Timeout for player action (sec):</source>
         <translation type="obsolete">Bedenktijd voor de spelers (sec):</translation>
     </message>
@@ -3994,7 +4093,7 @@ p, li { white-space: pre-wrap; }
         <translation>Instellingen van netwerkserver</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/settingsdialog.ui" line="1108"/>
+        <location filename="" line="0"/>
         <source>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:9pt; font-weight:400; font-style:normal; text-decoration:none;&quot;&gt;
@@ -4005,7 +4104,7 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-style:italic;&quot;&gt;Opmerking: standaard &lt;/span&gt;&lt;span style=&quot; font-weight:600; font-style:italic;&quot;&gt;spelinstellingen&lt;/span&gt;&lt;span style=&quot; font-style:italic;&quot;&gt;, zoals &quot;&lt;/span&gt;Maximale aantal spelers&quot;, &quot;&lt;span style=&quot; font-style:italic;&quot;&gt;Startgeld&quot; en &quot;Kleine blind&quot; worden overgenomen van &lt;/span&gt;&lt;span style=&quot; font-weight:600; font-style:italic;&quot;&gt;Instellingen van netwerkspel.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="1248"/>
+        <location filename="" line="0"/>
         <source>Internet Server Settings (Dedicated Server)</source>
         <translation type="obsolete">Instellingen van internetserver (pokerserver)</translation>
     </message>
@@ -4025,17 +4124,17 @@ p, li { white-space: pre-wrap; }
         <translation>Instellingen van internetspel</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="3010"/>
+        <location filename="" line="0"/>
         <source>QLabel { font-weight: bold;  }</source>
         <translation type="obsolete">QLabel { font-weight: bold;  }</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/pokerth/pokerth/ts" line="7471221"/>
+        <location filename="" line="0"/>
         <source>Hands before raise blinds:</source>
         <translation type="obsolete">Rondes voordat de blinds stijgen:</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/pokerth/pokerth/src/gui/qt/settingsdialog.ui" line="1273"/>
+        <location filename="" line="0"/>
         <source>Lobby Chat Settings (IRC Server)</source>
         <translation type="obsolete">Instellingen voor het chatten in de lobby (IRC-server)</translation>
     </message>
@@ -4055,7 +4154,7 @@ p, li { white-space: pre-wrap; }
         <translation>#pokerth</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/settingsdialog.ui" line="150"/>
+        <location filename="" line="0"/>
         <source>Reverse order of F-Keys (F1 - F3)</source>
         <translation type="obsolete">Omgekeerde volgorde van F-toetsen (F1 - F3)</translation>
     </message>
@@ -4130,7 +4229,7 @@ p, li { white-space: pre-wrap; }
         <translation>Taal:</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="1436"/>
+        <location filename="" line="0"/>
         <source>Enable/Disable Lobby Chat (IRC Server)</source>
         <translation type="obsolete">Chatten in de lobby (IRC-server) aan/uit</translation>
     </message>
@@ -4140,7 +4239,7 @@ p, li { white-space: pre-wrap; }
         <translation>Spelersnamen/avatars</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/settingsdialog.ui" line="1124"/>
+        <location filename="" line="0"/>
         <source>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Sans Serif&apos;; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
@@ -4163,10 +4262,10 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="255"/>
         <source>Switch keyboard focus to bet-input-field if it&apos;s your turn</source>
-        <translation>Toetsenbordinvoer naar het Bet-veld zetten als u aan de beurt bent</translation>
+        <translation>Cursor naar het inzetveld overzetten zodra het uw beurt is</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="1535"/>
+        <location filename="" line="0"/>
         <source>Channel Password:</source>
         <translation type="obsolete">Wachtwoord voor kanaal:</translation>
     </message>
@@ -4286,37 +4385,37 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="385"/>
         <source>Style</source>
-        <translation type="unfinished"></translation>
+        <translation>Stijl</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="240"/>
         <source>Don&apos;t translate poker strings like check, call, raise from game table style</source>
-        <translation type="unfinished"></translation>
+        <translation>Vertalingen voor pokertermen (bijv. &apos;call&apos;) niet overnemen van de speeltafelstijl</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="403"/>
         <source>Game Table Styles</source>
-        <translation type="unfinished"></translation>
+        <translation>Speeltafelstijlen</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="517"/>
         <source>Activate</source>
-        <translation type="unfinished"></translation>
+        <translation>Activeren</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="537"/>
         <source>Add ...</source>
-        <translation type="unfinished"></translation>
+        <translation>Toevoegen...</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="544"/>
         <source>Remove</source>
-        <translation type="unfinished"></translation>
+        <translation>Verwijderen</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="553"/>
         <source>Preview - Information:</source>
-        <translation type="unfinished"></translation>
+        <translation>Voorbeeld en gegevens:</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="491"/>
@@ -4325,12 +4424,16 @@ p, li { white-space: pre-wrap; }
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://gtstyles.pokerth.net/&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Get new PokerTH game table styles ...&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://gtstyles.pokerth.net/&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Nieuwe speeltafelstijlen voor PokerTH downloaden...&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="506"/>
         <source>Card Deck Styles</source>
-        <translation type="unfinished"></translation>
+        <translation>Speelkaartenstijlen</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="594"/>
@@ -4339,27 +4442,31 @@ p, li { white-space: pre-wrap; }
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://cdstyles.pokerth.net/&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Get new PokerTH card deck styles ...&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://cdstyles.pokerth.net/&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Nieuwe speelkaartenstijlen voor PokerTH downloaden...&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="2950"/>
         <source>Opponent 7:</source>
-        <translation type="unfinished">Tegenstander 4: {7:?}</translation>
+        <translation>Tegenstander 7:</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="3083"/>
         <source>Opponent 8:</source>
-        <translation type="unfinished">Tegenstander 4: {8:?}</translation>
+        <translation>Tegenstander 8:</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="3216"/>
+        <location filename="" line="0"/>
         <source>Opponent 10:</source>
         <translation type="obsolete">Tegenstander 4: {10:?}</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="3216"/>
         <source>Opponent 9:</source>
-        <translation type="unfinished">Tegenstander 4: {10:?} {9:?}</translation>
+        <translation>Tegenstander 9:</translation>
     </message>
 </context>
 <context>
@@ -4370,14 +4477,14 @@ p, li { white-space: pre-wrap; }
         <translation>Fout in instellingen</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/pokerth/src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="320"/>
+        <location filename="" line="0"/>
         <source>The entered flipside picture doesn&apos;t exists.
 Please enter an valid picture!</source>
         <translation type="obsolete">De ingestelde afbeelding voor de kaartachterkant bestaat niet.
 Stel een geldige afbeelding in!</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/pokerth/src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="341"/>
+        <location filename="" line="0"/>
         <source>The log file directory doesn&apos;t exists.
 Please select an valid directory!</source>
         <translation type="obsolete">De map voor logbestanden bestaat niet.
@@ -4389,7 +4496,7 @@ Selecteer een geldige map!</translation>
         <translation>Uw afbeelding voor de kaartachterkant selecteren</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/pokerth/pokerth/ts" line="7471221"/>
+        <location filename="" line="0"/>
         <source>Images (*.png)</source>
         <translation type="obsolete">Afbeeldingen (*.png)</translation>
     </message>
@@ -4443,17 +4550,17 @@ De eerste kleine blind wordt ingesteld op de maximale waarde.</translation>
         <translation>Magyar (Hongaars)</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/pokerth/src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="49"/>
+        <location filename="" line="0"/>
         <source>Italien</source>
         <translation type="obsolete">Italiaans</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="50"/>
+        <location filename="" line="0"/>
         <source>Norse</source>
         <translation type="obsolete">Noors</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="65"/>
+        <location filename="" line="0"/>
         <source>Portuguese</source>
         <translation type="obsolete">Português Brasil (Brz. Portugees)</translation>
     </message>
@@ -4463,7 +4570,7 @@ De eerste kleine blind wordt ingesteld op de maximale waarde.</translation>
         <translation>Русский (Russisch)</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/pokerth/src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="53"/>
+        <location filename="" line="0"/>
         <source>Solvak</source>
         <translation type="obsolete">Slowaaks</translation>
     </message>
@@ -4561,123 +4668,127 @@ Voer een geldig serverlijstadres in.</translation>
         <translation>Dansk (Deens)</translation>
     </message>
     <message>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="64"/>
+        <source>Portuguese (Brazilian)</source>
+        <translation>Português Brasil (Brz. Portugees)</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="65"/>
+        <source>Portuguese (Portuguese)</source>
+        <translation>Português (Portugees)</translation>
+    </message>
+    <message>
         <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="1020"/>
         <source>Maintainer Name</source>
-        <translation type="unfinished"></translation>
+        <translation>Maker(s)</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="1021"/>
         <source>Maintainer EMail</source>
-        <translation type="unfinished"></translation>
+        <translation>E-mailadres</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="1022"/>
         <source>Create Date</source>
-        <translation type="unfinished"></translation>
+        <translation>Gemaakt op</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="906"/>
         <source>Windows Behaviour</source>
-        <translation type="unfinished"></translation>
+        <translation>Venstergrootte</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="907"/>
         <source>scaleable</source>
-        <translation type="unfinished"></translation>
+        <translation>schaalbaar</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="908"/>
         <source>fixed</source>
-        <translation type="unfinished"></translation>
+        <translation>gefixeerd</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="909"/>
         <source>Minimum Size</source>
-        <translation type="unfinished"></translation>
+        <translation>Minimumgrootte</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="910"/>
         <source>Maximum Size</source>
-        <translation type="unfinished"></translation>
+        <translation>Maximumgrootte</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="911"/>
         <source>Fixed Size</source>
-        <translation type="unfinished"></translation>
+        <translation>Gefixeerde grootte</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="953"/>
         <source>Please select your game table style</source>
-        <translation type="unfinished"></translation>
+        <translation>Selecteer een speeltafelstijl</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="955"/>
         <source>PokerTH game table styles (*.xml)</source>
-        <translation type="unfinished"></translation>
+        <translation>Speeltafelstijlen voor PokerTH (*.xml)</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="968"/>
         <source>Game Table Style Error</source>
-        <translation type="unfinished"></translation>
+        <translation>Speeltafelstijlfout</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="969"/>
         <source>Selected game table style file is already in the list. 
 Please select another one to add!</source>
-        <translation type="unfinished"></translation>
+        <translation>De geselecteerde speeltafelstijl staat al in de lijst.
+Selecteer een andere stijl om die toe te voegen.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="982"/>
         <source>Game Table Style File Error</source>
-        <translation type="unfinished"></translation>
+        <translation>Speeltafelstijlbestandfout</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="983"/>
         <source>Could not load game table style file correctly. 
 Style will not be placed into list!</source>
-        <translation type="unfinished"></translation>
+        <translation>Kan het stijlbestand voor de speeltafel niet laden.
+De stijl wordt niet in de lijst geplaatst.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="1056"/>
         <source>Please select your card deck style</source>
-        <translation type="unfinished"></translation>
+        <translation>Selecteer een speelkaartenstijl</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="1058"/>
         <source>PokerTH card deck styles (*.xml)</source>
-        <translation type="unfinished"></translation>
+        <translation>Speelkaartenstijlen voor PokerTH (*.xml)</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="1071"/>
         <source>Card Deck Style Error</source>
-        <translation type="unfinished"></translation>
+        <translation>Speelkaartenstijlfout</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="1072"/>
         <source>Selected card deck style file is already in the list. 
 Please select another one to add!</source>
-        <translation type="unfinished"></translation>
+        <translation>De geselecteerde speelkaartenstijl staat al in de lijst.
+Selecteer een andere stijl om die toe te voegen.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="1085"/>
         <source>Card Deck Style File Error</source>
-        <translation type="unfinished"></translation>
+        <translation>Speelkaartenstijlbestandfout</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="1086"/>
         <source>Could not load card deck style file correctly. 
 Style will not be placed into list!</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="64"/>
-        <source>Portuguese (Brazilian)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="65"/>
-        <source>Portuguese (Portuguese)</source>
-        <translation type="unfinished"></translation>
+        <translation>Kan het stijlbestand voor de speelkaarten niet laden.
+De stijl wordt niet in de lijst geplaatst.</translation>
     </message>
 </context>
 <context>
@@ -4708,7 +4819,7 @@ Style will not be placed into list!</source>
         <translation>0</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/pokerth/pokerth/ts" line="7471221"/>
+        <location filename="" line="0"/>
         <source>Kick</source>
         <translation type="obsolete">Verwijderen</translation>
     </message>
@@ -4718,7 +4829,7 @@ Style will not be placed into list!</source>
         <translation>Spelers met verbinding</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/src/gui/qt/startnetworkgamedialog.ui" line="88"/>
+        <location filename="" line="0"/>
         <source>Lobby-Chat</source>
         <translation type="obsolete">Lobby - Chat</translation>
     </message>
@@ -4756,7 +4867,7 @@ Style will not be placed into list!</source>
     <message>
         <location filename="../src/gui/qt/startwindow.ui" line="26"/>
         <source>PokerTH 0.6.3 - The Open-Source Texas Holdem Engine</source>
-        <translation>PokertTH 0.6.3 - De Open-Source Texas Holdem-simulator</translation>
+        <translation>PokertTH 0.6.3 - De Open-Source Texas Hold&apos;em-simulator</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow.ui" line="87"/>
@@ -4779,7 +4890,7 @@ Style will not be placed into list!</source>
         <translation>&amp;1 Lokaal spel starten</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/startwindow.ui" line="181"/>
+        <location filename="" line="0"/>
         <source>PokerTH</source>
         <translation type="obsolete">PokerTH</translation>
     </message>
@@ -4789,12 +4900,12 @@ Style will not be placed into list!</source>
         <translation>Netwerkspel</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/startwindow.ui" line="198"/>
+        <location filename="" line="0"/>
         <source>Settings</source>
         <translation type="obsolete">Instellingen</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/startwindow.ui" line="136"/>
+        <location filename="" line="0"/>
         <source>About</source>
         <translation type="obsolete">Info</translation>
     </message>
@@ -4851,18 +4962,18 @@ Style will not be placed into list!</source>
     <message>
         <location filename="../src/gui/qt/startwindow.ui" line="182"/>
         <source>&amp;PokerTH</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;PokerTH</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow.ui" line="199"/>
         <source>&amp;Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Instellingen</translation>
     </message>
 </context>
 <context>
     <name>startWindowImpl</name>
     <message>
-        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="70"/>
+        <location filename="" line="0"/>
         <source>PokerTH %1 - The Open-Source Texas Holdem Engine</source>
         <translation type="obsolete">PokertTH %1 - De Open-Source Texas Holdem-simulator</translation>
     </message>
@@ -5185,7 +5296,7 @@ Kies een andere naam.</translation>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="71"/>
         <source>PokerTH %1</source>
-        <translation type="unfinished">PokerTH %1</translation>
+        <translation>PokerTH %1</translation>
     </message>
 </context>
 <context>
@@ -5214,22 +5325,22 @@ Kies een andere naam.</translation>
 <context>
     <name>waitForServerToStartGameDialog</name>
     <message>
-        <location filename="../../../../../tmp/kde-user/pokerth/pokerth/ts" line="7471221"/>
+        <location filename="" line="0"/>
         <source>Waiting for Server ...</source>
         <translation type="obsolete">Aan het wachten op de server ...</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/pokerth/pokerth/ts" line="7471221"/>
+        <location filename="" line="0"/>
         <source>Cancel</source>
         <translation type="obsolete">Annuleren</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/pokerth/pokerth/ts" line="7471221"/>
+        <location filename="" line="0"/>
         <source>Waiting for the server to start the game ...</source>
         <translation type="obsolete">Aan het wachten tot de server het spel start ...</translation>
     </message>
     <message>
-        <location filename="../../../../../tmp/kde-user/pokerth/pokerth/ts" line="7471221"/>
+        <location filename="" line="0"/>
         <source>Connected Players</source>
         <translation type="obsolete">Spelers met verbinding</translation>
     </message>

@@ -2004,47 +2004,47 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>gameLobbyDialog</name>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog.ui" line="65"/>
+        <location filename="../src/gui/qt/gamelobbydialog.ui" line="63"/>
         <source>Available Players</source>
         <translation>Giocatori Disponibili</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog.ui" line="260"/>
+        <location filename="../src/gui/qt/gamelobbydialog.ui" line="267"/>
         <source>Blinds raise interval: </source>
         <translation>Intervallo per l&apos;aumento dei blind: </translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog.ui" line="281"/>
+        <location filename="../src/gui/qt/gamelobbydialog.ui" line="288"/>
         <source>Blinds raise mode: </source>
         <translation>Modalità di aumento dei blind: </translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog.ui" line="155"/>
+        <location filename="../src/gui/qt/gamelobbydialog.ui" line="156"/>
         <source>Connected Players</source>
         <translation>Giocatori connessi</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog.ui" line="450"/>
+        <location filename="../src/gui/qt/gamelobbydialog.ui" line="441"/>
         <source>Create Game</source>
         <translation>Crea partita</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog.ui" line="163"/>
+        <location filename="../src/gui/qt/gamelobbydialog.ui" line="164"/>
         <source>Fill up with computer opponents</source>
         <translation>Completa con avversari gestiti dal computer</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog.ui" line="242"/>
+        <location filename="../src/gui/qt/gamelobbydialog.ui" line="249"/>
         <source>First small blind: </source>
         <translation>Primo small blind: </translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog.ui" line="86"/>
+        <location filename="../src/gui/qt/gamelobbydialog.ui" line="84"/>
         <source>Game</source>
         <translation>Partita</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog.ui" line="130"/>
+        <location filename="../src/gui/qt/gamelobbydialog.ui" line="128"/>
         <source>Game Info</source>
         <translation>Informazioni partita</translation>
     </message>
@@ -2059,17 +2059,17 @@ p, li { white-space: pre-wrap; }
         <translation type="obsolete">Numero di mani prima di aumentare lo Small Blind:</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog.ui" line="25"/>
+        <location filename="../src/gui/qt/gamelobbydialog.ui" line="26"/>
         <source>Internet Game Lobby</source>
         <translation>Prepartita Internet</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog.ui" line="411"/>
+        <location filename="../src/gui/qt/gamelobbydialog.ui" line="418"/>
         <source>Join any game</source>
         <translation>Unisciti a partita casuale</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog.ui" line="457"/>
+        <location filename="../src/gui/qt/gamelobbydialog.ui" line="448"/>
         <source>Join Game</source>
         <translation>Unisciti alla partita</translation>
     </message>
@@ -2079,22 +2079,22 @@ p, li { white-space: pre-wrap; }
         <translation type="obsolete">Espelli</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog.ui" line="195"/>
+        <location filename="../src/gui/qt/gamelobbydialog.ui" line="202"/>
         <source>Kick Player</source>
         <translation>Espelli giocatore</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog.ui" line="391"/>
+        <location filename="../src/gui/qt/gamelobbydialog.ui" line="398"/>
         <source>Leave Game</source>
         <translation>Abbandona partita</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog.ui" line="466"/>
+        <location filename="../src/gui/qt/gamelobbydialog.ui" line="463"/>
         <source>Lobby-Chat</source>
         <translation>Chat prepartita</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog.ui" line="308"/>
+        <location filename="../src/gui/qt/gamelobbydialog.ui" line="315"/>
         <source>Manual blinds list:</source>
         <translation>Lista blind manuali:</translation>
     </message>
@@ -2104,17 +2104,17 @@ p, li { white-space: pre-wrap; }
         <translation type="obsolete">Numero massimo di giocatori:</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog.ui" line="206"/>
+        <location filename="../src/gui/qt/gamelobbydialog.ui" line="213"/>
         <source>Maximum number of players: </source>
         <translation>Numero massimo di giocatori: </translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog.ui" line="91"/>
+        <location filename="../src/gui/qt/gamelobbydialog.ui" line="89"/>
         <source>Players</source>
         <translation>Giocatori</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog.ui" line="101"/>
+        <location filename="../src/gui/qt/gamelobbydialog.ui" line="99"/>
         <source>Private</source>
         <translation>Privato</translation>
     </message>
@@ -2129,17 +2129,17 @@ p, li { white-space: pre-wrap; }
         <translation type="obsolete">Contante iniziale:</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog.ui" line="224"/>
+        <location filename="../src/gui/qt/gamelobbydialog.ui" line="231"/>
         <source>Start Cash: </source>
         <translation>Contante iniziale: </translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog.ui" line="188"/>
+        <location filename="../src/gui/qt/gamelobbydialog.ui" line="195"/>
         <source>Start Game</source>
         <translation>Inizia partita</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog.ui" line="96"/>
+        <location filename="../src/gui/qt/gamelobbydialog.ui" line="94"/>
         <source>State</source>
         <translation>Stato</translation>
     </message>
@@ -2149,12 +2149,12 @@ p, li { white-space: pre-wrap; }
         <translation type="obsolete">Tempo limite per l&apos;azione del giocatore (in secondi):</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog.ui" line="335"/>
+        <location filename="../src/gui/qt/gamelobbydialog.ui" line="342"/>
         <source>Timeout for player action (sec): </source>
         <translation>Tempo limite per l&apos;azione dei giocatori (sec): </translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog.ui" line="523"/>
+        <location filename="../src/gui/qt/gamelobbydialog.ui" line="520"/>
         <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }

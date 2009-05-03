@@ -826,122 +826,122 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>gameLobbyDialog</name>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog.ui" line="65"/>
+        <location filename="../src/gui/qt/gamelobbydialog.ui" line="63"/>
         <source>Available Players</source>
         <translation>在线的玩家</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog.ui" line="260"/>
+        <location filename="../src/gui/qt/gamelobbydialog.ui" line="267"/>
         <source>Blinds raise interval: </source>
         <translation>盲注加注间隔：</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog.ui" line="281"/>
+        <location filename="../src/gui/qt/gamelobbydialog.ui" line="288"/>
         <source>Blinds raise mode: </source>
         <translation>盲注加注模式：</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog.ui" line="155"/>
+        <location filename="../src/gui/qt/gamelobbydialog.ui" line="156"/>
         <source>Connected Players</source>
         <translation>已连接的玩家</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog.ui" line="450"/>
+        <location filename="../src/gui/qt/gamelobbydialog.ui" line="441"/>
         <source>Create Game</source>
         <translation>创建游戏</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog.ui" line="163"/>
+        <location filename="../src/gui/qt/gamelobbydialog.ui" line="164"/>
         <source>Fill up with computer opponents</source>
         <translation>用电脑对手填补空额</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog.ui" line="242"/>
+        <location filename="../src/gui/qt/gamelobbydialog.ui" line="249"/>
         <source>First small blind: </source>
         <translation>第一轮小盲注:</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog.ui" line="86"/>
+        <location filename="../src/gui/qt/gamelobbydialog.ui" line="84"/>
         <source>Game</source>
         <translation>游戏</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog.ui" line="130"/>
+        <location filename="../src/gui/qt/gamelobbydialog.ui" line="128"/>
         <source>Game Info</source>
         <translation>游戏信息</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog.ui" line="25"/>
+        <location filename="../src/gui/qt/gamelobbydialog.ui" line="26"/>
         <source>Internet Game Lobby</source>
         <translation>因特网游戏大厅</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog.ui" line="411"/>
+        <location filename="../src/gui/qt/gamelobbydialog.ui" line="418"/>
         <source>Join any game</source>
         <translation>加入任何游戏</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog.ui" line="457"/>
+        <location filename="../src/gui/qt/gamelobbydialog.ui" line="448"/>
         <source>Join Game</source>
         <translation>加入游戏</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog.ui" line="195"/>
+        <location filename="../src/gui/qt/gamelobbydialog.ui" line="202"/>
         <source>Kick Player</source>
         <translation>踢出玩家</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog.ui" line="391"/>
+        <location filename="../src/gui/qt/gamelobbydialog.ui" line="398"/>
         <source>Leave Game</source>
         <translation>离开游戏</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog.ui" line="466"/>
+        <location filename="../src/gui/qt/gamelobbydialog.ui" line="463"/>
         <source>Lobby-Chat</source>
         <translation>大厅聊天</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog.ui" line="308"/>
+        <location filename="../src/gui/qt/gamelobbydialog.ui" line="315"/>
         <source>Manual blinds list:</source>
         <translation>手动盲注列表：</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog.ui" line="206"/>
+        <location filename="../src/gui/qt/gamelobbydialog.ui" line="213"/>
         <source>Maximum number of players: </source>
         <translation>玩家数上限：</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog.ui" line="91"/>
+        <location filename="../src/gui/qt/gamelobbydialog.ui" line="89"/>
         <source>Players</source>
         <translation>玩家</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog.ui" line="101"/>
+        <location filename="../src/gui/qt/gamelobbydialog.ui" line="99"/>
         <source>Private</source>
         <translation>私人</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog.ui" line="224"/>
+        <location filename="../src/gui/qt/gamelobbydialog.ui" line="231"/>
         <source>Start Cash: </source>
         <translation>入场金额：</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog.ui" line="188"/>
+        <location filename="../src/gui/qt/gamelobbydialog.ui" line="195"/>
         <source>Start Game</source>
         <translation>开始游戏</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog.ui" line="96"/>
+        <location filename="../src/gui/qt/gamelobbydialog.ui" line="94"/>
         <source>State</source>
         <translation>状态</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog.ui" line="335"/>
+        <location filename="../src/gui/qt/gamelobbydialog.ui" line="342"/>
         <source>Timeout for player action (sec): </source>
         <translation>玩家操作超时：</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog.ui" line="523"/>
+        <location filename="../src/gui/qt/gamelobbydialog.ui" line="520"/>
         <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }

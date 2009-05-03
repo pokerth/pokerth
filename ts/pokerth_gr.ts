@@ -727,122 +727,122 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>gameLobbyDialog</name>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog.ui" line="25"/>
+        <location filename="../src/gui/qt/gamelobbydialog.ui" line="26"/>
         <source>Internet Game Lobby</source>
         <translation>Internet Game Lobby</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog.ui" line="65"/>
+        <location filename="../src/gui/qt/gamelobbydialog.ui" line="63"/>
         <source>Available Players</source>
         <translation>Διαθέσιμοι Παίχτες</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog.ui" line="86"/>
+        <location filename="../src/gui/qt/gamelobbydialog.ui" line="84"/>
         <source>Game</source>
         <translation>Παιχνίδι</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog.ui" line="91"/>
+        <location filename="../src/gui/qt/gamelobbydialog.ui" line="89"/>
         <source>Players</source>
         <translation>Παίχτες</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog.ui" line="96"/>
+        <location filename="../src/gui/qt/gamelobbydialog.ui" line="94"/>
         <source>State</source>
         <translation>Κατάσταση</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog.ui" line="101"/>
+        <location filename="../src/gui/qt/gamelobbydialog.ui" line="99"/>
         <source>Private</source>
         <translation>Πριβέ</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog.ui" line="130"/>
+        <location filename="../src/gui/qt/gamelobbydialog.ui" line="128"/>
         <source>Game Info</source>
         <translation>Πληροφορίες Παιχνιδιού</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog.ui" line="155"/>
+        <location filename="../src/gui/qt/gamelobbydialog.ui" line="156"/>
         <source>Connected Players</source>
         <translation>Συνδεδεμένοι Παίχτες</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog.ui" line="163"/>
+        <location filename="../src/gui/qt/gamelobbydialog.ui" line="164"/>
         <source>Fill up with computer opponents</source>
         <translation>Συμπλήρωση με παίχτες-υπολογιστή</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog.ui" line="188"/>
+        <location filename="../src/gui/qt/gamelobbydialog.ui" line="195"/>
         <source>Start Game</source>
         <translation>Έναρξη Παιχνιδιού</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog.ui" line="195"/>
+        <location filename="../src/gui/qt/gamelobbydialog.ui" line="202"/>
         <source>Kick Player</source>
         <translation>&quot;Διώξε&quot; τον Παίχτη</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog.ui" line="206"/>
+        <location filename="../src/gui/qt/gamelobbydialog.ui" line="213"/>
         <source>Maximum number of players: </source>
         <translation>Μέγιστος αριθμός παιχτών: </translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog.ui" line="224"/>
+        <location filename="../src/gui/qt/gamelobbydialog.ui" line="231"/>
         <source>Start Cash: </source>
         <translation>Αρχικό Ποσό: </translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog.ui" line="242"/>
+        <location filename="../src/gui/qt/gamelobbydialog.ui" line="249"/>
         <source>First small blind: </source>
         <translation>Αρχικό blind: </translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog.ui" line="260"/>
+        <location filename="../src/gui/qt/gamelobbydialog.ui" line="267"/>
         <source>Blinds raise interval: </source>
         <translation>Αύξηση blind κάθε: </translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog.ui" line="281"/>
+        <location filename="../src/gui/qt/gamelobbydialog.ui" line="288"/>
         <source>Blinds raise mode: </source>
         <translation>Τύπος Αύξησης blind: </translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog.ui" line="308"/>
+        <location filename="../src/gui/qt/gamelobbydialog.ui" line="315"/>
         <source>Manual blinds list:</source>
         <translation>Λίστα Χειροκίνητων Blinds:</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog.ui" line="335"/>
+        <location filename="../src/gui/qt/gamelobbydialog.ui" line="342"/>
         <source>Timeout for player action (sec): </source>
         <translation>Χρόνος αναμονής για τον παίχτη(sec): </translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog.ui" line="391"/>
+        <location filename="../src/gui/qt/gamelobbydialog.ui" line="398"/>
         <source>Leave Game</source>
         <translation>Αποχώρηση απ&apos; το Παιχνίδι</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog.ui" line="411"/>
+        <location filename="../src/gui/qt/gamelobbydialog.ui" line="418"/>
         <source>Join any game</source>
         <translation>Είσοδος σε τυχαίο παιχνίδι</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog.ui" line="450"/>
+        <location filename="../src/gui/qt/gamelobbydialog.ui" line="441"/>
         <source>Create Game</source>
         <translation>Δημιουργία Παιχνιδιού</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog.ui" line="457"/>
+        <location filename="../src/gui/qt/gamelobbydialog.ui" line="448"/>
         <source>Join Game</source>
         <translation>Είσοδος στο Παιχνίδι</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog.ui" line="466"/>
+        <location filename="../src/gui/qt/gamelobbydialog.ui" line="463"/>
         <source>Lobby-Chat</source>
         <translation>Lobby-Chat</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog.ui" line="523"/>
+        <location filename="../src/gui/qt/gamelobbydialog.ui" line="520"/>
         <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
