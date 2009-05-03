@@ -1,3 +1,10 @@
+2009-05-03 version 0.7:
+- enabled sorting of private/public games in the internet game lobby
+- size of the lobby dialog was decreased for netbook resolution 1024x600
+- default action pictures were adjusted for better readable card index
+- portuguese (portuguese) translation was added
+- bugfix: bet input lenght was adjusted
+
 2009-04-25 version 0.7-beta2:
 - Fixed problems with paths which contain special (non-ascii) characters
 - Timeout animation moved so it no longer hides sets
