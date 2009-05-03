@@ -349,7 +349,7 @@ win32 {
 
 unix {
     # workaround for problems with boost_filesystem exceptions
-    #QMAKE_LFLAGS += -no_dead_strip_inits_and_terms
+    QMAKE_LFLAGS += -no_dead_strip_inits_and_terms
 }
 
 unix:!mac { 
