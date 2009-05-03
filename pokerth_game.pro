@@ -342,10 +342,16 @@ win32 {
         -lwldap32
     RC_FILE = pokerth.rc
 }
-!win32:DEPENDPATH += src/net/linux/ \
-    src/core/linux
-unix:# workaround for problems with boost_filesystem exceptions
-#QMAKE_LFLAGS += -no_dead_strip_inits_and_terms
+
+!win32 {
+    DEPENDPATH += src/net/linux/ src/core/linux
+}
+
+unix {
+    # workaround for problems with boost_filesystem exceptions
+    #QMAKE_LFLAGS += -no_dead_strip_inits_and_terms
+}
+
 unix:!mac { 
     # #### My release static build options
     # QMAKE_CXXFLAGS += -ffunction-sections -fdata-sections
