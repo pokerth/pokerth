@@ -39,6 +39,7 @@ using namespace std;
 ServerManager::ServerManager(GuiInterface &gui, ConfigFile *config, AvatarManager &avatarManager)
 : m_gui(gui), m_playerConfig(config), m_avatarManager(avatarManager)
 {
+	m_ioService.reset(new boost::asio::io_service());
 }
 
 ServerManager::~ServerManager()
@@ -48,19 +49,19 @@ ServerManager::~ServerManager()
 void
 ServerManager::Init(unsigned serverPort, bool ipv6, ServerNetworkMode mode, const string &pwd, const string &logDir, boost::shared_ptr<IrcThread> ircThread)
 {
-	m_lobbyThread.reset(new ServerLobbyThread(GetGui(), m_playerConfig, m_avatarManager));
+	m_lobbyThread.reset(new ServerLobbyThread(GetGui(), m_playerConfig, m_avatarManager, m_ioService));
 	GetLobbyThread().Init(pwd, logDir);
 
 	if (mode & NETWORK_MODE_TCP)
 	{
-		boost::shared_ptr<ServerAcceptThread> tcpAcceptThread(new ServerAcceptThread(GetGui()));
-		tcpAcceptThread->Init(serverPort, ipv6, false, pwd, logDir, m_lobbyThread);
+		boost::shared_ptr<ServerAcceptThread> tcpAcceptThread(new ServerAcceptThread(GetGui(), m_ioService));
+		tcpAcceptThread->Listen(serverPort, ipv6, false, pwd, logDir, m_lobbyThread);
 		m_acceptThreadPool.push_back(tcpAcceptThread);
 	}
 	if (mode & NETWORK_MODE_SCTP)
 	{
-		boost::shared_ptr<ServerAcceptThread> sctpAcceptThread(new ServerAcceptThread(GetGui()));
-		sctpAcceptThread->Init(serverPort, ipv6, true, pwd, logDir, m_lobbyThread);
+		boost::shared_ptr<ServerAcceptThread> sctpAcceptThread(new ServerAcceptThread(GetGui(), m_ioService));
+		sctpAcceptThread->Listen(serverPort, ipv6, true, pwd, logDir, m_lobbyThread);
 		m_acceptThreadPool.push_back(sctpAcceptThread);
 	}
 	m_ircThread = ircThread;
@@ -269,7 +270,7 @@ ServerManager::RunAll()
 	if (m_ircThread)
 		m_ircThread->Run();
 	GetLobbyThread().Run();
-	for_each(m_acceptThreadPool.begin(), m_acceptThreadPool.end(), boost::mem_fn(&ServerAcceptThread::Run));
+//	for_each(m_acceptThreadPool.begin(), m_acceptThreadPool.end(), boost::mem_fn(&ServerAcceptThread::Run));
 }
 
 void
@@ -298,7 +299,7 @@ ServerManager::SignalTerminationAll()
 	if (m_ircThread)
 		m_ircThread->SignalTermination();
 	GetLobbyThread().SignalTermination();
-	for_each(m_acceptThreadPool.begin(), m_acceptThreadPool.end(), boost::mem_fn(&ServerAcceptThread::SignalTermination));
+//	for_each(m_acceptThreadPool.begin(), m_acceptThreadPool.end(), boost::mem_fn(&ServerAcceptThread::SignalTermination));
 }
 
 bool
@@ -307,16 +308,15 @@ ServerManager::JoinAll(bool wait)
 	if (m_ircThread)
 		m_ircThread->Join(wait ? NET_ADMIN_IRC_TERMINATE_TIMEOUT_MSEC : 0);
 	bool lobbyThreadTerminated = GetLobbyThread().Join(wait ? NET_LOBBY_THREAD_TERMINATE_TIMEOUT_MSEC : 0);
-	bool allAcceptThreadsTerminated = true;
-	AcceptThreadList::iterator i = m_acceptThreadPool.begin();
+/*	AcceptThreadList::iterator i = m_acceptThreadPool.begin();
 	AcceptThreadList::iterator end = m_acceptThreadPool.end();
 	while (i != end)
 	{
 		if (!(*i)->Join(wait ? NET_ACCEPT_THREAD_TERMINATE_TIMEOUT_MSEC : 0))
 			allAcceptThreadsTerminated = false;
 		++i;
-	}
-	return lobbyThreadTerminated || allAcceptThreadsTerminated;
+	}*/
+	return lobbyThreadTerminated;
 }
 
 ServerLobbyThread &

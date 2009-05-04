@@ -20,26 +20,23 @@
 #include <net/servercontext.h>
 
 ServerContext::ServerContext()
-: m_sockfd(INVALID_SOCKET), m_protocol(0), m_addrFamily(AF_INET), m_serverPort(0)
+: m_protocol(0), m_addrFamily(AF_INET), m_serverPort(0)
 {
-	bzero(&m_serverSockaddr, sizeof(m_serverSockaddr));
 }
 
 ServerContext::~ServerContext()
 {
-	if (m_sockfd != INVALID_SOCKET)
-		CLOSESOCKET(m_sockfd);
 }
 
 SOCKET
 ServerContext::GetSocket() const
 {
-	return m_sockfd;
+	return m_sock;
 }
 
 void
-ServerContext::SetSocket(SOCKET sockfd)
+ServerContext::SetSocket(SOCKET sock)
 {
-	m_sockfd = sockfd;
+	m_sock = sock;
 }
 

@@ -20,13 +20,12 @@
 #include <net/sessiondata.h>
 #include <net/senderinterface.h>
 
-SessionData::SessionData(SOCKET sockfd, SessionId id, boost::shared_ptr<SenderInterface> sender, SessionDataCallback &cb, boost::asio::io_service &ioService)
-: m_id(id), m_state(SessionData::Init), m_readyFlag(false),
+SessionData::SessionData(boost::shared_ptr<boost::asio::ip::tcp::socket> sock, SessionId id,
+						 boost::shared_ptr<SenderInterface> sender, SessionDataCallback &cb)
+: m_socket(sock), m_id(id), m_gameId(0), m_state(SessionData::Init), m_readyFlag(false),
   m_wantsLobbyMsg(true), m_activityTimeoutNoticeSent(false), m_callback(cb),
   m_maxNumPlayers(0)
 {
-	m_socket.reset(new boost::asio::ip::tcp::socket(
-		ioService, boost::asio::ip::tcp::v6(), sockfd));
 	m_sender = sender;
 }
 
@@ -40,6 +39,20 @@ SessionData::GetId() const
 {
 	// const value - no mutex needed.
 	return m_id;
+}
+
+unsigned
+SessionData::GetGameId() const
+{
+	boost::mutex::scoped_lock lock(m_dataMutex);
+	return m_gameId;
+}
+
+void
+SessionData::SetGameId(unsigned gameId)
+{
+	boost::mutex::scoped_lock lock(m_dataMutex);
+	m_gameId = gameId;
 }
 
 SessionData::State

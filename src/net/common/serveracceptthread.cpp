@@ -17,28 +17,22 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#include <net/socket_helper.h>
 #include <net/serveracceptthread.h>
-#include <net/servercontext.h>
-#include <net/ircthread.h>
-#include <net/connectdata.h>
 #include <net/serverlobbythread.h>
 #include <net/serverexception.h>
 #include <net/socket_msg.h>
-#include <net/socket_startup.h>
 #include <core/loghelper.h>
 
-#include <boost/algorithm/string/predicate.hpp>
 
-#define ACCEPT_TIMEOUT_MSEC			50
 #define NET_SERVER_LISTEN_BACKLOG	5
 
 using namespace std;
+using boost::asio::ip::tcp;
 
-ServerAcceptThread::ServerAcceptThread(ServerCallback &serverCallback)
-: m_serverCallback(serverCallback)
+ServerAcceptThread::ServerAcceptThread(ServerCallback &serverCallback, boost::shared_ptr<boost::asio::io_service> ioService)
+: m_ioService(ioService), m_serverCallback(serverCallback)
 {
-	m_context.reset(new ServerContext);
+	m_acceptor.reset(new tcp::acceptor(*m_ioService));
 }
 
 ServerAcceptThread::~ServerAcceptThread()
@@ -46,190 +40,91 @@ ServerAcceptThread::~ServerAcceptThread()
 }
 
 void
-ServerAcceptThread::Init(unsigned serverPort, bool ipv6, bool sctp, const string &pwd, const string &logDir, boost::shared_ptr<ServerLobbyThread> lobbyThread)
+ServerAcceptThread::Listen(unsigned serverPort, bool ipv6, bool sctp, const string &pwd, const string &logDir, boost::shared_ptr<ServerLobbyThread> lobbyThread)
 {
-	if (IsRunning())
-	{
-		assert(false);
-		return;
-	}
-
-	ServerContext &context = GetContext();
-
-	context.SetProtocol(sctp ? SOCKET_IPPROTO_SCTP : 0);
-	// If a "dual stack" is available, the pokerth server always uses ipv6.
-	// In this case, ipv4 requests will be mapped to ipv6.
-	context.SetAddrFamily(socket_has_dual_stack() ? AF_INET6 : (ipv6 ? AF_INET6 : AF_INET));
-	context.SetServerPort(serverPort);
-
 	m_lobbyThread = lobbyThread;
-	GetLobbyThread().Init(pwd, logDir);
+
+	try
+	{
+		InternalListen(serverPort, ipv6, sctp);
+	}
+	catch (const PokerTHException &e)
+	{
+		LOG_ERROR(e.what());
+		GetCallback().SignalNetServerError(e.GetErrorId(), e.GetOsErrorCode());
+	}
+	catch (...)
+	{
+		// This is probably an asio exception. Assume that bind failed,
+		// which is the most frequent case.
+		LOG_ERROR("Cannot bind/listen on TCP port.");
+		GetCallback().SignalNetServerError(ERR_SOCK_BIND_FAILED, 0);
+	}
+}
+
+void
+ServerAcceptThread::InternalListen(unsigned serverPort, bool ipv6, bool sctp)
+{
+	if (serverPort < 1024)
+		throw ServerException(__FILE__, __LINE__, ERR_SOCK_INVALID_PORT, 0);
+
+	// TODO consider sctp
+	// Prepare Listen.
+	if (ipv6)
+		m_endpoint.reset(new tcp::endpoint(tcp::v6(), serverPort));
+	else
+		m_endpoint.reset(new tcp::endpoint(tcp::v4(), serverPort));
+
+	// TODO use non blocking I/O
+	//boost::asio::socket_base::non_blocking_io command(true);
+	//m_acceptor->io_control(command);
+	m_acceptor->open(m_endpoint->protocol());
+	m_acceptor->set_option(tcp::acceptor::reuse_address(true));
+	if (ipv6) // In IPv6 mode: Be compatible with IPv4.
+		m_acceptor->set_option(boost::asio::ip::v6_only(false));
+	m_acceptor->bind(*m_endpoint);
+	m_acceptor->listen(NET_SERVER_LISTEN_BACKLOG);
+
+	// Start first asynchronous Accept.
+	boost::shared_ptr<tcp::socket> newSocket(new tcp::socket(*m_ioService));
+	m_acceptor->async_accept(
+		*newSocket,
+		boost::bind(&ServerAcceptThread::HandleAccept, this, newSocket,
+			boost::asio::placeholders::error)
+		);
+}
+
+void
+ServerAcceptThread::HandleAccept(boost::shared_ptr<boost::asio::ip::tcp::socket> acceptedSocket,
+								 const boost::system::error_code& error)
+{
+	if (!error)
+	{
+		boost::asio::socket_base::non_blocking_io command(true);
+		acceptedSocket->io_control(command);
+		acceptedSocket->set_option(tcp::no_delay(true));
+		acceptedSocket->set_option(boost::asio::socket_base::keep_alive(true));
+		GetLobbyThread().AddConnection(acceptedSocket);
+
+		boost::shared_ptr<tcp::socket> newSocket(new tcp::socket(*m_ioService));
+		m_acceptor->async_accept(
+			*newSocket,
+			boost::bind(&ServerAcceptThread::HandleAccept, this, newSocket,
+				boost::asio::placeholders::error)
+			);
+	}
+	else
+	{
+		// Accept failed. This is a fatal error.
+		LOG_ERROR("In boost::asio handler: Accept failed.");
+		GetCallback().SignalNetServerError(ERR_SOCK_ACCEPT_FAILED, 0);
+	}
 }
 
 ServerCallback &
 ServerAcceptThread::GetCallback()
 {
 	return m_serverCallback;
-}
-
-void
-ServerAcceptThread::Main()
-{
-	try
-	{
-		Listen();
-
-		while (!ShouldTerminate())
-		{
-			// The main server thread is simple. It only accepts connections.
-			AcceptLoop();
-		}
-	} catch (const PokerTHException &e)
-	{
-		GetCallback().SignalNetServerError(e.GetErrorId(), e.GetOsErrorCode());
-		LOG_ERROR(e.what());
-	}
-}
-
-void
-ServerAcceptThread::Listen()
-{
-	ServerContext &context = GetContext();
-
-	if (context.GetServerPort() < 1024)
-		throw ServerException(__FILE__, __LINE__, ERR_SOCK_INVALID_PORT, 0);
-
-#ifdef _WIN32
-	context.SetSocket(WSASocket(context.GetAddrFamily(), SOCK_STREAM, context.GetProtocol(), 0, 0, WSA_FLAG_OVERLAPPED));
-#else
-	context.SetSocket(socket(context.GetAddrFamily(), SOCK_STREAM, context.GetProtocol()));
-#endif
-
-	if (!IS_VALID_SOCKET(context.GetSocket()))
-		throw ServerException(__FILE__, __LINE__, ERR_SOCK_CREATION_FAILED, SOCKET_ERRNO());
-
-	unsigned long mode = 1;
-	if (IOCTLSOCKET(context.GetSocket(), FIONBIO, &mode) == SOCKET_ERROR)
-		throw ServerException(__FILE__, __LINE__, ERR_SOCK_CREATION_FAILED, SOCKET_ERRNO());
-
-	// The following three calls are optional. If they fail, we don't care.
-	int reuse = 1;
-	setsockopt(context.GetSocket(), SOL_SOCKET, SO_REUSEADDR, (char *)&reuse, sizeof(reuse));
-	int nodelay = 1;
-	setsockopt(context.GetSocket(), SOL_SOCKET, TCP_NODELAY, (char *)&nodelay, sizeof(nodelay));
-	// Enable dual-stack socket on Windows Vista.
-	if (context.GetAddrFamily() == AF_INET6)
-	{
-		int ipv6only = 0;
-		setsockopt(context.GetSocket(), IPPROTO_IPV6, IPV6_V6ONLY, (char *)&ipv6only, sizeof(ipv6only));
-	}
-
-	context.GetServerSockaddr()->ss_family = context.GetAddrFamily();
-
-	const char *localAddr = (context.GetAddrFamily() == AF_INET6) ? "::0" : "0.0.0.0";
-	if (!socket_string_to_addr(
-			localAddr,
-			context.GetAddrFamily(),
-			(struct sockaddr *)context.GetServerSockaddr(),
-			context.GetServerSockaddrSize()))
-	{
-		throw ServerException(__FILE__, __LINE__, ERR_SOCK_SET_ADDR_FAILED, 0);
-	}
-	if (!socket_set_port(
-			context.GetServerPort(),
-			context.GetAddrFamily(),
-			(struct sockaddr *)context.GetServerSockaddr(),
-			context.GetServerSockaddrSize()))
-	{
-		throw ServerException(__FILE__, __LINE__, ERR_SOCK_SET_PORT_FAILED, 0);
-	}
-
-	if (!IS_VALID_BIND(bind(
-			context.GetSocket(),
-			(const struct sockaddr *)context.GetServerSockaddr(),
-			context.GetServerSockaddrSize())))
-	{
-		throw ServerException(__FILE__, __LINE__, ERR_SOCK_BIND_FAILED, SOCKET_ERRNO());
-	}
-
-	if (!IS_VALID_LISTEN(listen(context.GetSocket(), NET_SERVER_LISTEN_BACKLOG)))
-	{
-		throw ServerException(__FILE__, __LINE__, ERR_SOCK_LISTEN_FAILED, SOCKET_ERRNO());
-	}
-}
-
-void
-ServerAcceptThread::AcceptLoop()
-{
-	ServerContext &context = GetContext();
-
-	fd_set readSet;
-	struct timeval timeout;
-
-	FD_ZERO(&readSet);
-	FD_SET(context.GetSocket(), &readSet);
-
-	timeout.tv_sec  = 0;
-	timeout.tv_usec = ACCEPT_TIMEOUT_MSEC * 1000;
-	int selectResult = select(context.GetSocket() + 1, &readSet, NULL, NULL, &timeout);
-	if (!IS_VALID_SELECT(selectResult))
-	{
-		throw ServerException(__FILE__, __LINE__, ERR_SOCK_SELECT_FAILED, SOCKET_ERRNO());
-	}
-	if (selectResult > 0) // accept is possible
-	{
-		boost::shared_ptr<ConnectData> tmpData(new ConnectData);
-		tmpData->SetSocket(accept(context.GetSocket(), NULL, NULL));
-
-		if (!IS_VALID_SOCKET(tmpData->GetSocket()))
-		{
-			throw ServerException(__FILE__, __LINE__, ERR_SOCK_ACCEPT_FAILED, SOCKET_ERRNO());
-		}
-		unsigned long mode = 1;
-		if (IOCTLSOCKET(tmpData->GetSocket(), FIONBIO, &mode) == SOCKET_ERROR)
-		{
-			throw ServerException(__FILE__, __LINE__, ERR_SOCK_CREATION_FAILED, SOCKET_ERRNO());
-		}
-
-		// Retrieve peer address.
-		socklen_t addrLen = (socklen_t)context.GetServerSockaddrSize();
-		if (getpeername(tmpData->GetSocket(), tmpData->GetPeerAddr(), &addrLen) != 0)
-		{
-			// Something went wrong with the connection, just continue (socket will be closed).
-			LOG_ERROR("getpeername() failed: " << SOCKET_ERRNO());
-		}
-		else
-		{
-			// Set the size of the peer address.
-			tmpData->SetPeerAddrSize(addrLen);
-
-			// Optional calls - don't check return value.
-			// Enable keepalive - won't be of much use but better than nothing.
-			int keepalive = 1;
-			setsockopt(tmpData->GetSocket(), SOL_SOCKET, SO_KEEPALIVE, (char *)&keepalive, sizeof(keepalive));
-
-	#ifdef SO_NOSIGPIPE
-			int nosigpipe = 1;
-			setsockopt(tmpData->GetSocket(), SOL_SOCKET, SO_NOSIGPIPE, (char *)&nosigpipe, sizeof(nosigpipe));
-	#endif
-
-			GetLobbyThread().AddConnection(tmpData);
-		}
-	}
-}
-
-const ServerContext &
-ServerAcceptThread::GetContext() const
-{
-	assert(m_context.get());
-	return *m_context;
-}
-
-ServerContext &
-ServerAcceptThread::GetContext()
-{
-	assert(m_context.get());
-	return *m_context;
 }
 
 ServerLobbyThread &

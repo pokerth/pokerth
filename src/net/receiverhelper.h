@@ -39,8 +39,7 @@ public:
 
 	boost::shared_ptr<NetPacket> Recv(SOCKET sock, ReceiveBuffer &buf);
 
-protected:
-	void InternalGetPackets(ReceiveBuffer &buf);
+	void ScanPackets(ReceiveBuffer &buf);
 };
 
 #endif

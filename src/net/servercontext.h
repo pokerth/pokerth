@@ -32,7 +32,7 @@ public:
 
 	virtual SOCKET GetSocket() const;
 
-	void SetSocket(SOCKET sockfd);
+	void SetSocket(SOCKET sock);
 
 	int GetProtocol() const
 	{return m_protocol;}
@@ -46,20 +46,12 @@ public:
 	{return m_serverPort;}
 	void SetServerPort(unsigned serverPort)
 	{m_serverPort = serverPort;}
-	const sockaddr_storage *GetServerSockaddr() const
-	{return &m_serverSockaddr;}
-	sockaddr_storage *GetServerSockaddr()
-	{return &m_serverSockaddr;}
-
-	int GetServerSockaddrSize() const
-	{return m_addrFamily == AF_INET6 ? sizeof(sockaddr_in6) : sizeof(sockaddr_in);}
 
 private:
-	SOCKET				m_sockfd;
+	SOCKET				m_sock;
 	int					m_protocol;
 	int					m_addrFamily;
 	unsigned			m_serverPort;
-	sockaddr_storage	m_serverSockaddr;
 };
 
 #endif

@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2007 by Lothar May                                      *
+ *   Copyright (C) 2009 by Lothar May                                      *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -16,45 +16,48 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-/* Network server thread to accept connections. */
+/* A manager for asynchronous software timer. */
 
-#ifndef _SERVERACCEPTTHREAD_H_
-#define _SERVERACCEPTTHREAD_H_
+#ifndef _TIMERMANAGER_H_
+#define _TIMERMANAGER_H_
 
-#include <boost/asio.hpp>
-#include <game_defs.h>
-#include <gui/guiinterface.h>
-#include <string>
+#include <map>
+#include <boost/thread.hpp>
+#include <boost/function.hpp>
+#include <third_party/boost/timers.hpp>
 
-class ServerLobbyThread;
-
-class ServerAcceptThread
+class TimerManager
 {
 public:
-	ServerAcceptThread(ServerCallback &serverCallback, boost::shared_ptr<boost::asio::io_service> ioService);
-	virtual ~ServerAcceptThread();
+	TimerManager();
 
-	// Set the parameters.
-	void Listen(unsigned serverPort, bool ipv6, bool sctp, const std::string &pwd, const std::string &logDir,
-		boost::shared_ptr<ServerLobbyThread> lobbyThread);
+	unsigned RegisterTimer(unsigned timeoutMsec, boost::function<void()> timerHandler, bool timerRepeat = false);
+	bool UnregisterTimer(unsigned timerId);
+
+	void Process();
 
 protected:
 
-	void InternalListen(unsigned serverPort, bool ipv6, bool sctp);
-	void HandleAccept(boost::shared_ptr<boost::asio::ip::tcp::socket> acceptedSocket,
-		const boost::system::error_code& error);
+	struct TimerData
+	{
+		TimerData(unsigned timerId, unsigned timeoutMsec, boost::function<void()> timerHandler, bool timerRepeat)
+		: id(timerId), msec(timeoutMsec), handler(timerHandler), repeat(timerRepeat) {}
+		unsigned id;
+		unsigned msec;
+		boost::function<void()> handler;
+		bool repeat;
+	};
 
-	ServerCallback &GetCallback();
+	typedef std::multimap<unsigned, TimerData> TimerMap;
 
-	ServerLobbyThread &GetLobbyThread();
+	unsigned GetNextTimerId();
 
 private:
-	boost::shared_ptr<boost::asio::io_service> m_ioService;
-	boost::shared_ptr<boost::asio::ip::tcp::acceptor> m_acceptor;
-	boost::shared_ptr<boost::asio::ip::tcp::endpoint> m_endpoint;
-	ServerCallback &m_serverCallback;
+	mutable boost::recursive_mutex	m_timerMutex;
+	TimerMap						m_timerMap;
+	unsigned						m_curTimerId;
 
-	boost::shared_ptr<ServerLobbyThread> m_lobbyThread;
+	boost::timers::portable::microsec_timer m_softwareTimer;
 };
 
 #endif

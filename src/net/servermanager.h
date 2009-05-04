@@ -21,6 +21,7 @@
 #ifndef _SERVERMANAGER_H_
 #define _SERVERMANAGER_H_
 
+#include <boost/asio.hpp>
 #include <game_defs.h>
 
 #include <gui/guiinterface.h>
@@ -77,6 +78,7 @@ private:
 
 	std::string m_ircNick;
 
+	boost::shared_ptr<boost::asio::io_service> m_ioService;
 	boost::shared_ptr<ServerLobbyThread> m_lobbyThread;
 	boost::shared_ptr<IrcThread> m_ircThread;
 	boost::timers::portable::microsec_timer m_ircRestartTimer;

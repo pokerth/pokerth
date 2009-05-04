@@ -149,7 +149,22 @@ win32 {
         LIBS += -llibboost_program_options-mgw43-mt-1_38
     }
 
-    LIBS += -lgdi32 -lcomdlg32 -loleaut32 -limm32 -lwinmm -lwinspool -lole32 -luuid -luser32 -lmsimg32 -lshell32 -lkernel32 -lws2_32 -ladvapi32 -lwldap32
+    LIBS += -lgdi32 \
+        -lcomdlg32 \
+        -loleaut32 \
+        -limm32 \
+        -lwinmm \
+        -lwinspool \
+        -lole32 \
+        -luuid \
+        -luser32 \
+        -lmsimg32 \
+        -lshell32 \
+        -lkernel32 \
+        -lmswsock \
+        -lws2_32 \
+        -ladvapi32 \
+        -lwldap32
 }
 !win32 {
     DEPENDPATH += src/net/linux/ src/core/linux

@@ -77,7 +77,7 @@ ReceiverHelper::Recv(SOCKET sock, ReceiveBuffer &buf)
 				else
 				{
 					buf.recvBufUsed += bytesRecvd;
-					InternalGetPackets(buf);
+					ScanPackets(buf);
 				}
 			}
 		}
@@ -92,7 +92,7 @@ ReceiverHelper::Recv(SOCKET sock, ReceiveBuffer &buf)
 }
 
 void
-ReceiverHelper::InternalGetPackets(ReceiveBuffer &buf)
+ReceiverHelper::ScanPackets(ReceiveBuffer &buf)
 {
 	bool dataAvailable = true;
 	do

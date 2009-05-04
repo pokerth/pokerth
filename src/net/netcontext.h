@@ -21,8 +21,7 @@
 #ifndef _NETCONTEXT_H_
 #define _NETCONTEXT_H_
 
-#include <net/socket_helper.h>
-#include <string>
+#include <boost/asio.hpp>
 
 
 class NetContext

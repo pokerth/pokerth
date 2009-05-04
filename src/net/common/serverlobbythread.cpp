@@ -56,6 +56,7 @@
 #define SERVER_STATISTICS_STR_CUR_PLAYERS			"CurPlayersLoggedIn"
 
 using namespace std;
+using boost::asio::ip::tcp;
 
 
 class ServerSenderCallback : public SenderCallback, public SessionDataCallback
@@ -80,12 +81,12 @@ private:
 };
 
 
-ServerLobbyThread::ServerLobbyThread(GuiInterface &gui, ConfigFile *playerConfig, AvatarManager &avatarManager)
-: m_curBanId(0), m_gui(gui), m_avatarManager(avatarManager), m_playerConfig(playerConfig),
+ServerLobbyThread::ServerLobbyThread(GuiInterface &gui, ConfigFile *playerConfig, AvatarManager &avatarManager,
+									 boost::shared_ptr<boost::asio::io_service> ioService)
+: m_ioService(ioService), m_curBanId(0), m_gui(gui), m_avatarManager(avatarManager), m_playerConfig(playerConfig),
   m_curGameId(0), m_curUniquePlayerId(0), m_curSessionId(INVALID_SESSION + 1),
   m_statDataChanged(false), m_startTime(boost::posix_time::second_clock::local_time())
 {
-	m_ioService.reset(new boost::asio::io_service());
 	m_senderCallback.reset(new ServerSenderCallback(*this));
 	m_sender.reset(new SenderThread(*m_senderCallback, m_ioService));
 	m_receiver.reset(new ReceiverHelper);
@@ -114,10 +115,10 @@ ServerLobbyThread::Init(const string &pwd, const string &logDir)
 }
 
 void
-ServerLobbyThread::AddConnection(boost::shared_ptr<ConnectData> data)
+ServerLobbyThread::AddConnection(boost::shared_ptr<tcp::socket> sock)
 {
 	boost::mutex::scoped_lock lock(m_connectQueueMutex);
-	m_connectQueue.push_back(data);
+	m_connectQueue.push_back(sock);
 }
 
 void
@@ -442,6 +443,18 @@ ServerLobbyThread::Main()
 {
 	try
 	{
+		m_timerManager.RegisterTimer(
+			SERVER_CHECK_SESSION_TIMEOUTS_INTERVAL_MSEC,
+			boost::bind(&ServerLobbyThread::TimerCheckSessionTimeouts, this),
+			true);
+		m_timerManager.RegisterTimer(
+			SERVER_CACHE_CLEANUP_INTERVAL_SEC * 1000,
+			boost::bind(&ServerLobbyThread::TimerCleanupAvatarCache, this),
+			true);
+		m_timerManager.RegisterTimer(
+			SERVER_SAVE_STATISTICS_INTERVAL_SEC * 1000,
+			boost::bind(&ServerLobbyThread::TimerSaveStatisticsFile, this),
+			true);
 		m_sender->Start();
 
 		while (!ShouldTerminate())
@@ -450,22 +463,17 @@ ServerLobbyThread::Main()
 			NewConnectionLoop();
 			// Process re-added sessions.
 			NewSessionLoop();
-			// Main loop.
-			ProcessLoop();
 			// Remove games.
 			RemoveGameLoop();
 			// Kick players.
 			RemovePlayerLoop();
 			// Resubscribe Lobby Messages if needed.
 			ResubscribeLobbyMsgLoop();
-			// Check session timeouts.
-			CheckSessionTimeoutsLoop();
 			// Update avatar limitation lock.
 			UpdateAvatarClientTimerLoop();
-			// Cleanup cache.
-			CleanupAvatarCache();
-			// Save statistics if needed.
-			SaveStatisticsFile();
+			// Process timers.
+			m_timerManager.Process();
+			Thread::Msleep(10);
 		}
 	} catch (const PokerTHException &e)
 	{
@@ -486,70 +494,104 @@ ServerLobbyThread::Main()
 }
 
 void
-ServerLobbyThread::ProcessLoop()
+ServerLobbyThread::HandleRead(SessionId sessionId, const boost::system::error_code& error, size_t bytesRead)
 {
-	// Wait for data.
-	SessionWrapper session = m_sessionManager.Select(RECV_TIMEOUT_MSEC);
-
-	if (session.sessionData.get())
+	SessionWrapper session = m_sessionManager.GetSessionById(sessionId);
+	if (!session.sessionData)
+		session = m_gameSessionManager.GetSessionById(sessionId);
+	if (session.sessionData)
 	{
-		boost::shared_ptr<NetPacket> packet;
-		try
+		unsigned gameId = session.sessionData->GetGameId();
+		if (!error)
 		{
-			// Receive the next packet.
-			packet = GetReceiver().Recv(session.sessionData->GetSocket(), session.sessionData->GetReceiveBuffer());
-		} catch (const NetException &)
-		{
-			// On error: Close this session.
-			CloseSession(session);
-			return;
+
+			ReceiveBuffer &buf = session.sessionData->GetReceiveBuffer();
+			buf.recvBufUsed += bytesRead;
+			GetReceiver().ScanPackets(buf);
+
+			while (!buf.receivedPackets.empty())
+			{
+				boost::shared_ptr<NetPacket> packet = buf.receivedPackets.front();
+				buf.receivedPackets.pop_front();
+				if (game)
+					game->HandlePacket(session, packet);
+				else
+					HandlePacket(session, packet);
+			}
+			session.sessionData->GetAsioSocket()->async_read_some(
+				boost::asio::buffer(buf.recvBuf + buf.recvBufUsed, RECV_BUF_SIZE - buf.recvBufUsed),
+				boost::bind(
+					&ServerLobbyThread::HandleRead,
+					this,
+					sessionId,
+					boost::asio::placeholders::error,
+					boost::asio::placeholders::bytes_transferred));
 		}
-		if (!packet.get())
-			LOG_VERBOSE("Select successful but no packet received for session #" << session.sessionData->GetId() << ".");
 		else
 		{
-			if (packet->IsClientActivity())
-				session.sessionData->ResetActivityTimer();
+			// On error: Close this session.
+			boost::shared_ptr<ServerGameThread> game;
+			if (gameId)
+			{
+				GameMap::iterator pos = m_gameMap.find(joinGameData.gameId);
 
-			if (session.sessionData->GetState() == SessionData::Init)
-			{
-				if (packet->ToNetPacketInit())
-					HandleNetPacketInit(session, *packet->ToNetPacketInit());
-				else if (packet->ToNetPacketAvatarHeader())
-					HandleNetPacketAvatarHeader(session, *packet->ToNetPacketAvatarHeader());
-				else if (packet->ToNetPacketUnknownAvatar())
-					HandleNetPacketUnknownAvatar(session, *packet->ToNetPacketUnknownAvatar());
-				else
-					SessionError(session, ERR_SOCK_INVALID_STATE);
+				if (pos != m_gameMap.end())
+					game = pos->second;
 			}
-			else if (session.sessionData->GetState() == SessionData::ReceivingAvatar)
-			{
-				if (packet->ToNetPacketAvatarFile())
-					HandleNetPacketAvatarFile(session, *packet->ToNetPacketAvatarFile());
-				else if (packet->ToNetPacketAvatarEnd())
-					HandleNetPacketAvatarEnd(session, *packet->ToNetPacketAvatarEnd());
-				else
-					SessionError(session, ERR_SOCK_INVALID_STATE);
-			}
+			if (game)
+				game->ErrorRemoveSession(session);
 			else
-			{
-				if (packet->ToNetPacketRetrievePlayerInfo())
-					HandleNetPacketRetrievePlayerInfo(session, *packet->ToNetPacketRetrievePlayerInfo());
-				else if (packet->ToNetPacketRetrieveAvatar())
-					HandleNetPacketRetrieveAvatar(session, *packet->ToNetPacketRetrieveAvatar());
-				else if (packet->ToNetPacketResetTimeout())
-				{}
-				else if (packet->ToNetPacketUnsubscribeGameList())
-					session.sessionData->ResetWantsLobbyMsg();
-				else if (packet->ToNetPacketResubscribeGameList())
-					InternalResubscribeMsg(session);
-				else if (packet->ToNetPacketCreateGame())
-					HandleNetPacketCreateGame(session, *packet->ToNetPacketCreateGame());
-				else if (packet->ToNetPacketJoinGame())
-					HandleNetPacketJoinGame(session, *packet->ToNetPacketJoinGame());
-				else
-					SessionError(session, ERR_SOCK_INVALID_STATE);
-			}
+				CloseSession(session);
+		}
+	}
+}
+
+void
+ServerLobbyThread::HandlePacket(SessionWrapper session, boost::shared_ptr<NetPacket> packet)
+{
+	if (session.sessionData && packet)
+	{
+		if (packet->IsClientActivity())
+			session.sessionData->ResetActivityTimer();
+
+		if (session.sessionData->GetState() == SessionData::Init)
+		{
+			if (packet->ToNetPacketInit())
+				HandleNetPacketInit(session, *packet->ToNetPacketInit());
+			else if (packet->ToNetPacketAvatarHeader())
+				HandleNetPacketAvatarHeader(session, *packet->ToNetPacketAvatarHeader());
+			else if (packet->ToNetPacketUnknownAvatar())
+				HandleNetPacketUnknownAvatar(session, *packet->ToNetPacketUnknownAvatar());
+			else
+				SessionError(session, ERR_SOCK_INVALID_STATE);
+		}
+		else if (session.sessionData->GetState() == SessionData::ReceivingAvatar)
+		{
+			if (packet->ToNetPacketAvatarFile())
+				HandleNetPacketAvatarFile(session, *packet->ToNetPacketAvatarFile());
+			else if (packet->ToNetPacketAvatarEnd())
+				HandleNetPacketAvatarEnd(session, *packet->ToNetPacketAvatarEnd());
+			else
+				SessionError(session, ERR_SOCK_INVALID_STATE);
+		}
+		else
+		{
+			if (packet->ToNetPacketRetrievePlayerInfo())
+				HandleNetPacketRetrievePlayerInfo(session, *packet->ToNetPacketRetrievePlayerInfo());
+			else if (packet->ToNetPacketRetrieveAvatar())
+				HandleNetPacketRetrieveAvatar(session, *packet->ToNetPacketRetrieveAvatar());
+			else if (packet->ToNetPacketResetTimeout())
+			{}
+			else if (packet->ToNetPacketUnsubscribeGameList())
+				session.sessionData->ResetWantsLobbyMsg();
+			else if (packet->ToNetPacketResubscribeGameList())
+				InternalResubscribeMsg(session);
+			else if (packet->ToNetPacketCreateGame())
+				HandleNetPacketCreateGame(session, *packet->ToNetPacketCreateGame());
+			else if (packet->ToNetPacketJoinGame())
+				HandleNetPacketJoinGame(session, *packet->ToNetPacketJoinGame());
+			else
+				SessionError(session, ERR_SOCK_INVALID_STATE);
 		}
 	}
 }
@@ -923,7 +965,7 @@ void
 ServerLobbyThread::NewConnectionLoop()
 {
 	// Handle one incoming connection at a time.
-	boost::shared_ptr<ConnectData> tmpData;
+	boost::shared_ptr<tcp::socket> tmpData;
 	{
 		boost::mutex::scoped_lock lock(m_connectQueueMutex);
 		if (!m_connectQueue.empty())
@@ -1021,18 +1063,6 @@ ServerLobbyThread::ResubscribeLobbyMsgLoop()
 }
 
 void
-ServerLobbyThread::CheckSessionTimeoutsLoop()
-{
-	if (m_checkSessionTimeoutsTimer.elapsed().total_milliseconds() >= SERVER_CHECK_SESSION_TIMEOUTS_INTERVAL_MSEC)
-	{
-		m_sessionManager.ForEach(boost::bind(&ServerLobbyThread::InternalCheckSessionTimeouts, boost::ref(*this), _1));
-		m_gameSessionManager.ForEach(boost::bind(&ServerLobbyThread::InternalCheckSessionTimeouts, boost::ref(*this), _1));
-		m_checkSessionTimeoutsTimer.reset();
-		m_checkSessionTimeoutsTimer.start();
-	}
-}
-
-void
 ServerLobbyThread::UpdateAvatarClientTimerLoop()
 {
 	boost::mutex::scoped_lock lock(m_timerAvatarClientAddressMapMutex);
@@ -1051,17 +1081,21 @@ ServerLobbyThread::UpdateAvatarClientTimerLoop()
 }
 
 void
-ServerLobbyThread::CleanupAvatarCache()
+ServerLobbyThread::TimerCheckSessionTimeouts()
 {
-	// Only act on timer and if there are no sessions.
-	if (m_cacheCleanupTimer.elapsed().total_seconds() >= SERVER_CACHE_CLEANUP_INTERVAL_SEC
-		&& !m_sessionManager.HasSessions() && !m_gameSessionManager.HasSessions())
+	m_sessionManager.ForEach(boost::bind(&ServerLobbyThread::InternalCheckSessionTimeouts, boost::ref(*this), _1));
+	m_gameSessionManager.ForEach(boost::bind(&ServerLobbyThread::InternalCheckSessionTimeouts, boost::ref(*this), _1));
+}
+
+void
+ServerLobbyThread::TimerCleanupAvatarCache()
+{
+	// Only act if there are no sessions.
+	if (!m_sessionManager.HasSessions() && !m_gameSessionManager.HasSessions())
 	{
 		LOG_VERBOSE("Cleaning up avatar cache.");
 
 		m_avatarManager.RemoveOldAvatarCacheEntries();
-		m_cacheCleanupTimer.reset();
-		m_cacheCleanupTimer.start();
 	}
 }
 
@@ -1169,7 +1203,7 @@ ServerLobbyThread::TerminateGames()
 }
 
 void
-ServerLobbyThread::HandleNewConnection(boost::shared_ptr<ConnectData> connData)
+ServerLobbyThread::HandleNewConnection(boost::shared_ptr<tcp::socket> sock)
 {
 	// Create a random session id.
 	// This id can be used to reconnect to the server if the connection was lost.
@@ -1182,20 +1216,38 @@ ServerLobbyThread::HandleNewConnection(boost::shared_ptr<ConnectData> connData)
 	//}
 
 	// Create a new session.
-	boost::shared_ptr<SessionData> sessionData(new SessionData(connData->ReleaseSocket(), m_curSessionId++, m_sender, *m_senderCallback, *m_ioService));
+	boost::shared_ptr<SessionData> sessionData(new SessionData(sock, m_curSessionId++, m_sender, *m_senderCallback));
 	m_sessionManager.AddSession(sessionData);
 
 	LOG_VERBOSE("Accepted connection - session #" << sessionData->GetId() << ".");
 
+	bool hasClientIp = false;
 	if (m_sessionManager.GetRawSessionCount() <= SERVER_MAX_NUM_SESSIONS)
 	{
-		char tmpAddress[MAX_ADDR_STRING_LEN];
-		// Only consider address, set port to zero.
-		if (socket_set_port(0, connData->GetPeerAddr()->sa_family, connData->GetPeerAddr(), connData->GetPeerAddrSize())
-			&& socket_addr_to_string(connData->GetPeerAddr(), connData->GetPeerAddrSize(), connData->GetPeerAddr()->sa_family, tmpAddress, sizeof(tmpAddress)))
+		boost::system::error_code errCode;
+		tcp::endpoint clientEndpoint = sock->remote_endpoint(errCode);
+		if (!errCode)
 		{
-			tmpAddress[sizeof(tmpAddress) - 1] = 0; // paranoia
-			sessionData->SetClientAddr(tmpAddress);
+			string ipAddress = clientEndpoint.address().to_string(errCode);
+			if (!errCode && !ipAddress.empty())
+			{
+				sessionData->SetClientAddr(ipAddress);
+				hasClientIp = true;
+				sock->async_read_some(
+					boost::asio::buffer(sessionData->GetReceiveBuffer().recvBuf, RECV_BUF_SIZE),
+					boost::bind(
+						&ServerLobbyThread::HandleRead,
+						this,
+						sessionData->GetId(),
+						boost::asio::placeholders::error,
+						boost::asio::placeholders::bytes_transferred));
+			}
+		}
+		if (!hasClientIp)
+		{
+			// We do not accept sessions if we cannot
+			// retrieve the client address.
+			SessionError(SessionWrapper(sessionData, boost::shared_ptr<PlayerData>()), ERR_NET_INVALID_SESSION);
 		}
 	}
 	else
@@ -1386,30 +1438,23 @@ ServerLobbyThread::ReadStatisticsFile()
 }
 
 void
-ServerLobbyThread::SaveStatisticsFile()
+ServerLobbyThread::TimerSaveStatisticsFile()
 {
-	if (m_saveStatisticsTimer.elapsed().total_seconds() >= SERVER_SAVE_STATISTICS_INTERVAL_SEC)
+	LOG_VERBOSE("Saving statistics.");
+	boost::mutex::scoped_lock lock(m_statMutex);
+	if (m_statDataChanged)
 	{
-		LOG_VERBOSE("Saving statistics.");
+		ofstream o(m_statisticsFileName.c_str(), ios_base::out | ios_base::trunc);
+		if (!o.fail())
 		{
-			boost::mutex::scoped_lock lock(m_statMutex);
-			if (m_statDataChanged)
-			{
-				ofstream o(m_statisticsFileName.c_str(), ios_base::out | ios_base::trunc);
-				if (!o.fail())
-				{
-					o << SERVER_STATISTICS_STR_TOTAL_PLAYERS " " << m_statData.totalPlayersEverLoggedIn << endl;
-					o << SERVER_STATISTICS_STR_TOTAL_GAMES " " << m_statData.totalGamesEverCreated << endl;
-					o << SERVER_STATISTICS_STR_MAX_PLAYERS " " << m_statData.maxPlayersLoggedIn << endl;
-					o << SERVER_STATISTICS_STR_MAX_GAMES " " << m_statData.maxGamesOpen << endl;
-					o << SERVER_STATISTICS_STR_CUR_PLAYERS " " << m_statData.numberOfPlayersOnServer << endl;
-					o << SERVER_STATISTICS_STR_CUR_GAMES " " << m_statData.numberOfGamesOpen << endl;
-					m_statDataChanged = false;
-				}
-			}
+			o << SERVER_STATISTICS_STR_TOTAL_PLAYERS " " << m_statData.totalPlayersEverLoggedIn << endl;
+			o << SERVER_STATISTICS_STR_TOTAL_GAMES " " << m_statData.totalGamesEverCreated << endl;
+			o << SERVER_STATISTICS_STR_MAX_PLAYERS " " << m_statData.maxPlayersLoggedIn << endl;
+			o << SERVER_STATISTICS_STR_MAX_GAMES " " << m_statData.maxGamesOpen << endl;
+			o << SERVER_STATISTICS_STR_CUR_PLAYERS " " << m_statData.numberOfPlayersOnServer << endl;
+			o << SERVER_STATISTICS_STR_CUR_GAMES " " << m_statData.numberOfGamesOpen << endl;
+			m_statDataChanged = false;
 		}
-		m_saveStatisticsTimer.reset();
-		m_saveStatisticsTimer.start();
 	}
 }
 

@@ -23,7 +23,7 @@
 using namespace std;
 
 ConnectData::ConnectData()
-: m_sockfd(INVALID_SOCKET), m_peerAddrSize(sizeof(m_peerAddr))
+: m_sockfd(INVALID_SOCKET), m_peerAddrSize(sizeof(struct sockaddr_storage))
 {
 	memset(&m_peerAddr, 0, sizeof(m_peerAddr));
 }
@@ -32,13 +32,5 @@ ConnectData::~ConnectData()
 {
 	if (m_sockfd != INVALID_SOCKET)
 		CLOSESOCKET(m_sockfd);
-}
-
-SOCKET
-ConnectData::ReleaseSocket()
-{
-	SOCKET tmpSock = m_sockfd;
-	m_sockfd = INVALID_SOCKET;
-	return tmpSock;
 }
 

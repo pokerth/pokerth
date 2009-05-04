@@ -17,6 +17,7 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
+#include <boost/asio.hpp>
 #include <net/socket_helper.h>
 #include <net/clientthread.h>
 #include <net/clientstate.h>
@@ -40,6 +41,7 @@
 #define TEMP_AVATAR_FILENAME "avatar.tmp"
 
 using namespace std;
+using boost::asio::ip::tcp;
 
 
 class ClientSenderCallback : public SenderCallback, public SessionDataCallback
@@ -719,14 +721,29 @@ ClientThread::GetContext()
 }
 
 void
-ClientThread::SetContextSocket(SOCKET s)
+ClientThread::CreateContextSession()
 {
-	GetContext().SetSessionData(boost::shared_ptr<SessionData>(new SessionData(
-		s,
-		SESSION_ID_GENERIC,
-		m_senderThread,
-		*m_senderCallback,
-		*m_ioService)));
+	bool validSocket = false;
+	// TODO ipv6
+	// TODO sctp
+	try {
+		boost::shared_ptr<tcp::socket> newSock(new boost::asio::ip::tcp::socket(*m_ioService, tcp::v4()));
+		boost::asio::socket_base::non_blocking_io command(true);
+		newSock->io_control(command);
+		newSock->set_option(tcp::no_delay(true));
+		newSock->set_option(boost::asio::socket_base::keep_alive(true));
+
+		GetContext().SetSessionData(boost::shared_ptr<SessionData>(new SessionData(
+			newSock,
+			SESSION_ID_GENERIC,
+			m_senderThread,
+			*m_senderCallback)));
+		validSocket = true;
+	} catch (...)
+	{
+	}
+	if (!validSocket)
+		throw ClientException(__FILE__, __LINE__, ERR_SOCK_CREATION_FAILED, SOCKET_ERRNO());
 }
 
 ClientState &

@@ -23,13 +23,13 @@
 
 typedef unsigned SessionId;
 
+#include <boost/asio.hpp>
 #include <net/socket_helper.h>
 #include <net/receivebuffer.h>
 #include <net/sessiondatacallback.h>
 #include <string>
 #include <boost/thread.hpp>
 #include <third_party/boost/timers.hpp>
-#include <boost/asio.hpp>
 
 #define INVALID_SESSION			0
 #define SESSION_ID_INIT			INVALID_SESSION
@@ -42,10 +42,15 @@ class SessionData
 public:
 	enum State { Init, ReceivingAvatar, Established, Game };
 
-	SessionData(SOCKET sockfd, SessionId id, boost::shared_ptr<SenderInterface> sender, SessionDataCallback &cb, boost::asio::io_service &ioService);
+	SessionData(boost::shared_ptr<boost::asio::ip::tcp::socket> sock, SessionId id,
+		boost::shared_ptr<SenderInterface> sender, SessionDataCallback &cb);
 	~SessionData();
 
 	SessionId GetId() const;
+
+	unsigned GetGameId() const;
+	void SetGameId(unsigned gameId);
+
 	State GetState() const;
 	void SetState(State state);
 
@@ -77,6 +82,7 @@ public:
 private:
 	boost::shared_ptr<boost::asio::ip::tcp::socket> m_socket;
 	const SessionId					m_id;
+	unsigned						m_gameId;
 	State							m_state;
 	std::string						m_clientAddr;
 	ReceiveBuffer					m_receiveBuffer;

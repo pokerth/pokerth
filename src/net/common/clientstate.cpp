@@ -86,22 +86,7 @@ ClientStateInit::Process(ClientThread &client)
 	if (context.GetServerPort() < 1024)
 		throw ClientException(__FILE__, __LINE__, ERR_SOCK_INVALID_PORT, 0);
 
-	client.SetContextSocket(socket(context.GetAddrFamily(), SOCK_STREAM, context.GetProtocol()));
-	if (!IS_VALID_SOCKET(context.GetSocket()))
-		throw ClientException(__FILE__, __LINE__, ERR_SOCK_CREATION_FAILED, SOCKET_ERRNO());
-
-	unsigned long mode = 1;
-	if (IOCTLSOCKET(context.GetSocket(), FIONBIO, &mode) == SOCKET_ERROR)
-		throw ClientException(__FILE__, __LINE__, ERR_SOCK_CREATION_FAILED, SOCKET_ERRNO());
-
-	// The following calls are optional - the return value is not checked.
-	int nodelay = 1;
-	setsockopt(context.GetSocket(), SOL_SOCKET, TCP_NODELAY, (char *)&nodelay, sizeof(nodelay));
-
-#ifdef SO_NOSIGPIPE
-	int nosigpipe = 1;
-	setsockopt(context.GetSocket(), SOL_SOCKET, SO_NOSIGPIPE, (char *)&nosigpipe, sizeof(nosigpipe));
-#endif
+	client.CreateContextSession();
 
 	if (context.GetUseServerList())
 		client.SetState(ClientStateStartServerListDownload::Instance());

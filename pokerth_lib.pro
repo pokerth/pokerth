@@ -56,6 +56,7 @@ HEADERS += \
 		src/core/crypthelper.h \
 		src/core/avatarmanager.h \
 		src/core/pokerthexception.h \
+		src/core/timermanager.h \
 		src/engine/boardinterface.h \
 		src/engine/enginefactory.h \
 		src/engine/handinterface.h \
@@ -131,6 +132,7 @@ SOURCES += \
 		src/core/common/crypthelper.cpp \
 		src/core/common/avatarmanager.cpp \
 		src/core/common/pokerthexception.cpp \
+		src/core/common/timermanager.cpp \
 		src/third_party/tinyxml/tinystr.cpp \
 		src/third_party/tinyxml/tinyxml.cpp \
 		src/third_party/tinyxml/tinyxmlerror.cpp \

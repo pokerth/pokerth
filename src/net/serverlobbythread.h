@@ -21,7 +21,8 @@
 #ifndef _SERVERRECVTHREAD_H_
 #define _SERVERRECVTHREAD_H_
 
-#include <net/connectdata.h>
+#include <boost/asio.hpp>
+#include <core/timermanager.h>
 #include <net/sessionmanager.h>
 #include <net/netpacket.h>
 #include <gui/guiinterface.h>
@@ -48,12 +49,13 @@ class Game;
 class ServerLobbyThread : public Thread
 {
 public:
-	ServerLobbyThread(GuiInterface &gui, ConfigFile *playerConfig, AvatarManager &avatarManager);
+	ServerLobbyThread(GuiInterface &gui, ConfigFile *playerConfig, AvatarManager &avatarManager,
+		boost::shared_ptr<boost::asio::io_service> ioService);
 	virtual ~ServerLobbyThread();
 
 	void Init(const std::string &pwd, const std::string &logDir);
 
-	void AddConnection(boost::shared_ptr<ConnectData> data);
+	void AddConnection(boost::shared_ptr<boost::asio::ip::tcp::socket> sock);
 	void ReAddSession(SessionWrapper session, int reason);
 	void MoveSessionToGame(ServerGameThread &game, SessionWrapper session);
 	void RemoveSessionFromGame(SessionWrapper session);
@@ -98,7 +100,7 @@ public:
 
 protected:
 
-	typedef std::deque<boost::shared_ptr<ConnectData> > ConnectQueue;
+	typedef std::deque<boost::shared_ptr<boost::asio::ip::tcp::socket> > ConnectQueue;
 	typedef std::deque<SessionWrapper> SessionQueue;
 	typedef std::list<SessionWrapper> SessionList;
 	typedef std::list<SessionId> SessionIdList;
@@ -112,7 +114,8 @@ protected:
 	// Main function of the thread.
 	virtual void Main();
 
-	void ProcessLoop();
+	void HandleRead(SessionId sessionId, const boost::system::error_code& error, size_t bytesRead);
+	void HandlePacket(SessionWrapper session, boost::shared_ptr<NetPacket> packet);
 	void HandleNetPacketInit(SessionWrapper session, const NetPacketInit &tmpPacket);
 	void HandleNetPacketAvatarHeader(SessionWrapper session, const NetPacketAvatarHeader &tmpPacket);
 	void HandleNetPacketUnknownAvatar(SessionWrapper session, const NetPacketUnknownAvatar &tmpPacket);
@@ -129,9 +132,9 @@ protected:
 	void RemoveGameLoop();
 	void RemovePlayerLoop();
 	void ResubscribeLobbyMsgLoop();
-	void CheckSessionTimeoutsLoop();
 	void UpdateAvatarClientTimerLoop();
-	void CleanupAvatarCache();
+	void TimerCheckSessionTimeouts();
+	void TimerCleanupAvatarCache();
 
 	void InternalAddGame(boost::shared_ptr<ServerGameThread> game);
 	void InternalRemoveGame(boost::shared_ptr<ServerGameThread> game);
@@ -140,7 +143,7 @@ protected:
 
 	void TerminateGames();
 
-	void HandleNewConnection(boost::shared_ptr<ConnectData> connData);
+	void HandleNewConnection(boost::shared_ptr<boost::asio::ip::tcp::socket> sock);
 	void HandleReAddedSession(SessionWrapper session);
 
 	void InternalCheckSessionTimeouts(SessionWrapper session);
@@ -156,7 +159,7 @@ protected:
 	void BroadcastStatisticsUpdate(const ServerStats &stats);
 
 	void ReadStatisticsFile();
-	void SaveStatisticsFile();
+	void TimerSaveStatisticsFile();
 
 	ReceiverHelper &GetReceiver();
 
@@ -173,6 +176,10 @@ protected:
 	static boost::shared_ptr<NetPacket> CreateNetPacketGameListUpdate(unsigned gameId, GameMode mode);
 
 private:
+
+	boost::shared_ptr<boost::asio::io_service> m_ioService;
+
+	TimerManager m_timerManager;
 
 	ConnectQueue m_connectQueue;
 	mutable boost::mutex m_connectQueueMutex;
@@ -224,13 +231,7 @@ private:
 	bool m_statDataChanged;
 	mutable boost::mutex m_statMutex;
 
-	boost::timers::portable::microsec_timer m_cacheCleanupTimer;
-	boost::timers::portable::microsec_timer m_saveStatisticsTimer;
-	boost::timers::portable::microsec_timer m_checkSessionTimeoutsTimer;
-
 	const boost::posix_time::ptime m_startTime;
-
-	boost::shared_ptr<boost::asio::io_service> m_ioService;
 };
 
 #endif

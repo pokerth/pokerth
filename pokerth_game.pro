@@ -334,6 +334,7 @@ win32 {
         -lmsimg32 \
         -lshell32 \
         -lkernel32 \
+        -lmswsock \
         -lws2_32 \
         -ladvapi32 \
         -lsdl \

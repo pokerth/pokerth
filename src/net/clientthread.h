@@ -121,7 +121,7 @@ protected:
 
 	const ClientContext &GetContext() const;
 	ClientContext &GetContext();
-	void SetContextSocket(SOCKET s);
+	void CreateContextSession();
 
 	ClientState &GetState();
 	void SetState(ClientState &newState);
