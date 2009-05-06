@@ -315,12 +315,12 @@ win32 {
             -lgpg-error
         LIBS += -lcurl
         LIBS += -lz
-        LIBS += -llibboost_thread-mgw43-mt-1_38
-        LIBS += -llibboost_filesystem-mgw43-mt-1_38
-        LIBS += -llibboost_regex-mgw43-mt-1_38
-        LIBS += -llibboost_system-mgw43-mt-1_38
-        LIBS += -llibboost_iostreams-mgw43-mt-1_38
-        LIBS += -llibboost_zlib-mgw43-mt-1_38
+        LIBS += -llibboost_thread-mgw44-mt
+        LIBS += -llibboost_filesystem-mgw44-mt
+        LIBS += -llibboost_regex-mgw44-mt
+        LIBS += -llibboost_system-mgw44-mt
+        LIBS += -llibboost_iostreams-mgw44-mt
+        LIBS += -llibboost_zlib-mgw44-mt
     }
     LIBS += -lgdi32 \
         -lcomdlg32 \
