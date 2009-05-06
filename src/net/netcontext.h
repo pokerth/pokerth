@@ -23,6 +23,9 @@
 
 #include <boost/asio.hpp>
 
+#ifndef _WIN32
+	#define SOCKET							int
+#endif
 
 class NetContext
 {

@@ -513,9 +513,9 @@ ServerLobbyThread::HandleRead(SessionId sessionId, const boost::system::error_co
 			{
 				boost::shared_ptr<NetPacket> packet = buf.receivedPackets.front();
 				buf.receivedPackets.pop_front();
-				if (game)
-					game->HandlePacket(session, packet);
-				else
+//				if (game)
+//					game->HandlePacket(session, packet);
+//				else
 					HandlePacket(session, packet);
 			}
 			session.sessionData->GetAsioSocket()->async_read_some(
@@ -533,7 +533,7 @@ ServerLobbyThread::HandleRead(SessionId sessionId, const boost::system::error_co
 			boost::shared_ptr<ServerGameThread> game;
 			if (gameId)
 			{
-				GameMap::iterator pos = m_gameMap.find(joinGameData.gameId);
+				GameMap::iterator pos = m_gameMap.find(gameId);
 
 				if (pos != m_gameMap.end())
 					game = pos->second;

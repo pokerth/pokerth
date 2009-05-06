@@ -171,6 +171,7 @@ private:
 
 	boost::timers::portable::microsec_timer m_voteKickActionTimer;
 
+friend class ServerLobbyThread;
 friend class AbstractServerGameStateReceiving;
 friend class AbstractServerGameStateRunning;
 friend class AbstractServerGameStateTimer;
