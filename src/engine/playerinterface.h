@@ -23,8 +23,6 @@
 #include "handinterface.h"
 #include <playerdata.h>
 
-#include <boost/shared_ptr.hpp>
-
 class SessionData;
 
 class PlayerInterface{

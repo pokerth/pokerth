@@ -20,13 +20,10 @@
 #ifndef GAME_H
 #define GAME_H
 
-#include "game_defs.h"
+#include <boost/shared_ptr.hpp>
 #include "gamedata.h"
 #include "playerdata.h"
-#include "configfile.h"
 
-#include <string>
-#include <boost/shared_ptr.hpp>
 #include <third_party/boost/timers.hpp>
 
 class GuiInterface;

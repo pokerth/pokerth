@@ -21,9 +21,9 @@
 #ifndef _RESOLVERTHREAD_H_
 #define _RESOLVERTHREAD_H_
 
-#include <core/thread.h>
 #include <string>
-#include <boost/shared_ptr.hpp>
+
+#include <core/thread.h>
 
 class ClientContext;
 

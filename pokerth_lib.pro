@@ -12,6 +12,7 @@ MOC_DIR = mocs
 OBJECTS_DIR = obj
 DEFINES += ENABLE_IPV6
 QT -= core gui
+#PRECOMPILED_HEADER = src/pch_lib.h
 
 INCLUDEPATH += . \
 		src \

@@ -21,8 +21,9 @@
 #ifndef _CLIENTCALLBACK_H_
 #define _CLIENTCALLBACK_H_
 
-#include <string>
 #include <boost/shared_ptr.hpp>
+#include <string>
+
 #include <playerdata.h>
 #include <game_defs.h>
 #include <gamedata.h>

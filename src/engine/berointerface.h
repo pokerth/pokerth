@@ -23,7 +23,7 @@
 #include <boost/shared_ptr.hpp>
 #include <list>
 
-#include "game_defs.h"
+#include <game_defs.h>
 
 class PlayerInterface;
 

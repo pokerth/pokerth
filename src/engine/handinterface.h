@@ -20,10 +20,6 @@
 #ifndef HANDINTERFACE_H
 #define HANDINTERFACE_H
 
-#include <vector>
-
-#include <boost/shared_ptr.hpp>
-
 #include "guiinterface.h"
 #include "boardinterface.h"
 #include "playerinterface.h"

@@ -21,13 +21,12 @@
 #ifndef _SESSIONMANAGER_H_
 #define _SESSIONMANAGER_H_
 
+#include <boost/function.hpp>
+#include <map>
+
 #include <net/sessiondata.h>
 #include <playerdata.h>
 #include <core/thread.h>
-
-#include <boost/function.hpp>
-#include <map>
-#include <string>
 
 class SenderInterface;
 class NetPacket;

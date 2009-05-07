@@ -19,12 +19,14 @@
  ***************************************************************************/
 #ifndef STDSESSION_H
 #define STDSESSION_H
+
+#include <boost/shared_ptr.hpp>
+#include <string>
+
 #include "serverdata.h"
 #include "gamedata.h"
 #include "playerdata.h"
 #include "game_defs.h"
-#include <string>
-#include <boost/shared_ptr.hpp>
 #include <core/crypthelper.h>
 
 class GuiInterface;
@@ -116,7 +118,5 @@ private:
 	GameType myGameType;
 	QtToolsInterface *myQtToolsInterface;
 };
-
-
 
 #endif

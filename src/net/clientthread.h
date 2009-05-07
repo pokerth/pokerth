@@ -21,14 +21,15 @@
 #ifndef _CLIENTTHREAD_H_
 #define _CLIENTTHREAD_H_
 
+#include <boost/shared_ptr.hpp>
+#include <string>
+
 #include <core/thread.h>
 #include <net/senderinterface.h>
 #include <guiinterface.h>
 #include <serverdata.h>
 #include <playerdata.h>
 #include <gamedata.h>
-#include <string>
-#include <boost/shared_ptr.hpp>
 
 class ClientContext;
 class ClientState;

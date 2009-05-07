@@ -21,14 +21,14 @@
 #ifndef _NETPACKET_H_
 #define _NETPACKET_H_
 
+#include <vector>
+#include <list>
+
 #include <net/socket_helper.h>
 #include <playerdata.h>
 #include <game_defs.h>
 #include <gamedata.h>
 #include <core/crypthelper.h>
-
-#include <vector>
-#include <list>
 
 #define NET_VERSION_MAJOR			5
 #define NET_VERSION_MINOR			2

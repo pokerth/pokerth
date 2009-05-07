@@ -14,6 +14,8 @@ OBJECTS_DIR = obj
 DEFINES += ENABLE_IPV6
 DEFINES += PREFIX=\"$${PREFIX}\"
 TARGET = pokerth
+#PRECOMPILED_HEADER = src/pch_game.h
+
 RESOURCES = src/gui/qt/resources/pokerth.qrc
 INCLUDEPATH += . \
     src \

@@ -21,12 +21,13 @@
 #ifndef _RECEIVERHELPER_H_
 #define _RECEIVERHELPER_H_
 
+#include <boost/shared_ptr.hpp>
+#include <deque>
+
 #include <net/socket_helper.h>
 #include <net/netpacket.h>
 #include <net/receivebuffer.h>
 
-#include <deque>
-#include <boost/shared_ptr.hpp>
 
 class ReceiverHelper
 {

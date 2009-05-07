@@ -21,12 +21,13 @@
 #ifndef _SERVERGAMETHREAD_H_
 #define _SERVERGAMETHREAD_H_
 
+#include <third_party/boost/timers.hpp>
+#include <deque>
+
 #include <net/sessionmanager.h>
 #include <gui/guiinterface.h>
 #include <gamedata.h>
-#include <third_party/boost/timers.hpp>
 
-#include <deque>
 
 #define GAME_THREAD_TERMINATE_TIMEOUT	THREAD_WAIT_INFINITE
 

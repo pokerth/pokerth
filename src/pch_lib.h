@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2007 by Lothar May                                      *
+ *   Copyright (C) 2009 by Lothar May                                      *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -16,54 +16,25 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-/* IRC thread for the lobby. */
+#if defined __cplusplus
 
-#ifndef _IRCTHREAD_H_
-#define _IRCTHREAD_H_
-
+/* Note: ASIO needs to be included first! */
+#include <boost/asio.hpp>
+#include <boost/thread.hpp>
+#include <boost/thread/barrier.hpp>
+#include <boost/shared_ptr.hpp>
+#include <boost/regex.hpp>
+#include <boost/function.hpp>
 #include <third_party/boost/timers.hpp>
+
 #include <string>
+#include <list>
+#include <vector>
+#include <map>
+#include <deque>
 
-#include <net/irccallback.h>
-#include <core/thread.h>
+#else
 
-struct IrcContext;
-
-class IrcThread : public Thread
-{
-public:
-	IrcThread(const IrcThread &other);
-	IrcThread(IrcCallback *callback);
-	virtual ~IrcThread();
-
-	// Set the parameters.
-	void Init(const std::string &serverAddress, unsigned serverPort, bool ipv6, const std::string &nick, const std::string &channel, const std::string &channelPassword);
-
-	// Send a chat message to the channel.
-	void SendChatMessage(const std::string &msg);
-
-	virtual void SignalTermination();
-
-	IrcCallback &GetCallback();
-
-protected:
-
-	// Main function of the thread.
-	virtual void Main();
-	bool IrcInit();
-	void IrcMain();
-
-	void HandleIrcError(int errorCode);
-
-	const IrcContext &GetContext() const;
-	IrcContext &GetContext();
-
-private:
-	boost::shared_ptr<IrcContext> m_context;
-	IrcCallback *m_callback;
-
-	boost::timers::portable::microsec_timer m_terminationTimer;
-	boost::timers::portable::microsec_timer m_lastConnectTimer;
-};
+#include <string.h>
 
 #endif

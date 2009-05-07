@@ -22,12 +22,12 @@
 #define _SERVERMANAGER_H_
 
 #include <boost/asio.hpp>
-#include <game_defs.h>
-
-#include <gui/guiinterface.h>
 #include <third_party/boost/timers.hpp>
 #include <string>
 #include <list>
+
+#include <game_defs.h>
+#include <gui/guiinterface.h>
 
 class ServerLobbyThread;
 class ServerAcceptThread;

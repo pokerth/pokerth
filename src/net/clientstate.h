@@ -21,10 +21,11 @@
 #ifndef _CLIENTSTATE_H_
 #define _CLIENTSTATE_H_
 
-#include <net/socket_helper.h> // needed for correct order of header files.
+#include <third_party/boost/timers.hpp>
 #include <string>
 #include <memory>
-#include <third_party/boost/timers.hpp>
+
+#include <net/socket_helper.h> // needed for correct order of header files.
 
 #define CLIENT_INITIAL_STATE ClientStateInit
 

@@ -21,10 +21,10 @@
 #ifndef _UPLOADERTHREAD_H_
 #define _UPLOADERTHREAD_H_
 
+#include <boost/shared_ptr.hpp>
+#include <queue>
 #include <core/thread.h>
 
-#include <queue>
-#include <boost/shared_ptr.hpp>
 
 #define UPLOADER_THREAD_TERMINATE_TIMEOUT		THREAD_WAIT_INFINITE
 class UploadHelper;

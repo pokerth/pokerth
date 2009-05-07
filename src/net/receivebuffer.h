@@ -22,7 +22,6 @@
 #define _RECEIVEBUFFER_H_
 
 #include <net/netpacket.h>
-#include <list>
 
 // MUST be larger than MAX_PACKET_SIZE
 #define RECV_BUF_SIZE		2 * MAX_PACKET_SIZE

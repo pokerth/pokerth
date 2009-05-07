@@ -21,10 +21,11 @@
 #ifndef _CLIENTCONTEXT_H_
 #define _CLIENTCONTEXT_H_
 
+#include <boost/shared_ptr.hpp>
+
 #include <net/netcontext.h>
 #include <net/receivebuffer.h>
 #include <net/sessiondata.h>
-#include <boost/shared_ptr.hpp>
 
 
 class ClientContext : public NetContext

@@ -23,7 +23,6 @@
 
 #include <net/sessiondata.h>
 #include <net/netpacket.h>
-#include <boost/shared_ptr.hpp>
 
 class SenderInterface
 {

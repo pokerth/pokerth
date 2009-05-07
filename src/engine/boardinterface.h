@@ -20,9 +20,9 @@
 #ifndef BOARDINTERFACE_H
 #define BOARDINTERFACE_H
 
+#include <boost/shared_ptr.hpp>
 #include <vector>
 #include <list>
-#include <boost/shared_ptr.hpp>
 
 class PlayerInterface;
 class HandInterface;

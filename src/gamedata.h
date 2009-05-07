@@ -21,10 +21,13 @@
 #ifndef _GAMEDATA_H_
 #define _GAMEDATA_H_
 
-#include <playerdata.h>
+#include <list>
+#include <string>
 #include <third_party/boost/timers.hpp>
 
 #define SERVER_COMPUTER_PLAYER_NAME			"Computer"
+
+typedef std::list<unsigned> PlayerIdList;
 
 enum GameMode
 {

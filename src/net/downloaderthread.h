@@ -21,11 +21,11 @@
 #ifndef _DOWNLOADERTHREAD_H_
 #define _DOWNLOADERTHREAD_H_
 
-#include <core/thread.h>
-
+#include <boost/shared_ptr.hpp>
 #include <queue>
 #include <vector>
-#include <boost/shared_ptr.hpp>
+
+#include <core/thread.h>
 
 #define DOWNLOADER_THREAD_TERMINATE_TIMEOUT		THREAD_WAIT_INFINITE
 class DownloadHelper;

@@ -21,15 +21,13 @@
 #ifndef _AVATARMANAGER_H_
 #define _AVATARMANAGER_H_
 
-#include <net/netpacket.h>
-#include <playerdata.h>
-#include <core/crypthelper.h>
-#include <ctime>
+#include <boost/thread.hpp>
+#include <boost/shared_ptr.hpp>
+
 #include <map>
 #include <list>
 
-#include <boost/thread.hpp>
-#include <boost/shared_ptr.hpp>
+#include <net/netpacket.h>
 
 #define MIN_AVATAR_FILE_SIZE	32
 #define MAX_AVATAR_FILE_SIZE	30720

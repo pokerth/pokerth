@@ -24,12 +24,13 @@
 typedef unsigned SessionId;
 
 #include <boost/asio.hpp>
+#include <boost/thread.hpp>
+#include <third_party/boost/timers.hpp>
+#include <string>
+
 #include <net/socket_helper.h>
 #include <net/receivebuffer.h>
 #include <net/sessiondatacallback.h>
-#include <string>
-#include <boost/thread.hpp>
-#include <third_party/boost/timers.hpp>
 
 #define INVALID_SESSION			0
 #define SESSION_ID_INIT			INVALID_SESSION

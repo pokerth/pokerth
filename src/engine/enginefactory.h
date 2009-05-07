@@ -25,8 +25,6 @@
 #include "playerinterface.h"
 #include "berointerface.h"
 
-#include <boost/shared_ptr.hpp>
-
 
 class EngineFactory{
 public:

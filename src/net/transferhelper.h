@@ -21,8 +21,8 @@
 #ifndef _TRANSFERHELPER_H_
 #define _TRANSFERHELPER_H_
 
-#include <string>
 #include <boost/shared_ptr.hpp>
+#include <string>
 
 struct TransferData;
 

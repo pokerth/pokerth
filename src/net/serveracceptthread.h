@@ -22,9 +22,10 @@
 #define _SERVERACCEPTTHREAD_H_
 
 #include <boost/asio.hpp>
+#include <string>
+
 #include <game_defs.h>
 #include <gui/guiinterface.h>
-#include <string>
 
 class ServerLobbyThread;
 

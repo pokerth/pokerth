@@ -21,13 +21,13 @@
 #ifndef _PLAYERDATA_H_
 #define _PLAYERDATA_H_
 
-#include <core/crypthelper.h>
+#include <boost/shared_ptr.hpp>
+#include <boost/thread.hpp>
 #include <string>
 #include <list>
 #include <vector>
 #include <map>
-#include <boost/shared_ptr.hpp>
-#include <boost/thread.hpp>
+#include <core/crypthelper.h>
 
 class SessionData;
 
@@ -110,7 +110,6 @@ private:
 	mutable boost::mutex			m_dataMutex;
 };
 
-typedef std::list<unsigned> PlayerIdList;
 typedef std::list<std::pair<unsigned, unsigned> > RemovePlayerList;
 typedef std::list<boost::shared_ptr<PlayerData> > PlayerDataList;
 typedef std::map<unsigned, boost::shared_ptr<PlayerData> > PlayerDataMap;

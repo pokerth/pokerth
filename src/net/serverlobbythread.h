@@ -22,16 +22,15 @@
 #define _SERVERRECVTHREAD_H_
 
 #include <boost/asio.hpp>
+#include <deque>
+#include <boost/regex.hpp>
+
 #include <core/timermanager.h>
 #include <net/sessionmanager.h>
 #include <net/netpacket.h>
 #include <gui/guiinterface.h>
 #include <gamedata.h>
 
-#include <deque>
-#include <list>
-#include <boost/regex.hpp>
-#include <third_party/boost/timers.hpp>
 
 #define NET_LOBBY_THREAD_TERMINATE_TIMEOUT_MSEC		20000
 #define NET_ADMIN_IRC_TERMINATE_TIMEOUT_MSEC		4000
