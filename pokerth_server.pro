@@ -71,8 +71,8 @@ HEADERS += \
 		src/net/genericsocket.h \
 		src/net/netpacket.h \
 		src/net/resolverthread.h \
-		src/net/senderthread.h \
-		src/net/serveracceptthread.h \
+		src/net/senderhelper.h \
+		src/net/serveraccepthelper.h \
 		src/net/serverlobbythread.h \
 		src/net/socket_helper.h \
 		src/net/socket_msg.h \

@@ -64,9 +64,11 @@ HEADERS += \
 		src/engine/playerinterface.h \
 		src/engine/berointerface.h \
 		src/gui/guiinterface.h \
+		src/net/connectdata.h \
 		src/net/clientcallback.h \
 		src/net/clientcontext.h \
 		src/net/clientexception.h \
+		src/net/netcontext.h \
 		src/net/clientstate.h \
 		src/net/clientthread.h \
 		src/net/genericsocket.h \
@@ -74,17 +76,24 @@ HEADERS += \
 		src/net/resolverthread.h \
 		src/net/senderinterface.h \
 		src/net/senderhelper.h \
+		src/net/sendercallback.h \
+		src/net/servercontext.h \
+		src/net/serverexception.h \
 		src/net/serveraccepthelper.h \
 		src/net/servergamethread.h \
 		src/net/servergamestate.h \
 		src/net/serverlobbythread.h \
+		src/net/servercallback.h \
+		src/net/sessiondata.h \
 		src/net/sessiondatacallback.h \
+		src/net/sessionmanager.h \
 		src/net/socket_helper.h \
 		src/net/socket_msg.h \
 		src/net/socket_startup.h \
 		src/net/irccallback.h \
 		src/net/ircthread.h \
 		src/net/netexception.h \
+		src/net/receiverhelper.h \
 		src/net/servermanager.h \
 		src/net/transferdata.h \
 		src/net/transferhelper.h \
