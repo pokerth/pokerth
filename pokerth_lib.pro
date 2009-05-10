@@ -74,7 +74,7 @@ HEADERS += \
 		src/net/resolverthread.h \
 		src/net/senderinterface.h \
 		src/net/senderthread.h \
-		src/net/serveracceptthread.h \
+		src/net/serveracceptmanager.h \
 		src/net/servergamethread.h \
 		src/net/servergamestate.h \
 		src/net/serverlobbythread.h \
@@ -172,7 +172,7 @@ SOURCES += \
 		src/net/common/sendercallback.cpp \
 		src/net/common/servercontext.cpp \
 		src/net/common/serverexception.cpp \
-		src/net/common/serveracceptthread.cpp \
+		src/net/common/serveracceptmanager.cpp \
 		src/net/common/servergamethread.cpp \
 		src/net/common/servergamestate.cpp \
 		src/net/common/serverlobbythread.cpp \

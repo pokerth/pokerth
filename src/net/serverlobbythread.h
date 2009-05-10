@@ -112,6 +112,7 @@ protected:
 
 	// Main function of the thread.
 	virtual void Main();
+	void RegisterTimers();
 
 	void HandleRead(SessionId sessionId, const boost::system::error_code& error, size_t bytesRead);
 	void HandlePacket(SessionWrapper session, boost::shared_ptr<NetPacket> packet);
@@ -126,10 +127,9 @@ protected:
 	void HandleNetPacketJoinGame(SessionWrapper session, const NetPacketJoinGame &tmpPacket);
 	void EstablishSession(SessionWrapper session);
 	void RequestPlayerAvatar(SessionWrapper session);
-	void NewConnectionLoop();
 	void NewSessionLoop();
-	void RemoveGameLoop();
-	void RemovePlayerLoop();
+	void TimerRemoveGame();
+	void TimerRemovePlayer();
 	void ResubscribeLobbyMsgLoop();
 	void UpdateAvatarClientTimerLoop();
 	void TimerCheckSessionTimeouts();
@@ -142,12 +142,10 @@ protected:
 
 	void TerminateGames();
 
-	void HandleNewConnection(boost::shared_ptr<boost::asio::ip::tcp::socket> sock);
 	void HandleReAddedSession(SessionWrapper session);
 
 	void InternalCheckSessionTimeouts(SessionWrapper session);
 
-	void CleanupConnectQueue();
 	void CleanupSessionMap();
 
 	void CloseSession(SessionWrapper session);
@@ -179,9 +177,6 @@ private:
 	boost::shared_ptr<boost::asio::io_service> m_ioService;
 
 	TimerManager m_timerManager;
-
-	ConnectQueue m_connectQueue;
-	mutable boost::mutex m_connectQueueMutex;
 
 	SessionQueue m_sessionQueue;
 	mutable boost::mutex m_sessionQueueMutex;

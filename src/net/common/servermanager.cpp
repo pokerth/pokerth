@@ -23,7 +23,7 @@
 #include <net/ircthread.h>
 #include <net/connectdata.h>
 #include <net/serverlobbythread.h>
-#include <net/serveracceptthread.h>
+#include <net/serveracceptmanager.h>
 #include <net/serverexception.h>
 #include <net/socket_msg.h>
 #include <net/socket_startup.h>
@@ -54,15 +54,15 @@ ServerManager::Init(unsigned serverPort, bool ipv6, ServerNetworkMode mode, cons
 
 	if (mode & NETWORK_MODE_TCP)
 	{
-		boost::shared_ptr<ServerAcceptThread> tcpAcceptThread(new ServerAcceptThread(GetGui(), m_ioService));
+		boost::shared_ptr<ServerAcceptManager> tcpAcceptThread(new ServerAcceptManager(GetGui(), m_ioService));
 		tcpAcceptThread->Listen(serverPort, ipv6, false, pwd, logDir, m_lobbyThread);
-		m_acceptThreadPool.push_back(tcpAcceptThread);
+		m_acceptManagerPool.push_back(tcpAcceptThread);
 	}
 	if (mode & NETWORK_MODE_SCTP)
 	{
-		boost::shared_ptr<ServerAcceptThread> sctpAcceptThread(new ServerAcceptThread(GetGui(), m_ioService));
+		boost::shared_ptr<ServerAcceptManager> sctpAcceptThread(new ServerAcceptManager(GetGui(), m_ioService));
 		sctpAcceptThread->Listen(serverPort, ipv6, true, pwd, logDir, m_lobbyThread);
-		m_acceptThreadPool.push_back(sctpAcceptThread);
+		m_acceptManagerPool.push_back(sctpAcceptThread);
 	}
 	m_ircThread = ircThread;
 }
@@ -299,7 +299,6 @@ ServerManager::SignalTerminationAll()
 	if (m_ircThread)
 		m_ircThread->SignalTermination();
 	GetLobbyThread().SignalTermination();
-//	for_each(m_acceptThreadPool.begin(), m_acceptThreadPool.end(), boost::mem_fn(&ServerAcceptThread::SignalTermination));
 }
 
 bool
@@ -307,16 +306,7 @@ ServerManager::JoinAll(bool wait)
 {
 	if (m_ircThread)
 		m_ircThread->Join(wait ? NET_ADMIN_IRC_TERMINATE_TIMEOUT_MSEC : 0);
-	bool lobbyThreadTerminated = GetLobbyThread().Join(wait ? NET_LOBBY_THREAD_TERMINATE_TIMEOUT_MSEC : 0);
-/*	AcceptThreadList::iterator i = m_acceptThreadPool.begin();
-	AcceptThreadList::iterator end = m_acceptThreadPool.end();
-	while (i != end)
-	{
-		if (!(*i)->Join(wait ? NET_ACCEPT_THREAD_TERMINATE_TIMEOUT_MSEC : 0))
-			allAcceptThreadsTerminated = false;
-		++i;
-	}*/
-	return lobbyThreadTerminated;
+	return GetLobbyThread().Join(wait ? NET_LOBBY_THREAD_TERMINATE_TIMEOUT_MSEC : 0);
 }
 
 ServerLobbyThread &

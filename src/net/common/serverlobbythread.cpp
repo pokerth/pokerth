@@ -36,8 +36,13 @@
 #include <boost/bind.hpp>
 
 #define SERVER_MAX_NUM_SESSIONS						512		// Maximum number of idle users in lobby.
+
 #define SERVER_CACHE_CLEANUP_INTERVAL_SEC			86400	// 1 day
 #define SERVER_SAVE_STATISTICS_INTERVAL_SEC			60
+#define SERVER_CHECK_SESSION_TIMEOUTS_INTERVAL_MSEC	500
+#define SERVER_REMOVE_GAME_INTERVAL_MSEC			100
+#define SERVER_REMOVE_PLAYER_INTERVAL_MSEC			100
+
 #define SERVER_INIT_AVATAR_CLIENT_LOCK_SEC			30      // Forbid a client to send an additional avatar.
 
 #define SERVER_INIT_SESSION_TIMEOUT_SEC				20
@@ -45,7 +50,6 @@
 #define SERVER_SESSION_ACTIVITY_TIMEOUT_SEC			1800	// 30 min, MUST be > SERVER_TIMEOUT_WARNING_REMAINING_SEC
 #define SERVER_SESSION_FORCED_TIMEOUT_SEC			86400	// 1 day, should be quite large.
 
-#define SERVER_CHECK_SESSION_TIMEOUTS_INTERVAL_MSEC	500
 
 #define SERVER_STATISTICS_FILE_NAME					"server_statistics.log"
 #define SERVER_STATISTICS_STR_TOTAL_PLAYERS			"TotalNumPlayersLoggedIn"
@@ -94,7 +98,6 @@ ServerLobbyThread::ServerLobbyThread(GuiInterface &gui, ConfigFile *playerConfig
 
 ServerLobbyThread::~ServerLobbyThread()
 {
-	CleanupConnectQueue();
 }
 
 void
@@ -117,8 +120,57 @@ ServerLobbyThread::Init(const string &pwd, const string &logDir)
 void
 ServerLobbyThread::AddConnection(boost::shared_ptr<tcp::socket> sock)
 {
-	boost::mutex::scoped_lock lock(m_connectQueueMutex);
-	m_connectQueue.push_back(sock);
+	// Create a random session id.
+	// This id can be used to reconnect to the server if the connection was lost.
+	//unsigned sessionId;
+
+	// TODO: use randomized method.
+	//if(!RAND_bytes((unsigned char *)&sessionId, sizeof(sessionId)))
+	//{
+	//	RAND_pseudo_bytes((unsigned char *)&sessionId, sizeof(sessionId));
+	//}
+
+	// Create a new session.
+	boost::shared_ptr<SessionData> sessionData(new SessionData(sock, m_curSessionId++, m_sender, *m_senderCallback));
+	m_sessionManager.AddSession(sessionData);
+
+	LOG_VERBOSE("Accepted connection - session #" << sessionData->GetId() << ".");
+
+	bool hasClientIp = false;
+	if (m_sessionManager.GetRawSessionCount() <= SERVER_MAX_NUM_SESSIONS)
+	{
+		boost::system::error_code errCode;
+		tcp::endpoint clientEndpoint = sock->remote_endpoint(errCode);
+		if (!errCode)
+		{
+			string ipAddress = clientEndpoint.address().to_string(errCode);
+			if (!errCode && !ipAddress.empty())
+			{
+				sessionData->SetClientAddr(ipAddress);
+				hasClientIp = true;
+				sock->async_read_some(
+					boost::asio::buffer(sessionData->GetReceiveBuffer().recvBuf, RECV_BUF_SIZE),
+					boost::bind(
+						&ServerLobbyThread::HandleRead,
+						this,
+						sessionData->GetId(),
+						boost::asio::placeholders::error,
+						boost::asio::placeholders::bytes_transferred));
+			}
+		}
+		if (!hasClientIp)
+		{
+			// We do not accept sessions if we cannot
+			// retrieve the client address.
+			SessionError(SessionWrapper(sessionData, boost::shared_ptr<PlayerData>()), ERR_NET_INVALID_SESSION);
+		}
+	}
+	else
+	{
+		// Server is full.
+		// Gracefully close this session.
+		SessionError(SessionWrapper(sessionData, boost::shared_ptr<PlayerData>()), ERR_NET_SERVER_FULL);
+	}
 }
 
 void
@@ -443,30 +495,16 @@ ServerLobbyThread::Main()
 {
 	try
 	{
-		m_timerManager.RegisterTimer(
-			SERVER_CHECK_SESSION_TIMEOUTS_INTERVAL_MSEC,
-			boost::bind(&ServerLobbyThread::TimerCheckSessionTimeouts, this),
-			true);
-		m_timerManager.RegisterTimer(
-			SERVER_CACHE_CLEANUP_INTERVAL_SEC * 1000,
-			boost::bind(&ServerLobbyThread::TimerCleanupAvatarCache, this),
-			true);
-		m_timerManager.RegisterTimer(
-			SERVER_SAVE_STATISTICS_INTERVAL_SEC * 1000,
-			boost::bind(&ServerLobbyThread::TimerSaveStatisticsFile, this),
-			true);
+		// Register all timers.
+		RegisterTimers();
+
+		// Start send thread.
 		m_sender->Start();
 
 		while (!ShouldTerminate())
 		{
-			// Process new connections.
-			NewConnectionLoop();
 			// Process re-added sessions.
 			NewSessionLoop();
-			// Remove games.
-			RemoveGameLoop();
-			// Kick players.
-			RemovePlayerLoop();
 			// Resubscribe Lobby Messages if needed.
 			ResubscribeLobbyMsgLoop();
 			// Update avatar limitation lock.
@@ -489,8 +527,36 @@ ServerLobbyThread::Main()
 	// Stop sender thread.
 	m_sender->SignalStop();
 	m_sender->WaitStop();
+}
 
-	CleanupConnectQueue();
+void
+ServerLobbyThread::RegisterTimers()
+{
+	// Remove closed games.
+	m_timerManager.RegisterTimer(
+		SERVER_REMOVE_GAME_INTERVAL_MSEC,
+		boost::bind(&ServerLobbyThread::TimerRemoveGame, this),
+		true);
+	// Remove inactive/kicked players.
+	m_timerManager.RegisterTimer(
+		SERVER_REMOVE_PLAYER_INTERVAL_MSEC,
+		boost::bind(&ServerLobbyThread::TimerRemovePlayer, this),
+		true);
+	// Check the timeout of sessions which have not been initialised.
+	m_timerManager.RegisterTimer(
+		SERVER_CHECK_SESSION_TIMEOUTS_INTERVAL_MSEC,
+		boost::bind(&ServerLobbyThread::TimerCheckSessionTimeouts, this),
+		true);
+	// Cleanup the avatar cache. Note: Only works if there are no users on the server.
+	m_timerManager.RegisterTimer(
+		SERVER_CACHE_CLEANUP_INTERVAL_SEC * 1000,
+		boost::bind(&ServerLobbyThread::TimerCleanupAvatarCache, this),
+		true);
+	// Update the statistics file.
+	m_timerManager.RegisterTimer(
+		SERVER_SAVE_STATISTICS_INTERVAL_SEC * 1000,
+		boost::bind(&ServerLobbyThread::TimerSaveStatisticsFile, this),
+		true);
 }
 
 void
@@ -962,23 +1028,6 @@ ServerLobbyThread::RequestPlayerAvatar(SessionWrapper session)
 }
 
 void
-ServerLobbyThread::NewConnectionLoop()
-{
-	// Handle one incoming connection at a time.
-	boost::shared_ptr<tcp::socket> tmpData;
-	{
-		boost::mutex::scoped_lock lock(m_connectQueueMutex);
-		if (!m_connectQueue.empty())
-		{
-			tmpData = m_connectQueue.front();
-			m_connectQueue.pop_front();
-		}
-	}
-	if (tmpData.get())
-		HandleNewConnection(tmpData);
-}
-
-void
 ServerLobbyThread::NewSessionLoop()
 {
 	// Handle one incoming session at a time.
@@ -996,7 +1045,7 @@ ServerLobbyThread::NewSessionLoop()
 }
 
 void
-ServerLobbyThread::RemoveGameLoop()
+ServerLobbyThread::TimerRemoveGame()
 {
 	boost::mutex::scoped_lock lock(m_removeGameListMutex);
 
@@ -1021,7 +1070,7 @@ ServerLobbyThread::RemoveGameLoop()
 }
 
 void
-ServerLobbyThread::RemovePlayerLoop()
+ServerLobbyThread::TimerRemovePlayer()
 {
 	boost::mutex::scoped_lock lock(m_removePlayerListMutex);
 
@@ -1203,62 +1252,6 @@ ServerLobbyThread::TerminateGames()
 }
 
 void
-ServerLobbyThread::HandleNewConnection(boost::shared_ptr<tcp::socket> sock)
-{
-	// Create a random session id.
-	// This id can be used to reconnect to the server if the connection was lost.
-	//unsigned sessionId;
-
-	// TODO: use randomized method.
-	//if(!RAND_bytes((unsigned char *)&sessionId, sizeof(sessionId)))
-	//{
-	//	RAND_pseudo_bytes((unsigned char *)&sessionId, sizeof(sessionId));
-	//}
-
-	// Create a new session.
-	boost::shared_ptr<SessionData> sessionData(new SessionData(sock, m_curSessionId++, m_sender, *m_senderCallback));
-	m_sessionManager.AddSession(sessionData);
-
-	LOG_VERBOSE("Accepted connection - session #" << sessionData->GetId() << ".");
-
-	bool hasClientIp = false;
-	if (m_sessionManager.GetRawSessionCount() <= SERVER_MAX_NUM_SESSIONS)
-	{
-		boost::system::error_code errCode;
-		tcp::endpoint clientEndpoint = sock->remote_endpoint(errCode);
-		if (!errCode)
-		{
-			string ipAddress = clientEndpoint.address().to_string(errCode);
-			if (!errCode && !ipAddress.empty())
-			{
-				sessionData->SetClientAddr(ipAddress);
-				hasClientIp = true;
-				sock->async_read_some(
-					boost::asio::buffer(sessionData->GetReceiveBuffer().recvBuf, RECV_BUF_SIZE),
-					boost::bind(
-						&ServerLobbyThread::HandleRead,
-						this,
-						sessionData->GetId(),
-						boost::asio::placeholders::error,
-						boost::asio::placeholders::bytes_transferred));
-			}
-		}
-		if (!hasClientIp)
-		{
-			// We do not accept sessions if we cannot
-			// retrieve the client address.
-			SessionError(SessionWrapper(sessionData, boost::shared_ptr<PlayerData>()), ERR_NET_INVALID_SESSION);
-		}
-	}
-	else
-	{
-		// Server is full.
-		// Gracefully close this session.
-		SessionError(SessionWrapper(sessionData, boost::shared_ptr<PlayerData>()), ERR_NET_SERVER_FULL);
-	}
-}
-
-void
 ServerLobbyThread::HandleReAddedSession(SessionWrapper session)
 {
 	// Remove session from game session list.
@@ -1315,15 +1308,6 @@ ServerLobbyThread::InternalCheckSessionTimeouts(SessionWrapper session)
 	{
 		RemovePlayer(session.playerData->GetUniqueId(), ERR_NET_SESSION_TIMED_OUT);
 	}
-}
-
-void
-ServerLobbyThread::CleanupConnectQueue()
-{
-	boost::mutex::scoped_lock lock(m_connectQueueMutex);
-
-	// Sockets will be closed automatically.
-	m_connectQueue.clear();
 }
 
 void

@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2007 by Lothar May                                      *
+ *   Copyright (C) 2007-2009 by Lothar May                                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -16,10 +16,10 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-/* Network server thread to accept connections. */
+/* Network server manager to accept connections. */
 
-#ifndef _SERVERACCEPTTHREAD_H_
-#define _SERVERACCEPTTHREAD_H_
+#ifndef _SERVERACCEPTMANAGER_H_
+#define _SERVERACCEPTMANAGER_H_
 
 #include <boost/asio.hpp>
 #include <string>
@@ -29,11 +29,11 @@
 
 class ServerLobbyThread;
 
-class ServerAcceptThread
+class ServerAcceptManager
 {
 public:
-	ServerAcceptThread(ServerCallback &serverCallback, boost::shared_ptr<boost::asio::io_service> ioService);
-	virtual ~ServerAcceptThread();
+	ServerAcceptManager(ServerCallback &serverCallback, boost::shared_ptr<boost::asio::io_service> ioService);
+	virtual ~ServerAcceptManager();
 
 	// Set the parameters.
 	void Listen(unsigned serverPort, bool ipv6, bool sctp, const std::string &pwd, const std::string &logDir,
