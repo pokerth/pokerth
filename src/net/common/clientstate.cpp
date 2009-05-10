@@ -20,7 +20,7 @@
 #include <net/clientstate.h>
 #include <net/clientthread.h>
 #include <net/clientcontext.h>
-#include <net/senderthread.h>
+#include <net/senderhelper.h>
 #include <net/receiverhelper.h>
 #include <net/netpacket.h>
 #include <net/resolverthread.h>

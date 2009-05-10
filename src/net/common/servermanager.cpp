@@ -23,7 +23,7 @@
 #include <net/ircthread.h>
 #include <net/connectdata.h>
 #include <net/serverlobbythread.h>
-#include <net/serveracceptmanager.h>
+#include <net/serveraccepthelper.h>
 #include <net/serverexception.h>
 #include <net/socket_msg.h>
 #include <net/socket_startup.h>
@@ -54,15 +54,15 @@ ServerManager::Init(unsigned serverPort, bool ipv6, ServerNetworkMode mode, cons
 
 	if (mode & NETWORK_MODE_TCP)
 	{
-		boost::shared_ptr<ServerAcceptManager> tcpAcceptThread(new ServerAcceptManager(GetGui(), m_ioService));
-		tcpAcceptThread->Listen(serverPort, ipv6, false, pwd, logDir, m_lobbyThread);
-		m_acceptManagerPool.push_back(tcpAcceptThread);
+		boost::shared_ptr<ServerAcceptHelper> tcpAcceptHelper(new ServerAcceptHelper(GetGui(), m_ioService));
+		tcpAcceptHelper->Listen(serverPort, ipv6, false, pwd, logDir, m_lobbyThread);
+		m_acceptHelperPool.push_back(tcpAcceptHelper);
 	}
 	if (mode & NETWORK_MODE_SCTP)
 	{
-		boost::shared_ptr<ServerAcceptManager> sctpAcceptThread(new ServerAcceptManager(GetGui(), m_ioService));
-		sctpAcceptThread->Listen(serverPort, ipv6, true, pwd, logDir, m_lobbyThread);
-		m_acceptManagerPool.push_back(sctpAcceptThread);
+		boost::shared_ptr<ServerAcceptHelper> sctpAcceptHelper(new ServerAcceptHelper(GetGui(), m_ioService));
+		sctpAcceptHelper->Listen(serverPort, ipv6, true, pwd, logDir, m_lobbyThread);
+		m_acceptHelperPool.push_back(sctpAcceptHelper);
 	}
 	m_ircThread = ircThread;
 }

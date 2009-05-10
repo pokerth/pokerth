@@ -30,7 +30,7 @@
 #include <gui/guiinterface.h>
 
 class ServerLobbyThread;
-class ServerAcceptManager;
+class ServerAcceptHelper;
 class SenderThread;
 class ConfigFile;
 class AvatarManager;
@@ -67,7 +67,7 @@ public:
 	virtual void SignalIrcServerError(int errorCode);
 
 protected:
-	typedef std::list<boost::shared_ptr<ServerAcceptManager> > AcceptManagerList;
+	typedef std::list<boost::shared_ptr<ServerAcceptHelper> > AcceptHelperList;
 
 	ServerLobbyThread &GetLobbyThread();
 
@@ -82,7 +82,7 @@ private:
 	boost::shared_ptr<ServerLobbyThread> m_lobbyThread;
 	boost::shared_ptr<IrcThread> m_ircThread;
 	boost::timers::portable::microsec_timer m_ircRestartTimer;
-	AcceptManagerList m_acceptManagerPool;
+	AcceptHelperList m_acceptHelperPool;
 };
 
 #endif

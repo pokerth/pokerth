@@ -18,7 +18,7 @@
  ***************************************************************************/
 
 #include <net/socket_helper.h>
-#include <net/senderthread.h>
+#include <net/senderhelper.h>
 #include <net/sendercallback.h>
 #include <net/socket_msg.h>
 #include <core/loghelper.h>
@@ -91,17 +91,17 @@ SendDataManager::AsyncSendNextPacket(bool handlerMode)
 	}
 }
 
-SenderThread::SenderThread(SenderCallback &cb, boost::shared_ptr<boost::asio::io_service> ioService)
+SenderHelper::SenderHelper(SenderCallback &cb, boost::shared_ptr<boost::asio::io_service> ioService)
 : m_callback(cb), m_ioService(ioService)
 {
 }
 
-SenderThread::~SenderThread()
+SenderHelper::~SenderHelper()
 {
 }
 
 void
-SenderThread::Send(boost::shared_ptr<SessionData> session, boost::shared_ptr<NetPacket> packet)
+SenderHelper::Send(boost::shared_ptr<SessionData> session, boost::shared_ptr<NetPacket> packet)
 {
 	if (packet.get() && session.get())
 	{
@@ -129,7 +129,7 @@ SenderThread::Send(boost::shared_ptr<SessionData> session, boost::shared_ptr<Net
 }
 
 void
-SenderThread::Send(boost::shared_ptr<SessionData> session, const NetPacketList &packetList)
+SenderHelper::Send(boost::shared_ptr<SessionData> session, const NetPacketList &packetList)
 {
 	if (!packetList.empty() && session.get())
 	{
@@ -165,14 +165,14 @@ SenderThread::Send(boost::shared_ptr<SessionData> session, const NetPacketList &
 }
 
 void
-SenderThread::SignalSessionTerminated(unsigned sessionId)
+SenderHelper::SignalSessionTerminated(unsigned sessionId)
 {
 	boost::mutex::scoped_lock lock(m_removedSessionsMutex);
 	m_removedSessions.push_back(sessionId);
 }
 
 void
-SenderThread::Process()
+SenderHelper::Process()
 {
 	// Close sessions if they were destructed.
 	{

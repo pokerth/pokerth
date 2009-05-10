@@ -21,7 +21,7 @@
 #include <net/servergamestate.h>
 #include <net/serverlobbythread.h>
 #include <net/serverexception.h>
-#include <net/senderthread.h>
+#include <net/senderhelper.h>
 #include <net/receiverhelper.h>
 #include <net/socket_msg.h>
 #include <core/loghelper.h>

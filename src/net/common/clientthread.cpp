@@ -22,7 +22,7 @@
 #include <net/clientthread.h>
 #include <net/clientstate.h>
 #include <net/clientcontext.h>
-#include <net/senderthread.h>
+#include <net/senderhelper.h>
 #include <net/receiverhelper.h>
 #include <net/downloaderthread.h>
 #include <net/clientexception.h>
@@ -70,7 +70,7 @@ ClientThread::ClientThread(GuiInterface &gui, AvatarManager &avatarManager)
 	m_receiver.reset(new ReceiverHelper);
 	myQtToolsInterface.reset(CreateQtToolsWrapper());
 	m_senderCallback.reset(new ClientSenderCallback());
-	m_senderThread.reset(new SenderThread(*m_senderCallback, m_ioService));
+	m_senderHelper.reset(new SenderHelper(*m_senderCallback, m_ioService));
 }
 
 ClientThread::~ClientThread()
@@ -737,7 +737,7 @@ ClientThread::CreateContextSession()
 		GetContext().SetSessionData(boost::shared_ptr<SessionData>(new SessionData(
 			newSock,
 			SESSION_ID_GENERIC,
-			m_senderThread,
+			m_senderHelper,
 			*m_senderCallback)));
 		validSocket = true;
 	} catch (...)

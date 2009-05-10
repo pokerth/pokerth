@@ -17,7 +17,7 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#include <net/serveracceptmanager.h>
+#include <net/serveraccepthelper.h>
 #include <net/serverlobbythread.h>
 #include <net/serverexception.h>
 #include <net/socket_msg.h>
@@ -29,18 +29,18 @@
 using namespace std;
 using boost::asio::ip::tcp;
 
-ServerAcceptManager::ServerAcceptManager(ServerCallback &serverCallback, boost::shared_ptr<boost::asio::io_service> ioService)
+ServerAcceptHelper::ServerAcceptHelper(ServerCallback &serverCallback, boost::shared_ptr<boost::asio::io_service> ioService)
 : m_ioService(ioService), m_serverCallback(serverCallback)
 {
 	m_acceptor.reset(new tcp::acceptor(*m_ioService));
 }
 
-ServerAcceptManager::~ServerAcceptManager()
+ServerAcceptHelper::~ServerAcceptHelper()
 {
 }
 
 void
-ServerAcceptManager::Listen(unsigned serverPort, bool ipv6, bool sctp, const string &pwd, const string &logDir, boost::shared_ptr<ServerLobbyThread> lobbyThread)
+ServerAcceptHelper::Listen(unsigned serverPort, bool ipv6, bool sctp, const string &pwd, const string &logDir, boost::shared_ptr<ServerLobbyThread> lobbyThread)
 {
 	m_lobbyThread = lobbyThread;
 
@@ -63,7 +63,7 @@ ServerAcceptManager::Listen(unsigned serverPort, bool ipv6, bool sctp, const str
 }
 
 void
-ServerAcceptManager::InternalListen(unsigned serverPort, bool ipv6, bool sctp)
+ServerAcceptHelper::InternalListen(unsigned serverPort, bool ipv6, bool sctp)
 {
 	if (serverPort < 1024)
 		throw ServerException(__FILE__, __LINE__, ERR_SOCK_INVALID_PORT, 0);
@@ -89,13 +89,13 @@ ServerAcceptManager::InternalListen(unsigned serverPort, bool ipv6, bool sctp)
 	boost::shared_ptr<tcp::socket> newSocket(new tcp::socket(*m_ioService));
 	m_acceptor->async_accept(
 		*newSocket,
-		boost::bind(&ServerAcceptManager::HandleAccept, this, newSocket,
+		boost::bind(&ServerAcceptHelper::HandleAccept, this, newSocket,
 			boost::asio::placeholders::error)
 		);
 }
 
 void
-ServerAcceptManager::HandleAccept(boost::shared_ptr<boost::asio::ip::tcp::socket> acceptedSocket,
+ServerAcceptHelper::HandleAccept(boost::shared_ptr<boost::asio::ip::tcp::socket> acceptedSocket,
 								 const boost::system::error_code& error)
 {
 	if (!error)
@@ -109,7 +109,7 @@ ServerAcceptManager::HandleAccept(boost::shared_ptr<boost::asio::ip::tcp::socket
 		boost::shared_ptr<tcp::socket> newSocket(new tcp::socket(*m_ioService));
 		m_acceptor->async_accept(
 			*newSocket,
-			boost::bind(&ServerAcceptManager::HandleAccept, this, newSocket,
+			boost::bind(&ServerAcceptHelper::HandleAccept, this, newSocket,
 				boost::asio::placeholders::error)
 			);
 	}
@@ -122,13 +122,13 @@ ServerAcceptManager::HandleAccept(boost::shared_ptr<boost::asio::ip::tcp::socket
 }
 
 ServerCallback &
-ServerAcceptManager::GetCallback()
+ServerAcceptHelper::GetCallback()
 {
 	return m_serverCallback;
 }
 
 ServerLobbyThread &
-ServerAcceptManager::GetLobbyThread()
+ServerAcceptHelper::GetLobbyThread()
 {
 	assert(m_lobbyThread.get());
 	return *m_lobbyThread;

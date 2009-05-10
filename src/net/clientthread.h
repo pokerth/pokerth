@@ -233,7 +233,7 @@ private:
 	mutable boost::mutex m_curStatsMutex;
 	ServerStats m_curStats;
 
-	boost::shared_ptr<SenderInterface> m_senderThread;
+	boost::shared_ptr<SenderInterface> m_senderHelper;
 
 friend class AbstractClientStateReceiving;
 friend class ClientStateInit;
