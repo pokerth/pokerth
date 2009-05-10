@@ -101,24 +101,6 @@ SenderThread::~SenderThread()
 }
 
 void
-SenderThread::Start()
-{
-	Run();
-}
-
-void
-SenderThread::SignalStop()
-{
-	SignalTermination();
-}
-
-void
-SenderThread::WaitStop()
-{
-	Join(SENDER_THREAD_TERMINATE_TIMEOUT);
-}
-
-void
 SenderThread::Send(boost::shared_ptr<SessionData> session, boost::shared_ptr<NetPacket> packet)
 {
 	if (packet.get() && session.get())
@@ -190,73 +172,66 @@ SenderThread::SignalSessionTerminated(unsigned sessionId)
 }
 
 void
-SenderThread::Main()
+SenderThread::Process()
 {
-	boost::asio::io_service::work ioWork(*m_ioService);
-	while (!ShouldTerminate())
+	// Close sessions if they were destructed.
 	{
-		// Close sessions if they were destructed.
+		boost::mutex::scoped_lock lock(m_removedSessionsMutex);
+		if (!m_removedSessions.empty())
 		{
-			boost::mutex::scoped_lock lock(m_removedSessionsMutex);
-			if (!m_removedSessions.empty())
+			SessionIdList newRemovedSessions;
+			SessionIdList::iterator i = m_removedSessions.begin();
+			SessionIdList::iterator end = m_removedSessions.end();
+
+			boost::mutex::scoped_lock lock(m_sendQueueMapMutex);
+
+			while (i != end)
 			{
-				SessionIdList newRemovedSessions;
-				SessionIdList::iterator i = m_removedSessions.begin();
-				SessionIdList::iterator end = m_removedSessions.end();
-
-				boost::mutex::scoped_lock lock(m_sendQueueMapMutex);
-
-				while (i != end)
+				SendQueueMap::iterator pos = m_sendQueueMap.find(*i);
+				if (pos != m_sendQueueMap.end())
 				{
-					SendQueueMap::iterator pos = m_sendQueueMap.find(*i);
-					if (pos != m_sendQueueMap.end())
+					// Remove session if no write is in progress, else wait.
+					bool shouldDelete;
 					{
-						// Remove session if no write is in progress, else wait.
-						bool shouldDelete;
-						{
-							boost::mutex::scoped_lock lock(pos->second->dataMutex);
-							shouldDelete = (!pos->second->writeInProgress && pos->second->list.empty());
-						}
-						if (shouldDelete)
-							m_sendQueueMap.erase(pos);
-						else
-							newRemovedSessions.push_back(*i);
+						boost::mutex::scoped_lock lock(pos->second->dataMutex);
+						shouldDelete = (!pos->second->writeInProgress && pos->second->list.empty());
 					}
-					++i;
+					if (shouldDelete)
+						m_sendQueueMap.erase(pos);
+					else
+						newRemovedSessions.push_back(*i);
 				}
-				m_removedSessions = newRemovedSessions;
+				++i;
+			}
+			m_removedSessions = newRemovedSessions;
+		}
+	}
+	// Iterate through all changed sessions, and send data if needed.
+	bool sessionValid;
+	do
+	{
+		sessionValid = false;
+		unsigned sessionId = 0;
+
+		{
+			boost::mutex::scoped_lock lock(m_changedSessionsMutex);
+			if (!m_changedSessions.empty())
+			{
+				sessionId = m_changedSessions.front();
+				m_changedSessions.pop_front();
+				sessionValid = true;
 			}
 		}
-		// Iterate through all changed sessions, and send data if needed.
-		bool sessionValid;
-		do
+		boost::shared_ptr<SendDataManager> tmpManager;
+		if (sessionValid)
 		{
-			sessionValid = false;
-			unsigned sessionId = 0;
-
-			{
-				boost::mutex::scoped_lock lock(m_changedSessionsMutex);
-				if (!m_changedSessions.empty())
-				{
-					sessionId = m_changedSessions.front();
-					m_changedSessions.pop_front();
-					sessionValid = true;
-				}
-			}
-			boost::shared_ptr<SendDataManager> tmpManager;
-			if (sessionValid)
-			{
-				boost::mutex::scoped_lock lock(m_sendQueueMapMutex);
-				SendQueueMap::iterator pos = m_sendQueueMap.find(sessionId);
-				if (pos != m_sendQueueMap.end())
-					tmpManager = pos->second;
-			}
-			if (tmpManager)
-				tmpManager->AsyncSendNextPacket();
-		} while (sessionValid);
-
-		m_ioService->poll();
-		Msleep(SEND_TIMEOUT_MSEC);
-	}
+			boost::mutex::scoped_lock lock(m_sendQueueMapMutex);
+			SendQueueMap::iterator pos = m_sendQueueMap.find(sessionId);
+			if (pos != m_sendQueueMap.end())
+				tmpManager = pos->second;
+		}
+		if (tmpManager)
+			tmpManager->AsyncSendNextPacket();
+	} while (sessionValid);
 }
 

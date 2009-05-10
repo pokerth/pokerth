@@ -21,27 +21,23 @@
 #ifndef _SENDERTHREAD_H_
 #define _SENDERTHREAD_H_
 
-#include <core/thread.h>
 #include <net/senderinterface.h>
 #include <net/netpacket.h>
 #include <net/sendercallback.h>
 
 class SessionData;
 class SendDataManager;
-#define SENDER_THREAD_TERMINATE_TIMEOUT		THREAD_WAIT_INFINITE
 
-class SenderThread : public Thread, public SenderInterface
+class SenderThread : public SenderInterface
 {
 public:
 	SenderThread(SenderCallback &cb, boost::shared_ptr<boost::asio::io_service> ioService);
 	virtual ~SenderThread();
 
-	virtual void Start();
-	virtual void SignalStop();
-	virtual void WaitStop();
-
 	virtual void Send(boost::shared_ptr<SessionData> session, boost::shared_ptr<NetPacket> packet);
 	virtual void Send(boost::shared_ptr<SessionData> session, const NetPacketList &packetList);
+
+	virtual void Process();
 
 	virtual void SignalSessionTerminated(unsigned sessionId);
 
@@ -49,9 +45,6 @@ protected:
 	typedef std::list<unsigned> SessionIdList;
 
 	typedef std::map<SessionId, boost::shared_ptr<SendDataManager> > SendQueueMap;
-
-	// Main function of the thread.
-	virtual void Main();
 
 private:
 

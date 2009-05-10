@@ -29,12 +29,10 @@ class SenderInterface
 public:
 	virtual ~SenderInterface();
 
-	virtual void Start() = 0;
-	virtual void SignalStop() = 0;
-	virtual void WaitStop() = 0;
-
 	virtual void Send(boost::shared_ptr<SessionData> session, boost::shared_ptr<NetPacket> packet) = 0;
 	virtual void Send(boost::shared_ptr<SessionData> session, const NetPacketList &packetList) = 0;
+
+	virtual void Process() = 0;
 
 	virtual void SignalSessionTerminated(unsigned sessionId) = 0;
 };

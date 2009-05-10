@@ -42,6 +42,7 @@
 #define SERVER_CHECK_SESSION_TIMEOUTS_INTERVAL_MSEC	500
 #define SERVER_REMOVE_GAME_INTERVAL_MSEC			100
 #define SERVER_REMOVE_PLAYER_INTERVAL_MSEC			100
+#define SERVER_UPDATE_AVATAR_LOCK_INTERVAL_MSEC		1000
 
 #define SERVER_INIT_AVATAR_CLIENT_LOCK_SEC			30      // Forbid a client to send an additional avatar.
 
@@ -493,13 +494,11 @@ ServerLobbyThread::GetNextGameId()
 void
 ServerLobbyThread::Main()
 {
+	boost::asio::io_service::work ioWork(*m_ioService);
 	try
 	{
 		// Register all timers.
 		RegisterTimers();
-
-		// Start send thread.
-		m_sender->Start();
 
 		while (!ShouldTerminate())
 		{
@@ -507,10 +506,11 @@ ServerLobbyThread::Main()
 			NewSessionLoop();
 			// Resubscribe Lobby Messages if needed.
 			ResubscribeLobbyMsgLoop();
-			// Update avatar limitation lock.
-			UpdateAvatarClientTimerLoop();
 			// Process timers.
 			m_timerManager.Process();
+			// Process asio service.
+			m_ioService->poll();
+			m_sender->Process();
 			Thread::Msleep(10);
 		}
 	} catch (const PokerTHException &e)
@@ -524,9 +524,6 @@ ServerLobbyThread::Main()
 	// Remove all sessions.
 	m_gameSessionManager.Clear();
 	m_sessionManager.Clear();
-	// Stop sender thread.
-	m_sender->SignalStop();
-	m_sender->WaitStop();
 }
 
 void
@@ -556,6 +553,11 @@ ServerLobbyThread::RegisterTimers()
 	m_timerManager.RegisterTimer(
 		SERVER_SAVE_STATISTICS_INTERVAL_SEC * 1000,
 		boost::bind(&ServerLobbyThread::TimerSaveStatisticsFile, this),
+		true);
+	// Update the avatar upload locks.
+	m_timerManager.RegisterTimer(
+		SERVER_UPDATE_AVATAR_LOCK_INTERVAL_MSEC,
+		boost::bind(&ServerLobbyThread::TimerUpdateClientAvatarLock, this),
 		true);
 }
 
@@ -1112,7 +1114,7 @@ ServerLobbyThread::ResubscribeLobbyMsgLoop()
 }
 
 void
-ServerLobbyThread::UpdateAvatarClientTimerLoop()
+ServerLobbyThread::TimerUpdateClientAvatarLock()
 {
 	boost::mutex::scoped_lock lock(m_timerAvatarClientAddressMapMutex);
 

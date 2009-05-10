@@ -131,7 +131,7 @@ protected:
 	void TimerRemoveGame();
 	void TimerRemovePlayer();
 	void ResubscribeLobbyMsgLoop();
-	void UpdateAvatarClientTimerLoop();
+	void TimerUpdateClientAvatarLock();
 	void TimerCheckSessionTimeouts();
 	void TimerCleanupAvatarCache();
 

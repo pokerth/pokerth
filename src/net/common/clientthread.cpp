@@ -378,12 +378,12 @@ void
 ClientThread::Main()
 {
 	// Start sub-threads.
-	m_senderThread->Start();
 	m_avatarDownloader.reset(new DownloaderThread);
 	m_avatarDownloader->Run();
 	SetState(CLIENT_INITIAL_STATE::Instance());
 
 	// Main loop.
+	boost::asio::io_service::work ioWork(*m_ioService);
 	try
 	{
 		while (!ShouldTerminate())
@@ -414,6 +414,9 @@ ClientThread::Main()
 			}
 			if (IsSessionEstablished())
 				SendPacketLoop();
+			m_ioService->poll();
+			GetContext().GetSessionData()->GetSender().Process();
+			Thread::Msleep(10);
 		}
 	} catch (const PokerTHException &e)
 	{
@@ -422,8 +425,6 @@ ClientThread::Main()
 	// Terminate sub-threads.
 	m_avatarDownloader->SignalTermination();
 	m_avatarDownloader->Join(DOWNLOADER_THREAD_TERMINATE_TIMEOUT);
-	m_senderThread->SignalStop();
-	m_senderThread->WaitStop();
 }
 
 void
