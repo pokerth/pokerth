@@ -261,10 +261,10 @@ Show the IP address of player "foo":
 Ban a certain nick from the server, so it can no longer be used.
 For this command, the name "fooRegex" can be any regular expression.
 (Note: This does not affect players which are currently logged in):
-	BotName bannick fooRegex
+	BotName: bannick fooRegex
 
 Ban a certain client IP address from the server.
-(Note: ipAddress should be in the same format as printed by the
+(Note: The IP address should be in the same format as printed by the
 command "showip"):
 	BotName: banip 1.2.3.4
 
