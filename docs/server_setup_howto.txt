@@ -264,8 +264,9 @@ For this command, the name "fooRegex" can be any regular expression.
 	BotName: bannick fooRegex
 
 Ban a certain client IP address from the server.
-(Note: The IP address should be in the same format as printed by the
-command "showip"):
+The IP address should be in the same format as printed by the
+command "showip".
+(Note: This does not affect players which are currently logged in):
 	BotName: banip 1.2.3.4
 
 List all bans currently active on the server:
