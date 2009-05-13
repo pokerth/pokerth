@@ -76,7 +76,8 @@ startWindowImpl::startWindowImpl(ConfigFile *c)
 
 	this->setStatusBar(0);
 
-	centralwidget->setStyleSheet("QWidget { background-image: url(\""+myAppDataPath+"gfx/gui/misc/startwindowbg.png\"); background-position: bottom center; background-origin: content; background-repeat: no-repeat;}");
+	this->setStyleSheet("QMainWindow { background-image: url(\""+myAppDataPath+"gfx/gui/misc/startwindowbg.png\"); background-position: bottom center; background-origin: content; background-repeat: no-repeat;}");
+	
 	
 	pushButtonStart_Local_Game->setStyleSheet("QPushButton { padding-left: 3px; padding-right: 3px; text-align: left; font-weight: bold;}");
 	pushButtonInternet_Game->setStyleSheet("QPushButton { padding-left: 3px; padding-right: 3px; text-align: left; font-weight: bold;}");

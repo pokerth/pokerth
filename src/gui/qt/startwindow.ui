@@ -60,6 +60,12 @@
       </property>
       <item>
        <widget class="QPushButton" name="pushButtonStart_Local_Game">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
         <property name="focusPolicy">
          <enum>Qt::NoFocus</enum>
         </property>
@@ -80,6 +86,12 @@
       </item>
       <item>
        <widget class="QPushButton" name="pushButtonInternet_Game">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
         <property name="focusPolicy">
          <enum>Qt::NoFocus</enum>
         </property>
@@ -100,6 +112,12 @@
       </item>
       <item>
        <widget class="QPushButton" name="pushButton_Create_Network_Game">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
         <property name="focusPolicy">
          <enum>Qt::NoFocus</enum>
         </property>
@@ -120,6 +138,12 @@
       </item>
       <item>
        <widget class="QPushButton" name="pushButton_Join_Network_Game">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
         <property name="focusPolicy">
          <enum>Qt::NoFocus</enum>
         </property>
@@ -168,7 +192,7 @@
     </item>
    </layout>
   </widget>
-  <widget class="QMenuBar" name="menubar">
+  <widget class="MyMenuBar" name="menubar">
    <property name="geometry">
     <rect>
      <x>0</x>
@@ -273,6 +297,13 @@
    </property>
   </action>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>MyMenuBar</class>
+   <extends>QMenuBar</extends>
+   <header>mymenubar.h</header>
+  </customwidget>
+ </customwidgets>
  <resources>
   <include location="resources/pokerth.qrc"/>
  </resources>

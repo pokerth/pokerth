@@ -186,7 +186,7 @@ void gameLobbyDialogImpl::joinAnyGame() {
 		bool ok;
 		int players = (*it)->data(1, Qt::DisplayRole).toString().section("/",0,0).toInt(&ok,10);
 		int maxPlayers = (*it)->data(1, Qt::DisplayRole).toString().section("/",1,1).toInt(&ok,10);
-		if ((*it)->data(2, Qt::DisplayRole) == tr("open") && (*it)->data(3, Qt::UserRole) == 0 && players < maxPlayers)
+		if ((*it)->data(2, Qt::DisplayRole) == tr("open") && (*it)->data(3, Qt::DisplayRole) == "" && players < maxPlayers)
 		{
 			treeWidget_GameList->setCurrentItem((*it));
 			found = TRUE;
@@ -765,7 +765,7 @@ void gameLobbyDialogImpl::joinAnyGameButtonRefresh() {
 		bool ok;
 		int players = (*it)->data(1, Qt::DisplayRole).toString().section("/",0,0).toInt(&ok,10);
 		int maxPlayers = (*it)->data(1, Qt::DisplayRole).toString().section("/",1,1).toInt(&ok,10);
-		if ((*it)->data(2, Qt::DisplayRole) == tr("open") && (*it)->data(3, Qt::UserRole) == 0 && players < maxPlayers) { openNonPrivateNonFullGamesCounter++; }
+		if ((*it)->data(2, Qt::DisplayRole) == tr("open") && (*it)->data(3, Qt::DisplayRole) == "" && players < maxPlayers) { openNonPrivateNonFullGamesCounter++; }
 		++it;
 	}
 

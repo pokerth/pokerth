@@ -711,7 +711,7 @@ void gameTableImpl::refreshSet() {
 		if( (*it_c)->getMySet() == 0 )
 			setLabelArray[(*it_c)->getMyID()]->setText("");
 		else
-			setLabelArray[(*it_c)->getMyID()]->setText("$"+QString::number((*it_c)->getMySet(),10)); 
+			setLabelArray[(*it_c)->getMyID()]->setText("$"+QString("%L1").arg((*it_c)->getMySet())); 
 	}
 }
 
@@ -929,7 +929,7 @@ void gameTableImpl::refreshCash() {
 	for (it_c=currentHand->getSeatsList()->begin(); it_c!=currentHand->getSeatsList()->end(); it_c++) { 
 		if((*it_c)->getMyActiveStatus()) { 
 
-			cashLabelArray[(*it_c)->getMyID()]->setText("$"+QString::number((*it_c)->getMyCash(),10)); 
+			cashLabelArray[(*it_c)->getMyID()]->setText("$"+QString("%L1").arg((*it_c)->getMyCash())); 
 			
 		} else {
 			cashLabelArray[(*it_c)->getMyID()]->setText(""); 
@@ -1081,8 +1081,8 @@ void gameTableImpl::refreshChangePlayer() {
 void gameTableImpl::refreshPot() {
 	HandInterface *currentHand = myStartWindow->getSession()->getCurrentGame()->getCurrentHand();
 
-	textLabel_Sets->setText("$"+QString::number(currentHand->getBoard()->getSets(),10));
-	textLabel_Pot->setText("$"+QString::number(currentHand->getBoard()->getPot(),10));
+	textLabel_Sets->setText("$"+QString("%L1").arg(currentHand->getBoard()->getSets()));
+	textLabel_Pot->setText("$"+QString("%L1").arg(currentHand->getBoard()->getPot()));
 }
 
 void gameTableImpl::guiUpdateDone() {
@@ -1361,11 +1361,11 @@ void gameTableImpl::provideMyActions(int mode) {
 		if(currentHand->getCurrentRound() == 0) { // preflop
 			
 			if (currentGame->getSeatsList()->front()->getMyCash()+currentGame->getSeatsList()->front()->getMySet() > currentHand->getCurrentBeRo()->getHighestSet()) { 
-				pushButtonBetRaiseString = RaiseString+"\n$"+QString::number(getMyBetAmount()); 
+				pushButtonBetRaiseString = RaiseString+"\n$"+QString("%L1").arg(getMyBetAmount()); 
 			}
 	
 			if (currentGame->getSeatsList()->front()->getMySet()== currentHand->getCurrentBeRo()->getHighestSet() &&  currentGame->getSeatsList()->front()->getMyButton() == 3) { pushButtonCallCheckString = CheckString; }
-			else { pushButtonCallCheckString = CallString+"\n$"+QString::number(getMyCallAmount()); }
+			else { pushButtonCallCheckString = CallString+"\n$"+QString("%L1").arg(getMyCallAmount()); }
 			
 			pushButtonFoldString = FoldString; 
 			pushButtonAllInString = AllInString; 
@@ -1379,12 +1379,12 @@ void gameTableImpl::provideMyActions(int mode) {
 			if (currentHand->getCurrentBeRo()->getHighestSet() == 0) { 
 	
 				pushButtonCallCheckString = CheckString;
-				pushButtonBetRaiseString = BetString+"\n$"+QString::number(getMyBetAmount());
+				pushButtonBetRaiseString = BetString+"\n$"+QString("%L1").arg(getMyBetAmount());
 			}
 			if (currentHand->getCurrentBeRo()->getHighestSet() > 0 && currentHand->getCurrentBeRo()->getHighestSet() > currentGame->getSeatsList()->front()->getMySet()) {
-				pushButtonCallCheckString = CallString+"\n$"+QString::number(getMyCallAmount());
+				pushButtonCallCheckString = CallString+"\n$"+QString("%L1").arg(getMyCallAmount());
 				if (currentGame->getSeatsList()->front()->getMyCash()+currentGame->getSeatsList()->front()->getMySet() > currentHand->getCurrentBeRo()->getHighestSet()) {
-					pushButtonBetRaiseString = RaiseString+"\n$"+QString::number(getMyBetAmount());
+					pushButtonBetRaiseString = RaiseString+"\n$"+QString("%L1").arg(getMyBetAmount());
 				}
 			}
 			pushButtonAllInString = AllInString; 
@@ -1392,7 +1392,7 @@ void gameTableImpl::provideMyActions(int mode) {
 		
 		if(mode == 0) {
 			if( currentHand->getSeatsList()->front()->getMyAction() != PLAYER_ACTION_FOLD ) {
-				pushButtonBetRaiseString = BetString+"\n$"+QString::number(getMyBetAmount());
+				pushButtonBetRaiseString = BetString+"\n$"+QString("%L1").arg(getMyBetAmount());
 				pushButtonCallCheckString = CheckString; 
 				if( (currentGame->getActivePlayerList()->size() > 2 && currentGame->getSeatsList()->front()->getMyButton() == BUTTON_SMALL_BLIND ) || ( currentGame->getActivePlayerList()->size() <= 2 && currentGame->getSeatsList()->front()->getMyButton() == BUTTON_BIG_BLIND)) { pushButtonFoldString = FoldString; }
 				else { pushButtonFoldString = CheckString+" /\n"+FoldString; }
@@ -1628,7 +1628,7 @@ int gameTableImpl::getMyCallAmount() {
 
 int gameTableImpl::getBetRaisePushButtonValue() {
 
-	QString betValueString = pushButton_BetRaise->text().simplified();
+	QString betValueString = pushButton_BetRaise->text().simplified().remove(QRegExp("[^0-9]"));
 	int index = betValueString.indexOf("$");
 	betValueString.remove(0, index+1);
 	bool ok;
@@ -2986,32 +2986,32 @@ void gameTableImpl::changeLineEditBetValue(int value) {
 	else {
 		if(horizontalSlider_bet->maximum() <= 1000 ) {
 			temp = (int)((value/10)*10);
-                        if(temp < horizontalSlider_bet->minimum())
-                                lineEdit_betValue->setText(QString::number(horizontalSlider_bet->minimum()));
-                        else
-                                lineEdit_betValue->setText(QString::number(temp));
+			if(temp < horizontalSlider_bet->minimum())
+					lineEdit_betValue->setText(QString("%L1").arg(horizontalSlider_bet->minimum()));
+			else
+					lineEdit_betValue->setText(QString("%L1").arg(temp));
 		}
-                else if(horizontalSlider_bet->maximum() > 1000 && horizontalSlider_bet->maximum() <= 10000) {
+		else if(horizontalSlider_bet->maximum() > 1000 && horizontalSlider_bet->maximum() <= 10000) {
 			temp = (int)((value/50)*50);
-                        if(temp < horizontalSlider_bet->minimum())
-                                lineEdit_betValue->setText(QString::number(horizontalSlider_bet->minimum()));
-                        else
-                                lineEdit_betValue->setText(QString::number(temp));
+			if(temp < horizontalSlider_bet->minimum())
+					lineEdit_betValue->setText(QString("%L1").arg(horizontalSlider_bet->minimum()));
+			else
+					lineEdit_betValue->setText(QString("%L1").arg(temp));
 		}
-                else if(horizontalSlider_bet->maximum() > 10000 && horizontalSlider_bet->maximum() <= 100000) {
-                        temp = (int)((value/500)*500);
-                        if(temp < horizontalSlider_bet->minimum())
-                                lineEdit_betValue->setText(QString::number(horizontalSlider_bet->minimum()));
-                        else
-                                lineEdit_betValue->setText(QString::number(temp));
-                }
-                else {
-                        temp = (int)((value/5000)*5000);
-                        if(temp < horizontalSlider_bet->minimum())
-                                lineEdit_betValue->setText(QString::number(horizontalSlider_bet->minimum()));
-                        else
-                                lineEdit_betValue->setText(QString::number(temp));
-                }
+		else if(horizontalSlider_bet->maximum() > 10000 && horizontalSlider_bet->maximum() <= 100000) {
+			temp = (int)((value/500)*500);
+			if(temp < horizontalSlider_bet->minimum())
+					lineEdit_betValue->setText(QString("%L1").arg(horizontalSlider_bet->minimum()));
+			else
+					lineEdit_betValue->setText(QString("%L1").arg(temp));
+		}
+		else {
+			temp = (int)((value/5000)*5000);
+			if(temp < horizontalSlider_bet->minimum())
+					lineEdit_betValue->setText(QString("%L1").arg(horizontalSlider_bet->minimum()));
+			else
+					lineEdit_betValue->setText(QString("%L1").arg(temp));
+		}
 	}
 }
 
@@ -3020,24 +3020,24 @@ void gameTableImpl::lineEditBetValueChanged(QString valueString) {
 	if(horizontalSlider_bet->isEnabled()) {
 
 		bool ok;
-		int betValue = QString(valueString).toInt(&ok, 10);
+		int betValue = QString(valueString.remove(QRegExp("[^0-9]"))).toInt(&ok, 10);
 		QString betRaise = pushButton_BetRaise->text().section("\n",0 ,0);
 	
 		if(betValue >= horizontalSlider_bet->minimum()) {
 	
 			if(betValue > horizontalSlider_bet->maximum()) { // print the maximum
-				pushButton_BetRaise->setText(betRaise + "\n$" + QString::number(horizontalSlider_bet->maximum()));
+				pushButton_BetRaise->setText(betRaise + "\n$" + QString("%L1").arg(horizontalSlider_bet->maximum()));
 				betSliderChangedByInput = TRUE;
 				horizontalSlider_bet->setValue(horizontalSlider_bet->maximum());
 			}
 			else { // really print the value
-				pushButton_BetRaise->setText(betRaise + "\n$" + valueString);
+				pushButton_BetRaise->setText(betRaise + "\n$" + QString("%L1").arg(valueString.toInt()));
 				betSliderChangedByInput = TRUE;
 				horizontalSlider_bet->setValue(betValue);
 			}
 		}
 		else { // print the minimum
-			pushButton_BetRaise->setText(betRaise + "\n$" + QString::number(horizontalSlider_bet->minimum()));
+			pushButton_BetRaise->setText(betRaise + "\n$" + QString("%L1").arg(horizontalSlider_bet->minimum()));
 			betSliderChangedByInput = TRUE;
 			horizontalSlider_bet->setValue(horizontalSlider_bet->minimum());
 		}

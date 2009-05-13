@@ -121,7 +121,7 @@ void CardDeckStyleReader::readStyleFile(QString file) {
                                         QString EMail;
                                         if(StyleMaintainerEMail != "NULL") EMail = StyleMaintainerEMail;
                                         QMessageBox::warning(myW, tr("Card Deck Style Error"),
-                                                tr("Selected card deck style \"%1\" seems to be outdated. \n The current PokerTH card deck style version is \"%2\", but this style has version \"%3\" set. \n\nPlease contact the game table style builder %4.").arg(StyleDescription).arg(POKERTH_CD_STYLE_FILE_VERSION).arg(PokerTHStyleFileVersion).arg(EMail),
+                                                tr("Selected card deck style \"%1\" seems to be outdated. \n The current PokerTH card deck style version is \"%2\", but this style has version \"%3\" set. \n\nPlease contact the card deck style builder %4.").arg(StyleDescription).arg(POKERTH_CD_STYLE_FILE_VERSION).arg(PokerTHStyleFileVersion).arg(EMail),
                                                 QMessageBox::Ok);
                                 }
                         }
@@ -143,7 +143,7 @@ void CardDeckStyleReader::showLeftItemsErrorMessage(QString style, QStringList f
         if(email != "NULL") EMail = email;
 
 	QMessageBox::warning(myW, tr("Card Deck Style Error"),
-                                tr("Selected card deck style \"%1\" seems to be incomplete or defective. \n\nThe value(s) of \"%2\" is/are missing. \n\nPlease contact the game table style builder %3.").arg(style).arg(items).arg(EMail),
+                                tr("Selected card deck style \"%1\" seems to be incomplete or defective. \n\nThe value(s) of \"%2\" is/are missing. \n\nPlease contact the card deck style builder %3.").arg(style).arg(items).arg(EMail),
                                 QMessageBox::Ok);
 }
 
