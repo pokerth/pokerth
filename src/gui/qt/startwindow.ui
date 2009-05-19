@@ -26,7 +26,7 @@
    <string>PokerTH 0.6.3 - The Open-Source Texas Holdem Engine</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <layout class="QGridLayout" name="gridLayout">
+   <layout class="QGridLayout" name="gridLayout_2">
     <item row="0" column="1">
      <spacer>
       <property name="orientation">
@@ -54,11 +54,8 @@
      </spacer>
     </item>
     <item row="1" column="1">
-     <layout class="QVBoxLayout" name="verticalLayout">
-      <property name="spacing">
-       <number>6</number>
-      </property>
-      <item>
+     <layout class="QGridLayout" name="gridLayout">
+      <item row="0" column="0">
        <widget class="QPushButton" name="pushButtonStart_Local_Game">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
@@ -84,7 +81,7 @@
         </property>
        </widget>
       </item>
-      <item>
+      <item row="1" column="0">
        <widget class="QPushButton" name="pushButtonInternet_Game">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
@@ -110,7 +107,7 @@
         </property>
        </widget>
       </item>
-      <item>
+      <item row="2" column="0">
        <widget class="QPushButton" name="pushButton_Create_Network_Game">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
@@ -136,7 +133,7 @@
         </property>
        </widget>
       </item>
-      <item>
+      <item row="3" column="0">
        <widget class="QPushButton" name="pushButton_Join_Network_Game">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
@@ -192,13 +189,13 @@
     </item>
    </layout>
   </widget>
-  <widget class="MyMenuBar" name="menubar">
+  <widget class="QMenuBar" name="menubar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
      <width>450</width>
-     <height>25</height>
+     <height>27</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuPokerTH">
@@ -297,13 +294,6 @@
    </property>
   </action>
  </widget>
- <customwidgets>
-  <customwidget>
-   <class>MyMenuBar</class>
-   <extends>QMenuBar</extends>
-   <header>mymenubar.h</header>
-  </customwidget>
- </customwidgets>
  <resources>
   <include location="resources/pokerth.qrc"/>
  </resources>

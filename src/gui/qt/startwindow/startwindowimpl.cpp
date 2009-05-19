@@ -76,14 +76,14 @@ startWindowImpl::startWindowImpl(ConfigFile *c)
 
 	this->setStatusBar(0);
 
-	this->setStyleSheet("QMainWindow { background-image: url(\""+myAppDataPath+"gfx/gui/misc/startwindowbg.png\"); background-position: bottom center; background-origin: content; background-repeat: no-repeat;}");
+	centralwidget->setStyleSheet(".QWidget { background-image: url(\""+myAppDataPath+"gfx/gui/misc/startwindowbg.png\"); background-position: bottom center; background-origin: content; background-repeat: no-repeat;}");
 	
 	
-	pushButtonStart_Local_Game->setStyleSheet("QPushButton { padding-left: 3px; padding-right: 3px; text-align: left; font-weight: bold;}");
-	pushButtonInternet_Game->setStyleSheet("QPushButton { padding-left: 3px; padding-right: 3px; text-align: left; font-weight: bold;}");
-	pushButton_Create_Network_Game->setStyleSheet("QPushButton { padding-left: 3px; padding-right: 3px; text-align: left; font-weight: bold;}");
-	pushButton_Join_Network_Game->setStyleSheet("QPushButton { padding-left: 3px; padding-right: 3px; text-align: left; font-weight: bold;}");
-
+	pushButtonStart_Local_Game->setStyleSheet("QPushButton { font-weight: 900; padding-left: 1px; padding-bottom: 3px; padding-top: 3px; padding-right: 3px; text-align: left;}");
+	pushButtonInternet_Game->setStyleSheet("QPushButton { font-weight: 900; padding-left: 1px; padding-bottom: 3px; padding-top: 3px; padding-right: 3px; text-align: left; }");
+	pushButton_Create_Network_Game->setStyleSheet("QPushButton { font-weight: 900; padding-left: 1px; padding-bottom: 3px; padding-top: 3px; padding-right: 3px; text-align: left; }");
+	pushButton_Join_Network_Game->setStyleSheet("QPushButton { font-weight: 900; padding-left: 1px; padding-bottom: 3px; padding-top: 3px; padding-right: 3px; text-align: left; }");
+	
 // 	Dialogs
 	myNewGameDialog = new newGameDialogImpl(this, myConfig);
 	mySelectAvatarDialog = new selectAvatarDialogImpl(this, myConfig);
