@@ -944,18 +944,18 @@ void settingsDialogImpl::setSelectedGameTableStyleActivated()
 
 void settingsDialogImpl::addGameTableStyle()
 {
-        QDir dir(QString::fromUtf8(myConfig->readConfigString("LastGameTableStyleDir").c_str()));
-        QString dirString;
-
-        if(dir.exists()) dirString = dir.absolutePath();
-        else dirString = QDir::home().absolutePath();
-
+	QDir dir(QString::fromUtf8(myConfig->readConfigString("LastGameTableStyleDir").c_str()));
+	QString dirString;
+	
+	if(dir.exists()) dirString = dir.absolutePath();
+	else dirString = QDir::home().absolutePath();
+	
 	QString fileName = QFileDialog::getOpenFileName(this, tr("Please select your game table style"),
-                                               dirString,
-                                                tr("PokerTH game table styles (*.xml)"));
-
-     	if (!fileName.isEmpty()) {
-
+										   dirString,
+											tr("PokerTH game table styles (*.xml)"));
+	
+	if (!fileName.isEmpty()) {
+	
 		int i;
 		bool fileNameAlreadyFound(FALSE);
 		for(i=0; i < listWidget_gameTableStyles->count(); i++) {
@@ -963,29 +963,31 @@ void settingsDialogImpl::addGameTableStyle()
 			if(item->data(15).toString() == fileName) 
 				fileNameAlreadyFound = TRUE;
 		}		
-
+	
 		if(fileNameAlreadyFound) {
 			QMessageBox::warning(this, tr("Game Table Style Error"),
 					tr("Selected game table style file is already in the list. \nPlease select another one to add!"),
 					QMessageBox::Ok);	
 		}
 		else {
-                        GameTableStyleReader newStyle(myConfig, this);
+			GameTableStyleReader newStyle(myConfig, this);
 			newStyle.readStyleFile(fileName);
-                        if(!newStyle.getFallBack() && newStyle.getLoadedSuccessfull()) {
+			if(!newStyle.getFallBack() && newStyle.getLoadedSuccessfull()) {
 				QListWidgetItem *newItem = new QListWidgetItem(newStyle.getStyleDescription()); 
 				newItem->setData(15,fileName);
 				newItem->setData(Qt::ToolTipRole,fileName);
 				listWidget_gameTableStyles->addItem(newItem);
+				listWidget_gameTableStyles->setCurrentItem(newItem);
+				pushButton_activateGameTableStyle->click();
 			}
 			else {
 				QMessageBox::warning(this, tr("Game Table Style File Error"),
-                                        tr("Could not load game table style file correctly. \nStyle will not be placed into list!"),
+										tr("Could not load game table style file correctly. \nStyle will not be placed into list!"),
 					QMessageBox::Ok);	
 			}	
 		}
-                //save current filepath
-                myConfig->writeConfigString("LastGameTableStyleDir",QFileInfo(fileName).absolutePath().toUtf8().constData());
+		//save current filepath
+		myConfig->writeConfigString("LastGameTableStyleDir",QFileInfo(fileName).absolutePath().toUtf8().constData());
 	}	
 }
 
@@ -1047,17 +1049,17 @@ void settingsDialogImpl::setSelectedCardDeckStyleActivated()
 
 void settingsDialogImpl::addCardDeckStyle()
 {
-        QDir dir(QString::fromUtf8(myConfig->readConfigString("LastCardDeckStyleDir").c_str()));
-        QString dirString;
+	QDir dir(QString::fromUtf8(myConfig->readConfigString("LastCardDeckStyleDir").c_str()));
+	QString dirString;
 
-        if(dir.exists()) dirString = dir.absolutePath();
-        else dirString = QDir::home().absolutePath();
+	if(dir.exists()) dirString = dir.absolutePath();
+	else dirString = QDir::home().absolutePath();
 
 	QString fileName = QFileDialog::getOpenFileName(this, tr("Please select your card deck style"),
                                                dirString,
                                                 tr("PokerTH card deck styles (*.xml)"));
 
-     	if (!fileName.isEmpty()) {
+	if (!fileName.isEmpty()) {
 
 		int i;
 		bool fileNameAlreadyFound(FALSE);
@@ -1073,13 +1075,15 @@ void settingsDialogImpl::addCardDeckStyle()
 					QMessageBox::Ok);	
 		}
 		else {
-                        CardDeckStyleReader newStyle(myConfig, this);
+			CardDeckStyleReader newStyle(myConfig, this);
 			newStyle.readStyleFile(fileName);
-                        if(!newStyle.getFallBack() && newStyle.getLoadedSuccessfull()) {
+			if(!newStyle.getFallBack() && newStyle.getLoadedSuccessfull()) {
 				QListWidgetItem *newItem = new QListWidgetItem(newStyle.getStyleDescription()); 
 				newItem->setData(15,fileName);
 				newItem->setData(Qt::ToolTipRole,fileName);
 				listWidget_cardDeckStyles->addItem(newItem);
+				listWidget_cardDeckStyles->setCurrentItem(newItem);
+				pushButton_activateCardDeckStyle->click();
 			}
 			else {
 				QMessageBox::warning(this, tr("Card Deck Style File Error"),
