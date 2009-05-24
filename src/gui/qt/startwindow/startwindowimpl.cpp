@@ -78,12 +78,6 @@ startWindowImpl::startWindowImpl(ConfigFile *c)
 
 	centralwidget->setStyleSheet(".QWidget { background-image: url(\""+myAppDataPath+"gfx/gui/misc/startwindowbg.png\"); background-position: bottom center; background-origin: content; background-repeat: no-repeat;}");
 	
-	
-	pushButtonStart_Local_Game->setStyleSheet("QPushButton { font-weight: 900; padding-left: 1px; padding-bottom: 3px; padding-top: 3px; padding-right: 3px; text-align: left;}");
-	pushButtonInternet_Game->setStyleSheet("QPushButton { font-weight: 900; padding-left: 1px; padding-bottom: 3px; padding-top: 3px; padding-right: 3px; text-align: left; }");
-	pushButton_Create_Network_Game->setStyleSheet("QPushButton { font-weight: 900; padding-left: 1px; padding-bottom: 3px; padding-top: 3px; padding-right: 3px; text-align: left; }");
-	pushButton_Join_Network_Game->setStyleSheet("QPushButton { font-weight: 900; padding-left: 1px; padding-bottom: 3px; padding-top: 3px; padding-right: 3px; text-align: left; }");
-	
 // 	Dialogs
 	myNewGameDialog = new newGameDialogImpl(this, myConfig);
 	mySelectAvatarDialog = new selectAvatarDialogImpl(this, myConfig);

@@ -4,7 +4,7 @@ Requirements
 To compile PokerTH you need following libs: 
 
 Linux:
-- Qt version >= 4.4.3  --> http://trolltech.com/
+- Qt version >= 4.4.3, 4.5.1 recommended  --> http://qtsoftware.com/
 - zlib version 1.2.3  --> http://www.zlib.net/
 - libcurl version >= 7.16  --> http://curl.haxx.se/
 - gnutls (e.g. version 2.2.2)  --> http://www.gnu.org/software/gnutls/
