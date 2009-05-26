@@ -506,13 +506,13 @@ p, li { white-space: pre-wrap; }
            </widget>
            <widget class="QWidget" name="tab">
             <attribute name="title">
-             <string>Card Flipside</string>
+             <string>Card Back</string>
             </attribute>
             <layout class="QGridLayout" name="gridLayout_17">
              <item row="0" column="0">
               <widget class="QRadioButton" name="radioButton_flipsideTux">
                <property name="text">
-                <string>Default</string>
+                <string>Use card back from card style</string>
                </property>
                <property name="checked">
                 <bool>true</bool>
@@ -538,7 +538,7 @@ p, li { white-space: pre-wrap; }
                  <item>
                   <widget class="QRadioButton" name="radioButton_flipsideOwn">
                    <property name="text">
-                    <string>Own flipside picture:</string>
+                    <string>Use custom card back picture:</string>
                    </property>
                   </widget>
                  </item>
