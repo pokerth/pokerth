@@ -178,66 +178,66 @@
          </item>
          <item row="3" column="0">
           <layout class="QGridLayout" name="gridLayout_7">
-           <item row="0" column="1">
-            <widget class="QCheckBox" name="checkBox_showLeftToolbox">
-             <property name="text">
-              <string>Show left toolbox</string>
-             </property>
-            </widget>
-           </item>
-           <item row="1" column="1">
-            <widget class="QCheckBox" name="checkBox_showFlipCardsAnimation">
-             <property name="text">
-              <string>Show flip-card animation</string>
-             </property>
-            </widget>
-           </item>
-           <item row="2" column="1">
-            <widget class="QCheckBox" name="checkBox_antiPeekMode">
-             <property name="text">
-              <string>Show own cards only on mouse click</string>
-             </property>
-            </widget>
-           </item>
-           <item row="3" column="1">
-            <widget class="QCheckBox" name="checkBox_cardsChanceMonitor">
-             <property name="text">
-              <string>Show cards chance monitor</string>
-             </property>
-            </widget>
-           </item>
-           <item row="0" column="0">
+           <item row="0" column="0" colspan="2">
             <widget class="QCheckBox" name="checkBox_showRightToolbox">
              <property name="text">
               <string>Show right toolbox</string>
              </property>
             </widget>
            </item>
-           <item row="1" column="0">
+           <item row="2" column="0" colspan="2">
             <widget class="QCheckBox" name="checkBox_showFadeOutCardsAnimation">
              <property name="text">
               <string>Show fade-out animation for non-winning cards</string>
              </property>
             </widget>
            </item>
-           <item row="2" column="0">
+           <item row="4" column="0" colspan="2">
             <widget class="QCheckBox" name="checkBox_alternateFKeysUserActionMode">
              <property name="text">
               <string>Reverse order of F-Keys (F1 - F4)</string>
              </property>
             </widget>
            </item>
-           <item row="3" column="0">
+           <item row="5" column="0" colspan="2">
             <widget class="QCheckBox" name="checkBox_showBlindButtons">
              <property name="text">
               <string>Show buttons for small blind and big blind</string>
              </property>
             </widget>
            </item>
-           <item row="4" column="0" colspan="2">
+           <item row="8" column="0" colspan="2">
             <widget class="QCheckBox" name="checkBox_dontTranslatePokerStrings">
              <property name="text">
               <string>Don't translate poker strings like check, call, raise from game table style</string>
+             </property>
+            </widget>
+           </item>
+           <item row="6" column="0" colspan="2">
+            <widget class="QCheckBox" name="checkBox_cardsChanceMonitor">
+             <property name="text">
+              <string>Show cards chance monitor</string>
+             </property>
+            </widget>
+           </item>
+           <item row="7" column="0" colspan="2">
+            <widget class="QCheckBox" name="checkBox_antiPeekMode">
+             <property name="text">
+              <string>Show own cards only on mouse click</string>
+             </property>
+            </widget>
+           </item>
+           <item row="3" column="0" colspan="2">
+            <widget class="QCheckBox" name="checkBox_showFlipCardsAnimation">
+             <property name="text">
+              <string>Show flip-card animation</string>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="0" colspan="2">
+            <widget class="QCheckBox" name="checkBox_showLeftToolbox">
+             <property name="text">
+              <string>Show left toolbox</string>
              </property>
             </widget>
            </item>
@@ -260,106 +260,6 @@
           </widget>
          </item>
          <item row="5" column="0">
-          <widget class="QGroupBox" name="groupBox">
-           <property name="title">
-            <string>Flipside of Cards</string>
-           </property>
-           <layout class="QGridLayout">
-            <property name="leftMargin">
-             <number>9</number>
-            </property>
-            <property name="topMargin">
-             <number>0</number>
-            </property>
-            <property name="rightMargin">
-             <number>9</number>
-            </property>
-            <property name="bottomMargin">
-             <number>9</number>
-            </property>
-            <property name="spacing">
-             <number>6</number>
-            </property>
-            <item row="1" column="0">
-             <layout class="QVBoxLayout">
-              <property name="spacing">
-               <number>0</number>
-              </property>
-              <property name="margin">
-               <number>0</number>
-              </property>
-              <item>
-               <layout class="QHBoxLayout">
-                <property name="spacing">
-                 <number>2</number>
-                </property>
-                <property name="margin">
-                 <number>0</number>
-                </property>
-                <item>
-                 <widget class="QRadioButton" name="radioButton_flipsideOwn">
-                  <property name="text">
-                   <string>Own flipside picture:</string>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <widget class="QLineEdit" name="lineEdit_OwnFlipsideFilename">
-                  <property name="enabled">
-                   <bool>false</bool>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <widget class="QPushButton" name="pushButton_openFlipsidePicture">
-                  <property name="enabled">
-                   <bool>false</bool>
-                  </property>
-                  <property name="minimumSize">
-                   <size>
-                    <width>27</width>
-                    <height>26</height>
-                   </size>
-                  </property>
-                  <property name="maximumSize">
-                   <size>
-                    <width>27</width>
-                    <height>26</height>
-                   </size>
-                  </property>
-                 </widget>
-                </item>
-               </layout>
-              </item>
-              <item>
-               <widget class="QLabel" name="label_23">
-                <property name="text">
-                 <string>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
-p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot;font-weight:400; font-style:normal; text-decoration:none;&quot;&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-style:italic;&quot;&gt;Note: Best quality with image ratio like &lt;/span&gt;&lt;span style=&quot; font-weight:600; font-style:italic;&quot;&gt;width=100, height=140.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                </property>
-                <property name="wordWrap">
-                 <bool>true</bool>
-                </property>
-               </widget>
-              </item>
-             </layout>
-            </item>
-            <item row="0" column="0">
-             <widget class="QRadioButton" name="radioButton_flipsideTux">
-              <property name="text">
-               <string>Default</string>
-              </property>
-              <property name="checked">
-               <bool>true</bool>
-              </property>
-             </widget>
-            </item>
-           </layout>
-          </widget>
-         </item>
-         <item row="6" column="0">
           <spacer>
            <property name="orientation">
             <enum>Qt::Vertical</enum>
@@ -400,7 +300,7 @@ p, li { white-space: pre-wrap; }
            </property>
            <widget class="QWidget" name="tab_3">
             <attribute name="title">
-             <string>Game Table Styles</string>
+             <string>Game Table</string>
             </attribute>
             <layout class="QGridLayout" name="gridLayout_13">
              <item row="0" column="0">
@@ -503,7 +403,7 @@ p, li { white-space: pre-wrap; }
            </widget>
            <widget class="QWidget" name="tab_4">
             <attribute name="title">
-             <string>Card Deck Styles</string>
+             <string>Card Deck</string>
             </attribute>
             <layout class="QGridLayout" name="gridLayout_14">
              <item row="0" column="0">
@@ -601,6 +501,102 @@ p, li { white-space: pre-wrap; }
                 <bool>true</bool>
                </property>
               </widget>
+             </item>
+            </layout>
+           </widget>
+           <widget class="QWidget" name="tab">
+            <attribute name="title">
+             <string>Card Flipside</string>
+            </attribute>
+            <layout class="QGridLayout" name="gridLayout_17">
+             <item row="0" column="0">
+              <widget class="QRadioButton" name="radioButton_flipsideTux_2">
+               <property name="text">
+                <string>Default</string>
+               </property>
+               <property name="checked">
+                <bool>true</bool>
+               </property>
+              </widget>
+             </item>
+             <item row="1" column="0">
+              <layout class="QVBoxLayout" name="_3">
+               <property name="spacing">
+                <number>0</number>
+               </property>
+               <property name="margin">
+                <number>0</number>
+               </property>
+               <item>
+                <layout class="QHBoxLayout" name="_10">
+                 <property name="spacing">
+                  <number>2</number>
+                 </property>
+                 <property name="margin">
+                  <number>0</number>
+                 </property>
+                 <item>
+                  <widget class="QRadioButton" name="radioButton_flipsideOwn_2">
+                   <property name="text">
+                    <string>Own flipside picture:</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QLineEdit" name="lineEdit_OwnFlipsideFilename_2">
+                   <property name="enabled">
+                    <bool>false</bool>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QPushButton" name="pushButton_openFlipsidePicture_2">
+                   <property name="enabled">
+                    <bool>false</bool>
+                   </property>
+                   <property name="minimumSize">
+                    <size>
+                     <width>27</width>
+                     <height>26</height>
+                    </size>
+                   </property>
+                   <property name="maximumSize">
+                    <size>
+                     <width>27</width>
+                     <height>26</height>
+                    </size>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </item>
+               <item>
+                <widget class="QLabel" name="label_57">
+                 <property name="text">
+                  <string>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot;font-weight:400; font-style:normal; text-decoration:none;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-style:italic;&quot;&gt;Note: Best quality with image ratio like &lt;/span&gt;&lt;span style=&quot; font-weight:600; font-style:italic;&quot;&gt;width=100, height=140.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                 </property>
+                 <property name="wordWrap">
+                  <bool>true</bool>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </item>
+             <item row="2" column="0">
+              <spacer name="verticalSpacer_4">
+               <property name="orientation">
+                <enum>Qt::Vertical</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>20</width>
+                 <height>276</height>
+                </size>
+               </property>
+              </spacer>
              </item>
             </layout>
            </widget>
@@ -3453,19 +3449,11 @@ p, li { white-space: pre-wrap; }
   <tabstop>listWidget</tabstop>
   <tabstop>comboBox_switchLanguage</tabstop>
   <tabstop>checkBox_showRightToolbox</tabstop>
-  <tabstop>checkBox_showLeftToolbox</tabstop>
   <tabstop>checkBox_showFadeOutCardsAnimation</tabstop>
-  <tabstop>checkBox_showFlipCardsAnimation</tabstop>
   <tabstop>checkBox_alternateFKeysUserActionMode</tabstop>
-  <tabstop>checkBox_antiPeekMode</tabstop>
   <tabstop>checkBox_showBlindButtons</tabstop>
-  <tabstop>checkBox_cardsChanceMonitor</tabstop>
   <tabstop>checkBox_dontTranslatePokerStrings</tabstop>
   <tabstop>checkBox_enableBetInputFocusSwitch</tabstop>
-  <tabstop>radioButton_flipsideTux</tabstop>
-  <tabstop>radioButton_flipsideOwn</tabstop>
-  <tabstop>lineEdit_OwnFlipsideFilename</tabstop>
-  <tabstop>pushButton_openFlipsidePicture</tabstop>
   <tabstop>tabWidget</tabstop>
   <tabstop>listWidget_gameTableStyles</tabstop>
   <tabstop>pushButton_activateGameTableStyle</tabstop>
@@ -3571,38 +3559,6 @@ p, li { white-space: pre-wrap; }
     <hint type="destinationlabel">
      <x>281</x>
      <y>85</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>radioButton_flipsideOwn</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>lineEdit_OwnFlipsideFilename</receiver>
-   <slot>setEnabled(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>360</x>
-     <y>373</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>723</x>
-     <y>374</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>radioButton_flipsideOwn</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>pushButton_openFlipsidePicture</receiver>
-   <slot>setEnabled(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>360</x>
-     <y>373</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>752</x>
-     <y>375</y>
     </hint>
    </hints>
   </connection>
