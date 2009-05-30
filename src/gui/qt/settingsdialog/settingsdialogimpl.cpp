@@ -109,12 +109,10 @@ settingsDialogImpl::settingsDialogImpl(QWidget *parent, ConfigFile *c, selectAva
 	connect(groupBox_manualServerConfig, SIGNAL(toggled(bool)), this, SLOT(toggleGroupBoxManualServerConfig(bool)));
 
 	connect( listWidget_gameTableStyles, SIGNAL( currentItemChanged(QListWidgetItem*, QListWidgetItem*) ), this, SLOT ( showCurrentGameTableStylePreview() ));
-	connect( pushButton_activateGameTableStyle, SIGNAL( clicked() ), this, SLOT( setSelectedGameTableStyleActivated()) );
 	connect( pushButton_addGameTableStyle, SIGNAL( clicked() ), this, SLOT( addGameTableStyle()) );
 	connect( pushButton_removeGameTableStyle, SIGNAL( clicked() ), this, SLOT( removeGameTableStyle()) );
 
 	connect( listWidget_cardDeckStyles, SIGNAL( currentItemChanged(QListWidgetItem*, QListWidgetItem*) ), this, SLOT ( showCurrentCardDeckStylePreview() ));
-	connect( pushButton_activateCardDeckStyle, SIGNAL( clicked() ), this, SLOT( setSelectedCardDeckStyleActivated()) );
 	connect( pushButton_addCardDeckStyle, SIGNAL( clicked() ), this, SLOT( addCardDeckStyle()) );
 	connect( pushButton_removeCardDeckStyle, SIGNAL( clicked() ), this, SLOT( removeCardDeckStyle()) );
 }
@@ -924,6 +922,9 @@ void settingsDialogImpl::showCurrentGameTableStylePreview()
                 }
 
                 label_gameTableStyleInfo->setText("<b>"+MaintainerName+":</b> "+style.getStyleMaintainerName()+"<br>"+maintainerEMailString+"<b>"+CreateDate+":</b> "+style.getStyleCreateDate()+"<br>"+windowsSubString);
+				
+	//active the current selected item directly
+	setSelectedGameTableStyleActivated();
 	}
 }
 
@@ -978,7 +979,6 @@ void settingsDialogImpl::addGameTableStyle()
 				newItem->setData(Qt::ToolTipRole,fileName);
 				listWidget_gameTableStyles->addItem(newItem);
 				listWidget_gameTableStyles->setCurrentItem(newItem);
-				pushButton_activateGameTableStyle->click();
 			}
 			else {
 				QMessageBox::warning(this, tr("Game Table Style File Error"),
@@ -1013,22 +1013,25 @@ void settingsDialogImpl::showCurrentCardDeckStylePreview()
 {
 	QListWidgetItem* item = listWidget_cardDeckStyles->currentItem();
 	if(item) {
-                CardDeckStyleReader style(myConfig, this);
+		CardDeckStyleReader style(myConfig, this);
 		style.readStyleFile(item->data(15).toString());
 		QPixmap preview(style.getPreview());
 		if(preview.height() > 160 || preview.width() > 120) label_cardDeckStylePreview->setPixmap(preview.scaled(160,120,Qt::KeepAspectRatio,Qt::SmoothTransformation));
 		else label_cardDeckStylePreview->setPixmap(preview);
-
+		
 		QString MaintainerName = tr("Maintainer Name");
 		QString MaintainerEMail = tr("Maintainer EMail");
 		QString CreateDate = tr("Create Date");
-
-                QString maintainerEMailString;
-                if(style.getStyleMaintainerEMail() != "NULL" && style.getStyleMaintainerEMail() != "") {
-                    maintainerEMailString = "<b>"+MaintainerEMail+":</b> "+style.getStyleMaintainerEMail()+"<br>";
-                }
-
-                label_cardDeckStyleInfo->setText("<b>"+MaintainerName+":</b> "+style.getStyleMaintainerName()+"<br>"+maintainerEMailString+"<b>"+CreateDate+":</b> "+style.getStyleCreateDate()+"");
+		
+		QString maintainerEMailString;
+		if(style.getStyleMaintainerEMail() != "NULL" && style.getStyleMaintainerEMail() != "") {
+			maintainerEMailString = "<b>"+MaintainerEMail+":</b> "+style.getStyleMaintainerEMail()+"<br>";
+		}
+		
+		label_cardDeckStyleInfo->setText("<b>"+MaintainerName+":</b> "+style.getStyleMaintainerName()+"<br>"+maintainerEMailString+"<b>"+CreateDate+":</b> "+style.getStyleCreateDate()+"");
+		
+		//active the current selected item directly
+		setSelectedCardDeckStyleActivated();
 	}
 }
 
@@ -1083,7 +1086,6 @@ void settingsDialogImpl::addCardDeckStyle()
 				newItem->setData(Qt::ToolTipRole,fileName);
 				listWidget_cardDeckStyles->addItem(newItem);
 				listWidget_cardDeckStyles->setCurrentItem(newItem);
-				pushButton_activateCardDeckStyle->click();
 			}
 			else {
 				QMessageBox::warning(this, tr("Card Deck Style File Error"),

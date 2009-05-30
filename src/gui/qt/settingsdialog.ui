@@ -125,7 +125,7 @@
      <item>
       <widget class="QStackedWidget" name="stackedWidget">
        <property name="currentIndex">
-        <number>0</number>
+        <number>1</number>
        </property>
        <widget class="QWidget" name="page">
         <layout class="QGridLayout" name="gridLayout_8">
@@ -309,9 +309,16 @@
              <item row="0" column="1">
               <layout class="QVBoxLayout" name="verticalLayout">
                <item>
-                <widget class="QPushButton" name="pushButton_activateGameTableStyle">
+                <widget class="QPushButton" name="pushButton_addGameTableStyle">
                  <property name="text">
-                  <string>Activate</string>
+                  <string>Add ...</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QPushButton" name="pushButton_removeGameTableStyle">
+                 <property name="text">
+                  <string>Remove</string>
                  </property>
                 </widget>
                </item>
@@ -327,20 +334,6 @@
                   </size>
                  </property>
                 </spacer>
-               </item>
-               <item>
-                <widget class="QPushButton" name="pushButton_addGameTableStyle">
-                 <property name="text">
-                  <string>Add ...</string>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QPushButton" name="pushButton_removeGameTableStyle">
-                 <property name="text">
-                  <string>Remove</string>
-                 </property>
-                </widget>
                </item>
               </layout>
              </item>
@@ -412,9 +405,16 @@ p, li { white-space: pre-wrap; }
              <item row="0" column="1">
               <layout class="QVBoxLayout" name="verticalLayout_2">
                <item>
-                <widget class="QPushButton" name="pushButton_activateCardDeckStyle">
+                <widget class="QPushButton" name="pushButton_addCardDeckStyle">
                  <property name="text">
-                  <string>Activate</string>
+                  <string>Add ...</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QPushButton" name="pushButton_removeCardDeckStyle">
+                 <property name="text">
+                  <string>Remove</string>
                  </property>
                 </widget>
                </item>
@@ -430,20 +430,6 @@ p, li { white-space: pre-wrap; }
                   </size>
                  </property>
                 </spacer>
-               </item>
-               <item>
-                <widget class="QPushButton" name="pushButton_addCardDeckStyle">
-                 <property name="text">
-                  <string>Add ...</string>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QPushButton" name="pushButton_removeCardDeckStyle">
-                 <property name="text">
-                  <string>Remove</string>
-                 </property>
-                </widget>
                </item>
               </layout>
              </item>
@@ -3457,11 +3443,9 @@ p, li { white-space: pre-wrap; }
   <tabstop>checkBox_enableBetInputFocusSwitch</tabstop>
   <tabstop>tabWidget</tabstop>
   <tabstop>listWidget_gameTableStyles</tabstop>
-  <tabstop>pushButton_activateGameTableStyle</tabstop>
   <tabstop>pushButton_addGameTableStyle</tabstop>
   <tabstop>pushButton_removeGameTableStyle</tabstop>
   <tabstop>listWidget_cardDeckStyles</tabstop>
-  <tabstop>pushButton_activateCardDeckStyle</tabstop>
   <tabstop>pushButton_addCardDeckStyle</tabstop>
   <tabstop>pushButton_removeCardDeckStyle</tabstop>
   <tabstop>groupBox_playSoundEffects</tabstop>
