@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2007 by Lothar May                                      *
+ *   Copyright (C) 2007-2009 by Lothar May                                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -16,7 +16,7 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-/* State of network server. */
+/* State of a network game. */
 
 #ifndef _SERVERGAMESTATE_H_
 #define _SERVERGAMESTATE_H_
@@ -40,353 +40,130 @@ class ServerCallback;
 class ServerGameState
 {
 public:
+	ServerGameState(ServerGameThread &serverGame) : m_serverGame(serverGame) {}
 	virtual ~ServerGameState();
 
-	// Initialize after switching to this state.
-	virtual void Init(ServerGameThread &server) = 0;
-	virtual void NotifyGameAdminChanged(ServerGameThread &server) = 0;
+	virtual void NotifyGameAdminChanged() = 0;
 
 	// Handling of a new session.
-	virtual void HandleNewSession(ServerGameThread &server, SessionWrapper session) = 0;
+	virtual void HandleNewSession(SessionWrapper session) = 0;
 
 	// Main processing function of the current state.
-	virtual int Process(ServerGameThread &server) = 0;
+	virtual int ProcessPacket(SessionWrapper session, boost::shared_ptr<NetPacket> packet) = 0;
+
+protected:
+	ServerGameThread &GetServerGame() {return m_serverGame;}
+
+private:
+	ServerGameThread &m_serverGame;
 };
 
 // Abstract State: Receiving.
-class AbstractServerGameStateReceiving : virtual public ServerGameState
+class AbstractServerGameStateReceiving : public ServerGameState
 {
 public:
+	AbstractServerGameStateReceiving(ServerGameThread &serverGame);
 	virtual ~AbstractServerGameStateReceiving();
 
 	// Globally handle packets which are allowed in all running states.
 	// Calls InternalProcess if packet has not been processed.
-	virtual int Process(ServerGameThread &server);
+	virtual int ProcessPacket(SessionWrapper session, boost::shared_ptr<NetPacket> packet);
 
 protected:
 
-	AbstractServerGameStateReceiving();
-
-	virtual int InternalProcess(ServerGameThread &server, SessionWrapper session, boost::shared_ptr<NetPacket> packet) = 0;
-};
-
-// Abstract State: Game is running.
-class AbstractServerGameStateRunning : virtual public ServerGameState
-{
-public:
-	virtual ~AbstractServerGameStateRunning();
-
-	virtual void NotifyGameAdminChanged(ServerGameThread &/*server*/) {}
-
-	// Reject new connections.
-	virtual void HandleNewSession(ServerGameThread &server, SessionWrapper session);
-
-protected:
-
-	AbstractServerGameStateRunning();
-};
-
-// Abstract State: Timer.
-class AbstractServerGameStateTimer : virtual public ServerGameState
-{
-public:
-	virtual ~AbstractServerGameStateTimer();
-
-	virtual void Init(ServerGameThread &server);
+	virtual int InternalProcessPacket(SessionWrapper session, boost::shared_ptr<NetPacket> packet) = 0;
 };
 
 // State: Initialization.
-class ServerGameStateInit : public AbstractServerGameStateReceiving, public AbstractServerGameStateTimer
+class ServerGameStateInit : public AbstractServerGameStateReceiving
 {
 public:
-	// Access the state singleton.
-	static ServerGameStateInit &Instance();
-
+	ServerGameStateInit(ServerGameThread &serverGame);
 	virtual ~ServerGameStateInit();
 
-	virtual void NotifyGameAdminChanged(ServerGameThread &server);
+	virtual void NotifyGameAdminChanged();
 
-	// 
-	virtual int Process(ServerGameThread &server);
-	virtual void HandleNewSession(ServerGameThread &server, SessionWrapper session);
+	virtual void HandleNewSession(SessionWrapper session);
 
 protected:
 
-	// Protected constructor - this is a singleton.
-	ServerGameStateInit();
+	void RegisterAdminTimers();
+	void UnregisterAdminTimers();
+	void TimerAdminWarning();
+	void TimerAdminTimeout();
 
-	virtual int InternalProcess(ServerGameThread &server, SessionWrapper session, boost::shared_ptr<NetPacket> packet);
+	virtual int InternalProcessPacket(SessionWrapper session, boost::shared_ptr<NetPacket> packet);
 
 	static boost::shared_ptr<NetPacket> CreateNetPacketPlayerJoined(const PlayerData &playerData);
 
 private:
 
-	static ServerGameStateInit	m_state;
+	unsigned	m_adminWarningTimerId;
+	unsigned	m_adminTimeoutTimerId;
+	bool		m_timerRegistered;
 };
 
-// Wait for Ack of start event.
-class ServerGameStateWaitAck : public AbstractServerGameStateReceiving, public AbstractServerGameStateRunning, public AbstractServerGameStateTimer
+// Wait for Ack of start event and start game.
+class ServerGameStateStartGame : public AbstractServerGameStateReceiving
 {
 public:
-	// Access the state singleton.
-	static ServerGameStateWaitAck &Instance();
 
-	virtual ~ServerGameStateWaitAck();
-
-	// Timeout if waiting takes too long.
-	virtual int Process(ServerGameThread &server);
-
-protected:
-
-	// Protected constructor - this is a singleton.
-	ServerGameStateWaitAck();
-
-	virtual int InternalProcess(ServerGameThread &server, SessionWrapper session, boost::shared_ptr<NetPacket> packet);
-
-private:
-
-	static ServerGameStateWaitAck	m_state;
-};
-
-// State: Start server game.
-class ServerGameStateStartGame : public AbstractServerGameStateRunning
-{
-public:
-	// Access the state singleton.
-	static ServerGameStateStartGame &Instance();
-
+	ServerGameStateStartGame(ServerGameThread &serverGame);
 	virtual ~ServerGameStateStartGame();
 
-	virtual void Init(ServerGameThread & /*server*/) {}
-
-	// 
-	virtual int Process(ServerGameThread &server);
+	virtual void NotifyGameAdminChanged() {}
+	virtual void HandleNewSession(SessionWrapper session); 
 
 protected:
 
-	// Protected constructor - this is a singleton.
-	ServerGameStateStartGame();
+	virtual int InternalProcessPacket(SessionWrapper session, boost::shared_ptr<NetPacket> packet);
+	void TimerTimeout();
+	void DoStart();
 
 private:
-
-	static ServerGameStateStartGame	m_state;
+	unsigned	m_timeoutTimerId;
 };
 
-// State: Start new hand.
-class ServerGameStateStartHand : public AbstractServerGameStateRunning
+// State: Within hand.
+class ServerGameStateHand : public AbstractServerGameStateReceiving
 {
 public:
-	// Access the state singleton.
-	static ServerGameStateStartHand &Instance();
+	ServerGameStateHand(ServerGameThread &serverGame);
+	virtual ~ServerGameStateHand();
 
-	virtual ~ServerGameStateStartHand();
-
-	virtual void Init(ServerGameThread & /*server*/) {}
-
-	// 
-	virtual int Process(ServerGameThread &server);
+	virtual void NotifyGameAdminChanged() {}
+	virtual void HandleNewSession(SessionWrapper session);
 
 protected:
-
-	// Protected constructor - this is a singleton.
-	ServerGameStateStartHand();
-
-private:
-
-	static ServerGameStateStartHand	m_state;
-};
-
-// State: Start new round.
-class ServerGameStateStartRound : public AbstractServerGameStateRunning
-{
-public:
-	// Access the state singleton.
-	static ServerGameStateStartRound &Instance();
-
-	virtual ~ServerGameStateStartRound();
-
-	virtual void Init(ServerGameThread & /*server*/) {}
-
-	// 
-	virtual int Process(ServerGameThread &server);
-
-protected:
-
-	// Protected constructor - this is a singleton.
-	ServerGameStateStartRound();
+	virtual int InternalProcessPacket(SessionWrapper session, boost::shared_ptr<NetPacket> packet);
+	void TimerLoop();
+	void TimerShowCards();
+	void TimerComputerAction();
+	void TimerNextHand();
+	void TimerNextGame();
+	int GetDealCardsDelaySec();
 
 private:
-
-	static ServerGameStateStartRound	m_state;
+	unsigned	m_loopTimerId;
 };
 
 // State: Wait for a player action.
-class ServerGameStateWaitPlayerAction : public AbstractServerGameStateReceiving, public AbstractServerGameStateRunning, public AbstractServerGameStateTimer
+class ServerGameStateWaitPlayerAction : public AbstractServerGameStateReceiving
 {
 public:
-	// Access the state singleton.
-	static ServerGameStateWaitPlayerAction &Instance();
-
+	ServerGameStateWaitPlayerAction(ServerGameThread &serverGame);
 	virtual ~ServerGameStateWaitPlayerAction();
 
-	// Handle leaving players.
-	virtual int Process(ServerGameThread &server);
+	virtual void NotifyGameAdminChanged() {}
+	virtual void HandleNewSession(SessionWrapper session);
 
 protected:
 
-	// Protected constructor - this is a singleton.
-	ServerGameStateWaitPlayerAction();
-
-	virtual int InternalProcess(ServerGameThread &server, SessionWrapper session, boost::shared_ptr<NetPacket> packet);
-
-	static void PerformPlayerAction(ServerGameThread &server, boost::shared_ptr<PlayerInterface> player, PlayerAction action, int bet);
+	virtual int InternalProcessPacket(SessionWrapper session, boost::shared_ptr<NetPacket> packet);
+	void TimerTimeout();
 
 private:
-
-	static ServerGameStateWaitPlayerAction	m_state;
-};
-
-// State: Delay and computer action
-class ServerGameStateComputerAction : public AbstractServerGameStateReceiving, public AbstractServerGameStateRunning, public AbstractServerGameStateTimer
-{
-public:
-	// Access the state singleton.
-	static ServerGameStateComputerAction &Instance();
-
-	virtual ~ServerGameStateComputerAction();
-
-	// Overwrite default processing
-	virtual int Process(ServerGameThread &server);
-
-protected:
-
-	// Protected constructor - this is a singleton.
-	ServerGameStateComputerAction();
-
-	virtual int InternalProcess(ServerGameThread &server, SessionWrapper session, boost::shared_ptr<NetPacket> packet);
-
-private:
-
-	static ServerGameStateComputerAction	m_state;
-};
-
-// State: Delay after dealing cards
-class ServerGameStateDealCardsDelay : public AbstractServerGameStateReceiving, public AbstractServerGameStateRunning, public AbstractServerGameStateTimer
-{
-public:
-	// Access the state singleton.
-	static ServerGameStateDealCardsDelay &Instance();
-
-	virtual ~ServerGameStateDealCardsDelay();
-
-	// Overwrite default processing
-	virtual int Process(ServerGameThread &server);
-
-protected:
-
-	// Protected constructor - this is a singleton.
-	ServerGameStateDealCardsDelay();
-
-	virtual int InternalProcess(ServerGameThread &server, SessionWrapper session, boost::shared_ptr<NetPacket> packet);
-
-private:
-
-	static ServerGameStateDealCardsDelay	m_state;
-};
-
-// State: Delay after showing cards (all in)
-class ServerGameStateShowCardsDelay : public AbstractServerGameStateReceiving, public AbstractServerGameStateRunning, public AbstractServerGameStateTimer
-{
-public:
-	// Access the state singleton.
-	static ServerGameStateShowCardsDelay &Instance();
-
-	virtual ~ServerGameStateShowCardsDelay();
-
-	// Overwrite default processing
-	virtual int Process(ServerGameThread &server);
-
-protected:
-
-	// Protected constructor - this is a singleton.
-	ServerGameStateShowCardsDelay();
-
-	virtual int InternalProcess(ServerGameThread &server, SessionWrapper session, boost::shared_ptr<NetPacket> packet);
-
-private:
-
-	static ServerGameStateShowCardsDelay	m_state;
-};
-
-// State: Delay before next hand.
-class ServerGameStateNextHandDelay : public AbstractServerGameStateReceiving, public AbstractServerGameStateRunning, public AbstractServerGameStateTimer
-{
-public:
-	// Access the state singleton.
-	static ServerGameStateNextHandDelay &Instance();
-
-	virtual ~ServerGameStateNextHandDelay();
-
-	// Overwrite default processing
-	virtual int Process(ServerGameThread &server);
-
-protected:
-
-	// Protected constructor - this is a singleton.
-	ServerGameStateNextHandDelay();
-
-	virtual int InternalProcess(ServerGameThread &server, SessionWrapper session, boost::shared_ptr<NetPacket> packet);
-
-private:
-
-	static ServerGameStateNextHandDelay	m_state;
-};
-
-// State: Delay before next hand.
-class ServerGameStateNextGameDelay : public AbstractServerGameStateReceiving, public AbstractServerGameStateRunning, public AbstractServerGameStateTimer
-{
-public:
-	// Access the state singleton.
-	static ServerGameStateNextGameDelay &Instance();
-
-	virtual ~ServerGameStateNextGameDelay();
-
-	// Overwrite default processing
-	virtual int Process(ServerGameThread &server);
-
-protected:
-
-	// Protected constructor - this is a singleton.
-	ServerGameStateNextGameDelay();
-
-	virtual int InternalProcess(ServerGameThread &server, SessionWrapper session, boost::shared_ptr<NetPacket> packet);
-
-private:
-
-	static ServerGameStateNextGameDelay	m_state;
-};
-
-// State: Final.
-class ServerGameStateFinal : public AbstractServerGameStateReceiving, public AbstractServerGameStateRunning
-{
-public:
-	// Access the state singleton.
-	static ServerGameStateFinal &Instance();
-
-	virtual ~ServerGameStateFinal();
-
-	virtual void Init(ServerGameThread & /*server*/) {}
-
-protected:
-
-	// Protected constructor - this is a singleton.
-	ServerGameStateFinal();
-
-	virtual int InternalProcess(ServerGameThread &server, SessionWrapper session, boost::shared_ptr<NetPacket> packet);
-
-private:
-
-	static ServerGameStateFinal	m_state;
+	unsigned	m_timeoutTimerId;
 };
 
 #ifdef _MSC_VER

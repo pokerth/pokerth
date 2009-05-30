@@ -90,6 +90,7 @@ public:
 	u_int32_t GetNextGameId();
 	ServerCallback &GetCallback();
 
+	TimerManager &GetTimerManager();
 	AvatarManager &GetAvatarManager();
 
 	ServerStats GetStats() const;

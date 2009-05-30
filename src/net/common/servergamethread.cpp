@@ -33,6 +33,7 @@
 
 
 #define SERVER_CHECK_VOTE_KICK_INTERVAL_MSEC	500
+#define SERVER_REMOVE_PLAYER_INTERVAL_MSEC		1000
 #define SERVER_KICK_TIMEOUT_ADD_DELAY_SEC		2
 
 using namespace std;
@@ -41,17 +42,29 @@ using namespace std;
 ServerGameThread::ServerGameThread(ServerLobbyThread &lobbyThread, u_int32_t id, const string &name, const string &pwd, const GameData &gameData, unsigned adminPlayerId, GuiInterface &gui, ConfigFile *playerConfig)
 : m_adminPlayerId(adminPlayerId), m_lobbyThread(lobbyThread), m_gui(gui),
   m_gameData(gameData), m_id(id), m_name(name), m_password(pwd), m_playerConfig(playerConfig),
-  m_curState(NULL), m_gameNum(1), m_curPetitionId(1),
-  m_stateTimer(boost::posix_time::time_duration(0, 0, 0), boost::timers::portable::microsec_timer::manual_start),
-  m_stateTimerFlag(0)
+  m_gameNum(1), m_curPetitionId(1)
 {
 	LOG_VERBOSE("Game object " << GetId() << " created.");
 
 	m_receiver.reset(new ReceiverHelper);
+
+	m_removePlayerTimerId = GetLobbyThread().GetTimerManager().RegisterTimer(
+		SERVER_REMOVE_PLAYER_INTERVAL_MSEC,
+		boost::bind(&ServerGameThread::TimerRemovePlayer, this),
+		true);
+	m_voteKickTimerId = GetLobbyThread().GetTimerManager().RegisterTimer(
+		SERVER_CHECK_VOTE_KICK_INTERVAL_MSEC,
+		boost::bind(&ServerGameThread::TimerVoteKick, this),
+		true);
+
+	SetState(boost::shared_ptr<ServerGameState>(new SERVER_INITIAL_STATE(*this)));
 }
 
 ServerGameThread::~ServerGameThread()
 {
+	GetLobbyThread().GetTimerManager().UnregisterTimer(m_removePlayerTimerId);
+	GetLobbyThread().GetTimerManager().UnregisterTimer(m_voteKickTimerId);
+
 	LOG_VERBOSE("Game object " << GetId() << " destructed.");
 }
 
@@ -70,9 +83,8 @@ ServerGameThread::GetName() const
 void
 ServerGameThread::AddSession(SessionWrapper session)
 {
-	// Must be thread safe.
-	boost::mutex::scoped_lock lock(m_sessionQueueMutex);
-	m_sessionQueue.push_back(session);
+	if (session.sessionData)
+		GetState().HandleNewSession(session);
 }
 
 void
@@ -80,6 +92,13 @@ ServerGameThread::RemovePlayer(unsigned playerId, unsigned errorCode)
 {
 	boost::mutex::scoped_lock lock(m_removePlayerListMutex);
 	m_removePlayerList.push_back(RemovePlayerList::value_type(playerId, errorCode));
+}
+
+void
+ServerGameThread::HandlePacket(SessionWrapper session, boost::shared_ptr<NetPacket> packet)
+{
+	if (session.sessionData && packet)
+		GetState().ProcessPacket(session, packet);
 }
 
 GameState
@@ -111,50 +130,15 @@ ServerGameThread::RemoveAllSessions()
 	GetSessionManager().ForEach(boost::bind(&ServerLobbyThread::RemoveSessionFromGame, boost::ref(lobbyThread), _1));
 }
 
-void
-ServerGameThread::Main()
-{
-	LOG_VERBOSE("Game thread " << GetId() << " started.");
+// TODO terminate game.
+// TODO Handle game termination!
+//	ResetComputerPlayerList();
+//	GetLobbyThread().RemoveGame(GetId());
 
-	SetState(SERVER_INITIAL_STATE::Instance());
-
-	try
-	{
-		do
-		{
-			{
-				// Handle one new session at a time.
-				SessionWrapper tmpSession;
-				{
-					boost::mutex::scoped_lock lock(m_sessionQueueMutex);
-					if (!m_sessionQueue.empty())
-					{
-						tmpSession = m_sessionQueue.front();
-						m_sessionQueue.pop_front();
-					}
-				}
-				if (tmpSession.sessionData.get())
-					GetState().HandleNewSession(*this, tmpSession);
-			}
-			// Process current state.
-			GetState().Process(*this);
-			RemovePlayerLoop();
-			VoteKickLoop();
-		} while (!ShouldTerminate() && GetSessionManager().HasSessions());
-	} catch (const PokerTHException &e)
-	{
-		GetCallback().SignalNetServerError(e.GetErrorId(), e.GetOsErrorCode());
-		LOG_ERROR(e.what());
-	}
-
-	ResetComputerPlayerList();
-	GetLobbyThread().RemoveGame(GetId());
-
-	LOG_VERBOSE("Game thread " << GetId() << " terminating.");
-}
+//	LOG_VERBOSE("Game thread " << GetId() << " terminating.");
 
 void
-ServerGameThread::RemovePlayerLoop()
+ServerGameThread::TimerRemovePlayer()
 {
 	boost::mutex::scoped_lock lock(m_removePlayerListMutex);
 
@@ -173,16 +157,7 @@ ServerGameThread::RemovePlayerLoop()
 }
 
 void
-ServerGameThread::VoteKickLoop()
-{
-	// Do not call the vote kick action all the time.
-	// Check the timer.
-	if (m_voteKickActionTimer.elapsed().total_milliseconds() >= SERVER_CHECK_VOTE_KICK_INTERVAL_MSEC)
-		VoteKickAction();
-}
-
-void
-ServerGameThread::VoteKickAction()
+ServerGameThread::TimerVoteKick()
 {
 	// Check whether someone should be kicked, or whether a vote kick should be aborted.
 	// Only one vote kick can be active at a time.
@@ -605,7 +580,7 @@ ServerGameThread::RemovePlayerData(boost::shared_ptr<PlayerData> player, int rea
 			SetAdminPlayerId(newAdmin->GetUniqueId());
 			newAdmin->SetRights(PLAYER_RIGHTS_ADMIN);
 			// Notify game state on admin change
-			GetState().NotifyGameAdminChanged(*this);
+			GetState().NotifyGameAdminChanged();
 			// Send "Game Admin Changed" to clients.
 			boost::shared_ptr<NetPacket> adminChanged(new NetPacketGameAdminChanged);
 			NetPacketGameAdminChanged::Data adminChangedData;
@@ -743,33 +718,9 @@ ServerGameThread::GetState()
 }
 
 void
-ServerGameThread::SetState(ServerGameState &newState)
+ServerGameThread::SetState(boost::shared_ptr<ServerGameState> newState)
 {
-	newState.Init(*this);
-	m_curState = &newState;
-}
-
-const boost::timers::portable::microsec_timer &
-ServerGameThread::GetStateTimer() const
-{
-	return m_stateTimer;
-}
-
-boost::timers::portable::microsec_timer &
-ServerGameThread::GetStateTimer()
-{
-	return m_stateTimer;
-}
-
-unsigned
-ServerGameThread::GetStateTimerFlag() const
-{
-	return m_stateTimerFlag;
-}
-void
-ServerGameThread::SetStateTimerFlag(unsigned flag)
-{
-	m_stateTimerFlag = flag;
+	m_curState = newState;
 }
 
 ReceiverHelper &

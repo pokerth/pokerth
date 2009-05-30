@@ -39,7 +39,7 @@ class ConfigFile;
 struct GameData;
 class Game;
 
-class ServerGameThread : public Thread
+class ServerGameThread
 {
 public:
 	ServerGameThread(
@@ -51,6 +51,8 @@ public:
 
 	void AddSession(SessionWrapper session);
 	void RemovePlayer(unsigned playerId, unsigned errorCode);
+
+	void HandlePacket(SessionWrapper session, boost::shared_ptr<NetPacket> packet);
 
 	ServerCallback &GetCallback();
 	GameState GetCurRound() const;
@@ -79,11 +81,8 @@ protected:
 
 	typedef std::deque<SessionWrapper> SessionQueue;
 
-	// Main function of the thread.
-	virtual void Main();
-	void RemovePlayerLoop();
-	void VoteKickLoop();
-	void VoteKickAction();
+	void TimerRemovePlayer();
+	void TimerVoteKick();
 
 	void InternalStartGame();
 	void ResetGame();
@@ -115,12 +114,7 @@ protected:
 	ServerLobbyThread &GetLobbyThread();
 
 	ServerGameState &GetState();
-	void SetState(ServerGameState &newState);
-
-	const boost::timers::portable::microsec_timer &GetStateTimer() const;
-	boost::timers::portable::microsec_timer &GetStateTimer();
-	unsigned GetStateTimerFlag() const;
-	void SetStateTimerFlag(unsigned flag);
+	void SetState(boost::shared_ptr<ServerGameState> newState);
 
 	ReceiverHelper &GetReceiver();
 
@@ -159,34 +153,26 @@ private:
 	const GameData		m_gameData;
 	StartData			m_startData;
 	boost::shared_ptr<Game>	m_game;
+	boost::shared_ptr<ServerGameState>	   m_curState;
+
 	const u_int32_t		m_id;
 	const std::string	m_name;
 	const std::string	m_password;
 	ConfigFile		   *m_playerConfig;
-	ServerGameState	   *m_curState;
 	unsigned			m_gameNum;
 	unsigned			m_curPetitionId;
-
-	boost::timers::portable::microsec_timer m_stateTimer;
-	unsigned								m_stateTimerFlag;
+	unsigned			m_removePlayerTimerId;
+	unsigned			m_voteKickTimerId;
 
 	boost::timers::portable::microsec_timer m_voteKickActionTimer;
 
 friend class ServerLobbyThread;
 friend class AbstractServerGameStateReceiving;
-friend class AbstractServerGameStateRunning;
-friend class AbstractServerGameStateTimer;
 friend class ServerGameStateInit;
 friend class ServerGameStateWaitAck;
 friend class ServerGameStateStartGame;
-friend class ServerGameStateStartHand;
-friend class ServerGameStateStartRound;
+friend class ServerGameStateHand;
 friend class ServerGameStateWaitPlayerAction;
-friend class ServerGameStateComputerAction;
-friend class ServerGameStateDealCardsDelay;
-friend class ServerGameStateShowCardsDelay;
-friend class ServerGameStateNextHandDelay;
-friend class ServerGameStateNextGameDelay;
 };
 
 #endif

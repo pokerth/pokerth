@@ -444,6 +444,12 @@ ServerLobbyThread::RemoveGame(unsigned id)
 	m_removeGameList.push_back(id);
 }
 
+TimerManager &
+ServerLobbyThread::GetTimerManager()
+{
+	return m_timerManager;
+}
+
 AvatarManager &
 ServerLobbyThread::GetAvatarManager()
 {
@@ -564,12 +570,22 @@ ServerLobbyThread::RegisterTimers()
 void
 ServerLobbyThread::HandleRead(SessionId sessionId, const boost::system::error_code& error, size_t bytesRead)
 {
+	// Find the session.
 	SessionWrapper session = m_sessionManager.GetSessionById(sessionId);
 	if (!session.sessionData)
 		session = m_gameSessionManager.GetSessionById(sessionId);
 	if (session.sessionData)
 	{
+		// Retrieve current game, if applicable.
 		unsigned gameId = session.sessionData->GetGameId();
+		boost::shared_ptr<ServerGameThread> game;
+		if (gameId)
+		{
+			GameMap::iterator pos = m_gameMap.find(gameId);
+
+			if (pos != m_gameMap.end())
+				game = pos->second;
+		}
 		if (!error)
 		{
 
@@ -581,10 +597,11 @@ ServerLobbyThread::HandleRead(SessionId sessionId, const boost::system::error_co
 			{
 				boost::shared_ptr<NetPacket> packet = buf.receivedPackets.front();
 				buf.receivedPackets.pop_front();
-//				if (game)
-//					game->HandlePacket(session, packet);
-//				else
+				if (game)
+					game->HandlePacket(session, packet);
+				else
 					HandlePacket(session, packet);
+				// TODO state may have changed between.
 			}
 			session.sessionData->GetAsioSocket()->async_read_some(
 				boost::asio::buffer(buf.recvBuf + buf.recvBufUsed, RECV_BUF_SIZE - buf.recvBufUsed),
@@ -598,14 +615,6 @@ ServerLobbyThread::HandleRead(SessionId sessionId, const boost::system::error_co
 		else
 		{
 			// On error: Close this session.
-			boost::shared_ptr<ServerGameThread> game;
-			if (gameId)
-			{
-				GameMap::iterator pos = m_gameMap.find(gameId);
-
-				if (pos != m_gameMap.end())
-					game = pos->second;
-			}
 			if (game)
 				game->ErrorRemoveSession(session);
 			else
@@ -949,9 +958,6 @@ ServerLobbyThread::HandleNetPacketCreateGame(SessionWrapper session, const NetPa
 
 	// Add game to list of games.
 	InternalAddGame(game);
-
-	// Start the game.
-	game->Run();
 }
 
 void
@@ -1055,15 +1061,16 @@ ServerLobbyThread::TimerRemoveGame()
 	RemoveGameList::iterator end = m_removeGameList.end();
 
 	// Synchronously remove games which have been closed.
+	// TODO deprecated
 	while (i != end)
 	{
 		GameMap::iterator pos = m_gameMap.find(*i);
 		if (pos != m_gameMap.end())
 		{
 			boost::shared_ptr<ServerGameThread> tmpGame = pos->second;
-			tmpGame->SignalTermination();
-			if (!tmpGame->Join(GAME_THREAD_TERMINATE_TIMEOUT))
-				throw ServerException(__FILE__, __LINE__, ERR_NET_GAME_TERMINATION_FAILED, 0);
+//			tmpGame->SignalTermination();
+//			if (!tmpGame->Join(GAME_THREAD_TERMINATE_TIMEOUT))
+//				throw ServerException(__FILE__, __LINE__, ERR_NET_GAME_TERMINATION_FAILED, 0);
 			InternalRemoveGame(tmpGame);
 		}
 		++i;
@@ -1241,13 +1248,14 @@ ServerLobbyThread::InternalResubscribeMsg(SessionWrapper session)
 void
 ServerLobbyThread::TerminateGames()
 {
+	// TODO deprecated
 	GameMap::iterator i = m_gameMap.begin();
 	GameMap::iterator end = m_gameMap.end();
 
 	while (i != end)
 	{
-		i->second->SignalTermination();
-		i->second->Join(GAME_THREAD_TERMINATE_TIMEOUT);
+		//i->second->SignalTermination();
+		//i->second->Join(GAME_THREAD_TERMINATE_TIMEOUT);
 		++i;
 	}
 	m_gameMap.clear();
