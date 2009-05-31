@@ -40,130 +40,137 @@ class ServerCallback;
 class ServerGameState
 {
 public:
-	ServerGameState(ServerGameThread &serverGame) : m_serverGame(serverGame) {}
 	virtual ~ServerGameState();
+	virtual void Enter(ServerGameThread &server) = 0;
+	virtual void Exit(ServerGameThread &server) = 0;
 
-	virtual void NotifyGameAdminChanged() = 0;
+	virtual void NotifyGameAdminChanged(ServerGameThread &server) = 0;
 
 	// Handling of a new session.
-	virtual void HandleNewSession(SessionWrapper session) = 0;
+	virtual void HandleNewSession(ServerGameThread &server, SessionWrapper session) = 0;
 
 	// Main processing function of the current state.
-	virtual int ProcessPacket(SessionWrapper session, boost::shared_ptr<NetPacket> packet) = 0;
-
-protected:
-	ServerGameThread &GetServerGame() {return m_serverGame;}
-
-private:
-	ServerGameThread &m_serverGame;
+	virtual int ProcessPacket(ServerGameThread &server, SessionWrapper session, boost::shared_ptr<NetPacket> packet) = 0;
 };
 
 // Abstract State: Receiving.
 class AbstractServerGameStateReceiving : public ServerGameState
 {
 public:
-	AbstractServerGameStateReceiving(ServerGameThread &serverGame);
 	virtual ~AbstractServerGameStateReceiving();
 
 	// Globally handle packets which are allowed in all running states.
 	// Calls InternalProcess if packet has not been processed.
-	virtual int ProcessPacket(SessionWrapper session, boost::shared_ptr<NetPacket> packet);
+	virtual int ProcessPacket(ServerGameThread &server, SessionWrapper session, boost::shared_ptr<NetPacket> packet);
 
 protected:
 
-	virtual int InternalProcessPacket(SessionWrapper session, boost::shared_ptr<NetPacket> packet) = 0;
+	virtual int InternalProcessPacket(ServerGameThread &server, SessionWrapper session, boost::shared_ptr<NetPacket> packet) = 0;
 };
 
 // State: Initialization.
 class ServerGameStateInit : public AbstractServerGameStateReceiving
 {
 public:
-	ServerGameStateInit(ServerGameThread &serverGame);
+	static ServerGameStateInit &Instance();
+	virtual void Enter(ServerGameThread &server);
+	virtual void Exit(ServerGameThread &server);
+
 	virtual ~ServerGameStateInit();
 
-	virtual void NotifyGameAdminChanged();
+	virtual void NotifyGameAdminChanged(ServerGameThread &server);
 
-	virtual void HandleNewSession(SessionWrapper session);
+	virtual void HandleNewSession(ServerGameThread &server, SessionWrapper session);
 
 protected:
+	ServerGameStateInit();
 
-	void RegisterAdminTimers();
-	void UnregisterAdminTimers();
-	void TimerAdminWarning();
-	void TimerAdminTimeout();
+	void RegisterAdminTimer(ServerGameThread &server);
+	void UnregisterAdminTimer(ServerGameThread &server);
+	void TimerAdminWarning(ServerGameThread &server);
+	void TimerAdminTimeout(ServerGameThread &server);
 
-	virtual int InternalProcessPacket(SessionWrapper session, boost::shared_ptr<NetPacket> packet);
+	virtual int InternalProcessPacket(ServerGameThread &server, SessionWrapper session, boost::shared_ptr<NetPacket> packet);
 
 	static boost::shared_ptr<NetPacket> CreateNetPacketPlayerJoined(const PlayerData &playerData);
 
 private:
-
-	unsigned	m_adminWarningTimerId;
-	unsigned	m_adminTimeoutTimerId;
-	bool		m_timerRegistered;
+	static ServerGameStateInit s_state;
 };
 
 // Wait for Ack of start event and start game.
 class ServerGameStateStartGame : public AbstractServerGameStateReceiving
 {
 public:
+	static ServerGameStateStartGame &Instance();
+	virtual void Enter(ServerGameThread &server);
+	virtual void Exit(ServerGameThread &server);
 
-	ServerGameStateStartGame(ServerGameThread &serverGame);
 	virtual ~ServerGameStateStartGame();
 
-	virtual void NotifyGameAdminChanged() {}
-	virtual void HandleNewSession(SessionWrapper session); 
+	virtual void NotifyGameAdminChanged(ServerGameThread &/*server*/) {}
+	virtual void HandleNewSession(ServerGameThread &server, SessionWrapper session);
 
 protected:
+	ServerGameStateStartGame();
 
-	virtual int InternalProcessPacket(SessionWrapper session, boost::shared_ptr<NetPacket> packet);
-	void TimerTimeout();
-	void DoStart();
+	virtual int InternalProcessPacket(ServerGameThread &server, SessionWrapper session, boost::shared_ptr<NetPacket> packet);
+	void TimerTimeout(ServerGameThread &server);
+	void DoStart(ServerGameThread &server);
 
 private:
-	unsigned	m_timeoutTimerId;
+	static ServerGameStateStartGame s_state;
 };
 
 // State: Within hand.
 class ServerGameStateHand : public AbstractServerGameStateReceiving
 {
 public:
-	ServerGameStateHand(ServerGameThread &serverGame);
+	static ServerGameStateHand &Instance();
+	virtual void Enter(ServerGameThread &server);
+	virtual void Exit(ServerGameThread &server);
+
 	virtual ~ServerGameStateHand();
 
-	virtual void NotifyGameAdminChanged() {}
-	virtual void HandleNewSession(SessionWrapper session);
+	virtual void NotifyGameAdminChanged(ServerGameThread &/*server*/) {}
+	virtual void HandleNewSession(ServerGameThread &server, SessionWrapper session);
 
 protected:
-	virtual int InternalProcessPacket(SessionWrapper session, boost::shared_ptr<NetPacket> packet);
-	void TimerLoop();
-	void TimerShowCards();
-	void TimerComputerAction();
-	void TimerNextHand();
-	void TimerNextGame();
-	int GetDealCardsDelaySec();
+	ServerGameStateHand();
+
+	virtual int InternalProcessPacket(ServerGameThread &server, SessionWrapper session, boost::shared_ptr<NetPacket> packet);
+	void TimerLoop(ServerGameThread &server);
+	void TimerShowCards(ServerGameThread &server);
+	void TimerComputerAction(ServerGameThread &server);
+	void TimerNextHand(ServerGameThread &server);
+	void TimerNextGame(ServerGameThread &server);
+	int GetDealCardsDelaySec(ServerGameThread &server);
 
 private:
-	unsigned	m_loopTimerId;
+	static ServerGameStateHand s_state;
 };
 
 // State: Wait for a player action.
 class ServerGameStateWaitPlayerAction : public AbstractServerGameStateReceiving
 {
 public:
-	ServerGameStateWaitPlayerAction(ServerGameThread &serverGame);
+	static ServerGameStateWaitPlayerAction &Instance();
+	virtual void Enter(ServerGameThread &server);
+	virtual void Exit(ServerGameThread &server);
+
 	virtual ~ServerGameStateWaitPlayerAction();
 
-	virtual void NotifyGameAdminChanged() {}
-	virtual void HandleNewSession(SessionWrapper session);
+	virtual void NotifyGameAdminChanged(ServerGameThread &/*server*/) {}
+	virtual void HandleNewSession(ServerGameThread &server, SessionWrapper session);
 
 protected:
+	ServerGameStateWaitPlayerAction();
 
-	virtual int InternalProcessPacket(SessionWrapper session, boost::shared_ptr<NetPacket> packet);
-	void TimerTimeout();
+	virtual int InternalProcessPacket(ServerGameThread &server, SessionWrapper session, boost::shared_ptr<NetPacket> packet);
+	void TimerTimeout(ServerGameThread &server);
 
 private:
-	unsigned	m_timeoutTimerId;
+	static ServerGameStateWaitPlayerAction s_state;
 };
 
 #ifdef _MSC_VER

@@ -266,17 +266,12 @@ ServerGameState::~ServerGameState()
 
 //-----------------------------------------------------------------------------
 
-AbstractServerGameStateReceiving::AbstractServerGameStateReceiving(ServerGameThread &serverGame)
-: ServerGameState(serverGame)
-{
-}
-
 AbstractServerGameStateReceiving::~AbstractServerGameStateReceiving()
 {
 }
 
 int
-AbstractServerGameStateReceiving::ProcessPacket(SessionWrapper session, boost::shared_ptr<NetPacket> packet)
+AbstractServerGameStateReceiving::ProcessPacket(ServerGameThread &server, SessionWrapper session, boost::shared_ptr<NetPacket> packet)
 {
 	// This is the receive loop for the server.
 	int retVal = MSG_SOCK_INTERNAL_PENDING;
@@ -286,27 +281,27 @@ AbstractServerGameStateReceiving::ProcessPacket(SessionWrapper session, boost::s
 	if (packet->ToNetPacketRetrievePlayerInfo())
 	{
 		// Delegate to Lobby.
-		GetServerGame().GetLobbyThread().HandleGameRetrievePlayerInfo(session, *packet->ToNetPacketRetrievePlayerInfo());
+		server.GetLobbyThread().HandleGameRetrievePlayerInfo(session, *packet->ToNetPacketRetrievePlayerInfo());
 	}
 	else if (packet->ToNetPacketRetrieveAvatar())
 	{
 		// Delegate to Lobby.
-		GetServerGame().GetLobbyThread().HandleGameRetrieveAvatar(session, *packet->ToNetPacketRetrieveAvatar());
+		server.GetLobbyThread().HandleGameRetrieveAvatar(session, *packet->ToNetPacketRetrieveAvatar());
 	}
 	else if (packet->ToNetPacketLeaveCurrentGame())
 	{
-		GetServerGame().MoveSessionToLobby(session, NTF_NET_REMOVED_ON_REQUEST);
+		server.MoveSessionToLobby(session, NTF_NET_REMOVED_ON_REQUEST);
 	}
 	else if (packet->ToNetPacketKickPlayer())
 	{
 		// Only admins are allowed to kick, and only in the lobby.
 		// After leaving the lobby, a vote needs to be initiated to kick.
-		if (session.playerData->GetRights() == PLAYER_RIGHTS_ADMIN && !GetServerGame().IsRunning())
+		if (session.playerData->GetRights() == PLAYER_RIGHTS_ADMIN && !server.IsRunning())
 		{
 			NetPacketKickPlayer::Data kickPlayerData;
 			packet->ToNetPacketKickPlayer()->GetData(kickPlayerData);
 
-			GetServerGame().InternalKickPlayer(kickPlayerData.playerId);
+			server.InternalKickPlayer(kickPlayerData.playerId);
 		}
 	}
 	else if (packet->ToNetPacketAskKickPlayer())
@@ -316,7 +311,7 @@ AbstractServerGameStateReceiving::ProcessPacket(SessionWrapper session, boost::s
 			NetPacketAskKickPlayer::Data askKickData;
 			packet->ToNetPacketAskKickPlayer()->GetData(askKickData);
 
-			GetServerGame().InternalAskVoteKick(session, askKickData.playerId, SERVER_VOTE_KICK_TIMEOUT_SEC);
+			server.InternalAskVoteKick(session, askKickData.playerId, SERVER_VOTE_KICK_TIMEOUT_SEC);
 		}
 	}
 	else if (packet->ToNetPacketVoteKickPlayer())
@@ -326,7 +321,7 @@ AbstractServerGameStateReceiving::ProcessPacket(SessionWrapper session, boost::s
 			NetPacketVoteKickPlayer::Data voteData;
 			packet->ToNetPacketVoteKickPlayer()->GetData(voteData);
 
-			GetServerGame().InternalVoteKick(session, voteData.petitionId, voteData.vote);
+			server.InternalVoteKick(session, voteData.petitionId, voteData.vote);
 		}
 	}
 	// Chat text is always allowed.
@@ -344,7 +339,7 @@ AbstractServerGameStateReceiving::ProcessPacket(SessionWrapper session, boost::s
 			outChatData.playerId = session.playerData->GetUniqueId();
 			outChatData.text = inChatData.text;
 			static_cast<NetPacketChatText *>(outChat.get())->SetData(outChatData);
-			GetServerGame().SendToAllPlayers(outChat, SessionData::Game);
+			server.SendToAllPlayers(outChat, SessionData::Game);
 		}
 	}
 	else if (packet->ToNetPacketUnsubscribeGameList())
@@ -357,12 +352,12 @@ AbstractServerGameStateReceiving::ProcessPacket(SessionWrapper session, boost::s
 		// This needs to be performed in the lobby thread,
 		// because a new game list needs to be sent.
 		if (!session.sessionData->WantsLobbyMsg())
-			GetServerGame().GetLobbyThread().ResubscribeLobbyMsg(session);
+			server.GetLobbyThread().ResubscribeLobbyMsg(session);
 	}
 	else
 	{
 		// Packet processing in subclass.
-		retVal = InternalProcessPacket(session, packet);
+		retVal = InternalProcessPacket(server, session, packet);
 	}
 
 	return retVal;
@@ -370,43 +365,61 @@ AbstractServerGameStateReceiving::ProcessPacket(SessionWrapper session, boost::s
 
 //-----------------------------------------------------------------------------
 
-ServerGameStateInit::ServerGameStateInit(ServerGameThread &serverGame)
-: AbstractServerGameStateReceiving(serverGame), m_timerRegistered(false)
+ServerGameStateInit ServerGameStateInit::s_state;
+
+ServerGameStateInit &
+ServerGameStateInit::Instance()
 {
-	RegisterAdminTimers();
+	return s_state;
+}
+
+ServerGameStateInit::ServerGameStateInit()
+{
 }
 
 ServerGameStateInit::~ServerGameStateInit()
 {
-	UnregisterAdminTimers();
 }
 
 void
-ServerGameStateInit::NotifyGameAdminChanged()
+ServerGameStateInit::Enter(ServerGameThread &server)
 {
-	RegisterAdminTimers();
+	RegisterAdminTimer(server);
 }
 
 void
-ServerGameStateInit::HandleNewSession(SessionWrapper session)
+ServerGameStateInit::Exit(ServerGameThread &server)
+{
+	UnregisterAdminTimer(server);
+}
+
+void
+ServerGameStateInit::NotifyGameAdminChanged(ServerGameThread &server)
+{
+	UnregisterAdminTimer(server);
+	RegisterAdminTimer(server);
+}
+
+void
+ServerGameStateInit::HandleNewSession(ServerGameThread &server, SessionWrapper session)
 {
 	if (session.sessionData.get() && session.playerData.get())
 	{
-		size_t curNumPlayers = GetServerGame().GetCurNumberOfPlayers();
+		size_t curNumPlayers = server.GetCurNumberOfPlayers();
 
 		// Check the number of players.
-		if (curNumPlayers >= (size_t)GetServerGame().GetGameData().maxNumberOfPlayers)
+		if (curNumPlayers >= (size_t)server.GetGameData().maxNumberOfPlayers)
 		{
-			GetServerGame().MoveSessionToLobby(session, NTF_NET_REMOVED_GAME_FULL);
+			server.MoveSessionToLobby(session, NTF_NET_REMOVED_GAME_FULL);
 		}
 		// Check whether the client supports the current game.
-		else if ((size_t)GetServerGame().GetGameData().maxNumberOfPlayers > session.sessionData->GetMaxNumPlayers())
+		else if ((size_t)server.GetGameData().maxNumberOfPlayers > session.sessionData->GetMaxNumPlayers())
 		{
-			GetServerGame().MoveSessionToLobby(session, NTF_NET_REMOVED_GAME_FULL);
+			server.MoveSessionToLobby(session, NTF_NET_REMOVED_GAME_FULL);
 		}
 		else
 		{
-			if (session.playerData->GetUniqueId() == GetServerGame().GetAdminPlayerId())
+			if (session.playerData->GetUniqueId() == server.GetAdminPlayerId())
 			{
 				// This is the admin player.
 				session.playerData->SetRights(PLAYER_RIGHTS_ADMIN);
@@ -415,14 +428,14 @@ ServerGameStateInit::HandleNewSession(SessionWrapper session)
 			// Send ack to client.
 			boost::shared_ptr<NetPacket> joinGameAck(new NetPacketJoinGameAck);
 			NetPacketJoinGameAck::Data joinGameAckData;
-			joinGameAckData.gameId = GetServerGame().GetId();
+			joinGameAckData.gameId = server.GetId();
 			joinGameAckData.prights = session.playerData->GetRights();
-			joinGameAckData.gameData = GetServerGame().GetGameData();
+			joinGameAckData.gameData = server.GetGameData();
 			static_cast<NetPacketJoinGameAck *>(joinGameAck.get())->SetData(joinGameAckData);
 			session.sessionData->GetSender().Send(session.sessionData, joinGameAck);
 
 			// Send notifications for connected players to client.
-			PlayerDataList tmpPlayerList = GetServerGame().GetFullPlayerDataList();
+			PlayerDataList tmpPlayerList = server.GetFullPlayerDataList();
 			PlayerDataList::iterator player_i = tmpPlayerList.begin();
 			PlayerDataList::iterator player_end = tmpPlayerList.end();
 			while (player_i != player_end)
@@ -432,48 +445,38 @@ ServerGameStateInit::HandleNewSession(SessionWrapper session)
 			}
 
 			// Send "Player Joined" to other fully connected clients.
-			GetServerGame().SendToAllPlayers(CreateNetPacketPlayerJoined(*session.playerData), SessionData::Game);
+			server.SendToAllPlayers(CreateNetPacketPlayerJoined(*session.playerData), SessionData::Game);
 
 			// Accept session.
-			GetServerGame().GetSessionManager().AddSession(session);
+			server.GetSessionManager().AddSession(session);
 
 			// Notify lobby.
-			GetServerGame().GetLobbyThread().NotifyPlayerJoinedGame(GetServerGame().GetId(), session.playerData->GetUniqueId());
+			server.GetLobbyThread().NotifyPlayerJoinedGame(server.GetId(), session.playerData->GetUniqueId());
 		}
 	}
 }
 
 void
-ServerGameStateInit::RegisterAdminTimers()
+ServerGameStateInit::RegisterAdminTimer(ServerGameThread &server)
 {
-	if (m_timerRegistered)
-		UnregisterAdminTimers();
-
-	m_adminWarningTimerId = GetServerGame().GetLobbyThread().GetTimerManager().RegisterTimer(
-		(SERVER_GAME_ADMIN_TIMEOUT_SEC - SERVER_GAME_ADMIN_WARNING_REMAINING_SEC) * 1000,
-		boost::bind(&ServerGameStateInit::TimerAdminWarning, this));
-	m_adminTimeoutTimerId = GetServerGame().GetLobbyThread().GetTimerManager().RegisterTimer(
-		SERVER_GAME_ADMIN_TIMEOUT_SEC * 1000,
-		boost::bind(&ServerGameStateInit::TimerAdminTimeout, this));
-	m_timerRegistered = true;
+	server.SetStateTimerId(
+		server.GetLobbyThread().GetTimerManager().RegisterTimer(
+			(SERVER_GAME_ADMIN_TIMEOUT_SEC - SERVER_GAME_ADMIN_WARNING_REMAINING_SEC) * 1000,
+			boost::bind(&ServerGameStateInit::TimerAdminWarning, this, boost::ref(server))));
 }
 
 void
-ServerGameStateInit::UnregisterAdminTimers()
+ServerGameStateInit::UnregisterAdminTimer(ServerGameThread &server)
 {
-	if (m_timerRegistered)
-	{
-		GetServerGame().GetLobbyThread().GetTimerManager().UnregisterTimer(m_adminWarningTimerId);
-		GetServerGame().GetLobbyThread().GetTimerManager().UnregisterTimer(m_adminTimeoutTimerId);
-		m_timerRegistered = false;
-	}
+	server.GetLobbyThread().GetTimerManager().UnregisterTimer(server.GetStateTimerId());
+	server.SetStateTimerId(0);
 }
 
 void
-ServerGameStateInit::TimerAdminWarning()
+ServerGameStateInit::TimerAdminWarning(ServerGameThread &server)
 {
 	// Find game admin.
-	SessionWrapper session = GetServerGame().GetSessionManager().GetSessionByUniquePlayerId(GetServerGame().GetAdminPlayerId());
+	SessionWrapper session = server.GetSessionManager().GetSessionByUniquePlayerId(server.GetAdminPlayerId());
 	if (session.sessionData.get())
 	{
 		// Send him a warning.
@@ -484,22 +487,27 @@ ServerGameStateInit::TimerAdminWarning()
 		static_cast<NetPacketTimeoutWarning *>(warning.get())->SetData(warningData);
 		session.sessionData->GetSender().Send(session.sessionData, warning);
 	}
+	// Start timeout timer.
+	server.SetStateTimerId(
+		server.GetLobbyThread().GetTimerManager().RegisterTimer(
+			SERVER_GAME_ADMIN_WARNING_REMAINING_SEC * 1000,
+			boost::bind(&ServerGameStateInit::TimerAdminTimeout, this, boost::ref(server))));
 }
 
 void
-ServerGameStateInit::TimerAdminTimeout()
+ServerGameStateInit::TimerAdminTimeout(ServerGameThread &server)
 {
 	// Find game admin.
-	SessionWrapper session = GetServerGame().GetSessionManager().GetSessionByUniquePlayerId(GetServerGame().GetAdminPlayerId());
+	SessionWrapper session = server.GetSessionManager().GetSessionByUniquePlayerId(server.GetAdminPlayerId());
 	if (session.sessionData.get())
 	{
 		// Remove him from the game.
-		GetServerGame().MoveSessionToLobby(session, NTF_NET_REMOVED_TIMEOUT);
+		server.MoveSessionToLobby(session, NTF_NET_REMOVED_TIMEOUT);
 	}
 }
 
 int
-ServerGameStateInit::InternalProcessPacket(SessionWrapper session, boost::shared_ptr<NetPacket> packet)
+ServerGameStateInit::InternalProcessPacket(ServerGameThread &server, SessionWrapper session, boost::shared_ptr<NetPacket> packet)
 {
 	int retVal = MSG_SOCK_INTERNAL_PENDING;
 
@@ -512,44 +520,45 @@ ServerGameStateInit::InternalProcessPacket(SessionWrapper session, boost::shared
 			packet->ToNetPacketStartEvent()->GetData(startData);
 
 			// Fill up with computer players.
-			GetServerGame().ResetComputerPlayerList();
+			server.ResetComputerPlayerList();
 
 			if (startData.fillUpWithCpuPlayers)
 			{
-				int remainingSlots = GetServerGame().GetGameData().maxNumberOfPlayers - GetServerGame().GetCurNumberOfPlayers();
+				int remainingSlots = server.GetGameData().maxNumberOfPlayers - server.GetCurNumberOfPlayers();
 				for (int i = 1; i <= remainingSlots; i++)
 				{
 					boost::shared_ptr<PlayerData> tmpPlayerData(
-						new PlayerData(GetServerGame().GetLobbyThread().GetNextUniquePlayerId(), 0, PLAYER_TYPE_COMPUTER, PLAYER_RIGHTS_NORMAL));
+						new PlayerData(server.GetLobbyThread().GetNextUniquePlayerId(), 0, PLAYER_TYPE_COMPUTER, PLAYER_RIGHTS_NORMAL));
 
 					ostringstream name;
 					name << SERVER_COMPUTER_PLAYER_NAME << i;
 					tmpPlayerData->SetName(name.str());
-					GetServerGame().AddComputerPlayer(tmpPlayerData);
+					server.AddComputerPlayer(tmpPlayerData);
 
 					// Send "Player Joined" to other fully connected clients.
-					GetServerGame().SendToAllPlayers(CreateNetPacketPlayerJoined(*tmpPlayerData), SessionData::Game);
+					server.SendToAllPlayers(CreateNetPacketPlayerJoined(*tmpPlayerData), SessionData::Game);
 
 					// Notify lobby.
-					GetServerGame().GetLobbyThread().NotifyPlayerJoinedGame(GetServerGame().GetId(), tmpPlayerData->GetUniqueId());
+					server.GetLobbyThread().NotifyPlayerJoinedGame(server.GetId(), tmpPlayerData->GetUniqueId());
 				}
 			}
 			// Wait for all players to confirm start of game.
-			GetServerGame().SendToAllPlayers(boost::shared_ptr<NetPacket>(packet->Clone()), SessionData::Game);
+			server.SendToAllPlayers(boost::shared_ptr<NetPacket>(packet->Clone()), SessionData::Game);
 
-			GetServerGame().SetState(boost::shared_ptr<ServerGameState>(new ServerGameStateStartGame(GetServerGame())));
+			server.SetState(ServerGameStateStartGame::Instance());
 		}
 	}
 	else if (packet->ToNetPacketResetTimeout())
 	{
 		if (session.playerData->GetRights() == PLAYER_RIGHTS_ADMIN)
 		{
-			RegisterAdminTimers();
+			UnregisterAdminTimer(server);
+			RegisterAdminTimer(server);
 		}
 	}
 	else
 	{
-		GetServerGame().SessionError(session, ERR_SOCK_INVALID_PACKET);
+		server.SessionError(session, ERR_SOCK_INVALID_PACKET);
 	}
 
 	return retVal;
@@ -568,41 +577,60 @@ ServerGameStateInit::CreateNetPacketPlayerJoined(const PlayerData &playerData)
 
 //-----------------------------------------------------------------------------
 
-ServerGameStateStartGame::ServerGameStateStartGame(ServerGameThread &serverGame)
-: AbstractServerGameStateReceiving(serverGame)
+ServerGameStateStartGame ServerGameStateStartGame::s_state;
+
+ServerGameStateStartGame &
+ServerGameStateStartGame::Instance()
 {
-	m_timeoutTimerId = GetServerGame().GetLobbyThread().GetTimerManager().RegisterTimer(
-		SERVER_START_GAME_TIMEOUT_SEC * 1000,
-		boost::bind(&ServerGameStateStartGame::TimerTimeout, this));
+	return s_state;
+}
+
+ServerGameStateStartGame::ServerGameStateStartGame()
+{
 }
 
 ServerGameStateStartGame::~ServerGameStateStartGame()
 {
-	// The Id might be invalid, but this is not a problem.
-	GetServerGame().GetLobbyThread().GetTimerManager().UnregisterTimer(m_timeoutTimerId);
 }
 
 void
-ServerGameStateStartGame::HandleNewSession(SessionWrapper session)
+ServerGameStateStartGame::Enter(ServerGameThread &server)
+{
+	server.SetStateTimerId(
+		server.GetLobbyThread().GetTimerManager().RegisterTimer(
+			SERVER_START_GAME_TIMEOUT_SEC * 1000,
+			boost::bind(&ServerGameStateStartGame::TimerTimeout, this, boost::ref(server))));
+}
+
+void
+ServerGameStateStartGame::Exit(ServerGameThread &server)
+{
+	// The Id might be invalid, but this is not a problem.
+	server.GetLobbyThread().GetTimerManager().UnregisterTimer(server.GetStateTimerId());
+	server.SetStateTimerId(0);
+}
+
+void
+ServerGameStateStartGame::HandleNewSession(ServerGameThread &server, SessionWrapper session)
 {
 	// Do not accept new sessions in this state.
-	GetServerGame().MoveSessionToLobby(session, NTF_NET_REMOVED_ALREADY_RUNNING);
+	server.MoveSessionToLobby(session, NTF_NET_REMOVED_ALREADY_RUNNING);
 }
 
 int
-ServerGameStateStartGame::InternalProcessPacket(SessionWrapper session, boost::shared_ptr<NetPacket> packet)
+ServerGameStateStartGame::InternalProcessPacket(ServerGameThread &server, SessionWrapper session, boost::shared_ptr<NetPacket> packet)
 {
 	int retVal = MSG_SOCK_INTERNAL_PENDING;
 
 	if (packet->ToNetPacketStartEventAck())
 	{
 		session.sessionData->SetReadyFlag();
-		if (GetServerGame().GetSessionManager().CountReadySessions() == GetServerGame().GetSessionManager().GetRawSessionCount())
+		if (server.GetSessionManager().CountReadySessions() == server.GetSessionManager().GetRawSessionCount())
 		{
 			// Everyone is ready.
-			GetServerGame().GetSessionManager().ResetAllReadyFlags();
-			DoStart();
-			GetServerGame().SetState(boost::shared_ptr<ServerGameState>(new SERVER_START_GAME_STATE(GetServerGame())));
+			server.GetSessionManager().ResetAllReadyFlags();
+			DoStart(server);
+			server.SetState(SERVER_START_GAME_STATE::Instance());
 			retVal = MSG_SOCK_INIT_DONE;
 		}
 	}
@@ -611,38 +639,38 @@ ServerGameStateStartGame::InternalProcessPacket(SessionWrapper session, boost::s
 }
 
 void
-ServerGameStateStartGame::TimerTimeout()
+ServerGameStateStartGame::TimerTimeout(ServerGameThread &server)
 {
 	// On timeout: start anyway.
-	GetServerGame().GetSessionManager().ResetAllReadyFlags();
+	server.GetSessionManager().ResetAllReadyFlags();
 	// TODO report successful start! -> new callback?!
 	//retVal = MSG_SOCK_INIT_DONE;
-	DoStart();
-	GetServerGame().SetState(boost::shared_ptr<ServerGameState>(new SERVER_START_GAME_STATE(GetServerGame())));
+	DoStart(server);
+	server.SetState(SERVER_START_GAME_STATE::Instance());
 }
 
 void
-ServerGameStateStartGame::DoStart()
+ServerGameStateStartGame::DoStart(ServerGameThread &server)
 {
-	PlayerDataList tmpPlayerList = GetServerGame().GetFullPlayerDataList();
+	PlayerDataList tmpPlayerList = server.GetFullPlayerDataList();
 	if (tmpPlayerList.size() <= 1)
 	{
 		if (!tmpPlayerList.empty())
 		{
 			boost::shared_ptr<PlayerData> tmpPlayer(tmpPlayerList.front());
-			SessionWrapper tmpSession = GetServerGame().GetSessionManager().GetSessionByUniquePlayerId(tmpPlayer->GetUniqueId());
+			SessionWrapper tmpSession = server.GetSessionManager().GetSessionByUniquePlayerId(tmpPlayer->GetUniqueId());
 			if (tmpSession.sessionData.get())
-				GetServerGame().MoveSessionToLobby(tmpSession, NTF_NET_REMOVED_START_FAILED);
+				server.MoveSessionToLobby(tmpSession, NTF_NET_REMOVED_START_FAILED);
 		}
 	}
 	else
 	{
-		GetServerGame().InternalStartGame();
+		server.InternalStartGame();
 
 		boost::shared_ptr<NetPacket> answer(new NetPacketGameStart);
 
 		NetPacketGameStart::Data gameStartData;
-		gameStartData.startData = GetServerGame().GetStartData();
+		gameStartData.startData = server.GetStartData();
 
 		// Send player order to clients.
 		// Assume player list is sorted by number.
@@ -658,49 +686,68 @@ ServerGameStateStartGame::DoStart()
 		}
 
 		static_cast<NetPacketGameStart *>(answer.get())->SetData(gameStartData);
-		GetServerGame().SendToAllPlayers(answer, SessionData::Game);
+		server.SendToAllPlayers(answer, SessionData::Game);
 
 		// Start the first hand.
-		StartNewHand(GetServerGame());
-		GetServerGame().SetState(boost::shared_ptr<ServerGameState>(new ServerGameStateHand(GetServerGame())));
+		StartNewHand(server);
+		server.SetState(ServerGameStateHand::Instance());
 	}
 }
 
 //-----------------------------------------------------------------------------
 
-ServerGameStateHand::ServerGameStateHand(ServerGameThread &serverGame)
-: AbstractServerGameStateReceiving(serverGame)
+ServerGameStateHand ServerGameStateHand::s_state;
+
+ServerGameStateHand &
+ServerGameStateHand::Instance()
 {
-	m_loopTimerId = GetServerGame().GetLobbyThread().GetTimerManager().RegisterTimer(
-		SERVER_LOOP_DELAY_MSEC,
-		boost::bind(&ServerGameStateHand::TimerLoop, this));
+	return s_state;
+}
+
+ServerGameStateHand::ServerGameStateHand()
+{
 }
 
 ServerGameStateHand::~ServerGameStateHand()
 {
-	// The Id might be invalid, but this is not a problem.
-	GetServerGame().GetLobbyThread().GetTimerManager().UnregisterTimer(m_loopTimerId);
 }
 
 void
-ServerGameStateHand::HandleNewSession(SessionWrapper session)
+ServerGameStateHand::Enter(ServerGameThread &server)
+{
+	server.SetStateTimerId(
+		server.GetLobbyThread().GetTimerManager().RegisterTimer(
+			SERVER_LOOP_DELAY_MSEC,
+			boost::bind(&ServerGameStateHand::TimerLoop, this, boost::ref(server))));
+}
+
+void
+ServerGameStateHand::Exit(ServerGameThread &server)
+{
+	// The Id might be invalid, but this is not a problem.
+	server.GetLobbyThread().GetTimerManager().UnregisterTimer(server.GetStateTimerId());
+	server.SetStateTimerId(0);
+}
+
+void
+ServerGameStateHand::HandleNewSession(ServerGameThread &server, SessionWrapper session)
 {
 	// Do not accept new sessions in this state.
-	GetServerGame().MoveSessionToLobby(session, NTF_NET_REMOVED_ALREADY_RUNNING);
+	server.MoveSessionToLobby(session, NTF_NET_REMOVED_ALREADY_RUNNING);
 }
 
 int
-ServerGameStateHand::InternalProcessPacket(SessionWrapper /*session*/, boost::shared_ptr<NetPacket> /*packet*/)
+ServerGameStateHand::InternalProcessPacket(ServerGameThread &/*server*/, SessionWrapper /*session*/, boost::shared_ptr<NetPacket> /*packet*/)
 {
 	// TODO: maybe reject packet.
 	return MSG_SOCK_INTERNAL_PENDING;
 }
 
 void
-ServerGameStateHand::TimerLoop()
+ServerGameStateHand::TimerLoop(ServerGameThread &server)
 {
-	bool newTimerSet = false;
-	Game &curGame = GetServerGame().GetGame();
+	server.SetStateTimerId(0);
+	Game &curGame = server.GetGame();
 
 	// Main game loop.
 	int curRound = curGame.getCurrentHand()->getCurrentRound();
@@ -744,22 +791,22 @@ ServerGameStateHand::TimerLoop()
 				++i;
 			}
 			static_cast<NetPacketAllInShowCards *>(allIn.get())->SetData(allInData);
-			GetServerGame().SendToAllPlayers(allIn, SessionData::Game);
+			server.SendToAllPlayers(allIn, SessionData::Game);
 			curGame.getCurrentHand()->setCardsShown(true);
 
-			m_loopTimerId = GetServerGame().GetLobbyThread().GetTimerManager().RegisterTimer(
-				SERVER_SHOW_CARDS_DELAY_SEC * 1000,
-				boost::bind(&ServerGameStateHand::TimerLoop, this));
-			newTimerSet = true;
+			server.SetStateTimerId(
+					server.GetLobbyThread().GetTimerManager().RegisterTimer(
+						SERVER_SHOW_CARDS_DELAY_SEC * 1000,
+						boost::bind(&ServerGameStateHand::TimerLoop, this, boost::ref(server))));
 		}
 		else
 		{
-			SendNewRoundCards(GetServerGame(), curGame, newRound);
+			SendNewRoundCards(server, curGame, newRound);
 
-			m_loopTimerId = GetServerGame().GetLobbyThread().GetTimerManager().RegisterTimer(
-				GetDealCardsDelaySec() * 1000,
-				boost::bind(&ServerGameStateHand::TimerLoop, this));
-			newTimerSet = true;
+			server.SetStateTimerId(
+				server.GetLobbyThread().GetTimerManager().RegisterTimer(
+					GetDealCardsDelaySec(server) * 1000,
+					boost::bind(&ServerGameStateHand::TimerLoop, this, boost::ref(server))));
 		}
 	}
 	else
@@ -782,25 +829,24 @@ ServerGameStateHand::TimerLoop()
 			playersTurnData.playerId = curPlayer->getMyUniqueID();
 			static_cast<NetPacketPlayersTurn *>(notification.get())->SetData(playersTurnData);
 
-			GetServerGame().SendToAllPlayers(notification, SessionData::Game);
+			server.SendToAllPlayers(notification, SessionData::Game);
 
 			// If the player is computer controlled, let the engine act.
 			if (curPlayer->getMyType() == PLAYER_TYPE_COMPUTER)
 			{
-				m_loopTimerId = GetServerGame().GetLobbyThread().GetTimerManager().RegisterTimer(
-					SERVER_COMPUTER_ACTION_DELAY_SEC * 1000,
-					boost::bind(&ServerGameStateHand::TimerComputerAction, this));
-				newTimerSet = true;
+				server.SetStateTimerId(
+					server.GetLobbyThread().GetTimerManager().RegisterTimer(
+						SERVER_COMPUTER_ACTION_DELAY_SEC * 1000,
+						boost::bind(&ServerGameStateHand::TimerComputerAction, this, boost::ref(server))));
 			}
 			// If the player we are waiting for left, continue without him.
-			else if (!GetServerGame().GetSessionManager().IsPlayerConnected(curPlayer->getMyName()))
+			else if (!server.GetSessionManager().IsPlayerConnected(curPlayer->getMyName()))
 			{
-				PerformPlayerAction(GetServerGame(), curPlayer, PLAYER_ACTION_FOLD, 0);
+				PerformPlayerAction(server, curPlayer, PLAYER_ACTION_FOLD, 0);
 			}
 			else
 			{
-				//wrong!!!
-				GetServerGame().SetState(boost::shared_ptr<ServerGameState>(new ServerGameStateWaitPlayerAction(GetServerGame())));
+				server.SetState(ServerGameStateWaitPlayerAction::Instance());
 			}
 		}
 		else // hand is over
@@ -823,7 +869,7 @@ ServerGameStateHand::TimerLoop()
 				endHandData.playerMoney = player->getMyCash();
 				static_cast<NetPacketEndOfHandHideCards *>(endHand.get())->SetData(endHandData);
 
-				GetServerGame().SendToAllPlayers(endHand, SessionData::Game);
+				server.SendToAllPlayers(endHand, SessionData::Game);
 			}
 			else
 			{
@@ -858,11 +904,11 @@ ServerGameStateHand::TimerLoop()
 				}
 				static_cast<NetPacketEndOfHandShowCards *>(endHand.get())->SetData(endHandData);
 
-				GetServerGame().SendToAllPlayers(endHand, SessionData::Game);
+				server.SendToAllPlayers(endHand, SessionData::Game);
 			}
 
 			// Remove disconnected players. This is the one and only place to do this.
-			GetServerGame().RemoveDisconnectedPlayers();
+			server.RemoveDisconnectedPlayers();
 
 			// Start next hand - if enough players are left.
 			list<boost::shared_ptr<PlayerInterface> > playersWithCash = *curGame.getActivePlayerList();
@@ -871,60 +917,61 @@ ServerGameStateHand::TimerLoop()
 			if (playersWithCash.empty())
 			{
 				// No more players left - restart.
-				//wrong!!!
-				GetServerGame().SetState(boost::shared_ptr<ServerGameState>(new SERVER_INITIAL_STATE(GetServerGame())));
+				server.SetState(SERVER_INITIAL_STATE::Instance());
 			}
 			else if (playersWithCash.size() == 1)
 			{
 				// View a dialog for a new game - delayed.
-				m_loopTimerId = GetServerGame().GetLobbyThread().GetTimerManager().RegisterTimer(
-					SERVER_DELAY_NEXT_GAME_SEC * 1000,
-					boost::bind(&ServerGameStateHand::TimerNextGame, this));
-				newTimerSet = true;
+				server.SetStateTimerId(
+					server.GetLobbyThread().GetTimerManager().RegisterTimer(
+						SERVER_DELAY_NEXT_GAME_SEC * 1000,
+						boost::bind(&ServerGameStateHand::TimerNextGame, this, boost::ref(server))));
 			}
 			else
 			{
-				m_loopTimerId = GetServerGame().GetLobbyThread().GetTimerManager().RegisterTimer(
-					SERVER_DELAY_NEXT_HAND_SEC * 1000,
-					boost::bind(&ServerGameStateHand::TimerNextHand, this));
-				newTimerSet = true;
+				server.SetStateTimerId(
+					server.GetLobbyThread().GetTimerManager().RegisterTimer(
+						SERVER_DELAY_NEXT_HAND_SEC * 1000,
+						boost::bind(&ServerGameStateHand::TimerNextHand, this, boost::ref(server))));
 			}
 		}
 	}
+	// TODO if not state changed and not timer set, set new loop timer.
 }
 
 void
-ServerGameStateHand::TimerShowCards()
+ServerGameStateHand::TimerShowCards(ServerGameThread &server)
 {
-	Game &curGame = GetServerGame().GetGame();
-	SendNewRoundCards(GetServerGame(), curGame, curGame.getCurrentHand()->getCurrentRound());
+	Game &curGame = server.GetGame();
+	SendNewRoundCards(server, curGame, curGame.getCurrentHand()->getCurrentRound());
 
-	m_loopTimerId = GetServerGame().GetLobbyThread().GetTimerManager().RegisterTimer(
-		GetDealCardsDelaySec() * 1000,
-		boost::bind(&ServerGameStateHand::TimerLoop, this));
+	server.SetStateTimerId(
+		server.GetLobbyThread().GetTimerManager().RegisterTimer(
+			GetDealCardsDelaySec(server) * 1000,
+			boost::bind(&ServerGameStateHand::TimerLoop, this, boost::ref(server))));
 }
 
 void
-ServerGameStateHand::TimerComputerAction()
+ServerGameStateHand::TimerComputerAction(ServerGameThread &server)
 {
-	boost::shared_ptr<PlayerInterface> tmpPlayer = GetServerGame().GetGame().getCurrentPlayer();
+	boost::shared_ptr<PlayerInterface> tmpPlayer = server.GetGame().getCurrentPlayer();
 
 	tmpPlayer->action();
-	SendPlayerAction(GetServerGame(), tmpPlayer);
-	TimerLoop();
+	SendPlayerAction(server, tmpPlayer);
+	TimerLoop(server);
 }
 
 void
-ServerGameStateHand::TimerNextHand()
+ServerGameStateHand::TimerNextHand(ServerGameThread &server)
 {
-	StartNewHand(GetServerGame());
-	TimerLoop();
+	StartNewHand(server);
+	TimerLoop(server);
 }
 
 void
-ServerGameStateHand::TimerNextGame()
+ServerGameStateHand::TimerNextGame(ServerGameThread &server)
 {
-	Game &curGame = GetServerGame().GetGame();
+	Game &curGame = server.GetGame();
 	// The game has ended. Notify all clients.
 	boost::shared_ptr<PlayerInterface> winnerPlayer;
 	PlayerListIterator i = curGame.getActivePlayerList()->begin();
@@ -942,19 +989,19 @@ ServerGameStateHand::TimerNextGame()
 	endGameData.winnerPlayerId = winnerPlayer->getMyUniqueID();
 	static_cast<NetPacketEndOfGame *>(endGame.get())->SetData(endGameData);
 
-	GetServerGame().SendToAllPlayers(endGame, SessionData::Game);
+	server.SendToAllPlayers(endGame, SessionData::Game);
 
 	// Wait for the start of a new game.
-	GetServerGame().ResetComputerPlayerList();
-	GetServerGame().ResetGame();
-	GetServerGame().GetLobbyThread().NotifyReopeningGame(GetServerGame().GetId());
-	GetServerGame().SetState(boost::shared_ptr<ServerGameState>(new ServerGameStateInit(GetServerGame())));
+	server.ResetComputerPlayerList();
+	server.ResetGame();
+	server.GetLobbyThread().NotifyReopeningGame(server.GetId());
+	server.SetState(ServerGameStateInit::Instance());
 }
 
 int
-ServerGameStateHand::GetDealCardsDelaySec()
+ServerGameStateHand::GetDealCardsDelaySec(ServerGameThread &server)
 {
-	Game &curGame = GetServerGame().GetGame();
+	Game &curGame = server.GetGame();
 	int allInDelay = curGame.getCurrentHand()->getAllInCondition() ? SERVER_DEAL_ADD_ALL_IN_DELAY_SEC : 0;
 	int delay = 0;
 
@@ -975,35 +1022,55 @@ ServerGameStateHand::GetDealCardsDelaySec()
 
 //-----------------------------------------------------------------------------
 
-ServerGameStateWaitPlayerAction::ServerGameStateWaitPlayerAction(ServerGameThread &serverGame)
-: AbstractServerGameStateReceiving(serverGame)
-{
-#ifdef SERVER_TEST
-	int timeoutSec = 0;
-#else
-	int timeoutSec = GetServerGame().GetGameData().playerActionTimeoutSec + SERVER_PLAYER_TIMEOUT_ADD_DELAY_SEC;
-#endif
 
-	m_timeoutTimerId = GetServerGame().GetLobbyThread().GetTimerManager().RegisterTimer(
-		timeoutSec * 1000,
-		boost::bind(&ServerGameStateWaitPlayerAction::TimerTimeout, this));
+ServerGameStateWaitPlayerAction ServerGameStateWaitPlayerAction::s_state;
+
+ServerGameStateWaitPlayerAction &
+ServerGameStateWaitPlayerAction::Instance()
+{
+	return s_state;
+}
+
+ServerGameStateWaitPlayerAction::ServerGameStateWaitPlayerAction()
+{
 }
 
 ServerGameStateWaitPlayerAction::~ServerGameStateWaitPlayerAction()
 {
-	// The Id might be invalid, but this is not a problem.
-	GetServerGame().GetLobbyThread().GetTimerManager().UnregisterTimer(m_timeoutTimerId);
 }
 
 void
-ServerGameStateWaitPlayerAction::HandleNewSession(SessionWrapper session)
+ServerGameStateWaitPlayerAction::Enter(ServerGameThread &server)
+{
+#ifdef SERVER_TEST
+	int timeoutSec = 0;
+#else
+	int timeoutSec = server.GetGameData().playerActionTimeoutSec + SERVER_PLAYER_TIMEOUT_ADD_DELAY_SEC;
+#endif
+
+	server.SetStateTimerId(
+		server.GetLobbyThread().GetTimerManager().RegisterTimer(
+			timeoutSec * 1000,
+			boost::bind(&ServerGameStateWaitPlayerAction::TimerTimeout, this, boost::ref(server))));
+}
+
+void
+ServerGameStateWaitPlayerAction::Exit(ServerGameThread &server)
+{
+	// The Id might be invalid, but this is not a problem.
+	server.GetLobbyThread().GetTimerManager().UnregisterTimer(server.GetStateTimerId());
+	server.SetStateTimerId(0);
+}
+
+void
+ServerGameStateWaitPlayerAction::HandleNewSession(ServerGameThread &server, SessionWrapper session)
 {
 	// Do not accept new sessions in this state.
-	GetServerGame().MoveSessionToLobby(session, NTF_NET_REMOVED_ALREADY_RUNNING);
+	server.MoveSessionToLobby(session, NTF_NET_REMOVED_ALREADY_RUNNING);
 }
 
 int
-ServerGameStateWaitPlayerAction::InternalProcessPacket(SessionWrapper session, boost::shared_ptr<NetPacket> packet)
+ServerGameStateWaitPlayerAction::InternalProcessPacket(ServerGameThread &server, SessionWrapper session, boost::shared_ptr<NetPacket> packet)
 {
 	int retVal = MSG_SOCK_INTERNAL_PENDING;
 
@@ -1012,7 +1079,7 @@ ServerGameStateWaitPlayerAction::InternalProcessPacket(SessionWrapper session, b
 		NetPacketPlayersAction::Data actionData;
 		packet->ToNetPacketPlayersAction()->GetData(actionData);
 
-		Game &curGame = GetServerGame().GetGame();
+		Game &curGame = server.GetGame();
 		boost::shared_ptr<PlayerInterface> tmpPlayer = curGame.getPlayerByUniqueId(session.playerData->GetUniqueId());
 		if (!tmpPlayer.get())
 			throw ServerException(__FILE__, __LINE__, ERR_NET_UNKNOWN_PLAYER_ID, 0);
@@ -1023,7 +1090,7 @@ ServerGameStateWaitPlayerAction::InternalProcessPacket(SessionWrapper session, b
 			code = ACTION_CODE_INVALID_STATE;
 
 		// Check whether this is the correct player.
-		boost::shared_ptr<PlayerInterface> curPlayer = GetServerGame().GetGame().getCurrentPlayer();
+		boost::shared_ptr<PlayerInterface> curPlayer = server.GetGame().getCurrentPlayer();
 		if (code == ACTION_CODE_VALID
 			&& (curPlayer->getMyUniqueID() != tmpPlayer->getMyUniqueID()))
 		{
@@ -1055,8 +1122,8 @@ ServerGameStateWaitPlayerAction::InternalProcessPacket(SessionWrapper session, b
 
 		if (code == ACTION_CODE_VALID)
 		{
-			PerformPlayerAction(GetServerGame(), tmpPlayer, actionData.playerAction, actionData.playerBet);
-			GetServerGame().SetState(boost::shared_ptr<ServerGameState>(new ServerGameStateHand(GetServerGame())));
+			PerformPlayerAction(server, tmpPlayer, actionData.playerAction, actionData.playerBet);
+			server.SetState(ServerGameStateHand::Instance());
 			retVal = MSG_NET_GAME_SERVER_ACTION;
 		}
 		else
@@ -1077,9 +1144,9 @@ ServerGameStateWaitPlayerAction::InternalProcessPacket(SessionWrapper session, b
 }
 
 void
-ServerGameStateWaitPlayerAction::TimerTimeout()
+ServerGameStateWaitPlayerAction::TimerTimeout(ServerGameThread &server)
 {
-	Game &curGame = GetServerGame().GetGame();
+	Game &curGame = server.GetGame();
 	// Retrieve current player.
 	boost::shared_ptr<PlayerInterface> curPlayer = curGame.getCurrentPlayer();
 	if (!curPlayer.get())
@@ -1087,11 +1154,11 @@ ServerGameStateWaitPlayerAction::TimerTimeout()
 
 	// Player did not act fast enough. Act for him.
 	if (curGame.getCurrentHand()->getCurrentBeRo()->getHighestSet() == curPlayer->getMySet())
-		PerformPlayerAction(GetServerGame(), curPlayer, PLAYER_ACTION_CHECK, 0);
+		PerformPlayerAction(server, curPlayer, PLAYER_ACTION_CHECK, 0);
 	else
-		PerformPlayerAction(GetServerGame(), curPlayer, PLAYER_ACTION_FOLD, 0);
+		PerformPlayerAction(server, curPlayer, PLAYER_ACTION_FOLD, 0);
 
-	GetServerGame().SetState(boost::shared_ptr<ServerGameState>(new ServerGameStateHand(GetServerGame())));
+	server.SetState(ServerGameStateHand::Instance());
 }
 
 //-----------------------------------------------------------------------------

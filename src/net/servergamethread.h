@@ -114,7 +114,10 @@ protected:
 	ServerLobbyThread &GetLobbyThread();
 
 	ServerGameState &GetState();
-	void SetState(boost::shared_ptr<ServerGameState> newState);
+	void SetState(ServerGameState &newState);
+
+	unsigned GetStateTimerId() const;
+	void SetStateTimerId(unsigned newTimerId);
 
 	ReceiverHelper &GetReceiver();
 
@@ -129,6 +132,7 @@ protected:
 	SessionManager &GetSessionManager();
 
 private:
+	ServerGameThread(const ServerGameThread &other);
 
 	SessionQueue m_sessionQueue;
 	mutable boost::mutex m_sessionQueueMutex;
@@ -152,8 +156,8 @@ private:
 
 	const GameData		m_gameData;
 	StartData			m_startData;
-	boost::shared_ptr<Game>	m_game;
-	boost::shared_ptr<ServerGameState>	   m_curState;
+	boost::shared_ptr<Game>	 m_game;
+	ServerGameState			*m_curState;
 
 	const u_int32_t		m_id;
 	const std::string	m_name;
@@ -163,8 +167,7 @@ private:
 	unsigned			m_curPetitionId;
 	unsigned			m_removePlayerTimerId;
 	unsigned			m_voteKickTimerId;
-
-	boost::timers::portable::microsec_timer m_voteKickActionTimer;
+	unsigned			m_stateTimerId;
 
 friend class ServerLobbyThread;
 friend class AbstractServerGameStateReceiving;

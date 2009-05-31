@@ -42,7 +42,7 @@ using namespace std;
 ServerGameThread::ServerGameThread(ServerLobbyThread &lobbyThread, u_int32_t id, const string &name, const string &pwd, const GameData &gameData, unsigned adminPlayerId, GuiInterface &gui, ConfigFile *playerConfig)
 : m_adminPlayerId(adminPlayerId), m_lobbyThread(lobbyThread), m_gui(gui),
   m_gameData(gameData), m_id(id), m_name(name), m_password(pwd), m_playerConfig(playerConfig),
-  m_gameNum(1), m_curPetitionId(1)
+  m_gameNum(1), m_curPetitionId(1), m_stateTimerId(0)
 {
 	LOG_VERBOSE("Game object " << GetId() << " created.");
 
@@ -57,13 +57,14 @@ ServerGameThread::ServerGameThread(ServerLobbyThread &lobbyThread, u_int32_t id,
 		boost::bind(&ServerGameThread::TimerVoteKick, this),
 		true);
 
-	SetState(boost::shared_ptr<ServerGameState>(new SERVER_INITIAL_STATE(*this)));
+	SetState(SERVER_INITIAL_STATE::Instance());
 }
 
 ServerGameThread::~ServerGameThread()
 {
 	GetLobbyThread().GetTimerManager().UnregisterTimer(m_removePlayerTimerId);
 	GetLobbyThread().GetTimerManager().UnregisterTimer(m_voteKickTimerId);
+	GetLobbyThread().GetTimerManager().UnregisterTimer(m_stateTimerId);
 
 	LOG_VERBOSE("Game object " << GetId() << " destructed.");
 }
@@ -84,7 +85,7 @@ void
 ServerGameThread::AddSession(SessionWrapper session)
 {
 	if (session.sessionData)
-		GetState().HandleNewSession(session);
+		GetState().HandleNewSession(*this, session);
 }
 
 void
@@ -98,7 +99,7 @@ void
 ServerGameThread::HandlePacket(SessionWrapper session, boost::shared_ptr<NetPacket> packet)
 {
 	if (session.sessionData && packet)
-		GetState().ProcessPacket(session, packet);
+		GetState().ProcessPacket(*this, session, packet);
 }
 
 GameState
@@ -580,7 +581,7 @@ ServerGameThread::RemovePlayerData(boost::shared_ptr<PlayerData> player, int rea
 			SetAdminPlayerId(newAdmin->GetUniqueId());
 			newAdmin->SetRights(PLAYER_RIGHTS_ADMIN);
 			// Notify game state on admin change
-			GetState().NotifyGameAdminChanged();
+			GetState().NotifyGameAdminChanged(*this);
 			// Send "Game Admin Changed" to clients.
 			boost::shared_ptr<NetPacket> adminChanged(new NetPacketGameAdminChanged);
 			NetPacketGameAdminChanged::Data adminChangedData;
@@ -718,9 +719,21 @@ ServerGameThread::GetState()
 }
 
 void
-ServerGameThread::SetState(boost::shared_ptr<ServerGameState> newState)
+ServerGameThread::SetState(ServerGameState &newState)
 {
-	m_curState = newState;
+	m_curState = &newState;
+}
+
+unsigned
+ServerGameThread::GetStateTimerId() const
+{
+	return m_stateTimerId;
+}
+
+void
+ServerGameThread::SetStateTimerId(unsigned newTimerId)
+{
+	m_stateTimerId = newTimerId;
 }
 
 ReceiverHelper &

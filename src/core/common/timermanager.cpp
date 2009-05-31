@@ -106,6 +106,9 @@ TimerManager::Process()
 unsigned
 TimerManager::GetNextTimerId()
 {
-	return ++m_curTimerId;
+	++m_curTimerId;
+	if (m_curTimerId == 0) // Id 0 is invalid.
+		++m_curTimerId;
+	return m_curTimerId;
 }
 
