@@ -39,7 +39,7 @@
 class SenderInterface;
 class ReceiverHelper;
 class ServerSenderCallback;
-class ServerGameThread;
+class ServerGame;
 class ConfigFile;
 class AvatarManager;
 struct GameData;
@@ -56,7 +56,7 @@ public:
 
 	void AddConnection(boost::shared_ptr<boost::asio::ip::tcp::socket> sock);
 	void ReAddSession(SessionWrapper session, int reason);
-	void MoveSessionToGame(ServerGameThread &game, SessionWrapper session);
+	void MoveSessionToGame(ServerGame &game, SessionWrapper session);
 	void RemoveSessionFromGame(SessionWrapper session);
 	void SessionError(SessionWrapper session, int errorCode);
 	void ResubscribeLobbyMsg(SessionWrapper session);
@@ -103,7 +103,7 @@ protected:
 	typedef std::list<SessionWrapper> SessionList;
 	typedef std::list<SessionId> SessionIdList;
 	typedef std::map<SessionId, boost::timers::portable::microsec_timer> TimerSessionMap;
-	typedef std::map<unsigned, boost::shared_ptr<ServerGameThread> > GameMap;
+	typedef std::map<unsigned, boost::shared_ptr<ServerGame> > GameMap;
 	typedef std::map<std::string, boost::timers::portable::microsec_timer> TimerClientAddressMap;
 	typedef std::list<unsigned> RemoveGameList;
 	typedef std::map<unsigned, boost::regex> RegexMap;
@@ -134,8 +134,8 @@ protected:
 	void TimerCheckSessionTimeouts();
 	void TimerCleanupAvatarCache();
 
-	void InternalAddGame(boost::shared_ptr<ServerGameThread> game);
-	void InternalRemoveGame(boost::shared_ptr<ServerGameThread> game);
+	void InternalAddGame(boost::shared_ptr<ServerGame> game);
+	void InternalRemoveGame(boost::shared_ptr<ServerGame> game);
 	void InternalRemovePlayer(unsigned playerId, unsigned errorCode);
 	void InternalResubscribeMsg(SessionWrapper session);
 
@@ -168,7 +168,7 @@ protected:
 	bool IsPlayerBanned(const std::string &name) const;
 	bool IsIPAddressBanned(const std::string &ipAddress) const;
 
-	static boost::shared_ptr<NetPacket> CreateNetPacketGameListNew(const ServerGameThread &game);
+	static boost::shared_ptr<NetPacket> CreateNetPacketGameListNew(const ServerGame &game);
 	static boost::shared_ptr<NetPacket> CreateNetPacketGameListUpdate(unsigned gameId, GameMode mode);
 
 private:

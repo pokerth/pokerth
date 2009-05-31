@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2007 by Lothar May                                      *
+ *   Copyright (C) 2007-2009 by Lothar May                                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -16,10 +16,10 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-/* Network server game thread. */
+/* Network server game. */
 
-#ifndef _SERVERGAMETHREAD_H_
-#define _SERVERGAMETHREAD_H_
+#ifndef _SERVERGAME_H_
+#define _SERVERGAME_H_
 
 #include <third_party/boost/timers.hpp>
 #include <deque>
@@ -29,9 +29,6 @@
 #include <gamedata.h>
 
 
-#define GAME_THREAD_TERMINATE_TIMEOUT	THREAD_WAIT_INFINITE
-
-
 class ReceiverHelper;
 class ServerLobbyThread;
 class ServerGameState;
@@ -39,12 +36,12 @@ class ConfigFile;
 struct GameData;
 class Game;
 
-class ServerGameThread
+class ServerGame
 {
 public:
-	ServerGameThread(
+	ServerGame(
 		ServerLobbyThread &lobbyThread, u_int32_t id, const std::string &name, const std::string &pwd, const GameData &gameData, unsigned adminPlayerId, GuiInterface &gui, ConfigFile *playerConfig);
-	virtual ~ServerGameThread();
+	virtual ~ServerGame();
 
 	u_int32_t GetId() const;
 	const std::string &GetName() const;
@@ -131,7 +128,7 @@ protected:
 	SessionManager &GetSessionManager();
 
 private:
-	ServerGameThread(const ServerGameThread &other);
+	ServerGame(const ServerGame &other);
 
 	SessionManager m_sessionManager;
 	PlayerDataList m_computerPlayerList;

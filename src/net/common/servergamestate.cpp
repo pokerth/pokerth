@@ -69,7 +69,7 @@ using namespace std;
 // Helper functions
 // TODO: these are hacks.
 
-static void SendPlayerAction(ServerGameThread &server, boost::shared_ptr<PlayerInterface> player)
+static void SendPlayerAction(ServerGame &server, boost::shared_ptr<PlayerInterface> player)
 {
 	if (!player.get())
 		throw ServerException(__FILE__, __LINE__, ERR_NET_NO_CURRENT_PLAYER, 0);
@@ -86,7 +86,7 @@ static void SendPlayerAction(ServerGameThread &server, boost::shared_ptr<PlayerI
 	server.SendToAllPlayers(notifyActionDone, SessionData::Game);
 }
 
-static void SendNewRoundCards(ServerGameThread &server, Game &curGame, int state)
+static void SendNewRoundCards(ServerGame &server, Game &curGame, int state)
 {
 	// TODO: no switch needed here if game states are polymorphic
 	switch(state) {
@@ -130,7 +130,7 @@ static void SendNewRoundCards(ServerGameThread &server, Game &curGame, int state
 	}
 }
 
-static void StartNewHand(ServerGameThread &server)
+static void StartNewHand(ServerGame &server)
 {
 	// Initialize hand.
 	Game &curGame = server.GetGame();
@@ -218,7 +218,7 @@ static void StartNewHand(ServerGameThread &server)
 	}
 }
 
-static void PerformPlayerAction(ServerGameThread &server, boost::shared_ptr<PlayerInterface> player, PlayerAction action, int bet)
+static void PerformPlayerAction(ServerGame &server, boost::shared_ptr<PlayerInterface> player, PlayerAction action, int bet)
 {
 	Game &curGame = server.GetGame();
 	if (!player.get())
@@ -271,7 +271,7 @@ AbstractServerGameStateReceiving::~AbstractServerGameStateReceiving()
 }
 
 int
-AbstractServerGameStateReceiving::ProcessPacket(ServerGameThread &server, SessionWrapper session, boost::shared_ptr<NetPacket> packet)
+AbstractServerGameStateReceiving::ProcessPacket(ServerGame &server, SessionWrapper session, boost::shared_ptr<NetPacket> packet)
 {
 	// This is the receive loop for the server.
 	int retVal = MSG_SOCK_INTERNAL_PENDING;
@@ -382,26 +382,26 @@ ServerGameStateInit::~ServerGameStateInit()
 }
 
 void
-ServerGameStateInit::Enter(ServerGameThread &server)
+ServerGameStateInit::Enter(ServerGame &server)
 {
 	RegisterAdminTimer(server);
 }
 
 void
-ServerGameStateInit::Exit(ServerGameThread &server)
+ServerGameStateInit::Exit(ServerGame &server)
 {
 	UnregisterAdminTimer(server);
 }
 
 void
-ServerGameStateInit::NotifyGameAdminChanged(ServerGameThread &server)
+ServerGameStateInit::NotifyGameAdminChanged(ServerGame &server)
 {
 	UnregisterAdminTimer(server);
 	RegisterAdminTimer(server);
 }
 
 void
-ServerGameStateInit::HandleNewSession(ServerGameThread &server, SessionWrapper session)
+ServerGameStateInit::HandleNewSession(ServerGame &server, SessionWrapper session)
 {
 	if (session.sessionData.get() && session.playerData.get())
 	{
@@ -457,7 +457,7 @@ ServerGameStateInit::HandleNewSession(ServerGameThread &server, SessionWrapper s
 }
 
 void
-ServerGameStateInit::RegisterAdminTimer(ServerGameThread &server)
+ServerGameStateInit::RegisterAdminTimer(ServerGame &server)
 {
 	server.SetStateTimerId(
 		server.GetLobbyThread().GetTimerManager().RegisterTimer(
@@ -466,14 +466,14 @@ ServerGameStateInit::RegisterAdminTimer(ServerGameThread &server)
 }
 
 void
-ServerGameStateInit::UnregisterAdminTimer(ServerGameThread &server)
+ServerGameStateInit::UnregisterAdminTimer(ServerGame &server)
 {
 	server.GetLobbyThread().GetTimerManager().UnregisterTimer(server.GetStateTimerId());
 	server.SetStateTimerId(0);
 }
 
 void
-ServerGameStateInit::TimerAdminWarning(ServerGameThread &server)
+ServerGameStateInit::TimerAdminWarning(ServerGame &server)
 {
 	// Find game admin.
 	SessionWrapper session = server.GetSessionManager().GetSessionByUniquePlayerId(server.GetAdminPlayerId());
@@ -495,7 +495,7 @@ ServerGameStateInit::TimerAdminWarning(ServerGameThread &server)
 }
 
 void
-ServerGameStateInit::TimerAdminTimeout(ServerGameThread &server)
+ServerGameStateInit::TimerAdminTimeout(ServerGame &server)
 {
 	// Find game admin.
 	SessionWrapper session = server.GetSessionManager().GetSessionByUniquePlayerId(server.GetAdminPlayerId());
@@ -507,7 +507,7 @@ ServerGameStateInit::TimerAdminTimeout(ServerGameThread &server)
 }
 
 int
-ServerGameStateInit::InternalProcessPacket(ServerGameThread &server, SessionWrapper session, boost::shared_ptr<NetPacket> packet)
+ServerGameStateInit::InternalProcessPacket(ServerGame &server, SessionWrapper session, boost::shared_ptr<NetPacket> packet)
 {
 	int retVal = MSG_SOCK_INTERNAL_PENDING;
 
@@ -594,7 +594,7 @@ ServerGameStateStartGame::~ServerGameStateStartGame()
 }
 
 void
-ServerGameStateStartGame::Enter(ServerGameThread &server)
+ServerGameStateStartGame::Enter(ServerGame &server)
 {
 	server.SetStateTimerId(
 		server.GetLobbyThread().GetTimerManager().RegisterTimer(
@@ -603,7 +603,7 @@ ServerGameStateStartGame::Enter(ServerGameThread &server)
 }
 
 void
-ServerGameStateStartGame::Exit(ServerGameThread &server)
+ServerGameStateStartGame::Exit(ServerGame &server)
 {
 	// The Id might be invalid, but this is not a problem.
 	server.GetLobbyThread().GetTimerManager().UnregisterTimer(server.GetStateTimerId());
@@ -611,14 +611,14 @@ ServerGameStateStartGame::Exit(ServerGameThread &server)
 }
 
 void
-ServerGameStateStartGame::HandleNewSession(ServerGameThread &server, SessionWrapper session)
+ServerGameStateStartGame::HandleNewSession(ServerGame &server, SessionWrapper session)
 {
 	// Do not accept new sessions in this state.
 	server.MoveSessionToLobby(session, NTF_NET_REMOVED_ALREADY_RUNNING);
 }
 
 int
-ServerGameStateStartGame::InternalProcessPacket(ServerGameThread &server, SessionWrapper session, boost::shared_ptr<NetPacket> packet)
+ServerGameStateStartGame::InternalProcessPacket(ServerGame &server, SessionWrapper session, boost::shared_ptr<NetPacket> packet)
 {
 	int retVal = MSG_SOCK_INTERNAL_PENDING;
 
@@ -638,7 +638,7 @@ ServerGameStateStartGame::InternalProcessPacket(ServerGameThread &server, Sessio
 }
 
 void
-ServerGameStateStartGame::TimerTimeout(ServerGameThread &server)
+ServerGameStateStartGame::TimerTimeout(ServerGame &server)
 {
 	// On timeout: start anyway.
 	server.GetSessionManager().ResetAllReadyFlags();
@@ -648,7 +648,7 @@ ServerGameStateStartGame::TimerTimeout(ServerGameThread &server)
 }
 
 void
-ServerGameStateStartGame::DoStart(ServerGameThread &server)
+ServerGameStateStartGame::DoStart(ServerGame &server)
 {
 	PlayerDataList tmpPlayerList = server.GetFullPlayerDataList();
 	if (tmpPlayerList.size() <= 1)
@@ -711,7 +711,7 @@ ServerGameStateHand::~ServerGameStateHand()
 }
 
 void
-ServerGameStateHand::Enter(ServerGameThread &server)
+ServerGameStateHand::Enter(ServerGame &server)
 {
 	server.SetStateTimerId(
 		server.GetLobbyThread().GetTimerManager().RegisterTimer(
@@ -720,7 +720,7 @@ ServerGameStateHand::Enter(ServerGameThread &server)
 }
 
 void
-ServerGameStateHand::Exit(ServerGameThread &server)
+ServerGameStateHand::Exit(ServerGame &server)
 {
 	// The Id might be invalid, but this is not a problem.
 	server.GetLobbyThread().GetTimerManager().UnregisterTimer(server.GetStateTimerId());
@@ -728,21 +728,21 @@ ServerGameStateHand::Exit(ServerGameThread &server)
 }
 
 void
-ServerGameStateHand::HandleNewSession(ServerGameThread &server, SessionWrapper session)
+ServerGameStateHand::HandleNewSession(ServerGame &server, SessionWrapper session)
 {
 	// Do not accept new sessions in this state.
 	server.MoveSessionToLobby(session, NTF_NET_REMOVED_ALREADY_RUNNING);
 }
 
 int
-ServerGameStateHand::InternalProcessPacket(ServerGameThread &/*server*/, SessionWrapper /*session*/, boost::shared_ptr<NetPacket> /*packet*/)
+ServerGameStateHand::InternalProcessPacket(ServerGame &/*server*/, SessionWrapper /*session*/, boost::shared_ptr<NetPacket> /*packet*/)
 {
 	// TODO: maybe reject packet.
 	return MSG_SOCK_INTERNAL_PENDING;
 }
 
 void
-ServerGameStateHand::TimerLoop(ServerGameThread &server)
+ServerGameStateHand::TimerLoop(ServerGame &server)
 {
 	server.SetStateTimerId(0);
 	Game &curGame = server.GetGame();
@@ -941,7 +941,7 @@ ServerGameStateHand::TimerLoop(ServerGameThread &server)
 }
 
 void
-ServerGameStateHand::TimerShowCards(ServerGameThread &server)
+ServerGameStateHand::TimerShowCards(ServerGame &server)
 {
 	Game &curGame = server.GetGame();
 	SendNewRoundCards(server, curGame, curGame.getCurrentHand()->getCurrentRound());
@@ -953,7 +953,7 @@ ServerGameStateHand::TimerShowCards(ServerGameThread &server)
 }
 
 void
-ServerGameStateHand::TimerComputerAction(ServerGameThread &server)
+ServerGameStateHand::TimerComputerAction(ServerGame &server)
 {
 	boost::shared_ptr<PlayerInterface> tmpPlayer = server.GetGame().getCurrentPlayer();
 
@@ -963,14 +963,14 @@ ServerGameStateHand::TimerComputerAction(ServerGameThread &server)
 }
 
 void
-ServerGameStateHand::TimerNextHand(ServerGameThread &server)
+ServerGameStateHand::TimerNextHand(ServerGame &server)
 {
 	StartNewHand(server);
 	TimerLoop(server);
 }
 
 void
-ServerGameStateHand::TimerNextGame(ServerGameThread &server)
+ServerGameStateHand::TimerNextGame(ServerGame &server)
 {
 	Game &curGame = server.GetGame();
 	// The game has ended. Notify all clients.
@@ -1000,7 +1000,7 @@ ServerGameStateHand::TimerNextGame(ServerGameThread &server)
 }
 
 int
-ServerGameStateHand::GetDealCardsDelaySec(ServerGameThread &server)
+ServerGameStateHand::GetDealCardsDelaySec(ServerGame &server)
 {
 	Game &curGame = server.GetGame();
 	int allInDelay = curGame.getCurrentHand()->getAllInCondition() ? SERVER_DEAL_ADD_ALL_IN_DELAY_SEC : 0;
@@ -1041,7 +1041,7 @@ ServerGameStateWaitPlayerAction::~ServerGameStateWaitPlayerAction()
 }
 
 void
-ServerGameStateWaitPlayerAction::Enter(ServerGameThread &server)
+ServerGameStateWaitPlayerAction::Enter(ServerGame &server)
 {
 #ifdef SERVER_TEST
 	int timeoutSec = 0;
@@ -1056,7 +1056,7 @@ ServerGameStateWaitPlayerAction::Enter(ServerGameThread &server)
 }
 
 void
-ServerGameStateWaitPlayerAction::Exit(ServerGameThread &server)
+ServerGameStateWaitPlayerAction::Exit(ServerGame &server)
 {
 	// The Id might be invalid, but this is not a problem.
 	server.GetLobbyThread().GetTimerManager().UnregisterTimer(server.GetStateTimerId());
@@ -1064,14 +1064,14 @@ ServerGameStateWaitPlayerAction::Exit(ServerGameThread &server)
 }
 
 void
-ServerGameStateWaitPlayerAction::HandleNewSession(ServerGameThread &server, SessionWrapper session)
+ServerGameStateWaitPlayerAction::HandleNewSession(ServerGame &server, SessionWrapper session)
 {
 	// Do not accept new sessions in this state.
 	server.MoveSessionToLobby(session, NTF_NET_REMOVED_ALREADY_RUNNING);
 }
 
 int
-ServerGameStateWaitPlayerAction::InternalProcessPacket(ServerGameThread &server, SessionWrapper session, boost::shared_ptr<NetPacket> packet)
+ServerGameStateWaitPlayerAction::InternalProcessPacket(ServerGame &server, SessionWrapper session, boost::shared_ptr<NetPacket> packet)
 {
 	int retVal = MSG_SOCK_INTERNAL_PENDING;
 
@@ -1145,7 +1145,7 @@ ServerGameStateWaitPlayerAction::InternalProcessPacket(ServerGameThread &server,
 }
 
 void
-ServerGameStateWaitPlayerAction::TimerTimeout(ServerGameThread &server)
+ServerGameStateWaitPlayerAction::TimerTimeout(ServerGame &server)
 {
 	Game &curGame = server.GetGame();
 	// Retrieve current player.

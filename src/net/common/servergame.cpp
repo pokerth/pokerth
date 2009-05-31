@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2007 by Lothar May                                      *
+ *   Copyright (C) 2007-2009 by Lothar May                                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -38,7 +38,7 @@
 using namespace std;
 
 
-ServerGameThread::ServerGameThread(ServerLobbyThread &lobbyThread, u_int32_t id, const string &name, const string &pwd, const GameData &gameData, unsigned adminPlayerId, GuiInterface &gui, ConfigFile *playerConfig)
+ServerGame::ServerGame(ServerLobbyThread &lobbyThread, u_int32_t id, const string &name, const string &pwd, const GameData &gameData, unsigned adminPlayerId, GuiInterface &gui, ConfigFile *playerConfig)
 : m_adminPlayerId(adminPlayerId), m_lobbyThread(lobbyThread), m_gui(gui),
   m_gameData(gameData), m_curState(NULL), m_id(id), m_name(name), m_password(pwd), m_playerConfig(playerConfig),
   m_gameNum(1), m_curPetitionId(1), m_stateTimerId(0)
@@ -49,13 +49,13 @@ ServerGameThread::ServerGameThread(ServerLobbyThread &lobbyThread, u_int32_t id,
 
 	m_voteKickTimerId = GetLobbyThread().GetTimerManager().RegisterTimer(
 		SERVER_CHECK_VOTE_KICK_INTERVAL_MSEC,
-		boost::bind(&ServerGameThread::TimerVoteKick, this),
+		boost::bind(&ServerGame::TimerVoteKick, this),
 		true);
 
 	SetState(SERVER_INITIAL_STATE::Instance());
 }
 
-ServerGameThread::~ServerGameThread()
+ServerGame::~ServerGame()
 {
 	GetLobbyThread().GetTimerManager().UnregisterTimer(m_removePlayerTimerId);
 	GetLobbyThread().GetTimerManager().UnregisterTimer(m_voteKickTimerId);
@@ -65,26 +65,26 @@ ServerGameThread::~ServerGameThread()
 }
 
 u_int32_t
-ServerGameThread::GetId() const
+ServerGame::GetId() const
 {
 	return m_id;
 }
 
 const std::string &
-ServerGameThread::GetName() const
+ServerGame::GetName() const
 {
 	return m_name;
 }
 
 void
-ServerGameThread::AddSession(SessionWrapper session)
+ServerGame::AddSession(SessionWrapper session)
 {
 	if (session.sessionData)
 		GetState().HandleNewSession(*this, session);
 }
 
 void
-ServerGameThread::RemovePlayer(unsigned playerId, unsigned errorCode)
+ServerGame::RemovePlayer(unsigned playerId, unsigned errorCode)
 {
 	SessionWrapper tmpSession = GetSessionManager().GetSessionByUniquePlayerId(playerId);
 	// Only kick if the player was found.
@@ -93,26 +93,26 @@ ServerGameThread::RemovePlayer(unsigned playerId, unsigned errorCode)
 }
 
 void
-ServerGameThread::HandlePacket(SessionWrapper session, boost::shared_ptr<NetPacket> packet)
+ServerGame::HandlePacket(SessionWrapper session, boost::shared_ptr<NetPacket> packet)
 {
 	if (session.sessionData && packet)
 		GetState().ProcessPacket(*this, session, packet);
 }
 
 GameState
-ServerGameThread::GetCurRound() const
+ServerGame::GetCurRound() const
 {
 	return static_cast<GameState>(GetGame().getCurrentHand()->getCurrentRound());
 }
 
 void
-ServerGameThread::SendToAllPlayers(boost::shared_ptr<NetPacket> packet, SessionData::State state)
+ServerGame::SendToAllPlayers(boost::shared_ptr<NetPacket> packet, SessionData::State state)
 {
 	GetSessionManager().SendToAllSessions(packet, state);
 }
 
 void
-ServerGameThread::RemoveAllSessions()
+ServerGame::RemoveAllSessions()
 {
 	// Called from lobby thread.
 	// Clean up ALL sessions which are left.
@@ -120,7 +120,7 @@ ServerGameThread::RemoveAllSessions()
 }
 
 void
-ServerGameThread::TimerVoteKick()
+ServerGame::TimerVoteKick()
 {
 	// Check whether someone should be kicked, or whether a vote kick should be aborted.
 	// Only one vote kick can be active at a time.
@@ -191,7 +191,7 @@ ServerGameThread::TimerVoteKick()
 }
 
 void
-ServerGameThread::InternalStartGame()
+ServerGame::InternalStartGame()
 {
 	// Set order of players.
 	AssignPlayerNumbers();
@@ -235,13 +235,13 @@ ServerGameThread::InternalStartGame()
 }
 
 void
-ServerGameThread::ResetGame()
+ServerGame::ResetGame()
 {
 	m_game.reset();
 }
 
 void
-ServerGameThread::InternalKickPlayer(unsigned playerId)
+ServerGame::InternalKickPlayer(unsigned playerId)
 {
 	SessionWrapper tmpSession = GetSessionManager().GetSessionByUniquePlayerId(playerId);
 	// Only kick if the player was found.
@@ -258,7 +258,7 @@ ServerGameThread::InternalKickPlayer(unsigned playerId)
 }
 
 void
-ServerGameThread::InternalAskVoteKick(SessionWrapper byWhom, unsigned playerIdWho, unsigned timeoutSec)
+ServerGame::InternalAskVoteKick(SessionWrapper byWhom, unsigned playerIdWho, unsigned timeoutSec)
 {
 	if (IsRunning() && byWhom.playerData)
 	{
@@ -308,7 +308,7 @@ ServerGameThread::InternalAskVoteKick(SessionWrapper byWhom, unsigned playerIdWh
 }
 
 void
-ServerGameThread::InternalDenyAskVoteKick(SessionWrapper byWhom, unsigned playerIdWho, DenyKickPlayerReason reason)
+ServerGame::InternalDenyAskVoteKick(SessionWrapper byWhom, unsigned playerIdWho, DenyKickPlayerReason reason)
 {
 	boost::shared_ptr<NetPacket> denyPetition(new NetPacketAskKickPlayerDenied);
 	NetPacketAskKickPlayerDenied::Data denyPetitionData;
@@ -319,7 +319,7 @@ ServerGameThread::InternalDenyAskVoteKick(SessionWrapper byWhom, unsigned player
 }
 
 void
-ServerGameThread::InternalVoteKick(SessionWrapper byWhom, unsigned petitionId, KickVote vote)
+ServerGame::InternalVoteKick(SessionWrapper byWhom, unsigned petitionId, KickVote vote)
 {
 	if (IsRunning() && byWhom.playerData)
 	{
@@ -357,7 +357,7 @@ ServerGameThread::InternalVoteKick(SessionWrapper byWhom, unsigned petitionId, K
 }
 
 void
-ServerGameThread::InternalDenyVoteKick(SessionWrapper byWhom, unsigned petitionId, DenyVoteReason reason)
+ServerGame::InternalDenyVoteKick(SessionWrapper byWhom, unsigned petitionId, DenyVoteReason reason)
 {
 	boost::shared_ptr<NetPacket> denyVote(new NetPacketVoteKickPlayerDenied);
 	NetPacketVoteKickPlayerDenied::Data denyVoteData;
@@ -368,7 +368,7 @@ ServerGameThread::InternalDenyVoteKick(SessionWrapper byWhom, unsigned petitionI
 }
 
 PlayerDataList
-ServerGameThread::GetFullPlayerDataList() const
+ServerGame::GetFullPlayerDataList() const
 {
 	PlayerDataList playerList(GetSessionManager().GetPlayerDataList());
 	boost::mutex::scoped_lock lock(m_computerPlayerListMutex);
@@ -378,7 +378,7 @@ ServerGameThread::GetFullPlayerDataList() const
 }
 
 boost::shared_ptr<PlayerData>
-ServerGameThread::GetPlayerDataByUniqueId(unsigned playerId) const
+ServerGame::GetPlayerDataByUniqueId(unsigned playerId) const
 {
 	boost::shared_ptr<PlayerData> tmpPlayer;
 	SessionWrapper session = GetSessionManager().GetSessionByUniquePlayerId(playerId);
@@ -405,7 +405,7 @@ ServerGameThread::GetPlayerDataByUniqueId(unsigned playerId) const
 }
 
 PlayerIdList
-ServerGameThread::GetPlayerIdList() const
+ServerGame::GetPlayerIdList() const
 {
 	PlayerIdList idList(GetSessionManager().GetPlayerIdList());
 	boost::mutex::scoped_lock lock(m_computerPlayerListMutex);
@@ -421,31 +421,31 @@ ServerGameThread::GetPlayerIdList() const
 }
 
 bool
-ServerGameThread::IsPlayerConnected(const std::string &name) const
+ServerGame::IsPlayerConnected(const std::string &name) const
 {
 	return GetSessionManager().IsPlayerConnected(name);
 }
 
 bool
-ServerGameThread::IsRunning() const
+ServerGame::IsRunning() const
 {
 	return m_game.get() != NULL;
 }
 
 unsigned
-ServerGameThread::GetAdminPlayerId() const
+ServerGame::GetAdminPlayerId() const
 {
 	return m_adminPlayerId;
 }
 
 void
-ServerGameThread::SetAdminPlayerId(unsigned playerId)
+ServerGame::SetAdminPlayerId(unsigned playerId)
 {
 	m_adminPlayerId = playerId;
 }
 
 void
-ServerGameThread::AddComputerPlayer(boost::shared_ptr<PlayerData> player)
+ServerGame::AddComputerPlayer(boost::shared_ptr<PlayerData> player)
 {
 	{
 		boost::mutex::scoped_lock lock(m_computerPlayerListMutex);
@@ -455,7 +455,7 @@ ServerGameThread::AddComputerPlayer(boost::shared_ptr<PlayerData> player)
 }
 
 boost::shared_ptr<PlayerData>
-ServerGameThread::RemoveComputerPlayer(unsigned playerId)
+ServerGame::RemoveComputerPlayer(unsigned playerId)
 {
 	boost::shared_ptr<PlayerData> tmpPlayer;
 	{
@@ -478,7 +478,7 @@ ServerGameThread::RemoveComputerPlayer(unsigned playerId)
 }
 
 bool
-ServerGameThread::IsComputerPlayerActive(unsigned playerId) const
+ServerGame::IsComputerPlayerActive(unsigned playerId) const
 {
 	bool retVal = false;
 	boost::mutex::scoped_lock lock(m_computerPlayerListMutex);
@@ -494,7 +494,7 @@ ServerGameThread::IsComputerPlayerActive(unsigned playerId) const
 }
 
 void
-ServerGameThread::ResetComputerPlayerList()
+ServerGame::ResetComputerPlayerList()
 {
 	boost::mutex::scoped_lock lock(m_computerPlayerListMutex);
 
@@ -512,7 +512,7 @@ ServerGameThread::ResetComputerPlayerList()
 }
 
 void
-ServerGameThread::GracefulRemoveSession(SessionWrapper session, int reason)
+ServerGame::GracefulRemoveSession(SessionWrapper session, int reason)
 {
 	if (!session.sessionData.get())
 		throw ServerException(__FILE__, __LINE__, ERR_NET_INVALID_SESSION, 0);
@@ -526,7 +526,7 @@ ServerGameThread::GracefulRemoveSession(SessionWrapper session, int reason)
 }
 
 void
-ServerGameThread::RemovePlayerData(boost::shared_ptr<PlayerData> player, int reason)
+ServerGame::RemovePlayerData(boost::shared_ptr<PlayerData> player, int reason)
 {
 	if (player->GetRights() == PLAYER_RIGHTS_ADMIN)
 	{
@@ -564,14 +564,14 @@ ServerGameThread::RemovePlayerData(boost::shared_ptr<PlayerData> player, int rea
 }
 
 void
-ServerGameThread::ErrorRemoveSession(SessionWrapper session)
+ServerGame::ErrorRemoveSession(SessionWrapper session)
 {
 	GetLobbyThread().RemoveSessionFromGame(session);
 	GracefulRemoveSession(session, NTF_NET_INTERNAL);
 }
 
 void
-ServerGameThread::SessionError(SessionWrapper session, int errorCode)
+ServerGame::SessionError(SessionWrapper session, int errorCode)
 {
 	if (!session.sessionData.get())
 		throw ServerException(__FILE__, __LINE__, ERR_NET_INVALID_SESSION, 0);
@@ -580,7 +580,7 @@ ServerGameThread::SessionError(SessionWrapper session, int errorCode)
 }
 
 void
-ServerGameThread::MoveSessionToLobby(SessionWrapper session, int reason)
+ServerGame::MoveSessionToLobby(SessionWrapper session, int reason)
 {
 	GracefulRemoveSession(session, reason);
 	// Reset ready flag - just in case it is set, player may leave at any time.
@@ -589,7 +589,7 @@ ServerGameThread::MoveSessionToLobby(SessionWrapper session, int reason)
 }
 
 void
-ServerGameThread::RemoveDisconnectedPlayers()
+ServerGame::RemoveDisconnectedPlayers()
 {
 	// This should only be called between hands.
 	if (m_game.get())
@@ -612,13 +612,13 @@ ServerGameThread::RemoveDisconnectedPlayers()
 }
 
 size_t
-ServerGameThread::GetCurNumberOfPlayers() const
+ServerGame::GetCurNumberOfPlayers() const
 {
 	return GetFullPlayerDataList().size();
 }
 
 void
-ServerGameThread::AssignPlayerNumbers()
+ServerGame::AssignPlayerNumbers()
 {
 	int playerNumber = 0;
 
@@ -635,7 +635,7 @@ ServerGameThread::AssignPlayerNumbers()
 }
 
 bool
-ServerGameThread::IsValidPlayer(unsigned playerId) const
+ServerGame::IsValidPlayer(unsigned playerId) const
 {
 	bool retVal = false;
 	const PlayerIdList list(GetPlayerIdList());
@@ -645,38 +645,38 @@ ServerGameThread::IsValidPlayer(unsigned playerId) const
 }
 
 SessionManager &
-ServerGameThread::GetSessionManager()
+ServerGame::GetSessionManager()
 {
 	return m_sessionManager;
 }
 
 const SessionManager &
-ServerGameThread::GetSessionManager() const
+ServerGame::GetSessionManager() const
 {
 	return m_sessionManager;
 }
 
 ServerLobbyThread &
-ServerGameThread::GetLobbyThread()
+ServerGame::GetLobbyThread()
 {
 	return m_lobbyThread;
 }
 
 ServerCallback &
-ServerGameThread::GetCallback()
+ServerGame::GetCallback()
 {
 	return m_gui;
 }
 
 ServerGameState &
-ServerGameThread::GetState()
+ServerGame::GetState()
 {
 	assert(m_curState);
 	return *m_curState;
 }
 
 void
-ServerGameThread::SetState(ServerGameState &newState)
+ServerGame::SetState(ServerGameState &newState)
 {
 	if (m_curState)
 		m_curState->Exit(*this);
@@ -685,76 +685,76 @@ ServerGameThread::SetState(ServerGameState &newState)
 }
 
 unsigned
-ServerGameThread::GetStateTimerId() const
+ServerGame::GetStateTimerId() const
 {
 	return m_stateTimerId;
 }
 
 void
-ServerGameThread::SetStateTimerId(unsigned newTimerId)
+ServerGame::SetStateTimerId(unsigned newTimerId)
 {
 	m_stateTimerId = newTimerId;
 }
 
 ReceiverHelper &
-ServerGameThread::GetReceiver()
+ServerGame::GetReceiver()
 {
 	assert(m_receiver.get());
 	return *m_receiver;
 }
 
 Game &
-ServerGameThread::GetGame()
+ServerGame::GetGame()
 {
 	assert(m_game.get());
 	return *m_game;
 }
 
 const Game &
-ServerGameThread::GetGame() const
+ServerGame::GetGame() const
 {
 	assert(m_game.get());
 	return *m_game;
 }
 
 const GameData &
-ServerGameThread::GetGameData() const
+ServerGame::GetGameData() const
 {
 	return m_gameData;
 }
 
 const StartData &
-ServerGameThread::GetStartData() const
+ServerGame::GetStartData() const
 {
 	return m_startData;
 }
 
 void
-ServerGameThread::SetStartData(const StartData &startData)
+ServerGame::SetStartData(const StartData &startData)
 {
 	m_startData = startData;
 }
 
 bool
-ServerGameThread::IsPasswordProtected() const
+ServerGame::IsPasswordProtected() const
 {
 	return !m_password.empty();
 }
 
 bool
-ServerGameThread::CheckPassword(const string &password) const
+ServerGame::CheckPassword(const string &password) const
 {
 	return (password == m_password);
 }
 
 GuiInterface &
-ServerGameThread::GetGui()
+ServerGame::GetGui()
 {
 	return m_gui;
 }
 
 unsigned
-ServerGameThread::GetNextGameNum()
+ServerGame::GetNextGameNum()
 {
 	return m_gameNum++;
 }

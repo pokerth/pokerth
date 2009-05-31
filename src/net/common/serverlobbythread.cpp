@@ -188,7 +188,7 @@ ServerLobbyThread::ReAddSession(SessionWrapper session, int reason)
 }
 
 void
-ServerLobbyThread::MoveSessionToGame(ServerGameThread &game, SessionWrapper session)
+ServerLobbyThread::MoveSessionToGame(ServerGame &game, SessionWrapper session)
 {
 	// Remove session from the lobby.
 	m_sessionManager.RemoveSession(session.sessionData->GetId());
@@ -574,7 +574,7 @@ ServerLobbyThread::HandleRead(SessionId sessionId, const boost::system::error_co
 	{
 		// Retrieve current game, if applicable.
 		unsigned gameId = session.sessionData->GetGameId();
-		boost::shared_ptr<ServerGameThread> game;
+		boost::shared_ptr<ServerGame> game;
 		if (gameId)
 		{
 			GameMap::iterator pos = m_gameMap.find(gameId);
@@ -939,8 +939,8 @@ ServerLobbyThread::HandleNetPacketCreateGame(SessionWrapper session, const NetPa
 	NetPacketCreateGame::Data createGameData;
 	tmpPacket.GetData(createGameData);
 
-	boost::shared_ptr<ServerGameThread> game(
-		new ServerGameThread(
+	boost::shared_ptr<ServerGame> game(
+		new ServerGame(
 			*this,
 			GetNextGameId(),
 			createGameData.gameName,
@@ -967,7 +967,7 @@ ServerLobbyThread::HandleNetPacketJoinGame(SessionWrapper session, const NetPack
 
 	if (pos != m_gameMap.end())
 	{
-		ServerGameThread &game = *pos->second;
+		ServerGame &game = *pos->second;
 		if (game.CheckPassword(joinGameData.password))
 		{
 			MoveSessionToGame(game, session);
@@ -1058,7 +1058,7 @@ ServerLobbyThread::TimerRemoveGame()
 	{
 		GameMap::iterator next = i;
 		++next;
-		boost::shared_ptr<ServerGameThread> tmpGame = i->second;
+		boost::shared_ptr<ServerGame> tmpGame = i->second;
 		if (!tmpGame->GetSessionManager().HasSessions())
 			InternalRemoveGame(tmpGame); // This will delete the entry from the map.
 		i = next;
@@ -1145,7 +1145,7 @@ ServerLobbyThread::TimerCleanupAvatarCache()
 }
 
 void
-ServerLobbyThread::InternalAddGame(boost::shared_ptr<ServerGameThread> game)
+ServerLobbyThread::InternalAddGame(boost::shared_ptr<ServerGame> game)
 {
 	// Add game to list.
 	m_gameMap.insert(GameMap::value_type(game->GetId(), game));
@@ -1165,7 +1165,7 @@ ServerLobbyThread::InternalAddGame(boost::shared_ptr<ServerGameThread> game)
 }
 
 void
-ServerLobbyThread::InternalRemoveGame(boost::shared_ptr<ServerGameThread> game)
+ServerLobbyThread::InternalRemoveGame(boost::shared_ptr<ServerGame> game)
 {
 	{
 		boost::mutex::scoped_lock lock(m_statMutex);
@@ -1200,7 +1200,7 @@ ServerLobbyThread::InternalRemovePlayer(unsigned playerId, unsigned errorCode)
 
 		while (i != end)
 		{
-			boost::shared_ptr<ServerGameThread> tmpGame = i->second;
+			boost::shared_ptr<ServerGame> tmpGame = i->second;
 			if (tmpGame->GetPlayerDataByUniqueId(playerId).get())
 			{
 				tmpGame->RemovePlayer(playerId, errorCode);
@@ -1527,7 +1527,7 @@ ServerLobbyThread::IsIPAddressBanned(const std::string &ipAddress) const
 }
 
 boost::shared_ptr<NetPacket>
-ServerLobbyThread::CreateNetPacketGameListNew(const ServerGameThread &game)
+ServerLobbyThread::CreateNetPacketGameListNew(const ServerGame &game)
 {
 	boost::shared_ptr<NetPacket> packet(new NetPacketGameListNew);
 	NetPacketGameListNew::Data packetData;
