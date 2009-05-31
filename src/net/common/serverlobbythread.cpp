@@ -40,7 +40,7 @@
 #define SERVER_CACHE_CLEANUP_INTERVAL_SEC			86400	// 1 day
 #define SERVER_SAVE_STATISTICS_INTERVAL_SEC			60
 #define SERVER_CHECK_SESSION_TIMEOUTS_INTERVAL_MSEC	500
-#define SERVER_REMOVE_GAME_INTERVAL_MSEC			100
+#define SERVER_REMOVE_GAME_INTERVAL_MSEC			500
 #define SERVER_REMOVE_PLAYER_INTERVAL_MSEC			100
 #define SERVER_UPDATE_AVATAR_LOCK_INTERVAL_MSEC		1000
 
@@ -438,13 +438,6 @@ ServerLobbyThread::RemoveComputerPlayer(boost::shared_ptr<PlayerData> player)
 {
 	boost::mutex::scoped_lock lock(m_computerPlayersMutex);
 	m_computerPlayers.erase(player->GetUniqueId());
-}
-
-void
-ServerLobbyThread::RemoveGame(unsigned id)
-{
-	boost::mutex::scoped_lock lock(m_removeGameListMutex);
-	m_removeGameList.push_back(id);
 }
 
 TimerManager &
@@ -1058,27 +1051,18 @@ ServerLobbyThread::NewSessionLoop()
 void
 ServerLobbyThread::TimerRemoveGame()
 {
-	boost::mutex::scoped_lock lock(m_removeGameListMutex);
-
-	RemoveGameList::iterator i = m_removeGameList.begin();
-	RemoveGameList::iterator end = m_removeGameList.end();
-
 	// Synchronously remove games which have been closed.
-	// TODO deprecated
+	GameMap::iterator i = m_gameMap.begin();
+	GameMap::iterator end = m_gameMap.end();
 	while (i != end)
 	{
-		GameMap::iterator pos = m_gameMap.find(*i);
-		if (pos != m_gameMap.end())
-		{
-			boost::shared_ptr<ServerGameThread> tmpGame = pos->second;
-//			tmpGame->SignalTermination();
-//			if (!tmpGame->Join(GAME_THREAD_TERMINATE_TIMEOUT))
-//				throw ServerException(__FILE__, __LINE__, ERR_NET_GAME_TERMINATION_FAILED, 0);
-			InternalRemoveGame(tmpGame);
-		}
-		++i;
+		GameMap::iterator next = i;
+		++next;
+		boost::shared_ptr<ServerGameThread> tmpGame = i->second;
+		if (!tmpGame->GetSessionManager().HasSessions())
+			InternalRemoveGame(tmpGame); // This will delete the entry from the map.
+		i = next;
 	}
-	m_removeGameList.clear();
 }
 
 void
@@ -1194,6 +1178,7 @@ ServerLobbyThread::InternalRemoveGame(boost::shared_ptr<ServerGameThread> game)
 	// Remove game from list.
 	m_gameMap.erase(game->GetId());
 	// Remove all sessions left in the game.
+	game->ResetComputerPlayerList();
 	game->RemoveAllSessions();
 	// Notify all players.
 	boost::shared_ptr<NetPacket> packet = CreateNetPacketGameListUpdate(game->GetId(), GAME_MODE_CLOSED);

@@ -84,8 +84,6 @@ public:
 	void AddComputerPlayer(boost::shared_ptr<PlayerData> player);
 	void RemoveComputerPlayer(boost::shared_ptr<PlayerData> player);
 
-	void RemoveGame(unsigned id);
-
 	u_int32_t GetNextUniquePlayerId();
 	u_int32_t GetNextGameId();
 	ServerCallback &GetCallback();

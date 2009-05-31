@@ -33,7 +33,6 @@
 
 
 #define SERVER_CHECK_VOTE_KICK_INTERVAL_MSEC	500
-#define SERVER_REMOVE_PLAYER_INTERVAL_MSEC		1000
 #define SERVER_KICK_TIMEOUT_ADD_DELAY_SEC		2
 
 using namespace std;
@@ -48,10 +47,6 @@ ServerGameThread::ServerGameThread(ServerLobbyThread &lobbyThread, u_int32_t id,
 
 	m_receiver.reset(new ReceiverHelper);
 
-	m_removePlayerTimerId = GetLobbyThread().GetTimerManager().RegisterTimer(
-		SERVER_REMOVE_PLAYER_INTERVAL_MSEC,
-		boost::bind(&ServerGameThread::TimerRemovePlayer, this),
-		true);
 	m_voteKickTimerId = GetLobbyThread().GetTimerManager().RegisterTimer(
 		SERVER_CHECK_VOTE_KICK_INTERVAL_MSEC,
 		boost::bind(&ServerGameThread::TimerVoteKick, this),
@@ -91,8 +86,10 @@ ServerGameThread::AddSession(SessionWrapper session)
 void
 ServerGameThread::RemovePlayer(unsigned playerId, unsigned errorCode)
 {
-	boost::mutex::scoped_lock lock(m_removePlayerListMutex);
-	m_removePlayerList.push_back(RemovePlayerList::value_type(playerId, errorCode));
+	SessionWrapper tmpSession = GetSessionManager().GetSessionByUniquePlayerId(playerId);
+	// Only kick if the player was found.
+	if (tmpSession.sessionData.get())
+		SessionError(tmpSession, errorCode);
 }
 
 void
@@ -119,42 +116,7 @@ ServerGameThread::RemoveAllSessions()
 {
 	// Called from lobby thread.
 	// Clean up ALL sessions which are left.
-	ServerLobbyThread &lobbyThread = GetLobbyThread();
-	boost::mutex::scoped_lock lock(m_sessionQueueMutex);
-	while (!m_sessionQueue.empty())
-	{
-		SessionWrapper tmpSession = m_sessionQueue.front();
-		m_sessionQueue.pop_front();
-		LOG_VERBOSE("Game closing, forcing removal of session #" << tmpSession.sessionData->GetId() << ".");
-		lobbyThread.RemoveSessionFromGame(tmpSession);
-	}
-	GetSessionManager().ForEach(boost::bind(&ServerLobbyThread::RemoveSessionFromGame, boost::ref(lobbyThread), _1));
-}
-
-// TODO terminate game.
-// TODO Handle game termination!
-//	ResetComputerPlayerList();
-//	GetLobbyThread().RemoveGame(GetId());
-
-//	LOG_VERBOSE("Game thread " << GetId() << " terminating.");
-
-void
-ServerGameThread::TimerRemovePlayer()
-{
-	boost::mutex::scoped_lock lock(m_removePlayerListMutex);
-
-	RemovePlayerList::iterator i = m_removePlayerList.begin();
-	RemovePlayerList::iterator end = m_removePlayerList.end();
-
-	while (i != end)
-	{
-		SessionWrapper tmpSession = GetSessionManager().GetSessionByUniquePlayerId(i->first);
-		// Only kick if the player was found.
-		if (tmpSession.sessionData.get())
-			SessionError(tmpSession, i->second);
-		++i;
-	}
-	m_removePlayerList.clear();
+	GetSessionManager().ForEach(boost::bind(&ServerLobbyThread::RemoveSessionFromGame, boost::ref(m_lobbyThread), _1));
 }
 
 void
@@ -162,7 +124,6 @@ ServerGameThread::TimerVoteKick()
 {
 	// Check whether someone should be kicked, or whether a vote kick should be aborted.
 	// Only one vote kick can be active at a time.
-	boost::mutex::scoped_lock lock(m_voteKickDataMutex);
 	if (m_voteKickData)
 	{
 		// Prepare some values.
@@ -309,7 +270,6 @@ ServerGameThread::InternalAskVoteKick(SessionWrapper byWhom, unsigned playerIdWh
 			if (IsValidPlayer(playerIdWho))
 			{
 				// Lock the vote kick data.
-				boost::mutex::scoped_lock lock(m_voteKickDataMutex);
 				if (!m_voteKickData)
 				{
 					// Initiate a vote kick.
@@ -363,7 +323,6 @@ ServerGameThread::InternalVoteKick(SessionWrapper byWhom, unsigned petitionId, K
 {
 	if (IsRunning() && byWhom.playerData)
 	{
-		boost::mutex::scoped_lock lock(m_voteKickDataMutex);
 		// Check whether this is the valid petition id.
 		if (m_voteKickData && m_voteKickData->petitionId == petitionId)
 		{
@@ -476,14 +435,12 @@ ServerGameThread::IsRunning() const
 unsigned
 ServerGameThread::GetAdminPlayerId() const
 {
-	boost::mutex::scoped_lock lock(m_adminPlayerIdMutex);
 	return m_adminPlayerId;
 }
 
 void
 ServerGameThread::SetAdminPlayerId(unsigned playerId)
 {
-	boost::mutex::scoped_lock lock(m_adminPlayerIdMutex);
 	m_adminPlayerId = playerId;
 }
 

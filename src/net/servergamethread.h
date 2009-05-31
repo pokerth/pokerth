@@ -81,7 +81,6 @@ protected:
 
 	typedef std::deque<SessionWrapper> SessionQueue;
 
-	void TimerRemovePlayer();
 	void TimerVoteKick();
 
 	void InternalStartGame();
@@ -134,21 +133,13 @@ protected:
 private:
 	ServerGameThread(const ServerGameThread &other);
 
-	SessionQueue m_sessionQueue;
-	mutable boost::mutex m_sessionQueueMutex;
-
 	SessionManager m_sessionManager;
 	PlayerDataList m_computerPlayerList;
 	mutable boost::mutex m_computerPlayerListMutex;
 
-	RemovePlayerList m_removePlayerList;
-	mutable boost::mutex m_removePlayerListMutex;
-
 	unsigned m_adminPlayerId;
-	mutable boost::mutex m_adminPlayerIdMutex;
 
 	boost::shared_ptr<VoteKickData> m_voteKickData;
-	mutable boost::mutex m_voteKickDataMutex;
 
 	ServerLobbyThread &m_lobbyThread;
 	boost::shared_ptr<ReceiverHelper> m_receiver;
