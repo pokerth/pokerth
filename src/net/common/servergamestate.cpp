@@ -18,7 +18,7 @@
  ***************************************************************************/
 
 #include <net/servergamestate.h>
-#include <net/servergamethread.h>
+#include <net/servergame.h>
 #include <net/serverlobbythread.h>
 #include <net/receiverhelper.h>
 #include <net/senderhelper.h>

@@ -21,8 +21,8 @@
 #ifndef _SERVERGAMESTATE_H_
 #define _SERVERGAMESTATE_H_
 
-#include <net/servergamethread.h>
 #include <playerdata.h>
+#include <net/sessionmanager.h>
 
 
 #ifdef _MSC_VER
@@ -33,6 +33,7 @@
 #define SERVER_INITIAL_STATE	ServerGameStateInit
 
 class Game;
+class ServerGameThread;
 class PlayerInterface;
 class ServerCallback;
 

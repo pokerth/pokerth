@@ -17,7 +17,7 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#include <net/servergamethread.h>
+#include <net/servergame.h>
 #include <net/servergamestate.h>
 #include <net/serverlobbythread.h>
 #include <net/serverexception.h>

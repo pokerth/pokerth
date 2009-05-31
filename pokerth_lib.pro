@@ -80,7 +80,7 @@ HEADERS += \
 		src/net/servercontext.h \
 		src/net/serverexception.h \
 		src/net/serveraccepthelper.h \
-		src/net/servergamethread.h \
+		src/net/servergame.h \
 		src/net/servergamestate.h \
 		src/net/serverlobbythread.h \
 		src/net/servercallback.h \
@@ -182,7 +182,7 @@ SOURCES += \
 		src/net/common/servercontext.cpp \
 		src/net/common/serverexception.cpp \
 		src/net/common/serveraccepthelper.cpp \
-		src/net/common/servergamethread.cpp \
+		src/net/common/servergame.cpp \
 		src/net/common/servergamestate.cpp \
 		src/net/common/serverlobbythread.cpp \
 		src/net/common/servercallback.cpp \

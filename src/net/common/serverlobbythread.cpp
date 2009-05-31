@@ -18,7 +18,7 @@
  ***************************************************************************/
 
 #include <net/serverlobbythread.h>
-#include <net/servergamethread.h>
+#include <net/servergame.h>
 #include <net/serverexception.h>
 #include <net/senderhelper.h>
 #include <net/sendercallback.h>
