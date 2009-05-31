@@ -630,7 +630,6 @@ ServerGameStateStartGame::InternalProcessPacket(ServerGameThread &server, Sessio
 			// Everyone is ready.
 			server.GetSessionManager().ResetAllReadyFlags();
 			DoStart(server);
-			server.SetState(SERVER_START_GAME_STATE::Instance());
 			retVal = MSG_SOCK_INIT_DONE;
 		}
 	}
@@ -646,7 +645,6 @@ ServerGameStateStartGame::TimerTimeout(ServerGameThread &server)
 	// TODO report successful start! -> new callback?!
 	//retVal = MSG_SOCK_INIT_DONE;
 	DoStart(server);
-	server.SetState(SERVER_START_GAME_STATE::Instance());
 }
 
 void
@@ -843,6 +841,10 @@ ServerGameStateHand::TimerLoop(ServerGameThread &server)
 			else if (!server.GetSessionManager().IsPlayerConnected(curPlayer->getMyName()))
 			{
 				PerformPlayerAction(server, curPlayer, PLAYER_ACTION_FOLD, 0);
+				server.SetStateTimerId(
+					server.GetLobbyThread().GetTimerManager().RegisterTimer(
+						SERVER_LOOP_DELAY_MSEC,
+						boost::bind(&ServerGameStateHand::TimerLoop, this, boost::ref(server))));
 			}
 			else
 			{
@@ -936,7 +938,6 @@ ServerGameStateHand::TimerLoop(ServerGameThread &server)
 			}
 		}
 	}
-	// TODO if not state changed and not timer set, set new loop timer.
 }
 
 void

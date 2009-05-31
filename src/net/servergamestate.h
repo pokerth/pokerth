@@ -31,7 +31,6 @@
 #endif
 
 #define SERVER_INITIAL_STATE	ServerGameStateInit
-#define SERVER_START_GAME_STATE	ServerGameStateStartGame
 
 class Game;
 class PlayerInterface;
