@@ -36,6 +36,9 @@ gameLobbyDialogImpl::gameLobbyDialogImpl(startWindowImpl *parent, ConfigFile *c)
 	waitStartGameMsgBox = new QMessageBox(this);
 	waitStartGameMsgBox->setText(tr("Starting game. Please wait ..."));
 	waitStartGameMsgBox->setWindowModality(Qt::NonModal);
+	#ifdef __APPLE__
+		waitStartGameMsgBox->setWindowFlags(Qt::WindowSystemMenuHint | Qt::CustomizeWindowHint | Qt::Dialog);
+	#endif	
 	waitStartGameMsgBox->setStandardButtons(QMessageBox::NoButton);
 
 	waitStartGameMsgBoxTimer = new QTimer(this);
