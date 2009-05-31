@@ -198,6 +198,8 @@ ServerLobbyThread::MoveSessionToGame(ServerGameThread &game, SessionWrapper sess
 	m_gameSessionManager.AddSession(session);
 	// Add session to the game.
 	game.AddSession(session);
+	// Set the game id of the session.
+	session.sessionData->SetGameId(game.GetId());
 }
 
 void
@@ -205,6 +207,7 @@ ServerLobbyThread::RemoveSessionFromGame(SessionWrapper session)
 {
 	// Just remove the session. Only for fatal errors.
 	CloseSession(session);
+	session.sessionData->SetGameId(0);
 }
 
 void
@@ -1271,6 +1274,7 @@ ServerLobbyThread::HandleReAddedSession(SessionWrapper session)
 	{
 		// Set state (back) to established.
 		session.sessionData->SetState(SessionData::Established);
+		session.sessionData->SetGameId(0);
 		// Add session to lobby list.
 		m_sessionManager.AddSession(session);
 	}

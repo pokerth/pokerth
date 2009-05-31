@@ -252,7 +252,8 @@ irc_event_numeric(irc_session_t * session, unsigned irc_event, const char * /*or
 }
 
 IrcThread::IrcThread(const IrcThread &other)
-: m_terminationTimer(boost::posix_time::time_duration(0, 0, 0), boost::timers::portable::microsec_timer::manual_start),
+: Thread(),
+  m_terminationTimer(boost::posix_time::time_duration(0, 0, 0), boost::timers::portable::microsec_timer::manual_start),
   m_lastConnectTimer(boost::posix_time::time_duration(0, 0, 0), boost::timers::portable::microsec_timer::manual_start)
 {
 	m_callback = other.m_callback;

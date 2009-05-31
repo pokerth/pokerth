@@ -262,7 +262,7 @@ void gameLobbyDialogImpl::updateGameItem(QTreeWidgetItem *item, unsigned gameId)
 	item->setData(0, Qt::DisplayRole, QString::fromUtf8(info.name.c_str()));
 
 	QString playerStr;
-	playerStr.sprintf("%u/%u", info.players.size(), info.data.maxNumberOfPlayers);
+	playerStr.sprintf("%u/%u", (unsigned)info.players.size(), (unsigned)info.data.maxNumberOfPlayers);
 	item->setData(1, Qt::DisplayRole, playerStr);
 
 	if (info.mode == GAME_MODE_STARTED)

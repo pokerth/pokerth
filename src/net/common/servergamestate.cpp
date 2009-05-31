@@ -690,7 +690,7 @@ ServerGameStateHand::HandleNewSession(SessionWrapper session)
 }
 
 int
-ServerGameStateHand::InternalProcessPacket(SessionWrapper session, boost::shared_ptr<NetPacket> packet)
+ServerGameStateHand::InternalProcessPacket(SessionWrapper /*session*/, boost::shared_ptr<NetPacket> /*packet*/)
 {
 	// TODO: maybe reject packet.
 	return MSG_SOCK_INTERNAL_PENDING;
