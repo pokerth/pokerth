@@ -24,40 +24,37 @@
 #include <map>
 #include <boost/thread.hpp>
 #include <boost/function.hpp>
-#include <third_party/boost/timers.hpp>
+#include <boost/asio.hpp>
 
 class TimerManager
 {
 public:
-	TimerManager();
+	TimerManager(boost::shared_ptr<boost::asio::io_service> ioService);
 
-	unsigned RegisterTimer(unsigned timeoutMsec, boost::function<void()> timerHandler, bool timerRepeat = false);
+	unsigned RegisterTimer(unsigned timeoutMsec, boost::function<void()> timerHandler, bool autoRestart = false);
+	bool RestartTimer(unsigned timerId, unsigned timeoutMsec, boost::function<void()> timerHandler);
 	bool UnregisterTimer(unsigned timerId);
-
-	void Process();
 
 protected:
 
 	struct TimerData
 	{
-		TimerData(unsigned timerId, unsigned timeoutMsec, boost::function<void()> timerHandler, bool timerRepeat)
-		: id(timerId), msec(timeoutMsec), handler(timerHandler), repeat(timerRepeat) {}
-		unsigned id;
-		unsigned msec;
-		boost::function<void()> handler;
-		bool repeat;
+		boost::shared_ptr<boost::asio::deadline_timer> timer;
+		boost::function<void()> userHandler;
+		unsigned durationMsec;
+		bool autoRestart;
 	};
 
-	typedef std::multimap<unsigned, TimerData> TimerMap;
+	static void Handler(boost::system::error_code ec, TimerData data);
+	typedef std::map<unsigned,  TimerData> TimerMap;
 
 	unsigned GetNextTimerId();
 
 private:
+	boost::shared_ptr<boost::asio::io_service>	m_ioService;
 	mutable boost::recursive_mutex	m_timerMutex;
 	TimerMap						m_timerMap;
 	unsigned						m_curTimerId;
-
-	boost::timers::portable::microsec_timer m_softwareTimer;
 };
 
 #endif

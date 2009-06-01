@@ -23,23 +23,46 @@
 using namespace std;
 
 
-TimerManager::TimerManager()
-: m_curTimerId(0)
+TimerManager::TimerManager(boost::shared_ptr<boost::asio::io_service> ioService)
+: m_ioService(ioService), m_curTimerId(0)
 {
 }
 
 unsigned
-TimerManager::RegisterTimer(unsigned timeoutMsec, boost::function<void()> timerHandler, bool timerRepeat)
+TimerManager::RegisterTimer(unsigned timeoutMsec, boost::function<void()> timerHandler, bool autoRestart)
 {
 	// Register a new timer callback.
 	boost::recursive_mutex::scoped_lock lock(m_timerMutex);
 	// Use a unique id for each timer.
 	unsigned id = GetNextTimerId();
-	// Sort all timers by tick on which the callback occurs.
-	unsigned absoluteTimer = static_cast<unsigned>(m_softwareTimer.elapsed().total_milliseconds()) + timeoutMsec;
-	m_timerMap.insert(
-		TimerMap::value_type(absoluteTimer, TimerData(id, timeoutMsec, timerHandler, timerRepeat)));
+	TimerData data;
+	data.timer.reset(
+				new boost::asio::deadline_timer(*m_ioService, boost::posix_time::milliseconds(timeoutMsec)));
+	data.userHandler = timerHandler;
+	data.durationMsec = timeoutMsec;
+	data.autoRestart = autoRestart;
+	data.timer->async_wait(boost::bind(&TimerManager::Handler, boost::asio::placeholders::error, data));
+	m_timerMap.insert(TimerMap::value_type(id, data));
+
 	return id;
+}
+
+bool
+TimerManager::RestartTimer(unsigned timerId, unsigned timeoutMsec, boost::function<void()> timerHandler)
+{
+	boost::recursive_mutex::scoped_lock lock(m_timerMutex);
+	bool restarted = false;
+	TimerMap::iterator pos = m_timerMap.find(timerId);
+	if (pos != m_timerMap.end())
+	{
+		pos->second.userHandler = timerHandler;
+		boost::shared_ptr<boost::asio::deadline_timer> timer(pos->second.timer);
+		timer->cancel();
+		timer->expires_from_now(boost::posix_time::milliseconds(timeoutMsec));
+		timer->async_wait(boost::bind(&TimerManager::Handler, boost::asio::placeholders::error, pos->second));
+		restarted = true;
+	}
+	return restarted;
 }
 
 bool
@@ -48,22 +71,31 @@ TimerManager::UnregisterTimer(unsigned timerId)
 	// Remove a timer callback from the map.
 	boost::recursive_mutex::scoped_lock lock(m_timerMutex);
 	bool unregistered = false;
-	TimerMap::iterator i = m_timerMap.begin();
-	TimerMap::iterator end = m_timerMap.end();
-	while (i != end)
+	TimerMap::iterator pos = m_timerMap.find(timerId);
+	if (pos != m_timerMap.end())
 	{
-		if (i->second.id == timerId)
-		{
-			m_timerMap.erase(i);
-			unregistered = true;
-			break;
-		}
-		++i;
+		pos->second.timer->cancel();
+		m_timerMap.erase(pos);
+		unregistered = true;
 	}
 	return unregistered;
 }
 
 void
+TimerManager::Handler(boost::system::error_code ec, TimerManager::TimerData data)
+{
+	if (!ec)
+	{
+		data.userHandler();
+		if (data.autoRestart)
+		{
+			data.timer->expires_from_now(boost::posix_time::milliseconds(data.durationMsec));
+			data.timer->async_wait(boost::bind(&TimerManager::Handler, boost::asio::placeholders::error, data));
+		}
+	}
+}
+
+/*void
 TimerManager::Process()
 {
 	boost::recursive_mutex::scoped_lock lock(m_timerMutex);
@@ -101,7 +133,7 @@ TimerManager::Process()
 			}
 		}
 	} while (timerOccurred);
-}
+}*/
 
 unsigned
 TimerManager::GetNextTimerId()

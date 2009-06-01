@@ -57,7 +57,6 @@ ServerGame::ServerGame(ServerLobbyThread &lobbyThread, u_int32_t id, const strin
 
 ServerGame::~ServerGame()
 {
-	GetLobbyThread().GetTimerManager().UnregisterTimer(m_removePlayerTimerId);
 	GetLobbyThread().GetTimerManager().UnregisterTimer(m_voteKickTimerId);
 	GetLobbyThread().GetTimerManager().UnregisterTimer(m_stateTimerId);
 

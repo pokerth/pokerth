@@ -53,6 +53,7 @@ public:
 	virtual ~ServerLobbyThread();
 
 	void Init(const std::string &pwd, const std::string &logDir);
+	virtual void SignalTermination();
 
 	void AddConnection(boost::shared_ptr<boost::asio::ip::tcp::socket> sock);
 	void ReAddSession(SessionWrapper session, int reason);
@@ -126,10 +127,8 @@ protected:
 	void HandleNetPacketJoinGame(SessionWrapper session, const NetPacketJoinGame &tmpPacket);
 	void EstablishSession(SessionWrapper session);
 	void RequestPlayerAvatar(SessionWrapper session);
-	void NewSessionLoop();
 	void TimerRemoveGame();
 	void TimerRemovePlayer();
-	void ResubscribeLobbyMsgLoop();
 	void TimerUpdateClientAvatarLock();
 	void TimerCheckSessionTimeouts();
 	void TimerCleanupAvatarCache();
@@ -173,11 +172,8 @@ protected:
 private:
 
 	boost::shared_ptr<boost::asio::io_service> m_ioService;
-
+	boost::shared_ptr<boost::asio::io_service::work> m_work;
 	TimerManager m_timerManager;
-
-	SessionQueue m_sessionQueue;
-	mutable boost::mutex m_sessionQueueMutex;
 
 	SessionManager m_sessionManager;
 	SessionManager m_gameSessionManager;
@@ -193,9 +189,6 @@ private:
 
 	PlayerDataMap m_computerPlayers;
 	mutable boost::mutex m_computerPlayersMutex;
-
-	SessionIdList m_resubscribeList;
-	mutable boost::mutex m_resubscribeListMutex;
 
 	RegexMap m_banPlayerNameMap;
 	IPAddressMap m_banIPAddressMap;

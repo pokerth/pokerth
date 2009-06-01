@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2007 by Lothar May                                      *
+ *   Copyright (C) 2007-2009 by Lothar May                                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -43,6 +43,7 @@
 #define SERVER_REMOVE_GAME_INTERVAL_MSEC			500
 #define SERVER_REMOVE_PLAYER_INTERVAL_MSEC			100
 #define SERVER_UPDATE_AVATAR_LOCK_INTERVAL_MSEC		1000
+#define SERVER_PROCESS_SEND_INTERVAL_MSEC			10
 
 #define SERVER_INIT_AVATAR_CLIENT_LOCK_SEC			30      // Forbid a client to send an additional avatar.
 
@@ -88,10 +89,11 @@ private:
 
 ServerLobbyThread::ServerLobbyThread(GuiInterface &gui, ConfigFile *playerConfig, AvatarManager &avatarManager,
 									 boost::shared_ptr<boost::asio::io_service> ioService)
-: m_ioService(ioService), m_curBanId(0), m_gui(gui), m_avatarManager(avatarManager), m_playerConfig(playerConfig),
-  m_curGameId(0), m_curUniquePlayerId(0), m_curSessionId(INVALID_SESSION + 1),
+: m_ioService(ioService), m_timerManager(ioService), m_curBanId(0), m_gui(gui), m_avatarManager(avatarManager),
+  m_playerConfig(playerConfig), m_curGameId(0), m_curUniquePlayerId(0), m_curSessionId(INVALID_SESSION + 1),
   m_statDataChanged(false), m_startTime(boost::posix_time::second_clock::local_time())
 {
+	m_work.reset(new boost::asio::io_service::work(*m_ioService));
 	m_senderCallback.reset(new ServerSenderCallback(*this));
 	m_sender.reset(new SenderHelper(*m_senderCallback, m_ioService));
 	m_receiver.reset(new ReceiverHelper);
@@ -116,6 +118,14 @@ ServerLobbyThread::Init(const string &pwd, const string &logDir)
 			ReadStatisticsFile();
 		}
 	}
+}
+
+void
+ServerLobbyThread::SignalTermination()
+{
+	Thread::SignalTermination();
+	m_work.reset();
+	m_ioService->stop();
 }
 
 void
@@ -177,14 +187,16 @@ ServerLobbyThread::AddConnection(boost::shared_ptr<tcp::socket> sock)
 void
 ServerLobbyThread::ReAddSession(SessionWrapper session, int reason)
 {
-	boost::shared_ptr<NetPacket> packet(new NetPacketRemovedFromGame);
-	NetPacketRemovedFromGame::Data removedData;
-	removedData.removeReason = reason;
-	static_cast<NetPacketRemovedFromGame *>(packet.get())->SetData(removedData);
-	session.sessionData->GetSender().Send(session.sessionData, packet);
+	if (session.sessionData.get() && session.playerData.get())
+	{
+		boost::shared_ptr<NetPacket> packet(new NetPacketRemovedFromGame);
+		NetPacketRemovedFromGame::Data removedData;
+		removedData.removeReason = reason;
+		static_cast<NetPacketRemovedFromGame *>(packet.get())->SetData(removedData);
+		session.sessionData->GetSender().Send(session.sessionData, packet);
 
-	boost::mutex::scoped_lock lock(m_sessionQueueMutex);
-	m_sessionQueue.push_back(session);
+		HandleReAddedSession(session);
+	}
 }
 
 void
@@ -225,8 +237,7 @@ ServerLobbyThread::CloseSession(SessionWrapper session)
 void
 ServerLobbyThread::ResubscribeLobbyMsg(SessionWrapper session)
 {
-	boost::mutex::scoped_lock lock(m_resubscribeListMutex);
-	m_resubscribeList.push_back(session.sessionData->GetId());
+	InternalResubscribeMsg(session);
 }
 
 void
@@ -496,25 +507,12 @@ ServerLobbyThread::GetNextGameId()
 void
 ServerLobbyThread::Main()
 {
-	boost::asio::io_service::work ioWork(*m_ioService);
 	try
 	{
 		// Register all timers.
 		RegisterTimers();
 
-		while (!ShouldTerminate())
-		{
-			// Process re-added sessions.
-			NewSessionLoop();
-			// Resubscribe Lobby Messages if needed.
-			ResubscribeLobbyMsgLoop();
-			// Process timers.
-			m_timerManager.Process();
-			// Process asio service.
-			m_ioService->poll();
-			m_sender->Process();
-			Thread::Msleep(10);
-		}
+		m_ioService->run();
 	} catch (const PokerTHException &e)
 	{
 		GetCallback().SignalNetServerError(e.GetErrorId(), e.GetOsErrorCode());
@@ -559,6 +557,11 @@ ServerLobbyThread::RegisterTimers()
 		SERVER_UPDATE_AVATAR_LOCK_INTERVAL_MSEC,
 		boost::bind(&ServerLobbyThread::TimerUpdateClientAvatarLock, this),
 		true);
+	// Check if new data needs to be sent.
+	m_timerManager.RegisterTimer(
+		SERVER_PROCESS_SEND_INTERVAL_MSEC,
+		boost::bind(&SenderInterface::Process, m_sender),
+		true);
 }
 
 void
@@ -572,7 +575,6 @@ ServerLobbyThread::HandleRead(SessionId sessionId, const boost::system::error_co
 	{
 		if (!error)
 		{
-
 			ReceiveBuffer &buf = session.sessionData->GetReceiveBuffer();
 			buf.recvBufUsed += bytesRead;
 			GetReceiver().ScanPackets(buf);
@@ -1032,23 +1034,6 @@ ServerLobbyThread::RequestPlayerAvatar(SessionWrapper session)
 }
 
 void
-ServerLobbyThread::NewSessionLoop()
-{
-	// Handle one incoming session at a time.
-	SessionWrapper tmpSession;
-	{
-		boost::mutex::scoped_lock lock(m_sessionQueueMutex);
-		if (!m_sessionQueue.empty())
-		{
-			tmpSession = m_sessionQueue.front();
-			m_sessionQueue.pop_front();
-		}
-	}
-	if (tmpSession.sessionData.get() && tmpSession.playerData.get())
-		HandleReAddedSession(tmpSession);
-}
-
-void
 ServerLobbyThread::TimerRemoveGame()
 {
 	// Synchronously remove games which have been closed.
@@ -1081,29 +1066,6 @@ ServerLobbyThread::TimerRemovePlayer()
 			++i;
 		}
 		m_removePlayerList.clear();
-	}
-}
-
-void
-ServerLobbyThread::ResubscribeLobbyMsgLoop()
-{
-	boost::mutex::scoped_lock lock(m_resubscribeListMutex);
-
-	if (!m_resubscribeList.empty())
-	{
-		SessionIdList::iterator i = m_resubscribeList.begin();
-		SessionIdList::iterator end = m_resubscribeList.end();
-
-		while (i != end)
-		{
-			SessionWrapper tmpSession = m_gameSessionManager.GetSessionById(*i);
-			if (!tmpSession.sessionData.get())
-				tmpSession = m_sessionManager.GetSessionById(*i);
-			if (tmpSession.sessionData.get())
-				InternalResubscribeMsg(tmpSession);
-			++i;
-		}
-		m_resubscribeList.clear();
 	}
 }
 

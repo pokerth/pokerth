@@ -153,7 +153,6 @@ private:
 	ConfigFile		   *m_playerConfig;
 	unsigned			m_gameNum;
 	unsigned			m_curPetitionId;
-	unsigned			m_removePlayerTimerId;
 	unsigned			m_voteKickTimerId;
 	unsigned			m_stateTimerId;
 
