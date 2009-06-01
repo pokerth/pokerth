@@ -521,8 +521,6 @@ ServerLobbyThread::Main()
 		LOG_ERROR(e.what());
 	}
 
-	// Stop all running games.
-	TerminateGames();
 	// Remove all sessions.
 	m_gameSessionManager.Clear();
 	m_sessionManager.Clear();
@@ -572,16 +570,6 @@ ServerLobbyThread::HandleRead(SessionId sessionId, const boost::system::error_co
 		session = m_gameSessionManager.GetSessionById(sessionId);
 	if (session.sessionData)
 	{
-		// Retrieve current game, if applicable.
-		unsigned gameId = session.sessionData->GetGameId();
-		boost::shared_ptr<ServerGame> game;
-		if (gameId)
-		{
-			GameMap::iterator pos = m_gameMap.find(gameId);
-
-			if (pos != m_gameMap.end())
-				game = pos->second;
-		}
 		if (!error)
 		{
 
@@ -593,11 +581,22 @@ ServerLobbyThread::HandleRead(SessionId sessionId, const boost::system::error_co
 			{
 				boost::shared_ptr<NetPacket> packet = buf.receivedPackets.front();
 				buf.receivedPackets.pop_front();
+				// Retrieve current game, if applicable.
+				boost::shared_ptr<ServerGame> game = InternalGetGameFromId(session.sessionData->GetGameId());
 				if (game)
-					game->HandlePacket(session, packet);
+				{
+					// We need to catch game-specific exceptions, so that they do not affect the server.
+					try
+					{
+						game->HandlePacket(session, packet);
+					} catch (const PokerTHException &e)
+					{
+						LOG_ERROR(e.what());
+						InternalRemoveGame(game);
+					}
+				}
 				else
 					HandlePacket(session, packet);
-				// TODO state may have changed between.
 			}
 			session.sessionData->GetAsioSocket()->async_read_some(
 				boost::asio::buffer(buf.recvBuf + buf.recvBufUsed, RECV_BUF_SIZE - buf.recvBufUsed),
@@ -611,6 +610,7 @@ ServerLobbyThread::HandleRead(SessionId sessionId, const boost::system::error_co
 		else
 		{
 			// On error: Close this session.
+			boost::shared_ptr<ServerGame> game = InternalGetGameFromId(session.sessionData->GetGameId());
 			if (game)
 				game->ErrorRemoveSession(session);
 			else
@@ -1144,6 +1144,20 @@ ServerLobbyThread::TimerCleanupAvatarCache()
 	}
 }
 
+boost::shared_ptr<ServerGame>
+ServerLobbyThread::InternalGetGameFromId(unsigned gameId)
+{
+	boost::shared_ptr<ServerGame> game;
+	if (gameId)
+	{
+		GameMap::iterator pos = m_gameMap.find(gameId);
+
+		if (pos != m_gameMap.end())
+			game = pos->second;
+	}
+	return game;
+}
+
 void
 ServerLobbyThread::InternalAddGame(boost::shared_ptr<ServerGame> game)
 {
@@ -1231,22 +1245,6 @@ ServerLobbyThread::InternalResubscribeMsg(SessionWrapper session)
 			// Ignore errors for now.
 		}
 	}
-}
-
-void
-ServerLobbyThread::TerminateGames()
-{
-	// TODO deprecated
-	GameMap::iterator i = m_gameMap.begin();
-	GameMap::iterator end = m_gameMap.end();
-
-	while (i != end)
-	{
-		//i->second->SignalTermination();
-		//i->second->Join(GAME_THREAD_TERMINATE_TIMEOUT);
-		++i;
-	}
-	m_gameMap.clear();
 }
 
 void

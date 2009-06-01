@@ -134,12 +134,11 @@ protected:
 	void TimerCheckSessionTimeouts();
 	void TimerCleanupAvatarCache();
 
+	boost::shared_ptr<ServerGame> InternalGetGameFromId(unsigned gameId);
 	void InternalAddGame(boost::shared_ptr<ServerGame> game);
 	void InternalRemoveGame(boost::shared_ptr<ServerGame> game);
 	void InternalRemovePlayer(unsigned playerId, unsigned errorCode);
 	void InternalResubscribeMsg(SessionWrapper session);
-
-	void TerminateGames();
 
 	void HandleReAddedSession(SessionWrapper session);
 
