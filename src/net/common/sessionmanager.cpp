@@ -31,6 +31,7 @@ SessionManager::SessionManager()
 
 SessionManager::~SessionManager()
 {
+	Clear();
 }
 
 bool
@@ -343,8 +344,14 @@ void
 SessionManager::Clear()
 {
 	boost::recursive_mutex::scoped_lock lock(m_sessionMapMutex);
+	SessionMap::iterator i = m_sessionMap.begin();
+	SessionMap::iterator end = m_sessionMap.end();
 
-	// Sockets will be closed automatically.
+	while (i != end)
+	{
+		i->second.sessionData->GetAsioSocket()->close();
+		++i;
+	}
 	m_sessionMap.clear();
 }
 

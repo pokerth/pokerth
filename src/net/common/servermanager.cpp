@@ -270,7 +270,6 @@ ServerManager::RunAll()
 	if (m_ircThread)
 		m_ircThread->Run();
 	GetLobbyThread().Run();
-//	for_each(m_acceptThreadPool.begin(), m_acceptThreadPool.end(), boost::mem_fn(&ServerAcceptThread::Run));
 }
 
 void

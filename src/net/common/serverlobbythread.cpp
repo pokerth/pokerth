@@ -93,7 +93,6 @@ ServerLobbyThread::ServerLobbyThread(GuiInterface &gui, ConfigFile *playerConfig
   m_playerConfig(playerConfig), m_curGameId(0), m_curUniquePlayerId(0), m_curSessionId(INVALID_SESSION + 1),
   m_statDataChanged(false), m_startTime(boost::posix_time::second_clock::local_time())
 {
-	m_work.reset(new boost::asio::io_service::work(*m_ioService));
 	m_senderCallback.reset(new ServerSenderCallback(*this));
 	m_sender.reset(new SenderHelper(*m_senderCallback, m_ioService));
 	m_receiver.reset(new ReceiverHelper);
@@ -124,7 +123,6 @@ void
 ServerLobbyThread::SignalTermination()
 {
 	Thread::SignalTermination();
-	m_work.reset();
 	m_ioService->stop();
 }
 
@@ -512,7 +510,16 @@ ServerLobbyThread::Main()
 		// Register all timers.
 		RegisterTimers();
 
-		m_ioService->run();
+		m_work.reset(new boost::asio::io_service::work(*m_ioService));
+		m_ioService->run(); // Will only be aborted asynchronously.
+		m_work.reset();
+
+		// Clear all sessions.
+		m_sessionManager.Clear();
+		m_gameSessionManager.Clear();
+		// Execute remaining ready handlers.
+		m_ioService->reset();
+		m_ioService->poll();
 	} catch (const PokerTHException &e)
 	{
 		GetCallback().SignalNetServerError(e.GetErrorId(), e.GetOsErrorCode());
