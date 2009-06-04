@@ -518,10 +518,6 @@ ServerLobbyThread::Main()
 		GetCallback().SignalNetServerError(e.GetErrorId(), e.GetOsErrorCode());
 		LOG_ERROR(e.what());
 	}
-
-	// Remove all sessions.
-	m_gameSessionManager.Clear();
-	m_sessionManager.Clear();
 }
 
 void

@@ -31,7 +31,6 @@ SessionManager::SessionManager()
 
 SessionManager::~SessionManager()
 {
-	Clear();
 }
 
 bool

@@ -173,10 +173,14 @@ private:
 
 	boost::shared_ptr<boost::asio::io_service> m_ioService;
 	boost::shared_ptr<boost::asio::io_service::work> m_work;
-	TimerManager m_timerManager;
+
+	boost::shared_ptr<ServerSenderCallback> m_senderCallback;
+	boost::shared_ptr<SenderInterface> m_sender;
+	boost::shared_ptr<ReceiverHelper> m_receiver;
 
 	SessionManager m_sessionManager;
 	SessionManager m_gameSessionManager;
+	TimerManager m_timerManager;
 
 	TimerClientAddressMap m_timerAvatarClientAddressMap;
 	mutable boost::mutex m_timerAvatarClientAddressMapMutex;
@@ -197,9 +201,6 @@ private:
 
 	GameMap m_gameMap;
 
-	boost::shared_ptr<SenderInterface> m_sender;
-	boost::shared_ptr<ReceiverHelper> m_receiver;
-	boost::shared_ptr<ServerSenderCallback> m_senderCallback;
 	GuiInterface &m_gui;
 	AvatarManager &m_avatarManager;
 
