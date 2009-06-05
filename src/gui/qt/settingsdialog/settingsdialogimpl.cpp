@@ -25,8 +25,7 @@
 #include "configfile.h"
 #include <net/socket_startup.h>
 
-#define POKERTH_DISTRIBUTED_GAME_TABLE_STYLES 2
-#define POKERTH_DISTRIBUTED_CARD_DECK_STYLES 2
+enum StyleType { POKERTH_DISTRIBUTED_STYLE, ADDITIONAL_STYLE };
 
 using namespace std;
 
@@ -246,6 +245,7 @@ void settingsDialogImpl::exec() {
         if(defaultTableStyle.getLoadedSuccessfull()) {
                 QListWidgetItem *defaultTableItem = new QListWidgetItem(defaultTableStyle.getStyleDescription(),listWidget_gameTableStyles);
                 defaultTableItem->setData(15, QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str())+"gfx/gui/table/default/defaulttablestyle.xml");
+				defaultTableItem->setData(16, POKERTH_DISTRIBUTED_STYLE);
                 defaultTableItem->setData(Qt::ToolTipRole, QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str())+"gfx/gui/table/default/defaulttablestyle.xml");
         }
 	//add danuxi table
@@ -254,6 +254,7 @@ void settingsDialogImpl::exec() {
         if(danuxi1TableStyle.getLoadedSuccessfull()) {
                 QListWidgetItem *danuxi1TableItem = new QListWidgetItem(danuxi1TableStyle.getStyleDescription(),listWidget_gameTableStyles);
                 danuxi1TableItem->setData(15, QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str())+"gfx/gui/table/danuxi1/danuxi1tablestyle.xml");
+				danuxi1TableItem->setData(16, POKERTH_DISTRIBUTED_STYLE);
                 danuxi1TableItem->setData(Qt::ToolTipRole, QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str())+"gfx/gui/table/danuxi1/danuxi1tablestyle.xml");
         }
 	
@@ -266,11 +267,13 @@ void settingsDialogImpl::exec() {
                 if(!nextStyle.getFallBack() && nextStyle.getLoadedSuccessfull()) {
 			QListWidgetItem *nextItem = new QListWidgetItem(nextStyle.getStyleDescription()); 
 			nextItem->setData(15,QString::fromUtf8(it1->c_str()));
+			nextItem->setData(16, ADDITIONAL_STYLE);
 			nextItem->setData(Qt::ToolTipRole,QString::fromUtf8(it1->c_str()));
 			listWidget_gameTableStyles->addItem(nextItem);
 		}
 	}	
-
+	listWidget_gameTableStyles->sortItems(Qt::AscendingOrder);
+	
         //set current Game Table Style from config file or fallback to first entry
         GameTableStyleReader currentGameTableStyle(myConfig, this);
 	currentGameTableStyle.readStyleFile(QString::fromUtf8(myConfig->readConfigString("CurrentGameTableStyle").c_str()));
@@ -315,6 +318,7 @@ void settingsDialogImpl::exec() {
         if(defaultCardStyle.getLoadedSuccessfull()) {
                 QListWidgetItem *defaultCardItem = new QListWidgetItem(defaultCardStyle.getStyleDescription(),listWidget_cardDeckStyles);
                 defaultCardItem->setData(15, QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str())+"gfx/cards/default/defaultdeckstyle.xml");
+				defaultCardItem->setData(16, POKERTH_DISTRIBUTED_STYLE);
                 defaultCardItem->setData(Qt::ToolTipRole, QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str())+"gfx/cards/default/defaultdeckstyle.xml");
         }
 	//define PokerTH default CardDeck4c
@@ -323,6 +327,7 @@ void settingsDialogImpl::exec() {
         if(default4cCardStyle.getLoadedSuccessfull()) {
                 QListWidgetItem *default4cCardItem = new QListWidgetItem(default4cCardStyle.getStyleDescription(),listWidget_cardDeckStyles);
                 default4cCardItem->setData(15, QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str())+"gfx/cards/default4c/default4cdeckstyle.xml");
+				default4cCardItem->setData(16, POKERTH_DISTRIBUTED_STYLE);
                 default4cCardItem->setData(Qt::ToolTipRole, QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str())+"gfx/cards/default4c/default4cdeckstyle.xml");
         }
 
@@ -335,11 +340,13 @@ void settingsDialogImpl::exec() {
                 if(!nextStyle.getFallBack() && nextStyle.getLoadedSuccessfull()) {
 			QListWidgetItem *nextItem = new QListWidgetItem(nextStyle.getStyleDescription()); 
 			nextItem->setData(15,QString::fromUtf8(it2->c_str()));
+			nextItem->setData(16, ADDITIONAL_STYLE);
 			nextItem->setData(Qt::ToolTipRole,QString::fromUtf8(it2->c_str()));
 			listWidget_cardDeckStyles->addItem(nextItem);
 		}
 	}	
-
+	listWidget_cardDeckStyles->sortItems(Qt::AscendingOrder);
+	
 	//set current card deck style from config file
         CardDeckStyleReader currentCardDeckStyle(myConfig, this);
 	currentCardDeckStyle.readStyleFile(QString::fromUtf8(myConfig->readConfigString("CurrentCardDeckStyle").c_str()));
@@ -563,9 +570,11 @@ void settingsDialogImpl::isAccepted() {
 	//save game table styles list
 	myGameTableStylesList.clear();
 	int i;
-	for(i=POKERTH_DISTRIBUTED_GAME_TABLE_STYLES; i < listWidget_gameTableStyles->count(); i++) {
+	for(i=0; i < listWidget_gameTableStyles->count(); i++) {
 		QListWidgetItem *item = listWidget_gameTableStyles->item(i);
-		myGameTableStylesList.push_back(item->data(15).toString().toUtf8().constData());
+		if(item->data(16).toInt() == ADDITIONAL_STYLE) {
+			myGameTableStylesList.push_back(item->data(15).toString().toUtf8().constData());
+		}
 	}
 	myConfig->writeConfigStringList("GameTableStylesList", myGameTableStylesList);	
 	//save current game table style
@@ -578,9 +587,11 @@ void settingsDialogImpl::isAccepted() {
 	//save card deck styles list
 	myCardDeckStylesList.clear();
 	int j;
-	for(j=POKERTH_DISTRIBUTED_CARD_DECK_STYLES; j < listWidget_cardDeckStyles->count(); j++) {
+	for(j=0; j < listWidget_cardDeckStyles->count(); j++) {
 		QListWidgetItem *item = listWidget_cardDeckStyles->item(j);
-		myCardDeckStylesList.push_back(item->data(15).toString().toUtf8().constData());
+		if(item->data(16).toInt() == ADDITIONAL_STYLE) {
+			myCardDeckStylesList.push_back(item->data(15).toString().toUtf8().constData());
+		}
 	}
 	myConfig->writeConfigStringList("CardDeckStylesList", myCardDeckStylesList);	
 	//save current card deck style
@@ -976,9 +987,11 @@ void settingsDialogImpl::addGameTableStyle()
 			if(!newStyle.getFallBack() && newStyle.getLoadedSuccessfull()) {
 				QListWidgetItem *newItem = new QListWidgetItem(newStyle.getStyleDescription()); 
 				newItem->setData(15,fileName);
+				newItem->setData(16, ADDITIONAL_STYLE);
 				newItem->setData(Qt::ToolTipRole,fileName);
 				listWidget_gameTableStyles->addItem(newItem);
 				listWidget_gameTableStyles->setCurrentItem(newItem);
+				listWidget_gameTableStyles->sortItems(Qt::AscendingOrder);
 			}
 			else {
 				QMessageBox::warning(this, tr("Game Table Style File Error"),
@@ -993,19 +1006,16 @@ void settingsDialogImpl::addGameTableStyle()
 
 void settingsDialogImpl::removeGameTableStyle()
 {
+	QListWidgetItem* selectedItem = listWidget_gameTableStyles->currentItem();
 	//never delete PokerTH defaullt Styles
-	if(listWidget_gameTableStyles->currentRow() >= POKERTH_DISTRIBUTED_GAME_TABLE_STYLES) {
-
-		QListWidgetItem* selectedItem = listWidget_gameTableStyles->currentItem();
-		if(selectedItem) {
-			// if selected is activated --> swith activation to first default
-			if(!selectedItem->icon().isNull()) { 
-				QListWidgetItem* firstItem = listWidget_gameTableStyles->item(0);
-				firstItem->setIcon(QIcon(QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str())+"/gfx/gui/misc/rating.png"));
-			}
-			//remove from List
-			listWidget_gameTableStyles->takeItem(listWidget_gameTableStyles->currentRow());
+	if(selectedItem && selectedItem->data(16).toInt() == ADDITIONAL_STYLE) {
+		// if selected is activated --> swith activation to first default
+		if(!selectedItem->icon().isNull()) { 
+			QListWidgetItem* firstItem = listWidget_gameTableStyles->item(0);
+			firstItem->setIcon(QIcon(QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str())+"/gfx/gui/misc/rating.png"));
 		}
+		//remove from List
+		listWidget_gameTableStyles->takeItem(listWidget_gameTableStyles->currentRow());
 	}
 }
 
@@ -1029,7 +1039,6 @@ void settingsDialogImpl::showCurrentCardDeckStylePreview()
 		}
 		
 		label_cardDeckStyleInfo->setText("<b>"+MaintainerName+":</b> "+style.getStyleMaintainerName()+"<br>"+maintainerEMailString+"<b>"+CreateDate+":</b> "+style.getStyleCreateDate()+"");
-		
 		//active the current selected item directly
 		setSelectedCardDeckStyleActivated();
 	}
@@ -1083,9 +1092,11 @@ void settingsDialogImpl::addCardDeckStyle()
 			if(!newStyle.getFallBack() && newStyle.getLoadedSuccessfull()) {
 				QListWidgetItem *newItem = new QListWidgetItem(newStyle.getStyleDescription()); 
 				newItem->setData(15,fileName);
+				newItem->setData(16, ADDITIONAL_STYLE);
 				newItem->setData(Qt::ToolTipRole,fileName);
 				listWidget_cardDeckStyles->addItem(newItem);
 				listWidget_cardDeckStyles->setCurrentItem(newItem);
+				listWidget_cardDeckStyles->sortItems(Qt::AscendingOrder);
 			}
 			else {
 				QMessageBox::warning(this, tr("Card Deck Style File Error"),
@@ -1100,18 +1111,15 @@ void settingsDialogImpl::addCardDeckStyle()
 
 void settingsDialogImpl::removeCardDeckStyle()
 {
+	QListWidgetItem* selectedItem = listWidget_cardDeckStyles->currentItem();
 	//never delete PokerTH defaullt Styles
-	if(listWidget_cardDeckStyles->currentRow() >= POKERTH_DISTRIBUTED_CARD_DECK_STYLES) {
-
-		QListWidgetItem* selectedItem = listWidget_cardDeckStyles->currentItem();
-		if(selectedItem) {
-			// if selected is activated --> swith activation to first default
-			if(!selectedItem->icon().isNull()) { 
-				QListWidgetItem* firstItem = listWidget_cardDeckStyles->item(0);
-				firstItem->setIcon(QIcon(QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str())+"/gfx/gui/misc/rating.png"));
-			}
-			//remove from List
-			listWidget_cardDeckStyles->takeItem(listWidget_cardDeckStyles->currentRow());
+	if(selectedItem && selectedItem->data(16).toInt() == ADDITIONAL_STYLE) {
+		// if selected is activated --> swith activation to first default
+		if(!selectedItem->icon().isNull()) { 
+			QListWidgetItem* firstItem = listWidget_cardDeckStyles->item(0);
+			firstItem->setIcon(QIcon(QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str())+"/gfx/gui/misc/rating.png"));
 		}
+		//remove from List
+		listWidget_cardDeckStyles->takeItem(listWidget_cardDeckStyles->currentRow());
 	}
 }
