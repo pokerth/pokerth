@@ -34,6 +34,7 @@
 class ConfigFile;
 class selectAvatarDialogImpl;
 class manualBlindsOrderDialogImpl;
+class MyStyleListItem;
 
 class settingsDialogImpl: public QDialog, public Ui::settingsDialog {
 Q_OBJECT

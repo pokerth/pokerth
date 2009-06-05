@@ -4,18 +4,19 @@ TEMPLATE = app
 CODECFORSRC = UTF-8
 
 CONFIG += qt thread embed_manifest_exe exceptions rtti stl warn_on release
-#CONFIG += qt thread embed_manifest_exe exceptions rtti stl warn_on debug
+# CONFIG += qt thread embed_manifest_exe exceptions rtti stl warn_on debug
 
 # ####Uncomment this for RELEASE on Linux/Unix/BSD (only for static Qt)
-# QTPLUGIN += qjpeg qgif
+#QTPLUGIN += qjpeg qgif
+
 UI_DIR = uics
 MOC_DIR = mocs
 OBJECTS_DIR = obj
 DEFINES += ENABLE_IPV6
 DEFINES += PREFIX=\"$${PREFIX}\"
 TARGET = pokerth
-#PRECOMPILED_HEADER = src/pch_game.h
 
+# PRECOMPILED_HEADER = src/pch_game.h
 RESOURCES = src/gui/qt/resources/pokerth.qrc
 INCLUDEPATH += . \
     src \
@@ -118,8 +119,8 @@ HEADERS += src/game.h \
     src/net/genericsocket.h \
     src/net/netpacket.h \
     src/net/resolverthread.h \
-	src/net/senderhelper.h \
-	src/net/serveraccepthelper.h \
+    src/net/senderhelper.h \
+    src/net/serveraccepthelper.h \
     src/net/serverlobbythread.h \
     src/net/socket_helper.h \
     src/net/socket_msg.h \
@@ -189,7 +190,8 @@ HEADERS += src/game.h \
     src/gui/qt/serverlistdialog/serverlistdialogimpl.h \
     src/gui/qt/gametable/mymenubar.h \
     src/gui/qt/gametable/mytimeoutlabel.h \
-    src/gui/qt/gametable/mynamelabel.h
+    src/gui/qt/gametable/mynamelabel.h \
+    src/gui/qt/settingsdialog/mystylelistitem.h
 FORMS += src/gui/qt/gametable.ui \
     src/gui/qt/aboutpokerth.ui \
     src/gui/qt/connecttoserverdialog.ui \
@@ -253,7 +255,8 @@ SOURCES += src/pokerth.cpp \
     src/gui/qt/serverlistdialog/serverlistdialogimpl.cpp \
     src/gui/qt/gametable/mymenubar.cpp \
     src/gui/qt/gametable/mytimeoutlabel.cpp \
-    src/gui/qt/gametable/mynamelabel.cpp
+    src/gui/qt/gametable/mynamelabel.cpp \
+	src/gui/qt/settingsdialog/mystylelistitem.cpp
 TRANSLATIONS = ts/pokerth_bg.ts \
     ts/pokerth_de.ts \
     ts/pokerth_dk.ts \
@@ -345,16 +348,10 @@ win32 {
         -lwldap32
     RC_FILE = pokerth.rc
 }
-
-!win32 {
-    DEPENDPATH += src/net/linux/ src/core/linux
-}
-
-unix {
-    # workaround for problems with boost_filesystem exceptions
-    QMAKE_LFLAGS += -no_dead_strip_inits_and_terms
-}
-
+!win32:DEPENDPATH += src/net/linux/ \
+    src/core/linux
+unix:# workaround for problems with boost_filesystem exceptions
+QMAKE_LFLAGS += -no_dead_strip_inits_and_terms
 unix:!mac { 
     # #### My release static build options
     # QMAKE_CXXFLAGS += -ffunction-sections -fdata-sections

@@ -11,7 +11,6 @@
 //
 #include "myavatarlistitem.h"
 
-
 using namespace std;
 
 MyAvatarListItem::MyAvatarListItem(QListWidget* parent)
@@ -19,7 +18,6 @@ MyAvatarListItem::MyAvatarListItem(QListWidget* parent)
 {
 
 }
-
 
 MyAvatarListItem::~MyAvatarListItem()
 {
