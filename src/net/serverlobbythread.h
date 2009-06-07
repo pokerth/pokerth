@@ -36,7 +36,7 @@
 #define NET_ADMIN_IRC_TERMINATE_TIMEOUT_MSEC		4000
 
 
-class SenderInterface;
+class SenderHelper;
 class ReceiverHelper;
 class ServerSenderCallback;
 class ServerGame;
@@ -95,7 +95,7 @@ public:
 	ServerStats GetStats() const;
 	boost::posix_time::ptime GetStartTime() const;
 
-	SenderInterface &GetSender();
+	SenderHelper &GetSender();
 
 protected:
 
@@ -175,7 +175,7 @@ private:
 	boost::shared_ptr<boost::asio::io_service::work> m_work;
 
 	boost::shared_ptr<ServerSenderCallback> m_senderCallback;
-	boost::shared_ptr<SenderInterface> m_sender;
+	boost::shared_ptr<SenderHelper> m_sender;
 	boost::shared_ptr<ReceiverHelper> m_receiver;
 
 	SessionManager m_sessionManager;

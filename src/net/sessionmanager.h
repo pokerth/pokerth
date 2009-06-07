@@ -28,8 +28,8 @@
 #include <playerdata.h>
 #include <core/thread.h>
 
-class SenderInterface;
 class NetPacket;
+class SenderHelper;
 
 struct SessionWrapper
 {
@@ -73,9 +73,9 @@ public:
 	void Clear();
 	unsigned GetRawSessionCount();
 
-	void SendToAllSessions(boost::shared_ptr<NetPacket> packet, SessionData::State state);
-	void SendLobbyMsgToAllSessions(boost::shared_ptr<NetPacket> packet, SessionData::State state);
-	void SendToAllButOneSessions(boost::shared_ptr<NetPacket> packet, SessionId except, SessionData::State state);
+	void SendToAllSessions(SenderHelper &sender, boost::shared_ptr<NetPacket> packet, SessionData::State state);
+	void SendLobbyMsgToAllSessions(SenderHelper &sender, boost::shared_ptr<NetPacket> packet, SessionData::State state);
+	void SendToAllButOneSessions(SenderHelper &sender, boost::shared_ptr<NetPacket> packet, SessionId except, SessionData::State state);
 
 protected:
 

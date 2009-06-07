@@ -145,9 +145,12 @@ protected:
 	void TimerNextHand(ServerGame &server);
 	void TimerNextGame(ServerGame &server);
 	int GetDealCardsDelaySec(ServerGame &server);
+	static void StartNewHand(ServerGame &server);
 
 private:
 	static ServerGameStateHand s_state;
+
+friend class ServerGameStateStartGame;
 };
 
 // State: Wait for a player action.

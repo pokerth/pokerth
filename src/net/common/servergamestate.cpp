@@ -130,94 +130,6 @@ static void SendNewRoundCards(ServerGame &server, Game &curGame, int state)
 	}
 }
 
-static void StartNewHand(ServerGame &server)
-{
-	// Initialize hand.
-	Game &curGame = server.GetGame();
-	curGame.initHand();
-
-	// HACK: Skip GUI notification run
-	curGame.getCurrentHand()->getFlop()->skipFirstRunGui();
-	curGame.getCurrentHand()->getTurn()->skipFirstRunGui();
-	curGame.getCurrentHand()->getRiver()->skipFirstRunGui();
-
-	// Consider all players, even inactive.
-	PlayerListIterator i = curGame.getSeatsList()->begin();
-	PlayerListIterator end = curGame.getSeatsList()->end();
-
-	// Send cards to all players.
-	while (i != end)
-	{
-		// also send to inactive players, but not to disconnected players.
-		boost::shared_ptr<PlayerInterface> tmpPlayer = *i;
-		if (tmpPlayer->getNetSessionData().get())
-		{
-			int cards[2];
-			tmpPlayer->getMyCards(cards);
-			boost::shared_ptr<NetPacket> notifyCards(new NetPacketHandStart);
-			NetPacketHandStart::Data handStartData;
-			handStartData.yourCards[0] = static_cast<unsigned>(cards[0]);
-			handStartData.yourCards[1] = static_cast<unsigned>(cards[1]);
-			handStartData.smallBlind = curGame.getCurrentHand()->getSmallBlind();
-			static_cast<NetPacketHandStart *>(notifyCards.get())->SetData(handStartData);
-
-			tmpPlayer->getNetSessionData()->GetSender().Send(tmpPlayer->getNetSessionData(), notifyCards);
-		}
-		++i;
-	}
-
-	// Start hand.
-	curGame.startHand();
-
-	// Auto small blind / big blind at the beginning of hand.
-	i = curGame.getActivePlayerList()->begin();
-	end = curGame.getActivePlayerList()->end();
-
-	while (i != end)
-	{
-		boost::shared_ptr<PlayerInterface> tmpPlayer = *i;
-		if (tmpPlayer->getMyButton() == BUTTON_SMALL_BLIND)
-		{
-			boost::shared_ptr<NetPacket> notifySmallBlind(new NetPacketPlayersActionDone);
-			NetPacketPlayersActionDone::Data actionDoneData;
-			actionDoneData.gameState = GAME_STATE_PREFLOP_SMALL_BLIND;
-			actionDoneData.playerId = tmpPlayer->getMyUniqueID();
-			actionDoneData.playerAction = (PlayerAction)tmpPlayer->getMyAction();
-			actionDoneData.totalPlayerBet = tmpPlayer->getMySet();
-			actionDoneData.playerMoney = tmpPlayer->getMyCash();
-			actionDoneData.highestSet = server.GetGame().getCurrentHand()->getCurrentBeRo()->getHighestSet();
-			actionDoneData.minimumRaise = server.GetGame().getCurrentHand()->getCurrentBeRo()->getMinimumRaise();
-			static_cast<NetPacketPlayersActionDone *>(notifySmallBlind.get())->SetData(actionDoneData);
-			server.SendToAllPlayers(notifySmallBlind, SessionData::Game);
-			break;
-		}
-		++i;
-	}
-
-	i = curGame.getActivePlayerList()->begin();
-	end = curGame.getActivePlayerList()->end();
-	while (i != end)
-	{
-		boost::shared_ptr<PlayerInterface> tmpPlayer = *i;
-		if (tmpPlayer->getMyButton() == BUTTON_BIG_BLIND)
-		{
-			boost::shared_ptr<NetPacket> notifyBigBlind(new NetPacketPlayersActionDone);
-			NetPacketPlayersActionDone::Data actionDoneData;
-			actionDoneData.gameState = GAME_STATE_PREFLOP_BIG_BLIND;
-			actionDoneData.playerId = tmpPlayer->getMyUniqueID();
-			actionDoneData.playerAction = (PlayerAction)tmpPlayer->getMyAction();
-			actionDoneData.totalPlayerBet = tmpPlayer->getMySet();
-			actionDoneData.playerMoney = tmpPlayer->getMyCash();
-			actionDoneData.highestSet = server.GetGame().getCurrentHand()->getCurrentBeRo()->getHighestSet();
-			actionDoneData.minimumRaise = server.GetGame().getCurrentHand()->getCurrentBeRo()->getMinimumRaise();
-			static_cast<NetPacketPlayersActionDone *>(notifyBigBlind.get())->SetData(actionDoneData);
-			server.SendToAllPlayers(notifyBigBlind, SessionData::Game);
-			break;
-		}
-		++i;
-	}
-}
-
 static void PerformPlayerAction(ServerGame &server, boost::shared_ptr<PlayerInterface> player, PlayerAction action, int bet)
 {
 	Game &curGame = server.GetGame();
@@ -432,7 +344,7 @@ ServerGameStateInit::HandleNewSession(ServerGame &server, SessionWrapper session
 			joinGameAckData.prights = session.playerData->GetRights();
 			joinGameAckData.gameData = server.GetGameData();
 			static_cast<NetPacketJoinGameAck *>(joinGameAck.get())->SetData(joinGameAckData);
-			session.sessionData->GetSender().Send(session.sessionData, joinGameAck);
+			server.GetLobbyThread().GetSender().Send(session.sessionData, joinGameAck);
 
 			// Send notifications for connected players to client.
 			PlayerDataList tmpPlayerList = server.GetFullPlayerDataList();
@@ -440,7 +352,7 @@ ServerGameStateInit::HandleNewSession(ServerGame &server, SessionWrapper session
 			PlayerDataList::iterator player_end = tmpPlayerList.end();
 			while (player_i != player_end)
 			{
-				session.sessionData->GetSender().Send(session.sessionData, CreateNetPacketPlayerJoined(*(*player_i)));
+				server.GetLobbyThread().GetSender().Send(session.sessionData, CreateNetPacketPlayerJoined(*(*player_i)));
 				++player_i;
 			}
 
@@ -485,7 +397,7 @@ ServerGameStateInit::TimerAdminWarning(ServerGame &server)
 		warningData.timeoutReason = NETWORK_TIMEOUT_GAME_ADMIN_IDLE;
 		warningData.remainingSeconds = SERVER_GAME_ADMIN_WARNING_REMAINING_SEC;
 		static_cast<NetPacketTimeoutWarning *>(warning.get())->SetData(warningData);
-		session.sessionData->GetSender().Send(session.sessionData, warning);
+		server.GetLobbyThread().GetSender().Send(session.sessionData, warning);
 	}
 	// Start timeout timer.
 	server.GetLobbyThread().GetTimerManager().RestartTimer(
@@ -686,7 +598,7 @@ ServerGameStateStartGame::DoStart(ServerGame &server)
 		server.SendToAllPlayers(answer, SessionData::Game);
 
 		// Start the first hand.
-		StartNewHand(server);
+		ServerGameStateHand::StartNewHand(server);
 		server.SetState(ServerGameStateHand::Instance());
 	}
 }
@@ -1018,6 +930,95 @@ ServerGameStateHand::GetDealCardsDelaySec(ServerGame &server)
 	return delay;
 }
 
+void
+ServerGameStateHand::StartNewHand(ServerGame &server)
+{
+	// Initialize hand.
+	Game &curGame = server.GetGame();
+	curGame.initHand();
+
+	// HACK: Skip GUI notification run
+	curGame.getCurrentHand()->getFlop()->skipFirstRunGui();
+	curGame.getCurrentHand()->getTurn()->skipFirstRunGui();
+	curGame.getCurrentHand()->getRiver()->skipFirstRunGui();
+
+	// Consider all players, even inactive.
+	PlayerListIterator i = curGame.getSeatsList()->begin();
+	PlayerListIterator end = curGame.getSeatsList()->end();
+
+	// Send cards to all players.
+	while (i != end)
+	{
+		// also send to inactive players, but not to disconnected players.
+		boost::shared_ptr<PlayerInterface> tmpPlayer = *i;
+		if (tmpPlayer->getNetSessionData().get())
+		{
+			int cards[2];
+			tmpPlayer->getMyCards(cards);
+			boost::shared_ptr<NetPacket> notifyCards(new NetPacketHandStart);
+			NetPacketHandStart::Data handStartData;
+			handStartData.yourCards[0] = static_cast<unsigned>(cards[0]);
+			handStartData.yourCards[1] = static_cast<unsigned>(cards[1]);
+			handStartData.smallBlind = curGame.getCurrentHand()->getSmallBlind();
+			static_cast<NetPacketHandStart *>(notifyCards.get())->SetData(handStartData);
+
+			server.GetLobbyThread().GetSender().Send(tmpPlayer->getNetSessionData(), notifyCards);
+		}
+		++i;
+	}
+
+	// Start hand.
+	curGame.startHand();
+
+	// Auto small blind / big blind at the beginning of hand.
+	i = curGame.getActivePlayerList()->begin();
+	end = curGame.getActivePlayerList()->end();
+
+	while (i != end)
+	{
+		boost::shared_ptr<PlayerInterface> tmpPlayer = *i;
+		if (tmpPlayer->getMyButton() == BUTTON_SMALL_BLIND)
+		{
+			boost::shared_ptr<NetPacket> notifySmallBlind(new NetPacketPlayersActionDone);
+			NetPacketPlayersActionDone::Data actionDoneData;
+			actionDoneData.gameState = GAME_STATE_PREFLOP_SMALL_BLIND;
+			actionDoneData.playerId = tmpPlayer->getMyUniqueID();
+			actionDoneData.playerAction = (PlayerAction)tmpPlayer->getMyAction();
+			actionDoneData.totalPlayerBet = tmpPlayer->getMySet();
+			actionDoneData.playerMoney = tmpPlayer->getMyCash();
+			actionDoneData.highestSet = server.GetGame().getCurrentHand()->getCurrentBeRo()->getHighestSet();
+			actionDoneData.minimumRaise = server.GetGame().getCurrentHand()->getCurrentBeRo()->getMinimumRaise();
+			static_cast<NetPacketPlayersActionDone *>(notifySmallBlind.get())->SetData(actionDoneData);
+			server.SendToAllPlayers(notifySmallBlind, SessionData::Game);
+			break;
+		}
+		++i;
+	}
+
+	i = curGame.getActivePlayerList()->begin();
+	end = curGame.getActivePlayerList()->end();
+	while (i != end)
+	{
+		boost::shared_ptr<PlayerInterface> tmpPlayer = *i;
+		if (tmpPlayer->getMyButton() == BUTTON_BIG_BLIND)
+		{
+			boost::shared_ptr<NetPacket> notifyBigBlind(new NetPacketPlayersActionDone);
+			NetPacketPlayersActionDone::Data actionDoneData;
+			actionDoneData.gameState = GAME_STATE_PREFLOP_BIG_BLIND;
+			actionDoneData.playerId = tmpPlayer->getMyUniqueID();
+			actionDoneData.playerAction = (PlayerAction)tmpPlayer->getMyAction();
+			actionDoneData.totalPlayerBet = tmpPlayer->getMySet();
+			actionDoneData.playerMoney = tmpPlayer->getMyCash();
+			actionDoneData.highestSet = server.GetGame().getCurrentHand()->getCurrentBeRo()->getHighestSet();
+			actionDoneData.minimumRaise = server.GetGame().getCurrentHand()->getCurrentBeRo()->getMinimumRaise();
+			static_cast<NetPacketPlayersActionDone *>(notifyBigBlind.get())->SetData(actionDoneData);
+			server.SendToAllPlayers(notifyBigBlind, SessionData::Game);
+			break;
+		}
+		++i;
+	}
+}
+
 //-----------------------------------------------------------------------------
 
 
@@ -1133,7 +1134,7 @@ ServerGameStateWaitPlayerAction::InternalProcessPacket(ServerGame &server, Sessi
 			rejectData.playerBet = actionData.playerBet;
 			rejectData.rejectionReason = code;
 			static_cast<NetPacketPlayersActionRejected *>(reject.get())->SetData(rejectData);
-			session.sessionData->GetSender().Send(session.sessionData, reject);
+			server.GetLobbyThread().GetSender().Send(session.sessionData, reject);
 		}
 	}
 

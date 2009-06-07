@@ -22,10 +22,10 @@
 #define _CLIENTTHREAD_H_
 
 #include <boost/shared_ptr.hpp>
+#include <boost/asio.hpp>
 #include <string>
 
 #include <core/thread.h>
-#include <net/senderinterface.h>
 #include <guiinterface.h>
 #include <serverdata.h>
 #include <playerdata.h>
@@ -33,7 +33,7 @@
 
 class ClientContext;
 class ClientState;
-class SenderThread;
+class SenderHelper;
 class ReceiverHelper;
 class DownloaderThread;
 class ClientSenderCallback;
@@ -127,6 +127,7 @@ protected:
 	ClientState &GetState();
 	void SetState(ClientState &newState);
 
+	SenderHelper &GetSender();
 	ReceiverHelper &GetReceiver();
 
 	void SetGameId(unsigned id);
@@ -191,6 +192,7 @@ private:
 	GuiInterface &m_gui;
 	AvatarManager &m_avatarManager;
 
+	boost::shared_ptr<SenderHelper> m_senderHelper;
 	boost::shared_ptr<ReceiverHelper> m_receiver;
 
 	boost::shared_ptr<DownloaderThread> m_avatarDownloader;
@@ -232,8 +234,6 @@ private:
 
 	mutable boost::mutex m_curStatsMutex;
 	ServerStats m_curStats;
-
-	boost::shared_ptr<SenderInterface> m_senderHelper;
 
 friend class AbstractClientStateReceiving;
 friend class ClientStateInit;

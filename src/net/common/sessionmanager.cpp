@@ -18,7 +18,7 @@
  ***************************************************************************/
 
 #include <net/sessionmanager.h>
-#include <net/senderinterface.h>
+#include <net/senderhelper.h>
 #include <net/serverexception.h>
 #include <net/socket_msg.h>
 
@@ -363,7 +363,7 @@ SessionManager::GetRawSessionCount()
 }
 
 void
-SessionManager::SendToAllSessions(boost::shared_ptr<NetPacket> packet, SessionData::State state)
+SessionManager::SendToAllSessions(SenderHelper &sender, boost::shared_ptr<NetPacket> packet, SessionData::State state)
 {
 	boost::recursive_mutex::scoped_lock lock(m_sessionMapMutex);
 
@@ -377,13 +377,13 @@ SessionManager::SendToAllSessions(boost::shared_ptr<NetPacket> packet, SessionDa
 
 		// Send each client (with a certain state) a copy of the packet.
 		if (i->second.sessionData->GetState() == state)
-			i->second.sessionData->GetSender().Send(i->second.sessionData, boost::shared_ptr<NetPacket>(packet->Clone()));
+			sender.Send(i->second.sessionData, boost::shared_ptr<NetPacket>(packet->Clone()));
 		++i;
 	}
 }
 
 void
-SessionManager::SendLobbyMsgToAllSessions(boost::shared_ptr<NetPacket> packet, SessionData::State state)
+SessionManager::SendLobbyMsgToAllSessions(SenderHelper &sender, boost::shared_ptr<NetPacket> packet, SessionData::State state)
 {
 	boost::recursive_mutex::scoped_lock lock(m_sessionMapMutex);
 
@@ -397,13 +397,13 @@ SessionManager::SendLobbyMsgToAllSessions(boost::shared_ptr<NetPacket> packet, S
 
 		// Send each client (with a certain state) a copy of the packet.
 		if (i->second.sessionData->GetState() == state && i->second.sessionData->WantsLobbyMsg())
-			i->second.sessionData->GetSender().Send(i->second.sessionData, boost::shared_ptr<NetPacket>(packet->Clone()));
+			sender.Send(i->second.sessionData, boost::shared_ptr<NetPacket>(packet->Clone()));
 		++i;
 	}
 }
 
 void
-SessionManager::SendToAllButOneSessions(boost::shared_ptr<NetPacket> packet, SessionId except, SessionData::State state)
+SessionManager::SendToAllButOneSessions(SenderHelper &sender, boost::shared_ptr<NetPacket> packet, SessionId except, SessionData::State state)
 {
 	boost::recursive_mutex::scoped_lock lock(m_sessionMapMutex);
 
@@ -415,7 +415,7 @@ SessionManager::SendToAllButOneSessions(boost::shared_ptr<NetPacket> packet, Ses
 		// Send each fully connected client but one a copy of the packet.
 		if (i->second.sessionData->GetState() == state)
 			if (i->first != except)
-				i->second.sessionData->GetSender().Send(i->second.sessionData, boost::shared_ptr<NetPacket>(packet->Clone()));
+				sender.Send(i->second.sessionData, boost::shared_ptr<NetPacket>(packet->Clone()));
 		++i;
 	}
 }

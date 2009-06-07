@@ -415,7 +415,6 @@ ClientThread::Main()
 			if (IsSessionEstablished())
 				SendPacketLoop();
 			m_ioService->poll();
-			GetContext().GetSessionData()->GetSender().Process();
 			Thread::Msleep(10);
 		}
 	} catch (const PokerTHException &e)
@@ -446,7 +445,7 @@ ClientThread::SendPacketLoop()
 
 		while (i != end)
 		{
-			GetContext().GetSessionData()->GetSender().Send(GetContext().GetSessionData(), *i);
+			GetSender().Send(GetContext().GetSessionData(), *i);
 			++i;
 		}
 		m_outPacketList.clear();
@@ -477,7 +476,7 @@ ClientThread::RequestPlayerInfo(unsigned id, bool requestAvatar)
 		NetPacketRetrievePlayerInfo::Data reqData;
 		reqData.playerId = id;
 		static_cast<NetPacketRetrievePlayerInfo *>(req.get())->SetData(reqData);
-		GetContext().GetSessionData()->GetSender().Send(GetContext().GetSessionData(), req);
+		GetSender().Send(GetContext().GetSessionData(), req);
 
 		m_playerInfoRequestList.push_back(id);
 
@@ -592,7 +591,7 @@ ClientThread::RetrieveAvatarIfNeeded(unsigned id, const PlayerInfo &info)
 				retrieveAvatarData.requestId = id;
 				retrieveAvatarData.avatar = info.avatar;
 				static_cast<NetPacketRetrieveAvatar *>(retrieveAvatar.get())->SetData(retrieveAvatarData);
-				GetContext().GetSessionData()->GetSender().Send(GetContext().GetSessionData(), retrieveAvatar);
+				GetSender().Send(GetContext().GetSessionData(), retrieveAvatar);
 			}
 		}
 	}
@@ -688,7 +687,7 @@ ClientThread::UnsubscribeLobbyMsg()
 	{
 		// Send unsubscribe request.
 		boost::shared_ptr<NetPacket> unsubscr(new NetPacketUnsubscribeGameList);
-		GetContext().GetSessionData()->GetSender().Send(GetContext().GetSessionData(), unsubscr);
+		GetSender().Send(GetContext().GetSessionData(), unsubscr);
 		GetContext().SetSubscribeLobbyMsg(false);
 	}
 }
@@ -702,7 +701,7 @@ ClientThread::ResubscribeLobbyMsg()
 		ClearGameInfoMap();
 		// Send resubscribe request.
 		boost::shared_ptr<NetPacket> resubscr(new NetPacketResubscribeGameList);
-		GetContext().GetSessionData()->GetSender().Send(GetContext().GetSessionData(), resubscr);
+		GetSender().Send(GetContext().GetSessionData(), resubscr);
 		GetContext().SetSubscribeLobbyMsg(true);
 	}
 }
@@ -737,7 +736,6 @@ ClientThread::CreateContextSession()
 		GetContext().SetSessionData(boost::shared_ptr<SessionData>(new SessionData(
 			newSock,
 			SESSION_ID_GENERIC,
-			m_senderHelper,
 			*m_senderCallback)));
 		validSocket = true;
 	} catch (...)
@@ -760,10 +758,17 @@ ClientThread::SetState(ClientState &newState)
 	m_curState = &newState;
 }
 
+SenderHelper &
+ClientThread::GetSender()
+{
+	assert(m_senderHelper);
+	return *m_senderHelper;
+}
+
 ReceiverHelper &
 ClientThread::GetReceiver()
 {
-	assert(m_receiver.get());
+	assert(m_receiver);
 	return *m_receiver;
 }
 

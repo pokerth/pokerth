@@ -36,15 +36,12 @@ typedef unsigned SessionId;
 #define SESSION_ID_INIT			INVALID_SESSION
 #define SESSION_ID_GENERIC		0xFFFFFFFF
 
-class SenderInterface;
-
 class SessionData
 {
 public:
 	enum State { Init, ReceivingAvatar, Established, Game };
 
-	SessionData(boost::shared_ptr<boost::asio::ip::tcp::socket> sock, SessionId id,
-		boost::shared_ptr<SenderInterface> sender, SessionDataCallback &cb);
+	SessionData(boost::shared_ptr<boost::asio::ip::tcp::socket> sock, SessionId id, SessionDataCallback &cb);
 	~SessionData();
 
 	SessionId GetId() const;
@@ -69,7 +66,6 @@ public:
 	void SetClientAddr(const std::string &addr);
 
 	ReceiveBuffer &GetReceiveBuffer();
-	SenderInterface &GetSender();
 
 	void ResetActivityTimer();
 	unsigned GetActivityTimerElapsedSec() const;
@@ -92,7 +88,6 @@ private:
 	boost::timers::portable::microsec_timer m_activityTimer;
 	bool							m_activityTimeoutNoticeSent;
 	boost::timers::portable::microsec_timer m_autoDisconnectTimer;
-	boost::shared_ptr<SenderInterface>	m_sender;
 	SessionDataCallback				&m_callback;
 	unsigned						m_maxNumPlayers;
 

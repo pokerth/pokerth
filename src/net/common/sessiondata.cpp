@@ -18,15 +18,12 @@
  ***************************************************************************/
 
 #include <net/sessiondata.h>
-#include <net/senderinterface.h>
 
-SessionData::SessionData(boost::shared_ptr<boost::asio::ip::tcp::socket> sock, SessionId id,
-						 boost::shared_ptr<SenderInterface> sender, SessionDataCallback &cb)
+SessionData::SessionData(boost::shared_ptr<boost::asio::ip::tcp::socket> sock, SessionId id, SessionDataCallback &cb)
 : m_socket(sock), m_id(id), m_gameId(0), m_state(SessionData::Init), m_readyFlag(false),
   m_wantsLobbyMsg(true), m_activityTimeoutNoticeSent(false), m_callback(cb),
   m_maxNumPlayers(0)
 {
-	m_sender = sender;
 }
 
 SessionData::~SessionData()
@@ -142,12 +139,6 @@ SessionData::GetReceiveBuffer()
 {
 	// mutex protection, if needed, within buffer.
 	return m_receiveBuffer;
-}
-
-SenderInterface &
-SessionData::GetSender()
-{
-	return *m_sender;
 }
 
 void
