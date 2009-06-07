@@ -43,7 +43,7 @@ protected:
 
 	void InternalListen(unsigned serverPort, bool ipv6, bool sctp);
 	void HandleAccept(boost::shared_ptr<boost::asio::ip::tcp::socket> acceptedSocket,
-		const boost::system::error_code& error);
+		const boost::system::error_code &error);
 
 	ServerCallback &GetCallback();
 

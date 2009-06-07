@@ -114,7 +114,7 @@ protected:
 	virtual void Main();
 	void RegisterTimers();
 
-	void HandleRead(SessionId sessionId, const boost::system::error_code& error, size_t bytesRead);
+	void HandleRead(SessionId sessionId, const boost::system::error_code &error, size_t bytesRead);
 	void HandlePacket(SessionWrapper session, boost::shared_ptr<NetPacket> packet);
 	void HandleNetPacketInit(SessionWrapper session, const NetPacketInit &tmpPacket);
 	void HandleNetPacketAvatarHeader(SessionWrapper session, const NetPacketAvatarHeader &tmpPacket);

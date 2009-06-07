@@ -32,7 +32,7 @@ public:
 	TimerManager(boost::shared_ptr<boost::asio::io_service> ioService);
 
 	unsigned RegisterTimer(unsigned timeoutMsec, boost::function<void()> timerHandler, bool autoRestart = false);
-	bool RestartTimer(unsigned timerId, unsigned timeoutMsec, boost::function<void()> timerHandler);
+	bool AddTimer(unsigned timerId, unsigned timeoutMsec, boost::function<void()> timerHandler);
 	bool UnregisterTimer(unsigned timerId);
 
 protected:
@@ -43,10 +43,11 @@ protected:
 		boost::function<void()> userHandler;
 		unsigned durationMsec;
 		bool autoRestart;
+		bool cancelled;
 	};
 
-	static void Handler(boost::system::error_code ec, TimerData data);
-	typedef std::map<unsigned,  TimerData> TimerMap;
+	static void Handler(const boost::system::error_code &ec, boost::shared_ptr<TimerData> data);
+	typedef std::map<unsigned,  boost::shared_ptr<TimerData> > TimerMap;
 
 	unsigned GetNextTimerId();
 

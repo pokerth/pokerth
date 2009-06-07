@@ -43,6 +43,9 @@ public:
 		ServerLobbyThread &lobbyThread, u_int32_t id, const std::string &name, const std::string &pwd, const GameData &gameData, unsigned adminPlayerId, GuiInterface &gui, ConfigFile *playerConfig);
 	virtual ~ServerGame();
 
+	void Init();
+	void Exit();
+
 	u_int32_t GetId() const;
 	const std::string &GetName() const;
 

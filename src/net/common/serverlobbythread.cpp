@@ -563,7 +563,7 @@ ServerLobbyThread::RegisterTimers()
 }
 
 void
-ServerLobbyThread::HandleRead(SessionId sessionId, const boost::system::error_code& error, size_t bytesRead)
+ServerLobbyThread::HandleRead(SessionId sessionId, const boost::system::error_code &error, size_t bytesRead)
 {
 	// Find the session.
 	SessionWrapper session = m_sessionManager.GetSessionById(sessionId);
@@ -949,11 +949,11 @@ ServerLobbyThread::HandleNetPacketCreateGame(SessionWrapper session, const NetPa
 			session.playerData->GetUniqueId(),
 			GetGui(),
 			m_playerConfig));
-
-	MoveSessionToGame(*game, session);
-
+	game->Init();
 	// Add game to list of games.
 	InternalAddGame(game);
+
+	MoveSessionToGame(*game, session);
 }
 
 void
@@ -1043,7 +1043,7 @@ ServerLobbyThread::TimerRemoveGame()
 		++next;
 		boost::shared_ptr<ServerGame> tmpGame = i->second;
 		if (!tmpGame->GetSessionManager().HasSessions())
-			InternalRemoveGame(tmpGame); // This will delete the entry from the map.
+			InternalRemoveGame(tmpGame); // This will delete the game.
 		i = next;
 	}
 }
@@ -1154,6 +1154,7 @@ ServerLobbyThread::InternalRemoveGame(boost::shared_ptr<ServerGame> game)
 	// Remove all sessions left in the game.
 	game->ResetComputerPlayerList();
 	game->RemoveAllSessions();
+	game->Exit();
 	// Notify all players.
 	boost::shared_ptr<NetPacket> packet = CreateNetPacketGameListUpdate(game->GetId(), GAME_MODE_CLOSED);
 	m_sessionManager.SendLobbyMsgToAllSessions(GetSender(), packet, SessionData::Established);

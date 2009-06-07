@@ -24,7 +24,7 @@
 #include <core/loghelper.h>
 
 
-#define NET_SERVER_LISTEN_BACKLOG	5
+#define NET_SERVER_LISTEN_BACKLOG	20
 
 using namespace std;
 using boost::asio::ip::tcp;
@@ -96,7 +96,7 @@ ServerAcceptHelper::InternalListen(unsigned serverPort, bool ipv6, bool sctp)
 
 void
 ServerAcceptHelper::HandleAccept(boost::shared_ptr<boost::asio::ip::tcp::socket> acceptedSocket,
-								 const boost::system::error_code& error)
+								 const boost::system::error_code &error)
 {
 	if (!error)
 	{

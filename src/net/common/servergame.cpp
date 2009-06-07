@@ -46,7 +46,16 @@ ServerGame::ServerGame(ServerLobbyThread &lobbyThread, u_int32_t id, const strin
 	LOG_VERBOSE("Game object " << GetId() << " created.");
 
 	m_receiver.reset(new ReceiverHelper);
+}
 
+ServerGame::~ServerGame()
+{
+	LOG_VERBOSE("Game object " << GetId() << " destructed.");
+}
+
+void
+ServerGame::Init()
+{
 	m_voteKickTimerId = GetLobbyThread().GetTimerManager().RegisterTimer(
 		SERVER_CHECK_VOTE_KICK_INTERVAL_MSEC,
 		boost::bind(&ServerGame::TimerVoteKick, this),
@@ -55,12 +64,11 @@ ServerGame::ServerGame(ServerLobbyThread &lobbyThread, u_int32_t id, const strin
 	SetState(SERVER_INITIAL_STATE::Instance());
 }
 
-ServerGame::~ServerGame()
+void
+ServerGame::Exit()
 {
 	GetLobbyThread().GetTimerManager().UnregisterTimer(m_voteKickTimerId);
 	GetLobbyThread().GetTimerManager().UnregisterTimer(m_stateTimerId);
-
-	LOG_VERBOSE("Game object " << GetId() << " destructed.");
 }
 
 u_int32_t

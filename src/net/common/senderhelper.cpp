@@ -48,7 +48,7 @@ class SendDataManager : public boost::enable_shared_from_this<SendDataManager>
 		{
 		}
 
-		void HandleWrite(const boost::system::error_code& error);
+		void HandleWrite(const boost::system::error_code &error);
 
 		void AsyncSendNextPacket(bool handlerMode = false);
 
@@ -61,7 +61,7 @@ class SendDataManager : public boost::enable_shared_from_this<SendDataManager>
 
 
 void
-SendDataManager::HandleWrite(const boost::system::error_code& error)
+SendDataManager::HandleWrite(const boost::system::error_code &error)
 {
 	// TODO error handling
 	AsyncSendNextPacket(true);
