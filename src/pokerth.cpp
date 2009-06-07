@@ -58,9 +58,9 @@
 #endif
 
 //Uncomment this for RELEASE on Linux/Unix/BSD (static Qt only)
-// #include <QtPlugin>
-// Q_IMPORT_PLUGIN(qjpeg)
-// Q_IMPORT_PLUGIN(qgif)
+//#include <QtPlugin>
+//Q_IMPORT_PLUGIN(qjpeg)
+//Q_IMPORT_PLUGIN(qgif)
 
 #ifdef _WIN32 // Always use static Qt on Windows.
 #include <QtPlugin>
@@ -112,9 +112,11 @@ int main( int argc, char **argv )
 	a.setStyleSheet("QDialogButtonBox, QMessageBox { dialogbuttonbox-buttons-have-icons: 1; dialog-ok-icon: url(:/gfx/dialog_ok_apply.png); dialog-cancel-icon: url(:/gfx/dialog_close.png); dialog-close-icon: url(:/gfx/dialog_close.png); dialog-yes-icon: url(:/gfx/dialog_ok_apply.png); dialog-no-icon: url(:/gfx/dialog_close.png) }");
 
 	QPixmap *pixmap = new QPixmap(myAppDataPath + "gfx/gui/misc/welcomepokerth.png");
-     	StartSplash splash(*pixmap);
-     	splash.show();
-	splash.showMessage(QString("Version %1").arg(POKERTH_BETA_RELEASE_STRING), 0x0042, QColor(153,213,0));
+	StartSplash splash(*pixmap);
+	if(!myConfig->readConfigInt("DisableSplashScreenOnStartup")) {
+		splash.show();
+		splash.showMessage(QString("Version %1").arg(POKERTH_BETA_RELEASE_STRING), 0x0042, QColor(153,213,0));
+	}
 	
 	//Set translations
 	QTranslator qtTranslator;

@@ -206,7 +206,7 @@
              </property>
             </widget>
            </item>
-           <item row="8" column="0" colspan="2">
+           <item row="9" column="0" colspan="2">
             <widget class="QCheckBox" name="checkBox_dontTranslatePokerStrings">
              <property name="text">
               <string>Don't translate poker strings like check, call, raise from game table style</string>
@@ -238,6 +238,13 @@
             <widget class="QCheckBox" name="checkBox_showLeftToolbox">
              <property name="text">
               <string>Show left toolbox</string>
+             </property>
+            </widget>
+           </item>
+           <item row="8" column="0" colspan="2">
+            <widget class="QCheckBox" name="checkBox_disableSplashscreen">
+             <property name="text">
+              <string>Disable splashscreen on startup</string>
              </property>
             </widget>
            </item>
