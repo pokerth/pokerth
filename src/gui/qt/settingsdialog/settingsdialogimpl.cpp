@@ -904,7 +904,7 @@ void settingsDialogImpl::showCurrentGameTableStylePreview()
 {
 	QListWidgetItem* item = listWidget_gameTableStyles->currentItem();
 	if(item) {
-                GameTableStyleReader style(myConfig, this);
+		GameTableStyleReader style(myConfig, this);
 		style.readStyleFile(item->data(15).toString());
 		QPixmap preview(style.getPreview());
 		if(preview.height() > 160 || preview.width() > 120) label_gameTableStylePreview->setPixmap(preview.scaled(160,120,Qt::KeepAspectRatio,Qt::SmoothTransformation));
@@ -928,15 +928,20 @@ void settingsDialogImpl::showCurrentGameTableStylePreview()
 			windowsSubString = "<b>"+WindowBehaviour+":</b> "+scaleable+"<br><b>"+MinimumSize+":</b> "+style.getMinimumWindowWidth()+"x"+style.getMinimumWindowHeight()+"<br><b>"+MaximumSize+":</b> "+style.getMaximumWindowWidth()+"x"+style.getMaximumWindowHeight();
 		}
 
-                QString maintainerEMailString;
-                if(style.getStyleMaintainerEMail() != "NULL" && style.getStyleMaintainerEMail() != "") {
-                    maintainerEMailString = "<b>"+MaintainerEMail+":</b> "+style.getStyleMaintainerEMail()+"<br>";
-                }
+		QString maintainerEMailString;
+		if(style.getStyleMaintainerEMail() != "NULL" && style.getStyleMaintainerEMail() != "") {
+		    maintainerEMailString = "<b>"+MaintainerEMail+":</b> "+style.getStyleMaintainerEMail()+"<br>";
+		}
 
-                label_gameTableStyleInfo->setText("<b>"+MaintainerName+":</b> "+style.getStyleMaintainerName()+"<br>"+maintainerEMailString+"<b>"+CreateDate+":</b> "+style.getStyleCreateDate()+"<br>"+windowsSubString);
+		label_gameTableStyleInfo->setText("<b>"+MaintainerName+":</b> "+style.getStyleMaintainerName()+"<br>"+maintainerEMailString+"<b>"+CreateDate+":</b> "+style.getStyleCreateDate()+"<br>"+windowsSubString);
 				
-	//active the current selected item directly
-	setSelectedGameTableStyleActivated();
+		//active the current selected item directly
+		setSelectedGameTableStyleActivated();
+		
+		//disable remove button for distributed styles
+		if(item->data(16).toInt() == POKERTH_DISTRIBUTED_STYLE) { pushButton_removeGameTableStyle->setDisabled(TRUE); }
+		else { pushButton_removeGameTableStyle->setDisabled(FALSE);	}
+	
 	}
 }
 
@@ -1042,6 +1047,10 @@ void settingsDialogImpl::showCurrentCardDeckStylePreview()
 		label_cardDeckStyleInfo->setText("<b>"+MaintainerName+":</b> "+style.getStyleMaintainerName()+"<br>"+maintainerEMailString+"<b>"+CreateDate+":</b> "+style.getStyleCreateDate()+"");
 		//active the current selected item directly
 		setSelectedCardDeckStyleActivated();
+		
+		//disable remove button for distributed styles
+		if(item->data(16).toInt() == POKERTH_DISTRIBUTED_STYLE) { pushButton_removeCardDeckStyle->setDisabled(TRUE); }
+		else { pushButton_removeCardDeckStyle->setDisabled(FALSE);	}
 	}
 }
 
