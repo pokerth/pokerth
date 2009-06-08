@@ -44,8 +44,13 @@ class SendDataManager : public boost::enable_shared_from_this<SendDataManager>
 {
 	public:
 		SendDataManager(boost::shared_ptr<boost::asio::ip::tcp::socket> s)
-		: socket(s), writeInProgress(false)
+		: socket(s), sendBuf(NULL), writeInProgress(false)
 		{
+		}
+
+		~SendDataManager()
+		{
+			delete[] sendBuf;
 		}
 
 		void HandleWrite(const boost::system::error_code &error);
@@ -56,6 +61,7 @@ class SendDataManager : public boost::enable_shared_from_this<SendDataManager>
 
 		mutable boost::mutex dataMutex;
 		SendDataList list;
+		char *sendBuf;
 		bool writeInProgress;
 };
 
@@ -64,7 +70,8 @@ void
 SendDataManager::HandleWrite(const boost::system::error_code &error)
 {
 	// TODO error handling
-	AsyncSendNextPacket(true);
+	if (!error)
+		AsyncSendNextPacket(true);
 }
 
 void
@@ -73,15 +80,34 @@ SendDataManager::AsyncSendNextPacket(bool handlerMode)
 	boost::mutex::scoped_lock lock(dataMutex);
 	if (!writeInProgress || handlerMode)
 	{
-		if (handlerMode)
-			list.pop_front();
-		if (!list.empty())
+		delete[] sendBuf;
+		sendBuf = NULL;
+
+		unsigned bufPos = 0;
+		unsigned bufSize = 0;
+		// Count required bytes.
+		SendDataList::iterator i = list.begin();
+		SendDataList::iterator end = list.end();
+		while (i != end)
 		{
-			boost::shared_ptr<NetPacket> nextPacket = list.front();
+			bufSize += (*i)->GetLen();
+			++i;
+		}
+		if (bufSize)
+		{
+			sendBuf = new char[bufSize];
+			i = list.begin();
+			end = list.end();
+			while (i != end)
+			{
+				memcpy(sendBuf + bufPos, (*i)->GetRawData(), (*i)->GetLen());
+				bufPos += (*i)->GetLen();
+				++i;
+			}
+			list.clear();
 			boost::asio::async_write(
 				*socket,
-				boost::asio::buffer(nextPacket->GetRawData(),
-					nextPacket->GetLen()),
+				boost::asio::buffer(sendBuf, bufSize),
 				boost::bind(&SendDataManager::HandleWrite, shared_from_this(),
 					boost::asio::placeholders::error));
 			writeInProgress = true;
