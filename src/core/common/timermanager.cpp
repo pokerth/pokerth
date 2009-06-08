@@ -42,7 +42,7 @@ TimerManager::RegisterTimer(unsigned timeoutMsec, boost::function<void()> timerH
 	data->durationMsec = timeoutMsec;
 	data->autoRestart = autoRestart;
 	data->cancelled = false;
-	data->timer->async_wait(boost::bind(&TimerManager::Handler, boost::asio::placeholders::error, data));
+	data->timer->async_wait(boost::bind(&TimerManager::Handler, this, boost::asio::placeholders::error, data));
 	m_timerMap.insert(TimerMap::value_type(id, data));
 
 	return id;
@@ -57,8 +57,9 @@ TimerManager::AddTimer(unsigned timerId, unsigned timeoutMsec, boost::function<v
 	if (pos != m_timerMap.end())
 	{
 		pos->second->userHandler = timerHandler;
-		pos->second->timer->expires_from_now(boost::posix_time::milliseconds(timeoutMsec));
-		pos->second->timer->async_wait(boost::bind(&TimerManager::Handler, boost::asio::placeholders::error, pos->second));
+		pos->second->timer.reset(
+			new boost::asio::deadline_timer(*m_ioService, boost::posix_time::milliseconds(timeoutMsec)));
+		pos->second->timer->async_wait(boost::bind(&TimerManager::Handler, this, boost::asio::placeholders::error, pos->second));
 		restarted = true;
 	}
 	return restarted;
@@ -83,13 +84,15 @@ TimerManager::UnregisterTimer(unsigned timerId)
 void
 TimerManager::Handler(const boost::system::error_code &ec, boost::shared_ptr<TimerManager::TimerData> data)
 {
+	boost::recursive_mutex::scoped_lock lock(m_timerMutex);
 	if (!ec && data && !data->cancelled)
 	{
 		data->userHandler();
 		if (data->autoRestart)
 		{
-			data->timer->expires_from_now(boost::posix_time::milliseconds(data->durationMsec));
-			data->timer->async_wait(boost::bind(&TimerManager::Handler, boost::asio::placeholders::error, data));
+			data->timer.reset(
+				new boost::asio::deadline_timer(*m_ioService, boost::posix_time::milliseconds(data->durationMsec)));
+			data->timer->async_wait(boost::bind(&TimerManager::Handler, this, boost::asio::placeholders::error, data));
 		}
 	}
 }

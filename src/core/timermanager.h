@@ -46,7 +46,7 @@ protected:
 		bool cancelled;
 	};
 
-	static void Handler(const boost::system::error_code &ec, boost::shared_ptr<TimerData> data);
+	void Handler(const boost::system::error_code &ec, boost::shared_ptr<TimerData> data);
 	typedef std::map<unsigned,  boost::shared_ptr<TimerData> > TimerMap;
 
 	unsigned GetNextTimerId();
