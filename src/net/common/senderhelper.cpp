@@ -26,7 +26,6 @@
 #include <cassert>
 
 #include <boost/bind.hpp>
-#include <boost/enable_shared_from_this.hpp>
 
 using namespace std;
 using boost::asio::ip::tcp;
@@ -40,11 +39,11 @@ using boost::asio::ip::tcp;
 
 typedef std::list<boost::shared_ptr<NetPacket> > SendDataList;
 
-class SendDataManager : public boost::enable_shared_from_this<SendDataManager>
+class SendDataManager
 {
 	public:
-		SendDataManager(boost::shared_ptr<boost::asio::ip::tcp::socket> s)
-		: socket(s), sendBuf(NULL), writeInProgress(false)
+		SendDataManager()
+		: sendBuf(NULL), writeInProgress(false)
 		{
 		}
 
@@ -53,11 +52,9 @@ class SendDataManager : public boost::enable_shared_from_this<SendDataManager>
 			delete[] sendBuf;
 		}
 
-		void HandleWrite(const boost::system::error_code &error);
+		void HandleWrite(boost::shared_ptr<boost::asio::ip::tcp::socket> socket, const boost::system::error_code &error);
 
-		void AsyncSendNextPacket(bool handlerMode = false);
-
-		boost::shared_ptr<boost::asio::ip::tcp::socket> socket;
+		void AsyncSendNextPacket(boost::shared_ptr<boost::asio::ip::tcp::socket> socket, bool handlerMode = false);
 
 		mutable boost::mutex dataMutex;
 		SendDataList list;
@@ -67,15 +64,15 @@ class SendDataManager : public boost::enable_shared_from_this<SendDataManager>
 
 
 void
-SendDataManager::HandleWrite(const boost::system::error_code &error)
+SendDataManager::HandleWrite(boost::shared_ptr<boost::asio::ip::tcp::socket> socket, const boost::system::error_code &error)
 {
 	// TODO error handling
 	if (!error)
-		AsyncSendNextPacket(true);
+		AsyncSendNextPacket(socket, true);
 }
 
 void
-SendDataManager::AsyncSendNextPacket(bool handlerMode)
+SendDataManager::AsyncSendNextPacket(boost::shared_ptr<boost::asio::ip::tcp::socket> socket, bool handlerMode)
 {
 	boost::mutex::scoped_lock lock(dataMutex);
 	if (!writeInProgress || handlerMode)
@@ -108,7 +105,9 @@ SendDataManager::AsyncSendNextPacket(bool handlerMode)
 			boost::asio::async_write(
 				*socket,
 				boost::asio::buffer(sendBuf, bufSize),
-				boost::bind(&SendDataManager::HandleWrite, shared_from_this(),
+				boost::bind(&SendDataManager::HandleWrite,
+					this,
+					socket,
 					boost::asio::placeholders::error));
 			writeInProgress = true;
 		}
@@ -137,7 +136,7 @@ SenderHelper::Send(boost::shared_ptr<SessionData> session, boost::shared_ptr<Net
 			boost::mutex::scoped_lock lock(m_sendQueueMapMutex);
 			SendQueueMap::iterator pos = m_sendQueueMap.find(session->GetId());
 			if (pos == m_sendQueueMap.end())
-				pos = m_sendQueueMap.insert(SendQueueMap::value_type(session->GetId(), boost::shared_ptr<SendDataManager>(new SendDataManager(session->GetAsioSocket())))).first;
+				pos = m_sendQueueMap.insert(SendQueueMap::value_type(session->GetId(), boost::shared_ptr<SendDataManager>(new SendDataManager))).first;
 			tmpManager = pos->second;
 		}
 		{
@@ -150,7 +149,7 @@ SenderHelper::Send(boost::shared_ptr<SessionData> session, boost::shared_ptr<Net
 		}
 		{
 			// Third: Activate async send, if needed.
-			tmpManager->AsyncSendNextPacket();
+			tmpManager->AsyncSendNextPacket(session->GetAsioSocket());
 		}
 	}
 }
@@ -166,7 +165,7 @@ SenderHelper::Send(boost::shared_ptr<SessionData> session, const NetPacketList &
 			boost::mutex::scoped_lock lock(m_sendQueueMapMutex);
 			SendQueueMap::iterator pos = m_sendQueueMap.find(session->GetId());
 			if (pos == m_sendQueueMap.end())
-				pos = m_sendQueueMap.insert(SendQueueMap::value_type(session->GetId(), boost::shared_ptr<SendDataManager>(new SendDataManager(session->GetAsioSocket())))).first;
+				pos = m_sendQueueMap.insert(SendQueueMap::value_type(session->GetId(), boost::shared_ptr<SendDataManager>(new SendDataManager))).first;
 			tmpManager = pos->second;
 		}
 		{
@@ -185,7 +184,7 @@ SenderHelper::Send(boost::shared_ptr<SessionData> session, const NetPacketList &
 		}
 		{
 			// Third: Activate async send, if needed.
-			tmpManager->AsyncSendNextPacket();
+			tmpManager->AsyncSendNextPacket(session->GetAsioSocket());
 		}
 	}
 }

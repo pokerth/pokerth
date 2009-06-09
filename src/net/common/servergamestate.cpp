@@ -400,10 +400,10 @@ ServerGameStateInit::TimerAdminWarning(ServerGame &server)
 		server.GetLobbyThread().GetSender().Send(session.sessionData, warning);
 	}
 	// Start timeout timer.
-	server.GetLobbyThread().GetTimerManager().AddTimer(
-		server.GetStateTimerId(),
-		SERVER_GAME_ADMIN_WARNING_REMAINING_SEC * 1000,
-		boost::bind(&ServerGameStateInit::TimerAdminTimeout, this, boost::ref(server)));
+	server.SetStateTimerId(
+		server.GetLobbyThread().GetTimerManager().RegisterTimer(
+			SERVER_GAME_ADMIN_WARNING_REMAINING_SEC * 1000,
+			boost::bind(&ServerGameStateInit::TimerAdminTimeout, this, boost::ref(server))));
 }
 
 void
@@ -701,19 +701,19 @@ ServerGameStateHand::TimerLoop(ServerGame &server)
 			server.SendToAllPlayers(allIn, SessionData::Game);
 			curGame.getCurrentHand()->setCardsShown(true);
 
-			server.GetLobbyThread().GetTimerManager().AddTimer(
-				server.GetStateTimerId(),
-				SERVER_SHOW_CARDS_DELAY_SEC * 1000,
-				boost::bind(&ServerGameStateHand::TimerLoop, this, boost::ref(server)));
+			server.SetStateTimerId(
+				server.GetLobbyThread().GetTimerManager().RegisterTimer(
+					SERVER_SHOW_CARDS_DELAY_SEC * 1000,
+					boost::bind(&ServerGameStateHand::TimerLoop, this, boost::ref(server))));
 		}
 		else
 		{
 			SendNewRoundCards(server, curGame, newRound);
 
-			server.GetLobbyThread().GetTimerManager().AddTimer(
-				server.GetStateTimerId(),
-				GetDealCardsDelaySec(server) * 1000,
-				boost::bind(&ServerGameStateHand::TimerLoop, this, boost::ref(server)));
+			server.SetStateTimerId(
+				server.GetLobbyThread().GetTimerManager().RegisterTimer(
+					GetDealCardsDelaySec(server) * 1000,
+					boost::bind(&ServerGameStateHand::TimerLoop, this, boost::ref(server))));
 		}
 	}
 	else
@@ -741,19 +741,19 @@ ServerGameStateHand::TimerLoop(ServerGame &server)
 			// If the player is computer controlled, let the engine act.
 			if (curPlayer->getMyType() == PLAYER_TYPE_COMPUTER)
 			{
-				server.GetLobbyThread().GetTimerManager().AddTimer(
-					server.GetStateTimerId(),
-					SERVER_COMPUTER_ACTION_DELAY_SEC * 1000,
-					boost::bind(&ServerGameStateHand::TimerComputerAction, this, boost::ref(server)));
+				server.SetStateTimerId(
+					server.GetLobbyThread().GetTimerManager().RegisterTimer(
+						SERVER_COMPUTER_ACTION_DELAY_SEC * 1000,
+						boost::bind(&ServerGameStateHand::TimerComputerAction, this, boost::ref(server))));
 			}
 			// If the player we are waiting for left, continue without him.
 			else if (!server.GetSessionManager().IsPlayerConnected(curPlayer->getMyName()))
 			{
 				PerformPlayerAction(server, curPlayer, PLAYER_ACTION_FOLD, 0);
-				server.GetLobbyThread().GetTimerManager().AddTimer(
-					server.GetStateTimerId(),
-					SERVER_LOOP_DELAY_MSEC,
-					boost::bind(&ServerGameStateHand::TimerLoop, this, boost::ref(server)));
+				server.SetStateTimerId(
+					server.GetLobbyThread().GetTimerManager().RegisterTimer(
+						SERVER_LOOP_DELAY_MSEC,
+						boost::bind(&ServerGameStateHand::TimerLoop, this, boost::ref(server))));
 			}
 			else
 			{
@@ -833,17 +833,17 @@ ServerGameStateHand::TimerLoop(ServerGame &server)
 			else if (playersWithCash.size() == 1)
 			{
 				// View a dialog for a new game - delayed.
-				server.GetLobbyThread().GetTimerManager().AddTimer(
-					server.GetStateTimerId(),
-					SERVER_DELAY_NEXT_GAME_SEC * 1000,
-					boost::bind(&ServerGameStateHand::TimerNextGame, this, boost::ref(server)));
+				server.SetStateTimerId(
+					server.GetLobbyThread().GetTimerManager().RegisterTimer(
+						SERVER_DELAY_NEXT_GAME_SEC * 1000,
+						boost::bind(&ServerGameStateHand::TimerNextGame, this, boost::ref(server))));
 			}
 			else
 			{
-				server.GetLobbyThread().GetTimerManager().AddTimer(
-					server.GetStateTimerId(),
-					SERVER_DELAY_NEXT_HAND_SEC * 1000,
-					boost::bind(&ServerGameStateHand::TimerNextHand, this, boost::ref(server)));
+				server.SetStateTimerId(
+					server.GetLobbyThread().GetTimerManager().RegisterTimer(
+						SERVER_DELAY_NEXT_HAND_SEC * 1000,
+						boost::bind(&ServerGameStateHand::TimerNextHand, this, boost::ref(server))));
 			}
 		}
 	}
@@ -855,10 +855,10 @@ ServerGameStateHand::TimerShowCards(ServerGame &server)
 	Game &curGame = server.GetGame();
 	SendNewRoundCards(server, curGame, curGame.getCurrentHand()->getCurrentRound());
 
-	server.GetLobbyThread().GetTimerManager().AddTimer(
-		server.GetStateTimerId(),
-		GetDealCardsDelaySec(server) * 1000,
-		boost::bind(&ServerGameStateHand::TimerLoop, this, boost::ref(server)));
+	server.SetStateTimerId(
+		server.GetLobbyThread().GetTimerManager().RegisterTimer(
+			GetDealCardsDelaySec(server) * 1000,
+			boost::bind(&ServerGameStateHand::TimerLoop, this, boost::ref(server))));
 }
 
 void

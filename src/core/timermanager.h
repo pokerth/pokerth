@@ -32,13 +32,13 @@ public:
 	TimerManager(boost::shared_ptr<boost::asio::io_service> ioService);
 
 	unsigned RegisterTimer(unsigned timeoutMsec, boost::function<void()> timerHandler, bool autoRestart = false);
-	bool AddTimer(unsigned timerId, unsigned timeoutMsec, boost::function<void()> timerHandler);
 	bool UnregisterTimer(unsigned timerId);
 
 protected:
 
 	struct TimerData
 	{
+		unsigned id;
 		boost::shared_ptr<boost::asio::deadline_timer> timer;
 		boost::function<void()> userHandler;
 		unsigned durationMsec;
