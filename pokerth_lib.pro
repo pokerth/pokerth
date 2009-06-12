@@ -57,7 +57,6 @@ HEADERS += \
 		src/core/crypthelper.h \
 		src/core/avatarmanager.h \
 		src/core/pokerthexception.h \
-		src/core/timermanager.h \
 		src/engine/boardinterface.h \
 		src/engine/enginefactory.h \
 		src/engine/handinterface.h \
@@ -74,7 +73,6 @@ HEADERS += \
 		src/net/genericsocket.h \
 		src/net/netpacket.h \
 		src/net/resolverthread.h \
-		src/net/senderinterface.h \
 		src/net/senderhelper.h \
 		src/net/sendercallback.h \
 		src/net/servercontext.h \
@@ -142,7 +140,6 @@ SOURCES += \
 		src/core/common/crypthelper.cpp \
 		src/core/common/avatarmanager.cpp \
 		src/core/common/pokerthexception.cpp \
-		src/core/common/timermanager.cpp \
 		src/third_party/tinyxml/tinystr.cpp \
 		src/third_party/tinyxml/tinyxml.cpp \
 		src/third_party/tinyxml/tinyxmlerror.cpp \
@@ -176,7 +173,6 @@ SOURCES += \
 		src/net/common/downloaderthread.cpp \
 		src/net/common/netpacket.cpp \
 		src/net/common/resolverthread.cpp \
-		src/net/common/senderinterface.cpp \
 		src/net/common/senderhelper.cpp \
 		src/net/common/sendercallback.cpp \
 		src/net/common/servercontext.cpp \
