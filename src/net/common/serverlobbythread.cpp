@@ -1070,6 +1070,12 @@ ServerLobbyThread::TimerRemoveGame(const boost::system::error_code &ec)
 				InternalRemoveGame(tmpGame); // This will delete the game.
 			i = next;
 		}
+		// Restart timer
+		m_removeGameTimer.expires_from_now(
+			boost::posix_time::milliseconds(SERVER_REMOVE_GAME_INTERVAL_MSEC));
+		m_removeGameTimer.async_wait(
+			boost::bind(
+				&ServerLobbyThread::TimerRemoveGame, shared_from_this(), boost::asio::placeholders::error));
 	}
 }
 
@@ -1092,6 +1098,12 @@ ServerLobbyThread::TimerRemovePlayer(const boost::system::error_code &ec)
 			}
 			m_removePlayerList.clear();
 		}
+		// Restart timer
+		m_removePlayerTimer.expires_from_now(
+			boost::posix_time::milliseconds(SERVER_REMOVE_PLAYER_INTERVAL_MSEC));
+		m_removePlayerTimer.async_wait(
+			boost::bind(
+				&ServerLobbyThread::TimerRemovePlayer, shared_from_this(), boost::asio::placeholders::error));
 	}
 }
 
@@ -1113,6 +1125,12 @@ ServerLobbyThread::TimerUpdateClientAvatarLock(const boost::system::error_code &
 				m_timerAvatarClientAddressMap.erase(i);
 			i = next;
 		}
+		// Restart timer
+		m_avatarLockTimer.expires_from_now(
+			boost::posix_time::milliseconds(SERVER_UPDATE_AVATAR_LOCK_INTERVAL_MSEC));
+		m_avatarLockTimer.async_wait(
+			boost::bind(
+				&ServerLobbyThread::TimerUpdateClientAvatarLock, shared_from_this(), boost::asio::placeholders::error));
 	}
 }
 
@@ -1123,6 +1141,12 @@ ServerLobbyThread::TimerCheckSessionTimeouts(const boost::system::error_code &ec
 	{
 		m_sessionManager.ForEach(boost::bind(&ServerLobbyThread::InternalCheckSessionTimeouts, boost::ref(*this), _1));
 		m_gameSessionManager.ForEach(boost::bind(&ServerLobbyThread::InternalCheckSessionTimeouts, boost::ref(*this), _1));
+		// Restart timer
+		m_sessionTimeoutTimer.expires_from_now(
+			boost::posix_time::milliseconds(SERVER_CHECK_SESSION_TIMEOUTS_INTERVAL_MSEC));
+		m_sessionTimeoutTimer.async_wait(
+			boost::bind(
+				&ServerLobbyThread::TimerCheckSessionTimeouts, shared_from_this(), boost::asio::placeholders::error));
 	}
 }
 
@@ -1138,6 +1162,12 @@ ServerLobbyThread::TimerCleanupAvatarCache(const boost::system::error_code &ec)
 
 			m_avatarManager.RemoveOldAvatarCacheEntries();
 		}
+		// Restart timer
+		m_avatarCleanupTimer.expires_from_now(
+			boost::posix_time::seconds(SERVER_CACHE_CLEANUP_INTERVAL_SEC));
+		m_avatarCleanupTimer.async_wait(
+			boost::bind(
+				&ServerLobbyThread::TimerCleanupAvatarCache, shared_from_this(), boost::asio::placeholders::error));
 	}
 }
 
@@ -1437,6 +1467,12 @@ ServerLobbyThread::TimerSaveStatisticsFile(const boost::system::error_code &ec)
 				m_statDataChanged = false;
 			}
 		}
+		// Restart timer
+		m_saveStatisticsTimer.expires_from_now(
+			boost::posix_time::seconds(SERVER_SAVE_STATISTICS_INTERVAL_SEC));
+		m_saveStatisticsTimer.async_wait(
+			boost::bind(
+				&ServerLobbyThread::TimerSaveStatisticsFile, shared_from_this(), boost::asio::placeholders::error));
 	}
 }
 
