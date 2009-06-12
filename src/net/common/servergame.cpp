@@ -38,10 +38,10 @@
 using namespace std;
 
 
-ServerGame::ServerGame(ServerLobbyThread &lobbyThread, u_int32_t id, const string &name, const string &pwd, const GameData &gameData, unsigned adminPlayerId, GuiInterface &gui, ConfigFile *playerConfig)
+ServerGame::ServerGame(boost::shared_ptr<ServerLobbyThread> lobbyThread, u_int32_t id, const string &name, const string &pwd, const GameData &gameData, unsigned adminPlayerId, GuiInterface &gui, ConfigFile *playerConfig)
 : m_adminPlayerId(adminPlayerId), m_lobbyThread(lobbyThread), m_gui(gui),
   m_gameData(gameData), m_curState(NULL), m_id(id), m_name(name), m_password(pwd), m_playerConfig(playerConfig),
-  m_gameNum(1), m_curPetitionId(1), m_stateTimerId(0)
+  m_gameNum(1), m_curPetitionId(1), m_voteKickTimer(lobbyThread->GetIOService()), m_stateTimer(lobbyThread->GetIOService())
 {
 	LOG_VERBOSE("Game object " << GetId() << " created.");
 
@@ -56,10 +56,11 @@ ServerGame::~ServerGame()
 void
 ServerGame::Init()
 {
-	m_voteKickTimerId = GetLobbyThread().GetTimerManager().RegisterTimer(
-		SERVER_CHECK_VOTE_KICK_INTERVAL_MSEC,
-		boost::bind(&ServerGame::TimerVoteKick, this),
-		true);
+	m_voteKickTimer.expires_from_now(
+		boost::posix_time::milliseconds(SERVER_CHECK_VOTE_KICK_INTERVAL_MSEC));
+	m_voteKickTimer.async_wait(
+		boost::bind(
+			&ServerGame::TimerVoteKick, shared_from_this(), boost::asio::placeholders::error));
 
 	SetState(SERVER_INITIAL_STATE::Instance());
 }
@@ -67,8 +68,9 @@ ServerGame::Init()
 void
 ServerGame::Exit()
 {
-	GetLobbyThread().GetTimerManager().UnregisterTimer(m_voteKickTimerId);
-	GetLobbyThread().GetTimerManager().UnregisterTimer(m_stateTimerId);
+	m_voteKickTimer.cancel();
+	if (m_curState)
+		m_curState->Exit(shared_from_this());
 }
 
 u_int32_t
@@ -87,7 +89,7 @@ void
 ServerGame::AddSession(SessionWrapper session)
 {
 	if (session.sessionData)
-		GetState().HandleNewSession(*this, session);
+		GetState().HandleNewSession(shared_from_this(), session);
 }
 
 void
@@ -103,7 +105,7 @@ void
 ServerGame::HandlePacket(SessionWrapper session, boost::shared_ptr<NetPacket> packet)
 {
 	if (session.sessionData && packet)
-		GetState().ProcessPacket(*this, session, packet);
+		GetState().ProcessPacket(shared_from_this(), session, packet);
 }
 
 GameState
@@ -123,77 +125,85 @@ ServerGame::RemoveAllSessions()
 {
 	// Called from lobby thread.
 	// Clean up ALL sessions which are left.
-	GetSessionManager().ForEach(boost::bind(&ServerLobbyThread::RemoveSessionFromGame, boost::ref(m_lobbyThread), _1));
+	GetSessionManager().ForEach(boost::bind(&ServerLobbyThread::RemoveSessionFromGame, boost::ref(*m_lobbyThread), _1));
 }
 
 void
-ServerGame::TimerVoteKick()
+ServerGame::TimerVoteKick(const boost::system::error_code &ec)
 {
-	// Check whether someone should be kicked, or whether a vote kick should be aborted.
-	// Only one vote kick can be active at a time.
-	if (m_voteKickData)
+	if (!ec)
 	{
-		// Prepare some values.
-		const PlayerIdList playerIds(GetPlayerIdList());
-		int votesRequiredToKick = m_voteKickData->numVotesToKick - m_voteKickData->numVotesInFavourOfKicking;
-		int playersAllowedToVote = 0;
-		// We need to count the number of players which are still allowed to vote.
-		PlayerIdList::const_iterator player_i = playerIds.begin();
-		PlayerIdList::const_iterator player_end = playerIds.end();
-		while (player_i != player_end)
+		// Check whether someone should be kicked, or whether a vote kick should be aborted.
+		// Only one vote kick can be active at a time.
+		if (m_voteKickData)
 		{
-			if (find(m_voteKickData->votedPlayerIds.begin(), m_voteKickData->votedPlayerIds.end(), *player_i) == m_voteKickData->votedPlayerIds.end())
-				playersAllowedToVote++;
-			++player_i;
-		}
-		bool abortPetition = false;
-		bool doKick = false;
-		EndPetitionReason reason;
+			// Prepare some values.
+			const PlayerIdList playerIds(GetPlayerIdList());
+			int votesRequiredToKick = m_voteKickData->numVotesToKick - m_voteKickData->numVotesInFavourOfKicking;
+			int playersAllowedToVote = 0;
+			// We need to count the number of players which are still allowed to vote.
+			PlayerIdList::const_iterator player_i = playerIds.begin();
+			PlayerIdList::const_iterator player_end = playerIds.end();
+			while (player_i != player_end)
+			{
+				if (find(m_voteKickData->votedPlayerIds.begin(), m_voteKickData->votedPlayerIds.end(), *player_i) == m_voteKickData->votedPlayerIds.end())
+					playersAllowedToVote++;
+				++player_i;
+			}
+			bool abortPetition = false;
+			bool doKick = false;
+			EndPetitionReason reason;
 
-		// 1. Enough votes to kick the player.
-		if (m_voteKickData->numVotesInFavourOfKicking >= m_voteKickData->numVotesToKick)
-		{
-			reason = PETITION_END_ENOUGH_VOTES;
-			abortPetition = true;
-			doKick = true;
-		}
-		// 2. Several players left the game, so a kick is no longer possible.
-		else if (votesRequiredToKick > playersAllowedToVote)
-		{
-			reason = PETITION_END_NOT_ENOUGH_PLAYERS;
-			abortPetition = true;
-		}
-		// 3. The kick has become invalid because the player to be kicked left.
-		else if (!IsValidPlayer(m_voteKickData->kickPlayerId))
-		{
-			reason = PETITION_END_PLAYER_LEFT;
-			abortPetition = true;
-		}
-		// 4. A kick request timed out (because not everyone voted).
-		else if (m_voteKickData->voteTimer.elapsed().total_seconds() >= m_voteKickData->timeLimitSec)
-		{
-			reason = PETITION_END_TIMEOUT;
-			abortPetition = true;
-		}
-		if (abortPetition)
-		{
-			boost::shared_ptr<NetPacket> endPetition(new NetPacketEndKickPlayerPetition);
-			NetPacketEndKickPlayerPetition::Data endPetitionData;
-			endPetitionData.petitionId = m_voteKickData->petitionId;
-			endPetitionData.numVotesAgainstKicking = m_voteKickData->numVotesAgainstKicking;
-			endPetitionData.numVotesInFavourOfKicking = m_voteKickData->numVotesInFavourOfKicking;
-			endPetitionData.playerKicked = doKick;
-			endPetitionData.endReason = reason;
+			// 1. Enough votes to kick the player.
+			if (m_voteKickData->numVotesInFavourOfKicking >= m_voteKickData->numVotesToKick)
+			{
+				reason = PETITION_END_ENOUGH_VOTES;
+				abortPetition = true;
+				doKick = true;
+			}
+			// 2. Several players left the game, so a kick is no longer possible.
+			else if (votesRequiredToKick > playersAllowedToVote)
+			{
+				reason = PETITION_END_NOT_ENOUGH_PLAYERS;
+				abortPetition = true;
+			}
+			// 3. The kick has become invalid because the player to be kicked left.
+			else if (!IsValidPlayer(m_voteKickData->kickPlayerId))
+			{
+				reason = PETITION_END_PLAYER_LEFT;
+				abortPetition = true;
+			}
+			// 4. A kick request timed out (because not everyone voted).
+			else if (m_voteKickData->voteTimer.elapsed().total_seconds() >= m_voteKickData->timeLimitSec)
+			{
+				reason = PETITION_END_TIMEOUT;
+				abortPetition = true;
+			}
+			if (abortPetition)
+			{
+				boost::shared_ptr<NetPacket> endPetition(new NetPacketEndKickPlayerPetition);
+				NetPacketEndKickPlayerPetition::Data endPetitionData;
+				endPetitionData.petitionId = m_voteKickData->petitionId;
+				endPetitionData.numVotesAgainstKicking = m_voteKickData->numVotesAgainstKicking;
+				endPetitionData.numVotesInFavourOfKicking = m_voteKickData->numVotesInFavourOfKicking;
+				endPetitionData.playerKicked = doKick;
+				endPetitionData.endReason = reason;
 
-			static_cast<NetPacketEndKickPlayerPetition *>(endPetition.get())->SetData(endPetitionData);
-			SendToAllPlayers(endPetition, SessionData::Game);
+				static_cast<NetPacketEndKickPlayerPetition *>(endPetition.get())->SetData(endPetitionData);
+				SendToAllPlayers(endPetition, SessionData::Game);
 
-			// Perform kick.
-			if (doKick)
-				InternalKickPlayer(m_voteKickData->kickPlayerId);
-			// This petition has ended.
-			m_voteKickData.reset();
+				// Perform kick.
+				if (doKick)
+					InternalKickPlayer(m_voteKickData->kickPlayerId);
+				// This petition has ended.
+				m_voteKickData.reset();
+			}
 		}
+		m_voteKickTimer.expires_from_now(
+			boost::posix_time::milliseconds(SERVER_CHECK_VOTE_KICK_INTERVAL_MSEC));
+		m_voteKickTimer.async_wait(
+			boost::bind(
+				&ServerGame::TimerVoteKick, shared_from_this(), boost::asio::placeholders::error));
 	}
 }
 
@@ -545,7 +555,7 @@ ServerGame::RemovePlayerData(boost::shared_ptr<PlayerData> player, int reason)
 			SetAdminPlayerId(newAdmin->GetUniqueId());
 			newAdmin->SetRights(PLAYER_RIGHTS_ADMIN);
 			// Notify game state on admin change
-			GetState().NotifyGameAdminChanged(*this);
+			GetState().NotifyGameAdminChanged(shared_from_this());
 			// Send "Game Admin Changed" to clients.
 			boost::shared_ptr<NetPacket> adminChanged(new NetPacketGameAdminChanged);
 			NetPacketGameAdminChanged::Data adminChangedData;
@@ -666,7 +676,8 @@ ServerGame::GetSessionManager() const
 ServerLobbyThread &
 ServerGame::GetLobbyThread()
 {
-	return m_lobbyThread;
+	assert(m_lobbyThread);
+	return *m_lobbyThread;
 }
 
 ServerCallback &
@@ -686,21 +697,15 @@ void
 ServerGame::SetState(ServerGameState &newState)
 {
 	if (m_curState)
-		m_curState->Exit(*this);
+		m_curState->Exit(shared_from_this());
 	m_curState = &newState;
-	m_curState->Enter(*this);
+	m_curState->Enter(shared_from_this());
 }
 
-unsigned
-ServerGame::GetStateTimerId() const
+boost::asio::deadline_timer &
+ServerGame::GetStateTimer()
 {
-	return m_stateTimerId;
-}
-
-void
-ServerGame::SetStateTimerId(unsigned newTimerId)
-{
-	m_stateTimerId = newTimerId;
+	return m_stateTimer;
 }
 
 ReceiverHelper &

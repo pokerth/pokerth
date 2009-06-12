@@ -89,9 +89,12 @@ private:
 
 ServerLobbyThread::ServerLobbyThread(GuiInterface &gui, ConfigFile *playerConfig, AvatarManager &avatarManager,
 									 boost::shared_ptr<boost::asio::io_service> ioService)
-: m_ioService(ioService), m_timerManager(ioService), m_curBanId(0), m_gui(gui), m_avatarManager(avatarManager),
+: m_ioService(ioService), m_curBanId(0), m_gui(gui), m_avatarManager(avatarManager),
   m_playerConfig(playerConfig), m_curGameId(0), m_curUniquePlayerId(0), m_curSessionId(INVALID_SESSION + 1),
-  m_statDataChanged(false), m_startTime(boost::posix_time::second_clock::local_time())
+  m_statDataChanged(false), m_removeGameTimer(*ioService), m_removePlayerTimer(*ioService),
+  m_sessionTimeoutTimer(*ioService), m_avatarCleanupTimer(*ioService),
+  m_saveStatisticsTimer(*ioService), m_avatarLockTimer(*ioService),
+  m_startTime(boost::posix_time::second_clock::local_time())
 {
 	m_senderCallback.reset(new ServerSenderCallback(*this));
 	m_sender.reset(new SenderHelper(*m_senderCallback, m_ioService));
@@ -449,12 +452,6 @@ ServerLobbyThread::RemoveComputerPlayer(boost::shared_ptr<PlayerData> player)
 	m_computerPlayers.erase(player->GetUniqueId());
 }
 
-TimerManager &
-ServerLobbyThread::GetTimerManager()
-{
-	return m_timerManager;
-}
-
 AvatarManager &
 ServerLobbyThread::GetAvatarManager()
 {
@@ -481,6 +478,13 @@ ServerLobbyThread::GetSender()
 	return *m_sender;
 }
 
+boost::asio::io_service &
+ServerLobbyThread::GetIOService()
+{
+	assert(m_ioService);
+	return *m_ioService;
+}
+
 u_int32_t
 ServerLobbyThread::GetNextUniquePlayerId()
 {
@@ -505,11 +509,10 @@ ServerLobbyThread::GetNextGameId()
 void
 ServerLobbyThread::Main()
 {
+	// Register all timers.
+	RegisterTimers();
 	try
 	{
-		// Register all timers.
-		RegisterTimers();
-
 		m_work.reset(new boost::asio::io_service::work(*m_ioService));
 		m_ioService->run(); // Will only be aborted asynchronously.
 		m_work.reset();
@@ -525,41 +528,60 @@ ServerLobbyThread::Main()
 		GetCallback().SignalNetServerError(e.GetErrorId(), e.GetOsErrorCode());
 		LOG_ERROR(e.what());
 	}
+	// Cancel pending timer callbacks.
+	CancelTimers();
 }
 
 void
 ServerLobbyThread::RegisterTimers()
 {
 	// Remove closed games.
-	m_timerManager.RegisterTimer(
-		SERVER_REMOVE_GAME_INTERVAL_MSEC,
-		boost::bind(&ServerLobbyThread::TimerRemoveGame, this),
-		true);
+	m_removeGameTimer.expires_from_now(
+		boost::posix_time::milliseconds(SERVER_REMOVE_GAME_INTERVAL_MSEC));
+	m_removeGameTimer.async_wait(
+		boost::bind(
+			&ServerLobbyThread::TimerRemoveGame, shared_from_this(), boost::asio::placeholders::error));
 	// Remove inactive/kicked players.
-	m_timerManager.RegisterTimer(
-		SERVER_REMOVE_PLAYER_INTERVAL_MSEC,
-		boost::bind(&ServerLobbyThread::TimerRemovePlayer, this),
-		true);
+	m_removePlayerTimer.expires_from_now(
+		boost::posix_time::milliseconds(SERVER_REMOVE_PLAYER_INTERVAL_MSEC));
+	m_removePlayerTimer.async_wait(
+		boost::bind(
+			&ServerLobbyThread::TimerRemovePlayer, shared_from_this(), boost::asio::placeholders::error));
 	// Check the timeout of sessions which have not been initialised.
-	m_timerManager.RegisterTimer(
-		SERVER_CHECK_SESSION_TIMEOUTS_INTERVAL_MSEC,
-		boost::bind(&ServerLobbyThread::TimerCheckSessionTimeouts, this),
-		true);
+	m_sessionTimeoutTimer.expires_from_now(
+		boost::posix_time::milliseconds(SERVER_CHECK_SESSION_TIMEOUTS_INTERVAL_MSEC));
+	m_sessionTimeoutTimer.async_wait(
+		boost::bind(
+			&ServerLobbyThread::TimerCheckSessionTimeouts, shared_from_this(), boost::asio::placeholders::error));
 	// Cleanup the avatar cache. Note: Only works if there are no users on the server.
-	m_timerManager.RegisterTimer(
-		SERVER_CACHE_CLEANUP_INTERVAL_SEC * 1000,
-		boost::bind(&ServerLobbyThread::TimerCleanupAvatarCache, this),
-		true);
+	m_avatarCleanupTimer.expires_from_now(
+		boost::posix_time::seconds(SERVER_CACHE_CLEANUP_INTERVAL_SEC));
+	m_avatarCleanupTimer.async_wait(
+		boost::bind(
+			&ServerLobbyThread::TimerCleanupAvatarCache, shared_from_this(), boost::asio::placeholders::error));
 	// Update the statistics file.
-	m_timerManager.RegisterTimer(
-		SERVER_SAVE_STATISTICS_INTERVAL_SEC * 1000,
-		boost::bind(&ServerLobbyThread::TimerSaveStatisticsFile, this),
-		true);
+	m_saveStatisticsTimer.expires_from_now(
+		boost::posix_time::seconds(SERVER_SAVE_STATISTICS_INTERVAL_SEC));
+	m_saveStatisticsTimer.async_wait(
+		boost::bind(
+			&ServerLobbyThread::TimerSaveStatisticsFile, shared_from_this(), boost::asio::placeholders::error));
 	// Update the avatar upload locks.
-	m_timerManager.RegisterTimer(
-		SERVER_UPDATE_AVATAR_LOCK_INTERVAL_MSEC,
-		boost::bind(&ServerLobbyThread::TimerUpdateClientAvatarLock, this),
-		true);
+	m_avatarLockTimer.expires_from_now(
+		boost::posix_time::milliseconds(SERVER_UPDATE_AVATAR_LOCK_INTERVAL_MSEC));
+	m_avatarLockTimer.async_wait(
+		boost::bind(
+			&ServerLobbyThread::TimerUpdateClientAvatarLock, shared_from_this(), boost::asio::placeholders::error));
+}
+
+void
+ServerLobbyThread::CancelTimers()
+{
+	m_removeGameTimer.cancel();
+	m_removePlayerTimer.cancel();
+	m_sessionTimeoutTimer.cancel();
+	m_avatarCleanupTimer.cancel();
+	m_saveStatisticsTimer.cancel();
+	m_avatarLockTimer.cancel();
 }
 
 void
@@ -941,7 +963,7 @@ ServerLobbyThread::HandleNetPacketCreateGame(SessionWrapper session, const NetPa
 
 	boost::shared_ptr<ServerGame> game(
 		new ServerGame(
-			*this,
+			shared_from_this(),
 			GetNextGameId(),
 			createGameData.gameName,
 			createGameData.password,
@@ -1032,75 +1054,90 @@ ServerLobbyThread::RequestPlayerAvatar(SessionWrapper session)
 }
 
 void
-ServerLobbyThread::TimerRemoveGame()
+ServerLobbyThread::TimerRemoveGame(const boost::system::error_code &ec)
 {
-	// Synchronously remove games which have been closed.
-	GameMap::iterator i = m_gameMap.begin();
-	GameMap::iterator end = m_gameMap.end();
-	while (i != end)
+	if (!ec)
 	{
-		GameMap::iterator next = i;
-		++next;
-		boost::shared_ptr<ServerGame> tmpGame = i->second;
-		if (!tmpGame->GetSessionManager().HasSessions())
-			InternalRemoveGame(tmpGame); // This will delete the game.
-		i = next;
+		// Synchronously remove games which have been closed.
+		GameMap::iterator i = m_gameMap.begin();
+		GameMap::iterator end = m_gameMap.end();
+		while (i != end)
+		{
+			GameMap::iterator next = i;
+			++next;
+			boost::shared_ptr<ServerGame> tmpGame = i->second;
+			if (!tmpGame->GetSessionManager().HasSessions())
+				InternalRemoveGame(tmpGame); // This will delete the game.
+			i = next;
+		}
 	}
 }
 
 void
-ServerLobbyThread::TimerRemovePlayer()
+ServerLobbyThread::TimerRemovePlayer(const boost::system::error_code &ec)
 {
-	boost::mutex::scoped_lock lock(m_removePlayerListMutex);
-
-	if (!m_removePlayerList.empty())
+	if (!ec)
 	{
-		RemovePlayerList::iterator i = m_removePlayerList.begin();
-		RemovePlayerList::iterator end = m_removePlayerList.end();
+		boost::mutex::scoped_lock lock(m_removePlayerListMutex);
+
+		if (!m_removePlayerList.empty())
+		{
+			RemovePlayerList::iterator i = m_removePlayerList.begin();
+			RemovePlayerList::iterator end = m_removePlayerList.end();
+
+			while (i != end)
+			{
+				InternalRemovePlayer(i->first, i->second);
+				++i;
+			}
+			m_removePlayerList.clear();
+		}
+	}
+}
+
+void
+ServerLobbyThread::TimerUpdateClientAvatarLock(const boost::system::error_code &ec)
+{
+	if (!ec)
+	{
+		boost::mutex::scoped_lock lock(m_timerAvatarClientAddressMapMutex);
+
+		TimerClientAddressMap::iterator i = m_timerAvatarClientAddressMap.begin();
+		TimerClientAddressMap::iterator end = m_timerAvatarClientAddressMap.end();
 
 		while (i != end)
 		{
-			InternalRemovePlayer(i->first, i->second);
-			++i;
+			TimerClientAddressMap::iterator next = i;
+			++next;
+			if (i->second.elapsed().total_seconds() > SERVER_INIT_AVATAR_CLIENT_LOCK_SEC)
+				m_timerAvatarClientAddressMap.erase(i);
+			i = next;
 		}
-		m_removePlayerList.clear();
 	}
 }
 
 void
-ServerLobbyThread::TimerUpdateClientAvatarLock()
+ServerLobbyThread::TimerCheckSessionTimeouts(const boost::system::error_code &ec)
 {
-	boost::mutex::scoped_lock lock(m_timerAvatarClientAddressMapMutex);
-
-	TimerClientAddressMap::iterator i = m_timerAvatarClientAddressMap.begin();
-	TimerClientAddressMap::iterator end = m_timerAvatarClientAddressMap.end();
-
-	while (i != end)
+	if (!ec)
 	{
-		TimerClientAddressMap::iterator next = i;
-		++next;
-		if (i->second.elapsed().total_seconds() > SERVER_INIT_AVATAR_CLIENT_LOCK_SEC)
-			m_timerAvatarClientAddressMap.erase(i);
-		i = next;
+		m_sessionManager.ForEach(boost::bind(&ServerLobbyThread::InternalCheckSessionTimeouts, boost::ref(*this), _1));
+		m_gameSessionManager.ForEach(boost::bind(&ServerLobbyThread::InternalCheckSessionTimeouts, boost::ref(*this), _1));
 	}
 }
 
 void
-ServerLobbyThread::TimerCheckSessionTimeouts()
+ServerLobbyThread::TimerCleanupAvatarCache(const boost::system::error_code &ec)
 {
-	m_sessionManager.ForEach(boost::bind(&ServerLobbyThread::InternalCheckSessionTimeouts, boost::ref(*this), _1));
-	m_gameSessionManager.ForEach(boost::bind(&ServerLobbyThread::InternalCheckSessionTimeouts, boost::ref(*this), _1));
-}
-
-void
-ServerLobbyThread::TimerCleanupAvatarCache()
-{
-	// Only act if there are no sessions.
-	if (!m_sessionManager.HasSessions() && !m_gameSessionManager.HasSessions())
+	if (!ec)
 	{
-		LOG_VERBOSE("Cleaning up avatar cache.");
+		// Only act if there are no sessions.
+		if (!m_sessionManager.HasSessions() && !m_gameSessionManager.HasSessions())
+		{
+			LOG_VERBOSE("Cleaning up avatar cache.");
 
-		m_avatarManager.RemoveOldAvatarCacheEntries();
+			m_avatarManager.RemoveOldAvatarCacheEntries();
+		}
 	}
 }
 
@@ -1380,22 +1417,25 @@ ServerLobbyThread::ReadStatisticsFile()
 }
 
 void
-ServerLobbyThread::TimerSaveStatisticsFile()
+ServerLobbyThread::TimerSaveStatisticsFile(const boost::system::error_code &ec)
 {
-	LOG_VERBOSE("Saving statistics.");
-	boost::mutex::scoped_lock lock(m_statMutex);
-	if (m_statDataChanged)
+	if (!ec)
 	{
-		ofstream o(m_statisticsFileName.c_str(), ios_base::out | ios_base::trunc);
-		if (!o.fail())
+		LOG_VERBOSE("Saving statistics.");
+		boost::mutex::scoped_lock lock(m_statMutex);
+		if (m_statDataChanged)
 		{
-			o << SERVER_STATISTICS_STR_TOTAL_PLAYERS " " << m_statData.totalPlayersEverLoggedIn << endl;
-			o << SERVER_STATISTICS_STR_TOTAL_GAMES " " << m_statData.totalGamesEverCreated << endl;
-			o << SERVER_STATISTICS_STR_MAX_PLAYERS " " << m_statData.maxPlayersLoggedIn << endl;
-			o << SERVER_STATISTICS_STR_MAX_GAMES " " << m_statData.maxGamesOpen << endl;
-			o << SERVER_STATISTICS_STR_CUR_PLAYERS " " << m_statData.numberOfPlayersOnServer << endl;
-			o << SERVER_STATISTICS_STR_CUR_GAMES " " << m_statData.numberOfGamesOpen << endl;
-			m_statDataChanged = false;
+			ofstream o(m_statisticsFileName.c_str(), ios_base::out | ios_base::trunc);
+			if (!o.fail())
+			{
+				o << SERVER_STATISTICS_STR_TOTAL_PLAYERS " " << m_statData.totalPlayersEverLoggedIn << endl;
+				o << SERVER_STATISTICS_STR_TOTAL_GAMES " " << m_statData.totalGamesEverCreated << endl;
+				o << SERVER_STATISTICS_STR_MAX_PLAYERS " " << m_statData.maxPlayersLoggedIn << endl;
+				o << SERVER_STATISTICS_STR_MAX_GAMES " " << m_statData.maxGamesOpen << endl;
+				o << SERVER_STATISTICS_STR_CUR_PLAYERS " " << m_statData.numberOfPlayersOnServer << endl;
+				o << SERVER_STATISTICS_STR_CUR_GAMES " " << m_statData.numberOfGamesOpen << endl;
+				m_statDataChanged = false;
+			}
 		}
 	}
 }

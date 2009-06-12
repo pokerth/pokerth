@@ -24,8 +24,8 @@
 #include <boost/asio.hpp>
 #include <deque>
 #include <boost/regex.hpp>
+#include <boost/enable_shared_from_this.hpp>
 
-#include <core/timermanager.h>
 #include <net/sessionmanager.h>
 #include <net/netpacket.h>
 #include <gui/guiinterface.h>
@@ -45,7 +45,7 @@ class AvatarManager;
 struct GameData;
 class Game;
 
-class ServerLobbyThread : public Thread
+class ServerLobbyThread : public Thread, public boost::enable_shared_from_this<ServerLobbyThread>
 {
 public:
 	ServerLobbyThread(GuiInterface &gui, ConfigFile *playerConfig, AvatarManager &avatarManager,
@@ -89,13 +89,13 @@ public:
 	u_int32_t GetNextGameId();
 	ServerCallback &GetCallback();
 
-	TimerManager &GetTimerManager();
 	AvatarManager &GetAvatarManager();
 
 	ServerStats GetStats() const;
 	boost::posix_time::ptime GetStartTime() const;
 
 	SenderHelper &GetSender();
+	boost::asio::io_service &GetIOService();
 
 protected:
 
@@ -113,6 +113,7 @@ protected:
 	// Main function of the thread.
 	virtual void Main();
 	void RegisterTimers();
+	void CancelTimers();
 
 	void HandleRead(SessionId sessionId, const boost::system::error_code &error, size_t bytesRead);
 	void HandlePacket(SessionWrapper session, boost::shared_ptr<NetPacket> packet);
@@ -127,11 +128,11 @@ protected:
 	void HandleNetPacketJoinGame(SessionWrapper session, const NetPacketJoinGame &tmpPacket);
 	void EstablishSession(SessionWrapper session);
 	void RequestPlayerAvatar(SessionWrapper session);
-	void TimerRemoveGame();
-	void TimerRemovePlayer();
-	void TimerUpdateClientAvatarLock();
-	void TimerCheckSessionTimeouts();
-	void TimerCleanupAvatarCache();
+	void TimerRemoveGame(const boost::system::error_code &ec);
+	void TimerRemovePlayer(const boost::system::error_code &ec);
+	void TimerUpdateClientAvatarLock(const boost::system::error_code &ec);
+	void TimerCheckSessionTimeouts(const boost::system::error_code &ec);
+	void TimerCleanupAvatarCache(const boost::system::error_code &ec);
 
 	boost::shared_ptr<ServerGame> InternalGetGameFromId(unsigned gameId);
 	void InternalAddGame(boost::shared_ptr<ServerGame> game);
@@ -153,7 +154,7 @@ protected:
 	void BroadcastStatisticsUpdate(const ServerStats &stats);
 
 	void ReadStatisticsFile();
-	void TimerSaveStatisticsFile();
+	void TimerSaveStatisticsFile(const boost::system::error_code &ec);
 
 	ReceiverHelper &GetReceiver();
 
@@ -180,7 +181,6 @@ private:
 
 	SessionManager m_sessionManager;
 	SessionManager m_gameSessionManager;
-	TimerManager m_timerManager;
 
 	TimerClientAddressMap m_timerAvatarClientAddressMap;
 	mutable boost::mutex m_timerAvatarClientAddressMapMutex;
@@ -216,6 +216,13 @@ private:
 	ServerStats m_statData;
 	bool m_statDataChanged;
 	mutable boost::mutex m_statMutex;
+
+	boost::asio::deadline_timer m_removeGameTimer;
+	boost::asio::deadline_timer m_removePlayerTimer;
+	boost::asio::deadline_timer m_sessionTimeoutTimer;
+	boost::asio::deadline_timer m_avatarCleanupTimer;
+	boost::asio::deadline_timer m_saveStatisticsTimer;
+	boost::asio::deadline_timer m_avatarLockTimer;
 
 	const boost::posix_time::ptime m_startTime;
 };

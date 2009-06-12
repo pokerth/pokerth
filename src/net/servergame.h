@@ -21,6 +21,7 @@
 #ifndef _SERVERGAME_H_
 #define _SERVERGAME_H_
 
+#include <boost/enable_shared_from_this.hpp>
 #include <third_party/boost/timers.hpp>
 #include <deque>
 
@@ -36,11 +37,11 @@ class ConfigFile;
 struct GameData;
 class Game;
 
-class ServerGame
+class ServerGame : public boost::enable_shared_from_this<ServerGame>
 {
 public:
 	ServerGame(
-		ServerLobbyThread &lobbyThread, u_int32_t id, const std::string &name, const std::string &pwd, const GameData &gameData, unsigned adminPlayerId, GuiInterface &gui, ConfigFile *playerConfig);
+		boost::shared_ptr<ServerLobbyThread> lobbyThread, u_int32_t id, const std::string &name, const std::string &pwd, const GameData &gameData, unsigned adminPlayerId, GuiInterface &gui, ConfigFile *playerConfig);
 	virtual ~ServerGame();
 
 	void Init();
@@ -81,7 +82,7 @@ protected:
 
 	typedef std::deque<SessionWrapper> SessionQueue;
 
-	void TimerVoteKick();
+	void TimerVoteKick(const boost::system::error_code &ec);
 
 	void InternalStartGame();
 	void ResetGame();
@@ -115,8 +116,7 @@ protected:
 	ServerGameState &GetState();
 	void SetState(ServerGameState &newState);
 
-	unsigned GetStateTimerId() const;
-	void SetStateTimerId(unsigned newTimerId);
+	boost::asio::deadline_timer &GetStateTimer();
 
 	ReceiverHelper &GetReceiver();
 
@@ -141,7 +141,7 @@ private:
 
 	boost::shared_ptr<VoteKickData> m_voteKickData;
 
-	ServerLobbyThread &m_lobbyThread;
+	boost::shared_ptr<ServerLobbyThread> m_lobbyThread;
 	boost::shared_ptr<ReceiverHelper> m_receiver;
 	GuiInterface &m_gui;
 
@@ -156,8 +156,8 @@ private:
 	ConfigFile		   *m_playerConfig;
 	unsigned			m_gameNum;
 	unsigned			m_curPetitionId;
-	unsigned			m_voteKickTimerId;
-	unsigned			m_stateTimerId;
+	boost::asio::deadline_timer m_voteKickTimer;
+	boost::asio::deadline_timer m_stateTimer;
 
 friend class ServerLobbyThread;
 friend class AbstractServerGameStateReceiving;
