@@ -54,8 +54,8 @@ public slots:
 	void joinGame();
 	void joinAnyGame();
 
-	void gameSelected(QTreeWidgetItem*, QTreeWidgetItem*);
-	void updateGameItem(QTreeWidgetItem *item, unsigned gameId);
+	void gameSelected(const QModelIndex &, const QModelIndex &);
+	void updateGameItem(QList <QStandardItem*>, unsigned gameId);
 
 	void addGame(unsigned gameId);
 	void updateGameMode(unsigned gameId, int newMode);
@@ -122,7 +122,9 @@ private:
 	int keyUpCounter;
 	QMessageBox *waitStartGameMsgBox;
 	QTimer *waitStartGameMsgBoxTimer;
-	
+	QStandardItemModel *myGameListModel;
+	QItemSelectionModel *myGameListSelectionModel;
+	QSortFilterProxyModel *myGameListSortFilterProxyModel;
 
  protected:
          bool eventFilter(QObject *obj, QEvent *event);

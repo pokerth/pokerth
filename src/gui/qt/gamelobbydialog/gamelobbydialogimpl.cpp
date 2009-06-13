@@ -44,8 +44,25 @@ gameLobbyDialogImpl::gameLobbyDialogImpl(startWindowImpl *parent, ConfigFile *c)
 	waitStartGameMsgBoxTimer = new QTimer(this);
 	waitStartGameMsgBoxTimer->setSingleShot(TRUE);
 
-	treeWidget_GameList->setStyleSheet("QTreeWidget {background-color: white; background-image: url(\""+myAppDataPath +"gfx/gui/misc/background_gamelist.png\"); background-attachment: fixed; background-position: top center ; background-repeat: no-repeat;}");
-	treeWidget_GameList->setAutoFillBackground(TRUE);
+	myGameListModel = new QStandardItemModel(this);
+	myGameListSortFilterProxyModel = new QSortFilterProxyModel(this);
+	myGameListSortFilterProxyModel->setSourceModel(myGameListModel);
+	myGameListSortFilterProxyModel->setDynamicSortFilter(TRUE);
+	treeView_GameList->setModel(myGameListSortFilterProxyModel);
+	
+	myGameListSelectionModel = treeView_GameList->selectionModel();
+	
+	QStringList headerList;
+	headerList << tr("Game") << tr("Players") << tr("State") << tr("Private"); 
+	myGameListModel->setHorizontalHeaderLabels(headerList);
+	
+	treeView_GameList->setColumnWidth(0,185);
+	treeView_GameList->setColumnWidth(1,65);
+	treeView_GameList->setColumnWidth(2,65);
+	treeView_GameList->setColumnWidth(3,65);
+	
+	treeView_GameList->setStyleSheet("QTreeView {background-color: white; background-image: url(\""+myAppDataPath +"gfx/gui/misc/background_gamelist.png\"); background-attachment: fixed; background-position: top center ; background-repeat: no-repeat;}");
+	treeView_GameList->setAutoFillBackground(TRUE);
 
 	connect( pushButton_CreateGame, SIGNAL( clicked() ), this, SLOT( createGame() ) );
 	connect( pushButton_JoinGame, SIGNAL( clicked() ), this, SLOT( joinGame() ) );
@@ -53,9 +70,9 @@ gameLobbyDialogImpl::gameLobbyDialogImpl(startWindowImpl *parent, ConfigFile *c)
 	connect( pushButton_StartGame, SIGNAL( clicked() ), this, SLOT( startGame() ) );
 	connect( pushButton_Kick, SIGNAL( clicked() ), this, SLOT( kickPlayer() ) );
 	connect( pushButton_Leave, SIGNAL( clicked() ), this, SLOT( leaveGame() ) );
-	connect( treeWidget_GameList, SIGNAL( currentItemChanged ( QTreeWidgetItem*, QTreeWidgetItem*) ), this, SLOT( gameSelected(QTreeWidgetItem*, QTreeWidgetItem*) ) );
-	connect( treeWidget_GameList, SIGNAL( itemDoubleClicked (QTreeWidgetItem*, int) ), this, SLOT( joinGame() ) );
-	connect( treeWidget_GameList->header(), SIGNAL( sortIndicatorChanged ( int , Qt::SortOrder )), this, SLOT( writeDialogSettings() ) );
+	connect( myGameListSelectionModel, SIGNAL( currentChanged (const QModelIndex &, const QModelIndex &) ), this, SLOT( gameSelected(const QModelIndex &, const QModelIndex &) ) );
+	connect( treeView_GameList, SIGNAL( doubleClicked (const QModelIndex &) ), this, SLOT( joinGame() ) );
+	connect( treeView_GameList->header(), SIGNAL( sortIndicatorChanged ( int , Qt::SortOrder )), this, SLOT( writeDialogSettings() ) );
 	connect( treeWidget_connectedPlayers, SIGNAL( currentItemChanged ( QTreeWidgetItem*, QTreeWidgetItem*) ), this, SLOT( playerSelected(QTreeWidgetItem*, QTreeWidgetItem*) ) );
 	connect( lineEdit_ChatInput, SIGNAL( returnPressed () ), myChat, SLOT( sendMessage() ) );
 	connect( lineEdit_ChatInput, SIGNAL( textChanged (QString) ), myChat, SLOT( checkInputLength(QString) ) );
@@ -161,10 +178,10 @@ void gameLobbyDialogImpl::createGame()
 void gameLobbyDialogImpl::joinGame()
 {
 	assert(mySession);
-	QTreeWidgetItem *item = treeWidget_GameList->currentItem();
-	if (!inGame && item)
+	QItemSelectionModel *selection = treeView_GameList->selectionModel();
+	if (!inGame && selection->hasSelection())
 	{
-		unsigned gameId = item->data(0, Qt::UserRole).toUInt();
+		unsigned gameId = selection->selectedRows().first().data(Qt::UserRole).toUInt();
 		GameInfo info(mySession->getClientGameInfo(gameId));
 		bool ok = true;
 		QString password;
@@ -183,22 +200,30 @@ void gameLobbyDialogImpl::joinAnyGame() {
 
 	bool found = FALSE;
 
-	QTreeWidgetItemIterator it(treeWidget_GameList);
-	while (*it) {
+	int it = 0; 
+	int gameToJoinId = 0;
+	int mostConnectedPlayers = 0;
+	
+	while (myGameListModel->item(it)) {
 
-		bool ok;
-		int players = (*it)->data(1, Qt::DisplayRole).toString().section("/",0,0).toInt(&ok,10);
-		int maxPlayers = (*it)->data(1, Qt::DisplayRole).toString().section("/",1,1).toInt(&ok,10);
-		if ((*it)->data(2, Qt::DisplayRole) == tr("open") && (*it)->data(3, Qt::DisplayRole) == "" && players < maxPlayers)
+		int players = myGameListModel->item(it, 1)->data(Qt::DisplayRole).toString().section("/",0,0).toInt();
+		int maxPlayers = myGameListModel->item(it, 1)->data(Qt::DisplayRole).toString().section("/",1,1).toInt();
+		if (myGameListModel->item(it, 2)->data(Qt::DisplayRole) == tr("open") && myGameListModel->item(it, 3)->data(Qt::DisplayRole) == "" && players < maxPlayers)
 		{
-			treeWidget_GameList->setCurrentItem((*it));
+			if(players > mostConnectedPlayers) {
+				mostConnectedPlayers = players;
+				gameToJoinId = it;
+				qDebug() << mostConnectedPlayers << gameToJoinId;
+			}
 			found = TRUE;
-			break;
 		}
-		++it;
+		it++;
 	}
 
-	if(found) { joinGame(); }
+	if(found) { 	
+		treeView_GameList->setCurrentIndex(myGameListSortFilterProxyModel->mapFromSource(myGameListModel->item(gameToJoinId)->index()));	
+		joinGame(); 
+	}
 	
 }
 
@@ -206,7 +231,7 @@ void gameLobbyDialogImpl::refresh(int actionID) {
 
 	if (actionID == MSG_NET_GAME_CLIENT_START)
 	{
-		treeWidget_GameList->clear();
+		myGameListModel->clear();
 		this->accept();
 		myW->show();
 	}
@@ -219,20 +244,20 @@ void gameLobbyDialogImpl::removedFromGame(int /*reason*/)
 	leftGameDialogUpdate();
 }
 
-void gameLobbyDialogImpl::gameSelected(QTreeWidgetItem* item, QTreeWidgetItem*)
+void gameLobbyDialogImpl::gameSelected(const QModelIndex &index, const QModelIndex &)
 {
 
-	if (!inGame && item)
+	if (!inGame && index.isValid())
 	{
 		pushButton_JoinGame->setEnabled(true);
 
-		currentGameName = item->text(0);
+		currentGameName = myGameListModel->item(myGameListSortFilterProxyModel->mapToSource(index).row(), 0)->text();
 
 		groupBox_GameInfo->setEnabled(true);
 		groupBox_GameInfo->setTitle(tr("Game Info") + " - " + currentGameName);
 
 		assert(mySession);
-		GameInfo info(mySession->getClientGameInfo(item->data(0, Qt::UserRole).toUInt()));
+		GameInfo info(mySession->getClientGameInfo(myGameListModel->item(myGameListSortFilterProxyModel->mapToSource(index).row(), 0)->data(Qt::UserRole).toUInt()));
 
 		hideShowGameDescription(TRUE);		
 		label_SmallBlind->setText(QString::number(info.data.firstSmallBlind));
@@ -256,52 +281,62 @@ void gameLobbyDialogImpl::gameSelected(QTreeWidgetItem* item, QTreeWidgetItem*)
 	}
 }
 
-void gameLobbyDialogImpl::updateGameItem(QTreeWidgetItem *item, unsigned gameId)
+void gameLobbyDialogImpl::updateGameItem(QList <QStandardItem*> itemList, unsigned gameId)
 {
 	assert(mySession);
 	GameInfo info(mySession->getClientGameInfo(gameId));
 
-	item->setData(0, Qt::UserRole, gameId);
-	item->setData(0, Qt::DisplayRole, QString::fromUtf8(info.name.c_str()));
+	itemList.at(0)->setData(gameId, Qt::UserRole);
+	itemList.at(0)->setData(QString::fromUtf8(info.name.c_str()), Qt::DisplayRole);
 
 	QString playerStr;
 	playerStr.sprintf("%u/%u", (unsigned)info.players.size(), (unsigned)info.data.maxNumberOfPlayers);
-	item->setData(1, Qt::DisplayRole, playerStr);
+	itemList.at(1)->setData(playerStr, Qt::DisplayRole);
 
 	if (info.mode == GAME_MODE_STARTED)
-		item->setData(2, Qt::DisplayRole, tr("running"));
+		itemList.at(2)->setData(tr("running"), Qt::DisplayRole);
 	else 
-		item->setData(2, Qt::DisplayRole, tr("open"));
+		itemList.at(2)->setData(tr("open"), Qt::DisplayRole);
 
 	if (info.isPasswordProtected) {
-		item->setIcon(3, QIcon(myAppDataPath+"gfx/gui/misc/lock.png"));
-		item->setData(3, Qt::DisplayRole, " ");
+		itemList.at(3)->setIcon(QIcon(myAppDataPath+"gfx/gui/misc/lock.png"));
+		itemList.at(3)->setData(" ", Qt::DisplayRole);
 	}
 	else {
-		item->setData(3, Qt::DisplayRole, "");
+		itemList.at(3)->setData("", Qt::DisplayRole);
 	}
 
+//	treeView_GameList->sortByColumn(myConfig->readConfigInt("DlgGameLobbyGameListSortingSection"), (Qt::SortOrder)myConfig->readConfigInt("DlgGameLobbyGameListSortingOrder") );
 	refreshGameStats();
 }
 
 void gameLobbyDialogImpl::addGame(unsigned gameId)
 {
-	QTreeWidgetItem *item = new QTreeWidgetItem(treeWidget_GameList, 0);
-
-	updateGameItem(item, gameId);
+	QList <QStandardItem*> itemList;
+	QStandardItem *item1 = new QStandardItem();
+	QStandardItem *item2 = new QStandardItem();
+	QStandardItem *item3 = new QStandardItem();
+	QStandardItem *item4 = new QStandardItem();
+	itemList << item1 << item2 << item3 << item4;
+	
+	myGameListModel->appendRow(itemList);
+	
+	updateGameItem(itemList, gameId);
 
 }
 
 void gameLobbyDialogImpl::updateGameMode(unsigned gameId, int /*newMode*/)
 {
-	QTreeWidgetItemIterator it(treeWidget_GameList);
-	while (*it) {
-		if ((*it)->data(0, Qt::UserRole) == gameId)
+	int it = 0;
+	while (myGameListModel->item(it)) {
+		if (myGameListModel->item(it, 0)->data(Qt::UserRole) == gameId)
 		{
-			updateGameItem(*it, gameId);
+			QList <QStandardItem*> itemList;
+			itemList << myGameListModel->item(it, 0) << myGameListModel->item(it, 1) << myGameListModel->item(it, 2) << myGameListModel->item(it, 3);
+			updateGameItem(itemList, gameId);
 			break;
 		}
-		++it;
+		it++;
 	}
 }
 
@@ -312,14 +347,14 @@ void gameLobbyDialogImpl::updateGameAdmin(unsigned /*gameId*/, unsigned adminPla
 
 void gameLobbyDialogImpl::removeGame(unsigned gameId)
 {
-	QTreeWidgetItemIterator it(treeWidget_GameList);
-	while (*it) {
-		if ((*it)->data(0, Qt::UserRole) == gameId)
+	int it = 0;
+	while (myGameListModel->item(it)) {
+		if (myGameListModel->item(it, 0)->data(Qt::UserRole) == gameId)
 		{
-			treeWidget_GameList->takeTopLevelItem(treeWidget_GameList->indexOfTopLevelItem(*it));
+			myGameListModel->removeRow(it);
 			break;
 		}
-		++it;
+		it++;
 	}
 	
 	refreshGameStats();
@@ -330,10 +365,10 @@ void gameLobbyDialogImpl::refreshGameStats() {
 	int runningGamesCounter = 0;
 	int openGamesCounter = 0;
 
-	QTreeWidgetItemIterator it(treeWidget_GameList);
-	while (*it) {
-		if ((*it)->data(2, Qt::DisplayRole) ==  tr("running")) { runningGamesCounter++; }
-		if ((*it)->data(2, Qt::DisplayRole) ==  tr("open")) { openGamesCounter++; }
+	int it = 0;
+	while (myGameListModel->item(it)) {
+		if (myGameListModel->item(it, 2)->data(Qt::DisplayRole) ==  tr("running")) { runningGamesCounter++; }
+		if (myGameListModel->item(it, 2)->data(Qt::DisplayRole) ==  tr("open")) { openGamesCounter++; }
 		++it;
 	}
 
@@ -342,7 +377,7 @@ void gameLobbyDialogImpl::refreshGameStats() {
 
 	//refresh joinAnyGameButton state
 	joinAnyGameButtonRefresh();
-
+	
 }
 
 void gameLobbyDialogImpl::refreshPlayerStats() {
@@ -356,26 +391,29 @@ void gameLobbyDialogImpl::gameAddPlayer(unsigned gameId, unsigned playerId)
 {
 	if (!inGame)
 	{
-		QTreeWidgetItem *item = treeWidget_GameList->currentItem();
-		if (item && item->data(0, Qt::UserRole) == gameId)
-		{
-			assert(mySession);
-			GameInfo info(mySession->getClientGameInfo(gameId));
-			PlayerRights tmpRights = info.adminPlayerId == playerId ? PLAYER_RIGHTS_ADMIN : PLAYER_RIGHTS_NORMAL;
-			PlayerInfo playerInfo(mySession->getClientPlayerInfo(playerId));
-
-			addConnectedPlayer(playerId, QString::fromUtf8(playerInfo.playerName.c_str()), tmpRights);
+		QItemSelectionModel *selection = treeView_GameList->selectionModel();
+		if (selection->hasSelection()) {
+			if(selection->selectedRows().at(0).data(Qt::UserRole).toUInt() == gameId) {
+				assert(mySession);
+				GameInfo info(mySession->getClientGameInfo(gameId));
+				PlayerRights tmpRights = info.adminPlayerId == playerId ? PLAYER_RIGHTS_ADMIN : PLAYER_RIGHTS_NORMAL;
+				PlayerInfo playerInfo(mySession->getClientPlayerInfo(playerId));
+	
+				addConnectedPlayer(playerId, QString::fromUtf8(playerInfo.playerName.c_str()), tmpRights);
+			}
 		}
 	}
 
-	QTreeWidgetItemIterator it(treeWidget_GameList);
-	while (*it) {
-		if ((*it)->data(0, Qt::UserRole) == gameId)
-		{
-			updateGameItem(*it, gameId);
+	int it = 0;
+	while (myGameListModel->item(it)) {
+		if (myGameListModel->item(it, 0)->data(Qt::UserRole) == gameId) {
+			QList <QStandardItem*> itemList;
+			itemList << myGameListModel->item(it, 0) << myGameListModel->item(it, 1) << myGameListModel->item(it, 2) << myGameListModel->item(it, 3);
+			
+			updateGameItem(itemList, gameId);
 			break;
 		}
-		++it;
+		it++;
 	}
 }
 
@@ -383,20 +421,23 @@ void gameLobbyDialogImpl::gameRemovePlayer(unsigned gameId, unsigned playerId)
 {
 	if (!inGame)
 	{
-		QTreeWidgetItem *item = treeWidget_GameList->currentItem();
-		if (item && item->data(0, Qt::UserRole) == gameId)
-		{
-			assert(mySession);
-			PlayerInfo info(mySession->getClientPlayerInfo(playerId));
-			removePlayer(playerId, QString::fromUtf8(info.playerName.c_str()));
+		QItemSelectionModel *selection = treeView_GameList->selectionModel();
+		if (selection->hasSelection()) {
+			if(selection->selectedRows().at(0).data(Qt::UserRole).toUInt() == gameId) {
+				assert(mySession);
+				PlayerInfo info(mySession->getClientPlayerInfo(playerId));
+				removePlayer(playerId, QString::fromUtf8(info.playerName.c_str()));
+			}
 		}
 	}
 
-	QTreeWidgetItemIterator it(treeWidget_GameList);
-	while (*it) {
-		if ((*it)->data(0, Qt::UserRole) == gameId)
-		{
-			updateGameItem(*it, gameId);
+	int it = 0;
+	while (myGameListModel->item(it)) {
+		if (myGameListModel->item(it, 0)->data(Qt::UserRole) == gameId) {
+			QList <QStandardItem*> itemList;
+			itemList << myGameListModel->item(it, 0) << myGameListModel->item(it, 1) << myGameListModel->item(it, 2) << myGameListModel->item(it, 3);
+			
+			updateGameItem(itemList, gameId);
 			break;
 		}
 		++it;
@@ -423,8 +464,8 @@ void gameLobbyDialogImpl::clearDialog()
 	label_blindsList->setText("");
 	label_TimeoutForPlayerAction->setText("");
 
-	treeWidget_GameList->clear();
-	treeWidget_GameList->show();
+	myGameListModel->clear();
+	treeView_GameList->show();
 	treeWidget_connectedPlayers->clear();
 	
 	pushButton_Leave->hide();
@@ -438,10 +479,13 @@ void gameLobbyDialogImpl::clearDialog()
 	pushButton_joinAnyGame->show();
 	pushButton_joinAnyGame->setEnabled(false);
 
-	treeWidget_GameList->setColumnWidth(0,195);
-	treeWidget_GameList->setColumnWidth(1,70);
-	treeWidget_GameList->setColumnWidth(2,70);
-	treeWidget_GameList->setColumnWidth(3,60);
+	QStringList headerList;
+	headerList << tr("Game") << tr("Players") << tr("State") << tr("Private"); 
+	myGameListModel->setHorizontalHeaderLabels(headerList);
+	treeView_GameList->setColumnWidth(0,185);
+	treeView_GameList->setColumnWidth(1,65);
+	treeView_GameList->setColumnWidth(2,65);
+	treeView_GameList->setColumnWidth(3,65);
 
 	pushButton_CreateGame->clearFocus();
 	lineEdit_ChatInput->setFocus();
@@ -597,7 +641,7 @@ void gameLobbyDialogImpl::joinedGameDialogUpdate() {
 void gameLobbyDialogImpl::leftGameDialogUpdate() {
 
 	// un-select current game.
-	treeWidget_GameList->clearSelection();
+	treeView_GameList->clearSelection();
 
 	groupBox_GameInfo->setTitle(tr("Game Info"));
 	groupBox_GameInfo->setEnabled(false);
@@ -763,12 +807,14 @@ void gameLobbyDialogImpl::joinAnyGameButtonRefresh() {
 
 	int openNonPrivateNonFullGamesCounter = 0;
 
-	QTreeWidgetItemIterator it(treeWidget_GameList);
-	while (*it) {
-		bool ok;
-		int players = (*it)->data(1, Qt::DisplayRole).toString().section("/",0,0).toInt(&ok,10);
-		int maxPlayers = (*it)->data(1, Qt::DisplayRole).toString().section("/",1,1).toInt(&ok,10);
-		if ((*it)->data(2, Qt::DisplayRole) == tr("open") && (*it)->data(3, Qt::DisplayRole) == "" && players < maxPlayers) { openNonPrivateNonFullGamesCounter++; }
+	int it = 0;
+	while (myGameListModel->item(it)) {
+
+		int players = myGameListModel->item(it, 1)->data(Qt::DisplayRole).toString().section("/",0,0).toInt();
+		int maxPlayers = myGameListModel->item(it, 1)->data(Qt::DisplayRole).toString().section("/",1,1).toInt();
+		if (myGameListModel->item(it, 2)->data(Qt::DisplayRole) == tr("open") && myGameListModel->item(it, 3)->data(Qt::DisplayRole) == "" && players < maxPlayers) { 
+			openNonPrivateNonFullGamesCounter++; 
+		}
 		++it;
 	}
 
@@ -792,14 +838,15 @@ void gameLobbyDialogImpl::closeEvent(QCloseEvent *event)
 
 void gameLobbyDialogImpl::writeDialogSettings()
 {
-	QHeaderView *header = treeWidget_GameList->header();
-	myConfig->writeConfigInt("DlgGameLobbyGameListSortingSection", header->sortIndicatorSection());
-     	myConfig->writeConfigInt("DlgGameLobbyGameListSortingOrder", header->sortIndicatorOrder());
-     	myConfig->writeBuffer();
+	myConfig->writeConfigInt("DlgGameLobbyGameListSortingSection", myGameListSortFilterProxyModel->sortColumn());
+	myConfig->writeConfigInt("DlgGameLobbyGameListSortingOrder", myGameListSortFilterProxyModel->sortOrder());
+	myConfig->writeBuffer();
 }
 
 void gameLobbyDialogImpl::readDialogSettings()
 {
-	treeWidget_GameList->sortItems (myConfig->readConfigInt("DlgGameLobbyGameListSortingSection"), (Qt::SortOrder)myConfig->readConfigInt("DlgGameLobbyGameListSortingOrder") );
-
+//	qDebug() << myConfig->readConfigInt("DlgGameLobbyGameListSortingSection") << (Qt::SortOrder)myConfig->readConfigInt("DlgGameLobbyGameListSortingOrder");
+//	myGameListSortFilterProxyModel->sort(myConfig->readConfigInt("DlgGameLobbyGameListSortingSection"), (Qt::SortOrder)myConfig->readConfigInt("DlgGameLobbyGameListSortingOrder") );
+	treeView_GameList->sortByColumn(myConfig->readConfigInt("DlgGameLobbyGameListSortingSection"), (Qt::SortOrder)myConfig->readConfigInt("DlgGameLobbyGameListSortingOrder") );
+	
 }

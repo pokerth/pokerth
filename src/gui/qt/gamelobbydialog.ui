@@ -65,42 +65,6 @@
      </column>
     </widget>
    </item>
-   <item row="0" column="1">
-    <widget class="MyGameListTreeWidget" name="treeWidget_GameList">
-     <property name="minimumSize">
-      <size>
-       <width>400</width>
-       <height>0</height>
-      </size>
-     </property>
-     <property name="horizontalScrollBarPolicy">
-      <enum>Qt::ScrollBarAlwaysOff</enum>
-     </property>
-     <property name="sortingEnabled">
-      <bool>true</bool>
-     </property>
-     <column>
-      <property name="text">
-       <string>Game</string>
-      </property>
-     </column>
-     <column>
-      <property name="text">
-       <string>Players</string>
-      </property>
-     </column>
-     <column>
-      <property name="text">
-       <string>State</string>
-      </property>
-     </column>
-     <column>
-      <property name="text">
-       <string>Private</string>
-      </property>
-     </column>
-    </widget>
-   </item>
    <item row="0" column="2" rowspan="3">
     <widget class="QGroupBox" name="groupBox_GameInfo">
      <property name="enabled">
@@ -530,18 +494,39 @@ p, li { white-space: pre-wrap; }
      </item>
     </layout>
    </item>
+   <item row="0" column="1">
+    <widget class="QTreeView" name="treeView_GameList">
+     <property name="minimumSize">
+      <size>
+       <width>400</width>
+       <height>0</height>
+      </size>
+     </property>
+     <property name="horizontalScrollBarPolicy">
+      <enum>Qt::ScrollBarAlwaysOff</enum>
+     </property>
+     <property name="editTriggers">
+      <set>QAbstractItemView::NoEditTriggers</set>
+     </property>
+     <property name="showDropIndicator" stdset="0">
+      <bool>false</bool>
+     </property>
+     <property name="indentation">
+      <number>5</number>
+     </property>
+     <property name="rootIsDecorated">
+      <bool>false</bool>
+     </property>
+     <property name="sortingEnabled">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
   </layout>
  </widget>
- <customwidgets>
-  <customwidget>
-   <class>MyGameListTreeWidget</class>
-   <extends>QTreeWidget</extends>
-   <header>mygamelisttreewidget.h</header>
-  </customwidget>
- </customwidgets>
  <tabstops>
   <tabstop>treeWidget_NickList</tabstop>
-  <tabstop>treeWidget_GameList</tabstop>
+  <tabstop>treeView_GameList</tabstop>
   <tabstop>pushButton_joinAnyGame</tabstop>
   <tabstop>pushButton_CreateGame</tabstop>
   <tabstop>pushButton_JoinGame</tabstop>
