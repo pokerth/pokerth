@@ -66,7 +66,6 @@ class SendDataManager
 void
 SendDataManager::HandleWrite(boost::shared_ptr<boost::asio::ip::tcp::socket> socket, const boost::system::error_code &error)
 {
-	// TODO error handling
 	if (!error)
 		AsyncSendNextPacket(socket, true);
 }

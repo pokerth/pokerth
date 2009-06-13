@@ -64,10 +64,9 @@ using namespace std;
 #define SERVER_GAME_ADMIN_WARNING_REMAINING_SEC		60
 #define SERVER_GAME_ADMIN_TIMEOUT_SEC				300		// 5 min, MUST be > SERVER_GAME_ADMIN_WARNING_REMAINING_SEC
 #define SERVER_VOTE_KICK_TIMEOUT_SEC				30
-#define SERVER_LOOP_DELAY_MSEC						20
+#define SERVER_LOOP_DELAY_MSEC						50
 
 // Helper functions
-// TODO: these are hacks.
 
 static void SendPlayerAction(ServerGame &server, boost::shared_ptr<PlayerInterface> player)
 {
@@ -88,7 +87,6 @@ static void SendPlayerAction(ServerGame &server, boost::shared_ptr<PlayerInterfa
 
 static void SendNewRoundCards(ServerGame &server, Game &curGame, int state)
 {
-	// TODO: no switch needed here if game states are polymorphic
 	switch(state) {
 		case GAME_STATE_PREFLOP: {
 			// nothing to do

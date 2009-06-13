@@ -88,7 +88,6 @@ Game::Game(GuiInterface* gui, boost::shared_ptr<EngineFactory> factory,
 			myName = (*player_i)->GetName();
 			myAvatarFile = (*player_i)->GetAvatarFile();
 			myNetSession = (*player_i)->GetNetSessionData();
-			// TODO: set player type
 			++player_i;
 		}
 

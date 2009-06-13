@@ -24,8 +24,6 @@
 #include <core/loghelper.h>
 
 
-#define NET_SERVER_LISTEN_BACKLOG	20
-
 using namespace std;
 using boost::asio::ip::tcp;
 
@@ -75,15 +73,15 @@ ServerAcceptHelper::InternalListen(unsigned serverPort, bool ipv6, bool sctp)
 	else
 		m_endpoint.reset(new tcp::endpoint(tcp::v4(), serverPort));
 
-	// TODO use non blocking I/O
+	m_acceptor->open(m_endpoint->protocol());
+	// TODO cannot set non blocking I/O with asio.
 	//boost::asio::socket_base::non_blocking_io command(true);
 	//m_acceptor->io_control(command);
-	m_acceptor->open(m_endpoint->protocol());
 	m_acceptor->set_option(tcp::acceptor::reuse_address(true));
 	if (ipv6) // In IPv6 mode: Be compatible with IPv4.
 		m_acceptor->set_option(boost::asio::ip::v6_only(false));
 	m_acceptor->bind(*m_endpoint);
-	m_acceptor->listen(NET_SERVER_LISTEN_BACKLOG);
+	m_acceptor->listen();
 
 	// Start first asynchronous Accept.
 	boost::shared_ptr<tcp::socket> newSocket(new tcp::socket(*m_ioService));

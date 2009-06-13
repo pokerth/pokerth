@@ -433,14 +433,12 @@ void Session::voteKick(bool doKick)
 bool Session::isNetworkClientRunning() const
 {
 	// This, and every place which calls this, is a HACK.
-	// TODO
 	return myNetClient != NULL;
 }
 
 bool Session::isNetworkServerRunning() const
 {
 	// This, and every place which calls this, is a HACK.
-	// TODO
 	return myNetServer != NULL;
 }
 

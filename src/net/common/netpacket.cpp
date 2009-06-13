@@ -3492,8 +3492,6 @@ NetPacketGameStart::SetData(const NetPacketGameStart::Data &inData)
 	// Basic checking.
 	if (numPlayers < MIN_NUMBER_OF_PLAYERS || numPlayers > MAX_NUMBER_OF_PLAYERS || numPlayers != inData.startData.numberOfPlayers)
 	{
-		// This seems to occur too often.
-		// TODO needs fix.
 		LOG_VERBOSE("Invalid number of players. Slots: " << numPlayers << ", Players: " << inData.startData.numberOfPlayers << ".");
 		throw NetException(__FILE__, __LINE__, ERR_NET_INVALID_PLAYER_COUNT, 0);
 	}
