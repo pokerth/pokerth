@@ -165,8 +165,8 @@ ServerLobbyThread::AddConnection(boost::shared_ptr<tcp::socket> sock)
 					boost::bind(
 						&ServerLobbyThread::HandleRead,
 						this,
-						sessionData->GetId(),
 						boost::asio::placeholders::error,
+						sessionData->GetId(),
 						boost::asio::placeholders::bytes_transferred));
 			}
 		}
@@ -513,9 +513,10 @@ ServerLobbyThread::Main()
 	RegisterTimers();
 	try
 	{
-		m_work.reset(new boost::asio::io_service::work(*m_ioService));
-		m_ioService->run(); // Will only be aborted asynchronously.
-		m_work.reset();
+		{
+			boost::asio::io_service::work ioWork(*m_ioService);
+			m_ioService->run(); // Will only be aborted asynchronously.
+		}
 
 		// Clear all sessions.
 		m_sessionManager.Clear();
@@ -585,7 +586,7 @@ ServerLobbyThread::CancelTimers()
 }
 
 void
-ServerLobbyThread::HandleRead(SessionId sessionId, const boost::system::error_code &error, size_t bytesRead)
+ServerLobbyThread::HandleRead(const boost::system::error_code &ec, SessionId sessionId, size_t bytesRead)
 {
 	// Find the session.
 	SessionWrapper session = m_sessionManager.GetSessionById(sessionId);
@@ -593,7 +594,7 @@ ServerLobbyThread::HandleRead(SessionId sessionId, const boost::system::error_co
 		session = m_gameSessionManager.GetSessionById(sessionId);
 	if (session.sessionData)
 	{
-		if (!error)
+		if (!ec)
 		{
 			ReceiveBuffer &buf = session.sessionData->GetReceiveBuffer();
 			buf.recvBufUsed += bytesRead;
@@ -625,8 +626,8 @@ ServerLobbyThread::HandleRead(SessionId sessionId, const boost::system::error_co
 				boost::bind(
 					&ServerLobbyThread::HandleRead,
 					this,
-					sessionId,
 					boost::asio::placeholders::error,
+					sessionId,
 					boost::asio::placeholders::bytes_transferred));
 		}
 		else

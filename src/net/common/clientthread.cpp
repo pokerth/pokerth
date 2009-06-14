@@ -39,6 +39,8 @@
 #include <cassert>
 
 #define TEMP_AVATAR_FILENAME "avatar.tmp"
+#define CLIENT_AVATAR_LOOP_MSEC	100
+#define CLIENT_SEND_LOOP_MSEC	50
 
 using namespace std;
 using boost::asio::ip::tcp;
@@ -62,10 +64,11 @@ private:
 };
 
 ClientThread::ClientThread(GuiInterface &gui, AvatarManager &avatarManager)
-: m_curState(NULL), m_gui(gui), m_avatarManager(avatarManager), m_isServerSelected(false),
-  m_curGameId(0), m_curGameNum(1), m_guiPlayerId(0), m_sessionEstablished(false)
+: m_ioService(new boost::asio::io_service), m_curState(NULL), m_gui(gui),
+  m_avatarManager(avatarManager), m_isServerSelected(false),
+  m_curGameId(0), m_curGameNum(1), m_guiPlayerId(0), m_sessionEstablished(false),
+  m_stateTimer(*m_ioService), m_avatarTimer(*m_ioService), m_sendTimer(*m_ioService)
 {
-	m_ioService.reset(new boost::asio::io_service());
 	m_context.reset(new ClientContext);
 	m_receiver.reset(new ReceiverHelper);
 	myQtToolsInterface.reset(CreateQtToolsWrapper());
@@ -104,6 +107,13 @@ ClientThread::Init(
 	context.SetPlayerName(playerName);
 	context.SetAvatarFile(avatarFile);
 	context.SetCacheDir(cacheDir);
+}
+
+void
+ClientThread::SignalTermination()
+{
+	Thread::SignalTermination();
+	m_ioService->stop();
 }
 
 void
@@ -287,6 +297,27 @@ ClientThread::SendVoteKick(bool doKick)
 }
 
 void
+ClientThread::StartAsyncRead()
+{
+	ReceiveBuffer &buf = GetContext().GetSessionData()->GetReceiveBuffer();
+	GetContext().GetSessionData()->GetAsioSocket()->async_read_some(
+		boost::asio::buffer(buf.recvBuf + buf.recvBufUsed, RECV_BUF_SIZE - buf.recvBufUsed),
+		boost::bind(
+			&ClientThread::HandleRead,
+			shared_from_this(),
+			boost::asio::placeholders::error,
+			boost::asio::placeholders::bytes_transferred));
+}
+
+void
+ClientThread::HandleRead(const boost::system::error_code& ec, size_t bytesRead)
+{
+	GetState().HandleRead(ec, shared_from_this(), bytesRead);
+	if (!ec)
+		StartAsyncRead();
+}
+
+void
 ClientThread::SelectServer(unsigned serverId)
 {
 	boost::mutex::scoped_lock lock(m_selectServerMutex);
@@ -381,49 +412,65 @@ ClientThread::Main()
 	m_avatarDownloader.reset(new DownloaderThread);
 	m_avatarDownloader->Run();
 	SetState(CLIENT_INITIAL_STATE::Instance());
+	RegisterTimers();
 
 	// Main loop.
 	boost::asio::io_service::work ioWork(*m_ioService);
 	try
 	{
-		while (!ShouldTerminate())
 		{
-			int msg = GetState().Process(*this);
-			if (msg != MSG_SOCK_INTERNAL_PENDING)
-			{
-				if (msg <= MSG_SOCK_LIMIT_CONNECT)
-					GetCallback().SignalNetClientConnect(msg);
-				else
-					GetCallback().SignalNetClientGameInfo(msg);
-
-				// Additionally signal the start of the game.
-				if (msg == MSG_NET_GAME_CLIENT_START)
-				{
-					// EngineFactory erstellen
-					boost::shared_ptr<EngineFactory> factory(new ClientEngineFactory); // LocalEngine erstellen
-
-					MapPlayerDataList();
-					if (GetPlayerDataList().size() != (unsigned)GetStartData().numberOfPlayers)
-						throw ClientException(__FILE__, __LINE__, ERR_NET_INVALID_PLAYER_COUNT, 0);
-					m_game.reset(new Game(&m_gui, factory, GetPlayerDataList(), GetGameData(), GetStartData(), m_curGameNum++));
-					// Initialize GUI speed.
-					GetGui().initGui(GetGameData().guiSpeed);
-					// Signal start of game to GUI.
-					GetCallback().SignalNetClientGameStart(m_game);
-				}
-			}
-			if (IsSessionEstablished())
-				SendPacketLoop();
-			m_ioService->poll();
-			Thread::Msleep(10);
+			boost::asio::io_service::work ioWork(*m_ioService);
+			m_ioService->run(); // Will only be aborted asynchronously.
 		}
 	} catch (const PokerTHException &e)
 	{
 		GetCallback().SignalNetClientError(e.GetErrorId(), e.GetOsErrorCode());
 	}
+	// Cancel timers.
+	GetStateTimer().cancel();
+	CancelTimers();
 	// Terminate sub-threads.
 	m_avatarDownloader->SignalTermination();
 	m_avatarDownloader->Join(DOWNLOADER_THREAD_TERMINATE_TIMEOUT);
+}
+
+void
+ClientThread::RegisterTimers()
+{
+	m_avatarTimer.expires_from_now(
+		boost::posix_time::milliseconds(CLIENT_AVATAR_LOOP_MSEC));
+	m_avatarTimer.async_wait(
+		boost::bind(
+			&ClientThread::TimerCheckAvatarDownloads, shared_from_this(), boost::asio::placeholders::error));
+
+	m_sendTimer.expires_from_now(
+		boost::posix_time::milliseconds(CLIENT_SEND_LOOP_MSEC));
+	m_sendTimer.async_wait(
+		boost::bind(
+			&ClientThread::TimerSendPacketLoop, shared_from_this(), boost::asio::placeholders::error));
+}
+
+void
+ClientThread::CancelTimers()
+{
+	m_avatarTimer.cancel();
+	m_sendTimer.cancel();
+}
+
+void
+ClientThread::InitGame()
+{
+	// EngineFactory erstellen
+	boost::shared_ptr<EngineFactory> factory(new ClientEngineFactory); // LocalEngine erstellen
+
+	MapPlayerDataList();
+	if (GetPlayerDataList().size() != (unsigned)GetStartData().numberOfPlayers)
+		throw ClientException(__FILE__, __LINE__, ERR_NET_INVALID_PLAYER_COUNT, 0);
+	m_game.reset(new Game(&m_gui, factory, GetPlayerDataList(), GetGameData(), GetStartData(), m_curGameNum++));
+	// Initialize GUI speed.
+	GetGui().initGui(GetGameData().guiSpeed);
+	// Signal start of game to GUI.
+	GetCallback().SignalNetClientGameStart(m_game);
 }
 
 void
@@ -434,21 +481,32 @@ ClientThread::AddPacket(boost::shared_ptr<NetPacket> packet)
 }
 
 void
-ClientThread::SendPacketLoop()
+ClientThread::TimerSendPacketLoop(const boost::system::error_code &ec)
 {
-	boost::mutex::scoped_lock lock(m_outPacketListMutex);
-
-	if (!m_outPacketList.empty())
+	if (!ec)
 	{
-		NetPacketList::iterator i = m_outPacketList.begin();
-		NetPacketList::iterator end = m_outPacketList.end();
-
-		while (i != end)
+		if (IsSessionEstablished())
 		{
-			GetSender().Send(GetContext().GetSessionData(), *i);
-			++i;
+			boost::mutex::scoped_lock lock(m_outPacketListMutex);
+
+			if (!m_outPacketList.empty())
+			{
+				NetPacketList::iterator i = m_outPacketList.begin();
+				NetPacketList::iterator end = m_outPacketList.end();
+
+				while (i != end)
+				{
+					GetSender().Send(GetContext().GetSessionData(), *i);
+					++i;
+				}
+				m_outPacketList.clear();
+			}
 		}
-		m_outPacketList.clear();
+		m_sendTimer.expires_from_now(
+			boost::posix_time::milliseconds(CLIENT_SEND_LOOP_MSEC));
+		m_sendTimer.async_wait(
+			boost::bind(
+				&ClientThread::TimerSendPacketLoop, shared_from_this(), boost::asio::placeholders::error));
 	}
 }
 
@@ -668,15 +726,23 @@ ClientThread::SetUnknownAvatar(unsigned playerId)
 }
 
 void
-ClientThread::CheckAvatarDownloads()
+ClientThread::TimerCheckAvatarDownloads(const boost::system::error_code& ec)
 {
-	if (m_avatarDownloader && m_avatarDownloader->HasDownloadResult())
+	if (!ec)
 	{
-		unsigned playerId;
-		boost::shared_ptr<AvatarData> tmpAvatar(new AvatarData);
-		m_avatarDownloader->GetDownloadResult(playerId, tmpAvatar->fileData);
-		tmpAvatar->reportedSize = tmpAvatar->fileData.size();
-		PassAvatarDataToManager(playerId, tmpAvatar);
+		if (m_avatarDownloader && m_avatarDownloader->HasDownloadResult())
+		{
+			unsigned playerId;
+			boost::shared_ptr<AvatarData> tmpAvatar(new AvatarData);
+			m_avatarDownloader->GetDownloadResult(playerId, tmpAvatar->fileData);
+			tmpAvatar->reportedSize = tmpAvatar->fileData.size();
+			PassAvatarDataToManager(playerId, tmpAvatar);
+		}
+		m_avatarTimer.expires_from_now(
+			boost::posix_time::milliseconds(CLIENT_AVATAR_LOOP_MSEC));
+		m_avatarTimer.async_wait(
+			boost::bind(
+				&ClientThread::TimerCheckAvatarDownloads, shared_from_this(), boost::asio::placeholders::error));
 	}
 }
 
@@ -724,10 +790,13 @@ void
 ClientThread::CreateContextSession()
 {
 	bool validSocket = false;
-	// TODO ipv6
 	// TODO sctp
 	try {
-		boost::shared_ptr<tcp::socket> newSock(new boost::asio::ip::tcp::socket(*m_ioService, tcp::v4()));
+		boost::shared_ptr<tcp::socket> newSock;
+		if (GetContext().GetAddrFamily() == AF_INET6)
+			newSock.reset(new boost::asio::ip::tcp::socket(*m_ioService, tcp::v6()));
+		else
+			newSock.reset(new boost::asio::ip::tcp::socket(*m_ioService, tcp::v4()));
 		boost::asio::socket_base::non_blocking_io command(true);
 		newSock->io_control(command);
 		newSock->set_option(tcp::no_delay(true));
@@ -737,6 +806,8 @@ ClientThread::CreateContextSession()
 			newSock,
 			SESSION_ID_GENERIC,
 			*m_senderCallback)));
+		GetContext().SetResolver(boost::shared_ptr<boost::asio::ip::tcp::resolver>(
+			new boost::asio::ip::tcp::resolver(*m_ioService)));
 		validSocket = true;
 	} catch (...)
 	{
@@ -755,7 +826,16 @@ ClientThread::GetState()
 void
 ClientThread::SetState(ClientState &newState)
 {
+	if (m_curState)
+		m_curState->Exit(shared_from_this());
 	m_curState = &newState;
+	m_curState->Enter(shared_from_this());
+}
+
+boost::asio::deadline_timer &
+ClientThread::GetStateTimer()
+{
+	return m_stateTimer;
 }
 
 SenderHelper &

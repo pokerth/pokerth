@@ -23,6 +23,7 @@
 
 #include <boost/shared_ptr.hpp>
 #include <boost/asio.hpp>
+#include <boost/enable_shared_from_this.hpp>
 #include <string>
 
 #include <core/thread.h>
@@ -42,7 +43,7 @@ class NetPacket;
 class AvatarManager;
 class QtToolsInterface;
 
-class ClientThread : public Thread
+class ClientThread : public Thread, public boost::enable_shared_from_this<ClientThread>
 {
 public:
 	ClientThread(GuiInterface &gui, AvatarManager &avatarManager);
@@ -63,6 +64,7 @@ public:
 		const std::string &playerName,
 		const std::string &avatarFile,
 		const std::string &cacheDir);
+	virtual void SignalTermination();
 
 	void SendKickPlayer(unsigned playerId);
 	void SendLeaveCurrentGame();
@@ -75,6 +77,9 @@ public:
 	void SendResetTimeout();
 	void SendAskKickPlayer(unsigned playerId);
 	void SendVoteKick(bool doKick);
+
+	void StartAsyncRead();
+	void HandleRead(const boost::system::error_code& ec, size_t bytesRead);
 
 	void SelectServer(unsigned serverId);
 	ServerInfo GetServerInfo(unsigned serverId) const;
@@ -98,9 +103,12 @@ protected:
 
 	// Main function of the thread.
 	virtual void Main();
+	void RegisterTimers();
+	void CancelTimers();
+	void InitGame();
 
 	void AddPacket(boost::shared_ptr<NetPacket> packet);
-	void SendPacketLoop();
+	void TimerSendPacketLoop(const boost::system::error_code &ec);
 
 	bool GetCachedPlayerInfo(unsigned id, PlayerInfo &info) const;
 	void RequestPlayerInfo(unsigned id, bool requestAvatar = false);
@@ -115,7 +123,7 @@ protected:
 	void PassAvatarDataToManager(unsigned playerId, boost::shared_ptr<AvatarData> avatarData);
 	void SetUnknownAvatar(unsigned playerId);
 
-	void CheckAvatarDownloads();
+	void TimerCheckAvatarDownloads(const boost::system::error_code& ec);
 
 	void UnsubscribeLobbyMsg();
 	void ResubscribeLobbyMsg();
@@ -126,6 +134,7 @@ protected:
 
 	ClientState &GetState();
 	void SetState(ClientState &newState);
+	boost::asio::deadline_timer &GetStateTimer();
 
 	SenderHelper &GetSender();
 	ReceiverHelper &GetReceiver();
@@ -234,6 +243,10 @@ private:
 
 	mutable boost::mutex m_curStatsMutex;
 	ServerStats m_curStats;
+
+	boost::asio::deadline_timer m_stateTimer;
+	boost::asio::deadline_timer m_avatarTimer;
+	boost::asio::deadline_timer m_sendTimer;
 
 friend class AbstractClientStateReceiving;
 friend class ClientStateInit;

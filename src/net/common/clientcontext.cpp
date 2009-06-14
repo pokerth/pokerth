@@ -24,19 +24,11 @@ ClientContext::ClientContext()
 : m_protocol(0), m_addrFamily(AF_INET), m_useServerList(false), m_serverPort(0),
   m_hasSubscribedLobbyMsg(true)
 {
-	bzero(&m_clientSockaddr, sizeof(m_clientSockaddr));
 }
 
 ClientContext::~ClientContext()
 {
 	m_sessionData.reset();
-}
-
-SOCKET
-ClientContext::GetSocket() const
-{
-	assert(m_sessionData.get());
-	return m_sessionData->GetSocket();
 }
 
 boost::shared_ptr<SessionData>
@@ -49,5 +41,17 @@ void
 ClientContext::SetSessionData(boost::shared_ptr<SessionData> sessionData)
 {
 	m_sessionData = sessionData;
+}
+
+boost::shared_ptr<boost::asio::ip::tcp::resolver>
+ClientContext::GetResolver() const
+{
+	return m_resolver;
+}
+
+void
+ClientContext::SetResolver(boost::shared_ptr<boost::asio::ip::tcp::resolver> resolver)
+{
+	m_resolver = resolver;
 }
 

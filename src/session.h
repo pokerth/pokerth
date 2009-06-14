@@ -106,9 +106,9 @@ private:
 
 	std::string myIrcNick;
 
-	ClientThread *myNetClient;
-	ServerManager *myNetServer;
-	IrcThread *myClientIrcThread;
+	boost::shared_ptr<ClientThread> myNetClient;
+	boost::shared_ptr<ServerManager> myNetServer;
+	boost::shared_ptr<IrcThread> myClientIrcThread;
 
 	boost::shared_ptr<AvatarManager> myAvatarManager;
 

@@ -43,8 +43,7 @@
 using namespace std;
 
 Session::Session(GuiInterface *g, ConfigFile *c)
-: currentGameNum(0), myNetClient(NULL), myNetServer(NULL), myClientIrcThread(NULL),
-  myGui(g), myConfig(c), myGameType(GAME_TYPE_NONE)
+: currentGameNum(0), myGui(g), myConfig(c), myGameType(GAME_TYPE_NONE)
 {
 	myQtToolsInterface = CreateQtToolsWrapper();
 }
@@ -165,7 +164,7 @@ void Session::startInternetClient()
 
 	if (myConfig->readConfigInt("UseIRCLobbyChat"))
 	{
-		myClientIrcThread = new IrcThread(myGui);
+		myClientIrcThread.reset(new IrcThread(myGui));
 		myClientIrcThread->Init(
 			myConfig->readConfigString("IRCServerAddress"),
 			myConfig->readConfigInt("IRCServerPort"),
@@ -180,7 +179,7 @@ void Session::startInternetClient()
 		myClientIrcThread->Run();
 	}
 
-	myNetClient = new ClientThread(*myGui, *myAvatarManager);
+	myNetClient.reset(new ClientThread(*myGui, *myAvatarManager));
 	bool useAvatarServer = myConfig->readConfigInt("UseAvatarServer") != 0;
 
 	myNetClient->Init(
@@ -211,7 +210,7 @@ void Session::startNetworkClient(const string &serverAddress, unsigned serverPor
 	}
 	myGameType = GAME_TYPE_NETWORK;
 
-	myNetClient = new ClientThread(*myGui, *myAvatarManager);
+	myNetClient.reset(new ClientThread(*myGui, *myAvatarManager));
 	myNetClient->Init(
 		serverAddress,
 		"",
@@ -237,7 +236,7 @@ void Session::startNetworkClientForLocalServer(const GameData &gameData)
 	}
 	myGameType = GAME_TYPE_NETWORK;
 
-	myNetClient = new ClientThread(*myGui, *myAvatarManager);
+	myNetClient.reset(new ClientThread(*myGui, *myAvatarManager));
 	bool useIpv6 = myConfig->readConfigInt("ServerUseIpv6") == 1;
 	const char *loopbackAddr = useIpv6 ? "::1" : "127.0.0.1";
 	myNetClient->Init(
@@ -265,13 +264,11 @@ void Session::terminateNetworkClient()
 		myClientIrcThread->SignalTermination();
 	// Give the threads some time to terminate.
 	if (myNetClient->Join(NET_CLIENT_TERMINATE_TIMEOUT_MSEC))
-		delete myNetClient;
+		myNetClient.reset();
 	if (myClientIrcThread && myClientIrcThread->Join(NET_IRC_TERMINATE_TIMEOUT_MSEC))
-		delete myClientIrcThread;
+		myClientIrcThread.reset();
 
 	// If termination fails, leave a memory leak to prevent a crash.
-	myNetClient = 0;
-	myClientIrcThread = 0;
 	myGameType = GAME_TYPE_NONE;
 }
 
@@ -297,12 +294,12 @@ void Session::startNetworkServer()
 		return;
 	}
 
-	myNetServer = new ServerManager(*myGui, myConfig, *myAvatarManager);
+	myNetServer.reset(new ServerManager(*myGui, myConfig, *myAvatarManager));
 
 	boost::shared_ptr<IrcThread> tmpIrcThread;
 	if (myConfig->readConfigInt("UseAdminIRC"))
 	{
-		tmpIrcThread = boost::shared_ptr<IrcThread>(new IrcThread(myNetServer));
+		tmpIrcThread = boost::shared_ptr<IrcThread>(new IrcThread(myNetServer.get()));
 
 		tmpIrcThread->Init(
 			myConfig->readConfigString("AdminIRCServerAddress"),
@@ -332,9 +329,8 @@ void Session::terminateNetworkServer()
 	myNetServer->SignalTerminationAll();
 	// Give the thread some time to terminate.
 	if (myNetServer->JoinAll(true))
-		delete myNetServer;
+		myNetServer.reset();
 	// If termination fails, leave a memory leak to prevent a crash.
-	myNetServer = 0;
 }
 
 bool Session::pollNetworkServerTerminated()
@@ -433,13 +429,13 @@ void Session::voteKick(bool doKick)
 bool Session::isNetworkClientRunning() const
 {
 	// This, and every place which calls this, is a HACK.
-	return myNetClient != NULL;
+	return myNetClient.get() != NULL;
 }
 
 bool Session::isNetworkServerRunning() const
 {
 	// This, and every place which calls this, is a HACK.
-	return myNetServer != NULL;
+	return myNetServer.get() != NULL;
 }
 
 ServerInfo Session::getClientServerInfo(unsigned serverId) const

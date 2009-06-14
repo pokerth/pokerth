@@ -115,7 +115,7 @@ protected:
 	void RegisterTimers();
 	void CancelTimers();
 
-	void HandleRead(SessionId sessionId, const boost::system::error_code &error, size_t bytesRead);
+	void HandleRead(const boost::system::error_code &ec, SessionId sessionId, size_t bytesRead);
 	void HandlePacket(SessionWrapper session, boost::shared_ptr<NetPacket> packet);
 	void HandleNetPacketInit(SessionWrapper session, const NetPacketInit &tmpPacket);
 	void HandleNetPacketAvatarHeader(SessionWrapper session, const NetPacketAvatarHeader &tmpPacket);
@@ -173,7 +173,6 @@ protected:
 private:
 
 	boost::shared_ptr<boost::asio::io_service> m_ioService;
-	boost::shared_ptr<boost::asio::io_service::work> m_work;
 
 	boost::shared_ptr<ServerSenderCallback> m_senderCallback;
 	boost::shared_ptr<SenderHelper> m_sender;

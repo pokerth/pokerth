@@ -70,7 +70,6 @@ HEADERS += \
 		src/net/clientthread.h \
 		src/net/genericsocket.h \
 		src/net/netpacket.h \
-		src/net/resolverthread.h \
 		src/net/senderhelper.h \
 		src/net/serveraccepthelper.h \
 		src/net/serverlobbythread.h \

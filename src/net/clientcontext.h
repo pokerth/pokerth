@@ -23,21 +23,20 @@
 
 #include <boost/shared_ptr.hpp>
 
-#include <net/netcontext.h>
 #include <net/receivebuffer.h>
 #include <net/sessiondata.h>
 
 
-class ClientContext : public NetContext
+class ClientContext
 {
 public:
 	ClientContext();
 	virtual ~ClientContext();
 
-	virtual SOCKET GetSocket() const;
-
 	boost::shared_ptr<SessionData> GetSessionData() const;
 	void SetSessionData(boost::shared_ptr<SessionData> sessionData);
+	boost::shared_ptr<boost::asio::ip::tcp::resolver> GetResolver() const;
+	void SetResolver(boost::shared_ptr<boost::asio::ip::tcp::resolver> resolver);
 	int GetProtocol() const
 	{return m_protocol;}
 	void SetProtocol(int protocol)
@@ -70,10 +69,6 @@ public:
 	{return m_password;}
 	void SetPassword(const std::string &password)
 	{m_password = password;}
-	const sockaddr_storage *GetClientSockaddr() const
-	{return &m_clientSockaddr;}
-	sockaddr_storage *GetClientSockaddr()
-	{return &m_clientSockaddr;}
 	const std::string &GetPlayerName() const
 	{return m_playerName;}
 	void SetPlayerName(const std::string &playerName)
@@ -91,14 +86,12 @@ public:
 	void SetSubscribeLobbyMsg(bool setSubscribe)
 	{m_hasSubscribedLobbyMsg = setSubscribe;}
 
-	int GetClientSockaddrSize() const
-	{return m_addrFamily == AF_INET6 ? sizeof(sockaddr_in6) : sizeof(sockaddr_in);}
-
 	ReceiveBuffer &GetReceiveBuffer()
 	{return m_receiveBuffer;}
 
 private:
 	boost::shared_ptr<SessionData> m_sessionData;
+	boost::shared_ptr<boost::asio::ip::tcp::resolver> m_resolver;
 	int					m_protocol;
 	int					m_addrFamily;
 	std::string			m_serverAddr;
@@ -107,7 +100,6 @@ private:
 	unsigned			m_serverPort;
 	std::string			m_avatarServerAddr;
 	std::string			m_password;
-	sockaddr_storage	m_clientSockaddr;
 	std::string			m_playerName;
 	std::string			m_avatarFile;
 	std::string			m_cacheDir;
