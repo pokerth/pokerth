@@ -190,7 +190,8 @@ HEADERS += src/game.h \
     src/gui/qt/gametable/mymenubar.h \
     src/gui/qt/gametable/mytimeoutlabel.h \
     src/gui/qt/gametable/mynamelabel.h \
-    src/gui/qt/settingsdialog/mystylelistitem.h
+    src/gui/qt/settingsdialog/mystylelistitem.h \
+    src/gui/qt/gamelobbydialog/mygamelistsortfilterproxymodel.h
 FORMS += src/gui/qt/gametable.ui \
     src/gui/qt/aboutpokerth.ui \
     src/gui/qt/connecttoserverdialog.ui \
@@ -255,7 +256,8 @@ SOURCES += src/pokerth.cpp \
     src/gui/qt/gametable/mymenubar.cpp \
     src/gui/qt/gametable/mytimeoutlabel.cpp \
     src/gui/qt/gametable/mynamelabel.cpp \
-	src/gui/qt/settingsdialog/mystylelistitem.cpp
+    src/gui/qt/settingsdialog/mystylelistitem.cpp \
+    src/gui/qt/gamelobbydialog/mygamelistsortfilterproxymodel.cpp
 TRANSLATIONS = ts/pokerth_bg.ts \
     ts/pokerth_de.ts \
     ts/pokerth_dk.ts \
