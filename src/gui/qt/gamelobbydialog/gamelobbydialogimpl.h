@@ -28,10 +28,12 @@ class Session;
 class ConfigFile;
 class LobbyChat;
 class startWindowImpl;
+class MyGameListSortFilterProxyModel;
 
 /**
 	@author FThauer FHammer <webmaster@pokerth.net>
 */
+
 class gameLobbyDialogImpl: public QDialog, public Ui::gameLobbyDialog {
 Q_OBJECT
 public:
@@ -106,6 +108,8 @@ public slots:
 	void closeEvent(QCloseEvent *event);
 	void writeDialogSettings();
 	void readDialogSettings();
+	void changeGameListFilter(int);
+			
 private:
 	
 	gameTableImpl* myW;
@@ -124,7 +128,7 @@ private:
 	QTimer *waitStartGameMsgBoxTimer;
 	QStandardItemModel *myGameListModel;
 	QItemSelectionModel *myGameListSelectionModel;
-	QSortFilterProxyModel *myGameListSortFilterProxyModel;
+	MyGameListSortFilterProxyModel *myGameListSortFilterProxyModel;
 
  protected:
          bool eventFilter(QObject *obj, QEvent *event);
