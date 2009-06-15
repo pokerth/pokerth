@@ -702,30 +702,6 @@ AbstractClientStateReceiving::~AbstractClientStateReceiving()
 }
 
 void
-AbstractClientStateReceiving::HandleRead(const boost::system::error_code& ec, boost::shared_ptr<ClientThread> client, size_t bytesRead)
-{
-	if (!ec)
-	{
-		ReceiveBuffer &buf = client->GetContext().GetSessionData()->GetReceiveBuffer();
-		buf.recvBufUsed += bytesRead;
-		client->GetReceiver().ScanPackets(buf);
-
-		while (!buf.receivedPackets.empty())
-		{
-			boost::shared_ptr<NetPacket> packet = buf.receivedPackets.front();
-			buf.receivedPackets.pop_front();
-			if (packet)
-				HandlePacket(client, packet);
-		}
-	}
-	else
-	{
-		if (ec != boost::asio::error::operation_aborted)
-			throw NetException(__FILE__, __LINE__, ERR_SOCK_CONN_RESET, 0);
-	}
-}
-
-void
 AbstractClientStateReceiving::HandlePacket(boost::shared_ptr<ClientThread> client, boost::shared_ptr<NetPacket> tmpPacket)
 {
 	if (tmpPacket->ToNetPacketPlayerInfo())

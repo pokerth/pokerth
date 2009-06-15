@@ -312,9 +312,26 @@ ClientThread::StartAsyncRead()
 void
 ClientThread::HandleRead(const boost::system::error_code& ec, size_t bytesRead)
 {
-	GetState().HandleRead(ec, shared_from_this(), bytesRead);
 	if (!ec)
+	{
+		ReceiveBuffer &buf = GetContext().GetSessionData()->GetReceiveBuffer();
+		buf.recvBufUsed += bytesRead;
+		GetReceiver().ScanPackets(buf);
+
+		while (!buf.receivedPackets.empty())
+		{
+			boost::shared_ptr<NetPacket> packet = buf.receivedPackets.front();
+			buf.receivedPackets.pop_front();
+			if (packet)
+				GetState().HandlePacket(shared_from_this(), packet);
+		}
 		StartAsyncRead();
+	}
+	else
+	{
+		if (ec != boost::asio::error::operation_aborted)
+			throw NetException(__FILE__, __LINE__, ERR_SOCK_CONN_RESET, 0);
+	}
 }
 
 void

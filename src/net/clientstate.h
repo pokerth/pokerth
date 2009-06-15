@@ -42,7 +42,7 @@ public:
 	virtual void Enter(boost::shared_ptr<ClientThread> client) = 0;
 	virtual void Exit(boost::shared_ptr<ClientThread> client) = 0;
 
-	virtual void HandleRead(const boost::system::error_code& ec, boost::shared_ptr<ClientThread> client, size_t bytesRead) = 0;
+	virtual void HandlePacket(boost::shared_ptr<ClientThread> /*client*/, boost::shared_ptr<NetPacket> /*tmpPacket*/) = 0;
 };
 
 // State: Initialization.
@@ -57,7 +57,7 @@ public:
 	virtual void Enter(boost::shared_ptr<ClientThread> client);
 	virtual void Exit(boost::shared_ptr<ClientThread> client);
 
-	virtual void HandleRead(const boost::system::error_code& /*ec*/, boost::shared_ptr<ClientThread> /*client*/, size_t /*bytesRead*/) {}
+	virtual void HandlePacket(boost::shared_ptr<ClientThread> /*client*/, boost::shared_ptr<NetPacket> /*tmpPacket*/) {}
 
 protected:
 	// Protected constructor - this is a singleton.
@@ -76,15 +76,16 @@ public:
 	virtual void Enter(boost::shared_ptr<ClientThread> client);
 	virtual void Exit(boost::shared_ptr<ClientThread> client);
 
-	virtual void HandleRead(const boost::system::error_code& /*ec*/, boost::shared_ptr<ClientThread> /*client*/, size_t /*bytesRead*/) {}
+	virtual void HandlePacket(boost::shared_ptr<ClientThread> /*client*/, boost::shared_ptr<NetPacket> /*tmpPacket*/) {}
 
 protected:
-	void HandleResolve(
-			const boost::system::error_code& ec, boost::asio::ip::tcp::resolver::iterator endpoint_iterator,
-			boost::shared_ptr<ClientThread> client);
 
 	// Protected constructor - this is a singleton.
 	ClientStateStartResolve();
+
+	void HandleResolve(
+			const boost::system::error_code& ec, boost::asio::ip::tcp::resolver::iterator endpoint_iterator,
+			boost::shared_ptr<ClientThread> client);
 };
 
 // State: Start download of the server list.
@@ -99,7 +100,7 @@ public:
 	virtual void Enter(boost::shared_ptr<ClientThread> client);
 	virtual void Exit(boost::shared_ptr<ClientThread> client);
 
-	virtual void HandleRead(const boost::system::error_code& /*ec*/, boost::shared_ptr<ClientThread> /*client*/, size_t /*bytesRead*/) {}
+	virtual void HandlePacket(boost::shared_ptr<ClientThread> /*client*/, boost::shared_ptr<NetPacket> /*tmpPacket*/) {}
 
 protected:
 
@@ -118,7 +119,7 @@ public:
 	virtual void Enter(boost::shared_ptr<ClientThread> client);
 	virtual void Exit(boost::shared_ptr<ClientThread> client);
 
-	virtual void HandleRead(const boost::system::error_code& /*ec*/, boost::shared_ptr<ClientThread> /*client*/, size_t /*bytesRead*/) {}
+	virtual void HandlePacket(boost::shared_ptr<ClientThread> /*client*/, boost::shared_ptr<NetPacket> /*tmpPacket*/) {}
 
 	void SetDownloadHelper(boost::shared_ptr<DownloadHelper> helper);
 
@@ -146,7 +147,7 @@ public:
 	virtual void Enter(boost::shared_ptr<ClientThread> client);
 	virtual void Exit(boost::shared_ptr<ClientThread> client);
 
-	virtual void HandleRead(const boost::system::error_code& /*ec*/, boost::shared_ptr<ClientThread> /*client*/, size_t /*bytesRead*/) {}
+	virtual void HandlePacket(boost::shared_ptr<ClientThread> /*client*/, boost::shared_ptr<NetPacket> /*tmpPacket*/) {}
 
 	void SetDownloadHelper(boost::shared_ptr<DownloadHelper> helper);
 
@@ -173,7 +174,7 @@ public:
 	virtual void Enter(boost::shared_ptr<ClientThread> client);
 	virtual void Exit(boost::shared_ptr<ClientThread> client);
 
-	virtual void HandleRead(const boost::system::error_code& /*ec*/, boost::shared_ptr<ClientThread> /*client*/, size_t /*bytesRead*/) {}
+	virtual void HandlePacket(boost::shared_ptr<ClientThread> /*client*/, boost::shared_ptr<NetPacket> /*tmpPacket*/) {}
 
 protected:
 
@@ -191,7 +192,7 @@ public:
 	virtual void Enter(boost::shared_ptr<ClientThread> client);
 	virtual void Exit(boost::shared_ptr<ClientThread> client);
 
-	virtual void HandleRead(const boost::system::error_code& /*ec*/, boost::shared_ptr<ClientThread> /*client*/, size_t /*bytesRead*/) {}
+	virtual void HandlePacket(boost::shared_ptr<ClientThread> /*client*/, boost::shared_ptr<NetPacket> /*tmpPacket*/) {}
 
 protected:
 
@@ -213,7 +214,7 @@ public:
 	virtual void Enter(boost::shared_ptr<ClientThread> client);
 	virtual void Exit(boost::shared_ptr<ClientThread> client);
 
-	virtual void HandleRead(const boost::system::error_code& /*ec*/, boost::shared_ptr<ClientThread> /*client*/, size_t /*bytesRead*/) {}
+	virtual void HandlePacket(boost::shared_ptr<ClientThread> /*client*/, boost::shared_ptr<NetPacket> /*tmpPacket*/) {}
 
 	void SetRemoteEndpoint(boost::asio::ip::tcp::resolver::iterator endpointIterator);
 
@@ -243,10 +244,9 @@ public:
 	virtual void Enter(boost::shared_ptr<ClientThread> client);
 	virtual void Exit(boost::shared_ptr<ClientThread> client);
 
-	virtual void HandleRead(const boost::system::error_code& /*ec*/, boost::shared_ptr<ClientThread> /*client*/, size_t /*bytesRead*/) {}
+	virtual void HandlePacket(boost::shared_ptr<ClientThread> /*client*/, boost::shared_ptr<NetPacket> /*tmpPacket*/) {}
 
 protected:
-
 	// Protected constructor - this is a singleton.
 	ClientStateStartSession();
 };
@@ -257,12 +257,11 @@ class AbstractClientStateReceiving : public ClientState
 public:
 	virtual ~AbstractClientStateReceiving();
 
-	virtual void HandleRead(const boost::system::error_code& ec, boost::shared_ptr<ClientThread> client, size_t bytesRead);
+	virtual void HandlePacket(boost::shared_ptr<ClientThread> client, boost::shared_ptr<NetPacket> tmpPacket);
 
 protected:
 	AbstractClientStateReceiving();
 
-	void HandlePacket(boost::shared_ptr<ClientThread> client, boost::shared_ptr<NetPacket> tmpPacket);
 	virtual void InternalHandlePacket(boost::shared_ptr<ClientThread> client, boost::shared_ptr<NetPacket> tmpPacket) = 0;
 };
 
