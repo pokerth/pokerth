@@ -422,6 +422,11 @@ ClientThread::Main()
 			boost::asio::io_service::work ioWork(*m_ioService);
 			m_ioService->run(); // Will only be aborted asynchronously.
 		}
+		// Close the socket.
+		GetContext().GetSessionData()->GetAsioSocket()->close();
+		// Execute remaining ready handlers.
+		m_ioService->reset();
+		m_ioService->poll();
 	} catch (const PokerTHException &e)
 	{
 		GetCallback().SignalNetClientError(e.GetErrorId(), e.GetOsErrorCode());
@@ -443,6 +448,7 @@ ClientThread::RegisterTimers()
 		boost::bind(
 			&ClientThread::TimerCheckAvatarDownloads, shared_from_this(), boost::asio::placeholders::error));
 
+	// TODO: send directly without additional buffer.
 	m_sendTimer.expires_from_now(
 		boost::posix_time::milliseconds(CLIENT_SEND_LOOP_MSEC));
 	m_sendTimer.async_wait(
