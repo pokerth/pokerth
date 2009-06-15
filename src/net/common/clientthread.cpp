@@ -444,6 +444,9 @@ ClientThread::Main()
 		// Execute remaining ready handlers.
 		m_ioService->reset();
 		m_ioService->poll();
+		// Set a state which does not do anything.
+		SetState(CLIENT_FINAL_STATE::Instance());
+
 	} catch (const PokerTHException &e)
 	{
 		GetCallback().SignalNetClientError(e.GetErrorId(), e.GetOsErrorCode());

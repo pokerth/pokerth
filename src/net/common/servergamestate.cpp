@@ -1193,3 +1193,13 @@ ServerGameStateWaitPlayerAction::TimerTimeout(const boost::system::error_code &e
 
 //-----------------------------------------------------------------------------
 
+ServerGameStateFinal ServerGameStateFinal::s_state;
+
+ServerGameStateFinal &
+ServerGameStateFinal::Instance()
+{
+	return s_state;
+}
+
+//-----------------------------------------------------------------------------
+

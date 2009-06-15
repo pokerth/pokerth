@@ -176,6 +176,30 @@ private:
 	static ServerGameStateWaitPlayerAction s_state;
 };
 
+class ServerGameStateFinal : public ServerGameState
+{
+public:
+	static ServerGameStateFinal &Instance();
+
+	virtual ~ServerGameStateFinal() {}
+	virtual void Enter(boost::shared_ptr<ServerGame> server) {}
+	virtual void Exit(boost::shared_ptr<ServerGame> server) {}
+
+	virtual void NotifyGameAdminChanged(boost::shared_ptr<ServerGame> server) {}
+
+	// Handling of a new session.
+	virtual void HandleNewSession(boost::shared_ptr<ServerGame> server, SessionWrapper session) {}
+
+	// Main processing function of the current state.
+	virtual int ProcessPacket(boost::shared_ptr<ServerGame> server, SessionWrapper session, boost::shared_ptr<NetPacket> packet) {}
+
+protected:
+	ServerGameStateFinal() {}
+
+private:
+	static ServerGameStateFinal s_state;
+};
+
 #ifdef _MSC_VER
 #pragma warning(pop)
 #endif

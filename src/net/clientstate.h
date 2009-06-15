@@ -26,6 +26,7 @@
 #include <string>
 
 #define CLIENT_INITIAL_STATE ClientStateInit
+#define CLIENT_FINAL_STATE ClientStateFinal
 
 class ClientThread;
 class ClientCallback;
@@ -42,7 +43,7 @@ public:
 	virtual void Enter(boost::shared_ptr<ClientThread> client) = 0;
 	virtual void Exit(boost::shared_ptr<ClientThread> client) = 0;
 
-	virtual void HandlePacket(boost::shared_ptr<ClientThread> /*client*/, boost::shared_ptr<NetPacket> /*tmpPacket*/) = 0;
+	virtual void HandlePacket(boost::shared_ptr<ClientThread> client, boost::shared_ptr<NetPacket> tmpPacket) = 0;
 };
 
 // State: Initialization.
@@ -399,6 +400,22 @@ protected:
 
 	static void ResetPlayerActions(Game &curGame);
 	static void ResetPlayerSets(Game &curGame);
+};
+
+class ClientStateFinal : public ClientState
+{
+public:
+	static ClientStateFinal &Instance();
+	virtual ~ClientStateFinal() {}
+
+	virtual void Enter(boost::shared_ptr<ClientThread> /*client*/) {}
+	virtual void Exit(boost::shared_ptr<ClientThread> /*client*/) {}
+
+	virtual void HandlePacket(boost::shared_ptr<ClientThread> /*client*/, boost::shared_ptr<NetPacket> /*tmpPacket*/) {}
+
+protected:
+	// Protected constructor - this is a singleton.
+	ClientStateFinal() {}
 };
 
 #endif

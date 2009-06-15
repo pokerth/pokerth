@@ -1156,7 +1156,7 @@ ClientStateSynchronizeStart::TimerLoop(const boost::system::error_code& ec, boos
 }
 
 void
-ClientStateSynchronizeStart::InternalHandlePacket(boost::shared_ptr<ClientThread> client, boost::shared_ptr<NetPacket> tmpPacket)
+ClientStateSynchronizeStart::InternalHandlePacket(boost::shared_ptr<ClientThread> /*client*/, boost::shared_ptr<NetPacket> tmpPacket)
 {
 	if (tmpPacket->ToNetPacketGameStart())
 		throw ClientException(__FILE__, __LINE__, ERR_NET_START_TIMEOUT, 0);
@@ -1630,3 +1630,11 @@ ClientStateRunHand::ResetPlayerSets(Game &curGame)
 	}
 }
 
+//-----------------------------------------------------------------------------
+
+ClientStateFinal &
+ClientStateFinal::Instance()
+{
+	static ClientStateFinal state;
+	return state;
+}

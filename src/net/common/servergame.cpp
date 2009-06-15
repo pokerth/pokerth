@@ -69,8 +69,7 @@ void
 ServerGame::Exit()
 {
 	m_voteKickTimer.cancel();
-	if (m_curState)
-		m_curState->Exit(shared_from_this());
+	SetState(ServerGameStateFinal::Instance());
 }
 
 u_int32_t
@@ -131,7 +130,7 @@ ServerGame::RemoveAllSessions()
 void
 ServerGame::TimerVoteKick(const boost::system::error_code &ec)
 {
-	if (!ec)
+	if (!ec && m_curState != &ServerGameStateFinal::Instance())
 	{
 		// Check whether someone should be kicked, or whether a vote kick should be aborted.
 		// Only one vote kick can be active at a time.
