@@ -27,10 +27,6 @@ bool socket_has_sctp();
 bool socket_has_ipv6();
 bool socket_has_dual_stack();
 
-/* Internal common functions. */
-bool internal_socket_startup();
-void internal_socket_cleanup();
-
 
 #endif
 

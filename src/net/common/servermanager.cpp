@@ -20,7 +20,6 @@
 #include <net/socket_helper.h>
 #include <net/servermanager.h>
 #include <net/ircthread.h>
-#include <net/connectdata.h>
 #include <net/serverlobbythread.h>
 #include <net/serveraccepthelper.h>
 #include <net/serverexception.h>

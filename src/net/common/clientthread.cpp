@@ -96,7 +96,7 @@ ClientThread::Init(
 
 	ClientContext &context = GetContext();
 
-	context.SetProtocol(sctp ? SOCKET_IPPROTO_SCTP : 0);
+	context.SetSctp(sctp);
 	context.SetAddrFamily(ipv6 ? AF_INET6 : AF_INET);
 	context.SetServerAddr(serverAddress);
 	context.SetServerListUrl(serverListUrl);
@@ -839,7 +839,7 @@ ClientThread::CreateContextSession()
 	{
 	}
 	if (!validSocket)
-		throw ClientException(__FILE__, __LINE__, ERR_SOCK_CREATION_FAILED, SOCKET_ERRNO());
+		throw ClientException(__FILE__, __LINE__, ERR_SOCK_CREATION_FAILED, 0);
 }
 
 ClientState &

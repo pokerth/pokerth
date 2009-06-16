@@ -17,6 +17,8 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
+#include <boost/asio.hpp>
+
 #include <net/netpacket.h>
 #include <net/netexception.h>
 #include <net/socket_msg.h>

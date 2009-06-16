@@ -63,7 +63,6 @@ HEADERS += \
 		src/engine/playerinterface.h \
 		src/engine/berointerface.h \
 		src/gui/guiinterface.h \
-		src/net/connectdata.h \
 		src/net/clientcallback.h \
 		src/net/clientcontext.h \
 		src/net/clientexception.h \
@@ -162,7 +161,6 @@ SOURCES += \
 		src/engine/network_engine/clienthand.cpp \
 		src/engine/network_engine/clientplayer.cpp \
 		src/engine/network_engine/clientbero.cpp \
-		src/net/common/connectdata.cpp \
 		src/net/common/clientcallback.cpp \
 		src/net/common/clientcontext.cpp \
 		src/net/common/clientstate.cpp \
@@ -182,7 +180,6 @@ SOURCES += \
 		src/net/common/sessiondatacallback.cpp \
 		src/net/common/sessionmanager.cpp \
 		src/net/common/socket_startup_cmn.cpp \
-		src/net/common/socket_helper_cmn.cpp \
 		src/net/common/clientexception.cpp \
 		src/net/common/netcontext.cpp \
 		src/net/common/netexception.cpp \
@@ -200,8 +197,6 @@ win32{
 	DEFINES += CURL_STATICLIB
     DEFINES += _WIN32_WINNT=0x0501
 	DEPENDPATH += src/net/win32/ src/core/win32
-	SOURCES += src/net/win32/socket_helper.cpp \
-		src/net/win32/socket_startup.cpp
 	INCLUDEPATH += ../boost/ ../GnuTLS/include ../curl/include ../zlib
 }
 !win32{
@@ -209,8 +204,6 @@ win32{
 	#QMAKE_CXXFLAGS += -ffunction-sections -fdata-sections
 
 	DEPENDPATH += src/net/linux/ src/core/linux
-	SOURCES += src/net/linux/socket_helper.cpp \
-		src/net/linux/socket_startup.cpp 
 }
 
 mac{

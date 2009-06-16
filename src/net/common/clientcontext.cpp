@@ -21,7 +21,7 @@
 
 
 ClientContext::ClientContext()
-: m_protocol(0), m_addrFamily(AF_INET), m_useServerList(false), m_serverPort(0),
+: m_sctp(false), m_addrFamily(AF_INET), m_useServerList(false), m_serverPort(0),
   m_hasSubscribedLobbyMsg(true)
 {
 }

@@ -27,6 +27,7 @@
 
 using namespace std;
 
+#define CURL_RECV_TIMEOUT_MSEC		50
 
 TransferHelper::TransferHelper()
 {
@@ -91,15 +92,15 @@ TransferHelper::Process()
 		FD_ZERO(&exceptSet);
 
 		timeout.tv_sec = 0;
-		timeout.tv_usec = RECV_TIMEOUT_MSEC * 1000;
+		timeout.tv_usec = CURL_RECV_TIMEOUT_MSEC * 1000;
 
 		curl_multi_fdset(m_data->curlMultiHandle, &readSet, &writeSet, &exceptSet, &maxfd);
 
 		if (maxfd >= 0)
 		{
 			int selectResult = select(maxfd+1, &readSet, &writeSet, &exceptSet, &timeout);
-			if (!IS_VALID_SELECT(selectResult))
-				throw NetException(__FILE__, __LINE__, ERR_SOCK_TRANSFER_SELECT_FAILED, SOCKET_ERRNO());
+			if (selectResult == -1)
+				throw NetException(__FILE__, __LINE__, ERR_SOCK_TRANSFER_SELECT_FAILED, 0);
 		}
 	}
 	else

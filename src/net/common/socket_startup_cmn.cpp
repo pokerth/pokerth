@@ -17,15 +17,16 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
+#include <boost/asio.hpp>
+#include <boost/thread.hpp>
+#include <boost/version.hpp> // solve compatibility issues
+
 #include <net/socket_startup.h>
-#include <net/socket_helper.h>
 #include <core/openssl_wrapper.h>
 
 #ifdef PKTH_USE_GNUTLS
 
 #include <gcrypt.h>
-#include <boost/thread.hpp>
-#include <boost/version.hpp> // solve compatibility issues
 
 extern "C" {
 
@@ -68,7 +69,7 @@ extern "C" {
 #endif // PKTH_USE_GNUTLS
 
 bool
-internal_socket_startup()
+socket_startup()
 {
 #ifdef PKTH_USE_GNUTLS
 	gcry_control(GCRYCTL_SET_THREAD_CBS, &gcry_threads_boost);
@@ -78,7 +79,7 @@ internal_socket_startup()
 }
 
 void
-internal_socket_cleanup()
+socket_cleanup()
 {
 }
 
@@ -87,11 +88,12 @@ bool
 socket_has_sctp()
 {
 #ifdef IPPROTO_SCTP
-	SOCKET test = socket(AF_INET, SOCK_STREAM, IPPROTO_SCTP);
+	boost::asio::detail::socket_type test = socket(AF_INET, SOCK_STREAM, IPPROTO_SCTP);
 
-	if (test == INVALID_SOCKET)
+	if (test == boost::asio::detail::invalid_socket)
 		return false;
-	CLOSESOCKET(test);
+	boost::system::error_code ec;
+	boost::asio::detail::socket_ops::close(test, ec);
 	return true;
 #else
 	return false;
@@ -101,11 +103,12 @@ socket_has_sctp()
 bool
 socket_has_ipv6()
 {
-	SOCKET test = socket(AF_INET6, SOCK_STREAM, 0);
+	boost::asio::detail::socket_type test = socket(AF_INET6, SOCK_STREAM, 0);
 
-	if (test == INVALID_SOCKET)
+	if (test == boost::asio::detail::invalid_socket)
 		return false;
-	CLOSESOCKET(test);
+	boost::system::error_code ec;
+	boost::asio::detail::socket_ops::close(test, ec);
 	return true;
 }
 
@@ -113,14 +116,15 @@ bool
 socket_has_dual_stack()
 {
 	bool retVal = false;
-	SOCKET test = socket(AF_INET6, SOCK_STREAM, 0);
+	boost::asio::detail::socket_type test = socket(AF_INET6, SOCK_STREAM, 0);
 
-	if (test != INVALID_SOCKET)
+	if (test != boost::asio::detail::invalid_socket)
 	{
 		int ipv6only = 0;
 		if (setsockopt(test, IPPROTO_IPV6, IPV6_V6ONLY, (char *)&ipv6only, sizeof(ipv6only)) == 0)
 			retVal = true;
-		CLOSESOCKET(test);
+		boost::system::error_code ec;
+		boost::asio::detail::socket_ops::close(test, ec);
 	}
 	return retVal;
 }

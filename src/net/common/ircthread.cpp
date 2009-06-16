@@ -29,6 +29,7 @@
 using namespace std;
 
 #define IRC_WAIT_TERMINATION_MSEC			500
+#define IRC_RECV_TIMEOUT_MSEC				50
 #define IRC_MAX_RENAME_TRIES				5
 #define IRC_MIN_RECONNECT_INTERVAL_SEC		60
 
@@ -415,12 +416,12 @@ IrcThread::IrcMain()
 			FD_ZERO(&readSet);
 			FD_ZERO(&writeSet);
 			timeout.tv_sec = 0;
-			timeout.tv_usec = RECV_TIMEOUT_MSEC * 1000;
+			timeout.tv_usec = IRC_RECV_TIMEOUT_MSEC * 1000;
 
 			irc_add_select_descriptors(s, &readSet, &writeSet, &maxfd);
 
 			int selectResult = select(maxfd + 1, &readSet, &writeSet, 0, &timeout);
-			if (!IS_VALID_SELECT(selectResult))
+			if (selectResult == -1)
 			{
 				GetCallback().SignalIrcError(ERR_IRC_SELECT_FAILED);
 				break;

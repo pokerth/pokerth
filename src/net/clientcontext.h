@@ -37,10 +37,10 @@ public:
 	void SetSessionData(boost::shared_ptr<SessionData> sessionData);
 	boost::shared_ptr<boost::asio::ip::tcp::resolver> GetResolver() const;
 	void SetResolver(boost::shared_ptr<boost::asio::ip::tcp::resolver> resolver);
-	int GetProtocol() const
-	{return m_protocol;}
-	void SetProtocol(int protocol)
-	{m_protocol = protocol;}
+	bool GetSctp() const
+	{return m_sctp;}
+	void SetSctp(bool sctp)
+	{m_sctp = sctp;}
 	int GetAddrFamily() const
 	{return m_addrFamily;}
 	void SetAddrFamily(int addrFamily)
@@ -92,7 +92,7 @@ public:
 private:
 	boost::shared_ptr<SessionData> m_sessionData;
 	boost::shared_ptr<boost::asio::ip::tcp::resolver> m_resolver;
-	int					m_protocol;
+	bool				m_sctp;
 	int					m_addrFamily;
 	std::string			m_serverAddr;
 	std::string			m_serverListUrl;

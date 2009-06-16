@@ -53,7 +53,6 @@ public:
 	void SetSessionPlayerData(SessionId session, boost::shared_ptr<PlayerData> playerData);
 	void RemoveSession(SessionId session);
 
-	SessionWrapper Select(unsigned timeoutMsec);
 	SessionWrapper GetSessionById(SessionId id) const;
 	SessionWrapper GetSessionByPlayerName(const std::string playerName) const;
 	SessionWrapper GetSessionByUniquePlayerId(unsigned uniqueId) const;
