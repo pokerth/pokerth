@@ -57,8 +57,6 @@ public:
 	SessionWrapper GetSessionByPlayerName(const std::string playerName) const;
 	SessionWrapper GetSessionByUniquePlayerId(unsigned uniqueId) const;
 
-	bool GetSocketForSession(SessionId session, SOCKET &outSocket);
-
 	PlayerDataList GetPlayerDataList() const;
 	PlayerIdList GetPlayerIdList() const;
 	bool IsPlayerConnected(const std::string &playerName) const;
