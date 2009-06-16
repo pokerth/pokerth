@@ -179,7 +179,7 @@ SOURCES += \
 		src/net/common/sessiondata.cpp \
 		src/net/common/sessiondatacallback.cpp \
 		src/net/common/sessionmanager.cpp \
-		src/net/common/socket_startup_cmn.cpp \
+		src/net/common/socket_startup.cpp \
 		src/net/common/clientexception.cpp \
 		src/net/common/netcontext.cpp \
 		src/net/common/netexception.cpp \
