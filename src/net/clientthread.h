@@ -107,8 +107,7 @@ protected:
 	void CancelTimers();
 	void InitGame();
 
-	void AddPacket(boost::shared_ptr<NetPacket> packet);
-	void TimerSendPacketLoop(const boost::system::error_code &ec);
+	void SendPacket(boost::shared_ptr<NetPacket> packet);
 
 	bool GetCachedPlayerInfo(unsigned id, PlayerInfo &info) const;
 	void RequestPlayerInfo(unsigned id, bool requestAvatar = false);
@@ -194,7 +193,6 @@ private:
 	boost::shared_ptr<ClientSenderCallback> m_senderCallback;
 
 	NetPacketList m_outPacketList;
-	mutable boost::mutex m_outPacketListMutex;
 
 	boost::shared_ptr<ClientContext> m_context;
 	ClientState *m_curState;
@@ -246,7 +244,6 @@ private:
 
 	boost::asio::deadline_timer m_stateTimer;
 	boost::asio::deadline_timer m_avatarTimer;
-	boost::asio::deadline_timer m_sendTimer;
 
 friend class AbstractClientStateReceiving;
 friend class ClientStateInit;

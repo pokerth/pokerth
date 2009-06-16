@@ -67,7 +67,7 @@ ClientThread::ClientThread(GuiInterface &gui, AvatarManager &avatarManager)
 : m_ioService(new boost::asio::io_service), m_curState(NULL), m_gui(gui),
   m_avatarManager(avatarManager), m_isServerSelected(false),
   m_curGameId(0), m_curGameNum(1), m_guiPlayerId(0), m_sessionEstablished(false),
-  m_stateTimer(*m_ioService), m_avatarTimer(*m_ioService), m_sendTimer(*m_ioService)
+  m_stateTimer(*m_ioService), m_avatarTimer(*m_ioService)
 {
 	m_context.reset(new ClientContext);
 	m_receiver.reset(new ReceiverHelper);
@@ -123,16 +123,14 @@ ClientThread::SendKickPlayer(unsigned playerId)
 	NetPacketKickPlayer::Data requestData;
 	requestData.playerId = playerId;
 	static_cast<NetPacketKickPlayer *>(request.get())->SetData(requestData);
-	boost::mutex::scoped_lock lock(m_outPacketListMutex);
-	m_outPacketList.push_back(request);
+	m_ioService->post(boost::bind(&ClientThread::SendPacket, shared_from_this(), request));
 }
 
 void
 ClientThread::SendLeaveCurrentGame()
 {
 	boost::shared_ptr<NetPacket> request(new NetPacketLeaveCurrentGame);
-	boost::mutex::scoped_lock lock(m_outPacketListMutex);
-	m_outPacketList.push_back(request);
+	m_ioService->post(boost::bind(&ClientThread::SendPacket, shared_from_this(), request));
 }
 
 void
@@ -146,8 +144,7 @@ ClientThread::SendStartEvent(bool fillUpWithCpuPlayers)
 	try
 	{
 		static_cast<NetPacketStartEvent *>(start.get())->SetData(startData);
-		boost::mutex::scoped_lock lock(m_outPacketListMutex);
-		m_outPacketList.push_back(start);
+		m_ioService->post(boost::bind(&ClientThread::SendPacket, shared_from_this(), start));
 	} catch (const NetException &e)
 	{
 		LOG_ERROR("ClientThread::SendStartEvent: " << e.what());
@@ -173,8 +170,7 @@ ClientThread::SendPlayerAction()
 	{
 		static_cast<NetPacketPlayersAction *>(action.get())->SetData(actionData);
 		// Just dump the packet.
-		boost::mutex::scoped_lock lock(m_outPacketListMutex);
-		m_outPacketList.push_back(action);
+		m_ioService->post(boost::bind(&ClientThread::SendPacket, shared_from_this(), action));
 	} catch (const NetException &e)
 	{
 		LOG_ERROR("ClientThread::SendPlayerAction: " << e.what());
@@ -193,8 +189,7 @@ ClientThread::SendChatMessage(const std::string &msg)
 	{
 		static_cast<NetPacketSendChatText *>(chat.get())->SetData(chatData);
 		// Just dump the packet.
-		boost::mutex::scoped_lock lock(m_outPacketListMutex);
-		m_outPacketList.push_back(chat);
+		m_ioService->post(boost::bind(&ClientThread::SendPacket, shared_from_this(), chat));
 	} catch (const NetException &e)
 	{
 		LOG_ERROR("ClientThread::SendChatMessage: " << e.what());
@@ -213,8 +208,7 @@ ClientThread::SendJoinFirstGame(const std::string &password)
 	try
 	{
 		static_cast<NetPacketJoinGame *>(join.get())->SetData(joinData);
-		boost::mutex::scoped_lock lock(m_outPacketListMutex);
-		m_outPacketList.push_back(join);
+		m_ioService->post(boost::bind(&ClientThread::SendPacket, shared_from_this(), join));
 	} catch (const NetException &e)
 	{
 		LOG_ERROR("ClientThread::SendJoinFirstGame: " << e.what());
@@ -233,8 +227,7 @@ ClientThread::SendJoinGame(unsigned gameId, const std::string &password)
 	try
 	{
 		static_cast<NetPacketJoinGame *>(join.get())->SetData(joinData);
-		boost::mutex::scoped_lock lock(m_outPacketListMutex);
-		m_outPacketList.push_back(join);
+		m_ioService->post(boost::bind(&ClientThread::SendPacket, shared_from_this(), join));
 	} catch (const NetException &e)
 	{
 		LOG_ERROR("ClientThread::SendJoinGame: " << e.what());
@@ -254,8 +247,7 @@ ClientThread::SendCreateGame(const GameData &gameData, const std::string &name, 
 	try
 	{
 		static_cast<NetPacketCreateGame *>(create.get())->SetData(createData);
-		boost::mutex::scoped_lock lock(m_outPacketListMutex);
-		m_outPacketList.push_back(create);
+		m_ioService->post(boost::bind(&ClientThread::SendPacket, shared_from_this(), create));
 	} catch (const NetException &e)
 	{
 		LOG_ERROR("ClientThread::SendCreateGame: " << e.what());
@@ -266,8 +258,7 @@ void
 ClientThread::SendResetTimeout()
 {
 	boost::shared_ptr<NetPacket> reset(new NetPacketResetTimeout);
-	boost::mutex::scoped_lock lock(m_outPacketListMutex);
-	m_outPacketList.push_back(reset);
+	m_ioService->post(boost::bind(&ClientThread::SendPacket, shared_from_this(), reset));
 }
 
 void
@@ -277,8 +268,7 @@ ClientThread::SendAskKickPlayer(unsigned playerId)
 	NetPacketAskKickPlayer::Data askData;
 	askData.playerId = playerId;
 	static_cast<NetPacketAskKickPlayer *>(ask.get())->SetData(askData);
-	boost::mutex::scoped_lock lock(m_outPacketListMutex);
-	m_outPacketList.push_back(ask);
+	m_ioService->post(boost::bind(&ClientThread::SendPacket, shared_from_this(), ask));
 }
 
 void
@@ -292,8 +282,7 @@ ClientThread::SendVoteKick(bool doKick)
 	}
 	voteData.vote = doKick ? KICK_VOTE_IN_FAVOUR : KICK_VOTE_AGAINST;
 	static_cast<NetPacketVoteKickPlayer *>(vote.get())->SetData(voteData);
-	boost::mutex::scoped_lock lock(m_outPacketListMutex);
-	m_outPacketList.push_back(vote);
+	m_ioService->post(boost::bind(&ClientThread::SendPacket, shared_from_this(), vote));
 }
 
 void
@@ -467,20 +456,12 @@ ClientThread::RegisterTimers()
 	m_avatarTimer.async_wait(
 		boost::bind(
 			&ClientThread::TimerCheckAvatarDownloads, shared_from_this(), boost::asio::placeholders::error));
-
-	// TODO: send directly without additional buffer.
-	m_sendTimer.expires_from_now(
-		boost::posix_time::milliseconds(CLIENT_SEND_LOOP_MSEC));
-	m_sendTimer.async_wait(
-		boost::bind(
-			&ClientThread::TimerSendPacketLoop, shared_from_this(), boost::asio::placeholders::error));
 }
 
 void
 ClientThread::CancelTimers()
 {
 	m_avatarTimer.cancel();
-	m_sendTimer.cancel();
 }
 
 void
@@ -500,40 +481,27 @@ ClientThread::InitGame()
 }
 
 void
-ClientThread::AddPacket(boost::shared_ptr<NetPacket> packet)
+ClientThread::SendPacket(boost::shared_ptr<NetPacket> packet)
 {
-	boost::mutex::scoped_lock lock(m_outPacketListMutex);
-	m_outPacketList.push_back(packet);
-}
-
-void
-ClientThread::TimerSendPacketLoop(const boost::system::error_code &ec)
-{
-	if (!ec)
+	// Put packets in a buffer until the session is established.
+	if (IsSessionEstablished())
 	{
-		if (IsSessionEstablished())
+		if (!m_outPacketList.empty())
 		{
-			boost::mutex::scoped_lock lock(m_outPacketListMutex);
+			NetPacketList::iterator i = m_outPacketList.begin();
+			NetPacketList::iterator end = m_outPacketList.end();
 
-			if (!m_outPacketList.empty())
+			while (i != end)
 			{
-				NetPacketList::iterator i = m_outPacketList.begin();
-				NetPacketList::iterator end = m_outPacketList.end();
-
-				while (i != end)
-				{
-					GetSender().Send(GetContext().GetSessionData(), *i);
-					++i;
-				}
-				m_outPacketList.clear();
+				GetSender().Send(GetContext().GetSessionData(), *i);
+				++i;
 			}
+			m_outPacketList.clear();
 		}
-		m_sendTimer.expires_from_now(
-			boost::posix_time::milliseconds(CLIENT_SEND_LOOP_MSEC));
-		m_sendTimer.async_wait(
-			boost::bind(
-				&ClientThread::TimerSendPacketLoop, shared_from_this(), boost::asio::placeholders::error));
+		GetSender().Send(GetContext().GetSessionData(), packet);
 	}
+	else
+		m_outPacketList.push_back(packet);
 }
 
 bool
