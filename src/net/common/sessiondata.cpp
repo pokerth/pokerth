@@ -66,12 +66,6 @@ SessionData::SetState(SessionData::State state)
 	m_state = state;
 }
 
-SOCKET
-SessionData::GetSocket()
-{
-	return m_socket->native();
-}
-
 boost::shared_ptr<boost::asio::ip::tcp::socket>
 SessionData::GetAsioSocket()
 {

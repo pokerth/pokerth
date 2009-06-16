@@ -52,7 +52,6 @@ public:
 	State GetState() const;
 	void SetState(State state);
 
-	SOCKET GetSocket();
 	boost::shared_ptr<boost::asio::ip::tcp::socket> GetAsioSocket();
 
 	void SetReadyFlag();
