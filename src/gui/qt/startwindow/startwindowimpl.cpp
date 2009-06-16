@@ -510,7 +510,7 @@ void startWindowImpl::showLobbyDialog()
 {
 	myGameLobbyDialog->exec(); 
 
-	if (myGameLobbyDialog->result() == QDialog::Accepted)
+	if (myGameLobbyDialog->result() == QDialog::Accepted )
 	{
 		this->hide();
 		//some gui modifications

@@ -106,9 +106,10 @@ public slots:
 	void joinAnyGameButtonRefresh();
 	void reject();	
 	void closeEvent(QCloseEvent *event);
-	void writeDialogSettings();
+	void writeDialogSettings(int);
 	void readDialogSettings();
 	void changeGameListFilter(int);
+	void changeGameListSorting();
 			
 private:
 	
