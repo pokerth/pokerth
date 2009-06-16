@@ -21,10 +21,6 @@
 #ifndef _RECEIVERHELPER_H_
 #define _RECEIVERHELPER_H_
 
-#include <boost/shared_ptr.hpp>
-#include <deque>
-
-#include <net/socket_helper.h>
 #include <net/netpacket.h>
 #include <net/receivebuffer.h>
 
@@ -34,11 +30,6 @@ class ReceiverHelper
 public:
 	ReceiverHelper();
 	virtual ~ReceiverHelper();
-
-	// Set the socket from which to receive data.
-	void Init(SOCKET socket);
-
-	boost::shared_ptr<NetPacket> Recv(SOCKET sock, ReceiveBuffer &buf);
 
 	void ScanPackets(ReceiveBuffer &buf);
 };

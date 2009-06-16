@@ -25,7 +25,6 @@
 #include <net/socket_msg.h>
 #include <net/netexception.h>
 #include <core/loghelper.h>
-#include <cstring>
 
 using namespace std;
 
@@ -36,59 +35,6 @@ ReceiverHelper::ReceiverHelper()
 
 ReceiverHelper::~ReceiverHelper()
 {
-}
-
-boost::shared_ptr<NetPacket>
-ReceiverHelper::Recv(SOCKET sock, ReceiveBuffer &buf)
-{
-	if (buf.receivedPackets.empty())
-	{
-		int bufSize = RECV_BUF_SIZE - buf.recvBufUsed;
-
-		if (bufSize > 0) // check if there is room in the input buffer
-		{
-			fd_set readSet;
-			struct timeval timeout;
-
-			FD_ZERO(&readSet);
-			FD_SET(sock, &readSet);
-
-			timeout.tv_sec  = 0;
-			timeout.tv_usec = RECV_TIMEOUT_MSEC * 1000;
-			int selectResult = select(sock + 1, &readSet, NULL, NULL, &timeout);
-			if (!IS_VALID_SELECT(selectResult))
-			{
-				throw NetException(__FILE__, __LINE__, ERR_SOCK_SELECT_FAILED, SOCKET_ERRNO());
-			}
-			if (selectResult > 0) // recv is possible
-			{
-				int bytesRecvd = recv(sock, buf.recvBuf + buf.recvBufUsed, bufSize, 0);
-
-				if (!IS_VALID_RECV(bytesRecvd))
-				{
-					int errCode = SOCKET_ERRNO();
-					if (!IS_SOCKET_ERR_WOULDBLOCK(errCode))
-						throw NetException(__FILE__, __LINE__, ERR_SOCK_RECV_FAILED, SOCKET_ERRNO());
-				}
-				else if (bytesRecvd == 0)
-				{
-					throw NetException(__FILE__, __LINE__, ERR_SOCK_CONN_RESET, 0);
-				}
-				else
-				{
-					buf.recvBufUsed += bytesRecvd;
-					ScanPackets(buf);
-				}
-			}
-		}
-	}
-	boost::shared_ptr<NetPacket> tmpPacket;
-	if (!buf.receivedPackets.empty())
-	{
-		tmpPacket = buf.receivedPackets.front();
-		buf.receivedPackets.pop_front();
-	}
-	return tmpPacket;
 }
 
 void
