@@ -518,6 +518,9 @@ void gameLobbyDialogImpl::clearDialog()
 	label_TimeoutForPlayerAction->setText("");
 
 	myGameListModel->clear();
+	myGameListSelectionModel->clear();
+	myGameListSelectionModel->clearSelection();
+	myGameListSortFilterProxyModel->clear();
 	treeView_GameList->show();
 	treeWidget_connectedPlayers->clear();
 	

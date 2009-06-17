@@ -518,6 +518,7 @@ void startWindowImpl::showLobbyDialog()
 	}
 	else
 	{
+		myGameLobbyDialog->clearDialog();
 		mySession->terminateNetworkClient();
 	}
 }
