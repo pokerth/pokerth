@@ -192,7 +192,6 @@ void gameLobbyDialogImpl::joinGame()
 	{
 		unsigned gameId = selection->selectedRows().first().data(Qt::UserRole).toUInt();
 		myCurrentGameId = gameId;
-		qDebug() << "joined game: " << myCurrentGameId;
 		GameInfo info(mySession->getClientGameInfo(gameId));
 		bool ok = true;
 		QString password;
