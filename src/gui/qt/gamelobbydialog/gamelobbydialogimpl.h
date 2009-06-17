@@ -126,14 +126,14 @@ private:
 	bool inGame;
 
 	QString myAppDataPath;
-	int keyUpCounter;
 	QMessageBox *waitStartGameMsgBox;
 	QTimer *waitStartGameMsgBoxTimer;
 	QTimer *blinkingButtonAnimationTimer;
 	bool blinkingButtonAnimationState;
 	QColor defaultStartButtonColor;
 	QColor defaultStartButtonTextColor;
-	LobbyChat *myChat;
+	LobbyChat *myChat;	
+	int keyUpCounter;
 	QStandardItemModel *myGameListModel;
 	QItemSelectionModel *myGameListSelectionModel;
 	MyGameListSortFilterProxyModel *myGameListSortFilterProxyModel;

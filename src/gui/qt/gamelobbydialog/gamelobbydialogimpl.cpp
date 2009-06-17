@@ -176,8 +176,8 @@ void gameLobbyDialogImpl::createGame()
 
 		hideShowGameDescription(TRUE);
 
-		label_SmallBlind->setText(QString::number(gameData.firstSmallBlind));
-		label_StartCash->setText(QString::number(gameData.startMoney));
+		label_SmallBlind->setText(QString("%L1").arg(gameData.firstSmallBlind));
+		label_StartCash->setText(QString("%L1").arg(gameData.startMoney));
 		label_MaximumNumberOfPlayers->setText(QString::number(gameData.maxNumberOfPlayers));
 
 		updateDialogBlinds(gameData);
@@ -247,6 +247,10 @@ void gameLobbyDialogImpl::refresh(int actionID) {
 	if (actionID == MSG_NET_GAME_CLIENT_START)
 	{
 		myGameListModel->clear();
+		myGameListSelectionModel->clear();
+		myGameListSelectionModel->clearSelection();
+		myGameListSortFilterProxyModel->clear();
+	
 		QStringList headerList;
 		headerList << tr("Game") << tr("Players") << tr("State") << tr("Private"); 
 		myGameListModel->setHorizontalHeaderLabels(headerList);
@@ -283,8 +287,8 @@ void gameLobbyDialogImpl::gameSelected(const QModelIndex &index, const QModelInd
 		GameInfo info(mySession->getClientGameInfo(myGameListModel->item(myGameListSortFilterProxyModel->mapToSource(index).row(), 0)->data(Qt::UserRole).toUInt()));
 
 		hideShowGameDescription(TRUE);		
-		label_SmallBlind->setText(QString::number(info.data.firstSmallBlind));
-		label_StartCash->setText(QString::number(info.data.startMoney));
+		label_SmallBlind->setText(QString("%L1").arg(info.data.firstSmallBlind));
+		label_StartCash->setText(QString("%L1").arg(info.data.startMoney));
 		label_MaximumNumberOfPlayers->setText(QString::number(info.data.maxNumberOfPlayers));
 
 		updateDialogBlinds(info.data);
@@ -771,7 +775,7 @@ void gameLobbyDialogImpl::updateDialogBlinds(const GameData &gameData) {
 		QString blindsListString;
 		std::list<int>::const_iterator it1;
 		for(it1= gameData.manualBlindsList.begin(); it1 != gameData.manualBlindsList.end(); it1++) {
-			blindsListString.append(QString::number(*it1,10)).append(", ");
+			blindsListString.append(QString("%L1").arg(*it1)).append(", "); 
 		}
 		blindsListString.remove(blindsListString.length()-2,2);
 		label_blindsList->setText(blindsListString);
