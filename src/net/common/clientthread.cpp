@@ -123,14 +123,14 @@ ClientThread::SendKickPlayer(unsigned playerId)
 	NetPacketKickPlayer::Data requestData;
 	requestData.playerId = playerId;
 	static_cast<NetPacketKickPlayer *>(request.get())->SetData(requestData);
-	m_ioService->post(boost::bind(&ClientThread::SendPacket, shared_from_this(), request));
+	m_ioService->post(boost::bind(&ClientThread::SendSessionPacket, shared_from_this(), request));
 }
 
 void
 ClientThread::SendLeaveCurrentGame()
 {
 	boost::shared_ptr<NetPacket> request(new NetPacketLeaveCurrentGame);
-	m_ioService->post(boost::bind(&ClientThread::SendPacket, shared_from_this(), request));
+	m_ioService->post(boost::bind(&ClientThread::SendSessionPacket, shared_from_this(), request));
 }
 
 void
@@ -144,7 +144,7 @@ ClientThread::SendStartEvent(bool fillUpWithCpuPlayers)
 	try
 	{
 		static_cast<NetPacketStartEvent *>(start.get())->SetData(startData);
-		m_ioService->post(boost::bind(&ClientThread::SendPacket, shared_from_this(), start));
+		m_ioService->post(boost::bind(&ClientThread::SendSessionPacket, shared_from_this(), start));
 	} catch (const NetException &e)
 	{
 		LOG_ERROR("ClientThread::SendStartEvent: " << e.what());
@@ -170,7 +170,7 @@ ClientThread::SendPlayerAction()
 	{
 		static_cast<NetPacketPlayersAction *>(action.get())->SetData(actionData);
 		// Just dump the packet.
-		m_ioService->post(boost::bind(&ClientThread::SendPacket, shared_from_this(), action));
+		m_ioService->post(boost::bind(&ClientThread::SendSessionPacket, shared_from_this(), action));
 	} catch (const NetException &e)
 	{
 		LOG_ERROR("ClientThread::SendPlayerAction: " << e.what());
@@ -189,7 +189,7 @@ ClientThread::SendChatMessage(const std::string &msg)
 	{
 		static_cast<NetPacketSendChatText *>(chat.get())->SetData(chatData);
 		// Just dump the packet.
-		m_ioService->post(boost::bind(&ClientThread::SendPacket, shared_from_this(), chat));
+		m_ioService->post(boost::bind(&ClientThread::SendSessionPacket, shared_from_this(), chat));
 	} catch (const NetException &e)
 	{
 		LOG_ERROR("ClientThread::SendChatMessage: " << e.what());
@@ -208,7 +208,7 @@ ClientThread::SendJoinFirstGame(const std::string &password)
 	try
 	{
 		static_cast<NetPacketJoinGame *>(join.get())->SetData(joinData);
-		m_ioService->post(boost::bind(&ClientThread::SendPacket, shared_from_this(), join));
+		m_ioService->post(boost::bind(&ClientThread::SendSessionPacket, shared_from_this(), join));
 	} catch (const NetException &e)
 	{
 		LOG_ERROR("ClientThread::SendJoinFirstGame: " << e.what());
@@ -227,7 +227,7 @@ ClientThread::SendJoinGame(unsigned gameId, const std::string &password)
 	try
 	{
 		static_cast<NetPacketJoinGame *>(join.get())->SetData(joinData);
-		m_ioService->post(boost::bind(&ClientThread::SendPacket, shared_from_this(), join));
+		m_ioService->post(boost::bind(&ClientThread::SendSessionPacket, shared_from_this(), join));
 	} catch (const NetException &e)
 	{
 		LOG_ERROR("ClientThread::SendJoinGame: " << e.what());
@@ -247,7 +247,7 @@ ClientThread::SendCreateGame(const GameData &gameData, const std::string &name, 
 	try
 	{
 		static_cast<NetPacketCreateGame *>(create.get())->SetData(createData);
-		m_ioService->post(boost::bind(&ClientThread::SendPacket, shared_from_this(), create));
+		m_ioService->post(boost::bind(&ClientThread::SendSessionPacket, shared_from_this(), create));
 	} catch (const NetException &e)
 	{
 		LOG_ERROR("ClientThread::SendCreateGame: " << e.what());
@@ -258,7 +258,7 @@ void
 ClientThread::SendResetTimeout()
 {
 	boost::shared_ptr<NetPacket> reset(new NetPacketResetTimeout);
-	m_ioService->post(boost::bind(&ClientThread::SendPacket, shared_from_this(), reset));
+	m_ioService->post(boost::bind(&ClientThread::SendSessionPacket, shared_from_this(), reset));
 }
 
 void
@@ -268,7 +268,7 @@ ClientThread::SendAskKickPlayer(unsigned playerId)
 	NetPacketAskKickPlayer::Data askData;
 	askData.playerId = playerId;
 	static_cast<NetPacketAskKickPlayer *>(ask.get())->SetData(askData);
-	m_ioService->post(boost::bind(&ClientThread::SendPacket, shared_from_this(), ask));
+	m_ioService->post(boost::bind(&ClientThread::SendSessionPacket, shared_from_this(), ask));
 }
 
 void
@@ -282,7 +282,7 @@ ClientThread::SendVoteKick(bool doKick)
 	}
 	voteData.vote = doKick ? KICK_VOTE_IN_FAVOUR : KICK_VOTE_AGAINST;
 	static_cast<NetPacketVoteKickPlayer *>(vote.get())->SetData(voteData);
-	m_ioService->post(boost::bind(&ClientThread::SendPacket, shared_from_this(), vote));
+	m_ioService->post(boost::bind(&ClientThread::SendSessionPacket, shared_from_this(), vote));
 }
 
 void
@@ -424,22 +424,18 @@ ClientThread::Main()
 	boost::asio::io_service::work ioWork(*m_ioService);
 	try
 	{
-		{
-			boost::asio::io_service::work ioWork(*m_ioService);
-			m_ioService->run(); // Will only be aborted asynchronously.
-		}
-		// Close the socket.
-		GetContext().GetSessionData()->GetAsioSocket()->close();
-		// Execute remaining ready handlers.
-		m_ioService->reset();
-		m_ioService->poll();
-		// Set a state which does not do anything.
-		SetState(CLIENT_FINAL_STATE::Instance());
+		boost::asio::io_service::work ioWork(*m_ioService);
+		m_ioService->run(); // Will only be aborted asynchronously.
 
 	} catch (const PokerTHException &e)
 	{
 		GetCallback().SignalNetClientError(e.GetErrorId(), e.GetOsErrorCode());
 	}
+	// Close the socket.
+	boost::system::error_code ec;
+	GetContext().GetSessionData()->GetAsioSocket()->close();
+	// Set a state which does not do anything.
+	SetState(CLIENT_FINAL_STATE::Instance());
 	// Cancel timers.
 	GetStateTimer().cancel();
 	CancelTimers();
@@ -481,7 +477,7 @@ ClientThread::InitGame()
 }
 
 void
-ClientThread::SendPacket(boost::shared_ptr<NetPacket> packet)
+ClientThread::SendSessionPacket(boost::shared_ptr<NetPacket> packet)
 {
 	// Put packets in a buffer until the session is established.
 	if (IsSessionEstablished())

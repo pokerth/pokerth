@@ -107,7 +107,7 @@ protected:
 	void CancelTimers();
 	void InitGame();
 
-	void SendPacket(boost::shared_ptr<NetPacket> packet);
+	void SendSessionPacket(boost::shared_ptr<NetPacket> packet);
 
 	bool GetCachedPlayerInfo(unsigned id, PlayerInfo &info) const;
 	void RequestPlayerInfo(unsigned id, bool requestAvatar = false);

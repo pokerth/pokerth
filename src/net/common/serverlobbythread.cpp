@@ -513,22 +513,17 @@ ServerLobbyThread::Main()
 	RegisterTimers();
 	try
 	{
-		{
-			boost::asio::io_service::work ioWork(*m_ioService);
-			m_ioService->run(); // Will only be aborted asynchronously.
-		}
+		boost::asio::io_service::work ioWork(*m_ioService);
+		m_ioService->run(); // Will only be aborted asynchronously.
 
-		// Clear all sessions.
-		m_sessionManager.Clear();
-		m_gameSessionManager.Clear();
-		// Execute remaining ready handlers.
-		m_ioService->reset();
-		m_ioService->poll();
 	} catch (const PokerTHException &e)
 	{
 		GetCallback().SignalNetServerError(e.GetErrorId(), e.GetOsErrorCode());
 		LOG_ERROR(e.what());
 	}
+	// Clear all sessions.
+	m_sessionManager.Clear();
+	m_gameSessionManager.Clear();
 	// Cancel pending timer callbacks.
 	CancelTimers();
 }
