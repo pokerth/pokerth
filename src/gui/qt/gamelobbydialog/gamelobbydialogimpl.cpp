@@ -47,8 +47,13 @@ gameLobbyDialogImpl::gameLobbyDialogImpl(startWindowImpl *parent, ConfigFile *c)
 	blinkingButtonAnimationTimer = new QTimer(this);
 	blinkingButtonAnimationTimer->setInterval(1000);
 	
+	//fetch enabled start button colors for blinking
+	groupBox_GameInfo->setEnabled(true);
+	pushButton_StartGame->setEnabled(true);
 	defaultStartButtonColor = pushButton_StartGame->palette().button().color();
 	defaultStartButtonTextColor = pushButton_StartGame->palette().buttonText().color();
+	pushButton_StartGame->setEnabled(false);
+	groupBox_GameInfo->setEnabled(false);
 	
 	myGameListModel = new QStandardItemModel(this);
 	myGameListSortFilterProxyModel = new MyGameListSortFilterProxyModel(this);
