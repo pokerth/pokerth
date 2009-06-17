@@ -76,7 +76,8 @@ public slots:
 
 	gameTableImpl* getMyW() const { return myW; }
 	void checkPlayerQuantity();
-
+	void blinkingStartButtonAnimation();
+	
 	void joinedNetworkGame(unsigned, QString, int);
 	void addConnectedPlayer(unsigned, QString, int);
 	void updatePlayer(unsigned, QString);
@@ -120,16 +121,23 @@ private:
 	createInternetGameDialogImpl *myCreateInternetGameDialog;
 	QString currentGameName;
 	unsigned myPlayerId;
+	unsigned myCurrentGameId;
 	bool isAdmin;
 	bool inGame;
-	LobbyChat *myChat;
+
 	QString myAppDataPath;
 	int keyUpCounter;
 	QMessageBox *waitStartGameMsgBox;
 	QTimer *waitStartGameMsgBoxTimer;
+	QTimer *blinkingButtonAnimationTimer;
+	bool blinkingButtonAnimationState;
+	QColor defaultStartButtonColor;
+	QColor defaultStartButtonTextColor;
+	LobbyChat *myChat;
 	QStandardItemModel *myGameListModel;
 	QItemSelectionModel *myGameListSelectionModel;
 	MyGameListSortFilterProxyModel *myGameListSortFilterProxyModel;
+	
 
  protected:
          bool eventFilter(QObject *obj, QEvent *event);

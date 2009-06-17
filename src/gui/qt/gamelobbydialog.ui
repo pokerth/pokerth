@@ -156,14 +156,14 @@
         <item>
          <widget class="QPushButton" name="pushButton_StartGame">
           <property name="text">
-           <string>Start Game</string>
+           <string>&amp;Start Game</string>
           </property>
          </widget>
         </item>
         <item>
          <widget class="QPushButton" name="pushButton_Kick">
           <property name="text">
-           <string>Kick Player</string>
+           <string>&amp;Kick Player</string>
           </property>
          </widget>
         </item>
@@ -359,7 +359,7 @@
            </sizepolicy>
           </property>
           <property name="text">
-           <string>Leave Game</string>
+           <string>&amp;Leave Game</string>
           </property>
          </widget>
         </item>
@@ -379,7 +379,7 @@
      <item>
       <widget class="QPushButton" name="pushButton_joinAnyGame">
        <property name="text">
-        <string>Join any game</string>
+        <string>Join &amp;any game</string>
        </property>
       </widget>
      </item>
@@ -402,14 +402,14 @@
      <item>
       <widget class="QPushButton" name="pushButton_CreateGame">
        <property name="text">
-        <string>Create Game</string>
+        <string>&amp;Create Game</string>
        </property>
       </widget>
      </item>
      <item>
       <widget class="QPushButton" name="pushButton_JoinGame">
        <property name="text">
-        <string>Join Game</string>
+        <string>&amp;Join Game</string>
        </property>
       </widget>
      </item>
@@ -561,6 +561,7 @@ p, li { white-space: pre-wrap; }
  </widget>
  <tabstops>
   <tabstop>treeWidget_NickList</tabstop>
+  <tabstop>comboBox_gameListFilter</tabstop>
   <tabstop>treeView_GameList</tabstop>
   <tabstop>pushButton_joinAnyGame</tabstop>
   <tabstop>pushButton_CreateGame</tabstop>

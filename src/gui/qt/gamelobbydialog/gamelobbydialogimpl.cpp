@@ -20,7 +20,7 @@
 #include <net/socket_msg.h>
 
 gameLobbyDialogImpl::gameLobbyDialogImpl(startWindowImpl *parent, ConfigFile *c)
- : QDialog(parent), myW(NULL), myStartWindow(parent), myConfig(c), currentGameName(""), myPlayerId(0), isAdmin(false), inGame(false), myChat(NULL), keyUpCounter(0)
+ : QDialog(parent), myW(NULL), myStartWindow(parent), myConfig(c), currentGameName(""), myPlayerId(0), myCurrentGameId(0), isAdmin(false), inGame(false), blinkingButtonAnimationState(true), myChat(NULL), keyUpCounter(0)
 {
 
 #ifdef __APPLE__
@@ -44,7 +44,12 @@ gameLobbyDialogImpl::gameLobbyDialogImpl(startWindowImpl *parent, ConfigFile *c)
 
 	waitStartGameMsgBoxTimer = new QTimer(this);
 	waitStartGameMsgBoxTimer->setSingleShot(TRUE);
-
+	blinkingButtonAnimationTimer = new QTimer(this);
+	blinkingButtonAnimationTimer->setInterval(1000);
+	
+	defaultStartButtonColor = pushButton_StartGame->palette().button().color();
+	defaultStartButtonTextColor = pushButton_StartGame->palette().buttonText().color();
+	
 	myGameListModel = new QStandardItemModel(this);
 	myGameListSortFilterProxyModel = new MyGameListSortFilterProxyModel(this);
 	myGameListSortFilterProxyModel->setSourceModel(myGameListModel);
@@ -64,7 +69,7 @@ gameLobbyDialogImpl::gameLobbyDialogImpl(startWindowImpl *parent, ConfigFile *c)
 	
 	treeView_GameList->setStyleSheet("QTreeView {background-color: white; background-image: url(\""+myAppDataPath +"gfx/gui/misc/background_gamelist.png\"); background-attachment: fixed; background-position: top center ; background-repeat: no-repeat;}");
 	treeView_GameList->setAutoFillBackground(TRUE);
-	
+
 	connect( pushButton_CreateGame, SIGNAL( clicked() ), this, SLOT( createGame() ) );
 	connect( pushButton_JoinGame, SIGNAL( clicked() ), this, SLOT( joinGame() ) );
 	connect( pushButton_joinAnyGame, SIGNAL( clicked() ), this, SLOT( joinAnyGame() ) );
@@ -79,6 +84,7 @@ gameLobbyDialogImpl::gameLobbyDialogImpl(startWindowImpl *parent, ConfigFile *c)
 	connect( lineEdit_ChatInput, SIGNAL( textChanged (QString) ), myChat, SLOT( checkInputLength(QString) ) );
 	connect( lineEdit_ChatInput, SIGNAL( textEdited (QString) ), myChat, SLOT( setChatTextEdited() ) );
 	connect( waitStartGameMsgBoxTimer, SIGNAL(timeout()), this, SLOT( showWaitStartGameMsgBox() ));
+	connect( blinkingButtonAnimationTimer, SIGNAL(timeout()), this, SLOT( blinkingStartButtonAnimation() ));
 	connect( comboBox_gameListFilter, SIGNAL(currentIndexChanged(int)), this, SLOT(changeGameListFilter(int)));
 	
 	lineEdit_ChatInput->installEventFilter(this);
@@ -174,6 +180,7 @@ void gameLobbyDialogImpl::createGame()
 		label_TimeoutForPlayerAction->setText(QString::number(gameData.playerActionTimeoutSec));
 
 		mySession->clientCreateGame(gameData, currentGameName.toUtf8().constData(), myCreateInternetGameDialog->lineEdit_Password->text().toUtf8().constData());
+		
 	}
 }
 
@@ -184,6 +191,8 @@ void gameLobbyDialogImpl::joinGame()
 	if (!inGame && selection->hasSelection())
 	{
 		unsigned gameId = selection->selectedRows().first().data(Qt::UserRole).toUInt();
+		myCurrentGameId = gameId;
+		qDebug() << "joined game: " << myCurrentGameId;
 		GameInfo info(mySession->getClientGameInfo(gameId));
 		bool ok = true;
 		QString password;
@@ -298,7 +307,30 @@ void gameLobbyDialogImpl::updateGameItem(QList <QStandardItem*> itemList, unsign
 
 	itemList.at(0)->setData(gameId, Qt::UserRole);
 	itemList.at(0)->setData(QString::fromUtf8(info.name.c_str()), Qt::DisplayRole);
-
+	
+	PlayerIdList::const_iterator i = info.players.begin();
+	PlayerIdList::const_iterator end = info.players.end();
+	
+	while (i != end)
+	{
+		if(myPlayerId == *i) {
+			itemList.at(0)->setData( "MeInThisGame", 16);
+			itemList.at(0)->setBackground(QBrush(QColor(0, 255, 0, 127)));
+			itemList.at(1)->setBackground(QBrush(QColor(0, 255, 0, 127)));
+			itemList.at(2)->setBackground(QBrush(QColor(0, 255, 0, 127)));
+			itemList.at(3)->setBackground(QBrush(QColor(0, 255, 0, 127)));
+			break;
+		}
+		else {
+			itemList.at(0)->setData( "", 16);
+			itemList.at(0)->setBackground(QBrush());
+			itemList.at(1)->setBackground(QBrush());
+			itemList.at(2)->setBackground(QBrush());
+			itemList.at(3)->setBackground(QBrush());
+		}
+		++i;
+	}
+		
 	QString playerStr;
 	playerStr.sprintf("%u/%u", (unsigned)info.players.size(), (unsigned)info.data.maxNumberOfPlayers);
 	itemList.at(1)->setData(playerStr, Qt::DisplayRole);
@@ -340,7 +372,6 @@ void gameLobbyDialogImpl::addGame(unsigned gameId)
 	myGameListModel->appendRow(itemList);
 	
 	updateGameItem(itemList, gameId);
-
 }
 
 void gameLobbyDialogImpl::updateGameMode(unsigned gameId, int /*newMode*/)
@@ -535,6 +566,33 @@ void gameLobbyDialogImpl::checkPlayerQuantity() {
 		else {
 			pushButton_StartGame->setEnabled(false);
 		}
+		
+		if(treeWidget_connectedPlayers->topLevelItemCount() == label_MaximumNumberOfPlayers->text().toInt()) { 
+			blinkingButtonAnimationTimer->start(); 
+		}
+		else {
+			blinkingButtonAnimationTimer->stop();
+			blinkingButtonAnimationState = false;
+			blinkingStartButtonAnimation();
+		}
+	}
+}
+
+void gameLobbyDialogImpl::blinkingStartButtonAnimation() {
+	
+	if(blinkingButtonAnimationState) {
+		QPalette p = pushButton_StartGame->palette();
+		p.setColor(QPalette::Button, QColor(Qt::red));
+		p.setColor(QPalette::ButtonText, QColor(Qt::white));
+		pushButton_StartGame->setPalette(p);
+		blinkingButtonAnimationState = false;	
+	}
+	else {
+		QPalette p = pushButton_StartGame->palette();
+		p.setColor(QPalette::Button, defaultStartButtonColor);
+		p.setColor(QPalette::ButtonText, defaultStartButtonTextColor);
+		pushButton_StartGame->setPalette(p);
+		blinkingButtonAnimationState = true;
 	}
 }
 
@@ -556,7 +614,7 @@ void gameLobbyDialogImpl::addConnectedPlayer(unsigned playerId, QString playerNa
 	item->setData(0, Qt::UserRole, playerId);
 	item->setData(0, Qt::DisplayRole, playerName);
 	
-	if(rights == PLAYER_RIGHTS_ADMIN) item->setBackground(0, QBrush(QColor(169,255,140)));
+	if(rights == PLAYER_RIGHTS_ADMIN) item->setBackground(0, QBrush(QColor(0, 255, 0, 127)));
 
 	if(this->isVisible() && inGame && myConfig->readConfigInt("PlayNetworkGameNotification")) {
 		if(treeWidget_connectedPlayers->topLevelItemCount() < label_MaximumNumberOfPlayers->text().toInt()) {
@@ -609,7 +667,7 @@ void gameLobbyDialogImpl::newGameAdmin(unsigned playerId, QString)
 	QTreeWidgetItemIterator it(treeWidget_connectedPlayers);
 	while (*it) {
 		if ((*it)->data(0, Qt::UserRole) == playerId) {
-			(*it)->setBackground(0, QBrush(QColor(169,255,140)));
+			(*it)->setBackground(0, QBrush(QColor(0, 255, 0, 127)));
 		}
 		++it;
 	}
@@ -957,7 +1015,7 @@ void gameLobbyDialogImpl::changeGameListFilter(int index) {
 			
 	writeDialogSettings(1);
 	
-	if(index) treeView_GameList->setStyleSheet("QTreeView { border: 2px solid red; background-color: white; background-image: url(\""+myAppDataPath +"gfx/gui/misc/background_gamelist.png\"); background-attachment: fixed; background-position: top center ; background-repeat: no-repeat;}");
+	if(index) treeView_GameList->setStyleSheet("QTreeView { border-radius: 4px; border: 2px solid blue; background-color: white; background-image: url(\""+myAppDataPath +"gfx/gui/misc/background_gamelist.png\"); background-attachment: fixed; background-position: top center ; background-repeat: no-repeat;}");
 	else treeView_GameList->setStyleSheet("QTreeView { background-color: white; background-image: url(\""+myAppDataPath +"gfx/gui/misc/background_gamelist.png\"); background-attachment: fixed; background-position: top center ; background-repeat: no-repeat;}");
 
 }
