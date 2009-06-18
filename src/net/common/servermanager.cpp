@@ -141,11 +141,19 @@ ServerManager::SignalIrcChatMsg(const std::string &nickName, const std::string &
 				{
 					while (msgStream.peek() == ' ')
 						msgStream.get();
-					string ipAddress(msgStream.str().substr(msgStream.tellg()));
+					string ipAddress;
+					unsigned durationHours = 12;
+					msgStream >> ipAddress;
+					while (msgStream.peek() == ' ')
+						msgStream.get();
+					if (!msgStream.eof())
+						msgStream >> durationHours;
 					if (!ipAddress.empty())
 					{
-						GetLobbyThread().GetBanManager().BanIPAddress(ipAddress);
-						m_ircThread->SendChatMessage(nickName + ": The IP address \"" + ipAddress + "\" was added to the IP address ban list.");
+						ostringstream durationStr;
+						durationStr << durationHours;
+						GetLobbyThread().GetBanManager().BanIPAddress(ipAddress, durationHours);
+						m_ircThread->SendChatMessage(nickName + ": The IP address \"" + ipAddress + "\" was added to the IP address ban list for " + durationStr.str() + (durationHours == 1 ? " hour." : " hours."));
 					}
 				}
 				else if (command == "listban")

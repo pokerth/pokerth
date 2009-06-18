@@ -100,7 +100,7 @@ ServerLobbyThread::ServerLobbyThread(GuiInterface &gui, ConfigFile *playerConfig
 	m_senderCallback.reset(new ServerSenderCallback(*this));
 	m_sender.reset(new SenderHelper(*m_senderCallback, m_ioService));
 	m_receiver.reset(new ReceiverHelper);
-	m_banManager.reset(new ServerBanManager);
+	m_banManager.reset(new ServerBanManager(m_ioService));
 }
 
 ServerLobbyThread::~ServerLobbyThread()
