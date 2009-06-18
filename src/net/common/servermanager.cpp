@@ -22,6 +22,7 @@
 #include <net/ircthread.h>
 #include <net/serverlobbythread.h>
 #include <net/serveraccepthelper.h>
+#include <net/serverbanmanager.h>
 #include <net/serverexception.h>
 #include <net/socket_msg.h>
 #include <net/socket_startup.h>
@@ -132,7 +133,7 @@ ServerManager::SignalIrcChatMsg(const std::string &nickName, const std::string &
 					string playerRegex(msgStream.str().substr(msgStream.tellg()));
 					if (!playerRegex.empty())
 					{
-						GetLobbyThread().BanPlayerRegex(playerRegex);
+						GetLobbyThread().GetBanManager().BanPlayerRegex(playerRegex);
 						m_ircThread->SendChatMessage(nickName + ": The regex \"" + playerRegex + "\" was added to the player ban list.");
 					}
 				}
@@ -143,14 +144,14 @@ ServerManager::SignalIrcChatMsg(const std::string &nickName, const std::string &
 					string ipAddress(msgStream.str().substr(msgStream.tellg()));
 					if (!ipAddress.empty())
 					{
-						GetLobbyThread().BanIPAddress(ipAddress);
+						GetLobbyThread().GetBanManager().BanIPAddress(ipAddress);
 						m_ircThread->SendChatMessage(nickName + ": The IP address \"" + ipAddress + "\" was added to the IP address ban list.");
 					}
 				}
 				else if (command == "listban")
 				{
 					list<string> banList;
-					GetLobbyThread().GetBanList(banList);
+					GetLobbyThread().GetBanManager().GetBanList(banList);
 					list<string>::const_iterator i = banList.begin();
 					list<string>::const_iterator end = banList.end();
 					while (i != end)
@@ -167,14 +168,14 @@ ServerManager::SignalIrcChatMsg(const std::string &nickName, const std::string &
 				{
 					unsigned banId = 0;
 					msgStream >> banId;
-					if (GetLobbyThread().UnBan(banId))
+					if (GetLobbyThread().GetBanManager().UnBan(banId))
 						m_ircThread->SendChatMessage(nickName + ": The ban was successfully removed.");
 					else
 						m_ircThread->SendChatMessage(nickName + ": This ban does not exist.");
 				}
 				else if (command == "clearban")
 				{
-					GetLobbyThread().ClearBanList();
+					GetLobbyThread().GetBanManager().ClearBanList();
 					m_ircThread->SendChatMessage(nickName + ": All ban lists were cleared.");
 				}
 				else if (command == "stat")

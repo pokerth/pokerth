@@ -23,7 +23,6 @@
 
 #include <boost/asio.hpp>
 #include <deque>
-#include <boost/regex.hpp>
 #include <boost/enable_shared_from_this.hpp>
 
 #include <net/sessionmanager.h>
@@ -40,6 +39,7 @@ class SenderHelper;
 class ReceiverHelper;
 class ServerSenderCallback;
 class ServerGame;
+class ServerBanManager;
 class ConfigFile;
 class AvatarManager;
 struct GameData;
@@ -71,11 +71,6 @@ public:
 	void HandleGameRetrieveAvatar(SessionWrapper session, const NetPacketRetrieveAvatar &tmpPacket);
 
 	bool KickPlayerByName(const std::string &playerName);
-	void BanPlayerRegex(const std::string &playerRegex);
-	void BanIPAddress(const std::string &ipAddress);
-	bool UnBan(unsigned banId);
-	void GetBanList(std::list<std::string> &list) const;
-	void ClearBanList();
 	std::string GetPlayerIPAddress(const std::string &playerName) const;
 	void RemovePlayer(unsigned playerId, unsigned errorCode);
 
@@ -96,6 +91,7 @@ public:
 
 	SenderHelper &GetSender();
 	boost::asio::io_service &GetIOService();
+	ServerBanManager &GetBanManager();
 
 protected:
 
@@ -107,8 +103,6 @@ protected:
 	typedef std::map<unsigned, boost::shared_ptr<ServerGame> > GameMap;
 	typedef std::map<std::string, boost::timers::portable::microsec_timer> TimerClientAddressMap;
 	typedef std::list<unsigned> RemoveGameList;
-	typedef std::map<unsigned, boost::regex> RegexMap;
-	typedef std::map<unsigned, std::string> IPAddressMap;
 
 	// Main function of the thread.
 	virtual void Main();
@@ -164,8 +158,6 @@ protected:
 	GuiInterface &GetGui();
 
 	bool IsPlayerConnected(const std::string &name) const;
-	bool IsPlayerBanned(const std::string &name) const;
-	bool IsIPAddressBanned(const std::string &ipAddress) const;
 
 	static boost::shared_ptr<NetPacket> CreateNetPacketGameListNew(const ServerGame &game);
 	static boost::shared_ptr<NetPacket> CreateNetPacketGameListUpdate(unsigned gameId, GameMode mode);
@@ -193,11 +185,6 @@ private:
 	PlayerDataMap m_computerPlayers;
 	mutable boost::mutex m_computerPlayersMutex;
 
-	RegexMap m_banPlayerNameMap;
-	IPAddressMap m_banIPAddressMap;
-	unsigned m_curBanId;
-	mutable boost::mutex m_banMutex;
-
 	GameMap m_gameMap;
 
 	GuiInterface &m_gui;
@@ -215,6 +202,8 @@ private:
 	ServerStats m_statData;
 	bool m_statDataChanged;
 	mutable boost::mutex m_statMutex;
+
+	boost::shared_ptr<ServerBanManager> m_banManager;
 
 	boost::asio::deadline_timer m_removeGameTimer;
 	boost::asio::deadline_timer m_removePlayerTimer;

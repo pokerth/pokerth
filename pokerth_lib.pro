@@ -78,6 +78,7 @@ HEADERS += \
 		src/net/servergame.h \
 		src/net/servergamestate.h \
 		src/net/serverlobbythread.h \
+		src/net/serverbanmanager.h \
 		src/net/servercallback.h \
 		src/net/sessiondata.h \
 		src/net/sessiondatacallback.h \
@@ -175,6 +176,7 @@ SOURCES += \
 		src/net/common/servergame.cpp \
 		src/net/common/servergamestate.cpp \
 		src/net/common/serverlobbythread.cpp \
+		src/net/common/serverbanmanager.cpp \
 		src/net/common/servercallback.cpp \
 		src/net/common/sessiondata.cpp \
 		src/net/common/sessiondatacallback.cpp \
