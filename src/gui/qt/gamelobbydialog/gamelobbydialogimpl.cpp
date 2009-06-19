@@ -584,10 +584,10 @@ void gameLobbyDialogImpl::checkPlayerQuantity() {
 			}
 		}
 		else {
+			pushButton_StartGame->setEnabled(false);
 			blinkingButtonAnimationTimer->stop();
 			blinkingButtonAnimationState = false;
 			blinkingStartButtonAnimation();
-			pushButton_StartGame->setEnabled(false);
 		}
 	}
 }
@@ -607,6 +607,9 @@ void gameLobbyDialogImpl::blinkingStartButtonAnimation() {
 		p.setColor(QPalette::ButtonText, defaultStartButtonTextColor);
 		pushButton_StartGame->setPalette(p);
 		blinkingButtonAnimationState = true;
+		if(!pushButton_StartGame->isEnabled()) {
+			pushButton_StartGame->setEnabled(false);
+		}
 	}
 }
 
