@@ -584,6 +584,9 @@ void gameLobbyDialogImpl::checkPlayerQuantity() {
 			}
 		}
 		else {
+			blinkingButtonAnimationTimer->stop();
+			blinkingButtonAnimationState = false;
+			blinkingStartButtonAnimation();
 			pushButton_StartGame->setEnabled(false);
 		}
 	}
