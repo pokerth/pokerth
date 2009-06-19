@@ -573,18 +573,18 @@ void gameLobbyDialogImpl::checkPlayerQuantity() {
 		
 		if (treeWidget_connectedPlayers->topLevelItemCount() >= 2) {
 			pushButton_StartGame->setEnabled(true);
+			
+			if(treeWidget_connectedPlayers->topLevelItemCount() == label_MaximumNumberOfPlayers->text().toInt()) { 
+				blinkingButtonAnimationTimer->start(); 
+			}
+			else {
+				blinkingButtonAnimationTimer->stop();
+				blinkingButtonAnimationState = false;
+				blinkingStartButtonAnimation();
+			}
 		}
 		else {
 			pushButton_StartGame->setEnabled(false);
-		}
-		
-		if(treeWidget_connectedPlayers->topLevelItemCount() == label_MaximumNumberOfPlayers->text().toInt()) { 
-			blinkingButtonAnimationTimer->start(); 
-		}
-		else {
-			blinkingButtonAnimationTimer->stop();
-			blinkingButtonAnimationState = false;
-			blinkingStartButtonAnimation();
 		}
 	}
 }
