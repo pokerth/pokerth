@@ -47,13 +47,16 @@ gameLobbyDialogImpl::gameLobbyDialogImpl(startWindowImpl *parent, ConfigFile *c)
 	blinkingButtonAnimationTimer = new QTimer(this);
 	blinkingButtonAnimationTimer->setInterval(1000);
 	
-	//fetch enabled start button colors for blinking
+	//fetch button colors for blinking
 	groupBox_GameInfo->setEnabled(true);
 	pushButton_StartGame->setEnabled(true);
 	defaultStartButtonColor = pushButton_StartGame->palette().button().color();
 	defaultStartButtonTextColor = pushButton_StartGame->palette().buttonText().color();
 	pushButton_StartGame->setEnabled(false);
 	groupBox_GameInfo->setEnabled(false);
+	disabledStartButtonColor = pushButton_StartGame->palette().button().color();
+	disabledStartButtonTextColor = pushButton_StartGame->palette().buttonText().color();
+	
 	
 	myGameListModel = new QStandardItemModel(this);
 	myGameListSortFilterProxyModel = new MyGameListSortFilterProxyModel(this);
@@ -602,13 +605,19 @@ void gameLobbyDialogImpl::blinkingStartButtonAnimation() {
 		blinkingButtonAnimationState = false;	
 	}
 	else {
-		QPalette p = pushButton_StartGame->palette();
-		p.setColor(QPalette::Button, defaultStartButtonColor);
-		p.setColor(QPalette::ButtonText, defaultStartButtonTextColor);
-		pushButton_StartGame->setPalette(p);
-		blinkingButtonAnimationState = true;
-		if(!pushButton_StartGame->isEnabled()) {
-			pushButton_StartGame->setEnabled(false);
+		if(pushButton_StartGame->isEnabled()) {
+			QPalette p = pushButton_StartGame->palette();
+			p.setColor(QPalette::Button, defaultStartButtonColor);
+			p.setColor(QPalette::ButtonText, defaultStartButtonTextColor);
+			pushButton_StartGame->setPalette(p);
+			blinkingButtonAnimationState = true;
+		}
+		else {
+			QPalette p = pushButton_StartGame->palette();
+			p.setColor(QPalette::Button, disabledStartButtonColor);
+			p.setColor(QPalette::ButtonText, disabledStartButtonTextColor);
+			pushButton_StartGame->setPalette(p);
+			blinkingButtonAnimationState = true;
 		}
 	}
 }

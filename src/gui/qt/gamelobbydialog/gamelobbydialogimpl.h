@@ -132,6 +132,8 @@ private:
 	bool blinkingButtonAnimationState;
 	QColor defaultStartButtonColor;
 	QColor defaultStartButtonTextColor;
+	QColor disabledStartButtonColor;
+	QColor disabledStartButtonTextColor;
 	LobbyChat *myChat;	
 	int keyUpCounter;
 	QStandardItemModel *myGameListModel;
