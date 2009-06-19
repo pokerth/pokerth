@@ -663,204 +663,217 @@ ServerGameStateHand::TimerLoop(const boost::system::error_code &ec, boost::share
 {
 	if (!ec && &server->GetState() == this)
 	{
-		Game &curGame = server->GetGame();
-
-		// Main game loop.
-		int curRound = curGame.getCurrentHand()->getCurrentRound();
-		curGame.getCurrentHand()->switchRounds();
-		if (!curGame.getCurrentHand()->getAllInCondition())
-			curGame.getCurrentHand()->getCurrentBeRo()->run();
-		int newRound = curGame.getCurrentHand()->getCurrentRound();
-
-		// If round changes, deal cards if needed.
-		if (newRound != curRound && newRound != GAME_STATE_POST_RIVER)
+		try
 		{
-			if (newRound <= curRound)
-				throw ServerException(__FILE__, __LINE__, ERR_NET_INVALID_GAME_ROUND, 0);
+			EngineLoop(server);
+		}
+		catch (const PokerTHException &e)
+		{
+			server->RemoveAllSessions(); // Close this game on error.
+		}
+	}
+}
 
-			// Retrieve non-fold players. If only one player is left, no cards are shown.
-			list<boost::shared_ptr<PlayerInterface> > nonFoldPlayers = *curGame.getActivePlayerList();
-			nonFoldPlayers.remove_if(boost::bind(&PlayerInterface::getMyAction, _1) == PLAYER_ACTION_FOLD);
+void
+ServerGameStateHand::EngineLoop(boost::shared_ptr<ServerGame> server)
+{
+	Game &curGame = server->GetGame();
 
-			if (curGame.getCurrentHand()->getAllInCondition()
-				&& !curGame.getCurrentHand()->getCardsShown()
-				&& nonFoldPlayers.size() > 1)
+	// Main game loop.
+	int curRound = curGame.getCurrentHand()->getCurrentRound();
+	curGame.getCurrentHand()->switchRounds();
+	if (!curGame.getCurrentHand()->getAllInCondition())
+		curGame.getCurrentHand()->getCurrentBeRo()->run();
+	int newRound = curGame.getCurrentHand()->getCurrentRound();
+
+	// If round changes, deal cards if needed.
+	if (newRound != curRound && newRound != GAME_STATE_POST_RIVER)
+	{
+		if (newRound <= curRound)
+			throw ServerException(__FILE__, __LINE__, ERR_NET_INVALID_GAME_ROUND, 0);
+
+		// Retrieve non-fold players. If only one player is left, no cards are shown.
+		list<boost::shared_ptr<PlayerInterface> > nonFoldPlayers = *curGame.getActivePlayerList();
+		nonFoldPlayers.remove_if(boost::bind(&PlayerInterface::getMyAction, _1) == PLAYER_ACTION_FOLD);
+
+		if (curGame.getCurrentHand()->getAllInCondition()
+			&& !curGame.getCurrentHand()->getCardsShown()
+			&& nonFoldPlayers.size() > 1)
+		{
+			// Send cards of all active players to all players (all in).
+			boost::shared_ptr<NetPacket> allIn(new NetPacketAllInShowCards);
+			NetPacketAllInShowCards::Data allInData;
+
+			PlayerListConstIterator i = nonFoldPlayers.begin();
+			PlayerListConstIterator end = nonFoldPlayers.end();
+
+			while (i != end)
 			{
-				// Send cards of all active players to all players (all in).
-				boost::shared_ptr<NetPacket> allIn(new NetPacketAllInShowCards);
-				NetPacketAllInShowCards::Data allInData;
+				NetPacketAllInShowCards::PlayerCards tmpPlayerCards;
+				tmpPlayerCards.playerId = (*i)->getMyUniqueID();
 
-				PlayerListConstIterator i = nonFoldPlayers.begin();
-				PlayerListConstIterator end = nonFoldPlayers.end();
+				int tmpCards[2];
+				(*i)->getMyCards(tmpCards);
+				tmpPlayerCards.cards[0] = static_cast<u_int16_t>(tmpCards[0]);
+				tmpPlayerCards.cards[1] = static_cast<u_int16_t>(tmpCards[1]);
 
-				while (i != end)
-				{
-					NetPacketAllInShowCards::PlayerCards tmpPlayerCards;
-					tmpPlayerCards.playerId = (*i)->getMyUniqueID();
+				allInData.playerCards.push_back(tmpPlayerCards);
+				++i;
+			}
+			static_cast<NetPacketAllInShowCards *>(allIn.get())->SetData(allInData);
+			server->SendToAllPlayers(allIn, SessionData::Game);
+			curGame.getCurrentHand()->setCardsShown(true);
 
-					int tmpCards[2];
-					(*i)->getMyCards(tmpCards);
-					tmpPlayerCards.cards[0] = static_cast<u_int16_t>(tmpCards[0]);
-					tmpPlayerCards.cards[1] = static_cast<u_int16_t>(tmpCards[1]);
+			server->GetStateTimer().expires_from_now(
+				boost::posix_time::seconds(SERVER_SHOW_CARDS_DELAY_SEC));
+			server->GetStateTimer().async_wait(
+				boost::bind(
+					&ServerGameStateHand::TimerLoop, this, boost::asio::placeholders::error, server));
+		}
+		else
+		{
+			SendNewRoundCards(*server, curGame, newRound);
 
-					allInData.playerCards.push_back(tmpPlayerCards);
-					++i;
-				}
-				static_cast<NetPacketAllInShowCards *>(allIn.get())->SetData(allInData);
-				server->SendToAllPlayers(allIn, SessionData::Game);
-				curGame.getCurrentHand()->setCardsShown(true);
+			server->GetStateTimer().expires_from_now(
+				boost::posix_time::seconds(GetDealCardsDelaySec(*server)));
+			server->GetStateTimer().async_wait(
+				boost::bind(
+					&ServerGameStateHand::TimerLoop, this, boost::asio::placeholders::error, server));
+		}
+	}
+	else
+	{
+		if (newRound != GAME_STATE_POST_RIVER) // continue hand
+		{
+			if (curGame.getCurrentHand()->getAllInCondition())
+				throw ServerException(__FILE__, __LINE__, ERR_NET_INTERNAL_GAME_ERROR, 0);
+
+			// Retrieve current player.
+			boost::shared_ptr<PlayerInterface> curPlayer = curGame.getCurrentPlayer();
+			if (!curPlayer.get())
+				throw ServerException(__FILE__, __LINE__, ERR_NET_NO_CURRENT_PLAYER, 0);
+			if (!curPlayer->getMyActiveStatus())
+				throw ServerException(__FILE__, __LINE__, ERR_NET_PLAYER_NOT_ACTIVE, 0);
+
+			boost::shared_ptr<NetPacket> notification(new NetPacketPlayersTurn);
+			NetPacketPlayersTurn::Data playersTurnData;
+			playersTurnData.gameState = (GameState)curGame.getCurrentHand()->getCurrentRound();
+			playersTurnData.playerId = curPlayer->getMyUniqueID();
+			static_cast<NetPacketPlayersTurn *>(notification.get())->SetData(playersTurnData);
+
+			server->SendToAllPlayers(notification, SessionData::Game);
+
+			// If the player is computer controlled, let the engine act.
+			if (curPlayer->getMyType() == PLAYER_TYPE_COMPUTER)
+			{
+				server->GetStateTimer().expires_from_now(
+					boost::posix_time::seconds(SERVER_COMPUTER_ACTION_DELAY_SEC));
+				server->GetStateTimer().async_wait(
+					boost::bind(
+						&ServerGameStateHand::TimerComputerAction, this, boost::asio::placeholders::error, server));
+			}
+			// If the player we are waiting for left, continue without him.
+			else if (!server->GetSessionManager().IsPlayerConnected(curPlayer->getMyName()))
+			{
+				PerformPlayerAction(*server, curPlayer, PLAYER_ACTION_FOLD, 0);
 
 				server->GetStateTimer().expires_from_now(
-					boost::posix_time::seconds(SERVER_SHOW_CARDS_DELAY_SEC));
+					boost::posix_time::milliseconds(SERVER_LOOP_DELAY_MSEC));
 				server->GetStateTimer().async_wait(
 					boost::bind(
 						&ServerGameStateHand::TimerLoop, this, boost::asio::placeholders::error, server));
 			}
 			else
 			{
-				SendNewRoundCards(*server, curGame, newRound);
-
-				server->GetStateTimer().expires_from_now(
-					boost::posix_time::seconds(GetDealCardsDelaySec(*server)));
-				server->GetStateTimer().async_wait(
-					boost::bind(
-						&ServerGameStateHand::TimerLoop, this, boost::asio::placeholders::error, server));
+				server->SetState(ServerGameStateWaitPlayerAction::Instance());
 			}
 		}
-		else
+		else // hand is over
 		{
-			if (newRound != GAME_STATE_POST_RIVER) // continue hand
+			// Engine will find out who won.
+			curGame.getCurrentHand()->getCurrentBeRo()->postRiverRun();
+
+			// Retrieve non-fold players. If only one player is left, no cards are shown.
+			list<boost::shared_ptr<PlayerInterface> > nonFoldPlayers = *curGame.getActivePlayerList();
+			nonFoldPlayers.remove_if(boost::bind(&PlayerInterface::getMyAction, _1) == PLAYER_ACTION_FOLD);
+
+			if (nonFoldPlayers.size() == 1)
 			{
-				if (curGame.getCurrentHand()->getAllInCondition())
-					throw ServerException(__FILE__, __LINE__, ERR_NET_INTERNAL_GAME_ERROR, 0);
+				// End of Hand, but keep cards hidden.
+				boost::shared_ptr<PlayerInterface> player = nonFoldPlayers.front();
+				boost::shared_ptr<NetPacket> endHand(new NetPacketEndOfHandHideCards);
+				NetPacketEndOfHandHideCards::Data endHandData;
+				endHandData.playerId = player->getMyUniqueID();
+				endHandData.moneyWon = player->getLastMoneyWon();
+				endHandData.playerMoney = player->getMyCash();
+				static_cast<NetPacketEndOfHandHideCards *>(endHand.get())->SetData(endHandData);
 
-				// Retrieve current player.
-				boost::shared_ptr<PlayerInterface> curPlayer = curGame.getCurrentPlayer();
-				if (!curPlayer.get())
-					throw ServerException(__FILE__, __LINE__, ERR_NET_NO_CURRENT_PLAYER, 0);
-				if (!curPlayer->getMyActiveStatus())
-					throw ServerException(__FILE__, __LINE__, ERR_NET_PLAYER_NOT_ACTIVE, 0);
-
-				boost::shared_ptr<NetPacket> notification(new NetPacketPlayersTurn);
-				NetPacketPlayersTurn::Data playersTurnData;
-				playersTurnData.gameState = (GameState)curGame.getCurrentHand()->getCurrentRound();
-				playersTurnData.playerId = curPlayer->getMyUniqueID();
-				static_cast<NetPacketPlayersTurn *>(notification.get())->SetData(playersTurnData);
-
-				server->SendToAllPlayers(notification, SessionData::Game);
-
-				// If the player is computer controlled, let the engine act.
-				if (curPlayer->getMyType() == PLAYER_TYPE_COMPUTER)
-				{
-					server->GetStateTimer().expires_from_now(
-						boost::posix_time::seconds(SERVER_COMPUTER_ACTION_DELAY_SEC));
-					server->GetStateTimer().async_wait(
-						boost::bind(
-							&ServerGameStateHand::TimerComputerAction, this, boost::asio::placeholders::error, server));
-				}
-				// If the player we are waiting for left, continue without him.
-				else if (!server->GetSessionManager().IsPlayerConnected(curPlayer->getMyName()))
-				{
-					PerformPlayerAction(*server, curPlayer, PLAYER_ACTION_FOLD, 0);
-
-					server->GetStateTimer().expires_from_now(
-						boost::posix_time::milliseconds(SERVER_LOOP_DELAY_MSEC));
-					server->GetStateTimer().async_wait(
-						boost::bind(
-							&ServerGameStateHand::TimerLoop, this, boost::asio::placeholders::error, server));
-				}
-				else
-				{
-					server->SetState(ServerGameStateWaitPlayerAction::Instance());
-				}
+				server->SendToAllPlayers(endHand, SessionData::Game);
 			}
-			else // hand is over
+			else
 			{
-				// Engine will find out who won.
-				curGame.getCurrentHand()->getCurrentBeRo()->postRiverRun();
+				// End of Hand - show cards of active players.
+				boost::shared_ptr<NetPacket> endHand(new NetPacketEndOfHandShowCards);
+				NetPacketEndOfHandShowCards::Data endHandData;
 
-				// Retrieve non-fold players. If only one player is left, no cards are shown.
-				list<boost::shared_ptr<PlayerInterface> > nonFoldPlayers = *curGame.getActivePlayerList();
-				nonFoldPlayers.remove_if(boost::bind(&PlayerInterface::getMyAction, _1) == PLAYER_ACTION_FOLD);
+				PlayerListConstIterator i = nonFoldPlayers.begin();
+				PlayerListConstIterator end = nonFoldPlayers.end();
 
-				if (nonFoldPlayers.size() == 1)
+				while (i != end)
 				{
-					// End of Hand, but keep cards hidden.
-					boost::shared_ptr<PlayerInterface> player = nonFoldPlayers.front();
-					boost::shared_ptr<NetPacket> endHand(new NetPacketEndOfHandHideCards);
-					NetPacketEndOfHandHideCards::Data endHandData;
-					endHandData.playerId = player->getMyUniqueID();
-					endHandData.moneyWon = player->getLastMoneyWon();
-					endHandData.playerMoney = player->getMyCash();
-					static_cast<NetPacketEndOfHandHideCards *>(endHand.get())->SetData(endHandData);
+					NetPacketEndOfHandShowCards::PlayerResult tmpPlayerResult;
+					tmpPlayerResult.playerId = (*i)->getMyUniqueID();
 
-					server->SendToAllPlayers(endHand, SessionData::Game);
+					int tmpCards[2];
+					int bestHandPos[5];
+					(*i)->getMyCards(tmpCards);
+					tmpPlayerResult.cards[0] = static_cast<u_int16_t>(tmpCards[0]);
+					tmpPlayerResult.cards[1] = static_cast<u_int16_t>(tmpCards[1]);
+
+					(*i)->getMyBestHandPosition(bestHandPos);
+					for (int num = 0; num < 5; num++)
+						tmpPlayerResult.bestHandPos[num] = bestHandPos[num];
+
+					tmpPlayerResult.valueOfCards = (*i)->getMyCardsValueInt();
+					tmpPlayerResult.moneyWon = (*i)->getLastMoneyWon();
+					tmpPlayerResult.playerMoney = (*i)->getMyCash();
+
+					endHandData.playerResults.push_back(tmpPlayerResult);
+					++i;
 				}
-				else
-				{
-					// End of Hand - show cards of active players.
-					boost::shared_ptr<NetPacket> endHand(new NetPacketEndOfHandShowCards);
-					NetPacketEndOfHandShowCards::Data endHandData;
+				static_cast<NetPacketEndOfHandShowCards *>(endHand.get())->SetData(endHandData);
 
-					PlayerListConstIterator i = nonFoldPlayers.begin();
-					PlayerListConstIterator end = nonFoldPlayers.end();
+				server->SendToAllPlayers(endHand, SessionData::Game);
+			}
 
-					while (i != end)
-					{
-						NetPacketEndOfHandShowCards::PlayerResult tmpPlayerResult;
-						tmpPlayerResult.playerId = (*i)->getMyUniqueID();
+			// Remove disconnected players. This is the one and only place to do this.
+			server->RemoveDisconnectedPlayers();
 
-						int tmpCards[2];
-						int bestHandPos[5];
-						(*i)->getMyCards(tmpCards);
-						tmpPlayerResult.cards[0] = static_cast<u_int16_t>(tmpCards[0]);
-						tmpPlayerResult.cards[1] = static_cast<u_int16_t>(tmpCards[1]);
+			// Start next hand - if enough players are left.
+			list<boost::shared_ptr<PlayerInterface> > playersWithCash = *curGame.getActivePlayerList();
+			playersWithCash.remove_if(boost::bind(&PlayerInterface::getMyCash, _1) < 1);
 
-						(*i)->getMyBestHandPosition(bestHandPos);
-						for (int num = 0; num < 5; num++)
-							tmpPlayerResult.bestHandPos[num] = bestHandPos[num];
-
-						tmpPlayerResult.valueOfCards = (*i)->getMyCardsValueInt();
-						tmpPlayerResult.moneyWon = (*i)->getLastMoneyWon();
-						tmpPlayerResult.playerMoney = (*i)->getMyCash();
-
-						endHandData.playerResults.push_back(tmpPlayerResult);
-						++i;
-					}
-					static_cast<NetPacketEndOfHandShowCards *>(endHand.get())->SetData(endHandData);
-
-					server->SendToAllPlayers(endHand, SessionData::Game);
-				}
-
-				// Remove disconnected players. This is the one and only place to do this.
-				server->RemoveDisconnectedPlayers();
-
-				// Start next hand - if enough players are left.
-				list<boost::shared_ptr<PlayerInterface> > playersWithCash = *curGame.getActivePlayerList();
-				playersWithCash.remove_if(boost::bind(&PlayerInterface::getMyCash, _1) < 1);
-
-				if (playersWithCash.empty())
-				{
-					// No more players left - restart.
-					server->SetState(SERVER_INITIAL_STATE::Instance());
-				}
-				else if (playersWithCash.size() == 1)
-				{
-					// View a dialog for a new game - delayed.
-					server->GetStateTimer().expires_from_now(
-						boost::posix_time::seconds(SERVER_DELAY_NEXT_GAME_SEC));
-					server->GetStateTimer().async_wait(
-						boost::bind(
-							&ServerGameStateHand::TimerNextGame, this, boost::asio::placeholders::error, server));
-				}
-				else
-				{
-					server->GetStateTimer().expires_from_now(
-						boost::posix_time::seconds(SERVER_DELAY_NEXT_HAND_SEC));
-					server->GetStateTimer().async_wait(
-						boost::bind(
-							&ServerGameStateHand::TimerNextHand, this, boost::asio::placeholders::error, server));
-				}
+			if (playersWithCash.empty())
+			{
+				// No more players left - restart.
+				server->SetState(SERVER_INITIAL_STATE::Instance());
+			}
+			else if (playersWithCash.size() == 1)
+			{
+				// View a dialog for a new game - delayed.
+				server->GetStateTimer().expires_from_now(
+					boost::posix_time::seconds(SERVER_DELAY_NEXT_GAME_SEC));
+				server->GetStateTimer().async_wait(
+					boost::bind(
+						&ServerGameStateHand::TimerNextGame, this, boost::asio::placeholders::error, server));
+			}
+			else
+			{
+				server->GetStateTimer().expires_from_now(
+					boost::posix_time::seconds(SERVER_DELAY_NEXT_HAND_SEC));
+				server->GetStateTimer().async_wait(
+					boost::bind(
+						&ServerGameStateHand::TimerNextHand, this, boost::asio::placeholders::error, server));
 			}
 		}
 	}
@@ -887,11 +900,18 @@ ServerGameStateHand::TimerComputerAction(const boost::system::error_code &ec, bo
 {
 	if (!ec && &server->GetState() == this)
 	{
-		boost::shared_ptr<PlayerInterface> tmpPlayer = server->GetGame().getCurrentPlayer();
+		try
+		{
+			boost::shared_ptr<PlayerInterface> tmpPlayer = server->GetGame().getCurrentPlayer();
 
-		tmpPlayer->action();
-		SendPlayerAction(*server, tmpPlayer);
-		TimerLoop(ec, server);
+			tmpPlayer->action();
+			SendPlayerAction(*server, tmpPlayer);
+			EngineLoop(server);
+		}
+		catch (const PokerTHException &e)
+		{
+			server->RemoveAllSessions(); // Close this game on error.
+		}
 	}
 }
 
@@ -1175,19 +1195,26 @@ ServerGameStateWaitPlayerAction::TimerTimeout(const boost::system::error_code &e
 {
 	if (!ec && &server->GetState() == this)
 	{
-		Game &curGame = server->GetGame();
-		// Retrieve current player.
-		boost::shared_ptr<PlayerInterface> curPlayer = curGame.getCurrentPlayer();
-		if (!curPlayer.get())
-			throw ServerException(__FILE__, __LINE__, ERR_NET_NO_CURRENT_PLAYER, 0);
+		try
+		{
+			Game &curGame = server->GetGame();
+			// Retrieve current player.
+			boost::shared_ptr<PlayerInterface> curPlayer = curGame.getCurrentPlayer();
+			if (!curPlayer.get())
+				throw ServerException(__FILE__, __LINE__, ERR_NET_NO_CURRENT_PLAYER, 0);
 
-		// Player did not act fast enough. Act for him.
-		if (curGame.getCurrentHand()->getCurrentBeRo()->getHighestSet() == curPlayer->getMySet())
-			PerformPlayerAction(*server, curPlayer, PLAYER_ACTION_CHECK, 0);
-		else
-			PerformPlayerAction(*server, curPlayer, PLAYER_ACTION_FOLD, 0);
+			// Player did not act fast enough. Act for him.
+			if (curGame.getCurrentHand()->getCurrentBeRo()->getHighestSet() == curPlayer->getMySet())
+				PerformPlayerAction(*server, curPlayer, PLAYER_ACTION_CHECK, 0);
+			else
+				PerformPlayerAction(*server, curPlayer, PLAYER_ACTION_FOLD, 0);
 
-		server->SetState(ServerGameStateHand::Instance());
+			server->SetState(ServerGameStateHand::Instance());
+		}
+		catch (const PokerTHException &e)
+		{
+			server->RemoveAllSessions(); // Close this game on error.
+		}
 	}
 }
 

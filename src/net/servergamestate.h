@@ -140,6 +140,7 @@ protected:
 
 	virtual int InternalProcessPacket(boost::shared_ptr<ServerGame> server, SessionWrapper session, boost::shared_ptr<NetPacket> packet);
 	void TimerLoop(const boost::system::error_code &ec, boost::shared_ptr<ServerGame> server);
+	void EngineLoop(boost::shared_ptr<ServerGame> server);
 	void TimerShowCards(const boost::system::error_code &ec, boost::shared_ptr<ServerGame> server);
 	void TimerComputerAction(const boost::system::error_code &ec, boost::shared_ptr<ServerGame> server);
 	void TimerNextHand(const boost::system::error_code &ec, boost::shared_ptr<ServerGame> server);
