@@ -84,7 +84,7 @@ void startNetworkGameDialogImpl::addConnectedPlayer(unsigned playerId, QString p
 	item->setData(0, Qt::UserRole, playerId);
 	item->setData(0, Qt::DisplayRole, playerName);
 
-	GameInfo info = mySession->getClientGameInfo(0);
+	GameInfo info = mySession->getClientGameInfo(1);
 
 	if(this->isVisible() && myConfig->readConfigInt("PlayNetworkGameNotification")) {
 		if(treeWidget->topLevelItemCount() < info.data.maxNumberOfPlayers) {
@@ -137,7 +137,7 @@ void startNetworkGameDialogImpl::newGameAdmin(unsigned playerId, QString)
 
 void startNetworkGameDialogImpl::gameCreated(unsigned /*gameId*/)
 {
-	GameInfo info = mySession->getClientGameInfo(0);
+	GameInfo info = mySession->getClientGameInfo(1);
 	label_maxPlayerNumber->setText(QString::number(info.data.maxNumberOfPlayers));
 }
 
