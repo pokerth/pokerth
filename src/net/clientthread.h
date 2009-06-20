@@ -108,6 +108,7 @@ protected:
 	void InitGame();
 
 	void SendSessionPacket(boost::shared_ptr<NetPacket> packet);
+	void SendQueuedPackets();
 
 	bool GetCachedPlayerInfo(unsigned id, PlayerInfo &info) const;
 	void RequestPlayerInfo(unsigned id, bool requestAvatar = false);

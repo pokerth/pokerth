@@ -50,7 +50,7 @@ public:
 	virtual void HandleNewSession(boost::shared_ptr<ServerGame> server, SessionWrapper session) = 0;
 
 	// Main processing function of the current state.
-	virtual int ProcessPacket(boost::shared_ptr<ServerGame> server, SessionWrapper session, boost::shared_ptr<NetPacket> packet) = 0;
+	virtual void ProcessPacket(boost::shared_ptr<ServerGame> server, SessionWrapper session, boost::shared_ptr<NetPacket> packet) = 0;
 };
 
 // Abstract State: Receiving.
@@ -61,11 +61,11 @@ public:
 
 	// Globally handle packets which are allowed in all running states.
 	// Calls InternalProcess if packet has not been processed.
-	virtual int ProcessPacket(boost::shared_ptr<ServerGame> server, SessionWrapper session, boost::shared_ptr<NetPacket> packet);
+	virtual void ProcessPacket(boost::shared_ptr<ServerGame> server, SessionWrapper session, boost::shared_ptr<NetPacket> packet);
 
 protected:
 
-	virtual int InternalProcessPacket(boost::shared_ptr<ServerGame> server, SessionWrapper session, boost::shared_ptr<NetPacket> packet) = 0;
+	virtual void InternalProcessPacket(boost::shared_ptr<ServerGame> server, SessionWrapper session, boost::shared_ptr<NetPacket> packet) = 0;
 };
 
 // State: Initialization.
@@ -90,7 +90,7 @@ protected:
 	void TimerAdminWarning(const boost::system::error_code &ec, boost::shared_ptr<ServerGame> server);
 	void TimerAdminTimeout(const boost::system::error_code &ec, boost::shared_ptr<ServerGame> server);
 
-	virtual int InternalProcessPacket(boost::shared_ptr<ServerGame> server, SessionWrapper session, boost::shared_ptr<NetPacket> packet);
+	virtual void InternalProcessPacket(boost::shared_ptr<ServerGame> server, SessionWrapper session, boost::shared_ptr<NetPacket> packet);
 
 	static boost::shared_ptr<NetPacket> CreateNetPacketPlayerJoined(const PlayerData &playerData);
 
@@ -114,7 +114,7 @@ public:
 protected:
 	ServerGameStateStartGame();
 
-	virtual int InternalProcessPacket(boost::shared_ptr<ServerGame> server, SessionWrapper session, boost::shared_ptr<NetPacket> packet);
+	virtual void InternalProcessPacket(boost::shared_ptr<ServerGame> server, SessionWrapper session, boost::shared_ptr<NetPacket> packet);
 	void TimerTimeout(const boost::system::error_code &ec, boost::shared_ptr<ServerGame> server);
 	void DoStart(boost::shared_ptr<ServerGame> server);
 
@@ -138,7 +138,7 @@ public:
 protected:
 	ServerGameStateHand();
 
-	virtual int InternalProcessPacket(boost::shared_ptr<ServerGame> server, SessionWrapper session, boost::shared_ptr<NetPacket> packet);
+	virtual void InternalProcessPacket(boost::shared_ptr<ServerGame> server, SessionWrapper session, boost::shared_ptr<NetPacket> packet);
 	void TimerLoop(const boost::system::error_code &ec, boost::shared_ptr<ServerGame> server);
 	void EngineLoop(boost::shared_ptr<ServerGame> server);
 	void TimerShowCards(const boost::system::error_code &ec, boost::shared_ptr<ServerGame> server);
@@ -170,7 +170,7 @@ public:
 protected:
 	ServerGameStateWaitPlayerAction();
 
-	virtual int InternalProcessPacket(boost::shared_ptr<ServerGame> server, SessionWrapper session, boost::shared_ptr<NetPacket> packet);
+	virtual void InternalProcessPacket(boost::shared_ptr<ServerGame> server, SessionWrapper session, boost::shared_ptr<NetPacket> packet);
 	void TimerTimeout(const boost::system::error_code &ec, boost::shared_ptr<ServerGame> server);
 
 private:
@@ -192,7 +192,7 @@ public:
 	virtual void HandleNewSession(boost::shared_ptr<ServerGame> /*server*/, SessionWrapper /*session*/) {}
 
 	// Main processing function of the current state.
-	virtual int ProcessPacket(boost::shared_ptr<ServerGame> /*server*/, SessionWrapper /*session*/, boost::shared_ptr<NetPacket> /*packet*/) {return 0;}
+	virtual void ProcessPacket(boost::shared_ptr<ServerGame> /*server*/, SessionWrapper /*session*/, boost::shared_ptr<NetPacket> /*packet*/) {}
 
 protected:
 	ServerGameStateFinal() {}

@@ -481,23 +481,26 @@ ClientThread::SendSessionPacket(boost::shared_ptr<NetPacket> packet)
 {
 	// Put packets in a buffer until the session is established.
 	if (IsSessionEstablished())
-	{
-		if (!m_outPacketList.empty())
-		{
-			NetPacketList::iterator i = m_outPacketList.begin();
-			NetPacketList::iterator end = m_outPacketList.end();
-
-			while (i != end)
-			{
-				GetSender().Send(GetContext().GetSessionData(), *i);
-				++i;
-			}
-			m_outPacketList.clear();
-		}
 		GetSender().Send(GetContext().GetSessionData(), packet);
-	}
 	else
 		m_outPacketList.push_back(packet);
+}
+
+void
+ClientThread::SendQueuedPackets()
+{
+	if (!m_outPacketList.empty())
+	{
+		NetPacketList::iterator i = m_outPacketList.begin();
+		NetPacketList::iterator end = m_outPacketList.end();
+
+		while (i != end)
+		{
+			GetSender().Send(GetContext().GetSessionData(), *i);
+			++i;
+		}
+		m_outPacketList.clear();
+	}
 }
 
 bool
@@ -1297,7 +1300,12 @@ ClientThread::IsSessionEstablished() const
 void
 ClientThread::SetSessionEstablished(bool flag)
 {
-	m_sessionEstablished = flag;
+	if (m_sessionEstablished != flag)
+	{
+		m_sessionEstablished = flag;
+		if (flag)
+			SendQueuedPackets();
+	}
 }
 
 bool

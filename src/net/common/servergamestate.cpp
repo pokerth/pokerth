@@ -180,12 +180,9 @@ AbstractServerGameStateReceiving::~AbstractServerGameStateReceiving()
 {
 }
 
-int
+void
 AbstractServerGameStateReceiving::ProcessPacket(boost::shared_ptr<ServerGame> server, SessionWrapper session, boost::shared_ptr<NetPacket> packet)
 {
-	// This is the receive loop for the server.
-	int retVal = MSG_SOCK_INTERNAL_PENDING;
-
 	if (packet->IsClientActivity())
 		session.sessionData->ResetActivityTimer();
 	if (packet->ToNetPacketRetrievePlayerInfo())
@@ -267,10 +264,8 @@ AbstractServerGameStateReceiving::ProcessPacket(boost::shared_ptr<ServerGame> se
 	else
 	{
 		// Packet processing in subclass.
-		retVal = InternalProcessPacket(server, session, packet);
+		InternalProcessPacket(server, session, packet);
 	}
-
-	return retVal;
 }
 
 //-----------------------------------------------------------------------------
@@ -423,11 +418,9 @@ ServerGameStateInit::TimerAdminTimeout(const boost::system::error_code &ec, boos
 	}
 }
 
-int
+void
 ServerGameStateInit::InternalProcessPacket(boost::shared_ptr<ServerGame> server, SessionWrapper session, boost::shared_ptr<NetPacket> packet)
 {
-	int retVal = MSG_SOCK_INTERNAL_PENDING;
-
 	if (packet->ToNetPacketStartEvent())
 	{
 		// Only admins are allowed to start the game.
@@ -476,8 +469,6 @@ ServerGameStateInit::InternalProcessPacket(boost::shared_ptr<ServerGame> server,
 	{
 		server->SessionError(session, ERR_SOCK_INVALID_PACKET);
 	}
-
-	return retVal;
 }
 
 boost::shared_ptr<NetPacket>
@@ -532,11 +523,9 @@ ServerGameStateStartGame::HandleNewSession(boost::shared_ptr<ServerGame> server,
 	server->MoveSessionToLobby(session, NTF_NET_REMOVED_ALREADY_RUNNING);
 }
 
-int
+void
 ServerGameStateStartGame::InternalProcessPacket(boost::shared_ptr<ServerGame> server, SessionWrapper session, boost::shared_ptr<NetPacket> packet)
 {
-	int retVal = MSG_SOCK_INTERNAL_PENDING;
-
 	if (packet->ToNetPacketStartEventAck())
 	{
 		session.sessionData->SetReadyFlag();
@@ -545,11 +534,8 @@ ServerGameStateStartGame::InternalProcessPacket(boost::shared_ptr<ServerGame> se
 			// Everyone is ready.
 			server->GetSessionManager().ResetAllReadyFlags();
 			DoStart(server);
-			retVal = MSG_SOCK_INIT_DONE;
 		}
 	}
-
-	return retVal;
 }
 
 void
@@ -651,11 +637,10 @@ ServerGameStateHand::HandleNewSession(boost::shared_ptr<ServerGame> server, Sess
 	server->MoveSessionToLobby(session, NTF_NET_REMOVED_ALREADY_RUNNING);
 }
 
-int
+void
 ServerGameStateHand::InternalProcessPacket(boost::shared_ptr<ServerGame> /*server*/, SessionWrapper /*session*/, boost::shared_ptr<NetPacket> /*packet*/)
 {
 	// TODO: maybe reject packet.
-	return MSG_SOCK_INTERNAL_PENDING;
 }
 
 void
@@ -1116,11 +1101,9 @@ ServerGameStateWaitPlayerAction::HandleNewSession(boost::shared_ptr<ServerGame> 
 	server->MoveSessionToLobby(session, NTF_NET_REMOVED_ALREADY_RUNNING);
 }
 
-int
+void
 ServerGameStateWaitPlayerAction::InternalProcessPacket(boost::shared_ptr<ServerGame> server, SessionWrapper session, boost::shared_ptr<NetPacket> packet)
 {
-	int retVal = MSG_SOCK_INTERNAL_PENDING;
-
 	if (packet->ToNetPacketPlayersAction())
 	{
 		NetPacketPlayersAction::Data actionData;
@@ -1171,7 +1154,6 @@ ServerGameStateWaitPlayerAction::InternalProcessPacket(boost::shared_ptr<ServerG
 		{
 			PerformPlayerAction(*server, tmpPlayer, actionData.playerAction, actionData.playerBet);
 			server->SetState(ServerGameStateHand::Instance());
-			retVal = MSG_NET_GAME_SERVER_ACTION;
 		}
 		else
 		{
@@ -1186,8 +1168,6 @@ ServerGameStateWaitPlayerAction::InternalProcessPacket(boost::shared_ptr<ServerG
 			server->GetLobbyThread().GetSender().Send(session.sessionData, reject);
 		}
 	}
-
-	return retVal;
 }
 
 void
