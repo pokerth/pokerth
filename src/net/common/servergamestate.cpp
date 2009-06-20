@@ -728,7 +728,7 @@ ServerGameStateHand::EngineLoop(boost::shared_ptr<ServerGame> server)
 				boost::posix_time::seconds(SERVER_SHOW_CARDS_DELAY_SEC));
 			server->GetStateTimer().async_wait(
 				boost::bind(
-					&ServerGameStateHand::TimerLoop, this, boost::asio::placeholders::error, server));
+					&ServerGameStateHand::TimerShowCards, this, boost::asio::placeholders::error, server));
 		}
 		else
 		{
