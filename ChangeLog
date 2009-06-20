@@ -7,6 +7,7 @@
 - Styles handling enhancements (e.g. no activation needed anymore)
 - Readd the option to hide splashscreen
 - IP address bans now automatically expire
+- Bugfix: incorrect handling of maximum number of players in network games
 
 2009-05-03 version 0.7:
 - enabled sorting of private/public games in the internet game lobby
