@@ -17,15 +17,16 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#include <net/socket_helper.h>
+#include <boost/bind.hpp>
+#include <boost/enable_shared_from_this.hpp>\
+
 #include <net/senderhelper.h>
 #include <net/sendercallback.h>
+#include <net/socket_helper.h>
 #include <net/socket_msg.h>
 #include <core/loghelper.h>
 #include <cstring>
 #include <cassert>
-
-#include <boost/bind.hpp>
 
 using namespace std;
 using boost::asio::ip::tcp;
@@ -39,7 +40,7 @@ using boost::asio::ip::tcp;
 
 typedef std::list<boost::shared_ptr<NetPacket> > SendDataList;
 
-class SendDataManager
+class SendDataManager : public boost::enable_shared_from_this<SendDataManager>
 {
 	public:
 		SendDataManager()
@@ -105,7 +106,7 @@ SendDataManager::AsyncSendNextPacket(boost::shared_ptr<boost::asio::ip::tcp::soc
 				*socket,
 				boost::asio::buffer(sendBuf, bufSize),
 				boost::bind(&SendDataManager::HandleWrite,
-					this,
+					shared_from_this(),
 					socket,
 					boost::asio::placeholders::error));
 			writeInProgress = true;
