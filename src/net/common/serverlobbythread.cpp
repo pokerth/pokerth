@@ -211,10 +211,10 @@ ServerLobbyThread::MoveSessionToGame(ServerGame &game, SessionWrapper session)
 	session.sessionData->SetState(SessionData::Game);
 	// Store it in the list of game sessions.
 	m_gameSessionManager.AddSession(session);
-	// Add session to the game.
-	game.AddSession(session);
 	// Set the game id of the session.
 	session.sessionData->SetGameId(game.GetId());
+	// Add session to the game.
+	game.AddSession(session);
 }
 
 void
