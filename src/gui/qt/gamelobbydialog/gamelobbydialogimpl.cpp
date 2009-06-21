@@ -940,8 +940,12 @@ void gameLobbyDialogImpl::writeDialogSettings(int saveMode)
 {
 	switch(saveMode) {
 		case 0: {
-				myConfig->writeConfigInt("DlgGameLobbyGameListSortingSection", myGameListSortFilterProxyModel->sortColumn());
-				myConfig->writeConfigInt("DlgGameLobbyGameListSortingOrder", myGameListSortFilterProxyModel->sortOrder());
+// 				myConfig->writeConfigInt("DlgGameLobbyGameListSortingSection", myGameListSortFilterProxyModel->sortColumn());
+// 				myConfig->writeConfigInt("DldgGameLobbyGameListSortingOrder", myGameListSortFilterProxyModel->sortOrder());
+// 				qt 4.4.* compatibility
+				QHeaderView *header = treeView_GameList->header();
+				myConfig->writeConfigInt("DlgGameLobbyGameListSortingSection", header->sortIndicatorSection());
+				myConfig->writeConfigInt("DlgGameLobbyGameListSortingOrder", header->sortIndicatorOrder());
 			}
 		break;
 		case 1: {
