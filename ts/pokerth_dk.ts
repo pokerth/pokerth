@@ -18,7 +18,9 @@
  The current PokerTH card deck style version is &quot;%2&quot;, but this style has version &quot;%3&quot; set. 
 
 Please contact the card deck style builder %4.</source>
-        <translation type="unfinished"></translation>
+        <translation>Den valgte kort-stil &quot;%1&quot; er forældet. 
+ Den nuværende PokerTH-kort-stil version er &quot;%2&quot;, men denne stil har version &quot;%3&quot; angivet. 
+Kontakt venligst udgiveren af kort-stilen %4.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/styles/carddeckstylereader.cpp" line="146"/>
@@ -27,7 +29,9 @@ Please contact the card deck style builder %4.</source>
 The value(s) of &quot;%2&quot; is/are missing. 
 
 Please contact the card deck style builder %3.</source>
-        <translation type="unfinished"></translation>
+        <translation>Den valgte kort-stil &quot;%1&quot; er ukomplet eller defekt. 
+Værdierne af &quot;%2&quot; mangler.
+Kontakt venligst udgiveren af kort-stilen %3.</translation>
     </message>
     <message>
         <source>You wanna add a card deck style but selected a game table style.
@@ -963,12 +967,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/gui/qt/gamelobbydialog.ui" line="162"/>
         <source>&amp;Start Game</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Start spil</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog.ui" line="169"/>
         <source>&amp;Kick Player</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Smid spiller ud</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog.ui" line="180"/>
@@ -1008,47 +1012,47 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/gui/qt/gamelobbydialog.ui" line="365"/>
         <source>&amp;Leave Game</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Forlad spillet</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog.ui" line="385"/>
         <source>Join &amp;any game</source>
-        <translation type="unfinished"></translation>
+        <translation>Deltag i &amp;hvilket som helst spil</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog.ui" line="408"/>
         <source>&amp;Create Game</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Opret spil</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog.ui" line="415"/>
         <source>&amp;Join Game</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Deltag i spil</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog.ui" line="538"/>
         <source>0 - No game list filter</source>
-        <translation type="unfinished"></translation>
+        <translation>0 - Intet spillelist-filter</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog.ui" line="543"/>
         <source>1 - Show open games</source>
-        <translation type="unfinished"></translation>
+        <translation>1 - Vis åbne spil</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog.ui" line="548"/>
         <source>2 - Show open &amp; non-full games</source>
-        <translation type="unfinished"></translation>
+        <translation>2 - Vis åbne &amp; ledige spil</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog.ui" line="553"/>
         <source>3 - Show open &amp; non-full &amp; non-private games</source>
-        <translation type="unfinished"></translation>
+        <translation>3 -Vis åbne, ledige og ikke-private spil</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog.ui" line="558"/>
         <source>4 - Show open &amp; non-full &amp; private games</source>
-        <translation type="unfinished"></translation>
+        <translation>4 - Vis åbne, ledige og private spil</translation>
     </message>
     <message>
         <source>Leave Game</source>
@@ -1124,28 +1128,28 @@ p, li { white-space: pre-wrap; }
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="258"/>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="546"/>
         <source>Game</source>
-        <translation type="unfinished">Spil</translation>
+        <translation>Spil</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="70"/>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="258"/>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="546"/>
         <source>Players</source>
-        <translation type="unfinished">Spillere</translation>
+        <translation>Spillere</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="70"/>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="258"/>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="546"/>
         <source>State</source>
-        <translation type="unfinished">Tilstand</translation>
+        <translation>Tilstand</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="70"/>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="258"/>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="546"/>
         <source>Private</source>
-        <translation type="unfinished">Privat</translation>
+        <translation>Privat</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="352"/>
@@ -1442,7 +1446,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/gui/qt/gametable.ui" line="3554"/>
         <source>Shortcut: &lt;Shift&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>Genvejstast: &lt;Shift&gt;</translation>
     </message>
 </context>
 <context>
@@ -2058,32 +2062,32 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="247"/>
         <source>Disable splashscreen on startup</source>
-        <translation type="unfinished"></translation>
+        <translation>Deaktiver splashscreen under opstart</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="310"/>
         <source>Game Table</source>
-        <translation type="unfinished"></translation>
+        <translation>Spil-bord</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="406"/>
         <source>Card Deck</source>
-        <translation type="unfinished"></translation>
+        <translation>Spillekort</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="502"/>
         <source>Card Back</source>
-        <translation type="unfinished"></translation>
+        <translation>Kortbagside</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="508"/>
         <source>Use card back from card style</source>
-        <translation type="unfinished"></translation>
+        <translation>Benyt kort-bagside fra kort-stil</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="534"/>
         <source>Use custom card back picture:</source>
-        <translation type="unfinished"></translation>
+        <translation>Benyt brugerdefineret bagside billede:</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="569"/>
@@ -2092,7 +2096,11 @@ p, li { white-space: pre-wrap; }
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:8pt; font-weight:400; font-style:normal;&quot;&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-style:italic;&quot;&gt;Note: Best quality with image ratio like &lt;/span&gt;&lt;span style=&quot; font-weight:600; font-style:italic;&quot;&gt;width=76, height=48.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:8pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-style:italic;&quot;&gt;Bemærk: Den bedste kvalitet med billede-størrelse omkring &lt;/span&gt;&lt;span style=&quot; font-weight:600; font-style:italic;&quot;&gt;bredde=76, højde=48.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="623"/>
@@ -2880,12 +2888,12 @@ Kortbagsiden vil ikke blive tilføjet til listen!</translation>
     <message>
         <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="64"/>
         <source>Portuguese (Brazilian)</source>
-        <translation type="unfinished"></translation>
+        <translation>Portugisisk (brasiliansk)</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="65"/>
         <source>Portuguese (Portuguese)</source>
-        <translation type="unfinished"></translation>
+        <translation>Portugisisk (Portugisisk)</translation>
     </message>
 </context>
 <context>
@@ -2962,7 +2970,7 @@ Kortbagsiden vil ikke blive tilføjet til listen!</translation>
         <location filename="../src/gui/qt/startwindow.ui" line="128"/>
         <location filename="../src/gui/qt/startwindow.ui" line="157"/>
         <source>QPushButton { text-align:left; font-weight:bold; padding-left: 1px; padding-bottom: 3px; padding-top: 3px; padding-right: 3px;}</source>
-        <translation type="unfinished"></translation>
+        <translation>QPushButton { text-align:left; font-weight:bold; padding-left: 1px; padding-bottom: 3px; padding-top: 3px; padding-right: 3px;}</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow.ui" line="102"/>

@@ -1,3 +1,9 @@
+2009-06-25 version 0.7.1:
+- internet lobby window size adjusted for netbook resolution 1024x600
+- bigger window icon
+- pokerth.desktop translation update
+- Bugfix: compatibility fix for qt 4.4.3
+
 2009-06-19 version 0.7.1-beta:
 - Refactored the network engine using boost::asio to improve scalability of the server
 - Reduced per-game memory usage of the server, which enables playing with several hundred players on a low-end vserver

@@ -18,7 +18,10 @@
  The current PokerTH card deck style version is &quot;%2&quot;, but this style has version &quot;%3&quot; set. 
 
 Please contact the card deck style builder %4.</source>
-        <translation type="unfinished"></translation>
+        <translation>A kiválaszott &quot;%1&quot; kártya pakli stílus elavultnak tűnik. 
+ A PokertTH által használt verzió: &quot;%2&quot;, a kijelölt elem viszont &quot;%3&quot; verziójú.
+
+Vedd fel a kapcsolatot a készítőjével: %4.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/styles/carddeckstylereader.cpp" line="146"/>
@@ -27,7 +30,11 @@ Please contact the card deck style builder %4.</source>
 The value(s) of &quot;%2&quot; is/are missing. 
 
 Please contact the card deck style builder %3.</source>
-        <translation type="unfinished"></translation>
+        <translation>A kiválasztott &quot;%1&quot; kártya pakli stílus hibás vagy nem teljes.
+
+A(z) %2 értékei hiányoznak
+
+Vedd fel a kapcsolatot a készítőjével: %3.</translation>
     </message>
     <message>
         <source>Selected card deck style &quot;%1&quot; seems to be outdated. 
@@ -506,7 +513,7 @@ p, li { white-space: pre-wrap; }
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:8pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Sans Serif&apos;;&quot;&gt;Richard Somlói - ricsipontaz@citromail.hu&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Sans Serif&apos;;&quot;&gt;Richard Somlói - ricsipontaz@citromail.hu&lt;/span&gt;&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Sans Serif&apos;;&quot;&gt;GG.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/aboutpokerth.ui" line="192"/>
@@ -1028,47 +1035,47 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/gui/qt/gamelobbydialog.ui" line="365"/>
         <source>&amp;Leave Game</source>
-        <translation type="unfinished"></translation>
+        <translation>Játék &amp;elhagyása</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog.ui" line="385"/>
         <source>Join &amp;any game</source>
-        <translation type="unfinished"></translation>
+        <translation>Belépés &amp;bármely játékba</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog.ui" line="408"/>
         <source>&amp;Create Game</source>
-        <translation type="unfinished"></translation>
+        <translation>Játék &amp;létrehozása</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog.ui" line="415"/>
         <source>&amp;Join Game</source>
-        <translation type="unfinished"></translation>
+        <translation>Belépés a &amp;játékba</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog.ui" line="538"/>
         <source>0 - No game list filter</source>
-        <translation type="unfinished"></translation>
+        <translation>0 - Minden játék megjelenítése</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog.ui" line="543"/>
         <source>1 - Show open games</source>
-        <translation type="unfinished"></translation>
+        <translation>1 - Nyitott játékok megjelenítése</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog.ui" line="548"/>
         <source>2 - Show open &amp; non-full games</source>
-        <translation type="unfinished"></translation>
+        <translation>2 - Nyitott játékok szabad helyekkel</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog.ui" line="553"/>
         <source>3 - Show open &amp; non-full &amp; non-private games</source>
-        <translation type="unfinished"></translation>
+        <translation>3 - Nyitott, nem privát játékok szabad helyekkel</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog.ui" line="558"/>
         <source>4 - Show open &amp; non-full &amp; private games</source>
-        <translation type="unfinished"></translation>
+        <translation>4 - Nyitott, privát játékok szabad helyekkel</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog.ui" line="26"/>
@@ -1078,12 +1085,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/gui/qt/gamelobbydialog.ui" line="162"/>
         <source>&amp;Start Game</source>
-        <translation type="unfinished"></translation>
+        <translation>Játék &amp;indítása</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog.ui" line="169"/>
         <source>&amp;Kick Player</source>
-        <translation type="unfinished"></translation>
+        <translation>Játékos &amp;kidobása</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog.ui" line="234"/>
@@ -1137,28 +1144,28 @@ p, li { white-space: pre-wrap; }
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="258"/>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="546"/>
         <source>Game</source>
-        <translation type="unfinished">Játék</translation>
+        <translation>Játék</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="70"/>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="258"/>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="546"/>
         <source>Players</source>
-        <translation type="unfinished">Játékosok</translation>
+        <translation>Játékosok</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="70"/>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="258"/>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="546"/>
         <source>State</source>
-        <translation type="unfinished">Állapot</translation>
+        <translation>Állapot</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="70"/>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="258"/>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="546"/>
         <source>Private</source>
-        <translation type="unfinished">Privát</translation>
+        <translation>Privát</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="209"/>
@@ -1505,7 +1512,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/gui/qt/gametable.ui" line="3554"/>
         <source>Shortcut: &lt;Shift&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>Billentyűparancs: &lt;Shift&gt;</translation>
     </message>
 </context>
 <context>
@@ -2541,32 +2548,32 @@ Szélesség = 50 kpt, magasság = 50 kpt.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="247"/>
         <source>Disable splashscreen on startup</source>
-        <translation type="unfinished"></translation>
+        <translation>Indítóképernyő elrejtése a játék indításakor</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="310"/>
         <source>Game Table</source>
-        <translation type="unfinished"></translation>
+        <translation>Póker asztal</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="406"/>
         <source>Card Deck</source>
-        <translation type="unfinished"></translation>
+        <translation>Kártya pakli</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="502"/>
         <source>Card Back</source>
-        <translation type="unfinished"></translation>
+        <translation>Kártya hátlap</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="508"/>
         <source>Use card back from card style</source>
-        <translation type="unfinished"></translation>
+        <translation>A kártya pakli stílus hátlapjának használata</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="534"/>
         <source>Use custom card back picture:</source>
-        <translation type="unfinished"></translation>
+        <translation>Saját kártya hátlap használata:</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="569"/>
@@ -2575,7 +2582,11 @@ Szélesség = 50 kpt, magasság = 50 kpt.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:8pt; font-weight:400; font-style:normal;&quot;&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-style:italic;&quot;&gt;Note: Best quality with image ratio like &lt;/span&gt;&lt;span style=&quot; font-weight:600; font-style:italic;&quot;&gt;width=76, height=48.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:8pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-style:italic;&quot;&gt;Tipp: a legjobb minőség a következő arányokkal érhető el: &lt;/span&gt;&lt;span style=&quot; font-weight:600; font-style:italic;&quot;&gt;szélesség=76, magasság=48.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="840"/>
@@ -3166,12 +3177,12 @@ A stílus nem kerül a listára!</translation>
     <message>
         <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="64"/>
         <source>Portuguese (Brazilian)</source>
-        <translation type="unfinished"></translation>
+        <translation>portugál (brazil)</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="65"/>
         <source>Portuguese (Portuguese)</source>
-        <translation type="unfinished"></translation>
+        <translation>portugál (portugál)</translation>
     </message>
 </context>
 <context>

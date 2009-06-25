@@ -18,7 +18,10 @@
  The current PokerTH card deck style version is &quot;%2&quot;, but this style has version &quot;%3&quot; set. 
 
 Please contact the card deck style builder %4.</source>
-        <translation type="unfinished"></translation>
+        <translation>El estilo de baraja &apos;%1&apos; parece obsoleto.
+La versión actual de estilos de baraja es &quot;%2&quot;, pero este tiene la versión &quot;%3&quot;.
+
+Por favor, contacte con %4, autor del estilo.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/styles/carddeckstylereader.cpp" line="146"/>
@@ -27,7 +30,11 @@ Please contact the card deck style builder %4.</source>
 The value(s) of &quot;%2&quot; is/are missing. 
 
 Please contact the card deck style builder %3.</source>
-        <translation type="unfinished"></translation>
+        <translation>El estilo de baraja &quot;%1&quot; seleccionado parece erróneo o incompleto.
+
+Faltan los valores de &quot;%2&quot;.
+
+Por favor, contacte con %3, autor del estilo.</translation>
     </message>
     <message>
         <source>Selected card deck style &quot;%1&quot; seems to be outdated. 
@@ -1919,47 +1926,47 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/gui/qt/gamelobbydialog.ui" line="365"/>
         <source>&amp;Leave Game</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Abandonar partida</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog.ui" line="385"/>
         <source>Join &amp;any game</source>
-        <translation type="unfinished"></translation>
+        <translation>Unirse a &amp;cualquier partida</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog.ui" line="408"/>
         <source>&amp;Create Game</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Crear partida</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog.ui" line="415"/>
         <source>&amp;Join Game</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Unirse a partida</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog.ui" line="538"/>
         <source>0 - No game list filter</source>
-        <translation type="unfinished"></translation>
+        <translation>0 - Ningún filtro en la lista</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog.ui" line="543"/>
         <source>1 - Show open games</source>
-        <translation type="unfinished"></translation>
+        <translation>1 - Mostrar partidas abiertas</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog.ui" line="548"/>
         <source>2 - Show open &amp; non-full games</source>
-        <translation type="unfinished"></translation>
+        <translation>2 - Mostrar partidas abiertas y no llenas</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog.ui" line="553"/>
         <source>3 - Show open &amp; non-full &amp; non-private games</source>
-        <translation type="unfinished"></translation>
+        <translation>3 - Mostrar partidas abiertas, no llenas y no privadas</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog.ui" line="558"/>
         <source>4 - Show open &amp; non-full &amp; private games</source>
-        <translation type="unfinished"></translation>
+        <translation>4 - Mostrar partidas abiertas, no llenas y privadas</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog.ui" line="26"/>
@@ -1969,12 +1976,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/gui/qt/gamelobbydialog.ui" line="162"/>
         <source>&amp;Start Game</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Iniciar partida</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog.ui" line="169"/>
         <source>&amp;Kick Player</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Expulsar jugador</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog.ui" line="234"/>
@@ -2028,28 +2035,28 @@ p, li { white-space: pre-wrap; }
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="258"/>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="546"/>
         <source>Game</source>
-        <translation type="unfinished">Partida</translation>
+        <translation>Partida</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="70"/>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="258"/>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="546"/>
         <source>Players</source>
-        <translation type="unfinished">Jugadores</translation>
+        <translation>Jugadores</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="70"/>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="258"/>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="546"/>
         <source>State</source>
-        <translation type="unfinished">Estado</translation>
+        <translation>Estado</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="70"/>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="258"/>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="546"/>
         <source>Private</source>
-        <translation type="unfinished">Privado</translation>
+        <translation>Privado</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="209"/>
@@ -2400,7 +2407,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/gui/qt/gametable.ui" line="3554"/>
         <source>Shortcut: &lt;Shift&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>Acceso directo: &lt;Shift&gt;</translation>
     </message>
 </context>
 <context>
@@ -3586,32 +3593,32 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="247"/>
         <source>Disable splashscreen on startup</source>
-        <translation type="unfinished"></translation>
+        <translation>Desactivar pantalla de inicio</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="310"/>
         <source>Game Table</source>
-        <translation type="unfinished"></translation>
+        <translation>Mesa de juego</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="406"/>
         <source>Card Deck</source>
-        <translation type="unfinished"></translation>
+        <translation>Baraja</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="502"/>
         <source>Card Back</source>
-        <translation type="unfinished"></translation>
+        <translation>Respaldo</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="508"/>
         <source>Use card back from card style</source>
-        <translation type="unfinished"></translation>
+        <translation>Utilizar respaldo del estilo de la carta</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="534"/>
         <source>Use custom card back picture:</source>
-        <translation type="unfinished"></translation>
+        <translation>Utilizar respaldo personalizado:</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="569"/>
@@ -3620,7 +3627,11 @@ p, li { white-space: pre-wrap; }
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:8pt; font-weight:400; font-style:normal;&quot;&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-style:italic;&quot;&gt;Note: Best quality with image ratio like &lt;/span&gt;&lt;span style=&quot; font-weight:600; font-style:italic;&quot;&gt;width=76, height=48.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:8pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-style:italic;&quot;&gt;Nota: La mejor calidad se obtiene con un tamaño de &lt;/span&gt;&lt;span style=&quot; font-weight:600; font-style:italic;&quot;&gt;ancho=76, alto=48.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="840"/>
@@ -4229,12 +4240,12 @@ El estilo no aparecerá en la lista.</translation>
     <message>
         <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="64"/>
         <source>Portuguese (Brazilian)</source>
-        <translation type="unfinished"></translation>
+        <translation>Portugués (Brasil)</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="65"/>
         <source>Portuguese (Portuguese)</source>
-        <translation type="unfinished"></translation>
+        <translation>Portugués (Portugal)</translation>
     </message>
 </context>
 <context>
@@ -4315,7 +4326,7 @@ El estilo no aparecerá en la lista.</translation>
         <location filename="../src/gui/qt/startwindow.ui" line="128"/>
         <location filename="../src/gui/qt/startwindow.ui" line="157"/>
         <source>QPushButton { text-align:left; font-weight:bold; padding-left: 1px; padding-bottom: 3px; padding-top: 3px; padding-right: 3px;}</source>
-        <translation type="unfinished"></translation>
+        <translation>QPushButton { text-align:left; font-weight:bold; padding-left: 1px; padding-bottom: 3px; padding-top: 3px; padding-right: 3px;}</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow.ui" line="102"/>

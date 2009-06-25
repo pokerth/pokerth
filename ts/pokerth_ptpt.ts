@@ -1521,7 +1521,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/gui/qt/gamelobbydialog.ui" line="309"/>
         <source>Timeout for player action (sec): </source>
-        <translation>Tempo esgotado para ação do jogador (sec): </translation>
+        <translation>Tempo esgotado para acção do jogador (sec): </translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog.ui" line="365"/>
@@ -1546,27 +1546,27 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/gui/qt/gamelobbydialog.ui" line="538"/>
         <source>0 - No game list filter</source>
-        <translation type="unfinished"></translation>
+        <translation>0 - Sem filtros de jogos</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog.ui" line="543"/>
         <source>1 - Show open games</source>
-        <translation type="unfinished"></translation>
+        <translation>1 - Mostrar jogos abertos</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog.ui" line="548"/>
         <source>2 - Show open &amp; non-full games</source>
-        <translation type="unfinished"></translation>
+        <translation>2 - Mostrar abertos &amp; jogos não-cheios</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog.ui" line="553"/>
         <source>3 - Show open &amp; non-full &amp; non-private games</source>
-        <translation type="unfinished"></translation>
+        <translation>3 - Mostrar abertos &amp; não-cheios &amp; jogos não-privados</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog.ui" line="558"/>
         <source>4 - Show open &amp; non-full &amp; private games</source>
-        <translation type="unfinished"></translation>
+        <translation>4 - Mostrar abertos &amp; não-cheios &amp; jogos privados</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog.ui" line="26"/>
@@ -3044,7 +3044,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="1002"/>
         <source>Pause between hands (press &quot;start&quot; button to go on)</source>
-        <translation>Pausa entre as mãos (carregue no botão &quot;iniciar&quot; para continuar)</translation>
+        <translation>Pausa entre as mãos (carregue no botão &quot;começar&quot; para continuar)</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="623"/>
@@ -3085,7 +3085,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="191"/>
         <source>Show fade-out animation for non-winning cards</source>
-        <translation>Mostrar animação de fade-out para  cartas não vencedoras</translation>
+        <translation>Mostrar animação de fade-out para cartas não vencedoras</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="233"/>
@@ -3432,32 +3432,32 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="247"/>
         <source>Disable splashscreen on startup</source>
-        <translation type="unfinished"></translation>
+        <translation>Desactivar o ecran de inicio no arranque</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="310"/>
         <source>Game Table</source>
-        <translation type="unfinished"></translation>
+        <translation>Mesa de Jogo</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="406"/>
         <source>Card Deck</source>
-        <translation type="unfinished"></translation>
+        <translation>Baralho</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="502"/>
         <source>Card Back</source>
-        <translation type="unfinished"></translation>
+        <translation>Reverso do Baralho</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="508"/>
         <source>Use card back from card style</source>
-        <translation type="unfinished"></translation>
+        <translation>Utilizar as cores do estilo de cartas para o reverso das cartas</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="534"/>
         <source>Use custom card back picture:</source>
-        <translation type="unfinished"></translation>
+        <translation>Utilizar uma imagem própria para o reverso das cartas:</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="569"/>
@@ -3466,7 +3466,11 @@ p, li { white-space: pre-wrap; }
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:8pt; font-weight:400; font-style:normal;&quot;&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-style:italic;&quot;&gt;Note: Best quality with image ratio like &lt;/span&gt;&lt;span style=&quot; font-weight:600; font-style:italic;&quot;&gt;width=76, height=48.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:8pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-style:italic;&quot;&gt;Nota: Melhor qualidede com uma imagem de racio igual a &lt;/span&gt;&lt;span style=&quot; font-weight:600; font-style:italic;&quot;&gt;comprimento=76, altura=48.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="1512"/>
@@ -3626,7 +3630,7 @@ Esta primeira-small-blind-valor será configurada como valor máximo permitido.<
     <message>
         <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="54"/>
         <source>Dutch</source>
-        <translation>Holandês</translation>
+        <translation>Neerlandês</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="55"/>
@@ -3755,7 +3759,7 @@ Por favor introduza um endereço válido!</translation>
     <message>
         <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="64"/>
         <source>Portuguese (Brazilian)</source>
-        <translation type="unfinished"></translation>
+        <translation>Português (Brazileiro)</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="65"/>
@@ -3959,7 +3963,7 @@ Style will not be placed into list!</source>
         <location filename="../src/gui/qt/startwindow.ui" line="128"/>
         <location filename="../src/gui/qt/startwindow.ui" line="157"/>
         <source>QPushButton { text-align:left; font-weight:bold; padding-left: 1px; padding-bottom: 3px; padding-top: 3px; padding-right: 3px;}</source>
-        <translation type="unfinished"></translation>
+        <translation>QPushButton { text-align:left; font-weight:bold; padding-left: 1px; padding-bottom: 3px; padding-top: 3px; padding-right: 3px;}</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow.ui" line="102"/>
