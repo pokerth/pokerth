@@ -11,6 +11,8 @@ Linux:
 - libboost_thread, libboost_filesystem, libboost_datetime, libboost_program_options,
   libboost_iostreams, libboost_asio, libboost_regex
   (version >= 1.36, 1.38.0 recommended)  --> http://www.boost.org/
+  NOTE: Please do not use boost 1.39.0 for the dedicated server, due to bug
+  https://svn.boost.org/trac/boost/ticket/3095
 - libSDL_mixer, libSDL  --> http://www.libsdl.org/
 
 NOTE: PokerTH might compile with libboost < 1.36 but occasional crashes will occur!

@@ -38,7 +38,7 @@
 #define NET_DEFAULT_GAME					"default"
 
 //uncomment for 0.7 beta
-#define POKERTH_IS_07BETA
+//#define POKERTH_IS_07BETA
 
 using namespace std;
 
