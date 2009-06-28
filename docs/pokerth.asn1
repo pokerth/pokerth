@@ -1,0 +1,234 @@
+--**************************************************************************
+--   Copyright (C) 2009 by Lothar May                                      *
+--                                                                         *
+--   This program is free software; you can redistribute it and/or modify  *
+--   it under the terms of the GNU General Public License as published by  *
+--   the Free Software Foundation; either version 2 of the License, or     *
+--   (at your option) any later version.                                   *
+--                                                                         *
+--   This program is distributed in the hope that it will be useful,       *
+--   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
+--   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
+--   GNU General Public License for more details.                          *
+--                                                                         *
+--   You should have received a copy of the GNU General Public License     *
+--   along with this program; if not, write to the                         *
+--   Free Software Foundation, Inc.,                                       *
+--   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
+--**************************************************************************
+
+POKERTH-PROTOCOL DEFINITIONS
+IMPLICIT TAGS
+EXTENSIBILITY IMPLIED ::=
+
+BEGIN
+
+PokerTHMessage ::= CHOICE {
+	initMessage					InitMessage,
+	initAckMessage				InitAckMessage,
+	avatarRequestMessage		AvatarRequestMessage,
+	avatarReplyMessage			AvatarReplyMessage,
+	gameListMessage				GameListMessage,
+	playerInfoRequestMessage	PlayerInfoRequestMessage,
+	playerInfoReplyMessage		PlayerInfoReplyMessage,
+	subscriptionMessage			SubscriptionMessage,
+	joinGameRequestMessage		JoinGameRequestMessage,
+	joinGameReplyMessage		JoinGameReplyMessage
+}
+
+InitMessage ::= [APPLICATION 0] SEQUENCE {
+	requestedVersion			Version,
+	avatar						AvatarHash OPTIONAL,
+	login						CHOICE {
+		anonymousLogin			[0]	AnonymousLogin,
+		authenticatedLogin		[1]	AuthenticatedLogin
+	}
+}
+
+AnonymousLogin ::= SEQUENCE {
+	playerName					UTF8String
+}
+
+-- TODO challenge/response
+AuthenticatedLogin ::= SEQUENCE {
+	playerName					UTF8String
+}
+
+InitAckMessage ::= [APPLICATION 1] SEQUENCE {
+	latestGameVersion			Version,
+	latestBetaRevision			INTEGER(0..65535),
+	yourSessionId				Guid,
+	yourPlayerId				NonZeroId
+}
+
+AvatarRequestMessage ::= [APPLICATION 2] SEQUENCE {
+	requestId					NonZeroId,
+	avatar						AvatarHash
+}
+
+AvatarReplyMessage ::= [APPLICATION 3] SEQUENCE {
+	requestId					NonZeroId,
+	result						CHOICE {
+		avatarData				[0] AvatarData,
+		unknownAvatar			[1] UnknownAvatar
+	}
+}
+
+AvatarData ::= SEQUENCE {
+	avatarType					AvatarType,
+	avatarFile					OCTET STRING (SIZE(32..30720))
+}
+
+UnknownAvatar ::= SEQUENCE {
+}
+
+GameListMessage ::= [APPLICATION 4] SEQUENCE {
+	gameId						NonZeroId,
+	notification				CHOICE {
+		gameListNew				[0]	GameListNew,
+		gameListUpdate			[1]	GameListUpdate,
+		gameListPlayerJoined	[2] GameListPlayerJoined,
+		gameListPlayerLeft		[3] GameListPlayerLeft,
+		gameListAdminChanged	[4] GameListAdminChanged
+	}
+}
+
+GameListNew ::= SEQUENCE {
+	gameMode					GameMode,
+	isPrivate					BOOLEAN,
+	playerIds					SEQUENCE SIZE(1..10) OF NonZeroId,
+	adminPlayerId				NonZeroId,
+	gameInfo					GameInfo
+}
+
+GameListUpdate ::= SEQUENCE {
+	gameMode					GameMode
+}
+
+GameListPlayerJoined ::= SEQUENCE {
+	playerId					NonZeroId
+}
+
+GameListPlayerLeft ::= SEQUENCE {
+	playerId					NonZeroId
+}
+
+GameListAdminChanged ::= SEQUENCE {
+	newAdminPlayerId			NonZeroId
+}
+
+PlayerInfoRequestMessage ::= [APPLICATION 5] SEQUENCE {
+	playerId					NonZeroId
+}
+
+PlayerInfoReplyMessage ::= [APPLICATION 6] SEQUENCE {
+	playerId					NonZeroId,
+	result						CHOICE {
+		playerInfoData			[0] PlayerInfoData,
+		unknownPlayerInfo		[1] UnknownPlayerInfo
+	}
+}
+
+PlayerInfoData ::= SEQUENCE {
+	playerName					UTF8String,
+	isHuman						BOOLEAN,
+	avatarData					SEQUENCE {
+		avatarType					AvatarType,
+		avatar						AvatarHash
+	} OPTIONAL
+}
+
+UnknownPlayerInfo ::= SEQUENCE {
+}
+
+SubscriptionMessage ::= [APPLICATION 7] SEQUENCE {
+	action						ENUMERATED {
+		unsubscribeGameList		(1),
+		resubscribeGameList		(2)
+	}
+}
+
+JoinGameRequestMessage ::= [APPLICATION 8] SEQUENCE {
+	action						CHOICE {
+		joinExistingGame		[0] JoinExistingGame,
+		joinNewGame				[1] JoinNewGame
+	},
+	password					UTF8String OPTIONAL
+}
+
+JoinExistingGame ::= SEQUENCE {
+	gameId						NonZeroId
+}
+
+JoinNewGame ::= SEQUENCE {
+	gameInfo					GameInfo
+}
+
+JoinGameReplyMessage ::= [APPLICATION 9] SEQUENCE {
+	gameId						NonZeroId,
+	result						CHOICE {
+		joinGameAck				[0] JoinGameAck,
+		joinGameFailed			[1] JoinGameFailed
+	}
+}
+
+JoinGameAck ::= SEQUENCE {
+	areYouAdmin					BOOLEAN,
+	gameInfo					GameInfo
+}
+
+JoinGameFailed ::= SEQUENCE {
+	failureReason				ENUMERATED {
+		invalidGame		(1),
+		gameIsFull		(2),
+		gameIsRunning	(3),
+		invalidPassword	(4)
+	}
+}
+
+GameInfo ::= SEQUENCE {
+	gameName					UTF8String,
+	maxNumPlayers				NumPlayers,
+	raiseIntervalMode			CHOICE {
+		raiseEveryHands		[0]		INTEGER(1..1000),
+		raiseEveryMinutes	[1]		INTEGER(1..1000)
+	},
+	endRaiseMode				ENUMERATED {
+		doubleBlinds		(1),
+		raiseByEndValue		(2),
+		keepLastBlind		(3)
+	},
+	proposedGuiSpeed			INTEGER(1..11),
+	playerActionTimeout			INTEGER(5..60), -- TODO these are seconds
+	firstSmallBlind				INTEGER(1..4294967295), -- TODO
+	endRaiseSmallBlindValue		INTEGER(1..4294967295), -- TODO
+	startMoney					INTEGER(1..4294967295), -- TODO
+	manualBlinds				SEQUENCE SIZE(0..30) OF INTEGER(1..4294967295)
+}
+
+GameMode ::= ENUMERATED {
+	created	(1),
+	started	(2),
+	closed	(3)
+}
+
+AvatarHash ::= OCTET STRING (SIZE(20)) -- sha-1 hash value
+
+AvatarType ::= ENUMERATED {
+	png		(1),
+	jpg		(2),
+	gif		(3)
+}
+
+Version ::= SEQUENCE {
+	major						INTEGER(0..65535),
+	minor						INTEGER(0..65535)
+}
+
+NonZeroId ::= INTEGER(1..4294967295)
+
+Guid ::= INTEGER(1..4294967295) -- TODO
+
+NumPlayers ::= INTEGER(1..10)
+
+END
