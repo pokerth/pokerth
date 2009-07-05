@@ -3,8 +3,7 @@ isEmpty( PREFIX ):PREFIX = /usr
 TEMPLATE = app
 CODECFORSRC = UTF-8
 
-CONFIG += qt thread embed_manifest_exe exceptions rtti stl warn_on release
-#CONFIG += qt thread embed_manifest_exe exceptions rtti stl warn_on debug
+CONFIG += qt thread embed_manifest_exe exceptions rtti stl warn_on
 
 # ####Uncomment this for RELEASE on Linux/Unix/BSD (only for static Qt)
 #QTPLUGIN += qjpeg qgif
