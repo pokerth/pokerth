@@ -68,7 +68,7 @@ AvatarRequestMessage ::= [APPLICATION 2] SEQUENCE {
 
 AvatarReplyMessage ::= [APPLICATION 3] SEQUENCE {
 	requestId					NonZeroId,
-	result						CHOICE {
+	avatarResult				CHOICE {
 		avatarData				[0] AvatarData,
 		unknownAvatar			[1] UnknownAvatar
 	}
@@ -84,7 +84,7 @@ UnknownAvatar ::= SEQUENCE {
 
 GameListMessage ::= [APPLICATION 4] SEQUENCE {
 	gameId						NonZeroId,
-	notification				CHOICE {
+	gameListNotification		CHOICE {
 		gameListNew				[0]	GameListNew,
 		gameListUpdate			[1]	GameListUpdate,
 		gameListPlayerJoined	[2] GameListPlayerJoined,
@@ -123,7 +123,7 @@ PlayerInfoRequestMessage ::= [APPLICATION 5] SEQUENCE {
 
 PlayerInfoReplyMessage ::= [APPLICATION 6] SEQUENCE {
 	playerId					NonZeroId,
-	result						CHOICE {
+	playerInfoResult			CHOICE {
 		playerInfoData			[0] PlayerInfoData,
 		unknownPlayerInfo		[1] UnknownPlayerInfo
 	}
@@ -142,14 +142,14 @@ UnknownPlayerInfo ::= SEQUENCE {
 }
 
 SubscriptionMessage ::= [APPLICATION 7] SEQUENCE {
-	action						ENUMERATED {
+	subscriptionAction			ENUMERATED {
 		unsubscribeGameList		(1),
 		resubscribeGameList		(2)
 	}
 }
 
 JoinGameRequestMessage ::= [APPLICATION 8] SEQUENCE {
-	action						CHOICE {
+	joinGameAction				CHOICE {
 		joinExistingGame		[0] JoinExistingGame,
 		joinNewGame				[1] JoinNewGame
 	},
@@ -166,7 +166,7 @@ JoinNewGame ::= SEQUENCE {
 
 JoinGameReplyMessage ::= [APPLICATION 9] SEQUENCE {
 	gameId						NonZeroId,
-	result						CHOICE {
+	joinGameResult				CHOICE {
 		joinGameAck				[0] JoinGameAck,
 		joinGameFailed			[1] JoinGameFailed
 	}
@@ -178,7 +178,7 @@ JoinGameAck ::= SEQUENCE {
 }
 
 JoinGameFailed ::= SEQUENCE {
-	failureReason				ENUMERATED {
+	joinGameFailureReason		ENUMERATED {
 		invalidGame		(1),
 		gameIsFull		(2),
 		gameIsRunning	(3),
@@ -199,11 +199,11 @@ GameInfo ::= SEQUENCE {
 		keepLastBlind		(3)
 	},
 	proposedGuiSpeed			INTEGER(1..11),
-	playerActionTimeout			INTEGER(5..60), -- TODO these are seconds
-	firstSmallBlind				INTEGER(1..4294967295), -- TODO
-	endRaiseSmallBlindValue		INTEGER(1..4294967295), -- TODO
-	startMoney					INTEGER(1..4294967295), -- TODO
-	manualBlinds				SEQUENCE SIZE(0..30) OF INTEGER(1..4294967295)
+	playerActionTimeout			INTEGER(5..60), -- These are seconds
+	firstSmallBlind				INTEGER(1..20000),
+	endRaiseSmallBlindValue		INTEGER(1..20000),
+	startMoney					INTEGER(1..1000000),
+	manualBlinds				SEQUENCE SIZE(0..30) OF INTEGER(1..20001)
 }
 
 GameMode ::= ENUMERATED {
