@@ -31,9 +31,20 @@ PokerTHMessage ::= CHOICE {
 	gameListMessage				GameListMessage,
 	playerInfoRequestMessage	PlayerInfoRequestMessage,
 	playerInfoReplyMessage		PlayerInfoReplyMessage,
-	subscriptionMessage			SubscriptionMessage,
+	subscriptionRequestMessage	SubscriptionRequestMessage,
 	joinGameRequestMessage		JoinGameRequestMessage,
-	joinGameReplyMessage		JoinGameReplyMessage
+	joinGameReplyMessage		JoinGameReplyMessage,
+	gamePlayerMessage			GamePlayerMessage,
+	kickPlayerRequestMessage	KickPlayerRequestMessage,
+	leaveGameRequestMessage		LeaveGameRequestMessage,
+	startEventMessage			StartEventMessage,
+	startEventAckMessage		StartEventAckMessage,
+	gameStartMessage			GameStartMessage,
+	handStartMessage			HandStartMessage,
+	playersTurnMessage			PlayersTurnMessage,
+	myActionRequestMessage		MyActionRequestMessage,
+	yourActionRejectedMessage	YourActionRejectedMessage,
+	playersActionDoneMessage	PlayersActionDoneMessage
 }
 
 InitMessage ::= [APPLICATION 0] SEQUENCE {
@@ -43,6 +54,11 @@ InitMessage ::= [APPLICATION 0] SEQUENCE {
 		anonymousLogin			[0]	AnonymousLogin,
 		authenticatedLogin		[1]	AuthenticatedLogin
 	}
+}
+
+Version ::= SEQUENCE {
+	major						INTEGER(0..65535),
+	minor						INTEGER(0..65535)
 }
 
 AnonymousLogin ::= SEQUENCE {
@@ -82,6 +98,14 @@ AvatarData ::= SEQUENCE {
 UnknownAvatar ::= SEQUENCE {
 }
 
+AvatarHash ::= OCTET STRING (SIZE(20)) -- sha-1 hash value
+
+AvatarType ::= ENUMERATED {
+	imagePng		(1),
+	imageJpg		(2),
+	imageGif		(3)
+}
+
 GameListMessage ::= [APPLICATION 4] SEQUENCE {
 	gameId						NonZeroId,
 	gameListNotification		CHOICE {
@@ -117,6 +141,12 @@ GameListAdminChanged ::= SEQUENCE {
 	newAdminPlayerId			NonZeroId
 }
 
+GameMode ::= ENUMERATED {
+	gameCreated	(1),
+	gameStarted	(2),
+	gameClosed	(3)
+}
+
 PlayerInfoRequestMessage ::= [APPLICATION 5] SEQUENCE {
 	playerId					NonZeroId
 }
@@ -141,7 +171,10 @@ PlayerInfoData ::= SEQUENCE {
 UnknownPlayerInfo ::= SEQUENCE {
 }
 
-SubscriptionMessage ::= [APPLICATION 7] SEQUENCE {
+
+-- The following request will not be confirmed by the server. It is used,
+-- optionally, to reduce server traffic. The server might ignore it.
+SubscriptionRequestMessage ::= [APPLICATION 7] SEQUENCE {
 	subscriptionAction			ENUMERATED {
 		unsubscribeGameList		(1),
 		resubscribeGameList		(2)
@@ -188,7 +221,7 @@ JoinGameFailed ::= SEQUENCE {
 
 GameInfo ::= SEQUENCE {
 	gameName					UTF8String,
-	maxNumPlayers				NumPlayers,
+	maxNumPlayers				INTEGER(2..10),
 	raiseIntervalMode			CHOICE {
 		raiseEveryHands		[0]		INTEGER(1..1000),
 		raiseEveryMinutes	[1]		INTEGER(1..1000)
@@ -206,29 +239,128 @@ GameInfo ::= SEQUENCE {
 	manualBlinds				SEQUENCE SIZE(0..30) OF INTEGER(1..20001)
 }
 
-GameMode ::= ENUMERATED {
-	created	(1),
-	started	(2),
-	closed	(3)
+GamePlayerMessage ::= [APPLICATION 10] SEQUENCE {
+	gameId						NonZeroId,
+	gamePlayerNotification		CHOICE {
+		gamePlayerJoined		[0] GamePlayerJoined,
+		gamePlayerLeft			[1] GamePlayerLeft,
+		gameAdminChanged		[2] GameAdminChanged,
+		removedFromGame			[3] RemovedFromGame
+	}
 }
 
-AvatarHash ::= OCTET STRING (SIZE(20)) -- sha-1 hash value
-
-AvatarType ::= ENUMERATED {
-	png		(1),
-	jpg		(2),
-	gif		(3)
+GamePlayerJoined ::= SEQUENCE {
+	playerId					NonZeroId
 }
 
-Version ::= SEQUENCE {
-	major						INTEGER(0..65535),
-	minor						INTEGER(0..65535)
+GamePlayerLeft ::= SEQUENCE {
+	playerId					NonZeroId
+}
+
+GameAdminChanged ::= SEQUENCE {
+	newAdminPlayerId			NonZeroId
+}
+
+RemovedFromGame ::= SEQUENCE {
+	removedFromGameReason		ENUMERATED {
+		removedOnRequest	(0), -- No error, client wished to leave.
+		kickedFromGame		(1),
+		gameIsFull			(2),
+		gameIsRunning		(3),
+		gameTimeout			(4)
+	}
+}
+
+KickPlayerRequestMessage ::= [APPLICATION 11] SEQUENCE {
+	gameId						NonZeroId,
+	playerId					NonZeroId
+}
+
+LeaveGameRequestMessage ::= [APPLICATION 12] SEQUENCE {
+	gameId						NonZeroId
+}
+
+StartEventMessage ::= [APPLICATION 13] SEQUENCE {
+	gameId						NonZeroId,
+	fillWithComputerPlayers		BOOLEAN
+}
+
+StartEventAckMessage ::= [APPLICATION 14] SEQUENCE {
+	gameId						NonZeroId
+}
+
+GameStartMessage ::= [APPLICATION 15] SEQUENCE {
+	gameId						NonZeroId,
+	startDealerPlayerId			NonZeroId,
+	playerSeats					SEQUENCE SIZE(2..10) OF NonZeroId
+}
+
+HandStartMessage ::= [APPLICATION 16] SEQUENCE {
+	gameId						NonZeroId,
+	yourFirstCard				Card,
+	yourSecondCard				Card,
+	smallBlind					INTEGER(1..20001)
+}
+
+PlayersTurnMessage ::= [APPLICATION 17] SEQUENCE {
+	gameId						NonZeroId,
+	playerId					NonZeroId,
+	gameState					GameState
+}
+
+MyActionRequestMessage ::= [APPLICATION 18] SEQUENCE {
+	gameId						NonZeroId,
+	gameState					GameState,
+	myAction					PlayerAction,
+	myRelativeBet				INTEGER(0..10000000)
+}
+
+YourActionRejectedMessage ::= [APPLICATION 19] SEQUENCE {
+	gameId						NonZeroId,
+	gameState					GameState,
+	yourAction					PlayerAction,
+	yourRelativeBet				INTEGER(0..10000000),
+	rejectionReason				ENUMERATED {
+		rejectedInvalidGameState	(1),
+		rejectedNotYourTurn			(2),
+		rejectedActionNotAllowed	(3)
+	}
+}
+
+PlayersActionDoneMessage ::= [APPLICATION 20] SEQUENCE {
+	gameId						NonZeroId,
+	playerId					NonZeroId,
+	gameState					GameState,
+	playerAction				PlayerAction,
+	totalPlayerBet				INTEGER(0..10000000),
+	playerMoney					INTEGER(0..10000000),
+	highestSet					INTEGER(0..10000000),
+	minimumRaise				INTEGER(0..10000000) -- TODO
+}
+
+GameState ::= ENUMERATED {
+	statePreflop			(0),
+	stateFlop				(1),
+	stateTurn				(2),
+	stateRiver				(3),
+	statePreflopSmallBlind	(4),
+	statePreflopBigBlind	(5)
+}
+
+PlayerAction ::= ENUMERATED {
+	actionNone		(0),
+	actionFold		(1),
+	actionCheck		(2),
+	actionCall		(3),
+	actionBet		(4),
+	actionRaise		(5),
+	actionAllIn		(6)
 }
 
 NonZeroId ::= INTEGER(1..4294967295)
 
 Guid ::= INTEGER(1..4294967295) -- TODO
 
-NumPlayers ::= INTEGER(1..10)
+Card ::= INTEGER(0..51)
 
 END
