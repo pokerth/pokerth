@@ -308,6 +308,11 @@ void gameLobbyDialogImpl::gameSelected(const QModelIndex &index, const QModelInd
 			addConnectedPlayer(*i, QString::fromUtf8(playerInfo.playerName.c_str()), tmpRights);
 			++i;
 		}
+#ifdef __APPLE__
+		// Dirty workaround for a Qt redraw bug on Mac OS.
+		treeWidget_connectedPlayers->setFocus();
+		treeView_GameList->setFocus();
+#endif
 	}
 }
 
