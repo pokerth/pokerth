@@ -459,7 +459,7 @@ ServerLobbyThread::Main()
 	} catch (const PokerTHException &e)
 	{
 		GetCallback().SignalNetServerError(e.GetErrorId(), e.GetOsErrorCode());
-		LOG_ERROR(e.what());
+		LOG_ERROR("Lobby exception: " << e.what());
 	}
 	// Clear all sessions.
 	m_sessionManager.Clear();
@@ -549,7 +549,7 @@ ServerLobbyThread::HandleRead(const boost::system::error_code &ec, SessionId ses
 						game->HandlePacket(session, packet);
 					} catch (const PokerTHException &e)
 					{
-						LOG_ERROR(e.what());
+						LOG_ERROR("Game " << game->GetId() << " - Read handler exception: " << e.what());
 						InternalRemoveGame(game);
 					}
 				}

@@ -25,6 +25,7 @@
 #include <net/netpacket.h>
 #include <net/socket_msg.h>
 #include <net/serverexception.h>
+#include <core/loghelper.h>
 #include <gamedata.h>
 #include <game.h>
 #include <playerinterface.h>
@@ -654,6 +655,7 @@ ServerGameStateHand::TimerLoop(const boost::system::error_code &ec, boost::share
 		}
 		catch (const PokerTHException &e)
 		{
+			LOG_ERROR("Game " << server->GetId() << " - Engine exception: " << e.what());
 			server->RemoveAllSessions(); // Close this game on error.
 		}
 	}
@@ -887,14 +889,17 @@ ServerGameStateHand::TimerComputerAction(const boost::system::error_code &ec, bo
 	{
 		try
 		{
-			boost::shared_ptr<PlayerInterface> tmpPlayer = server->GetGame().getCurrentPlayer();
+			boost::shared_ptr<PlayerInterface> curPlayer = server->GetGame().getCurrentPlayer();
+			if (!curPlayer)
+				throw ServerException(__FILE__, __LINE__, ERR_NET_NO_CURRENT_PLAYER, 0);
 
-			tmpPlayer->action();
-			SendPlayerAction(*server, tmpPlayer);
+			curPlayer->action();
+			SendPlayerAction(*server, curPlayer);
 			EngineLoop(server);
 		}
 		catch (const PokerTHException &e)
 		{
+			LOG_ERROR("Game " << server->GetId() << " - Computer timer exception: " << e.what());
 			server->RemoveAllSessions(); // Close this game on error.
 		}
 	}
@@ -1193,6 +1198,7 @@ ServerGameStateWaitPlayerAction::TimerTimeout(const boost::system::error_code &e
 		}
 		catch (const PokerTHException &e)
 		{
+			LOG_ERROR("Game " << server->GetId() << " - Player timer exception: " << e.what());
 			server->RemoveAllSessions(); // Close this game on error.
 		}
 	}
