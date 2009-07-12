@@ -122,9 +122,10 @@ ServerGame::SendToAllPlayers(boost::shared_ptr<NetPacket> packet, SessionData::S
 void
 ServerGame::RemoveAllSessions()
 {
-	// Called from lobby thread.
 	// Clean up ALL sessions which are left.
 	GetSessionManager().ForEach(boost::bind(&ServerLobbyThread::RemoveSessionFromGame, boost::ref(*m_lobbyThread), _1));
+	GetSessionManager().Clear();
+	SetState(ServerGameStateFinal::Instance());
 }
 
 void
