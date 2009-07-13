@@ -920,11 +920,10 @@ ServerGameStateHand::TimerNextGame(const boost::system::error_code &ec, boost::s
 {
 	if (!ec && &server->GetState() == this)
 	{
-		Game &curGame = server->GetGame();
 		// The game has ended. Notify all clients.
 		boost::shared_ptr<PlayerInterface> winnerPlayer;
-		PlayerListIterator i = curGame.getActivePlayerList()->begin();
-		PlayerListIterator end = curGame.getActivePlayerList()->end();
+		PlayerListIterator i = server->GetGame().getActivePlayerList()->begin();
+		PlayerListIterator end = server->GetGame().getActivePlayerList()->end();
 		while (i != end)
 		{
 			winnerPlayer = *i;
@@ -933,18 +932,26 @@ ServerGameStateHand::TimerNextGame(const boost::system::error_code &ec, boost::s
 			++i;
 		}
 
-		boost::shared_ptr<NetPacket> endGame(new NetPacketEndOfGame);
-		NetPacketEndOfGame::Data endGameData;
-		endGameData.winnerPlayerId = winnerPlayer->getMyUniqueID();
-		static_cast<NetPacketEndOfGame *>(endGame.get())->SetData(endGameData);
+		if (winnerPlayer)
+		{
+			boost::shared_ptr<NetPacket> endGame(new NetPacketEndOfGame);
+			NetPacketEndOfGame::Data endGameData;
+			endGameData.winnerPlayerId = winnerPlayer->getMyUniqueID();
+			static_cast<NetPacketEndOfGame *>(endGame.get())->SetData(endGameData);
 
-		server->SendToAllPlayers(endGame, SessionData::Game);
+			server->SendToAllPlayers(endGame, SessionData::Game);
 
-		// Wait for the start of a new game.
-		server->ResetComputerPlayerList();
-		server->ResetGame();
-		server->GetLobbyThread().NotifyReopeningGame(server->GetId());
-		server->SetState(ServerGameStateInit::Instance());
+			// Wait for the start of a new game.
+			server->ResetComputerPlayerList();
+			server->ResetGame();
+			server->GetLobbyThread().NotifyReopeningGame(server->GetId());
+			server->SetState(ServerGameStateInit::Instance());
+		}
+		else
+		{
+			LOG_ERROR("Game " << server->GetId() << " - Has no winner!");
+			server->RemoveAllSessions(); // This is fatal, close this game.
+		}
 	}
 }
 
