@@ -58,7 +58,10 @@ internal_log_err(const string &msg)
 	{
 		ofstream o(g_logFile.c_str(), ios_base::out | ios_base::app);
 		if (!o.fail())
+		{
 			o << second_clock::local_time() << " ERR: " << msg;
+			o.flush();
+		}
 	}
 }
 

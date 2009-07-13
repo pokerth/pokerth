@@ -534,6 +534,7 @@ ServerLobbyThread::HandleRead(const boost::system::error_code &ec, SessionId ses
 			ReceiveBuffer &buf = session.sessionData->GetReceiveBuffer();
 			buf.recvBufUsed += bytesRead;
 			GetReceiver().ScanPackets(buf);
+			bool errorFlag = false;
 
 			while (!buf.receivedPackets.empty())
 			{
@@ -550,20 +551,25 @@ ServerLobbyThread::HandleRead(const boost::system::error_code &ec, SessionId ses
 					} catch (const PokerTHException &e)
 					{
 						LOG_ERROR("Game " << game->GetId() << " - Read handler exception: " << e.what());
-						InternalRemoveGame(game);
+						game->RemoveAllSessions();
+						errorFlag = true;
+						break;
 					}
 				}
 				else
 					HandlePacket(session, packet);
 			}
-			session.sessionData->GetAsioSocket()->async_read_some(
-				boost::asio::buffer(buf.recvBuf + buf.recvBufUsed, RECV_BUF_SIZE - buf.recvBufUsed),
-				boost::bind(
-					&ServerLobbyThread::HandleRead,
-					this,
-					boost::asio::placeholders::error,
-					sessionId,
-					boost::asio::placeholders::bytes_transferred));
+			if (!errorFlag)
+			{
+				session.sessionData->GetAsioSocket()->async_read_some(
+					boost::asio::buffer(buf.recvBuf + buf.recvBufUsed, RECV_BUF_SIZE - buf.recvBufUsed),
+					boost::bind(
+						&ServerLobbyThread::HandleRead,
+						this,
+						boost::asio::placeholders::error,
+						sessionId,
+						boost::asio::placeholders::bytes_transferred));
+			}
 		}
 		else
 		{
