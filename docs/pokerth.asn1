@@ -60,10 +60,10 @@ PokerTHMessage ::= CHOICE {
 
 InitMessage ::= [APPLICATION 0] SEQUENCE {
 	requestedVersion			Version,
-	avatar						AvatarHash OPTIONAL,
 	login						CHOICE {
 		anonymousLogin			[0]	AnonymousLogin,
-		authenticatedLogin		[1]	AuthenticatedLogin
+		authenticatedLogin		[1]	AuthenticatedLogin,
+		statisticsLogin			[2] StatisticsLogin
 	}
 }
 
@@ -73,12 +73,17 @@ Version ::= SEQUENCE {
 }
 
 AnonymousLogin ::= SEQUENCE {
-	playerName					UTF8String
+	playerName					UTF8String,
+	avatar						AvatarHash OPTIONAL
 }
 
 -- TODO challenge/response
 AuthenticatedLogin ::= SEQUENCE {
-	playerName					UTF8String
+	playerName					UTF8String,
+	avatar						AvatarHash OPTIONAL
+}
+
+StatisticsLogin ::= SEQUENCE {
 }
 
 InitAckMessage ::= [APPLICATION 1] SEQUENCE {
@@ -96,14 +101,23 @@ AvatarRequestMessage ::= [APPLICATION 2] SEQUENCE {
 AvatarReplyMessage ::= [APPLICATION 3] SEQUENCE {
 	requestId					NonZeroId,
 	avatarResult				CHOICE {
-		avatarData				[0] AvatarData,
-		unknownAvatar			[1] UnknownAvatar
+		avatarHeader			[0] AvatarHeader,
+		avatarData				[1] AvatarData,
+		avatarEnd				[2] AvatarEnd,
+		unknownAvatar			[3] UnknownAvatar
 	}
 }
 
-AvatarData ::= SEQUENCE {
+AvatarHeader ::= SEQUENCE {
 	avatarType					AvatarType,
-	avatarFile					OCTET STRING (SIZE(32..30720))
+	avatarSize					INTEGER(32..30720)
+}
+
+AvatarData ::= SEQUENCE {
+	avatarBlock					OCTET STRING (SIZE(1..256))
+}
+
+AvatarEnd ::= SEQUENCE {
 }
 
 UnknownAvatar ::= SEQUENCE {
