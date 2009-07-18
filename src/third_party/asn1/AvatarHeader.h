@@ -11,7 +11,7 @@
 #include <asn_application.h>
 
 /* Including external dependencies */
-#include "AvatarType.h"
+#include "NetAvatarType.h"
 #include <NativeInteger.h>
 #include <constr_SEQUENCE.h>
 
@@ -21,7 +21,7 @@ extern "C" {
 
 /* AvatarHeader */
 typedef struct AvatarHeader {
-	AvatarType_t	 avatarType;
+	NetAvatarType_t	 avatarType;
 	long	 avatarSize;
 	/*
 	 * This type is extensible,

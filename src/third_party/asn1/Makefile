@@ -13,14 +13,14 @@ ASN_MODULE_SOURCES=	\
 	AvatarEnd.c	\
 	UnknownAvatar.c	\
 	AvatarHash.c	\
-	AvatarType.c	\
+	NetAvatarType.c	\
 	GameListMessage.c	\
 	GameListNew.c	\
 	GameListUpdate.c	\
 	GameListPlayerJoined.c	\
 	GameListPlayerLeft.c	\
 	GameListAdminChanged.c	\
-	GameMode.c	\
+	NetGameMode.c	\
 	PlayerInfoRequestMessage.c	\
 	PlayerInfoReplyMessage.c	\
 	PlayerInfoData.c	\
@@ -32,7 +32,7 @@ ASN_MODULE_SOURCES=	\
 	JoinGameReplyMessage.c	\
 	JoinGameAck.c	\
 	JoinGameFailed.c	\
-	GameInfo.c	\
+	NetGameInfo.c	\
 	GamePlayerMessage.c	\
 	GamePlayerJoined.c	\
 	GamePlayerLeft.c	\
@@ -64,8 +64,8 @@ ASN_MODULE_SOURCES=	\
 	ChatMessage.c	\
 	DialogMessage.c	\
 	ErrorMessage.c	\
-	GameState.c	\
-	PlayerAction.c	\
+	NetGameState.c	\
+	NetPlayerAction.c	\
 	NonZeroId.c	\
 	Id.c	\
 	Guid.c	\
@@ -86,14 +86,14 @@ ASN_MODULE_HEADERS=	\
 	AvatarEnd.h	\
 	UnknownAvatar.h	\
 	AvatarHash.h	\
-	AvatarType.h	\
+	NetAvatarType.h	\
 	GameListMessage.h	\
 	GameListNew.h	\
 	GameListUpdate.h	\
 	GameListPlayerJoined.h	\
 	GameListPlayerLeft.h	\
 	GameListAdminChanged.h	\
-	GameMode.h	\
+	NetGameMode.h	\
 	PlayerInfoRequestMessage.h	\
 	PlayerInfoReplyMessage.h	\
 	PlayerInfoData.h	\
@@ -105,7 +105,7 @@ ASN_MODULE_HEADERS=	\
 	JoinGameReplyMessage.h	\
 	JoinGameAck.h	\
 	JoinGameFailed.h	\
-	GameInfo.h	\
+	NetGameInfo.h	\
 	GamePlayerMessage.h	\
 	GamePlayerJoined.h	\
 	GamePlayerLeft.h	\
@@ -137,8 +137,8 @@ ASN_MODULE_HEADERS=	\
 	ChatMessage.h	\
 	DialogMessage.h	\
 	ErrorMessage.h	\
-	GameState.h	\
-	PlayerAction.h	\
+	NetGameState.h	\
+	NetPlayerAction.h	\
 	NonZeroId.h	\
 	Id.h	\
 	Guid.h	\

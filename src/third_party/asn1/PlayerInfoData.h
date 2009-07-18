@@ -13,7 +13,7 @@
 /* Including external dependencies */
 #include <UTF8String.h>
 #include <BOOLEAN.h>
-#include "AvatarType.h"
+#include "NetAvatarType.h"
 #include "AvatarHash.h"
 #include <constr_SEQUENCE.h>
 
@@ -26,7 +26,7 @@ typedef struct PlayerInfoData {
 	UTF8String_t	 playerName;
 	BOOLEAN_t	 isHuman;
 	struct avatarData {
-		AvatarType_t	 avatarType;
+		NetAvatarType_t	 avatarType;
 		AvatarHash_t	 avatar;
 		/*
 		 * This type is extensible,

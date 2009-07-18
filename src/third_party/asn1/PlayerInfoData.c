@@ -12,7 +12,7 @@ static asn_TYPE_member_t asn_MBR_avatarData_4[] = {
 	{ ATF_NOFLAGS, 0, offsetof(struct avatarData, avatarType),
 		(ASN_TAG_CLASS_UNIVERSAL | (10 << 2)),
 		0,
-		&asn_DEF_AvatarType,
+		&asn_DEF_NetAvatarType,
 		0,	/* Defer constraints checking to the member type */
 		0,	/* PER is not compiled, use -gen-PER */
 		0,
