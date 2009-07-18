@@ -11,7 +11,7 @@
 #include <asn_application.h>
 
 /* Including external dependencies */
-#include "GameMode.h"
+#include "NetGameMode.h"
 #include <constr_SEQUENCE.h>
 
 #ifdef __cplusplus
@@ -20,7 +20,7 @@ extern "C" {
 
 /* GameListUpdate */
 typedef struct GameListUpdate {
-	GameMode_t	 gameMode;
+	NetGameMode_t	 gameMode;
 	/*
 	 * This type is extensible,
 	 * possible extensions are below.

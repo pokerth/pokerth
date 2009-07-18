@@ -12,7 +12,7 @@
 
 /* Including external dependencies */
 #include "NonZeroId.h"
-#include "GameState.h"
+#include "NetGameState.h"
 #include <constr_SEQUENCE.h>
 
 #ifdef __cplusplus
@@ -23,7 +23,7 @@ extern "C" {
 typedef struct PlayersTurnMessage {
 	NonZeroId_t	 gameId;
 	NonZeroId_t	 playerId;
-	GameState_t	 gameState;
+	NetGameState_t	 gameState;
 	/*
 	 * This type is extensible,
 	 * possible extensions are below.

@@ -12,8 +12,8 @@
 
 /* Including external dependencies */
 #include "NonZeroId.h"
-#include "GameState.h"
-#include "PlayerAction.h"
+#include "NetGameState.h"
+#include "NetPlayerAction.h"
 #include <NativeInteger.h>
 #include <constr_SEQUENCE.h>
 
@@ -25,8 +25,8 @@ extern "C" {
 typedef struct PlayersActionDoneMessage {
 	NonZeroId_t	 gameId;
 	NonZeroId_t	 playerId;
-	GameState_t	 gameState;
-	PlayerAction_t	 playerAction;
+	NetGameState_t	 gameState;
+	NetPlayerAction_t	 playerAction;
 	long	 totalPlayerBet;
 	long	 playerMoney;
 	long	 highestSet;

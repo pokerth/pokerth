@@ -30,7 +30,7 @@ static asn_TYPE_member_t asn_MBR_PlayersTurnMessage_1[] = {
 	{ ATF_NOFLAGS, 0, offsetof(struct PlayersTurnMessage, gameState),
 		(ASN_TAG_CLASS_UNIVERSAL | (10 << 2)),
 		0,
-		&asn_DEF_GameState,
+		&asn_DEF_NetGameState,
 		0,	/* Defer constraints checking to the member type */
 		0,	/* PER is not compiled, use -gen-PER */
 		0,

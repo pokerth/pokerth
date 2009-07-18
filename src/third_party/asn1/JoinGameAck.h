@@ -12,7 +12,7 @@
 
 /* Including external dependencies */
 #include <BOOLEAN.h>
-#include "GameInfo.h"
+#include "NetGameInfo.h"
 #include <constr_SEQUENCE.h>
 
 #ifdef __cplusplus
@@ -22,7 +22,7 @@ extern "C" {
 /* JoinGameAck */
 typedef struct JoinGameAck {
 	BOOLEAN_t	 areYouAdmin;
-	GameInfo_t	 gameInfo;
+	NetGameInfo_t	 gameInfo;
 	/*
 	 * This type is extensible,
 	 * possible extensions are below.

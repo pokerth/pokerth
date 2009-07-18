@@ -12,7 +12,7 @@ static asn_TYPE_member_t asn_MBR_GameListUpdate_1[] = {
 	{ ATF_NOFLAGS, 0, offsetof(struct GameListUpdate, gameMode),
 		(ASN_TAG_CLASS_UNIVERSAL | (10 << 2)),
 		0,
-		&asn_DEF_GameMode,
+		&asn_DEF_NetGameMode,
 		0,	/* Defer constraints checking to the member type */
 		0,	/* PER is not compiled, use -gen-PER */
 		0,

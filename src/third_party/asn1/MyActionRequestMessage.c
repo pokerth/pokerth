@@ -46,7 +46,7 @@ static asn_TYPE_member_t asn_MBR_MyActionRequestMessage_1[] = {
 	{ ATF_NOFLAGS, 0, offsetof(struct MyActionRequestMessage, gameState),
 		(ASN_TAG_CLASS_UNIVERSAL | (10 << 2)),
 		0,
-		&asn_DEF_GameState,
+		&asn_DEF_NetGameState,
 		0,	/* Defer constraints checking to the member type */
 		0,	/* PER is not compiled, use -gen-PER */
 		0,
@@ -55,7 +55,7 @@ static asn_TYPE_member_t asn_MBR_MyActionRequestMessage_1[] = {
 	{ ATF_NOFLAGS, 0, offsetof(struct MyActionRequestMessage, myAction),
 		(ASN_TAG_CLASS_UNIVERSAL | (10 << 2)),
 		0,
-		&asn_DEF_PlayerAction,
+		&asn_DEF_NetPlayerAction,
 		0,	/* Defer constraints checking to the member type */
 		0,	/* PER is not compiled, use -gen-PER */
 		0,

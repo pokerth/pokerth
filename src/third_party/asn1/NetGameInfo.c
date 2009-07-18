@@ -6,7 +6,7 @@
 
 #include <asn_internal.h>
 
-#include "GameInfo.h"
+#include "NetGameInfo.h"
 
 static int
 memb_raiseEveryHands_constraint_4(asn_TYPE_descriptor_t *td, const void *sptr,
@@ -479,8 +479,8 @@ asn_TYPE_descriptor_t asn_DEF_manualBlinds_17 = {
 	&asn_SPC_manualBlinds_specs_17	/* Additional specs */
 };
 
-static asn_TYPE_member_t asn_MBR_GameInfo_1[] = {
-	{ ATF_NOFLAGS, 0, offsetof(struct GameInfo, gameName),
+static asn_TYPE_member_t asn_MBR_NetGameInfo_1[] = {
+	{ ATF_NOFLAGS, 0, offsetof(struct NetGameInfo, gameName),
 		(ASN_TAG_CLASS_UNIVERSAL | (12 << 2)),
 		0,
 		&asn_DEF_UTF8String,
@@ -489,7 +489,7 @@ static asn_TYPE_member_t asn_MBR_GameInfo_1[] = {
 		0,
 		"gameName"
 		},
-	{ ATF_NOFLAGS, 0, offsetof(struct GameInfo, maxNumPlayers),
+	{ ATF_NOFLAGS, 0, offsetof(struct NetGameInfo, maxNumPlayers),
 		(ASN_TAG_CLASS_UNIVERSAL | (2 << 2)),
 		0,
 		&asn_DEF_NativeInteger,
@@ -498,7 +498,7 @@ static asn_TYPE_member_t asn_MBR_GameInfo_1[] = {
 		0,
 		"maxNumPlayers"
 		},
-	{ ATF_NOFLAGS, 0, offsetof(struct GameInfo, raiseIntervalMode),
+	{ ATF_NOFLAGS, 0, offsetof(struct NetGameInfo, raiseIntervalMode),
 		-1 /* Ambiguous tag (CHOICE?) */,
 		0,
 		&asn_DEF_raiseIntervalMode_4,
@@ -507,7 +507,7 @@ static asn_TYPE_member_t asn_MBR_GameInfo_1[] = {
 		0,
 		"raiseIntervalMode"
 		},
-	{ ATF_NOFLAGS, 0, offsetof(struct GameInfo, endRaiseMode),
+	{ ATF_NOFLAGS, 0, offsetof(struct NetGameInfo, endRaiseMode),
 		(ASN_TAG_CLASS_UNIVERSAL | (10 << 2)),
 		0,
 		&asn_DEF_endRaiseMode_8,
@@ -516,7 +516,7 @@ static asn_TYPE_member_t asn_MBR_GameInfo_1[] = {
 		0,
 		"endRaiseMode"
 		},
-	{ ATF_NOFLAGS, 0, offsetof(struct GameInfo, proposedGuiSpeed),
+	{ ATF_NOFLAGS, 0, offsetof(struct NetGameInfo, proposedGuiSpeed),
 		(ASN_TAG_CLASS_UNIVERSAL | (2 << 2)),
 		0,
 		&asn_DEF_NativeInteger,
@@ -525,7 +525,7 @@ static asn_TYPE_member_t asn_MBR_GameInfo_1[] = {
 		0,
 		"proposedGuiSpeed"
 		},
-	{ ATF_NOFLAGS, 0, offsetof(struct GameInfo, playerActionTimeout),
+	{ ATF_NOFLAGS, 0, offsetof(struct NetGameInfo, playerActionTimeout),
 		(ASN_TAG_CLASS_UNIVERSAL | (2 << 2)),
 		0,
 		&asn_DEF_NativeInteger,
@@ -534,7 +534,7 @@ static asn_TYPE_member_t asn_MBR_GameInfo_1[] = {
 		0,
 		"playerActionTimeout"
 		},
-	{ ATF_NOFLAGS, 0, offsetof(struct GameInfo, firstSmallBlind),
+	{ ATF_NOFLAGS, 0, offsetof(struct NetGameInfo, firstSmallBlind),
 		(ASN_TAG_CLASS_UNIVERSAL | (2 << 2)),
 		0,
 		&asn_DEF_NativeInteger,
@@ -543,7 +543,7 @@ static asn_TYPE_member_t asn_MBR_GameInfo_1[] = {
 		0,
 		"firstSmallBlind"
 		},
-	{ ATF_NOFLAGS, 0, offsetof(struct GameInfo, endRaiseSmallBlindValue),
+	{ ATF_NOFLAGS, 0, offsetof(struct NetGameInfo, endRaiseSmallBlindValue),
 		(ASN_TAG_CLASS_UNIVERSAL | (2 << 2)),
 		0,
 		&asn_DEF_NativeInteger,
@@ -552,7 +552,7 @@ static asn_TYPE_member_t asn_MBR_GameInfo_1[] = {
 		0,
 		"endRaiseSmallBlindValue"
 		},
-	{ ATF_NOFLAGS, 0, offsetof(struct GameInfo, startMoney),
+	{ ATF_NOFLAGS, 0, offsetof(struct NetGameInfo, startMoney),
 		(ASN_TAG_CLASS_UNIVERSAL | (2 << 2)),
 		0,
 		&asn_DEF_NativeInteger,
@@ -561,7 +561,7 @@ static asn_TYPE_member_t asn_MBR_GameInfo_1[] = {
 		0,
 		"startMoney"
 		},
-	{ ATF_NOFLAGS, 0, offsetof(struct GameInfo, manualBlinds),
+	{ ATF_NOFLAGS, 0, offsetof(struct NetGameInfo, manualBlinds),
 		(ASN_TAG_CLASS_UNIVERSAL | (16 << 2)),
 		0,
 		&asn_DEF_manualBlinds_17,
@@ -571,10 +571,10 @@ static asn_TYPE_member_t asn_MBR_GameInfo_1[] = {
 		"manualBlinds"
 		},
 };
-static ber_tlv_tag_t asn_DEF_GameInfo_tags_1[] = {
+static ber_tlv_tag_t asn_DEF_NetGameInfo_tags_1[] = {
 	(ASN_TAG_CLASS_UNIVERSAL | (16 << 2))
 };
-static asn_TYPE_tag2member_t asn_MAP_GameInfo_tag2el_1[] = {
+static asn_TYPE_tag2member_t asn_MAP_NetGameInfo_tag2el_1[] = {
     { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 1, 0, 5 }, /* maxNumPlayers at 249 */
     { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 4, -1, 4 }, /* proposedGuiSpeed at 259 */
     { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 5, -2, 3 }, /* playerActionTimeout at 260 */
@@ -587,18 +587,18 @@ static asn_TYPE_tag2member_t asn_MAP_GameInfo_tag2el_1[] = {
     { (ASN_TAG_CLASS_CONTEXT | (0 << 2)), 2, 0, 0 }, /* raiseEveryHands at 251 */
     { (ASN_TAG_CLASS_CONTEXT | (1 << 2)), 2, 0, 0 } /* raiseEveryMinutes at 252 */
 };
-static asn_SEQUENCE_specifics_t asn_SPC_GameInfo_specs_1 = {
-	sizeof(struct GameInfo),
-	offsetof(struct GameInfo, _asn_ctx),
-	asn_MAP_GameInfo_tag2el_1,
+static asn_SEQUENCE_specifics_t asn_SPC_NetGameInfo_specs_1 = {
+	sizeof(struct NetGameInfo),
+	offsetof(struct NetGameInfo, _asn_ctx),
+	asn_MAP_NetGameInfo_tag2el_1,
 	11,	/* Count of tags in the map */
 	0, 0, 0,	/* Optional elements (not needed) */
 	9,	/* Start extensions */
 	11	/* Stop extensions */
 };
-asn_TYPE_descriptor_t asn_DEF_GameInfo = {
-	"GameInfo",
-	"GameInfo",
+asn_TYPE_descriptor_t asn_DEF_NetGameInfo = {
+	"NetGameInfo",
+	"NetGameInfo",
 	SEQUENCE_free,
 	SEQUENCE_print,
 	SEQUENCE_constraint,
@@ -608,15 +608,15 @@ asn_TYPE_descriptor_t asn_DEF_GameInfo = {
 	SEQUENCE_encode_xer,
 	0, 0,	/* No PER support, use "-gen-PER" to enable */
 	0,	/* Use generic outmost tag fetcher */
-	asn_DEF_GameInfo_tags_1,
-	sizeof(asn_DEF_GameInfo_tags_1)
-		/sizeof(asn_DEF_GameInfo_tags_1[0]), /* 1 */
-	asn_DEF_GameInfo_tags_1,	/* Same as above */
-	sizeof(asn_DEF_GameInfo_tags_1)
-		/sizeof(asn_DEF_GameInfo_tags_1[0]), /* 1 */
+	asn_DEF_NetGameInfo_tags_1,
+	sizeof(asn_DEF_NetGameInfo_tags_1)
+		/sizeof(asn_DEF_NetGameInfo_tags_1[0]), /* 1 */
+	asn_DEF_NetGameInfo_tags_1,	/* Same as above */
+	sizeof(asn_DEF_NetGameInfo_tags_1)
+		/sizeof(asn_DEF_NetGameInfo_tags_1[0]), /* 1 */
 	0,	/* No PER visible constraints */
-	asn_MBR_GameInfo_1,
+	asn_MBR_NetGameInfo_1,
 	10,	/* Elements count */
-	&asn_SPC_GameInfo_specs_1	/* Additional specs */
+	&asn_SPC_NetGameInfo_specs_1	/* Additional specs */
 };
 

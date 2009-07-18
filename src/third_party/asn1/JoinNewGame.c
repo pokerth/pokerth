@@ -12,7 +12,7 @@ static asn_TYPE_member_t asn_MBR_JoinNewGame_1[] = {
 	{ ATF_NOFLAGS, 0, offsetof(struct JoinNewGame, gameInfo),
 		(ASN_TAG_CLASS_UNIVERSAL | (16 << 2)),
 		0,
-		&asn_DEF_GameInfo,
+		&asn_DEF_NetGameInfo,
 		0,	/* Defer constraints checking to the member type */
 		0,	/* PER is not compiled, use -gen-PER */
 		0,

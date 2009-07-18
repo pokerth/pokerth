@@ -11,10 +11,10 @@
 #include <asn_application.h>
 
 /* Including external dependencies */
-#include "GameMode.h"
+#include "NetGameMode.h"
 #include <BOOLEAN.h>
 #include "NonZeroId.h"
-#include "GameInfo.h"
+#include "NetGameInfo.h"
 #include <asn_SEQUENCE_OF.h>
 #include <constr_SEQUENCE_OF.h>
 #include <constr_SEQUENCE.h>
@@ -25,7 +25,7 @@ extern "C" {
 
 /* GameListNew */
 typedef struct GameListNew {
-	GameMode_t	 gameMode;
+	NetGameMode_t	 gameMode;
 	BOOLEAN_t	 isPrivate;
 	struct playerIds {
 		A_SEQUENCE_OF(NonZeroId_t) list;
@@ -34,7 +34,7 @@ typedef struct GameListNew {
 		asn_struct_ctx_t _asn_ctx;
 	} playerIds;
 	NonZeroId_t	 adminPlayerId;
-	GameInfo_t	 gameInfo;
+	NetGameInfo_t	 gameInfo;
 	/*
 	 * This type is extensible,
 	 * possible extensions are below.

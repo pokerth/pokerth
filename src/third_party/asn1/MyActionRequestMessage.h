@@ -12,8 +12,8 @@
 
 /* Including external dependencies */
 #include "NonZeroId.h"
-#include "GameState.h"
-#include "PlayerAction.h"
+#include "NetGameState.h"
+#include "NetPlayerAction.h"
 #include <NativeInteger.h>
 #include <constr_SEQUENCE.h>
 
@@ -24,8 +24,8 @@ extern "C" {
 /* MyActionRequestMessage */
 typedef struct MyActionRequestMessage {
 	NonZeroId_t	 gameId;
-	GameState_t	 gameState;
-	PlayerAction_t	 myAction;
+	NetGameState_t	 gameState;
+	NetPlayerAction_t	 myAction;
 	long	 myRelativeBet;
 	/*
 	 * This type is extensible,

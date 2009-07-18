@@ -11,7 +11,7 @@
 #include <asn_application.h>
 
 /* Including external dependencies */
-#include "GameInfo.h"
+#include "NetGameInfo.h"
 #include <constr_SEQUENCE.h>
 
 #ifdef __cplusplus
@@ -20,7 +20,7 @@ extern "C" {
 
 /* JoinNewGame */
 typedef struct JoinNewGame {
-	GameInfo_t	 gameInfo;
+	NetGameInfo_t	 gameInfo;
 	/*
 	 * This type is extensible,
 	 * possible extensions are below.

@@ -4,8 +4,8 @@
  * 	found in "../../../docs/pokerth.asn1"
  */
 
-#ifndef	_GameInfo_H_
-#define	_GameInfo_H_
+#ifndef	_NetGameInfo_H_
+#define	_NetGameInfo_H_
 
 
 #include <asn_application.h>
@@ -37,13 +37,13 @@ typedef enum endRaiseMode {
 	endRaiseMode_keepLastBlind	= 3
 } e_endRaiseMode;
 
-/* GameInfo */
-typedef struct GameInfo {
+/* NetGameInfo */
+typedef struct NetGameInfo {
 	UTF8String_t	 gameName;
 	long	 maxNumPlayers;
 	struct raiseIntervalMode {
 		raiseIntervalMode_PR present;
-		union GameInfo__raiseIntervalMode_u {
+		union NetGameInfo__raiseIntervalMode_u {
 			long	 raiseEveryHands;
 			long	 raiseEveryMinutes;
 			/*
@@ -74,14 +74,14 @@ typedef struct GameInfo {
 	
 	/* Context for parsing across buffer boundaries */
 	asn_struct_ctx_t _asn_ctx;
-} GameInfo_t;
+} NetGameInfo_t;
 
 /* Implementation */
 /* extern asn_TYPE_descriptor_t asn_DEF_endRaiseMode_8;	// (Use -fall-defs-global to expose) */
-extern asn_TYPE_descriptor_t asn_DEF_GameInfo;
+extern asn_TYPE_descriptor_t asn_DEF_NetGameInfo;
 
 #ifdef __cplusplus
 }
 #endif
 
-#endif	/* _GameInfo_H_ */
+#endif	/* _NetGameInfo_H_ */
