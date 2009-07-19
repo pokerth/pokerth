@@ -5,19 +5,32 @@ CODECFORSRC = UTF-8
 QT += network
 QT -= gui
 TARGET = chatcleaner
-CONFIG += console
+CONFIG += console debug
 CONFIG -= app_bundle
 MOC_DIR = mocs
 OBJECTS_DIR = obj
 TEMPLATE = app
-INCLUDEPATH += src/ src/chatcleaner/ 
-DEPENDPATH += src/ src/chatcleaner/
+INCLUDEPATH += src/ \
+	src/third_party/tinyxml \
+    src/chatcleaner/
+DEPENDPATH += src/ \
+	src/third_party/tinyxml \
+    src/chatcleaner/
 SOURCES += chatcleaner.cpp \
     cleanerserver.cpp \
     messagefilter.cpp \
     badwordcheck.cpp \
-    textfloodcheck.cpp
+    textfloodcheck.cpp \
+    cleanerconfig.cpp \
+	tinystr.cpp \
+	tinyxml.cpp \
+	tinyxmlerror.cpp \
+	tinyxmlparser.cpp
 HEADERS += cleanerserver.h \
     messagefilter.h \
     badwordcheck.h \
-    textfloodcheck.h
+    textfloodcheck.h \
+    cleanerconfig.h \
+	tinyxml.h \
+	tinystr.h
+	

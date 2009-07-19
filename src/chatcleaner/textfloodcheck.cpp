@@ -1,9 +1,17 @@
 #include "textfloodcheck.h"
+#include <QtCore>
 
 TextFloodCheck::TextFloodCheck()
 {
 	timer.reset();
 	timer.start();
+	     
+	cleanTimer = new QTimer();
+	
+	connect(cleanTimer, SIGNAL(timeout()), this, SLOT(cleanMsgTimesList()));
+
+	cleanTimer->start(4000);
+			
 }
 
 bool TextFloodCheck::run(unsigned playerId) {
@@ -23,12 +31,10 @@ bool TextFloodCheck::run(unsigned playerId) {
 	}
 	else {
 		if(timer.elapsed().total_seconds()-i.value().timeStamp <= 1) {
-			if(i.value().floodLevel == 2)
+			if(i.value().floodLevel == textFloodLevelToTrigger)
 				return true;
-			else if(i.value().floodLevel == 1)
-				myTextFloodInfos.floodLevel = 2;
 			else
-				myTextFloodInfos.floodLevel = 1;
+				myTextFloodInfos.floodLevel++;
 				
 		}
 		myTextFloodInfos.timeStamp = timer.elapsed().total_seconds();
@@ -39,5 +45,25 @@ bool TextFloodCheck::run(unsigned playerId) {
 
 void TextFloodCheck::cleanMsgTimesList() {
 
+	QMapIterator<unsigned, TextFloodInfos> it(msgTimesList);
+	while (it.hasNext()) {
+		 it.next();
+		 if(timer.elapsed().total_seconds()-it.value().timeStamp > 3) {
+			 
+			if(it.value().floodLevel == 0)
+				msgTimesList.remove(it.key());
+				
+			else {
+				myTextFloodInfos.floodLevel--;
+				myTextFloodInfos.timeStamp = it.value().timeStamp;
+				msgTimesList.insert(it.key(), myTextFloodInfos);
+			}
+		}
+		qDebug() << msgTimesList.count() << it.key() << ": " << it.value().floodLevel << it.value().timeStamp << endl;
+	}
+}
 
+void TextFloodCheck::removeNickFromList(unsigned playerId) {
+	
+	msgTimesList.remove(playerId);
 }

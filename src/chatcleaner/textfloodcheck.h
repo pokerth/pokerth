@@ -6,15 +6,22 @@
 #include <stdlib.h>
 
 
-class TextFloodCheck
+class TextFloodCheck: public QObject
 {
+	Q_OBJECT
 public:
     TextFloodCheck();
+	
+	void setTextFloodLevelToTrigger(int level) { textFloodLevelToTrigger = level; }
+	
 	bool run(unsigned);
+	
+public slots:
 	void cleanMsgTimesList();
+	void removeNickFromList(unsigned);
 	
 private: 
-	QTimer cleanTimer;
+	QTimer *cleanTimer;
 	boost::timers::portable::second_timer timer;
 	struct TextFloodInfos {
 		int floodLevel;
@@ -22,6 +29,8 @@ private:
 	};
 	TextFloodInfos myTextFloodInfos;
 	QMap<unsigned, TextFloodInfos> msgTimesList;
+	
+	int textFloodLevelToTrigger;
 };
 
 #endif // TEXTFLOODCHECK_H

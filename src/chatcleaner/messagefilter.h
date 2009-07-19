@@ -6,14 +6,16 @@
 
 class BadWordCheck;
 class TextFloodCheck;
+class CleanerConfig;
 
 class MessageFilter: public QObject {
 Q_OBJECT
 public:
-    MessageFilter();
+    MessageFilter(CleanerConfig*);
 
-	QString check(QString);
-			
+	QString check(unsigned, QString, QString);
+	void refreshConfig();	
+	
 private: 
 	BadWordCheck *myBadWordCheck;
 	TextFloodCheck *myTextFloodCheck;
@@ -23,9 +25,12 @@ private:
 		int lastWarnType; 
 		int warnLevel; 
 	};
+	ClientWarnInfos myClientWarnInfos;
+	QMap<unsigned, ClientWarnInfos> myClientWarnLevelList;
 	
-	QMap<unsigned, ClientWarnInfos> clientWarnLevelList;
+	int warnLevelToKick;
 	
+	CleanerConfig *config;
 };
 
 #endif // MESSAGEFILTER_H

@@ -5,6 +5,7 @@
 #include <QtNetwork>
 
 class MessageFilter;
+class CleanerConfig;
 
 class CleanerServer: public QObject {
 Q_OBJECT
@@ -16,12 +17,15 @@ public:
 private slots:
      void newCon();
 	 void onRead();
+	 
+	 void refreshConfig();
 
 private:
      QTcpServer *tcpServer;
 	 QTcpSocket *tcpSocket;
 	 MessageFilter *myMessageFilter;
 		 
+	 CleanerConfig *config;
 };
 
 #endif // CLEANERSERVER_H
