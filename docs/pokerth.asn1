@@ -55,6 +55,8 @@ PokerTHMessage ::= CHOICE {
 	chatRequestMessage			ChatRequestMessage,
 	chatMessage					ChatMessage,
 	dialogMessage				DialogMessage,
+	timeoutWarningMessage		TimeoutWarningMessage,
+	resetTimeoutMessage			ResetTimeoutMessage,
 	errorMessage				ErrorMessage
 }
 
@@ -109,7 +111,7 @@ AvatarReplyMessage ::= [APPLICATION 3] SEQUENCE {
 }
 
 AvatarHeader ::= SEQUENCE {
-	avatarType					AvatarType,
+	avatarType					NetAvatarType,
 	avatarSize					INTEGER(32..30720)
 }
 
@@ -125,10 +127,10 @@ UnknownAvatar ::= SEQUENCE {
 
 AvatarHash ::= OCTET STRING (SIZE(20)) -- sha-1 hash value
 
-AvatarType ::= ENUMERATED {
-	imagePng		(1),
-	imageJpg		(2),
-	imageGif		(3)
+NetAvatarType ::= ENUMERATED {
+	avatarImagePng		(1),
+	avatarImageJpg		(2),
+	avatarImageGif		(3)
 }
 
 GameListMessage ::= [APPLICATION 4] SEQUENCE {
@@ -143,15 +145,15 @@ GameListMessage ::= [APPLICATION 4] SEQUENCE {
 }
 
 GameListNew ::= SEQUENCE {
-	gameMode					GameMode,
+	gameMode					NetGameMode,
 	isPrivate					BOOLEAN,
 	playerIds					SEQUENCE SIZE(1..10) OF NonZeroId,
 	adminPlayerId				NonZeroId,
-	gameInfo					GameInfo
+	gameInfo					NetGameInfo
 }
 
 GameListUpdate ::= SEQUENCE {
-	gameMode					GameMode
+	gameMode					NetGameMode
 }
 
 GameListPlayerJoined ::= SEQUENCE {
@@ -166,7 +168,7 @@ GameListAdminChanged ::= SEQUENCE {
 	newAdminPlayerId			NonZeroId
 }
 
-GameMode ::= ENUMERATED {
+NetGameMode ::= ENUMERATED {
 	gameCreated	(1),
 	gameStarted	(2),
 	gameClosed	(3)
@@ -188,7 +190,7 @@ PlayerInfoData ::= SEQUENCE {
 	playerName					UTF8String,
 	isHuman						BOOLEAN,
 	avatarData					SEQUENCE {
-		avatarType					AvatarType,
+		avatarType					NetAvatarType,
 		avatar						AvatarHash
 	} OPTIONAL
 }
@@ -219,7 +221,7 @@ JoinExistingGame ::= SEQUENCE {
 }
 
 JoinNewGame ::= SEQUENCE {
-	gameInfo					GameInfo
+	gameInfo					NetGameInfo
 }
 
 JoinGameReplyMessage ::= [APPLICATION 9] SEQUENCE {
@@ -232,7 +234,7 @@ JoinGameReplyMessage ::= [APPLICATION 9] SEQUENCE {
 
 JoinGameAck ::= SEQUENCE {
 	areYouAdmin					BOOLEAN,
-	gameInfo					GameInfo
+	gameInfo					NetGameInfo
 }
 
 JoinGameFailed ::= SEQUENCE {
@@ -244,7 +246,7 @@ JoinGameFailed ::= SEQUENCE {
 	}
 }
 
-GameInfo ::= SEQUENCE {
+NetGameInfo ::= SEQUENCE {
 	gameName					UTF8String,
 	maxNumPlayers				INTEGER(2..10),
 	raiseIntervalMode			CHOICE {
@@ -279,7 +281,12 @@ GamePlayerJoined ::= SEQUENCE {
 }
 
 GamePlayerLeft ::= SEQUENCE {
-	playerId					NonZeroId
+	playerId					NonZeroId,
+	gamePlayerLeftReason		ENUMERATED {
+		leftOnRequest		(0),
+		leftKicked			(1),
+		leftError			(2)
+	}
 }
 
 GameAdminChanged ::= SEQUENCE {
@@ -329,20 +336,20 @@ HandStartMessage ::= [APPLICATION 16] SEQUENCE {
 PlayersTurnMessage ::= [APPLICATION 17] SEQUENCE {
 	gameId						NonZeroId,
 	playerId					NonZeroId,
-	gameState					GameState
+	gameState					NetGameState
 }
 
 MyActionRequestMessage ::= [APPLICATION 18] SEQUENCE {
 	gameId						NonZeroId,
-	gameState					GameState,
-	myAction					PlayerAction,
+	gameState					NetGameState,
+	myAction					NetPlayerAction,
 	myRelativeBet				INTEGER(0..10000000)
 }
 
 YourActionRejectedMessage ::= [APPLICATION 19] SEQUENCE {
 	gameId						NonZeroId,
-	gameState					GameState,
-	yourAction					PlayerAction,
+	gameState					NetGameState,
+	yourAction					NetPlayerAction,
 	yourRelativeBet				INTEGER(0..10000000),
 	rejectionReason				ENUMERATED {
 		rejectedInvalidGameState	(1),
@@ -354,8 +361,8 @@ YourActionRejectedMessage ::= [APPLICATION 19] SEQUENCE {
 PlayersActionDoneMessage ::= [APPLICATION 20] SEQUENCE {
 	gameId						NonZeroId,
 	playerId					NonZeroId,
-	gameState					GameState,
-	playerAction				PlayerAction,
+	gameState					NetGameState,
+	playerAction				NetPlayerAction,
 	totalPlayerBet				INTEGER(0..10000000),
 	playerMoney					INTEGER(0..10000000),
 	highestSet					INTEGER(0..10000000),
@@ -445,6 +452,17 @@ DialogMessage ::= [APPLICATION 131] SEQUENCE {
 	notificationText			UTF8String
 }
 
+TimeoutWarningMessage ::= [APPLICATION 132] SEQUENCE {
+	timeoutReason				ENUMERATED {
+		timeoutNoDataReceived			(0),
+		timeoutInactiveGame				(1)
+	},
+	remainingSeconds			INTEGER
+}
+
+ResetTimeoutMessage ::= [APPLICATION 133] SEQUENCE {
+}
+
 ErrorMessage ::= [APPLICATION 255] SEQUENCE {
 	errorReason					ENUMERATED {
 		errorReserved					(0),
@@ -464,7 +482,7 @@ ErrorMessage ::= [APPLICATION 255] SEQUENCE {
 	}
 }
 
-GameState ::= ENUMERATED {
+NetGameState ::= ENUMERATED {
 	statePreflop			(0),
 	stateFlop				(1),
 	stateTurn				(2),
@@ -473,7 +491,7 @@ GameState ::= ENUMERATED {
 	statePreflopBigBlind	(5)
 }
 
-PlayerAction ::= ENUMERATED {
+NetPlayerAction ::= ENUMERATED {
 	actionNone		(0),
 	actionFold		(1),
 	actionCheck		(2),
