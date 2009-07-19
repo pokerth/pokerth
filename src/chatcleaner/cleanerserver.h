@@ -23,6 +23,7 @@ private slots:
 private:
      QTcpServer *tcpServer;
 	 QTcpSocket *tcpSocket;
+	 QTimer *configRefreshTimer;
 	 MessageFilter *myMessageFilter;
 		 
 	 CleanerConfig *config;

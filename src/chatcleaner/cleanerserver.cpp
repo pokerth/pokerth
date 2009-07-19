@@ -19,12 +19,15 @@ CleanerServer::CleanerServer(): config(0)
 	 qDebug() << QString("Unable to start the server: %1.").arg(tcpServer->errorString());
 	 return;
 	}
-	
 	qDebug() << QString("The server is running on port %1.").arg(tcpServer->serverPort());
 
+	configRefreshTimer = new QTimer();
+	
+	connect(configRefreshTimer, SIGNAL(timeout()), this, SLOT(refreshConfig()));
 	connect(tcpServer, SIGNAL(newConnection()), this, SLOT(newCon()));
 	
 	refreshConfig();
+	configRefreshTimer->start(10000);
 }
 
 CleanerServer::~CleanerServer() 
@@ -54,6 +57,6 @@ void CleanerServer::onRead()
 
 void CleanerServer::refreshConfig() {
 
-//	config->fillBuffer();
+	config->fillBuffer();
 	myMessageFilter->refreshConfig();
 }
