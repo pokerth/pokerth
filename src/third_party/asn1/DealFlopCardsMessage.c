@@ -103,8 +103,8 @@ static ber_tlv_tag_t asn_DEF_DealFlopCardsMessage_tags_1[] = {
 	(ASN_TAG_CLASS_UNIVERSAL | (16 << 2))
 };
 static asn_TYPE_tag2member_t asn_MAP_DealFlopCardsMessage_tag2el_1[] = {
-    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 0, 0, 0 }, /* gameId at 366 */
-    { (ASN_TAG_CLASS_UNIVERSAL | (16 << 2)), 1, 0, 0 } /* flopCards at 368 */
+    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 0, 0, 0 }, /* gameId at 373 */
+    { (ASN_TAG_CLASS_UNIVERSAL | (16 << 2)), 1, 0, 0 } /* flopCards at 375 */
 };
 static asn_SEQUENCE_specifics_t asn_SPC_DealFlopCardsMessage_specs_1 = {
 	sizeof(struct DealFlopCardsMessage),

@@ -288,6 +288,24 @@ static asn_TYPE_member_t asn_MBR_PokerTHMessage_1[] = {
 		0,
 		"dialogMessage"
 		},
+	{ ATF_NOFLAGS, 0, offsetof(struct PokerTHMessage, choice.timeoutWarningMessage),
+		(ASN_TAG_CLASS_APPLICATION | (132 << 2)),
+		0,
+		&asn_DEF_TimeoutWarningMessage,
+		0,	/* Defer constraints checking to the member type */
+		0,	/* PER is not compiled, use -gen-PER */
+		0,
+		"timeoutWarningMessage"
+		},
+	{ ATF_NOFLAGS, 0, offsetof(struct PokerTHMessage, choice.resetTimeoutMessage),
+		(ASN_TAG_CLASS_APPLICATION | (133 << 2)),
+		0,
+		&asn_DEF_ResetTimeoutMessage,
+		0,	/* Defer constraints checking to the member type */
+		0,	/* PER is not compiled, use -gen-PER */
+		0,
+		"resetTimeoutMessage"
+		},
 	{ ATF_NOFLAGS, 0, offsetof(struct PokerTHMessage, choice.errorMessage),
 		(ASN_TAG_CLASS_APPLICATION | (255 << 2)),
 		0,
@@ -330,7 +348,9 @@ static asn_TYPE_tag2member_t asn_MAP_PokerTHMessage_tag2el_1[] = {
     { (ASN_TAG_CLASS_APPLICATION | (129 << 2)), 28, 0, 0 }, /* chatRequestMessage at 55 */
     { (ASN_TAG_CLASS_APPLICATION | (130 << 2)), 29, 0, 0 }, /* chatMessage at 56 */
     { (ASN_TAG_CLASS_APPLICATION | (131 << 2)), 30, 0, 0 }, /* dialogMessage at 57 */
-    { (ASN_TAG_CLASS_APPLICATION | (255 << 2)), 31, 0, 0 } /* errorMessage at 59 */
+    { (ASN_TAG_CLASS_APPLICATION | (132 << 2)), 31, 0, 0 }, /* timeoutWarningMessage at 58 */
+    { (ASN_TAG_CLASS_APPLICATION | (133 << 2)), 32, 0, 0 }, /* resetTimeoutMessage at 59 */
+    { (ASN_TAG_CLASS_APPLICATION | (255 << 2)), 33, 0, 0 } /* errorMessage at 61 */
 };
 static asn_CHOICE_specifics_t asn_SPC_PokerTHMessage_specs_1 = {
 	sizeof(struct PokerTHMessage),
@@ -338,9 +358,9 @@ static asn_CHOICE_specifics_t asn_SPC_PokerTHMessage_specs_1 = {
 	offsetof(struct PokerTHMessage, present),
 	sizeof(((struct PokerTHMessage *)0)->present),
 	asn_MAP_PokerTHMessage_tag2el_1,
-	32,	/* Count of tags in the map */
+	34,	/* Count of tags in the map */
 	0,
-	32	/* Extensions start */
+	34	/* Extensions start */
 };
 asn_TYPE_descriptor_t asn_DEF_PokerTHMessage = {
 	"PokerTHMessage",
@@ -360,7 +380,7 @@ asn_TYPE_descriptor_t asn_DEF_PokerTHMessage = {
 	0,	/* No tags (count) */
 	0,	/* No PER visible constraints */
 	asn_MBR_PokerTHMessage_1,
-	32,	/* Elements count */
+	34,	/* Elements count */
 	&asn_SPC_PokerTHMessage_specs_1	/* Additional specs */
 };
 

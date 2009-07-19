@@ -42,6 +42,8 @@
 #include "ChatRequestMessage.h"
 #include "ChatMessage.h"
 #include "DialogMessage.h"
+#include "TimeoutWarningMessage.h"
+#include "ResetTimeoutMessage.h"
 #include "ErrorMessage.h"
 #include <constr_CHOICE.h>
 
@@ -83,6 +85,8 @@ typedef enum PokerTHMessage_PR {
 	PokerTHMessage_PR_chatRequestMessage,
 	PokerTHMessage_PR_chatMessage,
 	PokerTHMessage_PR_dialogMessage,
+	PokerTHMessage_PR_timeoutWarningMessage,
+	PokerTHMessage_PR_resetTimeoutMessage,
 	PokerTHMessage_PR_errorMessage,
 	/* Extensions may appear below */
 	
@@ -123,6 +127,8 @@ typedef struct PokerTHMessage {
 		ChatRequestMessage_t	 chatRequestMessage;
 		ChatMessage_t	 chatMessage;
 		DialogMessage_t	 dialogMessage;
+		TimeoutWarningMessage_t	 timeoutWarningMessage;
+		ResetTimeoutMessage_t	 resetTimeoutMessage;
 		ErrorMessage_t	 errorMessage;
 		/*
 		 * This type is extensible,

@@ -57,8 +57,8 @@ static ber_tlv_tag_t asn_DEF_AvatarHeader_tags_1[] = {
 	(ASN_TAG_CLASS_UNIVERSAL | (16 << 2))
 };
 static asn_TYPE_tag2member_t asn_MAP_AvatarHeader_tag2el_1[] = {
-    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 1, 0, 0 }, /* avatarSize at 113 */
-    { (ASN_TAG_CLASS_UNIVERSAL | (10 << 2)), 0, 0, 0 } /* avatarType at 112 */
+    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 1, 0, 0 }, /* avatarSize at 115 */
+    { (ASN_TAG_CLASS_UNIVERSAL | (10 << 2)), 0, 0, 0 } /* avatarType at 114 */
 };
 static asn_SEQUENCE_specifics_t asn_SPC_AvatarHeader_specs_1 = {
 	sizeof(struct AvatarHeader),

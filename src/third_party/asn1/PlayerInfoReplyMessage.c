@@ -29,8 +29,8 @@ static asn_TYPE_member_t asn_MBR_playerInfoResult_3[] = {
 		},
 };
 static asn_TYPE_tag2member_t asn_MAP_playerInfoResult_tag2el_3[] = {
-    { (ASN_TAG_CLASS_CONTEXT | (0 << 2)), 0, 0, 0 }, /* playerInfoData at 182 */
-    { (ASN_TAG_CLASS_CONTEXT | (1 << 2)), 1, 0, 0 } /* unknownPlayerInfo at 184 */
+    { (ASN_TAG_CLASS_CONTEXT | (0 << 2)), 0, 0, 0 }, /* playerInfoData at 184 */
+    { (ASN_TAG_CLASS_CONTEXT | (1 << 2)), 1, 0, 0 } /* unknownPlayerInfo at 186 */
 };
 static asn_CHOICE_specifics_t asn_SPC_playerInfoResult_specs_3 = {
 	sizeof(struct playerInfoResult),
@@ -90,9 +90,9 @@ static ber_tlv_tag_t asn_DEF_PlayerInfoReplyMessage_tags_1[] = {
 	(ASN_TAG_CLASS_UNIVERSAL | (16 << 2))
 };
 static asn_TYPE_tag2member_t asn_MAP_PlayerInfoReplyMessage_tag2el_1[] = {
-    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 0, 0, 0 }, /* playerId at 180 */
-    { (ASN_TAG_CLASS_CONTEXT | (0 << 2)), 1, 0, 0 }, /* playerInfoData at 182 */
-    { (ASN_TAG_CLASS_CONTEXT | (1 << 2)), 1, 0, 0 } /* unknownPlayerInfo at 184 */
+    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 0, 0, 0 }, /* playerId at 182 */
+    { (ASN_TAG_CLASS_CONTEXT | (0 << 2)), 1, 0, 0 }, /* playerInfoData at 184 */
+    { (ASN_TAG_CLASS_CONTEXT | (1 << 2)), 1, 0, 0 } /* unknownPlayerInfo at 186 */
 };
 static asn_SEQUENCE_specifics_t asn_SPC_PlayerInfoReplyMessage_specs_1 = {
 	sizeof(struct PlayerInfoReplyMessage),

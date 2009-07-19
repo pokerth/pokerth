@@ -32,8 +32,8 @@ static ber_tlv_tag_t asn_DEF_AnonymousLogin_tags_1[] = {
 	(ASN_TAG_CLASS_UNIVERSAL | (16 << 2))
 };
 static asn_TYPE_tag2member_t asn_MAP_AnonymousLogin_tag2el_1[] = {
-    { (ASN_TAG_CLASS_UNIVERSAL | (4 << 2)), 1, 0, 0 }, /* avatar at 77 */
-    { (ASN_TAG_CLASS_UNIVERSAL | (12 << 2)), 0, 0, 0 } /* playerName at 76 */
+    { (ASN_TAG_CLASS_UNIVERSAL | (4 << 2)), 1, 0, 0 }, /* avatar at 79 */
+    { (ASN_TAG_CLASS_UNIVERSAL | (12 << 2)), 0, 0, 0 } /* playerName at 78 */
 };
 static asn_SEQUENCE_specifics_t asn_SPC_AnonymousLogin_specs_1 = {
 	sizeof(struct AnonymousLogin),

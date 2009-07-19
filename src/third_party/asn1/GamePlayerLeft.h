@@ -12,15 +12,24 @@
 
 /* Including external dependencies */
 #include "NonZeroId.h"
+#include <NativeEnumerated.h>
 #include <constr_SEQUENCE.h>
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
+/* Dependencies */
+typedef enum gamePlayerLeftReason {
+	gamePlayerLeftReason_leftOnRequest	= 0,
+	gamePlayerLeftReason_leftKicked	= 1,
+	gamePlayerLeftReason_leftError	= 2
+} e_gamePlayerLeftReason;
+
 /* GamePlayerLeft */
 typedef struct GamePlayerLeft {
 	NonZeroId_t	 playerId;
+	long	 gamePlayerLeftReason;
 	/*
 	 * This type is extensible,
 	 * possible extensions are below.
@@ -31,6 +40,7 @@ typedef struct GamePlayerLeft {
 } GamePlayerLeft_t;
 
 /* Implementation */
+/* extern asn_TYPE_descriptor_t asn_DEF_gamePlayerLeftReason_3;	// (Use -fall-defs-global to expose) */
 extern asn_TYPE_descriptor_t asn_DEF_GamePlayerLeft;
 
 #ifdef __cplusplus

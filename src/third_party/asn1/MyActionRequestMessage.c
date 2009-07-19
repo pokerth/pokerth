@@ -76,10 +76,10 @@ static ber_tlv_tag_t asn_DEF_MyActionRequestMessage_tags_1[] = {
 	(ASN_TAG_CLASS_UNIVERSAL | (16 << 2))
 };
 static asn_TYPE_tag2member_t asn_MAP_MyActionRequestMessage_tag2el_1[] = {
-    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 0, 0, 1 }, /* gameId at 336 */
-    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 3, -1, 0 }, /* myRelativeBet at 339 */
-    { (ASN_TAG_CLASS_UNIVERSAL | (10 << 2)), 1, 0, 1 }, /* gameState at 337 */
-    { (ASN_TAG_CLASS_UNIVERSAL | (10 << 2)), 2, -1, 0 } /* myAction at 338 */
+    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 0, 0, 1 }, /* gameId at 343 */
+    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 3, -1, 0 }, /* myRelativeBet at 346 */
+    { (ASN_TAG_CLASS_UNIVERSAL | (10 << 2)), 1, 0, 1 }, /* gameState at 344 */
+    { (ASN_TAG_CLASS_UNIVERSAL | (10 << 2)), 2, -1, 0 } /* myAction at 345 */
 };
 static asn_SEQUENCE_specifics_t asn_SPC_MyActionRequestMessage_specs_1 = {
 	sizeof(struct MyActionRequestMessage),
