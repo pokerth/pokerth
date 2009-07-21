@@ -523,63 +523,69 @@ ServerLobbyThread::CancelTimers()
 void
 ServerLobbyThread::HandleRead(const boost::system::error_code &ec, SessionId sessionId, size_t bytesRead)
 {
-	// Find the session.
-	SessionWrapper session = m_sessionManager.GetSessionById(sessionId);
-	if (!session.sessionData)
-		session = m_gameSessionManager.GetSessionById(sessionId);
-	if (session.sessionData)
+	try
 	{
-		if (!ec)
+		// Find the session.
+		SessionWrapper session = m_sessionManager.GetSessionById(sessionId);
+		if (!session.sessionData)
+			session = m_gameSessionManager.GetSessionById(sessionId);
+		if (session.sessionData)
 		{
-			ReceiveBuffer &buf = session.sessionData->GetReceiveBuffer();
-			buf.recvBufUsed += bytesRead;
-			GetReceiver().ScanPackets(buf);
-			bool errorFlag = false;
-
-			while (!buf.receivedPackets.empty())
+			if (!ec)
 			{
-				boost::shared_ptr<NetPacket> packet = buf.receivedPackets.front();
-				buf.receivedPackets.pop_front();
-				// Retrieve current game, if applicable.
+				ReceiveBuffer &buf = session.sessionData->GetReceiveBuffer();
+				buf.recvBufUsed += bytesRead;
+				GetReceiver().ScanPackets(buf);
+				bool errorFlag = false;
+
+				while (!buf.receivedPackets.empty())
+				{
+					boost::shared_ptr<NetPacket> packet = buf.receivedPackets.front();
+					buf.receivedPackets.pop_front();
+					// Retrieve current game, if applicable.
+					boost::shared_ptr<ServerGame> game = InternalGetGameFromId(session.sessionData->GetGameId());
+					if (game)
+					{
+						// We need to catch game-specific exceptions, so that they do not affect the server.
+						try
+						{
+							game->HandlePacket(session, packet);
+						} catch (const PokerTHException &e)
+						{
+							LOG_ERROR("Game " << game->GetId() << " - Read handler exception: " << e.what());
+							game->RemoveAllSessions();
+							errorFlag = true;
+							break;
+						}
+					}
+					else
+						HandlePacket(session, packet);
+				}
+				if (!errorFlag)
+				{
+					session.sessionData->GetAsioSocket()->async_read_some(
+						boost::asio::buffer(buf.recvBuf + buf.recvBufUsed, RECV_BUF_SIZE - buf.recvBufUsed),
+						boost::bind(
+							&ServerLobbyThread::HandleRead,
+							this,
+							boost::asio::placeholders::error,
+							sessionId,
+							boost::asio::placeholders::bytes_transferred));
+				}
+			}
+			else
+			{
+				// On error: Close this session.
 				boost::shared_ptr<ServerGame> game = InternalGetGameFromId(session.sessionData->GetGameId());
 				if (game)
-				{
-					// We need to catch game-specific exceptions, so that they do not affect the server.
-					try
-					{
-						game->HandlePacket(session, packet);
-					} catch (const PokerTHException &e)
-					{
-						LOG_ERROR("Game " << game->GetId() << " - Read handler exception: " << e.what());
-						game->RemoveAllSessions();
-						errorFlag = true;
-						break;
-					}
-				}
+					game->ErrorRemoveSession(session);
 				else
-					HandlePacket(session, packet);
-			}
-			if (!errorFlag)
-			{
-				session.sessionData->GetAsioSocket()->async_read_some(
-					boost::asio::buffer(buf.recvBuf + buf.recvBufUsed, RECV_BUF_SIZE - buf.recvBufUsed),
-					boost::bind(
-						&ServerLobbyThread::HandleRead,
-						this,
-						boost::asio::placeholders::error,
-						sessionId,
-						boost::asio::placeholders::bytes_transferred));
+					CloseSession(session);
 			}
 		}
-		else
-		{
-			// On error: Close this session.
-			boost::shared_ptr<ServerGame> game = InternalGetGameFromId(session.sessionData->GetGameId());
-			if (game)
-				game->ErrorRemoveSession(session);
-			else
-				CloseSession(session);
-		}
+	} catch (...)
+	{
+		LOG_ERROR("Session " << sessionId << " - unknown exception in HandleRead.");
 	}
 }
 
@@ -737,13 +743,13 @@ ServerLobbyThread::HandleNetPacketAvatarHeader(SessionWrapper session, const Net
 
 		if (headerData.avatarFileSize >= MIN_AVATAR_FILE_SIZE && headerData.avatarFileSize <= MAX_AVATAR_FILE_SIZE)
 		{
-			boost::shared_ptr<AvatarData> tmpAvatarData(new AvatarData);
-			tmpAvatarData->fileData.reserve(headerData.avatarFileSize);
-			tmpAvatarData->fileType = headerData.avatarFileType;
-			tmpAvatarData->reportedSize = headerData.avatarFileSize;
+			boost::shared_ptr<AvatarFile> tmpAvatarFile(new AvatarFile);
+			tmpAvatarFile->fileData.reserve(headerData.avatarFileSize);
+			tmpAvatarFile->fileType = headerData.avatarFileType;
+			tmpAvatarFile->reportedSize = headerData.avatarFileSize;
 			// Ignore request id for now.
 
-			session.playerData->SetNetAvatarData(tmpAvatarData);
+			session.playerData->SetNetAvatarFile(tmpAvatarFile);
 
 			// Session is now receiving an avatar.
 			session.sessionData->SetState(SessionData::ReceivingAvatar);
@@ -759,7 +765,7 @@ ServerLobbyThread::HandleNetPacketUnknownAvatar(SessionWrapper session, const Ne
 	if (session.playerData.get())
 	{
 		// Free memory (just in case).
-		session.playerData->SetNetAvatarData(boost::shared_ptr<AvatarData>());
+		session.playerData->SetNetAvatarFile(boost::shared_ptr<AvatarFile>());
 		session.playerData->SetAvatarMD5(MD5Buf());
 		// Start session.
 		EstablishSession(session);
@@ -774,7 +780,7 @@ ServerLobbyThread::HandleNetPacketAvatarFile(SessionWrapper session, const NetPa
 		NetPacketAvatarFile::Data data;
 		tmpPacket.GetData(data);
 
-		boost::shared_ptr<AvatarData> tmpAvatar = session.playerData->GetNetAvatarData();
+		boost::shared_ptr<AvatarFile> tmpAvatar = session.playerData->GetNetAvatarFile();
 		if (tmpAvatar.get() && tmpAvatar->fileData.size() + data.fileData.size() <= tmpAvatar->reportedSize)
 		{
 			std::copy(data.fileData.begin(), data.fileData.end(), back_inserter(tmpAvatar->fileData));
@@ -787,7 +793,7 @@ ServerLobbyThread::HandleNetPacketAvatarEnd(SessionWrapper session, const NetPac
 {
 	if (session.playerData.get())
 	{
-		boost::shared_ptr<AvatarData> tmpAvatar = session.playerData->GetNetAvatarData();
+		boost::shared_ptr<AvatarFile> tmpAvatar = session.playerData->GetNetAvatarFile();
 		MD5Buf avatarMD5 = session.playerData->GetAvatarMD5();
 		if (!avatarMD5.IsZero() && tmpAvatar.get())
 		{
@@ -801,7 +807,7 @@ ServerLobbyThread::HandleNetPacketAvatarEnd(SessionWrapper session, const NetPac
 				}
 
 				// Free memory.
-				session.playerData->SetNetAvatarData(boost::shared_ptr<AvatarData>());
+				session.playerData->SetNetAvatarFile(boost::shared_ptr<AvatarFile>());
 				// Set avatar file name.
 				string avatarFileName;
 				if (GetAvatarManager().GetAvatarFileName(avatarMD5, avatarFileName))
@@ -988,10 +994,10 @@ ServerLobbyThread::RequestPlayerAvatar(SessionWrapper session)
 	}
 	// Ask the client to send its avatar.
 	boost::shared_ptr<NetPacket> retrieveAvatar(new NetPacketRetrieveAvatar);
-	NetPacketRetrieveAvatar::Data retrieveAvatarData;
-	retrieveAvatarData.requestId = session.playerData->GetUniqueId();
-	retrieveAvatarData.avatar = session.playerData->GetAvatarMD5();
-	static_cast<NetPacketRetrieveAvatar *>(retrieveAvatar.get())->SetData(retrieveAvatarData);
+	NetPacketRetrieveAvatar::Data retrieveAvatarFile;
+	retrieveAvatarFile.requestId = session.playerData->GetUniqueId();
+	retrieveAvatarFile.avatar = session.playerData->GetAvatarMD5();
+	static_cast<NetPacketRetrieveAvatar *>(retrieveAvatar.get())->SetData(retrieveAvatarFile);
 	GetSender().Send(session.sessionData, retrieveAvatar);
 }
 
