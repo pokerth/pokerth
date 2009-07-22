@@ -529,13 +529,13 @@ ServerLobbyThread::HandleRead(const boost::system::error_code &ec, SessionId ses
 {
 	try
 	{
-		// Find the session.
-		SessionWrapper session = m_sessionManager.GetSessionById(sessionId);
-		if (!session.sessionData)
-			session = m_gameSessionManager.GetSessionById(sessionId);
-		if (session.sessionData)
+		if (!ec)
 		{
-			if (!ec)
+			// Find the session.
+			SessionWrapper session = m_sessionManager.GetSessionById(sessionId);
+			if (!session.sessionData)
+				session = m_gameSessionManager.GetSessionById(sessionId);
+			if (session.sessionData)
 			{
 				ReceiveBuffer &buf = session.sessionData->GetReceiveBuffer();
 				if (buf.recvBufUsed + bytesRead > RECV_BUF_SIZE)
@@ -584,9 +584,16 @@ ServerLobbyThread::HandleRead(const boost::system::error_code &ec, SessionId ses
 							boost::asio::placeholders::bytes_transferred));
 				}
 			}
-			else if (ec != boost::asio::error::operation_aborted)
+		}
+		else if (ec != boost::asio::error::operation_aborted)
+		{
+			// On error: Close this session.
+			// Find the session.
+			SessionWrapper session = m_sessionManager.GetSessionById(sessionId);
+			if (!session.sessionData)
+				session = m_gameSessionManager.GetSessionById(sessionId);
+			if (session.sessionData)
 			{
-				// On error: Close this session.
 				boost::shared_ptr<ServerGame> game = InternalGetGameFromId(session.sessionData->GetGameId());
 				if (game)
 					game->ErrorRemoveSession(session);
