@@ -57,12 +57,12 @@ ServerManager::Init(unsigned serverPort, bool ipv6, ServerNetworkMode mode, cons
 		tcpAcceptHelper->Listen(serverPort, ipv6, false, pwd, logDir, m_lobbyThread);
 		m_acceptHelperPool.push_back(tcpAcceptHelper);
 	}
-	if (mode & NETWORK_MODE_SCTP)
+/*	if (mode & NETWORK_MODE_SCTP)
 	{
 		boost::shared_ptr<ServerAcceptHelper> sctpAcceptHelper(new ServerAcceptHelper(GetGui(), m_ioService));
 		sctpAcceptHelper->Listen(serverPort, ipv6, true, pwd, logDir, m_lobbyThread);
 		m_acceptHelperPool.push_back(sctpAcceptHelper);
-	}
+	}*/
 	m_ircThread = ircThread;
 }
 
