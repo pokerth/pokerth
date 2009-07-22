@@ -228,13 +228,17 @@ ServerLobbyThread::RemoveSessionFromGame(SessionWrapper session)
 void
 ServerLobbyThread::CloseSession(SessionWrapper session)
 {
-	LOG_VERBOSE("Closing session #" << session.sessionData->GetId() << ".");
+	if (session.sessionData && session.sessionData->GetState() != SessionData::Closed) // Make this call reentrant.
+	{
+		LOG_VERBOSE("Closing session #" << session.sessionData->GetId() << ".");
+		session.sessionData->SetState(SessionData::Closed);
 
-	m_sessionManager.RemoveSession(session.sessionData->GetId());
-	m_gameSessionManager.RemoveSession(session.sessionData->GetId());
+		m_sessionManager.RemoveSession(session.sessionData->GetId());
+		m_gameSessionManager.RemoveSession(session.sessionData->GetId());
 
-	// Update stats (if needed).
-	UpdateStatisticsNumberOfPlayers();
+		// Update stats (if needed).
+		UpdateStatisticsNumberOfPlayers();
+	}
 }
 
 void
@@ -534,6 +538,8 @@ ServerLobbyThread::HandleRead(const boost::system::error_code &ec, SessionId ses
 			if (!ec)
 			{
 				ReceiveBuffer &buf = session.sessionData->GetReceiveBuffer();
+				if (buf.recvBufUsed + bytesRead > RECV_BUF_SIZE)
+					LOG_ERROR("Internal error: Receive buffer overflow!");
 				buf.recvBufUsed += bytesRead;
 				GetReceiver().ScanPackets(buf);
 				bool errorFlag = false;
@@ -561,6 +567,11 @@ ServerLobbyThread::HandleRead(const boost::system::error_code &ec, SessionId ses
 					else
 						HandlePacket(session, packet);
 				}
+				if (buf.recvBufUsed >= RECV_BUF_SIZE)
+				{
+					LOG_ERROR("Session " << session.sessionData->GetId() << " - Full receive buf but no valid packet.");
+					buf.recvBufUsed = 0;
+				}
 				if (!errorFlag)
 				{
 					session.sessionData->GetAsioSocket()->async_read_some(
@@ -573,7 +584,7 @@ ServerLobbyThread::HandleRead(const boost::system::error_code &ec, SessionId ses
 							boost::asio::placeholders::bytes_transferred));
 				}
 			}
-			else
+			else if (ec != boost::asio::error::operation_aborted)
 			{
 				// On error: Close this session.
 				boost::shared_ptr<ServerGame> game = InternalGetGameFromId(session.sessionData->GetGameId());
@@ -583,9 +594,9 @@ ServerLobbyThread::HandleRead(const boost::system::error_code &ec, SessionId ses
 					CloseSession(session);
 			}
 		}
-	} catch (...)
+	} catch (const exception &e)
 	{
-		LOG_ERROR("Session " << sessionId << " - unknown exception in HandleRead.");
+		LOG_ERROR("Session " << sessionId << " - unhandled exception in HandleRead: " << e.what());
 	}
 }
 

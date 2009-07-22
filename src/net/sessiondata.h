@@ -39,7 +39,7 @@ typedef unsigned SessionId;
 class SessionData
 {
 public:
-	enum State { Init, ReceivingAvatar, Established, Game };
+	enum State { Init, ReceivingAvatar, Established, Game, Closed };
 
 	SessionData(boost::shared_ptr<boost::asio::ip::tcp::socket> sock, SessionId id, SessionDataCallback &cb);
 	~SessionData();
