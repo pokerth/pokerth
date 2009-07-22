@@ -128,7 +128,7 @@ SenderHelper::~SenderHelper()
 void
 SenderHelper::Send(boost::shared_ptr<SessionData> session, boost::shared_ptr<NetPacket> packet)
 {
-	if (packet.get() && session.get())
+	if (packet && session)
 	{
 		boost::shared_ptr<SendDataManager> tmpManager;
 		{
@@ -157,7 +157,7 @@ SenderHelper::Send(boost::shared_ptr<SessionData> session, boost::shared_ptr<Net
 void
 SenderHelper::Send(boost::shared_ptr<SessionData> session, const NetPacketList &packetList)
 {
-	if (!packetList.empty() && session.get())
+	if (!packetList.empty() && session)
 	{
 		boost::shared_ptr<SendDataManager> tmpManager;
 		{
@@ -177,7 +177,8 @@ SenderHelper::Send(boost::shared_ptr<SessionData> session, const NetPacketList &
 				NetPacketList::const_iterator end = packetList.end();
 				while (i != end)
 				{
-					tmpManager->list.push_back(*i);
+					if (*i)
+						tmpManager->list.push_back(*i);
 					++i;
 				}
 			}
