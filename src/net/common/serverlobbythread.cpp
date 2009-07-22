@@ -743,13 +743,13 @@ ServerLobbyThread::HandleNetPacketAvatarHeader(SessionWrapper session, const Net
 
 		if (headerData.avatarFileSize >= MIN_AVATAR_FILE_SIZE && headerData.avatarFileSize <= MAX_AVATAR_FILE_SIZE)
 		{
-			boost::shared_ptr<AvatarFile> tmpAvatarFile(new AvatarFile);
-			tmpAvatarFile->fileData.reserve(headerData.avatarFileSize);
-			tmpAvatarFile->fileType = headerData.avatarFileType;
-			tmpAvatarFile->reportedSize = headerData.avatarFileSize;
+			boost::shared_ptr<AvatarData> tmpAvatarData(new AvatarData);
+			tmpAvatarData->fileData.reserve(headerData.avatarFileSize);
+			tmpAvatarData->fileType = headerData.avatarFileType;
+			tmpAvatarData->reportedSize = headerData.avatarFileSize;
 			// Ignore request id for now.
 
-			session.playerData->SetNetAvatarFile(tmpAvatarFile);
+			session.playerData->SetNetAvatarData(tmpAvatarData);
 
 			// Session is now receiving an avatar.
 			session.sessionData->SetState(SessionData::ReceivingAvatar);
@@ -765,7 +765,7 @@ ServerLobbyThread::HandleNetPacketUnknownAvatar(SessionWrapper session, const Ne
 	if (session.playerData.get())
 	{
 		// Free memory (just in case).
-		session.playerData->SetNetAvatarFile(boost::shared_ptr<AvatarFile>());
+		session.playerData->SetNetAvatarData(boost::shared_ptr<AvatarData>());
 		session.playerData->SetAvatarMD5(MD5Buf());
 		// Start session.
 		EstablishSession(session);
@@ -780,7 +780,7 @@ ServerLobbyThread::HandleNetPacketAvatarFile(SessionWrapper session, const NetPa
 		NetPacketAvatarFile::Data data;
 		tmpPacket.GetData(data);
 
-		boost::shared_ptr<AvatarFile> tmpAvatar = session.playerData->GetNetAvatarFile();
+		boost::shared_ptr<AvatarData> tmpAvatar = session.playerData->GetNetAvatarData();
 		if (tmpAvatar.get() && tmpAvatar->fileData.size() + data.fileData.size() <= tmpAvatar->reportedSize)
 		{
 			std::copy(data.fileData.begin(), data.fileData.end(), back_inserter(tmpAvatar->fileData));
@@ -793,7 +793,7 @@ ServerLobbyThread::HandleNetPacketAvatarEnd(SessionWrapper session, const NetPac
 {
 	if (session.playerData.get())
 	{
-		boost::shared_ptr<AvatarFile> tmpAvatar = session.playerData->GetNetAvatarFile();
+		boost::shared_ptr<AvatarData> tmpAvatar = session.playerData->GetNetAvatarData();
 		MD5Buf avatarMD5 = session.playerData->GetAvatarMD5();
 		if (!avatarMD5.IsZero() && tmpAvatar.get())
 		{
@@ -807,7 +807,7 @@ ServerLobbyThread::HandleNetPacketAvatarEnd(SessionWrapper session, const NetPac
 				}
 
 				// Free memory.
-				session.playerData->SetNetAvatarFile(boost::shared_ptr<AvatarFile>());
+				session.playerData->SetNetAvatarData(boost::shared_ptr<AvatarData>());
 				// Set avatar file name.
 				string avatarFileName;
 				if (GetAvatarManager().GetAvatarFileName(avatarMD5, avatarFileName))
@@ -994,10 +994,10 @@ ServerLobbyThread::RequestPlayerAvatar(SessionWrapper session)
 	}
 	// Ask the client to send its avatar.
 	boost::shared_ptr<NetPacket> retrieveAvatar(new NetPacketRetrieveAvatar);
-	NetPacketRetrieveAvatar::Data retrieveAvatarFile;
-	retrieveAvatarFile.requestId = session.playerData->GetUniqueId();
-	retrieveAvatarFile.avatar = session.playerData->GetAvatarMD5();
-	static_cast<NetPacketRetrieveAvatar *>(retrieveAvatar.get())->SetData(retrieveAvatarFile);
+	NetPacketRetrieveAvatar::Data retrieveAvatarData;
+	retrieveAvatarData.requestId = session.playerData->GetUniqueId();
+	retrieveAvatarData.avatar = session.playerData->GetAvatarMD5();
+	static_cast<NetPacketRetrieveAvatar *>(retrieveAvatar.get())->SetData(retrieveAvatarData);
 	GetSender().Send(session.sessionData, retrieveAvatar);
 }
 
