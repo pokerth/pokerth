@@ -539,7 +539,7 @@ ServerLobbyThread::HandleRead(const boost::system::error_code &ec, SessionId ses
 			{
 				ReceiveBuffer &buf = session.sessionData->GetReceiveBuffer();
 				if (buf.recvBufUsed + bytesRead > RECV_BUF_SIZE)
-					LOG_ERROR("Internal error: Receive buffer overflow!");
+					LOG_ERROR("Session " << session.sessionData->GetId() << " - Internal error: Receive buffer overflow!");
 				buf.recvBufUsed += bytesRead;
 				GetReceiver().ScanPackets(buf);
 				bool errorFlag = false;
