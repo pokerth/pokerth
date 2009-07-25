@@ -258,6 +258,7 @@ SOURCES += src/pokerth.cpp \
     src/gui/qt/settingsdialog/mystylelistitem.cpp \
     src/gui/qt/gamelobbydialog/mygamelistsortfilterproxymodel.cpp
 TRANSLATIONS = ts/pokerth_bg.ts \
+    ts/pokerth_cz.ts \
     ts/pokerth_de.ts \
     ts/pokerth_dk.ts \
     ts/pokerth_es.ts \
