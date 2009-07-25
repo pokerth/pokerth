@@ -596,7 +596,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Game Info</source>
-        <translation>Herní info</translation>
+        <translation>Info o hře</translation>
     </message>
     <message>
         <source>Connected Players</source>
@@ -648,7 +648,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Join &amp;any game</source>
-        <translation>Připojit k &amp;jakékoliv hře</translation>
+        <translation>Připojit ke &amp;kterékoliv hře</translation>
     </message>
     <message>
         <source>&amp;Create Game</source>
@@ -703,7 +703,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>%1&apos;s game</source>
-        <translation>hra hráče %1</translation>
+        <translation>Hra hráče %1</translation>
     </message>
     <message>
         <source>Joining a private Game</source>
@@ -719,7 +719,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Game Info</source>
-        <translation>Herní info</translation>
+        <translation>Info o hře</translation>
     </message>
     <message>
         <source>Game</source>
@@ -755,7 +755,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>connected players: %1</source>
-        <translation>připojeno %1 hráčů</translation>
+        <translation>připojeno hráčů: %1</translation>
     </message>
     <message>
         <source>hands</source>
@@ -790,7 +790,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Hands</source>
-        <translation>Výherní komb</translation>
+        <translation>Výherní kombinace</translation>
     </message>
     <message>
         <source>Chat</source>
@@ -878,7 +878,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Show/Hide Hands Window</source>
-        <translation></translation>
+        <translation>Zobrazit/Skrýt okno Výherních kombinací</translation>
     </message>
     <message>
         <source>Ctrl+H</source>
@@ -1787,7 +1787,7 @@ p, li { white-space: pre-wrap; }
     <name>settingsDialogImpl</name>
     <message>
         <source>Dutch</source>
-        <translation>Holandsky</translation>
+        <translation>Nizozemsky</translation>
     </message>
     <message>
         <source>English</source>
@@ -2214,7 +2214,7 @@ Pokud je server za routerem s NATem, ujistěte se, že byl nastaven port forward
     </message>
     <message>
         <source>Connection was closed by the server.</source>
-        <translation>Server zavřel připojení.</translation>
+        <translation>Server ukončil připojení.</translation>
     </message>
     <message>
         <source>Internal network error: Duplicate TCP connection.</source>
