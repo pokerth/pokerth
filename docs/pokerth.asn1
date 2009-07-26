@@ -51,6 +51,13 @@ PokerTHMessage ::= CHOICE {
 	allInShowCardsMessage		AllInShowCardsMessage,
 	endOfHandMessage			EndOfHandMessage,
 	endOfGameMessage			EndOfGameMessage,
+	askKickPlayerMessage		AskKickPlayerMessage,
+	askKickDeniedMessage		AskKickDeniedMessage,
+	startKickPetitionMessage	StartKickPetitionMessage,
+	voteKickRequestMessage		VoteKickRequestMessage,
+	voteKickReplyMessage		VoteKickReplyMessage,
+	kickPetitionUpdateMessage	KickPetitionUpdateMessage,
+	endKickPetitionMessage		EndKickPetitionMessage,
 	statisticsMessage			StatisticsMessage,
 	chatRequestMessage			ChatRequestMessage,
 	chatMessage					ChatMessage,
@@ -424,6 +431,72 @@ EndOfHandHideCards ::= SEQUENCE {
 EndOfGameMessage ::= [APPLICATION 26] SEQUENCE {
 	gameId						NonZeroId,
 	winnerPlayerId				NonZeroId
+}
+
+AskKickPlayerMessage ::= [APPLICATION 64] SEQUENCE {
+	playerId					NonZeroId
+}
+
+AskKickDeniedMessage ::= [APPLICATION 65] SEQUENCE {
+	playerId					NonZeroId,
+	kickDeniedReason			ENUMERATED {
+		kickDeniedInvalidGameState	(0),
+		kickDeniedNotPossible		(1),
+		kickDeniedTryAgainLater		(2),
+		kickDeniedAlreadyInProgress	(3),
+		kickDeniedInvalidPlayerId	(4)
+	}
+}
+
+StartKickPetitionMessage ::= [APPLICATION 66] SEQUENCE {
+	petitionId					NonZeroId,
+	proposingPlayerId			NonZeroId,
+	kickPlayerId				NonZeroId,
+	kickTimeoutSec				INTEGER(1..120),
+	numVotesNeededToKick		INTEGER(1..9)
+}
+
+VoteKickRequestMessage ::= [APPLICATION 67] SEQUENCE {
+	petitionId					NonZeroId,
+	voteKick					BOOLEAN
+}
+
+VoteKickReplyMessage ::= [APPLICATION 68] SEQUENCE {
+	petitionId					NonZeroId,
+	voteKickReplyType			CHOICE {
+		voteKickAck				[0] VoteKickAck,
+		voteKickDenied			[1] VoteKickDenied
+	}
+}
+
+VoteKickAck ::= SEQUENCE {
+}
+
+VoteKickDenied ::= SEQUENCE {
+	voteKickDeniedReason		ENUMERATED {
+		voteKickDeniedInvalid		(0),
+		voteKickDeniedAlreadyVoted	(1)
+	}
+}
+
+KickPetitionUpdateMessage ::= [APPLICATION 69] SEQUENCE {
+	petitionId					NonZeroId,
+	numVotesAgainstKicking		INTEGER(0..9),
+	numVotesInFavourOfKicking	INTEGER(1..9),
+	numVotesNeededToKick		INTEGER(1..9)
+}
+
+EndKickPetitionMessage ::= [APPLICATION 70] SEQUENCE {
+	petitionId					NonZeroId,
+	numVotesAgainstKicking		INTEGER(0..9),
+	numVotesInFavourOfKicking	INTEGER(1..9),
+	resultPlayerKicked			BOOLEAN,
+	petitionEndReason			ENUMERATED {
+		petitionEndEnoughVotes		(0),
+		petitionEndTooFewPlayers	(1),
+		petitionEndPlayerLeft		(2),
+		petitionEndTimeout			(3)
+	}
 }
 
 StatisticsMessage ::= [APPLICATION 128] SEQUENCE {
