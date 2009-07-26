@@ -25,6 +25,7 @@ INCLUDEPATH += . \
 		src/config \
 		src/third_party/tinyxml \
 		src/third_party/libircclient/include \
+		src/third_party/asn1 \
 		src/core
 
 DEPENDPATH += . \

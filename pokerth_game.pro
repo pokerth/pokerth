@@ -26,7 +26,8 @@ INCLUDEPATH += . \
     src/engine/network_engine \
     src/config \
     src/third_party/tinyxml \
-    src/gui/qt \
+	src/third_party/asn1 \
+	src/gui/qt \
     src/gui/qt/connecttoserverdialog \
     src/core \
     src/gui/qt/sound \
