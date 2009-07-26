@@ -33,8 +33,8 @@ static ber_tlv_tag_t asn_DEF_StartEventMessage_tags_1[] = {
 	(ASN_TAG_CLASS_UNIVERSAL | (16 << 2))
 };
 static asn_TYPE_tag2member_t asn_MAP_StartEventMessage_tag2el_1[] = {
-    { (ASN_TAG_CLASS_UNIVERSAL | (1 << 2)), 1, 0, 0 }, /* fillWithComputerPlayers at 317 */
-    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 0, 0, 0 } /* gameId at 316 */
+    { (ASN_TAG_CLASS_UNIVERSAL | (1 << 2)), 1, 0, 0 }, /* fillWithComputerPlayers at 324 */
+    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 0, 0, 0 } /* gameId at 323 */
 };
 static asn_SEQUENCE_specifics_t asn_SPC_StartEventMessage_specs_1 = {
 	sizeof(struct StartEventMessage),

@@ -58,11 +58,22 @@ ASN_MODULE_SOURCES=	\
 	PlayerResult.c	\
 	EndOfHandHideCards.c	\
 	EndOfGameMessage.c	\
+	AskKickPlayerMessage.c	\
+	AskKickDeniedMessage.c	\
+	StartKickPetitionMessage.c	\
+	VoteKickRequestMessage.c	\
+	VoteKickReplyMessage.c	\
+	VoteKickAck.c	\
+	VoteKickDenied.c	\
+	KickPetitionUpdateMessage.c	\
+	EndKickPetitionMessage.c	\
 	StatisticsMessage.c	\
 	StatisticsData.c	\
 	ChatRequestMessage.c	\
 	ChatMessage.c	\
 	DialogMessage.c	\
+	TimeoutWarningMessage.c	\
+	ResetTimeoutMessage.c	\
 	ErrorMessage.c	\
 	NetGameState.c	\
 	NetPlayerAction.c	\
@@ -131,11 +142,22 @@ ASN_MODULE_HEADERS=	\
 	PlayerResult.h	\
 	EndOfHandHideCards.h	\
 	EndOfGameMessage.h	\
+	AskKickPlayerMessage.h	\
+	AskKickDeniedMessage.h	\
+	StartKickPetitionMessage.h	\
+	VoteKickRequestMessage.h	\
+	VoteKickReplyMessage.h	\
+	VoteKickAck.h	\
+	VoteKickDenied.h	\
+	KickPetitionUpdateMessage.h	\
+	EndKickPetitionMessage.h	\
 	StatisticsMessage.h	\
 	StatisticsData.h	\
 	ChatRequestMessage.h	\
 	ChatMessage.h	\
 	DialogMessage.h	\
+	TimeoutWarningMessage.h	\
+	ResetTimeoutMessage.h	\
 	ErrorMessage.h	\
 	NetGameState.h	\
 	NetPlayerAction.h	\

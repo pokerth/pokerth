@@ -252,6 +252,69 @@ static asn_TYPE_member_t asn_MBR_PokerTHMessage_1[] = {
 		0,
 		"endOfGameMessage"
 		},
+	{ ATF_NOFLAGS, 0, offsetof(struct PokerTHMessage, choice.askKickPlayerMessage),
+		(ASN_TAG_CLASS_APPLICATION | (64 << 2)),
+		0,
+		&asn_DEF_AskKickPlayerMessage,
+		0,	/* Defer constraints checking to the member type */
+		0,	/* PER is not compiled, use -gen-PER */
+		0,
+		"askKickPlayerMessage"
+		},
+	{ ATF_NOFLAGS, 0, offsetof(struct PokerTHMessage, choice.askKickDeniedMessage),
+		(ASN_TAG_CLASS_APPLICATION | (65 << 2)),
+		0,
+		&asn_DEF_AskKickDeniedMessage,
+		0,	/* Defer constraints checking to the member type */
+		0,	/* PER is not compiled, use -gen-PER */
+		0,
+		"askKickDeniedMessage"
+		},
+	{ ATF_NOFLAGS, 0, offsetof(struct PokerTHMessage, choice.startKickPetitionMessage),
+		(ASN_TAG_CLASS_APPLICATION | (66 << 2)),
+		0,
+		&asn_DEF_StartKickPetitionMessage,
+		0,	/* Defer constraints checking to the member type */
+		0,	/* PER is not compiled, use -gen-PER */
+		0,
+		"startKickPetitionMessage"
+		},
+	{ ATF_NOFLAGS, 0, offsetof(struct PokerTHMessage, choice.voteKickRequestMessage),
+		(ASN_TAG_CLASS_APPLICATION | (67 << 2)),
+		0,
+		&asn_DEF_VoteKickRequestMessage,
+		0,	/* Defer constraints checking to the member type */
+		0,	/* PER is not compiled, use -gen-PER */
+		0,
+		"voteKickRequestMessage"
+		},
+	{ ATF_NOFLAGS, 0, offsetof(struct PokerTHMessage, choice.voteKickReplyMessage),
+		(ASN_TAG_CLASS_APPLICATION | (68 << 2)),
+		0,
+		&asn_DEF_VoteKickReplyMessage,
+		0,	/* Defer constraints checking to the member type */
+		0,	/* PER is not compiled, use -gen-PER */
+		0,
+		"voteKickReplyMessage"
+		},
+	{ ATF_NOFLAGS, 0, offsetof(struct PokerTHMessage, choice.kickPetitionUpdateMessage),
+		(ASN_TAG_CLASS_APPLICATION | (69 << 2)),
+		0,
+		&asn_DEF_KickPetitionUpdateMessage,
+		0,	/* Defer constraints checking to the member type */
+		0,	/* PER is not compiled, use -gen-PER */
+		0,
+		"kickPetitionUpdateMessage"
+		},
+	{ ATF_NOFLAGS, 0, offsetof(struct PokerTHMessage, choice.endKickPetitionMessage),
+		(ASN_TAG_CLASS_APPLICATION | (70 << 2)),
+		0,
+		&asn_DEF_EndKickPetitionMessage,
+		0,	/* Defer constraints checking to the member type */
+		0,	/* PER is not compiled, use -gen-PER */
+		0,
+		"endKickPetitionMessage"
+		},
 	{ ATF_NOFLAGS, 0, offsetof(struct PokerTHMessage, choice.statisticsMessage),
 		(ASN_TAG_CLASS_APPLICATION | (128 << 2)),
 		0,
@@ -344,13 +407,20 @@ static asn_TYPE_tag2member_t asn_MAP_PokerTHMessage_tag2el_1[] = {
     { (ASN_TAG_CLASS_APPLICATION | (24 << 2)), 24, 0, 0 }, /* allInShowCardsMessage at 51 */
     { (ASN_TAG_CLASS_APPLICATION | (25 << 2)), 25, 0, 0 }, /* endOfHandMessage at 52 */
     { (ASN_TAG_CLASS_APPLICATION | (26 << 2)), 26, 0, 0 }, /* endOfGameMessage at 53 */
-    { (ASN_TAG_CLASS_APPLICATION | (128 << 2)), 27, 0, 0 }, /* statisticsMessage at 54 */
-    { (ASN_TAG_CLASS_APPLICATION | (129 << 2)), 28, 0, 0 }, /* chatRequestMessage at 55 */
-    { (ASN_TAG_CLASS_APPLICATION | (130 << 2)), 29, 0, 0 }, /* chatMessage at 56 */
-    { (ASN_TAG_CLASS_APPLICATION | (131 << 2)), 30, 0, 0 }, /* dialogMessage at 57 */
-    { (ASN_TAG_CLASS_APPLICATION | (132 << 2)), 31, 0, 0 }, /* timeoutWarningMessage at 58 */
-    { (ASN_TAG_CLASS_APPLICATION | (133 << 2)), 32, 0, 0 }, /* resetTimeoutMessage at 59 */
-    { (ASN_TAG_CLASS_APPLICATION | (255 << 2)), 33, 0, 0 } /* errorMessage at 61 */
+    { (ASN_TAG_CLASS_APPLICATION | (64 << 2)), 27, 0, 0 }, /* askKickPlayerMessage at 54 */
+    { (ASN_TAG_CLASS_APPLICATION | (65 << 2)), 28, 0, 0 }, /* askKickDeniedMessage at 55 */
+    { (ASN_TAG_CLASS_APPLICATION | (66 << 2)), 29, 0, 0 }, /* startKickPetitionMessage at 56 */
+    { (ASN_TAG_CLASS_APPLICATION | (67 << 2)), 30, 0, 0 }, /* voteKickRequestMessage at 57 */
+    { (ASN_TAG_CLASS_APPLICATION | (68 << 2)), 31, 0, 0 }, /* voteKickReplyMessage at 58 */
+    { (ASN_TAG_CLASS_APPLICATION | (69 << 2)), 32, 0, 0 }, /* kickPetitionUpdateMessage at 59 */
+    { (ASN_TAG_CLASS_APPLICATION | (70 << 2)), 33, 0, 0 }, /* endKickPetitionMessage at 60 */
+    { (ASN_TAG_CLASS_APPLICATION | (128 << 2)), 34, 0, 0 }, /* statisticsMessage at 61 */
+    { (ASN_TAG_CLASS_APPLICATION | (129 << 2)), 35, 0, 0 }, /* chatRequestMessage at 62 */
+    { (ASN_TAG_CLASS_APPLICATION | (130 << 2)), 36, 0, 0 }, /* chatMessage at 63 */
+    { (ASN_TAG_CLASS_APPLICATION | (131 << 2)), 37, 0, 0 }, /* dialogMessage at 64 */
+    { (ASN_TAG_CLASS_APPLICATION | (132 << 2)), 38, 0, 0 }, /* timeoutWarningMessage at 65 */
+    { (ASN_TAG_CLASS_APPLICATION | (133 << 2)), 39, 0, 0 }, /* resetTimeoutMessage at 66 */
+    { (ASN_TAG_CLASS_APPLICATION | (255 << 2)), 40, 0, 0 } /* errorMessage at 68 */
 };
 static asn_CHOICE_specifics_t asn_SPC_PokerTHMessage_specs_1 = {
 	sizeof(struct PokerTHMessage),
@@ -358,9 +428,9 @@ static asn_CHOICE_specifics_t asn_SPC_PokerTHMessage_specs_1 = {
 	offsetof(struct PokerTHMessage, present),
 	sizeof(((struct PokerTHMessage *)0)->present),
 	asn_MAP_PokerTHMessage_tag2el_1,
-	34,	/* Count of tags in the map */
+	41,	/* Count of tags in the map */
 	0,
-	34	/* Extensions start */
+	41	/* Extensions start */
 };
 asn_TYPE_descriptor_t asn_DEF_PokerTHMessage = {
 	"PokerTHMessage",
@@ -380,7 +450,7 @@ asn_TYPE_descriptor_t asn_DEF_PokerTHMessage = {
 	0,	/* No tags (count) */
 	0,	/* No PER visible constraints */
 	asn_MBR_PokerTHMessage_1,
-	34,	/* Elements count */
+	41,	/* Elements count */
 	&asn_SPC_PokerTHMessage_specs_1	/* Additional specs */
 };
 

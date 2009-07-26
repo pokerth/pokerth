@@ -258,12 +258,12 @@ static ber_tlv_tag_t asn_DEF_PlayerResult_tags_1[] = {
 	(ASN_TAG_CLASS_UNIVERSAL | (16 << 2))
 };
 static asn_TYPE_tag2member_t asn_MAP_PlayerResult_tag2el_1[] = {
-    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 0, 0, 3 }, /* playerId at 410 */
-    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 3, -1, 2 }, /* cardsValue at 413 */
-    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 4, -2, 1 }, /* moneyWon at 414 */
-    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 5, -3, 0 }, /* playerMoney at 415 */
-    { (ASN_TAG_CLASS_UNIVERSAL | (16 << 2)), 1, 0, 1 }, /* resultCards at 411 */
-    { (ASN_TAG_CLASS_UNIVERSAL | (16 << 2)), 2, -1, 0 } /* bestHandPosition at 412 */
+    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 0, 0, 3 }, /* playerId at 417 */
+    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 3, -1, 2 }, /* cardsValue at 420 */
+    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 4, -2, 1 }, /* moneyWon at 421 */
+    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 5, -3, 0 }, /* playerMoney at 422 */
+    { (ASN_TAG_CLASS_UNIVERSAL | (16 << 2)), 1, 0, 1 }, /* resultCards at 418 */
+    { (ASN_TAG_CLASS_UNIVERSAL | (16 << 2)), 2, -1, 0 } /* bestHandPosition at 419 */
 };
 static asn_SEQUENCE_specifics_t asn_SPC_PlayerResult_specs_1 = {
 	sizeof(struct PlayerResult),

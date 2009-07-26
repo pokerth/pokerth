@@ -129,11 +129,11 @@ static ber_tlv_tag_t asn_DEF_GameListNew_tags_1[] = {
 	(ASN_TAG_CLASS_UNIVERSAL | (16 << 2))
 };
 static asn_TYPE_tag2member_t asn_MAP_GameListNew_tag2el_1[] = {
-    { (ASN_TAG_CLASS_UNIVERSAL | (1 << 2)), 1, 0, 0 }, /* isPrivate at 149 */
-    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 3, 0, 0 }, /* adminPlayerId at 151 */
-    { (ASN_TAG_CLASS_UNIVERSAL | (10 << 2)), 0, 0, 0 }, /* gameMode at 148 */
-    { (ASN_TAG_CLASS_UNIVERSAL | (16 << 2)), 2, 0, 1 }, /* playerIds at 150 */
-    { (ASN_TAG_CLASS_UNIVERSAL | (16 << 2)), 4, -1, 0 } /* gameInfo at 153 */
+    { (ASN_TAG_CLASS_UNIVERSAL | (1 << 2)), 1, 0, 0 }, /* isPrivate at 156 */
+    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 3, 0, 0 }, /* adminPlayerId at 158 */
+    { (ASN_TAG_CLASS_UNIVERSAL | (10 << 2)), 0, 0, 0 }, /* gameMode at 155 */
+    { (ASN_TAG_CLASS_UNIVERSAL | (16 << 2)), 2, 0, 1 }, /* playerIds at 157 */
+    { (ASN_TAG_CLASS_UNIVERSAL | (16 << 2)), 4, -1, 0 } /* gameInfo at 160 */
 };
 static asn_SEQUENCE_specifics_t asn_SPC_GameListNew_specs_1 = {
 	sizeof(struct GameListNew),

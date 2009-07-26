@@ -38,6 +38,13 @@
 #include "AllInShowCardsMessage.h"
 #include "EndOfHandMessage.h"
 #include "EndOfGameMessage.h"
+#include "AskKickPlayerMessage.h"
+#include "AskKickDeniedMessage.h"
+#include "StartKickPetitionMessage.h"
+#include "VoteKickRequestMessage.h"
+#include "VoteKickReplyMessage.h"
+#include "KickPetitionUpdateMessage.h"
+#include "EndKickPetitionMessage.h"
 #include "StatisticsMessage.h"
 #include "ChatRequestMessage.h"
 #include "ChatMessage.h"
@@ -81,6 +88,13 @@ typedef enum PokerTHMessage_PR {
 	PokerTHMessage_PR_allInShowCardsMessage,
 	PokerTHMessage_PR_endOfHandMessage,
 	PokerTHMessage_PR_endOfGameMessage,
+	PokerTHMessage_PR_askKickPlayerMessage,
+	PokerTHMessage_PR_askKickDeniedMessage,
+	PokerTHMessage_PR_startKickPetitionMessage,
+	PokerTHMessage_PR_voteKickRequestMessage,
+	PokerTHMessage_PR_voteKickReplyMessage,
+	PokerTHMessage_PR_kickPetitionUpdateMessage,
+	PokerTHMessage_PR_endKickPetitionMessage,
 	PokerTHMessage_PR_statisticsMessage,
 	PokerTHMessage_PR_chatRequestMessage,
 	PokerTHMessage_PR_chatMessage,
@@ -123,6 +137,13 @@ typedef struct PokerTHMessage {
 		AllInShowCardsMessage_t	 allInShowCardsMessage;
 		EndOfHandMessage_t	 endOfHandMessage;
 		EndOfGameMessage_t	 endOfGameMessage;
+		AskKickPlayerMessage_t	 askKickPlayerMessage;
+		AskKickDeniedMessage_t	 askKickDeniedMessage;
+		StartKickPetitionMessage_t	 startKickPetitionMessage;
+		VoteKickRequestMessage_t	 voteKickRequestMessage;
+		VoteKickReplyMessage_t	 voteKickReplyMessage;
+		KickPetitionUpdateMessage_t	 kickPetitionUpdateMessage;
+		EndKickPetitionMessage_t	 endKickPetitionMessage;
 		StatisticsMessage_t	 statisticsMessage;
 		ChatRequestMessage_t	 chatRequestMessage;
 		ChatMessage_t	 chatMessage;
