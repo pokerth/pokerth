@@ -35,9 +35,11 @@ CleanerServer::~CleanerServer()
 }
 
 void CleanerServer::newCon()
- {
-	tcpSocket = tcpServer->nextPendingConnection();
-	connect(tcpSocket, SIGNAL(readyRead()), this, SLOT(onRead())); 	
+ {  
+	if(!tcpSocket->isOpen()) {
+		tcpSocket = tcpServer->nextPendingConnection();
+		connect(tcpSocket, SIGNAL(readyRead()), this, SLOT(onRead())); 	
+    }
  }
 
 void CleanerServer::onRead()

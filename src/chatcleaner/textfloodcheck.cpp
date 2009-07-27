@@ -31,11 +31,16 @@ bool TextFloodCheck::run(unsigned playerId) {
 	}
 	else {
 		if(timer.elapsed().total_seconds()-i.value().timeStamp <= 1) {
-			if(i.value().floodLevel == textFloodLevelToTrigger)
+			if(i.value().floodLevel == textFloodLevelToTrigger) {
+				myTextFloodInfos.floodLevel--;	
+//				qDebug () << "set player floodlevel to " << myTextFloodInfos.floodLevel << endl;
+				myTextFloodInfos.timeStamp = timer.elapsed().total_seconds();
+				msgTimesList.insert(playerId, myTextFloodInfos);
 				return true;
-			else
+			}
+			else {
 				myTextFloodInfos.floodLevel++;
-				
+			}		
 		}
 		myTextFloodInfos.timeStamp = timer.elapsed().total_seconds();
 		msgTimesList.insert(playerId, myTextFloodInfos);
@@ -65,5 +70,6 @@ void TextFloodCheck::cleanMsgTimesList() {
 
 void TextFloodCheck::removeNickFromList(unsigned playerId) {
 	
+//	qDebug() << "id " << playerId << "removed from textfloodcheck list" << endl;
 	msgTimesList.remove(playerId);
 }

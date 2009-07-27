@@ -43,9 +43,11 @@ QString MessageFilter::check(unsigned playerId, QString nick, QString msg)
 			action = WARN;
 		}
 		else {
-			if(i.value().warnLevel == warnLevelToKick) {	
+			if(i.value().warnLevel == warnLevelToKick || i.value().lastWarnType == offence) {	
 //				Kick Command
 				action = KICK;
+				//remove playerId from all lists and as LAST from myClientWarnLevelList
+				myTextFloodCheck->removeNickFromList(i.key());
 				myClientWarnLevelList.remove(i.key());
 			}
 			else {
