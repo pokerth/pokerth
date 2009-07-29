@@ -4,6 +4,7 @@
 #include "badwordcheck.h"
 #include "textfloodcheck.h"
 #include "cleanerconfig.h"
+#include "capsfloodcheck.h"
 
 enum ActionType {
 	NOTHING,
@@ -13,12 +14,15 @@ enum ActionType {
 enum OffenceType {
 	NONE,
 	BAD_WORD,
-	TEXT_FLOOD_LINES };
+	TEXT_FLOOD_LINES,
+	CAPS_FLOOD
+};
 
 MessageFilter::MessageFilter(CleanerConfig *c): config(c)
 {
 	myBadWordCheck = new BadWordCheck;
 	myTextFloodCheck = new TextFloodCheck;
+	myCapsFloodCheck = new CapsFloodCheck;
 }
 
 QString MessageFilter::check(unsigned playerId, QString nick, QString msg) 
@@ -29,6 +33,7 @@ QString MessageFilter::check(unsigned playerId, QString nick, QString msg)
 	ActionType action = NOTHING;
 	
 	if(myBadWordCheck->run(msg)) offence = BAD_WORD;
+	if(myCapsFloodCheck->run(msg)) offence = CAPS_FLOOD;
 	if(myTextFloodCheck->run(playerId)) offence = TEXT_FLOOD_LINES;
 	
 	if(offence){
@@ -73,6 +78,10 @@ QString MessageFilter::check(unsigned playerId, QString nick, QString msg)
 					returnMessage = QString ("<PokerTHCleaner> %1: Warning! You've triggered text flood (lines) protection, slow down your typing!\n").arg(nick);
 				}
 				break;
+				case CAPS_FLOOD: {
+					returnMessage = QString ("<PokerTHCleaner> %1: Warning: You've triggered caps flood protection, release your caps!\n").arg(nick);
+				}
+				break;
 				default:;
 			}
 		}
@@ -99,4 +108,5 @@ void MessageFilter::refreshConfig() {
 	myBadWordCheck->setBadWords(bwList);
 	
 	myTextFloodCheck->setTextFloodLevelToTrigger(config->readConfigInt("TextFloodLevelToTrigger"));
+	myCapsFloodCheck->setCapsNumberToTrigger(config->readConfigInt("CapsFloodCapsNumberToTrigger"));
 }
