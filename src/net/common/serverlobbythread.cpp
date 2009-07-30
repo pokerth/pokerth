@@ -588,6 +588,7 @@ ServerLobbyThread::HandleRead(const boost::system::error_code &ec, SessionId ses
 				}
 				else if (ec == boost::asio::error::interrupted || ec == boost::asio::error::try_again)
 				{
+					LOG_ERROR("Session " << sessionId << " - recv interrupted: " << ec);
 					session.sessionData->GetAsioSocket()->async_read_some(
 						boost::asio::buffer(buf.recvBuf + buf.recvBufUsed, RECV_BUF_SIZE - buf.recvBufUsed),
 						boost::bind(
@@ -599,7 +600,7 @@ ServerLobbyThread::HandleRead(const boost::system::error_code &ec, SessionId ses
 				}
 				else
 				{
-					LOG_ERROR("Connection closed: " << ec);
+					LOG_ERROR("Session " << sessionId << " - Connection closed: " << ec);
 					// On error: Close this session.
 					boost::shared_ptr<ServerGame> game = InternalGetGameFromId(session.sessionData->GetGameId());
 					if (game)
