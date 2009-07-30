@@ -587,6 +587,7 @@ ServerLobbyThread::HandleRead(const boost::system::error_code &ec, SessionId ses
 		}
 		else if (ec != boost::asio::error::operation_aborted)
 		{
+			LOG_ERROR("Connection closed: " << ec);
 			// On error: Close this session.
 			// Find the session.
 			SessionWrapper session = m_sessionManager.GetSessionById(sessionId);
