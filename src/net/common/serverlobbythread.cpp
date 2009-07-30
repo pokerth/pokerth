@@ -597,7 +597,7 @@ ServerLobbyThread::HandleRead(const boost::system::error_code &ec, SessionId ses
 							sessionId,
 							boost::asio::placeholders::bytes_transferred));
 				}
-				else if (ec != boost::asio::error::operation_aborted)
+				else
 				{
 					LOG_ERROR("Connection closed: " << ec);
 					// On error: Close this session.
