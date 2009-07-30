@@ -527,9 +527,9 @@ ServerLobbyThread::CancelTimers()
 void
 ServerLobbyThread::HandleRead(const boost::system::error_code &ec, SessionId sessionId, size_t bytesRead)
 {
-	try
+	if (ec != boost::asio::error::operation_aborted)
 	{
-		if (!ec)
+		try
 		{
 			// Find the session.
 			SessionWrapper session = m_sessionManager.GetSessionById(sessionId);
@@ -538,41 +538,55 @@ ServerLobbyThread::HandleRead(const boost::system::error_code &ec, SessionId ses
 			if (session.sessionData)
 			{
 				ReceiveBuffer &buf = session.sessionData->GetReceiveBuffer();
-				if (buf.recvBufUsed + bytesRead > RECV_BUF_SIZE)
-					LOG_ERROR("Session " << session.sessionData->GetId() << " - Internal error: Receive buffer overflow!");
-				buf.recvBufUsed += bytesRead;
-				GetReceiver().ScanPackets(buf);
-				bool errorFlag = false;
+				if (!ec)
+				{
+					if (buf.recvBufUsed + bytesRead > RECV_BUF_SIZE)
+						LOG_ERROR("Session " << session.sessionData->GetId() << " - Internal error: Receive buffer overflow!");
+					buf.recvBufUsed += bytesRead;
+					GetReceiver().ScanPackets(buf);
+					bool errorFlag = false;
 
-				while (!buf.receivedPackets.empty())
-				{
-					boost::shared_ptr<NetPacket> packet = buf.receivedPackets.front();
-					buf.receivedPackets.pop_front();
-					// Retrieve current game, if applicable.
-					boost::shared_ptr<ServerGame> game = InternalGetGameFromId(session.sessionData->GetGameId());
-					if (game)
+					while (!buf.receivedPackets.empty())
 					{
-						// We need to catch game-specific exceptions, so that they do not affect the server.
-						try
+						boost::shared_ptr<NetPacket> packet = buf.receivedPackets.front();
+						buf.receivedPackets.pop_front();
+						// Retrieve current game, if applicable.
+						boost::shared_ptr<ServerGame> game = InternalGetGameFromId(session.sessionData->GetGameId());
+						if (game)
 						{
-							game->HandlePacket(session, packet);
-						} catch (const PokerTHException &e)
-						{
-							LOG_ERROR("Game " << game->GetId() << " - Read handler exception: " << e.what());
-							game->RemoveAllSessions();
-							errorFlag = true;
-							break;
+							// We need to catch game-specific exceptions, so that they do not affect the server.
+							try
+							{
+								game->HandlePacket(session, packet);
+							} catch (const PokerTHException &e)
+							{
+								LOG_ERROR("Game " << game->GetId() << " - Read handler exception: " << e.what());
+								game->RemoveAllSessions();
+								errorFlag = true;
+								break;
+							}
 						}
+						else
+							HandlePacket(session, packet);
 					}
-					else
-						HandlePacket(session, packet);
+					if (buf.recvBufUsed >= RECV_BUF_SIZE)
+					{
+						LOG_ERROR("Session " << session.sessionData->GetId() << " - Full receive buf but no valid packet.");
+						buf.recvBufUsed = 0;
+					}
+					if (!errorFlag)
+					{
+						session.sessionData->GetAsioSocket()->async_read_some(
+							boost::asio::buffer(buf.recvBuf + buf.recvBufUsed, RECV_BUF_SIZE - buf.recvBufUsed),
+							boost::bind(
+								&ServerLobbyThread::HandleRead,
+								this,
+								boost::asio::placeholders::error,
+								sessionId,
+								boost::asio::placeholders::bytes_transferred));
+					}
 				}
-				if (buf.recvBufUsed >= RECV_BUF_SIZE)
-				{
-					LOG_ERROR("Session " << session.sessionData->GetId() << " - Full receive buf but no valid packet.");
-					buf.recvBufUsed = 0;
-				}
-				if (!errorFlag)
+				else if (ec == boost::asio::error::interrupted || ec == boost::asio::error::try_again)
 				{
 					session.sessionData->GetAsioSocket()->async_read_some(
 						boost::asio::buffer(buf.recvBuf + buf.recvBufUsed, RECV_BUF_SIZE - buf.recvBufUsed),
@@ -583,28 +597,21 @@ ServerLobbyThread::HandleRead(const boost::system::error_code &ec, SessionId ses
 							sessionId,
 							boost::asio::placeholders::bytes_transferred));
 				}
+				else if (ec != boost::asio::error::operation_aborted)
+				{
+					LOG_ERROR("Connection closed: " << ec);
+					// On error: Close this session.
+					boost::shared_ptr<ServerGame> game = InternalGetGameFromId(session.sessionData->GetGameId());
+					if (game)
+						game->ErrorRemoveSession(session);
+					else
+						CloseSession(session);
+				}
 			}
-		}
-		else if (ec != boost::asio::error::operation_aborted)
+		} catch (const exception &e)
 		{
-			LOG_ERROR("Connection closed: " << ec);
-			// On error: Close this session.
-			// Find the session.
-			SessionWrapper session = m_sessionManager.GetSessionById(sessionId);
-			if (!session.sessionData)
-				session = m_gameSessionManager.GetSessionById(sessionId);
-			if (session.sessionData)
-			{
-				boost::shared_ptr<ServerGame> game = InternalGetGameFromId(session.sessionData->GetGameId());
-				if (game)
-					game->ErrorRemoveSession(session);
-				else
-					CloseSession(session);
-			}
+			LOG_ERROR("Session " << sessionId << " - unhandled exception in HandleRead: " << e.what());
 		}
-	} catch (const exception &e)
-	{
-		LOG_ERROR("Session " << sessionId << " - unhandled exception in HandleRead: " << e.what());
 	}
 }
 
