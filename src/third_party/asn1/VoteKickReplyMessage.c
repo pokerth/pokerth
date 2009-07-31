@@ -29,8 +29,8 @@ static asn_TYPE_member_t asn_MBR_voteKickReplyType_3[] = {
 		},
 };
 static asn_TYPE_tag2member_t asn_MAP_voteKickReplyType_tag2el_3[] = {
-    { (ASN_TAG_CLASS_CONTEXT | (0 << 2)), 0, 0, 0 }, /* voteKickAck at 467 */
-    { (ASN_TAG_CLASS_CONTEXT | (1 << 2)), 1, 0, 0 } /* voteKickDenied at 469 */
+    { (ASN_TAG_CLASS_CONTEXT | (0 << 2)), 0, 0, 0 }, /* voteKickAck at 468 */
+    { (ASN_TAG_CLASS_CONTEXT | (1 << 2)), 1, 0, 0 } /* voteKickDenied at 470 */
 };
 static asn_CHOICE_specifics_t asn_SPC_voteKickReplyType_specs_3 = {
 	sizeof(struct voteKickReplyType),
@@ -90,9 +90,9 @@ static ber_tlv_tag_t asn_DEF_VoteKickReplyMessage_tags_1[] = {
 	(ASN_TAG_CLASS_UNIVERSAL | (16 << 2))
 };
 static asn_TYPE_tag2member_t asn_MAP_VoteKickReplyMessage_tag2el_1[] = {
-    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 0, 0, 0 }, /* petitionId at 465 */
-    { (ASN_TAG_CLASS_CONTEXT | (0 << 2)), 1, 0, 0 }, /* voteKickAck at 467 */
-    { (ASN_TAG_CLASS_CONTEXT | (1 << 2)), 1, 0, 0 } /* voteKickDenied at 469 */
+    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 0, 0, 0 }, /* petitionId at 466 */
+    { (ASN_TAG_CLASS_CONTEXT | (0 << 2)), 1, 0, 0 }, /* voteKickAck at 468 */
+    { (ASN_TAG_CLASS_CONTEXT | (1 << 2)), 1, 0, 0 } /* voteKickDenied at 470 */
 };
 static asn_SEQUENCE_specifics_t asn_SPC_VoteKickReplyMessage_specs_1 = {
 	sizeof(struct VoteKickReplyMessage),

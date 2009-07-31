@@ -126,10 +126,10 @@ static ber_tlv_tag_t asn_DEF_KickPetitionUpdateMessage_tags_1[] = {
 	(ASN_TAG_CLASS_UNIVERSAL | (16 << 2))
 };
 static asn_TYPE_tag2member_t asn_MAP_KickPetitionUpdateMessage_tag2el_1[] = {
-    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 0, 0, 3 }, /* petitionId at 483 */
-    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 1, -1, 2 }, /* numVotesAgainstKicking at 484 */
-    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 2, -2, 1 }, /* numVotesInFavourOfKicking at 485 */
-    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 3, -3, 0 } /* numVotesNeededToKick at 486 */
+    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 0, 0, 3 }, /* petitionId at 484 */
+    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 1, -1, 2 }, /* numVotesAgainstKicking at 485 */
+    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 2, -2, 1 }, /* numVotesInFavourOfKicking at 486 */
+    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 3, -3, 0 } /* numVotesNeededToKick at 487 */
 };
 static asn_SEQUENCE_specifics_t asn_SPC_KickPetitionUpdateMessage_specs_1 = {
 	sizeof(struct KickPetitionUpdateMessage),

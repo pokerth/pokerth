@@ -18,21 +18,31 @@ static asn_TYPE_member_t asn_MBR_GamePlayerJoined_1[] = {
 		0,
 		"playerId"
 		},
+	{ ATF_NOFLAGS, 0, offsetof(struct GamePlayerJoined, isAdmin),
+		(ASN_TAG_CLASS_UNIVERSAL | (1 << 2)),
+		0,
+		&asn_DEF_BOOLEAN,
+		0,	/* Defer constraints checking to the member type */
+		0,	/* PER is not compiled, use -gen-PER */
+		0,
+		"isAdmin"
+		},
 };
 static ber_tlv_tag_t asn_DEF_GamePlayerJoined_tags_1[] = {
 	(ASN_TAG_CLASS_UNIVERSAL | (16 << 2))
 };
 static asn_TYPE_tag2member_t asn_MAP_GamePlayerJoined_tag2el_1[] = {
-    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 0, 0, 0 } /* playerId at 288 */
+    { (ASN_TAG_CLASS_UNIVERSAL | (1 << 2)), 1, 0, 0 }, /* isAdmin at 288 */
+    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 0, 0, 0 } /* playerId at 287 */
 };
 static asn_SEQUENCE_specifics_t asn_SPC_GamePlayerJoined_specs_1 = {
 	sizeof(struct GamePlayerJoined),
 	offsetof(struct GamePlayerJoined, _asn_ctx),
 	asn_MAP_GamePlayerJoined_tag2el_1,
-	1,	/* Count of tags in the map */
+	2,	/* Count of tags in the map */
 	0, 0, 0,	/* Optional elements (not needed) */
-	0,	/* Start extensions */
-	2	/* Stop extensions */
+	1,	/* Start extensions */
+	3	/* Stop extensions */
 };
 asn_TYPE_descriptor_t asn_DEF_GamePlayerJoined = {
 	"GamePlayerJoined",
@@ -54,7 +64,7 @@ asn_TYPE_descriptor_t asn_DEF_GamePlayerJoined = {
 		/sizeof(asn_DEF_GamePlayerJoined_tags_1[0]), /* 1 */
 	0,	/* No PER visible constraints */
 	asn_MBR_GamePlayerJoined_1,
-	1,	/* Elements count */
+	2,	/* Elements count */
 	&asn_SPC_GamePlayerJoined_specs_1	/* Additional specs */
 };
 
