@@ -17,7 +17,7 @@ public:
 private slots:
      void newCon();
 	 void onRead();
-	 
+	 void socketStateChanged(QAbstractSocket::SocketState);
 	 void refreshConfig();
 
 private:
@@ -27,6 +27,7 @@ private:
 	 MessageFilter *myMessageFilter;
 		 
 	 CleanerConfig *config;
+	 bool blockConnection;
 };
 
 #endif // CLEANERSERVER_H

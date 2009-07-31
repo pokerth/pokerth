@@ -7,7 +7,7 @@
 #include "messagefilter.h"
 #include "cleanerconfig.h"
 
-CleanerServer::CleanerServer(): config(0)
+CleanerServer::CleanerServer(): config(0), blockConnection(false)
 {
 	config = new CleanerConfig;
 	
@@ -36,9 +36,11 @@ CleanerServer::~CleanerServer()
 
 void CleanerServer::newCon()
  {  
-	if(!tcpSocket->isOpen()) {
+	if(!blockConnection) {
 		tcpSocket = tcpServer->nextPendingConnection();
 		connect(tcpSocket, SIGNAL(readyRead()), this, SLOT(onRead())); 	
+		connect(tcpSocket, SIGNAL(stateChanged(QAbstractSocket::SocketState)), this, SLOT(socketStateChanged(QAbstractSocket::SocketState)));
+		blockConnection = true;
     }
  }
 
@@ -55,6 +57,12 @@ void CleanerServer::onRead()
 	
 	QString checkMessage = myMessageFilter->check(playerId, nick, message);
 	tcpSocket->write(checkMessage.toAscii().data(), checkMessage.length());
+}
+
+void CleanerServer::socketStateChanged(QAbstractSocket::SocketState state) {
+
+	qDebug() << "Socket state changed to: " << QAbstractSocket::UnconnectedState;
+	if(state == QAbstractSocket::UnconnectedState) blockConnection = false;
 }
 
 void CleanerServer::refreshConfig() {
