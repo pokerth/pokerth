@@ -9,32 +9,6 @@
 #include "PlayerResult.h"
 
 static int
-memb_resultCards_constraint_1(asn_TYPE_descriptor_t *td, const void *sptr,
-			asn_app_constraint_failed_f *ctfailcb, void *app_key) {
-	size_t size;
-	
-	if(!sptr) {
-		_ASN_CTFAIL(app_key, td, sptr,
-			"%s: value not given (%s:%d)",
-			td->name, __FILE__, __LINE__);
-		return -1;
-	}
-	
-	/* Determine the number of elements */
-	size = _A_CSEQUENCE_FROM_VOID(sptr)->count;
-	
-	if((size == 2)) {
-		/* Perform validation of the inner elements */
-		return td->check_constraints(td, sptr, ctfailcb, app_key);
-	} else {
-		_ASN_CTFAIL(app_key, td, sptr,
-			"%s: constraint failed (%s:%d)",
-			td->name, __FILE__, __LINE__);
-		return -1;
-	}
-}
-
-static int
 memb_bestHandPosition_constraint_1(asn_TYPE_descriptor_t *td, const void *sptr,
 			asn_app_constraint_failed_f *ctfailcb, void *app_key) {
 	size_t size;
@@ -110,50 +84,6 @@ memb_playerMoney_constraint_1(asn_TYPE_descriptor_t *td, const void *sptr,
 	}
 }
 
-static asn_TYPE_member_t asn_MBR_resultCards_3[] = {
-	{ ATF_POINTER, 0, 0,
-		(ASN_TAG_CLASS_UNIVERSAL | (2 << 2)),
-		0,
-		&asn_DEF_Card,
-		0,	/* Defer constraints checking to the member type */
-		0,	/* PER is not compiled, use -gen-PER */
-		0,
-		""
-		},
-};
-static ber_tlv_tag_t asn_DEF_resultCards_tags_3[] = {
-	(ASN_TAG_CLASS_UNIVERSAL | (16 << 2))
-};
-static asn_SET_OF_specifics_t asn_SPC_resultCards_specs_3 = {
-	sizeof(struct resultCards),
-	offsetof(struct resultCards, _asn_ctx),
-	0,	/* XER encoding is XMLDelimitedItemList */
-};
-static /* Use -fall-defs-global to expose */
-asn_TYPE_descriptor_t asn_DEF_resultCards_3 = {
-	"resultCards",
-	"resultCards",
-	SEQUENCE_OF_free,
-	SEQUENCE_OF_print,
-	SEQUENCE_OF_constraint,
-	SEQUENCE_OF_decode_ber,
-	SEQUENCE_OF_encode_der,
-	SEQUENCE_OF_decode_xer,
-	SEQUENCE_OF_encode_xer,
-	0, 0,	/* No PER support, use "-gen-PER" to enable */
-	0,	/* Use generic outmost tag fetcher */
-	asn_DEF_resultCards_tags_3,
-	sizeof(asn_DEF_resultCards_tags_3)
-		/sizeof(asn_DEF_resultCards_tags_3[0]), /* 1 */
-	asn_DEF_resultCards_tags_3,	/* Same as above */
-	sizeof(asn_DEF_resultCards_tags_3)
-		/sizeof(asn_DEF_resultCards_tags_3[0]), /* 1 */
-	0,	/* No PER visible constraints */
-	asn_MBR_resultCards_3,
-	1,	/* Single element */
-	&asn_SPC_resultCards_specs_3	/* Additional specs */
-};
-
 static asn_TYPE_member_t asn_MBR_bestHandPosition_5[] = {
 	{ ATF_POINTER, 0, 0,
 		(ASN_TAG_CLASS_UNIVERSAL | (2 << 2)),
@@ -208,14 +138,23 @@ static asn_TYPE_member_t asn_MBR_PlayerResult_1[] = {
 		0,
 		"playerId"
 		},
-	{ ATF_NOFLAGS, 0, offsetof(struct PlayerResult, resultCards),
-		(ASN_TAG_CLASS_UNIVERSAL | (16 << 2)),
+	{ ATF_NOFLAGS, 0, offsetof(struct PlayerResult, resultCard1),
+		(ASN_TAG_CLASS_UNIVERSAL | (2 << 2)),
 		0,
-		&asn_DEF_resultCards_3,
-		memb_resultCards_constraint_1,
+		&asn_DEF_Card,
+		0,	/* Defer constraints checking to the member type */
 		0,	/* PER is not compiled, use -gen-PER */
 		0,
-		"resultCards"
+		"resultCard1"
+		},
+	{ ATF_NOFLAGS, 0, offsetof(struct PlayerResult, resultCard2),
+		(ASN_TAG_CLASS_UNIVERSAL | (2 << 2)),
+		0,
+		&asn_DEF_Card,
+		0,	/* Defer constraints checking to the member type */
+		0,	/* PER is not compiled, use -gen-PER */
+		0,
+		"resultCard2"
 		},
 	{ ATF_NOFLAGS, 0, offsetof(struct PlayerResult, bestHandPosition),
 		(ASN_TAG_CLASS_UNIVERSAL | (16 << 2)),
@@ -258,21 +197,22 @@ static ber_tlv_tag_t asn_DEF_PlayerResult_tags_1[] = {
 	(ASN_TAG_CLASS_UNIVERSAL | (16 << 2))
 };
 static asn_TYPE_tag2member_t asn_MAP_PlayerResult_tag2el_1[] = {
-    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 0, 0, 3 }, /* playerId at 418 */
-    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 3, -1, 2 }, /* cardsValue at 421 */
-    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 4, -2, 1 }, /* moneyWon at 422 */
-    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 5, -3, 0 }, /* playerMoney at 423 */
-    { (ASN_TAG_CLASS_UNIVERSAL | (16 << 2)), 1, 0, 1 }, /* resultCards at 419 */
-    { (ASN_TAG_CLASS_UNIVERSAL | (16 << 2)), 2, -1, 0 } /* bestHandPosition at 420 */
+    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 0, 0, 5 }, /* playerId at 422 */
+    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 1, -1, 4 }, /* resultCard1 at 423 */
+    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 2, -2, 3 }, /* resultCard2 at 424 */
+    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 4, -3, 2 }, /* cardsValue at 426 */
+    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 5, -4, 1 }, /* moneyWon at 427 */
+    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 6, -5, 0 }, /* playerMoney at 428 */
+    { (ASN_TAG_CLASS_UNIVERSAL | (16 << 2)), 3, 0, 0 } /* bestHandPosition at 425 */
 };
 static asn_SEQUENCE_specifics_t asn_SPC_PlayerResult_specs_1 = {
 	sizeof(struct PlayerResult),
 	offsetof(struct PlayerResult, _asn_ctx),
 	asn_MAP_PlayerResult_tag2el_1,
-	6,	/* Count of tags in the map */
+	7,	/* Count of tags in the map */
 	0, 0, 0,	/* Optional elements (not needed) */
-	5,	/* Start extensions */
-	7	/* Stop extensions */
+	6,	/* Start extensions */
+	8	/* Stop extensions */
 };
 asn_TYPE_descriptor_t asn_DEF_PlayerResult = {
 	"PlayerResult",
@@ -294,7 +234,7 @@ asn_TYPE_descriptor_t asn_DEF_PlayerResult = {
 		/sizeof(asn_DEF_PlayerResult_tags_1[0]), /* 1 */
 	0,	/* No PER visible constraints */
 	asn_MBR_PlayerResult_1,
-	6,	/* Elements count */
+	7,	/* Elements count */
 	&asn_SPC_PlayerResult_specs_1	/* Additional specs */
 };
 

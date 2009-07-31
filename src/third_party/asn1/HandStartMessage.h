@@ -12,10 +12,8 @@
 
 /* Including external dependencies */
 #include "NonZeroId.h"
-#include <NativeInteger.h>
 #include "Card.h"
-#include <asn_SEQUENCE_OF.h>
-#include <constr_SEQUENCE_OF.h>
+#include <NativeInteger.h>
 #include <constr_SEQUENCE.h>
 
 #ifdef __cplusplus
@@ -25,12 +23,8 @@ extern "C" {
 /* HandStartMessage */
 typedef struct HandStartMessage {
 	NonZeroId_t	 gameId;
-	struct yourCards {
-		A_SEQUENCE_OF(Card_t) list;
-		
-		/* Context for parsing across buffer boundaries */
-		asn_struct_ctx_t _asn_ctx;
-	} yourCards;
+	Card_t	 yourCard1;
+	Card_t	 yourCard2;
 	long	 smallBlind;
 	/*
 	 * This type is extensible,

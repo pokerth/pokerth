@@ -13,8 +13,6 @@
 /* Including external dependencies */
 #include "NonZeroId.h"
 #include "Card.h"
-#include <asn_SEQUENCE_OF.h>
-#include <constr_SEQUENCE_OF.h>
 #include <constr_SEQUENCE.h>
 
 #ifdef __cplusplus
@@ -24,12 +22,9 @@ extern "C" {
 /* DealFlopCardsMessage */
 typedef struct DealFlopCardsMessage {
 	NonZeroId_t	 gameId;
-	struct flopCards {
-		A_SEQUENCE_OF(Card_t) list;
-		
-		/* Context for parsing across buffer boundaries */
-		asn_struct_ctx_t _asn_ctx;
-	} flopCards;
+	Card_t	 flopCard1;
+	Card_t	 flopCard2;
+	Card_t	 flopCard3;
 	/*
 	 * This type is extensible,
 	 * possible extensions are below.

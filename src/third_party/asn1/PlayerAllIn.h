@@ -13,8 +13,6 @@
 /* Including external dependencies */
 #include "NonZeroId.h"
 #include "Card.h"
-#include <asn_SEQUENCE_OF.h>
-#include <constr_SEQUENCE_OF.h>
 #include <constr_SEQUENCE.h>
 
 #ifdef __cplusplus
@@ -24,12 +22,8 @@ extern "C" {
 /* PlayerAllIn */
 typedef struct PlayerAllIn {
 	NonZeroId_t	 playerId;
-	struct allInCards {
-		A_SEQUENCE_OF(Card_t) list;
-		
-		/* Context for parsing across buffer boundaries */
-		asn_struct_ctx_t _asn_ctx;
-	} allInCards;
+	Card_t	 allInCard1;
+	Card_t	 allInCard2;
 	/*
 	 * This type is extensible,
 	 * possible extensions are below.

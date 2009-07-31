@@ -12,8 +12,8 @@
 
 /* Including external dependencies */
 #include "NonZeroId.h"
-#include <NativeInteger.h>
 #include "Card.h"
+#include <NativeInteger.h>
 #include <asn_SEQUENCE_OF.h>
 #include <constr_SEQUENCE_OF.h>
 #include <constr_SEQUENCE.h>
@@ -25,12 +25,8 @@ extern "C" {
 /* PlayerResult */
 typedef struct PlayerResult {
 	NonZeroId_t	 playerId;
-	struct resultCards {
-		A_SEQUENCE_OF(Card_t) list;
-		
-		/* Context for parsing across buffer boundaries */
-		asn_struct_ctx_t _asn_ctx;
-	} resultCards;
+	Card_t	 resultCard1;
+	Card_t	 resultCard2;
 	struct bestHandPosition {
 		A_SEQUENCE_OF(long) list;
 		
