@@ -284,7 +284,8 @@ GamePlayerMessage ::= [APPLICATION 10] SEQUENCE {
 }
 
 GamePlayerJoined ::= SEQUENCE {
-	playerId					NonZeroId
+	playerId					NonZeroId,
+	isAdmin						BOOLEAN
 }
 
 GamePlayerLeft ::= SEQUENCE {
