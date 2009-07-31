@@ -82,13 +82,13 @@ Version ::= SEQUENCE {
 }
 
 AnonymousLogin ::= SEQUENCE {
-	playerName					UTF8String,
+	playerName					UTF8String (SIZE(1..64)),
 	avatar						AvatarHash OPTIONAL
 }
 
 -- TODO challenge/response
 AuthenticatedLogin ::= SEQUENCE {
-	playerName					UTF8String,
+	playerName					UTF8String (SIZE(1..64)),
 	avatar						AvatarHash OPTIONAL
 }
 
@@ -194,7 +194,7 @@ PlayerInfoReplyMessage ::= [APPLICATION 6] SEQUENCE {
 }
 
 PlayerInfoData ::= SEQUENCE {
-	playerName					UTF8String,
+	playerName					UTF8String (SIZE(1..64)),
 	isHuman						BOOLEAN,
 	avatarData					SEQUENCE {
 		avatarType					NetAvatarType,
@@ -220,7 +220,7 @@ JoinGameRequestMessage ::= [APPLICATION 8] SEQUENCE {
 		joinExistingGame		[0] JoinExistingGame,
 		joinNewGame				[1] JoinNewGame
 	},
-	password					UTF8String OPTIONAL
+	password					UTF8String (SIZE(1..64)) OPTIONAL
 }
 
 JoinExistingGame ::= SEQUENCE {
@@ -254,7 +254,7 @@ JoinGameFailed ::= SEQUENCE {
 }
 
 NetGameInfo ::= SEQUENCE {
-	gameName					UTF8String,
+	gameName					UTF8String (SIZE(1..64)),
 	maxNumPlayers				INTEGER(2..10),
 	raiseIntervalMode			CHOICE {
 		raiseEveryHands		[0]		INTEGER(1..1000),
@@ -518,17 +518,17 @@ StatisticsData ::= SEQUENCE {
 
 ChatRequestMessage ::= [APPLICATION 129] SEQUENCE {
 	gameId						Id,
-	chatText					UTF8String
+	chatText					UTF8String (SIZE(1..128))
 }
 
 ChatMessage ::= [APPLICATION 130] SEQUENCE {
 	playerId					Id,
 	gameId						Id,
-	chatText					UTF8String
+	chatText					UTF8String (SIZE(1..128))
 }
 
 DialogMessage ::= [APPLICATION 131] SEQUENCE {
-	notificationText			UTF8String
+	notificationText			UTF8String (SIZE(1..128))
 }
 
 TimeoutWarningMessage ::= [APPLICATION 132] SEQUENCE {
