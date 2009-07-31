@@ -337,7 +337,8 @@ GameStartMessage ::= [APPLICATION 15] SEQUENCE {
 
 HandStartMessage ::= [APPLICATION 16] SEQUENCE {
 	gameId						NonZeroId,
-	yourCards					SEQUENCE SIZE(2) OF Card,
+	yourCard1					Card,
+	yourCard2					Card,
 	smallBlind					INTEGER(1..20001)
 }
 
@@ -379,7 +380,9 @@ PlayersActionDoneMessage ::= [APPLICATION 20] SEQUENCE {
 
 DealFlopCardsMessage ::= [APPLICATION 21] SEQUENCE {
 	gameId						NonZeroId,
-	flopCards					SEQUENCE SIZE(3) OF Card
+	flopCard1					Card,
+	flopCard2					Card,
+	flopCard3					Card
 }
 
 DealTurnCardMessage ::= [APPLICATION 22] SEQUENCE {
@@ -399,7 +402,8 @@ AllInShowCardsMessage ::= [APPLICATION 24] SEQUENCE {
 
 PlayerAllIn ::= SEQUENCE {
 	playerId					NonZeroId,
-	allInCards					SEQUENCE SIZE(2) OF Card
+	allInCard1					Card,
+	allInCard2					Card
 }
 
 EndOfHandMessage ::= [APPLICATION 25] SEQUENCE {
@@ -416,7 +420,8 @@ EndOfHandShowCards ::= SEQUENCE {
 
 PlayerResult ::= SEQUENCE {
 	playerId					NonZeroId,
-	resultCards					SEQUENCE SIZE(2) OF Card,
+	resultCard1					Card,
+	resultCard2					Card,
 	bestHandPosition			SEQUENCE SIZE(5) OF INTEGER, -- TODO size restrictions
 	cardsValue					INTEGER,
 	moneyWon					INTEGER(0..10000000),
