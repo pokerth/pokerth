@@ -5,6 +5,7 @@
 #include "textfloodcheck.h"
 #include "cleanerconfig.h"
 #include "capsfloodcheck.h"
+#include "letterrepeatingcheck.h"
 
 enum ActionType {
 	NOTHING,
@@ -15,7 +16,8 @@ enum OffenceType {
 	NONE,
 	BAD_WORD,
 	TEXT_FLOOD_LINES,
-	CAPS_FLOOD
+	CAPS_FLOOD,
+	LETTER_REPEATING
 };
 
 MessageFilter::MessageFilter(CleanerConfig *c): config(c)
@@ -23,6 +25,7 @@ MessageFilter::MessageFilter(CleanerConfig *c): config(c)
 	myBadWordCheck = new BadWordCheck;
 	myTextFloodCheck = new TextFloodCheck;
 	myCapsFloodCheck = new CapsFloodCheck;
+	myLetterRepeatingCheck = new LetterRepeatingCheck;
 }
 
 QString MessageFilter::check(unsigned playerId, QString nick, QString msg) 
@@ -34,6 +37,7 @@ QString MessageFilter::check(unsigned playerId, QString nick, QString msg)
 	
 	if(myBadWordCheck->run(msg)) offence = BAD_WORD;
 	if(myCapsFloodCheck->run(msg)) offence = CAPS_FLOOD;
+	if(myLetterRepeatingCheck->run(msg)) offence = LETTER_REPEATING;
 	if(myTextFloodCheck->run(playerId)) offence = TEXT_FLOOD_LINES;
 	
 	if(offence){
@@ -82,6 +86,10 @@ QString MessageFilter::check(unsigned playerId, QString nick, QString msg)
 					returnMessage = QString ("<PokerTHCleaner> %1: Warning: You've triggered caps flood protection, release your caps!\n").arg(nick);
 				}
 				break;
+				case LETTER_REPEATING: {
+					returnMessage = QString ("<PokerTHCleaner> %1: Warning: You've triggered letter repeating protection, stop repeating!\n").arg(nick);
+				}
+				break;
 				default:;
 			}
 		}
@@ -109,4 +117,6 @@ void MessageFilter::refreshConfig() {
 	
 	myTextFloodCheck->setTextFloodLevelToTrigger(config->readConfigInt("TextFloodLevelToTrigger"));
 	myCapsFloodCheck->setCapsNumberToTrigger(config->readConfigInt("CapsFloodCapsNumberToTrigger"));
+	myLetterRepeatingCheck->setLetterNumberToTrigger(config->readConfigInt("LetterRepeatingNumberToTrigger"));
+
 }

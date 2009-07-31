@@ -8,6 +8,7 @@ class BadWordCheck;
 class TextFloodCheck;
 class CleanerConfig;
 class CapsFloodCheck;
+class LetterRepeatingCheck;
 
 class MessageFilter: public QObject {
 Q_OBJECT
@@ -21,6 +22,7 @@ private:
 	BadWordCheck *myBadWordCheck;
 	TextFloodCheck *myTextFloodCheck;
 	CapsFloodCheck *myCapsFloodCheck;
+	LetterRepeatingCheck *myLetterRepeatingCheck;
 	
 	struct ClientWarnInfos { 
 		QString nick; 

@@ -27,7 +27,8 @@ SOURCES += chatcleaner.cpp \
     tinyxml.cpp \
     tinyxmlerror.cpp \
     tinyxmlparser.cpp \
-	capsfloodcheck.cpp
+    capsfloodcheck.cpp \
+    letterrepeatingcheck.cpp
 HEADERS += cleanerserver.h \
     messagefilter.h \
     badwordcheck.h \
@@ -35,4 +36,5 @@ HEADERS += cleanerserver.h \
     cleanerconfig.h \
     tinyxml.h \
     tinystr.h \
-	capsfloodcheck.h
+    capsfloodcheck.h \
+    letterrepeatingcheck.h

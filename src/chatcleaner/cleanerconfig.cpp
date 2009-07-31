@@ -43,7 +43,7 @@ using namespace std;
 CleanerConfig::CleanerConfig()
 {
 	// !!!! Revisionsnummer der Configdefaults !!!!!
-	configRev = 3;
+	configRev = 4;
 	
 	// Pfad und Dateinamen setzen
 #ifdef _WIN32
@@ -117,6 +117,7 @@ CleanerConfig::CleanerConfig()
 	configList.push_back(ConfigInfo("WarnLevelToKick", CONFIG_TYPE_INT, "2"));
 	configList.push_back(ConfigInfo("TextFloodLevelToTrigger", CONFIG_TYPE_INT, "3"));
 	configList.push_back(ConfigInfo("CapsFloodCapsNumberToTrigger", CONFIG_TYPE_INT, "10"));
+	configList.push_back(ConfigInfo("LetterRepeatingNumberToTrigger", CONFIG_TYPE_INT, "10"));
 	
 	list<string> badWordsList;
 	
