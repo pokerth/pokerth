@@ -43,7 +43,7 @@ using namespace std;
 CleanerConfig::CleanerConfig()
 {
 	// !!!! Revisionsnummer der Configdefaults !!!!!
-	configRev = 4;
+	configRev = 5;
 	
 	// Pfad und Dateinamen setzen
 #ifdef _WIN32
@@ -120,7 +120,6 @@ CleanerConfig::CleanerConfig()
 	configList.push_back(ConfigInfo("LetterRepeatingNumberToTrigger", CONFIG_TYPE_INT, "10"));
 	
 	list<string> badWordsList;
-	
 	badWordsList.push_back("arsch");
 	badWordsList.push_back("asshole");
 	badWordsList.push_back("bastard");
@@ -155,9 +154,22 @@ CleanerConfig::CleanerConfig()
 	badWordsList.push_back("slut");
 	badWordsList.push_back("suck");
 	badWordsList.push_back("whore");
-
 	configList.push_back(ConfigInfo("BadWordsList", CONFIG_TYPE_STRING_LIST, "BadWords", badWordsList));
 
+	list<string> urlStringsList;
+	urlStringsList.push_back("http://");
+	urlStringsList.push_back(".com");
+	urlStringsList.push_back(".net");
+	urlStringsList.push_back(".org");
+	urlStringsList.push_back(".de");
+	configList.push_back(ConfigInfo("UrlStringsList", CONFIG_TYPE_STRING_LIST, "UrlStrings", urlStringsList));
+	
+	list<string> urlExceptionStringsList;
+	urlExceptionStringsList.push_back("http://www.esl.");
+	urlExceptionStringsList.push_back("http://www.pokerth.net");
+	urlExceptionStringsList.push_back("pokerth.net");
+	configList.push_back(ConfigInfo("UrlExceptionStringsList", CONFIG_TYPE_STRING_LIST, "UrlExceptionStrings", urlExceptionStringsList));
+	
 	//fill tempList firstTime
 	configBufferList = configList;
 
