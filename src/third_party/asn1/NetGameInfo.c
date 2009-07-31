@@ -157,6 +157,38 @@ memb_NativeInteger_constraint_17(asn_TYPE_descriptor_t *td, const void *sptr,
 }
 
 static int
+memb_gameName_constraint_1(asn_TYPE_descriptor_t *td, const void *sptr,
+			asn_app_constraint_failed_f *ctfailcb, void *app_key) {
+	const UTF8String_t *st = (const UTF8String_t *)sptr;
+	size_t size;
+	
+	if(!sptr) {
+		_ASN_CTFAIL(app_key, td, sptr,
+			"%s: value not given (%s:%d)",
+			td->name, __FILE__, __LINE__);
+		return -1;
+	}
+	
+	size = UTF8String_length(st);
+	if((ssize_t)size < 0) {
+		_ASN_CTFAIL(app_key, td, sptr,
+			"%s: UTF-8: broken encoding (%s:%d)",
+			td->name, __FILE__, __LINE__);
+		return -1;
+	}
+	
+	if((size >= 1 && size <= 64)) {
+		/* Constraint check succeeded */
+		return 0;
+	} else {
+		_ASN_CTFAIL(app_key, td, sptr,
+			"%s: constraint failed (%s:%d)",
+			td->name, __FILE__, __LINE__);
+		return -1;
+	}
+}
+
+static int
 memb_maxNumPlayers_constraint_1(asn_TYPE_descriptor_t *td, const void *sptr,
 			asn_app_constraint_failed_f *ctfailcb, void *app_key) {
 	long value;
@@ -484,7 +516,7 @@ static asn_TYPE_member_t asn_MBR_NetGameInfo_1[] = {
 		(ASN_TAG_CLASS_UNIVERSAL | (12 << 2)),
 		0,
 		&asn_DEF_UTF8String,
-		0,	/* Defer constraints checking to the member type */
+		memb_gameName_constraint_1,
 		0,	/* PER is not compiled, use -gen-PER */
 		0,
 		"gameName"
