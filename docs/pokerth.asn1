@@ -132,7 +132,7 @@ AvatarEnd ::= SEQUENCE {
 UnknownAvatar ::= SEQUENCE {
 }
 
-AvatarHash ::= OCTET STRING (SIZE(20)) -- sha-1 hash value
+AvatarHash ::= OCTET STRING (SIZE(16)) -- md5 hash value
 
 NetAvatarType ::= ENUMERATED {
 	avatarImagePng		(1),
