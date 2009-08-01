@@ -307,7 +307,8 @@ RemovedFromGame ::= SEQUENCE {
 		kickedFromGame		(1),
 		gameIsFull			(2),
 		gameIsRunning		(3),
-		gameTimeout			(4)
+		gameTimeout			(4),
+		removedStartFailed  (5)
 	}
 }
 
