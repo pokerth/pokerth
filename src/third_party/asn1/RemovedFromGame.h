@@ -24,7 +24,8 @@ typedef enum removedFromGameReason {
 	removedFromGameReason_kickedFromGame	= 1,
 	removedFromGameReason_gameIsFull	= 2,
 	removedFromGameReason_gameIsRunning	= 3,
-	removedFromGameReason_gameTimeout	= 4
+	removedFromGameReason_gameTimeout	= 4,
+	removedFromGameReason_removedStartFailed	= 5
 } e_removedFromGameReason;
 
 /* RemovedFromGame */

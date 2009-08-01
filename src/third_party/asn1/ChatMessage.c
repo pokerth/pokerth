@@ -74,9 +74,9 @@ static ber_tlv_tag_t asn_DEF_ChatMessage_tags_1[] = {
 	(ASN_TAG_CLASS_UNIVERSAL | (16 << 2))
 };
 static asn_TYPE_tag2member_t asn_MAP_ChatMessage_tag2el_1[] = {
-    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 0, 0, 1 }, /* playerId at 525 */
-    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 1, -1, 0 }, /* gameId at 526 */
-    { (ASN_TAG_CLASS_UNIVERSAL | (12 << 2)), 2, 0, 0 } /* chatText at 527 */
+    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 0, 0, 1 }, /* playerId at 526 */
+    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 1, -1, 0 }, /* gameId at 527 */
+    { (ASN_TAG_CLASS_UNIVERSAL | (12 << 2)), 2, 0, 0 } /* chatText at 528 */
 };
 static asn_SEQUENCE_specifics_t asn_SPC_ChatMessage_specs_1 = {
 	sizeof(struct ChatMessage),

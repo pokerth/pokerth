@@ -86,19 +86,21 @@ static asn_INTEGER_enum_map_t asn_MAP_removedFromGameReason_value2enum_2[] = {
 	{ 1,	14,	"kickedFromGame" },
 	{ 2,	10,	"gameIsFull" },
 	{ 3,	13,	"gameIsRunning" },
-	{ 4,	11,	"gameTimeout" }
+	{ 4,	11,	"gameTimeout" },
+	{ 5,	18,	"removedStartFailed" }
 };
 static unsigned int asn_MAP_removedFromGameReason_enum2value_2[] = {
 	2,	/* gameIsFull(2) */
 	3,	/* gameIsRunning(3) */
 	4,	/* gameTimeout(4) */
 	1,	/* kickedFromGame(1) */
-	0	/* removedOnRequest(0) */
+	0,	/* removedOnRequest(0) */
+	5	/* removedStartFailed(5) */
 };
 static asn_INTEGER_specifics_t asn_SPC_removedFromGameReason_specs_2 = {
 	asn_MAP_removedFromGameReason_value2enum_2,	/* "tag" => N; sorted by tag */
 	asn_MAP_removedFromGameReason_enum2value_2,	/* N => "tag"; sorted by N */
-	5,	/* Number of elements in the maps */
+	6,	/* Number of elements in the maps */
 	0,	/* Enumeration is not extensible */
 	1,	/* Strict enumeration */
 	0,	/* Native long size */
