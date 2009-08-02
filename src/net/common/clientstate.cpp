@@ -724,7 +724,7 @@ AbstractClientStateReceiving::HandlePacket(boost::shared_ptr<ClientThread> clien
 			PlayerInfoData_t *netInfo = &tmpPacket->GetMsg()->choice.playerInfoReplyMessage.playerInfoResult.choice.playerInfoData;
 			tmpInfo.playerName = STL_STRING_FROM_OCTET_STRING(netInfo->playerName);
 			if (netInfo->isHuman)
-				tmpInfo.playerName = PLAYER_TYPE_HUMAN;
+				tmpInfo.ptype = PLAYER_TYPE_HUMAN;
 			else
 				tmpInfo.ptype = PLAYER_TYPE_COMPUTER;
 			if (netInfo->avatarData != NULL)
