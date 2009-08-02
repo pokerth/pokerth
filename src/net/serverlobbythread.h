@@ -67,8 +67,8 @@ public:
 	void NotifyStartingGame(unsigned gameId);
 	void NotifyReopeningGame(unsigned gameId);
 
-	void HandleGameRetrievePlayerInfo(SessionWrapper session, const NetPacketRetrievePlayerInfo &tmpPacket);
-	void HandleGameRetrieveAvatar(SessionWrapper session, const NetPacketRetrieveAvatar &tmpPacket);
+	void HandleGameRetrievePlayerInfo(SessionWrapper session, const PlayerInfoRequestMessage_t &playerInfoRequest);
+	void HandleGameRetrieveAvatar(SessionWrapper session, const AvatarRequestMessage_t &retrieveAvatar);
 
 	bool KickPlayerByName(const std::string &playerName);
 	std::string GetPlayerIPAddress(const std::string &playerName) const;
@@ -111,15 +111,15 @@ protected:
 
 	void HandleRead(const boost::system::error_code &ec, SessionId sessionId, size_t bytesRead);
 	void HandlePacket(SessionWrapper session, boost::shared_ptr<NetPacket> packet);
-	void HandleNetPacketInit(SessionWrapper session, const NetPacketInit &tmpPacket);
-	void HandleNetPacketAvatarHeader(SessionWrapper session, const NetPacketAvatarHeader &tmpPacket);
-	void HandleNetPacketUnknownAvatar(SessionWrapper session, const NetPacketUnknownAvatar &tmpPacket);
-	void HandleNetPacketAvatarFile(SessionWrapper session, const NetPacketAvatarFile &tmpPacket);
-	void HandleNetPacketAvatarEnd(SessionWrapper session, const NetPacketAvatarEnd &tmpPacket);
-	void HandleNetPacketRetrievePlayerInfo(SessionWrapper session, const NetPacketRetrievePlayerInfo &tmpPacket);
-	void HandleNetPacketRetrieveAvatar(SessionWrapper session, const NetPacketRetrieveAvatar &tmpPacket);
-	void HandleNetPacketCreateGame(SessionWrapper session, const NetPacketCreateGame &tmpPacket);
-	void HandleNetPacketJoinGame(SessionWrapper session, const NetPacketJoinGame &tmpPacket);
+	void HandleNetPacketInit(SessionWrapper session, const InitMessage_t &initMessage);
+	void HandleNetPacketAvatarHeader(SessionWrapper session, unsigned requestId, const AvatarHeader_t &avatarHeader);
+	void HandleNetPacketUnknownAvatar(SessionWrapper session, unsigned requestId, const UnknownAvatar_t &unknownAvatar);
+	void HandleNetPacketAvatarFile(SessionWrapper session, unsigned requestId, const AvatarData_t &avatarData);
+	void HandleNetPacketAvatarEnd(SessionWrapper session, unsigned requestId, const AvatarEnd_t &avatarEnd);
+	void HandleNetPacketRetrievePlayerInfo(SessionWrapper session, const PlayerInfoRequestMessage_t &playerInfoRequest);
+	void HandleNetPacketRetrieveAvatar(SessionWrapper session, const AvatarRequestMessage_t &retrieveAvatar);
+	void HandleNetPacketCreateGame(SessionWrapper session, const std::string &password, const JoinNewGame_t &newGame);
+	void HandleNetPacketJoinGame(SessionWrapper session, const std::string &password, const JoinExistingGame_t &joinGame);
 	void EstablishSession(SessionWrapper session);
 	void RequestPlayerAvatar(SessionWrapper session);
 	void TimerRemoveGame(const boost::system::error_code &ec);

@@ -92,16 +92,16 @@ PlayerData::SetNetSessionData(boost::shared_ptr<SessionData> session)
 	m_netSessionData = session;
 }
 
-boost::shared_ptr<AvatarData>
-PlayerData::GetNetAvatarData() const
+boost::shared_ptr<AvatarFile>
+PlayerData::GetNetAvatarFile() const
 {
-	return m_netAvatarData;
+	return m_netAvatarFile;
 }
 
 void
-PlayerData::SetNetAvatarData(boost::shared_ptr<AvatarData> avatarData)
+PlayerData::SetNetAvatarFile(boost::shared_ptr<AvatarFile> AvatarFile)
 {
-	m_netAvatarData = avatarData;
+	m_netAvatarFile = AvatarFile;
 }
 
 PlayerType

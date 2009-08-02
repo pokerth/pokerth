@@ -51,9 +51,9 @@ enum AvatarFileType
 	AVATAR_FILE_TYPE_GIF
 };
 
-struct AvatarData
+struct AvatarFile
 {
-	AvatarData() : fileType(AVATAR_FILE_TYPE_UNKNOWN), reportedSize(0) {}
+	AvatarFile() : fileType(AVATAR_FILE_TYPE_UNKNOWN), reportedSize(0) {}
 	std::vector<unsigned char>	fileData;
 	AvatarFileType				fileType;
 	unsigned					reportedSize;
@@ -84,8 +84,8 @@ public:
 	void SetAvatarMD5(const MD5Buf &avatarMD5);
 	boost::shared_ptr<SessionData> GetNetSessionData() const;
 	void SetNetSessionData(boost::shared_ptr<SessionData> session);
-	boost::shared_ptr<AvatarData> GetNetAvatarData() const;
-	void SetNetAvatarData(boost::shared_ptr<AvatarData> avatarData);
+	boost::shared_ptr<AvatarFile> GetNetAvatarFile() const;
+	void SetNetAvatarFile(boost::shared_ptr<AvatarFile> AvatarFile);
 	PlayerType GetType() const;
 	void SetType(PlayerType type);
 	PlayerRights GetRights() const;
@@ -105,7 +105,7 @@ private:
 	PlayerType						m_type;
 	PlayerRights					m_rights;
 	boost::shared_ptr<SessionData>	m_netSessionData;
-	boost::shared_ptr<AvatarData>	m_netAvatarData;
+	boost::shared_ptr<AvatarFile>	m_netAvatarFile;
 
 	mutable boost::mutex			m_dataMutex;
 };

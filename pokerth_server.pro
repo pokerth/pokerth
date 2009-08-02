@@ -31,6 +31,7 @@ INCLUDEPATH += . \
 		src/engine/network_engine \
 		src/config \
 		src/third_party/tinyxml \
+		src/third_party/asn1 \
 		src/core \
 
 DEPENDPATH += . \

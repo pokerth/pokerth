@@ -17,8 +17,9 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
+#include <boost/asio.hpp>
 #include <boost/bind.hpp>
-#include <boost/enable_shared_from_this.hpp>\
+#include <boost/enable_shared_from_this.hpp>
 
 #include <net/senderhelper.h>
 #include <net/sendercallback.h>
@@ -37,8 +38,37 @@ using boost::asio::ip::tcp;
 #define SEND_QUEUE_SIZE						10000000
 #define SEND_LOG_INTERVAL_SEC				60
 
+class EncodedPacket
+{
+public:
+	EncodedPacket(const unsigned char *data, unsigned size)
+		: m_size(size)
+	{
+		m_data = new unsigned char[size];
+		memcpy(m_data, data, size);
+	}
 
-typedef std::list<boost::shared_ptr<NetPacket> > SendDataList;
+	~EncodedPacket()
+	{
+		delete[] m_data;
+	}
+
+	unsigned GetSize() const
+	{
+		return m_size;
+	}
+
+	const unsigned char *GetData() const
+	{
+		return m_data;
+	}
+
+private:
+	unsigned m_size;
+	unsigned char *m_data;
+};
+
+typedef std::list<boost::shared_ptr<EncodedPacket> > SendDataList;
 
 class SendDataManager : public boost::enable_shared_from_this<SendDataManager>
 {
@@ -87,7 +117,7 @@ SendDataManager::AsyncSendNextPacket(boost::shared_ptr<boost::asio::ip::tcp::soc
 		SendDataList::iterator end = list.end();
 		while (i != end)
 		{
-			bufSize += (*i)->GetLen();
+			bufSize += (*i)->GetSize();
 			++i;
 		}
 		if (bufSize)
@@ -97,8 +127,8 @@ SendDataManager::AsyncSendNextPacket(boost::shared_ptr<boost::asio::ip::tcp::soc
 			end = list.end();
 			while (i != end)
 			{
-				memcpy(sendBuf + bufPos, (*i)->GetRawData(), (*i)->GetLen());
-				bufPos += (*i)->GetLen();
+				memcpy(sendBuf + bufPos, (*i)->GetData(), (*i)->GetSize());
+				bufPos += (*i)->GetSize();
 				++i;
 			}
 			list.clear();
@@ -144,7 +174,7 @@ SenderHelper::Send(boost::shared_ptr<SessionData> session, boost::shared_ptr<Net
 			boost::mutex::scoped_lock lock(tmpManager->dataMutex);
 			if (tmpManager->list.size() < SEND_QUEUE_SIZE)
 			{
-				tmpManager->list.push_back(packet);
+				InternalStorePacket(*tmpManager, packet);
 			}
 		}
 		{
@@ -178,7 +208,7 @@ SenderHelper::Send(boost::shared_ptr<SessionData> session, const NetPacketList &
 				while (i != end)
 				{
 					if (*i)
-						tmpManager->list.push_back(*i);
+						InternalStorePacket(*tmpManager, *i);
 					++i;
 				}
 			}
@@ -198,5 +228,17 @@ SenderHelper::SignalSessionTerminated(unsigned sessionId)
 	SendQueueMap::iterator pos = m_sendQueueMap.find(sessionId);
 	if (pos != m_sendQueueMap.end())
 		m_sendQueueMap.erase(pos);
+}
+
+void
+SenderHelper::InternalStorePacket(SendDataManager &tmpManager, boost::shared_ptr<NetPacket> packet)
+{
+	unsigned char buf[MAX_PACKET_SIZE];
+	asn_enc_rval_t e;
+	e = der_encode_to_buffer(&asn_DEF_PokerTHMessage, packet->GetMsg(), buf, MAX_PACKET_SIZE);
+	if (e.encoded == -1)
+		LOG_ERROR("Failed to encode NetPacket: " << packet->GetMsg()->present);
+	else
+		tmpManager.list.push_back(boost::shared_ptr<EncodedPacket>(new EncodedPacket(buf, e.encoded)));
 }
 

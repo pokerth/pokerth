@@ -92,7 +92,7 @@ protected:
 
 	virtual void InternalProcessPacket(boost::shared_ptr<ServerGame> server, SessionWrapper session, boost::shared_ptr<NetPacket> packet);
 
-	static boost::shared_ptr<NetPacket> CreateNetPacketPlayerJoined(const PlayerData &playerData);
+	static boost::shared_ptr<NetPacket> CreateNetPacketPlayerJoined(unsigned gameId, const PlayerData &playerData);
 
 private:
 	static ServerGameStateInit s_state;

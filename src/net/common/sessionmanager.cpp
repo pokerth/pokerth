@@ -307,7 +307,7 @@ SessionManager::SendToAllSessions(SenderHelper &sender, boost::shared_ptr<NetPac
 
 		// Send each client (with a certain state) a copy of the packet.
 		if (i->second.sessionData->GetState() == state)
-			sender.Send(i->second.sessionData, boost::shared_ptr<NetPacket>(packet->Clone()));
+			sender.Send(i->second.sessionData, packet);
 		++i;
 	}
 }
@@ -327,7 +327,7 @@ SessionManager::SendLobbyMsgToAllSessions(SenderHelper &sender, boost::shared_pt
 
 		// Send each client (with a certain state) a copy of the packet.
 		if (i->second.sessionData->GetState() == state && i->second.sessionData->WantsLobbyMsg())
-			sender.Send(i->second.sessionData, boost::shared_ptr<NetPacket>(packet->Clone()));
+			sender.Send(i->second.sessionData, packet);
 		++i;
 	}
 }
@@ -345,7 +345,7 @@ SessionManager::SendToAllButOneSessions(SenderHelper &sender, boost::shared_ptr<
 		// Send each fully connected client but one a copy of the packet.
 		if (i->second.sessionData->GetState() == state)
 			if (i->first != except)
-				sender.Send(i->second.sessionData, boost::shared_ptr<NetPacket>(packet->Clone()));
+				sender.Send(i->second.sessionData, packet);
 		++i;
 	}
 }

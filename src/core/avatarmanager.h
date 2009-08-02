@@ -27,6 +27,8 @@
 #include <map>
 #include <list>
 
+#include <playerdata.h>
+#include <core/crypthelper.h>
 #include <net/netpacket.h>
 
 #define MIN_AVATAR_FILE_SIZE	32

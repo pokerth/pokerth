@@ -194,28 +194,34 @@ AvatarManager::AvatarFileToNetPackets(const string &fileName, unsigned requestId
 	boost::shared_ptr<AvatarFileState> tmpState = OpenAvatarFileForChunkRead(fileName, fileSize, fileType);
 	if (tmpState.get() && fileSize && fileType != AVATAR_FILE_TYPE_UNKNOWN)
 	{
-		boost::shared_ptr<NetPacket> avatarHeader(new NetPacketAvatarHeader);
-		NetPacketAvatarHeader::Data avatarHeaderData;
-		avatarHeaderData.requestId = requestId;
-		avatarHeaderData.avatarFileSize = fileSize;
-		avatarHeaderData.avatarFileType = fileType;
-		static_cast<NetPacketAvatarHeader *>(avatarHeader.get())->SetData(avatarHeaderData);
+		boost::shared_ptr<NetPacket> avatarHeader(new NetPacket(NetPacket::Alloc));
+		avatarHeader->GetMsg()->present = PokerTHMessage_PR_avatarReplyMessage;
+		AvatarReplyMessage_t *netHeader = &avatarHeader->GetMsg()->choice.avatarReplyMessage;
+		netHeader->requestId = requestId;
+		netHeader->avatarResult.present = avatarResult_PR_avatarHeader;
+		netHeader->avatarResult.choice.avatarHeader.avatarType = fileType;
+		netHeader->avatarResult.choice.avatarHeader.avatarSize = fileSize;
 		packets.push_back(avatarHeader);
 
 		unsigned numBytes = 0;
 		unsigned totalBytesRead = 0;
+		vector<unsigned char> tmpData(MAX_FILE_DATA_SIZE);
 		do
 		{
-			boost::shared_ptr<NetPacketAvatarFile> avatarFile(new NetPacketAvatarFile);
-			NetPacketAvatarFile::Data avatarFileData;
-			avatarFileData.fileData.resize(MAX_FILE_DATA_SIZE);
-			numBytes = ChunkReadAvatarFile(tmpState, &avatarFileData.fileData[0], MAX_FILE_DATA_SIZE);
+			numBytes = ChunkReadAvatarFile(tmpState, &tmpData[0], MAX_FILE_DATA_SIZE);
 			if (numBytes)
 			{
-				avatarFileData.fileData.resize(numBytes);
-				avatarFileData.requestId = requestId;
 				totalBytesRead += numBytes;
-				static_cast<NetPacketAvatarFile *>(avatarFile.get())->SetData(avatarFileData);
+
+				boost::shared_ptr<NetPacket> avatarFile(new NetPacket(NetPacket::Alloc));
+				avatarFile->GetMsg()->present = PokerTHMessage_PR_avatarReplyMessage;
+				AvatarReplyMessage_t *netFile = &avatarFile->GetMsg()->choice.avatarReplyMessage;
+				netFile->requestId = requestId;
+				netFile->avatarResult.present = avatarResult_PR_avatarData;
+				OCTET_STRING_fromBuf(
+					&netFile->avatarResult.choice.avatarData.avatarBlock,
+					(const char *)&tmpData[0],
+					numBytes);
 				packets.push_back(avatarFile);
 			}
 		} while (numBytes);
@@ -224,10 +230,11 @@ AvatarManager::AvatarFileToNetPackets(const string &fileName, unsigned requestId
 			retVal = ERR_NET_WRONG_AVATAR_SIZE;
 		else
 		{
-			boost::shared_ptr<NetPacket> avatarEnd(new NetPacketAvatarEnd);
-			NetPacketAvatarEnd::Data avatarEndData;
-			avatarEndData.requestId = requestId;
-			static_cast<NetPacketAvatarEnd *>(avatarEnd.get())->SetData(avatarEndData);
+			boost::shared_ptr<NetPacket> avatarEnd(new NetPacket(NetPacket::Alloc));
+			avatarEnd->GetMsg()->present = PokerTHMessage_PR_avatarReplyMessage;
+			AvatarReplyMessage_t *netEnd = &avatarEnd->GetMsg()->choice.avatarReplyMessage;
+			netEnd->requestId = requestId;
+			netEnd->avatarResult.present = avatarResult_PR_avatarEnd;
 			packets.push_back(avatarEnd);
 			retVal = 0;
 		}

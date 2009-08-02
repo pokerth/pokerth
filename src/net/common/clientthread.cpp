@@ -119,18 +119,20 @@ ClientThread::SignalTermination()
 void
 ClientThread::SendKickPlayer(unsigned playerId)
 {
-	boost::shared_ptr<NetPacket> request(new NetPacketKickPlayer);
-	NetPacketKickPlayer::Data requestData;
-	requestData.playerId = playerId;
-	static_cast<NetPacketKickPlayer *>(request.get())->SetData(requestData);
-	m_ioService->post(boost::bind(&ClientThread::SendSessionPacket, shared_from_this(), request));
+	boost::shared_ptr<NetPacket> packet(new NetPacket(NetPacket::Alloc));
+	packet->GetMsg()->present = PokerTHMessage_PR_kickPlayerRequestMessage;
+	KickPlayerRequestMessage_t *netKick = &packet->GetMsg()->choice.kickPlayerRequestMessage;
+	netKick->gameId = GetGameId();
+	netKick->playerId = playerId;
+	m_ioService->post(boost::bind(&ClientThread::SendSessionPacket, shared_from_this(), packet));
 }
 
 void
 ClientThread::SendLeaveCurrentGame()
 {
-	boost::shared_ptr<NetPacket> request(new NetPacketLeaveCurrentGame);
-	m_ioService->post(boost::bind(&ClientThread::SendSessionPacket, shared_from_this(), request));
+	boost::shared_ptr<NetPacket> packet(new NetPacket(NetPacket::Alloc));
+	packet->GetMsg()->present = PokerTHMessage_PR_leaveGameRequestMessage;
+	m_ioService->post(boost::bind(&ClientThread::SendSessionPacket, shared_from_this(), packet));
 }
 
 void
@@ -138,17 +140,12 @@ ClientThread::SendStartEvent(bool fillUpWithCpuPlayers)
 {
 	// Warning: This function is called in the context of the GUI thread.
 	// Create a network packet for the server start event.
-	boost::shared_ptr<NetPacket> start(new NetPacketStartEvent);
-	NetPacketStartEvent::Data startData;
-	startData.fillUpWithCpuPlayers = fillUpWithCpuPlayers;
-	try
-	{
-		static_cast<NetPacketStartEvent *>(start.get())->SetData(startData);
-		m_ioService->post(boost::bind(&ClientThread::SendSessionPacket, shared_from_this(), start));
-	} catch (const NetException &e)
-	{
-		LOG_ERROR("ClientThread::SendStartEvent: " << e.what());
-	}
+	boost::shared_ptr<NetPacket> packet(new NetPacket(NetPacket::Alloc));
+	packet->GetMsg()->present = PokerTHMessage_PR_startEventMessage;
+	StartEventMessage_t *netStartEvent = &packet->GetMsg()->choice.startEventMessage;
+	netStartEvent->gameId = GetGameId();
+	netStartEvent->fillWithComputerPlayers = fillUpWithCpuPlayers;
+	m_ioService->post(boost::bind(&ClientThread::SendSessionPacket, shared_from_this(), packet));
 }
 
 void
@@ -156,25 +153,20 @@ ClientThread::SendPlayerAction()
 {
 	// Warning: This function is called in the context of the GUI thread.
 	// Create a network packet containing the current player action.
-	boost::shared_ptr<NetPacket> action(new NetPacketPlayersAction);
-	NetPacketPlayersAction::Data actionData;
+	boost::shared_ptr<NetPacket> packet(new NetPacket(NetPacket::Alloc));
+	packet->GetMsg()->present = PokerTHMessage_PR_myActionRequestMessage;
+	MyActionRequestMessage_t *netMyAction = &packet->GetMsg()->choice.myActionRequestMessage;
+	netMyAction->gameId = GetGameId();
 	boost::shared_ptr<PlayerInterface> myPlayer = GetGame()->getSeatsList()->front();
-	actionData.gameState = static_cast<GameState>(GetGame()->getCurrentHand()->getCurrentRound());
-	actionData.playerAction = static_cast<PlayerAction>(myPlayer->getMyAction());
+	netMyAction->gameState = GetGame()->getCurrentHand()->getCurrentRound();
+	netMyAction->myAction = myPlayer->getMyAction();
 	// Only send last bet if not fold/checked.
-	if (actionData.playerAction != PLAYER_ACTION_FOLD && actionData.playerAction != PLAYER_ACTION_CHECK)
-		actionData.playerBet = myPlayer->getMyLastRelativeSet();
+	if (myPlayer->getMyAction() != PLAYER_ACTION_FOLD && myPlayer->getMyAction() != PLAYER_ACTION_CHECK)
+		netMyAction->myRelativeBet = myPlayer->getMyLastRelativeSet();
 	else
-		actionData.playerBet = 0;
-	try
-	{
-		static_cast<NetPacketPlayersAction *>(action.get())->SetData(actionData);
-		// Just dump the packet.
-		m_ioService->post(boost::bind(&ClientThread::SendSessionPacket, shared_from_this(), action));
-	} catch (const NetException &e)
-	{
-		LOG_ERROR("ClientThread::SendPlayerAction: " << e.what());
-	}
+		netMyAction->myRelativeBet = 0;
+	// Just dump the packet.
+	m_ioService->post(boost::bind(&ClientThread::SendSessionPacket, shared_from_this(), packet));
 }
 
 void
@@ -182,18 +174,16 @@ ClientThread::SendChatMessage(const std::string &msg)
 {
 	// Warning: This function is called in the context of the GUI thread.
 	// Create a network packet containing the chat message.
-	boost::shared_ptr<NetPacket> chat(new NetPacketSendChatText);
-	NetPacketSendChatText::Data chatData;
-	chatData.text = msg;
-	try
-	{
-		static_cast<NetPacketSendChatText *>(chat.get())->SetData(chatData);
-		// Just dump the packet.
-		m_ioService->post(boost::bind(&ClientThread::SendSessionPacket, shared_from_this(), chat));
-	} catch (const NetException &e)
-	{
-		LOG_ERROR("ClientThread::SendChatMessage: " << e.what());
-	}
+	boost::shared_ptr<NetPacket> packet(new NetPacket(NetPacket::Alloc));
+	packet->GetMsg()->present = PokerTHMessage_PR_chatRequestMessage;
+	ChatRequestMessage_t *netChat = &packet->GetMsg()->choice.chatRequestMessage;
+	netChat->gameId = GetGameId();
+	OCTET_STRING_fromBuf(&netChat->chatText,
+						 msg.c_str(),
+						 msg.length());
+
+	// Just dump the packet.
+	m_ioService->post(boost::bind(&ClientThread::SendSessionPacket, shared_from_this(), packet));
 }
 
 void
@@ -201,18 +191,21 @@ ClientThread::SendJoinFirstGame(const std::string &password)
 {
 	// Warning: This function is called in the context of the GUI thread.
 	// Create a network packet to request joining a game.
-	boost::shared_ptr<NetPacket> join(new NetPacketJoinGame);
-	NetPacketJoinGame::Data joinData;
-	joinData.gameId = 1;
-	joinData.password = password;
-	try
+	boost::shared_ptr<NetPacket> packet(new NetPacket(NetPacket::Alloc));
+	packet->GetMsg()->present = PokerTHMessage_PR_joinGameRequestMessage;
+	JoinGameRequestMessage_t *netJoinGame = &packet->GetMsg()->choice.joinGameRequestMessage;
+	if (!password.empty())
 	{
-		static_cast<NetPacketJoinGame *>(join.get())->SetData(joinData);
-		m_ioService->post(boost::bind(&ClientThread::SendSessionPacket, shared_from_this(), join));
-	} catch (const NetException &e)
-	{
-		LOG_ERROR("ClientThread::SendJoinFirstGame: " << e.what());
+		netJoinGame->password = OCTET_STRING_new_fromBuf(
+			&asn_DEF_UTF8String,
+			password.c_str(),
+			password.length());
 	}
+	netJoinGame->joinGameAction.present = joinGameAction_PR_joinExistingGame;
+
+	JoinExistingGame_t *joinExisting = &netJoinGame->joinGameAction.choice.joinExistingGame;
+	joinExisting->gameId = 1;
+	m_ioService->post(boost::bind(&ClientThread::SendSessionPacket, shared_from_this(), packet));
 }
 
 void
@@ -220,18 +213,21 @@ ClientThread::SendJoinGame(unsigned gameId, const std::string &password)
 {
 	// Warning: This function is called in the context of the GUI thread.
 	// Create a network packet to request joining a game.
-	boost::shared_ptr<NetPacket> join(new NetPacketJoinGame);
-	NetPacketJoinGame::Data joinData;
-	joinData.password = password;
-	joinData.gameId = gameId;
-	try
+	boost::shared_ptr<NetPacket> packet(new NetPacket(NetPacket::Alloc));
+	packet->GetMsg()->present = PokerTHMessage_PR_joinGameRequestMessage;
+	JoinGameRequestMessage_t *netJoinGame = &packet->GetMsg()->choice.joinGameRequestMessage;
+	if (!password.empty())
 	{
-		static_cast<NetPacketJoinGame *>(join.get())->SetData(joinData);
-		m_ioService->post(boost::bind(&ClientThread::SendSessionPacket, shared_from_this(), join));
-	} catch (const NetException &e)
-	{
-		LOG_ERROR("ClientThread::SendJoinGame: " << e.what());
+		netJoinGame->password = OCTET_STRING_new_fromBuf(
+			&asn_DEF_UTF8String,
+			password.c_str(),
+			password.length());
 	}
+	netJoinGame->joinGameAction.present = joinGameAction_PR_joinExistingGame;
+
+	JoinExistingGame_t *joinExisting = &netJoinGame->joinGameAction.choice.joinExistingGame;
+	joinExisting->gameId = gameId;
+	m_ioService->post(boost::bind(&ClientThread::SendSessionPacket, shared_from_this(), packet));
 }
 
 void
@@ -239,50 +235,56 @@ ClientThread::SendCreateGame(const GameData &gameData, const std::string &name, 
 {
 	// Warning: This function is called in the context of the GUI thread.
 	// Create a network packet to request creating a new game.
-	boost::shared_ptr<NetPacket> create(new NetPacketCreateGame);
-	NetPacketCreateGame::Data createData;
-	createData.gameData = gameData;
-	createData.gameName = name;
-	createData.password = password;
-	try
+	boost::shared_ptr<NetPacket> packet(new NetPacket(NetPacket::Alloc));
+	packet->GetMsg()->present = PokerTHMessage_PR_joinGameRequestMessage;
+	JoinGameRequestMessage_t *netJoinGame = &packet->GetMsg()->choice.joinGameRequestMessage;
+	if (!password.empty())
 	{
-		static_cast<NetPacketCreateGame *>(create.get())->SetData(createData);
-		m_ioService->post(boost::bind(&ClientThread::SendSessionPacket, shared_from_this(), create));
-	} catch (const NetException &e)
-	{
-		LOG_ERROR("ClientThread::SendCreateGame: " << e.what());
+		netJoinGame->password = OCTET_STRING_new_fromBuf(
+			&asn_DEF_UTF8String,
+			password.c_str(),
+			password.length());
 	}
+	netJoinGame->joinGameAction.present = joinGameAction_PR_joinNewGame;
+
+	JoinNewGame_t *joinNew = &netJoinGame->joinGameAction.choice.joinNewGame;
+	NetPacket::SetGameData(gameData, &joinNew->gameInfo);
+	OCTET_STRING_fromBuf(&joinNew->gameInfo.gameName,
+						 name.c_str(),
+						 name.length());
+	m_ioService->post(boost::bind(&ClientThread::SendSessionPacket, shared_from_this(), packet));
 }
 
 void
 ClientThread::SendResetTimeout()
 {
-	boost::shared_ptr<NetPacket> reset(new NetPacketResetTimeout);
-	m_ioService->post(boost::bind(&ClientThread::SendSessionPacket, shared_from_this(), reset));
+	boost::shared_ptr<NetPacket> packet(new NetPacket(NetPacket::Alloc));
+	packet->GetMsg()->present = PokerTHMessage_PR_resetTimeoutMessage;
+	m_ioService->post(boost::bind(&ClientThread::SendSessionPacket, shared_from_this(), packet));
 }
 
 void
 ClientThread::SendAskKickPlayer(unsigned playerId)
 {
-	boost::shared_ptr<NetPacket> ask(new NetPacketAskKickPlayer);
-	NetPacketAskKickPlayer::Data askData;
-	askData.playerId = playerId;
-	static_cast<NetPacketAskKickPlayer *>(ask.get())->SetData(askData);
-	m_ioService->post(boost::bind(&ClientThread::SendSessionPacket, shared_from_this(), ask));
+	boost::shared_ptr<NetPacket> packet(new NetPacket(NetPacket::Alloc));
+	packet->GetMsg()->present = PokerTHMessage_PR_askKickPlayerMessage;
+	AskKickPlayerMessage_t *netAsk = &packet->GetMsg()->choice.askKickPlayerMessage;
+	netAsk->playerId = playerId;
+	m_ioService->post(boost::bind(&ClientThread::SendSessionPacket, shared_from_this(), packet));
 }
 
 void
 ClientThread::SendVoteKick(bool doKick)
 {
-	boost::shared_ptr<NetPacket> vote(new NetPacketVoteKickPlayer);
-	NetPacketVoteKickPlayer::Data voteData;
+	boost::shared_ptr<NetPacket> packet(new NetPacket(NetPacket::Alloc));
+	packet->GetMsg()->present = PokerTHMessage_PR_voteKickRequestMessage;
+	VoteKickRequestMessage_t *netVote = &packet->GetMsg()->choice.voteKickRequestMessage;
 	{
 		boost::mutex::scoped_lock lock(m_curPetitionIdMutex);
-		voteData.petitionId = m_curPetitionId;
+		netVote->petitionId = m_curPetitionId;
 	}
-	voteData.vote = doKick ? KICK_VOTE_IN_FAVOUR : KICK_VOTE_AGAINST;
-	static_cast<NetPacketVoteKickPlayer *>(vote.get())->SetData(voteData);
-	m_ioService->post(boost::bind(&ClientThread::SendSessionPacket, shared_from_this(), vote));
+	netVote->voteKick = doKick;
+	m_ioService->post(boost::bind(&ClientThread::SendSessionPacket, shared_from_this(), packet));
 }
 
 void
@@ -523,11 +525,11 @@ ClientThread::RequestPlayerInfo(unsigned id, bool requestAvatar)
 {
 	if (find(m_playerInfoRequestList.begin(), m_playerInfoRequestList.end(), id) == m_playerInfoRequestList.end())
 	{
-		boost::shared_ptr<NetPacket> req(new NetPacketRetrievePlayerInfo);
-		NetPacketRetrievePlayerInfo::Data reqData;
-		reqData.playerId = id;
-		static_cast<NetPacketRetrievePlayerInfo *>(req.get())->SetData(reqData);
-		GetSender().Send(GetContext().GetSessionData(), req);
+		boost::shared_ptr<NetPacket> packet(new NetPacket(NetPacket::Alloc));
+		packet->GetMsg()->present = PokerTHMessage_PR_playerInfoRequestMessage;
+		PlayerInfoRequestMessage_t *netPlayerInfo = &packet->GetMsg()->choice.playerInfoRequestMessage;
+		netPlayerInfo->playerId = id;
+		GetSender().Send(GetContext().GetSessionData(), packet);
 
 		m_playerInfoRequestList.push_back(id);
 
@@ -637,21 +639,23 @@ ClientThread::RetrieveAvatarIfNeeded(unsigned id, const PlayerInfo &info)
 			}
 			else
 			{
-				boost::shared_ptr<NetPacket> retrieveAvatar(new NetPacketRetrieveAvatar);
-				NetPacketRetrieveAvatar::Data retrieveAvatarData;
-				retrieveAvatarData.requestId = id;
-				retrieveAvatarData.avatar = info.avatar;
-				static_cast<NetPacketRetrieveAvatar *>(retrieveAvatar.get())->SetData(retrieveAvatarData);
-				GetSender().Send(GetContext().GetSessionData(), retrieveAvatar);
+				boost::shared_ptr<NetPacket> packet(new NetPacket(NetPacket::Alloc));
+				packet->GetMsg()->present = PokerTHMessage_PR_avatarRequestMessage;
+				AvatarRequestMessage_t *netAvatar = &packet->GetMsg()->choice.avatarRequestMessage;
+				netAvatar->requestId = id;
+				OCTET_STRING_fromBuf(&netAvatar->avatar,
+									 (const char *)info.avatar.data,
+									 MD5_DATA_SIZE);
+				GetSender().Send(GetContext().GetSessionData(), packet);
 			}
 		}
 	}
 }
 
 void
-ClientThread::AddTempAvatarData(unsigned playerId, unsigned avatarSize, AvatarFileType type)
+ClientThread::AddTempAvatarFile(unsigned playerId, unsigned avatarSize, AvatarFileType type)
 {
-	boost::shared_ptr<AvatarData> tmpAvatar(new AvatarData);
+	boost::shared_ptr<AvatarFile> tmpAvatar(new AvatarFile);
 	tmpAvatar->fileData.reserve(avatarSize);
 	tmpAvatar->fileType = type;
 	tmpAvatar->reportedSize = avatarSize;
@@ -660,9 +664,9 @@ ClientThread::AddTempAvatarData(unsigned playerId, unsigned avatarSize, AvatarFi
 }
 
 void
-ClientThread::StoreInTempAvatarData(unsigned playerId, const vector<unsigned char> &data)
+ClientThread::StoreInTempAvatarFile(unsigned playerId, const vector<unsigned char> &data)
 {
-	AvatarDataMap::iterator pos = m_tempAvatarMap.find(playerId);
+	AvatarFileMap::iterator pos = m_tempAvatarMap.find(playerId);
 	if (pos == m_tempAvatarMap.end())
 		throw ClientException(__FILE__, __LINE__, ERR_NET_INVALID_REQUEST_ID, 0);
 	// We trust the server (concerning size of the data).
@@ -670,33 +674,33 @@ ClientThread::StoreInTempAvatarData(unsigned playerId, const vector<unsigned cha
 }
 
 void
-ClientThread::CompleteTempAvatarData(unsigned playerId)
+ClientThread::CompleteTempAvatarFile(unsigned playerId)
 {
-	AvatarDataMap::iterator pos = m_tempAvatarMap.find(playerId);
+	AvatarFileMap::iterator pos = m_tempAvatarMap.find(playerId);
 	if (pos == m_tempAvatarMap.end())
 		throw ClientException(__FILE__, __LINE__, ERR_NET_INVALID_REQUEST_ID, 0);
-	boost::shared_ptr<AvatarData> tmpAvatar = pos->second;
+	boost::shared_ptr<AvatarFile> tmpAvatar = pos->second;
 	unsigned avatarSize = (unsigned)tmpAvatar->fileData.size();
 	if (avatarSize != tmpAvatar->reportedSize)
 		LOG_ERROR("Client received invalid avatar file size!");
 	else
-		PassAvatarDataToManager(playerId, tmpAvatar);
+		PassAvatarFileToManager(playerId, tmpAvatar);
 
 	// Free memory.
 	m_tempAvatarMap.erase(pos);
 }
 
 void
-ClientThread::PassAvatarDataToManager(unsigned playerId, boost::shared_ptr<AvatarData> avatarData)
+ClientThread::PassAvatarFileToManager(unsigned playerId, boost::shared_ptr<AvatarFile> AvatarFile)
 {
 	PlayerInfo tmpPlayerInfo;
 	if (!GetCachedPlayerInfo(playerId, tmpPlayerInfo))
 		LOG_ERROR("Client received invalid player id!");
 	else
 	{
-		if (avatarData->fileType == AVATAR_FILE_TYPE_UNKNOWN)
-			avatarData->fileType = tmpPlayerInfo.avatarType;
-		if (!GetAvatarManager().StoreAvatarInCache(tmpPlayerInfo.avatar, avatarData->fileType, &avatarData->fileData[0], avatarData->reportedSize, false))
+		if (AvatarFile->fileType == AVATAR_FILE_TYPE_UNKNOWN)
+			AvatarFile->fileType = tmpPlayerInfo.avatarType;
+		if (!GetAvatarManager().StoreAvatarInCache(tmpPlayerInfo.avatar, AvatarFile->fileType, &AvatarFile->fileData[0], AvatarFile->reportedSize, false))
 			LOG_ERROR("Failed to store avatar in cache directory.");
 
 		// Update player info, but never re-request avatar.
@@ -726,10 +730,10 @@ ClientThread::TimerCheckAvatarDownloads(const boost::system::error_code& ec)
 		if (m_avatarDownloader && m_avatarDownloader->HasDownloadResult())
 		{
 			unsigned playerId;
-			boost::shared_ptr<AvatarData> tmpAvatar(new AvatarData);
+			boost::shared_ptr<AvatarFile> tmpAvatar(new AvatarFile);
 			m_avatarDownloader->GetDownloadResult(playerId, tmpAvatar->fileData);
 			tmpAvatar->reportedSize = tmpAvatar->fileData.size();
-			PassAvatarDataToManager(playerId, tmpAvatar);
+			PassAvatarFileToManager(playerId, tmpAvatar);
 		}
 		m_avatarTimer.expires_from_now(
 			boost::posix_time::milliseconds(CLIENT_AVATAR_LOOP_MSEC));
@@ -745,8 +749,11 @@ ClientThread::UnsubscribeLobbyMsg()
 	if (GetContext().GetSubscribeLobbyMsg())
 	{
 		// Send unsubscribe request.
-		boost::shared_ptr<NetPacket> unsubscr(new NetPacketUnsubscribeGameList);
-		GetSender().Send(GetContext().GetSessionData(), unsubscr);
+		boost::shared_ptr<NetPacket> packet(new NetPacket(NetPacket::Alloc));
+		packet->GetMsg()->present = PokerTHMessage_PR_subscriptionRequestMessage;
+		SubscriptionRequestMessage_t *netRequest = &packet->GetMsg()->choice.subscriptionRequestMessage;
+		netRequest->subscriptionAction = subscriptionAction_unsubscribeGameList;
+		GetSender().Send(GetContext().GetSessionData(), packet);
 		GetContext().SetSubscribeLobbyMsg(false);
 	}
 }
@@ -759,8 +766,10 @@ ClientThread::ResubscribeLobbyMsg()
 		// Clear game info map as it is outdated.
 		ClearGameInfoMap();
 		// Send resubscribe request.
-		boost::shared_ptr<NetPacket> resubscr(new NetPacketResubscribeGameList);
-		GetSender().Send(GetContext().GetSessionData(), resubscr);
+		boost::shared_ptr<NetPacket> packet(new NetPacket(NetPacket::Alloc));
+		packet->GetMsg()->present = PokerTHMessage_PR_subscriptionRequestMessage;
+		SubscriptionRequestMessage_t *netRequest = &packet->GetMsg()->choice.subscriptionRequestMessage;
+		netRequest->subscriptionAction = subscriptionAction_resubscribeGameList;
 		GetContext().SetSubscribeLobbyMsg(true);
 	}
 }

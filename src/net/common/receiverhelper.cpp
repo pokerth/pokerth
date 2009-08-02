@@ -47,7 +47,7 @@ ReceiverHelper::ScanPackets(ReceiveBuffer &buf)
 		// This is necessary, because we use TCP.
 		// Packets may be received in multiple chunks or
 		// several packets may be received at once.
-		if (buf.recvBufUsed >= MIN_PACKET_SIZE)
+		if (buf.recvBufUsed)
 		{
 			try
 			{

@@ -39,6 +39,8 @@ public:
 	void SignalSessionTerminated(unsigned sessionId);
 
 protected:
+	void InternalStorePacket(SendDataManager &tmpManager, boost::shared_ptr<NetPacket> packet);
+
 	typedef std::map<SessionId, boost::shared_ptr<SendDataManager> > SendQueueMap;
 
 private:

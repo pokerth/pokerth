@@ -98,7 +98,7 @@ protected:
 	typedef std::map<unsigned, GameInfo> GameInfoMap;
 	typedef std::list<boost::shared_ptr<NetPacket> > NetPacketList;
 	typedef std::map<unsigned, PlayerInfo> PlayerInfoMap;
-	typedef std::map<unsigned, boost::shared_ptr<AvatarData> > AvatarDataMap;
+	typedef std::map<unsigned, boost::shared_ptr<AvatarFile> > AvatarFileMap;
 	typedef std::map<unsigned, ServerInfo> ServerInfoMap;
 
 	// Main function of the thread.
@@ -117,10 +117,10 @@ protected:
 	void SetNewGameAdmin(unsigned id);
 	void RetrieveAvatarIfNeeded(unsigned id, const PlayerInfo &info);
 
-	void AddTempAvatarData(unsigned playerId, unsigned avatarSize, AvatarFileType type);
-	void StoreInTempAvatarData(unsigned playerId, const std::vector<unsigned char> &data);
-	void CompleteTempAvatarData(unsigned playerId);
-	void PassAvatarDataToManager(unsigned playerId, boost::shared_ptr<AvatarData> avatarData);
+	void AddTempAvatarFile(unsigned playerId, unsigned avatarSize, AvatarFileType type);
+	void StoreInTempAvatarFile(unsigned playerId, const std::vector<unsigned char> &data);
+	void CompleteTempAvatarFile(unsigned playerId);
+	void PassAvatarFileToManager(unsigned playerId, boost::shared_ptr<AvatarFile> AvatarFile);
 	void SetUnknownAvatar(unsigned playerId);
 
 	void TimerCheckAvatarDownloads(const boost::system::error_code& ec);
@@ -234,7 +234,7 @@ private:
 	unsigned m_curPetitionId;
 	mutable boost::mutex m_curPetitionIdMutex;
 
-	AvatarDataMap m_tempAvatarMap;
+	AvatarFileMap m_tempAvatarMap;
 
 	unsigned m_curGameNum;
 	unsigned m_guiPlayerId;

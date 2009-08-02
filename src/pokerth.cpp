@@ -18,11 +18,19 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
+#include <boost/asio.hpp>
+#include <iostream>
+#include <cstdlib>
+#include <ctime>
 #include <qapplication.h>
+#include <QtGui>
+#include <QtCore>
 
 #ifdef __APPLE__
 	#include <QMacStyle>
 #endif
+
+#include <curl/curl.h>
 
 #include "session.h"
 #include "startwindowimpl.h"
@@ -30,14 +38,6 @@
 #include "startsplash.h"
 #include "game_defs.h"
 #include <net/socket_startup.h>
-
-#include <curl/curl.h>
-#include <QtGui>
-#include <QtCore>
-
-#include <iostream>
-#include <cstdlib>
-#include <ctime>
 
 #ifdef _MSC_VER
 	#ifdef _DEBUG

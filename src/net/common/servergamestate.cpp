@@ -73,55 +73,58 @@ static void SendPlayerAction(ServerGame &server, boost::shared_ptr<PlayerInterfa
 {
 	if (!player.get())
 		throw ServerException(__FILE__, __LINE__, ERR_NET_NO_CURRENT_PLAYER, 0);
-	boost::shared_ptr<NetPacket> notifyActionDone(new NetPacketPlayersActionDone);
-	NetPacketPlayersActionDone::Data actionDoneData;
-	actionDoneData.gameState = server.GetCurRound();
-	actionDoneData.playerId = player->getMyUniqueID();
-	actionDoneData.playerAction = static_cast<PlayerAction>(player->getMyAction());
-	actionDoneData.totalPlayerBet = player->getMySet();
-	actionDoneData.playerMoney = player->getMyCash();
-	actionDoneData.highestSet = server.GetGame().getCurrentHand()->getCurrentBeRo()->getHighestSet();
-	actionDoneData.minimumRaise = server.GetGame().getCurrentHand()->getCurrentBeRo()->getMinimumRaise();
-	static_cast<NetPacketPlayersActionDone *>(notifyActionDone.get())->SetData(actionDoneData);
-	server.SendToAllPlayers(notifyActionDone, SessionData::Game);
+
+	boost::shared_ptr<NetPacket> packet(new NetPacket(NetPacket::Alloc));
+	packet->GetMsg()->present = PokerTHMessage_PR_playersActionDoneMessage;
+	PlayersActionDoneMessage_t *netActionDone = &packet->GetMsg()->choice.playersActionDoneMessage;
+
+	netActionDone->gameId = server.GetId();
+	netActionDone->gameState = server.GetCurRound();
+	netActionDone->highestSet = server.GetGame().getCurrentHand()->getCurrentBeRo()->getHighestSet();
+	netActionDone->minimumRaise = server.GetGame().getCurrentHand()->getCurrentBeRo()->getMinimumRaise();
+	netActionDone->playerAction = static_cast<PlayerAction>(player->getMyAction());
+	netActionDone->playerId = player->getMyUniqueID();
+	netActionDone->playerMoney = player->getMyCash();
+	netActionDone->totalPlayerBet = player->getMySet();
+	server.SendToAllPlayers(packet, SessionData::Game);
 }
 
 static void SendNewRoundCards(ServerGame &server, Game &curGame, int state)
 {
+	int cards[5];
+	curGame.getCurrentHand()->getBoard()->getMyCards(cards);
 	switch(state) {
 		case GAME_STATE_PREFLOP: {
 			// nothing to do
 		} break;
 		case GAME_STATE_FLOP: {
 			// deal flop cards
-			int cards[5];
-			curGame.getCurrentHand()->getBoard()->getMyCards(cards);
-			boost::shared_ptr<NetPacket> notifyCards(new NetPacketDealFlopCards);
-			NetPacketDealFlopCards::Data notifyCardsData;
-			for (int num = 0; num < 3; num++)
-				notifyCardsData.flopCards[num] = static_cast<u_int16_t>(cards[num]);
-			static_cast<NetPacketDealFlopCards *>(notifyCards.get())->SetData(notifyCardsData);
-			server.SendToAllPlayers(notifyCards, SessionData::Game);
+			boost::shared_ptr<NetPacket> packet(new NetPacket(NetPacket::Alloc));
+			packet->GetMsg()->present = PokerTHMessage_PR_dealFlopCardsMessage;
+			DealFlopCardsMessage_t *netDealFlop = &packet->GetMsg()->choice.dealFlopCardsMessage;
+			netDealFlop->gameId = server.GetId();
+			netDealFlop->flopCard1 = cards[0];
+			netDealFlop->flopCard2 = cards[1];
+			netDealFlop->flopCard3 = cards[2];
+			server.SendToAllPlayers(packet, SessionData::Game);
 		} break;
 		case GAME_STATE_TURN: {
 			// deal turn card
-			int cards[5];
-			curGame.getCurrentHand()->getBoard()->getMyCards(cards);
-			boost::shared_ptr<NetPacket> notifyCards(new NetPacketDealTurnCard);
-			NetPacketDealTurnCard::Data notifyCardsData;
-			notifyCardsData.turnCard = static_cast<u_int16_t>(cards[3]);
-			static_cast<NetPacketDealTurnCard *>(notifyCards.get())->SetData(notifyCardsData);
-			server.SendToAllPlayers(notifyCards, SessionData::Game);
+			boost::shared_ptr<NetPacket> packet(new NetPacket(NetPacket::Alloc));
+			packet->GetMsg()->present = PokerTHMessage_PR_dealTurnCardMessage;
+			DealTurnCardMessage_t *netDealTurn = &packet->GetMsg()->choice.dealTurnCardMessage;
+			netDealTurn->gameId = server.GetId();
+			netDealTurn->turnCard = cards[3];
+			server.SendToAllPlayers(packet, SessionData::Game);
 		} break;
 		case GAME_STATE_RIVER: {
 			// deal river card
-			int cards[5];
-			curGame.getCurrentHand()->getBoard()->getMyCards(cards);
-			boost::shared_ptr<NetPacket> notifyCards(new NetPacketDealRiverCard);
-			NetPacketDealRiverCard::Data notifyCardsData;
-			notifyCardsData.riverCard = static_cast<u_int16_t>(cards[4]);
-			static_cast<NetPacketDealRiverCard *>(notifyCards.get())->SetData(notifyCardsData);
-			server.SendToAllPlayers(notifyCards, SessionData::Game);
+			boost::shared_ptr<NetPacket> packet(new NetPacket(NetPacket::Alloc));
+			packet->GetMsg()->present = PokerTHMessage_PR_dealRiverCardMessage;
+			DealRiverCardMessage_t *netDealRiver = &packet->GetMsg()->choice.dealRiverCardMessage;
+			netDealRiver->gameId = server.GetId();
+			netDealRiver->riverCard = cards[4];
+			server.SendToAllPlayers(packet, SessionData::Game);
 		} break;
 		default: {
 			// 
@@ -186,81 +189,76 @@ AbstractServerGameStateReceiving::ProcessPacket(boost::shared_ptr<ServerGame> se
 {
 	if (packet->IsClientActivity())
 		session.sessionData->ResetActivityTimer();
-	if (packet->ToNetPacketRetrievePlayerInfo())
+	if (packet->GetMsg()->present == PokerTHMessage_PR_playerInfoRequestMessage)
 	{
 		// Delegate to Lobby.
-		server->GetLobbyThread().HandleGameRetrievePlayerInfo(session, *packet->ToNetPacketRetrievePlayerInfo());
+		server->GetLobbyThread().HandleGameRetrievePlayerInfo(session, packet->GetMsg()->choice.playerInfoRequestMessage);
 	}
-	else if (packet->ToNetPacketRetrieveAvatar())
+	else if (packet->GetMsg()->present == PokerTHMessage_PR_avatarRequestMessage)
 	{
 		// Delegate to Lobby.
-		server->GetLobbyThread().HandleGameRetrieveAvatar(session, *packet->ToNetPacketRetrieveAvatar());
+		server->GetLobbyThread().HandleGameRetrieveAvatar(session, packet->GetMsg()->choice.avatarRequestMessage);
 	}
-	else if (packet->ToNetPacketLeaveCurrentGame())
+	else if (packet->GetMsg()->present == PokerTHMessage_PR_leaveGameRequestMessage)
 	{
 		server->MoveSessionToLobby(session, NTF_NET_REMOVED_ON_REQUEST);
 	}
-	else if (packet->ToNetPacketKickPlayer())
+	else if (packet->GetMsg()->present == PokerTHMessage_PR_kickPlayerRequestMessage)
 	{
 		// Only admins are allowed to kick, and only in the lobby.
 		// After leaving the lobby, a vote needs to be initiated to kick.
-		if (session.playerData->GetRights() == PLAYER_RIGHTS_ADMIN && !server->IsRunning())
+		KickPlayerRequestMessage_t *netKickRequest = &packet->GetMsg()->choice.kickPlayerRequestMessage;
+		if (session.playerData->GetRights() == PLAYER_RIGHTS_ADMIN && !server->IsRunning() && netKickRequest->gameId == server->GetId())
 		{
-			NetPacketKickPlayer::Data kickPlayerData;
-			packet->ToNetPacketKickPlayer()->GetData(kickPlayerData);
-
-			server->InternalKickPlayer(kickPlayerData.playerId);
+			server->InternalKickPlayer(netKickRequest->playerId);
 		}
 	}
-	else if (packet->ToNetPacketAskKickPlayer())
+	else if (packet->GetMsg()->present == PokerTHMessage_PR_askKickPlayerMessage)
 	{
 		if (session.playerData)
 		{
-			NetPacketAskKickPlayer::Data askKickData;
-			packet->ToNetPacketAskKickPlayer()->GetData(askKickData);
-
-			server->InternalAskVoteKick(session, askKickData.playerId, SERVER_VOTE_KICK_TIMEOUT_SEC);
+			AskKickPlayerMessage_t *netAskKick = &packet->GetMsg()->choice.askKickPlayerMessage;
+			server->InternalAskVoteKick(session, netAskKick->playerId, SERVER_VOTE_KICK_TIMEOUT_SEC);
 		}
 	}
-	else if (packet->ToNetPacketVoteKickPlayer())
+	else if (packet->GetMsg()->present == PokerTHMessage_PR_voteKickRequestMessage)
 	{
 		if (session.playerData)
 		{
-			NetPacketVoteKickPlayer::Data voteData;
-			packet->ToNetPacketVoteKickPlayer()->GetData(voteData);
-
-			server->InternalVoteKick(session, voteData.petitionId, voteData.vote);
+			VoteKickRequestMessage_t *netVoteKick = &packet->GetMsg()->choice.voteKickRequestMessage;
+			server->InternalVoteKick(session, netVoteKick->petitionId, netVoteKick->voteKick ? KICK_VOTE_AGAINST : KICK_VOTE_IN_FAVOUR);
 		}
 	}
 	// Chat text is always allowed.
-	else if (packet->ToNetPacketSendChatText())
+	else if (packet->GetMsg()->present == PokerTHMessage_PR_chatRequestMessage)
 	{
 		if (session.playerData) // Only forward if this player is known.
 		{
 			// Forward chat text to all players.
 			// TODO: Some limitation needed.
-			NetPacketSendChatText::Data inChatData;
-			packet->ToNetPacketSendChatText()->GetData(inChatData);
-
-			boost::shared_ptr<NetPacket> outChat(new NetPacketChatText);
-			NetPacketChatText::Data outChatData;
-			outChatData.playerId = session.playerData->GetUniqueId();
-			outChatData.text = inChatData.text;
-			static_cast<NetPacketChatText *>(outChat.get())->SetData(outChatData);
-			server->SendToAllPlayers(outChat, SessionData::Game);
+			ChatRequestMessage_t *netChatRequest = &packet->GetMsg()->choice.chatRequestMessage;
+			boost::shared_ptr<NetPacket> packet(new NetPacket(NetPacket::Alloc));
+			packet->GetMsg()->present = PokerTHMessage_PR_chatMessage;
+			ChatMessage_t *netChat = &packet->GetMsg()->choice.chatMessage;
+			netChat->gameId = server->GetId();
+			netChat->playerId = session.playerData->GetUniqueId();
+			OCTET_STRING_fromBuf(
+				&netChat->chatText,
+				(char *)netChatRequest->chatText.buf,
+				netChatRequest->chatText.size);
+			server->SendToAllPlayers(packet, SessionData::Game);
 		}
 	}
-	else if (packet->ToNetPacketUnsubscribeGameList())
+	else if (packet->GetMsg()->present == PokerTHMessage_PR_subscriptionRequestMessage)
 	{
-		// We can do this directly in this thread.
-		session.sessionData->ResetWantsLobbyMsg();
-	}
-	else if (packet->ToNetPacketResubscribeGameList())
-	{
-		// This needs to be performed in the lobby thread,
-		// because a new game list needs to be sent.
-		if (!session.sessionData->WantsLobbyMsg())
-			server->GetLobbyThread().ResubscribeLobbyMsg(session);
+		SubscriptionRequestMessage_t *netSubscription = &packet->GetMsg()->choice.subscriptionRequestMessage;
+		if (netSubscription->subscriptionAction == subscriptionAction_resubscribeGameList)
+		{
+			if (!session.sessionData->WantsLobbyMsg())
+				server->GetLobbyThread().ResubscribeLobbyMsg(session);
+		}
+		else
+			session.sessionData->ResetWantsLobbyMsg();
 	}
 	else
 	{
@@ -332,13 +330,19 @@ ServerGameStateInit::HandleNewSession(boost::shared_ptr<ServerGame> server, Sess
 			}
 
 			// Send ack to client.
-			boost::shared_ptr<NetPacket> joinGameAck(new NetPacketJoinGameAck);
-			NetPacketJoinGameAck::Data joinGameAckData;
-			joinGameAckData.gameId = server->GetId();
-			joinGameAckData.prights = session.playerData->GetRights();
-			joinGameAckData.gameData = server->GetGameData();
-			static_cast<NetPacketJoinGameAck *>(joinGameAck.get())->SetData(joinGameAckData);
-			server->GetLobbyThread().GetSender().Send(session.sessionData, joinGameAck);
+			boost::shared_ptr<NetPacket> packet(new NetPacket(NetPacket::Alloc));
+			packet->GetMsg()->present = PokerTHMessage_PR_joinGameReplyMessage;
+			JoinGameReplyMessage_t *netJoinReply = &packet->GetMsg()->choice.joinGameReplyMessage;
+			netJoinReply->gameId = server->GetId();
+			netJoinReply->joinGameResult.present = joinGameResult_PR_joinGameAck;
+			JoinGameAck_t *joinAck = &netJoinReply->joinGameResult.choice.joinGameAck;
+			joinAck->areYouAdmin = session.playerData->GetRights() == PLAYER_RIGHTS_ADMIN;
+			NetPacket::SetGameData(server->GetGameData(), &joinAck->gameInfo);
+			OCTET_STRING_fromBuf(
+				&joinAck->gameInfo.gameName,
+				session.playerData->GetName().c_str(),
+				session.playerData->GetName().length());
+			server->GetLobbyThread().GetSender().Send(session.sessionData, packet);
 
 			// Send notifications for connected players to client.
 			PlayerDataList tmpPlayerList = server->GetFullPlayerDataList();
@@ -346,12 +350,12 @@ ServerGameStateInit::HandleNewSession(boost::shared_ptr<ServerGame> server, Sess
 			PlayerDataList::iterator player_end = tmpPlayerList.end();
 			while (player_i != player_end)
 			{
-				server->GetLobbyThread().GetSender().Send(session.sessionData, CreateNetPacketPlayerJoined(*(*player_i)));
+				server->GetLobbyThread().GetSender().Send(session.sessionData, CreateNetPacketPlayerJoined(server->GetId(), *(*player_i)));
 				++player_i;
 			}
 
 			// Send "Player Joined" to other fully connected clients.
-			server->SendToAllPlayers(CreateNetPacketPlayerJoined(*session.playerData), SessionData::Game);
+			server->SendToAllPlayers(CreateNetPacketPlayerJoined(server->GetId(), *session.playerData), SessionData::Game);
 
 			// Accept session.
 			server->GetSessionManager().AddSession(session);
@@ -388,12 +392,12 @@ ServerGameStateInit::TimerAdminWarning(const boost::system::error_code &ec, boos
 		if (session.sessionData.get())
 		{
 			// Send him a warning.
-			boost::shared_ptr<NetPacket> warning(new NetPacketTimeoutWarning);
-			NetPacketTimeoutWarning::Data warningData;
-			warningData.timeoutReason = NETWORK_TIMEOUT_GAME_ADMIN_IDLE;
-			warningData.remainingSeconds = SERVER_GAME_ADMIN_WARNING_REMAINING_SEC;
-			static_cast<NetPacketTimeoutWarning *>(warning.get())->SetData(warningData);
-			server->GetLobbyThread().GetSender().Send(session.sessionData, warning);
+			boost::shared_ptr<NetPacket> packet(new NetPacket(NetPacket::Alloc));
+			packet->GetMsg()->present = PokerTHMessage_PR_timeoutWarningMessage;
+			TimeoutWarningMessage_t *netWarning = &packet->GetMsg()->choice.timeoutWarningMessage;
+			netWarning->timeoutReason = NETWORK_TIMEOUT_GAME_ADMIN_IDLE;
+			netWarning->remainingSeconds = SERVER_GAME_ADMIN_WARNING_REMAINING_SEC;
+			server->GetLobbyThread().GetSender().Send(session.sessionData, packet);
 		}
 		// Start timeout timer.
 		server->GetStateTimer().expires_from_now(
@@ -422,18 +426,16 @@ ServerGameStateInit::TimerAdminTimeout(const boost::system::error_code &ec, boos
 void
 ServerGameStateInit::InternalProcessPacket(boost::shared_ptr<ServerGame> server, SessionWrapper session, boost::shared_ptr<NetPacket> packet)
 {
-	if (packet->ToNetPacketStartEvent())
+	if (packet->GetMsg()->present == PokerTHMessage_PR_startEventMessage)
 	{
+		StartEventMessage_t *netStartEvent = &packet->GetMsg()->choice.startEventMessage;
 		// Only admins are allowed to start the game.
-		if (session.playerData->GetRights() == PLAYER_RIGHTS_ADMIN)
+		if (session.playerData->GetRights() == PLAYER_RIGHTS_ADMIN && netStartEvent->gameId == server->GetId())
 		{
-			NetPacketStartEvent::Data startData;
-			packet->ToNetPacketStartEvent()->GetData(startData);
-
 			// Fill up with computer players.
 			server->ResetComputerPlayerList();
 
-			if (startData.fillUpWithCpuPlayers)
+			if (netStartEvent->fillWithComputerPlayers)
 			{
 				int remainingSlots = server->GetGameData().maxNumberOfPlayers - server->GetCurNumberOfPlayers();
 				for (int i = 1; i <= remainingSlots; i++)
@@ -447,19 +449,19 @@ ServerGameStateInit::InternalProcessPacket(boost::shared_ptr<ServerGame> server,
 					server->AddComputerPlayer(tmpPlayerData);
 
 					// Send "Player Joined" to other fully connected clients.
-					server->SendToAllPlayers(CreateNetPacketPlayerJoined(*tmpPlayerData), SessionData::Game);
+					server->SendToAllPlayers(CreateNetPacketPlayerJoined(server->GetId(), *tmpPlayerData), SessionData::Game);
 
 					// Notify lobby.
 					server->GetLobbyThread().NotifyPlayerJoinedGame(server->GetId(), tmpPlayerData->GetUniqueId());
 				}
 			}
 			// Wait for all players to confirm start of game.
-			server->SendToAllPlayers(boost::shared_ptr<NetPacket>(packet->Clone()), SessionData::Game);
+			server->SendToAllPlayers(packet, SessionData::Game);
 
 			server->SetState(ServerGameStateStartGame::Instance());
 		}
 	}
-	else if (packet->ToNetPacketResetTimeout())
+	else if (packet->GetMsg()->present == PokerTHMessage_PR_resetTimeoutMessage)
 	{
 		if (session.playerData->GetRights() == PLAYER_RIGHTS_ADMIN)
 		{
@@ -473,14 +475,17 @@ ServerGameStateInit::InternalProcessPacket(boost::shared_ptr<ServerGame> server,
 }
 
 boost::shared_ptr<NetPacket>
-ServerGameStateInit::CreateNetPacketPlayerJoined(const PlayerData &playerData)
+ServerGameStateInit::CreateNetPacketPlayerJoined(unsigned gameId, const PlayerData &playerData)
 {
-	boost::shared_ptr<NetPacket> thisPlayerJoined(new NetPacketPlayerJoined);
-	NetPacketPlayerJoined::Data thisPlayerJoinedData;
-	thisPlayerJoinedData.playerId = playerData.GetUniqueId();
-	thisPlayerJoinedData.prights = playerData.GetRights();
-	static_cast<NetPacketPlayerJoined *>(thisPlayerJoined.get())->SetData(thisPlayerJoinedData);
-	return thisPlayerJoined;
+	boost::shared_ptr<NetPacket> packet(new NetPacket(NetPacket::Alloc));
+	packet->GetMsg()->present = PokerTHMessage_PR_gamePlayerMessage;
+	GamePlayerMessage_t *netGamePlayer = &packet->GetMsg()->choice.gamePlayerMessage;
+	netGamePlayer->gameId = gameId;
+	netGamePlayer->gamePlayerNotification.present = gamePlayerNotification_PR_gamePlayerJoined;
+	GamePlayerJoined_t *playerJoined = &netGamePlayer->gamePlayerNotification.choice.gamePlayerJoined;
+	playerJoined->playerId = playerData.GetUniqueId();
+	playerJoined->isAdmin = playerData.GetRights() == PLAYER_RIGHTS_ADMIN;
+	return packet;
 }
 
 //-----------------------------------------------------------------------------
@@ -527,7 +532,7 @@ ServerGameStateStartGame::HandleNewSession(boost::shared_ptr<ServerGame> server,
 void
 ServerGameStateStartGame::InternalProcessPacket(boost::shared_ptr<ServerGame> server, SessionWrapper session, boost::shared_ptr<NetPacket> packet)
 {
-	if (packet->ToNetPacketStartEventAck())
+	if (packet->GetMsg()->present == PokerTHMessage_PR_startEventAckMessage)
 	{
 		session.sessionData->SetReadyFlag();
 		if (server->GetSessionManager().CountReadySessions() == server->GetSessionManager().GetRawSessionCount())
@@ -570,10 +575,11 @@ ServerGameStateStartGame::DoStart(boost::shared_ptr<ServerGame> server)
 	{
 		server->InternalStartGame();
 
-		boost::shared_ptr<NetPacket> answer(new NetPacketGameStart);
-
-		NetPacketGameStart::Data gameStartData;
-		gameStartData.startData = server->GetStartData();
+		boost::shared_ptr<NetPacket> packet(new NetPacket(NetPacket::Alloc));
+		packet->GetMsg()->present = PokerTHMessage_PR_gameStartMessage;
+		GameStartMessage_t *netGameStart = &packet->GetMsg()->choice.gameStartMessage;
+		netGameStart->gameId = server->GetId();
+		netGameStart->startDealerPlayerId = server->GetStartData().startDealerPlayerId;
 
 		// Send player order to clients.
 		// Assume player list is sorted by number.
@@ -581,15 +587,14 @@ ServerGameStateStartGame::DoStart(boost::shared_ptr<ServerGame> server)
 		PlayerDataList::iterator player_end = tmpPlayerList.end();
 		while (player_i != player_end)
 		{
-			NetPacketGameStart::PlayerSlot tmpPlayerSlot;
-			tmpPlayerSlot.playerId = (*player_i)->GetUniqueId();
-			gameStartData.playerSlots.push_back(tmpPlayerSlot);
+			NonZeroId_t *playerSlot = (NonZeroId_t *)calloc(1, sizeof(NonZeroId_t));
+			*playerSlot = (*player_i)->GetUniqueId();
+			ASN_SEQUENCE_ADD(&netGameStart->playerSeats.list, playerSlot);
 	
 			++player_i;
 		}
 
-		static_cast<NetPacketGameStart *>(answer.get())->SetData(gameStartData);
-		server->SendToAllPlayers(answer, SessionData::Game);
+		server->SendToAllPlayers(packet, SessionData::Game);
 
 		// Start the first hand.
 		ServerGameStateHand::StartNewHand(server);
@@ -688,26 +693,26 @@ ServerGameStateHand::EngineLoop(boost::shared_ptr<ServerGame> server)
 			&& nonFoldPlayers.size() > 1)
 		{
 			// Send cards of all active players to all players (all in).
-			boost::shared_ptr<NetPacket> allIn(new NetPacketAllInShowCards);
-			NetPacketAllInShowCards::Data allInData;
+			boost::shared_ptr<NetPacket> allIn(new NetPacket(NetPacket::Alloc));
+			allIn->GetMsg()->present = PokerTHMessage_PR_allInShowCardsMessage;
+			AllInShowCardsMessage_t *netAllInShow = &allIn->GetMsg()->choice.allInShowCardsMessage;
+			netAllInShow->gameId = server->GetId();
 
 			PlayerListConstIterator i = nonFoldPlayers.begin();
 			PlayerListConstIterator end = nonFoldPlayers.end();
 
 			while (i != end)
 			{
-				NetPacketAllInShowCards::PlayerCards tmpPlayerCards;
-				tmpPlayerCards.playerId = (*i)->getMyUniqueID();
-
+				PlayerAllIn_t *playerAllIn = (PlayerAllIn_t *)calloc(1, sizeof(PlayerAllIn_t));
+				playerAllIn->playerId = (*i)->getMyUniqueID();
 				int tmpCards[2];
 				(*i)->getMyCards(tmpCards);
-				tmpPlayerCards.cards[0] = static_cast<u_int16_t>(tmpCards[0]);
-				tmpPlayerCards.cards[1] = static_cast<u_int16_t>(tmpCards[1]);
+				playerAllIn->allInCard1 = tmpCards[0];
+				playerAllIn->allInCard2 = tmpCards[1];
+				ASN_SEQUENCE_ADD(&netAllInShow->playersAllIn.list, playerAllIn);
 
-				allInData.playerCards.push_back(tmpPlayerCards);
 				++i;
 			}
-			static_cast<NetPacketAllInShowCards *>(allIn.get())->SetData(allInData);
 			server->SendToAllPlayers(allIn, SessionData::Game);
 			curGame.getCurrentHand()->setCardsShown(true);
 
@@ -742,12 +747,12 @@ ServerGameStateHand::EngineLoop(boost::shared_ptr<ServerGame> server)
 			if (!curPlayer->getMyActiveStatus())
 				throw ServerException(__FILE__, __LINE__, ERR_NET_PLAYER_NOT_ACTIVE, 0);
 
-			boost::shared_ptr<NetPacket> notification(new NetPacketPlayersTurn);
-			NetPacketPlayersTurn::Data playersTurnData;
-			playersTurnData.gameState = (GameState)curGame.getCurrentHand()->getCurrentRound();
-			playersTurnData.playerId = curPlayer->getMyUniqueID();
-			static_cast<NetPacketPlayersTurn *>(notification.get())->SetData(playersTurnData);
-
+			boost::shared_ptr<NetPacket> notification(new NetPacket(NetPacket::Alloc));
+			notification->GetMsg()->present = PokerTHMessage_PR_playersTurnMessage;
+			PlayersTurnMessage_t *netPlayersTurn = &notification->GetMsg()->choice.playersTurnMessage;
+			netPlayersTurn->gameId = server->GetId();
+			netPlayersTurn->gameState = curGame.getCurrentHand()->getCurrentRound();
+			netPlayersTurn->playerId = curPlayer->getMyUniqueID();
 			server->SendToAllPlayers(notification, SessionData::Game);
 
 			// If the player is computer controlled, let the engine act.
@@ -788,48 +793,57 @@ ServerGameStateHand::EngineLoop(boost::shared_ptr<ServerGame> server)
 			{
 				// End of Hand, but keep cards hidden.
 				boost::shared_ptr<PlayerInterface> player = nonFoldPlayers.front();
-				boost::shared_ptr<NetPacket> endHand(new NetPacketEndOfHandHideCards);
-				NetPacketEndOfHandHideCards::Data endHandData;
-				endHandData.playerId = player->getMyUniqueID();
-				endHandData.moneyWon = player->getLastMoneyWon();
-				endHandData.playerMoney = player->getMyCash();
-				static_cast<NetPacketEndOfHandHideCards *>(endHand.get())->SetData(endHandData);
+				boost::shared_ptr<NetPacket> endHand(new NetPacket(NetPacket::Alloc));
+				endHand->GetMsg()->present = PokerTHMessage_PR_endOfHandMessage;
+				EndOfHandMessage_t *netEndHand = &endHand->GetMsg()->choice.endOfHandMessage;
+				netEndHand->gameId = server->GetId();
 
+				netEndHand->endOfHandType.present = endOfHandType_PR_endOfHandHideCards;
+				EndOfHandHideCards_t *endHandHide = &netEndHand->endOfHandType.choice.endOfHandHideCards;
+				endHandHide->playerId = player->getMyUniqueID();
+				endHandHide->moneyWon = player->getLastMoneyWon();
+				endHandHide->playerMoney = player->getMyCash();
 				server->SendToAllPlayers(endHand, SessionData::Game);
 			}
 			else
 			{
 				// End of Hand - show cards of active players.
-				boost::shared_ptr<NetPacket> endHand(new NetPacketEndOfHandShowCards);
-				NetPacketEndOfHandShowCards::Data endHandData;
+				boost::shared_ptr<PlayerInterface> player = nonFoldPlayers.front();
+				boost::shared_ptr<NetPacket> endHand(new NetPacket(NetPacket::Alloc));
+				endHand->GetMsg()->present = PokerTHMessage_PR_endOfHandMessage;
+				EndOfHandMessage_t *netEndHand = &endHand->GetMsg()->choice.endOfHandMessage;
+				netEndHand->gameId = server->GetId();
+
+				netEndHand->endOfHandType.present = endOfHandType_PR_endOfHandShowCards;
+				EndOfHandShowCards_t *endHandShow = &netEndHand->endOfHandType.choice.endOfHandShowCards;
 
 				PlayerListConstIterator i = nonFoldPlayers.begin();
 				PlayerListConstIterator end = nonFoldPlayers.end();
 
 				while (i != end)
 				{
-					NetPacketEndOfHandShowCards::PlayerResult tmpPlayerResult;
-					tmpPlayerResult.playerId = (*i)->getMyUniqueID();
-
+					PlayerResult_t *playerResult = (PlayerResult_t *)calloc(1, sizeof(PlayerResult_t));
+					playerResult->playerId = (*i)->getMyUniqueID();
 					int tmpCards[2];
 					int bestHandPos[5];
 					(*i)->getMyCards(tmpCards);
-					tmpPlayerResult.cards[0] = static_cast<u_int16_t>(tmpCards[0]);
-					tmpPlayerResult.cards[1] = static_cast<u_int16_t>(tmpCards[1]);
-
+					playerResult->resultCard1 = tmpCards[0];
+					playerResult->resultCard2 = tmpCards[1];
 					(*i)->getMyBestHandPosition(bestHandPos);
 					for (int num = 0; num < 5; num++)
-						tmpPlayerResult.bestHandPos[num] = bestHandPos[num];
+					{
+						long *handPos = (long *)calloc(1, sizeof(long));
+						*handPos = bestHandPos[num];
+						ASN_SEQUENCE_ADD(&playerResult->bestHandPosition.list, handPos);
+					}
 
-					tmpPlayerResult.valueOfCards = (*i)->getMyCardsValueInt();
-					tmpPlayerResult.moneyWon = (*i)->getLastMoneyWon();
-					tmpPlayerResult.playerMoney = (*i)->getMyCash();
+					playerResult->cardsValue = (*i)->getMyCardsValueInt();
+					playerResult->moneyWon = (*i)->getLastMoneyWon();
+					playerResult->playerMoney = (*i)->getMyCash();
 
-					endHandData.playerResults.push_back(tmpPlayerResult);
+					ASN_SEQUENCE_ADD(&endHandShow->playerResults.list, playerResult);
 					++i;
 				}
-				static_cast<NetPacketEndOfHandShowCards *>(endHand.get())->SetData(endHandData);
-
 				server->SendToAllPlayers(endHand, SessionData::Game);
 			}
 
@@ -934,11 +948,11 @@ ServerGameStateHand::TimerNextGame(const boost::system::error_code &ec, boost::s
 
 		if (winnerPlayer)
 		{
-			boost::shared_ptr<NetPacket> endGame(new NetPacketEndOfGame);
-			NetPacketEndOfGame::Data endGameData;
-			endGameData.winnerPlayerId = winnerPlayer->getMyUniqueID();
-			static_cast<NetPacketEndOfGame *>(endGame.get())->SetData(endGameData);
-
+			boost::shared_ptr<NetPacket> endGame(new NetPacket(NetPacket::Alloc));
+			endGame->GetMsg()->present = PokerTHMessage_PR_endOfGameMessage;
+			EndOfGameMessage_t *netEndGame = &endGame->GetMsg()->choice.endOfGameMessage;
+			netEndGame->gameId = server->GetId();
+			netEndGame->winnerPlayerId = winnerPlayer->getMyUniqueID();
 			server->SendToAllPlayers(endGame, SessionData::Game);
 
 			// Wait for the start of a new game.
@@ -1002,13 +1016,14 @@ ServerGameStateHand::StartNewHand(boost::shared_ptr<ServerGame> server)
 		{
 			int cards[2];
 			tmpPlayer->getMyCards(cards);
-			boost::shared_ptr<NetPacket> notifyCards(new NetPacketHandStart);
-			NetPacketHandStart::Data handStartData;
-			handStartData.yourCards[0] = static_cast<unsigned>(cards[0]);
-			handStartData.yourCards[1] = static_cast<unsigned>(cards[1]);
-			handStartData.smallBlind = curGame.getCurrentHand()->getSmallBlind();
-			static_cast<NetPacketHandStart *>(notifyCards.get())->SetData(handStartData);
 
+			boost::shared_ptr<NetPacket> notifyCards(new NetPacket(NetPacket::Alloc));
+			notifyCards->GetMsg()->present = PokerTHMessage_PR_handStartMessage;
+			HandStartMessage_t *netHandStart = &notifyCards->GetMsg()->choice.handStartMessage;
+			netHandStart->gameId = server->GetId();
+			netHandStart->yourCard1 = cards[0];
+			netHandStart->yourCard2 = cards[1];
+			netHandStart->smallBlind = curGame.getCurrentHand()->getSmallBlind();
 			server->GetLobbyThread().GetSender().Send(tmpPlayer->getNetSessionData(), notifyCards);
 		}
 		++i;
@@ -1026,16 +1041,17 @@ ServerGameStateHand::StartNewHand(boost::shared_ptr<ServerGame> server)
 		boost::shared_ptr<PlayerInterface> tmpPlayer = *i;
 		if (tmpPlayer->getMyButton() == BUTTON_SMALL_BLIND)
 		{
-			boost::shared_ptr<NetPacket> notifySmallBlind(new NetPacketPlayersActionDone);
-			NetPacketPlayersActionDone::Data actionDoneData;
-			actionDoneData.gameState = GAME_STATE_PREFLOP_SMALL_BLIND;
-			actionDoneData.playerId = tmpPlayer->getMyUniqueID();
-			actionDoneData.playerAction = (PlayerAction)tmpPlayer->getMyAction();
-			actionDoneData.totalPlayerBet = tmpPlayer->getMySet();
-			actionDoneData.playerMoney = tmpPlayer->getMyCash();
-			actionDoneData.highestSet = server->GetGame().getCurrentHand()->getCurrentBeRo()->getHighestSet();
-			actionDoneData.minimumRaise = server->GetGame().getCurrentHand()->getCurrentBeRo()->getMinimumRaise();
-			static_cast<NetPacketPlayersActionDone *>(notifySmallBlind.get())->SetData(actionDoneData);
+			boost::shared_ptr<NetPacket> notifySmallBlind(new NetPacket(NetPacket::Alloc));
+			notifySmallBlind->GetMsg()->present = PokerTHMessage_PR_playersActionDoneMessage;
+			PlayersActionDoneMessage_t *netSmallBlind = &notifySmallBlind->GetMsg()->choice.playersActionDoneMessage;
+			netSmallBlind->gameId = server->GetId();
+			netSmallBlind->gameState = NetGameState_statePreflopSmallBlind;
+			netSmallBlind->playerId = tmpPlayer->getMyUniqueID();
+			netSmallBlind->playerAction = tmpPlayer->getMyAction();
+			netSmallBlind->totalPlayerBet = tmpPlayer->getMySet();
+			netSmallBlind->playerMoney = tmpPlayer->getMyCash();
+			netSmallBlind->highestSet = server->GetGame().getCurrentHand()->getCurrentBeRo()->getHighestSet();
+			netSmallBlind->minimumRaise = server->GetGame().getCurrentHand()->getCurrentBeRo()->getMinimumRaise();
 			server->SendToAllPlayers(notifySmallBlind, SessionData::Game);
 			break;
 		}
@@ -1049,16 +1065,17 @@ ServerGameStateHand::StartNewHand(boost::shared_ptr<ServerGame> server)
 		boost::shared_ptr<PlayerInterface> tmpPlayer = *i;
 		if (tmpPlayer->getMyButton() == BUTTON_BIG_BLIND)
 		{
-			boost::shared_ptr<NetPacket> notifyBigBlind(new NetPacketPlayersActionDone);
-			NetPacketPlayersActionDone::Data actionDoneData;
-			actionDoneData.gameState = GAME_STATE_PREFLOP_BIG_BLIND;
-			actionDoneData.playerId = tmpPlayer->getMyUniqueID();
-			actionDoneData.playerAction = (PlayerAction)tmpPlayer->getMyAction();
-			actionDoneData.totalPlayerBet = tmpPlayer->getMySet();
-			actionDoneData.playerMoney = tmpPlayer->getMyCash();
-			actionDoneData.highestSet = server->GetGame().getCurrentHand()->getCurrentBeRo()->getHighestSet();
-			actionDoneData.minimumRaise = server->GetGame().getCurrentHand()->getCurrentBeRo()->getMinimumRaise();
-			static_cast<NetPacketPlayersActionDone *>(notifyBigBlind.get())->SetData(actionDoneData);
+			boost::shared_ptr<NetPacket> notifyBigBlind(new NetPacket(NetPacket::Alloc));
+			notifyBigBlind->GetMsg()->present = PokerTHMessage_PR_playersActionDoneMessage;
+			PlayersActionDoneMessage_t *netBigBlind = &notifyBigBlind->GetMsg()->choice.playersActionDoneMessage;
+			netBigBlind->gameId = server->GetId();
+			netBigBlind->gameState = NetGameState_statePreflopBigBlind;
+			netBigBlind->playerId = tmpPlayer->getMyUniqueID();
+			netBigBlind->playerAction = tmpPlayer->getMyAction();
+			netBigBlind->totalPlayerBet = tmpPlayer->getMySet();
+			netBigBlind->playerMoney = tmpPlayer->getMyCash();
+			netBigBlind->highestSet = server->GetGame().getCurrentHand()->getCurrentBeRo()->getHighestSet();
+			netBigBlind->minimumRaise = server->GetGame().getCurrentHand()->getCurrentBeRo()->getMinimumRaise();
 			server->SendToAllPlayers(notifyBigBlind, SessionData::Game);
 			break;
 		}
@@ -1116,11 +1133,11 @@ ServerGameStateWaitPlayerAction::HandleNewSession(boost::shared_ptr<ServerGame> 
 void
 ServerGameStateWaitPlayerAction::InternalProcessPacket(boost::shared_ptr<ServerGame> server, SessionWrapper session, boost::shared_ptr<NetPacket> packet)
 {
-	if (packet->ToNetPacketPlayersAction())
+	if (packet->GetMsg()->present == PokerTHMessage_PR_myActionRequestMessage)
 	{
-		NetPacketPlayersAction::Data actionData;
-		packet->ToNetPacketPlayersAction()->GetData(actionData);
+		MyActionRequestMessage_t *netMyAction = &packet->GetMsg()->choice.myActionRequestMessage;
 
+		// TODO consider game id.
 		Game &curGame = server->GetGame();
 		boost::shared_ptr<PlayerInterface> tmpPlayer = curGame.getPlayerByUniqueId(session.playerData->GetUniqueId());
 		if (!tmpPlayer.get())
@@ -1128,7 +1145,7 @@ ServerGameStateWaitPlayerAction::InternalProcessPacket(boost::shared_ptr<ServerG
 
 		// Check whether this is the correct round.
 		PlayerActionCode code = ACTION_CODE_VALID;
-		if (curGame.getCurrentHand()->getCurrentRound() != actionData.gameState)
+		if (curGame.getCurrentHand()->getCurrentRound() != netMyAction->gameState)
 			code = ACTION_CODE_INVALID_STATE;
 
 		// Check whether this is the correct player.
@@ -1140,21 +1157,21 @@ ServerGameStateWaitPlayerAction::InternalProcessPacket(boost::shared_ptr<ServerG
 		}
 
 		// If the client omitted some values, fill them in.
-		if (actionData.playerAction == PLAYER_ACTION_CALL && actionData.playerBet == 0)
+		if (netMyAction->myAction == PLAYER_ACTION_CALL && netMyAction->myRelativeBet == 0)
 		{
 			if (curGame.getCurrentHand()->getCurrentBeRo()->getHighestSet() >= tmpPlayer->getMySet() + tmpPlayer->getMyCash())
-				actionData.playerAction = PLAYER_ACTION_ALLIN;
+				netMyAction->myAction = PLAYER_ACTION_ALLIN;
 			else
-				actionData.playerBet = curGame.getCurrentHand()->getCurrentBeRo()->getHighestSet() - tmpPlayer->getMySet();
+				netMyAction->myRelativeBet = curGame.getCurrentHand()->getCurrentBeRo()->getHighestSet() - tmpPlayer->getMySet();
 		}
-		if (actionData.playerAction == PLAYER_ACTION_ALLIN && actionData.playerBet == 0)
-			actionData.playerBet = tmpPlayer->getMyCash();
+		if (netMyAction->myAction == PLAYER_ACTION_ALLIN && netMyAction->myRelativeBet == 0)
+			netMyAction->myRelativeBet = tmpPlayer->getMyCash();
 
 		// Check whether the action is valid.
 		if (code == ACTION_CODE_VALID
 			&& (tmpPlayer->checkMyAction(
-					actionData.playerAction,
-					actionData.playerBet,
+					netMyAction->myAction,
+					netMyAction->myRelativeBet,
 					curGame.getCurrentHand()->getCurrentBeRo()->getHighestSet(),
 					curGame.getCurrentHand()->getCurrentBeRo()->getMinimumRaise(),
 					curGame.getCurrentHand()->getSmallBlind()) != 0))
@@ -1164,19 +1181,20 @@ ServerGameStateWaitPlayerAction::InternalProcessPacket(boost::shared_ptr<ServerG
 
 		if (code == ACTION_CODE_VALID)
 		{
-			PerformPlayerAction(*server, tmpPlayer, actionData.playerAction, actionData.playerBet);
+			PerformPlayerAction(*server, tmpPlayer, static_cast<PlayerAction>(netMyAction->myAction), netMyAction->myRelativeBet);
 			server->SetState(ServerGameStateHand::Instance());
 		}
 		else
 		{
 			// Send reject message.
-			boost::shared_ptr<NetPacket> reject(new NetPacketPlayersActionRejected);
-			NetPacketPlayersActionRejected::Data rejectData;
-			rejectData.gameState = actionData.gameState;
-			rejectData.playerAction = actionData.playerAction;
-			rejectData.playerBet = actionData.playerBet;
-			rejectData.rejectionReason = code;
-			static_cast<NetPacketPlayersActionRejected *>(reject.get())->SetData(rejectData);
+			boost::shared_ptr<NetPacket> reject(new NetPacket(NetPacket::Alloc));
+			reject->GetMsg()->present = PokerTHMessage_PR_yourActionRejectedMessage;
+			YourActionRejectedMessage_t *netActionRejected = &reject->GetMsg()->choice.yourActionRejectedMessage;
+			netActionRejected->gameId = server->GetId();
+			netActionRejected->gameState = netMyAction->gameState;
+			netActionRejected->yourAction = netMyAction->myAction;
+			netActionRejected->yourRelativeBet = netMyAction->myRelativeBet;
+			netActionRejected->rejectionReason = code;
 			server->GetLobbyThread().GetSender().Send(session.sessionData, reject);
 		}
 	}
