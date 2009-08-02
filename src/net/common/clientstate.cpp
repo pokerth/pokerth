@@ -819,29 +819,26 @@ AbstractClientStateReceiving::HandlePacket(boost::shared_ptr<ClientThread> clien
 			NonZeroId_t **playerIds = netListNew->playerIds.list.array;
 			unsigned numPlayers = netListNew->playerIds.list.count;
 			// Request player info for players if needed.
-			if (numPlayers && playerIds && *playerIds)
+			GameInfo tmpInfo;
+			for (unsigned i = 0; i < numPlayers; i++)
 			{
-				GameInfo tmpInfo;
-				for (unsigned i = 0; i < numPlayers; i++)
+				PlayerInfo info;
+				unsigned playerId = *playerIds[i];
+				if (!client->GetCachedPlayerInfo(playerId, info))
 				{
-					PlayerInfo info;
-					unsigned playerId = *playerIds[i];
-					if (!client->GetCachedPlayerInfo(playerId, info))
-					{
-						// Request player info.
-						client->RequestPlayerInfo(playerId);
-					}
-					tmpInfo.players.push_back(playerId);
-					++i;
+					// Request player info.
+					client->RequestPlayerInfo(playerId);
 				}
-				tmpInfo.adminPlayerId = netListNew->adminPlayerId;
-				tmpInfo.isPasswordProtected = netListNew->isPrivate ? true : false;
-				tmpInfo.mode = GAME_MODE_CREATED;
-				tmpInfo.name = STL_STRING_FROM_OCTET_STRING(netListNew->gameInfo.gameName);
-				NetPacket::GetGameData(&netListNew->gameInfo, tmpInfo.data);
-
-				client->AddGameInfo(gameId, tmpInfo);
+				tmpInfo.players.push_back(playerId);
+				++i;
 			}
+			tmpInfo.adminPlayerId = netListNew->adminPlayerId;
+			tmpInfo.isPasswordProtected = netListNew->isPrivate ? true : false;
+			tmpInfo.mode = GAME_MODE_CREATED;
+			tmpInfo.name = STL_STRING_FROM_OCTET_STRING(netListNew->gameInfo.gameName);
+			NetPacket::GetGameData(&netListNew->gameInfo, tmpInfo.data);
+
+			client->AddGameInfo(gameId, tmpInfo);
 		}
 		else if (netGameList->gameListNotification.present == gameListNotification_PR_gameListUpdate)
 		{
@@ -1593,22 +1590,19 @@ ClientStateRunHand::InternalHandlePacket(boost::shared_ptr<ClientThread> client,
 		PlayerAllIn_t **allInPlayers = netAllInShow->playersAllIn.list.array;
 		unsigned numPlayers = netAllInShow->playersAllIn.list.count;
 		// Request player info for players if needed.
-		if (numPlayers && allInPlayers && *allInPlayers)
+		for (unsigned i = 0; i < numPlayers; i++)
 		{
-			for (unsigned i = 0; i < numPlayers; i++)
-			{
-				PlayerAllIn_t *p = allInPlayers[i];
+			PlayerAllIn_t *p = allInPlayers[i];
 
-				boost::shared_ptr<PlayerInterface> tmpPlayer = curGame->getPlayerByUniqueId(p->playerId);
-				if (!tmpPlayer)
-					throw ClientException(__FILE__, __LINE__, ERR_NET_UNKNOWN_PLAYER_ID, 0);
+			boost::shared_ptr<PlayerInterface> tmpPlayer = curGame->getPlayerByUniqueId(p->playerId);
+			if (!tmpPlayer)
+				throw ClientException(__FILE__, __LINE__, ERR_NET_UNKNOWN_PLAYER_ID, 0);
 
-				int tmpCards[2];
-				tmpCards[0] = static_cast<int>(p->allInCard1);
-				tmpCards[1] = static_cast<int>(p->allInCard2);
-				tmpPlayer->setMyCards(tmpCards);
-				++i;
-			}
+			int tmpCards[2];
+			tmpCards[0] = static_cast<int>(p->allInCard1);
+			tmpCards[1] = static_cast<int>(p->allInCard2);
+			tmpPlayer->setMyCards(tmpCards);
+			++i;
 		}
 		client->GetGui().flipHolecardsAllIn();
 	}
@@ -1664,32 +1658,29 @@ ClientStateRunHand::InternalHandlePacket(boost::shared_ptr<ClientThread> client,
 			PlayerResult_t **playerResults = showCards->playerResults.list.array;
 			unsigned numResults = showCards->playerResults.list.count;
 			// Request player info for players if needed.
-			if (numResults && playerResults && *playerResults)
+			for (unsigned i = 0; i < numResults; i++)
 			{
-				for (unsigned i = 0; i < numResults; i++)
-				{
-					PlayerResult_t *r = playerResults[i];
+				PlayerResult_t *r = playerResults[i];
 
-					boost::shared_ptr<PlayerInterface> tmpPlayer = curGame->getPlayerByUniqueId(r->playerId);
-					if (!tmpPlayer)
-						throw ClientException(__FILE__, __LINE__, ERR_NET_UNKNOWN_PLAYER_ID, 0);
+				boost::shared_ptr<PlayerInterface> tmpPlayer = curGame->getPlayerByUniqueId(r->playerId);
+				if (!tmpPlayer)
+					throw ClientException(__FILE__, __LINE__, ERR_NET_UNKNOWN_PLAYER_ID, 0);
 
-					int tmpCards[2];
-					int bestHandPos[5];
-					tmpCards[0] = static_cast<int>(r->resultCard1);
-					tmpCards[1] = static_cast<int>(r->resultCard2);
-					tmpPlayer->setMyCards(tmpCards);
-					for (int num = 0; num < 5; num++)
-						bestHandPos[num] = *r->bestHandPosition.list.array[num];
-					tmpPlayer->setMyCardsValueInt(r->cardsValue);
-					tmpPlayer->setMyBestHandPosition(bestHandPos);
-					if (tmpPlayer->getMyCardsValueInt() > highestValueOfCards)
-						highestValueOfCards = tmpPlayer->getMyCardsValueInt();
-					tmpPlayer->setMyCash(r->playerMoney);
-					tmpPlayer->setLastMoneyWon(r->moneyWon);
-					if (r->moneyWon)
-						winnerList.push_back(r->playerId);
-				}
+				int tmpCards[2];
+				int bestHandPos[5];
+				tmpCards[0] = static_cast<int>(r->resultCard1);
+				tmpCards[1] = static_cast<int>(r->resultCard2);
+				tmpPlayer->setMyCards(tmpCards);
+				for (int num = 0; num < 5; num++)
+					bestHandPos[num] = *r->bestHandPosition.list.array[num];
+				tmpPlayer->setMyCardsValueInt(r->cardsValue);
+				tmpPlayer->setMyBestHandPosition(bestHandPos);
+				if (tmpPlayer->getMyCardsValueInt() > highestValueOfCards)
+					highestValueOfCards = tmpPlayer->getMyCardsValueInt();
+				tmpPlayer->setMyCash(r->playerMoney);
+				tmpPlayer->setLastMoneyWon(r->moneyWon);
+				if (r->moneyWon)
+					winnerList.push_back(r->playerId);
 			}
 	
 			curGame->getCurrentHand()->getCurrentBeRo()->setHighestCardsValue(highestValueOfCards);
