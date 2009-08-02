@@ -240,7 +240,8 @@ unix : !mac {
         BSD = $$find(UNAME, "BSD")
         kFreeBSD = $$find(UNAME, "kFreeBSD")
 
-        LIBS += -lpokerth_lib
+        LIBS += -lpokerth_lib \
+				-lpokerth_protocol
         LIBS += $$BOOST_LIBS
         LIBS += -lcurl
         !isEmpty( BSD ) && isEmpty( kFreeBSD ){
@@ -249,7 +250,8 @@ unix : !mac {
             LIBS += -lgnutls-openssl -lgcrypt
         }
 
-        TARGETDEPS += ./lib/libpokerth_lib.a
+        TARGETDEPS += ./lib/libpokerth_lib.a \
+					  ./lib/libpokerth_protocol.a
 
         #### INSTALL ####
 

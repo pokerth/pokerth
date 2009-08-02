@@ -400,14 +400,16 @@ unix:!mac {
     UNAME = $$system(uname -s)
     BSD = $$find(UNAME, "BSD")
     kFreeBSD = $$find(UNAME, "kFreeBSD")
-    LIBS += -lpokerth_lib
+    LIBS += -lpokerth_lib \
+			-lpokerth_protocol
     LIBS += $$BOOST_LIBS
     LIBS += -lSDL_mixer \
         -lcurl
     !isEmpty( BSD ) && isEmpty( kFreeBSD ):LIBS += -lcrypto
     else:LIBS += -lgnutls-openssl \
         -lgcrypt
-    TARGETDEPS += ./lib/libpokerth_lib.a
+    TARGETDEPS += ./lib/libpokerth_lib.a \
+				  ./lib/libpokerth_protocol.a
     
     # #### My release static libs
     # LIBS += -lgcrypt_static -lgpg-error_static -lgnutls-openssl_static -lgnutls_static -lSDL_mixer_static -lSDL -lmikmod -lcurl
