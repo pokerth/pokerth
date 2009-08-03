@@ -770,6 +770,7 @@ ClientThread::ResubscribeLobbyMsg()
 		packet->GetMsg()->present = PokerTHMessage_PR_subscriptionRequestMessage;
 		SubscriptionRequestMessage_t *netRequest = &packet->GetMsg()->choice.subscriptionRequestMessage;
 		netRequest->subscriptionAction = subscriptionAction_resubscribeGameList;
+		GetSender().Send(GetContext().GetSessionData(), packet);
 		GetContext().SetSubscribeLobbyMsg(true);
 	}
 }
