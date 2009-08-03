@@ -833,7 +833,7 @@ AbstractClientStateReceiving::HandlePacket(boost::shared_ptr<ClientThread> clien
 			}
 			tmpInfo.adminPlayerId = netListNew->adminPlayerId;
 			tmpInfo.isPasswordProtected = netListNew->isPrivate ? true : false;
-			tmpInfo.mode = GAME_MODE_CREATED;
+			tmpInfo.mode = static_cast<GameMode>(netListNew->gameMode);
 			tmpInfo.name = STL_STRING_FROM_OCTET_STRING(netListNew->gameInfo.gameName);
 			NetPacket::GetGameData(&netListNew->gameInfo, tmpInfo.data);
 
