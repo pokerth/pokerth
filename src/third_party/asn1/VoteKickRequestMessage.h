@@ -21,6 +21,7 @@ extern "C" {
 
 /* VoteKickRequestMessage */
 typedef struct VoteKickRequestMessage {
+	NonZeroId_t	 gameId;
 	NonZeroId_t	 petitionId;
 	BOOLEAN_t	 voteKick;
 	/*

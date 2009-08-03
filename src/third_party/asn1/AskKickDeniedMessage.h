@@ -30,6 +30,7 @@ typedef enum kickDeniedReason {
 
 /* AskKickDeniedMessage */
 typedef struct AskKickDeniedMessage {
+	NonZeroId_t	 gameId;
 	NonZeroId_t	 playerId;
 	long	 kickDeniedReason;
 	/*
@@ -42,7 +43,7 @@ typedef struct AskKickDeniedMessage {
 } AskKickDeniedMessage_t;
 
 /* Implementation */
-/* extern asn_TYPE_descriptor_t asn_DEF_kickDeniedReason_3;	// (Use -fall-defs-global to expose) */
+/* extern asn_TYPE_descriptor_t asn_DEF_kickDeniedReason_4;	// (Use -fall-defs-global to expose) */
 extern asn_TYPE_descriptor_t asn_DEF_AskKickDeniedMessage;
 
 #ifdef __cplusplus

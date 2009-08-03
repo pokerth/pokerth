@@ -20,6 +20,7 @@ extern "C" {
 
 /* AskKickPlayerMessage */
 typedef struct AskKickPlayerMessage {
+	NonZeroId_t	 gameId;
 	NonZeroId_t	 playerId;
 	/*
 	 * This type is extensible,

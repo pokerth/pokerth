@@ -84,6 +84,15 @@ memb_numVotesNeededToKick_constraint_1(asn_TYPE_descriptor_t *td, const void *sp
 }
 
 static asn_TYPE_member_t asn_MBR_KickPetitionUpdateMessage_1[] = {
+	{ ATF_NOFLAGS, 0, offsetof(struct KickPetitionUpdateMessage, gameId),
+		(ASN_TAG_CLASS_UNIVERSAL | (2 << 2)),
+		0,
+		&asn_DEF_NonZeroId,
+		0,	/* Defer constraints checking to the member type */
+		0,	/* PER is not compiled, use -gen-PER */
+		0,
+		"gameId"
+		},
 	{ ATF_NOFLAGS, 0, offsetof(struct KickPetitionUpdateMessage, petitionId),
 		(ASN_TAG_CLASS_UNIVERSAL | (2 << 2)),
 		0,
@@ -126,19 +135,20 @@ static ber_tlv_tag_t asn_DEF_KickPetitionUpdateMessage_tags_1[] = {
 	(ASN_TAG_CLASS_UNIVERSAL | (16 << 2))
 };
 static asn_TYPE_tag2member_t asn_MAP_KickPetitionUpdateMessage_tag2el_1[] = {
-    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 0, 0, 3 }, /* petitionId at 490 */
-    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 1, -1, 2 }, /* numVotesAgainstKicking at 491 */
-    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 2, -2, 1 }, /* numVotesInFavourOfKicking at 492 */
-    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 3, -3, 0 } /* numVotesNeededToKick at 493 */
+    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 0, 0, 4 }, /* gameId at 495 */
+    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 1, -1, 3 }, /* petitionId at 496 */
+    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 2, -2, 2 }, /* numVotesAgainstKicking at 497 */
+    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 3, -3, 1 }, /* numVotesInFavourOfKicking at 498 */
+    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 4, -4, 0 } /* numVotesNeededToKick at 499 */
 };
 static asn_SEQUENCE_specifics_t asn_SPC_KickPetitionUpdateMessage_specs_1 = {
 	sizeof(struct KickPetitionUpdateMessage),
 	offsetof(struct KickPetitionUpdateMessage, _asn_ctx),
 	asn_MAP_KickPetitionUpdateMessage_tag2el_1,
-	4,	/* Count of tags in the map */
+	5,	/* Count of tags in the map */
 	0, 0, 0,	/* Optional elements (not needed) */
-	3,	/* Start extensions */
-	5	/* Stop extensions */
+	4,	/* Start extensions */
+	6	/* Stop extensions */
 };
 asn_TYPE_descriptor_t asn_DEF_KickPetitionUpdateMessage = {
 	"KickPetitionUpdateMessage",
@@ -160,7 +170,7 @@ asn_TYPE_descriptor_t asn_DEF_KickPetitionUpdateMessage = {
 		/sizeof(asn_DEF_KickPetitionUpdateMessage_tags_1[0]), /* 2 */
 	0,	/* No PER visible constraints */
 	asn_MBR_KickPetitionUpdateMessage_1,
-	4,	/* Elements count */
+	5,	/* Elements count */
 	&asn_SPC_KickPetitionUpdateMessage_specs_1	/* Additional specs */
 };
 

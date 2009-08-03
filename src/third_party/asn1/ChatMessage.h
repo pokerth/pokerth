@@ -21,8 +21,8 @@ extern "C" {
 
 /* ChatMessage */
 typedef struct ChatMessage {
-	Id_t	 playerId;
 	Id_t	 gameId;
+	Id_t	 playerId;
 	UTF8String_t	 chatText;
 	/*
 	 * This type is extensible,

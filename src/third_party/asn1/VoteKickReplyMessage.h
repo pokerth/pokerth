@@ -32,6 +32,7 @@ typedef enum voteKickReplyType_PR {
 
 /* VoteKickReplyMessage */
 typedef struct VoteKickReplyMessage {
+	NonZeroId_t	 gameId;
 	NonZeroId_t	 petitionId;
 	struct voteKickReplyType {
 		voteKickReplyType_PR present;

@@ -21,6 +21,7 @@ extern "C" {
 
 /* KickPetitionUpdateMessage */
 typedef struct KickPetitionUpdateMessage {
+	NonZeroId_t	 gameId;
 	NonZeroId_t	 petitionId;
 	long	 numVotesAgainstKicking;
 	long	 numVotesInFavourOfKicking;

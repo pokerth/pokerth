@@ -9,7 +9,7 @@
 #include "EndKickPetitionMessage.h"
 
 static int
-petitionEndReason_6_constraint(asn_TYPE_descriptor_t *td, const void *sptr,
+petitionEndReason_7_constraint(asn_TYPE_descriptor_t *td, const void *sptr,
 			asn_app_constraint_failed_f *ctfailcb, void *app_key) {
 	/* Replace with underlying type checker */
 	td->check_constraints = asn_DEF_NativeEnumerated.check_constraints;
@@ -21,7 +21,7 @@ petitionEndReason_6_constraint(asn_TYPE_descriptor_t *td, const void *sptr,
  * so here we adjust the DEF accordingly.
  */
 static void
-petitionEndReason_6_inherit_TYPE_descriptor(asn_TYPE_descriptor_t *td) {
+petitionEndReason_7_inherit_TYPE_descriptor(asn_TYPE_descriptor_t *td) {
 	td->free_struct    = asn_DEF_NativeEnumerated.free_struct;
 	td->print_struct   = asn_DEF_NativeEnumerated.print_struct;
 	td->ber_decoder    = asn_DEF_NativeEnumerated.ber_decoder;
@@ -38,46 +38,46 @@ petitionEndReason_6_inherit_TYPE_descriptor(asn_TYPE_descriptor_t *td) {
 }
 
 static void
-petitionEndReason_6_free(asn_TYPE_descriptor_t *td,
+petitionEndReason_7_free(asn_TYPE_descriptor_t *td,
 		void *struct_ptr, int contents_only) {
-	petitionEndReason_6_inherit_TYPE_descriptor(td);
+	petitionEndReason_7_inherit_TYPE_descriptor(td);
 	td->free_struct(td, struct_ptr, contents_only);
 }
 
 static int
-petitionEndReason_6_print(asn_TYPE_descriptor_t *td, const void *struct_ptr,
+petitionEndReason_7_print(asn_TYPE_descriptor_t *td, const void *struct_ptr,
 		int ilevel, asn_app_consume_bytes_f *cb, void *app_key) {
-	petitionEndReason_6_inherit_TYPE_descriptor(td);
+	petitionEndReason_7_inherit_TYPE_descriptor(td);
 	return td->print_struct(td, struct_ptr, ilevel, cb, app_key);
 }
 
 static asn_dec_rval_t
-petitionEndReason_6_decode_ber(asn_codec_ctx_t *opt_codec_ctx, asn_TYPE_descriptor_t *td,
+petitionEndReason_7_decode_ber(asn_codec_ctx_t *opt_codec_ctx, asn_TYPE_descriptor_t *td,
 		void **structure, const void *bufptr, size_t size, int tag_mode) {
-	petitionEndReason_6_inherit_TYPE_descriptor(td);
+	petitionEndReason_7_inherit_TYPE_descriptor(td);
 	return td->ber_decoder(opt_codec_ctx, td, structure, bufptr, size, tag_mode);
 }
 
 static asn_enc_rval_t
-petitionEndReason_6_encode_der(asn_TYPE_descriptor_t *td,
+petitionEndReason_7_encode_der(asn_TYPE_descriptor_t *td,
 		void *structure, int tag_mode, ber_tlv_tag_t tag,
 		asn_app_consume_bytes_f *cb, void *app_key) {
-	petitionEndReason_6_inherit_TYPE_descriptor(td);
+	petitionEndReason_7_inherit_TYPE_descriptor(td);
 	return td->der_encoder(td, structure, tag_mode, tag, cb, app_key);
 }
 
 static asn_dec_rval_t
-petitionEndReason_6_decode_xer(asn_codec_ctx_t *opt_codec_ctx, asn_TYPE_descriptor_t *td,
+petitionEndReason_7_decode_xer(asn_codec_ctx_t *opt_codec_ctx, asn_TYPE_descriptor_t *td,
 		void **structure, const char *opt_mname, const void *bufptr, size_t size) {
-	petitionEndReason_6_inherit_TYPE_descriptor(td);
+	petitionEndReason_7_inherit_TYPE_descriptor(td);
 	return td->xer_decoder(opt_codec_ctx, td, structure, opt_mname, bufptr, size);
 }
 
 static asn_enc_rval_t
-petitionEndReason_6_encode_xer(asn_TYPE_descriptor_t *td, void *structure,
+petitionEndReason_7_encode_xer(asn_TYPE_descriptor_t *td, void *structure,
 		int ilevel, enum xer_encoder_flags_e flags,
 		asn_app_consume_bytes_f *cb, void *app_key) {
-	petitionEndReason_6_inherit_TYPE_descriptor(td);
+	petitionEndReason_7_inherit_TYPE_descriptor(td);
 	return td->xer_encoder(td, structure, ilevel, flags, cb, app_key);
 }
 
@@ -131,55 +131,64 @@ memb_numVotesInFavourOfKicking_constraint_1(asn_TYPE_descriptor_t *td, const voi
 	}
 }
 
-static asn_INTEGER_enum_map_t asn_MAP_petitionEndReason_value2enum_6[] = {
+static asn_INTEGER_enum_map_t asn_MAP_petitionEndReason_value2enum_7[] = {
 	{ 0,	22,	"petitionEndEnoughVotes" },
 	{ 1,	24,	"petitionEndTooFewPlayers" },
 	{ 2,	21,	"petitionEndPlayerLeft" },
 	{ 3,	18,	"petitionEndTimeout" }
 };
-static unsigned int asn_MAP_petitionEndReason_enum2value_6[] = {
+static unsigned int asn_MAP_petitionEndReason_enum2value_7[] = {
 	0,	/* petitionEndEnoughVotes(0) */
 	2,	/* petitionEndPlayerLeft(2) */
 	3,	/* petitionEndTimeout(3) */
 	1	/* petitionEndTooFewPlayers(1) */
 };
-static asn_INTEGER_specifics_t asn_SPC_petitionEndReason_specs_6 = {
-	asn_MAP_petitionEndReason_value2enum_6,	/* "tag" => N; sorted by tag */
-	asn_MAP_petitionEndReason_enum2value_6,	/* N => "tag"; sorted by N */
+static asn_INTEGER_specifics_t asn_SPC_petitionEndReason_specs_7 = {
+	asn_MAP_petitionEndReason_value2enum_7,	/* "tag" => N; sorted by tag */
+	asn_MAP_petitionEndReason_enum2value_7,	/* N => "tag"; sorted by N */
 	4,	/* Number of elements in the maps */
 	0,	/* Enumeration is not extensible */
 	1,	/* Strict enumeration */
 	0,	/* Native long size */
 	0
 };
-static ber_tlv_tag_t asn_DEF_petitionEndReason_tags_6[] = {
+static ber_tlv_tag_t asn_DEF_petitionEndReason_tags_7[] = {
 	(ASN_TAG_CLASS_UNIVERSAL | (10 << 2))
 };
 static /* Use -fall-defs-global to expose */
-asn_TYPE_descriptor_t asn_DEF_petitionEndReason_6 = {
+asn_TYPE_descriptor_t asn_DEF_petitionEndReason_7 = {
 	"petitionEndReason",
 	"petitionEndReason",
-	petitionEndReason_6_free,
-	petitionEndReason_6_print,
-	petitionEndReason_6_constraint,
-	petitionEndReason_6_decode_ber,
-	petitionEndReason_6_encode_der,
-	petitionEndReason_6_decode_xer,
-	petitionEndReason_6_encode_xer,
+	petitionEndReason_7_free,
+	petitionEndReason_7_print,
+	petitionEndReason_7_constraint,
+	petitionEndReason_7_decode_ber,
+	petitionEndReason_7_encode_der,
+	petitionEndReason_7_decode_xer,
+	petitionEndReason_7_encode_xer,
 	0, 0,	/* No PER support, use "-gen-PER" to enable */
 	0,	/* Use generic outmost tag fetcher */
-	asn_DEF_petitionEndReason_tags_6,
-	sizeof(asn_DEF_petitionEndReason_tags_6)
-		/sizeof(asn_DEF_petitionEndReason_tags_6[0]), /* 1 */
-	asn_DEF_petitionEndReason_tags_6,	/* Same as above */
-	sizeof(asn_DEF_petitionEndReason_tags_6)
-		/sizeof(asn_DEF_petitionEndReason_tags_6[0]), /* 1 */
+	asn_DEF_petitionEndReason_tags_7,
+	sizeof(asn_DEF_petitionEndReason_tags_7)
+		/sizeof(asn_DEF_petitionEndReason_tags_7[0]), /* 1 */
+	asn_DEF_petitionEndReason_tags_7,	/* Same as above */
+	sizeof(asn_DEF_petitionEndReason_tags_7)
+		/sizeof(asn_DEF_petitionEndReason_tags_7[0]), /* 1 */
 	0,	/* No PER visible constraints */
 	0, 0,	/* Defined elsewhere */
-	&asn_SPC_petitionEndReason_specs_6	/* Additional specs */
+	&asn_SPC_petitionEndReason_specs_7	/* Additional specs */
 };
 
 static asn_TYPE_member_t asn_MBR_EndKickPetitionMessage_1[] = {
+	{ ATF_NOFLAGS, 0, offsetof(struct EndKickPetitionMessage, gameId),
+		(ASN_TAG_CLASS_UNIVERSAL | (2 << 2)),
+		0,
+		&asn_DEF_NonZeroId,
+		0,	/* Defer constraints checking to the member type */
+		0,	/* PER is not compiled, use -gen-PER */
+		0,
+		"gameId"
+		},
 	{ ATF_NOFLAGS, 0, offsetof(struct EndKickPetitionMessage, petitionId),
 		(ASN_TAG_CLASS_UNIVERSAL | (2 << 2)),
 		0,
@@ -219,7 +228,7 @@ static asn_TYPE_member_t asn_MBR_EndKickPetitionMessage_1[] = {
 	{ ATF_NOFLAGS, 0, offsetof(struct EndKickPetitionMessage, petitionEndReason),
 		(ASN_TAG_CLASS_UNIVERSAL | (10 << 2)),
 		0,
-		&asn_DEF_petitionEndReason_6,
+		&asn_DEF_petitionEndReason_7,
 		0,	/* Defer constraints checking to the member type */
 		0,	/* PER is not compiled, use -gen-PER */
 		0,
@@ -231,20 +240,21 @@ static ber_tlv_tag_t asn_DEF_EndKickPetitionMessage_tags_1[] = {
 	(ASN_TAG_CLASS_UNIVERSAL | (16 << 2))
 };
 static asn_TYPE_tag2member_t asn_MAP_EndKickPetitionMessage_tag2el_1[] = {
-    { (ASN_TAG_CLASS_UNIVERSAL | (1 << 2)), 3, 0, 0 }, /* resultPlayerKicked at 500 */
-    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 0, 0, 2 }, /* petitionId at 497 */
-    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 1, -1, 1 }, /* numVotesAgainstKicking at 498 */
-    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 2, -2, 0 }, /* numVotesInFavourOfKicking at 499 */
-    { (ASN_TAG_CLASS_UNIVERSAL | (10 << 2)), 4, 0, 0 } /* petitionEndReason at 502 */
+    { (ASN_TAG_CLASS_UNIVERSAL | (1 << 2)), 4, 0, 0 }, /* resultPlayerKicked at 507 */
+    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 0, 0, 3 }, /* gameId at 503 */
+    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 1, -1, 2 }, /* petitionId at 504 */
+    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 2, -2, 1 }, /* numVotesAgainstKicking at 505 */
+    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 3, -3, 0 }, /* numVotesInFavourOfKicking at 506 */
+    { (ASN_TAG_CLASS_UNIVERSAL | (10 << 2)), 5, 0, 0 } /* petitionEndReason at 509 */
 };
 static asn_SEQUENCE_specifics_t asn_SPC_EndKickPetitionMessage_specs_1 = {
 	sizeof(struct EndKickPetitionMessage),
 	offsetof(struct EndKickPetitionMessage, _asn_ctx),
 	asn_MAP_EndKickPetitionMessage_tag2el_1,
-	5,	/* Count of tags in the map */
+	6,	/* Count of tags in the map */
 	0, 0, 0,	/* Optional elements (not needed) */
-	4,	/* Start extensions */
-	6	/* Stop extensions */
+	5,	/* Start extensions */
+	7	/* Stop extensions */
 };
 asn_TYPE_descriptor_t asn_DEF_EndKickPetitionMessage = {
 	"EndKickPetitionMessage",
@@ -266,7 +276,7 @@ asn_TYPE_descriptor_t asn_DEF_EndKickPetitionMessage = {
 		/sizeof(asn_DEF_EndKickPetitionMessage_tags_1[0]), /* 2 */
 	0,	/* No PER visible constraints */
 	asn_MBR_EndKickPetitionMessage_1,
-	5,	/* Elements count */
+	6,	/* Elements count */
 	&asn_SPC_EndKickPetitionMessage_specs_1	/* Additional specs */
 };
 

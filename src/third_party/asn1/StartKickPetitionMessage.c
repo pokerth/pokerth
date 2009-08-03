@@ -59,6 +59,15 @@ memb_numVotesNeededToKick_constraint_1(asn_TYPE_descriptor_t *td, const void *sp
 }
 
 static asn_TYPE_member_t asn_MBR_StartKickPetitionMessage_1[] = {
+	{ ATF_NOFLAGS, 0, offsetof(struct StartKickPetitionMessage, gameId),
+		(ASN_TAG_CLASS_UNIVERSAL | (2 << 2)),
+		0,
+		&asn_DEF_NonZeroId,
+		0,	/* Defer constraints checking to the member type */
+		0,	/* PER is not compiled, use -gen-PER */
+		0,
+		"gameId"
+		},
 	{ ATF_NOFLAGS, 0, offsetof(struct StartKickPetitionMessage, petitionId),
 		(ASN_TAG_CLASS_UNIVERSAL | (2 << 2)),
 		0,
@@ -110,20 +119,21 @@ static ber_tlv_tag_t asn_DEF_StartKickPetitionMessage_tags_1[] = {
 	(ASN_TAG_CLASS_UNIVERSAL | (16 << 2))
 };
 static asn_TYPE_tag2member_t asn_MAP_StartKickPetitionMessage_tag2el_1[] = {
-    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 0, 0, 4 }, /* petitionId at 459 */
-    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 1, -1, 3 }, /* proposingPlayerId at 460 */
-    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 2, -2, 2 }, /* kickPlayerId at 461 */
-    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 3, -3, 1 }, /* kickTimeoutSec at 462 */
-    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 4, -4, 0 } /* numVotesNeededToKick at 463 */
+    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 0, 0, 5 }, /* gameId at 461 */
+    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 1, -1, 4 }, /* petitionId at 462 */
+    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 2, -2, 3 }, /* proposingPlayerId at 463 */
+    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 3, -3, 2 }, /* kickPlayerId at 464 */
+    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 4, -4, 1 }, /* kickTimeoutSec at 465 */
+    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 5, -5, 0 } /* numVotesNeededToKick at 466 */
 };
 static asn_SEQUENCE_specifics_t asn_SPC_StartKickPetitionMessage_specs_1 = {
 	sizeof(struct StartKickPetitionMessage),
 	offsetof(struct StartKickPetitionMessage, _asn_ctx),
 	asn_MAP_StartKickPetitionMessage_tag2el_1,
-	5,	/* Count of tags in the map */
+	6,	/* Count of tags in the map */
 	0, 0, 0,	/* Optional elements (not needed) */
-	4,	/* Start extensions */
-	6	/* Stop extensions */
+	5,	/* Start extensions */
+	7	/* Stop extensions */
 };
 asn_TYPE_descriptor_t asn_DEF_StartKickPetitionMessage = {
 	"StartKickPetitionMessage",
@@ -145,7 +155,7 @@ asn_TYPE_descriptor_t asn_DEF_StartKickPetitionMessage = {
 		/sizeof(asn_DEF_StartKickPetitionMessage_tags_1[0]), /* 2 */
 	0,	/* No PER visible constraints */
 	asn_MBR_StartKickPetitionMessage_1,
-	5,	/* Elements count */
+	6,	/* Elements count */
 	&asn_SPC_StartKickPetitionMessage_specs_1	/* Additional specs */
 };
 

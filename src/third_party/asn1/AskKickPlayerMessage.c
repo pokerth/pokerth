@@ -9,6 +9,15 @@
 #include "AskKickPlayerMessage.h"
 
 static asn_TYPE_member_t asn_MBR_AskKickPlayerMessage_1[] = {
+	{ ATF_NOFLAGS, 0, offsetof(struct AskKickPlayerMessage, gameId),
+		(ASN_TAG_CLASS_UNIVERSAL | (2 << 2)),
+		0,
+		&asn_DEF_NonZeroId,
+		0,	/* Defer constraints checking to the member type */
+		0,	/* PER is not compiled, use -gen-PER */
+		0,
+		"gameId"
+		},
 	{ ATF_NOFLAGS, 0, offsetof(struct AskKickPlayerMessage, playerId),
 		(ASN_TAG_CLASS_UNIVERSAL | (2 << 2)),
 		0,
@@ -24,16 +33,17 @@ static ber_tlv_tag_t asn_DEF_AskKickPlayerMessage_tags_1[] = {
 	(ASN_TAG_CLASS_UNIVERSAL | (16 << 2))
 };
 static asn_TYPE_tag2member_t asn_MAP_AskKickPlayerMessage_tag2el_1[] = {
-    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 0, 0, 0 } /* playerId at 445 */
+    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 0, 0, 1 }, /* gameId at 444 */
+    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 1, -1, 0 } /* playerId at 446 */
 };
 static asn_SEQUENCE_specifics_t asn_SPC_AskKickPlayerMessage_specs_1 = {
 	sizeof(struct AskKickPlayerMessage),
 	offsetof(struct AskKickPlayerMessage, _asn_ctx),
 	asn_MAP_AskKickPlayerMessage_tag2el_1,
-	1,	/* Count of tags in the map */
+	2,	/* Count of tags in the map */
 	0, 0, 0,	/* Optional elements (not needed) */
-	0,	/* Start extensions */
-	2	/* Stop extensions */
+	1,	/* Start extensions */
+	3	/* Stop extensions */
 };
 asn_TYPE_descriptor_t asn_DEF_AskKickPlayerMessage = {
 	"AskKickPlayerMessage",
@@ -55,7 +65,7 @@ asn_TYPE_descriptor_t asn_DEF_AskKickPlayerMessage = {
 		/sizeof(asn_DEF_AskKickPlayerMessage_tags_1[0]), /* 2 */
 	0,	/* No PER visible constraints */
 	asn_MBR_AskKickPlayerMessage_1,
-	1,	/* Elements count */
+	2,	/* Elements count */
 	&asn_SPC_AskKickPlayerMessage_specs_1	/* Additional specs */
 };
 

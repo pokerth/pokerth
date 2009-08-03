@@ -31,6 +31,7 @@ typedef enum petitionEndReason {
 
 /* EndKickPetitionMessage */
 typedef struct EndKickPetitionMessage {
+	NonZeroId_t	 gameId;
 	NonZeroId_t	 petitionId;
 	long	 numVotesAgainstKicking;
 	long	 numVotesInFavourOfKicking;
@@ -46,7 +47,7 @@ typedef struct EndKickPetitionMessage {
 } EndKickPetitionMessage_t;
 
 /* Implementation */
-/* extern asn_TYPE_descriptor_t asn_DEF_petitionEndReason_6;	// (Use -fall-defs-global to expose) */
+/* extern asn_TYPE_descriptor_t asn_DEF_petitionEndReason_7;	// (Use -fall-defs-global to expose) */
 extern asn_TYPE_descriptor_t asn_DEF_EndKickPetitionMessage;
 
 #ifdef __cplusplus

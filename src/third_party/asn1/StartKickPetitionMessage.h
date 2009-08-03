@@ -21,6 +21,7 @@ extern "C" {
 
 /* StartKickPetitionMessage */
 typedef struct StartKickPetitionMessage {
+	NonZeroId_t	 gameId;
 	NonZeroId_t	 petitionId;
 	NonZeroId_t	 proposingPlayerId;
 	NonZeroId_t	 kickPlayerId;
