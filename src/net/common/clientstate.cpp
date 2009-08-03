@@ -830,7 +830,6 @@ AbstractClientStateReceiving::HandlePacket(boost::shared_ptr<ClientThread> clien
 					client->RequestPlayerInfo(playerId);
 				}
 				tmpInfo.players.push_back(playerId);
-				++i;
 			}
 			tmpInfo.adminPlayerId = netListNew->adminPlayerId;
 			tmpInfo.isPasswordProtected = netListNew->isPrivate ? true : false;
@@ -941,8 +940,8 @@ AbstractClientStateReceiving::HandlePacket(boost::shared_ptr<ClientThread> clien
 		// Show the error.
 		throw ClientException(__FILE__, __LINE__, NetPacket::NetErrorToGameError(netError->errorReason), 0);
 	}
-	else
-		InternalHandlePacket(client, tmpPacket);
+
+	InternalHandlePacket(client, tmpPacket);
 }
 
 //-----------------------------------------------------------------------------
@@ -1302,8 +1301,6 @@ ClientStateWaitStart::InternalHandlePacket(boost::shared_ptr<ClientThread> clien
 				if (!tmpPlayer.get())
 					throw ClientException(__FILE__, __LINE__, ERR_NET_UNKNOWN_PLAYER_ID, 0);
 				tmpPlayer->SetNumber(i);
-
-				++i;
 			}
 		}
 		else
@@ -1602,7 +1599,6 @@ ClientStateRunHand::InternalHandlePacket(boost::shared_ptr<ClientThread> client,
 			tmpCards[0] = static_cast<int>(p->allInCard1);
 			tmpCards[1] = static_cast<int>(p->allInCard2);
 			tmpPlayer->setMyCards(tmpCards);
-			++i;
 		}
 		client->GetGui().flipHolecardsAllIn();
 	}

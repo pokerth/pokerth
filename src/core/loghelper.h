@@ -30,27 +30,27 @@ void internal_log_err(const std::string &msg);
 void internal_log_msg(const std::string &msg);
 void internal_log_level(const std::string &msg, int logLevel);
 
-#define LOG_ERROR(e) \
+#define LOG_ERROR(_e) \
 	do \
 	{ \
 		std::ostringstream outStream; \
-		outStream << e << std::endl; \
+		outStream << _e << std::endl; \
 		internal_log_err(outStream.str()); \
 	} \
 	while(false)
-#define LOG_MSG(e) \
+#define LOG_MSG(_e) \
 	do \
 	{ \
 		std::ostringstream outStream; \
-		outStream << e << std::endl; \
+		outStream << _e << std::endl; \
 		internal_log_msg(outStream.str()); \
 	} \
 	while(false)
-#define LOG_VERBOSE(e) \
+#define LOG_VERBOSE(_e) \
 	do \
 	{ \
 		std::ostringstream outStream; \
-		outStream << e << std::endl; \
+		outStream << _e << std::endl; \
 		internal_log_level(outStream.str(), 2); \
 	} \
 	while(false)

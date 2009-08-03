@@ -61,8 +61,11 @@ ReceiverHelper::ScanPackets(ReceiveBuffer &buf)
 				LOG_ERROR(e.what());
 			}
 		}
-		if (tmpPacket.get())
+		if (tmpPacket)
+		{
+			//cerr << "IN:" << endl << tmpPacket->ToString() << endl;
 			buf.receivedPackets.push_back(tmpPacket);
+		}
 		else
 			dataAvailable = false;
 	} while(dataAvailable);

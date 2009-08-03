@@ -236,6 +236,7 @@ SenderHelper::InternalStorePacket(SendDataManager &tmpManager, boost::shared_ptr
 	unsigned char buf[MAX_PACKET_SIZE];
 	asn_enc_rval_t e;
 	e = der_encode_to_buffer(&asn_DEF_PokerTHMessage, packet->GetMsg(), buf, MAX_PACKET_SIZE);
+	//cerr << "OUT:" << endl << packet->ToString() << endl;
 	if (e.encoded == -1)
 		LOG_ERROR("Failed to encode NetPacket: " << packet->GetMsg()->present);
 	else

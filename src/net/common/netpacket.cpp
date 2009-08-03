@@ -87,6 +87,22 @@ NetPacket::IsClientActivity() const
 	return retVal;
 }
 
+static int
+net_packet_print_to_string(const void *buffer, size_t size, void *packetStr)
+{
+	string *tmpString = (string *)packetStr;
+	*tmpString += string((const char *)buffer, size);
+	return 0;
+}
+
+string
+NetPacket::ToString() const
+{
+	string packetString;
+	xer_encode(&asn_DEF_PokerTHMessage, m_msg, XER_F_BASIC, &net_packet_print_to_string, &packetString);
+	return packetString;
+}
+
 void
 NetPacket::SetGameData(const GameData &inData, NetGameInfo_t *outData)
 {

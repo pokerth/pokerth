@@ -21,6 +21,7 @@
 #ifndef _NETPACKET_H_
 #define _NETPACKET_H_
 
+#include <string>
 #include <list>
 
 #include <third_party/asn1/PokerTHMessage.h>
@@ -56,6 +57,8 @@ public:
 	PokerTHMessage_t *GetMsg() {return m_msg;}
 
 	bool IsClientActivity() const;
+
+	std::string ToString() const;
 
 	static void SetGameData(const GameData &inData, NetGameInfo_t *outData);
 	static void GetGameData(const NetGameInfo_t *inData, GameData &outData);
