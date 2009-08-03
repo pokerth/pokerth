@@ -269,6 +269,7 @@ ClientThread::SendAskKickPlayer(unsigned playerId)
 	boost::shared_ptr<NetPacket> packet(new NetPacket(NetPacket::Alloc));
 	packet->GetMsg()->present = PokerTHMessage_PR_askKickPlayerMessage;
 	AskKickPlayerMessage_t *netAsk = &packet->GetMsg()->choice.askKickPlayerMessage;
+	netAsk->gameId = GetGameId();
 	netAsk->playerId = playerId;
 	m_ioService->post(boost::bind(&ClientThread::SendSessionPacket, shared_from_this(), packet));
 }
@@ -279,6 +280,7 @@ ClientThread::SendVoteKick(bool doKick)
 	boost::shared_ptr<NetPacket> packet(new NetPacket(NetPacket::Alloc));
 	packet->GetMsg()->present = PokerTHMessage_PR_voteKickRequestMessage;
 	VoteKickRequestMessage_t *netVote = &packet->GetMsg()->choice.voteKickRequestMessage;
+	netVote->gameId = GetGameId();
 	{
 		boost::mutex::scoped_lock lock(m_curPetitionIdMutex);
 		netVote->petitionId = m_curPetitionId;

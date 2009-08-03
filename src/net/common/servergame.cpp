@@ -185,6 +185,7 @@ ServerGame::TimerVoteKick(const boost::system::error_code &ec)
 				boost::shared_ptr<NetPacket> packet(new NetPacket(NetPacket::Alloc));
 				packet->GetMsg()->present = PokerTHMessage_PR_endKickPetitionMessage;
 				EndKickPetitionMessage_t *netEndPetition = &packet->GetMsg()->choice.endKickPetitionMessage;
+				netEndPetition->gameId = GetId();
 				netEndPetition->petitionId = m_voteKickData->petitionId;
 				netEndPetition->numVotesAgainstKicking = m_voteKickData->numVotesAgainstKicking;
 				netEndPetition->numVotesInFavourOfKicking = m_voteKickData->numVotesInFavourOfKicking;
@@ -303,6 +304,7 @@ ServerGame::InternalAskVoteKick(SessionWrapper byWhom, unsigned playerIdWho, uns
 					boost::shared_ptr<NetPacket> packet(new NetPacket(NetPacket::Alloc));
 					packet->GetMsg()->present = PokerTHMessage_PR_startKickPetitionMessage;
 					StartKickPetitionMessage_t *netStartPetition = &packet->GetMsg()->choice.startKickPetitionMessage;
+					netStartPetition->gameId = GetId();
 					netStartPetition->petitionId = m_voteKickData->petitionId;
 					netStartPetition->proposingPlayerId = playerIdByWhom;
 					netStartPetition->kickPlayerId = m_voteKickData->kickPlayerId;
@@ -329,6 +331,7 @@ ServerGame::InternalDenyAskVoteKick(SessionWrapper byWhom, unsigned playerIdWho,
 	boost::shared_ptr<NetPacket> packet(new NetPacket(NetPacket::Alloc));
 	packet->GetMsg()->present = PokerTHMessage_PR_askKickDeniedMessage;
 	AskKickDeniedMessage_t *netKickDenied = &packet->GetMsg()->choice.askKickDeniedMessage;
+	netKickDenied->gameId = GetId();
 	netKickDenied->playerId = playerIdWho;
 	netKickDenied->kickDeniedReason = reason;
 	GetLobbyThread().GetSender().Send(byWhom.sessionData, packet);
@@ -355,6 +358,7 @@ ServerGame::InternalVoteKick(SessionWrapper byWhom, unsigned petitionId, KickVot
 				boost::shared_ptr<NetPacket> packet(new NetPacket(NetPacket::Alloc));
 				packet->GetMsg()->present = PokerTHMessage_PR_kickPetitionUpdateMessage;
 				KickPetitionUpdateMessage_t *netKickUpdate = &packet->GetMsg()->choice.kickPetitionUpdateMessage;
+				netKickUpdate->gameId = GetId();
 				netKickUpdate->petitionId = m_voteKickData->petitionId;
 				netKickUpdate->numVotesAgainstKicking = m_voteKickData->numVotesAgainstKicking;
 				netKickUpdate->numVotesInFavourOfKicking = m_voteKickData->numVotesInFavourOfKicking;
@@ -377,6 +381,7 @@ ServerGame::InternalDenyVoteKick(SessionWrapper byWhom, unsigned petitionId, Den
 	boost::shared_ptr<NetPacket> packet(new NetPacket(NetPacket::Alloc));
 	packet->GetMsg()->present = PokerTHMessage_PR_voteKickReplyMessage;
 	VoteKickReplyMessage_t *netVoteReply = &packet->GetMsg()->choice.voteKickReplyMessage;
+	netVoteReply->gameId = GetId();
 	netVoteReply->petitionId = petitionId;
 	netVoteReply->voteKickReplyType.present = voteKickReplyType_PR_voteKickDenied;
 
