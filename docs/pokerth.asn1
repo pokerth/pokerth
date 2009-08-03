@@ -441,10 +441,12 @@ EndOfGameMessage ::= [APPLICATION 26] SEQUENCE {
 }
 
 AskKickPlayerMessage ::= [APPLICATION 64] SEQUENCE {
+	gameId						NonZeroId,
 	playerId					NonZeroId
 }
 
 AskKickDeniedMessage ::= [APPLICATION 65] SEQUENCE {
+	gameId						NonZeroId,
 	playerId					NonZeroId,
 	kickDeniedReason			ENUMERATED {
 		kickDeniedInvalidGameState	(0),
@@ -456,6 +458,7 @@ AskKickDeniedMessage ::= [APPLICATION 65] SEQUENCE {
 }
 
 StartKickPetitionMessage ::= [APPLICATION 66] SEQUENCE {
+	gameId						NonZeroId,
 	petitionId					NonZeroId,
 	proposingPlayerId			NonZeroId,
 	kickPlayerId				NonZeroId,
@@ -464,11 +467,13 @@ StartKickPetitionMessage ::= [APPLICATION 66] SEQUENCE {
 }
 
 VoteKickRequestMessage ::= [APPLICATION 67] SEQUENCE {
+	gameId						NonZeroId,
 	petitionId					NonZeroId,
 	voteKick					BOOLEAN
 }
 
 VoteKickReplyMessage ::= [APPLICATION 68] SEQUENCE {
+	gameId						NonZeroId,
 	petitionId					NonZeroId,
 	voteKickReplyType			CHOICE {
 		voteKickAck				[0] VoteKickAck,
@@ -487,6 +492,7 @@ VoteKickDenied ::= SEQUENCE {
 }
 
 KickPetitionUpdateMessage ::= [APPLICATION 69] SEQUENCE {
+	gameId						NonZeroId,
 	petitionId					NonZeroId,
 	numVotesAgainstKicking		INTEGER(0..9),
 	numVotesInFavourOfKicking	INTEGER(1..9),
@@ -494,6 +500,7 @@ KickPetitionUpdateMessage ::= [APPLICATION 69] SEQUENCE {
 }
 
 EndKickPetitionMessage ::= [APPLICATION 70] SEQUENCE {
+	gameId						NonZeroId,
 	petitionId					NonZeroId,
 	numVotesAgainstKicking		INTEGER(0..9),
 	numVotesInFavourOfKicking	INTEGER(1..9),
@@ -523,8 +530,8 @@ ChatRequestMessage ::= [APPLICATION 129] SEQUENCE {
 }
 
 ChatMessage ::= [APPLICATION 130] SEQUENCE {
-	playerId					Id,
 	gameId						Id,
+	playerId					Id,
 	chatText					UTF8String (SIZE(1..128))
 }
 
