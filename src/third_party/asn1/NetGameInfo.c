@@ -302,7 +302,7 @@ memb_endRaiseSmallBlindValue_constraint_1(asn_TYPE_descriptor_t *td, const void 
 	
 	value = *(const long *)sptr;
 	
-	if((value >= 1 && value <= 20000)) {
+	if((value >= 0 && value <= 20000)) {
 		/* Constraint check succeeded */
 		return 0;
 	} else {

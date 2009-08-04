@@ -29,7 +29,7 @@ memb_playerName_constraint_1(asn_TYPE_descriptor_t *td, const void *sptr,
 		return -1;
 	}
 	
-	if((size >= 1 && size <= 64)) {
+	if((size >= 1 && size <= 32)) {
 		/* Constraint check succeeded */
 		return 0;
 	} else {
