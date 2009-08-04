@@ -195,6 +195,7 @@ ServerLobbyThread::ReAddSession(SessionWrapper session, int reason)
 		boost::shared_ptr<NetPacket> packet(new NetPacket(NetPacket::Alloc));
 		packet->GetMsg()->present = PokerTHMessage_PR_gamePlayerMessage;
 		GamePlayerMessage_t *netPlayerMsg = &packet->GetMsg()->choice.gamePlayerMessage;
+		netPlayerMsg->gameId = session.sessionData->GetGameId();
 		netPlayerMsg->gamePlayerNotification.present = gamePlayerNotification_PR_removedFromGame;
 		RemovedFromGame_t *removed = &netPlayerMsg->gamePlayerNotification.choice.removedFromGame;
 

@@ -756,7 +756,29 @@ AbstractClientStateReceiving::HandlePacket(boost::shared_ptr<ClientThread> clien
 			client->ResubscribeLobbyMsg();
 			// Show Lobby.
 			client->GetCallback().SignalNetClientWaitDialog();
-			client->GetCallback().SignalNetClientRemovedFromGame(netRemoved->removedFromGameReason);
+			int removeReason;
+			switch (netRemoved->removedFromGameReason)
+			{
+				case removedFromGameReason_kickedFromGame :
+					removeReason = NTF_NET_REMOVED_KICKED;
+					break;
+				case removedFromGameReason_gameIsFull :
+					removeReason = NTF_NET_REMOVED_GAME_FULL;
+					break;
+				case removedFromGameReason_gameIsRunning :
+					removeReason = NTF_NET_REMOVED_ALREADY_RUNNING;
+					break;
+				case removedFromGameReason_gameTimeout :
+					removeReason = NTF_NET_REMOVED_TIMEOUT;
+					break;
+				case removedFromGameReason_removedStartFailed :
+					removeReason = NTF_NET_REMOVED_START_FAILED;
+					break;
+				default :
+					removeReason = NTF_NET_REMOVED_ON_REQUEST;
+					break;
+			}
+			client->GetCallback().SignalNetClientRemovedFromGame(removeReason);
 			client->SetState(ClientStateWaitJoin::Instance());
 		}
 		else if (netGamePlayer->gamePlayerNotification.present == gamePlayerNotification_PR_gamePlayerLeft)
