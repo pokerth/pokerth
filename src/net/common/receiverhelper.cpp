@@ -54,7 +54,7 @@ ReceiverHelper::ScanPackets(ReceiveBuffer &buf)
 				// This call will also handle the memmove stuff, i.e.
 				// buffering for partial packets.
 				tmpPacket = NetPacket::Create(buf.recvBuf, buf.recvBufUsed);
-			} catch (const NetException &e)
+			} catch (const exception &e)
 			{
 				// Reset buffer on error.
 				buf.recvBufUsed = 0;
@@ -64,7 +64,10 @@ ReceiverHelper::ScanPackets(ReceiveBuffer &buf)
 		if (tmpPacket)
 		{
 			//cerr << "IN:" << endl << tmpPacket->ToString() << endl;
-			buf.receivedPackets.push_back(tmpPacket);
+			if (asn_check_constraints(&asn_DEF_PokerTHMessage, tmpPacket->GetMsg(), NULL, NULL) == 0)
+				buf.receivedPackets.push_back(tmpPacket);
+			else
+				LOG_ERROR("Invalid packet: " << endl << tmpPacket->ToString());
 		}
 		else
 			dataAvailable = false;
