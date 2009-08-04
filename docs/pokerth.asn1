@@ -154,7 +154,7 @@ GameListMessage ::= [APPLICATION 4] SEQUENCE {
 GameListNew ::= SEQUENCE {
 	gameMode					NetGameMode,
 	isPrivate					BOOLEAN,
-	playerIds					SEQUENCE SIZE(1..10) OF NonZeroId,
+	playerIds					SEQUENCE SIZE(0..10) OF NonZeroId,
 	adminPlayerId				NonZeroId,
 	gameInfo					NetGameInfo
 }
