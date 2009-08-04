@@ -82,13 +82,13 @@ Version ::= SEQUENCE {
 }
 
 AnonymousLogin ::= SEQUENCE {
-	playerName					UTF8String (SIZE(1..64)),
+	playerName					UTF8String (SIZE(1..32)),
 	avatar						AvatarHash OPTIONAL
 }
 
 -- TODO challenge/response
 AuthenticatedLogin ::= SEQUENCE {
-	playerName					UTF8String (SIZE(1..64)),
+	playerName					UTF8String (SIZE(1..32)),
 	avatar						AvatarHash OPTIONAL
 }
 
@@ -194,7 +194,7 @@ PlayerInfoReplyMessage ::= [APPLICATION 6] SEQUENCE {
 }
 
 PlayerInfoData ::= SEQUENCE {
-	playerName					UTF8String (SIZE(1..64)),
+	playerName					UTF8String (SIZE(1..32)),
 	isHuman						BOOLEAN,
 	avatarData					SEQUENCE {
 		avatarType					NetAvatarType,
@@ -268,7 +268,7 @@ NetGameInfo ::= SEQUENCE {
 	proposedGuiSpeed			INTEGER(1..11),
 	playerActionTimeout			INTEGER(5..60), -- These are seconds
 	firstSmallBlind				INTEGER(1..20000),
-	endRaiseSmallBlindValue		INTEGER(1..20000),
+	endRaiseSmallBlindValue		INTEGER(0..20000),
 	startMoney					INTEGER(1..1000000),
 	manualBlinds				SEQUENCE SIZE(0..30) OF INTEGER(1..20001)
 }
