@@ -23,7 +23,7 @@ memb_playerIds_constraint_1(asn_TYPE_descriptor_t *td, const void *sptr,
 	/* Determine the number of elements */
 	size = _A_CSEQUENCE_FROM_VOID(sptr)->count;
 	
-	if((size >= 1 && size <= 10)) {
+	if((size <= 10)) {
 		/* Perform validation of the inner elements */
 		return td->check_constraints(td, sptr, ctfailcb, app_key);
 	} else {
