@@ -132,6 +132,8 @@ ClientThread::SendLeaveCurrentGame()
 {
 	boost::shared_ptr<NetPacket> packet(new NetPacket(NetPacket::Alloc));
 	packet->GetMsg()->present = PokerTHMessage_PR_leaveGameRequestMessage;
+	LeaveGameRequestMessage_t *netLeave = &packet->GetMsg()->choice.leaveGameRequestMessage;
+	netLeave->gameId = GetGameId();
 	m_ioService->post(boost::bind(&ClientThread::SendSessionPacket, shared_from_this(), packet));
 }
 
