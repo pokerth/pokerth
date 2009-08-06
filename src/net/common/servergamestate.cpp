@@ -226,7 +226,7 @@ AbstractServerGameStateReceiving::ProcessPacket(boost::shared_ptr<ServerGame> se
 		if (session.playerData)
 		{
 			VoteKickRequestMessage_t *netVoteKick = &packet->GetMsg()->choice.voteKickRequestMessage;
-			server->InternalVoteKick(session, netVoteKick->petitionId, netVoteKick->voteKick ? KICK_VOTE_AGAINST : KICK_VOTE_IN_FAVOUR);
+			server->InternalVoteKick(session, netVoteKick->petitionId, netVoteKick->voteKick ? KICK_VOTE_IN_FAVOUR : KICK_VOTE_AGAINST);
 		}
 	}
 	// Chat text is always allowed.
