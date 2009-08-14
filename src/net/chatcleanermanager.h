@@ -24,8 +24,8 @@
 #include <boost/asio.hpp>
 #include <boost/enable_shared_from_this.hpp>
 #include <string>
+#include <net/internalchatcleanerpacket.h>
 
-class InternalChatCleanerPacket;
 class EncodedPacket;
 
 class ChatCleanerManager : public boost::enable_shared_from_this<ChatCleanerManager>
