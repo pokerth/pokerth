@@ -18,6 +18,7 @@
  ***************************************************************************/
 
 #include <net/internalchatcleanerpacket.h>
+#include <third_party/asn1/ChatCleanerMessage.h>
 #include <cstring>
 
 using namespace std;

@@ -21,7 +21,10 @@
 #ifndef _INTERNALCHATCLEANERPACKET_H_
 #define _INTERNALCHATCLEANERPACKET_H_
 
-#include <third_party/asn1/ChatCleanerMessage.h>
+#define CLEANER_PROTOCOL_VERSION		1
+#define MAX_CLEANER_PACKET_SIZE			384
+
+typedef struct ChatCleanerMessage ChatCleanerMessage_t;
 
 class InternalChatCleanerPacket
 {

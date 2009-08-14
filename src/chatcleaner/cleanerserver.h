@@ -3,8 +3,7 @@
 
 #include <QtCore>
 #include <QtNetwork>
-#include <src/net/internalchatcleanerpacket.h>
-#include <src/third_party/asn1/ChatCleanerMessage.h>
+#include <net/internalchatcleanerpacket.h>
 
 class MessageFilter;
 class CleanerConfig;
@@ -19,8 +18,10 @@ public:
 private slots:
      void newCon();
 	 void onRead();
+	 bool handleMessage(InternalChatCleanerPacket &msg);
 	 void socketStateChanged(QAbstractSocket::SocketState);
 	 void refreshConfig();
+	 void sendMessageToClient(InternalChatCleanerPacket &msg);
 
 private:
      QTcpServer *tcpServer;
@@ -30,6 +31,8 @@ private:
 		 
 	 CleanerConfig *config;
 	 bool blockConnection;
+	 QString clientSecret;
+	 QString serverSecret;
 	 
 	 unsigned char m_recvBuf[2*MAX_CLEANER_PACKET_SIZE];
 	 unsigned m_recvBufUsed;

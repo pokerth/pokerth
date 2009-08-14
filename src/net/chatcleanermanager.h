@@ -25,9 +25,6 @@
 #include <boost/enable_shared_from_this.hpp>
 #include <string>
 
-#define CLEANER_PROTOCOL_VERSION		1
-#define MAX_CLEANER_PACKET_SIZE			384
-
 class InternalChatCleanerPacket;
 class EncodedPacket;
 

@@ -193,6 +193,11 @@ ChatCleanerManager::HandleRead(const boost::system::error_code &ec, size_t bytes
 					boost::asio::placeholders::error,
 					boost::asio::placeholders::bytes_transferred));
 		}
+		else
+		{
+			m_socket->close();
+			m_connected = false;
+		}
 	}
 	else if (ec != boost::asio::error::operation_aborted)
 	{
@@ -205,7 +210,7 @@ ChatCleanerManager::HandleRead(const boost::system::error_code &ec, size_t bytes
 bool
 ChatCleanerManager::HandleMessage(InternalChatCleanerPacket &msg)
 {
-	bool error = false;
+	bool error = true;
 	if (msg.GetMsg()->present == ChatCleanerMessage_PR_cleanerInitAckMessage)
 	{
 		CleanerInitAckMessage_t *netAck = &msg.GetMsg()->choice.cleanerInitAckMessage;
@@ -213,14 +218,13 @@ ChatCleanerManager::HandleMessage(InternalChatCleanerPacket &msg)
 		{
 			string tmpSecret((const char *)netAck->serverSecret.buf, netAck->serverSecret.size);
 			if (m_serverSecret == tmpSecret)
+			{
 				m_connected = true;
+				error = false;
+			}
 		}
 		if (!m_connected)
-		{
 			LOG_ERROR("Chat cleaner handshake failed.");
-			m_socket->close();
-			error = true;
-		}
 	}
 	return error;
 }

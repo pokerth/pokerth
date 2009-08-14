@@ -44,3 +44,6 @@ HEADERS += cleanerserver.h \
     capsfloodcheck.h \
     letterrepeatingcheck.h \
 	urlcheck.h
+LIBPATH += lib
+LIBS += -lpokerth_lib \
+    -lpokerth_protocol
