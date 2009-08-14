@@ -43,8 +43,7 @@ NetPacket::Create(char *data, unsigned &dataSize)
 	if (data && dataSize > 0)
 	{
 		PokerTHMessage_t *msg = NULL;
-		asn_dec_rval_t retVal;
-		retVal = ber_decode(0, &asn_DEF_PokerTHMessage, (void **)&msg, data, dataSize);
+		asn_dec_rval_t retVal = ber_decode(0, &asn_DEF_PokerTHMessage, (void **)&msg, data, dataSize);
 		if(retVal.code == RC_OK)
 		{
 			// ASN.1 BER decoding was successful.

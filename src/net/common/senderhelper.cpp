@@ -25,6 +25,7 @@
 #include <net/sendercallback.h>
 #include <net/socket_helper.h>
 #include <net/socket_msg.h>
+#include <net/encodedpacket.h>
 #include <core/loghelper.h>
 #include <cstring>
 #include <cassert>
@@ -38,35 +39,6 @@ using boost::asio::ip::tcp;
 #define SEND_QUEUE_SIZE						10000000
 #define SEND_LOG_INTERVAL_SEC				60
 
-class EncodedPacket
-{
-public:
-	EncodedPacket(const unsigned char *data, unsigned size)
-		: m_size(size)
-	{
-		m_data = new unsigned char[size];
-		memcpy(m_data, data, size);
-	}
-
-	~EncodedPacket()
-	{
-		delete[] m_data;
-	}
-
-	unsigned GetSize() const
-	{
-		return m_size;
-	}
-
-	const unsigned char *GetData() const
-	{
-		return m_data;
-	}
-
-private:
-	unsigned m_size;
-	unsigned char *m_data;
-};
 
 typedef std::list<boost::shared_ptr<EncodedPacket> > SendDataList;
 
@@ -234,8 +206,7 @@ void
 SenderHelper::InternalStorePacket(SendDataManager &tmpManager, boost::shared_ptr<NetPacket> packet)
 {
 	unsigned char buf[MAX_PACKET_SIZE];
-	asn_enc_rval_t e;
-	e = der_encode_to_buffer(&asn_DEF_PokerTHMessage, packet->GetMsg(), buf, MAX_PACKET_SIZE);
+	asn_enc_rval_t e = der_encode_to_buffer(&asn_DEF_PokerTHMessage, packet->GetMsg(), buf, MAX_PACKET_SIZE);
 	//cerr << "OUT:" << endl << packet->ToString() << endl;
 	if (e.encoded == -1)
 		LOG_ERROR("Failed to encode NetPacket: " << packet->GetMsg()->present);

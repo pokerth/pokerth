@@ -63,6 +63,7 @@ HEADERS += \
 		src/engine/playerinterface.h \
 		src/engine/berointerface.h \
 		src/gui/guiinterface.h \
+		src/net/chatcleanermanager.h \
 		src/net/clientcallback.h \
 		src/net/clientcontext.h \
 		src/net/clientexception.h \
@@ -97,6 +98,7 @@ HEADERS += \
 		src/net/uploadhelper.h \
 		src/net/downloaderthread.h \
 		src/net/downloadhelper.h \
+		src/net/encodedpacket.h \
 		src/third_party/tinyxml/tinystr.h \
 		src/third_party/tinyxml/tinyxml.h \
 		src/third_party/libircclient/include/libircclient.h \
@@ -162,6 +164,7 @@ SOURCES += \
 		src/engine/network_engine/clienthand.cpp \
 		src/engine/network_engine/clientplayer.cpp \
 		src/engine/network_engine/clientbero.cpp \
+		src/net/common/chatcleanermanager.cpp \
 		src/net/common/clientcallback.cpp \
 		src/net/common/clientcontext.cpp \
 		src/net/common/clientstate.cpp \
@@ -192,6 +195,7 @@ SOURCES += \
 		src/net/common/transferhelper.cpp \
 		src/net/common/uploaderthread.cpp \
 		src/net/common/uploadhelper.cpp \
+		src/net/common/encodedpacket.cpp \
 		src/gui/generic/serverguiwrapper.cpp \
 		src/gui/qttoolsinterface.cpp
 
