@@ -191,21 +191,25 @@ ChatCleanerManager::HandleRead(const boost::system::error_code &ec, size_t bytes
 		bool error = false;
 		m_recvBufUsed += bytesRead;
 
-		InternalChatCleanerMessage recvMsg;
-		asn_dec_rval_t retVal = ber_decode(0, &asn_DEF_ChatCleanerMessage, (void **)recvMsg.GetMsgPtr(), m_recvBuf, m_recvBufUsed);
-		if(retVal.code == RC_OK)
+		asn_dec_rval_t retVal;
+		do
 		{
-			// Consume the bytes.
-			if (retVal.consumed < m_recvBufUsed)
+			InternalChatCleanerMessage recvMsg;
+			retVal = ber_decode(0, &asn_DEF_ChatCleanerMessage, (void **)recvMsg.GetMsgPtr(), m_recvBuf, m_recvBufUsed);
+			if(retVal.code == RC_OK)
 			{
-				m_recvBufUsed -= retVal.consumed;
-				memmove(m_recvBuf, m_recvBuf + retVal.consumed, m_recvBufUsed);
-			}
-			else
-				m_recvBufUsed = 0;
+				// Consume the bytes.
+				if (retVal.consumed < m_recvBufUsed)
+				{
+					m_recvBufUsed -= retVal.consumed;
+					memmove(m_recvBuf, m_recvBuf + retVal.consumed, m_recvBufUsed);
+				}
+				else
+					m_recvBufUsed = 0;
 
-			error = HandleMessage(recvMsg);
-		}
+				error = HandleMessage(recvMsg);
+			}
+		} while (!error && retVal.code == RC_OK);
 
 		if (!error)
 		{
@@ -248,7 +252,6 @@ ChatCleanerManager::HandleMessage(InternalChatCleanerMessage &msg)
 	}
 	return error;
 }
-#define STL_STRING_FROM_OCTET_STRING(_a) (string((const char *)_a.buf, _a.size))
 
 void
 ChatCleanerManager::SendMessageToServer(InternalChatCleanerMessage &msg)
