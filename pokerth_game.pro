@@ -437,7 +437,7 @@ mac {
     # on Intel-Mac you have to comment this line out or build will fail.
     # QMAKE_MAC_SDK=/Developer/SDKs/MacOSX10.4u.sdk/
     LIBPATH += lib
-    LIBS += -lpokerth_lib
+    LIBS += -lpokerth_lib -lpokerth_protocol
     
     # Qt static (path is standard for self-compiling qt)
     # LIBS += /usr/local/Trolltech/Qt-4.2.3/lib/libQtCore.a

@@ -272,7 +272,7 @@ mac {
     #       QMAKE_MAC_SDK=/Developer/SDKs/MacOSX10.4u.sdk/
 
     LIBPATH += lib
-    LIBS += -lpokerth_lib
+    LIBS += -lpokerth_lib -lpokerth_protocol
     # standard path for darwinports
     # make sure you have a universal version of boost
     LIBS += /usr/local/lib/libboost_thread-xgcc40-mt.a
