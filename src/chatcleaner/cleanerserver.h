@@ -3,6 +3,8 @@
 
 #include <QtCore>
 #include <QtNetwork>
+#include <src/net/internalchatcleanerpacket.h>
+#include <src/third_party/asn1/ChatCleanerMessage.h>
 
 class MessageFilter;
 class CleanerConfig;
@@ -28,6 +30,9 @@ private:
 		 
 	 CleanerConfig *config;
 	 bool blockConnection;
+	 
+	 unsigned char m_recvBuf[2*MAX_CLEANER_PACKET_SIZE];
+	 unsigned m_recvBufUsed;
 };
 
 #endif // CLEANERSERVER_H

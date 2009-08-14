@@ -13,10 +13,14 @@ OBJECTS_DIR = obj
 TEMPLATE = app
 INCLUDEPATH += src/ \
     src/third_party/tinyxml \
-    src/chatcleaner/
+    src/chatcleaner/ \
+	src/third_party/asn1/ \
+	src/net/
 DEPENDPATH += src/ \
     src/third_party/tinyxml \
-    src/chatcleaner/
+    src/chatcleaner/ \
+	src/third_party/asn1/ \
+	src/net/
 SOURCES += chatcleaner.cpp \
     cleanerserver.cpp \
     messagefilter.cpp \
