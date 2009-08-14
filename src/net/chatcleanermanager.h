@@ -28,7 +28,7 @@
 #define CLEANER_PROTOCOL_VERSION		1
 #define MAX_CLEANER_PACKET_SIZE			384
 
-class InternalChatCleanerMessage;
+class InternalChatCleanerPacket;
 class EncodedPacket;
 
 class ChatCleanerManager : public boost::enable_shared_from_this<ChatCleanerManager>
@@ -47,9 +47,9 @@ protected:
 	void HandleConnect(const boost::system::error_code& ec, boost::asio::ip::tcp::resolver::iterator endpoint_iterator);
 	void HandleWrite(const boost::system::error_code &ec, boost::shared_ptr<EncodedPacket> tmpPacket);
 	void HandleRead(const boost::system::error_code &ec, size_t bytesRead);
-	bool HandleMessage(InternalChatCleanerMessage &msg);
+	bool HandleMessage(InternalChatCleanerPacket &msg);
 
-	void SendMessageToServer(InternalChatCleanerMessage &msg);
+	void SendMessageToServer(InternalChatCleanerPacket &msg);
 	unsigned GetNextRequestId();
 
 private:

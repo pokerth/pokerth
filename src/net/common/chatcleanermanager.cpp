@@ -18,6 +18,7 @@
  ***************************************************************************/
 
 #include <net/chatcleanermanager.h>
+#include <net/internalchatcleanerpacket.h>
 #include <net/encodedpacket.h>
 #include <boost/bind.hpp>
 #include <core/loghelper.h>
@@ -26,35 +27,6 @@
 
 using namespace std;
 using boost::asio::ip::tcp;
-
-class InternalChatCleanerMessage
-{
-public:
-	InternalChatCleanerMessage()
-	{
-		m_msg = (ChatCleanerMessage_t *)calloc(1, sizeof(ChatCleanerMessage_t));
-	}
-	InternalChatCleanerMessage(ChatCleanerMessage_t *msg)
-	: m_msg(msg)
-	{
-	}
-	~InternalChatCleanerMessage()
-	{
-		if (m_msg)
-			ASN_STRUCT_FREE(asn_DEF_ChatCleanerMessage, m_msg);
-	}
-	ChatCleanerMessage_t *GetMsg()
-	{
-		return m_msg;
-	}
-	ChatCleanerMessage_t **GetMsgPtr()
-	{
-		return &m_msg;
-	}
-
-private:
-	ChatCleanerMessage_t *m_msg;
-};
 
 
 ChatCleanerManager::ChatCleanerManager(boost::shared_ptr<boost::asio::io_service> ioService)
@@ -96,7 +68,7 @@ ChatCleanerManager::HandleChatText(unsigned playerId, const std::string &name, c
 {
 	if (m_connected)
 	{
-		InternalChatCleanerMessage tmpChat;
+		InternalChatCleanerPacket tmpChat;
 		tmpChat.GetMsg()->present = ChatCleanerMessage_PR_cleanerChatRequestMessage;
 		CleanerChatRequestMessage_t *netRequest = &tmpChat.GetMsg()->choice.cleanerChatRequestMessage;
 		netRequest->requestId = GetNextRequestId();
@@ -137,7 +109,7 @@ ChatCleanerManager::HandleConnect(const boost::system::error_code& ec,
 {
 	if (!ec)
 	{
-		InternalChatCleanerMessage tmpInit;
+		InternalChatCleanerPacket tmpInit;
 		tmpInit.GetMsg()->present = ChatCleanerMessage_PR_cleanerInitMessage;
 		CleanerInitMessage_t *netInit = &tmpInit.GetMsg()->choice.cleanerInitMessage;
 		netInit->requestedVersion = CLEANER_PROTOCOL_VERSION;
@@ -194,7 +166,7 @@ ChatCleanerManager::HandleRead(const boost::system::error_code &ec, size_t bytes
 		asn_dec_rval_t retVal;
 		do
 		{
-			InternalChatCleanerMessage recvMsg;
+			InternalChatCleanerPacket recvMsg;
 			retVal = ber_decode(0, &asn_DEF_ChatCleanerMessage, (void **)recvMsg.GetMsgPtr(), m_recvBuf, m_recvBufUsed);
 			if(retVal.code == RC_OK)
 			{
@@ -231,7 +203,7 @@ ChatCleanerManager::HandleRead(const boost::system::error_code &ec, size_t bytes
 }
 
 bool
-ChatCleanerManager::HandleMessage(InternalChatCleanerMessage &msg)
+ChatCleanerManager::HandleMessage(InternalChatCleanerPacket &msg)
 {
 	bool error = false;
 	if (msg.GetMsg()->present == ChatCleanerMessage_PR_cleanerInitAckMessage)
@@ -254,7 +226,7 @@ ChatCleanerManager::HandleMessage(InternalChatCleanerMessage &msg)
 }
 
 void
-ChatCleanerManager::SendMessageToServer(InternalChatCleanerMessage &msg)
+ChatCleanerManager::SendMessageToServer(InternalChatCleanerPacket &msg)
 {
 	unsigned char buf[MAX_CLEANER_PACKET_SIZE];
 	asn_enc_rval_t e = der_encode_to_buffer(&asn_DEF_ChatCleanerMessage, msg.GetMsg(), buf, MAX_CLEANER_PACKET_SIZE);

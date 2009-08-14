@@ -99,6 +99,7 @@ HEADERS += \
 		src/net/downloaderthread.h \
 		src/net/downloadhelper.h \
 		src/net/encodedpacket.h \
+		src/net/internalchatcleanerpacket.h \
 		src/third_party/tinyxml/tinystr.h \
 		src/third_party/tinyxml/tinyxml.h \
 		src/third_party/libircclient/include/libircclient.h \
@@ -196,6 +197,7 @@ SOURCES += \
 		src/net/common/uploaderthread.cpp \
 		src/net/common/uploadhelper.cpp \
 		src/net/common/encodedpacket.cpp \
+		src/net/common/internalchatcleanerpacket.cpp \
 		src/gui/generic/serverguiwrapper.cpp \
 		src/gui/qttoolsinterface.cpp
 
