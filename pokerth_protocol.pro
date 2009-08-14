@@ -25,6 +25,11 @@ DEPENDPATH += . \
 
 # Input
 HEADERS += src/third_party/asn1/AllInShowCardsMessage.h \
+	src/third_party/asn1/ChatCleanerMessage.h \
+	src/third_party/asn1/CleanerInitMessage.h \
+	src/third_party/asn1/CleanerInitAckMessage.h \
+	src/third_party/asn1/CleanerChatRequestMessage.h \
+	src/third_party/asn1/CleanerChatReplyMessage.h \
     src/third_party/asn1/AnonymousLogin.h \
     src/third_party/asn1/AskKickDeniedMessage.h \
     src/third_party/asn1/AskKickPlayerMessage.h \
@@ -138,7 +143,12 @@ HEADERS += src/third_party/asn1/AllInShowCardsMessage.h \
     src/third_party/asn1/xer_support.h \
     src/third_party/asn1/YourActionRejectedMessage.h
 
-SOURCES += src/third_party/asn1/AllInShowCardsMessage.c \
+SOURCES += src/third_party/asn1/ChatCleanerMessage.c \
+	src/third_party/asn1/CleanerInitMessage.c \
+	src/third_party/asn1/CleanerInitAckMessage.c \
+	src/third_party/asn1/CleanerChatRequestMessage.c \
+	src/third_party/asn1/CleanerChatReplyMessage.c \
+	src/third_party/asn1/AllInShowCardsMessage.c \
     src/third_party/asn1/YourActionRejectedMessage.c \
     src/third_party/asn1/xer_support.c \
     src/third_party/asn1/xer_encoder.c \
