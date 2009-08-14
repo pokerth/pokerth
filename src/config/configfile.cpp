@@ -222,11 +222,11 @@ ConfigFile::ConfigFile(char *argv0, bool readonly) : noWriteAccess(readonly)
 	configList.push_back(ConfigInfo("AdminIRCChannelPassword", CONFIG_TYPE_STRING, ""));
 	configList.push_back(ConfigInfo("AdminIRCServerUseIpv6", CONFIG_TYPE_INT, "0"));
 	configList.push_back(ConfigInfo("AdminIRCServerNick", CONFIG_TYPE_INT, "PokerTH"));
-	configList.push_back(ConfigInfo("UseChatCleaner", CONFIG_TYPE_INT, "1"));
+	configList.push_back(ConfigInfo("UseChatCleaner", CONFIG_TYPE_INT, "0"));
 	configList.push_back(ConfigInfo("ChatCleanerHostAddress", CONFIG_TYPE_STRING, "localhost"));
 	configList.push_back(ConfigInfo("ChatCleanerPort", CONFIG_TYPE_INT, "4237"));
-	configList.push_back(ConfigInfo("ChatCleanerAuthString", CONFIG_TYPE_STRING, ""));
-	configList.push_back(ConfigInfo("ChatCleanerExpectedAuthAnswer", CONFIG_TYPE_STRING, ""));
+	configList.push_back(ConfigInfo("ChatCleanerClientAuth", CONFIG_TYPE_STRING, ""));
+	configList.push_back(ConfigInfo("ChatCleanerServerAuth", CONFIG_TYPE_STRING, ""));
 	configList.push_back(ConfigInfo("ChatCleanerUseIpv6", CONFIG_TYPE_INT, "0"));
 	configList.push_back(ConfigInfo("MyName", CONFIG_TYPE_STRING, "Human Player"));
 	configList.push_back(ConfigInfo("MyAvatar", CONFIG_TYPE_STRING, ""));

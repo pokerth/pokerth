@@ -43,7 +43,7 @@ using namespace std;
 CleanerConfig::CleanerConfig()
 {
 	// !!!! Revisionsnummer der Configdefaults !!!!!
-	configRev = 6;
+	configRev = 7;
 	
 	// Pfad und Dateinamen setzen
 #ifdef _WIN32
@@ -112,10 +112,10 @@ CleanerConfig::CleanerConfig()
 	configList.push_back(ConfigInfo("ConfigRevision", CONFIG_TYPE_INT, tempIntToString.str()));
 	configList.push_back(ConfigInfo("Language", CONFIG_TYPE_STRING, getDefaultLanguage()));
 
-	configList.push_back(ConfigInfo("HostAddress", CONFIG_TYPE_STRING, "127.0.0.1"));
+	configList.push_back(ConfigInfo("HostAddress", CONFIG_TYPE_STRING, "0.0.0.0"));
 	configList.push_back(ConfigInfo("DefaultListenPort", CONFIG_TYPE_STRING, "4327"));
-	configList.push_back(ConfigInfo("ExpectedAuthString", CONFIG_TYPE_STRING, ""));
-	configList.push_back(ConfigInfo("AuthAnswerString", CONFIG_TYPE_STRING, ""));
+	configList.push_back(ConfigInfo("ClientAuthString", CONFIG_TYPE_STRING, ""));
+	configList.push_back(ConfigInfo("ServerAuthString", CONFIG_TYPE_STRING, ""));
 	
 	configList.push_back(ConfigInfo("WarnLevelToKick", CONFIG_TYPE_INT, "2"));
 	configList.push_back(ConfigInfo("TextFloodLevelToTrigger", CONFIG_TYPE_INT, "3"));

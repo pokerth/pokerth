@@ -25,9 +25,11 @@
 #include <net/sendercallback.h>
 #include <net/receiverhelper.h>
 #include <net/socket_msg.h>
+#include <net/chatcleanermanager.h>
 #include <core/avatarmanager.h>
 #include <core/loghelper.h>
 #include <core/openssl_wrapper.h>
+#include <configfile.h>
 
 #include <fstream>
 #include <sstream>
@@ -101,6 +103,7 @@ ServerLobbyThread::ServerLobbyThread(GuiInterface &gui, ConfigFile *playerConfig
 	m_sender.reset(new SenderHelper(*m_senderCallback, m_ioService));
 	m_receiver.reset(new ReceiverHelper);
 	m_banManager.reset(new ServerBanManager(m_ioService));
+	m_chatCleanerManager.reset(new ChatCleanerManager(m_ioService));
 }
 
 ServerLobbyThread::~ServerLobbyThread()
@@ -499,6 +502,7 @@ ServerLobbyThread::GetNextGameId()
 void
 ServerLobbyThread::Main()
 {
+	InitChatCleaner();
 	// Register all timers.
 	RegisterTimers();
 	try
@@ -568,6 +572,20 @@ ServerLobbyThread::CancelTimers()
 	m_avatarCleanupTimer.cancel();
 	m_saveStatisticsTimer.cancel();
 	m_avatarLockTimer.cancel();
+}
+
+void
+ServerLobbyThread::InitChatCleaner()
+{
+	if (m_playerConfig->readConfigInt("UseChatCleaner") != 0)
+	{
+		m_chatCleanerManager->Init(
+				m_playerConfig->readConfigString("ChatCleanerHostAddress"),
+				m_playerConfig->readConfigInt("ChatCleanerPort"),
+				m_playerConfig->readConfigInt("ChatCleanerUseIpv6") != 0,
+				m_playerConfig->readConfigString("ChatCleanerClientAuth"),
+				m_playerConfig->readConfigString("ChatCleanerServerAuth"));
+	}
 }
 
 void

@@ -42,6 +42,7 @@ class ServerGame;
 class ServerBanManager;
 class ConfigFile;
 class AvatarManager;
+class ChatCleanerManager;
 struct GameData;
 class Game;
 
@@ -108,6 +109,7 @@ protected:
 	virtual void Main();
 	void RegisterTimers();
 	void CancelTimers();
+	void InitChatCleaner();
 
 	void HandleRead(const boost::system::error_code &ec, SessionId sessionId, size_t bytesRead);
 	void HandlePacket(SessionWrapper session, boost::shared_ptr<NetPacket> packet);
@@ -204,6 +206,7 @@ private:
 	mutable boost::mutex m_statMutex;
 
 	boost::shared_ptr<ServerBanManager> m_banManager;
+	boost::shared_ptr<ChatCleanerManager> m_chatCleanerManager;
 
 	boost::asio::deadline_timer m_removeGameTimer;
 	boost::asio::deadline_timer m_removePlayerTimer;
