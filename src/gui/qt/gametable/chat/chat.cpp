@@ -67,7 +67,7 @@ void Chat::sendMessage() {
 	}
 
 	fillChatLinesHistory(myW->lineEdit_ChatInput->text());
-	myW->getSession()->sendChatMessage(myW->lineEdit_ChatInput->text().toUtf8().constData());
+	myW->getSession()->sendGameChatMessage(myW->lineEdit_ChatInput->text().toUtf8().constData());
 	myW->lineEdit_ChatInput->setText("");
 }
 

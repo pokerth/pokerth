@@ -141,7 +141,8 @@ void ServerGuiWrapper::SignalNetClientGameListUpdateAdmin(unsigned gameId, unsig
 void ServerGuiWrapper::SignalNetClientGameListPlayerJoined(unsigned gameId, unsigned playerId) { if (myClientcb) myClientcb->SignalNetClientGameListPlayerJoined(gameId, playerId); }
 void ServerGuiWrapper::SignalNetClientGameListPlayerLeft(unsigned gameId, unsigned playerId) { if (myClientcb) myClientcb->SignalNetClientGameListPlayerLeft(gameId, playerId); }
 void ServerGuiWrapper::SignalNetClientGameStart(boost::shared_ptr<Game> game) { if (myClientcb) myClientcb->SignalNetClientGameStart(game); }
-void ServerGuiWrapper::SignalNetClientChatMsg(const string &playerName, const string &msg) { if (myClientcb) myClientcb->SignalNetClientChatMsg(playerName, msg); }
+void ServerGuiWrapper::SignalNetClientGameChatMsg(const string &playerName, const string &msg) { if (myClientcb) myClientcb->SignalNetClientGameChatMsg(playerName, msg); }
+void ServerGuiWrapper::SignalNetClientLobbyChatMsg(const string &playerName, const string &msg) { if (myClientcb) myClientcb->SignalNetClientLobbyChatMsg(playerName, msg); }
 void ServerGuiWrapper::SignalNetClientMsgBox(const string &msg) { if (myClientcb) myClientcb->SignalNetClientMsgBox(msg); }
 void ServerGuiWrapper::SignalNetClientWaitDialog() { if (myClientcb) myClientcb->SignalNetClientWaitDialog(); }
 

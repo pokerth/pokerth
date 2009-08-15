@@ -399,14 +399,13 @@ ServerLobbyThread::SendGlobalChat(const string &message)
 	boost::shared_ptr<NetPacket> packet(new NetPacket(NetPacket::Alloc));
 	packet->GetMsg()->present = PokerTHMessage_PR_chatMessage;
 	ChatMessage_t *netChat = &packet->GetMsg()->choice.chatMessage;
-	// TODO proper game id handling.
-	netChat->gameId = 0;
-	netChat->playerId = 0;
+	netChat->chatType.present = chatType_PR_chatTypeBroadcast;
 	OCTET_STRING_fromBuf(
 		&netChat->chatText,
 		message.c_str(),
 		message.length());
 
+	m_sessionManager.SendToAllSessions(GetSender(), packet, SessionData::Established);
 	m_gameSessionManager.SendToAllSessions(GetSender(), packet, SessionData::Game);
 }
 
@@ -747,6 +746,8 @@ ServerLobbyThread::HandlePacket(SessionWrapper session, boost::shared_ptr<NetPac
 				else if (joinRequest->joinGameAction.present == joinGameAction_PR_joinExistingGame)
 					HandleNetPacketJoinGame(session, password, joinRequest->joinGameAction.choice.joinExistingGame);
 			}
+			else if (packet->GetMsg()->present == PokerTHMessage_PR_chatRequestMessage)
+				HandleNetPacketChatRequest(session, packet->GetMsg()->choice.chatRequestMessage);
 			else
 				SessionError(session, ERR_SOCK_INVALID_STATE);
 		}
@@ -1067,6 +1068,26 @@ ServerLobbyThread::HandleNetPacketJoinGame(SessionWrapper session, const std::st
 	{
 		// TODO do not remove session
 		SessionError(session, ERR_NET_UNKNOWN_GAME);
+	}
+}
+
+void
+ServerLobbyThread::HandleNetPacketChatRequest(SessionWrapper session, const ChatRequestMessage_t &chatRequest)
+{
+	if (chatRequest.chatRequestType.present == chatRequestType_PR_chatRequestTypeLobby && session.playerData)
+	{
+		boost::shared_ptr<NetPacket> packet(new NetPacket(NetPacket::Alloc));
+		packet->GetMsg()->present = PokerTHMessage_PR_chatMessage;
+		ChatMessage_t *netChat = &packet->GetMsg()->choice.chatMessage;
+		netChat->chatType.present = chatType_PR_chatTypeLobby;
+		ChatTypeLobby_t *netLobbyChat = &netChat->chatType.choice.chatTypeLobby;
+		netLobbyChat->playerId = session.playerData->GetUniqueId();
+		OCTET_STRING_fromBuf(
+			&netChat->chatText,
+			(char *)chatRequest.chatText.buf,
+			chatRequest.chatText.size);
+
+		m_sessionManager.SendToAllSessions(GetSender(), packet, SessionData::Established);
 	}
 }
 

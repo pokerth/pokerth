@@ -240,8 +240,10 @@ AbstractServerGameStateReceiving::ProcessPacket(boost::shared_ptr<ServerGame> se
 			boost::shared_ptr<NetPacket> packet(new NetPacket(NetPacket::Alloc));
 			packet->GetMsg()->present = PokerTHMessage_PR_chatMessage;
 			ChatMessage_t *netChat = &packet->GetMsg()->choice.chatMessage;
-			netChat->gameId = server->GetId();
-			netChat->playerId = session.playerData->GetUniqueId();
+			netChat->chatType.present = chatType_PR_chatTypeGame;
+			ChatTypeGame_t *netGameChat = &netChat->chatType.choice.chatTypeGame;
+			netGameChat->gameId = server->GetId();
+			netGameChat->playerId = session.playerData->GetUniqueId();
 			OCTET_STRING_fromBuf(
 				&netChat->chatText,
 				(char *)netChatRequest->chatText.buf,

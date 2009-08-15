@@ -40,7 +40,7 @@ void ChatTools::sendMessage() {
 	
 	fillChatLinesHistory(myLineEdit->text());
 	if(mySession) {
-		mySession->sendChatMessage(myLineEdit->text().toUtf8().constData());
+		mySession->sendGameChatMessage(myLineEdit->text().toUtf8().constData());
 		myLineEdit->setText("");
 	}
 	else { cout << "Session is not valid" << endl;}

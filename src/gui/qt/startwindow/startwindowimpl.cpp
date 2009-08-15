@@ -141,8 +141,9 @@ startWindowImpl::startWindowImpl(ConfigFile *c)
 	connect(this, SIGNAL(signalNetClientRemovedFromGame(int)), myGameLobbyDialog, SLOT(removedFromGame(int)));
 	connect(this, SIGNAL(signalNetClientStatsUpdate(ServerStats)), myGameLobbyDialog, SLOT(updateStats(ServerStats)));
 
-	connect(this, SIGNAL(signalNetClientChatMsg(QString, QString)), myStartNetworkGameDialog, SLOT(receiveChatMsg(QString, QString)));
-	connect(this, SIGNAL(signalNetClientChatMsg(QString, QString)), myGuiInterface->getMyW()->getMyChat(), SLOT(receiveMessage(QString, QString)));
+	connect(this, SIGNAL(signalNetClientGameChatMsg(QString, QString)), myStartNetworkGameDialog, SLOT(receiveChatMsg(QString, QString)));
+	connect(this, SIGNAL(signalNetClientGameChatMsg(QString, QString)), myGuiInterface->getMyW()->getMyChat(), SLOT(receiveMessage(QString, QString)));
+	connect(this, SIGNAL(signalNetClientLobbyChatMsg(QString, QString)), myGameLobbyDialog->getLobbyChat(), SLOT(displayMessage(QString, QString)));
 	connect(this, SIGNAL(signalNetClientMsgBox(QString)), this, SLOT(networkMessage(QString)));
 
 	connect(this, SIGNAL(signalNetClientShowTimeoutDialog(int, unsigned)), this, SLOT(showTimeoutDialog(int, unsigned)));
@@ -316,35 +317,6 @@ void startWindowImpl::joinGameLobby() {
 	// Clear Lobby dialog.
 	myGameLobbyDialog->clearDialog();
 
-	//set clean irc nick
-	QString myNick(QString::fromUtf8(myConfig->readConfigString("MyName").c_str()));
-	myNick.replace(QString::fromUtf8("ä"),"ae");
-	myNick.replace(QString::fromUtf8("Ä"),"Ae");
-	myNick.replace(QString::fromUtf8("ü"),"ue");
-	myNick.replace(QString::fromUtf8("Ü"),"Ue");
-	myNick.replace(QString::fromUtf8("ö"),"oe");
-	myNick.replace(QString::fromUtf8("Ö"),"Oe");
-	myNick.replace(QString::fromUtf8("é"),"e");
-	myNick.replace(QString::fromUtf8("è"),"e");
-	myNick.replace(QString::fromUtf8("á"),"a");
-	myNick.replace(QString::fromUtf8("à"),"a");	
-	myNick.replace(QString::fromUtf8("ó"),"o");
-	myNick.replace(QString::fromUtf8("ò"),"o");
-	myNick.replace(QString::fromUtf8("ú"),"u");
-	myNick.replace(QString::fromUtf8("ù"),"u");
-	myNick.replace(QString::fromUtf8("É"),"E");
-	myNick.replace(QString::fromUtf8("È"),"E");
-	myNick.replace(QString::fromUtf8("Á"),"A");
-	myNick.replace(QString::fromUtf8("À"),"A");	
-	myNick.replace(QString::fromUtf8("Ó"),"O");
-	myNick.replace(QString::fromUtf8("Ò"),"O");
-	myNick.replace(QString::fromUtf8("Ú"),"U");
-	myNick.replace(QString::fromUtf8("Ù"),"U");
-	myNick.remove(QRegExp("[^A-Z^a-z^0-9|\\-_\\\\^`]*"));
-	myNick = myNick.mid(0,16);
-
- 	mySession->setIrcNick(myNick.toUtf8().constData());
-	
 	// Start client for dedicated server.
 	mySession->startInternetClient();
 	

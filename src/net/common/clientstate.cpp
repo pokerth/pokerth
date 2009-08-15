@@ -809,18 +809,29 @@ AbstractClientStateReceiving::HandlePacket(boost::shared_ptr<ClientThread> clien
 		ChatMessage_t *netMessage = &tmpPacket->GetMsg()->choice.chatMessage;
 
 		string playerName;
-		if (netMessage->playerId == 0)
+		if (netMessage->chatType.present == chatType_PR_chatTypeBroadcast)
 		{
-			playerName = "(global notice)";
+			client->GetCallback().SignalNetClientGameChatMsg("(global notice)", STL_STRING_FROM_OCTET_STRING(netMessage->chatText));
+			client->GetCallback().SignalNetClientLobbyChatMsg("(global notice)", STL_STRING_FROM_OCTET_STRING(netMessage->chatText));
 		}
-		else
+		else if (netMessage->chatType.present == chatType_PR_chatTypeGame)
 		{
-			boost::shared_ptr<PlayerData> tmpPlayer = client->GetPlayerDataByUniqueId(netMessage->playerId);
+			unsigned playerId = netMessage->chatType.choice.chatTypeGame.playerId;
+			boost::shared_ptr<PlayerData> tmpPlayer = client->GetPlayerDataByUniqueId(playerId);
 			if (tmpPlayer.get())
 				playerName = tmpPlayer->GetName();
+			if (!playerName.empty())
+				client->GetCallback().SignalNetClientGameChatMsg(playerName, STL_STRING_FROM_OCTET_STRING(netMessage->chatText));
 		}
-		if (!playerName.empty())
-			client->GetCallback().SignalNetClientChatMsg(playerName, STL_STRING_FROM_OCTET_STRING(netMessage->chatText));
+		else if (netMessage->chatType.present == chatType_PR_chatTypeLobby)
+		{
+			unsigned playerId = netMessage->chatType.choice.chatTypeLobby.playerId;
+			boost::shared_ptr<PlayerData> tmpPlayer = client->GetPlayerDataByUniqueId(playerId);
+			if (tmpPlayer.get())
+				playerName = tmpPlayer->GetName();
+			if (!playerName.empty())
+				client->GetCallback().SignalNetClientLobbyChatMsg(playerName, STL_STRING_FROM_OCTET_STRING(netMessage->chatText));
+		}
 	}
 	else if (tmpPacket->GetMsg()->present == PokerTHMessage_PR_dialogMessage)
 	{

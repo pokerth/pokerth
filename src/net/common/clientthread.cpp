@@ -172,17 +172,37 @@ ClientThread::SendPlayerAction()
 }
 
 void
-ClientThread::SendChatMessage(const std::string &msg)
+ClientThread::SendGameChatMessage(const std::string &msg)
 {
 	// Warning: This function is called in the context of the GUI thread.
 	// Create a network packet containing the chat message.
 	boost::shared_ptr<NetPacket> packet(new NetPacket(NetPacket::Alloc));
 	packet->GetMsg()->present = PokerTHMessage_PR_chatRequestMessage;
 	ChatRequestMessage_t *netChat = &packet->GetMsg()->choice.chatRequestMessage;
-	netChat->gameId = GetGameId();
 	OCTET_STRING_fromBuf(&netChat->chatText,
 						 msg.c_str(),
 						 msg.length());
+
+	netChat->chatRequestType.present = chatRequestType_PR_chatRequestTypeGame;
+	netChat->chatRequestType.choice.chatRequestTypeGame.gameId = GetGameId();
+
+	// Just dump the packet.
+	m_ioService->post(boost::bind(&ClientThread::SendSessionPacket, shared_from_this(), packet));
+}
+
+void
+ClientThread::SendLobbyChatMessage(const std::string &msg)
+{
+	// Warning: This function is called in the context of the GUI thread.
+	// Create a network packet containing the chat message.
+	boost::shared_ptr<NetPacket> packet(new NetPacket(NetPacket::Alloc));
+	packet->GetMsg()->present = PokerTHMessage_PR_chatRequestMessage;
+	ChatRequestMessage_t *netChat = &packet->GetMsg()->choice.chatRequestMessage;
+	OCTET_STRING_fromBuf(&netChat->chatText,
+						 msg.c_str(),
+						 msg.length());
+
+	netChat->chatRequestType.present = chatRequestType_PR_chatRequestTypeLobby;
 
 	// Just dump the packet.
 	m_ioService->post(boost::bind(&ClientThread::SendSessionPacket, shared_from_this(), packet));

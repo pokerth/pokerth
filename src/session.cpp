@@ -156,29 +156,12 @@ boost::shared_ptr<AvatarManager> Session::getAvatarManager()
 
 void Session::startInternetClient()
 {
-	if (myNetClient || myClientIrcThread || !myGui)
+	if (myNetClient || !myGui)
 	{
 		assert(false);
 		return;
 	}
 	myGameType = GAME_TYPE_INTERNET;
-
-	if (myConfig->readConfigInt("UseIRCLobbyChat"))
-	{
-		myClientIrcThread.reset(new IrcThread(myGui));
-		myClientIrcThread->Init(
-			myConfig->readConfigString("IRCServerAddress"),
-			myConfig->readConfigInt("IRCServerPort"),
-			myConfig->readConfigInt("IRCServerUseIpv6") == 1,
-			myIrcNick,
-#ifdef POKERTH_IS_07BETA
-			"#pokerth-lobby-07beta",
-#else
-			myConfig->readConfigString("IRCChannel"), 
-#endif 
-			myConfig->readConfigString("IRCChannelPassword"));
-		myClientIrcThread->Run();
-	}
 
 	myNetClient.reset(new ClientThread(*myGui, *myAvatarManager));
 	bool useAvatarServer = myConfig->readConfigInt("UseAvatarServer") != 0;
@@ -261,13 +244,9 @@ void Session::terminateNetworkClient()
 	if (!myNetClient)
 		return; // already terminated
 	myNetClient->SignalTermination();
-	if (myClientIrcThread)
-		myClientIrcThread->SignalTermination();
 	// Give the threads some time to terminate.
 	if (myNetClient->Join(NET_CLIENT_TERMINATE_TIMEOUT_MSEC))
 		myNetClient.reset();
-	if (myClientIrcThread && myClientIrcThread->Join(NET_IRC_TERMINATE_TIMEOUT_MSEC))
-		myClientIrcThread.reset();
 
 	// If termination fails, leave a memory leak to prevent a crash.
 	myGameType = GAME_TYPE_NONE;
@@ -348,13 +327,6 @@ bool Session::pollNetworkServerTerminated()
 	return retVal;
 }
 
-void Session::sendIrcChatMessage(const std::string &message)
-{
-	if (!myClientIrcThread)
-		return;
-	myClientIrcThread->SendChatMessage(message);
-}
-
 void Session::sendLeaveCurrentGame()
 {
 	if (!myNetClient)
@@ -376,11 +348,18 @@ void Session::sendClientPlayerAction()
 	myNetClient->SendPlayerAction();
 }
 
-void Session::sendChatMessage(const std::string &message)
+void Session::sendGameChatMessage(const std::string &message)
 {
 	if (!myNetClient)
 		return; // only act if client is running.
-	myNetClient->SendChatMessage(message);
+	myNetClient->SendGameChatMessage(message);
+}
+
+void Session::sendLobbyChatMessage(const std::string &message)
+{
+	if (!myNetClient)
+		return;
+	myNetClient->SendLobbyChatMessage(message);
 }
 
 void Session::kickPlayer(unsigned playerId)

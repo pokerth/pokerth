@@ -75,12 +75,10 @@ public:
 	void terminateNetworkServer();
 	bool pollNetworkServerTerminated();
 
-	void sendIrcChatMessage(const std::string &message);
-	void setIrcNick(const std::string &value) { myIrcNick = value; }
-
 	void sendClientPlayerAction();
 
-	void sendChatMessage(const std::string &message);
+	void sendGameChatMessage(const std::string &message);
+	void sendLobbyChatMessage(const std::string &message);
 	void kickPlayer(unsigned playerId);
 	void kickPlayer(const std::string &playerName);
 	void startVoteKickPlayer(unsigned playerId);
@@ -108,7 +106,6 @@ private:
 
 	boost::shared_ptr<ClientThread> myNetClient;
 	boost::shared_ptr<ServerManager> myNetServer;
-	boost::shared_ptr<IrcThread> myClientIrcThread;
 
 	boost::shared_ptr<AvatarManager> myAvatarManager;
 

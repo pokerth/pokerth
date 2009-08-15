@@ -42,13 +42,16 @@ LobbyChat::~LobbyChat()
 
 void LobbyChat::sendMessage() {
 
-	if (myNick.size())
+	if (myNick.isEmpty())
+		myNick = QString::fromUtf8(myConfig->readConfigString("MyName").c_str());
+
+	if (!myNick.isEmpty())
 	{
 		fillChatLinesHistory(myLobby->lineEdit_ChatInput->text());
 		QString tmpMsg(myLobby->lineEdit_ChatInput->text());
 		if (tmpMsg.size())
 		{
-			myLobby->getSession()->sendIrcChatMessage(tmpMsg.toUtf8().constData());
+			myLobby->getSession()->sendLobbyChatMessage(tmpMsg.toUtf8().constData());
 			myLobby->lineEdit_ChatInput->setText("");
 
 			displayMessage(myNick, tmpMsg);
@@ -145,8 +148,6 @@ void LobbyChat::clearChat() {
 	myNick = "";
 	myLobby->treeWidget_NickList->clear();
 	myLobby->textBrowser_ChatDisplay->clear();
-	myLobby->textBrowser_ChatDisplay->append(tr("Connecting to Chat server..."));
-	myLobby->lineEdit_ChatInput->setEnabled(false);
 }
 
 void LobbyChat::chatError(int errorCode)

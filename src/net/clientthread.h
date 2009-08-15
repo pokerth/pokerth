@@ -70,7 +70,8 @@ public:
 	void SendLeaveCurrentGame();
 	void SendStartEvent(bool fillUpWithCpuPlayers);
 	void SendPlayerAction();
-	void SendChatMessage(const std::string &msg);
+	void SendGameChatMessage(const std::string &msg);
+	void SendLobbyChatMessage(const std::string &msg);
 	void SendJoinFirstGame(const std::string &password);
 	void SendJoinGame(unsigned gameId, const std::string &password);
 	void SendCreateGame(const GameData &gameData, const std::string &name, const std::string &password);

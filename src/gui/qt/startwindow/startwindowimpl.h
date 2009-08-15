@@ -80,7 +80,8 @@ signals:
 	void signalNetClientGameListPlayerJoined(unsigned gameId, unsigned playerId);
 	void signalNetClientGameListPlayerLeft(unsigned gameId, unsigned playerId);
 	void signalNetClientGameStart(boost::shared_ptr<Game> game);
-	void signalNetClientChatMsg(QString nickName, QString msg);
+	void signalNetClientGameChatMsg(QString nickName, QString msg);
+	void signalNetClientLobbyChatMsg(QString nickName, QString msg);
 	void signalNetClientMsgBox(QString msg);
 
 	void signalIrcConnect(QString server);
