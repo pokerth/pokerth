@@ -1114,6 +1114,10 @@ ServerLobbyThread::HandleNetPacketChatRequest(SessionWrapper session, const Chat
 
 		m_sessionManager.SendLobbyMsgToAllSessions(GetSender(), packet, SessionData::Established);
 		m_gameSessionManager.SendLobbyMsgToAllSessions(GetSender(), packet, SessionData::Game);
+		m_chatCleanerManager->HandleChatText(
+				session.playerData->GetUniqueId(),
+				session.playerData->GetName(),
+				STL_STRING_FROM_OCTET_STRING(chatRequest.chatText));
 	}
 }
 
