@@ -20,11 +20,11 @@ static asn_TYPE_member_t asn_MBR_StartEventAckMessage_1[] = {
 		},
 };
 static ber_tlv_tag_t asn_DEF_StartEventAckMessage_tags_1[] = {
-	(ASN_TAG_CLASS_APPLICATION | (14 << 2)),
+	(ASN_TAG_CLASS_APPLICATION | (15 << 2)),
 	(ASN_TAG_CLASS_UNIVERSAL | (16 << 2))
 };
 static asn_TYPE_tag2member_t asn_MAP_StartEventAckMessage_tag2el_1[] = {
-    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 0, 0, 0 } /* gameId at 331 */
+    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 0, 0, 0 } /* gameId at 340 */
 };
 static asn_SEQUENCE_specifics_t asn_SPC_StartEventAckMessage_specs_1 = {
 	sizeof(struct StartEventAckMessage),

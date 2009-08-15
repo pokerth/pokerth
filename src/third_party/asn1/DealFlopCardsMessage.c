@@ -47,14 +47,14 @@ static asn_TYPE_member_t asn_MBR_DealFlopCardsMessage_1[] = {
 		},
 };
 static ber_tlv_tag_t asn_DEF_DealFlopCardsMessage_tags_1[] = {
-	(ASN_TAG_CLASS_APPLICATION | (21 << 2)),
+	(ASN_TAG_CLASS_APPLICATION | (22 << 2)),
 	(ASN_TAG_CLASS_UNIVERSAL | (16 << 2))
 };
 static asn_TYPE_tag2member_t asn_MAP_DealFlopCardsMessage_tag2el_1[] = {
-    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 0, 0, 3 }, /* gameId at 383 */
-    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 1, -1, 2 }, /* flopCard1 at 384 */
-    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 2, -2, 1 }, /* flopCard2 at 385 */
-    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 3, -3, 0 } /* flopCard3 at 387 */
+    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 0, 0, 3 }, /* gameId at 392 */
+    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 1, -1, 2 }, /* flopCard1 at 393 */
+    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 2, -2, 1 }, /* flopCard2 at 394 */
+    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 3, -3, 0 } /* flopCard3 at 396 */
 };
 static asn_SEQUENCE_specifics_t asn_SPC_DealFlopCardsMessage_specs_1 = {
 	sizeof(struct DealFlopCardsMessage),

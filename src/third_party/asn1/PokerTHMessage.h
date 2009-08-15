@@ -15,6 +15,7 @@
 #include "InitAckMessage.h"
 #include "AvatarRequestMessage.h"
 #include "AvatarReplyMessage.h"
+#include "PlayerListMessage.h"
 #include "GameListMessage.h"
 #include "PlayerInfoRequestMessage.h"
 #include "PlayerInfoReplyMessage.h"
@@ -65,6 +66,7 @@ typedef enum PokerTHMessage_PR {
 	PokerTHMessage_PR_initAckMessage,
 	PokerTHMessage_PR_avatarRequestMessage,
 	PokerTHMessage_PR_avatarReplyMessage,
+	PokerTHMessage_PR_playerListMessage,
 	PokerTHMessage_PR_gameListMessage,
 	PokerTHMessage_PR_playerInfoRequestMessage,
 	PokerTHMessage_PR_playerInfoReplyMessage,
@@ -114,6 +116,7 @@ typedef struct PokerTHMessage {
 		InitAckMessage_t	 initAckMessage;
 		AvatarRequestMessage_t	 avatarRequestMessage;
 		AvatarReplyMessage_t	 avatarReplyMessage;
+		PlayerListMessage_t	 playerListMessage;
 		GameListMessage_t	 gameListMessage;
 		PlayerInfoRequestMessage_t	 playerInfoRequestMessage;
 		PlayerInfoReplyMessage_t	 playerInfoReplyMessage;

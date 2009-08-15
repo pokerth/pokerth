@@ -20,11 +20,11 @@ static asn_TYPE_member_t asn_MBR_LeaveGameRequestMessage_1[] = {
 		},
 };
 static ber_tlv_tag_t asn_DEF_LeaveGameRequestMessage_tags_1[] = {
-	(ASN_TAG_CLASS_APPLICATION | (12 << 2)),
+	(ASN_TAG_CLASS_APPLICATION | (13 << 2)),
 	(ASN_TAG_CLASS_UNIVERSAL | (16 << 2))
 };
 static asn_TYPE_tag2member_t asn_MAP_LeaveGameRequestMessage_tag2el_1[] = {
-    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 0, 0, 0 } /* gameId at 322 */
+    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 0, 0, 0 } /* gameId at 331 */
 };
 static asn_SEQUENCE_specifics_t asn_SPC_LeaveGameRequestMessage_specs_1 = {
 	sizeof(struct LeaveGameRequestMessage),

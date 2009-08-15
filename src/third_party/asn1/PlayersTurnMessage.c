@@ -38,13 +38,13 @@ static asn_TYPE_member_t asn_MBR_PlayersTurnMessage_1[] = {
 		},
 };
 static ber_tlv_tag_t asn_DEF_PlayersTurnMessage_tags_1[] = {
-	(ASN_TAG_CLASS_APPLICATION | (17 << 2)),
+	(ASN_TAG_CLASS_APPLICATION | (18 << 2)),
 	(ASN_TAG_CLASS_UNIVERSAL | (16 << 2))
 };
 static asn_TYPE_tag2member_t asn_MAP_PlayersTurnMessage_tag2el_1[] = {
-    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 0, 0, 1 }, /* gameId at 347 */
-    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 1, -1, 0 }, /* playerId at 348 */
-    { (ASN_TAG_CLASS_UNIVERSAL | (10 << 2)), 2, 0, 0 } /* gameState at 350 */
+    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 0, 0, 1 }, /* gameId at 356 */
+    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 1, -1, 0 }, /* playerId at 357 */
+    { (ASN_TAG_CLASS_UNIVERSAL | (10 << 2)), 2, 0, 0 } /* gameState at 359 */
 };
 static asn_SEQUENCE_specifics_t asn_SPC_PlayersTurnMessage_specs_1 = {
 	sizeof(struct PlayersTurnMessage),

@@ -20,11 +20,11 @@ static asn_TYPE_member_t asn_MBR_PlayerInfoRequestMessage_1[] = {
 		},
 };
 static ber_tlv_tag_t asn_DEF_PlayerInfoRequestMessage_tags_1[] = {
-	(ASN_TAG_CLASS_APPLICATION | (5 << 2)),
+	(ASN_TAG_CLASS_APPLICATION | (6 << 2)),
 	(ASN_TAG_CLASS_UNIVERSAL | (16 << 2))
 };
 static asn_TYPE_tag2member_t asn_MAP_PlayerInfoRequestMessage_tag2el_1[] = {
-    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 0, 0, 0 } /* playerId at 186 */
+    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 0, 0, 0 } /* playerId at 195 */
 };
 static asn_SEQUENCE_specifics_t asn_SPC_PlayerInfoRequestMessage_specs_1 = {
 	sizeof(struct PlayerInfoRequestMessage),

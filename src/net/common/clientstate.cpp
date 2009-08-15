@@ -839,6 +839,16 @@ AbstractClientStateReceiving::HandlePacket(boost::shared_ptr<ClientThread> clien
 		DialogMessage_t *netDialog = &tmpPacket->GetMsg()->choice.dialogMessage;
 		client->GetCallback().SignalNetClientMsgBox(STL_STRING_FROM_OCTET_STRING(netDialog->notificationText));
 	}
+	else if (tmpPacket->GetMsg()->present == PokerTHMessage_PR_playerListMessage)
+	{
+		PlayerListMessage_t *netPlayerList = &tmpPacket->GetMsg()->choice.playerListMessage;
+		PlayerInfo info;
+		if (!client->GetCachedPlayerInfo(netPlayerList->playerId, info))
+		{
+			// Request player info.
+			client->RequestPlayerInfo(netPlayerList->playerId);
+		}
+	}
 	else if (tmpPacket->GetMsg()->present == PokerTHMessage_PR_gameListMessage)
 	{
 		GameListMessage_t *netGameList = &tmpPacket->GetMsg()->choice.gameListMessage;

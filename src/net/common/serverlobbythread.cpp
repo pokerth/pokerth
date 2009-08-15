@@ -1097,16 +1097,18 @@ ServerLobbyThread::EstablishSession(SessionWrapper session)
 	if (!session.playerData.get())
 		throw ServerException(__FILE__, __LINE__, ERR_NET_INVALID_SESSION, 0);
 	// Send ACK to client.
-	boost::shared_ptr<NetPacket> packet(new NetPacket(NetPacket::Alloc));
-	packet->GetMsg()->present = PokerTHMessage_PR_initAckMessage;
-	InitAckMessage_t *netInitAck = &packet->GetMsg()->choice.initAckMessage;
+	boost::shared_ptr<NetPacket> ack(new NetPacket(NetPacket::Alloc));
+	ack->GetMsg()->present = PokerTHMessage_PR_initAckMessage;
+	InitAckMessage_t *netInitAck = &ack->GetMsg()->choice.initAckMessage;
 	netInitAck->latestGameVersion.major = POKERTH_VERSION_MAJOR;
 	netInitAck->latestGameVersion.minor = POKERTH_VERSION_MINOR;
 	netInitAck->latestBetaRevision = POKERTH_BETA_REVISION;
 //	initAckData.sessionId = session.sessionData->GetId(); // TODO: currently unused.
 	netInitAck->yourPlayerId = session.playerData->GetUniqueId();
-	GetSender().Send(session.sessionData, packet);
+	GetSender().Send(session.sessionData, ack);
 
+	// Send the connected players list to the client.
+	SendPlayerList(session.sessionData);
 	// Send the game list to the client.
 	SendGameList(session.sessionData);
 
@@ -1118,6 +1120,11 @@ ServerLobbyThread::EstablishSession(SessionWrapper session)
 		++m_statData.totalPlayersEverLoggedIn;
 		m_statDataChanged = true;
 	}
+	// Notify all players.
+	boost::shared_ptr<NetPacket> notify = CreateNetPacketPlayerListNew(session.playerData->GetUniqueId());
+	m_sessionManager.SendLobbyMsgToAllSessions(GetSender(), notify, SessionData::Established);
+	m_gameSessionManager.SendLobbyMsgToAllSessions(GetSender(), notify, SessionData::Game);
+
 	UpdateStatisticsNumberOfPlayers();
 }
 
@@ -1349,9 +1356,10 @@ ServerLobbyThread::InternalResubscribeMsg(SessionWrapper session)
 	if (!session.sessionData->WantsLobbyMsg())
 	{
 		session.sessionData->SetWantsLobbyMsg();
+		SendPlayerList(session.sessionData);
 		SendGameList(session.sessionData);
 		// Send new statistics information.
-		boost::shared_ptr<NetPacket> packet(new NetPacket(NetPacket::Alloc));
+/*		boost::shared_ptr<NetPacket> packet(new NetPacket(NetPacket::Alloc));
 		packet->GetMsg()->present = PokerTHMessage_PR_statisticsMessage;
 		StatisticsMessage_t *netStatistics = &packet->GetMsg()->choice.statisticsMessage;
 
@@ -1360,7 +1368,7 @@ ServerLobbyThread::InternalResubscribeMsg(SessionWrapper session)
 		data->statisticsValue = m_sessionManager.GetRawSessionCount() + m_gameSessionManager.GetRawSessionCount();
 		ASN_SEQUENCE_ADD(&netStatistics->statisticsData.list, data);
 
-		GetSender().Send(session.sessionData, packet);
+		GetSender().Send(session.sessionData, packet);*/
 	}
 }
 
@@ -1476,6 +1484,23 @@ ServerLobbyThread::SendJoinGameFailed(boost::shared_ptr<SessionData> s, int reas
 }
 
 void
+ServerLobbyThread::SendPlayerList(boost::shared_ptr<SessionData> s)
+{
+	// Retrieve all player ids.
+	PlayerIdList idList(m_sessionManager.GetPlayerIdList());
+	PlayerIdList gameIdList(m_gameSessionManager.GetPlayerIdList());
+	idList.splice(idList.begin(), gameIdList);
+	// Send all player ids to client.
+	PlayerIdList::const_iterator i = idList.begin();
+	PlayerIdList::const_iterator end = idList.end();
+	while (i != end)
+	{
+		GetSender().Send(s, CreateNetPacketPlayerListNew(*i));
+		++i;
+	}
+}
+
+void
 ServerLobbyThread::SendGameList(boost::shared_ptr<SessionData> s)
 {
 	GameMap::const_iterator game_i = m_gameMap.begin();
@@ -1503,7 +1528,7 @@ ServerLobbyThread::UpdateStatisticsNumberOfPlayers()
 		}
 	}
 	// Do not send other stats than number of players for now.
-	BroadcastStatisticsUpdate(stats);
+	//BroadcastStatisticsUpdate(stats);
 }
 
 void
@@ -1626,6 +1651,28 @@ ServerLobbyThread::IsPlayerConnected(const string &name) const
 		retVal = m_gameSessionManager.IsPlayerConnected(name);
 
 	return retVal;
+}
+
+boost::shared_ptr<NetPacket>
+ServerLobbyThread::CreateNetPacketPlayerListNew(unsigned playerId)
+{
+	boost::shared_ptr<NetPacket> packet(new NetPacket(NetPacket::Alloc));
+	packet->GetMsg()->present = PokerTHMessage_PR_playerListMessage;
+	PlayerListMessage_t *netPlayerList = &packet->GetMsg()->choice.playerListMessage;
+	netPlayerList->playerId = playerId;
+	netPlayerList->playerListNotification = playerListNotification_playerListNew;
+	return packet;
+}
+
+boost::shared_ptr<NetPacket>
+ServerLobbyThread::CreateNetPacketPlayerListLeft(unsigned playerId)
+{
+	boost::shared_ptr<NetPacket> packet(new NetPacket(NetPacket::Alloc));
+	packet->GetMsg()->present = PokerTHMessage_PR_playerListMessage;
+	PlayerListMessage_t *netPlayerList = &packet->GetMsg()->choice.playerListMessage;
+	netPlayerList->playerId = playerId;
+	netPlayerList->playerListNotification = playerListNotification_playerListLeft;
+	return packet;
 }
 
 boost::shared_ptr<NetPacket>

@@ -28,6 +28,7 @@ PokerTHMessage ::= CHOICE {
 	initAckMessage				InitAckMessage,
 	avatarRequestMessage		AvatarRequestMessage,
 	avatarReplyMessage			AvatarReplyMessage,
+	playerListMessage			PlayerListMessage,
 	gameListMessage				GameListMessage,
 	playerInfoRequestMessage	PlayerInfoRequestMessage,
 	playerInfoReplyMessage		PlayerInfoReplyMessage,
@@ -140,7 +141,15 @@ NetAvatarType ::= ENUMERATED {
 	avatarImageGif		(3)
 }
 
-GameListMessage ::= [APPLICATION 4] SEQUENCE {
+PlayerListMessage ::= [APPLICATION 4] SEQUENCE {
+	playerId					NonZeroId,
+	playerListNotification		ENUMERATED {
+		playerListNew			(0),
+		playerListLeft			(1)
+	}
+}
+
+GameListMessage ::= [APPLICATION 5] SEQUENCE {
 	gameId						NonZeroId,
 	gameListNotification		CHOICE {
 		gameListNew				[0]	GameListNew,
@@ -181,11 +190,11 @@ NetGameMode ::= ENUMERATED {
 	gameClosed	(3)
 }
 
-PlayerInfoRequestMessage ::= [APPLICATION 5] SEQUENCE {
+PlayerInfoRequestMessage ::= [APPLICATION 6] SEQUENCE {
 	playerId					NonZeroId
 }
 
-PlayerInfoReplyMessage ::= [APPLICATION 6] SEQUENCE {
+PlayerInfoReplyMessage ::= [APPLICATION 7] SEQUENCE {
 	playerId					NonZeroId,
 	playerInfoResult			CHOICE {
 		playerInfoData			[0] PlayerInfoData,
@@ -208,14 +217,14 @@ UnknownPlayerInfo ::= SEQUENCE {
 
 -- The following request will not be confirmed by the server. It is used,
 -- optionally, to reduce server traffic. The server might ignore it.
-SubscriptionRequestMessage ::= [APPLICATION 7] SEQUENCE {
+SubscriptionRequestMessage ::= [APPLICATION 8] SEQUENCE {
 	subscriptionAction			ENUMERATED {
 		unsubscribeGameList		(1),
 		resubscribeGameList		(2)
 	}
 }
 
-JoinGameRequestMessage ::= [APPLICATION 8] SEQUENCE {
+JoinGameRequestMessage ::= [APPLICATION 9] SEQUENCE {
 	joinGameAction				CHOICE {
 		joinExistingGame		[0] JoinExistingGame,
 		joinNewGame				[1] JoinNewGame
@@ -231,7 +240,7 @@ JoinNewGame ::= SEQUENCE {
 	gameInfo					NetGameInfo
 }
 
-JoinGameReplyMessage ::= [APPLICATION 9] SEQUENCE {
+JoinGameReplyMessage ::= [APPLICATION 10] SEQUENCE {
 	gameId						NonZeroId,
 	joinGameResult				CHOICE {
 		joinGameAck				[0] JoinGameAck,
@@ -273,7 +282,7 @@ NetGameInfo ::= SEQUENCE {
 	manualBlinds				SEQUENCE SIZE(0..30) OF INTEGER(1..20001)
 }
 
-GamePlayerMessage ::= [APPLICATION 10] SEQUENCE {
+GamePlayerMessage ::= [APPLICATION 11] SEQUENCE {
 	gameId						NonZeroId,
 	gamePlayerNotification		CHOICE {
 		gamePlayerJoined		[0] GamePlayerJoined,
@@ -312,51 +321,51 @@ RemovedFromGame ::= SEQUENCE {
 	}
 }
 
-KickPlayerRequestMessage ::= [APPLICATION 11] SEQUENCE {
+KickPlayerRequestMessage ::= [APPLICATION 12] SEQUENCE {
 	gameId						NonZeroId,
 	playerId					NonZeroId
 }
 
-LeaveGameRequestMessage ::= [APPLICATION 12] SEQUENCE {
+LeaveGameRequestMessage ::= [APPLICATION 13] SEQUENCE {
 	gameId						NonZeroId
 }
 
-StartEventMessage ::= [APPLICATION 13] SEQUENCE {
+StartEventMessage ::= [APPLICATION 14] SEQUENCE {
 	gameId						NonZeroId,
 	fillWithComputerPlayers		BOOLEAN
 }
 
-StartEventAckMessage ::= [APPLICATION 14] SEQUENCE {
+StartEventAckMessage ::= [APPLICATION 15] SEQUENCE {
 	gameId						NonZeroId
 }
 
-GameStartMessage ::= [APPLICATION 15] SEQUENCE {
+GameStartMessage ::= [APPLICATION 16] SEQUENCE {
 	gameId						NonZeroId,
 	startDealerPlayerId			NonZeroId,
 	playerSeats					SEQUENCE SIZE(2..10) OF NonZeroId
 }
 
-HandStartMessage ::= [APPLICATION 16] SEQUENCE {
+HandStartMessage ::= [APPLICATION 17] SEQUENCE {
 	gameId						NonZeroId,
 	yourCard1					Card,
 	yourCard2					Card,
 	smallBlind					INTEGER(1..20001)
 }
 
-PlayersTurnMessage ::= [APPLICATION 17] SEQUENCE {
+PlayersTurnMessage ::= [APPLICATION 18] SEQUENCE {
 	gameId						NonZeroId,
 	playerId					NonZeroId,
 	gameState					NetGameState
 }
 
-MyActionRequestMessage ::= [APPLICATION 18] SEQUENCE {
+MyActionRequestMessage ::= [APPLICATION 19] SEQUENCE {
 	gameId						NonZeroId,
 	gameState					NetGameState,
 	myAction					NetPlayerAction,
 	myRelativeBet				INTEGER(0..10000000)
 }
 
-YourActionRejectedMessage ::= [APPLICATION 19] SEQUENCE {
+YourActionRejectedMessage ::= [APPLICATION 20] SEQUENCE {
 	gameId						NonZeroId,
 	gameState					NetGameState,
 	yourAction					NetPlayerAction,
@@ -368,7 +377,7 @@ YourActionRejectedMessage ::= [APPLICATION 19] SEQUENCE {
 	}
 }
 
-PlayersActionDoneMessage ::= [APPLICATION 20] SEQUENCE {
+PlayersActionDoneMessage ::= [APPLICATION 21] SEQUENCE {
 	gameId						NonZeroId,
 	playerId					NonZeroId,
 	gameState					NetGameState,
@@ -379,24 +388,24 @@ PlayersActionDoneMessage ::= [APPLICATION 20] SEQUENCE {
 	minimumRaise				INTEGER(0..10000000) -- TODO
 }
 
-DealFlopCardsMessage ::= [APPLICATION 21] SEQUENCE {
+DealFlopCardsMessage ::= [APPLICATION 22] SEQUENCE {
 	gameId						NonZeroId,
 	flopCard1					Card,
 	flopCard2					Card,
 	flopCard3					Card
 }
 
-DealTurnCardMessage ::= [APPLICATION 22] SEQUENCE {
+DealTurnCardMessage ::= [APPLICATION 23] SEQUENCE {
 	gameId						NonZeroId,
 	turnCard					Card
 }
 
-DealRiverCardMessage ::= [APPLICATION 23] SEQUENCE {
+DealRiverCardMessage ::= [APPLICATION 24] SEQUENCE {
 	gameId						NonZeroId,
 	riverCard					Card
 }
 
-AllInShowCardsMessage ::= [APPLICATION 24] SEQUENCE {
+AllInShowCardsMessage ::= [APPLICATION 25] SEQUENCE {
 	gameId						NonZeroId,
 	playersAllIn				SEQUENCE SIZE(1..10) OF PlayerAllIn
 }
@@ -407,7 +416,7 @@ PlayerAllIn ::= SEQUENCE {
 	allInCard2					Card
 }
 
-EndOfHandMessage ::= [APPLICATION 25] SEQUENCE {
+EndOfHandMessage ::= [APPLICATION 26] SEQUENCE {
 	gameId						NonZeroId,
 	endOfHandType				CHOICE {
 		endOfHandShowCards		[0] EndOfHandShowCards,
@@ -435,7 +444,7 @@ EndOfHandHideCards ::= SEQUENCE {
 	playerMoney					INTEGER(0..10000000)
 }
 
-EndOfGameMessage ::= [APPLICATION 26] SEQUENCE {
+EndOfGameMessage ::= [APPLICATION 27] SEQUENCE {
 	gameId						NonZeroId,
 	winnerPlayerId				NonZeroId
 }

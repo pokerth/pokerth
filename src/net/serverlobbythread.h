@@ -146,6 +146,7 @@ protected:
 	void CloseSession(SessionWrapper session);
 	void SendError(boost::shared_ptr<SessionData> s, int errorCode);
 	void SendJoinGameFailed(boost::shared_ptr<SessionData> s, int reason);
+	void SendPlayerList(boost::shared_ptr<SessionData> s);
 	void SendGameList(boost::shared_ptr<SessionData> s);
 	void UpdateStatisticsNumberOfPlayers();
 	void BroadcastStatisticsUpdate(const ServerStats &stats);
@@ -162,6 +163,8 @@ protected:
 
 	bool IsPlayerConnected(const std::string &name) const;
 
+	static boost::shared_ptr<NetPacket> CreateNetPacketPlayerListNew(unsigned playerId);
+	static boost::shared_ptr<NetPacket> CreateNetPacketPlayerListLeft(unsigned playerId);
 	static boost::shared_ptr<NetPacket> CreateNetPacketGameListNew(const ServerGame &game);
 	static boost::shared_ptr<NetPacket> CreateNetPacketGameListUpdate(unsigned gameId, GameMode mode);
 

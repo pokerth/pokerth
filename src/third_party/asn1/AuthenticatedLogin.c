@@ -64,8 +64,8 @@ static ber_tlv_tag_t asn_DEF_AuthenticatedLogin_tags_1[] = {
 	(ASN_TAG_CLASS_UNIVERSAL | (16 << 2))
 };
 static asn_TYPE_tag2member_t asn_MAP_AuthenticatedLogin_tag2el_1[] = {
-    { (ASN_TAG_CLASS_UNIVERSAL | (4 << 2)), 1, 0, 0 }, /* avatar at 92 */
-    { (ASN_TAG_CLASS_UNIVERSAL | (12 << 2)), 0, 0, 0 } /* playerName at 91 */
+    { (ASN_TAG_CLASS_UNIVERSAL | (4 << 2)), 1, 0, 0 }, /* avatar at 93 */
+    { (ASN_TAG_CLASS_UNIVERSAL | (12 << 2)), 0, 0, 0 } /* playerName at 92 */
 };
 static asn_SEQUENCE_specifics_t asn_SPC_AuthenticatedLogin_specs_1 = {
 	sizeof(struct AuthenticatedLogin),
