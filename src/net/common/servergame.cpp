@@ -281,7 +281,7 @@ ServerGame::InternalAskVoteKick(SessionWrapper byWhom, unsigned playerIdWho, uns
 	if (IsRunning() && byWhom.playerData)
 	{
 		// Retrieve only the number of human players.
-		size_t numPlayers = GetSessionManager().GetPlayerIdList().size();
+		size_t numPlayers = GetSessionManager().GetPlayerIdList(SessionData::Game).size();
 		if (numPlayers > 2)
 		{
 			// Check whether the player to be kicked exists.
@@ -430,7 +430,7 @@ ServerGame::GetPlayerDataByUniqueId(unsigned playerId) const
 PlayerIdList
 ServerGame::GetPlayerIdList() const
 {
-	PlayerIdList idList(GetSessionManager().GetPlayerIdList());
+	PlayerIdList idList(GetSessionManager().GetPlayerIdList(SessionData::Game));
 	boost::mutex::scoped_lock lock(m_computerPlayerListMutex);
 	PlayerDataList::const_iterator i = m_computerPlayerList.begin();
 	PlayerDataList::const_iterator end = m_computerPlayerList.end();

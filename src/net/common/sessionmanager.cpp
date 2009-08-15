@@ -174,7 +174,7 @@ SessionManager::GetPlayerDataList() const
 }
 
 PlayerIdList
-SessionManager::GetPlayerIdList() const
+SessionManager::GetPlayerIdList(SessionData::State state) const
 {
 	PlayerIdList playerList;
 	boost::recursive_mutex::scoped_lock lock(m_sessionMapMutex);
@@ -185,7 +185,7 @@ SessionManager::GetPlayerIdList() const
 	while (session_i != session_end)
 	{
 		// Get all players in the game.
-		if (session_i->second.sessionData->GetState() == SessionData::Game)
+		if (session_i->second.sessionData->GetState() == state)
 		{
 			playerList.push_back(session_i->second.playerData->GetUniqueId());
 		}

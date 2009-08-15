@@ -1487,8 +1487,8 @@ void
 ServerLobbyThread::SendPlayerList(boost::shared_ptr<SessionData> s)
 {
 	// Retrieve all player ids.
-	PlayerIdList idList(m_sessionManager.GetPlayerIdList());
-	PlayerIdList gameIdList(m_gameSessionManager.GetPlayerIdList());
+	PlayerIdList idList(m_sessionManager.GetPlayerIdList(SessionData::Established));
+	PlayerIdList gameIdList(m_gameSessionManager.GetPlayerIdList(SessionData::Game));
 	idList.splice(idList.begin(), gameIdList);
 	// Send all player ids to client.
 	PlayerIdList::const_iterator i = idList.begin();
