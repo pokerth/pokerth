@@ -62,6 +62,8 @@ public:
 	void RemoveSessionFromGame(SessionWrapper session);
 	void SessionError(SessionWrapper session, int errorCode);
 	void ResubscribeLobbyMsg(SessionWrapper session);
+	void NotifyPlayerJoinedLobby(unsigned playerId);
+	void NotifyPlayerLeftLobby(unsigned playerId);
 	void NotifyPlayerJoinedGame(unsigned gameId, unsigned playerId);
 	void NotifyPlayerLeftGame(unsigned gameId, unsigned playerId);
 	void NotifyGameAdminChanged(unsigned gameId, unsigned newAdminPlayerId);

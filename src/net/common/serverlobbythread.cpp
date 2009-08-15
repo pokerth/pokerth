@@ -263,6 +263,8 @@ ServerLobbyThread::CloseSession(SessionWrapper session)
 		m_sessionManager.RemoveSession(session.sessionData->GetId());
 		m_gameSessionManager.RemoveSession(session.sessionData->GetId());
 
+		if (session.playerData)
+			NotifyPlayerLeftLobby(session.playerData->GetUniqueId());
 		// Update stats (if needed).
 		UpdateStatisticsNumberOfPlayers();
 	}
@@ -272,6 +274,22 @@ void
 ServerLobbyThread::ResubscribeLobbyMsg(SessionWrapper session)
 {
 	InternalResubscribeMsg(session);
+}
+
+void
+ServerLobbyThread::NotifyPlayerJoinedLobby(unsigned playerId)
+{
+	boost::shared_ptr<NetPacket> notify = CreateNetPacketPlayerListNew(playerId);
+	m_sessionManager.SendLobbyMsgToAllSessions(GetSender(), notify, SessionData::Established);
+	m_gameSessionManager.SendLobbyMsgToAllSessions(GetSender(), notify, SessionData::Game);
+}
+
+void
+ServerLobbyThread::NotifyPlayerLeftLobby(unsigned playerId)
+{
+	boost::shared_ptr<NetPacket> notify = CreateNetPacketPlayerListLeft(playerId);
+	m_sessionManager.SendLobbyMsgToAllSessions(GetSender(), notify, SessionData::Established);
+	m_gameSessionManager.SendLobbyMsgToAllSessions(GetSender(), notify, SessionData::Game);
 }
 
 void
@@ -1129,9 +1147,7 @@ ServerLobbyThread::EstablishSession(SessionWrapper session)
 		m_statDataChanged = true;
 	}
 	// Notify all players.
-	boost::shared_ptr<NetPacket> notify = CreateNetPacketPlayerListNew(session.playerData->GetUniqueId());
-	m_sessionManager.SendLobbyMsgToAllSessions(GetSender(), notify, SessionData::Established);
-	m_gameSessionManager.SendLobbyMsgToAllSessions(GetSender(), notify, SessionData::Game);
+	NotifyPlayerJoinedLobby(session.playerData->GetUniqueId());
 
 	UpdateStatisticsNumberOfPlayers();
 }

@@ -66,6 +66,10 @@ public:
 	virtual void SignalNetClientServerListClear() =0;
 	virtual void SignalNetClientServerListShow() =0;
 
+	virtual void SignalLobbyPlayerJoined(unsigned playerId, const std::string &nickName) = 0;
+	virtual void SignalLobbyPlayerKicked(const std::string &nickName, const std::string &byWhom, const std::string &reason) = 0;
+	virtual void SignalLobbyPlayerLeft(unsigned playerId) = 0;
+
 };
 
 #endif

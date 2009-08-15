@@ -145,6 +145,9 @@ public:
 	void SignalNetClientMsgBox(const std::string &msg);
 	void SignalIrcError(int errorCode);
 	void SignalIrcServerError(int errorCode);
+	void SignalLobbyPlayerJoined(unsigned playerId, const std::string &nickName);
+	void SignalLobbyPlayerKicked(const std::string &nickName, const std::string &byWhom, const std::string &reason);
+	void SignalLobbyPlayerLeft(unsigned playerId);
 
 private:
 

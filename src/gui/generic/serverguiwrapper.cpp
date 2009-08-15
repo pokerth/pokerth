@@ -158,3 +158,7 @@ void ServerGuiWrapper::SignalIrcPlayerLeft(const string &nickName) { if (myIrccb
 void ServerGuiWrapper::SignalIrcChatMsg(const string &nickName, const string &msg) { if (myIrccb) myIrccb->SignalIrcChatMsg(nickName, msg); }
 void ServerGuiWrapper::SignalIrcError(int errorCode) { if (myIrccb) myIrccb->SignalIrcError(errorCode); }
 void ServerGuiWrapper::SignalIrcServerError(int errorCode) {if (myIrccb) myIrccb->SignalIrcServerError(errorCode); }
+
+void ServerGuiWrapper::SignalLobbyPlayerJoined(unsigned playerId, const std::string &nickName) { if (myClientcb) myClientcb->SignalLobbyPlayerJoined(playerId, nickName); }
+void ServerGuiWrapper::SignalLobbyPlayerKicked(const std::string &nickName, const std::string &byWhom, const std::string &reason) { if (myClientcb) myClientcb->SignalLobbyPlayerKicked(nickName, byWhom, reason); }
+void ServerGuiWrapper::SignalLobbyPlayerLeft(unsigned playerId) { if (myClientcb) myClientcb->SignalLobbyPlayerLeft(playerId); }

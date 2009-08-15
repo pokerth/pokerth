@@ -730,7 +730,6 @@ AbstractClientStateReceiving::HandlePacket(boost::shared_ptr<ClientThread> clien
 			if (netInfo->avatarData != NULL)
 			{
 				tmpInfo.hasAvatar = true;
-				// TODO: use sha1.
 				memcpy(tmpInfo.avatar.data, netInfo->avatarData->avatar.buf, MD5_DATA_SIZE);
 				tmpInfo.avatarType = (AvatarFileType)netInfo->avatarData->avatarType;
 			}
@@ -840,11 +839,23 @@ AbstractClientStateReceiving::HandlePacket(boost::shared_ptr<ClientThread> clien
 	else if (tmpPacket->GetMsg()->present == PokerTHMessage_PR_playerListMessage)
 	{
 		PlayerListMessage_t *netPlayerList = &tmpPacket->GetMsg()->choice.playerListMessage;
-		PlayerInfo info;
-		if (!client->GetCachedPlayerInfo(netPlayerList->playerId, info))
+
+		if (netPlayerList->playerListNotification == playerListNotification_playerListNew)
 		{
-			// Request player info.
-			client->RequestPlayerInfo(netPlayerList->playerId);
+			PlayerInfo info;
+			if (!client->GetCachedPlayerInfo(netPlayerList->playerId, info))
+			{
+				// Request player info.
+				ostringstream name;
+				name << "#" << netPlayerList->playerId;
+				info.playerName = name.str();
+				client->RequestPlayerInfo(netPlayerList->playerId);
+			}
+			client->GetCallback().SignalLobbyPlayerJoined(netPlayerList->playerId, info.playerName);
+		}
+		else if (netPlayerList->playerListNotification == playerListNotification_playerListLeft)
+		{
+			client->GetCallback().SignalLobbyPlayerLeft(netPlayerList->playerId);
 		}
 	}
 	else if (tmpPacket->GetMsg()->present == PokerTHMessage_PR_gameListMessage)
