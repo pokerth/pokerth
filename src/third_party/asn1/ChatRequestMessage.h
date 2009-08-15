@@ -11,17 +11,41 @@
 #include <asn_application.h>
 
 /* Including external dependencies */
-#include "Id.h"
 #include <UTF8String.h>
+#include "ChatRequestTypeLobby.h"
+#include "ChatRequestTypeGame.h"
+#include <constr_CHOICE.h>
 #include <constr_SEQUENCE.h>
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
+/* Dependencies */
+typedef enum chatRequestType_PR {
+	chatRequestType_PR_NOTHING,	/* No components present */
+	chatRequestType_PR_chatRequestTypeLobby,
+	chatRequestType_PR_chatRequestTypeGame,
+	/* Extensions may appear below */
+	
+} chatRequestType_PR;
+
 /* ChatRequestMessage */
 typedef struct ChatRequestMessage {
-	Id_t	 gameId;
+	struct chatRequestType {
+		chatRequestType_PR present;
+		union ChatRequestMessage__chatRequestType_u {
+			ChatRequestTypeLobby_t	 chatRequestTypeLobby;
+			ChatRequestTypeGame_t	 chatRequestTypeGame;
+			/*
+			 * This type is extensible,
+			 * possible extensions are below.
+			 */
+		} choice;
+		
+		/* Context for parsing across buffer boundaries */
+		asn_struct_ctx_t _asn_ctx;
+	} chatRequestType;
 	UTF8String_t	 chatText;
 	/*
 	 * This type is extensible,

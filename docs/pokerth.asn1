@@ -525,14 +525,39 @@ StatisticsData ::= SEQUENCE {
 }
 
 ChatRequestMessage ::= [APPLICATION 129] SEQUENCE {
-	gameId						Id,
+	chatRequestType				CHOICE {
+		chatRequestTypeLobby	[0]	ChatRequestTypeLobby,
+		chatRequestTypeGame		[1] ChatRequestTypeGame
+	},
 	chatText					UTF8String (SIZE(1..128))
 }
 
+ChatRequestTypeLobby ::= SEQUENCE {
+}
+
+ChatRequestTypeGame ::= SEQUENCE {
+	gameId						NonZeroId
+}
+
 ChatMessage ::= [APPLICATION 130] SEQUENCE {
-	gameId						Id,
-	playerId					Id,
+	chatType					CHOICE {
+		chatTypeLobby			[0] ChatTypeLobby,
+		chatTypeGame			[1] ChatTypeGame,
+		chatTypeBroadcast		[2] ChatTypeBroadcast
+	},
 	chatText					UTF8String (SIZE(1..128))
+}
+
+ChatTypeLobby ::= SEQUENCE {
+	playerId					NonZeroId
+}
+
+ChatTypeGame ::= SEQUENCE {
+	gameId						NonZeroId,
+	playerId					NonZeroId
+}
+
+ChatTypeBroadcast ::= SEQUENCE {
 }
 
 DialogMessage ::= [APPLICATION 131] SEQUENCE {

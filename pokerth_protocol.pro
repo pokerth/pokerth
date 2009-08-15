@@ -54,7 +54,12 @@ HEADERS += src/third_party/asn1/AllInShowCardsMessage.h \
     src/third_party/asn1/BOOLEAN.h \
     src/third_party/asn1/Card.h \
     src/third_party/asn1/ChatMessage.h \
+    src/third_party/asn1/ChatTypeGame.h \
+    src/third_party/asn1/ChatTypeLobby.h \
+    src/third_party/asn1/ChatTypeBroadcast.h \
     src/third_party/asn1/ChatRequestMessage.h \
+    src/third_party/asn1/ChatRequestTypeLobby.h \
+    src/third_party/asn1/ChatRequestTypeGame.h \
     src/third_party/asn1/constraints.h \
     src/third_party/asn1/constr_CHOICE.h \
     src/third_party/asn1/constr_SEQUENCE.h \
@@ -237,7 +242,12 @@ SOURCES += src/third_party/asn1/ChatCleanerMessage.c \
     src/third_party/asn1/constr_SEQUENCE.c \
     src/third_party/asn1/constr_CHOICE.c \
     src/third_party/asn1/ChatRequestMessage.c \
+    src/third_party/asn1/ChatRequestTypeLobby.c \
+    src/third_party/asn1/ChatRequestTypeGame.c \
     src/third_party/asn1/ChatMessage.c \
+    src/third_party/asn1/ChatTypeLobby.c \
+    src/third_party/asn1/ChatTypeGame.c \
+    src/third_party/asn1/ChatTypeBroadcast.c \
     src/third_party/asn1/Card.c \
     src/third_party/asn1/BOOLEAN.c \
     src/third_party/asn1/BIT_STRING.c \
