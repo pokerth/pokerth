@@ -70,6 +70,7 @@ public:
 
 	void HandleGameRetrievePlayerInfo(SessionWrapper session, const PlayerInfoRequestMessage_t &playerInfoRequest);
 	void HandleGameRetrieveAvatar(SessionWrapper session, const AvatarRequestMessage_t &retrieveAvatar);
+	void HandleChatRequest(SessionWrapper session, const ChatRequestMessage_t &chatRequest);
 
 	bool KickPlayerByName(const std::string &playerName);
 	std::string GetPlayerIPAddress(const std::string &playerName) const;

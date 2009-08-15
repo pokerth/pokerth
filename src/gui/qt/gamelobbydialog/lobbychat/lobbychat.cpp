@@ -42,20 +42,16 @@ LobbyChat::~LobbyChat()
 
 void LobbyChat::sendMessage() {
 
+	// TODO nick needs to be set earlier.
 	if (myNick.isEmpty())
 		myNick = QString::fromUtf8(myConfig->readConfigString("MyName").c_str());
 
-	if (!myNick.isEmpty())
+	fillChatLinesHistory(myLobby->lineEdit_ChatInput->text());
+	QString tmpMsg(myLobby->lineEdit_ChatInput->text());
+	if (tmpMsg.size())
 	{
-		fillChatLinesHistory(myLobby->lineEdit_ChatInput->text());
-		QString tmpMsg(myLobby->lineEdit_ChatInput->text());
-		if (tmpMsg.size())
-		{
-			myLobby->getSession()->sendLobbyChatMessage(tmpMsg.toUtf8().constData());
-			myLobby->lineEdit_ChatInput->setText("");
-
-			displayMessage(myNick, tmpMsg);
-		}
+		myLobby->getSession()->sendLobbyChatMessage(tmpMsg.toUtf8().constData());
+		myLobby->lineEdit_ChatInput->setText("");
 	}
 }
 

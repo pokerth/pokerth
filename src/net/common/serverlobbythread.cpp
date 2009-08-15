@@ -355,6 +355,13 @@ ServerLobbyThread::HandleGameRetrieveAvatar(SessionWrapper session, const Avatar
 	HandleNetPacketRetrieveAvatar(session, retrieveAvatar);
 }
 
+void
+ServerLobbyThread::HandleChatRequest(SessionWrapper session, const ChatRequestMessage_t &chatRequest)
+{
+	// Someone within a game sent a lobby message.
+	HandleNetPacketChatRequest(session, chatRequest);
+}
+
 bool
 ServerLobbyThread::KickPlayerByName(const std::string &playerName)
 {
@@ -1087,7 +1094,8 @@ ServerLobbyThread::HandleNetPacketChatRequest(SessionWrapper session, const Chat
 			(char *)chatRequest.chatText.buf,
 			chatRequest.chatText.size);
 
-		m_sessionManager.SendToAllSessions(GetSender(), packet, SessionData::Established);
+		m_sessionManager.SendLobbyMsgToAllSessions(GetSender(), packet, SessionData::Established);
+		m_gameSessionManager.SendLobbyMsgToAllSessions(GetSender(), packet, SessionData::Game);
 	}
 }
 

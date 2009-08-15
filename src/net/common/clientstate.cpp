@@ -826,11 +826,9 @@ AbstractClientStateReceiving::HandlePacket(boost::shared_ptr<ClientThread> clien
 		else if (netMessage->chatType.present == chatType_PR_chatTypeLobby)
 		{
 			unsigned playerId = netMessage->chatType.choice.chatTypeLobby.playerId;
-			boost::shared_ptr<PlayerData> tmpPlayer = client->GetPlayerDataByUniqueId(playerId);
-			if (tmpPlayer.get())
-				playerName = tmpPlayer->GetName();
-			if (!playerName.empty())
-				client->GetCallback().SignalNetClientLobbyChatMsg(playerName, STL_STRING_FROM_OCTET_STRING(netMessage->chatText));
+			PlayerInfo info;
+			if (client->GetCachedPlayerInfo(playerId, info))
+				client->GetCallback().SignalNetClientLobbyChatMsg(info.playerName, STL_STRING_FROM_OCTET_STRING(netMessage->chatText));
 		}
 	}
 	else if (tmpPacket->GetMsg()->present == PokerTHMessage_PR_dialogMessage)

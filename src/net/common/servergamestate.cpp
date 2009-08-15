@@ -237,18 +237,26 @@ AbstractServerGameStateReceiving::ProcessPacket(boost::shared_ptr<ServerGame> se
 			// Forward chat text to all players.
 			// TODO: Some limitation needed.
 			ChatRequestMessage_t *netChatRequest = &packet->GetMsg()->choice.chatRequestMessage;
-			boost::shared_ptr<NetPacket> packet(new NetPacket(NetPacket::Alloc));
-			packet->GetMsg()->present = PokerTHMessage_PR_chatMessage;
-			ChatMessage_t *netChat = &packet->GetMsg()->choice.chatMessage;
-			netChat->chatType.present = chatType_PR_chatTypeGame;
-			ChatTypeGame_t *netGameChat = &netChat->chatType.choice.chatTypeGame;
-			netGameChat->gameId = server->GetId();
-			netGameChat->playerId = session.playerData->GetUniqueId();
-			OCTET_STRING_fromBuf(
-				&netChat->chatText,
-				(char *)netChatRequest->chatText.buf,
-				netChatRequest->chatText.size);
-			server->SendToAllPlayers(packet, SessionData::Game);
+			if (netChatRequest->chatRequestType.present == chatRequestType_PR_chatRequestTypeLobby)
+			{
+				if (!server->IsRunning())
+					server->GetLobbyThread().HandleChatRequest(session, *netChatRequest);
+			}
+			else if (netChatRequest->chatRequestType.present == chatRequestType_PR_chatRequestTypeGame)
+			{
+				boost::shared_ptr<NetPacket> packet(new NetPacket(NetPacket::Alloc));
+				packet->GetMsg()->present = PokerTHMessage_PR_chatMessage;
+				ChatMessage_t *netChat = &packet->GetMsg()->choice.chatMessage;
+				netChat->chatType.present = chatType_PR_chatTypeGame;
+				ChatTypeGame_t *netGameChat = &netChat->chatType.choice.chatTypeGame;
+				netGameChat->gameId = server->GetId();
+				netGameChat->playerId = session.playerData->GetUniqueId();
+				OCTET_STRING_fromBuf(
+					&netChat->chatText,
+					(char *)netChatRequest->chatText.buf,
+					netChatRequest->chatText.size);
+				server->SendToAllPlayers(packet, SessionData::Game);
+			}
 		}
 	}
 	else if (packet->GetMsg()->present == PokerTHMessage_PR_subscriptionRequestMessage)
