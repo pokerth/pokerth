@@ -181,3 +181,7 @@ void GuiWrapper::SignalIrcPlayerLeft(const std::string &nickName) { myStartWindo
 void GuiWrapper::SignalIrcChatMsg(const std::string &nickName, const std::string &msg) { myStartWindow->signalIrcChatMessage(QString::fromUtf8(nickName.c_str()), QString::fromUtf8(msg.c_str())); }
 void GuiWrapper::SignalIrcError(int errorCode) { myStartWindow->signalIrcError(errorCode); }
 void GuiWrapper::SignalIrcServerError(int errorCode) {myStartWindow->signalIrcServerError(errorCode); }
+
+void GuiWrapper::SignalLobbyPlayerJoined(unsigned playerId, const string &nickName) { myStartWindow->signalLobbyPlayerJoined(playerId, QString::fromUtf8(nickName.c_str())); }
+void GuiWrapper::SignalLobbyPlayerKicked(const std::string &nickName, const std::string &byWhom, const std::string &reason) { myStartWindow->signalLobbyPlayerKicked(QString::fromUtf8(nickName.c_str()), QString::fromUtf8(byWhom.c_str()), QString::fromUtf8(reason.c_str())); }
+void GuiWrapper::SignalLobbyPlayerLeft(unsigned playerId) { myStartWindow->signalLobbyPlayerLeft(playerId); }

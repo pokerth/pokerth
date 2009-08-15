@@ -664,6 +664,7 @@ void gameLobbyDialogImpl::addConnectedPlayer(unsigned playerId, QString playerNa
 
 void gameLobbyDialogImpl::updatePlayer(unsigned playerId, QString newPlayerName) {
 
+	//rename player in connected players list
 	QTreeWidgetItemIterator it(treeWidget_connectedPlayers);
 	while (*it) {
 		if ((*it)->data(0, Qt::UserRole) == playerId)
@@ -676,6 +677,9 @@ void gameLobbyDialogImpl::updatePlayer(unsigned playerId, QString newPlayerName)
 
 	if (inGame)
 		refreshConnectedPlayerAvatars();
+	
+	//also rename player in nick-list
+	myChat->playerChanged(playerId, newPlayerName);
 }
 
 void gameLobbyDialogImpl::removePlayer(unsigned playerId, QString) {

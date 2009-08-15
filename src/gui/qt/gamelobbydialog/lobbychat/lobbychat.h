@@ -41,12 +41,10 @@ public:
 public slots:
 	
 	void sendMessage();
-	void connected(QString server);
-	void selfJoined(QString ownName, QString channel);
-	void playerJoined(QString playerName);
-	void playerChanged(QString oldNick, QString newNick);
+	void playerJoined(unsigned playerId, QString playerName);
+	void playerChanged(unsigned playerId, QString newNick);
 	void playerKicked(QString nickName, QString byWhom, QString reason);
-	void playerLeft(QString playerName);
+	void playerLeft(unsigned playerId);
 	void displayMessage(QString playerName, QString msg);
 	void checkInputLength(QString);
 	void clearChat();
@@ -67,6 +65,7 @@ private:
 	ConfigFile *myConfig;
 
 	QString myNick;
+	unsigned myLobbyPlayerId;
 	ChatTools *myChatTools;
 // friend class GuiWrapper;
 };

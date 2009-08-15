@@ -55,43 +55,33 @@ void LobbyChat::sendMessage() {
 	}
 }
 
-void LobbyChat::connected(QString server)
-{
-	myLobby->textBrowser_ChatDisplay->append(tr("Successfully connected to") + " " + server + ".");
-}
-
-void LobbyChat::selfJoined(QString ownName, QString channel)
-{
-	myNick = ownName;
-	myChatTools->setMyNick(myNick);
-	myLobby->textBrowser_ChatDisplay->append(tr("Joined channel:") + " " + channel + " " + tr("as user") + " " + ownName + ".");
-	myLobby->textBrowser_ChatDisplay->append("");
-	myLobby->lineEdit_ChatInput->setEnabled(true);
-	myLobby->lineEdit_ChatInput->setFocus();
-}
-
-void LobbyChat::playerJoined(QString playerName)
+void LobbyChat::playerJoined(unsigned playerId, QString playerName)
 {
 	QTreeWidgetItem *item = new QTreeWidgetItem(myLobby->treeWidget_NickList, 0);
 	item->setData(0, Qt::DisplayRole, playerName);
+	item->setData(0, Qt::UserRole, playerId);
 
 	myLobby->treeWidget_NickList->sortItems(0, Qt::AscendingOrder);
 
 	myLobby->refreshPlayerStats();
 }
 
-void LobbyChat::playerChanged(QString oldNick, QString newNick)
+void LobbyChat::playerChanged(unsigned playerId, QString newNick)
 {
-	QList<QTreeWidgetItem *> tmpList(myLobby->treeWidget_NickList->findItems(oldNick, Qt::MatchExactly));
-	if (!tmpList.empty())
-		tmpList.front()->setData(0, Qt::DisplayRole, newNick);
-	else
-	{
-		tmpList = myLobby->treeWidget_NickList->findItems("@" + oldNick, Qt::MatchExactly);
-		if (!tmpList.empty())
-			tmpList.front()->setData(0, Qt::DisplayRole, "@" + newNick);
-	}
 
+	QString oldNick;
+	QTreeWidgetItemIterator it(myLobby->treeWidget_NickList);
+	while (*it) {
+		if ((*it)->data(0, Qt::UserRole) == playerId)
+		{
+			oldNick = (*it)->data(0, Qt::DisplayRole).toString();
+			(*it)->setData(0, Qt::DisplayRole, newNick);
+			break;
+		}
+		++it;
+	}
+	
+	
 	if (myNick == oldNick) {
 		myNick = newNick;
 		myChatTools->setMyNick(myNick);
@@ -108,18 +98,18 @@ void LobbyChat::playerKicked(QString nickName, QString byWhom, QString reason)
 	myLobby->textBrowser_ChatDisplay->append(nickName + " " + tr("was kicked from the server by") + " " + byWhom + " (" + reason + ")");
 }
 
-void LobbyChat::playerLeft(QString playerName)
+void LobbyChat::playerLeft(unsigned playerId)
 {
-	QList<QTreeWidgetItem *> tmpList(myLobby->treeWidget_NickList->findItems(playerName, Qt::MatchExactly));
-	if (!tmpList.empty())
-		myLobby->treeWidget_NickList->takeTopLevelItem(myLobby->treeWidget_NickList->indexOfTopLevelItem(tmpList.front()));
-	else
-	{
-		tmpList = myLobby->treeWidget_NickList->findItems("@" + playerName, Qt::MatchExactly);
-		if (!tmpList.empty())
-			myLobby->treeWidget_NickList->takeTopLevelItem(myLobby->treeWidget_NickList->indexOfTopLevelItem(tmpList.front()));
+	QTreeWidgetItemIterator it(myLobby->treeWidget_NickList);
+	while (*it) {
+		if ((*it)->data(0, Qt::UserRole) == playerId)
+		{
+			myLobby->treeWidget_NickList->takeTopLevelItem(myLobby->treeWidget_NickList->indexOfTopLevelItem(*it));
+			break;
+		}
+		++it;
 	}
-
+	
 	myLobby->treeWidget_NickList->sortItems(0, Qt::AscendingOrder);
 
 	myLobby->refreshPlayerStats();

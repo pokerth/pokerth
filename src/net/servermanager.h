@@ -65,7 +65,11 @@ public:
 	virtual void SignalIrcChatMsg(const std::string &nickName, const std::string &msg);
 	virtual void SignalIrcError(int errorCode);
 	virtual void SignalIrcServerError(int errorCode);
+	virtual void SignalLobbyPlayerJoined(unsigned, const std::string & /*nickName*/) {}
+	virtual void SignalLobbyPlayerKicked(const std::string & /*nickName*/, const std::string & /*byWhom*/, const std::string & /*reason*/) {}
+	virtual void SignalLobbyPlayerLeft(unsigned) {}
 
+	
 protected:
 	typedef std::list<boost::shared_ptr<ServerAcceptHelper> > AcceptHelperList;
 

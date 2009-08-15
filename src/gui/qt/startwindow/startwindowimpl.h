@@ -93,7 +93,9 @@ signals:
 	void signalIrcChatMessage(QString nickName, QString msg);
 	void signalIrcError(int errorCode);
 	void signalIrcServerError(int errorCode);
-
+	void signalLobbyPlayerJoined(unsigned playerId, QString nickName);
+	void signalLobbyPlayerKicked(QString nickName, QString byWhom, QString reason);
+	void signalLobbyPlayerLeft(unsigned playerId);
 
 public slots: 
 
