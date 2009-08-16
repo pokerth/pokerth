@@ -84,15 +84,15 @@ signals:
 	void signalNetClientLobbyChatMsg(QString nickName, QString msg);
 	void signalNetClientMsgBox(QString msg);
 
-	void signalIrcConnect(QString server);
-	void signalIrcSelfJoined(QString nickName, QString channel);
-	void signalIrcPlayerJoined(QString nickName);
-	void signalIrcPlayerChanged(QString oldNick, QString newNick);
-	void signalIrcPlayerKicked(QString nickName, QString byWhom, QString reason);
-	void signalIrcPlayerLeft(QString nickName);
-	void signalIrcChatMessage(QString nickName, QString msg);
-	void signalIrcError(int errorCode);
-	void signalIrcServerError(int errorCode);
+//	void signalIrcConnect(QString server);
+//	void signalIrcSelfJoined(QString nickName, QString channel);
+//	void signalIrcPlayerJoined(QString nickName);
+//	void signalIrcPlayerChanged(QString oldNick, QString newNick);
+//	void signalIrcPlayerKicked(QString nickName, QString byWhom, QString reason);
+//	void signalIrcPlayerLeft(QString nickName);
+//	void signalIrcChatMessage(QString nickName, QString msg);
+//	void signalIrcError(int errorCode);
+//	void signalIrcServerError(int errorCode);
 	void signalLobbyPlayerJoined(unsigned playerId, QString nickName);
 	void signalLobbyPlayerKicked(QString nickName, QString byWhom, QString reason);
 	void signalLobbyPlayerLeft(unsigned playerId);
