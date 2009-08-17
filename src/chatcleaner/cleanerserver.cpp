@@ -11,7 +11,7 @@
 
 using namespace std;
 
-CleanerServer::CleanerServer(): config(0), blockConnection(false)
+CleanerServer::CleanerServer(): config(0), blockConnection(false), secondsSinceLastConfigChange(0)
 {
 	config = new CleanerConfig;
 
@@ -170,9 +170,13 @@ void CleanerServer::socketStateChanged(QAbstractSocket::SocketState state) {
 }
 
 void CleanerServer::refreshConfig() {
-
-	config->fillBuffer();
-	myMessageFilter->refreshConfig();
+	
+	QFileInfo configFileInfo(QString::fromUtf8(config->getConfigFileName().c_str()));
+	
+	if(configFileInfo.lastModified().secsTo(QDateTime::currentDateTime()) < 20) {
+		config->fillBuffer();
+		myMessageFilter->refreshConfig();
+	}
 }
 
 void CleanerServer::sendMessageToClient(InternalChatCleanerPacket &msg)
