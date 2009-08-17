@@ -130,7 +130,8 @@ ChatCleanerManager::HandleConnect(const boost::system::error_code& ec,
 		if (endpoint_iterator != boost::asio::ip::tcp::resolver::iterator())
 		{
 			// Try next resolve entry.
-			m_socket->close();
+			boost::system::error_code ec;
+			m_socket->close(ec);
 			boost::asio::ip::tcp::endpoint endpoint = *endpoint_iterator;
 			m_socket->async_connect(
 				endpoint,
@@ -151,7 +152,8 @@ ChatCleanerManager::HandleWrite(const boost::system::error_code &ec,
 	if (ec && ec != boost::asio::error::operation_aborted)
 	{
 		LOG_ERROR("Error sending message to chat cleaner.");
-		m_socket->close();
+		boost::system::error_code ec;
+		m_socket->close(ec);
 		m_connected = false;
 	}
 }
@@ -199,14 +201,16 @@ ChatCleanerManager::HandleRead(const boost::system::error_code &ec, size_t bytes
 		}
 		else
 		{
-			m_socket->close();
+			boost::system::error_code ec;
+			m_socket->close(ec);
 			m_connected = false;
 		}
 	}
 	else if (ec != boost::asio::error::operation_aborted)
 	{
 		LOG_ERROR("Error receiving data from chat cleaner.");
-		m_socket->close();
+		boost::system::error_code ec;
+		m_socket->close(ec);
 		m_connected = false;
 	}
 }

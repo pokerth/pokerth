@@ -617,7 +617,8 @@ ClientStateStartConnect::HandleConnect(const boost::system::error_code& ec, boos
 		{
 			// Try next resolve entry.
 			ClientContext &context = client->GetContext();
-			context.GetSessionData()->GetAsioSocket()->close();
+			boost::system::error_code ec;
+			context.GetSessionData()->GetAsioSocket()->close(ec);
 			boost::asio::ip::tcp::endpoint endpoint = *endpoint_iterator;
 			context.GetSessionData()->GetAsioSocket()->async_connect(
 				endpoint,
@@ -640,7 +641,8 @@ ClientStateStartConnect::TimerTimeout(const boost::system::error_code& ec, boost
 {
 	if (!ec && &client->GetState() == this)
 	{
-		client->GetContext().GetSessionData()->GetAsioSocket()->close();
+		boost::system::error_code ec;
+		client->GetContext().GetSessionData()->GetAsioSocket()->close(ec);
 		throw ClientException(__FILE__, __LINE__, ERR_SOCK_CONNECT_TIMEOUT, 0);
 	}
 }

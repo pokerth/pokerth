@@ -277,9 +277,10 @@ SessionManager::Clear()
 	SessionMap::iterator i = m_sessionMap.begin();
 	SessionMap::iterator end = m_sessionMap.end();
 
+	boost::system::error_code ec;
 	while (i != end)
 	{
-		i->second.sessionData->GetAsioSocket()->close();
+		i->second.sessionData->GetAsioSocket()->close(ec);
 		++i;
 	}
 	m_sessionMap.clear();

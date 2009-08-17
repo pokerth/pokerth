@@ -459,7 +459,7 @@ ClientThread::Main()
 	}
 	// Close the socket.
 	boost::system::error_code ec;
-	GetContext().GetSessionData()->GetAsioSocket()->close();
+	GetContext().GetSessionData()->GetAsioSocket()->close(ec);
 	// Set a state which does not do anything.
 	SetState(CLIENT_FINAL_STATE::Instance());
 	// Cancel timers.
