@@ -7,7 +7,7 @@ isEmpty( PREFIX ){
 TEMPLATE = app
 CODECFORSRC = UTF-8
 
-CONFIG += thread console embed_manifest_exe exceptions rtti stl warn_on debug
+CONFIG += thread console embed_manifest_exe exceptions rtti stl warn_on
 
 UI_DIR = uics
 TARGET = bin/pokerth_server
