@@ -14,6 +14,10 @@ using namespace std;
 CleanerServer::CleanerServer(): config(0), blockConnection(false)
 {
 	config = new CleanerConfig;
+
+	clientSecret = QString::fromUtf8(config->readConfigString("ClientAuthString").c_str());
+	serverSecret = QString::fromUtf8(config->readConfigString("ServerAuthString").c_str());
+	qDebug() << clientSecret << serverSecret;
 	
 	myMessageFilter = new MessageFilter(config);
 	tcpServer = new QTcpServer();

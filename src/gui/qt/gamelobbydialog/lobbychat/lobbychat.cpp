@@ -33,6 +33,8 @@ using namespace std;
 LobbyChat::LobbyChat(gameLobbyDialogImpl* l, ConfigFile *c) : myLobby(l), myConfig(c)
 {
 	myChatTools = new ChatTools(myLobby->lineEdit_ChatInput, myConfig, 1, myLobby->textBrowser_ChatDisplay, myLobby->treeWidget_NickList);
+
+	myNick = QString::fromUtf8(myConfig->readConfigString("MyName").c_str());
 }
 
 LobbyChat::~LobbyChat()
@@ -41,10 +43,6 @@ LobbyChat::~LobbyChat()
 }
 
 void LobbyChat::sendMessage() {
-
-	// TODO nick needs to be set earlier.
-	if (myNick.isEmpty())
-		myNick = QString::fromUtf8(myConfig->readConfigString("MyName").c_str());
 
 	fillChatLinesHistory(myLobby->lineEdit_ChatInput->text());
 	QString tmpMsg(myLobby->lineEdit_ChatInput->text());

@@ -254,6 +254,8 @@ void gameLobbyDialogImpl::refresh(int actionID) {
 		myGameListSelectionModel->clearSelection();
 		myGameListSortFilterProxyModel->clear();
 	
+		treeWidget_NickList->clear();
+		
 		QStringList headerList;
 		headerList << tr("Game") << tr("Players") << tr("State") << tr("Private"); 
 		myGameListModel->setHorizontalHeaderLabels(headerList);
