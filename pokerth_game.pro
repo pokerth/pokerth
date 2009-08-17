@@ -2,12 +2,16 @@
 isEmpty( PREFIX ):PREFIX = /usr
 TEMPLATE = app
 CODECFORSRC = UTF-8
-
-CONFIG += qt thread embed_manifest_exe exceptions rtti stl warn_on
+CONFIG += qt \
+    thread \
+    embed_manifest_exe \
+    exceptions \
+    rtti \
+    stl \
+    warn_on \
 
 # ####Uncomment this for RELEASE on Linux/Unix/BSD (only for static Qt)
-#QTPLUGIN += qjpeg qgif
-
+# QTPLUGIN += qjpeg qgif
 UI_DIR = uics
 MOC_DIR = mocs
 OBJECTS_DIR = obj
@@ -26,8 +30,8 @@ INCLUDEPATH += . \
     src/engine/network_engine \
     src/config \
     src/third_party/tinyxml \
-	src/third_party/asn1 \
-	src/gui/qt \
+    src/third_party/asn1 \
+    src/gui/qt \
     src/gui/qt/connecttoserverdialog \
     src/core \
     src/gui/qt/sound \
@@ -37,7 +41,6 @@ INCLUDEPATH += . \
     src/gui/qt/gametable \
     src/gui/qt/gametable/startsplash \
     src/gui/qt/gametable/log \
-    src/gui/qt/gametable/chat \
     src/gui/qt/aboutpokerth \
     src/gui/qt/createnetworkgamedialog \
     src/gui/qt/createinternetgamedialog \
@@ -54,7 +57,6 @@ INCLUDEPATH += . \
     src/gui/qt/changecompleteblindsdialog \
     src/gui/qt/mymessagedialog \
     src/gui/qt/gamelobbydialog \
-    src/gui/qt/gamelobbydialog/lobbychat \
     src/gui/qt/timeoutmsgbox
 DEPENDPATH += . \
     src \
@@ -74,7 +76,6 @@ DEPENDPATH += . \
     src/gui/qt/gametable \
     src/gui/qt/gametable/startsplash \
     src/gui/qt/gametable/log \
-    src/gui/qt/gametable/chat \
     src/gui/qt/aboutpokerth \
     src/gui/qt/connecttoserverdialog \
     src/gui/qt/createinternetgamedialog \
@@ -94,7 +95,6 @@ DEPENDPATH += . \
     src/gui/qt/changecompleteblindsdialog \
     src/gui/qt/mymessagedialog \
     src/gui/qt/gamelobbydialog \
-    src/gui/qt/gamelobbydialog/lobbychat \
     src/gui/qt/timeoutmsgbox
 
 # Input
@@ -156,7 +156,6 @@ HEADERS += src/game.h \
     src/gui/qt/gametable/mylefttabwidget.h \
     src/gui/qt/gametable/startsplash/startsplash.h \
     src/gui/qt/gametable/log/log.h \
-    src/gui/qt/gametable/chat/chat.h \
     src/gui/qt/guiwrapper.h \
     src/gui/qt/aboutpokerth/aboutpokerthimpl.h \
     src/gui/qt/connecttoserverdialog/connecttoserverdialogimpl.h \
@@ -178,7 +177,6 @@ HEADERS += src/game.h \
     src/gui/qt/changecompleteblindsdialog/changecompleteblindsdialogimpl.h \
     src/gui/qt/gamelobbydialog/gamelobbydialogimpl.h \
     src/gui/qt/gamelobbydialog/mygamelisttreewidget.h \
-    src/gui/qt/gamelobbydialog/lobbychat/lobbychat.h \
     src/gui/qt/timeoutmsgbox/timeoutmsgboximpl.h \
     src/gui/qt/mymessagedialog/mymessagedialogimpl.h \
     src/gui/qttoolsinterface.h \
@@ -225,7 +223,6 @@ SOURCES += src/pokerth.cpp \
     src/gui/qt/gametable/mylefttabwidget.cpp \
     src/gui/qt/gametable/startsplash/startsplash.cpp \
     src/gui/qt/gametable/log/log.cpp \
-    src/gui/qt/gametable/chat/chat.cpp \
     src/gui/qt/aboutpokerth/aboutpokerthimpl.cpp \
     src/gui/qt/connecttoserverdialog/connecttoserverdialogimpl.cpp \
     src/gui/qt/createnetworkgamedialog/createnetworkgamedialogimpl.cpp \
@@ -247,7 +244,6 @@ SOURCES += src/pokerth.cpp \
     src/gui/qt/mymessagedialog/mymessagedialogimpl.cpp \
     src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp \
     src/gui/qt/gamelobbydialog/mygamelisttreewidget.cpp \
-    src/gui/qt/gamelobbydialog/lobbychat/lobbychat.cpp \
     src/gui/qt/timeoutmsgbox/timeoutmsgboximpl.cpp \
     src/net/common/net_helper_client.cpp \
     src/core/common/loghelper_client.cpp \
@@ -401,7 +397,7 @@ unix:!mac {
     BSD = $$find(UNAME, "BSD")
     kFreeBSD = $$find(UNAME, "kFreeBSD")
     LIBS += -lpokerth_lib \
-			-lpokerth_protocol
+        -lpokerth_protocol
     LIBS += $$BOOST_LIBS
     LIBS += -lSDL_mixer \
         -lcurl
@@ -409,7 +405,7 @@ unix:!mac {
     else:LIBS += -lgnutls-openssl \
         -lgcrypt
     TARGETDEPS += ./lib/libpokerth_lib.a \
-				  ./lib/libpokerth_protocol.a
+        ./lib/libpokerth_protocol.a
     
     # #### My release static libs
     # LIBS += -lgcrypt_static -lgpg-error_static -lgnutls-openssl_static -lgnutls_static -lSDL_mixer_static -lSDL -lmikmod -lcurl
@@ -437,7 +433,8 @@ mac {
     # on Intel-Mac you have to comment this line out or build will fail.
     # QMAKE_MAC_SDK=/Developer/SDKs/MacOSX10.4u.sdk/
     LIBPATH += lib
-    LIBS += -lpokerth_lib -lpokerth_protocol
+    LIBS += -lpokerth_lib \
+        -lpokerth_protocol
     
     # Qt static (path is standard for self-compiling qt)
     # LIBS += /usr/local/Trolltech/Qt-4.2.3/lib/libQtCore.a

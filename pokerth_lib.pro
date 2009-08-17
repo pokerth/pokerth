@@ -3,7 +3,7 @@
 TEMPLATE = lib
 CODECFORSRC = UTF-8
 
-CONFIG += staticlib thread exceptions rtti stl warn_on
+CONFIG += staticlib thread exceptions rtti stl warn_on debug
 
 UI_DIR = uics
 TARGET = lib/pokerth_lib

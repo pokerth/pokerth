@@ -42,7 +42,7 @@ public:
 public slots:
 
 	void setMyW ( gameTableImpl* theValue ) { myW = theValue; }
-	
+	ChatTools *getMyChat() { return myChat; }	
 
 	void startGame();
 	void cancel();

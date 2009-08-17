@@ -25,20 +25,23 @@
 #include <QtGui>
 #include <boost/shared_ptr.hpp>
 
+enum ChatType { INET_LOBBY_CHAT, LAN_LOBBY_CHAT, INGAME_CHAT };
+
 class Session;
 class ConfigFile;
 class GameTableStyleReader;
+class gameLobbyDialogImpl;
 
 class ChatTools : public QObject
 {
 Q_OBJECT
 
 public:
-	ChatTools(QLineEdit* l, ConfigFile *c, int notifyMode = 0, QTextBrowser *b = NULL, QTreeWidget *t = NULL);
+	ChatTools(QLineEdit*, ConfigFile*, ChatType, QTextBrowser *b = NULL, QTreeWidget *t = NULL, gameLobbyDialogImpl *lo = NULL);
 
 	~ChatTools();
 
-        void setSession(boost::shared_ptr<Session> session) { mySession = session; }
+	void setSession(boost::shared_ptr<Session> session) { mySession = session; }
 
 public slots:
 	
@@ -56,6 +59,7 @@ public slots:
 
 	void setPlayerNicksList(QStringList value) { myNickStringList = value; }
 	void setMyNick ( const QString& theValue ) { myNick = theValue; }
+	QString getMyNick () { return myNick; }
 
 	void setMyStyle ( GameTableStyleReader* theValue ) { myStyle = theValue; }
 	
@@ -72,12 +76,13 @@ private:
 	QStringList myNickStringList;
 	QTextBrowser *myTextBrowser;
 	boost::shared_ptr<Session> mySession;
-	int myNotifyMode; // 0 == no notification, 1 == bold notification, 2 == yellow notification	
+	ChatType myChatType;
 	ConfigFile *myConfig;
 	
 	QString myNick;
 
 	GameTableStyleReader *myStyle;
+	gameLobbyDialogImpl *myLobby;
 };
 
 #endif

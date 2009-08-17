@@ -6,7 +6,8 @@ CONFIG += staticlib \
     exceptions \
     rtti \
     stl \
-    warn_on
+    warn_on \
+    debug
 UI_DIR = uics
 TARGET = lib/pokerth_protocol
 MOC_DIR = mocs

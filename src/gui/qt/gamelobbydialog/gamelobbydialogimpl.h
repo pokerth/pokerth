@@ -26,7 +26,7 @@
 
 class Session;
 class ConfigFile;
-class LobbyChat;
+class ChatTools;
 class startWindowImpl;
 class MyGameListSortFilterProxyModel;
 
@@ -43,7 +43,7 @@ public:
 
 	void exec();
 
-	LobbyChat *getLobbyChat() { return myChat; }
+	ChatTools *getMyChat() { return myChat; }
 
 	void setSession(boost::shared_ptr<Session> session) { mySession = session; }
 	boost::shared_ptr<Session> getSession() { assert(mySession.get()); return mySession; }
@@ -65,6 +65,9 @@ public slots:
 	void removeGame(unsigned gameId);
 	void gameAddPlayer(unsigned gameId, unsigned playerId);
 	void gameRemovePlayer(unsigned gameId, unsigned playerId);
+	
+	void playerJoinedLobby(unsigned playerId, QString playerName);
+	void playerLeftLobby(unsigned playerId);
 
 	void updateStats(ServerStats stats);
 
@@ -134,7 +137,7 @@ private:
 	QColor defaultStartButtonTextColor;
 	QColor disabledStartButtonColor;
 	QColor disabledStartButtonTextColor;
-	LobbyChat *myChat;	
+	ChatTools *myChat;	
 	int keyUpCounter;
 	QStandardItemModel *myGameListModel;
 	QItemSelectionModel *myGameListSelectionModel;

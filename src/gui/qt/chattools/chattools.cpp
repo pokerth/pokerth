@@ -21,29 +21,34 @@
 #include "session.h"
 #include "configfile.h"
 #include "gametablestylereader.h"
+#include "gamelobbydialogimpl.h"
 #include <iostream>
+
 
 using namespace std;
 
 
-ChatTools::ChatTools(QLineEdit* l, ConfigFile *c, int notifyMode, QTextBrowser *b, QTreeWidget *t) : nickAutoCompletitionCounter(0), myLineEdit(l), myNickTreeWidget(t), myNickStringList(NULL), myTextBrowser(b), myNotifyMode(notifyMode), myConfig(c), myNick("")
+ChatTools::ChatTools(QLineEdit* l, ConfigFile *c, ChatType ct, QTextBrowser *b, QTreeWidget *t, gameLobbyDialogImpl *lo) : nickAutoCompletitionCounter(0), myLineEdit(l), myNickTreeWidget(t), myNickStringList(NULL), myTextBrowser(b), myChatType(ct), myConfig(c), myNick(""), myLobby(lo)
 {
-
+	myNick = QString::fromUtf8(myConfig->readConfigString("MyName").c_str());
 }
 
 ChatTools::~ChatTools()
 {
-
 }
 
 void ChatTools::sendMessage() {
 	
-	fillChatLinesHistory(myLineEdit->text());
-	if(mySession) {
-		mySession->sendGameChatMessage(myLineEdit->text().toUtf8().constData());
+	if(myLineEdit->text().size() && mySession) {
+		fillChatLinesHistory(myLineEdit->text());
+		if(myChatType == INGAME_CHAT) {
+			mySession->sendGameChatMessage(myLineEdit->text().toUtf8().constData());
+		}
+		else {
+			mySession->sendLobbyChatMessage(myLineEdit->text().toUtf8().constData());
+		}
 		myLineEdit->setText("");
 	}
-	else { cout << "Session is not valid" << endl;}
 }
 
 void ChatTools::receiveMessage(QString playerName, QString message) { 
@@ -53,37 +58,39 @@ void ChatTools::receiveMessage(QString playerName, QString message) {
 		message = message.replace("<","&lt;");
 		message = message.replace(">","&gt;");
 
+		//refresh myNick if it was changed during runtime
+		myNick = QString::fromUtf8(myConfig->readConfigString("MyName").c_str());
+		
 		QString tempMsg;
-		QString nickString;
+		
+		if(message.contains(myNick, Qt::CaseInsensitive)) {
 
-		if(myNick == "") { nickString = QString::fromUtf8(myConfig->readConfigString("MyName").c_str()); }
-		else { nickString = myNick;  }
-
-		if(message.contains(nickString, Qt::CaseInsensitive)) {
-
-			switch (myNotifyMode) {
-				case 0: tempMsg = message;
+			switch (myChatType) {
+				case INET_LOBBY_CHAT: { 
+						tempMsg = QString("<span style=\"font-weight:bold;\">"+message+"</span>");
+						//play beep sound only in INET-lobby-chat
+//						TODO dont play when message is from yourself
+						if(myLobby->isVisible() && myConfig->readConfigInt("PlayLobbyChatNotification")) {
+							myLobby->getMyW()->getMySDLPlayer()->playSound("lobbychatnotify",0);
+						}
+				}
 				break;
-// 				lobby
-				case 1:	tempMsg = QString("<span style=\"font-weight:bold;\">"+message+"</span>");
+				case LAN_LOBBY_CHAT: tempMsg = QString("<span style=\"font-weight:bold;\">"+message+"</span>");
 				break;
-// 				ingame
-				case 2: tempMsg = QString("<span style=\"color:#"+myStyle->getChatTextNickNotifyColor()+";\">"+message+"</span>");
+				case INGAME_CHAT: tempMsg = QString("<span style=\"color:#"+myStyle->getChatTextNickNotifyColor()+";\">"+message+"</span>");
 				break;
-				default:;
+				default: tempMsg = message;
 			}
 		}
 		else {
-			switch (myNotifyMode) {
-				case 0: tempMsg = message;
+			switch (myChatType) {
+				case INET_LOBBY_CHAT: tempMsg = QString("<span style=\"font-weight:normal;\">"+message+"</span>");
 				break;
-// 				lobby
-				case 1:	tempMsg = QString("<span style=\"font-weight:normal;\">"+message+"</span>");
+				case LAN_LOBBY_CHAT: tempMsg = QString("<span style=\"font-weight:normal;\">"+message+"</span>");
 				break;
-// 				ingame
-				case 2: tempMsg = QString("<span style=\"color:#"+myStyle->getChatLogTextColor()+";\">"+message+"</span>");
+				case INGAME_CHAT: tempMsg = QString("<span style=\"color:#"+myStyle->getChatLogTextColor()+";\">"+message+"</span>");
 				break;
-				default:;
+				default: tempMsg = message;
 			}
 			
 		}
@@ -132,7 +139,6 @@ void ChatTools::nickAutoCompletition() {
 	if(nickAutoCompletitionCounter == 0) {
 
 		if(myNickTreeWidget) {
-// 			cout << "use Treewidget niclist" << endl;
 			QTreeWidgetItemIterator it(myNickTreeWidget);
 			while (*it) {
 				if ((*it)->text(0).startsWith(myChatStringList.last(), Qt::CaseInsensitive) && myChatStringList.last() != "")
@@ -142,7 +148,6 @@ void ChatTools::nickAutoCompletition() {
 		}
 
 		if(!myNickStringList.isEmpty()) {
-// 			cout << "use static nickList" << endl;
 
 			QStringListIterator it(myNickStringList);
      			while (it.hasNext()) {
@@ -150,14 +155,8 @@ void ChatTools::nickAutoCompletition() {
           			if (next.startsWith(myChatStringList.last(), Qt::CaseInsensitive) && myChatStringList.last() != "")
 					matchStringList << next;
 			}
-			//TODO code for static nickList
 		}
 	}
-
-// 	QStringList::const_iterator constIterator;
-//      	for (constIterator = matchStringList.constBegin(); constIterator != matchStringList.constEnd(); ++constIterator) {
-//          	cout << (*constIterator).toLocal8Bit().constData() << endl;
-// 	}
 
 	if(!matchStringList.isEmpty() || nickAutoCompletitionCounter > 0) {
 		

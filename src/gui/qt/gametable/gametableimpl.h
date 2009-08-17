@@ -30,7 +30,7 @@
 #include <QtCore>
 
 class Log;
-class Chat;
+class ChatTools;
 class ConfigFile;
 class Session;
 class Game;
@@ -64,7 +64,7 @@ public:
 	void setLog(Log* l) { myLog = l; }
 	
 	SDLPlayer* getMySDLPlayer() const { return mySDLPlayer; }
-	Chat* getMyChat() const	{ return myChat; }
+	ChatTools* getMyChat() const { return myChat; }
 
 	GameTableStyleReader* getMyGameTableStyle() const { return myGameTableStyle; }
 		
@@ -125,7 +125,7 @@ signals:
 	void signalChangeVoteOnKickButtonsState(bool showHide);
 	void signalEndVoteOnKick();
 
-        void signalNetClientPlayerLeft(unsigned playerId);
+	void signalNetClientPlayerLeft(unsigned playerId);
 
 public slots:
 
@@ -302,12 +302,12 @@ public slots:
 	void saveGameTableGeometry();
 	void restoreGameTableGeometry();
 
-        void netClientPlayerLeft(unsigned playerId);
+	void netClientPlayerLeft(unsigned playerId);
 private: 
 
 	boost::shared_ptr<GuiInterface> myServerGuiInterface;
 	Log *myLog;
-	Chat *myChat;
+	ChatTools *myChat;
 	ConfigFile *myConfig;
 	
 	//Timer
@@ -356,9 +356,9 @@ private:
 	QLabel *cashTopLabelArray[MAX_NUMBER_OF_PLAYERS];
 	MySetLabel *setLabelArray[MAX_NUMBER_OF_PLAYERS];
 	QLabel *actionLabelArray[MAX_NUMBER_OF_PLAYERS];
-        MyNameLabel *playerNameLabelArray[MAX_NUMBER_OF_PLAYERS];
+	MyNameLabel *playerNameLabelArray[MAX_NUMBER_OF_PLAYERS];
 	MyAvatarLabel *playerAvatarLabelArray[MAX_NUMBER_OF_PLAYERS];
-        MyTimeoutLabel *timeoutLabelArray[MAX_NUMBER_OF_PLAYERS];
+	MyTimeoutLabel *timeoutLabelArray[MAX_NUMBER_OF_PLAYERS];
 
 	QGroupBox *groupBoxArray[MAX_NUMBER_OF_PLAYERS];
 	MyCardsPixmapLabel *boardCardsArray[5];
@@ -422,11 +422,11 @@ private:
 	CardDeckStyleReader *myCardDeckStyle;
 
 	QString AllInString;
-     	QString RaiseString;
-     	QString BetString;
-     	QString CallString;
-     	QString CheckString;
-     	QString FoldString;
+	QString RaiseString;
+	QString BetString;
+	QString CallString;
+	QString CheckString;
+	QString FoldString;
 	QString PotString;
 	QString TotalString;
 	QString BetsString;

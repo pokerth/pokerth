@@ -32,7 +32,7 @@
 #include "mytimeoutlabel.h"
 #include "mymenubar.h"
 #include "log.h"
-#include "chat.h"
+#include "chattools.h"
 
 #include "playerinterface.h"
 #include "boardinterface.h"
@@ -388,9 +388,9 @@ gameTableImpl::gameTableImpl(ConfigFile *c, QMainWindow *parent)
         }
 
 // 	Dialogs
-	myChat = new Chat(this, myConfig);
-	myChat->transportMyStyle(myGameTableStyle);
-
+	myChat = new ChatTools(lineEdit_ChatInput, myConfig, INGAME_CHAT, textBrowser_Chat);
+	myChat->setMyStyle(myGameTableStyle);
+	
 	lineEdit_ChatInput->installEventFilter(this);
 	this->installEventFilter(this);
 
@@ -2775,9 +2775,7 @@ void gameTableImpl::tabSwitchAction() {
 	
 	switch(tabWidget_Left->currentIndex()) {
 
-		case 1: { lineEdit_ChatInput->setFocus();
-			  myChat->checkInvisible();				
-			}
+		case 1: { lineEdit_ChatInput->setFocus(); }
 		break;
 		default: { lineEdit_ChatInput->clearFocus(); }
 	
@@ -2821,7 +2819,7 @@ void gameTableImpl::networkGameModification() {
 	tabWidget_Left->removeTab(2);
 	
 	tabWidget_Left->setCurrentIndex(1);
-	myChat->clearNewGame();
+	myChat->clearChat();
 	
 	int i;
 	for (i=0; i<MAX_NUMBER_OF_PLAYERS; i++ ) { 

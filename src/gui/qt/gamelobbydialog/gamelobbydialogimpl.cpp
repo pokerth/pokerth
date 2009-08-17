@@ -12,7 +12,7 @@
 #include "gamelobbydialogimpl.h"
 #include "mygamelistsortfilterproxymodel.h"
 #include "startwindowimpl.h"
-#include "lobbychat.h"
+#include "chattools.h"
 #include "changecompleteblindsdialogimpl.h"
 #include "session.h"
 #include "configfile.h"
@@ -29,7 +29,7 @@ gameLobbyDialogImpl::gameLobbyDialogImpl(startWindowImpl *parent, ConfigFile *c)
 #endif	
     	setupUi(this);
 	
-	myChat = new LobbyChat(this, myConfig);
+	myChat = new ChatTools(lineEdit_ChatInput, myConfig, INET_LOBBY_CHAT, textBrowser_ChatDisplay, treeWidget_NickList, this);
 
 	myAppDataPath = QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str());
 
@@ -560,6 +560,7 @@ void gameLobbyDialogImpl::clearDialog()
 	pushButton_CreateGame->clearFocus();
 	lineEdit_ChatInput->setFocus();
 	myChat->clearChat();
+	treeWidget_NickList->clear();
 	inGame = false;
 	isAdmin = false;
 	myPlayerId = 0;
@@ -681,7 +682,21 @@ void gameLobbyDialogImpl::updatePlayer(unsigned playerId, QString newPlayerName)
 		refreshConnectedPlayerAvatars();
 	
 	//also rename player in nick-list
-	myChat->playerChanged(playerId, newPlayerName);
+	QString oldNick;
+	QTreeWidgetItemIterator it1(treeWidget_NickList);
+	while (*it1) {
+		if ((*it1)->data(0, Qt::UserRole) == playerId)
+		{
+			oldNick = (*it1)->data(0, Qt::DisplayRole).toString();
+			(*it1)->setData(0, Qt::DisplayRole, newPlayerName);
+			break;
+		}
+		++it1;
+	}
+	
+	if (myChat->getMyNick() == oldNick) {
+		myChat->setMyNick(newPlayerName);
+	}
 }
 
 void gameLobbyDialogImpl::removePlayer(unsigned playerId, QString) {
@@ -697,6 +712,32 @@ void gameLobbyDialogImpl::removePlayer(unsigned playerId, QString) {
 	}
 
 	checkPlayerQuantity();
+}
+
+void gameLobbyDialogImpl::playerLeftLobby(unsigned playerId)
+{
+	QTreeWidgetItemIterator it(treeWidget_NickList);
+	while (*it) {
+		if ((*it)->data(0, Qt::UserRole) == playerId)
+		{
+			treeWidget_NickList->takeTopLevelItem(treeWidget_NickList->indexOfTopLevelItem(*it));
+			break;
+		}
+		++it;
+	}
+	
+	treeWidget_NickList->sortItems(0, Qt::AscendingOrder);
+	refreshPlayerStats();
+}
+
+void gameLobbyDialogImpl::playerJoinedLobby(unsigned playerId, QString playerName)
+{
+	QTreeWidgetItem *item = new QTreeWidgetItem(treeWidget_NickList, 0);
+	item->setData(0, Qt::DisplayRole, playerName);
+	item->setData(0, Qt::UserRole, playerId);
+
+	treeWidget_NickList->sortItems(0, Qt::AscendingOrder);
+	refreshPlayerStats();
 }
 
 void gameLobbyDialogImpl::newGameAdmin(unsigned playerId, QString)
