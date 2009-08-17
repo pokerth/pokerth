@@ -64,6 +64,7 @@ HEADERS += \
 		src/engine/berointerface.h \
 		src/gui/guiinterface.h \
 		src/net/chatcleanermanager.h \
+		src/net/chatcleanercallback.h \
 		src/net/clientcallback.h \
 		src/net/clientcontext.h \
 		src/net/clientexception.h \
@@ -166,6 +167,7 @@ SOURCES += \
 		src/engine/network_engine/clientplayer.cpp \
 		src/engine/network_engine/clientbero.cpp \
 		src/net/common/chatcleanermanager.cpp \
+		src/net/common/chatcleanercallback.cpp \
 		src/net/common/clientcallback.cpp \
 		src/net/common/clientcontext.cpp \
 		src/net/common/clientstate.cpp \

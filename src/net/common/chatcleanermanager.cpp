@@ -29,8 +29,8 @@ using namespace std;
 using boost::asio::ip::tcp;
 
 
-ChatCleanerManager::ChatCleanerManager(boost::shared_ptr<boost::asio::io_service> ioService)
-: m_ioService(ioService), m_connected(false), m_curRequestId(0), m_recvBufUsed(0)
+ChatCleanerManager::ChatCleanerManager(ChatCleanerCallback &cb, boost::shared_ptr<boost::asio::io_service> ioService)
+: m_callback(cb), m_ioService(ioService), m_connected(false), m_curRequestId(0), m_recvBufUsed(0)
 {
 	m_resolver.reset(
 		new boost::asio::ip::tcp::resolver(*m_ioService));
@@ -125,21 +125,22 @@ ChatCleanerManager::HandleConnect(const boost::system::error_code& ec,
 				boost::asio::placeholders::error,
 				boost::asio::placeholders::bytes_transferred));
 	}
-	else if (endpoint_iterator != boost::asio::ip::tcp::resolver::iterator())
-	{
-		// Try next resolve entry.
-		m_socket->close();
-		boost::asio::ip::tcp::endpoint endpoint = *endpoint_iterator;
-		m_socket->async_connect(
-			endpoint,
-			boost::bind(&ChatCleanerManager::HandleConnect,
-				shared_from_this(),
-				boost::asio::placeholders::error,
-				++endpoint_iterator));
-	}
 	else if (ec != boost::asio::error::operation_aborted)
 	{
-		LOG_ERROR("Could not connect to chat cleaner server.");
+		if (endpoint_iterator != boost::asio::ip::tcp::resolver::iterator())
+		{
+			// Try next resolve entry.
+			m_socket->close();
+			boost::asio::ip::tcp::endpoint endpoint = *endpoint_iterator;
+			m_socket->async_connect(
+				endpoint,
+				boost::bind(&ChatCleanerManager::HandleConnect,
+					shared_from_this(),
+					boost::asio::placeholders::error,
+					++endpoint_iterator));
+		}
+		else
+			LOG_ERROR("Could not connect to chat cleaner server.");
 	}
 }
 
@@ -179,7 +180,10 @@ ChatCleanerManager::HandleRead(const boost::system::error_code &ec, size_t bytes
 				else
 					m_recvBufUsed = 0;
 
-				error = HandleMessage(recvMsg);
+				if (asn_check_constraints(&asn_DEF_ChatCleanerMessage, recvMsg.GetMsg(), NULL, NULL) == 0)
+					error = HandleMessage(recvMsg);
+				else
+					LOG_ERROR("Received invalid chat cleaner packet.");
 			}
 		} while (!error && retVal.code == RC_OK);
 
@@ -225,6 +229,12 @@ ChatCleanerManager::HandleMessage(InternalChatCleanerPacket &msg)
 		}
 		if (!m_connected)
 			LOG_ERROR("Chat cleaner handshake failed.");
+	}
+	else if (msg.GetMsg()->present == ChatCleanerMessage_PR_cleanerChatReplyMessage)
+	{
+		CleanerChatReplyMessage_t *netReply = &msg.GetMsg()->choice.cleanerChatReplyMessage;
+		m_callback.SignalChatBotMessage(string((const char *)netReply->cleanerText->buf, netReply->cleanerText->size));
+		error = false;
 	}
 	return error;
 }

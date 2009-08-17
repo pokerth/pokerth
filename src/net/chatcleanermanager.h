@@ -25,13 +25,14 @@
 #include <boost/enable_shared_from_this.hpp>
 #include <string>
 #include <net/internalchatcleanerpacket.h>
+#include <net/chatcleanercallback.h>
 
 class EncodedPacket;
 
 class ChatCleanerManager : public boost::enable_shared_from_this<ChatCleanerManager>
 {
 public:
-	ChatCleanerManager(boost::shared_ptr<boost::asio::io_service> ioService);
+	ChatCleanerManager(ChatCleanerCallback &cb, boost::shared_ptr<boost::asio::io_service> ioService);
 	virtual ~ChatCleanerManager();
 
 	void Init(const std::string &serverAddr, int port, bool ipv6,
@@ -51,6 +52,7 @@ protected:
 
 private:
 
+	ChatCleanerCallback &m_callback;
 	boost::shared_ptr<boost::asio::io_service> m_ioService;
 	boost::shared_ptr<boost::asio::ip::tcp::resolver> m_resolver;
 	boost::shared_ptr<boost::asio::ip::tcp::socket> m_socket;

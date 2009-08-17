@@ -68,7 +68,7 @@ using namespace std;
 using boost::asio::ip::tcp;
 
 
-class ServerSenderCallback : public SenderCallback, public SessionDataCallback
+class ServerSenderCallback : public SenderCallback, public SessionDataCallback, public ChatCleanerCallback
 {
 public:
 	ServerSenderCallback(ServerLobbyThread &server) : m_server(server) {}
@@ -83,6 +83,10 @@ public:
 	virtual void SignalSessionTerminated(unsigned session)
 	{
 		m_server.GetSender().SignalSessionTerminated(session);
+	}
+	virtual void SignalChatBotMessage(const string &msg)
+	{
+		m_server.SendChatBotMsg(msg);
 	}
 
 private:
@@ -103,7 +107,7 @@ ServerLobbyThread::ServerLobbyThread(GuiInterface &gui, ConfigFile *playerConfig
 	m_sender.reset(new SenderHelper(*m_senderCallback, m_ioService));
 	m_receiver.reset(new ReceiverHelper);
 	m_banManager.reset(new ServerBanManager(m_ioService));
-	m_chatCleanerManager.reset(new ChatCleanerManager(m_ioService));
+	m_chatCleanerManager.reset(new ChatCleanerManager(*m_senderCallback, m_ioService));
 }
 
 ServerLobbyThread::~ServerLobbyThread()
@@ -445,7 +449,24 @@ ServerLobbyThread::SendGlobalMsgBox(const string &message)
 		&netDialog->notificationText,
 		message.c_str(),
 		message.length());
+	m_sessionManager.SendToAllSessions(GetSender(), packet, SessionData::Established);
 	m_gameSessionManager.SendToAllSessions(GetSender(), packet, SessionData::Game);
+}
+
+void
+ServerLobbyThread::SendChatBotMsg(const std::string &message)
+{
+	boost::shared_ptr<NetPacket> packet(new NetPacket(NetPacket::Alloc));
+	packet->GetMsg()->present = PokerTHMessage_PR_chatMessage;
+	ChatMessage_t *netChat = &packet->GetMsg()->choice.chatMessage;
+	netChat->chatType.present = chatType_PR_chatTypeBot;
+	OCTET_STRING_fromBuf(
+		&netChat->chatText,
+		message.c_str(),
+		message.length());
+
+	m_sessionManager.SendLobbyMsgToAllSessions(GetSender(), packet, SessionData::Established);
+	m_gameSessionManager.SendLobbyMsgToAllSessions(GetSender(), packet, SessionData::Game);
 }
 
 void

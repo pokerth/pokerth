@@ -14,6 +14,7 @@
 #include <UTF8String.h>
 #include "ChatTypeLobby.h"
 #include "ChatTypeGame.h"
+#include "ChatTypeBot.h"
 #include "ChatTypeBroadcast.h"
 #include <constr_CHOICE.h>
 #include <constr_SEQUENCE.h>
@@ -27,6 +28,7 @@ typedef enum chatType_PR {
 	chatType_PR_NOTHING,	/* No components present */
 	chatType_PR_chatTypeLobby,
 	chatType_PR_chatTypeGame,
+	chatType_PR_chatTypeBot,
 	chatType_PR_chatTypeBroadcast,
 	/* Extensions may appear below */
 	
@@ -39,6 +41,7 @@ typedef struct ChatMessage {
 		union ChatMessage__chatType_u {
 			ChatTypeLobby_t	 chatTypeLobby;
 			ChatTypeGame_t	 chatTypeGame;
+			ChatTypeBot_t	 chatTypeBot;
 			ChatTypeBroadcast_t	 chatTypeBroadcast;
 			/*
 			 * This type is extensible,
