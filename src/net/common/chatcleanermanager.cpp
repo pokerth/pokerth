@@ -44,16 +44,25 @@ void
 ChatCleanerManager::Init(const string &serverAddr, int port, bool ipv6,
 						 const string &clientSecret, const string &serverSecret)
 {
+	m_serverAddr = serverAddr;
+	m_serverPort = port;
+	m_useIpv6 = ipv6;
 	m_clientSecret = clientSecret;
 	m_serverSecret = serverSecret;
-	if (ipv6)
+	ReInit();
+}
+
+void
+ChatCleanerManager::ReInit()
+{
+	if (m_useIpv6)
 		m_socket.reset(new boost::asio::ip::tcp::socket(*m_ioService, tcp::v6()));
 	else
 		m_socket.reset(new boost::asio::ip::tcp::socket(*m_ioService, tcp::v4()));
 
 	ostringstream portStr;
-	portStr << port;
-	boost::asio::ip::tcp::resolver::query q(serverAddr, portStr.str());
+	portStr << m_serverPort;
+	boost::asio::ip::tcp::resolver::query q(m_serverAddr, portStr.str());
 
 	m_resolver->async_resolve(
 		q,
@@ -209,9 +218,12 @@ ChatCleanerManager::HandleRead(const boost::system::error_code &ec, size_t bytes
 	else if (ec != boost::asio::error::operation_aborted)
 	{
 		LOG_ERROR("Error receiving data from chat cleaner.");
+		bool wasConnected = m_connected;
 		boost::system::error_code ec;
 		m_socket->close(ec);
 		m_connected = false;
+		if (wasConnected)
+			ReInit(); // Try to reconnect once if disconnected.
 	}
 }
 

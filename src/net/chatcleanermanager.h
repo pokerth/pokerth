@@ -37,6 +37,7 @@ public:
 
 	void Init(const std::string &serverAddr, int port, bool ipv6,
 			  const std::string &clientSecret, const std::string &serverSecret);
+	void ReInit();
 	void HandleChatText(unsigned playerId, const std::string &name, const std::string &text);
 
 protected:
@@ -59,6 +60,9 @@ private:
 
 	bool m_connected;
 	unsigned m_curRequestId;
+	std::string m_serverAddr;
+	int m_serverPort;
+	bool m_useIpv6;
 	std::string m_clientSecret;
 	std::string m_serverSecret;
 	unsigned char m_recvBuf[2*MAX_CLEANER_PACKET_SIZE];

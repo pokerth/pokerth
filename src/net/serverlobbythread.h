@@ -81,6 +81,7 @@ public:
 	void SendGlobalChat(const std::string &message);
 	void SendGlobalMsgBox(const std::string &message);
 	void SendChatBotMsg(const std::string &message);
+	void ReconnectChatBot();
 
 	void AddComputerPlayer(boost::shared_ptr<PlayerData> player);
 	void RemoveComputerPlayer(boost::shared_ptr<PlayerData> player);

@@ -470,6 +470,12 @@ ServerLobbyThread::SendChatBotMsg(const std::string &message)
 }
 
 void
+ServerLobbyThread::ReconnectChatBot()
+{
+	m_chatCleanerManager->ReInit();
+}
+
+void
 ServerLobbyThread::AddComputerPlayer(boost::shared_ptr<PlayerData> player)
 {
 	boost::mutex::scoped_lock lock(m_computerPlayersMutex);

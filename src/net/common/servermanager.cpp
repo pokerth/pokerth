@@ -112,6 +112,11 @@ ServerManager::SignalIrcChatMsg(const std::string &nickName, const std::string &
 							m_ircThread->SendChatMessage(nickName + ": Player \"" + playerName + "\" was not found on the server.");
 					}
 				}
+				else if (command == "cleaner-reconnect")
+				{
+					GetLobbyThread().ReconnectChatBot();
+					m_ircThread->SendChatMessage(nickName + ": Cleaner bot reconnect initiated.");
+				}
 				else if (command == "showip")
 				{
 					while (msgStream.peek() == ' ')
