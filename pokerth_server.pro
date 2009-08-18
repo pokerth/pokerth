@@ -121,7 +121,7 @@ win32 {
 
     LIBPATH += ../boost/stage/lib ../GnuTLS/lib ../curl/lib ../zlib
 
-    LIBS += -lpokerth_lib
+    LIBS += -lpokerth_lib -lpokerth_protocol
 
     win32-msvc2005 {
         LIBPATH += Release/lib
