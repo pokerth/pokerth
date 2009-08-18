@@ -45,7 +45,7 @@ public:
 
 	ChatTools *getMyChat() { return myChat; }
 
-	void setSession(boost::shared_ptr<Session> session) { mySession = session; }
+	void setSession(boost::shared_ptr<Session> session);
 	boost::shared_ptr<Session> getSession() { assert(mySession.get()); return mySession; }
 
 	void setMyW ( gameTableImpl* theValue ) { myW = theValue; }

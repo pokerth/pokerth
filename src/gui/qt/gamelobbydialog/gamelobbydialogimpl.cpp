@@ -124,6 +124,11 @@ gameLobbyDialogImpl::~gameLobbyDialogImpl()
 
 }
 
+void gameLobbyDialogImpl::setSession(boost::shared_ptr<Session> session) { 
+	mySession = session; 
+	myChat->setSession(mySession);
+}
+
 void gameLobbyDialogImpl::createGame()
 {
 	assert(mySession);

@@ -695,11 +695,12 @@ void gameTableImpl::initGui(int speed)
 		horizontalSlider_speed->setValue(guiGameSpeed);
 		setSpeeds();
 	}
+	
+	//set session for chat 
+	myChat->setSession(this->getSession());
 }
 
 boost::shared_ptr<Session> gameTableImpl::getSession() { assert(myStartWindow->getSession().get()); return myStartWindow->getSession(); }
-// void gameTableImpl::setSession(boost::shared_ptr<Session> session) { mySession = session; }
-
 
 //refresh-Funktionen
 void gameTableImpl::refreshSet() {
