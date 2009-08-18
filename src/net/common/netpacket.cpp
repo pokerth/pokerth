@@ -147,7 +147,7 @@ NetPacket::GetGameData(const NetGameInfo_t *inData, GameData &outData)
 {
 	assert(inData);
 
-	int numManualBlinds = (int)inData->manualBlinds.list.size;
+	int numManualBlinds = (int)inData->manualBlinds.list.count;
 
 	outData.maxNumberOfPlayers			= inData->maxNumPlayers;
 	outData.raiseIntervalMode			= static_cast<RaiseIntervalMode>(inData->raiseIntervalMode.present);
