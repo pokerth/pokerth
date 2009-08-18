@@ -11,7 +11,7 @@
 
 using namespace std;
 
-CleanerServer::CleanerServer(): config(0), blockConnection(false), secondsSinceLastConfigChange(0)
+CleanerServer::CleanerServer(): config(0), blockConnection(false), m_recvBufUsed(0), secondsSinceLastConfigChange(0)
 {
 	config = new CleanerConfig;
 
