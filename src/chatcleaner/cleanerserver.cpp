@@ -146,6 +146,7 @@ bool CleanerServer::handleMessage(InternalChatCleanerPacket &msg) {
 			tmpReply.GetMsg()->present = ChatCleanerMessage_PR_cleanerChatReplyMessage;
 			CleanerChatReplyMessage_t *netReply = &tmpReply.GetMsg()->choice.cleanerChatReplyMessage;
 			netReply->requestId = netRequest->requestId;
+			netReply->playerId = netRequest->playerId;
 			netReply->cleanerActionType = cleanerActionType_cleanerActionNone;
 	/*	cleanerActionType_cleanerActionNone
 		cleanerActionType_cleanerActionWarning
