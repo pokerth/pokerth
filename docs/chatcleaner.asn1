@@ -41,14 +41,15 @@ CleanerInitAckMessage ::= [APPLICATION 1] SEQUENCE {
 }
 
 CleanerChatRequestMessage ::= [APPLICATION 2] SEQUENCE {
-	requestId					INTEGER(0..4294967295),
-	playerId					INTEGER(0..4294967295),
+	requestId					INTEGER(1..4294967295),
+	playerId					INTEGER(1..4294967295),
 	playerName					UTF8String (SIZE(1..32)),
 	chatMessage					UTF8String (SIZE(1..128))
 }
 
 CleanerChatReplyMessage ::= [APPLICATION 3] SEQUENCE {
-	requestId					INTEGER(0..4294967295),
+	requestId					INTEGER(1..4294967295),
+	playerId					INTEGER(1..4294967295),
 	cleanerActionType			ENUMERATED {
 		cleanerActionNone		(0),
 		cleanerActionWarning	(1),

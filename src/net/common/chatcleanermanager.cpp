@@ -241,6 +241,7 @@ ChatCleanerManager::HandleMessage(InternalChatCleanerPacket &msg)
 			{
 				m_connected = true;
 				error = false;
+				LOG_MSG("Successfully connected to chat cleaner.");
 			}
 		}
 		if (!m_connected)
