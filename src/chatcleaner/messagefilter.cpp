@@ -49,10 +49,11 @@ QString MessageFilter::check(unsigned playerId, QString nick, QString msg)
 		QMap<unsigned, ClientWarnInfos>::const_iterator i = myClientWarnLevelList.find(playerId);
 		
 		if(i == myClientWarnLevelList.end()) {
-			myClientWarnInfos.warnLevel = 1;
-			myClientWarnInfos.lastWarnType = offence;
-			myClientWarnInfos.nick = nick;
-			myClientWarnLevelList.insert(playerId, myClientWarnInfos);
+			ClientWarnInfos tmpInfos;
+			tmpInfos.warnLevel = 1;
+			tmpInfos.lastWarnType = offence;
+			tmpInfos.nick = nick;
+			myClientWarnLevelList.insert(playerId, tmpInfos);
 			action = WARN;
 		}
 		else {
@@ -64,10 +65,11 @@ QString MessageFilter::check(unsigned playerId, QString nick, QString msg)
 				myClientWarnLevelList.remove(i.key());
 			}
 			else {
-				myClientWarnInfos.warnLevel++;
-				myClientWarnInfos.lastWarnType = offence;
-				myClientWarnInfos.nick = nick;
-				myClientWarnLevelList.insert(playerId, myClientWarnInfos);
+				ClientWarnInfos tmpInfos;
+				tmpInfos.warnLevel = i.value().warnLevel+1;
+				tmpInfos.lastWarnType = offence;
+				tmpInfos.nick = nick;
+				myClientWarnLevelList.insert(playerId, tmpInfos);
 				action = WARN;
 			}
 		}

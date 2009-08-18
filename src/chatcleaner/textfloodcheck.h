@@ -27,7 +27,6 @@ private:
 		int floodLevel;
 		size_t timeStamp;
 	};
-	TextFloodInfos myTextFloodInfos;
 	QMap<unsigned, TextFloodInfos> msgTimesList;
 	
 	int textFloodLevelToTrigger;

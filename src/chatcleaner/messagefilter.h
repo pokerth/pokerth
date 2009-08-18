@@ -31,7 +31,7 @@ private:
 		int lastWarnType; 
 		int warnLevel; 
 	};
-	ClientWarnInfos myClientWarnInfos;
+	
 	QMap<unsigned, ClientWarnInfos> myClientWarnLevelList;
 	
 	int warnLevelToKick;

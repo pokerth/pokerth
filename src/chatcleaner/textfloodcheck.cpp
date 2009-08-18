@@ -19,31 +19,41 @@ bool TextFloodCheck::run(unsigned playerId) {
 	QMapIterator<unsigned, TextFloodInfos> it(msgTimesList);
 	while (it.hasNext()) {
 		 it.next();
-//		 qDebug() << msgTimesList.count() << it.key() << ": " << it.value().floodLevel << it.value().timeStamp << endl;
+//		 qDebug() << "counter: " << msgTimesList.count() << " playerid: " << it.key() << " floodlevel: " << it.value().floodLevel << " timestamp: " <<  it.value().timeStamp;
 	}
 	
 	QMap<unsigned, TextFloodInfos>::const_iterator i = msgTimesList.find(playerId);
 	
 	if(i == msgTimesList.end()) {
-		myTextFloodInfos.floodLevel = 0;
-		myTextFloodInfos.timeStamp = timer.elapsed().total_seconds();
-		msgTimesList.insert(playerId, myTextFloodInfos);
+		TextFloodInfos tmpInfos1;
+		tmpInfos1.floodLevel = 0;
+		tmpInfos1.timeStamp = timer.elapsed().total_seconds();
+		msgTimesList.insert(playerId, tmpInfos1);
+		qDebug () << "Add Player: set player floodlevel to " << tmpInfos1.floodLevel;
 	}
 	else {
+		TextFloodInfos tmpInfos2;
 		if(timer.elapsed().total_seconds()-i.value().timeStamp <= 1) {
 			if(i.value().floodLevel == textFloodLevelToTrigger) {
-				myTextFloodInfos.floodLevel--;	
-//				qDebug () << "set player floodlevel to " << myTextFloodInfos.floodLevel << endl;
-				myTextFloodInfos.timeStamp = timer.elapsed().total_seconds();
-				msgTimesList.insert(playerId, myTextFloodInfos);
+				TextFloodInfos tmpInfos3;
+				tmpInfos3.floodLevel = i.value().floodLevel-1;
+				tmpInfos3.timeStamp = timer.elapsed().total_seconds();
+				qDebug () << "Trigger: set player floodlevel to " << tmpInfos3.floodLevel;
+				msgTimesList.insert(playerId, tmpInfos3);
 				return true;
 			}
 			else {
-				myTextFloodInfos.floodLevel++;
+				tmpInfos2.floodLevel = i.value().floodLevel+1;
+				qDebug () << "Raise: set player floodlevel to " << tmpInfos2.floodLevel << " from " << i.value().floodLevel;
 			}		
 		}
-		myTextFloodInfos.timeStamp = timer.elapsed().total_seconds();
-		msgTimesList.insert(playerId, myTextFloodInfos);
+		else {
+			tmpInfos2.floodLevel = i.value().floodLevel;		
+			qDebug () << "Keep: player floodlevel is " << tmpInfos2.floodLevel << " from " << i.value().floodLevel;
+		}
+		
+		tmpInfos2.timeStamp = timer.elapsed().total_seconds();
+		msgTimesList.insert(playerId, tmpInfos2);
 	}
 	return false;
 }
@@ -55,13 +65,16 @@ void TextFloodCheck::cleanMsgTimesList() {
 		 it.next();
 		 if(timer.elapsed().total_seconds()-it.value().timeStamp > 3) {
 			 
-			if(it.value().floodLevel == 0)
+			if(it.value().floodLevel == 0) {
 				msgTimesList.remove(it.key());
-				
+				qDebug () << "Refresh: player removed from List";
+			}
 			else {
-				myTextFloodInfos.floodLevel--;
-				myTextFloodInfos.timeStamp = it.value().timeStamp;
-				msgTimesList.insert(it.key(), myTextFloodInfos);
+				TextFloodInfos tmpInfos;
+				tmpInfos.floodLevel = it.value().floodLevel-1;
+				tmpInfos.timeStamp = it.value().timeStamp;
+				qDebug () << "Refresh: player floodlevel to " << tmpInfos.floodLevel;
+				msgTimesList.insert(it.key(), tmpInfos);
 			}
 		}
 //		qDebug() << msgTimesList.count() << it.key() << ": " << it.value().floodLevel << it.value().timeStamp << endl;
@@ -70,6 +83,6 @@ void TextFloodCheck::cleanMsgTimesList() {
 
 void TextFloodCheck::removeNickFromList(unsigned playerId) {
 	
-//	qDebug() << "id " << playerId << "removed from textfloodcheck list" << endl;
+	qDebug() << "id " << playerId << "removed from textfloodcheck list" << endl;
 	msgTimesList.remove(playerId);
 }
