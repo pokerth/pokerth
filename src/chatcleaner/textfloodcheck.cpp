@@ -19,7 +19,7 @@ bool TextFloodCheck::run(unsigned playerId) {
 	QMapIterator<unsigned, TextFloodInfos> it(msgTimesList);
 	while (it.hasNext()) {
 		 it.next();
-		 qDebug() << msgTimesList.count() << it.key() << ": " << it.value().floodLevel << it.value().timeStamp << endl;
+//		 qDebug() << msgTimesList.count() << it.key() << ": " << it.value().floodLevel << it.value().timeStamp << endl;
 	}
 	
 	QMap<unsigned, TextFloodInfos>::const_iterator i = msgTimesList.find(playerId);
@@ -64,7 +64,7 @@ void TextFloodCheck::cleanMsgTimesList() {
 				msgTimesList.insert(it.key(), myTextFloodInfos);
 			}
 		}
-		qDebug() << msgTimesList.count() << it.key() << ": " << it.value().floodLevel << it.value().timeStamp << endl;
+//		qDebug() << msgTimesList.count() << it.key() << ": " << it.value().floodLevel << it.value().timeStamp << endl;
 	}
 }
 

@@ -79,23 +79,23 @@ QString MessageFilter::check(unsigned playerId, QString nick, QString msg)
 			
 			switch(offence) {
 				case BAD_WORD: {
-					returnMessage = QString ("<PokerTHCleaner> %1: Warning! No racial, religious, or sexually inflammatory language!\n").arg(nick);
+					returnMessage = QString ("%1: Warning! No racial, religious, or sexually inflammatory language!\n").arg(nick);
 				}
 				break;
 				case TEXT_FLOOD_LINES: {
-					returnMessage = QString ("<PokerTHCleaner> %1: Warning! You've triggered text flood (lines) protection, slow down your typing!\n").arg(nick);
+					returnMessage = QString ("%1: Warning! You've triggered text flood (lines) protection, slow down your typing!\n").arg(nick);
 				}
 				break;
 				case CAPS_FLOOD: {
-					returnMessage = QString ("<PokerTHCleaner> %1: Warning: You've triggered caps flood protection, release your caps!\n").arg(nick);
+					returnMessage = QString ("%1: Warning: You've triggered caps flood protection, release your caps!\n").arg(nick);
 				}
 				break;
 				case LETTER_REPEATING: {
-					returnMessage = QString ("<PokerTHCleaner> %1: Warning: You've triggered letter repeating protection, stop repeating!\n").arg(nick);
+					returnMessage = QString ("%1: Warning: You've triggered letter repeating protection, stop repeating!\n").arg(nick);
 				}
 				break;
 				case URL: {
-					returnMessage = QString ("<PokerTHCleaner> %1: Warning: You've triggered url spam protection, stop posting urls!\n").arg(nick);
+					returnMessage = QString ("%1: Warning: You've triggered url spam protection, stop posting urls!\n").arg(nick);
 				}
 				break;
 				default:;
