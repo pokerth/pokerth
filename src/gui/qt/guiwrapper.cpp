@@ -21,7 +21,6 @@
 #include "guiwrapper.h"
 #include "session.h"
 #include "log.h"
-#include "chat.h"
 #include "gametableimpl.h"
 #include "startwindowimpl.h"
 #include "configfile.h"
