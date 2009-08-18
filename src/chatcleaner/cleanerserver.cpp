@@ -175,8 +175,9 @@ void CleanerServer::refreshConfig() {
 	
 	if(configFileInfo.lastModified().secsTo(QDateTime::currentDateTime()) < 20) {
 		config->fillBuffer();
-		myMessageFilter->refreshConfig();
 	}
+	
+	myMessageFilter->refreshConfig();
 }
 
 void CleanerServer::sendMessageToClient(InternalChatCleanerPacket &msg)
