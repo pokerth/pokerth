@@ -31,6 +31,7 @@ typedef enum cleanerActionType {
 /* CleanerChatReplyMessage */
 typedef struct CleanerChatReplyMessage {
 	unsigned long	 requestId;
+	unsigned long	 playerId;
 	long	 cleanerActionType;
 	UTF8String_t	*cleanerText	/* OPTIONAL */;
 	/*
@@ -44,7 +45,8 @@ typedef struct CleanerChatReplyMessage {
 
 /* Implementation */
 /* extern asn_TYPE_descriptor_t asn_DEF_requestId_2;	// (Use -fall-defs-global to expose) */
-/* extern asn_TYPE_descriptor_t asn_DEF_cleanerActionType_3;	// (Use -fall-defs-global to expose) */
+/* extern asn_TYPE_descriptor_t asn_DEF_playerId_3;	// (Use -fall-defs-global to expose) */
+/* extern asn_TYPE_descriptor_t asn_DEF_cleanerActionType_4;	// (Use -fall-defs-global to expose) */
 extern asn_TYPE_descriptor_t asn_DEF_CleanerChatReplyMessage;
 
 #ifdef __cplusplus

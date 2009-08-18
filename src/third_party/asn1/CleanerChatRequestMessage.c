@@ -22,8 +22,15 @@ requestId_2_constraint(asn_TYPE_descriptor_t *td, const void *sptr,
 	
 	value = *(const unsigned long *)sptr;
 	
-	/* Constraint check succeeded */
-	return 0;
+	if((value >= 1 && value <= 4294967295)) {
+		/* Constraint check succeeded */
+		return 0;
+	} else {
+		_ASN_CTFAIL(app_key, td, sptr,
+			"%s: constraint failed (%s:%d)",
+			td->name, __FILE__, __LINE__);
+		return -1;
+	}
 }
 
 /*
@@ -105,8 +112,15 @@ playerId_3_constraint(asn_TYPE_descriptor_t *td, const void *sptr,
 	
 	value = *(const unsigned long *)sptr;
 	
-	/* Constraint check succeeded */
-	return 0;
+	if((value >= 1 && value <= 4294967295)) {
+		/* Constraint check succeeded */
+		return 0;
+	} else {
+		_ASN_CTFAIL(app_key, td, sptr,
+			"%s: constraint failed (%s:%d)",
+			td->name, __FILE__, __LINE__);
+		return -1;
+	}
 }
 
 /*
@@ -188,8 +202,15 @@ memb_requestId_constraint_1(asn_TYPE_descriptor_t *td, const void *sptr,
 	
 	value = *(const unsigned long *)sptr;
 	
-	/* Constraint check succeeded */
-	return 0;
+	if((value >= 1 && value <= 4294967295)) {
+		/* Constraint check succeeded */
+		return 0;
+	} else {
+		_ASN_CTFAIL(app_key, td, sptr,
+			"%s: constraint failed (%s:%d)",
+			td->name, __FILE__, __LINE__);
+		return -1;
+	}
 }
 
 static int
@@ -206,8 +227,15 @@ memb_playerId_constraint_1(asn_TYPE_descriptor_t *td, const void *sptr,
 	
 	value = *(const unsigned long *)sptr;
 	
-	/* Constraint check succeeded */
-	return 0;
+	if((value >= 1 && value <= 4294967295)) {
+		/* Constraint check succeeded */
+		return 0;
+	} else {
+		_ASN_CTFAIL(app_key, td, sptr,
+			"%s: constraint failed (%s:%d)",
+			td->name, __FILE__, __LINE__);
+		return -1;
+	}
 }
 
 static int
