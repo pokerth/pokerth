@@ -81,7 +81,8 @@ HEADERS += \
 		src/net/serverlobbythread.h \
 		src/net/serverbanmanager.h \
 		src/net/servercallback.h \
-		src/net/serverircbot.h \
+		src/net/serveradminbot.h \
+		src/net/serverlobbybot.h \
 		src/net/serverircbotcallback.h \
 		src/net/sessiondata.h \
 		src/net/sessiondatacallback.h \
@@ -185,7 +186,8 @@ SOURCES += \
 		src/net/common/serverlobbythread.cpp \
 		src/net/common/serverbanmanager.cpp \
 		src/net/common/servercallback.cpp \
-		src/net/common/serverircbot.cpp \
+		src/net/common/serveradminbot.cpp \
+		src/net/common/serverlobbybot.cpp \
 		src/net/common/serverircbotcallback.cpp \
 		src/net/common/sessiondata.cpp \
 		src/net/common/sessiondatacallback.cpp \

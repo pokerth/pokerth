@@ -22,7 +22,8 @@
 #define _SERVERMANAGER_H_
 
 #include <boost/asio.hpp>
-#include <net/serverircbot.h>
+#include <net/serveradminbot.h>
+#include <net/serverlobbybot.h>
 #include <string>
 #include <list>
 
@@ -43,7 +44,7 @@ public:
 	virtual ~ServerManager();
 
 	// Set the parameters.
-	void Init(unsigned serverPort, bool ipv6, ServerNetworkMode mode, const std::string &pwd, const std::string &logDir, boost::shared_ptr<IrcThread> ircThread);
+	void Init(unsigned serverPort, bool ipv6, ServerNetworkMode mode, const std::string &pwd, const std::string &logDir, boost::shared_ptr<IrcThread> ircAdminThread, boost::shared_ptr<IrcThread> ircLobbyThread);
 
 	// Main start function.
 	void RunAll();
@@ -55,7 +56,8 @@ public:
 	bool JoinAll(bool wait);
 
 	GuiInterface &GetGui();
-	ServerIrcBot &GetIrcBot();
+	ServerAdminBot &GetAdminBot();
+	ServerLobbyBot &GetLobbyBot();
 	
 protected:
 	typedef std::list<boost::shared_ptr<ServerAcceptHelper> > AcceptHelperList;
@@ -69,7 +71,8 @@ private:
 
 	boost::shared_ptr<boost::asio::io_service> m_ioService;
 	boost::shared_ptr<ServerLobbyThread> m_lobbyThread;
-	boost::shared_ptr<ServerIrcBot> m_ircBot;
+	boost::shared_ptr<ServerAdminBot> m_adminBot;
+	boost::shared_ptr<ServerLobbyBot> m_lobbyBot;
 	AcceptHelperList m_acceptHelperPool;
 };
 

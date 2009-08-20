@@ -276,12 +276,23 @@ void Session::startNetworkServer()
 
 	myNetServer.reset(new ServerManager(*myGui, myConfig, *myAvatarManager));
 
-	boost::shared_ptr<IrcThread> tmpIrcThread;
+	boost::shared_ptr<IrcThread> tmpIrcAdminThread;
+	boost::shared_ptr<IrcThread> tmpIrcLobbyThread;
 	if (myConfig->readConfigInt("UseAdminIRC"))
 	{
-		tmpIrcThread = boost::shared_ptr<IrcThread>(new IrcThread(&myNetServer->GetIrcBot()));
+		tmpIrcAdminThread = boost::shared_ptr<IrcThread>(new IrcThread(&myNetServer->GetAdminBot()));
 
-		tmpIrcThread->Init(
+		tmpIrcAdminThread->Init(
+			myConfig->readConfigString("AdminIRCServerAddress"),
+			myConfig->readConfigInt("AdminIRCServerPort"),
+			myConfig->readConfigInt("AdminIRCServerUseIpv6") == 1,
+			myConfig->readConfigString("AdminIRCServerNick"),
+			myConfig->readConfigString("AdminIRCChannel"),
+			myConfig->readConfigString("AdminIRCChannelPassword"));
+
+		tmpIrcLobbyThread = boost::shared_ptr<IrcThread>(new IrcThread(&myNetServer->GetLobbyBot()));
+
+		tmpIrcLobbyThread->Init(
 			myConfig->readConfigString("AdminIRCServerAddress"),
 			myConfig->readConfigInt("AdminIRCServerPort"),
 			myConfig->readConfigInt("AdminIRCServerUseIpv6") == 1,
@@ -296,7 +307,8 @@ void Session::startNetworkServer()
 		myConfig->readConfigInt("ServerUseSctp") == 1 ? NETWORK_MODE_TCP_SCTP : NETWORK_MODE_TCP,
 		myConfig->readConfigString("ServerPassword"),
 		myQtToolsInterface->stringFromUtf8(myConfig->readConfigString("LogDir")),
-		tmpIrcThread
+		tmpIrcAdminThread,
+		tmpIrcLobbyThread
 		);
 
 	myNetServer->RunAll();

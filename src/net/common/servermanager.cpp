@@ -20,7 +20,6 @@
 #include <net/socket_helper.h>
 #include <net/servermanager.h>
 #include <net/serverlobbythread.h>
-#include <net/serverircbot.h>
 #include <net/serveraccepthelper.h>
 #include <net/serverexception.h>
 #include <net/socket_msg.h>
@@ -36,7 +35,8 @@ ServerManager::ServerManager(GuiInterface &gui, ConfigFile *config, AvatarManage
 : m_gui(gui), m_playerConfig(config), m_avatarManager(avatarManager)
 {
 	m_ioService.reset(new boost::asio::io_service);
-	m_ircBot.reset(new ServerIrcBot);
+	m_adminBot.reset(new ServerAdminBot);
+	m_lobbyBot.reset(new ServerLobbyBot);
 }
 
 ServerManager::~ServerManager()
@@ -44,12 +44,13 @@ ServerManager::~ServerManager()
 }
 
 void
-ServerManager::Init(unsigned serverPort, bool ipv6, ServerNetworkMode mode, const string &pwd, const string &logDir, boost::shared_ptr<IrcThread> ircThread)
+ServerManager::Init(unsigned serverPort, bool ipv6, ServerNetworkMode mode, const string &pwd, const string &logDir, boost::shared_ptr<IrcThread> ircAdminThread, boost::shared_ptr<IrcThread> ircLobbyThread)
 {
-	m_lobbyThread.reset(new ServerLobbyThread(GetGui(), *m_ircBot, m_playerConfig, m_avatarManager, m_ioService));
+	m_lobbyThread.reset(new ServerLobbyThread(GetGui(), *m_lobbyBot, m_playerConfig, m_avatarManager, m_ioService));
 	GetLobbyThread().Init(pwd, logDir);
 
-	m_ircBot->Init(m_lobbyThread, ircThread);
+	m_adminBot->Init(m_lobbyThread, ircAdminThread);
+	m_lobbyBot->Init(m_lobbyThread, ircLobbyThread);
 
 	if (mode & NETWORK_MODE_TCP)
 	{
@@ -71,36 +72,46 @@ ServerManager::GetGui()
 	return m_gui;
 }
 
-ServerIrcBot &
-ServerManager::GetIrcBot()
+ServerAdminBot &
+ServerManager::GetAdminBot()
 {
-	return *m_ircBot;
+	return *m_adminBot;
+}
+
+ServerLobbyBot &
+ServerManager::GetLobbyBot()
+{
+	return *m_lobbyBot;
 }
 
 void
 ServerManager::RunAll()
 {
-	m_ircBot->Run();
+	m_adminBot->Run();
+	m_lobbyBot->Run();
 	GetLobbyThread().Run();
 }
 
 void
 ServerManager::Process()
 {
-	m_ircBot->Process();
+	m_adminBot->Process();
+	m_lobbyBot->Process();
 }
 
 void
 ServerManager::SignalTerminationAll()
 {
-	m_ircBot->SignalTermination();
+	m_adminBot->SignalTermination();
+	m_lobbyBot->SignalTermination();
 	GetLobbyThread().SignalTermination();
 }
 
 bool
 ServerManager::JoinAll(bool wait)
 {
-	m_ircBot->Join(wait);
+	m_adminBot->Join(wait);
+	m_lobbyBot->Join(wait);
 	return GetLobbyThread().Join(wait ? NET_LOBBY_THREAD_TERMINATE_TIMEOUT_MSEC : 0);
 }
 

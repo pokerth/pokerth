@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2007 by Lothar May                                      *
+ *   Copyright (C) 2009 by Lothar May                                      *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -17,7 +17,7 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#include <net/serverircbot.h>
+#include <net/serveradminbot.h>
 #include <net/ircthread.h>
 #include <net/serverlobbythread.h>
 #include <net/serverbanmanager.h>
@@ -33,38 +33,38 @@
 
 using namespace std;
 
-ServerIrcBot::ServerIrcBot()
+ServerAdminBot::ServerAdminBot()
 {
 }
 
-ServerIrcBot::~ServerIrcBot()
+ServerAdminBot::~ServerAdminBot()
 {
 }
 
 void
-ServerIrcBot::Init(boost::shared_ptr<ServerLobbyThread> lobbyThread, boost::shared_ptr<IrcThread> ircThread)
+ServerAdminBot::Init(boost::shared_ptr<ServerLobbyThread> lobbyThread, boost::shared_ptr<IrcThread> ircAdminThread)
 {
 	m_lobbyThread = lobbyThread;
-	m_ircThread = ircThread;
+	m_ircAdminThread = ircAdminThread;
 }
 
 void
-ServerIrcBot::SignalIrcConnect(const std::string &server)
+ServerAdminBot::SignalIrcConnect(const std::string &server)
 {
-	LOG_MSG("Connected to IRC server " << server << ".");
+	LOG_MSG("Admin bot: Connected to IRC server " << server << ".");
 }
 
 void
-ServerIrcBot::SignalIrcSelfJoined(const std::string &nickName, const std::string &channel)
+ServerAdminBot::SignalIrcSelfJoined(const std::string &nickName, const std::string &channel)
 {
-	LOG_MSG("Joined IRC channel " << channel << " as user " << nickName << ".");
+	LOG_MSG("Admin bot: Joined IRC channel " << channel << " as user " << nickName << ".");
 	m_ircNick = nickName;
 }
 
 void
-ServerIrcBot::SignalIrcChatMsg(const std::string &nickName, const std::string &msg)
+ServerAdminBot::SignalIrcChatMsg(const std::string &nickName, const std::string &msg)
 {
-	if (m_ircThread)
+	if (m_ircAdminThread)
 	{
 		try
 		{
@@ -83,15 +83,15 @@ ServerIrcBot::SignalIrcChatMsg(const std::string &nickName, const std::string &m
 					if (!playerName.empty())
 					{
 						if (GetLobbyThread().KickPlayerByName(playerName))
-							m_ircThread->SendChatMessage(nickName + ": Successfully kicked player \"" + playerName + "\" from the server.");
+							m_ircAdminThread->SendChatMessage(nickName + ": Successfully kicked player \"" + playerName + "\" from the server.");
 						else
-							m_ircThread->SendChatMessage(nickName + ": Player \"" + playerName + "\" was not found on the server.");
+							m_ircAdminThread->SendChatMessage(nickName + ": Player \"" + playerName + "\" was not found on the server.");
 					}
 				}
 				else if (command == "cleaner-reconnect")
 				{
 					GetLobbyThread().ReconnectChatBot();
-					m_ircThread->SendChatMessage(nickName + ": Cleaner bot reconnect initiated.");
+					m_ircAdminThread->SendChatMessage(nickName + ": Cleaner bot reconnect initiated.");
 				}
 				else if (command == "showip")
 				{
@@ -102,9 +102,9 @@ ServerIrcBot::SignalIrcChatMsg(const std::string &nickName, const std::string &m
 					{
 						string ipAddress(GetLobbyThread().GetPlayerIPAddress(playerName));
 						if (!ipAddress.empty())
-							m_ircThread->SendChatMessage(nickName + ": The IP address of player \"" + playerName + "\" is: \"" + ipAddress + "\"");
+							m_ircAdminThread->SendChatMessage(nickName + ": The IP address of player \"" + playerName + "\" is: \"" + ipAddress + "\"");
 						else
-							m_ircThread->SendChatMessage(nickName + ": The IP address of player \"" + playerName + "\" is unknown.");
+							m_ircAdminThread->SendChatMessage(nickName + ": The IP address of player \"" + playerName + "\" is unknown.");
 					}
 				}
 				else if (command == "bannick")
@@ -115,7 +115,7 @@ ServerIrcBot::SignalIrcChatMsg(const std::string &nickName, const std::string &m
 					if (!playerRegex.empty())
 					{
 						GetLobbyThread().GetBanManager().BanPlayerRegex(playerRegex);
-						m_ircThread->SendChatMessage(nickName + ": The regex \"" + playerRegex + "\" was added to the player ban list.");
+						m_ircAdminThread->SendChatMessage(nickName + ": The regex \"" + playerRegex + "\" was added to the player ban list.");
 					}
 				}
 				else if (command == "banip")
@@ -134,7 +134,7 @@ ServerIrcBot::SignalIrcChatMsg(const std::string &nickName, const std::string &m
 						ostringstream durationStr;
 						durationStr << durationHours;
 						GetLobbyThread().GetBanManager().BanIPAddress(ipAddress, durationHours);
-						m_ircThread->SendChatMessage(nickName + ": The IP address \"" + ipAddress + "\" was added to the IP address ban list for " + durationStr.str() + (durationHours == 1 ? " hour." : " hours."));
+						m_ircAdminThread->SendChatMessage(nickName + ": The IP address \"" + ipAddress + "\" was added to the IP address ban list for " + durationStr.str() + (durationHours == 1 ? " hour." : " hours."));
 					}
 				}
 				else if (command == "listban")
@@ -145,27 +145,27 @@ ServerIrcBot::SignalIrcChatMsg(const std::string &nickName, const std::string &m
 					list<string>::const_iterator end = banList.end();
 					while (i != end)
 					{
-						m_ircThread->SendChatMessage(*i);
+						m_ircAdminThread->SendChatMessage(*i);
 						++i;
 					}
 					ostringstream banListStream;
 					banListStream
 						<< nickName << ": Total count of bans: " << banList.size();
-					m_ircThread->SendChatMessage(banListStream.str());
+					m_ircAdminThread->SendChatMessage(banListStream.str());
 				}
 				else if (command == "removeban")
 				{
 					unsigned banId = 0;
 					msgStream >> banId;
 					if (GetLobbyThread().GetBanManager().UnBan(banId))
-						m_ircThread->SendChatMessage(nickName + ": The ban was successfully removed.");
+						m_ircAdminThread->SendChatMessage(nickName + ": The ban was successfully removed.");
 					else
-						m_ircThread->SendChatMessage(nickName + ": This ban does not exist.");
+						m_ircAdminThread->SendChatMessage(nickName + ": This ban does not exist.");
 				}
 				else if (command == "clearban")
 				{
 					GetLobbyThread().GetBanManager().ClearBanList();
-					m_ircThread->SendChatMessage(nickName + ": All ban lists were cleared.");
+					m_ircAdminThread->SendChatMessage(nickName + ": All ban lists were cleared.");
 				}
 				else if (command == "stat")
 				{
@@ -175,33 +175,33 @@ ServerIrcBot::SignalIrcChatMsg(const std::string &nickName, const std::string &m
 						ostringstream statStream;
 						statStream
 							<< "Server uptime................ " << timeDiff.hours() / 24 << " days " << timeDiff.hours() % 24 << " hours " << timeDiff.minutes() << " minutes " << timeDiff.seconds() << " seconds";
-						m_ircThread->SendChatMessage(statStream.str());
+						m_ircAdminThread->SendChatMessage(statStream.str());
 					}
 					{
 						ostringstream statStream;
 						statStream
 							<< "Players currently on Server.. " << tmpStats.numberOfPlayersOnServer;
-						m_ircThread->SendChatMessage(statStream.str());
+						m_ircAdminThread->SendChatMessage(statStream.str());
 					}
 					{
 						ostringstream statStream;
 						statStream
 							<< "Games currently open......... " << tmpStats.numberOfGamesOpen;
-						m_ircThread->SendChatMessage(statStream.str());
+						m_ircAdminThread->SendChatMessage(statStream.str());
 					}
 					{
 						ostringstream statStream;
 						statStream
 							<< "Total players ever logged in. " << tmpStats.totalPlayersEverLoggedIn
 							<< "    (Max at a time: " << tmpStats.maxPlayersLoggedIn << ")";
-						m_ircThread->SendChatMessage(statStream.str());
+						m_ircAdminThread->SendChatMessage(statStream.str());
 					}
 					{
 						ostringstream statStream;
 						statStream
 							<< "Total games ever open........ " << tmpStats.totalGamesEverCreated
 							<< "    (Max at a time: " << tmpStats.maxGamesOpen << ")";
-						m_ircThread->SendChatMessage(statStream.str());
+						m_ircAdminThread->SendChatMessage(statStream.str());
 					}
 				}
 				else if (command == "chat")
@@ -212,10 +212,10 @@ ServerIrcBot::SignalIrcChatMsg(const std::string &nickName, const std::string &m
 					if (!chat.empty() && chat.size() < MAX_CHAT_TEXT_SIZE)
 					{
 						GetLobbyThread().SendGlobalChat(chat);
-						m_ircThread->SendChatMessage(nickName + ": Global chat message sent.");
+						m_ircAdminThread->SendChatMessage(nickName + ": Global chat message sent.");
 					}
 					else
-						m_ircThread->SendChatMessage(nickName + ": Invalid message.");
+						m_ircAdminThread->SendChatMessage(nickName + ": Invalid message.");
 				}
 				else if (command == "msg")
 				{
@@ -225,67 +225,53 @@ ServerIrcBot::SignalIrcChatMsg(const std::string &nickName, const std::string &m
 					if (!message.empty() && message.size() < MAX_CHAT_TEXT_SIZE)
 					{
 						GetLobbyThread().SendGlobalMsgBox(message);
-						m_ircThread->SendChatMessage(nickName + ": Global message box sent.");
+						m_ircAdminThread->SendChatMessage(nickName + ": Global message box sent.");
 					}
 					else
-						m_ircThread->SendChatMessage(nickName + ": Invalid message.");
+						m_ircAdminThread->SendChatMessage(nickName + ": Invalid message.");
 				}
 				else
-					m_ircThread->SendChatMessage(nickName + ": Invalid command \"" + command + "\".");
+					m_ircAdminThread->SendChatMessage(nickName + ": Invalid command \"" + command + "\".");
 			}
 		} catch (...)
 		{
-			m_ircThread->SendChatMessage(nickName + ": Syntax error. Please check the command.");
+			m_ircAdminThread->SendChatMessage(nickName + ": Syntax error. Please check the command.");
 		}
 	}
 }
 
 void
-ServerIrcBot::SignalIrcError(int errorCode)
+ServerAdminBot::SignalIrcError(int errorCode)
 {
-	LOG_MSG("IRC error " << errorCode << ".");
+	LOG_MSG("Admin bot: IRC error " << errorCode << ".");
 }
 
 void
-ServerIrcBot::SignalIrcServerError(int errorCode)
+ServerAdminBot::SignalIrcServerError(int errorCode)
 {
-	LOG_MSG("IRC server error " << errorCode << ".");
+	LOG_MSG("Admin bot: IRC server error " << errorCode << ".");
 }
 
 void
-ServerIrcBot::SignalLobbyMessage(unsigned playerId, const std::string &playerName, const std::string &msg)
+ServerAdminBot::Run()
 {
-	if (m_ircThread && !msg.empty())
-	{
-		ostringstream ircMsg;
-		if (playerId)
-			ircMsg << playerName << " (" << playerId << "): " << msg;
-		else
-			ircMsg << playerName << ": " << msg;
-		m_ircThread->SendChatMessage(ircMsg.str());
-	}
+	if (m_ircAdminThread)
+		m_ircAdminThread->Run();
 }
 
 void
-ServerIrcBot::Run()
-{
-	if (m_ircThread)
-		m_ircThread->Run();
-}
-
-void
-ServerIrcBot::Process()
+ServerAdminBot::Process()
 {
 	if (m_ircRestartTimer.elapsed().total_seconds() > SERVER_RESTART_IRC_BOT_INTERVAL_SEC)
 	{
-		if (m_ircThread)
+		if (m_ircAdminThread)
 		{
-			m_ircThread->SignalTermination();
-			if (m_ircThread->Join(NET_ADMIN_IRC_TERMINATE_TIMEOUT_MSEC))
+			m_ircAdminThread->SignalTermination();
+			if (m_ircAdminThread->Join(NET_ADMIN_IRC_TERMINATE_TIMEOUT_MSEC))
 			{
-				boost::shared_ptr<IrcThread> tmpIrcThread(new IrcThread(*m_ircThread));
+				boost::shared_ptr<IrcThread> tmpIrcThread(new IrcThread(*m_ircAdminThread));
 				tmpIrcThread->Run();
-				m_ircThread = tmpIrcThread;
+				m_ircAdminThread = tmpIrcThread;
 			}
 		}
 		m_ircRestartTimer.reset();
@@ -294,23 +280,23 @@ ServerIrcBot::Process()
 }
 
 void
-ServerIrcBot::SignalTermination()
+ServerAdminBot::SignalTermination()
 {
-	if (m_ircThread)
-		m_ircThread->SignalTermination();
+	if (m_ircAdminThread)
+		m_ircAdminThread->SignalTermination();
 }
 
 bool
-ServerIrcBot::Join(bool wait)
+ServerAdminBot::Join(bool wait)
 {
 	bool terminated = true;
-	if (m_ircThread)
-		terminated = m_ircThread->Join(wait ? NET_ADMIN_IRC_TERMINATE_TIMEOUT_MSEC : 0);
+	if (m_ircAdminThread)
+		terminated = m_ircAdminThread->Join(wait ? NET_ADMIN_IRC_TERMINATE_TIMEOUT_MSEC : 0);
 	return terminated;
 }
 
 ServerLobbyThread &
-ServerIrcBot::GetLobbyThread()
+ServerAdminBot::GetLobbyThread()
 {
 	assert(m_lobbyThread.get());
 	return *m_lobbyThread;

@@ -16,10 +16,10 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-/* IRC bot for the server. */
+/* IRC admin bot for the server. */
 
-#ifndef _SERVERIRCBOT_H_
-#define _SERVERIRCBOT_H_
+#ifndef _SERVERADMINBOT_H_
+#define _SERVERADMINBOT_H_
 
 #include <boost/asio.hpp>
 #include <third_party/boost/timers.hpp>
@@ -37,13 +37,13 @@ class ConfigFile;
 class AvatarManager;
 class IrcThread;
 
-class ServerIrcBot : public IrcCallback, public ServerIrcBotCallback
+class ServerAdminBot : public IrcCallback
 {
 public:
-	ServerIrcBot();
-	virtual ~ServerIrcBot();
+	ServerAdminBot();
+	virtual ~ServerAdminBot();
 
-	void Init(boost::shared_ptr<ServerLobbyThread> lobbyThread, boost::shared_ptr<IrcThread> ircThread);
+	void Init(boost::shared_ptr<ServerLobbyThread> lobbyThread, boost::shared_ptr<IrcThread> ircAdminThread);
 
 	// Main start function.
 	void Run();
@@ -64,8 +64,6 @@ public:
 	virtual void SignalIrcError(int errorCode);
 	virtual void SignalIrcServerError(int errorCode);
 
-	virtual void SignalLobbyMessage(unsigned playerId, const std::string &playerName, const std::string &msg);
-
 protected:
 	ServerLobbyThread &GetLobbyThread();
 
@@ -73,7 +71,7 @@ private:
 	std::string m_ircNick;
 
 	boost::shared_ptr<ServerLobbyThread> m_lobbyThread;
-	boost::shared_ptr<IrcThread> m_ircThread;
+	boost::shared_ptr<IrcThread> m_ircAdminThread;
 	boost::timers::portable::microsec_timer m_ircRestartTimer;
 };
 
