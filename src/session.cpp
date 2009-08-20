@@ -279,7 +279,7 @@ void Session::startNetworkServer()
 	boost::shared_ptr<IrcThread> tmpIrcThread;
 	if (myConfig->readConfigInt("UseAdminIRC"))
 	{
-		tmpIrcThread = boost::shared_ptr<IrcThread>(new IrcThread(myNetServer.get()));
+		tmpIrcThread = boost::shared_ptr<IrcThread>(new IrcThread(&myNetServer->GetIrcBot()));
 
 		tmpIrcThread->Init(
 			myConfig->readConfigString("AdminIRCServerAddress"),

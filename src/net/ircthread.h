@@ -41,6 +41,8 @@ public:
 
 	// Send a chat message to the channel.
 	void SendChatMessage(const std::string &msg);
+	void SendPing();
+	void FlushQueue();
 
 	virtual void SignalTermination();
 

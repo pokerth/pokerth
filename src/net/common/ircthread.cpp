@@ -22,6 +22,7 @@
 #include <net/socket_msg.h>
 #include <libircclient.h>
 #include <boost/algorithm/string/predicate.hpp>
+#include <queue>
 #include <sstream>
 #include <cctype>
 #include <cstring>
@@ -32,6 +33,7 @@ using namespace std;
 #define IRC_RECV_TIMEOUT_MSEC				50
 #define IRC_MAX_RENAME_TRIES				5
 #define IRC_MIN_RECONNECT_INTERVAL_SEC		60
+#define IRC_SEND_LIMIT_BYTES				1024
 
 #define IRC_RENAME_ATTACH					"|Lobby"
 #define IRC_MAX_NICK_LEN					16
@@ -39,7 +41,7 @@ using namespace std;
 
 struct IrcContext
 {
-	IrcContext(IrcThread &t) : ircThread(t), session(NULL), serverPort(0), useIPv6(false), renameTries(0) {}
+	IrcContext(IrcThread &t) : ircThread(t), session(NULL), serverPort(0), useIPv6(false), renameTries(0), sendingBlocked(false) {}
 	IrcThread &ircThread;
 	irc_session_t *session;
 	string serverAddress;
@@ -49,6 +51,9 @@ struct IrcContext
 	string channel;
 	string channelPassword;
 	unsigned renameTries;
+	bool sendingBlocked;
+	unsigned sendCounter;
+	queue<string> sendQueue;
 };
 
 void irc_auto_rename_nick(irc_session_t *session)
@@ -183,6 +188,18 @@ irc_event_channel(irc_session_t *session, const char * /*irc_event*/, const char
 }
 
 void
+irc_event_unknown(irc_session_t *session, const char * irc_event, const char * /*origin*/, const char ** /*params*/, unsigned /*count*/)
+{
+	IrcContext *context = (IrcContext *) irc_get_ctx(session);
+
+	if (boost::algorithm::iequals(irc_event, "PONG"))
+	{
+		context->sendingBlocked = false;
+		context->ircThread.FlushQueue();
+	}
+}
+
+void
 irc_event_numeric(irc_session_t * session, unsigned irc_event, const char * /*origin*/, const char **params, unsigned count)
 {
 	switch (irc_event)
@@ -307,7 +324,27 @@ void
 IrcThread::SendChatMessage(const std::string &msg)
 {
 	IrcContext &context = GetContext();
-	irc_cmd_msg(context.session, context.channel.c_str(), msg.c_str());
+	if (!context.sendingBlocked)
+	{
+		irc_cmd_msg(context.session, context.channel.c_str(), msg.c_str());
+		context.sendCounter += msg.size();
+
+		if (context.sendCounter >= IRC_SEND_LIMIT_BYTES)
+		{
+			context.sendingBlocked = true;
+			context.sendCounter = 0;
+			SendPing();
+		}
+	}
+	else
+		context.sendQueue.push(msg);
+}
+
+void
+IrcThread::SendPing()
+{
+	IrcContext &context = GetContext();
+	irc_send_raw(context.session, "PING %s", context.serverAddress.c_str());
 }
 
 void
@@ -357,7 +394,7 @@ IrcThread::IrcInit()
 	//callbacks.event_umode
 	//callbacks.event_ctcp_rep
 	//callbacks.event_ctcp_action
-	//callbacks.event_unknown
+	callbacks.event_unknown = irc_event_unknown;
 	callbacks.event_numeric = irc_event_numeric;
 
 	//callbacks.event_dcc_chat_req
@@ -438,6 +475,19 @@ IrcThread::IrcMain()
 			}
 			Msleep(10); // paranoia
 		}
+	}
+}
+
+void
+IrcThread::FlushQueue()
+{
+	IrcContext &context = GetContext();
+
+	while (!context.sendingBlocked && !context.sendQueue.empty())
+	{
+		string msg(context.sendQueue.front());
+		context.sendQueue.pop();
+		SendChatMessage(msg);
 	}
 }
 
