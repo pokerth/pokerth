@@ -27,6 +27,7 @@
 #include <list>
 
 #include <game_defs.h>
+#include <net/serverircbotcallback.h>
 #include <gui/guiinterface.h>
 
 class ServerLobbyThread;
@@ -36,7 +37,7 @@ class ConfigFile;
 class AvatarManager;
 class IrcThread;
 
-class ServerIrcBot : public IrcCallback
+class ServerIrcBot : public IrcCallback, public ServerIrcBotCallback
 {
 public:
 	ServerIrcBot();
@@ -62,6 +63,8 @@ public:
 	virtual void SignalIrcChatMsg(const std::string &nickName, const std::string &msg);
 	virtual void SignalIrcError(int errorCode);
 	virtual void SignalIrcServerError(int errorCode);
+
+	virtual void SignalLobbyMessage(unsigned playerId, const std::string &playerName, const std::string &msg);
 
 protected:
 	ServerLobbyThread &GetLobbyThread();

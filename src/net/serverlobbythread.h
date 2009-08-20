@@ -38,6 +38,7 @@
 class SenderHelper;
 class ReceiverHelper;
 class ServerSenderCallback;
+class ServerIrcBotCallback;
 class ServerGame;
 class ServerBanManager;
 class ConfigFile;
@@ -49,7 +50,7 @@ class Game;
 class ServerLobbyThread : public Thread, public boost::enable_shared_from_this<ServerLobbyThread>
 {
 public:
-	ServerLobbyThread(GuiInterface &gui, ConfigFile *playerConfig, AvatarManager &avatarManager,
+	ServerLobbyThread(GuiInterface &gui, ServerIrcBotCallback &ircBotCb, ConfigFile *playerConfig, AvatarManager &avatarManager,
 		boost::shared_ptr<boost::asio::io_service> ioService);
 	virtual ~ServerLobbyThread();
 
@@ -165,6 +166,7 @@ protected:
 
 	ServerSenderCallback &GetSenderCallback();
 	GuiInterface &GetGui();
+	ServerIrcBotCallback &GetIrcBotCallback();
 
 	bool IsPlayerConnected(const std::string &name) const;
 
@@ -199,6 +201,7 @@ private:
 	GameMap m_gameMap;
 
 	GuiInterface &m_gui;
+	ServerIrcBotCallback &m_ircBotCb;
 	AvatarManager &m_avatarManager;
 
 	std::string m_password;

@@ -23,6 +23,7 @@
 #include <net/serverexception.h>
 #include <net/senderhelper.h>
 #include <net/sendercallback.h>
+#include <net/serverircbotcallback.h>
 #include <net/receiverhelper.h>
 #include <net/socket_msg.h>
 #include <net/chatcleanermanager.h>
@@ -94,9 +95,9 @@ private:
 };
 
 
-ServerLobbyThread::ServerLobbyThread(GuiInterface &gui, ConfigFile *playerConfig, AvatarManager &avatarManager,
+ServerLobbyThread::ServerLobbyThread(GuiInterface &gui, ServerIrcBotCallback &ircBotCb, ConfigFile *playerConfig, AvatarManager &avatarManager,
 									 boost::shared_ptr<boost::asio::io_service> ioService)
-: m_ioService(ioService), m_gui(gui), m_avatarManager(avatarManager),
+: m_ioService(ioService), m_gui(gui), m_ircBotCb(ircBotCb), m_avatarManager(avatarManager),
   m_playerConfig(playerConfig), m_curGameId(0), m_curUniquePlayerId(0), m_curSessionId(INVALID_SESSION + 1),
   m_statDataChanged(false), m_removeGameTimer(*ioService), m_removePlayerTimer(*ioService),
   m_sessionTimeoutTimer(*ioService), m_avatarCleanupTimer(*ioService),
@@ -467,6 +468,11 @@ ServerLobbyThread::SendChatBotMsg(const std::string &message)
 
 	m_sessionManager.SendLobbyMsgToAllSessions(GetSender(), packet, SessionData::Established);
 	m_gameSessionManager.SendLobbyMsgToAllSessions(GetSender(), packet, SessionData::Game);
+
+	GetIrcBotCallback().SignalLobbyMessage(
+		0,
+		"(chat bot)", 
+		message);
 }
 
 void
@@ -1141,10 +1147,18 @@ ServerLobbyThread::HandleNetPacketChatRequest(SessionWrapper session, const Chat
 
 		m_sessionManager.SendLobbyMsgToAllSessions(GetSender(), packet, SessionData::Established);
 		m_gameSessionManager.SendLobbyMsgToAllSessions(GetSender(), packet, SessionData::Game);
+
+		string chatMsg = STL_STRING_FROM_OCTET_STRING(chatRequest.chatText);
+		// Send the message to the chat cleaner bot.
 		m_chatCleanerManager->HandleChatText(
-				session.playerData->GetUniqueId(),
-				session.playerData->GetName(),
-				STL_STRING_FROM_OCTET_STRING(chatRequest.chatText));
+			session.playerData->GetUniqueId(),
+			session.playerData->GetName(),
+			chatMsg);
+		// Send the message to the irc bot.
+		GetIrcBotCallback().SignalLobbyMessage(
+			session.playerData->GetUniqueId(),
+			session.playerData->GetName(), 
+			chatMsg);
 	}
 }
 
@@ -1667,6 +1681,12 @@ ServerCallback &
 ServerLobbyThread::GetCallback()
 {
 	return m_gui;
+}
+
+ServerIrcBotCallback &
+ServerLobbyThread::GetIrcBotCallback()
+{
+	return m_ircBotCb;
 }
 
 ReceiverHelper &

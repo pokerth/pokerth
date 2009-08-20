@@ -46,7 +46,7 @@ ServerManager::~ServerManager()
 void
 ServerManager::Init(unsigned serverPort, bool ipv6, ServerNetworkMode mode, const string &pwd, const string &logDir, boost::shared_ptr<IrcThread> ircThread)
 {
-	m_lobbyThread.reset(new ServerLobbyThread(GetGui(), m_playerConfig, m_avatarManager, m_ioService));
+	m_lobbyThread.reset(new ServerLobbyThread(GetGui(), *m_ircBot, m_playerConfig, m_avatarManager, m_ioService));
 	GetLobbyThread().Init(pwd, logDir);
 
 	m_ircBot->Init(m_lobbyThread, ircThread);

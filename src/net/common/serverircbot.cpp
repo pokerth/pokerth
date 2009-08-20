@@ -59,7 +59,6 @@ ServerIrcBot::SignalIrcSelfJoined(const std::string &nickName, const std::string
 {
 	LOG_MSG("Joined IRC channel " << channel << " as user " << nickName << ".");
 	m_ircNick = nickName;
-	m_ircThread->SendPing();
 }
 
 void
@@ -251,6 +250,20 @@ void
 ServerIrcBot::SignalIrcServerError(int errorCode)
 {
 	LOG_MSG("IRC server error " << errorCode << ".");
+}
+
+void
+ServerIrcBot::SignalLobbyMessage(unsigned playerId, const std::string &playerName, const std::string &msg)
+{
+	if (m_ircThread && !msg.empty())
+	{
+		ostringstream ircMsg;
+		if (playerId)
+			ircMsg << playerName << " (" << playerId << "): " << msg;
+		else
+			ircMsg << playerName << ": " << msg;
+		m_ircThread->SendChatMessage(ircMsg.str());
+	}
 }
 
 void
