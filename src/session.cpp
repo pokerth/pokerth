@@ -289,16 +289,19 @@ void Session::startNetworkServer()
 			myConfig->readConfigString("AdminIRCServerNick"),
 			myConfig->readConfigString("AdminIRCChannel"),
 			myConfig->readConfigString("AdminIRCChannelPassword"));
-
+	}
+	
+	if (myConfig->readConfigInt("UseLobbyIRC"))
+	{	
 		tmpIrcLobbyThread = boost::shared_ptr<IrcThread>(new IrcThread(&myNetServer->GetLobbyBot()));
 
 		tmpIrcLobbyThread->Init(
-			myConfig->readConfigString("AdminIRCServerAddress"),
-			myConfig->readConfigInt("AdminIRCServerPort"),
-			myConfig->readConfigInt("AdminIRCServerUseIpv6") == 1,
-			myConfig->readConfigString("AdminIRCServerNick"),
-			myConfig->readConfigString("AdminIRCChannel"),
-			myConfig->readConfigString("AdminIRCChannelPassword"));
+			myConfig->readConfigString("LobbyIRCServerAddress"),
+			myConfig->readConfigInt("LobbyIRCServerPort"),
+			myConfig->readConfigInt("LobbyIRCServerUseIpv6") == 1,
+			myConfig->readConfigString("LobbyIRCServerNick"),
+			myConfig->readConfigString("LobbyIRCChannel"),
+			myConfig->readConfigString("LobbyIRCChannelPassword"));
 	}
 
 	myNetServer->Init(
