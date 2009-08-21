@@ -21,7 +21,7 @@ echo test > pokerth123_delete_me.txt
 if not exist %PKTH_BaseDir%\pokerth123_delete_me.txt goto noWriteAccess
 del %PKTH_BaseDir%\pokerth123_delete_me.txt
 if exist %PKTH_BaseDir%\pokerth123_delete_me.txt goto noWriteAccess
-if not exist %PKTH_OldDir%\third_party_apps\curl.exe goto noTools
+if not exist %PKTH_OldDir%\third_party_apps\wget.exe goto noTools
 if not exist %PKTH_OldDir%\third_party_apps\7za.exe goto noTools
 
 echo Using "%PKTH_BaseDir%" as base directory.
