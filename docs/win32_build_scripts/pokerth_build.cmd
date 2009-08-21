@@ -51,7 +51,7 @@ echo Running svn update
 %PKTH_BaseDir%\svn\bin\svn update
 echo.
 echo Building PokerTH
-qmake pokerth.pro
+qmake CONFIG+=release pokerth.pro
 mingw32-make release
 move release\pokerth.exe .\pokerth.exe
 echo.

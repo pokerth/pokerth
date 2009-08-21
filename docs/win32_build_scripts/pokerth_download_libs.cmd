@@ -51,7 +51,7 @@ echo The process will start if you press any other key.
 pause
 echo.
 echo Downloading mingw packages
-%PKTH_OldDir%\third_party_apps\curl -O http://%SOURCEFORGE_MIRROR%.sourceforge.net/sourceforge/tdm-gcc/gcc-4.4.0-tdm-1-dw2-core-2.tar.gz -O http://%SOURCEFORGE_MIRROR%.sourceforge.net/sourceforge/tdm-gcc/gcc-4.4.0-tdm-1-dw2-g++-2.tar.gz -O http://%SOURCEFORGE_MIRROR%.sourceforge.net/sourceforge/mingw/binutils-2.19.1-mingw32-bin.tar.gz -O http://%SOURCEFORGE_MIRROR%.sourceforge.net/sourceforge/mingw/mingwrt-3.15.2-mingw32-dev.tar.gz -O http://%SOURCEFORGE_MIRROR%.sourceforge.net/sourceforge/mingw/mingwrt-3.15.2-mingw32-dll.tar.gz -O http://%SOURCEFORGE_MIRROR%.sourceforge.net/sourceforge/mingw/w32api-3.13-mingw32-dev.tar.gz -O http://%SOURCEFORGE_MIRROR%.sourceforge.net/sourceforge/mingw/mingw32-make-3.81-20080326-3.tar.gz -O http://%SOURCEFORGE_MIRROR%.sourceforge.net/sourceforge/mingw/mingw-utils-0.3.tar.gz
+%PKTH_OldDir%\third_party_apps\wget http://%SOURCEFORGE_MIRROR%.sourceforge.net/sourceforge/tdm-gcc/gcc-4.4.0-tdm-1-dw2-core-2.tar.gz http://%SOURCEFORGE_MIRROR%.sourceforge.net/sourceforge/tdm-gcc/gcc-4.4.0-tdm-1-dw2-g++-2.tar.gz http://%SOURCEFORGE_MIRROR%.sourceforge.net/sourceforge/mingw/binutils-2.19.1-mingw32-bin.tar.gz http://%SOURCEFORGE_MIRROR%.sourceforge.net/sourceforge/mingw/mingwrt-3.15.2-mingw32-dev.tar.gz http://%SOURCEFORGE_MIRROR%.sourceforge.net/sourceforge/mingw/mingwrt-3.15.2-mingw32-dll.tar.gz http://%SOURCEFORGE_MIRROR%.sourceforge.net/sourceforge/mingw/w32api-3.13-mingw32-dev.tar.gz http://%SOURCEFORGE_MIRROR%.sourceforge.net/sourceforge/mingw/mingw32-make-3.81-20080326-3.tar.gz http://%SOURCEFORGE_MIRROR%.sourceforge.net/sourceforge/mingw/mingw-utils-0.3.tar.gz
 if not errorlevel 0 goto downloadFailed
 echo.
 echo Unpacking mingw packages
@@ -107,7 +107,7 @@ cd /d %PKTH_BaseDir%
 if not exist %PKTH_BaseDir%\qt. (
 echo.
 echo Downloading Qt
-%PKTH_OldDir%\third_party_apps\curl -O http://get.qtsoftware.com/qt/source/qt-win-opensource-src-4.5.1.zip
+%PKTH_OldDir%\third_party_apps\wget http://get.qtsoftware.com/qt/source/qt-win-opensource-src-4.5.1.zip
 if not errorlevel 0 goto downloadFailed
 echo.
 echo Unpacking Qt
@@ -132,7 +132,7 @@ cd /d %PKTH_BaseDir%
 if not exist %PKTH_BaseDir%\zlib. (
 echo.
 echo Downloading zlib
-%PKTH_OldDir%\third_party_apps\curl -O http://%SOURCEFORGE_MIRROR%.sourceforge.net/sourceforge/libpng/zlib-1.2.3.tar.gz
+%PKTH_OldDir%\third_party_apps\wget http://%SOURCEFORGE_MIRROR%.sourceforge.net/sourceforge/libpng/zlib-1.2.3.tar.gz
 if not errorlevel 0 goto downloadFailed
 echo.
 echo Unpacking zlib
@@ -157,7 +157,7 @@ cd /d %PKTH_BaseDir%
 if not exist %PKTH_BaseDir%\GnuTLS. (
 echo.
 echo Downloading GnuTLS
-%PKTH_OldDir%\third_party_apps\curl -O http://josefsson.org/gnutls4win/gnutls-2.6.6.zip
+%PKTH_OldDir%\third_party_apps\wget http://josefsson.org/gnutls4win/gnutls-2.6.6.zip
 mkdir GnuTLS
 %PKTH_OldDir%\third_party_apps\7za x -y -oGnuTLS gnutls-2.6.6.zip
 REM Wait 5 seconds for the file cache.
@@ -171,16 +171,16 @@ cd /d %PKTH_BaseDir%
 if not exist %PKTH_BaseDir%\curl. (
 echo.
 echo Downloading curl
-%PKTH_OldDir%\third_party_apps\curl -O http://curl.haxx.se/download/curl-7.19.4.tar.bz2
+%PKTH_OldDir%\third_party_apps\wget http://curl.haxx.se/download/curl-7.19.6.tar.bz2
 if not errorlevel 0 goto downloadFailed
 echo.
 echo Unpacking curl
-%PKTH_OldDir%\third_party_apps\7za x -y curl-7.19.4.tar.bz2
-%PKTH_OldDir%\third_party_apps\7za x -y curl-7.19.4.tar
-del curl-7.19.4.tar
+%PKTH_OldDir%\third_party_apps\7za x -y curl-7.19.6.tar.bz2
+%PKTH_OldDir%\third_party_apps\7za x -y curl-7.19.6.tar
+del curl-7.19.6.tar
 REM Wait 5 seconds for the file cache, else ren might fail.
 @ping 127.0.0.1 -n 5 -w 1000 > nul
-ren curl-7.19.4 curl
+ren curl-7.19.6 curl
 )
 echo.
 echo Compiling curl
@@ -192,7 +192,7 @@ cd /d %PKTH_BaseDir%
 if not exist %PKTH_BaseDir%\boost. (
 echo.
 echo Downloading boost and bjam
-%PKTH_OldDir%\third_party_apps\curl -O http://%SOURCEFORGE_MIRROR%.sourceforge.net/sourceforge/boost/boost_1_39_0.7z -O http://%SOURCEFORGE_MIRROR%.sourceforge.net/sourceforge/boost/boost-jam-3.1.17-1-ntx86.zip
+%PKTH_OldDir%\third_party_apps\wget http://%SOURCEFORGE_MIRROR%.sourceforge.net/sourceforge/boost/boost_1_39_0.7z http://%SOURCEFORGE_MIRROR%.sourceforge.net/sourceforge/boost/boost-jam-3.1.17-1-ntx86.zip
 if not errorlevel 0 goto downloadFailed
 echo.
 echo Unpacking boost and bjam
@@ -215,7 +215,7 @@ cd /d %PKTH_BaseDir%
 if not exist %PKTH_BaseDir%\SDL. (
 echo.
 echo Downloading SDL precompiled
-%PKTH_OldDir%\third_party_apps\curl -O http://www.libsdl.org/release/SDL-devel-1.2.13-mingw32.tar.gz
+%PKTH_OldDir%\third_party_apps\wget http://www.libsdl.org/release/SDL-devel-1.2.13-mingw32.tar.gz
 if not errorlevel 0 goto downloadFailed
 echo.
 echo Unpacking SDL
@@ -229,7 +229,7 @@ ren SDL-1.2.13 SDL
 if not exist %PKTH_BaseDir%\SDL_mixer. (
 echo.
 echo Downloading SDL_mixer precompiled
-%PKTH_OldDir%\third_party_apps\curl -O http://www.libsdl.org/projects/SDL_mixer/release/SDL_mixer-1.2.8.zip -O http://www.libsdl.org/projects/SDL_mixer/release/SDL_mixer-1.2.8-win32.zip
+%PKTH_OldDir%\third_party_apps\wget http://www.libsdl.org/projects/SDL_mixer/release/SDL_mixer-1.2.8.zip http://www.libsdl.org/projects/SDL_mixer/release/SDL_mixer-1.2.8-win32.zip
 if not errorlevel 0 goto downloadFailed
 echo.
 echo Unpacking SDL_mixer
@@ -251,14 +251,14 @@ cd /d %PKTH_BaseDir%
 if not exist %PKTH_BaseDir%\svn. (
 echo.
 echo Downloading subversion
-%PKTH_OldDir%\third_party_apps\curl -O http://subversion.tigris.org/files/documents/15/45600/svn-win32-1.6.1.zip
+%PKTH_OldDir%\third_party_apps\wget http://subversion.tigris.org/files/documents/15/46471/svn-win32-1.6.4.zip
 if not errorlevel 0 goto downloadFailed
 echo.
 echo Unpacking subversion
-%PKTH_OldDir%\third_party_apps\7za x -y svn-win32-1.6.1.zip
+%PKTH_OldDir%\third_party_apps\7za x -y svn-win32-1.6.4.zip
 REM Wait 5 seconds for the file cache, else ren might fail.
 @ping 127.0.0.1 -n 5 -w 1000 > nul
-ren svn-win32-1.6.1 svn
+ren svn-win32-1.6.4 svn
 )
 if not exist %PKTH_BaseDir%\svn\bin\svn.exe goto svnFailure
 if not exist %PKTH_BaseDir%\pokerth. (
