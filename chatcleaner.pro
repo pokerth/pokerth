@@ -47,3 +47,10 @@ HEADERS += cleanerserver.h \
 LIBPATH += lib
 LIBS += -lpokerth_lib \
     -lpokerth_protocol
+
+win32 {
+	LIBPATH += ../boost/stage/lib
+	INCLUDEPATH += ../boost/
+	debug:LIBPATH += Debug/lib
+	release:LIBPATH += Release/lib
+}
