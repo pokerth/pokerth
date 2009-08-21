@@ -107,7 +107,7 @@ cd /d %PKTH_BaseDir%
 if not exist %PKTH_BaseDir%\qt. (
 echo.
 echo Downloading Qt
-%PKTH_OldDir%\third_party_apps\wget http://get.qtsoftware.com/qt/source/qt-win-opensource-src-4.5.1.zip
+%PKTH_OldDir%\third_party_apps\wget http://download.qt.nokia.com/qt/source/qt-win-opensource-src-4.5.1.zip
 if not errorlevel 0 goto downloadFailed
 echo.
 echo Unpacking Qt
