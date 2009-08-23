@@ -209,12 +209,7 @@ void settingsDialogImpl::exec() {
 	if(myConfig->readConfigInt("UseInternetGamePassword")) {
 		lineEdit_InternetGamePassword->setText(QString::fromUtf8(myConfig->readConfigString("InternetGamePassword").c_str()));
 	}
-	groupBox_lobbyChat->setChecked(myConfig->readConfigInt("UseIRCLobbyChat"));
-	lineEdit_IRCServerAddress->setText(QString::fromUtf8(myConfig->readConfigString("IRCServerAddress").c_str()));
-	spinBox_IRCServerPort->setValue(myConfig->readConfigInt("IRCServerPort"));
-	lineEdit_IRCChannel->setText(QString::fromUtf8(myConfig->readConfigString("IRCChannel").c_str()));
-	lineEdit_IRCChannelPassword->setText(QString::fromUtf8(myConfig->readConfigString("IRCChannelPassword").c_str()));
-	checkBox_IRCServerUseIpv6->setChecked(myConfig->readConfigInt("IRCServerUseIpv6"));
+	checkBox_UseLobbyChat->setChecked(myConfig->readConfigInt("UseLobbyChat"));
 
 	//Interface
 	comboBox_switchLanguage->setCurrentIndex(comboBox_switchLanguage->findData(QString::fromUtf8(myConfig->readConfigString("Language").c_str()).section('_', 0, 0)));
@@ -405,7 +400,6 @@ void settingsDialogImpl::exec() {
 	checkBox_useSctp->setEnabled(tmpHasSctp);
 	checkBox_InternetServerUseIpv6->setEnabled(tmpHasIpv6);
 	checkBox_InternetServerUseSctp->setEnabled(tmpHasSctp);
-	checkBox_IRCServerUseIpv6->setEnabled(tmpHasIpv6);
 
 	//Manual Blinds Order Dialog (local)
 	myManualBlindsList = myConfig->readConfigIntList("ManualBlindsList");
@@ -536,12 +530,7 @@ void settingsDialogImpl::isAccepted() {
 	myConfig->writeConfigInt("InternetServerUseSctp", checkBox_InternetServerUseSctp->isChecked());
 	myConfig->writeConfigInt("UseInternetGamePassword", checkBox_UseInternetGamePassword->isChecked());
 	myConfig->writeConfigString("InternetGamePassword", lineEdit_InternetGamePassword->text().toUtf8().constData());
-	myConfig->writeConfigInt("UseIRCLobbyChat", groupBox_lobbyChat->isChecked());
-	myConfig->writeConfigString("IRCServerAddress", lineEdit_IRCServerAddress->text().toUtf8().constData());
-	myConfig->writeConfigInt("IRCServerPort", spinBox_IRCServerPort->value());
-	myConfig->writeConfigString("IRCChannel", lineEdit_IRCChannel->text().toUtf8().constData());
-	myConfig->writeConfigString("IRCChannelPassword", lineEdit_IRCChannelPassword->text().toUtf8().constData());
-	myConfig->writeConfigInt("IRCServerUseIpv6", checkBox_IRCServerUseIpv6->isChecked());
+	myConfig->writeConfigInt("UseLobbyChat", checkBox_UseLobbyChat->isChecked());
 	
 // 	Interface
 	myConfig->writeConfigString("Language", comboBox_switchLanguage->itemData(comboBox_switchLanguage->currentIndex()).toString().toUtf8().constData());

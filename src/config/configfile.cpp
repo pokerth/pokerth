@@ -48,7 +48,7 @@ ConfigFile::ConfigFile(char *argv0, bool readonly) : noWriteAccess(readonly)
 	myQtToolsInterface = CreateQtToolsWrapper();
 
 	// !!!! Revisionsnummer der Configdefaults !!!!!
-        configRev = 71;
+        configRev = 72;
 
 	//standard defaults
 	logOnOffDefault = "1";
@@ -209,12 +209,7 @@ ConfigFile::ConfigFile(char *argv0, bool readonly) : noWriteAccess(readonly)
 	configList.push_back(ConfigInfo("AvatarServerAddress", CONFIG_TYPE_STRING, ""));
 	configList.push_back(ConfigInfo("UseInternetGamePassword", CONFIG_TYPE_INT, "0"));
 	configList.push_back(ConfigInfo("InternetGamePassword", CONFIG_TYPE_STRING, ""));
-	configList.push_back(ConfigInfo("UseIRCLobbyChat", CONFIG_TYPE_INT, "1"));
-	configList.push_back(ConfigInfo("IRCServerAddress", CONFIG_TYPE_STRING, "chat.freenode.net"));
-	configList.push_back(ConfigInfo("IRCServerPort", CONFIG_TYPE_INT, "6667"));
-	configList.push_back(ConfigInfo("IRCChannel", CONFIG_TYPE_STRING, "#pokerth-lobby"));
-	configList.push_back(ConfigInfo("IRCChannelPassword", CONFIG_TYPE_STRING, ""));
-	configList.push_back(ConfigInfo("IRCServerUseIpv6", CONFIG_TYPE_INT, "0"));
+	configList.push_back(ConfigInfo("UseLobbyChat", CONFIG_TYPE_INT, "1"));
 	configList.push_back(ConfigInfo("UseAdminIRC", CONFIG_TYPE_INT, "0"));
 	configList.push_back(ConfigInfo("AdminIRCServerAddress", CONFIG_TYPE_STRING, "chat.freenode.net"));
 	configList.push_back(ConfigInfo("AdminIRCServerPort", CONFIG_TYPE_INT, "6667"));

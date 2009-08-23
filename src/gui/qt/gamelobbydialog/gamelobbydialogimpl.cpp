@@ -102,7 +102,7 @@ gameLobbyDialogImpl::gameLobbyDialogImpl(startWindowImpl *parent, ConfigFile *c)
 
 void gameLobbyDialogImpl::exec()
 {
-	if(myConfig->readConfigInt("UseIRCLobbyChat"))  { 
+	if(myConfig->readConfigInt("UseLobbyChat"))  { 
 		groupBox_lobbyChat->show(); 
 	}
 	else { 
