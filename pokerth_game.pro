@@ -8,7 +8,7 @@ CONFIG += qt \
     exceptions \
     rtti \
     stl \
-    warn_on \
+    warn_on
 
 # ####Uncomment this for RELEASE on Linux/Unix/BSD (only for static Qt)
 # QTPLUGIN += qjpeg qgif
@@ -55,6 +55,7 @@ INCLUDEPATH += . \
     src/gui/qt/styles \
     src/gui/qt/changehumanplayernamedialog \
     src/gui/qt/changecompleteblindsdialog \
+    src/gui/qt/internetgamelogindialog \
     src/gui/qt/mymessagedialog \
     src/gui/qt/gamelobbydialog \
     src/gui/qt/timeoutmsgbox
@@ -92,6 +93,7 @@ DEPENDPATH += . \
     src/gui/qt/serverlistdialog \
     src/gui/qt/styles \
     src/gui/qt/changehumanplayernamedialog \
+	src/gui/qt/internetgamelogindialog \
     src/gui/qt/changecompleteblindsdialog \
     src/gui/qt/mymessagedialog \
     src/gui/qt/gamelobbydialog \
@@ -189,7 +191,8 @@ HEADERS += src/game.h \
     src/gui/qt/gametable/mytimeoutlabel.h \
     src/gui/qt/gametable/mynamelabel.h \
     src/gui/qt/settingsdialog/mystylelistitem.h \
-    src/gui/qt/gamelobbydialog/mygamelistsortfilterproxymodel.h
+    src/gui/qt/gamelobbydialog/mygamelistsortfilterproxymodel.h \
+    src/gui/qt/internetgamelogindialog/internetgamelogindialogimpl.h
 FORMS += src/gui/qt/gametable.ui \
     src/gui/qt/aboutpokerth.ui \
     src/gui/qt/connecttoserverdialog.ui \
@@ -206,7 +209,8 @@ FORMS += src/gui/qt/gametable.ui \
     src/gui/qt/gamelobbydialog.ui \
     src/gui/qt/mymessagedialog.ui \
     src/gui/qt/manualblindsorderdialog.ui \
-    src/gui/qt/serverlistdialog.ui
+    src/gui/qt/serverlistdialog.ui \
+    src/gui/qt/internetgamelogindialog.ui
 SOURCES += src/pokerth.cpp \
     src/gui/qt/chattools/chattools.cpp \
     src/gui/qt/sound/sdlplayer.cpp \
@@ -253,7 +257,8 @@ SOURCES += src/pokerth.cpp \
     src/gui/qt/gametable/mytimeoutlabel.cpp \
     src/gui/qt/gametable/mynamelabel.cpp \
     src/gui/qt/settingsdialog/mystylelistitem.cpp \
-    src/gui/qt/gamelobbydialog/mygamelistsortfilterproxymodel.cpp
+    src/gui/qt/gamelobbydialog/mygamelistsortfilterproxymodel.cpp \
+    src/gui/qt/internetgamelogindialog/internetgamelogindialogimpl.cpp
 TRANSLATIONS = ts/pokerth_bg.ts \
     ts/pokerth_cz.ts \
     ts/pokerth_de.ts \
@@ -294,7 +299,8 @@ win32 {
         ../GnuTLS/lib \
         ../curl/lib \
         ../zlib
-    LIBS += -lpokerth_lib -lpokerth_protocol
+    LIBS += -lpokerth_lib \
+        -lpokerth_protocol
     win32-msvc2005 { 
         LIBPATH += Release/lib \
             ../SDL/VisualC/SDL/Release \
