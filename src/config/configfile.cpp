@@ -48,7 +48,7 @@ ConfigFile::ConfigFile(char *argv0, bool readonly) : noWriteAccess(readonly)
 	myQtToolsInterface = CreateQtToolsWrapper();
 
 	// !!!! Revisionsnummer der Configdefaults !!!!!
-        configRev = 72;
+        configRev = 74;
 
 	//standard defaults
 	logOnOffDefault = "1";
@@ -264,6 +264,9 @@ ConfigFile::ConfigFile(char *argv0, bool readonly) : noWriteAccess(readonly)
 	configList.push_back(ConfigInfo("GameTableFullScreenSave", CONFIG_TYPE_INT, "0"));
 	configList.push_back(ConfigInfo("GameTableHeightSave", CONFIG_TYPE_INT, "600"));
 	configList.push_back(ConfigInfo("GameTableWidthSave", CONFIG_TYPE_INT, "1024"));
+	configList.push_back(ConfigInfo("InternetLoginUserName", CONFIG_TYPE_STRING, ""));
+	configList.push_back(ConfigInfo("InternetLoginPasswordMd5", CONFIG_TYPE_STRING, ""));
+	
 
 	//fill tempList firstTime
 	configBufferList = configList;

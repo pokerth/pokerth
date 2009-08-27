@@ -47,6 +47,7 @@
 #include "timeoutmsgboximpl.h"
 #include "chattools.h"
 #include "serverlistdialogimpl.h"
+#include "internetgamelogindialogimpl.h"
 
 using namespace std;
 
@@ -94,6 +95,7 @@ startWindowImpl::startWindowImpl(ConfigFile *c)
 	
 	myTimeoutDialog = new timeoutMsgBoxImpl(this);
 	myServerListDialog = new serverListDialogImpl(this, this, myConfig);
+	myInternetGameLoginDialog = new internetGameLoginDialogImpl(this, myConfig);
 
 	connect( actionStart_Local_Game, SIGNAL( triggered() ), this, SLOT( callNewGameDialog() ) );
 	connect( pushButtonStart_Local_Game, SIGNAL( clicked() ), this, SLOT( callNewGameDialog() ) );
@@ -868,4 +870,15 @@ QStringList startWindowImpl::getPlayerNicksList() {
 	}
 	
 	return list;
+}
+
+void startWindowImpl::showInternetGameLoginDialog() {
+
+	myInternetGameLoginDialog->exec();
+}
+
+void startWindowImpl::keyPressEvent ( QKeyEvent * event ) {
+	
+	if (event->key() == Qt::Key_F6) { showInternetGameLoginDialog(); }
+
 }

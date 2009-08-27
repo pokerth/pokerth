@@ -3,10 +3,20 @@
 
 #include "ui_internetgamelogindialog.h"
 
-class internetGameLoginDialog : public QDialog, private Ui::internetGameLoginDialog {
+class ConfigFile;
+
+class internetGameLoginDialogImpl : public QDialog, private Ui::internetGameLoginDialog {
     Q_OBJECT
+	
 public:
-    internetGameLoginDialog(QWidget *parent = 0);
+    internetGameLoginDialogImpl(QWidget *parent = 0, ConfigFile *c =0);
+	
+	void exec();
+	void accept();
+	
+private:
+	
+	ConfigFile *myConfig;
 };
 
 #endif // INTERNETGAMELOGINDIALOGIMPL_H

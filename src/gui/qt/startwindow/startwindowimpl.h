@@ -43,6 +43,7 @@ class changeHumanPlayerNameDialogImpl;
 class gameLobbyDialogImpl;
 class timeoutMsgBoxImpl;
 class serverListDialogImpl;
+class internetGameLoginDialogImpl;
 
 class startWindowImpl: public QMainWindow, public Ui::startWindow {
 Q_OBJECT
@@ -54,6 +55,8 @@ public:
 	boost::shared_ptr< GuiInterface > getMyServerGuiInterface() const { return myServerGuiInterface; }
 	connectToServerDialogImpl* getMyConnectToServerDialog() const {	return myConnectToServerDialog;	}	
 
+	void keyPressEvent( QKeyEvent *);
+	
 signals: 
 	void signalShowClientDialog();
 	
@@ -109,6 +112,7 @@ public slots:
 	void joinGameLobby();
 	void showClientDialog();
 	void showNetworkStartDialog();
+	void showInternetGameLoginDialog();
 
 	void startNewLocalGame(newGameDialogImpl* =0);
 
@@ -143,7 +147,7 @@ private:
 	timeoutMsgBoxImpl *myTimeoutDialog;
 	startWindowImpl *myStartWindow;
 	serverListDialogImpl *myServerListDialog;
-
+	internetGameLoginDialogImpl *myInternetGameLoginDialog;
 	
 friend class GuiWrapper;
 };
