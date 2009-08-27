@@ -43,12 +43,12 @@
       <item row="1" column="1">
        <widget class="QLineEdit" name="lineEdit_password">
         <property name="echoMode">
-         <enum>QLineEdit::Password</enum>
+         <enum>QLineEdit::Normal</enum>
         </property>
        </widget>
       </item>
       <item row="2" column="0" colspan="2">
-       <widget class="QCheckBox" name="checkBox_2">
+       <widget class="QCheckBox" name="checkBox_rememberPassword">
         <property name="text">
          <string>Remember Password (not recommended)</string>
         </property>

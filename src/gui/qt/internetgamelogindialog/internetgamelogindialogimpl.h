@@ -13,6 +13,10 @@ public:
 	
 	void exec();
 	void accept();
+
+public slots:
+	void regUserToggled(bool);
+	void guestUserToggled(bool);
 	
 private:
 	

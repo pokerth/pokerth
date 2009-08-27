@@ -99,8 +99,8 @@ startWindowImpl::startWindowImpl(ConfigFile *c)
 
 	connect( actionStart_Local_Game, SIGNAL( triggered() ), this, SLOT( callNewGameDialog() ) );
 	connect( pushButtonStart_Local_Game, SIGNAL( clicked() ), this, SLOT( callNewGameDialog() ) );
-	connect( actionInternet_Game, SIGNAL( triggered() ), this, SLOT( callGameLobbyDialog() ) );
-	connect( pushButtonInternet_Game, SIGNAL( clicked() ), this, SLOT( callGameLobbyDialog() ) );
+	connect( actionInternet_Game, SIGNAL( triggered() ), this, SLOT( showInternetGameLoginDialog() ) );
+	connect( pushButtonInternet_Game, SIGNAL( clicked() ), this, SLOT( showInternetGameLoginDialog() ) );
 	connect( actionCreate_Network_Game, SIGNAL( triggered() ), this, SLOT( callCreateNetworkGameDialog() ) );
 	connect( pushButton_Create_Network_Game, SIGNAL( clicked() ), this, SLOT( callCreateNetworkGameDialog() ) );
 	connect( actionJoin_Network_Game, SIGNAL( triggered() ), this, SLOT( callJoinNetworkGameDialog() ) );
@@ -877,8 +877,8 @@ void startWindowImpl::showInternetGameLoginDialog() {
 	myInternetGameLoginDialog->exec();
 }
 
-void startWindowImpl::keyPressEvent ( QKeyEvent * event ) {
-	
-	if (event->key() == Qt::Key_F6) { showInternetGameLoginDialog(); }
-
-}
+//void startWindowImpl::keyPressEvent ( QKeyEvent * event ) {
+//	
+//	if (event->key() == Qt::Key_F6) { showInternetGameLoginDialog(); }
+//
+//}

@@ -55,7 +55,7 @@ public:
 	boost::shared_ptr< GuiInterface > getMyServerGuiInterface() const { return myServerGuiInterface; }
 	connectToServerDialogImpl* getMyConnectToServerDialog() const {	return myConnectToServerDialog;	}	
 
-	void keyPressEvent( QKeyEvent *);
+//	void keyPressEvent( QKeyEvent *);
 	
 signals: 
 	void signalShowClientDialog();
