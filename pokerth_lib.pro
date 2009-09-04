@@ -126,6 +126,11 @@ HEADERS += \
 		src/engine/network_engine/clienthand.h \
 		src/engine/network_engine/clientplayer.h \
 		src/engine/network_engine/clientbero.h \
+		src/db/serverdbcallback.h \
+		src/db/serverdbfactory.h \
+		src/db/serverdbinterface.h \
+		src/db/serverdbgeneric.h \
+		src/db/serverdbfactorygeneric.h \
 		src/gui/qttoolsinterface.h \
 		src/gui/generic/serverguiwrapper.h
 
@@ -205,6 +210,11 @@ SOURCES += \
 		src/net/common/uploadhelper.cpp \
 		src/net/common/encodedpacket.cpp \
 		src/net/common/internalchatcleanerpacket.cpp \
+		src/db/common/serverdbcallback.cpp \
+		src/db/common/serverdbfactory.cpp \
+		src/db/common/serverdbinterface.cpp \
+		src/db/common/serverdbgeneric.cpp \
+		src/db/common/serverdbfactorygeneric.cpp \
 		src/gui/generic/serverguiwrapper.cpp \
 		src/gui/qttoolsinterface.cpp
 
