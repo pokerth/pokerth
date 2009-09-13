@@ -38,6 +38,7 @@
 #include "startsplash.h"
 #include "game_defs.h"
 #include <net/socket_startup.h>
+#include <third_party/qtsingleapplication/qtsingleapplication.h>
 
 #ifdef _MSC_VER
 	#ifdef _DEBUG
@@ -83,7 +84,10 @@ int main( int argc, char **argv )
 	curl_global_init(CURL_GLOBAL_NOTHING);
 
 	/////// can be removed for non-qt-guis ////////////
-	QApplication a( argc, argv );
+	QtSingleApplication a( argc, argv );
+
+	if (a.isRunning())
+         return 0;
 
 	//create defaultconfig
 	ConfigFile *myConfig = new ConfigFile(argv[0], false);
@@ -142,6 +146,9 @@ int main( int argc, char **argv )
 
 
 	startWindowImpl *mainWin = new startWindowImpl(myConfig);	
+
+	a.setActivationWindow(mainWin);
+
 	int retVal = a.exec();
 	
 	curl_global_cleanup();
