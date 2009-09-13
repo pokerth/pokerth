@@ -86,8 +86,9 @@ int main( int argc, char **argv )
 	/////// can be removed for non-qt-guis ////////////
 	QtSingleApplication a( argc, argv );
 
-	if (a.isRunning())
-         return 0;
+	if (a.sendMessage("Wake up!")) {
+		return 0;
+	 }
 
 	//create defaultconfig
 	ConfigFile *myConfig = new ConfigFile(argv[0], false);
@@ -147,7 +148,7 @@ int main( int argc, char **argv )
 
 	startWindowImpl *mainWin = new startWindowImpl(myConfig);	
 
-	a.setActivationWindow(mainWin);
+	a.setActivationWindow(mainWin, true);
 
 	int retVal = a.exec();
 	
