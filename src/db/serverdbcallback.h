@@ -21,6 +21,8 @@
 #ifndef _SERVERDBCALLBACK_H_
 #define _SERVERDBCALLBACK_H_
 
+#include <string>
+
 typedef unsigned db_id;
 typedef unsigned async_handle;
 #define DB_ID_INVALID 0
@@ -32,6 +34,9 @@ class ServerDBCallback
 {
 public:
 	virtual ~ServerDBCallback();
+
+	virtual void ConnectSuccess() = 0;
+	virtual void ConnectFailed(const std::string &error) = 0;
 
 	virtual void PlayerLoginSuccess(async_handle login, db_id playerId) = 0;
 	virtual void PlayerLoginFailed(async_handle login) = 0;
