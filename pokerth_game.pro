@@ -434,8 +434,8 @@ unix:!mac {
 mac { 
     # make it universal
     CONFIG += x86
-    CONFIG += ppc
-    QMAKE_MACOSX_DEPLOYMENT_TARGET = 10.3
+    CONFIG -= ppc
+    QMAKE_MACOSX_DEPLOYMENT_TARGET = 10.4
     
     # for universal-compilation on PPC-Mac uncomment the following line
     # on Intel-Mac you have to comment this line out or build will fail.
@@ -444,9 +444,6 @@ mac {
     LIBS += -lpokerth_lib \
         -lpokerth_protocol
     
-    # Qt static (path is standard for self-compiling qt)
-    # LIBS += /usr/local/Trolltech/Qt-4.2.3/lib/libQtCore.a
-    # LIBS += /usr/local/Trolltech/Qt-4.2.3/lib/libQtGui.a
     # QT dynamic linked framework (see also mac_post_make.sh)
     LIBS += -framework \
         QtCore
@@ -461,11 +458,11 @@ mac {
     
     # standard path for darwinports
     # make sure you have a universal version of boost
-    LIBS += /usr/local/lib/libboost_thread-xgcc40-mt.a
-    LIBS += /usr/local/lib/libboost_filesystem-xgcc40-mt.a
-    LIBS += /usr/local/lib/libboost_regex-xgcc40-mt.a
-    LIBS += /usr/local/lib/libboost_system-xgcc40-mt.a
-    LIBS += /usr/local/lib/libboost_iostreams-xgcc40-mt.a
+    LIBS += /usr/local/lib/libboost_thread.a
+    LIBS += /usr/local/lib/libboost_filesystem.a
+    LIBS += /usr/local/lib/libboost_regex.a
+    LIBS += /usr/local/lib/libboost_system.a
+    LIBS += /usr/local/lib/libboost_iostreams.a
     
     # libraries installed on every mac
     LIBS += -lcrypto \
@@ -477,8 +474,8 @@ mac {
     
     # set the application icon
     RC_FILE = pokerth.icns
-    LIBPATH += /Developer/SDKs/MacOSX10.4u.sdk/usr/lib
-    INCLUDEPATH += /Developer/SDKs/MacOSX10.4u.sdk/usr/include/
+    LIBPATH += /Developer/SDKs/MacOSX10.5.sdk/usr/lib
+    INCLUDEPATH += /Developer/SDKs/MacOSX10.5.sdk/usr/include/
     INCLUDEPATH += /Library/Frameworks/SDL.framework/Headers
     INCLUDEPATH += /Library/Frameworks/SDL_mixer.framework/Headers
 }

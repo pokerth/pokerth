@@ -263,9 +263,9 @@ unix : !mac {
 
 mac {
     # make it universal  
-    CONFIG += x86 
-    CONFIG += ppc
-    QMAKE_MACOSX_DEPLOYMENT_TARGET = 10.3
+    CONFIG += x86
+    CONFIG -= ppc
+    QMAKE_MACOSX_DEPLOYMENT_TARGET = 10.4
 
     # for universal-compilation on PPC-Mac uncomment the following line
     # on Intel-Mac you have to comment this line out or build will fail.
@@ -275,16 +275,16 @@ mac {
     LIBS += -lpokerth_lib -lpokerth_protocol
     # standard path for darwinports
     # make sure you have a universal version of boost
-    LIBS += /usr/local/lib/libboost_thread-xgcc40-mt.a
-    LIBS += /usr/local/lib/libboost_filesystem-xgcc40-mt.a
-    LIBS += /usr/local/lib/libboost_regex-xgcc40-mt.a
-    LIBS += /usr/local/lib/libboost_system-xgcc40-mt.a
-    LIBS += /usr/local/lib/libboost_iostreams-xgcc40-mt.a
-    LIBS += /usr/local/lib/libboost_program_options-xgcc40-mt.a
+    LIBS += /usr/local/lib/libboost_thread.a
+    LIBS += /usr/local/lib/libboost_filesystem.a
+    LIBS += /usr/local/lib/libboost_regex.a
+    LIBS += /usr/local/lib/libboost_system.a
+    LIBS += /usr/local/lib/libboost_iostreams.a
+    LIBS += /usr/local/lib/libboost_program_options.a
     # libraries installed on every mac
     LIBS += -lcrypto -lssl -lz -lcurl -liconv
     # set the application icon
     RC_FILE = pokerth.icns
-    LIBPATH += /Developer/SDKs/MacOSX10.4u.sdk/usr/lib
-    INCLUDEPATH += /Developer/SDKs/MacOSX10.4u.sdk/usr/include/
+    LIBPATH += /Developer/SDKs/MacOSX10.5.sdk/usr/lib
+    INCLUDEPATH += /Developer/SDKs/MacOSX10.5.sdk/usr/include/
 }
