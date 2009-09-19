@@ -130,7 +130,9 @@ protected:
 	void HandleNetPacketCreateGame(SessionWrapper session, const std::string &password, const JoinNewGame_t &newGame);
 	void HandleNetPacketJoinGame(SessionWrapper session, const std::string &password, const JoinExistingGame_t &joinGame);
 	void HandleNetPacketChatRequest(SessionWrapper session, const ChatRequestMessage_t &chatRequest);
+	void InitAfterLogin(SessionWrapper session);
 	void EstablishSession(SessionWrapper session);
+	void AuthenticatePlayer(SessionWrapper session, const std::string &password);
 	void RequestPlayerAvatar(SessionWrapper session);
 	void TimerRemoveGame(const boost::system::error_code &ec);
 	void TimerRemovePlayer(const boost::system::error_code &ec);

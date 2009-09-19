@@ -878,8 +878,8 @@ ServerLobbyThread::HandleNetPacketInit(SessionWrapper session, const InitMessage
 		const AuthenticatedLogin_t *authLogin = &initMessage.login.choice.authenticatedLogin;
 		playerName = string((const char *)authLogin->playerName.buf, authLogin->playerName.size);
 		password = string((const char *)authLogin->password.buf, authLogin->password.size);
-		if (anonLogin->avatar)
-			memcpy(avatarMD5.data, anonLogin->avatar->buf, MD5_DATA_SIZE);
+		if (authLogin->avatar)
+			memcpy(avatarMD5.data, authLogin->avatar->buf, MD5_DATA_SIZE);
 	}
 	else
 		SessionError(session, ERR_NET_INVALID_PASSWORD); // TODO not yet supported
@@ -934,27 +934,10 @@ ServerLobbyThread::HandleNetPacketInit(SessionWrapper session, const InitMessage
 	m_sessionManager.SetSessionPlayerData(session.sessionData->GetId(), tmpPlayerData);
 	session.playerData = tmpPlayerData;
 
-	string avatarFileName;
-	if (!avatarMD5.IsZero()
-		&& !GetAvatarManager().GetAvatarFileName(avatarMD5, avatarFileName))
-	{
-		bool avatarRecentlyRequested = false;
-		{
-			boost::mutex::scoped_lock lock(m_timerAvatarClientAddressMapMutex);
-			if (m_timerAvatarClientAddressMap.find(session.sessionData->GetClientAddr()) != m_timerAvatarClientAddressMap.end())
-				avatarRecentlyRequested = true;
-		}
-		if (avatarRecentlyRequested)
-			SessionError(session, ERR_NET_AVATAR_UPLOAD_BLOCKED);
-		else
-			RequestPlayerAvatar(session);
-	}
+	if (guestUser)
+		InitAfterLogin(session);
 	else
-	{
-		if (!avatarFileName.empty())
-			session.playerData->SetAvatarFile(avatarFileName);
-		EstablishSession(session);
-	}
+		AuthenticatePlayer(session, password);
 }
 
 void
@@ -1207,6 +1190,34 @@ ServerLobbyThread::HandleNetPacketChatRequest(SessionWrapper session, const Chat
 }
 
 void
+ServerLobbyThread::InitAfterLogin(SessionWrapper session)
+{
+	assert(session.playerData);
+	const MD5Buf &avatarMD5 = session.playerData->GetAvatarMD5();
+	string avatarFileName;
+	if (!avatarMD5.IsZero()
+		&& !GetAvatarManager().GetAvatarFileName(avatarMD5, avatarFileName))
+	{
+		bool avatarRecentlyRequested = false;
+		{
+			boost::mutex::scoped_lock lock(m_timerAvatarClientAddressMapMutex);
+			if (m_timerAvatarClientAddressMap.find(session.sessionData->GetClientAddr()) != m_timerAvatarClientAddressMap.end())
+				avatarRecentlyRequested = true;
+		}
+		if (avatarRecentlyRequested)
+			SessionError(session, ERR_NET_AVATAR_UPLOAD_BLOCKED);
+		else
+			RequestPlayerAvatar(session);
+	}
+	else
+	{
+		if (!avatarFileName.empty())
+			session.playerData->SetAvatarFile(avatarFileName);
+		EstablishSession(session);
+	}
+}
+
+void
 ServerLobbyThread::EstablishSession(SessionWrapper session)
 {
 	if (!session.playerData.get())
@@ -1239,6 +1250,12 @@ ServerLobbyThread::EstablishSession(SessionWrapper session)
 	NotifyPlayerJoinedLobby(session.playerData->GetUniqueId());
 
 	UpdateStatisticsNumberOfPlayers();
+}
+
+void
+ServerLobbyThread::AuthenticatePlayer(SessionWrapper session, const std::string &password)
+{
+	// TODO
 }
 
 void
