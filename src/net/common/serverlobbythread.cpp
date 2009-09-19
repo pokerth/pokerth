@@ -862,11 +862,22 @@ ServerLobbyThread::HandleNetPacketInit(SessionWrapper session, const InitMessage
 		session.sessionData->SetMaxNumPlayers(MAX_NUMBER_OF_PLAYERS);
 
 	string playerName;
+	string password;
 	MD5Buf avatarMD5;
+	bool guestUser = false;
 	if (initMessage.login.present == login_PR_anonymousLogin)
 	{
 		const AnonymousLogin_t *anonLogin = &initMessage.login.choice.anonymousLogin;
 		playerName = string((const char *)anonLogin->playerName.buf, anonLogin->playerName.size);
+		if (anonLogin->avatar)
+			memcpy(avatarMD5.data, anonLogin->avatar->buf, MD5_DATA_SIZE);
+		guestUser = true;
+	}
+	else if (initMessage.login.present == login_PR_authenticatedLogin)
+	{
+		const AuthenticatedLogin_t *authLogin = &initMessage.login.choice.authenticatedLogin;
+		playerName = string((const char *)authLogin->playerName.buf, authLogin->playerName.size);
+		password = string((const char *)authLogin->password.buf, authLogin->password.size);
 		if (anonLogin->avatar)
 			memcpy(avatarMD5.data, anonLogin->avatar->buf, MD5_DATA_SIZE);
 	}

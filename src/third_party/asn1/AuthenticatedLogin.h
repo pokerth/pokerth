@@ -22,6 +22,7 @@ extern "C" {
 /* AuthenticatedLogin */
 typedef struct AuthenticatedLogin {
 	UTF8String_t	 playerName;
+	UTF8String_t	 password;
 	AvatarHash_t	*avatar	/* OPTIONAL */;
 	/*
 	 * This type is extensible,

@@ -90,6 +90,7 @@ AnonymousLogin ::= SEQUENCE {
 -- TODO challenge/response
 AuthenticatedLogin ::= SEQUENCE {
 	playerName					UTF8String (SIZE(1..32)),
+	password					UTF8String (SIZE(1..32)),
 	avatar						AvatarHash OPTIONAL
 }
 
