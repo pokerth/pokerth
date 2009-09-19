@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2007 by Lothar May                                      *
+ *   Copyright (C) 2007-2009 by Lothar May                                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -16,10 +16,10 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-/* Network server receive thread. */
+/* Network server lobby thread. */
 
-#ifndef _SERVERRECVTHREAD_H_
-#define _SERVERRECVTHREAD_H_
+#ifndef _SERVERLOBBYTHREAD_H_
+#define _SERVERLOBBYTHREAD_H_
 
 #include <boost/asio.hpp>
 #include <deque>
@@ -37,13 +37,14 @@
 
 class SenderHelper;
 class ReceiverHelper;
-class ServerSenderCallback;
+class InternalServerCallback;
 class ServerIrcBotCallback;
 class ServerGame;
 class ServerBanManager;
 class ConfigFile;
 class AvatarManager;
 class ChatCleanerManager;
+class ServerDBInterface;
 struct GameData;
 class Game;
 
@@ -164,7 +165,7 @@ protected:
 
 	bool CheckPassword(const std::string &password) const;
 
-	ServerSenderCallback &GetSenderCallback();
+	InternalServerCallback &GetSenderCallback();
 	GuiInterface &GetGui();
 	ServerIrcBotCallback &GetIrcBotCallback();
 
@@ -179,7 +180,7 @@ private:
 
 	boost::shared_ptr<boost::asio::io_service> m_ioService;
 
-	boost::shared_ptr<ServerSenderCallback> m_senderCallback;
+	boost::shared_ptr<InternalServerCallback> m_internalServerCallback;
 	boost::shared_ptr<SenderHelper> m_sender;
 	boost::shared_ptr<ReceiverHelper> m_receiver;
 
@@ -219,6 +220,7 @@ private:
 
 	boost::shared_ptr<ServerBanManager> m_banManager;
 	boost::shared_ptr<ChatCleanerManager> m_chatCleanerManager;
+	boost::shared_ptr<ServerDBInterface> m_database;
 
 	boost::asio::deadline_timer m_removeGameTimer;
 	boost::asio::deadline_timer m_removePlayerTimer;

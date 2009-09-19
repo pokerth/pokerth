@@ -27,6 +27,13 @@
 #include <net/receiverhelper.h>
 #include <net/socket_msg.h>
 #include <net/chatcleanermanager.h>
+#include <db/serverdbinterface.h>
+#include <db/serverdbcallback.h>
+#ifdef POKERTH_OFFICIAL_SERVER
+	#include <dbclosed/serverdbfactoryinternal.h>
+#else
+	#include <db/serverdbfactorygeneric.h>
+#endif
 #include <core/avatarmanager.h>
 #include <core/loghelper.h>
 #include <core/openssl_wrapper.h>
@@ -69,11 +76,11 @@ using namespace std;
 using boost::asio::ip::tcp;
 
 
-class ServerSenderCallback : public SenderCallback, public SessionDataCallback, public ChatCleanerCallback
+class InternalServerCallback : public SenderCallback, public SessionDataCallback, public ChatCleanerCallback, public ServerDBCallback
 {
 public:
-	ServerSenderCallback(ServerLobbyThread &server) : m_server(server) {}
-	virtual ~ServerSenderCallback() {}
+	InternalServerCallback(ServerLobbyThread &server) : m_server(server) {}
+	virtual ~InternalServerCallback() {}
 
 	virtual void SignalNetError(SessionId /*session*/, int /*errorID*/, int /*osErrorID*/)
 	{
@@ -90,6 +97,30 @@ public:
 		m_server.SendChatBotMsg(msg);
 	}
 
+	virtual void ConnectSuccess()
+	{
+	}
+
+	virtual void ConnectFailed(const string &error)
+	{
+	}
+
+	virtual void PlayerLoginSuccess(async_handle login, db_id playerId)
+	{
+	}
+
+	virtual void PlayerLoginFailed(async_handle login)
+	{
+	}
+
+	virtual void CreateGameSuccess(async_handle create, db_id gameId)
+	{
+	}
+
+	virtual void CreateGameFailed(async_handle create)
+	{
+	}
+
 private:
 	ServerLobbyThread &m_server;
 };
@@ -104,11 +135,13 @@ ServerLobbyThread::ServerLobbyThread(GuiInterface &gui, ServerIrcBotCallback &ir
   m_saveStatisticsTimer(*ioService), m_avatarLockTimer(*ioService),
   m_startTime(boost::posix_time::second_clock::local_time())
 {
-	m_senderCallback.reset(new ServerSenderCallback(*this));
-	m_sender.reset(new SenderHelper(*m_senderCallback, m_ioService));
+	m_internalServerCallback.reset(new InternalServerCallback(*this));
+	m_sender.reset(new SenderHelper(*m_internalServerCallback, m_ioService));
 	m_receiver.reset(new ReceiverHelper);
 	m_banManager.reset(new ServerBanManager(m_ioService));
-	m_chatCleanerManager.reset(new ChatCleanerManager(*m_senderCallback, m_ioService));
+	m_chatCleanerManager.reset(new ChatCleanerManager(*m_internalServerCallback, m_ioService));
+	DBFactory dbFactory;
+	m_database = dbFactory.CreateServerDBObject(*m_internalServerCallback, m_ioService);
 }
 
 ServerLobbyThread::~ServerLobbyThread()
@@ -153,7 +186,7 @@ ServerLobbyThread::AddConnection(boost::shared_ptr<tcp::socket> sock)
 	//}
 
 	// Create a new session.
-	boost::shared_ptr<SessionData> sessionData(new SessionData(sock, m_curSessionId++, *m_senderCallback));
+	boost::shared_ptr<SessionData> sessionData(new SessionData(sock, m_curSessionId++, *m_internalServerCallback));
 	m_sessionManager.AddSession(sessionData);
 
 	LOG_VERBOSE("Accepted connection - session #" << sessionData->GetId() << ".");
@@ -1702,11 +1735,11 @@ ServerLobbyThread::CheckPassword(const string &password) const
 	return (password == m_password);
 }
 
-ServerSenderCallback &
+InternalServerCallback &
 ServerLobbyThread::GetSenderCallback()
 {
-	assert(m_senderCallback.get());
-	return *m_senderCallback;
+	assert(m_internalServerCallback.get());
+	return *m_internalServerCallback;
 }
 
 GuiInterface &
