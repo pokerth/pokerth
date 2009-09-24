@@ -24,9 +24,7 @@
 #include <string>
 
 typedef unsigned db_id;
-typedef unsigned async_handle;
 #define DB_ID_INVALID 0
-#define ASYNC_HANDLE_INVALID 0
 
 // Callback operations are posted using the io service,
 // and will therefore be executed in the io service thread.
@@ -38,11 +36,11 @@ public:
 	virtual void ConnectSuccess() = 0;
 	virtual void ConnectFailed(const std::string &error) = 0;
 
-	virtual void PlayerLoginSuccess(async_handle login, db_id playerId) = 0;
-	virtual void PlayerLoginFailed(async_handle login) = 0;
+	virtual void PlayerLoginSuccess(unsigned requestId, db_id playerId) = 0;
+	virtual void PlayerLoginFailed(unsigned requestId) = 0;
 
-	virtual void CreateGameSuccess(async_handle create, db_id gameId) = 0;
-	virtual void CreateGameFailed(async_handle create) = 0;
+	virtual void CreateGameSuccess(unsigned requestId, db_id gameId) = 0;
+	virtual void CreateGameFailed(unsigned requestId) = 0;
 };
 
 #endif

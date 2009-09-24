@@ -28,7 +28,6 @@
 #include <net/socket_msg.h>
 #include <net/chatcleanermanager.h>
 #include <db/serverdbinterface.h>
-#include <db/serverdbcallback.h>
 #ifdef POKERTH_OFFICIAL_SERVER
 	#include <dbclosed/serverdbfactoryinternal.h>
 #else
@@ -105,19 +104,21 @@ public:
 	{
 	}
 
-	virtual void PlayerLoginSuccess(async_handle login, db_id playerId)
+	virtual void PlayerLoginSuccess(unsigned requestId, db_id dbPlayerId)
+	{
+		m_server.AuthenticationSuccess(requestId, dbPlayerId);
+	}
+
+	virtual void PlayerLoginFailed(unsigned requestId)
+	{
+		m_server.AuthenticationFailure(requestId);
+	}
+
+	virtual void CreateGameSuccess(unsigned requestId, db_id gameId)
 	{
 	}
 
-	virtual void PlayerLoginFailed(async_handle login)
-	{
-	}
-
-	virtual void CreateGameSuccess(async_handle create, db_id gameId)
-	{
-	}
-
-	virtual void CreateGameFailed(async_handle create)
+	virtual void CreateGameFailed(unsigned requestId)
 	{
 	}
 
@@ -1255,7 +1256,18 @@ ServerLobbyThread::EstablishSession(SessionWrapper session)
 void
 ServerLobbyThread::AuthenticatePlayer(SessionWrapper session, const std::string &password)
 {
-	// TODO
+	assert(session.playerData);
+	m_database->AsyncPlayerLogin(session.playerData->GetUniqueId(), session.playerData->GetName(), password);
+}
+
+void
+ServerLobbyThread::AuthenticationSuccess(unsigned playerId, db_id dbPlayerId)
+{
+}
+
+void
+ServerLobbyThread::AuthenticationFailure(unsigned playerId)
+{
 }
 
 void

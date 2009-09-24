@@ -17,12 +17,14 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
+#include <boost/bind.hpp>
 #include <db/serverdbgeneric.h>
 
 using namespace std;
 
 
-ServerDBGeneric::ServerDBGeneric()
+ServerDBGeneric::ServerDBGeneric(ServerDBCallback &cb, boost::shared_ptr<boost::asio::io_service> ioService)
+: m_ioService(ioService), m_callback(cb)
 {
 }
 
@@ -36,10 +38,10 @@ ServerDBGeneric::Init(const string &/*host*/, const string &/*user*/, const stri
 {
 }
 
-async_handle
-ServerDBGeneric::AsyncPlayerLogin(const string &/*playerName*/, const string &/*secretString*/)
+void
+ServerDBGeneric::AsyncPlayerLogin(unsigned requestId, const string &/*playerName*/, const string &/*secretString*/)
 {
-	return ASYNC_HANDLE_INVALID;
+	m_ioService->post(boost::bind(&ServerDBCallback::PlayerLoginFailed, &m_callback, requestId));
 }
 
 bool
@@ -48,10 +50,10 @@ ServerDBGeneric::PlayerLogout(db_id /*playerId*/)
 	return false;
 }
 
-async_handle
-ServerDBGeneric::AsyncCreateGame(const db_list &/*players*/)
+void
+ServerDBGeneric::AsyncCreateGame(unsigned requestId, const db_list &/*players*/)
 {
-	return ASYNC_HANDLE_INVALID;
+	m_ioService->post(boost::bind(&ServerDBCallback::CreateGameFailed, &m_callback, requestId));
 }
 
 bool

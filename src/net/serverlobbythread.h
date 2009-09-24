@@ -27,6 +27,7 @@
 
 #include <net/sessionmanager.h>
 #include <net/netpacket.h>
+#include <db/serverdbcallback.h>
 #include <gui/guiinterface.h>
 #include <gamedata.h>
 
@@ -133,6 +134,8 @@ protected:
 	void InitAfterLogin(SessionWrapper session);
 	void EstablishSession(SessionWrapper session);
 	void AuthenticatePlayer(SessionWrapper session, const std::string &password);
+	void AuthenticationSuccess(unsigned playerId, db_id dbPlayerId);
+	void AuthenticationFailure(unsigned playerId);
 	void RequestPlayerAvatar(SessionWrapper session);
 	void TimerRemoveGame(const boost::system::error_code &ec);
 	void TimerRemovePlayer(const boost::system::error_code &ec);
@@ -232,6 +235,8 @@ private:
 	boost::asio::deadline_timer m_avatarLockTimer;
 
 	const boost::posix_time::ptime m_startTime;
+
+friend class InternalServerCallback;
 };
 
 #endif

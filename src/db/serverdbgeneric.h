@@ -21,24 +21,30 @@
 #ifndef _SERVERDBGENERIC_H_
 #define _SERVERDBGENERIC_H_
 
+#include <boost/asio.hpp>
+#include <boost/shared_ptr.hpp>
 #include <db/serverdbinterface.h>
 
 
 class ServerDBGeneric : public ServerDBInterface
 {
 public:
-	ServerDBGeneric();
+	ServerDBGeneric(ServerDBCallback &cb, boost::shared_ptr<boost::asio::io_service> ioService);
 	virtual ~ServerDBGeneric();
 
 	virtual void Init(const std::string &host, const std::string &user, const std::string &pwd,
 					  const std::string &database, const std::string &encryptionKey);
 
-	virtual async_handle AsyncPlayerLogin(const std::string &playerName, const std::string &secretString);
+	virtual void AsyncPlayerLogin(unsigned requestId, const std::string &playerName, const std::string &secretString);
 	virtual bool PlayerLogout(db_id playerId);
 
-	virtual async_handle AsyncCreateGame(const db_list &players);
+	virtual void AsyncCreateGame(unsigned requestId, const db_list &players);
 	virtual bool SetGamePlayerPlace(db_id gameId, db_id playerId, unsigned place);
 	virtual bool EndGame(db_id gameId);
+
+private:
+	boost::shared_ptr<boost::asio::io_service> m_ioService;
+	ServerDBCallback &m_callback;
 };
 
 #endif

@@ -154,7 +154,7 @@ boost::shared_ptr<AvatarManager> Session::getAvatarManager()
 	return myAvatarManager;
 }
 
-void Session::startInternetClient()
+void Session::startInternetClient(const std::string &username, const std::string &password)
 {
 	if (myNetClient || !myGui)
 	{
@@ -178,8 +178,8 @@ void Session::startInternetClient()
 		myConfig->readConfigInt("InternetServerUseIpv6") == 1,
 		myConfig->readConfigInt("InternetServerUseSctp") == 1,
 		useAvatarServer ? myConfig->readConfigString("AvatarServerAddress") : "",
-		myConfig->readConfigString("InternetServerPassword"),
-		myConfig->readConfigString("MyName"),
+		username,
+		password,
 		myConfig->readConfigString("MyAvatar"),
 		myQtToolsInterface->stringFromUtf8(myConfig->readConfigString("CacheDir")));
 	myNetClient->Run();
@@ -203,8 +203,8 @@ void Session::startNetworkClient(const string &serverAddress, unsigned serverPor
 		ipv6,
 		sctp,
 		"", // no avatar server
-		pwd,
 		myConfig->readConfigString("MyName"),
+		pwd,
 		myConfig->readConfigString("MyAvatar"),
 		myQtToolsInterface->stringFromUtf8(myConfig->readConfigString("CacheDir")));
 	myNetClient->Run();
@@ -231,8 +231,8 @@ void Session::startNetworkClientForLocalServer(const GameData &gameData)
 		useIpv6,
 		myConfig->readConfigInt("ServerUseSctp") == 1,
 		"", // no avatar server
-		myConfig->readConfigString("ServerPassword"),
 		myConfig->readConfigString("MyName"),
+		myConfig->readConfigString("ServerPassword"),
 		myConfig->readConfigString("MyAvatar"),
 		myQtToolsInterface->stringFromUtf8(myConfig->readConfigString("CacheDir")));
 	myNetClient->Run();
