@@ -875,6 +875,10 @@ QStringList startWindowImpl::getPlayerNicksList() {
 void startWindowImpl::showInternetGameLoginDialog() {
 
 	myInternetGameLoginDialog->exec();
+	
+//	send login infos
+	mySession->startInternetClient(std::string(myInternetGameLoginDialog->lineEdit_username->text().toUtf8().constData()), std::string(myInternetGameLoginDialog->lineEdit_password->text().toUtf8().constData()));
+	
 }
 
 //void startWindowImpl::keyPressEvent ( QKeyEvent * event ) {

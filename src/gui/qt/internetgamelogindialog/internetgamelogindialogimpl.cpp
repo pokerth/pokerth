@@ -61,8 +61,6 @@ void internetGameLoginDialogImpl::accept() {
 	
 	myConfig->writeBuffer();
 	
-	//TODO send login data to server
-	
 	QDialog::accept();
 } 
 
