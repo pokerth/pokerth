@@ -5,7 +5,7 @@
 
 class ConfigFile;
 
-class internetGameLoginDialogImpl : public QDialog, private Ui::internetGameLoginDialog {
+class internetGameLoginDialogImpl : public QDialog, public Ui::internetGameLoginDialog {
     Q_OBJECT
 	
 public:

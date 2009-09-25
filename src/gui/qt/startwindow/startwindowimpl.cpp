@@ -312,8 +312,9 @@ void startWindowImpl::joinGameLobby() {
 	// Clear Lobby dialog.
 	myGameLobbyDialog->clearDialog();
 
+	showInternetGameLoginDialog();
 	// Start client for dedicated server.
-	mySession->startInternetClient();
+//	mySession->startInternetClient();
 	
 	//Dialog mit Statusbalken
 	myConnectToServerDialog->exec();
