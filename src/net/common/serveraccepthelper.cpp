@@ -38,7 +38,7 @@ ServerAcceptHelper::~ServerAcceptHelper()
 }
 
 void
-ServerAcceptHelper::Listen(unsigned serverPort, bool ipv6, bool sctp, const string &pwd, const string &logDir, boost::shared_ptr<ServerLobbyThread> lobbyThread)
+ServerAcceptHelper::Listen(unsigned serverPort, bool ipv6, bool sctp, const string &/*logDir*/, boost::shared_ptr<ServerLobbyThread> lobbyThread)
 {
 	m_lobbyThread = lobbyThread;
 
@@ -61,7 +61,7 @@ ServerAcceptHelper::Listen(unsigned serverPort, bool ipv6, bool sctp, const stri
 }
 
 void
-ServerAcceptHelper::InternalListen(unsigned serverPort, bool ipv6, bool sctp)
+ServerAcceptHelper::InternalListen(unsigned serverPort, bool ipv6, bool /*sctp*/)
 {
 	if (serverPort < 1024)
 		throw ServerException(__FILE__, __LINE__, ERR_SOCK_INVALID_PORT, 0);

@@ -883,7 +883,7 @@ ServerLobbyThread::HandleNetPacketInit(SessionWrapper session, const InitMessage
 			memcpy(avatarMD5.data, authLogin->avatar->buf, MD5_DATA_SIZE);
 	}
 	else
-		SessionError(session, ERR_NET_INVALID_PASSWORD); // TODO not yet supported
+		SessionError(session, ERR_NET_INVALID_PASSWORD);
 
 	// Check the server password.
 /*	if (!CheckPassword(initData.password))
@@ -1268,6 +1268,7 @@ ServerLobbyThread::AuthenticationSuccess(unsigned playerId, db_id dbPlayerId)
 void
 ServerLobbyThread::AuthenticationFailure(unsigned playerId)
 {
+	SessionError(m_sessionManager.GetSessionByUniquePlayerId(playerId, true), ERR_NET_INVALID_PASSWORD);
 }
 
 void
@@ -1578,7 +1579,7 @@ ServerLobbyThread::InternalCheckSessionTimeouts(SessionWrapper session)
 void
 ServerLobbyThread::SessionError(SessionWrapper session, int errorCode)
 {
-	if (session.sessionData.get())
+	if (session.sessionData)
 	{
 		SendError(session.sessionData, errorCode);
 		CloseSession(session);

@@ -121,7 +121,7 @@ SessionManager::GetSessionByPlayerName(const string playerName) const
 }
 
 SessionWrapper
-SessionManager::GetSessionByUniquePlayerId(unsigned uniqueId) const
+SessionManager::GetSessionByUniquePlayerId(unsigned uniqueId, bool preInitSessions) const
 {
 	SessionWrapper tmpSession;
 	boost::recursive_mutex::scoped_lock lock(m_sessionMapMutex);
@@ -132,7 +132,7 @@ SessionManager::GetSessionByUniquePlayerId(unsigned uniqueId) const
 	while (session_i != session_end)
 	{
 		// Check all players which are fully connected.
-		if (session_i->second.sessionData->GetState() != SessionData::Init)
+		if (preInitSessions || session_i->second.sessionData->GetState() != SessionData::Init)
 		{
 			boost::shared_ptr<PlayerData> tmpPlayer(session_i->second.playerData);
 			if (!tmpPlayer.get())

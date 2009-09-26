@@ -55,7 +55,7 @@ public:
 
 	SessionWrapper GetSessionById(SessionId id) const;
 	SessionWrapper GetSessionByPlayerName(const std::string playerName) const;
-	SessionWrapper GetSessionByUniquePlayerId(unsigned uniqueId) const;
+	SessionWrapper GetSessionByUniquePlayerId(unsigned uniqueId, bool preInitSessions = false) const;
 
 	PlayerDataList GetPlayerDataList() const;
 	PlayerIdList GetPlayerIdList(SessionData::State state) const;

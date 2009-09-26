@@ -674,11 +674,14 @@ ClientStateStartSession::Enter(boost::shared_ptr<ClientThread> client)
 	InitMessage_t *netInit = &init->GetMsg()->choice.initMessage;
 	netInit->requestedVersion.major = NET_VERSION_MAJOR;
 	netInit->requestedVersion.minor = NET_VERSION_MINOR;
-	netInit->login.present = login_PR_anonymousLogin;
-	AnonymousLogin_t *anonLogin = &netInit->login.choice.anonymousLogin;
-	OCTET_STRING_fromBuf(&anonLogin->playerName,
+	netInit->login.present = login_PR_authenticatedLogin;
+	AuthenticatedLogin_t *authLogin = &netInit->login.choice.authenticatedLogin;
+	OCTET_STRING_fromBuf(&authLogin->playerName,
 						 context.GetPlayerName().c_str(),
 						 context.GetPlayerName().length());
+	OCTET_STRING_fromBuf(&authLogin->password,
+						 context.GetPassword().c_str(),
+						 context.GetPassword().length());
 	//context.GetPassword();
 	string avatarFile = client->GetQtToolsInterface().stringFromUtf8(context.GetAvatarFile());
 	if (!avatarFile.empty())
@@ -687,7 +690,7 @@ ClientStateStartSession::Enter(boost::shared_ptr<ClientThread> client)
 		if (client->GetAvatarManager().GetHashForAvatar(avatarFile, tmpMD5))
 		{
 			// TODO: use sha1.
-			anonLogin->avatar =
+			authLogin->avatar =
 					OCTET_STRING_new_fromBuf(
 						&asn_DEF_OCTET_STRING,
 						(const char *)tmpMD5.data,

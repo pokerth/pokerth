@@ -55,13 +55,13 @@ ServerManager::Init(unsigned serverPort, bool ipv6, ServerNetworkMode mode, cons
 	if (mode & NETWORK_MODE_TCP)
 	{
 		boost::shared_ptr<ServerAcceptHelper> tcpAcceptHelper(new ServerAcceptHelper(GetGui(), m_ioService));
-		tcpAcceptHelper->Listen(serverPort, ipv6, false, pwd, logDir, m_lobbyThread);
+		tcpAcceptHelper->Listen(serverPort, ipv6, false, logDir, m_lobbyThread);
 		m_acceptHelperPool.push_back(tcpAcceptHelper);
 	}
 /*	if (mode & NETWORK_MODE_SCTP)
 	{
 		boost::shared_ptr<ServerAcceptHelper> sctpAcceptHelper(new ServerAcceptHelper(GetGui(), m_ioService));
-		sctpAcceptHelper->Listen(serverPort, ipv6, true, pwd, logDir, m_lobbyThread);
+		sctpAcceptHelper->Listen(serverPort, ipv6, true, logDir, m_lobbyThread);
 		m_acceptHelperPool.push_back(sctpAcceptHelper);
 	}*/
 }

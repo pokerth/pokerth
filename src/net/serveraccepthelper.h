@@ -36,7 +36,7 @@ public:
 	virtual ~ServerAcceptHelper();
 
 	// Set the parameters.
-	void Listen(unsigned serverPort, bool ipv6, bool sctp, const std::string &pwd, const std::string &logDir,
+	void Listen(unsigned serverPort, bool ipv6, bool sctp, const std::string &logDir,
 		boost::shared_ptr<ServerLobbyThread> lobbyThread);
 
 protected:
