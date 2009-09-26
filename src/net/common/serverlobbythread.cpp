@@ -1533,7 +1533,7 @@ void
 ServerLobbyThread::InternalCheckSessionTimeouts(SessionWrapper session)
 {
 	bool closeSession = false;
-	if (session.sessionData.get() && session.playerData.get())
+	if (session.sessionData.get())
 	{
 		if (session.sessionData->GetState() == SessionData::Init && session.sessionData->GetAutoDisconnectTimerElapsedSec() >= SERVER_INIT_SESSION_TIMEOUT_SEC)
 		{
@@ -1565,7 +1565,10 @@ ServerLobbyThread::InternalCheckSessionTimeouts(SessionWrapper session)
 	}
 	if (closeSession)
 	{
-		RemovePlayer(session.playerData->GetUniqueId(), ERR_NET_SESSION_TIMED_OUT);
+		if (session.playerData.get())
+			RemovePlayer(session.playerData->GetUniqueId(), ERR_NET_SESSION_TIMED_OUT);
+		else
+			m_sessionManager.RemoveSession(session.sessionData->GetId());
 	}
 }
 
