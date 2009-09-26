@@ -1464,7 +1464,7 @@ ServerLobbyThread::InternalRemoveGame(boost::shared_ptr<ServerGame> game)
 void
 ServerLobbyThread::InternalRemovePlayer(unsigned playerId, unsigned errorCode)
 {
-	SessionWrapper session = m_sessionManager.GetSessionByUniquePlayerId(playerId);
+	SessionWrapper session = m_sessionManager.GetSessionByUniquePlayerId(playerId, true);
 	if (session.sessionData.get())
 		SessionError(session, errorCode);
 	else
