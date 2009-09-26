@@ -857,10 +857,7 @@ ServerLobbyThread::HandleNetPacketInit(SessionWrapper session, const InitMessage
 		SessionError(session, ERR_NET_VERSION_NOT_SUPPORTED);
 		return;
 	}
-	if (initMessage.requestedVersion.major == 5 && (initMessage.requestedVersion.minor == 0 || initMessage.requestedVersion.minor == 1))
-		session.sessionData->SetMaxNumPlayers(7);
-	else
-		session.sessionData->SetMaxNumPlayers(MAX_NUMBER_OF_PLAYERS);
+	session.sessionData->SetMaxNumPlayers(MAX_NUMBER_OF_PLAYERS);
 
 	string playerName;
 	string password;
@@ -884,13 +881,6 @@ ServerLobbyThread::HandleNetPacketInit(SessionWrapper session, const InitMessage
 	}
 	else
 		SessionError(session, ERR_NET_INVALID_PASSWORD);
-
-	// Check the server password.
-/*	if (!CheckPassword(initData.password))
-	{
-		SessionError(session, ERR_NET_INVALID_PASSWORD);
-		return;
-	}*/
 
 	// Check whether the player name is correct.
 	// Partly, this is also done in netpacket.
@@ -1193,28 +1183,30 @@ ServerLobbyThread::HandleNetPacketChatRequest(SessionWrapper session, const Chat
 void
 ServerLobbyThread::InitAfterLogin(SessionWrapper session)
 {
-	assert(session.playerData);
-	const MD5Buf &avatarMD5 = session.playerData->GetAvatarMD5();
-	string avatarFileName;
-	if (!avatarMD5.IsZero()
-		&& !GetAvatarManager().GetAvatarFileName(avatarMD5, avatarFileName))
+	if (session.sessionData && session.playerData)
 	{
-		bool avatarRecentlyRequested = false;
+		const MD5Buf &avatarMD5 = session.playerData->GetAvatarMD5();
+		string avatarFileName;
+		if (!avatarMD5.IsZero()
+			&& !GetAvatarManager().GetAvatarFileName(avatarMD5, avatarFileName))
 		{
-			boost::mutex::scoped_lock lock(m_timerAvatarClientAddressMapMutex);
-			if (m_timerAvatarClientAddressMap.find(session.sessionData->GetClientAddr()) != m_timerAvatarClientAddressMap.end())
-				avatarRecentlyRequested = true;
+			bool avatarRecentlyRequested = false;
+			{
+				boost::mutex::scoped_lock lock(m_timerAvatarClientAddressMapMutex);
+				if (m_timerAvatarClientAddressMap.find(session.sessionData->GetClientAddr()) != m_timerAvatarClientAddressMap.end())
+					avatarRecentlyRequested = true;
+			}
+			if (avatarRecentlyRequested)
+				SessionError(session, ERR_NET_AVATAR_UPLOAD_BLOCKED);
+			else
+				RequestPlayerAvatar(session);
 		}
-		if (avatarRecentlyRequested)
-			SessionError(session, ERR_NET_AVATAR_UPLOAD_BLOCKED);
 		else
-			RequestPlayerAvatar(session);
-	}
-	else
-	{
-		if (!avatarFileName.empty())
-			session.playerData->SetAvatarFile(avatarFileName);
-		EstablishSession(session);
+		{
+			if (!avatarFileName.empty())
+				session.playerData->SetAvatarFile(avatarFileName);
+			EstablishSession(session);
+		}
 	}
 }
 
@@ -1263,6 +1255,7 @@ ServerLobbyThread::AuthenticatePlayer(SessionWrapper session, const std::string 
 void
 ServerLobbyThread::AuthenticationSuccess(unsigned playerId, db_id dbPlayerId)
 {
+	InitAfterLogin(m_sessionManager.GetSessionByUniquePlayerId(playerId, true));
 }
 
 void
