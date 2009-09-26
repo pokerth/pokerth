@@ -39,6 +39,16 @@ ServerDBGeneric::Init(const string &/*host*/, const string &/*user*/, const stri
 }
 
 void
+ServerDBGeneric::Start()
+{
+}
+
+void
+ServerDBGeneric::Stop()
+{
+}
+
+void
 ServerDBGeneric::AsyncPlayerLogin(unsigned requestId, const string &/*playerName*/, const string &/*secretString*/)
 {
 	m_ioService->post(boost::bind(&ServerDBCallback::PlayerLoginFailed, &m_callback, requestId));

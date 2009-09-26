@@ -35,6 +35,9 @@ public:
 	virtual void Init(const std::string &host, const std::string &user, const std::string &pwd,
 					  const std::string &database, const std::string &encryptionKey) = 0;
 
+	virtual void Start() = 0;
+	virtual void Stop() = 0;
+
 	virtual void AsyncPlayerLogin(unsigned requestId, const std::string &playerName, const std::string &secretString) = 0;
 	virtual bool PlayerLogout(db_id playerId) = 0;
 

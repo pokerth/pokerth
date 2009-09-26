@@ -164,6 +164,7 @@ ServerLobbyThread::Init(const string &pwd, const string &logDir)
 			ReadStatisticsFile();
 		}
 	}
+	m_database->Init("127.0.0.1", "user", "password", "database", "key");
 }
 
 void
@@ -594,6 +595,8 @@ void
 ServerLobbyThread::Main()
 {
 	InitChatCleaner();
+	// Start database engine.
+	m_database->Start();
 	// Register all timers.
 	RegisterTimers();
 	try
@@ -611,6 +614,8 @@ ServerLobbyThread::Main()
 	m_gameSessionManager.Clear();
 	// Cancel pending timer callbacks.
 	CancelTimers();
+	// Stop database engine.
+	m_database->Stop();
 }
 
 void
