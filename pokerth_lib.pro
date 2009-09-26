@@ -218,6 +218,11 @@ SOURCES += \
 		src/gui/generic/serverguiwrapper.cpp \
 		src/gui/qttoolsinterface.cpp
 
+official_server{
+	INCLUDEPATH += pkth_stat/daemon_lib/src
+	DEFINES += POKERTH_OFFICIAL_SERVER
+}
+
 win32{
 	DEFINES += CURL_STATICLIB
     DEFINES += _WIN32_WINNT=0x0501
