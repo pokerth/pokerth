@@ -1900,21 +1900,10 @@
              <bool>true</bool>
             </property>
            </widget>
-           <zorder>pixmapLabel_cardBoard4</zorder>
-           <zorder>pixmapLabel_cardBoard1</zorder>
-           <zorder>label_CardHolder1</zorder>
-           <zorder>label_CardHolder0</zorder>
-           <zorder>pixmapLabel_cardBoard0</zorder>
-           <zorder>label_CardHolder4</zorder>
-           <zorder>label_CardHolder2</zorder>
-           <zorder>pixmapLabel_cardBoard2</zorder>
-           <zorder>label_CardHolder3</zorder>
-           <zorder>pixmapLabel_cardBoard3</zorder>
-           <zorder>frame_2</zorder>
           </widget>
          </item>
          <item row="0" column="0">
-          <widget class="QFrame" name="frame_2">
+          <widget class="QWidget" name="widget_2" native="true">
            <layout class="QVBoxLayout" name="verticalLayout_4">
             <property name="spacing">
              <number>0</number>
