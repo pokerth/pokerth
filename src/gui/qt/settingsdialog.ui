@@ -426,7 +426,7 @@ p, li { white-space: pre-wrap; }
                 </widget>
                </item>
                <item>
-                <spacer name="verticalSpacer_3">
+                <spacer name="verticalSpacer_333">
                  <property name="orientation">
                   <enum>Qt::Vertical</enum>
                  </property>

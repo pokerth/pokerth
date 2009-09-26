@@ -11,6 +11,7 @@ class TextFloodCheck: public QObject
 	Q_OBJECT
 public:
     TextFloodCheck();
+	~TextFloodCheck();
 	
 	void setTextFloodLevelToTrigger(int level) { textFloodLevelToTrigger = level; }
 	

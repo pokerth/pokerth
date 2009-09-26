@@ -39,6 +39,10 @@ CleanerServer::CleanerServer(): config(0), blockConnection(false), m_recvBufUsed
 
 CleanerServer::~CleanerServer() 
 {
+	delete config;
+	delete myMessageFilter;
+	delete tcpServer;
+	delete configRefreshTimer;
 }
 
 void CleanerServer::newCon()

@@ -31,6 +31,15 @@ MessageFilter::MessageFilter(CleanerConfig *c): config(c)
 	myUrlCheck = new UrlCheck;
 }
 
+MessageFilter::~MessageFilter() {
+
+	delete myBadWordCheck;
+	delete myTextFloodCheck;
+	delete myCapsFloodCheck;
+	delete myLetterRepeatingCheck;
+	delete myUrlCheck;
+}
+
 QString MessageFilter::check(unsigned playerId, QString nick, QString msg) 
 {
 	QString returnMessage;

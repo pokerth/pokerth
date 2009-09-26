@@ -14,6 +14,11 @@ TextFloodCheck::TextFloodCheck()
 			
 }
 
+TextFloodCheck::~TextFloodCheck()
+{
+	delete cleanTimer;
+}
+
 bool TextFloodCheck::run(unsigned playerId) {
 	
 	QMapIterator<unsigned, TextFloodInfos> it(msgTimesList);

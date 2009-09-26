@@ -112,6 +112,8 @@ Log::Log(gameTableImpl* w, ConfigFile *c) : myW(w), myConfig(c), myLogDir(0), my
 Log::~Log()
 {
 	delete myConfig;
+	delete myLogDir;
+	delete myLogFile;
 	myConfig = 0;
 }
 

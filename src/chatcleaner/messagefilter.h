@@ -15,7 +15,8 @@ class MessageFilter: public QObject {
 Q_OBJECT
 public:
     MessageFilter(CleanerConfig*);
-
+	~MessageFilter();
+	
 	QString check(unsigned, QString, QString);
 	void refreshConfig();	
 	
