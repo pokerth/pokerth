@@ -121,7 +121,7 @@ win32 {
 
     LIBPATH += ../boost/stage/lib ../GnuTLS/lib ../curl/lib ../zlib
 
-    LIBS += -lpokerth_lib -lpokerth_protocol
+	LIBS += -lpokerth_lib -lpokerth_db -lpokerth_protocol
 
     win32-msvc2005 {
         LIBPATH += Release/lib
@@ -241,6 +241,7 @@ unix : !mac {
         kFreeBSD = $$find(UNAME, "kFreeBSD")
 
         LIBS += -lpokerth_lib \
+				-lpokerth_db \
 				-lpokerth_protocol
         LIBS += $$BOOST_LIBS
         LIBS += -lcurl
@@ -251,6 +252,7 @@ unix : !mac {
         }
 
         TARGETDEPS += ./lib/libpokerth_lib.a \
+					  ./lib/libpokerth_db.a \
 					  ./lib/libpokerth_protocol.a
 
         #### INSTALL ####
@@ -260,12 +262,6 @@ unix : !mac {
 
         INSTALLS += binary
     }
-
-official_server {
-	LIBPATH += pkth_stat/daemon_lib/lib
-	LIBS += -lpokerth_closed -lpokerth_lib -lmysqlpp
-	DEFINES += POKERTH_OFFICIAL_SERVER
-}
 
 mac {
     # make it universal  
@@ -278,7 +274,7 @@ mac {
     #       QMAKE_MAC_SDK=/Developer/SDKs/MacOSX10.4u.sdk/
 
     LIBPATH += lib
-    LIBS += -lpokerth_lib -lpokerth_protocol
+	LIBS += -lpokerth_lib -lpokerth_db -lpokerth_protocol
     # standard path for darwinports
     # make sure you have a universal version of boost
     LIBS += /usr/local/lib/libboost_thread.a
@@ -293,4 +289,10 @@ mac {
     RC_FILE = pokerth.icns
     LIBPATH += /Developer/SDKs/MacOSX10.5.sdk/usr/lib
     INCLUDEPATH += /Developer/SDKs/MacOSX10.5.sdk/usr/include/
+}
+
+official_server {
+	LIBPATH += pkth_stat/daemon_lib/lib
+	LIBS += -lpokerth_closed -lmysqlpp
+	DEFINES += POKERTH_OFFICIAL_SERVER
 }

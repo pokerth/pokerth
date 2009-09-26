@@ -302,6 +302,7 @@ win32 {
         ../curl/lib \
         ../zlib
     LIBS += -lpokerth_lib \
+		-lpokerth_db \
         -lpokerth_protocol
     win32-msvc2005 { 
         LIBPATH += Release/lib \
@@ -354,8 +355,6 @@ win32 {
         -lwldap32
     RC_FILE = pokerth.rc
 }
-!win32:DEPENDPATH += src/net/linux/ \
-    src/core/linux
 unix:# workaround for problems with boost_filesystem exceptions
 QMAKE_LFLAGS += -no_dead_strip_inits_and_terms
 unix:!mac { 
@@ -404,7 +403,8 @@ unix:!mac {
     UNAME = $$system(uname -s)
     BSD = $$find(UNAME, "BSD")
     kFreeBSD = $$find(UNAME, "kFreeBSD")
-    LIBS += -lpokerth_lib \
+	LIBS += -lpokerth_lib \
+		-lpokerth_db \
         -lpokerth_protocol
     LIBS += $$BOOST_LIBS
     LIBS += -lSDL_mixer \
@@ -413,6 +413,7 @@ unix:!mac {
     else:LIBS += -lgnutls-openssl \
         -lgcrypt
     TARGETDEPS += ./lib/libpokerth_lib.a \
+		./lib/libpokerth_db.a \
         ./lib/libpokerth_protocol.a
     
     # #### My release static libs
@@ -442,7 +443,8 @@ mac {
     # QMAKE_MAC_SDK=/Developer/SDKs/MacOSX10.4u.sdk/
     LIBPATH += lib
     LIBS += -lpokerth_lib \
-        -lpokerth_protocol
+		-lpokerth_db \
+		-lpokerth_protocol
     
     # QT dynamic linked framework (see also mac_post_make.sh)
     LIBS += -framework \

@@ -210,11 +210,6 @@ SOURCES += \
 		src/net/common/uploadhelper.cpp \
 		src/net/common/encodedpacket.cpp \
 		src/net/common/internalchatcleanerpacket.cpp \
-		src/db/common/serverdbcallback.cpp \
-		src/db/common/serverdbfactory.cpp \
-		src/db/common/serverdbinterface.cpp \
-		src/db/common/serverdbgeneric.cpp \
-		src/db/common/serverdbfactorygeneric.cpp \
 		src/gui/generic/serverguiwrapper.cpp \
 		src/gui/qttoolsinterface.cpp
 
@@ -232,8 +227,6 @@ win32{
 !win32{
 	##### My release static build options
 	#QMAKE_CXXFLAGS += -ffunction-sections -fdata-sections
-
-	DEPENDPATH += src/net/linux/ src/core/linux
 }
 
 mac{
