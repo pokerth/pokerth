@@ -111,13 +111,6 @@ SOURCES += \
 		src/net/common/net_helper_server.cpp \
 		src/core/common/loghelper_server.cpp
 
-official_server {
-	LIBPATH += pkth_stat/daemon_lib/lib
-	LIBS += -lpokerth_closed
-	DEFINES += POKERTH_OFFICIAL_SERVER
-}
-
-
 win32 {
     DEFINES += CURL_STATICLIB
     DEFINES += _WIN32_WINNT=0x0501
@@ -267,6 +260,12 @@ unix : !mac {
 
         INSTALLS += binary
     }
+
+official_server {
+	LIBPATH += pkth_stat/daemon_lib/lib
+	LIBS += -lpokerth_closed -lmysqlpp
+	DEFINES += POKERTH_OFFICIAL_SERVER
+}
 
 mac {
     # make it universal  
