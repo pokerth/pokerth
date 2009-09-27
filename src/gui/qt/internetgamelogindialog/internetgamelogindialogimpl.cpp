@@ -37,12 +37,20 @@ void internetGameLoginDialogImpl::exec() {
 			checkBox_rememberPassword->setChecked(true);
 			lineEdit_password->setText(QString::fromUtf8(QByteArray::fromBase64(myConfig->readConfigString("InternetLoginPassword").c_str())));
 		}
+		else {
+			checkBox_rememberPassword->setChecked(false);
+			lineEdit_password->clear();
+		}
 	}
 	else {
 		checkBox_guest->setChecked(true);
 	}
 	
 	okButtonCheck();
+	
+	if(groupBox_reguser->isChecked() && !checkBox_rememberPassword->isChecked() && lineEdit_password->text().isEmpty()) {
+		lineEdit_password->setFocus();
+	}
 	
 	QDialog::exec();
 }

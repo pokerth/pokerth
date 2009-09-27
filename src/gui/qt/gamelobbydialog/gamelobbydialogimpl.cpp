@@ -423,7 +423,11 @@ void gameLobbyDialogImpl::removeGame(unsigned gameId)
 	int it = 0;
 	while (myGameListModel->item(it)) {
 		if (myGameListModel->item(it, 0)->data(Qt::UserRole) == gameId)
-		{
+		{	
+			delete myGameListModel->item(it, 0);
+			delete myGameListModel->item(it, 1);
+			delete myGameListModel->item(it, 2);
+			delete myGameListModel->item(it, 3);
 			myGameListModel->removeRow(it);
 			break;
 		}
