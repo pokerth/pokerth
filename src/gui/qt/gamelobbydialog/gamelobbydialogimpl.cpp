@@ -396,10 +396,6 @@ void gameLobbyDialogImpl::addGame(unsigned gameId)
 	
 	updateGameItem(itemList, gameId);
 	
-	delete item1;
-	delete item2;
-	delete item3;
-	delete item4;
 }
 
 void gameLobbyDialogImpl::updateGameMode(unsigned gameId, int /*newMode*/)

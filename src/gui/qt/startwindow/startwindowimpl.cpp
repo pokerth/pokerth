@@ -302,7 +302,6 @@ void startWindowImpl::joinGameLobby() {
 	// Stop local game.
 	myGuiInterface->getMyW()->stopTimer();
 
-// Join Lobby
 	mySession->terminateNetworkClient();
 	if (myServerGuiInterface)
 		myServerGuiInterface->getSession()->terminateNetworkServer();
@@ -313,16 +312,20 @@ void startWindowImpl::joinGameLobby() {
 	// Clear Lobby dialog.
 	myGameLobbyDialog->clearDialog();
 
-	showInternetGameLoginDialog();
-	
-	//Dialog mit Statusbalken
-	myConnectToServerDialog->exec();
-	
-	if (myConnectToServerDialog->result() == QDialog::Rejected ) {
-		mySession->terminateNetworkClient();
-	}
-	else {
-		showLobbyDialog();
+	//login
+	myInternetGameLoginDialog->exec();
+	if(myInternetGameLoginDialog->result() == QDialog::Accepted) {
+		//send login infos
+		mySession->startInternetClient(std::string(myInternetGameLoginDialog->lineEdit_username->text().toUtf8().constData()), std::string(myInternetGameLoginDialog->lineEdit_password->text().toUtf8().constData()));
+		
+		//Dialog mit Statusbalken
+		myConnectToServerDialog->exec();
+		if (myConnectToServerDialog->result() == QDialog::Accepted ) {
+			showLobbyDialog();
+		}
+		else {
+			mySession->terminateNetworkClient();
+		}
 	}
 }
 
@@ -871,18 +874,3 @@ QStringList startWindowImpl::getPlayerNicksList() {
 	
 	return list;
 }
-
-void startWindowImpl::showInternetGameLoginDialog() {
-
-	myInternetGameLoginDialog->exec();
-	
-//	send login infos
-	mySession->startInternetClient(std::string(myInternetGameLoginDialog->lineEdit_username->text().toUtf8().constData()), std::string(myInternetGameLoginDialog->lineEdit_password->text().toUtf8().constData()));
-	
-}
-
-//void startWindowImpl::keyPressEvent ( QKeyEvent * event ) {
-//	
-//	if (event->key() == Qt::Key_F6) { showInternetGameLoginDialog(); }
-//
-//}

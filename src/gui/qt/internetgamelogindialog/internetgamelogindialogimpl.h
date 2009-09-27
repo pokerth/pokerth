@@ -17,6 +17,7 @@ public:
 public slots:
 	void regUserToggled(bool);
 	void guestUserToggled(bool);
+	void okButtonCheck();
 	
 private:
 	

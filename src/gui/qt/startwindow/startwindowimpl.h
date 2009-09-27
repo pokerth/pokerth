@@ -112,7 +112,6 @@ public slots:
 	void joinGameLobby();
 	void showClientDialog();
 	void showNetworkStartDialog();
-	void showInternetGameLoginDialog();
 
 	void startNewLocalGame(newGameDialogImpl* =0);
 
