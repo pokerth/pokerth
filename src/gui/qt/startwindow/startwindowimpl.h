@@ -21,6 +21,7 @@
 #define STARTWINDOWIMPL_H
 
 #include <boost/shared_ptr.hpp>
+#include <assert.h>
 #include "ui_startwindow.h"
 #include "game_defs.h"
 
