@@ -569,6 +569,13 @@ ServerLobbyThread::GetIOService()
 	return *m_ioService;
 }
 
+ServerDBInterface &
+ServerLobbyThread::GetDatabase()
+{
+	assert(m_database);
+	return *m_database;
+}
+
 ServerBanManager &
 ServerLobbyThread::GetBanManager()
 {
@@ -1127,6 +1134,8 @@ ServerLobbyThread::HandleNetPacketCreateGame(SessionWrapper session, const std::
 			GetGui(),
 			m_playerConfig));
 	game->Init();
+
+	m_database->AsyncCreateGame(game->GetId(), game->GetName());
 	// Add game to list of games.
 	InternalAddGame(game);
 
