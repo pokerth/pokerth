@@ -28,6 +28,7 @@
 #include <net/receiverhelper.h>
 #include <net/socket_msg.h>
 #include <core/loghelper.h>
+#include <db/serverdbinterface.h>
 #include <game.h>
 #include <localenginefactory.h>
 #include <tools.h>
@@ -41,8 +42,9 @@ using namespace std;
 
 ServerGame::ServerGame(boost::shared_ptr<ServerLobbyThread> lobbyThread, u_int32_t id, const string &name, const string &pwd, const GameData &gameData, unsigned adminPlayerId, GuiInterface &gui, ConfigFile *playerConfig)
 : m_adminPlayerId(adminPlayerId), m_lobbyThread(lobbyThread), m_gui(gui),
-  m_gameData(gameData), m_curState(NULL), m_id(id), m_name(name), m_password(pwd), m_playerConfig(playerConfig),
-  m_gameNum(1), m_curPetitionId(1), m_voteKickTimer(lobbyThread->GetIOService()), m_stateTimer(lobbyThread->GetIOService())
+  m_gameData(gameData), m_curState(NULL), m_id(id), m_dbId(DB_ID_INVALID), m_name(name),
+  m_password(pwd), m_playerConfig(playerConfig), m_gameNum(1), m_curPetitionId(1),
+  m_voteKickTimer(lobbyThread->GetIOService()), m_stateTimer(lobbyThread->GetIOService())
 {
 	LOG_VERBOSE("Game object " << GetId() << " created.");
 
@@ -83,6 +85,18 @@ const std::string &
 ServerGame::GetName() const
 {
 	return m_name;
+}
+
+db_id
+ServerGame::GetDBId() const
+{
+	return m_dbId;
+}
+
+void
+ServerGame::SetDBId(db_id newId)
+{
+	m_dbId = newId;
 }
 
 void
@@ -250,6 +264,7 @@ ServerGame::InternalStartGame()
 	m_game.reset(new Game(&gui, factory, playerData, GetGameData(), GetStartData(), GetNextGameNum()));
 
 	GetLobbyThread().NotifyStartingGame(GetId());
+	GetLobbyThread().GetDatabase().AsyncCreateGame(GetId(), GetName());
 }
 
 void

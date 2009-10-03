@@ -122,6 +122,7 @@ public:
 
 	virtual void CreateGameSuccess(unsigned requestId, db_id gameId)
 	{
+		m_server.SetGameDBId((u_int32_t)requestId, gameId);
 	}
 
 	virtual void CreateGameFailed(unsigned requestId)
@@ -1135,7 +1136,6 @@ ServerLobbyThread::HandleNetPacketCreateGame(SessionWrapper session, const std::
 			m_playerConfig));
 	game->Init();
 
-	m_database->AsyncCreateGame(game->GetId(), game->GetName());
 	// Add game to list of games.
 	InternalAddGame(game);
 
@@ -1771,6 +1771,14 @@ ServerCallback &
 ServerLobbyThread::GetCallback()
 {
 	return m_gui;
+}
+
+void
+ServerLobbyThread::SetGameDBId(u_int32_t gameId, db_id gameDBId)
+{
+	boost::shared_ptr<ServerGame> game = InternalGetGameFromId(gameId);
+	if (game)
+		game->SetDBId(gameDBId);
 }
 
 ServerIrcBotCallback &

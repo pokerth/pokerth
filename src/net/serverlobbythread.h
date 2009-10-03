@@ -93,6 +93,8 @@ public:
 	u_int32_t GetNextGameId();
 	ServerCallback &GetCallback();
 
+	void SetGameDBId(u_int32_t gameId, db_id gameDBId);
+
 	AvatarManager &GetAvatarManager();
 
 	ServerStats GetStats() const;

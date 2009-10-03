@@ -26,6 +26,7 @@
 #include <deque>
 
 #include <net/sessionmanager.h>
+#include <db/serverdbcallback.h>
 #include <gui/guiinterface.h>
 #include <gamedata.h>
 
@@ -49,6 +50,9 @@ public:
 
 	u_int32_t GetId() const;
 	const std::string &GetName() const;
+
+	db_id GetDBId() const;
+	void SetDBId(db_id newId);
 
 	void AddSession(SessionWrapper session);
 	void RemovePlayer(unsigned playerId, unsigned errorCode);
@@ -151,6 +155,7 @@ private:
 	ServerGameState			*m_curState;
 
 	const u_int32_t		m_id;
+	db_id				m_dbId;
 	const std::string	m_name;
 	const std::string	m_password;
 	ConfigFile		   *m_playerConfig;
