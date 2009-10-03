@@ -36,6 +36,8 @@ public:
 	virtual void ConnectSuccess() = 0;
 	virtual void ConnectFailed(const std::string &error) = 0;
 
+	virtual void QueryError(const std::string &error) = 0;
+
 	virtual void PlayerLoginSuccess(unsigned requestId, db_id playerId) = 0;
 	virtual void PlayerLoginFailed(unsigned requestId) = 0;
 

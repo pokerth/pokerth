@@ -102,6 +102,12 @@ public:
 
 	virtual void ConnectFailed(const string &error)
 	{
+		// TODO
+	}
+
+	virtual void QueryError(const std::string &error)
+	{
+		// TODO
 	}
 
 	virtual void PlayerLoginSuccess(unsigned requestId, db_id dbPlayerId)

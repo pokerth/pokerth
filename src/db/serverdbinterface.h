@@ -39,11 +39,11 @@ public:
 	virtual void Stop() = 0;
 
 	virtual void AsyncPlayerLogin(unsigned requestId, const std::string &playerName, const std::string &secretString) = 0;
-	virtual bool PlayerLogout(db_id playerId) = 0;
+	virtual void PlayerLogout(db_id playerId) = 0;
 
-	virtual void AsyncCreateGame(unsigned requestId, const db_list &players) = 0;
-	virtual bool SetGamePlayerPlace(db_id gameId, db_id playerId, unsigned place) = 0;
-	virtual bool EndGame(db_id gameId) = 0;
+	virtual void AsyncCreateGame(unsigned requestId, const std::string &gameName) = 0;
+	virtual void SetGamePlayerPlace(db_id gameId, db_id playerId, unsigned place) = 0;
+	virtual void EndGame(db_id gameId) = 0;
 };
 
 #endif

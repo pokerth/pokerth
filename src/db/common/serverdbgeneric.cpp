@@ -54,26 +54,23 @@ ServerDBGeneric::AsyncPlayerLogin(unsigned requestId, const string &/*playerName
 	m_ioService->post(boost::bind(&ServerDBCallback::PlayerLoginFailed, &m_callback, requestId));
 }
 
-bool
+void
 ServerDBGeneric::PlayerLogout(db_id /*playerId*/)
 {
-	return false;
 }
 
 void
-ServerDBGeneric::AsyncCreateGame(unsigned requestId, const db_list &/*players*/)
+ServerDBGeneric::AsyncCreateGame(unsigned requestId, const string &/*gameName*/)
 {
 	m_ioService->post(boost::bind(&ServerDBCallback::CreateGameFailed, &m_callback, requestId));
 }
 
-bool
+void
 ServerDBGeneric::SetGamePlayerPlace(db_id /*gameId*/, db_id /*playerId*/, unsigned /*place*/)
 {
-	return false;
 }
 
-bool
+void
 ServerDBGeneric::EndGame(db_id /*gameId*/)
 {
-	return false;
 }
