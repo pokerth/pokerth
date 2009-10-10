@@ -33,6 +33,10 @@ HEADERS += src/third_party/asn1/AllInShowCardsMessage.h \
     src/third_party/asn1/AnonymousLogin.h \
     src/third_party/asn1/AskKickDeniedMessage.h \
     src/third_party/asn1/AskKickPlayerMessage.h \
+	src/third_party/asn1/AuthMessage.h \
+	src/third_party/asn1/AuthClientResponse.h \
+	src/third_party/asn1/AuthServerChallenge.h \
+	src/third_party/asn1/AuthServerVerification.h \
     src/third_party/asn1/asn_application.h \
     src/third_party/asn1/asn_codecs.h \
     src/third_party/asn1/asn_codecs_prim.h \
@@ -155,6 +159,10 @@ SOURCES += src/third_party/asn1/ChatCleanerMessage.c \
 	src/third_party/asn1/CleanerInitAckMessage.c \
 	src/third_party/asn1/CleanerChatRequestMessage.c \
 	src/third_party/asn1/CleanerChatReplyMessage.c \
+	src/third_party/asn1/AuthMessage.c \
+	src/third_party/asn1/AuthClientResponse.c \
+	src/third_party/asn1/AuthServerChallenge.c \
+	src/third_party/asn1/AuthServerVerification.c \
 	src/third_party/asn1/AllInShowCardsMessage.c \
     src/third_party/asn1/YourActionRejectedMessage.c \
     src/third_party/asn1/xer_support.c \
