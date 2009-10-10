@@ -32,7 +32,7 @@ void internetGameLoginDialogImpl::exec() {
 
 	if(myConfig->readConfigInt("InternetLoginMode") == 0) {
 		groupBox_reguser->setChecked(true);
-		lineEdit_username->setText(QString::fromUtf8(myConfig->readConfigString("InternetLoginUserName").c_str()));
+		lineEdit_username->setText(QString::fromUtf8(myConfig->readConfigString("MyName").c_str()));
 		if(myConfig->readConfigInt("InternetSavePassword")) {
 			checkBox_rememberPassword->setChecked(true);
 			lineEdit_password->setText(QString::fromUtf8(QByteArray::fromBase64(myConfig->readConfigString("InternetLoginPassword").c_str())));
@@ -59,7 +59,7 @@ void internetGameLoginDialogImpl::accept() {
 
 	if(groupBox_reguser->isChecked()) {
 		myConfig->writeConfigInt("InternetLoginMode", 0);
-		myConfig->writeConfigString("InternetLoginUserName", lineEdit_username->text().toUtf8().constData());
+		myConfig->writeConfigString("MyName", lineEdit_username->text().toUtf8().constData());
 		if(checkBox_rememberPassword->isChecked()) {
 			myConfig->writeConfigInt("InternetSavePassword", 1);
 			myConfig->writeConfigString("InternetLoginPassword", lineEdit_password->text().toUtf8().toBase64().constData());
