@@ -111,14 +111,14 @@ public:
 		// TODO
 	}
 
-	virtual void PlayerLoginSuccess(unsigned requestId, DB_id dbPlayerId)
+	virtual void PlayerLoginSuccess(unsigned requestId, DB_id dbPlayerId, const std::string &secret)
 	{
-		m_server.AuthenticationSuccess(requestId, dbPlayerId);
+		m_server.UserValid(requestId, dbPlayerId, secret);
 	}
 
 	virtual void PlayerLoginFailed(unsigned requestId)
 	{
-		m_server.AuthenticationFailure(requestId);
+		m_server.UserInvalid(requestId);
 	}
 
 	virtual void CreateGameSuccess(unsigned requestId, DB_id gameId)
@@ -707,11 +707,8 @@ ServerLobbyThread::InitAuthContext()
 void
 ServerLobbyThread::ClearAuthContext()
 {
-	if (m_authContext)
-	{
-		gsasl_done(m_authContext);
-		m_authContext = NULL;
-	}
+	gsasl_done(m_authContext);
+	m_authContext = NULL;
 }
 
 void
@@ -1294,17 +1291,17 @@ void
 ServerLobbyThread::AuthenticatePlayer(SessionWrapper session, const std::string &password)
 {
 	assert(session.playerData);
-	m_database->AsyncPlayerLogin(session.playerData->GetUniqueId(), session.playerData->GetName(), password);
+	m_database->AsyncPlayerLogin(session.playerData->GetUniqueId(), session.playerData->GetName());
 }
 
 void
-ServerLobbyThread::AuthenticationSuccess(unsigned playerId, DB_id dbPlayerId)
+ServerLobbyThread::UserValid(unsigned playerId, DB_id dbPlayerId, const string &dbSecret)
 {
 	InitAfterLogin(m_sessionManager.GetSessionByUniquePlayerId(playerId, true));
 }
 
 void
-ServerLobbyThread::AuthenticationFailure(unsigned playerId)
+ServerLobbyThread::UserInvalid(unsigned playerId)
 {
 	SessionError(m_sessionManager.GetSessionByUniquePlayerId(playerId, true), ERR_NET_INVALID_PASSWORD);
 }

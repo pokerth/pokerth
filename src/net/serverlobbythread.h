@@ -140,8 +140,8 @@ protected:
 	void InitAfterLogin(SessionWrapper session);
 	void EstablishSession(SessionWrapper session);
 	void AuthenticatePlayer(SessionWrapper session, const std::string &password);
-	void AuthenticationSuccess(unsigned playerId, DB_id dbPlayerId);
-	void AuthenticationFailure(unsigned playerId);
+	void UserValid(unsigned playerId, DB_id dbPlayerId, const std::string &dbSecret);
+	void UserInvalid(unsigned playerId);
 	void RequestPlayerAvatar(SessionWrapper session);
 	void TimerRemoveGame(const boost::system::error_code &ec);
 	void TimerRemovePlayer(const boost::system::error_code &ec);

@@ -38,7 +38,7 @@ public:
 
 	virtual void QueryError(const std::string &error) = 0;
 
-	virtual void PlayerLoginSuccess(unsigned requestId, DB_id playerId) = 0;
+	virtual void PlayerLoginSuccess(unsigned requestId, DB_id playerId, const std::string &secret) = 0;
 	virtual void PlayerLoginFailed(unsigned requestId) = 0;
 
 	virtual void CreateGameSuccess(unsigned requestId, DB_id gameId) = 0;

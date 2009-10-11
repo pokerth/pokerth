@@ -36,6 +36,9 @@ typedef unsigned SessionId;
 #define SESSION_ID_INIT			INVALID_SESSION
 #define SESSION_ID_GENERIC		0xFFFFFFFF
 
+struct Gsasl;
+struct Gsasl_session;
+
 class SessionData
 {
 public:
@@ -53,6 +56,9 @@ public:
 	void SetState(State state);
 
 	boost::shared_ptr<boost::asio::ip::tcp::socket> GetAsioSocket();
+
+	bool CreateAuthSession(Gsasl *context, bool server, const std::string &userName, const std::string &password);
+	bool AuthStep(int stepNum, const std::string &inData, std::string &outData);
 
 	void SetReadyFlag();
 	void ResetReadyFlag();
@@ -72,6 +78,9 @@ public:
 	void MarkActivityNotice();
 	unsigned GetAutoDisconnectTimerElapsedSec() const;
 
+protected:
+	void InternalClearAuthSession();
+
 private:
 	boost::shared_ptr<boost::asio::ip::tcp::socket> m_socket;
 	const SessionId					m_id;
@@ -85,6 +94,8 @@ private:
 	bool							m_activityTimeoutNoticeSent;
 	boost::timers::portable::microsec_timer m_autoDisconnectTimer;
 	SessionDataCallback				&m_callback;
+	Gsasl_session					*m_authSession;
+	int								m_curAuthStep;
 
 	mutable boost::mutex			m_dataMutex;
 };
