@@ -28,6 +28,7 @@
 #include <vector>
 #include <map>
 #include <core/crypthelper.h>
+#include <db/serverdbcallback.h>
 
 class SessionData;
 
@@ -78,6 +79,8 @@ public:
 
 	std::string GetName() const;
 	void SetName(const std::string &name);
+	std::string GetPassword() const;
+	void SetPassword(const std::string &password);
 	std::string GetAvatarFile() const;
 	void SetAvatarFile(const std::string &avatarFile);
 	MD5Buf GetAvatarMD5() const;
@@ -98,8 +101,10 @@ public:
 
 private:
 	const unsigned					m_uniqueId;
+	DB_id							m_dbId;
 	int								m_number;
 	std::string						m_name;
+	std::string						m_password;
 	std::string						m_avatarFile;
 	MD5Buf							m_avatarMD5;
 	PlayerType						m_type;

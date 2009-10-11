@@ -87,14 +87,14 @@ ServerGame::GetName() const
 	return m_name;
 }
 
-db_id
+DB_id
 ServerGame::GetDBId() const
 {
 	return m_dbId;
 }
 
 void
-ServerGame::SetDBId(db_id newId)
+ServerGame::SetDBId(DB_id newId)
 {
 	m_dbId = newId;
 }

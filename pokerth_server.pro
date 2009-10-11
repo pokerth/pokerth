@@ -115,29 +115,26 @@ win32 {
     DEFINES += CURL_STATICLIB
     DEFINES += _WIN32_WINNT=0x0501
     DEPENDPATH += src/net/win32/ src/core/win32
-    INCLUDEPATH += ../boost/ ../GnuTLS/include
+    INCLUDEPATH += ../boost/ ../GnuTLS/include ../gsasl/include
 
     SOURCES += src/core/win32/convhelper.cpp
 
-    LIBPATH += ../boost/stage/lib ../GnuTLS/lib ../curl/lib ../zlib
+    LIBPATH += ../boost/stage/lib ../GnuTLS/lib ../gsasl/lib ../curl/lib ../zlib
 
 	LIBS += -lpokerth_lib -lpokerth_db -lpokerth_protocol
 
-    win32-msvc2005 {
-        LIBPATH += Release/lib
-        #LIBPATH += Debug/lib
-        LIBS += -llibgnutls-openssl -llibgcrypt
-        LIBS += -llibcurl
+	debug:LIBPATH += Debug/lib
+	release:LIBPATH += Release/lib
+
+    win32-msvc2008 {
+        LIBS += -llibgnutls-openssl-26 \
+            -llibgcrypt-11 \
+            -llibgsasl-7 \
+            -llibcurl
     }
 
     win32-g++ {
-        debug {
-            LIBPATH += Debug/lib
-        }
-        release {
-            LIBPATH += Release/lib
-        }
-        LIBS += -lgnutls-openssl -lgnutls -lgcrypt -ltasn1 -lgpg-error
+        LIBS += -lgnutls-openssl -lgnutls -lgcrypt -ltasn1 -lgpg-error -lgsasl
         LIBS += -lcurl
         LIBS += -lz
         LIBS += -llibboost_thread-mgw44-mt

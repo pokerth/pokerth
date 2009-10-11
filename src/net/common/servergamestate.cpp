@@ -326,11 +326,6 @@ ServerGameStateInit::HandleNewSession(boost::shared_ptr<ServerGame> server, Sess
 		{
 			server->MoveSessionToLobby(session, NTF_NET_REMOVED_GAME_FULL);
 		}
-		// Check whether the client supports the current game.
-		else if ((size_t)server->GetGameData().maxNumberOfPlayers > session.sessionData->GetMaxNumPlayers())
-		{
-			server->MoveSessionToLobby(session, NTF_NET_REMOVED_GAME_FULL);
-		}
 		else
 		{
 			if (session.playerData->GetUniqueId() == server->GetAdminPlayerId())

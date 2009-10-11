@@ -39,11 +39,11 @@ public:
 	virtual void Stop();
 
 	virtual void AsyncPlayerLogin(unsigned requestId, const std::string &playerName, const std::string &secretString);
-	virtual void PlayerLogout(db_id playerId);
+	virtual void PlayerLogout(DB_id playerId);
 
 	virtual void AsyncCreateGame(unsigned requestId, const std::string &gameName);
-	virtual void SetGamePlayerPlace(db_id gameId, db_id playerId, unsigned place);
-	virtual void EndGame(db_id gameId);
+	virtual void SetGamePlayerPlace(DB_id gameId, DB_id playerId, unsigned place);
+	virtual void EndGame(DB_id gameId);
 
 private:
 	boost::shared_ptr<boost::asio::io_service> m_ioService;

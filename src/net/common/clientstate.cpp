@@ -676,12 +676,13 @@ ClientStateStartSession::Enter(boost::shared_ptr<ClientThread> client)
 	netInit->requestedVersion.minor = NET_VERSION_MINOR;
 	netInit->login.present = login_PR_authenticatedLogin;
 	AuthenticatedLogin_t *authLogin = &netInit->login.choice.authenticatedLogin;
-	OCTET_STRING_fromBuf(&authLogin->playerName,
+	// TODO
+/*	OCTET_STRING_fromBuf(&authLogin->playerName,
 						 context.GetPlayerName().c_str(),
 						 context.GetPlayerName().length());
 	OCTET_STRING_fromBuf(&authLogin->password,
 						 context.GetPassword().c_str(),
-						 context.GetPassword().length());
+						 context.GetPassword().length());*/
 	//context.GetPassword();
 	string avatarFile = client->GetQtToolsInterface().stringFromUtf8(context.GetAvatarFile());
 	if (!avatarFile.empty())

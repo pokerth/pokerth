@@ -48,6 +48,7 @@ class ChatCleanerManager;
 class ServerDBInterface;
 struct GameData;
 class Game;
+struct Gsasl;
 
 class ServerLobbyThread : public Thread, public boost::enable_shared_from_this<ServerLobbyThread>
 {
@@ -93,7 +94,7 @@ public:
 	u_int32_t GetNextGameId();
 	ServerCallback &GetCallback();
 
-	void SetGameDBId(u_int32_t gameId, db_id gameDBId);
+	void SetGameDBId(u_int32_t gameId, DB_id gameDBId);
 
 	AvatarManager &GetAvatarManager();
 
@@ -120,6 +121,8 @@ protected:
 	virtual void Main();
 	void RegisterTimers();
 	void CancelTimers();
+	void InitAuthContext();
+	void ClearAuthContext();
 	void InitChatCleaner();
 
 	void HandleRead(const boost::system::error_code &ec, SessionId sessionId, size_t bytesRead);
@@ -137,7 +140,7 @@ protected:
 	void InitAfterLogin(SessionWrapper session);
 	void EstablishSession(SessionWrapper session);
 	void AuthenticatePlayer(SessionWrapper session, const std::string &password);
-	void AuthenticationSuccess(unsigned playerId, db_id dbPlayerId);
+	void AuthenticationSuccess(unsigned playerId, DB_id dbPlayerId);
 	void AuthenticationFailure(unsigned playerId);
 	void RequestPlayerAvatar(SessionWrapper session);
 	void TimerRemoveGame(const boost::system::error_code &ec);
@@ -194,6 +197,8 @@ private:
 
 	SessionManager m_sessionManager;
 	SessionManager m_gameSessionManager;
+
+	Gsasl *m_authContext;
 
 	TimerClientAddressMap m_timerAvatarClientAddressMap;
 	mutable boost::mutex m_timerAvatarClientAddressMapMutex;

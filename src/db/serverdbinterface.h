@@ -25,7 +25,7 @@
 #include <string>
 #include <list>
 
-typedef std::list<db_id> db_list;
+typedef std::list<DB_id> db_list;
 
 class ServerDBInterface
 {
@@ -39,11 +39,11 @@ public:
 	virtual void Stop() = 0;
 
 	virtual void AsyncPlayerLogin(unsigned requestId, const std::string &playerName, const std::string &secretString) = 0;
-	virtual void PlayerLogout(db_id playerId) = 0;
+	virtual void PlayerLogout(DB_id playerId) = 0;
 
 	virtual void AsyncCreateGame(unsigned requestId, const std::string &gameName) = 0;
-	virtual void SetGamePlayerPlace(db_id gameId, db_id playerId, unsigned place) = 0;
-	virtual void EndGame(db_id gameId) = 0;
+	virtual void SetGamePlayerPlace(DB_id gameId, DB_id playerId, unsigned place) = 0;
+	virtual void EndGame(DB_id gameId) = 0;
 };
 
 #endif

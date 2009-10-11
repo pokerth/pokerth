@@ -23,7 +23,7 @@
 
 #include <string>
 
-typedef unsigned db_id;
+typedef unsigned DB_id;
 #define DB_ID_INVALID 0
 
 // Callback operations are posted using the io service,
@@ -38,10 +38,10 @@ public:
 
 	virtual void QueryError(const std::string &error) = 0;
 
-	virtual void PlayerLoginSuccess(unsigned requestId, db_id playerId) = 0;
+	virtual void PlayerLoginSuccess(unsigned requestId, DB_id playerId) = 0;
 	virtual void PlayerLoginFailed(unsigned requestId) = 0;
 
-	virtual void CreateGameSuccess(unsigned requestId, db_id gameId) = 0;
+	virtual void CreateGameSuccess(unsigned requestId, DB_id gameId) = 0;
 	virtual void CreateGameFailed(unsigned requestId) = 0;
 };
 

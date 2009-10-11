@@ -55,7 +55,7 @@ ServerDBGeneric::AsyncPlayerLogin(unsigned requestId, const string &/*playerName
 }
 
 void
-ServerDBGeneric::PlayerLogout(db_id /*playerId*/)
+ServerDBGeneric::PlayerLogout(DB_id /*playerId*/)
 {
 }
 
@@ -66,11 +66,11 @@ ServerDBGeneric::AsyncCreateGame(unsigned requestId, const string &/*gameName*/)
 }
 
 void
-ServerDBGeneric::SetGamePlayerPlace(db_id /*gameId*/, db_id /*playerId*/, unsigned /*place*/)
+ServerDBGeneric::SetGamePlayerPlace(DB_id /*gameId*/, DB_id /*playerId*/, unsigned /*place*/)
 {
 }
 
 void
-ServerDBGeneric::EndGame(db_id /*gameId*/)
+ServerDBGeneric::EndGame(DB_id /*gameId*/)
 {
 }

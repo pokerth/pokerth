@@ -45,10 +45,24 @@ PlayerData::GetName() const
 }
 
 void
-PlayerData::SetName(const std::string &name)
+PlayerData::SetName(const string &name)
 {
 	boost::mutex::scoped_lock lock(m_dataMutex);
 	m_name = name;
+}
+
+string
+PlayerData::GetPassword() const
+{
+	boost::mutex::scoped_lock lock(m_dataMutex);
+	return m_password;
+}
+
+void
+PlayerData::SetPassword(const string &password)
+{
+	boost::mutex::scoped_lock lock(m_dataMutex);
+	m_password = password;
 }
 
 string

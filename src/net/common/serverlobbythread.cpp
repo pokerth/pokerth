@@ -44,6 +44,7 @@
 #include <boost/lambda/lambda.hpp>
 #include <boost/filesystem.hpp>
 #include <boost/bind.hpp>
+#include <gsasl.h>
 
 #define SERVER_MAX_NUM_SESSIONS						512		// Maximum number of idle users in lobby.
 
@@ -110,7 +111,7 @@ public:
 		// TODO
 	}
 
-	virtual void PlayerLoginSuccess(unsigned requestId, db_id dbPlayerId)
+	virtual void PlayerLoginSuccess(unsigned requestId, DB_id dbPlayerId)
 	{
 		m_server.AuthenticationSuccess(requestId, dbPlayerId);
 	}
@@ -120,7 +121,7 @@ public:
 		m_server.AuthenticationFailure(requestId);
 	}
 
-	virtual void CreateGameSuccess(unsigned requestId, db_id gameId)
+	virtual void CreateGameSuccess(unsigned requestId, DB_id gameId)
 	{
 		m_server.SetGameDBId((u_int32_t)requestId, gameId);
 	}
@@ -136,7 +137,7 @@ private:
 
 ServerLobbyThread::ServerLobbyThread(GuiInterface &gui, ServerIrcBotCallback &ircBotCb, ConfigFile *playerConfig, AvatarManager &avatarManager,
 									 boost::shared_ptr<boost::asio::io_service> ioService)
-: m_ioService(ioService), m_gui(gui), m_ircBotCb(ircBotCb), m_avatarManager(avatarManager),
+: m_ioService(ioService), m_authContext(NULL), m_gui(gui), m_ircBotCb(ircBotCb), m_avatarManager(avatarManager),
   m_playerConfig(playerConfig), m_curGameId(0), m_curUniquePlayerId(0), m_curSessionId(INVALID_SESSION + 1),
   m_statDataChanged(false), m_removeGameTimer(*ioService), m_removePlayerTimer(*ioService),
   m_sessionTimeoutTimer(*ioService), m_avatarCleanupTimer(*ioService),
@@ -608,13 +609,16 @@ ServerLobbyThread::GetNextGameId()
 void
 ServerLobbyThread::Main()
 {
-	InitChatCleaner();
-	// Start database engine.
-	m_database->Start();
-	// Register all timers.
-	RegisterTimers();
 	try
 	{
+		InitAuthContext();
+
+		InitChatCleaner();
+		// Start database engine.
+		m_database->Start();
+		// Register all timers.
+		RegisterTimers();
+
 		boost::asio::io_service::work ioWork(*m_ioService);
 		m_ioService->run(); // Will only be aborted asynchronously.
 
@@ -630,6 +634,8 @@ ServerLobbyThread::Main()
 	CancelTimers();
 	// Stop database engine.
 	m_database->Stop();
+
+	ClearAuthContext();
 }
 
 void
@@ -682,6 +688,30 @@ ServerLobbyThread::CancelTimers()
 	m_avatarCleanupTimer.cancel();
 	m_saveStatisticsTimer.cancel();
 	m_avatarLockTimer.cancel();
+}
+
+void
+ServerLobbyThread::InitAuthContext()
+{
+	int res = gsasl_init(&m_authContext);
+	if (res != GSASL_OK)
+		throw ServerException(__FILE__, __LINE__, ERR_NET_GSASL_INIT_FAILED, 0);
+
+	if (!gsasl_server_support_p(m_authContext, "SCRAM-SHA-1"))
+	{
+		gsasl_done(m_authContext);
+		throw ServerException(__FILE__, __LINE__, ERR_NET_GSASL_NO_SCRAM, 0);
+	}
+}
+
+void
+ServerLobbyThread::ClearAuthContext()
+{
+	if (m_authContext)
+	{
+		gsasl_done(m_authContext);
+		m_authContext = NULL;
+	}
 }
 
 void
@@ -876,25 +906,20 @@ ServerLobbyThread::HandleNetPacketInit(SessionWrapper session, const InitMessage
 		SessionError(session, ERR_NET_VERSION_NOT_SUPPORTED);
 		return;
 	}
-	session.sessionData->SetMaxNumPlayers(MAX_NUMBER_OF_PLAYERS);
 
 	string playerName;
-	string password;
+	string authData;
 	MD5Buf avatarMD5;
 	bool guestUser = false;
 	if (initMessage.login.present == login_PR_anonymousLogin)
 	{
-		const AnonymousLogin_t *anonLogin = &initMessage.login.choice.anonymousLogin;
-		playerName = string((const char *)anonLogin->playerName.buf, anonLogin->playerName.size);
-		if (anonLogin->avatar)
-			memcpy(avatarMD5.data, anonLogin->avatar->buf, MD5_DATA_SIZE);
+		playerName = "guest001"; // TODO
 		guestUser = true;
 	}
 	else if (initMessage.login.present == login_PR_authenticatedLogin)
 	{
 		const AuthenticatedLogin_t *authLogin = &initMessage.login.choice.authenticatedLogin;
-		playerName = string((const char *)authLogin->playerName.buf, authLogin->playerName.size);
-		password = string((const char *)authLogin->password.buf, authLogin->password.size);
+		authData = string((const char *)authLogin->clientUserData.buf, authLogin->clientUserData.size);
 		if (authLogin->avatar)
 			memcpy(avatarMD5.data, authLogin->avatar->buf, MD5_DATA_SIZE);
 	}
@@ -947,7 +972,7 @@ ServerLobbyThread::HandleNetPacketInit(SessionWrapper session, const InitMessage
 	if (guestUser)
 		InitAfterLogin(session);
 	else
-		AuthenticatePlayer(session, password);
+		AuthenticatePlayer(session, authData);
 }
 
 void
@@ -1273,7 +1298,7 @@ ServerLobbyThread::AuthenticatePlayer(SessionWrapper session, const std::string 
 }
 
 void
-ServerLobbyThread::AuthenticationSuccess(unsigned playerId, db_id dbPlayerId)
+ServerLobbyThread::AuthenticationSuccess(unsigned playerId, DB_id dbPlayerId)
 {
 	InitAfterLogin(m_sessionManager.GetSessionByUniquePlayerId(playerId, true));
 }
@@ -1774,7 +1799,7 @@ ServerLobbyThread::GetCallback()
 }
 
 void
-ServerLobbyThread::SetGameDBId(u_int32_t gameId, db_id gameDBId)
+ServerLobbyThread::SetGameDBId(u_int32_t gameId, DB_id gameDBId)
 {
 	boost::shared_ptr<ServerGame> game = InternalGetGameFromId(gameId);
 	if (game)
