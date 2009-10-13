@@ -905,6 +905,8 @@ ServerLobbyThread::HandleNetPacketInit(SessionWrapper session, const InitMessage
 	}
 
 	string playerName;
+	string inAuthData;
+	string outRequestData;
 	MD5Buf avatarMD5;
 	bool guestUser = false;
 	if (initMessage.login.present == login_PR_anonymousLogin)
@@ -914,8 +916,6 @@ ServerLobbyThread::HandleNetPacketInit(SessionWrapper session, const InitMessage
 	}
 	else if (initMessage.login.present == login_PR_authenticatedLogin)
 	{
-		string inAuthData;
-		string outRequestData;
 		const AuthenticatedLogin_t *authLogin = &initMessage.login.choice.authenticatedLogin;
 		inAuthData = string((const char *)authLogin->clientUserData.buf, authLogin->clientUserData.size);
 		if (authLogin->avatar)
@@ -973,7 +973,7 @@ ServerLobbyThread::HandleNetPacketInit(SessionWrapper session, const InitMessage
 	if (guestUser)
 		InitAfterLogin(session);
 	else
-		AuthenticatePlayer(session, authData);
+		AuthenticatePlayer(session, inAuthData);
 }
 
 void
