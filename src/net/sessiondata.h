@@ -57,8 +57,10 @@ public:
 
 	boost::shared_ptr<boost::asio::ip::tcp::socket> GetAsioSocket();
 
-	bool CreateAuthSession(Gsasl *context, bool server, const std::string &userName, const std::string &password);
+	bool CreateServerAuthSession(Gsasl *context);
+	bool CreateClientAuthSession(Gsasl *context, const std::string &userName, const std::string &password);
 	bool AuthStep(int stepNum, const std::string &inData, std::string &outData);
+	string AuthGetUser();
 
 	void SetReadyFlag();
 	void ResetReadyFlag();

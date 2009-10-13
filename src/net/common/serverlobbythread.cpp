@@ -905,7 +905,6 @@ ServerLobbyThread::HandleNetPacketInit(SessionWrapper session, const InitMessage
 	}
 
 	string playerName;
-	string authData;
 	MD5Buf avatarMD5;
 	bool guestUser = false;
 	if (initMessage.login.present == login_PR_anonymousLogin)
@@ -915,12 +914,15 @@ ServerLobbyThread::HandleNetPacketInit(SessionWrapper session, const InitMessage
 	}
 	else if (initMessage.login.present == login_PR_authenticatedLogin)
 	{
+		string inAuthData;
+		string outRequestData;
 		const AuthenticatedLogin_t *authLogin = &initMessage.login.choice.authenticatedLogin;
-		authData = string((const char *)authLogin->clientUserData.buf, authLogin->clientUserData.size);
+		inAuthData = string((const char *)authLogin->clientUserData.buf, authLogin->clientUserData.size);
 		if (authLogin->avatar)
 			memcpy(avatarMD5.data, authLogin->avatar->buf, MD5_DATA_SIZE);
-		// TODO
-		playerName = "testuser";
+		session.sessionData->CreateServerAuthSession(m_authContext);
+		session.sessionData->AuthStep(1, inAuthData, outRequestData);
+		playerName = session.sessionData->AuthGetUser();
 	}
 	else
 		SessionError(session, ERR_NET_INVALID_PASSWORD);

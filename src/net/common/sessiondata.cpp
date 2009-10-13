@@ -76,17 +76,24 @@ SessionData::GetAsioSocket()
 	return m_socket;
 }
 
-bool
-SessionData::CreateAuthSession(Gsasl *context, bool server, const string &userName, const string &password)
+bool CreateServerAuthSession(Gsasl *context)
 {
 	bool retVal = false;
 	boost::mutex::scoped_lock lock(m_dataMutex);
 	InternalClearAuthSession();
 	int errorCode;
-	if (server)
-		errorCode = gsasl_server_start(context, "SCRAM-SHA-1", &m_authSession);
-	else
-		errorCode = gsasl_client_start(context, "SCRAM-SHA-1", &m_authSession);
+	errorCode = gsasl_server_start(context, "SCRAM-SHA-1", &m_authSession);
+	return errorCode == GSASL_OK;
+}
+
+bool
+SessionData::CreateClientAuthSession(Gsasl *context, const string &userName, const string &password)
+{
+	bool retVal = false;
+	boost::mutex::scoped_lock lock(m_dataMutex);
+	InternalClearAuthSession();
+	int errorCode;
+	errorCode = gsasl_client_start(context, "SCRAM-SHA-1", &m_authSession);
 	if (errorCode == GSASL_OK)
 	{
 		gsasl_property_set(m_authSession, GSASL_AUTHID, userName.c_str());
@@ -121,6 +128,16 @@ SessionData::AuthStep(int stepNum, const std::string &inData, std::string &outDa
 		gsasl_free(tmpOut);
 	}
 	return retVal;
+}
+
+string
+SessionData::AuthGetUser()
+{
+	string retStr;
+	if (m_authSession)
+	{
+		retStr = gsasl_property_fast(m_authSession, GSASL_AUTHID);
+	}
 }
 
 void
