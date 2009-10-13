@@ -79,7 +79,6 @@ SessionData::GetAsioSocket()
 bool
 SessionData::CreateServerAuthSession(Gsasl *context)
 {
-	bool retVal = false;
 	boost::mutex::scoped_lock lock(m_dataMutex);
 	InternalClearAuthSession();
 	int errorCode;
@@ -136,9 +135,8 @@ SessionData::AuthGetUser()
 {
 	string retStr;
 	if (m_authSession)
-	{
 		retStr = gsasl_property_fast(m_authSession, GSASL_AUTHID);
-	}
+	return retStr;
 }
 
 void
