@@ -969,7 +969,7 @@ ServerLobbyThread::HandleNetPacketInit(SessionWrapper session, const InitMessage
 	if (guestUser)
 		InitAfterLogin(session);
 	else
-		AuthenticatePlayer(session, authData);
+		AuthenticatePlayer(session, /*authData*/"testuser");
 }
 
 void

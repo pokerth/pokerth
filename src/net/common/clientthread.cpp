@@ -37,6 +37,7 @@
 #include <sstream>
 #include <memory>
 #include <cassert>
+#include <gsasl.h>
 
 #define TEMP_AVATAR_FILENAME "avatar.tmp"
 #define CLIENT_AVATAR_LOOP_MSEC	100
@@ -440,16 +441,17 @@ ClientThread::GetAvatarManager()
 void
 ClientThread::Main()
 {
-	// Start sub-threads.
-	m_avatarDownloader.reset(new DownloaderThread);
-	m_avatarDownloader->Run();
-	SetState(CLIENT_INITIAL_STATE::Instance());
-	RegisterTimers();
-
 	// Main loop.
 	boost::asio::io_service::work ioWork(*m_ioService);
 	try
 	{
+		InitAuthContext();
+		// Start sub-threads.
+		m_avatarDownloader.reset(new DownloaderThread);
+		m_avatarDownloader->Run();
+		SetState(CLIENT_INITIAL_STATE::Instance());
+		RegisterTimers();
+
 		boost::asio::io_service::work ioWork(*m_ioService);
 		m_ioService->run(); // Will only be aborted asynchronously.
 
@@ -468,6 +470,8 @@ ClientThread::Main()
 	// Terminate sub-threads.
 	m_avatarDownloader->SignalTermination();
 	m_avatarDownloader->Join(DOWNLOADER_THREAD_TERMINATE_TIMEOUT);
+
+	ClearAuthContext();
 }
 
 void
@@ -484,6 +488,27 @@ void
 ClientThread::CancelTimers()
 {
 	m_avatarTimer.cancel();
+}
+
+void
+ClientThread::InitAuthContext()
+{
+	int res = gsasl_init(&m_authContext);
+	if (res != GSASL_OK)
+		throw ClientException(__FILE__, __LINE__, ERR_NET_GSASL_INIT_FAILED, 0);
+
+	if (!gsasl_server_support_p(m_authContext, "SCRAM-SHA-1"))
+	{
+		gsasl_done(m_authContext);
+		throw ClientException(__FILE__, __LINE__, ERR_NET_GSASL_NO_SCRAM, 0);
+	}
+}
+
+void
+ClientThread::ClearAuthContext()
+{
+	gsasl_done(m_authContext);
+	m_authContext = NULL;
 }
 
 void
@@ -891,6 +916,13 @@ ClientThread::SetGameId(unsigned id)
 {
 	boost::mutex::scoped_lock lock(m_curGameIdMutex);
 	m_curGameId = id;
+}
+
+Gsasl *
+ClientThread::GetAuthContext()
+{
+	assert(m_authContext);
+	return m_authContext;
 }
 
 const GameData &

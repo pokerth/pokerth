@@ -42,6 +42,7 @@ class Game;
 class NetPacket;
 class AvatarManager;
 class QtToolsInterface;
+struct Gsasl;
 
 class ClientThread : public Thread, public boost::enable_shared_from_this<ClientThread>
 {
@@ -91,6 +92,8 @@ public:
 	ServerStats GetStatData() const;
 	unsigned GetGameId() const;
 
+	Gsasl *GetAuthContext();
+
 	ClientCallback &GetCallback();
 	GuiInterface &GetGui();
 	AvatarManager &GetAvatarManager();
@@ -106,6 +109,9 @@ protected:
 	virtual void Main();
 	void RegisterTimers();
 	void CancelTimers();
+
+	void InitAuthContext();
+	void ClearAuthContext();
 	void InitGame();
 
 	void SendSessionPacket(boost::shared_ptr<NetPacket> packet);
@@ -193,6 +199,8 @@ private:
 
 	boost::shared_ptr<boost::asio::io_service> m_ioService;
 	boost::shared_ptr<ClientSenderCallback> m_senderCallback;
+
+	Gsasl *m_authContext;
 
 	NetPacketList m_outPacketList;
 

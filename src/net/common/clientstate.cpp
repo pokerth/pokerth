@@ -677,13 +677,13 @@ ClientStateStartSession::Enter(boost::shared_ptr<ClientThread> client)
 	netInit->login.present = login_PR_authenticatedLogin;
 	AuthenticatedLogin_t *authLogin = &netInit->login.choice.authenticatedLogin;
 	// TODO
-/*	OCTET_STRING_fromBuf(&authLogin->playerName,
-						 context.GetPlayerName().c_str(),
-						 context.GetPlayerName().length());
-	OCTET_STRING_fromBuf(&authLogin->password,
-						 context.GetPassword().c_str(),
-						 context.GetPassword().length());*/
-	//context.GetPassword();
+	boost::shared_ptr<SessionData> tmpSession = context.GetSessionData();
+	tmpSession->CreateAuthSession(client->GetAuthContext(), false, context.GetPlayerName(), context.GetPassword());
+	string outUserData;
+	tmpSession->AuthStep(1, "", outUserData);
+	OCTET_STRING_fromBuf(&authLogin->clientUserData,
+						 outUserData.c_str(),
+						 outUserData.length());
 	string avatarFile = client->GetQtToolsInterface().stringFromUtf8(context.GetAvatarFile());
 	if (!avatarFile.empty())
 	{
