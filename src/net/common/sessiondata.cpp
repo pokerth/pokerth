@@ -76,7 +76,8 @@ SessionData::GetAsioSocket()
 	return m_socket;
 }
 
-bool CreateServerAuthSession(Gsasl *context)
+bool
+SessionData::CreateServerAuthSession(Gsasl *context)
 {
 	bool retVal = false;
 	boost::mutex::scoped_lock lock(m_dataMutex);
