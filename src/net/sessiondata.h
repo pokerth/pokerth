@@ -60,7 +60,7 @@ public:
 	bool CreateServerAuthSession(Gsasl *context);
 	bool CreateClientAuthSession(Gsasl *context, const std::string &userName, const std::string &password);
 	bool AuthStep(int stepNum, const std::string &inData, std::string &outData);
-	string AuthGetUser();
+	std::string AuthGetUser();
 
 	void SetReadyFlag();
 	void ResetReadyFlag();
