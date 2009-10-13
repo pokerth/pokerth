@@ -919,6 +919,8 @@ ServerLobbyThread::HandleNetPacketInit(SessionWrapper session, const InitMessage
 		authData = string((const char *)authLogin->clientUserData.buf, authLogin->clientUserData.size);
 		if (authLogin->avatar)
 			memcpy(avatarMD5.data, authLogin->avatar->buf, MD5_DATA_SIZE);
+		// TODO
+		playerName = "testuser";
 	}
 	else
 		SessionError(session, ERR_NET_INVALID_PASSWORD);
@@ -969,7 +971,7 @@ ServerLobbyThread::HandleNetPacketInit(SessionWrapper session, const InitMessage
 	if (guestUser)
 		InitAfterLogin(session);
 	else
-		AuthenticatePlayer(session, /*authData*/"testuser");
+		AuthenticatePlayer(session, authData);
 }
 
 void
