@@ -128,6 +128,7 @@ protected:
 	void HandleRead(const boost::system::error_code &ec, SessionId sessionId, size_t bytesRead);
 	void HandlePacket(SessionWrapper session, boost::shared_ptr<NetPacket> packet);
 	void HandleNetPacketInit(SessionWrapper session, const InitMessage_t &initMessage);
+	void HandleNetPacketAuthClientResponse(SessionWrapper session, const AuthClientResponse_t &clientResponse);
 	void HandleNetPacketAvatarHeader(SessionWrapper session, unsigned requestId, const AvatarHeader_t &avatarHeader);
 	void HandleNetPacketUnknownAvatar(SessionWrapper session, unsigned requestId, const UnknownAvatar_t &unknownAvatar);
 	void HandleNetPacketAvatarFile(SessionWrapper session, unsigned requestId, const AvatarData_t &avatarData);
@@ -137,9 +138,10 @@ protected:
 	void HandleNetPacketCreateGame(SessionWrapper session, const std::string &password, const JoinNewGame_t &newGame);
 	void HandleNetPacketJoinGame(SessionWrapper session, const std::string &password, const JoinExistingGame_t &joinGame);
 	void HandleNetPacketChatRequest(SessionWrapper session, const ChatRequestMessage_t &chatRequest);
+	void AuthChallenge(SessionWrapper session, const std::string &secret);
 	void InitAfterLogin(SessionWrapper session);
 	void EstablishSession(SessionWrapper session);
-	void AuthenticatePlayer(SessionWrapper session, const std::string &password);
+	void AuthenticatePlayer(SessionWrapper session);
 	void UserValid(unsigned playerId, DB_id dbPlayerId, const std::string &dbSecret);
 	void UserInvalid(unsigned playerId);
 	void RequestPlayerAvatar(SessionWrapper session);

@@ -463,12 +463,13 @@ mac {
     LIBS += /usr/local/lib/libboost_regex.a
     LIBS += /usr/local/lib/libboost_system.a
     LIBS += /usr/local/lib/libboost_iostreams.a
+	LIBS += /usr/local/lib/libgsasl.a
     
     # libraries installed on every mac
     LIBS += -lcrypto \
         -lssl \
         -lz \
-        -lcurl \
+		-lcurl \
         -framework \
         Carbon
     

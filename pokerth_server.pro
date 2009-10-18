@@ -280,6 +280,8 @@ mac {
     LIBS += /usr/local/lib/libboost_system.a
     LIBS += /usr/local/lib/libboost_iostreams.a
     LIBS += /usr/local/lib/libboost_program_options.a
+	LIBS += /usr/local/lib/libgsasl.a
+
     # libraries installed on every mac
     LIBS += -lcrypto -lssl -lz -lcurl -liconv
     # set the application icon

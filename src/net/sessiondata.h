@@ -59,8 +59,11 @@ public:
 
 	bool CreateServerAuthSession(Gsasl *context);
 	bool CreateClientAuthSession(Gsasl *context, const std::string &userName, const std::string &password);
-	bool AuthStep(int stepNum, const std::string &inData, std::string &outData);
-	std::string AuthGetUser();
+	bool AuthStep(int stepNum, const std::string &inData);
+	std::string AuthGetUser() const;
+	void AuthSetPassword(const std::string &password);
+	std::string AuthGetNextOutMsg() const;
+	int AuthGetCurStepNum() const;
 
 	void SetReadyFlag();
 	void ResetReadyFlag();
@@ -98,6 +101,7 @@ private:
 	SessionDataCallback				&m_callback;
 	Gsasl_session					*m_authSession;
 	int								m_curAuthStep;
+	std::string						m_nextGsaslMsg;
 
 	mutable boost::mutex			m_dataMutex;
 };

@@ -104,7 +104,7 @@ SessionData::CreateClientAuthSession(Gsasl *context, const string &userName, con
 }
 
 bool
-SessionData::AuthStep(int stepNum, const std::string &inData, std::string &outData)
+SessionData::AuthStep(int stepNum, const std::string &inData)
 {
 	bool retVal = false;
 	boost::mutex::scoped_lock lock(m_dataMutex);
@@ -116,12 +116,12 @@ SessionData::AuthStep(int stepNum, const std::string &inData, std::string &outDa
 		int errorCode = gsasl_step(m_authSession, inData.c_str(), inData.length(), &tmpOut, &tmpOutSize);
 		if (errorCode == GSASL_NEEDS_MORE)
 		{
-			outData = string(tmpOut, tmpOutSize);
+			m_nextGsaslMsg = string(tmpOut, tmpOutSize);
 			retVal = true;
 		}
 		else if (errorCode == GSASL_OK && stepNum != 1)
 		{
-			outData = string(tmpOut, tmpOutSize);
+			m_nextGsaslMsg = string(tmpOut, tmpOutSize);
 			retVal = true;
 			InternalClearAuthSession();
 		}
@@ -131,12 +131,31 @@ SessionData::AuthStep(int stepNum, const std::string &inData, std::string &outDa
 }
 
 string
-SessionData::AuthGetUser()
+SessionData::AuthGetUser() const
 {
 	string retStr;
 	if (m_authSession)
 		retStr = gsasl_property_fast(m_authSession, GSASL_AUTHID);
 	return retStr;
+}
+
+void
+SessionData::AuthSetPassword(const std::string &password)
+{
+	if (m_authSession)
+		gsasl_property_set(m_authSession, GSASL_PASSWORD, password.c_str());
+}
+
+string
+SessionData::AuthGetNextOutMsg() const
+{
+	return m_nextGsaslMsg;
+}
+
+int
+SessionData::AuthGetCurStepNum() const
+{
+	return m_curAuthStep;
 }
 
 void

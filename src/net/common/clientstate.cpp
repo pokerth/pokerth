@@ -679,8 +679,8 @@ ClientStateStartSession::Enter(boost::shared_ptr<ClientThread> client)
 	// TODO
 	boost::shared_ptr<SessionData> tmpSession = context.GetSessionData();
 	tmpSession->CreateClientAuthSession(client->GetAuthContext(), context.GetPlayerName(), context.GetPassword());
-	string outUserData;
-	tmpSession->AuthStep(1, "", outUserData);
+	tmpSession->AuthStep(1, "");
+	string outUserData(tmpSession->AuthGetNextOutMsg());
 	OCTET_STRING_fromBuf(&authLogin->clientUserData,
 						 outUserData.c_str(),
 						 outUserData.length());

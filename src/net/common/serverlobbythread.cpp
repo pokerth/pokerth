@@ -829,6 +829,14 @@ ServerLobbyThread::HandlePacket(SessionWrapper session, boost::shared_ptr<NetPac
 		{
 			if (packet->GetMsg()->present == PokerTHMessage_PR_initMessage)
 				HandleNetPacketInit(session, packet->GetMsg()->choice.initMessage);
+			else if (packet->GetMsg()->present == PokerTHMessage_PR_authMessage)
+			{
+				AuthMessage_t *authMsg = &packet->GetMsg()->choice.authMessage;
+				if (authMsg->present == AuthMessage_PR_authClientResponse)
+					HandleNetPacketAuthClientResponse(session, authMsg->choice.authClientResponse);
+				else
+					SessionError(session, ERR_SOCK_INVALID_STATE);
+			}
 			else if (packet->GetMsg()->present == PokerTHMessage_PR_avatarReplyMessage)
 			{
 				AvatarReplyMessage_t *avatarReply = &packet->GetMsg()->choice.avatarReplyMessage;
@@ -898,15 +906,14 @@ ServerLobbyThread::HandleNetPacketInit(SessionWrapper session, const InitMessage
 	LOG_VERBOSE("Received init for session #" << session.sessionData->GetId() << ".");
 
 	// Check the protocol version.
-	if (initMessage.requestedVersion.major != NET_VERSION_MAJOR)
+	if (initMessage.requestedVersion.major != NET_VERSION_MAJOR
+		|| session.playerData) // Has this session already sent an init?
 	{
 		SessionError(session, ERR_NET_VERSION_NOT_SUPPORTED);
 		return;
 	}
 
 	string playerName;
-	string inAuthData;
-	string outRequestData;
 	MD5Buf avatarMD5;
 	bool guestUser = false;
 	if (initMessage.login.present == login_PR_anonymousLogin)
@@ -917,12 +924,12 @@ ServerLobbyThread::HandleNetPacketInit(SessionWrapper session, const InitMessage
 	else if (initMessage.login.present == login_PR_authenticatedLogin)
 	{
 		const AuthenticatedLogin_t *authLogin = &initMessage.login.choice.authenticatedLogin;
-		inAuthData = string((const char *)authLogin->clientUserData.buf, authLogin->clientUserData.size);
+		string inAuthData((const char *)authLogin->clientUserData.buf, authLogin->clientUserData.size);
 		if (authLogin->avatar)
 			memcpy(avatarMD5.data, authLogin->avatar->buf, MD5_DATA_SIZE);
 		session.sessionData->CreateServerAuthSession(m_authContext);
-		session.sessionData->AuthStep(1, inAuthData, outRequestData);
-		playerName = session.sessionData->AuthGetUser();
+		if (session.sessionData->AuthStep(1, inAuthData))
+			playerName = session.sessionData->AuthGetUser();
 	}
 	else
 		SessionError(session, ERR_NET_INVALID_PASSWORD);
@@ -973,13 +980,42 @@ ServerLobbyThread::HandleNetPacketInit(SessionWrapper session, const InitMessage
 	if (guestUser)
 		InitAfterLogin(session);
 	else
-		AuthenticatePlayer(session, inAuthData);
+		AuthenticatePlayer(session);
+}
+
+void
+ServerLobbyThread::HandleNetPacketAuthClientResponse(SessionWrapper session, const AuthClientResponse_t &clientResponse)
+{
+	if (session.sessionData && session.playerData && session.sessionData->AuthGetCurStepNum() == 1)
+	{
+		string authData((const char *)clientResponse.clientResponse.buf, clientResponse.clientResponse.size);
+		if (session.sessionData->AuthStep(2, authData))
+		{
+			string outVerification(session.sessionData->AuthGetNextOutMsg());
+
+			boost::shared_ptr<NetPacket> packet(new NetPacket(NetPacket::Alloc));
+			packet->GetMsg()->present = PokerTHMessage_PR_authMessage;
+			AuthMessage_t *netAuth = &packet->GetMsg()->choice.authMessage;
+			netAuth->present = AuthMessage_PR_authServerVerification;
+			AuthServerVerification_t *verification = &netAuth->choice.authServerVerification;
+			OCTET_STRING_fromBuf(
+				&verification->serverVerification,
+				(char *)outVerification.c_str(),
+				outVerification.size());
+			GetSender().Send(session.sessionData, packet);
+			// The last message is only for server verification.
+			// We are done now, the user has logged in.
+			InitAfterLogin(session);
+		}
+		else
+			SessionError(session, ERR_NET_INVALID_PASSWORD);
+	}
 }
 
 void
 ServerLobbyThread::HandleNetPacketAvatarHeader(SessionWrapper session, unsigned /*requestId*/, const AvatarHeader_t &avatarHeader)
 {
-	if (session.playerData.get())
+	if (session.playerData)
 	{
 		if (avatarHeader.avatarSize >= MIN_AVATAR_FILE_SIZE && avatarHeader.avatarSize <= MAX_AVATAR_FILE_SIZE)
 		{
@@ -1227,6 +1263,28 @@ ServerLobbyThread::HandleNetPacketChatRequest(SessionWrapper session, const Chat
 }
 
 void
+ServerLobbyThread::AuthChallenge(SessionWrapper session, const string &secret)
+{
+	if (session.sessionData && session.playerData && session.sessionData->AuthGetCurStepNum() == 1)
+	{
+		session.playerData->SetPassword(secret); // For later encryption of data.
+		session.sessionData->AuthSetPassword(secret); // For this auth session.
+		string outChallenge(session.sessionData->AuthGetNextOutMsg());
+
+		boost::shared_ptr<NetPacket> packet(new NetPacket(NetPacket::Alloc));
+		packet->GetMsg()->present = PokerTHMessage_PR_authMessage;
+		AuthMessage_t *netAuth = &packet->GetMsg()->choice.authMessage;
+		netAuth->present = AuthMessage_PR_authServerChallenge;
+		AuthServerChallenge_t *challenge = &netAuth->choice.authServerChallenge;
+		OCTET_STRING_fromBuf(
+			&challenge->serverChallenge,
+			(char *)outChallenge.c_str(),
+			outChallenge.size());
+		GetSender().Send(session.sessionData, packet);
+	}
+}
+
+void
 ServerLobbyThread::InitAfterLogin(SessionWrapper session)
 {
 	if (session.sessionData && session.playerData)
@@ -1292,10 +1350,10 @@ ServerLobbyThread::EstablishSession(SessionWrapper session)
 }
 
 void
-ServerLobbyThread::AuthenticatePlayer(SessionWrapper session, const std::string &password)
+ServerLobbyThread::AuthenticatePlayer(SessionWrapper session)
 {
-	assert(session.playerData);
-	m_database->AsyncPlayerLogin(session.playerData->GetUniqueId(), session.playerData->GetName());
+	if(session.playerData)
+		m_database->AsyncPlayerLogin(session.playerData->GetUniqueId(), session.playerData->GetName());
 }
 
 void
