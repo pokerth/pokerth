@@ -266,6 +266,42 @@ protected:
 	virtual void InternalHandlePacket(boost::shared_ptr<ClientThread> client, boost::shared_ptr<NetPacket> tmpPacket) = 0;
 };
 
+// State: Wait for Authentication Challenge.
+class ClientStateWaitAuthChallenge : public AbstractClientStateReceiving
+{
+public:
+	// Access the state singleton.
+	static ClientStateWaitAuthChallenge &Instance();
+	virtual ~ClientStateWaitAuthChallenge();
+
+	virtual void Enter(boost::shared_ptr<ClientThread> client);
+	virtual void Exit(boost::shared_ptr<ClientThread> client);
+
+protected:
+	// Protected constructor - this is a singleton.
+	ClientStateWaitAuthChallenge();
+
+	virtual void InternalHandlePacket(boost::shared_ptr<ClientThread> client, boost::shared_ptr<NetPacket> tmpPacket);
+};
+
+// State: Wait for Authentication Verification.
+class ClientStateWaitAuthVerify : public AbstractClientStateReceiving
+{
+public:
+	// Access the state singleton.
+	static ClientStateWaitAuthVerify &Instance();
+	virtual ~ClientStateWaitAuthVerify();
+
+	virtual void Enter(boost::shared_ptr<ClientThread> client);
+	virtual void Exit(boost::shared_ptr<ClientThread> client);
+
+protected:
+	// Protected constructor - this is a singleton.
+	ClientStateWaitAuthVerify();
+
+	virtual void InternalHandlePacket(boost::shared_ptr<ClientThread> client, boost::shared_ptr<NetPacket> tmpPacket);
+};
+
 // State: Wait for Session ACK.
 class ClientStateWaitSession : public AbstractClientStateReceiving
 {

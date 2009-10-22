@@ -267,6 +267,8 @@ friend class ClientStateWaitChooseServer;
 friend class ClientStateStartConnect;
 friend class ClientStateConnecting;
 friend class ClientStateStartSession;
+friend class ClientStateWaitAuthChallenge;
+friend class ClientStateWaitAuthVerify;
 friend class ClientStateWaitSession;
 friend class ClientStateWaitJoin;
 friend class ClientStateWaitGame;

@@ -242,4 +242,5 @@ mac{
     INCLUDEPATH += /Developer/SDKs/MacOSX10.5.sdk/usr/include/
 	INCLUDEPATH += /Library/Frameworks/SDL.framework/Headers
 	INCLUDEPATH += /Library/Frameworks/SDL_mixer.framework/Headers
+	INCLUDEPATH += /opt/local/include
 }

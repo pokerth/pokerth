@@ -676,10 +676,11 @@ ClientStateStartSession::Enter(boost::shared_ptr<ClientThread> client)
 	netInit->requestedVersion.minor = NET_VERSION_MINOR;
 	netInit->login.present = login_PR_authenticatedLogin;
 	AuthenticatedLogin_t *authLogin = &netInit->login.choice.authenticatedLogin;
-	// TODO
+	// Send authentication user data for challenge/response in init.
 	boost::shared_ptr<SessionData> tmpSession = context.GetSessionData();
 	tmpSession->CreateClientAuthSession(client->GetAuthContext(), context.GetPlayerName(), context.GetPassword());
-	tmpSession->AuthStep(1, "");
+	if (!tmpSession->AuthStep(1, ""))
+		throw ClientException(__FILE__, __LINE__, ERR_NET_INVALID_PASSWORD, 0);
 	string outUserData(tmpSession->AuthGetNextOutMsg());
 	OCTET_STRING_fromBuf(&authLogin->clientUserData,
 						 outUserData.c_str(),
@@ -700,7 +701,7 @@ ClientStateStartSession::Enter(boost::shared_ptr<ClientThread> client)
 	}
 	client->GetSender().Send(context.GetSessionData(), init);
 
-	client->SetState(ClientStateWaitSession::Instance());
+	client->SetState(ClientStateWaitAuthChallenge::Instance());
 }
 
 void
@@ -1008,6 +1009,118 @@ AbstractClientStateReceiving::HandlePacket(boost::shared_ptr<ClientThread> clien
 
 //-----------------------------------------------------------------------------
 
+ClientStateWaitAuthChallenge &
+ClientStateWaitAuthChallenge::Instance()
+{
+	static ClientStateWaitAuthChallenge state;
+	return state;
+}
+
+ClientStateWaitAuthChallenge::ClientStateWaitAuthChallenge()
+{
+}
+
+ClientStateWaitAuthChallenge::~ClientStateWaitAuthChallenge()
+{
+}
+
+void
+ClientStateWaitAuthChallenge::Enter(boost::shared_ptr<ClientThread> client)
+{
+	// Now we finally start receiving data.
+	client->StartAsyncRead();
+}
+
+void
+ClientStateWaitAuthChallenge::Exit(boost::shared_ptr<ClientThread> /*client*/)
+{
+}
+
+void
+ClientStateWaitAuthChallenge::InternalHandlePacket(boost::shared_ptr<ClientThread> client, boost::shared_ptr<NetPacket> tmpPacket)
+{
+	if (tmpPacket->GetMsg()->present == PokerTHMessage_PR_authMessage)
+	{
+		// Check subtype.
+		AuthMessage_t *netAuth = &tmpPacket->GetMsg()->choice.authMessage;
+		if (netAuth->present == AuthMessage_PR_authServerChallenge)
+		{
+			AuthServerChallenge_t *netChallenge = &netAuth->choice.authServerChallenge;
+			string challengeStr((const char *)netChallenge->serverChallenge.buf, netChallenge->serverChallenge.size);
+			boost::shared_ptr<SessionData> tmpSession = client->GetContext().GetSessionData();
+			if (!tmpSession->AuthStep(2, challengeStr.c_str()))
+				throw ClientException(__FILE__, __LINE__, ERR_NET_INVALID_PASSWORD, 0);
+			string outUserData(tmpSession->AuthGetNextOutMsg());
+
+
+			boost::shared_ptr<NetPacket> packet(new NetPacket(NetPacket::Alloc));
+			packet->GetMsg()->present = PokerTHMessage_PR_authMessage;
+			AuthMessage_t *outAuth = &packet->GetMsg()->choice.authMessage;
+			outAuth->present = AuthMessage_PR_authClientResponse;
+			AuthClientResponse_t *outResponse = &outAuth->choice.authClientResponse;
+
+			OCTET_STRING_fromBuf(&outResponse->clientResponse,
+								 outUserData.c_str(),
+								 outUserData.length());
+			client->GetSender().Send(tmpSession, packet);
+			client->SetState(ClientStateWaitAuthVerify::Instance());
+		}
+		else
+			throw ClientException(__FILE__, __LINE__, ERR_NET_INVALID_PASSWORD, 0);
+	}
+}
+
+//-----------------------------------------------------------------------------
+
+ClientStateWaitAuthVerify &
+ClientStateWaitAuthVerify::Instance()
+{
+	static ClientStateWaitAuthVerify state;
+	return state;
+}
+
+ClientStateWaitAuthVerify::ClientStateWaitAuthVerify()
+{
+}
+
+ClientStateWaitAuthVerify::~ClientStateWaitAuthVerify()
+{
+}
+
+void
+ClientStateWaitAuthVerify::Enter(boost::shared_ptr<ClientThread> /*client*/)
+{
+}
+
+void
+ClientStateWaitAuthVerify::Exit(boost::shared_ptr<ClientThread> /*client*/)
+{
+}
+
+void
+ClientStateWaitAuthVerify::InternalHandlePacket(boost::shared_ptr<ClientThread> client, boost::shared_ptr<NetPacket> tmpPacket)
+{
+	if (tmpPacket->GetMsg()->present == PokerTHMessage_PR_authMessage)
+	{
+		// Check subtype.
+		AuthMessage_t *netAuth = &tmpPacket->GetMsg()->choice.authMessage;
+		if (netAuth->present == AuthMessage_PR_authServerVerification)
+		{
+			AuthServerVerification_t *netVerification = &netAuth->choice.authServerVerification;
+			string verificationStr((const char *)netVerification->serverVerification.buf, netVerification->serverVerification.size);
+			boost::shared_ptr<SessionData> tmpSession = client->GetContext().GetSessionData();
+			if (!tmpSession->AuthStep(3, verificationStr.c_str()))
+				throw ClientException(__FILE__, __LINE__, ERR_NET_INVALID_PASSWORD, 0);
+
+			client->SetState(ClientStateWaitSession::Instance());
+		}
+		else
+			throw ClientException(__FILE__, __LINE__, ERR_NET_INVALID_PASSWORD, 0);
+	}
+}
+
+//-----------------------------------------------------------------------------
+
 ClientStateWaitSession &
 ClientStateWaitSession::Instance()
 {
@@ -1024,10 +1137,8 @@ ClientStateWaitSession::~ClientStateWaitSession()
 }
 
 void
-ClientStateWaitSession::Enter(boost::shared_ptr<ClientThread> client)
+ClientStateWaitSession::Enter(boost::shared_ptr<ClientThread> /*client*/)
 {
-	// Now we finally start receiving data.
-	client->StartAsyncRead();
 }
 
 void
