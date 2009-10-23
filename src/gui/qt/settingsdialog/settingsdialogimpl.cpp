@@ -180,7 +180,7 @@ void settingsDialogImpl::exec() {
 	spinBox_netRaiseSmallBlindEveryMinutes->setValue(myConfig->readConfigInt("NetRaiseSmallBlindEveryMinutes"));
 	radioButton_netAlwaysDoubleBlinds->setChecked(myConfig->readConfigInt("NetAlwaysDoubleBlinds"));
 	radioButton_netManualBlindsOrder->setChecked(myConfig->readConfigInt("NetManualBlindsOrder"));
-	spinBox_netGameSpeed->setValue(myConfig->readConfigInt("NetGameSpeed"));
+	spinBox_netDelayBetweenHands->setValue(myConfig->readConfigInt("NetDelayBetweenHands"));
 	spinBox_netTimeOutPlayerAction->setValue(myConfig->readConfigInt("NetTimeOutPlayerAction"));
 	spinBox_serverPort->setValue(myConfig->readConfigInt("ServerPort"));
 	lineEdit_serverPassword->setText(QString::fromUtf8(myConfig->readConfigString("ServerPassword").c_str()));
@@ -483,7 +483,7 @@ void settingsDialogImpl::isAccepted() {
 	myConfig->writeConfigInt("NetRaiseSmallBlindEveryMinutes", spinBox_netRaiseSmallBlindEveryMinutes->value());
 	myConfig->writeConfigInt("NetAlwaysDoubleBlinds", radioButton_netAlwaysDoubleBlinds->isChecked());
 	myConfig->writeConfigInt("NetManualBlindsOrder", radioButton_netManualBlindsOrder->isChecked());
-	myConfig->writeConfigInt("NetGameSpeed", spinBox_netGameSpeed->value());
+	myConfig->writeConfigInt("NetDelayBetweenHands", spinBox_netDelayBetweenHands->value());
 	myConfig->writeConfigInt("NetTimeOutPlayerAction", spinBox_netTimeOutPlayerAction->value());
 	myConfig->writeConfigInt("ServerPort", spinBox_serverPort->value());
 	myConfig->writeConfigString("ServerPassword", lineEdit_serverPassword->text().toUtf8().constData());

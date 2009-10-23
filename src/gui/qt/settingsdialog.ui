@@ -125,7 +125,7 @@
      <item>
       <widget class="QStackedWidget" name="stackedWidget">
        <property name="currentIndex">
-        <number>0</number>
+        <number>4</number>
        </property>
        <widget class="QWidget" name="page">
         <layout class="QGridLayout" name="gridLayout_8">
@@ -1294,23 +1294,29 @@ p, li { white-space: pre-wrap; }
            <item>
             <widget class="QLabel" name="label_36">
              <property name="text">
-              <string>Game Speed for computer opponents:</string>
+              <string>Delay between hands:</string>
              </property>
              <property name="buddy">
-              <cstring>spinBox_netGameSpeed</cstring>
+              <cstring>spinBox_netDelayBetweenHands</cstring>
              </property>
             </widget>
            </item>
            <item>
-            <widget class="QSpinBox" name="spinBox_netGameSpeed">
+            <widget class="QSpinBox" name="spinBox_netDelayBetweenHands">
+             <property name="suffix">
+              <string> s</string>
+             </property>
              <property name="minimum">
-              <number>1</number>
+              <number>5</number>
              </property>
              <property name="maximum">
-              <number>11</number>
+              <number>20</number>
              </property>
              <property name="singleStep">
               <number>1</number>
+             </property>
+             <property name="value">
+              <number>7</number>
              </property>
             </widget>
            </item>
@@ -3363,7 +3369,7 @@ p, li { white-space: pre-wrap; }
   <tabstop>radioButton_netAlwaysDoubleBlinds</tabstop>
   <tabstop>radioButton_netManualBlindsOrder</tabstop>
   <tabstop>pushButton_netEditManualBlindsOrder</tabstop>
-  <tabstop>spinBox_netGameSpeed</tabstop>
+  <tabstop>spinBox_netDelayBetweenHands</tabstop>
   <tabstop>spinBox_netTimeOutPlayerAction</tabstop>
   <tabstop>spinBox_serverPort</tabstop>
   <tabstop>lineEdit_serverPassword</tabstop>

@@ -390,7 +390,7 @@ void startWindowImpl::callCreateNetworkGameDialog() {
 			}
 		}
 
-		gameData.guiSpeed = myCreateNetworkGameDialog->spinBox_gameSpeed->value();
+		gameData.guiSpeed = myConfig->readConfigInt("GameSpeed");
 		gameData.playerActionTimeoutSec = myCreateNetworkGameDialog->spinBox_netTimeOutPlayerAction->value();
 
 		myGameLobbyDialog->setSession(getSession());

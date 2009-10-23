@@ -67,8 +67,7 @@ void createInternetGameDialogImpl::fillFormular() {
 	//Network Game Settings
 	spinBox_quantityPlayers->setValue(myConfig->readConfigInt("NetNumberOfPlayers"));
 	spinBox_startCash->setValue(myConfig->readConfigInt("NetStartCash"));
-	//temporarely unused until ai is enabled in network
-	spinBox_gameSpeed->setValue(myConfig->readConfigInt("NetGameSpeed"));
+	spinBox_netDelayBetweenHands->setValue(myConfig->readConfigInt("NetDelayBetweenHands"));
 	spinBox_netTimeOutPlayerAction->setValue(myConfig->readConfigInt("NetTimeOutPlayerAction"));
 	checkBox_Password->setChecked(myConfig->readConfigInt("UseInternetGamePassword"));
 	if(myConfig->readConfigInt("UseInternetGamePassword")) {

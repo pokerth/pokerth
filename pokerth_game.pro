@@ -406,7 +406,8 @@ unix:!mac {
         -lpokerth_protocol
     LIBS += $$BOOST_LIBS
     LIBS += -lSDL_mixer \
-        -lcurl
+        -lcurl \
+		-lgsasl
     !isEmpty( BSD ) && isEmpty( kFreeBSD ):LIBS += -lcrypto
     else:LIBS += -lgnutls-openssl \
         -lgcrypt
