@@ -107,14 +107,14 @@ cd /d %PKTH_BaseDir%
 if not exist %PKTH_BaseDir%\qt. (
 echo.
 echo Downloading Qt
-%PKTH_OldDir%\third_party_apps\wget http://download.qt.nokia.com/qt/source/qt-win-opensource-src-4.5.1.zip
+%PKTH_OldDir%\third_party_apps\wget http://get.qt.nokia.com/qt/source/qt-win-opensource-src-4.5.3.zip
 if not errorlevel 0 goto downloadFailed
 echo.
 echo Unpacking Qt
-%PKTH_OldDir%\third_party_apps\7za x -y qt-win-opensource-src-4.5.1.zip
+%PKTH_OldDir%\third_party_apps\7za x -y qt-win-opensource-src-4.5.3.zip
 REM Wait 5 seconds for the file cache, else ren might fail.
 @ping 127.0.0.1 -n 5 -w 1000 > nul
-ren qt-win-opensource-src-4.5.1 qt
+ren qt-win-opensource-src-4.5.3 qt
 )
 if not exist %PKTH_BaseDir%\qt goto qtFailure
 echo.
@@ -167,6 +167,19 @@ mkdir GnuTLS\lib\unused
 move GnuTLS\lib\*.dll.a GnuTLS\lib\unused
 move GnuTLS\lib\*.la GnuTLS\lib\unused
 )
+if not exist %PKTH_BaseDir%\gsasl. (
+echo.
+echo Downloading gsasl
+%PKTH_OldDir%\third_party_apps\wget http://josefsson.org/gnutls4win/gsasl-1.3.zip
+mkdir gsasl
+%PKTH_OldDir%\third_party_apps\7za x -y -ogsasl gsasl-1.3.zip
+REM Wait 5 seconds for the file cache.
+@ping 127.0.0.1 -n 5 -w 1000 > nul
+REM Remove files for dynamic linking, we do not want to accidently use them
+mkdir gsasl\lib\unused
+move gsasl\lib\*.dll.a gsasl\lib\unused
+move gsasl\lib\*.la gsasl\lib\unused
+)
 cd /d %PKTH_BaseDir%
 if not exist %PKTH_BaseDir%\curl. (
 echo.
@@ -192,18 +205,18 @@ cd /d %PKTH_BaseDir%
 if not exist %PKTH_BaseDir%\boost. (
 echo.
 echo Downloading boost and bjam
-%PKTH_OldDir%\third_party_apps\wget http://%SOURCEFORGE_MIRROR%.sourceforge.net/sourceforge/boost/boost_1_39_0.7z http://%SOURCEFORGE_MIRROR%.sourceforge.net/sourceforge/boost/boost-jam-3.1.17-1-ntx86.zip
+%PKTH_OldDir%\third_party_apps\wget http://%SOURCEFORGE_MIRROR%.sourceforge.net/sourceforge/boost/boost_1_40_0.7z http://%SOURCEFORGE_MIRROR%.sourceforge.net/sourceforge/boost/boost-jam-3.1.17-1-ntx86.zip
 if not errorlevel 0 goto downloadFailed
 echo.
 echo Unpacking boost and bjam
-%PKTH_OldDir%\third_party_apps\7za x -y boost_1_39_0.7z
+%PKTH_OldDir%\third_party_apps\7za x -y boost_1_40_0.7z
 %PKTH_OldDir%\third_party_apps\7za x -y boost-jam-3.1.17-1-ntx86.zip
 REM Wait 5 seconds for the file cache, else ren might fail.
 @ping 127.0.0.1 -n 5 -w 1000 > nul
 move boost-jam-3.1.17-1-ntx86\bjam.exe mingw\bin\bjam.exe
 move boost-jam-3.1.17-1-ntx86\LICENSE_1_0.txt mingw\bin\bjam_LICENSE_1_0.txt
 rd boost-jam-3.1.17-1-ntx86
-ren boost_1_39_0 boost
+ren boost_1_40_0 boost
 )
 echo.
 echo Compiling boost
@@ -251,14 +264,14 @@ cd /d %PKTH_BaseDir%
 if not exist %PKTH_BaseDir%\svn. (
 echo.
 echo Downloading subversion
-%PKTH_OldDir%\third_party_apps\wget http://subversion.tigris.org/files/documents/15/46471/svn-win32-1.6.4.zip
+%PKTH_OldDir%\third_party_apps\wget http://subversion.tigris.org/files/documents/15/46518/svn-win32-1.6.5.zip
 if not errorlevel 0 goto downloadFailed
 echo.
 echo Unpacking subversion
-%PKTH_OldDir%\third_party_apps\7za x -y svn-win32-1.6.4.zip
+%PKTH_OldDir%\third_party_apps\7za x -y svn-win32-1.6.5.zip
 REM Wait 5 seconds for the file cache, else ren might fail.
 @ping 127.0.0.1 -n 5 -w 1000 > nul
-ren svn-win32-1.6.4 svn
+ren svn-win32-1.6.5 svn
 )
 if not exist %PKTH_BaseDir%\svn\bin\svn.exe goto svnFailure
 if not exist %PKTH_BaseDir%\pokerth. (
