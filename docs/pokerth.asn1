@@ -69,10 +69,12 @@ PokerTHMessage ::= CHOICE {
 	errorMessage				ErrorMessage
 }
 
+-- buildId contains a constant build id (specific for Windows/Linux/Mac builds)
 InitMessage ::= [APPLICATION 0] SEQUENCE {
 	requestedVersion			Version,
+	buildId						INTEGER,
 	login						CHOICE {
-		anonymousLogin			[0]	AnonymousLogin,
+		guestLogin				[0]	GuestLogin,
 		authenticatedLogin		[1]	AuthenticatedLogin,
 		statisticsLogin			[2] StatisticsLogin
 	}
@@ -83,7 +85,8 @@ Version ::= SEQUENCE {
 	minor						INTEGER(0..65535)
 }
 
-AnonymousLogin ::= SEQUENCE {
+GuestLogin ::= SEQUENCE {
+	nickName					UTF8String (SIZE(1..64))
 }
 
 -- Login data is according to SCRAM SHA-1

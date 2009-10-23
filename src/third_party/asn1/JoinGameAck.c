@@ -33,8 +33,8 @@ static ber_tlv_tag_t asn_DEF_JoinGameAck_tags_1[] = {
 	(ASN_TAG_CLASS_UNIVERSAL | (16 << 2))
 };
 static asn_TYPE_tag2member_t asn_MAP_JoinGameAck_tag2el_1[] = {
-    { (ASN_TAG_CLASS_UNIVERSAL | (1 << 2)), 0, 0, 0 }, /* areYouAdmin at 269 */
-    { (ASN_TAG_CLASS_UNIVERSAL | (16 << 2)), 1, 0, 0 } /* gameInfo at 271 */
+    { (ASN_TAG_CLASS_UNIVERSAL | (1 << 2)), 0, 0, 0 }, /* areYouAdmin at 272 */
+    { (ASN_TAG_CLASS_UNIVERSAL | (16 << 2)), 1, 0, 0 } /* gameInfo at 274 */
 };
 static asn_SEQUENCE_specifics_t asn_SPC_JoinGameAck_specs_1 = {
 	sizeof(struct JoinGameAck),

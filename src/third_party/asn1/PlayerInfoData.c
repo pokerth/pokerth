@@ -65,8 +65,8 @@ static ber_tlv_tag_t asn_DEF_avatarData_tags_4[] = {
 	(ASN_TAG_CLASS_UNIVERSAL | (16 << 2))
 };
 static asn_TYPE_tag2member_t asn_MAP_avatarData_tag2el_4[] = {
-    { (ASN_TAG_CLASS_UNIVERSAL | (4 << 2)), 1, 0, 0 }, /* avatar at 228 */
-    { (ASN_TAG_CLASS_UNIVERSAL | (10 << 2)), 0, 0, 0 } /* avatarType at 226 */
+    { (ASN_TAG_CLASS_UNIVERSAL | (4 << 2)), 1, 0, 0 }, /* avatar at 231 */
+    { (ASN_TAG_CLASS_UNIVERSAL | (10 << 2)), 0, 0, 0 } /* avatarType at 229 */
 };
 static asn_SEQUENCE_specifics_t asn_SPC_avatarData_specs_4 = {
 	sizeof(struct avatarData),
@@ -135,9 +135,9 @@ static ber_tlv_tag_t asn_DEF_PlayerInfoData_tags_1[] = {
 	(ASN_TAG_CLASS_UNIVERSAL | (16 << 2))
 };
 static asn_TYPE_tag2member_t asn_MAP_PlayerInfoData_tag2el_1[] = {
-    { (ASN_TAG_CLASS_UNIVERSAL | (1 << 2)), 1, 0, 0 }, /* isHuman at 224 */
-    { (ASN_TAG_CLASS_UNIVERSAL | (12 << 2)), 0, 0, 0 }, /* playerName at 223 */
-    { (ASN_TAG_CLASS_UNIVERSAL | (16 << 2)), 2, 0, 0 } /* avatarData at 226 */
+    { (ASN_TAG_CLASS_UNIVERSAL | (1 << 2)), 1, 0, 0 }, /* isHuman at 227 */
+    { (ASN_TAG_CLASS_UNIVERSAL | (12 << 2)), 0, 0, 0 }, /* playerName at 226 */
+    { (ASN_TAG_CLASS_UNIVERSAL | (16 << 2)), 2, 0, 0 } /* avatarData at 229 */
 };
 static asn_SEQUENCE_specifics_t asn_SPC_PlayerInfoData_specs_1 = {
 	sizeof(struct PlayerInfoData),

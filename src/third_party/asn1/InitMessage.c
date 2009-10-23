@@ -9,15 +9,15 @@
 
 #include "InitMessage.h"
 
-static asn_TYPE_member_t asn_MBR_login_3[] = {
-	{ ATF_NOFLAGS, 0, offsetof(struct login, choice.anonymousLogin),
+static asn_TYPE_member_t asn_MBR_login_4[] = {
+	{ ATF_NOFLAGS, 0, offsetof(struct login, choice.guestLogin),
 		(ASN_TAG_CLASS_CONTEXT | (0 << 2)),
 		-1,	/* IMPLICIT tag at current level */
-		&asn_DEF_AnonymousLogin,
+		&asn_DEF_GuestLogin,
 		0,	/* Defer constraints checking to the member type */
 		0,	/* PER is not compiled, use -gen-PER */
 		0,
-		"anonymousLogin"
+		"guestLogin"
 		},
 	{ ATF_NOFLAGS, 0, offsetof(struct login, choice.authenticatedLogin),
 		(ASN_TAG_CLASS_CONTEXT | (1 << 2)),
@@ -38,23 +38,23 @@ static asn_TYPE_member_t asn_MBR_login_3[] = {
 		"statisticsLogin"
 		},
 };
-static asn_TYPE_tag2member_t asn_MAP_login_tag2el_3[] = {
-    { (ASN_TAG_CLASS_CONTEXT | (0 << 2)), 0, 0, 0 }, /* anonymousLogin at 75 */
-    { (ASN_TAG_CLASS_CONTEXT | (1 << 2)), 1, 0, 0 }, /* authenticatedLogin at 76 */
-    { (ASN_TAG_CLASS_CONTEXT | (2 << 2)), 2, 0, 0 } /* statisticsLogin at 78 */
+static asn_TYPE_tag2member_t asn_MAP_login_tag2el_4[] = {
+    { (ASN_TAG_CLASS_CONTEXT | (0 << 2)), 0, 0, 0 }, /* guestLogin at 77 */
+    { (ASN_TAG_CLASS_CONTEXT | (1 << 2)), 1, 0, 0 }, /* authenticatedLogin at 78 */
+    { (ASN_TAG_CLASS_CONTEXT | (2 << 2)), 2, 0, 0 } /* statisticsLogin at 80 */
 };
-static asn_CHOICE_specifics_t asn_SPC_login_specs_3 = {
+static asn_CHOICE_specifics_t asn_SPC_login_specs_4 = {
 	sizeof(struct login),
 	offsetof(struct login, _asn_ctx),
 	offsetof(struct login, present),
 	sizeof(((struct login *)0)->present),
-	asn_MAP_login_tag2el_3,
+	asn_MAP_login_tag2el_4,
 	3,	/* Count of tags in the map */
 	0,
 	3	/* Extensions start */
 };
 static /* Use -fall-defs-global to expose */
-asn_TYPE_descriptor_t asn_DEF_login_3 = {
+asn_TYPE_descriptor_t asn_DEF_login_4 = {
 	"login",
 	"login",
 	CHOICE_free,
@@ -71,9 +71,9 @@ asn_TYPE_descriptor_t asn_DEF_login_3 = {
 	0,	/* No tags (pointer) */
 	0,	/* No tags (count) */
 	0,	/* No PER visible constraints */
-	asn_MBR_login_3,
+	asn_MBR_login_4,
 	3,	/* Elements count */
-	&asn_SPC_login_specs_3	/* Additional specs */
+	&asn_SPC_login_specs_4	/* Additional specs */
 };
 
 static asn_TYPE_member_t asn_MBR_InitMessage_1[] = {
@@ -86,10 +86,19 @@ static asn_TYPE_member_t asn_MBR_InitMessage_1[] = {
 		0,
 		"requestedVersion"
 		},
+	{ ATF_NOFLAGS, 0, offsetof(struct InitMessage, buildId),
+		(ASN_TAG_CLASS_UNIVERSAL | (2 << 2)),
+		0,
+		&asn_DEF_NativeInteger,
+		0,	/* Defer constraints checking to the member type */
+		0,	/* PER is not compiled, use -gen-PER */
+		0,
+		"buildId"
+		},
 	{ ATF_NOFLAGS, 0, offsetof(struct InitMessage, login),
 		-1 /* Ambiguous tag (CHOICE?) */,
 		0,
-		&asn_DEF_login_3,
+		&asn_DEF_login_4,
 		0,	/* Defer constraints checking to the member type */
 		0,	/* PER is not compiled, use -gen-PER */
 		0,
@@ -101,19 +110,20 @@ static ber_tlv_tag_t asn_DEF_InitMessage_tags_1[] = {
 	(ASN_TAG_CLASS_UNIVERSAL | (16 << 2))
 };
 static asn_TYPE_tag2member_t asn_MAP_InitMessage_tag2el_1[] = {
-    { (ASN_TAG_CLASS_UNIVERSAL | (16 << 2)), 0, 0, 0 }, /* requestedVersion at 73 */
-    { (ASN_TAG_CLASS_CONTEXT | (0 << 2)), 1, 0, 0 }, /* anonymousLogin at 75 */
-    { (ASN_TAG_CLASS_CONTEXT | (1 << 2)), 1, 0, 0 }, /* authenticatedLogin at 76 */
-    { (ASN_TAG_CLASS_CONTEXT | (2 << 2)), 1, 0, 0 } /* statisticsLogin at 78 */
+    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 1, 0, 0 }, /* buildId at 75 */
+    { (ASN_TAG_CLASS_UNIVERSAL | (16 << 2)), 0, 0, 0 }, /* requestedVersion at 74 */
+    { (ASN_TAG_CLASS_CONTEXT | (0 << 2)), 2, 0, 0 }, /* guestLogin at 77 */
+    { (ASN_TAG_CLASS_CONTEXT | (1 << 2)), 2, 0, 0 }, /* authenticatedLogin at 78 */
+    { (ASN_TAG_CLASS_CONTEXT | (2 << 2)), 2, 0, 0 } /* statisticsLogin at 80 */
 };
 static asn_SEQUENCE_specifics_t asn_SPC_InitMessage_specs_1 = {
 	sizeof(struct InitMessage),
 	offsetof(struct InitMessage, _asn_ctx),
 	asn_MAP_InitMessage_tag2el_1,
-	4,	/* Count of tags in the map */
+	5,	/* Count of tags in the map */
 	0, 0, 0,	/* Optional elements (not needed) */
-	1,	/* Start extensions */
-	3	/* Stop extensions */
+	2,	/* Start extensions */
+	4	/* Stop extensions */
 };
 asn_TYPE_descriptor_t asn_DEF_InitMessage = {
 	"InitMessage",
@@ -135,7 +145,7 @@ asn_TYPE_descriptor_t asn_DEF_InitMessage = {
 		/sizeof(asn_DEF_InitMessage_tags_1[0]), /* 2 */
 	0,	/* No PER visible constraints */
 	asn_MBR_InitMessage_1,
-	2,	/* Elements count */
+	3,	/* Elements count */
 	&asn_SPC_InitMessage_specs_1	/* Additional specs */
 };
 

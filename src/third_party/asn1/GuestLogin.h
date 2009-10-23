@@ -5,21 +5,23 @@
  * 	`asn1c -fnative-types`
  */
 
-#ifndef	_AnonymousLogin_H_
-#define	_AnonymousLogin_H_
+#ifndef	_GuestLogin_H_
+#define	_GuestLogin_H_
 
 
 #include <asn_application.h>
 
 /* Including external dependencies */
+#include <UTF8String.h>
 #include <constr_SEQUENCE.h>
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-/* AnonymousLogin */
-typedef struct AnonymousLogin {
+/* GuestLogin */
+typedef struct GuestLogin {
+	UTF8String_t	 nickName;
 	/*
 	 * This type is extensible,
 	 * possible extensions are below.
@@ -27,13 +29,13 @@ typedef struct AnonymousLogin {
 	
 	/* Context for parsing across buffer boundaries */
 	asn_struct_ctx_t _asn_ctx;
-} AnonymousLogin_t;
+} GuestLogin_t;
 
 /* Implementation */
-extern asn_TYPE_descriptor_t asn_DEF_AnonymousLogin;
+extern asn_TYPE_descriptor_t asn_DEF_GuestLogin;
 
 #ifdef __cplusplus
 }
 #endif
 
-#endif	/* _AnonymousLogin_H_ */
+#endif	/* _GuestLogin_H_ */

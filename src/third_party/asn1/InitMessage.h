@@ -13,7 +13,8 @@
 
 /* Including external dependencies */
 #include "Version.h"
-#include "AnonymousLogin.h"
+#include <NativeInteger.h>
+#include "GuestLogin.h"
 #include "AuthenticatedLogin.h"
 #include "StatisticsLogin.h"
 #include <constr_CHOICE.h>
@@ -26,7 +27,7 @@ extern "C" {
 /* Dependencies */
 typedef enum login_PR {
 	login_PR_NOTHING,	/* No components present */
-	login_PR_anonymousLogin,
+	login_PR_guestLogin,
 	login_PR_authenticatedLogin,
 	login_PR_statisticsLogin,
 	/* Extensions may appear below */
@@ -36,10 +37,11 @@ typedef enum login_PR {
 /* InitMessage */
 typedef struct InitMessage {
 	Version_t	 requestedVersion;
+	long	 buildId;
 	struct login {
 		login_PR present;
 		union InitMessage__login_u {
-			AnonymousLogin_t	 anonymousLogin;
+			GuestLogin_t	 guestLogin;
 			AuthenticatedLogin_t	 authenticatedLogin;
 			StatisticsLogin_t	 statisticsLogin;
 			/*

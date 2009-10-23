@@ -120,12 +120,12 @@ static ber_tlv_tag_t asn_DEF_StartKickPetitionMessage_tags_1[] = {
 	(ASN_TAG_CLASS_UNIVERSAL | (16 << 2))
 };
 static asn_TYPE_tag2member_t asn_MAP_StartKickPetitionMessage_tag2el_1[] = {
-    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 0, 0, 5 }, /* gameId at 487 */
-    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 1, -1, 4 }, /* petitionId at 488 */
-    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 2, -2, 3 }, /* proposingPlayerId at 489 */
-    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 3, -3, 2 }, /* kickPlayerId at 490 */
-    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 4, -4, 1 }, /* kickTimeoutSec at 491 */
-    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 5, -5, 0 } /* numVotesNeededToKick at 492 */
+    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 0, 0, 5 }, /* gameId at 490 */
+    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 1, -1, 4 }, /* petitionId at 491 */
+    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 2, -2, 3 }, /* proposingPlayerId at 492 */
+    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 3, -3, 2 }, /* kickPlayerId at 493 */
+    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 4, -4, 1 }, /* kickTimeoutSec at 494 */
+    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 5, -5, 0 } /* numVotesNeededToKick at 495 */
 };
 static asn_SEQUENCE_specifics_t asn_SPC_StartKickPetitionMessage_specs_1 = {
 	sizeof(struct StartKickPetitionMessage),

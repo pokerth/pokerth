@@ -30,7 +30,7 @@ HEADERS += src/third_party/asn1/AllInShowCardsMessage.h \
 	src/third_party/asn1/CleanerInitAckMessage.h \
 	src/third_party/asn1/CleanerChatRequestMessage.h \
 	src/third_party/asn1/CleanerChatReplyMessage.h \
-    src/third_party/asn1/AnonymousLogin.h \
+	src/third_party/asn1/GuestLogin.h \
     src/third_party/asn1/AskKickDeniedMessage.h \
     src/third_party/asn1/AskKickPlayerMessage.h \
 	src/third_party/asn1/AuthMessage.h \
@@ -278,7 +278,7 @@ SOURCES += src/third_party/asn1/ChatCleanerMessage.c \
     src/third_party/asn1/asn_codecs_prim.c \
     src/third_party/asn1/AskKickPlayerMessage.c \
     src/third_party/asn1/AskKickDeniedMessage.c \
-    src/third_party/asn1/AnonymousLogin.c
+	src/third_party/asn1/GuestLogin.c
 
 win32 { 
     DEFINES += CURL_STATICLIB
