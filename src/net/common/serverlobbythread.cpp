@@ -916,9 +916,10 @@ ServerLobbyThread::HandleNetPacketInit(SessionWrapper session, const InitMessage
 	string playerName;
 	MD5Buf avatarMD5;
 	bool guestUser = false;
-	if (initMessage.login.present == login_PR_anonymousLogin)
+	if (initMessage.login.present == login_PR_guestLogin)
 	{
-		playerName = "guest001"; // TODO
+		const GuestLogin_t *guestLogin = &initMessage.login.choice.guestLogin;
+		playerName = string((const char *)guestLogin->nickName.buf, guestLogin->nickName.size);
 		guestUser = true;
 	}
 	else if (initMessage.login.present == login_PR_authenticatedLogin)
