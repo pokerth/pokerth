@@ -1359,7 +1359,7 @@ ServerLobbyThread::AuthenticatePlayer(SessionWrapper session)
 void
 ServerLobbyThread::UserValid(unsigned playerId, DB_id dbPlayerId, const string &dbSecret)
 {
-	InitAfterLogin(m_sessionManager.GetSessionByUniquePlayerId(playerId, true));
+	this->AuthChallenge(m_sessionManager.GetSessionByUniquePlayerId(playerId, true), dbSecret);
 }
 
 void
