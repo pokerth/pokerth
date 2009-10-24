@@ -70,6 +70,7 @@ struct GameData
 	AfterManualBlindsMode afterManualBlindsMode;
 	int afterMBAlwaysRaiseValue;
 	int guiSpeed;
+	int delayBetweenHandsSec;
 	int playerActionTimeoutSec;
 };
 

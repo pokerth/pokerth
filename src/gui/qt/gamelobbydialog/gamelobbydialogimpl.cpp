@@ -177,6 +177,7 @@ void gameLobbyDialogImpl::createGame()
 		}
 
 		gameData.guiSpeed = myConfig->readConfigInt("GameSpeed");
+		gameData.delayBetweenHandsSec = myCreateInternetGameDialog->spinBox_netDelayBetweenHands->value();
 		gameData.playerActionTimeoutSec = myCreateInternetGameDialog->spinBox_netTimeOutPlayerAction->value();
 
 		QString gameString(tr("%1's game"));

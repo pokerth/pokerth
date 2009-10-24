@@ -40,7 +40,6 @@ using namespace std;
 //#define SERVER_TEST
 
 #ifdef SERVER_TEST
-	#define SERVER_DELAY_NEXT_HAND_SEC				0
 	#define SERVER_DELAY_NEXT_GAME_SEC				0
 	#define SERVER_DEAL_FLOP_CARDS_DELAY_SEC		0
 	#define SERVER_DEAL_TURN_CARD_DELAY_SEC			0
@@ -50,7 +49,6 @@ using namespace std;
 	#define SERVER_PLAYER_TIMEOUT_ADD_DELAY_SEC		0
 	#define SERVER_COMPUTER_ACTION_DELAY_SEC		0
 #else
-	#define SERVER_DELAY_NEXT_HAND_SEC				10
 	#define SERVER_DELAY_NEXT_GAME_SEC				10
 	#define SERVER_DEAL_FLOP_CARDS_DELAY_SEC		5
 	#define SERVER_DEAL_TURN_CARD_DELAY_SEC			2
@@ -875,8 +873,13 @@ ServerGameStateHand::EngineLoop(boost::shared_ptr<ServerGame> server)
 			}
 			else
 			{
+#ifdef POKERTH_TEST
 				server->GetStateTimer().expires_from_now(
-					boost::posix_time::seconds(SERVER_DELAY_NEXT_HAND_SEC));
+					boost::posix_time::seconds(0));
+#else
+				server->GetStateTimer().expires_from_now(
+					boost::posix_time::seconds(server->GetGameData().delayBetweenHandsSec));
+#endif
 				server->GetStateTimer().async_wait(
 					boost::bind(
 						&ServerGameStateHand::TimerNextHand, this, boost::asio::placeholders::error, server));

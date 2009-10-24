@@ -99,16 +99,17 @@ public:
 
 	virtual void ConnectSuccess()
 	{
+		LOG_MSG("Successfully connected to database.");
 	}
 
 	virtual void ConnectFailed(const string &error)
 	{
-		// TODO
+		LOG_ERROR("DB connect error: " << error);
 	}
 
 	virtual void QueryError(const std::string &error)
 	{
-		// TODO
+		LOG_ERROR("DB query error: " << error);
 	}
 
 	virtual void PlayerLoginSuccess(unsigned requestId, DB_id dbPlayerId, const std::string &secret)
@@ -128,6 +129,8 @@ public:
 
 	virtual void CreateGameFailed(unsigned requestId)
 	{
+		// TODO maybe handle request id.
+		LOG_ERROR("DB create game failed for request " << requestId);
 	}
 
 private:
@@ -919,7 +922,7 @@ ServerLobbyThread::HandleNetPacketInit(SessionWrapper session, const InitMessage
 	if (initMessage.login.present == login_PR_guestLogin)
 	{
 		const GuestLogin_t *guestLogin = &initMessage.login.choice.guestLogin;
-		playerName = string((const char *)guestLogin->nickName.buf, guestLogin->nickName.size);
+		playerName = STL_STRING_FROM_OCTET_STRING(guestLogin->nickName);
 		guestUser = true;
 	}
 	else if (initMessage.login.present == login_PR_authenticatedLogin)
@@ -989,7 +992,7 @@ ServerLobbyThread::HandleNetPacketAuthClientResponse(SessionWrapper session, con
 {
 	if (session.sessionData && session.playerData && session.sessionData->AuthGetCurStepNum() == 1)
 	{
-		string authData((const char *)clientResponse.clientResponse.buf, clientResponse.clientResponse.size);
+		string authData = STL_STRING_FROM_OCTET_STRING(clientResponse.clientResponse);
 		if (session.sessionData->AuthStep(2, authData))
 		{
 			string outVerification(session.sessionData->AuthGetNextOutMsg());
@@ -1191,7 +1194,7 @@ ServerLobbyThread::HandleNetPacketCreateGame(SessionWrapper session, const std::
 		new ServerGame(
 			shared_from_this(),
 			GetNextGameId(),
-			string((char *)newGame.gameInfo.gameName.buf, newGame.gameInfo.gameName.size),
+			STL_STRING_FROM_OCTET_STRING(newGame.gameInfo.gameName),
 			password,
 			tmpData,
 			session.playerData->GetUniqueId(),
@@ -1360,7 +1363,9 @@ ServerLobbyThread::AuthenticatePlayer(SessionWrapper session)
 void
 ServerLobbyThread::UserValid(unsigned playerId, DB_id dbPlayerId, const string &dbSecret)
 {
-	this->AuthChallenge(m_sessionManager.GetSessionByUniquePlayerId(playerId, true), dbSecret);
+	SessionWrapper tmpSession = m_sessionManager.GetSessionByUniquePlayerId(playerId, true);
+	tmpSession.playerData->SetDBId(dbPlayerId);
+	this->AuthChallenge(tmpSession, dbSecret);
 }
 
 void

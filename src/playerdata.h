@@ -96,6 +96,8 @@ public:
 	unsigned GetUniqueId() const;
 	int GetNumber() const;
 	void SetNumber(int number);
+	DB_id GetDBId() const;
+	void SetDBId(DB_id id);
 
 	bool operator<(const PlayerData &other) const;
 

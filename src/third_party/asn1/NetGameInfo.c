@@ -133,7 +133,7 @@ endRaiseMode_8_encode_xer(asn_TYPE_descriptor_t *td, void *structure,
 }
 
 static int
-memb_NativeInteger_constraint_17(asn_TYPE_descriptor_t *td, const void *sptr,
+memb_NativeInteger_constraint_18(asn_TYPE_descriptor_t *td, const void *sptr,
 			asn_app_constraint_failed_f *ctfailcb, void *app_key) {
 	long value;
 	
@@ -229,6 +229,31 @@ memb_proposedGuiSpeed_constraint_1(asn_TYPE_descriptor_t *td, const void *sptr,
 	value = *(const long *)sptr;
 	
 	if((value >= 1 && value <= 11)) {
+		/* Constraint check succeeded */
+		return 0;
+	} else {
+		_ASN_CTFAIL(app_key, td, sptr,
+			"%s: constraint failed (%s:%d)",
+			td->name, __FILE__, __LINE__);
+		return -1;
+	}
+}
+
+static int
+memb_delayBetweenHands_constraint_1(asn_TYPE_descriptor_t *td, const void *sptr,
+			asn_app_constraint_failed_f *ctfailcb, void *app_key) {
+	long value;
+	
+	if(!sptr) {
+		_ASN_CTFAIL(app_key, td, sptr,
+			"%s: value not given (%s:%d)",
+			td->name, __FILE__, __LINE__);
+		return -1;
+	}
+	
+	value = *(const long *)sptr;
+	
+	if((value >= 5 && value <= 20)) {
 		/* Constraint check succeeded */
 		return 0;
 	} else {
@@ -468,27 +493,27 @@ asn_TYPE_descriptor_t asn_DEF_endRaiseMode_8 = {
 	&asn_SPC_endRaiseMode_specs_8	/* Additional specs */
 };
 
-static asn_TYPE_member_t asn_MBR_manualBlinds_17[] = {
+static asn_TYPE_member_t asn_MBR_manualBlinds_18[] = {
 	{ ATF_POINTER, 0, 0,
 		(ASN_TAG_CLASS_UNIVERSAL | (2 << 2)),
 		0,
 		&asn_DEF_NativeInteger,
-		memb_NativeInteger_constraint_17,
+		memb_NativeInteger_constraint_18,
 		0,	/* PER is not compiled, use -gen-PER */
 		0,
 		""
 		},
 };
-static ber_tlv_tag_t asn_DEF_manualBlinds_tags_17[] = {
+static ber_tlv_tag_t asn_DEF_manualBlinds_tags_18[] = {
 	(ASN_TAG_CLASS_UNIVERSAL | (16 << 2))
 };
-static asn_SET_OF_specifics_t asn_SPC_manualBlinds_specs_17 = {
+static asn_SET_OF_specifics_t asn_SPC_manualBlinds_specs_18 = {
 	sizeof(struct manualBlinds),
 	offsetof(struct manualBlinds, _asn_ctx),
 	0,	/* XER encoding is XMLDelimitedItemList */
 };
 static /* Use -fall-defs-global to expose */
-asn_TYPE_descriptor_t asn_DEF_manualBlinds_17 = {
+asn_TYPE_descriptor_t asn_DEF_manualBlinds_18 = {
 	"manualBlinds",
 	"manualBlinds",
 	SEQUENCE_OF_free,
@@ -500,16 +525,16 @@ asn_TYPE_descriptor_t asn_DEF_manualBlinds_17 = {
 	SEQUENCE_OF_encode_xer,
 	0, 0,	/* No PER support, use "-gen-PER" to enable */
 	0,	/* Use generic outmost tag fetcher */
-	asn_DEF_manualBlinds_tags_17,
-	sizeof(asn_DEF_manualBlinds_tags_17)
-		/sizeof(asn_DEF_manualBlinds_tags_17[0]), /* 1 */
-	asn_DEF_manualBlinds_tags_17,	/* Same as above */
-	sizeof(asn_DEF_manualBlinds_tags_17)
-		/sizeof(asn_DEF_manualBlinds_tags_17[0]), /* 1 */
+	asn_DEF_manualBlinds_tags_18,
+	sizeof(asn_DEF_manualBlinds_tags_18)
+		/sizeof(asn_DEF_manualBlinds_tags_18[0]), /* 1 */
+	asn_DEF_manualBlinds_tags_18,	/* Same as above */
+	sizeof(asn_DEF_manualBlinds_tags_18)
+		/sizeof(asn_DEF_manualBlinds_tags_18[0]), /* 1 */
 	0,	/* No PER visible constraints */
-	asn_MBR_manualBlinds_17,
+	asn_MBR_manualBlinds_18,
 	1,	/* Single element */
-	&asn_SPC_manualBlinds_specs_17	/* Additional specs */
+	&asn_SPC_manualBlinds_specs_18	/* Additional specs */
 };
 
 static asn_TYPE_member_t asn_MBR_NetGameInfo_1[] = {
@@ -558,6 +583,15 @@ static asn_TYPE_member_t asn_MBR_NetGameInfo_1[] = {
 		0,
 		"proposedGuiSpeed"
 		},
+	{ ATF_NOFLAGS, 0, offsetof(struct NetGameInfo, delayBetweenHands),
+		(ASN_TAG_CLASS_UNIVERSAL | (2 << 2)),
+		0,
+		&asn_DEF_NativeInteger,
+		memb_delayBetweenHands_constraint_1,
+		0,	/* PER is not compiled, use -gen-PER */
+		0,
+		"delayBetweenHands"
+		},
 	{ ATF_NOFLAGS, 0, offsetof(struct NetGameInfo, playerActionTimeout),
 		(ASN_TAG_CLASS_UNIVERSAL | (2 << 2)),
 		0,
@@ -597,7 +631,7 @@ static asn_TYPE_member_t asn_MBR_NetGameInfo_1[] = {
 	{ ATF_NOFLAGS, 0, offsetof(struct NetGameInfo, manualBlinds),
 		(ASN_TAG_CLASS_UNIVERSAL | (16 << 2)),
 		0,
-		&asn_DEF_manualBlinds_17,
+		&asn_DEF_manualBlinds_18,
 		memb_manualBlinds_constraint_1,
 		0,	/* PER is not compiled, use -gen-PER */
 		0,
@@ -608,15 +642,16 @@ static ber_tlv_tag_t asn_DEF_NetGameInfo_tags_1[] = {
 	(ASN_TAG_CLASS_UNIVERSAL | (16 << 2))
 };
 static asn_TYPE_tag2member_t asn_MAP_NetGameInfo_tag2el_1[] = {
-    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 1, 0, 5 }, /* maxNumPlayers at 287 */
-    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 4, -1, 4 }, /* proposedGuiSpeed at 297 */
-    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 5, -2, 3 }, /* playerActionTimeout at 298 */
-    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 6, -3, 2 }, /* firstSmallBlind at 299 */
-    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 7, -4, 1 }, /* endRaiseSmallBlindValue at 300 */
-    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 8, -5, 0 }, /* startMoney at 301 */
+    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 1, 0, 6 }, /* maxNumPlayers at 287 */
+    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 4, -1, 5 }, /* proposedGuiSpeed at 297 */
+    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 5, -2, 4 }, /* delayBetweenHands at 298 */
+    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 6, -3, 3 }, /* playerActionTimeout at 299 */
+    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 7, -4, 2 }, /* firstSmallBlind at 300 */
+    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 8, -5, 1 }, /* endRaiseSmallBlindValue at 301 */
+    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 9, -6, 0 }, /* startMoney at 302 */
     { (ASN_TAG_CLASS_UNIVERSAL | (10 << 2)), 3, 0, 0 }, /* endRaiseMode at 293 */
     { (ASN_TAG_CLASS_UNIVERSAL | (12 << 2)), 0, 0, 0 }, /* gameName at 286 */
-    { (ASN_TAG_CLASS_UNIVERSAL | (16 << 2)), 9, 0, 0 }, /* manualBlinds at 302 */
+    { (ASN_TAG_CLASS_UNIVERSAL | (16 << 2)), 10, 0, 0 }, /* manualBlinds at 303 */
     { (ASN_TAG_CLASS_CONTEXT | (0 << 2)), 2, 0, 0 }, /* raiseEveryHands at 289 */
     { (ASN_TAG_CLASS_CONTEXT | (1 << 2)), 2, 0, 0 } /* raiseEveryMinutes at 290 */
 };
@@ -624,10 +659,10 @@ static asn_SEQUENCE_specifics_t asn_SPC_NetGameInfo_specs_1 = {
 	sizeof(struct NetGameInfo),
 	offsetof(struct NetGameInfo, _asn_ctx),
 	asn_MAP_NetGameInfo_tag2el_1,
-	11,	/* Count of tags in the map */
+	12,	/* Count of tags in the map */
 	0, 0, 0,	/* Optional elements (not needed) */
-	9,	/* Start extensions */
-	11	/* Stop extensions */
+	10,	/* Start extensions */
+	12	/* Stop extensions */
 };
 asn_TYPE_descriptor_t asn_DEF_NetGameInfo = {
 	"NetGameInfo",
@@ -649,7 +684,7 @@ asn_TYPE_descriptor_t asn_DEF_NetGameInfo = {
 		/sizeof(asn_DEF_NetGameInfo_tags_1[0]), /* 1 */
 	0,	/* No PER visible constraints */
 	asn_MBR_NetGameInfo_1,
-	10,	/* Elements count */
+	11,	/* Elements count */
 	&asn_SPC_NetGameInfo_specs_1	/* Additional specs */
 };
 

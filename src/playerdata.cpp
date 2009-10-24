@@ -22,7 +22,7 @@
 using namespace std;
 
 PlayerData::PlayerData(unsigned uniqueId, int number, PlayerType type, PlayerRights rights)
-: m_uniqueId(uniqueId), m_number(number), m_type(type), m_rights(rights)
+: m_uniqueId(uniqueId), m_dbId(DB_ID_INVALID), m_number(number), m_type(type), m_rights(rights)
 {
 }
 
@@ -165,6 +165,20 @@ PlayerData::SetNumber(int number)
 {
 	boost::mutex::scoped_lock lock(m_dataMutex);
 	m_number = number;
+}
+
+DB_id
+PlayerData::GetDBId() const
+{
+	boost::mutex::scoped_lock lock(m_dataMutex);
+	return m_dbId;
+}
+
+void
+PlayerData::SetDBId(DB_id id)
+{
+	boost::mutex::scoped_lock lock(m_dataMutex);
+	m_dbId = id;
 }
 
 bool

@@ -123,6 +123,7 @@ NetPacket::SetGameData(const GameData &inData, NetGameInfo_t *outData)
 	}
 	outData->endRaiseMode				= inData.afterManualBlindsMode;
 	outData->proposedGuiSpeed			= inData.guiSpeed;
+	outData->delayBetweenHands			= inData.delayBetweenHandsSec;
 	outData->playerActionTimeout		= inData.playerActionTimeoutSec;
 	outData->endRaiseSmallBlindValue	= inData.afterMBAlwaysRaiseValue;
 	outData->firstSmallBlind			= inData.firstSmallBlind;
@@ -159,6 +160,7 @@ NetPacket::GetGameData(const NetGameInfo_t *inData, GameData &outData)
 	outData.raiseMode					= numManualBlinds > 0 ? MANUAL_BLINDS_ORDER : DOUBLE_BLINDS;
 	outData.afterManualBlindsMode		= static_cast<AfterManualBlindsMode>(inData->endRaiseMode);
 	outData.guiSpeed					= inData->proposedGuiSpeed;
+	outData.delayBetweenHandsSec		= inData->delayBetweenHands;
 	outData.playerActionTimeoutSec		= inData->playerActionTimeout;
 	outData.firstSmallBlind				= inData->firstSmallBlind;
 	outData.afterMBAlwaysRaiseValue		= inData->endRaiseSmallBlindValue;

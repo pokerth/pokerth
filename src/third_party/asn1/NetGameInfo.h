@@ -58,6 +58,7 @@ typedef struct NetGameInfo {
 	} raiseIntervalMode;
 	long	 endRaiseMode;
 	long	 proposedGuiSpeed;
+	long	 delayBetweenHands;
 	long	 playerActionTimeout;
 	long	 firstSmallBlind;
 	long	 endRaiseSmallBlindValue;

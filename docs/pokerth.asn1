@@ -295,6 +295,7 @@ NetGameInfo ::= SEQUENCE {
 		keepLastBlind		(3)
 	},
 	proposedGuiSpeed			INTEGER(1..11),
+	delayBetweenHands			INTEGER(5..20), -- These are seconds
 	playerActionTimeout			INTEGER(5..60), -- These are seconds
 	firstSmallBlind				INTEGER(1..20000),
 	endRaiseSmallBlindValue		INTEGER(0..20000),

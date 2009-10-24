@@ -674,30 +674,44 @@ ClientStateStartSession::Enter(boost::shared_ptr<ClientThread> client)
 	InitMessage_t *netInit = &init->GetMsg()->choice.initMessage;
 	netInit->requestedVersion.major = NET_VERSION_MAJOR;
 	netInit->requestedVersion.minor = NET_VERSION_MINOR;
-	netInit->login.present = login_PR_authenticatedLogin;
-	AuthenticatedLogin_t *authLogin = &netInit->login.choice.authenticatedLogin;
-	// Send authentication user data for challenge/response in init.
-	boost::shared_ptr<SessionData> tmpSession = context.GetSessionData();
-	tmpSession->CreateClientAuthSession(client->GetAuthContext(), context.GetPlayerName(), context.GetPassword());
-	if (!tmpSession->AuthStep(1, ""))
-		throw ClientException(__FILE__, __LINE__, ERR_NET_INVALID_PASSWORD, 0);
-	string outUserData(tmpSession->AuthGetNextOutMsg());
-	OCTET_STRING_fromBuf(&authLogin->clientUserData,
-						 outUserData.c_str(),
-						 outUserData.length());
-	string avatarFile = client->GetQtToolsInterface().stringFromUtf8(context.GetAvatarFile());
-	if (!avatarFile.empty())
+
+	// CASE 1: Authenticated login (username, challenge/response for password).
+	if (!context.GetPassword().empty())
 	{
-		MD5Buf tmpMD5;
-		if (client->GetAvatarManager().GetHashForAvatar(avatarFile, tmpMD5))
+		netInit->login.present = login_PR_authenticatedLogin;
+		AuthenticatedLogin_t *authLogin = &netInit->login.choice.authenticatedLogin;
+		// Send authentication user data for challenge/response in init.
+		boost::shared_ptr<SessionData> tmpSession = context.GetSessionData();
+		tmpSession->CreateClientAuthSession(client->GetAuthContext(), context.GetPlayerName(), context.GetPassword());
+		if (!tmpSession->AuthStep(1, ""))
+			throw ClientException(__FILE__, __LINE__, ERR_NET_INVALID_PASSWORD, 0);
+		string outUserData(tmpSession->AuthGetNextOutMsg());
+		OCTET_STRING_fromBuf(&authLogin->clientUserData,
+							 outUserData.c_str(),
+							 outUserData.length());
+		string avatarFile = client->GetQtToolsInterface().stringFromUtf8(context.GetAvatarFile());
+		if (!avatarFile.empty())
 		{
-			// TODO: use sha1.
-			authLogin->avatar =
-					OCTET_STRING_new_fromBuf(
-						&asn_DEF_OCTET_STRING,
-						(const char *)tmpMD5.data,
-						MD5_DATA_SIZE);
+			MD5Buf tmpMD5;
+			if (client->GetAvatarManager().GetHashForAvatar(avatarFile, tmpMD5))
+			{
+				// TODO: use sha1.
+				authLogin->avatar =
+						OCTET_STRING_new_fromBuf(
+							&asn_DEF_OCTET_STRING,
+							(const char *)tmpMD5.data,
+							MD5_DATA_SIZE);
+			}
 		}
+	}
+	// CASE 2: Guest login (no password, but restrictions may apply).
+	else
+	{
+		netInit->login.present = login_PR_guestLogin;
+		GuestLogin_t *guestLogin = &netInit->login.choice.guestLogin;
+		OCTET_STRING_fromBuf(&guestLogin->nickName,
+							 context.GetPlayerName().c_str(),
+							 context.GetPlayerName().length());
 	}
 	client->GetSender().Send(context.GetSessionData(), init);
 
@@ -1046,7 +1060,7 @@ ClientStateWaitAuthChallenge::InternalHandlePacket(boost::shared_ptr<ClientThrea
 		if (netAuth->present == AuthMessage_PR_authServerChallenge)
 		{
 			AuthServerChallenge_t *netChallenge = &netAuth->choice.authServerChallenge;
-			string challengeStr((const char *)netChallenge->serverChallenge.buf, netChallenge->serverChallenge.size);
+			string challengeStr = STL_STRING_FROM_OCTET_STRING(netChallenge->serverChallenge);
 			boost::shared_ptr<SessionData> tmpSession = client->GetContext().GetSessionData();
 			if (!tmpSession->AuthStep(2, challengeStr.c_str()))
 				throw ClientException(__FILE__, __LINE__, ERR_NET_INVALID_PASSWORD, 0);
@@ -1107,7 +1121,7 @@ ClientStateWaitAuthVerify::InternalHandlePacket(boost::shared_ptr<ClientThread> 
 		if (netAuth->present == AuthMessage_PR_authServerVerification)
 		{
 			AuthServerVerification_t *netVerification = &netAuth->choice.authServerVerification;
-			string verificationStr((const char *)netVerification->serverVerification.buf, netVerification->serverVerification.size);
+			string verificationStr = STL_STRING_FROM_OCTET_STRING(netVerification->serverVerification);
 			boost::shared_ptr<SessionData> tmpSession = client->GetContext().GetSessionData();
 			if (!tmpSession->AuthStep(3, verificationStr.c_str()))
 				throw ClientException(__FILE__, __LINE__, ERR_NET_INVALID_PASSWORD, 0);

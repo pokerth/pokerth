@@ -188,14 +188,14 @@ static ber_tlv_tag_t asn_DEF_PlayersActionDoneMessage_tags_1[] = {
 	(ASN_TAG_CLASS_UNIVERSAL | (16 << 2))
 };
 static asn_TYPE_tag2member_t asn_MAP_PlayersActionDoneMessage_tag2el_1[] = {
-    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 0, 0, 5 }, /* gameId at 401 */
-    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 1, -1, 4 }, /* playerId at 402 */
-    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 4, -2, 3 }, /* totalPlayerBet at 405 */
-    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 5, -3, 2 }, /* playerMoney at 406 */
-    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 6, -4, 1 }, /* highestSet at 407 */
-    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 7, -5, 0 }, /* minimumRaise at 408 */
-    { (ASN_TAG_CLASS_UNIVERSAL | (10 << 2)), 2, 0, 1 }, /* gameState at 403 */
-    { (ASN_TAG_CLASS_UNIVERSAL | (10 << 2)), 3, -1, 0 } /* playerAction at 404 */
+    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 0, 0, 5 }, /* gameId at 402 */
+    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 1, -1, 4 }, /* playerId at 403 */
+    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 4, -2, 3 }, /* totalPlayerBet at 406 */
+    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 5, -3, 2 }, /* playerMoney at 407 */
+    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 6, -4, 1 }, /* highestSet at 408 */
+    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 7, -5, 0 }, /* minimumRaise at 409 */
+    { (ASN_TAG_CLASS_UNIVERSAL | (10 << 2)), 2, 0, 1 }, /* gameState at 404 */
+    { (ASN_TAG_CLASS_UNIVERSAL | (10 << 2)), 3, -1, 0 } /* playerAction at 405 */
 };
 static asn_SEQUENCE_specifics_t asn_SPC_PlayersActionDoneMessage_specs_1 = {
 	sizeof(struct PlayersActionDoneMessage),
