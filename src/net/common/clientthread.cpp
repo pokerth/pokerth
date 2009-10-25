@@ -521,8 +521,12 @@ ClientThread::InitGame()
 	if (GetPlayerDataList().size() != (unsigned)GetStartData().numberOfPlayers)
 		throw ClientException(__FILE__, __LINE__, ERR_NET_INVALID_PLAYER_COUNT, 0);
 	m_game.reset(new Game(&m_gui, factory, GetPlayerDataList(), GetGameData(), GetStartData(), m_curGameNum++));
-	// Initialize GUI speed.
-	GetGui().initGui(GetGameData().guiSpeed);
+	// Initialize Minimum GUI speed.
+	int minimumGuiSpeed = 1;
+	if(GetGameData().delayBetweenHandsSec < 11) {
+		minimumGuiSpeed = 12-GetGameData().delayBetweenHandsSec;
+	}
+	GetGui().initGui(minimumGuiSpeed);
 	// Signal start of game to GUI.
 	GetCallback().SignalNetClientGameStart(m_game);
 }

@@ -687,6 +687,10 @@ void gameTableImpl::initGui(int speed)
 		userWidgetsArray[i]->show();
 	}
 	
+	//set minimum gui speed to prevent gui lags on fast inet games
+	if( myStartWindow->getSession()->isNetworkClientRunning() ) { horizontalSlider_speed->setMinimum(speed); }
+	else { horizontalSlider_speed->setMinimum(1); }
+	
 	//set speeds for local game and for first network game
 	if( !myStartWindow->getSession()->isNetworkClientRunning() || (myStartWindow->getSession()->isNetworkClientRunning() && !myStartWindow->getSession()->getCurrentGame()) ) {
 	
