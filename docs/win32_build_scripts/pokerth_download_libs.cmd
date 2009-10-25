@@ -31,6 +31,7 @@ echo - mingw with gcc-core (TDM), gcc-g++ (TDM), binutils, mingw-runtime,
 echo   w32api, mingw32-make, mingw-utils
 echo - Qt - will be compiled from the sources
 echo - GnuTLS - using the binary release
+echo - gsasl - using the binary release
 echo - zlib and libcurl - will be compiled from the sources
 echo - boost - will be compiled from the sources
 echo - SDL, SDL_mixer - using binary releases
@@ -51,32 +52,32 @@ echo The process will start if you press any other key.
 pause
 echo.
 echo Downloading mingw packages
-%PKTH_OldDir%\third_party_apps\wget http://%SOURCEFORGE_MIRROR%.sourceforge.net/sourceforge/tdm-gcc/gcc-4.4.0-tdm-1-dw2-core-2.tar.gz http://%SOURCEFORGE_MIRROR%.sourceforge.net/sourceforge/tdm-gcc/gcc-4.4.0-tdm-1-dw2-g++-2.tar.gz http://%SOURCEFORGE_MIRROR%.sourceforge.net/sourceforge/mingw/binutils-2.19.1-mingw32-bin.tar.gz http://%SOURCEFORGE_MIRROR%.sourceforge.net/sourceforge/mingw/mingwrt-3.15.2-mingw32-dev.tar.gz http://%SOURCEFORGE_MIRROR%.sourceforge.net/sourceforge/mingw/mingwrt-3.15.2-mingw32-dll.tar.gz http://%SOURCEFORGE_MIRROR%.sourceforge.net/sourceforge/mingw/w32api-3.13-mingw32-dev.tar.gz http://%SOURCEFORGE_MIRROR%.sourceforge.net/sourceforge/mingw/mingw32-make-3.81-20080326-3.tar.gz http://%SOURCEFORGE_MIRROR%.sourceforge.net/sourceforge/mingw/mingw-utils-0.3.tar.gz
+%PKTH_OldDir%\third_party_apps\wget http://%SOURCEFORGE_MIRROR%.sourceforge.net/sourceforge/tdm-gcc/gcc-4.4.1-tdm-2-dw2-core.tar.gz http://%SOURCEFORGE_MIRROR%.sourceforge.net/sourceforge/tdm-gcc/gcc-4.4.1-tdm-2-dw2-g++.tar.gz http://%SOURCEFORGE_MIRROR%.sourceforge.net/sourceforge/mingw/binutils-2.19.1-mingw32-bin.tar.gz http://%SOURCEFORGE_MIRROR%.sourceforge.net/sourceforge/mingw/mingwrt-3.16-mingw32-dev.tar.gz http://%SOURCEFORGE_MIRROR%.sourceforge.net/sourceforge/mingw/mingwrt-3.16-mingw32-dll.tar.gz http://%SOURCEFORGE_MIRROR%.sourceforge.net/sourceforge/mingw/w32api-3.13-mingw32-dev.tar.gz http://%SOURCEFORGE_MIRROR%.sourceforge.net/sourceforge/mingw/mingw32-make-3.81-20090910.tar.gz http://%SOURCEFORGE_MIRROR%.sourceforge.net/sourceforge/mingw/mingw-utils-0.3.tar.gz
 if not errorlevel 0 goto downloadFailed
 echo.
 echo Unpacking mingw packages
 mkdir mingw
-%PKTH_OldDir%\third_party_apps\7za x -y gcc-4.4.0-tdm-1-dw2-core-2.tar.gz
-%PKTH_OldDir%\third_party_apps\7za x -y -omingw gcc-4.4.0-tdm-1-dw2-core-2.tar
-del gcc-4.4.0-tdm-1-dw2-core-2.tar
-%PKTH_OldDir%\third_party_apps\7za x -y gcc-4.4.0-tdm-1-dw2-g++-2.tar.gz
-%PKTH_OldDir%\third_party_apps\7za x -y -omingw gcc-4.4.0-tdm-1-dw2-g++-2.tar
-del gcc-4.4.0-tdm-1-dw2-g++-2.tar
+%PKTH_OldDir%\third_party_apps\7za x -y gcc-4.4.1-tdm-2-dw2-core.tar.gz
+%PKTH_OldDir%\third_party_apps\7za x -y -omingw gcc-4.4.1-tdm-2-dw2-core.tar
+del gcc-4.4.1-tdm-2-dw2-core.tar
+%PKTH_OldDir%\third_party_apps\7za x -y gcc-4.4.1-tdm-2-dw2-g++.tar.gz
+%PKTH_OldDir%\third_party_apps\7za x -y -omingw gcc-4.4.1-tdm-2-dw2-g++.tar
+del gcc-4.4.1-tdm-2-dw2-g++.tar
 %PKTH_OldDir%\third_party_apps\7za x -y binutils-2.19.1-mingw32-bin.tar.gz
 %PKTH_OldDir%\third_party_apps\7za x -y -omingw binutils-2.19.1-mingw32-bin.tar
 del binutils-2.19.1-mingw32-bin.tar
-%PKTH_OldDir%\third_party_apps\7za x -y mingwrt-3.15.2-mingw32-dev.tar.gz
-%PKTH_OldDir%\third_party_apps\7za x -y -omingw mingwrt-3.15.2-mingw32-dev.tar
-del mingwrt-3.15.2-mingw32-dev.tar
-%PKTH_OldDir%\third_party_apps\7za x -y mingwrt-3.15.2-mingw32-dll.tar.gz
-%PKTH_OldDir%\third_party_apps\7za x -y -omingw mingwrt-3.15.2-mingw32-dll.tar
-del mingwrt-3.15.2-mingw32-dll.tar
+%PKTH_OldDir%\third_party_apps\7za x -y mingwrt-3.16-mingw32-dev.tar.gz
+%PKTH_OldDir%\third_party_apps\7za x -y -omingw mingwrt-3.16-mingw32-dev.tar
+del mingwrt-3.16-mingw32-dev.tar
+%PKTH_OldDir%\third_party_apps\7za x -y mingwrt-3.16-mingw32-dll.tar.gz
+%PKTH_OldDir%\third_party_apps\7za x -y -omingw mingwrt-3.16-mingw32-dll.tar
+del mingwrt-3.16-mingw32-dll.tar
 %PKTH_OldDir%\third_party_apps\7za x -y w32api-3.13-mingw32-dev.tar.gz
 %PKTH_OldDir%\third_party_apps\7za x -y -omingw w32api-3.13-mingw32-dev.tar
 del w32api-3.13-mingw32-dev.tar
-%PKTH_OldDir%\third_party_apps\7za x -y mingw32-make-3.81-20080326-3.tar.gz
-%PKTH_OldDir%\third_party_apps\7za x -y -omingw mingw32-make-3.81-20080326-3.tar
-del mingw32-make-3.81-20080326-3.tar
+%PKTH_OldDir%\third_party_apps\7za x -y mingw32-make-3.81-20090910.tar.gz
+%PKTH_OldDir%\third_party_apps\7za x -y -omingw mingw32-make-3.81-20090910.tar
+del mingw32-make-3.81-20090910.tar
 %PKTH_OldDir%\third_party_apps\7za x -y mingw-utils-0.3.tar.gz
 %PKTH_OldDir%\third_party_apps\7za x -y -omingw mingw-utils-0.3.tar
 del mingw-utils-0.3.tar
@@ -91,7 +92,7 @@ ren gcc-dw2.exe gcc.exe
 ren gcov-dw2.exe gcov.exe
 ren mingw32-c++-dw2.exe mingw32-c++.exe
 ren mingw32-g++-dw2.exe mingw32-g++.exe
-ren mingw32-gcc-4.4.0-dw2.exe mingw32-gcc-4.4.0.exe
+ren mingw32-gcc-4.4.1-dw2.exe mingw32-gcc-4.4.1.exe
 ren mingw32-gcc-dw2.exe mingw32-gcc.exe
 cd /d %PKTH_BaseDir%
 echo.
