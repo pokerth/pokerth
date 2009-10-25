@@ -125,7 +125,7 @@
      <item>
       <widget class="QStackedWidget" name="stackedWidget">
        <property name="currentIndex">
-        <number>4</number>
+        <number>0</number>
        </property>
        <widget class="QWidget" name="page">
         <layout class="QGridLayout" name="gridLayout_8">
@@ -1154,6 +1154,9 @@ p, li { white-space: pre-wrap; }
               <property name="bottomMargin">
                <number>6</number>
               </property>
+              <property name="verticalSpacing">
+               <number>4</number>
+              </property>
               <item row="0" column="0">
                <widget class="QRadioButton" name="radioButton_netRaiseBlindsAtHands">
                 <property name="text">
@@ -1255,7 +1258,10 @@ p, li { white-space: pre-wrap; }
                <number>6</number>
               </property>
               <property name="bottomMargin">
-               <number>0</number>
+               <number>4</number>
+              </property>
+              <property name="verticalSpacing">
+               <number>2</number>
               </property>
               <item row="0" column="0">
                <widget class="QRadioButton" name="radioButton_netAlwaysDoubleBlinds">
@@ -1752,6 +1758,12 @@ p, li { white-space: pre-wrap; }
              <property name="orientation">
               <enum>Qt::Horizontal</enum>
              </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>0</width>
+               <height>0</height>
+              </size>
+             </property>
             </spacer>
            </item>
            <item row="0" column="1" colspan="3">
@@ -1772,6 +1784,12 @@ p, li { white-space: pre-wrap; }
             <spacer name="horizontalSpacer_5">
              <property name="orientation">
               <enum>Qt::Horizontal</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>0</width>
+               <height>0</height>
+              </size>
              </property>
             </spacer>
            </item>
