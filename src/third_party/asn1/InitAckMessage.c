@@ -9,50 +9,7 @@
 
 #include "InitAckMessage.h"
 
-static int
-memb_latestBetaRevision_constraint_1(asn_TYPE_descriptor_t *td, const void *sptr,
-			asn_app_constraint_failed_f *ctfailcb, void *app_key) {
-	long value;
-	
-	if(!sptr) {
-		_ASN_CTFAIL(app_key, td, sptr,
-			"%s: value not given (%s:%d)",
-			td->name, __FILE__, __LINE__);
-		return -1;
-	}
-	
-	value = *(const long *)sptr;
-	
-	if((value >= 0 && value <= 65535)) {
-		/* Constraint check succeeded */
-		return 0;
-	} else {
-		_ASN_CTFAIL(app_key, td, sptr,
-			"%s: constraint failed (%s:%d)",
-			td->name, __FILE__, __LINE__);
-		return -1;
-	}
-}
-
 static asn_TYPE_member_t asn_MBR_InitAckMessage_1[] = {
-	{ ATF_NOFLAGS, 0, offsetof(struct InitAckMessage, latestGameVersion),
-		(ASN_TAG_CLASS_UNIVERSAL | (16 << 2)),
-		0,
-		&asn_DEF_Version,
-		0,	/* Defer constraints checking to the member type */
-		0,	/* PER is not compiled, use -gen-PER */
-		0,
-		"latestGameVersion"
-		},
-	{ ATF_NOFLAGS, 0, offsetof(struct InitAckMessage, latestBetaRevision),
-		(ASN_TAG_CLASS_UNIVERSAL | (2 << 2)),
-		0,
-		&asn_DEF_NativeInteger,
-		memb_latestBetaRevision_constraint_1,
-		0,	/* PER is not compiled, use -gen-PER */
-		0,
-		"latestBetaRevision"
-		},
 	{ ATF_NOFLAGS, 0, offsetof(struct InitAckMessage, yourSessionId),
 		(ASN_TAG_CLASS_UNIVERSAL | (2 << 2)),
 		0,
@@ -73,23 +30,21 @@ static asn_TYPE_member_t asn_MBR_InitAckMessage_1[] = {
 		},
 };
 static ber_tlv_tag_t asn_DEF_InitAckMessage_tags_1[] = {
-	(ASN_TAG_CLASS_APPLICATION | (2 << 2)),
+	(ASN_TAG_CLASS_APPLICATION | (3 << 2)),
 	(ASN_TAG_CLASS_UNIVERSAL | (16 << 2))
 };
 static asn_TYPE_tag2member_t asn_MAP_InitAckMessage_tag2el_1[] = {
-    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 1, 0, 2 }, /* latestBetaRevision at 121 */
-    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 2, -1, 1 }, /* yourSessionId at 122 */
-    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 3, -2, 0 }, /* yourPlayerId at 124 */
-    { (ASN_TAG_CLASS_UNIVERSAL | (16 << 2)), 0, 0, 0 } /* latestGameVersion at 120 */
+    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 0, 0, 1 }, /* yourSessionId at 129 */
+    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 1, -1, 0 } /* yourPlayerId at 131 */
 };
 static asn_SEQUENCE_specifics_t asn_SPC_InitAckMessage_specs_1 = {
 	sizeof(struct InitAckMessage),
 	offsetof(struct InitAckMessage, _asn_ctx),
 	asn_MAP_InitAckMessage_tag2el_1,
-	4,	/* Count of tags in the map */
+	2,	/* Count of tags in the map */
 	0, 0, 0,	/* Optional elements (not needed) */
-	3,	/* Start extensions */
-	5	/* Stop extensions */
+	1,	/* Start extensions */
+	3	/* Stop extensions */
 };
 asn_TYPE_descriptor_t asn_DEF_InitAckMessage = {
 	"InitAckMessage",
@@ -111,7 +66,7 @@ asn_TYPE_descriptor_t asn_DEF_InitAckMessage = {
 		/sizeof(asn_DEF_InitAckMessage_tags_1[0]), /* 2 */
 	0,	/* No PER visible constraints */
 	asn_MBR_InitAckMessage_1,
-	4,	/* Elements count */
+	2,	/* Elements count */
 	&asn_SPC_InitAckMessage_specs_1	/* Additional specs */
 };
 

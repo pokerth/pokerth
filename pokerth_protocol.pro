@@ -25,18 +25,18 @@ DEPENDPATH += . \
 
 # Input
 HEADERS += src/third_party/asn1/AllInShowCardsMessage.h \
-	src/third_party/asn1/ChatCleanerMessage.h \
-	src/third_party/asn1/CleanerInitMessage.h \
-	src/third_party/asn1/CleanerInitAckMessage.h \
-	src/third_party/asn1/CleanerChatRequestMessage.h \
-	src/third_party/asn1/CleanerChatReplyMessage.h \
-	src/third_party/asn1/GuestLogin.h \
+    src/third_party/asn1/ChatCleanerMessage.h \
+    src/third_party/asn1/CleanerInitMessage.h \
+    src/third_party/asn1/CleanerInitAckMessage.h \
+    src/third_party/asn1/CleanerChatRequestMessage.h \
+    src/third_party/asn1/CleanerChatReplyMessage.h \
+    src/third_party/asn1/GuestLogin.h \
     src/third_party/asn1/AskKickDeniedMessage.h \
     src/third_party/asn1/AskKickPlayerMessage.h \
-	src/third_party/asn1/AuthMessage.h \
-	src/third_party/asn1/AuthClientResponse.h \
-	src/third_party/asn1/AuthServerChallenge.h \
-	src/third_party/asn1/AuthServerVerification.h \
+    src/third_party/asn1/AuthMessage.h \
+    src/third_party/asn1/AuthClientResponse.h \
+    src/third_party/asn1/AuthServerChallenge.h \
+    src/third_party/asn1/AuthServerVerification.h \
     src/third_party/asn1/asn_application.h \
     src/third_party/asn1/asn_codecs.h \
     src/third_party/asn1/asn_codecs_prim.h \
@@ -137,7 +137,6 @@ HEADERS += src/third_party/asn1/AllInShowCardsMessage.h \
     src/third_party/asn1/StartEventMessage.h \
     src/third_party/asn1/StartKickPetitionMessage.h \
     src/third_party/asn1/StatisticsData.h \
-    src/third_party/asn1/StatisticsLogin.h \
     src/third_party/asn1/StatisticsMessage.h \
     src/third_party/asn1/SubscriptionRequestMessage.h \
     src/third_party/asn1/TimeoutWarningMessage.h \
@@ -152,18 +151,18 @@ HEADERS += src/third_party/asn1/AllInShowCardsMessage.h \
     src/third_party/asn1/xer_decoder.h \
     src/third_party/asn1/xer_encoder.h \
     src/third_party/asn1/xer_support.h \
-    src/third_party/asn1/YourActionRejectedMessage.h
-
+    src/third_party/asn1/YourActionRejectedMessage.h \
+    src/third_party/asn1/AnnounceMessage.h
 SOURCES += src/third_party/asn1/ChatCleanerMessage.c \
-	src/third_party/asn1/CleanerInitMessage.c \
-	src/third_party/asn1/CleanerInitAckMessage.c \
-	src/third_party/asn1/CleanerChatRequestMessage.c \
-	src/third_party/asn1/CleanerChatReplyMessage.c \
-	src/third_party/asn1/AuthMessage.c \
-	src/third_party/asn1/AuthClientResponse.c \
-	src/third_party/asn1/AuthServerChallenge.c \
-	src/third_party/asn1/AuthServerVerification.c \
-	src/third_party/asn1/AllInShowCardsMessage.c \
+    src/third_party/asn1/CleanerInitMessage.c \
+    src/third_party/asn1/CleanerInitAckMessage.c \
+    src/third_party/asn1/CleanerChatRequestMessage.c \
+    src/third_party/asn1/CleanerChatReplyMessage.c \
+    src/third_party/asn1/AuthMessage.c \
+    src/third_party/asn1/AuthClientResponse.c \
+    src/third_party/asn1/AuthServerChallenge.c \
+    src/third_party/asn1/AuthServerVerification.c \
+    src/third_party/asn1/AllInShowCardsMessage.c \
     src/third_party/asn1/YourActionRejectedMessage.c \
     src/third_party/asn1/xer_support.c \
     src/third_party/asn1/xer_encoder.c \
@@ -179,7 +178,6 @@ SOURCES += src/third_party/asn1/ChatCleanerMessage.c \
     src/third_party/asn1/TimeoutWarningMessage.c \
     src/third_party/asn1/SubscriptionRequestMessage.c \
     src/third_party/asn1/StatisticsMessage.c \
-    src/third_party/asn1/StatisticsLogin.c \
     src/third_party/asn1/StatisticsData.c \
     src/third_party/asn1/StartKickPetitionMessage.c \
     src/third_party/asn1/StartEventMessage.c \
@@ -278,8 +276,8 @@ SOURCES += src/third_party/asn1/ChatCleanerMessage.c \
     src/third_party/asn1/asn_codecs_prim.c \
     src/third_party/asn1/AskKickPlayerMessage.c \
     src/third_party/asn1/AskKickDeniedMessage.c \
-	src/third_party/asn1/GuestLogin.c
-
+    src/third_party/asn1/GuestLogin.c \
+    src/third_party/asn1/AnnounceMessage.c
 win32 { 
     DEFINES += CURL_STATICLIB
     DEFINES += _WIN32_WINNT=0x0501

@@ -30,12 +30,12 @@ static asn_TYPE_member_t asn_MBR_DealTurnCardMessage_1[] = {
 		},
 };
 static ber_tlv_tag_t asn_DEF_DealTurnCardMessage_tags_1[] = {
-	(ASN_TAG_CLASS_APPLICATION | (24 << 2)),
+	(ASN_TAG_CLASS_APPLICATION | (25 << 2)),
 	(ASN_TAG_CLASS_UNIVERSAL | (16 << 2))
 };
 static asn_TYPE_tag2member_t asn_MAP_DealTurnCardMessage_tag2el_1[] = {
-    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 0, 0, 1 }, /* gameId at 420 */
-    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 1, -1, 0 } /* turnCard at 422 */
+    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 0, 0, 1 }, /* gameId at 427 */
+    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 1, -1, 0 } /* turnCard at 429 */
 };
 static asn_SEQUENCE_specifics_t asn_SPC_DealTurnCardMessage_specs_1 = {
 	sizeof(struct DealTurnCardMessage),

@@ -12,8 +12,6 @@
 #include <asn_application.h>
 
 /* Including external dependencies */
-#include "Version.h"
-#include <NativeInteger.h>
 #include "Guid.h"
 #include "NonZeroId.h"
 #include <constr_SEQUENCE.h>
@@ -24,8 +22,6 @@ extern "C" {
 
 /* InitAckMessage */
 typedef struct InitAckMessage {
-	Version_t	 latestGameVersion;
-	long	 latestBetaRevision;
 	Guid_t	 yourSessionId;
 	NonZeroId_t	 yourPlayerId;
 	/*

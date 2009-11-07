@@ -12,6 +12,7 @@
 #include <asn_application.h>
 
 /* Including external dependencies */
+#include "AnnounceMessage.h"
 #include "InitMessage.h"
 #include "AuthMessage.h"
 #include "InitAckMessage.h"
@@ -64,6 +65,7 @@ extern "C" {
 /* Dependencies */
 typedef enum PokerTHMessage_PR {
 	PokerTHMessage_PR_NOTHING,	/* No components present */
+	PokerTHMessage_PR_announceMessage,
 	PokerTHMessage_PR_initMessage,
 	PokerTHMessage_PR_authMessage,
 	PokerTHMessage_PR_initAckMessage,
@@ -115,6 +117,7 @@ typedef enum PokerTHMessage_PR {
 typedef struct PokerTHMessage {
 	PokerTHMessage_PR present;
 	union PokerTHMessage_u {
+		AnnounceMessage_t	 announceMessage;
 		InitMessage_t	 initMessage;
 		AuthMessage_t	 authMessage;
 		InitAckMessage_t	 initAckMessage;

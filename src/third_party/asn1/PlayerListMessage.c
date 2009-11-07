@@ -147,12 +147,12 @@ static asn_TYPE_member_t asn_MBR_PlayerListMessage_1[] = {
 		},
 };
 static ber_tlv_tag_t asn_DEF_PlayerListMessage_tags_1[] = {
-	(ASN_TAG_CLASS_APPLICATION | (5 << 2)),
+	(ASN_TAG_CLASS_APPLICATION | (6 << 2)),
 	(ASN_TAG_CLASS_UNIVERSAL | (16 << 2))
 };
 static asn_TYPE_tag2member_t asn_MAP_PlayerListMessage_tag2el_1[] = {
-    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 0, 0, 0 }, /* playerId at 165 */
-    { (ASN_TAG_CLASS_UNIVERSAL | (10 << 2)), 1, 0, 0 } /* playerListNotification at 167 */
+    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 0, 0, 0 }, /* playerId at 172 */
+    { (ASN_TAG_CLASS_UNIVERSAL | (10 << 2)), 1, 0, 0 } /* playerListNotification at 174 */
 };
 static asn_SEQUENCE_specifics_t asn_SPC_PlayerListMessage_specs_1 = {
 	sizeof(struct PlayerListMessage),

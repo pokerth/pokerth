@@ -28,20 +28,10 @@ static asn_TYPE_member_t asn_MBR_login_4[] = {
 		0,
 		"authenticatedLogin"
 		},
-	{ ATF_NOFLAGS, 0, offsetof(struct login, choice.statisticsLogin),
-		(ASN_TAG_CLASS_CONTEXT | (2 << 2)),
-		-1,	/* IMPLICIT tag at current level */
-		&asn_DEF_StatisticsLogin,
-		0,	/* Defer constraints checking to the member type */
-		0,	/* PER is not compiled, use -gen-PER */
-		0,
-		"statisticsLogin"
-		},
 };
 static asn_TYPE_tag2member_t asn_MAP_login_tag2el_4[] = {
-    { (ASN_TAG_CLASS_CONTEXT | (0 << 2)), 0, 0, 0 }, /* guestLogin at 77 */
-    { (ASN_TAG_CLASS_CONTEXT | (1 << 2)), 1, 0, 0 }, /* authenticatedLogin at 78 */
-    { (ASN_TAG_CLASS_CONTEXT | (2 << 2)), 2, 0, 0 } /* statisticsLogin at 80 */
+    { (ASN_TAG_CLASS_CONTEXT | (0 << 2)), 0, 0, 0 }, /* guestLogin at 90 */
+    { (ASN_TAG_CLASS_CONTEXT | (1 << 2)), 1, 0, 0 } /* authenticatedLogin at 92 */
 };
 static asn_CHOICE_specifics_t asn_SPC_login_specs_4 = {
 	sizeof(struct login),
@@ -49,9 +39,9 @@ static asn_CHOICE_specifics_t asn_SPC_login_specs_4 = {
 	offsetof(struct login, present),
 	sizeof(((struct login *)0)->present),
 	asn_MAP_login_tag2el_4,
-	3,	/* Count of tags in the map */
+	2,	/* Count of tags in the map */
 	0,
-	3	/* Extensions start */
+	2	/* Extensions start */
 };
 static /* Use -fall-defs-global to expose */
 asn_TYPE_descriptor_t asn_DEF_login_4 = {
@@ -72,7 +62,7 @@ asn_TYPE_descriptor_t asn_DEF_login_4 = {
 	0,	/* No tags (count) */
 	0,	/* No PER visible constraints */
 	asn_MBR_login_4,
-	3,	/* Elements count */
+	2,	/* Elements count */
 	&asn_SPC_login_specs_4	/* Additional specs */
 };
 
@@ -106,21 +96,20 @@ static asn_TYPE_member_t asn_MBR_InitMessage_1[] = {
 		},
 };
 static ber_tlv_tag_t asn_DEF_InitMessage_tags_1[] = {
-	(ASN_TAG_CLASS_APPLICATION | (0 << 2)),
+	(ASN_TAG_CLASS_APPLICATION | (1 << 2)),
 	(ASN_TAG_CLASS_UNIVERSAL | (16 << 2))
 };
 static asn_TYPE_tag2member_t asn_MAP_InitMessage_tag2el_1[] = {
-    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 1, 0, 0 }, /* buildId at 75 */
-    { (ASN_TAG_CLASS_UNIVERSAL | (16 << 2)), 0, 0, 0 }, /* requestedVersion at 74 */
-    { (ASN_TAG_CLASS_CONTEXT | (0 << 2)), 2, 0, 0 }, /* guestLogin at 77 */
-    { (ASN_TAG_CLASS_CONTEXT | (1 << 2)), 2, 0, 0 }, /* authenticatedLogin at 78 */
-    { (ASN_TAG_CLASS_CONTEXT | (2 << 2)), 2, 0, 0 } /* statisticsLogin at 80 */
+    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 1, 0, 0 }, /* buildId at 88 */
+    { (ASN_TAG_CLASS_UNIVERSAL | (16 << 2)), 0, 0, 0 }, /* requestedVersion at 87 */
+    { (ASN_TAG_CLASS_CONTEXT | (0 << 2)), 2, 0, 0 }, /* guestLogin at 90 */
+    { (ASN_TAG_CLASS_CONTEXT | (1 << 2)), 2, 0, 0 } /* authenticatedLogin at 92 */
 };
 static asn_SEQUENCE_specifics_t asn_SPC_InitMessage_specs_1 = {
 	sizeof(struct InitMessage),
 	offsetof(struct InitMessage, _asn_ctx),
 	asn_MAP_InitMessage_tag2el_1,
-	5,	/* Count of tags in the map */
+	4,	/* Count of tags in the map */
 	0, 0, 0,	/* Optional elements (not needed) */
 	2,	/* Start extensions */
 	4	/* Stop extensions */

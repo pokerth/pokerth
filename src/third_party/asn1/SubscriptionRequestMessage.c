@@ -138,11 +138,11 @@ static asn_TYPE_member_t asn_MBR_SubscriptionRequestMessage_1[] = {
 		},
 };
 static ber_tlv_tag_t asn_DEF_SubscriptionRequestMessage_tags_1[] = {
-	(ASN_TAG_CLASS_APPLICATION | (9 << 2)),
+	(ASN_TAG_CLASS_APPLICATION | (10 << 2)),
 	(ASN_TAG_CLASS_UNIVERSAL | (16 << 2))
 };
 static asn_TYPE_tag2member_t asn_MAP_SubscriptionRequestMessage_tag2el_1[] = {
-    { (ASN_TAG_CLASS_UNIVERSAL | (10 << 2)), 0, 0, 0 } /* subscriptionAction at 242 */
+    { (ASN_TAG_CLASS_UNIVERSAL | (10 << 2)), 0, 0, 0 } /* subscriptionAction at 249 */
 };
 static asn_SEQUENCE_specifics_t asn_SPC_SubscriptionRequestMessage_specs_1 = {
 	sizeof(struct SubscriptionRequestMessage),

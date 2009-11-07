@@ -48,10 +48,10 @@ static asn_TYPE_member_t asn_MBR_avatarResult_3[] = {
 		},
 };
 static asn_TYPE_tag2member_t asn_MAP_avatarResult_tag2el_3[] = {
-    { (ASN_TAG_CLASS_CONTEXT | (0 << 2)), 0, 0, 0 }, /* avatarHeader at 134 */
-    { (ASN_TAG_CLASS_CONTEXT | (1 << 2)), 1, 0, 0 }, /* avatarData at 135 */
-    { (ASN_TAG_CLASS_CONTEXT | (2 << 2)), 2, 0, 0 }, /* avatarEnd at 136 */
-    { (ASN_TAG_CLASS_CONTEXT | (3 << 2)), 3, 0, 0 } /* unknownAvatar at 138 */
+    { (ASN_TAG_CLASS_CONTEXT | (0 << 2)), 0, 0, 0 }, /* avatarHeader at 141 */
+    { (ASN_TAG_CLASS_CONTEXT | (1 << 2)), 1, 0, 0 }, /* avatarData at 142 */
+    { (ASN_TAG_CLASS_CONTEXT | (2 << 2)), 2, 0, 0 }, /* avatarEnd at 143 */
+    { (ASN_TAG_CLASS_CONTEXT | (3 << 2)), 3, 0, 0 } /* unknownAvatar at 145 */
 };
 static asn_CHOICE_specifics_t asn_SPC_avatarResult_specs_3 = {
 	sizeof(struct avatarResult),
@@ -107,15 +107,15 @@ static asn_TYPE_member_t asn_MBR_AvatarReplyMessage_1[] = {
 		},
 };
 static ber_tlv_tag_t asn_DEF_AvatarReplyMessage_tags_1[] = {
-	(ASN_TAG_CLASS_APPLICATION | (4 << 2)),
+	(ASN_TAG_CLASS_APPLICATION | (5 << 2)),
 	(ASN_TAG_CLASS_UNIVERSAL | (16 << 2))
 };
 static asn_TYPE_tag2member_t asn_MAP_AvatarReplyMessage_tag2el_1[] = {
-    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 0, 0, 0 }, /* requestId at 132 */
-    { (ASN_TAG_CLASS_CONTEXT | (0 << 2)), 1, 0, 0 }, /* avatarHeader at 134 */
-    { (ASN_TAG_CLASS_CONTEXT | (1 << 2)), 1, 0, 0 }, /* avatarData at 135 */
-    { (ASN_TAG_CLASS_CONTEXT | (2 << 2)), 1, 0, 0 }, /* avatarEnd at 136 */
-    { (ASN_TAG_CLASS_CONTEXT | (3 << 2)), 1, 0, 0 } /* unknownAvatar at 138 */
+    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 0, 0, 0 }, /* requestId at 139 */
+    { (ASN_TAG_CLASS_CONTEXT | (0 << 2)), 1, 0, 0 }, /* avatarHeader at 141 */
+    { (ASN_TAG_CLASS_CONTEXT | (1 << 2)), 1, 0, 0 }, /* avatarData at 142 */
+    { (ASN_TAG_CLASS_CONTEXT | (2 << 2)), 1, 0, 0 }, /* avatarEnd at 143 */
+    { (ASN_TAG_CLASS_CONTEXT | (3 << 2)), 1, 0, 0 } /* unknownAvatar at 145 */
 };
 static asn_SEQUENCE_specifics_t asn_SPC_AvatarReplyMessage_specs_1 = {
 	sizeof(struct AvatarReplyMessage),
