@@ -216,6 +216,19 @@ ServerLobbyThread::AddConnection(boost::shared_ptr<tcp::socket> sock)
 			{
 				sessionData->SetClientAddr(ipAddress);
 				hasClientIp = true;
+
+				boost::shared_ptr<NetPacket> packet(new NetPacket(NetPacket::Alloc));
+				packet->GetMsg()->present = PokerTHMessage_PR_announceMessage;
+				AnnounceMessage_t *netAnnounce = &packet->GetMsg()->choice.announceMessage;
+				netAnnounce->protocolVersion.major = NET_VERSION_MAJOR;
+				netAnnounce->protocolVersion.minor = NET_VERSION_MINOR;
+				netAnnounce->latestGameVersion.major = POKERTH_VERSION_MAJOR;
+				netAnnounce->latestGameVersion.minor = POKERTH_VERSION_MINOR;
+				netAnnounce->latestBetaRevision = POKERTH_BETA_REVISION;
+				// TODO
+				netAnnounce->serverType = serverType_serverTypeLAN;
+				GetSender().Send(sessionData, packet);
+
 				sock->async_read_some(
 					boost::asio::buffer(sessionData->GetReceiveBuffer().recvBuf, RECV_BUF_SIZE),
 					boost::bind(
@@ -1327,9 +1340,6 @@ ServerLobbyThread::EstablishSession(SessionWrapper session)
 	boost::shared_ptr<NetPacket> ack(new NetPacket(NetPacket::Alloc));
 	ack->GetMsg()->present = PokerTHMessage_PR_initAckMessage;
 	InitAckMessage_t *netInitAck = &ack->GetMsg()->choice.initAckMessage;
-	netInitAck->latestGameVersion.major = POKERTH_VERSION_MAJOR;
-	netInitAck->latestGameVersion.minor = POKERTH_VERSION_MINOR;
-	netInitAck->latestBetaRevision = POKERTH_BETA_REVISION;
 //	initAckData.sessionId = session.sessionData->GetId(); // TODO: currently unused.
 	netInitAck->yourPlayerId = session.playerData->GetUniqueId();
 	GetSender().Send(session.sessionData, ack);

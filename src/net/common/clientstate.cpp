@@ -1053,7 +1053,22 @@ ClientStateWaitAuthChallenge::Exit(boost::shared_ptr<ClientThread> /*client*/)
 void
 ClientStateWaitAuthChallenge::InternalHandlePacket(boost::shared_ptr<ClientThread> client, boost::shared_ptr<NetPacket> tmpPacket)
 {
-	if (tmpPacket->GetMsg()->present == PokerTHMessage_PR_authMessage)
+	if (tmpPacket->GetMsg()->present == PokerTHMessage_PR_announceMessage)
+	{
+		// Server has send announcement - check data.
+		AnnounceMessage_t *netAnnounce = &tmpPacket->GetMsg()->choice.announceMessage;
+		// Check current game version.
+		if (netAnnounce->latestGameVersion.major != POKERTH_VERSION_MAJOR
+			|| netAnnounce->latestGameVersion.minor != POKERTH_VERSION_MINOR)
+		{
+			client->GetCallback().SignalNetClientNotification(NTF_NET_NEW_RELEASE_AVAILABLE);
+		}
+		else if (POKERTH_BETA_REVISION && netAnnounce->latestBetaRevision != POKERTH_BETA_REVISION)
+		{
+			client->GetCallback().SignalNetClientNotification(NTF_NET_OUTDATED_BETA);
+		}
+	}
+	else if (tmpPacket->GetMsg()->present == PokerTHMessage_PR_authMessage)
 	{
 		// Check subtype.
 		AuthMessage_t *netAuth = &tmpPacket->GetMsg()->choice.authMessage;
@@ -1167,17 +1182,6 @@ ClientStateWaitSession::InternalHandlePacket(boost::shared_ptr<ClientThread> cli
 	{
 		// Everything is fine - we are in the lobby.
 		InitAckMessage_t *netInitAck = &tmpPacket->GetMsg()->choice.initAckMessage;
-		// Check current game version.
-		if (netInitAck->latestGameVersion.major != POKERTH_VERSION_MAJOR
-			|| netInitAck->latestGameVersion.minor != POKERTH_VERSION_MINOR)
-		{
-			client->GetCallback().SignalNetClientNotification(NTF_NET_NEW_RELEASE_AVAILABLE);
-		}
-		else if (POKERTH_BETA_REVISION && netInitAck->latestBetaRevision != POKERTH_BETA_REVISION)
-		{
-			client->GetCallback().SignalNetClientNotification(NTF_NET_OUTDATED_BETA);
-		}
-
 		client->SetGuiPlayerId(netInitAck->yourPlayerId);
 
 		client->SetSessionEstablished(true);
