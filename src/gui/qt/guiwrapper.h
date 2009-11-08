@@ -115,6 +115,7 @@ public:
 	void SignalNetClientServerListAdd(unsigned serverId);
 	void SignalNetClientServerListShow();
 	void SignalNetClientServerListClear();
+	void SignalNetClientLoginShow();
 	void SignalNetClientGameInfo(int actionID);
 	void SignalNetClientError(int errorID, int osErrorID);
 	void SignalNetClientNotification(int notificationId);

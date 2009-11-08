@@ -65,6 +65,7 @@ signals:
 	void signalNetClientServerListShow();
 	void signalNetClientServerListClear();
 	void signalNetClientServerListAdd(unsigned serverId);
+	void signalNetClientLoginShow();
 	void signalNetClientGameInfo(int actionID);
 	void signalNetClientError(int errorID, int osErrorID);
 	void signalNetClientNotification(int notificationId);
@@ -110,6 +111,7 @@ public slots:
 	void callCreateNetworkGameDialog();
 	void callJoinNetworkGameDialog();
 	void showLobbyDialog();
+	void callInternetGameLoginDialog();
 	void joinGameLobby();
 	void showClientDialog();
 	void showNetworkStartDialog();

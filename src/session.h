@@ -62,7 +62,7 @@ public:
 
 	boost::shared_ptr<AvatarManager> getAvatarManager();
 
-	void startInternetClient(const std::string &username, const std::string &password);
+	void startInternetClient();
 	void startNetworkClient(const std::string &serverAddress, unsigned serverPort, bool ipv6, bool sctp, const std::string &pwd);
 	void startNetworkClientForLocalServer(const GameData &gameData);
 	void terminateNetworkClient();

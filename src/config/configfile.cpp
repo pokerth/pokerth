@@ -296,9 +296,13 @@ ConfigFile::ConfigFile(char *argv0, bool readonly) : noWriteAccess(readonly)
 			if ( confAppDataPath ) {
 				const char *tmpStr = confAppDataPath->Attribute("value");
 				if (tmpStr) tempAppDataPath = tmpStr;
+				//if appdatapath changes directly update it here not in UpdateConfig()
+				if(tempAppDataPath != myQtToolsInterface->getDataPathStdString(myArgv0)) {
+					confAppDataPath->SetAttribute("value", myQtToolsInterface->stringToUtf8(myQtToolsInterface->getDataPathStdString(myArgv0)));
+					doc.SaveFile( configFileName );
+				}
 			}
-
-			if (tempRevision < configRev || tempAppDataPath != myQtToolsInterface->getDataPathStdString(myArgv0) ) { /*löschen()*/
+			if (tempRevision < configRev) {
 				myConfigState = OLD;
 				updateConfig(myConfigState) ;
 			}

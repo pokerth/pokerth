@@ -62,7 +62,6 @@ startWindowImpl::startWindowImpl(ConfigFile *c)
 // 		myGuiInterface->setSession(session);
 	}
 
-
 // #ifdef __APPLE__
 // 	setWindowModality(Qt::ApplicationModal);
 // 	setWindowFlags(Qt::WindowSystemMenuHint | Qt::CustomizeWindowHint | Qt::Dialog);
@@ -120,6 +119,8 @@ startWindowImpl::startWindowImpl(ConfigFile *c)
 	connect(this, SIGNAL(signalNetClientServerListClear()), myServerListDialog, SLOT(clearList()));
 	connect(this, SIGNAL(signalNetClientServerListAdd(unsigned)), myServerListDialog, SLOT(addServerItem(unsigned)));
 
+	connect(this, SIGNAL(signalNetClientLoginShow()), this, SLOT(callInternetGameLoginDialog()));
+	
 	connect(this, SIGNAL(signalNetClientSelfJoined(unsigned, QString, int)), myStartNetworkGameDialog, SLOT(joinedNetworkGame(unsigned, QString, int)));
 	connect(this, SIGNAL(signalNetClientPlayerJoined(unsigned, QString, int)), myStartNetworkGameDialog, SLOT(addConnectedPlayer(unsigned, QString, int)));
 	connect(this, SIGNAL(signalNetClientPlayerChanged(unsigned, QString)), myStartNetworkGameDialog, SLOT(updatePlayer(unsigned, QString)));
@@ -312,21 +313,32 @@ void startWindowImpl::joinGameLobby() {
 	// Clear Lobby dialog.
 	myGameLobbyDialog->clearDialog();
 
+	//start internet client with config values for user and pw TODO
+	mySession->startInternetClient();
+	
+	//Dialog mit Statusbalken
+	myConnectToServerDialog->exec();
+	if (myConnectToServerDialog->result() == QDialog::Accepted ) {
+		showLobbyDialog();
+	}
+	else {
+		mySession->terminateNetworkClient();
+	}
+}
+
+
+void startWindowImpl::callInternetGameLoginDialog() {
+
 	//login
 	myInternetGameLoginDialog->exec();
 	if(myInternetGameLoginDialog->result() == QDialog::Accepted) {
 		//send login infos
-		mySession->startInternetClient(std::string(myInternetGameLoginDialog->lineEdit_username->text().toUtf8().constData()), std::string(myInternetGameLoginDialog->lineEdit_password->text().toUtf8().constData()));
-		
-		//Dialog mit Statusbalken
-		myConnectToServerDialog->exec();
-		if (myConnectToServerDialog->result() == QDialog::Accepted ) {
-			showLobbyDialog();
-		}
-		else {
-			mySession->terminateNetworkClient();
-		}
+//		mySession->
 	}
+	else {
+		myConnectToServerDialog->reject();
+		mySession->terminateNetworkClient();
+	}	
 }
 
 void startWindowImpl::callCreateNetworkGameDialog() {

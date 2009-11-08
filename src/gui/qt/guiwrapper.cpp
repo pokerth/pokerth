@@ -126,6 +126,7 @@ void GuiWrapper::flushLogAtHand() { myLog->signalFlushLogAtHand(); }
 void GuiWrapper::SignalNetClientConnect(int actionID) { myStartWindow->signalNetClientConnect(actionID); }
 void GuiWrapper::SignalNetClientServerListAdd(unsigned serverId) { myStartWindow->signalNetClientServerListAdd(serverId); }
 void GuiWrapper::SignalNetClientServerListShow() { myStartWindow->signalNetClientServerListShow(); }
+void GuiWrapper::SignalNetClientLoginShow() { myStartWindow->signalNetClientLoginShow(); }
 void GuiWrapper::SignalNetClientServerListClear() { myStartWindow->signalNetClientServerListClear(); }
 void GuiWrapper::SignalNetClientGameInfo(int actionID) { myStartWindow->signalNetClientGameInfo(actionID); }
 void GuiWrapper::SignalNetClientError(int errorID, int osErrorID) { myStartWindow->signalNetClientError(errorID, osErrorID); }

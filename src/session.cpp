@@ -154,7 +154,7 @@ boost::shared_ptr<AvatarManager> Session::getAvatarManager()
 	return myAvatarManager;
 }
 
-void Session::startInternetClient(const std::string &username, const std::string &password)
+void Session::startInternetClient()
 {
 	if (myNetClient || !myGui)
 	{
@@ -178,8 +178,8 @@ void Session::startInternetClient(const std::string &username, const std::string
 		myConfig->readConfigInt("InternetServerUseIpv6") == 1,
 		myConfig->readConfigInt("InternetServerUseSctp") == 1,
 		useAvatarServer ? myConfig->readConfigString("AvatarServerAddress") : "",
-		username,
-		password,
+		myConfig->readConfigString("MyName"),
+		"testpw",
 		myConfig->readConfigString("MyAvatar"),
 		myQtToolsInterface->stringFromUtf8(myConfig->readConfigString("CacheDir")));
 	myNetClient->Run();
