@@ -400,7 +400,7 @@ void startWindowImpl::callCreateNetworkGameDialog() {
 		// Clear network game dialog.
 		myStartNetworkGameDialog->clearDialog();
 
-		myServerGuiInterface->getSession()->startNetworkServer();
+		myServerGuiInterface->getSession()->startNetworkServer(false);
 		mySession->startNetworkClientForLocalServer(gameData);
 
 		myStartNetworkGameDialog->setMaxPlayerNumber(gameData.maxNumberOfPlayers);

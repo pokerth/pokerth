@@ -69,7 +69,7 @@ public:
 	void clientCreateGame(const GameData &gameData, const std::string &name, const std::string &password);
 	void clientJoinGame(unsigned gameId, const std::string &password);
 
-	void startNetworkServer();
+	void startNetworkServer(bool dedicated);
 	void sendLeaveCurrentGame();
 	void sendStartEvent(bool fillUpWithCpuPlayers);
 	void terminateNetworkServer();

@@ -53,11 +53,11 @@ struct Gsasl;
 class ServerLobbyThread : public Thread, public boost::enable_shared_from_this<ServerLobbyThread>
 {
 public:
-	ServerLobbyThread(GuiInterface &gui, ServerIrcBotCallback &ircBotCb, ConfigFile *playerConfig, AvatarManager &avatarManager,
+	ServerLobbyThread(GuiInterface &gui, ServerMode mode, ServerIrcBotCallback &ircBotCb, ConfigFile *playerConfig, AvatarManager &avatarManager,
 		boost::shared_ptr<boost::asio::io_service> ioService);
 	virtual ~ServerLobbyThread();
 
-	void Init(const std::string &pwd, const std::string &logDir);
+	void Init(const std::string &logDir);
 	virtual void SignalTermination();
 
 	void AddConnection(boost::shared_ptr<boost::asio::ip::tcp::socket> sock);
@@ -176,8 +176,6 @@ protected:
 
 	ReceiverHelper &GetReceiver();
 
-	bool CheckPassword(const std::string &password) const;
-
 	InternalServerCallback &GetSenderCallback();
 	GuiInterface &GetGui();
 	ServerIrcBotCallback &GetIrcBotCallback();
@@ -220,7 +218,7 @@ private:
 	ServerIrcBotCallback &m_ircBotCb;
 	AvatarManager &m_avatarManager;
 
-	std::string m_password;
+	ServerMode m_mode;
 	std::string m_statisticsFileName;
 	ConfigFile *m_playerConfig;
 	u_int32_t m_curGameId;

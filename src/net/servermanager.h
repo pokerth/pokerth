@@ -44,7 +44,7 @@ public:
 	virtual ~ServerManager();
 
 	// Set the parameters.
-	void Init(unsigned serverPort, bool ipv6, ServerNetworkMode mode, const std::string &pwd, const std::string &logDir, boost::shared_ptr<IrcThread> ircAdminThread, boost::shared_ptr<IrcThread> ircLobbyThread);
+	void Init(unsigned serverPort, bool ipv6, ServerTransportProtocol proto, ServerMode mode, const std::string &logDir, boost::shared_ptr<IrcThread> ircAdminThread, boost::shared_ptr<IrcThread> ircLobbyThread);
 
 	// Main start function.
 	void RunAll();

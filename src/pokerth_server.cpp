@@ -164,7 +164,7 @@ main(int argc, char *argv[])
 		LOG_ERROR("Missing files - please check your directory settings!");
 	myServerGuiInterface->setSession(session);
 
-	myServerGuiInterface->getSession()->startNetworkServer();
+	myServerGuiInterface->getSession()->startNetworkServer(true);
 	while (!g_pokerthTerminate)
 	{
 		Thread::Msleep(100);

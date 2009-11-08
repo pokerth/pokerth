@@ -44,21 +44,22 @@ ServerManager::~ServerManager()
 }
 
 void
-ServerManager::Init(unsigned serverPort, bool ipv6, ServerNetworkMode mode, const string &pwd, const string &logDir, boost::shared_ptr<IrcThread> ircAdminThread, boost::shared_ptr<IrcThread> ircLobbyThread)
+ServerManager::Init(unsigned serverPort, bool ipv6, ServerTransportProtocol proto, ServerMode mode, const string &logDir, boost::shared_ptr<IrcThread> ircAdminThread, boost::shared_ptr<IrcThread> ircLobbyThread)
 {
-	m_lobbyThread.reset(new ServerLobbyThread(GetGui(), *m_lobbyBot, m_playerConfig, m_avatarManager, m_ioService));
-	GetLobbyThread().Init(pwd, logDir);
+	m_lobbyThread.reset(new ServerLobbyThread(GetGui(), mode, *m_lobbyBot, m_playerConfig, m_avatarManager, m_ioService));
+	GetLobbyThread().Init(logDir);
 
 	m_adminBot->Init(m_lobbyThread, ircAdminThread);
 	m_lobbyBot->Init(m_lobbyThread, ircLobbyThread);
 
-	if (mode & NETWORK_MODE_TCP)
+	if (proto & TRANSPORT_PROTOCOL_TCP)
 	{
 		boost::shared_ptr<ServerAcceptHelper> tcpAcceptHelper(new ServerAcceptHelper(GetGui(), m_ioService));
 		tcpAcceptHelper->Listen(serverPort, ipv6, false, logDir, m_lobbyThread);
 		m_acceptHelperPool.push_back(tcpAcceptHelper);
 	}
-/*	if (mode & NETWORK_MODE_SCTP)
+	// TODO: Re-add SCTP support once asio supports SCTP.
+/*	if (mode & TRANSPORT_PROTOCOL_SCTP)
 	{
 		boost::shared_ptr<ServerAcceptHelper> sctpAcceptHelper(new ServerAcceptHelper(GetGui(), m_ioService));
 		sctpAcceptHelper->Listen(serverPort, ipv6, true, logDir, m_lobbyThread);

@@ -266,7 +266,7 @@ void Session::clientJoinGame(unsigned gameId, const std::string &password)
 	myNetClient->SendJoinGame(gameId, password);
 }
 
-void Session::startNetworkServer()
+void Session::startNetworkServer(bool dedicated)
 {
 	if (myNetServer)
 	{
@@ -304,11 +304,23 @@ void Session::startNetworkServer()
 			myConfig->readConfigString("LobbyIRCChannelPassword"));
 	}
 
+	ServerMode mode;
+	if (dedicated)
+	{
+		#ifdef POKERTH_OFFICIAL_SERVER
+			mode = SERVER_MODE_INTERNET_AUTH;
+		#else
+			mode = SERVER_MODE_INTERNET_NOAUTH;
+		#endif
+	}
+	else
+		mode = SERVER_MODE_LAN;
+
 	myNetServer->Init(
 		myConfig->readConfigInt("ServerPort"),
 		myConfig->readConfigInt("ServerUseIpv6") == 1,
-		myConfig->readConfigInt("ServerUseSctp") == 1 ? NETWORK_MODE_TCP_SCTP : NETWORK_MODE_TCP,
-		myConfig->readConfigString("ServerPassword"),
+		myConfig->readConfigInt("ServerUseSctp") == 1 ? TRANSPORT_PROTOCOL_TCP_SCTP : TRANSPORT_PROTOCOL_TCP,
+		mode,
 		myQtToolsInterface->stringFromUtf8(myConfig->readConfigString("LogDir")),
 		tmpIrcAdminThread,
 		tmpIrcLobbyThread

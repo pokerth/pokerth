@@ -138,10 +138,10 @@ private:
 };
 
 
-ServerLobbyThread::ServerLobbyThread(GuiInterface &gui, ServerIrcBotCallback &ircBotCb, ConfigFile *playerConfig, AvatarManager &avatarManager,
-									 boost::shared_ptr<boost::asio::io_service> ioService)
+ServerLobbyThread::ServerLobbyThread(GuiInterface &gui, ServerMode mode, ServerIrcBotCallback &ircBotCb, ConfigFile *playerConfig,
+									 AvatarManager &avatarManager, boost::shared_ptr<boost::asio::io_service> ioService)
 : m_ioService(ioService), m_authContext(NULL), m_gui(gui), m_ircBotCb(ircBotCb), m_avatarManager(avatarManager),
-  m_playerConfig(playerConfig), m_curGameId(0), m_curUniquePlayerId(0), m_curSessionId(INVALID_SESSION + 1),
+  m_mode(mode), m_playerConfig(playerConfig), m_curGameId(0), m_curUniquePlayerId(0), m_curSessionId(INVALID_SESSION + 1),
   m_statDataChanged(false), m_removeGameTimer(*ioService), m_removePlayerTimer(*ioService),
   m_sessionTimeoutTimer(*ioService), m_avatarCleanupTimer(*ioService),
   m_saveStatisticsTimer(*ioService), m_avatarLockTimer(*ioService),
@@ -161,9 +161,8 @@ ServerLobbyThread::~ServerLobbyThread()
 }
 
 void
-ServerLobbyThread::Init(const string &pwd, const string &logDir)
+ServerLobbyThread::Init(const string &logDir)
 {
-	m_password = pwd;
 	// Read previous server statistics.
 	if (!logDir.empty())
 	{
@@ -225,8 +224,18 @@ ServerLobbyThread::AddConnection(boost::shared_ptr<tcp::socket> sock)
 				netAnnounce->latestGameVersion.major = POKERTH_VERSION_MAJOR;
 				netAnnounce->latestGameVersion.minor = POKERTH_VERSION_MINOR;
 				netAnnounce->latestBetaRevision = POKERTH_BETA_REVISION;
-				// TODO
-				netAnnounce->serverType = serverType_serverTypeLAN;
+				switch (m_mode)
+				{
+					case SERVER_MODE_LAN:
+						netAnnounce->serverType = serverType_serverTypeLAN;
+						break;
+					case SERVER_MODE_INTERNET_NOAUTH:
+						netAnnounce->serverType = serverType_serverTypeInternetNoAuth;
+						break;
+					case SERVER_MODE_INTERNET_AUTH:
+						netAnnounce->serverType = serverType_serverTypeInternetAuth;
+						break;
+				}
 				GetSender().Send(sessionData, packet);
 
 				sock->async_read_some(
@@ -1892,12 +1901,6 @@ ServerLobbyThread::GetReceiver()
 {
 	assert(m_receiver.get());
 	return *m_receiver;
-}
-
-bool
-ServerLobbyThread::CheckPassword(const string &password) const
-{
-	return (password == m_password);
 }
 
 InternalServerCallback &
