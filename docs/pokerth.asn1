@@ -88,7 +88,8 @@ InitMessage ::= [APPLICATION 1] SEQUENCE {
 	buildId						INTEGER,
 	login						CHOICE {
 		guestLogin				[0]	GuestLogin,
-		authenticatedLogin		[1]	AuthenticatedLogin
+		authenticatedLogin		[1]	AuthenticatedLogin,
+		unauthenticatedLogin	[2] UnauthenticatedLogin
 	}
 }
 
@@ -104,6 +105,11 @@ GuestLogin ::= SEQUENCE {
 -- Login data is according to SCRAM SHA-1
 AuthenticatedLogin ::= SEQUENCE {
 	clientUserData				OCTET STRING (SIZE(1..256)),
+	avatar						AvatarHash OPTIONAL
+}
+
+UnauthenticatedLogin ::= SEQUENCE {
+	nickName					UTF8String (SIZE(1..64)),
 	avatar						AvatarHash OPTIONAL
 }
 

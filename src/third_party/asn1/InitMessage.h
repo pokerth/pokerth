@@ -16,6 +16,7 @@
 #include <NativeInteger.h>
 #include "GuestLogin.h"
 #include "AuthenticatedLogin.h"
+#include "UnauthenticatedLogin.h"
 #include <constr_CHOICE.h>
 #include <constr_SEQUENCE.h>
 
@@ -28,6 +29,7 @@ typedef enum login_PR {
 	login_PR_NOTHING,	/* No components present */
 	login_PR_guestLogin,
 	login_PR_authenticatedLogin,
+	login_PR_unauthenticatedLogin,
 	/* Extensions may appear below */
 	
 } login_PR;
@@ -41,6 +43,7 @@ typedef struct InitMessage {
 		union InitMessage__login_u {
 			GuestLogin_t	 guestLogin;
 			AuthenticatedLogin_t	 authenticatedLogin;
+			UnauthenticatedLogin_t	 unauthenticatedLogin;
 			/*
 			 * This type is extensible,
 			 * possible extensions are below.

@@ -28,10 +28,20 @@ static asn_TYPE_member_t asn_MBR_login_4[] = {
 		0,
 		"authenticatedLogin"
 		},
+	{ ATF_NOFLAGS, 0, offsetof(struct login, choice.unauthenticatedLogin),
+		(ASN_TAG_CLASS_CONTEXT | (2 << 2)),
+		-1,	/* IMPLICIT tag at current level */
+		&asn_DEF_UnauthenticatedLogin,
+		0,	/* Defer constraints checking to the member type */
+		0,	/* PER is not compiled, use -gen-PER */
+		0,
+		"unauthenticatedLogin"
+		},
 };
 static asn_TYPE_tag2member_t asn_MAP_login_tag2el_4[] = {
     { (ASN_TAG_CLASS_CONTEXT | (0 << 2)), 0, 0, 0 }, /* guestLogin at 90 */
-    { (ASN_TAG_CLASS_CONTEXT | (1 << 2)), 1, 0, 0 } /* authenticatedLogin at 92 */
+    { (ASN_TAG_CLASS_CONTEXT | (1 << 2)), 1, 0, 0 }, /* authenticatedLogin at 91 */
+    { (ASN_TAG_CLASS_CONTEXT | (2 << 2)), 2, 0, 0 } /* unauthenticatedLogin at 93 */
 };
 static asn_CHOICE_specifics_t asn_SPC_login_specs_4 = {
 	sizeof(struct login),
@@ -39,9 +49,9 @@ static asn_CHOICE_specifics_t asn_SPC_login_specs_4 = {
 	offsetof(struct login, present),
 	sizeof(((struct login *)0)->present),
 	asn_MAP_login_tag2el_4,
-	2,	/* Count of tags in the map */
+	3,	/* Count of tags in the map */
 	0,
-	2	/* Extensions start */
+	3	/* Extensions start */
 };
 static /* Use -fall-defs-global to expose */
 asn_TYPE_descriptor_t asn_DEF_login_4 = {
@@ -62,7 +72,7 @@ asn_TYPE_descriptor_t asn_DEF_login_4 = {
 	0,	/* No tags (count) */
 	0,	/* No PER visible constraints */
 	asn_MBR_login_4,
-	2,	/* Elements count */
+	3,	/* Elements count */
 	&asn_SPC_login_specs_4	/* Additional specs */
 };
 
@@ -103,13 +113,14 @@ static asn_TYPE_tag2member_t asn_MAP_InitMessage_tag2el_1[] = {
     { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 1, 0, 0 }, /* buildId at 88 */
     { (ASN_TAG_CLASS_UNIVERSAL | (16 << 2)), 0, 0, 0 }, /* requestedVersion at 87 */
     { (ASN_TAG_CLASS_CONTEXT | (0 << 2)), 2, 0, 0 }, /* guestLogin at 90 */
-    { (ASN_TAG_CLASS_CONTEXT | (1 << 2)), 2, 0, 0 } /* authenticatedLogin at 92 */
+    { (ASN_TAG_CLASS_CONTEXT | (1 << 2)), 2, 0, 0 }, /* authenticatedLogin at 91 */
+    { (ASN_TAG_CLASS_CONTEXT | (2 << 2)), 2, 0, 0 } /* unauthenticatedLogin at 93 */
 };
 static asn_SEQUENCE_specifics_t asn_SPC_InitMessage_specs_1 = {
 	sizeof(struct InitMessage),
 	offsetof(struct InitMessage, _asn_ctx),
 	asn_MAP_InitMessage_tag2el_1,
-	4,	/* Count of tags in the map */
+	5,	/* Count of tags in the map */
 	0, 0, 0,	/* Optional elements (not needed) */
 	2,	/* Start extensions */
 	4	/* Stop extensions */

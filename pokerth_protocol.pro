@@ -152,7 +152,8 @@ HEADERS += src/third_party/asn1/AllInShowCardsMessage.h \
     src/third_party/asn1/xer_encoder.h \
     src/third_party/asn1/xer_support.h \
     src/third_party/asn1/YourActionRejectedMessage.h \
-    src/third_party/asn1/AnnounceMessage.h
+    src/third_party/asn1/AnnounceMessage.h \
+    src/third_party/asn1/UnauthenticatedLogin.h
 SOURCES += src/third_party/asn1/ChatCleanerMessage.c \
     src/third_party/asn1/CleanerInitMessage.c \
     src/third_party/asn1/CleanerInitAckMessage.c \
@@ -277,7 +278,8 @@ SOURCES += src/third_party/asn1/ChatCleanerMessage.c \
     src/third_party/asn1/AskKickPlayerMessage.c \
     src/third_party/asn1/AskKickDeniedMessage.c \
     src/third_party/asn1/GuestLogin.c \
-    src/third_party/asn1/AnnounceMessage.c
+    src/third_party/asn1/AnnounceMessage.c \
+    src/third_party/asn1/UnauthenticatedLogin.c
 win32 { 
     DEFINES += CURL_STATICLIB
     DEFINES += _WIN32_WINNT=0x0501
