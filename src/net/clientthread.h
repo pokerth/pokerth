@@ -62,7 +62,6 @@ public:
 		bool sctp,
 		const std::string &avatarServerAddress,
 		const std::string &playerName,
-		const std::string &playerPwd,
 		const std::string &avatarFile,
 		const std::string &cacheDir);
 	virtual void SignalTermination();
@@ -267,6 +266,7 @@ friend class ClientStateWaitChooseServer;
 friend class ClientStateStartConnect;
 friend class ClientStateConnecting;
 friend class ClientStateStartSession;
+friend class ClientStateWaitEnterLogin;
 friend class ClientStateWaitAuthChallenge;
 friend class ClientStateWaitAuthVerify;
 friend class ClientStateWaitSession;

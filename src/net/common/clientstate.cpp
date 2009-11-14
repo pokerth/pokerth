@@ -649,82 +649,6 @@ ClientStateStartConnect::TimerTimeout(const boost::system::error_code& ec, boost
 
 //-----------------------------------------------------------------------------
 
-ClientStateStartSession &
-ClientStateStartSession::Instance()
-{
-	static ClientStateStartSession state;
-	return state;
-}
-
-ClientStateStartSession::ClientStateStartSession()
-{
-}
-
-ClientStateStartSession::~ClientStateStartSession()
-{
-}
-
-void
-ClientStateStartSession::Enter(boost::shared_ptr<ClientThread> client)
-{
-	ClientContext &context = client->GetContext();
-
-	boost::shared_ptr<NetPacket> init(new NetPacket(NetPacket::Alloc));
-	init->GetMsg()->present = PokerTHMessage_PR_initMessage;
-	InitMessage_t *netInit = &init->GetMsg()->choice.initMessage;
-	netInit->requestedVersion.major = NET_VERSION_MAJOR;
-	netInit->requestedVersion.minor = NET_VERSION_MINOR;
-
-	// CASE 1: Authenticated login (username, challenge/response for password).
-	if (!context.GetPassword().empty())
-	{
-		netInit->login.present = login_PR_authenticatedLogin;
-		AuthenticatedLogin_t *authLogin = &netInit->login.choice.authenticatedLogin;
-		// Send authentication user data for challenge/response in init.
-		boost::shared_ptr<SessionData> tmpSession = context.GetSessionData();
-		tmpSession->CreateClientAuthSession(client->GetAuthContext(), context.GetPlayerName(), context.GetPassword());
-		if (!tmpSession->AuthStep(1, ""))
-			throw ClientException(__FILE__, __LINE__, ERR_NET_INVALID_PASSWORD, 0);
-		string outUserData(tmpSession->AuthGetNextOutMsg());
-		OCTET_STRING_fromBuf(&authLogin->clientUserData,
-							 outUserData.c_str(),
-							 outUserData.length());
-		string avatarFile = client->GetQtToolsInterface().stringFromUtf8(context.GetAvatarFile());
-		if (!avatarFile.empty())
-		{
-			MD5Buf tmpMD5;
-			if (client->GetAvatarManager().GetHashForAvatar(avatarFile, tmpMD5))
-			{
-				// TODO: use sha1.
-				authLogin->avatar =
-						OCTET_STRING_new_fromBuf(
-							&asn_DEF_OCTET_STRING,
-							(const char *)tmpMD5.data,
-							MD5_DATA_SIZE);
-			}
-		}
-	}
-	// CASE 2: Guest login (no password, but restrictions may apply).
-	else
-	{
-		netInit->login.present = login_PR_guestLogin;
-		GuestLogin_t *guestLogin = &netInit->login.choice.guestLogin;
-		OCTET_STRING_fromBuf(&guestLogin->nickName,
-							 context.GetPlayerName().c_str(),
-							 context.GetPlayerName().length());
-	}
-	client->GetSender().Send(context.GetSessionData(), init);
-
-	client->SetState(ClientStateWaitAuthChallenge::Instance());
-}
-
-void
-ClientStateStartSession::Exit(boost::shared_ptr<ClientThread> /*client*/)
-{
-}
-
-//-----------------------------------------------------------------------------
-
 AbstractClientStateReceiving::AbstractClientStateReceiving()
 {
 }
@@ -1023,6 +947,167 @@ AbstractClientStateReceiving::HandlePacket(boost::shared_ptr<ClientThread> clien
 
 //-----------------------------------------------------------------------------
 
+ClientStateStartSession &
+ClientStateStartSession::Instance()
+{
+	static ClientStateStartSession state;
+	return state;
+}
+
+ClientStateStartSession::ClientStateStartSession()
+{
+}
+
+ClientStateStartSession::~ClientStateStartSession()
+{
+}
+
+void
+ClientStateStartSession::Enter(boost::shared_ptr<ClientThread> client)
+{
+}
+
+void
+ClientStateStartSession::Exit(boost::shared_ptr<ClientThread> /*client*/)
+{
+}
+
+void
+ClientStateStartSession::InternalHandlePacket(boost::shared_ptr<ClientThread> client, boost::shared_ptr<NetPacket> tmpPacket)
+{
+	if (tmpPacket->GetMsg()->present == PokerTHMessage_PR_announceMessage)
+	{
+		// Server has send announcement - check data.
+		AnnounceMessage_t *netAnnounce = &tmpPacket->GetMsg()->choice.announceMessage;
+		// Check current game version.
+		if (netAnnounce->latestGameVersion.major != POKERTH_VERSION_MAJOR
+			|| netAnnounce->latestGameVersion.minor != POKERTH_VERSION_MINOR)
+		{
+			client->GetCallback().SignalNetClientNotification(NTF_NET_NEW_RELEASE_AVAILABLE);
+		}
+		else if (POKERTH_BETA_REVISION && netAnnounce->latestBetaRevision != POKERTH_BETA_REVISION)
+		{
+			client->GetCallback().SignalNetClientNotification(NTF_NET_OUTDATED_BETA);
+		}
+		else
+		{
+			ClientContext &context = client->GetContext();
+
+			// CASE 1: Authenticated login (username, challenge/response for password).
+			if (netAnnounce->serverType == serverType_serverTypeInternetAuth)
+			{
+				client->GetCallback().SignalNetClientLoginShow();
+				client->SetState(ClientStateWaitEnterLogin::Instance());
+			}
+			// CASE 2: Unauthenticated login (dedicated server without auth backend).
+			else if (netAnnounce->serverType == serverType_serverTypeInternetNoAuth
+				|| netAnnounce->serverType == serverType_serverTypeLAN)
+			{
+				boost::shared_ptr<NetPacket> init(new NetPacket(NetPacket::Alloc));
+				init->GetMsg()->present = PokerTHMessage_PR_initMessage;
+				InitMessage_t *netInit = &init->GetMsg()->choice.initMessage;
+				netInit->requestedVersion.major = NET_VERSION_MAJOR;
+				netInit->requestedVersion.minor = NET_VERSION_MINOR;
+				netInit->login.present = login_PR_guestLogin;
+				GuestLogin_t *guestLogin = &netInit->login.choice.guestLogin;
+				OCTET_STRING_fromBuf(&guestLogin->nickName,
+									 context.GetPlayerName().c_str(),
+									 context.GetPlayerName().length());
+				client->GetSender().Send(context.GetSessionData(), init);
+				client->SetState(ClientStateWaitAuthChallenge::Instance());
+			}
+		}
+	}
+}
+
+//-----------------------------------------------------------------------------
+
+ClientStateWaitEnterLogin &
+ClientStateWaitEnterLogin::Instance()
+{
+	static ClientStateWaitEnterLogin state;
+	return state;
+}
+
+ClientStateWaitEnterLogin::ClientStateWaitEnterLogin()
+{
+}
+
+ClientStateWaitEnterLogin::~ClientStateWaitEnterLogin()
+{
+}
+
+void
+ClientStateWaitEnterLogin::Enter(boost::shared_ptr<ClientThread> client)
+{
+	client->GetStateTimer().expires_from_now(
+		boost::posix_time::milliseconds(CLIENT_WAIT_TIMEOUT_MSEC));
+	client->GetStateTimer().async_wait(
+		boost::bind(
+			&ClientStateWaitEnterLogin::TimerLoop, this, boost::asio::placeholders::error, client));
+}
+
+void
+ClientStateWaitEnterLogin::Exit(boost::shared_ptr<ClientThread> client)
+{
+	client->GetStateTimer().cancel();
+}
+
+void
+ClientStateWaitEnterLogin::TimerLoop(const boost::system::error_code& ec, boost::shared_ptr<ClientThread> client)
+{
+	if (!ec && &client->GetState() == this)
+	{
+		ClientContext &context = client->GetContext();
+		if (!context.GetPassword().empty())
+		{
+			boost::shared_ptr<NetPacket> init(new NetPacket(NetPacket::Alloc));
+			init->GetMsg()->present = PokerTHMessage_PR_initMessage;
+			InitMessage_t *netInit = &init->GetMsg()->choice.initMessage;
+			netInit->requestedVersion.major = NET_VERSION_MAJOR;
+			netInit->requestedVersion.minor = NET_VERSION_MINOR;
+			netInit->login.present = login_PR_authenticatedLogin;
+			AuthenticatedLogin_t *authLogin = &netInit->login.choice.authenticatedLogin;
+			// Send authentication user data for challenge/response in init.
+			boost::shared_ptr<SessionData> tmpSession = context.GetSessionData();
+			tmpSession->CreateClientAuthSession(client->GetAuthContext(), context.GetPlayerName(), context.GetPassword());
+			if (!tmpSession->AuthStep(1, ""))
+				throw ClientException(__FILE__, __LINE__, ERR_NET_INVALID_PASSWORD, 0);
+			string outUserData(tmpSession->AuthGetNextOutMsg());
+			OCTET_STRING_fromBuf(&authLogin->clientUserData,
+								 outUserData.c_str(),
+								 outUserData.length());
+			string avatarFile = client->GetQtToolsInterface().stringFromUtf8(context.GetAvatarFile());
+			if (!avatarFile.empty())
+			{
+				MD5Buf tmpMD5;
+				if (client->GetAvatarManager().GetHashForAvatar(avatarFile, tmpMD5))
+				{
+					// TODO: use sha1.
+					authLogin->avatar =
+							OCTET_STRING_new_fromBuf(
+								&asn_DEF_OCTET_STRING,
+								(const char *)tmpMD5.data,
+								MD5_DATA_SIZE);
+				}
+			}
+
+			client->GetSender().Send(context.GetSessionData(), init);
+			client->SetState(ClientStateWaitAuthChallenge::Instance());
+		}
+		else
+		{
+			client->GetStateTimer().expires_from_now(
+				boost::posix_time::milliseconds(CLIENT_WAIT_TIMEOUT_MSEC));
+			client->GetStateTimer().async_wait(
+				boost::bind(
+					&ClientStateWaitEnterLogin::TimerLoop, this, boost::asio::placeholders::error, client));
+		}
+	}
+}
+
+//-----------------------------------------------------------------------------
+
 ClientStateWaitAuthChallenge &
 ClientStateWaitAuthChallenge::Instance()
 {
@@ -1053,22 +1138,7 @@ ClientStateWaitAuthChallenge::Exit(boost::shared_ptr<ClientThread> /*client*/)
 void
 ClientStateWaitAuthChallenge::InternalHandlePacket(boost::shared_ptr<ClientThread> client, boost::shared_ptr<NetPacket> tmpPacket)
 {
-	if (tmpPacket->GetMsg()->present == PokerTHMessage_PR_announceMessage)
-	{
-		// Server has send announcement - check data.
-		AnnounceMessage_t *netAnnounce = &tmpPacket->GetMsg()->choice.announceMessage;
-		// Check current game version.
-		if (netAnnounce->latestGameVersion.major != POKERTH_VERSION_MAJOR
-			|| netAnnounce->latestGameVersion.minor != POKERTH_VERSION_MINOR)
-		{
-			client->GetCallback().SignalNetClientNotification(NTF_NET_NEW_RELEASE_AVAILABLE);
-		}
-		else if (POKERTH_BETA_REVISION && netAnnounce->latestBetaRevision != POKERTH_BETA_REVISION)
-		{
-			client->GetCallback().SignalNetClientNotification(NTF_NET_OUTDATED_BETA);
-		}
-	}
-	else if (tmpPacket->GetMsg()->present == PokerTHMessage_PR_authMessage)
+	if (tmpPacket->GetMsg()->present == PokerTHMessage_PR_authMessage)
 	{
 		// Check subtype.
 		AuthMessage_t *netAuth = &tmpPacket->GetMsg()->choice.authMessage;

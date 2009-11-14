@@ -179,13 +179,12 @@ void Session::startInternetClient()
 		myConfig->readConfigInt("InternetServerUseSctp") == 1,
 		useAvatarServer ? myConfig->readConfigString("AvatarServerAddress") : "",
 		myConfig->readConfigString("MyName"),
-		"testpw",
 		myConfig->readConfigString("MyAvatar"),
 		myQtToolsInterface->stringFromUtf8(myConfig->readConfigString("CacheDir")));
 	myNetClient->Run();
 }
 
-void Session::startNetworkClient(const string &serverAddress, unsigned serverPort, bool ipv6, bool sctp, const string &pwd)
+void Session::startNetworkClient(const string &serverAddress, unsigned serverPort, bool ipv6, bool sctp)
 {
 	if (myNetClient || !myGui)
 	{
@@ -204,7 +203,6 @@ void Session::startNetworkClient(const string &serverAddress, unsigned serverPor
 		sctp,
 		"", // no avatar server
 		myConfig->readConfigString("MyName"),
-		pwd,
 		myConfig->readConfigString("MyAvatar"),
 		myQtToolsInterface->stringFromUtf8(myConfig->readConfigString("CacheDir")));
 	myNetClient->Run();
@@ -232,7 +230,6 @@ void Session::startNetworkClientForLocalServer(const GameData &gameData)
 		myConfig->readConfigInt("ServerUseSctp") == 1,
 		"", // no avatar server
 		myConfig->readConfigString("MyName"),
-		myConfig->readConfigString("ServerPassword"),
 		myConfig->readConfigString("MyAvatar"),
 		myQtToolsInterface->stringFromUtf8(myConfig->readConfigString("CacheDir")));
 	myNetClient->Run();

@@ -62,9 +62,11 @@ public:
 	virtual void SignalNetClientMsgBox(const std::string &msg) = 0;
 	virtual void SignalNetClientWaitDialog() = 0;
 	
-	virtual void SignalNetClientServerListAdd(unsigned serverId) =0;
-	virtual void SignalNetClientServerListClear() =0;
-	virtual void SignalNetClientServerListShow() =0;
+	virtual void SignalNetClientServerListAdd(unsigned serverId) = 0;
+	virtual void SignalNetClientServerListClear() = 0;
+	virtual void SignalNetClientServerListShow() = 0;
+
+	virtual void SignalNetClientLoginShow() = 0;
 
 	virtual void SignalLobbyPlayerJoined(unsigned playerId, const std::string &nickName) = 0;
 	virtual void SignalLobbyPlayerKicked(const std::string &nickName, const std::string &byWhom, const std::string &reason) = 0;

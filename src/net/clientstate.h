@@ -234,24 +234,6 @@ private:
 	boost::asio::ip::tcp::resolver::iterator m_remoteEndpointIterator;
 };
 
-// State: Session init.
-class ClientStateStartSession : public ClientState
-{
-public:
-	// Access the state singleton.
-	static ClientStateStartSession &Instance();
-	virtual ~ClientStateStartSession();
-
-	virtual void Enter(boost::shared_ptr<ClientThread> client);
-	virtual void Exit(boost::shared_ptr<ClientThread> client);
-
-	virtual void HandlePacket(boost::shared_ptr<ClientThread> /*client*/, boost::shared_ptr<NetPacket> /*tmpPacket*/) {}
-
-protected:
-	// Protected constructor - this is a singleton.
-	ClientStateStartSession();
-};
-
 // Abstract State: Receiving
 class AbstractClientStateReceiving : public ClientState
 {
@@ -264,6 +246,44 @@ protected:
 	AbstractClientStateReceiving();
 
 	virtual void InternalHandlePacket(boost::shared_ptr<ClientThread> client, boost::shared_ptr<NetPacket> tmpPacket) = 0;
+};
+
+// State: Session init.
+class ClientStateStartSession : public AbstractClientStateReceiving
+{
+public:
+	// Access the state singleton.
+	static ClientStateStartSession &Instance();
+	virtual ~ClientStateStartSession();
+
+	virtual void Enter(boost::shared_ptr<ClientThread> client);
+	virtual void Exit(boost::shared_ptr<ClientThread> client);
+
+protected:
+	// Protected constructor - this is a singleton.
+	ClientStateStartSession();
+
+	virtual void InternalHandlePacket(boost::shared_ptr<ClientThread> client, boost::shared_ptr<NetPacket> tmpPacket);
+};
+
+// State: Waiting for the user to enter login data.
+class ClientStateWaitEnterLogin : public ClientState
+{
+public:
+	static ClientStateWaitEnterLogin &Instance();
+	virtual ~ClientStateWaitEnterLogin();
+
+	virtual void Enter(boost::shared_ptr<ClientThread> client);
+	virtual void Exit(boost::shared_ptr<ClientThread> client);
+
+	virtual void HandlePacket(boost::shared_ptr<ClientThread> /*client*/, boost::shared_ptr<NetPacket> /*tmpPacket*/) {}
+
+protected:
+
+	// Protected constructor - this is a singleton.
+	ClientStateWaitEnterLogin();
+
+	void TimerLoop(const boost::system::error_code& ec, boost::shared_ptr<ClientThread> client);
 };
 
 // State: Wait for Authentication Challenge.

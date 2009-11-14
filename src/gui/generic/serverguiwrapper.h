@@ -132,6 +132,8 @@ public:
 	void SignalNetClientServerListClear();
 	void SignalNetClientServerListShow();
 
+	void SignalNetClientLoginShow();
+
 	void SignalNetServerSuccess(int actionID);
 	void SignalNetServerError(int errorID, int osErrorID);
 

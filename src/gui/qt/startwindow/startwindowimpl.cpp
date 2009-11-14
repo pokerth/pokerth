@@ -446,8 +446,7 @@ void startWindowImpl::callJoinNetworkGameDialog() {
 			myJoinNetworkGameDialog->lineEdit_ipAddress->text().toUtf8().constData(),
 			myJoinNetworkGameDialog->spinBox_port->value(),
 			myJoinNetworkGameDialog->checkBox_ipv6->isChecked(),
-			myJoinNetworkGameDialog->checkBox_sctp->isChecked(),
-			myJoinNetworkGameDialog->lineEdit_password->text().toUtf8().constData());
+			myJoinNetworkGameDialog->checkBox_sctp->isChecked());
 
 		//Dialog mit Statusbalken
 		myConnectToServerDialog->exec();
