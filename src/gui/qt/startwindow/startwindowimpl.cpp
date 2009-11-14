@@ -333,7 +333,10 @@ void startWindowImpl::callInternetGameLoginDialog() {
 	myInternetGameLoginDialog->exec();
 	if(myInternetGameLoginDialog->result() == QDialog::Accepted) {
 		//send login infos
-//		mySession->
+		mySession->setLogin(
+			myInternetGameLoginDialog->lineEdit_username->text().toUtf8().constData(),
+			myInternetGameLoginDialog->lineEdit_password->text().toUtf8().constData(),
+			myInternetGameLoginDialog->checkBox_guest->isChecked());
 	}
 	else {
 		myConnectToServerDialog->reject();

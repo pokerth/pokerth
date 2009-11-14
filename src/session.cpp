@@ -423,6 +423,14 @@ void Session::selectServer(unsigned serverId)
 	myNetClient->SelectServer(serverId);
 }
 
+void
+Session::setLogin(const std::string &userName, const std::string &password, bool isGuest)
+{
+	if (!myNetClient)
+		return; // only act if client is running.
+	myNetClient->SetLogin(userName, password, isGuest);
+}
+
 void Session::voteKick(bool doKick)
 {
 	if (!myNetClient)

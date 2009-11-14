@@ -84,6 +84,7 @@ public:
 	void startVoteKickPlayer(unsigned playerId);
 	void voteKick(bool doKick);
 	void selectServer(unsigned serverId);
+	void setLogin(const std::string &userName, const std::string &password, bool isGuest);
 	
 	void resetNetworkTimeout();
 

@@ -965,6 +965,8 @@ ClientStateStartSession::~ClientStateStartSession()
 void
 ClientStateStartSession::Enter(boost::shared_ptr<ClientThread> client)
 {
+	// Now we finally start receiving data.
+	client->StartAsyncRead();
 }
 
 void
@@ -999,7 +1001,7 @@ ClientStateStartSession::InternalHandlePacket(boost::shared_ptr<ClientThread> cl
 				client->GetCallback().SignalNetClientLoginShow();
 				client->SetState(ClientStateWaitEnterLogin::Instance());
 			}
-			// CASE 2: Unauthenticated login (dedicated server without auth backend).
+			// CASE 2: Unauthenticated login (network game or dedicated server without auth backend).
 			else if (netAnnounce->serverType == serverType_serverTypeInternetNoAuth
 				|| netAnnounce->serverType == serverType_serverTypeLAN)
 			{
@@ -1008,13 +1010,27 @@ ClientStateStartSession::InternalHandlePacket(boost::shared_ptr<ClientThread> cl
 				InitMessage_t *netInit = &init->GetMsg()->choice.initMessage;
 				netInit->requestedVersion.major = NET_VERSION_MAJOR;
 				netInit->requestedVersion.minor = NET_VERSION_MINOR;
-				netInit->login.present = login_PR_guestLogin;
-				GuestLogin_t *guestLogin = &netInit->login.choice.guestLogin;
-				OCTET_STRING_fromBuf(&guestLogin->nickName,
+				netInit->login.present = login_PR_unauthenticatedLogin;
+				UnauthenticatedLogin_t *noauthLogin = &netInit->login.choice.unauthenticatedLogin;
+				OCTET_STRING_fromBuf(&noauthLogin->nickName,
 									 context.GetPlayerName().c_str(),
 									 context.GetPlayerName().length());
+				string avatarFile = client->GetQtToolsInterface().stringFromUtf8(context.GetAvatarFile());
+				if (!avatarFile.empty())
+				{
+					MD5Buf tmpMD5;
+					if (client->GetAvatarManager().GetHashForAvatar(avatarFile, tmpMD5))
+					{
+						// TODO: use sha1.
+						noauthLogin->avatar =
+								OCTET_STRING_new_fromBuf(
+									&asn_DEF_OCTET_STRING,
+									(const char *)tmpMD5.data,
+									MD5_DATA_SIZE);
+					}
+				}
 				client->GetSender().Send(context.GetSessionData(), init);
-				client->SetState(ClientStateWaitAuthChallenge::Instance());
+				client->SetState(ClientStateWaitSession::Instance());
 			}
 		}
 	}
@@ -1058,9 +1074,13 @@ ClientStateWaitEnterLogin::TimerLoop(const boost::system::error_code& ec, boost:
 {
 	if (!ec && &client->GetState() == this)
 	{
-		ClientContext &context = client->GetContext();
-		if (!context.GetPassword().empty())
+		ClientThread::LoginData loginData;
+		if (client->GetLoginData(loginData))
 		{
+			ClientContext &context = client->GetContext();
+			context.SetPlayerName(loginData.userName);
+			context.SetPassword(loginData.password);
+			// TODO handle guest login.
 			boost::shared_ptr<NetPacket> init(new NetPacket(NetPacket::Alloc));
 			init->GetMsg()->present = PokerTHMessage_PR_initMessage;
 			InitMessage_t *netInit = &init->GetMsg()->choice.initMessage;
@@ -1126,8 +1146,6 @@ ClientStateWaitAuthChallenge::~ClientStateWaitAuthChallenge()
 void
 ClientStateWaitAuthChallenge::Enter(boost::shared_ptr<ClientThread> client)
 {
-	// Now we finally start receiving data.
-	client->StartAsyncRead();
 }
 
 void

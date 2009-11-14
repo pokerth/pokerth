@@ -356,6 +356,15 @@ ClientThread::SelectServer(unsigned serverId)
 	m_selectedServerId = serverId;
 }
 
+void
+ClientThread::SetLogin(const std::string &userName, const std::string &password, bool isGuest)
+{
+	boost::mutex::scoped_lock lock(m_loginDataMutex);
+	m_loginData.userName = userName;
+	m_loginData.password = password;
+	m_loginData.isGuest = isGuest;
+}
+
 ServerInfo
 ClientThread::GetServerInfo(unsigned serverId) const
 {
@@ -1172,6 +1181,19 @@ ClientThread::UseServer(unsigned serverId)
 
 	context.SetServerPort((unsigned)useInfo.port);
 	context.SetAvatarServerAddr(useInfo.avatarServerAddr);
+}
+
+bool
+ClientThread::GetLoginData(LoginData &loginData) const
+{
+	bool retVal = false;
+	boost::mutex::scoped_lock lock(m_loginDataMutex);
+	if (!m_loginData.userName.empty())
+	{
+		loginData = m_loginData;
+		retVal = true;
+	}
+	return retVal;
 }
 
 unsigned

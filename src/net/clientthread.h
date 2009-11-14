@@ -83,6 +83,7 @@ public:
 	void HandleRead(const boost::system::error_code& ec, size_t bytesRead);
 
 	void SelectServer(unsigned serverId);
+	void SetLogin(const std::string &userName, const std::string &password, bool isGuest);
 	ServerInfo GetServerInfo(unsigned serverId) const;
 
 	GameInfo GetGameInfo(unsigned gameId) const;
@@ -103,6 +104,13 @@ protected:
 	typedef std::map<unsigned, PlayerInfo> PlayerInfoMap;
 	typedef std::map<unsigned, boost::shared_ptr<AvatarFile> > AvatarFileMap;
 	typedef std::map<unsigned, ServerInfo> ServerInfoMap;
+	struct LoginData
+	{
+		LoginData() : isGuest(false) {}
+		std::string userName;
+		std::string password;
+		bool isGuest;
+	};
 
 	// Main function of the thread.
 	virtual void Main();
@@ -174,6 +182,8 @@ protected:
 	bool GetSelectedServer(unsigned &serverId) const;
 	void UseServer(unsigned serverId);
 
+	bool GetLoginData(LoginData &loginData) const;
+
 	unsigned GetGameIdByName(const std::string &name) const;
 	void AddGameInfo(unsigned gameId, const GameInfo &info);
 	void UpdateGameInfoMode(unsigned gameId, GameMode mode);
@@ -223,6 +233,9 @@ private:
 	bool m_isServerSelected;
 	unsigned m_selectedServerId;
 	mutable boost::mutex m_selectServerMutex;
+
+	LoginData m_loginData;
+	mutable boost::mutex m_loginDataMutex;
 
 	GameInfoMap m_gameInfoMap;
 	mutable boost::mutex m_gameInfoMapMutex;

@@ -940,13 +940,14 @@ ServerLobbyThread::HandleNetPacketInit(SessionWrapper session, const InitMessage
 
 	string playerName;
 	MD5Buf avatarMD5;
-	bool guestUser = false;
+	bool noAuth = false;
 	if (initMessage.login.present == login_PR_guestLogin)
 	{
 		const GuestLogin_t *guestLogin = &initMessage.login.choice.guestLogin;
 		playerName = STL_STRING_FROM_OCTET_STRING(guestLogin->nickName);
-		guestUser = true;
+		noAuth = true;
 	}
+#ifdef POKERTH_OFFICIAL_SERVER
 	else if (initMessage.login.present == login_PR_authenticatedLogin)
 	{
 		const AuthenticatedLogin_t *authLogin = &initMessage.login.choice.authenticatedLogin;
@@ -957,6 +958,16 @@ ServerLobbyThread::HandleNetPacketInit(SessionWrapper session, const InitMessage
 		if (session.sessionData->AuthStep(1, inAuthData))
 			playerName = session.sessionData->AuthGetUser();
 	}
+#else
+	else if (initMessage.login.present == login_PR_unauthenticatedLogin)
+	{
+		const UnauthenticatedLogin_t *noauthLogin = &initMessage.login.choice.unauthenticatedLogin;
+		playerName = STL_STRING_FROM_OCTET_STRING(noauthLogin->nickName);
+		if (noauthLogin->avatar)
+			memcpy(avatarMD5.data, noauthLogin->avatar->buf, MD5_DATA_SIZE);
+		noAuth = true;
+	}
+#endif
 	else
 		SessionError(session, ERR_NET_INVALID_PASSWORD);
 
@@ -1003,7 +1014,7 @@ ServerLobbyThread::HandleNetPacketInit(SessionWrapper session, const InitMessage
 	m_sessionManager.SetSessionPlayerData(session.sessionData->GetId(), tmpPlayerData);
 	session.playerData = tmpPlayerData;
 
-	if (guestUser)
+	if (noAuth)
 		InitAfterLogin(session);
 	else
 		AuthenticatePlayer(session);
