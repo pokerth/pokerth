@@ -60,17 +60,7 @@ void internetGameLoginDialogImpl::accept() {
 
 	if(groupBox_reguser->isChecked()) {
 		myConfig->writeConfigInt("InternetLoginMode", 0);
-		if(checkBox_guest->isChecked()) {
-			// Generate a valid guest name.
-			QString guestName;
-			int guestId;
-			Tools::getRandNumber(1, 99999, 1, &guestId, false);
-			guestName.sprintf("Guest%05d", guestId);
-			myConfig->writeConfigString("MyName", guestName.toUtf8().constData());
-		}
-		else {
-			myConfig->writeConfigString("MyName", lineEdit_username->text().toUtf8().constData());
-		}
+		myConfig->writeConfigString("MyName", lineEdit_username->text().toUtf8().constData());
 		if(checkBox_rememberPassword->isChecked()) {
 			myConfig->writeConfigInt("InternetSavePassword", 1);
 			myConfig->writeConfigString("InternetLoginPassword", lineEdit_password->text().toUtf8().toBase64().constData());
@@ -79,8 +69,14 @@ void internetGameLoginDialogImpl::accept() {
 			myConfig->writeConfigInt("InternetSavePassword", 0);
 		}
 	}
-	else {
+	else if(checkBox_guest->isChecked()) {
 		myConfig->writeConfigInt("InternetLoginMode", 1);
+		// Generate a valid guest name.
+		QString guestName;
+		int guestId;
+		Tools::getRandNumber(1, 99999, 1, &guestId, false);
+		guestName.sprintf("Guest%05d", guestId);
+		myConfig->writeConfigString("MyName", guestName.toUtf8().constData());
 	}
 	
 	myConfig->writeBuffer();

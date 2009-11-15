@@ -959,7 +959,10 @@ ServerLobbyThread::HandleNetPacketInit(SessionWrapper session, const InitMessage
 			}
 		}
 		if (!validGuest)
+		{
 			SessionError(session, ERR_NET_INVALID_PLAYER_NAME);
+			return;
+		}
 	}
 #ifdef POKERTH_OFFICIAL_SERVER
 	else if (initMessage.login.present == login_PR_authenticatedLogin)
@@ -983,7 +986,10 @@ ServerLobbyThread::HandleNetPacketInit(SessionWrapper session, const InitMessage
 	}
 #endif
 	else
+	{
 		SessionError(session, ERR_NET_INVALID_PASSWORD);
+		return;
+	}
 
 	// Check whether the player name is correct.
 	// Partly, this is also done in netpacket.
