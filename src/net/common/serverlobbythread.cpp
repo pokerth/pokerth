@@ -941,11 +941,24 @@ ServerLobbyThread::HandleNetPacketInit(SessionWrapper session, const InitMessage
 	string playerName;
 	MD5Buf avatarMD5;
 	bool noAuth = false;
+	bool validGuest = false;
 	if (initMessage.login.present == login_PR_guestLogin)
 	{
 		const GuestLogin_t *guestLogin = &initMessage.login.choice.guestLogin;
 		playerName = STL_STRING_FROM_OCTET_STRING(guestLogin->nickName);
-		noAuth = true;
+		// Verify guest player name.
+		if (playerName.length() > sizeof(SERVER_GUEST_PLAYER_NAME - 1)
+			&& playerName.substr(0, sizeof(SERVER_GUEST_PLAYER_NAME) - 1) == SERVER_GUEST_PLAYER_NAME)
+		{
+			string guestId(playerName.substr(sizeof(SERVER_GUEST_PLAYER_NAME)));
+			if (count_if(guestId.begin(), guestId.end(), isdigit) == guestId.size())
+			{
+				validGuest = true;
+				noAuth = true;
+			}
+		}
+		if (!validGuest)
+			SessionError(session, ERR_NET_INVALID_PLAYER_NAME);
 	}
 #ifdef POKERTH_OFFICIAL_SERVER
 	else if (initMessage.login.present == login_PR_authenticatedLogin)

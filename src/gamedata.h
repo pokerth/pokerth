@@ -26,6 +26,7 @@
 #include <third_party/boost/timers.hpp>
 
 #define SERVER_COMPUTER_PLAYER_NAME			"Computer"
+#define SERVER_GUEST_PLAYER_NAME			"Guest"
 
 typedef std::list<unsigned> PlayerIdList;
 

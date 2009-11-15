@@ -1078,37 +1078,52 @@ ClientStateWaitEnterLogin::TimerLoop(const boost::system::error_code& ec, boost:
 		if (client->GetLoginData(loginData))
 		{
 			ClientContext &context = client->GetContext();
-			context.SetPlayerName(loginData.userName);
-			context.SetPassword(loginData.password);
-			// TODO handle guest login.
 			boost::shared_ptr<NetPacket> init(new NetPacket(NetPacket::Alloc));
 			init->GetMsg()->present = PokerTHMessage_PR_initMessage;
 			InitMessage_t *netInit = &init->GetMsg()->choice.initMessage;
 			netInit->requestedVersion.major = NET_VERSION_MAJOR;
 			netInit->requestedVersion.minor = NET_VERSION_MINOR;
-			netInit->login.present = login_PR_authenticatedLogin;
-			AuthenticatedLogin_t *authLogin = &netInit->login.choice.authenticatedLogin;
-			// Send authentication user data for challenge/response in init.
-			boost::shared_ptr<SessionData> tmpSession = context.GetSessionData();
-			tmpSession->CreateClientAuthSession(client->GetAuthContext(), context.GetPlayerName(), context.GetPassword());
-			if (!tmpSession->AuthStep(1, ""))
-				throw ClientException(__FILE__, __LINE__, ERR_NET_INVALID_PASSWORD, 0);
-			string outUserData(tmpSession->AuthGetNextOutMsg());
-			OCTET_STRING_fromBuf(&authLogin->clientUserData,
-								 outUserData.c_str(),
-								 outUserData.length());
-			string avatarFile = client->GetQtToolsInterface().stringFromUtf8(context.GetAvatarFile());
-			if (!avatarFile.empty())
+
+			context.SetPlayerName(loginData.userName);
+
+			// Handle guest login first.
+			if (loginData.isGuest)
 			{
-				MD5Buf tmpMD5;
-				if (client->GetAvatarManager().GetHashForAvatar(avatarFile, tmpMD5))
+				context.SetPassword("");
+				netInit->login.present = login_PR_guestLogin;
+				GuestLogin_t *guestLogin = &netInit->login.choice.guestLogin;
+				OCTET_STRING_fromBuf(&guestLogin->nickName,
+									 context.GetPlayerName().c_str(),
+									 context.GetPlayerName().length());
+			}
+			// If the player is not a guest, authenticate.
+			else
+			{
+				context.SetPassword(loginData.password);
+				netInit->login.present = login_PR_authenticatedLogin;
+				AuthenticatedLogin_t *authLogin = &netInit->login.choice.authenticatedLogin;
+				// Send authentication user data for challenge/response in init.
+				boost::shared_ptr<SessionData> tmpSession = context.GetSessionData();
+				tmpSession->CreateClientAuthSession(client->GetAuthContext(), context.GetPlayerName(), context.GetPassword());
+				if (!tmpSession->AuthStep(1, ""))
+					throw ClientException(__FILE__, __LINE__, ERR_NET_INVALID_PASSWORD, 0);
+				string outUserData(tmpSession->AuthGetNextOutMsg());
+				OCTET_STRING_fromBuf(&authLogin->clientUserData,
+									 outUserData.c_str(),
+									 outUserData.length());
+				string avatarFile = client->GetQtToolsInterface().stringFromUtf8(context.GetAvatarFile());
+				if (!avatarFile.empty())
 				{
-					// TODO: use sha1.
-					authLogin->avatar =
-							OCTET_STRING_new_fromBuf(
-								&asn_DEF_OCTET_STRING,
-								(const char *)tmpMD5.data,
-								MD5_DATA_SIZE);
+					MD5Buf tmpMD5;
+					if (client->GetAvatarManager().GetHashForAvatar(avatarFile, tmpMD5))
+					{
+						// TODO: use sha1.
+						authLogin->avatar =
+								OCTET_STRING_new_fromBuf(
+									&asn_DEF_OCTET_STRING,
+									(const char *)tmpMD5.data,
+									MD5_DATA_SIZE);
+					}
 				}
 			}
 
