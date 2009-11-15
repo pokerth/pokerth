@@ -41,6 +41,7 @@
 #include <fstream>
 #include <sstream>
 #include <algorithm>
+#include <cctype>
 #include <boost/lambda/lambda.hpp>
 #include <boost/filesystem.hpp>
 #include <boost/bind.hpp>
