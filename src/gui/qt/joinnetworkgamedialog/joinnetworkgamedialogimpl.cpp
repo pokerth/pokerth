@@ -170,7 +170,6 @@ void joinNetworkGameDialogImpl::itemFillForm (QTreeWidgetItem* item, int /*colum
 
 		lineEdit_profileName->setText(QString::fromUtf8(profile->Attribute("Name")));
 		lineEdit_ipAddress->setText(QString::fromUtf8(profile->Attribute("Address")));
-		lineEdit_password->setText(QString::fromUtf8(profile->Attribute("Password")));
 		spinBox_port->setValue(QString::fromUtf8(profile->Attribute("Port")).toInt(&toIntTrue, 10));
 		checkBox_ipv6->setChecked(QString::fromUtf8(profile->Attribute("IsIpv6")).toInt(&toIntTrue, 10));
 		checkBox_sctp->setChecked(QString::fromUtf8(profile->Attribute("IsSctp")).toInt(&toIntTrue, 10));
@@ -211,8 +210,7 @@ void joinNetworkGameDialogImpl::saveServerProfile() {
 					TiXmlElement * profile1 = new TiXmlElement( lineEdit_profileName->text().toUtf8().constData() );
 					profiles->LinkEndChild( profile1 );
 					profile1->SetAttribute("Name", lineEdit_profileName->text().toUtf8().constData());
-					profile1->SetAttribute("Address", lineEdit_ipAddress->text().toUtf8().constData());
-					profile1->SetAttribute("Password", lineEdit_password->text().toUtf8().constData());
+                                        profile1->SetAttribute("Address", lineEdit_ipAddress->text().toUtf8().constData());
 					profile1->SetAttribute("Port", spinBox_port->value());
 					profile1->SetAttribute("IsIpv6", checkBox_ipv6->isChecked());
 					profile1->SetAttribute("IsSctp", checkBox_sctp->isChecked());
@@ -233,7 +231,6 @@ void joinNetworkGameDialogImpl::saveServerProfile() {
 			profiles->LinkEndChild( profile2 );
 			profile2->SetAttribute("Name", lineEdit_profileName->text().toUtf8().constData());
 			profile2->SetAttribute("Address", lineEdit_ipAddress->text().toUtf8().constData());
-			profile2->SetAttribute("Password", lineEdit_password->text().toUtf8().constData());
 			profile2->SetAttribute("Port", spinBox_port->value());
 			profile2->SetAttribute("IsIpv6", checkBox_ipv6->isChecked());
 			profile2->SetAttribute("IsSctp", checkBox_sctp->isChecked());

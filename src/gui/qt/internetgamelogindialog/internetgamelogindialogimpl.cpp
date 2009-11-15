@@ -16,6 +16,7 @@ internetGameLoginDialogImpl::internetGameLoginDialogImpl(QWidget *parent, Config
 void internetGameLoginDialogImpl::regUserToggled(bool b) {
 	
 	checkBox_guest->setChecked(!b);
+        okButtonCheck();
 }
 
 void internetGameLoginDialogImpl::guestUserToggled(bool b) {
@@ -27,6 +28,8 @@ void internetGameLoginDialogImpl::guestUserToggled(bool b) {
 		lineEdit_password->clear();
 		lineEdit_username->clear();
 	}	
+
+        okButtonCheck();
 }
 
 void internetGameLoginDialogImpl::exec() {
