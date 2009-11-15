@@ -952,7 +952,7 @@ ServerLobbyThread::HandleNetPacketInit(SessionWrapper session, const InitMessage
 			&& playerName.substr(0, sizeof(SERVER_GUEST_PLAYER_NAME) - 1) == SERVER_GUEST_PLAYER_NAME)
 		{
 			string guestId(playerName.substr(sizeof(SERVER_GUEST_PLAYER_NAME)));
-			if (count_if(guestId.begin(), guestId.end(), isdigit) == guestId.size())
+			if (count_if(guestId.begin(), guestId.end(), ::isdigit) == guestId.size())
 			{
 				validGuest = true;
 				noAuth = true;
