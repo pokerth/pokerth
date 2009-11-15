@@ -1095,6 +1095,9 @@ ClientStateWaitEnterLogin::TimerLoop(const boost::system::error_code& ec, boost:
 				OCTET_STRING_fromBuf(&guestLogin->nickName,
 									 context.GetPlayerName().c_str(),
 									 context.GetPlayerName().length());
+
+				client->GetSender().Send(context.GetSessionData(), init);
+				client->SetState(ClientStateWaitSession::Instance());
 			}
 			// If the player is not a guest, authenticate.
 			else
@@ -1125,10 +1128,9 @@ ClientStateWaitEnterLogin::TimerLoop(const boost::system::error_code& ec, boost:
 									MD5_DATA_SIZE);
 					}
 				}
+				client->GetSender().Send(context.GetSessionData(), init);
+				client->SetState(ClientStateWaitAuthChallenge::Instance());
 			}
-
-			client->GetSender().Send(context.GetSessionData(), init);
-			client->SetState(ClientStateWaitAuthChallenge::Instance());
 		}
 		else
 		{
