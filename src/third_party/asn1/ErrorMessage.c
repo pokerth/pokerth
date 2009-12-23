@@ -90,8 +90,8 @@ static asn_INTEGER_enum_map_t asn_MAP_errorReason_value2enum_2[] = {
 	{ 4,	24,	"errorInitPlayerNameInUse" },
 	{ 5,	26,	"errorInitInvalidPlayerName" },
 	{ 6,	26,	"errorInitServerMaintenance" },
-	{ 7,	19,	"errorAvatarTooLarge" },
-	{ 8,	24,	"errorAvatarUploadBlocked" },
+	{ 7,	16,	"errorInitBlocked" },
+	{ 8,	19,	"errorAvatarTooLarge" },
 	{ 256,	18,	"errorInvalidPacket" },
 	{ 257,	17,	"errorInvalidState" },
 	{ 258,	21,	"errorKickedFromServer" },
@@ -99,10 +99,10 @@ static asn_INTEGER_enum_map_t asn_MAP_errorReason_value2enum_2[] = {
 	{ 260,	19,	"errorSessionTimeout" }
 };
 static unsigned int asn_MAP_errorReason_enum2value_2[] = {
-	7,	/* errorAvatarTooLarge(7) */
-	8,	/* errorAvatarUploadBlocked(8) */
+	8,	/* errorAvatarTooLarge(8) */
 	12,	/* errorBannedFromServer(259) */
 	3,	/* errorInitAuthFailure(3) */
+	7,	/* errorInitBlocked(7) */
 	5,	/* errorInitInvalidPlayerName(5) */
 	4,	/* errorInitPlayerNameInUse(4) */
 	2,	/* errorInitServerFull(2) */

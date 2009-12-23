@@ -147,7 +147,7 @@ protected:
 	void RequestPlayerAvatar(SessionWrapper session);
 	void TimerRemoveGame(const boost::system::error_code &ec);
 	void TimerRemovePlayer(const boost::system::error_code &ec);
-	void TimerUpdateClientAvatarLock(const boost::system::error_code &ec);
+	void TimerUpdateClientLoginLock(const boost::system::error_code &ec);
 	void TimerCheckSessionTimeouts(const boost::system::error_code &ec);
 	void TimerCleanupAvatarCache(const boost::system::error_code &ec);
 
@@ -200,8 +200,8 @@ private:
 
 	Gsasl *m_authContext;
 
-	TimerClientAddressMap m_timerAvatarClientAddressMap;
-	mutable boost::mutex m_timerAvatarClientAddressMapMutex;
+	TimerClientAddressMap m_timerClientAddressMap;
+	mutable boost::mutex m_timerClientAddressMapMutex;
 
 	RemoveGameList m_removeGameList;
 	mutable boost::mutex m_removeGameListMutex;
@@ -240,7 +240,7 @@ private:
 	boost::asio::deadline_timer m_sessionTimeoutTimer;
 	boost::asio::deadline_timer m_avatarCleanupTimer;
 	boost::asio::deadline_timer m_saveStatisticsTimer;
-	boost::asio::deadline_timer m_avatarLockTimer;
+	boost::asio::deadline_timer m_loginLockTimer;
 
 	const boost::posix_time::ptime m_startTime;
 

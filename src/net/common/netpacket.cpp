@@ -202,11 +202,11 @@ NetPacket::NetErrorToGameError(long netErrorReason)
 		case errorReason_errorInitServerMaintenance :
 			retVal = ERR_NET_SERVER_MAINTENANCE;
 			break;
+		case errorReason_errorInitBlocked :
+			retVal = ERR_NET_INIT_BLOCKED;
+			break;
 		case errorReason_errorAvatarTooLarge :
 			retVal = ERR_NET_AVATAR_TOO_LARGE;
-			break;
-		case errorReason_errorAvatarUploadBlocked :
-			retVal = ERR_NET_AVATAR_UPLOAD_BLOCKED;
 			break;
 		case errorReason_errorInvalidPacket :
 			retVal = ERR_SOCK_INVALID_PACKET;
@@ -254,11 +254,11 @@ NetPacket::GameErrorToNetError(int gameErrorReason)
 		case ERR_NET_SERVER_MAINTENANCE :
 			retVal = errorReason_errorInitServerMaintenance;
 			break;
+		case ERR_NET_INIT_BLOCKED :
+			retVal = errorReason_errorInitBlocked;
+			break;
 		case ERR_NET_AVATAR_TOO_LARGE :
 			retVal = errorReason_errorAvatarTooLarge;
-			break;
-		case ERR_NET_AVATAR_UPLOAD_BLOCKED :
-			retVal = errorReason_errorAvatarUploadBlocked;
 			break;
 		case ERR_SOCK_INVALID_PACKET :
 			retVal = errorReason_errorInvalidPacket;

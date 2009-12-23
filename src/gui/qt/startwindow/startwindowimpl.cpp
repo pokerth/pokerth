@@ -779,9 +779,9 @@ void startWindowImpl::networkError(int errorID, int /*osErrorID*/) {
 				tr("The selected avatar file is too large. Please choose a different avatar."),
 				QMessageBox::Close); }
 		break;
-		case ERR_NET_AVATAR_UPLOAD_BLOCKED:
+		case ERR_NET_INIT_BLOCKED:
 		{ QMessageBox::warning(this, tr("Network Error"),
-			tr("You cannot upload a new avatar file at this time. Please try again in a few seconds."),
+			tr("You cannot login at this time. Please try again in a few seconds."),
 			QMessageBox::Close); }
 		break;
 		case ERR_NET_INVALID_REQUEST_ID:

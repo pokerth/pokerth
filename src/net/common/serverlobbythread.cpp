@@ -54,10 +54,10 @@
 #define SERVER_CHECK_SESSION_TIMEOUTS_INTERVAL_MSEC	500
 #define SERVER_REMOVE_GAME_INTERVAL_MSEC			500
 #define SERVER_REMOVE_PLAYER_INTERVAL_MSEC			100
-#define SERVER_UPDATE_AVATAR_LOCK_INTERVAL_MSEC		1000
+#define SERVER_UPDATE_LOGIN_LOCK_INTERVAL_MSEC		1000
 #define SERVER_PROCESS_SEND_INTERVAL_MSEC			10
 
-#define SERVER_INIT_AVATAR_CLIENT_LOCK_SEC			30      // Forbid a client to send an additional avatar.
+#define SERVER_INIT_LOGIN_CLIENT_LOCK_SEC			30      // Forbid a client to send an additional avatar.
 
 #define SERVER_INIT_SESSION_TIMEOUT_SEC				60
 #define SERVER_TIMEOUT_WARNING_REMAINING_SEC		60
@@ -145,7 +145,7 @@ ServerLobbyThread::ServerLobbyThread(GuiInterface &gui, ServerMode mode, ServerI
   m_mode(mode), m_playerConfig(playerConfig), m_curGameId(0), m_curUniquePlayerId(0), m_curSessionId(INVALID_SESSION + 1),
   m_statDataChanged(false), m_removeGameTimer(*ioService), m_removePlayerTimer(*ioService),
   m_sessionTimeoutTimer(*ioService), m_avatarCleanupTimer(*ioService),
-  m_saveStatisticsTimer(*ioService), m_avatarLockTimer(*ioService),
+  m_saveStatisticsTimer(*ioService), m_loginLockTimer(*ioService),
   m_startTime(boost::posix_time::second_clock::local_time())
 {
 	m_internalServerCallback.reset(new InternalServerCallback(*this));
@@ -698,11 +698,11 @@ ServerLobbyThread::RegisterTimers()
 		boost::bind(
 			&ServerLobbyThread::TimerSaveStatisticsFile, shared_from_this(), boost::asio::placeholders::error));
 	// Update the avatar upload locks.
-	m_avatarLockTimer.expires_from_now(
-		boost::posix_time::milliseconds(SERVER_UPDATE_AVATAR_LOCK_INTERVAL_MSEC));
-	m_avatarLockTimer.async_wait(
+	m_loginLockTimer.expires_from_now(
+		boost::posix_time::milliseconds(SERVER_UPDATE_LOGIN_LOCK_INTERVAL_MSEC));
+	m_loginLockTimer.async_wait(
 		boost::bind(
-			&ServerLobbyThread::TimerUpdateClientAvatarLock, shared_from_this(), boost::asio::placeholders::error));
+			&ServerLobbyThread::TimerUpdateClientLoginLock, shared_from_this(), boost::asio::placeholders::error));
 }
 
 void
@@ -713,7 +713,7 @@ ServerLobbyThread::CancelTimers()
 	m_sessionTimeoutTimer.cancel();
 	m_avatarCleanupTimer.cancel();
 	m_saveStatisticsTimer.cancel();
-	m_avatarLockTimer.cancel();
+	m_loginLockTimer.cancel();
 }
 
 void
@@ -930,6 +930,23 @@ void
 ServerLobbyThread::HandleNetPacketInit(SessionWrapper session, const InitMessage_t &initMessage)
 {
 	LOG_VERBOSE("Received init for session #" << session.sessionData->GetId() << ".");
+
+	// Before any other processing, perform some denial of service and
+	// brute force attack prevention by checking whether the user recently sent an
+	// Init packet.
+	bool recentlySentInit = false;
+	{
+		boost::mutex::scoped_lock lock(m_timerClientAddressMapMutex);
+		if (m_timerClientAddressMap.find(session.sessionData->GetClientAddr()) != m_timerClientAddressMap.end())
+			recentlySentInit = true;
+		else
+			m_timerClientAddressMap[session.sessionData->GetClientAddr()] = boost::timers::portable::microsec_timer();
+	}
+	if (recentlySentInit)
+	{
+		SessionError(session, ERR_NET_INIT_BLOCKED);
+		return;
+	}
 
 	// Check the protocol version.
 	if (initMessage.requestedVersion.major != NET_VERSION_MAJOR
@@ -1351,16 +1368,7 @@ ServerLobbyThread::InitAfterLogin(SessionWrapper session)
 		if (!avatarMD5.IsZero()
 			&& !GetAvatarManager().GetAvatarFileName(avatarMD5, avatarFileName))
 		{
-			bool avatarRecentlyRequested = false;
-			{
-				boost::mutex::scoped_lock lock(m_timerAvatarClientAddressMapMutex);
-				if (m_timerAvatarClientAddressMap.find(session.sessionData->GetClientAddr()) != m_timerAvatarClientAddressMap.end())
-					avatarRecentlyRequested = true;
-			}
-			if (avatarRecentlyRequested)
-				SessionError(session, ERR_NET_AVATAR_UPLOAD_BLOCKED);
-			else
-				RequestPlayerAvatar(session);
+			RequestPlayerAvatar(session);
 		}
 		else
 		{
@@ -1429,11 +1437,6 @@ ServerLobbyThread::RequestPlayerAvatar(SessionWrapper session)
 {
 	if (!session.playerData.get())
 		throw ServerException(__FILE__, __LINE__, ERR_NET_INVALID_SESSION, 0);
-	// Accept no more new avatars from that client for a certain time.
-	{
-		boost::mutex::scoped_lock lock(m_timerAvatarClientAddressMapMutex);
-		m_timerAvatarClientAddressMap[session.sessionData->GetClientAddr()] = boost::timers::portable::microsec_timer();
-	}
 	// Ask the client to send its avatar.
 	boost::shared_ptr<NetPacket> packet(new NetPacket(NetPacket::Alloc));
 	packet->GetMsg()->present = PokerTHMessage_PR_avatarRequestMessage;
@@ -1501,29 +1504,29 @@ ServerLobbyThread::TimerRemovePlayer(const boost::system::error_code &ec)
 }
 
 void
-ServerLobbyThread::TimerUpdateClientAvatarLock(const boost::system::error_code &ec)
+ServerLobbyThread::TimerUpdateClientLoginLock(const boost::system::error_code &ec)
 {
 	if (!ec)
 	{
-		boost::mutex::scoped_lock lock(m_timerAvatarClientAddressMapMutex);
+		boost::mutex::scoped_lock lock(m_timerClientAddressMapMutex);
 
-		TimerClientAddressMap::iterator i = m_timerAvatarClientAddressMap.begin();
-		TimerClientAddressMap::iterator end = m_timerAvatarClientAddressMap.end();
+		TimerClientAddressMap::iterator i = m_timerClientAddressMap.begin();
+		TimerClientAddressMap::iterator end = m_timerClientAddressMap.end();
 
 		while (i != end)
 		{
 			TimerClientAddressMap::iterator next = i;
 			++next;
-			if (i->second.elapsed().total_seconds() > SERVER_INIT_AVATAR_CLIENT_LOCK_SEC)
-				m_timerAvatarClientAddressMap.erase(i);
+			if (i->second.elapsed().total_seconds() > SERVER_INIT_LOGIN_CLIENT_LOCK_SEC)
+				m_timerClientAddressMap.erase(i);
 			i = next;
 		}
 		// Restart timer
-		m_avatarLockTimer.expires_from_now(
-			boost::posix_time::milliseconds(SERVER_UPDATE_AVATAR_LOCK_INTERVAL_MSEC));
-		m_avatarLockTimer.async_wait(
+		m_loginLockTimer.expires_from_now(
+			boost::posix_time::milliseconds(SERVER_UPDATE_LOGIN_LOCK_INTERVAL_MSEC));
+		m_loginLockTimer.async_wait(
 			boost::bind(
-				&ServerLobbyThread::TimerUpdateClientAvatarLock, shared_from_this(), boost::asio::placeholders::error));
+				&ServerLobbyThread::TimerUpdateClientLoginLock, shared_from_this(), boost::asio::placeholders::error));
 	}
 }
 
