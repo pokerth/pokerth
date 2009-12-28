@@ -54,6 +54,7 @@
 	#include <openssl/ssl.h>
 	#include <openssl/md5.h>
 	#include <openssl/sha.h>
+	#include <openssl/hmac.h>
 	#include <openssl/rand.h>
 	#include <openssl/evp.h>
 #else

@@ -188,12 +188,45 @@ CryptHelper::MD5Sum(const std::string &fileName, MD5Buf &buf)
 bool
 CryptHelper::SHA1Hash(unsigned char *data, unsigned dataSize, SHA1Buf &buf)
 {
-	bool retVal = false;
+	bool retVal;
 #ifdef HAVE_OPENSSL
-	if (SHA1(data, dataSize, buf.GetData()) != NULL)
-		retVal = true;
+	retVal = SHA1(data, dataSize, buf.GetData()) != NULL;
 #else
-	// TODO
+	// We use the shortcut since we assume that the system supports SHA1.
+	// This call has no error return value.
+	gcry_md_hash_buffer(GCRY_MD_SHA1, buf.GetData(), data, dataSize);
+	retVal = true;
+#endif
+	return retVal;
+}
+
+bool
+CryptHelper::HMACSha1(unsigned char *keyData, unsigned keySize, unsigned char *plainData, unsigned plainSize, SHA1Buf &buf)
+{
+	bool retVal;
+#ifdef HAVE_OPENSSL
+	unsigned hashLen = 0;
+	HMAC(EVP_sha1(), keyData, keySize, plainData, plainSize, buf.GetData(), &hashLen);
+	retVal = hashLen == (unsigned)buf.GetDataSize();
+#else
+	retVal = false;
+	gcry_md_hd_t hd;
+	gcry_error_t err = gcry_md_open(&hd, GCRY_MD_SHA1, GCRY_MD_FLAG_HMAC);
+	if (!err)
+	{
+		err = gcry_md_setkey(hd, keyData, keySize);
+		if (!err)
+		{
+			gcry_md_write(hd, plainData, plainSize);
+			unsigned char *hash = gcry_md_read(hd, 0);
+			if (hash)
+			{
+				memcpy(buf.GetData(), hash, buf.GetDataSize());
+				retVal = true;
+			}
+		}
+		gcry_md_close(hd);
+	}
 #endif
 	return retVal;
 }
@@ -202,7 +235,39 @@ bool
 CryptHelper::AES128Encrypt(unsigned char *keyData, unsigned keySize, unsigned char *plainData, unsigned plainSize, std::vector<unsigned char> &outCipher)
 {
 	bool retVal = false;
-//#ifdef HAVE_OPENSSL
-//	int errCode = EVP_BytesToKey(EVP_aes_128_cbc(), EVP_sha1(), NULL, keyData, keySize,
+	if (keySize && plainSize)
+	{
+		outCipher.clear();
+		// The key/iv derivation is kind of like EVP_BytesToKey of OpenSSL with count 2 and no salt.
+		// EVP_BytesToKey is not used because there is nothing like it in GnuTLS or gcrypt.
+		SHA1Buf tmpBuf1, tmpBuf2, keyBuf1, keyBuf2;
+		unsigned char key[16];
+		unsigned char iv[16];
+		// First 20 bytes
+		CryptHelper::SHA1Hash(keyData, keySize, tmpBuf1);
+		CryptHelper::SHA1Hash(tmpBuf1.GetData(), tmpBuf1.GetDataSize(), keyBuf1);
+		// Second 20 bytes (we only need 32 bytes, but anyway).
+		unsigned tmpKeySize = keySize + keyBuf1.GetDataSize();
+		unsigned char *tmpKeyData = new unsigned char[tmpKeySize];
+		memcpy(tmpKeyData, keyBuf1.GetData(), keyBuf1.GetDataSize());
+		memcpy(tmpKeyData + keyBuf1.GetDataSize(), keyData, keySize);
+		CryptHelper::SHA1Hash(tmpKeyData, tmpKeySize, tmpBuf2);
+		CryptHelper::SHA1Hash(tmpBuf2.GetData(), tmpBuf2.GetDataSize(), keyBuf2);
+		delete[] tmpKeyData;
+		// Copy the hashes to key/iv.
+		memcpy(key, keyBuf1.GetData(), sizeof(key));
+		unsigned tmpivBytes = keyBuf1.GetDataSize() - sizeof(key);
+		memcpy(iv, keyBuf1.GetData() + sizeof(key), tmpivBytes);
+		memcpy(iv + tmpivBytes, keyBuf2.GetData(), sizeof(iv) - tmpivBytes);
+#ifdef HAVE_OPENSSL
+		EVP_CIPHER_CTX encryptCtx;
+		EVP_CIPHER_CTX_init(&encryptCtx);
+		EVP_EncryptInit(&encryptCtx, EVP_aes_128_cbc(), key, iv);
+		//outCipher.resize(AES_BLOCK_SIZE
+		//EVP_EncryptUpdate(encryptCtx, ciphertext, &c_len, plaintext, *len);
+#else
+		// TODO
+#endif
+	}
 	return retVal;
 }

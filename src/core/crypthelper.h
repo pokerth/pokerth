@@ -75,6 +75,7 @@ public:
 
 	static bool MD5Sum(const std::string &fileName, MD5Buf &buf);
 	static bool SHA1Hash(unsigned char *data, unsigned dataSize, SHA1Buf &buf);
+	static bool HMACSha1(unsigned char *keyData, unsigned keySize, unsigned char *plainData, unsigned plainSize, SHA1Buf &buf);
 	static bool AES128Encrypt(unsigned char *keyData, unsigned keySize, unsigned char *plainData, unsigned plainSize, std::vector<unsigned char> &outCipher);
 };
 
