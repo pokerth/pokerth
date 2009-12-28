@@ -704,7 +704,7 @@ ClientThread::RetrieveAvatarIfNeeded(unsigned id, const PlayerInfo &info)
 				AvatarRequestMessage_t *netAvatar = &packet->GetMsg()->choice.avatarRequestMessage;
 				netAvatar->requestId = id;
 				OCTET_STRING_fromBuf(&netAvatar->avatar,
-									 (const char *)info.avatar.data,
+									 (const char *)info.avatar.GetData(),
 									 MD5_DATA_SIZE);
 				GetSender().Send(GetContext().GetSessionData(), packet);
 			}

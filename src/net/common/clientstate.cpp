@@ -675,7 +675,7 @@ AbstractClientStateReceiving::HandlePacket(boost::shared_ptr<ClientThread> clien
 			if (netInfo->avatarData != NULL)
 			{
 				tmpInfo.hasAvatar = true;
-				memcpy(tmpInfo.avatar.data, netInfo->avatarData->avatar.buf, MD5_DATA_SIZE);
+				memcpy(tmpInfo.avatar.GetData(), netInfo->avatarData->avatar.buf, MD5_DATA_SIZE);
 				tmpInfo.avatarType = (AvatarFileType)netInfo->avatarData->avatarType;
 			}
 			client->SetPlayerInfo(
@@ -1025,7 +1025,7 @@ ClientStateStartSession::InternalHandlePacket(boost::shared_ptr<ClientThread> cl
 						noauthLogin->avatar =
 								OCTET_STRING_new_fromBuf(
 									&asn_DEF_OCTET_STRING,
-									(const char *)tmpMD5.data,
+									(const char *)tmpMD5.GetData(),
 									MD5_DATA_SIZE);
 					}
 				}
@@ -1124,7 +1124,7 @@ ClientStateWaitEnterLogin::TimerLoop(const boost::system::error_code& ec, boost:
 						authLogin->avatar =
 								OCTET_STRING_new_fromBuf(
 									&asn_DEF_OCTET_STRING,
-									(const char *)tmpMD5.data,
+									(const char *)tmpMD5.GetData(),
 									MD5_DATA_SIZE);
 					}
 				}

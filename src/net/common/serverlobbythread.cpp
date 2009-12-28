@@ -969,7 +969,7 @@ ServerLobbyThread::HandleNetPacketInit(SessionWrapper session, const InitMessage
 			&& playerName.substr(0, sizeof(SERVER_GUEST_PLAYER_NAME) - 1) == SERVER_GUEST_PLAYER_NAME)
 		{
 			string guestId(playerName.substr(sizeof(SERVER_GUEST_PLAYER_NAME)));
-			if (count_if(guestId.begin(), guestId.end(), ::isdigit) == guestId.size())
+			if ((size_t)count_if(guestId.begin(), guestId.end(), ::isdigit) == guestId.size())
 			{
 				validGuest = true;
 				noAuth = true;
@@ -998,7 +998,7 @@ ServerLobbyThread::HandleNetPacketInit(SessionWrapper session, const InitMessage
 		const UnauthenticatedLogin_t *noauthLogin = &initMessage.login.choice.unauthenticatedLogin;
 		playerName = STL_STRING_FROM_OCTET_STRING(noauthLogin->nickName);
 		if (noauthLogin->avatar)
-			memcpy(avatarMD5.data, noauthLogin->avatar->buf, MD5_DATA_SIZE);
+			memcpy(avatarMD5.GetData(), noauthLogin->avatar->buf, MD5_DATA_SIZE);
 		noAuth = true;
 	}
 #endif
@@ -1207,7 +1207,7 @@ ServerLobbyThread::HandleNetPacketRetrievePlayerInfo(SessionWrapper session, con
 			data->avatarData->avatarType = static_cast<NetAvatarType_t>(AvatarManager::GetAvatarFileType(tmpPlayer->GetAvatarFile()));
 			OCTET_STRING_fromBuf(
 				&data->avatarData->avatar,
-				(char *)tmpPlayer->GetAvatarMD5().data,
+				(char *)tmpPlayer->GetAvatarMD5().GetData(),
 				MD5_DATA_SIZE);
 		}
 	}
@@ -1226,7 +1226,7 @@ ServerLobbyThread::HandleNetPacketRetrieveAvatar(SessionWrapper session, const A
 
 	string tmpFile;
 	MD5Buf tmpMD5;
-	memcpy(tmpMD5.data, retrieveAvatar.avatar.buf, MD5_DATA_SIZE);
+	memcpy(tmpMD5.GetData(), retrieveAvatar.avatar.buf, MD5_DATA_SIZE);
 	if (GetAvatarManager().GetAvatarFileName(tmpMD5, tmpFile))
 	{
 		NetPacketList tmpPackets;
@@ -1444,7 +1444,7 @@ ServerLobbyThread::RequestPlayerAvatar(SessionWrapper session)
 	netAvatarRequest->requestId = session.playerData->GetUniqueId();
 	OCTET_STRING_fromBuf(
 		&netAvatarRequest->avatar,
-		(char *)session.playerData->GetAvatarMD5().data,
+		(char *)session.playerData->GetAvatarMD5().GetData(),
 		MD5_DATA_SIZE);
 	GetSender().Send(session.sessionData, packet);
 }

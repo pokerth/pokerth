@@ -22,21 +22,51 @@
 #define _CRYPTHELPER_H_
 
 #include <string>
+#include <vector>
 
 #define MD5_DATA_SIZE		16
+#define SHA1_DATA_SIZE		20
 
-struct MD5Buf
+class HashBuf
 {
-	MD5Buf();
+public:
+	virtual ~HashBuf();
 
 	std::string ToString() const;
 	bool FromString(const std::string &text);
 	bool IsZero() const;
 
-	bool operator==(const MD5Buf &other) const;
-	bool operator<(const MD5Buf &other) const;
+	bool operator==(const HashBuf &other) const;
+	bool operator<(const HashBuf &other) const;
 
-	unsigned char data[MD5_DATA_SIZE];
+	virtual unsigned char *GetData() = 0;
+	virtual const unsigned char *GetData() const = 0;
+	virtual int GetDataSize() const = 0;
+};
+
+class MD5Buf : public HashBuf
+{
+public:
+	MD5Buf();
+
+	virtual unsigned char *GetData();
+	virtual const unsigned char *GetData() const;
+	virtual int GetDataSize() const;
+
+private:
+	unsigned char m_data[MD5_DATA_SIZE];
+};
+
+class SHA1Buf : public HashBuf
+{
+public:
+	SHA1Buf();
+
+	virtual unsigned char *GetData();
+	virtual const unsigned char *GetData() const;
+	virtual int GetDataSize() const;
+
+	unsigned char m_data[SHA1_DATA_SIZE];
 };
 
 class CryptHelper
@@ -44,6 +74,8 @@ class CryptHelper
 public:
 
 	static bool MD5Sum(const std::string &fileName, MD5Buf &buf);
+	static bool SHA1Hash(unsigned char *data, unsigned dataSize, SHA1Buf &buf);
+	static bool AES128Encrypt(unsigned char *keyData, unsigned keySize, unsigned char *plainData, unsigned plainSize, std::vector<unsigned char> &outCipher);
 };
 
 #endif

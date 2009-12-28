@@ -53,7 +53,9 @@
 #ifdef HAVE_OPENSSL
 	#include <openssl/ssl.h>
 	#include <openssl/md5.h>
+	#include <openssl/sha.h>
 	#include <openssl/rand.h>
+	#include <openssl/evp.h>
 #else
 	// For all other systems, we use GnuTLS.
 	#include <gnutls/openssl.h>

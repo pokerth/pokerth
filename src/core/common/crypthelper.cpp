@@ -42,39 +42,38 @@ fromHex(int ch)
 	return retVal;
 }
 
-
-MD5Buf::MD5Buf()
+HashBuf::~HashBuf()
 {
-	memset(data, 0, sizeof(data));
 }
 
-
 std::string
-MD5Buf::ToString() const
+HashBuf::ToString() const
 {
 	// Create a hex-based string from the MD5 data.
 	string retValue;
 	char tmpBuf[2 + 1];
 	tmpBuf[sizeof(tmpBuf) - 1] = 0;
-	for (int i = 0; i < MD5_DATA_SIZE; i++)
+	const unsigned char *tmpData = GetData();
+	for (int i = 0; i < GetDataSize(); i++)
 	{
-		sprintf(tmpBuf, "%02x", data[i]);
+		sprintf(tmpBuf, "%02x", tmpData[i]);
 		retValue += tmpBuf;
 	}
 	return retValue;
 }
 
 bool
-MD5Buf::FromString(const std::string &text)
+HashBuf::FromString(const std::string &text)
 {
 	// Convert hex-based string to MD5 data.
 	bool retVal = false;
-	if (text.size() == 2 * MD5_DATA_SIZE)
+	int tmpSize = GetDataSize();
+	if (text.size() == 2 * (unsigned)tmpSize)
 	{
-		unsigned char *tmpData = data;
+		unsigned char *tmpData = GetData();
 		const char *t = text.c_str();
 		int i = 0;
-		for (; i < MD5_DATA_SIZE; i++) {
+		for (; i < tmpSize; i++) {
 			int part1 = fromHex(*t++);
 			if (part1 == -1)
 				break;
@@ -83,27 +82,83 @@ MD5Buf::FromString(const std::string &text)
 				break;
 			*tmpData++ = (part1<<4) + part2;
 		}
-		retVal = i == MD5_DATA_SIZE;
+		retVal = i == tmpSize;
 	}
 	return retVal;
 }
 
 bool
-MD5Buf::IsZero() const
+HashBuf::IsZero() const
 {
-	return *this == MD5Buf();
+	int dataSize = GetDataSize();
+	const unsigned char *tmpData = GetData();
+	int i;
+	for (i = 0; i < dataSize; i++)
+	{
+		if (tmpData[i] != 0)
+			break;
+	}
+	return i == dataSize;
 }
 
 bool
-MD5Buf::operator==(const MD5Buf &other) const
+HashBuf::operator==(const HashBuf &other) const
 {
-	return memcmp(data, other.data, MD5_DATA_SIZE) == 0;
+	return GetDataSize() == other.GetDataSize() && memcmp(GetData(), other.GetData(), GetDataSize()) == 0;
 }
 
 bool
-MD5Buf::operator<(const MD5Buf &other) const
+HashBuf::operator<(const HashBuf &other) const
 {
-	return memcmp(data, other.data, MD5_DATA_SIZE) < 0;
+	int smallestDataSize = GetDataSize() < other.GetDataSize() ? GetDataSize() : other.GetDataSize();
+	return memcmp(GetData(), other.GetData(), smallestDataSize) < 0;
+}
+
+
+MD5Buf::MD5Buf()
+{
+	memset(m_data, 0, sizeof(m_data));
+}
+
+unsigned char *
+MD5Buf::GetData()
+{
+	return m_data;
+}
+
+const unsigned char *
+MD5Buf::GetData() const
+{
+	return m_data;
+}
+
+int
+MD5Buf::GetDataSize() const
+{
+	return sizeof(m_data);
+}
+
+SHA1Buf::SHA1Buf()
+{
+	memset(m_data, 0, sizeof(m_data));
+}
+
+unsigned char *
+SHA1Buf::GetData()
+{
+	return m_data;
+}
+
+const unsigned char *
+SHA1Buf::GetData() const
+{
+	return m_data;
+}
+
+int
+SHA1Buf::GetDataSize() const
+{
+	return sizeof(m_data);
 }
 
 bool
@@ -122,7 +177,7 @@ CryptHelper::MD5Sum(const std::string &fileName, MD5Buf &buf)
 		MD5_Init(&context);
 		while ((numBytes = fread(readBuf, 1, sizeof(readBuf), file)) > 0)
 			MD5_Update(&context, readBuf, numBytes);
-		MD5_Final(buf.data, &context);
+		MD5_Final(buf.GetData(), &context);
 		retVal = ferror(file) == 0;
 
 		fclose(file);
@@ -130,3 +185,24 @@ CryptHelper::MD5Sum(const std::string &fileName, MD5Buf &buf)
 	return retVal;
 }
 
+bool
+CryptHelper::SHA1Hash(unsigned char *data, unsigned dataSize, SHA1Buf &buf)
+{
+	bool retVal = false;
+#ifdef HAVE_OPENSSL
+	if (SHA1(data, dataSize, buf.GetData()) != NULL)
+		retVal = true;
+#else
+	// TODO
+#endif
+	return retVal;
+}
+
+bool
+CryptHelper::AES128Encrypt(unsigned char *keyData, unsigned keySize, unsigned char *plainData, unsigned plainSize, std::vector<unsigned char> &outCipher)
+{
+	bool retVal = false;
+//#ifdef HAVE_OPENSSL
+//	int errCode = EVP_BytesToKey(EVP_aes_128_cbc(), EVP_sha1(), NULL, keyData, keySize,
+	return retVal;
+}
