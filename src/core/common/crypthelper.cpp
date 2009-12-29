@@ -237,18 +237,19 @@ CryptHelper::AES128Encrypt(unsigned char *keyData, unsigned keySize, unsigned ch
 	bool retVal = false;
 	if (keySize && plainSize)
 	{
-		outCipher.clear();
+		const int AESBlockSize = 16;
 		// The key/iv derivation is kind of like EVP_BytesToKey of OpenSSL with count 2 and no salt.
 		// EVP_BytesToKey is not used because there is nothing like it in GnuTLS or gcrypt.
 		SHA1Buf tmpBuf1, tmpBuf2, keyBuf1, keyBuf2;
-		unsigned char key[16];
-		unsigned char iv[16];
+		unsigned char key[AESBlockSize];
+		unsigned char iv[AESBlockSize];
 		// First 20 bytes
 		CryptHelper::SHA1Hash(keyData, keySize, tmpBuf1);
 		CryptHelper::SHA1Hash(tmpBuf1.GetData(), tmpBuf1.GetDataSize(), keyBuf1);
-		// Second 20 bytes (we only need 32 bytes, but anyway).
+		// Second 20 bytes (we only need a total of 32 bytes, but anyway).
 		unsigned tmpKeySize = keySize + keyBuf1.GetDataSize();
 		unsigned char *tmpKeyData = new unsigned char[tmpKeySize];
+		// Concatenate our first hash and the key data.
 		memcpy(tmpKeyData, keyBuf1.GetData(), keyBuf1.GetDataSize());
 		memcpy(tmpKeyData + keyBuf1.GetDataSize(), keyData, keySize);
 		CryptHelper::SHA1Hash(tmpKeyData, tmpKeySize, tmpBuf2);
@@ -259,12 +260,24 @@ CryptHelper::AES128Encrypt(unsigned char *keyData, unsigned keySize, unsigned ch
 		unsigned tmpivBytes = keyBuf1.GetDataSize() - sizeof(key);
 		memcpy(iv, keyBuf1.GetData() + sizeof(key), tmpivBytes);
 		memcpy(iv + tmpivBytes, keyBuf2.GetData(), sizeof(iv) - tmpivBytes);
+		// Perform the encryption.
 #ifdef HAVE_OPENSSL
 		EVP_CIPHER_CTX encryptCtx;
 		EVP_CIPHER_CTX_init(&encryptCtx);
 		EVP_EncryptInit(&encryptCtx, EVP_aes_128_cbc(), key, iv);
-		//outCipher.resize(AES_BLOCK_SIZE
-		//EVP_EncryptUpdate(encryptCtx, ciphertext, &c_len, plaintext, *len);
+		int cipherSize = plainSize + AESBlockSize; // Maximum possible size + 1
+		outCipher.resize(cipherSize);
+		int updateCipherSize = cipherSize;
+		EVP_EncryptUpdate(&encryptCtx, &outCipher[0], &updateCipherSize, plainData, plainSize);
+		if (updateCipherSize)
+		{
+			int finalCipherSize = cipherSize - updateCipherSize;
+			EVP_EncryptFinal(&encryptCtx, &outCipher[updateCipherSize], &finalCipherSize);
+			outCipher.resize(updateCipherSize + finalCipherSize);
+			retVal = true;
+		}
+		else
+			outCipher.clear();
 #else
 		// TODO
 #endif
