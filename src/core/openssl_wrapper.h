@@ -60,6 +60,7 @@
 #else
 	// For all other systems, we use GnuTLS.
 	#include <gnutls/openssl.h>
+	#include <gcrypt.h>
 	#define PKTH_USE_GNUTLS
 #endif
 
