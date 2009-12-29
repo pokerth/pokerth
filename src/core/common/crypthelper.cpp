@@ -21,7 +21,6 @@
 
 
 #include <core/openssl_wrapper.h>
-#include <gcrypt.h>
 #include <cstring>
 #include <cstdio>
 
