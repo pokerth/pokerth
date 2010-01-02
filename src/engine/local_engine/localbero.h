@@ -39,6 +39,9 @@ public:
 	void setMinimumRaise ( int theValue ) { minimumRaise = theValue; }
 	int getMinimumRaise() const { return minimumRaise; }
 
+        void setFullBetRule ( bool theValue ) { fullBetRule = theValue; }
+        bool getFullBetRule() const { return fullBetRule; }
+
 	void skipFirstRunGui() { firstRunGui = false; }
 
 	void nextPlayer();
@@ -118,6 +121,7 @@ private:
 	int smallBlind;
 	int highestSet;
 	int minimumRaise;
+        bool fullBetRule;
 
 	bool firstRun;
 	bool firstRunGui; // HACK

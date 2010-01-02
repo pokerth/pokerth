@@ -859,25 +859,25 @@ LocalPlayer::LocalPlayer(ConfigFile *c, BoardInterface *b, int id, unsigned uniq
 		switch(myUniqueID) {
 	
 			case 0: {
-				myCash=23110;
+                                myCash=2765;
 			} break;
 			case 1: {
-				myCash=1320;
+                                myCash=50;
 			} break;
 			case 2: {
-				myCash=0;
+                                myCash=100;
 			} break;
 			case 3: {
-				myCash=0;
+                                myCash=0;
 			} break;
 			case 4: {
-				myCash=0;
+                                myCash=0;
 			} break;
 			case 5: {
-				myCash=0;
+                                myCash=0;
 			} break;
 			case 6: {
-				myCash=0;
+                                myCash=0;
 			} break;
 			case 7: {
 				myCash=0;
@@ -927,6 +927,51 @@ LocalPlayer::LocalPlayer(ConfigFile *c, BoardInterface *b, int id, unsigned uniq
 		myDude4 += tempArray[i];
 	}
 	myDude4 = (myDude4/count)-interval;
+
+        // !!!!!!!!!!!!!!!!!!!!!!!! testing !!!!!!!!!!!!!!!!!!!!!!!!
+        if(DEBUG_MODE) {
+
+                switch(myUniqueID) {
+
+                        case 0: {
+//                                myDude4=0;
+                        } break;
+                        case 1: {
+                                myDude4=-20;
+                        } break;
+                        case 2: {
+//                                myDude4=0;
+                        } break;
+                        case 3: {
+//                                myDude4=0;
+                        } break;
+                        case 4: {
+//                                myDude4=0;
+                        } break;
+                        case 5: {
+//                                myDude4=0;
+                        } break;
+                        case 6: {
+//                                myDude4=0;
+                        } break;
+                        case 7: {
+//                                myDude4=0;
+                        } break;
+                        case 8: {
+//                                myDude4=0;
+                        } break;
+                        case 9: {
+//                                myDude4=0;
+                        } break;
+
+                        default: {
+                        }
+
+                }
+
+        }
+        ////////////////////////////
+
 
 	delete[] tempArray;
 
@@ -1287,8 +1332,8 @@ void LocalPlayer::preflopEngine() {
 
 				switch(currentHand->getMyID()) {
 					case 1: {
-						myAction = PLAYER_ACTION_CHECK;
-// 						raise = 3000;
+                                                myAction = PLAYER_ACTION_RAISE;
+                                                raise = 20;
 					}
 					break;
 					case 2: {
@@ -1307,8 +1352,8 @@ void LocalPlayer::preflopEngine() {
 
 				switch(currentHand->getMyID()) {
 					case 1: {
-						myAction = PLAYER_ACTION_CALL;
-// 						raise = 20;
+                                                myAction = PLAYER_ACTION_RAISE;
+                                                raise = 20;
 // 						if(mySet >= 40) {
 // 							myAction = PLAYER_ACTION_CALL;
 // 						}
@@ -1331,7 +1376,7 @@ void LocalPlayer::preflopEngine() {
 			case 3: {
 				switch(currentHand->getMyID()) {
 					case 1: {
-						myAction = PLAYER_ACTION_FOLD;
+                                                myAction = PLAYER_ACTION_CALL;
 // 						raise = 20;
 // 						if(mySet >= 40) {
 // 							myAction = PLAYER_ACTION_CALL;
@@ -1376,7 +1421,7 @@ void LocalPlayer::preflopEngine() {
 			break;
 			case 5: {
 // 				if(mySet == 0) {
-					myAction = PLAYER_ACTION_CALL;
+                                        myAction = PLAYER_ACTION_CHECK;
 // 				}
 			}
 			break;
@@ -1722,8 +1767,8 @@ void LocalPlayer::flopEngine() {
 			case 3: {
 				switch(currentHand->getMyID()) {
 					case 1: {
-// 						myAction = PLAYER_ACTION_BET;
-// 						bet = 80;
+                                                myAction = PLAYER_ACTION_RAISE;
+                                                raise = 400;
 // 						if(currentHand->getCurrentBeRo()->getHighestSet() > 0) {
 // 							myAction = PLAYER_ACTION_CALL;
 // 						}
@@ -1747,11 +1792,11 @@ void LocalPlayer::flopEngine() {
 			case 4: {
 				switch(currentHand->getMyID()) {
 					case 1: {
-						myAction = PLAYER_ACTION_CHECK;
-// 						bet = 80;
-// 						if(currentHand->getCurrentBeRo()->getHighestSet() > 0) {
-// 							myAction = PLAYER_ACTION_FOLD;
-// 						}
+                                                myAction = PLAYER_ACTION_BET;
+                                                bet = 40;
+                                                if(currentHand->getCurrentBeRo()->getHighestSet() > 0) {
+                                                        myAction = PLAYER_ACTION_FOLD;
+                                                }
 					}
 					break;
 					case 2: {
@@ -1772,7 +1817,7 @@ void LocalPlayer::flopEngine() {
 			case 5: {
 				switch(currentHand->getMyID()) {
 					case 1: {
-						myAction = PLAYER_ACTION_CHECK;
+                                                myAction = PLAYER_ACTION_FOLD;
 // 						bet = 80;
 // 						if(currentHand->getCurrentBeRo()->getHighestSet() > 0) {
 // 							myAction = PLAYER_ACTION_FOLD;
@@ -1793,6 +1838,31 @@ void LocalPlayer::flopEngine() {
 				
 
 			}
+                        break;
+                        case 6: {
+                                switch(currentHand->getMyID()) {
+                                        case 1: {
+                                                myAction = PLAYER_ACTION_RAISE;
+                                                raise = 40;
+                                                if(currentHand->getCurrentBeRo()->getHighestSet() > 60) {
+                                                        myAction = PLAYER_ACTION_CALL;
+                                                }
+                                        }
+                                        break;
+                                        case 2: {
+// 						myAction = PLAYER_ACTION_RAISE;
+// 						raise = 50;
+// 						if(mySet >= 70) {
+// 							myAction = PLAYER_ACTION_CALL;
+// 						}
+                                        }
+                                        break;
+                                        default: {
+                                        }
+                                }
+
+
+                        }
 			break;
 			default: {}
 		}
@@ -2388,11 +2458,12 @@ void LocalPlayer::turnEngine() {
 			case 3: {
 				switch(currentHand->getMyID()) {
 					case 1: {
-// 						myAction = PLAYER_ACTION_FOLD;
+                                                myAction = PLAYER_ACTION_CALL;
 // 						bet = 10;
-// 						if(currentHand->getCurrentBeRo()->getHighestSet() > 0) {
-// 							myAction = PLAYER_ACTION_CALL;
-// 						}
+ 						if(currentHand->getCurrentBeRo()->getHighestSet() > 500) {
+ 							myAction = PLAYER_ACTION_RAISE;
+                                                        raise = 10000;
+ 						}
 					}
 					break;
 					case 2: {
@@ -2460,6 +2531,32 @@ void LocalPlayer::turnEngine() {
 
 			}
 			break;
+                        case 6: {
+                                switch(currentHand->getMyID()) {
+                                        case 1: {
+                                                myAction = PLAYER_ACTION_BET;
+                                                bet = 240;
+                                                if(currentHand->getCurrentBeRo()->getHighestSet() > 0) {
+                                                        myAction = PLAYER_ACTION_RAISE;
+                                                        raise = 10000;
+                                                }
+                                        }
+                                        break;
+                                        case 2: {
+// 						myAction = PLAYER_ACTION_RAISE;
+// 						raise = 50;
+// 						if(mySet >= 70) {
+// 							myAction = PLAYER_ACTION_CALL;
+// 						}
+                                        }
+                                        break;
+                                        default: {
+                                        }
+                                }
+
+
+                        }
+                        break;
 			default: {}
 		}
 
@@ -2865,6 +2962,32 @@ void LocalPlayer::riverEngine() {
 				
 
 			}
+                        break;
+                        case 6: {
+                                switch(currentHand->getMyID()) {
+                                        case 1: {
+                                                myAction = PLAYER_ACTION_BET;
+                                                bet = 240;
+                                                if(currentHand->getCurrentBeRo()->getHighestSet() > 0) {
+                                                        myAction = PLAYER_ACTION_RAISE;
+                                                        raise = 10000;
+                                                }
+                                        }
+                                        break;
+                                        case 2: {
+// 						myAction = PLAYER_ACTION_RAISE;
+// 						raise = 50;
+// 						if(mySet >= 70) {
+// 							myAction = PLAYER_ACTION_CALL;
+// 						}
+                                        }
+                                        break;
+                                        default: {
+                                        }
+                                }
+
+
+                        }
 			break;
 			default: {}
 		}
@@ -2919,10 +3042,14 @@ void LocalPlayer::evaluation(int bet, int raise) {
 		case 4: {
 			// all in
 			if(bet >= myCash) {
-				mySet += myCash;
-				myCash = 0;
-				myAction = 6;
-				highestSet = mySet;
+                            // -> full bet rule
+                            if(myCash < 2*currentHand->getSmallBlind()) {
+                                currentHand->getCurrentBeRo()->setFullBetRule(true);
+                            }
+                            mySet = myCash;
+                            myCash = 0;
+                            myAction = 6;
+                            highestSet = mySet;
 			}
 			// sonst
 			else {
@@ -2935,20 +3062,40 @@ void LocalPlayer::evaluation(int bet, int raise) {
 		// raise
 		case 5: {
 // 			cout << "evaluation(raise) - highestSet = " << highestSet << " - raise: " << raise << endl;
-			// all in
-			if(highestSet + raise >= myCash) {
-				mySet += myCash;
-				myCash = 0;
-				myAction = 6;
-// 				cout << "evaluation(raise) - mySet: " << mySet << endl;
-				if(mySet > highestSet) highestSet = mySet;
-			}
-			// sonst
-			else {
-				myCash = myCash + mySet - highestSet - raise;
-				mySet = highestSet + raise;
-				highestSet = mySet;
-			}
+                        // full bet rule -> only call possible
+                        if(currentHand->getCurrentBeRo()->getFullBetRule()) {
+                            // all in
+                            if(highestSet >= myCash + mySet) {
+                                    mySet += myCash;
+                                    myCash = 0;
+                                    myAction = 6;
+                            }
+                            // sonst
+                            else {
+                                    myCash = myCash - highestSet + mySet;
+                                    mySet = highestSet;
+                                    myAction = 3;
+                            }
+                        }
+                        else {
+                            // all in
+                            if(highestSet + raise >= myCash + mySet) {
+                                // -> full bet rule
+                                if(highestSet + currentHand->getCurrentBeRo()->getMinimumRaise() > myCash + mySet) {
+                                    currentHand->getCurrentBeRo()->setFullBetRule(true);
+                                }
+                                mySet += myCash;
+                                myCash = 0;
+                                myAction = 6;
+                                if(mySet > highestSet) highestSet = mySet;
+                            }
+                            // sonst
+                            else {
+                                    myCash = myCash + mySet - highestSet - raise;
+                                    mySet = highestSet + raise;
+                                    highestSet = mySet;
+                            }
+                        }
 		}
 		break;
 		// all in

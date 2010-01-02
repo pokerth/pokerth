@@ -64,6 +64,9 @@ public:
 	virtual void setMinimumRaise (int) =0;
 	virtual int getMinimumRaise() const =0;
 
+        virtual void setFullBetRule (bool) =0;
+        virtual bool getFullBetRule() const =0;
+
 	virtual bool getFirstRound() const =0;
 
 	virtual void skipFirstRunGui() =0;

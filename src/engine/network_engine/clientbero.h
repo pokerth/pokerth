@@ -77,6 +77,8 @@ public:
 	void setMinimumRaise ( int theValue );
 	int getMinimumRaise() const;
 
+        void setFullBetRule ( bool theValue );
+        bool getFullBetRule() const;
 
 	void skipFirstRunGui();
 
@@ -112,6 +114,7 @@ private:
 	int smallBlind;
 
 	int minimumRaise;
+        bool fullBetRule;
 
 	int lastActionPlayer;
 };

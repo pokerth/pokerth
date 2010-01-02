@@ -20,7 +20,7 @@
 #include "clientbero.h"
 
 ClientBeRo::ClientBeRo(HandInterface* hi, int /*id*/, unsigned dP, int sB, GameState gS)
-: BeRoInterface(), myBeRoID(gS), myHand(hi), highestCardsValue(0), playersTurn(dP), highestSet(0), firstRound(true), smallBlindPosition(0), smallBlind(sB), minimumRaise(0)
+: BeRoInterface(), myBeRoID(gS), myHand(hi), highestCardsValue(0), playersTurn(dP), highestSet(0), firstRound(true), smallBlindPosition(0), smallBlind(sB), minimumRaise(0), fullBetRule(false)
 {
 }
 
@@ -229,6 +229,19 @@ ClientBeRo::getMinimumRaise() const
 	return minimumRaise;
 }
 
+void
+ClientBeRo::setFullBetRule ( bool theValue )
+{
+        boost::recursive_mutex::scoped_lock lock(m_syncMutex);
+        fullBetRule = theValue;
+}
+
+bool
+ClientBeRo::getFullBetRule() const
+{
+        boost::recursive_mutex::scoped_lock lock(m_syncMutex);
+        return fullBetRule;
+}
 
 void
 ClientBeRo::skipFirstRunGui()
