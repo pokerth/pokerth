@@ -1359,13 +1359,13 @@ void gameTableImpl::provideMyActions(int mode) {
 		refreshActionButtonFKeyIndicator(1);
 	}
 	else {	
-		horizontalSlider_bet->setEnabled(TRUE);
-		lineEdit_betValue->setEnabled(TRUE);	
+                horizontalSlider_bet->setEnabled(TRUE);
+                lineEdit_betValue->setEnabled(TRUE);
 
 		//show available actions on buttons
 		if(currentHand->getCurrentRound() == 0) { // preflop
 			
-			if (currentGame->getSeatsList()->front()->getMyCash()+currentGame->getSeatsList()->front()->getMySet() > currentHand->getCurrentBeRo()->getHighestSet()) { 
+                        if (currentGame->getSeatsList()->front()->getMyCash()+currentGame->getSeatsList()->front()->getMySet() > currentHand->getCurrentBeRo()->getHighestSet() && !currentHand->getCurrentBeRo()->getFullBetRule()) {
 				pushButtonBetRaiseString = RaiseString+"\n$"+QString("%L1").arg(getMyBetAmount()); 
 			}
 	
@@ -1373,7 +1373,9 @@ void gameTableImpl::provideMyActions(int mode) {
 			else { pushButtonCallCheckString = CallString+"\n$"+QString("%L1").arg(getMyCallAmount()); }
 			
 			pushButtonFoldString = FoldString; 
-			pushButtonAllInString = AllInString; 
+                        if(!currentHand->getCurrentBeRo()->getFullBetRule()) {
+                            pushButtonAllInString = AllInString;
+                        }
 		}
 		else { // flop,turn,river
 
@@ -1388,13 +1390,15 @@ void gameTableImpl::provideMyActions(int mode) {
 			}
 			if (currentHand->getCurrentBeRo()->getHighestSet() > 0 && currentHand->getCurrentBeRo()->getHighestSet() > currentGame->getSeatsList()->front()->getMySet()) {
 				pushButtonCallCheckString = CallString+"\n$"+QString("%L1").arg(getMyCallAmount());
-				if (currentGame->getSeatsList()->front()->getMyCash()+currentGame->getSeatsList()->front()->getMySet() > currentHand->getCurrentBeRo()->getHighestSet()) {
+                                if (currentGame->getSeatsList()->front()->getMyCash()+currentGame->getSeatsList()->front()->getMySet() > currentHand->getCurrentBeRo()->getHighestSet() && !currentHand->getCurrentBeRo()->getFullBetRule()) {
 					pushButtonBetRaiseString = RaiseString+"\n$"+QString("%L1").arg(getMyBetAmount());
 				}
 			}
-			pushButtonAllInString = AllInString; 
+                        if(!currentHand->getCurrentBeRo()->getFullBetRule()) {
+                            pushButtonAllInString = AllInString;
+                        }
 		}
-		
+
 		if(mode == 0) {
 			if( currentHand->getSeatsList()->front()->getMyAction() != PLAYER_ACTION_FOLD ) {
 				pushButtonBetRaiseString = BetString+"\n$"+QString("%L1").arg(getMyBetAmount());
@@ -1461,7 +1465,7 @@ void gameTableImpl::provideMyActions(int mode) {
 		//if value changed on bet/raise button --> uncheck to prevent unwanted actions
 		int lastBetValue = lastPushButtonBetRaiseString.simplified().remove(QRegExp("[^0-9]")).toInt();
 		
-		if(lastBetValue < horizontalSlider_bet->minimum() && pushButton_BetRaise->isChecked()) {
+                if((lastBetValue < horizontalSlider_bet->minimum() && pushButton_BetRaise->isChecked())) {
 
 			uncheckMyButtons(); 
 			resetMyButtonsCheckStateMemory();
@@ -1696,6 +1700,11 @@ void gameTableImpl::mySet(){
 			currentHand->getSeatsList()->front()->setMySet(currentHand->getSeatsList()->front()->getMyCash());
 			currentHand->getSeatsList()->front()->setMyCash(0);
 			currentHand->getSeatsList()->front()->setMyAction(6);
+
+                        // full bet rule
+                        if(currentHand->getCurrentBeRo()->getHighestSet() + currentHand->getCurrentBeRo()->getMinimumRaise() > currentHand->getSeatsList()->front()->getMySet()) {
+                            currentHand->getCurrentBeRo()->setFullBetRule(true);
+                        }
 		}
 		
 		if(myActionIsRaise) {
@@ -1744,6 +1753,11 @@ void gameTableImpl::myAllIn(){
                 currentHand->getSeatsList()->front()->setMySet(currentHand->getSeatsList()->front()->getMyCash());
                 currentHand->getSeatsList()->front()->setMyCash(0);
                 currentHand->getSeatsList()->front()->setMyAction(6);
+
+                // full bet rule
+                if(currentHand->getCurrentBeRo()->getHighestSet() + currentHand->getCurrentBeRo()->getMinimumRaise() > currentHand->getSeatsList()->front()->getMySet()) {
+                    currentHand->getCurrentBeRo()->setFullBetRule(true);
+                }
 
                 if(currentHand->getSeatsList()->front()->getMySet() > currentHand->getCurrentBeRo()->getHighestSet()) {
                         currentHand->getCurrentBeRo()->setMinimumRaise(currentHand->getSeatsList()->front()->getMySet() - currentHand->getCurrentBeRo()->getHighestSet());
@@ -2908,10 +2922,16 @@ void gameTableImpl::clearMyButtons() {
 
 void gameTableImpl::myButtonsCheckable(bool state) {
 	
+        Game *currentGame = myStartWindow->getSession()->getCurrentGame();
+        HandInterface *currentHand = currentGame->getCurrentHand();
+
 	if(state) {
 		//checkable
 
-		pushButton_BetRaise->setCheckable(TRUE);
+                // exception: full bet rule
+                if(!currentHand->getCurrentBeRo()->getFullBetRule()) {
+                    pushButton_BetRaise->setCheckable(TRUE);
+                }
 		pushButton_CallCheck->setCheckable(TRUE);
 		pushButton_Fold->setCheckable(TRUE);
 		pushButton_AllIn->setCheckable(TRUE);

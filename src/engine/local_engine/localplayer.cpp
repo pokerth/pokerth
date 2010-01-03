@@ -859,13 +859,13 @@ LocalPlayer::LocalPlayer(ConfigFile *c, BoardInterface *b, int id, unsigned uniq
 		switch(myUniqueID) {
 	
 			case 0: {
-                                myCash=2765;
-			} break;
-			case 1: {
                                 myCash=50;
 			} break;
+			case 1: {
+                                myCash=1000;
+			} break;
 			case 2: {
-                                myCash=100;
+                                myCash=1000;
 			} break;
 			case 3: {
                                 myCash=0;
