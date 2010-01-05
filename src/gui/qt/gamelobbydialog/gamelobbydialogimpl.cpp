@@ -67,14 +67,15 @@ gameLobbyDialogImpl::gameLobbyDialogImpl(startWindowImpl *parent, ConfigFile *c)
 	myGameListSelectionModel = treeView_GameList->selectionModel();
 	
 	QStringList headerList;
-	headerList << tr("Game") << tr("Players") << tr("State") << tr("Private"); 
+        headerList << tr("Game") << tr("Players") << tr("State") << tr("R") << tr("P");
 	myGameListModel->setHorizontalHeaderLabels(headerList);
 	
-	treeView_GameList->setColumnWidth(0,185);
-	treeView_GameList->setColumnWidth(1,65);
-	treeView_GameList->setColumnWidth(2,65);
-	treeView_GameList->setColumnWidth(3,65);
-	
+        treeView_GameList->setColumnWidth(0,220);
+        treeView_GameList->setColumnWidth(1,65);
+        treeView_GameList->setColumnWidth(2,65);
+        treeView_GameList->setColumnWidth(3,30);
+        treeView_GameList->setColumnWidth(4,30);
+
 	treeView_GameList->setStyleSheet("QTreeView {background-color: white; background-image: url(\""+myAppDataPath +"gfx/gui/misc/background_gamelist.png\"); background-attachment: fixed; background-position: top center ; background-repeat: no-repeat;}");
 	treeView_GameList->setAutoFillBackground(TRUE);
 
@@ -114,13 +115,14 @@ void gameLobbyDialogImpl::exec()
 
 	waitStartGameMsgBoxTimer->stop();
 	waitStartGameMsgBox->hide();
+
 }
 
 
 gameLobbyDialogImpl::~gameLobbyDialogImpl()
 {
 	delete myChat;
-	myChat = NULL;
+        myChat = NULL;
 
 }
 
@@ -234,7 +236,7 @@ void gameLobbyDialogImpl::joinAnyGame() {
 
 		int players = myGameListModel->item(it, 1)->data(Qt::DisplayRole).toString().section("/",0,0).toInt();
 		int maxPlayers = myGameListModel->item(it, 1)->data(Qt::DisplayRole).toString().section("/",1,1).toInt();
-		if (myGameListModel->item(it, 2)->data(16) == "open" && myGameListModel->item(it, 3)->data(16) == "nonpriv" && players < maxPlayers)
+                if (myGameListModel->item(it, 2)->data(16) == "open" && myGameListModel->item(it, 4)->data(16) == "nonpriv" && players < maxPlayers)
 		{
 			if(players > mostConnectedPlayers) {
 				mostConnectedPlayers = players;
@@ -263,13 +265,14 @@ void gameLobbyDialogImpl::refresh(int actionID) {
 		treeWidget_NickList->clear();
 		
 		QStringList headerList;
-		headerList << tr("Game") << tr("Players") << tr("State") << tr("Private"); 
+                headerList << tr("Game") << tr("Players") << tr("State") << tr("R") << tr("P");
 		myGameListModel->setHorizontalHeaderLabels(headerList);
-		treeView_GameList->setColumnWidth(0,185);
-		treeView_GameList->setColumnWidth(1,65);
-		treeView_GameList->setColumnWidth(2,65);
-		treeView_GameList->setColumnWidth(3,65);
-		
+                treeView_GameList->setColumnWidth(0,220);
+                treeView_GameList->setColumnWidth(1,65);
+                treeView_GameList->setColumnWidth(2,65);
+                treeView_GameList->setColumnWidth(3,30);
+                treeView_GameList->setColumnWidth(4,30);
+
 		this->accept();
 		myW->show();
 	}
@@ -343,6 +346,7 @@ void gameLobbyDialogImpl::updateGameItem(QList <QStandardItem*> itemList, unsign
 			itemList.at(1)->setBackground(QBrush(QColor(0, 255, 0, 127)));
 			itemList.at(2)->setBackground(QBrush(QColor(0, 255, 0, 127)));
 			itemList.at(3)->setBackground(QBrush(QColor(0, 255, 0, 127)));
+                        itemList.at(4)->setBackground(QBrush(QColor(0, 255, 0, 127)));
 			break;
 		}
 		else {
@@ -351,6 +355,7 @@ void gameLobbyDialogImpl::updateGameItem(QList <QStandardItem*> itemList, unsign
 			itemList.at(1)->setBackground(QBrush());
 			itemList.at(2)->setBackground(QBrush());
 			itemList.at(3)->setBackground(QBrush());
+                        itemList.at(4)->setBackground(QBrush());
 		}
 		++i;
 	}
@@ -371,13 +376,13 @@ void gameLobbyDialogImpl::updateGameItem(QList <QStandardItem*> itemList, unsign
 	}
 
 	if (info.isPasswordProtected) {
-		itemList.at(3)->setIcon(QIcon(myAppDataPath+"gfx/gui/misc/lock.png"));
-		itemList.at(3)->setData(" ", Qt::DisplayRole);
-		itemList.at(3)->setData("private", 16);
+                itemList.at(4)->setIcon(QIcon(myAppDataPath+"gfx/gui/misc/lock.png"));
+                itemList.at(4)->setData(" ", Qt::DisplayRole);
+                itemList.at(4)->setData("private", 16);
 	}
 	else {
-		itemList.at(3)->setData("", Qt::DisplayRole);
-		itemList.at(3)->setData("nonpriv", 16);
+                itemList.at(4)->setData("", Qt::DisplayRole);
+                itemList.at(4)->setData("nonpriv", 16);
 	}
 
 //	treeView_GameList->sortByColumn(myConfig->readConfigInt("DlgGameLobbyGameListSortingSection"), (Qt::SortOrder)myConfig->readConfigInt("DlgGameLobbyGameListSortingOrder") );
@@ -391,7 +396,8 @@ void gameLobbyDialogImpl::addGame(unsigned gameId)
 	QStandardItem *item2 = new QStandardItem();
 	QStandardItem *item3 = new QStandardItem();
 	QStandardItem *item4 = new QStandardItem();
-	itemList << item1 << item2 << item3 << item4;
+        QStandardItem *item5 = new QStandardItem();
+        itemList << item1 << item2 << item3 << item4 << item5;
 	
 	myGameListModel->appendRow(itemList);
 	
@@ -406,7 +412,7 @@ void gameLobbyDialogImpl::updateGameMode(unsigned gameId, int /*newMode*/)
 		if (myGameListModel->item(it, 0)->data(Qt::UserRole) == gameId)
 		{
 			QList <QStandardItem*> itemList;
-			itemList << myGameListModel->item(it, 0) << myGameListModel->item(it, 1) << myGameListModel->item(it, 2) << myGameListModel->item(it, 3);
+                        itemList << myGameListModel->item(it, 0) << myGameListModel->item(it, 1) << myGameListModel->item(it, 2) << myGameListModel->item(it, 3) << myGameListModel->item(it, 4);
 			updateGameItem(itemList, gameId);
 			break;
 		}
@@ -482,7 +488,7 @@ void gameLobbyDialogImpl::gameAddPlayer(unsigned gameId, unsigned playerId)
 	while (myGameListModel->item(it)) {
 		if (myGameListModel->item(it, 0)->data(Qt::UserRole) == gameId) {
 			QList <QStandardItem*> itemList;
-			itemList << myGameListModel->item(it, 0) << myGameListModel->item(it, 1) << myGameListModel->item(it, 2) << myGameListModel->item(it, 3);
+                        itemList << myGameListModel->item(it, 0) << myGameListModel->item(it, 1) << myGameListModel->item(it, 2) << myGameListModel->item(it, 3) << myGameListModel->item(it, 4);
 			
 			updateGameItem(itemList, gameId);
 			break;
@@ -509,7 +515,7 @@ void gameLobbyDialogImpl::gameRemovePlayer(unsigned gameId, unsigned playerId)
 	while (myGameListModel->item(it)) {
 		if (myGameListModel->item(it, 0)->data(Qt::UserRole) == gameId) {
 			QList <QStandardItem*> itemList;
-			itemList << myGameListModel->item(it, 0) << myGameListModel->item(it, 1) << myGameListModel->item(it, 2) << myGameListModel->item(it, 3);
+                        itemList << myGameListModel->item(it, 0) << myGameListModel->item(it, 1) << myGameListModel->item(it, 2) << myGameListModel->item(it, 3) << myGameListModel->item(it, 4);
 			
 			updateGameItem(itemList, gameId);
 			break;
@@ -557,12 +563,13 @@ void gameLobbyDialogImpl::clearDialog()
 	pushButton_joinAnyGame->setEnabled(false);
 
 	QStringList headerList;
-	headerList << tr("Game") << tr("Players") << tr("State") << tr("Private"); 
+        headerList << tr("Game") << tr("Players") << tr("State") << tr("R") << tr("P");
 	myGameListModel->setHorizontalHeaderLabels(headerList);
-	treeView_GameList->setColumnWidth(0,185);
+        treeView_GameList->setColumnWidth(0,220);
 	treeView_GameList->setColumnWidth(1,65);
 	treeView_GameList->setColumnWidth(2,65);
-	treeView_GameList->setColumnWidth(3,65);
+        treeView_GameList->setColumnWidth(3,30);
+        treeView_GameList->setColumnWidth(4,30);
 
 	pushButton_CreateGame->clearFocus();
 	lineEdit_ChatInput->setFocus();
@@ -914,6 +921,8 @@ void gameLobbyDialogImpl::keyPressEvent ( QKeyEvent * event ) {
 
 // 	if (event->key() == Qt::Key_Tab) event->ignore(); else { /*blah*/ }
 
+//        if (event->key() == Qt::Key_N) registeredUserMode();
+//        if (event->key() == Qt::Key_M) guestUserMode();
 	
 }
 
@@ -973,7 +982,7 @@ void gameLobbyDialogImpl::joinAnyGameButtonRefresh() {
 
 		int players = myGameListModel->item(it, 1)->data(Qt::DisplayRole).toString().section("/",0,0).toInt();
 		int maxPlayers = myGameListModel->item(it, 1)->data(Qt::DisplayRole).toString().section("/",1,1).toInt();
-		if (myGameListModel->item(it, 2)->data(16) == "open" && myGameListModel->item(it, 3)->data(16) == "nonpriv" && players < maxPlayers) { 
+                if (myGameListModel->item(it, 2)->data(16) == "open" && myGameListModel->item(it, 4)->data(16) == "nonpriv" && players < maxPlayers) {
 			openNonPrivateNonFullGamesCounter++; 
 		}
 		++it;
@@ -1029,31 +1038,37 @@ void gameLobbyDialogImpl::changeGameListFilter(int index) {
 				myGameListSortFilterProxyModel->setColumn1RegExp(QRegExp());
 				myGameListSortFilterProxyModel->setColumn2RegExp(QRegExp());
 				myGameListSortFilterProxyModel->setColumn3RegExp(QRegExp());
+                                myGameListSortFilterProxyModel->setColumn4RegExp(QRegExp());
 		}
 		break;
 		case 1: {
 				myGameListSortFilterProxyModel->setColumn1RegExp(QRegExp());
 				myGameListSortFilterProxyModel->setColumn2RegExp(QRegExp("open", Qt::CaseInsensitive, QRegExp::FixedString));
 				myGameListSortFilterProxyModel->setColumn3RegExp(QRegExp());
+                                myGameListSortFilterProxyModel->setColumn4RegExp(QRegExp());
 		}
 		break;
 		case 2: {
 				myGameListSortFilterProxyModel->setColumn1RegExp(QRegExp("nonfull", Qt::CaseInsensitive, QRegExp::FixedString));
 				myGameListSortFilterProxyModel->setColumn2RegExp(QRegExp("open", Qt::CaseInsensitive, QRegExp::FixedString));
 				myGameListSortFilterProxyModel->setColumn3RegExp(QRegExp());
+                                myGameListSortFilterProxyModel->setColumn4RegExp(QRegExp());
 		}
 		break;
 		case 3: {
 				myGameListSortFilterProxyModel->setColumn1RegExp(QRegExp("nonfull", Qt::CaseInsensitive, QRegExp::FixedString));
 				myGameListSortFilterProxyModel->setColumn2RegExp(QRegExp("open", Qt::CaseInsensitive, QRegExp::FixedString));
-				myGameListSortFilterProxyModel->setColumn3RegExp(QRegExp("nonpriv", Qt::CaseInsensitive, QRegExp::FixedString));
+                                myGameListSortFilterProxyModel->setColumn3RegExp(QRegExp());
+                                myGameListSortFilterProxyModel->setColumn4RegExp(QRegExp("nonpriv", Qt::CaseInsensitive, QRegExp::FixedString));
 		}
 		break;
 		case 4: {
 				myGameListSortFilterProxyModel->setColumn1RegExp(QRegExp("nonfull", Qt::CaseInsensitive, QRegExp::FixedString));
 				myGameListSortFilterProxyModel->setColumn2RegExp(QRegExp("open", Qt::CaseInsensitive, QRegExp::FixedString));
-				myGameListSortFilterProxyModel->setColumn3RegExp(QRegExp("private", Qt::CaseInsensitive, QRegExp::FixedString));
+                                myGameListSortFilterProxyModel->setColumn3RegExp(QRegExp());
+                                myGameListSortFilterProxyModel->setColumn4RegExp(QRegExp("private", Qt::CaseInsensitive, QRegExp::FixedString));
 		}
+
 		break;
 //		case 5: {
 //				myGameListSortFilterProxyModel->setColumn1RegExp(QRegExp());
@@ -1149,3 +1164,26 @@ void gameLobbyDialogImpl::changeGameListSorting() {
 //       <string>11 - Show private games</string>
 //      </property>
 //     </item>
+
+void gameLobbyDialogImpl::registeredUserMode()
+{
+    pushButton_CreateGame->setEnabled(true);
+    pushButton_CreateGame->setToolTip("");
+    pushButton_CreateGame->setWhatsThis("");
+    pushButton_CreateGame->setStatusTip("");
+
+    lineEdit_ChatInput->clear();
+    lineEdit_ChatInput->setEnabled(true);
+}
+
+
+void gameLobbyDialogImpl::guestUserMode()
+{
+    pushButton_CreateGame->setDisabled(true);
+    pushButton_CreateGame->setToolTip("Create games is available only for registered members");
+    pushButton_CreateGame->setWhatsThis("Create games is available only for registered members");
+    pushButton_CreateGame->setStatusTip("Create games is available only for registered members");
+
+    lineEdit_ChatInput->setText("Chat is avaiable only for registered members");
+    lineEdit_ChatInput->setDisabled(true);
+}

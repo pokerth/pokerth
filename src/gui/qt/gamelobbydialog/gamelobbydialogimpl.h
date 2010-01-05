@@ -115,6 +115,9 @@ public slots:
 	void changeGameListFilter(int);
 	void changeGameListSorting();
 			
+        void registeredUserMode();
+        void guestUserMode();
+
 private:
 	
 	gameTableImpl* myW;
