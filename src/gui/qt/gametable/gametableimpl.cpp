@@ -1647,7 +1647,7 @@ int gameTableImpl::getMyBetAmount() {
 	minimum = currentHand->getCurrentBeRo()->getHighestSet() - currentHand->getSeatsList()->front()->getMySet() + currentHand->getCurrentBeRo()->getMinimumRaise();
 
 	if(betValue < minimum) {
-		return minimum;
+                return min(minimum,currentHand->getSeatsList()->front()->getMyCash());
 	}
 	else {
 		return betValue;
