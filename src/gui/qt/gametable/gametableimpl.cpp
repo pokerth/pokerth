@@ -1448,6 +1448,7 @@ void gameTableImpl::provideMyActions(int mode) {
 			horizontalSlider_bet->setMinimum(currentHand->getCurrentBeRo()->getHighestSet() - currentHand->getSeatsList()->front()->getMySet() + currentHand->getCurrentBeRo()->getMinimumRaise());
 			horizontalSlider_bet->setMaximum(currentHand->getSeatsList()->front()->getMyCash());
 			horizontalSlider_bet->setSingleStep(10);
+                        changeLineEditBetValue(horizontalSlider_bet->value());
 		
 			myActionIsRaise = 1;
 		}
@@ -1456,6 +1457,7 @@ void gameTableImpl::provideMyActions(int mode) {
 			horizontalSlider_bet->setMinimum(currentHand->getSmallBlind()*2);
 			horizontalSlider_bet->setMaximum(currentHand->getSeatsList()->front()->getMyCash());
 			horizontalSlider_bet->setSingleStep(10);
+                        changeLineEditBetValue(horizontalSlider_bet->value());
 		
 			myActionIsBet = 1;
 		}
