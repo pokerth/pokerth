@@ -859,19 +859,19 @@ LocalPlayer::LocalPlayer(ConfigFile *c, BoardInterface *b, int id, unsigned uniq
 		switch(myUniqueID) {
 	
 			case 0: {
-                                myCash=50;
+                                myCash=19855;
 			} break;
 			case 1: {
-                                myCash=1000;
+                                myCash=20750;
 			} break;
 			case 2: {
-                                myCash=1000;
+                                myCash=0;
 			} break;
 			case 3: {
                                 myCash=0;
 			} break;
 			case 4: {
-                                myCash=0;
+                                myCash=9395;
 			} break;
 			case 5: {
                                 myCash=0;
@@ -937,7 +937,7 @@ LocalPlayer::LocalPlayer(ConfigFile *c, BoardInterface *b, int id, unsigned uniq
 //                                myDude4=0;
                         } break;
                         case 1: {
-                                myDude4=-20;
+//                                myDude4=-20;
                         } break;
                         case 2: {
 //                                myDude4=0;
@@ -1036,6 +1036,8 @@ void LocalPlayer::action() {
 		} break;
 		default: {}
 	}
+
+//        cout << currentHand->getCurrentBeRo()->getMinimumRaise() << endl;
 
 // 	cout << checkMyAction(myAction, mySet - myOldSet, myOldSet, myOldCash, oldHighestSet, oldMinimumRaise, currentHand->getSmallBlind()) << endl;
 
@@ -1312,14 +1314,14 @@ void LocalPlayer::preflopEngine() {
 	}
 
 	// minimum raise setting and resetting
-	if(myAction == 5) {
-
-		if(raise < currentHand->getCurrentBeRo()->getMinimumRaise()) {
-			raise = currentHand->getCurrentBeRo()->getMinimumRaise();
-		}
-		currentHand->getCurrentBeRo()->setMinimumRaise(raise);
-	}
-	
+//        if(myAction == 5) {
+//
+//                if(raise < currentHand->getCurrentBeRo()->getMinimumRaise()) {
+//                        raise = currentHand->getCurrentBeRo()->getMinimumRaise();
+//                }
+//                currentHand->getCurrentBeRo()->setMinimumRaise(raise);
+//        }
+//
 
 // 	cout << myID << ": " << myOdds << " - " << myNiveau[0] << " " << myNiveau[2] << " - " << "Bluff: " << sBluffStatus << endl;
 
@@ -1332,8 +1334,8 @@ void LocalPlayer::preflopEngine() {
 
 				switch(currentHand->getMyID()) {
 					case 1: {
-                                                myAction = PLAYER_ACTION_RAISE;
-                                                raise = 20;
+                                                myAction = PLAYER_ACTION_CHECK;
+//                                                raise = 20;
 					}
 					break;
 					case 2: {
@@ -1700,18 +1702,6 @@ void LocalPlayer::flopEngine() {
 
 	}
 
-	// minimum raise setting and resetting
-	if(myAction == 5) {
-
-		if(raise < currentHand->getCurrentBeRo()->getMinimumRaise()) {
-			raise = currentHand->getCurrentBeRo()->getMinimumRaise();
-		}
-		currentHand->getCurrentBeRo()->setMinimumRaise(raise);
-
-	}
-
-	if(myAction == 4) { currentHand->getCurrentBeRo()->setMinimumRaise(bet); }
-
 
 	if(DEBUG_MODE) {
 		switch(myUniqueID) {
@@ -1722,10 +1712,10 @@ void LocalPlayer::flopEngine() {
 				switch(currentHand->getMyID()) {
 					case 1: {
 						myAction = PLAYER_ACTION_BET;
-						bet = 640;
-// 						if(currentHand->getCurrentBeRo()->getHighestSet() > 0) {
-// 							myAction = PLAYER_ACTION_CALL;
-// 						}
+                                                bet = 20;
+                                                if(currentHand->getCurrentBeRo()->getHighestSet() > 0) {
+                                                        myAction = PLAYER_ACTION_CALL;
+                                                }
 					} break;
 					case 2: {
 // 						myAction = PLAYER_ACTION_BET;
@@ -1739,12 +1729,12 @@ void LocalPlayer::flopEngine() {
 
 				switch(currentHand->getMyID()) {
 					case 1: {
-						myAction = PLAYER_ACTION_CHECK;
-// 						bet = 10;
+                                                myAction = PLAYER_ACTION_BET;
+                                                bet = 20;
 // 						raise = 20;
-// 						if(mySet >= 40) {
-// 							myAction = PLAYER_ACTION_CALL;
-// 						}
+                                                if(mySet > 20) {
+                                                        myAction = PLAYER_ACTION_CALL;
+                                                }
 // 						if(currentHand->getCurrentBeRo()->getHighestSet() > 0) {
 // 							myAction = PLAYER_ACTION_CALL;
 // 						}
@@ -1792,11 +1782,11 @@ void LocalPlayer::flopEngine() {
 			case 4: {
 				switch(currentHand->getMyID()) {
 					case 1: {
-                                                myAction = PLAYER_ACTION_BET;
-                                                bet = 40;
-                                                if(currentHand->getCurrentBeRo()->getHighestSet() > 0) {
-                                                        myAction = PLAYER_ACTION_FOLD;
-                                                }
+                                                myAction = PLAYER_ACTION_RAISE;
+                                                raise = 140;
+//                                                if(currentHand->getCurrentBeRo()->getHighestSet() > 0) {
+//                                                        myAction = PLAYER_ACTION_FOLD;
+//                                                }
 					}
 					break;
 					case 2: {
@@ -1869,6 +1859,18 @@ void LocalPlayer::flopEngine() {
 
 
 	}
+
+        // minimum raise setting and resetting
+//        if(myAction == 5) {
+//
+//                if(raise < currentHand->getCurrentBeRo()->getMinimumRaise()) {
+//                        raise = currentHand->getCurrentBeRo()->getMinimumRaise();
+//                }
+//                currentHand->getCurrentBeRo()->setMinimumRaise(raise);
+//
+//        }
+//
+//        if(myAction == 4) { currentHand->getCurrentBeRo()->setMinimumRaise(bet); }
 
 	evaluation(bet, raise);
 
@@ -2388,18 +2390,6 @@ void LocalPlayer::turnEngine() {
 
 	}
 
-	// minimum raise setting and resetting
-	if(myAction == 5) {
-
-		if(raise < currentHand->getCurrentBeRo()->getMinimumRaise()) {
-			raise = currentHand->getCurrentBeRo()->getMinimumRaise();
-		}
-		currentHand->getCurrentBeRo()->setMinimumRaise(raise);
-
-	}
-
-	if(myAction == 4) { currentHand->getCurrentBeRo()->setMinimumRaise(bet); }
-
 
 	if(DEBUG_MODE) {
 
@@ -2412,11 +2402,11 @@ void LocalPlayer::turnEngine() {
 
 				switch(currentHand->getMyID()) {
 					case 1: {
-						myAction = PLAYER_ACTION_RAISE;
-						raise = 40;
-// 						if(currentHand->getCurrentBeRo()->getHighestSet() > 100) {
-// 							myAction = PLAYER_ACTION_FOLD;
-// 						}
+                                                myAction = PLAYER_ACTION_BET;
+                                                bet = 20;
+                                                if(currentHand->getCurrentBeRo()->getHighestSet() > 20) {
+                                                        myAction = PLAYER_ACTION_CALL;
+                                                }
 					}
 					break;
 					case 2: {
@@ -2484,8 +2474,8 @@ void LocalPlayer::turnEngine() {
 			case 4: {
 				switch(currentHand->getMyID()) {
 					case 1: {
-						myAction = PLAYER_ACTION_CALL;
-// 						bet = 10;
+                                                myAction = PLAYER_ACTION_RAISE;
+                                                raise = 120;
 // 						if(currentHand->getCurrentBeRo()->getHighestSet() > 0) {
 // 							myAction = PLAYER_ACTION_CALL;
 // 						}
@@ -2562,6 +2552,18 @@ void LocalPlayer::turnEngine() {
 
 
 	}
+
+        // minimum raise setting and resetting
+//        if(myAction == 5) {
+//
+//                if(raise < currentHand->getCurrentBeRo()->getMinimumRaise()) {
+//                        raise = currentHand->getCurrentBeRo()->getMinimumRaise();
+//                }
+//                currentHand->getCurrentBeRo()->setMinimumRaise(raise);
+//
+//        }
+//
+//        if(myAction == 4) { currentHand->getCurrentBeRo()->setMinimumRaise(bet); }
 
 	evaluation(bet, raise);
 
@@ -2824,18 +2826,6 @@ void LocalPlayer::riverEngine() {
 
 	}
 
-	// minimum raise setting and resetting
-	if(myAction == 5) {
-
-		if(raise < currentHand->getCurrentBeRo()->getMinimumRaise()) {
-			raise = currentHand->getCurrentBeRo()->getMinimumRaise();
-		}
-		currentHand->getCurrentBeRo()->setMinimumRaise(raise);
-
-	}
-
-	if(myAction == 4) { currentHand->getCurrentBeRo()->setMinimumRaise(bet); }
-
 
 	if(DEBUG_MODE) {
 		switch(myUniqueID) {
@@ -2845,10 +2835,11 @@ void LocalPlayer::riverEngine() {
 
 				switch(currentHand->getMyID()) {
 					case 1: {
-// 						myAction = PLAYER_ACTION_CALL;
-// 						if(currentHand->getCurrentBeRo()->getHighestSet() > 100) {
-// 							myAction = PLAYER_ACTION_FOLD;
-// 						}
+                                                myAction = PLAYER_ACTION_RAISE;
+                                                raise = 40;
+                                                if(currentHand->getCurrentBeRo()->getHighestSet() > 60) {
+                                                        myAction = PLAYER_ACTION_CALL;
+                                                }
 					} break;
 					case 2: {
 // 						myAction = PLAYER_ACTION_BET;
@@ -2916,10 +2907,10 @@ void LocalPlayer::riverEngine() {
 						myAction = PLAYER_ACTION_RAISE;
 						raise = 300;
 // 						bet = 120;
-// 						if(currentHand->getCurrentBeRo()->getHighestSet() > 0) {
-// 							myAction = PLAYER_ACTION_RAISE;
-// 							raise = 10000;
-// 						}
+                                                if(currentHand->getCurrentBeRo()->getHighestSet() > 360) {
+                                                        myAction = PLAYER_ACTION_RAISE;
+                                                        raise = 10000;
+                                                }
 					}
 					break;
 					case 2: {
@@ -3005,6 +2996,7 @@ void LocalPlayer::riverEngine() {
 
 void LocalPlayer::evaluation(int bet, int raise) {
 
+
 	int highestSet = 0;
 
 	highestSet = currentHand->getCurrentBeRo()->getHighestSet();
@@ -3046,6 +3038,7 @@ void LocalPlayer::evaluation(int bet, int raise) {
                             if(myCash < 2*currentHand->getSmallBlind()) {
                                 currentHand->getCurrentBeRo()->setFullBetRule(true);
                             }
+                            currentHand->getCurrentBeRo()->setMinimumRaise(myCash);
                             mySet = myCash;
                             myCash = 0;
                             myAction = 6;
@@ -3053,6 +3046,7 @@ void LocalPlayer::evaluation(int bet, int raise) {
 			}
 			// sonst
 			else {
+                                currentHand->getCurrentBeRo()->setMinimumRaise(bet);
 				myCash = myCash - bet;
 				mySet = bet;
 				highestSet = mySet;
@@ -3061,9 +3055,7 @@ void LocalPlayer::evaluation(int bet, int raise) {
 		break;
 		// raise
 		case 5: {
-// 			cout << "evaluation(raise) - highestSet = " << highestSet << " - raise: " << raise << endl;
-                        // full bet rule -> only call possible
-                        if(currentHand->getCurrentBeRo()->getFullBetRule()) {
+                    if(currentHand->getCurrentBeRo()->getFullBetRule()) { // full bet rule -> only call possible
                             // all in
                             if(highestSet >= myCash + mySet) {
                                     mySet += myCash;
@@ -3078,6 +3070,9 @@ void LocalPlayer::evaluation(int bet, int raise) {
                             }
                         }
                         else {
+                            if(raise < currentHand->getCurrentBeRo()->getMinimumRaise()) {
+                                raise = currentHand->getCurrentBeRo()->getMinimumRaise();
+                            }
                             // all in
                             if(highestSet + raise >= myCash + mySet) {
                                 // -> full bet rule
@@ -3085,12 +3080,14 @@ void LocalPlayer::evaluation(int bet, int raise) {
                                     currentHand->getCurrentBeRo()->setFullBetRule(true);
                                 }
                                 mySet += myCash;
+                                currentHand->getCurrentBeRo()->setMinimumRaise(mySet-highestSet);
                                 myCash = 0;
                                 myAction = 6;
                                 if(mySet > highestSet) highestSet = mySet;
                             }
                             // sonst
                             else {
+                                    currentHand->getCurrentBeRo()->setMinimumRaise(raise);
                                     myCash = myCash + mySet - highestSet - raise;
                                     mySet = highestSet + raise;
                                     highestSet = mySet;

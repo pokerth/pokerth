@@ -104,11 +104,11 @@ LocalHand::LocalHand(boost::shared_ptr<EngineFactory> f, GuiInterface *g, BoardI
 
 			case 1: {		
 
-                                tempBoardArray[0] = 21;
-                                tempBoardArray[1] = 8;
+                                tempBoardArray[0] = 36;
+                                tempBoardArray[1] = 21;
                                 tempBoardArray[2] = 50;
-                                tempBoardArray[3] = 11;
-                                tempBoardArray[4] = 16;
+                                tempBoardArray[3] = 15;
+                                tempBoardArray[4] = 12;
 			
 				myBoard->setMyCards(tempBoardArray);
 			
@@ -121,8 +121,8 @@ LocalHand::LocalHand(boost::shared_ptr<EngineFactory> f, GuiInterface *g, BoardI
 				// player0
 				it = seatsList->begin();
 			
-                                tempPlayerArray[0] = 30;
-                                tempPlayerArray[1] = 37;
+                                tempPlayerArray[0] = 13;
+                                tempPlayerArray[1] = 22;
 				tempPlayerAndBoardArray[0] = tempPlayerArray[0];
 				tempPlayerAndBoardArray[1] = tempPlayerArray[1];
 			
@@ -134,8 +134,8 @@ LocalHand::LocalHand(boost::shared_ptr<EngineFactory> f, GuiInterface *g, BoardI
 				// player1
 				it++;
 		
-                                tempPlayerArray[0] = 38;
-                                tempPlayerArray[1] = 25;
+                                tempPlayerArray[0] = 47;
+                                tempPlayerArray[1] = 51;
 				tempPlayerAndBoardArray[0] = tempPlayerArray[0];
 				tempPlayerAndBoardArray[1] = tempPlayerArray[1];
 			
@@ -173,8 +173,8 @@ LocalHand::LocalHand(boost::shared_ptr<EngineFactory> f, GuiInterface *g, BoardI
 				// player4
 				it++;
 			
-				tempPlayerArray[0] = 45;
-				tempPlayerArray[1] = 8;
+                                tempPlayerArray[0] = 48;
+                                tempPlayerArray[1] = 7;
 				tempPlayerAndBoardArray[0] = tempPlayerArray[0];
 				tempPlayerAndBoardArray[1] = tempPlayerArray[1];
 			
