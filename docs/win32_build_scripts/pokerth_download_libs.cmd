@@ -108,14 +108,14 @@ cd /d %PKTH_BaseDir%
 if not exist %PKTH_BaseDir%\qt. (
 echo.
 echo Downloading Qt
-%PKTH_OldDir%\third_party_apps\wget http://get.qt.nokia.com/qt/source/qt-win-opensource-src-4.5.3.zip
+%PKTH_OldDir%\third_party_apps\wget http://get.qt.nokia.com/qt/source/qt-everywhere-opensource-src-4.6.2.zip
 if not errorlevel 0 goto downloadFailed
 echo.
 echo Unpacking Qt
-%PKTH_OldDir%\third_party_apps\7za x -y qt-win-opensource-src-4.5.3.zip
+%PKTH_OldDir%\third_party_apps\7za x -y qt-everywhere-opensource-src-4.6.2.zip
 REM Wait 5 seconds for the file cache, else ren might fail.
 @ping 127.0.0.1 -n 5 -w 1000 > nul
-ren qt-win-opensource-src-4.5.3 qt
+ren qt-everywhere-opensource-src-4.6.2 qt
 )
 if not exist %PKTH_BaseDir%\qt goto qtFailure
 echo.
@@ -124,7 +124,7 @@ SET PATH=%PKTH_BaseDir%\qt\bin;%PATH%
 SET QMAKESPEC=win32-g++
 SET QTDIR=%PKTH_BaseDir%\qt
 cd qt
-configure -static -fast -no-qt3support -no-sql-sqlite -no-dbus -no-opengl -no-openssl -no-phonon -no-webkit -no-direct3d
+configure -static -fast -no-qt3support -no-sql-sqlite -no-dbus -no-opengl -no-openssl -no-phonon -no-webkit
 qmake projects.pro -o Makefile -spec win32-g++
 mingw32-make sub-src
 echo.
@@ -171,9 +171,9 @@ move GnuTLS\lib\*.la GnuTLS\lib\unused
 if not exist %PKTH_BaseDir%\gsasl. (
 echo.
 echo Downloading gsasl
-%PKTH_OldDir%\third_party_apps\wget http://josefsson.org/gnutls4win/gsasl-1.3.zip
+%PKTH_OldDir%\third_party_apps\wget http://josefsson.org/gnutls4win/gsasl-1.4.1.zip
 mkdir gsasl
-%PKTH_OldDir%\third_party_apps\7za x -y -ogsasl gsasl-1.3.zip
+%PKTH_OldDir%\third_party_apps\7za x -y -ogsasl gsasl-1.4.1.zip
 REM Wait 5 seconds for the file cache.
 @ping 127.0.0.1 -n 5 -w 1000 > nul
 REM Remove files for dynamic linking, we do not want to accidently use them
@@ -185,16 +185,16 @@ cd /d %PKTH_BaseDir%
 if not exist %PKTH_BaseDir%\curl. (
 echo.
 echo Downloading curl
-%PKTH_OldDir%\third_party_apps\wget http://curl.haxx.se/download/curl-7.19.6.tar.bz2
+%PKTH_OldDir%\third_party_apps\wget http://curl.haxx.se/download/curl-7.20.0.tar.bz2
 if not errorlevel 0 goto downloadFailed
 echo.
 echo Unpacking curl
-%PKTH_OldDir%\third_party_apps\7za x -y curl-7.19.6.tar.bz2
-%PKTH_OldDir%\third_party_apps\7za x -y curl-7.19.6.tar
-del curl-7.19.6.tar
+%PKTH_OldDir%\third_party_apps\7za x -y curl-7.20.0.tar.bz2
+%PKTH_OldDir%\third_party_apps\7za x -y curl-7.20.0.tar
+del curl-7.20.0.tar
 REM Wait 5 seconds for the file cache, else ren might fail.
 @ping 127.0.0.1 -n 5 -w 1000 > nul
-ren curl-7.19.6 curl
+ren curl-7.20.0 curl
 )
 echo.
 echo Compiling curl
@@ -206,18 +206,18 @@ cd /d %PKTH_BaseDir%
 if not exist %PKTH_BaseDir%\boost. (
 echo.
 echo Downloading boost and bjam
-%PKTH_OldDir%\third_party_apps\wget http://%SOURCEFORGE_MIRROR%.sourceforge.net/sourceforge/boost/boost_1_40_0.7z http://%SOURCEFORGE_MIRROR%.sourceforge.net/sourceforge/boost/boost-jam-3.1.17-1-ntx86.zip
+%PKTH_OldDir%\third_party_apps\wget http://%SOURCEFORGE_MIRROR%.sourceforge.net/sourceforge/boost/boost_1_42_0.7z http://%SOURCEFORGE_MIRROR%.sourceforge.net/sourceforge/boost/boost-jam-3.1.17-1-ntx86.zip
 if not errorlevel 0 goto downloadFailed
 echo.
 echo Unpacking boost and bjam
-%PKTH_OldDir%\third_party_apps\7za x -y boost_1_40_0.7z
+%PKTH_OldDir%\third_party_apps\7za x -y boost_1_42_0.7z
 %PKTH_OldDir%\third_party_apps\7za x -y boost-jam-3.1.17-1-ntx86.zip
 REM Wait 5 seconds for the file cache, else ren might fail.
 @ping 127.0.0.1 -n 5 -w 1000 > nul
 move boost-jam-3.1.17-1-ntx86\bjam.exe mingw\bin\bjam.exe
 move boost-jam-3.1.17-1-ntx86\LICENSE_1_0.txt mingw\bin\bjam_LICENSE_1_0.txt
 rd boost-jam-3.1.17-1-ntx86
-ren boost_1_40_0 boost
+ren boost_1_42_0 boost
 )
 echo.
 echo Compiling boost
