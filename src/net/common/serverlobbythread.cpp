@@ -987,7 +987,7 @@ ServerLobbyThread::HandleNetPacketInit(SessionWrapper session, const InitMessage
 		const AuthenticatedLogin_t *authLogin = &initMessage.login.choice.authenticatedLogin;
 		string inAuthData((const char *)authLogin->clientUserData.buf, authLogin->clientUserData.size);
 		if (authLogin->avatar)
-			memcpy(avatarMD5.data, authLogin->avatar->buf, MD5_DATA_SIZE);
+			memcpy(avatarMD5.GetData(), authLogin->avatar->buf, MD5_DATA_SIZE);
 		session.sessionData->CreateServerAuthSession(m_authContext);
 		if (session.sessionData->AuthStep(1, inAuthData))
 			playerName = session.sessionData->AuthGetUser();
