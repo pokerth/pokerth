@@ -1,5 +1,5 @@
 <RCC>
-    <qresource prefix="/gfx" >
+    <qresource prefix="/gfx">
         <file>view-fullscreen.png</file>
         <file>pokerth.qrc</file>
         <file>swbuttoninternetgame.png</file>
@@ -33,5 +33,7 @@
         <file>dialog_ok_apply.png</file>
         <file>filesave.png</file>
         <file>fill-color.png</file>
+        <file>lock.png</file>
+        <file>cup.png</file>
     </qresource>
 </RCC>

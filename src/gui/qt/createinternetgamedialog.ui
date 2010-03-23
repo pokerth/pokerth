@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>302</width>
-    <height>329</height>
+    <width>284</width>
+    <height>342</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -123,6 +123,10 @@
           <property name="text">
            <string>Password:</string>
           </property>
+          <property name="icon">
+           <iconset resource="resources/pokerth.qrc">
+            <normaloff>:/gfx/lock.png</normaloff>:/gfx/lock.png</iconset>
+          </property>
          </widget>
         </item>
         <item>
@@ -139,6 +143,12 @@
       </item>
       <item row="3" column="0" colspan="2">
        <widget class="QLabel" name="label_6">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
         <property name="text">
          <string>Timeout for player action:</string>
         </property>
@@ -175,6 +185,12 @@
       </item>
       <item row="4" column="2" colspan="2">
        <widget class="QSpinBox" name="spinBox_netDelayBetweenHands">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
         <property name="suffix">
          <string> s</string>
         </property>
@@ -186,6 +202,23 @@
         </property>
         <property name="value">
          <number>7</number>
+        </property>
+       </widget>
+      </item>
+      <item row="7" column="0" colspan="4">
+       <widget class="QCheckBox" name="checkBox_rankingMode">
+        <property name="statusTip">
+         <string>This game will affect players ranking level</string>
+        </property>
+        <property name="whatsThis">
+         <string>This game will affect players ranking level</string>
+        </property>
+        <property name="text">
+         <string>Ranking game mode</string>
+        </property>
+        <property name="icon">
+         <iconset resource="resources/pokerth.qrc">
+          <normaloff>:/gfx/cup.png</normaloff>:/gfx/cup.png</iconset>
         </property>
        </widget>
       </item>
@@ -241,7 +274,9 @@
   <tabstop>pushButton_createGame</tabstop>
   <tabstop>pushButton_cancel</tabstop>
  </tabstops>
- <resources/>
+ <resources>
+  <include location="resources/pokerth.qrc"/>
+ </resources>
  <connections>
   <connection>
    <sender>pushButton_createGame</sender>

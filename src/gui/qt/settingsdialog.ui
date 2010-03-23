@@ -125,7 +125,7 @@
      <item>
       <widget class="QStackedWidget" name="stackedWidget">
        <property name="currentIndex">
-        <number>0</number>
+        <number>5</number>
        </property>
        <widget class="QWidget" name="page">
         <layout class="QGridLayout" name="gridLayout_8">
@@ -303,7 +303,7 @@
          <item row="2" column="0">
           <widget class="QTabWidget" name="tabWidget">
            <property name="currentIndex">
-            <number>2</number>
+            <number>0</number>
            </property>
            <widget class="QWidget" name="tab_3">
             <attribute name="title">
@@ -1648,6 +1648,10 @@ p, li { white-space: pre-wrap; }
              <property name="text">
               <string>Use password for private game:</string>
              </property>
+             <property name="icon">
+              <iconset resource="resources/pokerth.qrc">
+               <normaloff>:/gfx/lock.png</normaloff>:/gfx/lock.png</iconset>
+             </property>
             </widget>
            </item>
            <item>
@@ -1662,7 +1666,7 @@ p, li { white-space: pre-wrap; }
            </item>
           </layout>
          </item>
-         <item row="7" column="0" colspan="3">
+         <item row="8" column="0" colspan="3">
           <spacer>
            <property name="orientation">
             <enum>Qt::Vertical</enum>
@@ -1678,7 +1682,18 @@ p, li { white-space: pre-wrap; }
          <item row="5" column="0">
           <widget class="QCheckBox" name="checkBox_UseLobbyChat">
            <property name="text">
-            <string>Enable/Disable Lobby Chat</string>
+            <string>Show lobby chat</string>
+           </property>
+          </widget>
+         </item>
+         <item row="7" column="0">
+          <widget class="QCheckBox" name="checkBox_InternetGameRankingMode">
+           <property name="text">
+            <string>Use ranking mode (this game will affect players online ranking level)</string>
+           </property>
+           <property name="icon">
+            <iconset resource="resources/pokerth.qrc">
+             <normaloff>:/gfx/cup.png</normaloff>:/gfx/cup.png</iconset>
            </property>
           </widget>
          </item>

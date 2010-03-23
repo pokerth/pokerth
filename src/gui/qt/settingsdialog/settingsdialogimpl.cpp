@@ -208,6 +208,7 @@ void settingsDialogImpl::exec() {
 		lineEdit_InternetGamePassword->setText(QString::fromUtf8(myConfig->readConfigString("InternetGamePassword").c_str()));
 	}
 	checkBox_UseLobbyChat->setChecked(myConfig->readConfigInt("UseLobbyChat"));
+        checkBox_InternetGameRankingMode->setChecked(myConfig->readConfigInt("InternetGameRankingMode"));
 
 	//Interface
 	comboBox_switchLanguage->setCurrentIndex(comboBox_switchLanguage->findData(QString::fromUtf8(myConfig->readConfigString("Language").c_str()).section('_', 0, 0)));
@@ -527,6 +528,7 @@ void settingsDialogImpl::isAccepted() {
 	myConfig->writeConfigInt("UseInternetGamePassword", checkBox_UseInternetGamePassword->isChecked());
 	myConfig->writeConfigString("InternetGamePassword", lineEdit_InternetGamePassword->text().toUtf8().constData());
 	myConfig->writeConfigInt("UseLobbyChat", checkBox_UseLobbyChat->isChecked());
+        myConfig->writeConfigInt("InternetGameRankingMode", checkBox_InternetGameRankingMode->isChecked());
 	
 // 	Interface
 	myConfig->writeConfigString("Language", comboBox_switchLanguage->itemData(comboBox_switchLanguage->currentIndex()).toString().toUtf8().constData());

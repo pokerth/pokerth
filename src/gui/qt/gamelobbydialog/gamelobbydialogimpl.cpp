@@ -375,6 +375,16 @@ void gameLobbyDialogImpl::updateGameItem(QList <QStandardItem*> itemList, unsign
 		itemList.at(2)->setData("open", 16);
 	}
 
+//	if (info.isRankingGame) {
+//                itemList.at(3)->setIcon(QIcon(myAppDataPath+"gfx/gui/misc/cup.png"));
+//                itemList.at(3)->setData(" ", Qt::DisplayRole);
+//                itemList.at(3)->setData("ranking", 16);
+//	}
+//	else {
+//                itemList.at(3)->setData("", Qt::DisplayRole);
+//                itemList.at(3)->setData("nonranking", 16);
+//	}
+
 	if (info.isPasswordProtected) {
                 itemList.at(4)->setIcon(QIcon(myAppDataPath+"gfx/gui/misc/lock.png"));
                 itemList.at(4)->setData(" ", Qt::DisplayRole);
