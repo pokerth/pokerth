@@ -322,6 +322,7 @@ win32 {
             -lgcrypt \
             -ltasn1 \
             -lgpg-error \
+            -lidn \
             -lgsasl
         LIBS += -lcurl
         LIBS += -lz
