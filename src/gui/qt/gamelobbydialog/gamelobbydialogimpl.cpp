@@ -111,6 +111,15 @@ void gameLobbyDialogImpl::exec()
 	}
 	readDialogSettings();
 	
+        PlayerInfo playerInfo(mySession->getClientPlayerInfo(mySession->getClientUniquePlayerId()));
+        if(playerInfo.isGuest) {
+            guestUserMode();
+        }
+        else {
+            registeredUserMode();
+        }
+
+
 	QDialog::exec();
 
 	waitStartGameMsgBoxTimer->stop();
@@ -1177,11 +1186,6 @@ void gameLobbyDialogImpl::changeGameListSorting() {
 
 void gameLobbyDialogImpl::registeredUserMode()
 {
-    pushButton_CreateGame->setEnabled(true);
-    pushButton_CreateGame->setToolTip("");
-    pushButton_CreateGame->setWhatsThis("");
-    pushButton_CreateGame->setStatusTip("");
-
     lineEdit_ChatInput->clear();
     lineEdit_ChatInput->setEnabled(true);
 }
@@ -1189,11 +1193,6 @@ void gameLobbyDialogImpl::registeredUserMode()
 
 void gameLobbyDialogImpl::guestUserMode()
 {
-    pushButton_CreateGame->setDisabled(true);
-    pushButton_CreateGame->setToolTip("Create games is available only for registered members");
-    pushButton_CreateGame->setWhatsThis("Create games is available only for registered members");
-    pushButton_CreateGame->setStatusTip("Create games is available only for registered members");
-
     lineEdit_ChatInput->setText("Chat is avaiable only for registered members");
     lineEdit_ChatInput->setDisabled(true);
 }
