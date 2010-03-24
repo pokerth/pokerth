@@ -91,6 +91,7 @@ public:
 	bool GetPlayerIdFromName(const std::string &playerName, unsigned &playerId) const;
 	ServerStats GetStatData() const;
 	unsigned GetGameId() const;
+	unsigned GetGuiPlayerId() const;
 
 	Gsasl *GetAuthContext();
 
@@ -158,7 +159,6 @@ protected:
 	void SetGameData(const GameData &gameData);
 	const StartData &GetStartData() const;
 	void SetStartData(const StartData &startData);
-	unsigned GetGuiPlayerId() const;
 	void SetGuiPlayerId(unsigned guiPlayerId);
 
 	boost::shared_ptr<Game> GetGame();
@@ -259,6 +259,7 @@ private:
 
 	unsigned m_curGameNum;
 	unsigned m_guiPlayerId;
+	mutable boost::mutex m_guiPlayerIdMutex;
 	bool m_sessionEstablished;
 
 	mutable boost::mutex m_curStatsMutex;

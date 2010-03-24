@@ -96,6 +96,7 @@ public:
 	PlayerInfo getClientPlayerInfo(unsigned playerId) const;
 	ServerStats getClientStats() const;
 	unsigned getClientCurrentGameId() const;
+	unsigned getClientUniquePlayerId() const;
 
 	bool getAvatarFile(const MD5Buf &avatarMD5, std::string &fileName);
 

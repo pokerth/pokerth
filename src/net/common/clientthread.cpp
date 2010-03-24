@@ -963,12 +963,14 @@ ClientThread::SetStartData(const StartData &startData)
 unsigned
 ClientThread::GetGuiPlayerId() const
 {
+	boost::mutex::scoped_lock lock(m_guiPlayerIdMutex);
 	return m_guiPlayerId;
 }
 
 void
 ClientThread::SetGuiPlayerId(unsigned guiPlayerId)
 {
+	boost::mutex::scoped_lock lock(m_guiPlayerIdMutex);
 	m_guiPlayerId = guiPlayerId;
 }
 

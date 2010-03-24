@@ -490,6 +490,14 @@ unsigned Session::getClientCurrentGameId() const
 	return id;
 }
 
+unsigned Session::getClientUniquePlayerId() const
+{
+	unsigned id = 0;
+	if (myNetClient)
+		id = myNetClient->GetGuiPlayerId();
+	return id;
+}
+
 bool Session::getAvatarFile(const MD5Buf &avatarMD5, std::string &fileName)
 {
 	bool retVal = false;
