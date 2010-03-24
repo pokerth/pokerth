@@ -1454,7 +1454,7 @@ p, li { white-space: pre-wrap; }
        </widget>
        <widget class="QWidget" name="page_7">
         <layout class="QGridLayout" name="gridLayout_6">
-         <item row="0" column="0" colspan="2">
+         <item row="0" column="0">
           <widget class="QLabel" name="label_30">
            <property name="styleSheet">
             <string notr="true">QLabel { font-weight: bold;  }</string>
@@ -1464,14 +1464,14 @@ p, li { white-space: pre-wrap; }
            </property>
           </widget>
          </item>
-         <item row="1" column="0" colspan="3">
+         <item row="1" column="0">
           <widget class="Line" name="line_9">
            <property name="orientation">
             <enum>Qt::Horizontal</enum>
            </property>
           </widget>
          </item>
-         <item row="2" column="0" colspan="3">
+         <item row="2" column="0">
           <widget class="QLabel" name="label_43">
            <property name="text">
             <string>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
@@ -1484,19 +1484,13 @@ p, li { white-space: pre-wrap; }
            </property>
           </widget>
          </item>
-         <item row="3" column="0" rowspan="2" colspan="3">
+         <item row="3" column="0">
           <widget class="QGroupBox" name="groupBox_4">
            <property name="title">
             <string>Internet Server</string>
            </property>
            <layout class="QGridLayout" name="gridLayout_5">
-            <property name="topMargin">
-             <number>5</number>
-            </property>
-            <property name="bottomMargin">
-             <number>5</number>
-            </property>
-            <item row="0" column="0" colspan="2">
+            <item row="0" column="0">
              <widget class="QGroupBox" name="groupBox_automaticServerConfig">
               <property name="title">
                <string>Automatic Server Configuration URL</string>
@@ -1524,7 +1518,7 @@ p, li { white-space: pre-wrap; }
               </layout>
              </widget>
             </item>
-            <item row="1" column="0" colspan="2">
+            <item row="1" column="0">
              <widget class="QGroupBox" name="groupBox_manualServerConfig">
               <property name="minimumSize">
                <size>
@@ -1598,47 +1592,148 @@ p, li { white-space: pre-wrap; }
                <item row="2" column="1">
                 <widget class="QLineEdit" name="lineEdit_avatarServerAddress"/>
                </item>
+               <item row="3" column="0" colspan="2">
+                <layout class="QHBoxLayout" name="horizontalLayout_7">
+                 <item>
+                  <widget class="QCheckBox" name="checkBox_InternetServerUseIpv6">
+                   <property name="text">
+                    <string>Use IPv6</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QLabel" name="label_32">
+                   <property name="text">
+                    <string>&lt;a href=&quot;http://en.wikipedia.org/wiki/Ipv6&quot;&gt;What is this?&lt;/a&gt;</string>
+                   </property>
+                   <property name="openExternalLinks">
+                    <bool>true</bool>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <spacer name="horizontalSpacer">
+                   <property name="orientation">
+                    <enum>Qt::Horizontal</enum>
+                   </property>
+                   <property name="sizeHint" stdset="0">
+                    <size>
+                     <width>40</width>
+                     <height>20</height>
+                    </size>
+                   </property>
+                  </spacer>
+                 </item>
+                 <item>
+                  <widget class="QCheckBox" name="checkBox_InternetServerUseSctp">
+                   <property name="text">
+                    <string>Use SCTP</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QLabel" name="label_42">
+                   <property name="text">
+                    <string>&lt;a href=&quot;http://en.wikipedia.org/wiki/Stream_Control_Transmission_Protocol&quot;&gt;What is this?&lt;/a&gt;</string>
+                   </property>
+                   <property name="openExternalLinks">
+                    <bool>true</bool>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <spacer name="horizontalSpacer_8">
+                   <property name="orientation">
+                    <enum>Qt::Horizontal</enum>
+                   </property>
+                   <property name="sizeHint" stdset="0">
+                    <size>
+                     <width>40</width>
+                     <height>20</height>
+                    </size>
+                   </property>
+                  </spacer>
+                 </item>
+                </layout>
+               </item>
               </layout>
-             </widget>
-            </item>
-            <item row="2" column="0">
-             <widget class="QCheckBox" name="checkBox_InternetServerUseIpv6">
-              <property name="text">
-               <string>Use IPv6</string>
-              </property>
-             </widget>
-            </item>
-            <item row="2" column="1">
-             <widget class="QLabel" name="label_32">
-              <property name="text">
-               <string>&lt;a href=&quot;http://en.wikipedia.org/wiki/Ipv6&quot;&gt;What is this?&lt;/a&gt;</string>
-              </property>
-              <property name="openExternalLinks">
-               <bool>true</bool>
-              </property>
-             </widget>
-            </item>
-            <item row="3" column="0">
-             <widget class="QCheckBox" name="checkBox_InternetServerUseSctp">
-              <property name="text">
-               <string>Use SCTP</string>
-              </property>
-             </widget>
-            </item>
-            <item row="3" column="1">
-             <widget class="QLabel" name="label_42">
-              <property name="text">
-               <string>&lt;a href=&quot;http://en.wikipedia.org/wiki/Stream_Control_Transmission_Protocol&quot;&gt;What is this?&lt;/a&gt;</string>
-              </property>
-              <property name="openExternalLinks">
-               <bool>true</bool>
-              </property>
              </widget>
             </item>
            </layout>
           </widget>
          </item>
-         <item row="6" column="0" colspan="3">
+         <item row="4" column="0">
+          <layout class="QHBoxLayout" name="horizontalLayout_8">
+           <item>
+            <widget class="QLabel" name="label_23">
+             <property name="text">
+              <string>Default game name:</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLineEdit" name="lineEdit_internetGameName"/>
+           </item>
+          </layout>
+         </item>
+         <item row="5" column="0">
+          <layout class="QHBoxLayout" name="horizontalLayout_6">
+           <item>
+            <widget class="QLabel" name="label_17">
+             <property name="text">
+              <string>Default game type:</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QComboBox" name="comboBox_internetGameType">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <item>
+              <property name="text">
+               <string>Standard</string>
+              </property>
+              <property name="icon">
+               <iconset resource="resources/pokerth.qrc">
+                <normaloff>:/gfx/player_play.png</normaloff>:/gfx/player_play.png</iconset>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>Registered players only</string>
+              </property>
+              <property name="icon">
+               <iconset resource="resources/pokerth.qrc">
+                <normaloff>:/gfx/registered.png</normaloff>:/gfx/registered.png</iconset>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>Invited players only</string>
+              </property>
+              <property name="icon">
+               <iconset resource="resources/pokerth.qrc">
+                <normaloff>:/gfx/list_add_user.png</normaloff>:/gfx/list_add_user.png</iconset>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>Ranking game</string>
+              </property>
+              <property name="icon">
+               <iconset resource="resources/pokerth.qrc">
+                <normaloff>:/gfx/cup.png</normaloff>:/gfx/cup.png</iconset>
+              </property>
+             </item>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item row="6" column="0">
           <layout class="QHBoxLayout" name="horizontalLayout_2">
            <property name="spacing">
             <number>0</number>
@@ -1666,7 +1761,14 @@ p, li { white-space: pre-wrap; }
            </item>
           </layout>
          </item>
-         <item row="8" column="0" colspan="3">
+         <item row="7" column="0">
+          <widget class="QCheckBox" name="checkBox_UseLobbyChat">
+           <property name="text">
+            <string>Show lobby chat</string>
+           </property>
+          </widget>
+         </item>
+         <item row="8" column="0">
           <spacer>
            <property name="orientation">
             <enum>Qt::Vertical</enum>
@@ -1678,24 +1780,6 @@ p, li { white-space: pre-wrap; }
             </size>
            </property>
           </spacer>
-         </item>
-         <item row="5" column="0">
-          <widget class="QCheckBox" name="checkBox_UseLobbyChat">
-           <property name="text">
-            <string>Show lobby chat</string>
-           </property>
-          </widget>
-         </item>
-         <item row="7" column="0">
-          <widget class="QCheckBox" name="checkBox_InternetGameRankingMode">
-           <property name="text">
-            <string>Use ranking mode (this game will affect players online ranking level)</string>
-           </property>
-           <property name="icon">
-            <iconset resource="resources/pokerth.qrc">
-             <normaloff>:/gfx/cup.png</normaloff>:/gfx/cup.png</iconset>
-           </property>
-          </widget>
          </item>
         </layout>
        </widget>

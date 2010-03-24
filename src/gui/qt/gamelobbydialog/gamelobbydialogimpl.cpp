@@ -582,7 +582,7 @@ void gameLobbyDialogImpl::clearDialog()
 	pushButton_joinAnyGame->setEnabled(false);
 
 	QStringList headerList;
-        headerList << tr("Game") << tr("Players") << tr("State") << tr("R") << tr("P");
+        headerList << tr("Game") << tr("Players") << tr("State") << tr("T") << tr("P");
 	myGameListModel->setHorizontalHeaderLabels(headerList);
         treeView_GameList->setColumnWidth(0,220);
 	treeView_GameList->setColumnWidth(1,65);

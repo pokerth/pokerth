@@ -35,5 +35,6 @@
         <file>fill-color.png</file>
         <file>lock.png</file>
         <file>cup.png</file>
+        <file>registered.png</file>
     </qresource>
 </RCC>

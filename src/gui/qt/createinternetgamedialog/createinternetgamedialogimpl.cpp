@@ -99,7 +99,8 @@ void createInternetGameDialogImpl::fillFormular() {
 	myChangeCompleteBlindsDialog->spinBox_afterThisAlwaysRaiseValue->setValue(myConfig->readConfigInt("NetAfterMBAlwaysRaiseValue"));
 	myChangeCompleteBlindsDialog->radioButton_afterThisStayAtLastBlind->setChecked(myConfig->readConfigInt("NetAfterMBStayAtLastBlind"));
 
-        checkBox_rankingMode->setChecked(myConfig->readConfigInt("InternetGameRankingMode"));
+        comboBox_gameType->setCurrentIndex(myConfig->readConfigInt("InternetGameType"));
+        lineEdit_gameName->setText(QString::fromUtf8(myConfig->readConfigString("InternetGameName").c_str()));
 }
 
 void createInternetGameDialogImpl::showDialog() { 
