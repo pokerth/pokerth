@@ -14,6 +14,7 @@
 /* Including external dependencies */
 #include <UTF8String.h>
 #include <BOOLEAN.h>
+#include "PlayerInfoRights.h"
 #include "NetAvatarType.h"
 #include "AvatarHash.h"
 #include <constr_SEQUENCE.h>
@@ -26,6 +27,7 @@ extern "C" {
 typedef struct PlayerInfoData {
 	UTF8String_t	 playerName;
 	BOOLEAN_t	 isHuman;
+	PlayerInfoRights_t	 playerRights;
 	struct avatarData {
 		NetAvatarType_t	 avatarType;
 		AvatarHash_t	 avatar;

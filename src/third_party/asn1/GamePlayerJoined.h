@@ -13,7 +13,7 @@
 
 /* Including external dependencies */
 #include "NonZeroId.h"
-#include <BOOLEAN.h>
+#include "PlayerInfoRights.h"
 #include <constr_SEQUENCE.h>
 
 #ifdef __cplusplus
@@ -23,7 +23,7 @@ extern "C" {
 /* GamePlayerJoined */
 typedef struct GamePlayerJoined {
 	NonZeroId_t	 playerId;
-	BOOLEAN_t	 isAdmin;
+	PlayerInfoRights_t	 curPlayerRights;
 	/*
 	 * This type is extensible,
 	 * possible extensions are below.

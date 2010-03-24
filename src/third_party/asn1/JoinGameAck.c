@@ -10,14 +10,14 @@
 #include "JoinGameAck.h"
 
 static asn_TYPE_member_t asn_MBR_JoinGameAck_1[] = {
-	{ ATF_NOFLAGS, 0, offsetof(struct JoinGameAck, areYouAdmin),
-		(ASN_TAG_CLASS_UNIVERSAL | (1 << 2)),
+	{ ATF_NOFLAGS, 0, offsetof(struct JoinGameAck, yourRights),
+		(ASN_TAG_CLASS_UNIVERSAL | (10 << 2)),
 		0,
-		&asn_DEF_BOOLEAN,
+		&asn_DEF_PlayerInfoRights,
 		0,	/* Defer constraints checking to the member type */
 		0,	/* PER is not compiled, use -gen-PER */
 		0,
-		"areYouAdmin"
+		"yourRights"
 		},
 	{ ATF_NOFLAGS, 0, offsetof(struct JoinGameAck, gameInfo),
 		(ASN_TAG_CLASS_UNIVERSAL | (16 << 2)),
@@ -33,8 +33,8 @@ static ber_tlv_tag_t asn_DEF_JoinGameAck_tags_1[] = {
 	(ASN_TAG_CLASS_UNIVERSAL | (16 << 2))
 };
 static asn_TYPE_tag2member_t asn_MAP_JoinGameAck_tag2el_1[] = {
-    { (ASN_TAG_CLASS_UNIVERSAL | (1 << 2)), 0, 0, 0 }, /* areYouAdmin at 285 */
-    { (ASN_TAG_CLASS_UNIVERSAL | (16 << 2)), 1, 0, 0 } /* gameInfo at 287 */
+    { (ASN_TAG_CLASS_UNIVERSAL | (10 << 2)), 0, 0, 0 }, /* yourRights at 292 */
+    { (ASN_TAG_CLASS_UNIVERSAL | (16 << 2)), 1, 0, 0 } /* gameInfo at 294 */
 };
 static asn_SEQUENCE_specifics_t asn_SPC_JoinGameAck_specs_1 = {
 	sizeof(struct JoinGameAck),

@@ -92,9 +92,9 @@ static ber_tlv_tag_t asn_DEF_EndOfHandHideCards_tags_1[] = {
 	(ASN_TAG_CLASS_UNIVERSAL | (16 << 2))
 };
 static asn_TYPE_tag2member_t asn_MAP_EndOfHandHideCards_tag2el_1[] = {
-    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 0, 0, 2 }, /* playerId at 476 */
-    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 1, -1, 1 }, /* moneyWon at 477 */
-    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 2, -2, 0 } /* playerMoney at 478 */
+    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 0, 0, 2 }, /* playerId at 483 */
+    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 1, -1, 1 }, /* moneyWon at 484 */
+    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 2, -2, 0 } /* playerMoney at 485 */
 };
 static asn_SEQUENCE_specifics_t asn_SPC_EndOfHandHideCards_specs_1 = {
 	sizeof(struct EndOfHandHideCards),

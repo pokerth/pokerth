@@ -41,7 +41,7 @@ memb_playerName_constraint_1(asn_TYPE_descriptor_t *td, const void *sptr,
 	}
 }
 
-static asn_TYPE_member_t asn_MBR_avatarData_4[] = {
+static asn_TYPE_member_t asn_MBR_avatarData_5[] = {
 	{ ATF_NOFLAGS, 0, offsetof(struct avatarData, avatarType),
 		(ASN_TAG_CLASS_UNIVERSAL | (10 << 2)),
 		0,
@@ -61,24 +61,24 @@ static asn_TYPE_member_t asn_MBR_avatarData_4[] = {
 		"avatar"
 		},
 };
-static ber_tlv_tag_t asn_DEF_avatarData_tags_4[] = {
+static ber_tlv_tag_t asn_DEF_avatarData_tags_5[] = {
 	(ASN_TAG_CLASS_UNIVERSAL | (16 << 2))
 };
-static asn_TYPE_tag2member_t asn_MAP_avatarData_tag2el_4[] = {
-    { (ASN_TAG_CLASS_UNIVERSAL | (4 << 2)), 1, 0, 0 }, /* avatar at 244 */
-    { (ASN_TAG_CLASS_UNIVERSAL | (10 << 2)), 0, 0, 0 } /* avatarType at 242 */
+static asn_TYPE_tag2member_t asn_MAP_avatarData_tag2el_5[] = {
+    { (ASN_TAG_CLASS_UNIVERSAL | (4 << 2)), 1, 0, 0 }, /* avatar at 251 */
+    { (ASN_TAG_CLASS_UNIVERSAL | (10 << 2)), 0, 0, 0 } /* avatarType at 249 */
 };
-static asn_SEQUENCE_specifics_t asn_SPC_avatarData_specs_4 = {
+static asn_SEQUENCE_specifics_t asn_SPC_avatarData_specs_5 = {
 	sizeof(struct avatarData),
 	offsetof(struct avatarData, _asn_ctx),
-	asn_MAP_avatarData_tag2el_4,
+	asn_MAP_avatarData_tag2el_5,
 	2,	/* Count of tags in the map */
 	0, 0, 0,	/* Optional elements (not needed) */
 	1,	/* Start extensions */
 	3	/* Stop extensions */
 };
 static /* Use -fall-defs-global to expose */
-asn_TYPE_descriptor_t asn_DEF_avatarData_4 = {
+asn_TYPE_descriptor_t asn_DEF_avatarData_5 = {
 	"avatarData",
 	"avatarData",
 	SEQUENCE_free,
@@ -90,16 +90,16 @@ asn_TYPE_descriptor_t asn_DEF_avatarData_4 = {
 	SEQUENCE_encode_xer,
 	0, 0,	/* No PER support, use "-gen-PER" to enable */
 	0,	/* Use generic outmost tag fetcher */
-	asn_DEF_avatarData_tags_4,
-	sizeof(asn_DEF_avatarData_tags_4)
-		/sizeof(asn_DEF_avatarData_tags_4[0]), /* 1 */
-	asn_DEF_avatarData_tags_4,	/* Same as above */
-	sizeof(asn_DEF_avatarData_tags_4)
-		/sizeof(asn_DEF_avatarData_tags_4[0]), /* 1 */
+	asn_DEF_avatarData_tags_5,
+	sizeof(asn_DEF_avatarData_tags_5)
+		/sizeof(asn_DEF_avatarData_tags_5[0]), /* 1 */
+	asn_DEF_avatarData_tags_5,	/* Same as above */
+	sizeof(asn_DEF_avatarData_tags_5)
+		/sizeof(asn_DEF_avatarData_tags_5[0]), /* 1 */
 	0,	/* No PER visible constraints */
-	asn_MBR_avatarData_4,
+	asn_MBR_avatarData_5,
 	2,	/* Elements count */
-	&asn_SPC_avatarData_specs_4	/* Additional specs */
+	&asn_SPC_avatarData_specs_5	/* Additional specs */
 };
 
 static asn_TYPE_member_t asn_MBR_PlayerInfoData_1[] = {
@@ -121,10 +121,19 @@ static asn_TYPE_member_t asn_MBR_PlayerInfoData_1[] = {
 		0,
 		"isHuman"
 		},
+	{ ATF_NOFLAGS, 0, offsetof(struct PlayerInfoData, playerRights),
+		(ASN_TAG_CLASS_UNIVERSAL | (10 << 2)),
+		0,
+		&asn_DEF_PlayerInfoRights,
+		0,	/* Defer constraints checking to the member type */
+		0,	/* PER is not compiled, use -gen-PER */
+		0,
+		"playerRights"
+		},
 	{ ATF_POINTER, 1, offsetof(struct PlayerInfoData, avatarData),
 		(ASN_TAG_CLASS_UNIVERSAL | (16 << 2)),
 		0,
-		&asn_DEF_avatarData_4,
+		&asn_DEF_avatarData_5,
 		0,	/* Defer constraints checking to the member type */
 		0,	/* PER is not compiled, use -gen-PER */
 		0,
@@ -135,18 +144,19 @@ static ber_tlv_tag_t asn_DEF_PlayerInfoData_tags_1[] = {
 	(ASN_TAG_CLASS_UNIVERSAL | (16 << 2))
 };
 static asn_TYPE_tag2member_t asn_MAP_PlayerInfoData_tag2el_1[] = {
-    { (ASN_TAG_CLASS_UNIVERSAL | (1 << 2)), 1, 0, 0 }, /* isHuman at 240 */
-    { (ASN_TAG_CLASS_UNIVERSAL | (12 << 2)), 0, 0, 0 }, /* playerName at 239 */
-    { (ASN_TAG_CLASS_UNIVERSAL | (16 << 2)), 2, 0, 0 } /* avatarData at 242 */
+    { (ASN_TAG_CLASS_UNIVERSAL | (1 << 2)), 1, 0, 0 }, /* isHuman at 246 */
+    { (ASN_TAG_CLASS_UNIVERSAL | (10 << 2)), 2, 0, 0 }, /* playerRights at 247 */
+    { (ASN_TAG_CLASS_UNIVERSAL | (12 << 2)), 0, 0, 0 }, /* playerName at 245 */
+    { (ASN_TAG_CLASS_UNIVERSAL | (16 << 2)), 3, 0, 0 } /* avatarData at 249 */
 };
 static asn_SEQUENCE_specifics_t asn_SPC_PlayerInfoData_specs_1 = {
 	sizeof(struct PlayerInfoData),
 	offsetof(struct PlayerInfoData, _asn_ctx),
 	asn_MAP_PlayerInfoData_tag2el_1,
-	3,	/* Count of tags in the map */
+	4,	/* Count of tags in the map */
 	0, 0, 0,	/* Optional elements (not needed) */
-	2,	/* Start extensions */
-	4	/* Stop extensions */
+	3,	/* Start extensions */
+	5	/* Stop extensions */
 };
 asn_TYPE_descriptor_t asn_DEF_PlayerInfoData = {
 	"PlayerInfoData",
@@ -168,7 +178,7 @@ asn_TYPE_descriptor_t asn_DEF_PlayerInfoData = {
 		/sizeof(asn_DEF_PlayerInfoData_tags_1[0]), /* 1 */
 	0,	/* No PER visible constraints */
 	asn_MBR_PlayerInfoData_1,
-	3,	/* Elements count */
+	4,	/* Elements count */
 	&asn_SPC_PlayerInfoData_specs_1	/* Additional specs */
 };
 
