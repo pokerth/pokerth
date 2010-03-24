@@ -1042,7 +1042,7 @@ ServerLobbyThread::HandleNetPacketInit(SessionWrapper session, const InitMessage
 
 	// Create player data object.
 	boost::shared_ptr<PlayerData> tmpPlayerData(
-		new PlayerData(GetNextUniquePlayerId(), 0, PLAYER_TYPE_HUMAN, PLAYER_RIGHTS_NORMAL));
+		new PlayerData(GetNextUniquePlayerId(), 0, PLAYER_TYPE_HUMAN, validGuest ? PLAYER_RIGHTS_GUEST : PLAYER_RIGHTS_NORMAL));
 	tmpPlayerData->SetName(playerName);
 	tmpPlayerData->SetNetSessionData(session.sessionData);
 	tmpPlayerData->SetAvatarMD5(avatarMD5);
@@ -1197,6 +1197,7 @@ ServerLobbyThread::HandleNetPacketRetrievePlayerInfo(SessionWrapper session, con
 		PlayerInfoData *data = &netPlayerInfoReply->playerInfoResult.choice.playerInfoData;
 
 		data->isHuman = tmpPlayer->GetType() == PLAYER_TYPE_HUMAN;
+		data->playerRights = static_cast<PlayerInfoRights>(tmpPlayer->GetRights());
 		OCTET_STRING_fromBuf(
 			&data->playerName,
 			tmpPlayer->GetName().c_str(),

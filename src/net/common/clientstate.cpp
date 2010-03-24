@@ -668,10 +668,8 @@ AbstractClientStateReceiving::HandlePacket(boost::shared_ptr<ClientThread> clien
 			PlayerInfo tmpInfo;
 			PlayerInfoData_t *netInfo = &tmpPacket->GetMsg()->choice.playerInfoReplyMessage.playerInfoResult.choice.playerInfoData;
 			tmpInfo.playerName = STL_STRING_FROM_OCTET_STRING(netInfo->playerName);
-			if (netInfo->isHuman)
-				tmpInfo.ptype = PLAYER_TYPE_HUMAN;
-			else
-				tmpInfo.ptype = PLAYER_TYPE_COMPUTER;
+			tmpInfo.ptype = netInfo->isHuman ? PLAYER_TYPE_HUMAN : PLAYER_TYPE_COMPUTER;
+			tmpInfo.isGuest = netInfo->playerRights == PlayerInfoRights_playerRightsGuest;
 			if (netInfo->avatarData != NULL)
 			{
 				tmpInfo.hasAvatar = true;
@@ -1360,7 +1358,7 @@ ClientStateWaitJoin::InternalHandlePacket(boost::shared_ptr<ClientThread> client
 			// Player number is 0 on init. Will be set when the game starts.
 			boost::shared_ptr<PlayerData> playerData(
 				new PlayerData(client->GetGuiPlayerId(), 0, PLAYER_TYPE_HUMAN,
-					netJoinAck->areYouAdmin ? PLAYER_RIGHTS_ADMIN : PLAYER_RIGHTS_NORMAL));
+					static_cast<PlayerRights>(netJoinAck->yourRights)));
 			playerData->SetName(context.GetPlayerName());
 			playerData->SetAvatarFile(context.GetAvatarFile());
 			client->AddPlayerData(playerData);
@@ -1446,7 +1444,7 @@ ClientStateWaitGame::InternalHandlePacket(boost::shared_ptr<ClientThread> client
 			if (client->GetCachedPlayerInfo(netPlayerJoined->playerId, info))
 			{
 				playerData.reset(
-					new PlayerData(netPlayerJoined->playerId, 0, info.ptype, netPlayerJoined->isAdmin ? PLAYER_RIGHTS_ADMIN : PLAYER_RIGHTS_NORMAL));
+					new PlayerData(netPlayerJoined->playerId, 0, info.ptype, static_cast<PlayerRights>(netPlayerJoined->curPlayerRights)));
 				playerData->SetName(info.playerName);
 				if (info.hasAvatar)
 				{
@@ -1466,7 +1464,7 @@ ClientStateWaitGame::InternalHandlePacket(boost::shared_ptr<ClientThread> client
 				client->RequestPlayerInfo(netPlayerJoined->playerId, true);
 				// Use temporary data until the PlayerInfo request is completed.
 				playerData.reset(
-					new PlayerData(netPlayerJoined->playerId, 0, PLAYER_TYPE_HUMAN, netPlayerJoined->isAdmin ? PLAYER_RIGHTS_ADMIN : PLAYER_RIGHTS_NORMAL));
+					new PlayerData(netPlayerJoined->playerId, 0, PLAYER_TYPE_HUMAN, static_cast<PlayerRights>(netPlayerJoined->curPlayerRights)));
 				playerData->SetName(name.str());
 			}
 			client->AddPlayerData(playerData);

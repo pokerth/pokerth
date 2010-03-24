@@ -339,7 +339,8 @@ ServerGameStateInit::HandleNewSession(boost::shared_ptr<ServerGame> server, Sess
 			netJoinReply->gameId = server->GetId();
 			netJoinReply->joinGameResult.present = joinGameResult_PR_joinGameAck;
 			JoinGameAck_t *joinAck = &netJoinReply->joinGameResult.choice.joinGameAck;
-			joinAck->areYouAdmin = session.playerData->GetRights() == PLAYER_RIGHTS_ADMIN;
+			joinAck->yourRights = static_cast<PlayerInfoRights>(session.playerData->GetRights());
+
 			NetPacket::SetGameData(server->GetGameData(), &joinAck->gameInfo);
 			OCTET_STRING_fromBuf(
 				&joinAck->gameInfo.gameName,
@@ -487,7 +488,7 @@ ServerGameStateInit::CreateNetPacketPlayerJoined(unsigned gameId, const PlayerDa
 	netGamePlayer->gamePlayerNotification.present = gamePlayerNotification_PR_gamePlayerJoined;
 	GamePlayerJoined_t *playerJoined = &netGamePlayer->gamePlayerNotification.choice.gamePlayerJoined;
 	playerJoined->playerId = playerData.GetUniqueId();
-	playerJoined->isAdmin = playerData.GetRights() == PLAYER_RIGHTS_ADMIN;
+	playerJoined->curPlayerRights = static_cast<PlayerInfoRights>(playerData.GetRights());
 	return packet;
 }
 
