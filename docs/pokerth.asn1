@@ -235,9 +235,16 @@ PlayerInfoReplyMessage ::= [APPLICATION 9] SEQUENCE {
 	}
 }
 
+PlayerInfoRights ::= ENUMERATED {
+	playerRightsGuest  (1),
+	playerRightsNormal (2),
+	playerRightsAdmin  (3)
+}
+
 PlayerInfoData ::= SEQUENCE {
 	playerName					UTF8String (SIZE(1..32)),
 	isHuman						BOOLEAN,
+	playerRights				PlayerInfoRights,
 	avatarData					SEQUENCE {
 		avatarType					NetAvatarType,
 		avatar						AvatarHash
@@ -282,7 +289,7 @@ JoinGameReplyMessage ::= [APPLICATION 12] SEQUENCE {
 }
 
 JoinGameAck ::= SEQUENCE {
-	areYouAdmin					BOOLEAN,
+	yourRights					PlayerInfoRights,
 	gameInfo					NetGameInfo
 }
 
@@ -328,7 +335,7 @@ GamePlayerMessage ::= [APPLICATION 13] SEQUENCE {
 
 GamePlayerJoined ::= SEQUENCE {
 	playerId					NonZeroId,
-	isAdmin						BOOLEAN
+	curPlayerRights				PlayerInfoRights
 }
 
 GamePlayerLeft ::= SEQUENCE {
