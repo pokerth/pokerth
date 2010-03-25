@@ -130,6 +130,7 @@ private:
 	unsigned myCurrentGameId;
 	bool isAdmin;
 	bool inGame;
+        bool guestMode;
 
 	QString myAppDataPath;
 	QMessageBox *waitStartGameMsgBox;

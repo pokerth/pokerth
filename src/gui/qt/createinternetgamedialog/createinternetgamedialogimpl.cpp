@@ -34,12 +34,12 @@ createInternetGameDialogImpl::createInternetGameDialogImpl(QWidget *parent, Conf
 
 	myChangeCompleteBlindsDialog = new changeCompleteBlindsDialogImpl;
 
-	fillFormular();
-
 	connect( radioButton_changeBlindsSettings, SIGNAL( clicked(bool) ), this, SLOT( callChangeBlindsDialog(bool) ) );
 	connect( pushButton_cancel, SIGNAL( clicked() ), this, SLOT( cancel() ) );
 	connect( pushButton_createGame, SIGNAL( clicked() ), this, SLOT( createGame() ) );
 	connect( checkBox_Password, SIGNAL( toggled(bool) ), this, SLOT( clearGamePassword(bool)) ); 
+        connect( comboBox_gameType, SIGNAL(currentIndexChanged(int)), this, SLOT( gameTypeChanged() ) );
+        
 	//temporarely unused until ai is enabled in network
 // 	label_5->hide();
 // 	spinBox_gameSpeed->hide();
@@ -48,9 +48,9 @@ createInternetGameDialogImpl::createInternetGameDialogImpl(QWidget *parent, Conf
 }
 
 
-void createInternetGameDialogImpl::exec() { 
+void createInternetGameDialogImpl::exec(bool guestMode, QString playerName) {
 	
-	fillFormular();
+        fillFormular(guestMode, playerName);
 	QDialog::exec();
 }
 
@@ -62,7 +62,7 @@ void createInternetGameDialogImpl::cancel() {
 	
 }
 
-void createInternetGameDialogImpl::fillFormular() {
+void createInternetGameDialogImpl::fillFormular(bool guestMode, QString playerName) {
 	
 	//Network Game Settings
 	spinBox_quantityPlayers->setValue(myConfig->readConfigInt("NetNumberOfPlayers"));
@@ -99,14 +99,21 @@ void createInternetGameDialogImpl::fillFormular() {
 	myChangeCompleteBlindsDialog->spinBox_afterThisAlwaysRaiseValue->setValue(myConfig->readConfigInt("NetAfterMBAlwaysRaiseValue"));
 	myChangeCompleteBlindsDialog->radioButton_afterThisStayAtLastBlind->setChecked(myConfig->readConfigInt("NetAfterMBStayAtLastBlind"));
 
-        comboBox_gameType->setCurrentIndex(myConfig->readConfigInt("InternetGameType"));
-        lineEdit_gameName->setText(QString::fromUtf8(myConfig->readConfigString("InternetGameName").c_str()));
-}
+        if(guestMode) {
+            comboBox_gameType->setCurrentIndex(0);
+            comboBox_gameType->setDisabled(true);
+            lineEdit_gameName->setText(tr("%1's game").arg(playerName));
+            lineEdit_gameName->setDisabled(true);
 
-void createInternetGameDialogImpl::showDialog() { 
-	
-	fillFormular();
-	exec();
+        }
+        else {
+            comboBox_gameType->setDisabled(false);
+            comboBox_gameType->setCurrentIndex(myConfig->readConfigInt("InternetGameType"));
+            lineEdit_gameName->setDisabled(false);
+            lineEdit_gameName->setText(QString::fromUtf8(myConfig->readConfigString("InternetGameName").c_str()));
+        }
+
+        gameTypeChanged();
 }
 
 void createInternetGameDialogImpl::keyPressEvent ( QKeyEvent * event ) {
@@ -131,4 +138,24 @@ void createInternetGameDialogImpl::callChangeBlindsDialog(bool show) {
 		}
 
 	}
+}
+
+void createInternetGameDialogImpl::gameTypeChanged() {
+
+    switch (comboBox_gameType->currentIndex()) {
+
+    case 0: { checkBox_Password->setDisabled(FALSE); }
+    break;
+    case 1: { checkBox_Password->setDisabled(FALSE); }
+    break;
+    case 2: { checkBox_Password->setChecked(FALSE);
+              checkBox_Password->setDisabled(TRUE);
+            }
+    break;
+    case 3: { checkBox_Password->setChecked(FALSE);
+              checkBox_Password->setDisabled(TRUE);
+            }
+    break;
+    }
+
 }

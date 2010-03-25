@@ -34,17 +34,17 @@ Q_OBJECT
 public:
     createInternetGameDialogImpl(QWidget *parent = 0, ConfigFile *c = 0);
 
-	void exec();
+        void exec(bool guestMode, QString playerName);
 	changeCompleteBlindsDialogImpl* getChangeCompleteBlindsDialog() { return myChangeCompleteBlindsDialog; }
 
 public slots:
 
 	void createGame();
 	void cancel();
-	void fillFormular();
-	void showDialog();
+        void fillFormular(bool guestMode, QString playerName);
 	void keyPressEvent ( QKeyEvent * event );
 	void clearGamePassword(bool);
+        void gameTypeChanged();
 
 	void callChangeBlindsDialog(bool);
 private:

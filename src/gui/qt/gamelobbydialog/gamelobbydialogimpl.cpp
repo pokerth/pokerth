@@ -20,7 +20,7 @@
 #include <net/socket_msg.h>
 
 gameLobbyDialogImpl::gameLobbyDialogImpl(startWindowImpl *parent, ConfigFile *c)
- : QDialog(parent), myW(NULL), myStartWindow(parent), myConfig(c), currentGameName(""), myPlayerId(0), myCurrentGameId(0), isAdmin(false), inGame(false), blinkingButtonAnimationState(true), myChat(NULL), keyUpCounter(0)
+ : QDialog(parent), myW(NULL), myStartWindow(parent), myConfig(c), currentGameName(""), myPlayerId(0), myCurrentGameId(0), isAdmin(false), inGame(false), guestMode(false), blinkingButtonAnimationState(true), myChat(NULL), keyUpCounter(0)
 {
 
 #ifdef __APPLE__
@@ -145,7 +145,8 @@ void gameLobbyDialogImpl::createGame()
 	assert(mySession);
 
 	myCreateInternetGameDialog = new createInternetGameDialogImpl(this, myConfig);
-	myCreateInternetGameDialog->exec();
+        PlayerInfo playerInfo(mySession->getClientPlayerInfo(mySession->getClientUniquePlayerId()));
+        myCreateInternetGameDialog->exec(guestMode, QString::fromUtf8(playerInfo.playerName.c_str()));
 	
 	if (myCreateInternetGameDialog->result() == QDialog::Accepted ) {
 
@@ -1188,6 +1189,7 @@ void gameLobbyDialogImpl::registeredUserMode()
 {
     lineEdit_ChatInput->clear();
     lineEdit_ChatInput->setEnabled(true);
+    guestMode = false;
 }
 
 
@@ -1195,4 +1197,5 @@ void gameLobbyDialogImpl::guestUserMode()
 {
     lineEdit_ChatInput->setText("Chat is avaiable only for registered members");
     lineEdit_ChatInput->setDisabled(true);
+    guestMode = true;
 }
