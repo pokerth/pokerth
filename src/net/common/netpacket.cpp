@@ -109,6 +109,7 @@ NetPacket::SetGameData(const GameData &inData, NetGameInfo_t *outData)
 
 	int numManualBlinds = (int)inData.manualBlindsList.size();
 
+	outData->netGameType				= inData.gameType;
 	outData->maxNumPlayers				= inData.maxNumberOfPlayers;
 	outData->raiseIntervalMode.present	= static_cast<raiseIntervalMode_PR>(inData.raiseIntervalMode);
 	if (inData.raiseIntervalMode == RAISE_ON_HANDNUMBER)
@@ -150,6 +151,7 @@ NetPacket::GetGameData(const NetGameInfo_t *inData, GameData &outData)
 
 	int numManualBlinds = (int)inData->manualBlinds.list.count;
 
+	outData.gameType					= static_cast<GameType>(inData->netGameType);
 	outData.maxNumberOfPlayers			= inData->maxNumPlayers;
 	outData.raiseIntervalMode			= static_cast<RaiseIntervalMode>(inData->raiseIntervalMode.present);
 	outData.raiseSmallBlindEveryHandsValue = outData.raiseSmallBlindEveryMinutesValue = 0;

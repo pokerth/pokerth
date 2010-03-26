@@ -37,6 +37,14 @@ enum GameMode
 	GAME_MODE_CLOSED
 };
 
+enum GameType
+{
+	GAME_TYPE_NORMAL = 1,
+	GAME_TYPE_REGISTERED_ONLY,
+	GAME_TYPE_INVITE_ONLY,
+	GAME_TYPE_RANKING
+};
+
 enum RaiseIntervalMode
 {
 	RAISE_ON_HANDNUMBER = 1,
@@ -59,7 +67,12 @@ enum AfterManualBlindsMode
 // For the sake of simplicity, this is a struct.
 struct GameData
 {
-	GameData() : maxNumberOfPlayers(0), startMoney(0), firstSmallBlind(0), raiseIntervalMode(RAISE_ON_HANDNUMBER), raiseSmallBlindEveryHandsValue(8), raiseSmallBlindEveryMinutesValue(1), raiseMode(DOUBLE_BLINDS), afterManualBlindsMode(AFTERMB_DOUBLE_BLINDS), afterMBAlwaysRaiseValue(0), guiSpeed(4), playerActionTimeoutSec(20) {}
+	GameData() : gameType(GAME_TYPE_NORMAL), maxNumberOfPlayers(0), startMoney(0),
+		firstSmallBlind(0), raiseIntervalMode(RAISE_ON_HANDNUMBER),
+		raiseSmallBlindEveryHandsValue(8), raiseSmallBlindEveryMinutesValue(1),
+		raiseMode(DOUBLE_BLINDS), afterManualBlindsMode(AFTERMB_DOUBLE_BLINDS),
+		afterMBAlwaysRaiseValue(0), guiSpeed(4), playerActionTimeoutSec(20) {}
+	GameType gameType;
 	int maxNumberOfPlayers;
 	int startMoney;
 	int firstSmallBlind;
