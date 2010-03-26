@@ -96,11 +96,7 @@ SessionData::CreateClientAuthSession(Gsasl *context, const string &userName, con
 	errorCode = gsasl_client_start(context, "SCRAM-SHA-1", &m_authSession);
 	if (errorCode == GSASL_OK)
 	{
-		//char *base64User = NULL;
-		//gsasl_base64_to(userName.c_str(), userName.length(), &base64User, NULL);
 		gsasl_property_set(m_authSession, GSASL_AUTHID, userName.c_str());
-		//gsasl_free(base64User);
-
 		gsasl_property_set(m_authSession, GSASL_PASSWORD, password.c_str());
 
 		retVal = true;
@@ -141,16 +137,9 @@ SessionData::AuthGetUser() const
 	string retStr;
 	if (m_authSession)
 	{
-		//char *base64User = NULL;
-		//size_t lenBase64User = 0;
 		const char *tmpUser = gsasl_property_fast(m_authSession, GSASL_AUTHID);
-		//gsasl_base64_from(tmpUser, strlen(tmpUser), &base64User, &lenBase64User);
 		if (tmpUser)
-		{
-			//retStr = string(base64User, lenBase64User);
 			retStr = tmpUser;
-			//gsasl_free(base64User);
-		}
 	}
 	return retStr;
 }
