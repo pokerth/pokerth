@@ -23,7 +23,7 @@
 
 ClientContext::ClientContext()
 : m_sctp(false), m_addrFamily(AF_INET), m_useServerList(false), m_serverPort(0),
-  m_hasSubscribedLobbyMsg(true)
+  m_playerRights(PLAYER_RIGHTS_NORMAL), m_hasSubscribedLobbyMsg(true)
 {
 }
 

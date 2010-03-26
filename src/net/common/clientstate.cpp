@@ -1088,6 +1088,7 @@ ClientStateWaitEnterLogin::TimerLoop(const boost::system::error_code& ec, boost:
 			if (loginData.isGuest)
 			{
 				context.SetPassword("");
+				context.SetPlayerRights(PLAYER_RIGHTS_GUEST);
 				netInit->login.present = login_PR_guestLogin;
 				GuestLogin_t *guestLogin = &netInit->login.choice.guestLogin;
 				OCTET_STRING_fromBuf(&guestLogin->nickName,
@@ -1358,7 +1359,7 @@ ClientStateWaitJoin::InternalHandlePacket(boost::shared_ptr<ClientThread> client
 			// Player number is 0 on init. Will be set when the game starts.
 			boost::shared_ptr<PlayerData> playerData(
 				new PlayerData(client->GetGuiPlayerId(), 0, PLAYER_TYPE_HUMAN,
-					static_cast<PlayerRights>(netJoinAck->yourRights)));
+					context.GetPlayerRights(), netJoinAck->areYouGameAdmin));
 			playerData->SetName(context.GetPlayerName());
 			playerData->SetAvatarFile(context.GetAvatarFile());
 			client->AddPlayerData(playerData);
@@ -1444,7 +1445,8 @@ ClientStateWaitGame::InternalHandlePacket(boost::shared_ptr<ClientThread> client
 			if (client->GetCachedPlayerInfo(netPlayerJoined->playerId, info))
 			{
 				playerData.reset(
-					new PlayerData(netPlayerJoined->playerId, 0, info.ptype, static_cast<PlayerRights>(netPlayerJoined->curPlayerRights)));
+					new PlayerData(netPlayerJoined->playerId, 0, info.ptype,
+					info.isGuest ? PLAYER_RIGHTS_GUEST : PLAYER_RIGHTS_NORMAL, netPlayerJoined->isGameAdmin));
 				playerData->SetName(info.playerName);
 				if (info.hasAvatar)
 				{
@@ -1464,7 +1466,7 @@ ClientStateWaitGame::InternalHandlePacket(boost::shared_ptr<ClientThread> client
 				client->RequestPlayerInfo(netPlayerJoined->playerId, true);
 				// Use temporary data until the PlayerInfo request is completed.
 				playerData.reset(
-					new PlayerData(netPlayerJoined->playerId, 0, PLAYER_TYPE_HUMAN, static_cast<PlayerRights>(netPlayerJoined->curPlayerRights)));
+					new PlayerData(netPlayerJoined->playerId, 0, PLAYER_TYPE_HUMAN, PLAYER_RIGHTS_NORMAL, netPlayerJoined->isGameAdmin));
 				playerData->SetName(name.str());
 			}
 			client->AddPlayerData(playerData);

@@ -75,7 +75,7 @@ struct PlayerInfo
 class PlayerData
 {
 public:
-	PlayerData(unsigned uniqueId, int number, PlayerType type, PlayerRights rights);
+	PlayerData(unsigned uniqueId, int number, PlayerType type, PlayerRights rights, bool isGameAdmin);
 	PlayerData(const PlayerData &other);
 	~PlayerData();
 
@@ -94,7 +94,8 @@ public:
 	PlayerType GetType() const;
 	void SetType(PlayerType type);
 	PlayerRights GetRights() const;
-	void SetRights(PlayerRights rights);
+	bool IsGameAdmin() const;
+	void SetGameAdmin(bool isAdmin);
 	unsigned GetUniqueId() const;
 	int GetNumber() const;
 	void SetNumber(int number);
@@ -113,6 +114,7 @@ private:
 	MD5Buf							m_avatarMD5;
 	PlayerType						m_type;
 	PlayerRights					m_rights;
+	bool							m_isGameAdmin;
 	boost::shared_ptr<SessionData>	m_netSessionData;
 	boost::shared_ptr<AvatarFile>	m_netAvatarFile;
 

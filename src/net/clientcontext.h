@@ -25,6 +25,7 @@
 
 #include <net/receivebuffer.h>
 #include <net/sessiondata.h>
+#include <playerdata.h>
 
 
 class ClientContext
@@ -73,6 +74,10 @@ public:
 	{return m_playerName;}
 	void SetPlayerName(const std::string &playerName)
 	{m_playerName = playerName;}
+	PlayerRights GetPlayerRights() const
+	{return m_playerRights;}
+	void SetPlayerRights(PlayerRights rights)
+	{m_playerRights = rights;}
 	const std::string &GetAvatarFile() const
 	{return m_avatarFile;}
 	void SetAvatarFile(const std::string &avatarFile)
@@ -101,6 +106,7 @@ private:
 	std::string			m_avatarServerAddr;
 	std::string			m_password;
 	std::string			m_playerName;
+	PlayerRights		m_playerRights;
 	std::string			m_avatarFile;
 	std::string			m_cacheDir;
 	bool				m_hasSubscribedLobbyMsg;

@@ -675,7 +675,7 @@ ClientThread::SetNewGameAdmin(unsigned id)
 	boost::shared_ptr<PlayerData> playerData = GetPlayerDataByUniqueId(id);
 	if (playerData.get())
 	{
-		playerData->SetRights(PLAYER_RIGHTS_ADMIN);
+		playerData->SetGameAdmin(true);
 		GetCallback().SignalNetClientNewGameAdmin(id, playerData->GetName());
 	}
 }

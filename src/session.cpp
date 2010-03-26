@@ -110,7 +110,8 @@ void Session::startLocalGame(const GameData &gameData, const StartData &startDat
 		// UniqueId = PlayerNumber for local games.
 		boost::shared_ptr<PlayerData> playerData(new PlayerData(i, i,
 			i == 0 ? PLAYER_TYPE_HUMAN : PLAYER_TYPE_COMPUTER,
-			i == 0 ? PLAYER_RIGHTS_ADMIN : PLAYER_RIGHTS_NORMAL));
+			PLAYER_RIGHTS_NORMAL,
+			i == 0));
 		playerData->SetName(myConfig->readConfigString(myName.str()));
 		playerData->SetAvatarFile(myConfig->readConfigString(myAvatar.str()));
 

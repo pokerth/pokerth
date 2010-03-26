@@ -326,11 +326,7 @@ ServerGameStateInit::HandleNewSession(boost::shared_ptr<ServerGame> server, Sess
 		}
 		else
 		{
-			if (session.playerData->GetUniqueId() == server->GetAdminPlayerId())
-			{
-				// This is the admin player.
-				session.playerData->SetRights(PLAYER_RIGHTS_ADMIN);
-			}
+			session.playerData->SetGameAdmin(session.playerData->GetUniqueId() == server->GetAdminPlayerId());
 
 			// Send ack to client.
 			boost::shared_ptr<NetPacket> packet(new NetPacket(NetPacket::Alloc));
@@ -339,7 +335,7 @@ ServerGameStateInit::HandleNewSession(boost::shared_ptr<ServerGame> server, Sess
 			netJoinReply->gameId = server->GetId();
 			netJoinReply->joinGameResult.present = joinGameResult_PR_joinGameAck;
 			JoinGameAck_t *joinAck = &netJoinReply->joinGameResult.choice.joinGameAck;
-			joinAck->yourRights = static_cast<PlayerInfoRights>(session.playerData->GetRights());
+			joinAck->areYouGameAdmin = static_cast<PlayerInfoRights>(session.playerData->IsGameAdmin());
 
 			NetPacket::SetGameData(server->GetGameData(), &joinAck->gameInfo);
 			OCTET_STRING_fromBuf(
@@ -445,7 +441,7 @@ ServerGameStateInit::InternalProcessPacket(boost::shared_ptr<ServerGame> server,
 				for (int i = 1; i <= remainingSlots; i++)
 				{
 					boost::shared_ptr<PlayerData> tmpPlayerData(
-						new PlayerData(server->GetLobbyThread().GetNextUniquePlayerId(), 0, PLAYER_TYPE_COMPUTER, PLAYER_RIGHTS_NORMAL));
+						new PlayerData(server->GetLobbyThread().GetNextUniquePlayerId(), 0, PLAYER_TYPE_COMPUTER, PLAYER_RIGHTS_NORMAL, false));
 
 					ostringstream name;
 					name << SERVER_COMPUTER_PLAYER_NAME << i;
@@ -488,7 +484,7 @@ ServerGameStateInit::CreateNetPacketPlayerJoined(unsigned gameId, const PlayerDa
 	netGamePlayer->gamePlayerNotification.present = gamePlayerNotification_PR_gamePlayerJoined;
 	GamePlayerJoined_t *playerJoined = &netGamePlayer->gamePlayerNotification.choice.gamePlayerJoined;
 	playerJoined->playerId = playerData.GetUniqueId();
-	playerJoined->curPlayerRights = static_cast<PlayerInfoRights>(playerData.GetRights());
+	playerJoined->isGameAdmin = playerData.IsGameAdmin();
 	return packet;
 }
 

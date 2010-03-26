@@ -574,7 +574,7 @@ ServerGame::RemovePlayerData(boost::shared_ptr<PlayerData> player, int reason)
 		{
 			boost::shared_ptr<PlayerData> newAdmin = playerList.front();
 			SetAdminPlayerId(newAdmin->GetUniqueId());
-			newAdmin->SetRights(PLAYER_RIGHTS_ADMIN);
+			newAdmin->SetGameAdmin(true);
 			// Notify game state on admin change
 			GetState().NotifyGameAdminChanged(shared_from_this());
 			// Send "Game Admin Changed" to clients.
@@ -592,7 +592,7 @@ ServerGame::RemovePlayerData(boost::shared_ptr<PlayerData> player, int reason)
 		}
 	}
 	// Reset player rights.
-	player->SetRights(PLAYER_RIGHTS_NORMAL);
+	player->SetGameAdmin(false);
 
 	// Send "Player Left" to clients.
 	boost::shared_ptr<NetPacket> thisPlayerLeft(new NetPacket(NetPacket::Alloc));

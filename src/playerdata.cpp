@@ -21,15 +21,15 @@
 
 using namespace std;
 
-PlayerData::PlayerData(unsigned uniqueId, int number, PlayerType type, PlayerRights rights)
-: m_uniqueId(uniqueId), m_dbId(DB_ID_INVALID), m_number(number), m_type(type), m_rights(rights)
+PlayerData::PlayerData(unsigned uniqueId, int number, PlayerType type, PlayerRights rights, bool isGameAdmin)
+: m_uniqueId(uniqueId), m_dbId(DB_ID_INVALID), m_number(number), m_type(type), m_rights(rights), m_isGameAdmin(isGameAdmin)
 {
 }
 
 PlayerData::PlayerData(const PlayerData &other)
 : m_uniqueId(other.GetUniqueId()), m_number(other.GetNumber()), m_name(other.GetName()),
   m_avatarFile(other.GetAvatarFile()), m_type(other.GetType()), m_rights(other.GetRights()),
-  m_netSessionData(other.GetNetSessionData())
+  m_isGameAdmin(other.IsGameAdmin()), m_netSessionData(other.GetNetSessionData())
 {
 }
 
@@ -139,11 +139,18 @@ PlayerData::GetRights() const
 	return m_rights;
 }
 
-void
-PlayerData::SetRights(PlayerRights rights)
+bool
+PlayerData::IsGameAdmin() const
 {
 	boost::mutex::scoped_lock lock(m_dataMutex);
-	m_rights = rights;
+	return m_isGameAdmin;
+}
+
+void
+PlayerData::SetGameAdmin(bool isAdmin)
+{
+	boost::mutex::scoped_lock lock(m_dataMutex);
+	m_isGameAdmin = isAdmin;
 }
 
 unsigned

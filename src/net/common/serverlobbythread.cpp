@@ -1042,7 +1042,7 @@ ServerLobbyThread::HandleNetPacketInit(SessionWrapper session, const InitMessage
 
 	// Create player data object.
 	boost::shared_ptr<PlayerData> tmpPlayerData(
-		new PlayerData(GetNextUniquePlayerId(), 0, PLAYER_TYPE_HUMAN, validGuest ? PLAYER_RIGHTS_GUEST : PLAYER_RIGHTS_NORMAL));
+		new PlayerData(GetNextUniquePlayerId(), 0, PLAYER_TYPE_HUMAN, validGuest ? PLAYER_RIGHTS_GUEST : PLAYER_RIGHTS_NORMAL, false));
 	tmpPlayerData->SetName(playerName);
 	tmpPlayerData->SetNetSessionData(session.sessionData);
 	tmpPlayerData->SetAvatarMD5(avatarMD5);
