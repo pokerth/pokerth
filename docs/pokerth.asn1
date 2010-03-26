@@ -304,6 +304,12 @@ JoinGameFailed ::= SEQUENCE {
 
 NetGameInfo ::= SEQUENCE {
 	gameName					UTF8String (SIZE(1..64)),
+	netGameType					ENUMERATED {
+		normalGame			(1),
+		registeredOnlyGame	(2),
+		inviteOnlyGame		(3),
+		rankingGame			(4)
+	},
 	maxNumPlayers				INTEGER(2..10),
 	raiseIntervalMode			CHOICE {
 		raiseEveryHands		[0]		INTEGER(1..1000),
