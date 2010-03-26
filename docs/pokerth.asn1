@@ -289,7 +289,7 @@ JoinGameReplyMessage ::= [APPLICATION 12] SEQUENCE {
 }
 
 JoinGameAck ::= SEQUENCE {
-	yourRights					PlayerInfoRights,
+	areYouGameAdmin				BOOLEAN,
 	gameInfo					NetGameInfo
 }
 
@@ -335,7 +335,7 @@ GamePlayerMessage ::= [APPLICATION 13] SEQUENCE {
 
 GamePlayerJoined ::= SEQUENCE {
 	playerId					NonZeroId,
-	curPlayerRights				PlayerInfoRights
+	isGameAdmin					BOOLEAN
 }
 
 GamePlayerLeft ::= SEQUENCE {
