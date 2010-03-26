@@ -190,10 +190,10 @@ void gameLobbyDialogImpl::createGame()
 
 		gameData.guiSpeed = myConfig->readConfigInt("GameSpeed");
 		gameData.delayBetweenHandsSec = myCreateInternetGameDialog->spinBox_netDelayBetweenHands->value();
-		gameData.playerActionTimeoutSec = myCreateInternetGameDialog->spinBox_netTimeOutPlayerAction->value();
+                gameData.playerActionTimeoutSec = myCreateInternetGameDialog->spinBox_netTimeOutPlayerAction->value();
+                gameData.gameType = GameType(myCreateInternetGameDialog->comboBox_gameType->itemData(myCreateInternetGameDialog->comboBox_gameType->currentIndex(), Qt::UserRole).toInt());
 
-		QString gameString(tr("%1's game"));
-		currentGameName = gameString.arg(QString::fromUtf8(myConfig->readConfigString("MyName").c_str()));
+                currentGameName = myCreateInternetGameDialog->lineEdit_gameName->text();
 
 		hideShowGameDescription(TRUE);
 
@@ -275,7 +275,7 @@ void gameLobbyDialogImpl::refresh(int actionID) {
 		treeWidget_NickList->clear();
 		
 		QStringList headerList;
-                headerList << tr("Game") << tr("Players") << tr("State") << tr("R") << tr("P");
+                headerList << tr("Game") << tr("Players") << tr("State") << tr("T") << tr("P");
 		myGameListModel->setHorizontalHeaderLabels(headerList);
                 treeView_GameList->setColumnWidth(0,220);
                 treeView_GameList->setColumnWidth(1,65);
@@ -385,15 +385,32 @@ void gameLobbyDialogImpl::updateGameItem(QList <QStandardItem*> itemList, unsign
 		itemList.at(2)->setData("open", 16);
 	}
 
-//	if (info.isRankingGame) {
-//                itemList.at(3)->setIcon(QIcon(myAppDataPath+"gfx/gui/misc/cup.png"));
-//                itemList.at(3)->setData(" ", Qt::DisplayRole);
-//                itemList.at(3)->setData("ranking", 16);
-//	}
-//	else {
-//                itemList.at(3)->setData("", Qt::DisplayRole);
-//                itemList.at(3)->setData("nonranking", 16);
-//	}
+        switch (info.data.gameType) {
+            case GAME_TYPE_NORMAL: {
+                itemList.at(3)->setIcon(QIcon(":/gfx/player_play.png"));
+                itemList.at(3)->setData("", Qt::DisplayRole);
+                itemList.at(3)->setData("standard", 16);
+            }
+            break;
+            case GAME_TYPE_REGISTERED_ONLY: {
+                itemList.at(3)->setIcon(QIcon(":/gfx/registered.png"));
+                itemList.at(3)->setData(" ", Qt::DisplayRole);
+                itemList.at(3)->setData("registered", 16);
+            }
+            break;
+            case GAME_TYPE_INVITE_ONLY: {
+                itemList.at(3)->setIcon(QIcon(":/gfx/list_add_user.png"));
+                itemList.at(3)->setData("  ", Qt::DisplayRole);
+                itemList.at(3)->setData("invited", 16);
+            }
+            break;
+            case GAME_TYPE_RANKING: {
+                itemList.at(3)->setIcon(QIcon(":/gfx/cup.png"));
+                itemList.at(3)->setData("   ", Qt::DisplayRole);
+                itemList.at(3)->setData("ranking", 16);
+            }
+            break;
+        }
 
 	if (info.isPasswordProtected) {
                 itemList.at(4)->setIcon(QIcon(myAppDataPath+"gfx/gui/misc/lock.png"));

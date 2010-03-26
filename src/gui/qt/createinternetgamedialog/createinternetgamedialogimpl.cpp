@@ -20,6 +20,7 @@
 #include "createinternetgamedialogimpl.h"
 #include "session.h"
 #include "configfile.h"
+#include "gamedata.h"
 #include "changecompleteblindsdialogimpl.h"
 
 
@@ -31,6 +32,11 @@ createInternetGameDialogImpl::createInternetGameDialogImpl(QWidget *parent, Conf
 	setWindowFlags(Qt::WindowSystemMenuHint | Qt::CustomizeWindowHint | Qt::Dialog);
 #endif	
     	setupUi(this);
+
+        comboBox_gameType->setItemData(0, GAME_TYPE_NORMAL, Qt::UserRole);
+        comboBox_gameType->setItemData(1, GAME_TYPE_REGISTERED_ONLY, Qt::UserRole);
+        comboBox_gameType->setItemData(2, GAME_TYPE_INVITE_ONLY, Qt::UserRole);
+        comboBox_gameType->setItemData(3, GAME_TYPE_RANKING, Qt::UserRole);
 
 	myChangeCompleteBlindsDialog = new changeCompleteBlindsDialogImpl;
 
