@@ -13,8 +13,8 @@
 
 /* Including external dependencies */
 #include <UTF8String.h>
-#include <NativeInteger.h>
 #include <NativeEnumerated.h>
+#include <NativeInteger.h>
 #include <constr_CHOICE.h>
 #include <asn_SEQUENCE_OF.h>
 #include <constr_SEQUENCE_OF.h>
@@ -25,6 +25,12 @@ extern "C" {
 #endif
 
 /* Dependencies */
+typedef enum netGameType {
+	netGameType_normalGame	= 1,
+	netGameType_registeredOnlyGame	= 2,
+	netGameType_inviteOnlyGame	= 3,
+	netGameType_rankingGame	= 4
+} e_netGameType;
 typedef enum raiseIntervalMode_PR {
 	raiseIntervalMode_PR_NOTHING,	/* No components present */
 	raiseIntervalMode_PR_raiseEveryHands,
@@ -41,6 +47,7 @@ typedef enum endRaiseMode {
 /* NetGameInfo */
 typedef struct NetGameInfo {
 	UTF8String_t	 gameName;
+	long	 netGameType;
 	long	 maxNumPlayers;
 	struct raiseIntervalMode {
 		raiseIntervalMode_PR present;
@@ -79,7 +86,8 @@ typedef struct NetGameInfo {
 } NetGameInfo_t;
 
 /* Implementation */
-/* extern asn_TYPE_descriptor_t asn_DEF_endRaiseMode_8;	// (Use -fall-defs-global to expose) */
+/* extern asn_TYPE_descriptor_t asn_DEF_netGameType_3;	// (Use -fall-defs-global to expose) */
+/* extern asn_TYPE_descriptor_t asn_DEF_endRaiseMode_13;	// (Use -fall-defs-global to expose) */
 extern asn_TYPE_descriptor_t asn_DEF_NetGameInfo;
 
 #ifdef __cplusplus
