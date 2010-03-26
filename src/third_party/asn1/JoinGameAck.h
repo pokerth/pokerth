@@ -12,7 +12,7 @@
 #include <asn_application.h>
 
 /* Including external dependencies */
-#include "PlayerInfoRights.h"
+#include <BOOLEAN.h>
 #include "NetGameInfo.h"
 #include <constr_SEQUENCE.h>
 
@@ -22,7 +22,7 @@ extern "C" {
 
 /* JoinGameAck */
 typedef struct JoinGameAck {
-	PlayerInfoRights_t	 yourRights;
+	BOOLEAN_t	 areYouGameAdmin;
 	NetGameInfo_t	 gameInfo;
 	/*
 	 * This type is extensible,
