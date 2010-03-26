@@ -723,6 +723,14 @@ void gameLobbyDialogImpl::updatePlayer(unsigned playerId, QString newPlayerName)
 		{
 			oldNick = (*it1)->data(0, Qt::DisplayRole).toString();
 			(*it1)->setData(0, Qt::DisplayRole, newPlayerName);
+                        PlayerInfo playerInfo(mySession->getClientPlayerInfo(playerId));
+                        if(!playerInfo.isGuest) {
+                            (*it1)->setIcon(0, QIcon(QString(":/cflags/cflags/%1.png").arg("de")));
+                        }
+                        else {
+                            (*it1)->setIcon(0, QIcon());
+                        }
+
 			break;
 		}
 		++it1;
@@ -764,10 +772,12 @@ void gameLobbyDialogImpl::playerLeftLobby(unsigned playerId)
 	refreshPlayerStats();
 }
 
-void gameLobbyDialogImpl::playerJoinedLobby(unsigned playerId, QString playerName)
+void gameLobbyDialogImpl::playerJoinedLobby(unsigned playerId, QString /*playerName TODO remove*/)
 {
+        PlayerInfo playerInfo(mySession->getClientPlayerInfo(playerId));
+
 	QTreeWidgetItem *item = new QTreeWidgetItem(treeWidget_NickList, 0);
-	item->setData(0, Qt::DisplayRole, playerName);
+        item->setData(0, Qt::DisplayRole, QString::fromUtf8(playerInfo.playerName.c_str()));
 	item->setData(0, Qt::UserRole, playerId);
 
 	treeWidget_NickList->sortItems(0, Qt::AscendingOrder);
