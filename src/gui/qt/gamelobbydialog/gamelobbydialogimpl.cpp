@@ -198,8 +198,11 @@ void gameLobbyDialogImpl::createGame()
 		hideShowGameDescription(TRUE);
 
 		label_SmallBlind->setText(QString("%L1").arg(gameData.firstSmallBlind));
-		label_StartCash->setText(QString("%L1").arg(gameData.startMoney));
-		label_MaximumNumberOfPlayers->setText(QString::number(gameData.maxNumberOfPlayers));
+                label_StartCash->setText(QString("%L1").arg(gameData.startMoney));
+
+                QTreeWidgetItem *header = treeWidget_connectedPlayers->headerItem();
+                header->setText(0, tr("Connected players - Max. %1").arg(gameData.maxNumberOfPlayers));
+                header->setData(0, Qt::UserRole, gameData.maxNumberOfPlayers);
 
 		updateDialogBlinds(gameData);
 
@@ -313,8 +316,7 @@ void gameLobbyDialogImpl::gameSelected(const QModelIndex &index, const QModelInd
 		hideShowGameDescription(TRUE);		
 		label_SmallBlind->setText(QString("%L1").arg(info.data.firstSmallBlind));
 		label_StartCash->setText(QString("%L1").arg(info.data.startMoney));
-		label_MaximumNumberOfPlayers->setText(QString::number(info.data.maxNumberOfPlayers));
-
+//		label_MaximumNumberOfPlayers->setText(QString::number(info.data.maxNumberOfPlayers));s
 		updateDialogBlinds(info.data);
 
 		label_TimeoutForPlayerAction->setText(QString::number(info.data.playerActionTimeoutSec));
@@ -329,6 +331,10 @@ void gameLobbyDialogImpl::gameSelected(const QModelIndex &index, const QModelInd
 			addConnectedPlayer(*i, QString::fromUtf8(playerInfo.playerName.c_str()), tmpRights);
 			++i;
 		}
+
+                QTreeWidgetItem *header = treeWidget_connectedPlayers->headerItem();
+                header->setText(0, tr("Connected players - Max. %1").arg(info.data.maxNumberOfPlayers));
+                header->setData(0, Qt::UserRole, info.data.maxNumberOfPlayers);
 #ifdef __APPLE__
 		// Dirty workaround for a Qt redraw bug on Mac OS.
 		treeWidget_connectedPlayers->setFocus();
@@ -572,10 +578,13 @@ void gameLobbyDialogImpl::clearDialog()
 	groupBox_GameInfo->setEnabled(false);
 	currentGameName = "";
 
+        QTreeWidgetItem *header = treeWidget_connectedPlayers->headerItem();
+        header->setText(0, tr("Connected players"));
+        header->setData(0, Qt::UserRole, 0);
+
 	hideShowGameDescription(FALSE);		
 	label_SmallBlind->setText("");
 	label_StartCash->setText("");
-	label_MaximumNumberOfPlayers->setText("");
 	label_blindsRaiseIntervall->setText("");
 	label_blindsRaiseMode->setText("");
 	label_blindsList->setText("");
@@ -636,7 +645,7 @@ void gameLobbyDialogImpl::checkPlayerQuantity() {
 		if (treeWidget_connectedPlayers->topLevelItemCount() >= 2) {
 			pushButton_StartGame->setEnabled(true);
 			
-			if(treeWidget_connectedPlayers->topLevelItemCount() == label_MaximumNumberOfPlayers->text().toInt()) { 
+                        if(treeWidget_connectedPlayers->topLevelItemCount() == treeWidget_connectedPlayers->headerItem()->data(0, Qt::UserRole).toInt()) {
 				blinkingButtonAnimationTimer->start(); 
 			}
 			else {
@@ -702,7 +711,7 @@ void gameLobbyDialogImpl::addConnectedPlayer(unsigned playerId, QString playerNa
 	if(rights == PLAYER_RIGHTS_ADMIN) item->setBackground(0, QBrush(QColor(0, 255, 0, 127)));
 
 	if(this->isVisible() && inGame && myConfig->readConfigInt("PlayNetworkGameNotification")) {
-		if(treeWidget_connectedPlayers->topLevelItemCount() < label_MaximumNumberOfPlayers->text().toInt()) {
+                if(treeWidget_connectedPlayers->topLevelItemCount() < treeWidget_connectedPlayers->headerItem()->data(0, Qt::UserRole).toInt()) {
 			myW->getMySDLPlayer()->playSound("playerconnected", 0);
 		}
 		else {
@@ -862,10 +871,13 @@ void gameLobbyDialogImpl::leftGameDialogUpdate() {
 	groupBox_GameInfo->setEnabled(false);
 	currentGameName = "";
 
+        QTreeWidgetItem *header = treeWidget_connectedPlayers->headerItem();
+        header->setText(0, tr("Connected players"));
+        header->setData(0, Qt::UserRole, 0);
+
 	hideShowGameDescription(FALSE);		
 	label_SmallBlind->setText("");
 	label_StartCash->setText("");
-	label_MaximumNumberOfPlayers->setText("");
 	label_blindsRaiseIntervall->setText("");
 	label_blindsRaiseMode->setText("");
 	label_blindsList->setText("");
@@ -995,7 +1007,6 @@ bool gameLobbyDialogImpl::event ( QEvent * event ) {
 void gameLobbyDialogImpl::hideShowGameDescription(bool show) {
 
 	if(show) {
-		label_gameDesc1->show();
 		label_gameDesc2->show();
 		label_gameDesc3->show();
 		label_gameDesc4->show();
@@ -1004,7 +1015,6 @@ void gameLobbyDialogImpl::hideShowGameDescription(bool show) {
 		label_gameDesc7->show();
 	}
 	else {
-		label_gameDesc1->hide();
 		label_gameDesc2->hide();
 		label_gameDesc3->hide();
 		label_gameDesc4->hide();
