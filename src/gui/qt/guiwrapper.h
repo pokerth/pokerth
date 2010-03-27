@@ -122,8 +122,8 @@ public:
 	void SignalNetClientStatsUpdate(const ServerStats &stats);
 	void SignalNetClientShowTimeoutDialog(NetTimeoutReason reason, unsigned remainingSec);
 	void SignalNetClientRemovedFromGame(int notificationId);
-	void SignalNetClientSelfJoined(unsigned playerId, const std::string &playerName, PlayerRights rights);
-	void SignalNetClientPlayerJoined(unsigned playerId, const std::string &playerName, PlayerRights rights);
+        void SignalNetClientSelfJoined(unsigned playerId, const std::string &playerName, bool isGameAdmin);
+        void SignalNetClientPlayerJoined(unsigned playerId, const std::string &playerName, bool isGameAdmin);
 	void SignalNetClientPlayerChanged(unsigned playerId, const std::string &newPlayerName);
 	void SignalNetClientPlayerLeft(unsigned playerId, const std::string &playerName, int removeReason);
 	void SignalNetClientNewGameAdmin(unsigned playerId, const std::string &playerName);

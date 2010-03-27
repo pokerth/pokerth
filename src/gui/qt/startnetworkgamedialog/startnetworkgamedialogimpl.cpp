@@ -70,14 +70,14 @@ void startNetworkGameDialogImpl::refresh(int actionID) {
 	}
 }
 
-void startNetworkGameDialogImpl::joinedNetworkGame(unsigned playerId, QString playerName, int rights) {
+void startNetworkGameDialogImpl::joinedNetworkGame(unsigned playerId, QString playerName, bool admin) {
 
 	myPlayerId = playerId;
-	isAdmin = rights == PLAYER_RIGHTS_ADMIN;
-	addConnectedPlayer(playerId, playerName, rights);
+        isAdmin = admin;
+        addConnectedPlayer(playerId, playerName, admin);
 }
 
-void startNetworkGameDialogImpl::addConnectedPlayer(unsigned playerId, QString playerName, int /*rights*/) {
+void startNetworkGameDialogImpl::addConnectedPlayer(unsigned playerId, QString playerName, bool) {
 
 	// TODO mark admin
 	QTreeWidgetItem *item = new QTreeWidgetItem(treeWidget, 0);

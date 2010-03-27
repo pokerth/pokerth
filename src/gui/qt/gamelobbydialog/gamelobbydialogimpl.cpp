@@ -20,7 +20,7 @@
 #include <net/socket_msg.h>
 
 gameLobbyDialogImpl::gameLobbyDialogImpl(startWindowImpl *parent, ConfigFile *c)
- : QDialog(parent), myW(NULL), myStartWindow(parent), myConfig(c), currentGameName(""), myPlayerId(0), myCurrentGameId(0), isAdmin(false), inGame(false), guestMode(false), blinkingButtonAnimationState(true), myChat(NULL), keyUpCounter(0)
+ : QDialog(parent), myW(NULL), myStartWindow(parent), myConfig(c), currentGameName(""), myPlayerId(0), myCurrentGameId(0), isGameAdministrator(false), inGame(false), guestMode(false), blinkingButtonAnimationState(true), myChat(NULL), keyUpCounter(0)
 {
 
 #ifdef __APPLE__
@@ -195,7 +195,30 @@ void gameLobbyDialogImpl::createGame()
 
                 currentGameName = myCreateInternetGameDialog->lineEdit_gameName->text();
 
-		hideShowGameDescription(TRUE);
+                switch (gameData.gameType) {
+                    case GAME_TYPE_NORMAL: {
+                        label_typeIcon->setPixmap(QPixmap(":/gfx/player_play.png"));
+                        label_typeText->setText(tr("Standard"));
+                    }
+                    break;
+                    case GAME_TYPE_REGISTERED_ONLY: {
+                        label_typeIcon->setPixmap(QPixmap(":/gfx/registered.png"));
+                        label_typeText->setText(tr("Registered players only"));
+                    }
+                    break;
+                    case GAME_TYPE_INVITE_ONLY: {
+                        label_typeIcon->setPixmap(QPixmap(":/gfx/list_add_user.png"));
+                        label_typeText->setText(tr("Invited players only"));
+                    }
+                    break;
+                    case GAME_TYPE_RANKING: {
+                        label_typeIcon->setPixmap(QPixmap(":/gfx/cup.png"));
+                        label_typeText->setText(tr("Ranking game"));
+                    }
+                    break;
+                }
+
+                hideShowGameDescription(TRUE);
 
 		label_SmallBlind->setText(QString("%L1").arg(gameData.firstSmallBlind));
                 label_StartCash->setText(QString("%L1").arg(gameData.startMoney));
@@ -207,6 +230,8 @@ void gameLobbyDialogImpl::createGame()
 		updateDialogBlinds(gameData);
 
 		label_TimeoutForPlayerAction->setText(QString::number(gameData.playerActionTimeoutSec));
+
+
 
 		mySession->clientCreateGame(gameData, currentGameName.toUtf8().constData(), myCreateInternetGameDialog->lineEdit_Password->text().toUtf8().constData());
 		
@@ -294,7 +319,7 @@ void gameLobbyDialogImpl::refresh(int actionID) {
 void gameLobbyDialogImpl::removedFromGame(int /*reason*/)
 {
 	inGame = false;
-	isAdmin = false;
+        isGameAdministrator = false;
 	leftGameDialogUpdate();
 }
 
@@ -312,6 +337,29 @@ void gameLobbyDialogImpl::gameSelected(const QModelIndex &index, const QModelInd
 
 		assert(mySession);
 		GameInfo info(mySession->getClientGameInfo(myGameListModel->item(myGameListSortFilterProxyModel->mapToSource(index).row(), 0)->data(Qt::UserRole).toUInt()));
+
+                switch (info.data.gameType) {
+                    case GAME_TYPE_NORMAL: {
+                        label_typeIcon->setPixmap(QPixmap(":/gfx/player_play.png"));
+                        label_typeText->setText(tr("Standard"));
+                    }
+                    break;
+                    case GAME_TYPE_REGISTERED_ONLY: {
+                        label_typeIcon->setPixmap(QPixmap(":/gfx/registered.png"));
+                        label_typeText->setText(tr("Registered players only"));
+                    }
+                    break;
+                    case GAME_TYPE_INVITE_ONLY: {
+                        label_typeIcon->setPixmap(QPixmap(":/gfx/list_add_user.png"));
+                        label_typeText->setText(tr("Invited players only"));
+                    }
+                    break;
+                    case GAME_TYPE_RANKING: {
+                        label_typeIcon->setPixmap(QPixmap(":/gfx/cup.png"));
+                        label_typeText->setText(tr("Ranking game"));
+                    }
+                    break;
+                }
 
 		hideShowGameDescription(TRUE);		
 		label_SmallBlind->setText(QString("%L1").arg(info.data.firstSmallBlind));
@@ -583,6 +631,8 @@ void gameLobbyDialogImpl::clearDialog()
         header->setData(0, Qt::UserRole, 0);
 
 	hideShowGameDescription(FALSE);		
+        label_typeIcon->setText(" ");
+        label_typeText->setText(" ");
 	label_SmallBlind->setText("");
 	label_StartCash->setText("");
 	label_blindsRaiseIntervall->setText("");
@@ -622,7 +672,7 @@ void gameLobbyDialogImpl::clearDialog()
 	myChat->clearChat();
 	treeWidget_NickList->clear();
 	inGame = false;
-	isAdmin = false;
+        isGameAdministrator = false;
 	myPlayerId = 0;
 
 	hideShowGameDescription(FALSE);
@@ -637,7 +687,7 @@ void gameLobbyDialogImpl::clearDialog()
 
 void gameLobbyDialogImpl::checkPlayerQuantity() {
 
-	if(isAdmin){
+        if(isGameAdministrator){
 		pushButton_Kick->show();
 		pushButton_StartGame->show();
 		checkBox_fillUpWithComputerOpponents->show();
@@ -690,25 +740,25 @@ void gameLobbyDialogImpl::blinkingStartButtonAnimation() {
 	}
 }
 
-void gameLobbyDialogImpl::joinedNetworkGame(unsigned playerId, QString playerName, int rights) {
+void gameLobbyDialogImpl::joinedNetworkGame(unsigned playerId, QString playerName, bool isGameAdmin) {
 
 	// Update dialog
 	inGame = true;
 	joinedGameDialogUpdate();
 
 	myPlayerId = playerId;
-	isAdmin = rights == PLAYER_RIGHTS_ADMIN;
-	addConnectedPlayer(playerId, playerName, rights);
+        isGameAdministrator = isGameAdmin;
+        addConnectedPlayer(playerId, playerName, isGameAdmin);
 }
 
 
-void gameLobbyDialogImpl::addConnectedPlayer(unsigned playerId, QString playerName, int rights) {
+void gameLobbyDialogImpl::addConnectedPlayer(unsigned playerId, QString playerName, bool isGameAdmin) {
 
 	QTreeWidgetItem *item = new QTreeWidgetItem(treeWidget_connectedPlayers, 0);
 	item->setData(0, Qt::UserRole, playerId);
 	item->setData(0, Qt::DisplayRole, playerName);
 	
-	if(rights == PLAYER_RIGHTS_ADMIN) item->setBackground(0, QBrush(QColor(0, 255, 0, 127)));
+        if(isGameAdmin) item->setBackground(0, QBrush(QColor(0, 255, 0, 127)));
 
 	if(this->isVisible() && inGame && myConfig->readConfigInt("PlayNetworkGameNotification")) {
                 if(treeWidget_connectedPlayers->topLevelItemCount() < treeWidget_connectedPlayers->headerItem()->data(0, Qt::UserRole).toInt()) {
@@ -822,7 +872,7 @@ void gameLobbyDialogImpl::newGameAdmin(unsigned playerId, QString)
 
 	if (inGame && myPlayerId == playerId)
 	{
-		isAdmin = true;
+                isGameAdministrator = true;
 		checkPlayerQuantity();
 	}
 }
@@ -875,7 +925,9 @@ void gameLobbyDialogImpl::leftGameDialogUpdate() {
         header->setText(0, tr("Connected players"));
         header->setData(0, Qt::UserRole, 0);
 
-	hideShowGameDescription(FALSE);		
+        hideShowGameDescription(FALSE);
+        label_typeIcon->setText(" ");
+        label_typeText->setText(" ");
 	label_SmallBlind->setText("");
 	label_StartCash->setText("");
 	label_blindsRaiseIntervall->setText("");
@@ -925,7 +977,7 @@ void gameLobbyDialogImpl::updateDialogBlinds(const GameData &gameData) {
 void gameLobbyDialogImpl::playerSelected(QTreeWidgetItem* item, QTreeWidgetItem*) {
 
 	if (item)
-		pushButton_Kick->setEnabled(isAdmin);
+                pushButton_Kick->setEnabled(isGameAdministrator);
 }
 
 void gameLobbyDialogImpl::startGame() {
@@ -1007,6 +1059,7 @@ bool gameLobbyDialogImpl::event ( QEvent * event ) {
 void gameLobbyDialogImpl::hideShowGameDescription(bool show) {
 
 	if(show) {
+                label_gameType->show();
 		label_gameDesc2->show();
 		label_gameDesc3->show();
 		label_gameDesc4->show();
@@ -1015,6 +1068,7 @@ void gameLobbyDialogImpl::hideShowGameDescription(bool show) {
 		label_gameDesc7->show();
 	}
 	else {
+                label_gameType->show();
 		label_gameDesc2->hide();
 		label_gameDesc3->hide();
 		label_gameDesc4->hide();

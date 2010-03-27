@@ -49,8 +49,8 @@ public slots:
 	void refresh(int actionID);
 	void accept();
 	void reject();
-	void joinedNetworkGame(unsigned playerId, QString playerName, int rights);
-	void addConnectedPlayer(unsigned playerId, QString playerName, int rights);
+        void joinedNetworkGame(unsigned playerId, QString playerName, bool admin);
+        void addConnectedPlayer(unsigned playerId, QString playerName, bool admin);
 	void updatePlayer(unsigned playerId, QString newPlayerName);
 	void removePlayer(unsigned playerId, QString playerName);
 	void newGameAdmin(unsigned playerId, QString playerName);
@@ -77,7 +77,7 @@ private:
 	int maxPlayerNumber;
 	int keyUpDownChatCounter;
 	unsigned myPlayerId;
-	bool isAdmin;
+        bool isAdmin;
 	ConfigFile *myConfig;
 	boost::shared_ptr<Session> mySession;
 	ChatTools *myChat;

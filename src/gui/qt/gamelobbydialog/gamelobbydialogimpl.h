@@ -81,8 +81,8 @@ public slots:
 	void checkPlayerQuantity();
 	void blinkingStartButtonAnimation();
 	
-	void joinedNetworkGame(unsigned, QString, int);
-	void addConnectedPlayer(unsigned, QString, int);
+        void joinedNetworkGame(unsigned, QString, bool);
+        void addConnectedPlayer(unsigned, QString, bool);
 	void updatePlayer(unsigned, QString);
 	void removePlayer(unsigned, QString);
 	void newGameAdmin(unsigned, QString);
@@ -128,7 +128,7 @@ private:
 	QString currentGameName;
 	unsigned myPlayerId;
 	unsigned myCurrentGameId;
-	bool isAdmin;
+        bool isGameAdministrator;
 	bool inGame;
         bool guestMode;
 
