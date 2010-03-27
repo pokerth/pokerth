@@ -994,9 +994,9 @@ ClientThread::AddPlayerData(boost::shared_ptr<PlayerData> playerData)
 	{
 		m_playerDataList.push_back(playerData);
 		if (playerData->GetUniqueId() == GetGuiPlayerId())
-			GetCallback().SignalNetClientSelfJoined(playerData->GetUniqueId(), playerData->GetName(), playerData->GetRights());
+			GetCallback().SignalNetClientSelfJoined(playerData->GetUniqueId(), playerData->GetName(), playerData->IsGameAdmin());
 		else
-			GetCallback().SignalNetClientPlayerJoined(playerData->GetUniqueId(), playerData->GetName(), playerData->GetRights());
+			GetCallback().SignalNetClientPlayerJoined(playerData->GetUniqueId(), playerData->GetName(), playerData->IsGameAdmin());
 	}
 }
 

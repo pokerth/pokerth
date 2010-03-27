@@ -24,7 +24,6 @@
 #include <boost/shared_ptr.hpp>
 #include <string>
 
-#include <playerdata.h>
 #include <game_defs.h>
 #include <gamedata.h>
 
@@ -51,8 +50,8 @@ public:
 	virtual void SignalNetClientGameListPlayerLeft(unsigned gameId, unsigned playerId) = 0;
 
 	virtual void SignalNetClientGameStart(boost::shared_ptr<Game> game) = 0;
-	virtual void SignalNetClientSelfJoined(unsigned playerId, const std::string &playerName, PlayerRights rights) = 0;
-	virtual void SignalNetClientPlayerJoined(unsigned playerId, const std::string &playerName, PlayerRights rights) = 0;
+	virtual void SignalNetClientSelfJoined(unsigned playerId, const std::string &playerName, bool isGameAdmin) = 0;
+	virtual void SignalNetClientPlayerJoined(unsigned playerId, const std::string &playerName, bool isGameAdmin) = 0;
 	virtual void SignalNetClientPlayerChanged(unsigned playerId, const std::string &newPlayerName) = 0;
 	virtual void SignalNetClientPlayerLeft(unsigned playerId, const std::string &playerName, int removeReason) = 0;
 	virtual void SignalNetClientNewGameAdmin(unsigned playerId, const std::string &playerName) = 0;

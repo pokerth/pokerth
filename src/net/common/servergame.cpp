@@ -566,7 +566,7 @@ ServerGame::GracefulRemoveSession(SessionWrapper session, int reason)
 void
 ServerGame::RemovePlayerData(boost::shared_ptr<PlayerData> player, int reason)
 {
-	if (player->GetRights() == PLAYER_RIGHTS_ADMIN)
+	if (player->IsGameAdmin())
 	{
 		// Find new admin for the game
 		PlayerDataList playerList(GetSessionManager().GetPlayerDataList());

@@ -206,7 +206,7 @@ AbstractServerGameStateReceiving::ProcessPacket(boost::shared_ptr<ServerGame> se
 		// Only admins are allowed to kick, and only in the lobby.
 		// After leaving the lobby, a vote needs to be initiated to kick.
 		KickPlayerRequestMessage_t *netKickRequest = &packet->GetMsg()->choice.kickPlayerRequestMessage;
-		if (session.playerData->GetRights() == PLAYER_RIGHTS_ADMIN && !server->IsRunning() && netKickRequest->gameId == server->GetId())
+		if (session.playerData->IsGameAdmin() && !server->IsRunning() && netKickRequest->gameId == server->GetId())
 		{
 			server->InternalKickPlayer(netKickRequest->playerId);
 		}
@@ -430,7 +430,7 @@ ServerGameStateInit::InternalProcessPacket(boost::shared_ptr<ServerGame> server,
 	{
 		StartEventMessage_t *netStartEvent = &packet->GetMsg()->choice.startEventMessage;
 		// Only admins are allowed to start the game.
-		if (session.playerData->GetRights() == PLAYER_RIGHTS_ADMIN && netStartEvent->gameId == server->GetId())
+		if (session.playerData->IsGameAdmin() && netStartEvent->gameId == server->GetId())
 		{
 			// Fill up with computer players.
 			server->ResetComputerPlayerList();
@@ -463,7 +463,7 @@ ServerGameStateInit::InternalProcessPacket(boost::shared_ptr<ServerGame> server,
 	}
 	else if (packet->GetMsg()->present == PokerTHMessage_PR_resetTimeoutMessage)
 	{
-		if (session.playerData->GetRights() == PLAYER_RIGHTS_ADMIN)
+		if (session.playerData->IsGameAdmin())
 		{
 			RegisterAdminTimer(server);
 		}
