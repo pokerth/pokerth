@@ -224,14 +224,12 @@ void gameLobbyDialogImpl::createGame()
                 label_StartCash->setText(QString("%L1").arg(gameData.startMoney));
 
                 QTreeWidgetItem *header = treeWidget_connectedPlayers->headerItem();
-                header->setText(0, tr("Connected players - Max. %1").arg(gameData.maxNumberOfPlayers));
+                header->setText(0, tr("Connected players - max. %1").arg(gameData.maxNumberOfPlayers));
                 header->setData(0, Qt::UserRole, gameData.maxNumberOfPlayers);
 
 		updateDialogBlinds(gameData);
 
 		label_TimeoutForPlayerAction->setText(QString::number(gameData.playerActionTimeoutSec));
-
-
 
 		mySession->clientCreateGame(gameData, currentGameName.toUtf8().constData(), myCreateInternetGameDialog->lineEdit_Password->text().toUtf8().constData());
 		
@@ -374,9 +372,9 @@ void gameLobbyDialogImpl::gameSelected(const QModelIndex &index, const QModelInd
 		PlayerIdList::const_iterator end = info.players.end();
 		while (i != end)
 		{
-			PlayerRights tmpRights = info.adminPlayerId == *i ? PLAYER_RIGHTS_ADMIN : PLAYER_RIGHTS_NORMAL;
+                        bool admin = info.adminPlayerId == *i;
 			PlayerInfo playerInfo(mySession->getClientPlayerInfo(*i));
-			addConnectedPlayer(*i, QString::fromUtf8(playerInfo.playerName.c_str()), tmpRights);
+                        addConnectedPlayer(*i, QString::fromUtf8(playerInfo.playerName.c_str()), admin);
 			++i;
 		}
 
@@ -567,10 +565,10 @@ void gameLobbyDialogImpl::gameAddPlayer(unsigned gameId, unsigned playerId)
 			if(selection->selectedRows().at(0).data(Qt::UserRole).toUInt() == gameId) {
 				assert(mySession);
 				GameInfo info(mySession->getClientGameInfo(gameId));
-				PlayerRights tmpRights = info.adminPlayerId == playerId ? PLAYER_RIGHTS_ADMIN : PLAYER_RIGHTS_NORMAL;
+                                bool admin = info.adminPlayerId == playerId;
 				PlayerInfo playerInfo(mySession->getClientPlayerInfo(playerId));
 	
-				addConnectedPlayer(playerId, QString::fromUtf8(playerInfo.playerName.c_str()), tmpRights);
+                                addConnectedPlayer(playerId, QString::fromUtf8(playerInfo.playerName.c_str()), admin);
 			}
 		}
 	}
@@ -903,6 +901,7 @@ void gameLobbyDialogImpl::refreshConnectedPlayerAvatars() {
 }
 
 void gameLobbyDialogImpl::joinedGameDialogUpdate() {
+
 	groupBox_GameInfo->setEnabled(true);
 	groupBox_GameInfo->setTitle(currentGameName);
 	treeWidget_connectedPlayers->clear();

@@ -73,8 +73,8 @@ signals:
 	void signalNetClientShowTimeoutDialog(int, unsigned);
 	void signalNetClientRemovedFromGame(int notificationId);
 	void signalNetServerError(int errorID, int osErrorID);
-	void signalNetClientSelfJoined(unsigned playerId, QString playerName, int rights);
-	void signalNetClientPlayerJoined(unsigned playerId, QString playerName, int rights);
+        void signalNetClientSelfJoined(unsigned playerId, QString playerName, bool isGameAdmin);
+        void signalNetClientPlayerJoined(unsigned playerId, QString playerName, bool isGameAdmin);
 	void signalNetClientPlayerChanged(unsigned playerId, QString newPlayerName);
 	void signalNetClientPlayerLeft(unsigned playerId, QString playerName);
 	void signalNetClientNewGameAdmin(unsigned playerId, QString playerName);
