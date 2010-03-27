@@ -1,7 +1,6 @@
 <RCC>
     <qresource prefix="/gfx">
         <file>view-fullscreen.png</file>
-        <file>pokerth.qrc</file>
         <file>swbuttoninternetgame.png</file>
         <file>swbuttoncreatenetworkgame.png</file>
         <file>swbuttonjoinnetworkgame.png</file>
@@ -10,7 +9,6 @@
         <file>swbuttonlocalgame.png</file>
         <file>tools_wizard.png</file>
         <file>speaker.png</file>
-        <file>player_play.png</file>
         <file>arrow_right_double.png</file>
         <file>view_refresh.png</file>
         <file>arrow_left_double.png</file>
@@ -36,6 +34,12 @@
         <file>lock.png</file>
         <file>cup.png</file>
         <file>registered.png</file>
+        <file>games-endturn.png</file>
+        <file>go-next-view.png</file>
+        <file>go-previous-view.png</file>
+        <file>list-remove.png</file>
+        <file>transform-rotate.png</file>
+        <file>player_play.png</file>
     </qresource>
     <qresource prefix="/cflags">
         <file>cflags/ad.png</file>

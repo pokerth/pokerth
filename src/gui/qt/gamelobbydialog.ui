@@ -96,6 +96,10 @@
        <property name="text">
         <string>Join &amp;any game</string>
        </property>
+       <property name="icon">
+        <iconset resource="resources/pokerth.qrc">
+         <normaloff>:/gfx/transform-rotate.png</normaloff>:/gfx/transform-rotate.png</iconset>
+       </property>
       </widget>
      </item>
      <item>
@@ -119,12 +123,20 @@
        <property name="text">
         <string>&amp;Create Game</string>
        </property>
+       <property name="icon">
+        <iconset resource="resources/pokerth.qrc">
+         <normaloff>:/gfx/list_add.png</normaloff>:/gfx/list_add.png</iconset>
+       </property>
       </widget>
      </item>
      <item>
       <widget class="QPushButton" name="pushButton_JoinGame">
        <property name="text">
         <string>&amp;Join Game</string>
+       </property>
+       <property name="icon">
+        <iconset resource="resources/pokerth.qrc">
+         <normaloff>:/gfx/go-next-view.png</normaloff>:/gfx/go-next-view.png</iconset>
        </property>
       </widget>
      </item>
@@ -753,7 +765,7 @@ p, li { white-space: pre-wrap; }
           </property>
           <property name="icon">
            <iconset resource="resources/pokerth.qrc">
-            <normaloff>:/gfx/editdelete.png</normaloff>:/gfx/editdelete.png</iconset>
+            <normaloff>:/gfx/list-remove.png</normaloff>:/gfx/list-remove.png</iconset>
           </property>
          </widget>
         </item>
@@ -805,7 +817,7 @@ p, li { white-space: pre-wrap; }
           </property>
           <property name="icon">
            <iconset resource="resources/pokerth.qrc">
-            <normaloff>:/gfx/arrow_left_double.png</normaloff>:/gfx/arrow_left_double.png</iconset>
+            <normaloff>:/gfx/go-previous-view.png</normaloff>:/gfx/go-previous-view.png</iconset>
           </property>
          </widget>
         </item>
