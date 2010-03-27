@@ -69,7 +69,7 @@ gameLobbyDialogImpl::gameLobbyDialogImpl(startWindowImpl *parent, ConfigFile *c)
 	QStringList headerList;
         headerList << tr("Game") << tr("Players") << tr("State") << tr("R") << tr("P");
 	myGameListModel->setHorizontalHeaderLabels(headerList);
-	
+
         treeView_GameList->setColumnWidth(0,220);
         treeView_GameList->setColumnWidth(1,65);
         treeView_GameList->setColumnWidth(2,65);
@@ -78,6 +78,10 @@ gameLobbyDialogImpl::gameLobbyDialogImpl(startWindowImpl *parent, ConfigFile *c)
 
 	treeView_GameList->setStyleSheet("QTreeView {background-color: white; background-image: url(\""+myAppDataPath +"gfx/gui/misc/background_gamelist.png\"); background-attachment: fixed; background-position: top center ; background-repeat: no-repeat;}");
 	treeView_GameList->setAutoFillBackground(TRUE);
+
+        nickListContextMenu = new QMenu();
+        nickListInviteAction = new QAction(QIcon(":/gfx/list_add_user.png"), tr("Invite player"), nickListContextMenu);
+        nickListContextMenu->addAction(nickListInviteAction);
 
 	connect( pushButton_CreateGame, SIGNAL( clicked() ), this, SLOT( createGame() ) );
 	connect( pushButton_JoinGame, SIGNAL( clicked() ), this, SLOT( joinGame() ) );
@@ -95,6 +99,8 @@ gameLobbyDialogImpl::gameLobbyDialogImpl(startWindowImpl *parent, ConfigFile *c)
 	connect( waitStartGameMsgBoxTimer, SIGNAL(timeout()), this, SLOT( showWaitStartGameMsgBox() ));
 	connect( blinkingButtonAnimationTimer, SIGNAL(timeout()), this, SLOT( blinkingStartButtonAnimation() ));
 	connect( comboBox_gameListFilter, SIGNAL(currentIndexChanged(int)), this, SLOT(changeGameListFilter(int)));
+        connect( treeWidget_NickList, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT( showNickListContextMenu(QPoint) ) );
+        connect( nickListInviteAction, SIGNAL(triggered()), this, SLOT( invitePlayerToCurrentGame() ));
 	
 	lineEdit_ChatInput->installEventFilter(this);
 
@@ -1065,15 +1071,17 @@ void gameLobbyDialogImpl::hideShowGameDescription(bool show) {
 		label_gameDesc5->show();
 		label_gameDesc6->show();
 		label_gameDesc7->show();
+                line->show();
 	}
 	else {
-                label_gameType->show();
+                label_gameType->hide();
 		label_gameDesc2->hide();
 		label_gameDesc3->hide();
 		label_gameDesc4->hide();
 		label_gameDesc5->hide();
 		label_gameDesc6->hide();
 		label_gameDesc7->hide();
+                line->hide();
 	}
 }
 
@@ -1288,4 +1296,21 @@ void gameLobbyDialogImpl::guestUserMode()
     lineEdit_ChatInput->setText("Chat is avaiable only for registered members");
     lineEdit_ChatInput->setDisabled(true);
     guestMode = true;
+}
+
+void gameLobbyDialogImpl::showNickListContextMenu(QPoint p)
+{
+    if(treeWidget_NickList->topLevelItemCount()) {
+
+        assert(mySession);
+
+        if(inGame && mySession->getClientGameInfo(mySession->getClientCurrentGameId()).data.gameType == GAME_TYPE_INVITE_ONLY && treeWidget_NickList->selectedItems().at(0)->data(0, Qt::UserRole).toUInt() != mySession->getClientUniquePlayerId()) {
+           nickListContextMenu->popup(treeWidget_NickList->mapToGlobal(p));
+        }
+    }
+}
+
+void gameLobbyDialogImpl::invitePlayerToCurrentGame()
+{
+    qDebug() << "invitePlayer";
 }

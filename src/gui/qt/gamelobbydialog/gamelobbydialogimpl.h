@@ -55,68 +55,55 @@ public slots:
 	void createGame();
 	void joinGame();
 	void joinAnyGame();
-
 	void gameSelected(const QModelIndex &, const QModelIndex &);
 	void updateGameItem(QList <QStandardItem*>, unsigned gameId);
-
 	void addGame(unsigned gameId);
 	void updateGameMode(unsigned gameId, int newMode);
 	void updateGameAdmin(unsigned gameId, unsigned adminPlayerId);
 	void removeGame(unsigned gameId);
 	void gameAddPlayer(unsigned gameId, unsigned playerId);
 	void gameRemovePlayer(unsigned gameId, unsigned playerId);
-	
 	void playerJoinedLobby(unsigned playerId, QString playerName);
 	void playerLeftLobby(unsigned playerId);
-
 	void updateStats(ServerStats stats);
-
-	void refreshGameStats();
+        void refreshGameStats();
 	void refreshPlayerStats();
-
 	void setCurrentGameName ( const QString& theValue ) { currentGameName = theValue; }
 	QString getCurrentGameName() const { return currentGameName; }	
-
 	gameTableImpl* getMyW() const { return myW; }
 	void checkPlayerQuantity();
 	void blinkingStartButtonAnimation();
-	
         void joinedNetworkGame(unsigned, QString, bool);
         void addConnectedPlayer(unsigned, QString, bool);
 	void updatePlayer(unsigned, QString);
 	void removePlayer(unsigned, QString);
 	void newGameAdmin(unsigned, QString);
-
 	void refreshConnectedPlayerAvatars();
-
 	void playerSelected(QTreeWidgetItem*, QTreeWidgetItem*);
 	void refresh(int actionID);
 	void removedFromGame(int reason);
 	void startGame();
 	void leaveGame();
 	void kickPlayer();
-
 	void joinedGameDialogUpdate();
 	void leftGameDialogUpdate();
 	void updateDialogBlinds(const GameData &gameData);
 	void clearDialog();
-
 	void keyPressEvent(QKeyEvent * keyEvent); 
 	bool event(QEvent * event); 
 	void hideShowGameDescription(bool show);
-
 	void showWaitStartGameMsgBox();
-
-	void joinAnyGameButtonRefresh();
+        void joinAnyGameButtonRefresh();
 	void reject();	
 	void closeEvent(QCloseEvent *event);
 	void writeDialogSettings(int);
 	void readDialogSettings();
 	void changeGameListFilter(int);
-	void changeGameListSorting();
-			
+        void changeGameListSorting();
         void registeredUserMode();
         void guestUserMode();
+        void showNickListContextMenu(QPoint);
+        void invitePlayerToCurrentGame();
 
 private:
 	
@@ -146,6 +133,8 @@ private:
 	QStandardItemModel *myGameListModel;
 	QItemSelectionModel *myGameListSelectionModel;
 	MyGameListSortFilterProxyModel *myGameListSortFilterProxyModel;
+        QMenu *nickListContextMenu;
+        QAction *nickListInviteAction;
 	
 
  protected:
