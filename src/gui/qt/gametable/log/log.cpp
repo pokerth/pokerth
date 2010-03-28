@@ -60,7 +60,7 @@ Log::Log(gameTableImpl* w, ConfigFile *c) : myW(w), myConfig(c), myLogDir(0), my
 			myLogFile = new QFile(myLogDir->absolutePath()+"/pokerth-log-"+QDateTime::currentDateTime().toString("yyyy-MM-dd_hh.mm.ss")+".html");
 	
 			//Logo-Pixmap extrahieren
-			QPixmap::QPixmap(myAppDataPath +"gfx/gui/misc/logoChip3D.png").save(myLogDir->absolutePath()+"/logo.png");
+                        QPixmap::QPixmap(":/gfx/logoChip3D.png").save(myLogDir->absolutePath()+"/logo.png");
 	
 	// 		myW->textBrowser_Log->append(myLogFile->fileName());
 	

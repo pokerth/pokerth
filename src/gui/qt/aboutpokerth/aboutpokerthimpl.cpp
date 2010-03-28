@@ -53,7 +53,7 @@ aboutPokerthImpl::aboutPokerthImpl(QWidget *parent, ConfigFile *c)
 	}
 	
 	
-	label_logo->setPixmap(QPixmap(myAppDataPath+"gfx/gui/misc/logoChip3D.png"));
+        label_logo->setPixmap(QPixmap(":/gfx/logoChip3D.png"));
 
 	label_pokerthVersion->setStyleSheet("QLabel { font-size: 16px; font-weight: bold;}");
 	label_pokerthVersion->setText(QString(tr("PokerTH %1").arg(POKERTH_BETA_RELEASE_STRING)));
