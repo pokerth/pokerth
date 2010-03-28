@@ -1261,22 +1261,31 @@ ServerLobbyThread::HandleNetPacketCreateGame(SessionWrapper session, const std::
 	// Create a new game.
 	GameData tmpData;
 	NetPacket::GetGameData(&newGame.gameInfo, tmpData);
-	boost::shared_ptr<ServerGame> game(
-		new ServerGame(
-			shared_from_this(),
-			GetNextGameId(),
-			STL_STRING_FROM_OCTET_STRING(newGame.gameInfo.gameName),
-			password,
-			tmpData,
-			session.playerData->GetUniqueId(),
-			GetGui(),
-			m_playerConfig));
-	game->Init();
 
-	// Add game to list of games.
-	InternalAddGame(game);
+	if (session.playerData->GetRights() == PLAYER_RIGHTS_GUEST
+		&& tmpData.gameType != GAME_TYPE_NORMAL)
+	{
+		SendJoinGameFailed(session.sessionData, NTF_NET_JOIN_GUEST_FORBIDDEN);
+	}
+	else
+	{
+		boost::shared_ptr<ServerGame> game(
+			new ServerGame(
+				shared_from_this(),
+				GetNextGameId(),
+				STL_STRING_FROM_OCTET_STRING(newGame.gameInfo.gameName),
+				password,
+				tmpData,
+				session.playerData->GetUniqueId(),
+				GetGui(),
+				m_playerConfig));
+		game->Init();
 
-	MoveSessionToGame(*game, session);
+		// Add game to list of games.
+		InternalAddGame(game);
+
+		MoveSessionToGame(*game, session);
+	}
 }
 
 void
@@ -1287,15 +1296,22 @@ ServerLobbyThread::HandleNetPacketJoinGame(SessionWrapper session, const std::st
 
 	if (pos != m_gameMap.end())
 	{
+		bool joinGame = true;
 		ServerGame &game = *pos->second;
-		if (game.CheckPassword(password))
+		const GameData &tmpData = game.GetGameData();
+		if (session.playerData->GetRights() == PLAYER_RIGHTS_GUEST
+			&& tmpData.gameType != GAME_TYPE_NORMAL)
 		{
-			MoveSessionToGame(game, session);
+			SendJoinGameFailed(session.sessionData, NTF_NET_JOIN_GUEST_FORBIDDEN);
+			joinGame = false;
 		}
-		else
+		else if (!game.CheckPassword(password))
 		{
 			SendJoinGameFailed(session.sessionData, NTF_NET_JOIN_INVALID_PASSWORD);
+			joinGame = false;
 		}
+		if (joinGame)
+			MoveSessionToGame(game, session);
 	}
 	else
 	{
@@ -1778,6 +1794,9 @@ ServerLobbyThread::SendJoinGameFailed(boost::shared_ptr<SessionData> s, int reas
 			break;
 		case NTF_NET_JOIN_INVALID_PASSWORD :
 			joinFailed->joinGameFailureReason = joinGameFailureReason_invalidPassword;
+			break;
+		case NTF_NET_JOIN_GUEST_FORBIDDEN :
+			joinFailed->joinGameFailureReason = joinGameFailureReason_notAllowedAsGuest;
 			break;
 		default :
 			joinFailed->joinGameFailureReason = joinGameFailureReason_invalidGame;

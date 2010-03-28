@@ -1387,6 +1387,9 @@ ClientStateWaitJoin::InternalHandlePacket(boost::shared_ptr<ClientThread> client
 				case joinGameFailureReason_invalidPassword :
 					failureCode = NTF_NET_JOIN_INVALID_PASSWORD;
 					break;
+				case joinGameFailureReason_notAllowedAsGuest :
+					failureCode = NTF_NET_JOIN_GUEST_FORBIDDEN;
+					break;
 				default :
 					failureCode = NTF_NET_INTERNAL;
 					break;
