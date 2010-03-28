@@ -295,10 +295,11 @@ JoinGameAck ::= SEQUENCE {
 
 JoinGameFailed ::= SEQUENCE {
 	joinGameFailureReason		ENUMERATED {
-		invalidGame		(1),
-		gameIsFull		(2),
-		gameIsRunning	(3),
-		invalidPassword	(4)
+		invalidGame			(1),
+		gameIsFull			(2),
+		gameIsRunning		(3),
+		invalidPassword		(4),
+		notAllowedAsGuest	(5)
 	}
 }
 

@@ -694,7 +694,7 @@ void startWindowImpl::networkError(int errorID, int /*osErrorID*/) {
 		break;
 		case ERR_NET_INVALID_PASSWORD:
 			{ QMessageBox::warning(this, tr("Network Error"),
-				tr("Invalid password when joining the game.\nPlease reenter the password and try again."),
+				tr("Invalid login.\nPlease check your username and password."),
 				QMessageBox::Close); }
 		break;
 		case ERR_NET_INVALID_PASSWORD_STR:
@@ -840,6 +840,11 @@ void startWindowImpl::networkNotification(int notificationId)
 		case NTF_NET_JOIN_INVALID_PASSWORD:
 			{ QMessageBox::warning(this, tr("Network Notification"),
 				tr("Invalid password when joining the game.\nPlease reenter the password and try again."),
+				QMessageBox::Close); }
+		break;
+		case NTF_NET_JOIN_GUEST_FORBIDDEN:
+			{ QMessageBox::warning(this, tr("Network Notification"),
+				tr("You cannot join this type of game as guest."),
 				QMessageBox::Close); }
 		break;
 		case NTF_NET_NEW_RELEASE_AVAILABLE:
