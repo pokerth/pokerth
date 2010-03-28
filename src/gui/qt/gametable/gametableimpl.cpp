@@ -3064,26 +3064,21 @@ void gameTableImpl::leaveCurrentNetworkGame() {
 
 	if (myStartWindow->getSession()->isNetworkClientRunning()) {
 
-		if(myConfig->readConfigInt("DisableBackToLobbyWarning")) {
 
-			assert(myStartWindow->getSession());
-			myStartWindow->getSession()->sendLeaveCurrentGame();
+//            T O D O !!!!!!! anzeigen? aus myMessageDialog auslesen per Config!!!!!!!  T O D O
+
+                myMessageDialogImpl dialog(myConfig, this);
+
+                if(!dialog.checkIfMesssageWillBeDisplayed(1)) {
+
+                    assert(myStartWindow->getSession());
+                    myStartWindow->getSession()->sendLeaveCurrentGame();
 		}
 		else {
-			myMessageDialogImpl dialog(this);
-			dialog.setWindowTitle(tr("PokerTH - Internet Game Message"));
-			dialog.label_icon->setPixmap(QPixmap::fromImage(QImage(myAppDataPath +"gfx/gui/misc/logoChip3D.png")).scaled(50,50,Qt::KeepAspectRatio,Qt::SmoothTransformation));
-			dialog.label->setText(tr("Attention! Do you really want to leave the current game\nand go back to the lobby?"));
-				
-			if (dialog.exec() == QDialog::Accepted ) {
-			
-				if(dialog.checkBox->isChecked()) {
-					myConfig->writeConfigInt("DisableBackToLobbyWarning",1);
-					myConfig->writeBuffer();
-				}
-				assert(myStartWindow->getSession());
-				myStartWindow->getSession()->sendLeaveCurrentGame();
-			}
+                    if (dialog.exec(1, tr("Attention! Do you really want to leave the current game\nand go back to the lobby?"), "PokerTH - Internet Game Message", QPixmap(":/gfx/logoChip3D.png")) == QDialog::Accepted ) {
+                        assert(myStartWindow->getSession());
+                        myStartWindow->getSession()->sendLeaveCurrentGame();
+                    }
 		}
 	}
 }

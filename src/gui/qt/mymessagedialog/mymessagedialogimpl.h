@@ -22,10 +22,27 @@
 
 #include "ui_mymessagedialog.h"
 
+class ConfigFile;
+
 class myMessageDialogImpl: public QDialog, public Ui::myMessageDialog {
 Q_OBJECT
 public:
-    myMessageDialogImpl(QWidget *parent = 0);
+
+    myMessageDialogImpl(ConfigFile *, QWidget *parent = 0);
+
+public slots:
+
+    bool checkIfMesssageWillBeDisplayed(int id);
+    int exec(int messageId, QString msg, QString title, QPixmap pix);
+    void accept();
+    void reject();
+    void writeConfig();
+
+private:
+
+    ConfigFile *myConfig;
+    int currentMsgId;
+    std::list<std::string> currentMsgShowList;
 
 };
 

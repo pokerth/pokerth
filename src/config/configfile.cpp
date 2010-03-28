@@ -48,7 +48,7 @@ ConfigFile::ConfigFile(char *argv0, bool readonly) : noWriteAccess(readonly)
 	myQtToolsInterface = CreateQtToolsWrapper();
 
 	// !!!! Revisionsnummer der Configdefaults !!!!!
-        configRev = 81;
+        configRev = 82;
 
 	//standard defaults
 	logOnOffDefault = "1";
@@ -270,8 +270,8 @@ ConfigFile::ConfigFile(char *argv0, bool readonly) : noWriteAccess(readonly)
 	configList.push_back(ConfigInfo("InternetLoginMode", CONFIG_TYPE_INT, "0"));
 	configList.push_back(ConfigInfo("InternetLoginPassword", CONFIG_TYPE_STRING, ""));
 	configList.push_back(ConfigInfo("InternetSavePassword", CONFIG_TYPE_INT, "0"));
+        configList.push_back(ConfigInfo("IfInfoMessageShowList", CONFIG_TYPE_STRING_LIST, "Msg"));
 	
-
 	//fill tempList firstTime
 	configBufferList = configList;
 
