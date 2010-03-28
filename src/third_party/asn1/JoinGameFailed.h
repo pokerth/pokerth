@@ -24,7 +24,8 @@ typedef enum joinGameFailureReason {
 	joinGameFailureReason_invalidGame	= 1,
 	joinGameFailureReason_gameIsFull	= 2,
 	joinGameFailureReason_gameIsRunning	= 3,
-	joinGameFailureReason_invalidPassword	= 4
+	joinGameFailureReason_invalidPassword	= 4,
+	joinGameFailureReason_notAllowedAsGuest	= 5
 } e_joinGameFailureReason;
 
 /* JoinGameFailed */
