@@ -18,9 +18,10 @@
 #include "configfile.h"
 #include "gamedata.h"
 #include <net/socket_msg.h>
+#include "mymessagedialogimpl.h"
 
 gameLobbyDialogImpl::gameLobbyDialogImpl(startWindowImpl *parent, ConfigFile *c)
- : QDialog(parent), myW(NULL), myStartWindow(parent), myConfig(c), currentGameName(""), myPlayerId(0), myCurrentGameId(0), isGameAdministrator(false), inGame(false), guestMode(false), blinkingButtonAnimationState(true), myChat(NULL), keyUpCounter(0)
+ : QDialog(parent), myW(NULL), myStartWindow(parent), myConfig(c), currentGameName(""), myPlayerId(0), myCurrentGameId(0), isGameAdministrator(false), inGame(false), guestMode(false), blinkingButtonAnimationState(true), myChat(NULL), keyUpCounter(0), infoMsgToShowId(0)
 {
 
 #ifdef __APPLE__
@@ -46,7 +47,9 @@ gameLobbyDialogImpl::gameLobbyDialogImpl(startWindowImpl *parent, ConfigFile *c)
 	waitStartGameMsgBoxTimer->setSingleShot(TRUE);
 	blinkingButtonAnimationTimer = new QTimer(this);
 	blinkingButtonAnimationTimer->setInterval(1000);
-	
+        showInfoMsgBoxTimer = new QTimer(this);
+        showInfoMsgBoxTimer->setSingleShot(TRUE);
+
 	//fetch button colors for blinking
 	groupBox_GameInfo->setEnabled(true);
 	pushButton_StartGame->setEnabled(true);
@@ -98,6 +101,7 @@ gameLobbyDialogImpl::gameLobbyDialogImpl(startWindowImpl *parent, ConfigFile *c)
 	connect( lineEdit_ChatInput, SIGNAL( textEdited (QString) ), myChat, SLOT( setChatTextEdited() ) );
 	connect( waitStartGameMsgBoxTimer, SIGNAL(timeout()), this, SLOT( showWaitStartGameMsgBox() ));
 	connect( blinkingButtonAnimationTimer, SIGNAL(timeout()), this, SLOT( blinkingStartButtonAnimation() ));
+        connect( showInfoMsgBoxTimer, SIGNAL(timeout()), this, SLOT( showInfoMsgBox() ));
 	connect( comboBox_gameListFilter, SIGNAL(currentIndexChanged(int)), this, SLOT(changeGameListFilter(int)));
         connect( treeWidget_NickList, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT( showNickListContextMenu(QPoint) ) );
         connect( nickListInviteAction, SIGNAL(triggered()), this, SLOT( invitePlayerToCurrentGame() ));
@@ -746,13 +750,20 @@ void gameLobbyDialogImpl::blinkingStartButtonAnimation() {
 
 void gameLobbyDialogImpl::joinedNetworkGame(unsigned playerId, QString playerName, bool isGameAdmin) {
 
-	// Update dialog
-	inGame = true;
-	joinedGameDialogUpdate();
+    // Update dialog
+    inGame = true;
+    joinedGameDialogUpdate();
 
-	myPlayerId = playerId;
-        isGameAdministrator = isGameAdmin;
-        addConnectedPlayer(playerId, playerName, isGameAdmin);
+    myPlayerId = playerId;
+    isGameAdministrator = isGameAdmin;
+    addConnectedPlayer(playerId, playerName, isGameAdmin);
+
+    //show msgBox about invite only game
+    assert(mySession);
+    if(mySession->getClientGameInfo(mySession->getClientCurrentGameId()).data.gameType == GAME_TYPE_INVITE_ONLY) {
+        infoMsgToShowId = 2;
+        showInfoMsgBoxTimer->start(1000);
+    }
 }
 
 
@@ -1313,4 +1324,17 @@ void gameLobbyDialogImpl::showNickListContextMenu(QPoint p)
 void gameLobbyDialogImpl::invitePlayerToCurrentGame()
 {
     qDebug() << "invitePlayer";
+}
+
+void gameLobbyDialogImpl::showInfoMsgBox()
+{
+    switch(infoMsgToShowId) {
+        case 2: {
+            myMessageDialogImpl dialog(myConfig, this);
+            dialog.exec(2, tr("You've entered a game with invite-only type.\nYou can invite other players with right-click on their nick in the left available players list."), tr("PokerTH - Info Message"), QPixmap(":/gfx/ktip.png"), QDialogButtonBox::Ok);
+        }
+        break;
+        default:;
+        break;
+    }
 }

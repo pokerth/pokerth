@@ -1,0 +1,2 @@
+1: leave lobby during online game: Question(Do you really wanna leave?)
+2: join invite only game: Info(You can invite people with right click ...)

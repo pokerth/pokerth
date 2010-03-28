@@ -41,6 +41,7 @@
         <file>transform-rotate.png</file>
         <file>player_play.png</file>
         <file>logoChip3D.png</file>
+        <file>ktip.png</file>
     </qresource>
     <qresource prefix="/cflags">
         <file>cflags/ad.png</file>

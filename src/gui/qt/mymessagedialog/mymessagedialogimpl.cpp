@@ -39,7 +39,7 @@ myMessageDialogImpl::myMessageDialogImpl(ConfigFile *c, QWidget *parent)
 	setupUi(this);	
 }
 
-int myMessageDialogImpl::exec(int messageId, QString msg, QString title, QPixmap pix)
+int myMessageDialogImpl::exec(int messageId, QString msg, QString title, QPixmap pix, QDialogButtonBox::StandardButtons buttons)
 {
     bool show = false;
     bool found = false;
@@ -71,6 +71,7 @@ int myMessageDialogImpl::exec(int messageId, QString msg, QString title, QPixmap
         setWindowTitle(title);
         label_icon->setPixmap(pix.scaled(50,50,Qt::KeepAspectRatio,Qt::SmoothTransformation));
         label->setText(msg);
+        buttonBox->setStandardButtons(buttons);
 
         return QDialog::exec();
     }
@@ -92,7 +93,6 @@ void myMessageDialogImpl::reject()
 
 void myMessageDialogImpl::writeConfig()
 {
-    qDebug() << "jo1";
     if(checkBox->isChecked()) {
 
         list<std::string>::iterator it1;
@@ -101,7 +101,6 @@ void myMessageDialogImpl::writeConfig()
             QString tmpString = QString::fromUtf8(it1->c_str());
             if(QString("%1").arg(currentMsgId) == tmpString.split(",").at(1)) {
 
-                qDebug() << "jo2" << QString("0,%1").arg(currentMsgId).toUtf8().constData();
                 (*it1) = QString("0,%1").arg(currentMsgId).toUtf8().constData();
                 break;
             }

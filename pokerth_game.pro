@@ -9,7 +9,6 @@ CONFIG += qt \
     rtti \
     stl \
     warn_on
-
 include(src/third_party/qtsingleapplication/qtsingleapplication.pri)
 
 # ####Uncomment this for RELEASE on Linux/Unix/BSD (only for static Qt)
@@ -95,7 +94,7 @@ DEPENDPATH += . \
     src/gui/qt/serverlistdialog \
     src/gui/qt/styles \
     src/gui/qt/changehumanplayernamedialog \
-	src/gui/qt/internetgamelogindialog \
+    src/gui/qt/internetgamelogindialog \
     src/gui/qt/changecompleteblindsdialog \
     src/gui/qt/mymessagedialog \
     src/gui/qt/gamelobbydialog \
@@ -299,23 +298,21 @@ win32 {
         ../curl/include \
         ../zlib
     LIBPATH += ../boost/stage/lib \
-		../GnuTLS/lib \
-		../gsasl/lib \
-		../curl/lib \
-		../SDL/lib \
-		../SDL_mixer/lib \
-		../zlib
+        ../GnuTLS/lib \
+        ../gsasl/lib \
+        ../curl/lib \
+        ../SDL/lib \
+        ../SDL_mixer/lib \
+        ../zlib
     LIBS += -lpokerth_lib \
-		-lpokerth_db \
+        -lpokerth_db \
         -lpokerth_protocol
-	debug:LIBPATH += Debug/lib
-	release:LIBPATH += Release/lib
-    win32-msvc2008 { 
-        LIBS += -llibgnutls-openssl-26 \
-            -llibgcrypt-11 \
-            -llibgsasl-7 \
-            -llibcurl
-    }
+    debug:LIBPATH += Debug/lib
+    release:LIBPATH += Release/lib
+    win32-msvc2008:LIBS += -llibgnutls-openssl-26 \
+        -llibgcrypt-11 \
+        -llibgsasl-7 \
+        -llibcurl
     win32-g++ { 
         LIBS += -lgnutls-openssl \
             -lgnutls \
@@ -402,18 +399,18 @@ unix:!mac {
     UNAME = $$system(uname -s)
     BSD = $$find(UNAME, "BSD")
     kFreeBSD = $$find(UNAME, "kFreeBSD")
-	LIBS += -lpokerth_lib \
-		-lpokerth_db \
+    LIBS += -lpokerth_lib \
+        -lpokerth_db \
         -lpokerth_protocol
     LIBS += $$BOOST_LIBS
     LIBS += -lSDL_mixer \
         -lcurl \
-		-lgsasl
+        -lgsasl
     !isEmpty( BSD ) && isEmpty( kFreeBSD ):LIBS += -lcrypto
     else:LIBS += -lgnutls-openssl \
         -lgcrypt
     TARGETDEPS += ./lib/libpokerth_lib.a \
-		./lib/libpokerth_db.a \
+        ./lib/libpokerth_db.a \
         ./lib/libpokerth_protocol.a
     
     # #### My release static libs
@@ -443,8 +440,8 @@ mac {
     # QMAKE_MAC_SDK=/Developer/SDKs/MacOSX10.4u.sdk/
     LIBPATH += lib
     LIBS += -lpokerth_lib \
-		-lpokerth_db \
-		-lpokerth_protocol
+        -lpokerth_db \
+        -lpokerth_protocol
     
     # QT dynamic linked framework (see also mac_post_make.sh)
     LIBS += -framework \
@@ -465,13 +462,13 @@ mac {
     LIBS += /usr/local/lib/libboost_regex.a
     LIBS += /usr/local/lib/libboost_system.a
     LIBS += /usr/local/lib/libboost_iostreams.a
-	LIBS += /usr/local/lib/libgsasl.a
+    LIBS += /usr/local/lib/libgsasl.a
     
     # libraries installed on every mac
     LIBS += -lcrypto \
         -lssl \
         -lz \
-		-lcurl \
+        -lcurl \
         -framework \
         Carbon
     
@@ -482,3 +479,4 @@ mac {
     INCLUDEPATH += /Library/Frameworks/SDL.framework/Headers
     INCLUDEPATH += /Library/Frameworks/SDL_mixer.framework/Headers
 }
+OTHER_FILES += docs/infomessage-id-desc.txt

@@ -3075,7 +3075,7 @@ void gameTableImpl::leaveCurrentNetworkGame() {
                     myStartWindow->getSession()->sendLeaveCurrentGame();
 		}
 		else {
-                    if (dialog.exec(1, tr("Attention! Do you really want to leave the current game\nand go back to the lobby?"), "PokerTH - Internet Game Message", QPixmap(":/gfx/logoChip3D.png")) == QDialog::Accepted ) {
+                    if (dialog.exec(1, tr("Attention! Do you really want to leave the current game\nand go back to the lobby?"), tr("PokerTH - Internet Game Message"), QPixmap(":/gfx/logoChip3D.png"), QDialogButtonBox::Ok) == QDialog::Accepted ) {
                         assert(myStartWindow->getSession());
                         myStartWindow->getSession()->sendLeaveCurrentGame();
                     }

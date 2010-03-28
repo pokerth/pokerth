@@ -104,6 +104,7 @@ public slots:
         void guestUserMode();
         void showNickListContextMenu(QPoint);
         void invitePlayerToCurrentGame();
+        void showInfoMsgBox();
 
 private:
 	
@@ -123,6 +124,7 @@ private:
 	QMessageBox *waitStartGameMsgBox;
 	QTimer *waitStartGameMsgBoxTimer;
 	QTimer *blinkingButtonAnimationTimer;
+        QTimer *showInfoMsgBoxTimer;
 	bool blinkingButtonAnimationState;
 	QColor defaultStartButtonColor;
 	QColor defaultStartButtonTextColor;
@@ -135,6 +137,7 @@ private:
 	MyGameListSortFilterProxyModel *myGameListSortFilterProxyModel;
         QMenu *nickListContextMenu;
         QAction *nickListInviteAction;
+        int infoMsgToShowId;
 	
 
  protected:

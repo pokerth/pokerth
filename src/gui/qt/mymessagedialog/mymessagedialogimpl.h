@@ -33,7 +33,7 @@ public:
 public slots:
 
     bool checkIfMesssageWillBeDisplayed(int id);
-    int exec(int messageId, QString msg, QString title, QPixmap pix);
+    int exec(int messageId, QString msg, QString title, QPixmap pix, QDialogButtonBox::StandardButtons buttons);
     void accept();
     void reject();
     void writeConfig();
