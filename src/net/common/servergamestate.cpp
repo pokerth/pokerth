@@ -230,7 +230,8 @@ AbstractServerGameStateReceiving::ProcessPacket(boost::shared_ptr<ServerGame> se
 	// Chat text is always allowed.
 	else if (packet->GetMsg()->present == PokerTHMessage_PR_chatRequestMessage)
 	{
-		if (session.playerData) // Only forward if this player is known.
+		// Only forward if this player is known and not a guest.
+		if (session.playerData && session.playerData->GetRights() != PLAYER_RIGHTS_GUEST)
 		{
 			// Forward chat text to all players.
 			// TODO: Some limitation needed.
