@@ -1,5 +1,5 @@
 --**************************************************************************
---   Copyright (C) 2009 by Lothar May                                      *
+--   Copyright (C) 2009-2010 by Lothar May                                 *
 --                                                                         *
 --   This program is free software; you can redistribute it and/or modify  *
 --   it under the terms of the GNU General Public License as published by  *
@@ -40,6 +40,8 @@ PokerTHMessage ::= CHOICE {
 	gamePlayerMessage			GamePlayerMessage,
 	kickPlayerRequestMessage	KickPlayerRequestMessage,
 	leaveGameRequestMessage		LeaveGameRequestMessage,
+	invitePlayerToGameMessage	InvitePlayerToGameMessage,
+	rejectGameInvitationMessage	RejectGameInvitationMessage,
 	startEventMessage			StartEventMessage,
 	startEventAckMessage		StartEventAckMessage,
 	gameStartMessage			GameStartMessage,
@@ -299,7 +301,8 @@ JoinGameFailed ::= SEQUENCE {
 		gameIsFull			(2),
 		gameIsRunning		(3),
 		invalidPassword		(4),
-		notAllowedAsGuest	(5)
+		notAllowedAsGuest	(5),
+		notInvited			(6)
 	}
 }
 
@@ -378,42 +381,55 @@ LeaveGameRequestMessage ::= [APPLICATION 15] SEQUENCE {
 	gameId						NonZeroId
 }
 
-StartEventMessage ::= [APPLICATION 16] SEQUENCE {
+InvitePlayerToGameMessage ::= [APPLICATION 16] SEQUENCE {
+	gameId						NonZeroId,
+	playerId					NonZeroId
+}
+
+RejectGameInvitationMessage ::= [APPLICATION 17] SEQUENCE {
+	gameId						NonZeroId,
+	rejectGameInvitationReason	ENUMERATED {
+		no					(0),
+		busy				(1)
+	}
+}
+
+StartEventMessage ::= [APPLICATION 18] SEQUENCE {
 	gameId						NonZeroId,
 	fillWithComputerPlayers		BOOLEAN
 }
 
-StartEventAckMessage ::= [APPLICATION 17] SEQUENCE {
+StartEventAckMessage ::= [APPLICATION 19] SEQUENCE {
 	gameId						NonZeroId
 }
 
-GameStartMessage ::= [APPLICATION 18] SEQUENCE {
+GameStartMessage ::= [APPLICATION 20] SEQUENCE {
 	gameId						NonZeroId,
 	startDealerPlayerId			NonZeroId,
 	playerSeats					SEQUENCE SIZE(2..10) OF NonZeroId
 }
 
-HandStartMessage ::= [APPLICATION 19] SEQUENCE {
+HandStartMessage ::= [APPLICATION 21] SEQUENCE {
 	gameId						NonZeroId,
 	yourCard1					Card,
 	yourCard2					Card,
 	smallBlind					INTEGER(1..20001)
 }
 
-PlayersTurnMessage ::= [APPLICATION 20] SEQUENCE {
+PlayersTurnMessage ::= [APPLICATION 22] SEQUENCE {
 	gameId						NonZeroId,
 	playerId					NonZeroId,
 	gameState					NetGameState
 }
 
-MyActionRequestMessage ::= [APPLICATION 21] SEQUENCE {
+MyActionRequestMessage ::= [APPLICATION 23] SEQUENCE {
 	gameId						NonZeroId,
 	gameState					NetGameState,
 	myAction					NetPlayerAction,
 	myRelativeBet				INTEGER(0..10000000)
 }
 
-YourActionRejectedMessage ::= [APPLICATION 22] SEQUENCE {
+YourActionRejectedMessage ::= [APPLICATION 24] SEQUENCE {
 	gameId						NonZeroId,
 	gameState					NetGameState,
 	yourAction					NetPlayerAction,
@@ -425,7 +441,7 @@ YourActionRejectedMessage ::= [APPLICATION 22] SEQUENCE {
 	}
 }
 
-PlayersActionDoneMessage ::= [APPLICATION 23] SEQUENCE {
+PlayersActionDoneMessage ::= [APPLICATION 25] SEQUENCE {
 	gameId						NonZeroId,
 	playerId					NonZeroId,
 	gameState					NetGameState,
@@ -436,24 +452,24 @@ PlayersActionDoneMessage ::= [APPLICATION 23] SEQUENCE {
 	minimumRaise				INTEGER(0..10000000) -- TODO
 }
 
-DealFlopCardsMessage ::= [APPLICATION 24] SEQUENCE {
+DealFlopCardsMessage ::= [APPLICATION 26] SEQUENCE {
 	gameId						NonZeroId,
 	flopCard1					Card,
 	flopCard2					Card,
 	flopCard3					Card
 }
 
-DealTurnCardMessage ::= [APPLICATION 25] SEQUENCE {
+DealTurnCardMessage ::= [APPLICATION 27] SEQUENCE {
 	gameId						NonZeroId,
 	turnCard					Card
 }
 
-DealRiverCardMessage ::= [APPLICATION 26] SEQUENCE {
+DealRiverCardMessage ::= [APPLICATION 28] SEQUENCE {
 	gameId						NonZeroId,
 	riverCard					Card
 }
 
-AllInShowCardsMessage ::= [APPLICATION 27] SEQUENCE {
+AllInShowCardsMessage ::= [APPLICATION 29] SEQUENCE {
 	gameId						NonZeroId,
 	playersAllIn				SEQUENCE SIZE(1..10) OF PlayerAllIn
 }
@@ -464,7 +480,7 @@ PlayerAllIn ::= SEQUENCE {
 	allInCard2					Card
 }
 
-EndOfHandMessage ::= [APPLICATION 28] SEQUENCE {
+EndOfHandMessage ::= [APPLICATION 30] SEQUENCE {
 	gameId						NonZeroId,
 	endOfHandType				CHOICE {
 		endOfHandShowCards		[0] EndOfHandShowCards,
@@ -492,7 +508,7 @@ EndOfHandHideCards ::= SEQUENCE {
 	playerMoney					INTEGER(0..10000000)
 }
 
-EndOfGameMessage ::= [APPLICATION 29] SEQUENCE {
+EndOfGameMessage ::= [APPLICATION 31] SEQUENCE {
 	gameId						NonZeroId,
 	winnerPlayerId				NonZeroId
 }
