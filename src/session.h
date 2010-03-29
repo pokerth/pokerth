@@ -85,7 +85,11 @@ public:
 	void voteKick(bool doKick);
 	void selectServer(unsigned serverId);
 	void setLogin(const std::string &userName, const std::string &password, bool isGuest);
-	
+
+	void invitePlayerToCurrentGame(unsigned playerId);
+	void acceptGameInvitation(unsigned gameId);
+	void rejectGameInvitation(unsigned gameId, DenyGameInvitationReason reason);
+
 	void resetNetworkTimeout();
 
 	bool isNetworkClientRunning() const; // TODO hack

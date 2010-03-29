@@ -104,6 +104,12 @@ enum EndPetitionReason
 	PETITION_END_TIMEOUT
 };
 
+enum DenyGameInvitationReason
+{
+	DENY_GAME_INVITATION_NO = 0,
+	DENY_GAME_INVITATION_BUSY
+};
+
 enum Button {
 	BUTTON_NONE = 0,
 	BUTTON_DEALER,

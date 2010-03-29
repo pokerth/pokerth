@@ -71,6 +71,9 @@ public:
 	virtual void SignalLobbyPlayerKicked(const std::string &nickName, const std::string &byWhom, const std::string &reason) = 0;
 	virtual void SignalLobbyPlayerLeft(unsigned playerId) = 0;
 
+	virtual void SignalSelfGameInvitation(unsigned gameId, unsigned playerIdFrom) = 0;
+	virtual void SignalPlayerGameInvitation(unsigned gameId, unsigned playerIdWho, unsigned playerIdFrom) = 0;
+	virtual void SignalRejectedGameInvitation(unsigned gameId, unsigned playerIdWho, DenyGameInvitationReason reason) = 0;
 };
 
 #endif
