@@ -30,8 +30,8 @@ static asn_TYPE_member_t asn_MBR_endOfHandType_3[] = {
 		},
 };
 static asn_TYPE_tag2member_t asn_MAP_endOfHandType_tag2el_3[] = {
-    { (ASN_TAG_CLASS_CONTEXT | (0 << 2)), 0, 0, 0 }, /* endOfHandShowCards at 470 */
-    { (ASN_TAG_CLASS_CONTEXT | (1 << 2)), 1, 0, 0 } /* endOfHandHideCards at 472 */
+    { (ASN_TAG_CLASS_CONTEXT | (0 << 2)), 0, 0, 0 }, /* endOfHandShowCards at 486 */
+    { (ASN_TAG_CLASS_CONTEXT | (1 << 2)), 1, 0, 0 } /* endOfHandHideCards at 488 */
 };
 static asn_CHOICE_specifics_t asn_SPC_endOfHandType_specs_3 = {
 	sizeof(struct endOfHandType),
@@ -87,13 +87,13 @@ static asn_TYPE_member_t asn_MBR_EndOfHandMessage_1[] = {
 		},
 };
 static ber_tlv_tag_t asn_DEF_EndOfHandMessage_tags_1[] = {
-	(ASN_TAG_CLASS_APPLICATION | (28 << 2)),
+	(ASN_TAG_CLASS_APPLICATION | (30 << 2)),
 	(ASN_TAG_CLASS_UNIVERSAL | (16 << 2))
 };
 static asn_TYPE_tag2member_t asn_MAP_EndOfHandMessage_tag2el_1[] = {
-    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 0, 0, 0 }, /* gameId at 468 */
-    { (ASN_TAG_CLASS_CONTEXT | (0 << 2)), 1, 0, 0 }, /* endOfHandShowCards at 470 */
-    { (ASN_TAG_CLASS_CONTEXT | (1 << 2)), 1, 0, 0 } /* endOfHandHideCards at 472 */
+    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 0, 0, 0 }, /* gameId at 484 */
+    { (ASN_TAG_CLASS_CONTEXT | (0 << 2)), 1, 0, 0 }, /* endOfHandShowCards at 486 */
+    { (ASN_TAG_CLASS_CONTEXT | (1 << 2)), 1, 0, 0 } /* endOfHandHideCards at 488 */
 };
 static asn_SEQUENCE_specifics_t asn_SPC_EndOfHandMessage_specs_1 = {
 	sizeof(struct EndOfHandMessage),

@@ -87,19 +87,21 @@ static asn_INTEGER_enum_map_t asn_MAP_joinGameFailureReason_value2enum_2[] = {
 	{ 2,	10,	"gameIsFull" },
 	{ 3,	13,	"gameIsRunning" },
 	{ 4,	15,	"invalidPassword" },
-	{ 5,	17,	"notAllowedAsGuest" }
+	{ 5,	17,	"notAllowedAsGuest" },
+	{ 6,	10,	"notInvited" }
 };
 static unsigned int asn_MAP_joinGameFailureReason_enum2value_2[] = {
 	1,	/* gameIsFull(2) */
 	2,	/* gameIsRunning(3) */
 	0,	/* invalidGame(1) */
 	3,	/* invalidPassword(4) */
-	4	/* notAllowedAsGuest(5) */
+	4,	/* notAllowedAsGuest(5) */
+	5	/* notInvited(6) */
 };
 static asn_INTEGER_specifics_t asn_SPC_joinGameFailureReason_specs_2 = {
 	asn_MAP_joinGameFailureReason_value2enum_2,	/* "tag" => N; sorted by tag */
 	asn_MAP_joinGameFailureReason_enum2value_2,	/* N => "tag"; sorted by N */
-	5,	/* Number of elements in the maps */
+	6,	/* Number of elements in the maps */
 	0,	/* Enumeration is not extensible */
 	1,	/* Strict enumeration */
 	0,	/* Native long size */
@@ -147,7 +149,7 @@ static ber_tlv_tag_t asn_DEF_JoinGameFailed_tags_1[] = {
 	(ASN_TAG_CLASS_UNIVERSAL | (16 << 2))
 };
 static asn_TYPE_tag2member_t asn_MAP_JoinGameFailed_tag2el_1[] = {
-    { (ASN_TAG_CLASS_UNIVERSAL | (10 << 2)), 0, 0, 0 } /* joinGameFailureReason at 298 */
+    { (ASN_TAG_CLASS_UNIVERSAL | (10 << 2)), 0, 0, 0 } /* joinGameFailureReason at 300 */
 };
 static asn_SEQUENCE_specifics_t asn_SPC_JoinGameFailed_specs_1 = {
 	sizeof(struct JoinGameFailed),

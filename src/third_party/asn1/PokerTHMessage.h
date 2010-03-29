@@ -28,6 +28,8 @@
 #include "GamePlayerMessage.h"
 #include "KickPlayerRequestMessage.h"
 #include "LeaveGameRequestMessage.h"
+#include "InvitePlayerToGameMessage.h"
+#include "RejectGameInvitationMessage.h"
 #include "StartEventMessage.h"
 #include "StartEventAckMessage.h"
 #include "GameStartMessage.h"
@@ -81,6 +83,8 @@ typedef enum PokerTHMessage_PR {
 	PokerTHMessage_PR_gamePlayerMessage,
 	PokerTHMessage_PR_kickPlayerRequestMessage,
 	PokerTHMessage_PR_leaveGameRequestMessage,
+	PokerTHMessage_PR_invitePlayerToGameMessage,
+	PokerTHMessage_PR_rejectGameInvitationMessage,
 	PokerTHMessage_PR_startEventMessage,
 	PokerTHMessage_PR_startEventAckMessage,
 	PokerTHMessage_PR_gameStartMessage,
@@ -133,6 +137,8 @@ typedef struct PokerTHMessage {
 		GamePlayerMessage_t	 gamePlayerMessage;
 		KickPlayerRequestMessage_t	 kickPlayerRequestMessage;
 		LeaveGameRequestMessage_t	 leaveGameRequestMessage;
+		InvitePlayerToGameMessage_t	 invitePlayerToGameMessage;
+		RejectGameInvitationMessage_t	 rejectGameInvitationMessage;
 		StartEventMessage_t	 startEventMessage;
 		StartEventAckMessage_t	 startEventAckMessage;
 		GameStartMessage_t	 gameStartMessage;

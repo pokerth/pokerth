@@ -198,13 +198,13 @@ static ber_tlv_tag_t asn_DEF_PlayerResult_tags_1[] = {
 	(ASN_TAG_CLASS_UNIVERSAL | (16 << 2))
 };
 static asn_TYPE_tag2member_t asn_MAP_PlayerResult_tag2el_1[] = {
-    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 0, 0, 5 }, /* playerId at 480 */
-    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 1, -1, 4 }, /* resultCard1 at 481 */
-    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 2, -2, 3 }, /* resultCard2 at 482 */
-    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 4, -3, 2 }, /* cardsValue at 484 */
-    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 5, -4, 1 }, /* moneyWon at 485 */
-    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 6, -5, 0 }, /* playerMoney at 486 */
-    { (ASN_TAG_CLASS_UNIVERSAL | (16 << 2)), 3, 0, 0 } /* bestHandPosition at 483 */
+    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 0, 0, 5 }, /* playerId at 496 */
+    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 1, -1, 4 }, /* resultCard1 at 497 */
+    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 2, -2, 3 }, /* resultCard2 at 498 */
+    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 4, -3, 2 }, /* cardsValue at 500 */
+    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 5, -4, 1 }, /* moneyWon at 501 */
+    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 6, -5, 0 }, /* playerMoney at 502 */
+    { (ASN_TAG_CLASS_UNIVERSAL | (16 << 2)), 3, 0, 0 } /* bestHandPosition at 499 */
 };
 static asn_SEQUENCE_specifics_t asn_SPC_PlayerResult_specs_1 = {
 	sizeof(struct PlayerResult),
