@@ -311,6 +311,18 @@ ClientThread::SendVoteKick(bool doKick)
 }
 
 void
+ClientThread::SendInvitePlayerToCurrentGame(unsigned playerId)
+{
+	// TODO
+}
+
+void
+ClientThread::SendRejectGameInvitation(unsigned gameId, DenyGameInvitationReason reason)
+{
+	// TODO
+}
+
+void
 ClientThread::StartAsyncRead()
 {
 	ReceiveBuffer &buf = GetContext().GetSessionData()->GetReceiveBuffer();

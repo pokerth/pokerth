@@ -78,6 +78,8 @@ public:
 	void SendResetTimeout();
 	void SendAskKickPlayer(unsigned playerId);
 	void SendVoteKick(bool doKick);
+	void SendInvitePlayerToCurrentGame(unsigned playerId);
+	void SendRejectGameInvitation(unsigned gameId, DenyGameInvitationReason reason);
 
 	void StartAsyncRead();
 	void HandleRead(const boost::system::error_code& ec, size_t bytesRead);

@@ -432,6 +432,30 @@ Session::setLogin(const std::string &userName, const std::string &password, bool
 	myNetClient->SetLogin(userName, password, isGuest);
 }
 
+void
+Session::invitePlayerToCurrentGame(unsigned playerId)
+{
+	if (!myNetClient)
+		return; // only act if client is running.
+	myNetClient->SendInvitePlayerToCurrentGame(playerId);
+}
+
+void
+Session::acceptGameInvitation(unsigned gameId)
+{
+	if (!myNetClient)
+		return; // only act if client is running.
+	myNetClient->SendJoinGame(gameId, "");
+}
+
+void
+Session::rejectGameInvitation(unsigned gameId, DenyGameInvitationReason reason)
+{
+	if (!myNetClient)
+		return; // only act if client is running.
+	myNetClient->SendRejectGameInvitation(gameId, reason);
+}
+
 void Session::voteKick(bool doKick)
 {
 	if (!myNetClient)
