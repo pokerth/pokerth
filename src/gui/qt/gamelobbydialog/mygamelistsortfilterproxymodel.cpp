@@ -15,8 +15,6 @@ bool MyGameListSortFilterProxyModel::filterAcceptsRow(int sourceRow, const QMode
 	QModelIndex index3 = sourceModel()->index(sourceRow, 3, sourceParent);
         QModelIndex index4 = sourceModel()->index(sourceRow, 4, sourceParent);
 
-        qDebug() << sourceModel()->data(index1, 16).toString() << sourceModel()->data(index2, 16).toString() << sourceModel()->data(index3, 16).toString() << sourceModel()->data(index4, 16).toString();
-
 	return ((sourceModel()->data(index1, 16).toString().contains(column1RegExp) 
 			&& sourceModel()->data(index2, 16).toString().contains(column2RegExp) 
                         && sourceModel()->data(index3, 16).toString().contains(column3RegExp)
