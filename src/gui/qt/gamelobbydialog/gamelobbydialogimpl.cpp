@@ -17,11 +17,12 @@
 #include "session.h"
 #include "configfile.h"
 #include "gamedata.h"
+#include "game_defs.h"
 #include <net/socket_msg.h>
 #include "mymessagedialogimpl.h"
 
 gameLobbyDialogImpl::gameLobbyDialogImpl(startWindowImpl *parent, ConfigFile *c)
- : QDialog(parent), myW(NULL), myStartWindow(parent), myConfig(c), currentGameName(""), myPlayerId(0), myCurrentGameId(0), isGameAdministrator(false), inGame(false), guestMode(false), blinkingButtonAnimationState(true), myChat(NULL), keyUpCounter(0), infoMsgToShowId(0)
+ : QDialog(parent), myW(NULL), myStartWindow(parent), myConfig(c), currentGameName(""), myPlayerId(0), myCurrentGameId(0), isGameAdministrator(false), inGame(false), guestMode(false), blinkingButtonAnimationState(true), myChat(NULL), keyUpCounter(0), infoMsgToShowId(0), currentInvitationGameId(0)
 {
 
 #ifdef __APPLE__
@@ -1030,7 +1031,7 @@ void gameLobbyDialogImpl::kickPlayer() {
 
 void gameLobbyDialogImpl::keyPressEvent ( QKeyEvent * event ) {
 
-// 	std::cout << "key" << "\n";
+//        qDebug() << event->key() << "\n";
 
 	if (event->key() == Qt::Key_Enter && lineEdit_ChatInput->hasFocus()) { myChat->sendMessage(); }
 
@@ -1048,7 +1049,7 @@ void gameLobbyDialogImpl::keyPressEvent ( QKeyEvent * event ) {
 
 // 	if (event->key() == Qt::Key_Tab) event->ignore(); else { /*blah*/ }
 
-//        if (event->key() == Qt::Key_N) registeredUserMode();
+//        if (event->key() == Qt::Key_N) showInvitationDialog();
 //        if (event->key() == Qt::Key_M) guestUserMode();
 	
 }
@@ -1323,7 +1324,9 @@ void gameLobbyDialogImpl::showNickListContextMenu(QPoint p)
 
 void gameLobbyDialogImpl::invitePlayerToCurrentGame()
 {
-    qDebug() << "invitePlayer";
+    if(!treeWidget_NickList->selectedItems().isEmpty()) {
+        mySession->invitePlayerToCurrentGame(treeWidget_NickList->selectedItems().at(0)->data(0, Qt::UserRole).toUInt());
+    }\
 }
 
 void gameLobbyDialogImpl::showInfoMsgBox()
@@ -1337,4 +1340,33 @@ void gameLobbyDialogImpl::showInfoMsgBox()
         default:;
         break;
     }
+}
+
+void gameLobbyDialogImpl::showInvitationDialog(unsigned gameId, unsigned playerIdFrom)
+{
+
+     myMessageDialogImpl dialog(myConfig, this);
+     if(dialog.exec(3, tr("You've been invited to the game <b>%1</b> by <b>%2</b>.<br>Do you want to join this game?").arg(QString::fromUtf8(mySession->getClientGameInfo(gameId).name.c_str())).arg(QString::fromUtf8(mySession->getClientPlayerInfo(playerIdFrom).playerName.c_str())), tr("PokerTH - Info Message"), QPixmap(":/gfx/list_add_user_64.png"), QDialogButtonBox::Yes|QDialogButtonBox::No, false)) {
+
+        mySession->acceptGameInvitation(currentInvitationGameId);
+    }
+    else {
+        mySession->rejectGameInvitation(currentInvitationGameId, DENY_GAME_INVITATION_NO);
+    }
+}
+
+
+void gameLobbyDialogImpl::chatInfoPlayerInviation(unsigned gameId, unsigned playerIdWho, unsigned playerIdFrom)
+{
+    textBrowser_ChatDisplay->append(tr("<span style='color:blue;'>Player %1 has been invited to %2 by %3.</span>").arg(QString::fromUtf8(mySession->getClientPlayerInfo(playerIdFrom).playerName.c_str())).arg(QString::fromUtf8(mySession->getClientGameInfo(gameId).name.c_str())).arg(QString::fromUtf8(mySession->getClientPlayerInfo(playerIdFrom).playerName.c_str())));
+}
+
+void gameLobbyDialogImpl::chatInfoPlayerRejectedInviation(unsigned gameId, unsigned playerIdWho, DenyGameInvitationReason reason)
+{
+    QString string;
+    if(reason == DENY_GAME_INVITATION_NO) string = tr("<span style='color:red;'>Player %1 has rejected intivation to %2.</span>");
+
+    if(reason == DENY_GAME_INVITATION_BUSY) string = tr("<span style='color:red;'>Player %1 can not join %2 because he is busy.</span>");
+
+    textBrowser_ChatDisplay->append(string.arg(QString::fromUtf8(mySession->getClientPlayerInfo(playerIdWho).playerName.c_str())).arg(QString::fromUtf8(mySession->getClientGameInfo(gameId).name.c_str())));
 }

@@ -102,6 +102,10 @@ signals:
 	void signalLobbyPlayerKicked(QString nickName, QString byWhom, QString reason);
 	void signalLobbyPlayerLeft(unsigned playerId);
 
+        void signalSelfGameInvitation(unsigned gameId, unsigned playerIdFrom);
+        void signalPlayerGameInvitation(unsigned gameId, unsigned playerIdWho, unsigned playerIdFrom);
+        void signalRejectedGameInvitation(unsigned gameId, unsigned playerIdWho, DenyGameInvitationReason reason);
+
 public slots: 
 
 	void callAboutPokerthDialog();

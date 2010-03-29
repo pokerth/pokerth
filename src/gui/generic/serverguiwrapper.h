@@ -151,6 +151,11 @@ public:
 	void SignalLobbyPlayerKicked(const std::string &nickName, const std::string &byWhom, const std::string &reason);
 	void SignalLobbyPlayerLeft(unsigned playerId);
 
+        void SignalSelfGameInvitation(unsigned gameId, unsigned playerIdFrom);
+        void SignalPlayerGameInvitation(unsigned gameId, unsigned playerIdWho, unsigned playerIdFrom);
+        void SignalRejectedGameInvitation(unsigned gameId, unsigned playerIdWho, DenyGameInvitationReason reason);
+
+
 private:
 
 	boost::shared_ptr<Session> mySession;

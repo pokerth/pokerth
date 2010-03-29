@@ -105,6 +105,9 @@ public slots:
         void showNickListContextMenu(QPoint);
         void invitePlayerToCurrentGame();
         void showInfoMsgBox();
+        void showInvitationDialog(unsigned gameId, unsigned playerIdFrom);
+        void chatInfoPlayerInviation(unsigned gameId, unsigned playerIdWho, unsigned playerIdFrom);
+        void chatInfoPlayerRejectedInviation(unsigned gameId, unsigned playerIdWho, DenyGameInvitationReason reason);
 
 private:
 	
@@ -137,7 +140,9 @@ private:
 	MyGameListSortFilterProxyModel *myGameListSortFilterProxyModel;
         QMenu *nickListContextMenu;
         QAction *nickListInviteAction;
+        QAction *ignorePlayerAction;
         int infoMsgToShowId;
+        int currentInvitationGameId;
 	
 
  protected:

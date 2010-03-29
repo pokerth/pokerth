@@ -39,8 +39,11 @@ myMessageDialogImpl::myMessageDialogImpl(ConfigFile *c, QWidget *parent)
 	setupUi(this);	
 }
 
-int myMessageDialogImpl::exec(int messageId, QString msg, QString title, QPixmap pix, QDialogButtonBox::StandardButtons buttons)
+int myMessageDialogImpl::exec(int messageId, QString msg, QString title, QPixmap pix, QDialogButtonBox::StandardButtons buttons, bool showCheckBox)
 {
+    if(showCheckBox) checkBox->show();
+    else checkBox->hide();
+
     bool show = false;
     bool found = false;
 
