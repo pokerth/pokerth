@@ -164,3 +164,7 @@ void ServerGuiWrapper::SignalIrcServerError(int errorCode) {if (myIrccb) myIrccb
 void ServerGuiWrapper::SignalLobbyPlayerJoined(unsigned playerId, const std::string &nickName) { if (myClientcb) myClientcb->SignalLobbyPlayerJoined(playerId, nickName); }
 void ServerGuiWrapper::SignalLobbyPlayerKicked(const std::string &nickName, const std::string &byWhom, const std::string &reason) { if (myClientcb) myClientcb->SignalLobbyPlayerKicked(nickName, byWhom, reason); }
 void ServerGuiWrapper::SignalLobbyPlayerLeft(unsigned playerId) { if (myClientcb) myClientcb->SignalLobbyPlayerLeft(playerId); }
+
+void ServerGuiWrapper::SignalSelfGameInvitation(unsigned gameId, unsigned playerIdFrom) {}
+void ServerGuiWrapper::SignalPlayerGameInvitation(unsigned gameId, unsigned playerIdWho, unsigned playerIdFrom) {}
+void ServerGuiWrapper::SignalRejectedGameInvitation(unsigned gameId, unsigned playerIdWho, DenyGameInvitationReason) {}
