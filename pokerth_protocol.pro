@@ -99,6 +99,7 @@ HEADERS += src/third_party/asn1/AllInShowCardsMessage.h \
     src/third_party/asn1/InitAckMessage.h \
     src/third_party/asn1/InitMessage.h \
     src/third_party/asn1/INTEGER.h \
+    src/third_party/asn1/InvitePlayerToGameMessage.h \
     src/third_party/asn1/JoinExistingGame.h \
     src/third_party/asn1/JoinGameAck.h \
     src/third_party/asn1/JoinGameFailed.h \
@@ -132,6 +133,7 @@ HEADERS += src/third_party/asn1/AllInShowCardsMessage.h \
     src/third_party/asn1/PlayersActionDoneMessage.h \
     src/third_party/asn1/PlayersTurnMessage.h \
     src/third_party/asn1/PokerTHMessage.h \
+    src/third_party/ans1/RejectGameInvitationMessage.h \
     src/third_party/asn1/RemovedFromGame.h \
     src/third_party/asn1/ResetTimeoutMessage.h \
     src/third_party/asn1/StartEventAckMessage.h \
@@ -281,7 +283,9 @@ SOURCES += src/third_party/asn1/ChatCleanerMessage.c \
     src/third_party/asn1/AskKickDeniedMessage.c \
     src/third_party/asn1/GuestLogin.c \
     src/third_party/asn1/AnnounceMessage.c \
-    src/third_party/asn1/UnauthenticatedLogin.c
+    src/third_party/asn1/UnauthenticatedLogin.c \
+    src/third_party/asn1/InvitePlayerToGameMessage.c \
+    src/third_party/asn1/RejectGameInvitationMessage.c
 win32 { 
     DEFINES += CURL_STATICLIB
     DEFINES += _WIN32_WINNT=0x0501
