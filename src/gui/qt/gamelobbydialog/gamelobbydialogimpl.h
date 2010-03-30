@@ -108,7 +108,7 @@ public slots:
     void showInvitationDialog(unsigned gameId, unsigned playerIdFrom);
     void chatInfoPlayerInvitation(unsigned gameId, unsigned playerIdWho, unsigned playerIdFrom);
     void chatInfoPlayerRejectedInvitation(unsigned gameId, unsigned playerIdWho, DenyGameInvitationReason reason);
-    void putPlayerOnIgnoreList(unsigned playerid);
+    void putPlayerOnIgnoreList();
     bool playerIsOnIgnoreList(unsigned playerid);
 
 private:

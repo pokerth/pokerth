@@ -1413,16 +1413,21 @@ bool gameLobbyDialogImpl::playerIsOnIgnoreList(unsigned playerId) {
 }
 
 
-void gameLobbyDialogImpl::putPlayerOnIgnoreList(unsigned playerId) {
+void gameLobbyDialogImpl::putPlayerOnIgnoreList() {
 
-    if(!playerIsOnIgnoreList(playerId)) {
+    if(!treeWidget_NickList->selectedItems().isEmpty()) {
 
-        list<std::string> playerIgnoreList = myConfig->readConfigStringList("PlayerIgnoreList");
-        playerIgnoreList.push_back(QString("%1,%2").arg(playerId).arg(QString::fromUtf8(mySession->getClientPlayerInfo(playerId).playerName.c_str())).toUtf8().constData());
-        myConfig->writeConfigStringList("PlayerIgnoreList", playerIgnoreList);
-        myConfig->writeBuffer();
+        unsigned playerId = treeWidget_NickList->selectedItems().at(0)->data(0, Qt::UserRole).toUInt();
 
-        myChat->refreshIgnoreList();
+        if(!playerIsOnIgnoreList(playerId)) {
+
+            list<std::string> playerIgnoreList = myConfig->readConfigStringList("PlayerIgnoreList");
+            playerIgnoreList.push_back(QString("%1,%2").arg(playerId).arg(QString::fromUtf8(mySession->getClientPlayerInfo(playerId).playerName.c_str())).toUtf8().constData());
+            myConfig->writeConfigStringList("PlayerIgnoreList", playerIgnoreList);
+            myConfig->writeBuffer();
+
+            myChat->refreshIgnoreList();
+        }
     }
 }
 
