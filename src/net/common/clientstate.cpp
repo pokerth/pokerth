@@ -1489,7 +1489,7 @@ ClientStateWaitGame::InternalHandlePacket(boost::shared_ptr<ClientThread> client
 	else if (tmpPacket->GetMsg()->present == PokerTHMessage_PR_inviteNotifyMessage)
 	{
 		InviteNotifyMessage_t *netInvNotify = &tmpPacket->GetMsg()->choice.inviteNotifyMessage;
-		client->GetCallback()->SignalPlayerGameInvitation(
+		client->GetCallback().SignalPlayerGameInvitation(
 			netInvNotify->gameId,
 			netInvNotify->playerIdWho,
 			netInvNotify->playerIdByWhom);
@@ -1497,7 +1497,7 @@ ClientStateWaitGame::InternalHandlePacket(boost::shared_ptr<ClientThread> client
 	else if (tmpPacket->GetMsg()->present == PokerTHMessage_PR_rejectInvNotifyMessage)
 	{
 		RejectInvNotifyMessage_t *netRejNotify = &tmpPacket->GetMsg()->choice.rejectInvNotifyMessage;
-		client->GetCallback()->SignalPlayerGameInvitation(
+		client->GetCallback().SignalPlayerGameInvitation(
 			netRejNotify->gameId,
 			netRejNotify->playerId,
 			static_cast<DenyGameInvitationReason>(netRejNotify->playerRejectReason));
