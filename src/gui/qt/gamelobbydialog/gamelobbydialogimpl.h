@@ -143,6 +143,7 @@ private:
         QAction *ignorePlayerAction;
         int infoMsgToShowId;
         int currentInvitationGameId;
+        bool inviteDialogIsCurrentlyShown;
 	
 
  protected:
