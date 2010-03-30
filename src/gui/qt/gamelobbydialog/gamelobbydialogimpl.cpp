@@ -1332,6 +1332,18 @@ void gameLobbyDialogImpl::showNickListContextMenu(QPoint p)
             nickListInviteAction->setEnabled(false);
         }
 
+        if(treeWidget_NickList->selectedItems().at(0)->data(0, Qt::UserRole).toUInt() != mySession->getClientUniquePlayerId()) {
+
+            nickListIgnorePlayerAction->setEnabled(true);
+            nickListIgnorePlayerAction->setText(tr("Ignore player %1").arg(QString::fromUtf8(mySession->getClientPlayerInfo(treeWidget_NickList->selectedItems().at(0)->data(0, Qt::UserRole).toUInt()).playerName.c_str())));
+        }
+        else {
+
+            nickListIgnorePlayerAction->setEnabled(false);
+            nickListIgnorePlayerAction->setText(tr("Ignore player ..."));
+        }
+
+
         nickListContextMenu->popup(treeWidget_NickList->mapToGlobal(p));
     }
 }

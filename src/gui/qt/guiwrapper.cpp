@@ -186,11 +186,6 @@ void GuiWrapper::SignalLobbyPlayerJoined(unsigned playerId, const string &nickNa
 void GuiWrapper::SignalLobbyPlayerKicked(const std::string &nickName, const std::string &byWhom, const std::string &reason) { myStartWindow->signalLobbyPlayerKicked(QString::fromUtf8(nickName.c_str()), QString::fromUtf8(byWhom.c_str()), QString::fromUtf8(reason.c_str())); }
 void GuiWrapper::SignalLobbyPlayerLeft(unsigned playerId) { myStartWindow->signalLobbyPlayerLeft(playerId); }
 
-void GuiWrapper::SignalSelfGameInvitation(unsigned gameId, unsigned
-playerIdFrom) { myStartWindow->signalSelfGameInvitation(gameId, playerIdFrom);
-} void GuiWrapper::SignalPlayerGameInvitation(unsigned gameId, unsigned
-playerIdWho, unsigned playerIdFrom) {
-myStartWindow->signalPlayerGameInvitation(gameId, playerIdWho, playerIdFrom); }
-void GuiWrapper::SignalRejectedGameInvitation(unsigned gameId, unsigned
-playerIdWho, DenyGameInvitationReason reason) {
-myStartWindow->signalRejectedGameInvitation(gameId, playerIdWho, reason); }
+void GuiWrapper::SignalSelfGameInvitation(unsigned gameId, unsigned playerIdFrom) { myStartWindow->signalSelfGameInvitation(gameId, playerIdFrom); }
+void GuiWrapper::SignalPlayerGameInvitation(unsigned gameId, unsigned playerIdWho, unsigned playerIdFrom) { myStartWindow->signalPlayerGameInvitation(gameId, playerIdWho, playerIdFrom); }
+void GuiWrapper::SignalRejectedGameInvitation(unsigned gameId, unsigned playerIdWho, DenyGameInvitationReason reason) { myStartWindow->signalRejectedGameInvitation(gameId, playerIdWho, reason); }
