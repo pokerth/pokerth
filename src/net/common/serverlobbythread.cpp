@@ -564,14 +564,19 @@ ServerLobbyThread::RemoveComputerPlayer(boost::shared_ptr<PlayerData> player)
 	m_computerPlayers.erase(player->GetUniqueId());
 }
 
-void
+bool
 ServerLobbyThread::SendToLobbyPlayer(unsigned playerId, boost::shared_ptr<NetPacket> packet)
 {
+	bool retVal = false;
 	SessionWrapper tmpSession = m_sessionManager.GetSessionByUniquePlayerId(playerId);
 	if (tmpSession.sessionData)
+	{
 		GetSender().Send(tmpSession.sessionData, packet);
+		retVal = true;
+	}
+	return retVal;
 }
-
+ 
 AvatarManager &
 ServerLobbyThread::GetAvatarManager()
 {

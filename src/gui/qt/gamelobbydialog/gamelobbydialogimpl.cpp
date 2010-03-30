@@ -1326,7 +1326,7 @@ void gameLobbyDialogImpl::invitePlayerToCurrentGame()
 {
     if(!treeWidget_NickList->selectedItems().isEmpty()) {
         mySession->invitePlayerToCurrentGame(treeWidget_NickList->selectedItems().at(0)->data(0, Qt::UserRole).toUInt());
-    }\
+    }
 }
 
 void gameLobbyDialogImpl::showInfoMsgBox()

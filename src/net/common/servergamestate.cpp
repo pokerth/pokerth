@@ -475,8 +475,20 @@ ServerGameStateInit::InternalProcessPacket(boost::shared_ptr<ServerGame> server,
 			netInvNotif->playerIdByWhom = session.playerData->GetUniqueId();
 			netInvNotif->playerIdWho = netInvite->playerId;
 
-			server->GetLobbyThread().SendToLobbyPlayer(netInvite->playerId, packet);
+			bool requestSent = server->GetLobbyThread().SendToLobbyPlayer(netInvite->playerId, packet);
 			server->SendToAllPlayers(packet, SessionData::Game);
+			if (!requestSent)
+			{
+				// Player is not in lobby - send reject message.
+				boost::shared_ptr<NetPacket> p2(new NetPacket(NetPacket::Alloc));
+				p2->GetMsg()->present = PokerTHMessage_PR_rejectInvNotifyMessage;
+				RejectInvNotifyMessage_t *netRejNotif = &p2->GetMsg()->choice.rejectInvNotifyMessage;
+				netRejNotif->gameId = netInvite->gameId;
+				netRejNotif->playerId = netInvite->playerId;
+				netRejNotif->playerRejectReason = RejectGameInvReason_busy;
+
+				server->SendToAllPlayers(p2, SessionData::Game);
+			}
 		}
 	}
 	else if (packet->GetMsg()->present == PokerTHMessage_PR_resetTimeoutMessage)

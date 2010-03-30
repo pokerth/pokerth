@@ -90,7 +90,7 @@ public:
 	void AddComputerPlayer(boost::shared_ptr<PlayerData> player);
 	void RemoveComputerPlayer(boost::shared_ptr<PlayerData> player);
 
-	void SendToLobbyPlayer(unsigned playerId, boost::shared_ptr<NetPacket> packet);
+	bool SendToLobbyPlayer(unsigned playerId, boost::shared_ptr<NetPacket> packet);
 
 	u_int32_t GetNextUniquePlayerId();
 	u_int32_t GetNextGameId();
