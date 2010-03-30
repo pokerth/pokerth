@@ -1365,16 +1365,16 @@ void gameLobbyDialogImpl::showInvitationDialog(unsigned gameId, unsigned playerI
         myMessageDialogImpl dialog(myConfig, this);
         if(dialog.exec(3, tr("You've been invited to the game <b>%1</b> by <b>%2</b>.<br>Do you want to join this game?").arg(QString::fromUtf8(mySession->getClientGameInfo(gameId).name.c_str())).arg(QString::fromUtf8(mySession->getClientPlayerInfo(playerIdFrom).playerName.c_str())), tr("PokerTH - Info Message"), QPixmap(":/gfx/list_add_user_64.png"), QDialogButtonBox::Yes|QDialogButtonBox::No, false)) {
 
-            mySession->acceptGameInvitation(currentInvitationGameId);
+            mySession->acceptGameInvitation(gameId);
             inviteDialogIsCurrentlyShown = false;
         }
         else {
-            mySession->rejectGameInvitation(currentInvitationGameId, DENY_GAME_INVITATION_NO);
+            mySession->rejectGameInvitation(gameId, DENY_GAME_INVITATION_NO);
             inviteDialogIsCurrentlyShown = false;
         }
     }
     else {
-        mySession->rejectGameInvitation(currentInvitationGameId, DENY_GAME_INVITATION_BUSY);
+        mySession->rejectGameInvitation(gameId, DENY_GAME_INVITATION_BUSY);
     }
 }
 
