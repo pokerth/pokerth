@@ -125,7 +125,7 @@
      <item>
       <widget class="QStackedWidget" name="stackedWidget">
        <property name="currentIndex">
-        <number>5</number>
+        <number>0</number>
        </property>
        <widget class="QWidget" name="page">
         <layout class="QGridLayout" name="gridLayout_8">
@@ -1464,319 +1464,384 @@ p, li { white-space: pre-wrap; }
            </property>
           </widget>
          </item>
-         <item row="1" column="0">
+         <item row="1" column="0" colspan="2">
           <widget class="Line" name="line_9">
            <property name="orientation">
             <enum>Qt::Horizontal</enum>
            </property>
           </widget>
          </item>
-         <item row="2" column="0">
-          <widget class="QLabel" name="label_43">
-           <property name="text">
-            <string>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+         <item row="2" column="0" colspan="2">
+          <widget class="QTabWidget" name="tabWidget_2">
+           <property name="currentIndex">
+            <number>0</number>
+           </property>
+           <widget class="QWidget" name="tab_2">
+            <attribute name="title">
+             <string>Server</string>
+            </attribute>
+            <layout class="QGridLayout" name="gridLayout_18">
+             <item row="0" column="0">
+              <widget class="QGroupBox" name="groupBox_automaticServerConfig">
+               <property name="title">
+                <string>Automatic Server Configuration URL</string>
+               </property>
+               <property name="checkable">
+                <bool>true</bool>
+               </property>
+               <layout class="QGridLayout" name="gridLayout_3">
+                <item row="0" column="0">
+                 <widget class="QLabel" name="label_18">
+                  <property name="text">
+                   <string>Serverlist Address:</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="0" column="1">
+                 <widget class="QLineEdit" name="lineEdit_InternetServerListAddress"/>
+                </item>
+               </layout>
+              </widget>
+             </item>
+             <item row="1" column="0">
+              <widget class="QGroupBox" name="groupBox_manualServerConfig">
+               <property name="minimumSize">
+                <size>
+                 <width>0</width>
+                 <height>116</height>
+                </size>
+               </property>
+               <property name="title">
+                <string>Manual Server Configuration</string>
+               </property>
+               <property name="checkable">
+                <bool>true</bool>
+               </property>
+               <property name="checked">
+                <bool>false</bool>
+               </property>
+               <layout class="QGridLayout" name="gridLayout_4">
+                <item row="0" column="0">
+                 <widget class="QLabel" name="label_41">
+                  <property name="text">
+                   <string>Server Address:</string>
+                  </property>
+                  <property name="buddy">
+                   <cstring>lineEdit_InternetServerAddress</cstring>
+                  </property>
+                 </widget>
+                </item>
+                <item row="0" column="1">
+                 <widget class="QLineEdit" name="lineEdit_InternetServerAddress">
+                  <property name="maxLength">
+                   <number>60</number>
+                  </property>
+                 </widget>
+                </item>
+                <item row="1" column="0">
+                 <widget class="QLabel" name="label_31">
+                  <property name="text">
+                   <string>Server Port:</string>
+                  </property>
+                  <property name="buddy">
+                   <cstring>spinBox_InternetServerPort</cstring>
+                  </property>
+                 </widget>
+                </item>
+                <item row="1" column="1">
+                 <widget class="QSpinBox" name="spinBox_InternetServerPort">
+                  <property name="minimum">
+                   <number>80</number>
+                  </property>
+                  <property name="maximum">
+                   <number>65535</number>
+                  </property>
+                  <property name="value">
+                   <number>7234</number>
+                  </property>
+                 </widget>
+                </item>
+                <item row="2" column="0">
+                 <widget class="QCheckBox" name="checkBox_useAvatarServer">
+                  <property name="text">
+                   <string>Avatar Server:</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="2" column="1">
+                 <widget class="QLineEdit" name="lineEdit_avatarServerAddress"/>
+                </item>
+                <item row="3" column="0" colspan="2">
+                 <layout class="QHBoxLayout" name="horizontalLayout_7">
+                  <item>
+                   <widget class="QCheckBox" name="checkBox_InternetServerUseIpv6">
+                    <property name="text">
+                     <string>Use IPv6</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QLabel" name="label_32">
+                    <property name="text">
+                     <string>&lt;a href=&quot;http://en.wikipedia.org/wiki/Ipv6&quot;&gt;What is this?&lt;/a&gt;</string>
+                    </property>
+                    <property name="openExternalLinks">
+                     <bool>true</bool>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <spacer name="horizontalSpacer">
+                    <property name="orientation">
+                     <enum>Qt::Horizontal</enum>
+                    </property>
+                    <property name="sizeHint" stdset="0">
+                     <size>
+                      <width>40</width>
+                      <height>20</height>
+                     </size>
+                    </property>
+                   </spacer>
+                  </item>
+                  <item>
+                   <widget class="QCheckBox" name="checkBox_InternetServerUseSctp">
+                    <property name="text">
+                     <string>Use SCTP</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QLabel" name="label_42">
+                    <property name="text">
+                     <string>&lt;a href=&quot;http://en.wikipedia.org/wiki/Stream_Control_Transmission_Protocol&quot;&gt;What is this?&lt;/a&gt;</string>
+                    </property>
+                    <property name="openExternalLinks">
+                     <bool>true</bool>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <spacer name="horizontalSpacer_8">
+                    <property name="orientation">
+                     <enum>Qt::Horizontal</enum>
+                    </property>
+                    <property name="sizeHint" stdset="0">
+                     <size>
+                      <width>40</width>
+                      <height>20</height>
+                     </size>
+                    </property>
+                   </spacer>
+                  </item>
+                 </layout>
+                </item>
+               </layout>
+              </widget>
+             </item>
+            </layout>
+           </widget>
+           <widget class="QWidget" name="tab_5">
+            <attribute name="title">
+             <string>Game</string>
+            </attribute>
+            <layout class="QGridLayout" name="gridLayout_5">
+             <item row="0" column="0">
+              <widget class="QLabel" name="label_43">
+               <property name="text">
+                <string>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot;font-weight:400; font-style:normal;&quot;&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-style:italic;&quot;&gt;Note: Default &lt;/span&gt;&lt;span style=&quot; font-weight:600; font-style:italic;&quot;&gt;Game Settings&lt;/span&gt;&lt;span style=&quot; font-style:italic;&quot;&gt; like &quot;Maximum number of players&quot;, &quot;Start Cash&quot; and &quot;Small Blind&quot; will be used &lt;/span&gt;&lt;span style=&quot; font-weight:600; font-style:italic;&quot;&gt;from Network Game Settings.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-           </property>
-           <property name="wordWrap">
-            <bool>true</bool>
-           </property>
-          </widget>
-         </item>
-         <item row="3" column="0">
-          <widget class="QGroupBox" name="groupBox_4">
-           <property name="title">
-            <string>Internet Server</string>
-           </property>
-           <layout class="QGridLayout" name="gridLayout_5">
-            <item row="0" column="0">
-             <widget class="QGroupBox" name="groupBox_automaticServerConfig">
-              <property name="title">
-               <string>Automatic Server Configuration URL</string>
-              </property>
-              <property name="checkable">
-               <bool>true</bool>
-              </property>
-              <layout class="QGridLayout" name="gridLayout_3">
-               <property name="topMargin">
-                <number>4</number>
                </property>
-               <property name="bottomMargin">
-                <number>6</number>
+               <property name="wordWrap">
+                <bool>true</bool>
                </property>
-               <item row="0" column="0">
-                <widget class="QLabel" name="label_18">
+              </widget>
+             </item>
+             <item row="1" column="0">
+              <layout class="QHBoxLayout" name="horizontalLayout_8">
+               <item>
+                <widget class="QLabel" name="label_23">
                  <property name="text">
-                  <string>Serverlist Address:</string>
+                  <string>Default game name:</string>
                  </property>
                 </widget>
                </item>
-               <item row="0" column="1">
-                <widget class="QLineEdit" name="lineEdit_InternetServerListAddress"/>
+               <item>
+                <widget class="QLineEdit" name="lineEdit_internetGameName"/>
                </item>
               </layout>
-             </widget>
-            </item>
-            <item row="1" column="0">
-             <widget class="QGroupBox" name="groupBox_manualServerConfig">
-              <property name="minimumSize">
-               <size>
-                <width>0</width>
-                <height>116</height>
-               </size>
-              </property>
-              <property name="title">
-               <string>Manual Server Configuration</string>
-              </property>
-              <property name="checkable">
-               <bool>true</bool>
-              </property>
-              <property name="checked">
-               <bool>false</bool>
-              </property>
-              <layout class="QGridLayout" name="gridLayout_4">
-               <property name="topMargin">
-                <number>4</number>
+             </item>
+             <item row="2" column="0">
+              <layout class="QHBoxLayout" name="horizontalLayout_6">
+               <item>
+                <widget class="QLabel" name="label_17">
+                 <property name="text">
+                  <string>Default game type:</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QComboBox" name="comboBox_internetGameType">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
+                 <item>
+                  <property name="text">
+                   <string>Standard</string>
+                  </property>
+                  <property name="icon">
+                   <iconset resource="resources/pokerth.qrc">
+                    <normaloff>:/gfx/player_play.png</normaloff>:/gfx/player_play.png</iconset>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string>Registered players only</string>
+                  </property>
+                  <property name="icon">
+                   <iconset resource="resources/pokerth.qrc">
+                    <normaloff>:/gfx/registered.png</normaloff>:/gfx/registered.png</iconset>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string>Invited players only</string>
+                  </property>
+                  <property name="icon">
+                   <iconset resource="resources/pokerth.qrc">
+                    <normaloff>:/gfx/list_add_user.png</normaloff>:/gfx/list_add_user.png</iconset>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string>Ranking game</string>
+                  </property>
+                  <property name="icon">
+                   <iconset resource="resources/pokerth.qrc">
+                    <normaloff>:/gfx/cup.png</normaloff>:/gfx/cup.png</iconset>
+                  </property>
+                 </item>
+                </widget>
+               </item>
+              </layout>
+             </item>
+             <item row="3" column="0">
+              <layout class="QHBoxLayout" name="horizontalLayout_2">
+               <property name="spacing">
+                <number>0</number>
                </property>
-               <property name="bottomMargin">
+               <item>
+                <widget class="QCheckBox" name="checkBox_UseInternetGamePassword">
+                 <property name="text">
+                  <string>Use password for private game:</string>
+                 </property>
+                 <property name="icon">
+                  <iconset resource="resources/pokerth.qrc">
+                   <normaloff>:/gfx/lock.png</normaloff>:/gfx/lock.png</iconset>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QLineEdit" name="lineEdit_InternetGamePassword">
+                 <property name="enabled">
+                  <bool>false</bool>
+                 </property>
+                 <property name="echoMode">
+                  <enum>QLineEdit::Password</enum>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </item>
+             <item row="4" column="0">
+              <widget class="QCheckBox" name="checkBox_UseLobbyChat">
+               <property name="text">
+                <string>Show lobby chat</string>
+               </property>
+              </widget>
+             </item>
+             <item row="5" column="0">
+              <spacer name="spacer">
+               <property name="orientation">
+                <enum>Qt::Vertical</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>437</width>
+                 <height>72</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
+            </layout>
+           </widget>
+           <widget class="QWidget" name="tab_6">
+            <attribute name="title">
+             <string>Ignored Players</string>
+            </attribute>
+            <layout class="QGridLayout" name="gridLayout_19">
+             <item row="0" column="0">
+              <widget class="QTreeWidget" name="treeWidget_internetGameIgnoredPlayers">
+               <property name="alternatingRowColors">
+                <bool>true</bool>
+               </property>
+               <property name="indentation">
                 <number>5</number>
                </property>
-               <item row="0" column="0">
-                <widget class="QLabel" name="label_41">
-                 <property name="text">
-                  <string>Server Address:</string>
-                 </property>
-                 <property name="buddy">
-                  <cstring>lineEdit_InternetServerAddress</cstring>
-                 </property>
-                </widget>
-               </item>
-               <item row="0" column="1">
-                <widget class="QLineEdit" name="lineEdit_InternetServerAddress">
-                 <property name="maxLength">
-                  <number>60</number>
-                 </property>
-                </widget>
-               </item>
-               <item row="1" column="0">
-                <widget class="QLabel" name="label_31">
-                 <property name="text">
-                  <string>Server Port:</string>
-                 </property>
-                 <property name="buddy">
-                  <cstring>spinBox_InternetServerPort</cstring>
-                 </property>
-                </widget>
-               </item>
-               <item row="1" column="1">
-                <widget class="QSpinBox" name="spinBox_InternetServerPort">
-                 <property name="minimum">
-                  <number>80</number>
-                 </property>
-                 <property name="maximum">
-                  <number>65535</number>
-                 </property>
-                 <property name="value">
-                  <number>7234</number>
-                 </property>
-                </widget>
-               </item>
-               <item row="2" column="0">
-                <widget class="QCheckBox" name="checkBox_useAvatarServer">
-                 <property name="text">
-                  <string>Avatar Server:</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="2" column="1">
-                <widget class="QLineEdit" name="lineEdit_avatarServerAddress"/>
-               </item>
-               <item row="3" column="0" colspan="2">
-                <layout class="QHBoxLayout" name="horizontalLayout_7">
-                 <item>
-                  <widget class="QCheckBox" name="checkBox_InternetServerUseIpv6">
-                   <property name="text">
-                    <string>Use IPv6</string>
-                   </property>
-                  </widget>
-                 </item>
-                 <item>
-                  <widget class="QLabel" name="label_32">
-                   <property name="text">
-                    <string>&lt;a href=&quot;http://en.wikipedia.org/wiki/Ipv6&quot;&gt;What is this?&lt;/a&gt;</string>
-                   </property>
-                   <property name="openExternalLinks">
-                    <bool>true</bool>
-                   </property>
-                  </widget>
-                 </item>
-                 <item>
-                  <spacer name="horizontalSpacer">
-                   <property name="orientation">
-                    <enum>Qt::Horizontal</enum>
-                   </property>
-                   <property name="sizeHint" stdset="0">
-                    <size>
-                     <width>40</width>
-                     <height>20</height>
-                    </size>
-                   </property>
-                  </spacer>
-                 </item>
-                 <item>
-                  <widget class="QCheckBox" name="checkBox_InternetServerUseSctp">
-                   <property name="text">
-                    <string>Use SCTP</string>
-                   </property>
-                  </widget>
-                 </item>
-                 <item>
-                  <widget class="QLabel" name="label_42">
-                   <property name="text">
-                    <string>&lt;a href=&quot;http://en.wikipedia.org/wiki/Stream_Control_Transmission_Protocol&quot;&gt;What is this?&lt;/a&gt;</string>
-                   </property>
-                   <property name="openExternalLinks">
-                    <bool>true</bool>
-                   </property>
-                  </widget>
-                 </item>
-                 <item>
-                  <spacer name="horizontalSpacer_8">
-                   <property name="orientation">
-                    <enum>Qt::Horizontal</enum>
-                   </property>
-                   <property name="sizeHint" stdset="0">
-                    <size>
-                     <width>40</width>
-                     <height>20</height>
-                    </size>
-                   </property>
-                  </spacer>
-                 </item>
-                </layout>
-               </item>
-              </layout>
-             </widget>
-            </item>
-           </layout>
+               <property name="rootIsDecorated">
+                <bool>false</bool>
+               </property>
+               <property name="sortingEnabled">
+                <bool>true</bool>
+               </property>
+               <column>
+                <property name="text">
+                 <string>Player</string>
+                </property>
+               </column>
+              </widget>
+             </item>
+             <item row="0" column="1" rowspan="2">
+              <spacer name="horizontalSpacer_9">
+               <property name="orientation">
+                <enum>Qt::Horizontal</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>256</width>
+                 <height>218</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
+             <item row="1" column="0">
+              <widget class="QPushButton" name="pushButton">
+               <property name="text">
+                <string>Remove Player</string>
+               </property>
+               <property name="icon">
+                <iconset resource="resources/pokerth.qrc">
+                 <normaloff>:/gfx/list-remove.png</normaloff>:/gfx/list-remove.png</iconset>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </widget>
           </widget>
          </item>
-         <item row="4" column="0">
-          <layout class="QHBoxLayout" name="horizontalLayout_8">
-           <item>
-            <widget class="QLabel" name="label_23">
-             <property name="text">
-              <string>Default game name:</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QLineEdit" name="lineEdit_internetGameName"/>
-           </item>
-          </layout>
-         </item>
-         <item row="5" column="0">
-          <layout class="QHBoxLayout" name="horizontalLayout_6">
-           <item>
-            <widget class="QLabel" name="label_17">
-             <property name="text">
-              <string>Default game type:</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QComboBox" name="comboBox_internetGameType">
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
-               <horstretch>0</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
-             </property>
-             <item>
-              <property name="text">
-               <string>Standard</string>
-              </property>
-              <property name="icon">
-               <iconset resource="resources/pokerth.qrc">
-                <normaloff>:/gfx/player_play.png</normaloff>:/gfx/player_play.png</iconset>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>Registered players only</string>
-              </property>
-              <property name="icon">
-               <iconset resource="resources/pokerth.qrc">
-                <normaloff>:/gfx/registered.png</normaloff>:/gfx/registered.png</iconset>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>Invited players only</string>
-              </property>
-              <property name="icon">
-               <iconset resource="resources/pokerth.qrc">
-                <normaloff>:/gfx/list_add_user.png</normaloff>:/gfx/list_add_user.png</iconset>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>Ranking game</string>
-              </property>
-              <property name="icon">
-               <iconset resource="resources/pokerth.qrc">
-                <normaloff>:/gfx/cup.png</normaloff>:/gfx/cup.png</iconset>
-              </property>
-             </item>
-            </widget>
-           </item>
-          </layout>
-         </item>
-         <item row="6" column="0">
-          <layout class="QHBoxLayout" name="horizontalLayout_2">
-           <property name="spacing">
-            <number>0</number>
-           </property>
-           <item>
-            <widget class="QCheckBox" name="checkBox_UseInternetGamePassword">
-             <property name="text">
-              <string>Use password for private game:</string>
-             </property>
-             <property name="icon">
-              <iconset resource="resources/pokerth.qrc">
-               <normaloff>:/gfx/lock.png</normaloff>:/gfx/lock.png</iconset>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QLineEdit" name="lineEdit_InternetGamePassword">
-             <property name="enabled">
-              <bool>false</bool>
-             </property>
-             <property name="echoMode">
-              <enum>QLineEdit::Password</enum>
-             </property>
-            </widget>
-           </item>
-          </layout>
-         </item>
-         <item row="7" column="0">
-          <widget class="QCheckBox" name="checkBox_UseLobbyChat">
-           <property name="text">
-            <string>Show lobby chat</string>
-           </property>
-          </widget>
-         </item>
-         <item row="8" column="0">
-          <spacer>
+         <item row="3" column="1">
+          <spacer name="verticalSpacer">
            <property name="orientation">
             <enum>Qt::Vertical</enum>
            </property>
            <property name="sizeHint" stdset="0">
             <size>
-             <width>437</width>
-             <height>16</height>
+             <width>20</width>
+             <height>121</height>
             </size>
            </property>
           </spacer>
@@ -3452,17 +3517,6 @@ p, li { white-space: pre-wrap; }
   <tabstop>spinBox_serverPort</tabstop>
   <tabstop>checkBox_useIpv6</tabstop>
   <tabstop>checkBox_useSctp</tabstop>
-  <tabstop>groupBox_automaticServerConfig</tabstop>
-  <tabstop>lineEdit_InternetServerListAddress</tabstop>
-  <tabstop>groupBox_manualServerConfig</tabstop>
-  <tabstop>lineEdit_InternetServerAddress</tabstop>
-  <tabstop>spinBox_InternetServerPort</tabstop>
-  <tabstop>checkBox_useAvatarServer</tabstop>
-  <tabstop>lineEdit_avatarServerAddress</tabstop>
-  <tabstop>checkBox_InternetServerUseIpv6</tabstop>
-  <tabstop>checkBox_InternetServerUseSctp</tabstop>
-  <tabstop>checkBox_UseInternetGamePassword</tabstop>
-  <tabstop>lineEdit_InternetGamePassword</tabstop>
   <tabstop>pushButton_HumanPlayerAvatar</tabstop>
   <tabstop>lineEdit_HumanPlayerName</tabstop>
   <tabstop>pushButton_Opponent1Avatar</tabstop>
@@ -3527,22 +3581,6 @@ p, li { white-space: pre-wrap; }
    </hints>
   </connection>
   <connection>
-   <sender>checkBox_UseInternetGamePassword</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>lineEdit_InternetGamePassword</receiver>
-   <slot>setEnabled(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>402</x>
-     <y>434</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>774</x>
-     <y>436</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
    <sender>horizontalSlider_soundVolume</sender>
    <signal>valueChanged(int)</signal>
    <receiver>label_soundVolume</receiver>
@@ -3587,22 +3625,6 @@ p, li { white-space: pre-wrap; }
     <hint type="destinationlabel">
      <x>763</x>
      <y>236</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>checkBox_useAvatarServer</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>lineEdit_avatarServerAddress</receiver>
-   <slot>setEnabled(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>314</x>
-     <y>318</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>366</x>
-     <y>320</y>
     </hint>
    </hints>
   </connection>

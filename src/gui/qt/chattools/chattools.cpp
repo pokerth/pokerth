@@ -30,7 +30,7 @@ using namespace std;
 
 ChatTools::ChatTools(QLineEdit* l, ConfigFile *c, ChatType ct, QTextBrowser *b, QTreeWidget *t, gameLobbyDialogImpl *lo) : nickAutoCompletitionCounter(0), myLineEdit(l), myNickTreeWidget(t), myNickStringList(NULL), myTextBrowser(b), myChatType(ct), myConfig(c), myNick(""), myLobby(lo)
 {
-	myNick = QString::fromUtf8(myConfig->readConfigString("MyName").c_str());
+    myNick = QString::fromUtf8(myConfig->readConfigString("MyName").c_str());
 }
 
 ChatTools::~ChatTools()
@@ -38,152 +38,160 @@ ChatTools::~ChatTools()
 }
 
 void ChatTools::sendMessage() {
-	
-	if(myLineEdit->text().size() && mySession) {
-		fillChatLinesHistory(myLineEdit->text());
-		if(myChatType == INGAME_CHAT) {
-			mySession->sendGameChatMessage(myLineEdit->text().toUtf8().constData());
-		}
-		else {
-			mySession->sendLobbyChatMessage(myLineEdit->text().toUtf8().constData());
-		}
-		myLineEdit->setText("");
-	}
+
+    if(myLineEdit->text().size() && mySession) {
+        fillChatLinesHistory(myLineEdit->text());
+        if(myChatType == INGAME_CHAT) {
+            mySession->sendGameChatMessage(myLineEdit->text().toUtf8().constData());
+        }
+        else {
+            mySession->sendLobbyChatMessage(myLineEdit->text().toUtf8().constData());
+        }
+        myLineEdit->setText("");
+    }
 }
 
 void ChatTools::receiveMessage(QString playerName, QString message) { 
 
-	if(myTextBrowser) {
+    if(myTextBrowser) {
 
-		message = message.replace("<","&lt;");
-		message = message.replace(">","&gt;");
+        message = message.replace("<","&lt;");
+        message = message.replace(">","&gt;");
 
-		//refresh myNick if it was changed during runtime
-		myNick = QString::fromUtf8(myConfig->readConfigString("MyName").c_str());
-		
-		QString tempMsg;
-		
-		if(message.contains(myNick, Qt::CaseInsensitive)) {
+        //refresh myNick if it was changed during runtime
+        myNick = QString::fromUtf8(myConfig->readConfigString("MyName").c_str());
 
-			switch (myChatType) {
-				case INET_LOBBY_CHAT: { 
-						tempMsg = QString("<span style=\"font-weight:bold;\">"+message+"</span>");
-						//play beep sound only in INET-lobby-chat
-//						TODO dont play when message is from yourself
-						if(myLobby->isVisible() && myConfig->readConfigInt("PlayLobbyChatNotification")) {
-							myLobby->getMyW()->getMySDLPlayer()->playSound("lobbychatnotify",0);
-						}
-				}
-				break;
-				case LAN_LOBBY_CHAT: tempMsg = QString("<span style=\"font-weight:bold;\">"+message+"</span>");
-				break;
-				case INGAME_CHAT: tempMsg = QString("<span style=\"color:#"+myStyle->getChatTextNickNotifyColor()+";\">"+message+"</span>");
-				break;
-				default: tempMsg = message;
-			}
-		}
-		else {
-			switch (myChatType) {
-				case INET_LOBBY_CHAT: tempMsg = QString("<span style=\"font-weight:normal;\">"+message+"</span>");
-				break;
-				case LAN_LOBBY_CHAT: tempMsg = QString("<span style=\"font-weight:normal;\">"+message+"</span>");
-				break;
-				case INGAME_CHAT: tempMsg = QString("<span style=\"color:#"+myStyle->getChatLogTextColor()+";\">"+message+"</span>");
-				break;
-				default: tempMsg = message;
-			}
-			
-		}
-		myTextBrowser->append(playerName + ": " + tempMsg); 
-	}
+        QString tempMsg;
+
+        if(message.contains(myNick, Qt::CaseInsensitive)) {
+
+            switch (myChatType) {
+            case INET_LOBBY_CHAT: {
+                    tempMsg = QString("<span style=\"font-weight:bold;\">"+message+"</span>");
+                    //play beep sound only in INET-lobby-chat
+                    //						TODO dont play when message is from yourself
+                    if(myLobby->isVisible() && myConfig->readConfigInt("PlayLobbyChatNotification")) {
+                        myLobby->getMyW()->getMySDLPlayer()->playSound("lobbychatnotify",0);
+                    }
+                }
+                break;
+            case LAN_LOBBY_CHAT: tempMsg = QString("<span style=\"font-weight:bold;\">"+message+"</span>");
+                break;
+            case INGAME_CHAT: tempMsg = QString("<span style=\"color:#"+myStyle->getChatTextNickNotifyColor()+";\">"+message+"</span>");
+                break;
+            default: tempMsg = message;
+            }
+        }
+        else {
+            switch (myChatType) {
+            case INET_LOBBY_CHAT: tempMsg = QString("<span style=\"font-weight:normal;\">"+message+"</span>");
+                break;
+            case LAN_LOBBY_CHAT: tempMsg = QString("<span style=\"font-weight:normal;\">"+message+"</span>");
+                break;
+            case INGAME_CHAT: tempMsg = QString("<span style=\"color:#"+myStyle->getChatLogTextColor()+";\">"+message+"</span>");
+                break;
+            default: tempMsg = message;
+            }
+
+        }
+
+
+        myTextBrowser->append(playerName + ": " + tempMsg);
+    }
 }
 
 void ChatTools::clearChat() {
 
-	if(myTextBrowser)
-		myTextBrowser->clear();
+    if(myTextBrowser)
+        myTextBrowser->clear();
 }
 
 void ChatTools::checkInputLength(QString string) {
 
-	 if(string.toUtf8().length() > 120) myLineEdit->setMaxLength(string.length());  
+    if(string.toUtf8().length() > 120) myLineEdit->setMaxLength(string.length());
 }
 
 void ChatTools::fillChatLinesHistory(QString fillString) {
 
-	chatLinesHistory << fillString;
-	if(chatLinesHistory.size() > 50) chatLinesHistory.removeFirst();
+    chatLinesHistory << fillString;
+    if(chatLinesHistory.size() > 50) chatLinesHistory.removeFirst();
 
 
 }
 
 void ChatTools::showChatHistoryIndex(int index) { 
 
-	if(index <= chatLinesHistory.size()) {
+    if(index <= chatLinesHistory.size()) {
 
-// 		cout << chatLinesHistory.size() << " : " <<  index << endl;
-		if(index > 0)
-			myLineEdit->setText(chatLinesHistory.at(chatLinesHistory.size()-(index)));  
-		else
-			myLineEdit->setText("");
-	}
+        // 		cout << chatLinesHistory.size() << " : " <<  index << endl;
+        if(index > 0)
+            myLineEdit->setText(chatLinesHistory.at(chatLinesHistory.size()-(index)));
+        else
+            myLineEdit->setText("");
+    }
 }
 
 void ChatTools::nickAutoCompletition() {
 
-	QString myChatString = myLineEdit->text();
-	QStringList myChatStringList = myChatString.split(" ");
+    QString myChatString = myLineEdit->text();
+    QStringList myChatStringList = myChatString.split(" ");
 
-	QStringList matchStringList;
+    QStringList matchStringList;
 
-	if(nickAutoCompletitionCounter == 0) {
+    if(nickAutoCompletitionCounter == 0) {
 
-		if(myNickTreeWidget) {
-			QTreeWidgetItemIterator it(myNickTreeWidget);
-			while (*it) {
-				if ((*it)->text(0).startsWith(myChatStringList.last(), Qt::CaseInsensitive) && myChatStringList.last() != "")
-				matchStringList << (*it)->text(0);
-				++it;
-			}
-		}
+        if(myNickTreeWidget) {
+            QTreeWidgetItemIterator it(myNickTreeWidget);
+            while (*it) {
+                if ((*it)->text(0).startsWith(myChatStringList.last(), Qt::CaseInsensitive) && myChatStringList.last() != "")
+                    matchStringList << (*it)->text(0);
+                ++it;
+            }
+        }
 
-		if(!myNickStringList.isEmpty()) {
+        if(!myNickStringList.isEmpty()) {
 
-			QStringListIterator it(myNickStringList);
-     			while (it.hasNext()) {
-				QString next = it.next();
-          			if (next.startsWith(myChatStringList.last(), Qt::CaseInsensitive) && myChatStringList.last() != "")
-					matchStringList << next;
-			}
-		}
-	}
+            QStringListIterator it(myNickStringList);
+            while (it.hasNext()) {
+                QString next = it.next();
+                if (next.startsWith(myChatStringList.last(), Qt::CaseInsensitive) && myChatStringList.last() != "")
+                    matchStringList << next;
+            }
+        }
+    }
 
-	if(!matchStringList.isEmpty() || nickAutoCompletitionCounter > 0) {
-		
-		myChatStringList.removeLast();
+    if(!matchStringList.isEmpty() || nickAutoCompletitionCounter > 0) {
 
-// 		cout << nickAutoCompletitionCounter << endl;
+        myChatStringList.removeLast();
 
-		if(nickAutoCompletitionCounter == 0) {
-		//first one
-			lastChatString = myChatStringList.join(" ");
-			lastMatchStringList = matchStringList;
-		}
+        // 		cout << nickAutoCompletitionCounter << endl;
 
-		if(nickAutoCompletitionCounter == lastMatchStringList.size()) nickAutoCompletitionCounter = 0;
+        if(nickAutoCompletitionCounter == 0) {
+            //first one
+            lastChatString = myChatStringList.join(" ");
+            lastMatchStringList = matchStringList;
+        }
 
-// 		cout << nickAutoCompletitionCounter << "\n";
-			
-		if(lastChatString == "")	
-			myLineEdit->setText(lastMatchStringList.at(nickAutoCompletitionCounter)+": ");
-		else 
-			myLineEdit->setText(lastChatString+" "+lastMatchStringList.at(nickAutoCompletitionCounter)+" ");
-		
-		nickAutoCompletitionCounter++;	
-	}
+        if(nickAutoCompletitionCounter == lastMatchStringList.size()) nickAutoCompletitionCounter = 0;
+
+        // 		cout << nickAutoCompletitionCounter << "\n";
+
+        if(lastChatString == "")
+            myLineEdit->setText(lastMatchStringList.at(nickAutoCompletitionCounter)+": ");
+        else
+            myLineEdit->setText(lastChatString+" "+lastMatchStringList.at(nickAutoCompletitionCounter)+" ");
+
+        nickAutoCompletitionCounter++;
+    }
 }
 
 void ChatTools::setChatTextEdited() {
 
-	nickAutoCompletitionCounter = 0;
+    nickAutoCompletitionCounter = 0;
+}
+
+void ChatTools::refreshIgnoreList()
+{
+
+
 }

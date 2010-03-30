@@ -162,8 +162,8 @@ startWindowImpl::startWindowImpl(ConfigFile *c)
     connect(this, SIGNAL(signalNetClientGameStart(boost::shared_ptr<Game>)), this, SLOT(networkStart(boost::shared_ptr<Game>)));
 
     connect(this, SIGNAL(signalSelfGameInvitation(unsigned, unsigned)), myGameLobbyDialog, SLOT(showInvitationDialog(unsigned, unsigned)));
-    connect(this, SIGNAL(signalPlayerGameInvitation(unsigned, unsigned, unsigned)), myGameLobbyDialog, SLOT(chatInfoPlayerInviation(unsigned, unsigned, unsigned)));
-    connect(this, SIGNAL(signalRejectedGameInvitation(unsigned, unsigned, DenyGameInvitationReason)), myGameLobbyDialog, SLOT(chatInfoPlayerRejectedInviation(unsigned, unsigned, DenyGameInvitationReason)));
+    connect(this, SIGNAL(signalPlayerGameInvitation(unsigned, unsigned, unsigned)), myGameLobbyDialog, SLOT(chatInfoPlayerInvitation(unsigned, unsigned, unsigned)));
+    connect(this, SIGNAL(signalRejectedGameInvitation(unsigned, unsigned, DenyGameInvitationReason)), myGameLobbyDialog, SLOT(chatInfoPlayerRejectedInvitation(unsigned, unsigned, DenyGameInvitationReason)));
 
     this->show();
 

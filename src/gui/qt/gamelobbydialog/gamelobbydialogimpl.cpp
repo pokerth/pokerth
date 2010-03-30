@@ -21,6 +21,8 @@
 #include <net/socket_msg.h>
 #include "mymessagedialogimpl.h"
 
+using namespace std;
+
 gameLobbyDialogImpl::gameLobbyDialogImpl(startWindowImpl *parent, ConfigFile *c)
     : QDialog(parent), myW(NULL), myStartWindow(parent), myConfig(c), currentGameName(""), myPlayerId(0), myCurrentGameId(0), isGameAdministrator(false), inGame(false), guestMode(false), blinkingButtonAnimationState(true), myChat(NULL), keyUpCounter(0), infoMsgToShowId(0), currentInvitationGameId(0), inviteDialogIsCurrentlyShown(false)
 {
@@ -86,6 +88,8 @@ gameLobbyDialogImpl::gameLobbyDialogImpl(startWindowImpl *parent, ConfigFile *c)
     nickListContextMenu = new QMenu();
     nickListInviteAction = new QAction(QIcon(":/gfx/list_add_user.png"), tr("Invite player"), nickListContextMenu);
     nickListContextMenu->addAction(nickListInviteAction);
+    nickListIgnorePlayerAction = new QAction(QIcon(":/gfx/im-ban-user.png"), tr("Ignore player"), nickListContextMenu);
+    nickListContextMenu->addAction(nickListIgnorePlayerAction);
 
     connect( pushButton_CreateGame, SIGNAL( clicked() ), this, SLOT( createGame() ) );
     connect( pushButton_JoinGame, SIGNAL( clicked() ), this, SLOT( joinGame() ) );
@@ -106,6 +110,7 @@ gameLobbyDialogImpl::gameLobbyDialogImpl(startWindowImpl *parent, ConfigFile *c)
     connect( comboBox_gameListFilter, SIGNAL(currentIndexChanged(int)), this, SLOT(changeGameListFilter(int)));
     connect( treeWidget_NickList, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT( showNickListContextMenu(QPoint) ) );
     connect( nickListInviteAction, SIGNAL(triggered()), this, SLOT( invitePlayerToCurrentGame() ));
+    connect( nickListIgnorePlayerAction, SIGNAL(triggered()), this, SLOT( putPlayerOnIgnoreList() ));
 
     lineEdit_ChatInput->installEventFilter(this);
 
@@ -1317,8 +1322,17 @@ void gameLobbyDialogImpl::showNickListContextMenu(QPoint p)
         assert(mySession);
 
         if(inGame && mySession->getClientGameInfo(mySession->getClientCurrentGameId()).data.gameType == GAME_TYPE_INVITE_ONLY && treeWidget_NickList->selectedItems().at(0)->data(0, Qt::UserRole).toUInt() != mySession->getClientUniquePlayerId()) {
-            nickListContextMenu->popup(treeWidget_NickList->mapToGlobal(p));
+
+            nickListInviteAction->setEnabled(true);
+            nickListInviteAction->setText(tr("Invite player %1").arg(QString::fromUtf8(mySession->getClientPlayerInfo(treeWidget_NickList->selectedItems().at(0)->data(0, Qt::UserRole).toUInt()).playerName.c_str())));
+
         }
+        else {
+            nickListInviteAction->setText(tr("Invite player ..."));
+            nickListInviteAction->setEnabled(true);
+        }
+
+        nickListContextMenu->popup(treeWidget_NickList->mapToGlobal(p));
     }
 }
 
@@ -1365,13 +1379,14 @@ void gameLobbyDialogImpl::showInvitationDialog(unsigned gameId, unsigned playerI
 }
 
 
-void gameLobbyDialogImpl::chatInfoPlayerInviation(unsigned gameId, unsigned playerIdWho, unsigned playerIdFrom)
+void gameLobbyDialogImpl::chatInfoPlayerInvitation(unsigned gameId, unsigned playerIdWho, unsigned playerIdFrom)
 {
     textBrowser_ChatDisplay->append(tr("<span style='color:blue;'>Player %1 has been invited to %2 by %3.</span>").arg(QString::fromUtf8(mySession->getClientPlayerInfo(playerIdWho).playerName.c_str())).arg(QString::fromUtf8(mySession->getClientGameInfo(gameId).name.c_str())).arg(QString::fromUtf8(mySession->getClientPlayerInfo(playerIdFrom).playerName.c_str())));
 }
 
-void gameLobbyDialogImpl::chatInfoPlayerRejectedInviation(unsigned gameId, unsigned playerIdWho, DenyGameInvitationReason reason)
+void gameLobbyDialogImpl::chatInfoPlayerRejectedInvitation(unsigned gameId, unsigned playerIdWho, DenyGameInvitationReason reason)
 {
+
     QString string;
     if(reason == DENY_GAME_INVITATION_NO) string = tr("<span style='color:red;'>Player %1 has rejected intivation to %2.</span>");
 
@@ -1380,3 +1395,34 @@ void gameLobbyDialogImpl::chatInfoPlayerRejectedInviation(unsigned gameId, unsig
     textBrowser_ChatDisplay->append(string.arg(QString::fromUtf8(mySession->getClientPlayerInfo(playerIdWho).playerName.c_str())).arg(QString::fromUtf8(mySession->getClientGameInfo(gameId).name.c_str())));
 
 }
+
+bool gameLobbyDialogImpl::playerIsOnIgnoreList(unsigned playerId) {
+
+    list<std::string> playerIgnoreList = myConfig->readConfigStringList("PlayerIgnoreList");
+    list<std::string>::iterator it1;
+    for(it1= playerIgnoreList.begin(); it1 != playerIgnoreList.end(); it1++) {
+
+        QString tmpString = QString::fromUtf8(it1->c_str());
+        if(QString("%1").arg(playerId) ==  tmpString.split(",").at(0)) {
+
+            return true;
+        }
+    }
+
+    return false;
+}
+
+
+void gameLobbyDialogImpl::putPlayerOnIgnoreList(unsigned playerId) {
+
+    if(!playerIsOnIgnoreList(playerId)) {
+
+        list<std::string> playerIgnoreList = myConfig->readConfigStringList("PlayerIgnoreList");
+        playerIgnoreList.push_back(QString("%1,%2").arg(playerId).arg(QString::fromUtf8(mySession->getClientPlayerInfo(playerId).playerName.c_str())).toUtf8().constData());
+        myConfig->writeConfigStringList("PlayerIgnoreList", playerIgnoreList);
+        myConfig->writeBuffer();
+
+        myChat->refreshIgnoreList();
+    }
+}
+

@@ -106,8 +106,10 @@ public slots:
     void invitePlayerToCurrentGame();
     void showInfoMsgBox();
     void showInvitationDialog(unsigned gameId, unsigned playerIdFrom);
-    void chatInfoPlayerInviation(unsigned gameId, unsigned playerIdWho, unsigned playerIdFrom);
-    void chatInfoPlayerRejectedInviation(unsigned gameId, unsigned playerIdWho, DenyGameInvitationReason reason);
+    void chatInfoPlayerInvitation(unsigned gameId, unsigned playerIdWho, unsigned playerIdFrom);
+    void chatInfoPlayerRejectedInvitation(unsigned gameId, unsigned playerIdWho, DenyGameInvitationReason reason);
+    void putPlayerOnIgnoreList(unsigned playerid);
+    bool playerIsOnIgnoreList(unsigned playerid);
 
 private:
 
@@ -140,7 +142,7 @@ private:
     MyGameListSortFilterProxyModel *myGameListSortFilterProxyModel;
     QMenu *nickListContextMenu;
     QAction *nickListInviteAction;
-    QAction *ignorePlayerAction;
+    QAction *nickListIgnorePlayerAction;
     int infoMsgToShowId;
     int currentInvitationGameId;
     bool inviteDialogIsCurrentlyShown;

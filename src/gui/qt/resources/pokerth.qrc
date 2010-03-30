@@ -44,6 +44,7 @@
         <file>ktip.png</file>
         <file>system_help_64.png</file>
         <file>list_add_user_64.png</file>
+        <file>im-ban-user.png</file>
     </qresource>
     <qresource prefix="/cflags">
         <file>cflags/ad.png</file>
