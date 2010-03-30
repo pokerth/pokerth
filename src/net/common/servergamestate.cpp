@@ -462,6 +462,23 @@ ServerGameStateInit::InternalProcessPacket(boost::shared_ptr<ServerGame> server,
 			server->SetState(ServerGameStateStartGame::Instance());
 		}
 	}
+	else if (packet->GetMsg()->present == PokerTHMessage_PR_invitePlayerToGameMessage)
+	{
+		InvitePlayerToGameMessage_t *netInvite = &packet->GetMsg()->choice.invitePlayerToGameMessage;
+
+		if (netInvite->gameId == server->GetId())
+		{
+			boost::shared_ptr<NetPacket> packet(new NetPacket(NetPacket::Alloc));
+			packet->GetMsg()->present = PokerTHMessage_PR_inviteNotifyMessage;
+			InviteNotifyMessage_t *netInvNotif = &packet->GetMsg()->choice.inviteNotifyMessage;
+			netInvNotif->gameId = netInvite->gameId;
+			netInvNotif->playerIdByWhom = session.playerData->GetUniqueId();
+			netInvNotif->playerIdWho = netInvite->playerId;
+
+			server->GetLobbyThread().SendToLobbyPlayer(netInvite->playerId, packet);
+			server->SendToAllPlayers(packet, SessionData::Game);
+		}
+	}
 	else if (packet->GetMsg()->present == PokerTHMessage_PR_resetTimeoutMessage)
 	{
 		if (session.playerData->IsGameAdmin())

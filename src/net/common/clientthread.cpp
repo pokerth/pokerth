@@ -313,13 +313,23 @@ ClientThread::SendVoteKick(bool doKick)
 void
 ClientThread::SendInvitePlayerToCurrentGame(unsigned playerId)
 {
-	// TODO
+	boost::shared_ptr<NetPacket> packet(new NetPacket(NetPacket::Alloc));
+	packet->GetMsg()->present = PokerTHMessage_PR_invitePlayerToGameMessage;
+	InvitePlayerToGameMessage_t *netInvite = &packet->GetMsg()->choice.invitePlayerToGameMessage;
+	netInvite->gameId = GetGameId();
+	netInvite->playerId = playerId;
+	m_ioService->post(boost::bind(&ClientThread::SendSessionPacket, shared_from_this(), packet));
 }
 
 void
 ClientThread::SendRejectGameInvitation(unsigned gameId, DenyGameInvitationReason reason)
 {
-	// TODO
+	boost::shared_ptr<NetPacket> packet(new NetPacket(NetPacket::Alloc));
+	packet->GetMsg()->present = PokerTHMessage_PR_rejectGameInvitationMessage;
+	RejectGameInvitationMessage_t *netReject = &packet->GetMsg()->choice.rejectGameInvitationMessage;
+	netReject->gameId = GetGameId();
+	netReject->myRejectReason = static_cast<RejectGameInvReason_t>(reason);
+	m_ioService->post(boost::bind(&ClientThread::SendSessionPacket, shared_from_this(), packet));
 }
 
 void

@@ -564,6 +564,14 @@ ServerLobbyThread::RemoveComputerPlayer(boost::shared_ptr<PlayerData> player)
 	m_computerPlayers.erase(player->GetUniqueId());
 }
 
+void
+ServerLobbyThread::SendToLobbyPlayer(unsigned playerId, boost::shared_ptr<NetPacket> packet)
+{
+	SessionWrapper tmpSession = m_sessionManager.GetSessionByUniquePlayerId(playerId);
+	if (tmpSession.sessionData)
+		GetSender().Send(tmpSession.sessionData, packet);
+}
+
 AvatarManager &
 ServerLobbyThread::GetAvatarManager()
 {
@@ -1797,6 +1805,9 @@ ServerLobbyThread::SendJoinGameFailed(boost::shared_ptr<SessionData> s, int reas
 			break;
 		case NTF_NET_JOIN_GUEST_FORBIDDEN :
 			joinFailed->joinGameFailureReason = joinGameFailureReason_notAllowedAsGuest;
+			break;
+		case NTF_NET_JOIN_NOT_INVITED :
+			joinFailed->joinGameFailureReason = joinGameFailureReason_notInvited;
 			break;
 		default :
 			joinFailed->joinGameFailureReason = joinGameFailureReason_invalidGame;

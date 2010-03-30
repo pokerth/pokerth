@@ -1390,12 +1390,23 @@ ClientStateWaitJoin::InternalHandlePacket(boost::shared_ptr<ClientThread> client
 				case joinGameFailureReason_notAllowedAsGuest :
 					failureCode = NTF_NET_JOIN_GUEST_FORBIDDEN;
 					break;
+				case joinGameFailureReason_notInvited :
+					failureCode = NTF_NET_JOIN_NOT_INVITED;
+					break;
 				default :
 					failureCode = NTF_NET_INTERNAL;
 					break;
 			}
 
 			client->GetCallback().SignalNetClientNotification(failureCode);
+		}
+	}
+	else if (tmpPacket->GetMsg()->present == PokerTHMessage_PR_inviteNotifyMessage)
+	{
+		InviteNotifyMessage_t *netInvNotify = &tmpPacket->GetMsg()->choice.inviteNotifyMessage;
+		if (netInvNotify->playerIdWho == client->GetGuiPlayerId())
+		{
+			client->GetCallback().SignalSelfGameInvitation(netInvNotify->gameId, netInvNotify->playerIdByWhom);
 		}
 	}
 }
