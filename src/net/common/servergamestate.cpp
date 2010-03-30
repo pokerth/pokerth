@@ -467,7 +467,8 @@ ServerGameStateInit::InternalProcessPacket(boost::shared_ptr<ServerGame> server,
 	{
 		InvitePlayerToGameMessage_t *netInvite = &packet->GetMsg()->choice.invitePlayerToGameMessage;
 
-		if (netInvite->gameId == server->GetId())
+		// Only invite players which are not already within the group.
+		if (netInvite->gameId == server->GetId() && !server->IsPlayerConnected(netInvite->playerId))
 		{
 			boost::shared_ptr<NetPacket> packet(new NetPacket(NetPacket::Alloc));
 			packet->GetMsg()->present = PokerTHMessage_PR_inviteNotifyMessage;

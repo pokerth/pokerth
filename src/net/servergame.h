@@ -72,6 +72,7 @@ public:
 	boost::shared_ptr<PlayerData> GetPlayerDataByUniqueId(unsigned playerId) const;
 	PlayerIdList GetPlayerIdList() const;
 	bool IsPlayerConnected(const std::string &name) const;
+	bool IsPlayerConnected(unsigned playerId) const;
 
 	bool IsRunning() const;
 

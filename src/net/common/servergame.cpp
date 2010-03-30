@@ -465,6 +465,12 @@ ServerGame::IsPlayerConnected(const std::string &name) const
 }
 
 bool
+ServerGame::IsPlayerConnected(unsigned playerId) const
+{
+	return GetSessionManager().IsPlayerConnected(playerId);
+}
+
+bool
 ServerGame::IsRunning() const
 {
 	return m_game.get() != NULL;
@@ -487,6 +493,8 @@ ServerGame::AddPlayerInvitation(unsigned playerId)
 {
 	boost::mutex::scoped_lock lock(m_playerInvitationListMutex);
 	m_playerInvitationList.push_back(playerId);
+	m_playerInvitationList.sort();
+	m_playerInvitationList.unique();
 }
 
 void
