@@ -78,6 +78,10 @@ public:
 	unsigned GetAdminPlayerId() const;
 	void SetAdminPlayerId(unsigned playerId);
 
+	void AddPlayerInvitation(unsigned playerId);
+	void RemovePlayerInvitation(unsigned playerId);
+	bool IsPlayerInvited(unsigned playerId) const;
+
 	// should be protected, but is needed in function.
 	const Game &GetGame() const;
 	Game &GetGame();
@@ -140,6 +144,9 @@ private:
 	SessionManager m_sessionManager;
 	PlayerDataList m_computerPlayerList;
 	mutable boost::mutex m_computerPlayerListMutex;
+
+	PlayerIdList m_playerInvitationList;
+	mutable boost::mutex m_playerInvitationListMutex;
 
 	unsigned m_adminPlayerId;
 

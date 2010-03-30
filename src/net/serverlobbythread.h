@@ -140,6 +140,7 @@ protected:
 	void HandleNetPacketCreateGame(SessionWrapper session, const std::string &password, const JoinNewGame_t &newGame);
 	void HandleNetPacketJoinGame(SessionWrapper session, const std::string &password, const JoinExistingGame_t &joinGame);
 	void HandleNetPacketChatRequest(SessionWrapper session, const ChatRequestMessage_t &chatRequest);
+	void HandleNetPacketRejectGameInvitation(SessionWrapper session, const RejectGameInvitationMessage_t &reject);
 	void AuthChallenge(SessionWrapper session, const std::string &secret);
 	void InitAfterLogin(SessionWrapper session);
 	void EstablishSession(SessionWrapper session);

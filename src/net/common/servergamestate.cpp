@@ -316,12 +316,13 @@ ServerGameStateInit::NotifyGameAdminChanged(boost::shared_ptr<ServerGame> server
 void
 ServerGameStateInit::HandleNewSession(boost::shared_ptr<ServerGame> server, SessionWrapper session)
 {
-	if (session.sessionData.get() && session.playerData.get())
+	if (session.sessionData && session.playerData)
 	{
 		size_t curNumPlayers = server->GetCurNumberOfPlayers();
 
+		const GameData &tmpGameData = server->GetGameData();
 		// Check the number of players.
-		if (curNumPlayers >= (size_t)server->GetGameData().maxNumberOfPlayers)
+		if (curNumPlayers >= (size_t)tmpGameData.maxNumberOfPlayers)
 		{
 			server->MoveSessionToLobby(session, NTF_NET_REMOVED_GAME_FULL);
 		}
@@ -477,7 +478,12 @@ ServerGameStateInit::InternalProcessPacket(boost::shared_ptr<ServerGame> server,
 
 			bool requestSent = server->GetLobbyThread().SendToLobbyPlayer(netInvite->playerId, packet);
 			server->SendToAllPlayers(packet, SessionData::Game);
-			if (!requestSent)
+			if (requestSent)
+			{
+				// This player has been invited.
+				server->AddPlayerInvitation(netInvite->playerId);
+			}
+			else
 			{
 				// Player is not in lobby - send reject message.
 				boost::shared_ptr<NetPacket> p2(new NetPacket(NetPacket::Alloc));

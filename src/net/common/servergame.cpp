@@ -483,6 +483,31 @@ ServerGame::SetAdminPlayerId(unsigned playerId)
 }
 
 void
+ServerGame::AddPlayerInvitation(unsigned playerId)
+{
+	boost::mutex::scoped_lock lock(m_playerInvitationListMutex);
+	m_playerInvitationList.push_back(playerId);
+}
+
+void
+ServerGame::RemovePlayerInvitation(unsigned playerId)
+{
+	boost::mutex::scoped_lock lock(m_playerInvitationListMutex);
+	m_playerInvitationList.remove(playerId);
+}
+
+bool
+ServerGame::IsPlayerInvited(unsigned playerId) const
+{
+	bool retVal = false;
+	boost::mutex::scoped_lock lock(m_playerInvitationListMutex);
+	PlayerIdList::const_iterator pos = find(m_playerInvitationList.begin(), m_playerInvitationList.end(), playerId);
+	if (pos != m_playerInvitationList.end())
+		retVal = true;
+	return retVal;
+}
+
+void
 ServerGame::AddComputerPlayer(boost::shared_ptr<PlayerData> player)
 {
 	{

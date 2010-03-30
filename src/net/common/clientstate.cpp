@@ -1160,7 +1160,7 @@ ClientStateWaitAuthChallenge::~ClientStateWaitAuthChallenge()
 }
 
 void
-ClientStateWaitAuthChallenge::Enter(boost::shared_ptr<ClientThread> client)
+ClientStateWaitAuthChallenge::Enter(boost::shared_ptr<ClientThread> /*client*/)
 {
 }
 

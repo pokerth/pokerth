@@ -933,6 +933,8 @@ ServerLobbyThread::HandlePacket(SessionWrapper session, boost::shared_ptr<NetPac
 			}
 			else if (packet->GetMsg()->present == PokerTHMessage_PR_chatRequestMessage)
 				HandleNetPacketChatRequest(session, packet->GetMsg()->choice.chatRequestMessage);
+			else if (packet->GetMsg()->present == PokerTHMessage_PR_rejectGameInvitationMessage)
+				HandleNetPacketRejectGameInvitation(session, packet->GetMsg()->choice.rejectGameInvitationMessage);
 			else
 				SessionError(session, ERR_SOCK_INVALID_STATE);
 		}
@@ -1318,6 +1320,12 @@ ServerLobbyThread::HandleNetPacketJoinGame(SessionWrapper session, const std::st
 			SendJoinGameFailed(session.sessionData, NTF_NET_JOIN_GUEST_FORBIDDEN);
 			joinGame = false;
 		}
+		else if (tmpData.gameType == GAME_TYPE_INVITE_ONLY
+			&& !game.IsPlayerInvited(session.playerData->GetUniqueId()))
+		{
+			SendJoinGameFailed(session.sessionData, NTF_NET_JOIN_NOT_INVITED);
+			joinGame = false;
+		}
 		else if (!game.CheckPassword(password))
 		{
 			SendJoinGameFailed(session.sessionData, NTF_NET_JOIN_INVALID_PASSWORD);
@@ -1328,8 +1336,7 @@ ServerLobbyThread::HandleNetPacketJoinGame(SessionWrapper session, const std::st
 	}
 	else
 	{
-		// TODO do not remove session
-		SessionError(session, ERR_NET_UNKNOWN_GAME);
+		SendJoinGameFailed(session.sessionData, NTF_NET_JOIN_GAME_INVALID);
 	}
 }
 
@@ -1363,6 +1370,28 @@ ServerLobbyThread::HandleNetPacketChatRequest(SessionWrapper session, const Chat
 			session.playerData->GetUniqueId(),
 			session.playerData->GetName(), 
 			chatMsg);
+	}
+}
+
+void
+ServerLobbyThread::HandleNetPacketRejectGameInvitation(SessionWrapper session, const RejectGameInvitationMessage_t &reject)
+{
+	GameMap::iterator pos = m_gameMap.find(reject.gameId);
+
+	if (pos != m_gameMap.end() && session.playerData)
+	{
+		ServerGame &game = *pos->second;
+		if (game.IsPlayerInvited(session.playerData->GetUniqueId()))
+		{
+			boost::shared_ptr<NetPacket> packet(new NetPacket(NetPacket::Alloc));
+			packet->GetMsg()->present = PokerTHMessage_PR_rejectInvNotifyMessage;
+			RejectInvNotifyMessage_t *netReject = &packet->GetMsg()->choice.rejectInvNotifyMessage;
+			netReject->gameId = reject.gameId;
+			netReject->playerId = session.playerData->GetUniqueId();
+			netReject->playerRejectReason = reject.myRejectReason;
+
+			game.SendToAllPlayers(packet, SessionData::Game);
+		}
 	}
 }
 
