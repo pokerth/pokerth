@@ -33,10 +33,10 @@ myMessageDialogImpl::myMessageDialogImpl(ConfigFile *c, QWidget *parent)
     : QDialog(parent), myConfig(c), currentMsgId(0)
 {
 #ifdef __APPLE__
-	setWindowModality(Qt::ApplicationModal);
-	setWindowFlags(Qt::WindowSystemMenuHint | Qt::CustomizeWindowHint | Qt::Dialog);
+    setWindowModality(Qt::ApplicationModal);
+    setWindowFlags(Qt::WindowSystemMenuHint | Qt::CustomizeWindowHint | Qt::Dialog);
 #endif	
-	setupUi(this);	
+    setupUi(this);
 }
 
 int myMessageDialogImpl::exec(int messageId, QString msg, QString title, QPixmap pix, QDialogButtonBox::StandardButtons buttons, bool showCheckBox)

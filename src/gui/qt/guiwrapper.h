@@ -34,139 +34,139 @@ class ConfigFile;
 class GuiWrapper : public GuiInterface
 {
 public:
-	GuiWrapper(ConfigFile*, startWindowImpl*);
+    GuiWrapper(ConfigFile*, startWindowImpl*);
 
-	~GuiWrapper();
+    ~GuiWrapper();
 
-	void initGui(int speed);
+    void initGui(int speed);
 
-	boost::shared_ptr<Session> getSession();
-	void setSession(boost::shared_ptr<Session> session);
+    boost::shared_ptr<Session> getSession();
+    void setSession(boost::shared_ptr<Session> session);
 
-	gameTableImpl* getMyW() const {	return myW; }
-	
-	void refreshSet() const;
-	void refreshCash() const;
-	void refreshAction(int =-1, int =-1) const;
-	void refreshChangePlayer() const;
-	void refreshPot() const;
-	void refreshGroupbox(int =-1, int =-1) const;
-	void refreshAll() const;
-	void refreshPlayerName() const;
-	void refreshButton() const;
-	void refreshGameLabels(GameState state) const;
+    gameTableImpl* getMyW() const {	return myW; }
 
-	void setPlayerAvatar(int myUniqueID, const std::string &myAvatar) const;
+    void refreshSet() const;
+    void refreshCash() const;
+    void refreshAction(int =-1, int =-1) const;
+    void refreshChangePlayer() const;
+    void refreshPot() const;
+    void refreshGroupbox(int =-1, int =-1) const;
+    void refreshAll() const;
+    void refreshPlayerName() const;
+    void refreshButton() const;
+    void refreshGameLabels(GameState state) const;
 
-	void waitForGuiUpdateDone() const;
+    void setPlayerAvatar(int myUniqueID, const std::string &myAvatar) const;
 
-	void dealBeRoCards(int myBeRoID);
-	void dealHoleCards();
-	void dealFlopCards();
-	void dealTurnCard();
-	void dealRiverCard();
+    void waitForGuiUpdateDone() const;
 
-	void nextPlayerAnimation();
+    void dealBeRoCards(int myBeRoID);
+    void dealHoleCards();
+    void dealFlopCards();
+    void dealTurnCard();
+    void dealRiverCard();
 
-	void beRoAnimation2(int);
-	
-	void preflopAnimation1();
-	void preflopAnimation2();
-	
-	void flopAnimation1();
-	void flopAnimation2();
+    void nextPlayerAnimation();
 
-	void turnAnimation1();
-	void turnAnimation2();
+    void beRoAnimation2(int);
 
-	void riverAnimation1();
-	void riverAnimation2();
+    void preflopAnimation1();
+    void preflopAnimation2();
 
-	void postRiverAnimation1();
-	void postRiverRunAnimation1();
+    void flopAnimation1();
+    void flopAnimation2();
 
-	void flipHolecardsAllIn();
+    void turnAnimation1();
+    void turnAnimation2();
 
-	void nextRoundCleanGui();
+    void riverAnimation1();
+    void riverAnimation2();
 
-	void meInAction();
-	void disableMyButtons();
-	void updateMyButtonsState();
-	void startTimeoutAnimation(int playerNum, int timeoutSec);
-	void stopTimeoutAnimation(int playerNum);
+    void postRiverAnimation1();
+    void postRiverRunAnimation1();
 
-	void startVoteOnKick(unsigned playerId, unsigned voteStarterPlayerId, int timeoutSec, int numVotesNeededToKick);
-	void changeVoteOnKickButtonsState(bool showHide);
-	void refreshVotesMonitor(int currentVotes, int numVotesNeededToKick);
-	void endVoteOnKick();
+    void flipHolecardsAllIn();
 
-	void logPlayerActionMsg(std::string playerName, int action, int setValue) ;
-	void logNewGameHandMsg(int gameID, int handID) ;
-	void logNewBlindsSetsMsg(int sbSet, int bbSet, std::string sbName, std::string bbName);
-	void logPlayerWinsMsg(std::string playerName, int pot, bool main);
-	void logPlayerSitsOut(std::string playerName);
-	void logDealBoardCardsMsg(int roundID, int card1, int card2, int card3, int card4 = -1, int card5 = -1);
-	void logFlipHoleCardsMsg(std::string playerName, int card1, int card2, int cardsValueInt = -1, std::string showHas = "shows");
-	void logPlayerWinGame(std::string playerName, int gameID);
-	void flushLogAtGame(int gameID);
-	void flushLogAtHand();
+    void nextRoundCleanGui();
 
-	void SignalNetClientConnect(int actionID);
-	void SignalNetClientServerListAdd(unsigned serverId);
-	void SignalNetClientServerListShow();
-	void SignalNetClientServerListClear();
-	void SignalNetClientLoginShow();
-	void SignalNetClientGameInfo(int actionID);
-	void SignalNetClientError(int errorID, int osErrorID);
-	void SignalNetClientNotification(int notificationId);
-	void SignalNetClientStatsUpdate(const ServerStats &stats);
-	void SignalNetClientShowTimeoutDialog(NetTimeoutReason reason, unsigned remainingSec);
-	void SignalNetClientRemovedFromGame(int notificationId);
-        void SignalNetClientSelfJoined(unsigned playerId, const std::string &playerName, bool isGameAdmin);
-        void SignalNetClientPlayerJoined(unsigned playerId, const std::string &playerName, bool isGameAdmin);
-	void SignalNetClientPlayerChanged(unsigned playerId, const std::string &newPlayerName);
-	void SignalNetClientPlayerLeft(unsigned playerId, const std::string &playerName, int removeReason);
-	void SignalNetClientNewGameAdmin(unsigned playerId, const std::string &playerName);
-	void SignalNetClientGameChatMsg(const std::string &playerName, const std::string &msg);
-	void SignalNetClientLobbyChatMsg(const std::string &playerName, const std::string &msg);
-	void SignalNetClientMsgBox(const std::string &msg);
-	void SignalNetClientWaitDialog();
+    void meInAction();
+    void disableMyButtons();
+    void updateMyButtonsState();
+    void startTimeoutAnimation(int playerNum, int timeoutSec);
+    void stopTimeoutAnimation(int playerNum);
 
-	void SignalNetClientGameListNew(unsigned gameId);
-	void SignalNetClientGameListRemove(unsigned gameId);
-	void SignalNetClientGameListUpdateMode(unsigned gameId, GameMode mode);
-	void SignalNetClientGameListUpdateAdmin(unsigned gameId, unsigned adminPlayerId);
-	void SignalNetClientGameListPlayerJoined(unsigned gameId, unsigned playerId);
-	void SignalNetClientGameListPlayerLeft(unsigned gameId, unsigned playerId);
+    void startVoteOnKick(unsigned playerId, unsigned voteStarterPlayerId, int timeoutSec, int numVotesNeededToKick);
+    void changeVoteOnKickButtonsState(bool showHide);
+    void refreshVotesMonitor(int currentVotes, int numVotesNeededToKick);
+    void endVoteOnKick();
 
-	void SignalNetClientGameStart(boost::shared_ptr<Game> game);
+    void logPlayerActionMsg(std::string playerName, int action, int setValue) ;
+    void logNewGameHandMsg(int gameID, int handID) ;
+    void logNewBlindsSetsMsg(int sbSet, int bbSet, std::string sbName, std::string bbName);
+    void logPlayerWinsMsg(std::string playerName, int pot, bool main);
+    void logPlayerSitsOut(std::string playerName);
+    void logDealBoardCardsMsg(int roundID, int card1, int card2, int card3, int card4 = -1, int card5 = -1);
+    void logFlipHoleCardsMsg(std::string playerName, int card1, int card2, int cardsValueInt = -1, std::string showHas = "shows");
+    void logPlayerWinGame(std::string playerName, int gameID);
+    void flushLogAtGame(int gameID);
+    void flushLogAtHand();
 
-	void SignalNetServerSuccess(int actionID);
-	void SignalNetServerError(int errorID, int osErrorID);
+    void SignalNetClientConnect(int actionID);
+    void SignalNetClientServerListAdd(unsigned serverId);
+    void SignalNetClientServerListShow();
+    void SignalNetClientServerListClear();
+    void SignalNetClientLoginShow();
+    void SignalNetClientGameInfo(int actionID);
+    void SignalNetClientError(int errorID, int osErrorID);
+    void SignalNetClientNotification(int notificationId);
+    void SignalNetClientStatsUpdate(const ServerStats &stats);
+    void SignalNetClientShowTimeoutDialog(NetTimeoutReason reason, unsigned remainingSec);
+    void SignalNetClientRemovedFromGame(int notificationId);
+    void SignalNetClientSelfJoined(unsigned playerId, const std::string &playerName, bool isGameAdmin);
+    void SignalNetClientPlayerJoined(unsigned playerId, const std::string &playerName, bool isGameAdmin);
+    void SignalNetClientPlayerChanged(unsigned playerId, const std::string &newPlayerName);
+    void SignalNetClientPlayerLeft(unsigned playerId, const std::string &playerName, int removeReason);
+    void SignalNetClientNewGameAdmin(unsigned playerId, const std::string &playerName);
+    void SignalNetClientGameChatMsg(const std::string &playerName, const std::string &msg);
+    void SignalNetClientLobbyChatMsg(const std::string &playerName, const std::string &msg);
+    void SignalNetClientMsgBox(const std::string &msg);
+    void SignalNetClientWaitDialog();
 
-	void SignalIrcConnect(const std::string &server);
-	void SignalIrcSelfJoined(const std::string &nickName, const std::string &channel);
-	void SignalIrcPlayerJoined(const std::string &nickName);
-	void SignalIrcPlayerChanged(const std::string &oldNick, const std::string &newNick);
-	void SignalIrcPlayerKicked(const std::string &nickName, const std::string &byWhom, const std::string &reason);
-	void SignalIrcPlayerLeft(const std::string &nickName);
-	void SignalIrcChatMsg(const std::string &nickName, const std::string &msg);
-	void SignalIrcError(int errorCode);
-	void SignalIrcServerError(int errorCode);
-	void SignalLobbyPlayerJoined(unsigned playerId, const std::string &nickName);
-	void SignalLobbyPlayerKicked(const std::string &nickName, const std::string &byWhom, const std::string &reason);
-	void SignalLobbyPlayerLeft(unsigned playerId);
+    void SignalNetClientGameListNew(unsigned gameId);
+    void SignalNetClientGameListRemove(unsigned gameId);
+    void SignalNetClientGameListUpdateMode(unsigned gameId, GameMode mode);
+    void SignalNetClientGameListUpdateAdmin(unsigned gameId, unsigned adminPlayerId);
+    void SignalNetClientGameListPlayerJoined(unsigned gameId, unsigned playerId);
+    void SignalNetClientGameListPlayerLeft(unsigned gameId, unsigned playerId);
 
-        void SignalSelfGameInvitation(unsigned gameId, unsigned playerIdFrom);
-        void SignalPlayerGameInvitation(unsigned gameId, unsigned playerIdWho, unsigned playerIdFrom);
-        void SignalRejectedGameInvitation(unsigned gameId, unsigned playerIdWho, DenyGameInvitationReason reason);
+    void SignalNetClientGameStart(boost::shared_ptr<Game> game);
+
+    void SignalNetServerSuccess(int actionID);
+    void SignalNetServerError(int errorID, int osErrorID);
+
+    void SignalIrcConnect(const std::string &server);
+    void SignalIrcSelfJoined(const std::string &nickName, const std::string &channel);
+    void SignalIrcPlayerJoined(const std::string &nickName);
+    void SignalIrcPlayerChanged(const std::string &oldNick, const std::string &newNick);
+    void SignalIrcPlayerKicked(const std::string &nickName, const std::string &byWhom, const std::string &reason);
+    void SignalIrcPlayerLeft(const std::string &nickName);
+    void SignalIrcChatMsg(const std::string &nickName, const std::string &msg);
+    void SignalIrcError(int errorCode);
+    void SignalIrcServerError(int errorCode);
+    void SignalLobbyPlayerJoined(unsigned playerId, const std::string &nickName);
+    void SignalLobbyPlayerKicked(const std::string &nickName, const std::string &byWhom, const std::string &reason);
+    void SignalLobbyPlayerLeft(unsigned playerId);
+
+    void SignalSelfGameInvitation(unsigned gameId, unsigned playerIdFrom);
+    void SignalPlayerGameInvitation(unsigned gameId, unsigned playerIdWho, unsigned playerIdFrom);
+    void SignalRejectedGameInvitation(unsigned gameId, unsigned playerIdWho, DenyGameInvitationReason reason);
 
 private:
 
-	Log *myLog;
-	gameTableImpl *myW;
-	ConfigFile *myConfig;
-	startWindowImpl *myStartWindow;
+    Log *myLog;
+    gameTableImpl *myW;
+    ConfigFile *myConfig;
+    startWindowImpl *myStartWindow;
 
 };
 

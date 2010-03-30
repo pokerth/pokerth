@@ -34,10 +34,10 @@ GuiWrapper::GuiWrapper(ConfigFile *c, startWindowImpl *s) : myLog(NULL), myW(NUL
 {
 
 
-	myW = new gameTableImpl(myConfig);
-	myLog = new Log(myW, myConfig);
+    myW = new gameTableImpl(myConfig);
+    myLog = new Log(myW, myConfig);
 
-	myW->setStartWindow(myStartWindow);
+    myW->setStartWindow(myStartWindow);
 }
 
 
@@ -66,8 +66,8 @@ void GuiWrapper::setPlayerAvatar(int myUniqueID, const std::string &myAvatar) co
 
 void GuiWrapper::waitForGuiUpdateDone() const
 {
-	myW->signalGuiUpdateDone();
-	myW->waitForGuiUpdateDone();
+    myW->signalGuiUpdateDone();
+    myW->waitForGuiUpdateDone();
 }
 
 void GuiWrapper::dealBeRoCards(int myBeRoID) { myW->signalDealBeRoCards(myBeRoID); }
@@ -138,21 +138,21 @@ void GuiWrapper::SignalNetClientSelfJoined(unsigned playerId, const string &play
 void GuiWrapper::SignalNetClientPlayerJoined(unsigned playerId, const string &playerName, bool isGameAdmin) { myStartWindow->signalNetClientPlayerJoined(playerId, QString::fromUtf8(playerName.c_str()), isGameAdmin); }
 void GuiWrapper::SignalNetClientPlayerChanged(unsigned playerId, const string &newPlayerName)
 {
-	myStartWindow->signalNetClientPlayerChanged(playerId, QString::fromUtf8(newPlayerName.c_str()));
+    myStartWindow->signalNetClientPlayerChanged(playerId, QString::fromUtf8(newPlayerName.c_str()));
 }
 void GuiWrapper::SignalNetClientPlayerLeft(unsigned playerId, const string &playerName, int removeReason)
 {
-	QString tmpName(QString::fromUtf8(playerName.c_str()));
-	myStartWindow->signalNetClientPlayerLeft(playerId, tmpName);
-        myW->signalNetClientPlayerLeft(playerId);
-	if (!playerName.empty() && playerName[0] != '#')
-		myLog->signalLogPlayerLeftMsg(tmpName, removeReason == NTF_NET_REMOVED_KICKED);
+    QString tmpName(QString::fromUtf8(playerName.c_str()));
+    myStartWindow->signalNetClientPlayerLeft(playerId, tmpName);
+    myW->signalNetClientPlayerLeft(playerId);
+    if (!playerName.empty() && playerName[0] != '#')
+        myLog->signalLogPlayerLeftMsg(tmpName, removeReason == NTF_NET_REMOVED_KICKED);
 }
 void GuiWrapper::SignalNetClientNewGameAdmin(unsigned playerId, const string &playerName) { 
 
-	myStartWindow->signalNetClientNewGameAdmin(playerId, QString::fromUtf8(playerName.c_str())); 
-	if (!playerName.empty() && playerName[0] != '#')
-		myLog->signalLogNewGameAdminMsg(QString::fromUtf8(playerName.c_str()));
+    myStartWindow->signalNetClientNewGameAdmin(playerId, QString::fromUtf8(playerName.c_str()));
+    if (!playerName.empty() && playerName[0] != '#')
+        myLog->signalLogNewGameAdminMsg(QString::fromUtf8(playerName.c_str()));
 
 }
 
@@ -186,6 +186,11 @@ void GuiWrapper::SignalLobbyPlayerJoined(unsigned playerId, const string &nickNa
 void GuiWrapper::SignalLobbyPlayerKicked(const std::string &nickName, const std::string &byWhom, const std::string &reason) { myStartWindow->signalLobbyPlayerKicked(QString::fromUtf8(nickName.c_str()), QString::fromUtf8(byWhom.c_str()), QString::fromUtf8(reason.c_str())); }
 void GuiWrapper::SignalLobbyPlayerLeft(unsigned playerId) { myStartWindow->signalLobbyPlayerLeft(playerId); }
 
-void GuiWrapper::SignalSelfGameInvitation(unsigned gameId, unsigned playerIdFrom) { myStartWindow->signalSelfGameInvitation(gameId, playerIdFrom); }
-void GuiWrapper::SignalPlayerGameInvitation(unsigned gameId, unsigned playerIdWho, unsigned playerIdFrom) { myStartWindow->signalPlayerGameInvitation(gameId, playerIdWho, playerIdFrom); }
-void GuiWrapper::SignalRejectedGameInvitation(unsigned gameId, unsigned playerIdWho, DenyGameInvitationReason reason) { myStartWindow->signalRejectedGameInvitation(gameId, playerIdWho, reason); }
+void GuiWrapper::SignalSelfGameInvitation(unsigned gameId, unsigned
+playerIdFrom) { myStartWindow->signalSelfGameInvitation(gameId, playerIdFrom);
+} void GuiWrapper::SignalPlayerGameInvitation(unsigned gameId, unsigned
+playerIdWho, unsigned playerIdFrom) {
+myStartWindow->signalPlayerGameInvitation(gameId, playerIdWho, playerIdFrom); }
+void GuiWrapper::SignalRejectedGameInvitation(unsigned gameId, unsigned
+playerIdWho, DenyGameInvitationReason reason) {
+myStartWindow->signalRejectedGameInvitation(gameId, playerIdWho, reason); }
