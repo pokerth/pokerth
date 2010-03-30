@@ -327,7 +327,7 @@ ClientThread::SendRejectGameInvitation(unsigned gameId, DenyGameInvitationReason
 	boost::shared_ptr<NetPacket> packet(new NetPacket(NetPacket::Alloc));
 	packet->GetMsg()->present = PokerTHMessage_PR_rejectGameInvitationMessage;
 	RejectGameInvitationMessage_t *netReject = &packet->GetMsg()->choice.rejectGameInvitationMessage;
-	netReject->gameId = GetGameId();
+	netReject->gameId = gameId;
 	netReject->myRejectReason = static_cast<RejectGameInvReason_t>(reason);
 	m_ioService->post(boost::bind(&ClientThread::SendSessionPacket, shared_from_this(), packet));
 }

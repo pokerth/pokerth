@@ -111,7 +111,7 @@ public:
 	void SignalNetClientStatsUpdate(const ServerStats &stats);
 	void SignalNetClientShowTimeoutDialog(NetTimeoutReason reason, unsigned remainingSec);
 	void SignalNetClientRemovedFromGame(int notificationId);
-        void SignalNetClientSelfJoined(unsigned playerId, const std::string &playerName, bool isGameAdmin);
+	void SignalNetClientSelfJoined(unsigned playerId, const std::string &playerName, bool isGameAdmin);
 	void SignalNetClientPlayerJoined(unsigned playerId, const std::string &playerName, bool isGameAdmin);
 	void SignalNetClientPlayerChanged(unsigned playerId, const std::string &newPlayerName);
 	void SignalNetClientPlayerLeft(unsigned playerId, const std::string &playerName, int removeReason);
@@ -151,9 +151,9 @@ public:
 	void SignalLobbyPlayerKicked(const std::string &nickName, const std::string &byWhom, const std::string &reason);
 	void SignalLobbyPlayerLeft(unsigned playerId);
 
-        void SignalSelfGameInvitation(unsigned gameId, unsigned playerIdFrom);
-        void SignalPlayerGameInvitation(unsigned gameId, unsigned playerIdWho, unsigned playerIdFrom);
-        void SignalRejectedGameInvitation(unsigned gameId, unsigned playerIdWho, DenyGameInvitationReason reason);
+	void SignalSelfGameInvitation(unsigned gameId, unsigned playerIdFrom);
+	void SignalPlayerGameInvitation(unsigned gameId, unsigned playerIdWho, unsigned playerIdFrom);
+	void SignalRejectedGameInvitation(unsigned gameId, unsigned playerIdWho, DenyGameInvitationReason reason);
 
 
 private:
