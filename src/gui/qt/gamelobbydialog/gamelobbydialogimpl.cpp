@@ -1329,7 +1329,7 @@ void gameLobbyDialogImpl::showNickListContextMenu(QPoint p)
         }
         else {
             nickListInviteAction->setText(tr("Invite player ..."));
-            nickListInviteAction->setEnabled(true);
+            nickListInviteAction->setEnabled(false);
         }
 
         nickListContextMenu->popup(treeWidget_NickList->mapToGlobal(p));
