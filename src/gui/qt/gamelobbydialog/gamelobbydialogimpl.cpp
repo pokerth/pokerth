@@ -97,7 +97,7 @@ gameLobbyDialogImpl::gameLobbyDialogImpl(startWindowImpl *parent, ConfigFile *c)
     connect( pushButton_StartGame, SIGNAL( clicked() ), this, SLOT( startGame() ) );
     connect( pushButton_Kick, SIGNAL( clicked() ), this, SLOT( kickPlayer() ) );
     connect( pushButton_Leave, SIGNAL( clicked() ), this, SLOT( leaveGame() ) );
-    connect( myGameListSelectionModel, SIGNAL( currentChanged (const QModelIndex &, const QModelIndex &) ), this, SLOT( gameSelected(const QModelIndex &, const QModelIndex &) ) );
+    connect( myGameListSelectionModel, SIGNAL( currentChanged (const QModelIndex &, const QModelIndex &) ), this, SLOT( gameSelected(const QModelIndex &) ) );
     connect( treeView_GameList, SIGNAL( doubleClicked (const QModelIndex &) ), this, SLOT( joinGame() ) );
     connect( treeView_GameList->header(), SIGNAL( sortIndicatorChanged ( int , Qt::SortOrder )), this, SLOT( changeGameListSorting() ) );
     connect( treeWidget_connectedPlayers, SIGNAL( currentItemChanged ( QTreeWidgetItem*, QTreeWidgetItem*) ), this, SLOT( playerSelected(QTreeWidgetItem*, QTreeWidgetItem*) ) );
@@ -337,10 +337,10 @@ void gameLobbyDialogImpl::removedFromGame(int /*reason*/)
     leftGameDialogUpdate();
 }
 
-void gameLobbyDialogImpl::gameSelected(const QModelIndex &index, const QModelIndex &)
+void gameLobbyDialogImpl::gameSelected(const QModelIndex &index, bool invitedRefreshHack)
 {
 
-    if (!inGame && index.isValid())
+    if ((!inGame && index.isValid()) || (inGame && index.isValid() && invitedRefreshHack) )
     {
         pushButton_JoinGame->setEnabled(true);
 
@@ -760,6 +760,7 @@ void gameLobbyDialogImpl::joinedNetworkGame(unsigned playerId, QString playerNam
     inGame = true;
     joinedGameDialogUpdate();
 
+
     myPlayerId = playerId;
     isGameAdministrator = isGameAdmin;
     addConnectedPlayer(playerId, playerName, isGameAdmin);
@@ -769,6 +770,17 @@ void gameLobbyDialogImpl::joinedNetworkGame(unsigned playerId, QString playerNam
     if(mySession->getClientGameInfo(mySession->getClientCurrentGameId()).data.gameType == GAME_TYPE_INVITE_ONLY) {
         infoMsgToShowId = 2;
         showInfoMsgBoxTimer->start(1000);
+    }
+
+    if(!myGameListSelectionModel->hasSelection() && mySession->getClientGameInfo(mySession->getClientCurrentGameId()).data.gameType == GAME_TYPE_INVITE_ONLY) {
+        int it = 0;
+        while (myGameListModel->item(it)) {
+            if (myGameListModel->item(it, 0)->data(Qt::UserRole) == mySession->getClientCurrentGameId()) {
+                gameSelected(treeView_GameList->model()->index(it,0), true);
+                break;
+            }
+            it++;
+        }
     }
 }
 
@@ -1317,7 +1329,7 @@ void gameLobbyDialogImpl::guestUserMode()
 
 void gameLobbyDialogImpl::showNickListContextMenu(QPoint p)
 {
-    if(treeWidget_NickList->topLevelItemCount()) {
+    if(treeWidget_NickList->topLevelItemCount() && !treeWidget_NickList->selectedItems().isEmpty()) {
 
         assert(mySession);
 

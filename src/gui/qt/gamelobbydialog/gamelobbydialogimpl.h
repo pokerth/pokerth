@@ -55,7 +55,7 @@ public slots:
     void createGame();
     void joinGame();
     void joinAnyGame();
-    void gameSelected(const QModelIndex &, const QModelIndex &);
+    void gameSelected(const QModelIndex &, bool invitedRefreshHack = false);
     void updateGameItem(QList <QStandardItem*>, unsigned gameId);
     void addGame(unsigned gameId);
     void updateGameMode(unsigned gameId, int newMode);
