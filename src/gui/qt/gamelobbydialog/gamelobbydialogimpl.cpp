@@ -1367,7 +1367,7 @@ void gameLobbyDialogImpl::showInvitationDialog(unsigned gameId, unsigned playerI
 
 void gameLobbyDialogImpl::chatInfoPlayerInviation(unsigned gameId, unsigned playerIdWho, unsigned playerIdFrom)
 {
-    textBrowser_ChatDisplay->append(tr("<span style='color:blue;'>Player %1 has been invited to %2 by %3.</span>").arg(QString::fromUtf8(mySession->getClientPlayerInfo(playerIdFrom).playerName.c_str())).arg(QString::fromUtf8(mySession->getClientGameInfo(gameId).name.c_str())).arg(QString::fromUtf8(mySession->getClientPlayerInfo(playerIdFrom).playerName.c_str())));
+    textBrowser_ChatDisplay->append(tr("<span style='color:blue;'>Player %1 has been invited to %2 by %3.</span>").arg(QString::fromUtf8(mySession->getClientPlayerInfo(playerIdWho).playerName.c_str())).arg(QString::fromUtf8(mySession->getClientGameInfo(gameId).name.c_str())).arg(QString::fromUtf8(mySession->getClientPlayerInfo(playerIdFrom).playerName.c_str())));
 }
 
 void gameLobbyDialogImpl::chatInfoPlayerRejectedInviation(unsigned gameId, unsigned playerIdWho, DenyGameInvitationReason reason)
