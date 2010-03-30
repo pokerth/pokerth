@@ -5,25 +5,25 @@
  * 	`asn1c -fnative-types`
  */
 
-#ifndef	_RejectGameInvitationMessage_H_
-#define	_RejectGameInvitationMessage_H_
+#ifndef	_InviteNotifyMessage_H_
+#define	_InviteNotifyMessage_H_
 
 
 #include <asn_application.h>
 
 /* Including external dependencies */
 #include "NonZeroId.h"
-#include "RejectGameInvReason.h"
 #include <constr_SEQUENCE.h>
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-/* RejectGameInvitationMessage */
-typedef struct RejectGameInvitationMessage {
+/* InviteNotifyMessage */
+typedef struct InviteNotifyMessage {
 	NonZeroId_t	 gameId;
-	RejectGameInvReason_t	 myRejectReason;
+	NonZeroId_t	 playerIdWho;
+	NonZeroId_t	 playerIdByWhom;
 	/*
 	 * This type is extensible,
 	 * possible extensions are below.
@@ -31,13 +31,13 @@ typedef struct RejectGameInvitationMessage {
 	
 	/* Context for parsing across buffer boundaries */
 	asn_struct_ctx_t _asn_ctx;
-} RejectGameInvitationMessage_t;
+} InviteNotifyMessage_t;
 
 /* Implementation */
-extern asn_TYPE_descriptor_t asn_DEF_RejectGameInvitationMessage;
+extern asn_TYPE_descriptor_t asn_DEF_InviteNotifyMessage;
 
 #ifdef __cplusplus
 }
 #endif
 
-#endif	/* _RejectGameInvitationMessage_H_ */
+#endif	/* _InviteNotifyMessage_H_ */
