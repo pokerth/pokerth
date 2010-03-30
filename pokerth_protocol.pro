@@ -135,6 +135,7 @@ HEADERS += src/third_party/asn1/AllInShowCardsMessage.h \
     src/third_party/asn1/PlayersTurnMessage.h \
     src/third_party/asn1/PokerTHMessage.h \
     src/third_party/asn1/RejectGameInvitationMessage.h \
+    src/third_party/asn1/RejectGameInvReason.h \
     src/third_party/asn1/RejectInvNotifyMessage.h \
     src/third_party/asn1/RemovedFromGame.h \
     src/third_party/asn1/ResetTimeoutMessage.h \
@@ -289,7 +290,8 @@ SOURCES += src/third_party/asn1/ChatCleanerMessage.c \
     src/third_party/asn1/InvitePlayerToGameMessage.c \
     src/third_party/asn1/InviteNotifyMessage.c \
     src/third_party/asn1/RejectGameInvitationMessage.c \
-    src/third_party/asn1/RejectInvNotifyMessage.c
+    src/third_party/asn1/RejectInvNotifyMessage.c \
+    src/third_party/asn1/RejectGameInvReason.c
 win32 { 
     DEFINES += CURL_STATICLIB
     DEFINES += _WIN32_WINNT=0x0501
