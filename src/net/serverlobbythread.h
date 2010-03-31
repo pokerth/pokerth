@@ -168,7 +168,7 @@ protected:
 
 	void CloseSession(SessionWrapper session);
 	void SendError(boost::shared_ptr<SessionData> s, int errorCode);
-	void SendJoinGameFailed(boost::shared_ptr<SessionData> s, int reason);
+	void SendJoinGameFailed(boost::shared_ptr<SessionData> s, unsigned gameId, int reason);
 	void SendPlayerList(boost::shared_ptr<SessionData> s);
 	void SendGameList(boost::shared_ptr<SessionData> s);
 	void UpdateStatisticsNumberOfPlayers();

@@ -1276,18 +1276,19 @@ ServerLobbyThread::HandleNetPacketCreateGame(SessionWrapper session, const std::
 	// Create a new game.
 	GameData tmpData;
 	NetPacket::GetGameData(&newGame.gameInfo, tmpData);
+	unsigned gameId = GetNextGameId();
 
 	if (session.playerData->GetRights() == PLAYER_RIGHTS_GUEST
 		&& tmpData.gameType != GAME_TYPE_NORMAL)
 	{
-		SendJoinGameFailed(session.sessionData, NTF_NET_JOIN_GUEST_FORBIDDEN);
+		SendJoinGameFailed(session.sessionData, gameId, NTF_NET_JOIN_GUEST_FORBIDDEN);
 	}
 	else
 	{
 		boost::shared_ptr<ServerGame> game(
 			new ServerGame(
 				shared_from_this(),
-				GetNextGameId(),
+				gameId,
 				STL_STRING_FROM_OCTET_STRING(newGame.gameInfo.gameName),
 				password,
 				tmpData,
@@ -1311,32 +1312,32 @@ ServerLobbyThread::HandleNetPacketJoinGame(SessionWrapper session, const std::st
 
 	if (pos != m_gameMap.end())
 	{
-		bool joinGame = true;
+		bool doJoin = true;
 		ServerGame &game = *pos->second;
 		const GameData &tmpData = game.GetGameData();
 		if (session.playerData->GetRights() == PLAYER_RIGHTS_GUEST
 			&& tmpData.gameType != GAME_TYPE_NORMAL)
 		{
-			SendJoinGameFailed(session.sessionData, NTF_NET_JOIN_GUEST_FORBIDDEN);
-			joinGame = false;
+			SendJoinGameFailed(session.sessionData, joinGame.gameId, NTF_NET_JOIN_GUEST_FORBIDDEN);
+			doJoin = false;
 		}
 		else if (tmpData.gameType == GAME_TYPE_INVITE_ONLY
 			&& !game.IsPlayerInvited(session.playerData->GetUniqueId()))
 		{
-			SendJoinGameFailed(session.sessionData, NTF_NET_JOIN_NOT_INVITED);
-			joinGame = false;
+			SendJoinGameFailed(session.sessionData, joinGame.gameId, NTF_NET_JOIN_NOT_INVITED);
+			doJoin = false;
 		}
 		else if (!game.CheckPassword(password))
 		{
-			SendJoinGameFailed(session.sessionData, NTF_NET_JOIN_INVALID_PASSWORD);
-			joinGame = false;
+			SendJoinGameFailed(session.sessionData, joinGame.gameId, NTF_NET_JOIN_INVALID_PASSWORD);
+			doJoin = false;
 		}
-		if (joinGame)
+		if (doJoin)
 			MoveSessionToGame(game, session);
 	}
 	else
 	{
-		SendJoinGameFailed(session.sessionData, NTF_NET_JOIN_GAME_INVALID);
+		SendJoinGameFailed(session.sessionData, joinGame.gameId, NTF_NET_JOIN_GAME_INVALID);
 	}
 }
 
@@ -1820,12 +1821,12 @@ ServerLobbyThread::SendError(boost::shared_ptr<SessionData> s, int errorCode)
 }
 
 void
-ServerLobbyThread::SendJoinGameFailed(boost::shared_ptr<SessionData> s, int reason)
+ServerLobbyThread::SendJoinGameFailed(boost::shared_ptr<SessionData> s, unsigned gameId, int reason)
 {
 	boost::shared_ptr<NetPacket> packet(new NetPacket(NetPacket::Alloc));
 	packet->GetMsg()->present = PokerTHMessage_PR_joinGameReplyMessage;
 	JoinGameReplyMessage_t *netJoinReply = &packet->GetMsg()->choice.joinGameReplyMessage;
-	netJoinReply->gameId = s->GetGameId();
+	netJoinReply->gameId = gameId;
 
 	netJoinReply->joinGameResult.present = joinGameResult_PR_joinGameFailed;
 	JoinGameFailed_t *joinFailed = &netJoinReply->joinGameResult.choice.joinGameFailed;
