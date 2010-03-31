@@ -31,6 +31,7 @@ using namespace std;
 ChatTools::ChatTools(QLineEdit* l, ConfigFile *c, ChatType ct, QTextBrowser *b, QTreeWidget *t, gameLobbyDialogImpl *lo) : nickAutoCompletitionCounter(0), myLineEdit(l), myNickTreeWidget(t), myNickStringList(NULL), myTextBrowser(b), myChatType(ct), myConfig(c), myNick(""), myLobby(lo)
 {
     myNick = QString::fromUtf8(myConfig->readConfigString("MyName").c_str());
+    ignoreList = myConfig->readConfigStringList("PlayerIgnoreList");
 }
 
 ChatTools::~ChatTools()
@@ -95,8 +96,18 @@ void ChatTools::receiveMessage(QString playerName, QString message) {
 
         }
 
+        bool nickFoundOnIgnoreList = false;
+        list<std::string>::iterator it1;
+        for(it1=ignoreList.begin(); it1 != ignoreList.end(); it1++) {
 
-        myTextBrowser->append(playerName + ": " + tempMsg);
+            if(playerName == QString::fromUtf8(it1->c_str())) {
+                nickFoundOnIgnoreList = true;
+            }
+        }
+
+        if(!nickFoundOnIgnoreList) {
+           myTextBrowser->append(playerName + ": " + tempMsg);
+        }
     }
 }
 
@@ -192,6 +203,5 @@ void ChatTools::setChatTextEdited() {
 
 void ChatTools::refreshIgnoreList()
 {
-
-
+    ignoreList = myConfig->readConfigStringList("PlayerIgnoreList");
 }

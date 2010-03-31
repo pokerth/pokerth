@@ -116,6 +116,8 @@ settingsDialogImpl::settingsDialogImpl(QWidget *parent, ConfigFile *c, selectAva
     connect( listWidget_cardDeckStyles, SIGNAL( currentItemChanged(QListWidgetItem*, QListWidgetItem*) ), this, SLOT ( showCurrentCardDeckStylePreview() ));
     connect( pushButton_addCardDeckStyle, SIGNAL( clicked() ), this, SLOT( addCardDeckStyle()) );
     connect( pushButton_removeCardDeckStyle, SIGNAL( clicked() ), this, SLOT( removeCardDeckStyle()) );
+    connect( pushButton_internetGameRemoveIgnoredPlayer, SIGNAL( clicked()), this, SLOT( removePlayerFromIgnoredPlayersList()));
+
 }
 
 void settingsDialogImpl::exec() {
@@ -215,8 +217,7 @@ void settingsDialogImpl::exec() {
     std::list<std::string>::iterator it5;
     for(it5= playerIgnoreList.begin(); it5 != playerIgnoreList.end(); it5++) {
         QTreeWidgetItem *item = new QTreeWidgetItem(treeWidget_internetGameIgnoredPlayers);
-        item->setText(0, QString::fromUtf8(it5->c_str()).split(",").at(1) );
-        item->setData(0, Qt::UserRole, QString::fromUtf8(it5->c_str()).split(",").at(0) );
+        item->setText(0, QString::fromUtf8(it5->c_str()));
     }
 
     //Interface
@@ -543,7 +544,7 @@ void settingsDialogImpl::isAccepted() {
     int k;
     std::list<std::string> playerIgnoreList;
     for(k=0; k<treeWidget_internetGameIgnoredPlayers->topLevelItemCount(); k++) {
-        playerIgnoreList.push_back(QString("%1,%2").arg(treeWidget_internetGameIgnoredPlayers->topLevelItem(k)->data(0,Qt::UserRole).toUInt()).arg(treeWidget_internetGameIgnoredPlayers->topLevelItem(k)->text(0)).toUtf8().constData());
+        playerIgnoreList.push_back(QString("%1").arg(treeWidget_internetGameIgnoredPlayers->topLevelItem(k)->text(0)).toUtf8().constData());
     }
     myConfig->writeConfigStringList("PlayerIgnoreList", playerIgnoreList);
 
@@ -1139,5 +1140,12 @@ void settingsDialogImpl::removeCardDeckStyle()
         }
         //remove from List
         listWidget_cardDeckStyles->takeItem(listWidget_cardDeckStyles->currentRow());
+    }
+}
+
+void settingsDialogImpl::removePlayerFromIgnoredPlayersList()
+{
+    if(treeWidget_internetGameIgnoredPlayers->selectedItems().count()) {
+        treeWidget_internetGameIgnoredPlayers->takeTopLevelItem(treeWidget_internetGameIgnoredPlayers->currentIndex().row());
     }
 }

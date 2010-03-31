@@ -150,7 +150,6 @@ startWindowImpl::startWindowImpl(ConfigFile *c)
     connect(this, SIGNAL(signalNetClientShowTimeoutDialog(int, unsigned)), this, SLOT(showTimeoutDialog(int, unsigned)));
 
     connect(this, SIGNAL(signalLobbyPlayerJoined(unsigned, QString)), myGameLobbyDialog, SLOT(playerJoinedLobby(unsigned, QString)));
-//    connect(this, SIGNAL(signalLobbyPlayerKicked(QString, QString, QString)), myGameLobbyDialog, SLOT(playerKicked(QString, QString, QString)));
     connect(this, SIGNAL(signalLobbyPlayerLeft(unsigned)), myGameLobbyDialog, SLOT(playerLeftLobby(unsigned)));
 
 

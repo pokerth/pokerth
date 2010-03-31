@@ -90,6 +90,7 @@ public slots:
 	void showCurrentCardDeckStylePreview();
 	void addCardDeckStyle();
 	void removeCardDeckStyle();
+        void removePlayerFromIgnoredPlayersList();
 
 private:
 	

@@ -55,7 +55,7 @@ public slots:
     void createGame();
     void joinGame();
     void joinAnyGame();
-    void gameSelected(const QModelIndex &, bool invitedRefreshHack = false);
+    void gameSelected(const QModelIndex &);
     void updateGameItem(QList <QStandardItem*>, unsigned gameId);
     void addGame(unsigned gameId);
     void updateGameMode(unsigned gameId, int newMode);
@@ -91,7 +91,7 @@ public slots:
     void clearDialog();
     void keyPressEvent(QKeyEvent * keyEvent);
     bool event(QEvent * event);
-    void hideShowGameDescription(bool show);
+    void showGameDescription(bool show);
     void showWaitStartGameMsgBox();
     void joinAnyGameButtonRefresh();
     void reject();
@@ -120,7 +120,6 @@ private:
     createInternetGameDialogImpl *myCreateInternetGameDialog;
     QString currentGameName;
     unsigned myPlayerId;
-    unsigned myCurrentGameId;
     bool isGameAdministrator;
     bool inGame;
     bool guestMode;

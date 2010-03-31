@@ -24,7 +24,7 @@
 using namespace std;
 
 gameLobbyDialogImpl::gameLobbyDialogImpl(startWindowImpl *parent, ConfigFile *c)
-    : QDialog(parent), myW(NULL), myStartWindow(parent), myConfig(c), currentGameName(""), myPlayerId(0), myCurrentGameId(0), isGameAdministrator(false), inGame(false), guestMode(false), blinkingButtonAnimationState(true), myChat(NULL), keyUpCounter(0), infoMsgToShowId(0), currentInvitationGameId(0), inviteDialogIsCurrentlyShown(false)
+    : QDialog(parent), myW(NULL), myStartWindow(parent), myConfig(c), currentGameName(""), myPlayerId(0), isGameAdministrator(false), inGame(false), guestMode(false), blinkingButtonAnimationState(true), myChat(NULL), keyUpCounter(0), infoMsgToShowId(0), currentInvitationGameId(0), inviteDialogIsCurrentlyShown(false)
 {
 
 #ifdef __APPLE__
@@ -234,7 +234,7 @@ void gameLobbyDialogImpl::createGame()
             break;
         }
 
-        hideShowGameDescription(TRUE);
+        showGameDescription(TRUE);
 
         label_SmallBlind->setText(QString("%L1").arg(gameData.firstSmallBlind));
         label_StartCash->setText(QString("%L1").arg(gameData.startMoney));
@@ -259,7 +259,6 @@ void gameLobbyDialogImpl::joinGame()
     if (!inGame && selection->hasSelection())
     {
         unsigned gameId = selection->selectedRows().first().data(Qt::UserRole).toUInt();
-        myCurrentGameId = gameId;
         GameInfo info(mySession->getClientGameInfo(gameId));
         bool ok = true;
         QString password;
@@ -337,10 +336,10 @@ void gameLobbyDialogImpl::removedFromGame(int /*reason*/)
     leftGameDialogUpdate();
 }
 
-void gameLobbyDialogImpl::gameSelected(const QModelIndex &index, bool invitedRefreshHack)
+void gameLobbyDialogImpl::gameSelected(const QModelIndex &index)
 {
 
-    if ((!inGame && index.isValid()) || (inGame && index.isValid() && invitedRefreshHack) )
+    if (!inGame && index.isValid() )
     {
         pushButton_JoinGame->setEnabled(true);
 
@@ -375,7 +374,7 @@ void gameLobbyDialogImpl::gameSelected(const QModelIndex &index, bool invitedRef
             break;
         }
 
-        hideShowGameDescription(TRUE);
+        showGameDescription(TRUE);
         label_SmallBlind->setText(QString("%L1").arg(info.data.firstSmallBlind));
         label_StartCash->setText(QString("%L1").arg(info.data.startMoney));
         //		label_MaximumNumberOfPlayers->setText(QString::number(info.data.maxNumberOfPlayers));s
@@ -644,7 +643,7 @@ void gameLobbyDialogImpl::clearDialog()
     header->setText(0, tr("Connected players"));
     header->setData(0, Qt::UserRole, 0);
 
-    hideShowGameDescription(FALSE);
+    showGameDescription(FALSE);
     label_typeIcon->setText(" ");
     label_typeText->setText(" ");
     label_SmallBlind->setText("");
@@ -689,7 +688,7 @@ void gameLobbyDialogImpl::clearDialog()
     isGameAdministrator = false;
     myPlayerId = 0;
 
-    hideShowGameDescription(FALSE);
+    showGameDescription(FALSE);
 
     label_nickListCounter->setText("| "+tr("players in chat: %1").arg(0));
     label_connectedPlayersCounter->setText(tr("connected players: %1").arg(0));
@@ -772,16 +771,16 @@ void gameLobbyDialogImpl::joinedNetworkGame(unsigned playerId, QString playerNam
         showInfoMsgBoxTimer->start(1000);
     }
 
-    if(!myGameListSelectionModel->hasSelection() && mySession->getClientGameInfo(mySession->getClientCurrentGameId()).data.gameType == GAME_TYPE_INVITE_ONLY) {
-        int it = 0;
-        while (myGameListModel->item(it)) {
-            if (myGameListModel->item(it, 0)->data(Qt::UserRole) == mySession->getClientCurrentGameId()) {
-                gameSelected(treeView_GameList->model()->index(it,0), true);
-                break;
-            }
-            it++;
-        }
-    }
+//    if(!myGameListSelectionModel->hasSelection() && mySession->getClientGameInfo(mySession->getClientCurrentGameId()).data.gameType == GAME_TYPE_INVITE_ONLY) {
+//        int it = 0;
+//        while (myGameListModel->item(it)) {
+//            if (myGameListModel->item(it, 0)->data(Qt::UserRole) == mySession->getClientCurrentGameId()) {
+//                gameSelected(treeView_GameList->model()->index(it,0), true);
+//                break;
+//            }
+//            it++;
+//        }
+//    }
 }
 
 
@@ -888,6 +887,7 @@ void gameLobbyDialogImpl::playerJoinedLobby(unsigned playerId, QString /*playerN
     QTreeWidgetItem *item = new QTreeWidgetItem(treeWidget_NickList, 0);
     item->setData(0, Qt::DisplayRole, QString::fromUtf8(playerInfo.playerName.c_str()));
     item->setData(0, Qt::UserRole, playerId);
+    item->setIcon(0, QIcon(QString(":/cflags/cflags/%1.png").arg("de")));
 
     treeWidget_NickList->sortItems(0, Qt::AscendingOrder);
     refreshPlayerStats();
@@ -944,6 +944,41 @@ void gameLobbyDialogImpl::joinedGameDialogUpdate() {
     pushButton_JoinGame->hide();
     pushButton_joinAnyGame->hide();
     pushButton_Leave->show();
+
+    //this was added to show game infos even if no game was selected (e.g. invite only game)
+    assert(mySession);
+    GameInfo info(mySession->getClientGameInfo(mySession->getClientCurrentGameId()));
+
+    groupBox_GameInfo->setTitle(tr("Game Info") + " - " + QString::fromUtf8(info.name.c_str()));
+
+    switch (info.data.gameType) {
+    case GAME_TYPE_NORMAL: {
+            label_typeIcon->setPixmap(QPixmap(":/gfx/player_play.png"));
+            label_typeText->setText(tr("Standard"));
+        }
+        break;
+    case GAME_TYPE_REGISTERED_ONLY: {
+            label_typeIcon->setPixmap(QPixmap(":/gfx/registered.png"));
+            label_typeText->setText(tr("Registered players only"));
+        }
+        break;
+    case GAME_TYPE_INVITE_ONLY: {
+            label_typeIcon->setPixmap(QPixmap(":/gfx/list_add_user.png"));
+            label_typeText->setText(tr("Invited players only"));
+        }
+        break;
+    case GAME_TYPE_RANKING: {
+            label_typeIcon->setPixmap(QPixmap(":/gfx/cup.png"));
+            label_typeText->setText(tr("Ranking game"));
+        }
+        break;
+    }
+
+    showGameDescription(TRUE);
+    label_SmallBlind->setText(QString("%L1").arg(info.data.firstSmallBlind));
+    label_StartCash->setText(QString("%L1").arg(info.data.startMoney));
+    updateDialogBlinds(info.data);
+    label_TimeoutForPlayerAction->setText(QString::number(info.data.playerActionTimeoutSec));
 }
 
 void gameLobbyDialogImpl::leftGameDialogUpdate() {
@@ -959,7 +994,7 @@ void gameLobbyDialogImpl::leftGameDialogUpdate() {
     header->setText(0, tr("Connected players"));
     header->setData(0, Qt::UserRole, 0);
 
-    hideShowGameDescription(FALSE);
+    showGameDescription(FALSE);
     label_typeIcon->setText(" ");
     label_typeText->setText(" ");
     label_SmallBlind->setText("");
@@ -1090,7 +1125,7 @@ bool gameLobbyDialogImpl::event ( QEvent * event ) {
     return QDialog::event(event);
 }
 
-void gameLobbyDialogImpl::hideShowGameDescription(bool show) {
+void gameLobbyDialogImpl::showGameDescription(bool show) {
 
     if(show) {
         label_gameType->show();
@@ -1382,7 +1417,11 @@ void gameLobbyDialogImpl::showInfoMsgBox()
 
 void gameLobbyDialogImpl::showInvitationDialog(unsigned gameId, unsigned playerIdFrom)
 {
-    if(!inviteDialogIsCurrentlyShown) {
+    if(inviteDialogIsCurrentlyShown || playerIsOnIgnoreList(playerIdFrom)) {
+
+        mySession->rejectGameInvitation(gameId, DENY_GAME_INVITATION_BUSY);
+    }
+    else {
 
         inviteDialogIsCurrentlyShown = true;
 
@@ -1396,9 +1435,6 @@ void gameLobbyDialogImpl::showInvitationDialog(unsigned gameId, unsigned playerI
             mySession->rejectGameInvitation(gameId, DENY_GAME_INVITATION_NO);
             inviteDialogIsCurrentlyShown = false;
         }
-    }
-    else {
-        mySession->rejectGameInvitation(gameId, DENY_GAME_INVITATION_BUSY);
     }
 }
 
@@ -1426,13 +1462,10 @@ bool gameLobbyDialogImpl::playerIsOnIgnoreList(unsigned playerId) {
     list<std::string>::iterator it1;
     for(it1= playerIgnoreList.begin(); it1 != playerIgnoreList.end(); it1++) {
 
-        QString tmpString = QString::fromUtf8(it1->c_str());
-        if(QString("%1").arg(playerId) ==  tmpString.split(",").at(0)) {
-
+        if(QString::fromUtf8(mySession->getClientPlayerInfo(playerId).playerName.c_str()) == QString::fromUtf8(it1->c_str())) {
             return true;
         }
     }
-
     return false;
 }
 
@@ -1445,12 +1478,16 @@ void gameLobbyDialogImpl::putPlayerOnIgnoreList() {
 
         if(!playerIsOnIgnoreList(playerId)) {
 
-            list<std::string> playerIgnoreList = myConfig->readConfigStringList("PlayerIgnoreList");
-            playerIgnoreList.push_back(QString("%1,%2").arg(playerId).arg(QString::fromUtf8(mySession->getClientPlayerInfo(playerId).playerName.c_str())).toUtf8().constData());
-            myConfig->writeConfigStringList("PlayerIgnoreList", playerIgnoreList);
-            myConfig->writeBuffer();
+            myMessageDialogImpl dialog(myConfig, this);
+            if(dialog.exec(4, tr("You will no longer recieve chat messages or game invitations from this user.<br>Do you really want to put player <b>%1</b> on ignore list?").arg(QString::fromUtf8(mySession->getClientPlayerInfo(playerId).playerName.c_str())), tr("PokerTH - Question"), QPixmap(":/gfx/im-ban-user_64.png"), QDialogButtonBox::Yes|QDialogButtonBox::No, false ) == QDialog::Accepted) {
 
-            myChat->refreshIgnoreList();
+                list<std::string> playerIgnoreList = myConfig->readConfigStringList("PlayerIgnoreList");
+                playerIgnoreList.push_back(QString("%1").arg(QString::fromUtf8(mySession->getClientPlayerInfo(playerId).playerName.c_str())).toUtf8().constData());
+                myConfig->writeConfigStringList("PlayerIgnoreList", playerIgnoreList);
+                myConfig->writeBuffer();
+
+                myChat->refreshIgnoreList();
+            }
         }
     }
 }

@@ -84,6 +84,8 @@ private:
 
     GameTableStyleReader *myStyle;
     gameLobbyDialogImpl *myLobby;
+
+    std::list<std::string> ignoreList;
 };
 
 #endif
