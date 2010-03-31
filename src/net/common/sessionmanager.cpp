@@ -135,9 +135,7 @@ SessionManager::GetSessionByUniquePlayerId(unsigned uniqueId, bool initSessions)
 		if (initSessions || session_i->second.sessionData->GetState() != SessionData::Init)
 		{
 			boost::shared_ptr<PlayerData> tmpPlayer(session_i->second.playerData);
-			if (!tmpPlayer.get())
-				throw ServerException(__FILE__, __LINE__, ERR_NET_INVALID_SESSION, 0);
-			if (tmpPlayer->GetUniqueId() == uniqueId)
+			if (tmpPlayer && tmpPlayer->GetUniqueId() == uniqueId)
 			{
 				tmpSession = session_i->second;
 				break;
