@@ -37,15 +37,18 @@ public slots:
 	void setEnabledContextMenu(bool);
 	void setVoteOnKickContextMenuEnabled(bool);
 	void setVoteRunning ( bool theValue ) {	voteRunning = theValue;	}
-
         void setPixmap ( const QPixmap &, const bool = FALSE);
-
         void paintEvent(QPaintEvent*);
+        void putPlayerOnIgnoreList();
+        bool playerIsOnIgnoreList(QString playerName);
+        
 private: 
 
 	gameTableImpl *myW;
 	QMenu *myContextMenu;
 	QAction *action_VoteForKick;
+        QAction *action_IgnorePlayer;
+
         QPixmap myPixmap;
 
 	int myId;
