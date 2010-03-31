@@ -1381,13 +1381,17 @@ ServerLobbyThread::HandleNetPacketRejectGameInvitation(SessionWrapper session, c
 	if (pos != m_gameMap.end() && session.playerData)
 	{
 		ServerGame &game = *pos->second;
-		if (game.IsPlayerInvited(session.playerData->GetUniqueId()))
+		unsigned tmpPlayerId = session.playerData->GetUniqueId();
+		if (game.IsPlayerInvited(tmpPlayerId))
 		{
+			// If he rejects, he is no longer invited.
+			game.RemovePlayerInvitation(tmpPlayerId);
+			// Send reject notification.
 			boost::shared_ptr<NetPacket> packet(new NetPacket(NetPacket::Alloc));
 			packet->GetMsg()->present = PokerTHMessage_PR_rejectInvNotifyMessage;
 			RejectInvNotifyMessage_t *netReject = &packet->GetMsg()->choice.rejectInvNotifyMessage;
 			netReject->gameId = reject.gameId;
-			netReject->playerId = session.playerData->GetUniqueId();
+			netReject->playerId = tmpPlayerId;
 			netReject->playerRejectReason = reject.myRejectReason;
 
 			game.SendToAllPlayers(packet, SessionData::Game);
