@@ -141,7 +141,7 @@ static ber_tlv_tag_t asn_DEF_VoteKickDenied_tags_1[] = {
 	(ASN_TAG_CLASS_UNIVERSAL | (16 << 2))
 };
 static asn_TYPE_tag2member_t asn_MAP_VoteKickDenied_tag2el_1[] = {
-    { (ASN_TAG_CLASS_UNIVERSAL | (10 << 2)), 0, 0, 0 } /* voteKickDeniedReason at 578 */
+    { (ASN_TAG_CLASS_UNIVERSAL | (10 << 2)), 0, 0, 0 } /* voteKickDeniedReason at 579 */
 };
 static asn_SEQUENCE_specifics_t asn_SPC_VoteKickDenied_specs_1 = {
 	sizeof(struct VoteKickDenied),

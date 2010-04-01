@@ -532,8 +532,8 @@ static asn_TYPE_member_t asn_MBR_raiseIntervalMode_9[] = {
 		},
 };
 static asn_TYPE_tag2member_t asn_MAP_raiseIntervalMode_tag2el_9[] = {
-    { (ASN_TAG_CLASS_CONTEXT | (0 << 2)), 0, 0, 0 }, /* raiseEveryHands at 321 */
-    { (ASN_TAG_CLASS_CONTEXT | (1 << 2)), 1, 0, 0 } /* raiseEveryMinutes at 322 */
+    { (ASN_TAG_CLASS_CONTEXT | (0 << 2)), 0, 0, 0 }, /* raiseEveryHands at 322 */
+    { (ASN_TAG_CLASS_CONTEXT | (1 << 2)), 1, 0, 0 } /* raiseEveryMinutes at 323 */
 };
 static asn_CHOICE_specifics_t asn_SPC_raiseIntervalMode_specs_9 = {
 	sizeof(struct raiseIntervalMode),
@@ -772,19 +772,19 @@ static ber_tlv_tag_t asn_DEF_NetGameInfo_tags_1[] = {
 	(ASN_TAG_CLASS_UNIVERSAL | (16 << 2))
 };
 static asn_TYPE_tag2member_t asn_MAP_NetGameInfo_tag2el_1[] = {
-    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 2, 0, 6 }, /* maxNumPlayers at 319 */
-    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 5, -1, 5 }, /* proposedGuiSpeed at 329 */
-    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 6, -2, 4 }, /* delayBetweenHands at 330 */
-    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 7, -3, 3 }, /* playerActionTimeout at 331 */
-    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 8, -4, 2 }, /* firstSmallBlind at 332 */
-    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 9, -5, 1 }, /* endRaiseSmallBlindValue at 333 */
-    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 10, -6, 0 }, /* startMoney at 334 */
-    { (ASN_TAG_CLASS_UNIVERSAL | (10 << 2)), 1, 0, 1 }, /* netGameType at 314 */
-    { (ASN_TAG_CLASS_UNIVERSAL | (10 << 2)), 4, -1, 0 }, /* endRaiseMode at 325 */
-    { (ASN_TAG_CLASS_UNIVERSAL | (12 << 2)), 0, 0, 0 }, /* gameName at 312 */
-    { (ASN_TAG_CLASS_UNIVERSAL | (16 << 2)), 11, 0, 0 }, /* manualBlinds at 335 */
-    { (ASN_TAG_CLASS_CONTEXT | (0 << 2)), 3, 0, 0 }, /* raiseEveryHands at 321 */
-    { (ASN_TAG_CLASS_CONTEXT | (1 << 2)), 3, 0, 0 } /* raiseEveryMinutes at 322 */
+    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 2, 0, 6 }, /* maxNumPlayers at 320 */
+    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 5, -1, 5 }, /* proposedGuiSpeed at 330 */
+    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 6, -2, 4 }, /* delayBetweenHands at 331 */
+    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 7, -3, 3 }, /* playerActionTimeout at 332 */
+    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 8, -4, 2 }, /* firstSmallBlind at 333 */
+    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 9, -5, 1 }, /* endRaiseSmallBlindValue at 334 */
+    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 10, -6, 0 }, /* startMoney at 335 */
+    { (ASN_TAG_CLASS_UNIVERSAL | (10 << 2)), 1, 0, 1 }, /* netGameType at 315 */
+    { (ASN_TAG_CLASS_UNIVERSAL | (10 << 2)), 4, -1, 0 }, /* endRaiseMode at 326 */
+    { (ASN_TAG_CLASS_UNIVERSAL | (12 << 2)), 0, 0, 0 }, /* gameName at 313 */
+    { (ASN_TAG_CLASS_UNIVERSAL | (16 << 2)), 11, 0, 0 }, /* manualBlinds at 336 */
+    { (ASN_TAG_CLASS_CONTEXT | (0 << 2)), 3, 0, 0 }, /* raiseEveryHands at 322 */
+    { (ASN_TAG_CLASS_CONTEXT | (1 << 2)), 3, 0, 0 } /* raiseEveryMinutes at 323 */
 };
 static asn_SEQUENCE_specifics_t asn_SPC_NetGameInfo_specs_1 = {
 	sizeof(struct NetGameInfo),

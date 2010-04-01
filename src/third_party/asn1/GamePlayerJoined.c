@@ -33,8 +33,8 @@ static ber_tlv_tag_t asn_DEF_GamePlayerJoined_tags_1[] = {
 	(ASN_TAG_CLASS_UNIVERSAL | (16 << 2))
 };
 static asn_TYPE_tag2member_t asn_MAP_GamePlayerJoined_tag2el_1[] = {
-    { (ASN_TAG_CLASS_UNIVERSAL | (1 << 2)), 1, 0, 0 }, /* isGameAdmin at 350 */
-    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 0, 0, 0 } /* playerId at 349 */
+    { (ASN_TAG_CLASS_UNIVERSAL | (1 << 2)), 1, 0, 0 }, /* isGameAdmin at 351 */
+    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 0, 0, 0 } /* playerId at 350 */
 };
 static asn_SEQUENCE_specifics_t asn_SPC_GamePlayerJoined_specs_1 = {
 	sizeof(struct GamePlayerJoined),

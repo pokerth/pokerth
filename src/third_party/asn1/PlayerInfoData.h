@@ -28,6 +28,7 @@ typedef struct PlayerInfoData {
 	UTF8String_t	 playerName;
 	BOOLEAN_t	 isHuman;
 	PlayerInfoRights_t	 playerRights;
+	UTF8String_t	*countryCode	/* OPTIONAL */;
 	struct avatarData {
 		NetAvatarType_t	 avatarType;
 		AvatarHash_t	 avatar;
