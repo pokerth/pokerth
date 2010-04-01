@@ -41,7 +41,7 @@
 #define MAX_NUM_PLAYER_RESULTS		MAX_NUMBER_OF_PLAYERS
 #define MAX_NUM_PLAYER_CARDS		MAX_NUMBER_OF_PLAYERS*/
 
-#define STL_STRING_FROM_OCTET_STRING(_a) (string((const char *)_a.buf, _a.size))
+#define STL_STRING_FROM_OCTET_STRING(_a) (string((const char *)(_a).buf, (_a).size))
 
 // This is just a wrapper class for the ASN.1 structure.
 class NetPacket
