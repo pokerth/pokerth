@@ -138,7 +138,7 @@ void Log::logPlayerActionMsg(QString msg, int action, int setValue) {
 	
 	if (action >= 3) { msg += "$"+QString::number(setValue,10)+"."; }
 	
-	myW->textBrowser_Log->append(msg);
+        myW->textBrowser_Log->append("<span style=\"color:#"+myStyle->getChatLogTextColor()+";\">"+msg+"</span>");
 
 	if(myConfig->readConfigInt("LogOnOff")) {
 	//if write logfiles is enabled
@@ -157,7 +157,7 @@ void Log::logNewGameHandMsg(int gameID, int handID) {
 	PlayerListConstIterator it_c;
 	HandInterface *currentHand = myW->getSession()->getCurrentGame()->getCurrentHand();
 
-	myW->textBrowser_Log->append("<span style=\"font-size:large; font-weight:bold\">## Game: "+QString::number(gameID,10)+" | Hand: "+QString::number(handID,10)+" ##</span>");
+        myW->textBrowser_Log->append("<span style=\"color:#"+myStyle->getChatLogTextColor()+"; font-size:large; font-weight:bold\">## Game: "+QString::number(gameID,10)+" | Hand: "+QString::number(handID,10)+" ##</span>");
 
 	if(myConfig->readConfigInt("LogOnOff")) {
 	//if write logfiles is enabled
@@ -183,8 +183,8 @@ void Log::logNewBlindsSetsMsg(int sbSet, int bbSet, QString sbName, QString bbNa
 	logFileStreamString += sbName+" ($"+QString::number(sbSet,10)+"), ";
 	logFileStreamString += bbName+" ($"+QString::number(bbSet,10)+")";
 
-	myW->textBrowser_Log->append("<span>"+sbName+" posts small blind ($"+QString::number(sbSet,10)+")</span>");
-	myW->textBrowser_Log->append("<span>"+bbName+" posts big blind ($"+QString::number(bbSet,10)+")</span>");
+        myW->textBrowser_Log->append("<span style=\"color:#"+myStyle->getChatLogTextColor()+";\">"+sbName+" posts small blind ($"+QString::number(sbSet,10)+")</span>");
+        myW->textBrowser_Log->append("<span style=\"color:#"+myStyle->getChatLogTextColor()+";\">"+bbName+" posts big blind ($"+QString::number(bbSet,10)+")</span>");
 
 	PlayerListConstIterator it_c;
 	HandInterface *currentHand = myW->getSession()->getCurrentGame()->getCurrentHand();
@@ -256,13 +256,13 @@ void Log::logDealBoardCardsMsg(int roundID, int card1, int card2, int card3, int
 	switch (roundID) {
 
 		case 1: round = "Flop";
-		myW->textBrowser_Log->append("--- "+round+" --- "+"["+translateCardCode(card1).at(0)+translateCardCode(card1).at(1)+","+translateCardCode(card2).at(0)+translateCardCode(card2).at(1)+","+translateCardCode(card3).at(0)+translateCardCode(card3).at(1)+"]");
+                myW->textBrowser_Log->append("<span style=\"color:#"+myStyle->getLogPlayerSitsOutColor()+";\">--- "+round+" --- "+"["+translateCardCode(card1).at(0)+translateCardCode(card1).at(1)+","+translateCardCode(card2).at(0)+translateCardCode(card2).at(1)+","+translateCardCode(card3).at(0)+translateCardCode(card3).at(1)+"]</span>");
 		break;
 		case 2: round = "Turn";
-		myW->textBrowser_Log->append("--- "+round+" --- "+"["+translateCardCode(card1).at(0)+translateCardCode(card1).at(1)+","+translateCardCode(card2).at(0)+translateCardCode(card2).at(1)+","+translateCardCode(card3).at(0)+translateCardCode(card3).at(1)+","+translateCardCode(card4).at(0)+translateCardCode(card4).at(1)+"]");
+                myW->textBrowser_Log->append("<span style=\"color:#"+myStyle->getLogPlayerSitsOutColor()+";\">--- "+round+" --- "+"["+translateCardCode(card1).at(0)+translateCardCode(card1).at(1)+","+translateCardCode(card2).at(0)+translateCardCode(card2).at(1)+","+translateCardCode(card3).at(0)+translateCardCode(card3).at(1)+","+translateCardCode(card4).at(0)+translateCardCode(card4).at(1)+"]</span>");
 		break;
 		case 3: round = "River";
-		myW->textBrowser_Log->append("--- "+round+" --- "+"["+translateCardCode(card1).at(0)+translateCardCode(card1).at(1)+","+translateCardCode(card2).at(0)+translateCardCode(card2).at(1)+","+translateCardCode(card3).at(0)+translateCardCode(card3).at(1)+","+translateCardCode(card4).at(0)+translateCardCode(card4).at(1)+","+translateCardCode(card5).at(0)+translateCardCode(card5).at(1)+"]");
+                myW->textBrowser_Log->append("<span style=\"color:#"+myStyle->getLogPlayerSitsOutColor()+";\">--- "+round+" --- "+"["+translateCardCode(card1).at(0)+translateCardCode(card1).at(1)+","+translateCardCode(card2).at(0)+translateCardCode(card2).at(1)+","+translateCardCode(card3).at(0)+translateCardCode(card3).at(1)+","+translateCardCode(card4).at(0)+translateCardCode(card4).at(1)+","+translateCardCode(card5).at(0)+translateCardCode(card5).at(1)+"]</span>");
 		break;
 		default: round = "ERROR";
 	}
@@ -297,7 +297,7 @@ void Log::logFlipHoleCardsMsg(QString playerName, int card1, int card2, int card
 	
 		QString tempHandName = determineHandName(cardsValueInt);
 
-		myW->textBrowser_Log->append(playerName+" "+showHas+" \""+tempHandName+"\"");
+                myW->textBrowser_Log->append("<span style=\"color:#"+myStyle->getChatLogTextColor()+";\">"+playerName+" "+showHas+" \""+tempHandName+"\"</span>");
 
 		if(myConfig->readConfigInt("LogOnOff")) {
 		//if write logfiles is enabled
@@ -312,7 +312,7 @@ void Log::logFlipHoleCardsMsg(QString playerName, int card1, int card2, int card
 		}
 	}
 	else {
-		myW->textBrowser_Log->append(playerName+" "+showHas+" ["+translateCardCode(card1).at(0)+translateCardCode(card1).at(1)+","+translateCardCode(card2).at(0)+translateCardCode(card2).at(1)+"]");
+                myW->textBrowser_Log->append("<span style=\"color:#"+myStyle->getChatLogTextColor()+";\">"+playerName+" "+showHas+" ["+translateCardCode(card1).at(0)+translateCardCode(card1).at(1)+","+translateCardCode(card2).at(0)+translateCardCode(card2).at(1)+"]</span>");
 		
 		if(myConfig->readConfigInt("LogOnOff")) {
 		//if write logfiles is enabled
@@ -333,7 +333,7 @@ void Log::logPlayerLeftMsg(QString playerName, int wasKicked) {
 	if(wasKicked) action = "was kicked from";
 	else action = "has left";
 
-	myW->textBrowser_Log->append( "<i>"+playerName+" "+action+" the game!</i>");
+        myW->textBrowser_Log->append( "<span style=\"color:#"+myStyle->getChatLogTextColor()+";\"><i>"+playerName+" "+action+" the game!</i></span>");
 	
 	if(myConfig->readConfigInt("LogOnOff")) {
 	
