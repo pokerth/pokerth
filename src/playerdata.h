@@ -67,6 +67,7 @@ struct PlayerInfo
 	std::string		playerName;
 	PlayerType		ptype;
 	bool			isGuest;
+	std::string		countryCode;
 	bool			hasAvatar;
 	MD5Buf			avatar;
 	AvatarFileType	avatarType;

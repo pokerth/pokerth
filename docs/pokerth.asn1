@@ -249,6 +249,7 @@ PlayerInfoData ::= SEQUENCE {
 	playerName					UTF8String (SIZE(1..32)),
 	isHuman						BOOLEAN,
 	playerRights				PlayerInfoRights,
+	countryCode					UTF8String (SIZE(2)) OPTIONAL,
 	avatarData					SEQUENCE {
 		avatarType					NetAvatarType,
 		avatar						AvatarHash

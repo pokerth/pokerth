@@ -670,7 +670,11 @@ AbstractClientStateReceiving::HandlePacket(boost::shared_ptr<ClientThread> clien
 			tmpInfo.playerName = STL_STRING_FROM_OCTET_STRING(netInfo->playerName);
 			tmpInfo.ptype = netInfo->isHuman ? PLAYER_TYPE_HUMAN : PLAYER_TYPE_COMPUTER;
 			tmpInfo.isGuest = netInfo->playerRights == PlayerInfoRights_playerRightsGuest;
-			if (netInfo->avatarData != NULL)
+			if (netInfo->countryCode)
+			{
+				tmpInfo.countryCode = STL_STRING_FROM_OCTET_STRING(*netInfo->countryCode);
+			}
+			if (netInfo->avatarData)
 			{
 				tmpInfo.hasAvatar = true;
 				memcpy(tmpInfo.avatar.GetData(), netInfo->avatarData->avatar.buf, MD5_DATA_SIZE);

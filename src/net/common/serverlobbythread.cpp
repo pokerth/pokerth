@@ -1205,7 +1205,7 @@ ServerLobbyThread::HandleNetPacketRetrievePlayerInfo(SessionWrapper session, con
 	PlayerInfoReplyMessage_t *netPlayerInfoReply = &packet->GetMsg()->choice.playerInfoReplyMessage;
 	netPlayerInfoReply->playerId = tmpPlayer->GetUniqueId();
 
-	if (tmpPlayer.get())
+	if (tmpPlayer)
 	{
 		// Send player info to client.
 		netPlayerInfoReply->playerInfoResult.present = playerInfoResult_PR_playerInfoData;
@@ -1217,6 +1217,13 @@ ServerLobbyThread::HandleNetPacketRetrievePlayerInfo(SessionWrapper session, con
 			&data->playerName,
 			tmpPlayer->GetName().c_str(),
 			tmpPlayer->GetName().length());
+		if (!tmpPlayer->GetCountry().empty())
+		{
+			data->countryCode = OCTET_STRING_new_fromBuf(
+				&asn_DEF_UTF8String,
+				tmpPlayer->GetCountry().c_str(),
+				tmpPlayer->GetCountry().length());
+		}
 		if (!tmpPlayer->GetAvatarMD5().IsZero())
 		{
 			data->avatarData = (struct PlayerInfoData::avatarData *)calloc(1, sizeof(struct PlayerInfoData::avatarData));
