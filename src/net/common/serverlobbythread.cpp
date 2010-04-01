@@ -113,9 +113,9 @@ public:
 		LOG_ERROR("DB query error: " << error);
 	}
 
-	virtual void PlayerLoginSuccess(unsigned requestId, DB_id dbPlayerId, const std::string &secret)
+	virtual void PlayerLoginSuccess(unsigned requestId, const DBPlayerData &dbPlayerData)
 	{
-		m_server.UserValid(requestId, dbPlayerId, secret);
+		m_server.UserValid(requestId, dbPlayerData);
 	}
 
 	virtual void PlayerLoginFailed(unsigned requestId)
@@ -1483,11 +1483,11 @@ ServerLobbyThread::AuthenticatePlayer(SessionWrapper session)
 }
 
 void
-ServerLobbyThread::UserValid(unsigned playerId, DB_id dbPlayerId, const string &dbSecret)
+ServerLobbyThread::UserValid(unsigned playerId, const DBPlayerData &dbPlayerData)
 {
 	SessionWrapper tmpSession = m_sessionManager.GetSessionByUniquePlayerId(playerId, true);
-	tmpSession.playerData->SetDBId(dbPlayerId);
-	this->AuthChallenge(tmpSession, dbSecret);
+	tmpSession.playerData->SetDBId(dbPlayerData.id);
+	this->AuthChallenge(tmpSession, dbPlayerData.secret);
 }
 
 void

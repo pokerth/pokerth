@@ -65,6 +65,20 @@ PlayerData::SetPassword(const string &password)
 	m_password = password;
 }
 
+std::string
+PlayerData::GetCountry() const
+{
+	boost::mutex::scoped_lock lock(m_dataMutex);
+	return m_country;
+}
+
+void
+PlayerData::SetCountry(const std::string &country)
+{
+	boost::mutex::scoped_lock lock(m_dataMutex);
+	m_country = country;
+}
+
 string
 PlayerData::GetAvatarFile() const
 {

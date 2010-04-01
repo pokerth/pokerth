@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2009 by Lothar May                                      *
+ *   Copyright (C) 2010 by Lothar May                                      *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -18,29 +18,20 @@
  ***************************************************************************/
 /* Server database callback for async database operations. */
 
-#ifndef _SERVERDBCALLBACK_H_
-#define _SERVERDBCALLBACK_H_
+#ifndef _DBDEFS_H_
+#define _DBDEFS_H_
 
-#include <db/dbdefs.h>
 #include <string>
 
-// Callback operations are posted using the io service,
-// and will therefore be executed in the io service thread.
-class ServerDBCallback
+typedef unsigned DB_id;
+#define DB_ID_INVALID 0
+
+struct DBPlayerData
 {
-public:
-	virtual ~ServerDBCallback();
-
-	virtual void ConnectSuccess() = 0;
-	virtual void ConnectFailed(const std::string &error) = 0;
-
-	virtual void QueryError(const std::string &error) = 0;
-
-	virtual void PlayerLoginSuccess(unsigned requestId, const DBPlayerData &dbPlayerData) = 0;
-	virtual void PlayerLoginFailed(unsigned requestId) = 0;
-
-	virtual void CreateGameSuccess(unsigned requestId, DB_id gameId) = 0;
-	virtual void CreateGameFailed(unsigned requestId) = 0;
+	DB_id id;
+	std::string secret;
+	std::string language;
+	std::string last_login;
 };
 
 #endif

@@ -83,6 +83,8 @@ public:
 	void SetName(const std::string &name);
 	std::string GetPassword() const;
 	void SetPassword(const std::string &password);
+	std::string GetCountry() const;
+	void SetCountry(const std::string &country);
 	std::string GetAvatarFile() const;
 	void SetAvatarFile(const std::string &avatarFile);
 	MD5Buf GetAvatarMD5() const;
@@ -110,6 +112,7 @@ private:
 	int								m_number;
 	std::string						m_name;
 	std::string						m_password;
+	std::string						m_country;
 	std::string						m_avatarFile;
 	MD5Buf							m_avatarMD5;
 	PlayerType						m_type;
