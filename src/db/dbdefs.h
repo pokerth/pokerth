@@ -30,7 +30,7 @@ struct DBPlayerData
 {
 	DB_id id;
 	std::string secret;
-	std::string language;
+	std::string country;
 	std::string last_login;
 };
 

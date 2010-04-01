@@ -1494,6 +1494,7 @@ ServerLobbyThread::UserValid(unsigned playerId, const DBPlayerData &dbPlayerData
 {
 	SessionWrapper tmpSession = m_sessionManager.GetSessionByUniquePlayerId(playerId, true);
 	tmpSession.playerData->SetDBId(dbPlayerData.id);
+	tmpSession.playerData->SetCountry(dbPlayerData.country);
 	this->AuthChallenge(tmpSession, dbPlayerData.secret);
 }
 
