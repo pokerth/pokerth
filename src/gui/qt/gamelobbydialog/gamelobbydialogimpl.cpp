@@ -833,7 +833,7 @@ void gameLobbyDialogImpl::updatePlayer(unsigned playerId, QString newPlayerName)
             (*it1)->setData(0, Qt::DisplayRole, newPlayerName);
             PlayerInfo playerInfo(mySession->getClientPlayerInfo(playerId));
             if(!playerInfo.isGuest) {
-                (*it1)->setIcon(0, QIcon(QString(":/cflags/cflags/%1.png").arg("de")));
+                (*it1)->setIcon(0, QIcon(QString(":/cflags/cflags/%1.png").arg(QString::fromUtf8(mySession->getClientPlayerInfo(playerId).countryCode.c_str()).toLower())));
             }
             else {
                 (*it1)->setIcon(0, QIcon());
@@ -887,7 +887,7 @@ void gameLobbyDialogImpl::playerJoinedLobby(unsigned playerId, QString /*playerN
     QTreeWidgetItem *item = new QTreeWidgetItem(treeWidget_NickList, 0);
     item->setData(0, Qt::DisplayRole, QString::fromUtf8(playerInfo.playerName.c_str()));
     item->setData(0, Qt::UserRole, playerId);
-    item->setIcon(0, QIcon(QString(":/cflags/cflags/%1.png").arg("de")));
+    item->setIcon(0, QIcon(QString(":/cflags/cflags/%1.png").arg(QString::fromUtf8(mySession->getClientPlayerInfo(playerId).countryCode.c_str()).toLower())));
 
     treeWidget_NickList->sortItems(0, Qt::AscendingOrder);
     refreshPlayerStats();
