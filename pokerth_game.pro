@@ -319,8 +319,8 @@ win32 {
             -lgcrypt \
             -ltasn1 \
             -lgpg-error \
-            -lidn \
-            -lgsasl
+            -lgsasl \
+            -lidn
         LIBS += -lcurl
         LIBS += -lz
         LIBS += -llibboost_thread-mgw44-mt
