@@ -1,6 +1,6 @@
 @echo off
 echo PokerTH Win32 mingw download script version 1.0.
-echo Copyright (C) 2008-2009 Lothar May. License: GPL 2 or later
+echo Copyright (C) 2008-2010 Lothar May. License: GPL 2 or later
 echo BECAUSE THE PROGRAM IS LICENSED FREE OF CHARGE, THERE IS NO WARRANTY
 echo FOR THE PROGRAM, TO THE EXTENT PERMITTED BY APPLICABLE LAW.
 echo.
@@ -158,9 +158,9 @@ cd /d %PKTH_BaseDir%
 if not exist %PKTH_BaseDir%\GnuTLS. (
 echo.
 echo Downloading GnuTLS
-%PKTH_OldDir%\third_party_apps\wget http://josefsson.org/gnutls4win/gnutls-2.6.6.zip
+%PKTH_OldDir%\third_party_apps\wget http://josefsson.org/gnutls4win/gnutls-2.8.6.zip
 mkdir GnuTLS
-%PKTH_OldDir%\third_party_apps\7za x -y -oGnuTLS gnutls-2.6.6.zip
+%PKTH_OldDir%\third_party_apps\7za x -y -oGnuTLS gnutls-2.8.6.zip
 REM Wait 5 seconds for the file cache.
 @ping 127.0.0.1 -n 5 -w 1000 > nul
 REM Remove files for dynamic linking, we do not want to accidently use them
@@ -171,9 +171,9 @@ move GnuTLS\lib\*.la GnuTLS\lib\unused
 if not exist %PKTH_BaseDir%\gsasl. (
 echo.
 echo Downloading gsasl
-%PKTH_OldDir%\third_party_apps\wget http://josefsson.org/gnutls4win/gsasl-1.4.1.zip
+%PKTH_OldDir%\third_party_apps\wget http://josefsson.org/gnutls4win/gsasl-1.4.2-idn.zip
 mkdir gsasl
-%PKTH_OldDir%\third_party_apps\7za x -y -ogsasl gsasl-1.4.1.zip
+%PKTH_OldDir%\third_party_apps\7za x -y -ogsasl gsasl-1.4.2-idn.zip
 REM Wait 5 seconds for the file cache.
 @ping 127.0.0.1 -n 5 -w 1000 > nul
 REM Remove files for dynamic linking, we do not want to accidently use them
@@ -229,31 +229,31 @@ cd /d %PKTH_BaseDir%
 if not exist %PKTH_BaseDir%\SDL. (
 echo.
 echo Downloading SDL precompiled
-%PKTH_OldDir%\third_party_apps\wget http://www.libsdl.org/release/SDL-devel-1.2.13-mingw32.tar.gz
+%PKTH_OldDir%\third_party_apps\wget http://www.libsdl.org/release/SDL-devel-1.2.14-mingw32.tar.gz
 if not errorlevel 0 goto downloadFailed
 echo.
 echo Unpacking SDL
-%PKTH_OldDir%\third_party_apps\7za x -y SDL-devel-1.2.13-mingw32.tar.gz
-%PKTH_OldDir%\third_party_apps\7za x -y SDL-devel-1.2.13-mingw32.tar
-del SDL-devel-1.2.13-mingw32.tar
+%PKTH_OldDir%\third_party_apps\7za x -y SDL-devel-1.2.14-mingw32.tar.gz
+%PKTH_OldDir%\third_party_apps\7za x -y SDL-devel-1.2.14-mingw32.tar
+del SDL-devel-1.2.14-mingw32.tar
 REM Wait 5 seconds for the file cache, else ren might fail.
 @ping 127.0.0.1 -n 5 -w 1000 > nul
-ren SDL-1.2.13 SDL
+ren SDL-1.2.14 SDL
 )
 if not exist %PKTH_BaseDir%\SDL_mixer. (
 echo.
 echo Downloading SDL_mixer precompiled
-%PKTH_OldDir%\third_party_apps\wget http://www.libsdl.org/projects/SDL_mixer/release/SDL_mixer-1.2.8.zip http://www.libsdl.org/projects/SDL_mixer/release/SDL_mixer-1.2.8-win32.zip
+%PKTH_OldDir%\third_party_apps\wget http://www.libsdl.org/projects/SDL_mixer/release/SDL_mixer-1.2.11.zip http://www.libsdl.org/projects/SDL_mixer/release/SDL_mixer-1.2.11-win32.zip
 if not errorlevel 0 goto downloadFailed
 echo.
 echo Unpacking SDL_mixer
-%PKTH_OldDir%\third_party_apps\7za x -y SDL_mixer-1.2.8.zip
+%PKTH_OldDir%\third_party_apps\7za x -y SDL_mixer-1.2.11.zip
 REM Wait 5 seconds for the file cache, else ren might fail.
 @ping 127.0.0.1 -n 5 -w 1000 > nul
-ren SDL_mixer-1.2.8 SDL_mixer
+ren SDL_mixer-1.2.11 SDL_mixer
 mkdir SDL_mixer\bin
 mkdir SDL_mixer\lib
-%PKTH_OldDir%\third_party_apps\7za x -y -oSDL_mixer\bin SDL_mixer-1.2.8-win32.zip
+%PKTH_OldDir%\third_party_apps\7za x -y -oSDL_mixer\bin SDL_mixer-1.2.11-win32.zip
 echo.
 echo Creating import library
 cd SDL_mixer\bin
@@ -265,14 +265,14 @@ cd /d %PKTH_BaseDir%
 if not exist %PKTH_BaseDir%\svn. (
 echo.
 echo Downloading subversion
-%PKTH_OldDir%\third_party_apps\wget http://subversion.tigris.org/files/documents/15/46518/svn-win32-1.6.5.zip
+%PKTH_OldDir%\third_party_apps\wget http://subversion.tigris.org/files/documents/15/46880/svn-win32-1.6.6.zip
 if not errorlevel 0 goto downloadFailed
 echo.
 echo Unpacking subversion
-%PKTH_OldDir%\third_party_apps\7za x -y svn-win32-1.6.5.zip
+%PKTH_OldDir%\third_party_apps\7za x -y svn-win32-1.6.6.zip
 REM Wait 5 seconds for the file cache, else ren might fail.
 @ping 127.0.0.1 -n 5 -w 1000 > nul
-ren svn-win32-1.6.5 svn
+ren svn-win32-1.6.6 svn
 )
 if not exist %PKTH_BaseDir%\svn\bin\svn.exe goto svnFailure
 if not exist %PKTH_BaseDir%\pokerth. (

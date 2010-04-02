@@ -1,7 +1,7 @@
 These are some tools to help compiling the development version of PokerTH on Windows
 using the mingw g++ compiler.
 
-This script has been tested on Windows XP and Windows Vista. When updating this script from a
+This script has been tested on Windows 7 x64 and Windows XP. When updating this script from a
 previous version, delete the base pokerth directory first, and start from the scratch.
 
 Compiling all libraries and PokerTH itself could take SEVERAL HOURS, and uses up a lot of disc space.
@@ -50,7 +50,7 @@ Please follow these instructions:
 
 
 /***************************************************************************
- *   Copyright (C) 2008-2009 by Lothar May                                 *
+ *   Copyright (C) 2008-2010 by Lothar May                                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
