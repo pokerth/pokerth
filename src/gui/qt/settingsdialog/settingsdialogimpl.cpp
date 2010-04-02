@@ -566,7 +566,8 @@ void settingsDialogImpl::isAccepted() {
     myConfig->writeConfigInt("FlipsideOwn", radioButton_flipsideOwn->isChecked());
 
     if(radioButton_flipsideOwn->isChecked()) {
-        if(QFile::QFile(lineEdit_OwnFlipsideFilename->text()).exists() && lineEdit_OwnFlipsideFilename->text() != "") {myConfig->writeConfigString("FlipsideOwnFile", lineEdit_OwnFlipsideFilename->text().toUtf8().constData()); }
+        QFile ownFlipsideFilename(lineEdit_OwnFlipsideFilename->text());
+        if(ownFlipsideFilename.exists() && lineEdit_OwnFlipsideFilename->text() != "") {myConfig->writeConfigString("FlipsideOwnFile", lineEdit_OwnFlipsideFilename->text().toUtf8().constData()); }
         else {	QMessageBox::warning(this, tr("Settings Error"),
                                      tr("The entered flipside picture doesn't exist.\n"
                                         "Please enter an valid picture!"),
@@ -622,7 +623,8 @@ void settingsDialogImpl::isAccepted() {
     myConfig->writeConfigInt("LogOnOff", groupBox_logOnOff->isChecked());
     if (myConfig->readConfigInt("LogOnOff")) {
 	// if log On
-        if(QDir::QDir(lineEdit_logDir->text()).exists() && lineEdit_logDir->text() != "") { myConfig->writeConfigString("LogDir", lineEdit_logDir->text().toUtf8().constData());	}
+	QDir logDir(lineEdit_logDir->text());
+        if(logDir.exists() && lineEdit_logDir->text() != "") { myConfig->writeConfigString("LogDir", lineEdit_logDir->text().toUtf8().constData());	}
         else {
             QMessageBox::warning(this, tr("Settings Error"),
                                  tr("The log file directory doesn't exist.\n"

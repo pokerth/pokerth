@@ -816,7 +816,8 @@ void gameTableImpl::refreshPlayerAvatar() {
         for (it_c=currentHand->getSeatsList()->begin(); it_c!=currentHand->getSeatsList()->end(); it_c++) {
             if((*it_c)->getMyActiveStatus()) {
 
-                if((*it_c)->getMyAvatar() == "" || !QFile::QFile(QString::fromUtf8((*it_c)->getMyAvatar().c_str())).exists()) {
+		QFile myAvatarFile(QString::fromUtf8((*it_c)->getMyAvatar().c_str()));
+                if((*it_c)->getMyAvatar() == "" || !myAvatarFile.exists()) {
                     playerAvatarLabelArray[(*it_c)->getMyID()]->setPixmap(QPixmap::fromImage(QImage(myGameTableStyle->getDefaultAvatar())));
                 }
                 else {
@@ -826,7 +827,8 @@ void gameTableImpl::refreshPlayerAvatar() {
             else {
                 if((myStartWindow->getSession()->getGameType() == Session::GAME_TYPE_INTERNET || myStartWindow->getSession()->getGameType() == Session::GAME_TYPE_NETWORK)) {
                     if((*it_c)->getMyStayOnTableStatus() == TRUE && (*it_c)->getMyType() != PLAYER_TYPE_COMPUTER) {
-                        if((*it_c)->getMyAvatar() == "" || !QFile::QFile(QString::fromUtf8((*it_c)->getMyAvatar().c_str())).exists()) {
+                	QFile myAvatarFile(QString::fromUtf8((*it_c)->getMyAvatar().c_str()));
+                        if((*it_c)->getMyAvatar() == "" || !myAvatarFile.exists()) {
                             playerAvatarLabelArray[(*it_c)->getMyID()]->setPixmap(QPixmap::fromImage(QImage(myGameTableStyle->getDefaultAvatar())), TRUE);
                         }
                         else {
@@ -852,7 +854,8 @@ void gameTableImpl::setPlayerAvatar(int myID, QString myAvatar) {
         boost::shared_ptr<PlayerInterface> tmpPlayer = myStartWindow->getSession()->getCurrentGame()->getPlayerByUniqueId(myID);
         if (tmpPlayer.get()) {
 
-            if(QFile::QFile(myAvatar).exists()) {
+	    QFile myAvatarFile(myAvatar);
+            if(myAvatarFile.exists()) {
                 playerAvatarLabelArray[tmpPlayer->getMyID()]->setPixmap(myAvatar);
                 tmpPlayer->setMyAvatar(myAvatar.toUtf8().constData());
             }

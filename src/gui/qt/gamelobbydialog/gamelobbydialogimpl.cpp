@@ -921,7 +921,8 @@ void gameLobbyDialogImpl::refreshConnectedPlayerAvatars() {
         if(mySession->getAvatarFile(playerInfo.avatar, myAvatarFileName)) {
 
             QString myAvatarString(QString::fromUtf8(myAvatarFileName.c_str()));
-            if(QFile::QFile(myAvatarString).exists()) {
+            QFile myAvatarFile(myAvatarString);
+            if(myAvatarFile.exists()) {
 
                 QPixmap myAvatarPixmap(25,26);
                 myAvatarPixmap.fill(Qt::transparent);

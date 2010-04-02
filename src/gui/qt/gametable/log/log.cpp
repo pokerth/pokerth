@@ -54,13 +54,15 @@ Log::Log(gameTableImpl* w, ConfigFile *c) : myW(w), myConfig(c), myLogDir(0), my
 
 	if(myConfig->readConfigInt("LogOnOff")) {
 	//if write logfiles is enabled
-		if(myConfig->readConfigString("LogDir") != "" && QDir::QDir(QString::fromUtf8(myConfig->readConfigString("LogDir").c_str())).exists()) { 
+		QDir logDir(QString::fromUtf8(myConfig->readConfigString("LogDir").c_str()));
+		if(myConfig->readConfigString("LogDir") != "" && logDir.exists()) { 
 	
 			myLogDir = new QDir(QString::fromUtf8(myConfig->readConfigString("LogDir").c_str()));
 			myLogFile = new QFile(myLogDir->absolutePath()+"/pokerth-log-"+QDateTime::currentDateTime().toString("yyyy-MM-dd_hh.mm.ss")+".html");
 	
 			//Logo-Pixmap extrahieren
-                        QPixmap::QPixmap(":/gfx/logoChip3D.png").save(myLogDir->absolutePath()+"/logo.png");
+			QPixmap logoChipPixmapFile(":/gfx/logoChip3D.png");
+                        logoChipPixmapFile.save(myLogDir->absolutePath()+"/logo.png");
 	
 	// 		myW->textBrowser_Log->append(myLogFile->fileName());
 	

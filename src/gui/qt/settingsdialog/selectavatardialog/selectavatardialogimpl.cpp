@@ -212,7 +212,8 @@ QString selectAvatarDialogImpl::getAvatarLink() {
 		else return QString("");
 	}
 	
-	if(groupBox_2->isChecked() && QFile::QFile(lineEdit->text()).exists() ) return externalAvatar;
+	QFile lineEditFile(lineEdit->text());
+	if(groupBox_2->isChecked() && lineEditFile.exists() ) return externalAvatar;
 	else return QString("");
 }
 
@@ -232,9 +233,10 @@ void selectAvatarDialogImpl::isAccepted() {
 	}
 	
 	if(groupBox_2->isChecked()) {
-		if(QFile::QFile(lineEdit->text()).exists()) { 
+		QFile lineEditFile(lineEdit->text());
+		if(lineEditFile.exists()) { 
 
-			if(QFile::QFile(lineEdit->text()).size() <= 30720 ) {
+			if(lineEditFile.size() <= 30720 ) {
 				externalAvatar = lineEdit->text();
 				settingsCorrect = TRUE;
 			}
