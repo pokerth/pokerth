@@ -25,7 +25,7 @@
 
 
 createInternetGameDialogImpl::createInternetGameDialogImpl(QWidget *parent, ConfigFile *c)
-      : QDialog(parent), myConfig(c)
+      : QDialog(parent), myConfig(c), currentGuestMode(false), currentPlayerName("")
 {
 #ifdef __APPLE__
 	setWindowModality(Qt::ApplicationModal);
@@ -40,22 +40,26 @@ createInternetGameDialogImpl::createInternetGameDialogImpl(QWidget *parent, Conf
 
 	myChangeCompleteBlindsDialog = new changeCompleteBlindsDialogImpl;
 
+        startBlind = new QLabel(tr("<i>Start blind: $25</i>"));
+        raiseMode = new QLabel(tr("<i>Double blinds every 11'th hand</i>"));
+        startBlind->hide();
+        raiseMode->hide();
+        gridLayout1->addWidget(startBlind, 0, 0, 1, 1);
+        gridLayout1->addWidget(raiseMode, 1, 0, 1, 1);
+
 	connect( radioButton_changeBlindsSettings, SIGNAL( clicked(bool) ), this, SLOT( callChangeBlindsDialog(bool) ) );
 	connect( pushButton_cancel, SIGNAL( clicked() ), this, SLOT( cancel() ) );
 	connect( pushButton_createGame, SIGNAL( clicked() ), this, SLOT( createGame() ) );
 	connect( checkBox_Password, SIGNAL( toggled(bool) ), this, SLOT( clearGamePassword(bool)) ); 
         connect( comboBox_gameType, SIGNAL(currentIndexChanged(int)), this, SLOT( gameTypeChanged() ) );
-        
-	//temporarely unused until ai is enabled in network
-// 	label_5->hide();
-// 	spinBox_gameSpeed->hide();
-
 
 }
 
 
 void createInternetGameDialogImpl::exec(bool guestMode, QString playerName) {
 	
+        currentGuestMode = guestMode;
+        currentPlayerName = playerName;
         fillFormular(guestMode, playerName);
 	QDialog::exec();
 }
@@ -150,16 +154,58 @@ void createInternetGameDialogImpl::gameTypeChanged() {
 
     switch (comboBox_gameType->currentIndex()) {
 
-    case 0: { checkBox_Password->setDisabled(FALSE); }
+    case GAME_TYPE_NORMAL-1: {
+                checkBox_Password->setDisabled(FALSE);
+                spinBox_startCash->setDisabled(FALSE);
+                spinBox_quantityPlayers->setDisabled(FALSE);
+                spinBox_quantityPlayers->setValue(myConfig->readConfigInt("NetNumberOfPlayers"));
+                spinBox_startCash->setValue(myConfig->readConfigInt("NetStartCash"));
+                radioButton_useSavedBlindsSettings->show();
+                radioButton_changeBlindsSettings->show();
+                startBlind->hide();
+                raiseMode->hide();
+            }
+
     break;
-    case 1: { checkBox_Password->setDisabled(FALSE); }
-    break;
-    case 2: { checkBox_Password->setChecked(FALSE);
-              checkBox_Password->setDisabled(TRUE);
+    case GAME_TYPE_REGISTERED_ONLY-1: {
+                checkBox_Password->setDisabled(FALSE);
+                spinBox_startCash->setDisabled(FALSE);
+                spinBox_quantityPlayers->setDisabled(FALSE);
+                spinBox_quantityPlayers->setValue(myConfig->readConfigInt("NetNumberOfPlayers"));
+                spinBox_startCash->setValue(myConfig->readConfigInt("NetStartCash"));
+                radioButton_useSavedBlindsSettings->show();
+                radioButton_changeBlindsSettings->show();
+                startBlind->hide();
+                raiseMode->hide();
             }
     break;
-    case 3: { checkBox_Password->setChecked(FALSE);
-              checkBox_Password->setDisabled(TRUE);
+    case GAME_TYPE_INVITE_ONLY-1: {
+                checkBox_Password->setChecked(FALSE);
+                checkBox_Password->setDisabled(TRUE);
+                spinBox_startCash->setDisabled(FALSE);
+                spinBox_quantityPlayers->setDisabled(FALSE);
+                spinBox_quantityPlayers->setValue(myConfig->readConfigInt("NetNumberOfPlayers"));
+                spinBox_startCash->setValue(myConfig->readConfigInt("NetStartCash"));
+                radioButton_useSavedBlindsSettings->show();
+                radioButton_changeBlindsSettings->show();
+                startBlind->hide();
+                raiseMode->hide();
+
+            }
+    break;
+    case GAME_TYPE_RANKING-1: {
+                checkBox_Password->setChecked(FALSE);
+                checkBox_Password->setDisabled(TRUE);
+
+                spinBox_startCash->setValue(10000);
+                spinBox_startCash->setDisabled(TRUE);
+                spinBox_quantityPlayers->setValue(10);
+                spinBox_quantityPlayers->setDisabled(TRUE);
+                radioButton_useSavedBlindsSettings->hide();
+                radioButton_changeBlindsSettings->hide();
+                startBlind->show();
+                raiseMode->show();
+
             }
     break;
     }

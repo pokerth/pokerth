@@ -51,6 +51,11 @@ private:
 		
 	ConfigFile *myConfig;	
 	changeCompleteBlindsDialogImpl *myChangeCompleteBlindsDialog;
+        bool currentGuestMode;
+        QString currentPlayerName;
+        QLabel *startBlind;
+        QLabel *raiseMode;
+
 };
 
 #endif
