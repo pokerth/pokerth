@@ -242,7 +242,7 @@ unix : !mac {
 				-lpokerth_protocol
         LIBS += $$BOOST_LIBS
         LIBS += -lcurl -lgsasl
-        !isEmpty( BSD ) && isEmpty( kFreeBSD ){
+        !isEmpty( BSD ): isEmpty( kFreeBSD ){
             LIBS += -lcrypto -liconv
         }        else {
             LIBS += -lgnutls-openssl -lgcrypt

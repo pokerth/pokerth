@@ -406,7 +406,7 @@ unix:!mac {
     LIBS += -lSDL_mixer \
         -lcurl \
         -lgsasl
-    !isEmpty( BSD ) && isEmpty( kFreeBSD ):LIBS += -lcrypto
+    !isEmpty( BSD ): isEmpty( kFreeBSD ):LIBS += -lcrypto
     else:LIBS += -lgnutls-openssl \
         -lgcrypt
     TARGETDEPS += ./lib/libpokerth_lib.a \
