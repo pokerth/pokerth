@@ -1,4 +1,6 @@
-<!DOCTYPE TS><TS>
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE TS>
+<TS version="2.0">
 <context>
     <name>CardDeckStyleReader</name>
     <message>
@@ -56,11 +58,11 @@ Vyberte styl karet a zkuste to znovu!</translation>
     <name>Chat</name>
     <message>
         <source>You cannot kick yourself!</source>
-        <translation>Nemůžete se sám vyhodit!</translation>
+        <translation type="obsolete">Nemůžete se sám vyhodit!</translation>
     </message>
     <message>
         <source>You cannot kick any player - You are not game admin!</source>
-        <translation>Nemůžete nikoho vyhodit - nejste správce místnosti!</translation>
+        <translation type="obsolete">Nemůžete nikoho vyhodit - nejste správce místnosti!</translation>
     </message>
 </context>
 <context>
@@ -122,50 +124,66 @@ Kontaktujte výrobce stylu herního stolu %3.</translation>
     <name>LobbyChat</name>
     <message>
         <source>Successfully connected to</source>
-        <translation>Úspěšně připojen k</translation>
+        <translation type="obsolete">Úspěšně připojen k</translation>
     </message>
     <message>
         <source>Joined channel:</source>
-        <translation>Sloučený kanál:</translation>
+        <translation type="obsolete">Sloučený kanál:</translation>
     </message>
     <message>
         <source>as user</source>
-        <translation>jako uživatel</translation>
+        <translation type="obsolete">jako uživatel</translation>
     </message>
     <message>
         <source>was kicked from the server by</source>
-        <translation>byl vyhozen ze serveru háčem </translation>
+        <translation type="obsolete">byl vyhozen ze serveru háčem </translation>
     </message>
     <message>
         <source>Connecting to Chat server...</source>
-        <translation>Připojuji se k Chat serveru...</translation>
+        <translation type="obsolete">Připojuji se k Chat serveru...</translation>
     </message>
     <message>
         <source>An internal IRC error has occured:</source>
-        <translation>Vyskytla se vnitřní chyba IRC:</translation>
+        <translation type="obsolete">Vyskytla se vnitřní chyba IRC:</translation>
     </message>
     <message>
         <source>Could not connect to the IRC server. Chat will be unavailable.</source>
-        <translation>Nemohu se připojit k IRC serveru. Chat bude nedostupný.</translation>
+        <translation type="obsolete">Nemohu se připojit k IRC serveru. Chat bude nedostupný.</translation>
     </message>
     <message>
         <source>The IRC server terminated the connection. Chat will be unavailable.</source>
-        <translation>IRC server ukončil spojení. Chat bude nedostupný.</translation>
+        <translation type="obsolete">IRC server ukončil spojení. Chat bude nedostupný.</translation>
     </message>
     <message>
         <source>An IRC action timed out.</source>
-        <translation>Vypršela doba pro akci IRC.</translation>
+        <translation type="obsolete">Vypršela doba pro akci IRC.</translation>
     </message>
     <message>
         <source>The IRC server reported an error:</source>
-        <translation>IRC server nahlásil chybu:</translation>
+        <translation type="obsolete">IRC server nahlásil chybu:</translation>
     </message>
 </context>
 <context>
     <name>MyAvatarLabel</name>
     <message>
         <source>Start vote to kick this user</source>
-        <translation>Začněte hlasovat pro vyhození hráče</translation>
+        <translation type="obsolete">Začněte hlasovat pro vyhození hráče</translation>
+    </message>
+    <message>
+        <source>Start vote to kick this player</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Ignore Player</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>You will no longer recieve chat messages or game invitations from this user.&lt;br&gt;Do you really want to put player &lt;b&gt;%1&lt;/b&gt; on ignore list?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>PokerTH - Question</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -213,7 +231,7 @@ Kontaktujte výrobce stylu herního stolu %3.</translation>
         <source>Close</source>
         <translation>Zavřít</translation>
     </message>
-    <message encoding="UTF-8">
+    <message utf8="true">
         <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
@@ -243,7 +261,7 @@ p, li { white-space: pre-wrap; }
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:8pt; font-weight:400; font-style:normal;&quot;&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Sans Serif&apos;;&quot;&gt;translator name - mail address&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+        <translation type="obsolete">&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:8pt; font-weight:400; font-style:normal;&quot;&gt;
@@ -272,7 +290,7 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Sans Serif&apos;;&quot;&gt;    - for startwindow background gfx and danuxi1 table background&lt;/span&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Sans Serif&apos;; font-weight:600;&quot;&gt;heyn&lt;/span&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Sans Serif&apos;;&quot;&gt;    - for moderating forum and organise bugtracker and feature requests&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+        <translation type="obsolete">&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:8pt; font-weight:400; font-style:normal;&quot;&gt;
@@ -315,7 +333,7 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Sans Serif&apos;;&quot;&gt;          - basic architecture, network development, windows package, MacOS package&lt;/span&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Sans Serif&apos;;&quot;&gt;     Oskar Lindqvist (&lt;/span&gt;&lt;a href=&quot;mailto:tranberry@pokerth.net&quot;&gt;&lt;span style=&quot; font-family:&apos;Sans Serif&apos;; text-decoration: underline; color:#0000ff;&quot;&gt;tranberry@pokerth.net&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; font-family:&apos;Sans Serif&apos;;&quot;&gt;)&lt;/span&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Sans Serif&apos;;&quot;&gt;          - initial gui graphics design&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+        <translation type="obsolete">&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:8pt; font-weight:400; font-style:normal;&quot;&gt;
@@ -334,6 +352,61 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Sans Serif&apos;;&quot;&gt;- základní architektura, síťové rozhraní, balíček pro Windows, balíček pro MacOS&lt;/span&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Sans Serif&apos;;&quot;&gt;Oskar Lindqvist (&lt;/span&gt;&lt;a href=&quot;mailto:tranberry@pokerth.net&quot;&gt;&lt;span style=&quot; font-family:&apos;Sans Serif&apos;; text-decoration: underline; color:#0000ff;&quot;&gt;tranberry@pokerth.net&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; font-family:&apos;Sans Serif&apos;;&quot;&gt;)&lt;/span&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Sans Serif&apos;;&quot;&gt;- počáteční grafický návrh&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+    </message>
+    <message>
+        <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot;  font-weight:600;&quot;&gt;Project page: &lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; &quot;&gt;     &lt;/span&gt;&lt;a href=&quot;http://www.pokerth.net&quot;&gt;&lt;span style=&quot;  text-decoration: underline; color:#0000ff;&quot;&gt;http://www.pokerth.net&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; &quot;&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot;  font-weight:600;&quot;&gt;IRC: &lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; &quot;&gt;     #pokerth (irc.freenode.net)&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; &quot;&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot;  font-weight:600;&quot;&gt;Authors: &lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; &quot;&gt;     Felix Hammer (&lt;/span&gt;&lt;a href=&quot;mailto:doitux@pokerth.net&quot;&gt;&lt;span style=&quot;  text-decoration: underline; color:#0000ff;&quot;&gt;doitux@pokerth.net&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; &quot;&gt;)&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; &quot;&gt;          - initial idea, basic architecture, gui implementation, gui graphics editing, linux package&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; &quot;&gt;     Florian Thauer (&lt;/span&gt;&lt;a href=&quot;mailto:floty@pokerth.net&quot;&gt;&lt;span style=&quot;  text-decoration: underline; color:#0000ff;&quot;&gt;floty@pokerth.net&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; &quot;&gt;)&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; &quot;&gt;          - initial idea, basic architecture, engine development&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; &quot;&gt;     Lothar May (&lt;/span&gt;&lt;a href=&quot;mailto:lotodore@pokerth.net&quot;&gt;&lt;span style=&quot;  text-decoration: underline; color:#0000ff;&quot;&gt;lotodore@pokerth.net&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; &quot;&gt;)&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; &quot;&gt;          - basic architecture, network development, windows package, MacOS package&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; &quot;&gt;     Oskar Lindqvist (&lt;/span&gt;&lt;a href=&quot;mailto:tranberry@pokerth.net&quot;&gt;&lt;span style=&quot;  text-decoration: underline; color:#0000ff;&quot;&gt;tranberry@pokerth.net&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; &quot;&gt;)&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; &quot;&gt;          - initial gui graphics design&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; &quot;&gt;translator name - mail address&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://commons.wikimedia.org/wiki/Main_Page&quot;&gt;&lt;span style=&quot;  font-weight:600; text-decoration: underline; color:#0000ff;&quot;&gt;Wikimedia Commons&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot;  font-weight:600;&quot;&gt;     - &lt;/span&gt;&lt;span style=&quot; &quot;&gt;for different popular avatar picture resources&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot;  font-weight:600;&quot;&gt;Benedikt, Erhard, Felix, Florian, Linus, Lothar, Steffi, Caro&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; &quot;&gt;     - for people avatar pictures&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot;  font-weight:600;&quot;&gt;ZeiZei&lt;/span&gt;&lt;span style=&quot; &quot;&gt; &lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; &quot;&gt;    - for &quot;misc&quot; avatar pictures&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://kde-look.org/&quot;&gt;&lt;span style=&quot;  font-weight:600; text-decoration: underline; color:#0000ff;&quot;&gt;http://kde-look.org/&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; &quot;&gt;     - for different gpl licensed sounds&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot;  font-weight:600;&quot;&gt;doc_dos&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; &quot;&gt;     - for self recorded chip sounds&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot;  font-weight:600;&quot;&gt;thiger, dunkanx, BerndA, coldz&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; &quot;&gt;     - for different patches&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot;  font-weight:600;&quot;&gt;kraut&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; &quot;&gt;     - for internet-game-server hosting and administration&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot;  font-weight:600;&quot;&gt;danuxi&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; &quot;&gt;    - for startwindow background gfx and danuxi1 table background&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot;  font-weight:600;&quot;&gt;heyn&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; &quot;&gt;    - for moderating forum and organise bugtracker and feature requests&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -506,7 +579,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Game Speed for computer opponents:</source>
-        <translation>Rychlost hry počítačových oponentů:</translation>
+        <translation type="obsolete">Rychlost hry počítačových oponentů:</translation>
     </message>
     <message>
         <source>Timeout for player action:</source>
@@ -527,6 +600,49 @@ p, li { white-space: pre-wrap; }
     <message>
         <source>Cancel</source>
         <translation>Zrušit</translation>
+    </message>
+    <message>
+        <source>Default game name:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Game type:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Standard</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Registered players only</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Invited players only</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Ranking game</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Delay between hands:</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>createInternetGameDialogImpl</name>
+    <message>
+        <source>&lt;i&gt;Start blind: $25&lt;/i&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt;i&gt;Double blinds every 11&apos;th hand&lt;/i&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1&apos;s game</source>
+        <translation type="unfinished">Hra hráče %1</translation>
     </message>
 </context>
 <context>
@@ -565,7 +681,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Game Speed for computer opponents:</source>
-        <translation>Rychlost hry počítačových oponentů:</translation>
+        <translation type="obsolete">Rychlost hry počítačových oponentů:</translation>
     </message>
     <message>
         <source>Timeout for player action:</source>
@@ -582,6 +698,10 @@ p, li { white-space: pre-wrap; }
     <message>
         <source>Cancel</source>
         <translation>Zrušit</translation>
+    </message>
+    <message>
+        <source>Delay between hands:</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -616,7 +736,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Maximum number of players: </source>
-        <translation>Maximální počet hráčů:</translation>
+        <translation type="obsolete">Maximální počet hráčů:</translation>
     </message>
     <message>
         <source>Start Cash: </source>
@@ -694,6 +814,10 @@ p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://www.pokerth.net&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;http://www.pokerth.net&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
+    <message>
+        <source>Game type:</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>gameLobbyDialogImpl</name>
@@ -703,7 +827,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>%1&apos;s game</source>
-        <translation>Hra hráče %1</translation>
+        <translation type="obsolete">Hra hráče %1</translation>
     </message>
     <message>
         <source>Joining a private Game</source>
@@ -735,7 +859,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Private</source>
-        <translation>Soukromá</translation>
+        <translation type="obsolete">Soukromá</translation>
     </message>
     <message>
         <source>running</source>
@@ -780,6 +904,103 @@ p, li { white-space: pre-wrap; }
     <message>
         <source>You should not kick yourself from this game!</source>
         <translation>Nemůžete se sám vyhodit ze hry!</translation>
+    </message>
+    <message>
+        <source>R</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>P</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Invite player</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Ignore player</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Standard</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Registered players only</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Invited players only</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Ranking game</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Connected players - max. %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>T</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Connected players - Max. %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Connected players</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Invite player %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Invite player ...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Ignore player %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Ignore player ...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>You&apos;ve entered a game with invite-only type.
+You can invite other players with right-click on their nick in the left available players list.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>PokerTH - Info Message</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>You&apos;ve been invited to the game &lt;b&gt;%1&lt;/b&gt; by &lt;b&gt;%2&lt;/b&gt;.&lt;br&gt;Do you want to join this game?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt;span style=&apos;color:blue;&apos;&gt;Player %1 has been invited to %2 by %3.&lt;/span&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt;span style=&apos;color:red;&apos;&gt;Player %1 has rejected intivation to %2.&lt;/span&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt;span style=&apos;color:red;&apos;&gt;Player %1 can not join %2 because he is busy.&lt;/span&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>You will no longer recieve chat messages or game invitations from this user.&lt;br&gt;Do you really want to put player &lt;b&gt;%1&lt;/b&gt; on ignore list?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>PokerTH - Question</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1039,6 +1260,49 @@ a vrátit se zpět do lobby?</translation>
     </message>
 </context>
 <context>
+    <name>internetGameLoginDialog</name>
+    <message>
+        <source>Internet Game Login</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Registered user</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Username:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Password:</source>
+        <translation type="unfinished">Heslo:</translation>
+    </message>
+    <message>
+        <source>Remember password (not recommended)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Login as guest</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Login</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation type="unfinished">Zrušit</translation>
+    </message>
+    <message>
+        <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://login.pokerth.biz/register.php&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0057ae;&quot;&gt;Create new user account ...&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>joinNetworkGameDialog</name>
     <message>
         <source>Join Network Game</source>
@@ -1110,7 +1374,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Password (optional):</source>
-        <translation>Heslo (volitelně):</translation>
+        <translation type="obsolete">Heslo (volitelně):</translation>
     </message>
     <message>
         <source>Port:</source>
@@ -1408,7 +1672,7 @@ Vložte platný obrázek!</translation>
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:8pt; font-weight:400; font-style:normal;&quot;&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-style:italic;&quot;&gt;Note: Best quality with image ratio like &lt;/span&gt;&lt;span style=&quot; font-weight:600; font-style:italic;&quot;&gt;width=76, height=48.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+        <translation type="obsolete">&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:8pt; font-weight:400; font-style:normal;&quot;&gt;
@@ -1516,7 +1780,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Game Speed for computer opponents:</source>
-        <translation>Rychlost hry počítačových oponentů:</translation>
+        <translation type="obsolete">Rychlost hry počítačových oponentů:</translation>
     </message>
     <message>
         <source>Timeout for player action:</source>
@@ -1532,7 +1796,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Server Password:</source>
-        <translation>Heslo serveru:</translation>
+        <translation type="obsolete">Heslo serveru:</translation>
     </message>
     <message>
         <source>Server Port:</source>
@@ -1578,15 +1842,15 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>chat.freenode.net</source>
-        <translation>chat.freenode.net</translation>
+        <translation type="obsolete">chat.freenode.net</translation>
     </message>
     <message>
         <source>Channel:</source>
-        <translation>Kanál:</translation>
+        <translation type="obsolete">Kanál:</translation>
     </message>
     <message>
         <source>#pokerth</source>
-        <translation>#pokerth</translation>
+        <translation type="obsolete">#pokerth</translation>
     </message>
     <message>
         <source>Computer Engine</source>
@@ -1628,7 +1892,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Human Player:</source>
-        <translation>Lidský hráč:</translation>
+        <translation type="obsolete">Lidský hráč:</translation>
     </message>
     <message>
         <source>Enable/Disable Logging</source>
@@ -1712,15 +1976,15 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Internet Server</source>
-        <translation>Internetový server</translation>
+        <translation type="obsolete">Internetový server</translation>
     </message>
     <message>
         <source>Lobby Chat (IRC)</source>
-        <translation>Lobby Chat (IRC)</translation>
+        <translation type="obsolete">Lobby Chat (IRC)</translation>
     </message>
     <message>
         <source>Password:</source>
-        <translation>Heslo:</translation>
+        <translation type="obsolete">Heslo:</translation>
     </message>
     <message>
         <source>Avatar Server:</source>
@@ -1781,6 +2045,77 @@ p, li { white-space: pre-wrap; }
     <message>
         <source>Opponent 9:</source>
         <translation>Protihráč 9:</translation>
+    </message>
+    <message>
+        <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:8pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;table style=&quot;-qt-table-type: root; margin-top:4px; margin-bottom:4px; margin-left:4px; margin-right:4px;&quot;&gt;
+&lt;tr&gt;
+&lt;td style=&quot;border: none;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-style:italic;&quot;&gt;Note: Best quality with image ratio like &lt;/span&gt;&lt;span style=&quot; font-weight:600; font-style:italic;&quot;&gt;width=48, height=76.&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Delay between hands:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Server</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Game</source>
+        <translation type="unfinished">Hra</translation>
+    </message>
+    <message>
+        <source>Default game name:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Default game type:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Standard</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Registered players only</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Invited players only</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Ranking game</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Show lobby chat</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Ignored Players</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Player</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Remove Player</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Human Player:&lt;br /&gt;&lt;span style=&quot; font-style:italic;&quot;&gt;(This nick will also be used for the online game login)&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -2011,6 +2346,10 @@ Styl nebude umístěn do seznamu!</translation>
     <message>
         <source>Portuguese (Portuguese)</source>
         <translation>Portugalsky (Portugalsky)</translation>
+    </message>
+    <message>
+        <source>Czech</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -2352,7 +2691,7 @@ Zvolte jiný nick.</translation>
     </message>
     <message>
         <source>You cannot upload a new avatar file at this time. Please try again in a few seconds.</source>
-        <translation>Nyní nemůžete nahrát nový soubor avataru. Zkuste to později.</translation>
+        <translation type="obsolete">Nyní nemůžete nahrát nový soubor avataru. Zkuste to později.</translation>
     </message>
     <message>
         <source>An internal avatar error occured. Please report this to an admin in the lobby chat.</source>
@@ -2405,6 +2744,19 @@ Zvolte jiný nick.</translation>
     <message>
         <source>PokerTH %1</source>
         <translation>PokerTH %1</translation>
+    </message>
+    <message>
+        <source>Invalid login.
+Please check your username and password.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>You cannot login at this time. Please try again in a few seconds.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>You cannot join this type of game as guest.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
