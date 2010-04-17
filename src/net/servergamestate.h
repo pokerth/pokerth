@@ -89,6 +89,7 @@ protected:
 	void UnregisterAdminTimer(boost::shared_ptr<ServerGame> server);
 	void TimerAdminWarning(const boost::system::error_code &ec, boost::shared_ptr<ServerGame> server);
 	void TimerAdminTimeout(const boost::system::error_code &ec, boost::shared_ptr<ServerGame> server);
+	void SendStartEvent(ServerGame &server, bool fillWithComputerPlayers);
 
 	virtual void InternalProcessPacket(boost::shared_ptr<ServerGame> server, SessionWrapper session, boost::shared_ptr<NetPacket> packet);
 

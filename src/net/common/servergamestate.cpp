@@ -318,11 +318,9 @@ ServerGameStateInit::HandleNewSession(boost::shared_ptr<ServerGame> server, Sess
 {
 	if (session.sessionData && session.playerData)
 	{
-		size_t curNumPlayers = server->GetCurNumberOfPlayers();
-
 		const GameData &tmpGameData = server->GetGameData();
 		// Check the number of players.
-		if (curNumPlayers >= (size_t)tmpGameData.maxNumberOfPlayers)
+		if (server->GetCurNumberOfPlayers() >= (size_t)tmpGameData.maxNumberOfPlayers)
 		{
 			server->MoveSessionToLobby(session, NTF_NET_REMOVED_GAME_FULL);
 		}
@@ -364,6 +362,12 @@ ServerGameStateInit::HandleNewSession(boost::shared_ptr<ServerGame> server, Sess
 
 			// Notify lobby.
 			server->GetLobbyThread().NotifyPlayerJoinedGame(server->GetId(), session.playerData->GetUniqueId());
+
+			if (server->GetCurNumberOfPlayers() == (size_t)tmpGameData.maxNumberOfPlayers)
+			{
+				// Automatically start the game if it is full.
+				SendStartEvent(*server, false);
+			}
 		}
 	}
 }
@@ -426,6 +430,44 @@ ServerGameStateInit::TimerAdminTimeout(const boost::system::error_code &ec, boos
 }
 
 void
+ServerGameStateInit::SendStartEvent(ServerGame &server, bool fillWithComputerPlayers)
+{
+	// Fill up with computer players.
+	server.ResetComputerPlayerList();
+
+	if (fillWithComputerPlayers)
+	{
+		int remainingSlots = server.GetGameData().maxNumberOfPlayers - server.GetCurNumberOfPlayers();
+		for (int i = 1; i <= remainingSlots; i++)
+		{
+			boost::shared_ptr<PlayerData> tmpPlayerData(
+				new PlayerData(server.GetLobbyThread().GetNextUniquePlayerId(), 0, PLAYER_TYPE_COMPUTER, PLAYER_RIGHTS_NORMAL, false));
+
+			ostringstream name;
+			name << SERVER_COMPUTER_PLAYER_NAME << i;
+			tmpPlayerData->SetName(name.str());
+			server.AddComputerPlayer(tmpPlayerData);
+
+			// Send "Player Joined" to other fully connected clients.
+			server.SendToAllPlayers(CreateNetPacketPlayerJoined(server.GetId(), *tmpPlayerData), SessionData::Game);
+
+			// Notify lobby.
+			server.GetLobbyThread().NotifyPlayerJoinedGame(server.GetId(), tmpPlayerData->GetUniqueId());
+		}
+	}
+	boost::shared_ptr<NetPacket> packet(new NetPacket(NetPacket::Alloc));
+	packet->GetMsg()->present = PokerTHMessage_PR_startEventMessage;
+	StartEventMessage_t *netStartEvent = &packet->GetMsg()->choice.startEventMessage;
+	netStartEvent->gameId = server.GetId();
+	netStartEvent->fillWithComputerPlayers = fillWithComputerPlayers;
+
+	// Wait for all players to confirm start of game.
+	server.SendToAllPlayers(packet, SessionData::Game);
+
+	server.SetState(ServerGameStateStartGame::Instance());
+}
+
+void
 ServerGameStateInit::InternalProcessPacket(boost::shared_ptr<ServerGame> server, SessionWrapper session, boost::shared_ptr<NetPacket> packet)
 {
 	if (packet->GetMsg()->present == PokerTHMessage_PR_startEventMessage)
@@ -434,33 +476,7 @@ ServerGameStateInit::InternalProcessPacket(boost::shared_ptr<ServerGame> server,
 		// Only admins are allowed to start the game.
 		if (session.playerData->IsGameAdmin() && netStartEvent->gameId == server->GetId())
 		{
-			// Fill up with computer players.
-			server->ResetComputerPlayerList();
-
-			if (netStartEvent->fillWithComputerPlayers)
-			{
-				int remainingSlots = server->GetGameData().maxNumberOfPlayers - server->GetCurNumberOfPlayers();
-				for (int i = 1; i <= remainingSlots; i++)
-				{
-					boost::shared_ptr<PlayerData> tmpPlayerData(
-						new PlayerData(server->GetLobbyThread().GetNextUniquePlayerId(), 0, PLAYER_TYPE_COMPUTER, PLAYER_RIGHTS_NORMAL, false));
-
-					ostringstream name;
-					name << SERVER_COMPUTER_PLAYER_NAME << i;
-					tmpPlayerData->SetName(name.str());
-					server->AddComputerPlayer(tmpPlayerData);
-
-					// Send "Player Joined" to other fully connected clients.
-					server->SendToAllPlayers(CreateNetPacketPlayerJoined(server->GetId(), *tmpPlayerData), SessionData::Game);
-
-					// Notify lobby.
-					server->GetLobbyThread().NotifyPlayerJoinedGame(server->GetId(), tmpPlayerData->GetUniqueId());
-				}
-			}
-			// Wait for all players to confirm start of game.
-			server->SendToAllPlayers(packet, SessionData::Game);
-
-			server->SetState(ServerGameStateStartGame::Instance());
+			SendStartEvent(*server, netStartEvent->fillWithComputerPlayers);
 		}
 	}
 	else if (packet->GetMsg()->present == PokerTHMessage_PR_invitePlayerToGameMessage)
