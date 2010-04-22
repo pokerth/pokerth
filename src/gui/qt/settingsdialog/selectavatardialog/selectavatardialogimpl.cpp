@@ -222,6 +222,8 @@ void selectAvatarDialogImpl::isAccepted() {
 
 	QList<QListWidgetItem *> myItemList = listWidget->selectedItems();
 
+        settingsCorrect = TRUE;
+
 	if(groupBox->isChecked()) { 
 		if(myItemList.size() == 0) {
 			QMessageBox::warning(this, tr("Avatar File Error"),
