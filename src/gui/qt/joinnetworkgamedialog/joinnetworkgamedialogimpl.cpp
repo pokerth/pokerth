@@ -44,7 +44,8 @@ joinNetworkGameDialogImpl::joinNetworkGameDialogImpl(QWidget *parent, ConfigFile
 		treeWidget->setDisabled(TRUE);
 	}
 
-	connect( lineEdit_ipAddress, SIGNAL( editingFinished ()), this, SLOT( checkIp() ) );
+        connect( lineEdit_ipAddress, SIGNAL( editingFinished()), this, SLOT( checkIp() ) );
+        connect( lineEdit_ipAddress, SIGNAL( textChanged(QString)), this, SLOT( connectButtonTest() ) );
 
 	connect( pushButton_connect, SIGNAL( clicked() ), this, SLOT( startClient() ) );
 	connect( pushButton_save, SIGNAL( clicked() ), this, SLOT( saveServerProfile() ) );
@@ -97,6 +98,8 @@ void joinNetworkGameDialogImpl::exec() {
 
 	checkBox_ipv6->setEnabled(socket_has_ipv6());
 	checkBox_sctp->setEnabled(socket_has_sctp());
+
+        connectButtonTest();
 
 	QDialog::exec();
 	
@@ -285,4 +288,14 @@ void joinNetworkGameDialogImpl::checkIp() {
 	//remove whitespaces
 	QString tmp = lineEdit_ipAddress->text();
 	lineEdit_ipAddress->setText(tmp.remove(" "));
+}
+
+void joinNetworkGameDialogImpl::connectButtonTest() {
+
+    if(lineEdit_ipAddress->text().isEmpty()) {
+        pushButton_connect->setDisabled(TRUE);
+    }
+    else {
+        pushButton_connect->setDisabled(FALSE);
+    }
 }
