@@ -2857,6 +2857,8 @@ void gameTableImpl::networkGameModification() {
         int width = tempMetrics.width(tr("Lobby"));
         pushButton_break->setText(tr("Lobby"));
         pushButton_break->setMinimumSize(width+10,20);
+        myGameTableStyle->setBreakButtonStyle(pushButton_break,0);
+        blinkingStartButtonAnimationTimer->stop();
     }
     if(myStartWindow->getSession()->getGameType() == Session::GAME_TYPE_NETWORK) {
 
@@ -2875,6 +2877,9 @@ void gameTableImpl::networkGameModification() {
         guestUserMode();
     }
     else { registeredUserMode(); }
+
+    blinkingStartButtonAnimationTimer->stop();
+    myGameTableStyle->setBreakButtonStyle(pushButton_break,0);
 
 }
 
@@ -3073,9 +3078,6 @@ void gameTableImpl::leaveCurrentNetworkGame() {
 
     if (myStartWindow->getSession()->isNetworkClientRunning()) {
 
-
-        //            T O D O !!!!!!! anzeigen? aus myMessageDialog auslesen per Config!!!!!!!  T O D O
-
         myMessageDialogImpl dialog(myConfig, this);
 
         if(!dialog.checkIfMesssageWillBeDisplayed(1)) {
@@ -3084,7 +3086,7 @@ void gameTableImpl::leaveCurrentNetworkGame() {
             myStartWindow->getSession()->sendLeaveCurrentGame();
         }
         else {
-            if (dialog.exec(1, tr("Attention! Do you really want to leave the current game\nand go back to the lobby?"), tr("PokerTH - Internet Game Message"), QPixmap(":/gfx/logoChip3D.png"), QDialogButtonBox::Ok) == QDialog::Accepted ) {
+            if (dialog.exec(1, tr("Attention! Do you really want to leave the current game\nand go back to the lobby?"), tr("PokerTH - Internet Game Message"), QPixmap(":/gfx/logoChip3D.png"), QDialogButtonBox::Ok) == QDialog::Accepted, true ) {
                 assert(myStartWindow->getSession());
                 myStartWindow->getSession()->sendLeaveCurrentGame();
             }
