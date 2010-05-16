@@ -1773,22 +1773,22 @@ You can invite other players with right-click on their nick in the left availabl
         <translation>Chat</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="2983"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="2988"/>
         <source>Closing PokerTH during network game</source>
         <translation>Lukker PokerTH under et netværksspil</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="2984"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="2989"/>
         <source>You are the hosting server. Do you want to close PokerTH anyway?</source>
         <translation>Du er vært for serveren. Ønsker du stadig at afslutte PokerTH?</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3087"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3089"/>
         <source>PokerTH - Internet Game Message</source>
         <translation>PokerTH - Internet-spil besked</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3087"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3089"/>
         <source>Attention! Do you really want to leave the current game
 and go back to the lobby?</source>
         <translation>Advarsel! Ønsker du virkelig at forlade spillet
@@ -1800,7 +1800,7 @@ og gå tilbage til lobby&apos;en?</translation>
         <translation>Chance</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3110"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3112"/>
         <source>Kick</source>
         <translation>Smid ud</translation>
     </message>
@@ -1819,23 +1819,23 @@ ud fra dette spil?</translation>
         <translation type="obsolete">Spiller &lt;b&gt;%1&lt;/b&gt; har %2 stemmer imod ham.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3139"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3141"/>
         <source>Do you want to kick &lt;b&gt;%1&lt;/b&gt;&lt;br&gt;from this game?</source>
         <translation>Ønsker du at smide &lt;b&gt;%1&lt;/b&gt;&lt;br&gt;ud fra dette spil?</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3190"/>
         <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3192"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3194"/>
         <source>&lt;b&gt;%1&lt;/b&gt; secs left</source>
         <translation>&lt;b&gt;%1&lt;/b&gt; sekunder tilbage</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3198"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3200"/>
         <source>vote</source>
         <translation>Stem</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3199"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3201"/>
         <source>votes</source>
         <translation>Stemmer</translation>
     </message>
@@ -1848,12 +1848,12 @@ ud fra dette spil?</translation>
         <translation type="obsolete">Du har &lt;b&gt;%1&lt;/b&gt; %2 imod dig.&lt;br&gt;&lt;b&gt;%3&lt;/b&gt; stemmer nødvendige for udsmidning.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3203"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3205"/>
         <source>Player &lt;b&gt;%1&lt;/b&gt; has &lt;b&gt;%2&lt;/b&gt; %3&lt;br&gt;against him. &lt;b&gt;%4&lt;/b&gt; vote(s) needed to kick.</source>
         <translation>Spiller &lt;b&gt;%1&lt;/b&gt; er &lt;b&gt;%2&lt;/b&gt; %3&lt;br&gt;imod ham. &lt;b&gt;%4&lt;/b&gt; stemme(r) nødvendige for udsmidning.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3206"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3208"/>
         <source>You have &lt;b&gt;%1&lt;/b&gt; %2 against you.&lt;br&gt;&lt;b&gt;%3&lt;/b&gt; vote(s) needed to kick.</source>
         <translation>Du har &lt;b&gt;%1&lt;/b&gt; %2 imod dig.&lt;br&gt;&lt;b&gt;%3&lt;/b&gt; stemme(r) nødvendige for udsmid.</translation>
     </message>
@@ -1923,52 +1923,52 @@ p, li { white-space: pre-wrap; }
         <translation>Tilslut til netværksspil</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/joinnetworkgamedialog.ui" line="218"/>
+        <location filename="../src/gui/qt/joinnetworkgamedialog.ui" line="222"/>
         <source>Server Profiles</source>
         <translation>Serverprofiler</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/joinnetworkgamedialog.ui" line="249"/>
+        <location filename="../src/gui/qt/joinnetworkgamedialog.ui" line="253"/>
         <source>Name</source>
         <translation>Navn</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/joinnetworkgamedialog.ui" line="254"/>
+        <location filename="../src/gui/qt/joinnetworkgamedialog.ui" line="258"/>
         <source>Address</source>
         <translation>Adresse</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/joinnetworkgamedialog.ui" line="259"/>
+        <location filename="../src/gui/qt/joinnetworkgamedialog.ui" line="263"/>
         <source>Port</source>
         <translation>Port</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/joinnetworkgamedialog.ui" line="264"/>
+        <location filename="../src/gui/qt/joinnetworkgamedialog.ui" line="268"/>
         <source>IPv6</source>
         <translation>IPv6</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/joinnetworkgamedialog.ui" line="269"/>
+        <location filename="../src/gui/qt/joinnetworkgamedialog.ui" line="273"/>
         <source>SCTP</source>
         <translation>SCTP</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/joinnetworkgamedialog.ui" line="285"/>
+        <location filename="../src/gui/qt/joinnetworkgamedialog.ui" line="289"/>
         <source>Save</source>
         <translation>Gem</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/joinnetworkgamedialog.ui" line="292"/>
+        <location filename="../src/gui/qt/joinnetworkgamedialog.ui" line="296"/>
         <source>Delete</source>
         <translation>Slet</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/joinnetworkgamedialog.ui" line="183"/>
+        <location filename="../src/gui/qt/joinnetworkgamedialog.ui" line="187"/>
         <source>Use SCTP</source>
         <translation>Benyt SCTP</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/joinnetworkgamedialog.ui" line="190"/>
+        <location filename="../src/gui/qt/joinnetworkgamedialog.ui" line="194"/>
         <source>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-weight:400; font-style:normal; text-decoration:none;&quot;&gt;
@@ -1979,12 +1979,12 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;  &lt;a href=&quot;http://en.wikipedia.org/wiki/Stream_Control_Transmission_Protocol&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Hvad er dette?&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/joinnetworkgamedialog.ui" line="140"/>
+        <location filename="../src/gui/qt/joinnetworkgamedialog.ui" line="144"/>
         <source>Use IPv6</source>
         <translation>Benyt IPv6</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/joinnetworkgamedialog.ui" line="147"/>
+        <location filename="../src/gui/qt/joinnetworkgamedialog.ui" line="151"/>
         <source>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-weight:400; font-style:normal; text-decoration:none;&quot;&gt;
@@ -1999,22 +1999,22 @@ p, li { white-space: pre-wrap; }
         <translation type="obsolete">Adgangskode (valgfri):</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/joinnetworkgamedialog.ui" line="107"/>
+        <location filename="../src/gui/qt/joinnetworkgamedialog.ui" line="111"/>
         <source>Port:</source>
         <translation>Port:</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/joinnetworkgamedialog.ui" line="94"/>
+        <location filename="../src/gui/qt/joinnetworkgamedialog.ui" line="98"/>
         <source>IP Address / Domain Name:</source>
         <translation>IP adresse / Domænenavn:</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/joinnetworkgamedialog.ui" line="75"/>
+        <location filename="../src/gui/qt/joinnetworkgamedialog.ui" line="77"/>
         <source>Profile Name:</source>
         <translation>Profilnavn:</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/joinnetworkgamedialog.ui" line="85"/>
+        <location filename="../src/gui/qt/joinnetworkgamedialog.ui" line="87"/>
         <source>myServerProfile1</source>
         <translation>minServerProfil1</translation>
     </message>
@@ -2032,54 +2032,54 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>joinNetworkGameDialogImpl</name>
     <message>
-        <location filename="../src/gui/qt/joinnetworkgamedialog/joinnetworkgamedialogimpl.cpp" line="117"/>
-        <location filename="../src/gui/qt/joinnetworkgamedialog/joinnetworkgamedialogimpl.cpp" line="162"/>
-        <location filename="../src/gui/qt/joinnetworkgamedialog/joinnetworkgamedialogimpl.cpp" line="188"/>
-        <location filename="../src/gui/qt/joinnetworkgamedialog/joinnetworkgamedialogimpl.cpp" line="255"/>
+        <location filename="../src/gui/qt/joinnetworkgamedialog/joinnetworkgamedialogimpl.cpp" line="120"/>
+        <location filename="../src/gui/qt/joinnetworkgamedialog/joinnetworkgamedialogimpl.cpp" line="165"/>
+        <location filename="../src/gui/qt/joinnetworkgamedialog/joinnetworkgamedialogimpl.cpp" line="191"/>
+        <location filename="../src/gui/qt/joinnetworkgamedialog/joinnetworkgamedialogimpl.cpp" line="258"/>
         <source>Load Server-Profile-File Error</source>
         <translation>fejl under indlæsning af serverprofil-fil</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/joinnetworkgamedialog/joinnetworkgamedialogimpl.cpp" line="118"/>
-        <location filename="../src/gui/qt/joinnetworkgamedialog/joinnetworkgamedialogimpl.cpp" line="163"/>
-        <location filename="../src/gui/qt/joinnetworkgamedialog/joinnetworkgamedialogimpl.cpp" line="189"/>
-        <location filename="../src/gui/qt/joinnetworkgamedialog/joinnetworkgamedialogimpl.cpp" line="256"/>
+        <location filename="../src/gui/qt/joinnetworkgamedialog/joinnetworkgamedialogimpl.cpp" line="121"/>
+        <location filename="../src/gui/qt/joinnetworkgamedialog/joinnetworkgamedialogimpl.cpp" line="166"/>
+        <location filename="../src/gui/qt/joinnetworkgamedialog/joinnetworkgamedialogimpl.cpp" line="192"/>
+        <location filename="../src/gui/qt/joinnetworkgamedialog/joinnetworkgamedialogimpl.cpp" line="259"/>
         <source>Could not load server-profiles-file:
 </source>
         <translation>Kunne ikke indlæse serverprofil-fil:
 </translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/joinnetworkgamedialog/joinnetworkgamedialogimpl.cpp" line="201"/>
+        <location filename="../src/gui/qt/joinnetworkgamedialog/joinnetworkgamedialogimpl.cpp" line="204"/>
         <source>Save Server Profile Error</source>
         <translation>Fejl unde lagring af serverprofil</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/joinnetworkgamedialog/joinnetworkgamedialogimpl.cpp" line="202"/>
+        <location filename="../src/gui/qt/joinnetworkgamedialog/joinnetworkgamedialogimpl.cpp" line="205"/>
         <source>A profile with the name: %1 already exists.
 Would you like to overwrite ?</source>
         <translation>En profil med navnet: %1 eksisterer allerede.
 Ønsker du at overskrive den?</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/joinnetworkgamedialog/joinnetworkgamedialogimpl.cpp" line="240"/>
+        <location filename="../src/gui/qt/joinnetworkgamedialog/joinnetworkgamedialogimpl.cpp" line="243"/>
         <source>Read Server-Profile List Error</source>
         <translation>Fejl under læsning af serverprofil-liste</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/joinnetworkgamedialog/joinnetworkgamedialogimpl.cpp" line="241"/>
+        <location filename="../src/gui/qt/joinnetworkgamedialog/joinnetworkgamedialogimpl.cpp" line="244"/>
         <source>Could not read server-profiles list</source>
         <translation>Kunne ikke læse serverprofilers liste</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/joinnetworkgamedialog/joinnetworkgamedialogimpl.cpp" line="244"/>
-        <location filename="../src/gui/qt/joinnetworkgamedialog/joinnetworkgamedialogimpl.cpp" line="266"/>
+        <location filename="../src/gui/qt/joinnetworkgamedialog/joinnetworkgamedialogimpl.cpp" line="247"/>
+        <location filename="../src/gui/qt/joinnetworkgamedialog/joinnetworkgamedialogimpl.cpp" line="269"/>
         <source>Save Server-Profile-File Error</source>
         <translation>Fejl under lagring af serverprofil-fil</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/joinnetworkgamedialog/joinnetworkgamedialogimpl.cpp" line="245"/>
-        <location filename="../src/gui/qt/joinnetworkgamedialog/joinnetworkgamedialogimpl.cpp" line="267"/>
+        <location filename="../src/gui/qt/joinnetworkgamedialog/joinnetworkgamedialogimpl.cpp" line="248"/>
+        <location filename="../src/gui/qt/joinnetworkgamedialog/joinnetworkgamedialogimpl.cpp" line="270"/>
         <source>Could not save server-profiles-file:
 </source>
         <translation>Kunne ikke gemme serverprofilers-fil:
@@ -2240,38 +2240,38 @@ Would you like to overwrite ?</source>
 <context>
     <name>selectAvatarDialogImpl</name>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/selectavatardialog/selectavatardialogimpl.cpp" line="227"/>
-        <location filename="../src/gui/qt/settingsdialog/selectavatardialog/selectavatardialogimpl.cpp" line="243"/>
-        <location filename="../src/gui/qt/settingsdialog/selectavatardialog/selectavatardialogimpl.cpp" line="252"/>
+        <location filename="../src/gui/qt/settingsdialog/selectavatardialog/selectavatardialogimpl.cpp" line="229"/>
+        <location filename="../src/gui/qt/settingsdialog/selectavatardialog/selectavatardialogimpl.cpp" line="245"/>
+        <location filename="../src/gui/qt/settingsdialog/selectavatardialog/selectavatardialogimpl.cpp" line="254"/>
         <source>Avatar File Error</source>
         <translation>Avatar-fil fejl</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/selectavatardialog/selectavatardialogimpl.cpp" line="228"/>
+        <location filename="../src/gui/qt/settingsdialog/selectavatardialog/selectavatardialogimpl.cpp" line="230"/>
         <source>Please select an avatar from the list!</source>
         <translation>Vælg venligst en avatar fra listen!</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/selectavatardialog/selectavatardialogimpl.cpp" line="244"/>
+        <location filename="../src/gui/qt/settingsdialog/selectavatardialog/selectavatardialogimpl.cpp" line="246"/>
         <source>The file size of the chosen picture is too big. (max. 30KB)
 Please choose a smaller picture!</source>
         <translation>Filstørrelsen af det valgte billede er for stort. (max 30KB)
 Vælg venligst et mindre billede!</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/selectavatardialog/selectavatardialogimpl.cpp" line="253"/>
+        <location filename="../src/gui/qt/settingsdialog/selectavatardialog/selectavatardialogimpl.cpp" line="255"/>
         <source>The entered avatar picture doesn&apos;t exist.
 Please enter an valid picture!</source>
         <translation>Det indtastede avatar-billede eksisterer ikke.
 Vælg venligst et gyldigt billede!</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/selectavatardialog/selectavatardialogimpl.cpp" line="270"/>
+        <location filename="../src/gui/qt/settingsdialog/selectavatardialog/selectavatardialogimpl.cpp" line="272"/>
         <source>Select external avatar picture</source>
         <translation>Vælg et eksternt avatar-billede</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/selectavatardialog/selectavatardialogimpl.cpp" line="270"/>
+        <location filename="../src/gui/qt/settingsdialog/selectavatardialog/selectavatardialogimpl.cpp" line="272"/>
         <source>Images (*.png *.jpg *.gif)</source>
         <translation>Billeder (*.png *.jpg *.gif)</translation>
     </message>
@@ -2983,37 +2983,37 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>settingsDialogImpl</name>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="55"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="56"/>
         <source>Dutch</source>
         <translation>Hollandsk</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="56"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="57"/>
         <source>English</source>
         <translation>Engelsk</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="57"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="58"/>
         <source>French</source>
         <translation>Fransk</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="59"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="60"/>
         <source>German</source>
         <translation>Tysk</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="61"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="62"/>
         <source>Hungarian</source>
         <translation>Ungarsk</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="62"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="63"/>
         <source>Italian</source>
         <translation>Italiensk</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="63"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="64"/>
         <source>Norwegian</source>
         <translation>Norsk</translation>
     </message>
@@ -3022,82 +3022,82 @@ p, li { white-space: pre-wrap; }
         <translation type="obsolete">Portugisisk</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="67"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="68"/>
         <source>Russian</source>
         <translation>Russisk</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="68"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="69"/>
         <source>Slovak</source>
         <translation>Slovakisk</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="69"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="70"/>
         <source>Spanish</source>
         <translation>Spansk</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="71"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="73"/>
         <source>Turkish</source>
         <translation>Tyrkisk</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="515"/>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="571"/>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="629"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="517"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="573"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="631"/>
         <source>Settings Error</source>
         <translation>Indstillingsfejl</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="572"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="574"/>
         <source>The entered flipside picture doesn&apos;t exist.
 Please enter an valid picture!</source>
         <translation>Det indtastede bagside-billede eksiterer ikke.
 Indtast venligts et brugbart billede!</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="630"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="632"/>
         <source>The log file directory doesn&apos;t exist.
 Please select an valid directory!</source>
         <translation>Log-filens sti eksisterer ikke.
 Vælge venligst en brugbar sti!</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="659"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="661"/>
         <source>Language Changed</source>
         <translation>Sprog ændret</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="660"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="662"/>
         <source>You have changed application language to %1.
 Please restart PokerTH to load new language!</source>
         <translation>Du har ændret programmets sprog til %1.
 Genstart venligst PokerTH for at indlæse det nye sprog!</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="676"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="678"/>
         <source>Select your flipside picture</source>
         <translation>Vælg dit bagside-billede</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="678"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="680"/>
         <source>Images (*.png *.jpg *.gif)</source>
         <translation>Billeder (*.png *.jpg *.gif)</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="776"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="778"/>
         <source>Open Directory</source>
         <translation>Åben sti</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="873"/>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="884"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="875"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="886"/>
         <source>Blinds Error</source>
         <translation>Blinds-fejl</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="874"/>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="885"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="876"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="887"/>
         <source>The first element in your manual-blinds-list 
 is smaller than current first-small-blind!
 This first-small-blind-value will be set to maximum allowed value.</source>
@@ -3111,7 +3111,7 @@ Dene første-small-blind-værdi vil blive sat to den maksimale tiladte værdi.</
         <translation>Bulgarisk</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="64"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="65"/>
         <source>Polish</source>
         <translation>Polsk</translation>
     </message>
@@ -3121,160 +3121,170 @@ Dene første-small-blind-værdi vil blive sat to den maksimale tiladte værdi.</
         <translation>Kinesisk</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="60"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="61"/>
         <source>Greek</source>
         <translation>Græsk</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="70"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="71"/>
         <source>Swedish</source>
         <translation>Svensk</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="516"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="518"/>
         <source>The entered server list address is not a valid URL.
 Please enter a valid server list address!</source>
         <translation>Den indtastede serverlise adresse er ikke en brugbar URL.
 Indtast venligst en brugbar serverliste adresse!</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="58"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="59"/>
         <source>Finnish</source>
         <translation>Finsk</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="53"/>
-        <source>Czech</source>
+        <source>Catalan</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="54"/>
+        <source>Czech</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="55"/>
         <source>Danish</source>
         <translation>Dansk</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="924"/>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="1049"/>
-        <source>Maintainer Name</source>
-        <translation>Vedligeholders navn</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="925"/>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="1050"/>
-        <source>Maintainer EMail</source>
-        <translation>Vedligeholders email</translation>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="72"/>
+        <source>Tamil</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="926"/>
         <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="1051"/>
+        <source>Maintainer Name</source>
+        <translation>Vedligeholders navn</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="927"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="1052"/>
+        <source>Maintainer EMail</source>
+        <translation>Vedligeholders email</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="928"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="1053"/>
         <source>Create Date</source>
         <translation>Oprettelsesdato</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="927"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="929"/>
         <source>Windows Behaviour</source>
         <translation>Vinduernes adfærd</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="928"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="930"/>
         <source>scaleable</source>
         <translation>Skalérbar</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="929"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="931"/>
         <source>fixed</source>
         <translation>fast</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="930"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="932"/>
         <source>Minimum Size</source>
         <translation>Mindste størrelse</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="931"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="933"/>
         <source>Maximum Size</source>
         <translation>Største størrelse</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="932"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="934"/>
         <source>Fixed Size</source>
         <translation>Fast størrelse</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="982"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="984"/>
         <source>Please select your game table style</source>
         <translation>Vælg venligst din pokerbord-skin</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="984"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="986"/>
         <source>PokerTH game table styles (*.xml)</source>
         <translation>PokerTH pokerbord-skins(*.xml)</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="997"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="999"/>
         <source>Game Table Style Error</source>
         <translation>Pokerbord-skin fejl</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="998"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="1000"/>
         <source>Selected game table style file is already in the list. 
 Please select another one to add!</source>
         <translation>Det valgte pokerbord-skin er allerede på listen.
 Vælg venligst et andet at tilføje!</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="1014"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="1016"/>
         <source>Game Table Style File Error</source>
         <translation>Pokerbord-skin fil-fejl</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="1015"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="1017"/>
         <source>Could not load game table style file correctly. 
 Style will not be placed into list!</source>
         <translation>Kunne ikke indlæse pokerbord-skin filen korrekt.
 Skin&apos;et vil ikke blive tilføjet til listen!</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="1091"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="1093"/>
         <source>Please select your card deck style</source>
         <translation>Vælg venligst din kort-bagside</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="1093"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="1095"/>
         <source>PokerTH card deck styles (*.xml)</source>
         <translation>PokerTH kort-bagsider(*.xml)</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="1106"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="1108"/>
         <source>Card Deck Style Error</source>
         <translation>Kort-bagside fejl</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="1107"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="1109"/>
         <source>Selected card deck style file is already in the list. 
 Please select another one to add!</source>
         <translation>Den valgte kort-bagsidefil er allerede på listen.
 Vælg venligst en anden for at tilføje!</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="1123"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="1125"/>
         <source>Card Deck Style File Error</source>
         <translation>Kort-bagside-filfejl</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="1124"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="1126"/>
         <source>Could not load card deck style file correctly. 
 Style will not be placed into list!</source>
         <translation>Kunne ikke indlæse kort-bagsidefilen korrekt.
 Kortbagsiden vil ikke blive tilføjet til listen!</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="65"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="66"/>
         <source>Portuguese (Brazilian)</source>
         <translation>Portugisisk (brasiliansk)</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="66"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="67"/>
         <source>Portuguese (Portuguese)</source>
         <translation>Portugisisk (Portugisisk)</translation>
     </message>

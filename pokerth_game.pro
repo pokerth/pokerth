@@ -261,6 +261,7 @@ SOURCES += src/pokerth.cpp \
     src/gui/qt/gamelobbydialog/mygamelistsortfilterproxymodel.cpp \
     src/gui/qt/internetgamelogindialog/internetgamelogindialogimpl.cpp
 TRANSLATIONS = ts/pokerth_bg.ts \
+    ts/pokerth_ca.ts \
     ts/pokerth_cz.ts \
     ts/pokerth_de.ts \
     ts/pokerth_dk.ts \
