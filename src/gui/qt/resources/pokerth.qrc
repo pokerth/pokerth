@@ -46,6 +46,9 @@
         <file>list_add_user_64.png</file>
         <file>im-ban-user.png</file>
         <file>im-ban-user_64.png</file>
+        <file>text-html.png</file>
+        <file>text-plain.png</file>
+        <file>document-open-folder.png</file>
     </qresource>
     <qresource prefix="/cflags">
         <file>cflags/ad.png</file>

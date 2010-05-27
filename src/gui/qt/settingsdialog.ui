@@ -559,6 +559,10 @@ p, li { white-space: pre-wrap; }
                      <height>26</height>
                     </size>
                    </property>
+                   <property name="icon">
+                    <iconset resource="resources/pokerth.qrc">
+                     <normaloff>:/gfx/document-open-folder.png</normaloff>:/gfx/document-open-folder.png</iconset>
+                   </property>
                   </widget>
                  </item>
                 </layout>
@@ -3280,48 +3284,8 @@ p, li { white-space: pre-wrap; }
            <property name="checked">
             <bool>true</bool>
            </property>
-           <layout class="QGridLayout">
+           <layout class="QGridLayout" name="gridLayout_20">
             <item row="0" column="0">
-             <widget class="QLabel" name="label_29">
-              <property name="text">
-               <string>Log File Directory: </string>
-              </property>
-              <property name="buddy">
-               <cstring>lineEdit_logDir</cstring>
-              </property>
-             </widget>
-            </item>
-            <item row="0" column="1">
-             <layout class="QHBoxLayout">
-              <property name="spacing">
-               <number>2</number>
-              </property>
-              <item>
-               <widget class="QLineEdit" name="lineEdit_logDir"/>
-              </item>
-              <item>
-               <widget class="QPushButton" name="pushButton_openLogDir">
-                <property name="minimumSize">
-                 <size>
-                  <width>27</width>
-                  <height>26</height>
-                 </size>
-                </property>
-                <property name="maximumSize">
-                 <size>
-                  <width>27</width>
-                  <height>26</height>
-                 </size>
-                </property>
-                <property name="icon">
-                 <iconset>
-                  <normaloff>../../../../../../.designer/backup</normaloff>../../../../../../.designer/backup</iconset>
-                </property>
-               </widget>
-              </item>
-             </layout>
-            </item>
-            <item row="1" column="0">
              <widget class="QLabel" name="label_27">
               <property name="text">
                <string>Store log files for</string>
@@ -3331,7 +3295,7 @@ p, li { white-space: pre-wrap; }
               </property>
              </widget>
             </item>
-            <item row="1" column="1">
+            <item row="0" column="1">
              <widget class="QSpinBox" name="spinBox_logStoreDuration">
               <property name="suffix">
                <string> Day(s)</string>
@@ -3347,7 +3311,7 @@ p, li { white-space: pre-wrap; }
               </property>
              </widget>
             </item>
-            <item row="2" column="0">
+            <item row="1" column="0">
              <widget class="QLabel" name="label_39">
               <property name="text">
                <string>Write log after every: </string>
@@ -3360,7 +3324,7 @@ p, li { white-space: pre-wrap; }
               </property>
              </widget>
             </item>
-            <item row="2" column="1">
+            <item row="1" column="1">
              <widget class="QComboBox" name="comboBox_logInterval">
               <property name="sizePolicy">
                <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
@@ -3383,6 +3347,92 @@ p, li { white-space: pre-wrap; }
                 <string>game (low disc access)</string>
                </property>
               </item>
+             </widget>
+            </item>
+            <item row="2" column="0">
+             <widget class="QLabel" name="label_29">
+              <property name="text">
+               <string>Log File Directory: </string>
+              </property>
+              <property name="buddy">
+               <cstring>lineEdit_logDir</cstring>
+              </property>
+             </widget>
+            </item>
+            <item row="2" column="1">
+             <layout class="QHBoxLayout">
+              <property name="spacing">
+               <number>2</number>
+              </property>
+              <item>
+               <widget class="QLineEdit" name="lineEdit_logDir"/>
+              </item>
+              <item>
+               <widget class="QPushButton" name="pushButton_openLogDir">
+                <property name="minimumSize">
+                 <size>
+                  <width>27</width>
+                  <height>26</height>
+                 </size>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>27</width>
+                  <height>26</height>
+                 </size>
+                </property>
+                <property name="icon">
+                 <iconset resource="resources/pokerth.qrc">
+                  <normaloff>:/gfx/document-open-folder.png</normaloff>:/gfx/document-open-folder.png</iconset>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </item>
+            <item row="4" column="0" colspan="2">
+             <layout class="QHBoxLayout" name="horizontalLayout_9">
+              <item>
+               <widget class="QPushButton" name="pushButton_exportLogHtml">
+                <property name="text">
+                 <string>Export as html</string>
+                </property>
+                <property name="icon">
+                 <iconset resource="resources/pokerth.qrc">
+                  <normaloff>:/gfx/text-html.png</normaloff>:/gfx/text-html.png</iconset>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QPushButton" name="pushButton_exportLogTxt">
+                <property name="text">
+                 <string>Export as txt</string>
+                </property>
+                <property name="icon">
+                 <iconset resource="resources/pokerth.qrc">
+                  <normaloff>:/gfx/text-plain.png</normaloff>:/gfx/text-plain.png</iconset>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QPushButton" name="pushButton_deleteLog">
+                <property name="text">
+                 <string>Delete</string>
+                </property>
+                <property name="icon">
+                 <iconset resource="resources/pokerth.qrc">
+                  <normaloff>:/gfx/editdelete.png</normaloff>:/gfx/editdelete.png</iconset>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </item>
+            <item row="3" column="0" colspan="2">
+             <widget class="QTreeWidget" name="treeWidget_logFiles">
+              <column>
+               <property name="text">
+                <string>Log Files</string>
+               </property>
+              </column>
              </widget>
             </item>
            </layout>
