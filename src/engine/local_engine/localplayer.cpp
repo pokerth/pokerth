@@ -856,6 +856,8 @@ LocalPlayer::LocalPlayer(ConfigFile *c, BoardInterface *b, int id, unsigned uniq
 	// !!!!!!!!!!!!!!!!!!!!!!!! testing !!!!!!!!!!!!!!!!!!!!!!!!
 	if(DEBUG_MODE) {
 
+                //cout << myConfig->readConfigString("LogDir").c_str() << endl;
+
 		switch(myUniqueID) {
 	
 			case 0: {
@@ -874,19 +876,19 @@ LocalPlayer::LocalPlayer(ConfigFile *c, BoardInterface *b, int id, unsigned uniq
                                 myCash=9395;
 			} break;
 			case 5: {
-                                myCash=0;
+                                myCash=100;
 			} break;
 			case 6: {
                                 myCash=0;
 			} break;
 			case 7: {
-				myCash=0;
+                                myCash=0;
 			} break;
 			case 8: {
-				myCash=0;
+                                myCash=0;
 			} break;
 			case 9: {
-				myCash=0;
+                                myCash=0;
 			} break;
 
 			default: {
@@ -1048,7 +1050,7 @@ void LocalPlayer::action() {
 	//set that i was the last active player. need this for unhighlighting groupbox
 	currentHand->setLastPlayersTurn(myID);
 
-	currentHand->getGuiInterface()->logPlayerActionMsg(myName, myAction, mySet);
+        currentHand->getGuiInterface()->logPlayerActionMsg(myName, myID, myAction, mySet);
 	currentHand->getGuiInterface()->nextPlayerAnimation();
 
 // 	cout << "playerID in action(): " << (*(currentHand->getCurrentBeRo()->getCurrentPlayersTurnIt()))->getMyID() << endl;

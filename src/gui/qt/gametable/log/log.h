@@ -24,8 +24,8 @@
 
 #include "configfile.h"
 
-
 #include <QtCore>
+#include <QtSql>
 
 class gameTableImpl;
 class GameTableStyleReader;
@@ -40,13 +40,13 @@ public:
 	~Log();
 
 public slots:
-	void logPlayerActionMsg(QString playerName, int action, int setValue);
+        void logPlayerActionMsg(QString playerName, int playerID, int action, int setValue);
 	void logNewGameHandMsg(int gameID, int handID);
 	void logNewBlindsSetsMsg(int sbSet, int bbSet, QString sbName, QString bbName);
 	void logPlayerWinsMsg(QString playerName, int pot, bool main);
 	void logPlayerSitsOut(QString playerName);
 	void logDealBoardCardsMsg(int roundID, int card1, int card2, int card3, int card4 = -1, int card5 = -1);
-	void logFlipHoleCardsMsg(QString playerName, int card1, int card2, int cardsValueInt = -1, QString showHas = "shows");
+        void logFlipHoleCardsMsg(QString playerName, int playerID, int card1, int card2, int cardsValueInt = -1, QString showHas = "shows");
 	void logPlayerLeftMsg(QString playerName, int wasKicked);
 	void logNewGameAdminMsg(QString playerName);
 	void logPlayerWinGame(QString playerName, int gameID);
@@ -62,13 +62,13 @@ public:
 	void writeLogFileStream(QString string);
 
 signals:
-	void signalLogPlayerActionMsg(QString playerName, int action, int setValue);
+        void signalLogPlayerActionMsg(QString playerName, int playerID, int action, int setValue);
 	void signalLogNewGameHandMsg(int gameID, int handID);
 	void signalLogNewBlindsSetsMsg(int sbSet, int bbSet, QString sbName, QString bbName);
 	void signalLogPlayerWinsMsg(QString playerName, int pot, bool main);
 	void signalLogPlayerSitsOut(QString playerName);
 	void signalLogDealBoardCardsMsg(int roundID, int card1, int card2, int card3, int card4 = -1, int card5 = -1);
-	void signalLogFlipHoleCardsMsg(QString playerName, int card1, int card2, int cardsValueInt = -1, QString showHas = "shows");
+        void signalLogFlipHoleCardsMsg(QString playerName, int playerID, int card1, int card2, int cardsValueInt = -1, QString showHas = "shows");
 	void signalLogPlayerLeftMsg(QString playerName, int wasKicked);
 	void signalLogNewGameAdminMsg(QString playerName);
 	void signalLogPlayerWinGame(QString playerName, int gameID);
@@ -83,7 +83,8 @@ private:
 	ConfigFile *myConfig;
 	QTextStream stream;
 	QDir *myLogDir;
-	QFile *myLogFile;
+        QFile *myHtmlLogFile;
+        QSqlDatabase *mySqliteLogDb;
 	QString logFileStreamString;
 	QString myAppDataPath;
 

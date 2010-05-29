@@ -10,6 +10,7 @@ CONFIG += qt \
     stl \
     warn_on
 include(src/third_party/qtsingleapplication/qtsingleapplication.pri)
+QT += sql
 
 # ####Uncomment this for RELEASE on Linux/Unix/BSD (only for static Qt)
 # QTPLUGIN += qjpeg qgif
@@ -193,7 +194,8 @@ HEADERS += src/game.h \
     src/gui/qt/gametable/mynamelabel.h \
     src/gui/qt/settingsdialog/mystylelistitem.h \
     src/gui/qt/gamelobbydialog/mygamelistsortfilterproxymodel.h \
-    src/gui/qt/internetgamelogindialog/internetgamelogindialogimpl.h
+    src/gui/qt/internetgamelogindialog/internetgamelogindialogimpl.h \
+    src/engine/local_engine/replay.h
 FORMS += src/gui/qt/gametable.ui \
     src/gui/qt/aboutpokerth.ui \
     src/gui/qt/connecttoserverdialog.ui \
@@ -259,7 +261,8 @@ SOURCES += src/pokerth.cpp \
     src/gui/qt/gametable/mynamelabel.cpp \
     src/gui/qt/settingsdialog/mystylelistitem.cpp \
     src/gui/qt/gamelobbydialog/mygamelistsortfilterproxymodel.cpp \
-    src/gui/qt/internetgamelogindialog/internetgamelogindialogimpl.cpp
+    src/gui/qt/internetgamelogindialog/internetgamelogindialogimpl.cpp \
+    src/engine/local_engine/replay.cpp
 TRANSLATIONS = ts/pokerth_bg.ts \
     ts/pokerth_ca.ts \
     ts/pokerth_cz.ts \
@@ -281,7 +284,7 @@ TRANSLATIONS = ts/pokerth_bg.ts \
     ts/pokerth_gr.ts \
     ts/pokerth_ptbr.ts \
     ts/pokerth_ptpt.ts \
-    ts/pokerth_zhcn.ts \    
+    ts/pokerth_zhcn.ts \
     ts/pokerth_START_HERE.ts
 win32 { 
     QTPLUGIN += qjpeg \
@@ -408,7 +411,7 @@ unix:!mac {
     LIBS += -lSDL_mixer \
         -lcurl \
         -lgsasl
-    !isEmpty( BSD ): isEmpty( kFreeBSD ):LIBS += -lcrypto
+    !isEmpty( BSD ):isEmpty( kFreeBSD ):LIBS += -lcrypto
     else:LIBS += -lgnutls-openssl \
         -lgcrypt
     TARGETDEPS += ./lib/libpokerth_lib.a \

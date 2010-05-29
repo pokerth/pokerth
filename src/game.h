@@ -74,6 +74,8 @@ public:
 	void setCurrentHandID(int theValue) { currentHandID = theValue; }
 	int getCurrentHandID() const { return currentHandID; }
 
+        unsigned getDealerPosition() const { return dealerPosition; }
+
 	boost::shared_ptr<PlayerInterface> getPlayerByUniqueId(unsigned id);
 	boost::shared_ptr<PlayerInterface> getCurrentPlayer();
 

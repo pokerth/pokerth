@@ -1776,6 +1776,7 @@ ClientStateRunHand::InternalHandlePacket(boost::shared_ptr<ClientThread> client,
 				assert(netActionDone->totalPlayerBet >= (long)tmpPlayer->getMySet());
 				client->GetGui().logPlayerActionMsg(
 					tmpPlayer->getMyName(),
+                                        tmpPlayer->getMyID(),
 					netActionDone->playerAction,
 					netActionDone->totalPlayerBet - tmpPlayer->getMySet());
 			}

@@ -111,13 +111,13 @@ void GuiWrapper::changeVoteOnKickButtonsState(bool showHide) { myW->signalChange
 void GuiWrapper::refreshVotesMonitor(int currentVotes, int numVotesNeededToKick) { myW->refreshVotesMonitor(currentVotes, numVotesNeededToKick); }
 void GuiWrapper::endVoteOnKick() { myW->signalEndVoteOnKick(); }
 
-void GuiWrapper::logPlayerActionMsg(string playerName, int action, int setValue) { myLog->signalLogPlayerActionMsg(QString::fromUtf8(playerName.c_str()), action, setValue); }
+void GuiWrapper::logPlayerActionMsg(string playerName, int playerID, int action, int setValue) { myLog->signalLogPlayerActionMsg(QString::fromUtf8(playerName.c_str()), playerID, action, setValue); }
 void GuiWrapper::logNewGameHandMsg(int gameID, int handID) { myLog->signalLogNewGameHandMsg(gameID, handID); }
 void GuiWrapper::logNewBlindsSetsMsg(int sbSet, int bbSet, std::string sbName, std::string bbName) { myLog->signalLogNewBlindsSetsMsg(sbSet, bbSet, QString::fromUtf8(sbName.c_str()), QString::fromUtf8(bbName.c_str())); }
 void GuiWrapper::logPlayerWinsMsg(std::string playerName, int pot, bool main) { myLog->signalLogPlayerWinsMsg(QString::fromUtf8(playerName.c_str()), pot, main); }
 void GuiWrapper::logPlayerSitsOut(std::string playerName) { myLog->signalLogPlayerSitsOut(QString::fromUtf8(playerName.c_str())); }
 void GuiWrapper::logDealBoardCardsMsg(int roundID, int card1, int card2, int card3, int card4, int card5) { myLog->signalLogDealBoardCardsMsg(roundID, card1, card2, card3, card4, card5); }
-void GuiWrapper::logFlipHoleCardsMsg(string playerName, int card1, int card2, int cardsValueInt, string showHas) { myLog->signalLogFlipHoleCardsMsg(QString::fromUtf8(playerName.c_str()), card1, card2, cardsValueInt, QString::fromUtf8(showHas.c_str())); }
+void GuiWrapper::logFlipHoleCardsMsg(string playerName, int playerID, int card1, int card2, int cardsValueInt, string showHas) { myLog->signalLogFlipHoleCardsMsg(QString::fromUtf8(playerName.c_str()), playerID, card1, card2, cardsValueInt, QString::fromUtf8(showHas.c_str())); }
 void GuiWrapper::logPlayerWinGame(std::string playerName, int gameID) { myLog->signalLogPlayerWinGame(QString::fromUtf8(playerName.c_str()), gameID); }
 void GuiWrapper::flushLogAtGame(int gameID) { myLog->signalFlushLogAtGame(gameID); }
 void GuiWrapper::flushLogAtHand() { myLog->signalFlushLogAtHand(); }

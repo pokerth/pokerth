@@ -67,7 +67,7 @@ public:
 	void setMyAction(int theValue, bool blind = 0) { 
 		myAction = theValue; 
 		// logging for human player 
-		if(myAction && !blind) currentHand->getGuiInterface()->logPlayerActionMsg(myName, myAction, mySet);
+                if(myAction && !blind) currentHand->getGuiInterface()->logPlayerActionMsg(myName, myID, myAction, mySet);
 	}
 	int getMyAction() const	{ return myAction; }
 
@@ -91,11 +91,11 @@ public:
 		// log flipping cards
 		if(myCardsFlip) {
 			switch(state) {
-				case 1: currentHand->getGuiInterface()->logFlipHoleCardsMsg(myName, myCards[0], myCards[1], myCardsValueInt);
+                                case 1: currentHand->getGuiInterface()->logFlipHoleCardsMsg(myName, myID, myCards[0], myCards[1], myCardsValueInt);
 				break;
-				case 2: currentHand->getGuiInterface()->logFlipHoleCardsMsg(myName, myCards[0], myCards[1]);
+                                case 2: currentHand->getGuiInterface()->logFlipHoleCardsMsg(myName, myID, myCards[0], myCards[1]);
 				break;
-				case 3: currentHand->getGuiInterface()->logFlipHoleCardsMsg(myName, myCards[0], myCards[1], myCardsValueInt, "has");
+                                case 3: currentHand->getGuiInterface()->logFlipHoleCardsMsg(myName, myID, myCards[0], myCards[1], myCardsValueInt, "has");
 				break;
 				default: ;
 			}

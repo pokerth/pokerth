@@ -98,6 +98,20 @@ LocalHand::LocalHand(boost::shared_ptr<EngineFactory> f, GuiInterface *g, BoardI
 
 	if(DEBUG_MODE) {
 
+            //QSqlDatabase *mySqliteLogDb;
+
+
+
+           // myGui->getMyW()->getSession();
+
+            //QSqlDatabase * test = myGui->getMyLog()->getMySqliteLogDb();
+
+ //           if(!mySqliteLogDb->open()) {
+ //               QMessageBox::critical(0, tr("ERROR"),mySqliteLogDb->lastError().text().toUtf8().data(), QMessageBox::Cancel);
+ //           }
+
+
+
 		int temp5Array[5];
 
 		switch(myID) {
@@ -108,7 +122,7 @@ LocalHand::LocalHand(boost::shared_ptr<EngineFactory> f, GuiInterface *g, BoardI
                                 tempBoardArray[1] = 21;
                                 tempBoardArray[2] = 50;
                                 tempBoardArray[3] = 15;
-                                tempBoardArray[4] = 12;
+                                tempBoardArray[4] = -1;
 			
 				myBoard->setMyCards(tempBoardArray);
 			
@@ -121,8 +135,8 @@ LocalHand::LocalHand(boost::shared_ptr<EngineFactory> f, GuiInterface *g, BoardI
 				// player0
 				it = seatsList->begin();
 			
-                                tempPlayerArray[0] = 13;
-                                tempPlayerArray[1] = 22;
+                                tempPlayerArray[0] = 0;
+                                tempPlayerArray[1] = 1;
 				tempPlayerAndBoardArray[0] = tempPlayerArray[0];
 				tempPlayerAndBoardArray[1] = tempPlayerArray[1];
 			
@@ -174,7 +188,7 @@ LocalHand::LocalHand(boost::shared_ptr<EngineFactory> f, GuiInterface *g, BoardI
 				it++;
 			
                                 tempPlayerArray[0] = 48;
-                                tempPlayerArray[1] = 7;
+                                tempPlayerArray[1] = 2;
 				tempPlayerAndBoardArray[0] = tempPlayerArray[0];
 				tempPlayerAndBoardArray[1] = tempPlayerArray[1];
 			
@@ -347,7 +361,7 @@ void LocalHand::start() {
 	it_sB = getActivePlayerIt(getCurrentBeRo()->getSmallBlindPositionId());
 	it_bB = getActivePlayerIt(getCurrentBeRo()->getBigBlindPositionId());
 	if(it_sB != getActivePlayerList()->end() && it_bB != getActivePlayerList()->end()) {
-		myGui->logNewBlindsSetsMsg((*it_sB)->getMySet(), (*it_bB)->getMySet(), (*it_sB)->getMyName().c_str(), (*it_bB)->getMyName().c_str());
+                myGui->logNewBlindsSetsMsg((*it_sB)->getMySet(), (*it_bB)->getMySet(), (*it_sB)->getMyName().c_str(), (*it_bB)->getMyName().c_str());
 	}	
 	else { LOG_ERROR(__FILE__ << " (" << __LINE__ << "): Log Error: cannot find sBID or bBID"); }
 	myGui->flushLogAtHand();	
