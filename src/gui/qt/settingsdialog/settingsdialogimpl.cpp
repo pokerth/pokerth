@@ -405,6 +405,21 @@ void settingsDialogImpl::exec() {
     spinBox_logStoreDuration->setValue(myConfig->readConfigInt("LogStoreDuration"));
     comboBox_logInterval->setCurrentIndex(myConfig->readConfigInt("LogInterval"));
 
+    QDir logFileDir;
+    logFileDir.setPath(QString::fromUtf8(myConfig->readConfigString("LogDir").c_str()));
+    QStringList filters;
+    filters << "*.db";
+    QStringList dbFilesList = logFileDir.entryList(filters, QDir::Files, QDir::Time);
+
+    QStringListIterator logFileIt(dbFilesList);
+    while (logFileIt.hasNext()) {
+
+        QTreeWidgetItem *item = new QTreeWidgetItem;
+        item->setText(0, logFileIt.next());
+        treeWidget_logFiles->addTopLevelItem(item);
+    }
+
+
     bool tmpHasIpv6 = socket_has_ipv6();
     bool tmpHasSctp = socket_has_sctp();
     checkBox_useIpv6->setEnabled(tmpHasIpv6);
