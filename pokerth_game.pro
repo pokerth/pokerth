@@ -373,6 +373,8 @@ unix:!mac {
         boost_iostreams-mt
     BOOST_REGEX = boost_regex \
         boost_regex-mt
+    BOOST_SYS = boost_system \
+        boost_system-mt
     
     # searching in $PREFIX/lib and $PREFIX/lib64
     # to override the default '/usr' pass PREFIX
@@ -394,12 +396,17 @@ unix:!mac {
             message("Found $$lib")
             BOOST_REGEX = -l$$lib
         }
+	for(lib, BOOST_SYS):exists($${dir}/lib$${lib}.so*) { 
+            message("Found $$lib")
+            BOOST_SYS = -l$$lib
+        }
     }
     BOOST_LIBS = $$BOOST_THREAD \
         $$BOOST_FS \
         $$BOOST_IOSTREAMS \
-        $$BOOST_REGEX
-    !count(BOOST_LIBS, 4):error("Unable to find boost libraries in PREFIX=$${PREFIX}")
+        $$BOOST_REGEX \
+        $$BOOST_SYS
+    !count(BOOST_LIBS, 5):error("Unable to find boost libraries in PREFIX=$${PREFIX}")
     if($$system(sdl-config --version)):error("sdl-config not found in PATH - libSDL_mixer, libSDL are required!")
     UNAME = $$system(uname -s)
     BSD = $$find(UNAME, "BSD")
