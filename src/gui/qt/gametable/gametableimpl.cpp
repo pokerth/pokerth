@@ -1501,6 +1501,22 @@ void gameTableImpl::meInAction() {
         lineEdit_betValue->selectAll();
     }
 
+//    if(this->isMinimized()){
+//        this->showNormal();
+//        this->activateWindow();
+//        this->raise();
+//    }
+//    else if(!this->isActiveWindow()) {
+//        this->showMinimized();
+//        this->activateWindow();
+//        this->raise();
+//        this->showNormal();
+//        this->activateWindow();
+//        this->raise();
+//
+//    }
+
+
     myActionIsRaise = 0;
     myActionIsBet = 0;
 

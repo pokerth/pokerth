@@ -83,7 +83,7 @@ Log::Log(gameTableImpl* w, ConfigFile *c) : myW(w), myConfig(c), myLogDir(0), my
                         int i;
                         // lege sqlite-Datenbank
                         *mySqliteLogDb = QSqlDatabase::addDatabase("QSQLITE");
-                        mySqliteLogDb->setDatabaseName(myLogDir->absolutePath()+"/pokerth-log-"+currentTime.toString("yyyy-MM-dd_hh.mm.ss")+".db");
+                        mySqliteLogDb->setDatabaseName(myLogDir->absolutePath()+"/pokerth-log-"+currentTime.toString("yyyy-MM-dd_hh.mm.ss")+".pdb");
                         if(!mySqliteLogDb->open()) {
                             QMessageBox::critical(0, tr("ERROR"),mySqliteLogDb->lastError().text().toUtf8().data(), QMessageBox::Cancel);
                         }

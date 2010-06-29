@@ -120,6 +120,10 @@ settingsDialogImpl::settingsDialogImpl(QWidget *parent, ConfigFile *c, selectAva
     connect( pushButton_removeCardDeckStyle, SIGNAL( clicked() ), this, SLOT( removeCardDeckStyle()) );
     connect( pushButton_internetGameRemoveIgnoredPlayer, SIGNAL( clicked()), this, SLOT( removePlayerFromIgnoredPlayersList()));
 
+    connect( pushButton_deleteLog, SIGNAL(clicked()), this, SLOT (deleteLogFile()));
+    connect( pushButton_exportLogHtml, SIGNAL(clicked()), this, SLOT (exportLogToHtml()));
+    connect( pushButton_exportLogTxt, SIGNAL(clicked()), this, SLOT (exportLogToTxt()));
+
 }
 
 void settingsDialogImpl::exec() {
@@ -405,19 +409,7 @@ void settingsDialogImpl::exec() {
     spinBox_logStoreDuration->setValue(myConfig->readConfigInt("LogStoreDuration"));
     comboBox_logInterval->setCurrentIndex(myConfig->readConfigInt("LogInterval"));
 
-    QDir logFileDir;
-    logFileDir.setPath(QString::fromUtf8(myConfig->readConfigString("LogDir").c_str()));
-    QStringList filters;
-    filters << "*.db";
-    QStringList dbFilesList = logFileDir.entryList(filters, QDir::Files, QDir::Time);
-
-    QStringListIterator logFileIt(dbFilesList);
-    while (logFileIt.hasNext()) {
-
-        QTreeWidgetItem *item = new QTreeWidgetItem;
-        item->setText(0, logFileIt.next());
-        treeWidget_logFiles->addTopLevelItem(item);
-    }
+    refreshLogFileList();
 
 
     bool tmpHasIpv6 = socket_has_ipv6();
@@ -795,7 +787,20 @@ void settingsDialogImpl::setLogDir()
                                                     QFileDialog::ShowDirsOnly
                                                     | QFileDialog::DontResolveSymlinks);
 
-    if (!dir.isEmpty()) lineEdit_logDir->setText(dir);
+    if (!dir.isEmpty()) {
+
+        QDir logDir(dir);
+        if(logDir.exists()) {
+            lineEdit_logDir->setText(dir);
+            refreshLogFileList();
+        }
+        else {
+            QMessageBox::warning(this, tr("Settings Error"),
+                                 tr("The log file directory doesn't exist.\n"
+                                    "Please select an valid directory!"),
+                                 QMessageBox::Ok);
+        }
+    }
 }
 
 void settingsDialogImpl::clearInternetGamePassword(bool clear) {
@@ -1167,4 +1172,53 @@ void settingsDialogImpl::removePlayerFromIgnoredPlayersList()
     if(treeWidget_internetGameIgnoredPlayers->selectedItems().count()) {
         treeWidget_internetGameIgnoredPlayers->takeTopLevelItem(treeWidget_internetGameIgnoredPlayers->currentIndex().row());
     }
+}
+
+void settingsDialogImpl::refreshLogFileList()
+{
+    QDir logFileDir;
+    logFileDir.setPath(lineEdit_logDir->text());
+    QStringList filters;
+    filters << "*.pdb";
+    QFileInfoList dbFilesList = logFileDir.entryInfoList(filters, QDir::Files, QDir::Time);
+
+    treeWidget_logFiles->clear();
+    int i;
+    for (i=0; i < dbFilesList.size(); i++) {
+
+        QTreeWidgetItem *item = new QTreeWidgetItem;
+        item->setText(0, dbFilesList.at(i).fileName());
+        item->setData(0, Qt::UserRole, dbFilesList.at(i).absoluteFilePath());
+        treeWidget_logFiles->addTopLevelItem(item);
+    }
+}
+
+void settingsDialogImpl::deleteLogFile()
+{
+    QTreeWidgetItem* selectedItem = treeWidget_logFiles->currentItem();
+
+    if(selectedItem) {
+        int ret = QMessageBox::warning(this, tr("PokerTH - Log file"),
+                                       tr("Do you really want to delete the seleted log file?"),
+                                       QMessageBox::Yes | QMessageBox::No);
+
+        if(ret == QMessageBox::Yes) {
+
+            QFile fileToDelete (selectedItem->data(0, Qt::UserRole).toString());
+            if(!fileToDelete.remove()) {
+                QMessageBox::warning(this, "Remove log file", "PokerTH cannot remove this log file, please check if you have write access to this file!", QMessageBox::Close );
+            }
+            refreshLogFileList();
+        }
+    }
+}
+
+void settingsDialogImpl::exportLogToHtml()
+{
+
+}
+
+void settingsDialogImpl::exportLogToTxt()
+{
+
 }

@@ -91,6 +91,10 @@ public slots:
 	void addCardDeckStyle();
 	void removeCardDeckStyle();
         void removePlayerFromIgnoredPlayersList();
+        void refreshLogFileList();
+        void deleteLogFile();
+        void exportLogToHtml();
+        void exportLogToTxt();
 
 private:
 	
