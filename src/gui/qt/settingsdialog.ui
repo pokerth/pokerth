@@ -3414,6 +3414,17 @@ p, li { white-space: pre-wrap; }
                </widget>
               </item>
               <item>
+               <widget class="QPushButton" name="pushButton_saveLogAs">
+                <property name="text">
+                 <string>Save as ...</string>
+                </property>
+                <property name="icon">
+                 <iconset resource="resources/pokerth.qrc">
+                  <normaloff>:/gfx/filesave.png</normaloff>:/gfx/filesave.png</iconset>
+                </property>
+               </widget>
+              </item>
+              <item>
                <widget class="QPushButton" name="pushButton_deleteLog">
                 <property name="text">
                  <string>Delete</string>

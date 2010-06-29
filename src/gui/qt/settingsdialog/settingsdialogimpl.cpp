@@ -123,6 +123,7 @@ settingsDialogImpl::settingsDialogImpl(QWidget *parent, ConfigFile *c, selectAva
     connect( pushButton_deleteLog, SIGNAL(clicked()), this, SLOT (deleteLogFile()));
     connect( pushButton_exportLogHtml, SIGNAL(clicked()), this, SLOT (exportLogToHtml()));
     connect( pushButton_exportLogTxt, SIGNAL(clicked()), this, SLOT (exportLogToTxt()));
+    connect( pushButton_saveLogAs, SIGNAL(clicked()), this, SLOT (saveLogFileAs()));
 
 }
 
@@ -1221,4 +1222,19 @@ void settingsDialogImpl::exportLogToHtml()
 void settingsDialogImpl::exportLogToTxt()
 {
 
+}
+
+void settingsDialogImpl::saveLogFileAs()
+{
+    QTreeWidgetItem* selectedItem = treeWidget_logFiles->currentItem();
+
+    if(selectedItem) {
+        QString fileName = QFileDialog::getSaveFileName(this, tr("Save PokerTH log file"),
+                                                        QDir::homePath()+"/"+selectedItem->text(0),
+                                    tr("PokerTH SQL log (*.pdb)"));
+
+        if(!fileName.isEmpty()) {
+            QFile::copy(selectedItem->data(0, Qt::UserRole).toString(), fileName);
+        }
+    }
 }

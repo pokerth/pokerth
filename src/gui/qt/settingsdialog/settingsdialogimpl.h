@@ -95,6 +95,7 @@ public slots:
         void deleteLogFile();
         void exportLogToHtml();
         void exportLogToTxt();
+        void saveLogFileAs();
 
 private:
 	
