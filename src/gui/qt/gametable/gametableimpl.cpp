@@ -2865,6 +2865,7 @@ void gameTableImpl::networkGameModification() {
     for (i=0; i<MAX_NUMBER_OF_PLAYERS; i++ ) {
         playerAvatarLabelArray[i]->setEnabledContextMenu(TRUE);
         playerAvatarLabelArray[i]->setVoteOnKickContextMenuEnabled(TRUE);
+        playerAvatarLabelArray[i]->setVoteRunning(FALSE);
     }
 
     if(myStartWindow->getSession()->getGameType() == Session::GAME_TYPE_INTERNET) {
