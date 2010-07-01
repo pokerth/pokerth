@@ -336,6 +336,33 @@ p, li { white-space: pre-wrap; }
        <number>7</number>
       </property>
       <item>
+       <widget class="QTreeWidget" name="treeWidget_connectedPlayers">
+        <property name="minimumSize">
+         <size>
+          <width>221</width>
+          <height>240</height>
+         </size>
+        </property>
+        <property name="midLineWidth">
+         <number>1</number>
+        </property>
+        <property name="iconSize">
+         <size>
+          <width>25</width>
+          <height>26</height>
+         </size>
+        </property>
+        <property name="indentation">
+         <number>15</number>
+        </property>
+        <column>
+         <property name="text">
+          <string>Connected Players</string>
+         </property>
+        </column>
+       </widget>
+      </item>
+      <item>
        <widget class="QScrollArea" name="scrollArea">
         <property name="minimumSize">
          <size>
@@ -618,33 +645,6 @@ p, li { white-space: pre-wrap; }
        </widget>
       </item>
       <item>
-       <widget class="QTreeWidget" name="treeWidget_connectedPlayers">
-        <property name="minimumSize">
-         <size>
-          <width>221</width>
-          <height>240</height>
-         </size>
-        </property>
-        <property name="midLineWidth">
-         <number>1</number>
-        </property>
-        <property name="iconSize">
-         <size>
-          <width>25</width>
-          <height>26</height>
-         </size>
-        </property>
-        <property name="indentation">
-         <number>15</number>
-        </property>
-        <column>
-         <property name="text">
-          <string>Connected Players</string>
-         </property>
-        </column>
-       </widget>
-      </item>
-      <item>
        <layout class="QHBoxLayout" name="horizontalLayout_2">
         <item>
          <widget class="QCheckBox" name="checkBox_fillUpWithComputerOpponents">
@@ -837,7 +837,6 @@ p, li { white-space: pre-wrap; }
   <tabstop>pushButton_JoinGame</tabstop>
   <tabstop>textBrowser_ChatDisplay</tabstop>
   <tabstop>lineEdit_ChatInput</tabstop>
-  <tabstop>treeWidget_connectedPlayers</tabstop>
   <tabstop>checkBox_fillUpWithComputerOpponents</tabstop>
   <tabstop>pushButton_StartGame</tabstop>
   <tabstop>pushButton_Kick</tabstop>
