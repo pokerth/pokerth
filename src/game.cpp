@@ -45,7 +45,7 @@ Game::Game(GuiInterface* gui, boost::shared_ptr<EngineFactory> factory,
 	if(DEBUG_MODE) {
                 startSmallBlind = 10;
 		currentSmallBlind = startSmallBlind;
-                dealerPosition = 4;
+                dealerPosition = 3;
 	}
 
 	int i;

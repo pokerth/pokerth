@@ -118,11 +118,11 @@ LocalHand::LocalHand(boost::shared_ptr<EngineFactory> f, GuiInterface *g, BoardI
 
 			case 1: {		
 
-                                tempBoardArray[0] = 36;
-                                tempBoardArray[1] = 21;
-                                tempBoardArray[2] = 50;
-                                tempBoardArray[3] = 15;
-                                tempBoardArray[4] = -1;
+                                tempBoardArray[0] = 32;
+                                tempBoardArray[1] = 8;
+                                tempBoardArray[2] = 7;
+                                tempBoardArray[3] = 48;
+                                tempBoardArray[4] = 21;
 			
 				myBoard->setMyCards(tempBoardArray);
 			
@@ -135,8 +135,8 @@ LocalHand::LocalHand(boost::shared_ptr<EngineFactory> f, GuiInterface *g, BoardI
 				// player0
 				it = seatsList->begin();
 			
-                                tempPlayerArray[0] = 0;
-                                tempPlayerArray[1] = 1;
+                                tempPlayerArray[0] = 44;
+                                tempPlayerArray[1] = 10;
 				tempPlayerAndBoardArray[0] = tempPlayerArray[0];
 				tempPlayerAndBoardArray[1] = tempPlayerArray[1];
 			
@@ -148,8 +148,8 @@ LocalHand::LocalHand(boost::shared_ptr<EngineFactory> f, GuiInterface *g, BoardI
 				// player1
 				it++;
 		
-                                tempPlayerArray[0] = 47;
-                                tempPlayerArray[1] = 51;
+                                tempPlayerArray[0] = 31;
+                                tempPlayerArray[1] = 22;
 				tempPlayerAndBoardArray[0] = tempPlayerArray[0];
 				tempPlayerAndBoardArray[1] = tempPlayerArray[1];
 			
@@ -174,8 +174,8 @@ LocalHand::LocalHand(boost::shared_ptr<EngineFactory> f, GuiInterface *g, BoardI
 				// player3
 				it++;
 			
-                                tempPlayerArray[0] = 36;
-                                tempPlayerArray[1] = 47;
+                                tempPlayerArray[0] = 23;
+                                tempPlayerArray[1] = 1;
                                 tempPlayerAndBoardArray[0] = tempPlayerArray[0];
                                 tempPlayerAndBoardArray[1] = tempPlayerArray[1];
 
@@ -187,8 +187,8 @@ LocalHand::LocalHand(boost::shared_ptr<EngineFactory> f, GuiInterface *g, BoardI
 				// player4
 				it++;
 			
-                                tempPlayerArray[0] = 48;
-                                tempPlayerArray[1] = 2;
+                                tempPlayerArray[0] = 36;
+                                tempPlayerArray[1] = 45;
 				tempPlayerAndBoardArray[0] = tempPlayerArray[0];
 				tempPlayerAndBoardArray[1] = tempPlayerArray[1];
 			
