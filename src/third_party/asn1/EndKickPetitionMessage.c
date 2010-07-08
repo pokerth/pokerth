@@ -241,12 +241,12 @@ static ber_tlv_tag_t asn_DEF_EndKickPetitionMessage_tags_1[] = {
 	(ASN_TAG_CLASS_UNIVERSAL | (16 << 2))
 };
 static asn_TYPE_tag2member_t asn_MAP_EndKickPetitionMessage_tag2el_1[] = {
-    { (ASN_TAG_CLASS_UNIVERSAL | (1 << 2)), 4, 0, 0 }, /* resultPlayerKicked at 597 */
-    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 0, 0, 3 }, /* gameId at 593 */
-    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 1, -1, 2 }, /* petitionId at 594 */
-    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 2, -2, 1 }, /* numVotesAgainstKicking at 595 */
-    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 3, -3, 0 }, /* numVotesInFavourOfKicking at 596 */
-    { (ASN_TAG_CLASS_UNIVERSAL | (10 << 2)), 5, 0, 0 } /* petitionEndReason at 599 */
+    { (ASN_TAG_CLASS_UNIVERSAL | (1 << 2)), 4, 0, 0 }, /* resultPlayerKicked at 604 */
+    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 0, 0, 3 }, /* gameId at 600 */
+    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 1, -1, 2 }, /* petitionId at 601 */
+    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 2, -2, 1 }, /* numVotesAgainstKicking at 602 */
+    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 3, -3, 0 }, /* numVotesInFavourOfKicking at 603 */
+    { (ASN_TAG_CLASS_UNIVERSAL | (10 << 2)), 5, 0, 0 } /* petitionEndReason at 606 */
 };
 static asn_SEQUENCE_specifics_t asn_SPC_EndKickPetitionMessage_specs_1 = {
 	sizeof(struct EndKickPetitionMessage),

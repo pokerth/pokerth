@@ -308,7 +308,7 @@ static asn_TYPE_member_t asn_MBR_PokerTHMessage_1[] = {
 		"endOfHandMessage"
 		},
 	{ ATF_NOFLAGS, 0, offsetof(struct PokerTHMessage, choice.endOfGameMessage),
-		(ASN_TAG_CLASS_APPLICATION | (33 << 2)),
+		(ASN_TAG_CLASS_APPLICATION | (35 << 2)),
 		0,
 		&asn_DEF_EndOfGameMessage,
 		0,	/* Defer constraints checking to the member type */
@@ -477,7 +477,7 @@ static asn_TYPE_tag2member_t asn_MAP_PokerTHMessage_tag2el_1[] = {
     { (ASN_TAG_CLASS_APPLICATION | (30 << 2)), 30, 0, 0 }, /* dealRiverCardMessage at 57 */
     { (ASN_TAG_CLASS_APPLICATION | (31 << 2)), 31, 0, 0 }, /* allInShowCardsMessage at 58 */
     { (ASN_TAG_CLASS_APPLICATION | (32 << 2)), 32, 0, 0 }, /* endOfHandMessage at 59 */
-    { (ASN_TAG_CLASS_APPLICATION | (33 << 2)), 33, 0, 0 }, /* endOfGameMessage at 60 */
+    { (ASN_TAG_CLASS_APPLICATION | (35 << 2)), 33, 0, 0 }, /* endOfGameMessage at 60 */
     { (ASN_TAG_CLASS_APPLICATION | (64 << 2)), 34, 0, 0 }, /* askKickPlayerMessage at 61 */
     { (ASN_TAG_CLASS_APPLICATION | (65 << 2)), 35, 0, 0 }, /* askKickDeniedMessage at 62 */
     { (ASN_TAG_CLASS_APPLICATION | (66 << 2)), 36, 0, 0 }, /* startKickPetitionMessage at 63 */
