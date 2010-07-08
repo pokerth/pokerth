@@ -525,7 +525,14 @@ EndOfHandHideCards ::= SEQUENCE {
 	playerMoney					INTEGER(0..10000000)
 }
 
-EndOfGameMessage ::= [APPLICATION 33] SEQUENCE {
+ShowMyCardsRequestMessage ::= [APPLICATION 33] SEQUENCE {
+}
+
+AfterHandShowCardsMessage ::= [APPLICATION 34] SEQUENCE {
+	playerResult				PlayerResult
+}
+
+EndOfGameMessage ::= [APPLICATION 35] SEQUENCE {
 	gameId						NonZeroId,
 	winnerPlayerId				NonZeroId
 }
