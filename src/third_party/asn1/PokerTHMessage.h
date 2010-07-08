@@ -45,6 +45,8 @@
 #include "DealRiverCardMessage.h"
 #include "AllInShowCardsMessage.h"
 #include "EndOfHandMessage.h"
+#include "ShowMyCardsRequestMessage.h"
+#include "AfterHandShowCardsMessage.h"
 #include "EndOfGameMessage.h"
 #include "AskKickPlayerMessage.h"
 #include "AskKickDeniedMessage.h"
@@ -102,6 +104,8 @@ typedef enum PokerTHMessage_PR {
 	PokerTHMessage_PR_dealRiverCardMessage,
 	PokerTHMessage_PR_allInShowCardsMessage,
 	PokerTHMessage_PR_endOfHandMessage,
+	PokerTHMessage_PR_showMyCardsRequestMessage,
+	PokerTHMessage_PR_afterHandShowCardsMessage,
 	PokerTHMessage_PR_endOfGameMessage,
 	PokerTHMessage_PR_askKickPlayerMessage,
 	PokerTHMessage_PR_askKickDeniedMessage,
@@ -158,6 +162,8 @@ typedef struct PokerTHMessage {
 		DealRiverCardMessage_t	 dealRiverCardMessage;
 		AllInShowCardsMessage_t	 allInShowCardsMessage;
 		EndOfHandMessage_t	 endOfHandMessage;
+		ShowMyCardsRequestMessage_t	 showMyCardsRequestMessage;
+		AfterHandShowCardsMessage_t	 afterHandShowCardsMessage;
 		EndOfGameMessage_t	 endOfGameMessage;
 		AskKickPlayerMessage_t	 askKickPlayerMessage;
 		AskKickDeniedMessage_t	 askKickDeniedMessage;

@@ -50,7 +50,7 @@ static ber_tlv_tag_t asn_DEF_AuthClientResponse_tags_1[] = {
 	(ASN_TAG_CLASS_UNIVERSAL | (16 << 2))
 };
 static asn_TYPE_tag2member_t asn_MAP_AuthClientResponse_tag2el_1[] = {
-    { (ASN_TAG_CLASS_UNIVERSAL | (4 << 2)), 0, 0, 0 } /* clientResponse at 131 */
+    { (ASN_TAG_CLASS_UNIVERSAL | (4 << 2)), 0, 0, 0 } /* clientResponse at 133 */
 };
 static asn_SEQUENCE_specifics_t asn_SPC_AuthClientResponse_specs_1 = {
 	sizeof(struct AuthClientResponse),

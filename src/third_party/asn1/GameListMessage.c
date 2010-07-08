@@ -57,11 +57,11 @@ static asn_TYPE_member_t asn_MBR_gameListNotification_3[] = {
 		},
 };
 static asn_TYPE_tag2member_t asn_MAP_gameListNotification_tag2el_3[] = {
-    { (ASN_TAG_CLASS_CONTEXT | (0 << 2)), 0, 0, 0 }, /* gameListNew at 192 */
-    { (ASN_TAG_CLASS_CONTEXT | (1 << 2)), 1, 0, 0 }, /* gameListUpdate at 193 */
-    { (ASN_TAG_CLASS_CONTEXT | (2 << 2)), 2, 0, 0 }, /* gameListPlayerJoined at 194 */
-    { (ASN_TAG_CLASS_CONTEXT | (3 << 2)), 3, 0, 0 }, /* gameListPlayerLeft at 195 */
-    { (ASN_TAG_CLASS_CONTEXT | (4 << 2)), 4, 0, 0 } /* gameListAdminChanged at 197 */
+    { (ASN_TAG_CLASS_CONTEXT | (0 << 2)), 0, 0, 0 }, /* gameListNew at 194 */
+    { (ASN_TAG_CLASS_CONTEXT | (1 << 2)), 1, 0, 0 }, /* gameListUpdate at 195 */
+    { (ASN_TAG_CLASS_CONTEXT | (2 << 2)), 2, 0, 0 }, /* gameListPlayerJoined at 196 */
+    { (ASN_TAG_CLASS_CONTEXT | (3 << 2)), 3, 0, 0 }, /* gameListPlayerLeft at 197 */
+    { (ASN_TAG_CLASS_CONTEXT | (4 << 2)), 4, 0, 0 } /* gameListAdminChanged at 199 */
 };
 static asn_CHOICE_specifics_t asn_SPC_gameListNotification_specs_3 = {
 	sizeof(struct gameListNotification),
@@ -121,12 +121,12 @@ static ber_tlv_tag_t asn_DEF_GameListMessage_tags_1[] = {
 	(ASN_TAG_CLASS_UNIVERSAL | (16 << 2))
 };
 static asn_TYPE_tag2member_t asn_MAP_GameListMessage_tag2el_1[] = {
-    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 0, 0, 0 }, /* gameId at 190 */
-    { (ASN_TAG_CLASS_CONTEXT | (0 << 2)), 1, 0, 0 }, /* gameListNew at 192 */
-    { (ASN_TAG_CLASS_CONTEXT | (1 << 2)), 1, 0, 0 }, /* gameListUpdate at 193 */
-    { (ASN_TAG_CLASS_CONTEXT | (2 << 2)), 1, 0, 0 }, /* gameListPlayerJoined at 194 */
-    { (ASN_TAG_CLASS_CONTEXT | (3 << 2)), 1, 0, 0 }, /* gameListPlayerLeft at 195 */
-    { (ASN_TAG_CLASS_CONTEXT | (4 << 2)), 1, 0, 0 } /* gameListAdminChanged at 197 */
+    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 0, 0, 0 }, /* gameId at 192 */
+    { (ASN_TAG_CLASS_CONTEXT | (0 << 2)), 1, 0, 0 }, /* gameListNew at 194 */
+    { (ASN_TAG_CLASS_CONTEXT | (1 << 2)), 1, 0, 0 }, /* gameListUpdate at 195 */
+    { (ASN_TAG_CLASS_CONTEXT | (2 << 2)), 1, 0, 0 }, /* gameListPlayerJoined at 196 */
+    { (ASN_TAG_CLASS_CONTEXT | (3 << 2)), 1, 0, 0 }, /* gameListPlayerLeft at 197 */
+    { (ASN_TAG_CLASS_CONTEXT | (4 << 2)), 1, 0, 0 } /* gameListAdminChanged at 199 */
 };
 static asn_SEQUENCE_specifics_t asn_SPC_GameListMessage_specs_1 = {
 	sizeof(struct GameListMessage),
