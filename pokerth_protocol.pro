@@ -159,7 +159,9 @@ HEADERS += src/third_party/asn1/AllInShowCardsMessage.h \
     src/third_party/asn1/xer_support.h \
     src/third_party/asn1/YourActionRejectedMessage.h \
     src/third_party/asn1/AnnounceMessage.h \
-    src/third_party/asn1/UnauthenticatedLogin.h
+    src/third_party/asn1/UnauthenticatedLogin.h \
+    src/third_party/asn1/AfterHandShowCardsMessage.h \
+    src/third_party/asn1/ShowMyCardsRequestMessage.h
 SOURCES += src/third_party/asn1/ChatCleanerMessage.c \
     src/third_party/asn1/CleanerInitMessage.c \
     src/third_party/asn1/CleanerInitAckMessage.c \
@@ -291,7 +293,9 @@ SOURCES += src/third_party/asn1/ChatCleanerMessage.c \
     src/third_party/asn1/InviteNotifyMessage.c \
     src/third_party/asn1/RejectGameInvitationMessage.c \
     src/third_party/asn1/RejectInvNotifyMessage.c \
-    src/third_party/asn1/RejectGameInvReason.c
+    src/third_party/asn1/RejectGameInvReason.c \
+    src/third_party/asn1/AfterHandShowCardsMessage.c \
+    src/third_party/asn1/ShowMyCardsRequestMessage.c
 win32 { 
     DEFINES += CURL_STATICLIB
     DEFINES += _WIN32_WINNT=0x0501
