@@ -337,6 +337,8 @@ gameTableImpl::gameTableImpl(ConfigFile *c, QMainWindow *parent)
     holeCardsArray[9][0] = pixmapLabel_card9a;
     holeCardsArray[9][1] = pixmapLabel_card9b;
 
+    pushButton_showMyCards->hide();
+
     //style Game Table
     refreshGameTableStyle();
 
@@ -465,6 +467,8 @@ gameTableImpl::gameTableImpl(ConfigFile *c, QMainWindow *parent)
 
     connect( pushButton_voteOnKickYes, SIGNAL( clicked() ), this, SLOT( voteOnKickYes() ) );
     connect( pushButton_voteOnKickNo, SIGNAL( clicked() ), this, SLOT( voteOnKickNo() ) );
+
+    connect( pushButton_showMyCards, SIGNAL( clicked() ), this, SLOT( sendShowMyCardsSignal() ) );
 
     //Nachrichten Thread-Save
     connect(this, SIGNAL(signalInitGui(int)), this, SLOT(initGui(int)));
@@ -2664,7 +2668,7 @@ void gameTableImpl::keyPressEvent ( QKeyEvent * event ) {
     else { keyUpDownChatCounter = 0; }
 
     //TESTING UNIT
-    //if (event->key() == Qt::Key_M) { startVoteOnKick(3,60, 6); }
+    if (event->key() == Qt::Key_M) { showShowMyCardsButton(); }
 }
 
 void gameTableImpl::changePlayingMode() {
@@ -3324,6 +3328,7 @@ void gameTableImpl::refreshGameTableStyle()
     }
     //Human player button
     myGameTableStyle->setButtonsStyle(pushButton_BetRaise, pushButton_CallCheck, pushButton_Fold, pushButton_AllIn, 0);
+    myGameTableStyle->setShowMyCardsButtonStyle(pushButton_showMyCards);
 
     myGameTableStyle->setBetValueInputStyle(lineEdit_betValue);
     myGameTableStyle->setSliderStyle(horizontalSlider_bet);
@@ -3434,4 +3439,15 @@ void gameTableImpl::guestUserMode()
     lineEdit_ChatInput->setText("Chat is avaiable only for registered members");
     lineEdit_ChatInput->setDisabled(true);
     guestMode = true;
+}
+
+void gameTableImpl::showShowMyCardsButton()
+{
+    pushButton_showMyCards->show();
+    pushButton_showMyCards->raise();
+}
+
+void gameTableImpl::sendShowMyCardsSignal()
+{
+    pushButton_showMyCards->hide();
 }

@@ -2450,6 +2450,19 @@
           <string/>
          </property>
         </widget>
+        <widget class="MyActionButton" name="pushButton_showMyCards">
+         <property name="geometry">
+          <rect>
+           <x>72</x>
+           <y>72</y>
+           <width>100</width>
+           <height>25</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>uncover!</string>
+         </property>
+        </widget>
        </widget>
       </item>
       <item>

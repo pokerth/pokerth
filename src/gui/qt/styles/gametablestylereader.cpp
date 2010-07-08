@@ -171,6 +171,8 @@ void GameTableStyleReader::readStyleFile(QString file) {
                                         else if (itemsList->ValueStr() == "Table") { Table = currentDir+QString::fromUtf8(tempString1.c_str()); }
                                         else if (itemsList->ValueStr() == "HandRanking") { HandRanking = currentDir+QString::fromUtf8(tempString1.c_str()); }
                                         else if (itemsList->ValueStr() == "ToolBoxBackground") { ToolBoxBackground = currentDir+QString::fromUtf8(tempString1.c_str()); }
+                                        else if (itemsList->ValueStr() == "ShowMyCardsButtonDefault") { ShowMyCardsButtonDefault = currentDir+QString::fromUtf8(tempString1.c_str()); }
+                                        else if (itemsList->ValueStr() == "ShowMyCardsButtonHover") { ShowMyCardsButtonHover = currentDir+QString::fromUtf8(tempString1.c_str()); }
 
                                         //I18N ACTION STRINGS
                                         else if (itemsList->ValueStr() == "ActionAllInI18NString") { ActionAllInI18NString = QString::fromUtf8(tempString1.c_str()); }
@@ -241,6 +243,7 @@ void GameTableStyleReader::readStyleFile(QString file) {
                                         else if (itemsList->ValueStr() == "BetSpeedSliderGrooveBorderColor") { BetSpeedSliderGrooveBorderColor = QString::fromUtf8(tempString1.c_str()); }
                                         else if (itemsList->ValueStr() == "BetSpeedSliderHandleBgColor") { BetSpeedSliderHandleBgColor = QString::fromUtf8(tempString1.c_str()); }
                                         else if (itemsList->ValueStr() == "BetSpeedSliderHandleBorderColor") { BetSpeedSliderHandleBorderColor = QString::fromUtf8(tempString1.c_str()); }
+                                        else if (itemsList->ValueStr() == "ShowMyCardsButtonTextColor") { ShowMyCardsButtonTextColor = QString::fromUtf8(tempString1.c_str()); }
         // 				SIZES
                                         else if (itemsList->ValueStr() == "ChatLogTextSize") { ChatLogTextSize = QString::fromUtf8(tempString1.c_str()); }
                                 }
@@ -391,6 +394,13 @@ void GameTableStyleReader::readStyleFile(QString file) {
                         if(ToolBoxBackground == "") { leftItems << "ToolBoxBackground"; }
                         else if(ToolBoxBackground != QString(currentDir+"NULL") && !QFile(ToolBoxBackground).exists()) { itemPicsLeft << "ToolBoxBackground = "+ToolBoxBackground; }
 
+                        if(ShowMyCardsButtonDefault == "") { leftItems << "ShowMyCardsButtonDefault"; }
+                        else if(ShowMyCardsButtonDefault != QString(currentDir+"NULL") && !QFile(ShowMyCardsButtonDefault).exists()) { itemPicsLeft << "ShowMyCardsButtonDefault = "+ShowMyCardsButtonDefault; }
+
+                        if(ShowMyCardsButtonHover == "") { leftItems << "ShowMyCardsButtonHover"; }
+                        else if(ShowMyCardsButtonHover != QString(currentDir+"NULL") && !QFile(ShowMyCardsButtonHover).exists()) { itemPicsLeft << "ShowMyCardsButtonHover = "+ShowMyCardsButtonHover; }
+
+
                         //I18N ACTION STRINGS
                         if(ActionAllInI18NString == "") { leftItems << "ActionAllInI18NString"; }
                         if(ActionRaiseI18NString == "") { leftItems << "ActionRaiseI18NString"; }
@@ -460,6 +470,8 @@ void GameTableStyleReader::readStyleFile(QString file) {
                         if(BetSpeedSliderGrooveBorderColor == "") { leftItems << "BetSpeedSliderGrooveBorderColor"; }
                         if(BetSpeedSliderHandleBgColor == "") { leftItems << "BetSpeedSliderHandleBgColor"; }
                         if(BetSpeedSliderHandleBorderColor == "") { leftItems << "BetSpeedSliderHandleBorderColor"; }
+                        if(ShowMyCardsButtonTextColor == "") { leftItems << "ShowMyCardsButtonTextColor"; }
+
         // 		SIZE
                         if(ChatLogTextSize == "") { leftItems << "ChatLogTextSize"; }
 
@@ -698,7 +710,7 @@ void GameTableStyleReader::setButtonsStyle(MyActionButton *br, MyActionButton *c
 	br->setMyStyle(this);
 	cc->setMyStyle(this);
 	f->setMyStyle(this);
-	a->setMyStyle(this);
+        a->setMyStyle(this);
 
 	switch(state) {
 		//default
@@ -735,6 +747,16 @@ void GameTableStyleReader::setButtonsStyle(MyActionButton *br, MyActionButton *c
 		}
 		break;
 	}
+
+}
+
+void GameTableStyleReader::setShowMyCardsButtonStyle( MyActionButton *sc)
+{
+        sc->setMyStyle(this);
+
+        //Show My Cards Button has same look and feel all the time
+        sc->setStyleSheet("QPushButton { border:none; background-image: url(\""+ShowMyCardsButtonDefault+"\"); "+ font2String +" font-size: "+humanPlayerButtonFontSize+"px; font-weight: bold; color: #"+ShowMyCardsButtonTextColor+";} QPushButton:unchecked { background-image: url(\""+ShowMyCardsButtonDefault+"\"); } QPushButton:checked { background-image: url(\""+BetRaiseButtonDefault+"\");} QPushButton:hover { background-image: url(\""+ShowMyCardsButtonHover+"\"); } QPushButton:checked:hover { background-image: url(\""+ShowMyCardsButtonHover+"\");}");
+
 }
 
 void GameTableStyleReader::setToolBoxBackground(QGroupBox* gb)

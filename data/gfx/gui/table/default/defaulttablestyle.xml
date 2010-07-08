@@ -4,8 +4,8 @@
      <StyleDescription value="PokerTH default table style" /><!-- This string will be shown in settings/game table style list -->
      <StyleMaintainerName value="PokerTH Development Team" /> <!-- This string should contain the name of the style maintainer and will be shown in style information -->
      <StyleMaintainerEMail value="webmaster@pokerth.net" /> <!-- This string should contain the email address of the style maintainer and will be shown in style information and also in error message if there is a problem with the style. If you dont like to post your mail address here please write value="NULL". -->
-     <StyleCreateDate value="04.04.2009" /> <!-- This string should contain the create date or last date of modification and will be shown in style information-->
-     <PokerTHStyleFileVersion value="1" /> <!-- This number matches the current PokerTH internal version that is supported, you should not change it unless PokerTH tells you to update the style -->
+     <StyleCreateDate value="08.07.2010" /> <!-- This string should contain the create date or last date of modification and will be shown in style information-->
+     <PokerTHStyleFileVersion value="2" /> <!-- This number matches the current PokerTH internal version that is supported, you should not change it unless PokerTH tells you to update the style -->
      <Preview value="preview.png" /> <!-- This preview picture will be shown in settings/game table style if this style is selected. The value should contain a filename of the preview picture which have to be stored in the same folder as this xml file. -->
      
       <!-- Windows Settings --> 
@@ -53,6 +53,8 @@
      <Table value="table.png" /> <!-- minimal size width:height in px [1024:600] -->
      <ToolBoxBackground value="toolboxbg.png" />  <!-- minimal size width:height in px [260:188] -->
      <HandRanking value="handranking.png" />  <!-- minimal size width:height in px [240:153] -->
+     <ShowMyCardsButtonDefault value="playeraction_purple.png" /> <!-- optimal size width:height in px [100:25] -->
+     <ShowMyCardsButtonHover value="playeraction_purple_hover.png" /> <!-- optimal size width:height in px [100:25] -->
      
      <!-- Action*I18NPic: If you wanna set action pics with specific language strings you can set them here. If you wanna use the default english strings just write "NULL" instead of picture files names. PokerTH will automatically display the english ones. -->
      <ActionAllInI18NPic value="NULL" /> <!-- optimal size width:height in px [100:40] -->
@@ -132,6 +134,7 @@
      <BetSpeedSliderGrooveBorderColor value="286400" />
      <BetSpeedSliderHandleBgColor value="99D500" />
      <BetSpeedSliderHandleBorderColor value="286400" />
+     <ShowMyCardsButtonTextColor value="F0F0F0" />
      
       <!-- Table Font Sizes - values should be set in px -->
      <ChatLogTextSize value="11" />

@@ -10,12 +10,12 @@
 #include <QtGui>
 #include <QtCore>
 
-class MyStyleListItem : public QListWidgetItem {	
+class MyStyleListItem : public QTreeWidgetItem {
 public:
-	MyStyleListItem(QString, QListWidget * =0);
+        MyStyleListItem(QStringList, QTreeWidget *);
     ~MyStyleListItem();
 	
-	virtual bool operator<( const QListWidgetItem &) const;
+        virtual bool operator<( const QTreeWidgetItem &) const;
 };
 
 #endif // MYSTYLELISTITEM_H

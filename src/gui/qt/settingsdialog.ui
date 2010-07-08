@@ -310,9 +310,6 @@
              <string>Game Table</string>
             </attribute>
             <layout class="QGridLayout" name="gridLayout_13">
-             <item row="0" column="0">
-              <widget class="QListWidget" name="listWidget_gameTableStyles"/>
-             </item>
              <item row="0" column="1">
               <layout class="QVBoxLayout" name="verticalLayout">
                <item>
@@ -399,6 +396,55 @@ p, li { white-space: pre-wrap; }
                </property>
               </widget>
              </item>
+             <item row="0" column="0">
+              <widget class="QTreeWidget" name="treeWidget_gameTableStyles">
+               <property name="indentation">
+                <number>5</number>
+               </property>
+               <property name="rootIsDecorated">
+                <bool>false</bool>
+               </property>
+               <property name="itemsExpandable">
+                <bool>false</bool>
+               </property>
+               <property name="sortingEnabled">
+                <bool>true</bool>
+               </property>
+               <property name="allColumnsShowFocus">
+                <bool>true</bool>
+               </property>
+               <property name="columnCount">
+                <number>3</number>
+               </property>
+               <attribute name="headerCascadingSectionResizes">
+                <bool>false</bool>
+               </attribute>
+               <attribute name="headerShowSortIndicator" stdset="0">
+                <bool>true</bool>
+               </attribute>
+               <attribute name="headerCascadingSectionResizes">
+                <bool>false</bool>
+               </attribute>
+               <attribute name="headerShowSortIndicator" stdset="0">
+                <bool>true</bool>
+               </attribute>
+               <column>
+                <property name="text">
+                 <string>Description</string>
+                </property>
+               </column>
+               <column>
+                <property name="text">
+                 <string>Maintainer</string>
+                </property>
+               </column>
+               <column>
+                <property name="text">
+                 <string>State</string>
+                </property>
+               </column>
+              </widget>
+             </item>
             </layout>
            </widget>
            <widget class="QWidget" name="tab_4">
@@ -406,9 +452,6 @@ p, li { white-space: pre-wrap; }
              <string>Card Deck</string>
             </attribute>
             <layout class="QGridLayout" name="gridLayout_14">
-             <item row="0" column="0">
-              <widget class="QListWidget" name="listWidget_cardDeckStyles"/>
-             </item>
              <item row="0" column="1">
               <layout class="QVBoxLayout" name="verticalLayout_2">
                <item>
@@ -493,6 +536,46 @@ p, li { white-space: pre-wrap; }
                <property name="openExternalLinks">
                 <bool>true</bool>
                </property>
+              </widget>
+             </item>
+             <item row="0" column="0">
+              <widget class="QTreeWidget" name="treeWidget_cardDeckStyles">
+               <property name="indentation">
+                <number>5</number>
+               </property>
+               <property name="rootIsDecorated">
+                <bool>false</bool>
+               </property>
+               <property name="itemsExpandable">
+                <bool>false</bool>
+               </property>
+               <property name="sortingEnabled">
+                <bool>true</bool>
+               </property>
+               <property name="allColumnsShowFocus">
+                <bool>true</bool>
+               </property>
+               <attribute name="headerShowSortIndicator" stdset="0">
+                <bool>true</bool>
+               </attribute>
+               <attribute name="headerShowSortIndicator" stdset="0">
+                <bool>true</bool>
+               </attribute>
+               <column>
+                <property name="text">
+                 <string>Description</string>
+                </property>
+               </column>
+               <column>
+                <property name="text">
+                 <string>Maintainer</string>
+                </property>
+               </column>
+               <column>
+                <property name="text">
+                 <string>State</string>
+                </property>
+               </column>
               </widget>
              </item>
             </layout>
@@ -3538,10 +3621,10 @@ p, li { white-space: pre-wrap; }
   <tabstop>checkBox_dontTranslatePokerStrings</tabstop>
   <tabstop>checkBox_enableBetInputFocusSwitch</tabstop>
   <tabstop>tabWidget</tabstop>
-  <tabstop>listWidget_gameTableStyles</tabstop>
+  <tabstop>treeWidget_gameTableStyles</tabstop>
   <tabstop>pushButton_addGameTableStyle</tabstop>
   <tabstop>pushButton_removeGameTableStyle</tabstop>
-  <tabstop>listWidget_cardDeckStyles</tabstop>
+  <tabstop>treeWidget_cardDeckStyles</tabstop>
   <tabstop>pushButton_addCardDeckStyle</tabstop>
   <tabstop>pushButton_removeCardDeckStyle</tabstop>
   <tabstop>groupBox_playSoundEffects</tabstop>

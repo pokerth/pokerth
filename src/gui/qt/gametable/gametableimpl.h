@@ -306,6 +306,9 @@ public slots:
     void registeredUserMode();
     void guestUserMode();
 
+    void showShowMyCardsButton();
+    void sendShowMyCardsSignal();
+
 private: 
 
     boost::shared_ptr<GuiInterface> myServerGuiInterface;

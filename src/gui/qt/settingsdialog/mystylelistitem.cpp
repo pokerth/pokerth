@@ -11,8 +11,8 @@
 //
 #include "mystylelistitem.h"
 
-MyStyleListItem::MyStyleListItem(QString s, QListWidget *w) 
- : QListWidgetItem(s, w, QListWidgetItem::UserType)
+MyStyleListItem::MyStyleListItem(QStringList s, QTreeWidget *w)
+ : QTreeWidgetItem(w, s, QTreeWidgetItem::UserType)
 {
 }
 
@@ -20,8 +20,8 @@ MyStyleListItem::~MyStyleListItem()
 {
 }
 
-bool MyStyleListItem::operator<( const QListWidgetItem &other ) const
+bool MyStyleListItem::operator<( const QTreeWidgetItem &other ) const
 {
-	return text().toLower() < other.text().toLower();
+        return text(0).toLower() < other.text(0).toLower();
 }
 

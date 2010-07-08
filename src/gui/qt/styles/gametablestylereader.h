@@ -104,7 +104,8 @@ public:
 	void setWindowsGeometry(gameTableImpl*);
 
 	//set pics and fonts and colors 
-	void setButtonsStyle(MyActionButton*, MyActionButton*, MyActionButton*, MyActionButton*, int);
+        void setButtonsStyle(MyActionButton*, MyActionButton*, MyActionButton*, MyActionButton*, int);
+        void setShowMyCardsButtonStyle( MyActionButton *sc);
 	void setAwayRadioButtonsStyle(QRadioButton*);
 
 	QString getActionAllInI18NString() const { return ActionAllInI18NString; }
@@ -183,6 +184,8 @@ private:
 	QString Table;
 	QString HandRanking;
 	QString ToolBoxBackground;
+        QString ShowMyCardsButtonDefault;
+        QString ShowMyCardsButtonHover;
 
 //	I18N ACTION STRINGS
 	QString ActionAllInI18NString;
@@ -253,6 +256,8 @@ private:
      	QString BetSpeedSliderGrooveBorderColor;
      	QString BetSpeedSliderHandleBgColor;
      	QString BetSpeedSliderHandleBorderColor;
+        QString ShowMyCardsButtonTextColor;
+
 // 	SIZES
 	QString ChatLogTextSize;
 
