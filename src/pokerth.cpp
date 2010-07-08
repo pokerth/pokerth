@@ -91,6 +91,14 @@ int main( int argc, char **argv )
 		return 0;
 	 }
 
+#ifdef __APPLE__
+	// The following needs to be done directly after the application is created.
+	QDir dir(QApplication::applicationDirPath());
+	dir.cdUp();
+	dir.cd("plugins");
+	QApplication::setLibraryPaths(QStringList(dir.absolutePath()));
+#endif
+
 	//create defaultconfig
 	ConfigFile *myConfig = new ConfigFile(argv[0], false);
 
@@ -132,14 +140,6 @@ int main( int argc, char **argv )
 	QTranslator translator;
 	translator.load(QString(myAppDataPath +"translations/pokerth_") + QString::fromStdString(myConfig->readConfigString("Language")));
 	a.installTranslator(&translator);
-	
-
-#ifdef __APPLE__
-	QDir dir(QApplication::applicationDirPath());
-	dir.cdUp();
-	dir.cd("plugins");
-	QApplication::setLibraryPaths(QStringList(dir.absolutePath()));
-#endif
 
 	qRegisterMetaType<unsigned>("unsigned");
 	qRegisterMetaType<boost::shared_ptr<Game> >("boost::shared_ptr<Game>");
