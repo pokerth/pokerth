@@ -57,6 +57,8 @@ PokerTHMessage ::= CHOICE {
 	dealRiverCardMessage		DealRiverCardMessage,
 	allInShowCardsMessage		AllInShowCardsMessage,
 	endOfHandMessage			EndOfHandMessage,
+	showMyCardsRequestMessage	ShowMyCardsRequestMessage,
+	afterHandShowCardsMessage	AfterHandShowCardsMessage,
 	endOfGameMessage			EndOfGameMessage,
 	askKickPlayerMessage		AskKickPlayerMessage,
 	askKickDeniedMessage		AskKickDeniedMessage,
