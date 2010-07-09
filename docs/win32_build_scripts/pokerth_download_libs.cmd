@@ -268,7 +268,7 @@ cd /d %PKTH_BaseDir%
 if not exist %PKTH_BaseDir%\svn. (
 echo.
 echo Downloading subversion
-%PKTH_OldDir%\third_party_apps\wget http://subversion.tigris.org/files/documents/15/46880/svn-win32-1.6.6.zip
+%PKTH_OldDir%\third_party_apps\wget http://subversion.tigris.org/files/documents/15/47914/svn-win32-1.6.6.zip
 if not errorlevel 0 goto downloadFailed
 echo.
 echo Unpacking subversion
