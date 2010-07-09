@@ -52,29 +52,32 @@ echo The process will start if you press any other key.
 pause
 echo.
 echo Downloading mingw packages
-%PKTH_OldDir%\third_party_apps\wget http://%SOURCEFORGE_MIRROR%.sourceforge.net/sourceforge/tdm-gcc/gcc-4.4.1-tdm-2-dw2-core.tar.gz http://%SOURCEFORGE_MIRROR%.sourceforge.net/sourceforge/tdm-gcc/gcc-4.4.1-tdm-2-dw2-g++.tar.gz http://%SOURCEFORGE_MIRROR%.sourceforge.net/sourceforge/mingw/binutils-2.19.1-mingw32-bin.tar.gz http://%SOURCEFORGE_MIRROR%.sourceforge.net/sourceforge/mingw/mingwrt-3.16-mingw32-dev.tar.gz http://%SOURCEFORGE_MIRROR%.sourceforge.net/sourceforge/mingw/mingwrt-3.16-mingw32-dll.tar.gz http://%SOURCEFORGE_MIRROR%.sourceforge.net/sourceforge/mingw/w32api-3.13-mingw32-dev.tar.gz http://%SOURCEFORGE_MIRROR%.sourceforge.net/sourceforge/mingw/mingw32-make-3.81-20090910.tar.gz http://%SOURCEFORGE_MIRROR%.sourceforge.net/sourceforge/mingw/mingw-utils-0.3.tar.gz
+%PKTH_OldDir%\third_party_apps\wget http://%SOURCEFORGE_MIRROR%.sourceforge.net/sourceforge/tdm-gcc/gcc-4.5.0-tdm-1-dw2-core.zip
+%PKTH_OldDir%\third_party_apps\wget http://%SOURCEFORGE_MIRROR%.sourceforge.net/sourceforge/tdm-gcc/gcc-4.5.0-tdm-1-dw2-c++.zip
+%PKTH_OldDir%\third_party_apps\wget http://%SOURCEFORGE_MIRROR%.sourceforge.net/sourceforge/mingw/binutils-2.20.1-2-mingw32-bin.tar.gz
+%PKTH_OldDir%\third_party_apps\wget http://%SOURCEFORGE_MIRROR%.sourceforge.net/sourceforge/mingw/mingwrt-3.18-mingw32-dev.tar.gz
+%PKTH_OldDir%\third_party_apps\wget http://%SOURCEFORGE_MIRROR%.sourceforge.net/sourceforge/mingw/mingwrt-3.18-mingw32-dll.tar.gz
+%PKTH_OldDir%\third_party_apps\wget http://%SOURCEFORGE_MIRROR%.sourceforge.net/sourceforge/mingw/w32api-3.14-mingw32-dev.tar.gz
+%PKTH_OldDir%\third_party_apps\wget http://%SOURCEFORGE_MIRROR%.sourceforge.net/sourceforge/mingw/mingw32-make-3.81-20090910.tar.gz
+%PKTH_OldDir%\third_party_apps\wget http://%SOURCEFORGE_MIRROR%.sourceforge.net/sourceforge/mingw/mingw-utils-0.3.tar.gz
 if not errorlevel 0 goto downloadFailed
 echo.
 echo Unpacking mingw packages
 mkdir mingw
-%PKTH_OldDir%\third_party_apps\7za x -y gcc-4.4.1-tdm-2-dw2-core.tar.gz
-%PKTH_OldDir%\third_party_apps\7za x -y -omingw gcc-4.4.1-tdm-2-dw2-core.tar
-del gcc-4.4.1-tdm-2-dw2-core.tar
-%PKTH_OldDir%\third_party_apps\7za x -y gcc-4.4.1-tdm-2-dw2-g++.tar.gz
-%PKTH_OldDir%\third_party_apps\7za x -y -omingw gcc-4.4.1-tdm-2-dw2-g++.tar
-del gcc-4.4.1-tdm-2-dw2-g++.tar
-%PKTH_OldDir%\third_party_apps\7za x -y binutils-2.19.1-mingw32-bin.tar.gz
-%PKTH_OldDir%\third_party_apps\7za x -y -omingw binutils-2.19.1-mingw32-bin.tar
-del binutils-2.19.1-mingw32-bin.tar
-%PKTH_OldDir%\third_party_apps\7za x -y mingwrt-3.16-mingw32-dev.tar.gz
-%PKTH_OldDir%\third_party_apps\7za x -y -omingw mingwrt-3.16-mingw32-dev.tar
-del mingwrt-3.16-mingw32-dev.tar
-%PKTH_OldDir%\third_party_apps\7za x -y mingwrt-3.16-mingw32-dll.tar.gz
-%PKTH_OldDir%\third_party_apps\7za x -y -omingw mingwrt-3.16-mingw32-dll.tar
-del mingwrt-3.16-mingw32-dll.tar
-%PKTH_OldDir%\third_party_apps\7za x -y w32api-3.13-mingw32-dev.tar.gz
-%PKTH_OldDir%\third_party_apps\7za x -y -omingw w32api-3.13-mingw32-dev.tar
-del w32api-3.13-mingw32-dev.tar
+%PKTH_OldDir%\third_party_apps\7za x -y -omingw gcc-4.5.0-tdm-1-dw2-core.zip
+%PKTH_OldDir%\third_party_apps\7za x -y -omingw gcc-4.5.0-tdm-1-dw2-c++.zip
+%PKTH_OldDir%\third_party_apps\7za x -y binutils-2.20.1-2-mingw32-bin.tar.gz
+%PKTH_OldDir%\third_party_apps\7za x -y -omingw binutils-2.20.1-2-mingw32-bin.tar
+del binutils-2.20.1-2-mingw32-bin.tar
+%PKTH_OldDir%\third_party_apps\7za x -y mingwrt-3.18-mingw32-dev.tar.gz
+%PKTH_OldDir%\third_party_apps\7za x -y -omingw mingwrt-3.18-mingw32-dev.tar
+del mingwrt-3.18-mingw32-dev.tar
+%PKTH_OldDir%\third_party_apps\7za x -y mingwrt-3.18-mingw32-dll.tar.gz
+%PKTH_OldDir%\third_party_apps\7za x -y -omingw mingwrt-3.18-mingw32-dll.tar
+del mingwrt-3.18-mingw32-dll.tar
+%PKTH_OldDir%\third_party_apps\7za x -y w32api-3.14-mingw32-dev.tar.gz
+%PKTH_OldDir%\third_party_apps\7za x -y -omingw w32api-3.14-mingw32-dev.tar
+del w32api-3.14-mingw32-dev.tar
 %PKTH_OldDir%\third_party_apps\7za x -y mingw32-make-3.81-20090910.tar.gz
 %PKTH_OldDir%\third_party_apps\7za x -y -omingw mingw32-make-3.81-20090910.tar
 del mingw32-make-3.81-20090910.tar
@@ -92,7 +95,7 @@ ren gcc-dw2.exe gcc.exe
 ren gcov-dw2.exe gcov.exe
 ren mingw32-c++-dw2.exe mingw32-c++.exe
 ren mingw32-g++-dw2.exe mingw32-g++.exe
-ren mingw32-gcc-4.4.1-dw2.exe mingw32-gcc-4.4.1.exe
+ren mingw32-gcc-4.5.0-dw2.exe mingw32-gcc-4.5.0.exe
 ren mingw32-gcc-dw2.exe mingw32-gcc.exe
 cd /d %PKTH_BaseDir%
 echo.
@@ -108,14 +111,14 @@ cd /d %PKTH_BaseDir%
 if not exist %PKTH_BaseDir%\qt. (
 echo.
 echo Downloading Qt
-%PKTH_OldDir%\third_party_apps\wget http://get.qt.nokia.com/qt/source/qt-everywhere-opensource-src-4.6.2.zip
+%PKTH_OldDir%\third_party_apps\wget http://get.qt.nokia.com/qt/source/qt-everywhere-opensource-src-4.6.3.zip
 if not errorlevel 0 goto downloadFailed
 echo.
 echo Unpacking Qt
-%PKTH_OldDir%\third_party_apps\7za x -y qt-everywhere-opensource-src-4.6.2.zip
+%PKTH_OldDir%\third_party_apps\7za x -y qt-everywhere-opensource-src-4.6.3.zip
 REM Wait 5 seconds for the file cache, else ren might fail.
 @ping 127.0.0.1 -n 5 -w 1000 > nul
-ren qt-everywhere-opensource-src-4.6.2 qt
+ren qt-everywhere-opensource-src-4.6.3 qt
 )
 if not exist %PKTH_BaseDir%\qt goto qtFailure
 echo.
@@ -185,16 +188,16 @@ cd /d %PKTH_BaseDir%
 if not exist %PKTH_BaseDir%\curl. (
 echo.
 echo Downloading curl
-%PKTH_OldDir%\third_party_apps\wget http://curl.haxx.se/download/curl-7.20.0.tar.bz2
+%PKTH_OldDir%\third_party_apps\wget http://curl.haxx.se/download/curl-7.21.0.tar.bz2
 if not errorlevel 0 goto downloadFailed
 echo.
 echo Unpacking curl
-%PKTH_OldDir%\third_party_apps\7za x -y curl-7.20.0.tar.bz2
-%PKTH_OldDir%\third_party_apps\7za x -y curl-7.20.0.tar
-del curl-7.20.0.tar
+%PKTH_OldDir%\third_party_apps\7za x -y curl-7.21.0.tar.bz2
+%PKTH_OldDir%\third_party_apps\7za x -y curl-7.21.0.tar
+del curl-7.21.0.tar
 REM Wait 5 seconds for the file cache, else ren might fail.
 @ping 127.0.0.1 -n 5 -w 1000 > nul
-ren curl-7.20.0 curl
+ren curl-7.21.0 curl
 )
 echo.
 echo Compiling curl
@@ -206,18 +209,18 @@ cd /d %PKTH_BaseDir%
 if not exist %PKTH_BaseDir%\boost. (
 echo.
 echo Downloading boost and bjam
-%PKTH_OldDir%\third_party_apps\wget http://%SOURCEFORGE_MIRROR%.sourceforge.net/sourceforge/boost/boost_1_42_0.7z http://%SOURCEFORGE_MIRROR%.sourceforge.net/sourceforge/boost/boost-jam-3.1.17-1-ntx86.zip
+%PKTH_OldDir%\third_party_apps\wget http://%SOURCEFORGE_MIRROR%.sourceforge.net/sourceforge/boost/boost_1_43_0.7z http://%SOURCEFORGE_MIRROR%.sourceforge.net/sourceforge/boost/boost-jam-3.1.17-1-ntx86.zip
 if not errorlevel 0 goto downloadFailed
 echo.
 echo Unpacking boost and bjam
-%PKTH_OldDir%\third_party_apps\7za x -y boost_1_42_0.7z
+%PKTH_OldDir%\third_party_apps\7za x -y boost_1_43_0.7z
 %PKTH_OldDir%\third_party_apps\7za x -y boost-jam-3.1.17-1-ntx86.zip
 REM Wait 5 seconds for the file cache, else ren might fail.
 @ping 127.0.0.1 -n 5 -w 1000 > nul
 move boost-jam-3.1.17-1-ntx86\bjam.exe mingw\bin\bjam.exe
 move boost-jam-3.1.17-1-ntx86\LICENSE_1_0.txt mingw\bin\bjam_LICENSE_1_0.txt
 rd boost-jam-3.1.17-1-ntx86
-ren boost_1_42_0 boost
+ren boost_1_43_0 boost
 )
 echo.
 echo Compiling boost
