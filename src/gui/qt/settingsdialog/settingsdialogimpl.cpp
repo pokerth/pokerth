@@ -255,6 +255,9 @@ void settingsDialogImpl::exec() {
         defaultTableItem->setData(0, 15, QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str())+"gfx/gui/table/default/defaulttablestyle.xml");
         defaultTableItem->setData(0, 16, POKERTH_DISTRIBUTED_STYLE);
         defaultTableItem->setData(0, Qt::ToolTipRole, QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str())+"gfx/gui/table/default/defaulttablestyle.xml");
+        defaultTableItem->setData(2, Qt::ToolTipRole, defaultTableStyle.getMyStateToolTipInfo());
+        if(defaultTableStyle.getState()) defaultTableItem->setIcon(2, QIcon(":/gfx/emblem-important.png"));
+        else defaultTableItem->setIcon(2, QIcon(":/gfx/dialog_ok_apply.png"));
     }
     //add danuxi table
     GameTableStyleReader danuxi1TableStyle(myConfig, this);
@@ -266,6 +269,9 @@ void settingsDialogImpl::exec() {
         danuxi1TableItem->setData(0, 15, QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str())+"gfx/gui/table/danuxi1/danuxi1tablestyle.xml");
         danuxi1TableItem->setData(0, 16, POKERTH_DISTRIBUTED_STYLE);
         danuxi1TableItem->setData(0, Qt::ToolTipRole, QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str())+"gfx/gui/table/danuxi1/danuxi1tablestyle.xml");
+        danuxi1TableItem->setData(2, Qt::ToolTipRole, danuxi1TableStyle.getMyStateToolTipInfo());
+        if(danuxi1TableStyle.getState()) danuxi1TableItem->setIcon(2, QIcon(":/gfx/emblem-important.png"));
+        else danuxi1TableItem->setIcon(2, QIcon(":/gfx/dialog_ok_apply.png"));
     }
 
     //load secondary styles into list (if fallback no entry)
@@ -281,6 +287,9 @@ void settingsDialogImpl::exec() {
             nextItem->setData(0, 15,QString::fromUtf8(it1->c_str()));
             nextItem->setData(0, 16, ADDITIONAL_STYLE);
             nextItem->setData(0, Qt::ToolTipRole,QString::fromUtf8(it1->c_str()));
+            nextItem->setData(2, Qt::ToolTipRole, nextStyle.getMyStateToolTipInfo());
+            if(nextStyle.getState()) nextItem->setIcon(2, QIcon(":/gfx/emblem-important.png"));
+            else nextItem->setIcon(2, QIcon(":/gfx/dialog_ok_apply.png"));
             treeWidget_gameTableStyles->addTopLevelItem(nextItem);
         }
     }
@@ -1052,6 +1061,9 @@ void settingsDialogImpl::addGameTableStyle()
                 newItem->setData(0, 15,fileName);
                 newItem->setData(0, 16, ADDITIONAL_STYLE);
                 newItem->setData(0, Qt::ToolTipRole,fileName);
+                newItem->setData(2, Qt::ToolTipRole, newStyle.getMyStateToolTipInfo());
+                if(newStyle.getState()) newItem->setIcon(2, QIcon(":/gfx/emblem-important.png"));
+                else newItem->setIcon(2, QIcon(":/gfx/dialog-ok-apply.png"));
                 treeWidget_gameTableStyles->addTopLevelItem(newItem);
                 treeWidget_gameTableStyles->setCurrentItem(newItem);
                 treeWidget_gameTableStyles->sortItems(0, Qt::AscendingOrder);
@@ -1266,7 +1278,7 @@ void settingsDialogImpl::saveLogFileAs()
     if(selectedItem) {
         QString fileName = QFileDialog::getSaveFileName(this, tr("Save PokerTH log file"),
                                                         QDir::homePath()+"/"+selectedItem->text(0),
-                                    tr("PokerTH SQL log (*.pdb)"));
+                                                        tr("PokerTH SQL log (*.pdb)"));
 
         if(!fileName.isEmpty()) {
             QFile::copy(selectedItem->data(0, Qt::UserRole).toString(), fileName);

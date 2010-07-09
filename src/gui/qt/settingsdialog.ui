@@ -571,11 +571,6 @@ p, li { white-space: pre-wrap; }
                  <string>Maintainer</string>
                 </property>
                </column>
-               <column>
-                <property name="text">
-                 <string>State</string>
-                </property>
-               </column>
               </widget>
              </item>
             </layout>
