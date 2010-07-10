@@ -1,22 +1,22 @@
 /***************************************************************************
- *   Copyright (C) 2006 by Felix Hammer   *
- *   f.hammer@web.de   *
- *                                                                         *
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   This program is distributed in the hope that it will be useful,       *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
- *   GNU General Public License for more details.                          *
- *                                                                         *
- *   You should have received a copy of the GNU General Public License     *
- *   along with this program; if not, write to the                         *
- *   Free Software Foundation, Inc.,                                       *
- *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
- ***************************************************************************/
+*   Copyright (C) 2006 by Felix Hammer   *
+*   f.hammer@web.de   *
+*                                                                         *
+*   This program is free software; you can redistribute it and/or modify  *
+*   it under the terms of the GNU General Public License as published by  *
+*   the Free Software Foundation; either version 2 of the License, or     *
+*   (at your option) any later version.                                   *
+*                                                                         *
+*   This program is distributed in the hope that it will be useful,       *
+*   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
+*   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
+*   GNU General Public License for more details.                          *
+*                                                                         *
+*   You should have received a copy of the GNU General Public License     *
+*   along with this program; if not, write to the                         *
+*   Free Software Foundation, Inc.,                                       *
+*   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
+***************************************************************************/
 #include "gametablestylereader.h"
 #include <iostream>
 #include <sstream>
@@ -98,7 +98,7 @@ void GameTableStyleReader::readStyleFile(QString file) {
 
     if(doc.RootElement()) {
         TiXmlHandle docHandle( &doc );
-	
+
         TiXmlElement *CardDeckElement = docHandle.FirstChild( "PokerTH" ).FirstChild( "CardDeck" ).ToElement();
         if(CardDeckElement) {
             QMessageBox::warning(myW, tr("Game Table Style Error"),
@@ -106,6 +106,134 @@ void GameTableStyleReader::readStyleFile(QString file) {
                                  QMessageBox::Ok);
         }
         else {
+            //in case of rereading clear old variables:
+            StyleDescription.clear();
+            StyleMaintainerName.clear();
+            StyleMaintainerEMail.clear();
+            StyleCreateDate.clear();
+            PokerTHStyleFileVersion.clear();
+            IfFixedWindowSize.clear();
+            FixedWindowWidth.clear();
+            FixedWindowHeight.clear();
+            MinimumWindowWidth.clear();
+            MinimumWindowHeight.clear();
+            MaximumWindowWidth.clear();
+            MaximumWindowHeight.clear();
+            Preview.clear();
+            ActionAllInI18NPic.clear();
+            ActionRaiseI18NPic.clear();
+            ActionBetI18NPic.clear();
+            ActionCallI18NPic.clear();
+            ActionCheckI18NPic.clear();
+            ActionFoldI18NPic.clear();
+            ActionWinnerI18NPic.clear();
+            BigBlindPuck.clear();
+            SmallBlindPuck.clear();
+            DealerPuck.clear();
+            DefaultAvatar.clear();
+            CardHolderFlop.clear();
+            CardHolderTurn.clear();
+            CardHolderRiver.clear();
+            FoldButtonDefault.clear();
+            FoldButtonHover.clear();
+            FoldButtonChecked.clear();
+            FoldButtonCheckedHover.clear();
+            CheckCallButtonDefault.clear();
+            CheckCallButtonHover.clear();
+            CheckCallButtonChecked.clear();
+            CheckCallButtonCheckedHover.clear();
+            BetRaiseButtonDefault.clear();
+            BetRaiseButtonHover.clear();
+            BetRaiseButtonChecked.clear();
+            BetRaiseButtonCheckedHover.clear();
+            AllInButtonDefault.clear();
+            AllInButtonHover.clear();
+            AllInButtonChecked.clear();
+            AllInButtonCheckedHover.clear();
+            RadioButtonPressed.clear();
+            RadioButtonChecked.clear();
+            RadioButtonCheckedHover.clear();
+            RadioButtonUnchecked.clear();
+            RadioButtonUncheckedHover.clear();
+            PlayerTopSeatInactive.clear();
+            PlayerTopSeatActive.clear();
+            PlayerBottomSeatInactive.clear();
+            PlayerBottomSeatActive.clear();
+            Table.clear();
+            HandRanking.clear();
+            ToolBoxBackground.clear();
+            ShowMyCardsButtonDefault.clear();
+            ShowMyCardsButtonHover.clear();
+            ActionAllInI18NString.clear();
+            ActionRaiseI18NString.clear();
+            ActionBetI18NString.clear();
+            ActionCallI18NString.clear();
+            ActionCheckI18NString.clear();
+            ActionFoldI18NString.clear();
+            PotI18NString.clear();
+            TotalI18NString.clear();
+            BetsI18NString.clear();
+            GameI18NString.clear();
+            HandI18NString.clear();
+            PreflopI18NString.clear();
+            FlopI18NString.clear();
+            TurnI18NString.clear();
+            RiverI18NString.clear();
+            FKeyIndicatorColor.clear();
+            ChanceLabelPossibleColor.clear();
+            ChanceLabelImpossibleColor.clear();
+            ChatTextNickNotifyColor.clear();
+            ChatLogTextColor.clear();
+            ChatLogBgColor.clear();
+            ChatLogScrollBarBorderColor.clear();
+            ChatLogScrollBarBgColor.clear();
+            ChatLogScrollBarHandleBorderColor.clear();
+            ChatLogScrollBarHandleBgColor.clear();
+            ChatLogScrollBarArrowBorderColor.clear();
+            ChatLogScrollBarArrowBgColor.clear();
+            LogWinnerMainPotColor.clear();
+            LogWinnerSidePotColor.clear();
+            LogPlayerSitsOutColor.clear();
+            LogNewGameAdminColor.clear();
+            TabWidgetBorderColor.clear();
+            TabWidgetBgColor.clear();
+            TabWidgetTextColor.clear();
+            MenuBgColor.clear();
+            MenuTextColor.clear();
+            BreakLobbyButtonBgColor.clear();
+            BreakLobbyButtonTextColor.clear();
+            BreakLobbyButtonBgDisabledColor.clear();
+            BreakLobbyButtonTextDisabledColor.clear();
+            BreakLobbyButtonBgBlinkColor.clear();
+            BreakLobbyButtonTextBlinkColor.clear();
+            PlayerCashTextColor.clear();
+            PlayerBetTextColor.clear();
+            PlayerNickTextColor.clear();
+            BoardBigTextColor.clear();
+            BoardSmallTextColor.clear();
+            SpeedTextColor.clear();
+            VoteButtonBgColor.clear();
+            VoteButtonTextColor.clear();
+            BetInputTextColor.clear();
+            BetInputBgColor.clear();
+            BetInputDisabledTextColor.clear();
+            BetInputDisabledBgColor.clear();
+            FoldButtonTextColor.clear();
+            FoldButtonCheckableTextColor.clear();
+            CheckCallButtonTextColor.clear();
+            CheckCallButtonCheckableTextColor.clear();
+            BetRaiseButtonTextColor.clear();
+            BetRaiseButtonCheckableTextColor.clear();
+            AllInButtonTextColor.clear();
+            AllInButtonCheckableTextColor.clear();
+            BetSpeedSliderGrooveBgColor.clear();
+            BetSpeedSliderGrooveBorderColor.clear();
+            BetSpeedSliderHandleBgColor.clear();
+            BetSpeedSliderHandleBorderColor.clear();
+            ShowMyCardsButtonTextColor.clear();
+            ChatLogTextSize.clear();
+
+            //now reading!
             TiXmlElement* itemsList = docHandle.FirstChild( "PokerTH" ).FirstChild( "TableStyle" ).FirstChild().ToElement();
             for( ; itemsList; itemsList=itemsList->NextSiblingElement()) {
                 const char *tmpStr1 = itemsList->Attribute("value");
@@ -269,139 +397,138 @@ void GameTableStyleReader::readStyleFile(QString file) {
             // 		P I C S
 
             // I18N Pics
-            if(ActionAllInI18NPic == "") { ActionAllInI18NPic = "NULL"; leftItems << "ActionAllInI18NPic"; }
-            else if(ActionAllInI18NPic != QString(currentDir+"NULL") && !QFile(ActionAllInI18NPic).exists()) { ActionAllInI18NPic = "NULL"; itemPicsLeft << "ActionAllInI18NPic = "+ActionAllInI18NPic; }
+            if(ActionAllInI18NPic == "") { ActionAllInI18NPic = getFallBackFieldContent("ActionAllInI18NPic", 1); leftItems << "ActionAllInI18NPic"; }
+            else if(ActionAllInI18NPic != QString(currentDir+"NULL") && !QFile(ActionAllInI18NPic).exists()) { itemPicsLeft << "ActionAllInI18NPic = "+ActionAllInI18NPic; ActionAllInI18NPic = getFallBackFieldContent("ActionAllInI18NPic", 1); }
 
-            if(ActionRaiseI18NPic == "") { ActionRaiseI18NPic = "NULL"; leftItems << "ActionRaiseI18NPic"; }
-            else if(ActionRaiseI18NPic != QString(currentDir+"NULL") && !QFile(ActionRaiseI18NPic).exists()) { ActionRaiseI18NPic = "NULL"; itemPicsLeft << "ActionRaiseI18NPic = "+ActionRaiseI18NPic; }
+            if(ActionRaiseI18NPic == "") { ActionRaiseI18NPic = getFallBackFieldContent("ActionRaiseI18NPic", 1); leftItems << "ActionRaiseI18NPic"; }
+            else if(ActionRaiseI18NPic != QString(currentDir+"NULL") && !QFile(ActionRaiseI18NPic).exists()) { itemPicsLeft << "ActionRaiseI18NPic = "+ActionRaiseI18NPic; ActionRaiseI18NPic = getFallBackFieldContent("ActionRaiseI18NPic", 1); }
 
-            if(ActionBetI18NPic == "") { ActionBetI18NPic = "NULL"; leftItems << "ActionBetI18NPic"; }
-            else if(ActionBetI18NPic != QString(currentDir+"NULL") && !QFile(ActionBetI18NPic).exists()) { ActionBetI18NPic = "NULL"; itemPicsLeft << "ActionBetI18NPic = "+ActionBetI18NPic; }
+            if(ActionBetI18NPic == "") { ActionBetI18NPic = getFallBackFieldContent("ActionBetI18NPic", 1); leftItems << "ActionBetI18NPic"; }
+            else if(ActionBetI18NPic != QString(currentDir+"NULL") && !QFile(ActionBetI18NPic).exists()) { itemPicsLeft << "ActionBetI18NPic = "+ActionBetI18NPic; ActionBetI18NPic = getFallBackFieldContent("ActionBetI18NPic", 1); }
 
-            if(ActionCallI18NPic == "") { ActionCallI18NPic = "NULL"; leftItems << "ActionCallI18NPic"; }
-            else if(ActionCallI18NPic != QString(currentDir+"NULL") && !QFile(ActionCallI18NPic).exists()) { ActionCallI18NPic = "NULL"; itemPicsLeft << "ActionCallI18NPic = "+ActionCallI18NPic; }
+            if(ActionCallI18NPic == "") { ActionCallI18NPic = getFallBackFieldContent("ActionCallI18NPic", 1);  leftItems << "ActionCallI18NPic"; }
+            else if(ActionCallI18NPic != QString(currentDir+"NULL") && !QFile(ActionCallI18NPic).exists()) { itemPicsLeft << "ActionCallI18NPic = "+ActionCallI18NPic; ActionCallI18NPic = getFallBackFieldContent("ActionCallI18NPic", 1); }
 
-            if(ActionCheckI18NPic == "") { ActionCheckI18NPic = "NULL"; leftItems << "ActionCheckI18NPic"; }
-            else if(ActionCheckI18NPic != QString(currentDir+"NULL") && !QFile(ActionCheckI18NPic).exists()) { ActionCheckI18NPic = "NULL"; itemPicsLeft << "ActionCheckI18NPic = "+ActionCheckI18NPic; }
+            if(ActionCheckI18NPic == "") { ActionCheckI18NPic = getFallBackFieldContent("ActionCheckI18NPic", 1); leftItems << "ActionCheckI18NPic"; }
+            else if(ActionCheckI18NPic != QString(currentDir+"NULL") && !QFile(ActionCheckI18NPic).exists()) { itemPicsLeft << "ActionCheckI18NPic = "+ActionCheckI18NPic; ActionCheckI18NPic = getFallBackFieldContent("ActionCheckI18NPic", 1); }
 
-            if(ActionFoldI18NPic == "") { ActionFoldI18NPic = "NULL"; leftItems << "ActionFoldI18NPic"; }
-            else if(ActionFoldI18NPic != QString(currentDir+"NULL") && !QFile(ActionFoldI18NPic).exists()) { ActionFoldI18NPic = "NULL"; itemPicsLeft << "ActionFoldI18NPic = "+ActionFoldI18NPic; }
+            if(ActionFoldI18NPic == "") { ActionFoldI18NPic = getFallBackFieldContent("ActionFoldI18NPic", 1); leftItems << "ActionFoldI18NPic"; }
+            else if(ActionFoldI18NPic != QString(currentDir+"NULL") && !QFile(ActionFoldI18NPic).exists()) { itemPicsLeft << "ActionFoldI18NPic = "+ActionFoldI18NPic; ActionFoldI18NPic = getFallBackFieldContent("ActionFoldI18NPic", 1); }
 
-            if(ActionWinnerI18NPic == "") { ActionWinnerI18NPic = "NULL"; leftItems << "ActionWinnerI18NPic"; }
-            else if(ActionWinnerI18NPic != QString(currentDir+"NULL") && !QFile(ActionWinnerI18NPic).exists()) { ActionWinnerI18NPic = "NULL"; itemPicsLeft << "ActionWinnerI18NPic = "+ActionWinnerI18NPic; }
-
+            if(ActionWinnerI18NPic == "") { ActionWinnerI18NPic = getFallBackFieldContent(" ActionWinnerI18NPic", 1); leftItems << "ActionWinnerI18NPic"; }
+            else if(ActionWinnerI18NPic != QString(currentDir+"NULL") && !QFile(ActionWinnerI18NPic).exists()) { itemPicsLeft << "ActionWinnerI18NPic = "+ActionWinnerI18NPic; ActionWinnerI18NPic = getFallBackFieldContent(" ActionWinnerI18NPic", 1); }
 
             // Other Pics
             if(BigBlindPuck == "") { BigBlindPuck = getFallBackFieldContent("BigBlindPuck", 1); leftItems << "BigBlindPuck"; }
-            else if(BigBlindPuck != QString(currentDir+"NULL") && !QFile(BigBlindPuck).exists()) { BigBlindPuck = getFallBackFieldContent("BigBlindPuck", 1); itemPicsLeft << "BigBlindPuck = "+BigBlindPuck; }
+            else if(BigBlindPuck != QString(currentDir+"NULL") && !QFile(BigBlindPuck).exists()) { itemPicsLeft << "BigBlindPuck = "+BigBlindPuck; BigBlindPuck = getFallBackFieldContent("BigBlindPuck", 1); }
 
             if(SmallBlindPuck == "") { SmallBlindPuck = getFallBackFieldContent("SmallBlindPuck", 1); leftItems << "SmallBlindPuck"; }
-            else if(SmallBlindPuck != QString(currentDir+"NULL") && !QFile(SmallBlindPuck).exists()) { SmallBlindPuck = getFallBackFieldContent("SmallBlindPuck", 1); itemPicsLeft << "SmallBlindPuck = "+SmallBlindPuck; }
+            else if(SmallBlindPuck != QString(currentDir+"NULL") && !QFile(SmallBlindPuck).exists()) { itemPicsLeft << "SmallBlindPuck = "+SmallBlindPuck; SmallBlindPuck = getFallBackFieldContent("SmallBlindPuck", 1); }
 
             if(DealerPuck == "") { DealerPuck = getFallBackFieldContent("DealerPuck", 1); leftItems << "DealerPuck"; }
-            else if(DealerPuck != QString(currentDir+"NULL") && !QFile(DealerPuck).exists()) { DealerPuck = getFallBackFieldContent("DealerPuck", 1); itemPicsLeft << "DealerPuck = "+DealerPuck; }
+            else if(DealerPuck != QString(currentDir+"NULL") && !QFile(DealerPuck).exists()) { itemPicsLeft << "DealerPuck = "+DealerPuck; DealerPuck = getFallBackFieldContent("DealerPuck", 1); }
 
             if(DefaultAvatar == "") { DefaultAvatar = getFallBackFieldContent("DefaultAvatar", 1); leftItems << "DefaultAvatar"; }
-            else if(DefaultAvatar != QString(currentDir+"NULL") && !QFile(DefaultAvatar).exists()) { DefaultAvatar = getFallBackFieldContent("DefaultAvatar", 1); itemPicsLeft << "DefaultAvatar = "+DefaultAvatar; }
+            else if(DefaultAvatar != QString(currentDir+"NULL") && !QFile(DefaultAvatar).exists()) { itemPicsLeft << "DefaultAvatar = "+DefaultAvatar; DefaultAvatar = getFallBackFieldContent("DefaultAvatar", 1); }
 
             if(CardHolderFlop == "") { CardHolderFlop = getFallBackFieldContent("CardHolderFlop", 1); leftItems << "CardHolderFlop"; }
-            else if(CardHolderFlop != QString(currentDir+"NULL") && !QFile(CardHolderFlop).exists()) { CardHolderFlop = getFallBackFieldContent("CardHolderFlop", 1); itemPicsLeft << "CardHolderFlop = "+CardHolderFlop; }
+            else if(CardHolderFlop != QString(currentDir+"NULL") && !QFile(CardHolderFlop).exists()) { itemPicsLeft << "CardHolderFlop = "+CardHolderFlop; CardHolderFlop = getFallBackFieldContent("CardHolderFlop", 1); }
 
             if(CardHolderTurn == "") { CardHolderTurn = getFallBackFieldContent("CardHolderTurn", 1); leftItems << "CardHolderTurn"; }
-            else if(CardHolderTurn != QString(currentDir+"NULL") && !QFile(CardHolderTurn).exists()) { CardHolderTurn = getFallBackFieldContent("CardHolderTurn", 1); itemPicsLeft << "CardHolderTurn = "+CardHolderTurn; }
+            else if(CardHolderTurn != QString(currentDir+"NULL") && !QFile(CardHolderTurn).exists()) { itemPicsLeft << "CardHolderTurn = "+CardHolderTurn; CardHolderTurn = getFallBackFieldContent("CardHolderTurn", 1); }
 
             if(CardHolderRiver == "") { CardHolderRiver = getFallBackFieldContent("CardHolderRiver", 1); leftItems << "CardHolderRiver"; }
-            else if(CardHolderRiver != QString(currentDir+"NULL") && !QFile(CardHolderRiver).exists()) { CardHolderRiver = getFallBackFieldContent("CardHolderRiver", 1); itemPicsLeft << "CardHolderRiver = "+CardHolderRiver; }
+            else if(CardHolderRiver != QString(currentDir+"NULL") && !QFile(CardHolderRiver).exists()) { itemPicsLeft << "CardHolderRiver = "+CardHolderRiver; CardHolderRiver = getFallBackFieldContent("CardHolderRiver", 1); }
 
             if(FoldButtonDefault == "") { FoldButtonDefault = getFallBackFieldContent("FoldButtonDefault", 1); leftItems << "FoldButtonDefault"; }
-            else if(FoldButtonDefault != QString(currentDir+"NULL") && !QFile(FoldButtonDefault).exists()) { FoldButtonDefault = getFallBackFieldContent("FoldButtonDefault", 1); itemPicsLeft << "FoldButtonDefault = "+FoldButtonDefault; }
+            else if(FoldButtonDefault != QString(currentDir+"NULL") && !QFile(FoldButtonDefault).exists()) { itemPicsLeft << "FoldButtonDefault = "+FoldButtonDefault; FoldButtonDefault = getFallBackFieldContent("FoldButtonDefault", 1); }
 
             if(FoldButtonHover == "") { FoldButtonHover = getFallBackFieldContent("FoldButtonHover", 1); leftItems << "FoldButtonHover"; }
-            else if(FoldButtonHover != QString(currentDir+"NULL") && !QFile(FoldButtonHover).exists()) { FoldButtonHover = getFallBackFieldContent("FoldButtonHover", 1); itemPicsLeft << "FoldButtonHover = "+FoldButtonHover; }
+            else if(FoldButtonHover != QString(currentDir+"NULL") && !QFile(FoldButtonHover).exists()) { itemPicsLeft << "FoldButtonHover = "+FoldButtonHover; FoldButtonHover = getFallBackFieldContent("FoldButtonHover", 1); }
 
             if(FoldButtonChecked == "") { FoldButtonChecked = getFallBackFieldContent("FoldButtonChecked", 1); leftItems << "FoldButtonChecked"; }
-            else if(FoldButtonChecked != QString(currentDir+"NULL") && !QFile(FoldButtonChecked).exists()) {  FoldButtonChecked = getFallBackFieldContent("FoldButtonChecked", 1); itemPicsLeft << "FoldButtonChecked = "+FoldButtonChecked; }
+            else if(FoldButtonChecked != QString(currentDir+"NULL") && !QFile(FoldButtonChecked).exists()) { itemPicsLeft << "FoldButtonChecked = "+FoldButtonChecked; FoldButtonChecked = getFallBackFieldContent("FoldButtonChecked", 1); }
 
             if(FoldButtonCheckedHover == "") { FoldButtonCheckedHover = getFallBackFieldContent("FoldButtonCheckedHover", 1); leftItems << "FoldButtonCheckedHover"; }
-            else if(FoldButtonCheckedHover != QString(currentDir+"NULL") && !QFile(FoldButtonCheckedHover).exists()) { FoldButtonCheckedHover = getFallBackFieldContent("FoldButtonCheckedHover", 1); itemPicsLeft << "FoldButtonCheckedHover = "+FoldButtonCheckedHover; }
+            else if(FoldButtonCheckedHover != QString(currentDir+"NULL") && !QFile(FoldButtonCheckedHover).exists()) { itemPicsLeft << "FoldButtonCheckedHover = "+FoldButtonCheckedHover; FoldButtonCheckedHover = getFallBackFieldContent("FoldButtonCheckedHover", 1); }
 
             if(CheckCallButtonDefault == "") { CheckCallButtonDefault = getFallBackFieldContent("CheckCallButtonDefault", 1); leftItems << "CheckCallButtonDefault"; }
-            else if(CheckCallButtonDefault != QString(currentDir+"NULL") && !QFile(CheckCallButtonDefault).exists()) {  CheckCallButtonDefault = getFallBackFieldContent("CheckCallButtonDefault", 1); itemPicsLeft << "CheckCallButtonDefault = "+CheckCallButtonDefault; }
+            else if(CheckCallButtonDefault != QString(currentDir+"NULL") && !QFile(CheckCallButtonDefault).exists()) { itemPicsLeft << "CheckCallButtonDefault = "+CheckCallButtonDefault; CheckCallButtonDefault = getFallBackFieldContent("CheckCallButtonDefault", 1); }
 
             if(CheckCallButtonHover == "") { CheckCallButtonHover = getFallBackFieldContent("CheckCallButtonHover", 1); leftItems << "CheckCallButtonHover"; }
-            else if(CheckCallButtonHover != QString(currentDir+"NULL") && !QFile(CheckCallButtonHover).exists()) { CheckCallButtonHover = getFallBackFieldContent("CheckCallButtonHover", 1); itemPicsLeft << "CheckCallButtonHover = "+CheckCallButtonHover; }
+            else if(CheckCallButtonHover != QString(currentDir+"NULL") && !QFile(CheckCallButtonHover).exists()) { itemPicsLeft << "CheckCallButtonHover = "+CheckCallButtonHover; CheckCallButtonHover = getFallBackFieldContent("CheckCallButtonHover", 1); }
 
             if(CheckCallButtonChecked == "") { CheckCallButtonChecked = getFallBackFieldContent("CheckCallButtonChecked", 1); leftItems << "CheckCallButtonChecked"; }
-            else if(CheckCallButtonChecked != QString(currentDir+"NULL") && !QFile(CheckCallButtonChecked).exists()) { CheckCallButtonChecked = getFallBackFieldContent("CheckCallButtonChecked", 1); itemPicsLeft << "CheckCallButtonChecked = "+CheckCallButtonChecked; }
+            else if(CheckCallButtonChecked != QString(currentDir+"NULL") && !QFile(CheckCallButtonChecked).exists()) { itemPicsLeft << "CheckCallButtonChecked = "+CheckCallButtonChecked; CheckCallButtonChecked = getFallBackFieldContent("CheckCallButtonChecked", 1); }
 
             if(CheckCallButtonCheckedHover == "") { CheckCallButtonCheckedHover = getFallBackFieldContent("CheckCallButtonCheckedHover", 1); leftItems << "CheckCallButtonCheckedHover"; }
-            else if(CheckCallButtonCheckedHover != QString(currentDir+"NULL") && !QFile(CheckCallButtonCheckedHover).exists()) { CheckCallButtonCheckedHover = getFallBackFieldContent("CheckCallButtonCheckedHover", 1); itemPicsLeft << "CheckCallButtonCheckedHover = "+CheckCallButtonCheckedHover; }
+            else if(CheckCallButtonCheckedHover != QString(currentDir+"NULL") && !QFile(CheckCallButtonCheckedHover).exists()) { itemPicsLeft << "CheckCallButtonCheckedHover = "+CheckCallButtonCheckedHover; CheckCallButtonCheckedHover = getFallBackFieldContent("CheckCallButtonCheckedHover", 1); }
 
             if(BetRaiseButtonDefault == "") { BetRaiseButtonDefault = getFallBackFieldContent("BetRaiseButtonDefault", 1); leftItems << "BetRaiseButtonDefault"; }
-            else if(BetRaiseButtonDefault != QString(currentDir+"NULL") && !QFile(BetRaiseButtonDefault).exists()) {  BetRaiseButtonDefault = getFallBackFieldContent("BetRaiseButtonDefault", 1); itemPicsLeft << "BetRaiseButtonDefault = "+BetRaiseButtonDefault; }
+            else if(BetRaiseButtonDefault != QString(currentDir+"NULL") && !QFile(BetRaiseButtonDefault).exists()) {  itemPicsLeft << "BetRaiseButtonDefault = "+BetRaiseButtonDefault; BetRaiseButtonDefault = getFallBackFieldContent("BetRaiseButtonDefault", 1); }
 
             if(BetRaiseButtonHover == "") { BetRaiseButtonHover = getFallBackFieldContent("BetRaiseButtonHover", 1); leftItems << "BetRaiseButtonHover"; }
-            else if(BetRaiseButtonHover != QString(currentDir+"NULL") && !QFile(BetRaiseButtonHover).exists()) { BetRaiseButtonHover = getFallBackFieldContent("BetRaiseButtonHover", 1); itemPicsLeft << "BetRaiseButtonHover = "+BetRaiseButtonHover; }
+            else if(BetRaiseButtonHover != QString(currentDir+"NULL") && !QFile(BetRaiseButtonHover).exists()) { itemPicsLeft << "BetRaiseButtonHover = "+BetRaiseButtonHover; BetRaiseButtonHover = getFallBackFieldContent("BetRaiseButtonHover", 1); }
 
             if(BetRaiseButtonChecked == "") { BetRaiseButtonChecked = getFallBackFieldContent("BetRaiseButtonChecked", 1); leftItems << "BetRaiseButtonChecked"; }
-            else if(BetRaiseButtonChecked != QString(currentDir+"NULL") && !QFile(BetRaiseButtonChecked).exists()) { BetRaiseButtonChecked = getFallBackFieldContent("BetRaiseButtonChecked", 1); itemPicsLeft << "BetRaiseButtonChecked = "+BetRaiseButtonChecked; }
+            else if(BetRaiseButtonChecked != QString(currentDir+"NULL") && !QFile(BetRaiseButtonChecked).exists()) { itemPicsLeft << "BetRaiseButtonChecked = "+BetRaiseButtonChecked; BetRaiseButtonChecked = getFallBackFieldContent("BetRaiseButtonChecked", 1); }
 
             if(BetRaiseButtonCheckedHover == "") { BetRaiseButtonCheckedHover = getFallBackFieldContent("BetRaiseButtonCheckedHover", 1); leftItems << "BetRaiseButtonCheckedHover"; }
-            else if(BetRaiseButtonCheckedHover != QString(currentDir+"NULL") && !QFile(BetRaiseButtonCheckedHover).exists()) { BetRaiseButtonCheckedHover = getFallBackFieldContent("BetRaiseButtonCheckedHover", 1); itemPicsLeft << "BetRaiseButtonCheckedHover = "+BetRaiseButtonCheckedHover; }
+            else if(BetRaiseButtonCheckedHover != QString(currentDir+"NULL") && !QFile(BetRaiseButtonCheckedHover).exists()) { itemPicsLeft << "BetRaiseButtonCheckedHover = "+BetRaiseButtonCheckedHover; BetRaiseButtonCheckedHover = getFallBackFieldContent("BetRaiseButtonCheckedHover", 1); }
 
             if(AllInButtonDefault == "") { AllInButtonDefault = getFallBackFieldContent("AllInButtonDefault", 1); leftItems << "AllInButtonDefault"; }
-            else if(AllInButtonDefault != QString(currentDir+"NULL") && !QFile(AllInButtonDefault).exists()) { AllInButtonDefault = getFallBackFieldContent("AllInButtonDefault", 1); itemPicsLeft << "AllInButtonDefault = "+AllInButtonDefault; }
+            else if(AllInButtonDefault != QString(currentDir+"NULL") && !QFile(AllInButtonDefault).exists()) { itemPicsLeft << "AllInButtonDefault = "+AllInButtonDefault; AllInButtonDefault = getFallBackFieldContent("AllInButtonDefault", 1); }
 
             if(AllInButtonHover == "") { AllInButtonHover = getFallBackFieldContent("AllInButtonHover", 1); leftItems << "AllInButtonHover"; }
-            else if(AllInButtonHover != QString(currentDir+"NULL") && !QFile(AllInButtonHover).exists()) { AllInButtonHover = getFallBackFieldContent("AllInButtonHover", 1); itemPicsLeft << "AllInButtonHover = "+AllInButtonHover; }
+            else if(AllInButtonHover != QString(currentDir+"NULL") && !QFile(AllInButtonHover).exists()) { itemPicsLeft << "AllInButtonHover = "+AllInButtonHover; AllInButtonHover = getFallBackFieldContent("AllInButtonHover", 1); }
 
             if(AllInButtonChecked == "") { AllInButtonChecked = getFallBackFieldContent("AllInButtonChecked", 1); leftItems << "AllInButtonChecked"; }
-            else if(AllInButtonChecked != QString(currentDir+"NULL") && !QFile(AllInButtonChecked).exists()) { AllInButtonChecked = getFallBackFieldContent("AllInButtonChecked", 1); itemPicsLeft << "AllInButtonChecked = "+AllInButtonChecked; }
+            else if(AllInButtonChecked != QString(currentDir+"NULL") && !QFile(AllInButtonChecked).exists()) { itemPicsLeft << "AllInButtonChecked = "+AllInButtonChecked; AllInButtonChecked = getFallBackFieldContent("AllInButtonChecked", 1); }
 
             if(AllInButtonCheckedHover == "") { AllInButtonCheckedHover = getFallBackFieldContent("AllInButtonCheckedHover", 1); leftItems << "AllInButtonCheckedHover"; }
-            else if(AllInButtonCheckedHover != QString(currentDir+"NULL") && !QFile(AllInButtonCheckedHover).exists()) { AllInButtonCheckedHover = getFallBackFieldContent("AllInButtonCheckedHover", 1); itemPicsLeft << "AllInButtonCheckedHover = "+AllInButtonCheckedHover; }
+            else if(AllInButtonCheckedHover != QString(currentDir+"NULL") && !QFile(AllInButtonCheckedHover).exists()) { itemPicsLeft << "AllInButtonCheckedHover = "+AllInButtonCheckedHover; AllInButtonCheckedHover = getFallBackFieldContent("AllInButtonCheckedHover", 1); }
 
             if(RadioButtonPressed == "") { RadioButtonPressed = getFallBackFieldContent("RadioButtonPressed", 1); leftItems << "RadioButtonPressed"; }
-            else if(RadioButtonPressed != QString(currentDir+"NULL") && !QFile(RadioButtonPressed).exists()) { RadioButtonPressed = getFallBackFieldContent("RadioButtonPressed", 1); itemPicsLeft << "RadioButtonPressed = "+RadioButtonPressed; }
+            else if(RadioButtonPressed != QString(currentDir+"NULL") && !QFile(RadioButtonPressed).exists()) { itemPicsLeft << "RadioButtonPressed = "+RadioButtonPressed; RadioButtonPressed = getFallBackFieldContent("RadioButtonPressed", 1); }
 
             if(RadioButtonChecked == "") { RadioButtonChecked = getFallBackFieldContent("RadioButtonChecked", 1); leftItems << "RadioButtonChecked"; }
-            else if(RadioButtonChecked != QString(currentDir+"NULL") && !QFile(RadioButtonChecked).exists()) { RadioButtonChecked = getFallBackFieldContent("RadioButtonChecked", 1); itemPicsLeft << "RadioButtonChecked = "+RadioButtonChecked; }
+            else if(RadioButtonChecked != QString(currentDir+"NULL") && !QFile(RadioButtonChecked).exists()) { itemPicsLeft << "RadioButtonChecked = "+RadioButtonChecked; RadioButtonChecked = getFallBackFieldContent("RadioButtonChecked", 1); }
 
             if(RadioButtonCheckedHover == "") { RadioButtonCheckedHover = getFallBackFieldContent("RadioButtonCheckedHover", 1); leftItems << "RadioButtonCheckedHover"; }
-            else if(RadioButtonCheckedHover != QString(currentDir+"NULL") && !QFile(RadioButtonCheckedHover).exists()) { RadioButtonCheckedHover = getFallBackFieldContent("RadioButtonCheckedHover", 1); itemPicsLeft << "RadioButtonCheckedHover = "+RadioButtonCheckedHover; }
+            else if(RadioButtonCheckedHover != QString(currentDir+"NULL") && !QFile(RadioButtonCheckedHover).exists()) { itemPicsLeft << "RadioButtonCheckedHover = "+RadioButtonCheckedHover; RadioButtonCheckedHover = getFallBackFieldContent("RadioButtonCheckedHover", 1); }
 
             if(RadioButtonUnchecked == "") { RadioButtonUnchecked = getFallBackFieldContent("RadioButtonUnchecked", 1); leftItems << "RadioButtonUnchecked"; }
-            else if(RadioButtonUnchecked != QString(currentDir+"NULL") && !QFile(RadioButtonUnchecked).exists()) {  RadioButtonUnchecked = getFallBackFieldContent("RadioButtonUnchecked", 1); itemPicsLeft << "RadioButtonUnchecked = "+RadioButtonUnchecked; }
+            else if(RadioButtonUnchecked != QString(currentDir+"NULL") && !QFile(RadioButtonUnchecked).exists()) {  itemPicsLeft << "RadioButtonUnchecked = "+RadioButtonUnchecked; RadioButtonUnchecked = getFallBackFieldContent("RadioButtonUnchecked", 1); }
 
             if(RadioButtonUncheckedHover == "") { RadioButtonUncheckedHover = getFallBackFieldContent("RadioButtonUncheckedHover", 1); leftItems << "RadioButtonUncheckedHover"; }
-            else if(RadioButtonUncheckedHover != QString(currentDir+"NULL") && !QFile(RadioButtonUncheckedHover).exists()) { RadioButtonUncheckedHover = getFallBackFieldContent("RadioButtonUncheckedHover", 1); itemPicsLeft << "RadioButtonUncheckedHover = "+RadioButtonUncheckedHover; }
+            else if(RadioButtonUncheckedHover != QString(currentDir+"NULL") && !QFile(RadioButtonUncheckedHover).exists()) { itemPicsLeft << "RadioButtonUncheckedHover = "+RadioButtonUncheckedHover; RadioButtonUncheckedHover = getFallBackFieldContent("RadioButtonUncheckedHover", 1); }
 
             if(PlayerTopSeatActive == "") { PlayerTopSeatActive = getFallBackFieldContent("PlayerTopSeatActive", 1); leftItems << "PlayerTopSeatActive"; }
-            else if(PlayerTopSeatActive != QString(currentDir+"NULL") && !QFile(PlayerTopSeatActive).exists()) { PlayerTopSeatActive = getFallBackFieldContent("PlayerTopSeatActive", 1); itemPicsLeft << "PlayerTopSeatActive = "+PlayerTopSeatActive; }
+            else if(PlayerTopSeatActive != QString(currentDir+"NULL") && !QFile(PlayerTopSeatActive).exists()) { itemPicsLeft << "PlayerTopSeatActive = "+PlayerTopSeatActive; PlayerTopSeatActive = getFallBackFieldContent("PlayerTopSeatActive", 1); }
 
             if(PlayerTopSeatInactive == "") { PlayerTopSeatInactive = getFallBackFieldContent("PlayerTopSeatInactive", 1); leftItems << "PlayerTopSeatInactive"; }
-            else if(PlayerTopSeatInactive != QString(currentDir+"NULL") && !QFile(PlayerTopSeatInactive).exists()) { PlayerTopSeatInactive = getFallBackFieldContent("PlayerTopSeatInactive", 1); itemPicsLeft << "PlayerTopSeatInactive = "+PlayerTopSeatInactive; }
+            else if(PlayerTopSeatInactive != QString(currentDir+"NULL") && !QFile(PlayerTopSeatInactive).exists()) { itemPicsLeft << "PlayerTopSeatInactive = "+PlayerTopSeatInactive; PlayerTopSeatInactive = getFallBackFieldContent("PlayerTopSeatInactive", 1); }
 
             if(PlayerBottomSeatActive == "") { PlayerBottomSeatActive = getFallBackFieldContent("PlayerBottomSeatActive", 1); leftItems << "PlayerBottomSeatActive"; }
-            else if(PlayerBottomSeatActive != QString(currentDir+"NULL") && !QFile(PlayerBottomSeatActive).exists()) { PlayerBottomSeatActive = getFallBackFieldContent("PlayerBottomSeatActive", 1); itemPicsLeft << "PlayerBottomSeatActive = "+PlayerBottomSeatActive; }
+            else if(PlayerBottomSeatActive != QString(currentDir+"NULL") && !QFile(PlayerBottomSeatActive).exists()) { itemPicsLeft << "PlayerBottomSeatActive = "+PlayerBottomSeatActive; PlayerBottomSeatActive = getFallBackFieldContent("PlayerBottomSeatActive", 1); }
 
             if(PlayerBottomSeatInactive == "") { PlayerBottomSeatInactive = getFallBackFieldContent("PlayerBottomSeatInactive", 1); leftItems << "PlayerBottomSeatInactive"; }
-            else if(PlayerBottomSeatInactive != QString(currentDir+"NULL") && !QFile(PlayerBottomSeatInactive).exists()) { PlayerBottomSeatInactive = getFallBackFieldContent("PlayerBottomSeatInactive", 1); itemPicsLeft << "PlayerBottomSeatInactive = "+PlayerBottomSeatInactive; }
+            else if(PlayerBottomSeatInactive != QString(currentDir+"NULL") && !QFile(PlayerBottomSeatInactive).exists()) { itemPicsLeft << "PlayerBottomSeatInactive = "+PlayerBottomSeatInactive; PlayerBottomSeatInactive = getFallBackFieldContent("PlayerBottomSeatInactive", 1); }
 
             if(Table == "") { Table = getFallBackFieldContent("Table", 1); leftItems << "Table"; }
-            else if(Table != QString(currentDir+"NULL") && !QFile(Table).exists()) { Table = getFallBackFieldContent("Table", 1); itemPicsLeft << "Table = "+Table; }
+            else if(Table != QString(currentDir+"NULL") && !QFile(Table).exists()) { itemPicsLeft << "Table = "+Table; Table = getFallBackFieldContent("Table", 1); }
 
             if(HandRanking == "") { HandRanking = getFallBackFieldContent("HandRanking", 1); leftItems << "HandRanking"; }
-            else if(HandRanking != QString(currentDir+"NULL") && !QFile(HandRanking).exists()) { HandRanking = getFallBackFieldContent("HandRanking", 1); itemPicsLeft << "HandRanking = "+HandRanking; }
+            else if(HandRanking != QString(currentDir+"NULL") && !QFile(HandRanking).exists()) { itemPicsLeft << "HandRanking = "+HandRanking; HandRanking = getFallBackFieldContent("HandRanking", 1); }
 
             if(ToolBoxBackground == "") { ToolBoxBackground = getFallBackFieldContent("ToolBoxBackground", 1); leftItems << "ToolBoxBackground"; }
-            else if(ToolBoxBackground != QString(currentDir+"NULL") && !QFile(ToolBoxBackground).exists()) {  ToolBoxBackground = getFallBackFieldContent("ToolBoxBackground", 1); itemPicsLeft << "ToolBoxBackground = "+ToolBoxBackground; }
+            else if(ToolBoxBackground != QString(currentDir+"NULL") && !QFile(ToolBoxBackground).exists()) {  itemPicsLeft << "ToolBoxBackground = "+ToolBoxBackground; ToolBoxBackground = getFallBackFieldContent("ToolBoxBackground", 1); }
 
             if(ShowMyCardsButtonDefault == "") { ShowMyCardsButtonDefault = getFallBackFieldContent("ShowMyCardsButtonDefault", 1); leftItems << "ShowMyCardsButtonDefault"; }
-            else if(ShowMyCardsButtonDefault != QString(currentDir+"NULL") && !QFile(ShowMyCardsButtonDefault).exists()) { ShowMyCardsButtonDefault = getFallBackFieldContent("ShowMyCardsButtonDefault", 1); itemPicsLeft << "ShowMyCardsButtonDefault = "+ShowMyCardsButtonDefault; }
+            else if(ShowMyCardsButtonDefault != QString(currentDir+"NULL") && !QFile(ShowMyCardsButtonDefault).exists()) { itemPicsLeft << "ShowMyCardsButtonDefault = "+ShowMyCardsButtonDefault; ShowMyCardsButtonDefault = getFallBackFieldContent("ShowMyCardsButtonDefault", 1); }
 
             if(ShowMyCardsButtonHover == "") { ShowMyCardsButtonHover = getFallBackFieldContent("ShowMyCardsButtonHover", 1); leftItems << "ShowMyCardsButtonHover"; }
-            else if(ShowMyCardsButtonHover != QString(currentDir+"NULL") && !QFile(ShowMyCardsButtonHover).exists()) { ShowMyCardsButtonHover = getFallBackFieldContent("ShowMyCardsButtonHover", 1); itemPicsLeft << "ShowMyCardsButtonHover = "+ShowMyCardsButtonHover; }
+            else if(ShowMyCardsButtonHover != QString(currentDir+"NULL") && !QFile(ShowMyCardsButtonHover).exists()) { itemPicsLeft << "ShowMyCardsButtonHover = "+ShowMyCardsButtonHover; ShowMyCardsButtonHover = getFallBackFieldContent("ShowMyCardsButtonHover", 1); }
 
 
             //I18N ACTION STRINGS
@@ -479,23 +606,27 @@ void GameTableStyleReader::readStyleFile(QString file) {
             if(ChatLogTextSize == "") { ChatLogTextSize = getFallBackFieldContent("ChatLogTextSize", 0); leftItems << "ChatLogTextSize"; }
 
             //set loadedSuccessfull TRUE if everything works
+            qDebug() << "leftitem is empty: " << leftItems.isEmpty() << "pics left is empty: " << itemPicsLeft.isEmpty() << "stylefileversion is: " << PokerTHStyleFileVersion;
             if(leftItems.isEmpty() && itemPicsLeft.isEmpty() && PokerTHStyleFileVersion != "" && PokerTHStyleFileVersion.toInt() == POKERTH_GT_STYLE_FILE_VERSION) {
-                loadedSuccessfull = 1;
                 myState = GT_STYLE_OK;
+                qDebug() << "myState of: " << StyleDescription << "is now: " << myState;
             }
-            else
-                loadedSuccessfull = 1;
-
-            //check for style file version
-            if(PokerTHStyleFileVersion != "" && PokerTHStyleFileVersion.toInt() != POKERTH_GT_STYLE_FILE_VERSION)
-                myState = GT_STYLE_OUTDATED;
             else {
-                //if one or more items are left
-                if(!leftItems.isEmpty() && myW != 0) myState = GT_STYLE_FIELDS_EMPTY;
+                //check for style file version
+                if(PokerTHStyleFileVersion != "" && PokerTHStyleFileVersion.toInt() != POKERTH_GT_STYLE_FILE_VERSION) {
+                    myState = GT_STYLE_OUTDATED;
+                }
+                else {
+                    //if one or more items are left
+                    if(!leftItems.isEmpty() && myW != 0) myState = GT_STYLE_FIELDS_EMPTY;
 
-                //if one or more pictures where not found
-                if(!itemPicsLeft.isEmpty() && myW != 0) myState = GT_STYLE_PICTURES_MISSING;
-             }
+                    //if one or more pictures where not found
+                    if(!itemPicsLeft.isEmpty() && myW != 0) myState = GT_STYLE_PICTURES_MISSING;
+                }
+
+                qDebug() << "myState of: " << StyleDescription << "is now: " << myState;
+            }
+            loadedSuccessfull = 1;
         }
     }
     else {
@@ -506,15 +637,31 @@ void GameTableStyleReader::readStyleFile(QString file) {
     }
 }
 
+void GameTableStyleReader::showErrorMessage()
+{
+    switch (myState) {
+    case GT_STYLE_PICTURES_MISSING: showItemPicsLeftErrorMessage();
+        break;
+    case GT_STYLE_FIELDS_EMPTY: showLeftItemsErrorMessage();
+        break;
+    case GT_STYLE_OUTDATED: showOutdatedErrorMessage();
+        break;
+    default:;
+    }
+}
+
 void GameTableStyleReader::showLeftItemsErrorMessage()
 {
-    QString items = leftItems.join(", ");
+    QString items = leftItems.join("\n");
     QString EMail;
     if(StyleMaintainerEMail != "NULL") EMail = StyleMaintainerEMail;
 
-    QMessageBox::warning(myW, tr("Game Table Style Error"),
-                         tr("Selected game table style \"%1\" seems to be incomplete or defective. \n\nThe value(s) of \"%2\" is/are missing. \n\nPlease contact the game table style builder %3.").arg(StyleDescription).arg(items).arg(EMail),
-                         QMessageBox::Ok);
+    myMessageDialogImpl dialog(myConfig, myW);
+
+    if(dialog.checkIfMesssageWillBeDisplayed(5)) {
+        dialog.exec(5, tr("Selected game table style \"%1\" seems to be incomplete or defective. \n\nThe value(s) of: \n%2 \nis/are missing. \n\nAnyway you can play with this style, because the missing content will be filled up by PokerTH default style. \n\nPlease contact the game table style builder via \"%3\".").arg(StyleDescription).arg(items).arg(EMail), tr("Game Table Style Error - Fields content missing"), QPixmap(":/gfx/emblem-important-64.png"), QDialogButtonBox::Ok, true);
+    }
+
 }
 
 void GameTableStyleReader::showItemPicsLeftErrorMessage()
@@ -523,20 +670,23 @@ void GameTableStyleReader::showItemPicsLeftErrorMessage()
     QString EMail;
     if(StyleMaintainerEMail != "NULL") EMail = StyleMaintainerEMail;
 
-    QMessageBox::warning(myW, tr("Game Table Style Error"),
-                         tr("One or more pictures from current game table style \"%1\" were not found: \n\n\"%2\" \n\nPlease contact the game table style builder %3.").arg(StyleDescription).arg(pics).arg(EMail),
-                         QMessageBox::Ok);
+    myMessageDialogImpl dialog(myConfig, myW);
+
+    if(dialog.checkIfMesssageWillBeDisplayed(6)) {
+        dialog.exec(6, tr("One or more pictures from current game table style \"%1\" were not found: \n\n%2 \n\nAnyway you can play with this style, because the missing content will be filled up by PokerTH default style. \n\nPlease contact the game table style builder via \"%3\".").arg(StyleDescription).arg(pics).arg(EMail), tr("Game Table Style Error - Pictures missing"), QPixmap(":/gfx/emblem-important-64.png"), QDialogButtonBox::Ok, true);
+    }
 }
 
 void GameTableStyleReader::showOutdatedErrorMessage()
 {
-
     QString EMail;
     if(StyleMaintainerEMail != "NULL") EMail = StyleMaintainerEMail;
-    QMessageBox::warning(myW, tr("Game Table Style Error"),
-                         tr("Selected game table style \"%1\" seems to be outdated. \n The current PokerTH game table style version is \"%2\", but this style has version \"%3\" set. \n\nPlease contact the game table style builder %4.").arg(StyleDescription).arg(POKERTH_GT_STYLE_FILE_VERSION).arg(PokerTHStyleFileVersion).arg(EMail),
-                         QMessageBox::Ok);
 
+    myMessageDialogImpl dialog(myConfig, myW);
+
+    if(dialog.checkIfMesssageWillBeDisplayed(7)) {
+        dialog.exec(7, tr("Selected game table style \"%1\" seems to be outdated. \nThe current PokerTH game table style version is \"%2\", but this style has version \"%3\" set. \n\nAnyway you can play with this style, because the missing content will be filled up by PokerTH default style. \n\nPlease contact the game table style builder  via \"%4\".").arg(StyleDescription).arg(POKERTH_GT_STYLE_FILE_VERSION).arg(PokerTHStyleFileVersion).arg(EMail), tr("Game Table Style Error - Outdated"), QPixmap(":/gfx/emblem-important-64.png"), QDialogButtonBox::Ok, true);
+    }
 }
 
 void GameTableStyleReader::setTableBackground(gameTableImpl *gt)
@@ -545,7 +695,7 @@ void GameTableStyleReader::setTableBackground(gameTableImpl *gt)
 }
 
 void GameTableStyleReader::setChatLogStyle(QTextBrowser *tb)
-{	
+{
     tb->setStyleSheet("QTextBrowser { "+ font1String +" font-size: "+ChatLogTextSize+"px; color: #"+ChatLogTextColor+"; background-color: #"+ChatLogBgColor+"; border:none; } QScrollBar:vertical { border: 1px solid #"+ChatLogScrollBarBorderColor+"; background: #"+ChatLogScrollBarBgColor+"; width: 15px; margin: 17px -1px 17px 0px; } QScrollBar::handle:vertical { border-radius: 1px; border: 1px solid #"+ChatLogScrollBarHandleBorderColor+"; background: #"+ChatLogScrollBarHandleBgColor+"; min-height: 20px; } QScrollBar::add-line:vertical { margin-right: 0px; margin-left: 1px; border-bottom-right-radius: 2px; border-bottom-left-radius: 2px; border-top-right-radius: 1px; border-top-left-radius: 1px; border: 1px solid #"+ChatLogScrollBarHandleBorderColor+"; background: #"+ChatLogScrollBarHandleBgColor+"; height: 15px; subcontrol-position: bottom; subcontrol-origin: margin; } QScrollBar::sub-line:vertical { margin-right: 0px; margin-left: 1px; border-bottom-right-radius: 1px; border-bottom-left-radius: 1px; border-top-right-radius: 2px; border-top-left-radius: 2px; border: 1px solid #"+ChatLogScrollBarHandleBorderColor+"; background: #"+ChatLogScrollBarHandleBgColor+"; height: 15px; subcontrol-position: top; subcontrol-origin: margin; } QScrollBar:up-arrow:vertical, QScrollBar::down-arrow:vertical { border: 1px solid #"+ChatLogScrollBarArrowBorderColor+"; height: 3px; width: 3px; background: #"+ChatLogScrollBarArrowBgColor+"; } QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical { background: none; }");
 
 }
@@ -556,7 +706,7 @@ void GameTableStyleReader::setChatInputStyle(QLineEdit *ci)
 }
 
 void GameTableStyleReader::setCashLabelStyle(QLabel *cl)
-{	
+{
     cl->setStyleSheet("QLabel { "+ font2String +" font-size: "+cashFontSize+"px; font-weight: bold; color: #"+PlayerCashTextColor+"; }");
 }
 
@@ -881,13 +1031,13 @@ QString GameTableStyleReader::getMyStateToolTipInfo()
 {
     switch (myState) {
     case GT_STYLE_OK: return QString(tr("Everything OK!"));
-    break;
+        break;
     case GT_STYLE_PICTURES_MISSING: return QString(tr("Some pictures are missing, please contact style maintainer for this issue."));
-    break;
+        break;
     case GT_STYLE_FIELDS_EMPTY: return QString(tr("Some style fields are missing, please contact style maintainer for this issue."));
-    break;
+        break;
     case GT_STYLE_OUTDATED: return QString(tr("This style is outdated, please contact style maintainer for this issue."));
-    break;
+        break;
     default: return QString("");
     }
 }

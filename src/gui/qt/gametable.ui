@@ -2460,7 +2460,7 @@
           </rect>
          </property>
          <property name="text">
-          <string>uncover!</string>
+          <string>show</string>
          </property>
         </widget>
        </widget>

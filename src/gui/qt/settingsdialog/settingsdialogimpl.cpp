@@ -1062,11 +1062,14 @@ void settingsDialogImpl::addGameTableStyle()
                 newItem->setData(0, 16, ADDITIONAL_STYLE);
                 newItem->setData(0, Qt::ToolTipRole,fileName);
                 newItem->setData(2, Qt::ToolTipRole, newStyle.getMyStateToolTipInfo());
-                if(newStyle.getState()) newItem->setIcon(2, QIcon(":/gfx/emblem-important.png"));
+                if(newStyle.getState() != GT_STYLE_OK) newItem->setIcon(2, QIcon(":/gfx/emblem-important.png"));
                 else newItem->setIcon(2, QIcon(":/gfx/dialog-ok-apply.png"));
                 treeWidget_gameTableStyles->addTopLevelItem(newItem);
                 treeWidget_gameTableStyles->setCurrentItem(newItem);
                 treeWidget_gameTableStyles->sortItems(0, Qt::AscendingOrder);
+
+                qDebug() << "settings: " << newStyle.getStyleDescription() << newStyle.getState();
+                if(newStyle.getState() != GT_STYLE_OK) newStyle.showErrorMessage();
             }
             else {
                 QMessageBox::warning(this, tr("Game Table Style File Error"),

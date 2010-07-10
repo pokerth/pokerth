@@ -23,6 +23,7 @@
 #include "tinyxml.h"
 #include "configfile.h"
 #include "gametableimpl.h"
+#include "mymessagedialogimpl.h"
 #include "game_defs.h"
 #include <string>
 #include <QtCore>
@@ -35,7 +36,6 @@ enum GtStyleState {
     GT_STYLE_OUTDATED,
     GT_STYLE_FIELDS_EMPTY,
     GT_STYLE_PICTURES_MISSING,
-    GT_STYLE_NOT_READABLE
 };
 
 class gameTableImpl;
@@ -48,6 +48,7 @@ public:
 
     void readStyleFile(QString);
 
+    void showErrorMessage();
     void showLeftItemsErrorMessage();
     void showItemPicsLeftErrorMessage();
     void showOutdatedErrorMessage();

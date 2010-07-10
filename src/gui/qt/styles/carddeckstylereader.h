@@ -33,7 +33,6 @@ enum CdStyleState {
     CD_STYLE_OUTDATED,
     CD_STYLE_FIELDS_EMPTY,
     CD_STYLE_PICTURES_MISSING,
-    CD_STYLE_NOT_READABLE
 };
 
 class CardDeckStyleReader : public QObject {

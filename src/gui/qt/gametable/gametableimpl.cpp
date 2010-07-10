@@ -659,6 +659,8 @@ void gameTableImpl::applySettings(settingsDialogImpl* mySettingsDialog) {
     }
 
     refreshGameTableStyle();
+    qDebug() << "table: " << myGameTableStyle->getStyleDescription() << myGameTableStyle->getState();
+    if(this->isVisible() && myGameTableStyle->getState() != GT_STYLE_OK) myGameTableStyle->showErrorMessage();
 
     //blind buttons refresh
     if(myStartWindow->getSession()->getCurrentGame()) {
@@ -2853,6 +2855,8 @@ void gameTableImpl::localGameModification() {
 
     //restore saved windows geometry
     restoreGameTableGeometry();
+
+    if(myGameTableStyle->getState() != GT_STYLE_OK) myGameTableStyle->showErrorMessage();
 }
 
 void gameTableImpl::networkGameModification() {
