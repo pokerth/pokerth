@@ -23,7 +23,6 @@
 #include <cstdlib>
 #include <fstream>
 
-
 using namespace std;
 
 GameTableStyleReader::GameTableStyleReader(ConfigFile *c, QWidget *w) : myConfig(c), myW(w), fallBack(0), loadedSuccessfull(0)
@@ -482,20 +481,20 @@ void GameTableStyleReader::readStyleFile(QString file) {
             //set loadedSuccessfull TRUE if everything works
             if(leftItems.isEmpty() && itemPicsLeft.isEmpty() && PokerTHStyleFileVersion != "" && PokerTHStyleFileVersion.toInt() == POKERTH_GT_STYLE_FILE_VERSION) {
                 loadedSuccessfull = 1;
-                myState = OK;
+                myState = GT_STYLE_OK;
             }
             else
                 loadedSuccessfull = 1;
 
             //check for style file version
             if(PokerTHStyleFileVersion != "" && PokerTHStyleFileVersion.toInt() != POKERTH_GT_STYLE_FILE_VERSION)
-                myState = OUTDATED;
+                myState = GT_STYLE_OUTDATED;
             else {
                 //if one or more items are left
-                if(!leftItems.isEmpty() && myW != 0) myState = FIELDS_EMPTY;
+                if(!leftItems.isEmpty() && myW != 0) myState = GT_STYLE_FIELDS_EMPTY;
 
                 //if one or more pictures where not found
-                if(!itemPicsLeft.isEmpty() && myW != 0) myState = PICTURES_MISSING;
+                if(!itemPicsLeft.isEmpty() && myW != 0) myState = GT_STYLE_PICTURES_MISSING;
              }
         }
     }
@@ -881,13 +880,13 @@ QString GameTableStyleReader::getFallBackFieldContent(QString field, int type)
 QString GameTableStyleReader::getMyStateToolTipInfo()
 {
     switch (myState) {
-    case OK: return QString(tr("Everything OK!"));
+    case GT_STYLE_OK: return QString(tr("Everything OK!"));
     break;
-    case PICTURES_MISSING: return QString(tr("Some pictures are missing, please contact style maintainer for this issue."));
+    case GT_STYLE_PICTURES_MISSING: return QString(tr("Some pictures are missing, please contact style maintainer for this issue."));
     break;
-    case FIELDS_EMPTY: return QString(tr("Some style fields are missing, please contact style maintainer for this issue."));
+    case GT_STYLE_FIELDS_EMPTY: return QString(tr("Some style fields are missing, please contact style maintainer for this issue."));
     break;
-    case OUTDATED: return QString(tr("This style is outdated, please contact style maintainer for this issue."));
+    case GT_STYLE_OUTDATED: return QString(tr("This style is outdated, please contact style maintainer for this issue."));
     break;
     default: return QString("");
     }

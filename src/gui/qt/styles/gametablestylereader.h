@@ -28,6 +28,16 @@
 #include <QtCore>
 #include <QtGui>
 
+#define POKERTH_GT_STYLE_FILE_VERSION	2
+
+enum GtStyleState {
+    GT_STYLE_OK = 0,
+    GT_STYLE_OUTDATED,
+    GT_STYLE_FIELDS_EMPTY,
+    GT_STYLE_PICTURES_MISSING,
+    GT_STYLE_NOT_READABLE
+};
+
 class gameTableImpl;
 
 class GameTableStyleReader : public QObject {
@@ -77,7 +87,7 @@ public:
 
     bool getFallBack() const { return fallBack; }
     bool getLoadedSuccessfull() const { return loadedSuccessfull; }
-    StyleState getState() const { return myState; }
+    GtStyleState getState() const { return myState; }
 
     //set pictures
     void setTableBackground(gameTableImpl*);
@@ -294,7 +304,7 @@ private:
 
     bool fallBack;
     bool loadedSuccessfull;
-    StyleState myState;
+    GtStyleState myState;
 
 };
 

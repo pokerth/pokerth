@@ -26,6 +26,16 @@
 #include <QtCore>
 #include <QtGui>
 
+#define POKERTH_CD_STYLE_FILE_VERSION	1
+
+enum CdStyleState {
+    CD_STYLE_OK = 0,
+    CD_STYLE_OUTDATED,
+    CD_STYLE_FIELDS_EMPTY,
+    CD_STYLE_PICTURES_MISSING,
+    CD_STYLE_NOT_READABLE
+};
+
 class CardDeckStyleReader : public QObject {
 Q_OBJECT
 public:

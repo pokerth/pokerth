@@ -35,8 +35,6 @@
 #define POKERTH_BETA_REVISION	0
 #define POKERTH_BETA_RELEASE_STRING	"0.8-svn"
 
-#define POKERTH_GT_STYLE_FILE_VERSION	2
-#define POKERTH_CD_STYLE_FILE_VERSION	1
 
 enum ServerMode {
     SERVER_MODE_LAN,
@@ -132,14 +130,6 @@ struct ServerStats
     unsigned totalGamesEverCreated;
     unsigned maxGamesOpen;
     unsigned maxPlayersLoggedIn;
-};
-
-enum StyleState {
-    OK = 0,
-    OUTDATED,
-    FIELDS_EMPTY,
-    PICTURES_MISSING,
-    NOT_READABLE
 };
 
 #endif
