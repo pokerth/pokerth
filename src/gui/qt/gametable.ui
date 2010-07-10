@@ -2460,7 +2460,7 @@
           </rect>
          </property>
          <property name="text">
-          <string>show</string>
+          <string notr="true">Show!</string>
          </property>
         </widget>
        </widget>

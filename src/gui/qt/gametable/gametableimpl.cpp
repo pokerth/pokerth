@@ -2645,9 +2645,11 @@ void gameTableImpl::keyPressEvent ( QKeyEvent * event ) {
             pushButton_Fold->click();
         }
     }
-    if (event->key() == Qt::Key_F5) { radioButton_manualAction->click(); }
-    if (event->key() == Qt::Key_F6) { radioButton_autoCheckFold->click(); }
-    if (event->key() == Qt::Key_F7) { radioButton_autoCheckCallAny->click(); }
+    if (event->key() == Qt::Key_F5) { pushButton_showMyCards->click(); }
+
+    if (event->key() == Qt::Key_F6) { radioButton_manualAction->click(); }
+    if (event->key() == Qt::Key_F7) { radioButton_autoCheckFold->click(); }
+    if (event->key() == Qt::Key_F8) { radioButton_autoCheckCallAny->click(); }
     if (event->key() == Qt::Key_Shift) {
         if(myStartWindow->getSession()->getGameType() == Session::GAME_TYPE_LOCAL) {
             pushButton_break->click();
@@ -3261,6 +3263,7 @@ void gameTableImpl::refreshCardsChance(GameState bero)
 void gameTableImpl::refreshActionButtonFKeyIndicator(bool clear)
 {
     if(clear) {
+        pushButton_showMyCards->setFKeyText("");
         pushButton_AllIn->setFKeyText("");
         pushButton_BetRaise->setFKeyText("");
         pushButton_CallCheck->setFKeyText("");
@@ -3279,6 +3282,7 @@ void gameTableImpl::refreshActionButtonFKeyIndicator(bool clear)
             if(!pushButton_CallCheck->text().isEmpty()) pushButton_CallCheck->setFKeyText("F3");
             if(!pushButton_Fold->text().isEmpty()) pushButton_Fold->setFKeyText("F4");
         }
+        if(!pushButton_showMyCards->text().isEmpty()) pushButton_showMyCards->setFKeyText("F5");
     }
 }
 
@@ -3453,5 +3457,8 @@ void gameTableImpl::showShowMyCardsButton()
 
 void gameTableImpl::sendShowMyCardsSignal()
 {
-    pushButton_showMyCards->hide();
+    if(pushButton_showMyCards->isVisible()) {
+        qDebug() << "show!";
+        pushButton_showMyCards->hide();
+    }
 }
