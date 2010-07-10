@@ -328,12 +328,12 @@ win32 {
             -lidn
         LIBS += -lcurl
         LIBS += -lz
-        LIBS += -llibboost_thread-mgw44-mt
-        LIBS += -llibboost_filesystem-mgw44-mt
-        LIBS += -llibboost_regex-mgw44-mt
-        LIBS += -llibboost_system-mgw44-mt
-        LIBS += -llibboost_iostreams-mgw44-mt
-        LIBS += -llibboost_zlib-mgw44-mt
+		LIBS += -llibboost_thread-mgw45-mt-1_43
+		LIBS += -llibboost_filesystem-mgw45-mt-1_43
+		LIBS += -llibboost_regex-mgw45-mt-1_43
+		LIBS += -llibboost_system-mgw45-mt-1_43
+		LIBS += -llibboost_iostreams-mgw45-mt-1_43
+		LIBS += -llibboost_zlib-mgw45-mt-1_43
     }
     LIBS += -lgdi32 \
         -lcomdlg32 \
