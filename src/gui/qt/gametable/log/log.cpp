@@ -191,14 +191,16 @@ Log::Log(gameTableImpl* w, ConfigFile *c) : myW(w), myConfig(c), myLogDir(0), my
 
 Log::~Log()
 {
+qDebug() << "close log";
 
-        // Datenbank schließen
+        // Datenbank schließe
         mySqliteLogDb->close();
 
 	delete myConfig;
 	delete myLogDir;
         delete myHtmlLogFile;
         delete mySqliteLogDb;
+
 	myConfig = 0;
 }
 

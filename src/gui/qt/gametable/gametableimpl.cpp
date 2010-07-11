@@ -659,7 +659,7 @@ void gameTableImpl::applySettings(settingsDialogImpl* mySettingsDialog) {
     }
 
     refreshGameTableStyle();
-    qDebug() << "table: " << myGameTableStyle->getStyleDescription() << myGameTableStyle->getState();
+//    qDebug() << "table: " << myGameTableStyle->getStyleDescription() << myGameTableStyle->getState();
     if(this->isVisible() && myGameTableStyle->getState() != GT_STYLE_OK) myGameTableStyle->showErrorMessage();
 
     //blind buttons refresh

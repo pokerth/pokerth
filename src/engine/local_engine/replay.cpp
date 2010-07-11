@@ -35,5 +35,7 @@ Replay::Replay() : replaySqliteLogDb(0)
 Replay::~Replay()
 {
 
+    replaySqliteLogDb->close();
     delete replaySqliteLogDb;
+
 }

@@ -47,6 +47,8 @@ ConfigFile::ConfigFile(char *argv0, bool readonly) : noWriteAccess(readonly)
 
     myQtToolsInterface = CreateQtToolsWrapper();
 
+    myConfigState = OK;
+
     // !!!! Revisionsnummer der Configdefaults !!!!!
     configRev = 83;
 

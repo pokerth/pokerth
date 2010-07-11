@@ -127,8 +127,8 @@ settingsDialogImpl::settingsDialogImpl(QWidget *parent, ConfigFile *c, selectAva
 
 }
 
-void settingsDialogImpl::exec() {
-
+void settingsDialogImpl::prepareDialog()
+{
     playerNickIsChanged = FALSE;
 
     //Player Nicks
@@ -442,7 +442,6 @@ void settingsDialogImpl::exec() {
 
     refreshLogFileList();
 
-
     bool tmpHasIpv6 = socket_has_ipv6();
     bool tmpHasSctp = socket_has_sctp();
     checkBox_useIpv6->setEnabled(tmpHasIpv6);
@@ -468,7 +467,11 @@ void settingsDialogImpl::exec() {
 
     //set this AFTER switch combobox like config-settings. This IS a currentIndexChanged() ;-)
     languageIsChanged = FALSE;
+}
 
+void settingsDialogImpl::exec() {
+
+    prepareDialog();
     QDialog::exec();
 
 }
@@ -983,6 +986,7 @@ void settingsDialogImpl::showCurrentGameTableStylePreview()
         QString MinimumSize = tr("Minimum Size");
         QString MaximumSize = tr("Maximum Size");
         QString FixedSize = tr("Fixed Size");
+        QString State = tr("State");
 
         QString windowsSubString;
         if(style.getIfFixedWindowSize().toInt()) {
@@ -997,7 +1001,8 @@ void settingsDialogImpl::showCurrentGameTableStylePreview()
             maintainerEMailString = "<b>"+MaintainerEMail+":</b> "+style.getStyleMaintainerEMail()+"<br>";
         }
 
-        label_gameTableStyleInfo->setText("<b>"+MaintainerName+":</b> "+style.getStyleMaintainerName()+"<br>"+maintainerEMailString+"<b>"+CreateDate+":</b> "+style.getStyleCreateDate()+"<br>"+windowsSubString);
+        label_gameTableStyleInfo->setWordWrap(TRUE);
+        label_gameTableStyleInfo->setText("<b>"+MaintainerName+":</b> "+style.getStyleMaintainerName()+"<br>"+maintainerEMailString+"<b>"+CreateDate+":</b> "+style.getStyleCreateDate()+"<br>"+windowsSubString+"<br><b>"+State+": </b>"+style.getMyStateToolTipInfo());
 
         //active the current selected item directly
         setSelectedGameTableStyleActivated();

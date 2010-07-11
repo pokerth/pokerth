@@ -166,6 +166,27 @@ startWindowImpl::startWindowImpl(ConfigFile *c)
 
     this->show();
 
+    //update HACKS
+    if(!checkForFirstStartAfterUpdated().isEmpty()) {
+        qDebug() << checkForFirstStartAfterUpdated();
+    }
+}
+
+startWindowImpl::~startWindowImpl()
+{
+    delete myNewGameDialog;
+    delete mySelectAvatarDialog;
+    delete mySettingsDialog;
+    delete myChangeHumanPlayerNameDialog;
+    delete myJoinNetworkGameDialog;
+    delete myConnectToServerDialog;
+    delete myStartNetworkGameDialog;
+    delete myCreateNetworkGameDialog;
+    delete myAboutPokerthDialog;
+    delete myGameLobbyDialog;
+    delete myTimeoutDialog;
+    delete myServerListDialog;
+    delete myInternetGameLoginDialog;
 }
 
 void startWindowImpl::callNewGameDialog() {
@@ -896,4 +917,22 @@ QStringList startWindowImpl::getPlayerNicksList() {
     }
 
     return list;
+}
+
+QString startWindowImpl::checkForFirstStartAfterUpdated()
+{
+    if(myConfig->getConfigState() == OLD) {
+
+        if(POKERTH_VERSION_MAJOR == 0 && POKERTH_VERSION_MINOR == 80) {
+            //version 0.8 HACK
+            //to avoid old PokerTH distributed styles pathes in settings which leads to error message like "outdated" prepare settings dialog (fallback will correct this issue) and save settings
+            mySettingsDialog->prepareDialog();
+            mySettingsDialog->isAccepted();
+            myGuiInterface->getMyW()->applySettings(mySettingsDialog);
+        }
+        return QString("Update old config to version %1").arg(QString::number(POKERTH_VERSION_MAJOR)+"."+QString::number(POKERTH_VERSION_MINOR));
+    }
+
+    return QString();
+
 }

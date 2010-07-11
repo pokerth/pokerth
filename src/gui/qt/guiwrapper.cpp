@@ -43,6 +43,8 @@ GuiWrapper::GuiWrapper(ConfigFile *c, startWindowImpl *s) : myLog(NULL), myW(NUL
 
 GuiWrapper::~GuiWrapper()
 {
+    delete myLog;
+
 }
 
 void GuiWrapper::initGui(int speed) { myW->signalInitGui(speed); }

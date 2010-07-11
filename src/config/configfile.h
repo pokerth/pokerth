@@ -25,7 +25,7 @@
 
 #include <boost/thread.hpp>
 
-enum ConfigState { NONEXISTING, OLD };
+enum ConfigState { NONEXISTING, OLD, OK };
 enum ConfigType { CONFIG_TYPE_INT, CONFIG_TYPE_STRING, CONFIG_TYPE_INT_LIST, CONFIG_TYPE_STRING_LIST };
 
 class QtToolsInterface;
@@ -40,6 +40,7 @@ public:
 	void writeBuffer() const;
 
 	void updateConfig(ConfigState);
+        ConfigState getConfigState() const { return myConfigState; }
 
 	std::string readConfigString(std::string varName) const;
 	std::list<std::string> readConfigStringList(std::string varName) const;

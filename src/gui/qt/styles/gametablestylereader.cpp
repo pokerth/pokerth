@@ -606,10 +606,10 @@ void GameTableStyleReader::readStyleFile(QString file) {
             if(ChatLogTextSize == "") { ChatLogTextSize = getFallBackFieldContent("ChatLogTextSize", 0); leftItems << "ChatLogTextSize"; }
 
             //set loadedSuccessfull TRUE if everything works
-            qDebug() << "leftitem is empty: " << leftItems.isEmpty() << "pics left is empty: " << itemPicsLeft.isEmpty() << "stylefileversion is: " << PokerTHStyleFileVersion;
+//            qDebug() << "leftitem is empty: " << leftItems.isEmpty() << "pics left is empty: " << itemPicsLeft.isEmpty() << "stylefileversion is: " << PokerTHStyleFileVersion;
             if(leftItems.isEmpty() && itemPicsLeft.isEmpty() && PokerTHStyleFileVersion != "" && PokerTHStyleFileVersion.toInt() == POKERTH_GT_STYLE_FILE_VERSION) {
                 myState = GT_STYLE_OK;
-                qDebug() << "myState of: " << StyleDescription << "is now: " << myState;
+//                qDebug() << "myState of: " << StyleDescription << "is now: " << myState;
             }
             else {
                 //check for style file version
@@ -624,7 +624,7 @@ void GameTableStyleReader::readStyleFile(QString file) {
                     if(!itemPicsLeft.isEmpty() && myW != 0) myState = GT_STYLE_PICTURES_MISSING;
                 }
 
-                qDebug() << "myState of: " << StyleDescription << "is now: " << myState;
+//                qDebug() << "myState of: " << StyleDescription << "is now: " << myState;
             }
             loadedSuccessfull = 1;
         }

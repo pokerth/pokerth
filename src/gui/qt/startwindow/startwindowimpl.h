@@ -50,6 +50,7 @@ class startWindowImpl: public QMainWindow, public Ui::startWindow {
     Q_OBJECT
 public:
     startWindowImpl(ConfigFile *c =0);
+    ~startWindowImpl();
 
     void setSession(boost::shared_ptr<Session> session) { mySession = session; }
     boost::shared_ptr<Session> getSession() { assert(mySession.get()); return mySession; }
@@ -122,6 +123,8 @@ public slots:
 
     void networkStart(boost::shared_ptr<Game> game);
     QStringList getPlayerNicksList();
+
+    QString checkForFirstStartAfterUpdated();
 
 private:
     ConfigFile *myConfig;

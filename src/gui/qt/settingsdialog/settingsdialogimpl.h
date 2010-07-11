@@ -40,7 +40,8 @@ class settingsDialogImpl: public QDialog, public Ui::settingsDialog {
 Q_OBJECT
 public:
     settingsDialogImpl(QWidget *parent = 0, ConfigFile *c = 0, selectAvatarDialogImpl *s = 0);
-	
+
+        void prepareDialog();
 	void exec();
 
 	void setPlayerNickIsChanged(bool theValue){ playerNickIsChanged = theValue;}
