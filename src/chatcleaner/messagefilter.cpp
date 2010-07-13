@@ -92,9 +92,11 @@ QStringList MessageFilter::check(unsigned playerId, QString nick, QString msg)
                     myClientKickCounterList.insert(nick, tmpInfos);
                 }
                 else {
-                    //please is already on the list: either raise kickNumber or kickban when kickNumerToBan is reached
+                    //pleayer is already on the list: either raise kickNumber or kickban when kickNumerToBan is reached
                     if(j.value().kickNumber == kickNumberToBan) {
                         action = KICKBAN;
+                        //remove player from kickCounterList
+                        myClientKickCounterList.remove(j.key());
                     }
                     else {
                         ClientKickInfos tmpInfos;

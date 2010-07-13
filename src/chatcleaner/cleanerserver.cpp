@@ -159,7 +159,10 @@ bool CleanerServer::handleMessage(InternalChatCleanerPacket &msg) {
                         else if(checkAction == "kick") {
                             netReply->cleanerActionType = cleanerActionType_cleanerActionKick;
                         }
-        /*	cleanerActionType_cleanerActionBan */
+                        else if(checkAction == "kickban") {
+                            netReply->cleanerActionType = cleanerActionType_cleanerActionBan;
+                        }
+
 			string tmpCheck(checkMessage.toUtf8());
 			netReply->cleanerText =
 				OCTET_STRING_new_fromBuf(
