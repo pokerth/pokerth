@@ -518,8 +518,6 @@ gameTableImpl::gameTableImpl(ConfigFile *c, QMainWindow *parent)
 
 gameTableImpl::~gameTableImpl() {
 
-    delete myConfig;
-    myConfig = 0;
 
 }
 

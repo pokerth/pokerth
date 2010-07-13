@@ -127,6 +127,10 @@ settingsDialogImpl::settingsDialogImpl(QWidget *parent, ConfigFile *c, selectAva
 
 }
 
+settingsDialogImpl::~settingsDialogImpl()
+{
+}
+
 void settingsDialogImpl::prepareDialog()
 {
     playerNickIsChanged = FALSE;

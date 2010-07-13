@@ -41,6 +41,8 @@ Q_OBJECT
 public:
     settingsDialogImpl(QWidget *parent = 0, ConfigFile *c = 0, selectAvatarDialogImpl *s = 0);
 
+    ~settingsDialogImpl();
+
         void prepareDialog();
 	void exec();
 
@@ -117,7 +119,7 @@ private:
 	std::list<std::string> myCardDeckStylesList;
 	
 	ConfigFile* myConfig;
-	boost::shared_ptr<selectAvatarDialogImpl> mySelectAvatarDialogImpl;
+        selectAvatarDialogImpl *mySelectAvatarDialogImpl;
 	manualBlindsOrderDialogImpl *myManualBlindsOrderDialog; 
 
 	QString myAppDataPath;

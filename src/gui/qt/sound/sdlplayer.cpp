@@ -22,8 +22,8 @@ using namespace std;
 SDLPlayer::SDLPlayer(ConfigFile *c)
 : soundData(NULL), currentChannel(0) , audioEnabled(0), myConfig(c)
 {
-	SDL_Init(SDL_INIT_AUDIO);
-	initAudio();
+        SDL_Init(SDL_INIT_AUDIO);
+        initAudio();
 
 	myAppDataPath = QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str());
 }

@@ -54,8 +54,6 @@ Session::~Session()
 {
     terminateNetworkClient();
     terminateNetworkServer();
-    delete myConfig;
-    myConfig = 0;
     delete myQtToolsInterface;
     myQtToolsInterface = 0;
 }

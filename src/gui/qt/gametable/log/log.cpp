@@ -197,13 +197,10 @@ Log::Log(gameTableImpl* w, ConfigFile *c) : myW(w), myConfig(c), myLogDir(0), my
 
 Log::~Log()
 {
-    cerr << "log destruktor";
-    delete myConfig;
     delete myLogDir;
     delete myHtmlLogFile;
     delete mySqliteLogDb;
 
-    myConfig = 0;
 }
 
 void Log::closeLogDbAtExit()

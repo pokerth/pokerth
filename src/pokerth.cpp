@@ -147,14 +147,15 @@ int main( int argc, char **argv )
         qRegisterMetaType<DenyGameInvitationReason>("DenyGameInvitationReason");
 	///////////////////////////////////////////////////	
 
-	startWindowImpl *mainWin = new startWindowImpl(myConfig);	
-
-	a.setActivationWindow(mainWin, true);
+        startWindowImpl mainWin(myConfig);
+                a.setActivationWindow(&mainWin, true);
 
 	int retVal = a.exec();
 	
 	curl_global_cleanup();
 	socket_cleanup();
+        
+        
 	return retVal;
 	
 }
