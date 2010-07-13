@@ -13,43 +13,45 @@ class LetterRepeatingCheck;
 class UrlCheck;
 
 class MessageFilter: public QObject {
-Q_OBJECT
+    Q_OBJECT
 public:
     MessageFilter(CleanerConfig*);
-	~MessageFilter();
-	
-        QStringList check(unsigned, QString, QString);
-	void refreshConfig();	
-        void cleanKickCounterList();
-	
+    ~MessageFilter();
+
+    QStringList check(unsigned, QString, QString);
+    void refreshConfig();
+
+public slots:
+    void cleanKickCounterList();
+
 private: 
-	BadWordCheck *myBadWordCheck;
-	TextFloodCheck *myTextFloodCheck;
-	CapsFloodCheck *myCapsFloodCheck;
-	LetterRepeatingCheck *myLetterRepeatingCheck;
-	UrlCheck *myUrlCheck;
-	
-	struct ClientWarnInfos { 
-		QString nick; 
-		int lastWarnType; 
-		int warnLevel; 
-	};
+    BadWordCheck *myBadWordCheck;
+    TextFloodCheck *myTextFloodCheck;
+    CapsFloodCheck *myCapsFloodCheck;
+    LetterRepeatingCheck *myLetterRepeatingCheck;
+    UrlCheck *myUrlCheck;
 
-        struct ClientKickInfos {
-                size_t lastKickTimestamp;
-                int kickNumber;
-        };
-	
-	QMap<unsigned, ClientWarnInfos> myClientWarnLevelList;
-        QMap<QString, ClientKickInfos> myClientKickCounterList;
-	
-	int warnLevelToKick;
-        int kickNumberToBan;
-	
-	CleanerConfig *config;
+    struct ClientWarnInfos {
+        QString nick;
+        int lastWarnType;
+        int warnLevel;
+    };
 
-        boost::timers::portable::second_timer timer;
-        QTimer *cleanTimer;
+    struct ClientKickInfos {
+        size_t lastKickTimestamp;
+        int kickNumber;
+    };
+
+    QMap<unsigned, ClientWarnInfos> myClientWarnLevelList;
+    QMap<QString, ClientKickInfos> myClientKickCounterList;
+
+    int warnLevelToKick;
+    int kickNumberToBan;
+
+    CleanerConfig *config;
+
+    boost::timers::portable::second_timer timer;
+    QTimer *cleanTimer;
 };
 
 #endif // MESSAGEFILTER_H
