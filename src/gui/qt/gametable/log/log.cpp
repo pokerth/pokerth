@@ -200,15 +200,12 @@ Log::~Log()
     myConfig = 0;
 }
 
-bool Log::closeLogDb()
+void Log::closeLogDbAtExit()
 {
     // Datenbank schließen
     mySqliteLogDb->close();
-    *mySqliteLogDb = QSqlDatabase();
-    if(mySqliteLogDb->isOpen())
-        return FALSE;
-    else
-        return TRUE;
+    delete mySqliteLogDb;
+    mySqliteLogDb = NULL;
 }
 
 

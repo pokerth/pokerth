@@ -941,10 +941,9 @@ QString startWindowImpl::checkForFirstStartAfterUpdated()
 
 bool startWindowImpl::eventFilter(QObject *obj, QEvent *event)
 {
-
     if (event->type() == QEvent::Close) {
         event->ignore();
-        myGuiInterface->getMyLog()->closeLogDb();
+        myGuiInterface->getMyLog()->closeLogDbAtExit();
         return QMainWindow::eventFilter(obj, event);
     }
     else {
