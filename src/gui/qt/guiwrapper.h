@@ -43,7 +43,8 @@ public:
     boost::shared_ptr<Session> getSession();
     void setSession(boost::shared_ptr<Session> session);
 
-    gameTableImpl* getMyW() const {	return myW; }
+    gameTableImpl* getMyW() const { return myW; }
+    Log* getMyLog() const { return myLog; }
 
     void refreshSet() const;
     void refreshCash() const;

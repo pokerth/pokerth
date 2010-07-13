@@ -58,6 +58,7 @@ public:
     connectToServerDialogImpl* getMyConnectToServerDialog() const {	return myConnectToServerDialog;	}
 
     //	void keyPressEvent( QKeyEvent *);
+    bool eventFilter(QObject *obj, QEvent *event);
 
 signals: 
     void signalShowClientDialog();

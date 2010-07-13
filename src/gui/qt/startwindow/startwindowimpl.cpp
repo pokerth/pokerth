@@ -26,6 +26,7 @@
 #include <net/socket_msg.h>
 #include "tools.h"
 
+#include "log.h"
 #include "session.h"
 #include "game.h"
 #include "guiwrapper.h"
@@ -68,6 +69,7 @@ startWindowImpl::startWindowImpl(ConfigFile *c)
     // #endif
     setupUi(this);
     this->setWindowTitle(QString(tr("PokerTH %1").arg(POKERTH_BETA_RELEASE_STRING)));
+    this->installEventFilter(this);
 
     //Widgets Grafiken per Stylesheets setzen
     QString myAppDataPath = QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str());
@@ -935,4 +937,18 @@ QString startWindowImpl::checkForFirstStartAfterUpdated()
 
     return QString();
 
+}
+
+bool startWindowImpl::eventFilter(QObject *obj, QEvent *event)
+{
+
+    if (event->type() == QEvent::Close) {
+        event->ignore();
+        myGuiInterface->getMyLog()->closeLogDb();
+        return QMainWindow::eventFilter(obj, event);
+    }
+    else {
+        // pass the event on to the parent class
+        return QMainWindow::eventFilter(obj, event);
+    }
 }
