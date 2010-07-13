@@ -1,3 +1,4 @@
+
 #include "messagefilter.h"
 
 #include <QtCore>
@@ -40,9 +41,11 @@ MessageFilter::~MessageFilter() {
 	delete myUrlCheck;
 }
 
-QString MessageFilter::check(unsigned playerId, QString nick, QString msg) 
+QStringList MessageFilter::check(unsigned playerId, QString nick, QString msg)
 {
+        QStringList returnList;
 	QString returnMessage;
+        QString returnAction;
 	
 	OffenceType offence = NONE;
 	ActionType action = NOTHING;
@@ -85,11 +88,12 @@ QString MessageFilter::check(unsigned playerId, QString nick, QString msg)
 		
 		if(action == KICK) {
 			returnMessage = QString("Kick: %1\n").arg(nick);
+                        returnAction = QString("kick");
 		}
 		if(action == WARN) {
 			
 			switch(offence) {
-				case BAD_WORD: {
+				case BAD_WORD: {                                        
 					returnMessage = QString ("%1: Warning! No racial, religious, or sexually inflammatory language!\n").arg(nick);
 				}
 				break;
@@ -111,12 +115,16 @@ QString MessageFilter::check(unsigned playerId, QString nick, QString msg)
 				break;
 				default:;
 			}
+                        returnAction = QString("warn");
 		}
 	}
 	else {
+                returnAction = QString("");
 		returnMessage = QString("");
 	}
-	return returnMessage;
+
+        returnList << returnAction << returnMessage;
+        return returnList;
 }
 
 void MessageFilter::refreshConfig() {

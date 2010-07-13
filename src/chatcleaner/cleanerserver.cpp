@@ -122,7 +122,7 @@ bool CleanerServer::handleMessage(InternalChatCleanerPacket &msg) {
 				netAck->serverVersion = CLEANER_PROTOCOL_VERSION;
 				string tmpServerSecret(serverSecret.toStdString());
 				OCTET_STRING_fromBuf(&netAck->serverSecret,
-									 tmpServerSecret.c_str(),
+                                                                 tmpServerSecret.c_str(),
 									 tmpServerSecret.length());
 				sendMessageToClient(tmpAck);
 			}
@@ -141,20 +141,25 @@ bool CleanerServer::handleMessage(InternalChatCleanerPacket &msg) {
 				string((const char *)netRequest->playerName.buf, netRequest->playerName.size).c_str()));
 		QString message(QString::fromUtf8(
 				string((const char *)netRequest->chatMessage.buf, netRequest->chatMessage.size).c_str()));
-		QString checkMessage = myMessageFilter->check(playerId, nick, message);
+                QStringList checkreturn = myMessageFilter->check(playerId, nick, message);
+                QString checkAction = checkreturn.at(0);
+                QString checkMessage = checkreturn.at(1);
 
-		if (!checkMessage.isEmpty())
+                if (!checkAction.isEmpty())
 		{
 			InternalChatCleanerPacket tmpReply;
 			tmpReply.GetMsg()->present = ChatCleanerMessage_PR_cleanerChatReplyMessage;
 			CleanerChatReplyMessage_t *netReply = &tmpReply.GetMsg()->choice.cleanerChatReplyMessage;
 			netReply->requestId = netRequest->requestId;
 			netReply->playerId = netRequest->playerId;
-			netReply->cleanerActionType = cleanerActionType_cleanerActionNone;
-	/*	cleanerActionType_cleanerActionNone
-		cleanerActionType_cleanerActionWarning
-		cleanerActionType_cleanerActionKick
-		cleanerActionType_cleanerActionBan */
+
+                        if(checkAction == "warn") {
+                            netReply->cleanerActionType = cleanerActionType_cleanerActionWarning;
+                        }
+                        else if(checkAction == "kick") {
+                            netReply->cleanerActionType = cleanerActionType_cleanerActionKick;
+                        }
+        /*	cleanerActionType_cleanerActionBan */
 			string tmpCheck(checkMessage.toUtf8());
 			netReply->cleanerText =
 				OCTET_STRING_new_fromBuf(

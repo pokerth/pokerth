@@ -17,7 +17,7 @@ public:
     MessageFilter(CleanerConfig*);
 	~MessageFilter();
 	
-	QString check(unsigned, QString, QString);
+        QStringList check(unsigned, QString, QString);
 	void refreshConfig();	
 	
 private: 
