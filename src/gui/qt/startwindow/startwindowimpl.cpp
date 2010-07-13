@@ -176,19 +176,19 @@ startWindowImpl::startWindowImpl(ConfigFile *c)
 
 startWindowImpl::~startWindowImpl()
 {
-    delete myNewGameDialog;
-    delete mySelectAvatarDialog;
-    delete mySettingsDialog;
-    delete myChangeHumanPlayerNameDialog;
-    delete myJoinNetworkGameDialog;
-    delete myConnectToServerDialog;
-    delete myStartNetworkGameDialog;
-    delete myCreateNetworkGameDialog;
-    delete myAboutPokerthDialog;
-    delete myGameLobbyDialog;
-    delete myTimeoutDialog;
-    delete myServerListDialog;
-    delete myInternetGameLoginDialog;
+//    delete myNewGameDialog;
+//    delete mySelectAvatarDialog;
+//    delete mySettingsDialog;
+//    delete myChangeHumanPlayerNameDialog;
+//    delete myJoinNetworkGameDialog;
+//    delete myConnectToServerDialog;
+//    delete myStartNetworkGameDialog;
+//    delete myCreateNetworkGameDialog;
+//    delete myAboutPokerthDialog;
+//    delete myGameLobbyDialog;
+//    delete myTimeoutDialog;
+//    delete myServerListDialog;
+//    delete myInternetGameLoginDialog;
 }
 
 void startWindowImpl::callNewGameDialog() {

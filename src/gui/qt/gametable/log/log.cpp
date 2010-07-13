@@ -197,17 +197,21 @@ Log::Log(gameTableImpl* w, ConfigFile *c) : myW(w), myConfig(c), myLogDir(0), my
 
 Log::~Log()
 {
-qDebug() << "close log";
+    cerr << "log destruktor";
+    delete myConfig;
+    delete myLogDir;
+    delete myHtmlLogFile;
+    delete mySqliteLogDb;
 
-        // Datenbank schließe
-        mySqliteLogDb->close();
+    myConfig = 0;
+}
 
-	delete myConfig;
-	delete myLogDir;
-        delete myHtmlLogFile;
-        delete mySqliteLogDb;
-
-	myConfig = 0;
+void Log::closeLogDbAtExit()
+{
+    // Datenbank schließen
+    mySqliteLogDb->close();
+    delete mySqliteLogDb;
+    mySqliteLogDb = NULL;
 }
 
 void Log::logPlayerActionMsg(QString msg, int playerID, int action, int setValue) {
