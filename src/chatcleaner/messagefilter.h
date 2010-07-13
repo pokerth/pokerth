@@ -3,6 +3,7 @@
 
 #include <QtCore>
 #include <stdlib.h>
+#include <third_party/boost/timers.hpp>
 
 class BadWordCheck;
 class TextFloodCheck;
@@ -19,6 +20,7 @@ public:
 	
         QStringList check(unsigned, QString, QString);
 	void refreshConfig();	
+        void cleanKickCounterList();
 	
 private: 
 	BadWordCheck *myBadWordCheck;
@@ -32,12 +34,22 @@ private:
 		int lastWarnType; 
 		int warnLevel; 
 	};
+
+        struct ClientKickInfos {
+                size_t lastKickTimestamp;
+                int kickNumber;
+        };
 	
 	QMap<unsigned, ClientWarnInfos> myClientWarnLevelList;
+        QMap<QString, ClientKickInfos> myClientKickCounterList;
 	
 	int warnLevelToKick;
+        int kickNumberToBan;
 	
 	CleanerConfig *config;
+
+        boost::timers::portable::second_timer timer;
+        QTimer *cleanTimer;
 };
 
 #endif // MESSAGEFILTER_H
