@@ -207,13 +207,13 @@ FORMS += src/gui/qt/gametable.ui \
     src/gui/qt/selectavatardialog.ui \
     src/gui/qt/startnetworkgamedialog.ui \
     src/gui/qt/startwindow.ui \
-    src/gui/qt/changehumanplayernamedialog.ui \
     src/gui/qt/changecompleteblindsdialog.ui \
     src/gui/qt/gamelobbydialog.ui \
     src/gui/qt/mymessagedialog.ui \
     src/gui/qt/manualblindsorderdialog.ui \
     src/gui/qt/serverlistdialog.ui \
-    src/gui/qt/internetgamelogindialog.ui
+    src/gui/qt/internetgamelogindialog.ui \
+    src/gui/qt/changecontentdialog.ui
 SOURCES += src/pokerth.cpp \
     src/gui/qt/chattools/chattools.cpp \
     src/gui/qt/sound/sdlplayer.cpp \
@@ -328,12 +328,12 @@ win32 {
             -lidn
         LIBS += -lcurl
         LIBS += -lz
-		LIBS += -llibboost_thread-mgw45-mt-1_43
-		LIBS += -llibboost_filesystem-mgw45-mt-1_43
-		LIBS += -llibboost_regex-mgw45-mt-1_43
-		LIBS += -llibboost_system-mgw45-mt-1_43
-		LIBS += -llibboost_iostreams-mgw45-mt-1_43
-		LIBS += -llibboost_zlib-mgw45-mt-1_43
+        LIBS += -llibboost_thread-mgw45-mt-1_43
+        LIBS += -llibboost_filesystem-mgw45-mt-1_43
+        LIBS += -llibboost_regex-mgw45-mt-1_43
+        LIBS += -llibboost_system-mgw45-mt-1_43
+        LIBS += -llibboost_iostreams-mgw45-mt-1_43
+        LIBS += -llibboost_zlib-mgw45-mt-1_43
     }
     LIBS += -lgdi32 \
         -lcomdlg32 \
@@ -396,7 +396,7 @@ unix:!mac {
             message("Found $$lib")
             BOOST_REGEX = -l$$lib
         }
-	for(lib, BOOST_SYS):exists($${dir}/lib$${lib}.so*) { 
+        for(lib, BOOST_SYS):exists($${dir}/lib$${lib}.so*) { 
             message("Found $$lib")
             BOOST_SYS = -l$$lib
         }
