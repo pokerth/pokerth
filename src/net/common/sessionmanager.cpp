@@ -199,7 +199,7 @@ SessionManager::IsPlayerConnected(const string &playerName) const
 
 	SessionWrapper tmpSession = GetSessionByPlayerName(playerName);
 
-	if (tmpSession.sessionData.get() && tmpSession.playerData.get())
+	if (tmpSession.sessionData && tmpSession.playerData)
 		retVal = true;
 
 	return retVal;
@@ -212,7 +212,7 @@ SessionManager::IsPlayerConnected(unsigned uniqueId) const
 
 	SessionWrapper tmpSession = GetSessionByUniquePlayerId(uniqueId);
 
-	if (tmpSession.sessionData.get() && tmpSession.playerData.get())
+	if (tmpSession.sessionData && tmpSession.playerData)
 		retVal = true;
 
 	return retVal;

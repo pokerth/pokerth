@@ -154,6 +154,7 @@ protected:
 	void TimerCheckSessionTimeouts(const boost::system::error_code &ec);
 	void TimerCleanupAvatarCache(const boost::system::error_code &ec);
 
+	bool IsGameNameInUse(const std::string &gameName) const;
 	boost::shared_ptr<ServerGame> InternalGetGameFromId(unsigned gameId);
 	void InternalAddGame(boost::shared_ptr<ServerGame> game);
 	void InternalRemoveGame(boost::shared_ptr<ServerGame> game);

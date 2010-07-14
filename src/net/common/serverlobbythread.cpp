@@ -1283,9 +1283,14 @@ ServerLobbyThread::HandleNetPacketCreateGame(SessionWrapper session, const std::
 	// Create a new game.
 	GameData tmpData;
 	NetPacket::GetGameData(&newGame.gameInfo, tmpData);
+	string gameName(STL_STRING_FROM_OCTET_STRING(newGame.gameInfo.gameName));
 	unsigned gameId = GetNextGameId();
 
-	if (session.playerData->GetRights() == PLAYER_RIGHTS_GUEST
+	if (IsGameNameInUse(gameName))
+	{
+		SendJoinGameFailed(session.sessionData, gameId, NTF_NET_JOIN_GAME_NAME_IN_USE);
+	}
+	else if (session.playerData->GetRights() == PLAYER_RIGHTS_GUEST
 		&& tmpData.gameType != GAME_TYPE_NORMAL)
 	{
 		SendJoinGameFailed(session.sessionData, gameId, NTF_NET_JOIN_GUEST_FORBIDDEN);
@@ -1296,7 +1301,7 @@ ServerLobbyThread::HandleNetPacketCreateGame(SessionWrapper session, const std::
 			new ServerGame(
 				shared_from_this(),
 				gameId,
-				STL_STRING_FROM_OCTET_STRING(newGame.gameInfo.gameName),
+				gameName,
 				password,
 				tmpData,
 				session.playerData->GetUniqueId(),
@@ -1637,6 +1642,25 @@ ServerLobbyThread::TimerCleanupAvatarCache(const boost::system::error_code &ec)
 			boost::bind(
 				&ServerLobbyThread::TimerCleanupAvatarCache, shared_from_this(), boost::asio::placeholders::error));
 	}
+}
+
+bool
+ServerLobbyThread::IsGameNameInUse(const std::string &gameName) const
+{
+	bool found = false;
+	GameMap::const_iterator i = m_gameMap.begin();
+	GameMap::const_iterator end = m_gameMap.end();
+
+	while (i != end)
+	{
+		if ((*i).second->GetName() == gameName)
+		{
+			found = true;
+			break;
+		}
+		++i;
+	}
+	return found;
 }
 
 boost::shared_ptr<ServerGame>
