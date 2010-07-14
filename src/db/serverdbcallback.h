@@ -38,6 +38,7 @@ public:
 
 	virtual void PlayerLoginSuccess(unsigned requestId, const DBPlayerData &dbPlayerData) = 0;
 	virtual void PlayerLoginFailed(unsigned requestId) = 0;
+	virtual void PlayerLoginBlocked(unsigned requestId) = 0;
 
 	virtual void CreateGameSuccess(unsigned requestId, DB_id gameId) = 0;
 	virtual void CreateGameFailed(unsigned requestId) = 0;

@@ -123,6 +123,11 @@ public:
 		m_server.UserInvalid(requestId);
 	}
 
+	virtual void PlayerLoginBlocked(unsigned requestId)
+	{
+		m_server.UserBlocked(requestId);
+	}
+
 	virtual void CreateGameSuccess(unsigned requestId, DB_id gameId)
 	{
 		m_server.SetGameDBId((u_int32_t)requestId, gameId);
@@ -1507,6 +1512,12 @@ void
 ServerLobbyThread::UserInvalid(unsigned playerId)
 {
 	SessionError(m_sessionManager.GetSessionByUniquePlayerId(playerId, true), ERR_NET_INVALID_PASSWORD);
+}
+
+void
+ServerLobbyThread::UserBlocked(unsigned playerId)
+{
+	SessionError(m_sessionManager.GetSessionByUniquePlayerId(playerId, true), ERR_NET_PLAYER_BANNED);
 }
 
 void

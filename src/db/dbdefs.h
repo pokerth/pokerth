@@ -22,16 +22,18 @@
 #define _DBDEFS_H_
 
 #include <string>
+#include <ctime>
 
 typedef unsigned DB_id;
 #define DB_ID_INVALID 0
 
 struct DBPlayerData
 {
+	DBPlayerData() : id(DB_ID_INVALID), last_login(0) {}
 	DB_id id;
 	std::string secret;
 	std::string country;
-	std::string last_login;
+	time_t last_login;
 };
 
 #endif
