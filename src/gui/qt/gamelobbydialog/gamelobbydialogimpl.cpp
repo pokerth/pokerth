@@ -1358,7 +1358,7 @@ void gameLobbyDialogImpl::registeredUserMode()
 
 void gameLobbyDialogImpl::guestUserMode()
 {
-    lineEdit_ChatInput->setText("Chat is avaiable only for registered members");
+	lineEdit_ChatInput->setText("Chat is only available to registered players.");
     lineEdit_ChatInput->setDisabled(true);
     guestMode = true;
 }
