@@ -766,6 +766,7 @@ void startWindowImpl::networkError(int errorID, int /*osErrorID*/) {
 			QMessageBox::warning(this, tr("Network Error"),
 								 tr("Your account is blocked indefinitely."),
 								 QMessageBox::Close); }
+		break;
     case ERR_NET_SESSION_TIMED_OUT:
         { mySession->terminateNetworkClient();
             QMessageBox::warning(this, tr("Network Error"),
