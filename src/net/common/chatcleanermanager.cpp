@@ -250,7 +250,12 @@ ChatCleanerManager::HandleMessage(InternalChatCleanerPacket &msg)
 	else if (msg.GetMsg()->present == ChatCleanerMessage_PR_cleanerChatReplyMessage)
 	{
 		CleanerChatReplyMessage_t *netReply = &msg.GetMsg()->choice.cleanerChatReplyMessage;
-		m_callback.SignalChatBotMessage(string((const char *)netReply->cleanerText->buf, netReply->cleanerText->size));
+		if (netReply->cleanerText)
+			m_callback.SignalChatBotMessage(string((const char *)netReply->cleanerText->buf, netReply->cleanerText->size));
+		if (netReply->cleanerActionType == cleanerActionType_cleanerActionKick)
+			m_callback.SignalKickPlayer(netReply->playerId);
+		else if (netReply->cleanerActionType == cleanerActionType_cleanerActionBan)
+			m_callback.SignalBanPlayer(netReply->playerId);
 		error = false;
 	}
 	return error;

@@ -93,9 +93,20 @@ public:
 	{
 		m_server.GetSender().SignalSessionTerminated(session);
 	}
+
 	virtual void SignalChatBotMessage(const string &msg)
 	{
 		m_server.SendChatBotMsg(msg);
+	}
+
+	virtual void SignalKickPlayer(unsigned playerId)
+	{
+		m_server.RemovePlayer(playerId, ERR_NET_PLAYER_KICKED);
+	}
+
+	virtual void SignalBanPlayer(unsigned playerId)
+	{
+		// TODO
 	}
 
 	virtual void ConnectSuccess()
