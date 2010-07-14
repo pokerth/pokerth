@@ -843,7 +843,7 @@ void startWindowImpl::networkNotification(int notificationId)
         break;
     case NTF_NET_JOIN_NOT_INVITED:
         { QMessageBox::warning(this, tr("Network Notification"),
-                               tr("This game is invite-only. You cannot join this game without being invited."),
+                               tr("This game is of type invite-only. You cannot join this game without being invited."),
                                QMessageBox::Close); }
         break;
     case NTF_NET_JOIN_GAME_NAME_IN_USE:
