@@ -1517,7 +1517,7 @@ ServerLobbyThread::UserInvalid(unsigned playerId)
 void
 ServerLobbyThread::UserBlocked(unsigned playerId)
 {
-	SessionError(m_sessionManager.GetSessionByUniquePlayerId(playerId, true), ERR_NET_PLAYER_BANNED);
+	SessionError(m_sessionManager.GetSessionByUniquePlayerId(playerId, true), ERR_NET_PLAYER_BLOCKED);
 }
 
 void
