@@ -36,11 +36,7 @@
       </widget>
      </item>
      <item>
-      <widget class="QLineEdit" name="lineEdit">
-       <property name="maxLength">
-        <number>12</number>
-       </property>
-      </widget>
+      <widget class="QLineEdit" name="lineEdit"/>
      </item>
     </layout>
    </item>
@@ -48,6 +44,9 @@
     <widget class="QCheckBox" name="checkBox">
      <property name="text">
       <string>in der Konfiguration speichern!</string>
+     </property>
+     <property name="checked">
+      <bool>false</bool>
      </property>
     </widget>
    </item>

@@ -37,6 +37,7 @@ changeContentDialogImpl::changeContentDialogImpl(QWidget *parent, ConfigFile *co
             label_Message->setText(tr("You cannot join Internet-Game-Lobby with \"Human Player\" as nickname.\nPlease choose another one."));
             label_lineLabel->setText(tr("Nick name:"));
             lineEdit->setText(QString::fromUtf8(myConfig->readConfigString("MyName").c_str()));
+            lineEdit->setMaxLength(12);
             checkBox->hide();
             this->setGeometry(this->x(), this->y(), this->width(), this->height()-20 );
         }
@@ -45,18 +46,21 @@ changeContentDialogImpl::changeContentDialogImpl(QWidget *parent, ConfigFile *co
             label_Message->setText(tr("Your player name is already used by another player.\nPlease choose a different name."));
             label_lineLabel->setText(tr("Nick name:"));
             lineEdit->setText(QString::fromUtf8(myConfig->readConfigString("MyName").c_str()));
+            lineEdit->setMaxLength(12);
         }
         break;
     case CHANGE_NICK_INVALID: {
             label_Message->setText(tr("The player name is too short, too long or invalid. Please choose another one."));
             label_lineLabel->setText(tr("Nick name:"));
             lineEdit->setText(QString::fromUtf8(myConfig->readConfigString("MyName").c_str()));
+            lineEdit->setMaxLength(12);
         }
         break;
     case CHANGE_INET_GAME_NAME: {
             label_Message->setText(tr("There is already a game with your choosen game name.\nPlease choose another one!"));
             label_lineLabel->setText(tr("Game name:"));
             lineEdit->setText(QString::fromUtf8(myConfig->readConfigString("InternetGameName").c_str()));
+            lineEdit->setMaxLength(48);
         }
         break;
     }

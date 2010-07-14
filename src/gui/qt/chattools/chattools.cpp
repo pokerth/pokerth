@@ -32,6 +32,7 @@ ChatTools::ChatTools(QLineEdit* l, ConfigFile *c, ChatType ct, QTextBrowser *b, 
 {
     myNick = QString::fromUtf8(myConfig->readConfigString("MyName").c_str());
     ignoreList = myConfig->readConfigStringList("PlayerIgnoreList");
+
 }
 
 ChatTools::~ChatTools()
@@ -68,7 +69,7 @@ void ChatTools::receiveMessage(QString playerName, QString message) {
 
             switch (myChatType) {
             case INET_LOBBY_CHAT: {
-                    tempMsg = QString("<span style=\"font-weight:bold;\">"+message+"</span>");
+                    tempMsg = QString("<span style=\"font-weight:bold; color:"+myLobby->palette().highlight().color().name()+";\">"+message+"</span>");
                     //play beep sound only in INET-lobby-chat
                     //						TODO dont play when message is from yourself
                     if(myLobby->isVisible() && myConfig->readConfigInt("PlayLobbyChatNotification")) {
@@ -85,7 +86,7 @@ void ChatTools::receiveMessage(QString playerName, QString message) {
         }
         else {
             switch (myChatType) {
-            case INET_LOBBY_CHAT: tempMsg = QString("<span style=\"font-weight:normal;\">"+message+"</span>");
+            case INET_LOBBY_CHAT: tempMsg = QString("<span style=\"font-weight:normal; color:"+myLobby->palette().highlight().color().name()+";\">"+message+"</span>");
                 break;
             case LAN_LOBBY_CHAT: tempMsg = QString("<span style=\"font-weight:normal;\">"+message+"</span>");
                 break;
@@ -106,7 +107,7 @@ void ChatTools::receiveMessage(QString playerName, QString message) {
         }
 
         if(!nickFoundOnIgnoreList) {
-           myTextBrowser->append(playerName + ": " + tempMsg);
+            myTextBrowser->append(playerName + ": " + tempMsg);
         }
     }
 }
