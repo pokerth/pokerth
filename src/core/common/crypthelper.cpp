@@ -186,7 +186,7 @@ CryptHelper::MD5Sum(const std::string &fileName, MD5Buf &buf)
 }
 
 bool
-CryptHelper::SHA1Hash(unsigned char *data, unsigned dataSize, SHA1Buf &buf)
+CryptHelper::SHA1Hash(const unsigned char *data, unsigned dataSize, SHA1Buf &buf)
 {
 	bool retVal;
 #ifdef HAVE_OPENSSL
@@ -201,7 +201,7 @@ CryptHelper::SHA1Hash(unsigned char *data, unsigned dataSize, SHA1Buf &buf)
 }
 
 bool
-CryptHelper::HMACSha1(unsigned char *keyData, unsigned keySize, unsigned char *plainData, unsigned plainSize, SHA1Buf &buf)
+CryptHelper::HMACSha1(const unsigned char *keyData, unsigned keySize, const unsigned char *plainData, unsigned plainSize, SHA1Buf &buf)
 {
 	bool retVal;
 #ifdef HAVE_OPENSSL
@@ -232,7 +232,7 @@ CryptHelper::HMACSha1(unsigned char *keyData, unsigned keySize, unsigned char *p
 }
 
 bool
-CryptHelper::AES128Encrypt(unsigned char *keyData, unsigned keySize, unsigned char *plainData, unsigned plainSize, std::vector<unsigned char> &outCipher)
+CryptHelper::AES128Encrypt(const unsigned char *keyData, unsigned keySize, const unsigned char *plainData, unsigned plainSize, std::vector<unsigned char> &outCipher)
 {
 	bool retVal = false;
 	if (keySize && plainSize)
@@ -261,12 +261,13 @@ CryptHelper::AES128Encrypt(unsigned char *keyData, unsigned keySize, unsigned ch
 		memcpy(iv, keyBuf1.GetData() + sizeof(key), tmpivBytes);
 		memcpy(iv + tmpivBytes, keyBuf2.GetData(), sizeof(iv) - tmpivBytes);
 		// Perform the encryption.
+		int cipherSize = plainSize + AESBlockSize; // Maximum possible size + 1
+		outCipher.resize(cipherSize);
+
 #ifdef HAVE_OPENSSL
 		EVP_CIPHER_CTX encryptCtx;
 		EVP_CIPHER_CTX_init(&encryptCtx);
 		EVP_EncryptInit(&encryptCtx, EVP_aes_128_cbc(), key, iv);
-		int cipherSize = plainSize + AESBlockSize; // Maximum possible size + 1
-		outCipher.resize(cipherSize);
 		int updateCipherSize = cipherSize;
 		EVP_EncryptUpdate(&encryptCtx, &outCipher[0], &updateCipherSize, plainData, plainSize);
 		if (updateCipherSize)
@@ -279,7 +280,18 @@ CryptHelper::AES128Encrypt(unsigned char *keyData, unsigned keySize, unsigned ch
 		else
 			outCipher.clear();
 #else
-		// TODO
+		gcry_cipher_hd_t hd;
+		gcry_error_t err = gcry_cipher_open (&hd, GCRY_CIPHER_AES128, GCRY_CIPHER_MODE_CBC, 0);
+		if (!err)
+		{
+			gcry_cipher_setkey(hd, key, sizeof(key));
+			gcry_cipher_setiv(hd, iv, sizeof(iv));
+			err = gcry_cipher_encrypt(hd, &outCipher[0], cipherSize, plainData, plainSize);
+			if (!err)
+			{
+				retVal = true;
+			}
+		}
 #endif
 	}
 	return retVal;
