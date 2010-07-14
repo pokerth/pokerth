@@ -98,7 +98,7 @@ Log::Log(gameTableImpl* w, ConfigFile *c) : myW(w), myConfig(c), myLogDir(0), my
                 if(!query.exec(sql)) {
                     QMessageBox::critical(0, tr("ERROR"),query.lastError().text().toUtf8().data(), QMessageBox::Cancel);
                 }
-                sql = "INSERT INTO Session (Version,Date,Time) VALUES (";
+                sql = "INSERT INTO Session (PokerTH_Version,Date,Time) VALUES (";
                 sql += "'"+QString("%1").arg(POKERTH_BETA_RELEASE_STRING)+"',";
                 sql += "'"+currentTime.toString("yyyy-MM-dd")+"',";
                 sql += "'"+currentTime.toString("hh:mm:ss")+"')";
