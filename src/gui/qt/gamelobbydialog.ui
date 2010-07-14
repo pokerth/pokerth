@@ -194,13 +194,6 @@
       </widget>
      </item>
      <item>
-      <widget class="QLabel" name="label_nickListCounter">
-       <property name="text">
-        <string/>
-       </property>
-      </widget>
-     </item>
-     <item>
       <widget class="QLabel" name="label_runningGamesCounter">
        <property name="text">
         <string/>
