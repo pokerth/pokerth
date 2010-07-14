@@ -43,9 +43,9 @@ static ber_tlv_tag_t asn_DEF_RejectInvNotifyMessage_tags_1[] = {
 	(ASN_TAG_CLASS_UNIVERSAL | (16 << 2))
 };
 static asn_TYPE_tag2member_t asn_MAP_RejectInvNotifyMessage_tag2el_1[] = {
-    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 0, 0, 1 }, /* gameId at 411 */
-    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 1, -1, 0 }, /* playerId at 412 */
-    { (ASN_TAG_CLASS_UNIVERSAL | (10 << 2)), 2, 0, 0 } /* playerRejectReason at 414 */
+    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 0, 0, 1 }, /* gameId at 412 */
+    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 1, -1, 0 }, /* playerId at 413 */
+    { (ASN_TAG_CLASS_UNIVERSAL | (10 << 2)), 2, 0, 0 } /* playerRejectReason at 415 */
 };
 static asn_SEQUENCE_specifics_t asn_SPC_RejectInvNotifyMessage_specs_1 = {
 	sizeof(struct RejectInvNotifyMessage),

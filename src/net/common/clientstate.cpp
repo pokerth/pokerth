@@ -1397,6 +1397,9 @@ ClientStateWaitJoin::InternalHandlePacket(boost::shared_ptr<ClientThread> client
 				case joinGameFailureReason_notInvited :
 					failureCode = NTF_NET_JOIN_NOT_INVITED;
 					break;
+				case joinGameFailureReason_gameNameInUse :
+					failureCode = NTF_NET_JOIN_GAME_NAME_IN_USE;
+					break;
 				default :
 					failureCode = NTF_NET_INTERNAL;
 					break;

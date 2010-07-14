@@ -3008,7 +3008,7 @@ void gameTableImpl::showMaximized () {
 
 void gameTableImpl::closeGameTable() {
 
-    if (myStartWindow->getMyServerGuiInterface().get() && myStartWindow->getMyServerGuiInterface()->getSession()->isNetworkServerRunning()) {
+	if (myStartWindow->getMyServerGuiInterface() && myStartWindow->getMyServerGuiInterface()->getSession()->isNetworkServerRunning()) {
 
         QMessageBox msgBox(QMessageBox::Warning, tr("Closing PokerTH during network game"),
                            tr("You are the hosting server. Do you want to close PokerTH anyway?"), QMessageBox::Yes | QMessageBox::No, this);
@@ -3016,7 +3016,7 @@ void gameTableImpl::closeGameTable() {
         if (msgBox.exec() == QMessageBox::Yes ) {
             myStartWindow->getSession()->terminateNetworkClient();
             stopTimer();
-            if (myStartWindow->getMyServerGuiInterface().get()) myStartWindow->getMyServerGuiInterface()->getSession()->terminateNetworkServer();
+			if (myStartWindow->getMyServerGuiInterface()) myStartWindow->getMyServerGuiInterface()->getSession()->terminateNetworkServer();
             saveGameTableGeometry();
             myStartWindow->show();
             this->hide();

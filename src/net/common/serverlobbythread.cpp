@@ -1856,6 +1856,9 @@ ServerLobbyThread::SendJoinGameFailed(boost::shared_ptr<SessionData> s, unsigned
 		case NTF_NET_JOIN_NOT_INVITED :
 			joinFailed->joinGameFailureReason = joinGameFailureReason_notInvited;
 			break;
+		case NTF_NET_JOIN_GAME_NAME_IN_USE :
+			joinFailed->joinGameFailureReason = joinGameFailureReason_gameNameInUse;
+			break;
 		default :
 			joinFailed->joinGameFailureReason = joinGameFailureReason_invalidGame;
 			break;
