@@ -69,7 +69,7 @@ void ChatTools::receiveMessage(QString playerName, QString message) {
 
             switch (myChatType) {
             case INET_LOBBY_CHAT: {
-                    tempMsg = QString("<span style=\"font-weight:bold; color:"+myLobby->palette().highlight().color().name()+";\">"+message+"</span>");
+                    tempMsg = QString("<span style=\"font-weight:bold; color:"+myLobby->palette().linkVisited().color().name()+";\">"+message+"</span>");
                     //play beep sound only in INET-lobby-chat
                     //						TODO dont play when message is from yourself
                     if(myLobby->isVisible() && myConfig->readConfigInt("PlayLobbyChatNotification")) {
@@ -84,9 +84,20 @@ void ChatTools::receiveMessage(QString playerName, QString message) {
             default: tempMsg = message;
             }
         }
+        else if(playerName == myNick) {
+            switch (myChatType) {
+            case INET_LOBBY_CHAT: tempMsg = QString("<span style=\"font-weight:normal; color:"+myLobby->palette().linkVisited().color().name()+";\">"+message+"</span>");
+                break;
+            case LAN_LOBBY_CHAT: tempMsg = QString("<span style=\"font-weight:normal;\">"+message+"</span>");
+                break;
+            case INGAME_CHAT: tempMsg = QString("<span style=\"color:#"+myStyle->getChatLogTextColor()+";\">"+message+"</span>");
+                break;
+            default: tempMsg = message;
+            }
+        }
         else {
             switch (myChatType) {
-            case INET_LOBBY_CHAT: tempMsg = QString("<span style=\"font-weight:normal; color:"+myLobby->palette().highlight().color().name()+";\">"+message+"</span>");
+            case INET_LOBBY_CHAT: tempMsg = QString("<span style=\"font-weight:normal; color:"+myLobby->palette().text().color().name()+";\">"+message+"</span>");
                 break;
             case LAN_LOBBY_CHAT: tempMsg = QString("<span style=\"font-weight:normal;\">"+message+"</span>");
                 break;
