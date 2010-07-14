@@ -24,21 +24,23 @@
 
 #include <QtCore>
 
+enum DialogType { CHANGE_HUMAN_PLAYER_NAME=0, CHANGE_NICK_ALREADY_IN_USE, CHANGE_NICK_INVALID, CHANGE_INET_GAME_NAME };
+
 class ConfigFile;
 
 class changeContentDialogImpl: public QDialog, public Ui::changeContentDialog {
-Q_OBJECT
+    Q_OBJECT
 public:
-    changeContentDialogImpl(QWidget *parent = 0, ConfigFile *config = 0);
+    changeContentDialogImpl(QWidget *parent, ConfigFile *config, DialogType t);
 
 public slots:
 
-        void saveContent();
+    void saveContent();
 
 private: 
+    ConfigFile *myConfig;
+    DialogType myType;
 
-	ConfigFile *myConfig;
-	
 };
 
 #endif

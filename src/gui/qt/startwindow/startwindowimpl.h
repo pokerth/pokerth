@@ -139,7 +139,6 @@ private:
     newGameDialogImpl *myNewGameDialog;
     settingsDialogImpl *mySettingsDialog;
     selectAvatarDialogImpl *mySelectAvatarDialog;
-    changeHumanPlayerNameDialogImpl *myChangeHumanPlayerNameDialog;
     joinNetworkGameDialogImpl *myJoinNetworkGameDialog;
     connectToServerDialogImpl *myConnectToServerDialog;
     startNetworkGameDialogImpl *myStartNetworkGameDialog;

@@ -55,7 +55,7 @@ INCLUDEPATH += . \
     src/gui/qt/startwindow \
     src/gui/qt/serverlistdialog \
     src/gui/qt/styles \
-    src/gui/qt/changehumanplayernamedialog \
+    src/gui/qt/changecontentdialog \
     src/gui/qt/changecompleteblindsdialog \
     src/gui/qt/internetgamelogindialog \
     src/gui/qt/mymessagedialog \
@@ -94,7 +94,7 @@ DEPENDPATH += . \
     src/gui/qt/startwindow \
     src/gui/qt/serverlistdialog \
     src/gui/qt/styles \
-    src/gui/qt/changehumanplayernamedialog \
+    src/gui/qt/changecontentdialog \
     src/gui/qt/internetgamelogindialog \
     src/gui/qt/changecompleteblindsdialog \
     src/gui/qt/mymessagedialog \
@@ -177,7 +177,7 @@ HEADERS += src/game.h \
     src/gui/qt/startwindow/startwindowimpl.h \
     src/gui/qt/styles/gametablestylereader.h \
     src/gui/qt/styles/carddeckstylereader.h \
-    src/gui/qt/changehumanplayernamedialog/changehumanplayernamedialogimpl.h \
+    src/gui/qt/changecontentdialog/changecontentdialogimpl.h \
     src/gui/qt/changecompleteblindsdialog/changecompleteblindsdialogimpl.h \
     src/gui/qt/gamelobbydialog/gamelobbydialogimpl.h \
     src/gui/qt/gamelobbydialog/mygamelisttreewidget.h \
@@ -246,7 +246,7 @@ SOURCES += src/pokerth.cpp \
     src/gui/qt/startwindow/startwindowimpl.cpp \
     src/gui/qt/styles/gametablestylereader.cpp \
     src/gui/qt/styles/carddeckstylereader.cpp \
-    src/gui/qt/changehumanplayernamedialog/changehumanplayernamedialogimpl.cpp \
+    src/gui/qt/changecontentdialog/changecontentdialogimpl.cpp \
     src/gui/qt/changecompleteblindsdialog/changecompleteblindsdialogimpl.cpp \
     src/gui/qt/mymessagedialog/mymessagedialogimpl.cpp \
     src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp \

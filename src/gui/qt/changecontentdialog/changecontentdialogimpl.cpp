@@ -14,31 +14,85 @@
  *                                                                         *
  *   You should have received a copy of the GNU General Public License     *
  *   along with this program; if not, write to the                         *
- *   Free Software Foundation, Inc.,                                       *
+ *   Free Software Foundation, Inc.,
+                                 *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 #include "changecontentdialogimpl.h"
 // #include "session.h"
 #include "configfile.h"
 
-changeContentDialogImpl::changeContentDialogImpl(QWidget *parent, ConfigFile *config)
-      : QDialog(parent), myConfig(config)
+changeContentDialogImpl::changeContentDialogImpl(QWidget *parent, ConfigFile *config, DialogType t)
+    : QDialog(parent), myConfig(config), myType(t)
 {
 #ifdef __APPLE__
-	setWindowModality(Qt::ApplicationModal);
-	setWindowFlags(Qt::WindowSystemMenuHint | Qt::CustomizeWindowHint | Qt::Dialog);
+    setWindowModality(Qt::ApplicationModal);
+    setWindowFlags(Qt::WindowSystemMenuHint | Qt::CustomizeWindowHint | Qt::Dialog);
 #endif	
-    	setupUi(this);
+    setupUi(this);
 
-	lineEdit->setText(QString::fromUtf8(myConfig->readConfigString("MyName").c_str()));
+    switch (myType) {
+    case CHANGE_HUMAN_PLAYER_NAME: {
 
-	connect(this, SIGNAL(accepted ()), this, SLOT(savePlayerName()));
+            label_Message->setText(tr("You cannot join Internet-Game-Lobby with \"Human Player\" as nickname.\nPlease choose another one."));
+            label_lineLabel->setText(tr("Nick name:"));
+            lineEdit->setText(QString::fromUtf8(myConfig->readConfigString("MyName").c_str()));
+            checkBox->hide();
+            this->setGeometry(this->x(), this->y(), this->width(), this->height()-20 );
+        }
+        break;
+    case CHANGE_NICK_ALREADY_IN_USE: {
+            label_Message->setText(tr("Your player name is already used by another player.\nPlease choose a different name."));
+            label_lineLabel->setText(tr("Nick name:"));
+            lineEdit->setText(QString::fromUtf8(myConfig->readConfigString("MyName").c_str()));
+        }
+        break;
+    case CHANGE_NICK_INVALID: {
+            label_Message->setText(tr("The player name is too short, too long or invalid. Please choose another one."));
+            label_lineLabel->setText(tr("Nick name:"));
+            lineEdit->setText(QString::fromUtf8(myConfig->readConfigString("MyName").c_str()));
+        }
+        break;
+    case CHANGE_INET_GAME_NAME: {
+            label_Message->setText(tr("There is already a game with your choosen game name.\nPlease choose another one!"));
+            label_lineLabel->setText(tr("Game name:"));
+            lineEdit->setText(QString::fromUtf8(myConfig->readConfigString("InternetGameName").c_str()));
+        }
+        break;
+    }
+
+    connect(this, SIGNAL(accepted ()), this, SLOT(saveContent()));
 
 }
 
 void changeContentDialogImpl::saveContent() {
 
-	myConfig->writeConfigString("MyName", lineEdit->text().toUtf8().constData());
-	//write buffer to disc 
-	myConfig->writeBuffer();
+    switch (myType) {
+    case CHANGE_HUMAN_PLAYER_NAME: {
+            myConfig->writeConfigString("MyName", lineEdit->text().toUtf8().constData());
+        }        
+        break;
+    case CHANGE_NICK_ALREADY_IN_USE: {
+            if(checkBox->isChecked())               {
+                myConfig->writeConfigString("MyName", lineEdit->text().toUtf8().constData());
+            }
+        }
+        break;
+    case CHANGE_NICK_INVALID: {
+            if(checkBox->isChecked()) {
+                myConfig->writeConfigString("MyName", lineEdit->text().toUtf8().constData());
+            }
+        }
+        break;
+    case CHANGE_INET_GAME_NAME: {
+            if(checkBox->isChecked()) {
+                myConfig->writeConfigString("InternetGameName", lineEdit->text().toUtf8().constData());
+            }
+        }
+        break;
+    }
+
+    //write buffer to disc
+    myConfig->writeBuffer();
 }
+
