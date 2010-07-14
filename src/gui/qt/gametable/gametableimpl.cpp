@@ -3442,7 +3442,7 @@ void gameTableImpl::registeredUserMode()
 
 void gameTableImpl::guestUserMode()
 {
-	lineEdit_ChatInput->setText("Chat is only available for registered players.");
+	lineEdit_ChatInput->setText(tr("Chat is only available to registered players."));
     lineEdit_ChatInput->setDisabled(true);
     guestMode = true;
 }
