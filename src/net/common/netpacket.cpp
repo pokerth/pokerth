@@ -222,6 +222,9 @@ NetPacket::NetErrorToGameError(long netErrorReason)
 		case errorReason_errorBannedFromServer :
 			retVal = ERR_NET_PLAYER_BANNED;
 			break;
+		case errorReason_errorBlockedByServer :
+			retVal = ERR_NET_PLAYER_BLOCKED;
+			break;
 		case errorReason_errorSessionTimeout :
 			retVal = ERR_NET_SESSION_TIMED_OUT;
 			break;
@@ -270,6 +273,9 @@ NetPacket::GameErrorToNetError(int gameErrorReason)
 			break;
 		case ERR_NET_PLAYER_KICKED :
 			retVal = errorReason_errorKickedFromServer;
+			break;
+		case ERR_NET_PLAYER_BLOCKED :
+			retVal = errorReason_errorBlockedByServer;
 			break;
 		case ERR_NET_PLAYER_BANNED :
 			retVal = errorReason_errorBannedFromServer;

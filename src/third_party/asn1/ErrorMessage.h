@@ -34,7 +34,8 @@ typedef enum errorReason {
 	errorReason_errorInvalidState	= 257,
 	errorReason_errorKickedFromServer	= 258,
 	errorReason_errorBannedFromServer	= 259,
-	errorReason_errorSessionTimeout	= 260
+	errorReason_errorBlockedByServer	= 260,
+	errorReason_errorSessionTimeout	= 261
 } e_errorReason;
 
 /* ErrorMessage */

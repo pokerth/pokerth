@@ -694,7 +694,8 @@ ErrorMessage ::= [APPLICATION 255] SEQUENCE {
 		errorInvalidState				(257),
 		errorKickedFromServer			(258),
 		errorBannedFromServer			(259),
-		errorSessionTimeout				(260)
+		errorBlockedByServer			(260),
+		errorSessionTimeout				(261)
 	}
 }
 

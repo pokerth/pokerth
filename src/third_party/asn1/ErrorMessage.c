@@ -96,11 +96,13 @@ static asn_INTEGER_enum_map_t asn_MAP_errorReason_value2enum_2[] = {
 	{ 257,	17,	"errorInvalidState" },
 	{ 258,	21,	"errorKickedFromServer" },
 	{ 259,	21,	"errorBannedFromServer" },
-	{ 260,	19,	"errorSessionTimeout" }
+	{ 260,	20,	"errorBlockedByServer" },
+	{ 261,	19,	"errorSessionTimeout" }
 };
 static unsigned int asn_MAP_errorReason_enum2value_2[] = {
 	8,	/* errorAvatarTooLarge(8) */
 	12,	/* errorBannedFromServer(259) */
+	13,	/* errorBlockedByServer(260) */
 	3,	/* errorInitAuthFailure(3) */
 	7,	/* errorInitBlocked(7) */
 	5,	/* errorInitInvalidPlayerName(5) */
@@ -112,12 +114,12 @@ static unsigned int asn_MAP_errorReason_enum2value_2[] = {
 	10,	/* errorInvalidState(257) */
 	11,	/* errorKickedFromServer(258) */
 	0,	/* errorReserved(0) */
-	13	/* errorSessionTimeout(260) */
+	14	/* errorSessionTimeout(261) */
 };
 static asn_INTEGER_specifics_t asn_SPC_errorReason_specs_2 = {
 	asn_MAP_errorReason_value2enum_2,	/* "tag" => N; sorted by tag */
 	asn_MAP_errorReason_enum2value_2,	/* N => "tag"; sorted by N */
-	14,	/* Number of elements in the maps */
+	15,	/* Number of elements in the maps */
 	0,	/* Enumeration is not extensible */
 	1,	/* Strict enumeration */
 	0,	/* Native long size */

@@ -761,6 +761,11 @@ void startWindowImpl::networkError(int errorID, int /*osErrorID*/) {
                                  tr("You were temporarily banned from the server."),
                                  QMessageBox::Close); }
         break;
+	case ERR_NET_PLAYER_BLOCKED:
+		{ mySession->terminateNetworkClient();
+			QMessageBox::warning(this, tr("Network Error"),
+								 tr("Your account is blocked indefinitely."),
+								 QMessageBox::Close); }
     case ERR_NET_SESSION_TIMED_OUT:
         { mySession->terminateNetworkClient();
             QMessageBox::warning(this, tr("Network Error"),
