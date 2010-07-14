@@ -34,6 +34,7 @@ public:
 	ServerBanManager(boost::shared_ptr<boost::asio::io_service> ioService);
 	virtual ~ServerBanManager();
 
+	void BanPlayerName(const std::string &playerName, unsigned durationHours = 0);
 	void BanPlayerRegex(const std::string &playerRegex, unsigned durationHours = 0);
 	void BanIPAddress(const std::string &ipAddress, unsigned durationHours);
 	bool UnBan(unsigned banId);
@@ -47,6 +48,7 @@ protected:
 	struct TimedPlayerBan
 	{
 		boost::shared_ptr<boost::asio::deadline_timer> timer;
+		std::string nameStr;
 		boost::regex nameRegex;
 	};
 	struct TimedIPBan

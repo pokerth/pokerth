@@ -32,6 +32,18 @@ ServerBanManager::~ServerBanManager()
 }
 
 void
+ServerBanManager::BanPlayerName(const std::string &playerName, unsigned durationHours)
+{
+	boost::mutex::scoped_lock lock(m_banMutex);
+	unsigned banId = GetNextBanId();
+
+	TimedPlayerBan tmpBan;
+	tmpBan.timer = InternalRegisterTimedBan(banId, durationHours);
+	tmpBan.nameStr = playerName;
+	m_banPlayerNameMap[banId] = tmpBan;
+}
+
+void
 ServerBanManager::BanPlayerRegex(const string &playerRegex, unsigned durationHours)
 {
 	boost::mutex::scoped_lock lock(m_banMutex);
@@ -91,7 +103,11 @@ ServerBanManager::GetBanList(list<string> &list) const
 	while (i_nick != end_nick)
 	{
 		ostringstream banText;
-		banText << (*i_nick).first << ": (nick) - " << (*i_nick).second.nameRegex.str();
+		if ((*i_nick).second.nameStr.empty())
+			banText << (*i_nick).first << ": (nickRegex) - " << (*i_nick).second.nameRegex.str();
+		else
+			banText << (*i_nick).first << ": (nickStr) - " << (*i_nick).second.nameStr;
+
 		if ((*i_nick).second.timer)
 			banText << " duration: " << (*i_nick).second.timer->expires_from_now().hours() << "h";
 		list.push_back(banText.str());
@@ -127,10 +143,22 @@ ServerBanManager::IsPlayerBanned(const std::string &name) const
 	RegexMap::const_iterator end = m_banPlayerNameMap.end();
 	while (i != end)
 	{
-		if (regex_match(name, (*i).second.nameRegex))
+		// Use regex only if name not set.
+		if ((*i).second.nameStr.empty())
 		{
-			retVal = true;
-			break;
+			if (regex_match(name, (*i).second.nameRegex))
+			{
+				retVal = true;
+				break;
+			}
+		}
+		else
+		{
+			if (name == (*i).second.nameStr)
+			{
+				retVal = true;
+				break;
+			}
 		}
 		++i;
 	}

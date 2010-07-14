@@ -109,7 +109,7 @@ public:
 		string playerName(m_server.GetPlayerNameFromId(playerId));
 		if (!playerName.empty())
 		{
-			m_server.GetBanManager().BanPlayerRegex(playerName, 1);
+			m_server.GetBanManager().BanPlayerName(playerName, 1);
 			m_server.RemovePlayer(playerId, ERR_NET_PLAYER_KICKED);
 		}
 	}
