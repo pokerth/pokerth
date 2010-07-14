@@ -29,7 +29,7 @@ typedef unsigned DB_id;
 
 struct DBPlayerData
 {
-	DBPlayerData() : id(DB_ID_INVALID), last_login(0) {}
+	DBPlayerData() : id(DB_ID_INVALID) {}
 	DB_id id;
 	std::string secret;
 	std::string country;
