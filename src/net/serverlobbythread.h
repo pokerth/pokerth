@@ -80,7 +80,9 @@ public:
 
 	bool KickPlayerByName(const std::string &playerName);
 	std::string GetPlayerIPAddress(const std::string &playerName) const;
+	std::string GetPlayerNameFromId(unsigned playerId) const;
 	void RemovePlayer(unsigned playerId, unsigned errorCode);
+
 
 	void SendGlobalChat(const std::string &message);
 	void SendGlobalMsgBox(const std::string &message);

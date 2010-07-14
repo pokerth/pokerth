@@ -32,10 +32,15 @@ ServerBanManager::~ServerBanManager()
 }
 
 void
-ServerBanManager::BanPlayerRegex(const string &playerRegex)
+ServerBanManager::BanPlayerRegex(const string &playerRegex, unsigned durationHours)
 {
 	boost::mutex::scoped_lock lock(m_banMutex);
-	m_banPlayerNameMap[GetNextBanId()] = boost::regex(playerRegex, boost::regex_constants::no_except);
+	unsigned banId = GetNextBanId();
+
+	TimedPlayerBan tmpBan;
+	tmpBan.timer = InternalRegisterTimedBan(banId, durationHours);
+	tmpBan.nameRegex = boost::regex(playerRegex, boost::regex_constants::no_except);
+	m_banPlayerNameMap[banId] = tmpBan;
 }
 
 void
@@ -43,14 +48,11 @@ ServerBanManager::BanIPAddress(const string &ipAddress, unsigned durationHours)
 {
 	boost::mutex::scoped_lock lock(m_banMutex);
 	unsigned banId = GetNextBanId();
-	boost::shared_ptr<TimedIPAddress> tmpItem(new TimedIPAddress(ipAddress, *m_ioService));
-	tmpItem->timer.expires_from_now(
-		boost::posix_time::hours(durationHours));
-	tmpItem->timer.async_wait(
-		boost::bind(
-			&ServerBanManager::TimerRemoveIPBan, shared_from_this(), boost::asio::placeholders::error, banId, tmpItem));
 
-	m_banIPAddressMap[banId] = tmpItem;
+	TimedIPBan tmpBan;
+	tmpBan.timer = InternalRegisterTimedBan(banId, durationHours);
+	tmpBan.ipAddress = ipAddress;
+	m_banIPAddressMap[banId] = tmpBan;
 }
 
 bool
@@ -61,6 +63,8 @@ ServerBanManager::UnBan(unsigned banId)
 	RegexMap::iterator posNick = m_banPlayerNameMap.find(banId);
 	if (posNick != m_banPlayerNameMap.end())
 	{
+		if (posNick->second.timer)
+			posNick->second.timer->cancel();
 		m_banPlayerNameMap.erase(posNick);
 		retVal = true;
 	}
@@ -69,7 +73,8 @@ ServerBanManager::UnBan(unsigned banId)
 		IPAddressMap::iterator posIP = m_banIPAddressMap.find(banId);
 		if (posIP != m_banIPAddressMap.end())
 		{
-			posIP->second->timer.cancel();
+			if (posIP->second.timer)
+				posIP->second.timer->cancel();
 			m_banIPAddressMap.erase(posIP);
 			retVal = true;
 		}
@@ -86,7 +91,9 @@ ServerBanManager::GetBanList(list<string> &list) const
 	while (i_nick != end_nick)
 	{
 		ostringstream banText;
-		banText << (*i_nick).first << ": (nick) - " << (*i_nick).second.str();
+		banText << (*i_nick).first << ": (nick) - " << (*i_nick).second.nameRegex.str();
+		if ((*i_nick).second.timer)
+			banText << " duration: " << (*i_nick).second.timer->expires_from_now().hours() << "h";
 		list.push_back(banText.str());
 		++i_nick;
 	}
@@ -95,7 +102,9 @@ ServerBanManager::GetBanList(list<string> &list) const
 	while (i_ip != end_ip)
 	{
 		ostringstream banText;
-		banText << (*i_ip).first << ": (IP) - " << (*i_ip).second->ipAddress << " duration: " << (*i_ip).second->timer.expires_from_now().hours() << "h";
+		banText << (*i_ip).first << ": (IP) - " << (*i_ip).second.ipAddress;
+		if ((*i_ip).second.timer)
+			banText << " duration: " << (*i_ip).second.timer->expires_from_now().hours() << "h";
 		list.push_back(banText.str());
 		++i_ip;
 	}
@@ -118,7 +127,7 @@ ServerBanManager::IsPlayerBanned(const std::string &name) const
 	RegexMap::const_iterator end = m_banPlayerNameMap.end();
 	while (i != end)
 	{
-		if (regex_match(name, (*i).second))
+		if (regex_match(name, (*i).second.nameRegex))
 		{
 			retVal = true;
 			break;
@@ -138,7 +147,7 @@ ServerBanManager::IsIPAddressBanned(const std::string &ipAddress) const
 	IPAddressMap::const_iterator end = m_banIPAddressMap.end();
 	while (i != end)
 	{
-		if (ipAddress == (*i).second->ipAddress)
+		if (ipAddress == (*i).second.ipAddress)
 		{
 			retVal = true;
 			break;
@@ -149,11 +158,27 @@ ServerBanManager::IsIPAddressBanned(const std::string &ipAddress) const
 	return retVal;
 }
 
-void
-ServerBanManager::TimerRemoveIPBan(const boost::system::error_code &ec, unsigned timerId, boost::shared_ptr<TimedIPAddress> item)
+boost::shared_ptr<boost::asio::deadline_timer>
+ServerBanManager::InternalRegisterTimedBan(unsigned timerId, unsigned durationHours)
 {
-	if (!ec && item)
-		UnBan(timerId);
+	boost::shared_ptr<boost::asio::deadline_timer> tmpTimer;
+	if (durationHours)
+	{
+		tmpTimer.reset(new boost::asio::deadline_timer(*m_ioService));
+		tmpTimer->expires_from_now(
+			boost::posix_time::hours(durationHours));
+		tmpTimer->async_wait(
+			boost::bind(
+				&ServerBanManager::TimerRemoveBan, shared_from_this(), boost::asio::placeholders::error, timerId, tmpTimer));
+	}
+	return tmpTimer;
+}
+
+void
+ServerBanManager::TimerRemoveBan(const boost::system::error_code &ec, unsigned banId, boost::shared_ptr<boost::asio::deadline_timer> timer)
+{
+	if (!ec && timer)
+		UnBan(banId);
 }
 
 unsigned

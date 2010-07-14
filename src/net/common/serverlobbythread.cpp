@@ -106,7 +106,12 @@ public:
 
 	virtual void SignalBanPlayer(unsigned playerId)
 	{
-		// TODO
+		string playerName(m_server.GetPlayerNameFromId(playerId));
+		if (!playerName.empty())
+		{
+			m_server.GetBanManager().BanPlayerRegex(playerName, 1);
+			m_server.RemovePlayer(playerId, ERR_NET_PLAYER_KICKED);
+		}
 	}
 
 	virtual void ConnectSuccess()
@@ -492,13 +497,27 @@ ServerLobbyThread::GetPlayerIPAddress(const std::string &playerName) const
 {
 	string ipAddress;
 	SessionWrapper session = m_sessionManager.GetSessionByPlayerName(playerName);
-	if (!session.sessionData.get())
+	if (!session.sessionData)
 		session = m_gameSessionManager.GetSessionByPlayerName(playerName);
 
-	if (session.sessionData.get() && session.playerData.get())
+	if (session.sessionData && session.playerData)
 		ipAddress = session.sessionData->GetClientAddr();
 
 	return ipAddress;
+}
+
+std::string
+ServerLobbyThread::GetPlayerNameFromId(unsigned playerId) const
+{
+	string name;
+	SessionWrapper session = m_sessionManager.GetSessionByUniquePlayerId(playerId);
+	if (!session.sessionData)
+		session = m_gameSessionManager.GetSessionByUniquePlayerId(playerId);
+
+	if (session.sessionData && session.playerData)
+		name = session.playerData->GetName();
+
+	return name;
 }
 
 void

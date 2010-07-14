@@ -34,7 +34,7 @@ public:
 	ServerBanManager(boost::shared_ptr<boost::asio::io_service> ioService);
 	virtual ~ServerBanManager();
 
-	void BanPlayerRegex(const std::string &playerRegex);
+	void BanPlayerRegex(const std::string &playerRegex, unsigned durationHours = 0);
 	void BanIPAddress(const std::string &ipAddress, unsigned durationHours);
 	bool UnBan(unsigned banId);
 	void GetBanList(std::list<std::string> &list) const;
@@ -44,20 +44,24 @@ public:
 	bool IsIPAddressBanned(const std::string &ipAddress) const;
 
 protected:
-	struct TimedIPAddress
+	struct TimedPlayerBan
 	{
-		TimedIPAddress(const std::string &i, boost::asio::io_service &s)
-		: ipAddress(i), timer(s) {}
+		boost::shared_ptr<boost::asio::deadline_timer> timer;
+		boost::regex nameRegex;
+	};
+	struct TimedIPBan
+	{
+		boost::shared_ptr<boost::asio::deadline_timer> timer;
 		std::string ipAddress;
-		boost::asio::deadline_timer timer;
 	};
 
-	void TimerRemoveIPBan(const boost::system::error_code &ec, unsigned timerId, boost::shared_ptr<TimedIPAddress> item);
+	boost::shared_ptr<boost::asio::deadline_timer> InternalRegisterTimedBan(unsigned timerId, unsigned durationHours);
+	void TimerRemoveBan(const boost::system::error_code &ec, unsigned banId, boost::shared_ptr<boost::asio::deadline_timer> timer);
 
 	boost::shared_ptr<boost::asio::io_service> m_ioService;
 
-	typedef std::map<unsigned, boost::regex> RegexMap;
-	typedef std::map<unsigned, boost::shared_ptr<TimedIPAddress> > IPAddressMap;
+	typedef std::map<unsigned, TimedPlayerBan> RegexMap;
+	typedef std::map<unsigned, TimedIPBan> IPAddressMap;
 
 	unsigned GetNextBanId();
 
