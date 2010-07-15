@@ -49,9 +49,13 @@ public:
 	void collectPot();
 
 	void distributePot();
+        void determinePlayerNeedToShowCards();
 
 	std::list<unsigned> getWinners() const;
 	void setWinners(const std::list<unsigned> &winners);
+
+        std::list<unsigned> getPlayerNeedToShowCards() const;
+        void setPlayerNeedToShowCards(const std::list<unsigned> &playerNeedToShowCards);
 
 private:
 	mutable boost::recursive_mutex m_syncMutex;
@@ -63,6 +67,7 @@ private:
 	HandInterface *currentHand;
 
 	std::list<unsigned> winners;
+        std::list<unsigned> playerNeedToShowCards;
 
 	int myCards[5];
 	int pot;

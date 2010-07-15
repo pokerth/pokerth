@@ -118,6 +118,12 @@ ClientBoard::distributePot()
 
 }
 
+void
+ClientBoard::determinePlayerNeedToShowCards()
+{
+
+}
+
 std::list<unsigned>
 ClientBoard::getWinners() const
 {
@@ -132,3 +138,16 @@ ClientBoard::setWinners(const std::list<unsigned> &w)
 	winners = w;
 }
 
+std::list<unsigned>
+ClientBoard::getPlayerNeedToShowCards() const
+{
+        boost::recursive_mutex::scoped_lock lock(m_syncMutex);
+        return playerNeedToShowCards;
+}
+
+void
+ClientBoard::setPlayerNeedToShowCards(const std::list<unsigned> &p)
+{
+        boost::recursive_mutex::scoped_lock lock(m_syncMutex);
+        playerNeedToShowCards = p;
+}

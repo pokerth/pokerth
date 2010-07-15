@@ -52,9 +52,13 @@ public:
 	virtual void collectPot() =0;
 
 	virtual void distributePot() =0;
+        virtual void determinePlayerNeedToShowCards() =0;
 
 	virtual std::list<unsigned> getWinners() const =0;
 	virtual void setWinners(const std::list<unsigned> &winners) =0;
+
+        virtual std::list<unsigned> getPlayerNeedToShowCards() const =0;
+        virtual void setPlayerNeedToShowCards(const std::list<unsigned> &playerNeedToShowCards) =0;
 
 };
 

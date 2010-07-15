@@ -96,9 +96,9 @@ private:
 	GuiInterface *myGui;
 	BoardInterface *myBoard;
 
-	PlayerList seatsList;
-	PlayerList activePlayerList;
-	PlayerList runningPlayerList;
+        PlayerList seatsList; // all player
+        PlayerList activePlayerList; // all player who are not folded and not out
+        PlayerList runningPlayerList; // all player who are not folded, not all in and not out
 
 	std::vector<boost::shared_ptr<BeRoInterface> > myBeRo;
 

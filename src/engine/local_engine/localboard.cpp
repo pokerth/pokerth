@@ -236,3 +236,42 @@ void LocalBoard::distributePot() {
 		sum += (*it_c)->getMyCash();
 	}
 }
+
+void LocalBoard::determinePlayerNeedToShowCards() {
+
+    // all winners have to show their cards
+    playerNeedToShowCards = winners;
+
+//    // the player who has done the last action has to show his cards first
+//    playerNeedToShowCards.push_back(currentHand->getCurrentBeRo()->getLastActionPlayer());
+//
+//    // get position und cardsValue of the player who show his cards first
+//    PlayerListConstIterator lastActionPlayerIt = currentHand->getActivePlayerIt(currentHand->getCurrentBeRo()->getLastActionPlayer());
+//    int highestCardsValueInt = (*lastActionPlayerIt)->getMyCardsValueInt();
+//
+//    // search for more player who have to show their cards (perhaps not all situation are considered yet)
+//    PlayerListConstIterator it_c;
+//    for(it_c = ++lastActionPlayerIt; it_c!=activePlayerList->end(); it_c++) {
+//        if((*it_c)->getMyCardsValueInt() >= highestCardsValueInt) {
+//            playerNeedToShowCards.push_back((*it_c)->getMyUniqueID());
+//            highestCardsValueInt = (*it_c)->getMyCardsValueInt();
+//        }
+//    }
+//
+//    for(it_c = activePlayerList->begin(); it_c!=lastActionPlayerIt; it_c++) {
+//        if((*it_c)->getMyCardsValueInt() >= highestCardsValueInt) {
+//            playerNeedToShowCards.push_back((*it_c)->getMyUniqueID());
+//            highestCardsValueInt = (*it_c)->getMyCardsValueInt();
+//        }
+//    }
+//
+//    // sort and unique the list
+//    playerNeedToShowCards.sort();
+//    playerNeedToShowCards.unique();
+//
+//    for(it_c = activePlayerList->begin(); it_c!=activePlayerList->end(); it_c++) {
+//        cout << (*it_c)->getMyUniqueID() << '\t';
+//    }
+//    cout << endl;
+
+}
