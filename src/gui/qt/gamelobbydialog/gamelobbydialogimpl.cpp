@@ -698,7 +698,11 @@ void gameLobbyDialogImpl::clearDialog()
 
 void gameLobbyDialogImpl::checkPlayerQuantity() {
 
-    if(isGameAdministrator){
+    assert(mySession);
+    GameInfo info(mySession->getClientGameInfo(mySession->getClientCurrentGameId()));
+
+    if(isGameAdministrator && info.data.gameType != GAME_TYPE_RANKING){
+
         pushButton_Kick->show();
         pushButton_StartGame->show();
         checkBox_fillUpWithComputerOpponents->show();
