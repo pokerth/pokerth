@@ -923,16 +923,7 @@ ServerGameStateHand::EngineLoop(boost::shared_ptr<ServerGame> server)
 			}
 			else
 			{
-#ifdef POKERTH_TEST
-				server->GetStateTimer().expires_from_now(
-					boost::posix_time::seconds(0));
-#else
-				server->GetStateTimer().expires_from_now(
-					boost::posix_time::seconds(server->GetGameData().delayBetweenHandsSec));
-#endif
-				server->GetStateTimer().async_wait(
-					boost::bind(
-						&ServerGameStateHand::TimerNextHand, this, boost::asio::placeholders::error, server));
+				server->SetState(ServerGameStateWaitNextHand::Instance());
 			}
 		}
 	}
@@ -1284,6 +1275,74 @@ ServerGameStateWaitPlayerAction::TimerTimeout(const boost::system::error_code &e
 			LOG_ERROR("Game " << server->GetId() << " - Player timer exception: " << e.what());
 			server->RemoveAllSessions(); // Close this game on error.
 		}
+	}
+}
+
+//-----------------------------------------------------------------------------
+
+
+ServerGameStateWaitNextHand ServerGameStateWaitNextHand::s_state;
+
+ServerGameStateWaitNextHand &
+ServerGameStateWaitNextHand::Instance()
+{
+	return s_state;
+}
+
+ServerGameStateWaitNextHand::ServerGameStateWaitNextHand()
+{
+}
+
+ServerGameStateWaitNextHand::~ServerGameStateWaitNextHand()
+{
+}
+
+void
+ServerGameStateWaitNextHand::Enter(boost::shared_ptr<ServerGame> server)
+{
+#ifdef SERVER_TEST
+	int timeoutSec = 0;
+#else
+	int timeoutSec = server->GetGameData().delayBetweenHandsSec;
+#endif
+
+	server->GetStateTimer().expires_from_now(
+		boost::posix_time::seconds(timeoutSec));
+
+	server->GetStateTimer().async_wait(
+		boost::bind(
+			&ServerGameStateWaitNextHand::TimerTimeout, this, boost::asio::placeholders::error, server));
+}
+
+void
+ServerGameStateWaitNextHand::Exit(boost::shared_ptr<ServerGame> server)
+{
+	server->GetStateTimer().cancel();
+}
+
+void
+ServerGameStateWaitNextHand::HandleNewSession(boost::shared_ptr<ServerGame> server, SessionWrapper session)
+{
+	// Do not accept new sessions in this state.
+	server->MoveSessionToLobby(session, NTF_NET_REMOVED_ALREADY_RUNNING);
+}
+
+void
+ServerGameStateWaitNextHand::InternalProcessPacket(boost::shared_ptr<ServerGame> server, SessionWrapper session, boost::shared_ptr<NetPacket> packet)
+{
+	if (packet->GetMsg()->present == PokerTHMessage_PR_showMyCardsRequestMessage)
+	{
+		// TODO perform action.
+	}
+}
+
+void
+ServerGameStateWaitNextHand::TimerTimeout(const boost::system::error_code &ec, boost::shared_ptr<ServerGame> server)
+{
+	if (!ec && &server->GetState() == this)
+	{
+		ServerGameStateHand::StartNewHand(server);
+		server->SetState(ServerGameStateHand::Instance());
 	}
 }
 

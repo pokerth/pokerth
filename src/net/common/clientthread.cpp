@@ -311,6 +311,14 @@ ClientThread::SendVoteKick(bool doKick)
 }
 
 void
+ClientThread::SendShowMyCards()
+{
+	boost::shared_ptr<NetPacket> packet(new NetPacket(NetPacket::Alloc));
+	packet->GetMsg()->present = PokerTHMessage_PR_showMyCardsRequestMessage;
+	m_ioService->post(boost::bind(&ClientThread::SendSessionPacket, shared_from_this(), packet));
+}
+
+void
 ClientThread::SendInvitePlayerToCurrentGame(unsigned playerId)
 {
 	boost::shared_ptr<NetPacket> packet(new NetPacket(NetPacket::Alloc));

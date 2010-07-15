@@ -179,6 +179,7 @@ friend class ServerGameStateWaitAck;
 friend class ServerGameStateStartGame;
 friend class ServerGameStateHand;
 friend class ServerGameStateWaitPlayerAction;
+friend class ServerGameStateWaitNextHand;
 };
 
 #endif

@@ -153,6 +153,7 @@ private:
 	static ServerGameStateHand s_state;
 
 friend class ServerGameStateStartGame;
+friend class ServerGameStateWaitNextHand;
 };
 
 // State: Wait for a player action.
@@ -176,6 +177,29 @@ protected:
 
 private:
 	static ServerGameStateWaitPlayerAction s_state;
+};
+
+// State: Wait for the next hand.
+class ServerGameStateWaitNextHand : public AbstractServerGameStateReceiving
+{
+public:
+	static ServerGameStateWaitNextHand &Instance();
+	virtual void Enter(boost::shared_ptr<ServerGame> server);
+	virtual void Exit(boost::shared_ptr<ServerGame> server);
+
+	virtual ~ServerGameStateWaitNextHand();
+
+	virtual void NotifyGameAdminChanged(boost::shared_ptr<ServerGame> /*server*/) {}
+	virtual void HandleNewSession(boost::shared_ptr<ServerGame> server, SessionWrapper session);
+
+protected:
+	ServerGameStateWaitNextHand();
+
+	virtual void InternalProcessPacket(boost::shared_ptr<ServerGame> server, SessionWrapper session, boost::shared_ptr<NetPacket> packet);
+	void TimerTimeout(const boost::system::error_code &ec, boost::shared_ptr<ServerGame> server);
+
+private:
+	static ServerGameStateWaitNextHand s_state;
 };
 
 class ServerGameStateFinal : public ServerGameState

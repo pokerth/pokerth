@@ -78,6 +78,7 @@ public:
 	void SendResetTimeout();
 	void SendAskKickPlayer(unsigned playerId);
 	void SendVoteKick(bool doKick);
+	void SendShowMyCards();
 	void SendInvitePlayerToCurrentGame(unsigned playerId);
 	void SendRejectGameInvitation(unsigned gameId, DenyGameInvitationReason reason);
 
