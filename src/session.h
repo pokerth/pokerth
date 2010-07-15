@@ -102,6 +102,7 @@ public:
     ServerInfo getClientServerInfo(unsigned serverId) const;
     GameInfo getClientGameInfo(unsigned gameId) const;
     PlayerInfo getClientPlayerInfo(unsigned playerId) const;
+	unsigned getGameIdOfPlayer(unsigned playerId) const;
     ServerStats getClientStats() const;
     unsigned getClientCurrentGameId() const;
     unsigned getClientUniquePlayerId() const;

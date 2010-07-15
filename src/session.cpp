@@ -495,6 +495,14 @@ PlayerInfo Session::getClientPlayerInfo(unsigned playerId) const
     return info;
 }
 
+unsigned Session::getGameIdOfPlayer(unsigned playerId) const
+{
+	unsigned gameId = 0;
+	if (myNetClient)
+		gameId = myNetClient->GetGameIdOfPlayer(playerId);
+	return gameId;
+}
+
 ServerStats Session::getClientStats() const
 {
     ServerStats stats;

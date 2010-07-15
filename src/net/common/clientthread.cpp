@@ -449,6 +449,35 @@ ClientThread::GetPlayerIdFromName(const string &playerName, unsigned &playerId) 
 	return retVal;
 }
 
+unsigned
+ClientThread::GetGameIdOfPlayer(unsigned playerId) const
+{
+	unsigned gameId = 0; // Default: no game (invalid id).
+
+	// Iterate through all games to find the player.
+	boost::mutex::scoped_lock lock(m_gameInfoMapMutex);
+	GameInfoMap::const_iterator i = m_gameInfoMap.begin();
+	GameInfoMap::const_iterator i_end = m_gameInfoMap.end();
+	while (i != i_end)
+	{
+		PlayerIdList::const_iterator j = (*i).second.players.begin();
+		PlayerIdList::const_iterator j_end = (*i).second.players.end();
+		while (j != j_end)
+		{
+			if (playerId == *j)
+			{
+				gameId = (*i).first;
+				break;
+			}
+			++j;
+		}
+		if (gameId)
+			break;
+		++i;
+	}
+	return gameId;
+}
+
 ClientCallback &
 ClientThread::GetCallback()
 {
