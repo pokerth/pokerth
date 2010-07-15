@@ -90,8 +90,9 @@ gameLobbyDialogImpl::gameLobbyDialogImpl(startWindowImpl *parent, ConfigFile *c)
     nickListContextMenu->addAction(nickListInviteAction);
     nickListIgnorePlayerAction = new QAction(QIcon(":/gfx/im-ban-user.png"), tr("Ignore player"), nickListContextMenu);
     nickListContextMenu->addAction(nickListIgnorePlayerAction);
+    nickListPlayerInfoSubMenu = nickListContextMenu->addMenu(QIcon(":/gfx/dialog-information.png"), tr("Player infos ..."));
     nickListPlayerInGameInfo = new QAction(nickListContextMenu);
-    nickListContextMenu->addAction(nickListPlayerInGameInfo);
+    nickListPlayerInfoSubMenu->addAction(nickListPlayerInGameInfo);
 
     connect( pushButton_CreateGame, SIGNAL( clicked() ), this, SLOT( createGame() ) );
     connect( pushButton_JoinGame, SIGNAL( clicked() ), this, SLOT( joinGame() ) );

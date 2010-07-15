@@ -142,6 +142,7 @@ private:
     QMenu *nickListContextMenu;
     QAction *nickListInviteAction;
     QAction *nickListIgnorePlayerAction;
+    QMenu *nickListPlayerInfoSubMenu;
     QAction *nickListPlayerInGameInfo;
     int infoMsgToShowId;
     int currentInvitationGameId;

@@ -51,6 +51,7 @@
         <file>document-open-folder.png</file>
         <file>emblem-important.png</file>
         <file>emblem-important-64.png</file>
+        <file>dialog-information.png</file>
     </qresource>
     <qresource prefix="/cflags">
         <file>cflags/ad.png</file>
