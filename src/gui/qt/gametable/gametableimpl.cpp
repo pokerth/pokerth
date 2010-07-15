@@ -197,8 +197,6 @@ gameTableImpl::gameTableImpl(ConfigFile *c, QMainWindow *parent)
     postRiverAnimation1Timer->setSingleShot(TRUE);
     postRiverRunAnimation1Timer->setSingleShot(TRUE);
     postRiverRunAnimation2Timer->setSingleShot(TRUE);
-    postRiverRunAnimation2_flipHoleCards1Timer->setSingleShot(TRUE);
-    postRiverRunAnimation2_flipHoleCards2Timer->setSingleShot(TRUE);
     postRiverRunAnimation3Timer->setSingleShot(TRUE);
     postRiverRunAnimation5Timer->setSingleShot(TRUE);
     postRiverRunAnimation6Timer->setSingleShot(TRUE);
@@ -427,8 +425,6 @@ gameTableImpl::gameTableImpl(ConfigFile *c, QMainWindow *parent)
     connect(postRiverAnimation1Timer, SIGNAL(timeout()), this, SLOT( postRiverAnimation1Action() ));
     connect(postRiverRunAnimation1Timer, SIGNAL(timeout()), this, SLOT( postRiverRunAnimation2() ));
     connect(postRiverRunAnimation2Timer, SIGNAL(timeout()), this, SLOT( postRiverRunAnimation3() ));
-    connect(postRiverRunAnimation2_flipHoleCards1Timer, SIGNAL(timeout()), this, SLOT( postRiverRunAnimation2_flipHoleCards1() ));
-    connect(postRiverRunAnimation2_flipHoleCards2Timer, SIGNAL(timeout()), this, SLOT( postRiverRunAnimation2_flipHoleCards2() ));
     connect(postRiverRunAnimation3Timer, SIGNAL(timeout()), this, SLOT( postRiverRunAnimation4() ));
     connect(potDistributeTimer, SIGNAL(timeout()), this, SLOT(postRiverRunAnimation5()));
     connect(postRiverRunAnimation5Timer, SIGNAL(timeout()), this, SLOT( postRiverRunAnimation6() ));
@@ -506,6 +502,7 @@ gameTableImpl::gameTableImpl(ConfigFile *c, QMainWindow *parent)
     connect(this, SIGNAL(signalRiverAnimation2()), this, SLOT(riverAnimation2()));
     connect(this, SIGNAL(signalPostRiverAnimation1()), this, SLOT(postRiverAnimation1()));
     connect(this, SIGNAL(signalPostRiverRunAnimation1()), this, SLOT(postRiverRunAnimation1()));
+    connect(this, SIGNAL(signalPostRiverShowCards(unsigned)), this, SLOT(postRiverShowCards(unsigned)));
     connect(this, SIGNAL(signalFlipHolecardsAllIn()), this, SLOT(flipHolecardsAllIn()));
     connect(this, SIGNAL(signalNextRoundCleanGui()), this, SLOT(nextRoundCleanGui()));
     connect(this, SIGNAL(signalStartVoteOnKick(unsigned, unsigned, int, int)), this, SLOT(startVoteOnKick(unsigned, unsigned, int, int)));
@@ -657,7 +654,7 @@ void gameTableImpl::applySettings(settingsDialogImpl* mySettingsDialog) {
     }
 
     refreshGameTableStyle();
-//    qDebug() << "table: " << myGameTableStyle->getStyleDescription() << myGameTableStyle->getState();
+    //    qDebug() << "table: " << myGameTableStyle->getStyleDescription() << myGameTableStyle->getState();
     if(this->isVisible() && myGameTableStyle->getState() != GT_STYLE_OK) myGameTableStyle->showErrorMessage();
 
     //blind buttons refresh
@@ -1505,20 +1502,20 @@ void gameTableImpl::meInAction() {
         lineEdit_betValue->selectAll();
     }
 
-//    if(this->isMinimized()){
-//        this->showNormal();
-//        this->activateWindow();
-//        this->raise();
-//    }
-//    else if(!this->isActiveWindow()) {
-//        this->showMinimized();
-//        this->activateWindow();
-//        this->raise();
-//        this->showNormal();
-//        this->activateWindow();
-//        this->raise();
-//
-//    }
+    //    if(this->isMinimized()){
+    //        this->showNormal();
+    //        this->activateWindow();
+    //        this->raise();
+    //    }
+    //    else if(!this->isActiveWindow()) {
+    //        this->showMinimized();
+    //        this->activateWindow();
+    //        this->raise();
+    //        this->showNormal();
+    //        this->activateWindow();
+    //        this->raise();
+    //
+    //    }
 
 
     myActionIsRaise = 0;
@@ -2023,59 +2020,51 @@ void gameTableImpl::postRiverRunAnimation2() {
 
         if(!flipHolecardsAllInAlreadyDone) {
 
-            //TODO - Turn cards like in the rules
+            QPixmap onePix = QPixmap::fromImage(QImage(myAppDataPath +"gfx/gui/misc/1px.png"));
+            //TempArrays
+            QPixmap tempCardsPixmapArray[2];
+            int tempCardsIntArray[2];
+            int antiPeekMode = myConfig->readConfigInt("AntiPeekMode");
+            int showFlipcardAnimation = myConfig->readConfigInt("ShowFlipCardsAnimation");
 
-            // 			postRiverRunAnimation2_flipHoleCards1Timer->start(nextPlayerSpeed2);
+            int j;
+            for (it_c=currentHand->getActivePlayerList()->begin(); it_c!=currentHand->getActivePlayerList()->end(); it_c++) {
+                (*it_c)->getMyCards(tempCardsIntArray);
+                if((*it_c)->getMyAction() != PLAYER_ACTION_FOLD) {
 
-            // 			//Config? mit oder ohne Eye-Candy?
-            if(myConfig->readConfigInt("ShowFlipCardsAnimation")) {
-                // mit Eye-Candy
-		
-                //TempArrays
-                int tempCardsIntArray[2];
-		
-                int j;
 
-                for (it_c=currentHand->getActivePlayerList()->begin(); it_c!=currentHand->getActivePlayerList()->end(); it_c++) {
-                    (*it_c)->getMyCards(tempCardsIntArray);
-                    if((*it_c)->getMyAction() != PLAYER_ACTION_FOLD) {
-                        if((*it_c)->getMyID() || ((*it_c)->getMyID()==0 && myConfig->readConfigInt("AntiPeekMode")) ) {
-                            for(j=0; j<2; j++) {
+                    //                        TODO
+                    //only some players need to show cards directly. if i dont kneed the show i get the button
 
+
+
+                    if((*it_c)->getMyID() || ((*it_c)->getMyID()==0 && antiPeekMode) ) {
+                        for(j=0; j<2; j++) {
+
+                            if(showFlipcardAnimation) { // with Eye-Candy
                                 holeCardsArray[(*it_c)->getMyID()][j]->startFlipCards(guiGameSpeed, QPixmap::fromImage(QImage(myCardDeckStyle->getCurrentDir()+QString::number(tempCardsIntArray[j], 10)+".png")), *flipside);
                             }
-                        }
-                        //set Player value (logging)
-                        (*it_c)->setMyCardsFlip(1,1);
-                    }
-                }
-            }
-            else {
-                //without Eye-Candy
-
-                //Karten der aktiven Spieler umdrehen
-                QPixmap onePix = QPixmap::fromImage(QImage(myAppDataPath +"gfx/gui/misc/1px.png"));
-
-                //TempArrays
-                QPixmap tempCardsPixmapArray[2];
-                int tempCardsIntArray[2];
-
-                int j;
-                for (it_c=currentHand->getActivePlayerList()->begin(); it_c!=currentHand->getActivePlayerList()->end(); it_c++) {
-                    (*it_c)->getMyCards(tempCardsIntArray);
-                    if((*it_c)->getMyAction() != PLAYER_ACTION_FOLD) {
-                        if((*it_c)->getMyID() || ((*it_c)->getMyID()==0 && myConfig->readConfigInt("AntiPeekMode")) ) {
-                            for(j=0; j<2; j++) {
+                            else { //without Eye-Candy
                                 tempCardsPixmapArray[j] = QPixmap::fromImage(QImage(myCardDeckStyle->getCurrentDir()+QString::number(tempCardsIntArray[j], 10)+".png"));
                                 holeCardsArray[(*it_c)->getMyID()][j]->setPixmap(tempCardsPixmapArray[j], FALSE);
-
                             }
                         }
-                        //set Player value (logging)
-                        (*it_c)->setMyCardsFlip(1,1);
                     }
+                    //set Player value (logging)
+                    (*it_c)->setMyCardsFlip(1,1);
+
+
+
+                    //                        TODO
+                    //                        showShowMyCardsButton();
+
+
+
+
                 }
             }
+
+
             //Wenn einmal umgedreht dann fertig!!
             flipHolecardsAllInAlreadyDone = TRUE;
         }
@@ -2096,28 +2085,6 @@ void gameTableImpl::postRiverRunAnimation2() {
     else { postRiverRunAnimation3(); }
 
 }
-
-// TODO
-void gameTableImpl::postRiverRunAnimation2_flipHoleCards1() {
-
-    HandInterface *currentHand = myStartWindow->getSession()->getCurrentGame()->getCurrentHand();
-
-    currentHand->getCurrentBeRo()->setPlayersTurn(currentHand->getCurrentBeRo()->getLastActionPlayer());
-
-    postRiverRunAnimation2_flipHoleCards2Timer->start(nextPlayerSpeed2);
-}
-
-
-void gameTableImpl::postRiverRunAnimation2_flipHoleCards2() {
-
-    // 	if() {
-    // 		postRiverRunAnimation2_flipHoleCards1Timer->start(nextPlayerSpeed2);
-    // 	}
-    // 	else {
-    // 		postRiverRunAnimation2Timer->start(postRiverRunAnimationSpeed);
-    // 	}
-}
-
 
 void gameTableImpl::postRiverRunAnimation3() {
 
@@ -2345,6 +2312,36 @@ void gameTableImpl::postRiverRunAnimation6() {
     }
 
     postRiverRunAnimation6Timer->start(newRoundSpeed);
+}
+
+void gameTableImpl::postRiverShowCards(unsigned playerId)
+{
+    HandInterface *currentHand = myStartWindow->getSession()->getCurrentGame()->getCurrentHand();
+    QPixmap onePix = QPixmap::fromImage(QImage(myAppDataPath +"gfx/gui/misc/1px.png"));
+    //TempArrays
+    QPixmap tempCardsPixmapArray[2];
+    int tempCardsIntArray[2];
+    int showFlipcardAnimation = myConfig->readConfigInt("ShowFlipCardsAnimation");
+    int j;
+    PlayerListConstIterator it_c;
+    for (it_c=currentHand->getActivePlayerList()->begin(); it_c!=currentHand->getActivePlayerList()->end(); it_c++) {
+        if((*it_c)->getMyUniqueID() == playerId) {
+
+            (*it_c)->getMyCards(tempCardsIntArray);
+            for(j=0; j<2; j++) {
+
+                if(showFlipcardAnimation) { // with Eye-Candy
+                    holeCardsArray[(*it_c)->getMyID()][j]->startFlipCards(guiGameSpeed, QPixmap::fromImage(QImage(myCardDeckStyle->getCurrentDir()+QString::number(tempCardsIntArray[j], 10)+".png")), *flipside);
+                }
+                else { //without Eye-Candy
+                    tempCardsPixmapArray[j] = QPixmap::fromImage(QImage(myCardDeckStyle->getCurrentDir()+QString::number(tempCardsIntArray[j], 10)+".png"));
+                    holeCardsArray[(*it_c)->getMyID()][j]->setPixmap(tempCardsPixmapArray[j], FALSE);
+                }
+            }
+        }
+        //set Player value (logging)
+        (*it_c)->setMyCardsFlip(1,1);
+    }
 }
 
 void gameTableImpl::flipHolecardsAllIn() {
@@ -3008,7 +3005,7 @@ void gameTableImpl::showMaximized () {
 
 void gameTableImpl::closeGameTable() {
 
-	if (myStartWindow->getMyServerGuiInterface() && myStartWindow->getMyServerGuiInterface()->getSession()->isNetworkServerRunning()) {
+    if (myStartWindow->getMyServerGuiInterface() && myStartWindow->getMyServerGuiInterface()->getSession()->isNetworkServerRunning()) {
 
         QMessageBox msgBox(QMessageBox::Warning, tr("Closing PokerTH during network game"),
                            tr("You are the hosting server. Do you want to close PokerTH anyway?"), QMessageBox::Yes | QMessageBox::No, this);
@@ -3016,7 +3013,7 @@ void gameTableImpl::closeGameTable() {
         if (msgBox.exec() == QMessageBox::Yes ) {
             myStartWindow->getSession()->terminateNetworkClient();
             stopTimer();
-			if (myStartWindow->getMyServerGuiInterface()) myStartWindow->getMyServerGuiInterface()->getSession()->terminateNetworkServer();
+            if (myStartWindow->getMyServerGuiInterface()) myStartWindow->getMyServerGuiInterface()->getSession()->terminateNetworkServer();
             saveGameTableGeometry();
             myStartWindow->show();
             this->hide();
@@ -3442,7 +3439,7 @@ void gameTableImpl::registeredUserMode()
 
 void gameTableImpl::guestUserMode()
 {
-	lineEdit_ChatInput->setText(tr("Chat is only available to registered players."));
+    lineEdit_ChatInput->setText(tr("Chat is only available to registered players."));
     lineEdit_ChatInput->setDisabled(true);
     guestMode = true;
 }

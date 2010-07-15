@@ -85,6 +85,7 @@ public:
 
     void postRiverAnimation1();
     void postRiverRunAnimation1();
+    void postRiverShowCards(unsigned playerId);
 
     void flipHolecardsAllIn();
 

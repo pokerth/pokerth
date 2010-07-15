@@ -116,6 +116,7 @@ signals:
     void signalRiverAnimation2();
     void signalPostRiverAnimation1();
     void signalPostRiverRunAnimation1();
+    void signalPostRiverShowCards(unsigned playerId);
 
     void signalFlipHolecardsAllIn();
 
@@ -229,12 +230,11 @@ public slots:
 
     void postRiverRunAnimation1();
     void postRiverRunAnimation2();
-    void postRiverRunAnimation2_flipHoleCards1();
-    void postRiverRunAnimation2_flipHoleCards2();
     void postRiverRunAnimation3();
     void postRiverRunAnimation4();
     void postRiverRunAnimation5();
     void postRiverRunAnimation6();
+    void postRiverShowCards(unsigned playerId);
 
     void refreshCardsChance(GameState);
 

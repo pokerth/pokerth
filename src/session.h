@@ -29,6 +29,10 @@
 #include "game_defs.h"
 #include <core/crypthelper.h>
 
+//uncomment for 0.8 beta
+#define POKERTH_IS_08BETA
+
+
 class GuiInterface;
 class Game;
 class ConfigFile;

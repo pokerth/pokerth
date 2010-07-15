@@ -24,6 +24,18 @@
 #include "changecompleteblindsdialogimpl.h"
 
 
+#define RANKING_GAME_START_CASH 10000
+
+#ifdef POKERTH_IS_08BETA
+    #define RANKING_GAME_NUMBER_OF_PLAYERS 5
+#else
+    #define RANKING_GAME_NUMBER_OF_PLAYERS 10
+#endif
+
+#define RANKING_GAME_START_SBLIND 50
+#define RANKING_GAME_RAISE_EVERY_HAND 11
+
+
 createInternetGameDialogImpl::createInternetGameDialogImpl(QWidget *parent, ConfigFile *c)
       : QDialog(parent), myConfig(c), currentGuestMode(false), currentPlayerName("")
 {
@@ -40,8 +52,8 @@ createInternetGameDialogImpl::createInternetGameDialogImpl(QWidget *parent, Conf
 
 	myChangeCompleteBlindsDialog = new changeCompleteBlindsDialogImpl;
 
-        startBlind = new QLabel(tr("<i>Start blind: $25</i>"));
-        raiseMode = new QLabel(tr("<i>Double blinds every 11'th hand</i>"));
+        startBlind = new QLabel(tr("<i>First small blind: $%1</i>").arg(RANKING_GAME_START_SBLIND));
+        raiseMode = new QLabel(tr("<i>Double blinds every %1'th hand</i>").arg(RANKING_GAME_RAISE_EVERY_HAND));
         startBlind->hide();
         raiseMode->hide();
         gridLayout1->addWidget(startBlind, 0, 0, 1, 1);
@@ -75,8 +87,6 @@ void createInternetGameDialogImpl::cancel() {
 void createInternetGameDialogImpl::fillFormular(bool guestMode, QString playerName) {
 	
 	//Network Game Settings
-	spinBox_quantityPlayers->setValue(myConfig->readConfigInt("NetNumberOfPlayers"));
-	spinBox_startCash->setValue(myConfig->readConfigInt("NetStartCash"));
 	spinBox_netDelayBetweenHands->setValue(myConfig->readConfigInt("NetDelayBetweenHands"));
 	spinBox_netTimeOutPlayerAction->setValue(myConfig->readConfigInt("NetTimeOutPlayerAction"));
 	checkBox_Password->setChecked(myConfig->readConfigInt("UseInternetGamePassword"));
@@ -84,30 +94,6 @@ void createInternetGameDialogImpl::fillFormular(bool guestMode, QString playerNa
 		lineEdit_Password->setText(QString::fromUtf8(myConfig->readConfigString("InternetGamePassword").c_str()));
 	}
 
-	//fill changeCompleteBlindsDialog
-	myChangeCompleteBlindsDialog->spinBox_firstSmallBlind->setValue(myConfig->readConfigInt("NetFirstSmallBlind"));
-	myChangeCompleteBlindsDialog->radioButton_raiseBlindsAtHands->setChecked(myConfig->readConfigInt("NetRaiseBlindsAtHands"));
-	myChangeCompleteBlindsDialog->radioButton_raiseBlindsAtMinutes->setChecked(myConfig->readConfigInt("NetRaiseBlindsAtMinutes"));
-	myChangeCompleteBlindsDialog->spinBox_raiseSmallBlindEveryHands->setValue(myConfig->readConfigInt("NetRaiseSmallBlindEveryHands"));
-	myChangeCompleteBlindsDialog->spinBox_raiseSmallBlindEveryMinutes->setValue(myConfig->readConfigInt("NetRaiseSmallBlindEveryMinutes"));
-	myChangeCompleteBlindsDialog->radioButton_alwaysDoubleBlinds->setChecked(myConfig->readConfigInt("NetAlwaysDoubleBlinds"));
-	myChangeCompleteBlindsDialog->radioButton_manualBlindsOrder->setChecked(myConfig->readConfigInt("NetManualBlindsOrder"));
-
-	myChangeCompleteBlindsDialog->listWidget_blinds->clear();
-	myChangeCompleteBlindsDialog->spinBox_input->setMinimum(myChangeCompleteBlindsDialog->spinBox_firstSmallBlind->value()+1);
-
-	std::list<int> myBlindsList = myConfig->readConfigIntList("NetManualBlindsList");
-	std::list<int>::iterator it1;
-	
-	for(it1= myBlindsList.begin(); it1 != myBlindsList.end(); it1++) {
-		myChangeCompleteBlindsDialog->listWidget_blinds->addItem(QString::number(*it1,10));
-	}
-	myChangeCompleteBlindsDialog->sortBlindsList();
-	
-	myChangeCompleteBlindsDialog->radioButton_afterThisAlwaysDoubleBlinds->setChecked(myConfig->readConfigInt("NetAfterMBAlwaysDoubleBlinds"));
-	myChangeCompleteBlindsDialog->radioButton_afterThisAlwaysRaiseAbout->setChecked(myConfig->readConfigInt("NetAfterMBAlwaysRaiseAbout"));
-	myChangeCompleteBlindsDialog->spinBox_afterThisAlwaysRaiseValue->setValue(myConfig->readConfigInt("NetAfterMBAlwaysRaiseValue"));
-	myChangeCompleteBlindsDialog->radioButton_afterThisStayAtLastBlind->setChecked(myConfig->readConfigInt("NetAfterMBStayAtLastBlind"));
 
         if(guestMode) {
             comboBox_gameType->setCurrentIndex(0);
@@ -197,9 +183,9 @@ void createInternetGameDialogImpl::gameTypeChanged() {
                 checkBox_Password->setChecked(FALSE);
                 checkBox_Password->setDisabled(TRUE);
 
-                spinBox_startCash->setValue(10000);
+                spinBox_startCash->setValue(RANKING_GAME_START_CASH);
                 spinBox_startCash->setDisabled(TRUE);
-                spinBox_quantityPlayers->setValue(10);
+                spinBox_quantityPlayers->setValue(RANKING_GAME_NUMBER_OF_PLAYERS);
                 spinBox_quantityPlayers->setDisabled(TRUE);
                 radioButton_useSavedBlindsSettings->hide();
                 radioButton_changeBlindsSettings->hide();
@@ -210,4 +196,40 @@ void createInternetGameDialogImpl::gameTypeChanged() {
     break;
     }
 
+    if(comboBox_gameType->currentIndex() == GAME_TYPE_RANKING-1) {
+        //set static values
+        myChangeCompleteBlindsDialog->spinBox_firstSmallBlind->setValue(RANKING_GAME_START_SBLIND);
+        myChangeCompleteBlindsDialog->radioButton_raiseBlindsAtHands->setChecked(TRUE);
+        myChangeCompleteBlindsDialog->radioButton_raiseBlindsAtMinutes->setChecked(FALSE);
+        myChangeCompleteBlindsDialog->spinBox_raiseSmallBlindEveryHands->setValue(11);
+        myChangeCompleteBlindsDialog->radioButton_alwaysDoubleBlinds->setChecked(TRUE);
+        myChangeCompleteBlindsDialog->radioButton_manualBlindsOrder->setChecked(FALSE);
+        myChangeCompleteBlindsDialog->listWidget_blinds->clear();
+    }
+    else {
+        //read config values
+        myChangeCompleteBlindsDialog->spinBox_firstSmallBlind->setValue(myConfig->readConfigInt("NetFirstSmallBlind"));
+        myChangeCompleteBlindsDialog->radioButton_raiseBlindsAtHands->setChecked(myConfig->readConfigInt("NetRaiseBlindsAtHands"));
+        myChangeCompleteBlindsDialog->radioButton_raiseBlindsAtMinutes->setChecked(myConfig->readConfigInt("NetRaiseBlindsAtMinutes"));
+        myChangeCompleteBlindsDialog->spinBox_raiseSmallBlindEveryHands->setValue(myConfig->readConfigInt("NetRaiseSmallBlindEveryHands"));
+        myChangeCompleteBlindsDialog->spinBox_raiseSmallBlindEveryMinutes->setValue(myConfig->readConfigInt("NetRaiseSmallBlindEveryMinutes"));
+        myChangeCompleteBlindsDialog->radioButton_alwaysDoubleBlinds->setChecked(myConfig->readConfigInt("NetAlwaysDoubleBlinds"));
+        myChangeCompleteBlindsDialog->radioButton_manualBlindsOrder->setChecked(myConfig->readConfigInt("NetManualBlindsOrder"));
+
+        myChangeCompleteBlindsDialog->listWidget_blinds->clear();
+        myChangeCompleteBlindsDialog->spinBox_input->setMinimum(myChangeCompleteBlindsDialog->spinBox_firstSmallBlind->value()+1);
+
+        std::list<int> myBlindsList = myConfig->readConfigIntList("NetManualBlindsList");
+        std::list<int>::iterator it1;
+
+        for(it1= myBlindsList.begin(); it1 != myBlindsList.end(); it1++) {
+                myChangeCompleteBlindsDialog->listWidget_blinds->addItem(QString::number(*it1,10));
+        }
+        myChangeCompleteBlindsDialog->sortBlindsList();
+
+        myChangeCompleteBlindsDialog->radioButton_afterThisAlwaysDoubleBlinds->setChecked(myConfig->readConfigInt("NetAfterMBAlwaysDoubleBlinds"));
+        myChangeCompleteBlindsDialog->radioButton_afterThisAlwaysRaiseAbout->setChecked(myConfig->readConfigInt("NetAfterMBAlwaysRaiseAbout"));
+        myChangeCompleteBlindsDialog->spinBox_afterThisAlwaysRaiseValue->setValue(myConfig->readConfigInt("NetAfterMBAlwaysRaiseValue"));
+        myChangeCompleteBlindsDialog->radioButton_afterThisStayAtLastBlind->setChecked(myConfig->readConfigInt("NetAfterMBStayAtLastBlind"));
+    }
 }

@@ -38,8 +38,6 @@
 
 #define NET_DEFAULT_GAME					"default"
 
-//uncomment for 0.7 beta
-//#define POKERTH_IS_07BETA
 
 using namespace std;
 
@@ -167,8 +165,8 @@ void Session::startInternetClient()
 
     myNetClient->Init(
             myConfig->readConfigString("InternetServerAddress"),
-#ifdef POKERTH_IS_07BETA
-            "pokerth.net/serverlist07.xml.z", 1,
+#ifdef POKERTH_IS_08BETA
+            "pokerth.net/serverlist_testing.xml.z", 1,
 #else
             myConfig->readConfigString("InternetServerListAddress"),
             myConfig->readConfigInt("InternetServerConfigMode") == 0,

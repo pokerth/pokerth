@@ -90,7 +90,7 @@ void ServerGuiWrapper::riverAnimation2() {}
 
 void ServerGuiWrapper::postRiverAnimation1() {}
 void ServerGuiWrapper::postRiverRunAnimation1() {}
-
+void ServerGuiWrapper::postRiverShowCards(unsigned /*playerId*/) {}
 void ServerGuiWrapper::flipHolecardsAllIn() {}
 
 void ServerGuiWrapper::nextRoundCleanGui() {}
