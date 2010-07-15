@@ -90,6 +90,8 @@ gameLobbyDialogImpl::gameLobbyDialogImpl(startWindowImpl *parent, ConfigFile *c)
     nickListContextMenu->addAction(nickListInviteAction);
     nickListIgnorePlayerAction = new QAction(QIcon(":/gfx/im-ban-user.png"), tr("Ignore player"), nickListContextMenu);
     nickListContextMenu->addAction(nickListIgnorePlayerAction);
+    nickListPlayerInGameInfo = new QAction(nickListContextMenu);
+    nickListContextMenu->addAction(nickListPlayerInGameInfo);
 
     connect( pushButton_CreateGame, SIGNAL( clicked() ), this, SLOT( createGame() ) );
     connect( pushButton_JoinGame, SIGNAL( clicked() ), this, SLOT( joinGame() ) );
@@ -1369,12 +1371,14 @@ void gameLobbyDialogImpl::showNickListContextMenu(QPoint p)
 {
     if(treeWidget_NickList->topLevelItemCount() && !treeWidget_NickList->selectedItems().isEmpty()) {
 
-        assert(mySession);
 
-        if(inGame && mySession->getClientGameInfo(mySession->getClientCurrentGameId()).data.gameType == GAME_TYPE_INVITE_ONLY && treeWidget_NickList->selectedItems().at(0)->data(0, Qt::UserRole).toUInt() != mySession->getClientUniquePlayerId() && !mySession->getClientPlayerInfo(treeWidget_NickList->selectedItems().at(0)->data(0, Qt::UserRole).toUInt()).isGuest) {
+        assert(mySession);
+        int playerUid = treeWidget_NickList->selectedItems().at(0)->data(0, Qt::UserRole).toUInt();
+
+        if(inGame && mySession->getClientGameInfo(mySession->getClientCurrentGameId()).data.gameType == GAME_TYPE_INVITE_ONLY && playerUid != mySession->getClientUniquePlayerId() && !mySession->getClientPlayerInfo(playerUid).isGuest) {
 
             nickListInviteAction->setEnabled(true);
-            nickListInviteAction->setText(tr("Invite player %1").arg(QString::fromUtf8(mySession->getClientPlayerInfo(treeWidget_NickList->selectedItems().at(0)->data(0, Qt::UserRole).toUInt()).playerName.c_str())));
+            nickListInviteAction->setText(tr("Invite player %1").arg(QString::fromUtf8(mySession->getClientPlayerInfo(playerUid).playerName.c_str())));
 
         }
         else {
@@ -1382,10 +1386,10 @@ void gameLobbyDialogImpl::showNickListContextMenu(QPoint p)
             nickListInviteAction->setEnabled(false);
         }
 
-        if(treeWidget_NickList->selectedItems().at(0)->data(0, Qt::UserRole).toUInt() != mySession->getClientUniquePlayerId() && !mySession->getClientPlayerInfo(treeWidget_NickList->selectedItems().at(0)->data(0, Qt::UserRole).toUInt()).isGuest) {
+        if(playerUid != mySession->getClientUniquePlayerId() && !mySession->getClientPlayerInfo(playerUid).isGuest) {
 
             nickListIgnorePlayerAction->setEnabled(true);
-            nickListIgnorePlayerAction->setText(tr("Ignore player %1").arg(QString::fromUtf8(mySession->getClientPlayerInfo(treeWidget_NickList->selectedItems().at(0)->data(0, Qt::UserRole).toUInt()).playerName.c_str())));
+            nickListIgnorePlayerAction->setText(tr("Ignore player %1").arg(QString::fromUtf8(mySession->getClientPlayerInfo(playerUid).playerName.c_str())));
         }
         else {
 
@@ -1393,6 +1397,16 @@ void gameLobbyDialogImpl::showNickListContextMenu(QPoint p)
             nickListIgnorePlayerAction->setText(tr("Ignore player ..."));
         }
 
+
+        unsigned gameIdOfPlayer = mySession->getGameIdOfPlayer(playerUid);
+        QString playerInGameInfoString;
+        if(gameIdOfPlayer) {
+            playerInGameInfoString = tr("Player %1 is playing in \"%2\".").arg(QString::fromUtf8(mySession->getClientPlayerInfo(playerUid).playerName.c_str())).arg(QString::fromUtf8(mySession->getClientGameInfo(gameIdOfPlayer).name.c_str()));
+        }
+        else {
+            playerInGameInfoString = tr("Player %1 is not playing at the moment.").arg(QString::fromUtf8(mySession->getClientPlayerInfo(playerUid).playerName.c_str()));
+        }
+        nickListPlayerInGameInfo->setText(playerInGameInfoString);
 
         nickListContextMenu->popup(treeWidget_NickList->mapToGlobal(p));
     }
