@@ -39,7 +39,7 @@ void MyActionButton::paintEvent(QPaintEvent * event) {
         painter.drawText(6,6,15,15,Qt::AlignLeft,fKeyText);
     }
     else if(objectName()==("pushButton_showMyCards")){
-        painter.drawText(6,6,15,15,Qt::AlignLeft,fKeyText);
+        painter.drawText(6,6,15,15,Qt::AlignLeft,QString("F5"));
     }
     else {
         painter.drawText(8,15,15,15,Qt::AlignLeft,fKeyText);

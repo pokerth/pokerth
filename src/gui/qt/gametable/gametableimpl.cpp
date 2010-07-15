@@ -3258,7 +3258,6 @@ void gameTableImpl::refreshCardsChance(GameState bero)
 void gameTableImpl::refreshActionButtonFKeyIndicator(bool clear)
 {
     if(clear) {
-        pushButton_showMyCards->setFKeyText("");
         pushButton_AllIn->setFKeyText("");
         pushButton_BetRaise->setFKeyText("");
         pushButton_CallCheck->setFKeyText("");
@@ -3277,7 +3276,6 @@ void gameTableImpl::refreshActionButtonFKeyIndicator(bool clear)
             if(!pushButton_CallCheck->text().isEmpty()) pushButton_CallCheck->setFKeyText("F3");
             if(!pushButton_Fold->text().isEmpty()) pushButton_Fold->setFKeyText("F4");
         }
-        if(!pushButton_showMyCards->text().isEmpty()) pushButton_showMyCards->setFKeyText("F5");
     }
 }
 
@@ -3453,7 +3451,7 @@ void gameTableImpl::showShowMyCardsButton()
 void gameTableImpl::sendShowMyCardsSignal()
 {
     if(pushButton_showMyCards->isVisible()) {
-        qDebug() << "show!";
+
         pushButton_showMyCards->hide();
     }
 }
