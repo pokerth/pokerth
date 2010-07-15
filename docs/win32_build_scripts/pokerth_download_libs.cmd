@@ -127,7 +127,7 @@ SET PATH=%PKTH_BaseDir%\qt\bin;%PATH%
 SET QMAKESPEC=win32-g++
 SET QTDIR=%PKTH_BaseDir%\qt
 cd qt
-configure -static -fast -no-qt3support -no-sql-sqlite -no-dbus -no-opengl -no-openssl -no-phonon -no-webkit
+configure -static -fast -no-qt3support -qt-sql-sqlite -no-dbus -no-opengl -no-openssl -no-phonon -no-webkit
 qmake projects.pro -o Makefile -spec win32-g++
 mingw32-make sub-src
 echo.
