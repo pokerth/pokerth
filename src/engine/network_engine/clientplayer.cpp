@@ -515,3 +515,13 @@ boost::shared_ptr<SessionData> ClientPlayer::getNetSessionData()
 	return myNetSessionData;
 }
 
+bool ClientPlayer::checkIfINeedToShowCards()
+{
+    std::list<unsigned> playerNeedToShowCardsList = currentBoard->getPlayerNeedToShowCards();
+    for(std::list<unsigned>::iterator it = playerNeedToShowCardsList.begin(); it != playerNeedToShowCardsList.end(); it++)
+    {
+        if(*it == myUniqueID) return true;
+    }
+
+    return false;
+}

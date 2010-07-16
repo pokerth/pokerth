@@ -115,6 +115,8 @@ public:
 
 	virtual void setNetSessionData(boost::shared_ptr<SessionData> session) =0;
 	virtual boost::shared_ptr<SessionData> getNetSessionData() =0;
+
+        virtual bool checkIfINeedToShowCards() =0;
 };
 
 #endif

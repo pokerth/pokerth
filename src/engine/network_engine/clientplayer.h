@@ -181,6 +181,8 @@ private:
 	bool myWinnerState;
 
 	boost::shared_ptr<SessionData> myNetSessionData;
+
+        bool checkIfINeedToShowCards();
 };
 
 #endif

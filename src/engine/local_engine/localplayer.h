@@ -178,8 +178,8 @@ public:
 
 	void setNetSessionData(boost::shared_ptr<SessionData> session);
 	boost::shared_ptr<SessionData> getNetSessionData();
-	
 
+        bool checkIfINeedToShowCards();
 	
 
 private:
