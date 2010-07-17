@@ -142,7 +142,9 @@ std::list<unsigned>
 ClientBoard::getPlayerNeedToShowCards() const
 {
 	boost::recursive_mutex::scoped_lock lock(m_syncMutex);
-	return playerNeedToShowCards;
+	// TODO returns winners for now.
+	//return playerNeedToShowCards;
+	return winners;
 }
 
 void
