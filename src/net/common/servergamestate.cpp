@@ -170,6 +170,28 @@ static void PerformPlayerAction(ServerGame &server, boost::shared_ptr<PlayerInte
 	SendPlayerAction(server, player);
 }
 
+static void
+SetPlayerResult(PlayerResult_t &playerResult, boost::shared_ptr<PlayerInterface> tmpPlayer)
+{
+	playerResult.playerId = tmpPlayer->getMyUniqueID();
+	int tmpCards[2];
+	int bestHandPos[5];
+	tmpPlayer->getMyCards(tmpCards);
+	playerResult.resultCard1 = tmpCards[0];
+	playerResult.resultCard2 = tmpCards[1];
+	tmpPlayer->getMyBestHandPosition(bestHandPos);
+	for (int num = 0; num < 5; num++)
+	{
+		long *handPos = (long *)calloc(1, sizeof(long));
+		*handPos = bestHandPos[num];
+		ASN_SEQUENCE_ADD(&playerResult.bestHandPosition.list, handPos);
+	}
+
+	playerResult.cardsValue = tmpPlayer->getMyCardsValueInt();
+	playerResult.moneyWon = tmpPlayer->getLastMoneyWon();
+	playerResult.playerMoney = tmpPlayer->getMyCash();
+}
+
 //-----------------------------------------------------------------------------
 
 ServerGameState::~ServerGameState()
@@ -876,23 +898,7 @@ ServerGameStateHand::EngineLoop(boost::shared_ptr<ServerGame> server)
 				while (i != end)
 				{
 					PlayerResult_t *playerResult = (PlayerResult_t *)calloc(1, sizeof(PlayerResult_t));
-					playerResult->playerId = (*i)->getMyUniqueID();
-					int tmpCards[2];
-					int bestHandPos[5];
-					(*i)->getMyCards(tmpCards);
-					playerResult->resultCard1 = tmpCards[0];
-					playerResult->resultCard2 = tmpCards[1];
-					(*i)->getMyBestHandPosition(bestHandPos);
-					for (int num = 0; num < 5; num++)
-					{
-						long *handPos = (long *)calloc(1, sizeof(long));
-						*handPos = bestHandPos[num];
-						ASN_SEQUENCE_ADD(&playerResult->bestHandPosition.list, handPos);
-					}
-
-					playerResult->cardsValue = (*i)->getMyCardsValueInt();
-					playerResult->moneyWon = (*i)->getLastMoneyWon();
-					playerResult->playerMoney = (*i)->getMyCash();
+					SetPlayerResult(*playerResult, (*i));
 
 					ASN_SEQUENCE_ADD(&endHandShow->playerResults.list, playerResult);
 					++i;
@@ -1332,7 +1338,16 @@ ServerGameStateWaitNextHand::InternalProcessPacket(boost::shared_ptr<ServerGame>
 {
 	if (packet->GetMsg()->present == PokerTHMessage_PR_showMyCardsRequestMessage)
 	{
-		// TODO perform action.
+		Game &curGame = server->GetGame();
+		boost::shared_ptr<NetPacket> show(new NetPacket(NetPacket::Alloc));
+		show->GetMsg()->present = PokerTHMessage_PR_afterHandShowCardsMessage;
+
+		AfterHandShowCardsMessage_t *netShowCards = &packet->GetMsg()->choice.afterHandShowCardsMessage;
+		boost::shared_ptr<PlayerInterface> tmpPlayer(curGame.getPlayerByUniqueId(session.playerData->GetUniqueId()));
+		if (tmpPlayer)
+			SetPlayerResult(netShowCards->playerResult, tmpPlayer);
+
+		server->SendToAllButOnePlayers(show, session.sessionData->GetId(), SessionData::Game);
 	}
 }
 

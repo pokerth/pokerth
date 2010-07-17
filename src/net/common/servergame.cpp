@@ -135,6 +135,12 @@ ServerGame::SendToAllPlayers(boost::shared_ptr<NetPacket> packet, SessionData::S
 }
 
 void
+ServerGame::SendToAllButOnePlayers(boost::shared_ptr<NetPacket> packet, SessionId except, SessionData::State state)
+{
+	GetSessionManager().SendToAllButOneSessions(GetLobbyThread().GetSender(), packet, except, state);
+}
+
+void
 ServerGame::RemoveAllSessions()
 {
 	// Clean up ALL sessions which are left.

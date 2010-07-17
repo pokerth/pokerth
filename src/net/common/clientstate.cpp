@@ -1718,6 +1718,29 @@ ClientStateWaitHand::InternalHandlePacket(boost::shared_ptr<ClientThread> client
 			client->SetState(ClientStateWaitGame::Instance());
 		}
 	}
+	else if (tmpPacket->GetMsg()->present == PokerTHMessage_PR_afterHandShowCardsMessage)
+	{
+		AfterHandShowCardsMessage_t *showCards = &tmpPacket->GetMsg()->choice.afterHandShowCardsMessage;
+		PlayerResult_t *r = &showCards->playerResult;
+
+		boost::shared_ptr<PlayerInterface> tmpPlayer = client->GetGame()->getPlayerByUniqueId(r->playerId);
+		if (!tmpPlayer)
+			throw ClientException(__FILE__, __LINE__, ERR_NET_UNKNOWN_PLAYER_ID, 0);
+
+		int tmpCards[2];
+		int bestHandPos[5];
+		tmpCards[0] = static_cast<int>(r->resultCard1);
+		tmpCards[1] = static_cast<int>(r->resultCard2);
+		tmpPlayer->setMyCards(tmpCards);
+		for (int num = 0; num < 5; num++)
+			bestHandPos[num] = *r->bestHandPosition.list.array[num];
+		tmpPlayer->setMyCardsValueInt(r->cardsValue);
+		tmpPlayer->setMyBestHandPosition(bestHandPos);
+		tmpPlayer->setMyCash(r->playerMoney);
+		tmpPlayer->setLastMoneyWon(r->moneyWon);
+
+		client->GetCallback().SignalNetClientPostRiverShowCards(r->playerId);
+	}
 }
 
 //-----------------------------------------------------------------------------

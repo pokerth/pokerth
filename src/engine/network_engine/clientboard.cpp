@@ -141,13 +141,13 @@ ClientBoard::setWinners(const std::list<unsigned> &w)
 std::list<unsigned>
 ClientBoard::getPlayerNeedToShowCards() const
 {
-        boost::recursive_mutex::scoped_lock lock(m_syncMutex);
-        return playerNeedToShowCards;
+	boost::recursive_mutex::scoped_lock lock(m_syncMutex);
+	return playerNeedToShowCards;
 }
 
 void
 ClientBoard::setPlayerNeedToShowCards(const std::list<unsigned> &p)
 {
-        boost::recursive_mutex::scoped_lock lock(m_syncMutex);
-        playerNeedToShowCards = p;
+	boost::recursive_mutex::scoped_lock lock(m_syncMutex);
+	playerNeedToShowCards = p;
 }

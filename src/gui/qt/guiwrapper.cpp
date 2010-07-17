@@ -97,7 +97,6 @@ void GuiWrapper::riverAnimation2() { myW->signalRiverAnimation2(); }
 
 void GuiWrapper::postRiverAnimation1() { myW->signalPostRiverAnimation1(); }
 void GuiWrapper::postRiverRunAnimation1() { myW->signalPostRiverRunAnimation1(); }
-void GuiWrapper::postRiverShowCards(unsigned playerId) { myW->signalPostRiverShowCards(playerId); }
 
 void GuiWrapper::flipHolecardsAllIn() { myW->signalFlipHolecardsAllIn(); }
 
@@ -130,6 +129,7 @@ void GuiWrapper::SignalNetClientConnect(int actionID) { myStartWindow->signalNet
 void GuiWrapper::SignalNetClientServerListAdd(unsigned serverId) { myStartWindow->signalNetClientServerListAdd(serverId); }
 void GuiWrapper::SignalNetClientServerListShow() { myStartWindow->signalNetClientServerListShow(); }
 void GuiWrapper::SignalNetClientLoginShow() { myStartWindow->signalNetClientLoginShow(); }
+void GuiWrapper::SignalNetClientPostRiverShowCards(unsigned playerId) { myW->signalPostRiverShowCards(playerId); }
 void GuiWrapper::SignalNetClientServerListClear() { myStartWindow->signalNetClientServerListClear(); }
 void GuiWrapper::SignalNetClientGameInfo(int actionID) { myStartWindow->signalNetClientGameInfo(actionID); }
 void GuiWrapper::SignalNetClientError(int errorID, int osErrorID) { myStartWindow->signalNetClientError(errorID, osErrorID); }

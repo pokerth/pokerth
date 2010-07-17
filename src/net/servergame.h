@@ -63,7 +63,8 @@ public:
 	GameState GetCurRound() const;
 
 	void SendToAllPlayers(boost::shared_ptr<NetPacket> packet, SessionData::State state);
-	void RemoveAllSessions();
+	void SendToAllButOnePlayers(boost::shared_ptr<NetPacket> packet, SessionId except, SessionData::State state);
+		void RemoveAllSessions();
 
 	bool IsPasswordProtected() const;
 	bool CheckPassword(const std::string &password) const;

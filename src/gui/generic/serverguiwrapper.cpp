@@ -90,7 +90,6 @@ void ServerGuiWrapper::riverAnimation2() {}
 
 void ServerGuiWrapper::postRiverAnimation1() {}
 void ServerGuiWrapper::postRiverRunAnimation1() {}
-void ServerGuiWrapper::postRiverShowCards(unsigned /*playerId*/) {}
 void ServerGuiWrapper::flipHolecardsAllIn() {}
 
 void ServerGuiWrapper::nextRoundCleanGui() {}
@@ -123,6 +122,7 @@ void ServerGuiWrapper::SignalNetClientServerListClear() { if (myClientcb) myClie
 void ServerGuiWrapper::SignalNetClientServerListShow() { if (myClientcb) myClientcb->SignalNetClientServerListShow(); }
 
 void ServerGuiWrapper::SignalNetClientLoginShow() { if (myClientcb) myClientcb->SignalNetClientLoginShow(); }
+void ServerGuiWrapper::SignalNetClientPostRiverShowCards(unsigned playerId) { if (myClientcb) myClientcb->SignalNetClientPostRiverShowCards(playerId); }
 
 void ServerGuiWrapper::SignalNetClientConnect(int actionID) { if (myClientcb) myClientcb->SignalNetClientConnect(actionID); }
 void ServerGuiWrapper::SignalNetClientGameInfo(int actionID) { if (myClientcb) myClientcb->SignalNetClientGameInfo(actionID); }

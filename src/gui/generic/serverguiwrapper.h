@@ -78,7 +78,6 @@ public:
 
     void postRiverAnimation1();
     void postRiverRunAnimation1();
-    void postRiverShowCards(unsigned playerId);
 
     void flipHolecardsAllIn();
 
@@ -135,6 +134,7 @@ public:
     void SignalNetClientServerListShow();
 
     void SignalNetClientLoginShow();
+	void SignalNetClientPostRiverShowCards(unsigned playerId);
 
     void SignalNetServerSuccess(int actionID);
     void SignalNetServerError(int errorID, int osErrorID);

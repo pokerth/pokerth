@@ -517,7 +517,8 @@ boost::shared_ptr<SessionData> ClientPlayer::getNetSessionData()
 
 bool ClientPlayer::checkIfINeedToShowCards()
 {
-    std::list<unsigned> playerNeedToShowCardsList = currentBoard->getPlayerNeedToShowCards();
+	boost::recursive_mutex::scoped_lock lock(m_syncMutex);
+	std::list<unsigned> playerNeedToShowCardsList = currentBoard->getPlayerNeedToShowCards();
     for(std::list<unsigned>::iterator it = playerNeedToShowCardsList.begin(); it != playerNeedToShowCardsList.end(); it++)
     {
         if(*it == myUniqueID) return true;
