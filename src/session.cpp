@@ -462,7 +462,7 @@ void Session::voteKick(bool doKick)
 void Session::showMyCards()
 {
 	if (!myNetClient)
-		return; // only act if client is running.
+                return; // only act if client is running.
 	myNetClient->SendShowMyCards();
 }
 

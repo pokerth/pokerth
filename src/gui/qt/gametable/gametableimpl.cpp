@@ -2411,7 +2411,7 @@ void gameTableImpl::showMyCards() {
     HandInterface *currentHand = myStartWindow->getSession()->getCurrentGame()->getCurrentHand();
     currentHand->getSeatsList()->front()->getMyCards(tempCardsIntArray);
 
-    if( currentHand->getSeatsList()->front()->getMyCardsFlip() == 0 &&  currentHand->getCurrentRound() == 4 && currentHand->getSeatsList()->front()->getMyActiveStatus() && currentHand->getSeatsList()->front()->getMyAction() != PLAYER_ACTION_FOLD) {
+    if( currentHand->getSeatsList()->front()->getMyCardsFlip() == 0 &&  currentHand->getCurrentRound() == 3 && currentHand->getSeatsList()->front()->getMyActiveStatus() && currentHand->getSeatsList()->front()->getMyAction() != PLAYER_ACTION_FOLD) {
 
         myStartWindow->getSession()->showMyCards();
 
