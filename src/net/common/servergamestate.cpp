@@ -1345,9 +1345,10 @@ ServerGameStateWaitNextHand::InternalProcessPacket(boost::shared_ptr<ServerGame>
 		AfterHandShowCardsMessage_t *netShowCards = &packet->GetMsg()->choice.afterHandShowCardsMessage;
 		boost::shared_ptr<PlayerInterface> tmpPlayer(curGame.getPlayerByUniqueId(session.playerData->GetUniqueId()));
 		if (tmpPlayer)
+		{
 			SetPlayerResult(netShowCards->playerResult, tmpPlayer);
-
-		server->SendToAllButOnePlayers(show, session.sessionData->GetId(), SessionData::Game);
+			server->SendToAllButOnePlayers(show, session.sessionData->GetId(), SessionData::Game);
+		}
 	}
 }
 
