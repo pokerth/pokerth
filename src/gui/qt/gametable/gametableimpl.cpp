@@ -2032,7 +2032,7 @@ void gameTableImpl::postRiverRunAnimation2() {
                 (*it_c)->getMyCards(tempCardsIntArray);
                 if((*it_c)->getMyAction() != PLAYER_ACTION_FOLD && (*it_c)->checkIfINeedToShowCards()) {
 
-                    if((*it_c)->getMyID() || ((*it_c)->getMyID()==0 && antiPeekMode) ) {
+//                    if((*it_c)->getMyID() || ((*it_c)->getMyID()==0 && antiPeekMode) ) {
                         for(j=0; j<2; j++) {
                             if(showFlipcardAnimation) { // with Eye-Candy
                                 holeCardsArray[(*it_c)->getMyID()][j]->startFlipCards(guiGameSpeed, QPixmap::fromImage(QImage(myCardDeckStyle->getCurrentDir()+QString::number(tempCardsIntArray[j], 10)+".png")), *flipside);
@@ -2042,8 +2042,8 @@ void gameTableImpl::postRiverRunAnimation2() {
                                 holeCardsArray[(*it_c)->getMyID()][j]->setPixmap(tempCardsPixmapArray[j], FALSE);
                             }
                         }
-                    
-                    }
+
+//                    }
                     //set Player value (logging)
                     (*it_c)->setMyCardsFlip(1,1);
                 }
@@ -2051,10 +2051,10 @@ void gameTableImpl::postRiverRunAnimation2() {
                 //if human player dont need to show cards he gets the button "show cards" in internet or network game
                 if( (myStartWindow->getSession()->getGameType() == Session::GAME_TYPE_INTERNET || myStartWindow->getSession()->getGameType() == Session::GAME_TYPE_NETWORK) && (*it_c)->getMyID() == 0 && (*it_c)->getMyAction() != PLAYER_ACTION_FOLD && !(*it_c)->checkIfINeedToShowCards()) {
 
-                     showShowMyCardsButton();
+                    showShowMyCardsButton();
                 }
-            //Wenn einmal umgedreht dann fertig!!
-            flipHolecardsAllInAlreadyDone = TRUE;            
+                //Wenn einmal umgedreht dann fertig!!
+                flipHolecardsAllInAlreadyDone = TRUE;
             }
         }
         else {
@@ -2170,7 +2170,7 @@ void gameTableImpl::postRiverRunAnimation3() {
         }
         else {
 
-            if( currentHand->getActivePlayerList()->size() != 1 && (*it_c)->getMyAction() != PLAYER_ACTION_FOLD && myConfig->readConfigInt("ShowFadeOutCardsAnimation") ) {
+            if( currentHand->getActivePlayerList()->size() != 1 && (*it_c)->getMyAction() != PLAYER_ACTION_FOLD && myConfig->readConfigInt("ShowFadeOutCardsAnimation") && ((*it_c)->getMyCardsFlip() || (myStartWindow->getSession()->getGameType() == Session::GAME_TYPE_LOCAL && (*it_c)->getMyID() == 0 ) ) ) {
 
                 //aufgedeckte Gegner auch ausblenden
                 holeCardsArray[(*it_c)->getMyID()][0]->startFadeOut(guiGameSpeed);
@@ -2304,6 +2304,8 @@ void gameTableImpl::postRiverRunAnimation6() {
 
 void gameTableImpl::postRiverShowCards(unsigned playerId)
 {
+    qDebug() << "player : "<< playerId << "shows his cards";
+
     HandInterface *currentHand = myStartWindow->getSession()->getCurrentGame()->getCurrentHand();
     QPixmap onePix = QPixmap::fromImage(QImage(myAppDataPath +"gfx/gui/misc/1px.png"));
     //TempArrays
