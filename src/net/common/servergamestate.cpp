@@ -1342,7 +1342,7 @@ ServerGameStateWaitNextHand::InternalProcessPacket(boost::shared_ptr<ServerGame>
 		boost::shared_ptr<NetPacket> show(new NetPacket(NetPacket::Alloc));
 		show->GetMsg()->present = PokerTHMessage_PR_afterHandShowCardsMessage;
 
-		AfterHandShowCardsMessage_t *netShowCards = &packet->GetMsg()->choice.afterHandShowCardsMessage;
+		AfterHandShowCardsMessage_t *netShowCards = &show->GetMsg()->choice.afterHandShowCardsMessage;
 		boost::shared_ptr<PlayerInterface> tmpPlayer(curGame.getPlayerByUniqueId(session.playerData->GetUniqueId()));
 		if (tmpPlayer)
 		{
