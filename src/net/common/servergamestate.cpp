@@ -1013,6 +1013,7 @@ ServerGameStateHand::TimerNextGame(const boost::system::error_code &ec, boost::s
 
 			// Set winner in database.
 			boost::shared_ptr<PlayerData> tmpPlayer = server->GetPlayerDataByUniqueId(winnerPlayer->getMyUniqueID());
+			cerr << "Setting winner for game " << server->GetDBId() << " player id " << tmpPlayer->GetDBId() << endl;
 			if (tmpPlayer)
 				server->GetLobbyThread().GetDatabase().SetGamePlayerPlace(server->GetDBId(), tmpPlayer->GetDBId(), 1);
 
