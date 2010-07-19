@@ -25,6 +25,7 @@
 #include <net/netpacket.h>
 #include <net/socket_msg.h>
 #include <net/serverexception.h>
+#include <db/serverdbinterface.h>
 #include <core/loghelper.h>
 #include <gamedata.h>
 #include <game.h>
@@ -1009,6 +1010,11 @@ ServerGameStateHand::TimerNextGame(const boost::system::error_code &ec, boost::s
 			netEndGame->gameId = server->GetId();
 			netEndGame->winnerPlayerId = winnerPlayer->getMyUniqueID();
 			server->SendToAllPlayers(endGame, SessionData::Game);
+
+			// Set winner in database.
+			boost::shared_ptr<PlayerData> tmpPlayer = server->GetPlayerDataByUniqueId(winnerPlayer->getMyUniqueID());
+			if (tmpPlayer)
+				server->GetLobbyThread().GetDatabase().SetGamePlayerPlace(server->GetDBId(), tmpPlayer->GetDBId(), 1);
 
 			// Wait for the start of a new game.
 			server->ResetComputerPlayerList();
