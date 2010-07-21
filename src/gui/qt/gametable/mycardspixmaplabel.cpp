@@ -45,7 +45,6 @@ MyCardsPixmapLabel::~MyCardsPixmapLabel()
 
 void MyCardsPixmapLabel::startFadeOut(int speed) { 
 	
-	
 	frameOpacity = 1.0;
 
 	if(speed <= 4) { opacityRaiseInterval = 0.01; }
