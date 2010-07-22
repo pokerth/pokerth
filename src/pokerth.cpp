@@ -103,7 +103,7 @@ int main( int argc, char **argv )
 	ConfigFile *myConfig = new ConfigFile(argv[0], false);
 
 	// set PlastiqueStyle even for mac-version to prevent artefacts on styled widgets
-//	a.setStyle(new QPlastiqueStyle);
+        a.setStyle(new QPlastiqueStyle);
 
 	QString	myAppDataPath = QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str());
 	//set QApplication default font	
@@ -113,18 +113,16 @@ int main( int argc, char **argv )
 	QFontDatabase::addApplicationFont (myAppDataPath +"fonts/c059013l.pfb");
 
 #ifdef _WIN32
-	QString font1String("font-family: \"Arial\";");
-	a.setStyleSheet("QApplication, QWidget, QDialog { " + font1String + " font-size: 12px; }");
-#else 
+        QString font1String("QApplication, QWidget, QDialog { font-family: \"Arial\"; font-size: 12px; }");
+#else
         #ifdef __APPLE__
-            QString font1String("font-family: \"Lucida Grande\";");
-            a.setStyleSheet("QWidget, QDialog { " + font1String + " font-size: 8px; }");
+//            QString font1String("font-family: \"Lucida Grande\";");
+            QString font1String("QApplication, QWidget, QDialog { font-family: \"Nimbus Sans L\"; font-size: 12px; }");
         #else
-            QString font1String("font-family: \"Nimbus Sans L\";");
-            a.setStyleSheet("QApplication, QWidget, QDialog { " + font1String + " font-size: 18px; }");
+            QString font1String("QApplication, QWidget, QDialog { font-family: \"Nimbus Sans L\"; font-size: 12px; }");
         #endif
-#endif	
-	a.setStyleSheet("QDialogButtonBox, QMessageBox { dialogbuttonbox-buttons-have-icons: 1; dialog-ok-icon: url(:/gfx/dialog_ok_apply.png); dialog-cancel-icon: url(:/gfx/dialog_close.png); dialog-close-icon: url(:/gfx/dialog_close.png); dialog-yes-icon: url(:/gfx/dialog_ok_apply.png); dialog-no-icon: url(:/gfx/dialog_close.png) }");
+#endif
+        a.setStyleSheet(font1String + " QDialogButtonBox, QMessageBox { dialogbuttonbox-buttons-have-icons: 1; dialog-ok-icon: url(:/gfx/dialog_ok_apply.png); dialog-cancel-icon: url(:/gfx/dialog_close.png); dialog-close-icon: url(:/gfx/dialog_close.png); dialog-yes-icon: url(:/gfx/dialog_ok_apply.png); dialog-no-icon: url(:/gfx/dialog_close.png) }");
 
 	QPixmap *pixmap = new QPixmap(myAppDataPath + "gfx/gui/misc/welcomepokerth.png");
 	StartSplash splash(*pixmap);
