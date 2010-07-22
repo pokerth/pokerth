@@ -117,7 +117,7 @@ int main( int argc, char **argv )
 #else
         #ifdef __APPLE__
 //            QString font1String("font-family: \"Lucida Grande\";");
-            QString font1String("QApplication, QWidget, QDialog { font-family: \"Nimbus Sans L\"; font-size: 12px; }");
+            QString font1String("QApplication, QWidget, QDialog { font-family: \"Lucida Grande\"; font-size: 12px; }");
         #else
             QString font1String("QApplication, QWidget, QDialog { font-family: \"Nimbus Sans L\"; font-size: 12px; }");
         #endif
