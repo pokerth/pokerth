@@ -116,12 +116,14 @@ int main( int argc, char **argv )
 	QString font1String("font-family: \"Arial\";");
 	a.setStyleSheet("QApplication, QWidget, QDialog { " + font1String + " font-size: 12px; }");
 #else 
-// 	#ifdef __APPLE__
 // 		QString font1String("font-family: \"Lucida Grande\";");
-// 	#else 
 	QString font1String("font-family: \"Nimbus Sans L\";");
-// 	#endif
-	a.setStyleSheet("QApplication, QWidget, QDialog { " + font1String + " font-size: 12px; }");
+
+        #ifdef __APPLE__
+            a.setStyleSheet("QApplication, QWidget, QDialog { " + font1String + " font-size: 11px; }");
+        #else
+            a.setStyleSheet("QApplication, QWidget, QDialog { " + font1String + " font-size: 12px; }");
+        #endif
 #endif	
 	a.setStyleSheet("QDialogButtonBox, QMessageBox { dialogbuttonbox-buttons-have-icons: 1; dialog-ok-icon: url(:/gfx/dialog_ok_apply.png); dialog-cancel-icon: url(:/gfx/dialog_close.png); dialog-close-icon: url(:/gfx/dialog_close.png); dialog-yes-icon: url(:/gfx/dialog_ok_apply.png); dialog-no-icon: url(:/gfx/dialog_close.png) }");
 
