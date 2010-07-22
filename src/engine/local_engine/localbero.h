@@ -98,8 +98,8 @@ protected:
 	void setSmallBlind(int theValue) { smallBlind = theValue; }
 	int getSmallBlind() const { return smallBlind; }
 
-	void setLastActionPlayer ( int theValue ) { lastActionPlayer = theValue; }
-	int getLastActionPlayer() const { return lastActionPlayer; }
+        void setLastActionPlayer ( unsigned theValue ) { lastActionPlayer = theValue; }
+        unsigned getLastActionPlayer() const { return lastActionPlayer; }
 	
 
 

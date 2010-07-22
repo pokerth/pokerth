@@ -118,11 +118,11 @@ LocalHand::LocalHand(boost::shared_ptr<EngineFactory> f, GuiInterface *g, BoardI
 
 			case 1: {		
 
-                                tempBoardArray[0] = 32;
-                                tempBoardArray[1] = 8;
-                                tempBoardArray[2] = 7;
-                                tempBoardArray[3] = 48;
-                                tempBoardArray[4] = 21;
+                                tempBoardArray[0] = 39;
+                                tempBoardArray[1] = 2;
+                                tempBoardArray[2] = 3;
+                                tempBoardArray[3] = 4;
+                                tempBoardArray[4] = 5;
 			
 				myBoard->setMyCards(tempBoardArray);
 			
@@ -135,8 +135,8 @@ LocalHand::LocalHand(boost::shared_ptr<EngineFactory> f, GuiInterface *g, BoardI
 				// player0
 				it = seatsList->begin();
 			
-                                tempPlayerArray[0] = 44;
-                                tempPlayerArray[1] = 10;
+                                tempPlayerArray[0] = 13;
+                                tempPlayerArray[1] = 14;
 				tempPlayerAndBoardArray[0] = tempPlayerArray[0];
 				tempPlayerAndBoardArray[1] = tempPlayerArray[1];
 			
@@ -148,8 +148,8 @@ LocalHand::LocalHand(boost::shared_ptr<EngineFactory> f, GuiInterface *g, BoardI
 				// player1
 				it++;
 		
-                                tempPlayerArray[0] = 31;
-                                tempPlayerArray[1] = 22;
+                                tempPlayerArray[0] = 18;
+                                tempPlayerArray[1] = 17;
 				tempPlayerAndBoardArray[0] = tempPlayerArray[0];
 				tempPlayerAndBoardArray[1] = tempPlayerArray[1];
 			
@@ -161,8 +161,8 @@ LocalHand::LocalHand(boost::shared_ptr<EngineFactory> f, GuiInterface *g, BoardI
 				// player2
 				it++;
 		
-				tempPlayerArray[0] = 49;
-				tempPlayerArray[1] = 34;
+                                tempPlayerArray[0] = 26;
+                                tempPlayerArray[1] = 27;
 				tempPlayerAndBoardArray[0] = tempPlayerArray[0];
 				tempPlayerAndBoardArray[1] = tempPlayerArray[1];
 			
@@ -174,8 +174,8 @@ LocalHand::LocalHand(boost::shared_ptr<EngineFactory> f, GuiInterface *g, BoardI
 				// player3
 				it++;
 			
-                                tempPlayerArray[0] = 23;
-                                tempPlayerArray[1] = 1;
+                                tempPlayerArray[0] = 31;
+                                tempPlayerArray[1] = 30;
                                 tempPlayerAndBoardArray[0] = tempPlayerArray[0];
                                 tempPlayerAndBoardArray[1] = tempPlayerArray[1];
 
@@ -187,8 +187,8 @@ LocalHand::LocalHand(boost::shared_ptr<EngineFactory> f, GuiInterface *g, BoardI
 				// player4
 				it++;
 			
-                                tempPlayerArray[0] = 36;
-                                tempPlayerArray[1] = 45;
+                                tempPlayerArray[0] = 50;
+                                tempPlayerArray[1] = 51;
 				tempPlayerAndBoardArray[0] = tempPlayerArray[0];
 				tempPlayerAndBoardArray[1] = tempPlayerArray[1];
 			
@@ -200,8 +200,8 @@ LocalHand::LocalHand(boost::shared_ptr<EngineFactory> f, GuiInterface *g, BoardI
 				// player5
 				it++;
 			
-                                tempPlayerArray[0] = 43;
-                                tempPlayerArray[1] = 30;
+                                tempPlayerArray[0] = 25;
+                                tempPlayerArray[1] = 24;
                                 tempPlayerAndBoardArray[0] = tempPlayerArray[0];
                                 tempPlayerAndBoardArray[1] = tempPlayerArray[1];
 
@@ -213,8 +213,8 @@ LocalHand::LocalHand(boost::shared_ptr<EngineFactory> f, GuiInterface *g, BoardI
 				// player6
 				it++;
 			
-                                tempPlayerArray[0] = 24;
-                                tempPlayerArray[1] = 6;
+                                tempPlayerArray[0] = 38;
+                                tempPlayerArray[1] = 37;
 				tempPlayerAndBoardArray[0] = tempPlayerArray[0];
 				tempPlayerAndBoardArray[1] = tempPlayerArray[1];
 			
@@ -226,8 +226,21 @@ LocalHand::LocalHand(boost::shared_ptr<EngineFactory> f, GuiInterface *g, BoardI
                                 // player7
                                 it++;
 
-                                tempPlayerArray[0] = 31;
-                                tempPlayerArray[1] = 19;
+                                tempPlayerArray[0] = 32;
+                                tempPlayerArray[1] = 33;
+                                tempPlayerAndBoardArray[0] = tempPlayerArray[0];
+                                tempPlayerAndBoardArray[1] = tempPlayerArray[1];
+
+                                (*it)->setMyCards(tempPlayerArray);
+                                (*it)->setMyCardsValueInt(myCardsValue.cardsValue(tempPlayerAndBoardArray,temp5Array));
+
+                                (*it)->setMyBestHandPosition(temp5Array);
+
+                                // player8
+                                it++;
+
+                                tempPlayerArray[0] = 19;
+                                tempPlayerArray[1] = 20;
                                 tempPlayerAndBoardArray[0] = tempPlayerArray[0];
                                 tempPlayerAndBoardArray[1] = tempPlayerArray[1];
 
@@ -411,14 +424,28 @@ void LocalHand::assignButtons() {
 		it = getActivePlayerIt( (*dealerPositionIt)->getMyUniqueID() );
 		if(it != activePlayerList->end() ) {
 			nextActivePlayerFound = true;
-			if(activePlayerList->size() > 2) (*it)->setMyButton(2); //small blind normal
-			else (*it)->setMyButton(3); //big blind in heads up
+                        if(activePlayerList->size() > 2) {
+                            //small blind normal
+                            (*it)->setMyButton(2);
+                        } else {
+                            //big blind in heads up
+                            (*it)->setMyButton(3);
+                            // lastPlayerAction for showing cards
+//                            getCurrentBeRo()->setLastActionPlayer((*it)->getMyUniqueID());
+                        }
 
 			it++;
 			if(it == activePlayerList->end()) it = activePlayerList->begin();
 
-			if(activePlayerList->size() > 2) (*it)->setMyButton(3); //big blind normal
-			else (*it)->setMyButton(2); //small blind in heads up
+                        if(activePlayerList->size() > 2) {
+                             //big blind normal
+                            (*it)->setMyButton(3);
+                            // lastPlayerAction for showing cards
+//                            getCurrentBeRo()->setLastActionPlayer((*it)->getMyUniqueID());
+                        } else {
+                            //small blind in heads up
+                            (*it)->setMyButton(2);
+                        }
 
 			break;
 		}

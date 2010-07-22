@@ -50,13 +50,13 @@ ClientBeRo::setHighestCardsValue(int theValue)
 }
 
 void
-ClientBeRo::setLastActionPlayer ( int theValue )
+ClientBeRo::setLastActionPlayer ( unsigned theValue )
 {
 	boost::recursive_mutex::scoped_lock lock(m_syncMutex);
 	lastActionPlayer = theValue;
 }
 
-int
+unsigned
 ClientBeRo::getLastActionPlayer() const
 {
 	boost::recursive_mutex::scoped_lock lock(m_syncMutex);

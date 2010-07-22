@@ -38,8 +38,8 @@ public:
 	int getHighestCardsValue() const;
 	void setHighestCardsValue(int theValue);
 
-	void setLastActionPlayer ( int theValue );
-	int getLastActionPlayer() const;
+        void setLastActionPlayer ( unsigned theValue );
+        unsigned getLastActionPlayer() const;
 
 	void setPlayersTurn(int theValue);
 	int getPlayersTurn() const;

@@ -861,31 +861,31 @@ LocalPlayer::LocalPlayer(ConfigFile *c, BoardInterface *b, int id, unsigned uniq
         switch(myUniqueID) {
 
         case 0: {
-                myCash=2980;
+                myCash=1000;
             } break;
         case 1: {
-                myCash=2980;
+                myCash=1000;
             } break;
         case 2: {
-                myCash=2980;
+                myCash=1000;
             } break;
         case 3: {
-                myCash=2980;
+                myCash=2000;
             } break;
         case 4: {
-                myCash=2980;
+                myCash=3000;
             } break;
         case 5: {
-                myCash=2980;
+                myCash=2000;
             } break;
         case 6: {
-                myCash=0;
+                myCash=2100;
             } break;
         case 7: {
-                myCash=0;
+                myCash=500;
             } break;
         case 8: {
-                myCash=0;
+                myCash=1000;
             } break;
         case 9: {
                 myCash=0;
@@ -1380,8 +1380,8 @@ void LocalPlayer::preflopEngine() {
         case 3: {
                 switch(currentHand->getMyID()) {
                 case 1: {
-                        myAction = PLAYER_ACTION_CALL;
-                        // 						raise = 20;
+                        myAction = PLAYER_ACTION_RAISE;
+                                                                        raise = 2000;
                         // 						if(mySet >= 40) {
                         // 							myAction = PLAYER_ACTION_CALL;
                         // 						}
@@ -1403,8 +1403,8 @@ void LocalPlayer::preflopEngine() {
         case 4: {
                 switch(currentHand->getMyID()) {
                 case 1: {
-                        myAction = PLAYER_ACTION_CALL;
-                        // 						raise = 20;
+                        myAction = PLAYER_ACTION_RAISE;
+                                                                        raise = 2000;
                         // 						if(mySet > 0) {
                         // 							myAction = PLAYER_ACTION_FOLD;
                         // 						}
@@ -1425,7 +1425,7 @@ void LocalPlayer::preflopEngine() {
             break;
         case 5: {
                 // 				if(mySet == 0) {
-                myAction = PLAYER_ACTION_RAISE;
+                myAction = PLAYER_ACTION_CALL;
                 raise = 20;
                 // 				}
             }
@@ -1433,6 +1433,20 @@ void LocalPlayer::preflopEngine() {
         case 6: {
                 // 				if(mySet == 160) {
                 myAction = PLAYER_ACTION_CALL;
+                // 				}
+            }
+            break;
+        case 7: {
+                // 				if(mySet == 160) {
+                myAction = PLAYER_ACTION_CALL;
+
+                // 				}
+            }
+            break;
+        case 8: {
+                // 				if(mySet == 160) {
+                myAction = PLAYER_ACTION_CALL;
+
                 // 				}
             }
             break;
@@ -2765,8 +2779,8 @@ void LocalPlayer::riverEngine() {
             }
         }
 
-        // lastPlayerAction für Karten umblättern reihenfolge setzrn
-        currentHand->getCurrentBeRo()->setLastActionPlayer(myID);
+//        // lastPlayerAction für Karten umblättern reihenfolge setzrn
+//        currentHand->getCurrentBeRo()->setLastActionPlayer(myUniqueID);
 
     }
 
@@ -3054,6 +3068,8 @@ void LocalPlayer::evaluation(int bet, int raise) {
                 mySet = bet;
                 highestSet = mySet;
             }
+            // lastPlayerAction für Karten umblättern reihenfolge setzrn
+            currentHand->getCurrentBeRo()->setLastActionPlayer(myUniqueID);
         }
         break;
         // raise
@@ -3096,6 +3112,8 @@ void LocalPlayer::evaluation(int bet, int raise) {
                     highestSet = mySet;
                 }
             }
+            // lastPlayerAction für Karten umblättern reihenfolge setzrn
+            currentHand->getCurrentBeRo()->setLastActionPlayer(myUniqueID);
         }
         break;
         // all in
