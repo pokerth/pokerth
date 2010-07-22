@@ -145,7 +145,7 @@ protected:
 	void TimerShowCards(const boost::system::error_code &ec, boost::shared_ptr<ServerGame> server);
 	void TimerComputerAction(const boost::system::error_code &ec, boost::shared_ptr<ServerGame> server);
 	void TimerNextHand(const boost::system::error_code &ec, boost::shared_ptr<ServerGame> server);
-	void TimerNextGame(const boost::system::error_code &ec, boost::shared_ptr<ServerGame> server);
+	void TimerNextGame(const boost::system::error_code &ec, boost::shared_ptr<ServerGame> server, unsigned winnerPlayerId);
 	int GetDealCardsDelaySec(ServerGame &server);
 	static void StartNewHand(boost::shared_ptr<ServerGame> server);
 

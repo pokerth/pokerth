@@ -921,12 +921,21 @@ ServerGameStateHand::EngineLoop(boost::shared_ptr<ServerGame> server)
 			}
 			else if (playersWithCash.size() == 1)
 			{
+				// Store winner in database.
+				boost::shared_ptr<PlayerInterface> winnerPlayer = *(playersWithCash.begin());
+				boost::shared_ptr<PlayerData> tmpPlayer = server->GetPlayerDataByUniqueId(winnerPlayer->getMyUniqueID());
+				if (tmpPlayer)
+				{
+					cerr << "Setting winner for game " << server->GetDBId() << " player id " << tmpPlayer->GetDBId() << endl;
+					server->GetLobbyThread().GetDatabase().SetGamePlayerPlace(server->GetDBId(), tmpPlayer->GetDBId(), 1);
+				}
+
 				// View a dialog for a new game - delayed.
 				server->GetStateTimer().expires_from_now(
 					boost::posix_time::seconds(SERVER_DELAY_NEXT_GAME_SEC));
 				server->GetStateTimer().async_wait(
 					boost::bind(
-						&ServerGameStateHand::TimerNextGame, this, boost::asio::placeholders::error, server));
+						&ServerGameStateHand::TimerNextGame, this, boost::asio::placeholders::error, server, winnerPlayer->getMyUniqueID()));
 			}
 			else
 			{
@@ -986,48 +995,22 @@ ServerGameStateHand::TimerNextHand(const boost::system::error_code &ec, boost::s
 }
 
 void
-ServerGameStateHand::TimerNextGame(const boost::system::error_code &ec, boost::shared_ptr<ServerGame> server)
+ServerGameStateHand::TimerNextGame(const boost::system::error_code &ec, boost::shared_ptr<ServerGame> server, unsigned winnerPlayerId)
 {
 	if (!ec && &server->GetState() == this)
 	{
-		// The game has ended. Notify all clients.
-		boost::shared_ptr<PlayerInterface> winnerPlayer;
-		PlayerListIterator i = server->GetGame().getActivePlayerList()->begin();
-		PlayerListIterator end = server->GetGame().getActivePlayerList()->end();
-		while (i != end)
-		{
-			winnerPlayer = *i;
-			if (winnerPlayer->getMyCash() > 0)
-				break;
-			++i;
-		}
+		boost::shared_ptr<NetPacket> endGame(new NetPacket(NetPacket::Alloc));
+		endGame->GetMsg()->present = PokerTHMessage_PR_endOfGameMessage;
+		EndOfGameMessage_t *netEndGame = &endGame->GetMsg()->choice.endOfGameMessage;
+		netEndGame->gameId = server->GetId();
+		netEndGame->winnerPlayerId = winnerPlayerId;
+		server->SendToAllPlayers(endGame, SessionData::Game);
 
-		if (winnerPlayer)
-		{
-			boost::shared_ptr<NetPacket> endGame(new NetPacket(NetPacket::Alloc));
-			endGame->GetMsg()->present = PokerTHMessage_PR_endOfGameMessage;
-			EndOfGameMessage_t *netEndGame = &endGame->GetMsg()->choice.endOfGameMessage;
-			netEndGame->gameId = server->GetId();
-			netEndGame->winnerPlayerId = winnerPlayer->getMyUniqueID();
-			server->SendToAllPlayers(endGame, SessionData::Game);
-
-			// Set winner in database.
-			boost::shared_ptr<PlayerData> tmpPlayer = server->GetPlayerDataByUniqueId(winnerPlayer->getMyUniqueID());
-			cerr << "Setting winner for game " << server->GetDBId() << " player id " << tmpPlayer->GetDBId() << endl;
-			if (tmpPlayer)
-				server->GetLobbyThread().GetDatabase().SetGamePlayerPlace(server->GetDBId(), tmpPlayer->GetDBId(), 1);
-
-			// Wait for the start of a new game.
-			server->ResetComputerPlayerList();
-			server->ResetGame();
-			server->GetLobbyThread().NotifyReopeningGame(server->GetId());
-			server->SetState(ServerGameStateInit::Instance());
-		}
-		else
-		{
-			LOG_ERROR("Game " << server->GetId() << " - Has no winner!");
-			server->RemoveAllSessions(); // This is fatal, close this game.
-		}
+		// Wait for the start of a new game.
+		server->ResetComputerPlayerList();
+		server->ResetGame();
+		server->GetLobbyThread().NotifyReopeningGame(server->GetId());
+		server->SetState(ServerGameStateInit::Instance());
 	}
 }
 
