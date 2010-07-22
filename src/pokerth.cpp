@@ -120,7 +120,7 @@ int main( int argc, char **argv )
 	QString font1String("font-family: \"Nimbus Sans L\";");
 
         #ifdef __APPLE__
-            a.setStyleSheet("QApplication, QWidget, QDialog { " + font1String + " font-size: 10px; }");
+            a.setStyleSheet("QApplication, QWidget, QDialog { " + font1String + " font-size: 10pt; }");
         #else
             a.setStyleSheet("QApplication, QWidget, QDialog { " + font1String + " font-size: 12px; }");
         #endif
