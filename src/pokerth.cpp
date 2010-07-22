@@ -113,7 +113,7 @@ int main( int argc, char **argv )
 	QFontDatabase::addApplicationFont (myAppDataPath +"fonts/c059013l.pfb");
 
 #ifdef _WIN32
-        QString font1String("QApplication, QWidget, QDialog { font-family: \"Arial\"; font-size: 12px; }");
+        QString font1String("QApplication, QWidget, QDialog { font-size: 12px; }");
 #else
         #ifdef __APPLE__
 //            QString font1String("font-family: \"Lucida Grande\";");
