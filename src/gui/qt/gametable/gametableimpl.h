@@ -370,7 +370,7 @@ private:
     MyCardsPixmapLabel *boardCardsArray[5];
     MyCardsPixmapLabel *holeCardsArray[MAX_NUMBER_OF_PLAYERS][2];
 
-    QPixmap *flipside;
+    QPixmap flipside;
 
     // 	Dialogs
     startWindowImpl *myStartWindow;

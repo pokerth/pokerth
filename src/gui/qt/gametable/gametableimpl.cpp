@@ -94,12 +94,10 @@ gameTableImpl::gameTableImpl(ConfigFile *c, QMainWindow *parent)
 
     //Flipside festlegen;
     if (myConfig->readConfigInt("FlipsideOwn") && myConfig->readConfigString("FlipsideOwnFile") != "") {
-        flipside = new QPixmap();
-        *flipside = QPixmap::fromImage(QImage(QString::fromUtf8(myConfig->readConfigString("FlipsideOwnFile").c_str())));
+        flipside = QPixmap::fromImage(QImage(QString::fromUtf8(myConfig->readConfigString("FlipsideOwnFile").c_str())));
     }
     else {
-        flipside = new QPixmap();
-        *flipside = QPixmap::fromImage(QImage(myCardDeckStyle->getCurrentDir()+"flipside.png"));
+        flipside = QPixmap::fromImage(QImage(myCardDeckStyle->getCurrentDir()+"flipside.png"));
     }
 
     //Flipside Animation noch nicht erledigt
@@ -610,19 +608,16 @@ void gameTableImpl::applySettings(settingsDialogImpl* mySettingsDialog) {
 
     //Flipside refresh
     if (myConfig->readConfigInt("FlipsideOwn") && myConfig->readConfigString("FlipsideOwnFile") != "") {
-
-        flipside = new QPixmap();
-        *flipside = QPixmap::fromImage(QImage(QString::fromUtf8(myConfig->readConfigString("FlipsideOwnFile").c_str())));
+        flipside = QPixmap::fromImage(QImage(QString::fromUtf8(myConfig->readConfigString("FlipsideOwnFile").c_str())));
     }
     else {
-        flipside = new QPixmap();
-        *flipside = QPixmap::fromImage(QImage(myCardDeckStyle->getCurrentDir()+"flipside.png"));
+        flipside = QPixmap::fromImage(QImage(myCardDeckStyle->getCurrentDir()+"flipside.png"));
     }
     int j,k;
     for (j=1; j<MAX_NUMBER_OF_PLAYERS; j++ ) {
         for ( k=0; k<=1; k++ ) {
             if (holeCardsArray[j][k]->getIsFlipside()) {
-                holeCardsArray[j][k]->setPixmap(*flipside, TRUE);
+                holeCardsArray[j][k]->setPixmap(flipside, TRUE);
             }
         }
     }
@@ -637,10 +632,10 @@ void gameTableImpl::applySettings(settingsDialogImpl* mySettingsDialog) {
 
             myStartWindow->getSession()->getCurrentGame()->getSeatsList()->front()->getMyCards(tempCardsIntArray);
             if(myConfig->readConfigInt("AntiPeekMode")) {
-                holeCardsArray[0][0]->setPixmap(*flipside, TRUE);
+                holeCardsArray[0][0]->setPixmap(flipside, TRUE);
                 tempCardsPixmapArray[0] = QPixmap::fromImage(QImage(myCardDeckStyle->getCurrentDir()+QString::number(tempCardsIntArray[0], 10)+".png"));
                 holeCardsArray[0][0]->setHiddenFrontPixmap(tempCardsPixmapArray[0]);
-                holeCardsArray[0][1]->setPixmap(*flipside, TRUE);
+                holeCardsArray[0][1]->setPixmap(flipside, TRUE);
                 tempCardsPixmapArray[1]= QPixmap::fromImage(QImage(myCardDeckStyle->getCurrentDir()+QString::number(tempCardsIntArray[1], 10)+".png"));
                 holeCardsArray[0][1]->setHiddenFrontPixmap(tempCardsPixmapArray[1]);
             }
@@ -1122,8 +1117,8 @@ void gameTableImpl::dealHoleCards() {
                 if (( (*it_c)->getMyID() == 0) || DEBUG_MODE) {
                     tempCardsPixmapArray[j].load(myCardDeckStyle->getCurrentDir()+QString::number(tempCardsIntArray[j], 10)+".png");
                     if(myConfig->readConfigInt("AntiPeekMode")) {
-                        holeCardsArray[(*it_c)->getMyID()][j]->setPixmap(*flipside, TRUE);
-                        holeCardsArray[(*it_c)->getMyID()][j]->setFront(*flipside);
+                        holeCardsArray[(*it_c)->getMyID()][j]->setPixmap(flipside, TRUE);
+                        holeCardsArray[(*it_c)->getMyID()][j]->setFront(flipside);
                         holeCardsArray[(*it_c)->getMyID()][j]->setHiddenFrontPixmap(tempCardsPixmapArray[j]);
                     }
                     else {
@@ -1132,8 +1127,8 @@ void gameTableImpl::dealHoleCards() {
                     }
                 }
                 else {
-                    holeCardsArray[(*it_c)->getMyID()][j]->setPixmap(*flipside, TRUE);
-
+                    holeCardsArray[(*it_c)->getMyID()][j]->setPixmap(flipside, TRUE);
+                    holeCardsArray[(*it_c)->getMyID()][j]->setFlipsidePix(flipside);
                 }
             }
             else {
@@ -1177,19 +1172,19 @@ void gameTableImpl::dealFlopCards0() {	dealFlopCards0Timer->start(preDealCardsSp
 
 void gameTableImpl::dealFlopCards1() {
 
-    boardCardsArray[0]->setPixmap(*flipside, TRUE);
+    boardCardsArray[0]->setPixmap(flipside, TRUE);
     dealFlopCards1Timer->start(dealCardsSpeed);
 }
 
 void gameTableImpl::dealFlopCards2() {
 
-    boardCardsArray[1]->setPixmap(*flipside, TRUE);
+    boardCardsArray[1]->setPixmap(flipside, TRUE);
     dealFlopCards2Timer->start(dealCardsSpeed);
 }
 
 void gameTableImpl::dealFlopCards3() {
 
-    boardCardsArray[2]->setPixmap(*flipside, TRUE);
+    boardCardsArray[2]->setPixmap(flipside, TRUE);
     dealFlopCards3Timer->start(dealCardsSpeed);
 }
 
@@ -1203,10 +1198,11 @@ void gameTableImpl::dealFlopCards4() {
     //Config? mit oder ohne Eye-Candy?
     if(myConfig->readConfigInt("ShowFlipCardsAnimation")) {
         //with Eye-Candy
-        boardCardsArray[0]->startFlipCards(guiGameSpeed, card, *flipside);
+        boardCardsArray[0]->startFlipCards(guiGameSpeed, card, flipside);
     }
     else {
         //without Eye-Candy
+        boardCardsArray[0]->setFront(card);
         boardCardsArray[0]->setPixmap(card, FALSE);
     }
     dealFlopCards4Timer->start(dealCardsSpeed);
@@ -1221,10 +1217,11 @@ void gameTableImpl::dealFlopCards5() {
     //Config? mit oder ohne Eye-Candy?
     if(myConfig->readConfigInt("ShowFlipCardsAnimation")) {
         //with Eye-Candy
-        boardCardsArray[1]->startFlipCards(guiGameSpeed, card, *flipside);
+        boardCardsArray[1]->startFlipCards(guiGameSpeed, card, flipside);
     }
     else {
         //without Eye-Candy
+        boardCardsArray[1]->setFront(card);
         boardCardsArray[1]->setPixmap(card, FALSE);
     }
     dealFlopCards5Timer->start(dealCardsSpeed);
@@ -1239,10 +1236,11 @@ void gameTableImpl::dealFlopCards6() {
     //Config? mit oder ohne Eye-Candy?
     if(myConfig->readConfigInt("ShowFlipCardsAnimation")) {
         //with Eye-Candy
-        boardCardsArray[2]->startFlipCards(guiGameSpeed, card, *flipside);
+        boardCardsArray[2]->startFlipCards(guiGameSpeed, card, flipside);
     }
     else {
         //without Eye-Candy
+        boardCardsArray[2]->setFront(card);
         boardCardsArray[2]->setPixmap(card, FALSE);
     }
 
@@ -1263,7 +1261,7 @@ void gameTableImpl::dealTurnCards0() { dealTurnCards0Timer->start(preDealCardsSp
 
 void gameTableImpl::dealTurnCards1() {
 
-    boardCardsArray[3]->setPixmap(*flipside, TRUE);
+    boardCardsArray[3]->setPixmap(flipside, TRUE);
     dealTurnCards1Timer->start(dealCardsSpeed);
 }
 
@@ -1276,10 +1274,11 @@ void gameTableImpl::dealTurnCards2() {
     //Config? mit oder ohne Eye-Candy?
     if(myConfig->readConfigInt("ShowFlipCardsAnimation")) {
         //with Eye-Candy
-        boardCardsArray[3]->startFlipCards(guiGameSpeed, card, *flipside);
+        boardCardsArray[3]->startFlipCards(guiGameSpeed, card, flipside);
     }
     else {
         //without Eye-Candy
+        boardCardsArray[3]->setFront(card);
         boardCardsArray[3]->setPixmap(card, FALSE);
     }
 
@@ -1300,7 +1299,7 @@ void gameTableImpl::dealRiverCards0() { dealRiverCards0Timer->start(preDealCards
 
 void gameTableImpl::dealRiverCards1() {
 
-    boardCardsArray[4]->setPixmap(*flipside, TRUE);
+    boardCardsArray[4]->setPixmap(flipside, TRUE);
 
     // 	QTimer::singleShot(dealCardsSpeed, this, SLOT( dealRiverCards2() ));
     dealRiverCards1Timer->start(dealCardsSpeed);
@@ -1315,10 +1314,11 @@ void gameTableImpl::dealRiverCards2() {
     //Config? mit oder ohne Eye-Candy?
     if(myConfig->readConfigInt("ShowFlipCardsAnimation")) {
         //with Eye-Candy
-        boardCardsArray[4]->startFlipCards(guiGameSpeed, card, *flipside);
+        boardCardsArray[4]->startFlipCards(guiGameSpeed, card, flipside);
     }
     else {
         //without Eye-Candy
+        boardCardsArray[4]->setFront(card);
         boardCardsArray[4]->setPixmap(card, FALSE);
     }
 
@@ -2035,10 +2035,11 @@ void gameTableImpl::postRiverRunAnimation2() {
 //                    if((*it_c)->getMyID() || ((*it_c)->getMyID()==0 && antiPeekMode) ) {
                         for(j=0; j<2; j++) {
                             if(showFlipcardAnimation) { // with Eye-Candy
-                                holeCardsArray[(*it_c)->getMyID()][j]->startFlipCards(guiGameSpeed, QPixmap::fromImage(QImage(myCardDeckStyle->getCurrentDir()+QString::number(tempCardsIntArray[j], 10)+".png")), *flipside);
+                                holeCardsArray[(*it_c)->getMyID()][j]->startFlipCards(guiGameSpeed, QPixmap::fromImage(QImage(myCardDeckStyle->getCurrentDir()+QString::number(tempCardsIntArray[j], 10)+".png")), flipside);
                             }
                             else { //without Eye-Candy
                                 tempCardsPixmapArray[j] = QPixmap::fromImage(QImage(myCardDeckStyle->getCurrentDir()+QString::number(tempCardsIntArray[j], 10)+".png"));
+                                holeCardsArray[(*it_c)->getMyID()][j]->setFront(tempCardsPixmapArray[j]);
                                 holeCardsArray[(*it_c)->getMyID()][j]->setPixmap(tempCardsPixmapArray[j], FALSE);
                             }
                         }
@@ -2077,7 +2078,6 @@ void gameTableImpl::postRiverRunAnimation2() {
 void gameTableImpl::postRiverRunAnimation3() {
 
     HandInterface *currentHand = myStartWindow->getSession()->getCurrentGame()->getCurrentHand();
-    //Alle Winner erhellen und "Winner" schreiben
 
     int nonfoldPlayerCounter = 0;
     PlayerListConstIterator it_c;
@@ -2088,16 +2088,12 @@ void gameTableImpl::postRiverRunAnimation3() {
         }
     }
 
-
     list<unsigned> winners = currentHand->getBoard()->getWinners();
-
 
     for(it_c=currentHand->getActivePlayerList()->begin(); it_c!=currentHand->getActivePlayerList()->end(); it_c++) {
         if((*it_c)->getMyAction() != PLAYER_ACTION_FOLD && (*it_c)->getMyCardsValueInt() == currentHand->getCurrentBeRo()->getHighestCardsValue() ) {
 
-            // 			QPalette tempPalette = groupBoxArray[i]->palette();
-            // 			tempPalette.setColor(QPalette::Window, highlight);
-            // 			groupBoxArray[i]->setPalette(tempPalette);
+             //Show "Winner" label
             actionLabelArray[(*it_c)->getMyID()]->setPixmap(QPixmap::fromImage(QImage(myGameTableStyle->getActionPic(7))));
 
             //show winnercards if more than one player is active TODO
@@ -2107,11 +2103,6 @@ void gameTableImpl::postRiverRunAnimation3() {
                 int bestHandPos[5];
                 (*it_c)->getMyBestHandPosition(bestHandPos);
 
-                // 				for(j=0; j<5; j++) {
-                // 					cout << bestHandPos[j] << endl;
-                // 				}
-
-                //index 0 testen --> Karte darf nicht im MyBestHand Position Array drin sein, es darf nicht nur ein Spieler Aktiv sein, die Config fordert die Animation
                 bool index0 = TRUE;
                 for(j=0; j<5; j++) {
                     if (bestHandPos[j] == 0 ) { index0 = FALSE; }
@@ -2170,7 +2161,8 @@ void gameTableImpl::postRiverRunAnimation3() {
         }
         else {
 
-            if( currentHand->getActivePlayerList()->size() != 1 && (*it_c)->getMyAction() != PLAYER_ACTION_FOLD && myConfig->readConfigInt("ShowFadeOutCardsAnimation") && ((*it_c)->getMyCardsFlip() || (myStartWindow->getSession()->getGameType() == Session::GAME_TYPE_LOCAL && (*it_c)->getMyID() == 0 ) ) ) {
+            if( currentHand->getActivePlayerList()->size() != 1 && (*it_c)->getMyAction() != PLAYER_ACTION_FOLD && myConfig->readConfigInt("ShowFadeOutCardsAnimation")
+                ) {
 
                 //aufgedeckte Gegner auch ausblenden
                 holeCardsArray[(*it_c)->getMyID()][0]->startFadeOut(guiGameSpeed);
@@ -2321,7 +2313,7 @@ void gameTableImpl::postRiverShowCards(unsigned playerId)
             for(j=0; j<2; j++) {
 
                 if(showFlipcardAnimation) { // with Eye-Candy
-                    holeCardsArray[(*it_c)->getMyID()][j]->startFlipCards(guiGameSpeed, QPixmap::fromImage(QImage(myCardDeckStyle->getCurrentDir()+QString::number(tempCardsIntArray[j], 10)+".png")), *flipside);
+                    holeCardsArray[(*it_c)->getMyID()][j]->startFlipCards(guiGameSpeed, QPixmap::fromImage(QImage(myCardDeckStyle->getCurrentDir()+QString::number(tempCardsIntArray[j], 10)+".png")), flipside);
                 }
                 else { //without Eye-Candy
                     tempCardsPixmapArray[j] = QPixmap::fromImage(QImage(myCardDeckStyle->getCurrentDir()+QString::number(tempCardsIntArray[j], 10)+".png"));
@@ -2360,11 +2352,11 @@ void gameTableImpl::flipHolecardsAllIn() {
                 for (it_c=currentHand->getActivePlayerList()->begin(); it_c!=currentHand->getActivePlayerList()->end(); it_c++) {
                     (*it_c)->getMyCards(tempCardsIntArray);
                     if((*it_c)->getMyAction() != PLAYER_ACTION_FOLD) {
-                        if((*it_c)->getMyID() || ((*it_c)->getMyID()==0 && myConfig->readConfigInt("AntiPeekMode")) ) {
+//                        if((*it_c)->getMyID() || ((*it_c)->getMyID()==0 && myConfig->readConfigInt("AntiPeekMode")) ) {
                             for(j=0; j<2; j++) {
-                                holeCardsArray[(*it_c)->getMyID()][j]->startFlipCards(guiGameSpeed, QPixmap::fromImage(QImage(myCardDeckStyle->getCurrentDir()+QString::number(tempCardsIntArray[j], 10)+".png")), *flipside);
+                                holeCardsArray[(*it_c)->getMyID()][j]->startFlipCards(guiGameSpeed, QPixmap::fromImage(QImage(myCardDeckStyle->getCurrentDir()+QString::number(tempCardsIntArray[j], 10)+".png")), flipside);
                             }
-                        }
+//                        }
                         //set Player value (logging)
                         (*it_c)->setMyCardsFlip(1,2);
 
@@ -2385,13 +2377,14 @@ void gameTableImpl::flipHolecardsAllIn() {
                 for (it_c=currentHand->getActivePlayerList()->begin(); it_c!=currentHand->getActivePlayerList()->end(); it_c++) {
                     (*it_c)->getMyCards(temp2CardsIntArray);
                     if((*it_c)->getMyAction() != PLAYER_ACTION_FOLD) {
-                        if((*it_c)->getMyID() || ((*it_c)->getMyID()==0 && myConfig->readConfigInt("AntiPeekMode")) ) {
+//                        if((*it_c)->getMyID() || ((*it_c)->getMyID()==0 && myConfig->readConfigInt("AntiPeekMode")) ) {
                             for(j=0; j<2; j++) {
 
                                 tempCardsPixmapArray[j] = QPixmap::fromImage(QImage(myCardDeckStyle->getCurrentDir()+QString::number(temp2CardsIntArray[j], 10)+".png"));
+                                holeCardsArray[(*it_c)->getMyID()][j]->setFront(tempCardsPixmapArray[j]);
                                 holeCardsArray[(*it_c)->getMyID()][j]->setPixmap(tempCardsPixmapArray[j], FALSE);
                             }
-                        }
+//                        }
                         //set Player value (logging)
                         (*it_c)->setMyCardsFlip(1,2);
                     }
@@ -2416,8 +2409,8 @@ void gameTableImpl::showMyCards() {
         myStartWindow->getSession()->showMyCards();
 
         if(myConfig->readConfigInt("ShowFlipCardsAnimation")) { // with Eye-Candy
-            holeCardsArray[0][0]->startFlipCards(guiGameSpeed, QPixmap::fromImage(QImage(myCardDeckStyle->getCurrentDir()+QString::number(tempCardsIntArray[0], 10)+".png")), *flipside);
-            holeCardsArray[0][1]->startFlipCards(guiGameSpeed, QPixmap::fromImage(QImage(myCardDeckStyle->getCurrentDir()+QString::number(tempCardsIntArray[1], 10)+".png")), *flipside);
+            holeCardsArray[0][0]->startFlipCards(guiGameSpeed, QPixmap::fromImage(QImage(myCardDeckStyle->getCurrentDir()+QString::number(tempCardsIntArray[0], 10)+".png")), flipside);
+            holeCardsArray[0][1]->startFlipCards(guiGameSpeed, QPixmap::fromImage(QImage(myCardDeckStyle->getCurrentDir()+QString::number(tempCardsIntArray[1], 10)+".png")), flipside);
         }
         //set Player value (logging)
         currentHand->getSeatsList()->front()->setMyCardsFlip(1,1);

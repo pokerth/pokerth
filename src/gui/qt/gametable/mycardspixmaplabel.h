@@ -39,6 +39,8 @@ public:
 	void startFlipCards(int, const QPixmap & , const QPixmap &);
 	void stopFlipCardsAnimation();
 	
+        void setFlipsidePix(QPixmap p) { flipside = p; }
+
 	void paintEvent(QPaintEvent * event);
 
 signals:

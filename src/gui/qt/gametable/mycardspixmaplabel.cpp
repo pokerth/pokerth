@@ -77,6 +77,7 @@ void MyCardsPixmapLabel::nextFadeOutFrame() {
 void MyCardsPixmapLabel::startFlipCards(int speed, const QPixmap &frontPix, const QPixmap &flipsidePix) { 
 	
 	stopFlipCards = FALSE;
+        isFlipside = FALSE;
 
 	QLabel::setPixmap(frontPix);
 
@@ -156,7 +157,10 @@ void MyCardsPixmapLabel::paintEvent(QPaintEvent * event) {
 	if (fadeOutAction && !fastFlipCardsFront) {
 		QPainter painter(this);
 		painter.setOpacity(frameOpacity);
-		painter.drawPixmap(0,0, front);
+                if(isFlipside)
+                    painter.drawPixmap(0,0, flipside);
+                else
+                    painter.drawPixmap(0,0, front);
 	}
 
 	if (flipCardsAction1) {
