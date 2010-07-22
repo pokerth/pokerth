@@ -116,12 +116,11 @@ int main( int argc, char **argv )
 	QString font1String("font-family: \"Arial\";");
 	a.setStyleSheet("QApplication, QWidget, QDialog { " + font1String + " font-size: 12px; }");
 #else 
-// 		QString font1String("font-family: \"Lucida Grande\";");
-	QString font1String("font-family: \"Nimbus Sans L\";");
-
         #ifdef __APPLE__
+            QString font1String("font-family: \"Lucida Grande\";");
             a.setStyleSheet("QApplication, QWidget, QDialog { " + font1String + " font-size: 10pt; }");
         #else
+            QString font1String("font-family: \"Nimbus Sans L\";");
             a.setStyleSheet("QApplication, QWidget, QDialog { " + font1String + " font-size: 12px; }");
         #endif
 #endif	
