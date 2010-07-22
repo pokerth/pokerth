@@ -240,6 +240,7 @@ void LocalBoard::distributePot() {
 void LocalBoard::determinePlayerNeedToShowCards() {
 
 
+    playerNeedToShowCards.clear();
 
 
     // all winners have to show their cards
@@ -268,14 +269,15 @@ void LocalBoard::determinePlayerNeedToShowCards() {
     PlayerListConstIterator lastActionPlayerIt;
     PlayerListConstIterator it_c;
 
+//    cout << "lAP-Ende: " << currentHand->getLastActionPlayer() << endl;
     // search lastActionPlayer
     for(it_c = activePlayerList->begin(); it_c != activePlayerList->end(); it_c++) {
-//        cout << (*it_c)->getMyUniqueID() << ',';
-        if((*it_c)->getMyUniqueID() == currentHand->getCurrentBeRo()->getLastActionPlayer() && (*it_c)->getMyAction() != PLAYER_ACTION_FOLD) {
+        if((*it_c)->getMyUniqueID() == currentHand->getLastActionPlayer() && (*it_c)->getMyAction() != PLAYER_ACTION_FOLD) {
             lastActionPlayerIt = it_c;
+//            cout << (*it_c)->getMyUniqueID() << endl;
+            break;
         }
     }
-//    cout << endl;
 
     if(it_c == activePlayerList->end()) {
         for(it_c = activePlayerList->begin(); it_c != activePlayerList->end(); it_c++) {
@@ -310,7 +312,7 @@ void LocalBoard::determinePlayerNeedToShowCards() {
     it_c = lastActionPlayerIt;
     it_c++;
 
-    for(int i = 0; i < activePlayerList->size(); i++) {
+    for(unsigned i = 0; i < activePlayerList->size(); i++) {
 
         if(it_c == activePlayerList->end()) it_c = activePlayerList->begin();
 
@@ -338,9 +340,9 @@ void LocalBoard::determinePlayerNeedToShowCards() {
                         next_level_it = level_it;
                         next_level_it++;
 
-                        for(level_it_tmp = level.begin(); level_it_tmp != level.end(); level_it_tmp++) {
-                            cout << (*level_it_tmp)[0] << "," << (*level_it_tmp)[1] << endl;
-                        }
+//                        for(level_it_tmp = level.begin(); level_it_tmp != level.end(); level_it_tmp++) {
+//                            cout << (*level_it_tmp)[0] << "," << (*level_it_tmp)[1] << endl;
+//                        }
 
 
                         if(next_level_it == level.end() || (*it_c)->getMyRoundStartCash()-(*it_c)->getMyCash() > (*next_level_it)[1]) {
@@ -357,15 +359,15 @@ void LocalBoard::determinePlayerNeedToShowCards() {
                             level_tmp[0] = (*it_c)->getMyCardsValueInt();
                             level_tmp[1] = (*it_c)->getMyRoundStartCash()-(*it_c)->getMyCash();
 
-                            for(level_it_tmp = level.begin(); level_it_tmp != level.end(); level_it_tmp++) {
-                                cout << (*level_it_tmp)[0] << "," << (*level_it_tmp)[1] << endl;
-                            }
+//                            for(level_it_tmp = level.begin(); level_it_tmp != level.end(); level_it_tmp++) {
+//                                cout << (*level_it_tmp)[0] << "," << (*level_it_tmp)[1] << endl;
+//                            }
 
                             level.insert(level_it,level_tmp);
 
-                            for(level_it_tmp = level.begin(); level_it_tmp != level.end(); level_it_tmp++) {
-                                cout << (*level_it_tmp)[0] << "," << (*level_it_tmp)[1] << endl;
-                            }
+//                            for(level_it_tmp = level.begin(); level_it_tmp != level.end(); level_it_tmp++) {
+//                                cout << (*level_it_tmp)[0] << "," << (*level_it_tmp)[1] << endl;
+//                            }
 
                             break;
                         }
@@ -407,9 +409,9 @@ void LocalBoard::determinePlayerNeedToShowCards() {
 
     std::_List_iterator<unsigned> playerNeedToShowCardsIt;
 
-    for(playerNeedToShowCardsIt = playerNeedToShowCards.begin(); playerNeedToShowCardsIt!=playerNeedToShowCards.end(); playerNeedToShowCardsIt++) {
-        cout << (*playerNeedToShowCardsIt) << '\t';
-    }
-    cout << endl;
+//    for(playerNeedToShowCardsIt = playerNeedToShowCards.begin(); playerNeedToShowCardsIt!=playerNeedToShowCards.end(); playerNeedToShowCardsIt++) {
+//        cout << (*playerNeedToShowCardsIt) << '\t';
+//    }
+//    cout << endl;
 
 }

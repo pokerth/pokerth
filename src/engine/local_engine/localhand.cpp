@@ -31,7 +31,7 @@
 using namespace std;
 
 LocalHand::LocalHand(boost::shared_ptr<EngineFactory> f, GuiInterface *g, BoardInterface *b, PlayerList sl, PlayerList apl, PlayerList rpl, int id, int sP, unsigned dP, int sB,int sC)
-: myFactory(f), myGui(g),  myBoard(b), seatsList(sl), activePlayerList(apl), runningPlayerList(rpl), myBeRo(0), myID(id), startQuantityPlayers(sP), dealerPosition(dP), currentRound(0), smallBlind(sB), startCash(sC), lastPlayersTurn(-1), allInCondition(false),
+: myFactory(f), myGui(g),  myBoard(b), seatsList(sl), activePlayerList(apl), runningPlayerList(rpl), myBeRo(0), myID(id), startQuantityPlayers(sP), dealerPosition(dP), currentRound(0), smallBlind(sB), startCash(sC), lastPlayersTurn(-1), lastActionPlayer(0), allInCondition(false),
   cardsShown(false), bettingRoundsPlayed(0)
 {
 
@@ -431,7 +431,7 @@ void LocalHand::assignButtons() {
                             //big blind in heads up
                             (*it)->setMyButton(3);
                             // lastPlayerAction for showing cards
-//                            getCurrentBeRo()->setLastActionPlayer((*it)->getMyUniqueID());
+                            lastActionPlayer = (*it)->getMyUniqueID();
                         }
 
 			it++;
@@ -441,7 +441,7 @@ void LocalHand::assignButtons() {
                              //big blind normal
                             (*it)->setMyButton(3);
                             // lastPlayerAction for showing cards
-//                            getCurrentBeRo()->setLastActionPlayer((*it)->getMyUniqueID());
+                            lastActionPlayer = (*it)->getMyUniqueID();
                         } else {
                             //small blind in heads up
                             (*it)->setMyButton(2);
@@ -454,6 +454,8 @@ void LocalHand::assignButtons() {
 	if(!nextActivePlayerFound) {
 		throw LocalException(__FILE__, __LINE__, ERR_NEXT_ACTIVE_PLAYER_NOT_FOUND);
 	}
+
+//        cout << "lAP-Button: " << lastActionPlayer << endl;
 
 	//do sets --> TODO switch?
 	for (it_c=runningPlayerList->begin(); it_c!=runningPlayerList->end(); it_c++) { 

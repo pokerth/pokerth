@@ -97,9 +97,6 @@ protected:
 
 	void setSmallBlind(int theValue) { smallBlind = theValue; }
 	int getSmallBlind() const { return smallBlind; }
-
-        void setLastActionPlayer ( unsigned theValue ) { lastActionPlayer = theValue; }
-        unsigned getLastActionPlayer() const { return lastActionPlayer; }
 	
 
 
@@ -136,8 +133,6 @@ private:
 	unsigned firstRoundLastPlayersTurnId;
 
 	bool logBoardCardsDone;
-
-	int lastActionPlayer;
 
 
 };

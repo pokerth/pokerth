@@ -82,6 +82,9 @@ public:
 	void setLastPlayersTurn(int theValue) { lastPlayersTurn = theValue; }
 	int getLastPlayersTurn() const { return lastPlayersTurn; }
 
+        void setLastActionPlayer ( unsigned theValue ) { lastActionPlayer = theValue; }
+        unsigned getLastActionPlayer() const { return lastActionPlayer; }
+
 	void setCardsShown(bool theValue) { cardsShown = theValue; }
 	bool getCardsShown() const { return cardsShown; }
 
@@ -110,6 +113,7 @@ private:
 	int startCash;
 
 	int lastPlayersTurn;
+        unsigned lastActionPlayer;
 
 	bool allInCondition;
 	bool cardsShown;

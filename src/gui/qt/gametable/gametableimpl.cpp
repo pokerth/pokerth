@@ -1760,6 +1760,9 @@ void gameTableImpl::mySet(){
 	
         //set that i was the last active player. need this for unhighlighting groupbox
         currentHand->setLastPlayersTurn(0);
+
+        // lastPlayerAction für Karten umblättern reihenfolge setzrn
+        currentHand->setLastActionPlayer(currentHand->getSeatsList()->front()->getMyUniqueID());
 	
         //Spiel läuft weiter
         myActionDone();
@@ -1785,6 +1788,9 @@ void gameTableImpl::myAllIn(){
             currentHand->getCurrentBeRo()->setMinimumRaise(currentHand->getSeatsList()->front()->getMySet() - currentHand->getCurrentBeRo()->getHighestSet());
 
             currentHand->getCurrentBeRo()->setHighestSet(currentHand->getSeatsList()->front()->getMySet());
+
+            // lastPlayerAction für Karten umblättern reihenfolge setzrn
+            currentHand->setLastActionPlayer(currentHand->getSeatsList()->front()->getMyUniqueID());
 
         }
 

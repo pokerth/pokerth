@@ -297,6 +297,18 @@ ClientHand::getLastPlayersTurn() const
 }
 
 void
+ClientHand::setLastActionPlayer (unsigned theValue)
+{
+        lastActionPlayer = theValue;
+}
+
+unsigned
+ClientHand::getLastActionPlayer() const
+{
+         return lastActionPlayer;
+}
+
+void
 ClientHand::setCardsShown(bool theValue)
 {
 	boost::recursive_mutex::scoped_lock lock(m_syncMutex);

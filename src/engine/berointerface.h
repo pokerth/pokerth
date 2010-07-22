@@ -58,9 +58,6 @@ public:
 	virtual void setHighestCardsValue(int theValue) =0;
 	virtual int getHighestCardsValue() const =0;
 
-        virtual void setLastActionPlayer( unsigned theValue ) =0;
-        virtual unsigned getLastActionPlayer() const =0;
-
 	virtual void setMinimumRaise (int) =0;
 	virtual int getMinimumRaise() const =0;
 

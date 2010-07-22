@@ -83,6 +83,9 @@ class ClientHand : public HandInterface
 		void setLastPlayersTurn ( int theValue );
 		int getLastPlayersTurn() const;
 
+                void setLastActionPlayer ( unsigned theValue );
+                unsigned getLastActionPlayer() const;
+
 		void setCardsShown ( bool theValue );
 		bool getCardsShown() const;
 
@@ -110,6 +113,7 @@ class ClientHand : public HandInterface
 		int startCash;
 
 		int lastPlayersTurn;
+                unsigned lastActionPlayer;
 
 		bool allInCondition;
 		bool cardsShown;

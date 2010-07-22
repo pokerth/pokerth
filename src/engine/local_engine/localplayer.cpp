@@ -3067,9 +3067,10 @@ void LocalPlayer::evaluation(int bet, int raise) {
                 myCash = myCash - bet;
                 mySet = bet;
                 highestSet = mySet;
+
             }
             // lastPlayerAction für Karten umblättern reihenfolge setzrn
-            currentHand->getCurrentBeRo()->setLastActionPlayer(myUniqueID);
+            currentHand->setLastActionPlayer(myUniqueID);
         }
         break;
         // raise
@@ -3097,6 +3098,9 @@ void LocalPlayer::evaluation(int bet, int raise) {
                     // -> full bet rule
                     if(highestSet + currentHand->getCurrentBeRo()->getMinimumRaise() > myCash + mySet) {
                         currentHand->getCurrentBeRo()->setFullBetRule(true);
+                    } else {
+                        // lastPlayerAction für Karten umblättern reihenfolge setzrn
+                        currentHand->setLastActionPlayer(myUniqueID);
                     }
                     mySet += myCash;
                     currentHand->getCurrentBeRo()->setMinimumRaise(mySet-highestSet);
@@ -3110,10 +3114,10 @@ void LocalPlayer::evaluation(int bet, int raise) {
                     myCash = myCash + mySet - highestSet - raise;
                     mySet = highestSet + raise;
                     highestSet = mySet;
+                    // lastPlayerAction für Karten umblättern reihenfolge setzrn
+                    currentHand->setLastActionPlayer(myUniqueID);
                 }
             }
-            // lastPlayerAction für Karten umblättern reihenfolge setzrn
-            currentHand->getCurrentBeRo()->setLastActionPlayer(myUniqueID);
         }
         break;
         // all in
@@ -3125,6 +3129,8 @@ void LocalPlayer::evaluation(int bet, int raise) {
     // 	cout << "highestSet(ende evaluation): " << highestSet << endl;
 
     currentHand->getCurrentBeRo()->setHighestSet(highestSet);
+
+//    cout << "lAP: " << currentHand->getLastActionPlayer() << endl;
 
 }
 
