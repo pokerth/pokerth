@@ -1341,7 +1341,7 @@ ServerGameStateWaitNextHand::InternalProcessPacket(boost::shared_ptr<ServerGame>
 		if (tmpPlayer)
 		{
 			SetPlayerResult(netShowCards->playerResult, tmpPlayer);
-			server->SendToAllButOnePlayers(show, session.sessionData->GetId(), SessionData::Game);
+			server->SendToAllPlayers(show, SessionData::Game);
 		}
 	}
 }
