@@ -143,11 +143,11 @@ int main( int argc, char **argv )
 	qRegisterMetaType<unsigned>("unsigned");
 	qRegisterMetaType<boost::shared_ptr<Game> >("boost::shared_ptr<Game>");
 	qRegisterMetaType<ServerStats>("ServerStats");
-        qRegisterMetaType<DenyGameInvitationReason>("DenyGameInvitationReason");
+	qRegisterMetaType<DenyGameInvitationReason>("DenyGameInvitationReason");
 	///////////////////////////////////////////////////	
 
-        startWindowImpl mainWin(myConfig);
-		a.setActivationWindow(&mainWin, true);
+	startWindowImpl mainWin(myConfig);
+	a.setActivationWindow(&mainWin, true);
 
 	int retVal = a.exec();
 	
