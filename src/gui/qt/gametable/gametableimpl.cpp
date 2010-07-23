@@ -2302,8 +2302,6 @@ void gameTableImpl::postRiverRunAnimation6() {
 
 void gameTableImpl::postRiverShowCards(unsigned playerId)
 {
-    qDebug() << "player : "<< playerId << "shows his cards";
-
     HandInterface *currentHand = myStartWindow->getSession()->getCurrentGame()->getCurrentHand();
     QPixmap onePix = QPixmap::fromImage(QImage(myAppDataPath +"gfx/gui/misc/1px.png"));
     //TempArrays
@@ -2460,11 +2458,14 @@ void gameTableImpl::nextRoundCleanGui() {
         boardCardsArray[i]->setPixmap(onePix, FALSE);
         boardCardsArray[i]->setFadeOutAction(FALSE);
         boardCardsArray[i]->stopFlipCardsAnimation();
-        timeoutLabelArray[i]->stopTimeOutAnimation();
 
     }
     for (i=0; i<MAX_NUMBER_OF_PLAYERS; i++ ) {
-        for ( j=0; j<=1; j++ ) { holeCardsArray[i][j]->setFadeOutAction(FALSE);}
+           timeoutLabelArray[i]->stopTimeOutAnimation();
+        for ( j=0; j<=1; j++ ) {
+            holeCardsArray[i][j]->setFadeOutAction(FALSE);
+            holeCardsArray[i][j]->stopFlipCardsAnimation();
+        }
     }
 
     // for startNewGame during human player is active
@@ -3448,7 +3449,8 @@ void gameTableImpl::sendShowMyCardsSignal()
 {
     if(pushButton_showMyCards->isVisible()) {
 
-        showMyCards();
+        myStartWindow->getSession()->showMyCards();
+//        showMyCards();
         pushButton_showMyCards->hide();
     }
 }
