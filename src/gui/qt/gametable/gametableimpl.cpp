@@ -2332,9 +2332,9 @@ void gameTableImpl::postRiverShowCards(unsigned playerId)
                     holeCardsArray[(*it_c)->getMyID()][j]->setPixmap(tempCardsPixmapArray[j], FALSE);
                 }
             }
+            //set Player value (logging)
+            (*it_c)->setMyCardsFlip(1,1);
         }
-        //set Player value (logging)
-        (*it_c)->setMyCardsFlip(1,1);
     }
 }
 
