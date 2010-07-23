@@ -883,8 +883,8 @@ ServerGameStateHand::EngineLoop(boost::shared_ptr<ServerGame> server)
 			}
 			else
 			{
-				// End of Hand - show cards of active players.
-				boost::shared_ptr<PlayerInterface> player = nonFoldPlayers.front();
+				// End of Hand - show cards.
+				const PlayerIdList showList(curGame.getCurrentHand()->getBoard()->getPlayerNeedToShowCards());
 				boost::shared_ptr<NetPacket> endHand(new NetPacket(NetPacket::Alloc));
 				endHand->GetMsg()->present = PokerTHMessage_PR_endOfHandMessage;
 				EndOfHandMessage_t *netEndHand = &endHand->GetMsg()->choice.endOfHandMessage;
@@ -893,15 +893,19 @@ ServerGameStateHand::EngineLoop(boost::shared_ptr<ServerGame> server)
 				netEndHand->endOfHandType.present = endOfHandType_PR_endOfHandShowCards;
 				EndOfHandShowCards_t *endHandShow = &netEndHand->endOfHandType.choice.endOfHandShowCards;
 
-				PlayerListConstIterator i = nonFoldPlayers.begin();
-				PlayerListConstIterator end = nonFoldPlayers.end();
+				PlayerIdList::const_iterator i = showList.begin();
+				PlayerIdList::const_iterator end = showList.end();
 
 				while (i != end)
 				{
-					PlayerResult_t *playerResult = (PlayerResult_t *)calloc(1, sizeof(PlayerResult_t));
-					SetPlayerResult(*playerResult, (*i));
+					boost::shared_ptr<PlayerInterface> tmpPlayer(curGame.getPlayerByUniqueId(*i));
+					if (tmpPlayer)
+					{
+						PlayerResult_t *playerResult = (PlayerResult_t *)calloc(1, sizeof(PlayerResult_t));
+						SetPlayerResult(*playerResult, tmpPlayer);
 
-					ASN_SEQUENCE_ADD(&endHandShow->playerResults.list, playerResult);
+						ASN_SEQUENCE_ADD(&endHandShow->playerResults.list, playerResult);
+					}
 					++i;
 				}
 				server->SendToAllPlayers(endHand, SessionData::Game);

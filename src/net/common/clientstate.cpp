@@ -2007,6 +2007,7 @@ ClientStateRunHand::InternalHandlePacket(boost::shared_ptr<ClientThread> client,
 
 			// End of Hand, show cards.
 			list<unsigned> winnerList;
+			list<unsigned> showList;
 			int highestValueOfCards = 0;
 			PlayerResult_t **playerResults = showCards->playerResults.list.array;
 			unsigned numResults = showCards->playerResults.list.count;
@@ -2034,11 +2035,13 @@ ClientStateRunHand::InternalHandlePacket(boost::shared_ptr<ClientThread> client,
 				tmpPlayer->setLastMoneyWon(r->moneyWon);
 				if (r->moneyWon)
 					winnerList.push_back(r->playerId);
+				showList.push_back(r->playerId);
 			}
 	
 			curGame->getCurrentHand()->getCurrentBeRo()->setHighestCardsValue(highestValueOfCards);
 			curGame->getCurrentHand()->getBoard()->setPot(0);
 			curGame->getCurrentHand()->getBoard()->setWinners(winnerList);
+			curGame->getCurrentHand()->getBoard()->setPlayerNeedToShowCards(showList);
 
 			client->GetGui().postRiverRunAnimation1();
 

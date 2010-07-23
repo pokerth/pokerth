@@ -85,11 +85,11 @@ int main( int argc, char **argv )
 	curl_global_init(CURL_GLOBAL_NOTHING);
 
 	/////// can be removed for non-qt-guis ////////////
-	QtSingleApplication a( argc, argv );
+	QApplication a( argc, argv );
 
-	if (a.sendMessage("Wake up!")) {
+	/*if (a.sendMessage("Wake up!")) {
 		return 0;
-	 }
+	}*/
 
 #ifdef __APPLE__
 	// The following needs to be done directly after the application is created.
@@ -147,7 +147,7 @@ int main( int argc, char **argv )
 	///////////////////////////////////////////////////	
 
         startWindowImpl mainWin(myConfig);
-        a.setActivationWindow(&mainWin, true);
+        //a.setActivationWindow(&mainWin, true);
 
 	int retVal = a.exec();
 	

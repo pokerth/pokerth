@@ -73,15 +73,15 @@ void LocalBeRoPostRiver::postRiverRun() {
 // 		}
 // 	}
 
-        // Spieler ermitteln, welche die Karten auf jeden Fall umdrehen müssen
-        getMyHand()->getBoard()->determinePlayerNeedToShowCards();
+	// Spieler ermitteln, welche die Karten auf jeden Fall umdrehen müssen
+	getMyHand()->getBoard()->determinePlayerNeedToShowCards();
 
 	// Pot-Verteilung
 	getMyHand()->getBoard()->distributePot();
 
 	//Pot auf 0 setzen
 	getMyHand()->getBoard()->setPot(0);
-	
+
 	//starte die Animaionsreihe
 	getMyHand()->getGuiInterface()->postRiverRunAnimation1();	
 }
