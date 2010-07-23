@@ -880,7 +880,7 @@ void startWindowImpl::networkNotification(int notificationId)
                                    tr("A new release of PokerTH is available.<br>Please go to <a href=\"http://www.pokerth.net/\" target=\"_blank\">http://www.pokerth.net</a> and download the latest version."),
                                    QMessageBox::Close, this);
             msgBox.setTextFormat(Qt::RichText);
-            msgBox.exec();
+            msgBox.show();
         }
         break;
     case NTF_NET_OUTDATED_BETA:
@@ -888,7 +888,7 @@ void startWindowImpl::networkNotification(int notificationId)
                                    tr("This beta release of PokerTH is outdated.<br>Please go to <a href=\"http://www.pokerth.net/\" target=\"_blank\">http://www.pokerth.net</a> and download the latest version."),
                                    QMessageBox::Close, this);
             msgBox.setTextFormat(Qt::RichText);
-            msgBox.exec();
+            msgBox.show();
         }
         break;
     }
