@@ -928,7 +928,7 @@ ServerGameStateHand::EngineLoop(boost::shared_ptr<ServerGame> server)
 				// Store winner in database.
 				boost::shared_ptr<PlayerInterface> winnerPlayer = *(playersWithCash.begin());
 				boost::shared_ptr<PlayerData> tmpPlayer = server->GetPlayerDataByUniqueId(winnerPlayer->getMyUniqueID());
-				if (tmpPlayer)
+				if (tmpPlayer && server->GetDBId())
 				{
 					cerr << "Setting winner for game " << server->GetDBId() << " player id " << tmpPlayer->GetDBId() << endl;
 					server->GetLobbyThread().GetDatabase().SetGamePlayerPlace(server->GetDBId(), tmpPlayer->GetDBId(), 1);
