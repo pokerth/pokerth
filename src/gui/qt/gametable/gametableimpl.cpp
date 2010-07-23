@@ -1099,10 +1099,11 @@ void gameTableImpl::waitForGuiUpdateDone() {
 
 void gameTableImpl::dealHoleCards() {
 
+    int i,k;
     for (i=0; i<MAX_NUMBER_OF_PLAYERS; i++ ) {
-        for ( j=0; j<=1; j++ ) {
-            holeCardsArray[i][j]->setFadeOutAction(FALSE);
-            holeCardsArray[i][j]->stopFlipCardsAnimation();
+        for ( k=0; k<=1; k++ ) {
+            holeCardsArray[i][k]->setFadeOutAction(FALSE);
+            holeCardsArray[i][k]->stopFlipCardsAnimation();
         }
     }
 
