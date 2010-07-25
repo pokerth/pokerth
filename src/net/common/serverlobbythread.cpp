@@ -1225,9 +1225,9 @@ ServerLobbyThread::HandleNetPacketRetrievePlayerInfo(SessionWrapper session, con
 {
 	// Find player in lobby or in a game.
 	boost::shared_ptr<PlayerData> tmpPlayer = m_sessionManager.GetSessionByUniquePlayerId(playerInfoRequest.playerId).playerData;
-	if (!tmpPlayer.get())
+	if (!tmpPlayer)
 		tmpPlayer = m_gameSessionManager.GetSessionByUniquePlayerId(playerInfoRequest.playerId).playerData;
-	if (!tmpPlayer.get())
+	if (!tmpPlayer)
 	{
 		boost::mutex::scoped_lock lock(m_computerPlayersMutex);
 		PlayerDataMap::const_iterator pos = m_computerPlayers.find(playerInfoRequest.playerId);
@@ -1238,7 +1238,7 @@ ServerLobbyThread::HandleNetPacketRetrievePlayerInfo(SessionWrapper session, con
 	boost::shared_ptr<NetPacket> packet(new NetPacket(NetPacket::Alloc));
 	packet->GetMsg()->present = PokerTHMessage_PR_playerInfoReplyMessage;
 	PlayerInfoReplyMessage_t *netPlayerInfoReply = &packet->GetMsg()->choice.playerInfoReplyMessage;
-	netPlayerInfoReply->playerId = tmpPlayer->GetUniqueId();
+	netPlayerInfoReply->playerId = playerInfoRequest.playerId;
 
 	if (tmpPlayer)
 	{
