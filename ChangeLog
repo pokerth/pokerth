@@ -1,3 +1,19 @@
+2010-07-23 version 0.8-beta1:
+- New login/registration system: Players can register their nicks for internet games via an online registration system. It is still possible to play as guest, but certain restrictions apply.
+- Online player ranking: Registered players can join "ranking games" toimprove their rank.
+- The country flag of players is optionally displayed in the lobby (based on voluntary registration information).
+- Custom game names are now possible.
+- Internet or LAN games can be automatically started when the maximum number of players is reached.
+- Invite-only game mode for internet games: In order to invite a player to an invite-only game, right click on the player's nick in  the lobby.
+- Display "Player xyz plays in game xyz" in the context menu for a nick in the lobby.
+- Ignore list for chat messages and game invitations from "unfriendly" players. Right click on a player's nick in the lobby to place the player on the ignore list.
+- Only players who really have to show cards actually show them after postriver. Everyone else who did not fold is now able to show the cards by choice.
+- New chat system with admin bot (no longer IRC).
+- Completely new network protocol, including a secure authentication mechanism
+- Bugfix: 0000001: Full bet rule is not implemented - BUGFIX: 0000016: Join network game without giving address = crash
+- Bugfix: 0000018: Removing avatar can become a bit complicated
+- Bugfix: 0000020: Ability to start a vote not restored when leaving a game
+
 2009-06-25 version 0.7.1:
 - internet lobby window size adjusted for netbook resolution 1024x600
 - bigger window icon
