@@ -238,11 +238,15 @@ Please contact the game table style builder  via &quot;%4&quot;.</source>
     </message>
     <message>
         <source>You will no longer recieve chat messages or game invitations from this user.&lt;br&gt;Do you really want to put player &lt;b&gt;%1&lt;/b&gt; on ignore list?</source>
-        <translation>Od toho hráče již nebudete dostávat zprávy, ani pozvánky do hry.&lt;br&gt;Opravdu chcete přidat hráče &lt;b&gt;%1&lt;/b&gt; do ignore listu?</translation>
+        <translation type="obsolete">Od toho hráče již nebudete dostávat zprávy, ani pozvánky do hry.&lt;br&gt;Opravdu chcete přidat hráče &lt;b&gt;%1&lt;/b&gt; do ignore listu?</translation>
     </message>
     <message>
         <source>PokerTH - Question</source>
         <translation>PokerTH - Dotaz</translation>
+    </message>
+    <message>
+        <source>You will no longer receive chat messages or game invitations from this user.&lt;br&gt;Do you really want to put player &lt;b&gt;%1&lt;/b&gt; on ignore list?</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

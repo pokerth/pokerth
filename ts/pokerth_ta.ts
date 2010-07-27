@@ -208,8 +208,12 @@ Please contact the game table style builder %3.</source>
     </message>
     <message>
         <location filename="../src/gui/qt/gametable/myavatarlabel.cpp" line="150"/>
+        <source>You will no longer receive chat messages or game invitations from this user.&lt;br&gt;Do you really want to put player &lt;b&gt;%1&lt;/b&gt; on ignore list?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>You will no longer recieve chat messages or game invitations from this user.&lt;br&gt;Do you really want to put player &lt;b&gt;%1&lt;/b&gt; on ignore list?</source>
-        <translation>இந்த நபரிடமிருந்து இனி பேச்சு தகவலோ விளையாடுவதற்கு அழைப்பிதலோ பெற முடியாது.&lt;br&gt;இருந்தும் இந்த விளையாட்டு வீரரை &lt;b&gt;%1&lt;/b&gt; புறக்கணிப்பு பட்டியலில் போட விரும்புகிறீர்களா?</translation>
+        <translation type="obsolete">இந்த நபரிடமிருந்து இனி பேச்சு தகவலோ விளையாடுவதற்கு அழைப்பிதலோ பெற முடியாது.&lt;br&gt;இருந்தும் இந்த விளையாட்டு வீரரை &lt;b&gt;%1&lt;/b&gt; புறக்கணிப்பு பட்டியலில் போட விரும்புகிறீர்களா?</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gametable/myavatarlabel.cpp" line="150"/>
