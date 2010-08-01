@@ -1331,6 +1331,10 @@ ServerLobbyThread::HandleNetPacketCreateGame(SessionWrapper session, const std::
 	{
 		SendJoinGameFailed(session.sessionData, gameId, NTF_NET_JOIN_GUEST_FORBIDDEN);
 	}
+	else if (!ServerGame::CheckSettings(tmpData))
+	{
+		SendJoinGameFailed(session.sessionData, gameId, NTF_NET_JOIN_INVALID_SETTINGS);
+	}
 	else
 	{
 		boost::shared_ptr<ServerGame> game(
@@ -1360,28 +1364,26 @@ ServerLobbyThread::HandleNetPacketJoinGame(SessionWrapper session, const std::st
 
 	if (pos != m_gameMap.end())
 	{
-		bool doJoin = true;
 		ServerGame &game = *pos->second;
 		const GameData &tmpData = game.GetGameData();
 		if (session.playerData->GetRights() == PLAYER_RIGHTS_GUEST
 			&& tmpData.gameType != GAME_TYPE_NORMAL)
 		{
 			SendJoinGameFailed(session.sessionData, joinGame.gameId, NTF_NET_JOIN_GUEST_FORBIDDEN);
-			doJoin = false;
 		}
 		else if (tmpData.gameType == GAME_TYPE_INVITE_ONLY
 			&& !game.IsPlayerInvited(session.playerData->GetUniqueId()))
 		{
 			SendJoinGameFailed(session.sessionData, joinGame.gameId, NTF_NET_JOIN_NOT_INVITED);
-			doJoin = false;
 		}
 		else if (!game.CheckPassword(password))
 		{
 			SendJoinGameFailed(session.sessionData, joinGame.gameId, NTF_NET_JOIN_INVALID_PASSWORD);
-			doJoin = false;
 		}
-		if (doJoin)
+		else
+		{
 			MoveSessionToGame(game, session);
+		}
 	}
 	else
 	{
@@ -1924,6 +1926,9 @@ ServerLobbyThread::SendJoinGameFailed(boost::shared_ptr<SessionData> s, unsigned
 			break;
 		case NTF_NET_JOIN_GAME_NAME_IN_USE :
 			joinFailed->joinGameFailureReason = joinGameFailureReason_gameNameInUse;
+			break;
+		case NTF_NET_JOIN_INVALID_SETTINGS :
+			joinFailed->joinGameFailureReason = joinGameFailureReason_invalidSettings;
 			break;
 		default :
 			joinFailed->joinGameFailureReason = joinGameFailureReason_invalidGame;

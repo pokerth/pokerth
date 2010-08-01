@@ -498,7 +498,10 @@ ServerGameStateInit::InternalProcessPacket(boost::shared_ptr<ServerGame> server,
 	{
 		StartEventMessage_t *netStartEvent = &packet->GetMsg()->choice.startEventMessage;
 		// Only admins are allowed to start the game.
-		if (session.playerData->IsGameAdmin() && netStartEvent->gameId == server->GetId())
+		if (session.playerData->IsGameAdmin()
+			&& netStartEvent->gameId == server->GetId()
+			&& (server->GetGameData().gameType != GAME_TYPE_RANKING // ranking games need to be full
+				|| server->GetGameData().maxNumberOfPlayers == server->GetCurNumberOfPlayers()))
 		{
 			SendStartEvent(*server, netStartEvent->fillWithComputerPlayers);
 		}

@@ -837,6 +837,25 @@ ServerGame::CheckPassword(const string &password) const
 	return (password == m_password);
 }
 
+bool
+ServerGame::CheckSettings(const GameData &data)
+{
+	bool retVal = true;
+	if (data.gameType == GAME_TYPE_RANKING)
+	{
+		if ((data.startMoney != RANKING_GAME_START_CASH)
+			|| (data.maxNumberOfPlayers != RANKING_GAME_NUMBER_OF_PLAYERS)
+			|| (data.firstSmallBlind != RANKING_GAME_START_SBLIND)
+			|| (data.raiseIntervalMode != RAISE_ON_HANDNUMBER)
+			|| (data.raiseMode != DOUBLE_BLINDS)
+			|| (data.raiseSmallBlindEveryHandsValue != RANKING_GAME_RAISE_EVERY_HAND))
+		{
+			retVal = false;
+		}
+	}
+	return retVal;
+}
+
 GuiInterface &
 ServerGame::GetGui()
 {

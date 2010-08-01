@@ -875,7 +875,12 @@ void startWindowImpl::networkNotification(int notificationId)
                                tr("You cannot join this type of game as guest."),
                                QMessageBox::Close); }
         break;
-    case NTF_NET_NEW_RELEASE_AVAILABLE:
+	case NTF_NET_JOIN_INVALID_SETTINGS:
+		{ QMessageBox::warning(this, tr("Network Notification"),
+							   tr("The settings are invalid for this type of game."),
+							   QMessageBox::Close); }
+		break;
+	case NTF_NET_NEW_RELEASE_AVAILABLE:
         {	QMessageBox msgBox(QMessageBox::Information, tr("Network Notification"),
                                    tr("A new release of PokerTH is available.<br>Please go to <a href=\"http://www.pokerth.net/\" target=\"_blank\">http://www.pokerth.net</a> and download the latest version."),
                                    QMessageBox::Close, this);
