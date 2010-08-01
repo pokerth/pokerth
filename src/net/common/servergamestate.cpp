@@ -230,14 +230,15 @@ AbstractServerGameStateReceiving::ProcessPacket(boost::shared_ptr<ServerGame> se
 		// Only admins are allowed to kick, and only in the lobby.
 		// After leaving the lobby, a vote needs to be initiated to kick.
 		KickPlayerRequestMessage_t *netKickRequest = &packet->GetMsg()->choice.kickPlayerRequestMessage;
-		if (session.playerData->IsGameAdmin() && !server->IsRunning() && netKickRequest->gameId == server->GetId())
+		if (session.playerData->IsGameAdmin() && !server->IsRunning()
+			&& netKickRequest->gameId == server->GetId() && server->GetGameData().gameType != GAME_TYPE_RANKING)
 		{
 			server->InternalKickPlayer(netKickRequest->playerId);
 		}
 	}
 	else if (packet->GetMsg()->present == PokerTHMessage_PR_askKickPlayerMessage)
 	{
-		if (session.playerData)
+		if (session.playerData && server->GetGameData().gameType != GAME_TYPE_RANKING)
 		{
 			AskKickPlayerMessage_t *netAskKick = &packet->GetMsg()->choice.askKickPlayerMessage;
 			server->InternalAskVoteKick(session, netAskKick->playerId, SERVER_VOTE_KICK_TIMEOUT_SEC);
