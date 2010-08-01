@@ -25,6 +25,7 @@
 #include <net/netpacket.h>
 #include <net/socket_msg.h>
 #include <net/serverexception.h>
+#include <net/net_helper.h>
 #include <db/serverdbinterface.h>
 #include <core/loghelper.h>
 #include <gamedata.h>

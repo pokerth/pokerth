@@ -24,18 +24,6 @@
 #include "changecompleteblindsdialogimpl.h"
 
 
-#define RANKING_GAME_START_CASH 10000
-
-#ifdef POKERTH_IS_08BETA
-    #define RANKING_GAME_NUMBER_OF_PLAYERS 5
-#else
-    #define RANKING_GAME_NUMBER_OF_PLAYERS 10
-#endif
-
-#define RANKING_GAME_START_SBLIND 50
-#define RANKING_GAME_RAISE_EVERY_HAND 11
-
-
 createInternetGameDialogImpl::createInternetGameDialogImpl(QWidget *parent, ConfigFile *c)
       : QDialog(parent), myConfig(c), currentGuestMode(false), currentPlayerName("")
 {

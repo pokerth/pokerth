@@ -27,6 +27,7 @@
 #include <net/downloaderthread.h>
 #include <net/clientexception.h>
 #include <net/socket_msg.h>
+#include <net/net_helper.h>
 #include <core/avatarmanager.h>
 #include <core/loghelper.h>
 #include <clientenginefactory.h>
