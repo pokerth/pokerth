@@ -14,13 +14,13 @@ TEMPLATE = app
 INCLUDEPATH += src/ \
     src/third_party/tinyxml \
     src/chatcleaner/ \
-	src/third_party/asn1/ \
-	src/net/
+    src/third_party/asn1/ \
+    src/net/
 DEPENDPATH += src/ \
     src/third_party/tinyxml \
     src/chatcleaner/ \
-	src/third_party/asn1/ \
-	src/net/
+    src/third_party/asn1/ \
+    src/net/
 SOURCES += chatcleaner.cpp \
     cleanerserver.cpp \
     messagefilter.cpp \
@@ -33,7 +33,7 @@ SOURCES += chatcleaner.cpp \
     tinyxmlparser.cpp \
     capsfloodcheck.cpp \
     letterrepeatingcheck.cpp \
-	urlcheck.cpp
+    urlcheck.cpp
 HEADERS += cleanerserver.h \
     messagefilter.h \
     badwordcheck.h \
@@ -47,20 +47,17 @@ HEADERS += cleanerserver.h \
 LIBPATH += lib
 LIBS += -lpokerth_lib \
     -lpokerth_protocol
-
-win32 {
-	LIBPATH += ../boost/stage/lib
-	INCLUDEPATH += ../boost/
-	debug:LIBPATH += Debug/lib
-	release:LIBPATH += Release/lib
+win32 { 
+    LIBPATH += ../boost/stage/lib
+    INCLUDEPATH += ../boost/
+    debug:LIBPATH += Debug/lib
+    release:LIBPATH += Release/lib
 }
-
-mac {
-    # make it universal  
+mac { 
+    # make it universal
     CONFIG += x86
     CONFIG -= ppc
     QMAKE_MACOSX_DEPLOYMENT_TARGET = 10.4
-
     LIBPATH += /Developer/SDKs/MacOSX10.5.sdk/usr/lib
     INCLUDEPATH += /Developer/SDKs/MacOSX10.5.sdk/usr/include/
 }

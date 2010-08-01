@@ -270,8 +270,6 @@ ServerGame::InternalStartGame()
 	m_game.reset(new Game(&gui, factory, playerData, GetGameData(), GetStartData(), GetNextGameNum()));
 
 	GetLobbyThread().NotifyStartingGame(GetId());
-	if (GetGameData().gameType == GAME_TYPE_RANKING)
-		GetLobbyThread().GetDatabase().AsyncCreateGame(GetId(), GetName());
 }
 
 void
