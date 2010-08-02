@@ -52,23 +52,27 @@ echo The process will start if you press any other key.
 pause
 echo.
 echo Downloading mingw packages
-%PKTH_OldDir%\third_party_apps\wget http://%SOURCEFORGE_MIRROR%.sourceforge.net/sourceforge/tdm-gcc/gcc-4.5.0-tdm-1-dw2-core.zip
-%PKTH_OldDir%\third_party_apps\wget http://%SOURCEFORGE_MIRROR%.sourceforge.net/sourceforge/tdm-gcc/gcc-4.5.0-tdm-1-dw2-c++.zip
-%PKTH_OldDir%\third_party_apps\wget http://%SOURCEFORGE_MIRROR%.sourceforge.net/sourceforge/mingw/binutils-2.20.1-2-mingw32-bin.tar.gz
+%PKTH_OldDir%\third_party_apps\wget http://%SOURCEFORGE_MIRROR%.sourceforge.net/sourceforge/tdm-gcc/gcc-4.5.0-tdm-1-dw2-core.tar.lzma
+%PKTH_OldDir%\third_party_apps\wget http://%SOURCEFORGE_MIRROR%.sourceforge.net/sourceforge/tdm-gcc/gcc-4.5.0-tdm-1-dw2-c++.tar.lzma
+%PKTH_OldDir%\third_party_apps\wget http://%SOURCEFORGE_MIRROR%.sourceforge.net/sourceforge/mingw/binutils-2.20.51-1-mingw32-bin.tar.lzma
 %PKTH_OldDir%\third_party_apps\wget http://%SOURCEFORGE_MIRROR%.sourceforge.net/sourceforge/mingw/mingwrt-3.18-mingw32-dev.tar.gz
 %PKTH_OldDir%\third_party_apps\wget http://%SOURCEFORGE_MIRROR%.sourceforge.net/sourceforge/mingw/mingwrt-3.18-mingw32-dll.tar.gz
 %PKTH_OldDir%\third_party_apps\wget http://%SOURCEFORGE_MIRROR%.sourceforge.net/sourceforge/mingw/w32api-3.14-mingw32-dev.tar.gz
-%PKTH_OldDir%\third_party_apps\wget http://%SOURCEFORGE_MIRROR%.sourceforge.net/sourceforge/mingw/mingw32-make-3.81-20090910.tar.gz
+%PKTH_OldDir%\third_party_apps\wget http://%SOURCEFORGE_MIRROR%.sourceforge.net/sourceforge/mingw/make-3.82-1-mingw32-bin.tar.lzma
 %PKTH_OldDir%\third_party_apps\wget http://%SOURCEFORGE_MIRROR%.sourceforge.net/sourceforge/mingw/mingw-utils-0.3.tar.gz
 if not errorlevel 0 goto downloadFailed
 echo.
 echo Unpacking mingw packages
 mkdir mingw
-%PKTH_OldDir%\third_party_apps\7za x -y -omingw gcc-4.5.0-tdm-1-dw2-core.zip
-%PKTH_OldDir%\third_party_apps\7za x -y -omingw gcc-4.5.0-tdm-1-dw2-c++.zip
-%PKTH_OldDir%\third_party_apps\7za x -y binutils-2.20.1-2-mingw32-bin.tar.gz
-%PKTH_OldDir%\third_party_apps\7za x -y -omingw binutils-2.20.1-2-mingw32-bin.tar
-del binutils-2.20.1-2-mingw32-bin.tar
+%PKTH_OldDir%\third_party_apps\7za x -y gcc-4.5.0-tdm-1-dw2-core.tar.lzma
+%PKTH_OldDir%\third_party_apps\7za x -y -omingw gcc-4.5.0-tdm-1-dw2-core.tar
+del gcc-4.5.0-tdm-1-dw2-core.tar
+%PKTH_OldDir%\third_party_apps\7za x -y gcc-4.5.0-tdm-1-dw2-c++.tar.lzma
+%PKTH_OldDir%\third_party_apps\7za x -y -omingw gcc-4.5.0-tdm-1-dw2-c++.tar
+del gcc-4.5.0-tdm-1-dw2-c++.tar
+%PKTH_OldDir%\third_party_apps\7za x -y binutils-2.20.51-1-mingw32-bin.tar.lzma
+%PKTH_OldDir%\third_party_apps\7za x -y -omingw binutils-2.20.51-1-mingw32-bin.tar
+del binutils-2.20.51-1-mingw32-bin.tar
 %PKTH_OldDir%\third_party_apps\7za x -y mingwrt-3.18-mingw32-dev.tar.gz
 %PKTH_OldDir%\third_party_apps\7za x -y -omingw mingwrt-3.18-mingw32-dev.tar
 del mingwrt-3.18-mingw32-dev.tar
@@ -78,9 +82,9 @@ del mingwrt-3.18-mingw32-dll.tar
 %PKTH_OldDir%\third_party_apps\7za x -y w32api-3.14-mingw32-dev.tar.gz
 %PKTH_OldDir%\third_party_apps\7za x -y -omingw w32api-3.14-mingw32-dev.tar
 del w32api-3.14-mingw32-dev.tar
-%PKTH_OldDir%\third_party_apps\7za x -y mingw32-make-3.81-20090910.tar.gz
-%PKTH_OldDir%\third_party_apps\7za x -y -omingw mingw32-make-3.81-20090910.tar
-del mingw32-make-3.81-20090910.tar
+%PKTH_OldDir%\third_party_apps\7za x -y make-3.82-1-mingw32-bin.tar.lzma
+%PKTH_OldDir%\third_party_apps\7za x -y -omingw make-3.82-1-mingw32-bin.tar
+del make-3.82-1-mingw32-bin.tar
 %PKTH_OldDir%\third_party_apps\7za x -y mingw-utils-0.3.tar.gz
 %PKTH_OldDir%\third_party_apps\7za x -y -omingw mingw-utils-0.3.tar
 del mingw-utils-0.3.tar
@@ -100,7 +104,7 @@ ren mingw32-gcc-dw2.exe mingw32-gcc.exe
 cd /d %PKTH_BaseDir%
 echo.
 echo Testing g++
-set PATH=%PKTH_BaseDir%\mingw\bin;%PATH%
+set PATH=%PKTH_BaseDir%\mingw\bin;%PKTH_OldDir%\third_party_apps;%PATH%
 g++ %PKTH_OldDir%\helper_src\pkth_test.cpp -o pkth_test
 if not errorlevel 0 goto gppFailure
 pkth_test
@@ -127,6 +131,7 @@ SET PATH=%PKTH_BaseDir%\qt\bin;%PATH%
 SET QMAKESPEC=win32-g++
 SET QTDIR=%PKTH_BaseDir%\qt
 cd qt
+%PKTH_OldDir%\third_party_apps\find -name *.cpp -exec sed -i "s/Q_DECL_IMPORT extern/Q_CORE_EXPORT/g" {} ;
 configure -static -fast -no-qt3support -qt-sql-sqlite -no-dbus -no-opengl -no-openssl -no-phonon -no-webkit
 qmake projects.pro -o Makefile -spec win32-g++
 mingw32-make sub-src
