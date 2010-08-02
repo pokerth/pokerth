@@ -68,6 +68,9 @@
 #include <QtPlugin>
 Q_IMPORT_PLUGIN(qjpeg)
 Q_IMPORT_PLUGIN(qgif)
+#ifdef __GNUC__
+extern "C" void tss_cleanup_implemented() {}
+#endif
 #endif
 
 using namespace std;

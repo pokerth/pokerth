@@ -51,6 +51,12 @@
 	#define ENABLE_LEAK_CHECK()
 #endif
 
+#ifdef _WIN32
+#ifdef __GNUC__
+extern "C" void tss_cleanup_implemented() {}
+#endif
+#endif
+
 using namespace std;
 namespace po = boost::program_options;
 using namespace boost::filesystem;
