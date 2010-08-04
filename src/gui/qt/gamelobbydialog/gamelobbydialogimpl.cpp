@@ -1141,7 +1141,6 @@ void gameLobbyDialogImpl::showGameDescription(bool show) {
         label_gameDesc5->show();
         label_gameDesc6->show();
         label_gameDesc7->show();
-        line->show();
     }
     else {
         label_gameType->hide();
@@ -1151,7 +1150,6 @@ void gameLobbyDialogImpl::showGameDescription(bool show) {
         label_gameDesc5->hide();
         label_gameDesc6->hide();
         label_gameDesc7->hide();
-        line->hide();
     }
 }
 
