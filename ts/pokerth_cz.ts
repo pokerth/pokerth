@@ -611,7 +611,7 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished">Jméno:</translation>
     </message>
     <message>
-        <source>in der Konfiguration speichern!</source>
+        <source>Save in configuration</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

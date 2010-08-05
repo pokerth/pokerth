@@ -1741,8 +1741,12 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="../src/gui/qt/changecontentdialog.ui" line="46"/>
+        <source>Save in configuration</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>in der Konfiguration speichern!</source>
-        <translation type="unfinished">Enregistrer la configuration</translation>
+        <translation type="obsolete">Enregistrer la configuration</translation>
     </message>
 </context>
 <context>

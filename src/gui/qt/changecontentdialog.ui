@@ -43,7 +43,7 @@
    <item row="2" column="0">
     <widget class="QCheckBox" name="checkBox">
      <property name="text">
-      <string>in der Konfiguration speichern!</string>
+      <string>Save in configuration</string>
      </property>
      <property name="checked">
       <bool>true</bool>
