@@ -739,17 +739,17 @@ Please choose another one!</source>
         <translation type="obsolete">&lt;i&gt;ஒவ்வொரு 11 வது சுற்றுக்கும் பந்தயத்தொகையை இரட்டிப்பாக்குக&lt;/i&gt;</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/createinternetgamedialog/createinternetgamedialogimpl.cpp" line="55"/>
+        <location filename="../src/gui/qt/createinternetgamedialog/createinternetgamedialogimpl.cpp" line="43"/>
         <source>&lt;i&gt;First small blind: $%1&lt;/i&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/createinternetgamedialog/createinternetgamedialogimpl.cpp" line="56"/>
+        <location filename="../src/gui/qt/createinternetgamedialog/createinternetgamedialogimpl.cpp" line="44"/>
         <source>&lt;i&gt;Double blinds every %1&apos;th hand&lt;/i&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/createinternetgamedialog/createinternetgamedialogimpl.cpp" line="101"/>
+        <location filename="../src/gui/qt/createinternetgamedialog/createinternetgamedialogimpl.cpp" line="89"/>
         <source>%1&apos;s game</source>
         <translation>%1 வது விளையாட்டு</translation>
     </message>
@@ -841,7 +841,7 @@ Please choose another one!</source>
         <translation>விளையாட்டை பற்றிய செய்தி</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog.ui" line="640"/>
+        <location filename="../src/gui/qt/gamelobbydialog.ui" line="440"/>
         <source>Game type:</source>
         <translation>விளையாட்டு முறை:</translation>
     </message>
@@ -851,52 +851,72 @@ Please choose another one!</source>
         <translation>தொடர்பில் இருக்கும் விளையாட்டு வீரர்கள்</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog.ui" line="700"/>
+        <location filename="../src/gui/qt/gamelobbydialog.ui" line="486"/>
+        <source>Start Cash:</source>
+        <translation type="unfinished">பணம் செலுத்த ஆரம்பி:</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/gamelobbydialog.ui" line="509"/>
+        <source>First small blind:</source>
+        <translation type="unfinished">குறைந்தபட்ச ஆரம்ப கட்டாய பந்தயத்தொகை:</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/gamelobbydialog.ui" line="532"/>
+        <source>Blinds raise interval:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/gamelobbydialog.ui" line="558"/>
+        <source>Blinds raise mode:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/gamelobbydialog.ui" line="616"/>
+        <source>Timeout for player action (sec):</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/gamelobbydialog.ui" line="654"/>
         <source>Fill up with computer opponents</source>
         <translation>மீதமுள்ள இடங்களை கணினி விளையாட்டு வீரர்கள் ஆக மாற்றுக</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog.ui" line="761"/>
+        <location filename="../src/gui/qt/gamelobbydialog.ui" line="715"/>
         <source>&amp;Start Game</source>
         <translation>&amp;Sவிளையாட்டை தொடங்குக </translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog.ui" line="806"/>
+        <location filename="../src/gui/qt/gamelobbydialog.ui" line="760"/>
         <source>&amp;Kick Player</source>
         <translation>&amp;Kவிளையாட்டு வீரரை துரத்துக</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog.ui" line="439"/>
         <source>Start Cash: </source>
-        <translation>பணம் செலுத்த ஆரம்பி:</translation>
+        <translation type="obsolete">பணம் செலுத்த ஆரம்பி:</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog.ui" line="469"/>
         <source>First small blind: </source>
-        <translation>குறைந்தபட்ச ஆரம்ப பந்தயத்தொகை:</translation>
+        <translation type="obsolete">குறைந்தபட்ச ஆரம்ப பந்தயத்தொகை:</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog.ui" line="499"/>
         <source>Blinds raise interval: </source>
-        <translation>பந்தயத்தொகையை உயர்த்தும் இடைவெளி:</translation>
+        <translation type="obsolete">பந்தயத்தொகையை உயர்த்தும் இடைவெளி:</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog.ui" line="532"/>
         <source>Blinds raise mode: </source>
-        <translation>பந்தயத்தொகையை உயர்த்தும் முறை:</translation>
+        <translation type="obsolete">பந்தயத்தொகையை உயர்த்தும் முறை:</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog.ui" line="568"/>
+        <location filename="../src/gui/qt/gamelobbydialog.ui" line="587"/>
         <source>Manual blinds list:</source>
         <translation>சுய பந்தயத்தொகையின் பட்டியல்:</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog.ui" line="604"/>
         <source>Timeout for player action (sec): </source>
-        <translation>விளையாட்டு வீரர் ஒரு செயல் செய்ய காலவரம்பு(நொடிகள்):</translation>
+        <translation type="obsolete">விளையாட்டு வீரர் ஒரு செயல் செய்ய காலவரம்பு(நொடிகள்):</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog.ui" line="858"/>
+        <location filename="../src/gui/qt/gamelobbydialog.ui" line="812"/>
         <source>&amp;Leave Game</source>
         <translation>&amp;Lவிளையாட்டை விட்டு வெளியேறு</translation>
     </message>
@@ -1107,38 +1127,38 @@ p, li { white-space: pre-wrap; }
         <translation>ஆரம்பித்த விளையாட்டுகள்: %1</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1405"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1403"/>
         <source>Player %1 is playing in &quot;%2&quot;.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1408"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1406"/>
         <source>Player %1 is not playing at the moment.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1428"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1426"/>
         <source>You have entered a game with type &quot;invite-only&quot;.
 Feel free to invite other players by right-clicking on their nick in the available players list.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1447"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1445"/>
         <source>You have been invited to the game &lt;b&gt;%1&lt;/b&gt; by &lt;b&gt;%2&lt;/b&gt;.&lt;br&gt;Would you like to join this game?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1469"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1467"/>
         <source>&lt;span style=&apos;color:red;&apos;&gt;Player %1 has rejected the invitation to %2.&lt;/span&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1471"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1469"/>
         <source>&lt;span style=&apos;color:red;&apos;&gt;Player %1 cannot join %2 because he is busy.&lt;/span&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1500"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1498"/>
         <source>You will no longer receive chat messages or game invitations from this user.&lt;br&gt;Do you really want to put player &lt;b&gt;%1&lt;/b&gt; on your ignore list?</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1189,27 +1209,27 @@ Feel free to invite other players by right-clicking on their nick in the availab
         <translation>உங்களை நீங்களே விளையாட்டிலிருந்து வெளியே தள்ள கூடாது!</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1366"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1364"/>
         <source>Chat is only available to registered players.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1382"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1380"/>
         <source>Invite player %1</source>
         <translation>%1 என்ற விளையாட்டு வீரரை அழையுங்கள்</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1386"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1384"/>
         <source>Invite player ...</source>
         <translation>விளையாட்டு வீரரை அழையுங்கள் ...</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1393"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1391"/>
         <source>Ignore player %1</source>
         <translation>%1 என்ற விளையாட்டு வீரரை புறக்கணிக்கவும்</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1398"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1396"/>
         <source>Ignore player ...</source>
         <translation>விளையாட்டு வீரரை புறக்கணிக்கவும் ...</translation>
     </message>
@@ -1220,8 +1240,8 @@ You can invite other players with right-click on their nick in the left availabl
 மற்றவர்களை அழைக்க இடது பக்கமுள்ள வீரர்களின் பட்டியலில் மௌசின் வலது பொத்தானை அழுத்தி விளையாட அழையுங்கள்.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1428"/>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1447"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1426"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1445"/>
         <source>PokerTH - Info Message</source>
         <translation>போகர்டேஹோ - செய்தி தகவல்</translation>
     </message>
@@ -1230,7 +1250,7 @@ You can invite other players with right-click on their nick in the left availabl
         <translation type="obsolete">நீங்கள் விளையாட அழைக்கப்பட்டுள்ளீர்கள் &lt;b&gt;%1&lt;/b&gt; by &lt;b&gt;%2&lt;/b&gt;.&lt;br&gt;இந்த விளையாட்டில் சேர விரும்புகிறீர்களா?</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1462"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1460"/>
         <source>&lt;span style=&apos;color:blue;&apos;&gt;Player %1 has been invited to %2 by %3.&lt;/span&gt;</source>
         <translation>&lt;span style=&apos;color:blue;&apos;&gt;விளையாட்டு வீரர் %1 %2 விளையாட்டுக்கு %3 என்பவரால் அழைக்கப்பட்டுள்ளார் &lt;/span&gt;</translation>
     </message>
@@ -1247,7 +1267,7 @@ You can invite other players with right-click on their nick in the left availabl
         <translation type="obsolete">இனிமேல் இந்த நபரிடமிருந்து உரையாடல் செய்தியோ விளையாட்டு அழைப்பிதலோ பெற முடியாது.&lt;br&gt;நீங்கள் இந்த விளையாட்டு வீரரை  &lt;b&gt;%1&lt;/b&gt; புறக்கணிப்பு பட்டியலில் போட விரும்புகிறீர்களா?</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1500"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1498"/>
         <source>PokerTH - Question</source>
         <translation>போகர்டேஹோ - வினா</translation>
     </message>
@@ -3527,7 +3547,8 @@ Please choose a different name.</source>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="869"/>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="874"/>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="879"/>
-        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="887"/>
+        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="884"/>
+        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="892"/>
         <source>Network Notification</source>
         <translation>விளையாட்டு வலையினுல்லிருந்து அறிவிப்பு</translation>
     </message>
@@ -3558,16 +3579,21 @@ Please choose a different name.</source>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="880"/>
+        <source>The settings are invalid for this type of game.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="885"/>
         <source>A new release of PokerTH is available.&lt;br&gt;Please go to &lt;a href=&quot;http://www.pokerth.net/&quot; target=&quot;_blank&quot;&gt;http://www.pokerth.net&lt;/a&gt; and download the latest version.</source>
         <translation>போகர்டேஹோ வின் புதிய பிரதி இணையதளத்தில் உள்ளது.&lt;br&gt;தயவு செய்து இந்த முகவரிக்கு &lt;a href=&quot;http://www.pokerth.net/&quot; target=&quot;_blank&quot;&gt;http://www.pokerth.net&lt;/a&gt; சென்று புதிய பிரதியை இறக்குமதி செய்யவும்.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="888"/>
+        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="893"/>
         <source>This beta release of PokerTH is outdated.&lt;br&gt;Please go to &lt;a href=&quot;http://www.pokerth.net/&quot; target=&quot;_blank&quot;&gt;http://www.pokerth.net&lt;/a&gt; and download the latest version.</source>
         <translation>இந்த போகர்டேஹோ வின் பீட்டா வெளியீடு காலம் கடந்தது.&lt;br&gt;தயவு செய்து இந்த முகவரிக்கு &lt;a href=&quot;http://www.pokerth.net/&quot; target=&quot;_blank&quot;&gt;http://www.pokerth.net&lt;/a&gt; சென்று புதிய பிரதியை இறக்குமதி செய்யவும்.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="899"/>
+        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="904"/>
         <source>Server Message</source>
         <translation>விளையாட்டு வழங்கியிடமிருந்து தகவல்</translation>
     </message>

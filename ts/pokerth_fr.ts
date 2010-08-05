@@ -1930,7 +1930,7 @@ Veuillez choisir un autre nom.</translation>
     <message>
         <location filename="../src/gui/qt/createinternetgamedialog.ui" line="194"/>
         <source>Blinds</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Blinds</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/createinternetgamedialog.ui" line="203"/>
@@ -1962,17 +1962,17 @@ Veuillez choisir un autre nom.</translation>
 <context>
     <name>createInternetGameDialogImpl</name>
     <message>
-        <location filename="../src/gui/qt/createinternetgamedialog/createinternetgamedialogimpl.cpp" line="55"/>
+        <location filename="../src/gui/qt/createinternetgamedialog/createinternetgamedialogimpl.cpp" line="43"/>
         <source>&lt;i&gt;First small blind: $%1&lt;/i&gt;</source>
         <translation type="unfinished">&lt;i&gt;Première petite blind : $%1&lt;/i&gt;</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/createinternetgamedialog/createinternetgamedialogimpl.cpp" line="56"/>
+        <location filename="../src/gui/qt/createinternetgamedialog/createinternetgamedialogimpl.cpp" line="44"/>
         <source>&lt;i&gt;Double blinds every %1&apos;th hand&lt;/i&gt;</source>
         <translation type="unfinished">&lt;i&gt;Double les blinds toutes les %1 mains&lt;/i&gt;</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/createinternetgamedialog/createinternetgamedialogimpl.cpp" line="101"/>
+        <location filename="../src/gui/qt/createinternetgamedialog/createinternetgamedialogimpl.cpp" line="89"/>
         <source>%1&apos;s game</source>
         <translation type="unfinished">Partie de %1</translation>
     </message>
@@ -2088,7 +2088,22 @@ Veuillez choisir un autre nom.</translation>
         <translation>Joueurs connectés</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog.ui" line="700"/>
+        <location filename="../src/gui/qt/gamelobbydialog.ui" line="509"/>
+        <source>First small blind:</source>
+        <translation type="unfinished">Première petite blind : </translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/gamelobbydialog.ui" line="532"/>
+        <source>Blinds raise interval:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/gamelobbydialog.ui" line="558"/>
+        <source>Blinds raise mode:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/gamelobbydialog.ui" line="654"/>
         <source>Fill up with computer opponents</source>
         <translation>Compléter avec des adversaires IA</translation>
     </message>
@@ -2109,12 +2124,14 @@ Veuillez choisir un autre nom.</translation>
         <translation type="obsolete">Petite Blind initiale:</translation>
     </message>
     <message>
+        <location filename="../src/gui/qt/gamelobbydialog.ui" line="486"/>
         <source>Start Cash:</source>
-        <translation type="obsolete">Bourse initiale:</translation>
+        <translation type="unfinished">Bourse initiale:</translation>
     </message>
     <message>
+        <location filename="../src/gui/qt/gamelobbydialog.ui" line="616"/>
         <source>Timeout for player action (sec):</source>
-        <translation type="obsolete">Temps alloué pour l&apos;action du joueur (en secondes):</translation>
+        <translation type="unfinished">Temps alloué pour l&apos;action du joueur (en secondes):</translation>
     </message>
     <message>
         <source>Leave Game</source>
@@ -2150,37 +2167,33 @@ Veuillez choisir un autre nom.</translation>
         <translation type="obsolete">Nombre maximal de joueurs :</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog.ui" line="439"/>
         <source>Start Cash: </source>
-        <translation>Bourse initiale : </translation>
+        <translation type="obsolete">Bourse initiale : </translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog.ui" line="469"/>
         <source>First small blind: </source>
-        <translation>Première petite blind : </translation>
+        <translation type="obsolete">Première petite blind : </translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog.ui" line="532"/>
         <source>Blinds raise mode: </source>
-        <translation>Mode de surenchère des blinds : </translation>
+        <translation type="obsolete">Mode de surenchère des blinds : </translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog.ui" line="568"/>
+        <location filename="../src/gui/qt/gamelobbydialog.ui" line="587"/>
         <source>Manual blinds list:</source>
         <translation>Liste de blinds manuelles : </translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog.ui" line="604"/>
         <source>Timeout for player action (sec): </source>
-        <translation>Temps de réponse du joueur (sec) : </translation>
+        <translation type="obsolete">Temps de réponse du joueur (sec) : </translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog.ui" line="640"/>
+        <location filename="../src/gui/qt/gamelobbydialog.ui" line="440"/>
         <source>Game type:</source>
         <translation type="unfinished">Type : </translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog.ui" line="858"/>
+        <location filename="../src/gui/qt/gamelobbydialog.ui" line="812"/>
         <source>&amp;Leave Game</source>
         <translation type="unfinished">Quitter la partie</translation>
     </message>
@@ -2249,19 +2262,18 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished">Accueil des parties Internet</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog.ui" line="761"/>
+        <location filename="../src/gui/qt/gamelobbydialog.ui" line="715"/>
         <source>&amp;Start Game</source>
         <translation type="unfinished">Commencer</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog.ui" line="806"/>
+        <location filename="../src/gui/qt/gamelobbydialog.ui" line="760"/>
         <source>&amp;Kick Player</source>
         <translation>Expulser le joueur</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog.ui" line="499"/>
         <source>Blinds raise interval: </source>
-        <translation>Intervalle de surenchère des blinds : </translation>
+        <translation type="obsolete">Intervalle de surenchère des blinds : </translation>
     </message>
     <message>
         <source>Join any game</source>
@@ -2457,39 +2469,39 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished">Parties ouvertes : %1</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1405"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1403"/>
         <source>Player %1 is playing in &quot;%2&quot;.</source>
         <translation type="unfinished">%1 est en train de jouer dans la partie &quot;%2&quot;.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1408"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1406"/>
         <source>Player %1 is not playing at the moment.</source>
         <translation type="unfinished">%1 ne joue pas actuellement.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1428"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1426"/>
         <source>You have entered a game with type &quot;invite-only&quot;.
 Feel free to invite other players by right-clicking on their nick in the available players list.</source>
         <translation type="unfinished">Vous êtes entré dans une partie où seuls les joueurs invités sont admis.
 Invitez donc d&apos;autres joueurs en faisant un clic droit sur leurs pseudos dans la liste des Joueurs disponibles </translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1447"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1445"/>
         <source>You have been invited to the game &lt;b&gt;%1&lt;/b&gt; by &lt;b&gt;%2&lt;/b&gt;.&lt;br&gt;Would you like to join this game?</source>
         <translation type="unfinished">Vous avez été invité dans la partie &lt;b&gt;%1&lt;/b&gt; par &lt;b&gt;%2&lt;/b&gt;.&lt;br&gt;Voulez-vous joindre cette partie?</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1469"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1467"/>
         <source>&lt;span style=&apos;color:red;&apos;&gt;Player %1 has rejected the invitation to %2.&lt;/span&gt;</source>
         <translation type="unfinished">&lt;span style=&apos;color:red;&apos;&gt;%1 a décliné l&apos;invitation de %2.&lt;/span&gt;</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1471"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1469"/>
         <source>&lt;span style=&apos;color:red;&apos;&gt;Player %1 cannot join %2 because he is busy.&lt;/span&gt;</source>
         <translation type="unfinished">&lt;span style=&apos;color:red;&apos;&gt;%1 ne peut pas joindre la partie de %2 car il est occupé.&lt;/span&gt;</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1500"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1498"/>
         <source>You will no longer receive chat messages or game invitations from this user.&lt;br&gt;Do you really want to put player &lt;b&gt;%1&lt;/b&gt; on your ignore list?</source>
         <translation type="unfinished">Vous êtes sur le point de mettre le joueur &lt;b&gt;%1&lt;/b&gt; dans la liste de joueurs ignorés. Vous ne pourrez plus discuter ou recevoir d&apos;invitations de jeu avec ce joueur, continuer ?</translation>
     </message>
@@ -2504,43 +2516,43 @@ Invitez donc d&apos;autres joueurs en faisant un clic droit sur leurs pseudos da
         <translation type="unfinished">Joueurs connectés : %1</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1366"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1364"/>
         <source>Chat is only available to registered players.</source>
         <translation type="unfinished">Le Tchat n&apos;est accessible qu&apos;aux joueurs enregistrés.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1382"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1380"/>
         <source>Invite player %1</source>
         <translation type="unfinished">Inviter le joueur %1</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1386"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1384"/>
         <source>Invite player ...</source>
         <translation type="unfinished">Inviter le joueur ...</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1393"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1391"/>
         <source>Ignore player %1</source>
         <translation type="unfinished">Ignorer le joueur %1</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1398"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1396"/>
         <source>Ignore player ...</source>
         <translation type="unfinished">Ignorer le joueur ...</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1428"/>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1447"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1426"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1445"/>
         <source>PokerTH - Info Message</source>
         <translation type="unfinished">PokerTH - Message d&apos;information</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1462"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1460"/>
         <source>&lt;span style=&apos;color:blue;&apos;&gt;Player %1 has been invited to %2 by %3.&lt;/span&gt;</source>
         <translation type="unfinished">&lt;span style=&apos;color:blue;&apos;&gt;%1 a été invité dans la partie %2 par %3.&lt;/span&gt;</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1500"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1498"/>
         <source>PokerTH - Question</source>
         <translation type="unfinished"></translation>
     </message>
@@ -5432,7 +5444,8 @@ Veuillez choisir un nom différent.</translation>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="869"/>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="874"/>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="879"/>
-        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="887"/>
+        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="884"/>
+        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="892"/>
         <source>Network Notification</source>
         <translation>Notification réseau</translation>
     </message>
@@ -5463,16 +5476,21 @@ Veuillez choisir un nom différent.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="880"/>
+        <source>The settings are invalid for this type of game.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="885"/>
         <source>A new release of PokerTH is available.&lt;br&gt;Please go to &lt;a href=&quot;http://www.pokerth.net/&quot; target=&quot;_blank&quot;&gt;http://www.pokerth.net&lt;/a&gt; and download the latest version.</source>
         <translation>Une nouvelle version de PokerTH est disponible. &lt;br&gt;Merci d&apos;aller sur &lt;a href=&quot;http://www.pokerth.net/&quot; target=&quot;_blank&quot;&gt;http://www.pokerth.net&lt;/a&gt; et de télécharger la dernière version.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="888"/>
+        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="893"/>
         <source>This beta release of PokerTH is outdated.&lt;br&gt;Please go to &lt;a href=&quot;http://www.pokerth.net/&quot; target=&quot;_blank&quot;&gt;http://www.pokerth.net&lt;/a&gt; and download the latest version.</source>
         <translation>Cette version bêta de PokerTH est obsolète. &lt;br&gt;Merci d&apos;aller sur &lt;a href=&quot;http://www.pokerth.net/&quot; target=&quot;_blank&quot;&gt;http://www.pokerth.net&lt;/a&gt; et de télécharger la dernière version.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="899"/>
+        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="904"/>
         <source>Server Message</source>
         <translation>Message du serveur</translation>
     </message>

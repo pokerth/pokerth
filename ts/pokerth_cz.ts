@@ -901,19 +901,19 @@ Please choose another one!</source>
     </message>
     <message>
         <source>Start Cash: </source>
-        <translation>Počáteční obnos:</translation>
+        <translation type="obsolete">Počáteční obnos:</translation>
     </message>
     <message>
         <source>First small blind: </source>
-        <translation>První malý blind:</translation>
+        <translation type="obsolete">První malý blind:</translation>
     </message>
     <message>
         <source>Blinds raise interval: </source>
-        <translation>Zvedat blindy po:</translation>
+        <translation type="obsolete">Zvedat blindy po:</translation>
     </message>
     <message>
         <source>Blinds raise mode: </source>
-        <translation>Mód zvyšování blindů:</translation>
+        <translation type="obsolete">Mód zvyšování blindů:</translation>
     </message>
     <message>
         <source>Manual blinds list:</source>
@@ -921,7 +921,7 @@ Please choose another one!</source>
     </message>
     <message>
         <source>Timeout for player action (sec): </source>
-        <translation>Na hráče se čeká (sec):</translation>
+        <translation type="obsolete">Na hráče se čeká (sec):</translation>
     </message>
     <message>
         <source>&amp;Leave Game</source>
@@ -988,6 +988,26 @@ p, li { white-space: pre-wrap; }
 &lt;tr&gt;
 &lt;td style=&quot;border: none;&quot;&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://online-ranking.pokerth.net&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Click here to view the online rankings&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Start Cash:</source>
+        <translation type="unfinished">Počáteční obnos:</translation>
+    </message>
+    <message>
+        <source>First small blind:</source>
+        <translation type="unfinished">První malý blind:</translation>
+    </message>
+    <message>
+        <source>Blinds raise interval:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Blinds raise mode:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Timeout for player action (sec):</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -3069,6 +3089,10 @@ Prosím, zkontrolujte své uživatelské jméno a heslo.</translation>
     </message>
     <message>
         <source>This game is of type invite-only. You cannot join this game without being invited.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The settings are invalid for this type of game.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
