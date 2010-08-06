@@ -440,7 +440,7 @@ p, li { white-space: pre-wrap; }
              <string>Game type:</string>
             </property>
             <property name="alignment">
-             <set>Qt::AlignBottom|Qt::AlignRight|Qt::AlignTrailing</set>
+             <set>Qt::AlignRight|Qt::AlignTop|Qt::AlignTrailing</set>
             </property>
             <property name="wordWrap">
              <bool>true</bool>
@@ -464,7 +464,7 @@ p, li { white-space: pre-wrap; }
                </size>
               </property>
               <property name="alignment">
-               <set>Qt::AlignBottom|Qt::AlignRight|Qt::AlignTrailing</set>
+               <set>Qt::AlignRight|Qt::AlignTop|Qt::AlignTrailing</set>
               </property>
              </widget>
             </item>
@@ -474,7 +474,7 @@ p, li { white-space: pre-wrap; }
                <string/>
               </property>
               <property name="alignment">
-               <set>Qt::AlignBottom|Qt::AlignLeading|Qt::AlignLeft</set>
+               <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
               </property>
               <property name="wordWrap">
                <bool>true</bool>
@@ -489,7 +489,7 @@ p, li { white-space: pre-wrap; }
              <string>Start Cash:</string>
             </property>
             <property name="alignment">
-             <set>Qt::AlignBottom|Qt::AlignRight|Qt::AlignTrailing</set>
+             <set>Qt::AlignRight|Qt::AlignTop|Qt::AlignTrailing</set>
             </property>
             <property name="wordWrap">
              <bool>true</bool>
@@ -515,7 +515,7 @@ p, li { white-space: pre-wrap; }
              <string>First small blind:</string>
             </property>
             <property name="alignment">
-             <set>Qt::AlignBottom|Qt::AlignRight|Qt::AlignTrailing</set>
+             <set>Qt::AlignRight|Qt::AlignTop|Qt::AlignTrailing</set>
             </property>
             <property name="wordWrap">
              <bool>true</bool>
@@ -528,7 +528,7 @@ p, li { white-space: pre-wrap; }
              <string notr="true">QLabel { color:rgb(0, 0, 255); }</string>
             </property>
             <property name="alignment">
-             <set>Qt::AlignBottom|Qt::AlignLeading|Qt::AlignLeft</set>
+             <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
             </property>
             <property name="wordWrap">
              <bool>true</bool>
@@ -541,7 +541,7 @@ p, li { white-space: pre-wrap; }
              <string>Blinds raise interval:</string>
             </property>
             <property name="alignment">
-             <set>Qt::AlignBottom|Qt::AlignRight|Qt::AlignTrailing</set>
+             <set>Qt::AlignRight|Qt::AlignTop|Qt::AlignTrailing</set>
             </property>
             <property name="wordWrap">
              <bool>true</bool>
@@ -554,7 +554,7 @@ p, li { white-space: pre-wrap; }
              <string notr="true">QLabel { color:rgb(0, 0, 255); }</string>
             </property>
             <property name="alignment">
-             <set>Qt::AlignBottom|Qt::AlignLeading|Qt::AlignLeft</set>
+             <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
             </property>
             <property name="wordWrap">
              <bool>true</bool>
@@ -567,7 +567,7 @@ p, li { white-space: pre-wrap; }
              <string>Blinds raise mode:</string>
             </property>
             <property name="alignment">
-             <set>Qt::AlignBottom|Qt::AlignRight|Qt::AlignTrailing</set>
+             <set>Qt::AlignRight|Qt::AlignTop|Qt::AlignTrailing</set>
             </property>
             <property name="wordWrap">
              <bool>true</bool>
@@ -583,7 +583,7 @@ p, li { white-space: pre-wrap; }
              <string/>
             </property>
             <property name="alignment">
-             <set>Qt::AlignBottom|Qt::AlignLeading|Qt::AlignLeft</set>
+             <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
             </property>
             <property name="wordWrap">
              <bool>true</bool>
@@ -596,7 +596,7 @@ p, li { white-space: pre-wrap; }
              <string>Manual blinds list:</string>
             </property>
             <property name="alignment">
-             <set>Qt::AlignBottom|Qt::AlignRight|Qt::AlignTrailing</set>
+             <set>Qt::AlignRight|Qt::AlignTop|Qt::AlignTrailing</set>
             </property>
             <property name="wordWrap">
              <bool>true</bool>
@@ -612,7 +612,7 @@ p, li { white-space: pre-wrap; }
              <string/>
             </property>
             <property name="alignment">
-             <set>Qt::AlignBottom|Qt::AlignLeading|Qt::AlignLeft</set>
+             <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
             </property>
             <property name="wordWrap">
              <bool>true</bool>
@@ -625,7 +625,7 @@ p, li { white-space: pre-wrap; }
              <string>Timeout for player action (sec):</string>
             </property>
             <property name="alignment">
-             <set>Qt::AlignBottom|Qt::AlignRight|Qt::AlignTrailing</set>
+             <set>Qt::AlignRight|Qt::AlignTop|Qt::AlignTrailing</set>
             </property>
             <property name="wordWrap">
              <bool>true</bool>
@@ -638,7 +638,7 @@ p, li { white-space: pre-wrap; }
              <string notr="true">QLabel { color:rgb(0, 0, 255); }</string>
             </property>
             <property name="alignment">
-             <set>Qt::AlignBottom|Qt::AlignLeading|Qt::AlignLeft</set>
+             <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
             </property>
             <property name="wordWrap">
              <bool>true</bool>
