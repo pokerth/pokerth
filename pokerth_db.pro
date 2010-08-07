@@ -24,14 +24,16 @@ HEADERS += \
 		src/db/serverdbfactory.h \
 		src/db/serverdbinterface.h \
 		src/db/serverdbgeneric.h \
-		src/db/serverdbfactorygeneric.h
+		src/db/serverdbfactorygeneric.h \
+		src/db/serverdbnoaction.h
 
 SOURCES += \
 		src/db/common/serverdbcallback.cpp \
 		src/db/common/serverdbfactory.cpp \
 		src/db/common/serverdbinterface.cpp \
 		src/db/common/serverdbgeneric.cpp \
-		src/db/common/serverdbfactorygeneric.cpp
+		src/db/common/serverdbfactorygeneric.cpp \
+		src/db/common/serverdbnoaction.cpp
 
 win32{
 	DEFINES += CURL_STATICLIB

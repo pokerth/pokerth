@@ -107,7 +107,7 @@ public:
 
 	SenderHelper &GetSender();
 	boost::asio::io_service &GetIOService();
-	ServerDBInterface &GetDatabase();
+	boost::shared_ptr<ServerDBInterface> GetDatabase();
 	ServerBanManager &GetBanManager();
 
 protected:

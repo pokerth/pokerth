@@ -29,6 +29,7 @@
 #include <net/socket_msg.h>
 #include <core/loghelper.h>
 #include <db/serverdbinterface.h>
+#include <db/serverdbnoaction.h>
 #include <game.h>
 #include <localenginefactory.h>
 #include <tools.h>
@@ -231,6 +232,12 @@ ServerGame::TimerVoteKick(const boost::system::error_code &ec)
 void
 ServerGame::InternalStartGame()
 {
+	// Set DB Backend.
+	if (GetGameData().gameType == GAME_TYPE_RANKING)
+		m_database = GetLobbyThread().GetDatabase();
+	else
+		m_database.reset(new ServerDBNoAction);
+
 	// Set order of players.
 	AssignPlayerNumbers();
 
@@ -749,6 +756,13 @@ const SessionManager &
 ServerGame::GetSessionManager() const
 {
 	return m_sessionManager;
+}
+
+ServerDBInterface &
+ServerGame::GetDatabase()
+{
+	assert(m_database);
+	return *m_database;
 }
 
 ServerLobbyThread &

@@ -34,6 +34,7 @@
 class ReceiverHelper;
 class ServerLobbyThread;
 class ServerGameState;
+class ServerDBInterface;
 class ConfigFile;
 struct GameData;
 class Game;
@@ -140,6 +141,7 @@ protected:
 
 	const SessionManager &GetSessionManager() const;
 	SessionManager &GetSessionManager();
+	ServerDBInterface &GetDatabase();
 
 private:
 	ServerGame(const ServerGame &other);
@@ -157,6 +159,7 @@ private:
 
 	boost::shared_ptr<ServerLobbyThread> m_lobbyThread;
 	boost::shared_ptr<ReceiverHelper> m_receiver;
+	boost::shared_ptr<ServerDBInterface> m_database;
 	GuiInterface &m_gui;
 
 	const GameData		m_gameData;

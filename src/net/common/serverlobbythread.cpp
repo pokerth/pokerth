@@ -646,11 +646,10 @@ ServerLobbyThread::GetIOService()
 	return *m_ioService;
 }
 
-ServerDBInterface &
+boost::shared_ptr<ServerDBInterface>
 ServerLobbyThread::GetDatabase()
 {
-	assert(m_database);
-	return *m_database;
+	return m_database;
 }
 
 ServerBanManager &
