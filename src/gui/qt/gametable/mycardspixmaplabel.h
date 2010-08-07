@@ -36,6 +36,7 @@ public:
 	bool getFadeOutAction() const { return fadeOutAction;}
 	
 	void startFadeOut(int);
+        void stopFadeOut();
 	void startFlipCards(int, const QPixmap & , const QPixmap &);
 	void stopFlipCardsAnimation();
 	

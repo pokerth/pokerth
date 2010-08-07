@@ -1377,7 +1377,7 @@ void gameLobbyDialogImpl::showNickListContextMenu(QPoint p)
         if(inGame && mySession->getClientGameInfo(mySession->getClientCurrentGameId()).data.gameType == GAME_TYPE_INVITE_ONLY && playerUid != mySession->getClientUniquePlayerId() && !mySession->getClientPlayerInfo(playerUid).isGuest) {
 
             nickListInviteAction->setEnabled(true);
-            nickListInviteAction->setText(tr("Invite player %1").arg(QString::fromUtf8(mySession->getClientPlayerInfo(playerUid).playerName.c_str())));
+            nickListInviteAction->setText(tr("Invite %1").arg(QString::fromUtf8(mySession->getClientPlayerInfo(playerUid).playerName.c_str())));
 
         }
         else {
@@ -1388,7 +1388,7 @@ void gameLobbyDialogImpl::showNickListContextMenu(QPoint p)
         if(playerUid != mySession->getClientUniquePlayerId() && !mySession->getClientPlayerInfo(playerUid).isGuest) {
 
             nickListIgnorePlayerAction->setEnabled(true);
-            nickListIgnorePlayerAction->setText(tr("Ignore player %1").arg(QString::fromUtf8(mySession->getClientPlayerInfo(playerUid).playerName.c_str())));
+            nickListIgnorePlayerAction->setText(tr("Ignore %1").arg(QString::fromUtf8(mySession->getClientPlayerInfo(playerUid).playerName.c_str())));
         }
         else {
 
@@ -1400,10 +1400,10 @@ void gameLobbyDialogImpl::showNickListContextMenu(QPoint p)
         unsigned gameIdOfPlayer = mySession->getGameIdOfPlayer(playerUid);
         QString playerInGameInfoString;
         if(gameIdOfPlayer) {
-            playerInGameInfoString = tr("Player %1 is playing in \"%2\".").arg(QString::fromUtf8(mySession->getClientPlayerInfo(playerUid).playerName.c_str())).arg(QString::fromUtf8(mySession->getClientGameInfo(gameIdOfPlayer).name.c_str()));
+            playerInGameInfoString = tr("%1 is playing in \"%2\".").arg(QString::fromUtf8(mySession->getClientPlayerInfo(playerUid).playerName.c_str())).arg(QString::fromUtf8(mySession->getClientGameInfo(gameIdOfPlayer).name.c_str()));
         }
         else {
-            playerInGameInfoString = tr("Player %1 is not playing at the moment.").arg(QString::fromUtf8(mySession->getClientPlayerInfo(playerUid).playerName.c_str()));
+            playerInGameInfoString = tr("%1 is not playing at the moment.").arg(QString::fromUtf8(mySession->getClientPlayerInfo(playerUid).playerName.c_str()));
         }
         nickListPlayerInGameInfo->setText(playerInGameInfoString);
 
@@ -1457,16 +1457,16 @@ void gameLobbyDialogImpl::showInvitationDialog(unsigned gameId, unsigned playerI
 
 void gameLobbyDialogImpl::chatInfoPlayerInvitation(unsigned gameId, unsigned playerIdWho, unsigned playerIdFrom)
 {
-    textBrowser_ChatDisplay->append(tr("<span style='color:blue;'>Player %1 has been invited to %2 by %3.</span>").arg(QString::fromUtf8(mySession->getClientPlayerInfo(playerIdWho).playerName.c_str())).arg(QString::fromUtf8(mySession->getClientGameInfo(gameId).name.c_str())).arg(QString::fromUtf8(mySession->getClientPlayerInfo(playerIdFrom).playerName.c_str())));
+    textBrowser_ChatDisplay->append(tr("<span style='color:blue;'>%1 has been invited to %2 by %3.</span>").arg(QString::fromUtf8(mySession->getClientPlayerInfo(playerIdWho).playerName.c_str())).arg(QString::fromUtf8(mySession->getClientGameInfo(gameId).name.c_str())).arg(QString::fromUtf8(mySession->getClientPlayerInfo(playerIdFrom).playerName.c_str())));
 }
 
 void gameLobbyDialogImpl::chatInfoPlayerRejectedInvitation(unsigned gameId, unsigned playerIdWho, DenyGameInvitationReason reason)
 {
 
     QString string;
-	if(reason == DENY_GAME_INVITATION_NO) string = tr("<span style='color:red;'>Player %1 has rejected the invitation to %2.</span>");
+        if(reason == DENY_GAME_INVITATION_NO) string = tr("<span style='color:red;'>%1 has rejected the invitation to %2.</span>");
 
-	if(reason == DENY_GAME_INVITATION_BUSY) string = tr("<span style='color:red;'>Player %1 cannot join %2 because he is busy.</span>");
+        if(reason == DENY_GAME_INVITATION_BUSY) string = tr("<span style='color:red;'>%1 cannot join %2 because he is busy.</span>");
 
     textBrowser_ChatDisplay->append(string.arg(QString::fromUtf8(mySession->getClientPlayerInfo(playerIdWho).playerName.c_str())).arg(QString::fromUtf8(mySession->getClientGameInfo(gameId).name.c_str())));
 

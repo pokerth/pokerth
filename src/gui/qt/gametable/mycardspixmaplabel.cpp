@@ -59,6 +59,15 @@ void MyCardsPixmapLabel::startFadeOut(int speed) {
 	
 }
 
+void MyCardsPixmapLabel::stopFadeOut() {
+
+        fadeOutTimer->stop();
+        fadeOutAction = FALSE;
+        frameOpacity = 1.0;
+        update();
+}
+
+
 
 void MyCardsPixmapLabel::nextFadeOutFrame() {
 
@@ -76,6 +85,8 @@ void MyCardsPixmapLabel::nextFadeOutFrame() {
 
 void MyCardsPixmapLabel::startFlipCards(int speed, const QPixmap &frontPix, const QPixmap &flipsidePix) { 
 	
+        stopFadeOut();
+
 	stopFlipCards = FALSE;
         isFlipside = FALSE;
 
