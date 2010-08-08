@@ -278,6 +278,7 @@ ServerGame::InternalStartGame()
 
 	GetLobbyThread().NotifyStartingGame(GetId());
 	GetDatabase().AsyncCreateGame(GetId(), GetName());
+	InitRankingMap(playerData);
 }
 
 void
