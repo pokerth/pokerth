@@ -23,7 +23,7 @@
 
 #include <boost/enable_shared_from_this.hpp>
 #include <third_party/boost/timers.hpp>
-#include <deque>
+#include <map>
 
 #include <net/sessionmanager.h>
 #include <db/serverdbcallback.h>
@@ -92,12 +92,22 @@ public:
 
 protected:
 
-	typedef std::deque<SessionWrapper> SessionQueue;
+	struct RankingData
+	{
+		RankingData() : dbid(DB_ID_INVALID), place(0) {}
+		RankingData(DB_id i, int p = 0) : dbid(i), place(p) {}
+		DB_id dbid;
+		int place;
+	};
+
+	typedef std::map<unsigned, RankingData> RankingMap;
 
 	void TimerVoteKick(const boost::system::error_code &ec);
 
 	void InternalStartGame();
-	void ResetGame();
+	void InitRankingMap(const PlayerDataList &playerDataList);
+	void SetPlayerPlace(unsigned playerId, int place);
+	void InternalEndGame();
 
 	void InternalKickPlayer(unsigned playerId);
 	void InternalAskVoteKick(SessionWrapper byWhom, unsigned playerIdWho, unsigned timeoutSec);
@@ -152,6 +162,8 @@ private:
 
 	PlayerIdList m_playerInvitationList;
 	mutable boost::mutex m_playerInvitationListMutex;
+
+	RankingMap m_rankingMap;
 
 	unsigned m_adminPlayerId;
 

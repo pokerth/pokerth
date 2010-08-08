@@ -22,7 +22,6 @@
 #define _SERVERLOBBYTHREAD_H_
 
 #include <boost/asio.hpp>
-#include <deque>
 #include <boost/enable_shared_from_this.hpp>
 
 #include <net/sessionmanager.h>
@@ -113,7 +112,6 @@ public:
 protected:
 
 	typedef std::deque<boost::shared_ptr<boost::asio::ip::tcp::socket> > ConnectQueue;
-	typedef std::deque<SessionWrapper> SessionQueue;
 	typedef std::list<SessionWrapper> SessionList;
 	typedef std::list<SessionId> SessionIdList;
 	typedef std::map<SessionId, boost::timers::portable::microsec_timer> TimerSessionMap;

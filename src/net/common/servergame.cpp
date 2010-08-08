@@ -277,12 +277,53 @@ ServerGame::InternalStartGame()
 	m_game.reset(new Game(&gui, factory, playerData, GetGameData(), GetStartData(), GetNextGameNum()));
 
 	GetLobbyThread().NotifyStartingGame(GetId());
+	GetDatabase().AsyncCreateGame(GetId(), GetName());
 }
 
 void
-ServerGame::ResetGame()
+ServerGame::InitRankingMap(const PlayerDataList &playerDataList)
 {
+	PlayerDataList::const_iterator i = playerDataList.begin();
+	PlayerDataList::const_iterator end = playerDataList.end();
+	while (i != end)
+	{
+		boost::shared_ptr<PlayerData> tmpPlayer(*i);
+		RankingData tmpData(tmpPlayer->GetDBId());
+		m_rankingMap[tmpPlayer->GetUniqueId()] = tmpData;
+		++i;
+	}
+}
+
+void
+ServerGame::SetPlayerPlace(unsigned playerId, int place)
+{
+	RankingMap::iterator pos = m_rankingMap.find(playerId);
+	if (pos != m_rankingMap.end())
+	{
+		(*pos).second.place = place;
+	}
+}
+
+void
+ServerGame::InternalEndGame()
+{
+	// Store players in database.
+	if (GetDBId() != DB_ID_INVALID)
+	{
+		RankingMap::const_iterator i = m_rankingMap.begin();
+		RankingMap::const_iterator end = m_rankingMap.end();
+		while (i != end)
+		{
+			if ((*i).second.dbid != DB_ID_INVALID)
+			{
+				GetDatabase().SetGamePlayerPlace(GetDBId(), (*i).second.dbid, (*i).second.place);
+			}
+			++i;
+		}
+	}
+	GetDatabase().EndGame(GetDBId());
 	m_game.reset();
+	m_rankingMap.clear();
 }
 
 void

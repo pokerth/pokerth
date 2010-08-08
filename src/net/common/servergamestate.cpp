@@ -655,7 +655,6 @@ ServerGameStateStartGame::DoStart(boost::shared_ptr<ServerGame> server)
 	else
 	{
 		server->InternalStartGame();
-		server->GetDatabase().AsyncCreateGame(server->GetId(), server->GetName());
 
 		boost::shared_ptr<NetPacket> packet(new NetPacket(NetPacket::Alloc));
 		packet->GetMsg()->present = PokerTHMessage_PR_gameStartMessage;
@@ -931,15 +930,9 @@ ServerGameStateHand::EngineLoop(boost::shared_ptr<ServerGame> server)
 			}
 			else if (playersWithCash.size() == 1)
 			{
-				// Store winner in database.
 				boost::shared_ptr<PlayerInterface> winnerPlayer = *(playersWithCash.begin());
-				boost::shared_ptr<PlayerData> tmpPlayer = server->GetPlayerDataByUniqueId(winnerPlayer->getMyUniqueID());
-				if (tmpPlayer && server->GetDBId())
-				{
-					cerr << "Setting winner for game " << server->GetDBId() << " player id " << tmpPlayer->GetDBId() << endl;
-					server->GetDatabase().SetGamePlayerPlace(server->GetDBId(), tmpPlayer->GetDBId(), 1);
-					server->GetDatabase().EndGame(server->GetDBId());
-				}
+				server->SetPlayerPlace(winnerPlayer->getMyUniqueID(), 1);
+				server->InternalEndGame();
 
 				// View a dialog for a new game - delayed.
 				server->GetStateTimer().expires_from_now(
@@ -1019,7 +1012,6 @@ ServerGameStateHand::TimerNextGame(const boost::system::error_code &ec, boost::s
 
 		// Wait for the start of a new game.
 		server->ResetComputerPlayerList();
-		server->ResetGame();
 		server->GetLobbyThread().NotifyReopeningGame(server->GetId());
 		server->SetState(ServerGameStateInit::Instance());
 	}
