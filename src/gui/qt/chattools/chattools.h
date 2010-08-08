@@ -37,7 +37,7 @@ class ChatTools : public QObject
     Q_OBJECT
 
 public:
-    ChatTools(QLineEdit*, ConfigFile*, ChatType, QTextBrowser *b = NULL, QTreeWidget *t = NULL, gameLobbyDialogImpl *lo = NULL);
+    ChatTools(QLineEdit*, ConfigFile*, ChatType, QTextBrowser *b = NULL, QStandardItemModel *m = NULL, gameLobbyDialogImpl *lo = NULL);
 
     ~ChatTools();
 
@@ -73,7 +73,7 @@ private:
     int nickAutoCompletitionCounter;
 
     QLineEdit *myLineEdit;
-    QTreeWidget *myNickTreeWidget;
+    QStandardItemModel *myNickListModel;
     QStringList myNickStringList;
     QTextBrowser *myTextBrowser;
     boost::shared_ptr<Session> mySession;

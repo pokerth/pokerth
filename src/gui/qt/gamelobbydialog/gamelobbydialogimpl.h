@@ -110,6 +110,7 @@ public slots:
     void chatInfoPlayerRejectedInvitation(unsigned gameId, unsigned playerIdWho, DenyGameInvitationReason reason);
     void putPlayerOnIgnoreList();
     bool playerIsOnIgnoreList(unsigned playerid);
+    void searchForPlayerRegExpChanged();
 
 private:
 
@@ -148,6 +149,9 @@ private:
     int currentInvitationGameId;
     bool inviteDialogIsCurrentlyShown;
 
+    QStandardItemModel *myNickListModel;
+    QItemSelectionModel *myNickListSelectionModel;
+    QSortFilterProxyModel *myNickListSortFilterProxyModel;
 
 protected:
     bool eventFilter(QObject *obj, QEvent *event);

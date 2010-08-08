@@ -1,3 +1,4 @@
+
 //
 // C++ Implementation: gamelobbydialogimpl
 //
@@ -32,8 +33,6 @@ gameLobbyDialogImpl::gameLobbyDialogImpl(startWindowImpl *parent, ConfigFile *c)
     setWindowFlags(Qt::WindowSystemMenuHint | Qt::CustomizeWindowHint | Qt::Dialog);
 #endif	
     setupUi(this);
-
-    myChat = new ChatTools(lineEdit_ChatInput, myConfig, INET_LOBBY_CHAT, textBrowser_ChatDisplay, treeWidget_NickList, this);
 
     myAppDataPath = QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str());
 
@@ -76,14 +75,30 @@ gameLobbyDialogImpl::gameLobbyDialogImpl(startWindowImpl *parent, ConfigFile *c)
     headerList << tr("Game") << tr("Players") << tr("State") << tr("R") << tr("P");
     myGameListModel->setHorizontalHeaderLabels(headerList);
 
-    treeView_GameList->setColumnWidth(0,220);
+    treeView_GameList->setColumnWidth(0,190);
     treeView_GameList->setColumnWidth(1,65);
     treeView_GameList->setColumnWidth(2,65);
-    treeView_GameList->setColumnWidth(3,30);
-    treeView_GameList->setColumnWidth(4,30);
+    treeView_GameList->setColumnWidth(3,40);
+    treeView_GameList->setColumnWidth(4,40);
 
     treeView_GameList->setStyleSheet("QTreeView {background-color: white; background-image: url(\""+myAppDataPath +"gfx/gui/misc/background_gamelist.png\"); background-attachment: fixed; background-position: top center ; background-repeat: no-repeat;}");
     treeView_GameList->setAutoFillBackground(TRUE);
+
+    myNickListModel = new QStandardItemModel(this);
+    myNickListSortFilterProxyModel = new QSortFilterProxyModel(this);
+    myNickListSortFilterProxyModel->setSourceModel(myNickListModel);
+    myNickListSortFilterProxyModel->setDynamicSortFilter(TRUE);
+    myNickListSortFilterProxyModel->setSortCaseSensitivity(Qt::CaseInsensitive);
+
+    treeView_NickList->setModel(myNickListSortFilterProxyModel);
+    myNickListSelectionModel = treeView_NickList->selectionModel();
+
+    QStringList headerList2;
+    headerList2 << tr("Available Players");
+    myNickListModel->setHorizontalHeaderLabels(headerList2);
+    treeView_NickList->sortByColumn(0, Qt::AscendingOrder);
+
+    myChat = new ChatTools(lineEdit_ChatInput, myConfig, INET_LOBBY_CHAT, textBrowser_ChatDisplay, myNickListModel, this);
 
     nickListContextMenu = new QMenu();
     nickListInviteAction = new QAction(QIcon(":/gfx/list_add_user.png"), tr("Invite player"), nickListContextMenu);
@@ -111,10 +126,12 @@ gameLobbyDialogImpl::gameLobbyDialogImpl(startWindowImpl *parent, ConfigFile *c)
     connect( blinkingButtonAnimationTimer, SIGNAL(timeout()), this, SLOT( blinkingStartButtonAnimation() ));
     connect( showInfoMsgBoxTimer, SIGNAL(timeout()), this, SLOT( showInfoMsgBox() ));
     connect( comboBox_gameListFilter, SIGNAL(currentIndexChanged(int)), this, SLOT(changeGameListFilter(int)));
-    connect( treeWidget_NickList, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT( showNickListContextMenu(QPoint) ) );
+    connect( treeView_NickList, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT( showNickListContextMenu(QPoint) ) );
     connect( nickListInviteAction, SIGNAL(triggered()), this, SLOT( invitePlayerToCurrentGame() ));
     connect( nickListIgnorePlayerAction, SIGNAL(triggered()), this, SLOT( putPlayerOnIgnoreList() ));
+    connect( lineEdit_searchForPlayers, SIGNAL(textChanged(QString)),this, SLOT(searchForPlayerRegExpChanged()));
 
+    lineEdit_searchForPlayers->installEventFilter(this);
     lineEdit_ChatInput->installEventFilter(this);
 
     clearDialog();
@@ -315,17 +332,23 @@ void gameLobbyDialogImpl::refresh(int actionID) {
         myGameListSelectionModel->clear();
         myGameListSelectionModel->clearSelection();
         myGameListSortFilterProxyModel->clear();
-	
-        treeWidget_NickList->clear();
+
+        myNickListModel->clear();
+        myNickListSelectionModel->clear();
+        myNickListSelectionModel->clearSelection();;
 
         QStringList headerList;
         headerList << tr("Game") << tr("Players") << tr("State") << tr("T") << tr("P");
         myGameListModel->setHorizontalHeaderLabels(headerList);
-        treeView_GameList->setColumnWidth(0,220);
+        treeView_GameList->setColumnWidth(0,190);
         treeView_GameList->setColumnWidth(1,65);
         treeView_GameList->setColumnWidth(2,65);
-        treeView_GameList->setColumnWidth(3,30);
-        treeView_GameList->setColumnWidth(4,30);
+        treeView_GameList->setColumnWidth(3,40);
+        treeView_GameList->setColumnWidth(4,40);
+
+        QStringList headerList2;
+        headerList2 << tr("Available Players");
+        myNickListModel->setHorizontalHeaderLabels(headerList2);
 
         this->accept();
         myW->show();
@@ -570,7 +593,7 @@ void gameLobbyDialogImpl::refreshGameStats() {
 void gameLobbyDialogImpl::refreshPlayerStats() {
 
     ServerStats stats = mySession->getClientStats();
-    label_connectedPlayersCounter->setText(tr("connected players: %1").arg(treeWidget_NickList->topLevelItemCount()));
+    label_connectedPlayersCounter->setText(tr("connected players: %1").arg(myNickListModel->rowCount()));
 }
 
 void gameLobbyDialogImpl::gameAddPlayer(unsigned gameId, unsigned playerId)
@@ -676,16 +699,24 @@ void gameLobbyDialogImpl::clearDialog()
     QStringList headerList;
     headerList << tr("Game") << tr("Players") << tr("State") << tr("T") << tr("P");
     myGameListModel->setHorizontalHeaderLabels(headerList);
-    treeView_GameList->setColumnWidth(0,220);
+    treeView_GameList->setColumnWidth(0,190);
     treeView_GameList->setColumnWidth(1,65);
     treeView_GameList->setColumnWidth(2,65);
-    treeView_GameList->setColumnWidth(3,30);
-    treeView_GameList->setColumnWidth(4,30);
+    treeView_GameList->setColumnWidth(3,40);
+    treeView_GameList->setColumnWidth(4,40);
 
     pushButton_CreateGame->clearFocus();
     lineEdit_ChatInput->setFocus();
     myChat->clearChat();
-    treeWidget_NickList->clear();
+
+    myNickListModel->clear();
+    myNickListSelectionModel->clear();
+    myNickListSelectionModel->clearSelection();;
+    QStringList headerList2;
+    headerList2 << tr("Available Players");
+    myNickListModel->setHorizontalHeaderLabels(headerList2);
+    myNickListModel->sort(0, treeView_NickList->header()->sortIndicatorOrder());
+
     inGame = false;
     isGameAdministrator = false;
     myPlayerId = 0;
@@ -830,22 +861,21 @@ void gameLobbyDialogImpl::updatePlayer(unsigned playerId, QString newPlayerName)
 
     //also rename player in nick-list
     QString oldNick;
-    QTreeWidgetItemIterator it1(treeWidget_NickList);
-    while (*it1) {
-        if ((*it1)->data(0, Qt::UserRole) == playerId)
-        {
-            oldNick = (*it1)->data(0, Qt::DisplayRole).toString();
-            (*it1)->setData(0, Qt::DisplayRole, newPlayerName);
+    int it1 = 0;
+    while (myNickListModel->item(it1)) {
+        if (myNickListModel->item(it1, 0)->data(Qt::UserRole) == playerId) {
+            oldNick = myNickListModel->item(it1, 0)->text();
+            myNickListModel->item(it1, 0)->setText(newPlayerName);
             PlayerInfo playerInfo(mySession->getClientPlayerInfo(playerId));
             if(!playerInfo.isGuest) {
-                (*it1)->setIcon(0, QIcon(QString(":/cflags/cflags/%1.png").arg(QString::fromUtf8(mySession->getClientPlayerInfo(playerId).countryCode.c_str()).toLower())));
+                myNickListModel->item(it1, 0)->setIcon(QIcon(QString(":/cflags/cflags/%1.png").arg(QString::fromUtf8(mySession->getClientPlayerInfo(playerId).countryCode.c_str()).toLower())));
             }
             else {
-                (*it1)->setIcon(0, QIcon());
+                myNickListModel->item(it1, 0)->setIcon(QIcon());
             }
-
             break;
         }
+
         ++it1;
     }
 
@@ -871,17 +901,15 @@ void gameLobbyDialogImpl::removePlayer(unsigned playerId, QString) {
 
 void gameLobbyDialogImpl::playerLeftLobby(unsigned playerId)
 {
-    QTreeWidgetItemIterator it(treeWidget_NickList);
-    while (*it) {
-        if ((*it)->data(0, Qt::UserRole) == playerId)
-        {
-            treeWidget_NickList->takeTopLevelItem(treeWidget_NickList->indexOfTopLevelItem(*it));
+    int it1 = 0;
+    while (myNickListModel->item(it1)) {
+        if (myNickListModel->item(it1, 0)->data(Qt::UserRole) == playerId) {
+            myNickListModel->removeRow(it1);;
             break;
         }
-        ++it;
+        ++it1;
     }
 
-    treeWidget_NickList->sortItems(0, Qt::AscendingOrder);
     refreshPlayerStats();
 }
 
@@ -889,12 +917,12 @@ void gameLobbyDialogImpl::playerJoinedLobby(unsigned playerId, QString /*playerN
 {
     PlayerInfo playerInfo(mySession->getClientPlayerInfo(playerId));
 
-    QTreeWidgetItem *item = new QTreeWidgetItem(treeWidget_NickList, 0);
-    item->setData(0, Qt::DisplayRole, QString::fromUtf8(playerInfo.playerName.c_str()));
-    item->setData(0, Qt::UserRole, playerId);
-    item->setIcon(0, QIcon(QString(":/cflags/cflags/%1.png").arg(QString::fromUtf8(mySession->getClientPlayerInfo(playerId).countryCode.c_str()).toLower())));
+    QStandardItem *item = new QStandardItem;
+    item->setText(QString::fromUtf8(playerInfo.playerName.c_str()));
+    item->setData(playerId, Qt::UserRole);
+    item->setIcon(QIcon(QString(":/cflags/cflags/%1.png").arg(QString::fromUtf8(mySession->getClientPlayerInfo(playerId).countryCode.c_str()).toLower())));
+    myNickListModel->appendRow(item);
 
-    treeWidget_NickList->sortItems(0, Qt::AscendingOrder);
     refreshPlayerStats();
 }
 
@@ -1115,12 +1143,17 @@ void gameLobbyDialogImpl::keyPressEvent ( QKeyEvent * event ) {
 bool gameLobbyDialogImpl::eventFilter(QObject *obj, QEvent *event)
 {
     QKeyEvent *keyEvent = static_cast<QKeyEvent*>(event);
+    QFocusEvent *focusEvent = static_cast<QFocusEvent*>(event);
 
-    if (obj == lineEdit_ChatInput && lineEdit_ChatInput->text() != "" && event->type() == QEvent::KeyPress && keyEvent->key() == Qt::Key_Tab)
-    {
+    if (obj == lineEdit_ChatInput && lineEdit_ChatInput->text() != "" && event->type() == QEvent::KeyPress && keyEvent->key() == Qt::Key_Tab) {
         myChat->nickAutoCompletition();
         return true;
-    } else {
+    }
+    else if (obj == lineEdit_searchForPlayers && focusEvent->gotFocus() && lineEdit_searchForPlayers->text() == tr("search for player ...")) {
+        lineEdit_searchForPlayers->clear();
+        return QDialog::eventFilter(obj, event);
+    }
+    else {
         // pass the event on to the parent class
         return QDialog::eventFilter(obj, event);
     }
@@ -1368,11 +1401,10 @@ void gameLobbyDialogImpl::guestUserMode()
 
 void gameLobbyDialogImpl::showNickListContextMenu(QPoint p)
 {
-    if(treeWidget_NickList->topLevelItemCount() && !treeWidget_NickList->selectedItems().isEmpty()) {
-
+    if(myNickListModel->rowCount() && myNickListSelectionModel->currentIndex().isValid()) {
 
         assert(mySession);
-        int playerUid = treeWidget_NickList->selectedItems().at(0)->data(0, Qt::UserRole).toUInt();
+        int playerUid = myNickListSelectionModel->currentIndex().data(Qt::UserRole).toUInt();
 
         if(inGame && mySession->getClientGameInfo(mySession->getClientCurrentGameId()).data.gameType == GAME_TYPE_INVITE_ONLY && playerUid != mySession->getClientUniquePlayerId() && !mySession->getClientPlayerInfo(playerUid).isGuest) {
 
@@ -1407,14 +1439,14 @@ void gameLobbyDialogImpl::showNickListContextMenu(QPoint p)
         }
         nickListPlayerInGameInfo->setText(playerInGameInfoString);
 
-        nickListContextMenu->popup(treeWidget_NickList->mapToGlobal(p));
+        nickListContextMenu->popup(treeView_NickList->mapToGlobal(p));
     }
 }
 
 void gameLobbyDialogImpl::invitePlayerToCurrentGame()
 {
-    if(!treeWidget_NickList->selectedItems().isEmpty()) {
-        mySession->invitePlayerToCurrentGame(treeWidget_NickList->selectedItems().at(0)->data(0, Qt::UserRole).toUInt());
+    if(myNickListSelectionModel->currentIndex().isValid()) {
+        mySession->invitePlayerToCurrentGame(myNickListSelectionModel->currentIndex().data(Qt::UserRole).toUInt());
     }
 }
 
@@ -1488,9 +1520,9 @@ bool gameLobbyDialogImpl::playerIsOnIgnoreList(unsigned playerId) {
 
 void gameLobbyDialogImpl::putPlayerOnIgnoreList() {
 
-    if(!treeWidget_NickList->selectedItems().isEmpty()) {
+    if(myNickListSelectionModel->currentIndex().isValid()) {
 
-        unsigned playerId = treeWidget_NickList->selectedItems().at(0)->data(0, Qt::UserRole).toUInt();
+        unsigned playerId = myNickListSelectionModel->currentIndex().data(Qt::UserRole).toUInt();
 
         if(!playerIsOnIgnoreList(playerId)) {
 
@@ -1506,5 +1538,11 @@ void gameLobbyDialogImpl::putPlayerOnIgnoreList() {
             }
         }
     }
+}
+
+void gameLobbyDialogImpl::searchForPlayerRegExpChanged()
+{
+    QRegExp regExp(lineEdit_searchForPlayers->text(), Qt::CaseInsensitive);
+    myNickListSortFilterProxyModel->setFilterRegExp(regExp);
 }
 

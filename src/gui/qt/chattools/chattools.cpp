@@ -28,7 +28,7 @@
 using namespace std;
 
 
-ChatTools::ChatTools(QLineEdit* l, ConfigFile *c, ChatType ct, QTextBrowser *b, QTreeWidget *t, gameLobbyDialogImpl *lo) : nickAutoCompletitionCounter(0), myLineEdit(l), myNickTreeWidget(t), myNickStringList(NULL), myTextBrowser(b), myChatType(ct), myConfig(c), myNick(""), myLobby(lo)
+ChatTools::ChatTools(QLineEdit* l, ConfigFile *c, ChatType ct, QTextBrowser *b, QStandardItemModel *m, gameLobbyDialogImpl *lo) : nickAutoCompletitionCounter(0), myLineEdit(l), myNickListModel(m), myNickStringList(NULL), myTextBrowser(b), myChatType(ct), myConfig(c), myNick(""), myLobby(lo)
 {
     myNick = QString::fromUtf8(myConfig->readConfigString("MyName").c_str());
     ignoreList = myConfig->readConfigStringList("PlayerIgnoreList");
@@ -163,11 +163,13 @@ void ChatTools::nickAutoCompletition() {
 
     if(nickAutoCompletitionCounter == 0) {
 
-        if(myNickTreeWidget) {
-            QTreeWidgetItemIterator it(myNickTreeWidget);
-            while (*it) {
-                if ((*it)->text(0).startsWith(myChatStringList.last(), Qt::CaseInsensitive) && myChatStringList.last() != "")
-                    matchStringList << (*it)->text(0);
+        if(myNickListModel) {
+            int it = 0;
+            while (myNickListModel->item(it)) {
+                QString text = myNickListModel->item(it, 0)->data(Qt::DisplayRole).toString();
+                if(text.startsWith(myChatStringList.last(), Qt::CaseInsensitive) && myChatStringList.last() != "") {
+                    matchStringList << text;
+                }
                 ++it;
             }
         }

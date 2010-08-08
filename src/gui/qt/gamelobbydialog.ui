@@ -25,29 +25,20 @@
   <property name="windowTitle">
    <string>Internet Game Lobby</string>
   </property>
-  <layout class="QGridLayout">
-   <property name="leftMargin">
-    <number>5</number>
-   </property>
-   <property name="topMargin">
-    <number>5</number>
-   </property>
-   <property name="rightMargin">
-    <number>5</number>
-   </property>
-   <property name="bottomMargin">
-    <number>3</number>
-   </property>
+  <layout class="QGridLayout" name="gridLayout_2">
    <property name="horizontalSpacing">
-    <number>9</number>
+    <number>7</number>
    </property>
    <property name="verticalSpacing">
+    <number>4</number>
+   </property>
+   <property name="margin">
     <number>5</number>
    </property>
-   <item row="0" column="0" rowspan="4">
-    <widget class="QTreeWidget" name="treeWidget_NickList">
+   <item row="0" column="0">
+    <widget class="QLineEdit" name="lineEdit_searchForPlayers">
      <property name="sizePolicy">
-      <sizepolicy hsizetype="Fixed" vsizetype="Expanding">
+      <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
        <horstretch>0</horstretch>
        <verstretch>0</verstretch>
       </sizepolicy>
@@ -64,245 +55,8 @@
        <height>16777215</height>
       </size>
      </property>
-     <property name="contextMenuPolicy">
-      <enum>Qt::CustomContextMenu</enum>
-     </property>
-     <property name="indentation">
-      <number>5</number>
-     </property>
-     <property name="rootIsDecorated">
-      <bool>false</bool>
-     </property>
-     <property name="sortingEnabled">
-      <bool>true</bool>
-     </property>
-     <column>
-      <property name="text">
-       <string>Available Players</string>
-      </property>
-     </column>
-    </widget>
-   </item>
-   <item row="2" column="1">
-    <layout class="QHBoxLayout">
-     <property name="spacing">
-      <number>6</number>
-     </property>
-     <property name="margin">
-      <number>0</number>
-     </property>
-     <item>
-      <widget class="QPushButton" name="pushButton_joinAnyGame">
-       <property name="text">
-        <string>Join &amp;any game</string>
-       </property>
-       <property name="icon">
-        <iconset resource="resources/pokerth.qrc">
-         <normaloff>:/gfx/transform-rotate.png</normaloff>:/gfx/transform-rotate.png</iconset>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <spacer>
-       <property name="orientation">
-        <enum>Qt::Horizontal</enum>
-       </property>
-       <property name="sizeType">
-        <enum>QSizePolicy::Expanding</enum>
-       </property>
-       <property name="sizeHint" stdset="0">
-        <size>
-         <width>181</width>
-         <height>20</height>
-        </size>
-       </property>
-      </spacer>
-     </item>
-     <item>
-      <widget class="QPushButton" name="pushButton_CreateGame">
-       <property name="text">
-        <string>&amp;Create Game</string>
-       </property>
-       <property name="icon">
-        <iconset resource="resources/pokerth.qrc">
-         <normaloff>:/gfx/list_add.png</normaloff>:/gfx/list_add.png</iconset>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QPushButton" name="pushButton_JoinGame">
-       <property name="text">
-        <string>&amp;Join Game</string>
-       </property>
-       <property name="icon">
-        <iconset resource="resources/pokerth.qrc">
-         <normaloff>:/gfx/go-next-view.png</normaloff>:/gfx/go-next-view.png</iconset>
-       </property>
-      </widget>
-     </item>
-    </layout>
-   </item>
-   <item row="3" column="1">
-    <widget class="QGroupBox" name="groupBox_lobbyChat">
-     <property name="minimumSize">
-      <size>
-       <width>400</width>
-       <height>0</height>
-      </size>
-     </property>
-     <property name="maximumSize">
-      <size>
-       <width>16777215</width>
-       <height>230</height>
-      </size>
-     </property>
-     <property name="title">
-      <string>Lobby-Chat</string>
-     </property>
-     <layout class="QGridLayout">
-      <property name="leftMargin">
-       <number>7</number>
-      </property>
-      <property name="topMargin">
-       <number>2</number>
-      </property>
-      <property name="rightMargin">
-       <number>7</number>
-      </property>
-      <property name="bottomMargin">
-       <number>7</number>
-      </property>
-      <property name="spacing">
-       <number>0</number>
-      </property>
-      <item row="0" column="0">
-       <widget class="QTextBrowser" name="textBrowser_ChatDisplay"/>
-      </item>
-      <item row="1" column="0">
-       <widget class="QLineEdit" name="lineEdit_ChatInput"/>
-      </item>
-     </layout>
-    </widget>
-   </item>
-   <item row="4" column="0" colspan="3">
-    <layout class="QHBoxLayout">
-     <item>
-      <widget class="QLabel" name="label_connectedPlayersCounter">
-       <property name="text">
-        <string/>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QLabel" name="label_runningGamesCounter">
-       <property name="text">
-        <string/>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QLabel" name="label_openGamesCounter">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="MinimumExpanding" vsizetype="Preferred">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="text">
-        <string/>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <spacer name="horizontalSpacer">
-       <property name="orientation">
-        <enum>Qt::Horizontal</enum>
-       </property>
-       <property name="sizeType">
-        <enum>QSizePolicy::Expanding</enum>
-       </property>
-       <property name="sizeHint" stdset="0">
-        <size>
-         <width>20</width>
-         <height>20</height>
-        </size>
-       </property>
-      </spacer>
-     </item>
-     <item>
-      <widget class="QLabel" name="label">
-       <property name="text">
-        <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
-&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
-p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body&gt;
-&lt;table border=&quot;0&quot; style=&quot;-qt-table-type: root; margin-top:4px; margin-bottom:4px; margin-left:4px; margin-right:4px;&quot;&gt;
-&lt;tr&gt;
-&lt;td style=&quot;border: none;&quot;&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://online-ranking.pokerth.net&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Click here to view the online rankings&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/body&gt;&lt;/html&gt;</string>
-       </property>
-       <property name="openExternalLinks">
-        <bool>true</bool>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <spacer name="horizontalSpacer_2">
-       <property name="orientation">
-        <enum>Qt::Horizontal</enum>
-       </property>
-       <property name="sizeType">
-        <enum>QSizePolicy::Expanding</enum>
-       </property>
-       <property name="sizeHint" stdset="0">
-        <size>
-         <width>20</width>
-         <height>20</height>
-        </size>
-       </property>
-      </spacer>
-     </item>
-     <item>
-      <widget class="QLabel" name="label_pokerthDotNet">
-       <property name="text">
-        <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
-&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
-p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://www.pokerth.net&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;http://www.pokerth.net&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-       </property>
-       <property name="openExternalLinks">
-        <bool>true</bool>
-       </property>
-      </widget>
-     </item>
-    </layout>
-   </item>
-   <item row="1" column="1">
-    <widget class="QTreeView" name="treeView_GameList">
-     <property name="minimumSize">
-      <size>
-       <width>400</width>
-       <height>0</height>
-      </size>
-     </property>
-     <property name="horizontalScrollBarPolicy">
-      <enum>Qt::ScrollBarAlwaysOff</enum>
-     </property>
-     <property name="editTriggers">
-      <set>QAbstractItemView::NoEditTriggers</set>
-     </property>
-     <property name="showDropIndicator" stdset="0">
-      <bool>false</bool>
-     </property>
-     <property name="indentation">
-      <number>5</number>
-     </property>
-     <property name="rootIsDecorated">
-      <bool>false</bool>
-     </property>
-     <property name="sortingEnabled">
-      <bool>true</bool>
+     <property name="text">
+      <string>search for player ...</string>
      </property>
     </widget>
    </item>
@@ -421,7 +175,7 @@ p, li { white-space: pre-wrap; }
            <x>0</x>
            <y>0</y>
            <width>248</width>
-           <height>179</height>
+           <height>178</height>
           </rect>
          </property>
          <layout class="QGridLayout" name="gridLayout">
@@ -831,11 +585,267 @@ p, li { white-space: pre-wrap; }
      </layout>
     </widget>
    </item>
+   <item row="1" column="1">
+    <widget class="QTreeView" name="treeView_GameList">
+     <property name="minimumSize">
+      <size>
+       <width>400</width>
+       <height>0</height>
+      </size>
+     </property>
+     <property name="horizontalScrollBarPolicy">
+      <enum>Qt::ScrollBarAlwaysOff</enum>
+     </property>
+     <property name="editTriggers">
+      <set>QAbstractItemView::NoEditTriggers</set>
+     </property>
+     <property name="showDropIndicator" stdset="0">
+      <bool>false</bool>
+     </property>
+     <property name="indentation">
+      <number>5</number>
+     </property>
+     <property name="rootIsDecorated">
+      <bool>false</bool>
+     </property>
+     <property name="sortingEnabled">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="1">
+    <layout class="QHBoxLayout">
+     <property name="spacing">
+      <number>6</number>
+     </property>
+     <property name="margin">
+      <number>0</number>
+     </property>
+     <item>
+      <widget class="QPushButton" name="pushButton_joinAnyGame">
+       <property name="text">
+        <string>Join &amp;any game</string>
+       </property>
+       <property name="icon">
+        <iconset resource="resources/pokerth.qrc">
+         <normaloff>:/gfx/transform-rotate.png</normaloff>:/gfx/transform-rotate.png</iconset>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <spacer>
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeType">
+        <enum>QSizePolicy::Expanding</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>181</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QPushButton" name="pushButton_CreateGame">
+       <property name="text">
+        <string>&amp;Create Game</string>
+       </property>
+       <property name="icon">
+        <iconset resource="resources/pokerth.qrc">
+         <normaloff>:/gfx/list_add.png</normaloff>:/gfx/list_add.png</iconset>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="pushButton_JoinGame">
+       <property name="text">
+        <string>&amp;Join Game</string>
+       </property>
+       <property name="icon">
+        <iconset resource="resources/pokerth.qrc">
+         <normaloff>:/gfx/go-next-view.png</normaloff>:/gfx/go-next-view.png</iconset>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item row="3" column="1">
+    <widget class="QGroupBox" name="groupBox_lobbyChat">
+     <property name="minimumSize">
+      <size>
+       <width>400</width>
+       <height>0</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>16777215</width>
+       <height>230</height>
+      </size>
+     </property>
+     <property name="title">
+      <string>Lobby-Chat</string>
+     </property>
+     <layout class="QGridLayout">
+      <property name="leftMargin">
+       <number>7</number>
+      </property>
+      <property name="topMargin">
+       <number>2</number>
+      </property>
+      <property name="rightMargin">
+       <number>7</number>
+      </property>
+      <property name="bottomMargin">
+       <number>7</number>
+      </property>
+      <property name="spacing">
+       <number>0</number>
+      </property>
+      <item row="0" column="0">
+       <widget class="QTextBrowser" name="textBrowser_ChatDisplay"/>
+      </item>
+      <item row="1" column="0">
+       <widget class="QLineEdit" name="lineEdit_ChatInput"/>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item row="4" column="0" colspan="3">
+    <layout class="QHBoxLayout">
+     <item>
+      <widget class="QLabel" name="label_connectedPlayersCounter">
+       <property name="text">
+        <string/>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLabel" name="label_runningGamesCounter">
+       <property name="text">
+        <string/>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLabel" name="label_openGamesCounter">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="MinimumExpanding" vsizetype="Preferred">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <spacer name="horizontalSpacer">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeType">
+        <enum>QSizePolicy::Expanding</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>20</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QLabel" name="label">
+       <property name="text">
+        <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body&gt;
+&lt;table border=&quot;0&quot; style=&quot;-qt-table-type: root; margin-top:4px; margin-bottom:4px; margin-left:4px; margin-right:4px;&quot;&gt;
+&lt;tr&gt;
+&lt;td style=&quot;border: none;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://online-ranking.pokerth.net&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Click here to view the online rankings&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/body&gt;&lt;/html&gt;</string>
+       </property>
+       <property name="openExternalLinks">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <spacer name="horizontalSpacer_2">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeType">
+        <enum>QSizePolicy::Expanding</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>20</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QLabel" name="label_pokerthDotNet">
+       <property name="text">
+        <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://www.pokerth.net&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;http://www.pokerth.net&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+       </property>
+       <property name="openExternalLinks">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item row="1" column="0" rowspan="3">
+    <widget class="QTreeView" name="treeView_NickList">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Fixed" vsizetype="Expanding">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="minimumSize">
+      <size>
+       <width>165</width>
+       <height>0</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>165</width>
+       <height>16777215</height>
+      </size>
+     </property>
+     <property name="contextMenuPolicy">
+      <enum>Qt::CustomContextMenu</enum>
+     </property>
+     <property name="editTriggers">
+      <set>QAbstractItemView::NoEditTriggers</set>
+     </property>
+     <property name="rootIsDecorated">
+      <bool>false</bool>
+     </property>
+     <property name="sortingEnabled">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
   </layout>
  </widget>
  <tabstops>
-  <tabstop>treeWidget_NickList</tabstop>
-  <tabstop>comboBox_gameListFilter</tabstop>
+  <tabstop>treeView_NickList</tabstop>
   <tabstop>treeView_GameList</tabstop>
   <tabstop>pushButton_joinAnyGame</tabstop>
   <tabstop>pushButton_CreateGame</tabstop>
