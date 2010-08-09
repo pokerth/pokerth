@@ -241,7 +241,6 @@ public slots:
     void blinkingStartButtonAnimationAction();
 
     void flipHolecardsAllIn();
-    void showMyCards();
     void triggerVoteOnKick(int id);
 
     void handSwitchRounds();
