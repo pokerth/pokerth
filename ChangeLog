@@ -1,3 +1,11 @@
+2010-xx-xx version 0.8-beta2:
+- Allow to show own cards if human player is the last not folded player (also without showdown)
+- p, li { white-space: pre-wrap; } Disallow any kind of kicking in ranking games
+- Caseinsensitive sorting and string search function for lobby nick list
+- p, li { white-space: Store all players of each game in the database (Server)
+- Store date/time when the game ends (Server)
+- Bugfixes
+
 2010-07-23 version 0.8-beta1:
 - New login/registration system: Players can register their nicks for internet games via an online registration system. It is still possible to play as guest, but certain restrictions apply.
 - Online player ranking: Registered players can join "ranking games" toimprove their rank.
