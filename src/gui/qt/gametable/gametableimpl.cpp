@@ -500,7 +500,7 @@ gameTableImpl::gameTableImpl(ConfigFile *c, QMainWindow *parent)
     connect(this, SIGNAL(signalRiverAnimation2()), this, SLOT(riverAnimation2()));
     connect(this, SIGNAL(signalPostRiverAnimation1()), this, SLOT(postRiverAnimation1()));
     connect(this, SIGNAL(signalPostRiverRunAnimation1()), this, SLOT(postRiverRunAnimation1()));
-    connect(this, SIGNAL(signalPostRiverShowCards(unsigned)), this, SLOT(postRiverShowCards(unsigned)));
+    connect(this, SIGNAL(signalPostRiverShowCards(unsigned)), this, SLOT(showHoleCards(unsigned)));
     connect(this, SIGNAL(signalFlipHolecardsAllIn()), this, SLOT(flipHolecardsAllIn()));
     connect(this, SIGNAL(signalNextRoundCleanGui()), this, SLOT(nextRoundCleanGui()));
     connect(this, SIGNAL(signalStartVoteOnKick(unsigned, unsigned, int, int)), this, SLOT(startVoteOnKick(unsigned, unsigned, int, int)));
@@ -2039,17 +2039,17 @@ void gameTableImpl::postRiverRunAnimation2() {
             for (it_c=currentHand->getActivePlayerList()->begin(); it_c!=currentHand->getActivePlayerList()->end(); it_c++) {
                 if((*it_c)->getMyAction() != PLAYER_ACTION_FOLD && (*it_c)->checkIfINeedToShowCards()) {
 
-                    postRiverShowCards((*it_c)->getMyUniqueID());                    
+                    showHoleCards((*it_c)->getMyUniqueID());
                 }
 
                 //if human player dont need to show cards he gets the button "show cards" in internet or network game
                 if( internetOrNetworkGame && (*it_c)->getMyID() == 0 && (*it_c)->getMyAction() != PLAYER_ACTION_FOLD && !(*it_c)->checkIfINeedToShowCards()) {
 
                     showShowMyCardsButton();
-                }
-                //Wenn einmal umgedreht dann fertig!!
-                flipHolecardsAllInAlreadyDone = TRUE;
+                }                
             }
+            //Wenn einmal umgedreht dann fertig!!
+            flipHolecardsAllInAlreadyDone = TRUE;
         }
         else {
             int tempCardsIntArray[2];
@@ -2057,7 +2057,7 @@ void gameTableImpl::postRiverRunAnimation2() {
                 (*it_c)->getMyCards(tempCardsIntArray);
                 if((*it_c)->getMyAction() != PLAYER_ACTION_FOLD) {
 
-                    //set Player value (logging) for all in alreyy shown cards
+                    //set Player value (logging) for all in already shown cards
                     (*it_c)->setMyCardsFlip(1,3);
                 }
             }
@@ -2297,7 +2297,7 @@ void gameTableImpl::postRiverRunAnimation6() {
     postRiverRunAnimation6Timer->start(newRoundSpeed);
 }
 
-void gameTableImpl::postRiverShowCards(unsigned playerId)
+void gameTableImpl::showHoleCards(unsigned playerId, bool allIn)
 {
     HandInterface *currentHand = myStartWindow->getSession()->getCurrentGame()->getCurrentHand();
     //TempArrays
@@ -2321,10 +2321,13 @@ void gameTableImpl::postRiverShowCards(unsigned playerId)
                 }
             }
             //set Player value (logging)
-            if(currentHand->getCurrentRound() == 3)
-                (*it_c)->setMyCardsFlip(1,1); //for river log the value
-            else
-                (*it_c)->setMyCardsFlip(1,2); //for bero before river just log the hands
+            qDebug() << "currentHand->getCurrentRound()" << currentHand->getCurrentRound();
+            if(currentHand->getCurrentRound() < 4 || allIn) {
+                (*it_c)->setMyCardsFlip(1,2); //for bero before postriver or allin just log the hands
+            }
+            else {
+                (*it_c)->setMyCardsFlip(1,1); //for postriver log the value
+            }
         }
     }
 }
@@ -2341,84 +2344,19 @@ void gameTableImpl::flipHolecardsAllIn() {
             if ((*it_c)->getMyAction() != PLAYER_ACTION_FOLD) nonfoldPlayersCounter++;
         }
 
-        if(nonfoldPlayersCounter!=1) {
+        if(nonfoldPlayersCounter!=1) {       
+            for (it_c=currentHand->getActivePlayerList()->begin(); it_c!=currentHand->getActivePlayerList()->end(); it_c++) {
+                if((*it_c)->getMyAction() != PLAYER_ACTION_FOLD) {
 
-            //Config? mit oder ohne Eye-Candy?
-            if(myConfig->readConfigInt("ShowFlipCardsAnimation")) {
-                // mit Eye-Candy
-
-                //TempArrays
-                int tempCardsIntArray[2];
-
-                int j;
-
-                for (it_c=currentHand->getActivePlayerList()->begin(); it_c!=currentHand->getActivePlayerList()->end(); it_c++) {
-                    (*it_c)->getMyCards(tempCardsIntArray);
-                    if((*it_c)->getMyAction() != PLAYER_ACTION_FOLD) {
-                        //                        if((*it_c)->getMyID() || ((*it_c)->getMyID()==0 && myConfig->readConfigInt("AntiPeekMode")) ) {
-                        for(j=0; j<2; j++) {
-                            holeCardsArray[(*it_c)->getMyID()][j]->startFlipCards(guiGameSpeed, QPixmap::fromImage(QImage(myCardDeckStyle->getCurrentDir()+QString::number(tempCardsIntArray[j], 10)+".png")), flipside);
-                        }
-                        //                        }
-                        //set Player value (logging)
-                        (*it_c)->setMyCardsFlip(1,2);
-
-                    }
-                }
-            }
-            else {
-                //without Eye-Candy
-		
-                //Karten der aktiven Spieler umdrehen
-                QPixmap onePix = QPixmap::fromImage(QImage(myAppDataPath +"gfx/gui/misc/1px.png"));
-
-                //TempArrays
-                QPixmap tempCardsPixmapArray[2];
-                int temp2CardsIntArray[2];
-
-                int j;
-                for (it_c=currentHand->getActivePlayerList()->begin(); it_c!=currentHand->getActivePlayerList()->end(); it_c++) {
-                    (*it_c)->getMyCards(temp2CardsIntArray);
-                    if((*it_c)->getMyAction() != PLAYER_ACTION_FOLD) {
-                        //                        if((*it_c)->getMyID() || ((*it_c)->getMyID()==0 && myConfig->readConfigInt("AntiPeekMode")) ) {
-                        for(j=0; j<2; j++) {
-
-                            tempCardsPixmapArray[j] = QPixmap::fromImage(QImage(myCardDeckStyle->getCurrentDir()+QString::number(temp2CardsIntArray[j], 10)+".png"));
-                            holeCardsArray[(*it_c)->getMyID()][j]->setFront(tempCardsPixmapArray[j]);
-                            holeCardsArray[(*it_c)->getMyID()][j]->setPixmap(tempCardsPixmapArray[j], FALSE);
-                        }
-                        //                        }
-                        //set Player value (logging)
-                        (*it_c)->setMyCardsFlip(1,2);
-                    }
-                }
+                    showHoleCards((*it_c)->getMyUniqueID());
+                }                
             }
         }
+
+        //Wenn einmal umgedreht dann fertig!!
+        flipHolecardsAllInAlreadyDone = TRUE;
     }
-
-    //Wenn einmal umgedreht dann fertig!!
-    flipHolecardsAllInAlreadyDone = TRUE;
 }
-
-//void gameTableImpl::showMyCards() {
-//
-//    //TempArrays
-//    int tempCardsIntArray[2];
-//    HandInterface *currentHand = myStartWindow->getSession()->getCurrentGame()->getCurrentHand();
-//    currentHand->getSeatsList()->front()->getMyCards(tempCardsIntArray);
-//
-//    if( currentHand->getSeatsList()->front()->getMyCardsFlip() == 0 &&  currentHand->getCurrentRound() == 3 && currentHand->getSeatsList()->front()->getMyActiveStatus() && currentHand->getSeatsList()->front()->getMyAction() != PLAYER_ACTION_FOLD) {
-//
-//        myStartWindow->getSession()->showMyCards();
-//
-//        if(myConfig->readConfigInt("ShowFlipCardsAnimation")) { // with Eye-Candy
-//            holeCardsArray[0][0]->startFlipCards(guiGameSpeed, QPixmap::fromImage(QImage(myCardDeckStyle->getCurrentDir()+QString::number(tempCardsIntArray[0], 10)+".png")), flipside);
-//            holeCardsArray[0][1]->startFlipCards(guiGameSpeed, QPixmap::fromImage(QImage(myCardDeckStyle->getCurrentDir()+QString::number(tempCardsIntArray[1], 10)+".png")), flipside);
-//        }
-//        //set Player value (logging)
-//        currentHand->getSeatsList()->front()->setMyCardsFlip(1,1);
-//    }
-//}
 
 
 void gameTableImpl::startNewHand() {

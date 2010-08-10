@@ -234,7 +234,8 @@ public slots:
     void postRiverRunAnimation4();
     void postRiverRunAnimation5();
     void postRiverRunAnimation6();
-    void postRiverShowCards(unsigned playerId);
+
+    void showHoleCards(unsigned playerId, bool allIn = false);
 
     void refreshCardsChance(GameState);
 
