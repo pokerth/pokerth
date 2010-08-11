@@ -1966,6 +1966,8 @@ ClientStateRunHand::InternalHandlePacket(boost::shared_ptr<ClientThread> client,
 	{
 		EndOfHandMessage_t *netEndHand = &tmpPacket->GetMsg()->choice.endOfHandMessage;
 
+		curGame->getCurrentHand()->setCurrentRound(GAME_STATE_POST_RIVER);
+
 		if (netEndHand->endOfHandType.present == endOfHandType_PR_endOfHandHideCards)
 		{
 			EndOfHandHideCards_t *hideCards = &netEndHand->endOfHandType.choice.endOfHandHideCards;
@@ -2041,7 +2043,6 @@ ClientStateRunHand::InternalHandlePacket(boost::shared_ptr<ClientThread> client,
 				showList.push_back(r->playerId);
 			}
 	
-			curGame->getCurrentHand()->setCurrentRound(GAME_STATE_POST_RIVER);
 			curGame->getCurrentHand()->getCurrentBeRo()->setHighestCardsValue(highestValueOfCards);
 			curGame->getCurrentHand()->getBoard()->setPot(0);
 			curGame->getCurrentHand()->getBoard()->setWinners(winnerList);
