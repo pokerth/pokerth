@@ -263,28 +263,29 @@ SOURCES += src/pokerth.cpp \
     src/gui/qt/gamelobbydialog/mygamelistsortfilterproxymodel.cpp \
     src/gui/qt/internetgamelogindialog/internetgamelogindialogimpl.cpp \
     src/engine/local_engine/replay.cpp
-TRANSLATIONS = ts/pokerth_bg.ts \
+TRANSLATIONS =  ts/pokerth_af.ts \
+    ts/pokerth_bg.ts \
+    ts/pokerth_zhcn.ts \
     ts/pokerth_ca.ts \
     ts/pokerth_cz.ts \
-    ts/pokerth_de.ts \
     ts/pokerth_dk.ts \
-    ts/pokerth_es.ts \
-    ts/pokerth_fi.ts \
+    ts/pokerth_nl.ts \
     ts/pokerth_fr.ts \
+    ts/pokerth_fi.ts \
+    ts/pokerth_de.ts \
+    ts/pokerth_gr.ts \
     ts/pokerth_hu.ts \
     ts/pokerth_it.ts \
-    ts/pokerth_nl.ts \
     ts/pokerth_no.ts \
     ts/pokerth_pl.ts \
+    ts/pokerth_ptbr.ts \
+    ts/pokerth_ptpt.ts \
     ts/pokerth_ru.ts \
     ts/pokerth_sk.ts \
+    ts/pokerth_es.ts \
     ts/pokerth_sv.ts \
     ts/pokerth_ta.ts \
     ts/pokerth_tr.ts \
-    ts/pokerth_gr.ts \
-    ts/pokerth_ptbr.ts \
-    ts/pokerth_ptpt.ts \
-    ts/pokerth_zhcn.ts \
     ts/pokerth_START_HERE.ts
 win32 { 
     QTPLUGIN += qjpeg \

@@ -873,7 +873,7 @@ Please choose another one!</source>
     </message>
     <message>
         <source>Available Players</source>
-        <translation>Volní hráči</translation>
+        <translation type="obsolete">Volní hráči</translation>
     </message>
     <message>
         <source>Game Info</source>
@@ -1008,6 +1008,10 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Timeout for player action (sec):</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>search for player ...</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1147,7 +1151,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Invite player %1</source>
-        <translation>Pozvat hráče %1</translation>
+        <translation type="obsolete">Pozvat hráče %1</translation>
     </message>
     <message>
         <source>Invite player ...</source>
@@ -1155,7 +1159,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Ignore player %1</source>
-        <translation>Ignorovat hráče %1</translation>
+        <translation type="obsolete">Ignorovat hráče %1</translation>
     </message>
     <message>
         <source>Ignore player ...</source>
@@ -1177,7 +1181,7 @@ Ostatní hráče můžete pozvat kliknutím pravým tlačítkem na jejich přezd
     </message>
     <message>
         <source>&lt;span style=&apos;color:blue;&apos;&gt;Player %1 has been invited to %2 by %3.&lt;/span&gt;</source>
-        <translation>&lt;span style=&apos;color:blue;&apos;&gt;Hráč %1 byl pozván do hry %2 hráčem %3.&lt;/span&gt;</translation>
+        <translation type="obsolete">&lt;span style=&apos;color:blue;&apos;&gt;Hráč %1 byl pozván do hry %2 hráčem %3.&lt;/span&gt;</translation>
     </message>
     <message>
         <source>&lt;span style=&apos;color:red;&apos;&gt;Player %1 has rejected intivation to %2.&lt;/span&gt;</source>
@@ -1204,14 +1208,6 @@ Ostatní hráče můžete pozvat kliknutím pravým tlačítkem na jejich přezd
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Player %1 is playing in &quot;%2&quot;.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Player %1 is not playing at the moment.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>You have entered a game with type &quot;invite-only&quot;.
 Feel free to invite other players by right-clicking on their nick in the available players list.</source>
         <translation type="unfinished"></translation>
@@ -1221,15 +1217,43 @@ Feel free to invite other players by right-clicking on their nick in the availab
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>&lt;span style=&apos;color:red;&apos;&gt;Player %1 has rejected the invitation to %2.&lt;/span&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&lt;span style=&apos;color:red;&apos;&gt;Player %1 cannot join %2 because he is busy.&lt;/span&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>You will no longer receive chat messages or game invitations from this user.&lt;br&gt;Do you really want to put player &lt;b&gt;%1&lt;/b&gt; on your ignore list?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Available Players</source>
+        <translation type="unfinished">Volní hráči</translation>
+    </message>
+    <message>
+        <source>search for player ...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Invite %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Ignore %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1 is playing in &quot;%2&quot;.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1 is not playing at the moment.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt;span style=&apos;color:blue;&apos;&gt;%1 has been invited to %2 by %3.&lt;/span&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt;span style=&apos;color:red;&apos;&gt;%1 has rejected the invitation to %2.&lt;/span&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt;span style=&apos;color:red;&apos;&gt;%1 cannot join %2 because he is busy.&lt;/span&gt;</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -2673,6 +2697,10 @@ Styl nebude umístěn do seznamu!</translation>
     </message>
     <message>
         <source>PokerTH SQL log (*.pdb)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Afrikaans</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

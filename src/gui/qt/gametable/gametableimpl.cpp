@@ -2323,7 +2323,7 @@ void gameTableImpl::showHoleCards(unsigned playerId, bool allIn)
             //set Player value (logging)
             qDebug() << "currentHand->getCurrentRound()" << currentHand->getCurrentRound();
             if(currentHand->getCurrentRound() < 4 || allIn) {
-                (*it_c)->setMyCardsFlip(1,2); //for bero before postriver or allin just log the hands
+                (*it_c)->setMyCardsFlip(1,2); //for bero before postriver or allin just log the hole cards
             }
             else {
                 (*it_c)->setMyCardsFlip(1,1); //for postriver log the value
