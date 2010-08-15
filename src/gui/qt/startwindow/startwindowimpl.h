@@ -24,6 +24,7 @@
 #include <assert.h>
 #include "ui_startwindow.h"
 #include "game_defs.h"
+#include "QMessageBox"
 
 class GuiInterface;
 class GuiWrapper;
@@ -148,6 +149,9 @@ private:
     startWindowImpl *myStartWindow;
     serverListDialogImpl *myServerListDialog;
     internetGameLoginDialogImpl *myInternetGameLoginDialog;
+
+    QMessageBox msgBoxOutdatedVersion;
+    bool msgBoxOutdatedVersionActive;
 
     friend class GuiWrapper;
 };
