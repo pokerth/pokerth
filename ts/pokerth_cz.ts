@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.0">
+<TS version="2.0" language="cs_CZ">
 <context>
     <name>CardDeckStyleReader</name>
     <message>
@@ -35,7 +35,7 @@ Kontaktujte výrobce stylu balíčku karet %3.</translation>
 Please check the style file or choose another style!</source>
         <translation>Nelze načíst soubor stylu balíčku karet: %1
 
-Zkontrolujte soubor stylu, nebo vyberte jiný.</translation>
+Zkontrolujte soubor stylu, nebo vyberte jiný!</translation>
     </message>
     <message>
         <source>Selected card deck style &quot;%1&quot; seems to be incomplete or defective. 
@@ -129,11 +129,19 @@ is/are missing.
 Anyway you can play with this style, because the missing content will be filled up by PokerTH default style. 
 
 Please contact the game table style builder via &quot;%3&quot;.</source>
-        <translation type="unfinished"></translation>
+        <translation>Vybraný styl herního stolu &quot;%1&quot; se zdá nekompletní, nebo vadný.
+
+Hodnota/y z: 
+%2 
+chybí. 
+
+Nicméňě funkčnost stylu bude zajištěna nahrazením chybějícího obsahu z výchozího stylu PokerTH. 
+
+Kontaktujte, prosím, výrobce stylu herního stolu na &quot;%3&quot;.</translation>
     </message>
     <message>
         <source>Game Table Style Error - Fields content missing</source>
-        <translation type="unfinished"></translation>
+        <translation>Chyba stylu herního stolu - Chybějící obsah polí</translation>
     </message>
     <message>
         <source>One or more pictures from current game table style &quot;%1&quot; were not found: 
@@ -143,11 +151,17 @@ Please contact the game table style builder via &quot;%3&quot;.</source>
 Anyway you can play with this style, because the missing content will be filled up by PokerTH default style. 
 
 Please contact the game table style builder via &quot;%3&quot;.</source>
-        <translation type="unfinished"></translation>
+        <translation>Jeden nebo více obrázků ze současného stylu herního stolu &quot;%1&quot; nebylo nalezeno: 
+
+%2 
+
+Nicméňě funkčnost stylu bude zajištěna nahrazením chybějícího obsahu z výchozího stylu PokerTH. 
+
+Kontaktujte, prosím, výrobce stylu herního stolu na &quot;%3&quot;.</translation>
     </message>
     <message>
         <source>Game Table Style Error - Pictures missing</source>
-        <translation type="unfinished"></translation>
+        <translation>Chyba stylu herního stolu - Chybějící obrázky</translation>
     </message>
     <message>
         <source>Selected game table style &quot;%1&quot; seems to be outdated. 
@@ -156,27 +170,32 @@ The current PokerTH game table style version is &quot;%2&quot;, but this style h
 Anyway you can play with this style, because the missing content will be filled up by PokerTH default style. 
 
 Please contact the game table style builder  via &quot;%4&quot;.</source>
-        <translation type="unfinished"></translation>
+        <translation>Vybraný styl herního stolu &quot;%1&quot; se zdá být zastaralý. 
+Aktuální verze výchozího stylu herního stolu je &quot;%2&quot;, ale tento styl je pouze verze &quot;%3&quot;. 
+
+Nicméňě funkčnost stylu bude zajištěna nahrazením chybějícího obsahu z výchozího stylu PokerTH. 
+
+Kontaktujte, prosím, výrobce stylu herního stolu na &quot;%4&quot;.</translation>
     </message>
     <message>
         <source>Game Table Style Error - Outdated</source>
-        <translation type="unfinished"></translation>
+        <translation>Chyba stylu herního stolu - Zastaralý styl</translation>
     </message>
     <message>
         <source>Everything OK!</source>
-        <translation type="unfinished"></translation>
+        <translation>Vše v pořádku!</translation>
     </message>
     <message>
         <source>Some pictures are missing, please contact style maintainer for this issue.</source>
-        <translation type="unfinished"></translation>
+        <translation>Některé obrázky chybí. Kontaktujte, prosím, výrobce stylu herního stolu.</translation>
     </message>
     <message>
         <source>Some style fields are missing, please contact style maintainer for this issue.</source>
-        <translation type="unfinished"></translation>
+        <translation>Některá pole stylů chybí. Kontaktujte, prosím, výrobce stylu herního stolu.</translation>
     </message>
     <message>
         <source>This style is outdated, please contact style maintainer for this issue.</source>
-        <translation type="unfinished"></translation>
+        <translation>Tento styl je zastaralý. Kontaktujte, prosím, výrobce stylu herního stolu.</translation>
     </message>
 </context>
 <context>
@@ -246,7 +265,7 @@ Please contact the game table style builder  via &quot;%4&quot;.</source>
     </message>
     <message>
         <source>You will no longer receive chat messages or game invitations from this user.&lt;br&gt;Do you really want to put player &lt;b&gt;%1&lt;/b&gt; on ignore list?</source>
-        <translation type="unfinished"></translation>
+        <translation>Od tohoto uživatele již nebudete přijímat žádné zprávy, ani pozvánky do her.&lt;br&gt;Opravdu chcete přidat hráče &lt;b&gt;%1&lt;/b&gt; na seznam ignorovaných?</translation>
     </message>
 </context>
 <context>
@@ -604,15 +623,16 @@ p, li { white-space: pre-wrap; }
     <name>changeContentDialog</name>
     <message>
         <source>Network Error</source>
-        <translation type="unfinished">Síťová chyba</translation>
+        <translation>Síťová chyba</translation>
     </message>
     <message>
         <source>Name:</source>
-        <translation type="unfinished">Jméno:</translation>
+        <translatorcomment>Název:</translatorcomment>
+        <translation>Jméno:</translation>
     </message>
     <message>
         <source>Save in configuration</source>
-        <translation type="unfinished"></translation>
+        <translation>Uložit do nastavení</translation>
     </message>
 </context>
 <context>
@@ -620,31 +640,32 @@ p, li { white-space: pre-wrap; }
     <message>
         <source>You cannot join Internet-Game-Lobby with &quot;Human Player&quot; as nickname.
 Please choose another one.</source>
-        <translation type="unfinished">Nemůžete jít do lobby internetové hry s přezdívkou &quot;Human Player&quot;.
+        <translation>Nemůžete jít do lobby internetové hry s přezdívkou &quot;Human Player&quot;.
 Zvolte jinou přezdívku.</translation>
     </message>
     <message>
         <source>Nick name:</source>
-        <translation type="unfinished"></translation>
+        <translation>Přezdívka:</translation>
     </message>
     <message>
         <source>Your player name is already used by another player.
 Please choose a different name.</source>
-        <translation type="unfinished">Vaši přezdívku používá již někdo jiný.
+        <translation>Vaši přezdívku používá již někdo jiný.
 Zvolte si jinou.</translation>
     </message>
     <message>
         <source>The player name is too short, too long or invalid. Please choose another one.</source>
-        <translation type="unfinished">Jméno hráče je příliš krátké, příliš dlouhé, nebo neplatné. Zvolte jiné.</translation>
+        <translation>Jméno hráče je příliš krátké, příliš dlouhé, nebo neplatné. Zvolte jiné.</translation>
     </message>
     <message>
         <source>There is already a game with your choosen game name.
 Please choose another one!</source>
-        <translation type="unfinished"></translation>
+        <translation>Hra se stejným názvem již existuje.
+Zvolte, prosím, jiný název!</translation>
     </message>
     <message>
         <source>Game name:</source>
-        <translation type="unfinished"></translation>
+        <translation>Název hry:</translation>
     </message>
 </context>
 <context>
@@ -780,7 +801,7 @@ Please choose another one!</source>
     </message>
     <message>
         <source>Delay between hands:</source>
-        <translation>Pauza mezi rozdáními</translation>
+        <translation>Pauza mezi rozdáními:</translation>
     </message>
 </context>
 <context>
@@ -799,11 +820,11 @@ Please choose another one!</source>
     </message>
     <message>
         <source>&lt;i&gt;First small blind: $%1&lt;/i&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;i&gt;První malý blind: $%1&lt;/i&gt;</translation>
     </message>
     <message>
         <source>&lt;i&gt;Double blinds every %1&apos;th hand&lt;/i&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;i&gt;Dvojité blindy každých %1 rozdání&lt;/i&gt;</translation>
     </message>
 </context>
 <context>
@@ -988,31 +1009,38 @@ p, li { white-space: pre-wrap; }
 &lt;tr&gt;
 &lt;td style=&quot;border: none;&quot;&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://online-ranking.pokerth.net&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Click here to view the online rankings&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body&gt;
+&lt;table border=&quot;0&quot; style=&quot;-qt-table-type: root; margin-top:4px; margin-bottom:4px; margin-left:4px; margin-right:4px;&quot;&gt;
+&lt;tr&gt;
+&lt;td style=&quot;border: none;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://online-ranking.pokerth.net&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Pro zobrazení online hodnocení, klikněte zde&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <source>Start Cash:</source>
-        <translation type="unfinished">Počáteční obnos:</translation>
+        <translation>Počáteční obnos:</translation>
     </message>
     <message>
         <source>First small blind:</source>
-        <translation type="unfinished">První malý blind:</translation>
+        <translation>První malý blind:</translation>
     </message>
     <message>
         <source>Blinds raise interval:</source>
-        <translation type="unfinished"></translation>
+        <translation>Zvedat blindy po:</translation>
     </message>
     <message>
         <source>Blinds raise mode:</source>
-        <translation type="unfinished"></translation>
+        <translation>Mód zvyšování blindů:</translation>
     </message>
     <message>
         <source>Timeout for player action (sec):</source>
-        <translation type="unfinished"></translation>
+        <translation>Na hráče se čeká (sec):</translation>
     </message>
     <message>
         <source>search for player ...</source>
-        <translation type="unfinished"></translation>
+        <translation>vyhledat hráče ...</translation>
     </message>
 </context>
 <context>
@@ -1201,60 +1229,61 @@ Ostatní hráče můžete pozvat kliknutím pravým tlačítkem na jejich přezd
     </message>
     <message>
         <source>Player infos ...</source>
-        <translation type="unfinished"></translation>
+        <translation>Informace o hráčích ...</translation>
     </message>
     <message>
         <source>Chat is only available to registered players.</source>
-        <translation type="unfinished"></translation>
+        <translation>Chat je dostupný pouze registrovaným hráčům.</translation>
     </message>
     <message>
         <source>You have entered a game with type &quot;invite-only&quot;.
 Feel free to invite other players by right-clicking on their nick in the available players list.</source>
-        <translation type="unfinished"></translation>
+        <translation>Vstoupili jste do hry pouze pro zvané.
+Další hráče můžete pozvat pravým kliknutím na jejich přezdívku v seznamu dostupných hráčů.</translation>
     </message>
     <message>
         <source>You have been invited to the game &lt;b&gt;%1&lt;/b&gt; by &lt;b&gt;%2&lt;/b&gt;.&lt;br&gt;Would you like to join this game?</source>
-        <translation type="unfinished"></translation>
+        <translation>Hráč &lt;b&gt;%2&lt;/b&gt; vás pozval do hry &lt;b&gt;%1&lt;/b&gt;.&lt;br&gt;Přijmete jeho pozvání?</translation>
     </message>
     <message>
         <source>You will no longer receive chat messages or game invitations from this user.&lt;br&gt;Do you really want to put player &lt;b&gt;%1&lt;/b&gt; on your ignore list?</source>
-        <translation type="unfinished"></translation>
+        <translation>Od tohoto uživatele již nebudete dále přijímat zprávy a pozvánky do hry.&lt;br&gt;Opravdu chcete přidat hráče &lt;b&gt;%1&lt;/b&gt; na seznam ignorovaných hráčů?</translation>
     </message>
     <message>
         <source>Available Players</source>
-        <translation type="unfinished">Volní hráči</translation>
+        <translation>Volní hráči</translation>
     </message>
     <message>
         <source>search for player ...</source>
-        <translation type="unfinished"></translation>
+        <translation>vyhledat hráče ...</translation>
     </message>
     <message>
         <source>Invite %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Pozvat %1</translation>
     </message>
     <message>
         <source>Ignore %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Ignorovat %1</translation>
     </message>
     <message>
         <source>%1 is playing in &quot;%2&quot;.</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 hraje v &quot;%2&quot;.</translation>
     </message>
     <message>
         <source>%1 is not playing at the moment.</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 v tuto chvíli nehraje.</translation>
     </message>
     <message>
         <source>&lt;span style=&apos;color:blue;&apos;&gt;%1 has been invited to %2 by %3.&lt;/span&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;span style=&apos;color:blue;&apos;&gt;Hráč %1 byl pozván do hry %2 hráčem %3.&lt;/span&gt;</translation>
     </message>
     <message>
         <source>&lt;span style=&apos;color:red;&apos;&gt;%1 has rejected the invitation to %2.&lt;/span&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;span style=&apos;color:red;&apos;&gt;Hráč %1 odmítl pozvánku do hry %2.&lt;/span&gt;</translation>
     </message>
     <message>
         <source>&lt;span style=&apos;color:red;&apos;&gt;%1 cannot join %2 because he is busy.&lt;/span&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;span style=&apos;color:red;&apos;&gt;Hráč %1 se nemůže připojit do hry %2, protože je zaneprázdněn.&lt;/span&gt;</translation>
     </message>
 </context>
 <context>
@@ -1514,14 +1543,14 @@ a vrátit se zpět do lobby?</translation>
     </message>
     <message>
         <source>Chat is only available to registered players.</source>
-        <translation type="unfinished"></translation>
+        <translation>Chat je dostupný pouze registrovaným hráčům.</translation>
     </message>
 </context>
 <context>
     <name>internetGameLoginDialog</name>
     <message>
         <source>Internet Game Login</source>
-        <translation>Login do internetové hry</translation>
+        <translation>Přezdívka v internetové hře</translation>
     </message>
     <message>
         <source>Registered user</source>
@@ -1572,7 +1601,14 @@ p, li { white-space: pre-wrap; }
 &lt;tr&gt;
 &lt;td style=&quot;border: none;&quot;&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://create-gaming-account.pokerth.net&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Create new user account&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body&gt;
+&lt;table style=&quot;-qt-table-type: root; margin-top:4px; margin-bottom:4px; margin-left:4px; margin-right:4px;&quot;&gt;
+&lt;tr&gt;
+&lt;td style=&quot;border: none;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://create-gaming-account.pokerth.net&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Vytvořit nový účet&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
 </context>
 <context>
@@ -1777,7 +1813,7 @@ Chcete jej přepsat?</translation>
     </message>
     <message>
         <source>Do not show this message again.</source>
-        <translation type="unfinished"></translation>
+        <translation>Tuto zprávu již nezobrazovat.</translation>
     </message>
 </context>
 <context>
@@ -2177,15 +2213,15 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Store log files for</source>
-        <translation>Ukládat log soubory po</translation>
+        <translation>Ukládat soubory záznamu po</translation>
     </message>
     <message>
         <source>Log File Directory: </source>
-        <translation>Adresář s log souborem:</translation>
+        <translation>Adresář se souborem záznamu: </translation>
     </message>
     <message>
         <source>Write log after every: </source>
-        <translation>Zapsat log soubor při každé/m:</translation>
+        <translation>Zapsat soubor záznamu při každé/m: </translation>
     </message>
     <message>
         <source>action (high frequent disc access)</source>
@@ -2407,35 +2443,35 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Description</source>
-        <translation type="unfinished"></translation>
+        <translation>Popis</translation>
     </message>
     <message>
         <source>Maintainer</source>
-        <translation type="unfinished"></translation>
+        <translation>Správce</translation>
     </message>
     <message>
         <source>State</source>
-        <translation type="unfinished">Stav</translation>
+        <translation>Stav</translation>
     </message>
     <message>
         <source>Export as html</source>
-        <translation type="unfinished"></translation>
+        <translation>Exportovat jako html</translation>
     </message>
     <message>
         <source>Export as txt</source>
-        <translation type="unfinished"></translation>
+        <translation>Exportovat jako txt</translation>
     </message>
     <message>
         <source>Save as ...</source>
-        <translation type="unfinished"></translation>
+        <translation>Uložit jako ...</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation type="unfinished">Smazat</translation>
+        <translation>Smazat</translation>
     </message>
     <message>
         <source>Log File</source>
-        <translation type="unfinished"></translation>
+        <translation>Soubor záznamu</translation>
     </message>
 </context>
 <context>
@@ -2497,7 +2533,7 @@ Zadejte platný obrázek!</translation>
     <message>
         <source>The log file directory doesn&apos;t exist.
 Please select an valid directory!</source>
-        <translation>Adresář pro log soubor neexistuje. Vyberte platný adresář!</translation>
+        <translation>Adresář pro soubor záznamu neexistuje. Vyberte platný adresář!</translation>
     </message>
     <message>
         <source>Language Changed</source>
@@ -2681,26 +2717,30 @@ Styl nebude umístěn do seznamu!</translation>
     </message>
     <message>
         <source>State</source>
-        <translation type="unfinished">Stav</translation>
+        <translation>Stav</translation>
     </message>
     <message>
         <source>PokerTH - Log file</source>
-        <translation type="unfinished"></translation>
+        <translation>Soubor záznamu PokerTH</translation>
     </message>
     <message>
         <source>Do you really want to delete the seleted log file?</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete">Opravdu chcete vybraný soubor záznamu smazat?</translation>
     </message>
     <message>
         <source>Save PokerTH log file</source>
-        <translation type="unfinished"></translation>
+        <translation>Uložit soubor záznamu PokerTH</translation>
     </message>
     <message>
         <source>PokerTH SQL log (*.pdb)</source>
-        <translation type="unfinished"></translation>
+        <translation>PokerTH SQL záznam (*.pdb)</translation>
     </message>
     <message>
         <source>Afrikaans</source>
+        <translation>Afrikaans</translation>
+    </message>
+    <message>
+        <source>Do you really want to delete the selected log file?</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -3100,7 +3140,7 @@ Zvolte si jinou.</translation>
     <message>
         <source>Invalid login.
 Please check your username and password.</source>
-        <translation>Neplatný login.
+        <translation>Neplatné přihlášení.
 Prosím, zkontrolujte své uživatelské jméno a heslo.</translation>
     </message>
     <message>
@@ -3113,15 +3153,15 @@ Prosím, zkontrolujte své uživatelské jméno a heslo.</translation>
     </message>
     <message>
         <source>Your account is blocked indefinitely.</source>
-        <translation type="unfinished"></translation>
+        <translation>Váš účet je blokován na neurčito.</translation>
     </message>
     <message>
         <source>This game is of type invite-only. You cannot join this game without being invited.</source>
-        <translation type="unfinished"></translation>
+        <translation>Tato hra je pouze pro zvané. Nemůžete se k ní připojit, aniž by vás někdo pozval.</translation>
     </message>
     <message>
         <source>The settings are invalid for this type of game.</source>
-        <translation type="unfinished"></translation>
+        <translation>Nastavení jsou pro tento typ hry neplatná.</translation>
     </message>
 </context>
 <context>

@@ -19,7 +19,7 @@
 
 Please contact the card deck style builder %4.</source>
         <translation>Gekose kaartpakstyl &quot;%1&quot; is moontlik verouderd. 
- Die huidige PokerTH-kaartpakstyl is weergawe &quot;%2&quot;, maar dié styl gee weergawe &quot;%3&quot; aan. 
+ Die huidige PokerTH-kaartpakstyl is weergawe &quot;%2&quot;, maar dié styl is weergawe &quot;%3&quot;. 
 
 Kontak asseblief die kaartpakstyl-bouer %4.</translation>
     </message>
@@ -32,7 +32,7 @@ The value(s) of &quot;%2&quot; is/are missing.
 Please contact the card deck style builder %3.</source>
         <translation>Gekose kaartpakstyl &quot;%1&quot; is moontlik onvolledig of gebreek. 
 
-Die waarde(s) van &quot;%2&quot; ontbreek. 
+Die waarde(s) &quot;%2&quot; ontbreek. 
 
 Kontak asseblief die kaartpakstyl-bouer %3.</translation>
     </message>
@@ -86,9 +86,9 @@ Anyway you can play with this style, because the missing content will be filled 
 Please contact the game table style builder via &quot;%3&quot;.</source>
         <translation>Gekose speltafelstyl &quot;%1&quot; is moontlik onvolledig of gebreek. 
 
-Die waarde(s) van:
-%2
-ontbreek.
+Die waarde(s) van: 
+%2 
+ontbreek. 
 
 Jy kan egter wel met hierdie styl bly speel, want die vermiste inhoud sal deur PokerTH se verstek styl aangevul word. 
 
@@ -130,7 +130,7 @@ Anyway you can play with this style, because the missing content will be filled 
 
 Please contact the game table style builder  via &quot;%4&quot;.</source>
         <translation>Gekose speltafelstyl &quot;%1&quot; is moontlik verouderd. 
-Die huidige PokerTH-speltafelstyl is weergawe &quot;%2&quot;, maar dié styl gee weergawe &quot;%3&quot; aan. 
+Die huidige PokerTH-speltafelstyl is weergawe &quot;%2&quot;, maar dié styl is weergawe &quot;%3&quot;. 
 
 Jy kan egter wel met hierdie styl bly speel, want die vermiste inhoud sal deur PokerTH se verstek styl aangevul word. 
 
@@ -194,16 +194,12 @@ Kies asseblief &apos;n speltafelstyl en probeer weer!</translation>
     <message>
         <location filename="../src/gui/qt/gametable/myavatarlabel.cpp" line="152"/>
         <source>You will no longer receive chat messages or game invitations from this user.&lt;br&gt;Do you really want to put player &lt;b&gt;%1&lt;/b&gt; on ignore list?</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>You will no longer recieve chat messages or game invitations from this user.&lt;br&gt;Do you really want to put player &lt;b&gt;%1&lt;/b&gt; on ignore list?</source>
-        <translation type="obsolete">Jy sal nie meer kletsboodskappe of speluitnodigings van hierdie gebruiker kry nie.&lt;br&gt;Wil jy regtig speler &lt;b&gt;%1&lt;/b&gt; op die ignoreerlys sit?</translation>
+        <translation>Jy sal nie meer kletsboodskappe of speluitnodigings van hierdie gebruiker kry nie.&lt;br&gt;Wil jy regtig speler &lt;b&gt;%1&lt;/b&gt; op die ignoreerlys sit?</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gametable/myavatarlabel.cpp" line="152"/>
         <source>PokerTH - Question</source>
-        <translation>PokerTH-vraag</translation>
+        <translation>PokerTH - Vraag</translation>
     </message>
 </context>
 <context>
@@ -266,21 +262,21 @@ p, li { white-space: pre-wrap; }
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot;  font-weight:600;&quot;&gt;Projekbladsy: &lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; &quot;&gt;     &lt;/span&gt;&lt;a href=&quot;http://www.pokerth.net&quot;&gt;&lt;span style=&quot;  text-decoration: underline; color:#0000ff;&quot;&gt;http://www.pokerth.net&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Projekbladsy: &lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; &quot;&gt;  &lt;/span&gt;&lt;a href=&quot;http://www.pokerth.net&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;http://www.pokerth.net&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
 &lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; &quot;&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot;  font-weight:600;&quot;&gt;IRC: &lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; &quot;&gt;     #pokerth (irc.freenode.net)&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;IRC: &lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; &quot;&gt;  #pokerth (irc.freenode.net)&lt;/span&gt;&lt;/p&gt;
 &lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; &quot;&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot;  font-weight:600;&quot;&gt;Outeurs: &lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Outeurs: &lt;/span&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; &quot;&gt;     Felix Hammer (&lt;/span&gt;&lt;a href=&quot;mailto:doitux@pokerth.net&quot;&gt;&lt;span style=&quot;  text-decoration: underline; color:#0000ff;&quot;&gt;doitux@pokerth.net&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; &quot;&gt;)&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; &quot;&gt;          - aanvanklike idee, basiese argitektuur, GUI-werking, GUI-grafikawerk, Linux-pakket&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; &quot;&gt; - aanvanklike idee, basiese argitektuur, GUI-werking, GUI-grafikawerk, Linux-pakket&lt;/span&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; &quot;&gt;     Florian Thauer (&lt;/span&gt;&lt;a href=&quot;mailto:floty@pokerth.net&quot;&gt;&lt;span style=&quot;  text-decoration: underline; color:#0000ff;&quot;&gt;floty@pokerth.net&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; &quot;&gt;)&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; &quot;&gt;          - aanvanklike idee, basiese argitektuur, enjinontwikkeling&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; &quot;&gt; - aanvanklike idee, basiese argitektuur, enjinontwikkeling&lt;/span&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; &quot;&gt;     Lothar May (&lt;/span&gt;&lt;a href=&quot;mailto:lotodore@pokerth.net&quot;&gt;&lt;span style=&quot;  text-decoration: underline; color:#0000ff;&quot;&gt;lotodore@pokerth.net&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; &quot;&gt;)&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; &quot;&gt;          - basiese argitektuur, netwerkontwikkeling, Windows-pakket, MacOS-pakket&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; &quot;&gt; - basiese argitektuur, netwerkontwikkeling, Windows-pakket, MacOS-pakket&lt;/span&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; &quot;&gt;     Oskar Lindqvist (&lt;/span&gt;&lt;a href=&quot;mailto:tranberry@pokerth.net&quot;&gt;&lt;span style=&quot;  text-decoration: underline; color:#0000ff;&quot;&gt;tranberry@pokerth.net&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; &quot;&gt;)&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; &quot;&gt;          - aanvanklike GUI-grafikaontwerp&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; &quot;&gt; - aanvanklike GUI-grafikaontwerp&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/aboutpokerth.ui" line="153"/>
@@ -333,24 +329,24 @@ p, li { white-space: pre-wrap; }
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://commons.wikimedia.org/wiki/Main_Page&quot;&gt;&lt;span style=&quot;  font-weight:600; text-decoration: underline; color:#0000ff;&quot;&gt;Wikimedia Commons&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot;  font-weight:600;&quot;&gt;     - &lt;/span&gt;&lt;span style=&quot; &quot;&gt;vir &apos;n verskeidenheid gewilde avatarprente&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot;  font-weight:600;&quot;&gt;Benedikt, Erhard, Felix, Florian, Linus, Lothar, Steffi, Caro&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; &quot;&gt;     - vir mensavatar-prente&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot;  font-weight:600;&quot;&gt;ZeiZei&lt;/span&gt;&lt;span style=&quot; &quot;&gt; &lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; &quot;&gt;    - vir &quot;diverse&quot; avatarprente&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://kde-look.org/&quot;&gt;&lt;span style=&quot;  font-weight:600; text-decoration: underline; color:#0000ff;&quot;&gt;http://kde-look.org/&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; &quot;&gt;     - vir &apos;n verskeidenheid GPL-gelisensieerde klanke&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot;  font-weight:600;&quot;&gt;doc_dos&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; &quot;&gt;     - vir selfopgeneemde skyfieklanke&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot;  font-weight:600;&quot;&gt;thiger, dunkanx, BerndA, coldz&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; &quot;&gt;     - vir &apos;n verskeidenheid pleisters&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot;  font-weight:600;&quot;&gt;kraut&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; &quot;&gt;     - vir huisvesting en administrasie van internetspelbediener&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot;  font-weight:600;&quot;&gt;danuxi&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; &quot;&gt;    - vir beginvenster-agtergrondprent en Danuxi1-tafel se agtergrond&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot;  font-weight:600;&quot;&gt;heyn&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; &quot;&gt;    - vir modereer van forum en hantering van foutopsporing en wenslys&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://commons.wikimedia.org/wiki/Main_Page&quot;&gt;&lt;span style=&quot; font-weight:600; text-decoration: underline; color:#0000ff;&quot;&gt;Wikimedia Commons&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;  - &lt;/span&gt;&lt;span style=&quot; &quot;&gt;vir &apos;n verskeidenheid gewilde avatarprente&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Benedikt, Erhard, Felix, Florian, Linus, Lothar, Steffi, Caro&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; &quot;&gt;  - vir mensavatar-prente&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;ZeiZei&lt;/span&gt;&lt;span style=&quot; &quot;&gt; &lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; &quot;&gt; - vir &quot;diverse&quot; avatarprente&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://kde-look.org/&quot;&gt;&lt;span style=&quot; font-weight:600; text-decoration: underline; color:#0000ff;&quot;&gt;http://www.pokerth.net&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; &quot;&gt;  - vir &apos;n verskeidenheid GPL-gelisensieerde klanke&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;doc_dos&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; &quot;&gt;  - vir selfopgeneemde skyfieklanke&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;thiger, dunkanx, BerndA, coldz&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; &quot;&gt;  - vir &apos;n verskeidenheid pleisters&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;kraut&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; &quot;&gt;  - vir huisvesting en administrasie van internetspelbediener&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;danuxi&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; &quot;&gt; - vir beginvenster-agtergrondprent en Danuxi1-tafel se agtergrond&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;heyn&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; &quot;&gt; - vir modereer van forum en hantering van foutopsporing en wenslys&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/aboutpokerth.ui" line="224"/>
@@ -510,11 +506,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/gui/qt/changecontentdialog.ui" line="46"/>
         <source>Save in configuration</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>in der Konfiguration speichern!</source>
-        <translation type="obsolete">Stoor die opstelling!</translation>
+        <translation>Stoor in opstelling</translation>
     </message>
 </context>
 <context>
@@ -803,10 +795,6 @@ Kies asseblief &apos;n ander naam.</translation>
         <translation>Internetspel-voorkamer</translation>
     </message>
     <message>
-        <source>Available Players</source>
-        <translation type="obsolete">Beskikbare spelers</translation>
-    </message>
-    <message>
         <location filename="../src/gui/qt/gamelobbydialog.ui" line="116"/>
         <source>Game Info</source>
         <translation>Spelinfo</translation>
@@ -820,6 +808,36 @@ Kies asseblief &apos;n ander naam.</translation>
         <location filename="../src/gui/qt/gamelobbydialog.ui" line="156"/>
         <source>Connected Players</source>
         <translation>Gekoppelde spelers</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/gamelobbydialog.ui" line="59"/>
+        <source>search for player ...</source>
+        <translation>soek vir speler...</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/gamelobbydialog.ui" line="243"/>
+        <source>Start Cash:</source>
+        <translation>Begingeld:</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/gamelobbydialog.ui" line="269"/>
+        <source>First small blind:</source>
+        <translation>Eerste klein blinde:</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/gamelobbydialog.ui" line="295"/>
+        <source>Blinds raise interval:</source>
+        <translation>Blindesverhoog-interval:</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/gamelobbydialog.ui" line="321"/>
+        <source>Blinds raise mode:</source>
+        <translation>Blindesverhoog-modus:</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/gamelobbydialog.ui" line="379"/>
+        <source>Timeout for player action (sec):</source>
+        <translation>Uittelling vir speleraksie (sek):</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog.ui" line="417"/>
@@ -837,29 +855,9 @@ Kies asseblief &apos;n ander naam.</translation>
         <translation>&amp;Skop speler</translation>
     </message>
     <message>
-        <source>Start Cash: </source>
-        <translation type="obsolete">Begingeld: </translation>
-    </message>
-    <message>
-        <source>First small blind: </source>
-        <translation type="obsolete">Eerste klein blinde: </translation>
-    </message>
-    <message>
-        <source>Blinds raise interval: </source>
-        <translation type="obsolete">Blindesverhoog-interval: </translation>
-    </message>
-    <message>
-        <source>Blinds raise mode: </source>
-        <translation type="obsolete">Blindesverhoog-modus: </translation>
-    </message>
-    <message>
         <location filename="../src/gui/qt/gamelobbydialog.ui" line="350"/>
         <source>Manual blinds list:</source>
         <translation>Handmatige blindeslys:</translation>
-    </message>
-    <message>
-        <source>Timeout for player action (sec): </source>
-        <translation type="obsolete">Uittelling vir speleraksie (sek): </translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog.ui" line="575"/>
@@ -906,11 +904,6 @@ p, li { white-space: pre-wrap; }
         <translation>0 - Geen spellysfilter nie</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog.ui" line="59"/>
-        <source>search for player ...</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../src/gui/qt/gamelobbydialog.ui" line="72"/>
         <source>1 - Show open games</source>
         <translation>1 - Wys oop spelle</translation>
@@ -929,31 +922,6 @@ p, li { white-space: pre-wrap; }
         <location filename="../src/gui/qt/gamelobbydialog.ui" line="87"/>
         <source>4 - Show open &amp; non-full &amp; private games</source>
         <translation>4 - Wys oop &amp; halfvol &amp; private spelle</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/qt/gamelobbydialog.ui" line="243"/>
-        <source>Start Cash:</source>
-        <translation type="unfinished">Begingeld:</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/qt/gamelobbydialog.ui" line="269"/>
-        <source>First small blind:</source>
-        <translation type="unfinished">Eerste klein blinde:</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/qt/gamelobbydialog.ui" line="295"/>
-        <source>Blinds raise interval:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/gui/qt/gamelobbydialog.ui" line="321"/>
-        <source>Blinds raise mode:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/gui/qt/gamelobbydialog.ui" line="379"/>
-        <source>Timeout for player action (sec):</source>
-        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog.ui" line="690"/>
@@ -1042,7 +1010,7 @@ p, li { white-space: pre-wrap; }
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="350"/>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="716"/>
         <source>Available Players</source>
-        <translation type="unfinished">Beskikbare spelers</translation>
+        <translation>Beskikbare spelers</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="104"/>
@@ -1123,35 +1091,27 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1412"/>
         <source>Invite %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Nooi %1</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1423"/>
         <source>Ignore %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Ignoreer %1</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1492"/>
         <source>&lt;span style=&apos;color:blue;&apos;&gt;%1 has been invited to %2 by %3.&lt;/span&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;span style=&apos;color:blue;&apos;&gt;%3 het %1 uitgenooi na %2.&lt;/span&gt;</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1499"/>
         <source>&lt;span style=&apos;color:red;&apos;&gt;%1 has rejected the invitation to %2.&lt;/span&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;span style=&apos;color:red;&apos;&gt;%1 het die uitnodiging na %2 van die hand gewys.&lt;/span&gt;</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1501"/>
         <source>&lt;span style=&apos;color:red;&apos;&gt;%1 cannot join %2 because he is busy.&lt;/span&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Player %1 is playing in &quot;%2&quot;.</source>
-        <translation type="obsolete">Speler %1 speel in &quot;%2&quot;.</translation>
-    </message>
-    <message>
-        <source>Player %1 is not playing at the moment.</source>
-        <translation type="obsolete">Speler %1 speel nie op die oomblik nie.</translation>
+        <translation>&lt;span style=&apos;color:red;&apos;&gt;%1 kan nie by %2 aansluit nie want hy of sy is besig.&lt;/span&gt;</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1458"/>
@@ -1164,14 +1124,6 @@ Nooi gerus ander spelers uit deur op hul kenname in die lys beskikbare spelers t
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1477"/>
         <source>You have been invited to the game &lt;b&gt;%1&lt;/b&gt; by &lt;b&gt;%2&lt;/b&gt;.&lt;br&gt;Would you like to join this game?</source>
         <translation>Jy is deur &lt;b&gt;%2&lt;/b&gt; na die spel &lt;b&gt;%1&lt;/b&gt; genooi.&lt;br&gt;Wil jy by daardie spel aansluit?</translation>
-    </message>
-    <message>
-        <source>&lt;span style=&apos;color:red;&apos;&gt;Player %1 has rejected the invitation to %2.&lt;/span&gt;</source>
-        <translation type="obsolete">&lt;span style=&apos;color:red;&apos;&gt;Speler %1 het die uitnodiging na %2 van die hand gewys.&lt;/span&gt;</translation>
-    </message>
-    <message>
-        <source>&lt;span style=&apos;color:red;&apos;&gt;Player %1 cannot join %2 because he is busy.&lt;/span&gt;</source>
-        <translation type="obsolete">&lt;span style=&apos;color:red;&apos;&gt;Speler %1 kan nie by %2 aansluit nie want hy of sy is besig.&lt;/span&gt;</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1530"/>
@@ -1223,7 +1175,7 @@ Nooi gerus ander spelers uit deur op hul kenname in die lys beskikbare spelers t
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1152"/>
         <source>search for player ...</source>
-        <translation type="unfinished"></translation>
+        <translation>soek vir speler...</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1397"/>
@@ -1231,17 +1183,9 @@ Nooi gerus ander spelers uit deur op hul kenname in die lys beskikbare spelers t
         <translation>Klets werk net vir geregistreerde spelers.</translation>
     </message>
     <message>
-        <source>Invite player %1</source>
-        <translation type="obsolete">Nooi speler %1</translation>
-    </message>
-    <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1416"/>
         <source>Invite player ...</source>
         <translation>Nooi speler...</translation>
-    </message>
-    <message>
-        <source>Ignore player %1</source>
-        <translation type="obsolete">Ignoreer speler %1</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1428"/>
@@ -1251,27 +1195,23 @@ Nooi gerus ander spelers uit deur op hul kenname in die lys beskikbare spelers t
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1435"/>
         <source>%1 is playing in &quot;%2&quot;.</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 speel in &quot;%2&quot;.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1438"/>
         <source>%1 is not playing at the moment.</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 speel nie op die oomblik nie.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1458"/>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1477"/>
         <source>PokerTH - Info Message</source>
-        <translation>PokerTH-inligtingsboodskap</translation>
-    </message>
-    <message>
-        <source>&lt;span style=&apos;color:blue;&apos;&gt;Player %1 has been invited to %2 by %3.&lt;/span&gt;</source>
-        <translation type="obsolete">&lt;span style=&apos;color:blue;&apos;&gt;Speler %1 het %3 se uitnodiging na %2 van die hand gewys.&lt;/span&gt;</translation>
+        <translation>PokerTH - Inligtingsboodskap</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1530"/>
         <source>PokerTH - Question</source>
-        <translation>PokerTH-vraag</translation>
+        <translation>PokerTH - Vraag</translation>
     </message>
 </context>
 <context>
@@ -1279,7 +1219,7 @@ Nooi gerus ander spelers uit deur op hul kenname in die lys beskikbare spelers t
     <message>
         <location filename="../src/gui/qt/gametable.ui" line="29"/>
         <source>PokerTH 0.6-beta - The Open-Source Texas Holdem Engine</source>
-        <translation>PokerTH 0.6-beta, die oopbron-Texas Holdem-enjin</translation>
+        <translation>PokerTH 0.6-beta - Die oopbron-Texas Holdem-enjin</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gametable.ui" line="2745"/>
@@ -1521,7 +1461,7 @@ Nooi gerus ander spelers uit deur op hul kenname in die lys beskikbare spelers t
     <message>
         <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="396"/>
         <source>PokerTH %1 - The Open-Source Texas Holdem Engine</source>
-        <translation>PokerTH %1, die oopbron-Texas Holdem-enjin</translation>
+        <translation>PokerTH %1 - Die oopbron-Texas Holdem-enjin</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="2284"/>
@@ -2863,7 +2803,7 @@ Tik asseblief &apos;n geldige bedienerlysadres in.</translation>
     <message>
         <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="51"/>
         <source>Afrikaans</source>
-        <translation type="unfinished"></translation>
+        <translation>Afrikaans</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="54"/>
@@ -3013,8 +2953,12 @@ Styl sal nie by lys gevoeg word nie.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="1263"/>
+        <source>Do you really want to delete the selected log file?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>Do you really want to delete the seleted log file?</source>
-        <translation>Wil jy regtig die gekose loglêer skrap?</translation>
+        <translation type="obsolete">Wil jy regtig die gekose loglêer skrap?</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="1292"/>
@@ -3563,7 +3507,7 @@ Tik asseblief weer die wagwoord in, en probeer weer.</translation>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="880"/>
         <source>The settings are invalid for this type of game.</source>
-        <translation type="unfinished"></translation>
+        <translation>Die instellings is ongeldig vir hierdie tipe spel.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="885"/>

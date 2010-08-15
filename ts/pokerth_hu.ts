@@ -3827,7 +3827,7 @@ A stílus nem kerül a listára!</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="1263"/>
-        <source>Do you really want to delete the seleted log file?</source>
+        <source>Do you really want to delete the selected log file?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
