@@ -1,8 +1,8 @@
-2010-xx-xx version 0.8-beta2:
+2010-08-15 version 0.8-beta2:
 - Allow to show own cards if human player is the last not folded player (also without showdown)
-- p, li { white-space: pre-wrap; } Disallow any kind of kicking in ranking games
+- Disallow any kind of kicking in ranking games
 - Caseinsensitive sorting and string search function for lobby nick list
-- p, li { white-space: Store all players of each game in the database (Server)
+- Store all players of each game in the database (Server)
 - Store date/time when the game ends (Server)
 - Bugfixes
 
