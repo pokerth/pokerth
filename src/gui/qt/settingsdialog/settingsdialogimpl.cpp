@@ -1260,7 +1260,7 @@ void settingsDialogImpl::deleteLogFile()
 
     if(selectedItem) {
         int ret = QMessageBox::warning(this, tr("PokerTH - Log file"),
-                                       tr("Do you really want to delete the seleted log file?"),
+                                       tr("Do you really want to delete the selected log file?"),
                                        QMessageBox::Yes | QMessageBox::No);
 
         if(ret == QMessageBox::Yes) {

@@ -2066,9 +2066,9 @@ void gameTableImpl::postRiverRunAnimation2() {
     }
     else {
 
-        //display show! button if human player is the latest non foldedone     
+        //display show! button if human player is active and the latest non foldedone
         PlayerListIterator it = myStartWindow->getSession()->getCurrentGame()->getSeatsList()->begin();
-        if( internetOrNetworkGame && (*it)->getMyAction() != PLAYER_ACTION_FOLD) {
+        if( internetOrNetworkGame && (*it)->getMyActiveStatus() && (*it)->getMyAction() != PLAYER_ACTION_FOLD) {
 
             showShowMyCardsButton();
         }
@@ -2322,7 +2322,7 @@ void gameTableImpl::showHoleCards(unsigned playerId, bool allIn)
             }
             //set Player value (logging)
             qDebug() << "currentHand->getCurrentRound()" << currentHand->getCurrentRound();
-            if(currentHand->getCurrentRound() < 4 || allIn) {
+            if(currentHand->getCurrentRound() < 3 || allIn) {
                 (*it_c)->setMyCardsFlip(1,2); //for bero before postriver or allin just log the hole cards
             }
             else {
