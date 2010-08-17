@@ -1063,7 +1063,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>open</source>
-        <translation>otevřít</translation>
+        <translation>otevřená</translation>
     </message>
     <message>
         <source>Game Info</source>
@@ -1087,7 +1087,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>running</source>
-        <translation>běžící</translation>
+        <translation>hraje se</translation>
     </message>
     <message>
         <source>running games: %1</source>
@@ -1107,7 +1107,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>hands</source>
-        <translation>výherních komb</translation>
+        <translation>výherních kombinací</translation>
     </message>
     <message>
         <source>minutes</source>
@@ -1251,7 +1251,7 @@ Další hráče můžete pozvat pravým kliknutím na jejich přezdívku v sezna
     </message>
     <message>
         <source>Available Players</source>
-        <translation>Volní hráči</translation>
+        <translation>Připojení hráči</translation>
     </message>
     <message>
         <source>search for player ...</source>
@@ -1550,7 +1550,7 @@ a vrátit se zpět do lobby?</translation>
     <name>internetGameLoginDialog</name>
     <message>
         <source>Internet Game Login</source>
-        <translation>Přezdívka v internetové hře</translation>
+        <translation>Přihlášení do internetové hry</translation>
     </message>
     <message>
         <source>Registered user</source>
@@ -2077,7 +2077,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Pause between hands (press &quot;start&quot; button to go on)</source>
-        <translation>Pauza mezi rozdáními (pro pokračování zmáčkněte tlačítko &quot;Start&quot;)</translation>
+        <translation>Pauza mezi rozdáními (pro pokračování stiskněte tlačítko &quot;Start&quot;)</translation>
     </message>
     <message>
         <source>Show game settings dialog on every new game</source>
@@ -2143,7 +2143,7 @@ p, li { white-space: pre-wrap; }
         <translation>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot;font-weight:400; font-style:normal;&quot;&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-style:italic;&quot;&gt;Poznámka: Výchozí &lt;/span&gt;&lt;span style=&quot; font-weight:600; font-style:italic;&quot;&gt;Herní nastavení&lt;/span&gt;&lt;span style=&quot; font-style:italic;&quot;&gt; jako &quot;Maximální počet hráčů&quot;, &quot;Obnos do začátku&quot; a &quot;Malý Blind&quot; budou použita &lt;/span&gt;&lt;span style=&quot; font-weight:600; font-style:italic;&quot;&gt;z Nastavení síťové hry.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-style:italic;&quot;&gt;Poznámka: Výchozí &lt;/span&gt;&lt;span style=&quot; font-weight:600; font-style:italic;&quot;&gt;Herní nastavení&lt;/span&gt;&lt;span style=&quot; font-style:italic;&quot;&gt; jako &quot;Maximální počet hráčů&quot;, &quot;Počáteční obnos&quot; a &quot;Malý blind&quot; budou použita &lt;/span&gt;&lt;span style=&quot; font-weight:600; font-style:italic;&quot;&gt;z Nastavení síťové hry.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <source>Server Address:</source>
@@ -2237,7 +2237,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Log Messages</source>
-        <translation>Zaznamenané zprávy</translation>
+        <translation>Zaznamenávání průběhu hry</translation>
     </message>
     <message>
         <source>Player Nicks/Avatars</source>
@@ -2625,7 +2625,7 @@ Zadejte platnou adresu seznamu serverů!</translation>
     </message>
     <message>
         <source>fixed</source>
-        <translation>opraveno</translation>
+        <translation>pevné</translation>
     </message>
     <message>
         <source>Minimum Size</source>
@@ -2725,7 +2725,7 @@ Styl nebude umístěn do seznamu!</translation>
     </message>
     <message>
         <source>Do you really want to delete the seleted log file?</source>
-        <translation type="obsolete">Opravdu chcete vybraný soubor záznamu smazat?</translation>
+        <translation>Opravdu chcete vybraný soubor záznamu smazat?</translation>
     </message>
     <message>
         <source>Save PokerTH log file</source>
@@ -2738,10 +2738,6 @@ Styl nebude umístěn do seznamu!</translation>
     <message>
         <source>Afrikaans</source>
         <translation>Afrikaans</translation>
-    </message>
-    <message>
-        <source>Do you really want to delete the selected log file?</source>
-        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
