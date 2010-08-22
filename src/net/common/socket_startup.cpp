@@ -92,8 +92,11 @@ socket_has_sctp()
 
 	if (test == boost::asio::detail::invalid_socket)
 		return false;
-	boost::system::error_code ec;
-	boost::asio::detail::socket_ops::close(test, ec);
+#ifdef _WIN32
+	closesocket(test);
+#else
+	close(test);
+#endif
 	return true;
 #else
 	return false;
@@ -107,8 +110,11 @@ socket_has_ipv6()
 
 	if (test == boost::asio::detail::invalid_socket)
 		return false;
-	boost::system::error_code ec;
-	boost::asio::detail::socket_ops::close(test, ec);
+#ifdef _WIN32
+	closesocket(test);
+#else
+	close(test);
+#endif
 	return true;
 }
 
@@ -123,8 +129,11 @@ socket_has_dual_stack()
 		int ipv6only = 0;
 		if (setsockopt(test, IPPROTO_IPV6, IPV6_V6ONLY, (char *)&ipv6only, sizeof(ipv6only)) == 0)
 			retVal = true;
-		boost::system::error_code ec;
-		boost::asio::detail::socket_ops::close(test, ec);
+	#ifdef _WIN32
+		closesocket(test);
+	#else
+		close(test);
+	#endif
 	}
 	return retVal;
 }

@@ -137,13 +137,13 @@ win32 {
         LIBS += -lgnutls-openssl -lgnutls -lgcrypt -ltasn1 -lgpg-error -lgsasl -lidn
         LIBS += -lcurl
         LIBS += -lz
-		LIBS += -lboost_thread-mgw45-mt-1_43
-		LIBS += -lboost_filesystem-mgw45-mt-1_43
-		LIBS += -lboost_regex-mgw45-mt-1_43
-		LIBS += -lboost_system-mgw45-mt-1_43
-		LIBS += -lboost_iostreams-mgw45-mt-1_43
-		LIBS += -lboost_zlib-mgw45-mt-1_43
-		LIBS += -lboost_program_options-mgw45-mt-1_43
+		LIBS += -lboost_thread-mgw45-mt-1_44
+		LIBS += -lboost_filesystem-mgw45-mt-1_44
+		LIBS += -lboost_regex-mgw45-mt-1_44
+		LIBS += -lboost_system-mgw45-mt-1_44
+		LIBS += -lboost_iostreams-mgw45-mt-1_44
+		LIBS += -lboost_zlib-mgw45-mt-1_44
+		LIBS += -lboost_program_options-mgw45-mt-1_44
     }
 
     LIBS += -lgdi32 \

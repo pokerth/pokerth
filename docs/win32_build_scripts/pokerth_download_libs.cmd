@@ -214,18 +214,18 @@ cd /d %PKTH_BaseDir%
 if not exist %PKTH_BaseDir%\boost. (
 echo.
 echo Downloading boost and bjam
-%PKTH_OldDir%\third_party_apps\wget http://%SOURCEFORGE_MIRROR%.sourceforge.net/sourceforge/boost/boost_1_43_0.7z http://%SOURCEFORGE_MIRROR%.sourceforge.net/sourceforge/boost/boost-jam-3.1.17-1-ntx86.zip
+%PKTH_OldDir%\third_party_apps\wget http://%SOURCEFORGE_MIRROR%.sourceforge.net/sourceforge/boost/boost_1_44_0.7z http://%SOURCEFORGE_MIRROR%.sourceforge.net/sourceforge/boost/boost-jam-3.1.17-1-ntx86.zip
 if not errorlevel 0 goto downloadFailed
 echo.
 echo Unpacking boost and bjam
-%PKTH_OldDir%\third_party_apps\7za x -y boost_1_43_0.7z
+%PKTH_OldDir%\third_party_apps\7za x -y boost_1_44_0.7z
 %PKTH_OldDir%\third_party_apps\7za x -y boost-jam-3.1.17-1-ntx86.zip
 REM Wait 5 seconds for the file cache, else ren might fail.
 @ping 127.0.0.1 -n 5 -w 1000 > nul
 move boost-jam-3.1.17-1-ntx86\bjam.exe mingw\bin\bjam.exe
 move boost-jam-3.1.17-1-ntx86\LICENSE_1_0.txt mingw\bin\bjam_LICENSE_1_0.txt
 rd boost-jam-3.1.17-1-ntx86
-ren boost_1_43_0 boost
+ren boost_1_44_0 boost
 )
 echo.
 echo Compiling boost
