@@ -49,7 +49,7 @@ ServerDBGeneric::Stop()
 }
 
 void
-ServerDBGeneric::AsyncPlayerLogin(unsigned requestId, const string &/*playerName*/)
+ServerDBGeneric::AsyncPlayerLogin(unsigned requestId, const string &/*playerName*/, const std::string &/*avatarHash*/)
 {
 	m_ioService->post(boost::bind(&ServerDBCallback::PlayerLoginFailed, &m_callback, requestId));
 }

@@ -1528,7 +1528,7 @@ void
 ServerLobbyThread::AuthenticatePlayer(SessionWrapper session)
 {
 	if(session.playerData)
-		m_database->AsyncPlayerLogin(session.playerData->GetUniqueId(), session.playerData->GetName());
+		m_database->AsyncPlayerLogin(session.playerData->GetUniqueId(), session.playerData->GetName(), session.playerData->GetAvatarMD5().ToString());
 }
 
 void

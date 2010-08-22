@@ -38,7 +38,7 @@ public:
 	virtual void Start() = 0;
 	virtual void Stop() = 0;
 
-	virtual void AsyncPlayerLogin(unsigned requestId, const std::string &playerName) = 0;
+	virtual void AsyncPlayerLogin(unsigned requestId, const std::string &playerName, const std::string &avatarHash) = 0;
 	virtual void PlayerLogout(DB_id playerId) = 0;
 
 	virtual void AsyncCreateGame(unsigned requestId, const std::string &gameName) = 0;
