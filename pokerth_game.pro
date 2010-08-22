@@ -329,12 +329,12 @@ win32 {
             -lidn
         LIBS += -lcurl
         LIBS += -lz
-		LIBS += -lboost_thread-mgw45-mt-1_44
-		LIBS += -lboost_filesystem-mgw45-mt-1_44
+		LIBS += -lboost_thread-mgw45-mt-1_44.dll
+		LIBS += -lboost_filesystem-mgw45-mt-1_44.dll
 		LIBS += -lboost_regex-mgw45-mt-1_44
-		LIBS += -lboost_system-mgw45-mt-1_44
-		LIBS += -lboost_iostreams-mgw45-mt-1_44
-		LIBS += -lboost_zlib-mgw45-mt-1_44
+		LIBS += -lboost_system-mgw45-mt-1_44.dll
+		LIBS += -lboost_iostreams-mgw45-mt-1_44.dll
+		LIBS += -lboost_zlib-mgw45-mt-1_44.dll
     }
     LIBS += -lgdi32 \
         -lcomdlg32 \
