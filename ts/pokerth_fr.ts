@@ -4940,7 +4940,7 @@ Le style ne sera pas placé dans la liste !</translation>
     <message>
         <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="1263"/>
         <source>Do you really want to delete the selected log file?</source>
-        <translation type="unfinished"></translation>
+        <translation>Voulez-vous vraiment supprimer ce fichier de journalisation ?</translation>
     </message>
     <message>
         <source>Do you really want to delete the seleted log file?</source>
@@ -5020,7 +5020,7 @@ Le style ne sera pas placé dans la liste !</translation>
     <message>
         <location filename="../src/gui/qt/startnetworkgamedialog.ui" line="88"/>
         <source>Chat</source>
-        <translation type="unfinished">Discussion</translation>
+        <translation>Discussion</translation>
     </message>
 </context>
 <context>
