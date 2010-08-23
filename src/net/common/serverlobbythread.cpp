@@ -1495,8 +1495,21 @@ ServerLobbyThread::InitAfterLogin(SessionWrapper session)
 void
 ServerLobbyThread::EstablishSession(SessionWrapper session)
 {
-	if (!session.playerData.get())
+	if (!session.playerData)
 		throw ServerException(__FILE__, __LINE__, ERR_NET_INVALID_SESSION, 0);
+
+	// Run postlogin for DB
+	string tmpAvatarHash;
+	string tmpAvatarType;
+	if (!session.playerData->GetAvatarMD5().IsZero())
+	{
+		tmpAvatarHash = session.playerData->GetAvatarMD5().ToString();
+		tmpAvatarType = AvatarManager::GetAvatarFileExtension(AvatarManager::GetAvatarFileType(session.playerData->GetAvatarFile()));
+		if (!tmpAvatarType.empty())
+			tmpAvatarType.erase(0, 1); // Only store extension without the "."
+	}
+	m_database->PlayerPostLogin(session.playerData->GetDBId(), tmpAvatarHash, tmpAvatarType);
+
 	// Send ACK to client.
 	boost::shared_ptr<NetPacket> ack(new NetPacket(NetPacket::Alloc));
 	ack->GetMsg()->present = PokerTHMessage_PR_initAckMessage;
@@ -1529,10 +1542,7 @@ ServerLobbyThread::AuthenticatePlayer(SessionWrapper session)
 {
 	if(session.playerData)
 	{
-		if (!session.playerData->GetAvatarMD5().IsZero())
-			m_database->AsyncPlayerLogin(session.playerData->GetUniqueId(), session.playerData->GetName(), session.playerData->GetAvatarMD5().ToString());
-		else
-			m_database->AsyncPlayerLogin(session.playerData->GetUniqueId(), session.playerData->GetName(), "");
+		m_database->AsyncPlayerLogin(session.playerData->GetUniqueId(), session.playerData->GetName());
 	}
 }
 
