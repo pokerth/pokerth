@@ -52,7 +52,7 @@ struct Gsasl;
 class ServerLobbyThread : public Thread, public boost::enable_shared_from_this<ServerLobbyThread>
 {
 public:
-	ServerLobbyThread(GuiInterface &gui, ServerMode mode, ServerIrcBotCallback &ircBotCb, ConfigFile *playerConfig, AvatarManager &avatarManager,
+	ServerLobbyThread(GuiInterface &gui, ServerMode mode, ServerIrcBotCallback &ircBotCb, ConfigFile *serverConfig, AvatarManager &avatarManager,
 		boost::shared_ptr<boost::asio::io_service> ioService);
 	virtual ~ServerLobbyThread();
 
@@ -225,7 +225,7 @@ private:
 
 	ServerMode m_mode;
 	std::string m_statisticsFileName;
-	ConfigFile *m_playerConfig;
+	ConfigFile *m_serverConfig;
 	u_int32_t m_curGameId;
 
 	u_int32_t m_curUniquePlayerId;

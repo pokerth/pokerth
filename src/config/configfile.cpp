@@ -50,7 +50,7 @@ ConfigFile::ConfigFile(char *argv0, bool readonly) : noWriteAccess(readonly)
     myConfigState = OK;
 
     // !!!! Revisionsnummer der Configdefaults !!!!!
-    configRev = 83;
+	configRev = 84;
 
     //standard defaults
     logOnOffDefault = "1";
@@ -274,6 +274,11 @@ ConfigFile::ConfigFile(char *argv0, bool readonly) : noWriteAccess(readonly)
     configList.push_back(ConfigInfo("InternetSavePassword", CONFIG_TYPE_INT, "0"));
     configList.push_back(ConfigInfo("IfInfoMessageShowList", CONFIG_TYPE_STRING_LIST, "Msg"));
     configList.push_back(ConfigInfo("PlayerIgnoreList", CONFIG_TYPE_STRING_LIST, "Player"));
+	configList.push_back(ConfigInfo("DBServerAddress", CONFIG_TYPE_STRING, "127.0.0.1"));
+	configList.push_back(ConfigInfo("DBServerUser", CONFIG_TYPE_STRING, "pokerth"));
+	configList.push_back(ConfigInfo("DBServerPassword", CONFIG_TYPE_STRING, ""));
+	configList.push_back(ConfigInfo("DBServerDatabaseName", CONFIG_TYPE_STRING, "pokerth"));
+	configList.push_back(ConfigInfo("DBServerEncryptionKey", CONFIG_TYPE_STRING, ""));
 
     //fill tempList firstTime
     configBufferList = configList;

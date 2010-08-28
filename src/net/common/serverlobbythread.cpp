@@ -161,10 +161,10 @@ private:
 };
 
 
-ServerLobbyThread::ServerLobbyThread(GuiInterface &gui, ServerMode mode, ServerIrcBotCallback &ircBotCb, ConfigFile *playerConfig,
+ServerLobbyThread::ServerLobbyThread(GuiInterface &gui, ServerMode mode, ServerIrcBotCallback &ircBotCb, ConfigFile *serverConfig,
 									 AvatarManager &avatarManager, boost::shared_ptr<boost::asio::io_service> ioService)
 : m_ioService(ioService), m_authContext(NULL), m_gui(gui), m_ircBotCb(ircBotCb), m_avatarManager(avatarManager),
-  m_mode(mode), m_playerConfig(playerConfig), m_curGameId(0), m_curUniquePlayerId(0), m_curSessionId(INVALID_SESSION + 1),
+  m_mode(mode), m_serverConfig(serverConfig), m_curGameId(0), m_curUniquePlayerId(0), m_curSessionId(INVALID_SESSION + 1),
   m_statDataChanged(false), m_removeGameTimer(*ioService), m_removePlayerTimer(*ioService),
   m_sessionTimeoutTimer(*ioService), m_avatarCleanupTimer(*ioService),
   m_saveStatisticsTimer(*ioService), m_loginLockTimer(*ioService),
@@ -197,7 +197,12 @@ ServerLobbyThread::Init(const string &logDir)
 			ReadStatisticsFile();
 		}
 	}
-	m_database->Init("127.0.0.1", "user", "password", "database", "key");
+	m_database->Init(
+		m_serverConfig->readConfigString("DBServerAddress"),
+		m_serverConfig->readConfigString("DBServerUser"),
+		m_serverConfig->readConfigString("DBServerPassword"),
+		m_serverConfig->readConfigString("DBServerDatabaseName"),
+		m_serverConfig->readConfigString("DBServerEncryptionKey"));
 }
 
 void
@@ -788,14 +793,14 @@ ServerLobbyThread::ClearAuthContext()
 void
 ServerLobbyThread::InitChatCleaner()
 {
-	if (m_playerConfig->readConfigInt("UseChatCleaner") != 0)
+	if (m_serverConfig->readConfigInt("UseChatCleaner") != 0)
 	{
 		m_chatCleanerManager->Init(
-				m_playerConfig->readConfigString("ChatCleanerHostAddress"),
-				m_playerConfig->readConfigInt("ChatCleanerPort"),
-				m_playerConfig->readConfigInt("ChatCleanerUseIpv6") != 0,
-				m_playerConfig->readConfigString("ChatCleanerClientAuth"),
-				m_playerConfig->readConfigString("ChatCleanerServerAuth"));
+				m_serverConfig->readConfigString("ChatCleanerHostAddress"),
+				m_serverConfig->readConfigInt("ChatCleanerPort"),
+				m_serverConfig->readConfigInt("ChatCleanerUseIpv6") != 0,
+				m_serverConfig->readConfigString("ChatCleanerClientAuth"),
+				m_serverConfig->readConfigString("ChatCleanerServerAuth"));
 	}
 }
 
@@ -1345,7 +1350,7 @@ ServerLobbyThread::HandleNetPacketCreateGame(SessionWrapper session, const std::
 				tmpData,
 				session.playerData->GetUniqueId(),
 				GetGui(),
-				m_playerConfig));
+				m_serverConfig));
 		game->Init();
 
 		// Add game to list of games.
