@@ -65,7 +65,7 @@ public:
 
 	void SendToAllPlayers(boost::shared_ptr<NetPacket> packet, SessionData::State state);
 	void SendToAllButOnePlayers(boost::shared_ptr<NetPacket> packet, SessionId except, SessionData::State state);
-		void RemoveAllSessions();
+	void RemoveAllSessions();
 
 	bool IsPasswordProtected() const;
 	bool CheckPassword(const std::string &password) const;
@@ -106,6 +106,7 @@ protected:
 
 	void InternalStartGame();
 	void InitRankingMap(const PlayerDataList &playerDataList);
+	void UpdateRankingMap();
 	void SetPlayerPlace(unsigned playerId, int place);
 	void InternalEndGame();
 

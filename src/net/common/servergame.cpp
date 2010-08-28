@@ -296,6 +296,44 @@ ServerGame::InitRankingMap(const PlayerDataList &playerDataList)
 }
 
 void
+ServerGame::UpdateRankingMap()
+{
+	list<boost::shared_ptr<PlayerInterface> > activePlayers = *m_game->getActivePlayerList();
+	size_t currentRank = activePlayers.size();
+	list<boost::shared_ptr<PlayerInterface> > tmpRemovedPlayers;
+	PlayerListIterator active_i = activePlayers.begin();
+	PlayerListIterator active_end = activePlayers.end();
+	PlayerListIterator next_i = active_i;
+	while(active_i != active_end)
+	{
+		++next_i;
+		if ((*active_i)->getMyCash() < 1)
+		{
+			tmpRemovedPlayers.push_back(*active_i);
+			activePlayers.erase(active_i);
+		}
+		active_i = next_i;
+	}
+
+	if (!tmpRemovedPlayers.empty())
+	{
+		currentRank = currentRank - tmpRemovedPlayers.size() + 1;
+		PlayerListConstIterator removed_i = tmpRemovedPlayers.begin();
+		PlayerListConstIterator removed_end = tmpRemovedPlayers.end();
+		while (removed_i != removed_end)
+		{
+			SetPlayerPlace((*removed_i)->getMyUniqueID(), currentRank);
+			++removed_i;
+		}
+	}
+	// Last player is winner.
+	if (activePlayers.size() == 1)
+	{
+		SetPlayerPlace((*(activePlayers.begin()))->getMyUniqueID(), 1);
+	}
+}
+
+void
 ServerGame::SetPlayerPlace(unsigned playerId, int place)
 {
 	RankingMap::iterator pos = m_rankingMap.find(playerId);
@@ -736,7 +774,7 @@ void
 ServerGame::RemoveDisconnectedPlayers()
 {
 	// This should only be called between hands.
-	if (m_game.get())
+	if (m_game)
 	{
 		PlayerListIterator i = m_game->getSeatsList()->begin();
 		PlayerListIterator end = m_game->getSeatsList()->end();

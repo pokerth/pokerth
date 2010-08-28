@@ -919,6 +919,9 @@ ServerGameStateHand::EngineLoop(boost::shared_ptr<ServerGame> server)
 			// Remove disconnected players. This is the one and only place to do this.
 			server->RemoveDisconnectedPlayers();
 
+			// Update rankings of all remaining players.
+			server->UpdateRankingMap();
+
 			// Start next hand - if enough players are left.
 			list<boost::shared_ptr<PlayerInterface> > playersWithCash = *curGame.getActivePlayerList();
 			playersWithCash.remove_if(boost::bind(&PlayerInterface::getMyCash, _1) < 1);
@@ -931,7 +934,6 @@ ServerGameStateHand::EngineLoop(boost::shared_ptr<ServerGame> server)
 			else if (playersWithCash.size() == 1)
 			{
 				boost::shared_ptr<PlayerInterface> winnerPlayer = *(playersWithCash.begin());
-				server->SetPlayerPlace(winnerPlayer->getMyUniqueID(), 1);
 				server->InternalEndGame();
 
 				// View a dialog for a new game - delayed.
