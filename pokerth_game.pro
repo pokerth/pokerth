@@ -309,6 +309,7 @@ win32 {
         ../curl/lib \
         ../SDL/lib \
         ../SDL_mixer/lib \
+		../mysql/lib \
         ../zlib
     LIBS += -lpokerth_lib \
         -lpokerth_db \
@@ -493,3 +494,9 @@ mac {
     INCLUDEPATH += /Library/Frameworks/SDL_mixer.framework/Headers
 }
 OTHER_FILES += docs/infomessage-id-desc.txt
+
+official_server {
+	LIBPATH += pkth_stat/daemon_lib/lib
+	LIBS += -lpokerth_closed -lmysqlpp
+	DEFINES += POKERTH_OFFICIAL_SERVER
+}

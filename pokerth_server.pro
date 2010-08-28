@@ -119,7 +119,7 @@ win32 {
 
     SOURCES += src/core/win32/convhelper.cpp
 
-    LIBPATH += ../boost/stage/lib ../GnuTLS/lib ../gsasl/lib ../curl/lib ../zlib
+	LIBPATH += ../boost/stage/lib ../GnuTLS/lib ../gsasl/lib ../curl/lib ../mysql/lib ../zlib
 
 	LIBS += -lpokerth_lib -lpokerth_db -lpokerth_protocol
 
