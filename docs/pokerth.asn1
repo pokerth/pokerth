@@ -139,7 +139,8 @@ AuthServerVerification ::= SEQUENCE {
 
 InitAckMessage ::= [APPLICATION 3] SEQUENCE {
 	yourSessionId				Guid,
-	yourPlayerId				NonZeroId
+	yourPlayerId				NonZeroId,
+	yourAvatar					AvatarHash OPTIONAL
 }
 
 AvatarRequestMessage ::= [APPLICATION 4] SEQUENCE {
@@ -432,8 +433,7 @@ GameStartMessage ::= [APPLICATION 22] SEQUENCE {
 
 HandStartMessage ::= [APPLICATION 23] SEQUENCE {
 	gameId						NonZeroId,
-	yourCard1					Card,
-	yourCard2					Card,
+	yourEncryptedCards			OCTET STRING (SIZE(16)),
 	smallBlind					INTEGER(1..20001)
 }
 
