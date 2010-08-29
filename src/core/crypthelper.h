@@ -27,6 +27,9 @@
 #define MD5_DATA_SIZE		16
 #define SHA1_DATA_SIZE		20
 
+#define AES_BLOCK_SIZE		16
+#define ADD_PADDING(x) ((((x) + 15) >> 4) << 4)
+
 class HashBuf
 {
 public:
@@ -76,7 +79,11 @@ public:
 	static bool MD5Sum(const std::string &fileName, MD5Buf &buf);
 	static bool SHA1Hash(const unsigned char *data, unsigned dataSize, SHA1Buf &buf);
 	static bool HMACSha1(const unsigned char *keyData, unsigned keySize, const unsigned char *plainData, unsigned plainSize, SHA1Buf &buf);
-	static bool AES128Encrypt(const unsigned char *keyData, unsigned keySize, const unsigned char *plainData, unsigned plainSize, std::vector<unsigned char> &outCipher);
+	static bool AES128Encrypt(const unsigned char *keyData, unsigned keySize, const std::string &plainStr, std::vector<unsigned char> &outCipher);
+	static bool AES128Decrypt(const unsigned char *keyData, unsigned keySize, const unsigned char *cipher, unsigned cipherSize, std::string &outPlain);
+
+private:
+	static void BytesToKey(const unsigned char *keyData, unsigned keySize, unsigned char *key, unsigned char *iv);
 };
 
 #endif
