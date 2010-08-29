@@ -12,6 +12,7 @@
 //
 #include "gamelobbydialogimpl.h"
 #include "mygamelistsortfilterproxymodel.h"
+#include "mynicklistsortfilterproxymodel.h"
 #include "startwindowimpl.h"
 #include "chattools.h"
 #include "changecompleteblindsdialogimpl.h"
@@ -85,7 +86,7 @@ gameLobbyDialogImpl::gameLobbyDialogImpl(startWindowImpl *parent, ConfigFile *c)
     treeView_GameList->setAutoFillBackground(TRUE);
 
     myNickListModel = new QStandardItemModel(this);
-    myNickListSortFilterProxyModel = new QSortFilterProxyModel(this);
+    myNickListSortFilterProxyModel = new MyNickListSortFilterProxyModel(this);
     myNickListSortFilterProxyModel->setSourceModel(myNickListModel);
     myNickListSortFilterProxyModel->setDynamicSortFilter(TRUE);
     myNickListSortFilterProxyModel->setSortCaseSensitivity(Qt::CaseInsensitive);
@@ -126,6 +127,7 @@ gameLobbyDialogImpl::gameLobbyDialogImpl(startWindowImpl *parent, ConfigFile *c)
     connect( blinkingButtonAnimationTimer, SIGNAL(timeout()), this, SLOT( blinkingStartButtonAnimation() ));
     connect( showInfoMsgBoxTimer, SIGNAL(timeout()), this, SLOT( showInfoMsgBox() ));
     connect( comboBox_gameListFilter, SIGNAL(currentIndexChanged(int)), this, SLOT(changeGameListFilter(int)));
+    connect( comboBox_nickListFilter, SIGNAL(currentIndexChanged(int)), this, SLOT(changeNickListFilter(int)));
     connect( treeView_NickList, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT( showNickListContextMenu(QPoint) ) );
     connect( nickListInviteAction, SIGNAL(triggered()), this, SLOT( invitePlayerToCurrentGame() ));
     connect( nickListIgnorePlayerAction, SIGNAL(triggered()), this, SLOT( putPlayerOnIgnoreList() ));
@@ -866,12 +868,15 @@ void gameLobbyDialogImpl::updatePlayer(unsigned playerId, QString newPlayerName)
         if (myNickListModel->item(it1, 0)->data(Qt::UserRole) == playerId) {
             oldNick = myNickListModel->item(it1, 0)->text();
             myNickListModel->item(it1, 0)->setText(newPlayerName);
+
             PlayerInfo playerInfo(mySession->getClientPlayerInfo(playerId));
-            if(!playerInfo.isGuest) {
-                myNickListModel->item(it1, 0)->setIcon(QIcon(QString(":/cflags/cflags/%1.png").arg(QString::fromUtf8(mySession->getClientPlayerInfo(playerId).countryCode.c_str()).toLower())));
+            QString countryString = QString::fromUtf8(playerInfo.countryCode.c_str()).toLower();
+            myNickListModel->item(it1, 0)->setData(countryString, 33);
+            if(playerInfo.isGuest || countryString.isEmpty()) {
+                myNickListModel->item(it1, 0)->setIcon(QIcon(":/cflags/cflags/undefined.png"));
             }
             else {
-                myNickListModel->item(it1, 0)->setIcon(QIcon());
+                myNickListModel->item(it1, 0)->setIcon(QIcon(QString(":/cflags/cflags/%1.png").arg(countryString)));
             }
             break;
         }
@@ -916,11 +921,19 @@ void gameLobbyDialogImpl::playerLeftLobby(unsigned playerId)
 void gameLobbyDialogImpl::playerJoinedLobby(unsigned playerId, QString /*playerName TODO remove*/)
 {
     PlayerInfo playerInfo(mySession->getClientPlayerInfo(playerId));
+    QString countryString = QString::fromUtf8(playerInfo.countryCode.c_str()).toLower();
 
     QStandardItem *item = new QStandardItem;
     item->setText(QString::fromUtf8(playerInfo.playerName.c_str()));
     item->setData(playerId, Qt::UserRole);
-    item->setIcon(QIcon(QString(":/cflags/cflags/%1.png").arg(QString::fromUtf8(mySession->getClientPlayerInfo(playerId).countryCode.c_str()).toLower())));
+    item->setData(countryString, 33);
+    if(playerInfo.isGuest || countryString.isEmpty()) {
+        item->setIcon(QIcon(":/cflags/cflags/undefined.png"));
+    }
+    else {
+        item->setIcon(QIcon(QString(":/cflags/cflags/%1.png").arg(countryString)));
+    }
+
     myNickListModel->appendRow(item);
 
     refreshPlayerStats();
@@ -1340,6 +1353,28 @@ void gameLobbyDialogImpl::changeGameListFilter(int index) {
 
     if(index) treeView_GameList->setStyleSheet("QTreeView { border-radius: 4px; border: 2px solid blue; background-color: white; background-image: url(\""+myAppDataPath +"gfx/gui/misc/background_gamelist.png\"); background-attachment: fixed; background-position: top center ; background-repeat: no-repeat;}");
     else treeView_GameList->setStyleSheet("QTreeView { background-color: white; background-image: url(\""+myAppDataPath +"gfx/gui/misc/background_gamelist.png\"); background-attachment: fixed; background-position: top center ; background-repeat: no-repeat;}");
+
+}
+
+void gameLobbyDialogImpl::changeNickListFilter(int state)
+{
+    myNickListSortFilterProxyModel->setFilterState(state);
+    myNickListModel->sort(0, Qt::DescendingOrder);
+
+//    switch(state) {
+//    case 0: {
+//
+//        }
+//        break;
+//    case 1: {
+//
+//        }
+//        break;
+//    case 2: {
+//
+//        }
+//        break;
+//    }
 
 }
 

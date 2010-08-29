@@ -29,6 +29,7 @@ class ConfigFile;
 class ChatTools;
 class startWindowImpl;
 class MyGameListSortFilterProxyModel;
+class MyNickListSortFilterProxyModel;
 
 /**
 	@author FThauer FHammer <webmaster@pokerth.net>
@@ -99,6 +100,7 @@ public slots:
     void writeDialogSettings(int);
     void readDialogSettings();
     void changeGameListFilter(int);
+    void changeNickListFilter(int);
     void changeGameListSorting();
     void registeredUserMode();
     void guestUserMode();
@@ -151,7 +153,7 @@ private:
 
     QStandardItemModel *myNickListModel;
     QItemSelectionModel *myNickListSelectionModel;
-    QSortFilterProxyModel *myNickListSortFilterProxyModel;
+    MyNickListSortFilterProxyModel *myNickListSortFilterProxyModel;
 
 protected:
     bool eventFilter(QObject *obj, QEvent *event);

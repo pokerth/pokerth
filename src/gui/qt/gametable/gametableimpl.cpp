@@ -2051,12 +2051,9 @@ void gameTableImpl::postRiverRunAnimation2() {
             //Wenn einmal umgedreht dann fertig!!
             flipHolecardsAllInAlreadyDone = TRUE;
         }
-        else {
-            int tempCardsIntArray[2];
+        else {          
             for (it_c=currentHand->getActivePlayerList()->begin(); it_c!=currentHand->getActivePlayerList()->end(); it_c++) {
-                (*it_c)->getMyCards(tempCardsIntArray);
                 if((*it_c)->getMyAction() != PLAYER_ACTION_FOLD) {
-
                     //set Player value (logging) for all in already shown cards
                     (*it_c)->setMyCardsFlip(1,3);
                 }
@@ -2321,7 +2318,6 @@ void gameTableImpl::showHoleCards(unsigned playerId, bool allIn)
                 }
             }
             //set Player value (logging)
-            qDebug() << "currentHand->getCurrentRound()" << currentHand->getCurrentRound();
             if(currentHand->getCurrentRound() < 3 || allIn) {
                 (*it_c)->setMyCardsFlip(1,2); //for bero before postriver or allin just log the hole cards
             }

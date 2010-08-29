@@ -95,7 +95,6 @@
         <file>cflags/cd.png</file>
         <file>cflags/cf.png</file>
         <file>cflags/cg.png</file>
-        <file>cflags/ch.png</file>
         <file>cflags/ci.png</file>
         <file>cflags/ck.png</file>
         <file>cflags/cl.png</file>
@@ -219,7 +218,6 @@
         <file>cflags/ni.png</file>
         <file>cflags/nl.png</file>
         <file>cflags/no.png</file>
-        <file>cflags/np.png</file>
         <file>cflags/nr.png</file>
         <file>cflags/nu.png</file>
         <file>cflags/nz.png</file>
@@ -301,5 +299,8 @@
         <file>cflags/za.png</file>
         <file>cflags/zm.png</file>
         <file>cflags/zw.png</file>
+        <file>cflags/ch.png</file>
+        <file>cflags/np.png</file>
+        <file>cflags/undefined.png</file>
     </qresource>
 </RCC>

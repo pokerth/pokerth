@@ -195,7 +195,8 @@ HEADERS += src/game.h \
     src/gui/qt/settingsdialog/mystylelistitem.h \
     src/gui/qt/gamelobbydialog/mygamelistsortfilterproxymodel.h \
     src/gui/qt/internetgamelogindialog/internetgamelogindialogimpl.h \
-    src/engine/local_engine/replay.h
+    src/engine/local_engine/replay.h \
+    src/gui/qt/gamelobbydialog/mynicklistsortfilterproxymodel.h
 FORMS += src/gui/qt/gametable.ui \
     src/gui/qt/aboutpokerth.ui \
     src/gui/qt/connecttoserverdialog.ui \
@@ -262,8 +263,9 @@ SOURCES += src/pokerth.cpp \
     src/gui/qt/settingsdialog/mystylelistitem.cpp \
     src/gui/qt/gamelobbydialog/mygamelistsortfilterproxymodel.cpp \
     src/gui/qt/internetgamelogindialog/internetgamelogindialogimpl.cpp \
-    src/engine/local_engine/replay.cpp
-TRANSLATIONS =  ts/pokerth_af.ts \
+    src/engine/local_engine/replay.cpp \
+    src/gui/qt/gamelobbydialog/mynicklistsortfilterproxymodel.cpp
+TRANSLATIONS = ts/pokerth_af.ts \
     ts/pokerth_bg.ts \
     ts/pokerth_zhcn.ts \
     ts/pokerth_ca.ts \
@@ -330,12 +332,12 @@ win32 {
             -lidn
         LIBS += -lcurl
         LIBS += -lz
-		LIBS += -lboost_thread-mgw45-mt-1_44.dll
-		LIBS += -lboost_filesystem-mgw45-mt-1_44.dll
-		LIBS += -lboost_regex-mgw45-mt-1_44
-		LIBS += -lboost_system-mgw45-mt-1_44.dll
-		LIBS += -lboost_iostreams-mgw45-mt-1_44.dll
-		LIBS += -lboost_zlib-mgw45-mt-1_44.dll
+        LIBS += -lboost_thread-mgw45-mt-1_44.dll
+        LIBS += -lboost_filesystem-mgw45-mt-1_44.dll
+        LIBS += -lboost_regex-mgw45-mt-1_44
+        LIBS += -lboost_system-mgw45-mt-1_44.dll
+        LIBS += -lboost_iostreams-mgw45-mt-1_44.dll
+        LIBS += -lboost_zlib-mgw45-mt-1_44.dll
     }
     LIBS += -lgdi32 \
         -lcomdlg32 \
