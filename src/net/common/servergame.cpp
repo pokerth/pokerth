@@ -40,6 +40,11 @@
 
 using namespace std;
 
+static bool LessThanPlayerHandStartMoney(const boost::shared_ptr<PlayerInterface> p1, const boost::shared_ptr<PlayerInterface> p2)
+{
+	return p1->getMyRoundStartCash() < p2->getMyRoundStartCash();
+}
+
 
 ServerGame::ServerGame(boost::shared_ptr<ServerLobbyThread> lobbyThread, u_int32_t id, const string &name, const string &pwd, const GameData &gameData, unsigned adminPlayerId, GuiInterface &gui, ConfigFile *playerConfig)
 : m_adminPlayerId(adminPlayerId), m_lobbyThread(lobbyThread), m_gui(gui),
@@ -299,31 +304,42 @@ void
 ServerGame::UpdateRankingMap()
 {
 	list<boost::shared_ptr<PlayerInterface> > activePlayers = *m_game->getActivePlayerList();
-	size_t currentRank = activePlayers.size();
+	int currentRank = static_cast<int>(activePlayers.size());
 	list<boost::shared_ptr<PlayerInterface> > tmpRemovedPlayers;
 	PlayerListIterator active_i = activePlayers.begin();
 	PlayerListIterator active_end = activePlayers.end();
-	PlayerListIterator next_i = active_i;
+	PlayerListIterator next_active_i = active_i;
 	while(active_i != active_end)
 	{
-		++next_i;
+		++next_active_i;
 		if ((*active_i)->getMyCash() < 1)
 		{
 			tmpRemovedPlayers.push_back(*active_i);
 			activePlayers.erase(active_i);
 		}
-		active_i = next_i;
+		active_i = next_active_i;
 	}
 
 	if (!tmpRemovedPlayers.empty())
 	{
-		currentRank = currentRank - tmpRemovedPlayers.size() + 1;
+		tmpRemovedPlayers.sort(LessThanPlayerHandStartMoney);
 		PlayerListConstIterator removed_i = tmpRemovedPlayers.begin();
 		PlayerListConstIterator removed_end = tmpRemovedPlayers.end();
+		PlayerListIterator next_removed_i = active_i;
+		int currentRankCounter = 0;
 		while (removed_i != removed_end)
 		{
+			++next_removed_i;
+
 			SetPlayerPlace((*removed_i)->getMyUniqueID(), currentRank);
-			++removed_i;
+			++currentRankCounter;
+			if (next_removed_i != removed_end && (*removed_i)->getMyRoundStartCash() < (*next_removed_i)->getMyRoundStartCash())
+			{
+				currentRank -= currentRankCounter;
+				currentRankCounter = 0;
+			}
+
+			removed_i = next_removed_i;
 		}
 	}
 	// Last player is winner.
