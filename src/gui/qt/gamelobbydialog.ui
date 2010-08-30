@@ -851,12 +851,12 @@ p, li { white-space: pre-wrap; }
      </item>
      <item>
       <property name="text">
-       <string>Sort by flag</string>
+       <string>Sort by country</string>
       </property>
      </item>
      <item>
       <property name="text">
-       <string>Filter idle players</string>
+       <string>Display idle players</string>
       </property>
      </item>
     </widget>

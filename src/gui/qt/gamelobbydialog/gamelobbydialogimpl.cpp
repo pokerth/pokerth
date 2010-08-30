@@ -1271,9 +1271,6 @@ void gameLobbyDialogImpl::writeDialogSettings(int saveMode)
 {
     switch(saveMode) {
     case 0: {
-            // 				myConfig->writeConfigInt("DlgGameLobbyGameListSortingSection", myGameListSortFilterProxyModel->sortColumn());
-            // 				myConfig->writeConfigInt("DldgGameLobbyGameListSortingOrder", myGameListSortFilterProxyModel->sortOrder());
-            // 				qt 4.4.* compatibility
             QHeaderView *header = treeView_GameList->header();
             myConfig->writeConfigInt("DlgGameLobbyGameListSortingSection", header->sortIndicatorSection());
             myConfig->writeConfigInt("DlgGameLobbyGameListSortingOrder", header->sortIndicatorOrder());
@@ -1283,8 +1280,13 @@ void gameLobbyDialogImpl::writeDialogSettings(int saveMode)
             myConfig->writeConfigInt("DlgGameLobbyGameListFilterIndex", comboBox_gameListFilter->currentIndex());
         }
         break;
+    case 2: {
+            myConfig->writeConfigInt("DlgGameLobbyNickListSortFilterIndex", comboBox_nickListFilter->currentIndex());
+        }
+        break;
     default:;
     }
+
     myConfig->writeBuffer();
 }
 
@@ -1292,6 +1294,7 @@ void gameLobbyDialogImpl::readDialogSettings()
 {
     comboBox_gameListFilter->setCurrentIndex(myConfig->readConfigInt("DlgGameLobbyGameListFilterIndex"));
     treeView_GameList->sortByColumn(myConfig->readConfigInt("DlgGameLobbyGameListSortingSection"), (Qt::SortOrder)myConfig->readConfigInt("DlgGameLobbyGameListSortingOrder") );
+    comboBox_nickListFilter->setCurrentIndex(myConfig->readConfigInt("DlgGameLobbyNickListSortFilterIndex"));
 }
 
 void gameLobbyDialogImpl::changeGameListFilter(int index) {
@@ -1331,50 +1334,7 @@ void gameLobbyDialogImpl::changeGameListFilter(int index) {
             myGameListSortFilterProxyModel->setColumn3RegExp(QRegExp());
             myGameListSortFilterProxyModel->setColumn4RegExp(QRegExp("private", Qt::CaseInsensitive, QRegExp::FixedString));
         }
-
         break;
-        //		case 5: {
-        //				myGameListSortFilterProxyModel->setColumn1RegExp(QRegExp());
-        //				myGameListSortFilterProxyModel->setColumn2RegExp(QRegExp("open", Qt::CaseInsensitive, QRegExp::FixedString));
-        //				myGameListSortFilterProxyModel->setColumn3RegExp(QRegExp("nonpriv", Qt::CaseInsensitive, QRegExp::FixedString));
-        //		}
-        //		break;
-        //		case 6: {
-        //				myGameListSortFilterProxyModel->setColumn1RegExp(QRegExp());
-        //				myGameListSortFilterProxyModel->setColumn2RegExp(QRegExp("open", Qt::CaseInsensitive, QRegExp::FixedString));
-        //				myGameListSortFilterProxyModel->setColumn3RegExp(QRegExp("private", Qt::CaseInsensitive, QRegExp::FixedString));
-        //		}
-        //		break;
-        //		case 7: {
-        //				myGameListSortFilterProxyModel->setColumn1RegExp(QRegExp("nonfull", Qt::CaseInsensitive, QRegExp::FixedString));
-        //				myGameListSortFilterProxyModel->setColumn2RegExp(QRegExp());
-        //				myGameListSortFilterProxyModel->setColumn3RegExp(QRegExp());
-        //		}
-        //		break;
-        //		case 8: {
-        //				myGameListSortFilterProxyModel->setColumn1RegExp(QRegExp("nonfull", Qt::CaseInsensitive, QRegExp::FixedString));
-        //				myGameListSortFilterProxyModel->setColumn2RegExp(QRegExp());
-        //				myGameListSortFilterProxyModel->setColumn3RegExp(QRegExp("nonpriv", Qt::CaseInsensitive, QRegExp::FixedString));
-        //		}
-        //		break;
-        //		case 9: {
-        //				myGameListSortFilterProxyModel->setColumn1RegExp(QRegExp("nonfull", Qt::CaseInsensitive, QRegExp::FixedString));
-        //				myGameListSortFilterProxyModel->setColumn2RegExp(QRegExp());
-        //				myGameListSortFilterProxyModel->setColumn3RegExp(QRegExp("private", Qt::CaseInsensitive, QRegExp::FixedString));
-        //		}
-        //		break;
-        //		case 10: {
-        //				myGameListSortFilterProxyModel->setColumn1RegExp(QRegExp());
-        //				myGameListSortFilterProxyModel->setColumn2RegExp(QRegExp());
-        //				myGameListSortFilterProxyModel->setColumn3RegExp(QRegExp("nonpriv", Qt::CaseInsensitive, QRegExp::FixedString));
-        //		}
-        //		break;
-        //		case 11: {
-        //				myGameListSortFilterProxyModel->setColumn1RegExp(QRegExp());
-        //				myGameListSortFilterProxyModel->setColumn2RegExp(QRegExp());
-        //				myGameListSortFilterProxyModel->setColumn3RegExp(QRegExp("private", Qt::CaseInsensitive, QRegExp::FixedString));
-        //		}
-        //		break;
     default:;
     }
     myGameListSortFilterProxyModel->setFilterRegExp(QString());
@@ -1395,21 +1355,7 @@ void gameLobbyDialogImpl::changeNickListFilter(int state)
     myNickListSortFilterProxyModel->setFilterRegExp(QString());
     myNickListSortFilterProxyModel->setFilterKeyColumn(0);
 
-//    switch(state) {
-//    case 0: {
-//
-//        }
-//        break;
-//    case 1: {
-//
-//        }
-//        break;
-//    case 2: {
-//
-//        }
-//        break;
-//    }
-
+    writeDialogSettings(2);
 }
 
 void gameLobbyDialogImpl::changeGameListSorting() {
@@ -1417,41 +1363,6 @@ void gameLobbyDialogImpl::changeGameListSorting() {
     writeDialogSettings(0);
 }
 
-//<item>
-//      <property name="text">
-//       <string>5 - Show open &amp; non-private games</string>
-//      </property>
-//     </item>
-//     <item>
-//      <property name="text">
-//       <string>6 - Show open &amp; private games</string>
-//      </property>
-//     </item>
-//     <item>
-//      <property name="text">
-//       <string>7 - Show non-full games</string>
-//      </property>
-//     </item>
-//     <item>
-//      <property name="text">
-//       <string>8 - Show non-full &amp; non-private games</string>
-//      </property>
-//     </item>
-//     <item>
-//      <property name="text">
-//       <string>9 - Show non-full &amp; private games</string>
-//      </property>
-//     </item>
-//     <item>
-//      <property name="text">
-//       <string>10 - Show non-private games</string>
-//      </property>
-//     </item>
-//     <item>
-//      <property name="text">
-//       <string>11 - Show private games</string>
-//      </property>
-//     </item>
 
 void gameLobbyDialogImpl::registeredUserMode()
 {
