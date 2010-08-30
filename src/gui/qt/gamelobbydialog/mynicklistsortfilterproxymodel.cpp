@@ -21,7 +21,8 @@ bool MyNickListSortFilterProxyModel::filterAcceptsRow(int sourceRow, const QMode
         }
         break;
     case 2: {
-            return QSortFilterProxyModel::filterAcceptsRow(sourceRow, sourceParent);
+            QModelIndex index0 = sourceModel()->index(sourceRow, 0, sourceParent);
+            return sourceModel()->data(index0, 34).toString().contains("idle") && QSortFilterProxyModel::filterAcceptsRow(sourceRow, sourceParent);
         }
         break;
 

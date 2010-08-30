@@ -626,6 +626,16 @@ void gameLobbyDialogImpl::gameAddPlayer(unsigned gameId, unsigned playerId)
         }
         it++;
     }
+
+    //mark player as active
+    int it1 = 0;
+    while (myNickListModel->item(it1)) {
+        if (myNickListModel->item(it1, 0)->data(Qt::UserRole) == playerId) {
+            myNickListModel->item(it1, 0)->setData("active", 34);
+            break;
+        }
+        ++it1;
+    }
 }
 
 void gameLobbyDialogImpl::gameRemovePlayer(unsigned gameId, unsigned playerId)
@@ -652,6 +662,16 @@ void gameLobbyDialogImpl::gameRemovePlayer(unsigned gameId, unsigned playerId)
             break;
         }
         ++it;
+    }
+
+    //mark player as idle again
+    int it1 = 0;
+    while (myNickListModel->item(it1)) {
+        if (myNickListModel->item(it1, 0)->data(Qt::UserRole) == playerId) {
+            myNickListModel->item(it1, 0)->setData("idle", 34);
+            break;
+        }
+        ++it1;
     }
 }
 
@@ -878,6 +898,11 @@ void gameLobbyDialogImpl::updatePlayer(unsigned playerId, QString newPlayerName)
             else {
                 myNickListModel->item(it1, 0)->setIcon(QIcon(QString(":/cflags/cflags/%1.png").arg(countryString)));
             }
+
+            unsigned gameIdOfPlayer = mySession->getGameIdOfPlayer(playerId);
+            if(gameIdOfPlayer) { myNickListModel->item(it1, 0)->setData("active", 34); }
+            else { myNickListModel->item(it1, 0)->setData("idle", 34); }
+
             break;
         }
 
@@ -902,6 +927,7 @@ void gameLobbyDialogImpl::removePlayer(unsigned playerId, QString) {
     }
 
     checkPlayerQuantity();
+
 }
 
 void gameLobbyDialogImpl::playerLeftLobby(unsigned playerId)
@@ -933,6 +959,11 @@ void gameLobbyDialogImpl::playerJoinedLobby(unsigned playerId, QString /*playerN
     else {
         item->setIcon(QIcon(QString(":/cflags/cflags/%1.png").arg(countryString)));
     }
+
+    unsigned gameIdOfPlayer = mySession->getGameIdOfPlayer(playerId);
+    if(gameIdOfPlayer) { item->setData("active", 34); }
+    else { item->setData("idle", 34); }
+
 
     myNickListModel->appendRow(item);
 
@@ -1360,6 +1391,9 @@ void gameLobbyDialogImpl::changeNickListFilter(int state)
 {
     myNickListSortFilterProxyModel->setFilterState(state);
     myNickListModel->sort(0, Qt::DescendingOrder);
+
+    myNickListSortFilterProxyModel->setFilterRegExp(QString());
+    myNickListSortFilterProxyModel->setFilterKeyColumn(0);
 
 //    switch(state) {
 //    case 0: {
