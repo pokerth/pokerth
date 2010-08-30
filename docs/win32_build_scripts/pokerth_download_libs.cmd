@@ -314,8 +314,8 @@ echo.
 echo Copying DLLs
 copy /Y %PKTH_BaseDir%\SDL\bin\SDL.dll %PKTH_BaseDir%\pokerth\
 copy /Y %PKTH_BaseDir%\SDL_mixer\bin\SDL_mixer.dll %PKTH_BaseDir%\pokerth\
-copy /Y %PKTH_BaseDir%\mingw\bin\libgcc_s_dw2-1.dll %PKTH_BaseDir%\pokerth\
-copy /Y %PKTH_BaseDir%\mingw\bin\libstdc++-6.dll %PKTH_BaseDir%\pokerth\
+copy /Y "%PKTH_BaseDir%\mingw\bin\libgcc_s_dw2-1.dll" %PKTH_BaseDir%\pokerth\
+copy /Y "%PKTH_BaseDir%\mingw\bin\libstdc++-6.dll" %PKTH_BaseDir%\pokerth\
 copy /Y %PKTH_BaseDir%\boost\stage\lib\libboost_filesystem-mgw45-mt-1_44.dll %PKTH_BaseDir%\pokerth\
 copy /Y %PKTH_BaseDir%\boost\stage\lib\libboost_iostreams-mgw45-mt-1_44.dll %PKTH_BaseDir%\pokerth\
 copy /Y %PKTH_BaseDir%\boost\stage\lib\libboost_system-mgw45-mt-1_44.dll %PKTH_BaseDir%\pokerth\
