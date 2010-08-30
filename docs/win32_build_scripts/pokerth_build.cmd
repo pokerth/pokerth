@@ -54,6 +54,7 @@ echo Building PokerTH
 qmake CONFIG+=release pokerth.pro
 mingw32-make release
 move release\pokerth.exe .\pokerth.exe
+move release\bin\pokerth_server.exe .\pokerth_server.exe
 echo.
 echo Done compiling PokerTH. Have a lot of fun!
 goto end
