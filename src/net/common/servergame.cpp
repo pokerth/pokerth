@@ -325,7 +325,7 @@ ServerGame::UpdateRankingMap()
 		tmpRemovedPlayers.sort(LessThanPlayerHandStartMoney);
 		PlayerListConstIterator removed_i = tmpRemovedPlayers.begin();
 		PlayerListConstIterator removed_end = tmpRemovedPlayers.end();
-		PlayerListIterator next_removed_i = active_i;
+		PlayerListIterator next_removed_i = removed_i;
 		int currentRankCounter = 0;
 		while (removed_i != removed_end)
 		{
