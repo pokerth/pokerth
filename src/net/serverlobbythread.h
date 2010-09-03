@@ -223,7 +223,7 @@ private:
 	ServerIrcBotCallback &m_ircBotCb;
 	AvatarManager &m_avatarManager;
 
-	ServerMode m_mode;
+	const ServerMode m_mode;
 	std::string m_statisticsFileName;
 	ConfigFile *m_serverConfig;
 	u_int32_t m_curGameId;

@@ -989,18 +989,22 @@ ServerLobbyThread::HandleNetPacketInit(SessionWrapper session, const InitMessage
 	// Before any other processing, perform some denial of service and
 	// brute force attack prevention by checking whether the user recently sent an
 	// Init packet.
-	bool recentlySentInit = false;
+	// This check is not performed on LAN servers.
+	if (m_mode != SERVER_MODE_LAN)
 	{
-		boost::mutex::scoped_lock lock(m_timerClientAddressMapMutex);
-		if (m_timerClientAddressMap.find(session.sessionData->GetClientAddr()) != m_timerClientAddressMap.end())
-			recentlySentInit = true;
-		else
-			m_timerClientAddressMap[session.sessionData->GetClientAddr()] = boost::timers::portable::microsec_timer();
-	}
-	if (recentlySentInit)
-	{
-		SessionError(session, ERR_NET_INIT_BLOCKED);
-		return;
+		bool recentlySentInit = false;
+		{
+			boost::mutex::scoped_lock lock(m_timerClientAddressMapMutex);
+			if (m_timerClientAddressMap.find(session.sessionData->GetClientAddr()) != m_timerClientAddressMap.end())
+				recentlySentInit = true;
+			else
+				m_timerClientAddressMap[session.sessionData->GetClientAddr()] = boost::timers::portable::microsec_timer();
+		}
+		if (recentlySentInit)
+		{
+			SessionError(session, ERR_NET_INIT_BLOCKED);
+			return;
+		}
 	}
 
 	// Check the protocol version.
