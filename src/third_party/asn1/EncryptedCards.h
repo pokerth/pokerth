@@ -21,7 +21,7 @@ extern "C" {
 
 /* EncryptedCards */
 typedef struct EncryptedCards {
-	OCTET_STRING_t	 encryptedCards;
+	OCTET_STRING_t	 cardData;
 	/*
 	 * This type is extensible,
 	 * possible extensions are below.

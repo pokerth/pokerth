@@ -1699,8 +1699,8 @@ ClientStateWaitHand::InternalHandlePacket(boost::shared_ptr<ClientThread> client
 			string plainCards;
 			if (!CryptHelper::AES128Decrypt((const unsigned char *)userPassword.c_str(),
 											(unsigned)userPassword.size(),
-											encryptedCards->encryptedCards.buf,
-											encryptedCards->encryptedCards.size,
+											encryptedCards->cardData.buf,
+											encryptedCards->cardData.size,
 											plainCards))
 			{
 				throw ClientException(__FILE__, __LINE__, ERR_NET_UNKNOWN_PLAYER_ID, 0);

@@ -10,7 +10,7 @@
 #include "EncryptedCards.h"
 
 static int
-memb_encryptedCards_constraint_1(asn_TYPE_descriptor_t *td, const void *sptr,
+memb_cardData_constraint_1(asn_TYPE_descriptor_t *td, const void *sptr,
 			asn_app_constraint_failed_f *ctfailcb, void *app_key) {
 	const OCTET_STRING_t *st = (const OCTET_STRING_t *)sptr;
 	size_t size;
@@ -36,21 +36,21 @@ memb_encryptedCards_constraint_1(asn_TYPE_descriptor_t *td, const void *sptr,
 }
 
 static asn_TYPE_member_t asn_MBR_EncryptedCards_1[] = {
-	{ ATF_NOFLAGS, 0, offsetof(struct EncryptedCards, encryptedCards),
+	{ ATF_NOFLAGS, 0, offsetof(struct EncryptedCards, cardData),
 		(ASN_TAG_CLASS_UNIVERSAL | (4 << 2)),
 		0,
 		&asn_DEF_OCTET_STRING,
-		memb_encryptedCards_constraint_1,
+		memb_cardData_constraint_1,
 		0,	/* PER is not compiled, use -gen-PER */
 		0,
-		"encryptedCards"
+		"cardData"
 		},
 };
 static ber_tlv_tag_t asn_DEF_EncryptedCards_tags_1[] = {
 	(ASN_TAG_CLASS_UNIVERSAL | (16 << 2))
 };
 static asn_TYPE_tag2member_t asn_MAP_EncryptedCards_tag2el_1[] = {
-    { (ASN_TAG_CLASS_UNIVERSAL | (4 << 2)), 0, 0, 0 } /* encryptedCards at 440 */
+    { (ASN_TAG_CLASS_UNIVERSAL | (4 << 2)), 0, 0, 0 } /* cardData at 440 */
 };
 static asn_SEQUENCE_specifics_t asn_SPC_EncryptedCards_specs_1 = {
 	sizeof(struct EncryptedCards),

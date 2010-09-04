@@ -437,7 +437,7 @@ PlainCards ::= SEQUENCE {
 }
 
 EncryptedCards ::= SEQUENCE {
-	encryptedCards				OCTET STRING (SIZE(16..64))
+	cardData					OCTET STRING (SIZE(16..64))
 }
 
 HandStartMessage ::= [APPLICATION 23] SEQUENCE {
