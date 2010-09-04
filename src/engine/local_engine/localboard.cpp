@@ -289,7 +289,7 @@ void LocalBoard::determinePlayerNeedToShowCards() {
             for(it_c = activePlayerList->begin(); it_c != activePlayerList->end(); it_c++) {
                 if((*it_c)->getMyUniqueID() == currentHand->getLastActionPlayer() && (*it_c)->getMyAction() != PLAYER_ACTION_FOLD) {
                     lastActionPlayerIt = it_c;
-                    cout << (*it_c)->getMyUniqueID() << endl;
+//                    cout << (*it_c)->getMyUniqueID() << endl;
                     break;
                 }
             }
@@ -306,7 +306,7 @@ void LocalBoard::determinePlayerNeedToShowCards() {
             // the player who has done the last action has to show his cards first
             playerNeedToShowCards.push_back((*lastActionPlayerIt)->getMyUniqueID());
 
-            cout << (*lastActionPlayerIt)->getMyUniqueID() << " - " << (*lastActionPlayerIt)->getMyName() << endl;
+//            cout << (*lastActionPlayerIt)->getMyUniqueID() << " - " << (*lastActionPlayerIt)->getMyName() << endl;
 
             int *level_tmp = new int[2];
             // get position und cardsValue of the player who show his cards first
@@ -315,7 +315,7 @@ void LocalBoard::determinePlayerNeedToShowCards() {
 
         //    level_tmp = {(*lastActionPlayerIt)->getMyCardsValueInt(),(*lastActionPlayerIt)->getMyRoundStartCash()-(*lastActionPlayerIt)->getMyCash()};
 
-            cout << level_tmp[0] << "," << level_tmp[1] << endl;
+//            cout << level_tmp[0] << "," << level_tmp[1] << endl;
 
             level.push_back(level_tmp);
 
@@ -356,10 +356,10 @@ void LocalBoard::determinePlayerNeedToShowCards() {
                             if((*it_c)->getMyCardsValueInt() == (*level_it)[0]) {
                                 next_level_it = level_it;
                                 next_level_it++;
-
-                                for(level_it_tmp = level.begin(); level_it_tmp != level.end(); level_it_tmp++) {
-                                    cout << (*level_it_tmp)[0] << "," << (*level_it_tmp)[1] << endl;
-                                }
+//
+//                                for(level_it_tmp = level.begin(); level_it_tmp != level.end(); level_it_tmp++) {
+//                                    cout << (*level_it_tmp)[0] << "," << (*level_it_tmp)[1] << endl;
+//                                }
 
 
                                 if(next_level_it == level.end() || (*it_c)->getMyRoundStartCash()-(*it_c)->getMyCash() > (*next_level_it)[1]) {
@@ -375,16 +375,16 @@ void LocalBoard::determinePlayerNeedToShowCards() {
                                     level_tmp = new int(2);
                                     level_tmp[0] = (*it_c)->getMyCardsValueInt();
                                     level_tmp[1] = (*it_c)->getMyRoundStartCash()-(*it_c)->getMyCash();
-
-                                    for(level_it_tmp = level.begin(); level_it_tmp != level.end(); level_it_tmp++) {
-                                        cout << (*level_it_tmp)[0] << "," << (*level_it_tmp)[1] << endl;
-                                    }
+//
+//                                    for(level_it_tmp = level.begin(); level_it_tmp != level.end(); level_it_tmp++) {
+//                                        cout << (*level_it_tmp)[0] << "," << (*level_it_tmp)[1] << endl;
+//                                    }
 
                                     level.insert(level_it,level_tmp);
 
-                                    for(level_it_tmp = level.begin(); level_it_tmp != level.end(); level_it_tmp++) {
-                                        cout << (*level_it_tmp)[0] << "," << (*level_it_tmp)[1] << endl;
-                                    }
+//                                    for(level_it_tmp = level.begin(); level_it_tmp != level.end(); level_it_tmp++) {
+//                                        cout << (*level_it_tmp)[0] << "," << (*level_it_tmp)[1] << endl;
+//                                    }
 
                                     break;
                                 }
@@ -427,11 +427,11 @@ void LocalBoard::determinePlayerNeedToShowCards() {
     playerNeedToShowCards.sort();
     playerNeedToShowCards.unique();
 
-    std::_List_iterator<unsigned> playerNeedToShowCardsIt;
-
-    for(playerNeedToShowCardsIt = playerNeedToShowCards.begin(); playerNeedToShowCardsIt!=playerNeedToShowCards.end(); playerNeedToShowCardsIt++) {
-        cout << (*playerNeedToShowCardsIt) << '\t';
-    }
-    cout << endl;
+//    std::_List_iterator<unsigned> playerNeedToShowCardsIt;
+//
+//    for(playerNeedToShowCardsIt = playerNeedToShowCards.begin(); playerNeedToShowCardsIt!=playerNeedToShowCards.end(); playerNeedToShowCardsIt++) {
+//        cout << (*playerNeedToShowCardsIt) << '\t';
+//    }
+//    cout << endl;
 
 }
