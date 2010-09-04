@@ -82,8 +82,6 @@ public:
 
 	std::string GetName() const;
 	void SetName(const std::string &name);
-	std::string GetPassword() const;
-	void SetPassword(const std::string &password);
 	std::string GetCountry() const;
 	void SetCountry(const std::string &country);
 	std::string GetAvatarFile() const;

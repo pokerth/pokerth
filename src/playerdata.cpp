@@ -51,20 +51,6 @@ PlayerData::SetName(const string &name)
 	m_name = name;
 }
 
-string
-PlayerData::GetPassword() const
-{
-	boost::mutex::scoped_lock lock(m_dataMutex);
-	return m_password;
-}
-
-void
-PlayerData::SetPassword(const string &password)
-{
-	boost::mutex::scoped_lock lock(m_dataMutex);
-	m_password = password;
-}
-
 std::string
 PlayerData::GetCountry() const
 {

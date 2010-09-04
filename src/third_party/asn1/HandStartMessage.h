@@ -13,19 +13,42 @@
 
 /* Including external dependencies */
 #include "NonZeroId.h"
-#include "Card.h"
 #include <NativeInteger.h>
+#include "PlainCards.h"
+#include "EncryptedCards.h"
+#include <constr_CHOICE.h>
 #include <constr_SEQUENCE.h>
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
+/* Dependencies */
+typedef enum yourCards_PR {
+	yourCards_PR_NOTHING,	/* No components present */
+	yourCards_PR_plainCards,
+	yourCards_PR_encryptedCards,
+	/* Extensions may appear below */
+	
+} yourCards_PR;
+
 /* HandStartMessage */
 typedef struct HandStartMessage {
 	NonZeroId_t	 gameId;
-	Card_t	 yourCard1;
-	Card_t	 yourCard2;
+	struct yourCards {
+		yourCards_PR present;
+		union HandStartMessage__yourCards_u {
+			PlainCards_t	 plainCards;
+			EncryptedCards_t	 encryptedCards;
+			/*
+			 * This type is extensible,
+			 * possible extensions are below.
+			 */
+		} choice;
+		
+		/* Context for parsing across buffer boundaries */
+		asn_struct_ctx_t _asn_ctx;
+	} yourCards;
 	long	 smallBlind;
 	/*
 	 * This type is extensible,

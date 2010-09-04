@@ -149,6 +149,13 @@ SessionData::AuthSetPassword(const std::string &password)
 {
 	if (m_authSession)
 		gsasl_property_set(m_authSession, GSASL_PASSWORD, password.c_str());
+	m_password = password;
+}
+
+string
+SessionData::AuthGetPassword() const
+{
+	return m_password;
 }
 
 string

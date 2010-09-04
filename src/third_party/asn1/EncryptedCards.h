@@ -5,27 +5,23 @@
  * 	`asn1c -fskeletons-copy`
  */
 
-#ifndef	_InitAckMessage_H_
-#define	_InitAckMessage_H_
+#ifndef	_EncryptedCards_H_
+#define	_EncryptedCards_H_
 
 
 #include <asn_application.h>
 
 /* Including external dependencies */
-#include "Guid.h"
-#include "NonZeroId.h"
-#include "AvatarHash.h"
+#include <OCTET_STRING.h>
 #include <constr_SEQUENCE.h>
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-/* InitAckMessage */
-typedef struct InitAckMessage {
-	Guid_t	 yourSessionId;
-	NonZeroId_t	 yourPlayerId;
-	AvatarHash_t	*yourAvatar	/* OPTIONAL */;
+/* EncryptedCards */
+typedef struct EncryptedCards {
+	OCTET_STRING_t	 encryptedCards;
 	/*
 	 * This type is extensible,
 	 * possible extensions are below.
@@ -33,13 +29,13 @@ typedef struct InitAckMessage {
 	
 	/* Context for parsing across buffer boundaries */
 	asn_struct_ctx_t _asn_ctx;
-} InitAckMessage_t;
+} EncryptedCards_t;
 
 /* Implementation */
-extern asn_TYPE_descriptor_t asn_DEF_InitAckMessage;
+extern asn_TYPE_descriptor_t asn_DEF_EncryptedCards;
 
 #ifdef __cplusplus
 }
 #endif
 
-#endif	/* _InitAckMessage_H_ */
+#endif	/* _EncryptedCards_H_ */

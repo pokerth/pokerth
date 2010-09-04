@@ -24,6 +24,7 @@
 #include <core/loghelper.h>
 #include <third_party/asn1/ChatCleanerMessage.h>
 
+#include <sstream>
 
 using namespace std;
 using boost::asio::ip::tcp;

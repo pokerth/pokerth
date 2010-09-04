@@ -7,10 +7,10 @@
 
 #include <asn_internal.h>
 
-#include "AvatarData.h"
+#include "EncryptedCards.h"
 
 static int
-memb_avatarBlock_constraint_1(asn_TYPE_descriptor_t *td, const void *sptr,
+memb_encryptedCards_constraint_1(asn_TYPE_descriptor_t *td, const void *sptr,
 			asn_app_constraint_failed_f *ctfailcb, void *app_key) {
 	const OCTET_STRING_t *st = (const OCTET_STRING_t *)sptr;
 	size_t size;
@@ -24,7 +24,7 @@ memb_avatarBlock_constraint_1(asn_TYPE_descriptor_t *td, const void *sptr,
 	
 	size = st->size;
 	
-	if((size >= 1 && size <= 256)) {
+	if((size >= 16 && size <= 64)) {
 		/* Constraint check succeeded */
 		return 0;
 	} else {
@@ -35,35 +35,35 @@ memb_avatarBlock_constraint_1(asn_TYPE_descriptor_t *td, const void *sptr,
 	}
 }
 
-static asn_TYPE_member_t asn_MBR_AvatarData_1[] = {
-	{ ATF_NOFLAGS, 0, offsetof(struct AvatarData, avatarBlock),
+static asn_TYPE_member_t asn_MBR_EncryptedCards_1[] = {
+	{ ATF_NOFLAGS, 0, offsetof(struct EncryptedCards, encryptedCards),
 		(ASN_TAG_CLASS_UNIVERSAL | (4 << 2)),
 		0,
 		&asn_DEF_OCTET_STRING,
-		memb_avatarBlock_constraint_1,
+		memb_encryptedCards_constraint_1,
 		0,	/* PER is not compiled, use -gen-PER */
 		0,
-		"avatarBlock"
+		"encryptedCards"
 		},
 };
-static ber_tlv_tag_t asn_DEF_AvatarData_tags_1[] = {
+static ber_tlv_tag_t asn_DEF_EncryptedCards_tags_1[] = {
 	(ASN_TAG_CLASS_UNIVERSAL | (16 << 2))
 };
-static asn_TYPE_tag2member_t asn_MAP_AvatarData_tag2el_1[] = {
-    { (ASN_TAG_CLASS_UNIVERSAL | (4 << 2)), 0, 0, 0 } /* avatarBlock at 167 */
+static asn_TYPE_tag2member_t asn_MAP_EncryptedCards_tag2el_1[] = {
+    { (ASN_TAG_CLASS_UNIVERSAL | (4 << 2)), 0, 0, 0 } /* encryptedCards at 440 */
 };
-static asn_SEQUENCE_specifics_t asn_SPC_AvatarData_specs_1 = {
-	sizeof(struct AvatarData),
-	offsetof(struct AvatarData, _asn_ctx),
-	asn_MAP_AvatarData_tag2el_1,
+static asn_SEQUENCE_specifics_t asn_SPC_EncryptedCards_specs_1 = {
+	sizeof(struct EncryptedCards),
+	offsetof(struct EncryptedCards, _asn_ctx),
+	asn_MAP_EncryptedCards_tag2el_1,
 	1,	/* Count of tags in the map */
 	0, 0, 0,	/* Optional elements (not needed) */
 	0,	/* Start extensions */
 	2	/* Stop extensions */
 };
-asn_TYPE_descriptor_t asn_DEF_AvatarData = {
-	"AvatarData",
-	"AvatarData",
+asn_TYPE_descriptor_t asn_DEF_EncryptedCards = {
+	"EncryptedCards",
+	"EncryptedCards",
 	SEQUENCE_free,
 	SEQUENCE_print,
 	SEQUENCE_constraint,
@@ -73,15 +73,15 @@ asn_TYPE_descriptor_t asn_DEF_AvatarData = {
 	SEQUENCE_encode_xer,
 	0, 0,	/* No PER support, use "-gen-PER" to enable */
 	0,	/* Use generic outmost tag fetcher */
-	asn_DEF_AvatarData_tags_1,
-	sizeof(asn_DEF_AvatarData_tags_1)
-		/sizeof(asn_DEF_AvatarData_tags_1[0]), /* 1 */
-	asn_DEF_AvatarData_tags_1,	/* Same as above */
-	sizeof(asn_DEF_AvatarData_tags_1)
-		/sizeof(asn_DEF_AvatarData_tags_1[0]), /* 1 */
+	asn_DEF_EncryptedCards_tags_1,
+	sizeof(asn_DEF_EncryptedCards_tags_1)
+		/sizeof(asn_DEF_EncryptedCards_tags_1[0]), /* 1 */
+	asn_DEF_EncryptedCards_tags_1,	/* Same as above */
+	sizeof(asn_DEF_EncryptedCards_tags_1)
+		/sizeof(asn_DEF_EncryptedCards_tags_1[0]), /* 1 */
 	0,	/* No PER visible constraints */
-	asn_MBR_AvatarData_1,
+	asn_MBR_EncryptedCards_1,
 	1,	/* Elements count */
-	&asn_SPC_AvatarData_specs_1	/* Additional specs */
+	&asn_SPC_EncryptedCards_specs_1	/* Additional specs */
 };
 

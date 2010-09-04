@@ -1463,7 +1463,6 @@ ServerLobbyThread::AuthChallenge(SessionWrapper session, const string &secret)
 {
 	if (session.sessionData && session.playerData && session.sessionData->AuthGetCurStepNum() == 1)
 	{
-		session.playerData->SetPassword(secret); // For later encryption of data.
 		session.sessionData->AuthSetPassword(secret); // For this auth session.
 		string outChallenge(session.sessionData->AuthGetNextOutMsg());
 

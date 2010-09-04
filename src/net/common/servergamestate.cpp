@@ -502,7 +502,7 @@ ServerGameStateInit::InternalProcessPacket(boost::shared_ptr<ServerGame> server,
 		if (session.playerData->IsGameAdmin()
 			&& netStartEvent->gameId == server->GetId()
 			&& (server->GetGameData().gameType != GAME_TYPE_RANKING // ranking games need to be full
-				|| server->GetGameData().maxNumberOfPlayers == server->GetCurNumberOfPlayers()))
+				|| server->GetGameData().maxNumberOfPlayers == (int)server->GetCurNumberOfPlayers()))
 		{
 			SendStartEvent(*server, netStartEvent->fillWithComputerPlayers);
 		}
@@ -1062,19 +1062,58 @@ ServerGameStateHand::StartNewHand(boost::shared_ptr<ServerGame> server)
 	{
 		// also send to inactive players, but not to disconnected players.
 		boost::shared_ptr<PlayerInterface> tmpPlayer = *i;
-		if (tmpPlayer->getNetSessionData().get())
+		if (tmpPlayer->getNetSessionData())
 		{
 			int cards[2];
+			bool errorFlag = false;
 			tmpPlayer->getMyCards(cards);
 
 			boost::shared_ptr<NetPacket> notifyCards(new NetPacket(NetPacket::Alloc));
 			notifyCards->GetMsg()->present = PokerTHMessage_PR_handStartMessage;
 			HandStartMessage_t *netHandStart = &notifyCards->GetMsg()->choice.handStartMessage;
 			netHandStart->gameId = server->GetId();
-			netHandStart->yourCard1 = cards[0];
-			netHandStart->yourCard2 = cards[1];
-			netHandStart->smallBlind = curGame.getCurrentHand()->getSmallBlind();
-			server->GetLobbyThread().GetSender().Send(tmpPlayer->getNetSessionData(), notifyCards);
+			string tmpPassword(tmpPlayer->getNetSessionData()->AuthGetPassword());
+			if (tmpPassword.empty()) // encrypt only if password is present
+			{
+				netHandStart->yourCards.present = yourCards_PR_plainCards;
+				PlainCards_t *plainCards = &netHandStart->yourCards.choice.plainCards;
+				plainCards->plainCard1 = cards[0];
+				plainCards->plainCard2 = cards[1];
+			}
+			else
+			{
+				ostringstream cardDataStream;
+				vector<unsigned char> tmpCipher;
+				cardDataStream
+						<< tmpPlayer->getMyUniqueID() << " "
+						<< server->GetId() << " "
+						<< curGame.getCurrentHandID() << " "
+						<< cards[0] << " "
+						<< cards[1];
+				if (CryptHelper::AES128Encrypt((const unsigned char *)tmpPassword.c_str(),
+												(unsigned)tmpPassword.size(),
+												cardDataStream.str(),
+												tmpCipher)
+					&& !tmpCipher.empty())
+				{
+					netHandStart->yourCards.present = yourCards_PR_encryptedCards;
+					EncryptedCards_t *encryptedCards = &netHandStart->yourCards.choice.encryptedCards;
+					OCTET_STRING_fromBuf(
+							&encryptedCards->encryptedCards,
+							(const char *)&tmpCipher[0],
+							(int)tmpCipher.size());
+				}
+				else
+				{
+					server->RemovePlayer(tmpPlayer->getMyUniqueID(), ERR_SOCK_INVALID_STATE);
+					errorFlag = true;
+				}
+			}
+			if (!errorFlag)
+			{
+				netHandStart->smallBlind = curGame.getCurrentHand()->getSmallBlind();
+				server->GetLobbyThread().GetSender().Send(tmpPlayer->getNetSessionData(), notifyCards);
+			}
 		}
 		++i;
 	}

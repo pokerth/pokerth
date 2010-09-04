@@ -28,6 +28,15 @@ static asn_TYPE_member_t asn_MBR_InitAckMessage_1[] = {
 		0,
 		"yourPlayerId"
 		},
+	{ ATF_POINTER, 1, offsetof(struct InitAckMessage, yourAvatar),
+		(ASN_TAG_CLASS_UNIVERSAL | (4 << 2)),
+		0,
+		&asn_DEF_AvatarHash,
+		0,	/* Defer constraints checking to the member type */
+		0,	/* PER is not compiled, use -gen-PER */
+		0,
+		"yourAvatar"
+		},
 };
 static ber_tlv_tag_t asn_DEF_InitAckMessage_tags_1[] = {
 	(ASN_TAG_CLASS_APPLICATION | (3 << 2)),
@@ -35,16 +44,17 @@ static ber_tlv_tag_t asn_DEF_InitAckMessage_tags_1[] = {
 };
 static asn_TYPE_tag2member_t asn_MAP_InitAckMessage_tag2el_1[] = {
     { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 0, 0, 1 }, /* yourSessionId at 141 */
-    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 1, -1, 0 } /* yourPlayerId at 143 */
+    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 1, -1, 0 }, /* yourPlayerId at 142 */
+    { (ASN_TAG_CLASS_UNIVERSAL | (4 << 2)), 2, 0, 0 } /* yourAvatar at 143 */
 };
 static asn_SEQUENCE_specifics_t asn_SPC_InitAckMessage_specs_1 = {
 	sizeof(struct InitAckMessage),
 	offsetof(struct InitAckMessage, _asn_ctx),
 	asn_MAP_InitAckMessage_tag2el_1,
-	2,	/* Count of tags in the map */
+	3,	/* Count of tags in the map */
 	0, 0, 0,	/* Optional elements (not needed) */
-	1,	/* Start extensions */
-	3	/* Stop extensions */
+	2,	/* Start extensions */
+	4	/* Stop extensions */
 };
 asn_TYPE_descriptor_t asn_DEF_InitAckMessage = {
 	"InitAckMessage",
@@ -66,7 +76,7 @@ asn_TYPE_descriptor_t asn_DEF_InitAckMessage = {
 		/sizeof(asn_DEF_InitAckMessage_tags_1[0]), /* 2 */
 	0,	/* No PER visible constraints */
 	asn_MBR_InitAckMessage_1,
-	2,	/* Elements count */
+	3,	/* Elements count */
 	&asn_SPC_InitAckMessage_specs_1	/* Additional specs */
 };
 

@@ -62,6 +62,7 @@ public:
 	bool AuthStep(int stepNum, const std::string &inData);
 	std::string AuthGetUser() const;
 	void AuthSetPassword(const std::string &password);
+	std::string AuthGetPassword() const;
 	std::string AuthGetNextOutMsg() const;
 	int AuthGetCurStepNum() const;
 
@@ -102,6 +103,7 @@ private:
 	Gsasl_session					*m_authSession;
 	int								m_curAuthStep;
 	std::string						m_nextGsaslMsg;
+	std::string						m_password;
 
 	mutable boost::mutex			m_dataMutex;
 };

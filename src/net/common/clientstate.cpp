@@ -1684,8 +1684,42 @@ ClientStateWaitHand::InternalHandlePacket(boost::shared_ptr<ClientThread> client
 		// These are the cards. Good luck.
 		HandStartMessage_t *netHandStart = &tmpPacket->GetMsg()->choice.handStartMessage;
 		int myCards[2];
-		myCards[0] = (int)netHandStart->yourCard1;
-		myCards[1] = (int)netHandStart->yourCard2;
+		string userPassword(client->GetContext().GetPassword());
+		if (netHandStart->yourCards.present == yourCards_PR_plainCards
+			&& userPassword.empty())
+		{
+			PlainCards_t *plainCards = &netHandStart->yourCards.choice.plainCards;
+			myCards[0] = (int)plainCards->plainCard1;
+			myCards[1] = (int)plainCards->plainCard2;
+		}
+		else if (netHandStart->yourCards.present == yourCards_PR_encryptedCards
+			&& !userPassword.empty())
+		{
+			EncryptedCards_t *encryptedCards = &netHandStart->yourCards.choice.encryptedCards;
+			string plainCards;
+			if (!CryptHelper::AES128Decrypt((const unsigned char *)userPassword.c_str(),
+											(unsigned)userPassword.size(),
+											encryptedCards->encryptedCards.buf,
+											encryptedCards->encryptedCards.size,
+											plainCards))
+			{
+				throw ClientException(__FILE__, __LINE__, ERR_NET_UNKNOWN_PLAYER_ID, 0);
+			}
+			istringstream cardDataStream(plainCards);
+			unsigned tmpPlayerId, tmpGameId;
+			int tmpHandNum;
+			cardDataStream >> tmpPlayerId;
+			cardDataStream >> tmpGameId;
+			cardDataStream >> tmpHandNum;
+			if (tmpPlayerId != client->GetGuiPlayerId()
+				|| tmpGameId != client->GetGameId()
+				|| tmpHandNum != client->GetGame()->getCurrentHandID())
+			{
+				throw ClientException(__FILE__, __LINE__, ERR_NET_UNKNOWN_PLAYER_ID, 0);
+			}
+			cardDataStream >> myCards[0];
+			cardDataStream >> myCards[1];
+		}
 		client->GetGame()->getSeatsList()->front()->setMyCards(myCards);
 		client->GetGame()->initHand();
 		client->GetGame()->getCurrentHand()->setSmallBlind(netHandStart->smallBlind);
