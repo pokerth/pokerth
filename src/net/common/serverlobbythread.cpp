@@ -58,13 +58,12 @@
 #define SERVER_UPDATE_LOGIN_LOCK_INTERVAL_MSEC		1000
 #define SERVER_PROCESS_SEND_INTERVAL_MSEC			10
 
-#define SERVER_INIT_LOGIN_CLIENT_LOCK_SEC			30      // Forbid a client to send an additional avatar.
+#define SERVER_INIT_LOGIN_CLIENT_LOCK_SEC			NetHelper::GetLoginLockSec()
 
 #define SERVER_INIT_SESSION_TIMEOUT_SEC				60
 #define SERVER_TIMEOUT_WARNING_REMAINING_SEC		60
 #define SERVER_SESSION_ACTIVITY_TIMEOUT_SEC			1800	// 30 min, MUST be > SERVER_TIMEOUT_WARNING_REMAINING_SEC
 #define SERVER_SESSION_FORCED_TIMEOUT_SEC			86400	// 1 day, should be quite large.
-
 
 #define SERVER_STATISTICS_FILE_NAME					"server_statistics.log"
 #define SERVER_STATISTICS_STR_TOTAL_PLAYERS			"TotalNumPlayersLoggedIn"
@@ -637,6 +636,12 @@ ServerLobbyThread::GetStartTime() const
 	return m_startTime;
 }
 
+ServerMode
+ServerLobbyThread::GetServerMode() const
+{
+	return m_mode;
+}
+
 SenderHelper &
 ServerLobbyThread::GetSender()
 {
@@ -989,22 +994,18 @@ ServerLobbyThread::HandleNetPacketInit(SessionWrapper session, const InitMessage
 	// Before any other processing, perform some denial of service and
 	// brute force attack prevention by checking whether the user recently sent an
 	// Init packet.
-	// This check is not performed on LAN servers.
-	if (m_mode != SERVER_MODE_LAN)
+	bool recentlySentInit = false;
 	{
-		bool recentlySentInit = false;
-		{
-			boost::mutex::scoped_lock lock(m_timerClientAddressMapMutex);
-			if (m_timerClientAddressMap.find(session.sessionData->GetClientAddr()) != m_timerClientAddressMap.end())
-				recentlySentInit = true;
-			else
-				m_timerClientAddressMap[session.sessionData->GetClientAddr()] = boost::timers::portable::microsec_timer();
-		}
-		if (recentlySentInit)
-		{
-			SessionError(session, ERR_NET_INIT_BLOCKED);
-			return;
-		}
+		boost::mutex::scoped_lock lock(m_timerClientAddressMapMutex);
+		if (m_timerClientAddressMap.find(session.sessionData->GetClientAddr()) != m_timerClientAddressMap.end())
+			recentlySentInit = true;
+		else
+			m_timerClientAddressMap[session.sessionData->GetClientAddr()] = boost::timers::portable::microsec_timer();
+	}
+	if (recentlySentInit)
+	{
+		SessionError(session, ERR_NET_INIT_BLOCKED);
+		return;
 	}
 
 	// Check the protocol version.

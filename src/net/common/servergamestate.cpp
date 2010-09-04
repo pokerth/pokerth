@@ -413,11 +413,15 @@ ServerGameStateInit::HandleNewSession(boost::shared_ptr<ServerGame> server, Sess
 void
 ServerGameStateInit::RegisterAdminTimer(boost::shared_ptr<ServerGame> server)
 {
-	server->GetStateTimer1().expires_from_now(
-		boost::posix_time::seconds(SERVER_GAME_ADMIN_TIMEOUT_SEC - SERVER_GAME_ADMIN_WARNING_REMAINING_SEC));
-	server->GetStateTimer1().async_wait(
-		boost::bind(
-			&ServerGameStateInit::TimerAdminWarning, this, boost::asio::placeholders::error, server));
+	// No admin timeout in LAN games.
+	if (server->GetLobbyThread().GetServerMode() != SERVER_MODE_LAN)
+	{
+		server->GetStateTimer1().expires_from_now(
+			boost::posix_time::seconds(SERVER_GAME_ADMIN_TIMEOUT_SEC - SERVER_GAME_ADMIN_WARNING_REMAINING_SEC));
+		server->GetStateTimer1().async_wait(
+			boost::bind(
+				&ServerGameStateInit::TimerAdminWarning, this, boost::asio::placeholders::error, server));
+	}
 }
 
 void
@@ -429,11 +433,15 @@ ServerGameStateInit::UnregisterAdminTimer(boost::shared_ptr<ServerGame> server)
 void
 ServerGameStateInit::RegisterAutoStartTimer(boost::shared_ptr<ServerGame> server)
 {
-	server->GetStateTimer2().expires_from_now(
-		boost::posix_time::seconds(SERVER_AUTOSTART_GAME_DELAY_SEC));
-	server->GetStateTimer2().async_wait(
-		boost::bind(
-			&ServerGameStateInit::TimerAutoStart, this, boost::asio::placeholders::error, server));
+	// No autostart in LAN games.
+	if (server->GetLobbyThread().GetServerMode() != SERVER_MODE_LAN)
+	{
+		server->GetStateTimer2().expires_from_now(
+			boost::posix_time::seconds(SERVER_AUTOSTART_GAME_DELAY_SEC));
+		server->GetStateTimer2().async_wait(
+			boost::bind(
+				&ServerGameStateInit::TimerAutoStart, this, boost::asio::placeholders::error, server));
+	}
 }
 
 void

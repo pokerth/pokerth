@@ -24,14 +24,19 @@
 #include <net/net_helper.h>
 
 unsigned
-GetMaxNumberOfAvatarFiles()
+NetHelper::GetMaxNumberOfAvatarFiles()
 {
 	return 2048;
 }
 
 unsigned
-GetMaxAvatarCacheAgeSec()
+NetHelper::GetMaxAvatarCacheAgeSec()
 {
 	return 2592000; // 1 Month
 }
 
+unsigned
+NetHelper::GetLoginLockSec()
+{
+	return 30;
+}

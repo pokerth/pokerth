@@ -103,6 +103,7 @@ public:
 
 	ServerStats GetStats() const;
 	boost::posix_time::ptime GetStartTime() const;
+	ServerMode GetServerMode() const;
 
 	SenderHelper &GetSender();
 	boost::asio::io_service &GetIOService();

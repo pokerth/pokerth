@@ -32,8 +32,8 @@
 #include <fstream>
 #include <cstring>
 
-#define MAX_NUMBER_OF_FILES			GetMaxNumberOfAvatarFiles()
-#define MAX_AVATAR_CACHE_AGE		GetMaxAvatarCacheAgeSec()
+#define MAX_NUMBER_OF_FILES			NetHelper::GetMaxNumberOfAvatarFiles()
+#define MAX_AVATAR_CACHE_AGE		NetHelper::GetMaxAvatarCacheAgeSec()
 
 #define PNG_HEADER "\x89\x50\x4e\x47\x0d\x0a\x1a\x0a"
 #define PNG_HEADER_SIZE (sizeof(PNG_HEADER) - 1)
