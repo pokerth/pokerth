@@ -89,7 +89,7 @@
      </item>
     </widget>
    </item>
-   <item row="0" column="2" rowspan="4">
+   <item row="0" column="2" rowspan="5">
     <widget class="QGroupBox" name="groupBox_GameInfo">
      <property name="enabled">
       <bool>false</bool>
@@ -175,7 +175,7 @@
            <x>0</x>
            <y>0</y>
            <width>248</width>
-           <height>170</height>
+           <height>178</height>
           </rect>
          </property>
          <layout class="QGridLayout" name="gridLayout">
@@ -846,7 +846,7 @@ p, li { white-space: pre-wrap; }
     <widget class="QComboBox" name="comboBox_nickListFilter">
      <item>
       <property name="text">
-       <string>No sorting / filtering</string>
+       <string>Sort alphabetically</string>
       </property>
      </item>
      <item>
