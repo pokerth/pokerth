@@ -33,7 +33,7 @@ startNetworkGameDialogImpl::startNetworkGameDialogImpl(startWindowImpl *parent, 
 #endif	
 	setupUi(this);
 
-	myChat = new ChatTools(lineEdit_ChatInput, myConfig, LAN_LOBBY_CHAT, textBrowser_ChatDisplay);
+        myChat = new ChatTools(lineEdit_ChatInput, myConfig, LAN_LOBBY_CHAT, textBrowser_ChatDisplay);
 
 	lineEdit_ChatInput->installEventFilter(this);
 
