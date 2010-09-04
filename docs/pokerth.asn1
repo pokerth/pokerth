@@ -431,9 +431,21 @@ GameStartMessage ::= [APPLICATION 22] SEQUENCE {
 	playerSeats					SEQUENCE SIZE(2..10) OF NonZeroId
 }
 
+PlainCards ::= SEQUENCE {
+	plainCard1					Card,
+	plainCard2					Card
+}
+
+EncryptedCards ::= SEQUENCE {
+	encryptedCards				OCTET STRING (SIZE(16..64))
+}
+
 HandStartMessage ::= [APPLICATION 23] SEQUENCE {
 	gameId						NonZeroId,
-	yourEncryptedCards			OCTET STRING (SIZE(16)),
+	yourCards					CHOICE {
+		plainCards				[0]	PlainCards,
+		encryptedCards			[1]	EncryptedCards
+	},
 	smallBlind					INTEGER(1..20001)
 }
 
