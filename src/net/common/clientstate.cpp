@@ -1713,7 +1713,7 @@ ClientStateWaitHand::InternalHandlePacket(boost::shared_ptr<ClientThread> client
 			cardDataStream >> tmpHandNum;
 			if (tmpPlayerId != client->GetGuiPlayerId()
 				|| tmpGameId != client->GetGameId()
-				|| tmpHandNum != client->GetGame()->getCurrentHandID())
+				|| tmpHandNum != client->GetGame()->getCurrentHandID() + 1)
 			{
 				throw ClientException(__FILE__, __LINE__, ERR_NET_UNKNOWN_PLAYER_ID, 0);
 			}
