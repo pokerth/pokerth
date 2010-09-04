@@ -1099,7 +1099,7 @@ ServerGameStateHand::StartNewHand(boost::shared_ptr<ServerGame> server)
 					netHandStart->yourCards.present = yourCards_PR_encryptedCards;
 					EncryptedCards_t *encryptedCards = &netHandStart->yourCards.choice.encryptedCards;
 					OCTET_STRING_fromBuf(
-							&encryptedCards->encryptedCards,
+							&encryptedCards->cardData,
 							(const char *)&tmpCipher[0],
 							(int)tmpCipher.size());
 				}
