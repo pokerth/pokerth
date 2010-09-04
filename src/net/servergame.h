@@ -139,7 +139,8 @@ protected:
 	ServerGameState &GetState();
 	void SetState(ServerGameState &newState);
 
-	boost::asio::deadline_timer &GetStateTimer();
+	boost::asio::deadline_timer &GetStateTimer1();
+	boost::asio::deadline_timer &GetStateTimer2();
 
 	ReceiverHelper &GetReceiver();
 
@@ -188,7 +189,8 @@ private:
 	unsigned			m_gameNum;
 	unsigned			m_curPetitionId;
 	boost::asio::deadline_timer m_voteKickTimer;
-	boost::asio::deadline_timer m_stateTimer;
+	boost::asio::deadline_timer m_stateTimer1;
+	boost::asio::deadline_timer m_stateTimer2;
 
 friend class ServerLobbyThread;
 friend class AbstractServerGameStateReceiving;

@@ -45,6 +45,7 @@ public:
 	virtual void Exit(boost::shared_ptr<ServerGame> server) = 0;
 
 	virtual void NotifyGameAdminChanged(boost::shared_ptr<ServerGame> server) = 0;
+	virtual void NotifySessionRemoved(boost::shared_ptr<ServerGame> server) = 0;
 
 	// Handling of a new session.
 	virtual void HandleNewSession(boost::shared_ptr<ServerGame> server, SessionWrapper session) = 0;
@@ -79,6 +80,7 @@ public:
 	virtual ~ServerGameStateInit();
 
 	virtual void NotifyGameAdminChanged(boost::shared_ptr<ServerGame> server);
+	virtual void NotifySessionRemoved(boost::shared_ptr<ServerGame> server);
 
 	virtual void HandleNewSession(boost::shared_ptr<ServerGame> server, SessionWrapper session);
 
@@ -87,6 +89,9 @@ protected:
 
 	void RegisterAdminTimer(boost::shared_ptr<ServerGame> server);
 	void UnregisterAdminTimer(boost::shared_ptr<ServerGame> server);
+	void RegisterAutoStartTimer(boost::shared_ptr<ServerGame> server);
+	void UnregisterAutoStartTimer(boost::shared_ptr<ServerGame> server);
+	void TimerAutoStart(const boost::system::error_code &ec, boost::shared_ptr<ServerGame> server);
 	void TimerAdminWarning(const boost::system::error_code &ec, boost::shared_ptr<ServerGame> server);
 	void TimerAdminTimeout(const boost::system::error_code &ec, boost::shared_ptr<ServerGame> server);
 	void SendStartEvent(ServerGame &server, bool fillWithComputerPlayers);
@@ -110,6 +115,7 @@ public:
 	virtual ~ServerGameStateStartGame();
 
 	virtual void NotifyGameAdminChanged(boost::shared_ptr<ServerGame> /*server*/) {}
+	virtual void NotifySessionRemoved(boost::shared_ptr<ServerGame> /*server*/) {}
 	virtual void HandleNewSession(boost::shared_ptr<ServerGame> server, SessionWrapper session);
 
 protected:
@@ -134,6 +140,7 @@ public:
 	virtual ~ServerGameStateHand();
 
 	virtual void NotifyGameAdminChanged(boost::shared_ptr<ServerGame> /*server*/) {}
+	virtual void NotifySessionRemoved(boost::shared_ptr<ServerGame> /*server*/) {}
 	virtual void HandleNewSession(boost::shared_ptr<ServerGame> server, SessionWrapper session);
 
 protected:
@@ -167,6 +174,7 @@ public:
 	virtual ~ServerGameStateWaitPlayerAction();
 
 	virtual void NotifyGameAdminChanged(boost::shared_ptr<ServerGame> /*server*/) {}
+	virtual void NotifySessionRemoved(boost::shared_ptr<ServerGame> /*server*/) {}
 	virtual void HandleNewSession(boost::shared_ptr<ServerGame> server, SessionWrapper session);
 
 protected:
@@ -190,6 +198,7 @@ public:
 	virtual ~ServerGameStateWaitNextHand();
 
 	virtual void NotifyGameAdminChanged(boost::shared_ptr<ServerGame> /*server*/) {}
+	virtual void NotifySessionRemoved(boost::shared_ptr<ServerGame> /*server*/) {}
 	virtual void HandleNewSession(boost::shared_ptr<ServerGame> server, SessionWrapper session);
 
 protected:
@@ -212,6 +221,7 @@ public:
 	virtual void Exit(boost::shared_ptr<ServerGame> /*server*/) {}
 
 	virtual void NotifyGameAdminChanged(boost::shared_ptr<ServerGame> /*server*/) {}
+	virtual void NotifySessionRemoved(boost::shared_ptr<ServerGame> /*server*/) {}
 
 	// Handling of a new session.
 	virtual void HandleNewSession(boost::shared_ptr<ServerGame> /*server*/, SessionWrapper /*session*/) {}

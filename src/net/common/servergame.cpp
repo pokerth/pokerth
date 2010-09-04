@@ -50,7 +50,8 @@ ServerGame::ServerGame(boost::shared_ptr<ServerLobbyThread> lobbyThread, u_int32
 : m_adminPlayerId(adminPlayerId), m_lobbyThread(lobbyThread), m_gui(gui),
   m_gameData(gameData), m_curState(NULL), m_id(id), m_dbId(DB_ID_INVALID), m_name(name),
   m_password(pwd), m_playerConfig(playerConfig), m_gameNum(1), m_curPetitionId(1),
-  m_voteKickTimer(lobbyThread->GetIOService()), m_stateTimer(lobbyThread->GetIOService())
+  m_voteKickTimer(lobbyThread->GetIOService()), m_stateTimer1(lobbyThread->GetIOService()),
+  m_stateTimer2(lobbyThread->GetIOService())
 {
 	LOG_VERBOSE("Game object " << GetId() << " created.");
 
@@ -758,6 +759,7 @@ ServerGame::RemovePlayerData(boost::shared_ptr<PlayerData> player, int reason)
 	}
 	GetSessionManager().SendToAllSessions(GetLobbyThread().GetSender(), thisPlayerLeft, SessionData::Game);
 
+	GetState().NotifySessionRemoved(shared_from_this());
 	GetLobbyThread().NotifyPlayerLeftGame(GetId(), player->GetUniqueId());
 }
 
@@ -891,9 +893,15 @@ ServerGame::SetState(ServerGameState &newState)
 }
 
 boost::asio::deadline_timer &
-ServerGame::GetStateTimer()
+ServerGame::GetStateTimer1()
 {
-	return m_stateTimer;
+	return m_stateTimer1;
+}
+
+boost::asio::deadline_timer &
+ServerGame::GetStateTimer2()
+{
+	return m_stateTimer2;
 }
 
 ReceiverHelper &
