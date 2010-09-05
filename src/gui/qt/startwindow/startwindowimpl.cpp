@@ -171,6 +171,7 @@ startWindowImpl::startWindowImpl(ConfigFile *c)
     if(!checkForFirstStartAfterUpdated().isEmpty()) {
         qDebug() << checkForFirstStartAfterUpdated();
     }
+
 }
 
 startWindowImpl::~startWindowImpl()

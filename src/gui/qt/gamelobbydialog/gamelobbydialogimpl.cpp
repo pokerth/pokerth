@@ -69,8 +69,8 @@ gameLobbyDialogImpl::gameLobbyDialogImpl(startWindowImpl *parent, ConfigFile *c)
     autoStartTimerOverlay = new QLabel(scrollArea_gameInfos);
     autoStartTimerOverlay->hide();
     autoStartTimerOverlay->setWordWrap(TRUE);
-    autoStartTimerOverlay->setMaximumWidth(180);
-    autoStartTimerOverlay->setMinimumWidth(180);
+    autoStartTimerOverlay->setMaximumWidth(190);
+    autoStartTimerOverlay->setMinimumWidth(190);
     autoStartTimerOverlay->setTextFormat(Qt::RichText);
     autoStartTimerOverlay->setAlignment(Qt::AlignCenter);
     autoStartTimerOverlay->setAutoFillBackground(TRUE);
@@ -1549,8 +1549,10 @@ void gameLobbyDialogImpl::showAutoStartTimer()
 {
 
     autoStartTimerOverlay->show();
-    autoStartTimerOverlay->setGeometry(((scrollArea_gameInfos->geometry().width()-180)/2), ((scrollArea_gameInfos->geometry().height()-50)/2), 180, 50);
-    autoStartTimerOverlay->setText(tr("The game will start in<br><b>%1</b> seconds.").arg(6));
+    autoStartTimerOverlay->setGeometry(((scrollArea_gameInfos->geometry().width()-190)/2), ((scrollArea_gameInfos->geometry().height()-50)/2), 190, 50);
+
+    QString string(tr("The game will start in<br><b>%1</b> seconds.").arg(6));
+    autoStartTimerOverlay->setText("<span style='font-size:9pt;'>"+string+"</span>");
     autoStartTimerCounter = 6;
     autoStartTimer->start(1000);
 
@@ -1560,7 +1562,8 @@ void gameLobbyDialogImpl::updateAutoStartTimer()
 {
     --autoStartTimerCounter;
     if(autoStartTimerCounter) {
-        autoStartTimerOverlay->setText(tr("The game will start in<br><b>%1</b> seconds.").arg(autoStartTimerCounter));
+        QString string(tr("The game will start in<br><b>%1</b> seconds.").arg(autoStartTimerCounter));
+        autoStartTimerOverlay->setText("<span style='font-size:9pt;'>"+string+"</span>");
     }
     else {
         autoStartTimer->stop();
