@@ -148,8 +148,8 @@ static ber_tlv_tag_t asn_DEF_StatisticsData_tags_1[] = {
 	(ASN_TAG_CLASS_UNIVERSAL | (16 << 2))
 };
 static asn_TYPE_tag2member_t asn_MAP_StatisticsData_tag2el_1[] = {
-    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 1, 0, 0 }, /* statisticsValue at 639 */
-    { (ASN_TAG_CLASS_UNIVERSAL | (10 << 2)), 0, 0, 0 } /* statisticsType at 636 */
+    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 1, 0, 0 }, /* statisticsValue at 640 */
+    { (ASN_TAG_CLASS_UNIVERSAL | (10 << 2)), 0, 0, 0 } /* statisticsType at 637 */
 };
 static asn_SEQUENCE_specifics_t asn_SPC_StatisticsData_specs_1 = {
 	sizeof(struct StatisticsData),

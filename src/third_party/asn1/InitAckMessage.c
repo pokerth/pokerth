@@ -43,9 +43,9 @@ static ber_tlv_tag_t asn_DEF_InitAckMessage_tags_1[] = {
 	(ASN_TAG_CLASS_UNIVERSAL | (16 << 2))
 };
 static asn_TYPE_tag2member_t asn_MAP_InitAckMessage_tag2el_1[] = {
-    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 0, 0, 1 }, /* yourSessionId at 141 */
-    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 1, -1, 0 }, /* yourPlayerId at 142 */
-    { (ASN_TAG_CLASS_UNIVERSAL | (4 << 2)), 2, 0, 0 } /* yourAvatar at 143 */
+    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 0, 0, 1 }, /* yourSessionId at 142 */
+    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 1, -1, 0 }, /* yourPlayerId at 143 */
+    { (ASN_TAG_CLASS_UNIVERSAL | (4 << 2)), 2, 0, 0 } /* yourAvatar at 144 */
 };
 static asn_SEQUENCE_specifics_t asn_SPC_InitAckMessage_specs_1 = {
 	sizeof(struct InitAckMessage),

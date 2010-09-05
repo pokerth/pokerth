@@ -451,6 +451,15 @@ static asn_TYPE_member_t asn_MBR_PokerTHMessage_1[] = {
 		0,
 		"resetTimeoutMessage"
 		},
+	{ ATF_NOFLAGS, 0, offsetof(struct PokerTHMessage, choice.afkWarningMessage),
+		(ASN_TAG_CLASS_APPLICATION | (134 << 2)),
+		0,
+		&asn_DEF_AfkWarningMessage,
+		0,	/* Defer constraints checking to the member type */
+		0,	/* PER is not compiled, use -gen-PER */
+		0,
+		"afkWarningMessage"
+		},
 	{ ATF_NOFLAGS, 0, offsetof(struct PokerTHMessage, choice.errorMessage),
 		(ASN_TAG_CLASS_APPLICATION | (255 << 2)),
 		0,
@@ -511,7 +520,8 @@ static asn_TYPE_tag2member_t asn_MAP_PokerTHMessage_tag2el_1[] = {
     { (ASN_TAG_CLASS_APPLICATION | (131 << 2)), 46, 0, 0 }, /* dialogMessage at 73 */
     { (ASN_TAG_CLASS_APPLICATION | (132 << 2)), 47, 0, 0 }, /* timeoutWarningMessage at 74 */
     { (ASN_TAG_CLASS_APPLICATION | (133 << 2)), 48, 0, 0 }, /* resetTimeoutMessage at 75 */
-    { (ASN_TAG_CLASS_APPLICATION | (255 << 2)), 49, 0, 0 } /* errorMessage at 77 */
+    { (ASN_TAG_CLASS_APPLICATION | (134 << 2)), 49, 0, 0 }, /* afkWarningMessage at 76 */
+    { (ASN_TAG_CLASS_APPLICATION | (255 << 2)), 50, 0, 0 } /* errorMessage at 78 */
 };
 static asn_CHOICE_specifics_t asn_SPC_PokerTHMessage_specs_1 = {
 	sizeof(struct PokerTHMessage),
@@ -519,9 +529,9 @@ static asn_CHOICE_specifics_t asn_SPC_PokerTHMessage_specs_1 = {
 	offsetof(struct PokerTHMessage, present),
 	sizeof(((struct PokerTHMessage *)0)->present),
 	asn_MAP_PokerTHMessage_tag2el_1,
-	50,	/* Count of tags in the map */
+	51,	/* Count of tags in the map */
 	0,
-	50	/* Extensions start */
+	51	/* Extensions start */
 };
 asn_TYPE_descriptor_t asn_DEF_PokerTHMessage = {
 	"PokerTHMessage",
@@ -541,7 +551,7 @@ asn_TYPE_descriptor_t asn_DEF_PokerTHMessage = {
 	0,	/* No tags (count) */
 	0,	/* No PER visible constraints */
 	asn_MBR_PokerTHMessage_1,
-	50,	/* Elements count */
+	51,	/* Elements count */
 	&asn_SPC_PokerTHMessage_specs_1	/* Additional specs */
 };
 

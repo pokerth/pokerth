@@ -61,6 +61,7 @@
 #include "DialogMessage.h"
 #include "TimeoutWarningMessage.h"
 #include "ResetTimeoutMessage.h"
+#include "AfkWarningMessage.h"
 #include "ErrorMessage.h"
 #include <constr_CHOICE.h>
 
@@ -120,6 +121,7 @@ typedef enum PokerTHMessage_PR {
 	PokerTHMessage_PR_dialogMessage,
 	PokerTHMessage_PR_timeoutWarningMessage,
 	PokerTHMessage_PR_resetTimeoutMessage,
+	PokerTHMessage_PR_afkWarningMessage,
 	PokerTHMessage_PR_errorMessage,
 	/* Extensions may appear below */
 	
@@ -178,6 +180,7 @@ typedef struct PokerTHMessage {
 		DialogMessage_t	 dialogMessage;
 		TimeoutWarningMessage_t	 timeoutWarningMessage;
 		ResetTimeoutMessage_t	 resetTimeoutMessage;
+		AfkWarningMessage_t	 afkWarningMessage;
 		ErrorMessage_t	 errorMessage;
 		/*
 		 * This type is extensible,

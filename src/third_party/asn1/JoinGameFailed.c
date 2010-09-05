@@ -155,7 +155,7 @@ static ber_tlv_tag_t asn_DEF_JoinGameFailed_tags_1[] = {
 	(ASN_TAG_CLASS_UNIVERSAL | (16 << 2))
 };
 static asn_TYPE_tag2member_t asn_MAP_JoinGameFailed_tag2el_1[] = {
-    { (ASN_TAG_CLASS_UNIVERSAL | (10 << 2)), 0, 0, 0 } /* joinGameFailureReason at 306 */
+    { (ASN_TAG_CLASS_UNIVERSAL | (10 << 2)), 0, 0, 0 } /* joinGameFailureReason at 307 */
 };
 static asn_SEQUENCE_specifics_t asn_SPC_JoinGameFailed_specs_1 = {
 	sizeof(struct JoinGameFailed),

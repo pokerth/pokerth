@@ -59,8 +59,8 @@ static ber_tlv_tag_t asn_DEF_AuthenticatedLogin_tags_1[] = {
 	(ASN_TAG_CLASS_UNIVERSAL | (16 << 2))
 };
 static asn_TYPE_tag2member_t asn_MAP_AuthenticatedLogin_tag2el_1[] = {
-    { (ASN_TAG_CLASS_UNIVERSAL | (4 << 2)), 0, 0, 1 }, /* clientUserData at 113 */
-    { (ASN_TAG_CLASS_UNIVERSAL | (4 << 2)), 1, -1, 0 } /* avatar at 114 */
+    { (ASN_TAG_CLASS_UNIVERSAL | (4 << 2)), 0, 0, 1 }, /* clientUserData at 114 */
+    { (ASN_TAG_CLASS_UNIVERSAL | (4 << 2)), 1, -1, 0 } /* avatar at 115 */
 };
 static asn_SEQUENCE_specifics_t asn_SPC_AuthenticatedLogin_specs_1 = {
 	sizeof(struct AuthenticatedLogin),

@@ -73,6 +73,7 @@ PokerTHMessage ::= CHOICE {
 	dialogMessage				DialogMessage,
 	timeoutWarningMessage		TimeoutWarningMessage,
 	resetTimeoutMessage			ResetTimeoutMessage,
+	afkWarningMessage			AfkWarningMessage,
 	errorMessage				ErrorMessage
 }
 
@@ -691,6 +692,10 @@ TimeoutWarningMessage ::= [APPLICATION 132] SEQUENCE {
 }
 
 ResetTimeoutMessage ::= [APPLICATION 133] SEQUENCE {
+}
+
+AfkWarningMessage ::= [APPLICATION 134] SEQUENCE {
+	remainingTimeouts			INTEGER
 }
 
 ErrorMessage ::= [APPLICATION 255] SEQUENCE {
