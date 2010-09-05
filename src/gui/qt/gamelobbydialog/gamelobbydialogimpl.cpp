@@ -800,6 +800,13 @@ void gameLobbyDialogImpl::checkPlayerQuantity() {
             blinkingStartButtonAnimation();
         }
     }
+
+    //general actions
+    if(treeWidget_connectedPlayers->topLevelItemCount() < treeWidget_connectedPlayers->headerItem()->data(0, Qt::UserRole).toInt()) {
+        autoStartTimerOverlay->hide();
+        autoStartTimer->stop();
+    }
+
 }
 
 void gameLobbyDialogImpl::blinkingStartButtonAnimation() {
@@ -1157,6 +1164,10 @@ void gameLobbyDialogImpl::leaveGame() {
 
     assert(mySession);
     mySession->sendLeaveCurrentGame();
+
+    //stop autoStartTimerOverlay
+    autoStartTimerOverlay->hide();
+    autoStartTimer->stop();
 }
 
 void gameLobbyDialogImpl::kickPlayer() {
