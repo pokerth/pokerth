@@ -179,8 +179,11 @@ public:
 	void setNetSessionData(boost::shared_ptr<SessionData> session);
 	boost::shared_ptr<SessionData> getNetSessionData();
 
-        bool checkIfINeedToShowCards();
-	
+	unsigned getActionTimeoutCounter() const;
+	void incrementActionTimeoutCounter();
+	void resetActionTimeoutCounter();
+
+	bool checkIfINeedToShowCards();
 
 private:
 
@@ -227,6 +230,7 @@ private:
 	
 	bool myWinnerState;
 
+	unsigned m_actionTimeoutCounter;
 	boost::shared_ptr<SessionData> myNetSessionData;
 };
 

@@ -68,6 +68,9 @@ using namespace std;
 #define SERVER_VOTE_KICK_TIMEOUT_SEC				30
 #define SERVER_LOOP_DELAY_MSEC						50
 
+#define SERVER_WARNING_ACTION_TIMEOUT_THRESHOLD		6
+#define SERVER_KICK_ACTION_TIMEOUT_REMAINING		2
+
 // Helper functions
 
 static void SendPlayerAction(ServerGame &server, boost::shared_ptr<PlayerInterface> player)
@@ -1345,7 +1348,7 @@ ServerGameStateWaitPlayerAction::TimerTimeout(const boost::system::error_code &e
 			Game &curGame = server->GetGame();
 			// Retrieve current player.
 			boost::shared_ptr<PlayerInterface> curPlayer = curGame.getCurrentPlayer();
-			if (!curPlayer.get())
+			if (!curPlayer)
 				throw ServerException(__FILE__, __LINE__, ERR_NET_NO_CURRENT_PLAYER, 0);
 
 			// Player did not act fast enough. Act for him.
@@ -1354,6 +1357,24 @@ ServerGameStateWaitPlayerAction::TimerTimeout(const boost::system::error_code &e
 			else
 				PerformPlayerAction(*server, curPlayer, PLAYER_ACTION_FOLD, 0);
 
+			curPlayer->incrementActionTimeoutCounter();
+
+			if (server->GetGameData().gameType == GAME_TYPE_RANKING
+				&& server->GetGameData().playerActionTimeoutSec >= 10)
+			{
+				if (curPlayer->getActionTimeoutCounter() == SERVER_WARNING_ACTION_TIMEOUT_THRESHOLD)
+				{
+					boost::shared_ptr<NetPacket> warning(new NetPacket(NetPacket::Alloc));
+					warning->GetMsg()->present = PokerTHMessage_PR_afkWarningMessage;
+					AfkWarningMessage_t *netWarning = &warning->GetMsg()->choice.afkWarningMessage;
+					netWarning->remainingTimeouts = SERVER_KICK_ACTION_TIMEOUT_REMAINING;
+					server->GetLobbyThread().GetSender().Send(curPlayer->getNetSessionData(), warning);
+				}
+				else if (curPlayer->getActionTimeoutCounter() > SERVER_WARNING_ACTION_TIMEOUT_THRESHOLD + SERVER_KICK_ACTION_TIMEOUT_REMAINING)
+				{
+					server->InternalKickPlayer(curPlayer->getMyUniqueID());
+				}
+			}
 			server->SetState(ServerGameStateHand::Instance());
 		}
 		catch (const PokerTHException &e)

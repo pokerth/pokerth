@@ -749,6 +749,11 @@ AbstractClientStateReceiving::HandlePacket(boost::shared_ptr<ClientThread> clien
 		TimeoutWarningMessage_t *tmpTimeout = &tmpPacket->GetMsg()->choice.timeoutWarningMessage;
 		client->GetCallback().SignalNetClientShowTimeoutDialog((NetTimeoutReason)tmpTimeout->timeoutReason, tmpTimeout->remainingSeconds);
 	}
+	else if (tmpPacket->GetMsg()->present == PokerTHMessage_PR_afkWarningMessage)
+	{
+		AfkWarningMessage_t *tmpAfk = &tmpPacket->GetMsg()->choice.afkWarningMessage;
+		client->GetCallback().SignalNetClientWarningAutoFoldInRankingGame(tmpAfk->remainingTimeouts);
+	}
 	else if (tmpPacket->GetMsg()->present == PokerTHMessage_PR_chatMessage)
 	{
 		// Chat message - display it in the GUI.

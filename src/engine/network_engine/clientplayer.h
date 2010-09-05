@@ -71,8 +71,8 @@ public:
 	void setMyActiveStatus(bool theValue);
 	bool getMyActiveStatus() const;
 
-        void setMyStayOnTableStatus(bool theValue);
-        bool getMyStayOnTableStatus() const;
+	void setMyStayOnTableStatus(bool theValue);
+	bool getMyStayOnTableStatus() const;
 
 	void setMyCards(int* theValue);
 	void getMyCards(int* theValue) const;
@@ -134,6 +134,13 @@ public:
 	void setNetSessionData(boost::shared_ptr<SessionData> session);
 	boost::shared_ptr<SessionData> getNetSessionData();
 
+	// unused as client
+	unsigned getActionTimeoutCounter() const {return 0;}
+	void incrementActionTimeoutCounter() {}
+	void resetActionTimeoutCounter() {}
+
+	bool checkIfINeedToShowCards();
+
 private:
 	mutable boost::recursive_mutex m_syncMutex;
 
@@ -181,8 +188,6 @@ private:
 	bool myWinnerState;
 
 	boost::shared_ptr<SessionData> myNetSessionData;
-
-        bool checkIfINeedToShowCards();
 };
 
 #endif
