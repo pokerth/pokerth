@@ -1,3 +1,13 @@
+2010-09-05 version 0.8-beta3:
+- All ranking games require 10 players now
+- Lobby: sort by country or filter idle players
+- Lobby: countdown when internet game starts automatically
+- Store all places for every ranking game in the database (server)
+- Encrypt own cards which are sent at the beginning of the hand - only applicable to registered users
+- AFK players are now kicked from ranking games after some timeouts if they do not enable autocheck/fold.
+- Bad game names can now be blocked (server)
+- Bugfixes
+
 2010-08-15 version 0.8-beta2:
 - Allow to show own cards if human player is the last not folded player (also without showdown)
 - Disallow any kind of kicking in ranking games
