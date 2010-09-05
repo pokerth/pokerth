@@ -863,8 +863,15 @@ void startWindowImpl::networkNotification(int notificationId)
                                QMessageBox::Close); }
         break;
     case NTF_NET_JOIN_GAME_NAME_IN_USE:
-	case NTF_NET_JOIN_GAME_BAD_NAME:
-        {   changeContentDialogImpl dialog(this, myConfig, CHANGE_INET_GAME_NAME);
+        {   changeContentDialogImpl dialog(this, myConfig, CHANGE_INET_BAD_GAME_NAME);
+            dialog.exec();
+            if(dialog.result() == QDialog::Accepted) {
+                myGameLobbyDialog->pushButton_CreateGame->click();
+            }
+        }
+        break;
+    case NTF_NET_JOIN_GAME_BAD_NAME:
+        {   changeContentDialogImpl dialog(this, myConfig, CHANGE_INET_GAME_NAME_IN_USE);
             dialog.exec();
             if(dialog.result() == QDialog::Accepted) {
                 myGameLobbyDialog->pushButton_CreateGame->click();

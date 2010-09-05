@@ -26,7 +26,7 @@
 using namespace std;
 
 gameLobbyDialogImpl::gameLobbyDialogImpl(startWindowImpl *parent, ConfigFile *c)
-    : QDialog(parent), myW(NULL), myStartWindow(parent), myConfig(c), currentGameName(""), myPlayerId(0), isGameAdministrator(false), inGame(false), guestMode(false), blinkingButtonAnimationState(true), myChat(NULL), keyUpCounter(0), infoMsgToShowId(0), currentInvitationGameId(0), inviteDialogIsCurrentlyShown(false)
+    : QDialog(parent), myW(NULL), myStartWindow(parent), myConfig(c), currentGameName(""), myPlayerId(0), isGameAdministrator(false), inGame(false), guestMode(false), blinkingButtonAnimationState(true), myChat(NULL), keyUpCounter(0), infoMsgToShowId(0), currentInvitationGameId(0), inviteDialogIsCurrentlyShown(false), autoStartTimerCounter(0)
 {
 
 #ifdef __APPLE__
@@ -50,6 +50,8 @@ gameLobbyDialogImpl::gameLobbyDialogImpl(startWindowImpl *parent, ConfigFile *c)
     waitStartGameMsgBoxTimer->setSingleShot(TRUE);
     blinkingButtonAnimationTimer = new QTimer(this);
     blinkingButtonAnimationTimer->setInterval(1000);
+    autoStartTimer = new QTimer(this);
+    autoStartTimer->setInterval(1000);
     showInfoMsgBoxTimer = new QTimer(this);
     showInfoMsgBoxTimer->setSingleShot(TRUE);
 
@@ -62,6 +64,20 @@ gameLobbyDialogImpl::gameLobbyDialogImpl(startWindowImpl *parent, ConfigFile *c)
     groupBox_GameInfo->setEnabled(false);
     disabledStartButtonColor = pushButton_StartGame->palette().button().color();
     disabledStartButtonTextColor = pushButton_StartGame->palette().buttonText().color();
+
+    //prepare overlay
+    autoStartTimerOverlay = new QLabel(scrollArea_gameInfos);
+    autoStartTimerOverlay->hide();
+    autoStartTimerOverlay->setWordWrap(TRUE);
+    autoStartTimerOverlay->setMaximumWidth(180);
+    autoStartTimerOverlay->setMinimumWidth(180);
+    autoStartTimerOverlay->setTextFormat(Qt::RichText);
+    autoStartTimerOverlay->setAlignment(Qt::AlignCenter);
+    autoStartTimerOverlay->setAutoFillBackground(TRUE);
+    autoStartTimerOverlay->setFrameStyle(QFrame::StyledPanel);
+    QPalette p;
+    p.setColor(QPalette::Background, QColor(255, 255, 255, 210));
+    autoStartTimerOverlay->setPalette(p);
 
 
     myGameListModel = new QStandardItemModel(this);
@@ -125,6 +141,7 @@ gameLobbyDialogImpl::gameLobbyDialogImpl(startWindowImpl *parent, ConfigFile *c)
     connect( lineEdit_ChatInput, SIGNAL( textEdited (QString) ), myChat, SLOT( setChatTextEdited() ) );
     connect( waitStartGameMsgBoxTimer, SIGNAL(timeout()), this, SLOT( showWaitStartGameMsgBox() ));
     connect( blinkingButtonAnimationTimer, SIGNAL(timeout()), this, SLOT( blinkingStartButtonAnimation() ));
+    connect( autoStartTimer, SIGNAL(timeout()), this, SLOT( updateAutoStartTimer() ));
     connect( showInfoMsgBoxTimer, SIGNAL(timeout()), this, SLOT( showInfoMsgBox() ));
     connect( comboBox_gameListFilter, SIGNAL(currentIndexChanged(int)), this, SLOT(changeGameListFilter(int)));
     connect( comboBox_nickListFilter, SIGNAL(currentIndexChanged(int)), this, SLOT(changeNickListFilter(int)));
@@ -137,10 +154,12 @@ gameLobbyDialogImpl::gameLobbyDialogImpl(startWindowImpl *parent, ConfigFile *c)
     lineEdit_ChatInput->installEventFilter(this);
 
     clearDialog();
+
 }
 
 void gameLobbyDialogImpl::exec()
 {
+
     if(myConfig->readConfigInt("UseLobbyChat"))  {
         groupBox_lobbyChat->show();
     }
@@ -162,7 +181,6 @@ void gameLobbyDialogImpl::exec()
 
     waitStartGameMsgBoxTimer->stop();
     waitStartGameMsgBox->hide();
-
 }
 
 
@@ -856,6 +874,7 @@ void gameLobbyDialogImpl::addConnectedPlayer(unsigned playerId, QString playerNa
         }
         else {
             myW->getMySDLPlayer()->playSound("onlinegameready", 0);
+            showAutoStartTimer();
         }
     }
 
@@ -1526,3 +1545,25 @@ void gameLobbyDialogImpl::searchForPlayerRegExpChanged()
     myNickListSortFilterProxyModel->setFilterRegExp(regExp);
 }
 
+void gameLobbyDialogImpl::showAutoStartTimer()
+{
+
+    autoStartTimerOverlay->show();
+    autoStartTimerOverlay->setGeometry(((scrollArea_gameInfos->geometry().width()-180)/2), ((scrollArea_gameInfos->geometry().height()-50)/2), 180, 50);
+    autoStartTimerOverlay->setText(tr("The game will start in<br><b>%1</b> seconds.").arg(6));
+    autoStartTimerCounter = 6;
+    autoStartTimer->start(1000);
+
+}
+
+void gameLobbyDialogImpl::updateAutoStartTimer()
+{
+    --autoStartTimerCounter;
+    if(autoStartTimerCounter) {
+        autoStartTimerOverlay->setText(tr("The game will start in<br><b>%1</b> seconds.").arg(autoStartTimerCounter));
+    }
+    else {
+        autoStartTimer->stop();
+        autoStartTimerOverlay->hide();
+    }
+}

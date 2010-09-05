@@ -113,6 +113,8 @@ public slots:
     void putPlayerOnIgnoreList();
     bool playerIsOnIgnoreList(unsigned playerid);
     void searchForPlayerRegExpChanged();
+    void showAutoStartTimer();
+    void updateAutoStartTimer();
 
 private:
 
@@ -132,6 +134,7 @@ private:
     QTimer *waitStartGameMsgBoxTimer;
     QTimer *blinkingButtonAnimationTimer;
     QTimer *showInfoMsgBoxTimer;
+    QTimer *autoStartTimer;
     bool blinkingButtonAnimationState;
     QColor defaultStartButtonColor;
     QColor defaultStartButtonTextColor;
@@ -154,6 +157,9 @@ private:
     QStandardItemModel *myNickListModel;
     QItemSelectionModel *myNickListSelectionModel;
     MyNickListSortFilterProxyModel *myNickListSortFilterProxyModel;
+
+    QLabel *autoStartTimerOverlay;
+    int autoStartTimerCounter;
 
 protected:
     bool eventFilter(QObject *obj, QEvent *event);
