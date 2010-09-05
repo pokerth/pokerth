@@ -1959,6 +1959,9 @@ ServerLobbyThread::SendJoinGameFailed(boost::shared_ptr<SessionData> s, unsigned
 		case NTF_NET_JOIN_GAME_NAME_IN_USE :
 			joinFailed->joinGameFailureReason = joinGameFailureReason_gameNameInUse;
 			break;
+		case NTF_NET_JOIN_GAME_BAD_NAME :
+			joinFailed->joinGameFailureReason = joinGameFailureReason_badGameName;
+			break;
 		case NTF_NET_JOIN_INVALID_SETTINGS :
 			joinFailed->joinGameFailureReason = joinGameFailureReason_invalidSettings;
 			break;

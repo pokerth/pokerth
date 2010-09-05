@@ -1397,6 +1397,9 @@ ClientStateWaitJoin::InternalHandlePacket(boost::shared_ptr<ClientThread> client
 				case joinGameFailureReason_gameNameInUse :
 					failureCode = NTF_NET_JOIN_GAME_NAME_IN_USE;
 					break;
+				case joinGameFailureReason_badGameName :
+					failureCode = NTF_NET_JOIN_GAME_BAD_NAME;
+					break;
 				case joinGameFailureReason_invalidSettings :
 					failureCode = NTF_NET_JOIN_INVALID_SETTINGS;
 					break;
