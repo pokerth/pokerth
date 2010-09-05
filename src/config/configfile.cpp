@@ -50,7 +50,7 @@ ConfigFile::ConfigFile(char *argv0, bool readonly) : noWriteAccess(readonly)
     myConfigState = OK;
 
     // !!!! Revisionsnummer der Configdefaults !!!!!
-        configRev = 85;
+	configRev = 86;
 
     //standard defaults
     logOnOffDefault = "1";
@@ -280,6 +280,7 @@ ConfigFile::ConfigFile(char *argv0, bool readonly) : noWriteAccess(readonly)
 	configList.push_back(ConfigInfo("DBServerPassword", CONFIG_TYPE_STRING, ""));
 	configList.push_back(ConfigInfo("DBServerDatabaseName", CONFIG_TYPE_STRING, "pokerth"));
 	configList.push_back(ConfigInfo("DBServerEncryptionKey", CONFIG_TYPE_STRING, ""));
+	configList.push_back(ConfigInfo("GameNameBadWordList", CONFIG_TYPE_STRING_LIST, "regex"));
 
     //fill tempList firstTime
     configBufferList = configList;

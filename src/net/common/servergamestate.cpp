@@ -145,23 +145,23 @@ static void PerformPlayerAction(ServerGame &server, boost::shared_ptr<PlayerInte
 
 		player->setMySet(bet);
 
-                // update minimumRaise and lastActionPlayer
+		// update minimumRaise and lastActionPlayer
 		switch(action) {
 			case PLAYER_ACTION_BET: {
 				curGame.getCurrentHand()->getCurrentBeRo()->setMinimumRaise(bet);
-                                curGame.getCurrentHand()->setLastActionPlayer(player->getMyUniqueID());
+				curGame.getCurrentHand()->setLastActionPlayer(player->getMyUniqueID());
 			} break;
 			case PLAYER_ACTION_RAISE: {
 				curGame.getCurrentHand()->getCurrentBeRo()->setMinimumRaise(player->getMySet() - curGame.getCurrentHand()->getCurrentBeRo()->getHighestSet());
-                                curGame.getCurrentHand()->setLastActionPlayer(player->getMyUniqueID());
+				curGame.getCurrentHand()->setLastActionPlayer(player->getMyUniqueID());
 			} break;
 			case PLAYER_ACTION_ALLIN: {
 				if(player->getMySet() - curGame.getCurrentHand()->getCurrentBeRo()->getHighestSet() > curGame.getCurrentHand()->getCurrentBeRo()->getMinimumRaise()) {
 					curGame.getCurrentHand()->getCurrentBeRo()->setMinimumRaise(player->getMySet() - curGame.getCurrentHand()->getCurrentBeRo()->getHighestSet());
 				}
-                                if(player->getMySet() - curGame.getCurrentHand()->getCurrentBeRo()->getHighestSet() > 0) {
-                                    curGame.getCurrentHand()->setLastActionPlayer(player->getMyUniqueID());
-                                }
+				if(player->getMySet() - curGame.getCurrentHand()->getCurrentBeRo()->getHighestSet() > 0) {
+					curGame.getCurrentHand()->setLastActionPlayer(player->getMyUniqueID());
+				}
 			} break;
 			default: {
 			}

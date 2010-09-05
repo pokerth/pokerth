@@ -26,6 +26,7 @@
 #include <boost/asio.hpp>
 #include <boost/enable_shared_from_this.hpp>
 #include <map>
+#include <list>
 #include <string>
 
 class ServerBanManager : public boost::enable_shared_from_this<ServerBanManager>
@@ -44,7 +45,11 @@ public:
 	bool IsPlayerBanned(const std::string &name) const;
 	bool IsIPAddressBanned(const std::string &ipAddress) const;
 
+	void InitGameNameBadWordList(const std::list<std::string> &badWordList);
+	bool IsBadGameName(const std::string &name) const;
+
 protected:
+
 	struct TimedPlayerBan
 	{
 		boost::shared_ptr<boost::asio::deadline_timer> timer;
@@ -57,18 +62,20 @@ protected:
 		std::string ipAddress;
 	};
 
+	typedef std::map<unsigned, TimedPlayerBan> RegexMap;
+	typedef std::map<unsigned, TimedIPBan> IPAddressMap;
+	typedef std::list<boost::regex> RegexList;
+
 	boost::shared_ptr<boost::asio::deadline_timer> InternalRegisterTimedBan(unsigned timerId, unsigned durationHours);
 	void TimerRemoveBan(const boost::system::error_code &ec, unsigned banId, boost::shared_ptr<boost::asio::deadline_timer> timer);
 
 	boost::shared_ptr<boost::asio::io_service> m_ioService;
 
-	typedef std::map<unsigned, TimedPlayerBan> RegexMap;
-	typedef std::map<unsigned, TimedIPBan> IPAddressMap;
-
 	unsigned GetNextBanId();
 
 private:
 	RegexMap m_banPlayerNameMap;
+	RegexList m_gameNameBadWordFilter;
 	IPAddressMap m_banIPAddressMap;
 	unsigned m_curBanId;
 	mutable boost::mutex m_banMutex;

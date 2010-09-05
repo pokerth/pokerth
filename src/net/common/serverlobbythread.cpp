@@ -202,6 +202,8 @@ ServerLobbyThread::Init(const string &logDir)
 		m_serverConfig->readConfigString("DBServerPassword"),
 		m_serverConfig->readConfigString("DBServerDatabaseName"),
 		m_serverConfig->readConfigString("DBServerEncryptionKey"));
+
+	GetBanManager().InitGameNameBadWordList(m_serverConfig->readConfigStringList("GameNameBadWordList"));
 }
 
 void
@@ -1334,6 +1336,10 @@ ServerLobbyThread::HandleNetPacketCreateGame(SessionWrapper session, const std::
 	if (IsGameNameInUse(gameName))
 	{
 		SendJoinGameFailed(session.sessionData, gameId, NTF_NET_JOIN_GAME_NAME_IN_USE);
+	}
+	else if (GetBanManager().IsBadGameName(gameName))
+	{
+		SendJoinGameFailed(session.sessionData, gameId, NTF_NET_JOIN_GAME_BAD_NAME);
 	}
 	else if (session.playerData->GetRights() == PLAYER_RIGHTS_GUEST
 		&& tmpData.gameType != GAME_TYPE_NORMAL)

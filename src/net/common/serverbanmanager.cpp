@@ -51,7 +51,7 @@ ServerBanManager::BanPlayerRegex(const string &playerRegex, unsigned durationHou
 
 	TimedPlayerBan tmpBan;
 	tmpBan.timer = InternalRegisterTimedBan(banId, durationHours);
-	tmpBan.nameRegex = boost::regex(playerRegex, boost::regex_constants::no_except);
+	tmpBan.nameRegex = boost::regex(playerRegex, boost::regex::extended | boost::regex::icase);
 	m_banPlayerNameMap[banId] = tmpBan;
 }
 
@@ -183,6 +183,36 @@ ServerBanManager::IsIPAddressBanned(const std::string &ipAddress) const
 		++i;
 	}
 
+	return retVal;
+}
+
+void
+ServerBanManager::InitGameNameBadWordList(const std::list<string> &badWordList)
+{
+	list<string>::const_iterator i = badWordList.begin();
+	list<string>::const_iterator end = badWordList.end();
+	while (i != end)
+	{
+		m_gameNameBadWordFilter.push_back(boost::regex(*i, boost::regex::extended | boost::regex::icase));
+		++i;
+	}
+}
+
+bool
+ServerBanManager::IsBadGameName(const std::string &name) const
+{
+	bool retVal = false;
+	RegexList::const_iterator i = m_gameNameBadWordFilter.begin();
+	RegexList::const_iterator end = m_gameNameBadWordFilter.end();
+	while (i != end)
+	{
+		if (regex_match(name, *i))
+		{
+			retVal = true;
+			break;
+		}
+		++i;
+	}
 	return retVal;
 }
 

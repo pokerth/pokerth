@@ -310,7 +310,8 @@ JoinGameFailed ::= SEQUENCE {
 		notAllowedAsGuest	(5),
 		notInvited			(6),
 		gameNameInUse		(7),
-		invalidSettings		(8)
+		badGameName			(8),
+		invalidSettings		(9)
 	}
 }
 
