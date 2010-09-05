@@ -3393,7 +3393,7 @@ void gameTableImpl::showWarningAutoFoldInRankingGame(unsigned remainingAutoFolds
     QMessageBox::warning(this, tr("PokerTH - Warning"),
                                tr("You have triggered a warning level of timeouts in a ranking game.\n"
                                   "After %1 additional timeouts the server needs to kick you to provide a better game flow!\n\n"
-                                  "If you are temporarily away, you can use the \"away\" tools in the tool box on the right."),
+                              "If you are temporarily away, you can use the \"away\" tools in the tool box on the right.").arg(remainingAutoFolds),
                                     QMessageBox::Ok);
     tabWidget_Right->setCurrentIndex(1);
 }
