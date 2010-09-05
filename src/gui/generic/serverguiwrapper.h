@@ -120,6 +120,7 @@ public:
     void SignalNetClientGameChatMsg(const std::string &playerName, const std::string &msg);
     void SignalNetClientLobbyChatMsg(const std::string &playerName, const std::string &msg);
     void SignalNetClientWaitDialog();
+    void SignalNetClientWarningAutoFoldInRankingGame(unsigned remainingAutoFolds);
 
     void SignalNetClientGameListNew(unsigned gameId);
     void SignalNetClientGameListRemove(unsigned gameId);

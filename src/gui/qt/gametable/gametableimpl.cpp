@@ -508,7 +508,7 @@ gameTableImpl::gameTableImpl(ConfigFile *c, QMainWindow *parent)
     connect(this, SIGNAL(signalEndVoteOnKick()), this, SLOT(endVoteOnKick()));
 
     connect(this, SIGNAL(signalNetClientPlayerLeft(unsigned)), this, SLOT(netClientPlayerLeft(unsigned)));
-
+    connect(this, SIGNAL(signalWarningAutoFoldInRankingGame(unsigned)), this, SLOT(showWarningAutoFoldInRankingGame(unsigned)));
 }
 
 gameTableImpl::~gameTableImpl() {
@@ -3386,4 +3386,14 @@ void gameTableImpl::sendShowMyCardsSignal()
 
         pushButton_showMyCards->hide();
     }
+}
+
+void gameTableImpl::showWarningAutoFoldInRankingGame(unsigned remainingAutoFolds)
+{
+    QMessageBox::warning(this, tr("PokerTH - Warning"),
+                               tr("You have triggered a warning level of timeouts in a ranking game.\n"
+                                  "After %1 additional timeouts the server needs to kick you to provide a better game flow!\n\n"
+                                  "If you are temporarily away, you can use the \"away\" tools in the tool box on the right."),
+                                    QMessageBox::Ok);
+    tabWidget_Right->setCurrentIndex(1);
 }

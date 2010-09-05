@@ -119,14 +119,12 @@ signals:
     void signalPostRiverShowCards(unsigned playerId);
 
     void signalFlipHolecardsAllIn();
-
     void signalNextRoundCleanGui();
-
     void signalStartVoteOnKick(unsigned playerId, unsigned voteStarterPlayerId, int timeoutSec, int numVotesNeededToKick);
     void signalChangeVoteOnKickButtonsState(bool showHide);
     void signalEndVoteOnKick();
-
     void signalNetClientPlayerLeft(unsigned playerId);
+    void signalWarningAutoFoldInRankingGame(unsigned remainingAutoFolds);
 
 public slots:
 
@@ -308,6 +306,8 @@ public slots:
 
     void showShowMyCardsButton();
     void sendShowMyCardsSignal();
+
+    void showWarningAutoFoldInRankingGame(unsigned);
 
 private: 
 

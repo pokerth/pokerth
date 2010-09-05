@@ -147,6 +147,8 @@ void ServerGuiWrapper::SignalNetClientGameChatMsg(const string &playerName, cons
 void ServerGuiWrapper::SignalNetClientLobbyChatMsg(const string &playerName, const string &msg) { if (myClientcb) myClientcb->SignalNetClientLobbyChatMsg(playerName, msg); }
 void ServerGuiWrapper::SignalNetClientMsgBox(const string &msg) { if (myClientcb) myClientcb->SignalNetClientMsgBox(msg); }
 void ServerGuiWrapper::SignalNetClientWaitDialog() { if (myClientcb) myClientcb->SignalNetClientWaitDialog(); }
+void ServerGuiWrapper::SignalNetClientWarningAutoFoldInRankingGame(unsigned remainingAutoFolds) { if (myClientcb) myClientcb->SignalNetClientWarningAutoFoldInRankingGame(remainingAutoFolds); }
+
 
 void ServerGuiWrapper::SignalNetServerSuccess(int actionID) { if (myServercb) myServercb->SignalNetServerSuccess(actionID); }
 void ServerGuiWrapper::SignalNetServerError(int errorID, int osErrorID) { if (myServercb) myServercb->SignalNetServerError(errorID, osErrorID); }
