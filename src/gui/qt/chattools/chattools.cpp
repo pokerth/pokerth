@@ -65,7 +65,15 @@ void ChatTools::receiveMessage(QString playerName, QString message) {
 
         QString tempMsg;
 
-        if(message.contains(myNick, Qt::CaseInsensitive)) {
+        if(INET_LOBBY_CHAT && playerName == "(chat bot)" && message.startsWith(myNick)) {
+
+            tempMsg = QString("<span style=\"font-weight:bold; color:red;\">"+message+"</span>");
+            //play beep sound only in INET-lobby-chat
+            if(myLobby->isVisible() && myConfig->readConfigInt("PlayLobbyChatNotification")) {
+                myLobby->getMyW()->getMySDLPlayer()->playSound("lobbychatnotify",0);
+            }
+        }
+        else if(message.contains(myNick, Qt::CaseInsensitive)) {
 
             switch (myChatType) {
             case INET_LOBBY_CHAT: {
