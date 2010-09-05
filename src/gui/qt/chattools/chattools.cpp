@@ -65,7 +65,7 @@ void ChatTools::receiveMessage(QString playerName, QString message) {
 
         QString tempMsg;
 
-        if(INET_LOBBY_CHAT && playerName == "(chat bot)" && message.startsWith(myNick)) {
+        if(myChatType == INET_LOBBY_CHAT && playerName == "(chat bot)" && message.startsWith(myNick)) {
 
             tempMsg = QString("<span style=\"font-weight:bold; color:red;\">"+message+"</span>");
             //play beep sound only in INET-lobby-chat
