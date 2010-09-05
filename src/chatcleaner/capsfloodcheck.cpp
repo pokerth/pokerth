@@ -17,7 +17,7 @@ bool CapsFloodCheck::run(QString msg)
 		else return false;
 	}
 	else { 
-		qDebug() << "The current Caps Flood RegExp is invalid" << endl;
+//		qDebug() << "The current Caps Flood RegExp is invalid" << endl;
 		return false;
 	}
 }

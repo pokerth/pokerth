@@ -205,7 +205,7 @@ void MessageFilter::cleanKickCounterList()
     while (it.hasNext()) {
         it.next();
         if(timer.elapsed().total_seconds()-it.value().lastKickTimestamp > config->readConfigInt("SecondsToForgetAboutKick")) {
-            qDebug() << it.key() << "removed from kick counter list" << endl;
+//            qDebug() << it.key() << "removed from kick counter list" << endl;
             myClientKickCounterList.remove(it.key());
         }
     }

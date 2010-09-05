@@ -19,7 +19,7 @@ bool LetterRepeatingCheck::run(QString msg)
 		}
 	}
 	else { 
-		qDebug() << "The current Letter Repeating RegExp is invalid" << endl;
+//		qDebug() << "The current Letter Repeating RegExp is invalid" << endl;
 		return false;
 	}
 }

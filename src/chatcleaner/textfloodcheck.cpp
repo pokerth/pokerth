@@ -88,6 +88,6 @@ void TextFloodCheck::cleanMsgTimesList() {
 
 void TextFloodCheck::removeNickFromList(unsigned playerId) {
 	
-	qDebug() << "id " << playerId << "removed from textfloodcheck list" << endl;
+//	qDebug() << "id " << playerId << "removed from textfloodcheck list" << endl;
 	msgTimesList.remove(playerId);
 }
