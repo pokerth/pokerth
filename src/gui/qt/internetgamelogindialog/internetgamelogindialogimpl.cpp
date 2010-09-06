@@ -16,6 +16,19 @@ internetGameLoginDialogImpl::internetGameLoginDialogImpl(QWidget *parent, Config
 void internetGameLoginDialogImpl::regUserToggled(bool b) {
 	
 	checkBox_guest->setChecked(!b);
+
+        if(b) {
+            lineEdit_username->setText(QString::fromUtf8(myConfig->readConfigString("MyName").c_str()));
+            if(myConfig->readConfigInt("InternetSavePassword")) {
+                    checkBox_rememberPassword->setChecked(true);
+                    lineEdit_password->setText(QString::fromUtf8(QByteArray::fromBase64(myConfig->readConfigString("InternetLoginPassword").c_str())));
+            }
+            else {
+                    checkBox_rememberPassword->setChecked(false);
+                    lineEdit_password->clear();
+            }
+        }
+
         okButtonCheck();
 }
 

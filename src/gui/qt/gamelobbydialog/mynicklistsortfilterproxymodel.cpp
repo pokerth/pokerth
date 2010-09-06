@@ -28,16 +28,7 @@ bool MyNickListSortFilterProxyModel::filterAcceptsRow(int sourceRow, const QMode
 
     }
 
-//	QModelIndex index0 = sourceModel()->index(sourceRow, 0, sourceParent);
-//	QModelIndex index1 = sourceModel()->index(sourceRow, 1, sourceParent);
-//	QModelIndex index2 = sourceModel()->index(sourceRow, 2, sourceParent);
-//	QModelIndex index3 = sourceModel()->index(sourceRow, 3, sourceParent);
-//        QModelIndex index4 = sourceModel()->index(sourceRow, 4, sourceParent);
-//
-//	return ((sourceModel()->data(index1, 16).toString().contains(column1RegExp)
-//			&& sourceModel()->data(index2, 16).toString().contains(column2RegExp)
-//                        && sourceModel()->data(index3, 16).toString().contains(column3RegExp)
-//                        && sourceModel()->data(index4, 16).toString().contains(column4RegExp)) || sourceModel()->data(index0, 16) == "MeInThisGame");
+    return false;
 }
 
 bool MyNickListSortFilterProxyModel::lessThan(const QModelIndex &left, const QModelIndex &right) const
@@ -59,6 +50,8 @@ bool MyNickListSortFilterProxyModel::lessThan(const QModelIndex &left, const QMo
         }
         break;
     }
+
+    return false;
 }
 
 void MyNickListSortFilterProxyModel::setFilterState(int state)
