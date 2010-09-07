@@ -50,7 +50,7 @@ ConfigFile::ConfigFile(char *argv0, bool readonly) : noWriteAccess(readonly)
     myConfigState = OK;
 
     // !!!! Revisionsnummer der Configdefaults !!!!!
-	configRev = 86;
+        configRev = 87;
 
     //standard defaults
     logOnOffDefault = "1";
@@ -237,6 +237,7 @@ ConfigFile::ConfigFile(char *argv0, bool readonly) : noWriteAccess(readonly)
     configList.push_back(ConfigInfo("ChatCleanerUseIpv6", CONFIG_TYPE_INT, "0"));
     configList.push_back(ConfigInfo("MyName", CONFIG_TYPE_STRING, "Human Player"));
     configList.push_back(ConfigInfo("MyAvatar", CONFIG_TYPE_STRING, ""));
+    configList.push_back(ConfigInfo("MyRememberedNameDuringGuestLogin", CONFIG_TYPE_STRING, ""));
     configList.push_back(ConfigInfo("Opponent1Name", CONFIG_TYPE_STRING, "Player 1"));
     configList.push_back(ConfigInfo("Opponent1Avatar", CONFIG_TYPE_STRING, ""));
     configList.push_back(ConfigInfo("Opponent2Name", CONFIG_TYPE_STRING, "Player 2"));
