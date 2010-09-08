@@ -96,7 +96,7 @@ LocalHand::LocalHand(boost::shared_ptr<EngineFactory> f, GuiInterface *g, BoardI
 
 	// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!   DEBUGGER   !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! //
 
-	if(DEBUG_MODE) {
+        if(DEBUG_MODE) {
 
             //QSqlDatabase *mySqliteLogDb;
 
@@ -118,11 +118,11 @@ LocalHand::LocalHand(boost::shared_ptr<EngineFactory> f, GuiInterface *g, BoardI
 
 			case 1: {		
 
-                                tempBoardArray[0] = 39;
-                                tempBoardArray[1] = 2;
-                                tempBoardArray[2] = 3;
-                                tempBoardArray[3] = 4;
-                                tempBoardArray[4] = 5;
+                                tempBoardArray[0] = 4;
+                                tempBoardArray[1] = 19;
+                                tempBoardArray[2] = 20;
+                                tempBoardArray[3] = 43;
+                                tempBoardArray[4] = 49;
 			
 				myBoard->setMyCards(tempBoardArray);
 			
@@ -135,8 +135,8 @@ LocalHand::LocalHand(boost::shared_ptr<EngineFactory> f, GuiInterface *g, BoardI
 				// player0
 				it = seatsList->begin();
 			
-                                tempPlayerArray[0] = 13;
-                                tempPlayerArray[1] = 14;
+                                tempPlayerArray[0] = 18;
+                                tempPlayerArray[1] = 17;
 				tempPlayerAndBoardArray[0] = tempPlayerArray[0];
 				tempPlayerAndBoardArray[1] = tempPlayerArray[1];
 			
@@ -148,8 +148,8 @@ LocalHand::LocalHand(boost::shared_ptr<EngineFactory> f, GuiInterface *g, BoardI
 				// player1
 				it++;
 		
-                                tempPlayerArray[0] = 18;
-                                tempPlayerArray[1] = 17;
+                                tempPlayerArray[0] = 31;
+                                tempPlayerArray[1] = 8;
 				tempPlayerAndBoardArray[0] = tempPlayerArray[0];
 				tempPlayerAndBoardArray[1] = tempPlayerArray[1];
 			
@@ -426,13 +426,15 @@ void LocalHand::assignButtons() {
 			nextActivePlayerFound = true;
                         if(activePlayerList->size() > 2) {
                             //small blind normal
-                            (*it)->setMyButton(2);
+                            (*it)->setMyButton(2);                            
                         } else {
                             //big blind in heads up
                             (*it)->setMyButton(3);
                             // lastPlayerAction for showing cards
-                            lastActionPlayer = (*it)->getMyUniqueID();
                         }
+
+                        // first player after dealer have to show his cards first (in showdown)
+                        lastActionPlayer = (*it)->getMyUniqueID();
 
 			it++;
 			if(it == activePlayerList->end()) it = activePlayerList->begin();
@@ -440,8 +442,6 @@ void LocalHand::assignButtons() {
                         if(activePlayerList->size() > 2) {
                              //big blind normal
                             (*it)->setMyButton(3);
-                            // lastPlayerAction for showing cards
-                            lastActionPlayer = (*it)->getMyUniqueID();
                         } else {
                             //small blind in heads up
                             (*it)->setMyButton(2);

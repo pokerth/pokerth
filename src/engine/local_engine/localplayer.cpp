@@ -861,31 +861,31 @@ LocalPlayer::LocalPlayer(ConfigFile *c, BoardInterface *b, int id, unsigned uniq
         switch(myUniqueID) {
 
         case 0: {
-                myCash=1000;
+                myCash=2588;
             } break;
         case 1: {
-                myCash=1000;
+                myCash=0;
             } break;
         case 2: {
-                myCash=1000;
+                myCash=404;
             } break;
         case 3: {
-                myCash=2000;
+                myCash=0;
             } break;
         case 4: {
-                myCash=3000;
+                myCash=0;
             } break;
         case 5: {
-                myCash=2000;
+                myCash=1133;
             } break;
         case 6: {
-                myCash=2100;
+                myCash=5275;
             } break;
         case 7: {
-                myCash=500;
+                myCash=0;
             } break;
         case 8: {
-                myCash=1000;
+                myCash=0;
             } break;
         case 9: {
                 myCash=0;
@@ -1356,8 +1356,8 @@ void LocalPlayer::preflopEngine() {
 
                 switch(currentHand->getMyID()) {
                 case 1: {
-                        myAction = PLAYER_ACTION_CALL;
-                        //                                                raise = 20;
+                        myAction = PLAYER_ACTION_RAISE;
+                                                                        raise = 20000;
                         // 						if(mySet >= 40) {
                         // 							myAction = PLAYER_ACTION_CALL;
                         // 						}
@@ -1425,8 +1425,8 @@ void LocalPlayer::preflopEngine() {
             break;
         case 5: {
                 // 				if(mySet == 0) {
-                myAction = PLAYER_ACTION_CALL;
-                raise = 20;
+                myAction = PLAYER_ACTION_FOLD;
+//                raise = 20;
                 // 				}
             }
             break;
@@ -3095,18 +3095,26 @@ void LocalPlayer::evaluation(int bet, int raise) {
                 }
                 // all in
                 if(highestSet + raise >= myCash + mySet) {
-                    // -> full bet rule
                     if(highestSet + currentHand->getCurrentBeRo()->getMinimumRaise() > myCash + mySet) {
-                        currentHand->getCurrentBeRo()->setFullBetRule(true);
-                    } else {
-                        // lastPlayerAction für Karten umblättern reihenfolge setzrn
-                        currentHand->setLastActionPlayer(myUniqueID);
+                        // perhaps full bet rule
+                        if(highestSet >= myCash + mySet) {
+                            // only call all-in
+                            mySet += myCash;
+                            myCash = 0;
+                            myAction = 6;
+                        } else {
+                            // raise, but not enough --> full bet rule
+                            currentHand->getCurrentBeRo()->setFullBetRule(true);
+                            // lastPlayerAction für Karten umblättern reihenfolge setzrn
+                            currentHand->setLastActionPlayer(myUniqueID);
+
+                            mySet += myCash;
+                            currentHand->getCurrentBeRo()->setMinimumRaise(mySet-highestSet);
+                            myCash = 0;
+                            myAction = 6;
+                            highestSet = mySet;
+                        }
                     }
-                    mySet += myCash;
-                    currentHand->getCurrentBeRo()->setMinimumRaise(mySet-highestSet);
-                    myCash = 0;
-                    myAction = 6;
-                    if(mySet > highestSet) highestSet = mySet;
                 }
                 // sonst
                 else {

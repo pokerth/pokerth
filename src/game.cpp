@@ -42,10 +42,10 @@ Game::Game(GuiInterface* gui, boost::shared_ptr<EngineFactory> factory,
 
         dealerPosition = startData.startDealerPlayerId;
 
-	if(DEBUG_MODE) {
-                startSmallBlind = 10;
+        if(DEBUG_MODE) {
+                startSmallBlind = 300;
 		currentSmallBlind = startSmallBlind;
-                dealerPosition = 3;
+                dealerPosition = 5;
 	}
 
 	int i;
