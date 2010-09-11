@@ -86,6 +86,8 @@ public:
 	void RemovePlayerInvitation(unsigned playerId);
 	bool IsPlayerInvited(unsigned playerId) const;
 
+	unsigned GetSmallDelaySec() const;
+
 	// should be protected, but is needed in function.
 	const Game &GetGame() const;
 	Game &GetGame();
@@ -188,6 +190,7 @@ private:
 	ConfigFile		   *m_playerConfig;
 	unsigned			m_gameNum;
 	unsigned			m_curPetitionId;
+	unsigned			m_doNotAutoKickSmallDelaySec;
 	boost::asio::deadline_timer m_voteKickTimer;
 	boost::asio::deadline_timer m_stateTimer1;
 	boost::asio::deadline_timer m_stateTimer2;

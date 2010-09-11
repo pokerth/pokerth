@@ -1360,7 +1360,7 @@ ServerGameStateWaitPlayerAction::TimerTimeout(const boost::system::error_code &e
 			curPlayer->incrementActionTimeoutCounter();
 
 			if (server->GetGameData().gameType == GAME_TYPE_RANKING
-				&& server->GetGameData().playerActionTimeoutSec >= 10)
+				&& server->GetGameData().playerActionTimeoutSec >= server->GetSmallDelaySec())
 			{
 				if (curPlayer->getActionTimeoutCounter() == SERVER_WARNING_ACTION_TIMEOUT_THRESHOLD)
 				{

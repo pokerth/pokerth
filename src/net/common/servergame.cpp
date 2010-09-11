@@ -33,6 +33,7 @@
 #include <game.h>
 #include <localenginefactory.h>
 #include <tools.h>
+#include <configfile.h>
 
 
 #define SERVER_CHECK_VOTE_KICK_INTERVAL_MSEC	500
@@ -50,8 +51,8 @@ ServerGame::ServerGame(boost::shared_ptr<ServerLobbyThread> lobbyThread, u_int32
 : m_adminPlayerId(adminPlayerId), m_lobbyThread(lobbyThread), m_gui(gui),
   m_gameData(gameData), m_curState(NULL), m_id(id), m_dbId(DB_ID_INVALID), m_name(name),
   m_password(pwd), m_playerConfig(playerConfig), m_gameNum(1), m_curPetitionId(1),
-  m_voteKickTimer(lobbyThread->GetIOService()), m_stateTimer1(lobbyThread->GetIOService()),
-  m_stateTimer2(lobbyThread->GetIOService())
+  m_doNotAutoKickSmallDelaySec(10), m_voteKickTimer(lobbyThread->GetIOService()),
+  m_stateTimer1(lobbyThread->GetIOService()), m_stateTimer2(lobbyThread->GetIOService())
 {
 	LOG_VERBOSE("Game object " << GetId() << " created.");
 
@@ -66,6 +67,7 @@ ServerGame::~ServerGame()
 void
 ServerGame::Init()
 {
+	m_doNotAutoKickSmallDelaySec = m_playerConfig->readConfigInt("ServerDoNotAutoKickSmallDelaySec");
 	m_voteKickTimer.expires_from_now(
 		boost::posix_time::milliseconds(SERVER_CHECK_VOTE_KICK_INTERVAL_MSEC));
 	m_voteKickTimer.async_wait(
@@ -909,6 +911,12 @@ ServerGame::GetReceiver()
 {
 	assert(m_receiver.get());
 	return *m_receiver;
+}
+
+unsigned
+ServerGame::GetSmallDelaySec() const
+{
+	return m_doNotAutoKickSmallDelaySec;
 }
 
 Game &
