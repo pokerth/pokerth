@@ -324,12 +324,16 @@
   </layout>
  </widget>
  <tabstops>
+  <tabstop>lineEdit_gameName</tabstop>
+  <tabstop>comboBox_gameType</tabstop>
+  <tabstop>checkBox_Password</tabstop>
+  <tabstop>lineEdit_Password</tabstop>
   <tabstop>spinBox_quantityPlayers</tabstop>
   <tabstop>spinBox_startCash</tabstop>
   <tabstop>radioButton_useSavedBlindsSettings</tabstop>
   <tabstop>radioButton_changeBlindsSettings</tabstop>
-  <tabstop>checkBox_Password</tabstop>
-  <tabstop>lineEdit_Password</tabstop>
+  <tabstop>spinBox_netTimeOutPlayerAction</tabstop>
+  <tabstop>spinBox_netDelayBetweenHands</tabstop>
   <tabstop>pushButton_createGame</tabstop>
   <tabstop>pushButton_cancel</tabstop>
  </tabstops>

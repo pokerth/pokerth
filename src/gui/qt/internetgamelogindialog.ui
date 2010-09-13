@@ -114,6 +114,15 @@ p, li { white-space: pre-wrap; }
    </item>
   </layout>
  </widget>
+ <tabstops>
+  <tabstop>groupBox_reguser</tabstop>
+  <tabstop>lineEdit_username</tabstop>
+  <tabstop>lineEdit_password</tabstop>
+  <tabstop>checkBox_rememberPassword</tabstop>
+  <tabstop>checkBox_guest</tabstop>
+  <tabstop>pushButton_login</tabstop>
+  <tabstop>pushButton_cancel</tabstop>
+ </tabstops>
  <resources/>
  <connections>
   <connection>

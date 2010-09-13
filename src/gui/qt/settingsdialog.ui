@@ -3610,9 +3610,14 @@ p, li { white-space: pre-wrap; }
   <tabstop>listWidget</tabstop>
   <tabstop>comboBox_switchLanguage</tabstop>
   <tabstop>checkBox_showRightToolbox</tabstop>
+  <tabstop>checkBox_showLeftToolbox</tabstop>
   <tabstop>checkBox_showFadeOutCardsAnimation</tabstop>
+  <tabstop>checkBox_showFlipCardsAnimation</tabstop>
   <tabstop>checkBox_alternateFKeysUserActionMode</tabstop>
   <tabstop>checkBox_showBlindButtons</tabstop>
+  <tabstop>checkBox_cardsChanceMonitor</tabstop>
+  <tabstop>checkBox_antiPeekMode</tabstop>
+  <tabstop>checkBox_disableSplashscreen</tabstop>
   <tabstop>checkBox_dontTranslatePokerStrings</tabstop>
   <tabstop>checkBox_enableBetInputFocusSwitch</tabstop>
   <tabstop>tabWidget</tabstop>
@@ -3622,6 +3627,10 @@ p, li { white-space: pre-wrap; }
   <tabstop>treeWidget_cardDeckStyles</tabstop>
   <tabstop>pushButton_addCardDeckStyle</tabstop>
   <tabstop>pushButton_removeCardDeckStyle</tabstop>
+  <tabstop>radioButton_flipsideTux</tabstop>
+  <tabstop>radioButton_flipsideOwn</tabstop>
+  <tabstop>lineEdit_OwnFlipsideFilename</tabstop>
+  <tabstop>pushButton_openFlipsidePicture</tabstop>
   <tabstop>groupBox_playSoundEffects</tabstop>
   <tabstop>horizontalSlider_soundVolume</tabstop>
   <tabstop>checkBox_playGameActions</tabstop>
@@ -3655,6 +3664,23 @@ p, li { white-space: pre-wrap; }
   <tabstop>spinBox_serverPort</tabstop>
   <tabstop>checkBox_useIpv6</tabstop>
   <tabstop>checkBox_useSctp</tabstop>
+  <tabstop>tabWidget_2</tabstop>
+  <tabstop>groupBox_automaticServerConfig</tabstop>
+  <tabstop>lineEdit_InternetServerListAddress</tabstop>
+  <tabstop>groupBox_manualServerConfig</tabstop>
+  <tabstop>lineEdit_InternetServerAddress</tabstop>
+  <tabstop>spinBox_InternetServerPort</tabstop>
+  <tabstop>checkBox_useAvatarServer</tabstop>
+  <tabstop>lineEdit_avatarServerAddress</tabstop>
+  <tabstop>checkBox_InternetServerUseIpv6</tabstop>
+  <tabstop>checkBox_InternetServerUseSctp</tabstop>
+  <tabstop>lineEdit_internetGameName</tabstop>
+  <tabstop>comboBox_internetGameType</tabstop>
+  <tabstop>checkBox_UseInternetGamePassword</tabstop>
+  <tabstop>lineEdit_InternetGamePassword</tabstop>
+  <tabstop>checkBox_UseLobbyChat</tabstop>
+  <tabstop>treeWidget_internetGameIgnoredPlayers</tabstop>
+  <tabstop>pushButton_internetGameRemoveIgnoredPlayer</tabstop>
   <tabstop>pushButton_HumanPlayerAvatar</tabstop>
   <tabstop>lineEdit_HumanPlayerName</tabstop>
   <tabstop>pushButton_Opponent1Avatar</tabstop>
@@ -3676,10 +3702,15 @@ p, li { white-space: pre-wrap; }
   <tabstop>pushButton_Opponent9Avatar</tabstop>
   <tabstop>lineEdit_Opponent9Name</tabstop>
   <tabstop>groupBox_logOnOff</tabstop>
-  <tabstop>lineEdit_logDir</tabstop>
-  <tabstop>pushButton_openLogDir</tabstop>
   <tabstop>spinBox_logStoreDuration</tabstop>
   <tabstop>comboBox_logInterval</tabstop>
+  <tabstop>lineEdit_logDir</tabstop>
+  <tabstop>pushButton_openLogDir</tabstop>
+  <tabstop>treeWidget_logFiles</tabstop>
+  <tabstop>pushButton_exportLogHtml</tabstop>
+  <tabstop>pushButton_exportLogTxt</tabstop>
+  <tabstop>pushButton_saveLogAs</tabstop>
+  <tabstop>pushButton_deleteLog</tabstop>
   <tabstop>buttonBox</tabstop>
  </tabstops>
  <resources>

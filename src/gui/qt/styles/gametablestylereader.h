@@ -78,6 +78,10 @@ public:
     QString getLogNewGameAdminColor() const { return LogNewGameAdminColor; }
     QString getBreakLobbyButtonBgColor() const { return BreakLobbyButtonBgColor; }
 
+    QString getPlayerNickTextColor() const { return PlayerNickTextColor; }
+    QString getPlayerNameLabelFontSize() const { return playerNameLabelFontSize; }
+    QString getFont2String() const { return font2String; }
+
     QString getMinimumWindowWidth() const { return MinimumWindowWidth; }
     QString getMinimumWindowHeight() const { return MinimumWindowHeight; }
     QString getMaximumWindowWidth() const { return MaximumWindowWidth; }

@@ -17,6 +17,8 @@
 #include <QtGui>
 #include <QtCore>
 
+class gameTableImpl;
+
 class MyNameLabel : public QLabel
 {
 Q_OBJECT
@@ -24,15 +26,16 @@ public:
     MyNameLabel(QGroupBox*);
     ~MyNameLabel();
 
+        void setMyW(gameTableImpl* theValue) { myW = theValue; }
+
 public slots:
 
-        void setText ( const QString &, const bool = FALSE);
-
-        void paintEvent(QPaintEvent*);
+        void setText ( const QString &, bool = FALSE, bool = FALSE, bool = FALSE);
 private:
 
         QString myText;
-        bool transparent;
+        gameTableImpl *myW;
+
 };
 
 #endif

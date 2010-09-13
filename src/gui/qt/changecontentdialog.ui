@@ -64,6 +64,7 @@
  </widget>
  <tabstops>
   <tabstop>lineEdit</tabstop>
+  <tabstop>checkBox</tabstop>
   <tabstop>buttonBox</tabstop>
  </tabstops>
  <resources/>

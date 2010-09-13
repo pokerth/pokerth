@@ -203,6 +203,8 @@
   <tabstop>spinBox_startCash</tabstop>
   <tabstop>radioButton_useSavedBlindsSettings</tabstop>
   <tabstop>radioButton_changeBlindsSettings</tabstop>
+  <tabstop>spinBox_netTimeOutPlayerAction</tabstop>
+  <tabstop>spinBox_netDelayBetweenHands</tabstop>
   <tabstop>pushButton_createGame</tabstop>
   <tabstop>pushButton_cancel</tabstop>
  </tabstops>

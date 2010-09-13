@@ -864,13 +864,18 @@ p, li { white-space: pre-wrap; }
   </layout>
  </widget>
  <tabstops>
+  <tabstop>lineEdit_searchForPlayers</tabstop>
   <tabstop>treeView_NickList</tabstop>
+  <tabstop>comboBox_nickListFilter</tabstop>
+  <tabstop>comboBox_gameListFilter</tabstop>
   <tabstop>treeView_GameList</tabstop>
   <tabstop>pushButton_joinAnyGame</tabstop>
   <tabstop>pushButton_CreateGame</tabstop>
   <tabstop>pushButton_JoinGame</tabstop>
   <tabstop>textBrowser_ChatDisplay</tabstop>
   <tabstop>lineEdit_ChatInput</tabstop>
+  <tabstop>treeWidget_connectedPlayers</tabstop>
+  <tabstop>scrollArea_gameInfos</tabstop>
   <tabstop>checkBox_fillUpWithComputerOpponents</tabstop>
   <tabstop>pushButton_StartGame</tabstop>
   <tabstop>pushButton_Kick</tabstop>

@@ -234,6 +234,9 @@ gameTableImpl::gameTableImpl(ConfigFile *c, QMainWindow *parent)
     playerNameLabelArray[7] = label_PlayerName7;
     playerNameLabelArray[8] = label_PlayerName8;
     playerNameLabelArray[9] = label_PlayerName9;
+    for (i=0; i<MAX_NUMBER_OF_PLAYERS; i++) {
+        playerNameLabelArray[i]->setMyW(this);
+    }
 
     // playerAvatarLabelArray init
     playerAvatarLabelArray[0] = label_Avatar0;
@@ -781,12 +784,24 @@ void gameTableImpl::refreshPlayerName() {
         PlayerListConstIterator it_c;
         for (it_c=currentHand->getSeatsList()->begin(); it_c!=currentHand->getSeatsList()->end(); it_c++) {
             if((*it_c)->getMyActiveStatus()) {
-                playerNameLabelArray[(*it_c)->getMyID()]->setText(QString::fromUtf8((*it_c)->getMyName().c_str()));
 
-            } else {
+                bool guest = myStartWindow->getSession()->getClientPlayerInfo((*it_c)->getMyUniqueID()).isGuest;
+                bool computerPlayer = false;
+                if((*it_c)->getMyType() == PLAYER_TYPE_COMPUTER) { computerPlayer = true; }
+
+                playerNameLabelArray[(*it_c)->getMyID()]->setText(QString::fromUtf8((*it_c)->getMyName().c_str()), FALSE, guest, computerPlayer );
+
+            }
+            else {
                 if((myStartWindow->getSession()->getGameType() == Session::GAME_TYPE_INTERNET || myStartWindow->getSession()->getGameType() == Session::GAME_TYPE_NETWORK)) {
                     if((*it_c)->getMyStayOnTableStatus() == TRUE && (*it_c)->getMyType() != PLAYER_TYPE_COMPUTER) {
-                        playerNameLabelArray[(*it_c)->getMyID()]->setText(QString::fromUtf8((*it_c)->getMyName().c_str()), TRUE);
+
+                        bool guest = myStartWindow->getSession()->getClientPlayerInfo((*it_c)->getMyUniqueID()).isGuest;
+                        bool computerPlayer = false;
+                        if((*it_c)->getMyType() == PLAYER_TYPE_COMPUTER) { computerPlayer = true; }
+
+                        playerNameLabelArray[(*it_c)->getMyID()]->setText(QString::fromUtf8((*it_c)->getMyName().c_str()), TRUE, guest, computerPlayer);
+                        
                     }
                     else {
                         playerNameLabelArray[(*it_c)->getMyID()]->setText("");
@@ -2218,7 +2233,7 @@ void gameTableImpl::postRiverRunAnimation5() {
             for(it_c=currentHand->getActivePlayerList()->begin(); it_c!=currentHand->getActivePlayerList()->end(); it_c++) {
                 if((*it_c)->getMyAction() != PLAYER_ACTION_FOLD && (*it_c)->getMyCardsValueInt() == currentHand->getCurrentBeRo()->getHighestCardsValue() ) {
 
-                    playerNameLabelArray[(*it_c)->getMyID()]->setText("");
+                    playerNameLabelArray[(*it_c)->getMyID()]->hide();
                 }
             }
         }
@@ -2228,7 +2243,7 @@ void gameTableImpl::postRiverRunAnimation5() {
             for(it_c=currentHand->getActivePlayerList()->begin(); it_c!=currentHand->getActivePlayerList()->end(); it_c++) {
                 if((*it_c)->getMyAction() != PLAYER_ACTION_FOLD && (*it_c)->getMyCardsValueInt() == currentHand->getCurrentBeRo()->getHighestCardsValue() ) {
 
-                    playerNameLabelArray[(*it_c)->getMyID()]->setText(QString::fromUtf8((*it_c)->getMyName().c_str()));
+                    playerNameLabelArray[(*it_c)->getMyID()]->show();
                 }
             }
         }
@@ -2581,9 +2596,9 @@ void gameTableImpl::keyPressEvent ( QKeyEvent * event ) {
             ctrlPressed = TRUE;
         }
     }
-    if (event->key() == Qt::Key_Escape && (myActionIsBet || myActionIsRaise)) {
-        meInAction();
-    }
+//    if (event->key() == Qt::Key_Escape && (myActionIsBet || myActionIsRaise)) {
+//            meInAction();
+//    }
     if (event->key() == Qt::Key_Up && lineEdit_ChatInput->hasFocus()) {
         if((keyUpDownChatCounter + 1) <= myChat->getChatLinesHistorySize()) { keyUpDownChatCounter++; }
         // 		std::cout << "Up keyUpDownChatCounter: " << keyUpDownChatCounter << "\n";
@@ -2597,7 +2612,7 @@ void gameTableImpl::keyPressEvent ( QKeyEvent * event ) {
     else { keyUpDownChatCounter = 0; }
 
     //TESTING UNIT
-    if (event->key() == Qt::Key_M) { showShowMyCardsButton(); }
+    //    if (event->key() == Qt::Key_M) { showShowMyCardsButton(); }
 }
 
 void gameTableImpl::changePlayingMode() {
@@ -3391,9 +3406,9 @@ void gameTableImpl::sendShowMyCardsSignal()
 void gameTableImpl::showWarningAutoFoldInRankingGame(unsigned remainingAutoFolds)
 {
     QMessageBox::warning(this, tr("PokerTH - Warning"),
-                               tr("You have triggered a warning level of timeouts in a ranking game.\n"
-                                  "After %1 additional timeouts the server needs to kick you to provide a better game flow!\n\n"
-                              "If you are temporarily away, you can use the \"away\" tools in the tool box on the right.").arg(remainingAutoFolds),
-                                    QMessageBox::Ok);
+                         tr("You have triggered a warning level of timeouts in a ranking game.\n"
+                            "After %1 additional timeouts the server needs to kick you to provide a better game flow!\n\n"
+                            "If you are temporarily away, you can use the \"away\" tools in the tool box on the right.").arg(remainingAutoFolds),
+                         QMessageBox::Ok);
     tabWidget_Right->setCurrentIndex(1);
 }

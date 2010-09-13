@@ -48,30 +48,31 @@ settingsDialogImpl::settingsDialogImpl(QWidget *parent, ConfigFile *c, selectAva
 
     if (myConfig->readConfigInt("CLA_NoWriteAccess")) { groupBox_logOnOff->setDisabled(TRUE); }
 
-    comboBox_switchLanguage->addItem(tr("Afrikaans"),"af");
-    comboBox_switchLanguage->addItem(tr("Bulgarian"),"bg");
-    comboBox_switchLanguage->addItem(tr("Chinese"),"zhcn");
-    comboBox_switchLanguage->addItem(tr("Catalan"),"ca");
-    comboBox_switchLanguage->addItem(tr("Czech"),"cz");
-    comboBox_switchLanguage->addItem(tr("Danish"),"dk");
-    comboBox_switchLanguage->addItem(tr("Dutch"),"nl");
-    comboBox_switchLanguage->addItem(tr("English"),"en");
-    comboBox_switchLanguage->addItem(tr("French"),"fr");
-    comboBox_switchLanguage->addItem(tr("Finnish"),"fi");
-    comboBox_switchLanguage->addItem(tr("German"),"de");
-    comboBox_switchLanguage->addItem(tr("Greek"),"gr");
-    comboBox_switchLanguage->addItem(tr("Hungarian"),"hu");
-    comboBox_switchLanguage->addItem(tr("Italian"),"it");
-    comboBox_switchLanguage->addItem(tr("Norwegian"),"no");
-    comboBox_switchLanguage->addItem(tr("Polish"),"pl");
-    comboBox_switchLanguage->addItem(tr("Portuguese (Brazilian)"),"ptbr");
-    comboBox_switchLanguage->addItem(tr("Portuguese (Portuguese)"),"ptpt");
-    comboBox_switchLanguage->addItem(tr("Russian"),"ru");
-    comboBox_switchLanguage->addItem(tr("Slovak"),"sk");
-    comboBox_switchLanguage->addItem(tr("Spanish"),"es");
-    comboBox_switchLanguage->addItem(tr("Swedish"),"sv");
-    comboBox_switchLanguage->addItem(tr("Tamil"),"ta");
-    comboBox_switchLanguage->addItem(tr("Turkish"),"tr");
+    comboBox_switchLanguage->addItem(trUtf8("Afrikaans (Afrikaans)"),"af");
+    comboBox_switchLanguage->addItem(trUtf8("Bulgarian (Български)"),"bg");
+    comboBox_switchLanguage->addItem(trUtf8("Catalan (Català)"),"ca");
+    comboBox_switchLanguage->addItem(trUtf8("Chinese (简体中文)"),"zhcn");
+    comboBox_switchLanguage->addItem(trUtf8("Czech (čeština)"),"cz");
+    comboBox_switchLanguage->addItem(trUtf8("Danish (Dansk)"),"dk");
+    comboBox_switchLanguage->addItem(trUtf8("Dutch (Nederlands)"),"nl");
+    comboBox_switchLanguage->addItem(trUtf8("English (English)"),"en");
+    comboBox_switchLanguage->addItem(trUtf8("Finnish (suomi)"),"fi");
+    comboBox_switchLanguage->addItem(trUtf8("French (français)"),"fr");
+    comboBox_switchLanguage->addItem(trUtf8("German (Deutsch)"),"de");
+    comboBox_switchLanguage->addItem(trUtf8("Greek (Ελληνικά)"),"gr");
+    comboBox_switchLanguage->addItem(trUtf8("Hungarian (Magyar)"),"hu");
+    comboBox_switchLanguage->addItem(trUtf8("Italian (italiano)"),"it");
+    comboBox_switchLanguage->addItem(trUtf8("Lithuania (Lietuviškai)"),"lt");
+    comboBox_switchLanguage->addItem(trUtf8("Norwegian (Norsk)"),"no");
+    comboBox_switchLanguage->addItem(trUtf8("Polish (polski)"),"pl");
+    comboBox_switchLanguage->addItem(trUtf8("Portuguese-Brazilian (português brasileiro)"),"ptbr");
+    comboBox_switchLanguage->addItem(trUtf8("Portuguese-Portuguese (português português)"),"ptpt");
+    comboBox_switchLanguage->addItem(trUtf8("Russian (Pyccĸий)"),"ru");
+    comboBox_switchLanguage->addItem(trUtf8("Slovak (Slovenčina)"),"sk");
+    comboBox_switchLanguage->addItem(trUtf8("Spanish (Español)"),"es");
+    comboBox_switchLanguage->addItem(trUtf8("Swedish (svenska)"),"sv");
+    comboBox_switchLanguage->addItem(trUtf8("Tamil (தமிழ்)"),"ta");
+    comboBox_switchLanguage->addItem(trUtf8("Turkish (Tϋrkçe)"),"tr");
 
     connect( buttonBox, SIGNAL( accepted() ), this, SLOT( isAccepted() ) );
     connect( lineEdit_HumanPlayerName, SIGNAL( textChanged( const QString &) ), this, SLOT( playerNickChanged() ) );
