@@ -42,7 +42,10 @@ void internetGameLoginDialogImpl::guestUserToggled(bool b) {
     groupBox_reguser->setChecked(!b);
 
     if(b) {
-        myConfig->writeConfigString("MyRememberedNameDuringGuestLogin", lineEdit_username->text().toUtf8().constData());
+
+        if(!lineEdit_username->text().isEmpty()) {
+            myConfig->writeConfigString("MyRememberedNameDuringGuestLogin", lineEdit_username->text().toUtf8().constData());
+        }
         checkBox_rememberPassword->setChecked(false);
         lineEdit_password->clear();
         lineEdit_username->clear();
