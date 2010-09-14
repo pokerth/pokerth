@@ -794,9 +794,9 @@ void GameTableStyleReader::setPlayerSeatActiveStyle(QGroupBox *ps)
     }
 }
 
-void GameTableStyleReader::setBetValueInputStyle(QLineEdit *bv)
+void GameTableStyleReader::setBetValueInputStyle(QSpinBox *bv)
 {
-    bv->setStyleSheet("QLineEdit { "+ font2String +" font-size: "+betValueFontSize+"px; font-weight: bold; background-color: #"+BetInputBgColor+"; color: #"+BetInputTextColor+"; } QLineEdit:disabled { background-color: #"+BetInputDisabledBgColor+"; color: #"+BetInputDisabledTextColor+" }");
+    bv->setStyleSheet("QSpinBox { "+ font2String +" font-size: "+betValueFontSize+"px; font-weight: bold; background-color: #"+BetInputBgColor+"; color: #"+BetInputTextColor+"; } QSpinBox:disabled { background-color: #"+BetInputDisabledBgColor+"; color: #"+BetInputDisabledTextColor+" }");
 }
 
 void GameTableStyleReader::setAwayRadioButtonsStyle(QRadioButton *rb)

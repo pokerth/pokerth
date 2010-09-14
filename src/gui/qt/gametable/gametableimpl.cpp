@@ -121,7 +121,7 @@ gameTableImpl::gameTableImpl(ConfigFile *c, QMainWindow *parent)
     userWidgetsArray[0] = pushButton_BetRaise;
     userWidgetsArray[1] = pushButton_CallCheck;
     userWidgetsArray[2] = pushButton_Fold;
-    userWidgetsArray[3] = lineEdit_betValue;
+    userWidgetsArray[3] = spinBox_betValue;
     userWidgetsArray[4] = horizontalSlider_bet;
     userWidgetsArray[5] = pushButton_AllIn;
 
@@ -362,11 +362,6 @@ gameTableImpl::gameTableImpl(ConfigFile *c, QMainWindow *parent)
     int width = tempMetrics.width(tr("Stop"));
     pushButton_break->setMinimumSize(width+10,20);
 
-    //set inputvalidator for lineeditbetvalue
-    QRegExp rx("[1-9]\\d{0,7}");
-    QValidator *validator = new QRegExpValidator(rx, this);
-    lineEdit_betValue->setValidator(validator);
-
     //Clear Focus
     groupBox_LeftToolBox->clearFocus();
     groupBox_RightToolBox->clearFocus();
@@ -447,8 +442,8 @@ gameTableImpl::gameTableImpl(ConfigFile *c, QMainWindow *parent)
     connect( pushButton_Fold, SIGNAL( clicked(bool) ), this, SLOT( pushButtonFoldClicked(bool) ) );
     connect( pushButton_CallCheck, SIGNAL( clicked(bool) ), this, SLOT( pushButtonCallCheckClicked(bool) ) );
     connect( pushButton_AllIn, SIGNAL( clicked(bool) ), this, SLOT(pushButtonAllInClicked(bool) ) );
-    connect( horizontalSlider_bet, SIGNAL( valueChanged(int)), this, SLOT ( changeLineEditBetValue(int) ) );
-    connect( lineEdit_betValue, SIGNAL( textChanged(QString)), this, SLOT ( lineEditBetValueChanged(QString) ) );
+    connect( horizontalSlider_bet, SIGNAL( valueChanged(int)), this, SLOT ( changeSpinBoxBetValue(int) ) );
+    connect( spinBox_betValue, SIGNAL( valueChanged(int)), this, SLOT ( spinBoxBetValueChanged(int) ) );
 
     connect( horizontalSlider_speed, SIGNAL( valueChanged(int)), this, SLOT ( setGameSpeed(int) ) );
     connect( pushButton_break, SIGNAL( clicked()), this, SLOT ( breakButtonClicked() ) ); // auch wieder starten!!!!
@@ -1176,7 +1171,7 @@ void gameTableImpl::dealBeRoCards(int myBeRoID) {
     clearMyButtons();
 
     horizontalSlider_bet->setDisabled(TRUE);
-    lineEdit_betValue->setDisabled(TRUE);
+    spinBox_betValue->setDisabled(TRUE);
 
     switch(myBeRoID) {
 
@@ -1379,7 +1374,7 @@ void gameTableImpl::provideMyActions(int mode) {
         pushButton_AllIn->setText("");
 
         horizontalSlider_bet->setDisabled(TRUE);
-        lineEdit_betValue->setDisabled(TRUE);
+        spinBox_betValue->setDisabled(TRUE);
 
         myButtonsCheckable(FALSE);
 
@@ -1387,7 +1382,7 @@ void gameTableImpl::provideMyActions(int mode) {
     }
     else {
         horizontalSlider_bet->setEnabled(TRUE);
-        lineEdit_betValue->setEnabled(TRUE);
+        spinBox_betValue->setEnabled(TRUE);
 
         //show available actions on buttons
         if(currentHand->getCurrentRound() == 0) { // preflop
@@ -1441,7 +1436,7 @@ void gameTableImpl::provideMyActions(int mode) {
                 pushButtonFoldString = "";
                 pushButtonAllInString = "";
                 horizontalSlider_bet->setDisabled(TRUE);
-                lineEdit_betValue->setDisabled(TRUE);
+                spinBox_betValue->setDisabled(TRUE);
 		
                 myButtonsCheckable(FALSE);
 
@@ -1459,7 +1454,7 @@ void gameTableImpl::provideMyActions(int mode) {
         if(pushButtonBetRaiseString == "") {
 
             horizontalSlider_bet->setDisabled(TRUE);
-            lineEdit_betValue->setDisabled(TRUE);
+            spinBox_betValue->setDisabled(TRUE);
         }
 
         pushButton_Fold->setText(pushButtonFoldString);
@@ -1475,7 +1470,7 @@ void gameTableImpl::provideMyActions(int mode) {
             horizontalSlider_bet->setMinimum(currentHand->getCurrentBeRo()->getHighestSet() - currentHand->getSeatsList()->front()->getMySet() + currentHand->getCurrentBeRo()->getMinimumRaise());
             horizontalSlider_bet->setMaximum(currentHand->getSeatsList()->front()->getMyCash());
             horizontalSlider_bet->setSingleStep(10);
-            changeLineEditBetValue(horizontalSlider_bet->value());
+            changeSpinBoxBetValue(horizontalSlider_bet->value());
 
             myActionIsRaise = 1;
         }
@@ -1484,7 +1479,7 @@ void gameTableImpl::provideMyActions(int mode) {
             horizontalSlider_bet->setMinimum(currentHand->getSmallBlind()*2);
             horizontalSlider_bet->setMaximum(currentHand->getSeatsList()->front()->getMyCash());
             horizontalSlider_bet->setSingleStep(10);
-            changeLineEditBetValue(horizontalSlider_bet->value());
+            changeSpinBoxBetValue(horizontalSlider_bet->value());
 
             myActionIsBet = 1;
         }
@@ -1501,13 +1496,13 @@ void gameTableImpl::provideMyActions(int mode) {
         }
 
         if((myStartWindow->getSession()->getGameType() == Session::GAME_TYPE_INTERNET || myStartWindow->getSession()->getGameType() == Session::GAME_TYPE_NETWORK) && !lineEdit_ChatInput->hasFocus() && myConfig->readConfigInt("EnableBetInputFocusSwitch")) {
-            lineEdit_betValue->setFocus();
-            lineEdit_betValue->selectAll();
+            spinBox_betValue->setFocus();
+            spinBox_betValue->selectAll();
         }
 
         if(myStartWindow->getSession()->getGameType() == Session::GAME_TYPE_LOCAL) {
-            lineEdit_betValue->setFocus();
-            lineEdit_betValue->selectAll();
+            spinBox_betValue->setFocus();
+            spinBox_betValue->selectAll();
         }
 
     }
@@ -1518,11 +1513,11 @@ void gameTableImpl::meInAction() {
     myButtonsCheckable(FALSE);
 
     horizontalSlider_bet->setEnabled(TRUE);
-    lineEdit_betValue->setEnabled(TRUE);
+    spinBox_betValue->setEnabled(TRUE);
 
     if((myStartWindow->getSession()->getGameType() == Session::GAME_TYPE_INTERNET || myStartWindow->getSession()->getGameType() == Session::GAME_TYPE_NETWORK) && lineEdit_ChatInput->text() == "" && myConfig->readConfigInt("EnableBetInputFocusSwitch")) {
-        lineEdit_betValue->setFocus();
-        lineEdit_betValue->selectAll();
+        spinBox_betValue->setFocus();
+        spinBox_betValue->selectAll();
     }
 
     //    if(this->isMinimized()){
@@ -1609,10 +1604,10 @@ void gameTableImpl::disableMyButtons() {
 
     //clear userWidgets
     horizontalSlider_bet->setDisabled(TRUE);
-    lineEdit_betValue->setDisabled(TRUE);
+    spinBox_betValue->setDisabled(TRUE);
     horizontalSlider_bet->setMinimum(0);
     horizontalSlider_bet->setMaximum(currentHand->getSeatsList()->front()->getMyCash());
-    lineEdit_betValue->clear();
+    spinBox_betValue->clear();
     horizontalSlider_bet->setValue(0);
 
 #ifdef _WIN32
@@ -1848,7 +1843,7 @@ void gameTableImpl::pushButtonBetRaiseClicked(bool checked) {
             if(!radioButton_manualAction->isChecked())
                 radioButton_manualAction->click();
 
-            // 			myLastPreActionBetValue = lineEdit_betValue->value();
+            // 			myLastPreActionBetValue = spinBox_betValue->value();
 
         }
         else {
@@ -2034,7 +2029,7 @@ void gameTableImpl::postRiverRunAnimation2() {
     resetMyButtonsCheckStateMemory();
 
     horizontalSlider_bet->setDisabled(TRUE);
-    lineEdit_betValue->setDisabled(TRUE);
+    spinBox_betValue->setDisabled(TRUE);
 
     HandInterface *currentHand = myStartWindow->getSession()->getCurrentGame()->getCurrentHand();
 
@@ -2454,7 +2449,7 @@ void gameTableImpl::nextRoundCleanGui() {
     this->mouseOverFlipCards(FALSE);
 
     horizontalSlider_bet->setDisabled(TRUE);
-    lineEdit_betValue->setDisabled(TRUE);
+    spinBox_betValue->setDisabled(TRUE);
 
     uncheckMyButtons();
     myButtonsCheckable(FALSE);
@@ -2552,7 +2547,7 @@ void gameTableImpl::keyPressEvent ( QKeyEvent * event ) {
     bool ctrlPressed = FALSE;
 
     if (event->key() == Qt::Key_Enter || event->key() == Qt::Key_Return )  /*ENTER*/  {
-        if(lineEdit_betValue->hasFocus()) {
+        if(spinBox_betValue->hasFocus()) {
             pushButton_BetRaise->click();
         }
     }
@@ -2973,64 +2968,51 @@ void gameTableImpl::closeGameTable() {
     }
 }
 
-void gameTableImpl::changeLineEditBetValue(int value) {
+void gameTableImpl::changeSpinBoxBetValue(int value) {
 
     int temp;
     if(betSliderChangedByInput) {
-        //prevent interval cutting of lineEdit_betValue input from code below
+        //prevent interval cutting of spinBox_betValue input from code below
         betSliderChangedByInput = FALSE;
     }
     else {
         if(horizontalSlider_bet->maximum() <= 1000 ) {
-            temp = (int)((value/10)*10);
-            if(temp < horizontalSlider_bet->minimum())
-                lineEdit_betValue->setText(QString("%L1").arg(horizontalSlider_bet->minimum()));
-            else
-                lineEdit_betValue->setText(QString("%L1").arg(temp));
+            temp = (int)((value/10)*10);     
         }
         else if(horizontalSlider_bet->maximum() > 1000 && horizontalSlider_bet->maximum() <= 10000) {
-            temp = (int)((value/50)*50);
-            if(temp < horizontalSlider_bet->minimum())
-                lineEdit_betValue->setText(QString("%L1").arg(horizontalSlider_bet->minimum()));
-            else
-                lineEdit_betValue->setText(QString("%L1").arg(temp));
+            temp = (int)((value/50)*50);            
         }
         else if(horizontalSlider_bet->maximum() > 10000 && horizontalSlider_bet->maximum() <= 100000) {
-            temp = (int)((value/500)*500);
-            if(temp < horizontalSlider_bet->minimum())
-                lineEdit_betValue->setText(QString("%L1").arg(horizontalSlider_bet->minimum()));
-            else
-                lineEdit_betValue->setText(QString("%L1").arg(temp));
+            temp = (int)((value/500)*500);            
         }
         else {
-            temp = (int)((value/5000)*5000);
-            if(temp < horizontalSlider_bet->minimum())
-                lineEdit_betValue->setText(QString("%L1").arg(horizontalSlider_bet->minimum()));
-            else
-                lineEdit_betValue->setText(QString("%L1").arg(temp));
+            temp = (int)((value/5000)*5000);            
         }
+
+        if(temp < horizontalSlider_bet->minimum())
+            spinBox_betValue->setValue(horizontalSlider_bet->minimum());
+        else
+            spinBox_betValue->setValue(temp);
     }
 }
 
-void gameTableImpl::lineEditBetValueChanged(QString valueString) {
+void gameTableImpl::spinBoxBetValueChanged(int value) {
 
     if(horizontalSlider_bet->isEnabled()) {
 
-        bool ok;
-        int betValue = QString(valueString.remove(QRegExp("[^0-9]"))).toInt(&ok, 10);
         QString betRaise = pushButton_BetRaise->text().section("\n",0 ,0);
 	
-        if(betValue >= horizontalSlider_bet->minimum()) {
+        if(value >= horizontalSlider_bet->minimum()) {
 
-            if(betValue > horizontalSlider_bet->maximum()) { // print the maximum
+            if(value > horizontalSlider_bet->maximum()) { // print the maximum
                 pushButton_BetRaise->setText(betRaise + "\n$" + QString("%L1").arg(horizontalSlider_bet->maximum()));
                 betSliderChangedByInput = TRUE;
                 horizontalSlider_bet->setValue(horizontalSlider_bet->maximum());
             }
             else { // really print the value
-                pushButton_BetRaise->setText(betRaise + "\n$" + QString("%L1").arg(valueString.toInt()));
+                pushButton_BetRaise->setText(betRaise + "\n$" + QString("%L1").arg(value));
                 betSliderChangedByInput = TRUE;
-                horizontalSlider_bet->setValue(betValue);
+                horizontalSlider_bet->setValue(value);
             }
         }
         else { // print the minimum
@@ -3276,7 +3258,7 @@ void gameTableImpl::refreshGameTableStyle()
     myGameTableStyle->setButtonsStyle(pushButton_BetRaise, pushButton_CallCheck, pushButton_Fold, pushButton_AllIn, 0);
     myGameTableStyle->setShowMyCardsButtonStyle(pushButton_showMyCards);
 
-    myGameTableStyle->setBetValueInputStyle(lineEdit_betValue);
+    myGameTableStyle->setBetValueInputStyle(spinBox_betValue);
     myGameTableStyle->setSliderStyle(horizontalSlider_bet);
     myGameTableStyle->setSliderStyle(horizontalSlider_speed);
 

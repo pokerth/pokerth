@@ -114,7 +114,7 @@ public:
     void setSpeedStringStyle(QLabel*);
     void setVoteButtonStyle(QPushButton*);
     void setVoteStringsStyle(QLabel*);
-    void setBetValueInputStyle(QLineEdit*);
+    void setBetValueInputStyle(QSpinBox*);
     void setSliderStyle(QSlider*);
 
     void setTabWidgetStyle(QTabWidget*, QTabBar*);

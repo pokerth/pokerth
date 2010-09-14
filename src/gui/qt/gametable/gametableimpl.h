@@ -280,8 +280,8 @@ public slots:
     void myButtonsCheckable(bool state);
 
     void changePlayingMode();
-    void changeLineEditBetValue(int);
-    void lineEditBetValueChanged(QString);
+    void changeSpinBoxBetValue(int);
+    void spinBoxBetValueChanged(int);
 
     void showMaximized ();
     void closeGameTable();

@@ -3030,21 +3030,12 @@
             <number>2</number>
            </property>
            <item>
-            <widget class="QLineEdit" name="lineEdit_betValue">
-             <property name="minimumSize">
-              <size>
-               <width>0</width>
-               <height>21</height>
-              </size>
+            <widget class="QSpinBox" name="spinBox_betValue">
+             <property name="buttonSymbols">
+              <enum>QAbstractSpinBox::NoButtons</enum>
              </property>
-             <property name="maximumSize">
-              <size>
-               <width>16777215</width>
-               <height>21</height>
-              </size>
-             </property>
-             <property name="maxLength">
-              <number>10000000</number>
+             <property name="maximum">
+              <number>99999999</number>
              </property>
             </widget>
            </item>
