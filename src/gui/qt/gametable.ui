@@ -3031,11 +3031,26 @@
            </property>
            <item>
             <widget class="QSpinBox" name="spinBox_betValue">
+             <property name="minimumSize">
+              <size>
+               <width>69</width>
+               <height>0</height>
+              </size>
+             </property>
              <property name="buttonSymbols">
               <enum>QAbstractSpinBox::NoButtons</enum>
              </property>
+             <property name="accelerated">
+              <bool>true</bool>
+             </property>
+             <property name="correctionMode">
+              <enum>QAbstractSpinBox::CorrectToNearestValue</enum>
+             </property>
              <property name="maximum">
               <number>99999999</number>
+             </property>
+             <property name="singleStep">
+              <number>5</number>
              </property>
             </widget>
            </item>
@@ -3066,19 +3081,13 @@
             <enum>Qt::NoFocus</enum>
            </property>
            <property name="maximum">
-            <number>99999</number>
+            <number>9999999</number>
            </property>
            <property name="singleStep">
             <number>10</number>
            </property>
            <property name="orientation">
             <enum>Qt::Horizontal</enum>
-           </property>
-           <property name="tickPosition">
-            <enum>QSlider::NoTicks</enum>
-           </property>
-           <property name="tickInterval">
-            <number>10</number>
            </property>
           </widget>
          </item>
