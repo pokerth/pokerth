@@ -1470,6 +1470,8 @@ void gameTableImpl::provideMyActions(int mode) {
             horizontalSlider_bet->setMinimum(currentHand->getCurrentBeRo()->getHighestSet() - currentHand->getSeatsList()->front()->getMySet() + currentHand->getCurrentBeRo()->getMinimumRaise());
             horizontalSlider_bet->setMaximum(currentHand->getSeatsList()->front()->getMyCash());
             horizontalSlider_bet->setSingleStep(10);
+            spinBox_betValue->setMinimum(currentHand->getCurrentBeRo()->getHighestSet() - currentHand->getSeatsList()->front()->getMySet() + currentHand->getCurrentBeRo()->getMinimumRaise());
+            spinBox_betValue->setMaximum(currentHand->getSeatsList()->front()->getMyCash());
             changeSpinBoxBetValue(horizontalSlider_bet->value());
 
             myActionIsRaise = 1;
@@ -1479,6 +1481,8 @@ void gameTableImpl::provideMyActions(int mode) {
             horizontalSlider_bet->setMinimum(currentHand->getSmallBlind()*2);
             horizontalSlider_bet->setMaximum(currentHand->getSeatsList()->front()->getMyCash());
             horizontalSlider_bet->setSingleStep(10);
+            spinBox_betValue->setMinimum(currentHand->getSmallBlind()*2);
+            spinBox_betValue->setMaximum(currentHand->getSeatsList()->front()->getMyCash());
             changeSpinBoxBetValue(horizontalSlider_bet->value());
 
             myActionIsBet = 1;
@@ -1607,6 +1611,8 @@ void gameTableImpl::disableMyButtons() {
     spinBox_betValue->setDisabled(TRUE);
     horizontalSlider_bet->setMinimum(0);
     horizontalSlider_bet->setMaximum(currentHand->getSeatsList()->front()->getMyCash());
+    spinBox_betValue->setMinimum(0);
+    spinBox_betValue->setMaximum(currentHand->getSeatsList()->front()->getMyCash());
     spinBox_betValue->clear();
     horizontalSlider_bet->setValue(0);
 

@@ -3027,13 +3027,13 @@
          <item row="1" column="0">
           <layout class="QHBoxLayout">
            <property name="spacing">
-            <number>2</number>
+            <number>0</number>
            </property>
            <item>
             <widget class="QSpinBox" name="spinBox_betValue">
              <property name="minimumSize">
               <size>
-               <width>69</width>
+               <width>73</width>
                <height>0</height>
               </size>
              </property>

@@ -43,15 +43,15 @@ void MyNameLabel::setText ( const QString &t, bool trans, bool guest, bool compu
     if(myW->getSession()) {
 
         if(myW->getSession()->getGameType() == Session::GAME_TYPE_INTERNET && !guest && !computerplayer ) {
-            //for internetgame show players name with links to their profile included
+//          for internet game show players name with links to their profile included
             this->setTextFormat(Qt::RichText);
-            QUrl link(QString("http://pokerth.net/redirect_user_profile.php?nick=%1").arg(t));
+            QString linkString = QString("http://pokerth.net/redirect_user_profile.php?nick="+QUrl::toPercentEncoding(t));
 
             if(trans) {
-                text = "<a style='color: rgba("+red+", "+green+", "+blue+", 80);' href='"+link.toEncoded()+"'>"+t+"</a>";
+                text = "<a style='color: rgba("+red+", "+green+", "+blue+", 80);' href='"+linkString+"'>"+t+"</a>";
             }
             else {
-                text = "<a style='color: #"+myW->getMyGameTableStyle()->getPlayerNickTextColor()+";' href='"+link.toEncoded()+"'>"+t+"</a>";
+                text = "<a style='color: #"+myW->getMyGameTableStyle()->getPlayerNickTextColor()+";' href='"+linkString+"'>"+t+"</a>";
             }
 
         }
