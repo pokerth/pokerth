@@ -196,7 +196,8 @@ HEADERS += src/game.h \
     src/gui/qt/gamelobbydialog/mygamelistsortfilterproxymodel.h \
     src/gui/qt/internetgamelogindialog/internetgamelogindialogimpl.h \
     src/engine/local_engine/replay.h \
-    src/gui/qt/gamelobbydialog/mynicklistsortfilterproxymodel.h
+    src/gui/qt/gamelobbydialog/mynicklistsortfilterproxymodel.h \
+    src/gui/qt/gametable/myslider.h
 FORMS += src/gui/qt/gametable.ui \
     src/gui/qt/aboutpokerth.ui \
     src/gui/qt/connecttoserverdialog.ui \
@@ -312,7 +313,7 @@ win32 {
         ../curl/lib \
         ../SDL/lib \
         ../SDL_mixer/lib \
-		../mysql/lib \
+        ../mysql/lib \
         ../zlib
     LIBS += -lpokerth_lib \
         -lpokerth_db \
@@ -497,9 +498,9 @@ mac {
     INCLUDEPATH += /Library/Frameworks/SDL_mixer.framework/Headers
 }
 OTHER_FILES += docs/infomessage-id-desc.txt
-
-official_server {
-	LIBPATH += pkth_stat/daemon_lib/lib
-	LIBS += -lpokerth_closed -lmysqlpp
-	DEFINES += POKERTH_OFFICIAL_SERVER
+official_server { 
+    LIBPATH += pkth_stat/daemon_lib/lib
+    LIBS += -lpokerth_closed \
+        -lmysqlpp
+    DEFINES += POKERTH_OFFICIAL_SERVER
 }
