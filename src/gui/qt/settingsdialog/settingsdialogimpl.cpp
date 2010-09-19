@@ -56,31 +56,31 @@ settingsDialogImpl::settingsDialogImpl(QWidget *parent, ConfigFile *c, selectAva
 
     if (myConfig->readConfigInt("CLA_NoWriteAccess")) { groupBox_logOnOff->setDisabled(TRUE); }
 
-    comboBox_switchLanguage->addItem(trUtf8("Afrikaans (Afrikaans)"),"af");
-    comboBox_switchLanguage->addItem(trUtf8("Bulgarian (Български)"),"bg");
-    comboBox_switchLanguage->addItem(trUtf8("Catalan (Català)"),"ca");
-    comboBox_switchLanguage->addItem(trUtf8("Chinese (简体中文)"),"zhcn");
-    comboBox_switchLanguage->addItem(trUtf8("Czech (čeština)"),"cz");
-    comboBox_switchLanguage->addItem(trUtf8("Danish (Dansk)"),"dk");
-    comboBox_switchLanguage->addItem(trUtf8("Dutch (Nederlands)"),"nl");
-    comboBox_switchLanguage->addItem(trUtf8("English (English)"),"en");
-    comboBox_switchLanguage->addItem(trUtf8("Finnish (suomi)"),"fi");
-    comboBox_switchLanguage->addItem(trUtf8("French (français)"),"fr");
-    comboBox_switchLanguage->addItem(trUtf8("German (Deutsch)"),"de");
-    comboBox_switchLanguage->addItem(trUtf8("Greek (Ελληνικά)"),"gr");
-    comboBox_switchLanguage->addItem(trUtf8("Hungarian (Magyar)"),"hu");
-    comboBox_switchLanguage->addItem(trUtf8("Italian (italiano)"),"it");
-    comboBox_switchLanguage->addItem(trUtf8("Lithuania (Lietuviškai)"),"lt");
-    comboBox_switchLanguage->addItem(trUtf8("Norwegian (Norsk)"),"no");
-    comboBox_switchLanguage->addItem(trUtf8("Polish (polski)"),"pl");
-    comboBox_switchLanguage->addItem(trUtf8("Portuguese-Brazilian (português brasileiro)"),"ptbr");
-    comboBox_switchLanguage->addItem(trUtf8("Portuguese-Portuguese (português português)"),"ptpt");
-    comboBox_switchLanguage->addItem(trUtf8("Russian (Pyccĸий)"),"ru");
-    comboBox_switchLanguage->addItem(trUtf8("Slovak (Slovenčina)"),"sk");
-    comboBox_switchLanguage->addItem(trUtf8("Spanish (Español)"),"es");
-    comboBox_switchLanguage->addItem(trUtf8("Swedish (svenska)"),"sv");
-    comboBox_switchLanguage->addItem(trUtf8("Tamil (தமிழ்)"),"ta");
-    comboBox_switchLanguage->addItem(trUtf8("Turkish (Tϋrkçe)"),"tr");
+    comboBox_switchLanguage->addItem(QString(tr("Afrikaans")+" "+QString::fromUtf8("(Afrikaans)")),"af");
+    comboBox_switchLanguage->addItem(QString(tr("Bulgarian")+" "+QString::fromUtf8("(Български)")),"bg");
+    comboBox_switchLanguage->addItem(QString(tr("Catalan")+" "+QString::fromUtf8("(Català)")),"ca");
+    comboBox_switchLanguage->addItem(QString(tr("Chinese")+" "+QString::fromUtf8("(简体中文)")),"zhcn");
+    comboBox_switchLanguage->addItem(QString(tr("Czech")+" "+QString::fromUtf8("(čeština)")),"cz");
+    comboBox_switchLanguage->addItem(QString(tr("Danish")+" "+QString::fromUtf8("(Dansk)")),"dk");
+    comboBox_switchLanguage->addItem(QString(tr("Dutch")+" "+QString::fromUtf8("(Nederlands)")),"nl");
+    comboBox_switchLanguage->addItem(QString(tr("English")+" "+QString::fromUtf8("(English)")),"en");
+    comboBox_switchLanguage->addItem(QString(tr("Finnish")+" "+QString::fromUtf8("(suomi)")),"fi");
+    comboBox_switchLanguage->addItem(QString(tr("French")+" "+QString::fromUtf8("(français)")),"fr");
+    comboBox_switchLanguage->addItem(QString(tr("German")+" "+QString::fromUtf8("(Deutsch)")),"de");
+    comboBox_switchLanguage->addItem(QString(tr("Greek")+" "+QString::fromUtf8("(Ελληνικά)")),"gr");
+    comboBox_switchLanguage->addItem(QString(tr("Hungarian")+" "+QString::fromUtf8("(Magyar)")),"hu");
+    comboBox_switchLanguage->addItem(QString(tr("Italian")+" "+QString::fromUtf8("(italiano)")),"it");
+    comboBox_switchLanguage->addItem(QString(tr("Lithuania")+" "+QString::fromUtf8("(Lietuviškai)")),"lt");
+    comboBox_switchLanguage->addItem(QString(tr("Norwegian")+" "+QString::fromUtf8("(Norsk)")),"no");
+    comboBox_switchLanguage->addItem(QString(tr("Polish")+" "+QString::fromUtf8("(polski)")),"pl");
+    comboBox_switchLanguage->addItem(QString(tr("Portuguese-Brazilian")+" "+QString::fromUtf8("(português brasileiro)")),"ptbr");
+    comboBox_switchLanguage->addItem(QString(tr("Portuguese-Portuguese")+" "+QString::fromUtf8("(português português)")),"ptpt");
+    comboBox_switchLanguage->addItem(QString(tr("Russian")+" "+QString::fromUtf8("(Pyccĸий)")),"ru");
+    comboBox_switchLanguage->addItem(QString(tr("Slovak")+" "+QString::fromUtf8("(Slovenčina)")),"sk");
+    comboBox_switchLanguage->addItem(QString(tr("Spanish")+" "+QString::fromUtf8("(Español)")),"es");
+    comboBox_switchLanguage->addItem(QString(tr("Swedish")+" "+QString::fromUtf8("(svenska)")),"sv");
+    comboBox_switchLanguage->addItem(QString(tr("Tamil")+" "+QString::fromUtf8("(தமிழ்)")),"ta");
+    comboBox_switchLanguage->addItem(QString(tr("Turkish")+" "+QString::fromUtf8("(Tϋrkçe)")),"tr");
 
     connect( buttonBox, SIGNAL( accepted() ), this, SLOT( isAccepted() ) );
     connect( lineEdit_HumanPlayerName, SIGNAL( textChanged( const QString &) ), this, SLOT( playerNickChanged() ) );

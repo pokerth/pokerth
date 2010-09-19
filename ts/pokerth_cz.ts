@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
 <TS version="2.0" language="cs_CZ">
+<defaultcodec>UTF-8</defaultcodec>
 <context>
     <name>CardDeckStyleReader</name>
     <message>
@@ -313,7 +314,7 @@ Kontaktujte, prosím, výrobce stylu herního stolu na &quot;%4&quot;.</translat
         <source>Close</source>
         <translation>Zavřít</translation>
     </message>
-    <message utf8="true">
+    <message>
         <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
@@ -325,7 +326,7 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;
 &lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;© 2006-2009, FHammer, FThauer, LMay&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+        <translation type="obsolete">&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body&gt;
@@ -455,7 +456,7 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; &quot;&gt;          - basic architecture, network development, windows package, MacOS package&lt;/span&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; &quot;&gt;     Oskar Lindqvist (&lt;/span&gt;&lt;a href=&quot;mailto:tranberry@pokerth.net&quot;&gt;&lt;span style=&quot;  text-decoration: underline; color:#0000ff;&quot;&gt;tranberry@pokerth.net&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; &quot;&gt;)&lt;/span&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; &quot;&gt;          - initial gui graphics design&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+        <translation type="obsolete">&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-weight:400; font-style:normal;&quot;&gt;
@@ -481,7 +482,7 @@ p, li { white-space: pre-wrap; }
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-weight:400; font-style:normal;&quot;&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; &quot;&gt;translator name - mail address&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+        <translation type="obsolete">&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-weight:400; font-style:normal;&quot;&gt;
@@ -510,7 +511,7 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; &quot;&gt;    - for startwindow background gfx and danuxi1 table background&lt;/span&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot;  font-weight:600;&quot;&gt;heyn&lt;/span&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; &quot;&gt;    - for moderating forum and organise bugtracker and feature requests&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+        <translation type="obsolete">&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-weight:400; font-style:normal;&quot;&gt;
@@ -532,6 +533,87 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; &quot;&gt;     - za grafiku pozadí úvodního okna a pozadí tabulky danuxi1&lt;/span&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot;  font-weight:600;&quot;&gt;heyn&lt;/span&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; &quot;&gt;     - za moderování fóra a organizaci bugtrackeru a seznamu požadovaných vlastností&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+    </message>
+    <message>
+        <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:8pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;table border=&quot;0&quot; style=&quot;-qt-table-type: root; margin-top:4px; margin-bottom:4px; margin-left:4px; margin-right:4px;&quot;&gt;
+&lt;tr&gt;
+&lt;td style=&quot;border: none;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;- Poker engine for the popular &amp;quot;Texas Hold&apos;em&amp;quot; Poker&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;- Singleplayer games with up to 9 computer-opponents&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;- Multiplayer network games&lt;br /&gt;- Internet online games&lt;br /&gt;- Changeable gui with online style gallery&lt;br /&gt;- &lt;a href=&quot;http://online-ranking.pokerth.net&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0057ae;&quot;&gt;Online ranking website&lt;/span&gt;&lt;/a&gt; with result tables&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;© 2006-2010, FHammer, FThauer, LMay&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:8pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;table style=&quot;-qt-table-type: root; margin-top:4px; margin-bottom:4px; margin-left:4px; margin-right:4px;&quot;&gt;
+&lt;tr&gt;
+&lt;td style=&quot;border: none;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Project page: &lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;     &lt;a href=&quot;http://www.pokerth.net&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;http://www.pokerth.net&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;IRC: &lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;     #pokerth (irc.freenode.net)&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Authors: &lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;     Felix Hammer (&lt;a href=&quot;mailto:doitux@pokerth.net&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;doitux@pokerth.net&lt;/span&gt;&lt;/a&gt;)&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;          - initial idea, basic architecture, gui implementation, gui graphics editing, linux package&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;     Florian Thauer (&lt;a href=&quot;mailto:floty@pokerth.net&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;floty@pokerth.net&lt;/span&gt;&lt;/a&gt;)&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;          - initial idea, basic architecture, engine development&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;     Lothar May (&lt;a href=&quot;mailto:lotodore@pokerth.net&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;lotodore@pokerth.net&lt;/span&gt;&lt;/a&gt;)&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;          - basic architecture, network development, windows package, MacOS package&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;     Oskar Lindqvist (&lt;a href=&quot;mailto:tranberry@pokerth.net&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;tranberry@pokerth.net&lt;/span&gt;&lt;/a&gt;)&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;          - initial gui graphics design&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:8pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;table style=&quot;-qt-table-type: root; margin-top:4px; margin-bottom:4px; margin-left:4px; margin-right:4px;&quot;&gt;
+&lt;tr&gt;
+&lt;td style=&quot;border: none;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;translator name - mail address&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:8pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;table style=&quot;-qt-table-type: root; margin-top:4px; margin-bottom:4px; margin-left:4px; margin-right:4px;&quot;&gt;
+&lt;tr&gt;
+&lt;td style=&quot;border: none;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://commons.wikimedia.org/wiki/Main_Page&quot;&gt;&lt;span style=&quot; font-weight:600; text-decoration: underline; color:#0000ff;&quot;&gt;Wikimedia Commons&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;     - &lt;/span&gt;for different popular avatar picture resources&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Benedikt, Erhard, Felix, Florian, Linus, Lothar, Steffi, Caro&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;     - for people avatar pictures&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;ZeiZei&lt;/span&gt; &lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;    - for &amp;quot;misc&amp;quot; avatar pictures&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://kde-look.org/&quot;&gt;&lt;span style=&quot; font-weight:600; text-decoration: underline; color:#0000ff;&quot;&gt;http://kde-look.org/&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;     - for different gpl licensed sounds&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;doc_dos&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;     - for self recorded chip sounds&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;thiger, dunkanx, BerndA, coldz&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;     - for different patches&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;kraut&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;     - for internet-game-server hosting and administration&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;danuxi&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;    - for startwindow background gfx and danuxi1 table background&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;heyn&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;    - for moderating forum and organise bugtracker and feature requests&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -666,6 +748,11 @@ Zvolte, prosím, jiný název!</translation>
     <message>
         <source>Game name:</source>
         <translation>Název hry:</translation>
+    </message>
+    <message>
+        <source>There is a forbidden word in your choosen game name.
+Please choose another one!</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1042,6 +1129,18 @@ p, li { white-space: pre-wrap; }
         <source>search for player ...</source>
         <translation>vyhledat hráče ...</translation>
     </message>
+    <message>
+        <source>Sort alphabetically</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Sort by country</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Display idle players</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>gameLobbyDialogImpl</name>
@@ -1284,6 +1383,10 @@ Další hráče můžete pozvat pravým kliknutím na jejich přezdívku v sezna
     <message>
         <source>&lt;span style=&apos;color:red;&apos;&gt;%1 cannot join %2 because he is busy.&lt;/span&gt;</source>
         <translation>&lt;span style=&apos;color:red;&apos;&gt;Hráč %1 se nemůže připojit do hry %2, protože je zaneprázdněn.&lt;/span&gt;</translation>
+    </message>
+    <message>
+        <source>The game will start in&lt;br&gt;&lt;b&gt;%1&lt;/b&gt; seconds.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1544,6 +1647,17 @@ a vrátit se zpět do lobby?</translation>
     <message>
         <source>Chat is only available to registered players.</source>
         <translation>Chat je dostupný pouze registrovaným hráčům.</translation>
+    </message>
+    <message>
+        <source>PokerTH - Warning</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>You have triggered a warning level of timeouts in a ranking game.
+After %1 additional timeouts the server needs to kick you to provide a better game flow!
+
+If you are temporarily away, you can use the &quot;away&quot; tools in the tool box on the right.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -2478,47 +2592,47 @@ p, li { white-space: pre-wrap; }
     <name>settingsDialogImpl</name>
     <message>
         <source>Dutch</source>
-        <translation>Nederlands</translation>
+        <translation type="unfinished">Nederlands</translation>
     </message>
     <message>
         <source>English</source>
-        <translation>English</translation>
+        <translation type="unfinished">English</translation>
     </message>
     <message>
         <source>French</source>
-        <translation>Français</translation>
+        <translation type="unfinished">Français</translation>
     </message>
     <message>
         <source>German</source>
-        <translation>Deutsch</translation>
+        <translation type="unfinished">Deutsch</translation>
     </message>
     <message>
         <source>Hungarian</source>
-        <translation>Magyar</translation>
+        <translation type="unfinished">Magyar</translation>
     </message>
     <message>
         <source>Italian</source>
-        <translation>Italiano</translation>
+        <translation type="unfinished">Italiano</translation>
     </message>
     <message>
         <source>Norwegian</source>
-        <translation>Nynorsk</translation>
+        <translation type="unfinished">Nynorsk</translation>
     </message>
     <message>
         <source>Russian</source>
-        <translation>Русский</translation>
+        <translation type="unfinished">Русский</translation>
     </message>
     <message>
         <source>Slovak</source>
-        <translation>Slovensky</translation>
+        <translation type="unfinished">Slovensky</translation>
     </message>
     <message>
         <source>Spanish</source>
-        <translation>Español</translation>
+        <translation type="unfinished">Español</translation>
     </message>
     <message>
         <source>Turkish</source>
-        <translation>Türkçe</translation>
+        <translation type="unfinished">Türkçe</translation>
     </message>
     <message>
         <source>Settings Error</source>
@@ -2571,23 +2685,23 @@ Hodnota tohoto prvního malého blindu bude nastavená na max. možnou hodnotu.<
     </message>
     <message>
         <source>Bulgarian</source>
-        <translation>Български</translation>
+        <translation type="unfinished">Български</translation>
     </message>
     <message>
         <source>Polish</source>
-        <translation>Polski</translation>
+        <translation type="unfinished">Polski</translation>
     </message>
     <message>
         <source>Chinese</source>
-        <translation>中文</translation>
+        <translation type="unfinished">中文</translation>
     </message>
     <message>
         <source>Greek</source>
-        <translation>Ελληνικά</translation>
+        <translation type="unfinished">Ελληνικά</translation>
     </message>
     <message>
         <source>Swedish</source>
-        <translation>Svenska</translation>
+        <translation type="unfinished">Svenska</translation>
     </message>
     <message>
         <source>The entered server list address is not a valid URL.
@@ -2597,11 +2711,11 @@ Zadejte platnou adresu seznamu serverů!</translation>
     </message>
     <message>
         <source>Finnish</source>
-        <translation>Suomi</translation>
+        <translation type="unfinished">Suomi</translation>
     </message>
     <message>
         <source>Danish</source>
-        <translation>Dansk</translation>
+        <translation type="unfinished">Dansk</translation>
     </message>
     <message>
         <source>Maintainer Name</source>
@@ -2697,23 +2811,23 @@ Styl nebude umístěn do seznamu!</translation>
     </message>
     <message>
         <source>Portuguese (Brazilian)</source>
-        <translation>Português (Brazil)</translation>
+        <translation type="obsolete">Português (Brazil)</translation>
     </message>
     <message>
         <source>Portuguese (Portuguese)</source>
-        <translation>Português (Português)</translation>
+        <translation type="obsolete">Português (Português)</translation>
     </message>
     <message>
         <source>Czech</source>
-        <translation>Česky</translation>
+        <translation type="unfinished">Česky</translation>
     </message>
     <message>
         <source>Catalan</source>
-        <translation>Català</translation>
+        <translation type="unfinished">Català</translation>
     </message>
     <message>
         <source>Tamil</source>
-        <translation>Tamil</translation>
+        <translation type="unfinished">Tamil</translation>
     </message>
     <message>
         <source>State</source>
@@ -2725,7 +2839,7 @@ Styl nebude umístěn do seznamu!</translation>
     </message>
     <message>
         <source>Do you really want to delete the seleted log file?</source>
-        <translation>Opravdu chcete vybraný soubor záznamu smazat?</translation>
+        <translation type="obsolete">Opravdu chcete vybraný soubor záznamu smazat?</translation>
     </message>
     <message>
         <source>Save PokerTH log file</source>
@@ -2737,7 +2851,23 @@ Styl nebude umístěn do seznamu!</translation>
     </message>
     <message>
         <source>Afrikaans</source>
-        <translation>Afrikaans</translation>
+        <translation type="unfinished">Afrikaans</translation>
+    </message>
+    <message>
+        <source>Do you really want to delete the selected log file?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Lithuania</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Portuguese-Brazilian</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Portuguese-Portuguese</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
