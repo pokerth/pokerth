@@ -2,7 +2,6 @@
 isEmpty( PREFIX ):PREFIX = /usr
 TEMPLATE = app
 CODECFORSRC = UTF-8
-CODECFORTR = UTF-8
 CONFIG += qt \
     thread \
     embed_manifest_exe \

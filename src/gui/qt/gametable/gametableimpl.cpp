@@ -2259,7 +2259,12 @@ void gameTableImpl::postRiverRunAnimation5() {
 
 void gameTableImpl::postRiverRunAnimation6() {
 
-    // 	int i;
+    //GUI HACK show every nick label
+    int i;
+    for (i=0; i<MAX_NUMBER_OF_PLAYERS; i++) {
+        playerNameLabelArray[i]->show();
+    }
+
     HandInterface *currentHand = myStartWindow->getSession()->getCurrentGame()->getCurrentHand();
 
     refreshCash();
