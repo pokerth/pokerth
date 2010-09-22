@@ -3114,6 +3114,15 @@ void LocalPlayer::evaluation(int bet, int raise) {
                             myAction = 6;
                             highestSet = mySet;
                         }
+                    } else {
+                        // lastPlayerAction für Karten umblättern reihenfolge setzrn
+                        currentHand->setLastActionPlayer(myUniqueID);
+
+                        mySet += myCash;
+                        currentHand->getCurrentBeRo()->setMinimumRaise(mySet-highestSet);
+                        myCash = 0;
+                        myAction = 6;
+                        highestSet = mySet;
                     }
                 }
                 // sonst
