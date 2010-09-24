@@ -292,8 +292,6 @@ TRANSLATIONS = ts/pokerth_af.ts \
     ts/pokerth_tr.ts \
     ts/pokerth_START_HERE.ts
 win32 { 
-    QTPLUGIN += qjpeg \
-        qgif
     DEFINES += CURL_STATICLIB
     DEFINES += _WIN32_WINNT=0x0501
     DEPENDPATH += src/net/win32/ \
@@ -326,12 +324,12 @@ win32 {
         -llibcurl
     win32-g++ { 
         LIBS += -lgnutls-openssl \
-            -lgnutls \
-            -lgcrypt \
-            -ltasn1 \
-            -lgpg-error \
-            -lgsasl \
-            -lidn
+			-lgnutls \
+			-lgcrypt \
+			-ltasn1 \
+			-lgpg-error \
+			-lgsasl \
+			-lidn
         LIBS += -lcurl
         LIBS += -lz
         LIBS += -lboost_thread-mgw45-mt-1_44.dll

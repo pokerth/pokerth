@@ -64,12 +64,6 @@
 //Q_IMPORT_PLUGIN(qgif)
 
 
-#ifdef _WIN32 // Always use static Qt on Windows.
-#include <QtPlugin>
-Q_IMPORT_PLUGIN(qjpeg)
-Q_IMPORT_PLUGIN(qgif)
-#endif
-
 using namespace std;
 
 class startWindowImpl;
