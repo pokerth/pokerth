@@ -135,14 +135,14 @@ cd /d %PKTH_BaseDir%
 if not exist %PKTH_BaseDir%\qt. (
 echo.
 echo Downloading Qt
-%PKTH_OldDir%\third_party_apps\wget http://get.qt.nokia.com/qt/source/qt-everywhere-opensource-src-4.6.3.zip
+%PKTH_OldDir%\third_party_apps\wget http://get.qt.nokia.com/qt/source/qt-everywhere-opensource-src-4.7.0.zip
 if not errorlevel 0 goto downloadFailed
 echo.
 echo Unpacking Qt
-%PKTH_OldDir%\third_party_apps\7za x -y qt-everywhere-opensource-src-4.6.3.zip
+%PKTH_OldDir%\third_party_apps\7za x -y qt-everywhere-opensource-src-4.7.0.zip
 REM Wait 5 seconds for the file cache, else ren might fail.
 @ping 127.0.0.1 -n 5 -w 1000 > nul
-ren qt-everywhere-opensource-src-4.6.3 qt
+ren qt-everywhere-opensource-src-4.7.0 qt
 )
 if not exist %PKTH_BaseDir%\qt goto qtFailure
 echo.
@@ -151,7 +151,7 @@ SET PATH=%PKTH_BaseDir%\qt\bin;%PATH%
 SET QMAKESPEC=win32-g++
 SET QTDIR=%PKTH_BaseDir%\qt
 cd qt
-%PKTH_OldDir%\third_party_apps\find -name *.cpp -exec sed -i "s/Q_DECL_IMPORT extern/Q_CORE_EXPORT/g" {} ;
+REM %PKTH_OldDir%\third_party_apps\find -name *.cpp -exec sed -i "s/Q_DECL_IMPORT extern/Q_CORE_EXPORT/g" {} ;
 configure -static -fast -no-qt3support -qt-sql-sqlite -no-dbus -no-opengl -no-openssl -no-phonon -no-webkit
 qmake projects.pro -o Makefile -spec win32-g++
 mingw32-make sub-src
@@ -199,9 +199,9 @@ move GnuTLS\lib\*.la GnuTLS\lib\unused
 if not exist %PKTH_BaseDir%\gsasl. (
 echo.
 echo Downloading gsasl
-%PKTH_OldDir%\third_party_apps\wget http://josefsson.org/gnutls4win/gsasl-1.4.2-idn.zip
+%PKTH_OldDir%\third_party_apps\wget http://josefsson.org/gnutls4win/gsasl-1.4.4.zip
 mkdir gsasl
-%PKTH_OldDir%\third_party_apps\7za x -y -ogsasl gsasl-1.4.2-idn.zip
+%PKTH_OldDir%\third_party_apps\7za x -y -ogsasl gsasl-1.4.4.zip
 REM Wait 5 seconds for the file cache.
 @ping 127.0.0.1 -n 5 -w 1000 > nul
 REM Remove files for dynamic linking, we do not want to accidently use them
@@ -213,16 +213,16 @@ cd /d %PKTH_BaseDir%
 if not exist %PKTH_BaseDir%\curl. (
 echo.
 echo Downloading curl
-%PKTH_OldDir%\third_party_apps\wget http://curl.haxx.se/download/curl-7.21.0.tar.bz2
+%PKTH_OldDir%\third_party_apps\wget http://curl.haxx.se/download/curl-7.21.1.tar.bz2
 if not errorlevel 0 goto downloadFailed
 echo.
 echo Unpacking curl
-%PKTH_OldDir%\third_party_apps\7za x -y curl-7.21.0.tar.bz2
-%PKTH_OldDir%\third_party_apps\7za x -y curl-7.21.0.tar
-del curl-7.21.0.tar
+%PKTH_OldDir%\third_party_apps\7za x -y curl-7.21.1.tar.bz2
+%PKTH_OldDir%\third_party_apps\7za x -y curl-7.21.1.tar
+del curl-7.21.1.tar
 REM Wait 5 seconds for the file cache, else ren might fail.
 @ping 127.0.0.1 -n 5 -w 1000 > nul
-ren curl-7.21.0 curl
+ren curl-7.21.1 curl
 )
 echo.
 echo Compiling curl
