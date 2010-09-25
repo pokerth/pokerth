@@ -1458,6 +1458,7 @@ ClientStateWaitGame::InternalHandlePacket(boost::shared_ptr<ClientThread> client
 {
 	if (tmpPacket->GetMsg()->present == PokerTHMessage_PR_startEventMessage)
 	{
+		client->GetCallback().SignalNetClientGameInfo(MSG_NET_GAME_CLIENT_SYNCSTART);
 		client->SetState(ClientStateSynchronizeStart::Instance());
 	}
 	else if (tmpPacket->GetMsg()->present == PokerTHMessage_PR_gamePlayerMessage)
