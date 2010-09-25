@@ -369,6 +369,10 @@ void gameLobbyDialogImpl::refresh(int actionID) {
         headerList2 << tr("Available Players");
         myNickListModel->setHorizontalHeaderLabels(headerList2);
 
+        //stop waitStartGameMsgBox
+        waitStartGameMsgBoxTimer->stop();
+        waitStartGameMsgBox->hide();
+
         this->accept();
         myW->show();
     }
@@ -1171,7 +1175,7 @@ void gameLobbyDialogImpl::leaveGame() {
     autoStartTimerOverlay->hide();
     autoStartTimer->stop();
 
-    //stop autoStartTimerOverlay
+    //stop waitStartGameMsgBox
     waitStartGameMsgBoxTimer->stop();
     waitStartGameMsgBox->hide();
 }
@@ -1303,6 +1307,9 @@ void gameLobbyDialogImpl::reject()
 void gameLobbyDialogImpl::closeEvent(QCloseEvent *event)
 {
     event->accept();
+    //stop waitStartGameMsgBox
+    waitStartGameMsgBoxTimer->stop();
+    waitStartGameMsgBox->hide();
 }
 
 
