@@ -346,8 +346,7 @@ void gameLobbyDialogImpl::joinAnyGame() {
 
 void gameLobbyDialogImpl::refresh(int actionID) {
 
-    if (actionID == MSG_NET_GAME_CLIENT_START)
-    {
+    if (actionID == MSG_NET_GAME_CLIENT_START) {
         myGameListModel->clear();
         myGameListSelectionModel->clear();
         myGameListSelectionModel->clearSelection();
@@ -372,6 +371,10 @@ void gameLobbyDialogImpl::refresh(int actionID) {
 
         this->accept();
         myW->show();
+    }
+    else if(actionID == MSG_NET_GAME_CLIENT_SYNCSTART) {
+
+        waitStartGameMsgBoxTimer->start(2000);
     }
 }
 
@@ -1157,7 +1160,6 @@ void gameLobbyDialogImpl::startGame() {
 
     assert(mySession);
     mySession->sendStartEvent(checkBox_fillUpWithComputerOpponents->isChecked());
-    waitStartGameMsgBoxTimer->start(1000);
 }
 
 void gameLobbyDialogImpl::leaveGame() {
