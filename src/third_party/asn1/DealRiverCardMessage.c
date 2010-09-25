@@ -34,8 +34,8 @@ static ber_tlv_tag_t asn_DEF_DealRiverCardMessage_tags_1[] = {
 	(ASN_TAG_CLASS_UNIVERSAL | (16 << 2))
 };
 static asn_TYPE_tag2member_t asn_MAP_DealRiverCardMessage_tag2el_1[] = {
-    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 0, 0, 1 }, /* gameId at 503 */
-    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 1, -1, 0 } /* riverCard at 505 */
+    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 0, 0, 1 }, /* gameId at 504 */
+    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 1, -1, 0 } /* riverCard at 506 */
 };
 static asn_SEQUENCE_specifics_t asn_SPC_DealRiverCardMessage_specs_1 = {
 	sizeof(struct DealRiverCardMessage),

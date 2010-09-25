@@ -44,6 +44,15 @@ static asn_TYPE_member_t asn_MBR_MyActionRequestMessage_1[] = {
 		0,
 		"gameId"
 		},
+	{ ATF_NOFLAGS, 0, offsetof(struct MyActionRequestMessage, handNum),
+		(ASN_TAG_CLASS_UNIVERSAL | (2 << 2)),
+		0,
+		&asn_DEF_NonZeroId,
+		0,	/* Defer constraints checking to the member type */
+		0,	/* PER is not compiled, use -gen-PER */
+		0,
+		"handNum"
+		},
 	{ ATF_NOFLAGS, 0, offsetof(struct MyActionRequestMessage, gameState),
 		(ASN_TAG_CLASS_UNIVERSAL | (10 << 2)),
 		0,
@@ -77,19 +86,20 @@ static ber_tlv_tag_t asn_DEF_MyActionRequestMessage_tags_1[] = {
 	(ASN_TAG_CLASS_UNIVERSAL | (16 << 2))
 };
 static asn_TYPE_tag2member_t asn_MAP_MyActionRequestMessage_tag2el_1[] = {
-    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 0, 0, 1 }, /* gameId at 461 */
-    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 3, -1, 0 }, /* myRelativeBet at 464 */
-    { (ASN_TAG_CLASS_UNIVERSAL | (10 << 2)), 1, 0, 1 }, /* gameState at 462 */
-    { (ASN_TAG_CLASS_UNIVERSAL | (10 << 2)), 2, -1, 0 } /* myAction at 463 */
+    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 0, 0, 2 }, /* gameId at 461 */
+    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 1, -1, 1 }, /* handNum at 462 */
+    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 4, -2, 0 }, /* myRelativeBet at 465 */
+    { (ASN_TAG_CLASS_UNIVERSAL | (10 << 2)), 2, 0, 1 }, /* gameState at 463 */
+    { (ASN_TAG_CLASS_UNIVERSAL | (10 << 2)), 3, -1, 0 } /* myAction at 464 */
 };
 static asn_SEQUENCE_specifics_t asn_SPC_MyActionRequestMessage_specs_1 = {
 	sizeof(struct MyActionRequestMessage),
 	offsetof(struct MyActionRequestMessage, _asn_ctx),
 	asn_MAP_MyActionRequestMessage_tag2el_1,
-	4,	/* Count of tags in the map */
+	5,	/* Count of tags in the map */
 	0, 0, 0,	/* Optional elements (not needed) */
-	3,	/* Start extensions */
-	5	/* Stop extensions */
+	4,	/* Start extensions */
+	6	/* Stop extensions */
 };
 asn_TYPE_descriptor_t asn_DEF_MyActionRequestMessage = {
 	"MyActionRequestMessage",
@@ -111,7 +121,7 @@ asn_TYPE_descriptor_t asn_DEF_MyActionRequestMessage = {
 		/sizeof(asn_DEF_MyActionRequestMessage_tags_1[0]), /* 2 */
 	0,	/* No PER visible constraints */
 	asn_MBR_MyActionRequestMessage_1,
-	4,	/* Elements count */
+	5,	/* Elements count */
 	&asn_SPC_MyActionRequestMessage_specs_1	/* Additional specs */
 };
 

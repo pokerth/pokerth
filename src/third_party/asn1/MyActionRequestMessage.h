@@ -25,6 +25,7 @@ extern "C" {
 /* MyActionRequestMessage */
 typedef struct MyActionRequestMessage {
 	NonZeroId_t	 gameId;
+	NonZeroId_t	 handNum;
 	NetGameState_t	 gameState;
 	NetPlayerAction_t	 myAction;
 	long	 myRelativeBet;
