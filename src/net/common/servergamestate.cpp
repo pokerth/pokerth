@@ -506,9 +506,6 @@ ServerGameStateInit::TimerAdminTimeout(const boost::system::error_code &ec, boos
 void
 ServerGameStateInit::SendStartEvent(ServerGame &server, bool fillWithComputerPlayers)
 {
-	// Fill up with computer players.
-	server.ResetComputerPlayerList();
-
 	if (fillWithComputerPlayers)
 	{
 		int remainingSlots = server.GetGameData().maxNumberOfPlayers - server.GetCurNumberOfPlayers();
