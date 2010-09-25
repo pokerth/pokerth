@@ -1170,6 +1170,10 @@ void gameLobbyDialogImpl::leaveGame() {
     //stop autoStartTimerOverlay
     autoStartTimerOverlay->hide();
     autoStartTimer->stop();
+
+    //stop autoStartTimerOverlay
+    waitStartGameMsgBoxTimer->stop();
+    waitStartGameMsgBox->hide();
 }
 
 void gameLobbyDialogImpl::kickPlayer() {
@@ -1263,9 +1267,12 @@ void gameLobbyDialogImpl::showGameDescription(bool show) {
 }
 
 void gameLobbyDialogImpl::showWaitStartGameMsgBox() { 
-    waitStartGameMsgBox->show();
-    waitStartGameMsgBox->raise();
-    waitStartGameMsgBox->activateWindow();
+
+    if(this->isVisible()) {
+        waitStartGameMsgBox->show();
+        waitStartGameMsgBox->raise();
+        waitStartGameMsgBox->activateWindow();
+    }
 }
 
 void gameLobbyDialogImpl::joinAnyGameButtonRefresh() {
