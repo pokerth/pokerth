@@ -11,9 +11,6 @@ CONFIG += qt \
     warn_on
 include(src/third_party/qtsingleapplication/qtsingleapplication.pri)
 QT += sql
-
-# ####Uncomment this for RELEASE on Linux/Unix/BSD (only for static Qt)
-# QTPLUGIN += qjpeg qgif
 UI_DIR = uics
 MOC_DIR = mocs
 OBJECTS_DIR = obj

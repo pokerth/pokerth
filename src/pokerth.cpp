@@ -58,12 +58,6 @@
 	#define ENABLE_LEAK_CHECK()
 #endif
 
-//Uncomment this for RELEASE on Linux/Unix/BSD (static Qt only)
-//#include <QtPlugin>
-//Q_IMPORT_PLUGIN(qjpeg)
-//Q_IMPORT_PLUGIN(qgif)
-
-
 using namespace std;
 
 class startWindowImpl;
