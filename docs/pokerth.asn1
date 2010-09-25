@@ -459,6 +459,7 @@ PlayersTurnMessage ::= [APPLICATION 24] SEQUENCE {
 
 MyActionRequestMessage ::= [APPLICATION 25] SEQUENCE {
 	gameId						NonZeroId,
+	handNum						NonZeroId,
 	gameState					NetGameState,
 	myAction					NetPlayerAction,
 	myRelativeBet				INTEGER(0..10000000)
