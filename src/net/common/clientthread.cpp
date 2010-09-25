@@ -160,6 +160,7 @@ ClientThread::SendPlayerAction()
 	MyActionRequestMessage_t *netMyAction = &packet->GetMsg()->choice.myActionRequestMessage;
 	netMyAction->gameId = GetGameId();
 	boost::shared_ptr<PlayerInterface> myPlayer = GetGame()->getSeatsList()->front();
+	netMyAction->handNum = GetGame()->getCurrentHandID();
 	netMyAction->gameState = GetGame()->getCurrentHand()->getCurrentRound();
 	netMyAction->myAction = myPlayer->getMyAction();
 	// Only send last bet if not fold/checked.
