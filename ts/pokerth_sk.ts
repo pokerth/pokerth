@@ -1286,7 +1286,8 @@ Prosím, zvoľte si iný názov!</translation>
         <location filename="../src/gui/qt/changecontentdialog/changecontentdialogimpl.cpp" line="67"/>
         <source>There is a forbidden word in your choosen game name.
 Please choose another one!</source>
-        <translation type="unfinished"></translation>
+        <translation>Názov vybranej hry obsahuje zakázané slovo.
+Prosím, vyberte si iné!</translation>
     </message>
 </context>
 <context>
@@ -1613,17 +1614,17 @@ Please choose another one!</source>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog.ui" line="849"/>
         <source>Sort alphabetically</source>
-        <translation type="unfinished"></translation>
+        <translation>Zoradiť podľa abecedy</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog.ui" line="854"/>
         <source>Sort by country</source>
-        <translation type="unfinished"></translation>
+        <translation>Zoradiť podľa krajiny</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog.ui" line="859"/>
         <source>Display idle players</source>
-        <translation type="unfinished"></translation>
+        <translation>Zobraziť neaktívnych hráčov</translation>
     </message>
     <message>
         <source>Start Game</source>
@@ -2034,7 +2035,7 @@ p, li { white-space: pre-wrap; }
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1565"/>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1576"/>
         <source>The game will start in&lt;br&gt;&lt;b&gt;%1&lt;/b&gt; seconds.</source>
-        <translation type="unfinished"></translation>
+        <translation>Hra sa začne o &lt;br&gt;&lt;b&gt;%1&lt;/b&gt; sekúnd.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1468"/>
@@ -2814,7 +2815,7 @@ Uistite sa, prosím, že ste pripojený priamo na internet.</translation>
     <message>
         <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3396"/>
         <source>PokerTH - Warning</source>
-        <translation type="unfinished"></translation>
+        <translation>PokerTH - Varovanie</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3397"/>
@@ -2822,7 +2823,10 @@ Uistite sa, prosím, že ste pripojený priamo na internet.</translation>
 After %1 additional timeouts the server needs to kick you to provide a better game flow!
 
 If you are temporarily away, you can use the &quot;away&quot; tools in the tool box on the right.</source>
-        <translation type="unfinished"></translation>
+        <translation>Aktivovali ste varovnú úroveň časových vypršaní vo vyhodnocovanej hre.
+Po nasledujúcich %1 časových vypršaní vás server vyhodí, aby mohol poskytnúť plynulejší zážitok z hry!
+
+Ak ste dočasne mimo, môžete použiť nástroje &quot;preč&quot; v nástrojovej lište vpravo.</translation>
     </message>
     <message>
         <source>Player &lt;b&gt;%1&lt;/b&gt; has &lt;b&gt;%2&lt;/b&gt; %3&lt;br&gt;against him. &lt;b&gt;%4&lt;/b&gt; votes needed to kick.</source>
@@ -4216,32 +4220,32 @@ Hodnota prvej malej stávky bude nastavená na maximálnu možnú úroveň.</tra
     <message>
         <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="1272"/>
         <source>Do you really want to delete the selected log file?</source>
-        <translation type="unfinished"></translation>
+        <translation>Naozaj chcete vymazať vybraný súbor so záznamom?</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="65"/>
         <source>Dutch</source>
-        <translation type="unfinished">Holandsky</translation>
+        <translation>Holandština</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="66"/>
         <source>English</source>
-        <translation type="unfinished">Anglicky</translation>
+        <translation>Angličtina</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="68"/>
         <source>French</source>
-        <translation type="unfinished">Francúzsky</translation>
+        <translation>Francúzština</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="69"/>
         <source>German</source>
-        <translation type="unfinished">Nemecky</translation>
+        <translation>Nemčina</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="71"/>
         <source>Hungarian</source>
-        <translation type="unfinished">Maďarsky</translation>
+        <translation>Maďarčina</translation>
     </message>
     <message>
         <source>Norse</source>
@@ -4254,12 +4258,12 @@ Hodnota prvej malej stávky bude nastavená na maximálnu možnú úroveň.</tra
     <message>
         <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="78"/>
         <source>Russian</source>
-        <translation type="unfinished">Rusky</translation>
+        <translation>Ruština</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="83"/>
         <source>Turkish</source>
-        <translation type="unfinished">Turecky</translation>
+        <translation>Turečtina</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="716"/>
@@ -4276,12 +4280,12 @@ Prosím reštartujte PokerTH pre načítanie nového jazyka!</translation>
     <message>
         <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="72"/>
         <source>Italian</source>
-        <translation type="unfinished">Taliansky</translation>
+        <translation>Taliančina</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="79"/>
         <source>Slovak</source>
-        <translation type="unfinished">Slovensky</translation>
+        <translation>Slovenčina</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="629"/>
@@ -4301,37 +4305,37 @@ Prosím zadajte platný adresár!</translation>
     <message>
         <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="74"/>
         <source>Norwegian</source>
-        <translation type="unfinished">Nórsky</translation>
+        <translation>Nórština</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="80"/>
         <source>Spanish</source>
-        <translation type="unfinished">Španielsky</translation>
+        <translation>Španielčina</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="60"/>
         <source>Bulgarian</source>
-        <translation type="unfinished">Bulharsky</translation>
+        <translation>Bulharčina</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="75"/>
         <source>Polish</source>
-        <translation type="unfinished">Poľsky</translation>
+        <translation>Poľština</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="62"/>
         <source>Chinese</source>
-        <translation type="unfinished">Čínsky</translation>
+        <translation>Čínština</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="70"/>
         <source>Greek</source>
-        <translation type="unfinished">Grécky</translation>
+        <translation>Gréčtina</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="81"/>
         <source>Swedish</source>
-        <translation type="unfinished">Švédsky</translation>
+        <translation>Švédština</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="573"/>
@@ -4343,47 +4347,47 @@ Zadajte, prosím, platnú adresu zoznamu serverov!</translation>
     <message>
         <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="67"/>
         <source>Finnish</source>
-        <translation type="unfinished">Fínsky</translation>
+        <translation>Fínština</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="59"/>
         <source>Afrikaans</source>
-        <translation type="unfinished">Afrikaansky</translation>
+        <translation>Afrikaanština</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="61"/>
         <source>Catalan</source>
-        <translation type="unfinished">Katalánsky</translation>
+        <translation>Katalánčina</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="63"/>
         <source>Czech</source>
-        <translation type="unfinished">Česky</translation>
+        <translation>Čeština</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="64"/>
         <source>Danish</source>
-        <translation type="unfinished">Dánsky</translation>
+        <translation>Dánčina</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="73"/>
         <source>Lithuania</source>
-        <translation type="unfinished"></translation>
+        <translation>Litovština</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="76"/>
         <source>Portuguese-Brazilian</source>
-        <translation type="unfinished"></translation>
+        <translation>Brazílska portugalčina</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="77"/>
         <source>Portuguese-Portuguese</source>
-        <translation type="unfinished"></translation>
+        <translation>Portugalská portugalčina</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="82"/>
         <source>Tamil</source>
-        <translation type="unfinished">Tamilsky</translation>
+        <translation>Tamilčina</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="994"/>
