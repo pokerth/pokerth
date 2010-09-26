@@ -73,11 +73,11 @@ SessionManager::SetSessionPlayerData(SessionId session, boost::shared_ptr<Player
 		pos->second.playerData = playerData;
 }
 
-void
+bool
 SessionManager::RemoveSession(SessionId session)
 {
 	boost::recursive_mutex::scoped_lock lock(m_sessionMapMutex);
-	m_sessionMap.erase(session);
+	return m_sessionMap.erase(session) == 1;
 }
 
 SessionWrapper

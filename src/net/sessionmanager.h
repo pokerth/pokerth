@@ -51,7 +51,7 @@ public:
 	void AddSession(boost::shared_ptr<SessionData> sessionData); // new Sessions without player data
 	void AddSession(SessionWrapper session);
 	void SetSessionPlayerData(SessionId session, boost::shared_ptr<PlayerData> playerData);
-	void RemoveSession(SessionId session);
+	bool RemoveSession(SessionId session);
 
 	SessionWrapper GetSessionById(SessionId id) const;
 	SessionWrapper GetSessionByPlayerName(const std::string playerName) const;

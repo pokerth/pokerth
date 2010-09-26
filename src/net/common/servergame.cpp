@@ -696,14 +696,16 @@ ServerGame::ResetComputerPlayerList()
 void
 ServerGame::GracefulRemoveSession(SessionWrapper session, int reason)
 {
-	if (!session.sessionData.get())
+	if (!session.sessionData)
 		throw ServerException(__FILE__, __LINE__, ERR_NET_INVALID_SESSION, 0);
-	GetSessionManager().RemoveSession(session.sessionData->GetId());
 
-	boost::shared_ptr<PlayerData> tmpPlayerData = session.playerData;
-	if (tmpPlayerData.get() && !tmpPlayerData->GetName().empty())
+	if (GetSessionManager().RemoveSession(session.sessionData->GetId()))
 	{
-		RemovePlayerData(tmpPlayerData, reason);
+		boost::shared_ptr<PlayerData> tmpPlayerData = session.playerData;
+		if (tmpPlayerData && !tmpPlayerData->GetName().empty())
+		{
+			RemovePlayerData(tmpPlayerData, reason);
+		}
 	}
 }
 
