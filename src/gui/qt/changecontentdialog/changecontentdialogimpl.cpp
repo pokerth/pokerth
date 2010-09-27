@@ -57,14 +57,14 @@ changeContentDialogImpl::changeContentDialogImpl(QWidget *parent, ConfigFile *co
         }
         break;
     case CHANGE_INET_GAME_NAME_IN_USE: {
-            label_Message->setText(tr("There is already a game with your choosen game name.\nPlease choose another one!"));
+            label_Message->setText(tr("There is already a game with your chosen game name.\nPlease choose another one!"));
             label_lineLabel->setText(tr("Game name:"));
             lineEdit->setText(QString::fromUtf8(myConfig->readConfigString("InternetGameName").c_str()));
             lineEdit->setMaxLength(48);
         }
         break;
     case CHANGE_INET_BAD_GAME_NAME: {
-            label_Message->setText(tr("There is a forbidden word in your choosen game name.\nPlease choose another one!"));
+            label_Message->setText(tr("There is a forbidden word in your chosen game name.\nPlease choose another one!"));
             label_lineLabel->setText(tr("Game name:"));
             lineEdit->setText(QString::fromUtf8(myConfig->readConfigString("InternetGameName").c_str()));
             lineEdit->setMaxLength(48);
