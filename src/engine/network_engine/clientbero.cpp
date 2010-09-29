@@ -19,8 +19,8 @@
  ***************************************************************************/
 #include "clientbero.h"
 
-ClientBeRo::ClientBeRo(HandInterface* hi, int /*id*/, unsigned dP, int sB, GameState gS)
-: BeRoInterface(), myBeRoID(gS), myHand(hi), highestCardsValue(0), playersTurn(dP), highestSet(0), firstRound(true), smallBlindPosition(0), smallBlind(sB), minimumRaise(0), fullBetRule(false)
+ClientBeRo::ClientBeRo(HandInterface* hi, int /*id*/, unsigned /*dP*/, int sB, GameState gS)
+: BeRoInterface(), myBeRoID(gS), myHand(hi), highestCardsValue(0), highestSet(0), firstRound(true), smallBlindPosition(0), smallBlind(sB), minimumRaise(0), fullBetRule(false)
 {
 }
 
@@ -61,20 +61,6 @@ ClientBeRo::getLastActionPlayer() const
 {
 	boost::recursive_mutex::scoped_lock lock(m_syncMutex);
 	return lastActionPlayer;
-}
-
-void
-ClientBeRo::setPlayersTurn(int theValue)
-{
-	boost::recursive_mutex::scoped_lock lock(m_syncMutex);
-	playersTurn = theValue;
-}
-
-int
-ClientBeRo::getPlayersTurn() const
-{
-	boost::recursive_mutex::scoped_lock lock(m_syncMutex);
-	return playersTurn;
 }
 
 void

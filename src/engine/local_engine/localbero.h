@@ -57,9 +57,6 @@ protected:
 	int getDealerPosition() const {return dealerPosition; }
 	void setDealerPosition(int theValue) { dealerPosition = theValue; }
 
-	void setPlayersTurn(int theValue) { playersTurn = theValue; }
-	int getPlayersTurn() const { return playersTurn;}
-
 	void setCurrentPlayersTurnId(unsigned theValue) { currentPlayersTurnId = theValue; }
 	unsigned getCurrentPlayersTurnId() const { return currentPlayersTurnId;}
 
@@ -125,7 +122,6 @@ private:
 	bool firstRound;
 	bool firstHeadsUpRound;
 
-	int playersTurn; // TODO -> delete
 	PlayerListIterator currentPlayersTurnIt; // iterator for runningPlayerList
 	PlayerListIterator lastPlayersTurnIt; // iterator for runningPlayerList
 

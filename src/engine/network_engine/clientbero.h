@@ -38,11 +38,8 @@ public:
 	int getHighestCardsValue() const;
 	void setHighestCardsValue(int theValue);
 
-        void setLastActionPlayer ( unsigned theValue );
-        unsigned getLastActionPlayer() const;
-
-	void setPlayersTurn(int theValue);
-	int getPlayersTurn() const;
+    void setLastActionPlayer ( unsigned theValue );
+    unsigned getLastActionPlayer() const;
 
 	void setSmallBlindPositionId(unsigned theValue);
 	unsigned getSmallBlindPositionId() const;
@@ -97,7 +94,6 @@ private:
 
 	int highestCardsValue;
 
-	int playersTurn; // TODO -> delete
 	PlayerListIterator currentPlayersTurnIt; // iterator for runningPlayerList
 	PlayerListIterator lastPlayersTurnIt; // iterator for runningPlayerList
 
