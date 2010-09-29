@@ -60,110 +60,124 @@ Log::Log(gameTableImpl* w, ConfigFile *c) : myW(w), myConfig(c), myLogDir(0), my
 
         if(myConfig->readConfigString("LogDir") != "" && logDir.exists()) {
 
-            myLogDir = new QDir(QString::fromUtf8(myConfig->readConfigString("LogDir").c_str()));
-            QDateTime currentTime = QDateTime::currentDateTime();
-            myHtmlLogFile = new QFile(myLogDir->absolutePath()+"/pokerth-log-"+currentTime.toString("yyyy-MM-dd_hh.mm.ss")+".html");
-//            mySqliteLogDb = new QSqlDatabase;
-
-            //Logo-Pixmap extrahieren
-            QPixmap logoChipPixmapFile(":/gfx/logoChip3D.png");
-            logoChipPixmapFile.save(myLogDir->absolutePath()+"/logo.png");
-
-//            myW->textBrowser_Log->append(myHtmlLogFile->fileName());
-
-            // erstelle html-Datei
-            myHtmlLogFile->open( QIODevice::WriteOnly );
-            QTextStream stream( myHtmlLogFile );
-            stream << "<html>\n";
-            stream << "<head>\n";
-            stream << "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf8\">";
-            stream << "</head>\n";
-            stream << "<body style=\"font-size:smaller\">\n";
-            stream << "<img src='logo.png'>\n";
-            stream << QString("<h3><b>Log-File for PokerTH %1 Session started on ").arg(POKERTH_BETA_RELEASE_STRING)+QDate::currentDate().toString("yyyy-MM-dd")+" at "+QTime::currentTime().toString("hh:mm:ss")+"</b></h3>\n";
-            myHtmlLogFile->close();
-
             int i;
-//            // lege sqlite-Datenbank
-//            *mySqliteLogDb = QSqlDatabase::addDatabase("QSQLITE");
-//            mySqliteLogDb->setDatabaseName(myLogDir->absolutePath()+"/pokerth-log-"+currentTime.toString("yyyy-MM-dd_hh.mm.ss")+".pdb");
-//            if(mySqliteLogDb->open()) {
-//
-//                QSqlQuery query(*mySqliteLogDb);
-//                QString sql;
-//
-//                // Session-Tabelle
-//                sql = "CREATE TABLE Session (";
-//                sql += "PokerTH_Version TEXT,";
-//                sql += "Date TEXT,";
-//                sql += "Time TEXT,";
-//                sql += "PRIMARY KEY(Date,Time))";
-//                if(!query.exec(sql)) {
-//                    QMessageBox::critical(0, tr("ERROR"),query.lastError().text().toUtf8().data(), QMessageBox::Cancel);
-//                }
-//                sql = "INSERT INTO Session (PokerTH_Version,Date,Time) VALUES (";
-//                sql += "'"+QString("%1").arg(POKERTH_BETA_RELEASE_STRING)+"',";
-//                sql += "'"+currentTime.toString("yyyy-MM-dd")+"',";
-//                sql += "'"+currentTime.toString("hh:mm:ss")+"')";
-//                if(!query.exec(sql)) {
-//                    QMessageBox::critical(0, tr("ERROR"),query.lastError().text().toUtf8().data(), QMessageBox::Cancel);
-//                }
-//
-//                // Game-Tabelle
-//                sql = "CREATE TABLE Game (";
-//                sql += "GameID INTEGER NOT NULL PRIMARY KEY,";
-//                sql += "Startmoney INTEGER NOT NULL,";
-//                sql += "StartSb INTEGER NOT NULL,";
-//                sql += "DealerPos INTEGER NOT NULL";
-//                for(i=1; i<=MAX_NUMBER_OF_PLAYERS; i++) {
-//                    sql += ",Seat_" + QString("%1").arg(i);
-//                }
-//                sql += ",Winner_Seat INTEGER)";
-//                if(!query.exec(sql)) {
-//                    QMessageBox::critical(0, tr("ERROR"),query.lastError().text().toUtf8().data(), QMessageBox::Cancel);
-//                }
-//
-//                // Hand-Tabelle
-//                sql = "CREATE TABLE Hand (";
-//                sql += "HandID INTEGER NOT NULL,";
-//                sql += "GameID INTEGER NOT NULL,";
-//                sql += "Sb_Amount INTEGER,";
-//                sql += "Sb_Seat INTEGER,";
-//                sql += "Bb_Amount INTEGER,";
-//                sql += "Bb_Seat INTEGER,";
-//                sql += "Dealer_Seat INTEGER,";
-//                for(i=1; i<=MAX_NUMBER_OF_PLAYERS; i++) {
-//                    sql += "Seat_" + QString("%1").arg(i) + "_Cash INTEGER,";
-//                    sql += "Seat_" + QString("%1").arg(i) + "_Card_1 INTEGER,";
-//                    sql += "Seat_" + QString("%1").arg(i) + "_Card_2 INTEGER,";
-//                    sql += "Seat_" + QString("%1").arg(i) + "_Hand TEXT,";
-//                }
-//                for(i=1; i<=5; i++) {
-//                    sql += "BoardCard_" + QString("%1").arg(i) + " INTEGER,";
-//                }
-//                sql += "PRIMARY KEY(HandID,GameID))";
-//                if(!query.exec(sql)) {
-//                    QMessageBox::critical(0, tr("ERROR"),query.lastError().text().toUtf8().data(), QMessageBox::Cancel);
-//                }
-//
-//                // Action-Tabelle
-//                sql = "CREATE TABLE Action (";
-//                sql += "ActionID INTEGER PRIMARY KEY AUTOINCREMENT,";
-//                sql += "HandID INTEGER NOT NULL,";
-//                sql += "GameID INTEGER NOT NULL,";
-//                sql += "BeRo INTEGER NOT NULL,";
-//                sql += "Player INTEGER NOT NULL,";
-//                sql += "Action INTEGER NOT NULL,";
-//                sql += "Amount INTEGER)";
-//                if(!query.exec(sql)) {
-//                    QMessageBox::critical(0, tr("ERROR"),query.lastError().text().toUtf8().data(), QMessageBox::Cancel);
-//                }
-//
-//            } else {
-//                QMessageBox::critical(0, tr("ERROR"),mySqliteLogDb->lastError().text().toUtf8().data(), QMessageBox::Cancel);
-//            }
 
-            //Zu alte Dateien löschen!!!
+            if(HTML_LOG) {
+
+                myLogDir = new QDir(QString::fromUtf8(myConfig->readConfigString("LogDir").c_str()));
+                QDateTime currentTime = QDateTime::currentDateTime();
+                myHtmlLogFile = new QFile(myLogDir->absolutePath()+"/pokerth-log-"+currentTime.toString("yyyy-MM-dd_hh.mm.ss")+".html");
+
+                //Logo-Pixmap extrahieren
+                QPixmap logoChipPixmapFile(":/gfx/logoChip3D.png");
+                logoChipPixmapFile.save(myLogDir->absolutePath()+"/logo.png");
+
+//                myW->textBrowser_Log->append(myHtmlLogFile->fileName());
+
+                // erstelle html-Datei
+                myHtmlLogFile->open( QIODevice::WriteOnly );
+                QTextStream stream( myHtmlLogFile );
+                stream << "<html>\n";
+                stream << "<head>\n";
+                stream << "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf8\">";
+                stream << "</head>\n";
+                stream << "<body style=\"font-size:smaller\">\n";
+                stream << "<img src='logo.png'>\n";
+                stream << QString("<h3><b>Log-File for PokerTH %1 Session started on ").arg(POKERTH_BETA_RELEASE_STRING)+QDate::currentDate().toString("yyyy-MM-dd")+" at "+QTime::currentTime().toString("hh:mm:ss")+"</b></h3>\n";
+                myHtmlLogFile->close();
+
+            }
+
+            if(SQLITE_LOG) {
+
+                myLogDir = new QDir(QString::fromUtf8(myConfig->readConfigString("LogDir").c_str()));
+                QDateTime currentTime = QDateTime::currentDateTime();
+                mySqliteLogDb = new QSqlDatabase;
+
+                // create sqlite-db                
+                *mySqliteLogDb = QSqlDatabase::addDatabase("QSQLITE");
+                mySqliteLogDb->setDatabaseName(myLogDir->absolutePath()+"/pokerth-log-"+currentTime.toString("yyyy-MM-dd_hh.mm.ss")+".pdb");
+
+                // open sqlite-db
+                if(mySqliteLogDb->open()) {
+
+                    QSqlQuery query(*mySqliteLogDb);
+                    QString sql;
+
+                    // create session table
+                    sql = "CREATE TABLE Session (";
+                    sql += "PokerTH_Version TEXT,";
+                    sql += "Date TEXT,";
+                    sql += "Time TEXT,";
+                    sql += "PRIMARY KEY(Date,Time))";
+                    if(!query.exec(sql)) {
+                        QMessageBox::critical(0, tr("ERROR"),query.lastError().text().toUtf8().data(), QMessageBox::Cancel);
+                    }
+                    sql = "INSERT INTO Session (PokerTH_Version,Date,Time) VALUES (";
+                    sql += "'"+QString("%1").arg(POKERTH_BETA_RELEASE_STRING)+"',";
+                    sql += "'"+currentTime.toString("yyyy-MM-dd")+"',";
+                    sql += "'"+currentTime.toString("hh:mm:ss")+"')";
+                    if(!query.exec(sql)) {
+                        QMessageBox::critical(0, tr("ERROR"),query.lastError().text().toUtf8().data(), QMessageBox::Cancel);
+                    }
+
+                    // create game table
+                    sql = "CREATE TABLE Game (";
+                    sql += "GameID INTEGER NOT NULL PRIMARY KEY,";
+                    sql += "Startmoney INTEGER NOT NULL,";
+                    sql += "StartSb INTEGER NOT NULL,";
+                    sql += "DealerPos INTEGER NOT NULL";
+                    for(i=1; i<=MAX_NUMBER_OF_PLAYERS; i++) {
+                        sql += ",Seat_" + QString("%1").arg(i);
+                    }
+                    sql += ",Winner_Seat INTEGER)";
+                    if(!query.exec(sql)) {
+                        QMessageBox::critical(0, tr("ERROR"),query.lastError().text().toUtf8().data(), QMessageBox::Cancel);
+                    }
+
+                    // create hand table
+                    sql = "CREATE TABLE Hand (";
+                    sql += "HandID INTEGER NOT NULL,";
+                    sql += "GameID INTEGER NOT NULL,";
+                    sql += "Sb_Amount INTEGER,";
+                    sql += "Sb_Seat INTEGER,";
+                    sql += "Bb_Amount INTEGER,";
+                    sql += "Bb_Seat INTEGER,";
+                    sql += "Dealer_Seat INTEGER,";
+                    for(i=1; i<=MAX_NUMBER_OF_PLAYERS; i++) {
+                        sql += "Seat_" + QString("%1").arg(i) + "_Cash INTEGER,";
+                        sql += "Seat_" + QString("%1").arg(i) + "_Card_1 INTEGER,";
+                        sql += "Seat_" + QString("%1").arg(i) + "_Card_2 INTEGER,";
+                        sql += "Seat_" + QString("%1").arg(i) + "_Hand TEXT,";
+                    }
+                    for(i=1; i<=5; i++) {
+                        sql += "BoardCard_" + QString("%1").arg(i) + " INTEGER,";
+                    }
+                    sql += "PRIMARY KEY(HandID,GameID))";
+                    if(!query.exec(sql)) {
+                        QMessageBox::critical(0, tr("ERROR"),query.lastError().text().toUtf8().data(), QMessageBox::Cancel);
+                    }
+
+                    // create action table
+                    sql = "CREATE TABLE Action (";
+                    sql += "ActionID INTEGER PRIMARY KEY AUTOINCREMENT,";
+                    sql += "HandID INTEGER NOT NULL,";
+                    sql += "GameID INTEGER NOT NULL,";
+                    sql += "BeRo INTEGER NOT NULL,";
+                    sql += "Player INTEGER NOT NULL,";
+                    sql += "Action INTEGER NOT NULL,";
+                    sql += "Amount INTEGER)";
+                    if(!query.exec(sql)) {
+                        QMessageBox::critical(0, tr("ERROR"),query.lastError().text().toUtf8().data(), QMessageBox::Cancel);
+                    }
+
+                } else {
+                    QMessageBox::critical(0, tr("ERROR"),mySqliteLogDb->lastError().text().toUtf8().data(), QMessageBox::Cancel);
+                }
+
+            }
+
+            // delete old log files
             int daysUntilWaste = myConfig->readConfigInt("LogStoreDuration");
 
             QStringList filters("pokerth-log*");
@@ -180,7 +194,7 @@ Log::Log(gameTableImpl* w, ConfigFile *c) : myW(w), myConfig(c), myLogDir(0), my
                 QDate dateOfFile(QDate::fromString(dateString, Qt::ISODate));
                 QDate today(QDate::currentDate());
 
-    //            cout << dateOfFile.daysTo(today) << endl;
+//                cout << dateOfFile.daysTo(today) << endl;
 
                 if (dateOfFile.daysTo(today) > daysUntilWaste) {
 
@@ -201,16 +215,19 @@ Log::~Log()
 {
     delete myLogDir;
     delete myHtmlLogFile;
-//    delete mySqliteLogDb;
+    if(SQLITE_LOG) delete mySqliteLogDb;
 
 }
 
 void Log::closeLogDbAtExit()
 {
-    // Datenbank schließen
-//    mySqliteLogDb->close();
-//    delete mySqliteLogDb;
-//    mySqliteLogDb = NULL;
+    if(SQLITE_LOG) {
+        // close sqlite-db
+        mySqliteLogDb->close();
+        delete mySqliteLogDb;
+        mySqliteLogDb = NULL;
+    }
+
 }
 
 void Log::logPlayerActionMsg(QString msg, int playerID, int action, int setValue) {
@@ -234,36 +251,50 @@ void Log::logPlayerActionMsg(QString msg, int playerID, int action, int setValue
 	
 	if (action >= 3) { msg += "$"+QString::number(setValue,10)+"."; }
 	
-        myW->textBrowser_Log->append("<span style=\"color:#"+myStyle->getChatLogTextColor()+";\">"+msg+"</span>");
+    myW->textBrowser_Log->append("<span style=\"color:#"+myStyle->getChatLogTextColor()+";\">"+msg+"</span>");
 
 	if(myConfig->readConfigInt("LogOnOff")) {
-	//if write logfiles is enabled
- 		logFileStreamString += msg+"</br>\n";
-		
-		if(myConfig->readConfigInt("LogInterval") == 0) {
-			writeLogFileStream(logFileStreamString);
-			logFileStreamString = "";		
-		}
+        //if write logfiles is enabled
 
-//                if(mySqliteLogDb->isOpen()) {
-//
-//                    QSqlQuery query(*mySqliteLogDb);
-//                    QString sql;
-//
-//                    sql = "INSERT INTO Action (HandID,GameID,BeRo,Player,Action,Amount) VALUES (";
-//                    sql += QString::number(myW->getSession()->getCurrentGame()->getCurrentHandID(),10);
-//                    sql += "," + QString::number(myW->getSession()->getCurrentGame()->getMyGameID(),10);
-//                    sql += "," + QString::number(myW->getSession()->getCurrentGame()->getCurrentHand()->getCurrentBeRo()->getMyBeRoID(),10);
-//                    sql += "," + QString::number(playerID,10);
-//                    sql += "," + QString::number(action,10);
-//                    sql += "," + QString::number(setValue,10);
-//                    sql += ")";
-//
-//                    if(!query.exec(sql)) {
-//                        QMessageBox::critical(0, tr("ERROR"),query.lastError().text().toUtf8().data(), QMessageBox::Cancel);
-//                    }
-//
-//                }
+        if(HTML_LOG) {
+
+            logFileStreamString += msg+"</br>\n";
+
+            if(myConfig->readConfigInt("LogInterval") == 0) {
+                writeLogFileStream(logFileStreamString);
+                logFileStreamString = "";
+            }
+
+        }
+
+        if(SQLITE_LOG) {
+
+            if(mySqliteLogDb->isOpen()) {
+
+                QSqlQuery query(*mySqliteLogDb);
+                QString sql;
+
+                sql = "INSERT INTO Action (HandID,GameID,BeRo,Player,Action,Amount) VALUES (";
+                sql += QString::number(myW->getSession()->getCurrentGame()->getCurrentHandID(),10);
+                sql += "," + QString::number(myW->getSession()->getCurrentGame()->getMyGameID(),10);
+                sql += "," + QString::number(myW->getSession()->getCurrentGame()->getCurrentHand()->getCurrentBeRo()->getMyBeRoID(),10);
+                sql += "," + QString::number(playerID,10);
+                sql += "," + QString::number(action,10);
+                sql += "," + QString::number(setValue,10);
+                sql += ")";
+
+                if(myConfig->readConfigInt("LogInterval") == 0) {
+                    if(!query.exec(sql)) {
+                        QMessageBox::critical(0, tr("ERROR"),query.lastError().text().toUtf8().data(), QMessageBox::Cancel);
+                    }
+                }
+
+
+            } else {
+                QMessageBox::critical(0, tr("ERROR"),mySqliteLogDb->lastError().text().toUtf8().data(), QMessageBox::Cancel);
+            }
+
+        }
 
 	}
 }
@@ -273,94 +304,98 @@ void Log::logNewGameHandMsg(int gameID, int handID) {
 	PlayerListConstIterator it_c;
 	HandInterface *currentHand = myW->getSession()->getCurrentGame()->getCurrentHand();
 
-        myW->textBrowser_Log->append("<span style=\"color:#"+myStyle->getChatLogTextColor()+"; font-size:large; font-weight:bold\">## Game: "+QString::number(gameID,10)+" | Hand: "+QString::number(handID,10)+" ##</span>");
+    myW->textBrowser_Log->append("<span style=\"color:#"+myStyle->getChatLogTextColor()+"; font-size:large; font-weight:bold\">## Game: "+QString::number(gameID,10)+" | Hand: "+QString::number(handID,10)+" ##</span>");
 
 	if(myConfig->readConfigInt("LogOnOff")) {
-	//if write logfiles is enabled
+        //if write logfiles is enabled
 
-//                int i;
+        if(HTML_LOG) {
 
-		logFileStreamString += "<table><tr><td width=\"600\" align=\"center\"><hr noshade size=\"3\"><b>Game: "+QString::number(gameID,10)+" | Hand: "+QString::number(handID,10)+"</b></td><td></td></tr></table>";
-		logFileStreamString += "BLIND LEVEL: $"+QString::number(currentHand->getSmallBlind())+" / $"+QString::number(currentHand->getSmallBlind()*2)+"</br>";
+            logFileStreamString += "<table><tr><td width=\"600\" align=\"center\"><hr noshade size=\"3\"><b>Game: "+QString::number(gameID,10)+" | Hand: "+QString::number(handID,10)+"</b></td><td></td></tr></table>";
+            logFileStreamString += "BLIND LEVEL: $"+QString::number(currentHand->getSmallBlind())+" / $"+QString::number(currentHand->getSmallBlind()*2)+"</br>";
 
-//                if(!mySqliteLogDb->open()) {
-//                    QMessageBox::critical(0, tr("ERROR"),mySqliteLogDb->lastError().text().toUtf8().data(), QMessageBox::Cancel);
-//                }
+            //print cash only for active players
+            for(it_c=currentHand->getActivePlayerList()->begin(); it_c!=currentHand->getActivePlayerList()->end(); it_c++) {
 
-//
-//                if(mySqliteLogDb->isOpen()) {
-//
-//                    QSqlQuery query(*mySqliteLogDb);
-//                    QString sql;
-//
-//                    // bei Beginn eines Games
-//                    if(handID == 1) {
-//                        sql = "INSERT INTO Game (GameID,Startmoney,StartSb,DealerPos";
-//                        for(it_c=currentHand->getActivePlayerList()->begin(); it_c!=currentHand->getActivePlayerList()->end(); it_c++) {
-//                            sql += ",Seat_" + QString::number((*it_c)->getMyID()+1,10);
-//                        }
-////                        for(i=1;i<=MAX_NUMBER_OF_PLAYERS; i++) {
-////                            sql += ",Seat_" + QString::number(i,10);
-////                        }
-//                        sql += ") VALUES (";
-//                        sql += QString::number(gameID,10) + ",";
-//                        sql += QString::number(myW->getSession()->getCurrentGame()->getStartCash(),10) + ",";
-//                        sql += QString::number(myW->getSession()->getCurrentGame()->getStartSmallBlind(),10) + ",";
-//                        sql += QString::number(myW->getSession()->getCurrentGame()->getDealerPosition(),10);
-//                        for(it_c=currentHand->getActivePlayerList()->begin(); it_c!=currentHand->getActivePlayerList()->end(); it_c++) {
+                logFileStreamString += "Seat " + QString::number((*it_c)->getMyID()+1,10) + ": <b>" +  QString::fromUtf8((*it_c)->getMyName().c_str()) + "</b> ($" + QString::number((*it_c)->getMyCash()+(*it_c)->getMySet(),10)+")</br>";
+
+            }
+
+        }
+
+        if(SQLITE_LOG) {
+
+
+            if(mySqliteLogDb->isOpen()) {
+
+                QSqlQuery query(*mySqliteLogDb);
+                QString sql;
+
+                // beginning of a game
+                if(handID == 1) {
+                    sql = "INSERT INTO Game (GameID,Startmoney,StartSb,DealerPos";
+                    for(it_c=currentHand->getActivePlayerList()->begin(); it_c!=currentHand->getActivePlayerList()->end(); it_c++) {
+                        sql += ",Seat_" + QString::number((*it_c)->getMyID()+1,10);
+                    }
+//                    for(i=1;i<=MAX_NUMBER_OF_PLAYERS; i++) {
+//                        sql += ",Seat_" + QString::number(i,10);
+//                    }
+                    sql += ") VALUES (";
+                    sql += QString::number(gameID,10) + ",";
+                    sql += QString::number(myW->getSession()->getCurrentGame()->getStartCash(),10) + ",";
+                    sql += QString::number(myW->getSession()->getCurrentGame()->getStartSmallBlind(),10) + ",";
+                    sql += QString::number(myW->getSession()->getCurrentGame()->getDealerPosition(),10);
+                    for(it_c=currentHand->getActivePlayerList()->begin(); it_c!=currentHand->getActivePlayerList()->end(); it_c++) {
+                        sql += ",'" + QString::fromUtf8((*it_c)->getMyName().c_str()) +"'";
+                    }
+//                    for(it_c = currentHand->getSeatsList()->begin();it_c!=currentHand->getSeatsList()->end();it_c++) {
+//                        if((*it_c)->getMyActiveStatus()) {
 //                            sql += ",'" + QString::fromUtf8((*it_c)->getMyName().c_str()) +"'";
-//                        }
-////                        for(it_c = currentHand->getSeatsList()->begin();it_c!=currentHand->getSeatsList()->end();it_c++) {
-////                            if((*it_c)->getMyActiveStatus()) {
-////                                sql += ",'" + QString::fromUtf8((*it_c)->getMyName().c_str()) +"'";
-////                            } else {
-////                                sql += ",NULL";
-////                            }
-////                        }
-//                        sql += ")";
-//                        if(!query.exec(sql)) {
-//                            QMessageBox::critical(0, tr("ERROR"),query.lastError().text().toUtf8().data(), QMessageBox::Cancel);
+//                        } else {
+//                            sql += ",NULL";
 //                        }
 //                    }
-//
-//                    sql = "INSERT INTO Hand (HandID,GameID,Sb_Amount,Bb_Amount";
-//                    for(it_c=currentHand->getActivePlayerList()->begin(); it_c!=currentHand->getActivePlayerList()->end(); it_c++) {
-//                        sql += ",Seat_" + QString::number((*it_c)->getMyID()+1,10) + "_Cash";
-//                    }
-////                    for(i=1;i<=MAX_NUMBER_OF_PLAYERS; i++) {
-////                        sql += ",Seat_" + QString("%1").arg(i) + "_Cash";
-////                    }
-//                    sql += ") VALUES (";
-//                    sql += QString::number(handID,10);
-//                    sql += "," + QString::number(gameID,10);
-//                    sql += "," + QString::number(currentHand->getSmallBlind(),10);
-//                    sql += "," + QString::number(currentHand->getSmallBlind()*2,10);
-//                    for(it_c=currentHand->getActivePlayerList()->begin(); it_c!=currentHand->getActivePlayerList()->end(); it_c++) {
-//                        sql += "," + QString::number((*it_c)->getMyCash()+(*it_c)->getMySet(),10);
-//                    }
-////                    for(it_c = currentHand->getSeatsList()->begin();it_c!=currentHand->getSeatsList()->end();it_c++) {
-////                        if((*it_c)->getMyActiveStatus()) {
-////                            sql += "," + QString::number((*it_c)->getMyCash()+(*it_c)->getMySet(),10);
-////                        } else {
-////                            sql += ",NULL";
-////                        }
-////                    }
-//                    sql += ")";
-//
-//                    if(!query.exec(sql)) {
-//                        QMessageBox::critical(0, tr("ERROR"),query.lastError().text().toUtf8().data(), QMessageBox::Cancel);
-//                    }
-//
+                    sql += ")";
+                    if(!query.exec(sql)) {
+                        QMessageBox::critical(0, tr("ERROR"),query.lastError().text().toUtf8().data(), QMessageBox::Cancel);
+                    }
+                }
+
+                // beginning of a hand
+                sql = "INSERT INTO Hand (HandID,GameID,Sb_Amount,Bb_Amount";
+                for(it_c=currentHand->getActivePlayerList()->begin(); it_c!=currentHand->getActivePlayerList()->end(); it_c++) {
+                    sql += ",Seat_" + QString::number((*it_c)->getMyID()+1,10) + "_Cash";
+                }
+//                for(i=1;i<=MAX_NUMBER_OF_PLAYERS; i++) {
+//                    sql += ",Seat_" + QString("%1").arg(i) + "_Cash";
 //                }
-//
+                sql += ") VALUES (";
+                sql += QString::number(handID,10);
+                sql += "," + QString::number(gameID,10);
+                sql += "," + QString::number(currentHand->getSmallBlind(),10);
+                sql += "," + QString::number(currentHand->getSmallBlind()*2,10);
+                for(it_c=currentHand->getActivePlayerList()->begin(); it_c!=currentHand->getActivePlayerList()->end(); it_c++) {
+                    sql += "," + QString::number((*it_c)->getMyCash()+(*it_c)->getMySet(),10);
+                }
+//                for(it_c = currentHand->getSeatsList()->begin();it_c!=currentHand->getSeatsList()->end();it_c++) {
+//                    if((*it_c)->getMyActiveStatus()) {
+//                        sql += "," + QString::number((*it_c)->getMyCash()+(*it_c)->getMySet(),10);
+//                    } else {
+//                        sql += ",NULL";
+//                    }
+//                }
+                sql += ")";
 
-		//print cash only for active players
-		for(it_c=currentHand->getActivePlayerList()->begin(); it_c!=currentHand->getActivePlayerList()->end(); it_c++) {
+                if(!query.exec(sql)) {
+                    QMessageBox::critical(0, tr("ERROR"),query.lastError().text().toUtf8().data(), QMessageBox::Cancel);
+                }
 
-			logFileStreamString += "Seat " + QString::number((*it_c)->getMyID()+1,10) + ": <b>" +  QString::fromUtf8((*it_c)->getMyName().c_str()) + "</b> ($" + QString::number((*it_c)->getMyCash()+(*it_c)->getMySet(),10)+")</br>";
+            } else {
+                QMessageBox::critical(0, tr("ERROR"),mySqliteLogDb->lastError().text().toUtf8().data(), QMessageBox::Cancel);
+            }
 
-		}
 
+        }
 
 	}
 
@@ -459,49 +494,72 @@ void Log::logDealBoardCardsMsg(int roundID, int card1, int card2, int card3, int
 	}
 
 	if(myConfig->readConfigInt("LogOnOff")) {
-	//if write logfiles is enabled
+        //if write logfiles is enabled
 
-//                QString sql;
-//                sql = "UPDATE Hand SET ";
-//
+        if(HTML_LOG) {
+
+            switch (roundID) {
+
+                    case 1: round = "Flop";
+                    logFileStreamString += "</br><b>"+round.toUpper()+"</b> [board cards <b>"+translateCardCode(card1).at(0)+"</b>"+translateCardCode(card1).at(1)+",<b>"+translateCardCode(card2).at(0)+"</b>"+translateCardCode(card2).at(1)+",<b>"+translateCardCode(card3).at(0)+"</b>"+translateCardCode(card3).at(1)+"]"+"</br>\n";
+                    break;
+                    case 2: round = "Turn";
+                    logFileStreamString += "</br><b>"+round.toUpper()+"</b> [board cards <b>"+translateCardCode(card1).at(0)+"</b>"+translateCardCode(card1).at(1)+",<b>"+translateCardCode(card2).at(0)+"</b>"+translateCardCode(card2).at(1)+",<b>"+translateCardCode(card3).at(0)+"</b>"+translateCardCode(card3).at(1)+",<b>"+translateCardCode(card4).at(0)+"</b>"+translateCardCode(card4).at(1)+"]"+"</br>\n";
+                    break;
+                    case 3: round = "River";
+                    logFileStreamString += "</br><b>"+round.toUpper()+"</b> [board cards <b>"+translateCardCode(card1).at(0)+"</b>"+translateCardCode(card1).at(1)+",<b>"+translateCardCode(card2).at(0)+"</b>"+translateCardCode(card2).at(1)+",<b>"+translateCardCode(card3).at(0)+"</b>"+translateCardCode(card3).at(1)+",<b>"+translateCardCode(card4).at(0)+"</b>"+translateCardCode(card4).at(1)+",<b>"+translateCardCode(card5).at(0)+"</b>"+translateCardCode(card5).at(1)+"]"+"</br>\n";
+                    break;
+                    default: round = "ERROR";
+            }
+
+            if(myConfig->readConfigInt("LogInterval") == 0) {
+                writeLogFileStream(logFileStreamString);
+                logFileStreamString = "";
+            }
+
+        }
+
+        if(SQLITE_LOG) {
+
+            if(mySqliteLogDb->isOpen()) {
+
+                QSqlQuery query(*mySqliteLogDb);
+                QString sql;
+                sql = "UPDATE Hand SET ";
+
                 switch (roundID) {
-
-                        case 1: round = "Flop";
-                        logFileStreamString += "</br><b>"+round.toUpper()+"</b> [board cards <b>"+translateCardCode(card1).at(0)+"</b>"+translateCardCode(card1).at(1)+",<b>"+translateCardCode(card2).at(0)+"</b>"+translateCardCode(card2).at(1)+",<b>"+translateCardCode(card3).at(0)+"</b>"+translateCardCode(card3).at(1)+"]"+"</br>\n";
-//                        sql += "BoardCard_1 = " + QString::number(card1,10) + ",";
-//                        sql += "BoardCard_2 = " + QString::number(card2,10) + ",";
-//                        sql += "BoardCard_3 = " + QString::number(card3,10);
-                        break;
-                        case 2: round = "Turn";
-                        logFileStreamString += "</br><b>"+round.toUpper()+"</b> [board cards <b>"+translateCardCode(card1).at(0)+"</b>"+translateCardCode(card1).at(1)+",<b>"+translateCardCode(card2).at(0)+"</b>"+translateCardCode(card2).at(1)+",<b>"+translateCardCode(card3).at(0)+"</b>"+translateCardCode(card3).at(1)+",<b>"+translateCardCode(card4).at(0)+"</b>"+translateCardCode(card4).at(1)+"]"+"</br>\n";
-//                        sql += "BoardCard_4 = " + QString::number(card4,10);
-                        break;
-                        case 3: round = "River";
-                        logFileStreamString += "</br><b>"+round.toUpper()+"</b> [board cards <b>"+translateCardCode(card1).at(0)+"</b>"+translateCardCode(card1).at(1)+",<b>"+translateCardCode(card2).at(0)+"</b>"+translateCardCode(card2).at(1)+",<b>"+translateCardCode(card3).at(0)+"</b>"+translateCardCode(card3).at(1)+",<b>"+translateCardCode(card4).at(0)+"</b>"+translateCardCode(card4).at(1)+",<b>"+translateCardCode(card5).at(0)+"</b>"+translateCardCode(card5).at(1)+"]"+"</br>\n";
-//                        sql += "BoardCard_5 = " + QString::number(card5,10);
-                        break;
-                        default: round = "ERROR";
+                    case 1: round = "Flop";
+                        sql += "BoardCard_1 = " + QString::number(card1,10) + ",";
+                        sql += "BoardCard_2 = " + QString::number(card2,10) + ",";
+                        sql += "BoardCard_3 = " + QString::number(card3,10);
+                    break;
+                    case 2: round = "Turn";
+                        sql += "BoardCard_4 = " + QString::number(card4,10);
+                    break;
+                    case 3: round = "River";
+                        sql += "BoardCard_5 = " + QString::number(card5,10);
+                    break;
+                    default: round = "ERROR";
                 }
-		if(myConfig->readConfigInt("LogInterval") == 0) {		
-			writeLogFileStream(logFileStreamString);
-			logFileStreamString = "";
-		}
-//
-//                sql += " WHERE ";
-//                sql += "HandID = " + QString::number(myW->getSession()->getCurrentGame()->getCurrentHandID(),10) + " AND ";
-//                sql += "GameID = " + QString::number(myW->getSession()->getCurrentGame()->getMyGameID(),10);
-//
-//                if(roundID <= 3) {
-//                    if(mySqliteLogDb->isOpen()) {
-//
-//                        QSqlQuery query(*mySqliteLogDb);
-//                        if(!query.exec(sql)) {
-//                            QMessageBox::critical(0, tr("ERROR"),query.lastError().text().toUtf8().data(), QMessageBox::Cancel);
-//                        }
-//
-//                    }
-//
-//                }
+                sql += " WHERE ";
+                sql += "HandID = " + QString::number(myW->getSession()->getCurrentGame()->getCurrentHandID(),10) + " AND ";
+                sql += "GameID = " + QString::number(myW->getSession()->getCurrentGame()->getMyGameID(),10);
+
+
+                if(myConfig->readConfigInt("LogInterval") == 0) {
+                    if(roundID <= 3) {
+                        if(!query.exec(sql)) {
+                            QMessageBox::critical(0, tr("ERROR"),query.lastError().text().toUtf8().data(), QMessageBox::Cancel);
+                        }
+
+                    }
+                }
+
+            } else {
+                QMessageBox::critical(0, tr("ERROR"),mySqliteLogDb->lastError().text().toUtf8().data(), QMessageBox::Cancel);
+            }
+
+        }
 
 	}
 }

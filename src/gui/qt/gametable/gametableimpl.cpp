@@ -1132,7 +1132,7 @@ void gameTableImpl::dealHoleCards() {
         (*it_c)->getMyCards(tempCardsIntArray);
         for(j=0; j<2; j++) {
             if((*it_c)->getMyActiveStatus()) {
-                if (( (*it_c)->getMyID() == 0) || DEBUG_MODE) {
+                if (( (*it_c)->getMyID() == 0)/* || DEBUG_MODE*/) {
                     tempCardsPixmapArray[j].load(myCardDeckStyle->getCurrentDir()+QString::number(tempCardsIntArray[j], 10)+".png");
                     if(myConfig->readConfigInt("AntiPeekMode")) {
                         holeCardsArray[(*it_c)->getMyID()][j]->setPixmap(flipside, TRUE);
