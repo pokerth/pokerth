@@ -76,6 +76,7 @@ public:
 	PlayerIdList GetPlayerIdList() const;
 	bool IsPlayerConnected(const std::string &name) const;
 	bool IsPlayerConnected(unsigned playerId) const;
+	bool IsClientAddressConnected(const std::string &clientAddress) const;
 
 	bool IsRunning() const;
 

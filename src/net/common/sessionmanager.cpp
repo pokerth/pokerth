@@ -218,6 +218,27 @@ SessionManager::IsPlayerConnected(unsigned uniqueId) const
 	return retVal;
 }
 
+bool
+SessionManager::IsClientAddressConnected(const std::string &clientAddress) const
+{
+	bool retVal = false;
+	boost::recursive_mutex::scoped_lock lock(m_sessionMapMutex);
+
+	SessionMap::const_iterator i = m_sessionMap.begin();
+	SessionMap::const_iterator end = m_sessionMap.end();
+
+	while (i != end)
+	{
+		if ((*i).second.sessionData->GetClientAddr() == clientAddress)
+		{
+			retVal = true;
+			break;
+		}
+		++i;
+	}
+	return retVal;
+}
+
 void
 SessionManager::ForEach(boost::function<void (SessionWrapper)> func)
 {

@@ -1395,6 +1395,11 @@ ServerLobbyThread::HandleNetPacketJoinGame(SessionWrapper session, const std::st
 		{
 			SendJoinGameFailed(session.sessionData, joinGame.gameId, NTF_NET_JOIN_INVALID_PASSWORD);
 		}
+		else if (tmpData.gameType == GAME_TYPE_RANKING
+			&& game.IsClientAddressConnected(session.sessionData->GetClientAddr()))
+		{
+			SendJoinGameFailed(session.sessionData, joinGame.gameId, NTF_NET_JOIN_GAME_FULL);
+		}
 		else
 		{
 			MoveSessionToGame(game, session);

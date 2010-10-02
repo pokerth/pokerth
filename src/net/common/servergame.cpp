@@ -582,6 +582,12 @@ ServerGame::IsPlayerConnected(unsigned playerId) const
 }
 
 bool
+ServerGame::IsClientAddressConnected(const std::string &clientAddress) const
+{
+	return GetSessionManager().IsClientAddressConnected(clientAddress);
+}
+
+bool
 ServerGame::IsRunning() const
 {
 	return m_game.get() != NULL;
