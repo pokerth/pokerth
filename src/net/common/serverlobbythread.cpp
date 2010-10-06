@@ -1414,7 +1414,9 @@ ServerLobbyThread::HandleNetPacketJoinGame(SessionWrapper session, const std::st
 void
 ServerLobbyThread::HandleNetPacketChatRequest(SessionWrapper session, const ChatRequestMessage_t &chatRequest)
 {
-	if (chatRequest.chatRequestType.present == chatRequestType_PR_chatRequestTypeLobby && session.playerData)
+	if (chatRequest.chatRequestType.present == chatRequestType_PR_chatRequestTypeLobby
+		&& session.playerData
+		&& session.playerData->GetRights() != PLAYER_RIGHTS_GUEST) // Guests are not allowed to chat.
 	{
 		boost::shared_ptr<NetPacket> packet(new NetPacket(NetPacket::Alloc));
 		packet->GetMsg()->present = PokerTHMessage_PR_chatMessage;
