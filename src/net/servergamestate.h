@@ -21,6 +21,7 @@
 #ifndef _SERVERGAMESTATE_H_
 #define _SERVERGAMESTATE_H_
 
+#include <boost/asio.hpp>
 #include <playerdata.h>
 #include <net/sessionmanager.h>
 

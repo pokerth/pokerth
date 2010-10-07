@@ -21,8 +21,8 @@
 #ifndef _CLIENTSTATE_H_
 #define _CLIENTSTATE_H_
 
-#include <boost/shared_ptr.hpp>
 #include <boost/asio.hpp>
+#include <boost/shared_ptr.hpp>
 #include <string>
 
 #define CLIENT_INITIAL_STATE ClientStateInit

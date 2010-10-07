@@ -21,9 +21,9 @@
 #ifndef _SERVERBANMANAGER_H_
 #define _SERVERBANMANAGER_H_
 
+#include <boost/asio.hpp>
 #include <boost/regex.hpp>
 #include <boost/thread.hpp>
-#include <boost/asio.hpp>
 #include <boost/enable_shared_from_this.hpp>
 #include <map>
 #include <list>
