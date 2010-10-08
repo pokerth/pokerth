@@ -39,13 +39,13 @@ settingsDialogImpl::settingsDialogImpl(QWidget *parent, ConfigFile *c, selectAva
 #endif	
     setupUi(this);
 
-    //temporarely remove sql log features
-    pushButton_deleteLog->hide();
-    pushButton_saveLogAs->hide();
-    pushButton_exportLogTxt->hide();
-    pushButton_exportLogHtml->hide();
-    treeWidget_logFiles->hide();
-    ////////////////////////////////////
+    if(!SQLITE_LOG) {//temporarely remove sql log features
+        pushButton_deleteLog->hide();
+        pushButton_saveLogAs->hide();
+        pushButton_exportLogTxt->hide();
+        pushButton_exportLogHtml->hide();
+        treeWidget_logFiles->hide();
+    }
 
     myManualBlindsOrderDialog = new manualBlindsOrderDialogImpl;
 

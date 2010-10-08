@@ -861,16 +861,16 @@ void gameLobbyDialogImpl::joinedNetworkGame(unsigned playerId, QString playerNam
         showInfoMsgBoxTimer->start(1000);
     }
 
-//    if(!myGameListSelectionModel->hasSelection() && mySession->getClientGameInfo(mySession->getClientCurrentGameId()).data.gameType == GAME_TYPE_INVITE_ONLY) {
-//        int it = 0;
-//        while (myGameListModel->item(it)) {
-//            if (myGameListModel->item(it, 0)->data(Qt::UserRole) == mySession->getClientCurrentGameId()) {
-//                gameSelected(treeView_GameList->model()->index(it,0), true);
-//                break;
-//            }
-//            it++;
-//        }
-//    }
+    //    if(!myGameListSelectionModel->hasSelection() && mySession->getClientGameInfo(mySession->getClientCurrentGameId()).data.gameType == GAME_TYPE_INVITE_ONLY) {
+    //        int it = 0;
+    //        while (myGameListModel->item(it)) {
+    //            if (myGameListModel->item(it, 0)->data(Qt::UserRole) == mySession->getClientCurrentGameId()) {
+    //                gameSelected(treeView_GameList->model()->index(it,0), true);
+    //                break;
+    //            }
+    //            it++;
+    //        }
+    //    }
 }
 
 
@@ -1090,6 +1090,10 @@ void gameLobbyDialogImpl::joinedGameDialogUpdate() {
     label_StartCash->setText(QString("%L1").arg(info.data.startMoney));
     updateDialogBlinds(info.data);
     label_TimeoutForPlayerAction->setText(QString::number(info.data.playerActionTimeoutSec));
+
+    QTreeWidgetItem *header = treeWidget_connectedPlayers->headerItem();
+    header->setText(0, tr("Connected players - Max. %1").arg(info.data.maxNumberOfPlayers));
+    header->setData(0, Qt::UserRole, info.data.maxNumberOfPlayers);
 }
 
 void gameLobbyDialogImpl::leftGameDialogUpdate() {
@@ -1420,7 +1424,7 @@ void gameLobbyDialogImpl::registeredUserMode()
 
 void gameLobbyDialogImpl::guestUserMode()
 {
-	lineEdit_ChatInput->setText(tr("Chat is only available to registered players."));
+    lineEdit_ChatInput->setText(tr("Chat is only available to registered players."));
     lineEdit_ChatInput->setDisabled(true);
     guestMode = true;
 }
@@ -1481,7 +1485,7 @@ void gameLobbyDialogImpl::showInfoMsgBox()
     switch(infoMsgToShowId) {
     case 2: {
             myMessageDialogImpl dialog(myConfig, this);
-			dialog.exec(2, tr("You have entered a game with type \"invite-only\".\nFeel free to invite other players by right-clicking on their nick in the available players list."), tr("PokerTH - Info Message"), QPixmap(":/gfx/ktip.png"), QDialogButtonBox::Ok, true);
+            dialog.exec(2, tr("You have entered a game with type \"invite-only\".\nFeel free to invite other players by right-clicking on their nick in the available players list."), tr("PokerTH - Info Message"), QPixmap(":/gfx/ktip.png"), QDialogButtonBox::Ok, true);
         }
         break;
     default:;
@@ -1500,7 +1504,7 @@ void gameLobbyDialogImpl::showInvitationDialog(unsigned gameId, unsigned playerI
         inviteDialogIsCurrentlyShown = true;
 
         myMessageDialogImpl dialog(myConfig, this);
-		if(dialog.exec(3, tr("You have been invited to the game <b>%1</b> by <b>%2</b>.<br>Would you like to join this game?").arg(QString::fromUtf8(mySession->getClientGameInfo(gameId).name.c_str())).arg(QString::fromUtf8(mySession->getClientPlayerInfo(playerIdFrom).playerName.c_str())), tr("PokerTH - Info Message"), QPixmap(":/gfx/list_add_user_64.png"), QDialogButtonBox::Yes|QDialogButtonBox::No, false)) {
+        if(dialog.exec(3, tr("You have been invited to the game <b>%1</b> by <b>%2</b>.<br>Would you like to join this game?").arg(QString::fromUtf8(mySession->getClientGameInfo(gameId).name.c_str())).arg(QString::fromUtf8(mySession->getClientPlayerInfo(playerIdFrom).playerName.c_str())), tr("PokerTH - Info Message"), QPixmap(":/gfx/list_add_user_64.png"), QDialogButtonBox::Yes|QDialogButtonBox::No, false)) {
 
             mySession->acceptGameInvitation(gameId);
             inviteDialogIsCurrentlyShown = false;
@@ -1522,9 +1526,9 @@ void gameLobbyDialogImpl::chatInfoPlayerRejectedInvitation(unsigned gameId, unsi
 {
 
     QString string;
-        if(reason == DENY_GAME_INVITATION_NO) string = tr("<span style='color:red;'>%1 has rejected the invitation to %2.</span>");
+    if(reason == DENY_GAME_INVITATION_NO) string = tr("<span style='color:red;'>%1 has rejected the invitation to %2.</span>");
 
-        if(reason == DENY_GAME_INVITATION_BUSY) string = tr("<span style='color:red;'>%1 cannot join %2 because he is busy.</span>");
+    if(reason == DENY_GAME_INVITATION_BUSY) string = tr("<span style='color:red;'>%1 cannot join %2 because he is busy.</span>");
 
     textBrowser_ChatDisplay->append(string.arg(QString::fromUtf8(mySession->getClientPlayerInfo(playerIdWho).playerName.c_str())).arg(QString::fromUtf8(mySession->getClientGameInfo(gameId).name.c_str())));
 
@@ -1553,7 +1557,7 @@ void gameLobbyDialogImpl::putPlayerOnIgnoreList() {
         if(!playerIsOnIgnoreList(playerId)) {
 
             myMessageDialogImpl dialog(myConfig, this);
-			if(dialog.exec(4, tr("You will no longer receive chat messages or game invitations from this user.<br>Do you really want to put player <b>%1</b> on your ignore list?").arg(QString::fromUtf8(mySession->getClientPlayerInfo(playerId).playerName.c_str())), tr("PokerTH - Question"), QPixmap(":/gfx/im-ban-user_64.png"), QDialogButtonBox::Yes|QDialogButtonBox::No, false ) == QDialog::Accepted) {
+            if(dialog.exec(4, tr("You will no longer receive chat messages or game invitations from this user.<br>Do you really want to put player <b>%1</b> on your ignore list?").arg(QString::fromUtf8(mySession->getClientPlayerInfo(playerId).playerName.c_str())), tr("PokerTH - Question"), QPixmap(":/gfx/im-ban-user_64.png"), QDialogButtonBox::Yes|QDialogButtonBox::No, false ) == QDialog::Accepted) {
 
                 list<std::string> playerIgnoreList = myConfig->readConfigStringList("PlayerIgnoreList");
                 playerIgnoreList.push_back(QString("%1").arg(QString::fromUtf8(mySession->getClientPlayerInfo(playerId).playerName.c_str())).toUtf8().constData());
