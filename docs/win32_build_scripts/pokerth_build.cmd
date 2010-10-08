@@ -1,6 +1,6 @@
 @echo off
 echo PokerTH Win32 mingw build script version 1.0.
-echo Copyright (C) 2008-2009 Lothar May. License: GPL 2 or later
+echo Copyright (C) 2008-2010 Lothar May. License: GPL 2 or later
 echo BECAUSE THE PROGRAM IS LICENSED FREE OF CHARGE, THERE IS NO WARRANTY
 echo FOR THE PROGRAM, TO THE EXTENT PERMITTED BY APPLICABLE LAW.
 echo.
@@ -34,9 +34,13 @@ echo.
 echo Checking for an installation of Qt
 if not exist %PKTH_BaseDir%\qt\bin\qmake.exe goto noQmake
 if not exist %PKTH_BaseDir%\svn\bin\svn.exe goto noSvn
-if not exist %PKTH_BaseDir%\mingw\bin\mingw32-make.exe goto otherScriptFirst
 if not exist %PKTH_BaseDir%\pokerth goto otherScriptFirst
-SET PATH=%PKTH_BaseDir%\qt\bin;%PKTH_BaseDir%\mingw\bin;%PATH%
+if exist %PKTH_BaseDir%\mingw64\bin\mingw32-make.exe goto mingw64
+SET PATH=%PKTH_BaseDir%\qt\bin;%PKTH_BaseDir%\mingw32\bin;%PATH%
+goto postmingw
+:mingw64
+SET PATH=%PKTH_BaseDir%\qt\bin;%PKTH_BaseDir%\mingw64\bin;%PATH%
+:postmingw
 SET QMAKESPEC=win32-g++
 SET QTDIR=%PKTH_BaseDir%\qt
 
@@ -51,7 +55,7 @@ echo Running svn update
 %PKTH_BaseDir%\svn\bin\svn update
 echo.
 echo Building PokerTH
-qmake CONFIG+=release pokerth.pro
+qmake CONFIG+=release DEFINES+=BOOST_USE_WINDOWS_H pokerth.pro
 mingw32-make release
 move release\pokerth.exe .\pokerth.exe
 move release\bin\pokerth_server.exe .\pokerth_server.exe

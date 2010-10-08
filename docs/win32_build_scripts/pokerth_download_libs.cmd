@@ -52,79 +52,19 @@ echo The process will start if you press any other key.
 pause
 echo.
 echo Downloading mingw packages
-%PKTH_OldDir%\third_party_apps\wget http://%SOURCEFORGE_MIRROR%.sourceforge.net/sourceforge/mingw/gcc-core-4.5.0-1-mingw32-bin.tar.lzma
-%PKTH_OldDir%\third_party_apps\wget http://%SOURCEFORGE_MIRROR%.sourceforge.net/sourceforge/mingw/gcc-c++-4.5.0-1-mingw32-bin.tar.lzma
-%PKTH_OldDir%\third_party_apps\wget http://%SOURCEFORGE_MIRROR%.sourceforge.net/sourceforge/mingw/binutils-2.20.51-1-mingw32-bin.tar.lzma
-%PKTH_OldDir%\third_party_apps\wget http://%SOURCEFORGE_MIRROR%.sourceforge.net/sourceforge/mingw/mingwrt-3.18-mingw32-dev.tar.gz
-%PKTH_OldDir%\third_party_apps\wget http://%SOURCEFORGE_MIRROR%.sourceforge.net/sourceforge/mingw/mingwrt-3.18-mingw32-dll.tar.gz
-%PKTH_OldDir%\third_party_apps\wget http://%SOURCEFORGE_MIRROR%.sourceforge.net/sourceforge/mingw/w32api-3.14-mingw32-dev.tar.gz
-%PKTH_OldDir%\third_party_apps\wget http://%SOURCEFORGE_MIRROR%.sourceforge.net/sourceforge/mingw/make-3.82-1-mingw32-bin.tar.lzma
-%PKTH_OldDir%\third_party_apps\wget http://%SOURCEFORGE_MIRROR%.sourceforge.net/sourceforge/mingw/libgmp-5.0.1-1-mingw32-dll-10.tar.lzma
-%PKTH_OldDir%\third_party_apps\wget http://%SOURCEFORGE_MIRROR%.sourceforge.net/sourceforge/mingw/libmpc-0.8.1-1-mingw32-dll-2.tar.lzma
-%PKTH_OldDir%\third_party_apps\wget http://%SOURCEFORGE_MIRROR%.sourceforge.net/sourceforge/mingw/libmpfr-2.4.1-1-mingw32-dll-1.tar.lzma
-%PKTH_OldDir%\third_party_apps\wget http://%SOURCEFORGE_MIRROR%.sourceforge.net/sourceforge/mingw/libgcc-4.5.0-1-mingw32-dll-1.tar.lzma
-%PKTH_OldDir%\third_party_apps\wget http://%SOURCEFORGE_MIRROR%.sourceforge.net/sourceforge/mingw/libstdc++-4.5.0-1-mingw32-dll-6.tar.lzma
+%PKTH_OldDir%\third_party_apps\wget http://%SOURCEFORGE_MIRROR%.sourceforge.net/sourceforge/mingw-w64/mingw-w32-bin_i686-mingw_20101002_4.5_sezero.zip
 %PKTH_OldDir%\third_party_apps\wget http://%SOURCEFORGE_MIRROR%.sourceforge.net/sourceforge/mingw/mingw-utils-0.3.tar.gz
 if not errorlevel 0 goto downloadFailed
 echo.
 echo Unpacking mingw packages
-mkdir mingw
-%PKTH_OldDir%\third_party_apps\7za x -y gcc-core-4.5.0-1-mingw32-bin.tar.lzma
-%PKTH_OldDir%\third_party_apps\7za x -y -omingw gcc-core-4.5.0-1-mingw32-bin.tar
-del gcc-core-4.5.0-1-mingw32-bin.tar
-%PKTH_OldDir%\third_party_apps\7za x -y gcc-c++-4.5.0-1-mingw32-bin.tar.lzma
-%PKTH_OldDir%\third_party_apps\7za x -y -omingw gcc-c++-4.5.0-1-mingw32-bin.tar
-del gcc-c++-4.5.0-1-mingw32-bin.tar
-%PKTH_OldDir%\third_party_apps\7za x -y binutils-2.20.51-1-mingw32-bin.tar.lzma
-%PKTH_OldDir%\third_party_apps\7za x -y -omingw binutils-2.20.51-1-mingw32-bin.tar
-del binutils-2.20.51-1-mingw32-bin.tar
-%PKTH_OldDir%\third_party_apps\7za x -y mingwrt-3.18-mingw32-dev.tar.gz
-%PKTH_OldDir%\third_party_apps\7za x -y -omingw mingwrt-3.18-mingw32-dev.tar
-del mingwrt-3.18-mingw32-dev.tar
-%PKTH_OldDir%\third_party_apps\7za x -y mingwrt-3.18-mingw32-dll.tar.gz
-%PKTH_OldDir%\third_party_apps\7za x -y -omingw mingwrt-3.18-mingw32-dll.tar
-del mingwrt-3.18-mingw32-dll.tar
-%PKTH_OldDir%\third_party_apps\7za x -y w32api-3.14-mingw32-dev.tar.gz
-%PKTH_OldDir%\third_party_apps\7za x -y -omingw w32api-3.14-mingw32-dev.tar
-del w32api-3.14-mingw32-dev.tar
-%PKTH_OldDir%\third_party_apps\7za x -y make-3.82-1-mingw32-bin.tar.lzma
-%PKTH_OldDir%\third_party_apps\7za x -y -omingw make-3.82-1-mingw32-bin.tar
-del make-3.82-1-mingw32-bin.tar
-%PKTH_OldDir%\third_party_apps\7za x -y libgmp-5.0.1-1-mingw32-dll-10.tar.lzma
-%PKTH_OldDir%\third_party_apps\7za x -y -omingw libgmp-5.0.1-1-mingw32-dll-10.tar
-del libgmp-5.0.1-1-mingw32-dll-10.tar
-%PKTH_OldDir%\third_party_apps\7za x -y libmpc-0.8.1-1-mingw32-dll-2.tar.lzma
-%PKTH_OldDir%\third_party_apps\7za x -y -omingw libmpc-0.8.1-1-mingw32-dll-2.tar
-del libmpc-0.8.1-1-mingw32-dll-2.tar
-%PKTH_OldDir%\third_party_apps\7za x -y libmpfr-2.4.1-1-mingw32-dll-1.tar.lzma
-%PKTH_OldDir%\third_party_apps\7za x -y -omingw libmpfr-2.4.1-1-mingw32-dll-1.tar
-del libmpfr-2.4.1-1-mingw32-dll-1.tar
-%PKTH_OldDir%\third_party_apps\7za x -y libgcc-4.5.0-1-mingw32-dll-1.tar.lzma
-%PKTH_OldDir%\third_party_apps\7za x -y -omingw libgcc-4.5.0-1-mingw32-dll-1.tar
-del libgcc-4.5.0-1-mingw32-dll-1.tar
-%PKTH_OldDir%\third_party_apps\7za x -y libstdc++-4.5.0-1-mingw32-dll-6.tar.lzma
-%PKTH_OldDir%\third_party_apps\7za x -y -omingw libstdc++-4.5.0-1-mingw32-dll-6.tar
-del libstdc++-4.5.0-1-mingw32-dll-6.tar
+%PKTH_OldDir%\third_party_apps\7za x -y mingw-w32-bin_i686-mingw_20101002_4.5_sezero.zip
 %PKTH_OldDir%\third_party_apps\7za x -y mingw-utils-0.3.tar.gz
-%PKTH_OldDir%\third_party_apps\7za x -y -omingw mingw-utils-0.3.tar
+%PKTH_OldDir%\third_party_apps\7za x -y -omingw32 mingw-utils-0.3.tar
 del mingw-utils-0.3.tar
-echo.
-echo Renaming compiler files (remove dw2-postfix).
-cd /d %PKTH_BaseDir%
-cd mingw\bin
-REM ren c++-dw2.exe c++.exe
-REM ren cpp-dw2.exe cpp.exe
-REM ren g++-dw2.exe g++.exe
-REM ren gcc-dw2.exe gcc.exe
-REM ren gcov-dw2.exe gcov.exe
-REM ren mingw32-c++-dw2.exe mingw32-c++.exe
-REM ren mingw32-g++-dw2.exe mingw32-g++.exe
-REM ren mingw32-gcc-4.5.0-dw2.exe mingw32-gcc-4.5.0.exe
-REM ren mingw32-gcc-dw2.exe mingw32-gcc.exe
 cd /d %PKTH_BaseDir%
 echo.
 echo Testing g++
-set PATH=%PKTH_BaseDir%\mingw\bin;%PKTH_OldDir%\third_party_apps;%PATH%
+set PATH=%PKTH_BaseDir%\mingw32\bin;%PKTH_OldDir%\third_party_apps;%PATH%
 g++ %PKTH_OldDir%\helper_src\pkth_test.cpp -o pkth_test
 if not errorlevel 0 goto gppFailure
 pkth_test
@@ -151,7 +91,6 @@ SET PATH=%PKTH_BaseDir%\qt\bin;%PATH%
 SET QMAKESPEC=win32-g++
 SET QTDIR=%PKTH_BaseDir%\qt
 cd qt
-REM %PKTH_OldDir%\third_party_apps\find -name *.cpp -exec sed -i "s/Q_DECL_IMPORT extern/Q_CORE_EXPORT/g" {} ;
 configure -static -fast -no-qt3support -qt-sql-sqlite -no-dbus -no-opengl -no-openssl -no-phonon -no-webkit
 qmake projects.pro -o Makefile -spec win32-g++
 mingw32-make sub-src
@@ -161,16 +100,16 @@ cd /d %PKTH_BaseDir%
 if not exist %PKTH_BaseDir%\zlib. (
 echo.
 echo Downloading zlib
-%PKTH_OldDir%\third_party_apps\wget http://%SOURCEFORGE_MIRROR%.sourceforge.net/sourceforge/libpng/zlib-1.2.3.tar.gz
+%PKTH_OldDir%\third_party_apps\wget http://%SOURCEFORGE_MIRROR%.sourceforge.net/sourceforge/libpng/zlib-1.2.5.tar.gz
 if not errorlevel 0 goto downloadFailed
 echo.
 echo Unpacking zlib
-%PKTH_OldDir%\third_party_apps\7za x -y zlib-1.2.3.tar.gz
-%PKTH_OldDir%\third_party_apps\7za x -y zlib-1.2.3.tar
-del zlib-1.2.3.tar
+%PKTH_OldDir%\third_party_apps\7za x -y zlib-1.2.5.tar.gz
+%PKTH_OldDir%\third_party_apps\7za x -y zlib-1.2.5.tar
+del zlib-1.2.5.tar
 REM Wait 5 seconds for the file cache, else ren might fail.
 @ping 127.0.0.1 -n 5 -w 1000 > nul
-ren zlib-1.2.3 zlib
+ren zlib-1.2.5 zlib
 )
 echo.
 echo Compiling zlib
@@ -242,15 +181,15 @@ echo Unpacking boost and bjam
 %PKTH_OldDir%\third_party_apps\7za x -y boost-jam-3.1.17-1-ntx86.zip
 REM Wait 5 seconds for the file cache, else ren might fail.
 @ping 127.0.0.1 -n 5 -w 1000 > nul
-move boost-jam-3.1.17-1-ntx86\bjam.exe mingw\bin\bjam.exe
-move boost-jam-3.1.17-1-ntx86\LICENSE_1_0.txt mingw\bin\bjam_LICENSE_1_0.txt
+move boost-jam-3.1.17-1-ntx86\bjam.exe mingw32\bin\bjam.exe
+move boost-jam-3.1.17-1-ntx86\LICENSE_1_0.txt mingw32\bin\bjam_LICENSE_1_0.txt
 rd boost-jam-3.1.17-1-ntx86
 ren boost_1_44_0 boost
 )
 echo.
 echo Compiling boost
 cd boost
-bjam link=shared --build-dir=%PKTH_BaseDir%\pkth_boost_delete_me_after_build --toolset=gcc stage
+bjam link=shared --build-dir=%PKTH_BaseDir%\pkth_boost_delete_me_after_build --toolset=gcc define=BOOST_USE_WINDOWS_H stage
 echo.
 echo Done compiling boost
 cd /d %PKTH_BaseDir%
@@ -314,8 +253,8 @@ echo.
 echo Copying DLLs
 copy /Y %PKTH_BaseDir%\SDL\bin\SDL.dll %PKTH_BaseDir%\pokerth\
 copy /Y %PKTH_BaseDir%\SDL_mixer\bin\SDL_mixer.dll %PKTH_BaseDir%\pokerth\
-copy /Y "%PKTH_BaseDir%\mingw\bin\libgcc_s_dw2-1.dll" %PKTH_BaseDir%\pokerth\
-copy /Y "%PKTH_BaseDir%\mingw\bin\libstdc++-6.dll" %PKTH_BaseDir%\pokerth\
+copy /Y "%PKTH_BaseDir%\mingw32\bin\libgcc_s_sjlj-1.dll" %PKTH_BaseDir%\pokerth\
+copy /Y "%PKTH_BaseDir%\mingw32\bin\libstdc++-6.dll" %PKTH_BaseDir%\pokerth\
 copy /Y %PKTH_BaseDir%\boost\stage\lib\libboost_filesystem-mgw45-mt-1_44.dll %PKTH_BaseDir%\pokerth\
 copy /Y %PKTH_BaseDir%\boost\stage\lib\libboost_iostreams-mgw45-mt-1_44.dll %PKTH_BaseDir%\pokerth\
 copy /Y %PKTH_BaseDir%\boost\stage\lib\libboost_system-mgw45-mt-1_44.dll %PKTH_BaseDir%\pokerth\
