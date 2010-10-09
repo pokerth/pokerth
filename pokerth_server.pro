@@ -119,7 +119,7 @@ win32 {
 
     SOURCES += src/core/win32/convhelper.cpp
 
-	LIBPATH += ../boost/stage/lib ../GnuTLS/lib ../gsasl/lib ../curl/lib ../mysql/lib ../zlib
+	LIBPATH += ../boost/stage/lib ../GnuTLS/lib ../openssl/lib ../gsasl/lib ../curl/lib ../mysql/lib ../zlib
 
 	LIBS += -lpokerth_lib -lpokerth_db -lpokerth_protocol
 
@@ -134,8 +134,13 @@ win32 {
     }
 
     win32-g++ {
-        LIBS += -lgnutls-openssl -lgnutls -lgcrypt -ltasn1 -lgpg-error -lgsasl -lidn
-        LIBS += -lcurl
+		pkth_win64 {
+			LIBS += -lcrypto -lssl -llibeay32 -lssleay32 -lgsasl
+		}
+		!pkth_win64 {
+			LIBS += -lgnutls-openssl -lgnutls -lgcrypt -ltasn1 -lgpg-error -lgsasl -lidn
+		}
+		LIBS += -lcurl
         LIBS += -lz
 		LIBS += -lboost_thread-mgw45-mt-1_44.dll
 		LIBS += -lboost_filesystem-mgw45-mt-1_44.dll
