@@ -37,9 +37,11 @@ if not exist %PKTH_BaseDir%\svn\bin\svn.exe goto noSvn
 if not exist %PKTH_BaseDir%\pokerth goto otherScriptFirst
 if exist %PKTH_BaseDir%\mingw64\bin\mingw32-make.exe goto mingw64
 SET PATH=%PKTH_BaseDir%\qt\bin;%PKTH_BaseDir%\mingw32\bin;%PATH%
+SET PKTH_Conf=""
 goto postmingw
 :mingw64
 SET PATH=%PKTH_BaseDir%\qt\bin;%PKTH_BaseDir%\mingw64\bin;%PATH%
+SET PKTH_Conf=pkth_win64
 :postmingw
 SET QMAKESPEC=win32-g++
 SET QTDIR=%PKTH_BaseDir%\qt
@@ -55,7 +57,7 @@ echo Running svn update
 %PKTH_BaseDir%\svn\bin\svn update
 echo.
 echo Building PokerTH
-qmake CONFIG+=release DEFINES+=BOOST_USE_WINDOWS_H pokerth.pro
+qmake "CONFIG+=release %PKTH_Conf%" DEFINES+=BOOST_USE_WINDOWS_H pokerth.pro
 mingw32-make release
 move release\pokerth.exe .\pokerth.exe
 move release\bin\pokerth_server.exe .\pokerth_server.exe
