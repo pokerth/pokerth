@@ -295,9 +295,9 @@ win32 {
         src/core/win32
     INCLUDEPATH += ../boost/ \
         ../SDL/include \
-        ../SDL_mixer
-    INCLUDEPATH += ../SDL/include/SDL \
-        ../SDL_mixer/include \
+		../SDL/include/SDL \
+		../SDL_mixer \
+		../SDL_mixer/include/SDL \
         ../GnuTLS/include \
         ../gsasl/include \
         ../curl/include \
