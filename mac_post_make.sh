@@ -37,7 +37,7 @@ cp -R $SDL_FW_PATH/SDL_mixer.framework $BINARY_FW_PATH
 if [ "$1" != "--without-qt" ] ; then
         cp $QT_PLUGIN_PATH/imageformats/libqgif.dylib $BINARY_PLUGIN_PATH/imageformats
         cp $QT_PLUGIN_PATH/imageformats/libqjpeg.dylib $BINARY_PLUGIN_PATH/imageformats
-		cp $QT_PLUGIN_PATH/sqldrivers/libqsqlite.dylib $BINARY_PLUGIN_PATH/sqldrivers
+        cp $QT_PLUGIN_PATH/sqldrivers/libqsqlite.dylib $BINARY_PLUGIN_PATH/sqldrivers
 	cp -R $QT_FW_PATH/QtCore.framework $BINARY_FW_PATH
         cp -R $QT_FW_PATH/QtGui.framework $BINARY_FW_PATH
         cp -R $QT_FW_PATH/QtSql.framework $BINARY_FW_PATH
