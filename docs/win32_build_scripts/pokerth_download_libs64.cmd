@@ -27,10 +27,9 @@ if not exist %PKTH_OldDir%\third_party_apps\7za.exe goto noTools
 echo Using "%PKTH_BaseDir%" as base directory.
 echo.
 echo This script will download and install the prerequisites for building PokerTH
-echo - mingw with gcc-core, gcc-g++, binutils, mingw-runtime,
-echo   w32api, mingw32-make, mingw-utils
+echo - mingw-w64 (sezero's 4.5.2 prerelease with target Win64)
 echo - Qt - will be compiled from the sources
-echo - GnuTLS - using the binary release
+echo - openssl - using the binary release
 echo - gsasl - using the binary release
 echo - zlib and libcurl - will be compiled from the sources
 echo - boost - will be compiled from the sources
@@ -38,7 +37,7 @@ echo - SDL, SDL_mixer - using binary releases
 echo - subversion
 echo.
 echo Downloading all and building some of these libraries might require up to
-echo 5 (five) GB hard disc space. Roughly 200 MB will be downloaded.
+echo 5 (five) GB hard disc space. Roughly 350 MB will be downloaded.
 echo ONLY continue, if you are SURE that you have enough disc space available.
 echo.
 echo Files within the base directory might be OVERWRITTEN WITHOUT WARNING.

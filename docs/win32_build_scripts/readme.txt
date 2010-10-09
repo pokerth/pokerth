@@ -1,7 +1,7 @@
 These are some tools to help compiling the development version of PokerTH on Windows
 using the mingw g++ compiler.
 
-This script has been tested on Windows 7 x64 and Windows XP. When updating this script from a
+This script has been tested on Windows 7 x64. When updating this script from a
 previous version, delete the base pokerth directory first, and start from the scratch.
 
 Compiling all libraries and PokerTH itself could take SEVERAL HOURS, and uses up a lot of disc space.
@@ -28,6 +28,8 @@ Please follow these instructions:
    the base directory as parameter. Interaction is required at the beginning after
    downloading Qt.
    Example: "pokerth_download_libs.cmd C:\pokerth_root"
+
+   In order to build the x64 version, run "pokerth_download_libs64.cmd c:\pokerth_root".
 
    This could take several hours. If you need to interrupt the script, you can do so
    by pressing Ctrl+c. After interrupting, you may
