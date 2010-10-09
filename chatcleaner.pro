@@ -56,8 +56,8 @@ win32 {
 mac { 
     # make it universal
     CONFIG += x86
-    CONFIG -= ppc
-    QMAKE_MACOSX_DEPLOYMENT_TARGET = 10.4
+	CONFIG += ppc
+	QMAKE_MACOSX_DEPLOYMENT_TARGET = 10.5
     LIBPATH += /Developer/SDKs/MacOSX10.5.sdk/usr/lib
     INCLUDEPATH += /Developer/SDKs/MacOSX10.5.sdk/usr/include/
 }
