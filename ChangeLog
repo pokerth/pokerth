@@ -1,3 +1,11 @@
+2010-10-09 version 0.8.1:
+(this is a bugfix release)
+- Fixed a bug where "large small blinds" could cause freezing of the client in network games
+- Fixed a bug concerning auto start timer of invite-only games
+- Two players with the same IP address are no longer allowed to join a single ranking game (server)
+- Block guest chat in lobby on server side
+- New experimental Windows x64 release
+
 2010-09-25 version 0.8:
 - See beta releases below for changes from version 0.7
 - User profile links on the game table to the online ranking system
