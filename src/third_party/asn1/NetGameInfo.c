@@ -219,7 +219,7 @@ memb_NativeInteger_constraint_23(asn_TYPE_descriptor_t *td, const void *sptr,
 	
 	value = *(const long *)sptr;
 	
-	if((value >= 1 && value <= 20001)) {
+	if((value >= 1 && value <= 1000000)) {
 		/* Constraint check succeeded */
 		return 0;
 	} else {
@@ -401,7 +401,7 @@ memb_endRaiseSmallBlindValue_constraint_1(asn_TYPE_descriptor_t *td, const void 
 	
 	value = *(const long *)sptr;
 	
-	if((value >= 0 && value <= 20000)) {
+	if((value >= 0 && value <= 1000000)) {
 		/* Constraint check succeeded */
 		return 0;
 	} else {
