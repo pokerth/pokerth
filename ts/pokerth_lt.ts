@@ -710,7 +710,7 @@ Prašome pasirinkti kitą!</translation>
     <message>
         <location filename="../src/gui/qt/connecttoserverdialog.ui" line="13"/>
         <source>Connect to Server</source>
-        <translation>Prisijungti prie serverio</translation>
+        <translation>Prisijungta prie serverio</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/connecttoserverdialog.ui" line="25"/>
@@ -738,7 +738,7 @@ Prašome pasirinkti kitą!</translation>
     <message>
         <location filename="../src/gui/qt/connecttoserverdialog/connecttoserverdialogimpl.cpp" line="52"/>
         <source>Starting session...</source>
-        <translation>Pradeda sesija...</translation>
+        <translation>Pradedama sesija...</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/connecttoserverdialog/connecttoserverdialogimpl.cpp" line="54"/>
@@ -1037,7 +1037,7 @@ Prašome pasirinkti kitą!</translation>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog.ui" line="627"/>
         <source>Join &amp;any game</source>
-        <translation>Jungtis prie &amp;bet kurio žaidimo</translation>
+        <translation>Jungtis prie &amp;bet kurio</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog.ui" line="654"/>
@@ -1071,7 +1071,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/gui/qt/gamelobbydialog.ui" line="67"/>
         <source>0 - No game list filter</source>
-        <translation>0 - Be žaidimo sąrašo skirstymo</translation>
+        <translation>0 - Be žaidimo skirstymo į sąrašus</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog.ui" line="72"/>
@@ -1415,7 +1415,7 @@ Nesivaržykite pakviesti kitus žaidėjus spragtelėdami dešinį mygtuką ant j
     <message>
         <location filename="../src/gui/qt/gametable.ui" line="3314"/>
         <source>Away</source>
-        <translation>Išėjęs</translation>
+        <translation>Atsitraukus</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gametable.ui" line="3323"/>
@@ -1425,12 +1425,12 @@ Nesivaržykite pakviesti kitus žaidėjus spragtelėdami dešinį mygtuką ant j
     <message>
         <location filename="../src/gui/qt/gametable.ui" line="3336"/>
         <source>Auto-Check / Auto-Fold</source>
-        <translation>Automatiškai tikrinti / Automatiškai atsisakyti</translation>
+        <translation>Automatiškai tikrinti / atsisakyti</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gametable.ui" line="3346"/>
         <source>Auto-Check / Auto-Call-Any</source>
-        <translation>Automatiškai tikrinti / Automatiškai sutikti su visais</translation>
+        <translation>Automatiškai tikrinti / visuomet sutikti</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gametable.ui" line="3471"/>
@@ -1572,7 +1572,7 @@ Nesivaržykite pakviesti kitus žaidėjus spragtelėdami dešinį mygtuką ant j
     <message>
         <location filename="../src/gui/qt/gametable.ui" line="3367"/>
         <source>Chance</source>
-        <translation>Keisti</translation>
+        <translation>Galimybės</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gametable.ui" line="3743"/>
@@ -3268,7 +3268,7 @@ Stilius nebus įkeltas į sąrašą!</translation>
     <message>
         <location filename="../src/gui/qt/startwindow.ui" line="73"/>
         <source>&amp;1 Start Local Game</source>
-        <translation>&amp;1 Pradėti tinklo žaidimą</translation>
+        <translation>&amp;1 Pradėti vietinį žaidimą</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow.ui" line="70"/>
