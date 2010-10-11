@@ -407,7 +407,7 @@ static void libirc_process_incoming_data (irc_session_t * session, int process_l
 	const char * command = 0, *prefix = 0, *params[MAX_PARAMS_ALLOWED+1];
 	int code = 0, paramindex = 0;
 
-	if ( process_length > sizeof(buf) )
+	if ( process_length > (int)sizeof(buf) )
 		abort(); // should be impossible
 
 	memcpy (buf, session->incoming_buf, process_length);

@@ -117,10 +117,10 @@ static inline void libirc_mutex_unlock (port_mutex_t * mutex)
 
 	typedef void *	port_mutex_t;
 
-	static inline int libirc_mutex_init (port_mutex_t * mutex) { return 0; }
-	static inline void libirc_mutex_destroy (port_mutex_t * mutex) {}
-	static inline void libirc_mutex_lock (port_mutex_t * mutex) {}
-	static inline void libirc_mutex_unlock (port_mutex_t * mutex) {}
+	static inline int libirc_mutex_init (port_mutex_t * /*mutex*/) { return 0; }
+	static inline void libirc_mutex_destroy (port_mutex_t * /*mutex*/) {}
+	static inline void libirc_mutex_lock (port_mutex_t * /*mutex*/) {}
+	static inline void libirc_mutex_unlock (port_mutex_t * /*mutex*/) {}
 
 #endif
 
