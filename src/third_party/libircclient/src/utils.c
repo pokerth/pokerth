@@ -67,8 +67,10 @@ static int libirc_findcrorlf (char * buf, int length)
 }
 
 
-static void libirc_event_ctcp_internal (irc_session_t * session, const char * /*event*/, const char * origin, const char ** params, unsigned int /*count*/)
+static void libirc_event_ctcp_internal (irc_session_t * session, const char * event, const char * origin, const char ** params, unsigned int count)
 {
+	(void)event;
+	(void)count;
 	if ( origin )
 	{
 		char nickbuf[128], textbuf[256];
