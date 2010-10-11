@@ -381,23 +381,43 @@ unix:!mac {
     # to override the default '/usr' pass PREFIX
     # variable to qmake.
     for(dir, LIB_DIRS):exists($$dir) { 
-        for(lib, BOOST_THREAD):exists($${dir}/lib$${lib}.so*) { 
+		for(lib, BOOST_THREAD):exists($${dir}/lib$${lib}.a) {
+			message("Found $$lib")
+			BOOST_THREAD = -l$$lib
+		}
+		for(lib, BOOST_THREAD):exists($${dir}/lib$${lib}.so*) {
             message("Found $$lib")
             BOOST_THREAD = -l$$lib
         }
-        for(lib, BOOST_FS):exists($${dir}/lib$${lib}.so*) { 
+		for(lib, BOOST_FS):exists($${dir}/lib$${lib}.a) {
+			message("Found $$lib")
+			BOOST_FS = -l$$lib
+		}
+		for(lib, BOOST_FS):exists($${dir}/lib$${lib}.so*) {
             message("Found $$lib")
             BOOST_FS = -l$$lib
         }
-        for(lib, BOOST_IOSTREAMS):exists($${dir}/lib$${lib}.so*) { 
+		for(lib, BOOST_IOSTREAMS):exists($${dir}/lib$${lib}.a) {
+			message("Found $$lib")
+			BOOST_IOSTREAMS = -l$$lib
+		}
+		for(lib, BOOST_IOSTREAMS):exists($${dir}/lib$${lib}.so*) {
             message("Found $$lib")
             BOOST_IOSTREAMS = -l$$lib
         }
-        for(lib, BOOST_REGEX):exists($${dir}/lib$${lib}.so*) { 
+		for(lib, BOOST_REGEX):exists($${dir}/lib$${lib}.a) {
+			message("Found $$lib")
+			BOOST_REGEX = -l$$lib
+		}
+		for(lib, BOOST_REGEX):exists($${dir}/lib$${lib}.so*) {
             message("Found $$lib")
             BOOST_REGEX = -l$$lib
         }
-        for(lib, BOOST_SYS):exists($${dir}/lib$${lib}.so*) { 
+		for(lib, BOOST_SYS):exists($${dir}/lib$${lib}.a) {
+			message("Found $$lib")
+			BOOST_SYS = -l$$lib
+		}
+		for(lib, BOOST_SYS):exists($${dir}/lib$${lib}.so*) {
             message("Found $$lib")
             BOOST_SYS = -l$$lib
         }
