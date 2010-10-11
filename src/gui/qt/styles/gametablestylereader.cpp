@@ -860,8 +860,8 @@ QString GameTableStyleReader::getActionPic(int action)
                 return ActionWinnerI18NPic;
         }
         break;
-    default: return QString("");
     }
+	return QString("");
 }
 
 void GameTableStyleReader::setButtonsStyle(MyActionButton *br, MyActionButton *cc, MyActionButton *f, MyActionButton *a, int state)

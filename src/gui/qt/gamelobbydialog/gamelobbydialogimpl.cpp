@@ -1434,7 +1434,7 @@ void gameLobbyDialogImpl::showNickListContextMenu(QPoint p)
     if(myNickListModel->rowCount() && myNickListSelectionModel->currentIndex().isValid()) {
 
         assert(mySession);
-        int playerUid = myNickListSelectionModel->currentIndex().data(Qt::UserRole).toUInt();
+		unsigned playerUid = myNickListSelectionModel->currentIndex().data(Qt::UserRole).toUInt();
 
         if(inGame && mySession->getClientGameInfo(mySession->getClientCurrentGameId()).data.gameType == GAME_TYPE_INVITE_ONLY && playerUid != mySession->getClientUniquePlayerId() && !mySession->getClientPlayerInfo(playerUid).isGuest) {
 

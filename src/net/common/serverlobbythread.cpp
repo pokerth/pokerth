@@ -1677,7 +1677,7 @@ ServerLobbyThread::TimerUpdateClientLoginLock(const boost::system::error_code &e
 		{
 			TimerClientAddressMap::iterator next = i;
 			++next;
-			if (i->second.elapsed().total_seconds() > SERVER_INIT_LOGIN_CLIENT_LOCK_SEC)
+			if (i->second.elapsed().total_seconds() > (int)SERVER_INIT_LOGIN_CLIENT_LOCK_SEC)
 				m_timerClientAddressMap.erase(i);
 			i = next;
 		}
