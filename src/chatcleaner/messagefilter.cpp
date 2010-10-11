@@ -204,7 +204,7 @@ void MessageFilter::cleanKickCounterList()
     QMapIterator<QString, ClientKickInfos> it(myClientKickCounterList);
     while (it.hasNext()) {
         it.next();
-        if(timer.elapsed().total_seconds()-it.value().lastKickTimestamp > config->readConfigInt("SecondsToForgetAboutKick")) {
+        if(timer.elapsed().total_seconds()-it.value().lastKickTimestamp > static_cast<unsigned>(config->readConfigInt("SecondsToForgetAboutKick"))) {
 //            qDebug() << it.key() << "removed from kick counter list" << endl;
             myClientKickCounterList.remove(it.key());
         }
