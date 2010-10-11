@@ -7,7 +7,6 @@
 #
 # The integration of Qt is optional (commandlineswitch --without-qt) as you can save 30MB 
 # of binary-size if you leave Qt out.
-# Using such a "small" version needs to install qt 4.2.3 on the mac seperatly as a framework 
 # (see http://trolltech.com/developer/downloads/qt/mac)
 
 QT_FW_PATH="/Library/Frameworks"
