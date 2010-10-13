@@ -33,7 +33,7 @@ HEADERS += \
 SOURCES += \
 		src/tests/pokerth_tests.cpp
 
-LIBS += -lpokerth_libs -lpokerth_protocol
+LIBS += -lpokerth_lib -lpokerth_protocol
 
 win32 {
 	DEFINES += CURL_STATICLIB
