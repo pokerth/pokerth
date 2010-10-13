@@ -39,3 +39,4 @@ extern asn_TYPE_descriptor_t asn_DEF_AfterHandShowCardsMessage;
 #endif
 
 #endif	/* _AfterHandShowCardsMessage_H_ */
+#include <asn_internal.h>

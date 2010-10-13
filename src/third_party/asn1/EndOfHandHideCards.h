@@ -42,3 +42,4 @@ extern asn_TYPE_descriptor_t asn_DEF_EndOfHandHideCards;
 #endif
 
 #endif	/* _EndOfHandHideCards_H_ */
+#include <asn_internal.h>

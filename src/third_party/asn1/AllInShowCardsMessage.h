@@ -53,3 +53,4 @@ extern asn_TYPE_descriptor_t asn_DEF_AllInShowCardsMessage;
 #include "PlayerAllIn.h"
 
 #endif	/* _AllInShowCardsMessage_H_ */
+#include <asn_internal.h>

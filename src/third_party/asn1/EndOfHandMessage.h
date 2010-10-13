@@ -65,3 +65,4 @@ extern asn_TYPE_descriptor_t asn_DEF_EndOfHandMessage;
 #endif
 
 #endif	/* _EndOfHandMessage_H_ */
+#include <asn_internal.h>

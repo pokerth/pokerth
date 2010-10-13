@@ -66,3 +66,4 @@ extern asn_TYPE_descriptor_t asn_DEF_VoteKickReplyMessage;
 #endif
 
 #endif	/* _VoteKickReplyMessage_H_ */
+#include <asn_internal.h>

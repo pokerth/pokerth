@@ -59,3 +59,4 @@ extern asn_TYPE_descriptor_t asn_DEF_ErrorMessage;
 #endif
 
 #endif	/* _ErrorMessage_H_ */
+#include <asn_internal.h>

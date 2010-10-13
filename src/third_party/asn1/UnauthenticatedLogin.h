@@ -41,3 +41,4 @@ extern asn_TYPE_descriptor_t asn_DEF_UnauthenticatedLogin;
 #endif
 
 #endif	/* _UnauthenticatedLogin_H_ */
+#include <asn_internal.h>

@@ -49,3 +49,4 @@ extern asn_TYPE_descriptor_t asn_DEF_GamePlayerLeft;
 #endif
 
 #endif	/* _GamePlayerLeft_H_ */
+#include <asn_internal.h>

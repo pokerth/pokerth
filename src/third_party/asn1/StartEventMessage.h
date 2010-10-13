@@ -41,3 +41,4 @@ extern asn_TYPE_descriptor_t asn_DEF_StartEventMessage;
 #endif
 
 #endif	/* _StartEventMessage_H_ */
+#include <asn_internal.h>

@@ -36,3 +36,4 @@ xer_type_encoder_f Guid_encode_xer;
 #endif
 
 #endif	/* _Guid_H_ */
+#include <asn_internal.h>

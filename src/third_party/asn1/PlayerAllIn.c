@@ -5,8 +5,6 @@
  * 	`asn1c -fskeletons-copy`
  */
 
-#include <asn_internal.h>
-
 #include "PlayerAllIn.h"
 
 static asn_TYPE_member_t asn_MBR_PlayerAllIn_1[] = {

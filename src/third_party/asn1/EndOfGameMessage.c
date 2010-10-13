@@ -5,8 +5,6 @@
  * 	`asn1c -fskeletons-copy`
  */
 
-#include <asn_internal.h>
-
 #include "EndOfGameMessage.h"
 
 static asn_TYPE_member_t asn_MBR_EndOfGameMessage_1[] = {

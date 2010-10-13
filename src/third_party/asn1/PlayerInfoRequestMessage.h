@@ -39,3 +39,4 @@ extern asn_TYPE_descriptor_t asn_DEF_PlayerInfoRequestMessage;
 #endif
 
 #endif	/* _PlayerInfoRequestMessage_H_ */
+#include <asn_internal.h>

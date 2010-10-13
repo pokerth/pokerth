@@ -39,3 +39,4 @@ extern asn_TYPE_descriptor_t asn_DEF_DialogMessage;
 #endif
 
 #endif	/* _DialogMessage_H_ */
+#include <asn_internal.h>

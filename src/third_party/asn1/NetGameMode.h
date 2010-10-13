@@ -43,3 +43,4 @@ xer_type_encoder_f NetGameMode_encode_xer;
 #endif
 
 #endif	/* _NetGameMode_H_ */
+#include <asn_internal.h>

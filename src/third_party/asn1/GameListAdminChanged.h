@@ -39,3 +39,4 @@ extern asn_TYPE_descriptor_t asn_DEF_GameListAdminChanged;
 #endif
 
 #endif	/* _GameListAdminChanged_H_ */
+#include <asn_internal.h>

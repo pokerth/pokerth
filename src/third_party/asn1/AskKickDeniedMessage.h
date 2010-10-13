@@ -52,3 +52,4 @@ extern asn_TYPE_descriptor_t asn_DEF_AskKickDeniedMessage;
 #endif
 
 #endif	/* _AskKickDeniedMessage_H_ */
+#include <asn_internal.h>

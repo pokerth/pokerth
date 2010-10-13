@@ -37,3 +37,4 @@ extern asn_TYPE_descriptor_t asn_DEF_ChatRequestTypeLobby;
 #endif
 
 #endif	/* _ChatRequestTypeLobby_H_ */
+#include <asn_internal.h>

@@ -39,3 +39,4 @@ extern asn_TYPE_descriptor_t asn_DEF_StartEventAckMessage;
 #endif
 
 #endif	/* _StartEventAckMessage_H_ */
+#include <asn_internal.h>

@@ -71,3 +71,4 @@ extern asn_TYPE_descriptor_t asn_DEF_ChatMessage;
 #endif
 
 #endif	/* _ChatMessage_H_ */
+#include <asn_internal.h>

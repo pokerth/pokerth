@@ -51,3 +51,4 @@ extern asn_TYPE_descriptor_t asn_DEF_EndOfHandShowCards;
 #include "PlayerResult.h"
 
 #endif	/* _EndOfHandShowCards_H_ */
+#include <asn_internal.h>

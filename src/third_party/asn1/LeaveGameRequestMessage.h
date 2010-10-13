@@ -39,3 +39,4 @@ extern asn_TYPE_descriptor_t asn_DEF_LeaveGameRequestMessage;
 #endif
 
 #endif	/* _LeaveGameRequestMessage_H_ */
+#include <asn_internal.h>

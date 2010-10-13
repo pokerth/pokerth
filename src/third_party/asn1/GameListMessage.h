@@ -74,3 +74,4 @@ extern asn_TYPE_descriptor_t asn_DEF_GameListMessage;
 #endif
 
 #endif	/* _GameListMessage_H_ */
+#include <asn_internal.h>

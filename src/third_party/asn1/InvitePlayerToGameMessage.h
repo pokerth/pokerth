@@ -40,3 +40,4 @@ extern asn_TYPE_descriptor_t asn_DEF_InvitePlayerToGameMessage;
 #endif
 
 #endif	/* _InvitePlayerToGameMessage_H_ */
+#include <asn_internal.h>

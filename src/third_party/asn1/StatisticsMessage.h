@@ -51,3 +51,4 @@ extern asn_TYPE_descriptor_t asn_DEF_StatisticsMessage;
 #include "StatisticsData.h"
 
 #endif	/* _StatisticsMessage_H_ */
+#include <asn_internal.h>

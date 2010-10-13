@@ -41,3 +41,4 @@ extern asn_TYPE_descriptor_t asn_DEF_DealTurnCardMessage;
 #endif
 
 #endif	/* _DealTurnCardMessage_H_ */
+#include <asn_internal.h>

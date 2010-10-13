@@ -55,3 +55,4 @@ extern asn_TYPE_descriptor_t asn_DEF_YourActionRejectedMessage;
 #endif
 
 #endif	/* _YourActionRejectedMessage_H_ */
+#include <asn_internal.h>

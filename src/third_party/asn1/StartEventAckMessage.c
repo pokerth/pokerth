@@ -5,8 +5,6 @@
  * 	`asn1c -fskeletons-copy`
  */
 
-#include <asn_internal.h>
-
 #include "StartEventAckMessage.h"
 
 static asn_TYPE_member_t asn_MBR_StartEventAckMessage_1[] = {

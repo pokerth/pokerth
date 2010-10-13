@@ -45,3 +45,4 @@ extern asn_TYPE_descriptor_t asn_DEF_StartKickPetitionMessage;
 #endif
 
 #endif	/* _StartKickPetitionMessage_H_ */
+#include <asn_internal.h>

@@ -39,3 +39,4 @@ extern asn_TYPE_descriptor_t asn_DEF_ChatRequestTypeGame;
 #endif
 
 #endif	/* _ChatRequestTypeGame_H_ */
+#include <asn_internal.h>

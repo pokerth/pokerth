@@ -56,3 +56,4 @@ extern asn_TYPE_descriptor_t asn_DEF_EndKickPetitionMessage;
 #endif
 
 #endif	/* _EndKickPetitionMessage_H_ */
+#include <asn_internal.h>

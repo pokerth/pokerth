@@ -5,8 +5,6 @@
  * 	`asn1c -fskeletons-copy`
  */
 
-#include <asn_internal.h>
-
 #include "Card.h"
 
 int

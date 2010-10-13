@@ -44,3 +44,4 @@ extern asn_TYPE_descriptor_t asn_DEF_KickPetitionUpdateMessage;
 #endif
 
 #endif	/* _KickPetitionUpdateMessage_H_ */
+#include <asn_internal.h>

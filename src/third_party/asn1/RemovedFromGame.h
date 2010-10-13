@@ -50,3 +50,4 @@ extern asn_TYPE_descriptor_t asn_DEF_RemovedFromGame;
 #endif
 
 #endif	/* _RemovedFromGame_H_ */
+#include <asn_internal.h>

@@ -42,3 +42,4 @@ xer_type_encoder_f RejectGameInvReason_encode_xer;
 #endif
 
 #endif	/* _RejectGameInvReason_H_ */
+#include <asn_internal.h>

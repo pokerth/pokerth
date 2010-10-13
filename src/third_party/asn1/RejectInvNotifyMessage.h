@@ -42,3 +42,4 @@ extern asn_TYPE_descriptor_t asn_DEF_RejectInvNotifyMessage;
 #endif
 
 #endif	/* _RejectInvNotifyMessage_H_ */
+#include <asn_internal.h>

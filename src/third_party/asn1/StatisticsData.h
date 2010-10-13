@@ -47,3 +47,4 @@ extern asn_TYPE_descriptor_t asn_DEF_StatisticsData;
 #endif
 
 #endif	/* _StatisticsData_H_ */
+#include <asn_internal.h>

@@ -40,3 +40,4 @@ extern asn_TYPE_descriptor_t asn_DEF_KickPlayerRequestMessage;
 #endif
 
 #endif	/* _KickPlayerRequestMessage_H_ */
+#include <asn_internal.h>

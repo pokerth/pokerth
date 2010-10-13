@@ -37,3 +37,4 @@ extern asn_TYPE_descriptor_t asn_DEF_ChatTypeBroadcast;
 #endif
 
 #endif	/* _ChatTypeBroadcast_H_ */
+#include <asn_internal.h>

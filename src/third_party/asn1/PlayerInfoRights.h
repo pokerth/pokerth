@@ -43,3 +43,4 @@ xer_type_encoder_f PlayerInfoRights_encode_xer;
 #endif
 
 #endif	/* _PlayerInfoRights_H_ */
+#include <asn_internal.h>

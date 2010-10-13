@@ -46,3 +46,4 @@ xer_type_encoder_f NetGameState_encode_xer;
 #endif
 
 #endif	/* _NetGameState_H_ */
+#include <asn_internal.h>

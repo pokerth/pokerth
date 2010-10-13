@@ -39,3 +39,4 @@ extern asn_TYPE_descriptor_t asn_DEF_JoinNewGame;
 #endif
 
 #endif	/* _JoinNewGame_H_ */
+#include <asn_internal.h>

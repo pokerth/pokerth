@@ -43,3 +43,4 @@ xer_type_encoder_f NetAvatarType_encode_xer;
 #endif
 
 #endif	/* _NetAvatarType_H_ */
+#include <asn_internal.h>

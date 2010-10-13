@@ -47,3 +47,4 @@ xer_type_encoder_f NetPlayerAction_encode_xer;
 #endif
 
 #endif	/* _NetPlayerAction_H_ */
+#include <asn_internal.h>

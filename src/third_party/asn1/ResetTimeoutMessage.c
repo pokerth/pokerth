@@ -5,8 +5,6 @@
  * 	`asn1c -fskeletons-copy`
  */
 
-#include <asn_internal.h>
-
 #include "ResetTimeoutMessage.h"
 
 static ber_tlv_tag_t asn_DEF_ResetTimeoutMessage_tags_1[] = {

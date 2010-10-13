@@ -36,3 +36,4 @@ xer_type_encoder_f Card_encode_xer;
 #endif
 
 #endif	/* _Card_H_ */
+#include <asn_internal.h>

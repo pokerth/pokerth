@@ -36,3 +36,4 @@ xer_type_encoder_f Id_encode_xer;
 #endif
 
 #endif	/* _Id_H_ */
+#include <asn_internal.h>

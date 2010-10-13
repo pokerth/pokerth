@@ -46,3 +46,4 @@ extern asn_TYPE_descriptor_t asn_DEF_SubscriptionRequestMessage;
 #endif
 
 #endif	/* _SubscriptionRequestMessage_H_ */
+#include <asn_internal.h>

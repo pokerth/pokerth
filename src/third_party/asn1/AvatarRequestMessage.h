@@ -41,3 +41,4 @@ extern asn_TYPE_descriptor_t asn_DEF_AvatarRequestMessage;
 #endif
 
 #endif	/* _AvatarRequestMessage_H_ */
+#include <asn_internal.h>

@@ -48,3 +48,4 @@ extern asn_TYPE_descriptor_t asn_DEF_PlayerListMessage;
 #endif
 
 #endif	/* _PlayerListMessage_H_ */
+#include <asn_internal.h>

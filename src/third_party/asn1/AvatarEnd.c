@@ -5,8 +5,6 @@
  * 	`asn1c -fskeletons-copy`
  */
 
-#include <asn_internal.h>
-
 #include "AvatarEnd.h"
 
 static ber_tlv_tag_t asn_DEF_AvatarEnd_tags_1[] = {
