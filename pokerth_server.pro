@@ -1,7 +1,7 @@
 # QMake pro-file for the PokerTH dedicated server
 
 isEmpty( PREFIX ){
-    PREFIX =/usr
+	PREFIX =/usr
 }
 
 TEMPLATE = app
@@ -112,12 +112,12 @@ SOURCES += \
 		src/core/common/loghelper_server.cpp
 
 win32 {
-    DEFINES += CURL_STATICLIB
-    DEFINES += _WIN32_WINNT=0x0501
-    DEPENDPATH += src/net/win32/ src/core/win32
-    INCLUDEPATH += ../boost/ ../GnuTLS/include ../gsasl/include
+	DEFINES += CURL_STATICLIB
+	DEFINES += _WIN32_WINNT=0x0501
+	DEPENDPATH += src/net/win32/ src/core/win32
+	INCLUDEPATH += ../boost/ ../GnuTLS/include ../gsasl/include
 
-    SOURCES += src/core/win32/convhelper.cpp
+	SOURCES += src/core/win32/convhelper.cpp
 
 	LIBPATH += ../boost/stage/lib ../GnuTLS/lib ../openssl/lib ../gsasl/lib ../curl/lib ../mysql/lib ../zlib
 
@@ -126,14 +126,14 @@ win32 {
 	debug:LIBPATH += Debug/lib
 	release:LIBPATH += Release/lib
 
-    win32-msvc2008 {
-        LIBS += -llibgnutls-openssl-26 \
-            -llibgcrypt-11 \
-            -llibgsasl-7 \
-            -llibcurl
-    }
+	win32-msvc2008 {
+		LIBS += -llibgnutls-openssl-26 \
+				-llibgcrypt-11 \
+				-llibgsasl-7 \
+				-llibcurl
+	}
 
-    win32-g++ {
+	win32-g++ {
 		pkth_win64 {
 			LIBS += -lcrypto -lssl -llibeay32 -lssleay32 -lgsasl
 		}
@@ -141,7 +141,7 @@ win32 {
 			LIBS += -lgnutls-openssl -lgnutls -lgcrypt -ltasn1 -lgpg-error -lgsasl -lidn
 		}
 		LIBS += -lcurl
-        LIBS += -lz
+		LIBS += -lz
 		LIBS += -lboost_thread-mgw45-mt-1_44.dll
 		LIBS += -lboost_filesystem-mgw45-mt-1_44.dll
 		LIBS += -lboost_regex-mgw45-mt-1_44
@@ -149,170 +149,171 @@ win32 {
 		LIBS += -lboost_iostreams-mgw45-mt-1_44.dll
 		LIBS += -lboost_zlib-mgw45-mt-1_44.dll
 		LIBS += -lboost_program_options-mgw45-mt-1_44.dll
-    }
+	}
 
-    LIBS += -lgdi32 \
-        -lcomdlg32 \
-        -loleaut32 \
-        -limm32 \
-        -lwinmm \
-        -lwinspool \
-        -lole32 \
-        -luuid \
-        -luser32 \
-        -lmsimg32 \
-        -lshell32 \
-        -lkernel32 \
-        -lmswsock \
-        -lws2_32 \
-        -ladvapi32 \
-        -lwldap32
+	LIBS += -lgdi32 \
+			-lcomdlg32 \
+			-loleaut32 \
+			-limm32 \
+			-lwinmm \
+			-lwinspool \
+			-lole32 \
+			-luuid \
+			-luser32 \
+			-lmsimg32 \
+			-lshell32 \
+			-lkernel32 \
+			-lmswsock \
+			-lws2_32 \
+			-ladvapi32 \
+			-lwldap32
 }
+
 !win32 {
-    DEPENDPATH += src/net/linux/ src/core/linux
-    SOURCES += src/core/linux/daemon.c
-    SOURCES += src/core/linux/convhelper.cpp
+	DEPENDPATH += src/net/linux/ src/core/linux
+	SOURCES += src/core/linux/daemon.c
+	SOURCES += src/core/linux/convhelper.cpp
 }
 
 unix {
-    # workaround for problems with boost_filesystem exceptions
-    QMAKE_LFLAGS += -no_dead_strip_inits_and_terms
+	# workaround for problems with boost_filesystem exceptions
+	QMAKE_LFLAGS += -no_dead_strip_inits_and_terms
 }
 
 unix : !mac {
 
-        ##### My release static build options
-        #QMAKE_CXXFLAGS += -ffunction-sections -fdata-sections
-        #QMAKE_LFLAGS += -Wl,--gc-sections
+	##### My release static build options
+	#QMAKE_CXXFLAGS += -ffunction-sections -fdata-sections
+	#QMAKE_LFLAGS += -Wl,--gc-sections
 
-        LIBPATH += lib
+	LIBPATH += lib
 
-        LIB_DIRS = $${PREFIX}/lib $${PREFIX}/lib64
-        BOOST_FS = boost_filesystem boost_filesystem-mt
-        BOOST_THREAD = boost_thread boost_thread-mt
-        BOOST_PROGRAM_OPTIONS = boost_program_options boost_program_options-mt
-        BOOST_IOSTREAMS = boost_iostreams boost_iostreams-mt
+	LIB_DIRS = $${PREFIX}/lib $${PREFIX}/lib64
+	BOOST_FS = boost_filesystem boost_filesystem-mt
+	BOOST_THREAD = boost_thread boost_thread-mt
+	BOOST_PROGRAM_OPTIONS = boost_program_options boost_program_options-mt
+	BOOST_IOSTREAMS = boost_iostreams boost_iostreams-mt
 	BOOST_SYS = boost_system boost_system-mt
 	BOOST_REGEX = boost_regex boost_regex-mt
 
 
-        #
-        # searching in $PREFIX/lib and $PREFIX/lib64
-        # to override the default '/usr' pass PREFIX
-        # variable to qmake.
-        #
-        for(dir, LIB_DIRS){
-            exists($$dir){
-				for(lib, BOOST_THREAD):exists($${dir}/lib$${lib}.a) {
-					message("Found $$lib")
-					BOOST_THREAD = -l$$lib
-				}
-				for(lib, BOOST_THREAD):exists($${dir}/lib$${lib}.so*) {
-					message("Found $$lib")
-					BOOST_THREAD = -l$$lib
-				}
-				for(lib, BOOST_FS):exists($${dir}/lib$${lib}.a) {
-					message("Found $$lib")
-					BOOST_FS = -l$$lib
-				}
-				for(lib, BOOST_FS):exists($${dir}/lib$${lib}.so*) {
-					message("Found $$lib")
-					BOOST_FS = -l$$lib
-				}
-				for(lib, BOOST_IOSTREAMS):exists($${dir}/lib$${lib}.a) {
-					message("Found $$lib")
-					BOOST_IOSTREAMS = -l$$lib
-				}
-				for(lib, BOOST_IOSTREAMS):exists($${dir}/lib$${lib}.so*) {
-					message("Found $$lib")
-					BOOST_IOSTREAMS = -l$$lib
-				}
-				for(lib, BOOST_PROGRAM_OPTIONS):exists($${dir}/lib$${lib}.a) {
-					message("Found $$lib")
-					BOOST_PROGRAM_OPTIONS = -l$$lib
-				}
-				for(lib, BOOST_PROGRAM_OPTIONS):exists($${dir}/lib$${lib}.so*) {
-					message("Found $$lib")
-					BOOST_PROGRAM_OPTIONS = -l$$lib
-				}
-				for(lib, BOOST_REGEX):exists($${dir}/lib$${lib}.a) {
-					message("Found $$lib")
-					BOOST_REGEX = -l$$lib
-				}
-				for(lib, BOOST_REGEX):exists($${dir}/lib$${lib}.so*) {
-					message("Found $$lib")
-					BOOST_REGEX = -l$$lib
-				}
-				for(lib, BOOST_SYS):exists($${dir}/lib$${lib}.a) {
-					message("Found $$lib")
-					BOOST_SYS = -l$$lib
-				}
-				for(lib, BOOST_SYS):exists($${dir}/lib$${lib}.so*) {
-					message("Found $$lib")
-					BOOST_SYS = -l$$lib
-				}
+	#
+	# searching in $PREFIX/lib and $PREFIX/lib64
+	# to override the default '/usr' pass PREFIX
+	# variable to qmake.
+	#
+	for(dir, LIB_DIRS){
+		exists($$dir){
+			for(lib, BOOST_THREAD):exists($${dir}/lib$${lib}.a) {
+				message("Found $$lib")
+				BOOST_THREAD = -l$$lib
 			}
-        }
-        BOOST_LIBS = $$BOOST_THREAD $$BOOST_FS $$BOOST_PROGRAM_OPTIONS $$BOOST_IOSTREAMS $$BOOST_REGEX $$BOOST_SYS
-        !count(BOOST_LIBS, 6){
-            error("Unable to find boost libraries in PREFIX=$${PREFIX}")
-        }
+			for(lib, BOOST_THREAD):exists($${dir}/lib$${lib}.so*) {
+				message("Found $$lib")
+				BOOST_THREAD = -l$$lib
+			}
+			for(lib, BOOST_FS):exists($${dir}/lib$${lib}.a) {
+				message("Found $$lib")
+				BOOST_FS = -l$$lib
+			}
+			for(lib, BOOST_FS):exists($${dir}/lib$${lib}.so*) {
+				message("Found $$lib")
+				BOOST_FS = -l$$lib
+			}
+			for(lib, BOOST_IOSTREAMS):exists($${dir}/lib$${lib}.a) {
+				message("Found $$lib")
+				BOOST_IOSTREAMS = -l$$lib
+			}
+			for(lib, BOOST_IOSTREAMS):exists($${dir}/lib$${lib}.so*) {
+				message("Found $$lib")
+				BOOST_IOSTREAMS = -l$$lib
+			}
+			for(lib, BOOST_PROGRAM_OPTIONS):exists($${dir}/lib$${lib}.a) {
+				message("Found $$lib")
+				BOOST_PROGRAM_OPTIONS = -l$$lib
+			}
+			for(lib, BOOST_PROGRAM_OPTIONS):exists($${dir}/lib$${lib}.so*) {
+				message("Found $$lib")
+				BOOST_PROGRAM_OPTIONS = -l$$lib
+			}
+			for(lib, BOOST_REGEX):exists($${dir}/lib$${lib}.a) {
+				message("Found $$lib")
+				BOOST_REGEX = -l$$lib
+			}
+			for(lib, BOOST_REGEX):exists($${dir}/lib$${lib}.so*) {
+				message("Found $$lib")
+				BOOST_REGEX = -l$$lib
+			}
+			for(lib, BOOST_SYS):exists($${dir}/lib$${lib}.a) {
+				message("Found $$lib")
+				BOOST_SYS = -l$$lib
+			}
+			for(lib, BOOST_SYS):exists($${dir}/lib$${lib}.so*) {
+				message("Found $$lib")
+				BOOST_SYS = -l$$lib
+			}
+		}
+	}
+	BOOST_LIBS = $$BOOST_THREAD $$BOOST_FS $$BOOST_PROGRAM_OPTIONS $$BOOST_IOSTREAMS $$BOOST_REGEX $$BOOST_SYS
+	!count(BOOST_LIBS, 6){
+		error("Unable to find boost libraries in PREFIX=$${PREFIX}")
+	}
 
-        UNAME = $$system(uname -s)
-        BSD = $$find(UNAME, "BSD")
-        kFreeBSD = $$find(UNAME, "kFreeBSD")
+	UNAME = $$system(uname -s)
+	BSD = $$find(UNAME, "BSD")
+	kFreeBSD = $$find(UNAME, "kFreeBSD")
 
-        LIBS += -lpokerth_lib \
-				-lpokerth_db \
-				-lpokerth_protocol
-        LIBS += $$BOOST_LIBS
-        LIBS += -lcurl -lgsasl
-        !isEmpty( BSD ): isEmpty( kFreeBSD ){
-            LIBS += -lcrypto -liconv
-        }        else {
-            LIBS += -lgnutls-openssl -lgcrypt
-        }
+	LIBS += -lpokerth_lib \
+			-lpokerth_db \
+			-lpokerth_protocol
+	LIBS += $$BOOST_LIBS
+	LIBS += -lcurl -lgsasl
+	!isEmpty( BSD ): isEmpty( kFreeBSD ){
+		LIBS += -lcrypto -liconv
+	} else {
+		LIBS += -lgnutls-openssl -lgcrypt
+	}
 
-        TARGETDEPS += ./lib/libpokerth_lib.a \
-					  ./lib/libpokerth_db.a \
-					  ./lib/libpokerth_protocol.a
+	TARGETDEPS += ./lib/libpokerth_lib.a \
+				  ./lib/libpokerth_db.a \
+				  ./lib/libpokerth_protocol.a
 
-        #### INSTALL ####
+	#### INSTALL ####
 
-        binary.path += $${PREFIX}/bin/
-        binary.files += pokerth_server
+	binary.path += $${PREFIX}/bin/
+	binary.files += pokerth_server
 
-        INSTALLS += binary
-    }
+	INSTALLS += binary
+}
 
 mac {
-    # make it universal  
-    CONFIG += x86
+	# make it universal
+	CONFIG += x86
 	CONFIG -= ppc
 	QMAKE_MACOSX_DEPLOYMENT_TARGET = 10.5
 
-    # for universal-compilation on PPC-Mac uncomment the following line
-    # on Intel-Mac you have to comment this line out or build will fail.
-    #       QMAKE_MAC_SDK=/Developer/SDKs/MacOSX10.4u.sdk/
+	# for universal-compilation on PPC-Mac uncomment the following line
+	# on Intel-Mac you have to comment this line out or build will fail.
+	#       QMAKE_MAC_SDK=/Developer/SDKs/MacOSX10.4u.sdk/
 
-    LIBPATH += lib
+	LIBPATH += lib
 	LIBS += -lpokerth_lib -lpokerth_db -lpokerth_protocol
-    # standard path for darwinports
-    # make sure you have a universal version of boost
-    LIBS += /usr/local/lib/libboost_thread.a
-    LIBS += /usr/local/lib/libboost_filesystem.a
-    LIBS += /usr/local/lib/libboost_regex.a
-    LIBS += /usr/local/lib/libboost_system.a
-    LIBS += /usr/local/lib/libboost_iostreams.a
-    LIBS += /usr/local/lib/libboost_program_options.a
+	# standard path for darwinports
+	# make sure you have a universal version of boost
+	LIBS += /usr/local/lib/libboost_thread.a
+	LIBS += /usr/local/lib/libboost_filesystem.a
+	LIBS += /usr/local/lib/libboost_regex.a
+	LIBS += /usr/local/lib/libboost_system.a
+	LIBS += /usr/local/lib/libboost_iostreams.a
+	LIBS += /usr/local/lib/libboost_program_options.a
 	LIBS += /usr/local/lib/libgsasl.a
 
-    # libraries installed on every mac
-    LIBS += -lcrypto -lssl -lz -lcurl -liconv
-    # set the application icon
-    RC_FILE = pokerth.icns
-    LIBPATH += /Developer/SDKs/MacOSX10.5.sdk/usr/lib
-    INCLUDEPATH += /Developer/SDKs/MacOSX10.5.sdk/usr/include/
+	# libraries installed on every mac
+	LIBS += -lcrypto -lssl -lz -lcurl -liconv
+	# set the application icon
+	RC_FILE = pokerth.icns
+	LIBPATH += /Developer/SDKs/MacOSX10.5.sdk/usr/lib
+	INCLUDEPATH += /Developer/SDKs/MacOSX10.5.sdk/usr/include/
 }
 
 official_server {

@@ -1,4 +1,4 @@
-# QMake pro-file for PokerTH common library
+# QMake pro-file for PokerTH db library
 
 TEMPLATE = lib
 CODECFORSRC = UTF-8
@@ -37,7 +37,7 @@ SOURCES += \
 
 win32{
 	DEFINES += CURL_STATICLIB
-    DEFINES += _WIN32_WINNT=0x0501
+	DEFINES += _WIN32_WINNT=0x0501
 	DEPENDPATH += src/net/win32/ src/core/win32
 	INCLUDEPATH += ../boost/ ../GnuTLS/include ../curl/include ../zlib
 }
@@ -56,7 +56,7 @@ mac{
 	# on Intel-Mac you have to comment this line out or build will fail.
 	#	QMAKE_MAC_SDK=/Developer/SDKs/MacOSX10.4u.sdk/
 
-    INCLUDEPATH += /Developer/SDKs/MacOSX10.5.sdk/usr/include/
+	INCLUDEPATH += /Developer/SDKs/MacOSX10.5.sdk/usr/include/
 	INCLUDEPATH += /Library/Frameworks/SDL.framework/Headers
 	INCLUDEPATH += /Library/Frameworks/SDL_mixer.framework/Headers
 }
