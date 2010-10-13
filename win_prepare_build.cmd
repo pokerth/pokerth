@@ -21,4 +21,4 @@ SET QTDIR=%PKTH_BaseDir%\qt
 if exist Makefile. (
 mingw32-make distclean
 )
-qmake -spec win32-g++ "CONFIG+=release %PKTH_Conf%" DEFINES+=BOOST_USE_WINDOWS_H pokerth.pro
+qmake "CONFIG+=release %PKTH_Conf%" DEFINES+=BOOST_USE_WINDOWS_H pokerth.pro
