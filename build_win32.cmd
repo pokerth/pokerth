@@ -9,6 +9,9 @@ SET PATH=%POKERTH_WIN32_LIB_DIR%\qt\bin;%POKERTH_WIN32_LIB_DIR%\mingw32\bin;%PAT
 SET QMAKESPEC=win32-g++
 SET QTDIR=%POKERTH_WIN32_LIB_DIR%\qt
 
+if exist Makefile. (
+	mingw32-make distclean
+)
 qmake DEFINES+=BOOST_USE_WINDOWS_H pokerth.pro
 mingw32-make release
 IF NOT "%ERRORLEVEL%"=="0" exit /b %ERRORLEVEL%
