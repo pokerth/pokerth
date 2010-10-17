@@ -11,7 +11,7 @@ SET QTDIR=%POKERTH_WIN64_LIB_DIR%\qt
 
 qmake DEFINES+=BOOST_USE_WINDOWS_H pokerth.pro
 mingw32-make release
-if not errorlevel 0 exit /b %ERRORLEVEL%
+IF NOT "%ERRORLEVEL%"=="0" exit /b %ERRORLEVEL%
 REM Add automatic packaging or copying here.
 mingw32-make distclean
 
