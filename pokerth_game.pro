@@ -355,9 +355,9 @@ win32 {
 		-lmswsock \
 		-lws2_32 \
 		-ladvapi32 \
-		-lsdl \
-		-lsdlmain \
-		-lsdl_mixer \
+		-lSDL \
+		-lSDLmain \
+		-lSDL_mixer \
 		-lwldap32
 	RC_FILE = pokerth.rc
 }
