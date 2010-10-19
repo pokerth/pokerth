@@ -340,7 +340,11 @@ win32 {
 		LIBS += -lboost_iostreams-mgw45-mt-1_44.dll
 		LIBS += -lboost_zlib-mgw45-mt-1_44.dll
 	}
-	LIBS += -lgdi32 \
+	LIBS += \
+		-lSDL_mixer \
+		-lSDL \
+		-lSDLmain \
+		-lgdi32 \
 		-lcomdlg32 \
 		-loleaut32 \
 		-limm32 \
@@ -355,9 +359,6 @@ win32 {
 		-lmswsock \
 		-lws2_32 \
 		-ladvapi32 \
-		-lSDL \
-		-lSDLmain \
-		-lSDL_mixer \
 		-lwldap32
 	RC_FILE = pokerth.rc
 }
