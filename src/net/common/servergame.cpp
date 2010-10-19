@@ -68,12 +68,6 @@ void
 ServerGame::Init()
 {
 	m_doNotAutoKickSmallDelaySec = m_playerConfig->readConfigInt("ServerDoNotAutoKickSmallDelaySec");
-	m_voteKickTimer.expires_from_now(
-		boost::posix_time::milliseconds(SERVER_CHECK_VOTE_KICK_INTERVAL_MSEC));
-	m_voteKickTimer.async_wait(
-		boost::bind(
-			&ServerGame::TimerVoteKick, shared_from_this(), boost::asio::placeholders::error));
-
 	SetState(SERVER_INITIAL_STATE::Instance());
 }
 
@@ -228,12 +222,12 @@ ServerGame::TimerVoteKick(const boost::system::error_code &ec)
 				// This petition has ended.
 				m_voteKickData.reset();
 			}
+			m_voteKickTimer.expires_from_now(
+				boost::posix_time::milliseconds(SERVER_CHECK_VOTE_KICK_INTERVAL_MSEC));
+			m_voteKickTimer.async_wait(
+				boost::bind(
+					&ServerGame::TimerVoteKick, shared_from_this(), boost::asio::placeholders::error));
 		}
-		m_voteKickTimer.expires_from_now(
-			boost::posix_time::milliseconds(SERVER_CHECK_VOTE_KICK_INTERVAL_MSEC));
-		m_voteKickTimer.async_wait(
-			boost::bind(
-				&ServerGame::TimerVoteKick, shared_from_this(), boost::asio::placeholders::error));
 	}
 }
 
@@ -437,6 +431,13 @@ ServerGame::InternalAskVoteKick(SessionWrapper byWhom, unsigned playerIdWho, uns
 					netStartPetition->kickTimeoutSec = timeoutSec;
 					netStartPetition->numVotesNeededToKick = m_voteKickData->numVotesToKick;
 					SendToAllPlayers(packet, SessionData::Game);
+
+					m_voteKickTimer.expires_from_now(
+						boost::posix_time::milliseconds(SERVER_CHECK_VOTE_KICK_INTERVAL_MSEC));
+					m_voteKickTimer.async_wait(
+						boost::bind(
+							&ServerGame::TimerVoteKick, shared_from_this(), boost::asio::placeholders::error));
+
 				}
 				else
 					InternalDenyAskVoteKick(byWhom, playerIdWho, KICK_DENIED_OTHER_IN_PROGRESS);
