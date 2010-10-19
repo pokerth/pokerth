@@ -146,7 +146,7 @@ win32 {
 		LIBS += -lboost_system-mt
 	}
 	win32-g++ {
-		LIBS += -ltasn1
+		!pkth_win64:LIBS += -ltasn1
 		LIBS += -lboost_thread-mgw45-mt-1_44.dll
 		LIBS += -lboost_filesystem-mgw45-mt-1_44.dll
 		LIBS += -lboost_regex-mgw45-mt-1_44
