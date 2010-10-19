@@ -320,7 +320,9 @@ win32 {
 		-lpokerth_protocol \
 		-lSDL_mixer \
 		-lSDL \
-		-lSDLmain
+		-lSDLmain \
+		-lcurl \
+		-lz
 	debug:LIBPATH += rebug/lib
 	release:LIBPATH += release/lib
 	pkth_win64 {
@@ -329,10 +331,8 @@ win32 {
 	!pkth_win64 {
 		LIBS += -lgnutls-openssl -lgnutls -lgcrypt -lgpg-error -lgsasl -lidn
 	}
-	LIBS += -lcurl
-	LIBS += -lz
 	win32-g++-cross {
-		LIBS += -lntlm -lidn -lmikmod
+		LIBS += -lntlm -lmikmod -lddraw -ldxguid -lsmpeg -lvorbisfile -lvorbis -logg
 		LIBS += -lboost_thread_win32-mt
 		LIBS += -lboost_filesystem-mt
 		LIBS += -lboost_regex-mt

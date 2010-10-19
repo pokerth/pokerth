@@ -121,34 +121,36 @@ win32 {
 
 	LIBPATH += ../boost/stage/lib ../GnuTLS/lib ../openssl/lib ../gsasl/lib ../curl/lib ../mysql/lib ../zlib
 
-	LIBS += -lpokerth_lib -lpokerth_db -lpokerth_protocol
+	LIBS += -lpokerth_lib \
+		-lpokerth_db \
+		-lpokerth_protocol \
+		-lcurl \
+		-lz
 
 	debug:LIBPATH += Debug/lib
 	release:LIBPATH += Release/lib
 
-	win32-msvc2008 {
-		LIBS += -llibgnutls-openssl-26 \
-				-llibgcrypt-11 \
-				-llibgsasl-7 \
-				-llibcurl
+	pkth_win64 {
+		LIBS += -lcrypto -lssl -llibeay32 -lssleay32 -lgsasl
 	}
-
+	!pkth_win64 {
+		LIBS += -lgnutls-openssl -lgnutls -lgcrypt -ltasn1 -lgpg-error -lgsasl -lidn
+	}
+	win32-g++-cross {
+		LIBS += -lntlm
+		LIBS += -lboost_thread_win32-mt
+		LIBS += -lboost_filesystem-mt
+		LIBS += -lboost_regex-mt
+		LIBS += -lboost_iostreams-mt
+		LIBS += -lboost_system-mt
+	}
 	win32-g++ {
-		pkth_win64 {
-			LIBS += -lcrypto -lssl -llibeay32 -lssleay32 -lgsasl
-		}
-		!pkth_win64 {
-			LIBS += -lgnutls-openssl -lgnutls -lgcrypt -ltasn1 -lgpg-error -lgsasl -lidn
-		}
-		LIBS += -lcurl
-		LIBS += -lz
 		LIBS += -lboost_thread-mgw45-mt-1_44.dll
 		LIBS += -lboost_filesystem-mgw45-mt-1_44.dll
 		LIBS += -lboost_regex-mgw45-mt-1_44
-		LIBS += -lboost_system-mgw45-mt-1_44.dll
 		LIBS += -lboost_iostreams-mgw45-mt-1_44.dll
 		LIBS += -lboost_zlib-mgw45-mt-1_44.dll
-		LIBS += -lboost_program_options-mgw45-mt-1_44.dll
+		LIBS += -lboost_system-mgw45-mt-1_44.dll
 	}
 
 	LIBS += -lgdi32 \
