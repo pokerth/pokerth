@@ -317,23 +317,26 @@ win32 {
 		../zlib
 	LIBS += -lpokerth_lib \
 		-lpokerth_db \
-		-lpokerth_protocol
+		-lpokerth_protocol \
+		-lSDL_mixer \
+		-lSDL \
+		-lSDLmain \
 	debug:LIBPATH += rebug/lib
 	release:LIBPATH += release/lib
 	pkth_win64 {
 		LIBS += -lcrypto -lssl -llibeay32 -lssleay32 -lgsasl
 	}
 	!pkth_win64 {
-		LIBS += -lgnutls-openssl -lgnutls -lgcrypt -ltasn1 -lgpg-error -lgsasl -lidn
+		LIBS += -lgnutls-openssl -lgnutls -lgcrypt -lgpg-error -lgsasl -lidn
 	}
 	LIBS += -lcurl
 	LIBS += -lz
 	win32-g++-cross {
-		LIBS += -lboost_thread-mt
+		LIBS += -lntlm -lidn -lmikmod
+		LIBS += -lboost_thread_win32-mt
 		LIBS += -lboost_filesystem-mt
 		LIBS += -lboost_regex-mt
 		LIBS += -lboost_iostreams-mt
-		LIBS += -lboost_zlib-mt
 		LIBS += -lboost_system-mt
 	}
 	win32-g++ {
@@ -345,9 +348,6 @@ win32 {
 		LIBS += -lboost_system-mgw45-mt-1_44.dll
 	}
 	LIBS += \
-		-lSDL_mixer \
-		-lSDL \
-		-lSDLmain \
 		-lgdi32 \
 		-lcomdlg32 \
 		-loleaut32 \
