@@ -127,8 +127,8 @@ win32 {
 		-lcurl \
 		-lz
 
-	debug:LIBPATH += Debug/lib
-	release:LIBPATH += Release/lib
+	debug:LIBPATH += debug/lib
+	release:LIBPATH += release/lib
 
 	pkth_win64 {
 		LIBS += -lcrypto -lssl -llibeay32 -lssleay32 -lgsasl
