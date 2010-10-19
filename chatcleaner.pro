@@ -5,8 +5,7 @@ CODECFORSRC = UTF-8
 QT += network
 QT -= gui
 TARGET = chatcleaner
-CONFIG += console \
-	debug
+CONFIG += console
 CONFIG -= app_bundle
 MOC_DIR = mocs
 OBJECTS_DIR = obj
