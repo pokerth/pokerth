@@ -50,8 +50,8 @@ LIBS += -lpokerth_lib \
 win32 { 
 	LIBPATH += ../boost/stage/lib
 	INCLUDEPATH += ../boost/
-	debug:LIBPATH += Debug/lib
-	release:LIBPATH += Release/lib
+	debug:LIBPATH += debug/lib
+	release:LIBPATH += release/lib
 }
 mac { 
 	# make it universal
