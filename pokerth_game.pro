@@ -344,7 +344,6 @@ win32 {
 		LIBS += -lboost_zlib-mgw45-mt-1_44.dll
 		LIBS += -lboost_system-mgw45-mt-1_44.dll
 	}
-	}
 	LIBS += \
 		-lSDL_mixer \
 		-lSDL \
