@@ -318,8 +318,8 @@ win32 {
 	LIBS += -lpokerth_lib \
 		-lpokerth_db \
 		-lpokerth_protocol
-	debug:LIBPATH += Debug/lib
-	release:LIBPATH += Release/lib
+	debug:LIBPATH += rebug/lib
+	release:LIBPATH += release/lib
 	win32-msvc2008:LIBS += -llibgnutls-openssl-26 \
 		-llibgcrypt-11 \
 		-llibgsasl-7 \
