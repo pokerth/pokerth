@@ -134,7 +134,7 @@ win32 {
 		LIBS += -lcrypto -lssl -llibeay32 -lssleay32 -lgsasl
 	}
 	!pkth_win64 {
-		LIBS += -lgnutls-openssl -lgnutls -lgcrypt -ltasn1 -lgpg-error -lgsasl -lidn
+		LIBS += -lgnutls-openssl -lgnutls -lgcrypt -lgpg-error -lgsasl -lidn
 	}
 	win32-g++-cross {
 		LIBS += -lntlm
