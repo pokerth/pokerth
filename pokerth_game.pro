@@ -300,8 +300,7 @@ win32 {
 	INCLUDEPATH += ../boost/ \
 		../SDL/include \
 		../SDL/include/SDL \
-		../SDL_mixer \
-		../SDL_mixer/include/SDL \
+		../SDL_mixer/include \
 		../GnuTLS/include \
 		../gsasl/include \
 		../curl/include \
