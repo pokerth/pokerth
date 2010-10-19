@@ -320,35 +320,30 @@ win32 {
 		-lpokerth_protocol
 	debug:LIBPATH += rebug/lib
 	release:LIBPATH += release/lib
-	win32-msvc2008:LIBS += -llibgnutls-openssl-26 \
-		-llibgcrypt-11 \
-		-llibgsasl-7 \
-		-llibcurl
+	pkth_win64 {
+		LIBS += -lcrypto -lssl -llibeay32 -lssleay32 -lgsasl
+	}
+	!pkth_win64 {
+		LIBS += -lgnutls-openssl -lgnutls -lgcrypt -ltasn1 -lgpg-error -lgsasl -lidn
+	}
+	LIBS += -lcurl
+	LIBS += -lz
+	win32-g++-cross {
+		LIBS += -lboost_thread-mt
+		LIBS += -lboost_filesystem-mt
+		LIBS += -lboost_regex-mt
+		LIBS += -lboost_iostreams-mt
+		LIBS += -lboost_zlib-mt
+		LIBS += -lboost_system-mt
+	}
 	win32-g++ {
-		pkth_win64 {
-			LIBS += -lcrypto -lssl -llibeay32 -lssleay32 -lgsasl
-		}
-		!pkth_win64 {
-			LIBS += -lgnutls-openssl -lgnutls -lgcrypt -ltasn1 -lgpg-error -lgsasl -lidn
-		}
-		LIBS += -lcurl
-		LIBS += -lz
-		pkth_cross_win {
-			LIBS += -lboost_thread-mt
-			LIBS += -lboost_filesystem-mt
-			LIBS += -lboost_regex-mt
-			LIBS += -lboost_iostreams-mt
-			LIBS += -lboost_zlib-mt
-			LIBS += -lboost_system-mt
-		}
-		!pkth_cross_win {
-			LIBS += -lboost_thread-mgw45-mt-1_44.dll
-			LIBS += -lboost_filesystem-mgw45-mt-1_44.dll
-			LIBS += -lboost_regex-mgw45-mt-1_44
-			LIBS += -lboost_iostreams-mgw45-mt-1_44.dll
-			LIBS += -lboost_zlib-mgw45-mt-1_44.dll
-			LIBS += -lboost_system-mgw45-mt-1_44.dll
-		}
+		LIBS += -lboost_thread-mgw45-mt-1_44.dll
+		LIBS += -lboost_filesystem-mgw45-mt-1_44.dll
+		LIBS += -lboost_regex-mgw45-mt-1_44
+		LIBS += -lboost_iostreams-mgw45-mt-1_44.dll
+		LIBS += -lboost_zlib-mgw45-mt-1_44.dll
+		LIBS += -lboost_system-mgw45-mt-1_44.dll
+	}
 	}
 	LIBS += \
 		-lSDL_mixer \
