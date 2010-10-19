@@ -320,7 +320,7 @@ win32 {
 		-lpokerth_protocol \
 		-lSDL_mixer \
 		-lSDL \
-		-lSDLmain \
+		-lSDLmain
 	debug:LIBPATH += rebug/lib
 	release:LIBPATH += release/lib
 	pkth_win64 {
