@@ -219,10 +219,14 @@ REM Wait 5 seconds for the file cache, else ren might fail.
 ren SDL_mixer-1.2.11 SDL_mixer
 mkdir SDL_mixer\bin
 mkdir SDL_mixer\lib
+mkdir SDL_mixer\include
+mkdir SDL_mixer\include\SDL
 %PKTH_OldDir%\third_party_apps\7za x -y -oSDL_mixer\bin SDL_mixer-1.2.11-win32.zip
+cd SDL_mixer
+copy SDL_mixer.h include\SDL
 echo.
 echo Creating import library
-cd SDL_mixer\bin
+cd bin
 pexports SDL_mixer.dll > SDL_mixer.def
 dlltool -d SDL_mixer.def -D SDL_mixer.dll -l libsdl_mixer.a
 move libsdl_mixer.a ..\lib
