@@ -16,7 +16,7 @@
 
 #include "configfile.h"
 
-#if (defined _WIN32) || (defined __APPLE__)
+#if (defined __APPLE__)
 	#include <SDL_mixer.h>
 #else
 	#include <SDL/SDL_mixer.h>

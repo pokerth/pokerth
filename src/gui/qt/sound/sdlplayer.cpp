@@ -11,7 +11,7 @@
 //
 #include "sdlplayer.h"
 
-#if (defined _WIN32) || (defined __APPLE__)
+#if (defined __APPLE__)
 	#include <SDL.h>
 #else
 	#include <SDL/SDL.h>
