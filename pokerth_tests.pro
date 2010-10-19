@@ -44,15 +44,8 @@ win32 {
 	LIBPATH += ../boost/stage/lib ../GnuTLS/lib ../openssl/lib ../gsasl/lib ../curl/lib ../mysql/lib ../zlib
 
 
-	debug:LIBPATH += Debug/lib
-	release:LIBPATH += Release/lib
-
-	win32-msvc2008 {
-		LIBS += -llibgnutls-openssl-26 \
-			-llibgcrypt-11 \
-			-llibgsasl-7 \
-			-llibcurl
-	}
+	debug:LIBPATH += debug/lib
+	release:LIBPATH += release/lib
 
 	win32-g++ {
 		pkth_win64 {

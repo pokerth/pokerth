@@ -141,6 +141,7 @@ win32 {
 		LIBS += -lboost_thread_win32-mt
 		LIBS += -lboost_filesystem-mt
 		LIBS += -lboost_regex-mt
+		LIBS += -lboost_program_options-mt
 		LIBS += -lboost_iostreams-mt
 		LIBS += -lboost_system-mt
 	}
@@ -148,12 +149,15 @@ win32 {
 		LIBS += -lboost_thread-mgw45-mt-1_44.dll
 		LIBS += -lboost_filesystem-mgw45-mt-1_44.dll
 		LIBS += -lboost_regex-mgw45-mt-1_44
+		LIBS += -lboost_program_options-mgw45-mt-1_44.dll
 		LIBS += -lboost_iostreams-mgw45-mt-1_44.dll
 		LIBS += -lboost_zlib-mgw45-mt-1_44.dll
 		LIBS += -lboost_system-mgw45-mt-1_44.dll
 	}
 
-	LIBS += -lgdi32 \
+	LIBS += -liconv \
+			-lz \
+			-lgdi32 \
 			-lcomdlg32 \
 			-loleaut32 \
 			-limm32 \
