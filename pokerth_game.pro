@@ -336,9 +336,9 @@ win32 {
 		LIBS += -lboost_thread-mgw45-mt-1_44.dll
 		LIBS += -lboost_filesystem-mgw45-mt-1_44.dll
 		LIBS += -lboost_regex-mgw45-mt-1_44
-		LIBS += -lboost_system-mgw45-mt-1_44.dll
 		LIBS += -lboost_iostreams-mgw45-mt-1_44.dll
 		LIBS += -lboost_zlib-mgw45-mt-1_44.dll
+		LIBS += -lboost_system-mgw45-mt-1_44.dll
 	}
 	LIBS += \
 		-lSDL_mixer \
