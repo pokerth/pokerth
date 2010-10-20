@@ -2602,9 +2602,9 @@ void gameTableImpl::keyPressEvent ( QKeyEvent * event ) {
             ctrlPressed = TRUE;
         }
     }
-//    if (event->key() == Qt::Key_Escape && (myActionIsBet || myActionIsRaise)) {
-//            meInAction();
-//    }
+    //    if (event->key() == Qt::Key_Escape && (myActionIsBet || myActionIsRaise)) {
+    //            meInAction();
+    //    }
     if (event->key() == Qt::Key_Up && lineEdit_ChatInput->hasFocus()) {
         if((keyUpDownChatCounter + 1) <= myChat->getChatLinesHistorySize()) { keyUpDownChatCounter++; }
         // 		std::cout << "Up keyUpDownChatCounter: " << keyUpDownChatCounter << "\n";
@@ -2971,11 +2971,23 @@ void gameTableImpl::closeGameTable() {
         }
     }
     else {
-        myStartWindow->getSession()->terminateNetworkClient();
-        stopTimer();
-        saveGameTableGeometry();
-        myStartWindow->show();
-        this->hide();
+
+        bool close = true;
+        myMessageDialogImpl dialog(myConfig, this);
+        if(dialog.checkIfMesssageWillBeDisplayed(6) && (myStartWindow->getSession()->getGameType() == Session::GAME_TYPE_INTERNET || myStartWindow->getSession()->getGameType() == Session::GAME_TYPE_NETWORK )) {
+            if (dialog.exec(6, tr("Really want to exit?"), tr("PokerTH - Close Table?"), QPixmap(":/gfx/logoChip3D.png"), QDialogButtonBox::Yes|QDialogButtonBox::No, true) == QDialog::Rejected) {
+                close = false;
+            }
+        }
+
+        if(close) {
+            //now really close the table
+            myStartWindow->getSession()->terminateNetworkClient();
+            stopTimer();
+            saveGameTableGeometry();
+            myStartWindow->show();
+            this->hide();
+        }
     }
 }
 

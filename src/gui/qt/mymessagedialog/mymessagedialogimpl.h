@@ -54,3 +54,4 @@ private:
 //3: reciev invite to game: Question(You've been invited to the game <b>%1</b> by <b>%2</b>.<br>Do you want to join this game?)
 //4: click ignore player: Question(Do you really want to put this player on ignore List?)
 //5: add a broken (fields missing) game table style: Info(Selected game table style \"%1\" seems to be incomplete or defective. \n\nThe value(s) of \"%2\" is/are missing. \n\nPlease contact the game table style builder %3.)
+//6: close gametable: Do you really wanna quit?
