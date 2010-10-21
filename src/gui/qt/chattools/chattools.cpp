@@ -126,7 +126,13 @@ void ChatTools::receiveMessage(QString playerName, QString message) {
         }
 
         if(!nickFoundOnIgnoreList) {
-            myTextBrowser->append(playerName + ": " + tempMsg);
+
+            if(message.indexOf(QString("/me"))==0) {
+                myTextBrowser->append(tempMsg.replace("/me","<i>*"+playerName+" ")+"</i>");
+            }
+            else {
+                myTextBrowser->append(playerName + ": " + tempMsg);
+            }
         }
     }
 }
