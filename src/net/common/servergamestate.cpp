@@ -687,21 +687,19 @@ ServerGameStateStartGame::TimerTimeout(const boost::system::error_code &ec, boos
 void
 ServerGameStateStartGame::DoStart(boost::shared_ptr<ServerGame> server)
 {
-	PlayerDataList tmpPlayerList = server->GetFullPlayerDataList();
+	PlayerDataList tmpPlayerList(server->InternalStartGame());
 	if (tmpPlayerList.size() <= 1)
 	{
 		if (!tmpPlayerList.empty())
 		{
 			boost::shared_ptr<PlayerData> tmpPlayer(tmpPlayerList.front());
 			SessionWrapper tmpSession = server->GetSessionManager().GetSessionByUniquePlayerId(tmpPlayer->GetUniqueId());
-			if (tmpSession.sessionData.get())
+			if (tmpSession.sessionData)
 				server->MoveSessionToLobby(tmpSession, NTF_NET_REMOVED_START_FAILED);
 		}
 	}
 	else
 	{
-		server->InternalStartGame();
-
 		boost::shared_ptr<NetPacket> packet(new NetPacket(NetPacket::Alloc));
 		packet->GetMsg()->present = PokerTHMessage_PR_gameStartMessage;
 		GameStartMessage_t *netGameStart = &packet->GetMsg()->choice.gameStartMessage;

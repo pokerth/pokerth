@@ -19,6 +19,7 @@
 
 #include <boost/asio.hpp>
 #include <boost/bind.hpp>
+#include <algorithm>
 
 #include <net/servergame.h>
 #include <net/servergamestate.h>
@@ -231,56 +232,67 @@ ServerGame::TimerVoteKick(const boost::system::error_code &ec)
 	}
 }
 
-void
+PlayerDataList
 ServerGame::InternalStartGame()
 {
-	// Set DB Backend.
-	if (GetGameData().gameType == GAME_TYPE_RANKING)
-		m_database = GetLobbyThread().GetDatabase();
-	else
-		m_database.reset(new ServerDBNoAction);
-
-	// Set order of players.
-	AssignPlayerNumbers();
-
 	// Initialize the game.
-	GuiInterface &gui = GetGui();
-	PlayerDataList playerData = GetFullPlayerDataList();
+	PlayerDataList playerData(GetFullPlayerDataList());
 
-	// Create EngineFactory
-	boost::shared_ptr<EngineFactory> factory(new LocalEngineFactory(m_playerConfig)); // LocalEngine erstellen
-
-	// Set start data.
-	StartData startData;
-	startData.numberOfPlayers = playerData.size();
-
-	int tmpDealerPos = 0;
-	Tools::getRandNumber(0, startData.numberOfPlayers-1, 1, &tmpDealerPos, 0);
-	// The Player Id is not continuous. Therefore, the start dealer position
-	// needs to be converted to a player Id, and cannot be directly generated
-	// as player Id.
-	PlayerDataList::const_iterator player_i = playerData.begin();
-	PlayerDataList::const_iterator player_end = playerData.end();
-
-	int tmpPos = 0;
-	while (player_i != player_end)
+	if (playerData.size() >= 2)
 	{
-		startData.startDealerPlayerId = static_cast<unsigned>((*player_i)->GetUniqueId());
-		if (tmpPos == tmpDealerPos)
-			break;
-		++tmpPos;
-		++player_i;
+		// Set DB Backend.
+		if (GetGameData().gameType == GAME_TYPE_RANKING)
+			m_database = GetLobbyThread().GetDatabase();
+		else
+			m_database.reset(new ServerDBNoAction);
+
+		// Randomize player list.
+		// Note: This does not use a cryptographically strong
+		// random number generator.
+		vector<boost::shared_ptr<PlayerData> > tmpData(playerData.begin(), playerData.end());
+		random_shuffle(tmpData.begin(), tmpData.end());
+		copy(tmpData.begin(), tmpData.end(), playerData.begin());
+
+		// Set order of players.
+		AssignPlayerNumbers(playerData);
+
+		// Create EngineFactory
+		boost::shared_ptr<EngineFactory> factory(new LocalEngineFactory(m_playerConfig)); // LocalEngine erstellen
+
+		// Set start data.
+		StartData startData;
+		startData.numberOfPlayers = playerData.size();
+
+		int tmpDealerPos = 0;
+		Tools::getRandNumber(0, startData.numberOfPlayers-1, 1, &tmpDealerPos, 0);
+		// The Player Id is not continuous. Therefore, the start dealer position
+		// needs to be converted to a player Id, and cannot be directly generated
+		// as player Id.
+		PlayerDataList::const_iterator player_i = playerData.begin();
+		PlayerDataList::const_iterator player_end = playerData.end();
+
+		int tmpPos = 0;
+		while (player_i != player_end)
+		{
+			startData.startDealerPlayerId = static_cast<unsigned>((*player_i)->GetUniqueId());
+			if (tmpPos == tmpDealerPos)
+				break;
+			++tmpPos;
+			++player_i;
+		}
+		if (player_i == player_end)
+			throw ServerException(__FILE__, __LINE__, ERR_NET_DEALER_NOT_FOUND, 0);
+
+		SetStartData(startData);
+
+		GuiInterface &gui = GetGui();
+		m_game.reset(new Game(&gui, factory, playerData, GetGameData(), GetStartData(), GetNextGameNum()));
+
+		GetLobbyThread().NotifyStartingGame(GetId());
+		GetDatabase().AsyncCreateGame(GetId(), GetName());
+		InitRankingMap(playerData);
 	}
-	if (player_i == player_end)
-		throw ServerException(__FILE__, __LINE__, ERR_NET_DEALER_NOT_FOUND, 0);
-
-	SetStartData(startData);
-
-	m_game.reset(new Game(&gui, factory, playerData, GetGameData(), GetStartData(), GetNextGameNum()));
-
-	GetLobbyThread().NotifyStartingGame(GetId());
-	GetDatabase().AsyncCreateGame(GetId(), GetName());
-	InitRankingMap(playerData);
+	return playerData;
 }
 
 void
@@ -829,11 +841,10 @@ ServerGame::GetCurNumberOfPlayers() const
 }
 
 void
-ServerGame::AssignPlayerNumbers()
+ServerGame::AssignPlayerNumbers(PlayerDataList &playerList)
 {
 	int playerNumber = 0;
 
-	PlayerDataList playerList = GetFullPlayerDataList();
 	PlayerDataList::iterator player_i = playerList.begin();
 	PlayerDataList::iterator player_end = playerList.end();
 

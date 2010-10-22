@@ -107,7 +107,7 @@ protected:
 
 	void TimerVoteKick(const boost::system::error_code &ec);
 
-	void InternalStartGame();
+	PlayerDataList InternalStartGame();
 	void InitRankingMap(const PlayerDataList &playerDataList);
 	void UpdateRankingMap();
 	void SetPlayerPlace(unsigned playerId, int place);
@@ -134,7 +134,7 @@ protected:
 
 	void RemoveDisconnectedPlayers();
 	size_t GetCurNumberOfPlayers() const;
-	void AssignPlayerNumbers();
+	void AssignPlayerNumbers(PlayerDataList &playerList);
 	bool IsValidPlayer(unsigned playerId) const;
 
 	ServerLobbyThread &GetLobbyThread();
