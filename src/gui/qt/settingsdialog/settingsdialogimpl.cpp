@@ -236,6 +236,7 @@ void settingsDialogImpl::prepareDialog()
 
     std::list<std::string> playerIgnoreList = myConfig->readConfigStringList("PlayerIgnoreList");
     std::list<std::string>::iterator it5;
+    treeWidget_internetGameIgnoredPlayers->clear();
     for(it5= playerIgnoreList.begin(); it5 != playerIgnoreList.end(); it5++) {
         QTreeWidgetItem *item = new QTreeWidgetItem(treeWidget_internetGameIgnoredPlayers);
         item->setText(0, QString::fromUtf8(it5->c_str()));
