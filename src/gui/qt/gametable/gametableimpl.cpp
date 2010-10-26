@@ -587,10 +587,9 @@ void gameTableImpl::applySettings(settingsDialogImpl* mySettingsDialog) {
 
         int tempBoardCardsArray[5];
         myStartWindow->getSession()->getCurrentGame()->getCurrentHand()->getBoard()->getMyCards(tempBoardCardsArray);
-        int i;
         GameState currentState = myStartWindow->getSession()->getCurrentGame()->getCurrentHand()->getCurrentBeRo()->getMyBeRoID();
         if(currentState >= GAME_STATE_FLOP && currentState <= GAME_STATE_POST_RIVER)
-            for(i=0; i<3; i++) {
+			for(int i=0; i<3; i++) {
             QPixmap card = QPixmap::fromImage(QImage(myCardDeckStyle->getCurrentDir()+QString::number(tempBoardCardsArray[i], 10)+".png"));
             boardCardsArray[i]->setPixmap(card, FALSE);
         }
@@ -2558,7 +2557,7 @@ void gameTableImpl::keyPressEvent ( QKeyEvent * event ) {
 
     // 	cout << event->key() << endl;
 
-    bool ctrlPressed = FALSE;
+	//bool ctrlPressed = FALSE;
 
     if (event->key() == Qt::Key_Enter || event->key() == Qt::Key_Return )  /*ENTER*/  {
         if(spinBox_betValue->hasFocus()) {
@@ -2602,7 +2601,7 @@ void gameTableImpl::keyPressEvent ( QKeyEvent * event ) {
     if (event->key() == Qt::Key_Shift) {
         if(myStartWindow->getSession()->getGameType() == Session::GAME_TYPE_LOCAL) {
             pushButton_break->click();
-            ctrlPressed = TRUE;
+			//ctrlPressed = TRUE;
         }
     }
     //    if (event->key() == Qt::Key_Escape && (myActionIsBet || myActionIsRaise)) {
@@ -2996,13 +2995,13 @@ void gameTableImpl::closeGameTable() {
 
 void gameTableImpl::changeSpinBoxBetValue(int value) {
 
-    int temp;
     if(betSliderChangedByInput) {
         //prevent interval cutting of spinBox_betValue input from code below
         betSliderChangedByInput = FALSE;
     }
     else {
-        if(horizontalSlider_bet->maximum() <= 1000 ) {
+		int temp;
+		if(horizontalSlider_bet->maximum() <= 1000 ) {
             temp = (int)((value/10)*10);     
         }
         else if(horizontalSlider_bet->maximum() > 1000 && horizontalSlider_bet->maximum() <= 10000) {
