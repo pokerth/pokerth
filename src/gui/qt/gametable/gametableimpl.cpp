@@ -2974,7 +2974,7 @@ void gameTableImpl::closeGameTable() {
 
         bool close = true;
         myMessageDialogImpl dialog(myConfig, this);
-        if(dialog.checkIfMesssageWillBeDisplayed(6) && (myStartWindow->getSession()->getGameType() == Session::GAME_TYPE_INTERNET || myStartWindow->getSession()->getGameType() == Session::GAME_TYPE_NETWORK )) {
+        if(dialog.checkIfMesssageWillBeDisplayed(6) && (myStartWindow->getSession()->getGameType() == Session::GAME_TYPE_INTERNET || myStartWindow->getSession()->getGameType() == Session::GAME_TYPE_NETWORK ) && this->isVisible()) {
             if (dialog.exec(6, tr("Really want to exit?"), tr("PokerTH - Close Table?"), QPixmap(":/gfx/logoChip3D.png"), QDialogButtonBox::Yes|QDialogButtonBox::No, true) == QDialog::Rejected) {
                 close = false;
             }
