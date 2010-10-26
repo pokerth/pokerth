@@ -817,17 +817,20 @@ void gameTableImpl::refreshPlayerAvatar() {
         QPixmap onePix = QPixmap::fromImage(QImage(myAppDataPath +"gfx/gui/misc/1px.png"));
 
         HandInterface *currentHand = myStartWindow->getSession()->getCurrentGame()->getCurrentHand();
-
+	int seatPlace;
         PlayerListConstIterator it_c;
-        for (it_c=currentHand->getSeatsList()->begin(); it_c!=currentHand->getSeatsList()->end(); it_c++) {
+        for (it_c=currentHand->getSeatsList()->begin(), seatPlace=0; it_c!=currentHand->getSeatsList()->end(); it_c++, seatPlace++) {
+        QString countryString(QString(myStartWindow->getSession()->getClientPlayerInfo((*it_c)->getMyUniqueID()).countryCode.c_str()).toLower());
+        countryString = QString(":/cflags/cflags/%1.png").arg(countryString);
+
             if((*it_c)->getMyActiveStatus()) {
 
 		QFile myAvatarFile(QString::fromUtf8((*it_c)->getMyAvatar().c_str()));
                 if((*it_c)->getMyAvatar() == "" || !myAvatarFile.exists()) {
-                    playerAvatarLabelArray[(*it_c)->getMyID()]->setPixmap(QPixmap::fromImage(QImage(myGameTableStyle->getDefaultAvatar())));
+                    playerAvatarLabelArray[(*it_c)->getMyID()]->setPixmapAndCountry(QPixmap::fromImage(QImage(myGameTableStyle->getDefaultAvatar())),countryString,seatPlace);
                 }
                 else {
-                    playerAvatarLabelArray[(*it_c)->getMyID()]->setPixmap(QPixmap::fromImage(QImage(QString::fromUtf8((*it_c)->getMyAvatar().c_str()))));
+                    playerAvatarLabelArray[(*it_c)->getMyID()]->setPixmapAndCountry(QPixmap::fromImage(QImage(QString::fromUtf8((*it_c)->getMyAvatar().c_str()))),countryString,seatPlace);
                 }
             }
             else {
@@ -835,10 +838,10 @@ void gameTableImpl::refreshPlayerAvatar() {
                     if((*it_c)->getMyStayOnTableStatus() == TRUE && (*it_c)->getMyType() != PLAYER_TYPE_COMPUTER) {
                 	QFile myAvatarFile(QString::fromUtf8((*it_c)->getMyAvatar().c_str()));
                         if((*it_c)->getMyAvatar() == "" || !myAvatarFile.exists()) {
-                            playerAvatarLabelArray[(*it_c)->getMyID()]->setPixmap(QPixmap::fromImage(QImage(myGameTableStyle->getDefaultAvatar())), TRUE);
+                            playerAvatarLabelArray[(*it_c)->getMyID()]->setPixmapAndCountry(QPixmap::fromImage(QImage(myGameTableStyle->getDefaultAvatar())), countryString, seatPlace, TRUE);
                         }
                         else {
-                            playerAvatarLabelArray[(*it_c)->getMyID()]->setPixmap(QPixmap::fromImage(QImage(QString::fromUtf8((*it_c)->getMyAvatar().c_str()))), TRUE);
+                            playerAvatarLabelArray[(*it_c)->getMyID()]->setPixmapAndCountry(QPixmap::fromImage(QImage(QString::fromUtf8((*it_c)->getMyAvatar().c_str()))),countryString,seatPlace, TRUE);
                         }
                     }
                     else {

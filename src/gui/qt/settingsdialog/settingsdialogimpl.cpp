@@ -249,6 +249,7 @@ void settingsDialogImpl::prepareDialog()
     checkBox_showFadeOutCardsAnimation->setChecked(myConfig->readConfigInt("ShowFadeOutCardsAnimation"));
     checkBox_showFlipCardsAnimation->setChecked(myConfig->readConfigInt("ShowFlipCardsAnimation"));
     checkBox_showBlindButtons->setChecked(myConfig->readConfigInt("ShowBlindButtons"));
+    checkBox_showCountryFlagInAvatar->setChecked(myConfig->readConfigInt("ShowCountryFlagInAvatar"));
     checkBox_antiPeekMode->setChecked(myConfig->readConfigInt("AntiPeekMode"));
     checkBox_alternateFKeysUserActionMode->setChecked(myConfig->readConfigInt("AlternateFKeysUserActionMode"));
     checkBox_enableBetInputFocusSwitch->setChecked(myConfig->readConfigInt("EnableBetInputFocusSwitch"));
@@ -616,6 +617,7 @@ void settingsDialogImpl::isAccepted() {
     myConfig->writeConfigInt("ShowBlindButtons", checkBox_showBlindButtons->isChecked());
     myConfig->writeConfigInt("ShowCardsChanceMonitor", checkBox_cardsChanceMonitor->isChecked());
     myConfig->writeConfigInt("AntiPeekMode", checkBox_antiPeekMode->isChecked());
+    myConfig->writeConfigInt("ShowCountryFlagInAvatar", checkBox_showCountryFlagInAvatar->isChecked());
     myConfig->writeConfigInt("AlternateFKeysUserActionMode", checkBox_alternateFKeysUserActionMode->isChecked());
     myConfig->writeConfigInt("DontTranslateInternationalPokerStringsFromStyle", checkBox_dontTranslatePokerStrings->isChecked());
     myConfig->writeConfigInt("DisableSplashScreenOnStartup", checkBox_disableSplashscreen->isChecked());

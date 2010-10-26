@@ -256,10 +256,17 @@
             <string>Network / Internet Game</string>
            </property>
            <layout class="QGridLayout">
-            <item row="0" column="0">
+            <item row="1" column="0">
              <widget class="QCheckBox" name="checkBox_enableBetInputFocusSwitch">
               <property name="text">
                <string>Switch keyboard focus to bet-input-field if it's your turn</string>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="0">
+             <widget class="QCheckBox" name="checkBox_showCountryFlagInAvatar">
+              <property name="text">
+               <string>Show country flag in the corner of avatar</string>
               </property>
              </widget>
             </item>
@@ -422,12 +429,6 @@ p, li { white-space: pre-wrap; }
                <attribute name="headerShowSortIndicator" stdset="0">
                 <bool>true</bool>
                </attribute>
-               <attribute name="headerCascadingSectionResizes">
-                <bool>false</bool>
-               </attribute>
-               <attribute name="headerShowSortIndicator" stdset="0">
-                <bool>true</bool>
-               </attribute>
                <column>
                 <property name="text">
                  <string>Description</string>
@@ -555,9 +556,6 @@ p, li { white-space: pre-wrap; }
                <property name="allColumnsShowFocus">
                 <bool>true</bool>
                </property>
-               <attribute name="headerShowSortIndicator" stdset="0">
-                <bool>true</bool>
-               </attribute>
                <attribute name="headerShowSortIndicator" stdset="0">
                 <bool>true</bool>
                </attribute>

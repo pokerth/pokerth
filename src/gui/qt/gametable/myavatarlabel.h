@@ -38,6 +38,7 @@ public slots:
 	void setVoteOnKickContextMenuEnabled(bool);
 	void setVoteRunning ( bool theValue ) {	voteRunning = theValue;	}
         void setPixmap ( const QPixmap &, const bool = FALSE);
+	void setPixmapAndCountry ( const QPixmap &, QString country, int seatPlace, const bool = FALSE);
         void paintEvent(QPaintEvent*);
         void putPlayerOnIgnoreList();
         bool playerIsOnIgnoreList(QString playerName);

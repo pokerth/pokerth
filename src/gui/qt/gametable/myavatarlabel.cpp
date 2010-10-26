@@ -112,6 +112,29 @@ void MyAvatarLabel::setPixmap ( const QPixmap &pix, const bool trans) {
 
 }
 
+void MyAvatarLabel::setPixmapAndCountry ( const QPixmap &pix,QString countryString, int seatPlace, const bool trans) {
+    
+    QPixmap resultAvatar(pix.scaled(50,50, Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
+    QPainter painter(&resultAvatar);
+    int showCountryFlags = myW->getMyConfig()->readConfigInt("ShowCountryFlagInAvatar");
+    if(showCountryFlags && !countryString.isEmpty())
+    {
+    if(seatPlace<=2||seatPlace>=8)
+	{
+	painter.drawPixmap(resultAvatar.width()-(QPixmap(countryString)).width(),resultAvatar.height()-(QPixmap(countryString)).height(),QPixmap(countryString));
+    	}
+	else
+	{
+	painter.drawPixmap(resultAvatar.width()-(QPixmap(countryString)).width(),0,QPixmap(countryString));
+	}
+    }
+    painter.end();
+    myPixmap = resultAvatar; 
+    transparent = trans;
+    update();
+
+}
+
 void MyAvatarLabel::paintEvent(QPaintEvent*) {
 
     QPainter painter(this);
