@@ -3,6 +3,7 @@
 #include <QtCore>
 
 CapsFloodCheck::CapsFloodCheck()
+: capsNumberToTrigger(0)
 {
 }
 

@@ -41,7 +41,7 @@ using namespace std;
 
 struct IrcContext
 {
-	IrcContext(IrcThread &t) : ircThread(t), session(NULL), serverPort(0), useIPv6(false), renameTries(0), sendingBlocked(false) {}
+	IrcContext(IrcThread &t) : ircThread(t), session(NULL), serverPort(0), useIPv6(false), renameTries(0), sendingBlocked(false), sendCounter(0) {}
 	IrcThread &ircThread;
 	irc_session_t *session;
 	string serverAddress;

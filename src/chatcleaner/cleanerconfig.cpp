@@ -213,7 +213,6 @@ CleanerConfig::~CleanerConfig()
 
 void CleanerConfig::fillBuffer() {
 
-	size_t i;
 	string tempString1("");
 	string tempString2("");
 
@@ -222,7 +221,7 @@ void CleanerConfig::fillBuffer() {
 	if(doc.LoadFile()) {
 	TiXmlHandle docHandle( &doc );	
 
-		for (i=0; i<configBufferList.size(); i++) {	
+		for (size_t i=0; i<configBufferList.size(); i++) {
 	
 			TiXmlElement* conf = docHandle.FirstChild( "PokerTHCleaner" ).FirstChild( "Configuration" ).FirstChild( configList[i].name ).ToElement();
 				

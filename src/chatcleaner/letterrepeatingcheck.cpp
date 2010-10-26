@@ -3,6 +3,7 @@
 #include <QtCore>
 
 LetterRepeatingCheck::LetterRepeatingCheck()
+: letterNumberToTrigger(0)
 {
 }
 

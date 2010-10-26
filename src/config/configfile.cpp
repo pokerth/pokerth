@@ -340,8 +340,7 @@ void ConfigFile::fillBuffer() {
 
     boost::recursive_mutex::scoped_lock lock(m_configMutex);
 
-    size_t i;
-    string tempString1("");
+	string tempString1("");
     string tempString2("");
 
     TiXmlDocument doc(configFileName);
@@ -349,7 +348,7 @@ void ConfigFile::fillBuffer() {
     if(doc.LoadFile()) {
         TiXmlHandle docHandle( &doc );
 
-        for (i=0; i<configBufferList.size(); i++) {
+		for (size_t i=0; i<configBufferList.size(); i++) {
 
             TiXmlElement* conf = docHandle.FirstChild( "PokerTH" ).FirstChild( "Configuration" ).FirstChild( configList[i].name ).ToElement();
 

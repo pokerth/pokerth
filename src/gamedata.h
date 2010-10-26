@@ -69,7 +69,8 @@ struct GameData
 		firstSmallBlind(0), raiseIntervalMode(RAISE_ON_HANDNUMBER),
 		raiseSmallBlindEveryHandsValue(8), raiseSmallBlindEveryMinutesValue(1),
 		raiseMode(DOUBLE_BLINDS), afterManualBlindsMode(AFTERMB_DOUBLE_BLINDS),
-		afterMBAlwaysRaiseValue(0), guiSpeed(4), playerActionTimeoutSec(20) {}
+		afterMBAlwaysRaiseValue(0), guiSpeed(4), delayBetweenHandsSec(6),
+		playerActionTimeoutSec(20) {}
 	GameType gameType;
 	int maxNumberOfPlayers;
 	int startMoney;

@@ -34,7 +34,7 @@ public:
 
 	~CleanerConfig();
 	
-	std::string getConfigFileName() { return configFileName; }
+	std::string getConfigFileName() const { return configFileName; }
 	
 	void fillBuffer();
 	void writeBuffer() const;

@@ -55,7 +55,6 @@ QStringList MessageFilter::check(unsigned playerId, QString nick, QString msg)
     QString returnAction;
 
     OffenceType offence = NONE;
-    ActionType action = NOTHING;
 
     if(myBadWordCheck->run(msg)) offence = BAD_WORD;
     if(myCapsFloodCheck->run(msg)) offence = CAPS_FLOOD;
@@ -65,7 +64,8 @@ QStringList MessageFilter::check(unsigned playerId, QString nick, QString msg)
 
     if(offence){
 	
-        QMap<unsigned, ClientWarnInfos>::const_iterator i = myClientWarnLevelList.find(playerId);
+		ActionType action = NOTHING;
+		QMap<unsigned, ClientWarnInfos>::const_iterator i = myClientWarnLevelList.find(playerId);
 
         if(i == myClientWarnLevelList.end()) {
             ClientWarnInfos tmpInfos;

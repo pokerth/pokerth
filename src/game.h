@@ -97,7 +97,6 @@ private:
 	int startCash;
 	int startSmallBlind;
 	int myGameID;
-	int guiPlayerNum;
 
 	// running variables
 	int currentSmallBlind;
