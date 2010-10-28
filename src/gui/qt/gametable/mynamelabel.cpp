@@ -15,7 +15,7 @@
 #include "gametablestylereader.h"
 
 MyNameLabel::MyNameLabel(QGroupBox* parent)
-    : QLabel(parent)
+    : QLabel(parent), myW(0)
 {
 }
 

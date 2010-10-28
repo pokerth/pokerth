@@ -15,7 +15,7 @@
 using namespace std;
 
 MyActionButton::MyActionButton(QGroupBox* parent)
-    : QPushButton(parent)
+    : QPushButton(parent), myStyle(NULL)
 {
 }
 

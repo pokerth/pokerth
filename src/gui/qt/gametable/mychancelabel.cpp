@@ -18,7 +18,27 @@ using namespace std;
 MyChanceLabel::MyChanceLabel(QWidget* parent)
  : QLabel(parent), myW(0), myStyle(0)
 {
+    RFChance[0] = 0;
+    SFChance[0] = 0;
+    FOAKChance[0] = 0;
+    FHChance[0] = 0;
+    FLChance[0] = 0;
+    STRChance[0] = 0;
+    TOAKChance[0] = 0;
+    TPChance[0] = 0;
+    OPChance[0] = 0;
+    HCChance[0] = 0;
 
+    RFChance[1] = 0;
+    SFChance[1] = 0;
+    FOAKChance[1] = 0;
+    FHChance[1] = 0;
+    FLChance[1] = 0;
+    STRChance[1] = 0;
+    TOAKChance[1] = 0;
+    TPChance[1] = 0;
+    OPChance[1] = 0;
+    HCChance[1] = 0;
 }
 
 MyChanceLabel::~MyChanceLabel()

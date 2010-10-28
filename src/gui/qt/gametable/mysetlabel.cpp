@@ -16,7 +16,7 @@
 using namespace std;
 
 MySetLabel::MySetLabel(QGroupBox* parent)
- : QLabel(parent)
+ : QLabel(parent), myW(0)
 {
 }
 
