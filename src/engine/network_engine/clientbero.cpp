@@ -20,7 +20,9 @@
 #include "clientbero.h"
 
 ClientBeRo::ClientBeRo(HandInterface* hi, int /*id*/, unsigned /*dP*/, int sB, GameState gS)
-: BeRoInterface(), myBeRoID(gS), myHand(hi), highestCardsValue(0), highestSet(0), firstRound(true), smallBlindPosition(0), smallBlind(sB), minimumRaise(0), fullBetRule(false)
+: BeRoInterface(), myBeRoID(gS), myHand(hi), highestCardsValue(0), smallBlindPositionId(0), bigBlindPositionId(0), currentPlayersTurnId(0),
+  firstRoundLastPlayersTurnId(0), highestSet(0), firstRound(true), smallBlindPosition(0), smallBlind(sB), minimumRaise(2*sB), fullBetRule(false),
+  lastActionPlayer(0)
 {
 }
 

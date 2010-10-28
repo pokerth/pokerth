@@ -30,7 +30,7 @@ CardsValue::~CardsValue()
 {
 }
 
-int CardsValue::holeCardsClass(int one, int two) {
+int CardsValue::holeCardsClass(int one, int two) const {
 
   if((one-1)%13<(two-1)%13) {
     int temp = one;
@@ -166,7 +166,7 @@ int CardsValue::holeCardsClass(int one, int two) {
 
 }
 
-int CardsValue::holeCardsToIntCode(int* cards) {
+int CardsValue::holeCardsToIntCode(int* cards) const {
 
 	// Code der HoleCards ermitteln
 	if(cards[0]%13 == cards[1]%13) {
@@ -189,7 +189,7 @@ int CardsValue::holeCardsToIntCode(int* cards) {
 
 }
 
-int* intCodeToHoleCards(int code) {
+int* CardsValue::intCodeToHoleCards(int code) const {
 
 	// one possibility !!!
 
@@ -207,7 +207,7 @@ int* intCodeToHoleCards(int code) {
 
 }
 
-int CardsValue::cardsValue(int* cards, int* position) {
+int CardsValue::cardsValue(int* cards, int* position) const {
 
 int array[7][3];
 	int j1, j2, j3, j4, j5, k1, k2, ktemp[3];
@@ -586,7 +586,7 @@ int array[7][3];
 }
 
 
-vector< vector<int> > CardsValue::calcCardsChance(GameState beRoID, int* playerCards, int* boardCards)
+vector< vector<int> > CardsValue::calcCardsChance(GameState beRoID, int* playerCards, int* boardCards) const
 {
 	int i,j;
 

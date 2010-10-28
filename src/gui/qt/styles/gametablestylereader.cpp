@@ -22,7 +22,8 @@
 
 using namespace std;
 
-GameTableStyleReader::GameTableStyleReader(ConfigFile *c, QWidget *w) : myConfig(c), myW(w), fallBack(0), loadedSuccessfull(0)
+GameTableStyleReader::GameTableStyleReader(ConfigFile *c, QWidget *w)
+: myConfig(c), myW(w), fallBack(0), loadedSuccessfull(0), myState(GT_STYLE_UNDEFINED)
 {
 
     //set fonts and font sizes

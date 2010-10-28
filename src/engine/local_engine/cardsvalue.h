@@ -34,13 +34,13 @@ public:
 
     ~CardsValue();
 
-   int holeCardsClass(int, int);
-   int cardsValue(int*, int*);
+   int holeCardsClass(int, int) const;
+   int cardsValue(int*, int*) const;
 
-   int holeCardsToIntCode(int*);
-   int* intCodeToHoleCards(int);
+   int holeCardsToIntCode(int*) const;
+   int* intCodeToHoleCards(int) const;
 
-   std::vector< std::vector<int> > calcCardsChance(GameState, int*, int*);
+   std::vector< std::vector<int> > calcCardsChance(GameState, int*, int*) const;
    //int** showdown(GameState, int**, int);
 
 };

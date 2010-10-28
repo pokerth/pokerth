@@ -95,7 +95,6 @@ void LocalBeRo::run() {
 			if(!(myHand->getAllInCondition())) {
 
 				PlayerListIterator it_1, it_2;
-				size_t i;
 			
 				// running player before smallBlind
 				bool formerRunningPlayerFound = false;
@@ -106,7 +105,7 @@ void LocalBeRo::run() {
 						throw LocalException(__FILE__, __LINE__, ERR_ACTIVE_PLAYER_NOT_FOUND);
 					}
 		
-					for(i=0; i<myHand->getActivePlayerList()->size(); i++) {	
+					for(size_t i=0; i<myHand->getActivePlayerList()->size(); i++) {
 		
 						if(it_1 == myHand->getActivePlayerList()->begin()) it_1 = myHand->getActivePlayerList()->end();
 						it_1--;
@@ -165,8 +164,6 @@ void LocalBeRo::run() {
 			}
 		}
 
-		int i;
-
 		// prfen, ob aktuelle bero wirklich dran ist
 		if(!firstRound && allHighestSet) { 
 	
@@ -186,7 +183,7 @@ void LocalBeRo::run() {
 			
 			myHand->getGuiInterface()->refreshSet();
 			myHand->getGuiInterface()->refreshCash();
-			for(i=0; i<MAX_NUMBER_OF_PLAYERS; i++) { myHand->getGuiInterface()->refreshAction(i,PLAYER_ACTION_NONE); }
+			for(int i=0; i<MAX_NUMBER_OF_PLAYERS; i++) { myHand->getGuiInterface()->refreshAction(i,PLAYER_ACTION_NONE); }
 			
 			myHand->switchRounds();
 		}

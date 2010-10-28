@@ -4421,7 +4421,6 @@ void LocalPlayer::preflopEngine3() {
 
     // 	cout << "nextID " << currentHand->getPlayerArray()[(myID+1)%5]->getMyID() << endl;
 
-    int raise = 0;
 
     // 	Bauchgefhl (zufÃ¯Â¿Ålig)
     int tempRand;
@@ -4450,7 +4449,8 @@ void LocalPlayer::preflopEngine3() {
     else {
         // RAISE --> wenn hohes Potential
         if((potential >= 4 && 6 * currentHand->getSmallBlind() >= currentHand->getCurrentBeRo()->getHighestSet()) || bluff <= 6) {
-            // extrem hohes Potential --> groÃ¯Â¿År Raise
+			int raise = 0;
+			// extrem hohes Potential --> groÃ¯Â¿År Raise
             if(potential>=6 || bluff <= 2) {
 
                 // bluff - raise
@@ -4654,8 +4654,6 @@ void LocalPlayer::flopEngine3() {
     double percent = (countMy*1.0)/(countAll*1.0);
     // 	cout << "Prozent: " << percent << endl;
 
-    int raise = 0;
-
     // 	Bauchgefhl (zufÃ¯Â¿Ålig)
     int tempRand;
     Tools::getRandNumber((int)(percent*10.)-2,(int)(percent*10.)+2,1,&tempRand,0);
@@ -4718,7 +4716,9 @@ void LocalPlayer::flopEngine3() {
             // RAISE --> wenn Potential besonders gut
             if((potential >=4 && 2 * tempFold * currentHand->getSmallBlind() >= currentHand->getCurrentBeRo()->getHighestSet()) || (bluff <= 5 && 4 * tempFold * currentHand->getSmallBlind() >= currentHand->getCurrentBeRo()->getHighestSet())) {
 
-                // bluff - raise
+				int raise = 0;
+
+				// bluff - raise
                 if(bluff <=5) raise = ((bluff+1)/2) * currentHand->getCurrentBeRo()->getHighestSet();
                 // Betrag, der ber dem aktuell HighestSet gesetzt werden soll
                 else raise = ((potential - 2 ) / 2) * currentHand->getCurrentBeRo()->getHighestSet();
@@ -4820,8 +4820,6 @@ void LocalPlayer::turnEngine3() {
     double percent = (countMy*1.0)/(countAll*1.0);
     // 	cout << "Prozent: " << percent << endl;
 
-    int raise;
-
     // 	Bauchgefhl (zufÃ¯Â¿Ålig)
     int tempRand;
     Tools::getRandNumber((int)(percent*10.)-2,(int)(percent*10.)+2,1,&tempRand,0);
@@ -4886,7 +4884,9 @@ void LocalPlayer::turnEngine3() {
             // RAISE --> wenn Potential besonders gut
             if((potential >=4 && 2 * tempFold * currentHand->getSmallBlind() >= currentHand->getCurrentBeRo()->getHighestSet()) || (bluff <= 4 && 3 * tempFold * currentHand->getSmallBlind() >= currentHand->getCurrentBeRo()->getHighestSet())) {
 
-                // bluff - raise
+				int raise = 0;
+
+				// bluff - raise
                 if(bluff <= 4) raise = ((bluff+1)/2) * currentHand->getCurrentBeRo()->getHighestSet();
                 // Betrag, der ber dem aktuell HighestSet gesetzt werden soll
                 else raise = ( potential - 3 ) * currentHand->getCurrentBeRo()->getHighestSet();
@@ -4982,8 +4982,6 @@ void LocalPlayer::riverEngine3() {
     double percent = (countMy*1.0)/(countAll*1.0);
     // 	cout << "Prozent: " << percent << endl;
 
-    int raise;
-
     // 	Bauchgefhl (zufÃ¯Â¿Ålig)
     int tempRand;
     Tools::getRandNumber((int)(percent*10.)-2,(int)(percent*10.)+2,1,&tempRand,0);
@@ -5048,7 +5046,9 @@ void LocalPlayer::riverEngine3() {
             // RAISE --> wenn Potential besonders gut
             if((potential >=4 && 2 * tempFold * currentHand->getSmallBlind() >= currentHand->getCurrentBeRo()->getHighestSet()) || (bluff <= 2 && 4 * tempFold * currentHand->getSmallBlind() >= currentHand->getCurrentBeRo()->getHighestSet())) {
 
-                // bluff - raise
+				int raise = 0;
+
+				// bluff - raise
                 if(bluff <= 2 ) raise = bluff * currentHand->getCurrentBeRo()->getHighestSet();
                 // Betrag, der ber dem aktuell HighestSet gesetzt werden soll
                 else raise = ( potential - 3 ) * currentHand->getCurrentBeRo()->getHighestSet();

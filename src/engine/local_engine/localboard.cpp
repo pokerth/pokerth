@@ -29,6 +29,7 @@ using namespace std;
 
 LocalBoard::LocalBoard() : BoardInterface(), currentHand(0), pot(0), sets(0)
 {
+	myCards[0] = myCards[1] = myCards[2] = myCards[3] = myCards[4] = 0;
 }
 
 LocalBoard::~LocalBoard()
@@ -230,11 +231,11 @@ void LocalBoard::distributePot() {
 
 	if(pot!=0) LOG_ERROR(__FILE__ << " (" << __LINE__ << "): distributePot-ERROR: Pot = " << pot);
 
-	int sum = 0;
+	/*int sum = 0;
 
 	for(it_c=activePlayerList->begin(); it_c!=activePlayerList->end(); it_c++) {
 		sum += (*it_c)->getMyCash();
-	}
+	}*/
 }
 
 void LocalBoard::determinePlayerNeedToShowCards() {

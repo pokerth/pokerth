@@ -110,7 +110,6 @@ void LocalBeRoPreflop::run() {
 
 	}
 
-	int i;
 	bool allHighestSet = true;
 	PlayerListConstIterator it_c;
 
@@ -152,7 +151,7 @@ void LocalBeRoPreflop::run() {
 		
 		getMyHand()->getGuiInterface()->refreshSet();
 		getMyHand()->getGuiInterface()->refreshCash();
-		for(i=0; i<MAX_NUMBER_OF_PLAYERS; i++) { getMyHand()->getGuiInterface()->refreshAction(i,PLAYER_ACTION_NONE); }
+		for(int i=0; i<MAX_NUMBER_OF_PLAYERS; i++) { getMyHand()->getGuiInterface()->refreshAction(i,PLAYER_ACTION_NONE); }
 
 		getMyHand()->switchRounds();
 	}

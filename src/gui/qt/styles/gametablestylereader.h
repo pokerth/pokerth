@@ -36,6 +36,7 @@ enum GtStyleState {
     GT_STYLE_OUTDATED,
     GT_STYLE_FIELDS_EMPTY,
     GT_STYLE_PICTURES_MISSING,
+	GT_STYLE_UNDEFINED
 };
 
 class gameTableImpl;
