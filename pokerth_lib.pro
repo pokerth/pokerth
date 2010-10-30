@@ -1,5 +1,9 @@
 # QMake pro-file for PokerTH common library
 
+isEmpty( PREFIX ){
+	PREFIX =/usr
+}
+
 TEMPLATE = lib
 CODECFORSRC = UTF-8
 
@@ -220,13 +224,14 @@ official_server{
 
 win32{
 	DEFINES += CURL_STATICLIB
-    DEFINES += _WIN32_WINNT=0x0501
+	DEFINES += _WIN32_WINNT=0x0501
 	DEPENDPATH += src/net/win32/ src/core/win32
 	INCLUDEPATH += ../boost/ ../GnuTLS/include ../gsasl/include ../curl/include ../zlib ../openssl/include
 }
 !win32{
 	##### My release static build options
 	#QMAKE_CXXFLAGS += -ffunction-sections -fdata-sections
+	INCLUDEPATH += $${PREFIX}/include
 }
 
 mac{

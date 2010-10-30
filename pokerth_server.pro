@@ -193,7 +193,8 @@ unix : !mac {
 	#QMAKE_LFLAGS += -Wl,--gc-sections
 
 	LIBPATH += lib
-
+	LIBPATH += $${PREFIX}/lib
+	INCLUDEPATH += $${PREFIX}/include
 	LIB_DIRS = $${PREFIX}/lib $${PREFIX}/lib64
 	BOOST_FS = boost_filesystem boost_filesystem-mt
 	BOOST_THREAD = boost_thread boost_thread-mt

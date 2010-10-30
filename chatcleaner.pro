@@ -52,7 +52,12 @@ win32 {
 	debug:LIBPATH += debug/lib
 	release:LIBPATH += release/lib
 }
-mac { 
+!win32{
+	##### My release static build options
+	#QMAKE_CXXFLAGS += -ffunction-sections -fdata-sections
+	INCLUDEPATH += $${PREFIX}/include
+}
+mac {
 	# make it universal
 	CONFIG += x86
 	CONFIG -= ppc

@@ -1,5 +1,9 @@
 # QMake pro-file for PokerTH db library
 
+isEmpty( PREFIX ){
+	PREFIX =/usr
+}
+
 TEMPLATE = lib
 CODECFORSRC = UTF-8
 
@@ -44,6 +48,7 @@ win32{
 !win32{
 	##### My release static build options
 	#QMAKE_CXXFLAGS += -ffunction-sections -fdata-sections
+	INCLUDEPATH += $${PREFIX}/include
 }
 
 mac{

@@ -372,6 +372,8 @@ unix:!mac {
 	# QMAKE_CXXFLAGS += -ffunction-sections -fdata-sections
 	# QMAKE_LFLAGS += -Wl,--gc-sections
 	LIBPATH += lib
+	LIBPATH += $${PREFIX}/lib
+	INCLUDEPATH += $${PREFIX}/include
 	LIB_DIRS = $${PREFIX}/lib \
 		$${PREFIX}/lib64
 	BOOST_FS = boost_filesystem \
