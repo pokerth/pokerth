@@ -15,6 +15,7 @@
 #include <UTF8String.h>
 #include "ChatRequestTypeLobby.h"
 #include "ChatRequestTypeGame.h"
+#include "ChatRequestTypePrivate.h"
 #include <constr_CHOICE.h>
 #include <constr_SEQUENCE.h>
 
@@ -27,6 +28,7 @@ typedef enum chatRequestType_PR {
 	chatRequestType_PR_NOTHING,	/* No components present */
 	chatRequestType_PR_chatRequestTypeLobby,
 	chatRequestType_PR_chatRequestTypeGame,
+	chatRequestType_PR_chatRequestTypePrivate,
 	/* Extensions may appear below */
 	
 } chatRequestType_PR;
@@ -38,6 +40,7 @@ typedef struct ChatRequestMessage {
 		union ChatRequestMessage__chatRequestType_u {
 			ChatRequestTypeLobby_t	 chatRequestTypeLobby;
 			ChatRequestTypeGame_t	 chatRequestTypeGame;
+			ChatRequestTypePrivate_t	 chatRequestTypePrivate;
 			/*
 			 * This type is extensible,
 			 * possible extensions are below.

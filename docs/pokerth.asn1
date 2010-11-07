@@ -643,7 +643,8 @@ StatisticsData ::= SEQUENCE {
 ChatRequestMessage ::= [APPLICATION 129] SEQUENCE {
 	chatRequestType				CHOICE {
 		chatRequestTypeLobby	[0]	ChatRequestTypeLobby,
-		chatRequestTypeGame		[1] ChatRequestTypeGame
+		chatRequestTypeGame		[1] ChatRequestTypeGame,
+		chatRequestTypePrivate	[2] ChatRequestTypePrivate
 	},
 	chatText					UTF8String (SIZE(1..128))
 }
@@ -653,6 +654,10 @@ ChatRequestTypeLobby ::= SEQUENCE {
 
 ChatRequestTypeGame ::= SEQUENCE {
 	gameId						NonZeroId
+}
+
+ChatRequestTypePrivate ::= SEQUENCE {
+	targetPlayerId				NonZeroId
 }
 
 ChatMessage ::= [APPLICATION 130] SEQUENCE {
