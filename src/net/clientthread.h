@@ -72,6 +72,7 @@ public:
 	void SendPlayerAction();
 	void SendGameChatMessage(const std::string &msg);
 	void SendLobbyChatMessage(const std::string &msg);
+	void SendPrivateChatMessage(unsigned targetPlayerId, const std::string &msg);
 	void SendJoinFirstGame(const std::string &password);
 	void SendJoinGame(unsigned gameId, const std::string &password);
 	void SendCreateGame(const GameData &gameData, const std::string &name, const std::string &password);

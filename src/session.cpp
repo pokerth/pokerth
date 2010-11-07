@@ -379,6 +379,14 @@ void Session::sendLobbyChatMessage(const std::string &message)
     myNetClient->SendLobbyChatMessage(message);
 }
 
+void Session::sendPrivateChatMessage(unsigned targetPlayerId, const std::string &message)
+{
+	if (!myNetClient)
+		return;
+	myNetClient->SendPrivateChatMessage(targetPlayerId, message);
+}
+
+
 void Session::kickPlayer(unsigned playerId)
 {
     if (!myNetClient)

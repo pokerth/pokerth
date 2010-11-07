@@ -253,7 +253,7 @@ ServerLobbyThread::AddConnection(boost::shared_ptr<tcp::socket> sock)
 				netAnnounce->latestGameVersion.major = POKERTH_VERSION_MAJOR;
 				netAnnounce->latestGameVersion.minor = POKERTH_VERSION_MINOR;
 				netAnnounce->latestBetaRevision = POKERTH_BETA_REVISION;
-				switch (m_mode)
+				switch (GetServerMode())
 				{
 					case SERVER_MODE_LAN:
 						netAnnounce->serverType = serverType_serverTypeLAN;
@@ -996,18 +996,21 @@ ServerLobbyThread::HandleNetPacketInit(SessionWrapper session, const InitMessage
 	// Before any other processing, perform some denial of service and
 	// brute force attack prevention by checking whether the user recently sent an
 	// Init packet.
-	bool recentlySentInit = false;
+	if (m_serverConfig->readConfigInt("ServerBruteForceProtection") != 0)
 	{
-		boost::mutex::scoped_lock lock(m_timerClientAddressMapMutex);
-		if (m_timerClientAddressMap.find(session.sessionData->GetClientAddr()) != m_timerClientAddressMap.end())
-			recentlySentInit = true;
-		else
-			m_timerClientAddressMap[session.sessionData->GetClientAddr()] = boost::timers::portable::microsec_timer();
-	}
-	if (recentlySentInit)
-	{
-		SessionError(session, ERR_NET_INIT_BLOCKED);
-		return;
+		bool recentlySentInit = false;
+		{
+			boost::mutex::scoped_lock lock(m_timerClientAddressMapMutex);
+			if (m_timerClientAddressMap.find(session.sessionData->GetClientAddr()) != m_timerClientAddressMap.end())
+				recentlySentInit = true;
+			else
+				m_timerClientAddressMap[session.sessionData->GetClientAddr()] = boost::timers::portable::microsec_timer();
+		}
+		if (recentlySentInit)
+		{
+			SessionError(session, ERR_NET_INIT_BLOCKED);
+			return;
+		}
 	}
 
 	// Check the protocol version.
@@ -1414,35 +1417,66 @@ ServerLobbyThread::HandleNetPacketJoinGame(SessionWrapper session, const std::st
 void
 ServerLobbyThread::HandleNetPacketChatRequest(SessionWrapper session, const ChatRequestMessage_t &chatRequest)
 {
-	if (chatRequest.chatRequestType.present == chatRequestType_PR_chatRequestTypeLobby
-		&& session.playerData
-		&& session.playerData->GetRights() != PLAYER_RIGHTS_GUEST) // Guests are not allowed to chat.
+	// Guests are not allowed to chat.
+	if (session.playerData && session.playerData->GetRights() != PLAYER_RIGHTS_GUEST)
 	{
-		boost::shared_ptr<NetPacket> packet(new NetPacket(NetPacket::Alloc));
-		packet->GetMsg()->present = PokerTHMessage_PR_chatMessage;
-		ChatMessage_t *netChat = &packet->GetMsg()->choice.chatMessage;
-		netChat->chatType.present = chatType_PR_chatTypeLobby;
-		ChatTypeLobby_t *netLobbyChat = &netChat->chatType.choice.chatTypeLobby;
-		netLobbyChat->playerId = session.playerData->GetUniqueId();
-		OCTET_STRING_fromBuf(
-			&netChat->chatText,
-			(char *)chatRequest.chatText.buf,
-			chatRequest.chatText.size);
+		if (chatRequest.chatRequestType.present == chatRequestType_PR_chatRequestTypeLobby)
+		{
+			boost::shared_ptr<NetPacket> packet(new NetPacket(NetPacket::Alloc));
+			packet->GetMsg()->present = PokerTHMessage_PR_chatMessage;
+			ChatMessage_t *netChat = &packet->GetMsg()->choice.chatMessage;
+			netChat->chatType.present = chatType_PR_chatTypeLobby;
+			ChatTypeLobby_t *netLobbyChat = &netChat->chatType.choice.chatTypeLobby;
+			netLobbyChat->playerId = session.playerData->GetUniqueId();
+			OCTET_STRING_fromBuf(
+				&netChat->chatText,
+				(char *)chatRequest.chatText.buf,
+				chatRequest.chatText.size);
 
-		m_sessionManager.SendLobbyMsgToAllSessions(GetSender(), packet, SessionData::Established);
-		m_gameSessionManager.SendLobbyMsgToAllSessions(GetSender(), packet, SessionData::Game);
+			m_sessionManager.SendLobbyMsgToAllSessions(GetSender(), packet, SessionData::Established);
+			m_gameSessionManager.SendLobbyMsgToAllSessions(GetSender(), packet, SessionData::Game);
 
-		string chatMsg = STL_STRING_FROM_OCTET_STRING(chatRequest.chatText);
-		// Send the message to the chat cleaner bot.
-		m_chatCleanerManager->HandleChatText(
-			session.playerData->GetUniqueId(),
-			session.playerData->GetName(),
-			chatMsg);
-		// Send the message to the irc bot.
-		GetIrcBotCallback().SignalLobbyMessage(
-			session.playerData->GetUniqueId(),
-			session.playerData->GetName(), 
-			chatMsg);
+			string chatMsg = STL_STRING_FROM_OCTET_STRING(chatRequest.chatText);
+			// Send the message to the chat cleaner bot.
+			m_chatCleanerManager->HandleChatText(
+				session.playerData->GetUniqueId(),
+				session.playerData->GetName(),
+				chatMsg);
+			// Send the message to the irc bot.
+			GetIrcBotCallback().SignalLobbyMessage(
+				session.playerData->GetUniqueId(),
+				session.playerData->GetName(),
+				chatMsg);
+		}
+		else if (chatRequest.chatRequestType.present == chatRequestType_PR_chatRequestTypePrivate)
+		{
+			const ChatRequestTypePrivate_t *netPrivateChat = &chatRequest.chatRequestType.choice.chatRequestTypePrivate;
+			SessionWrapper targetSession = m_sessionManager.GetSessionByUniquePlayerId(netPrivateChat->targetPlayerId);
+			if (!targetSession.sessionData)
+				targetSession = m_gameSessionManager.GetSessionByUniquePlayerId(netPrivateChat->targetPlayerId);
+
+			if (targetSession.sessionData && targetSession.playerData)
+			{
+				// Only allow private messages to players which are not in running games.
+				// TODO: Send chat reject message if private message was not sent.
+				unsigned gameId = targetSession.sessionData->GetGameId();
+				GameMap::const_iterator pos = m_gameMap.find(gameId);
+				if (pos == m_gameMap.end() || !pos->second->IsRunning())
+				{
+					boost::shared_ptr<NetPacket> packet(new NetPacket(NetPacket::Alloc));
+					packet->GetMsg()->present = PokerTHMessage_PR_chatMessage;
+					ChatMessage_t *netChat = &packet->GetMsg()->choice.chatMessage;
+					netChat->chatType.present = chatType_PR_chatTypeLobby;
+					ChatTypeLobby_t *netLobbyChat = &netChat->chatType.choice.chatTypeLobby;
+					netLobbyChat->playerId = session.playerData->GetUniqueId();
+					OCTET_STRING_fromBuf(
+						&netChat->chatText,
+						(char *)chatRequest.chatText.buf,
+						chatRequest.chatText.size);
+					GetSender().Send(targetSession.sessionData, packet);
+				}
+			}
+		}
 	}
 }
 

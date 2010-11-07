@@ -270,7 +270,8 @@ AbstractServerGameStateReceiving::ProcessPacket(boost::shared_ptr<ServerGame> se
 			// Forward chat text to all players.
 			// TODO: Some limitation needed.
 			ChatRequestMessage_t *netChatRequest = &packet->GetMsg()->choice.chatRequestMessage;
-			if (netChatRequest->chatRequestType.present == chatRequestType_PR_chatRequestTypeLobby)
+			if (netChatRequest->chatRequestType.present == chatRequestType_PR_chatRequestTypeLobby
+				|| netChatRequest->chatRequestType.present == chatRequestType_PR_chatRequestTypePrivate)
 			{
 				if (!server->IsRunning())
 					server->GetLobbyThread().HandleChatRequest(session, *netChatRequest);
