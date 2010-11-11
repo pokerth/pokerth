@@ -382,8 +382,8 @@ ServerGameStateInit::HandleNewSession(boost::shared_ptr<ServerGame> server, Sess
 			NetPacket::SetGameData(server->GetGameData(), &joinAck->gameInfo);
 			OCTET_STRING_fromBuf(
 				&joinAck->gameInfo.gameName,
-				session.playerData->GetName().c_str(),
-				session.playerData->GetName().length());
+				server->GetName().c_str(),
+				server->GetName().length());
 			server->GetLobbyThread().GetSender().Send(session.sessionData, packet);
 
 			// Send notifications for connected players to client.
