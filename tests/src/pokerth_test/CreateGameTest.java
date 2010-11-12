@@ -37,42 +37,19 @@ public class CreateGameTest extends TestBase {
 	public void testJoinGameRequestMessage() throws Exception {
 		guestInit();
 
-		EndRaiseModeEnumType endRaise = new EndRaiseModeEnumType();
-		endRaise.setValue(EndRaiseModeEnumType.EnumType.keepLastBlind);
-		NetGameInfo gameInfo = new NetGameInfo();
-		gameInfo.setDelayBetweenHands(6);
-		gameInfo.setEndRaiseMode(endRaise);
-		gameInfo.setEndRaiseSmallBlindValue(1000);
-		gameInfo.setFirstSmallBlind(100);
-		gameInfo.setGameName(GuestUser + " game test");
 		Collection<Integer> l = new ArrayList<Integer>();
 		l.add(250);
 		l.add(600);
 		l.add(1000);
-		gameInfo.setManualBlinds(l);
-		gameInfo.setMaxNumPlayers(10);
-		NetGameTypeEnumType gameType = new NetGameTypeEnumType();
-		gameType.setValue(NetGameTypeEnumType.EnumType.normalGame);
-		gameInfo.setNetGameType(gameType);
-		gameInfo.setPlayerActionTimeout(20);
-		gameInfo.setProposedGuiSpeed(8);
-		RaiseIntervalModeChoiceType raiseInterval = new RaiseIntervalModeChoiceType();
-		raiseInterval.selectRaiseEveryHands(7);
-		gameInfo.setRaiseIntervalMode(raiseInterval);
-		gameInfo.setStartMoney(2000);
-		JoinNewGame joinNew = new JoinNewGame();
-		joinNew.setGameInfo(gameInfo);
-		JoinGameActionChoiceType joinAction = new JoinGameActionChoiceType();
-		joinAction.selectJoinNewGame(joinNew);
-		JoinGameRequestMessageSequenceType joinType = new JoinGameRequestMessageSequenceType();
-		joinType.setJoinGameAction(joinAction);
-		joinType.setPassword(GamePassword);
-		JoinGameRequestMessage joinRequest = new JoinGameRequestMessage();
-		joinRequest.setValue(joinType);
-		PokerTHMessage msg = new PokerTHMessage();
-		msg.selectJoinGameRequestMessage(joinRequest);
-		sendMessage(msg);
+		NetGameInfo gameInfo = createGameInfo(8, EndRaiseModeEnumType.EnumType.raiseByEndValue, 1000, 100, GuestUser + " create test game", l, 10, 0, 7, 2000);
+		sendMessage(createJoinGameRequestMsg(
+				gameInfo,
+				NetGameTypeEnumType.EnumType.normalGame,
+				20,
+				7,
+				GamePassword));
 
+		PokerTHMessage msg;
 		do {
 			msg = receiveMessage();
 		} while (msg.isPlayerListMessageSelected() || msg.isGameListMessageSelected());

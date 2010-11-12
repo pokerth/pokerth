@@ -24,19 +24,20 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import pokerth_protocol.AnnounceMessage;
-import pokerth_protocol.ErrorMessage;
-import pokerth_protocol.GuestLogin;
-import pokerth_protocol.InitAckMessage;
-import pokerth_protocol.InitMessage;
-import pokerth_protocol.PokerTHMessage;
-import pokerth_protocol.Version;
+import pokerth_protocol.*;
 import pokerth_protocol.AnnounceMessage.AnnounceMessageSequenceType.ServerTypeEnumType;
 import pokerth_protocol.InitMessage.InitMessageSequenceType;
 import pokerth_protocol.InitMessage.InitMessageSequenceType.LoginChoiceType;
+import pokerth_protocol.JoinGameRequestMessage.JoinGameRequestMessageSequenceType;
+import pokerth_protocol.JoinGameRequestMessage.JoinGameRequestMessageSequenceType.JoinGameActionChoiceType;
+import pokerth_protocol.NetGameInfo.EndRaiseModeEnumType;
+import pokerth_protocol.NetGameInfo.NetGameTypeEnumType;
+import pokerth_protocol.NetGameInfo.RaiseIntervalModeChoiceType;
 
 import java.io.*;
 import java.net.*;
+import java.util.ArrayList;
+import java.util.Collection;
 
 public abstract class TestBase {
 
@@ -122,5 +123,50 @@ public abstract class TestBase {
 		{
 			fail("Invalid response message.");
 		}
+	}
+
+	public PokerTHMessage createJoinGameRequestMsg(NetGameInfo gameInfo, NetGameTypeEnumType.EnumType type, int playerActionTimeout, int guiSpeed, String password) {
+		NetGameTypeEnumType gameType = new NetGameTypeEnumType();
+		gameType.setValue(type);
+		gameInfo.setNetGameType(gameType);
+		gameInfo.setPlayerActionTimeout(playerActionTimeout);
+		gameInfo.setProposedGuiSpeed(guiSpeed);
+		JoinNewGame joinNew = new JoinNewGame();
+		joinNew.setGameInfo(gameInfo);
+		JoinGameActionChoiceType joinAction = new JoinGameActionChoiceType();
+		joinAction.selectJoinNewGame(joinNew);
+		JoinGameRequestMessageSequenceType joinType = new JoinGameRequestMessageSequenceType();
+		joinType.setJoinGameAction(joinAction);
+		joinType.setPassword(password);
+		JoinGameRequestMessage joinRequest = new JoinGameRequestMessage();
+		joinRequest.setValue(joinType);
+
+		PokerTHMessage msg = new PokerTHMessage();
+		msg.selectJoinGameRequestMessage(joinRequest);
+		return msg;
+	}
+
+	public NetGameInfo createGameInfo(int delayBetweenHands, EndRaiseModeEnumType.EnumType endMode, int endRaiseValue, int sb, String gameName,
+			Collection<Integer> manualBlinds, int maxNumPlayers, int raiseEveryMinutes, int raiseEveryHands, int startMoney) {
+		NetGameInfo gameInfo = new NetGameInfo();
+		EndRaiseModeEnumType endRaise = new EndRaiseModeEnumType();
+		endRaise.setValue(endMode);
+		gameInfo.setDelayBetweenHands(delayBetweenHands);
+		gameInfo.setEndRaiseMode(endRaise);
+		gameInfo.setEndRaiseSmallBlindValue(endRaiseValue);
+		gameInfo.setFirstSmallBlind(sb);
+		gameInfo.setGameName(gameName);
+		gameInfo.setManualBlinds(manualBlinds);
+		gameInfo.setMaxNumPlayers(maxNumPlayers);
+		RaiseIntervalModeChoiceType raiseInterval = new RaiseIntervalModeChoiceType();
+		if (raiseEveryMinutes > 0) {
+			raiseInterval.selectRaiseEveryMinutes(raiseEveryMinutes);
+		}
+		else {
+			raiseInterval.selectRaiseEveryHands(raiseEveryHands);
+		}
+		gameInfo.setRaiseIntervalMode(raiseInterval);
+		gameInfo.setStartMoney(startMoney);
+		return gameInfo;
 	}
 }
