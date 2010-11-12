@@ -75,14 +75,9 @@ public class CreateGameTest extends TestBase {
 				fail("Game creation failed!");
 			}
 		}
-		else if (msg.isErrorMessageSelected())
-		{
-			ErrorMessage error = msg.getErrorMessage();
-			fail("Received error: " + error.getValue().getErrorReason().getValue().toString());
-		}
-		else
-		{
-			fail("Invalid response message.");
+		else {
+			failOnErrorMessage(msg);
+			fail("Invalid message.");
 		}
 	}
 

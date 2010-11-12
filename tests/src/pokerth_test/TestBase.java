@@ -37,7 +37,6 @@ import pokerth_protocol.NetGameInfo.RaiseIntervalModeChoiceType;
 
 import java.io.*;
 import java.net.*;
-import java.util.ArrayList;
 import java.util.Collection;
 
 public abstract class TestBase {
@@ -115,14 +114,9 @@ public abstract class TestBase {
 			assertTrue(initAck.getValue().getYourPlayerId().getValue() != 0L);
 			assertTrue(!initAck.getValue().isYourAvatarPresent());
 		}
-		else if (msg.isErrorMessageSelected())
-		{
-			ErrorMessage error = msg.getErrorMessage();
-			fail("Received error: " + error.getValue().getErrorReason().getValue().toString());
-		}
-		else
-		{
-			fail("Invalid response message.");
+		else {
+			failOnErrorMessage(msg);
+			fail("Invalid message.");
 		}
 	}
 
@@ -171,42 +165,20 @@ public abstract class TestBase {
 			msg.selectAuthMessage(authResponse);
 			sendMessage(msg, s);
 		}
-		else if (msg.isErrorMessageSelected())
-		{
-			ErrorMessage error = msg.getErrorMessage();
-			fail("Received error: " + error.getValue().getErrorReason().getValue().toString());
-		}
-		else
-		{
-			fail("Invalid auth message.");
-		}
+		failOnErrorMessage(msg);
 
 		msg = receiveMessage(s);
-		if (msg.isErrorMessageSelected())
-		{
-			ErrorMessage error = msg.getErrorMessage();
-			fail("Received error: " + error.getValue().getErrorReason().getValue().toString());
-		}
-		else if (!msg.isAuthMessageSelected() || !msg.getAuthMessage().getValue().isAuthServerVerificationSelected())
-		{
-			fail("Invalid auth message.");
-		}
+		failOnErrorMessage(msg);
 
 		msg = receiveMessage(s);
-		if (msg.isInitAckMessageSelected())
-		{
+		if (msg.isInitAckMessageSelected()) {
 			InitAckMessage initAck = msg.getInitAckMessage();
 			assertTrue(initAck.getValue().getYourPlayerId().getValue() != 0L);
 			assertTrue(!initAck.getValue().isYourAvatarPresent());
 		}
-		else if (msg.isErrorMessageSelected())
-		{
-			ErrorMessage error = msg.getErrorMessage();
-			fail("Received error: " + error.getValue().getErrorReason().getValue().toString());
-		}
-		else
-		{
-			fail("Invalid response message.");
+		else {
+			failOnErrorMessage(msg);
+			fail("Invalid message.");
 		}
 	}
 
@@ -256,5 +228,13 @@ public abstract class TestBase {
 		gameInfo.setStartMoney(startMoney);
 
 		return gameInfo;
+	}
+
+	void failOnErrorMessage(PokerTHMessage msg) {
+		if (msg.isErrorMessageSelected())
+		{
+			ErrorMessage error = msg.getErrorMessage();
+			fail("Received error: " + error.getValue().getErrorReason().getValue().toString());
+		}
 	}
 }

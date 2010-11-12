@@ -62,14 +62,9 @@ public class CreateRankingGameTest extends TestBase {
 				fail("Guest user could create ranking game!");
 			}
 		}
-		else if (msg.isErrorMessageSelected())
-		{
-			ErrorMessage error = msg.getErrorMessage();
-			fail("Received error: " + error.getValue().getErrorReason().getValue().toString());
-		}
-		else
-		{
-			fail("Invalid response message.");
+		else {
+			failOnErrorMessage(msg);
+			fail("Invalid message.");
 		}
 	}
 
@@ -90,14 +85,9 @@ public class CreateRankingGameTest extends TestBase {
 				fail("Registered user could not create ranking game!");
 			}
 		}
-		else if (msg.isErrorMessageSelected())
-		{
-			ErrorMessage error = msg.getErrorMessage();
-			fail("Received error: " + error.getValue().getErrorReason().getValue().toString());
-		}
-		else
-		{
-			fail("Invalid response message.");
+		else {
+			failOnErrorMessage(msg);
+			fail("Invalid message.");
 		}
 	}
 
@@ -118,14 +108,9 @@ public class CreateRankingGameTest extends TestBase {
 				fail("Registered user should not be allowed to create ranking game with password!");
 			}
 		}
-		else if (msg.isErrorMessageSelected())
-		{
-			ErrorMessage error = msg.getErrorMessage();
-			fail("Received error: " + error.getValue().getErrorReason().getValue().toString());
-		}
-		else
-		{
-			fail("Invalid response message.");
+		else {
+			failOnErrorMessage(msg);
+			fail("Invalid message.");
 		}
 	}
 }

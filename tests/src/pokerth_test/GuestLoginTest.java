@@ -17,16 +17,7 @@
 
 package pokerth_test;
 
-import static org.junit.Assert.*;
-
-import java.io.IOException;
-
 import org.junit.Test;
-
-import pokerth_protocol.*;
-import pokerth_protocol.AnnounceMessage.AnnounceMessageSequenceType.ServerTypeEnumType;
-import pokerth_protocol.InitMessage.*;
-import pokerth_protocol.InitMessage.InitMessageSequenceType.LoginChoiceType;
 
 public class GuestLoginTest extends TestBase {
 
