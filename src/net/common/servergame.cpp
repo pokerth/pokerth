@@ -984,7 +984,7 @@ ServerGame::CheckPassword(const string &password) const
 }
 
 bool
-ServerGame::CheckSettings(const GameData &data)
+ServerGame::CheckSettings(const GameData &data, const string &password)
 {
 	bool retVal = true;
 	if (data.gameType == GAME_TYPE_RANKING)
@@ -994,7 +994,8 @@ ServerGame::CheckSettings(const GameData &data)
 			|| (data.firstSmallBlind != RANKING_GAME_START_SBLIND)
 			|| (data.raiseIntervalMode != RAISE_ON_HANDNUMBER)
 			|| (data.raiseMode != DOUBLE_BLINDS)
-			|| (data.raiseSmallBlindEveryHandsValue != RANKING_GAME_RAISE_EVERY_HAND))
+			|| (data.raiseSmallBlindEveryHandsValue != RANKING_GAME_RAISE_EVERY_HAND)
+			|| (!password.empty()))
 		{
 			retVal = false;
 		}

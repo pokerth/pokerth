@@ -322,16 +322,17 @@ import org.bn.types.*;
 	private Integer startMoney = null;
                 
   @ASN1Integer( name = "" )
-    @ASN1ValueRangeConstraint ( 
-		
-		min = 1L, 
-		
-		max = 1000000L 
-		
-	   )
 	   
 @ASN1SequenceOf( name = "manualBlinds", isSetOf = false ) 
 
+    @ASN1ValueRangeConstraint ( 
+		
+		min = 0L, 
+		
+		max = 30L 
+		
+	   )
+	   
         @ASN1Element ( name = "manualBlinds", isOptional =  false , hasTag =  false  , hasDefaultValue =  false  )
     
 	private java.util.Collection<Integer>  manualBlinds = null;

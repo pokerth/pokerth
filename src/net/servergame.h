@@ -69,7 +69,7 @@ public:
 
 	bool IsPasswordProtected() const;
 	bool CheckPassword(const std::string &password) const;
-	static bool CheckSettings(const GameData &data);
+	static bool CheckSettings(const GameData &data, const std::string &password);
 	const GameData &GetGameData() const;
 
 	boost::shared_ptr<PlayerData> GetPlayerDataByUniqueId(unsigned playerId) const;

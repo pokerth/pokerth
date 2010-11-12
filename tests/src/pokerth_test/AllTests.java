@@ -26,7 +26,8 @@ import org.junit.runners.Suite;
 @Suite.SuiteClasses( {
 	GuestLoginTest.class,
 	AuthLoginTest.class,
-	CreateGameTest.class
+	CreateGameTest.class,
+	CreateRankingGameTest.class
 })
 public class AllTests {
 	public static void main(String[] args)

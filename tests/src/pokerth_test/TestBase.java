@@ -26,6 +26,7 @@ import org.junit.Test;
 
 import pokerth_protocol.*;
 import pokerth_protocol.AnnounceMessage.AnnounceMessageSequenceType.ServerTypeEnumType;
+import pokerth_protocol.AuthMessage.AuthMessageChoiceType;
 import pokerth_protocol.InitMessage.InitMessageSequenceType;
 import pokerth_protocol.InitMessage.InitMessageSequenceType.LoginChoiceType;
 import pokerth_protocol.JoinGameRequestMessage.JoinGameRequestMessageSequenceType;
@@ -125,6 +126,90 @@ public abstract class TestBase {
 		}
 	}
 
+	public void userInit() throws Exception {
+		userInit(sock);
+	}
+
+	public void userInit(Socket s) throws Exception {
+		PokerTHMessage msg = receiveMessage(s);
+		AnnounceMessage announce = msg.getAnnounceMessage();
+		assertTrue(announce.getValue().getServerType().getValue() == ServerTypeEnumType.EnumType.serverTypeInternetAuth);
+
+		ScramSha1 scramAuth = new ScramSha1();
+
+		// Send challenge.
+		Version requestedVersion = new Version();
+		requestedVersion.setMajor(PROTOCOL_VERSION_MAJOR);
+		requestedVersion.setMinor(PROTOCOL_VERSION_MINOR);
+		AuthenticatedLogin authLogin = new AuthenticatedLogin();
+		authLogin.setClientUserData(scramAuth.executeStep1(AuthUser).getBytes());
+		LoginChoiceType loginType = new LoginChoiceType();
+		loginType.selectAuthenticatedLogin(authLogin);
+		InitMessageSequenceType msgType = new InitMessageSequenceType();
+		msgType.setBuildId(0L);
+		msgType.setLogin(loginType);
+		msgType.setRequestedVersion(requestedVersion);
+		InitMessage init = new InitMessage();
+		init.setValue(msgType);
+		msg = new PokerTHMessage();
+		msg.selectInitMessage(init);
+		sendMessage(msg, s);
+
+		msg = receiveMessage(s);
+
+		if (msg.isAuthMessageSelected() && msg.getAuthMessage().getValue().isAuthServerChallengeSelected())
+		{
+			String serverFirstMessage = new String(msg.getAuthMessage().getValue().getAuthServerChallenge().getServerChallenge());
+			AuthClientResponse authClient = new AuthClientResponse();
+			authClient.setClientResponse(scramAuth.executeStep2(AuthPassword, serverFirstMessage).getBytes());
+			AuthMessageChoiceType authChoice = new AuthMessageChoiceType();
+			authChoice.selectAuthClientResponse(authClient);
+			AuthMessage authResponse = new AuthMessage();
+			authResponse.setValue(authChoice);
+
+			msg = new PokerTHMessage();
+			msg.selectAuthMessage(authResponse);
+			sendMessage(msg, s);
+		}
+		else if (msg.isErrorMessageSelected())
+		{
+			ErrorMessage error = msg.getErrorMessage();
+			fail("Received error: " + error.getValue().getErrorReason().getValue().toString());
+		}
+		else
+		{
+			fail("Invalid auth message.");
+		}
+
+		msg = receiveMessage(s);
+		if (msg.isErrorMessageSelected())
+		{
+			ErrorMessage error = msg.getErrorMessage();
+			fail("Received error: " + error.getValue().getErrorReason().getValue().toString());
+		}
+		else if (!msg.isAuthMessageSelected() || !msg.getAuthMessage().getValue().isAuthServerVerificationSelected())
+		{
+			fail("Invalid auth message.");
+		}
+
+		msg = receiveMessage(s);
+		if (msg.isInitAckMessageSelected())
+		{
+			InitAckMessage initAck = msg.getInitAckMessage();
+			assertTrue(initAck.getValue().getYourPlayerId().getValue() != 0L);
+			assertTrue(!initAck.getValue().isYourAvatarPresent());
+		}
+		else if (msg.isErrorMessageSelected())
+		{
+			ErrorMessage error = msg.getErrorMessage();
+			fail("Received error: " + error.getValue().getErrorReason().getValue().toString());
+		}
+		else
+		{
+			fail("Invalid response message.");
+		}
+	}
+
 	public PokerTHMessage createJoinGameRequestMsg(NetGameInfo gameInfo, NetGameTypeEnumType.EnumType type, int playerActionTimeout, int guiSpeed, String password) {
 		NetGameTypeEnumType gameType = new NetGameTypeEnumType();
 		gameType.setValue(type);
@@ -137,7 +222,9 @@ public abstract class TestBase {
 		joinAction.selectJoinNewGame(joinNew);
 		JoinGameRequestMessageSequenceType joinType = new JoinGameRequestMessageSequenceType();
 		joinType.setJoinGameAction(joinAction);
-		joinType.setPassword(password);
+		if (!password.isEmpty()) {
+			joinType.setPassword(password);
+		}
 		JoinGameRequestMessage joinRequest = new JoinGameRequestMessage();
 		joinRequest.setValue(joinType);
 
@@ -167,6 +254,7 @@ public abstract class TestBase {
 		}
 		gameInfo.setRaiseIntervalMode(raiseInterval);
 		gameInfo.setStartMoney(startMoney);
+
 		return gameInfo;
 	}
 }

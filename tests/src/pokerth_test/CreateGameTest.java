@@ -25,11 +25,8 @@ import java.util.Collection;
 import org.junit.Test;
 
 import pokerth_protocol.*;
-import pokerth_protocol.JoinGameRequestMessage.JoinGameRequestMessageSequenceType;
-import pokerth_protocol.JoinGameRequestMessage.JoinGameRequestMessageSequenceType.JoinGameActionChoiceType;
 import pokerth_protocol.NetGameInfo.EndRaiseModeEnumType;
 import pokerth_protocol.NetGameInfo.NetGameTypeEnumType;
-import pokerth_protocol.NetGameInfo.RaiseIntervalModeChoiceType;
 
 public class CreateGameTest extends TestBase {
 

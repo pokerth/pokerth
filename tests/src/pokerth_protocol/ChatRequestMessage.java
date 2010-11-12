@@ -40,6 +40,11 @@ import org.bn.types.*;
 	private ChatRequestTypeGame chatRequestTypeGame = null;
                 
   
+        @ASN1Element ( name = "chatRequestTypePrivate", isOptional =  false , hasTag =  true, tag = 2 , hasDefaultValue =  false  )
+    
+	private ChatRequestTypePrivate chatRequestTypePrivate = null;
+                
+  
         
         public ChatRequestTypeLobby getChatRequestTypeLobby () {
             return this.chatRequestTypeLobby;
@@ -58,6 +63,8 @@ import org.bn.types.*;
             this.chatRequestTypeLobby = value;
             
                     setChatRequestTypeGame(null);
+                
+                    setChatRequestTypePrivate(null);
                             
         }
 
@@ -81,6 +88,33 @@ import org.bn.types.*;
             this.chatRequestTypeGame = value;
             
                     setChatRequestTypeLobby(null);
+                
+                    setChatRequestTypePrivate(null);
+                            
+        }
+
+        
+  
+        
+        public ChatRequestTypePrivate getChatRequestTypePrivate () {
+            return this.chatRequestTypePrivate;
+        }
+
+        public boolean isChatRequestTypePrivateSelected () {
+            return this.chatRequestTypePrivate != null;
+        }
+
+        private void setChatRequestTypePrivate (ChatRequestTypePrivate value) {
+            this.chatRequestTypePrivate = value;
+        }
+
+        
+        public void selectChatRequestTypePrivate (ChatRequestTypePrivate value) {
+            this.chatRequestTypePrivate = value;
+            
+                    setChatRequestTypeLobby(null);
+                
+                    setChatRequestTypeGame(null);
                             
         }
 
