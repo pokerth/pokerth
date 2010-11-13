@@ -28,7 +28,8 @@ import org.junit.runners.Suite;
 	AuthLoginTest.class,
 	CreateGameTest.class,
 	CreateRankingGameTest.class,
-	StartNormalGameTest.class
+	StartNormalGameTest.class,
+	RunNormalGameTest.class
 })
 public class AllTests {
 	public static void main(String[] args)
