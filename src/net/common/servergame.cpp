@@ -288,7 +288,6 @@ ServerGame::InternalStartGame()
 		GuiInterface &gui = GetGui();
 		m_game.reset(new Game(&gui, factory, playerData, GetGameData(), GetStartData(), GetNextGameNum()));
 
-		GetLobbyThread().NotifyStartingGame(GetId());
 		GetDatabase().AsyncCreateGame(GetId(), GetName());
 		InitRankingMap(playerData);
 	}

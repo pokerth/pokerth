@@ -535,6 +535,8 @@ ServerGameStateInit::SendStartEvent(ServerGame &server, bool fillWithComputerPla
 
 	// Wait for all players to confirm start of game.
 	server.SendToAllPlayers(packet, SessionData::Game);
+	// Notify lobby that this game is running.
+	server.GetLobbyThread().NotifyStartingGame(server.GetId());
 
 	server.SetState(ServerGameStateStartGame::Instance());
 }
