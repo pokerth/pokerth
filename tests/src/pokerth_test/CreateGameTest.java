@@ -47,9 +47,13 @@ public class CreateGameTest extends TestBase {
 				GamePassword));
 
 		PokerTHMessage msg;
-		do {
-			msg = receiveMessage();
-		} while (msg.isPlayerListMessageSelected() || msg.isGameListMessageSelected());
+		msg = receiveMessage();
+		if (!msg.isGameListMessageSelected()) {
+			failOnErrorMessage(msg);
+			fail("Invalid message.");
+		}
+
+		msg = receiveMessage();
 		if (msg.isJoinGameReplyMessageSelected())
 		{
 			if (msg.getJoinGameReplyMessage().getValue().getJoinGameResult().isJoinGameAckSelected())

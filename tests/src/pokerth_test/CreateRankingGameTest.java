@@ -51,9 +51,7 @@ public class CreateRankingGameTest extends TestBase {
 
 		createRankingGame("");
 		PokerTHMessage msg;
-		do {
-			msg = receiveMessage();
-		} while (msg.isPlayerListMessageSelected() || msg.isGameListMessageSelected());
+		msg = receiveMessage();
 
 		if (msg.isJoinGameReplyMessageSelected())
 		{
@@ -74,20 +72,19 @@ public class CreateRankingGameTest extends TestBase {
 
 		createRankingGame("");
 		PokerTHMessage msg;
-		do {
-			msg = receiveMessage();
-		} while (msg.isPlayerListMessageSelected() || msg.isGameListMessageSelected());
+		msg = receiveMessage();
 
-		if (msg.isJoinGameReplyMessageSelected())
+		if (msg.isGameListMessageSelected())
 		{
+			msg = receiveMessage();
 			if (msg.getJoinGameReplyMessage().getValue().getJoinGameResult().isJoinGameFailedSelected())
 			{
-				fail("Registered user could not create ranking game!");
+				fail("Registered user could not join ranking game!");
 			}
 		}
 		else {
 			failOnErrorMessage(msg);
-			fail("Invalid message.");
+			fail("Registered user could not create ranking game!");
 		}
 	}
 
@@ -97,9 +94,7 @@ public class CreateRankingGameTest extends TestBase {
 
 		createRankingGame(GamePassword);
 		PokerTHMessage msg;
-		do {
-			msg = receiveMessage();
-		} while (msg.isPlayerListMessageSelected() || msg.isGameListMessageSelected());
+		msg = receiveMessage();
 
 		if (msg.isJoinGameReplyMessageSelected())
 		{

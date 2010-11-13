@@ -54,6 +54,7 @@ public abstract class TestBase {
 
 	@Before
 	public void setUp() throws Exception {
+		Thread.sleep(2000);
 		InetAddress localaddr = InetAddress.getLocalHost();
 		sock = new Socket(localaddr, 7234);
 		encoder = CoderFactory.getInstance().newEncoder("BER");
@@ -118,6 +119,12 @@ public abstract class TestBase {
 			failOnErrorMessage(msg);
 			fail("Invalid message.");
 		}
+		// Waiting for player list update.
+		msg = receiveMessage();
+		if (!msg.isPlayerListMessageSelected()) {
+			failOnErrorMessage(msg);
+			fail("Invalid message.");
+		}
 	}
 
 	public void userInit() throws Exception {
@@ -177,6 +184,12 @@ public abstract class TestBase {
 			assertTrue(!initAck.getValue().isYourAvatarPresent());
 		}
 		else {
+			failOnErrorMessage(msg);
+			fail("Invalid message.");
+		}
+		// Waiting for player list update.
+		msg = receiveMessage();
+		if (!msg.isPlayerListMessageSelected()) {
 			failOnErrorMessage(msg);
 			fail("Invalid message.");
 		}

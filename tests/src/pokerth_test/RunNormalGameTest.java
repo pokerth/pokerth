@@ -10,9 +10,11 @@ import org.junit.Test;
 import pokerth_protocol.NetGameInfo;
 import pokerth_protocol.NonZeroId;
 import pokerth_protocol.PokerTHMessage;
+import pokerth_protocol.StartEventAckMessage;
 import pokerth_protocol.StartEventMessage;
 import pokerth_protocol.NetGameInfo.EndRaiseModeEnumType;
 import pokerth_protocol.NetGameInfo.NetGameTypeEnumType;
+import pokerth_protocol.StartEventAckMessage.StartEventAckMessageSequenceType;
 import pokerth_protocol.StartEventMessage.StartEventMessageSequenceType;
 
 
@@ -32,10 +34,16 @@ public class RunNormalGameTest extends TestBase {
 				""));
 
 		PokerTHMessage msg;
-		do {
-			msg = receiveMessage();
-		} while (msg.isPlayerListMessageSelected() || msg.isGameListMessageSelected());
 
+		// Game list update (new game)
+		msg = receiveMessage();
+		if (!msg.isGameListMessageSelected()) {
+			failOnErrorMessage(msg);
+			fail("Invalid message.");
+		}
+
+		// Join game ack.
+		msg = receiveMessage();
 		if (msg.isJoinGameReplyMessageSelected()) {
 			if (!msg.getJoinGameReplyMessage().getValue().getJoinGameResult().isJoinGameAckSelected()) {
 				fail("Could not create game!");
@@ -47,6 +55,13 @@ public class RunNormalGameTest extends TestBase {
 		}
 		long gameId = msg.getJoinGameReplyMessage().getValue().getGameId().getValue();
 
+		// Game list update (player joined).
+		msg = receiveMessage();
+		if (!msg.isGameListMessageSelected()) {
+			failOnErrorMessage(msg);
+			fail("Invalid message.");
+		}
+
 		StartEventMessageSequenceType gameStartType = new StartEventMessageSequenceType();
 		gameStartType.setGameId(new NonZeroId(gameId));
 		gameStartType.setFillWithComputerPlayers(true);
@@ -56,22 +71,47 @@ public class RunNormalGameTest extends TestBase {
 		msg.selectStartEventMessage(startMsg);
 		sendMessage(msg);
 
-		do {
+		// Now the computer players should join.
+		for (int i = 0; i < 9; i++) {
 			msg = receiveMessage();
-		} while (msg.isGameListMessageSelected());
+			if (!msg.isGamePlayerMessageSelected()) {
+				failOnErrorMessage(msg);
+				fail("Invalid message.");
+			}
+			msg = receiveMessage();
+			if (!msg.isGameListMessageSelected()) {
+				failOnErrorMessage(msg);
+				fail("Invalid message.");
+			}
+		}
 
-		if (msg.isGameStartMessageSelected()) {
+		// Server should confirm start event.
+		msg = receiveMessage();
+		if (!msg.isStartEventMessageSelected()) {
+			failOnErrorMessage(msg);
+			fail("Invalid message.");
+		}
+		// Acknowledge start event.
+		StartEventAckMessageSequenceType startType = new StartEventAckMessageSequenceType();
+		startType.setGameId(new NonZeroId(gameId));
+		StartEventAckMessage startAck = new StartEventAckMessage();
+		startAck.setValue(startType);
+		msg = new PokerTHMessage();
+		msg.selectStartEventAckMessage(startAck);
+		sendMessage(msg);
+
+		// Game list update (game now running).
+		msg = receiveMessage();
+		if (!msg.isGameListMessageSelected()) {
 			failOnErrorMessage(msg);
 			fail("Invalid message.");
 		}
 
-		do {
-			msg = receiveMessage();
-		} while (
-				msg.isGameListMessageSelected()
-				|| msg.isGamePlayerMessageSelected()
-				|| msg.isStartEventMessageSelected()
-				);
+		msg = receiveMessage();
+		if (!msg.isGameStartMessageSelected()) {
+			failOnErrorMessage(msg);
+			fail("Invalid message.");
+		}
 
 		do {
 			msg = receiveMessage();
@@ -87,6 +127,19 @@ public class RunNormalGameTest extends TestBase {
 				);
 		if (!msg.isEndOfGameMessageSelected()) {
 			fail("No end of game received.");
+		}
+		// Now the computer players should leave.
+		for (int i = 0; i < 9; i++) {
+			msg = receiveMessage();
+			if (!msg.isGamePlayerMessageSelected()) {
+				failOnErrorMessage(msg);
+				fail("Invalid message.");
+			}
+			msg = receiveMessage();
+			if (!msg.isGameListMessageSelected()) {
+				failOnErrorMessage(msg);
+				fail("Invalid message.");
+			}
 		}
 	}
 }
