@@ -841,6 +841,16 @@ void startWindowImpl::networkNotification(int notificationId)
     hideTimeoutDialog();
     switch (notificationId)
     {
+    case NTF_NET_JOIN_IP_BLOCKED:
+        { QMessageBox::warning(this, tr("Network Notification"),
+                               tr("You cannot join this game, because another player in that game has your network address."),
+                               QMessageBox::Close); }
+        break;
+    case NTF_NET_REMOVED_START_FAILED:
+        { QMessageBox::warning(this, tr("Network Notification"),
+                               tr("Your connection to the server is very slow, the game had to start without you."),
+                               QMessageBox::Close); }
+        break;
     case NTF_NET_REMOVED_KICKED:
         { QMessageBox::warning(this, tr("Network Notification"),
                                tr("You were kicked from the game."),
