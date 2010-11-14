@@ -89,7 +89,8 @@ static asn_INTEGER_enum_map_t asn_MAP_joinGameFailureReason_value2enum_2[] = {
 	{ 6,	10,	"notInvited" },
 	{ 7,	13,	"gameNameInUse" },
 	{ 8,	11,	"badGameName" },
-	{ 9,	15,	"invalidSettings" }
+	{ 9,	15,	"invalidSettings" },
+	{ 10,	16,	"ipAddressBlocked" }
 };
 static unsigned int asn_MAP_joinGameFailureReason_enum2value_2[] = {
 	7,	/* badGameName(8) */
@@ -99,13 +100,14 @@ static unsigned int asn_MAP_joinGameFailureReason_enum2value_2[] = {
 	0,	/* invalidGame(1) */
 	3,	/* invalidPassword(4) */
 	8,	/* invalidSettings(9) */
+	9,	/* ipAddressBlocked(10) */
 	4,	/* notAllowedAsGuest(5) */
 	5	/* notInvited(6) */
 };
 static asn_INTEGER_specifics_t asn_SPC_joinGameFailureReason_specs_2 = {
 	asn_MAP_joinGameFailureReason_value2enum_2,	/* "tag" => N; sorted by tag */
 	asn_MAP_joinGameFailureReason_enum2value_2,	/* N => "tag"; sorted by N */
-	9,	/* Number of elements in the maps */
+	10,	/* Number of elements in the maps */
 	0,	/* Enumeration is not extensible */
 	1,	/* Strict enumeration */
 	0,	/* Native long size */

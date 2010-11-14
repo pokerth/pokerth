@@ -203,11 +203,11 @@ static ber_tlv_tag_t asn_DEF_YourActionRejectedMessage_tags_1[] = {
 	(ASN_TAG_CLASS_UNIVERSAL | (16 << 2))
 };
 static asn_TYPE_tag2member_t asn_MAP_YourActionRejectedMessage_tag2el_1[] = {
-    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 0, 0, 1 }, /* gameId at 469 */
-    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 3, -1, 0 }, /* yourRelativeBet at 472 */
-    { (ASN_TAG_CLASS_UNIVERSAL | (10 << 2)), 1, 0, 2 }, /* gameState at 470 */
-    { (ASN_TAG_CLASS_UNIVERSAL | (10 << 2)), 2, -1, 1 }, /* yourAction at 471 */
-    { (ASN_TAG_CLASS_UNIVERSAL | (10 << 2)), 4, -2, 0 } /* rejectionReason at 474 */
+    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 0, 0, 1 }, /* gameId at 470 */
+    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 3, -1, 0 }, /* yourRelativeBet at 473 */
+    { (ASN_TAG_CLASS_UNIVERSAL | (10 << 2)), 1, 0, 2 }, /* gameState at 471 */
+    { (ASN_TAG_CLASS_UNIVERSAL | (10 << 2)), 2, -1, 1 }, /* yourAction at 472 */
+    { (ASN_TAG_CLASS_UNIVERSAL | (10 << 2)), 4, -2, 0 } /* rejectionReason at 475 */
 };
 static asn_SEQUENCE_specifics_t asn_SPC_YourActionRejectedMessage_specs_1 = {
 	sizeof(struct YourActionRejectedMessage),
