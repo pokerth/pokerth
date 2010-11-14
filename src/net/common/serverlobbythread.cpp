@@ -1404,7 +1404,7 @@ ServerLobbyThread::HandleNetPacketJoinGame(SessionWrapper session, const std::st
 			&& session.sessionData->GetClientAddr() != SERVER_ADDRESS_LOCALHOST_STR
 			&& game.IsClientAddressConnected(session.sessionData->GetClientAddr()))
 		{
-			SendJoinGameFailed(session.sessionData, joinGame.gameId, NTF_NET_JOIN_GAME_FULL);
+			SendJoinGameFailed(session.sessionData, joinGame.gameId, NTF_NET_JOIN_IP_BLOCKED);
 		}
 		else
 		{
@@ -2008,6 +2008,9 @@ ServerLobbyThread::SendJoinGameFailed(boost::shared_ptr<SessionData> s, unsigned
 			break;
 		case NTF_NET_JOIN_INVALID_SETTINGS :
 			joinFailed->joinGameFailureReason = joinGameFailureReason_invalidSettings;
+			break;
+		case NTF_NET_JOIN_IP_BLOCKED :
+			joinFailed->joinGameFailureReason = joinGameFailureReason_ipAddressBlocked;
 			break;
 		default :
 			joinFailed->joinGameFailureReason = joinGameFailureReason_invalidGame;

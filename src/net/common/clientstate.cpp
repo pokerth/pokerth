@@ -1408,6 +1408,9 @@ ClientStateWaitJoin::InternalHandlePacket(boost::shared_ptr<ClientThread> client
 				case joinGameFailureReason_invalidSettings :
 					failureCode = NTF_NET_JOIN_INVALID_SETTINGS;
 					break;
+				case joinGameFailureReason_ipAddressBlocked :
+					failureCode = NTF_NET_JOIN_IP_BLOCKED;
+					break;
 				default :
 					failureCode = NTF_NET_INTERNAL;
 					break;
