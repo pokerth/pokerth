@@ -555,6 +555,10 @@ ServerGameStateInit::InternalProcessPacket(boost::shared_ptr<ServerGame> server,
 		{
 			SendStartEvent(*server, netStartEvent->fillWithComputerPlayers);
 		}
+		else // kick players who try to start but are not allowed to
+		{
+			server->MoveSessionToLobby(session, NTF_NET_REMOVED_START_FAILED);
+		}
 	}
 	else if (packet->GetMsg()->present == PokerTHMessage_PR_invitePlayerToGameMessage)
 	{
