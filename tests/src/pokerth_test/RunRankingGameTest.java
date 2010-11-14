@@ -88,7 +88,7 @@ public class RunRankingGameTest extends TestBase {
 		long firstPlayerId = userInit();
 
 		Collection<Integer> l = new ArrayList<Integer>();
-		String gameName = GuestUser + " run ranking game";
+		String gameName = AuthUser + " run ranking game";
 		NetGameInfo gameInfo = createGameInfo(5, EndRaiseModeEnumType.EnumType.doubleBlinds, 0, 50, gameName, l, 10, 0, 11, 10000);
 		sendMessage(createGameRequestMsg(
 				gameInfo,
@@ -273,5 +273,10 @@ public class RunRankingGameTest extends TestBase {
 		ResultSet gamePlayerResult = dbStatement.executeQuery("SELECT COUNT(DISTINCT player_idplayer) FROM game_has_player WHERE game_idgame = " + idgame);
 		gamePlayerResult.first();
 		assertEquals(gamePlayerResult.getLong(1), 10);
+		// The one who always went all in should have won!
+		ResultSet winnerResult = dbStatement.executeQuery(
+				"SELECT place FROM game_has_player LEFT JOIN player_login on (game_has_player.player_idplayer = player_login.id) WHERE game_idgame = " + idgame + " AND username = '" + AuthUser + "'");
+		winnerResult.first();
+		assertEquals(winnerResult.getLong(1), 1);
 	}
 }
