@@ -17,24 +17,33 @@
 
 package pokerth_test;
 
-import java.net.InetAddress;
 import java.net.Socket;
 import java.sql.Connection;
 import java.sql.DriverManager;
-import static org.junit.Assert.fail;
+import java.sql.ResultSet;
+import java.sql.Statement;
+
+import static org.junit.Assert.*;
 
 import java.util.ArrayList;
 import java.util.Collection;
 
-import org.junit.Before;
 import org.junit.Test;
 
 import pokerth_protocol.*;
-import pokerth_protocol.MyActionRequestMessage.MyActionRequestMessageSequenceType;
 import pokerth_protocol.NetGameInfo.EndRaiseModeEnumType;
 import pokerth_protocol.NetGameInfo.NetGameTypeEnumType;
+
+import org.junit.Before;
+
+import java.io.File;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+
+import pokerth_protocol.MyActionRequestMessage.MyActionRequestMessageSequenceType;
 import pokerth_protocol.StartEventAckMessage.StartEventAckMessageSequenceType;
-import pokerth_protocol.StartEventMessage.StartEventMessageSequenceType;
 
 
 public class RunRankingGameTest extends TestBase {
@@ -43,19 +52,44 @@ public class RunRankingGameTest extends TestBase {
 
 	@Before
 	public void dbInit() throws Exception {
-		final String userName = "username";
-		final String password = "password";
-		final String url = "jdbc:mysql://localhost:3306/database";
+		String configFileName = System.getProperty("user.home") + "/.pokerth/config.xml";
+		File file = new File(configFileName);
+		DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+		DocumentBuilder db = dbf.newDocumentBuilder();
+		Document doc = db.parse(file);
+		doc.getDocumentElement().normalize();
+		Element configNode = (Element)doc.getElementsByTagName("Configuration").item(0);
+
+		Element dbAddressNode = (Element)configNode.getElementsByTagName("DBServerAddress").item(0);
+		String dbAddress = dbAddressNode.getAttribute("value");
+
+		Element dbUserNode = (Element)configNode.getElementsByTagName("DBServerUser").item(0);
+		String dbUser = dbUserNode.getAttribute("value");
+
+		Element dbPasswordNode = (Element)configNode.getElementsByTagName("DBServerPassword").item(0);
+		String dbPassword = dbPasswordNode.getAttribute("value");
+
+		Element dbNameNode = (Element)configNode.getElementsByTagName("DBServerDatabaseName").item(0);
+		String dbName = dbNameNode.getAttribute("value");
+
+		final String dbUrl = "jdbc:mysql://" + dbAddress + ":3306/" + dbName;
 		Class.forName("com.mysql.jdbc.Driver").newInstance ();
-		dbConn = DriverManager.getConnection(url, userName, password);
+		dbConn = DriverManager.getConnection(dbUrl, dbUser, dbPassword);
 	}
 
 	@Test
 	public void testRunRankingGame() throws Exception {
+
+		Statement dbStatement = dbConn.createStatement();
+		ResultSet countBeforeResult = dbStatement.executeQuery("SELECT COUNT(idgame) FROM game");
+		countBeforeResult.first();
+		long countBefore = countBeforeResult.getLong(1);
+
 		long firstPlayerId = userInit();
 
 		Collection<Integer> l = new ArrayList<Integer>();
-		NetGameInfo gameInfo = createGameInfo(5, EndRaiseModeEnumType.EnumType.doubleBlinds, 0, 50, GuestUser + " run ranking game", l, 10, 0, 11, 10000);
+		String gameName = GuestUser + " run ranking game";
+		NetGameInfo gameInfo = createGameInfo(5, EndRaiseModeEnumType.EnumType.doubleBlinds, 0, 50, gameName, l, 10, 0, 11, 10000);
 		sendMessage(createGameRequestMsg(
 				gameInfo,
 				NetGameTypeEnumType.EnumType.rankingGame,
@@ -212,5 +246,32 @@ public class RunRankingGameTest extends TestBase {
 				}
 			}
 		} while (!msg.isEndOfGameMessageSelected());
+
+		Thread.sleep(2000);
+
+		// Check database entry for the game.
+		ResultSet countAfterResult = dbStatement.executeQuery("SELECT COUNT(idgame) FROM game");
+		countAfterResult.first();
+		long countAfter = countAfterResult.getLong(1);
+		assertEquals(countBefore + 1, countAfter);
+
+		// Select the latest game.
+		ResultSet gameResult = dbStatement.executeQuery("SELECT idgame, name, start_time, end_time FROM game WHERE start_time = (SELECT MAX(start_time) from game)");
+		gameResult.first();
+		long idgame = gameResult.getLong(1);
+		String dbGameName = gameResult.getString(2);
+		assertEquals(gameName, dbGameName);
+		java.sql.Timestamp gameStart = gameResult.getTimestamp(3);
+		java.sql.Timestamp gameEnd = gameResult.getTimestamp(4);
+		assertTrue(gameEnd.after(gameStart));
+		// Do not consider daylight saving time, just calculate the raw difference.
+		long gameDurationMsec = gameEnd.getTime() - gameStart.getTime();
+		assertTrue(gameDurationMsec > 60 * 1000); // game duration should be larger than 1 minute.
+		assertTrue(gameDurationMsec < 60 * 60 * 1000); // game duration should be smaller than 1 hour.
+
+		// Check database entries for the players in the game.
+		ResultSet gamePlayerResult = dbStatement.executeQuery("SELECT COUNT(DISTINCT player_idplayer) FROM game_has_player WHERE game_idgame = " + idgame);
+		gamePlayerResult.first();
+		assertEquals(gamePlayerResult.getLong(1), 10);
 	}
 }

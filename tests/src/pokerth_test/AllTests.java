@@ -29,7 +29,8 @@ import org.junit.runners.Suite;
 	CreateGameTest.class,
 	CreateRankingGameTest.class,
 	StartNormalGameTest.class,
-	RunNormalGameTest.class
+	RunNormalGameTest.class,
+	RunRankingGameTest.class
 })
 public class AllTests {
 	public static void main(String[] args)

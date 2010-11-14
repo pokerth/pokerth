@@ -22,7 +22,6 @@ import static org.junit.Assert.*;
 import org.bn.*;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Test;
 
 import pokerth_protocol.*;
 import pokerth_protocol.AnnounceMessage.AnnounceMessageSequenceType.ServerTypeEnumType;
