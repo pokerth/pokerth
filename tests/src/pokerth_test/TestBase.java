@@ -50,13 +50,12 @@ public abstract class TestBase {
 
 	protected IEncoder<PokerTHMessage> encoder;
 	protected IDecoder decoder;
-	private Socket sock;
+	protected Socket sock;
 
 	@Before
 	public void setUp() throws Exception {
 		Thread.sleep(2000);
-		InetAddress localaddr = InetAddress.getLocalHost();
-		sock = new Socket(localaddr, 7234);
+		sock = new Socket("::1", 7234);
 		encoder = CoderFactory.getInstance().newEncoder("BER");
 		decoder = CoderFactory.getInstance().newDecoder("BER");
 	}
@@ -120,18 +119,19 @@ public abstract class TestBase {
 			fail("Invalid message.");
 		}
 		// Waiting for player list update.
-		msg = receiveMessage();
+		msg = receiveMessage(s);
 		if (!msg.isPlayerListMessageSelected()) {
 			failOnErrorMessage(msg);
 			fail("Invalid message.");
 		}
 	}
 
-	public void userInit() throws Exception {
-		userInit(sock);
+	public long userInit() throws Exception {
+		return userInit(sock, AuthUser, AuthPassword);
 	}
 
-	public void userInit(Socket s) throws Exception {
+	public long userInit(Socket s, String user, String password) throws Exception {
+		long playerId = 0;
 		PokerTHMessage msg = receiveMessage(s);
 		AnnounceMessage announce = msg.getAnnounceMessage();
 		assertTrue(announce.getValue().getServerType().getValue() == ServerTypeEnumType.EnumType.serverTypeInternetAuth);
@@ -143,7 +143,7 @@ public abstract class TestBase {
 		requestedVersion.setMajor(PROTOCOL_VERSION_MAJOR);
 		requestedVersion.setMinor(PROTOCOL_VERSION_MINOR);
 		AuthenticatedLogin authLogin = new AuthenticatedLogin();
-		authLogin.setClientUserData(scramAuth.executeStep1(AuthUser).getBytes());
+		authLogin.setClientUserData(scramAuth.executeStep1(user).getBytes());
 		LoginChoiceType loginType = new LoginChoiceType();
 		loginType.selectAuthenticatedLogin(authLogin);
 		InitMessageSequenceType msgType = new InitMessageSequenceType();
@@ -162,7 +162,7 @@ public abstract class TestBase {
 		{
 			String serverFirstMessage = new String(msg.getAuthMessage().getValue().getAuthServerChallenge().getServerChallenge());
 			AuthClientResponse authClient = new AuthClientResponse();
-			authClient.setClientResponse(scramAuth.executeStep2(AuthPassword, serverFirstMessage).getBytes());
+			authClient.setClientResponse(scramAuth.executeStep2(password, serverFirstMessage).getBytes());
 			AuthMessageChoiceType authChoice = new AuthMessageChoiceType();
 			authChoice.selectAuthClientResponse(authClient);
 			AuthMessage authResponse = new AuthMessage();
@@ -182,20 +182,24 @@ public abstract class TestBase {
 			InitAckMessage initAck = msg.getInitAckMessage();
 			assertTrue(initAck.getValue().getYourPlayerId().getValue() != 0L);
 			assertTrue(!initAck.getValue().isYourAvatarPresent());
+			playerId = initAck.getValue().getYourPlayerId().getValue();
 		}
 		else {
 			failOnErrorMessage(msg);
 			fail("Invalid message.");
 		}
 		// Waiting for player list update.
-		msg = receiveMessage();
+		do {
+			msg = receiveMessage(s);
+		} while (msg.isGameListMessageSelected() || msg.isGamePlayerMessageSelected());
 		if (!msg.isPlayerListMessageSelected()) {
 			failOnErrorMessage(msg);
 			fail("Invalid message.");
 		}
+		return playerId;
 	}
 
-	public PokerTHMessage createJoinGameRequestMsg(NetGameInfo gameInfo, NetGameTypeEnumType.EnumType type, int playerActionTimeout, int guiSpeed, String password) {
+	public PokerTHMessage createGameRequestMsg(NetGameInfo gameInfo, NetGameTypeEnumType.EnumType type, int playerActionTimeout, int guiSpeed, String password) {
 		NetGameTypeEnumType gameType = new NetGameTypeEnumType();
 		gameType.setValue(type);
 		gameInfo.setNetGameType(gameType);
@@ -210,6 +214,25 @@ public abstract class TestBase {
 		if (!password.isEmpty()) {
 			joinType.setPassword(password);
 		}
+		JoinGameRequestMessage joinRequest = new JoinGameRequestMessage();
+		joinRequest.setValue(joinType);
+
+		PokerTHMessage msg = new PokerTHMessage();
+		msg.selectJoinGameRequestMessage(joinRequest);
+		return msg;
+	}
+
+	public PokerTHMessage joinGameRequestMsg(long gameId, String password) {
+		JoinExistingGame joinExisting = new JoinExistingGame();
+		joinExisting.setGameId(new NonZeroId(gameId));
+		JoinGameActionChoiceType joinAction = new JoinGameActionChoiceType();
+		joinAction.selectJoinExistingGame(joinExisting);
+		JoinGameRequestMessageSequenceType joinType = new JoinGameRequestMessageSequenceType();
+		joinType.setJoinGameAction(joinAction);
+		if (!password.isEmpty()) {
+			joinType.setPassword(password);
+		}
+
 		JoinGameRequestMessage joinRequest = new JoinGameRequestMessage();
 		joinRequest.setValue(joinType);
 

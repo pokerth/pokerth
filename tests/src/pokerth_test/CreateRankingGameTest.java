@@ -37,7 +37,7 @@ public class CreateRankingGameTest extends TestBase {
 		counter++;
 		Collection<Integer> l = new ArrayList<Integer>();
 		NetGameInfo gameInfo = createGameInfo(8, EndRaiseModeEnumType.EnumType.doubleBlinds, 0, 50, GuestUser + " create ranking game " + counter, l, 10, 0, 11, 10000);
-		sendMessage(createJoinGameRequestMsg(
+		sendMessage(createGameRequestMsg(
 				gameInfo,
 				NetGameTypeEnumType.EnumType.rankingGame,
 				20,

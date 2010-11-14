@@ -39,7 +39,7 @@ public class CreateGameTest extends TestBase {
 		l.add(600);
 		l.add(1000);
 		NetGameInfo gameInfo = createGameInfo(8, EndRaiseModeEnumType.EnumType.raiseByEndValue, 1000, 100, GuestUser + " create test game", l, 10, 0, 7, 2000);
-		sendMessage(createJoinGameRequestMsg(
+		sendMessage(createGameRequestMsg(
 				gameInfo,
 				NetGameTypeEnumType.EnumType.normalGame,
 				20,
