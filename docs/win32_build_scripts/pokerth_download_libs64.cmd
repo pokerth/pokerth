@@ -71,14 +71,14 @@ cd /d %PKTH_BaseDir%
 if not exist %PKTH_BaseDir%\qt. (
 echo.
 echo Downloading Qt
-%PKTH_OldDir%\third_party_apps\wget http://get.qt.nokia.com/qt/source/qt-everywhere-opensource-src-4.7.0.zip
+%PKTH_OldDir%\third_party_apps\wget http://get.qt.nokia.com/qt/source/qt-everywhere-opensource-src-4.7.1.zip
 if not errorlevel 0 goto downloadFailed
 echo.
 echo Unpacking Qt
-%PKTH_OldDir%\third_party_apps\7za x -y qt-everywhere-opensource-src-4.7.0.zip
+%PKTH_OldDir%\third_party_apps\7za x -y qt-everywhere-opensource-src-4.7.1.zip
 REM Wait 5 seconds for the file cache, else ren might fail.
 @ping 127.0.0.1 -n 5 -w 1000 > nul
-ren qt-everywhere-opensource-src-4.7.0 qt
+ren qt-everywhere-opensource-src-4.7.1 qt
 )
 if not exist %PKTH_BaseDir%\qt goto qtFailure
 echo.
