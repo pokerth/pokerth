@@ -14,7 +14,7 @@ MOC_DIR = mocs
 OBJECTS_DIR = obj
 DEFINES += ENABLE_IPV6
 QT -= core gui
-QMAKE_CXXFLAGS += -std=c++0x
+QMAKE_CXXFLAGS += -std=gnu++0x
 #PRECOMPILED_HEADER = src/pch_lib.h
 
 INCLUDEPATH += . \
@@ -225,7 +225,6 @@ official_server{
 
 win32{
 	DEFINES += CURL_STATICLIB
-	DEFINES += WIN32
 	DEFINES += _WIN32_WINNT=0x0501
 	DEPENDPATH += src/net/win32/ src/core/win32
 	INCLUDEPATH += ../boost/ ../GnuTLS/include ../gsasl/include ../curl/include ../zlib ../openssl/include

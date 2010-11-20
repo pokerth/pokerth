@@ -14,7 +14,7 @@ OBJECTS_DIR = obj
 DEFINES += ENABLE_IPV6
 QT -= core \
 	gui
-QMAKE_CXXFLAGS += -std=c++0x
+QMAKE_CXXFLAGS += -std=gnu++0x
 # PRECOMPILED_HEADER = src/pch_lib.h
 
 INCLUDEPATH += . \
@@ -307,7 +307,6 @@ SOURCES += src/third_party/asn1/ChatCleanerMessage.c \
     src/third_party/asn1/ChatRequestTypePrivate.c
 win32 { 
 	DEFINES += CURL_STATICLIB
-	DEFINES += WIN32
 	DEFINES += _WIN32_WINNT=0x0501
 }
 mac { 

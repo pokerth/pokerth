@@ -4,7 +4,7 @@
 CODECFORSRC = UTF-8
 QT += network
 QT -= gui
-QMAKE_CXXFLAGS += -std=c++0x
+QMAKE_CXXFLAGS += -std=gnu++0x
 TARGET = chatcleaner
 CONFIG += console
 CONFIG -= app_bundle
@@ -48,7 +48,6 @@ LIBPATH += lib
 LIBS += -lpokerth_lib \
 	-lpokerth_protocol
 win32 {
-	DEFINES += WIN32
 	LIBPATH += ../boost/stage/lib
 	INCLUDEPATH += ../boost/
 	debug:LIBPATH += debug/lib

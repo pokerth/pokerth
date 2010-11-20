@@ -15,7 +15,7 @@ CONFIG += qt \
 	warn_on
 include(src/third_party/qtsingleapplication/qtsingleapplication.pri)
 QT += sql
-QMAKE_CXXFLAGS += -std=c++0x
+QMAKE_CXXFLAGS += -std=gnu++0x
 UI_DIR = uics
 MOC_DIR = mocs
 OBJECTS_DIR = obj
@@ -295,7 +295,6 @@ TRANSLATIONS = ts/pokerth_af.ts \
 	ts/pokerth_START_HERE.ts
 win32 { 
 	DEFINES += CURL_STATICLIB
-	DEFINES += WIN32
 	DEFINES += _WIN32_WINNT=0x0501
 	DEPENDPATH += src/net/win32/ \
 		src/core/win32
