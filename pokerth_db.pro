@@ -42,6 +42,7 @@ SOURCES += \
 
 win32{
 	DEFINES += CURL_STATICLIB
+	DEFINES += WIN32
 	DEFINES += _WIN32_WINNT=0x0501
 	DEPENDPATH += src/net/win32/ src/core/win32
 	INCLUDEPATH += ../boost/ ../GnuTLS/include ../curl/include ../zlib

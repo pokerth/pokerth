@@ -307,6 +307,7 @@ SOURCES += src/third_party/asn1/ChatCleanerMessage.c \
     src/third_party/asn1/ChatRequestTypePrivate.c
 win32 { 
 	DEFINES += CURL_STATICLIB
+	DEFINES += WIN32
 	DEFINES += _WIN32_WINNT=0x0501
 }
 mac { 
