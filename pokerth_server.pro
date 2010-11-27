@@ -112,6 +112,12 @@ SOURCES += \
 		src/net/common/net_helper_server.cpp \
 		src/core/common/loghelper_server.cpp
 
+LIBS += -lpokerth_lib \
+	-lpokerth_db \
+	-lpokerth_protocol \
+	-lcurl \
+	-lsqlite3
+
 win32 {
 	DEFINES += CURL_STATICLIB
 	DEFINES += _WIN32_WINNT=0x0501
@@ -121,12 +127,6 @@ win32 {
 	SOURCES += src/core/win32/convhelper.cpp
 
 	LIBPATH += ../boost/stage/lib ../GnuTLS/lib ../openssl/lib ../gsasl/lib ../curl/lib ../mysql/lib ../zlib
-
-	LIBS += -lpokerth_lib \
-		-lpokerth_db \
-		-lpokerth_protocol \
-		-lcurl \
-		-lz
 
 	debug:LIBPATH += debug/lib
 	release:LIBPATH += release/lib
@@ -270,11 +270,8 @@ unix : !mac {
 	BSD = $$find(UNAME, "BSD")
 	kFreeBSD = $$find(UNAME, "kFreeBSD")
 
-	LIBS += -lpokerth_lib \
-			-lpokerth_db \
-			-lpokerth_protocol
 	LIBS += $$BOOST_LIBS
-    LIBS += -lcurl -lgsasl -lsqlite3
+	LIBS += -lgsasl
 	!isEmpty( BSD ): isEmpty( kFreeBSD ){
 		LIBS += -lcrypto -liconv
 	} else {
@@ -304,7 +301,6 @@ mac {
 	#       QMAKE_MAC_SDK=/Developer/SDKs/MacOSX10.4u.sdk/
 
 	LIBPATH += lib
-	LIBS += -lpokerth_lib -lpokerth_db -lpokerth_protocol
 	# standard path for darwinports
 	# make sure you have a universal version of boost
 	LIBS += /usr/local/lib/libboost_thread.a
@@ -316,7 +312,7 @@ mac {
 	LIBS += /usr/local/lib/libgsasl.a
 
 	# libraries installed on every mac
-	LIBS += -lcrypto -lssl -lz -lcurl -liconv
+	LIBS += -lcrypto -lssl -lz -liconv
 	# set the application icon
 	RC_FILE = pokerth.icns
 	LIBPATH += /Developer/SDKs/MacOSX10.5.sdk/usr/lib

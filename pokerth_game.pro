@@ -293,6 +293,13 @@ TRANSLATIONS = ts/pokerth_af.ts \
 	ts/pokerth_ta.ts \
 	ts/pokerth_tr.ts \
 	ts/pokerth_START_HERE.ts
+
+LIBS += -lpokerth_lib \
+	-lpokerth_db \
+	-lpokerth_protocol \
+	-lcurl \
+	-lsqlite3
+
 win32 { 
 	DEFINES += CURL_STATICLIB
 	DEFINES += _WIN32_WINNT=0x0501
@@ -315,13 +322,9 @@ win32 {
 		../SDL_mixer/lib \
 		../mysql/lib \
 		../zlib
-	LIBS += -lpokerth_lib \
-		-lpokerth_db \
-		-lpokerth_protocol \
-		-lSDL_mixer \
+	LIBS += -lSDL_mixer \
 		-lSDL \
 		-lSDLmain \
-		-lcurl \
 		-lz
 	debug:LIBPATH += debug/lib
 	release:LIBPATH += release/lib
@@ -442,14 +445,9 @@ unix:!mac {
 	UNAME = $$system(uname -s)
 	BSD = $$find(UNAME, "BSD")
 	kFreeBSD = $$find(UNAME, "kFreeBSD")
-	LIBS += -lpokerth_lib \
-		-lpokerth_db \
-		-lpokerth_protocol
 	LIBS += $$BOOST_LIBS
 	LIBS += -lSDL_mixer \
-		-lcurl \
-        -lgsasl \
-        -lsqlite3
+		-lgsasl
 	!isEmpty( BSD ):isEmpty( kFreeBSD ):LIBS += -lcrypto
 	else:LIBS += -lgnutls-openssl \
 		-lgcrypt
@@ -483,9 +481,6 @@ mac {
 	# on Intel-Mac you have to comment this line out or build will fail.
 	# QMAKE_MAC_SDK=/Developer/SDKs/MacOSX10.4u.sdk/
 	LIBPATH += lib
-	LIBS += -lpokerth_lib \
-		-lpokerth_db \
-		-lpokerth_protocol
 
 	# QT dynamic linked framework (see also mac_post_make.sh)
 	LIBS += -framework \
@@ -512,7 +507,6 @@ mac {
 	LIBS += -lcrypto \
 		-lssl \
 		-lz \
-		-lcurl \
 		-framework \
 		Carbon
 
