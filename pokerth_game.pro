@@ -448,7 +448,8 @@ unix:!mac {
 	LIBS += $$BOOST_LIBS
 	LIBS += -lSDL_mixer \
 		-lcurl \
-		-lgsasl
+        -lgsasl \
+        -lsqlite3
 	!isEmpty( BSD ):isEmpty( kFreeBSD ):LIBS += -lcrypto
 	else:LIBS += -lgnutls-openssl \
 		-lgcrypt
