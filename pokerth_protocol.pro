@@ -14,7 +14,6 @@ OBJECTS_DIR = obj
 DEFINES += ENABLE_IPV6
 QT -= core \
 	gui
-QMAKE_CXXFLAGS += -std=gnu++0x
 # PRECOMPILED_HEADER = src/pch_lib.h
 
 INCLUDEPATH += . \

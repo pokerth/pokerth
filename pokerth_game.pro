@@ -476,6 +476,7 @@ mac {
 	CONFIG += x86
 	CONFIG -= ppc
 	QMAKE_MACOSX_DEPLOYMENT_TARGET = 10.5
+	QMAKE_CXXFLAGS -= -std=gnu++0x
 
 	# for universal-compilation on PPC-Mac uncomment the following line
 	# on Intel-Mac you have to comment this line out or build will fail.
