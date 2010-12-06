@@ -20,9 +20,12 @@
 #ifndef LOG_H
 #define LOG_H
 
-#include <string>
+#include <fstream>
+#include <iostream>
+#include <sstream>
 
 #include "configfile.h"
+#include <sqlite3.h>
 
 #include <QtCore>
 #include <QtSql>
@@ -85,8 +88,8 @@ private:
 	ConfigFile *myConfig;
 	QTextStream stream;
 	QDir *myLogDir;
-        QFile *myHtmlLogFile;
-        QSqlDatabase *mySqliteLogDb;
+    QFile *myHtmlLogFile;
+    sqlite3 *mySqliteLogDb;
 	QString logFileStreamString;
 	QString myAppDataPath;
 
