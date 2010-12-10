@@ -1034,11 +1034,12 @@ void gameLobbyDialogImpl::refreshConnectedPlayerAvatars() {
             QFile myAvatarFile(myAvatarString);
             if(myAvatarFile.exists()) {
 
+                QPixmap tempAvatar(myAvatarString);
                 QPixmap myAvatarPixmap(25,26);
                 myAvatarPixmap.fill(Qt::transparent);
-                QPixmap tempPixmap(myAvatarString);
                 QPainter p(&myAvatarPixmap);
-                p.drawPixmap (0,0,25,25,tempPixmap);
+                p.drawPixmap (0,0,25,25, tempAvatar.scaled(25,25,Qt::KeepAspectRatio,Qt::SmoothTransformation));
+
                 (*it)->setIcon(0, QIcon(myAvatarPixmap));
             }
         }
