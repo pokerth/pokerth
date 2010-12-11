@@ -862,7 +862,7 @@ void gameTableImpl::setPlayerAvatar(int myID, QString myAvatar) {
         boost::shared_ptr<PlayerInterface> tmpPlayer = myStartWindow->getSession()->getCurrentGame()->getPlayerByUniqueId(myID);
         if (tmpPlayer.get()) {
 
-	    QFile myAvatarFile(myAvatar);
+            QFile myAvatarFile(myAvatar);
             if(myAvatarFile.exists()) {
                 playerAvatarLabelArray[tmpPlayer->getMyID()]->setPixmap(myAvatar);
                 tmpPlayer->setMyAvatar(myAvatar.toUtf8().constData());
@@ -3053,6 +3053,7 @@ void gameTableImpl::leaveCurrentNetworkGame() {
     if (myStartWindow->getSession()->isNetworkClientRunning()) {
 
         myMessageDialogImpl dialog(myConfig, this);
+        dialog.setParent(this);
 
         if(!dialog.checkIfMesssageWillBeDisplayed(1)) {
 

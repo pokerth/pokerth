@@ -39,9 +39,11 @@ public slots:
 	void setVoteRunning ( bool theValue ) {	voteRunning = theValue;	}
         void setPixmap ( const QPixmap &, const bool = FALSE);
 	void setPixmapAndCountry ( const QPixmap &, QString country, int seatPlace, const bool = FALSE);
+        void setPixmapPath ( const QString theValue) { myPath = theValue; }
         void paintEvent(QPaintEvent*);
         void putPlayerOnIgnoreList();
         bool playerIsOnIgnoreList(QString playerName);
+        void reportBadAvatar();
         
 private: 
 
@@ -49,8 +51,10 @@ private:
 	QMenu *myContextMenu;
 	QAction *action_VoteForKick;
         QAction *action_IgnorePlayer;
+        QAction *action_ReportBadAvatar;
 
         QPixmap myPixmap;
+        QString myPath;
 
 	int myId;
 	bool myContextMenuEnabled;	

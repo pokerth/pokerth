@@ -29,9 +29,13 @@ MyAvatarLabel::MyAvatarLabel(QGroupBox* parent)
     myContextMenu->addAction(action_VoteForKick);
     action_IgnorePlayer = new QAction(QIcon(":/gfx/im-ban-user.png"), tr("Ignore Player"), myContextMenu);
     myContextMenu->addAction(action_IgnorePlayer);
+    action_ReportBadAvatar = new QAction(QIcon(":/gfx/emblem-important.png"), tr("Report bad Avatar"), myContextMenu);
+    myContextMenu->addAction(action_ReportBadAvatar);
+
 
     connect( action_VoteForKick, SIGNAL ( triggered() ), this, SLOT ( sendTriggerVoteOnKickSignal() ) );
     connect( action_IgnorePlayer, SIGNAL ( triggered() ), this, SLOT ( putPlayerOnIgnoreList() ) );
+    connect( action_ReportBadAvatar, SIGNAL ( triggered() ), this, SLOT ( reportBadAvatar() ) );
 }
 
 
@@ -119,13 +123,13 @@ void MyAvatarLabel::setPixmapAndCountry ( const QPixmap &pix,QString countryStri
     int showCountryFlags = myW->getMyConfig()->readConfigInt("ShowCountryFlagInAvatar");
     if(showCountryFlags && !countryString.isEmpty())
     {
-    if(seatPlace<=2||seatPlace>=8)
+        if(seatPlace<=2||seatPlace>=8)
 	{
-	painter.drawPixmap(resultAvatar.width()-(QPixmap(countryString)).width(),resultAvatar.height()-(QPixmap(countryString)).height(),QPixmap(countryString));
+            painter.drawPixmap(resultAvatar.width()-(QPixmap(countryString)).width(),resultAvatar.height()-(QPixmap(countryString)).height(),QPixmap(countryString));
     	}
 	else
 	{
-	painter.drawPixmap(resultAvatar.width()-(QPixmap(countryString)).width(),0,QPixmap(countryString));
+            painter.drawPixmap(resultAvatar.width()-(QPixmap(countryString)).width(),0,QPixmap(countryString));
 	}
     }
     painter.end();
@@ -181,5 +185,31 @@ void MyAvatarLabel::putPlayerOnIgnoreList() {
 
             myW->getMyChat()->refreshIgnoreList();
         }
+    }
+}
+
+void MyAvatarLabel::reportBadAvatar() {
+
+    Game *currentGame = myW->getSession()->getCurrentGame();
+    int j=0;
+    PlayerListConstIterator it_c;
+    for (it_c=currentGame->getSeatsList()->begin(); it_c!=currentGame->getSeatsList()->end(); it_c++) {
+
+        if(myId == j) {
+
+            QString avatar = QString::fromUtf8((*it_c)->getMyAvatar().c_str());
+            if(!avatar.isEmpty()) {
+
+                QString nick = QString::fromUtf8((*it_c)->getMyName().c_str());
+                int ret = QMessageBox::question(this, tr("PokerTH - Question"),
+                                                tr("Are you sure you want to report the avatar of \"%1\" as inappropriate?").arg(nick),
+                                                QMessageBox::Yes | QMessageBox::No);
+
+                QFileInfo fi(avatar);
+//              tue_irgendwas_in_session(myId, fi.baseName());
+            }
+            break;
+        }
+        j++;
     }
 }
