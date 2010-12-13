@@ -30,12 +30,12 @@
 using namespace std;
 
 
-GuiWrapper::GuiWrapper(ConfigFile *c, startWindowImpl *s) : myLog(NULL), myW(NULL), myConfig(c), myStartWindow(s)
+GuiWrapper::GuiWrapper(ConfigFile *c, startWindowImpl *s) : myGuiLog(NULL), myW(NULL), myConfig(c), myStartWindow(s)
 {
 
 
     myW = new gameTableImpl(myConfig);
-    myLog = new Log(myW, myConfig);
+    myGuiLog = new guiLog(myW, myConfig);
 
     myW->setStartWindow(myStartWindow);
 }
@@ -43,7 +43,7 @@ GuiWrapper::GuiWrapper(ConfigFile *c, startWindowImpl *s) : myLog(NULL), myW(NUL
 
 GuiWrapper::~GuiWrapper()
 {
-    delete myLog;
+    delete myGuiLog;
 
 }
 
@@ -113,16 +113,16 @@ void GuiWrapper::changeVoteOnKickButtonsState(bool showHide) { myW->signalChange
 void GuiWrapper::refreshVotesMonitor(int currentVotes, int numVotesNeededToKick) { myW->refreshVotesMonitor(currentVotes, numVotesNeededToKick); }
 void GuiWrapper::endVoteOnKick() { myW->signalEndVoteOnKick(); }
 
-void GuiWrapper::logPlayerActionMsg(string playerName, int playerID, int action, int setValue) { myLog->signalLogPlayerActionMsg(QString::fromUtf8(playerName.c_str()), playerID, action, setValue); }
-void GuiWrapper::logNewGameHandMsg(int gameID, int handID) { myLog->signalLogNewGameHandMsg(gameID, handID); }
-void GuiWrapper::logNewBlindsSetsMsg(int sbSet, int bbSet, std::string sbName, std::string bbName) { myLog->signalLogNewBlindsSetsMsg(sbSet, bbSet, QString::fromUtf8(sbName.c_str()), QString::fromUtf8(bbName.c_str())); }
-void GuiWrapper::logPlayerWinsMsg(std::string playerName, int pot, bool main) { myLog->signalLogPlayerWinsMsg(QString::fromUtf8(playerName.c_str()), pot, main); }
-void GuiWrapper::logPlayerSitsOut(std::string playerName) { myLog->signalLogPlayerSitsOut(QString::fromUtf8(playerName.c_str())); }
-void GuiWrapper::logDealBoardCardsMsg(int roundID, int card1, int card2, int card3, int card4, int card5) { myLog->signalLogDealBoardCardsMsg(roundID, card1, card2, card3, card4, card5); }
-void GuiWrapper::logFlipHoleCardsMsg(string playerName, int playerID, int card1, int card2, int cardsValueInt, string showHas) { myLog->signalLogFlipHoleCardsMsg(QString::fromUtf8(playerName.c_str()), playerID, card1, card2, cardsValueInt, QString::fromUtf8(showHas.c_str())); }
-void GuiWrapper::logPlayerWinGame(std::string playerName, int gameID) { myLog->signalLogPlayerWinGame(QString::fromUtf8(playerName.c_str()), gameID); }
-void GuiWrapper::flushLogAtGame(int gameID) { myLog->signalFlushLogAtGame(gameID); }
-void GuiWrapper::flushLogAtHand() { myLog->signalFlushLogAtHand(); }
+void GuiWrapper::logPlayerActionMsg(string playerName, int playerID, int action, int setValue) { myGuiLog->signalLogPlayerActionMsg(QString::fromUtf8(playerName.c_str()), playerID, action, setValue); }
+void GuiWrapper::logNewGameHandMsg(int gameID, int handID) { myGuiLog->signalLogNewGameHandMsg(gameID, handID); }
+void GuiWrapper::logNewBlindsSetsMsg(int sbSet, int bbSet, std::string sbName, std::string bbName) { myGuiLog->signalLogNewBlindsSetsMsg(sbSet, bbSet, QString::fromUtf8(sbName.c_str()), QString::fromUtf8(bbName.c_str())); }
+void GuiWrapper::logPlayerWinsMsg(std::string playerName, int pot, bool main) { myGuiLog->signalLogPlayerWinsMsg(QString::fromUtf8(playerName.c_str()), pot, main); }
+void GuiWrapper::logPlayerSitsOut(std::string playerName) { myGuiLog->signalLogPlayerSitsOut(QString::fromUtf8(playerName.c_str())); }
+void GuiWrapper::logDealBoardCardsMsg(int roundID, int card1, int card2, int card3, int card4, int card5) { myGuiLog->signalLogDealBoardCardsMsg(roundID, card1, card2, card3, card4, card5); }
+void GuiWrapper::logFlipHoleCardsMsg(string playerName, int playerID, int card1, int card2, int cardsValueInt, string showHas) { myGuiLog->signalLogFlipHoleCardsMsg(QString::fromUtf8(playerName.c_str()), playerID, card1, card2, cardsValueInt, QString::fromUtf8(showHas.c_str())); }
+void GuiWrapper::logPlayerWinGame(std::string playerName, int gameID) { myGuiLog->signalLogPlayerWinGame(QString::fromUtf8(playerName.c_str()), gameID); }
+void GuiWrapper::flushLogAtGame(int gameID) { myGuiLog->signalFlushLogAtGame(gameID); }
+void GuiWrapper::flushLogAtHand() { myGuiLog->signalFlushLogAtHand(); }
 
 
 void GuiWrapper::SignalNetClientConnect(int actionID) { myStartWindow->signalNetClientConnect(actionID); }
@@ -149,13 +149,13 @@ void GuiWrapper::SignalNetClientPlayerLeft(unsigned playerId, const string &play
     myStartWindow->signalNetClientPlayerLeft(playerId, tmpName);
     myW->signalNetClientPlayerLeft(playerId);
     if (!playerName.empty() && playerName[0] != '#')
-        myLog->signalLogPlayerLeftMsg(tmpName, removeReason == NTF_NET_REMOVED_KICKED);
+        myGuiLog->signalLogPlayerLeftMsg(tmpName, removeReason == NTF_NET_REMOVED_KICKED);
 }
 void GuiWrapper::SignalNetClientNewGameAdmin(unsigned playerId, const string &playerName) { 
 
     myStartWindow->signalNetClientNewGameAdmin(playerId, QString::fromUtf8(playerName.c_str()));
     if (!playerName.empty() && playerName[0] != '#')
-        myLog->signalLogNewGameAdminMsg(QString::fromUtf8(playerName.c_str()));
+        myGuiLog->signalLogNewGameAdminMsg(QString::fromUtf8(playerName.c_str()));
 
 }
 

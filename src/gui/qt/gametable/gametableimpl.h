@@ -29,7 +29,7 @@
 #include <QtGui>
 #include <QtCore>
 
-class Log;
+class guiLog;
 class ChatTools;
 class ConfigFile;
 class Session;
@@ -67,7 +67,7 @@ public:
     bool getGuestMode() const { return guestMode; }
 
     void setStartWindow(startWindowImpl* s) { myStartWindow = s; }
-    void setLog(Log* l) { myLog = l; }
+    void setGuiLog(guiLog* l) { myGuiLog = l; }
 
     void setSpeeds();
 
@@ -314,7 +314,7 @@ public slots:
 private: 
 
     boost::shared_ptr<GuiInterface> myServerGuiInterface;
-    Log *myLog;
+    guiLog *myGuiLog;
     ChatTools *myChat;
     ConfigFile *myConfig;
 

@@ -44,7 +44,7 @@ INCLUDEPATH += . \
 	src/gui/qt/qttools/qthelper \
 	src/gui/qt/gametable \
 	src/gui/qt/gametable/startsplash \
-	src/gui/qt/gametable/log \
+    src/gui/qt/gametable/log \
 	src/gui/qt/aboutpokerth \
 	src/gui/qt/createnetworkgamedialog \
 	src/gui/qt/createinternetgamedialog \
@@ -80,7 +80,7 @@ DEPENDPATH += . \
 	src/gui/qt/chattools \
 	src/gui/qt/gametable \
 	src/gui/qt/gametable/startsplash \
-	src/gui/qt/gametable/log \
+    src/gui/qt/gametable/log \
 	src/gui/qt/aboutpokerth \
 	src/gui/qt/connecttoserverdialog \
 	src/gui/qt/createinternetgamedialog \
@@ -161,7 +161,7 @@ HEADERS += src/game.h \
 	src/gui/qt/gametable/myrighttabwidget.h \
 	src/gui/qt/gametable/mylefttabwidget.h \
 	src/gui/qt/gametable/startsplash/startsplash.h \
-	src/gui/qt/gametable/log/log.h \
+    src/gui/qt/gametable/log/guilog.h \
 	src/gui/qt/guiwrapper.h \
 	src/gui/qt/aboutpokerth/aboutpokerthimpl.h \
 	src/gui/qt/connecttoserverdialog/connecttoserverdialogimpl.h \
@@ -233,7 +233,7 @@ SOURCES += src/pokerth.cpp \
 	src/gui/qt/gametable/myrighttabwidget.cpp \
 	src/gui/qt/gametable/mylefttabwidget.cpp \
 	src/gui/qt/gametable/startsplash/startsplash.cpp \
-	src/gui/qt/gametable/log/log.cpp \
+    src/gui/qt/gametable/log/guilog.cpp \
 	src/gui/qt/aboutpokerth/aboutpokerthimpl.cpp \
 	src/gui/qt/connecttoserverdialog/connecttoserverdialogimpl.cpp \
 	src/gui/qt/createnetworkgamedialog/createnetworkgamedialogimpl.cpp \
