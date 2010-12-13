@@ -1470,7 +1470,10 @@ void gameLobbyDialogImpl::showNickListContextMenu(QPoint p)
         }
         nickListPlayerInGameInfo->setText(playerInGameInfoString);
 
-        nickListContextMenu->popup(treeView_NickList->mapToGlobal(p));
+        //popup a little more to the right to avaoid double click action
+        QPoint tempPoint = p;
+        tempPoint.setX(p.x()+5);
+        nickListContextMenu->popup(treeView_NickList->mapToGlobal(tempPoint));
     }
 }
 
