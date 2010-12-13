@@ -505,6 +505,7 @@ void startWindowImpl::showClientDialog()
     else if (mySession->getGameType() == Session::GAME_TYPE_INTERNET)
     {
         if (myGuiInterface->getMyW()->isVisible())
+            myGuiInterface->getMyW()->closeMessageBoxes();
             myGuiInterface->getMyW()->hide();
         if (!this->isVisible())
             this->show();

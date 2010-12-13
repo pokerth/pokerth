@@ -393,6 +393,12 @@ gameTableImpl::gameTableImpl(ConfigFile *c, QMainWindow *parent)
     //set WindowTitle dynamically
     this->setWindowTitle(QString(tr("PokerTH %1 - The Open-Source Texas Holdem Engine").arg(POKERTH_BETA_RELEASE_STRING)));
 
+    // create universal messageDialgo
+    myUniversalMessageDialog = new myMessageDialogImpl(myConfig, this);
+    myUniversalMessageDialog->setParent(this);
+
+
+
     //Connects
     connect(dealFlopCards0Timer, SIGNAL(timeout()), this, SLOT( dealFlopCards1() ));
     connect(dealFlopCards1Timer, SIGNAL(timeout()), this, SLOT( dealFlopCards2() ));
@@ -2975,9 +2981,9 @@ void gameTableImpl::closeGameTable() {
     else {
 
         bool close = true;
-        myMessageDialogImpl dialog(myConfig, this);
-        if(dialog.checkIfMesssageWillBeDisplayed(6) && (myStartWindow->getSession()->getGameType() == Session::GAME_TYPE_INTERNET || myStartWindow->getSession()->getGameType() == Session::GAME_TYPE_NETWORK ) && this->isVisible()) {
-            if (dialog.exec(6, tr("Really want to exit?"), tr("PokerTH - Close Table?"), QPixmap(":/gfx/logoChip3D.png"), QDialogButtonBox::Yes|QDialogButtonBox::No, true) == QDialog::Rejected) {
+
+        if(myUniversalMessageDialog->checkIfMesssageWillBeDisplayed(6) && (myStartWindow->getSession()->getGameType() == Session::GAME_TYPE_INTERNET || myStartWindow->getSession()->getGameType() == Session::GAME_TYPE_NETWORK ) && this->isVisible()) {
+            if (myUniversalMessageDialog->exec(6, tr("Really want to exit?"), tr("PokerTH - Close Table?"), QPixmap(":/gfx/logoChip3D.png"), QDialogButtonBox::Yes|QDialogButtonBox::No, true) == QDialog::Rejected) {
                 close = false;
             }
         }
@@ -3052,16 +3058,13 @@ void gameTableImpl::leaveCurrentNetworkGame() {
 
     if (myStartWindow->getSession()->isNetworkClientRunning()) {
 
-        myMessageDialogImpl dialog(myConfig, this);
-        dialog.setParent(this);
-
-        if(!dialog.checkIfMesssageWillBeDisplayed(1)) {
+        if(!myUniversalMessageDialog->checkIfMesssageWillBeDisplayed(1)) {
 
             assert(myStartWindow->getSession());
             myStartWindow->getSession()->sendLeaveCurrentGame();
         }
         else {
-            if (dialog.exec(1, tr("Attention! Do you really want to leave the current game\nand go back to the lobby?"), tr("PokerTH - Internet Game Message"), QPixmap(":/gfx/logoChip3D.png"), QDialogButtonBox::Yes|QDialogButtonBox::No, true) == QDialog::Accepted) {
+            if (myUniversalMessageDialog->exec(1, tr("Attention! Do you really want to leave the current game\nand go back to the lobby?"), tr("PokerTH - Internet Game Message"), QPixmap(":/gfx/logoChip3D.png"), QDialogButtonBox::Yes|QDialogButtonBox::No, true) == QDialog::Accepted) {
                 assert(myStartWindow->getSession());
                 myStartWindow->getSession()->sendLeaveCurrentGame();
             }
@@ -3419,4 +3422,9 @@ void gameTableImpl::showWarningAutoFoldInRankingGame(unsigned remainingAutoFolds
                             "If you are temporarily away, you can use the \"away\" tools in the tool box on the right.").arg(remainingAutoFolds),
                          QMessageBox::Ok);
     tabWidget_Right->setCurrentIndex(1);
+}
+
+void gameTableImpl::closeMessageBoxes() {
+
+    myUniversalMessageDialog->close();
 }

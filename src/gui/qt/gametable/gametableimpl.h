@@ -44,6 +44,7 @@ class MyTimeoutLabel;
 
 class settingsDialogImpl;
 class startWindowImpl;
+class myMessageDialogImpl;
 
 class GameTableStyleReader;
 class CardDeckStyleReader;
@@ -308,6 +309,7 @@ public slots:
     void sendShowMyCardsSignal();
 
     void showWarningAutoFoldInRankingGame(unsigned);
+    void closeMessageBoxes();
 
 private: 
 
@@ -374,6 +376,7 @@ private:
 
     // 	Dialogs
     startWindowImpl *myStartWindow;
+    myMessageDialogImpl *myUniversalMessageDialog;
 
     //Sound
     SDLPlayer *mySDLPlayer;
