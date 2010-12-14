@@ -20,7 +20,7 @@
 
 #include "guiwrapper.h"
 #include "session.h"
-#include "log.h"
+#include "guilog.h"
 #include "gametableimpl.h"
 #include "startwindowimpl.h"
 #include "configfile.h"

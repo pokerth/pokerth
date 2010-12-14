@@ -26,7 +26,7 @@
 #include <net/socket_msg.h>
 #include "tools.h"
 
-#include "log.h"
+#include "guilog.h"
 #include "session.h"
 #include "game.h"
 #include "guiwrapper.h"

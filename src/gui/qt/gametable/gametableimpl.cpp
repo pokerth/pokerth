@@ -31,7 +31,7 @@
 #include "mychancelabel.h"
 #include "mytimeoutlabel.h"
 #include "mymenubar.h"
-#include "log.h"
+#include "guilog.h"
 #include "chattools.h"
 
 #include "playerinterface.h"

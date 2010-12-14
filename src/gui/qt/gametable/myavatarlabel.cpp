@@ -204,9 +204,10 @@ void MyAvatarLabel::reportBadAvatar() {
                 int ret = QMessageBox::question(this, tr("PokerTH - Question"),
                                                 tr("Are you sure you want to report the avatar of \"%1\" as inappropriate?").arg(nick),
                                                 QMessageBox::Yes | QMessageBox::No);
-
-                QFileInfo fi(avatar);
-//              tue_irgendwas_in_session(myId, fi.baseName());
+                if(ret) {
+                    QFileInfo fi(avatar);
+    //              tue_irgendwas_in_session(myId, fi.baseName());
+                }
             }
             break;
         }
