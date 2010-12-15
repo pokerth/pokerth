@@ -199,7 +199,8 @@ HEADERS += src/game.h \
 	src/gui/qt/internetgamelogindialog/internetgamelogindialogimpl.h \
 	src/engine/local_engine/replay.h \
 	src/gui/qt/gamelobbydialog/mynicklistsortfilterproxymodel.h \
-	src/gui/qt/gametable/myslider.h
+	src/gui/qt/gametable/myslider.h \
+    src/engine/local_engine/log.h
 FORMS += src/gui/qt/gametable.ui \
 	src/gui/qt/aboutpokerth.ui \
 	src/gui/qt/connecttoserverdialog.ui \
@@ -267,7 +268,8 @@ SOURCES += src/pokerth.cpp \
 	src/gui/qt/gamelobbydialog/mygamelistsortfilterproxymodel.cpp \
 	src/gui/qt/internetgamelogindialog/internetgamelogindialogimpl.cpp \
 	src/engine/local_engine/replay.cpp \
-	src/gui/qt/gamelobbydialog/mynicklistsortfilterproxymodel.cpp
+    src/gui/qt/gamelobbydialog/mynicklistsortfilterproxymodel.cpp \
+    src/engine/local_engine/log.cpp
 TRANSLATIONS = ts/pokerth_af.ts \
 	ts/pokerth_bg.ts \
 	ts/pokerth_zhcn.ts \

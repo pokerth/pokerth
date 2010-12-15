@@ -27,7 +27,7 @@
 class Session;
 class gameTableImpl;
 class startWindowImpl;
-class Log;
+class guiLog;
 class ConfigFile;
 
 
