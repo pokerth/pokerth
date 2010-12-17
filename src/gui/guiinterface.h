@@ -28,6 +28,7 @@
 #include <boost/shared_ptr.hpp>
 
 class guiLog;
+class Log;
 class Session;
 class gameTableImpl;
 

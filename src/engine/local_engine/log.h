@@ -20,10 +20,24 @@
 #ifndef LOG_H
 #define LOG_H
 
+#include <sqlite3.h>
+#include <dirent.h>
+
+#include "configfile.h"
+#include "game_defs.h"
+
 class Log
 {
+
 public:
-    Log();
+    Log(ConfigFile *c);
+
+    ~Log();
+
+private:
+    ConfigFile *myConfig;
+    sqlite3 *mySqliteLogDb;
+
 };
 
 #endif // LOG_H

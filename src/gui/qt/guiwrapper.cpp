@@ -21,6 +21,7 @@
 #include "guiwrapper.h"
 #include "session.h"
 #include "guilog.h"
+#include "log.h"
 #include "gametableimpl.h"
 #include "startwindowimpl.h"
 #include "configfile.h"
@@ -30,12 +31,13 @@
 using namespace std;
 
 
-GuiWrapper::GuiWrapper(ConfigFile *c, startWindowImpl *s) : myGuiLog(NULL), myW(NULL), myConfig(c), myStartWindow(s)
+GuiWrapper::GuiWrapper(ConfigFile *c, startWindowImpl *s) : myGuiLog(NULL), myLog(NULL), myW(NULL), myConfig(c), myStartWindow(s)
 {
 
 
     myW = new gameTableImpl(myConfig);
     myGuiLog = new guiLog(myW, myConfig);
+    myLog = new Log(myConfig);
 
     myW->setStartWindow(myStartWindow);
 }

@@ -28,6 +28,7 @@ class Session;
 class gameTableImpl;
 class startWindowImpl;
 class guiLog;
+class Log;
 class ConfigFile;
 
 
@@ -168,6 +169,7 @@ public:
 private:
 
     guiLog *myGuiLog;
+    Log *myLog;
     gameTableImpl *myW;
     ConfigFile *myConfig;
     startWindowImpl *myStartWindow;
