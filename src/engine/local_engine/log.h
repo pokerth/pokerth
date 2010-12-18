@@ -22,9 +22,15 @@
 
 #include <sqlite3.h>
 #include <dirent.h>
+#include <iostream>
+#include <boost/lexical_cast.hpp>
 
+#include "game.h"
+#include "handinterface.h"
 #include "configfile.h"
 #include "game_defs.h"
+
+//class Game;
 
 class Log
 {
@@ -33,6 +39,10 @@ public:
     Log(ConfigFile *c);
 
     ~Log();
+
+    void logNewGameMsg(int, Game*);
+//    void closeLogDbAtExit();
+
 
 private:
     ConfigFile *myConfig;

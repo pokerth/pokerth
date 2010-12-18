@@ -26,7 +26,6 @@
 #include <net/socket_msg.h>
 #include "tools.h"
 
-#include "guilog.h"
 #include "session.h"
 #include "game.h"
 #include "guiwrapper.h"
@@ -988,7 +987,7 @@ bool startWindowImpl::eventFilter(QObject *obj, QEvent *event)
 {
     if (event->type() == QEvent::Close) {
         event->ignore();
-        myGuiInterface->getMyLog()->closeLogDbAtExit();
+//        mySession->getMyLog()->closeLogDbAtExit();
         return QMainWindow::eventFilter(obj, event);
     }
     else {

@@ -28,7 +28,6 @@
 #include <boost/shared_ptr.hpp>
 
 class guiLog;
-class Log;
 class Session;
 class gameTableImpl;
 
@@ -42,7 +41,7 @@ public:
     virtual void setSession(boost::shared_ptr<Session> session) =0;
 
     virtual gameTableImpl *getMyW() const=0;
-    virtual guiLog* getMyLog() const=0;
+    virtual guiLog* getMyGuiLog() const=0;
 
 
     //refresh-Funktionen

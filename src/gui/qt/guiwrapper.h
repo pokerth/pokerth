@@ -28,7 +28,6 @@ class Session;
 class gameTableImpl;
 class startWindowImpl;
 class guiLog;
-class Log;
 class ConfigFile;
 
 
@@ -45,7 +44,7 @@ public:
     void setSession(boost::shared_ptr<Session> session);
 
     gameTableImpl* getMyW() const { return myW; }
-    guiLog* getMyLog() const { return myGuiLog; }
+    guiLog* getMyGuiLog() const { return myGuiLog; }
 
     void refreshSet() const;
     void refreshCash() const;
@@ -169,7 +168,6 @@ public:
 private:
 
     guiLog *myGuiLog;
-    Log *myLog;
     gameTableImpl *myW;
     ConfigFile *myConfig;
     startWindowImpl *myStartWindow;

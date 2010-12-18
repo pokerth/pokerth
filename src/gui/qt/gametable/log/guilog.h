@@ -44,8 +44,7 @@ public:
 
 public slots:
 
-        void closeLogDbAtExit();
-        void logPlayerActionMsg(QString playerName, int playerID, int action, int setValue);
+    void logPlayerActionMsg(QString playerName, int playerID, int action, int setValue);
 	void logNewGameHandMsg(int gameID, int handID);
 	void logNewBlindsSetsMsg(int sbSet, int bbSet, QString sbName, QString bbName);
 	void logPlayerWinsMsg(QString playerName, int pot, bool main);

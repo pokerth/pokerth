@@ -126,21 +126,6 @@ guiLog::~guiLog()
 {
     delete myLogDir;
     delete myHtmlLogFile;
-    if(SQLITE_LOG) {
-        sqlite3_close(mySqliteLogDb);
-//        delete mySqliteLogDb;
-    }
-
-}
-
-void guiLog::closeLogDbAtExit()
-{
-    if(SQLITE_LOG) {
-        // close sqlite-db
-        sqlite3_close(mySqliteLogDb);
-//        delete mySqliteLogDb;
-        mySqliteLogDb = NULL;
-    }
 
 }
 

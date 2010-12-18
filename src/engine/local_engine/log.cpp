@@ -148,3 +148,60 @@ Log::~Log()
         sqlite3_close(mySqliteLogDb);
     }
 }
+
+void
+Log::logNewGameMsg(int gameID, Game *currentGame) {
+
+    if(SQLITE_LOG) {
+
+        PlayerListConstIterator it_c;
+
+        if(myConfig->readConfigInt("LogOnOff")) {
+            //if write logfiles is enabled
+
+            string sql;
+            int i;
+            char *errmsg;
+
+            if( mySqliteLogDb != 0 ) {
+
+                sql = "INSERT INTO Game (";
+                    sql += "GameID";
+                    sql += ",Startmoney";
+                    sql += ",StartSb";
+                    sql += ",DealerPos";
+                    for(i=1; i<=MAX_NUMBER_OF_PLAYERS; i++) {
+                        sql += ",Seat_" + boost::lexical_cast<std::string>(i);
+                    }
+                sql += ") VALUES (";
+                    sql += boost::lexical_cast<string>(gameID);
+                    sql += "," + boost::lexical_cast<string>(currentGame->getStartCash());
+                    sql += "," + boost::lexical_cast<string>(currentGame->getStartSmallBlind());
+                    sql += "," + boost::lexical_cast<string>(currentGame->getDealerPosition());
+
+                    for(it_c = currentGame->getCurrentHand()->getSeatsList()->begin();it_c!=currentGame->getCurrentHand()->getSeatsList()->end();it_c++) {
+                        if((*it_c)->getMyActiveStatus()) {
+                            sql += ",\"" + (*it_c)->getMyName() +"\"";
+                        } else {
+                            sql += ",NULL";
+                        }
+                    }
+                    sql += ")";
+                if(sqlite3_exec(mySqliteLogDb, sql.data(), 0, 0, &errmsg) != SQLITE_OK) {
+                    cout << "Error in statement: " << sql.data() << "[" << errmsg << "]." << endl;
+                }
+            }
+        }
+    }
+}
+
+//void
+//Log::closeLogDbAtExit()
+//{
+//    if(SQLITE_LOG) {
+//        // close sqlite-db
+//        sqlite3_close(mySqliteLogDb);
+//        mySqliteLogDb = NULL;
+//    }
+
+//}

@@ -23,6 +23,7 @@
 #include <boost/shared_ptr.hpp>
 #include <string>
 
+#include "log.h"
 #include "serverdata.h"
 #include "gamedata.h"
 #include "playerdata.h"
@@ -33,6 +34,7 @@
 class GuiInterface;
 class Game;
 class ConfigFile;
+class Log;
 class ClientThread;
 class ServerManager;
 class IrcThread;
@@ -59,6 +61,7 @@ public:
 
     Game *getCurrentGame();
     GuiInterface *getGui();
+    Log* getMyLog() {return myLog; }
     GameType getGameType();
 
     boost::shared_ptr<AvatarManager> getAvatarManager();
@@ -122,6 +125,7 @@ private:
     boost::shared_ptr<Game> currentGame;
     GuiInterface *myGui;
     ConfigFile *myConfig;
+    Log *myLog;
     GameType myGameType;
     QtToolsInterface *myQtToolsInterface;
 };
