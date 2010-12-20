@@ -52,7 +52,7 @@ pause
 echo.
 echo Downloading mingw packages
 %PKTH_OldDir%\third_party_apps\wget http://%SOURCEFORGE_MIRROR%.sourceforge.net/sourceforge/mingw-w64/mingw-w64-bin_x86_64-mingw_20101002_4.5_sezero.zip
-if not errorlevel 0 goto downloadFailed
+IF NOT "%ERRORLEVEL%"=="0" goto downloadFailed
 echo.
 echo Unpacking mingw packages
 %PKTH_OldDir%\third_party_apps\7za x -y mingw-w64-bin_x86_64-mingw_20101002_4.5_sezero.zip
@@ -62,9 +62,9 @@ echo.
 echo Testing g++
 set PATH=%PKTH_BaseDir%\mingw64\bin;%PKTH_OldDir%\third_party_apps;%PATH%
 g++ %PKTH_OldDir%\helper_src\pkth_test.cpp -o pkth_test
-if not errorlevel 0 goto gppFailure
+IF NOT "%ERRORLEVEL%"=="0" goto gppFailure
 pkth_test
-if not errorlevel 42 goto gppFailure
+IF NOT "%ERRORLEVEL%"=="42" goto gppFailure
 del pkth_test.exe
 echo Successful
 cd /d %PKTH_BaseDir%
@@ -72,7 +72,7 @@ if not exist %PKTH_BaseDir%\qt. (
 echo.
 echo Downloading Qt
 %PKTH_OldDir%\third_party_apps\wget http://get.qt.nokia.com/qt/source/qt-everywhere-opensource-src-4.7.1.zip
-if not errorlevel 0 goto downloadFailed
+IF NOT "%ERRORLEVEL%"=="0" goto downloadFailed
 echo.
 echo Unpacking Qt
 %PKTH_OldDir%\third_party_apps\7za x -y qt-everywhere-opensource-src-4.7.1.zip
@@ -97,7 +97,7 @@ if not exist %PKTH_BaseDir%\zlib. (
 echo.
 echo Downloading zlib
 %PKTH_OldDir%\third_party_apps\wget http://%SOURCEFORGE_MIRROR%.sourceforge.net/sourceforge/libpng/zlib-1.2.5.tar.gz
-if not errorlevel 0 goto downloadFailed
+IF NOT "%ERRORLEVEL%"=="0" goto downloadFailed
 echo.
 echo Unpacking zlib
 %PKTH_OldDir%\third_party_apps\7za x -y zlib-1.2.5.tar.gz
@@ -149,16 +149,16 @@ cd /d %PKTH_BaseDir%
 if not exist %PKTH_BaseDir%\curl. (
 echo.
 echo Downloading curl
-%PKTH_OldDir%\third_party_apps\wget http://curl.haxx.se/download/curl-7.21.1.tar.bz2
-if not errorlevel 0 goto downloadFailed
+%PKTH_OldDir%\third_party_apps\wget http://curl.haxx.se/download/curl-7.21.3.tar.bz2
+IF NOT "%ERRORLEVEL%"=="0" goto downloadFailed
 echo.
 echo Unpacking curl
-%PKTH_OldDir%\third_party_apps\7za x -y curl-7.21.1.tar.bz2
-%PKTH_OldDir%\third_party_apps\7za x -y curl-7.21.1.tar
-del curl-7.21.1.tar
+%PKTH_OldDir%\third_party_apps\7za x -y curl-7.21.3.tar.bz2
+%PKTH_OldDir%\third_party_apps\7za x -y curl-7.21.3.tar
+del curl-7.21.3.tar
 REM Wait 5 seconds for the file cache, else ren might fail.
 @ping 127.0.0.1 -n 5 -w 1000 > nul
-ren curl-7.21.1 curl
+ren curl-7.21.3 curl
 )
 echo.
 echo Compiling curl
@@ -170,21 +170,21 @@ cd /d %PKTH_BaseDir%
 if not exist %PKTH_BaseDir%\boost. (
 echo.
 echo Downloading boost and bjam
-%PKTH_OldDir%\third_party_apps\wget http://%SOURCEFORGE_MIRROR%.sourceforge.net/sourceforge/boost/boost_1_44_0.7z http://%SOURCEFORGE_MIRROR%.sourceforge.net/sourceforge/boost/boost-jam-3.1.17-1-ntx86.zip
-if not errorlevel 0 goto downloadFailed
+%PKTH_OldDir%\third_party_apps\wget http://%SOURCEFORGE_MIRROR%.sourceforge.net/sourceforge/boost/boost_1_45_0.7z
+IF NOT "%ERRORLEVEL%"=="0" goto downloadFailed
 echo.
 echo Unpacking boost and bjam
-%PKTH_OldDir%\third_party_apps\7za x -y boost_1_44_0.7z
-%PKTH_OldDir%\third_party_apps\7za x -y boost-jam-3.1.17-1-ntx86.zip
+%PKTH_OldDir%\third_party_apps\7za x -y boost_1_45_0.7z
 REM Wait 5 seconds for the file cache, else ren might fail.
 @ping 127.0.0.1 -n 5 -w 1000 > nul
-move boost-jam-3.1.17-1-ntx86\bjam.exe mingw64\bin\bjam.exe
-move boost-jam-3.1.17-1-ntx86\LICENSE_1_0.txt mingw64\bin\bjam_LICENSE_1_0.txt
-rd boost-jam-3.1.17-1-ntx86
-ren boost_1_44_0 boost
+ren boost_1_45_0 boost
 )
 echo.
 echo Compiling boost
+cd boost\tools\build\v2\engine\src
+call .\build.bat gcc
+move bin.ntx86_64\bjam.exe ..\..\..\..\..\
+cd /d %PKTH_BaseDir%
 cd boost
 bjam link=shared --build-dir=%PKTH_BaseDir%\pkth_boost_delete_me_after_build --toolset=gcc address-model=64 define=BOOST_USE_WINDOWS_H stage
 echo.
@@ -194,7 +194,7 @@ if not exist %PKTH_BaseDir%\SDL. (
 echo.
 echo Downloading SDL precompiled
 %PKTH_OldDir%\third_party_apps\wget http://%SOURCEFORGE_MIRROR%.sourceforge.net/sourceforge/mingw-w64/SDL-1.2-20100604-win64.tar.gz
-if not errorlevel 0 goto downloadFailed
+IF NOT "%ERRORLEVEL%"=="0" goto downloadFailed
 echo.
 echo Unpacking SDL
 %PKTH_OldDir%\third_party_apps\7za x -y SDL-1.2-20100604-win64.tar.gz
@@ -210,7 +210,7 @@ if not exist %PKTH_BaseDir%\SDL_mixer. (
 echo.
 echo Downloading SDL_mixer precompiled
 %PKTH_OldDir%\third_party_apps\wget http://%SOURCEFORGE_MIRROR%.sourceforge.net/sourceforge/mingw-w64/SDL_mixer-20100427-win64.tar.gz
-if not errorlevel 0 goto downloadFailed
+IF NOT "%ERRORLEVEL%"=="0" goto downloadFailed
 echo.
 echo Unpacking SDL_mixer
 %PKTH_OldDir%\third_party_apps\7za x -y SDL_mixer-20100427-win64.tar.gz
@@ -230,7 +230,7 @@ if not exist %PKTH_BaseDir%\svn. (
 echo.
 echo Downloading subversion
 %PKTH_OldDir%\third_party_apps\wget http://subversion.tigris.org/files/documents/15/47914/svn-win32-1.6.6.zip
-if not errorlevel 0 goto downloadFailed
+IF NOT "%ERRORLEVEL%"=="0" goto downloadFailed
 echo.
 echo Unpacking subversion
 %PKTH_OldDir%\third_party_apps\7za x -y svn-win32-1.6.6.zip
@@ -257,11 +257,11 @@ copy /Y %PKTH_BaseDir%\SDL_mixer\bin\libvorbis-0.dll %PKTH_BaseDir%\pokerth\
 copy /Y %PKTH_BaseDir%\SDL_mixer\bin\libvorbisfile-3.dll %PKTH_BaseDir%\pokerth\
 copy /Y "%PKTH_BaseDir%\mingw64\bin\libgcc_s_sjlj-1.dll" %PKTH_BaseDir%\pokerth\
 copy /Y "%PKTH_BaseDir%\mingw64\bin\libstdc++-6.dll" %PKTH_BaseDir%\pokerth\
-copy /Y %PKTH_BaseDir%\boost\stage\lib\libboost_filesystem-mgw45-mt-1_44.dll %PKTH_BaseDir%\pokerth\
-copy /Y %PKTH_BaseDir%\boost\stage\lib\libboost_iostreams-mgw45-mt-1_44.dll %PKTH_BaseDir%\pokerth\
-copy /Y %PKTH_BaseDir%\boost\stage\lib\libboost_system-mgw45-mt-1_44.dll %PKTH_BaseDir%\pokerth\
-copy /Y %PKTH_BaseDir%\boost\stage\lib\libboost_thread-mgw45-mt-1_44.dll %PKTH_BaseDir%\pokerth\
-copy /Y %PKTH_BaseDir%\boost\stage\lib\libboost_zlib-mgw45-mt-1_44.dll %PKTH_BaseDir%\pokerth\
+copy /Y %PKTH_BaseDir%\boost\stage\lib\libboost_filesystem-mgw45-mt-1_45.dll %PKTH_BaseDir%\pokerth\
+copy /Y %PKTH_BaseDir%\boost\stage\lib\libboost_iostreams-mgw45-mt-1_45.dll %PKTH_BaseDir%\pokerth\
+copy /Y %PKTH_BaseDir%\boost\stage\lib\libboost_system-mgw45-mt-1_45.dll %PKTH_BaseDir%\pokerth\
+copy /Y %PKTH_BaseDir%\boost\stage\lib\libboost_thread-mgw45-mt-1_45.dll %PKTH_BaseDir%\pokerth\
+copy /Y %PKTH_BaseDir%\boost\stage\lib\libboost_zlib-mgw45-mt-1_45.dll %PKTH_BaseDir%\pokerth\
 echo.
 echo This script has finished. You may run the pokerth_build.cmd now.
 goto pkth_end
