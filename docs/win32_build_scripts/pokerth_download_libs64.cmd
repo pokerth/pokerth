@@ -190,6 +190,15 @@ bjam link=shared --build-dir=%PKTH_BaseDir%\pkth_boost_delete_me_after_build --t
 echo.
 echo Done compiling boost
 cd /d %PKTH_BaseDir%
+if not exist %PKTH_BaseDir%\sqlite. (
+echo.
+echo Downloading sqlite
+%PKTH_OldDir%\third_party_apps\wget http://www.sqlite.org/sqlite-amalgamation-3070400.zip
+IF NOT "%ERRORLEVEL%"=="0" goto downloadFailed
+%PKTH_OldDir%\third_party_apps\7za x -y sqlite-amalgamation-3070400.zip
+ren sqlite-amalgamation-3070400 sqlite
+)
+cd /d %PKTH_BaseDir%
 if not exist %PKTH_BaseDir%\SDL. (
 echo.
 echo Downloading SDL precompiled
