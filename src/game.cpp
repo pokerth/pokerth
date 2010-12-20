@@ -31,8 +31,8 @@ using namespace std;
 
 Game::Game(GuiInterface* gui, boost::shared_ptr<EngineFactory> factory,
 		   const PlayerDataList &playerDataList, const GameData &gameData,
-		   const StartData &startData, int gameId)
-: myFactory(factory), myGui(gui), currentHand(0), currentBoard(0),
+           const StartData &startData, int gameId, Log* log)
+: myFactory(factory), myGui(gui), myLog(log), currentHand(0), currentBoard(0),
   startQuantityPlayers(startData.numberOfPlayers),
   startCash(gameData.startMoney), startSmallBlind(gameData.firstSmallBlind),
   myGameID(gameId), currentSmallBlind(gameData.firstSmallBlind), currentHandID(0), dealerPosition(0), lastHandBlindsRaised(1), lastTimeBlindsRaised(0), myGameData(gameData)
@@ -107,6 +107,9 @@ Game::Game(GuiInterface* gui, boost::shared_ptr<EngineFactory> factory,
 	}
 
 	currentBoard->setPlayerLists(seatsList, activePlayerList, runningPlayerList);
+
+    // log game data
+//    myLog->logNewGameMsg(myGameID, startCash, startSmallBlind, dealerPosition, seatsList);
 
 	//start timer
 	blindsTimer.reset();

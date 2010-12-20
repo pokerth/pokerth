@@ -18,6 +18,12 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
+#include <sqlite3.h>
+#include <iostream>
+#include <dirent.h>
+#include <boost/lexical_cast.hpp>
+#include "configfile.h"
+#include "game_defs.h"
 #include "log.h"
 
 using namespace std;
@@ -150,7 +156,7 @@ Log::~Log()
 }
 
 void
-Log::logNewGameMsg(int gameID, Game *currentGame) {
+Log::logNewGameMsg(int gameID, int startCash, int startSmallBlind, unsigned dealerPosition, PlayerList seatsList) {
 
     if(SQLITE_LOG) {
 
@@ -175,11 +181,11 @@ Log::logNewGameMsg(int gameID, Game *currentGame) {
                     }
                 sql += ") VALUES (";
                     sql += boost::lexical_cast<string>(gameID);
-                    sql += "," + boost::lexical_cast<string>(currentGame->getStartCash());
-                    sql += "," + boost::lexical_cast<string>(currentGame->getStartSmallBlind());
-                    sql += "," + boost::lexical_cast<string>(currentGame->getDealerPosition());
+                    sql += "," + boost::lexical_cast<string>(startCash);
+                    sql += "," + boost::lexical_cast<string>(startSmallBlind);
+                    sql += "," + boost::lexical_cast<string>(dealerPosition);
 
-                    for(it_c = currentGame->getCurrentHand()->getSeatsList()->begin();it_c!=currentGame->getCurrentHand()->getSeatsList()->end();it_c++) {
+                    for(it_c = seatsList->begin();it_c!=seatsList->end();it_c++) {
                         if((*it_c)->getMyActiveStatus()) {
                             sql += ",\"" + (*it_c)->getMyName() +"\"";
                         } else {

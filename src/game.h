@@ -23,10 +23,12 @@
 #include <boost/shared_ptr.hpp>
 #include "gamedata.h"
 #include "playerdata.h"
+#include "log.h"
 
 #include <third_party/boost/timers.hpp>
 
 class GuiInterface;
+class Log;
 class HandInterface;
 class PlayerInterface;
 class BoardInterface;
@@ -41,9 +43,9 @@ typedef std::list<boost::shared_ptr<PlayerInterface> >::const_iterator PlayerLis
 class Game {
 
 public:
-	Game(GuiInterface *gui, boost::shared_ptr<EngineFactory> factory,
+    Game(GuiInterface *gui, boost::shared_ptr<EngineFactory> factory,
 		const PlayerDataList &playerDataList, const GameData &gameData,
-		const StartData &startData, int gameId);
+        const StartData &startData, int gameId, Log *myLog = 0);
 
 	~Game();
 
@@ -85,6 +87,7 @@ private:
 	boost::shared_ptr<EngineFactory> myFactory;
 
 	GuiInterface *myGui;
+    Log *myLog;
 	HandInterface *currentHand;
 	BoardInterface *currentBoard;
 

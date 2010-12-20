@@ -23,7 +23,6 @@
 #include <boost/shared_ptr.hpp>
 #include <string>
 
-#include "log.h"
 #include "serverdata.h"
 #include "gamedata.h"
 #include "playerdata.h"

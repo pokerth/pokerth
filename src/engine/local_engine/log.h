@@ -20,17 +20,10 @@
 #ifndef LOG_H
 #define LOG_H
 
-#include <sqlite3.h>
-#include <dirent.h>
-#include <iostream>
-#include <boost/lexical_cast.hpp>
+#include "playerinterface.h"
 
-#include "game.h"
-#include "handinterface.h"
-#include "configfile.h"
-#include "game_defs.h"
-
-//class Game;
+struct sqlite3;
+class ConfigFile;
 
 class Log
 {
@@ -40,7 +33,7 @@ public:
 
     ~Log();
 
-    void logNewGameMsg(int, Game*);
+    void logNewGameMsg(int, int, int, unsigned, PlayerList);
 //    void closeLogDbAtExit();
 
 

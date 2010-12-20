@@ -21,6 +21,7 @@
 #include <net/socket_helper.h>
 #include "session.h"
 #include "game.h"
+#include "log.h"
 #include "guiinterface.h"
 #include "configfile.h"
 #include <qttoolsinterface.h>
@@ -116,7 +117,7 @@ void Session::startLocalGame(const GameData &gameData, const StartData &startDat
     // EngineFactory erstellen
     boost::shared_ptr<EngineFactory> factory(new LocalEngineFactory(myConfig)); // LocalEngine erstellen
 
-    currentGame.reset(new Game(myGui, factory, playerDataList, gameData, startData, currentGameNum));
+    currentGame.reset(new Game(myGui, factory, playerDataList, gameData, startData, currentGameNum, myLog));
 
     //// SPIEL-SCHLEIFE
     currentGame->initHand();
