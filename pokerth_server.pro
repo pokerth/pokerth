@@ -115,14 +115,13 @@ SOURCES += \
 LIBS += -lpokerth_lib \
 	-lpokerth_db \
 	-lpokerth_protocol \
-	-lcurl \
-	-lsqlite3
+	-lcurl
 
 win32 {
 	DEFINES += CURL_STATICLIB
 	DEFINES += _WIN32_WINNT=0x0501
 	DEPENDPATH += src/net/win32/ src/core/win32
-	INCLUDEPATH += ../boost/ ../GnuTLS/include ../gsasl/include
+	INCLUDEPATH += ../sqlite ../boost/ ../GnuTLS/include ../gsasl/include
 
 	SOURCES += src/core/win32/convhelper.cpp
 
@@ -138,6 +137,7 @@ win32 {
 		LIBS += -lgnutls-openssl -lgnutls -lgcrypt -lgpg-error -lgsasl -lidn
 	}
 	win32-g++-cross {
+		LIBS += -lsqlite3
 		LIBS += -lntlm
 		LIBS += -lboost_thread_win32-mt
 		LIBS += -lboost_filesystem-mt
@@ -147,13 +147,14 @@ win32 {
 		LIBS += -lboost_system-mt
 	}
 	win32-g++ {
+		SOURCES += ../sqlite/sqlite3.c
 		!pkth_win64:LIBS += -ltasn1
-		LIBS += -lboost_thread-mgw45-mt-1_44.dll
-		LIBS += -lboost_filesystem-mgw45-mt-1_44.dll
-		LIBS += -lboost_regex-mgw45-mt-1_44
-		LIBS += -lboost_program_options-mgw45-mt-1_44.dll
-		LIBS += -lboost_iostreams-mgw45-mt-1_44.dll
-		LIBS += -lboost_system-mgw45-mt-1_44.dll
+		LIBS += -lboost_thread-mgw45-mt-1_45.dll
+		LIBS += -lboost_filesystem-mgw45-mt-1_45.dll
+		LIBS += -lboost_regex-mgw45-mt-1_45
+		LIBS += -lboost_program_options-mgw45-mt-1_45.dll
+		LIBS += -lboost_iostreams-mgw45-mt-1_45.dll
+		LIBS += -lboost_system-mgw45-mt-1_45.dll
 	}
 
 	LIBS += -liconv \
@@ -271,6 +272,7 @@ unix : !mac {
 	kFreeBSD = $$find(UNAME, "kFreeBSD")
 
 	LIBS += $$BOOST_LIBS
+	LIBS += -lsqlite3
 	LIBS += -lgsasl
 	!isEmpty( BSD ): isEmpty( kFreeBSD ){
 		LIBS += -lcrypto -liconv
@@ -313,6 +315,7 @@ mac {
 	LIBS += /usr/local/lib/libgsasl.a
 
 	# libraries installed on every mac
+	LIBS += -lsqlite3
 	LIBS += -lcrypto -lssl -lz -liconv
 	# set the application icon
 	RC_FILE = pokerth.icns

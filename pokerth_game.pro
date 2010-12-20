@@ -299,8 +299,7 @@ TRANSLATIONS = ts/pokerth_af.ts \
 LIBS += -lpokerth_lib \
 	-lpokerth_db \
 	-lpokerth_protocol \
-	-lcurl \
-	-lsqlite3
+	-lcurl
 
 win32 { 
 	DEFINES += CURL_STATICLIB
@@ -314,6 +313,7 @@ win32 {
 		../GnuTLS/include \
 		../gsasl/include \
 		../curl/include \
+		../sqlite \
 		../zlib
 	LIBPATH += ../boost/stage/lib \
 		../GnuTLS/lib \
@@ -337,6 +337,7 @@ win32 {
 		LIBS += -lgnutls-openssl -lgnutls -lgcrypt -lgpg-error -lgsasl -lidn
 	}
 	win32-g++-cross {
+		LIBS += -lsqlite3
 		LIBS += -lntlm -lmikmod -lddraw -ldxguid -lsmpeg -lvorbisfile -lvorbis -logg
 		LIBS += -lboost_thread_win32-mt
 		LIBS += -lboost_filesystem-mt
@@ -345,12 +346,13 @@ win32 {
 		LIBS += -lboost_system-mt
 	}
 	win32-g++ {
+		SOURCES += ../sqlite/sqlite3.c
 		!pkth_win64:LIBS += -ltasn1
-		LIBS += -lboost_thread-mgw45-mt-1_44.dll
-		LIBS += -lboost_filesystem-mgw45-mt-1_44.dll
-		LIBS += -lboost_regex-mgw45-mt-1_44
-		LIBS += -lboost_iostreams-mgw45-mt-1_44.dll
-		LIBS += -lboost_system-mgw45-mt-1_44.dll
+		LIBS += -lboost_thread-mgw45-mt-1_45.dll
+		LIBS += -lboost_filesystem-mgw45-mt-1_45.dll
+		LIBS += -lboost_regex-mgw45-mt-1_45
+		LIBS += -lboost_iostreams-mgw45-mt-1_45.dll
+		LIBS += -lboost_system-mgw45-mt-1_45.dll
 	}
 	LIBS += \
 		-lgdi32 \
@@ -447,6 +449,7 @@ unix:!mac {
 	UNAME = $$system(uname -s)
 	BSD = $$find(UNAME, "BSD")
 	kFreeBSD = $$find(UNAME, "kFreeBSD")
+	LIBS += -lsqlite3
 	LIBS += $$BOOST_LIBS
 	LIBS += -lSDL_mixer \
 		-lgsasl
@@ -509,6 +512,7 @@ mac {
 	# libraries installed on every mac
 	LIBS += -lcrypto \
 		-lssl \
+		-lsqlite3 \
 		-lz \
 		-framework \
 		Carbon
