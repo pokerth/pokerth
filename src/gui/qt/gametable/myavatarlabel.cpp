@@ -84,6 +84,14 @@ void MyAvatarLabel::contextMenuEvent ( QContextMenuEvent *event ) {
 
                 i++;
             }
+
+            if(myW->getSession()->getGameType() == Session::GAME_TYPE_INTERNET) {
+                action_ReportBadAvatar->setVisible(TRUE);
+            }
+            else {
+                action_ReportBadAvatar->setVisible(FALSE);
+            }
+
         }
     }
 }
@@ -206,7 +214,7 @@ void MyAvatarLabel::reportBadAvatar() {
                                                 QMessageBox::Yes | QMessageBox::No);
                 if(ret) {
                     QFileInfo fi(avatar);
-					myW->getSession()->reportBadAvatar(myId, fi.baseName().toStdString());
+                                        myW->getSession()->reportBadAvatar((*it_c)->getMyUniqueID(), fi.baseName().toStdString());
                 }
             }
             break;
