@@ -69,9 +69,9 @@ static asn_TYPE_member_t asn_MBR_chatRequestType_2[] = {
 		},
 };
 static asn_TYPE_tag2member_t asn_MAP_chatRequestType_tag2el_2[] = {
-    { (ASN_TAG_CLASS_CONTEXT | (0 << 2)), 0, 0, 0 }, /* chatRequestTypeLobby at 646 */
-    { (ASN_TAG_CLASS_CONTEXT | (1 << 2)), 1, 0, 0 }, /* chatRequestTypeGame at 647 */
-    { (ASN_TAG_CLASS_CONTEXT | (2 << 2)), 2, 0, 0 } /* chatRequestTypePrivate at 649 */
+    { (ASN_TAG_CLASS_CONTEXT | (0 << 2)), 0, 0, 0 }, /* chatRequestTypeLobby at 648 */
+    { (ASN_TAG_CLASS_CONTEXT | (1 << 2)), 1, 0, 0 }, /* chatRequestTypeGame at 649 */
+    { (ASN_TAG_CLASS_CONTEXT | (2 << 2)), 2, 0, 0 } /* chatRequestTypePrivate at 651 */
 };
 static asn_CHOICE_specifics_t asn_SPC_chatRequestType_specs_2 = {
 	sizeof(struct chatRequestType),
@@ -131,10 +131,10 @@ static ber_tlv_tag_t asn_DEF_ChatRequestMessage_tags_1[] = {
 	(ASN_TAG_CLASS_UNIVERSAL | (16 << 2))
 };
 static asn_TYPE_tag2member_t asn_MAP_ChatRequestMessage_tag2el_1[] = {
-    { (ASN_TAG_CLASS_UNIVERSAL | (12 << 2)), 1, 0, 0 }, /* chatText at 650 */
-    { (ASN_TAG_CLASS_CONTEXT | (0 << 2)), 0, 0, 0 }, /* chatRequestTypeLobby at 646 */
-    { (ASN_TAG_CLASS_CONTEXT | (1 << 2)), 0, 0, 0 }, /* chatRequestTypeGame at 647 */
-    { (ASN_TAG_CLASS_CONTEXT | (2 << 2)), 0, 0, 0 } /* chatRequestTypePrivate at 649 */
+    { (ASN_TAG_CLASS_UNIVERSAL | (12 << 2)), 1, 0, 0 }, /* chatText at 652 */
+    { (ASN_TAG_CLASS_CONTEXT | (0 << 2)), 0, 0, 0 }, /* chatRequestTypeLobby at 648 */
+    { (ASN_TAG_CLASS_CONTEXT | (1 << 2)), 0, 0, 0 }, /* chatRequestTypeGame at 649 */
+    { (ASN_TAG_CLASS_CONTEXT | (2 << 2)), 0, 0, 0 } /* chatRequestTypePrivate at 651 */
 };
 static asn_SEQUENCE_specifics_t asn_SPC_ChatRequestMessage_specs_1 = {
 	sizeof(struct ChatRequestMessage),

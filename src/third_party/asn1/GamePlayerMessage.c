@@ -46,10 +46,10 @@ static asn_TYPE_member_t asn_MBR_gamePlayerNotification_3[] = {
 		},
 };
 static asn_TYPE_tag2member_t asn_MAP_gamePlayerNotification_tag2el_3[] = {
-    { (ASN_TAG_CLASS_CONTEXT | (0 << 2)), 0, 0, 0 }, /* gamePlayerJoined at 350 */
-    { (ASN_TAG_CLASS_CONTEXT | (1 << 2)), 1, 0, 0 }, /* gamePlayerLeft at 351 */
-    { (ASN_TAG_CLASS_CONTEXT | (2 << 2)), 2, 0, 0 }, /* gameAdminChanged at 352 */
-    { (ASN_TAG_CLASS_CONTEXT | (3 << 2)), 3, 0, 0 } /* removedFromGame at 354 */
+    { (ASN_TAG_CLASS_CONTEXT | (0 << 2)), 0, 0, 0 }, /* gamePlayerJoined at 352 */
+    { (ASN_TAG_CLASS_CONTEXT | (1 << 2)), 1, 0, 0 }, /* gamePlayerLeft at 353 */
+    { (ASN_TAG_CLASS_CONTEXT | (2 << 2)), 2, 0, 0 }, /* gameAdminChanged at 354 */
+    { (ASN_TAG_CLASS_CONTEXT | (3 << 2)), 3, 0, 0 } /* removedFromGame at 356 */
 };
 static asn_CHOICE_specifics_t asn_SPC_gamePlayerNotification_specs_3 = {
 	sizeof(struct gamePlayerNotification),
@@ -109,11 +109,11 @@ static ber_tlv_tag_t asn_DEF_GamePlayerMessage_tags_1[] = {
 	(ASN_TAG_CLASS_UNIVERSAL | (16 << 2))
 };
 static asn_TYPE_tag2member_t asn_MAP_GamePlayerMessage_tag2el_1[] = {
-    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 0, 0, 0 }, /* gameId at 348 */
-    { (ASN_TAG_CLASS_CONTEXT | (0 << 2)), 1, 0, 0 }, /* gamePlayerJoined at 350 */
-    { (ASN_TAG_CLASS_CONTEXT | (1 << 2)), 1, 0, 0 }, /* gamePlayerLeft at 351 */
-    { (ASN_TAG_CLASS_CONTEXT | (2 << 2)), 1, 0, 0 }, /* gameAdminChanged at 352 */
-    { (ASN_TAG_CLASS_CONTEXT | (3 << 2)), 1, 0, 0 } /* removedFromGame at 354 */
+    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 0, 0, 0 }, /* gameId at 350 */
+    { (ASN_TAG_CLASS_CONTEXT | (0 << 2)), 1, 0, 0 }, /* gamePlayerJoined at 352 */
+    { (ASN_TAG_CLASS_CONTEXT | (1 << 2)), 1, 0, 0 }, /* gamePlayerLeft at 353 */
+    { (ASN_TAG_CLASS_CONTEXT | (2 << 2)), 1, 0, 0 }, /* gameAdminChanged at 354 */
+    { (ASN_TAG_CLASS_CONTEXT | (3 << 2)), 1, 0, 0 } /* removedFromGame at 356 */
 };
 static asn_SEQUENCE_specifics_t asn_SPC_GamePlayerMessage_specs_1 = {
 	sizeof(struct GamePlayerMessage),

@@ -166,7 +166,7 @@ static ber_tlv_tag_t asn_DEF_ErrorMessage_tags_1[] = {
 	(ASN_TAG_CLASS_UNIVERSAL | (16 << 2))
 };
 static asn_TYPE_tag2member_t asn_MAP_ErrorMessage_tag2el_1[] = {
-    { (ASN_TAG_CLASS_UNIVERSAL | (10 << 2)), 0, 0, 0 } /* errorReason at 710 */
+    { (ASN_TAG_CLASS_UNIVERSAL | (10 << 2)), 0, 0, 0 } /* errorReason at 726 */
 };
 static asn_SEQUENCE_specifics_t asn_SPC_ErrorMessage_specs_1 = {
 	sizeof(struct ErrorMessage),
