@@ -457,6 +457,13 @@ void
     myNetClient->SendRejectGameInvitation(gameId, reason);
 }
 
+void Session::reportBadAvatar(unsigned reportedPlayerId, const std::string &avatarHash)
+{
+	if (!myNetClient)
+		return; // only act if client is running.
+	myNetClient->SendReportAvatar(reportedPlayerId, avatarHash);
+}
+
 void Session::voteKick(bool doKick)
 {
     if (!myNetClient)

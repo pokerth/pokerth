@@ -206,7 +206,7 @@ void MyAvatarLabel::reportBadAvatar() {
                                                 QMessageBox::Yes | QMessageBox::No);
                 if(ret) {
                     QFileInfo fi(avatar);
-    //              tue_irgendwas_in_session(myId, fi.baseName());
+					myW->getSession()->reportBadAvatar(myId, fi.baseName().toStdString());
                 }
             }
             break;

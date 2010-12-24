@@ -304,6 +304,10 @@ AbstractServerGameStateReceiving::ProcessPacket(boost::shared_ptr<ServerGame> se
 		else
 			session.sessionData->ResetWantsLobbyMsg();
 	}
+	else if (packet->GetMsg()->present == PokerTHMessage_PR_reportAvatarMessage)
+	{
+		ReportAvatarMessage_t *netReport = &packet->GetMsg()->choice.reportAvatarMessage;
+	}
 	else
 	{
 		// Packet processing in subclass.

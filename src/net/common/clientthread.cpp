@@ -362,6 +362,25 @@ ClientThread::SendRejectGameInvitation(unsigned gameId, DenyGameInvitationReason
 }
 
 void
+ClientThread::SendReportAvatar(unsigned reportedPlayerId, const std::string &avatarHash)
+{
+	boost::shared_ptr<NetPacket> packet(new NetPacket(NetPacket::Alloc));
+	packet->GetMsg()->present = PokerTHMessage_PR_reportAvatarMessage;
+	ReportAvatarMessage_t *netReport = &packet->GetMsg()->choice.reportAvatarMessage;
+	netReport->reportedPlayerId = reportedPlayerId;
+	MD5Buf tmpMD5;
+	if (tmpMD5.FromString(avatarHash) && !tmpMD5.IsZero())
+	{
+		OCTET_STRING_fromBuf(
+			&netReport->reportedAvatar,
+			(const char *)tmpMD5.GetData(),
+			MD5_DATA_SIZE);
+
+		m_ioService->post(boost::bind(&ClientThread::SendSessionPacket, shared_from_this(), packet));
+	}
+}
+
+void
 ClientThread::StartAsyncRead()
 {
 	ReceiveBuffer &buf = GetContext().GetSessionData()->GetReceiveBuffer();

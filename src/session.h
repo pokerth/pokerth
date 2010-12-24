@@ -95,6 +95,8 @@ public:
     void acceptGameInvitation(unsigned gameId);
     void rejectGameInvitation(unsigned gameId, DenyGameInvitationReason reason);
 
+	void reportBadAvatar(unsigned reportedPlayerId, const std::string &avatarHash);
+
     void resetNetworkTimeout();
 
     bool isNetworkClientRunning() const; // TODO hack

@@ -82,6 +82,7 @@ public:
 	void SendShowMyCards();
 	void SendInvitePlayerToCurrentGame(unsigned playerId);
 	void SendRejectGameInvitation(unsigned gameId, DenyGameInvitationReason reason);
+	void SendReportAvatar(unsigned reportedPlayerId, const std::string &avatarHash);
 
 	void StartAsyncRead();
 	void HandleRead(const boost::system::error_code& ec, size_t bytesRead);
