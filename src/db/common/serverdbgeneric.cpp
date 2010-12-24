@@ -79,3 +79,9 @@ void
 ServerDBGeneric::EndGame(DB_id /*gameId*/)
 {
 }
+
+void
+ServerDBGeneric::AsyncReportAvatar(unsigned requestId, unsigned replyId, DB_id /*reportedPlayerId*/, const std::string &/*avatarHash*/, DB_id */*byPlayerId*/)
+{
+	m_ioService->post(boost::bind(&ServerDBCallback::ReportAvatarFailed, &m_callback, requestId, replyId));
+}

@@ -307,6 +307,30 @@ AbstractServerGameStateReceiving::ProcessPacket(boost::shared_ptr<ServerGame> se
 	else if (packet->GetMsg()->present == PokerTHMessage_PR_reportAvatarMessage)
 	{
 		ReportAvatarMessage_t *netReport = &packet->GetMsg()->choice.reportAvatarMessage;
+		boost::shared_ptr<PlayerData> tmpPlayer = server->GetPlayerDataByUniqueId(netReport->reportedPlayerId);
+		MD5Buf tmpMD5;
+		memcpy(tmpMD5.GetData(), netReport->reportedAvatar.buf, MD5_DATA_SIZE);
+		if (tmpPlayer && tmpPlayer->GetDBId() && tmpPlayer->GetAvatarMD5() == tmpMD5)
+		{
+			DB_id myDBid = session.playerData->GetDBId();
+			// Do not use the "game" database object, but the global one.
+			server->GetLobbyThread().GetDatabase()->AsyncReportAvatar(
+					session.playerData->GetUniqueId(),
+					tmpPlayer->GetUniqueId(),
+					tmpPlayer->GetDBId(),
+					tmpPlayer->GetAvatarMD5().ToString(),
+					myDBid != 0 ? &myDBid : NULL
+			);
+		}
+		else
+		{
+			boost::shared_ptr<NetPacket> packet(new NetPacket(NetPacket::Alloc));
+			packet->GetMsg()->present = PokerTHMessage_PR_reportAvatarAckMessage;
+			ReportAvatarAckMessage_t *netReportAck = &packet->GetMsg()->choice.reportAvatarAckMessage;
+			netReportAck->reportedPlayerId = netReport->reportedPlayerId;
+			netReportAck->reportResult = reportResult_avatarReportInvalid;
+			server->GetLobbyThread().GetSender().Send(session.sessionData, packet);
+		}
 	}
 	else
 	{

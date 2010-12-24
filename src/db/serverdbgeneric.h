@@ -46,6 +46,8 @@ public:
 	virtual void SetGamePlayerPlace(DB_id gameId, DB_id playerId, unsigned place);
 	virtual void EndGame(DB_id gameId);
 
+	virtual void AsyncReportAvatar(unsigned requestId, unsigned replyId, DB_id reportedPlayerId, const std::string &avatarHash, DB_id *byPlayerId);
+
 private:
 	boost::shared_ptr<boost::asio::io_service> m_ioService;
 	ServerDBCallback &m_callback;

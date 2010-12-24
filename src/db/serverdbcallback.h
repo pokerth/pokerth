@@ -42,6 +42,9 @@ public:
 
 	virtual void CreateGameSuccess(unsigned requestId, DB_id gameId) = 0;
 	virtual void CreateGameFailed(unsigned requestId) = 0;
+
+	virtual void ReportAvatarSuccess(unsigned requestId, unsigned replyId) = 0;
+	virtual void ReportAvatarFailed(unsigned requestId, unsigned replyId) = 0;
 };
 
 #endif

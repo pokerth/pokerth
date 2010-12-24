@@ -157,6 +157,16 @@ public:
 		LOG_ERROR("DB create game failed for request " << requestId);
 	}
 
+	virtual void ReportAvatarSuccess(unsigned requestId, unsigned replyId)
+	{
+		m_server.SendReportAvatarResult(requestId, replyId, true);
+	}
+
+	virtual void ReportAvatarFailed(unsigned requestId, unsigned replyId)
+	{
+		m_server.SendReportAvatarResult(requestId, replyId, false);
+	}
+
 private:
 	ServerLobbyThread &m_server;
 };
@@ -1624,6 +1634,23 @@ ServerLobbyThread::UserInvalid(unsigned playerId)
 }
 
 void
+ServerLobbyThread::SendReportAvatarResult(unsigned byPlayerId, unsigned reportedPlayerId, bool success)
+{
+	SessionWrapper session = m_sessionManager.GetSessionByUniquePlayerId(byPlayerId);
+	if (!session.sessionData)
+		session = m_gameSessionManager.GetSessionByUniquePlayerId(byPlayerId);
+	if (session.sessionData)
+	{
+		boost::shared_ptr<NetPacket> packet(new NetPacket(NetPacket::Alloc));
+		packet->GetMsg()->present = PokerTHMessage_PR_reportAvatarAckMessage;
+		ReportAvatarAckMessage_t *netReportAck = &packet->GetMsg()->choice.reportAvatarAckMessage;
+		netReportAck->reportedPlayerId = reportedPlayerId;
+		netReportAck->reportResult = success ? reportResult_avatarReportAccepted : reportResult_avatarReportInvalid;
+		GetSender().Send(session.sessionData, packet);
+	}
+}
+
+void
 ServerLobbyThread::UserBlocked(unsigned playerId)
 {
 	SessionError(m_sessionManager.GetSessionByUniquePlayerId(playerId, true), ERR_NET_PLAYER_BLOCKED);
@@ -1632,7 +1659,7 @@ ServerLobbyThread::UserBlocked(unsigned playerId)
 void
 ServerLobbyThread::RequestPlayerAvatar(SessionWrapper session)
 {
-	if (!session.playerData.get())
+	if (!session.playerData)
 		throw ServerException(__FILE__, __LINE__, ERR_NET_INVALID_SESSION, 0);
 	// Ask the client to send its avatar.
 	boost::shared_ptr<NetPacket> packet(new NetPacket(NetPacket::Alloc));

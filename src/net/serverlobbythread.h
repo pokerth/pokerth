@@ -149,6 +149,7 @@ protected:
 	void UserValid(unsigned playerId, const DBPlayerData &dbPlayerData);
 	void UserInvalid(unsigned playerId);
 	void UserBlocked(unsigned playerId);
+	void SendReportAvatarResult(unsigned byPlayerId, unsigned reportedPlayerId, bool success);
 	void RequestPlayerAvatar(SessionWrapper session);
 	void TimerRemoveGame(const boost::system::error_code &ec);
 	void TimerRemovePlayer(const boost::system::error_code &ec);
