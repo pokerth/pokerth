@@ -87,6 +87,9 @@ public:
 	void RemovePlayerInvitation(unsigned playerId);
 	bool IsPlayerInvited(unsigned playerId) const;
 
+	void AddReportedAvatar(unsigned playerId);
+	bool IsAvatarReported(unsigned playerId) const;
+
 	unsigned GetSmallDelaySec() const;
 
 	// should be protected, but is needed in function.
@@ -167,6 +170,9 @@ private:
 
 	PlayerIdList m_playerInvitationList;
 	mutable boost::mutex m_playerInvitationListMutex;
+
+	PlayerIdList m_reportedAvatarList;
+	mutable boost::mutex m_reportedAvatarListMutex;
 
 	RankingMap m_rankingMap;
 

@@ -312,15 +312,32 @@ AbstractServerGameStateReceiving::ProcessPacket(boost::shared_ptr<ServerGame> se
 		memcpy(tmpMD5.GetData(), netReport->reportedAvatar.buf, MD5_DATA_SIZE);
 		if (tmpPlayer && tmpPlayer->GetDBId() && tmpPlayer->GetAvatarMD5() == tmpMD5)
 		{
-			DB_id myDBid = session.playerData->GetDBId();
-			// Do not use the "game" database object, but the global one.
-			server->GetLobbyThread().GetDatabase()->AsyncReportAvatar(
-					session.playerData->GetUniqueId(),
-					tmpPlayer->GetUniqueId(),
-					tmpPlayer->GetDBId(),
-					tmpPlayer->GetAvatarMD5().ToString(),
-					myDBid != 0 ? &myDBid : NULL
-			);
+			if (!server->IsAvatarReported(tmpPlayer->GetUniqueId()))
+			{
+				// Temporarily note that this avatar was reported.
+				// This prevents spamming of the avatar report.
+				server->AddReportedAvatar(tmpPlayer->GetUniqueId());
+				DB_id myDBid = session.playerData->GetDBId();
+				// Do not use the "game" database object, but the global one.
+				// The entry should be created even if we are not running a
+				// ranking game.
+				server->GetLobbyThread().GetDatabase()->AsyncReportAvatar(
+						session.playerData->GetUniqueId(),
+						tmpPlayer->GetUniqueId(),
+						tmpPlayer->GetDBId(),
+						tmpPlayer->GetAvatarMD5().ToString(),
+						myDBid != 0 ? &myDBid : NULL
+				);
+			}
+			else
+			{
+				boost::shared_ptr<NetPacket> packet(new NetPacket(NetPacket::Alloc));
+				packet->GetMsg()->present = PokerTHMessage_PR_reportAvatarAckMessage;
+				ReportAvatarAckMessage_t *netReportAck = &packet->GetMsg()->choice.reportAvatarAckMessage;
+				netReportAck->reportedPlayerId = netReport->reportedPlayerId;
+				netReportAck->reportResult = reportResult_avatarReportDuplicate;
+				server->GetLobbyThread().GetSender().Send(session.sessionData, packet);
+			}
 		}
 		else
 		{

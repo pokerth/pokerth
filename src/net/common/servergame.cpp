@@ -645,6 +645,24 @@ ServerGame::IsPlayerInvited(unsigned playerId) const
 }
 
 void
+ServerGame::AddReportedAvatar(unsigned playerId)
+{
+	boost::mutex::scoped_lock lock(m_reportedAvatarListMutex);
+	m_reportedAvatarList.push_back(playerId);
+}
+
+bool
+ServerGame::IsAvatarReported(unsigned playerId) const
+{
+	bool retVal = false;
+	boost::mutex::scoped_lock lock(m_reportedAvatarListMutex);
+	PlayerIdList::const_iterator pos = find(m_reportedAvatarList.begin(), m_reportedAvatarList.end(), playerId);
+	if (pos != m_reportedAvatarList.end())
+		retVal = true;
+	return retVal;
+}
+
+void
 ServerGame::AddComputerPlayer(boost::shared_ptr<PlayerData> player)
 {
 	{
