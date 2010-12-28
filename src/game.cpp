@@ -21,6 +21,7 @@
 
 #include <enginefactory.h>
 #include <guiinterface.h>
+#include "log.h"
 
 #include "localexception.h"
 #include "engine_msg.h"
@@ -109,7 +110,7 @@ Game::Game(GuiInterface* gui, boost::shared_ptr<EngineFactory> factory,
 	currentBoard->setPlayerLists(seatsList, activePlayerList, runningPlayerList);
 
     // log game data
-//    myLog->logNewGameMsg(myGameID, startCash, startSmallBlind, dealerPosition, seatsList);
+    myLog->logNewGameMsg(myGameID, startCash, startSmallBlind, dealerPosition, seatsList);
 
 	//start timer
 	blindsTimer.reset();

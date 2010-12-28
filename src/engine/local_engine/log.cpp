@@ -25,6 +25,7 @@
 #include "configfile.h"
 #include "game_defs.h"
 #include "log.h"
+#include "playerinterface.h"
 
 using namespace std;
 

@@ -23,7 +23,6 @@
 #include <boost/shared_ptr.hpp>
 #include "gamedata.h"
 #include "playerdata.h"
-#include "log.h"
 
 #include <third_party/boost/timers.hpp>
 

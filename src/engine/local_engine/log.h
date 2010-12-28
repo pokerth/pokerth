@@ -20,10 +20,16 @@
 #ifndef LOG_H
 #define LOG_H
 
-#include "playerinterface.h"
+#include <boost/shared_ptr.hpp>
+#include <list>
 
 struct sqlite3;
 class ConfigFile;
+class PlayerInterface;
+
+typedef boost::shared_ptr<std::list<boost::shared_ptr<PlayerInterface> > > PlayerList;
+typedef std::list<boost::shared_ptr<PlayerInterface> >::iterator PlayerListIterator;
+typedef std::list<boost::shared_ptr<PlayerInterface> >::const_iterator PlayerListConstIterator;
 
 class Log
 {
@@ -33,7 +39,7 @@ public:
 
     ~Log();
 
-    void logNewGameMsg(int, int, int, unsigned, PlayerList);
+    void logNewGameMsg(int gameID, int startCash, int startSmallBlind, unsigned dealerPosition, PlayerList seatsList);
 //    void closeLogDbAtExit();
 
 
