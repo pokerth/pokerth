@@ -25,6 +25,7 @@
 #include <playerinterface.h>
 #include <handinterface.h>
 #include <berointerface.h>
+#include <log.h>
 #include <boost/thread.hpp>
 
 #include <vector>
@@ -32,7 +33,7 @@
 class ClientHand : public HandInterface
 {
 	public:
-		ClientHand ( boost::shared_ptr<EngineFactory> f, GuiInterface*, BoardInterface*, PlayerList, PlayerList, PlayerList , int, int, int, int, int );
+        ClientHand ( boost::shared_ptr<EngineFactory> f, GuiInterface*, BoardInterface*, Log*, PlayerList, PlayerList, PlayerList , int, int, int, int, int );
 		~ClientHand();
 
 		void start();
@@ -98,6 +99,7 @@ class ClientHand : public HandInterface
 		boost::shared_ptr<EngineFactory> myFactory;
 		GuiInterface *myGui;
 		BoardInterface *myBoard;
+        Log *myLog;
 
 		PlayerList seatsList;
 		PlayerList activePlayerList;

@@ -30,8 +30,8 @@
 
 using namespace std;
 
-LocalHand::LocalHand(boost::shared_ptr<EngineFactory> f, GuiInterface *g, BoardInterface *b, PlayerList sl, PlayerList apl, PlayerList rpl, int id, int sP, unsigned dP, int sB,int sC)
-: myFactory(f), myGui(g),  myBoard(b), seatsList(sl), activePlayerList(apl), runningPlayerList(rpl), myBeRo(0), myID(id), startQuantityPlayers(sP), dealerPosition(dP), currentRound(0), smallBlind(sB), startCash(sC), lastPlayersTurn(-1), lastActionPlayer(0), allInCondition(false),
+LocalHand::LocalHand(boost::shared_ptr<EngineFactory> f, GuiInterface *g, BoardInterface *b, Log *l, PlayerList sl, PlayerList apl, PlayerList rpl, int id, int sP, unsigned dP, int sB,int sC)
+: myFactory(f), myGui(g),  myBoard(b), myLog(l), seatsList(sl), activePlayerList(apl), runningPlayerList(rpl), myBeRo(0), myID(id), startQuantityPlayers(sP), dealerPosition(dP), smallBlindPosition(dP), bigBlindPosition(dP), currentRound(0), smallBlind(sB), startCash(sC), lastPlayersTurn(-1), lastActionPlayer(0), allInCondition(false),
   cardsShown(false), bettingRoundsPlayed(0)
 {
 
@@ -358,6 +358,8 @@ LocalHand::LocalHand(boost::shared_ptr<EngineFactory> f, GuiInterface *g, BoardI
 	// determine dealer, SB, BB
 	assignButtons();
 
+    myLog->logNewHandMsg(myID, dealerPosition, smallBlind, smallBlindPosition, 2*smallBlind, bigBlindPosition, seatsList);
+
 	myBeRo = myFactory->createBeRo(this, myID, dealerPosition, smallBlind);
 }
 
@@ -426,10 +428,12 @@ void LocalHand::assignButtons() {
 			nextActivePlayerFound = true;
                         if(activePlayerList->size() > 2) {
                             //small blind normal
-                            (*it)->setMyButton(2);                            
+                            (*it)->setMyButton(2);
+                            smallBlindPosition = (*it)->getMyUniqueID();
                         } else {
                             //big blind in heads up
                             (*it)->setMyButton(3);
+                            bigBlindPosition = (*it)->getMyUniqueID();
                             // lastPlayerAction for showing cards
                         }
 
@@ -442,9 +446,11 @@ void LocalHand::assignButtons() {
                         if(activePlayerList->size() > 2) {
                              //big blind normal
                             (*it)->setMyButton(3);
+                            bigBlindPosition = (*it)->getMyUniqueID();
                         } else {
                             //small blind in heads up
                             (*it)->setMyButton(2);
+                            smallBlindPosition = (*it)->getMyUniqueID();
                         }
 
 			break;

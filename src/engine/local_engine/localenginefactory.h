@@ -37,7 +37,7 @@ public:
 	LocalEngineFactory(ConfigFile*);
 	~LocalEngineFactory();
 
-	HandInterface* createHand(boost::shared_ptr<EngineFactory> f, GuiInterface *g, BoardInterface *b, PlayerList sl, PlayerList apl, PlayerList rpl, int id, int sP, int dP, int sB,int sC);
+    HandInterface* createHand(boost::shared_ptr<EngineFactory> f, GuiInterface *g, BoardInterface *b, Log *l, PlayerList sl, PlayerList apl, PlayerList rpl, int id, int sP, int dP, int sB,int sC);
 	BoardInterface* createBoard();
 	boost::shared_ptr<PlayerInterface> createPlayer(BoardInterface *b, int id, unsigned uniqueId, PlayerType type, std::string name, std::string avatar, int sC, bool aS, int mB);
 	std::vector<boost::shared_ptr<BeRoInterface> > createBeRo(HandInterface* hi, int id, unsigned dP, int sB);

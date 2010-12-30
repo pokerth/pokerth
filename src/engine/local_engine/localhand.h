@@ -31,10 +31,11 @@
 #include <handinterface.h>
 #include <berointerface.h>
 
+class Log;
 
 class LocalHand : public HandInterface{
 public:
-	LocalHand(boost::shared_ptr<EngineFactory> f, GuiInterface*, BoardInterface*, PlayerList, PlayerList, PlayerList, int, int, unsigned, int, int);
+    LocalHand(boost::shared_ptr<EngineFactory> f, GuiInterface*, BoardInterface*, Log*, PlayerList, PlayerList, PlayerList, int, int, unsigned, int, int);
 	~LocalHand();
 
 	void start();
@@ -98,16 +99,19 @@ private:
 	boost::shared_ptr<EngineFactory> myFactory;
 	GuiInterface *myGui;
 	BoardInterface *myBoard;
+    Log *myLog;
 
-        PlayerList seatsList; // all player
-        PlayerList activePlayerList; // all player who are not out
-        PlayerList runningPlayerList; // all player who are not folded, not all in and not out
+    PlayerList seatsList; // all player
+    PlayerList activePlayerList; // all player who are not out
+    PlayerList runningPlayerList; // all player who are not folded, not all in and not out
 
 	std::vector<boost::shared_ptr<BeRoInterface> > myBeRo;
 
 	int myID;
 	int startQuantityPlayers;
 	unsigned dealerPosition;
+    unsigned smallBlindPosition;
+    unsigned bigBlindPosition;
 	int currentRound; //0 = preflop, 1 = flop, 2 = turn, 3 = river
 	int smallBlind;
 	int startCash;
