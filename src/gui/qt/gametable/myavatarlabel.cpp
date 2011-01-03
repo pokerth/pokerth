@@ -29,7 +29,7 @@ MyAvatarLabel::MyAvatarLabel(QGroupBox* parent)
     myContextMenu->addAction(action_VoteForKick);
     action_IgnorePlayer = new QAction(QIcon(":/gfx/im-ban-user.png"), tr("Ignore Player"), myContextMenu);
     myContextMenu->addAction(action_IgnorePlayer);
-    action_ReportBadAvatar = new QAction(QIcon(":/gfx/emblem-important.png"), tr("Report bad Avatar"), myContextMenu);
+    action_ReportBadAvatar = new QAction(QIcon(":/gfx/emblem-important.png"), tr("Report inappropriate avatar"), myContextMenu);
     myContextMenu->addAction(action_ReportBadAvatar);
 
 
@@ -52,77 +52,83 @@ void MyAvatarLabel::contextMenuEvent ( QContextMenuEvent *event ) {
         //only active players are allowed to start a vote
         if((*it)->getMyActiveStatus()) {
 
-            if(myW->getGuestMode()) {
+//           if(myW->getGuestMode()) {
                 //excpetions for client is logged in as guest
 
-                Game *currentGame = myW->getSession()->getCurrentGame();
-                PlayerListConstIterator it_c;
-                int activePlayerCounter=0;
+                //TODO diese RIESENSAUEREI aufräumen!!!
 
-                setVoteOnKickContextMenuEnabled(FALSE);
-                action_IgnorePlayer->setEnabled(FALSE);
+//                Game *currentGame = myW->getSession()->getCurrentGame();
+//                PlayerListConstIterator it_c;
+//                int activePlayerCounter=0;
 
-                if(myW->getSession()->getGameType() == Session::GAME_TYPE_INTERNET) {
-                    action_ReportBadAvatar->setVisible(TRUE);
-                }
-                else {
-                    action_ReportBadAvatar->setVisible(FALSE);
-                }
+//                setVoteOnKickContextMenuEnabled(FALSE);
+//                action_IgnorePlayer->setEnabled(FALSE);
 
-                int i=0;
-                for (it_c=currentGame->getSeatsList()->begin(); it_c!=currentGame->getSeatsList()->end(); it_c++) {
+//                if(myW->getSession()->getGameType() == Session::GAME_TYPE_INTERNET) {
+//                    action_ReportBadAvatar->setVisible(TRUE);
+//                }
+//                else {
+//                    action_ReportBadAvatar->setVisible(FALSE);
+//                }
 
-                    //also inactive player which stays on table can be voted to kick
-                    if(myContextMenuEnabled && myId != 0 && myId == i && (*it_c)->getMyType() != PLAYER_TYPE_COMPUTER && ( (*it_c)->getMyActiveStatus() || (*it_c)->getMyStayOnTableStatus() ) )
-                        showContextMenu(event->globalPos());
+//                int i=0;
+//                for (it_c=currentGame->getSeatsList()->begin(); it_c!=currentGame->getSeatsList()->end(); it_c++) {
 
-                    i++;
-                }
-            }
-            else {
+//                    //also inactive player which stays on table can be voted to kick
+//                    if(myContextMenuEnabled && myId != 0 && myId == i && (*it_c)->getMyType() != PLAYER_TYPE_COMPUTER && ( (*it_c)->getMyActiveStatus() || (*it_c)->getMyStayOnTableStatus() ) && !(QString::fromUtf8((*it_c)->getMyAvatar().c_str()).isEmpty()) )
+//                        showContextMenu(event->globalPos());
+
+//                    i++;
+//                }
+//            }
+//            else {
                 //normal player mode in internet game
 
-                Game *currentGame = myW->getSession()->getCurrentGame();
-                PlayerListConstIterator it_c;
-                int activePlayerCounter=0;
+            Game *currentGame = myW->getSession()->getCurrentGame();
+            PlayerListConstIterator it_c;
+            int activePlayerCounter=0;
 
-                for (it_c=currentGame->getSeatsList()->begin(); it_c!=currentGame->getSeatsList()->end(); it_c++) {
-                    if((*it_c)->getMyActiveStatus()) activePlayerCounter++;
-                }
-                GameInfo info(myW->getSession()->getClientGameInfo(myW->getSession()->getClientCurrentGameId()));
-
-                if(activePlayerCounter > 2 && !voteRunning && info.data.gameType != GAME_TYPE_RANKING) setVoteOnKickContextMenuEnabled(TRUE);
-                else setVoteOnKickContextMenuEnabled(FALSE);
-
-                action_IgnorePlayer->setEnabled(true);
-
-                int j=0;
-                for (it_c=currentGame->getSeatsList()->begin(); it_c!=currentGame->getSeatsList()->end(); it_c++) {
-
-                    if(myId == j && myW->getSession()->getClientPlayerInfo((*it_c)->getMyUniqueID()).isGuest) {
-                        action_IgnorePlayer->setDisabled(true);
-                    }
-                    j++;
-                }
-
-                if(myW->getSession()->getGameType() == Session::GAME_TYPE_INTERNET) {
-                    action_ReportBadAvatar->setVisible(TRUE);
-                }
-                else {
-                    action_ReportBadAvatar->setVisible(FALSE);
-                }
-
-                int i=0;
-                for (it_c=currentGame->getSeatsList()->begin(); it_c!=currentGame->getSeatsList()->end(); it_c++) {
-
-                    //also inactive player which stays on table can be voted to kick
-                    if(myContextMenuEnabled && myId != 0 && myId == i && (*it_c)->getMyType() != PLAYER_TYPE_COMPUTER && ( (*it_c)->getMyActiveStatus() || (*it_c)->getMyStayOnTableStatus() ) )
-                        showContextMenu(event->globalPos());
-
-                    i++;
-                }
-
+            for (it_c=currentGame->getSeatsList()->begin(); it_c!=currentGame->getSeatsList()->end(); it_c++) {
+                if((*it_c)->getMyActiveStatus()) activePlayerCounter++;
             }
+            GameInfo info(myW->getSession()->getClientGameInfo(myW->getSession()->getClientCurrentGameId()));
+
+            if(activePlayerCounter > 2 && !voteRunning && info.data.gameType != GAME_TYPE_RANKING && !myW->getGuestMode()) {
+                setVoteOnKickContextMenuEnabled(TRUE);
+            }
+            else {
+                setVoteOnKickContextMenuEnabled(FALSE);
+            }
+
+            action_IgnorePlayer->setEnabled(true);
+
+            int j=0;
+            for (it_c=currentGame->getSeatsList()->begin(); it_c!=currentGame->getSeatsList()->end(); it_c++) {
+
+                if(myId == j && myW->getSession()->getClientPlayerInfo((*it_c)->getMyUniqueID()).isGuest) {
+                    action_IgnorePlayer->setDisabled(true);
+                }
+                j++;
+            }
+
+            if(myW->getSession()->getGameType() == Session::GAME_TYPE_INTERNET) {
+                action_ReportBadAvatar->setVisible(TRUE);
+            }
+            else {
+                action_ReportBadAvatar->setVisible(FALSE);
+            }
+
+            int i=0;
+            for (it_c=currentGame->getSeatsList()->begin(); it_c!=currentGame->getSeatsList()->end(); it_c++) {
+
+                //also inactive player which stays on table can be voted to kick
+                if(myContextMenuEnabled && myId != 0 && myId == i && (*it_c)->getMyType() != PLAYER_TYPE_COMPUTER && ( (*it_c)->getMyActiveStatus() || (*it_c)->getMyStayOnTableStatus() ) && !(QString::fromUtf8((*it_c)->getMyAvatar().c_str()).isEmpty()) )
+                    showContextMenu(event->globalPos());
+
+                i++;
+            }
+
+
         }
     }
 }
