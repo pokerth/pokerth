@@ -111,7 +111,7 @@ void MyAvatarLabel::contextMenuEvent ( QContextMenuEvent *event ) {
                 j++;
             }
 
-            if(myW->getSession()->getGameType() == Session::GAME_TYPE_INTERNET) {
+            if(myW->getSession()->getGameType() == Session::GAME_TYPE_INTERNET && !(QString::fromUtf8((*it_c)->getMyAvatar().c_str()).isEmpty()) ) {
                 action_ReportBadAvatar->setVisible(TRUE);
             }
             else {
@@ -122,7 +122,7 @@ void MyAvatarLabel::contextMenuEvent ( QContextMenuEvent *event ) {
             for (it_c=currentGame->getSeatsList()->begin(); it_c!=currentGame->getSeatsList()->end(); it_c++) {
 
                 //also inactive player which stays on table can be voted to kick
-                if(myContextMenuEnabled && myId != 0 && myId == i && (*it_c)->getMyType() != PLAYER_TYPE_COMPUTER && ( (*it_c)->getMyActiveStatus() || (*it_c)->getMyStayOnTableStatus() ) && !(QString::fromUtf8((*it_c)->getMyAvatar().c_str()).isEmpty()) )
+                if(myContextMenuEnabled && myId != 0 && myId == i && (*it_c)->getMyType() != PLAYER_TYPE_COMPUTER && ( (*it_c)->getMyActiveStatus() || (*it_c)->getMyStayOnTableStatus() ) )
                     showContextMenu(event->globalPos());
 
                 i++;
