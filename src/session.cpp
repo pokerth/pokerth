@@ -46,7 +46,7 @@ Session::Session(GuiInterface *g, ConfigFile *c)
     : currentGameNum(0), myGui(g), myConfig(c), myLog(0), myGameType(GAME_TYPE_NONE)
 {
     myQtToolsInterface = CreateQtToolsWrapper();
-    myLog = new Log(myConfig);
+    myLog = new Log(myConfig->readConfigString("LogDir"),myConfig->readConfigInt("LogOnOff"));
 }
 
 
@@ -56,6 +56,8 @@ Session::~Session()
     terminateNetworkServer();
     delete myQtToolsInterface;
     myQtToolsInterface = 0;
+    delete myLog;
+    myLog = 0;
 }
 
 bool Session::init()

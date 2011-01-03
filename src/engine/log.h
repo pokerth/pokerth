@@ -22,9 +22,9 @@
 
 #include <boost/shared_ptr.hpp>
 #include <list>
+#include <iostream>
 
 struct sqlite3;
-class ConfigFile;
 class PlayerInterface;
 
 typedef boost::shared_ptr<std::list<boost::shared_ptr<PlayerInterface> > > PlayerList;
@@ -35,7 +35,7 @@ class Log
 {
 
 public:
-    Log(ConfigFile *c);
+    Log(std::string logDirString, int logOnOffInt);
 
     ~Log();
 
@@ -45,9 +45,9 @@ public:
 
 
 private:
-    ConfigFile *myConfig;
     sqlite3 *mySqliteLogDb;
     int curGameID;
+    bool logOnOff;
 
 };
 

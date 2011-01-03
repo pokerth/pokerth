@@ -29,19 +29,21 @@
 
 using namespace std;
 
-Log::Log(ConfigFile *c) : myConfig(c), curGameID(0)
+Log::Log(string logDirString, int logOnOffInt) : curGameID(0), logOnOff(false)
 {
 
     if(SQLITE_LOG) {
 
         // logging activated
-        if(myConfig->readConfigInt("LogOnOff")) {
+        if(logOnOffInt) {
+
+            logOnOff = true;
 
             DIR *logDir;
-            logDir = opendir(myConfig->readConfigString("LogDir").c_str());
+            logDir = opendir(logDirString.c_str());
 
             // check if logging path exist
-            if(myConfig->readConfigString("LogDir") != "" && logDir) {
+            if(logDirString != "" && logDir) {
 
                 int i;
                 string sql;
@@ -57,7 +59,7 @@ Log::Log(ConfigFile *c) : myConfig(c), curGameID(0)
                 strftime(curDate,11,"%Y-%m-%d",z);
                 strftime(curTime,9,"%H:%M:%S",z);
 
-                string mySqliteLogFileName = boost::lexical_cast<string>(myConfig->readConfigString("LogDir").c_str());
+                string mySqliteLogFileName = boost::lexical_cast<string>(logDirString.c_str());
                        mySqliteLogFileName += "pokerth-log-" + boost::lexical_cast<string>(curDateTime) + ".pdb";
 
                 // open sqlite-db
@@ -163,7 +165,7 @@ Log::logNewGameMsg(int gameID, int startCash, int startSmallBlind, unsigned deal
 
     if(SQLITE_LOG) {
 
-        if(myConfig->readConfigInt("LogOnOff")) {
+        if(logOnOff) {
             //if write logfiles is enabled
 
             PlayerListConstIterator it_c;
@@ -208,7 +210,7 @@ Log::logNewHandMsg(int handID, unsigned dealerPosition, int smallBlind, unsigned
 
     if(SQLITE_LOG) {
 
-        if(myConfig->readConfigInt("LogOnOff")) {
+        if(logOnOff) {
             //if write logfiles is enabled
 
             PlayerListConstIterator it_c;
