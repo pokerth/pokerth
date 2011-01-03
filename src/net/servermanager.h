@@ -40,7 +40,7 @@ class AvatarManager;
 class ServerManager
 {
 public:
-	ServerManager(GuiInterface &gui, ConfigFile *config, AvatarManager &avatarManager);
+	ServerManager(GuiInterface &gui, ConfigFile &config, AvatarManager &avatarManager);
 	virtual ~ServerManager();
 
 	// Set the parameters.
@@ -66,7 +66,7 @@ protected:
 
 private:
 	GuiInterface &m_gui;
-	ConfigFile *m_playerConfig;
+	ConfigFile &m_playerConfig;
 	AvatarManager &m_avatarManager;
 
 	boost::shared_ptr<boost::asio::io_service> m_ioService;

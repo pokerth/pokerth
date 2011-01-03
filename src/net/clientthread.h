@@ -41,6 +41,7 @@ class ClientSenderCallback;
 class Game;
 class NetPacket;
 class AvatarManager;
+class Log;
 class QtToolsInterface;
 struct Gsasl;
 
@@ -214,6 +215,7 @@ private:
 
 	boost::shared_ptr<boost::asio::io_service> m_ioService;
 	boost::shared_ptr<ClientSenderCallback> m_senderCallback;
+	boost::shared_ptr<Log> m_clientLog;
 
 	Gsasl *m_authContext;
 

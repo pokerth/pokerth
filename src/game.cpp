@@ -41,12 +41,12 @@ Game::Game(GuiInterface* gui, boost::shared_ptr<EngineFactory> factory,
 
 	blindsList = myGameData.manualBlindsList;
 
-        dealerPosition = startData.startDealerPlayerId;
+	dealerPosition = startData.startDealerPlayerId;
 
-        if(DEBUG_MODE) {
-                startSmallBlind = 10;
+	if(DEBUG_MODE) {
+		startSmallBlind = 10;
 		currentSmallBlind = startSmallBlind;
-                dealerPosition = 4;
+		dealerPosition = 4;
 	}
 
 	int i;
@@ -57,7 +57,7 @@ Game::Game(GuiInterface* gui, boost::shared_ptr<EngineFactory> factory,
 
 	while (player_i != player_end)
 	{
-                if ((*player_i)->GetUniqueId() == dealerPosition)
+		if ((*player_i)->GetUniqueId() == dealerPosition)
 			break;
 		++player_i;
 	}

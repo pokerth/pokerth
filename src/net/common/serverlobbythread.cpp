@@ -38,6 +38,7 @@
 #include <core/loghelper.h>
 #include <core/openssl_wrapper.h>
 #include <configfile.h>
+#include <log.h>
 
 #include <fstream>
 #include <sstream>
@@ -172,7 +173,7 @@ private:
 };
 
 
-ServerLobbyThread::ServerLobbyThread(GuiInterface &gui, ServerMode mode, ServerIrcBotCallback &ircBotCb, ConfigFile *serverConfig,
+ServerLobbyThread::ServerLobbyThread(GuiInterface &gui, ServerMode mode, ServerIrcBotCallback &ircBotCb, ConfigFile &serverConfig,
 									 AvatarManager &avatarManager, boost::shared_ptr<boost::asio::io_service> ioService)
 : m_ioService(ioService), m_authContext(NULL), m_gui(gui), m_ircBotCb(ircBotCb), m_avatarManager(avatarManager),
   m_mode(mode), m_serverConfig(serverConfig), m_curGameId(0), m_curUniquePlayerId(0), m_curSessionId(INVALID_SESSION + 1),
@@ -209,13 +210,14 @@ ServerLobbyThread::Init(const string &logDir)
 		}
 	}
 	m_database->Init(
-		m_serverConfig->readConfigString("DBServerAddress"),
-		m_serverConfig->readConfigString("DBServerUser"),
-		m_serverConfig->readConfigString("DBServerPassword"),
-		m_serverConfig->readConfigString("DBServerDatabaseName"),
-		m_serverConfig->readConfigString("DBServerEncryptionKey"));
+		m_serverConfig.readConfigString("DBServerAddress"),
+		m_serverConfig.readConfigString("DBServerUser"),
+		m_serverConfig.readConfigString("DBServerPassword"),
+		m_serverConfig.readConfigString("DBServerDatabaseName"),
+		m_serverConfig.readConfigString("DBServerEncryptionKey"));
 
-	GetBanManager().InitGameNameBadWordList(m_serverConfig->readConfigStringList("GameNameBadWordList"));
+	GetBanManager().InitGameNameBadWordList(m_serverConfig.readConfigStringList("GameNameBadWordList"));
+	m_serverLog.reset(new Log(logDir, 0));
 }
 
 void
@@ -812,14 +814,14 @@ ServerLobbyThread::ClearAuthContext()
 void
 ServerLobbyThread::InitChatCleaner()
 {
-	if (m_serverConfig->readConfigInt("UseChatCleaner") != 0)
+	if (m_serverConfig.readConfigInt("UseChatCleaner") != 0)
 	{
 		m_chatCleanerManager->Init(
-				m_serverConfig->readConfigString("ChatCleanerHostAddress"),
-				m_serverConfig->readConfigInt("ChatCleanerPort"),
-				m_serverConfig->readConfigInt("ChatCleanerUseIpv6") != 0,
-				m_serverConfig->readConfigString("ChatCleanerClientAuth"),
-				m_serverConfig->readConfigString("ChatCleanerServerAuth"));
+				m_serverConfig.readConfigString("ChatCleanerHostAddress"),
+				m_serverConfig.readConfigInt("ChatCleanerPort"),
+				m_serverConfig.readConfigInt("ChatCleanerUseIpv6") != 0,
+				m_serverConfig.readConfigString("ChatCleanerClientAuth"),
+				m_serverConfig.readConfigString("ChatCleanerServerAuth"));
 	}
 }
 
@@ -1008,7 +1010,7 @@ ServerLobbyThread::HandleNetPacketInit(SessionWrapper session, const InitMessage
 	// Before any other processing, perform some denial of service and
 	// brute force attack prevention by checking whether the user recently sent an
 	// Init packet.
-	if (m_serverConfig->readConfigInt("ServerBruteForceProtection") != 0)
+	if (m_serverConfig.readConfigInt("ServerBruteForceProtection") != 0)
 	{
 		bool recentlySentInit = false;
 		{
@@ -1376,7 +1378,8 @@ ServerLobbyThread::HandleNetPacketCreateGame(SessionWrapper session, const std::
 				tmpData,
 				session.playerData->GetUniqueId(),
 				GetGui(),
-				m_serverConfig));
+				m_serverConfig,
+				*m_serverLog));
 		game->Init();
 
 		// Add game to list of games.

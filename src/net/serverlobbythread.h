@@ -30,6 +30,7 @@
 #include <gui/guiinterface.h>
 #include <gamedata.h>
 
+class Log;
 
 #define NET_LOBBY_THREAD_TERMINATE_TIMEOUT_MSEC		20000
 #define NET_ADMIN_IRC_TERMINATE_TIMEOUT_MSEC		4000
@@ -52,7 +53,7 @@ struct Gsasl;
 class ServerLobbyThread : public Thread, public boost::enable_shared_from_this<ServerLobbyThread>
 {
 public:
-	ServerLobbyThread(GuiInterface &gui, ServerMode mode, ServerIrcBotCallback &ircBotCb, ConfigFile *serverConfig, AvatarManager &avatarManager,
+	ServerLobbyThread(GuiInterface &gui, ServerMode mode, ServerIrcBotCallback &ircBotCb, ConfigFile &serverConfig, AvatarManager &avatarManager,
 		boost::shared_ptr<boost::asio::io_service> ioService);
 	virtual ~ServerLobbyThread();
 
@@ -227,12 +228,14 @@ private:
 
 	const ServerMode m_mode;
 	std::string m_statisticsFileName;
-	ConfigFile *m_serverConfig;
+	ConfigFile &m_serverConfig;
 	u_int32_t m_curGameId;
 
 	u_int32_t m_curUniquePlayerId;
 	u_int32_t m_curSessionId;
 	mutable boost::mutex m_curUniquePlayerIdMutex;
+
+	boost::shared_ptr<Log> m_serverLog;
 
 	ServerStats m_statData;
 	bool m_statDataChanged;

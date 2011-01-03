@@ -31,7 +31,7 @@
 
 using namespace std;
 
-ServerManager::ServerManager(GuiInterface &gui, ConfigFile *config, AvatarManager &avatarManager)
+ServerManager::ServerManager(GuiInterface &gui, ConfigFile &config, AvatarManager &avatarManager)
 : m_gui(gui), m_playerConfig(config), m_avatarManager(avatarManager)
 {
 	m_ioService.reset(new boost::asio::io_service);

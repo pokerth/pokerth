@@ -44,7 +44,7 @@ class Game {
 public:
     Game(GuiInterface *gui, boost::shared_ptr<EngineFactory> factory,
 		const PlayerDataList &playerDataList, const GameData &gameData,
-        const StartData &startData, int gameId, Log *myLog = 0);
+		const StartData &startData, int gameId, Log *myLog);
 
 	~Game();
 
@@ -75,7 +75,7 @@ public:
 	void setCurrentHandID(int theValue) { currentHandID = theValue; }
 	int getCurrentHandID() const { return currentHandID; }
 
-        unsigned getDealerPosition() const { return dealerPosition; }
+	unsigned getDealerPosition() const { return dealerPosition; }
 
 	boost::shared_ptr<PlayerInterface> getPlayerByUniqueId(unsigned id);
 	boost::shared_ptr<PlayerInterface> getCurrentPlayer();

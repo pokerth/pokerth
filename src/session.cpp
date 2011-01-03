@@ -268,7 +268,7 @@ void Session::startNetworkServer(bool dedicated)
         return;
     }
 
-    myNetServer.reset(new ServerManager(*myGui, myConfig, *myAvatarManager));
+	myNetServer.reset(new ServerManager(*myGui, *myConfig, *myAvatarManager));
 
     boost::shared_ptr<IrcThread> tmpIrcAdminThread;
     boost::shared_ptr<IrcThread> tmpIrcLobbyThread;

@@ -32,6 +32,7 @@
 #include <db/serverdbinterface.h>
 #include <db/serverdbnoaction.h>
 #include <game.h>
+#include <log.h>
 #include <localenginefactory.h>
 #include <tools.h>
 #include <configfile.h>
@@ -48,11 +49,11 @@ static bool LessThanPlayerHandStartMoney(const boost::shared_ptr<PlayerInterface
 }
 
 
-ServerGame::ServerGame(boost::shared_ptr<ServerLobbyThread> lobbyThread, u_int32_t id, const string &name, const string &pwd, const GameData &gameData, unsigned adminPlayerId, GuiInterface &gui, ConfigFile *playerConfig)
+ServerGame::ServerGame(boost::shared_ptr<ServerLobbyThread> lobbyThread, u_int32_t id, const string &name, const string &pwd, const GameData &gameData, unsigned adminPlayerId, GuiInterface &gui, ConfigFile &playerConfig, Log &serverLog)
 : m_adminPlayerId(adminPlayerId), m_lobbyThread(lobbyThread), m_gui(gui),
   m_gameData(gameData), m_curState(NULL), m_id(id), m_dbId(DB_ID_INVALID), m_name(name),
-  m_password(pwd), m_playerConfig(playerConfig), m_gameNum(1), m_curPetitionId(1),
-  m_doNotAutoKickSmallDelaySec(10), m_voteKickTimer(lobbyThread->GetIOService()),
+  m_password(pwd), m_playerConfig(playerConfig), m_serverLog(serverLog), m_gameNum(1),
+  m_curPetitionId(1), m_doNotAutoKickSmallDelaySec(10), m_voteKickTimer(lobbyThread->GetIOService()),
   m_stateTimer1(lobbyThread->GetIOService()), m_stateTimer2(lobbyThread->GetIOService())
 {
 	LOG_VERBOSE("Game object " << GetId() << " created.");
@@ -68,7 +69,7 @@ ServerGame::~ServerGame()
 void
 ServerGame::Init()
 {
-	m_doNotAutoKickSmallDelaySec = m_playerConfig->readConfigInt("ServerDoNotAutoKickSmallDelaySec");
+	m_doNotAutoKickSmallDelaySec = m_playerConfig.readConfigInt("ServerDoNotAutoKickSmallDelaySec");
 	SetState(SERVER_INITIAL_STATE::Instance());
 }
 
@@ -257,7 +258,7 @@ ServerGame::InternalStartGame()
 		AssignPlayerNumbers(playerData);
 
 		// Create EngineFactory
-		boost::shared_ptr<EngineFactory> factory(new LocalEngineFactory(m_playerConfig)); // LocalEngine erstellen
+		boost::shared_ptr<EngineFactory> factory(new LocalEngineFactory(&m_playerConfig)); // LocalEngine erstellen
 
 		// Set start data.
 		StartData startData;
@@ -286,7 +287,7 @@ ServerGame::InternalStartGame()
 		SetStartData(startData);
 
 		GuiInterface &gui = GetGui();
-		m_game.reset(new Game(&gui, factory, playerData, GetGameData(), GetStartData(), GetNextGameNum()));
+		m_game.reset(new Game(&gui, factory, playerData, GetGameData(), GetStartData(), GetNextGameNum(), &m_serverLog));
 
 		GetDatabase().AsyncCreateGame(GetId(), GetName());
 		InitRankingMap(playerData);

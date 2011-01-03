@@ -32,6 +32,7 @@
 #include <core/loghelper.h>
 #include <clientenginefactory.h>
 #include <game.h>
+#include <log.h>
 #include <qttoolsinterface.h>
 
 #include <boost/lambda/lambda.hpp>
@@ -71,6 +72,7 @@ ClientThread::ClientThread(GuiInterface &gui, AvatarManager &avatarManager)
   m_curGameId(0), m_curGameNum(1), m_guiPlayerId(0), m_sessionEstablished(false),
   m_stateTimer(*m_ioService), m_avatarTimer(*m_ioService)
 {
+	m_clientLog.reset(new Log("", 0));
 	m_context.reset(new ClientContext);
 	m_receiver.reset(new ReceiverHelper);
 	myQtToolsInterface.reset(CreateQtToolsWrapper());
@@ -626,7 +628,7 @@ ClientThread::InitGame()
 	MapPlayerDataList();
 	if (GetPlayerDataList().size() != (unsigned)GetStartData().numberOfPlayers)
 		throw ClientException(__FILE__, __LINE__, ERR_NET_INVALID_PLAYER_COUNT, 0);
-	m_game.reset(new Game(&m_gui, factory, GetPlayerDataList(), GetGameData(), GetStartData(), m_curGameNum++));
+	m_game.reset(new Game(&m_gui, factory, GetPlayerDataList(), GetGameData(), GetStartData(), m_curGameNum++, m_clientLog.get()));
 	// Initialize Minimum GUI speed.
 	int minimumGuiSpeed = 1;
 	if(GetGameData().delayBetweenHandsSec < 11) {
