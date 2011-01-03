@@ -1,9 +1,8 @@
-xxxx-xx-xx version 0.8.2:
+2011-01-03 version 0.8.2:
 - Report bad avatar function to tell the admins about illegal avatar pictures (right click on players avatar on the table)
 - Optional add country flag to avatar feature
 - /me messages supported in lobby-chat now
 - Bugfixes (e.g. 0000022, 0000024)
-- Translation updated
 
 2010-10-09 version 0.8.1:
 (this is a bugfix release)

@@ -52,38 +52,6 @@ void MyAvatarLabel::contextMenuEvent ( QContextMenuEvent *event ) {
         //only active players are allowed to start a vote
         if((*it)->getMyActiveStatus()) {
 
-            //           if(myW->getGuestMode()) {
-            //excpetions for client is logged in as guest
-
-            //TODO diese RIESENSAUEREI aufräumen!!!
-
-            //                Game *currentGame = myW->getSession()->getCurrentGame();
-            //                PlayerListConstIterator it_c;
-            //                int activePlayerCounter=0;
-
-            //                setVoteOnKickContextMenuEnabled(FALSE);
-            //                action_IgnorePlayer->setEnabled(FALSE);
-
-            //                if(myW->getSession()->getGameType() == Session::GAME_TYPE_INTERNET) {
-            //                    action_ReportBadAvatar->setVisible(TRUE);
-            //                }
-            //                else {
-            //                    action_ReportBadAvatar->setVisible(FALSE);
-            //                }
-
-            //                int i=0;
-            //                for (it_c=currentGame->getSeatsList()->begin(); it_c!=currentGame->getSeatsList()->end(); it_c++) {
-
-            //                    //also inactive player which stays on table can be voted to kick
-            //                    if(myContextMenuEnabled && myId != 0 && myId == i && (*it_c)->getMyType() != PLAYER_TYPE_COMPUTER && ( (*it_c)->getMyActiveStatus() || (*it_c)->getMyStayOnTableStatus() ) && !(QString::fromUtf8((*it_c)->getMyAvatar().c_str()).isEmpty()) )
-            //                        showContextMenu(event->globalPos());
-
-            //                    i++;
-            //                }
-            //            }
-            //            else {
-            //normal player mode in internet game
-
             Game *currentGame = myW->getSession()->getCurrentGame();
             PlayerListConstIterator it_c;
             int activePlayerCounter=0;
