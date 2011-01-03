@@ -18,14 +18,14 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#include <sqlite3.h>
-#include <iostream>
-#include <dirent.h>
-#include <boost/lexical_cast.hpp>
 #include "configfile.h"
 #include "game_defs.h"
 #include "log.h"
 #include "playerinterface.h"
+#include <sqlite3.h>
+#include <iostream>
+#include <dirent.h>
+#include <boost/lexical_cast.hpp>
 
 using namespace std;
 

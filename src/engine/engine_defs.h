@@ -17,52 +17,16 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef BEROINTERFACE_H
-#define BEROINTERFACE_H
+#ifndef ENGINE_DEFS_H
+#define ENGINE_DEFS_H
 
-#include <game_defs.h>
-#include <engine_defs.h>
+#include <boost/shared_ptr.hpp>
+#include <list>
 
-class BeRoInterface{
-public:
+class PlayerInterface;
 
-	virtual ~BeRoInterface();
-	
-	virtual GameState getMyBeRoID() const =0;
-
-	virtual void setCurrentPlayersTurnId(unsigned) =0;
-	virtual unsigned getCurrentPlayersTurnId() const =0;
-
-	virtual void setCurrentPlayersTurnIt(PlayerListIterator) =0;
-	virtual PlayerListIterator getCurrentPlayersTurnIt() const =0;
-
-	virtual void setSmallBlindPositionId(unsigned) =0;
-	virtual unsigned getSmallBlindPositionId() const =0;
-
-	virtual void setBigBlindPositionId(unsigned) =0;
-	virtual unsigned getBigBlindPositionId() const =0;
-
-	virtual void setHighestSet(int) =0;
-	virtual int getHighestSet() const =0;
-
-	virtual void setHighestCardsValue(int theValue) =0;
-	virtual int getHighestCardsValue() const =0;
-
-	virtual void setMinimumRaise (int) =0;
-	virtual int getMinimumRaise() const =0;
-
-	virtual void setFullBetRule (bool) =0;
-	virtual bool getFullBetRule() const =0;
-
-	virtual bool getFirstRound() const =0;
-
-	virtual void skipFirstRunGui() =0;
-
-	virtual void nextPlayer() =0;
-	virtual void run() =0;
-
-	virtual void postRiverRun() =0;
-
-};
+typedef boost::shared_ptr<std::list<boost::shared_ptr<PlayerInterface> > > PlayerList;
+typedef std::list<boost::shared_ptr<PlayerInterface> >::iterator PlayerListIterator;
+typedef std::list<boost::shared_ptr<PlayerInterface> >::const_iterator PlayerListConstIterator;
 
 #endif

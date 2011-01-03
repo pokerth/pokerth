@@ -20,16 +20,9 @@
 #ifndef LOG_H
 #define LOG_H
 
-#include <boost/shared_ptr.hpp>
-#include <list>
-#include <iostream>
+#include <engine_defs.h>
 
 struct sqlite3;
-class PlayerInterface;
-
-typedef boost::shared_ptr<std::list<boost::shared_ptr<PlayerInterface> > > PlayerList;
-typedef std::list<boost::shared_ptr<PlayerInterface> >::iterator PlayerListIterator;
-typedef std::list<boost::shared_ptr<PlayerInterface> >::const_iterator PlayerListConstIterator;
 
 class Log
 {

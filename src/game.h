@@ -20,7 +20,7 @@
 #ifndef GAME_H
 #define GAME_H
 
-#include <boost/shared_ptr.hpp>
+#include <engine_defs.h>
 #include "gamedata.h"
 #include "playerdata.h"
 
@@ -29,15 +29,11 @@
 class GuiInterface;
 class Log;
 class HandInterface;
-class PlayerInterface;
 class BoardInterface;
 class EngineFactory;
 struct GameData;
 struct StartData;
 
-typedef boost::shared_ptr<std::list<boost::shared_ptr<PlayerInterface> > > PlayerList;
-typedef std::list<boost::shared_ptr<PlayerInterface> >::iterator PlayerListIterator;
-typedef std::list<boost::shared_ptr<PlayerInterface> >::const_iterator PlayerListConstIterator;
 
 class Game {
 

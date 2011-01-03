@@ -20,22 +20,15 @@
 #ifndef BOARDINTERFACE_H
 #define BOARDINTERFACE_H
 
-#include <boost/shared_ptr.hpp>
-#include <vector>
-#include <list>
+#include <engine_defs.h>
 
-class PlayerInterface;
 class HandInterface;
-
-typedef boost::shared_ptr<std::list<boost::shared_ptr<PlayerInterface> > > PlayerList;
-typedef std::list<boost::shared_ptr<PlayerInterface> >::iterator PlayerListIterator;
-typedef std::list<boost::shared_ptr<PlayerInterface> >::const_iterator PlayerListConstIterator;
 
 class BoardInterface {
 
 public:
    
-    	virtual ~BoardInterface();
+	virtual ~BoardInterface();
 // 
 	virtual void setPlayerLists(PlayerList, PlayerList, PlayerList) =0;
 	virtual void setHand(HandInterface*) =0;
@@ -52,13 +45,13 @@ public:
 	virtual void collectPot() =0;
 
 	virtual void distributePot() =0;
-        virtual void determinePlayerNeedToShowCards() =0;
+	virtual void determinePlayerNeedToShowCards() =0;
 
 	virtual std::list<unsigned> getWinners() const =0;
 	virtual void setWinners(const std::list<unsigned> &winners) =0;
 
-        virtual std::list<unsigned> getPlayerNeedToShowCards() const =0;
-        virtual void setPlayerNeedToShowCards(const std::list<unsigned> &playerNeedToShowCards) =0;
+	virtual std::list<unsigned> getPlayerNeedToShowCards() const =0;
+	virtual void setPlayerNeedToShowCards(const std::list<unsigned> &playerNeedToShowCards) =0;
 
 };
 

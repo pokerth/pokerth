@@ -39,8 +39,8 @@ public:
 	void setMinimumRaise ( int theValue ) { minimumRaise = theValue; }
 	int getMinimumRaise() const { return minimumRaise; }
 
-        void setFullBetRule ( bool theValue ) { fullBetRule = theValue; }
-        bool getFullBetRule() const { return fullBetRule; }
+	void setFullBetRule ( bool theValue ) { fullBetRule = theValue; }
+	bool getFullBetRule() const { return fullBetRule; }
 
 	void skipFirstRunGui() { firstRunGui = false; }
 

@@ -20,16 +20,14 @@
 #ifndef LOCALHAND_H
 #define LOCALHAND_H
 
-#include <vector>
-
-#include <boost/shared_ptr.hpp>
-
 #include <enginefactory.h>
 #include <guiinterface.h>
 #include <boardinterface.h>
 #include <playerinterface.h>
 #include <handinterface.h>
 #include <berointerface.h>
+
+#include <vector>
 
 class Log;
 
