@@ -449,7 +449,8 @@ unix:!mac {
 	kFreeBSD = $$find(UNAME, "kFreeBSD")
 	LIBS += -lsqlite3
 	LIBS += $$BOOST_LIBS
-	LIBS += -lSDL_mixer \
+        LIBS += -lSDL \
+                -lSDL_mixer \
 		-lgsasl
 	!isEmpty( BSD ):isEmpty( kFreeBSD ):LIBS += -lcrypto
 	else:LIBS += -lgnutls-openssl \
