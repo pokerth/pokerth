@@ -28,6 +28,7 @@
 #include <net/net_helper.h>
 #include <db/serverdbinterface.h>
 #include <core/loghelper.h>
+#include <core/avatarmanager.h>
 #include <gamedata.h>
 #include <game.h>
 #include <playerinterface.h>
@@ -310,7 +311,7 @@ AbstractServerGameStateReceiving::ProcessPacket(boost::shared_ptr<ServerGame> se
 		boost::shared_ptr<PlayerData> tmpPlayer = server->GetPlayerDataByUniqueId(netReport->reportedPlayerId);
 		MD5Buf tmpMD5;
 		memcpy(tmpMD5.GetData(), netReport->reportedAvatar.buf, MD5_DATA_SIZE);
-		if (tmpPlayer && tmpPlayer->GetDBId() && tmpPlayer->GetAvatarMD5() == tmpMD5)
+		if (tmpPlayer && tmpPlayer->GetDBId() && !tmpMD5.IsZero() && tmpPlayer->GetAvatarMD5() == tmpMD5)
 		{
 			if (!server->IsAvatarReported(tmpPlayer->GetUniqueId()))
 			{
@@ -321,11 +322,18 @@ AbstractServerGameStateReceiving::ProcessPacket(boost::shared_ptr<ServerGame> se
 				// Do not use the "game" database object, but the global one.
 				// The entry should be created even if we are not running a
 				// ranking game.
+
+				string tmpAvatarType;
+				tmpAvatarType = AvatarManager::GetAvatarFileExtension(AvatarManager::GetAvatarFileType(tmpPlayer->GetAvatarFile()));
+				if (!tmpAvatarType.empty())
+					tmpAvatarType.erase(0, 1); // Only store extension without the "."
+
 				server->GetLobbyThread().GetDatabase()->AsyncReportAvatar(
 						session.playerData->GetUniqueId(),
 						tmpPlayer->GetUniqueId(),
 						tmpPlayer->GetDBId(),
 						tmpPlayer->GetAvatarMD5().ToString(),
+						tmpAvatarType,
 						myDBid != 0 ? &myDBid : NULL
 				);
 			}

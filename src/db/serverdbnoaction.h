@@ -44,7 +44,7 @@ public:
 	virtual void SetGamePlayerPlace(DB_id /*gameId*/, DB_id /*playerId*/, unsigned /*place*/) {}
 	virtual void EndGame(DB_id /*gameId*/) {}
 
-	virtual void AsyncReportAvatar(unsigned /*requestId*/, unsigned /*replyId*/, DB_id /*reportedPlayerId*/, const std::string &/*avatarHash*/, DB_id */*byPlayerId*/) {}
+	virtual void AsyncReportAvatar(unsigned /*requestId*/, unsigned /*replyId*/, DB_id /*reportedPlayerId*/, const std::string &/*avatarHash*/, const std::string &/*avatarType*/, DB_id */*byPlayerId*/) {}
 };
 
 #endif // _SERVERDBNOACTION_H_
