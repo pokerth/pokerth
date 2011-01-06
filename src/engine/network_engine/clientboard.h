@@ -31,7 +31,7 @@ class HandInterface;
 class ClientBoard : public BoardInterface
 {
 public:
-	ClientBoard();
+    ClientBoard(unsigned dealerPosition);
 	~ClientBoard();
 
 	void setPlayerLists(PlayerList, PlayerList, PlayerList);
@@ -44,6 +44,9 @@ public:
 	void setPot(int theValue);
 	int getSets() const;
 	void setSets(int theValue);
+
+    void setAllInCondition(bool theValue);
+    void setLastActionPlayer(unsigned theValue);
 
 	void collectSets();
 	void collectPot();
@@ -72,6 +75,9 @@ private:
 	int myCards[5];
 	int pot;
 	int sets;
+    unsigned dealerPosition;
+    bool allInCondition;
+    unsigned lastActionPlayer;
 };
 
 #endif

@@ -40,9 +40,9 @@ HandInterface* ClientEngineFactory::createHand(boost::shared_ptr<EngineFactory> 
     return new ClientHand(f, g, b, l, sl, apl, rpl, id, sP, dP, sB, sC);
 }
 
-BoardInterface* ClientEngineFactory::createBoard()
+BoardInterface* ClientEngineFactory::createBoard(unsigned dp)
 {
-	return new ClientBoard;
+    return new ClientBoard(dp);
 }
 
 boost::shared_ptr<PlayerInterface>  ClientEngineFactory::createPlayer(BoardInterface *b, int id, unsigned uniqueId, PlayerType type, std::string name, std::string avatar, int sC, bool aS, int mB)

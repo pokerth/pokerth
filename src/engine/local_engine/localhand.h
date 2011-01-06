@@ -81,7 +81,7 @@ public:
 	void setLastPlayersTurn(int theValue) { lastPlayersTurn = theValue; }
 	int getLastPlayersTurn() const { return lastPlayersTurn; }
 
-        void setLastActionPlayer ( unsigned theValue ) { lastActionPlayer = theValue; }
+        void setLastActionPlayer ( unsigned theValue );
         unsigned getLastActionPlayer() const { return lastActionPlayer; }
 
 	void setCardsShown(bool theValue) { cardsShown = theValue; }

@@ -28,8 +28,6 @@ ClientHand::ClientHand(boost::shared_ptr<EngineFactory> f, GuiInterface *g, Boar
 {
 	PlayerListIterator it;
 
-	myBoard->setHand(this);
-
 	for(it=seatsList->begin(); it!=seatsList->end(); it++) {
 		(*it)->setHand(this);
 	// myFlipCards auf 0 setzen

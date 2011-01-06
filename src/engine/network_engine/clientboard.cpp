@@ -23,8 +23,8 @@
 
 using namespace std;
 
-ClientBoard::ClientBoard()
-: currentHand(0), pot(0), sets(0)
+ClientBoard::ClientBoard(unsigned dp)
+: currentHand(0), pot(0), sets(0), dealerPosition(dp)
 {
 	myCards[0] = myCards[1] = myCards[2] = myCards[3] = myCards[4] = 0;
 }
@@ -92,6 +92,20 @@ ClientBoard::setSets(int theValue)
 {
 	boost::recursive_mutex::scoped_lock lock(m_syncMutex);
 	sets = theValue;
+}
+
+void
+ClientBoard::setAllInCondition(bool theValue)
+{
+    boost::recursive_mutex::scoped_lock lock(m_syncMutex);
+    allInCondition = theValue;
+}
+
+void
+ClientBoard::setLastActionPlayer(unsigned theValue)
+{
+    boost::recursive_mutex::scoped_lock lock(m_syncMutex);
+    lastActionPlayer = theValue;
 }
 
 void

@@ -32,14 +32,16 @@ class HandInterface;
 
 class LocalBoard : public BoardInterface{
 public:
-	LocalBoard();
+    LocalBoard(unsigned dealerPosition);
 	~LocalBoard();
 
 	void setPlayerLists(PlayerList, PlayerList, PlayerList);
-	void setHand(HandInterface*);
 
 	void setMyCards(int* theValue) { int i; for(i=0; i<5; i++) myCards[i] = theValue[i]; }
 	void getMyCards(int* theValue) { int i; for(i=0; i<5; i++) theValue[i] = myCards[i]; }
+
+    void setAllInCondition(bool theValue) { allInCondition = theValue; }
+    void setLastActionPlayer(unsigned theValue) { lastActionPlayer = theValue; }
 
 	int getPot() const {  return pot;}
 	void setPot(int theValue) {  pot = theValue;}
@@ -64,14 +66,15 @@ private:
 	PlayerList activePlayerList;
 	PlayerList runningPlayerList;
 
-	HandInterface *currentHand;
-
 	std::list<unsigned> winners;
-        std::list<unsigned> playerNeedToShowCards;
+    std::list<unsigned> playerNeedToShowCards;
 
 	int myCards[5];
 	int pot;
 	int sets;
+    unsigned dealerPosition;
+    bool allInCondition;
+    unsigned lastActionPlayer;
 
 };
 

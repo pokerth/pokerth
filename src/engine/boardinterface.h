@@ -31,7 +31,6 @@ public:
 	virtual ~BoardInterface();
 // 
 	virtual void setPlayerLists(PlayerList, PlayerList, PlayerList) =0;
-	virtual void setHand(HandInterface*) =0;
 // 
 	virtual void setMyCards(int* theValue) =0;
 	virtual void getMyCards(int* theValue) =0;
@@ -40,6 +39,9 @@ public:
 	virtual void setPot(int theValue) =0;
 	virtual int getSets() const=0;
 	virtual void setSets(int theValue) =0;
+
+    virtual void setAllInCondition(bool theValue) =0;
+    virtual void setLastActionPlayer(unsigned theValue) =0;
 // 
 	virtual void collectSets() =0;
 	virtual void collectPot() =0;

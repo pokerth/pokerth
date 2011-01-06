@@ -27,7 +27,7 @@
 
 using namespace std;
 
-LocalBoard::LocalBoard() : BoardInterface(), currentHand(0), pot(0), sets(0)
+LocalBoard::LocalBoard(unsigned dp) : BoardInterface(), pot(0), sets(0), dealerPosition(dp), allInCondition(false)
 {
 	myCards[0] = myCards[1] = myCards[2] = myCards[3] = myCards[4] = 0;
 }
@@ -41,8 +41,6 @@ void LocalBoard::setPlayerLists(PlayerList sl, PlayerList apl, PlayerList rpl) {
 	activePlayerList = apl;
 	runningPlayerList = rpl;
 }
-
-void LocalBoard::setHand(HandInterface* br) { currentHand = br; }
 
 void LocalBoard::collectSets() {
 
@@ -141,7 +139,12 @@ void LocalBoard::distributePot() {
 			if(mod == 0) {
 
 				for(j=2; j<potLevel.size(); j++) {
-					it = currentHand->getSeatIt(potLevel[j]);
+                    // find seat with potLevel[j]-ID
+                    for(it=seatsList->begin(); it!=seatsList->end(); it++) {
+                        if((*it)->getMyUniqueID() == potLevel[j]) {
+                            break;
+                        }
+                    }
 					if(it == seatsList->end()) {
 						throw LocalException(__FILE__, __LINE__, ERR_SEAT_NOT_FOUND);
 					}
@@ -158,8 +161,14 @@ void LocalBoard::distributePot() {
 			else {
 
 // 				winnerPointer = currentHand->getDealerPosition();
-				it = currentHand->getSeatIt(currentHand->getDealerPosition());
-				if(it == seatsList->end()) {
+
+                // find Seat with dealerPosition
+                for(it=seatsList->begin(); it!=seatsList->end(); it++) {
+                    if((*it)->getMyUniqueID() == dealerPosition) {
+                        break;
+                    }
+                }
+                if(it == seatsList->end()) {
 					throw LocalException(__FILE__, __LINE__, ERR_SEAT_NOT_FOUND);
 				}
 
@@ -243,7 +252,7 @@ void LocalBoard::determinePlayerNeedToShowCards() {
     playerNeedToShowCards.clear();
 
     // in All In Condition everybody have to show the cards
-    if(currentHand->getAllInCondition()) {
+    if(allInCondition) {
 
         PlayerListConstIterator it_c;
 
@@ -288,7 +297,7 @@ void LocalBoard::determinePlayerNeedToShowCards() {
         //    cout << "lAP-Ende: " << currentHand->getLastActionPlayer() << endl;
             // search lastActionPlayer
             for(it_c = activePlayerList->begin(); it_c != activePlayerList->end(); it_c++) {
-                if((*it_c)->getMyUniqueID() == currentHand->getLastActionPlayer() && (*it_c)->getMyAction() != PLAYER_ACTION_FOLD) {
+                if((*it_c)->getMyUniqueID() == lastActionPlayer && (*it_c)->getMyAction() != PLAYER_ACTION_FOLD) {
                     lastActionPlayerIt = it_c;
 //                    cout << (*it_c)->getMyUniqueID() << endl;
                     break;

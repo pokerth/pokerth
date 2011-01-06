@@ -40,8 +40,6 @@ LocalHand::LocalHand(boost::shared_ptr<EngineFactory> f, GuiInterface *g, BoardI
 
 	CardsValue myCardsValue;
 
-	myBoard->setHand(this);
-
 	for(it=seatsList->begin(); it!=seatsList->end(); it++) {
 		(*it)->setHand(this);
 		// set myFlipCards 0
@@ -439,6 +437,7 @@ void LocalHand::assignButtons() {
 
                         // first player after dealer have to show his cards first (in showdown)
                         lastActionPlayer = (*it)->getMyUniqueID();
+                        myBoard->setLastActionPlayer(lastActionPlayer);
 
 			it++;
 			if(it == activePlayerList->end()) it = activePlayerList->begin();
@@ -551,6 +550,7 @@ void LocalHand::switchRounds() {
 		// 1) all players all in
 		if(allInPlayersCounter == nonFoldPlayerCounter) {
 			allInCondition = true;
+            myBoard->setAllInCondition(true);
 		}
 
 		// 2) all players but one all in and he has highest set
@@ -560,6 +560,7 @@ void LocalHand::switchRounds() {
 
 				if((*it_c)->getMySet() >= myBeRo[currentRound]->getHighestSet()) {
 						allInCondition = true;
+                        myBoard->setAllInCondition(true);
 				}
 
 			}
@@ -578,14 +579,16 @@ void LocalHand::switchRounds() {
 					}
 					if( (*bigBlindIt_c)->getMySet() <= smallBlind  && tempCounter == allInPlayersCounter) { 
 						allInCondition = true;
+                        myBoard->setAllInCondition(true);
 					}
 				}
 
 				// no.2: heads up -> detect player who is all in and bb but could set less than sb
 				for(it_c=activePlayerList->begin(); it_c!=activePlayerList->end(); it_c++) {
 	
-                                        if(activePlayerList->size()==2 && (*it_c)->getMyAction() == PLAYER_ACTION_ALLIN && (*it_c)->getMyButton()==BUTTON_BIG_BLIND && (*it_c)->getMySet()<=smallBlind && currentRound == GAME_STATE_PREFLOP) {
-							allInCondition = true;
+                    if(activePlayerList->size()==2 && (*it_c)->getMyAction() == PLAYER_ACTION_ALLIN && (*it_c)->getMyButton()==BUTTON_BIG_BLIND && (*it_c)->getMySet()<=smallBlind && currentRound == GAME_STATE_PREFLOP) {
+                        allInCondition = true;
+                        myBoard->setAllInCondition(true);
 					}
 				}
 		}
@@ -693,4 +696,9 @@ PlayerListIterator LocalHand::getRunningPlayerIt(unsigned uniqueId) const {
 
 	return it;
 
+}
+
+void LocalHand::setLastActionPlayer(unsigned theValue) {
+    lastActionPlayer = theValue;
+    myBoard->setLastActionPlayer(theValue);
 }
