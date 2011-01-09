@@ -33,7 +33,7 @@
 class ClientHand : public HandInterface
 {
 	public:
-        ClientHand ( boost::shared_ptr<EngineFactory> f, GuiInterface*, BoardInterface*, Log*, PlayerList, PlayerList, PlayerList , int, int, int, int, int );
+		ClientHand ( boost::shared_ptr<EngineFactory> f, GuiInterface*, boost::shared_ptr<BoardInterface>, Log*, PlayerList, PlayerList, PlayerList , int, int, int, int, int );
 		~ClientHand();
 
 		void start();
@@ -46,7 +46,7 @@ class ClientHand : public HandInterface
 		PlayerListIterator getActivePlayerIt(unsigned) const;
 		PlayerListIterator getRunningPlayerIt(unsigned) const;
 
-		BoardInterface* getBoard() const;
+		boost::shared_ptr<BoardInterface> getBoard() const;
 		boost::shared_ptr<BeRoInterface> getPreflop() const;
 		boost::shared_ptr<BeRoInterface> getFlop() const;
 		boost::shared_ptr<BeRoInterface> getTurn() const;
@@ -98,7 +98,7 @@ class ClientHand : public HandInterface
 
 		boost::shared_ptr<EngineFactory> myFactory;
 		GuiInterface *myGui;
-		BoardInterface *myBoard;
+		boost::shared_ptr<BoardInterface> myBoard;
         Log *myLog;
 
 		PlayerList seatsList;

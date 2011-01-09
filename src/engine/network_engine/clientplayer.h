@@ -35,7 +35,7 @@ public:
 	ClientPlayer(ConfigFile*, BoardInterface *b, int id, unsigned uniqueId, PlayerType type, std::string name, std::string avatar, int sC, bool aS, int mB);
 	~ClientPlayer();
 
-	void setHand(HandInterface*);
+	void setHand(HandInterface *);
 
 	int getMyID() const;
 	unsigned getMyUniqueID() const;

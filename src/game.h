@@ -47,8 +47,8 @@ public:
 	void initHand();
 	void startHand();
 
-	HandInterface *getCurrentHand();
-	const HandInterface *getCurrentHand() const;
+	boost::shared_ptr<HandInterface> getCurrentHand();
+	const boost::shared_ptr<HandInterface> getCurrentHand() const;
 
 	PlayerList getSeatsList() const {return seatsList;}
 	PlayerList getActivePlayerList() const {return activePlayerList;}
@@ -83,8 +83,8 @@ private:
 
 	GuiInterface *myGui;
     Log *myLog;
-	HandInterface *currentHand;
-	BoardInterface *currentBoard;
+	boost::shared_ptr<HandInterface> currentHand;
+	boost::shared_ptr<BoardInterface> currentBoard;
 
 	PlayerList seatsList;
 	PlayerList activePlayerList; // used seats

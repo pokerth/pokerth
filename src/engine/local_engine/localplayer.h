@@ -37,7 +37,7 @@ public:
 
 	~LocalPlayer();
 
-	void setHand(HandInterface*);
+	void setHand(HandInterface *);
 
 	int getMyID() const { return myID; }
 	unsigned getMyUniqueID() const { return myUniqueID; }
@@ -77,8 +77,8 @@ public:
 	void setMyActiveStatus(bool theValue) { myActiveStatus = theValue; }
 	bool getMyActiveStatus() const { return myActiveStatus; }
 
-        void setMyStayOnTableStatus(bool theValue) { myStayOnTableStatus = theValue; }
-        bool getMyStayOnTableStatus() const { return myStayOnTableStatus; }
+	void setMyStayOnTableStatus(bool theValue) { myStayOnTableStatus = theValue; }
+	bool getMyStayOnTableStatus() const { return myStayOnTableStatus; }
 
 	void setMyCards(int* theValue) { int i; for(i=0; i<2; i++) myCards[i] = theValue[i]; }
 	void getMyCards(int* theValue) const { int i; for(i=0; i<2; i++) theValue[i] = myCards[i]; }

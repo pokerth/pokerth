@@ -30,7 +30,7 @@ public:
 
 	virtual ~PlayerInterface() =0;
 
-	virtual void setHand(HandInterface*) =0;
+	virtual void setHand(HandInterface *) =0;
 
 	virtual int getMyID() const =0;
 	virtual unsigned getMyUniqueID() const =0;

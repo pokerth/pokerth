@@ -201,7 +201,7 @@ void guiLog::logPlayerActionMsg(QString msg, int playerID, int action, int setVa
 void guiLog::logNewGameHandMsg(int gameID, int handID) {
 
 	PlayerListConstIterator it_c;
-	HandInterface *currentHand = myW->getSession()->getCurrentGame()->getCurrentHand();
+	boost::shared_ptr<HandInterface> currentHand = myW->getSession()->getCurrentGame()->getCurrentHand();
 
     myW->textBrowser_Log->append("<span style=\"color:#"+myStyle->getChatLogTextColor()+"; font-size:large; font-weight:bold\">## Game: "+QString::number(gameID,10)+" | Hand: "+QString::number(handID,10)+" ##</span>");
 
@@ -391,7 +391,7 @@ void guiLog::logNewBlindsSetsMsg(int sbSet, int bbSet, QString sbName, QString b
             logFileStreamString += bbName+" ($"+QString::number(bbSet,10)+")";
 
             PlayerListConstIterator it_c;
-            HandInterface *currentHand = myW->getSession()->getCurrentGame()->getCurrentHand();
+			boost::shared_ptr<HandInterface> currentHand = myW->getSession()->getCurrentGame()->getCurrentHand();
             for(it_c=currentHand->getActivePlayerList()->begin(); it_c!=currentHand->getActivePlayerList()->end(); it_c++) {
                 if(currentHand->getActivePlayerList()->size() > 2) {
                     if((*it_c)->getMyButton() == BUTTON_DEALER) {
@@ -1537,7 +1537,7 @@ QString guiLog::determineHandName(int myCardsValueInt) {
 	list<int> sameHandCardsValueInt;
 	bool different = false;
 	bool equal = false;
-	HandInterface *currentHand = myW->getSession()->getCurrentGame()->getCurrentHand();
+	boost::shared_ptr<HandInterface> currentHand = myW->getSession()->getCurrentGame()->getCurrentHand();
 	PlayerListConstIterator it_c;
 
 	// collect cardsValueInt of all players who will show their cards

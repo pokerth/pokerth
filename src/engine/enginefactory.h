@@ -31,10 +31,10 @@ public:
     
 	virtual ~EngineFactory();
 		
-    virtual HandInterface* createHand(boost::shared_ptr<EngineFactory> f, GuiInterface *g, BoardInterface *b, Log *l, PlayerList sl, PlayerList apl, PlayerList rpl, int id, int sP, int dP, int sB,int sC) =0;
-    virtual BoardInterface* createBoard(unsigned dp) =0;
+	virtual boost::shared_ptr<HandInterface> createHand(boost::shared_ptr<EngineFactory> f, GuiInterface *g, boost::shared_ptr<BoardInterface> b, Log *l, PlayerList sl, PlayerList apl, PlayerList rpl, int id, int sP, int dP, int sB,int sC) =0;
+	virtual boost::shared_ptr<BoardInterface> createBoard(unsigned dp) =0;
 	virtual boost::shared_ptr<PlayerInterface> createPlayer(BoardInterface *b, int id, unsigned uniqueId, PlayerType type, std::string name, std::string avatar, int sC, bool aS, int mB) =0;
-	virtual std::vector<boost::shared_ptr<BeRoInterface> > createBeRo(HandInterface* hi, int id, unsigned dP, int sB) =0;
+	virtual std::vector<boost::shared_ptr<BeRoInterface> > createBeRo(HandInterface *hi, int id, unsigned dP, int sB) =0;
 };
 
 #endif

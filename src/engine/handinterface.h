@@ -40,7 +40,7 @@ public:
 	virtual PlayerListIterator getActivePlayerIt(unsigned) const =0;
 	virtual PlayerListIterator getRunningPlayerIt(unsigned) const =0;
 
-	virtual BoardInterface* getBoard() const =0;
+	virtual boost::shared_ptr<BoardInterface> getBoard() const =0;
 	virtual boost::shared_ptr<BeRoInterface> getPreflop() const =0;
 	virtual boost::shared_ptr<BeRoInterface> getFlop() const =0;
 	virtual boost::shared_ptr<BeRoInterface> getTurn() const =0;
@@ -75,8 +75,8 @@ public:
 	virtual void setLastPlayersTurn(int theValue) =0;
 	virtual int getLastPlayersTurn() const =0;
 
-        virtual void setLastActionPlayer( unsigned theValue ) =0;
-        virtual unsigned getLastActionPlayer() const =0;
+	virtual void setLastActionPlayer( unsigned theValue ) =0;
+	virtual unsigned getLastActionPlayer() const =0;
 
 	virtual void setCardsShown(bool theValue) =0;
 	virtual bool getCardsShown() const =0;

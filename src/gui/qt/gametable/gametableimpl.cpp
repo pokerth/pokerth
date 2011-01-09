@@ -779,7 +779,7 @@ void gameTableImpl::refreshButton() {
 void gameTableImpl::refreshPlayerName() {
 
     if(myStartWindow->getSession()->getCurrentGame()) {
-        HandInterface *currentHand = myStartWindow->getSession()->getCurrentGame()->getCurrentHand();
+		boost::shared_ptr<HandInterface> currentHand = myStartWindow->getSession()->getCurrentGame()->getCurrentHand();
 
         PlayerListConstIterator it_c;
         for (it_c=currentHand->getSeatsList()->begin(); it_c!=currentHand->getSeatsList()->end(); it_c++) {
@@ -821,7 +821,7 @@ void gameTableImpl::refreshPlayerAvatar() {
 
         QPixmap onePix = QPixmap::fromImage(QImage(myAppDataPath +"gfx/gui/misc/1px.png"));
 
-        HandInterface *currentHand = myStartWindow->getSession()->getCurrentGame()->getCurrentHand();
+		boost::shared_ptr<HandInterface> currentHand = myStartWindow->getSession()->getCurrentGame()->getCurrentHand();
 	int seatPlace;
         PlayerListConstIterator it_c;
         for (it_c=currentHand->getSeatsList()->begin(), seatPlace=0; it_c!=currentHand->getSeatsList()->end(); it_c++, seatPlace++) {
@@ -889,7 +889,7 @@ void gameTableImpl::refreshAction(int playerID, int playerAction) {
     QStringList actionArray;
     actionArray << "" << "fold" << "check" << "call" << "bet" << "raise" << "allin";
 
-    HandInterface *currentHand = myStartWindow->getSession()->getCurrentGame()->getCurrentHand();
+	boost::shared_ptr<HandInterface> currentHand = myStartWindow->getSession()->getCurrentGame()->getCurrentHand();
 
     if(playerID == -1 || playerAction == -1) {
 
@@ -945,7 +945,7 @@ void gameTableImpl::refreshAction(int playerID, int playerAction) {
 
 void gameTableImpl::refreshCash() {
 
-    HandInterface *currentHand = myStartWindow->getSession()->getCurrentGame()->getCurrentHand();
+	boost::shared_ptr<HandInterface> currentHand = myStartWindow->getSession()->getCurrentGame()->getCurrentHand();
 
     PlayerListConstIterator it_c;
     for (it_c=currentHand->getSeatsList()->begin(); it_c!=currentHand->getSeatsList()->end(); it_c++) {
@@ -965,7 +965,7 @@ void gameTableImpl::refreshGroupbox(int playerID, int status) {
 
     if(playerID == -1 || status == -1) {
 
-        HandInterface *currentHand = myStartWindow->getSession()->getCurrentGame()->getCurrentHand();
+		boost::shared_ptr<HandInterface> currentHand = myStartWindow->getSession()->getCurrentGame()->getCurrentHand();
         PlayerListConstIterator it_c;
         for (it_c=currentHand->getSeatsList()->begin(); it_c!=currentHand->getSeatsList()->end(); it_c++) {
 
@@ -1075,7 +1075,7 @@ void gameTableImpl::refreshAll() {
     refreshSet();
     refreshButton();
 
-    HandInterface *currentHand = myStartWindow->getSession()->getCurrentGame()->getCurrentHand();
+	boost::shared_ptr<HandInterface> currentHand = myStartWindow->getSession()->getCurrentGame()->getCurrentHand();
     PlayerListConstIterator it_c;
     for (it_c=currentHand->getSeatsList()->begin(); it_c!=currentHand->getSeatsList()->end(); it_c++) {
         refreshAction( (*it_c)->getMyID(), (*it_c)->getMyAction());
@@ -1091,7 +1091,7 @@ void gameTableImpl::refreshChangePlayer() {
 
     refreshSet();
 
-    HandInterface *currentHand = myStartWindow->getSession()->getCurrentGame()->getCurrentHand();
+	boost::shared_ptr<HandInterface> currentHand = myStartWindow->getSession()->getCurrentGame()->getCurrentHand();
     PlayerListConstIterator it_c;
     for (it_c=currentHand->getSeatsList()->begin(); it_c!=currentHand->getSeatsList()->end(); it_c++) {
         refreshAction( (*it_c)->getMyID(), (*it_c)->getMyAction());
@@ -1101,7 +1101,7 @@ void gameTableImpl::refreshChangePlayer() {
 }
 
 void gameTableImpl::refreshPot() {
-    HandInterface *currentHand = myStartWindow->getSession()->getCurrentGame()->getCurrentHand();
+	boost::shared_ptr<HandInterface> currentHand = myStartWindow->getSession()->getCurrentGame()->getCurrentHand();
 
     textLabel_Sets->setText("$"+QString("%L1").arg(currentHand->getBoard()->getSets()));
     textLabel_Pot->setText("$"+QString("%L1").arg(currentHand->getBoard()->getPot()));
@@ -1371,7 +1371,7 @@ void gameTableImpl::provideMyActions(int mode) {
 
 
     Game *currentGame = myStartWindow->getSession()->getCurrentGame();
-    HandInterface *currentHand = currentGame->getCurrentHand();
+	boost::shared_ptr<HandInterface> currentHand = currentGame->getCurrentHand();
 
     //really disabled buttons if human player is fold/all-in or ... and not called from dealberocards
     if(/*pushButton_BetRaise->isCheckable() && */mode != 0 && (currentHand->getSeatsList()->front()->getMyAction() == PLAYER_ACTION_ALLIN || currentHand->getSeatsList()->front()->getMyAction() == PLAYER_ACTION_FOLD || (currentGame->getSeatsList()->front()->getMySet() == currentHand->getCurrentBeRo()->getHighestSet() && (currentGame->getSeatsList()->front()->getMyAction() != PLAYER_ACTION_NONE)))) {
@@ -1610,7 +1610,7 @@ void gameTableImpl::stopTimeoutAnimation(int playerId) {
 
 void gameTableImpl::disableMyButtons() {
 
-    HandInterface *currentHand = myStartWindow->getSession()->getCurrentGame()->getCurrentHand();
+	boost::shared_ptr<HandInterface> currentHand = myStartWindow->getSession()->getCurrentGame()->getCurrentHand();
 
     clearMyButtons();
 
@@ -1641,7 +1641,7 @@ void gameTableImpl::myFold(){
 
     if(pushButton_Fold->text() == FoldString) {
 
-        HandInterface *currentHand = myStartWindow->getSession()->getCurrentGame()->getCurrentHand();
+		boost::shared_ptr<HandInterface> currentHand = myStartWindow->getSession()->getCurrentGame()->getCurrentHand();
         currentHand->getSeatsList()->front()->setMyAction(1);
         currentHand->getSeatsList()->front()->setMyTurn(0);
 	
@@ -1656,7 +1656,7 @@ void gameTableImpl::myFold(){
 }
 
 void gameTableImpl::myCheck() {
-    HandInterface *currentHand = myStartWindow->getSession()->getCurrentGame()->getCurrentHand();
+	boost::shared_ptr<HandInterface> currentHand = myStartWindow->getSession()->getCurrentGame()->getCurrentHand();
 
     currentHand->getSeatsList()->front()->setMyTurn(0);
     currentHand->getSeatsList()->front()->setMyAction(2);
@@ -1672,7 +1672,7 @@ void gameTableImpl::myCheck() {
 
 int gameTableImpl::getMyCallAmount() {
     int tempHighestSet = 0;
-    HandInterface *currentHand = myStartWindow->getSession()->getCurrentGame()->getCurrentHand();
+	boost::shared_ptr<HandInterface> currentHand = myStartWindow->getSession()->getCurrentGame()->getCurrentHand();
 
     tempHighestSet = currentHand->getCurrentBeRo()->getHighestSet();
 
@@ -1693,7 +1693,7 @@ int gameTableImpl::getBetRaisePushButtonValue() {
 
 int gameTableImpl::getMyBetAmount() {
 
-    HandInterface *currentHand = myStartWindow->getSession()->getCurrentGame()->getCurrentHand();
+	boost::shared_ptr<HandInterface> currentHand = myStartWindow->getSession()->getCurrentGame()->getCurrentHand();
 
     int betValue = getBetRaisePushButtonValue();
     int minimum;
@@ -1711,7 +1711,7 @@ int gameTableImpl::getMyBetAmount() {
 void gameTableImpl::myCall(){
 
     int tempHighestSet = 0;
-    HandInterface *currentHand = myStartWindow->getSession()->getCurrentGame()->getCurrentHand();
+	boost::shared_ptr<HandInterface> currentHand = myStartWindow->getSession()->getCurrentGame()->getCurrentHand();
 
     tempHighestSet = currentHand->getCurrentBeRo()->getHighestSet();
 
@@ -1743,7 +1743,7 @@ void gameTableImpl::mySet(){
 
     if(pushButton_BetRaise->text() != "") {
 
-        HandInterface *currentHand = myStartWindow->getSession()->getCurrentGame()->getCurrentHand();
+		boost::shared_ptr<HandInterface> currentHand = myStartWindow->getSession()->getCurrentGame()->getCurrentHand();
         int tempCash = currentHand->getSeatsList()->front()->getMyCash();
 	
         // 		cout << "Set-Value " << getBetRaisePushButtonValue() << endl;
@@ -1805,7 +1805,7 @@ void gameTableImpl::myAllIn(){
 
     if(pushButton_AllIn->text() == AllInString) {
 
-        HandInterface *currentHand = myStartWindow->getSession()->getCurrentGame()->getCurrentHand();
+		boost::shared_ptr<HandInterface> currentHand = myStartWindow->getSession()->getCurrentGame()->getCurrentHand();
 
         currentHand->getSeatsList()->front()->setMySet(currentHand->getSeatsList()->front()->getMyCash());
         currentHand->getSeatsList()->front()->setMyCash(0);
@@ -1967,7 +1967,7 @@ void gameTableImpl::myActionDone() {
 
 void gameTableImpl::nextPlayerAnimation() {
 
-    HandInterface *currentHand = myStartWindow->getSession()->getCurrentGame()->getCurrentHand();
+	boost::shared_ptr<HandInterface> currentHand = myStartWindow->getSession()->getCurrentGame()->getCurrentHand();
 
     //refresh Change Player
     refreshSet();
@@ -2045,7 +2045,7 @@ void gameTableImpl::postRiverRunAnimation2() {
     horizontalSlider_bet->setDisabled(TRUE);
     spinBox_betValue->setDisabled(TRUE);
 
-    HandInterface *currentHand = myStartWindow->getSession()->getCurrentGame()->getCurrentHand();
+	boost::shared_ptr<HandInterface> currentHand = myStartWindow->getSession()->getCurrentGame()->getCurrentHand();
 
     bool internetOrNetworkGame = (myStartWindow->getSession()->getGameType() == Session::GAME_TYPE_INTERNET || myStartWindow->getSession()->getGameType() == Session::GAME_TYPE_NETWORK);
 
@@ -2101,7 +2101,7 @@ void gameTableImpl::postRiverRunAnimation2() {
 
 void gameTableImpl::postRiverRunAnimation3() {
 
-    HandInterface *currentHand = myStartWindow->getSession()->getCurrentGame()->getCurrentHand();
+	boost::shared_ptr<HandInterface> currentHand = myStartWindow->getSession()->getCurrentGame()->getCurrentHand();
 
     int nonfoldPlayerCounter = 0;
     PlayerListConstIterator it_c;
@@ -2229,7 +2229,7 @@ void gameTableImpl::postRiverRunAnimation4() {
 
 void gameTableImpl::postRiverRunAnimation5() {
 
-    HandInterface *currentHand = myStartWindow->getSession()->getCurrentGame()->getCurrentHand();
+	boost::shared_ptr<HandInterface> currentHand = myStartWindow->getSession()->getCurrentGame()->getCurrentHand();
 
     PlayerListConstIterator it_c;
 
@@ -2273,7 +2273,7 @@ void gameTableImpl::postRiverRunAnimation6() {
         playerNameLabelArray[i]->show();
     }
 
-    HandInterface *currentHand = myStartWindow->getSession()->getCurrentGame()->getCurrentHand();
+	boost::shared_ptr<HandInterface> currentHand = myStartWindow->getSession()->getCurrentGame()->getCurrentHand();
 
     refreshCash();
     refreshPot();
@@ -2325,7 +2325,7 @@ void gameTableImpl::postRiverRunAnimation6() {
 
 void gameTableImpl::showHoleCards(unsigned playerId, bool allIn)
 {
-    HandInterface *currentHand = myStartWindow->getSession()->getCurrentGame()->getCurrentHand();
+	boost::shared_ptr<HandInterface> currentHand = myStartWindow->getSession()->getCurrentGame()->getCurrentHand();
     //TempArrays
     QPixmap tempCardsPixmapArray[2];
     int tempCardsIntArray[2];
@@ -2359,7 +2359,7 @@ void gameTableImpl::showHoleCards(unsigned playerId, bool allIn)
 
 void gameTableImpl::flipHolecardsAllIn() {
 
-    HandInterface *currentHand = myStartWindow->getSession()->getCurrentGame()->getCurrentHand();
+	boost::shared_ptr<HandInterface> currentHand = myStartWindow->getSession()->getCurrentGame()->getCurrentHand();
 
     if(!flipHolecardsAllInAlreadyDone) {
         //Aktive Spieler zählen --> wenn nur noch einer nicht-folded dann keine Karten umdrehen
@@ -2876,7 +2876,7 @@ void gameTableImpl::mouseOverFlipCards(bool front) {
 
 void gameTableImpl::updateMyButtonsState(int mode) {
 
-    HandInterface *currentHand = myStartWindow->getSession()->getCurrentGame()->getCurrentHand();
+	boost::shared_ptr<HandInterface> currentHand = myStartWindow->getSession()->getCurrentGame()->getCurrentHand();
 
     if(currentHand->getLastPlayersTurn() == 0) {
         myButtonsCheckable(FALSE);
@@ -2920,7 +2920,7 @@ void gameTableImpl::clearMyButtons() {
 void gameTableImpl::myButtonsCheckable(bool state) {
 
     Game *currentGame = myStartWindow->getSession()->getCurrentGame();
-    HandInterface *currentHand = currentGame->getCurrentHand();
+	boost::shared_ptr<HandInterface> currentHand = currentGame->getCurrentHand();
 
     if(state) {
         //checkable

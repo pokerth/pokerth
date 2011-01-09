@@ -33,8 +33,7 @@ using namespace std;
 Game::Game(GuiInterface* gui, boost::shared_ptr<EngineFactory> factory,
 		   const PlayerDataList &playerDataList, const GameData &gameData,
            const StartData &startData, int gameId, Log* log)
-: myFactory(factory), myGui(gui), myLog(log), currentHand(0), currentBoard(0),
-  startQuantityPlayers(startData.numberOfPlayers),
+: myFactory(factory), myGui(gui), myLog(log), startQuantityPlayers(startData.numberOfPlayers),
   startCash(gameData.startMoney), startSmallBlind(gameData.firstSmallBlind),
   myGameID(gameId), currentSmallBlind(gameData.firstSmallBlind), currentHandID(0), dealerPosition(0), lastHandBlindsRaised(1), lastTimeBlindsRaised(0), myGameData(gameData)
 {
@@ -94,7 +93,7 @@ Game::Game(GuiInterface* gui, boost::shared_ptr<EngineFactory> factory,
 		}
 
 		// create player objects
-		boost::shared_ptr<PlayerInterface> tmpPlayer = myFactory->createPlayer(currentBoard, i, uniqueId, type, myName, myAvatarFile, startCash, startQuantityPlayers > i, 0);
+		boost::shared_ptr<PlayerInterface> tmpPlayer = myFactory->createPlayer(currentBoard.get(), i, uniqueId, type, myName, myAvatarFile, startCash, startQuantityPlayers > i, 0);
 
 		tmpPlayer->setNetSessionData(myNetSession);
 
@@ -119,18 +118,14 @@ Game::Game(GuiInterface* gui, boost::shared_ptr<EngineFactory> factory,
 
 Game::~Game()
 {
-	delete currentBoard;
-	currentBoard = 0;
-	delete currentHand;
-	currentHand = 0;
 }
 
-HandInterface *Game::getCurrentHand()
+boost::shared_ptr<HandInterface> Game::getCurrentHand()
 {
 	return currentHand;
 }
 
-const HandInterface *Game::getCurrentHand() const
+const boost::shared_ptr<HandInterface> Game::getCurrentHand() const
 {
 	return currentHand;
 }
@@ -162,12 +157,6 @@ void Game::initHand()
 		} else {
 			it++;
 		}
-	}
-
-	// delete possible existing hands
-	if(currentHand) {
-		delete currentHand;
-		currentHand = 0;
 	}
 
 	runningPlayerList->clear();

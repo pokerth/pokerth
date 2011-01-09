@@ -42,18 +42,27 @@ LocalEngineFactory::~LocalEngineFactory()
 }
 
 
-HandInterface*
-LocalEngineFactory::createHand(boost::shared_ptr<EngineFactory> f, GuiInterface *g, BoardInterface *b, Log *l, PlayerList sl, PlayerList apl, PlayerList rpl, int id, int sP, int dP, int sB,int sC)
+boost::shared_ptr<HandInterface>
+LocalEngineFactory::createHand(boost::shared_ptr<EngineFactory> f, GuiInterface *g, boost::shared_ptr<BoardInterface> b, Log *l, PlayerList sl, PlayerList apl, PlayerList rpl, int id, int sP, int dP, int sB,int sC)
 {
-    return new LocalHand(f, g, b, l, sl, apl, rpl, id, sP, dP, sB, sC);
+	return boost::shared_ptr<HandInterface>(new LocalHand(f, g, b, l, sl, apl, rpl, id, sP, dP, sB, sC));
 }
 
-BoardInterface* LocalEngineFactory::createBoard(unsigned dp) { return new LocalBoard(dp); }
+boost::shared_ptr<BoardInterface>
+LocalEngineFactory::createBoard(unsigned dp)
+{
+	return boost::shared_ptr<BoardInterface>(new LocalBoard(dp));
+}
 
-boost::shared_ptr<PlayerInterface> LocalEngineFactory::createPlayer(BoardInterface *b, int id, unsigned uniqueId, PlayerType type, std::string name, std::string avatar, int sC, bool aS, int mB) { return boost::shared_ptr<PlayerInterface> (new LocalPlayer(myConfig, b, id, uniqueId, type, name, avatar, sC, aS, mB)); }
+boost::shared_ptr<PlayerInterface>
+LocalEngineFactory::createPlayer(BoardInterface *b, int id, unsigned uniqueId, PlayerType type, std::string name, std::string avatar, int sC, bool aS, int mB)
+{
+	return boost::shared_ptr<PlayerInterface> (new LocalPlayer(myConfig, b, id, uniqueId, type, name, avatar, sC, aS, mB));
+}
 
-std::vector<boost::shared_ptr<BeRoInterface> > LocalEngineFactory::createBeRo(HandInterface* hi, int id, unsigned dP, int sB) {
-
+std::vector<boost::shared_ptr<BeRoInterface> >
+LocalEngineFactory::createBeRo(HandInterface *hi, int id, unsigned dP, int sB)
+{
 	std::vector<boost::shared_ptr<BeRoInterface> > myBeRo;
 
 	myBeRo.push_back(boost::shared_ptr<BeRoInterface>(new LocalBeRoPreflop(hi, id, dP, sB)));

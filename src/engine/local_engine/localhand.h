@@ -33,7 +33,7 @@ class Log;
 
 class LocalHand : public HandInterface{
 public:
-    LocalHand(boost::shared_ptr<EngineFactory> f, GuiInterface*, BoardInterface*, Log*, PlayerList, PlayerList, PlayerList, int, int, unsigned, int, int);
+	LocalHand(boost::shared_ptr<EngineFactory> f, GuiInterface*, boost::shared_ptr<BoardInterface>, Log*, PlayerList, PlayerList, PlayerList, int, int, unsigned, int, int);
 	~LocalHand();
 
 	void start();
@@ -46,7 +46,7 @@ public:
 	PlayerListIterator getActivePlayerIt(unsigned) const;
 	PlayerListIterator getRunningPlayerIt(unsigned) const;
 
-	BoardInterface* getBoard() const { return myBoard; }
+	boost::shared_ptr<BoardInterface> getBoard() const { return myBoard; }
 	boost::shared_ptr<BeRoInterface> getPreflop() const { return myBeRo[GAME_STATE_PREFLOP]; }
 	boost::shared_ptr<BeRoInterface> getFlop() const { return myBeRo[GAME_STATE_FLOP]; }
 	boost::shared_ptr<BeRoInterface> getTurn() const { return myBeRo[GAME_STATE_TURN]; }
@@ -81,8 +81,8 @@ public:
 	void setLastPlayersTurn(int theValue) { lastPlayersTurn = theValue; }
 	int getLastPlayersTurn() const { return lastPlayersTurn; }
 
-        void setLastActionPlayer ( unsigned theValue );
-        unsigned getLastActionPlayer() const { return lastActionPlayer; }
+	void setLastActionPlayer ( unsigned theValue );
+	unsigned getLastActionPlayer() const { return lastActionPlayer; }
 
 	void setCardsShown(bool theValue) { cardsShown = theValue; }
 	bool getCardsShown() const { return cardsShown; }
@@ -96,7 +96,7 @@ private:
 
 	boost::shared_ptr<EngineFactory> myFactory;
 	GuiInterface *myGui;
-	BoardInterface *myBoard;
+	boost::shared_ptr<BoardInterface> myBoard;
     Log *myLog;
 
     PlayerList seatsList; // all player
