@@ -40,6 +40,9 @@ public:
 	virtual void PlayerLoginFailed(unsigned requestId) = 0;
 	virtual void PlayerLoginBlocked(unsigned requestId) = 0;
 
+	virtual void AvatarIsBlacklisted(unsigned requestId) = 0;
+	virtual void AvatarIsOK(unsigned requestId) = 0;
+
 	virtual void CreateGameSuccess(unsigned requestId, DB_id gameId) = 0;
 	virtual void CreateGameFailed(unsigned requestId) = 0;
 

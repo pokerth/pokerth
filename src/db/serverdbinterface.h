@@ -39,6 +39,7 @@ public:
 	virtual void Stop() = 0;
 
 	virtual void AsyncPlayerLogin(unsigned requestId, const std::string &playerName) = 0;
+	virtual void AsyncCheckAvatarBlacklist(unsigned requestId, const std::string &avatarHash) = 0;
 	virtual void PlayerPostLogin(DB_id playerId, const std::string &avatarHash, const std::string &avatarType) = 0;
 	virtual void PlayerLogout(DB_id playerId) = 0;
 

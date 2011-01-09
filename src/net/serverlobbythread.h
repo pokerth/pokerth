@@ -143,13 +143,18 @@ protected:
 	void HandleNetPacketJoinGame(SessionWrapper session, const std::string &password, const JoinExistingGame_t &joinGame);
 	void HandleNetPacketChatRequest(SessionWrapper session, const ChatRequestMessage_t &chatRequest);
 	void HandleNetPacketRejectGameInvitation(SessionWrapper session, const RejectGameInvitationMessage_t &reject);
+	// TODO would be better to use state pattern here.
 	void AuthChallenge(SessionWrapper session, const std::string &secret);
+	void CheckAvatarBlacklist(SessionWrapper session);
+	void AvatarBlacklisted(unsigned playerId);
+	void AvatarOK(unsigned playerId);
 	void InitAfterLogin(SessionWrapper session);
 	void EstablishSession(SessionWrapper session);
 	void AuthenticatePlayer(SessionWrapper session);
 	void UserValid(unsigned playerId, const DBPlayerData &dbPlayerData);
 	void UserInvalid(unsigned playerId);
 	void UserBlocked(unsigned playerId);
+
 	void SendReportAvatarResult(unsigned byPlayerId, unsigned reportedPlayerId, bool success);
 	void RequestPlayerAvatar(SessionWrapper session);
 	void TimerRemoveGame(const boost::system::error_code &ec);

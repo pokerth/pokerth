@@ -147,6 +147,16 @@ public:
 		m_server.UserBlocked(requestId);
 	}
 
+	virtual void AvatarIsBlacklisted(unsigned requestId)
+	{
+		m_server.AvatarBlacklisted(requestId);
+	}
+
+	virtual void AvatarIsOK(unsigned requestId)
+	{
+		m_server.AvatarOK(requestId);
+	}
+
 	virtual void CreateGameSuccess(unsigned requestId, DB_id gameId)
 	{
 		m_server.SetGameDBId((u_int32_t)requestId, gameId);
@@ -1158,7 +1168,7 @@ ServerLobbyThread::HandleNetPacketAuthClientResponse(SessionWrapper session, con
 			GetSender().Send(session.sessionData, packet);
 			// The last message is only for server verification.
 			// We are done now, the user has logged in.
-			InitAfterLogin(session);
+			CheckAvatarBlacklist(session);
 		}
 		else
 			SessionError(session, ERR_NET_INVALID_PASSWORD);
@@ -1541,6 +1551,33 @@ ServerLobbyThread::AuthChallenge(SessionWrapper session, const string &secret)
 			outChallenge.size());
 		GetSender().Send(session.sessionData, packet);
 	}
+}
+
+void
+ServerLobbyThread::CheckAvatarBlacklist(SessionWrapper session)
+{
+	if (session.sessionData && session.playerData)
+	{
+		const MD5Buf &avatarMD5 = session.playerData->GetAvatarMD5();
+		if (!avatarMD5.IsZero())
+			m_database->AsyncCheckAvatarBlacklist(session.playerData->GetUniqueId(), avatarMD5.ToString());
+		else
+			InitAfterLogin(session);
+	}
+}
+
+void
+ServerLobbyThread::AvatarBlacklisted(unsigned playerId)
+{
+	// TODO use proper error code.
+	SessionError(m_sessionManager.GetSessionByUniquePlayerId(playerId, true), ERR_NET_AVATAR_TOO_LARGE);
+}
+
+void
+ServerLobbyThread::AvatarOK(unsigned playerId)
+{
+	SessionWrapper tmpSession = m_sessionManager.GetSessionByUniquePlayerId(playerId, true);
+	InitAfterLogin(tmpSession);
 }
 
 void

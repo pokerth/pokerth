@@ -55,6 +55,12 @@ ServerDBGeneric::AsyncPlayerLogin(unsigned requestId, const string &/*playerName
 }
 
 void
+ServerDBGeneric::AsyncCheckAvatarBlacklist(unsigned requestId, const std::string &/*avatarHash*/)
+{
+	m_ioService->post(boost::bind(&ServerDBCallback::AvatarIsBlacklisted, &m_callback, requestId));
+}
+
+void
 ServerDBGeneric::PlayerPostLogin(DB_id /*playerId*/, const std::string &/*avatarHash*/, const std::string &/*avatarType*/)
 {
 }
