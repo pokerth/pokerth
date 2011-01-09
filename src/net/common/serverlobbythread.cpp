@@ -1570,7 +1570,14 @@ void
 ServerLobbyThread::AvatarBlacklisted(unsigned playerId)
 {
 	// TODO use proper error code.
-	SessionError(m_sessionManager.GetSessionByUniquePlayerId(playerId, true), ERR_NET_AVATAR_TOO_LARGE);
+	//SessionError(m_sessionManager.GetSessionByUniquePlayerId(playerId, true), ERR_NET_AVATAR_TOO_LARGE);
+
+	SessionWrapper tmpSession = m_sessionManager.GetSessionByUniquePlayerId(playerId, true);
+	if (tmpSession.sessionData && tmpSession.playerData)
+	{
+		tmpSession.playerData->SetAvatarMD5(MD5Buf()); // Reset avatar if blacklisted.
+		InitAfterLogin(tmpSession);
+	}
 }
 
 void
