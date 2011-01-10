@@ -91,6 +91,7 @@ signals:
     void signalNetClientGameChatMsg(QString nickName, QString msg);
     void signalNetClientLobbyChatMsg(QString nickName, QString msg);
     void signalNetClientMsgBox(QString msg);
+    void signalNetClientMsgBox(unsigned msgId);
 
     void signalLobbyPlayerJoined(unsigned playerId, QString nickName);
     void signalLobbyPlayerKicked(QString nickName, QString byWhom, QString reason);
@@ -122,6 +123,7 @@ public slots:
     void networkError(int, int);
     void networkNotification(int);
     void networkMessage(QString);
+    void networkMessage(unsigned);
 
     void networkStart(boost::shared_ptr<Game> game);
     QStringList getPlayerNicksList();

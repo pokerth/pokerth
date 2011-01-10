@@ -173,6 +173,7 @@ void GuiWrapper::SignalNetClientWarningAutoFoldInRankingGame(unsigned remainingA
 void GuiWrapper::SignalNetClientGameChatMsg(const string &playerName, const string &msg) { myStartWindow->signalNetClientGameChatMsg(QString::fromUtf8(playerName.c_str()), QString::fromUtf8(msg.c_str())); }
 void GuiWrapper::SignalNetClientLobbyChatMsg(const string &playerName, const string &msg) { myStartWindow->signalNetClientLobbyChatMsg(QString::fromUtf8(playerName.c_str()), QString::fromUtf8(msg.c_str())); }
 void GuiWrapper::SignalNetClientMsgBox(const string &msg) { myStartWindow->signalNetClientMsgBox(QString::fromUtf8(msg.c_str())); }
+void GuiWrapper::SignalNetClientMsgBox(unsigned msgId) { myStartWindow->signalNetClientMsgBox(msgId); }
 
 void GuiWrapper::SignalNetServerSuccess(int /*actionID*/) { }
 void GuiWrapper::SignalNetServerError(int errorID, int osErrorID) { myStartWindow->signalNetServerError(errorID, osErrorID); }

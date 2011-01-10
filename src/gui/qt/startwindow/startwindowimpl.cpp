@@ -147,6 +147,7 @@ startWindowImpl::startWindowImpl(ConfigFile *c)
     connect(this, SIGNAL(signalNetClientLobbyChatMsg(QString, QString)), myStartNetworkGameDialog->getMyChat(), SLOT(receiveMessage(QString, QString)));
     connect(this, SIGNAL(signalNetClientLobbyChatMsg(QString, QString)), myGameLobbyDialog->getMyChat(), SLOT(receiveMessage(QString, QString)));
     connect(this, SIGNAL(signalNetClientMsgBox(QString)), this, SLOT(networkMessage(QString)));
+    connect(this, SIGNAL(signalNetClientMsgBox(unsigned)), this, SLOT(networkMessage(unsigned)));
     connect(this, SIGNAL(signalNetClientShowTimeoutDialog(int, unsigned)), this, SLOT(showTimeoutDialog(int, unsigned)));
 
     connect(this, SIGNAL(signalLobbyPlayerJoined(unsigned, QString)), myGameLobbyDialog, SLOT(playerJoinedLobby(unsigned, QString)));
@@ -943,6 +944,29 @@ void startWindowImpl::networkMessage(QString msg)
     msgBox.setTextFormat(Qt::RichText);
     msgBox.exec();
 }
+
+void startWindowImpl::networkMessage(unsigned msgId)
+{
+    QString msgText;
+
+    switch(msgId) {
+
+    case 1: { msgText = tr("The avatar report was accepted by the server. Thank you."); }
+        break;
+    case 2: { msgText = tr("This avatar was already reported by another player."); }
+        break;
+    case 3: { msgText = tr("An error occurred while reporting the avatar."); }
+        break;
+    default:;
+        break;
+    }
+
+    QMessageBox msgBox(QMessageBox::Information, tr("Server Message"),
+                       msgText, QMessageBox::Close, this);
+//    msgBox.setTextFormat(Qt::RichText);
+    msgBox.exec();
+}
+
 
 void startWindowImpl::networkStart(boost::shared_ptr<Game> game)
 {

@@ -132,6 +132,8 @@ public:
     void SignalNetClientGameChatMsg(const std::string &playerName, const std::string &msg);
     void SignalNetClientLobbyChatMsg(const std::string &playerName, const std::string &msg);
     void SignalNetClientMsgBox(const std::string &msg);
+    void SignalNetClientMsgBox(unsigned msgId);
+
     void SignalNetClientWaitDialog();
     void SignalNetClientWarningAutoFoldInRankingGame(unsigned remainingAutoFolds);
 

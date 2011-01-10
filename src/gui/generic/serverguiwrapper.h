@@ -148,6 +148,7 @@ public:
     void SignalIrcPlayerLeft(const std::string &nickName);
     void SignalIrcChatMsg(const std::string &nickName, const std::string &msg);
     void SignalNetClientMsgBox(const std::string &msg);
+    void SignalNetClientMsgBox(unsigned msgId);
     void SignalIrcError(int errorCode);
     void SignalIrcServerError(int errorCode);
     void SignalLobbyPlayerJoined(unsigned playerId, const std::string &nickName);

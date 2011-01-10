@@ -216,9 +216,9 @@ void MyAvatarLabel::reportBadAvatar() {
 
                 QString nick = QString::fromUtf8((*it_c)->getMyName().c_str());
                 int ret = QMessageBox::question(this, tr("PokerTH - Question"),
-                                                tr("Are you sure you want to report the avatar of \"%1\" as inappropriate?").arg(nick),
-                                                QMessageBox::Yes | QMessageBox::No);
-                if(ret) {
+                                                tr("Are you sure you want to report the avatar of \"%1\" as inappropriate?").arg(nick), QMessageBox::Yes | QMessageBox::No);
+
+                if(ret == QMessageBox::Yes) {
                     QFileInfo fi(avatar);
                     myW->getSession()->reportBadAvatar((*it_c)->getMyUniqueID(), fi.baseName().toStdString());
                 }
