@@ -48,15 +48,15 @@ void MyAvatarLabel::contextMenuEvent ( QContextMenuEvent *event ) {
     assert(myW->getSession()->getCurrentGame());
     if (myW->getSession()->isNetworkClientRunning()) {
 
-        PlayerListIterator it = myW->getSession()->getCurrentGame()->getSeatsList()->begin();
+        boost::shared_ptr<PlayerInterface> humanPlayer = myW->getSession()->getCurrentGame()->getSeatsList()->front();
         //only active players are allowed to start a vote
-        if((*it)->getMyActiveStatus()) {
+        if(humanPlayer->getMyActiveStatus()) {
 
             Game *currentGame = myW->getSession()->getCurrentGame();
             PlayerListConstIterator it_c;
             int activePlayerCounter=0;
-
-            for (it_c=currentGame->getSeatsList()->begin(); it_c!=currentGame->getSeatsList()->end(); it_c++) {
+            PlayerList seatList = currentGame->getSeatsList();
+            for (it_c=seatList->begin(); it_c!=seatList->end(); it_c++) {
                 if((*it_c)->getMyActiveStatus()) activePlayerCounter++;
             }
             GameInfo info(myW->getSession()->getClientGameInfo(myW->getSession()->getClientCurrentGameId()));
@@ -71,7 +71,7 @@ void MyAvatarLabel::contextMenuEvent ( QContextMenuEvent *event ) {
             action_IgnorePlayer->setEnabled(true);
 
             int j=0;
-            for (it_c=currentGame->getSeatsList()->begin(); it_c!=currentGame->getSeatsList()->end(); it_c++) {
+            for (it_c=seatList->begin(); it_c!=seatList->end(); it_c++) {
 
                 if(myId == j) {
 
@@ -90,7 +90,7 @@ void MyAvatarLabel::contextMenuEvent ( QContextMenuEvent *event ) {
             }
 
             int i=0;
-            for (it_c=currentGame->getSeatsList()->begin(); it_c!=currentGame->getSeatsList()->end(); it_c++) {
+            for (it_c=seatList->begin(); it_c!=seatList->end(); it_c++) {
 
                 //also inactive player which stays on table can be voted to kick
                 if(myContextMenuEnabled && myId != 0 && myId == i && (*it_c)->getMyType() != PLAYER_TYPE_COMPUTER && ( (*it_c)->getMyActiveStatus() || (*it_c)->getMyStayOnTableStatus() ) )
@@ -182,8 +182,8 @@ void MyAvatarLabel::putPlayerOnIgnoreList() {
 
     QStringList list;
     PlayerListConstIterator it_c;
-
-    for (it_c=myW->getSession()->getCurrentGame()->getSeatsList()->begin(); it_c!=myW->getSession()->getCurrentGame()->getSeatsList()->end(); it_c++) {
+    PlayerList seatList = myW->getSession()->getCurrentGame()->getSeatsList();
+    for (it_c=seatList->begin(); it_c!=seatList->end(); it_c++) {
         list << QString::fromUtf8((*it_c)->getMyName().c_str());
     }
 
@@ -207,7 +207,8 @@ void MyAvatarLabel::reportBadAvatar() {
     Game *currentGame = myW->getSession()->getCurrentGame();
     int j=0;
     PlayerListConstIterator it_c;
-    for (it_c=currentGame->getSeatsList()->begin(); it_c!=currentGame->getSeatsList()->end(); it_c++) {
+    PlayerList seatList = currentGame->getSeatsList();
+    for (it_c=seatList->begin(); it_c!=seatList->end(); it_c++) {
 
         if(myId == j) {
 

@@ -981,8 +981,9 @@ QStringList startWindowImpl::getPlayerNicksList() {
 
     QStringList list;
     PlayerListConstIterator it_c;
+    PlayerList seatList = mySession->getCurrentGame()->getSeatsList();
+    for (it_c=seatList->begin(); it_c!=seatList->end(); it_c++) {
 
-    for (it_c=mySession->getCurrentGame()->getSeatsList()->begin(); it_c!=mySession->getCurrentGame()->getSeatsList()->end(); it_c++) {
         list << QString::fromUtf8((*it_c)->getMyName().c_str());
     }
 

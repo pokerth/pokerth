@@ -203,6 +203,8 @@ void guiLog::logNewGameHandMsg(int gameID, int handID) {
 	PlayerListConstIterator it_c;
 	boost::shared_ptr<HandInterface> currentHand = myW->getSession()->getCurrentGame()->getCurrentHand();
 
+        PlayerList activePlayerList = currentHand->getActivePlayerList();
+
     myW->textBrowser_Log->append("<span style=\"color:#"+myStyle->getChatLogTextColor()+"; font-size:large; font-weight:bold\">## Game: "+QString::number(gameID,10)+" | Hand: "+QString::number(handID,10)+" ##</span>");
 
 	if(myConfig->readConfigInt("LogOnOff")) {
@@ -214,7 +216,7 @@ void guiLog::logNewGameHandMsg(int gameID, int handID) {
             logFileStreamString += "BLIND LEVEL: $"+QString::number(currentHand->getSmallBlind())+" / $"+QString::number(currentHand->getSmallBlind()*2)+"</br>";
 
             //print cash only for active players
-            for(it_c=currentHand->getActivePlayerList()->begin(); it_c!=currentHand->getActivePlayerList()->end(); it_c++) {
+            for(it_c=activePlayerList->begin(); it_c!=activePlayerList->end(); it_c++) {
 
                 logFileStreamString += "Seat " + QString::number((*it_c)->getMyID()+1,10) + ": <b>" +  QString::fromUtf8((*it_c)->getMyName().c_str()) + "</b> ($" + QString::number((*it_c)->getMyCash()+(*it_c)->getMySet(),10)+")</br>";
 
@@ -246,7 +248,8 @@ void guiLog::logNewGameHandMsg(int gameID, int handID) {
                         sql += "," + boost::lexical_cast<string>(myW->getSession()->getCurrentGame()->getStartCash());
                         sql += "," + boost::lexical_cast<string>(myW->getSession()->getCurrentGame()->getStartSmallBlind());
                         sql += "," + boost::lexical_cast<string>(myW->getSession()->getCurrentGame()->getDealerPosition());
-                        for(it_c = currentHand->getSeatsList()->begin();it_c!=currentHand->getSeatsList()->end();it_c++) {
+                        PlayerList seatList = currentHand->getSeatsList();
+                        for(it_c = seatList->begin();it_c!=seatList->end();it_c++) {
                             if((*it_c)->getMyActiveStatus()) {
                                 sql += ",\"" + (*it_c)->getMyName() +"\"";
                             } else {
@@ -391,9 +394,12 @@ void guiLog::logNewBlindsSetsMsg(int sbSet, int bbSet, QString sbName, QString b
             logFileStreamString += bbName+" ($"+QString::number(bbSet,10)+")";
 
             PlayerListConstIterator it_c;
-			boost::shared_ptr<HandInterface> currentHand = myW->getSession()->getCurrentGame()->getCurrentHand();
-            for(it_c=currentHand->getActivePlayerList()->begin(); it_c!=currentHand->getActivePlayerList()->end(); it_c++) {
-                if(currentHand->getActivePlayerList()->size() > 2) {
+            boost::shared_ptr<HandInterface> currentHand = myW->getSession()->getCurrentGame()->getCurrentHand();
+            PlayerList activePlayerList = currentHand->getActivePlayerList();
+
+            for(it_c=activePlayerList->begin(); it_c!=activePlayerList->end(); it_c++) {
+
+                if(activePlayerList->size() > 2) {
                     if((*it_c)->getMyButton() == BUTTON_DEALER) {
 
                         logFileStreamString += "</br>" + QString::fromUtf8((*it_c)->getMyName().c_str()) + " starts as dealer.";
@@ -1539,9 +1545,11 @@ QString guiLog::determineHandName(int myCardsValueInt) {
 	bool equal = false;
 	boost::shared_ptr<HandInterface> currentHand = myW->getSession()->getCurrentGame()->getCurrentHand();
 	PlayerListConstIterator it_c;
+        PlayerList activePlayerList = currentHand->getActivePlayerList();
 
 	// collect cardsValueInt of all players who will show their cards
-	for(it_c=currentHand->getActivePlayerList()->begin(); it_c!=currentHand->getActivePlayerList()->end(); it_c++) {
+        for(it_c=activePlayerList->begin(); it_c!=activePlayerList->end(); it_c++) {
+
 		if( (*it_c)->getMyAction() != PLAYER_ACTION_FOLD) {
 			shownCardsValueInt.push_back( (*it_c)->getMyCardsValueInt());
 		}
