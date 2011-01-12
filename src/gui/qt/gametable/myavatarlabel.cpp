@@ -52,7 +52,7 @@ void MyAvatarLabel::contextMenuEvent ( QContextMenuEvent *event ) {
         //only active players are allowed to start a vote
         if(humanPlayer->getMyActiveStatus()) {
 
-            Game *currentGame = myW->getSession()->getCurrentGame();
+			boost::shared_ptr<Game> currentGame = myW->getSession()->getCurrentGame();
             PlayerListConstIterator it_c;
             int activePlayerCounter=0;
             PlayerList seatList = currentGame->getSeatsList();
@@ -204,7 +204,7 @@ void MyAvatarLabel::putPlayerOnIgnoreList() {
 
 void MyAvatarLabel::reportBadAvatar() {
 
-    Game *currentGame = myW->getSession()->getCurrentGame();
+	boost::shared_ptr<Game> currentGame = myW->getSession()->getCurrentGame();
     int j=0;
     PlayerListConstIterator it_c;
     PlayerList seatList = currentGame->getSeatsList();

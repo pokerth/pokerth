@@ -394,8 +394,8 @@ void guiLog::logNewBlindsSetsMsg(int sbSet, int bbSet, QString sbName, QString b
             logFileStreamString += bbName+" ($"+QString::number(bbSet,10)+")";
 
             PlayerListConstIterator it_c;
-            boost::shared_ptr<HandInterface> currentHand = myW->getSession()->getCurrentGame()->getCurrentHand();
-            PlayerList activePlayerList = currentHand->getActivePlayerList();
+			boost::shared_ptr<Game> currentGame = myW->getSession()->getCurrentGame();
+			PlayerList activePlayerList = currentGame->getActivePlayerList();
 
             for(it_c=activePlayerList->begin(); it_c!=activePlayerList->end(); it_c++) {
 
@@ -1543,9 +1543,9 @@ QString guiLog::determineHandName(int myCardsValueInt) {
 	list<int> sameHandCardsValueInt;
 	bool different = false;
 	bool equal = false;
-	boost::shared_ptr<HandInterface> currentHand = myW->getSession()->getCurrentGame()->getCurrentHand();
+	boost::shared_ptr<Game> currentGame = myW->getSession()->getCurrentGame();
 	PlayerListConstIterator it_c;
-        PlayerList activePlayerList = currentHand->getActivePlayerList();
+		PlayerList activePlayerList = currentGame->getActivePlayerList();
 
 	// collect cardsValueInt of all players who will show their cards
         for(it_c=activePlayerList->begin(); it_c!=activePlayerList->end(); it_c++) {

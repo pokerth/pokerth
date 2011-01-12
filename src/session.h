@@ -58,7 +58,8 @@ public:
     void startLocalGame(const GameData &gameData, const StartData &startData);
     void startClientGame(boost::shared_ptr<Game> game);
 
-    Game *getCurrentGame();
+	boost::shared_ptr<Game> getCurrentGame();
+
     GuiInterface *getGui();
     Log* getMyLog() {return myLog; }
     GameType getGameType();

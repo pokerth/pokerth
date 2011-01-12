@@ -135,9 +135,9 @@ void Session::startClientGame(boost::shared_ptr<Game> game)
     currentGame = game;
 }
 
-Game *Session::getCurrentGame()
+boost::shared_ptr<Game> Session::getCurrentGame()
 {
-    return currentGame.get();
+	return currentGame;
 }
 
 GuiInterface *Session::getGui()
