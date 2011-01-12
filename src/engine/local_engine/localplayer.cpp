@@ -849,8 +849,8 @@ static const RoundData FlopValues[] =
 #define NUM_PREFLOP_VALUES (sizeof(PreflopValues)/sizeof(RoundData))
 #define NUM_FLOP_VALUES (sizeof(FlopValues)/sizeof(RoundData))
 
-LocalPlayer::LocalPlayer(ConfigFile *c, BoardInterface *b, int id, unsigned uniqueId, PlayerType type, std::string name, std::string avatar, int sC, bool aS, int mB)
-    : PlayerInterface(), myConfig(c), currentHand(0), currentBoard(b), myCardsValue(0), myID(id), myUniqueID(uniqueId), myType(type), myName(name), myAvatar(avatar), myDude(0), myDude4(0), myCardsValueInt(0), myOdds(-1.0), myCash(sC), mySet(0), myLastRelativeSet(0), myAction(0), myButton(mB), myActiveStatus(aS), myStayOnTableStatus(1), myTurn(0), myCardsFlip(0), myRoundStartCash(0), lastMoneyWon(0), sBluff(0), sBluffStatus(0), myWinnerState(false), m_actionTimeoutCounter(0)
+LocalPlayer::LocalPlayer(ConfigFile *c, int id, unsigned uniqueId, PlayerType type, std::string name, std::string avatar, int sC, bool aS, int mB)
+	: PlayerInterface(), myConfig(c), currentHand(0), myCardsValue(0), myID(id), myUniqueID(uniqueId), myType(type), myName(name), myAvatar(avatar), myDude(0), myDude4(0), myCardsValueInt(0), myOdds(-1.0), myCash(sC), mySet(0), myLastRelativeSet(0), myAction(0), myButton(mB), myActiveStatus(aS), myStayOnTableStatus(1), myTurn(0), myCardsFlip(0), myRoundStartCash(0), lastMoneyWon(0), sBluff(0), sBluffStatus(0), myWinnerState(false), m_actionTimeoutCounter(0)
 {
 
     // !!!!!!!!!!!!!!!!!!!!!!!! testing !!!!!!!!!!!!!!!!!!!!!!!!
@@ -1012,7 +1012,7 @@ void LocalPlayer::action() {
             if(myConfig->readConfigInt("EngineVersion")) preflopEngine3();
             else preflopEngine();
 
-            currentBoard->collectSets();
+			currentHand->getBoard()->collectSets();
             currentHand->getGuiInterface()->refreshPot();
 
         } break;
@@ -1021,7 +1021,7 @@ void LocalPlayer::action() {
             if(myConfig->readConfigInt("EngineVersion")) flopEngine3();
             else flopEngine();
 
-            currentBoard->collectSets();
+			currentHand->getBoard()->collectSets();
             currentHand->getGuiInterface()->refreshPot();
 
         } break;
@@ -1030,7 +1030,7 @@ void LocalPlayer::action() {
             if(myConfig->readConfigInt("EngineVersion")) turnEngine3();
             else turnEngine();
 
-            currentBoard->collectSets();
+			currentHand->getBoard()->collectSets();
             currentHand->getGuiInterface()->refreshPot();
 
         } break;
@@ -1039,7 +1039,7 @@ void LocalPlayer::action() {
             if(myConfig->readConfigInt("EngineVersion")) riverEngine3();
             else riverEngine();
 
-            currentBoard->collectSets();
+			currentHand->getBoard()->collectSets();
             currentHand->getGuiInterface()->refreshPot();
 
         } break;
@@ -4010,7 +4010,7 @@ void LocalPlayer::calcMyOdds() {
             int i;
 
             for(i=0; i<2; i++) tempArray[i] = myCards[i];
-            currentBoard->getMyCards(boardCards);
+			currentHand->getBoard()->getMyCards(boardCards);
             for(i=0; i<3; i++) tempArray[2+i] = boardCards[i];
 
             // 		cout << myID << ": ";
@@ -4055,7 +4055,7 @@ void LocalPlayer::calcMyOdds() {
             int tempBoardCardsArray[5];
             int tempMyCardsArray[7];
             int tempOpponentCardsArray[7];
-            currentBoard->getMyCards(tempBoardCardsArray);
+			currentHand->getBoard()->getMyCards(tempBoardCardsArray);
 
             tempMyCardsArray[0] = myCards[0];
             tempMyCardsArray[1] = myCards[1];
@@ -4111,7 +4111,7 @@ void LocalPlayer::calcMyOdds() {
             int tempBoardCardsArray[5];
             int tempMyCardsArray[7];
             int tempOpponentCardsArray[7];
-            currentBoard->getMyCards(tempBoardCardsArray);
+			currentHand->getBoard()->getMyCards(tempBoardCardsArray);
 
             tempMyCardsArray[0] = myCards[0];
             tempMyCardsArray[1] = myCards[1];
@@ -4609,7 +4609,7 @@ void LocalPlayer::flopEngine3() {
     int tempBoardCardsArray[5];
     int tempMyCardsArray[7];
     int tempOpponentCardsArray[7];
-    currentBoard->getMyCards(tempBoardCardsArray);
+	currentHand->getBoard()->getMyCards(tempBoardCardsArray);
 
     tempMyCardsArray[0] = myCards[0];
     tempMyCardsArray[1] = myCards[1];
@@ -4780,7 +4780,7 @@ void LocalPlayer::turnEngine3() {
     int tempBoardCardsArray[5];
     int tempMyCardsArray[7];
     int tempOpponentCardsArray[7];
-    currentBoard->getMyCards(tempBoardCardsArray);
+	currentHand->getBoard()->getMyCards(tempBoardCardsArray);
 
     tempMyCardsArray[0] = myCards[0];
     tempMyCardsArray[1] = myCards[1];
@@ -4946,7 +4946,7 @@ void LocalPlayer::riverEngine3() {
     int tempBoardCardsArray[5];
     int tempMyCardsArray[7];
     int tempOpponentCardsArray[7];
-    currentBoard->getMyCards(tempBoardCardsArray);
+	currentHand->getBoard()->getMyCards(tempBoardCardsArray);
 
     tempMyCardsArray[0] = myCards[0];
     tempMyCardsArray[1] = myCards[1];
@@ -5130,7 +5130,7 @@ LocalPlayer::resetActionTimeoutCounter()
 
 bool LocalPlayer::checkIfINeedToShowCards()
 {
-    std::list<unsigned> playerNeedToShowCardsList = currentBoard->getPlayerNeedToShowCards();
+	std::list<unsigned> playerNeedToShowCardsList = currentHand->getBoard()->getPlayerNeedToShowCards();
     for(std::list<unsigned>::iterator it = playerNeedToShowCardsList.begin(); it != playerNeedToShowCardsList.end(); it++)
     {
         if(*it == myUniqueID) return true;

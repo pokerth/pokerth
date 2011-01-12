@@ -29,11 +29,10 @@
 class CardsValue;
 class ConfigFile;
 class HandInterface;
-class BoardInterface;
 
 class LocalPlayer : public PlayerInterface{
 public:
-	LocalPlayer(ConfigFile*, BoardInterface *b, int id, unsigned uniqueId, PlayerType type, std::string name, std::string avatar, int sC, bool aS, int mB);
+	LocalPlayer(ConfigFile*, int id, unsigned uniqueId, PlayerType type, std::string name, std::string avatar, int sC, bool aS, int mB);
 
 	~LocalPlayer();
 
@@ -189,7 +188,6 @@ private:
 
 	ConfigFile *myConfig;
 	HandInterface *currentHand;
-	BoardInterface *currentBoard;
 
 	CardsValue *myCardsValue;
 

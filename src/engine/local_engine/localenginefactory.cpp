@@ -55,9 +55,9 @@ LocalEngineFactory::createBoard(unsigned dp)
 }
 
 boost::shared_ptr<PlayerInterface>
-LocalEngineFactory::createPlayer(BoardInterface *b, int id, unsigned uniqueId, PlayerType type, std::string name, std::string avatar, int sC, bool aS, int mB)
+LocalEngineFactory::createPlayer(int id, unsigned uniqueId, PlayerType type, std::string name, std::string avatar, int sC, bool aS, int mB)
 {
-	return boost::shared_ptr<PlayerInterface> (new LocalPlayer(myConfig, b, id, uniqueId, type, name, avatar, sC, aS, mB));
+	return boost::shared_ptr<PlayerInterface> (new LocalPlayer(myConfig, id, uniqueId, type, name, avatar, sC, aS, mB));
 }
 
 std::vector<boost::shared_ptr<BeRoInterface> >

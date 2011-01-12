@@ -22,8 +22,8 @@
 using namespace std;
 
 
-ClientPlayer::ClientPlayer(ConfigFile *c, BoardInterface *b, int id, unsigned uniqueId, PlayerType type, std::string name, std::string avatar, int sC, bool aS, int mB)
-: PlayerInterface(), myConfig(c), currentHand(0), currentBoard(b), myCardsValue(0), myID(id), myUniqueID(uniqueId), myType(type),
+ClientPlayer::ClientPlayer(ConfigFile *c, int id, unsigned uniqueId, PlayerType type, std::string name, std::string avatar, int sC, bool aS, int mB)
+: PlayerInterface(), myConfig(c), currentHand(0), myCardsValue(0), myID(id), myUniqueID(uniqueId), myType(type),
   myName(name), myAvatar(avatar), myDude(0), myDude4(0), myCardsValueInt(0), myOdds(-1.0), myCash(sC), mySet(0), myLastRelativeSet(0),
   myAction(0), myButton(mB), myActiveStatus(aS), myStayOnTableStatus(true), myTurn(false), myCardsFlip(false), myRoundStartCash(0),
   lastMoneyWon(0), sBluff(0), sBluffStatus(false), myWinnerState(false)
@@ -526,7 +526,7 @@ boost::shared_ptr<SessionData> ClientPlayer::getNetSessionData()
 bool ClientPlayer::checkIfINeedToShowCards()
 {
 	boost::recursive_mutex::scoped_lock lock(m_syncMutex);
-	std::list<unsigned> playerNeedToShowCardsList = currentBoard->getPlayerNeedToShowCards();
+	std::list<unsigned> playerNeedToShowCardsList = currentHand->getBoard()->getPlayerNeedToShowCards();
     for(std::list<unsigned>::iterator it = playerNeedToShowCardsList.begin(); it != playerNeedToShowCardsList.end(); it++)
     {
         if(*it == myUniqueID) return true;
