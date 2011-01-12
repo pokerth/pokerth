@@ -42,10 +42,6 @@ public:
 	PlayerList getActivePlayerList() const {return activePlayerList;}
 	PlayerList getRunningPlayerList() const {return runningPlayerList;}
 
-	PlayerListIterator getSeatIt(unsigned) const;
-	PlayerListIterator getActivePlayerIt(unsigned) const;
-	PlayerListIterator getRunningPlayerIt(unsigned) const;
-
 	boost::shared_ptr<BoardInterface> getBoard() const { return myBoard; }
 	boost::shared_ptr<BeRoInterface> getPreflop() const { return myBeRo[GAME_STATE_PREFLOP]; }
 	boost::shared_ptr<BeRoInterface> getFlop() const { return myBeRo[GAME_STATE_FLOP]; }
@@ -91,6 +87,10 @@ public:
 
 	void switchRounds();
 
+protected:
+	PlayerListIterator getSeatIt(unsigned) const;
+	PlayerListIterator getActivePlayerIt(unsigned) const;
+	PlayerListIterator getRunningPlayerIt(unsigned) const;
 
 private:
 

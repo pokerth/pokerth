@@ -42,10 +42,6 @@ class ClientHand : public HandInterface
 		PlayerList getActivePlayerList() const;
 		PlayerList getRunningPlayerList() const;
 
-		PlayerListIterator getSeatIt(unsigned) const;
-		PlayerListIterator getActivePlayerIt(unsigned) const;
-		PlayerListIterator getRunningPlayerIt(unsigned) const;
-
 		boost::shared_ptr<BoardInterface> getBoard() const;
 		boost::shared_ptr<BeRoInterface> getPreflop() const;
 		boost::shared_ptr<BeRoInterface> getFlop() const;
@@ -92,8 +88,13 @@ class ClientHand : public HandInterface
 
 		void switchRounds();
 
+protected:
+		PlayerListIterator getSeatIt(unsigned) const;
+		PlayerListIterator getActivePlayerIt(unsigned) const;
+		PlayerListIterator getRunningPlayerIt(unsigned) const;
 
-	private:
+
+private:
 		mutable boost::recursive_mutex m_syncMutex;
 
 		boost::shared_ptr<EngineFactory> myFactory;

@@ -68,24 +68,28 @@ ClientHand::start()
 PlayerList
 ClientHand::getSeatsList() const
 {
+	boost::recursive_mutex::scoped_lock lock(m_syncMutex);
 	return seatsList;
 }
 
 PlayerList
 ClientHand::getActivePlayerList() const
 {
+	boost::recursive_mutex::scoped_lock lock(m_syncMutex);
 	return activePlayerList;
 }
 
 PlayerList
 ClientHand::getRunningPlayerList() const
 {
+	boost::recursive_mutex::scoped_lock lock(m_syncMutex);
 	return runningPlayerList;
 }
 
 PlayerListIterator
 ClientHand::getSeatIt(unsigned uniqueId) const
 {
+	boost::recursive_mutex::scoped_lock lock(m_syncMutex);
 	PlayerListIterator it;
 
 	for(it=seatsList->begin(); it!=seatsList->end(); it++) {
@@ -100,6 +104,7 @@ ClientHand::getSeatIt(unsigned uniqueId) const
 PlayerListIterator
 ClientHand::getActivePlayerIt(unsigned uniqueId) const
 {
+	boost::recursive_mutex::scoped_lock lock(m_syncMutex);
 	PlayerListIterator it;
 
 	for(it=activePlayerList->begin(); it!=activePlayerList->end(); it++) {
@@ -114,6 +119,7 @@ ClientHand::getActivePlayerIt(unsigned uniqueId) const
 PlayerListIterator
 ClientHand::getRunningPlayerIt(unsigned uniqueId) const
 {
+	boost::recursive_mutex::scoped_lock lock(m_syncMutex);
 	PlayerListIterator it;
 
 	for(it=runningPlayerList->begin(); it!=runningPlayerList->end(); it++) {
@@ -297,13 +303,15 @@ ClientHand::getLastPlayersTurn() const
 void
 ClientHand::setLastActionPlayer (unsigned theValue)
 {
-        lastActionPlayer = theValue;
+	boost::recursive_mutex::scoped_lock lock(m_syncMutex);
+	lastActionPlayer = theValue;
 }
 
 unsigned
 ClientHand::getLastActionPlayer() const
 {
-         return lastActionPlayer;
+	boost::recursive_mutex::scoped_lock lock(m_syncMutex);
+	return lastActionPlayer;
 }
 
 void

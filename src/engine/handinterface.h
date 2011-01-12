@@ -36,10 +36,6 @@ public:
 	virtual PlayerList getActivePlayerList() const =0;
 	virtual PlayerList getRunningPlayerList() const =0;
 
-	virtual PlayerListIterator getSeatIt(unsigned) const =0;
-	virtual PlayerListIterator getActivePlayerIt(unsigned) const =0;
-	virtual PlayerListIterator getRunningPlayerIt(unsigned) const =0;
-
 	virtual boost::shared_ptr<BoardInterface> getBoard() const =0;
 	virtual boost::shared_ptr<BeRoInterface> getPreflop() const =0;
 	virtual boost::shared_ptr<BeRoInterface> getFlop() const =0;
@@ -83,6 +79,18 @@ public:
 
 	virtual void switchRounds() =0;
 
+protected:
+	virtual PlayerListIterator getSeatIt(unsigned) const =0;
+	virtual PlayerListIterator getActivePlayerIt(unsigned) const =0;
+	virtual PlayerListIterator getRunningPlayerIt(unsigned) const =0;
+
+friend class Game;
+friend class LocalBeRo;
+friend class LocalBeRoPreflop;
+friend class LocalBeRoFlop;
+friend class LocalBeRoTurn;
+friend class LocalBeRoRiver;
+friend class LocalBeRoPostRiver;
 };
 
 #endif

@@ -24,7 +24,7 @@
 using namespace std;
 
 ClientBoard::ClientBoard(unsigned dp)
-: currentHand(0), pot(0), sets(0), dealerPosition(dp)
+: pot(0), sets(0), dealerPosition(dp)
 {
 	myCards[0] = myCards[1] = myCards[2] = myCards[3] = myCards[4] = 0;
 }
@@ -41,13 +41,6 @@ ClientBoard::setPlayerLists(PlayerList sl,  PlayerList apl, PlayerList rpl)
 	seatsList = sl;
 	activePlayerList = apl;
 	runningPlayerList = rpl;
-}
-
-void
-ClientBoard::setHand(HandInterface* br)
-{
-	boost::recursive_mutex::scoped_lock lock(m_syncMutex);
-	currentHand = br;
 }
 
 void

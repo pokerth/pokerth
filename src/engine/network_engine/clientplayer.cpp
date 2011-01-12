@@ -217,15 +217,15 @@ ClientPlayer::getMyActiveStatus() const
 void
 ClientPlayer::setMyStayOnTableStatus(bool theValue)
 {
-        boost::recursive_mutex::scoped_lock lock(m_syncMutex);
-        myStayOnTableStatus = theValue;
+	boost::recursive_mutex::scoped_lock lock(m_syncMutex);
+	myStayOnTableStatus = theValue;
 }
 
 bool
 ClientPlayer::getMyStayOnTableStatus() const
 {
-        boost::recursive_mutex::scoped_lock lock(m_syncMutex);
-        return myStayOnTableStatus;
+	boost::recursive_mutex::scoped_lock lock(m_syncMutex);
+	return myStayOnTableStatus;
 }
 
 void

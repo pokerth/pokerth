@@ -1219,7 +1219,7 @@ void
 ClientThread::RemoveDisconnectedPlayers()
 {
 	// This should only be called between hands.
-	if (m_game.get())
+	if (m_game)
 	{
 		PlayerListIterator it;
 		for (it = m_game->getSeatsList()->begin(); it != m_game->getSeatsList()->end(); it++)

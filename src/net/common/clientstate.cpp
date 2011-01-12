@@ -1732,6 +1732,9 @@ ClientStateWaitHand::InternalHandlePacket(boost::shared_ptr<ClientThread> client
 			cardDataStream >> myCards[0];
 			cardDataStream >> myCards[1];
 		}
+		// Basic synchronisation before a new hand is started.
+		client->GetGui().waitForGuiUpdateDone();
+		// Start new hand.
 		client->GetGame()->getSeatsList()->front()->setMyCards(myCards);
 		client->GetGame()->initHand();
 		client->GetGame()->getCurrentHand()->setSmallBlind(netHandStart->smallBlind);

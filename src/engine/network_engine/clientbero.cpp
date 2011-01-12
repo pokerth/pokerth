@@ -103,6 +103,7 @@ ClientBeRo::setSmallBlindPositionId(unsigned theValue)
 unsigned
 ClientBeRo::getSmallBlindPositionId() const
 {
+	boost::recursive_mutex::scoped_lock lock(m_syncMutex);
 	return smallBlindPositionId;
 }
 
@@ -116,6 +117,7 @@ ClientBeRo::setBigBlindPositionId(unsigned theValue)
 unsigned
 ClientBeRo::getBigBlindPositionId() const
 {
+	boost::recursive_mutex::scoped_lock lock(m_syncMutex);
 	return bigBlindPositionId;
 }
 
@@ -220,15 +222,15 @@ ClientBeRo::getMinimumRaise() const
 void
 ClientBeRo::setFullBetRule ( bool theValue )
 {
-        boost::recursive_mutex::scoped_lock lock(m_syncMutex);
-        fullBetRule = theValue;
+	boost::recursive_mutex::scoped_lock lock(m_syncMutex);
+	fullBetRule = theValue;
 }
 
 bool
 ClientBeRo::getFullBetRule() const
 {
-        boost::recursive_mutex::scoped_lock lock(m_syncMutex);
-        return fullBetRule;
+	boost::recursive_mutex::scoped_lock lock(m_syncMutex);
+	return fullBetRule;
 }
 
 void
