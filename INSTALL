@@ -14,6 +14,7 @@ Linux:
   NOTE: Please do not use boost 1.39.0 for the dedicated server, due to bug
   https://svn.boost.org/trac/boost/ticket/3095
 - libSDL_mixer, libSDL  --> http://www.libsdl.org/
+- libSQLite >= 3.0 --> http://sqlite.org/
 
 NOTE: PokerTH might compile with libboost < 1.36 but occasional crashes will occur!
 
