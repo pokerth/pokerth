@@ -131,7 +131,11 @@ main(int argc, char *argv[])
 
 	// TODO: Hack
 #ifndef _WIN32
-	daemon(0, 0);
+	if (daemon(0, 0) != 0)
+	{
+		cout << "Failed to start daemon." << endl;
+		return 1;
+	}
 #endif
 
 	signal(SIGTERM, TerminateHandler);
