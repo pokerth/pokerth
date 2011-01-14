@@ -23,8 +23,11 @@
 #include <boost/program_options.hpp>
 #include <boost/asio.hpp>
 #include <third_party/boost/timers.hpp>
+#include <gsasl.h>
 
 #include <iostream>
+
+#define STL_STRING_FROM_OCTET_STRING(_a) (string((const char *)(_a).buf, (_a).size))
 
 using namespace std;
 using boost::asio::ip::tcp;
@@ -42,6 +45,10 @@ net_packet_print_to_string(const void *buffer, size_t size, void *packetStr)
 	*tmpString += string((const char *)buffer, size);
 	return 0;
 }
+
+/*string packetString;
+xer_encode(&asn_DEF_PokerTHMessage, msg, XER_F_BASIC, &net_packet_print_to_string, &packetString);
+cout << packetString << endl;*/
 
 PokerTHMessage_t *
 receiveMessage(tcp::socket &socket, bool recursed = false)
@@ -100,10 +107,10 @@ main(int argc, char *argv[])
 	desc.add_options()
 		("help,h", "produce help message")
 		("server,s", po::value<string>(), "PokerTH server name")
-		("port,o", po::value<string>(), "PokerTH server port")
+		("port,P", po::value<string>(), "PokerTH server port")
 		("mode,m", po::value<int>(), "set mode (0=connection test, 1=lag test)")
 		("username,u", po::value<string>(), "user name used for test")
-		("password,p", "password used for test")
+		("password,p", po::value<string>(), "password used for test")
 		;
 
 	po::variables_map vm;
@@ -126,10 +133,26 @@ main(int argc, char *argv[])
 	int mode = vm["mode"].as<int>();
 	string username(vm["username"].as<string>());
 	string password;
-	/*if (vm.count("password"))
+	if (vm.count("password"))
 	{
 		password = vm["password"].as<string>();
-	}*/
+	}
+	// Initialise gsasl.
+	Gsasl *authContext;
+	Gsasl_session *authSession;
+	int res = gsasl_init(&authContext);
+	if (res != GSASL_OK)
+	{
+		cout << "gsasl init failed" << endl;
+		return 1;
+	}
+
+	if (!gsasl_client_support_p(authContext, "SCRAM-SHA-1"))
+	{
+		gsasl_done(authContext);
+		cout << "This version of gsasl does not support SCRAM-SHA-1" << endl;
+		return 1;
+	}
 
 	// Connect to the PokerTH server.
 	boost::timers::portable::microsec_timer perfTimer;
@@ -178,11 +201,90 @@ main(int argc, char *argv[])
 		OCTET_STRING_fromBuf(&guestLogin->nickName,
 							 username.c_str(),
 							 username.length());
+		if (!sendMessage(socket, msg))
+		{
+			cout << "Init guest failed" << endl;
+			return 1;
+		}
 	}
-	if (!sendMessage(socket, msg))
+	else
 	{
-		cout << "Init failed" << endl;
-		return 1;
+		int errorCode = gsasl_client_start(authContext, "SCRAM-SHA-1", &authSession);
+		if (errorCode == GSASL_OK)
+		{
+			gsasl_property_set(authSession, GSASL_AUTHID, username.c_str());
+			gsasl_property_set(authSession, GSASL_PASSWORD, password.c_str());
+
+			netInit->login.present = login_PR_authenticatedLogin;
+			AuthenticatedLogin_t *authLogin = &netInit->login.choice.authenticatedLogin;
+
+			char *tmpOut;
+			size_t tmpOutSize;
+			string nextGsaslMsg;
+			errorCode = gsasl_step(authSession, NULL, 0, &tmpOut, &tmpOutSize);
+			if (errorCode == GSASL_NEEDS_MORE)
+			{
+				nextGsaslMsg = string(tmpOut, tmpOutSize);
+			}
+			else
+			{
+				cout << "gsasl step 1 failed" << endl;
+				return 1;
+			}
+			gsasl_free(tmpOut);
+
+			OCTET_STRING_fromBuf(&authLogin->clientUserData,
+								 nextGsaslMsg.c_str(),
+								 nextGsaslMsg.length());
+			if (!sendMessage(socket, msg))
+			{
+				cout << "Init auth request failed" << endl;
+				return 1;
+			}
+
+			msg = receiveMessage(socket);
+			if (!msg || msg->present != PokerTHMessage_PR_authMessage)
+			{
+				cout << "Auth request failed" << endl;
+				return 1;
+			}
+
+			AuthMessage_t *netAuth = &msg->choice.authMessage;
+			AuthServerChallenge_t *netChallenge = &netAuth->choice.authServerChallenge;
+			string challengeStr = STL_STRING_FROM_OCTET_STRING(netChallenge->serverChallenge);
+			errorCode = gsasl_step(authSession, challengeStr.c_str(), challengeStr.size(), &tmpOut, &tmpOutSize);
+			if (errorCode == GSASL_NEEDS_MORE)
+			{
+				nextGsaslMsg = string(tmpOut, tmpOutSize);
+			}
+			else
+			{
+				cout << "gsasl step 2 failed" << endl;
+				return 1;
+			}
+			gsasl_free(tmpOut);
+			ASN_STRUCT_FREE(asn_DEF_PokerTHMessage, msg);
+			msg = (PokerTHMessage_t *)calloc(1, sizeof(PokerTHMessage_t));
+			msg->present = PokerTHMessage_PR_authMessage;
+			AuthMessage_t *outAuth = &msg->choice.authMessage;
+			outAuth->present = AuthMessage_PR_authClientResponse;
+			AuthClientResponse_t *outResponse = &outAuth->choice.authClientResponse;
+
+			OCTET_STRING_fromBuf(&outResponse->clientResponse,
+								 nextGsaslMsg.c_str(),
+								 nextGsaslMsg.length());
+			if (!sendMessage(socket, msg))
+			{
+				cout << "Init auth response failed" << endl;
+				return 1;
+			}
+			msg = receiveMessage(socket);
+			if (!msg || msg->present != PokerTHMessage_PR_authMessage)
+			{
+				cout << "Auth response failed" << endl;
+				return 1;
+			}
+		}
 	}
 
 	// Receive init ack
@@ -251,9 +353,6 @@ main(int argc, char *argv[])
 	if (msg->choice.joinGameReplyMessage.joinGameResult.present != joinGameResult_PR_joinGameAck)
 	{
 		cout << "Join game ack failed" << endl;
-		string packetString;
-		xer_encode(&asn_DEF_PokerTHMessage, msg, XER_F_BASIC, &net_packet_print_to_string, &packetString);
-		cout << packetString << endl;
 		return 1;
 	}
 	ASN_STRUCT_FREE(asn_DEF_PokerTHMessage, msg);
@@ -267,6 +366,7 @@ main(int argc, char *argv[])
 		cout << "Success" << endl;
 	}
 	perfTimer.restart();
+	gsasl_done(authContext);
 	return 0;
 }
 
