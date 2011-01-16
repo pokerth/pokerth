@@ -951,11 +951,14 @@ void startWindowImpl::networkMessage(unsigned msgId)
 
     switch(msgId) {
 
-    case 1: { msgText = tr("The avatar report was accepted by the server. Thank you."); }
+	case MSG_NET_AVATAR_REPORT_ACCEPTED:
+		{ msgText = tr("The avatar report was accepted by the server. Thank you."); }
         break;
-    case 2: { msgText = tr("This avatar was already reported by another player."); }
+	case MSG_NET_AVATAR_REPORT_DUP:
+		{ msgText = tr("This avatar was already reported by another player."); }
         break;
-    case 3: { msgText = tr("An error occurred while reporting the avatar."); }
+	case MSG_NET_AVATAR_REPORT_REJECTED:
+		{ msgText = tr("An error occurred while reporting the avatar."); }
         break;
     default:;
         break;

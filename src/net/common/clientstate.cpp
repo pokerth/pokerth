@@ -923,6 +923,24 @@ AbstractClientStateReceiving::HandlePacket(boost::shared_ptr<ClientThread> clien
 			client->SetUnknownAvatar(requestId);
 		}
 	}
+	else if (tmpPacket->GetMsg()->present == PokerTHMessage_PR_reportAvatarAckMessage)
+	{
+		ReportAvatarAckMessage_t *netReportAck = &tmpPacket->GetMsg()->choice.reportAvatarAckMessage;
+		unsigned msgCode;
+		switch (netReportAck->reportResult)
+		{
+			case reportResult_avatarReportAccepted:
+				msgCode = MSG_NET_AVATAR_REPORT_ACCEPTED;
+				break;
+			case reportResult_avatarReportDuplicate:
+				msgCode = MSG_NET_AVATAR_REPORT_DUP;
+				break;
+			default:
+				msgCode = MSG_NET_AVATAR_REPORT_REJECTED;
+				break;
+		}
+		client->GetCallback().SignalNetClientMsgBox(msgCode);
+	}
 	else if (tmpPacket->GetMsg()->present == PokerTHMessage_PR_statisticsMessage)
 	{
 		StatisticsMessage_t *netStatistics = &tmpPacket->GetMsg()->choice.statisticsMessage;
