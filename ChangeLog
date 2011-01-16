@@ -1,3 +1,7 @@
+2011-01-16 version 0.8.3:
+- Fixed a crash which sometimes occurs when other players leave a game (bug 0000021)
+- Updated language files
+
 2011-01-03 version 0.8.2:
 - Report bad avatar function to tell the admins about illegal avatar pictures (right click on players avatar on the table)
 - Optional add country flag to avatar feature
