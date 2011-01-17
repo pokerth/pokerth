@@ -15,7 +15,7 @@ MOC_DIR = mocs
 OBJECTS_DIR = obj
 DEFINES += PREFIX=\"$${PREFIX}\"
 QT -= core gui
-QMAKE_CXXFLAGS += -std=gnu++0x
+#QMAKE_CXXFLAGS += -std=gnu++0x
 #PRECOMPILED_HEADER = src/pch_lib.h
 
 INCLUDEPATH += . \
