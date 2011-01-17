@@ -77,7 +77,7 @@ receiveMessage(tcp::socket &socket)
 			ASN_STRUCT_FREE(asn_DEF_PokerTHMessage, msg);
 			recBufPos += socket.receive(boost::asio::buffer(recBuf.c_array() + recBufPos, BUF_SIZE - recBufPos));
 		}
-	} while (recBufPos < BUF_SIZE && msg != NULL);
+	} while (recBufPos < BUF_SIZE && msg == NULL);
 	return msg;
 }
 
