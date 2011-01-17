@@ -59,7 +59,7 @@ receiveMessage(tcp::socket &socket)
 	do
 	{
 		asn_dec_rval_t retVal = ber_decode(0, &asn_DEF_PokerTHMessage, (void **)&msg, recBuf.data(), recBufPos);
-		if(retVal.code == RC_OK)
+		if(retVal.code == RC_OK && msg != NULL)
 		{
 			if (retVal.consumed < recBufPos)
 			{
@@ -75,9 +75,10 @@ receiveMessage(tcp::socket &socket)
 		{
 			// Free the partially decoded message (if applicable).
 			ASN_STRUCT_FREE(asn_DEF_PokerTHMessage, msg);
+			msg = NULL;
 			recBufPos += socket.receive(boost::asio::buffer(recBuf.c_array() + recBufPos, BUF_SIZE - recBufPos));
 		}
-	} while (recBufPos < BUF_SIZE && msg == NULL);
+	} while (msg == NULL);
 	return msg;
 }
 
