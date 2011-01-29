@@ -66,6 +66,7 @@
 #define SERVER_SESSION_ACTIVITY_TIMEOUT_SEC			1800	// 30 min, MUST be > SERVER_TIMEOUT_WARNING_REMAINING_SEC
 #define SERVER_SESSION_FORCED_TIMEOUT_SEC			86400	// 1 day, should be quite large.
 
+#define SERVER_ADDRESS_LOCALHOST_STR_V4				"::ffff:127.0.0.1"
 #define SERVER_ADDRESS_LOCALHOST_STR				"::1"
 
 #define SERVER_STATISTICS_FILE_NAME					"server_statistics.log"
@@ -1425,6 +1426,7 @@ ServerLobbyThread::HandleNetPacketJoinGame(SessionWrapper session, const std::st
 		}
 		else if (tmpData.gameType == GAME_TYPE_RANKING
 			&& session.sessionData->GetClientAddr() != SERVER_ADDRESS_LOCALHOST_STR
+			&& session.sessionData->GetClientAddr() != SERVER_ADDRESS_LOCALHOST_STR_V4
 			&& game.IsClientAddressConnected(session.sessionData->GetClientAddr()))
 		{
 			SendJoinGameFailed(session.sessionData, joinGame.gameId, NTF_NET_JOIN_IP_BLOCKED);

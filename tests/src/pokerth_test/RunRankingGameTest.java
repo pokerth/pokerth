@@ -130,7 +130,7 @@ public class RunRankingGameTest extends TestBase {
 		Socket s[] = new Socket[9];
 		long playerId[] = new long[9];
 		for (int i = 0; i < 9; i++) {
-			s[i] = new Socket("::1", 7234);
+			s[i] = new Socket("localhost", 7234);
 			String username = "test" + (i+1);
 			String password = username;
 			playerId[i] = userInit(s[i], username, password);

@@ -54,7 +54,7 @@ public abstract class TestBase {
 	@Before
 	public void setUp() throws Exception {
 		Thread.sleep(2000);
-		sock = new Socket("::1", 7234);
+		sock = new Socket("localhost", 7234);
 		encoder = CoderFactory.getInstance().newEncoder("BER");
 		decoder = CoderFactory.getInstance().newDecoder("BER");
 	}
