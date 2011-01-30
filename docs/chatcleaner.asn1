@@ -49,7 +49,7 @@ CleanerChatTypeLobby ::= SEQUENCE {
 }
 
 CleanerChatTypeGame ::= SEQUENCE {
-	gameId						INTEGER(1..4294967295),
+	gameId						INTEGER(1..4294967295)
 }
 
 CleanerChatRequestMessage ::= [APPLICATION 2] SEQUENCE {
