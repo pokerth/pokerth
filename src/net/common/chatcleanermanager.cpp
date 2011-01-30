@@ -74,7 +74,13 @@ ChatCleanerManager::ReInit()
 }
 
 void
-ChatCleanerManager::HandleChatText(unsigned playerId, const std::string &name, const std::string &text)
+ChatCleanerManager::HandleLobbyChatText(unsigned playerId, const std::string &name, const std::string &text)
+{
+	HandleGameChatText(0, playerId, name, text);
+}
+
+void
+ChatCleanerManager::HandleGameChatText(unsigned gameId, unsigned playerId, const std::string &name, const std::string &text)
 {
 	if (m_connected)
 	{
@@ -82,6 +88,15 @@ ChatCleanerManager::HandleChatText(unsigned playerId, const std::string &name, c
 		tmpChat.GetMsg()->present = ChatCleanerMessage_PR_cleanerChatRequestMessage;
 		CleanerChatRequestMessage_t *netRequest = &tmpChat.GetMsg()->choice.cleanerChatRequestMessage;
 		netRequest->requestId = GetNextRequestId();
+		if (gameId)
+		{
+			netRequest->cleanerChatType.present = CleanerChatType_PR_cleanerChatTypeGame;
+			netRequest->cleanerChatType.choice.cleanerChatTypeGame.gameId = gameId;
+		}
+		else
+		{
+			netRequest->cleanerChatType.present = CleanerChatType_PR_cleanerChatTypeLobby;
+		}
 		netRequest->playerId = playerId;
 		OCTET_STRING_fromBuf(&netRequest->playerName,
 							 name.c_str(),
@@ -252,7 +267,16 @@ ChatCleanerManager::HandleMessage(InternalChatCleanerPacket &msg)
 	{
 		CleanerChatReplyMessage_t *netReply = &msg.GetMsg()->choice.cleanerChatReplyMessage;
 		if (netReply->cleanerText)
-			m_callback.SignalChatBotMessage(string((const char *)netReply->cleanerText->buf, netReply->cleanerText->size));
+		{
+			if (netReply->cleanerChatType.present == CleanerChatType_PR_cleanerChatTypeLobby)
+			{
+				m_callback.SignalChatBotMessage(string((const char *)netReply->cleanerText->buf, netReply->cleanerText->size));
+			}
+			else if (netReply->cleanerChatType.present == CleanerChatType_PR_cleanerChatTypeGame)
+			{
+				m_callback.SignalChatBotMessage(netReply->cleanerChatType.choice.cleanerChatTypeGame.gameId, string((const char *)netReply->cleanerText->buf, netReply->cleanerText->size));
+			}
+		}
 		if (netReply->cleanerActionType == cleanerActionType_cleanerActionKick)
 			m_callback.SignalKickPlayer(netReply->playerId);
 		else if (netReply->cleanerActionType == cleanerActionType_cleanerActionBan)
@@ -273,6 +297,8 @@ ChatCleanerManager::SendMessageToServer(InternalChatCleanerPacket &msg)
 	else
 	{
 		boost::shared_ptr<EncodedPacket> tmpPacket(new EncodedPacket(buf, e.encoded));
+		// Actually, this should not be done (parallel async_write calls might break data).
+		// But we do not want to create additional buffers here.
 		boost::asio::async_write(
 			*m_socket,
 			boost::asio::buffer(tmpPacket->GetData(), tmpPacket->GetSize()),

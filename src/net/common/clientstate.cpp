@@ -767,6 +767,7 @@ AbstractClientStateReceiving::HandlePacket(boost::shared_ptr<ClientThread> clien
 		}
 		else if (netMessage->chatType.present == chatType_PR_chatTypeBot)
 		{
+			client->GetCallback().SignalNetClientGameChatMsg("(chat bot)", STL_STRING_FROM_OCTET_STRING(netMessage->chatText));
 			client->GetCallback().SignalNetClientLobbyChatMsg("(chat bot)", STL_STRING_FROM_OCTET_STRING(netMessage->chatText));
 		}
 		else if (netMessage->chatType.present == chatType_PR_chatTypeGame)

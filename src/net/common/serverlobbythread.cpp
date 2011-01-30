@@ -103,6 +103,11 @@ public:
 		m_server.SendChatBotMsg(msg);
 	}
 
+	virtual void SignalChatBotMessage(unsigned gameId, const std::string &msg)
+	{
+		m_server.SendChatBotMsg(gameId, msg);
+	}
+
 	virtual void SignalKickPlayer(unsigned playerId)
 	{
 		m_server.RemovePlayer(playerId, ERR_NET_PLAYER_KICKED);
@@ -612,6 +617,25 @@ ServerLobbyThread::SendChatBotMsg(const std::string &message)
 }
 
 void
+ServerLobbyThread::SendChatBotMsg(unsigned gameId, const std::string &message)
+{
+	boost::shared_ptr<NetPacket> packet(new NetPacket(NetPacket::Alloc));
+	packet->GetMsg()->present = PokerTHMessage_PR_chatMessage;
+	ChatMessage_t *netChat = &packet->GetMsg()->choice.chatMessage;
+	netChat->chatType.present = chatType_PR_chatTypeBot;
+	OCTET_STRING_fromBuf(
+		&netChat->chatText,
+		message.c_str(),
+		message.length());
+
+	GameMap::const_iterator pos = m_gameMap.find(gameId);
+	if (pos != m_gameMap.end())
+	{
+		pos->second->SendToAllPlayers(packet, SessionData::Game);
+	}
+}
+
+void
 ServerLobbyThread::ReconnectChatBot()
 {
 	m_chatCleanerManager->ReInit();
@@ -648,6 +672,13 @@ AvatarManager &
 ServerLobbyThread::GetAvatarManager()
 {
 	return m_avatarManager;
+}
+
+ChatCleanerManager &
+ServerLobbyThread::GetChatCleaner()
+{
+	assert(m_chatCleanerManager);
+	return *m_chatCleanerManager;
 }
 
 ServerStats
@@ -1466,7 +1497,7 @@ ServerLobbyThread::HandleNetPacketChatRequest(SessionWrapper session, const Chat
 
 			string chatMsg = STL_STRING_FROM_OCTET_STRING(chatRequest.chatText);
 			// Send the message to the chat cleaner bot.
-			m_chatCleanerManager->HandleChatText(
+			m_chatCleanerManager->HandleLobbyChatText(
 				session.playerData->GetUniqueId(),
 				session.playerData->GetName(),
 				chatMsg);

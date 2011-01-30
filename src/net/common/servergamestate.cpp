@@ -26,6 +26,7 @@
 #include <net/socket_msg.h>
 #include <net/serverexception.h>
 #include <net/net_helper.h>
+#include <net/chatcleanermanager.h>
 #include <db/serverdbinterface.h>
 #include <core/loghelper.h>
 #include <core/avatarmanager.h>
@@ -291,6 +292,16 @@ AbstractServerGameStateReceiving::ProcessPacket(boost::shared_ptr<ServerGame> se
 					(char *)netChatRequest->chatText.buf,
 					netChatRequest->chatText.size);
 				server->SendToAllPlayers(packet, SessionData::Game);
+
+				// Send the message to the chat cleaner bot for ranking games.
+				//if (server->GetGameData().gameType == GAME_TYPE_RANKING)
+				//{
+					server->GetLobbyThread().GetChatCleaner().HandleGameChatText(
+						server->GetId(),
+						session.playerData->GetUniqueId(),
+						session.playerData->GetName(),
+						string((char *)netChatRequest->chatText.buf, netChatRequest->chatText.size));
+				//}
 			}
 		}
 	}

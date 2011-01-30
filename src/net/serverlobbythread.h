@@ -83,10 +83,10 @@ public:
 	std::string GetPlayerNameFromId(unsigned playerId) const;
 	void RemovePlayer(unsigned playerId, unsigned errorCode);
 
-
 	void SendGlobalChat(const std::string &message);
 	void SendGlobalMsgBox(const std::string &message);
 	void SendChatBotMsg(const std::string &message);
+	void SendChatBotMsg(unsigned gameId, const std::string &message);
 	void ReconnectChatBot();
 
 	void AddComputerPlayer(boost::shared_ptr<PlayerData> player);
@@ -101,6 +101,7 @@ public:
 	void SetGameDBId(u_int32_t gameId, DB_id gameDBId);
 
 	AvatarManager &GetAvatarManager();
+	ChatCleanerManager &GetChatCleaner();
 
 	ServerStats GetStats() const;
 	boost::posix_time::ptime GetStartTime() const;

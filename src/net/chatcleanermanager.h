@@ -38,7 +38,8 @@ public:
 	void Init(const std::string &serverAddr, int port, bool ipv6,
 			  const std::string &clientSecret, const std::string &serverSecret);
 	void ReInit();
-	void HandleChatText(unsigned playerId, const std::string &name, const std::string &text);
+	void HandleLobbyChatText(unsigned playerId, const std::string &name, const std::string &text);
+	void HandleGameChatText(unsigned gameId, unsigned playerId, const std::string &name, const std::string &text);
 
 protected:
 

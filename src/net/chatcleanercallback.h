@@ -30,6 +30,7 @@ public:
 	virtual ~ChatCleanerCallback();
 
 	virtual void SignalChatBotMessage(const std::string &msg) = 0;
+	virtual void SignalChatBotMessage(unsigned gameId, const std::string &msg) = 0;
 	virtual void SignalKickPlayer(unsigned playerId) = 0;
 	virtual void SignalBanPlayer(unsigned playerId) = 0;
 };
