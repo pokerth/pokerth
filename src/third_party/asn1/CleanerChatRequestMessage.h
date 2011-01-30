@@ -13,6 +13,7 @@
 
 /* Including external dependencies */
 #include <NativeInteger.h>
+#include "CleanerChatType.h"
 #include <UTF8String.h>
 #include <constr_SEQUENCE.h>
 
@@ -23,6 +24,7 @@ extern "C" {
 /* CleanerChatRequestMessage */
 typedef struct CleanerChatRequestMessage {
 	unsigned long	 requestId;
+	CleanerChatType_t	 cleanerChatType;
 	unsigned long	 playerId;
 	UTF8String_t	 playerName;
 	UTF8String_t	 chatMessage;
@@ -37,7 +39,7 @@ typedef struct CleanerChatRequestMessage {
 
 /* Implementation */
 /* extern asn_TYPE_descriptor_t asn_DEF_requestId_2;	// (Use -fall-defs-global to expose) */
-/* extern asn_TYPE_descriptor_t asn_DEF_playerId_3;	// (Use -fall-defs-global to expose) */
+/* extern asn_TYPE_descriptor_t asn_DEF_playerId_4;	// (Use -fall-defs-global to expose) */
 extern asn_TYPE_descriptor_t asn_DEF_CleanerChatRequestMessage;
 
 #ifdef __cplusplus

@@ -98,7 +98,7 @@ requestId_2_encode_xer(asn_TYPE_descriptor_t *td, void *structure,
 }
 
 static int
-playerId_3_constraint(asn_TYPE_descriptor_t *td, const void *sptr,
+playerId_4_constraint(asn_TYPE_descriptor_t *td, const void *sptr,
 			asn_app_constraint_failed_f *ctfailcb, void *app_key) {
 	unsigned long value;
 	
@@ -127,7 +127,7 @@ playerId_3_constraint(asn_TYPE_descriptor_t *td, const void *sptr,
  * so here we adjust the DEF accordingly.
  */
 static void
-playerId_3_inherit_TYPE_descriptor(asn_TYPE_descriptor_t *td) {
+playerId_4_inherit_TYPE_descriptor(asn_TYPE_descriptor_t *td) {
 	td->free_struct    = asn_DEF_NativeInteger.free_struct;
 	td->print_struct   = asn_DEF_NativeInteger.print_struct;
 	td->ber_decoder    = asn_DEF_NativeInteger.ber_decoder;
@@ -144,46 +144,46 @@ playerId_3_inherit_TYPE_descriptor(asn_TYPE_descriptor_t *td) {
 }
 
 static void
-playerId_3_free(asn_TYPE_descriptor_t *td,
+playerId_4_free(asn_TYPE_descriptor_t *td,
 		void *struct_ptr, int contents_only) {
-	playerId_3_inherit_TYPE_descriptor(td);
+	playerId_4_inherit_TYPE_descriptor(td);
 	td->free_struct(td, struct_ptr, contents_only);
 }
 
 static int
-playerId_3_print(asn_TYPE_descriptor_t *td, const void *struct_ptr,
+playerId_4_print(asn_TYPE_descriptor_t *td, const void *struct_ptr,
 		int ilevel, asn_app_consume_bytes_f *cb, void *app_key) {
-	playerId_3_inherit_TYPE_descriptor(td);
+	playerId_4_inherit_TYPE_descriptor(td);
 	return td->print_struct(td, struct_ptr, ilevel, cb, app_key);
 }
 
 static asn_dec_rval_t
-playerId_3_decode_ber(asn_codec_ctx_t *opt_codec_ctx, asn_TYPE_descriptor_t *td,
+playerId_4_decode_ber(asn_codec_ctx_t *opt_codec_ctx, asn_TYPE_descriptor_t *td,
 		void **structure, const void *bufptr, size_t size, int tag_mode) {
-	playerId_3_inherit_TYPE_descriptor(td);
+	playerId_4_inherit_TYPE_descriptor(td);
 	return td->ber_decoder(opt_codec_ctx, td, structure, bufptr, size, tag_mode);
 }
 
 static asn_enc_rval_t
-playerId_3_encode_der(asn_TYPE_descriptor_t *td,
+playerId_4_encode_der(asn_TYPE_descriptor_t *td,
 		void *structure, int tag_mode, ber_tlv_tag_t tag,
 		asn_app_consume_bytes_f *cb, void *app_key) {
-	playerId_3_inherit_TYPE_descriptor(td);
+	playerId_4_inherit_TYPE_descriptor(td);
 	return td->der_encoder(td, structure, tag_mode, tag, cb, app_key);
 }
 
 static asn_dec_rval_t
-playerId_3_decode_xer(asn_codec_ctx_t *opt_codec_ctx, asn_TYPE_descriptor_t *td,
+playerId_4_decode_xer(asn_codec_ctx_t *opt_codec_ctx, asn_TYPE_descriptor_t *td,
 		void **structure, const char *opt_mname, const void *bufptr, size_t size) {
-	playerId_3_inherit_TYPE_descriptor(td);
+	playerId_4_inherit_TYPE_descriptor(td);
 	return td->xer_decoder(opt_codec_ctx, td, structure, opt_mname, bufptr, size);
 }
 
 static asn_enc_rval_t
-playerId_3_encode_xer(asn_TYPE_descriptor_t *td, void *structure,
+playerId_4_encode_xer(asn_TYPE_descriptor_t *td, void *structure,
 		int ilevel, enum xer_encoder_flags_e flags,
 		asn_app_consume_bytes_f *cb, void *app_key) {
-	playerId_3_inherit_TYPE_descriptor(td);
+	playerId_4_inherit_TYPE_descriptor(td);
 	return td->xer_encoder(td, structure, ilevel, flags, cb, app_key);
 }
 
@@ -333,36 +333,36 @@ asn_TYPE_descriptor_t asn_DEF_requestId_2 = {
 	&asn_SPC_requestId_specs_2	/* Additional specs */
 };
 
-static asn_INTEGER_specifics_t asn_SPC_playerId_specs_3 = {
+static asn_INTEGER_specifics_t asn_SPC_playerId_specs_4 = {
 	0,	0,	0,	0,	0,
 	0,	/* Native long size */
 	1	/* Unsigned representation */
 };
-static ber_tlv_tag_t asn_DEF_playerId_tags_3[] = {
+static ber_tlv_tag_t asn_DEF_playerId_tags_4[] = {
 	(ASN_TAG_CLASS_UNIVERSAL | (2 << 2))
 };
 static /* Use -fall-defs-global to expose */
-asn_TYPE_descriptor_t asn_DEF_playerId_3 = {
+asn_TYPE_descriptor_t asn_DEF_playerId_4 = {
 	"playerId",
 	"playerId",
-	playerId_3_free,
-	playerId_3_print,
-	playerId_3_constraint,
-	playerId_3_decode_ber,
-	playerId_3_encode_der,
-	playerId_3_decode_xer,
-	playerId_3_encode_xer,
+	playerId_4_free,
+	playerId_4_print,
+	playerId_4_constraint,
+	playerId_4_decode_ber,
+	playerId_4_encode_der,
+	playerId_4_decode_xer,
+	playerId_4_encode_xer,
 	0, 0,	/* No PER support, use "-gen-PER" to enable */
 	0,	/* Use generic outmost tag fetcher */
-	asn_DEF_playerId_tags_3,
-	sizeof(asn_DEF_playerId_tags_3)
-		/sizeof(asn_DEF_playerId_tags_3[0]), /* 1 */
-	asn_DEF_playerId_tags_3,	/* Same as above */
-	sizeof(asn_DEF_playerId_tags_3)
-		/sizeof(asn_DEF_playerId_tags_3[0]), /* 1 */
+	asn_DEF_playerId_tags_4,
+	sizeof(asn_DEF_playerId_tags_4)
+		/sizeof(asn_DEF_playerId_tags_4[0]), /* 1 */
+	asn_DEF_playerId_tags_4,	/* Same as above */
+	sizeof(asn_DEF_playerId_tags_4)
+		/sizeof(asn_DEF_playerId_tags_4[0]), /* 1 */
 	0,	/* No PER visible constraints */
 	0, 0,	/* No members */
-	&asn_SPC_playerId_specs_3	/* Additional specs */
+	&asn_SPC_playerId_specs_4	/* Additional specs */
 };
 
 static asn_TYPE_member_t asn_MBR_CleanerChatRequestMessage_1[] = {
@@ -375,10 +375,19 @@ static asn_TYPE_member_t asn_MBR_CleanerChatRequestMessage_1[] = {
 		0,
 		"requestId"
 		},
+	{ ATF_NOFLAGS, 0, offsetof(struct CleanerChatRequestMessage, cleanerChatType),
+		-1 /* Ambiguous tag (CHOICE?) */,
+		0,
+		&asn_DEF_CleanerChatType,
+		0,	/* Defer constraints checking to the member type */
+		0,	/* PER is not compiled, use -gen-PER */
+		0,
+		"cleanerChatType"
+		},
 	{ ATF_NOFLAGS, 0, offsetof(struct CleanerChatRequestMessage, playerId),
 		(ASN_TAG_CLASS_UNIVERSAL | (2 << 2)),
 		0,
-		&asn_DEF_playerId_3,
+		&asn_DEF_playerId_4,
 		memb_playerId_constraint_1,
 		0,	/* PER is not compiled, use -gen-PER */
 		0,
@@ -408,19 +417,21 @@ static ber_tlv_tag_t asn_DEF_CleanerChatRequestMessage_tags_1[] = {
 	(ASN_TAG_CLASS_UNIVERSAL | (16 << 2))
 };
 static asn_TYPE_tag2member_t asn_MAP_CleanerChatRequestMessage_tag2el_1[] = {
-    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 0, 0, 1 }, /* requestId at 44 */
-    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 1, -1, 0 }, /* playerId at 45 */
-    { (ASN_TAG_CLASS_UNIVERSAL | (12 << 2)), 2, 0, 1 }, /* playerName at 46 */
-    { (ASN_TAG_CLASS_UNIVERSAL | (12 << 2)), 3, -1, 0 } /* chatMessage at 47 */
+    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 0, 0, 1 }, /* requestId at 56 */
+    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 2, -1, 0 }, /* playerId at 58 */
+    { (ASN_TAG_CLASS_UNIVERSAL | (12 << 2)), 3, 0, 1 }, /* playerName at 59 */
+    { (ASN_TAG_CLASS_UNIVERSAL | (12 << 2)), 4, -1, 0 }, /* chatMessage at 60 */
+    { (ASN_TAG_CLASS_CONTEXT | (0 << 2)), 1, 0, 0 }, /* cleanerChatTypeLobby at 44 */
+    { (ASN_TAG_CLASS_CONTEXT | (1 << 2)), 1, 0, 0 } /* cleanerChatTypeGame at 46 */
 };
 static asn_SEQUENCE_specifics_t asn_SPC_CleanerChatRequestMessage_specs_1 = {
 	sizeof(struct CleanerChatRequestMessage),
 	offsetof(struct CleanerChatRequestMessage, _asn_ctx),
 	asn_MAP_CleanerChatRequestMessage_tag2el_1,
-	4,	/* Count of tags in the map */
+	6,	/* Count of tags in the map */
 	0, 0, 0,	/* Optional elements (not needed) */
-	3,	/* Start extensions */
-	5	/* Stop extensions */
+	4,	/* Start extensions */
+	6	/* Stop extensions */
 };
 asn_TYPE_descriptor_t asn_DEF_CleanerChatRequestMessage = {
 	"CleanerChatRequestMessage",
@@ -442,7 +453,7 @@ asn_TYPE_descriptor_t asn_DEF_CleanerChatRequestMessage = {
 		/sizeof(asn_DEF_CleanerChatRequestMessage_tags_1[0]), /* 2 */
 	0,	/* No PER visible constraints */
 	asn_MBR_CleanerChatRequestMessage_1,
-	4,	/* Elements count */
+	5,	/* Elements count */
 	&asn_SPC_CleanerChatRequestMessage_specs_1	/* Additional specs */
 };
 
