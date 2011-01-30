@@ -269,6 +269,16 @@ import org.bn.types.*;
 	private AfkWarningMessage afkWarningMessage = null;
                 
   
+        @ASN1Element ( name = "reportAvatarMessage", isOptional =  false , hasTag =  false  , hasDefaultValue =  false  )
+    
+	private ReportAvatarMessage reportAvatarMessage = null;
+                
+  
+        @ASN1Element ( name = "reportAvatarAckMessage", isOptional =  false , hasTag =  false  , hasDefaultValue =  false  )
+    
+	private ReportAvatarAckMessage reportAvatarAckMessage = null;
+                
+  
         @ASN1Element ( name = "errorMessage", isOptional =  false , hasTag =  false  , hasDefaultValue =  false  )
     
 	private ErrorMessage errorMessage = null;
@@ -388,6 +398,10 @@ import org.bn.types.*;
                     setResetTimeoutMessage(null);
                 
                     setAfkWarningMessage(null);
+                
+                    setReportAvatarMessage(null);
+                
+                    setReportAvatarAckMessage(null);
                 
                     setErrorMessage(null);
                             
@@ -510,6 +524,10 @@ import org.bn.types.*;
                 
                     setAfkWarningMessage(null);
                 
+                    setReportAvatarMessage(null);
+                
+                    setReportAvatarAckMessage(null);
+                
                     setErrorMessage(null);
                             
         }
@@ -630,6 +648,10 @@ import org.bn.types.*;
                     setResetTimeoutMessage(null);
                 
                     setAfkWarningMessage(null);
+                
+                    setReportAvatarMessage(null);
+                
+                    setReportAvatarAckMessage(null);
                 
                     setErrorMessage(null);
                             
@@ -752,6 +774,10 @@ import org.bn.types.*;
                 
                     setAfkWarningMessage(null);
                 
+                    setReportAvatarMessage(null);
+                
+                    setReportAvatarAckMessage(null);
+                
                     setErrorMessage(null);
                             
         }
@@ -872,6 +898,10 @@ import org.bn.types.*;
                     setResetTimeoutMessage(null);
                 
                     setAfkWarningMessage(null);
+                
+                    setReportAvatarMessage(null);
+                
+                    setReportAvatarAckMessage(null);
                 
                     setErrorMessage(null);
                             
@@ -994,6 +1024,10 @@ import org.bn.types.*;
                 
                     setAfkWarningMessage(null);
                 
+                    setReportAvatarMessage(null);
+                
+                    setReportAvatarAckMessage(null);
+                
                     setErrorMessage(null);
                             
         }
@@ -1114,6 +1148,10 @@ import org.bn.types.*;
                     setResetTimeoutMessage(null);
                 
                     setAfkWarningMessage(null);
+                
+                    setReportAvatarMessage(null);
+                
+                    setReportAvatarAckMessage(null);
                 
                     setErrorMessage(null);
                             
@@ -1236,6 +1274,10 @@ import org.bn.types.*;
                 
                     setAfkWarningMessage(null);
                 
+                    setReportAvatarMessage(null);
+                
+                    setReportAvatarAckMessage(null);
+                
                     setErrorMessage(null);
                             
         }
@@ -1356,6 +1398,10 @@ import org.bn.types.*;
                     setResetTimeoutMessage(null);
                 
                     setAfkWarningMessage(null);
+                
+                    setReportAvatarMessage(null);
+                
+                    setReportAvatarAckMessage(null);
                 
                     setErrorMessage(null);
                             
@@ -1478,6 +1524,10 @@ import org.bn.types.*;
                 
                     setAfkWarningMessage(null);
                 
+                    setReportAvatarMessage(null);
+                
+                    setReportAvatarAckMessage(null);
+                
                     setErrorMessage(null);
                             
         }
@@ -1598,6 +1648,10 @@ import org.bn.types.*;
                     setResetTimeoutMessage(null);
                 
                     setAfkWarningMessage(null);
+                
+                    setReportAvatarMessage(null);
+                
+                    setReportAvatarAckMessage(null);
                 
                     setErrorMessage(null);
                             
@@ -1720,6 +1774,10 @@ import org.bn.types.*;
                 
                     setAfkWarningMessage(null);
                 
+                    setReportAvatarMessage(null);
+                
+                    setReportAvatarAckMessage(null);
+                
                     setErrorMessage(null);
                             
         }
@@ -1840,6 +1898,10 @@ import org.bn.types.*;
                     setResetTimeoutMessage(null);
                 
                     setAfkWarningMessage(null);
+                
+                    setReportAvatarMessage(null);
+                
+                    setReportAvatarAckMessage(null);
                 
                     setErrorMessage(null);
                             
@@ -1962,6 +2024,10 @@ import org.bn.types.*;
                 
                     setAfkWarningMessage(null);
                 
+                    setReportAvatarMessage(null);
+                
+                    setReportAvatarAckMessage(null);
+                
                     setErrorMessage(null);
                             
         }
@@ -2082,6 +2148,10 @@ import org.bn.types.*;
                     setResetTimeoutMessage(null);
                 
                     setAfkWarningMessage(null);
+                
+                    setReportAvatarMessage(null);
+                
+                    setReportAvatarAckMessage(null);
                 
                     setErrorMessage(null);
                             
@@ -2204,6 +2274,10 @@ import org.bn.types.*;
                 
                     setAfkWarningMessage(null);
                 
+                    setReportAvatarMessage(null);
+                
+                    setReportAvatarAckMessage(null);
+                
                     setErrorMessage(null);
                             
         }
@@ -2324,6 +2398,10 @@ import org.bn.types.*;
                     setResetTimeoutMessage(null);
                 
                     setAfkWarningMessage(null);
+                
+                    setReportAvatarMessage(null);
+                
+                    setReportAvatarAckMessage(null);
                 
                     setErrorMessage(null);
                             
@@ -2446,6 +2524,10 @@ import org.bn.types.*;
                 
                     setAfkWarningMessage(null);
                 
+                    setReportAvatarMessage(null);
+                
+                    setReportAvatarAckMessage(null);
+                
                     setErrorMessage(null);
                             
         }
@@ -2566,6 +2648,10 @@ import org.bn.types.*;
                     setResetTimeoutMessage(null);
                 
                     setAfkWarningMessage(null);
+                
+                    setReportAvatarMessage(null);
+                
+                    setReportAvatarAckMessage(null);
                 
                     setErrorMessage(null);
                             
@@ -2688,6 +2774,10 @@ import org.bn.types.*;
                 
                     setAfkWarningMessage(null);
                 
+                    setReportAvatarMessage(null);
+                
+                    setReportAvatarAckMessage(null);
+                
                     setErrorMessage(null);
                             
         }
@@ -2808,6 +2898,10 @@ import org.bn.types.*;
                     setResetTimeoutMessage(null);
                 
                     setAfkWarningMessage(null);
+                
+                    setReportAvatarMessage(null);
+                
+                    setReportAvatarAckMessage(null);
                 
                     setErrorMessage(null);
                             
@@ -2930,6 +3024,10 @@ import org.bn.types.*;
                 
                     setAfkWarningMessage(null);
                 
+                    setReportAvatarMessage(null);
+                
+                    setReportAvatarAckMessage(null);
+                
                     setErrorMessage(null);
                             
         }
@@ -3050,6 +3148,10 @@ import org.bn.types.*;
                     setResetTimeoutMessage(null);
                 
                     setAfkWarningMessage(null);
+                
+                    setReportAvatarMessage(null);
+                
+                    setReportAvatarAckMessage(null);
                 
                     setErrorMessage(null);
                             
@@ -3172,6 +3274,10 @@ import org.bn.types.*;
                 
                     setAfkWarningMessage(null);
                 
+                    setReportAvatarMessage(null);
+                
+                    setReportAvatarAckMessage(null);
+                
                     setErrorMessage(null);
                             
         }
@@ -3292,6 +3398,10 @@ import org.bn.types.*;
                     setResetTimeoutMessage(null);
                 
                     setAfkWarningMessage(null);
+                
+                    setReportAvatarMessage(null);
+                
+                    setReportAvatarAckMessage(null);
                 
                     setErrorMessage(null);
                             
@@ -3414,6 +3524,10 @@ import org.bn.types.*;
                 
                     setAfkWarningMessage(null);
                 
+                    setReportAvatarMessage(null);
+                
+                    setReportAvatarAckMessage(null);
+                
                     setErrorMessage(null);
                             
         }
@@ -3534,6 +3648,10 @@ import org.bn.types.*;
                     setResetTimeoutMessage(null);
                 
                     setAfkWarningMessage(null);
+                
+                    setReportAvatarMessage(null);
+                
+                    setReportAvatarAckMessage(null);
                 
                     setErrorMessage(null);
                             
@@ -3656,6 +3774,10 @@ import org.bn.types.*;
                 
                     setAfkWarningMessage(null);
                 
+                    setReportAvatarMessage(null);
+                
+                    setReportAvatarAckMessage(null);
+                
                     setErrorMessage(null);
                             
         }
@@ -3776,6 +3898,10 @@ import org.bn.types.*;
                     setResetTimeoutMessage(null);
                 
                     setAfkWarningMessage(null);
+                
+                    setReportAvatarMessage(null);
+                
+                    setReportAvatarAckMessage(null);
                 
                     setErrorMessage(null);
                             
@@ -3898,6 +4024,10 @@ import org.bn.types.*;
                 
                     setAfkWarningMessage(null);
                 
+                    setReportAvatarMessage(null);
+                
+                    setReportAvatarAckMessage(null);
+                
                     setErrorMessage(null);
                             
         }
@@ -4018,6 +4148,10 @@ import org.bn.types.*;
                     setResetTimeoutMessage(null);
                 
                     setAfkWarningMessage(null);
+                
+                    setReportAvatarMessage(null);
+                
+                    setReportAvatarAckMessage(null);
                 
                     setErrorMessage(null);
                             
@@ -4140,6 +4274,10 @@ import org.bn.types.*;
                 
                     setAfkWarningMessage(null);
                 
+                    setReportAvatarMessage(null);
+                
+                    setReportAvatarAckMessage(null);
+                
                     setErrorMessage(null);
                             
         }
@@ -4260,6 +4398,10 @@ import org.bn.types.*;
                     setResetTimeoutMessage(null);
                 
                     setAfkWarningMessage(null);
+                
+                    setReportAvatarMessage(null);
+                
+                    setReportAvatarAckMessage(null);
                 
                     setErrorMessage(null);
                             
@@ -4382,6 +4524,10 @@ import org.bn.types.*;
                 
                     setAfkWarningMessage(null);
                 
+                    setReportAvatarMessage(null);
+                
+                    setReportAvatarAckMessage(null);
+                
                     setErrorMessage(null);
                             
         }
@@ -4502,6 +4648,10 @@ import org.bn.types.*;
                     setResetTimeoutMessage(null);
                 
                     setAfkWarningMessage(null);
+                
+                    setReportAvatarMessage(null);
+                
+                    setReportAvatarAckMessage(null);
                 
                     setErrorMessage(null);
                             
@@ -4624,6 +4774,10 @@ import org.bn.types.*;
                 
                     setAfkWarningMessage(null);
                 
+                    setReportAvatarMessage(null);
+                
+                    setReportAvatarAckMessage(null);
+                
                     setErrorMessage(null);
                             
         }
@@ -4744,6 +4898,10 @@ import org.bn.types.*;
                     setResetTimeoutMessage(null);
                 
                     setAfkWarningMessage(null);
+                
+                    setReportAvatarMessage(null);
+                
+                    setReportAvatarAckMessage(null);
                 
                     setErrorMessage(null);
                             
@@ -4866,6 +5024,10 @@ import org.bn.types.*;
                 
                     setAfkWarningMessage(null);
                 
+                    setReportAvatarMessage(null);
+                
+                    setReportAvatarAckMessage(null);
+                
                     setErrorMessage(null);
                             
         }
@@ -4986,6 +5148,10 @@ import org.bn.types.*;
                     setResetTimeoutMessage(null);
                 
                     setAfkWarningMessage(null);
+                
+                    setReportAvatarMessage(null);
+                
+                    setReportAvatarAckMessage(null);
                 
                     setErrorMessage(null);
                             
@@ -5108,6 +5274,10 @@ import org.bn.types.*;
                 
                     setAfkWarningMessage(null);
                 
+                    setReportAvatarMessage(null);
+                
+                    setReportAvatarAckMessage(null);
+                
                     setErrorMessage(null);
                             
         }
@@ -5228,6 +5398,10 @@ import org.bn.types.*;
                     setResetTimeoutMessage(null);
                 
                     setAfkWarningMessage(null);
+                
+                    setReportAvatarMessage(null);
+                
+                    setReportAvatarAckMessage(null);
                 
                     setErrorMessage(null);
                             
@@ -5350,6 +5524,10 @@ import org.bn.types.*;
                 
                     setAfkWarningMessage(null);
                 
+                    setReportAvatarMessage(null);
+                
+                    setReportAvatarAckMessage(null);
+                
                     setErrorMessage(null);
                             
         }
@@ -5470,6 +5648,10 @@ import org.bn.types.*;
                     setResetTimeoutMessage(null);
                 
                     setAfkWarningMessage(null);
+                
+                    setReportAvatarMessage(null);
+                
+                    setReportAvatarAckMessage(null);
                 
                     setErrorMessage(null);
                             
@@ -5592,6 +5774,10 @@ import org.bn.types.*;
                 
                     setAfkWarningMessage(null);
                 
+                    setReportAvatarMessage(null);
+                
+                    setReportAvatarAckMessage(null);
+                
                     setErrorMessage(null);
                             
         }
@@ -5712,6 +5898,10 @@ import org.bn.types.*;
                     setResetTimeoutMessage(null);
                 
                     setAfkWarningMessage(null);
+                
+                    setReportAvatarMessage(null);
+                
+                    setReportAvatarAckMessage(null);
                 
                     setErrorMessage(null);
                             
@@ -5834,6 +6024,10 @@ import org.bn.types.*;
                 
                     setAfkWarningMessage(null);
                 
+                    setReportAvatarMessage(null);
+                
+                    setReportAvatarAckMessage(null);
+                
                     setErrorMessage(null);
                             
         }
@@ -5954,6 +6148,10 @@ import org.bn.types.*;
                     setResetTimeoutMessage(null);
                 
                     setAfkWarningMessage(null);
+                
+                    setReportAvatarMessage(null);
+                
+                    setReportAvatarAckMessage(null);
                 
                     setErrorMessage(null);
                             
@@ -6076,6 +6274,10 @@ import org.bn.types.*;
                 
                     setAfkWarningMessage(null);
                 
+                    setReportAvatarMessage(null);
+                
+                    setReportAvatarAckMessage(null);
+                
                     setErrorMessage(null);
                             
         }
@@ -6197,6 +6399,10 @@ import org.bn.types.*;
                 
                     setAfkWarningMessage(null);
                 
+                    setReportAvatarMessage(null);
+                
+                    setReportAvatarAckMessage(null);
+                
                     setErrorMessage(null);
                             
         }
@@ -6317,6 +6523,260 @@ import org.bn.types.*;
                     setTimeoutWarningMessage(null);
                 
                     setResetTimeoutMessage(null);
+                
+                    setReportAvatarMessage(null);
+                
+                    setReportAvatarAckMessage(null);
+                
+                    setErrorMessage(null);
+                            
+        }
+
+        
+  
+        
+        public ReportAvatarMessage getReportAvatarMessage () {
+            return this.reportAvatarMessage;
+        }
+
+        public boolean isReportAvatarMessageSelected () {
+            return this.reportAvatarMessage != null;
+        }
+
+        private void setReportAvatarMessage (ReportAvatarMessage value) {
+            this.reportAvatarMessage = value;
+        }
+
+        
+        public void selectReportAvatarMessage (ReportAvatarMessage value) {
+            this.reportAvatarMessage = value;
+            
+                    setAnnounceMessage(null);
+                
+                    setInitMessage(null);
+                
+                    setAuthMessage(null);
+                
+                    setInitAckMessage(null);
+                
+                    setAvatarRequestMessage(null);
+                
+                    setAvatarReplyMessage(null);
+                
+                    setPlayerListMessage(null);
+                
+                    setGameListMessage(null);
+                
+                    setPlayerInfoRequestMessage(null);
+                
+                    setPlayerInfoReplyMessage(null);
+                
+                    setSubscriptionRequestMessage(null);
+                
+                    setJoinGameRequestMessage(null);
+                
+                    setJoinGameReplyMessage(null);
+                
+                    setGamePlayerMessage(null);
+                
+                    setKickPlayerRequestMessage(null);
+                
+                    setLeaveGameRequestMessage(null);
+                
+                    setInvitePlayerToGameMessage(null);
+                
+                    setInviteNotifyMessage(null);
+                
+                    setRejectGameInvitationMessage(null);
+                
+                    setRejectInvNotifyMessage(null);
+                
+                    setStartEventMessage(null);
+                
+                    setStartEventAckMessage(null);
+                
+                    setGameStartMessage(null);
+                
+                    setHandStartMessage(null);
+                
+                    setPlayersTurnMessage(null);
+                
+                    setMyActionRequestMessage(null);
+                
+                    setYourActionRejectedMessage(null);
+                
+                    setPlayersActionDoneMessage(null);
+                
+                    setDealFlopCardsMessage(null);
+                
+                    setDealTurnCardMessage(null);
+                
+                    setDealRiverCardMessage(null);
+                
+                    setAllInShowCardsMessage(null);
+                
+                    setEndOfHandMessage(null);
+                
+                    setShowMyCardsRequestMessage(null);
+                
+                    setAfterHandShowCardsMessage(null);
+                
+                    setEndOfGameMessage(null);
+                
+                    setAskKickPlayerMessage(null);
+                
+                    setAskKickDeniedMessage(null);
+                
+                    setStartKickPetitionMessage(null);
+                
+                    setVoteKickRequestMessage(null);
+                
+                    setVoteKickReplyMessage(null);
+                
+                    setKickPetitionUpdateMessage(null);
+                
+                    setEndKickPetitionMessage(null);
+                
+                    setStatisticsMessage(null);
+                
+                    setChatRequestMessage(null);
+                
+                    setChatMessage(null);
+                
+                    setDialogMessage(null);
+                
+                    setTimeoutWarningMessage(null);
+                
+                    setResetTimeoutMessage(null);
+                
+                    setAfkWarningMessage(null);
+                
+                    setReportAvatarAckMessage(null);
+                
+                    setErrorMessage(null);
+                            
+        }
+
+        
+  
+        
+        public ReportAvatarAckMessage getReportAvatarAckMessage () {
+            return this.reportAvatarAckMessage;
+        }
+
+        public boolean isReportAvatarAckMessageSelected () {
+            return this.reportAvatarAckMessage != null;
+        }
+
+        private void setReportAvatarAckMessage (ReportAvatarAckMessage value) {
+            this.reportAvatarAckMessage = value;
+        }
+
+        
+        public void selectReportAvatarAckMessage (ReportAvatarAckMessage value) {
+            this.reportAvatarAckMessage = value;
+            
+                    setAnnounceMessage(null);
+                
+                    setInitMessage(null);
+                
+                    setAuthMessage(null);
+                
+                    setInitAckMessage(null);
+                
+                    setAvatarRequestMessage(null);
+                
+                    setAvatarReplyMessage(null);
+                
+                    setPlayerListMessage(null);
+                
+                    setGameListMessage(null);
+                
+                    setPlayerInfoRequestMessage(null);
+                
+                    setPlayerInfoReplyMessage(null);
+                
+                    setSubscriptionRequestMessage(null);
+                
+                    setJoinGameRequestMessage(null);
+                
+                    setJoinGameReplyMessage(null);
+                
+                    setGamePlayerMessage(null);
+                
+                    setKickPlayerRequestMessage(null);
+                
+                    setLeaveGameRequestMessage(null);
+                
+                    setInvitePlayerToGameMessage(null);
+                
+                    setInviteNotifyMessage(null);
+                
+                    setRejectGameInvitationMessage(null);
+                
+                    setRejectInvNotifyMessage(null);
+                
+                    setStartEventMessage(null);
+                
+                    setStartEventAckMessage(null);
+                
+                    setGameStartMessage(null);
+                
+                    setHandStartMessage(null);
+                
+                    setPlayersTurnMessage(null);
+                
+                    setMyActionRequestMessage(null);
+                
+                    setYourActionRejectedMessage(null);
+                
+                    setPlayersActionDoneMessage(null);
+                
+                    setDealFlopCardsMessage(null);
+                
+                    setDealTurnCardMessage(null);
+                
+                    setDealRiverCardMessage(null);
+                
+                    setAllInShowCardsMessage(null);
+                
+                    setEndOfHandMessage(null);
+                
+                    setShowMyCardsRequestMessage(null);
+                
+                    setAfterHandShowCardsMessage(null);
+                
+                    setEndOfGameMessage(null);
+                
+                    setAskKickPlayerMessage(null);
+                
+                    setAskKickDeniedMessage(null);
+                
+                    setStartKickPetitionMessage(null);
+                
+                    setVoteKickRequestMessage(null);
+                
+                    setVoteKickReplyMessage(null);
+                
+                    setKickPetitionUpdateMessage(null);
+                
+                    setEndKickPetitionMessage(null);
+                
+                    setStatisticsMessage(null);
+                
+                    setChatRequestMessage(null);
+                
+                    setChatMessage(null);
+                
+                    setDialogMessage(null);
+                
+                    setTimeoutWarningMessage(null);
+                
+                    setResetTimeoutMessage(null);
+                
+                    setAfkWarningMessage(null);
+                
+                    setReportAvatarMessage(null);
                 
                     setErrorMessage(null);
                             
@@ -6440,6 +6900,10 @@ import org.bn.types.*;
                     setResetTimeoutMessage(null);
                 
                     setAfkWarningMessage(null);
+                
+                    setReportAvatarMessage(null);
+                
+                    setReportAvatarAckMessage(null);
                             
         }
 

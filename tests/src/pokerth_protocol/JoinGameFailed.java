@@ -45,6 +45,8 @@ import org.bn.types.*;
             badGameName , 
             @ASN1EnumItem ( name = "invalidSettings", hasTag = true , tag = 9 )
             invalidSettings , 
+            @ASN1EnumItem ( name = "ipAddressBlocked", hasTag = true , tag = 10 )
+            ipAddressBlocked , 
         }
         
         private EnumType value;
