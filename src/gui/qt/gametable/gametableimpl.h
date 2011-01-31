@@ -71,6 +71,7 @@ public:
 
     void setSpeeds();
 
+
 signals:
     void signalInitGui(int speed);
 
@@ -367,11 +368,13 @@ private:
     MyNameLabel *playerNameLabelArray[MAX_NUMBER_OF_PLAYERS];
     MyAvatarLabel *playerAvatarLabelArray[MAX_NUMBER_OF_PLAYERS];
     MyTimeoutLabel *timeoutLabelArray[MAX_NUMBER_OF_PLAYERS];
+    QLabel *playerStarsArray[6][MAX_NUMBER_OF_PLAYERS];
 
     QGroupBox *groupBoxArray[MAX_NUMBER_OF_PLAYERS];
     MyCardsPixmapLabel *boardCardsArray[5];
     MyCardsPixmapLabel *holeCardsArray[MAX_NUMBER_OF_PLAYERS][2];
 
+    QLabel *playerTipLabelArray[MAX_NUMBER_OF_PLAYERS];
     QPixmap flipside;
 
     // 	Dialogs
@@ -447,6 +450,7 @@ private:
     QString TurnString;
     QString RiverString;
 
+    friend class MyAvatarLabel;
     friend class GuiWrapper;
 };
 

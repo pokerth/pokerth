@@ -199,6 +199,68 @@ gameTableImpl::gameTableImpl(ConfigFile *c, QMainWindow *parent)
     postRiverRunAnimation5Timer->setSingleShot(TRUE);
     postRiverRunAnimation6Timer->setSingleShot(TRUE);
 
+
+    playerStarsArray[1][0]=label_Star10;
+    playerStarsArray[2][0]=label_Star20;
+    playerStarsArray[3][0]=label_Star30;
+    playerStarsArray[4][0]=label_Star40;
+    playerStarsArray[5][0]=label_Star50;
+    playerStarsArray[1][1]=label_Star11;
+    playerStarsArray[2][1]=label_Star21;
+    playerStarsArray[3][1]=label_Star31;
+    playerStarsArray[4][1]=label_Star41;
+    playerStarsArray[5][1]=label_Star51;
+    playerStarsArray[1][2]=label_Star12;
+    playerStarsArray[2][2]=label_Star22;
+    playerStarsArray[3][2]=label_Star32;
+    playerStarsArray[4][2]=label_Star42;
+    playerStarsArray[5][2]=label_Star52;
+    playerStarsArray[1][3]=label_Star13;
+    playerStarsArray[2][3]=label_Star23;
+    playerStarsArray[3][3]=label_Star33;
+    playerStarsArray[4][3]=label_Star43;
+    playerStarsArray[5][3]=label_Star53;
+    playerStarsArray[1][4]=label_Star14;
+    playerStarsArray[2][4]=label_Star24;
+    playerStarsArray[3][4]=label_Star34;
+    playerStarsArray[4][4]=label_Star44;
+    playerStarsArray[5][4]=label_Star54;
+    playerStarsArray[1][5]=label_Star15;
+    playerStarsArray[2][5]=label_Star25;
+    playerStarsArray[3][5]=label_Star35;
+    playerStarsArray[4][5]=label_Star45;
+    playerStarsArray[5][5]=label_Star55;
+    playerStarsArray[1][6]=label_Star16;
+    playerStarsArray[2][6]=label_Star26;
+    playerStarsArray[3][6]=label_Star36;
+    playerStarsArray[4][6]=label_Star46;
+    playerStarsArray[5][6]=label_Star56;
+    playerStarsArray[1][7]=label_Star17;
+    playerStarsArray[2][7]=label_Star27;
+    playerStarsArray[3][7]=label_Star37;
+    playerStarsArray[4][7]=label_Star47;
+    playerStarsArray[5][7]=label_Star57;
+    playerStarsArray[1][8]=label_Star18;
+    playerStarsArray[2][8]=label_Star28;
+    playerStarsArray[3][8]=label_Star38;
+    playerStarsArray[4][8]=label_Star48;
+    playerStarsArray[5][8]=label_Star58;
+    playerStarsArray[1][9]=label_Star19;
+    playerStarsArray[2][9]=label_Star29;
+    playerStarsArray[3][9]=label_Star39;
+    playerStarsArray[4][9]=label_Star49;
+    playerStarsArray[5][9]=label_Star59;
+
+
+
+
+
+
+
+
+
+
+
     // buttonLabelArray init
     buttonLabelArray[0] = textLabel_Button0;
     buttonLabelArray[1] = textLabel_Button1;
@@ -222,6 +284,17 @@ gameTableImpl::gameTableImpl(ConfigFile *c, QMainWindow *parent)
     cashLabelArray[7] = textLabel_Cash7;
     cashLabelArray[8] = textLabel_Cash8;
     cashLabelArray[9] = textLabel_Cash9;
+
+    playerTipLabelArray[0] = label_playerTip0;
+    playerTipLabelArray[1] = label_playerTip1;
+    playerTipLabelArray[2] = label_playerTip2;
+    playerTipLabelArray[3] = label_playerTip3;
+    playerTipLabelArray[4] = label_playerTip4;
+    playerTipLabelArray[5] = label_playerTip5;
+    playerTipLabelArray[6] = label_playerTip6;
+    playerTipLabelArray[7] = label_playerTip7;
+    playerTipLabelArray[8] = label_playerTip8;
+    playerTipLabelArray[9] = label_playerTip9;
 
     // playerNameLabelArray init
     playerNameLabelArray[0] = label_PlayerName0;
@@ -355,6 +428,8 @@ gameTableImpl::gameTableImpl(ConfigFile *c, QMainWindow *parent)
     tabWidget_Left->setTabText(0, " "+tabWidget_Left->tabText(0)+" ");
     tabWidget_Left->setTabText(1, " "+tabWidget_Left->tabText(1)+" ");
     tabWidget_Left->setTabText(2, " "+tabWidget_Left->tabText(2)+" ");
+    tabWidget_Left->setTabText(3, " "+tabWidget_Left->tabText(3)+" ");
+
 #endif
 
     //resize stop-button depending on translation
@@ -400,6 +475,7 @@ gameTableImpl::gameTableImpl(ConfigFile *c, QMainWindow *parent)
 
 
     //Connects
+    connect(pushButton_tipSave, SIGNAL( clicked(bool) ), playerAvatarLabelArray[0], SLOT ( setPlayerTip() ) );
     connect(dealFlopCards0Timer, SIGNAL(timeout()), this, SLOT( dealFlopCards1() ));
     connect(dealFlopCards1Timer, SIGNAL(timeout()), this, SLOT( dealFlopCards2() ));
     connect(dealFlopCards2Timer, SIGNAL(timeout()), this, SLOT( dealFlopCards3() ));
@@ -467,7 +543,14 @@ gameTableImpl::gameTableImpl(ConfigFile *c, QMainWindow *parent)
     connect( pushButton_voteOnKickNo, SIGNAL( clicked() ), this, SLOT( voteOnKickNo() ) );
 
     connect( pushButton_showMyCards, SIGNAL( clicked() ), this, SLOT( sendShowMyCardsSignal() ) );
-
+    for(i=0;i<=9;i++)connect( playerTipLabelArray[i], SIGNAL( linkActivated(QString) ), playerAvatarLabelArray[i], SLOT(startChangePlayerTip(QString) ) );
+    for(i=0;i<=9;i++)
+    {
+	for(int j=1;j<=5;j++)
+	{
+	connect( playerStarsArray[j][i], SIGNAL( linkActivated(QString) ), playerAvatarLabelArray[i], SLOT(setPlayerRating(QString) ) );
+	}
+    }
     //Nachrichten Thread-Save
     connect(this, SIGNAL(signalInitGui(int)), this, SLOT(initGui(int)));
     connect(this, SIGNAL(signalRefreshSet()), this, SLOT(refreshSet()));
@@ -779,12 +862,12 @@ void gameTableImpl::refreshButton() {
     }
 }
 
+
 void gameTableImpl::refreshPlayerName() {
 
     if(myStartWindow->getSession()->getCurrentGame()) {
 
-		boost::shared_ptr<Game> currentGame = myStartWindow->getSession()->getCurrentGame();
-
+    boost::shared_ptr<Game> currentGame = myStartWindow->getSession()->getCurrentGame();
         PlayerListConstIterator it_c;
 		PlayerList seatsList = currentGame->getSeatsList();
         for (it_c=seatsList->begin(); it_c!=seatsList->end(); it_c++) {
@@ -804,8 +887,8 @@ void gameTableImpl::refreshPlayerName() {
                         bool guest = myStartWindow->getSession()->getClientPlayerInfo((*it_c)->getMyUniqueID()).isGuest;
                         bool computerPlayer = false;
                         if((*it_c)->getMyType() == PLAYER_TYPE_COMPUTER) { computerPlayer = true; }
-
                         playerNameLabelArray[(*it_c)->getMyID()]->setText(QString::fromUtf8((*it_c)->getMyName().c_str()), TRUE, guest, computerPlayer);
+
                         
                     }
                     else {
@@ -818,6 +901,8 @@ void gameTableImpl::refreshPlayerName() {
             }
         }
     }
+
+    playerAvatarLabelArray[0]->refreshTooltips();
 }
 
 void gameTableImpl::refreshPlayerAvatar() {
@@ -2821,6 +2906,7 @@ void gameTableImpl::localGameModification() {
     tabWidget_Left->setCurrentIndex(0);
     tabWidget_Left->removeTab(1);
     tabWidget_Left->removeTab(1);
+    tabWidget_Left->removeTab(1);
 
     int i;
     for (i=0; i<MAX_NUMBER_OF_PLAYERS; i++ ) {
@@ -2851,6 +2937,7 @@ void gameTableImpl::networkGameModification() {
     if(tabWidget_Left->widget(1) != tab_Chat)
         tabWidget_Left->insertTab(1, tab_Chat, QString(tr("Chat"))); /*TODO text abgeschnitten --> stylesheets*/
 
+    tabWidget_Left->removeTab(2);
     tabWidget_Left->removeTab(2);
 
     tabWidget_Left->setCurrentIndex(1);
@@ -3272,6 +3359,7 @@ void gameTableImpl::refreshGameTableStyle()
     myGameTableStyle->setWindowsGeometry(this);
     myGameTableStyle->setChatLogStyle(textBrowser_Log);
     myGameTableStyle->setChatLogStyle(textBrowser_Chat);
+	myGameTableStyle->setChatLogStyle(textEdit_tipInput);
     myGameTableStyle->setChatInputStyle(lineEdit_ChatInput);
 
     int i;
@@ -3300,6 +3388,7 @@ void gameTableImpl::refreshGameTableStyle()
     myGameTableStyle->setTableBackground(this);
     myGameTableStyle->setMenuBarStyle(menubar);
     myGameTableStyle->setBreakButtonStyle(pushButton_break,0);
+	myGameTableStyle->setBreakButtonStyle(pushButton_tipSave,0);
     myGameTableStyle->setSpeedStringStyle(label_speedString);
     myGameTableStyle->setSpeedStringStyle(label_speedValue);
     myGameTableStyle->setVoteButtonStyle(pushButton_voteOnKickYes);

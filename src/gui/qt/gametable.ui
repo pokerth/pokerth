@@ -263,13 +263,95 @@
          <property name="geometry">
           <rect>
            <x>12</x>
-           <y>68</y>
+           <y>75</y>
            <width>52</width>
            <height>10</height>
           </rect>
          </property>
          <property name="text">
           <string/>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label_playerTip3">
+         <property name="geometry">
+          <rect>
+           <x>70</x>
+           <y>50</y>
+           <width>16</width>
+           <height>17</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Ubuntu'; font-size:11pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600; color:#ffffff;&quot;&gt;*&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label_Star33">
+         <property name="geometry">
+          <rect>
+           <x>33</x>
+           <y>62</y>
+           <width>12</width>
+           <height>12</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label_Star23">
+         <property name="geometry">
+          <rect>
+           <x>23</x>
+           <y>62</y>
+           <width>12</width>
+           <height>12</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label_Star53">
+         <property name="geometry">
+          <rect>
+           <x>53</x>
+           <y>62</y>
+           <width>12</width>
+           <height>12</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label_Star43">
+         <property name="geometry">
+          <rect>
+           <x>43</x>
+           <y>62</y>
+           <width>12</width>
+           <height>12</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label_Star13">
+         <property name="geometry">
+          <rect>
+           <x>13</x>
+           <y>62</y>
+           <width>12</width>
+           <height>12</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
          </property>
         </widget>
        </widget>
@@ -484,13 +566,95 @@
          <property name="geometry">
           <rect>
            <x>12</x>
-           <y>62</y>
+           <y>57</y>
            <width>52</width>
            <height>10</height>
           </rect>
          </property>
          <property name="text">
           <string/>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label_playerTip2">
+         <property name="geometry">
+          <rect>
+           <x>70</x>
+           <y>79</y>
+           <width>16</width>
+           <height>17</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Ubuntu'; font-size:11pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600; color:#ffffff;&quot;&gt;*&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label_Star12">
+         <property name="geometry">
+          <rect>
+           <x>13</x>
+           <y>65</y>
+           <width>12</width>
+           <height>12</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label_Star22">
+         <property name="geometry">
+          <rect>
+           <x>23</x>
+           <y>65</y>
+           <width>12</width>
+           <height>12</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label_Star32">
+         <property name="geometry">
+          <rect>
+           <x>33</x>
+           <y>65</y>
+           <width>12</width>
+           <height>12</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label_Star42">
+         <property name="geometry">
+          <rect>
+           <x>43</x>
+           <y>65</y>
+           <width>12</width>
+           <height>12</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label_Star52">
+         <property name="geometry">
+          <rect>
+           <x>53</x>
+           <y>65</y>
+           <width>12</width>
+           <height>12</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
          </property>
         </widget>
        </widget>
@@ -715,13 +879,95 @@
          <property name="geometry">
           <rect>
            <x>12</x>
-           <y>68</y>
+           <y>75</y>
            <width>52</width>
            <height>10</height>
           </rect>
          </property>
          <property name="text">
           <string/>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label_playerTip4">
+         <property name="geometry">
+          <rect>
+           <x>70</x>
+           <y>50</y>
+           <width>16</width>
+           <height>17</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Ubuntu'; font-size:11pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600; color:#ffffff;&quot;&gt;*&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label_Star34">
+         <property name="geometry">
+          <rect>
+           <x>33</x>
+           <y>62</y>
+           <width>12</width>
+           <height>12</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label_Star24">
+         <property name="geometry">
+          <rect>
+           <x>23</x>
+           <y>62</y>
+           <width>12</width>
+           <height>12</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label_Star54">
+         <property name="geometry">
+          <rect>
+           <x>53</x>
+           <y>62</y>
+           <width>12</width>
+           <height>12</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label_Star44">
+         <property name="geometry">
+          <rect>
+           <x>43</x>
+           <y>62</y>
+           <width>12</width>
+           <height>12</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label_Star14">
+         <property name="geometry">
+          <rect>
+           <x>13</x>
+           <y>62</y>
+           <width>12</width>
+           <height>12</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
          </property>
         </widget>
        </widget>
@@ -923,13 +1169,95 @@
          <property name="geometry">
           <rect>
            <x>12</x>
-           <y>68</y>
+           <y>75</y>
            <width>52</width>
            <height>10</height>
           </rect>
          </property>
          <property name="text">
           <string/>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label_playerTip5">
+         <property name="geometry">
+          <rect>
+           <x>70</x>
+           <y>50</y>
+           <width>16</width>
+           <height>17</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Ubuntu'; font-size:11pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600; color:#ffffff;&quot;&gt;*&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label_Star35">
+         <property name="geometry">
+          <rect>
+           <x>33</x>
+           <y>62</y>
+           <width>12</width>
+           <height>12</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label_Star25">
+         <property name="geometry">
+          <rect>
+           <x>23</x>
+           <y>62</y>
+           <width>12</width>
+           <height>12</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label_Star55">
+         <property name="geometry">
+          <rect>
+           <x>53</x>
+           <y>62</y>
+           <width>12</width>
+           <height>12</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label_Star45">
+         <property name="geometry">
+          <rect>
+           <x>43</x>
+           <y>62</y>
+           <width>12</width>
+           <height>12</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label_Star15">
+         <property name="geometry">
+          <rect>
+           <x>13</x>
+           <y>62</y>
+           <width>12</width>
+           <height>12</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
          </property>
         </widget>
        </widget>
@@ -1131,13 +1459,95 @@
          <property name="geometry">
           <rect>
            <x>12</x>
-           <y>68</y>
+           <y>75</y>
            <width>52</width>
            <height>10</height>
           </rect>
          </property>
          <property name="text">
           <string/>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label_playerTip6">
+         <property name="geometry">
+          <rect>
+           <x>70</x>
+           <y>50</y>
+           <width>16</width>
+           <height>17</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Ubuntu'; font-size:11pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600; color:#ffffff;&quot;&gt;*&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label_Star36">
+         <property name="geometry">
+          <rect>
+           <x>33</x>
+           <y>62</y>
+           <width>12</width>
+           <height>12</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label_Star26">
+         <property name="geometry">
+          <rect>
+           <x>23</x>
+           <y>62</y>
+           <width>12</width>
+           <height>12</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label_Star56">
+         <property name="geometry">
+          <rect>
+           <x>53</x>
+           <y>62</y>
+           <width>12</width>
+           <height>12</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label_Star46">
+         <property name="geometry">
+          <rect>
+           <x>43</x>
+           <y>62</y>
+           <width>12</width>
+           <height>12</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label_Star16">
+         <property name="geometry">
+          <rect>
+           <x>13</x>
+           <y>62</y>
+           <width>12</width>
+           <height>12</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
          </property>
         </widget>
        </widget>
@@ -1359,13 +1769,95 @@
          <property name="geometry">
           <rect>
            <x>12</x>
-           <y>68</y>
+           <y>75</y>
            <width>52</width>
            <height>10</height>
           </rect>
          </property>
          <property name="text">
           <string/>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label_playerTip7">
+         <property name="geometry">
+          <rect>
+           <x>70</x>
+           <y>50</y>
+           <width>16</width>
+           <height>17</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Ubuntu'; font-size:11pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600; color:#ffffff;&quot;&gt;*&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label_Star37">
+         <property name="geometry">
+          <rect>
+           <x>33</x>
+           <y>62</y>
+           <width>12</width>
+           <height>12</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label_Star27">
+         <property name="geometry">
+          <rect>
+           <x>23</x>
+           <y>62</y>
+           <width>12</width>
+           <height>12</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label_Star57">
+         <property name="geometry">
+          <rect>
+           <x>53</x>
+           <y>62</y>
+           <width>12</width>
+           <height>12</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label_Star47">
+         <property name="geometry">
+          <rect>
+           <x>43</x>
+           <y>62</y>
+           <width>12</width>
+           <height>12</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label_Star17">
+         <property name="geometry">
+          <rect>
+           <x>13</x>
+           <y>62</y>
+           <width>12</width>
+           <height>12</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
          </property>
         </widget>
        </widget>
@@ -1580,13 +2072,95 @@
          <property name="geometry">
           <rect>
            <x>12</x>
-           <y>62</y>
+           <y>57</y>
            <width>52</width>
            <height>10</height>
           </rect>
          </property>
          <property name="text">
           <string/>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label_playerTip8">
+         <property name="geometry">
+          <rect>
+           <x>70</x>
+           <y>79</y>
+           <width>16</width>
+           <height>17</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Ubuntu'; font-size:11pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600; color:#ffffff;&quot;&gt;*&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label_Star38">
+         <property name="geometry">
+          <rect>
+           <x>33</x>
+           <y>65</y>
+           <width>12</width>
+           <height>12</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label_Star28">
+         <property name="geometry">
+          <rect>
+           <x>23</x>
+           <y>65</y>
+           <width>12</width>
+           <height>12</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label_Star58">
+         <property name="geometry">
+          <rect>
+           <x>53</x>
+           <y>65</y>
+           <width>12</width>
+           <height>12</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label_Star48">
+         <property name="geometry">
+          <rect>
+           <x>43</x>
+           <y>65</y>
+           <width>12</width>
+           <height>12</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label_Star18">
+         <property name="geometry">
+          <rect>
+           <x>13</x>
+           <y>65</y>
+           <width>12</width>
+           <height>12</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
          </property>
         </widget>
        </widget>
@@ -2263,13 +2837,95 @@
          <property name="geometry">
           <rect>
            <x>12</x>
-           <y>62</y>
+           <y>57</y>
            <width>52</width>
            <height>10</height>
           </rect>
          </property>
          <property name="text">
           <string/>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label_playerTip1">
+         <property name="geometry">
+          <rect>
+           <x>70</x>
+           <y>79</y>
+           <width>16</width>
+           <height>17</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Ubuntu'; font-size:11pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600; color:#ffffff;&quot;&gt;*&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label_Star31">
+         <property name="geometry">
+          <rect>
+           <x>33</x>
+           <y>65</y>
+           <width>12</width>
+           <height>12</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label_Star21">
+         <property name="geometry">
+          <rect>
+           <x>23</x>
+           <y>65</y>
+           <width>12</width>
+           <height>12</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label_Star51">
+         <property name="geometry">
+          <rect>
+           <x>53</x>
+           <y>65</y>
+           <width>12</width>
+           <height>12</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label_Star41">
+         <property name="geometry">
+          <rect>
+           <x>43</x>
+           <y>65</y>
+           <width>12</width>
+           <height>12</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label_Star11">
+         <property name="geometry">
+          <rect>
+           <x>13</x>
+           <y>65</y>
+           <width>12</width>
+           <height>12</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
          </property>
         </widget>
        </widget>
@@ -2471,7 +3127,7 @@
          <property name="geometry">
           <rect>
            <x>12</x>
-           <y>62</y>
+           <y>64</y>
            <width>52</width>
            <height>10</height>
           </rect>
@@ -2491,6 +3147,88 @@
          </property>
          <property name="text">
           <string notr="true">Show!</string>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label_playerTip0">
+         <property name="geometry">
+          <rect>
+           <x>70</x>
+           <y>79</y>
+           <width>16</width>
+           <height>17</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Ubuntu'; font-size:11pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600; color:#ffffff;&quot;&gt;*&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label_Star30">
+         <property name="geometry">
+          <rect>
+           <x>33</x>
+           <y>67</y>
+           <width>12</width>
+           <height>12</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label_Star20">
+         <property name="geometry">
+          <rect>
+           <x>23</x>
+           <y>67</y>
+           <width>12</width>
+           <height>12</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label_Star50">
+         <property name="geometry">
+          <rect>
+           <x>53</x>
+           <y>67</y>
+           <width>12</width>
+           <height>12</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label_Star40">
+         <property name="geometry">
+          <rect>
+           <x>43</x>
+           <y>67</y>
+           <width>12</width>
+           <height>12</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label_Star10">
+         <property name="geometry">
+          <rect>
+           <x>13</x>
+           <y>67</y>
+           <width>12</width>
+           <height>12</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
          </property>
         </widget>
        </widget>
@@ -2692,13 +3430,95 @@
          <property name="geometry">
           <rect>
            <x>12</x>
-           <y>62</y>
+           <y>57</y>
            <width>52</width>
            <height>10</height>
           </rect>
          </property>
          <property name="text">
           <string/>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label_playerTip9">
+         <property name="geometry">
+          <rect>
+           <x>70</x>
+           <y>79</y>
+           <width>16</width>
+           <height>17</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Ubuntu'; font-size:11pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600; color:#ffffff;&quot;&gt;*&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label_Star39">
+         <property name="geometry">
+          <rect>
+           <x>33</x>
+           <y>65</y>
+           <width>12</width>
+           <height>12</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label_Star29">
+         <property name="geometry">
+          <rect>
+           <x>23</x>
+           <y>65</y>
+           <width>12</width>
+           <height>12</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label_Star59">
+         <property name="geometry">
+          <rect>
+           <x>53</x>
+           <y>65</y>
+           <width>12</width>
+           <height>12</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label_Star49">
+         <property name="geometry">
+          <rect>
+           <x>43</x>
+           <y>65</y>
+           <width>12</width>
+           <height>12</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label_Star19">
+         <property name="geometry">
+          <rect>
+           <x>13</x>
+           <y>65</y>
+           <width>12</width>
+           <height>12</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
          </property>
         </widget>
        </widget>
@@ -2771,7 +3591,7 @@
               <enum>Qt::NoFocus</enum>
              </property>
              <property name="currentIndex">
-              <number>0</number>
+              <number>3</number>
              </property>
              <widget class="QWidget" name="tab_Hands">
               <attribute name="title">
@@ -2959,6 +3779,36 @@
                   </size>
                  </property>
                 </spacer>
+               </item>
+              </layout>
+             </widget>
+             <widget class="QWidget" name="tab_editTip">
+              <attribute name="title">
+               <string>Players tip</string>
+              </attribute>
+              <layout class="QGridLayout" name="gridLayout">
+               <property name="verticalSpacing">
+                <number>3</number>
+               </property>
+               <property name="margin">
+                <number>6</number>
+               </property>
+               <item row="0" column="0">
+                <widget class="QPlainTextEdit" name="textEdit_tipInput">
+                 <property name="focusPolicy">
+                  <enum>Qt::ClickFocus</enum>
+                 </property>
+                </widget>
+               </item>
+               <item row="1" column="0">
+                <widget class="QPushButton" name="pushButton_tipSave">
+                 <property name="focusPolicy">
+                  <enum>Qt::NoFocus</enum>
+                 </property>
+                 <property name="text">
+                  <string>Save</string>
+                 </property>
+                </widget>
                </item>
               </layout>
              </widget>

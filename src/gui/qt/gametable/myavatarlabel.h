@@ -13,11 +13,12 @@
 #define MYAVATARLABEL_H
 
 #include <iostream>
-
+#include "startwindowimpl.h"
 #include <QtGui>
 #include <QtCore>
 
 class gameTableImpl;
+class startWindowImpl;
 
 class MyAvatarLabel : public QLabel
 {
@@ -29,6 +30,8 @@ public:
 	void setMyW(gameTableImpl* theValue) { myW = theValue; }
 	void setMyId ( int theValue ) {	myId = theValue; }
 	void contextMenuEvent ( QContextMenuEvent * event );
+	QString getPlayerTip(QString);
+	int getPlayerRating(QString);
 
 public slots:
 	
@@ -44,7 +47,12 @@ public slots:
         void putPlayerOnIgnoreList();
         bool playerIsOnIgnoreList(QString playerName);
         void reportBadAvatar();
-        
+	void startEditTip();
+	void startChangePlayerTip(QString playerName);
+	void setPlayerTip();
+	void setPlayerRating(QString);
+	void refreshTooltips();
+	void refreshStars();
 private: 
 
 	gameTableImpl *myW;
@@ -52,6 +60,7 @@ private:
 	QAction *action_VoteForKick;
         QAction *action_IgnorePlayer;
         QAction *action_ReportBadAvatar;
+	QAction *action_EditTip;
 
         QPixmap myPixmap;
         QString myPath;

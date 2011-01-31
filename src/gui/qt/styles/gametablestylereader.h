@@ -29,7 +29,7 @@
 #include <QtCore>
 #include <QtGui>
 
-#define POKERTH_GT_STYLE_FILE_VERSION	2
+#define POKERTH_GT_STYLE_FILE_VERSION	3
 
 enum GtStyleState {
     GT_STYLE_OK = 0,
@@ -77,7 +77,9 @@ public:
     QString getLogWinnerSidePotColor() const { return LogWinnerSidePotColor; }
     QString getLogPlayerSitsOutColor() const { return LogPlayerSitsOutColor; }
     QString getLogNewGameAdminColor() const { return LogNewGameAdminColor; }
-    QString getBreakLobbyButtonBgColor() const { return BreakLobbyButtonBgColor; }
+    QString getBreakLobbyButtonBgColor() const { return BreakLobbyButtonBgColor; }	
+	QString getRatingStarsColor() const { return RatingStarsColor; }
+	QString getPlayerInfoHintTextColor() const { return PlayerInfoHintTextColor; }
 
     QString getPlayerNickTextColor() const { return PlayerNickTextColor; }
     QString getPlayerNameLabelFontSize() const { return playerNameLabelFontSize; }
@@ -104,6 +106,7 @@ public:
 
     //set fonts + colors
     void setChatLogStyle(QTextBrowser*);
+	void setChatLogStyle(QPlainTextEdit*);
     void setChatInputStyle(QLineEdit*);
     void setCashLabelStyle(QLabel*);
     void setSetLabelStyle(QLabel*);
@@ -279,6 +282,8 @@ private:
     QString BetSpeedSliderHandleBgColor;
     QString BetSpeedSliderHandleBorderColor;
     QString ShowMyCardsButtonTextColor;
+	QString RatingStarsColor;
+	QString PlayerInfoHintTextColor;
 
     // 	SIZES
     QString ChatLogTextSize;

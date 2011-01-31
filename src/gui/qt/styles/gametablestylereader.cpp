@@ -229,6 +229,8 @@ void GameTableStyleReader::readStyleFile(QString file) {
             BetSpeedSliderHandleBgColor.clear();
             BetSpeedSliderHandleBorderColor.clear();
             ShowMyCardsButtonTextColor.clear();
+			RatingStarsColor.clear();
+			PlayerInfoHintTextColor.clear();
             ChatLogTextSize.clear();
 
             //now reading!
@@ -369,6 +371,8 @@ void GameTableStyleReader::readStyleFile(QString file) {
                     else if (itemsList->ValueStr() == "BetSpeedSliderHandleBgColor") { BetSpeedSliderHandleBgColor = QString::fromUtf8(tempString1.c_str()); }
                     else if (itemsList->ValueStr() == "BetSpeedSliderHandleBorderColor") { BetSpeedSliderHandleBorderColor = QString::fromUtf8(tempString1.c_str()); }
                     else if (itemsList->ValueStr() == "ShowMyCardsButtonTextColor") { ShowMyCardsButtonTextColor = QString::fromUtf8(tempString1.c_str()); }
+					else if (itemsList->ValueStr() == "RatingStarsColor") { RatingStarsColor = QString::fromUtf8(tempString1.c_str()); }
+					else if (itemsList->ValueStr() == "PlayerInfoHintTextColor") { PlayerInfoHintTextColor = QString::fromUtf8(tempString1.c_str()); }
                     // 				SIZES
                     else if (itemsList->ValueStr() == "ChatLogTextSize") { ChatLogTextSize = QString::fromUtf8(tempString1.c_str()); }
                 }
@@ -599,6 +603,8 @@ void GameTableStyleReader::readStyleFile(QString file) {
             if(BetSpeedSliderHandleBgColor == "") { BetSpeedSliderHandleBgColor = getFallBackFieldContent("BetSpeedSliderHandleBgColor", 0); leftItems << "BetSpeedSliderHandleBgColor"; }
             if(BetSpeedSliderHandleBorderColor == "") { BetSpeedSliderHandleBorderColor = getFallBackFieldContent("BetSpeedSliderHandleBorderColor", 0); leftItems << "BetSpeedSliderHandleBorderColor"; }
             if(ShowMyCardsButtonTextColor == "") { ShowMyCardsButtonTextColor = getFallBackFieldContent("ShowMyCardsButtonTextColor", 0); leftItems << "ShowMyCardsButtonTextColor"; }
+			if(RatingStarsColor == "") { RatingStarsColor = getFallBackFieldContent("RatingStarsColor", 0); leftItems << "RatingStarsColor"; }
+			if(PlayerInfoHintTextColor == "") { PlayerInfoHintTextColor = getFallBackFieldContent("PlayerInfoHintTextColor", 0); leftItems << "PlayerInfoHintTextColor"; }
 
             // 		SIZE
             if(ChatLogTextSize == "") { ChatLogTextSize = getFallBackFieldContent("ChatLogTextSize", 0); leftItems << "ChatLogTextSize"; }
@@ -697,6 +703,13 @@ void GameTableStyleReader::setChatLogStyle(QTextBrowser *tb)
     tb->setStyleSheet("QTextBrowser { "+ font1String +" font-size: "+ChatLogTextSize+"px; color: #"+ChatLogTextColor+"; background-color: #"+ChatLogBgColor+"; border:none; } QScrollBar:vertical { border: 1px solid #"+ChatLogScrollBarBorderColor+"; background: #"+ChatLogScrollBarBgColor+"; width: 15px; margin: 17px -1px 17px 0px; } QScrollBar::handle:vertical { border-radius: 1px; border: 1px solid #"+ChatLogScrollBarHandleBorderColor+"; background: #"+ChatLogScrollBarHandleBgColor+"; min-height: 20px; } QScrollBar::add-line:vertical { margin-right: 0px; margin-left: 1px; border-bottom-right-radius: 2px; border-bottom-left-radius: 2px; border-top-right-radius: 1px; border-top-left-radius: 1px; border: 1px solid #"+ChatLogScrollBarHandleBorderColor+"; background: #"+ChatLogScrollBarHandleBgColor+"; height: 15px; subcontrol-position: bottom; subcontrol-origin: margin; } QScrollBar::sub-line:vertical { margin-right: 0px; margin-left: 1px; border-bottom-right-radius: 1px; border-bottom-left-radius: 1px; border-top-right-radius: 2px; border-top-left-radius: 2px; border: 1px solid #"+ChatLogScrollBarHandleBorderColor+"; background: #"+ChatLogScrollBarHandleBgColor+"; height: 15px; subcontrol-position: top; subcontrol-origin: margin; } QScrollBar:up-arrow:vertical, QScrollBar::down-arrow:vertical { border: 1px solid #"+ChatLogScrollBarArrowBorderColor+"; height: 3px; width: 3px; background: #"+ChatLogScrollBarArrowBgColor+"; } QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical { background: none; }");
 
 }
+
+void GameTableStyleReader::setChatLogStyle(QPlainTextEdit* pte)
+{
+	pte->setStyleSheet("QPlainTextEdit { "+ font1String +" font-size: "+ChatLogTextSize+"px; color: #"+ChatLogTextColor+"; background-color: #"+ChatLogBgColor+"; border:none; } QScrollBar:vertical { border: 1px solid #"+ChatLogScrollBarBorderColor+"; background: #"+ChatLogScrollBarBgColor+"; width: 15px; margin: 17px -1px 17px 0px; } QScrollBar::handle:vertical { border-radius: 1px; border: 1px solid #"+ChatLogScrollBarHandleBorderColor+"; background: #"+ChatLogScrollBarHandleBgColor+"; min-height: 20px; } QScrollBar::add-line:vertical { margin-right: 0px; margin-left: 1px; border-bottom-right-radius: 2px; border-bottom-left-radius: 2px; border-top-right-radius: 1px; border-top-left-radius: 1px; border: 1px solid #"+ChatLogScrollBarHandleBorderColor+"; background: #"+ChatLogScrollBarHandleBgColor+"; height: 15px; subcontrol-position: bottom; subcontrol-origin: margin; } QScrollBar::sub-line:vertical { margin-right: 0px; margin-left: 1px; border-bottom-right-radius: 1px; border-bottom-left-radius: 1px; border-top-right-radius: 2px; border-top-left-radius: 2px; border: 1px solid #"+ChatLogScrollBarHandleBorderColor+"; background: #"+ChatLogScrollBarHandleBgColor+"; height: 15px; subcontrol-position: top; subcontrol-origin: margin; } QScrollBar:up-arrow:vertical, QScrollBar::down-arrow:vertical { border: 1px solid #"+ChatLogScrollBarArrowBorderColor+"; height: 3px; width: 3px; background: #"+ChatLogScrollBarArrowBgColor+"; } QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical { background: none; }");
+
+}
+
 
 void GameTableStyleReader::setChatInputStyle(QLineEdit *ci)
 {

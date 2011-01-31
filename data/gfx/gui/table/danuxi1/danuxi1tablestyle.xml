@@ -4,8 +4,8 @@
      <StyleDescription value="danuxi table design" />
      <StyleMaintainerName value="Daniel Hammer" />
      <StyleMaintainerEMail value="webmaster@pokerth.net" />
-     <StyleCreateDate value="08.07.2010" />
-     <PokerTHStyleFileVersion value="2" />
+     <StyleCreateDate value="31.01.2011" />
+     <PokerTHStyleFileVersion value="3" />
      <Preview value="preview.png" />
      <IfFixedWindowSize value="1" />
      <FixedWindowWidth value="1024" />
@@ -125,6 +125,8 @@
      <BetSpeedSliderHandleBgColor value="A1B4FF" />
      <BetSpeedSliderHandleBorderColor value="00177D" />
      <ShowMyCardsButtonTextColor value="F0F0F0" />
+     <RatingStarsColor value="FFD700" />
+     <PlayerInfoHintTextColor value="FFFF00" />
      <ChatLogTextSize value="11" />
   </TableStyle>
 </PokerTH>

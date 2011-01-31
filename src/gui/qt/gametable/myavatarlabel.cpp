@@ -12,6 +12,7 @@
 #include "myavatarlabel.h"
 
 #include "gametableimpl.h"
+#include "gametablestylereader.h"
 #include "session.h"
 #include "playerinterface.h"
 #include "game.h"
@@ -25,6 +26,8 @@ MyAvatarLabel::MyAvatarLabel(QGroupBox* parent)
 {
 
     myContextMenu = new QMenu;
+    action_EditTip = new QAction(QIcon(), tr("Add/Edit/Remove tooltip"), myContextMenu);
+    myContextMenu->addAction(action_EditTip);
     action_VoteForKick = new QAction(QIcon(":/gfx/list_remove_user.png"), tr("Start vote to kick this player"), myContextMenu);
     myContextMenu->addAction(action_VoteForKick);
     action_IgnorePlayer = new QAction(QIcon(":/gfx/im-ban-user.png"), tr("Ignore Player"), myContextMenu);
@@ -36,6 +39,7 @@ MyAvatarLabel::MyAvatarLabel(QGroupBox* parent)
     connect( action_VoteForKick, SIGNAL ( triggered() ), this, SLOT ( sendTriggerVoteOnKickSignal() ) );
     connect( action_IgnorePlayer, SIGNAL ( triggered() ), this, SLOT ( putPlayerOnIgnoreList() ) );
     connect( action_ReportBadAvatar, SIGNAL ( triggered() ), this, SLOT ( reportBadAvatar() ) );
+    connect( action_EditTip, SIGNAL( triggered() ), this, SLOT ( startEditTip() ) );
 }
 
 
@@ -69,14 +73,23 @@ void MyAvatarLabel::contextMenuEvent ( QContextMenuEvent *event ) {
             }
 
             action_IgnorePlayer->setEnabled(true);
-
+	    action_EditTip->setEnabled(true);
             int j=0;
             for (it_c=seatList->begin(); it_c!=seatList->end(); it_c++) {
 
                 if(myId == j) {
-
+		    if(j == 0)
+			{
+			action_EditTip->setDisabled(true);
+			}
+		    if(myW->myStartWindow->getSession()->getGameType() == Session::GAME_TYPE_NETWORK)
+			{
+			action_EditTip->setDisabled(true);
+			}
+		
                     if(myW->getSession()->getClientPlayerInfo((*it_c)->getMyUniqueID()).isGuest) {
                         action_IgnorePlayer->setDisabled(true);
+			action_EditTip->setDisabled(true);
                     }
 
                     if(myW->getSession()->getGameType() == Session::GAME_TYPE_INTERNET && !((*it_c)->getMyAvatar().empty()) ) {
@@ -106,6 +119,187 @@ void MyAvatarLabel::showContextMenu(const QPoint &pos) {
 
     myContextMenu->popup(pos);
 }
+
+void MyAvatarLabel::setPlayerRating(QString playerInfo)
+{
+int found=0;
+QStringList playerInfoList=playerInfo.split("\"", QString::KeepEmptyParts, Qt::CaseSensitive), tipInfo;
+boost::shared_ptr<Game> currentGame = myW->myStartWindow->getSession()->getCurrentGame();
+PlayerListConstIterator it_c;
+PlayerList seatsList = currentGame->getSeatsList();
+std::list<std::string> tipsList = myW->getMyConfig()->readConfigStringList("PlayerTooltips");
+std::list<std::string> result;
+std::string separator="(!#$%)";
+std::list<std::string>::iterator iterator;
+for(iterator = tipsList.begin(); iterator != tipsList.end();iterator++) {
+        tipInfo=QString::fromUtf8(iterator->c_str()).split("(!#$%)", QString::KeepEmptyParts, Qt::CaseSensitive);
+        if(tipInfo.at(0)==playerInfoList.at(0))
+                { 
+                result.push_back(tipInfo.at(0).toUtf8().constData()+separator+tipInfo.at(1).toUtf8().constData()+separator+playerInfoList.at(1).toUtf8().constData()+separator);
+                found=1;
+                }
+                else
+                {
+                result.push_back(tipInfo.at(0).toUtf8().constData()+separator+tipInfo.at(1).toUtf8().constData()+separator+tipInfo.at(2).toUtf8().constData()+separator);
+                }
+}
+if(found==0)
+        {
+        result.push_back(playerInfoList.at(0).toUtf8().constData()+separator+separator+playerInfoList.at(1).toUtf8().constData()+separator);
+        }
+myW->getMyConfig()->writeConfigStringList("PlayerTooltips", result);
+myW->getMyConfig()->writeBuffer();
+refreshStars();	
+}
+
+
+void MyAvatarLabel::startChangePlayerTip(QString playerName) 
+{ 
+    if(myW->tabWidget_Left->widget(2) == myW->tab_Kick) 
+        { 
+        myW->tabWidget_Left->insertTab(3, myW->tab_editTip, playerName); 
+        myW->tabWidget_Left->setCurrentIndex(3); 
+        } 
+        else 
+        { 
+        myW->tabWidget_Left->insertTab(2, myW->tab_editTip, playerName); 
+        myW->tabWidget_Left->setCurrentIndex(2); 
+        }        
+myW->textEdit_tipInput->setPlainText(getPlayerTip(playerName));
+} 
+
+void MyAvatarLabel::refreshStars()
+{
+boost::shared_ptr<Game> curGame = myW->myStartWindow->getSession()->getCurrentGame();
+PlayerListConstIterator it_c;
+int seatPlace;
+PlayerList seatsList = curGame->getSeatsList();
+for (seatPlace=0,it_c=seatsList->begin(); it_c!=seatsList->end(); it_c++, seatPlace++) {
+	for(int i=1;i<=5;i++)myW->playerStarsArray[i][seatPlace]->setText("");
+	if(myW->myStartWindow->getSession()->getGameType() == Session::GAME_TYPE_INTERNET && !myW->getSession()->getClientPlayerInfo((*it_c)->getMyUniqueID()).isGuest && (*it_c)->getMyType() != PLAYER_TYPE_COMPUTER)
+	if((*it_c)->getMyStayOnTableStatus() == TRUE && (*it_c)->getMyName()!="" && seatPlace!=0) {
+		int playerStars=getPlayerRating(QString::fromUtf8((*it_c)->getMyName().c_str()));
+		for(int i=1;i<=5;i++)
+                        {
+                        myW->playerStarsArray[i][seatPlace]->setText("<a style='color: yellow;' href='"+QString::fromUtf8((*it_c)->getMyName().c_str())+"\""+QString::number(i)+"'>&#9734;</a>");
+                        }	
+		for(int i=1;i<=playerStars;i++)
+			{
+			myW->playerStarsArray[i][seatPlace]->setText("<a style='color: #"+myW->getMyGameTableStyle()->getRatingStarsColor()+";' href='"+QString::fromUtf8((*it_c)->getMyName().c_str())+"\""+QString::number(i)+"'>&#9733;</a>");
+			}
+
+	}
+}
+}
+
+void MyAvatarLabel::refreshTooltips() {
+	boost::shared_ptr<Game> currentGame = myW->myStartWindow->getSession()->getCurrentGame();
+        PlayerListConstIterator it_c;
+	int seatPlace;
+        PlayerList seatsList = currentGame->getSeatsList();
+        for (seatPlace=0,it_c=seatsList->begin(); it_c!=seatsList->end(); it_c++, seatPlace++) {
+            if((*it_c)->getMyStayOnTableStatus() == TRUE || (*it_c)->getMyActiveStatus()) {
+                bool computerPlayer = false;
+                if((*it_c)->getMyType() == PLAYER_TYPE_COMPUTER) { computerPlayer = true; }
+                if(!computerPlayer && getPlayerTip(QString::fromUtf8((*it_c)->getMyName().c_str()))!="")
+                        {
+						myW->playerTipLabelArray[(*it_c)->getMyID()]->setText(QString("<a style='text-decoration: none; color: #"+myW->getMyGameTableStyle()->getPlayerInfoHintTextColor()+"; font-size: 14px; font-weight: bold; font-family:serif;' href=\'")+QString::fromUtf8((*it_c)->getMyName().c_str())+"\'>i</a>");
+                        myW->playerTipLabelArray[(*it_c)->getMyID()]->setToolTip( getPlayerTip(QString::fromUtf8((*it_c)->getMyName().c_str())) );
+                        myW->playerAvatarLabelArray[(*it_c)->getMyID()]->setToolTip( getPlayerTip(QString::fromUtf8((*it_c)->getMyName().c_str())) );
+                        }
+                        else
+                        {
+                        myW->playerTipLabelArray[(*it_c)->getMyID()]->setText("");
+                        myW->playerTipLabelArray[(*it_c)->getMyID()]->setToolTip("");
+                        myW->playerAvatarLabelArray[(*it_c)->getMyID()]->setToolTip("");
+                        }
+                }
+                else
+                {
+                        myW->playerTipLabelArray[(*it_c)->getMyID()]->setText("");
+                        myW->playerTipLabelArray[(*it_c)->getMyID()]->setToolTip("");
+                        myW->playerAvatarLabelArray[(*it_c)->getMyID()]->setToolTip("");
+
+                }
+
+
+            	}
+refreshStars();
+}
+
+int MyAvatarLabel::getPlayerRating(QString playerName)
+{
+std::list<std::string> tipsList = myW->getMyConfig()->readConfigStringList("PlayerTooltips");
+std::list<std::string>::iterator iterator;
+QStringList playerInfo;
+QString result="0";
+for(iterator = tipsList.begin(); iterator != tipsList.end(); iterator++) {
+        playerInfo=QString::fromUtf8(iterator->c_str()).split("(!#$%)", QString::KeepEmptyParts, Qt::CaseSensitive);
+	if(playerInfo.at(0)==playerName)
+		{
+		result=playerInfo.at(2);
+		break;
+		}
+    }
+return result.toInt();
+}
+
+
+QString MyAvatarLabel::getPlayerTip(QString playerName)
+{
+std::list<std::string> tipsList = myW->getMyConfig()->readConfigStringList("PlayerTooltips");
+std::list<std::string>::iterator iterator;
+QStringList playerInfo;
+for(iterator = tipsList.begin(); iterator != tipsList.end(); iterator++) {
+        playerInfo=QString::fromUtf8(iterator->c_str()).split("(!#$%)", QString::KeepEmptyParts, Qt::CaseSensitive);
+	if(playerInfo.at(0)==playerName)return playerInfo.at(1);
+    }
+return QString("");
+}
+
+
+void MyAvatarLabel::setPlayerTip()
+{
+int found=0;
+std::string rating="1", separator="(!#$%)";
+std::string tip = std::string((const char*)myW->textEdit_tipInput->toPlainText().toUtf8());
+std::string playerName;
+if(myW->tabWidget_Left->widget(2) == myW->tab_editTip)playerName = myW->tabWidget_Left->tabText(2).toUtf8().constData();
+if(myW->tabWidget_Left->widget(3) == myW->tab_editTip)playerName = myW->tabWidget_Left->tabText(3).toUtf8().constData();
+QStringList playerInfo;
+std::list<std::string> tipsList = myW->getMyConfig()->readConfigStringList("PlayerTooltips");
+std::list<std::string> result;
+std::list<std::string>::iterator iterator;
+for(iterator = tipsList.begin(); iterator != tipsList.end();iterator++) {
+	playerInfo=QString::fromUtf8(iterator->c_str()).split("(!#$%)", QString::KeepEmptyParts, Qt::CaseSensitive);
+        if(QString::fromUtf8(playerName.c_str())==playerInfo.at(0))
+                {
+                result.push_back(playerName+separator+QString::fromUtf8(tip.c_str()).toUtf8().constData()+separator+playerInfo.at(2).toStdString()+separator);
+                found=1;
+                }
+                else
+                {
+                result.push_back(playerInfo.at(0).toUtf8().constData()+separator+playerInfo.at(1).toUtf8().constData()+separator+playerInfo.at(2).toStdString()+separator);
+                }
+}
+if(found==0)
+        {
+        result.push_back(playerName.c_str()+separator+QString::fromUtf8(tip.c_str()).toUtf8().constData()+separator+QString("0").toStdString()+separator);
+        }
+myW->getMyConfig()->writeConfigStringList("PlayerTooltips", result);
+myW->getMyConfig()->writeBuffer();
+
+if(myW->tabWidget_Left->widget(3) == myW->tab_editTip)
+        {
+        myW->tabWidget_Left->removeTab(3);
+        }
+        else if(myW->tabWidget_Left->widget(2) == myW->tab_editTip)
+        {
+        myW->tabWidget_Left->removeTab(2);
+        }
+refreshTooltips();
+}
+
 
 void MyAvatarLabel::sendTriggerVoteOnKickSignal()
 {
@@ -228,4 +422,20 @@ void MyAvatarLabel::reportBadAvatar() {
         }
         j++;
     }
+}
+
+
+void MyAvatarLabel::startEditTip() {
+    boost::shared_ptr<Game> currentGame = myW->getSession()->getCurrentGame();
+    int j=0;
+    PlayerListConstIterator it_c;
+    PlayerList seatList = currentGame->getSeatsList();
+    for (it_c=seatList->begin(); it_c!=seatList->end(); it_c++) {
+        if(myId == j) {
+                QString nick = QString::fromUtf8((*it_c)->getMyName().c_str());
+                startChangePlayerTip(nick);
+                break;
+		}
+        j++;    
+	}
 }
