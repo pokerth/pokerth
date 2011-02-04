@@ -630,7 +630,7 @@ void gameTableImpl::applySettings(settingsDialogImpl* mySettingsDialog) {
     }
 
     //Add avatar (if set)
-    myStartWindow->getSession()->addOwnAvatar(myConfig->readConfigString("MyAvatar"));
+	myStartWindow->getSession()->addOwnAvatar(QString::fromUtf8(myConfig->readConfigString("MyAvatar").c_str()).toLocal8Bit().constData());
 
     //Falls Spielernamen geändert wurden --> neu zeichnen --> erst beim nächsten Neustart neu ausgelesen
     if (mySettingsDialog->getPlayerNickIsChanged() && myStartWindow->getSession()->getCurrentGame() && !myStartWindow->getSession()->isNetworkClientRunning()) {

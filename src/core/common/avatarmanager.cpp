@@ -98,9 +98,10 @@ AvatarManager::Init(const string &dataDir, const string &cacheDir)
 	return retVal;
 }
 
-void
+bool
 AvatarManager::AddSingleAvatar(const std::string &fileName)
 {
+	bool retVal = false;
 	path filePath(fileName);
 	string tmpFileName(filePath.file_string());
 
@@ -120,9 +121,11 @@ AvatarManager::AddSingleAvatar(const std::string &fileName)
 			{
 				boost::mutex::scoped_lock lock(m_avatarsMutex);
 				m_avatars.insert(AvatarMap::value_type(md5buf, tmpFileName));
+				retVal = true;
 			}
 		}
 	}
+	return retVal;
 }
 
 boost::shared_ptr<AvatarFileState>

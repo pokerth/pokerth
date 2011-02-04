@@ -25,7 +25,7 @@ QtHelper::~QtHelper()
 
 std::string QtHelper::stringToUtf8(const std::string &myString) {
 
-	QString tmpString = QString::fromStdString(myString);
+	QString tmpString = QString::fromLocal8Bit(myString.c_str());
 	std::string myUtf8String = tmpString.toUtf8().constData();
 	
 	return myUtf8String;
@@ -34,7 +34,7 @@ std::string QtHelper::stringToUtf8(const std::string &myString) {
 std::string QtHelper::stringFromUtf8(const std::string &myString) {
 	QString tmpString = QString::fromUtf8(myString.c_str());
 	
-	return tmpString.toStdString();
+	return tmpString.toLocal8Bit().constData();
 }
 
 std::string QtHelper::getDefaultLanguage() { return QLocale::system().name().toStdString(); }
