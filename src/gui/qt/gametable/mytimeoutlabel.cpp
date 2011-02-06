@@ -31,37 +31,40 @@ MyTimeoutLabel::~MyTimeoutLabel()
 
 void MyTimeoutLabel::startTimeOutAnimation(int secs, bool beep) {
 
-	isBeepPlayed = FALSE;
-	isBeep = beep;
+	if (secs >= 4) // smaller timeouts may lead to errors/endless loops below
+	{
+		isBeepPlayed = FALSE;
+		isBeep = beep;
 
-	timeOutValue = secs;
-	timeOutFrame = 1;
-        timeOutAnimationWidth = 52;
-	
-	int preTimerIntervall = ((timeOutValue-3) * 1000)/timeOutAnimationWidth;
-	
-	timerIntervall = preTimerIntervall;
+		timeOutValue = secs;
+		timeOutFrame = 1;
+		timeOutAnimationWidth = 52;
 
-	//save gfx ressources and never play more the 10 pps
-	while(timerIntervall < 100) {
-		if(secs <= 9 && secs >= 6) {
-			//fix inaccuracies caused by integer division
-			timerIntervall = timerIntervall + preTimerIntervall + 5;
+		int preTimerIntervall = ((timeOutValue-3) * 1000)/timeOutAnimationWidth;
+
+		timerIntervall = preTimerIntervall;
+
+		//save gfx ressources and never play more the 10 pps
+		while(timerIntervall < 100) {
+			if(secs <= 9 && secs >= 6) {
+				//fix inaccuracies caused by integer division
+				timerIntervall = timerIntervall + preTimerIntervall + 5;
+			}
+			else {
+				timerIntervall = timerIntervall + preTimerIntervall;
+			}
 		}
-		else {
-			timerIntervall = timerIntervall + preTimerIntervall;
-		}
+
+		waitFrames = 3000/timerIntervall;
+
+		//start the real timer
+		realTimer.reset();
+		realTimer.start();
+
+	// 	std::cout << timerIntervall << endl;
+		timeOutAnimation = TRUE;
+		timeOutAnimationTimer->start(timerIntervall);
 	}
-
-	waitFrames = 3000/timerIntervall;
-	
-	//start the real timer
-	realTimer.reset();
-	realTimer.start();
-
-// 	std::cout << timerIntervall << endl;
-	timeOutAnimation = TRUE;	
-	timeOutAnimationTimer->start(timerIntervall);
 }
 
 void MyTimeoutLabel::startTimeOutAnimationNow() {
