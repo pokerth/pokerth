@@ -40,7 +40,7 @@ import java.util.Collection;
 
 public abstract class TestBase {
 
-	public final int PROTOCOL_VERSION_MAJOR = 1;
+	public final int PROTOCOL_VERSION_MAJOR = 2;
 	public final int PROTOCOL_VERSION_MINOR = 0;
 	public final String AuthUser = "user";
 	public final String AuthPassword = "pencil";
@@ -198,7 +198,7 @@ public abstract class TestBase {
 		return playerId;
 	}
 
-	public PokerTHMessage createGameRequestMsg(NetGameInfo gameInfo, NetGameTypeEnumType.EnumType type, int playerActionTimeout, int guiSpeed, String password) {
+	public PokerTHMessage createGameRequestMsg(NetGameInfo gameInfo, NetGameTypeEnumType.EnumType type, int playerActionTimeout, int guiSpeed, String password, boolean autoLeave) {
 		NetGameTypeEnumType gameType = new NetGameTypeEnumType();
 		gameType.setValue(type);
 		gameInfo.setNetGameType(gameType);
@@ -213,6 +213,7 @@ public abstract class TestBase {
 		if (!password.isEmpty()) {
 			joinType.setPassword(password);
 		}
+		joinType.setAutoLeave(autoLeave);
 		JoinGameRequestMessage joinRequest = new JoinGameRequestMessage();
 		joinRequest.setValue(joinType);
 
@@ -221,7 +222,7 @@ public abstract class TestBase {
 		return msg;
 	}
 
-	public PokerTHMessage joinGameRequestMsg(long gameId, String password) {
+	public PokerTHMessage joinGameRequestMsg(long gameId, String password, boolean autoLeave) {
 		JoinExistingGame joinExisting = new JoinExistingGame();
 		joinExisting.setGameId(new NonZeroId(gameId));
 		JoinGameActionChoiceType joinAction = new JoinGameActionChoiceType();
@@ -231,6 +232,7 @@ public abstract class TestBase {
 		if (!password.isEmpty()) {
 			joinType.setPassword(password);
 		}
+		joinType.setAutoLeave(autoLeave);
 
 		JoinGameRequestMessage joinRequest = new JoinGameRequestMessage();
 		joinRequest.setValue(joinType);

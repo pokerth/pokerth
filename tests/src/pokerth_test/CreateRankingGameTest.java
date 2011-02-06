@@ -42,7 +42,8 @@ public class CreateRankingGameTest extends TestBase {
 				NetGameTypeEnumType.EnumType.rankingGame,
 				20,
 				7,
-				password));
+				password,
+				false));
 	}
 
 	@Test

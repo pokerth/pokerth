@@ -272,7 +272,7 @@ import org.bn.types.*;
   @ASN1Integer( name = "" )
     @ASN1ValueRangeConstraint ( 
 		
-		min = 5L, 
+		min = 0L, 
 		
 		max = 60L 
 		

@@ -48,7 +48,8 @@ public class RunNormalGameTest extends TestBase {
 				NetGameTypeEnumType.EnumType.normalGame,
 				10,
 				5,
-				""));
+				"",
+				false));
 
 		PokerTHMessage msg;
 

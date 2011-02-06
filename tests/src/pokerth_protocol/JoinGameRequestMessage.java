@@ -118,6 +118,12 @@ import org.bn.types.*;
     
 	private String password = null;
                 
+  @ASN1Boolean( name = "" )
+    
+        @ASN1Element ( name = "autoLeave", isOptional =  false , hasTag =  false  , hasDefaultValue =  false  )
+    
+	private Boolean autoLeave = null;
+                
   
         
         public JoinGameActionChoiceType getJoinGameAction () {
@@ -144,6 +150,18 @@ import org.bn.types.*;
 
         public void setPassword (String value) {
             this.password = value;
+        }
+        
+  
+        
+        public Boolean getAutoLeave () {
+            return this.autoLeave;
+        }
+
+        
+
+        public void setAutoLeave (Boolean value) {
+            this.autoLeave = value;
         }
         
   

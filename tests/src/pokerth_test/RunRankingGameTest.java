@@ -95,7 +95,8 @@ public class RunRankingGameTest extends TestBase {
 				NetGameTypeEnumType.EnumType.rankingGame,
 				5,
 				7,
-				""));
+				"",
+				false));
 
 		PokerTHMessage msg;
 
@@ -134,7 +135,7 @@ public class RunRankingGameTest extends TestBase {
 			String username = "test" + (i+1);
 			String password = username;
 			playerId[i] = userInit(s[i], username, password);
-			sendMessage(joinGameRequestMsg(gameId, ""), s[i]);
+			sendMessage(joinGameRequestMsg(gameId, "", false), s[i]);
 			do {
 				msg = receiveMessage(s[i]);
 				failOnErrorMessage(msg);

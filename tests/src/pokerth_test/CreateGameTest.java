@@ -44,7 +44,8 @@ public class CreateGameTest extends TestBase {
 				NetGameTypeEnumType.EnumType.normalGame,
 				20,
 				7,
-				GamePassword));
+				GamePassword,
+				false));
 
 		PokerTHMessage msg;
 		msg = receiveMessage();
