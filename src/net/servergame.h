@@ -88,8 +88,7 @@ public:
 	void RemovePlayerInvitation(unsigned playerId);
 	bool IsPlayerInvited(unsigned playerId) const;
 
-	void AddReportedAvatar(unsigned playerId);
-	bool IsAvatarReported(unsigned playerId) const;
+	void SetPlayerAutoLeaveOnFinish(unsigned playerId);
 
 	unsigned GetSmallDelaySec() const;
 
@@ -115,6 +114,8 @@ protected:
 	void InitRankingMap(const PlayerDataList &playerDataList);
 	void UpdateRankingMap();
 	void SetPlayerPlace(unsigned playerId, int place);
+	void StoreAndResetRanking();
+	void RemoveAutoLeavePlayers();
 	void InternalEndGame();
 
 	void InternalKickPlayer(unsigned playerId);
@@ -140,6 +141,9 @@ protected:
 	size_t GetCurNumberOfPlayers() const;
 	void AssignPlayerNumbers(PlayerDataList &playerList);
 	bool IsValidPlayer(unsigned playerId) const;
+
+	void AddReportedAvatar(unsigned playerId);
+	bool IsAvatarReported(unsigned playerId) const;
 
 	ServerLobbyThread &GetLobbyThread();
 
@@ -172,8 +176,10 @@ private:
 	PlayerIdList m_playerInvitationList;
 	mutable boost::mutex m_playerInvitationListMutex;
 
+	PlayerIdList m_autoLeavePlayerList;
+	mutable boost::mutex m_autoLeavePlayerListMutex;
+
 	PlayerIdList m_reportedAvatarList;
-	mutable boost::mutex m_reportedAvatarListMutex;
 
 	RankingMap m_rankingMap;
 

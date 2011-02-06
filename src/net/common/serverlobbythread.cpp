@@ -362,7 +362,7 @@ ServerLobbyThread::ReAddSession(SessionWrapper session, int reason)
 }
 
 void
-ServerLobbyThread::MoveSessionToGame(ServerGame &game, SessionWrapper session)
+ServerLobbyThread::MoveSessionToGame(ServerGame &game, SessionWrapper session, bool autoLeave)
 {
 	// Remove session from the lobby.
 	m_sessionManager.RemoveSession(session.sessionData->GetId());
@@ -374,6 +374,9 @@ ServerLobbyThread::MoveSessionToGame(ServerGame &game, SessionWrapper session)
 	session.sessionData->SetGameId(game.GetId());
 	// Add session to the game.
 	game.AddSession(session);
+	// Optionally enable auto leave after game finish.
+	if (autoLeave)
+		game.SetPlayerAutoLeaveOnFinish(session.playerData->GetUniqueId());
 }
 
 void
@@ -1030,9 +1033,9 @@ ServerLobbyThread::HandlePacket(SessionWrapper session, boost::shared_ptr<NetPac
 				if (joinRequest->password)
 					password = string((char *)joinRequest->password->buf, joinRequest->password->size);
 				if (joinRequest->joinGameAction.present == joinGameAction_PR_joinNewGame)
-					HandleNetPacketCreateGame(session, password, joinRequest->joinGameAction.choice.joinNewGame);
+					HandleNetPacketCreateGame(session, password, joinRequest->autoLeave, joinRequest->joinGameAction.choice.joinNewGame);
 				else if (joinRequest->joinGameAction.present == joinGameAction_PR_joinExistingGame)
-					HandleNetPacketJoinGame(session, password, joinRequest->joinGameAction.choice.joinExistingGame);
+					HandleNetPacketJoinGame(session, password, joinRequest->autoLeave, joinRequest->joinGameAction.choice.joinExistingGame);
 			}
 			else if (packet->GetMsg()->present == PokerTHMessage_PR_chatRequestMessage)
 				HandleNetPacketChatRequest(session, packet->GetMsg()->choice.chatRequestMessage);
@@ -1382,7 +1385,7 @@ ServerLobbyThread::HandleNetPacketRetrieveAvatar(SessionWrapper session, const A
 }
 
 void
-ServerLobbyThread::HandleNetPacketCreateGame(SessionWrapper session, const std::string &password, const JoinNewGame_t &newGame)
+ServerLobbyThread::HandleNetPacketCreateGame(SessionWrapper session, const std::string &password, bool autoLeave, const JoinNewGame_t &newGame)
 {
 	LOG_VERBOSE("Creating new game, initiated by session #" << session.sessionData->GetId() << ".");
 
@@ -1427,12 +1430,12 @@ ServerLobbyThread::HandleNetPacketCreateGame(SessionWrapper session, const std::
 		// Add game to list of games.
 		InternalAddGame(game);
 
-		MoveSessionToGame(*game, session);
+		MoveSessionToGame(*game, session, autoLeave);
 	}
 }
 
 void
-ServerLobbyThread::HandleNetPacketJoinGame(SessionWrapper session, const std::string &password, const JoinExistingGame_t &joinGame)
+ServerLobbyThread::HandleNetPacketJoinGame(SessionWrapper session, const std::string &password, bool autoLeave, const JoinExistingGame_t &joinGame)
 {
 	// Join an existing game.
 	GameMap::iterator pos = m_gameMap.find(joinGame.gameId);
@@ -1464,7 +1467,7 @@ ServerLobbyThread::HandleNetPacketJoinGame(SessionWrapper session, const std::st
 		}
 		else
 		{
-			MoveSessionToGame(game, session);
+			MoveSessionToGame(game, session, autoLeave);
 		}
 	}
 	else

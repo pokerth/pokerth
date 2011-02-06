@@ -115,12 +115,22 @@ static asn_TYPE_member_t asn_MBR_JoinGameRequestMessage_1[] = {
 		0,
 		"password"
 		},
+	{ ATF_NOFLAGS, 0, offsetof(struct JoinGameRequestMessage, autoLeave),
+		(ASN_TAG_CLASS_UNIVERSAL | (1 << 2)),
+		0,
+		&asn_DEF_BOOLEAN,
+		0,	/* Defer constraints checking to the member type */
+		0,	/* PER is not compiled, use -gen-PER */
+		0,
+		"autoLeave"
+		},
 };
 static ber_tlv_tag_t asn_DEF_JoinGameRequestMessage_tags_1[] = {
 	(ASN_TAG_CLASS_APPLICATION | (11 << 2)),
 	(ASN_TAG_CLASS_UNIVERSAL | (16 << 2))
 };
 static asn_TYPE_tag2member_t asn_MAP_JoinGameRequestMessage_tag2el_1[] = {
+    { (ASN_TAG_CLASS_UNIVERSAL | (1 << 2)), 2, 0, 0 }, /* autoLeave at 284 */
     { (ASN_TAG_CLASS_UNIVERSAL | (12 << 2)), 1, 0, 0 }, /* password at 283 */
     { (ASN_TAG_CLASS_CONTEXT | (0 << 2)), 0, 0, 0 }, /* joinExistingGame at 280 */
     { (ASN_TAG_CLASS_CONTEXT | (1 << 2)), 0, 0, 0 } /* joinNewGame at 282 */
@@ -129,10 +139,10 @@ static asn_SEQUENCE_specifics_t asn_SPC_JoinGameRequestMessage_specs_1 = {
 	sizeof(struct JoinGameRequestMessage),
 	offsetof(struct JoinGameRequestMessage, _asn_ctx),
 	asn_MAP_JoinGameRequestMessage_tag2el_1,
-	3,	/* Count of tags in the map */
+	4,	/* Count of tags in the map */
 	0, 0, 0,	/* Optional elements (not needed) */
-	1,	/* Start extensions */
-	3	/* Stop extensions */
+	2,	/* Start extensions */
+	4	/* Stop extensions */
 };
 asn_TYPE_descriptor_t asn_DEF_JoinGameRequestMessage = {
 	"JoinGameRequestMessage",
@@ -154,7 +164,7 @@ asn_TYPE_descriptor_t asn_DEF_JoinGameRequestMessage = {
 		/sizeof(asn_DEF_JoinGameRequestMessage_tags_1[0]), /* 2 */
 	0,	/* No PER visible constraints */
 	asn_MBR_JoinGameRequestMessage_1,
-	2,	/* Elements count */
+	3,	/* Elements count */
 	&asn_SPC_JoinGameRequestMessage_specs_1	/* Additional specs */
 };
 

@@ -231,13 +231,14 @@ ClientThread::SendPrivateChatMessage(unsigned targetPlayerId, const std::string 
 }
 
 void
-ClientThread::SendJoinFirstGame(const std::string &password)
+ClientThread::SendJoinFirstGame(const std::string &password, bool autoLeave)
 {
 	// Warning: This function is called in the context of the GUI thread.
 	// Create a network packet to request joining a game.
 	boost::shared_ptr<NetPacket> packet(new NetPacket(NetPacket::Alloc));
 	packet->GetMsg()->present = PokerTHMessage_PR_joinGameRequestMessage;
 	JoinGameRequestMessage_t *netJoinGame = &packet->GetMsg()->choice.joinGameRequestMessage;
+	netJoinGame->autoLeave = autoLeave;
 	if (!password.empty())
 	{
 		netJoinGame->password = OCTET_STRING_new_fromBuf(
@@ -253,13 +254,14 @@ ClientThread::SendJoinFirstGame(const std::string &password)
 }
 
 void
-ClientThread::SendJoinGame(unsigned gameId, const std::string &password)
+ClientThread::SendJoinGame(unsigned gameId, const std::string &password, bool autoLeave)
 {
 	// Warning: This function is called in the context of the GUI thread.
 	// Create a network packet to request joining a game.
 	boost::shared_ptr<NetPacket> packet(new NetPacket(NetPacket::Alloc));
 	packet->GetMsg()->present = PokerTHMessage_PR_joinGameRequestMessage;
 	JoinGameRequestMessage_t *netJoinGame = &packet->GetMsg()->choice.joinGameRequestMessage;
+	netJoinGame->autoLeave = autoLeave;
 	if (!password.empty())
 	{
 		netJoinGame->password = OCTET_STRING_new_fromBuf(
@@ -275,13 +277,14 @@ ClientThread::SendJoinGame(unsigned gameId, const std::string &password)
 }
 
 void
-ClientThread::SendCreateGame(const GameData &gameData, const std::string &name, const std::string &password)
+ClientThread::SendCreateGame(const GameData &gameData, const std::string &name, const std::string &password, bool autoLeave)
 {
 	// Warning: This function is called in the context of the GUI thread.
 	// Create a network packet to request creating a new game.
 	boost::shared_ptr<NetPacket> packet(new NetPacket(NetPacket::Alloc));
 	packet->GetMsg()->present = PokerTHMessage_PR_joinGameRequestMessage;
 	JoinGameRequestMessage_t *netJoinGame = &packet->GetMsg()->choice.joinGameRequestMessage;
+	netJoinGame->autoLeave = autoLeave;
 	if (!password.empty())
 	{
 		netJoinGame->password = OCTET_STRING_new_fromBuf(

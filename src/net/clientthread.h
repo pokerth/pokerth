@@ -74,9 +74,9 @@ public:
 	void SendGameChatMessage(const std::string &msg);
 	void SendLobbyChatMessage(const std::string &msg);
 	void SendPrivateChatMessage(unsigned targetPlayerId, const std::string &msg);
-	void SendJoinFirstGame(const std::string &password);
-	void SendJoinGame(unsigned gameId, const std::string &password);
-	void SendCreateGame(const GameData &gameData, const std::string &name, const std::string &password);
+	void SendJoinFirstGame(const std::string &password, bool autoLeave);
+	void SendJoinGame(unsigned gameId, const std::string &password, bool autoLeave);
+	void SendCreateGame(const GameData &gameData, const std::string &name, const std::string &password, bool autoLeave);
 	void SendResetTimeout();
 	void SendAskKickPlayer(unsigned playerId);
 	void SendVoteKick(bool doKick);

@@ -62,7 +62,7 @@ public:
 
 	void AddConnection(boost::shared_ptr<boost::asio::ip::tcp::socket> sock);
 	void ReAddSession(SessionWrapper session, int reason);
-	void MoveSessionToGame(ServerGame &game, SessionWrapper session);
+	void MoveSessionToGame(ServerGame &game, SessionWrapper session, bool autoLeave);
 	void RemoveSessionFromGame(SessionWrapper session);
 	void SessionError(SessionWrapper session, int errorCode);
 	void ResubscribeLobbyMsg(SessionWrapper session);
@@ -140,8 +140,8 @@ protected:
 	void HandleNetPacketAvatarEnd(SessionWrapper session, unsigned requestId, const AvatarEnd_t &avatarEnd);
 	void HandleNetPacketRetrievePlayerInfo(SessionWrapper session, const PlayerInfoRequestMessage_t &playerInfoRequest);
 	void HandleNetPacketRetrieveAvatar(SessionWrapper session, const AvatarRequestMessage_t &retrieveAvatar);
-	void HandleNetPacketCreateGame(SessionWrapper session, const std::string &password, const JoinNewGame_t &newGame);
-	void HandleNetPacketJoinGame(SessionWrapper session, const std::string &password, const JoinExistingGame_t &joinGame);
+	void HandleNetPacketCreateGame(SessionWrapper session, const std::string &password, bool autoLeave, const JoinNewGame_t &newGame);
+	void HandleNetPacketJoinGame(SessionWrapper session, const std::string &password, bool autoLeave, const JoinExistingGame_t &joinGame);
 	void HandleNetPacketChatRequest(SessionWrapper session, const ChatRequestMessage_t &chatRequest);
 	void HandleNetPacketRejectGameInvitation(SessionWrapper session, const RejectGameInvitationMessage_t &reject);
 	// TODO would be better to use state pattern here.

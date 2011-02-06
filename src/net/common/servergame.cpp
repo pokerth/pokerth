@@ -369,7 +369,7 @@ ServerGame::SetPlayerPlace(unsigned playerId, int place)
 }
 
 void
-ServerGame::InternalEndGame()
+ServerGame::StoreAndResetRanking()
 {
 	// Store players in database.
 	if (GetDBId() != DB_ID_INVALID)
@@ -386,8 +386,31 @@ ServerGame::InternalEndGame()
 		}
 	}
 	GetDatabase().EndGame(GetDBId());
-	m_game.reset();
 	m_rankingMap.clear();
+}
+
+void
+ServerGame::RemoveAutoLeavePlayers()
+{
+	boost::mutex::scoped_lock lock(m_autoLeavePlayerListMutex);
+	PlayerIdList::const_iterator i = m_autoLeavePlayerList.begin();
+	PlayerIdList::const_iterator end = m_autoLeavePlayerList.end();
+	while (i != end)
+	{
+		SessionWrapper tmpSession = GetSessionManager().GetSessionByUniquePlayerId(*i);
+		// Only remove if the player was found.
+		if (tmpSession.sessionData.get())
+			MoveSessionToLobby(tmpSession, NTF_NET_REMOVED_ON_REQUEST);
+		++i;
+	}
+	m_autoLeavePlayerList.clear();
+}
+
+void
+ServerGame::InternalEndGame()
+{
+	StoreAndResetRanking();
+	m_game.reset();
 }
 
 void
@@ -646,21 +669,10 @@ ServerGame::IsPlayerInvited(unsigned playerId) const
 }
 
 void
-ServerGame::AddReportedAvatar(unsigned playerId)
+ServerGame::SetPlayerAutoLeaveOnFinish(unsigned playerId)
 {
-	boost::mutex::scoped_lock lock(m_reportedAvatarListMutex);
-	m_reportedAvatarList.push_back(playerId);
-}
-
-bool
-ServerGame::IsAvatarReported(unsigned playerId) const
-{
-	bool retVal = false;
-	boost::mutex::scoped_lock lock(m_reportedAvatarListMutex);
-	PlayerIdList::const_iterator pos = find(m_reportedAvatarList.begin(), m_reportedAvatarList.end(), playerId);
-	if (pos != m_reportedAvatarList.end())
-		retVal = true;
-	return retVal;
+	boost::mutex::scoped_lock lock(m_autoLeavePlayerListMutex);
+	m_autoLeavePlayerList.push_back(playerId);
 }
 
 void
@@ -880,6 +892,22 @@ ServerGame::IsValidPlayer(unsigned playerId) const
 	bool retVal = false;
 	const PlayerIdList list(GetPlayerIdList());
 	if (find(list.begin(), list.end(), playerId) != list.end())
+		retVal = true;
+	return retVal;
+}
+
+void
+ServerGame::AddReportedAvatar(unsigned playerId)
+{
+	m_reportedAvatarList.push_back(playerId);
+}
+
+bool
+ServerGame::IsAvatarReported(unsigned playerId) const
+{
+	bool retVal = false;
+	PlayerIdList::const_iterator pos = find(m_reportedAvatarList.begin(), m_reportedAvatarList.end(), playerId);
+	if (pos != m_reportedAvatarList.end())
 		retVal = true;
 	return retVal;
 }

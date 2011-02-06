@@ -13,6 +13,7 @@
 
 /* Including external dependencies */
 #include <UTF8String.h>
+#include <BOOLEAN.h>
 #include "JoinExistingGame.h"
 #include "JoinNewGame.h"
 #include <constr_CHOICE.h>
@@ -48,6 +49,7 @@ typedef struct JoinGameRequestMessage {
 		asn_struct_ctx_t _asn_ctx;
 	} joinGameAction;
 	UTF8String_t	*password	/* OPTIONAL */;
+	BOOLEAN_t	 autoLeave;
 	/*
 	 * This type is extensible,
 	 * possible extensions are below.

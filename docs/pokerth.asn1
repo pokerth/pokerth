@@ -280,7 +280,8 @@ JoinGameRequestMessage ::= [APPLICATION 11] SEQUENCE {
 		joinExistingGame		[0] JoinExistingGame,
 		joinNewGame				[1] JoinNewGame
 	},
-	password					UTF8String (SIZE(1..64)) OPTIONAL
+	password					UTF8String (SIZE(1..64)) OPTIONAL,
+	autoLeave					BOOLEAN
 }
 
 JoinExistingGame ::= SEQUENCE {

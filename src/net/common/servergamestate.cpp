@@ -1128,6 +1128,7 @@ ServerGameStateHand::TimerNextGame(const boost::system::error_code &ec, boost::s
 		server->SendToAllPlayers(endGame, SessionData::Game);
 
 		// Wait for the start of a new game.
+		server->RemoveAutoLeavePlayers();
 		server->ResetComputerPlayerList();
 		server->GetLobbyThread().NotifyReopeningGame(server->GetId());
 		server->SetState(ServerGameStateInit::Instance());

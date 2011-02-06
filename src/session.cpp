@@ -203,7 +203,10 @@ void Session::startNetworkClient(const string &serverAddress, unsigned serverPor
             myConfig->readConfigString("MyAvatar"),
             myQtToolsInterface->stringFromUtf8(myConfig->readConfigString("CacheDir")));
     myNetClient->Run();
-    myNetClient->SendJoinFirstGame("");
+	myNetClient->SendJoinFirstGame(
+			"",
+			myConfig->readConfigInt("NetAutoLeaveGameAfterFinish") == 1
+	);
 }
 
 void Session::startNetworkClientForLocalServer(const GameData &gameData)
@@ -230,7 +233,12 @@ void Session::startNetworkClientForLocalServer(const GameData &gameData)
             myConfig->readConfigString("MyAvatar"),
             myQtToolsInterface->stringFromUtf8(myConfig->readConfigString("CacheDir")));
     myNetClient->Run();
-    myNetClient->SendCreateGame(gameData, NET_DEFAULT_GAME, "");
+	myNetClient->SendCreateGame(
+			gameData,
+			NET_DEFAULT_GAME,
+			"",
+			myConfig->readConfigInt("NetAutoLeaveGameAfterFinish") == 1
+	);
 }
 
 void Session::terminateNetworkClient()
@@ -248,16 +256,25 @@ void Session::terminateNetworkClient()
 
 void Session::clientCreateGame(const GameData &gameData, const string &name, const string &password)
 {
-    if (!myNetClient)
-        return; // only act if client is running.
-    myNetClient->SendCreateGame(gameData, name, password);
+	if (!myNetClient)
+		return; // only act if client is running.
+	myNetClient->SendCreateGame(
+			gameData,
+			name,
+			password,
+			myConfig->readConfigInt("NetAutoLeaveGameAfterFinish") == 1
+	);
 }
 
 void Session::clientJoinGame(unsigned gameId, const std::string &password)
 {
-    if (!myNetClient)
-        return; // only act if client is running.
-    myNetClient->SendJoinGame(gameId, password);
+	if (!myNetClient)
+		return; // only act if client is running.
+	myNetClient->SendJoinGame(
+			gameId,
+			password,
+			myConfig->readConfigInt("NetAutoLeaveGameAfterFinish") == 1
+	);
 }
 
 void Session::startNetworkServer(bool dedicated)
@@ -429,7 +446,7 @@ void Session::selectServer(unsigned serverId)
 }
 
 void
-        Session::setLogin(const std::string &userName, const std::string &password, bool isGuest)
+Session::setLogin(const std::string &userName, const std::string &password, bool isGuest)
 {
     if (!myNetClient)
         return; // only act if client is running.
@@ -437,7 +454,7 @@ void
 }
 
 void
-        Session::invitePlayerToCurrentGame(unsigned playerId)
+Session::invitePlayerToCurrentGame(unsigned playerId)
 {
     if (!myNetClient)
         return; // only act if client is running.
@@ -445,15 +462,19 @@ void
 }
 
 void
-        Session::acceptGameInvitation(unsigned gameId)
+Session::acceptGameInvitation(unsigned gameId)
 {
     if (!myNetClient)
         return; // only act if client is running.
-    myNetClient->SendJoinGame(gameId, "");
+	myNetClient->SendJoinGame(
+			gameId,
+			"",
+			myConfig->readConfigInt("NetAutoLeaveGameAfterFinish") == 1
+	);
 }
 
 void
-        Session::rejectGameInvitation(unsigned gameId, DenyGameInvitationReason reason)
+Session::rejectGameInvitation(unsigned gameId, DenyGameInvitationReason reason)
 {
     if (!myNetClient)
         return; // only act if client is running.
