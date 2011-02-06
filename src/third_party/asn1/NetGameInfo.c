@@ -349,7 +349,7 @@ memb_playerActionTimeout_constraint_1(asn_TYPE_descriptor_t *td, const void *spt
 	
 	value = *(const long *)sptr;
 	
-	if((value >= 5 && value <= 60)) {
+	if((value >= 0 && value <= 60)) {
 		/* Constraint check succeeded */
 		return 0;
 	} else {

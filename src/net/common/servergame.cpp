@@ -1002,9 +1002,16 @@ ServerGame::CheckPassword(const string &password) const
 }
 
 bool
-ServerGame::CheckSettings(const GameData &data, const string &password)
+ServerGame::CheckSettings(const GameData &data, const string &password, ServerMode mode)
 {
 	bool retVal = true;
+	if (mode != SERVER_MODE_LAN)
+	{
+		if (data.playerActionTimeoutSec < 5)
+		{
+			retVal = false;
+		}
+	}
 	if (data.gameType == GAME_TYPE_RANKING)
 	{
 		if ((data.startMoney != RANKING_GAME_START_CASH)

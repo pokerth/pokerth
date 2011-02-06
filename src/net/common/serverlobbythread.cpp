@@ -1405,7 +1405,7 @@ ServerLobbyThread::HandleNetPacketCreateGame(SessionWrapper session, const std::
 	{
 		SendJoinGameFailed(session.sessionData, gameId, NTF_NET_JOIN_GUEST_FORBIDDEN);
 	}
-	else if (!ServerGame::CheckSettings(tmpData, password))
+	else if (!ServerGame::CheckSettings(tmpData, password, GetServerMode()))
 	{
 		SendJoinGameFailed(session.sessionData, gameId, NTF_NET_JOIN_INVALID_SETTINGS);
 	}

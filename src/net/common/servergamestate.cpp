@@ -1315,10 +1315,13 @@ ServerGameStateWaitPlayerAction::Enter(boost::shared_ptr<ServerGame> server)
 	int timeoutSec = server->GetGameData().playerActionTimeoutSec + SERVER_PLAYER_TIMEOUT_ADD_DELAY_SEC;
 #endif
 
-	server->GetStateTimer1().expires_from_now(boost::posix_time::seconds(timeoutSec));
-	server->GetStateTimer1().async_wait(
-		boost::bind(
-			&ServerGameStateWaitPlayerAction::TimerTimeout, this, boost::asio::placeholders::error, server));
+	if (timeoutSec != SERVER_PLAYER_TIMEOUT_ADD_DELAY_SEC) // minimum value means unlimited thinking time
+	{
+		server->GetStateTimer1().expires_from_now(boost::posix_time::seconds(timeoutSec));
+		server->GetStateTimer1().async_wait(
+			boost::bind(
+				&ServerGameStateWaitPlayerAction::TimerTimeout, this, boost::asio::placeholders::error, server));
+	}
 }
 
 void
