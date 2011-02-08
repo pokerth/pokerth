@@ -44,6 +44,7 @@ Log::Log(string logDirString, int logOnOffInt) : curGameID(0), logOnOff(false)
 
             // check if logging path exist
             if(logDirString != "" && logDir) {
+				closedir(logDir);
 
                 int i;
                 string sql;
@@ -74,7 +75,8 @@ Log::Log(string logDirString, int logOnOffInt) : curGameID(0), logOnOff(false)
                     sql += ", PRIMARY KEY(Date,Time))";
                     if(sqlite3_exec(mySqliteLogDb, sql.data(), 0, 0, &errmsg) != SQLITE_OK) {
                         cout << "Error in statement: " << sql.data() << "[" << errmsg << "]." << endl;
-                    }
+						sqlite3_free(errmsg);
+					}
 
                     sql = "INSERT INTO Session (";
                         sql += "PokerTH_Version";
@@ -86,7 +88,8 @@ Log::Log(string logDirString, int logOnOffInt) : curGameID(0), logOnOff(false)
                         sql += "\"" + boost::lexical_cast<string>(curTime) + "\")";
                     if(sqlite3_exec(mySqliteLogDb, sql.data(), 0, 0, &errmsg) != SQLITE_OK) {
                         cout << "Error in statement: " << sql.data() << "[" << errmsg << "]." << endl;
-                    }
+						sqlite3_free(errmsg);
+					}
 
                     // create game table
                     sql = "CREATE TABLE Game (";
@@ -101,7 +104,8 @@ Log::Log(string logDirString, int logOnOffInt) : curGameID(0), logOnOff(false)
                     sql += ")";
                     if(sqlite3_exec(mySqliteLogDb, sql.data(), 0, 0, &errmsg) != SQLITE_OK) {
                         cout << "Error in statement: " << sql.data() << "[" << errmsg << "]." << endl;
-                    }
+						sqlite3_free(errmsg);
+					}
 
                     // create hand table
                     sql = "CREATE TABLE Hand (";
@@ -125,7 +129,8 @@ Log::Log(string logDirString, int logOnOffInt) : curGameID(0), logOnOff(false)
                     sql += ",PRIMARY KEY(HandID,GameID))";
                     if(sqlite3_exec(mySqliteLogDb, sql.data(), 0, 0, &errmsg) != SQLITE_OK) {
                         cout << "Error in statement: " << sql.data() << "[" << errmsg << "]." << endl;
-                    }
+						sqlite3_free(errmsg);
+					}
 
                     // create action table
                     sql = "CREATE TABLE Action (";
@@ -139,7 +144,8 @@ Log::Log(string logDirString, int logOnOffInt) : curGameID(0), logOnOff(false)
                     sql += ")";
                     if(sqlite3_exec(mySqliteLogDb, sql.data(), 0, 0, &errmsg) != SQLITE_OK) {
                         cout << "Error in statement: " << sql.data() << "[" << errmsg << "]." << endl;
-                    }
+						sqlite3_free(errmsg);
+					}
 
 
                 }
