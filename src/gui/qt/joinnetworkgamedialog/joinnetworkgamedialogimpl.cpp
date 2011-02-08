@@ -20,7 +20,7 @@
 #include "joinnetworkgamedialogimpl.h"
 #include "session.h"
 #include "configfile.h"
-#include "tinyxml.h"
+#include <tinyxml.h>
 #include <net/socket_startup.h>
 
 using namespace std;

@@ -31,7 +31,8 @@ using boost::asio::ip::tcp;
 
 
 ChatCleanerManager::ChatCleanerManager(ChatCleanerCallback &cb, boost::shared_ptr<boost::asio::io_service> ioService)
-: m_callback(cb), m_ioService(ioService), m_connected(false), m_curRequestId(0), m_recvBufUsed(0)
+: m_callback(cb), m_ioService(ioService), m_connected(false), m_curRequestId(0), m_serverPort(0), m_useIpv6(false),
+  m_recvBufUsed(0)
 {
 	m_resolver.reset(
 		new boost::asio::ip::tcp::resolver(*m_ioService));

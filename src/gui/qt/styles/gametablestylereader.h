@@ -20,7 +20,7 @@
 #ifndef GAMETABLESTYLEREADER_H
 #define GAMETABLESTYLEREADER_H
 
-#include "tinyxml.h"
+#include <tinyxml.h>
 #include "configfile.h"
 #include "gametableimpl.h"
 #include "mymessagedialogimpl.h"

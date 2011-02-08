@@ -92,7 +92,7 @@ SessionManager::GetSessionById(SessionId id) const
 }
 
 SessionWrapper
-SessionManager::GetSessionByPlayerName(const string playerName) const
+SessionManager::GetSessionByPlayerName(const string &playerName) const
 {
 	SessionWrapper tmpSession;
 	boost::recursive_mutex::scoped_lock lock(m_sessionMapMutex);

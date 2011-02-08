@@ -50,7 +50,7 @@
 
 #include <net/socket_msg.h>
 
-#include "math.h"
+#include <cmath>
 
 #define FORMATLEFT(X) "<p align='center'>(X)"
 #define FORMATRIGHT(X) "(X)</p>"

@@ -20,7 +20,7 @@
 #include "configfile.h"
 #include <qttoolsinterface.h>
 #include <core/loghelper.h>
-#include "tinyxml.h"
+#include <tinyxml.h>
 
 #define MODUS 0711
 

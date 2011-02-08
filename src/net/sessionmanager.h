@@ -54,7 +54,7 @@ public:
 	bool RemoveSession(SessionId session);
 
 	SessionWrapper GetSessionById(SessionId id) const;
-	SessionWrapper GetSessionByPlayerName(const std::string playerName) const;
+	SessionWrapper GetSessionByPlayerName(const std::string &playerName) const;
 	SessionWrapper GetSessionByUniquePlayerId(unsigned uniqueId, bool initSessions = false) const;
 
 	PlayerDataList GetPlayerDataList() const;
