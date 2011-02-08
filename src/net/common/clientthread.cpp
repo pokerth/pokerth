@@ -1224,10 +1224,12 @@ ClientThread::RemoveDisconnectedPlayers()
 	// This should only be called between hands.
 	if (m_game)
 	{
-		PlayerListIterator it;
-		for (it = m_game->getSeatsList()->begin(); it != m_game->getSeatsList()->end(); it++)
+		PlayerList tmpList(m_game->getSeatsList());
+		PlayerListIterator i = tmpList->begin();
+		PlayerListIterator end = tmpList->end();
+		while (i != end)
 		{
-			boost::shared_ptr<PlayerInterface> tmpPlayer = *it;
+			boost::shared_ptr<PlayerInterface> tmpPlayer = *i;
 			if (tmpPlayer->getMyActiveStatus())
 			{
 				// If a player is not in the player data list, it was disconnected.
@@ -1237,6 +1239,7 @@ ClientThread::RemoveDisconnectedPlayers()
 					tmpPlayer->setMyActiveStatus(false);
 				}
 			}
+			++i;
 		}
 	}
 }

@@ -847,8 +847,9 @@ ServerGame::RemoveDisconnectedPlayers()
 	// This should only be called between hands.
 	if (m_game)
 	{
-		PlayerListIterator i = m_game->getSeatsList()->begin();
-		PlayerListIterator end = m_game->getSeatsList()->end();
+		PlayerList tmpList(m_game->getSeatsList());
+		PlayerListIterator i = tmpList->begin();
+		PlayerListIterator end = tmpList->end();
 		while (i != end)
 		{
 			boost::shared_ptr<PlayerInterface> tmpPlayer = *i;
