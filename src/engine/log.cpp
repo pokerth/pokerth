@@ -41,10 +41,11 @@ Log::Log(string logDirString, int logOnOffInt) : curGameID(0), logOnOff(false)
 
             DIR *logDir;
             logDir = opendir(logDirString.c_str());
+			bool dirExists = logDir != NULL;
+			closedir(logDir);
 
             // check if logging path exist
-            if(logDirString != "" && logDir) {
-				closedir(logDir);
+			if(logDirString != "" && dirExists) {
 
                 int i;
                 string sql;
