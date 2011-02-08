@@ -36,7 +36,6 @@
 #include <playerinterface.h>
 
 #include <tinyxml.h>
-#include "zlib.h"
 #include <boost/bind.hpp>
 #include <boost/iostreams/filtering_streambuf.hpp>
 #include <boost/iostreams/copy.hpp>
