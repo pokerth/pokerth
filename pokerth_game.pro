@@ -19,7 +19,7 @@ QMAKE_CXXFLAGS += -std=gnu++0x
 UI_DIR = uics
 MOC_DIR = mocs
 OBJECTS_DIR = obj
-DEFINES += ENABLE_IPV6
+DEFINES += ENABLE_IPV6 TIXML_USE_STL
 DEFINES += PREFIX=\"$${PREFIX}\"
 TARGET = pokerth
 
@@ -33,7 +33,6 @@ INCLUDEPATH += . \
 	src/engine/local_engine \
 	src/engine/network_engine \
 	src/config \
-	src/third_party/tinyxml \
 	src/third_party/asn1 \
 	src/gui/qt \
 	src/gui/qt/connecttoserverdialog \
@@ -44,7 +43,7 @@ INCLUDEPATH += . \
 	src/gui/qt/qttools/qthelper \
 	src/gui/qt/gametable \
 	src/gui/qt/gametable/startsplash \
-    src/gui/qt/gametable/log \
+	src/gui/qt/gametable/log \
 	src/gui/qt/aboutpokerth \
 	src/gui/qt/createnetworkgamedialog \
 	src/gui/qt/createinternetgamedialog \
@@ -71,7 +70,6 @@ DEPENDPATH += . \
 	src/gui \
 	src/net \
 	src/core/common \
-	src/third_party/tinyxml \
 	src/engine/local_engine \
 	src/engine/network_engine \
 	src/gui/qt \
@@ -80,7 +78,7 @@ DEPENDPATH += . \
 	src/gui/qt/chattools \
 	src/gui/qt/gametable \
 	src/gui/qt/gametable/startsplash \
-    src/gui/qt/gametable/log \
+	src/gui/qt/gametable/log \
 	src/gui/qt/aboutpokerth \
 	src/gui/qt/connecttoserverdialog \
 	src/gui/qt/createinternetgamedialog \
@@ -131,8 +129,6 @@ HEADERS += src/game.h \
 	src/net/socket_msg.h \
 	src/net/socket_startup.h \
 	src/net/net_helper.h \
-	src/third_party/tinyxml/tinystr.h \
-	src/third_party/tinyxml/tinyxml.h \
 	src/engine/local_engine/cardsvalue.h \
 	src/engine/local_engine/localboard.h \
 	src/engine/local_engine/localenginefactory.h \
@@ -199,7 +195,7 @@ HEADERS += src/game.h \
 	src/gui/qt/internetgamelogindialog/internetgamelogindialogimpl.h \
 	src/engine/local_engine/replay.h \
 	src/gui/qt/gamelobbydialog/mynicklistsortfilterproxymodel.h \
-    src/gui/qt/gametable/myslider.h
+	src/gui/qt/gametable/myslider.h
 FORMS += src/gui/qt/gametable.ui \
 	src/gui/qt/aboutpokerth.ui \
 	src/gui/qt/connecttoserverdialog.ui \
@@ -233,7 +229,7 @@ SOURCES += src/pokerth.cpp \
 	src/gui/qt/gametable/myrighttabwidget.cpp \
 	src/gui/qt/gametable/mylefttabwidget.cpp \
 	src/gui/qt/gametable/startsplash/startsplash.cpp \
-    src/gui/qt/gametable/log/guilog.cpp \
+	src/gui/qt/gametable/log/guilog.cpp \
 	src/gui/qt/aboutpokerth/aboutpokerthimpl.cpp \
 	src/gui/qt/connecttoserverdialog/connecttoserverdialogimpl.cpp \
 	src/gui/qt/createnetworkgamedialog/createnetworkgamedialogimpl.cpp \
@@ -267,7 +263,7 @@ SOURCES += src/pokerth.cpp \
 	src/gui/qt/gamelobbydialog/mygamelistsortfilterproxymodel.cpp \
 	src/gui/qt/internetgamelogindialog/internetgamelogindialogimpl.cpp \
 	src/engine/local_engine/replay.cpp \
-    src/gui/qt/gamelobbydialog/mynicklistsortfilterproxymodel.cpp
+	src/gui/qt/gamelobbydialog/mynicklistsortfilterproxymodel.cpp
 TRANSLATIONS = ts/pokerth_af.ts \
 	ts/pokerth_bg.ts \
 	ts/pokerth_zhcn.ts \
@@ -325,15 +321,11 @@ win32 {
 	LIBS += -lSDL_mixer \
 		-lSDL \
 		-lSDLmain \
-		-lz
+		-ltinyxml \
+		-lz \
+		-lgnutls-openssl -lgnutls -lgcrypt -lgpg-error -lgsasl -lidn
 	debug:LIBPATH += debug/lib
 	release:LIBPATH += release/lib
-	pkth_win64 {
-		LIBS += -lcrypto -lssl -llibeay32 -lssleay32 -lgsasl
-	}
-	!pkth_win64 {
-		LIBS += -lgnutls-openssl -lgnutls -lgcrypt -lgpg-error -lgsasl -lidn
-	}
 	win32-g++-cross {
 		LIBS += -lsqlite3
 		LIBS += -lntlm -lmikmod -lddraw -ldxguid -lsmpeg -lvorbisfile -lvorbis -logg
@@ -447,10 +439,11 @@ unix:!mac {
 	UNAME = $$system(uname -s)
 	BSD = $$find(UNAME, "BSD")
 	kFreeBSD = $$find(UNAME, "kFreeBSD")
-	LIBS += -lsqlite3
+	LIBS += -lsqlite3 \
+			-ltinyxml
 	LIBS += $$BOOST_LIBS
-        LIBS += -lSDL \
-                -lSDL_mixer \
+	LIBS += -lSDL \
+			-lSDL_mixer \
 		-lgsasl
 	!isEmpty( BSD ):isEmpty( kFreeBSD ):LIBS += -lcrypto
 	else:LIBS += -lgnutls-openssl \
@@ -512,6 +505,7 @@ mac {
 	LIBS += -lcrypto \
 		-lssl \
 		-lsqlite3 \
+		-ltinyxml \
 		-lz \
 		-framework \
 		Carbon

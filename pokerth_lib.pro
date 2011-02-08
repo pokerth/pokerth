@@ -12,7 +12,7 @@ UI_DIR = uics
 TARGET = lib/pokerth_lib
 MOC_DIR = mocs
 OBJECTS_DIR = obj
-DEFINES += ENABLE_IPV6
+DEFINES += ENABLE_IPV6 TIXML_USE_STL
 QT -= core gui
 QMAKE_CXXFLAGS += -std=gnu++0x
 #PRECOMPILED_HEADER = src/pch_lib.h
@@ -27,7 +27,6 @@ INCLUDEPATH += . \
 		src/engine/local_engine \
 		src/engine/network_engine \
 		src/config \
-		src/third_party/tinyxml \
 		src/third_party/libircclient/include \
 		src/third_party/asn1 \
 		src/core
@@ -42,7 +41,6 @@ DEPENDPATH += . \
 		src/gui/generic \
 		src/net \
 		src/core/common \
-		src/third_party/tinyxml \
 		src/third_party/libircclient \
 		src/third_party/libircclient/src \
 		src/third_party/libircclient/include \
@@ -108,8 +106,6 @@ HEADERS += \
 		src/net/downloadhelper.h \
 		src/net/encodedpacket.h \
 		src/net/internalchatcleanerpacket.h \
-		src/third_party/tinyxml/tinystr.h \
-		src/third_party/tinyxml/tinyxml.h \
 		src/third_party/libircclient/include/libircclient.h \
 		src/third_party/libircclient/include/config.h \
 		src/engine/local_engine/cardsvalue.h \
@@ -155,10 +151,6 @@ SOURCES += \
 		src/core/common/crypthelper.cpp \
 		src/core/common/avatarmanager.cpp \
 		src/core/common/pokerthexception.cpp \
-		src/third_party/tinyxml/tinystr.cpp \
-		src/third_party/tinyxml/tinyxml.cpp \
-		src/third_party/tinyxml/tinyxmlerror.cpp \
-		src/third_party/tinyxml/tinyxmlparser.cpp \
 		src/third_party/libircclient/src/libircclient.c \
 		src/engine/local_engine/cardsvalue.cpp \
 		src/engine/local_engine/localboard.cpp \

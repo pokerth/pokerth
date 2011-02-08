@@ -14,7 +14,7 @@ TARGET = bin/pokerth_server
 MOC_DIR = mocs
 OBJECTS_DIR = obj
 DEFINES += POKERTH_DEDICATED_SERVER
-DEFINES += ENABLE_IPV6
+DEFINES += ENABLE_IPV6 TIXML_USE_STL
 DEFINES += PREFIX=\"$${PREFIX}\"
 QT -= core gui
 QMAKE_CXXFLAGS += -std=gnu++0x
@@ -31,7 +31,6 @@ INCLUDEPATH += . \
 		src/engine/local_engine \
 		src/engine/network_engine \
 		src/config \
-		src/third_party/tinyxml \
 		src/third_party/asn1 \
 		src/core \
 
@@ -45,7 +44,6 @@ DEPENDPATH += . \
 		src/gui/generic \
 		src/net \
 		src/core/common \
-		src/third_party/tinyxml \
 		src/engine/local_engine \
 		src/engine/network_engine \
 		src/net/common \
@@ -78,8 +76,6 @@ HEADERS += \
 		src/net/socket_msg.h \
 		src/net/socket_startup.h \
 		src/net/net_helper.h \
-		src/third_party/tinyxml/tinystr.h \
-		src/third_party/tinyxml/tinyxml.h \
 		src/core/pokerthexception.h \
 		src/core/convhelper.h \
 		src/core/loghelper.h \
@@ -130,12 +126,7 @@ win32 {
 	debug:LIBPATH += debug/lib
 	release:LIBPATH += release/lib
 
-	pkth_win64 {
-		LIBS += -lcrypto -lssl -llibeay32 -lssleay32 -lgsasl
-	}
-	!pkth_win64 {
-		LIBS += -lgnutls-openssl -lgnutls -lgcrypt -lgpg-error -lgsasl -lidn
-	}
+	LIBS += -lgnutls-openssl -lgnutls -lgcrypt -lgpg-error -lgsasl -lidn -ltinyxml
 	win32-g++-cross {
 		LIBS += -lsqlite3
 		LIBS += -lntlm
@@ -272,7 +263,8 @@ unix : !mac {
 	kFreeBSD = $$find(UNAME, "kFreeBSD")
 
 	LIBS += $$BOOST_LIBS
-	LIBS += -lsqlite3
+	LIBS += -lsqlite3 \
+			-ltinyxml
 	LIBS += -lgsasl
 	!isEmpty( BSD ): isEmpty( kFreeBSD ){
 		LIBS += -lcrypto -liconv
@@ -316,6 +308,7 @@ mac {
 
 	# libraries installed on every mac
 	LIBS += -lsqlite3
+	LIBS += -ltinyxml
 	LIBS += -lcrypto -lssl -lz -liconv
 	# set the application icon
 	RC_FILE = pokerth.icns

@@ -4,17 +4,18 @@ Requirements
 To compile PokerTH you need following libs: 
 
 Linux:
-- Qt version >= 4.4.3, 4.5.1 recommended  --> http://qtsoftware.com/
+- Qt version >= 4.4.3, 4.7.1 recommended  --> http://qtsoftware.com/
 - zlib version 1.2.3  --> http://www.zlib.net/
 - libcurl version >= 7.16  --> http://curl.haxx.se/
 - gnutls (e.g. version 2.2.2)  --> http://www.gnu.org/software/gnutls/
 - libboost_thread, libboost_filesystem, libboost_datetime, libboost_program_options,
   libboost_iostreams, libboost_asio, libboost_regex
-  (version >= 1.36, 1.38.0 recommended)  --> http://www.boost.org/
+  (version >= 1.36, 1.45.0 recommended)  --> http://www.boost.org/
   NOTE: Please do not use boost 1.39.0 for the dedicated server, due to bug
   https://svn.boost.org/trac/boost/ticket/3095
 - libSDL_mixer, libSDL  --> http://www.libsdl.org/
 - libSQLite >= 3.0 --> http://sqlite.org/
+- libtinyxml > 2.0 --> http://www.sourceforge.net/projects/tinyxml
 
 NOTE: PokerTH might compile with libboost < 1.36 but occasional crashes will occur!
 

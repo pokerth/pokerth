@@ -12,7 +12,7 @@ UI_DIR = uics
 TARGET = lib/pokerth_db
 MOC_DIR = mocs
 OBJECTS_DIR = obj
-DEFINES += ENABLE_IPV6
+DEFINES += ENABLE_IPV6 TIXML_USE_STL
 QT -= core gui
 QMAKE_CXXFLAGS += -std=gnu++0x
 #PRECOMPILED_HEADER = src/pch_lib.h
