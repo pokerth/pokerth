@@ -24,7 +24,7 @@
 using namespace std;
 
 ClientBoard::ClientBoard(unsigned dp)
-: pot(0), sets(0), dealerPosition(dp)
+: pot(0), sets(0), dealerPosition(dp), allInCondition(false), lastActionPlayer(0)
 {
 	myCards[0] = myCards[1] = myCards[2] = myCards[3] = myCards[4] = 0;
 }

@@ -107,7 +107,7 @@ AvatarManager::AddSingleAvatar(const std::string &fileName)
 
 	if (!fileName.empty() && !tmpFileName.empty())
 	{
-		unsigned outFileSize;
+		unsigned outFileSize = 0;
 		AvatarFileType outFileType;
 		boost::shared_ptr<AvatarFileState> tmpFileState = OpenAvatarFileForChunkRead(tmpFileName, outFileSize, outFileType);
 
@@ -192,7 +192,7 @@ int
 AvatarManager::AvatarFileToNetPackets(const string &fileName, unsigned requestId, NetPacketList &packets)
 {
 	int retVal = ERR_NET_INVALID_AVATAR_FILE;
-	unsigned fileSize;
+	unsigned fileSize = 0;
 	AvatarFileType fileType;
 	boost::shared_ptr<AvatarFileState> tmpState = OpenAvatarFileForChunkRead(fileName, fileSize, fileType);
 	if (tmpState.get() && fileSize && fileType != AVATAR_FILE_TYPE_UNKNOWN)

@@ -27,9 +27,10 @@ PlayerData::PlayerData(unsigned uniqueId, int number, PlayerType type, PlayerRig
 }
 
 PlayerData::PlayerData(const PlayerData &other)
-: m_uniqueId(other.GetUniqueId()), m_number(other.GetNumber()), m_name(other.GetName()),
-  m_avatarFile(other.GetAvatarFile()), m_type(other.GetType()), m_rights(other.GetRights()),
-  m_isGameAdmin(other.IsGameAdmin()), m_netSessionData(other.GetNetSessionData())
+: m_uniqueId(other.GetUniqueId()), m_dbId(other.GetDBId()), m_number(other.GetNumber()), m_name(other.GetName()),
+  m_password(), m_country(other.GetCountry()), m_avatarFile(other.GetAvatarFile()), m_avatarMD5(other.GetAvatarMD5()),
+  m_type(other.GetType()), m_rights(other.GetRights()), m_isGameAdmin(other.IsGameAdmin()),
+  m_netSessionData(other.GetNetSessionData()), m_netAvatarFile()
 {
 }
 
