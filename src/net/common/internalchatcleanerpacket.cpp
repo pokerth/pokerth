@@ -30,7 +30,6 @@ InternalChatCleanerPacket::InternalChatCleanerPacket()
 
 InternalChatCleanerPacket::~InternalChatCleanerPacket()
 {
-	if (m_msg)
-		ASN_STRUCT_FREE(asn_DEF_ChatCleanerMessage, m_msg);
+	ASN_STRUCT_FREE(asn_DEF_ChatCleanerMessage, m_msg);
 }
 
