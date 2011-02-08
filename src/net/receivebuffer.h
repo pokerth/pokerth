@@ -26,8 +26,6 @@
 // MUST be larger than MAX_PACKET_SIZE
 #define RECV_BUF_SIZE		2 * MAX_PACKET_SIZE
 
-typedef std::list<boost::shared_ptr<NetPacket> > NetPacketList;
-
 struct ReceiveBuffer
 {
 	ReceiveBuffer() : recvBufUsed(0) {}

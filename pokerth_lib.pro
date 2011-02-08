@@ -121,8 +121,8 @@ HEADERS += \
 		src/engine/local_engine/tools.h \
 		src/engine/local_engine/localbero.h \
 		src/engine/local_engine/localexception.h \
-        src/engine/local_engine/arraydata.h \
-        src/engine/log.h \
+		src/engine/local_engine/arraydata.h \
+		src/engine/log.h \
 		src/engine/network_engine/clientboard.h \
 		src/engine/network_engine/clientenginefactory.h \
 		src/engine/network_engine/clienthand.h \
@@ -134,7 +134,8 @@ HEADERS += \
 		src/db/serverdbgeneric.h \
 		src/db/serverdbfactorygeneric.h \
 		src/gui/qttoolsinterface.h \
-		src/gui/generic/serverguiwrapper.h
+		src/gui/generic/serverguiwrapper.h \
+		src/net/receivebuffer.h
 
 SOURCES += \
 		src/game.cpp \
