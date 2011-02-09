@@ -24,7 +24,7 @@
 #include <assert.h>
 #include "ui_startwindow.h"
 #include "game_defs.h"
-#include "QMessageBox"
+#include <QMessageBox>
 
 class GuiInterface;
 class GuiWrapper;

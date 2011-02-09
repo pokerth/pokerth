@@ -362,7 +362,7 @@ bool MyAvatarLabel::playerIsOnIgnoreList(QString playerName) {
 
     list<std::string> playerIgnoreList = myW->getMyConfig()->readConfigStringList("PlayerIgnoreList");
     list<std::string>::iterator it1;
-    for(it1= playerIgnoreList.begin(); it1 != playerIgnoreList.end(); it1++) {
+	for(it1= playerIgnoreList.begin(); it1 != playerIgnoreList.end(); ++it1) {
 
         if(playerName == QString::fromUtf8(it1->c_str())) {
             return true;

@@ -28,7 +28,7 @@
 
 struct ReceiveBuffer
 {
-	ReceiveBuffer() : recvBufUsed(0) {}
+	ReceiveBuffer() : recvBufUsed(0) {recvBuf[0] = 0;}
 	NetPacketList					receivedPackets;
 	char							recvBuf[RECV_BUF_SIZE];
 	unsigned						recvBufUsed;
