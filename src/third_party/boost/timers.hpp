@@ -21,10 +21,10 @@
 #include "timers/timer.hpp"
 #include "timers/portable.hpp"
 
-#ifdef BOOST_WINDOWS
+/*#ifdef BOOST_WINDOWS
     #include "timers/win32.hpp"
 #else
     #include "timers/posix.hpp"
-#endif
+#endif*/ // Modified by Lothar May: We only need the portable timers.
 
 #endif // _BOOST_TIMERS_HPP
