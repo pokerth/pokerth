@@ -2310,7 +2310,7 @@ void gameTableImpl::postRiverRunAnimation3() {
 	for(it_c=activePlayerList->begin(); it_c!=activePlayerList->end(); ++it_c) {
         if((*it_c)->getMyAction() != PLAYER_ACTION_FOLD && (*it_c)->getMyCardsValueInt() != currentHand->getCurrentBeRo()->getHighestCardsValue() ) {
 
-            for(it_int = winners.begin(); it_int != winners.end(); it_int++) {
+			for(it_int = winners.begin(); it_int != winners.end(); ++it_int) {
                 if((*it_int) == (*it_c)->getMyUniqueID()) {
                     int pot = (*it_c)->getLastMoneyWon();
                     (*it_c)->setMyWinnerState(false, pot);

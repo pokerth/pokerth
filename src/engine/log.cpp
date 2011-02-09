@@ -47,7 +47,6 @@ Log::Log(string logDirString, int logOnOffInt) : curGameID(0), logOnOff(false)
             // check if logging path exist
 			if(logDirString != "" && dirExists) {
 
-                int i;
                 string sql;
                 char *errmsg;
 
@@ -68,7 +67,8 @@ Log::Log(string logDirString, int logOnOffInt) : curGameID(0), logOnOff(false)
                 sqlite3_open(mySqliteLogFileName.data(), &mySqliteLogDb);
                 if( mySqliteLogDb != 0 ) {
 
-                    // create session table
+					int i;
+					// create session table
                     sql = "CREATE TABLE Session (";
                         sql += "PokerTH_Version TEXT NOT NULL";
                         sql += ",Date TEXT NOT NULL";
@@ -177,11 +177,11 @@ Log::logNewGameMsg(int gameID, int startCash, int startSmallBlind, unsigned deal
 
             PlayerListConstIterator it_c;
             string sql;
-            int i;
             char *errmsg;
 
             if( mySqliteLogDb != 0 ) {
                 // sqlite-db is open
+				int i;
 
                 sql = "INSERT INTO Game (";
                     sql += "GameID";
@@ -222,11 +222,11 @@ Log::logNewHandMsg(int handID, unsigned dealerPosition, int smallBlind, unsigned
 
             PlayerListConstIterator it_c;
             string sql;
-            int i;
             char *errmsg;
 
             if( mySqliteLogDb != 0 ) {
                 // sqlite-db is open
+				int i;
 
                 sql = "INSERT INTO Hand (";
                     sql += "HandID";

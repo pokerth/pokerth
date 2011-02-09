@@ -343,7 +343,7 @@ ClientHand::switchRounds()
 
 				it_1 = it;
 				if(it_1 == runningPlayerList->begin()) it_1 = runningPlayerList->end();
-				it_1--;
+				--it_1;
 				getCurrentBeRo()->setCurrentPlayersTurnId((*it_1)->getMyUniqueID());
 
 			}

@@ -131,7 +131,7 @@ std::list<std::string> tipsList = myW->getMyConfig()->readConfigStringList("Play
 std::list<std::string> result;
 std::string separator="(!#$%)";
 std::list<std::string>::iterator iterator;
-for(iterator = tipsList.begin(); iterator != tipsList.end();iterator++) {
+for(iterator = tipsList.begin(); iterator != tipsList.end(); ++iterator) {
         tipInfo=QString::fromUtf8(iterator->c_str()).split("(!#$%)", QString::KeepEmptyParts, Qt::CaseSensitive);
         if(tipInfo.at(0)==playerInfoList.at(0))
                 { 
@@ -233,7 +233,7 @@ std::list<std::string> tipsList = myW->getMyConfig()->readConfigStringList("Play
 std::list<std::string>::iterator iterator;
 QStringList playerInfo;
 QString result="0";
-for(iterator = tipsList.begin(); iterator != tipsList.end(); iterator++) {
+for(iterator = tipsList.begin(); iterator != tipsList.end(); ++iterator) {
         playerInfo=QString::fromUtf8(iterator->c_str()).split("(!#$%)", QString::KeepEmptyParts, Qt::CaseSensitive);
 	if(playerInfo.at(0)==playerName)
 		{
@@ -250,7 +250,7 @@ QString MyAvatarLabel::getPlayerTip(QString playerName)
 std::list<std::string> tipsList = myW->getMyConfig()->readConfigStringList("PlayerTooltips");
 std::list<std::string>::iterator iterator;
 QStringList playerInfo;
-for(iterator = tipsList.begin(); iterator != tipsList.end(); iterator++) {
+for(iterator = tipsList.begin(); iterator != tipsList.end(); ++iterator) {
         playerInfo=QString::fromUtf8(iterator->c_str()).split("(!#$%)", QString::KeepEmptyParts, Qt::CaseSensitive);
 	if(playerInfo.at(0)==playerName)return playerInfo.at(1);
     }
@@ -270,7 +270,7 @@ QStringList playerInfo;
 std::list<std::string> tipsList = myW->getMyConfig()->readConfigStringList("PlayerTooltips");
 std::list<std::string> result;
 std::list<std::string>::iterator iterator;
-for(iterator = tipsList.begin(); iterator != tipsList.end();iterator++) {
+for(iterator = tipsList.begin(); iterator != tipsList.end(); ++iterator) {
 	playerInfo=QString::fromUtf8(iterator->c_str()).split("(!#$%)", QString::KeepEmptyParts, Qt::CaseSensitive);
         if(QString::fromUtf8(playerName.c_str())==playerInfo.at(0))
                 {
