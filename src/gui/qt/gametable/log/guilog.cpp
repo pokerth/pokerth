@@ -227,13 +227,13 @@ void guiLog::logNewGameHandMsg(int gameID, int handID) {
         if(SQLITE_LOG) {
 
             string sql;
-            int i;
             char *errmsg;
 
             if( mySqliteLogDb != 0 ) {
 
                 if(handID == 1) {
                     // start of a game -> insert game data
+					int i;
 
                     sql = "INSERT INTO Game (";
                         sql += "GameID";
