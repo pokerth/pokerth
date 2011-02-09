@@ -23,6 +23,7 @@
 
 #include <boost/asio.hpp>
 #include <boost/enable_shared_from_this.hpp>
+#include <boost/uuid/uuid_generators.hpp>
 
 #include <net/sessionmanager.h>
 #include <net/netpacket.h>
@@ -257,6 +258,8 @@ private:
 	boost::asio::deadline_timer m_avatarCleanupTimer;
 	boost::asio::deadline_timer m_saveStatisticsTimer;
 	boost::asio::deadline_timer m_loginLockTimer;
+
+	boost::uuids::random_generator m_sessionIdGenerator;
 
 	const boost::posix_time::ptime m_startTime;
 

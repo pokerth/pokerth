@@ -47,6 +47,7 @@
 #include <boost/lambda/lambda.hpp>
 #include <boost/filesystem.hpp>
 #include <boost/bind.hpp>
+#include <boost/uuid/uuid.hpp>
 #include <gsasl.h>
 
 #define SERVER_MAX_NUM_SESSIONS						512		// Maximum number of idle users in lobby.
@@ -1665,6 +1666,11 @@ ServerLobbyThread::EstablishSession(SessionWrapper session)
 	boost::shared_ptr<NetPacket> ack(new NetPacket(NetPacket::Alloc));
 	ack->GetMsg()->present = PokerTHMessage_PR_initAckMessage;
 	InitAckMessage_t *netInitAck = &ack->GetMsg()->choice.initAckMessage;
+	boost::uuids::uuid sessionId(m_sessionIdGenerator());
+	OCTET_STRING_fromBuf(
+		&netInitAck->yourSessionId,
+		(char *)&sessionId,
+		boost::uuids::uuid::static_size());
 //	initAckData.sessionId = session.sessionData->GetId(); // TODO: currently unused.
 	netInitAck->yourPlayerId = session.playerData->GetUniqueId();
 	GetSender().Send(session.sessionData, ack);
