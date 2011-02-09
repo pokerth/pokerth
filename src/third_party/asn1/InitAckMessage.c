@@ -9,7 +9,7 @@
 
 static asn_TYPE_member_t asn_MBR_InitAckMessage_1[] = {
 	{ ATF_NOFLAGS, 0, offsetof(struct InitAckMessage, yourSessionId),
-		(ASN_TAG_CLASS_UNIVERSAL | (2 << 2)),
+		(ASN_TAG_CLASS_UNIVERSAL | (4 << 2)),
 		0,
 		&asn_DEF_Guid,
 		0,	/* Defer constraints checking to the member type */
@@ -41,9 +41,9 @@ static ber_tlv_tag_t asn_DEF_InitAckMessage_tags_1[] = {
 	(ASN_TAG_CLASS_UNIVERSAL | (16 << 2))
 };
 static asn_TYPE_tag2member_t asn_MAP_InitAckMessage_tag2el_1[] = {
-    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 0, 0, 1 }, /* yourSessionId at 144 */
-    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 1, -1, 0 }, /* yourPlayerId at 145 */
-    { (ASN_TAG_CLASS_UNIVERSAL | (4 << 2)), 2, 0, 0 } /* yourAvatar at 146 */
+    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 1, 0, 0 }, /* yourPlayerId at 145 */
+    { (ASN_TAG_CLASS_UNIVERSAL | (4 << 2)), 0, 0, 1 }, /* yourSessionId at 144 */
+    { (ASN_TAG_CLASS_UNIVERSAL | (4 << 2)), 2, -1, 0 } /* yourAvatar at 146 */
 };
 static asn_SEQUENCE_specifics_t asn_SPC_InitAckMessage_specs_1 = {
 	sizeof(struct InitAckMessage),

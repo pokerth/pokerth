@@ -10,9 +10,7 @@ Linux:
 - gnutls (e.g. version 2.2.2)  --> http://www.gnu.org/software/gnutls/
 - libboost_thread, libboost_filesystem, libboost_datetime, libboost_program_options,
   libboost_iostreams, libboost_asio, libboost_regex
-  (version >= 1.36, 1.45.0 recommended)  --> http://www.boost.org/
-  NOTE: Please do not use boost 1.39.0 for the dedicated server, due to bug
-  https://svn.boost.org/trac/boost/ticket/3095
+  (version >= 1.42, latest always recommended)  --> http://www.boost.org/
 - libSDL_mixer, libSDL  --> http://www.libsdl.org/
 - libSQLite >= 3.0 --> http://sqlite.org/
 - libtinyxml > 2.0 --> http://www.sourceforge.net/projects/tinyxml

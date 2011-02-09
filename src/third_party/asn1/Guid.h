@@ -12,14 +12,14 @@
 #include <asn_application.h>
 
 /* Including external dependencies */
-#include <NativeInteger.h>
+#include <OCTET_STRING.h>
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
 /* Guid */
-typedef unsigned long	 Guid_t;
+typedef OCTET_STRING_t	 Guid_t;
 
 /* Implementation */
 extern asn_TYPE_descriptor_t asn_DEF_Guid;
