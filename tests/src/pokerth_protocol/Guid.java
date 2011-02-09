@@ -19,29 +19,32 @@ import org.bn.types.*;
     @ASN1BoxedType ( name = "Guid" )
     public class Guid implements IASN1PreparedElement {
     
-            @ASN1Integer( name = "Guid" )
-            @ASN1ValueRangeConstraint ( 
-		
-		min = 0L, 
-		
-		max = 4294967295L 
-		
-	   )
-	   
-            private Long value;
+            @ASN1OctetString( name = "Guid" )
+            
+            @ASN1SizeConstraint ( max = 16L )
+        
+            private byte[] value = null;
             
             public Guid() {
             }
 
-            public Guid(Long value) {
+            public Guid(byte[] value) {
                 this.value = value;
             }
-            
-            public void setValue(Long value) {
-                this.value = value;
+
+            public Guid(BitString value) {
+                setValue(value);
             }
             
-            public Long getValue() {
+            public void setValue(byte[] value) {
+                this.value = value;
+            }
+
+            public void setValue(BitString btStr) {
+                this.value = btStr.getValue();
+            }
+            
+            public byte[] getValue() {
                 return this.value;
             }
 

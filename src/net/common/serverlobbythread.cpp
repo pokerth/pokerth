@@ -1671,7 +1671,6 @@ ServerLobbyThread::EstablishSession(SessionWrapper session)
 		&netInitAck->yourSessionId,
 		(char *)&sessionId,
 		boost::uuids::uuid::static_size());
-//	initAckData.sessionId = session.sessionData->GetId(); // TODO: currently unused.
 	netInitAck->yourPlayerId = session.playerData->GetUniqueId();
 	GetSender().Send(session.sessionData, ack);
 
