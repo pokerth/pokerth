@@ -40,7 +40,7 @@ LocalHand::LocalHand(boost::shared_ptr<EngineFactory> f, GuiInterface *g, boost:
 
 	CardsValue myCardsValue;
 
-	for(it=seatsList->begin(); it!=seatsList->end(); it++) {
+	for(it=seatsList->begin(); it!=seatsList->end(); ++it) {
 		(*it)->setHand(this);
 		// set myFlipCards 0
 		(*it)->setMyCardsFlip(0, 0);
@@ -61,7 +61,7 @@ LocalHand::LocalHand(boost::shared_ptr<EngineFactory> f, GuiInterface *g, boost:
 
 	k = 0;
 	myBoard->setMyCards(tempBoardArray);
-	for(it=activePlayerList->begin(); it!=activePlayerList->end(); it++, k++) {
+	for(it=activePlayerList->begin(); it!=activePlayerList->end(); ++it, k++) {
 
 		(*it)->getMyBestHandPosition(bestHandPos);
 
@@ -144,7 +144,7 @@ LocalHand::LocalHand(boost::shared_ptr<EngineFactory> f, GuiInterface *g, boost:
 				(*it)->setMyBestHandPosition(temp5Array);
 
 				// player1
-				it++;
+				++it;
 		
                                 tempPlayerArray[0] = 31;
                                 tempPlayerArray[1] = 8;
@@ -157,7 +157,7 @@ LocalHand::LocalHand(boost::shared_ptr<EngineFactory> f, GuiInterface *g, boost:
 				(*it)->setMyBestHandPosition(temp5Array);
 			
 				// player2
-				it++;
+				++it;
 		
                                 tempPlayerArray[0] = 26;
                                 tempPlayerArray[1] = 27;
@@ -170,7 +170,7 @@ LocalHand::LocalHand(boost::shared_ptr<EngineFactory> f, GuiInterface *g, boost:
 				(*it)->setMyBestHandPosition(temp5Array);
 	
 				// player3
-				it++;
+				++it;
 			
                                 tempPlayerArray[0] = 31;
                                 tempPlayerArray[1] = 30;
@@ -183,7 +183,7 @@ LocalHand::LocalHand(boost::shared_ptr<EngineFactory> f, GuiInterface *g, boost:
                                 (*it)->setMyBestHandPosition(temp5Array);
 
 				// player4
-				it++;
+				++it;
 			
                                 tempPlayerArray[0] = 50;
                                 tempPlayerArray[1] = 51;
@@ -196,7 +196,7 @@ LocalHand::LocalHand(boost::shared_ptr<EngineFactory> f, GuiInterface *g, boost:
 				(*it)->setMyBestHandPosition(temp5Array);
 
 				// player5
-				it++;
+				++it;
 			
                                 tempPlayerArray[0] = 25;
                                 tempPlayerArray[1] = 24;
@@ -209,7 +209,7 @@ LocalHand::LocalHand(boost::shared_ptr<EngineFactory> f, GuiInterface *g, boost:
                                 (*it)->setMyBestHandPosition(temp5Array);
 
 				// player6
-				it++;
+				++it;
 			
                                 tempPlayerArray[0] = 38;
                                 tempPlayerArray[1] = 37;
@@ -222,7 +222,7 @@ LocalHand::LocalHand(boost::shared_ptr<EngineFactory> f, GuiInterface *g, boost:
 				(*it)->setMyBestHandPosition(temp5Array);
 
                                 // player7
-                                it++;
+								++it;
 
                                 tempPlayerArray[0] = 32;
                                 tempPlayerArray[1] = 33;
@@ -235,7 +235,7 @@ LocalHand::LocalHand(boost::shared_ptr<EngineFactory> f, GuiInterface *g, boost:
                                 (*it)->setMyBestHandPosition(temp5Array);
 
                                 // player8
-                                it++;
+								++it;
 
                                 tempPlayerArray[0] = 19;
                                 tempPlayerArray[1] = 20;
@@ -279,7 +279,7 @@ LocalHand::LocalHand(boost::shared_ptr<EngineFactory> f, GuiInterface *g, boost:
 // 				(*it)->setMyBestHandPosition(temp5Array);
 
 				// player1
-				it++;
+				++it;
 		
 // 				tempPlayerArray[0] = 47;
 // 				tempPlayerArray[1] = 22;
@@ -292,7 +292,7 @@ LocalHand::LocalHand(boost::shared_ptr<EngineFactory> f, GuiInterface *g, boost:
 // 				(*it)->setMyBestHandPosition(temp5Array);
 			
 				// player2
-				it++;
+				++it;
 		
 // 				tempPlayerArray[0] = 33;
 // 				tempPlayerArray[1] = 27;
@@ -305,7 +305,7 @@ LocalHand::LocalHand(boost::shared_ptr<EngineFactory> f, GuiInterface *g, boost:
 // 				(*it)->setMyBestHandPosition(temp5Array);
 	
 				// player3
-				it++;
+				++it;
 			
 // 				tempPlayerArray[0] = 38;
 // 				tempPlayerArray[1] = 22;
@@ -318,7 +318,7 @@ LocalHand::LocalHand(boost::shared_ptr<EngineFactory> f, GuiInterface *g, boost:
 // 				(*it)->setMyBestHandPosition(temp5Array);
 
 				// player4
-				it++;
+				++it;
 			
 // 				tempPlayerArray[0] = 25;
 // 				tempPlayerArray[1] = 16;
@@ -331,7 +331,7 @@ LocalHand::LocalHand(boost::shared_ptr<EngineFactory> f, GuiInterface *g, boost:
 // 				(*it)->setMyBestHandPosition(temp5Array);
 
 				// player5
-				it++;
+				++it;
 			
 // 				tempPlayerArray[0] = 27;
 // 				tempPlayerArray[1] = 10;
@@ -396,7 +396,7 @@ void LocalHand::assignButtons() {
 	PlayerListConstIterator it_c;
 
 	// delete all buttons
-	for (it=seatsList->begin(); it!=seatsList->end(); it++) {
+	for (it=seatsList->begin(); it!=seatsList->end(); ++it) {
 		(*it)->setMyButton(BUTTON_NONE);
 	}
 
@@ -418,7 +418,7 @@ void LocalHand::assignButtons() {
 
 	for(i=0; i<seatsList->size(); i++) {
 
-		dealerPositionIt++;
+		++dealerPositionIt;
 		if(dealerPositionIt == seatsList->end()) dealerPositionIt = seatsList->begin();
 
 		it = getActivePlayerIt( (*dealerPositionIt)->getMyUniqueID() );
@@ -439,7 +439,7 @@ void LocalHand::assignButtons() {
                         lastActionPlayer = (*it)->getMyUniqueID();
                         myBoard->setLastActionPlayer(lastActionPlayer);
 
-			it++;
+			++it;
 			if(it == activePlayerList->end()) it = activePlayerList->begin();
 
                         if(activePlayerList->size() > 2) {
@@ -463,7 +463,7 @@ void LocalHand::assignButtons() {
 //        cout << "lAP-Button: " << lastActionPlayer << endl;
 
 	//do sets --> TODO switch?
-	for (it_c=runningPlayerList->begin(); it_c!=runningPlayerList->end(); it_c++) { 
+	for (it_c=runningPlayerList->begin(); it_c!=runningPlayerList->end(); ++it_c) {
 
 		//small blind
 		if((*it_c)->getMyButton() == BUTTON_SMALL_BLIND) { 
@@ -514,24 +514,24 @@ void LocalHand::switchRounds() {
 
 				it_1 = it;
 				if(it_1 == runningPlayerList->begin()) it_1 = runningPlayerList->end();
-				it_1--;
+				--it_1;
 				getCurrentBeRo()->setCurrentPlayersTurnId((*it_1)->getMyUniqueID());
 
 			}
 		} else {
-			it++;
+			++it;
 		}
 	}
 
 	// determine number of all in players
 	int allInPlayersCounter = 0;
-	for (it_c=activePlayerList->begin(); it_c!=activePlayerList->end(); it_c++) {
+	for (it_c=activePlayerList->begin(); it_c!=activePlayerList->end(); ++it_c) {
 		if ((*it_c)->getMyAction() == PLAYER_ACTION_ALLIN) allInPlayersCounter++;
 	}
 
 	// determine number of non-fold players
 	int nonFoldPlayerCounter = 0;
-	for (it_c=activePlayerList->begin(); it_c!=activePlayerList->end(); it_c++) {
+	for (it_c=activePlayerList->begin(); it_c!=activePlayerList->end(); ++it_c) {
 		if ((*it_c)->getMyAction() != PLAYER_ACTION_FOLD) nonFoldPlayerCounter++;
 	}
 
@@ -556,7 +556,7 @@ void LocalHand::switchRounds() {
 		// 2) all players but one all in and he has highest set
 		if(allInPlayersCounter+1 == nonFoldPlayerCounter) {
 
-			for(it_c=runningPlayerList->begin(); it_c!=runningPlayerList->end(); it_c++) {
+			for(it_c=runningPlayerList->begin(); it_c!=runningPlayerList->end(); ++it_c) {
 
 				if((*it_c)->getMySet() >= myBeRo[currentRound]->getHighestSet()) {
 						allInCondition = true;
@@ -572,7 +572,7 @@ void LocalHand::switchRounds() {
 				if(smallBlindIt_c!=runningPlayerList->end() &&  bigBlindIt_c!=activePlayerList->end() && currentRound == GAME_STATE_PREFLOP && myBeRo[currentRound]->getFirstRound()) {
 					// determine player who are all in with less than small blind amount
 					int tempCounter = 0;
-					for(it_c=activePlayerList->begin(); it_c!=activePlayerList->end(); it_c++) {
+					for(it_c=activePlayerList->begin(); it_c!=activePlayerList->end(); ++it_c) {
 						if((*it_c)->getMyAction() == PLAYER_ACTION_ALLIN && (*it_c)->getMySet() <= smallBlind) {
 							tempCounter++;
 						}
@@ -584,7 +584,7 @@ void LocalHand::switchRounds() {
 				}
 
 				// no.2: heads up -> detect player who is all in and bb but could set less than sb
-				for(it_c=activePlayerList->begin(); it_c!=activePlayerList->end(); it_c++) {
+				for(it_c=activePlayerList->begin(); it_c!=activePlayerList->end(); ++it_c) {
 	
                     if(activePlayerList->size()==2 && (*it_c)->getMyAction() == PLAYER_ACTION_ALLIN && (*it_c)->getMyButton()==BUTTON_BIG_BLIND && (*it_c)->getMySet()<=smallBlind && currentRound == GAME_STATE_PREFLOP) {
                         allInCondition = true;
@@ -659,7 +659,7 @@ PlayerListIterator LocalHand::getSeatIt(unsigned uniqueId) const {
 
 	PlayerListIterator it;
 
-	for(it=seatsList->begin(); it!=seatsList->end(); it++) {
+	for(it=seatsList->begin(); it!=seatsList->end(); ++it) {
 		if((*it)->getMyUniqueID() == uniqueId) {
 			break;
 		}
@@ -673,7 +673,7 @@ PlayerListIterator LocalHand::getActivePlayerIt(unsigned uniqueId) const {
 
 	PlayerListIterator it;
 
-	for(it=activePlayerList->begin(); it!=activePlayerList->end(); it++) {
+	for(it=activePlayerList->begin(); it!=activePlayerList->end(); ++it) {
 		if((*it)->getMyUniqueID() == uniqueId) {
 			break;
 		}
@@ -687,7 +687,7 @@ PlayerListIterator LocalHand::getRunningPlayerIt(unsigned uniqueId) const {
 
 	PlayerListIterator it;
 
-	for(it=runningPlayerList->begin(); it!=runningPlayerList->end(); it++) {
+	for(it=runningPlayerList->begin(); it!=runningPlayerList->end(); ++it) {
 
 		if((*it)->getMyUniqueID() == uniqueId) {
 			break;

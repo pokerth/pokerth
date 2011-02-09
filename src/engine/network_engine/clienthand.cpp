@@ -28,7 +28,7 @@ ClientHand::ClientHand(boost::shared_ptr<EngineFactory> f, GuiInterface *g, boos
 {
 	PlayerListIterator it;
 
-	for(it=seatsList->begin(); it!=seatsList->end(); it++) {
+	for(it=seatsList->begin(); it!=seatsList->end(); ++it) {
 		(*it)->setHand(this);
 	// myFlipCards auf 0 setzen
 		(*it)->setMyCardsFlip(0, 0);
@@ -37,7 +37,7 @@ ClientHand::ClientHand(boost::shared_ptr<EngineFactory> f, GuiInterface *g, boos
 	// roundStartCashArray fuellen
 	// cardsvalue zuruecksetzen
 	// remove all buttons
-	for(it=activePlayerList->begin(); it!=activePlayerList->end(); it++) {
+	for(it=activePlayerList->begin(); it!=activePlayerList->end(); ++it) {
 
 		boost::shared_ptr<PlayerInterface> tmpPlayer = *it;
 
@@ -92,7 +92,7 @@ ClientHand::getSeatIt(unsigned uniqueId) const
 	boost::recursive_mutex::scoped_lock lock(m_syncMutex);
 	PlayerListIterator it;
 
-	for(it=seatsList->begin(); it!=seatsList->end(); it++) {
+	for(it=seatsList->begin(); it!=seatsList->end(); ++it) {
 		if((*it)->getMyUniqueID() == uniqueId) {
 			break;
 		}
@@ -107,7 +107,7 @@ ClientHand::getActivePlayerIt(unsigned uniqueId) const
 	boost::recursive_mutex::scoped_lock lock(m_syncMutex);
 	PlayerListIterator it;
 
-	for(it=activePlayerList->begin(); it!=activePlayerList->end(); it++) {
+	for(it=activePlayerList->begin(); it!=activePlayerList->end(); ++it) {
 		if((*it)->getMyUniqueID() == uniqueId) {
 			break;
 		}
@@ -122,7 +122,7 @@ ClientHand::getRunningPlayerIt(unsigned uniqueId) const
 	boost::recursive_mutex::scoped_lock lock(m_syncMutex);
 	PlayerListIterator it;
 
-	for(it=runningPlayerList->begin(); it!=runningPlayerList->end(); it++) {
+	for(it=runningPlayerList->begin(); it!=runningPlayerList->end(); ++it) {
 		if((*it)->getMyUniqueID() == uniqueId) {
 			break;
 		}
@@ -348,7 +348,7 @@ ClientHand::switchRounds()
 
 			}
 		} else {
-			it++;
+			++it;
 		}
 	}
 }

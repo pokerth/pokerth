@@ -216,7 +216,7 @@ void guiLog::logNewGameHandMsg(int gameID, int handID) {
             logFileStreamString += "BLIND LEVEL: $"+QString::number(currentHand->getSmallBlind())+" / $"+QString::number(currentHand->getSmallBlind()*2)+"</br>";
 
             //print cash only for active players
-            for(it_c=activePlayerList->begin(); it_c!=activePlayerList->end(); it_c++) {
+			for(it_c=activePlayerList->begin(); it_c!=activePlayerList->end(); ++it_c) {
 
                 logFileStreamString += "Seat " + QString::number((*it_c)->getMyID()+1,10) + ": <b>" +  QString::fromUtf8((*it_c)->getMyName().c_str()) + "</b> ($" + QString::number((*it_c)->getMyCash()+(*it_c)->getMySet(),10)+")</br>";
 
@@ -249,7 +249,7 @@ void guiLog::logNewGameHandMsg(int gameID, int handID) {
                         sql += "," + boost::lexical_cast<string>(myW->getSession()->getCurrentGame()->getStartSmallBlind());
                         sql += "," + boost::lexical_cast<string>(myW->getSession()->getCurrentGame()->getDealerPosition());
                         PlayerList seatList = currentHand->getSeatsList();
-                        for(it_c = seatList->begin();it_c!=seatList->end();it_c++) {
+						for(it_c = seatList->begin();it_c!=seatList->end();++it_c) {
                             if((*it_c)->getMyActiveStatus()) {
                                 sql += ",\"" + (*it_c)->getMyName() +"\"";
                             } else {
@@ -276,7 +276,7 @@ void guiLog::logNewGameHandMsg(int gameID, int handID) {
 
 //                // hand data
 //                sql = "INSERT INTO Hand (HandID,GameID,Sb_Amount,Bb_Amount";
-//                for(it_c=currentHand->getActivePlayerList()->begin(); it_c!=currentHand->getActivePlayerList()->end(); it_c++) {
+//                for(it_c=currentHand->getActivePlayerList()->begin(); it_c!=currentHand->getActivePlayerList()->end(); ++it_c) {
 //                    sql += ",Seat_" + QString::number((*it_c)->getMyID()+1,10) + "_Cash";
 //                }
 ////                for(i=1;i<=MAX_NUMBER_OF_PLAYERS; i++) {
@@ -287,10 +287,10 @@ void guiLog::logNewGameHandMsg(int gameID, int handID) {
 //                sql += "," + QString::number(gameID,10);
 //                sql += "," + QString::number(currentHand->getSmallBlind(),10);
 //                sql += "," + QString::number(currentHand->getSmallBlind()*2,10);
-//                for(it_c=currentHand->getActivePlayerList()->begin(); it_c!=currentHand->getActivePlayerList()->end(); it_c++) {
+//                for(it_c=currentHand->getActivePlayerList()->begin(); it_c!=currentHand->getActivePlayerList()->end(); ++it_c) {
 //                    sql += "," + QString::number((*it_c)->getMyCash()+(*it_c)->getMySet(),10);
 //                }
-////                for(it_c = currentHand->getSeatsList()->begin();it_c!=currentHand->getSeatsList()->end();it_c++) {
+////                for(it_c = currentHand->getSeatsList()->begin();it_c!=currentHand->getSeatsList()->end();++it_c) {
 ////                    if((*it_c)->getMyActiveStatus()) {
 ////                        sql += "," + QString::number((*it_c)->getMyCash()+(*it_c)->getMySet(),10);
 ////                    } else {
@@ -310,7 +310,7 @@ void guiLog::logNewGameHandMsg(int gameID, int handID) {
 //                // beginning of a game
 //                if(handID == 1) {
 //                    sql = "INSERT INTO Game (GameID,Startmoney,StartSb,DealerPos";
-//                    for(it_c=currentHand->getActivePlayerList()->begin(); it_c!=currentHand->getActivePlayerList()->end(); it_c++) {
+//                    for(it_c=currentHand->getActivePlayerList()->begin(); it_c!=currentHand->getActivePlayerList()->end(); ++it_c) {
 //                        sql += ",Seat_" + QString::number((*it_c)->getMyID()+1,10);
 //                    }
 ////                    for(i=1;i<=MAX_NUMBER_OF_PLAYERS; i++) {
@@ -321,10 +321,10 @@ void guiLog::logNewGameHandMsg(int gameID, int handID) {
 //                    sql += QString::number(myW->getSession()->getCurrentGame()->getStartCash(),10) + ",";
 //                    sql += QString::number(myW->getSession()->getCurrentGame()->getStartSmallBlind(),10) + ",";
 //                    sql += QString::number(myW->getSession()->getCurrentGame()->getDealerPosition(),10);
-//                    for(it_c=currentHand->getActivePlayerList()->begin(); it_c!=currentHand->getActivePlayerList()->end(); it_c++) {
+//                    for(it_c=currentHand->getActivePlayerList()->begin(); it_c!=currentHand->getActivePlayerList()->end(); ++it_c) {
 //                        sql += ",'" + QString::fromUtf8((*it_c)->getMyName().c_str()) +"'";
 //                    }
-////                    for(it_c = currentHand->getSeatsList()->begin();it_c!=currentHand->getSeatsList()->end();it_c++) {
+////                    for(it_c = currentHand->getSeatsList()->begin();it_c!=currentHand->getSeatsList()->end();++it_c) {
 ////                        if((*it_c)->getMyActiveStatus()) {
 ////                            sql += ",'" + QString::fromUtf8((*it_c)->getMyName().c_str()) +"'";
 ////                        } else {
@@ -339,7 +339,7 @@ void guiLog::logNewGameHandMsg(int gameID, int handID) {
 
 //                // beginning of a hand
 //                sql = "INSERT INTO Hand (HandID,GameID,Sb_Amount,Bb_Amount";
-//                for(it_c=currentHand->getActivePlayerList()->begin(); it_c!=currentHand->getActivePlayerList()->end(); it_c++) {
+//                for(it_c=currentHand->getActivePlayerList()->begin(); it_c!=currentHand->getActivePlayerList()->end(); ++it_c) {
 //                    sql += ",Seat_" + QString::number((*it_c)->getMyID()+1,10) + "_Cash";
 //                }
 ////                for(i=1;i<=MAX_NUMBER_OF_PLAYERS; i++) {
@@ -350,10 +350,10 @@ void guiLog::logNewGameHandMsg(int gameID, int handID) {
 //                sql += "," + QString::number(gameID,10);
 //                sql += "," + QString::number(currentHand->getSmallBlind(),10);
 //                sql += "," + QString::number(currentHand->getSmallBlind()*2,10);
-//                for(it_c=currentHand->getActivePlayerList()->begin(); it_c!=currentHand->getActivePlayerList()->end(); it_c++) {
+//                for(it_c=currentHand->getActivePlayerList()->begin(); it_c!=currentHand->getActivePlayerList()->end(); ++it_c) {
 //                    sql += "," + QString::number((*it_c)->getMyCash()+(*it_c)->getMySet(),10);
 //                }
-////                for(it_c = currentHand->getSeatsList()->begin();it_c!=currentHand->getSeatsList()->end();it_c++) {
+////                for(it_c = currentHand->getSeatsList()->begin();it_c!=currentHand->getSeatsList()->end();++it_c) {
 ////                    if((*it_c)->getMyActiveStatus()) {
 ////                        sql += "," + QString::number((*it_c)->getMyCash()+(*it_c)->getMySet(),10);
 ////                    } else {
@@ -397,7 +397,7 @@ void guiLog::logNewBlindsSetsMsg(int sbSet, int bbSet, QString sbName, QString b
 			boost::shared_ptr<Game> currentGame = myW->getSession()->getCurrentGame();
 			PlayerList activePlayerList = currentGame->getActivePlayerList();
 
-            for(it_c=activePlayerList->begin(); it_c!=activePlayerList->end(); it_c++) {
+			for(it_c=activePlayerList->begin(); it_c!=activePlayerList->end(); ++it_c) {
 
                 if(activePlayerList->size() > 2) {
                     if((*it_c)->getMyButton() == BUTTON_DEALER) {
@@ -1548,7 +1548,7 @@ QString guiLog::determineHandName(int myCardsValueInt) {
 		PlayerList activePlayerList = currentGame->getActivePlayerList();
 
 	// collect cardsValueInt of all players who will show their cards
-        for(it_c=activePlayerList->begin(); it_c!=activePlayerList->end(); it_c++) {
+		for(it_c=activePlayerList->begin(); it_c!=activePlayerList->end(); ++it_c) {
 
 		if( (*it_c)->getMyAction() != PLAYER_ACTION_FOLD) {
 			shownCardsValueInt.push_back( (*it_c)->getMyCardsValueInt());
@@ -1557,7 +1557,7 @@ QString guiLog::determineHandName(int myCardsValueInt) {
 
 	// erase own cardsValueInt
 	list<int>::iterator it;
-	for(it = shownCardsValueInt.begin(); it != shownCardsValueInt.end(); it++) {
+	for(it = shownCardsValueInt.begin(); it != shownCardsValueInt.end(); ++it) {
 		if((*it) == myCardsValueInt) {
 			shownCardsValueInt.erase(it);
 			break;
@@ -1583,7 +1583,7 @@ QString guiLog::determineHandName(int myCardsValueInt) {
 			handName = translateCardsValueCode(myCardsValueInt).at(0)+translateCardsValueCode(myCardsValueInt).at(1);
 
 			// same hand detection
-			for(it = shownCardsValueInt.begin(); it != shownCardsValueInt.end(); it++) {
+			for(it = shownCardsValueInt.begin(); it != shownCardsValueInt.end(); ++it) {
 				if(((*it)/1000000) == (myCardsValueInt/1000000)) {
 					sameHandCardsValueInt.push_back(*it);
 				}
@@ -1595,7 +1595,7 @@ QString guiLog::determineHandName(int myCardsValueInt) {
 				for(it = sameHandCardsValueInt.begin(); it != sameHandCardsValueInt.end(); ) {
 					if(((*it)/10000) == (myCardsValueInt/10000)) {
 						equal = true;
-						it++;
+						++it;
 					} else {
 						different = true;
 						it = sameHandCardsValueInt.erase(it);
@@ -1620,7 +1620,7 @@ QString guiLog::determineHandName(int myCardsValueInt) {
 			handName = translateCardsValueCode(myCardsValueInt).at(0)+translateCardsValueCode(myCardsValueInt).at(1);
 
 			// same hand detection
-			for(it = shownCardsValueInt.begin(); it != shownCardsValueInt.end(); it++) {
+			for(it = shownCardsValueInt.begin(); it != shownCardsValueInt.end(); ++it) {
 				if(((*it)/1000000) == (myCardsValueInt/1000000)) {
 					sameHandCardsValueInt.push_back(*it);
 				}
@@ -1632,7 +1632,7 @@ QString guiLog::determineHandName(int myCardsValueInt) {
 				for(it = sameHandCardsValueInt.begin(); it != sameHandCardsValueInt.end(); ) {
 					if(((*it)/10000) == (myCardsValueInt/10000)) {
 						equal = true;
-						it++;
+						++it;
 					} else {
 						different = true;
 						it = sameHandCardsValueInt.erase(it);
@@ -1649,7 +1649,7 @@ QString guiLog::determineHandName(int myCardsValueInt) {
 					for(it = sameHandCardsValueInt.begin(); it != sameHandCardsValueInt.end(); ) {
 						if(((*it)/100) == (myCardsValueInt/100)) {
 							equal = true;
-							it++;
+							++it;
 						} else {
 							different = true;
 							it = sameHandCardsValueInt.erase(it);
@@ -1666,7 +1666,7 @@ QString guiLog::determineHandName(int myCardsValueInt) {
 						for(it = sameHandCardsValueInt.begin(); it != sameHandCardsValueInt.end(); ) {
 							if(((*it)/10) == (myCardsValueInt/10)) {
 								equal = true;
-								it++;
+								++it;
 							} else {
 								different = true;
 								it = sameHandCardsValueInt.erase(it);
@@ -1683,7 +1683,7 @@ QString guiLog::determineHandName(int myCardsValueInt) {
 							for(it = sameHandCardsValueInt.begin(); it != sameHandCardsValueInt.end(); ) {
 								if((*it) == myCardsValueInt) {
 									equal = true;
-									it++;
+									++it;
 								} else {
 									different = true;
 									it = sameHandCardsValueInt.erase(it);
@@ -1709,7 +1709,7 @@ QString guiLog::determineHandName(int myCardsValueInt) {
 			handName = translateCardsValueCode(myCardsValueInt).at(0)+translateCardsValueCode(myCardsValueInt).at(1);
 
 			// same hand detection
-			for(it = shownCardsValueInt.begin(); it != shownCardsValueInt.end(); it++) {
+			for(it = shownCardsValueInt.begin(); it != shownCardsValueInt.end(); ++it) {
 				if(((*it)/1000000) == (myCardsValueInt/1000000)) {
 					sameHandCardsValueInt.push_back(*it);
 				}
@@ -1721,7 +1721,7 @@ QString guiLog::determineHandName(int myCardsValueInt) {
 				for(it = sameHandCardsValueInt.begin(); it != sameHandCardsValueInt.end(); ) {
 					if(((*it)/10000) == (myCardsValueInt/10000)) {
 						equal = true;
-						it++;
+						++it;
 					} else {
 						different = true;
 						it = sameHandCardsValueInt.erase(it);
@@ -1738,7 +1738,7 @@ QString guiLog::determineHandName(int myCardsValueInt) {
 					for(it = sameHandCardsValueInt.begin(); it != sameHandCardsValueInt.end(); ) {
 						if(((*it)/100) == (myCardsValueInt/100)) {
 							equal = true;
-							it++;
+							++it;
 						} else {
 							different = true;
 							it = sameHandCardsValueInt.erase(it);
@@ -1758,7 +1758,7 @@ QString guiLog::determineHandName(int myCardsValueInt) {
 			handName = translateCardsValueCode(myCardsValueInt).at(0)+translateCardsValueCode(myCardsValueInt).at(1)+translateCardsValueCode(myCardsValueInt).at(2);
 
 			// same hand detection
-			for(it = shownCardsValueInt.begin(); it != shownCardsValueInt.end(); it++) {
+			for(it = shownCardsValueInt.begin(); it != shownCardsValueInt.end(); ++it) {
 				if(((*it)/10000) == (myCardsValueInt/10000)) {
 					sameHandCardsValueInt.push_back(*it);
 				}
@@ -1770,7 +1770,7 @@ QString guiLog::determineHandName(int myCardsValueInt) {
 				for(it = sameHandCardsValueInt.begin(); it != sameHandCardsValueInt.end(); ) {
 					if(((*it)/100) == (myCardsValueInt/100)) {
 						equal = true;
-						it++;
+						++it;
 					} else {
 						different = true;
 						it = sameHandCardsValueInt.erase(it);
@@ -1790,7 +1790,7 @@ QString guiLog::determineHandName(int myCardsValueInt) {
 			handName = translateCardsValueCode(myCardsValueInt).at(0)+translateCardsValueCode(myCardsValueInt).at(1);
 
 			// same hand detection
-			for(it = shownCardsValueInt.begin(); it != shownCardsValueInt.end(); it++) {
+			for(it = shownCardsValueInt.begin(); it != shownCardsValueInt.end(); ++it) {
 				if(((*it)/1000000) == (myCardsValueInt/1000000)) {
 					sameHandCardsValueInt.push_back(*it);
 				}
@@ -1802,7 +1802,7 @@ QString guiLog::determineHandName(int myCardsValueInt) {
 				for(it = sameHandCardsValueInt.begin(); it != sameHandCardsValueInt.end(); ) {
 					if(((*it)/10000) == (myCardsValueInt/10000)) {
 						equal = true;
-						it++;
+						++it;
 					} else {
 						different = true;
 						it = sameHandCardsValueInt.erase(it);
@@ -1819,7 +1819,7 @@ QString guiLog::determineHandName(int myCardsValueInt) {
 					for(it = sameHandCardsValueInt.begin(); it != sameHandCardsValueInt.end(); ) {
 						if(((*it)/100) == (myCardsValueInt/100)) {
 							equal = true;
-							it++;
+							++it;
 						} else {
 							different = true;
 							it = sameHandCardsValueInt.erase(it);
@@ -1836,7 +1836,7 @@ QString guiLog::determineHandName(int myCardsValueInt) {
 						for(it = sameHandCardsValueInt.begin(); it != sameHandCardsValueInt.end(); ) {
 							if((*it) == myCardsValueInt) {
 								equal = true;
-								it++;
+								++it;
 							} else {
 								different = true;
 								it = sameHandCardsValueInt.erase(it);
@@ -1857,7 +1857,7 @@ QString guiLog::determineHandName(int myCardsValueInt) {
 			handName = translateCardsValueCode(myCardsValueInt).at(0)+translateCardsValueCode(myCardsValueInt).at(1);
 
 			// same hand detection
-			for(it = shownCardsValueInt.begin(); it != shownCardsValueInt.end(); it++) {
+			for(it = shownCardsValueInt.begin(); it != shownCardsValueInt.end(); ++it) {
 				if(((*it)/1000000) == (myCardsValueInt/1000000)) {
 					sameHandCardsValueInt.push_back(*it);
 				}
@@ -1869,7 +1869,7 @@ QString guiLog::determineHandName(int myCardsValueInt) {
 				for(it = sameHandCardsValueInt.begin(); it != sameHandCardsValueInt.end(); ) {
 					if(((*it)/10000) == (myCardsValueInt/10000)) {
 						equal = true;
-						it++;
+						++it;
 					} else {
 						different = true;
 						it = sameHandCardsValueInt.erase(it);
@@ -1886,7 +1886,7 @@ QString guiLog::determineHandName(int myCardsValueInt) {
 					for(it = sameHandCardsValueInt.begin(); it != sameHandCardsValueInt.end(); ) {
 						if(((*it)/100) == (myCardsValueInt/100)) {
 							equal = true;
-							it++;
+							++it;
 						} else {
 							different = true;
 							it = sameHandCardsValueInt.erase(it);
@@ -1903,7 +1903,7 @@ QString guiLog::determineHandName(int myCardsValueInt) {
 						for(it = sameHandCardsValueInt.begin(); it != sameHandCardsValueInt.end(); ) {
 							if(((*it)/10) == (myCardsValueInt/10)) {
 								equal = true;
-								it++;
+								++it;
 							} else {
 								different = true;
 								it = sameHandCardsValueInt.erase(it);
@@ -1920,7 +1920,7 @@ QString guiLog::determineHandName(int myCardsValueInt) {
 							for(it = sameHandCardsValueInt.begin(); it != sameHandCardsValueInt.end(); ) {
 								if((*it) == myCardsValueInt) {
 									equal = true;
-									it++;
+									++it;
 								} else {
 									different = true;
 									it = sameHandCardsValueInt.erase(it);

@@ -42,7 +42,7 @@ void LocalBeRoPostRiver::postRiverRun() {
 	PlayerListIterator it;
 
 	// who is the winner
-	for(it_c=getMyHand()->getActivePlayerList()->begin(); it_c!=getMyHand()->getActivePlayerList()->end(); it_c++) {
+	for(it_c=getMyHand()->getActivePlayerList()->begin(); it_c!=getMyHand()->getActivePlayerList()->end(); ++it_c) {
 
 		if( (*it_c)->getMyAction() != PLAYER_ACTION_FOLD && (*it_c)->getMyCardsValueInt() > highestCardsValue ) { 
 			highestCardsValue = (*it_c)->getMyCardsValueInt(); 
@@ -51,7 +51,7 @@ void LocalBeRoPostRiver::postRiverRun() {
 
 	int potPlayers = 0;
 
-	for(it_c=getMyHand()->getActivePlayerList()->begin(); it_c!=getMyHand()->getActivePlayerList()->end(); it_c++) {
+	for(it_c=getMyHand()->getActivePlayerList()->begin(); it_c!=getMyHand()->getActivePlayerList()->end(); ++it_c) {
 		if( (*it_c)->getMyAction() != PLAYER_ACTION_FOLD) {
 			potPlayers++;
 		}
@@ -59,7 +59,7 @@ void LocalBeRoPostRiver::postRiverRun() {
 
 	// prüfen ob nur noch human player an der verteilung teilnimmt und myAggressive für human player setzen
 	if(potPlayers == 1) {
-		for(it=getMyHand()->getActivePlayerList()->begin(); it!=getMyHand()->getActivePlayerList()->end(); it++) {
+		for(it=getMyHand()->getActivePlayerList()->begin(); it!=getMyHand()->getActivePlayerList()->end(); ++it) {
 			if( (*it)->getMyAction() != PLAYER_ACTION_FOLD) {
 				(*it)->setMyAggressive(true);
 			}

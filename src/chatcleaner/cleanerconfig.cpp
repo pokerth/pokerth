@@ -278,7 +278,7 @@ void CleanerConfig::writeBuffer() const {
 			tmpElement->SetAttribute("type", "list");
 			list<string> tempList = configBufferList[i].defaultListValue;
 			list<string>::iterator it;
-			for(it = tempList.begin(); it != tempList.end(); it++) {
+			for(it = tempList.begin(); it != tempList.end(); ++it) {
 		
 				TiXmlElement *tmpSubElement = new TiXmlElement(configBufferList[i].defaultValue);
 				tmpElement->LinkEndChild( tmpSubElement );
@@ -319,7 +319,7 @@ void CleanerConfig::updateConfig(ConfigState myConfigState) {
 				tmpElement->SetAttribute("type", "list");
 				list<string> tempList = configList[i].defaultListValue;
 				list<string>::iterator it;
-				for(it = tempList.begin(); it != tempList.end(); it++) {
+				for(it = tempList.begin(); it != tempList.end(); ++it) {
 			
 					TiXmlElement *tmpSubElement = new TiXmlElement(configList[i].defaultValue);
 					tmpElement->LinkEndChild( tmpSubElement );
@@ -397,7 +397,7 @@ void CleanerConfig::updateConfig(ConfigState myConfigState) {
 								tmpElement->SetAttribute("type", "list");
 								list<string> tempList = tempStringList2;
 								list<string>::iterator it;
-								for(it = tempList.begin(); it != tempList.end(); it++) {
+								for(it = tempList.begin(); it != tempList.end(); ++it) {
 								
 									TiXmlElement *tmpSubElement = new TiXmlElement(tempString1);
 									tmpElement->LinkEndChild( tmpSubElement );
@@ -418,7 +418,7 @@ void CleanerConfig::updateConfig(ConfigState myConfigState) {
 						tmpElement->SetAttribute("type", "list");
 						list<string> tempList = configList[i].defaultListValue;
 						list<string>::iterator it;
-						for(it = tempList.begin(); it != tempList.end(); it++) {
+						for(it = tempList.begin(); it != tempList.end(); ++it) {
 					
 							TiXmlElement *tmpSubElement = new TiXmlElement(configList[i].defaultValue);
 							tmpElement->LinkEndChild( tmpSubElement );
@@ -507,7 +507,7 @@ list<int> CleanerConfig::readConfigIntList(string varName) const
 	string tempString;
 	int tempInt;
 	list<string>::iterator it;
-	for(it = tempStringList.begin(); it != tempStringList.end(); it++) {
+	for(it = tempStringList.begin(); it != tempStringList.end(); ++it) {
 		
 		isst.str(*it);
 		isst >> tempInt;
@@ -549,7 +549,7 @@ void CleanerConfig::writeConfigIntList(string varName, list<int> varCont)
 		if (configBufferList[i].name == varName) {
 			string tempString;
 			list<int>::iterator it;
-			for(it = varCont.begin(); it != varCont.end(); it++) {
+			for(it = varCont.begin(); it != varCont.end(); ++it) {
 			
 				intToString << (*it);	
 				stringList.push_back(intToString.str());

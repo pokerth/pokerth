@@ -250,7 +250,7 @@ SessionManager::ForEach(boost::function<void (SessionWrapper)> func)
 	while (i != end)
 	{
 		SessionMap::iterator next = i;
-		next++;
+		++next;
 		func((*i).second);
 		i = next;
 	}

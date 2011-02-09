@@ -143,7 +143,7 @@ void Game::initHand()
 	raiseBlinds();
 
 	// set player action none
-	for(it=seatsList->begin(); it!=seatsList->end(); it++) {
+	for(it=seatsList->begin(); it!=seatsList->end(); ++it) {
 		(*it)->setMyAction(PLAYER_ACTION_NONE);
 	}
 
@@ -155,7 +155,7 @@ void Game::initHand()
                         (*it)->setMyActiveStatus(false);
 			it = activePlayerList->erase(it);
 		} else {
-			it++;
+			++it;
 		}
 	}
 
@@ -174,7 +174,7 @@ void Game::initHand()
 
 	for(i=0; i<seatsList->size(); i++) {
 
-		dealerPositionIt++;
+		++dealerPositionIt;
 		if(dealerPositionIt == seatsList->end()) dealerPositionIt = seatsList->begin();
 
 		it_c = currentHand->getActivePlayerIt( (*dealerPositionIt)->getMyUniqueID() );

@@ -34,7 +34,7 @@ LocalBeRo::LocalBeRo(HandInterface* hi, int id, unsigned dP, int sB, GameState g
 	PlayerListConstIterator it_c;
 
 	// determine bigBlindPosition
-	for(it_c=myHand->getActivePlayerList()->begin(); it_c!=myHand->getActivePlayerList()->end(); it_c++) {
+	for(it_c=myHand->getActivePlayerList()->begin(); it_c!=myHand->getActivePlayerList()->end(); ++it_c) {
 		if((*it_c)->getMyButton() == BUTTON_BIG_BLIND) {
 			bigBlindPositionId = (*it_c)->getMyUniqueID();
 			break;
@@ -45,7 +45,7 @@ LocalBeRo::LocalBeRo(HandInterface* hi, int id, unsigned dP, int sB, GameState g
 	}
 
 	// determine smallBlindPosition
-	for(it_c=myHand->getActivePlayerList()->begin(); it_c!=myHand->getActivePlayerList()->end(); it_c++) {
+	for(it_c=myHand->getActivePlayerList()->begin(); it_c!=myHand->getActivePlayerList()->end(); ++it_c) {
 		if((*it_c)->getMyButton() == BUTTON_SMALL_BLIND) {
 			smallBlindPositionId = (*it_c)->getMyUniqueID();
 			break;
@@ -108,7 +108,7 @@ void LocalBeRo::run() {
 					for(size_t i=0; i<myHand->getActivePlayerList()->size(); i++) {
 		
 						if(it_1 == myHand->getActivePlayerList()->begin()) it_1 = myHand->getActivePlayerList()->end();
-						it_1--;
+						--it_1;
 		
 						it_2 = myHand->getRunningPlayerIt((*it_1)->getMyUniqueID());
 						// running player found
@@ -157,7 +157,7 @@ void LocalBeRo::run() {
 
 
 		// check if all running players have same sets (else allHighestSet = false)
-		for( it_c = myHand->getRunningPlayerList()->begin(); it_c != myHand->getRunningPlayerList()->end(); it_c++) {
+		for( it_c = myHand->getRunningPlayerList()->begin(); it_c != myHand->getRunningPlayerList()->end(); ++it_c) {
 			if(highestSet != (*it_c)->getMySet()) {
 				allHighestSet = false;
 				break;
@@ -172,7 +172,7 @@ void LocalBeRo::run() {
 			myHand->setCurrentRound(myBeRoID+1);
 
 			//Action loeschen und ActionButtons refresh
-			for(it_c=myHand->getRunningPlayerList()->begin(); it_c!=myHand->getRunningPlayerList()->end(); it_c++) {
+			for(it_c=myHand->getRunningPlayerList()->begin(); it_c!=myHand->getRunningPlayerList()->end(); ++it_c) {
 				(*it_c)->setMyAction(PLAYER_ACTION_NONE);
 			}
 
@@ -205,7 +205,7 @@ void LocalBeRo::run() {
 				throw LocalException(__FILE__, __LINE__, ERR_RUNNING_PLAYER_NOT_FOUND);
 			}
 			
-			currentPlayersTurnIt++;
+			++currentPlayersTurnIt;
 			if(currentPlayersTurnIt == myHand->getRunningPlayerList()->end()) currentPlayersTurnIt = myHand->getRunningPlayerList()->begin();
 			
 			currentPlayersTurnId = (*currentPlayersTurnIt)->getMyUniqueID();

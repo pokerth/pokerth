@@ -57,7 +57,7 @@ void newGameDialogImpl::exec() {
 	std::list<int> myBlindsList = myConfig->readConfigIntList("ManualBlindsList");
 	std::list<int>::iterator it1;
 	
-	for(it1= myBlindsList.begin(); it1 != myBlindsList.end(); it1++) {
+	for(it1= myBlindsList.begin(); it1 != myBlindsList.end(); ++it1) {
 		myChangeCompleteBlindsDialog->listWidget_blinds->addItem(QString::number(*it1,10));
 	}
 	myChangeCompleteBlindsDialog->sortBlindsList();

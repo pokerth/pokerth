@@ -60,7 +60,7 @@ void MyAvatarLabel::contextMenuEvent ( QContextMenuEvent *event ) {
             PlayerListConstIterator it_c;
             int activePlayerCounter=0;
             PlayerList seatList = currentGame->getSeatsList();
-            for (it_c=seatList->begin(); it_c!=seatList->end(); it_c++) {
+			for (it_c=seatList->begin(); it_c!=seatList->end(); ++it_c) {
                 if((*it_c)->getMyActiveStatus()) activePlayerCounter++;
             }
             GameInfo info(myW->getSession()->getClientGameInfo(myW->getSession()->getClientCurrentGameId()));
@@ -75,7 +75,7 @@ void MyAvatarLabel::contextMenuEvent ( QContextMenuEvent *event ) {
             action_IgnorePlayer->setEnabled(true);
 	    action_EditTip->setEnabled(true);
             int j=0;
-            for (it_c=seatList->begin(); it_c!=seatList->end(); it_c++) {
+			for (it_c=seatList->begin(); it_c!=seatList->end(); ++it_c) {
 
                 if(myId == j) {
 		    if(j == 0)
@@ -103,7 +103,7 @@ void MyAvatarLabel::contextMenuEvent ( QContextMenuEvent *event ) {
             }
 
             int i=0;
-            for (it_c=seatList->begin(); it_c!=seatList->end(); it_c++) {
+			for (it_c=seatList->begin(); it_c!=seatList->end(); ++it_c) {
 
                 //also inactive player which stays on table can be voted to kick
                 if(myContextMenuEnabled && myId != 0 && myId == i && (*it_c)->getMyType() != PLAYER_TYPE_COMPUTER && ( (*it_c)->getMyActiveStatus() || (*it_c)->getMyStayOnTableStatus() ) )
@@ -174,7 +174,7 @@ boost::shared_ptr<Game> curGame = myW->myStartWindow->getSession()->getCurrentGa
 PlayerListConstIterator it_c;
 int seatPlace;
 PlayerList seatsList = curGame->getSeatsList();
-for (seatPlace=0,it_c=seatsList->begin(); it_c!=seatsList->end(); it_c++, seatPlace++) {
+for (seatPlace=0,it_c=seatsList->begin(); it_c!=seatsList->end(); ++it_c, seatPlace++) {
 	for(int i=1;i<=5;i++)myW->playerStarsArray[i][seatPlace]->setText("");
 	if(myW->myStartWindow->getSession()->getGameType() == Session::GAME_TYPE_INTERNET && !myW->getSession()->getClientPlayerInfo((*it_c)->getMyUniqueID()).isGuest && (*it_c)->getMyType() != PLAYER_TYPE_COMPUTER)
 	if((*it_c)->getMyStayOnTableStatus() == TRUE && (*it_c)->getMyName()!="" && seatPlace!=0) {
@@ -197,7 +197,7 @@ void MyAvatarLabel::refreshTooltips() {
         PlayerListConstIterator it_c;
 	int seatPlace;
         PlayerList seatsList = currentGame->getSeatsList();
-        for (seatPlace=0,it_c=seatsList->begin(); it_c!=seatsList->end(); it_c++, seatPlace++) {
+		for (seatPlace=0,it_c=seatsList->begin(); it_c!=seatsList->end(); ++it_c, seatPlace++) {
             if((*it_c)->getMyStayOnTableStatus() == TRUE || (*it_c)->getMyActiveStatus()) {
                 bool computerPlayer = false;
                 if((*it_c)->getMyType() == PLAYER_TYPE_COMPUTER) { computerPlayer = true; }
@@ -377,7 +377,7 @@ void MyAvatarLabel::putPlayerOnIgnoreList() {
     QStringList list;
     PlayerListConstIterator it_c;
     PlayerList seatList = myW->getSession()->getCurrentGame()->getSeatsList();
-    for (it_c=seatList->begin(); it_c!=seatList->end(); it_c++) {
+	for (it_c=seatList->begin(); it_c!=seatList->end(); ++it_c) {
         list << QString::fromUtf8((*it_c)->getMyName().c_str());
     }
 
@@ -402,7 +402,7 @@ void MyAvatarLabel::reportBadAvatar() {
     int j=0;
     PlayerListConstIterator it_c;
     PlayerList seatList = currentGame->getSeatsList();
-    for (it_c=seatList->begin(); it_c!=seatList->end(); it_c++) {
+	for (it_c=seatList->begin(); it_c!=seatList->end(); ++it_c) {
 
         if(myId == j) {
 
@@ -430,7 +430,7 @@ void MyAvatarLabel::startEditTip() {
     int j=0;
     PlayerListConstIterator it_c;
     PlayerList seatList = currentGame->getSeatsList();
-    for (it_c=seatList->begin(); it_c!=seatList->end(); it_c++) {
+	for (it_c=seatList->begin(); it_c!=seatList->end(); ++it_c) {
         if(myId == j) {
                 QString nick = QString::fromUtf8((*it_c)->getMyName().c_str());
                 startChangePlayerTip(nick);

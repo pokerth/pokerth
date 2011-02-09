@@ -47,7 +47,7 @@ void LocalBoard::collectSets() {
 	sets = 0;
 
 	PlayerListConstIterator it_c;
-	for(it_c=seatsList->begin(); it_c!=seatsList->end(); it_c++) {
+	for(it_c=seatsList->begin(); it_c!=seatsList->end(); ++it_c) {
 		sets += (*it_c)->getMySet();
 	}
 
@@ -59,7 +59,7 @@ void LocalBoard::collectPot() {
 	sets = 0;
 
 	PlayerListIterator it;
-	for(it=seatsList->begin(); it!=seatsList->end(); it++) {
+	for(it=seatsList->begin(); it!=seatsList->end(); ++it) {
 		(*it)->setMySetNull();
 	}
 
@@ -75,7 +75,7 @@ void LocalBoard::distributePot() {
 
 	// filling player sets vector
 	vector<unsigned> playerSets;
-	for(it=seatsList->begin(); it!=seatsList->end(); it++) {
+	for(it=seatsList->begin(); it!=seatsList->end(); ++it) {
 		if((*it)->getMyActiveStatus()) {
 			playerSets.push_back( ( ((*it)->getMyRoundStartCash()) - ((*it)->getMyCash()) ) );
 		} else {
@@ -114,14 +114,14 @@ void LocalBoard::distributePot() {
 			potLevel.push_back((playerSetsSort.size()-i)*potLevel[0]);
 
 			// determine level highestCardsValue
-			for(it_c=seatsList->begin(), j=0; it_c!=seatsList->end(); it_c++,j++) {
+			for(it_c=seatsList->begin(), j=0; it_c!=seatsList->end(); ++it_c,j++) {
 				if((*it_c)->getMyActiveStatus() && (*it_c)->getMyCardsValueInt() > highestCardsValue && (*it_c)->getMyAction() != PLAYER_ACTION_FOLD && playerSets[j] >= potLevel[0]) { 
 					highestCardsValue = (*it_c)->getMyCardsValueInt(); 
 				}
 			}
 
 			// level winners
-			for(it_c=seatsList->begin(), j=0; it_c!=seatsList->end(); it_c++,j++) {
+			for(it_c=seatsList->begin(), j=0; it_c!=seatsList->end(); ++it_c,j++) {
 				if((*it_c)->getMyActiveStatus() && highestCardsValue == (*it_c)->getMyCardsValueInt() && (*it_c)->getMyAction() != PLAYER_ACTION_FOLD && playerSets[j] >= potLevel[0]) {
 					potLevel.push_back((*it_c)->getMyUniqueID());
 				}
@@ -140,7 +140,7 @@ void LocalBoard::distributePot() {
 
 				for(j=2; j<potLevel.size(); j++) {
                     // find seat with potLevel[j]-ID
-                    for(it=seatsList->begin(); it!=seatsList->end(); it++) {
+					for(it=seatsList->begin(); it!=seatsList->end(); ++it) {
                         if((*it)->getMyUniqueID() == potLevel[j]) {
                             break;
                         }
@@ -163,7 +163,7 @@ void LocalBoard::distributePot() {
 // 				winnerPointer = currentHand->getDealerPosition();
 
                 // find Seat with dealerPosition
-                for(it=seatsList->begin(); it!=seatsList->end(); it++) {
+				for(it=seatsList->begin(); it!=seatsList->end(); ++it) {
                     if((*it)->getMyUniqueID() == dealerPosition) {
                         break;
                     }
@@ -182,7 +182,7 @@ void LocalBoard::distributePot() {
 
 // 						winnerHit = false;
 
-						it++;
+						++it;
 						if(it == seatsList->end())
 							it = seatsList->begin();
 
@@ -256,7 +256,7 @@ void LocalBoard::determinePlayerNeedToShowCards() {
 
         PlayerListConstIterator it_c;
 
-        for(it_c = activePlayerList->begin(); it_c != activePlayerList->end(); it_c++) {
+		for(it_c = activePlayerList->begin(); it_c != activePlayerList->end(); ++it_c) {
             if((*it_c)->getMyAction() != PLAYER_ACTION_FOLD) {
                 playerNeedToShowCards.push_back((*it_c)->getMyUniqueID());
             }
@@ -296,7 +296,7 @@ void LocalBoard::determinePlayerNeedToShowCards() {
 
         //    cout << "lAP-Ende: " << currentHand->getLastActionPlayer() << endl;
             // search lastActionPlayer
-            for(it_c = activePlayerList->begin(); it_c != activePlayerList->end(); it_c++) {
+			for(it_c = activePlayerList->begin(); it_c != activePlayerList->end(); ++it_c) {
                 if((*it_c)->getMyUniqueID() == lastActionPlayer && (*it_c)->getMyAction() != PLAYER_ACTION_FOLD) {
                     lastActionPlayerIt = it_c;
 //                    cout << (*it_c)->getMyUniqueID() << endl;
@@ -305,7 +305,7 @@ void LocalBoard::determinePlayerNeedToShowCards() {
             }
 
             if(it_c == activePlayerList->end()) {
-                for(it_c = activePlayerList->begin(); it_c != activePlayerList->end(); it_c++) {
+				for(it_c = activePlayerList->begin(); it_c != activePlayerList->end(); ++it_c) {
                     if((*it_c)->getMyAction() != PLAYER_ACTION_FOLD) {
                         lastActionPlayerIt = it_c;
                         break;
@@ -337,7 +337,7 @@ void LocalBoard::determinePlayerNeedToShowCards() {
         //    firstAfterLastActionPlayerIt++;
 
             it_c = lastActionPlayerIt;
-            it_c++;
+			++it_c;
 
             for(unsigned i = 0; i < activePlayerList->size(); i++) {
 
@@ -404,7 +404,7 @@ void LocalBoard::determinePlayerNeedToShowCards() {
 
                 }
 
-                it_c++;
+				++it_c;
 
             }
 

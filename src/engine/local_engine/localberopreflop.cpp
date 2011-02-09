@@ -65,7 +65,7 @@ void LocalBeRoPreflop::run() {
 					}
 	
 					if(it == getMyHand()->getActivePlayerList()->begin()) it = getMyHand()->getActivePlayerList()->end();
-					it--;
+					--it;
 	
 					setFirstRoundLastPlayersTurnId( (*it)->getMyUniqueID() );
 	
@@ -114,7 +114,7 @@ void LocalBeRoPreflop::run() {
 	PlayerListConstIterator it_c;
 
 	// check if all running players have same sets (else allHighestSet = false)
-	for(it_c=getMyHand()->getRunningPlayerList()->begin(); it_c!=getMyHand()->getRunningPlayerList()->end(); it_c++) {
+	for(it_c=getMyHand()->getRunningPlayerList()->begin(); it_c!=getMyHand()->getRunningPlayerList()->end(); ++it_c) {
 		if(getHighestSet() != (*it_c)->getMySet()) {
 			allHighestSet = false;
 			break;
@@ -127,7 +127,7 @@ void LocalBeRoPreflop::run() {
 		throw LocalException(__FILE__, __LINE__, ERR_RUNNING_PLAYER_NOT_FOUND);
 	}
 
-	currentPlayersTurnIt++;
+	++currentPlayersTurnIt;
 	if(currentPlayersTurnIt == getMyHand()->getRunningPlayerList()->end()) currentPlayersTurnIt = getMyHand()->getRunningPlayerList()->begin();
 
 	setCurrentPlayersTurnId( (*currentPlayersTurnIt)->getMyUniqueID() );
@@ -140,7 +140,7 @@ void LocalBeRoPreflop::run() {
 		getMyHand()->setCurrentRound(GAME_STATE_FLOP);
 
 		//Action loeschen und ActionButtons refresh
-		for(it_c=getMyHand()->getRunningPlayerList()->begin(); it_c!=getMyHand()->getRunningPlayerList()->end(); it_c++) {
+		for(it_c=getMyHand()->getRunningPlayerList()->begin(); it_c!=getMyHand()->getRunningPlayerList()->end(); ++it_c) {
 			(*it_c)->setMyAction(PLAYER_ACTION_NONE);
 		}
 

@@ -527,7 +527,7 @@ bool ClientPlayer::checkIfINeedToShowCards()
 {
 	boost::recursive_mutex::scoped_lock lock(m_syncMutex);
 	std::list<unsigned> playerNeedToShowCardsList = currentHand->getBoard()->getPlayerNeedToShowCards();
-    for(std::list<unsigned>::iterator it = playerNeedToShowCardsList.begin(); it != playerNeedToShowCardsList.end(); it++)
+	for(std::list<unsigned>::iterator it = playerNeedToShowCardsList.begin(); it != playerNeedToShowCardsList.end(); ++it)
     {
         if(*it == myUniqueID) return true;
     }

@@ -1150,7 +1150,7 @@ void LocalPlayer::preflopEngine() {
 
     // count number of active human players
     size_t countHumanPlayers = 0;
-    for(it_c=currentHand->getActivePlayerList()->begin(); it_c!=currentHand->getActivePlayerList()->end(); it_c++) {
+	for(it_c=currentHand->getActivePlayerList()->begin(); it_c!=currentHand->getActivePlayerList()->end(); ++it_c) {
         if((*it_c)->getMyType() == PLAYER_TYPE_HUMAN) {
             countHumanPlayers++;
         }
@@ -1159,7 +1159,7 @@ void LocalPlayer::preflopEngine() {
         // local or network game and only one human player is active --> set aggValue
         if(countHumanPlayers == 1) {
 
-            for(it_c=currentHand->getActivePlayerList()->begin(); it_c!=currentHand->getActivePlayerList()->end(); it_c++) {
+			for(it_c=currentHand->getActivePlayerList()->begin(); it_c!=currentHand->getActivePlayerList()->end(); ++it_c) {
                 if((*it_c)->getMyType() == PLAYER_TYPE_HUMAN &&  (*it_c)->getMyAction() != PLAYER_ACTION_FOLD) {
                     int aggValue = (int)((( (*it_c)->getMyAggressive()*1.0)/7.0 - 1.0/currentHand->getActivePlayerList()->size())*21.0);
                     myNiveau[0] -= aggValue;
@@ -1506,7 +1506,7 @@ void LocalPlayer::flopEngine() {
 
     // count number of active human players
     size_t countHumanPlayers = 0;
-    for(it_c=currentHand->getActivePlayerList()->begin(); it_c!=currentHand->getActivePlayerList()->end(); it_c++) {
+	for(it_c=currentHand->getActivePlayerList()->begin(); it_c!=currentHand->getActivePlayerList()->end(); ++it_c) {
         if((*it_c)->getMyType() == PLAYER_TYPE_HUMAN) {
             countHumanPlayers++;
         }
@@ -1515,7 +1515,7 @@ void LocalPlayer::flopEngine() {
         // local or network game and only one human player is active --> set aggValue
         if(countHumanPlayers == 1) {
 
-            for(it_c=currentHand->getActivePlayerList()->begin(); it_c!=currentHand->getActivePlayerList()->end(); it_c++) {
+			for(it_c=currentHand->getActivePlayerList()->begin(); it_c!=currentHand->getActivePlayerList()->end(); ++it_c) {
                 if((*it_c)->getMyType() == PLAYER_TYPE_HUMAN &&  (*it_c)->getMyAction() != PLAYER_ACTION_FOLD) {
                     int aggValue = (int)((( (*it_c)->getMyAggressive()*1.0)/7.0 - 1.0/currentHand->getActivePlayerList()->size())*21.0);
                     myNiveau[0] -= aggValue;
@@ -2201,7 +2201,7 @@ void LocalPlayer::turnEngine() {
 
     // count number of active human players
     size_t countHumanPlayers = 0;
-    for(it_c=currentHand->getActivePlayerList()->begin(); it_c!=currentHand->getActivePlayerList()->end(); it_c++) {
+	for(it_c=currentHand->getActivePlayerList()->begin(); it_c!=currentHand->getActivePlayerList()->end(); ++it_c) {
         if((*it_c)->getMyType() == PLAYER_TYPE_HUMAN) {
             countHumanPlayers++;
         }
@@ -2210,7 +2210,7 @@ void LocalPlayer::turnEngine() {
         // local or network game and only one human player is active --> set aggValue
         if(countHumanPlayers == 1) {
 
-            for(it_c=currentHand->getActivePlayerList()->begin(); it_c!=currentHand->getActivePlayerList()->end(); it_c++) {
+			for(it_c=currentHand->getActivePlayerList()->begin(); it_c!=currentHand->getActivePlayerList()->end(); ++it_c) {
                 if((*it_c)->getMyType() == PLAYER_TYPE_HUMAN &&  (*it_c)->getMyAction() != PLAYER_ACTION_FOLD) {
                     int aggValue = (int)((( (*it_c)->getMyAggressive()*1.0)/7.0 - 1.0/currentHand->getActivePlayerList()->size())*21.0);
                     myNiveau[0] -= aggValue;
@@ -2729,7 +2729,7 @@ void LocalPlayer::riverEngine() {
 
     // count number of active human players
     size_t countHumanPlayers = 0;
-    for(it_c=currentHand->getActivePlayerList()->begin(); it_c!=currentHand->getActivePlayerList()->end(); it_c++) {
+	for(it_c=currentHand->getActivePlayerList()->begin(); it_c!=currentHand->getActivePlayerList()->end(); ++it_c) {
         if((*it_c)->getMyType() == PLAYER_TYPE_HUMAN) {
             countHumanPlayers++;
         }
@@ -2738,7 +2738,7 @@ void LocalPlayer::riverEngine() {
         // local or network game and only one human player is active --> set aggValue
         if(countHumanPlayers == 1) {
 
-            for(it_c=currentHand->getActivePlayerList()->begin(); it_c!=currentHand->getActivePlayerList()->end(); it_c++) {
+			for(it_c=currentHand->getActivePlayerList()->begin(); it_c!=currentHand->getActivePlayerList()->end(); ++it_c) {
                 if((*it_c)->getMyType() == PLAYER_TYPE_HUMAN &&  (*it_c)->getMyAction() != PLAYER_ACTION_FOLD) {
                     int aggValue = (int)((( (*it_c)->getMyAggressive()*1.0)/7.0 - 1.0/currentHand->getActivePlayerList()->size())*21.0);
                     myNiveau[0] -= aggValue;
@@ -5131,7 +5131,7 @@ LocalPlayer::resetActionTimeoutCounter()
 bool LocalPlayer::checkIfINeedToShowCards()
 {
 	std::list<unsigned> playerNeedToShowCardsList = currentHand->getBoard()->getPlayerNeedToShowCards();
-    for(std::list<unsigned>::iterator it = playerNeedToShowCardsList.begin(); it != playerNeedToShowCardsList.end(); it++)
+	for(std::list<unsigned>::iterator it = playerNeedToShowCardsList.begin(); it != playerNeedToShowCardsList.end(); ++it)
     {
         if(*it == myUniqueID) return true;
     }

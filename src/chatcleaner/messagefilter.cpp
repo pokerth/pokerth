@@ -172,7 +172,7 @@ void MessageFilter::refreshConfig() {
     std::list<std::string> badWordsList = config->readConfigStringList("BadWordsList");
     std::list<std::string>::iterator it1;
     QStringList bwList;
-    for(it1= badWordsList.begin(); it1 != badWordsList.end(); it1++) {
+	for(it1= badWordsList.begin(); it1 != badWordsList.end(); ++it1) {
         bwList << QString::fromUtf8(it1->c_str());
     }
     myBadWordCheck->setBadWords(bwList);
@@ -180,7 +180,7 @@ void MessageFilter::refreshConfig() {
     std::list<std::string> urlStringsList = config->readConfigStringList("UrlStringsList");
     std::list<std::string>::iterator it2;
     QStringList urlList;
-    for(it2= urlStringsList.begin(); it2 != urlStringsList.end(); it2++) {
+	for(it2= urlStringsList.begin(); it2 != urlStringsList.end(); ++it2) {
         urlList << QString::fromUtf8(it2->c_str());
     }
     myUrlCheck->setUrlStrings(urlList);
@@ -188,7 +188,7 @@ void MessageFilter::refreshConfig() {
     std::list<std::string> urlExceptionStringsList = config->readConfigStringList("UrlExceptionStringsList");
     std::list<std::string>::iterator it3;
     QStringList urlExceptionList;
-    for(it3= urlExceptionStringsList.begin(); it3 != urlExceptionStringsList.end(); it3++) {
+	for(it3= urlExceptionStringsList.begin(); it3 != urlExceptionStringsList.end(); ++it3) {
         urlExceptionList << QString::fromUtf8(it3->c_str());
     }
     myUrlCheck->setUrlExceptionStrings(urlExceptionList);

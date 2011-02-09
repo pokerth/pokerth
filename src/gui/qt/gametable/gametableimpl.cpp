@@ -796,7 +796,7 @@ void gameTableImpl::refreshSet() {
 
     PlayerListConstIterator it_c;
     PlayerList seatsList = currentGame->getSeatsList();
-    for (it_c=seatsList->begin(); it_c!=seatsList->end(); it_c++) {
+	for (it_c=seatsList->begin(); it_c!=seatsList->end(); ++it_c) {
         if( (*it_c)->getMySet() == 0 )
             setLabelArray[(*it_c)->getMyID()]->setText("");
         else
@@ -816,7 +816,7 @@ void gameTableImpl::refreshButton() {
     PlayerListConstIterator it_c;
     PlayerList seatsList = currentGame->getSeatsList();
     PlayerList activePlayerList = currentGame->getActivePlayerList();
-    for (it_c=seatsList->begin(); it_c!=seatsList->end(); it_c++) {
+	for (it_c=seatsList->begin(); it_c!=seatsList->end(); ++it_c) {
         if( (*it_c)->getMyActiveStatus() ) {
             if( activePlayerList->size() > 2 ) {
                 switch ( (*it_c)->getMyButton() ) {
@@ -870,7 +870,7 @@ void gameTableImpl::refreshPlayerName() {
     boost::shared_ptr<Game> currentGame = myStartWindow->getSession()->getCurrentGame();
         PlayerListConstIterator it_c;
 		PlayerList seatsList = currentGame->getSeatsList();
-        for (it_c=seatsList->begin(); it_c!=seatsList->end(); it_c++) {
+		for (it_c=seatsList->begin(); it_c!=seatsList->end(); ++it_c) {
             if((*it_c)->getMyActiveStatus()) {
 
                 bool guest = myStartWindow->getSession()->getClientPlayerInfo((*it_c)->getMyUniqueID()).isGuest;
@@ -915,7 +915,7 @@ void gameTableImpl::refreshPlayerAvatar() {
 		int seatPlace;
 		PlayerListConstIterator it_c;
 		PlayerList seatsList = currentGame->getSeatsList();
-		for (it_c=seatsList->begin(), seatPlace=0; it_c!=seatsList->end(); it_c++, seatPlace++) {
+		for (it_c=seatsList->begin(), seatPlace=0; it_c!=seatsList->end(); ++it_c, seatPlace++) {
 
             QString countryString(QString(myStartWindow->getSession()->getClientPlayerInfo((*it_c)->getMyUniqueID()).countryCode.c_str()).toLower());
             countryString = QString(":/cflags/cflags/%1.png").arg(countryString);
@@ -987,7 +987,7 @@ void gameTableImpl::refreshAction(int playerID, int playerAction) {
 
         PlayerListConstIterator it_c;
 		PlayerList seatsList = currentGame->getSeatsList();
-        for (it_c=seatsList->begin(); it_c!=seatsList->end(); it_c++) {
+		for (it_c=seatsList->begin(); it_c!=seatsList->end(); ++it_c) {
 
             //if no action --> clear Pixmap
             if( (*it_c)->getMyAction() == 0) {
@@ -1042,7 +1042,7 @@ void gameTableImpl::refreshCash() {
 
     PlayerListConstIterator it_c;
 	PlayerList seatsList = currentGame->getSeatsList();
-    for (it_c=seatsList->begin(); it_c!=seatsList->end(); it_c++) {
+	for (it_c=seatsList->begin(); it_c!=seatsList->end(); ++it_c) {
         if((*it_c)->getMyActiveStatus()) {
 
             cashLabelArray[(*it_c)->getMyID()]->setText("$"+QString("%L1").arg((*it_c)->getMyCash()));
@@ -1062,7 +1062,7 @@ void gameTableImpl::refreshGroupbox(int playerID, int status) {
 		boost::shared_ptr<Game> currentGame = myStartWindow->getSession()->getCurrentGame();
         PlayerListConstIterator it_c;
 		PlayerList seatsList = currentGame->getSeatsList();
-        for (it_c=seatsList->begin(); it_c!=seatsList->end(); it_c++) {
+		for (it_c=seatsList->begin(); it_c!=seatsList->end(); ++it_c) {
 
             if((*it_c)->getMyTurn()) {
                 //Groupbox glow wenn der Spiele dran ist.
@@ -1173,7 +1173,7 @@ void gameTableImpl::refreshAll() {
 	boost::shared_ptr<Game> currentGame = myStartWindow->getSession()->getCurrentGame();
     PlayerListConstIterator it_c;
 	PlayerList seatsList = currentGame->getSeatsList();
-    for (it_c=seatsList->begin(); it_c!=seatsList->end(); it_c++) {
+	for (it_c=seatsList->begin(); it_c!=seatsList->end(); ++it_c) {
         refreshAction( (*it_c)->getMyID(), (*it_c)->getMyAction());
     }
 
@@ -1190,7 +1190,7 @@ void gameTableImpl::refreshChangePlayer() {
 	boost::shared_ptr<Game> currentGame = myStartWindow->getSession()->getCurrentGame();
     PlayerListConstIterator it_c;
 	PlayerList seatsList = currentGame->getSeatsList();
-    for (it_c=seatsList->begin(); it_c!=seatsList->end(); it_c++) {
+	for (it_c=seatsList->begin(); it_c!=seatsList->end(); ++it_c) {
         refreshAction( (*it_c)->getMyID(), (*it_c)->getMyAction());
     }
 
@@ -1234,7 +1234,7 @@ void gameTableImpl::dealHoleCards() {
 
     PlayerListConstIterator it_c;
     PlayerList seatsList = currentGame->getSeatsList();
-    for (it_c=seatsList->begin(); it_c!=seatsList->end(); it_c++) {
+	for (it_c=seatsList->begin(); it_c!=seatsList->end(); ++it_c) {
         (*it_c)->getMyCards(tempCardsIntArray);
         for(j=0; j<2; j++) {
             if((*it_c)->getMyActiveStatus()) {
@@ -2081,7 +2081,7 @@ void gameTableImpl::nextPlayerAnimation() {
 
     PlayerListConstIterator it_c;
     PlayerList seatsList = currentHand->getSeatsList();
-    for (it_c=seatsList->begin(); it_c!=seatsList->end(); it_c++) {
+	for (it_c=seatsList->begin(); it_c!=seatsList->end(); ++it_c) {
         if((*it_c)->getMyID() == currentHand->getLastPlayersTurn()) break;
     }
 
@@ -2160,7 +2160,7 @@ void gameTableImpl::postRiverRunAnimation2() {
     int nonfoldPlayersCounter = 0;
     PlayerListConstIterator it_c;
 	PlayerList activePlayerList = currentGame->getActivePlayerList();
-    for (it_c=activePlayerList->begin(); it_c!=activePlayerList->end(); it_c++) {
+	for (it_c=activePlayerList->begin(); it_c!=activePlayerList->end(); ++it_c) {
         if ((*it_c)->getMyAction() != PLAYER_ACTION_FOLD)
             nonfoldPlayersCounter++;
     }
@@ -2169,7 +2169,7 @@ void gameTableImpl::postRiverRunAnimation2() {
 
         if(!flipHolecardsAllInAlreadyDone) {
 
-            for (it_c=activePlayerList->begin(); it_c!=activePlayerList->end(); it_c++) {
+			for (it_c=activePlayerList->begin(); it_c!=activePlayerList->end(); ++it_c) {
                 if((*it_c)->getMyAction() != PLAYER_ACTION_FOLD && (*it_c)->checkIfINeedToShowCards()) {
 
                     showHoleCards((*it_c)->getMyUniqueID());
@@ -2185,7 +2185,7 @@ void gameTableImpl::postRiverRunAnimation2() {
             flipHolecardsAllInAlreadyDone = TRUE;
         }
         else {          
-            for (it_c=activePlayerList->begin(); it_c!=activePlayerList->end(); it_c++) {
+			for (it_c=activePlayerList->begin(); it_c!=activePlayerList->end(); ++it_c) {
                 if((*it_c)->getMyAction() != PLAYER_ACTION_FOLD) {
                     //set Player value (logging) for all in already shown cards
                     (*it_c)->setMyCardsFlip(1,3);
@@ -2216,7 +2216,7 @@ void gameTableImpl::postRiverRunAnimation3() {
     PlayerListConstIterator it_c;
 
     PlayerList activePlayerList = currentHand->getActivePlayerList();
-    for(it_c=activePlayerList->begin(); it_c!=activePlayerList->end(); it_c++) {
+	for(it_c=activePlayerList->begin(); it_c!=activePlayerList->end(); ++it_c) {
         if((*it_c)->getMyAction() != PLAYER_ACTION_FOLD) {
             nonfoldPlayerCounter++;
         }
@@ -2224,7 +2224,7 @@ void gameTableImpl::postRiverRunAnimation3() {
 
     list<unsigned> winners = currentHand->getBoard()->getWinners();
 
-    for(it_c=activePlayerList->begin(); it_c!=activePlayerList->end(); it_c++) {
+	for(it_c=activePlayerList->begin(); it_c!=activePlayerList->end(); ++it_c) {
         if((*it_c)->getMyAction() != PLAYER_ACTION_FOLD && (*it_c)->getMyCardsValueInt() == currentHand->getCurrentBeRo()->getHighestCardsValue() ) {
 
             //Show "Winner" label
@@ -2307,7 +2307,7 @@ void gameTableImpl::postRiverRunAnimation3() {
 
     // log side pot winners -> TODO
     list<unsigned>::iterator it_int;
-    for(it_c=activePlayerList->begin(); it_c!=activePlayerList->end(); it_c++) {
+	for(it_c=activePlayerList->begin(); it_c!=activePlayerList->end(); ++it_c) {
         if((*it_c)->getMyAction() != PLAYER_ACTION_FOLD && (*it_c)->getMyCardsValueInt() != currentHand->getCurrentBeRo()->getHighestCardsValue() ) {
 
             for(it_int = winners.begin(); it_int != winners.end(); it_int++) {
@@ -2320,7 +2320,7 @@ void gameTableImpl::postRiverRunAnimation3() {
         }
     }
 
-    for(it_c=activePlayerList->begin(); it_c!=activePlayerList->end(); it_c++) {
+	for(it_c=activePlayerList->begin(); it_c!=activePlayerList->end(); ++it_c) {
         if((*it_c)->getMyCash() == 0) {
             currentHand->getGuiInterface()->logPlayerSitsOut((*it_c)->getMyName());
         }
@@ -2349,7 +2349,7 @@ void gameTableImpl::postRiverRunAnimation5() {
 
             label_Pot->setText("");
 
-            for(it_c=activePlayerList->begin(); it_c!=activePlayerList->end(); it_c++) {
+			for(it_c=activePlayerList->begin(); it_c!=activePlayerList->end(); ++it_c) {
 
                 if((*it_c)->getMyAction() != PLAYER_ACTION_FOLD && (*it_c)->getMyCardsValueInt() == currentHand->getCurrentBeRo()->getHighestCardsValue() ) {
 
@@ -2360,7 +2360,7 @@ void gameTableImpl::postRiverRunAnimation5() {
         else {
             label_Pot->setText(PotString);
 
-            for(it_c=activePlayerList->begin(); it_c!=activePlayerList->end(); it_c++) {
+			for(it_c=activePlayerList->begin(); it_c!=activePlayerList->end(); ++it_c) {
 
                 if((*it_c)->getMyAction() != PLAYER_ACTION_FOLD && (*it_c)->getMyCardsValueInt() == currentHand->getCurrentBeRo()->getHighestCardsValue() ) {
 
@@ -2400,14 +2400,14 @@ void gameTableImpl::postRiverRunAnimation6() {
 
     PlayerListConstIterator it_c;
     PlayerList activePlayerList = currentHand->getActivePlayerList();
-    for (it_c=activePlayerList->begin(); it_c!=activePlayerList->end(); it_c++) {
+	for (it_c=activePlayerList->begin(); it_c!=activePlayerList->end(); ++it_c) {
 
         if ((*it_c)->getMyCash() > 0) playersPositiveCashCounter++;
     }
 
     if (playersPositiveCashCounter==1) {
 
-        for (it_c=activePlayerList->begin(); it_c!=activePlayerList->end(); it_c++) {
+		for (it_c=activePlayerList->begin(); it_c!=activePlayerList->end(); ++it_c) {
 
             if ((*it_c)->getMyCash() > 0) {
                 currentHand->getGuiInterface()->logPlayerWinGame((*it_c)->getMyName(),  myStartWindow->getSession()->getCurrentGame()->getMyGameID());
@@ -2446,7 +2446,7 @@ void gameTableImpl::showHoleCards(unsigned playerId, bool allIn)
     int j;
     PlayerListConstIterator it_c;
     PlayerList activePlayerList = currentHand->getActivePlayerList();
-    for (it_c=activePlayerList->begin(); it_c!=activePlayerList->end(); it_c++) {
+	for (it_c=activePlayerList->begin(); it_c!=activePlayerList->end(); ++it_c) {
 
         if((*it_c)->getMyUniqueID() == playerId) {
 
@@ -2481,12 +2481,12 @@ void gameTableImpl::flipHolecardsAllIn() {
         int nonfoldPlayersCounter = 0;
         PlayerListConstIterator it_c;
 		PlayerList activePlayerList = currentGame->getActivePlayerList();
-        for (it_c=activePlayerList->begin(); it_c!=activePlayerList->end(); it_c++) {
+		for (it_c=activePlayerList->begin(); it_c!=activePlayerList->end(); ++it_c) {
             if ((*it_c)->getMyAction() != PLAYER_ACTION_FOLD) nonfoldPlayersCounter++;
         }
 
         if(nonfoldPlayersCounter!=1) {       
-            for (it_c=activePlayerList->begin(); it_c!=activePlayerList->end(); it_c++) {
+			for (it_c=activePlayerList->begin(); it_c!=activePlayerList->end(); ++it_c) {
                 if((*it_c)->getMyAction() != PLAYER_ACTION_FOLD) {
 
                     showHoleCards((*it_c)->getMyUniqueID());
