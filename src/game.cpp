@@ -35,7 +35,9 @@ Game::Game(GuiInterface* gui, boost::shared_ptr<EngineFactory> factory,
            const StartData &startData, int gameId, Log* log)
 : myFactory(factory), myGui(gui), myLog(log), startQuantityPlayers(startData.numberOfPlayers),
   startCash(gameData.startMoney), startSmallBlind(gameData.firstSmallBlind),
-  myGameID(gameId), currentSmallBlind(gameData.firstSmallBlind), currentHandID(0), dealerPosition(0), lastHandBlindsRaised(1), lastTimeBlindsRaised(0), myGameData(gameData)
+  myGameID(gameId), currentSmallBlind(gameData.firstSmallBlind), currentHandID(0), dealerPosition(0),
+  lastHandBlindsRaised(1), lastTimeBlindsRaised(0), myGameData(gameData),
+  blindsTimer(boost::posix_time::time_duration(0, 0, 0), boost::timers::portable::second_timer::manual_start)
 {
 
 	blindsList = myGameData.manualBlindsList;

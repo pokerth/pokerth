@@ -24,7 +24,9 @@
 #define CLEANER_PROTOCOL_VERSION		2
 #define MAX_CLEANER_PACKET_SIZE			384
 
-typedef struct ChatCleanerMessage ChatCleanerMessage_t;
+#ifndef ChatCleanerMessage_t
+	typedef struct ChatCleanerMessage ChatCleanerMessage_t;
+#endif
 
 class InternalChatCleanerPacket
 {

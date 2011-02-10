@@ -18,7 +18,6 @@
  ***************************************************************************/
 
 #include <net/chatcleanermanager.h>
-#include <net/internalchatcleanerpacket.h>
 #include <net/encodedpacket.h>
 #include <boost/bind.hpp>
 #include <core/loghelper.h>

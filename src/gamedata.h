@@ -109,7 +109,8 @@ struct VoteKickData
 {
 	VoteKickData()
 	: petitionId(0), kickPlayerId(0), numVotesToKick(0),
-	numVotesInFavourOfKicking(0), numVotesAgainstKicking(0), timeLimitSec(0) {}
+	numVotesInFavourOfKicking(0), numVotesAgainstKicking(0), timeLimitSec(0),
+	voteTimer(boost::posix_time::time_duration(0, 0, 0), boost::timers::portable::microsec_timer::auto_start) {}
 	unsigned petitionId;
 	unsigned kickPlayerId;
 	int numVotesToKick;
