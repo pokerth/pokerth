@@ -34,7 +34,7 @@
 using namespace std;
 
 ServerLobbyBot::ServerLobbyBot()
-: m_ircRestartTimer(boost::posix_time::time_duration(0, 0, 0), boost::timers::portable::microsec_timer::auto_start)
+: m_ircRestartTimer(boost::posix_time::time_duration(0, 0, 0), boost::timers::portable::second_timer::auto_start)
 {
 }
 

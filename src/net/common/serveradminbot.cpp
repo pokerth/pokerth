@@ -34,7 +34,9 @@
 using namespace std;
 
 ServerAdminBot::ServerAdminBot()
-: m_ircRestartTimer(boost::posix_time::time_duration(0, 0, 0), boost::timers::portable::microsec_timer::auto_start)
+: m_notifyTimeoutMinutes(0), m_notifyIntervalMinutes(0), m_notifyCounter(0),
+  m_ircRestartTimer(boost::posix_time::time_duration(0, 0, 0), boost::timers::portable::second_timer::auto_start),
+  m_notifyTimer(boost::posix_time::time_duration(0, 0, 0), boost::timers::portable::second_timer::manual_start)
 {
 }
 
@@ -231,6 +233,30 @@ ServerAdminBot::SignalIrcChatMsg(const std::string &nickName, const std::string 
 					else
 						m_ircAdminThread->SendChatMessage(nickName + ": Invalid message.");
 				}
+				else if (command == "notify-restart")
+				{
+					int timeoutMinutes = 0;
+					int intervalMinutes = 0;
+					msgStream >> timeoutMinutes;
+					msgStream >> intervalMinutes;
+					if (timeoutMinutes && intervalMinutes)
+					{
+						ostringstream ack;
+						ack << nickName << ": Restart planned in " << timeoutMinutes << " minutes, notifying every " << intervalMinutes << " minutes.";
+						m_ircAdminThread->SendChatMessage(ack.str());
+						boost::mutex::scoped_lock lock(m_notifyMutex);
+						m_notifyTimeoutMinutes = timeoutMinutes;
+						m_notifyIntervalMinutes = intervalMinutes;
+						m_notifyCounter = 0;
+						m_notifyTimer.reset();
+						m_notifyTimer.start();
+					}
+					else
+					{
+						m_ircAdminThread->SendChatMessage(nickName + ": Invalid parameters.");
+					}
+
+				}
 				else
 					m_ircAdminThread->SendChatMessage(nickName + ": Invalid command \"" + command + "\".");
 			}
@@ -277,6 +303,58 @@ ServerAdminBot::Process()
 		}
 		m_ircRestartTimer.reset();
 		m_ircRestartTimer.start();
+	}
+	{
+		boost::mutex::scoped_lock lock(m_notifyMutex);
+
+		if (m_notifyTimeoutMinutes && m_notifyTimer.elapsed().total_seconds() >= m_notifyCounter * m_notifyIntervalMinutes * 60)
+		{
+			int remainingMinutes = m_notifyTimeoutMinutes - m_notifyCounter * m_notifyIntervalMinutes;
+			++m_notifyCounter;
+			if (remainingMinutes > 1)
+			{
+				ostringstream notifyStream;
+				notifyStream << "The server will be restarted in " << remainingMinutes << " minutes.";
+				GetLobbyThread().SendGlobalChat(notifyStream.str());
+				notifyStream.str("");
+				notifyStream << "Der Server wird in " << remainingMinutes << " Minuten neu gestartet werden.";
+				GetLobbyThread().SendGlobalChat(notifyStream.str());
+				notifyStream.str("");
+				notifyStream << "Le serveur va être redémarré dans " << remainingMinutes << " minutes.";
+				GetLobbyThread().SendGlobalChat(notifyStream.str());
+				notifyStream.str("");
+				notifyStream << "Il server verrà riavviato in " << remainingMinutes << " minuti.";
+				GetLobbyThread().SendGlobalChat(notifyStream.str());
+				notifyStream.str("");
+				notifyStream << "El servidor se reiniciará en " << remainingMinutes << " minutos.";
+				GetLobbyThread().SendGlobalChat(notifyStream.str());
+			}
+			else if (remainingMinutes == 1)
+			{
+				ostringstream notifyStream;
+				notifyStream << "The server will be restarted in " << remainingMinutes << " minute.";
+				GetLobbyThread().SendGlobalChat(notifyStream.str());
+				notifyStream.str("");
+				notifyStream << "Der Server wird in " << remainingMinutes << " Minute neu gestartet werden.";
+				GetLobbyThread().SendGlobalChat(notifyStream.str());
+				notifyStream.str("");
+				notifyStream << "Le serveur va être redémarré dans " << remainingMinutes << " minute.";
+				GetLobbyThread().SendGlobalChat(notifyStream.str());
+				notifyStream.str("");
+				notifyStream << "Il server verrà riavviato in " << remainingMinutes << " minuto.";
+				GetLobbyThread().SendGlobalChat(notifyStream.str());
+				notifyStream.str("");
+				notifyStream << "El servidor se reiniciará en " << remainingMinutes << " minuto.";
+				GetLobbyThread().SendGlobalChat(notifyStream.str());
+			}
+			else
+			{
+				GetLobbyThread().SendGlobalChat("The server will be restarted NOW.");
+				GetLobbyThread().SendGlobalMsgBox("The server will be restarted NOW.");
+				m_notifyTimeoutMinutes = m_notifyCounter = m_notifyIntervalMinutes = 0;
+				m_notifyTimer.reset();
+			}
+		}
 	}
 }
 

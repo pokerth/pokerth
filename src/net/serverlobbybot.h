@@ -74,7 +74,7 @@ private:
 
 	boost::shared_ptr<ServerLobbyThread> m_lobbyThread;
 	boost::shared_ptr<IrcThread> m_ircLobbyThread;
-	boost::timers::portable::microsec_timer m_ircRestartTimer;
+	boost::timers::portable::second_timer m_ircRestartTimer;
 };
 
 #endif

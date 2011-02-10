@@ -119,7 +119,7 @@ ServerManager::JoinAll(bool wait)
 ServerLobbyThread &
 ServerManager::GetLobbyThread()
 {
-	assert(m_lobbyThread.get());
+	assert(m_lobbyThread);
 	return *m_lobbyThread;
 }
 

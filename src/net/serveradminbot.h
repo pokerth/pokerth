@@ -22,6 +22,7 @@
 #define _SERVERADMINBOT_H_
 
 #include <boost/asio.hpp>
+#include <boost/thread.hpp>
 #include <third_party/boost/timers.hpp>
 #include <string>
 #include <list>
@@ -69,10 +70,15 @@ protected:
 
 private:
 	std::string m_ircNick;
+	mutable boost::mutex m_notifyMutex;
+	int m_notifyTimeoutMinutes;
+	int m_notifyIntervalMinutes;
+	int m_notifyCounter;
 
 	boost::shared_ptr<ServerLobbyThread> m_lobbyThread;
 	boost::shared_ptr<IrcThread> m_ircAdminThread;
-	boost::timers::portable::microsec_timer m_ircRestartTimer;
+	boost::timers::portable::second_timer m_ircRestartTimer;
+	boost::timers::portable::second_timer m_notifyTimer;
 };
 
 #endif
