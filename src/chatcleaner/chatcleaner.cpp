@@ -15,7 +15,8 @@ int main(int argc, char *argv[])
     QCoreApplication a(argc, argv);
 	CleanerServer server;
 #ifndef _WIN32
-	daemon(0, 0);
+	if (daemon(0, 0) != 0)
+		return -1;
 #endif
     return a.exec();
 }
