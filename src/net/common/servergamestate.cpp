@@ -41,17 +41,17 @@
 
 using namespace std;
 
-//#define SERVER_TEST
+//#define POKERTH_SERVER_TEST
 
-#ifdef SERVER_TEST
+#ifdef POKERTH_SERVER_TEST
 	#define SERVER_DELAY_NEXT_GAME_SEC				0
 	#define SERVER_DEAL_FLOP_CARDS_DELAY_SEC		0
 	#define SERVER_DEAL_TURN_CARD_DELAY_SEC			0
 	#define SERVER_DEAL_RIVER_CARD_DELAY_SEC		0
 	#define SERVER_DEAL_ADD_ALL_IN_DELAY_SEC		0
 	#define SERVER_SHOW_CARDS_DELAY_SEC				0
-	#define SERVER_PLAYER_TIMEOUT_ADD_DELAY_SEC		0
 	#define SERVER_COMPUTER_ACTION_DELAY_SEC		0
+	#define SERVER_PLAYER_TIMEOUT_ADD_DELAY_SEC		1
 #else
 	#define SERVER_DELAY_NEXT_GAME_SEC				10
 	#define SERVER_DEAL_FLOP_CARDS_DELAY_SEC		5
@@ -59,8 +59,8 @@ using namespace std;
 	#define SERVER_DEAL_RIVER_CARD_DELAY_SEC		2
 	#define SERVER_DEAL_ADD_ALL_IN_DELAY_SEC		2
 	#define SERVER_SHOW_CARDS_DELAY_SEC				2
-	#define SERVER_PLAYER_TIMEOUT_ADD_DELAY_SEC		2
 	#define SERVER_COMPUTER_ACTION_DELAY_SEC		2
+	#define SERVER_PLAYER_TIMEOUT_ADD_DELAY_SEC		2
 #endif
 
 #define SERVER_START_GAME_TIMEOUT_SEC				10
@@ -1310,14 +1310,14 @@ ServerGameStateWaitPlayerAction::~ServerGameStateWaitPlayerAction()
 void
 ServerGameStateWaitPlayerAction::Enter(boost::shared_ptr<ServerGame> server)
 {
-#ifdef SERVER_TEST
-	int timeoutSec = 0;
+	if (server->GetGameData().playerActionTimeoutSec > 0) // zero means unlimited thinking time
+	{
+#ifdef POKERTH_SERVER_TEST
+		int timeoutSec = SERVER_PLAYER_TIMEOUT_ADD_DELAY_SEC;
 #else
-	int timeoutSec = server->GetGameData().playerActionTimeoutSec + SERVER_PLAYER_TIMEOUT_ADD_DELAY_SEC;
+		int timeoutSec = server->GetGameData().playerActionTimeoutSec + SERVER_PLAYER_TIMEOUT_ADD_DELAY_SEC;
 #endif
 
-	if (timeoutSec != SERVER_PLAYER_TIMEOUT_ADD_DELAY_SEC) // minimum value means unlimited thinking time
-	{
 		server->GetStateTimer1().expires_from_now(boost::posix_time::seconds(timeoutSec));
 		server->GetStateTimer1().async_wait(
 			boost::bind(
@@ -1477,7 +1477,7 @@ ServerGameStateWaitNextHand::~ServerGameStateWaitNextHand()
 void
 ServerGameStateWaitNextHand::Enter(boost::shared_ptr<ServerGame> server)
 {
-#ifdef SERVER_TEST
+#ifdef POKERTH_SERVER_TEST
 	int timeoutSec = 0;
 #else
 	int timeoutSec = server->GetGameData().delayBetweenHandsSec;

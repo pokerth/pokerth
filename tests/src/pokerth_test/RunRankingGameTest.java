@@ -267,7 +267,7 @@ public class RunRankingGameTest extends TestBase {
 		assertTrue(gameEnd.after(gameStart));
 		// Do not consider daylight saving time, just calculate the raw difference.
 		long gameDurationMsec = gameEnd.getTime() - gameStart.getTime();
-		assertTrue(gameDurationMsec > 60 * 1000); // game duration should be larger than 1 minute.
+		assertTrue(gameDurationMsec > 10 * 1000); // game duration should be larger than 10 seconds.
 		assertTrue(gameDurationMsec < 60 * 60 * 1000); // game duration should be smaller than 1 hour.
 
 		// Check database entries for the players in the game.
