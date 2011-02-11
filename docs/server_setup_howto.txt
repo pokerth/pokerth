@@ -25,7 +25,7 @@ is run on a vserver with very limited memory.
 
 The following packages are required to compile the server:
 * qmake (Qt development tools)
-* boost 1.36, 1.38 recommended
+* boost 1.42, latest recommended
   - boost-thread
   - boost-filesystem
   - boost-datetime
@@ -286,4 +286,4 @@ The bot always answers to "BotName: " style commands.
 It ignores private messages. 
 
 
-2007-2009 by Lothar May
+2007-2011 by Lothar May

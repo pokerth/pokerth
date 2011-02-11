@@ -1,9 +1,9 @@
 #!/bin/bash
 PKTH_GSASL="libgsasl-1.4.4"
 PKTH_GSASL_FILE="$PKTH_GSASL.tar.gz"
-PKTH_QT="qt-everywhere-opensource-src-4.7.0"
+PKTH_QT="qt-everywhere-opensource-src-4.7.1"
 PKTH_QT_FILE="$PKTH_QT.tar.gz"
-PKTH_BOOST="boost_1_44_0"
+PKTH_BOOST="boost_1_45_0"
 PKTH_BOOST_FILE="$PKTH_BOOST.tar.bz2"
 
 if [ ! -e $PKTH_GSASL_FILE ]; then

@@ -1,9 +1,32 @@
-Please see
-http://sourceforge.net/project/showfiles.php?group_id=166634&package_id=268019
-for some scripts to compile PokerTH using mingw.
+PokerTH can be built for Windows using the MinGW cross environment
+http://mingw-cross-env.nongnu.org/
 
-The scripts are also provided in the win32_build_scripts subdirectory, but they
-require specific download and uncompression tools to run, which are provided
-with the package at the upper link.
+You need a Linux system to set this up.
 
-2008 by Lothar May
+1. Install all requirements listed there:
+http://mingw-cross-env.nongnu.org/#requirements
+on your Linux system.
+
+2. Download the latest release of mingw-cross-env and extract it to /opt/mingw
+
+3. Within /opt/mingw, run
+make
+(this takes quite some time)
+
+4. As the user you would like to use to compile PokerTH for Windows,
+add the cross compiler to your path; e.g.:
+PATH="/opt/mingw/usr/bin:$PATH"
+(in .profile)
+
+5. Download and extract whichever source version of PokerTH you wish to compile.
+http://pokerth.net/download.html
+
+6. Within the pokerth directory, run
+i686-pc-mingw32-qmake DEFINES+=BOOST_THREAD_USE_LIB pokerth.pro
+make release
+
+PokerTH can also be built using MinGW or Visual Studio on Windows,
+but neither method is supported, because it takes too much time to keep
+several methods updated.
+
+2011 by Lothar May
