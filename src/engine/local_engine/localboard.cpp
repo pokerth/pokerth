@@ -36,13 +36,15 @@ LocalBoard::~LocalBoard()
 {
 }
 
-void LocalBoard::setPlayerLists(PlayerList sl, PlayerList apl, PlayerList rpl) {
+void LocalBoard::setPlayerLists(PlayerList sl, PlayerList apl, PlayerList rpl)
+{
 	seatsList = sl;
 	activePlayerList = apl;
 	runningPlayerList = rpl;
 }
 
-void LocalBoard::collectSets() {
+void LocalBoard::collectSets()
+{
 
 	sets = 0;
 
@@ -53,9 +55,10 @@ void LocalBoard::collectSets() {
 
 }
 
-void LocalBoard::collectPot() { 
+void LocalBoard::collectPot()
+{
 
-	pot += sets; 
+	pot += sets;
 	sets = 0;
 
 	PlayerListIterator it;
@@ -65,7 +68,8 @@ void LocalBoard::collectPot() {
 
 }
 
-void LocalBoard::distributePot() {
+void LocalBoard::distributePot()
+{
 
 	winners.clear();
 
@@ -115,8 +119,8 @@ void LocalBoard::distributePot() {
 
 			// determine level highestCardsValue
 			for(it_c=seatsList->begin(), j=0; it_c!=seatsList->end(); ++it_c,j++) {
-				if((*it_c)->getMyActiveStatus() && (*it_c)->getMyCardsValueInt() > highestCardsValue && (*it_c)->getMyAction() != PLAYER_ACTION_FOLD && playerSets[j] >= potLevel[0]) { 
-					highestCardsValue = (*it_c)->getMyCardsValueInt(); 
+				if((*it_c)->getMyActiveStatus() && (*it_c)->getMyCardsValueInt() > highestCardsValue && (*it_c)->getMyAction() != PLAYER_ACTION_FOLD && playerSets[j] >= potLevel[0]) {
+					highestCardsValue = (*it_c)->getMyCardsValueInt();
 				}
 			}
 
@@ -139,12 +143,12 @@ void LocalBoard::distributePot() {
 			if(mod == 0) {
 
 				for(j=2; j<potLevel.size(); j++) {
-                    // find seat with potLevel[j]-ID
+					// find seat with potLevel[j]-ID
 					for(it=seatsList->begin(); it!=seatsList->end(); ++it) {
-                        if((*it)->getMyUniqueID() == potLevel[j]) {
-                            break;
-                        }
-                    }
+						if((*it)->getMyUniqueID() == potLevel[j]) {
+							break;
+						}
+					}
 					if(it == seatsList->end()) {
 						throw LocalException(__FILE__, __LINE__, ERR_SEAT_NOT_FOUND);
 					}
@@ -162,13 +166,13 @@ void LocalBoard::distributePot() {
 
 // 				winnerPointer = currentHand->getDealerPosition();
 
-                // find Seat with dealerPosition
+				// find Seat with dealerPosition
 				for(it=seatsList->begin(); it!=seatsList->end(); ++it) {
-                    if((*it)->getMyUniqueID() == dealerPosition) {
-                        break;
-                    }
-                }
-                if(it == seatsList->end()) {
+					if((*it)->getMyUniqueID() == dealerPosition) {
+						break;
+					}
+				}
+				if(it == seatsList->end()) {
 					throw LocalException(__FILE__, __LINE__, ERR_SEAT_NOT_FOUND);
 				}
 
@@ -176,7 +180,7 @@ void LocalBoard::distributePot() {
 
 					winnerHit = false;
 
-					for(k=0; k<MAX_NUMBER_OF_PLAYERS && !winnerHit; k++){
+					for(k=0; k<MAX_NUMBER_OF_PLAYERS && !winnerHit; k++) {
 
 // 						winnerPointer = (winnerPointer+1)%(MAX_NUMBER_OF_PLAYERS);
 
@@ -231,7 +235,7 @@ void LocalBoard::distributePot() {
 		}
 	}
 
-	// winners sort and unique 
+	// winners sort and unique
 	winners.sort();
 	winners.unique();
 
@@ -247,195 +251,196 @@ void LocalBoard::distributePot() {
 	}*/
 }
 
-void LocalBoard::determinePlayerNeedToShowCards() {
+void LocalBoard::determinePlayerNeedToShowCards()
+{
 
-    playerNeedToShowCards.clear();
+	playerNeedToShowCards.clear();
 
-    // in All In Condition everybody have to show the cards
-    if(allInCondition) {
+	// in All In Condition everybody have to show the cards
+	if(allInCondition) {
 
-        PlayerListConstIterator it_c;
+		PlayerListConstIterator it_c;
 
 		for(it_c = activePlayerList->begin(); it_c != activePlayerList->end(); ++it_c) {
-            if((*it_c)->getMyAction() != PLAYER_ACTION_FOLD) {
-                playerNeedToShowCards.push_back((*it_c)->getMyUniqueID());
-            }
-        }
+			if((*it_c)->getMyAction() != PLAYER_ACTION_FOLD) {
+				playerNeedToShowCards.push_back((*it_c)->getMyUniqueID());
+			}
+		}
 
-    }
+	}
 
-    else {
-
-
-
-        // all winners have to show their cards
-        //    playerNeedToShowCards = winners;
-
-        //    std::_List_const_iterator<unsigned> it_c;
-
-            std::list<int*> level;
-
-        //   for(it_c=winners.begin(); it_c != winners.end(); it_c++) {
-        //        cout << (*it_c) << endl;
-        //    }
-        //
-        //    cout << "lastActionPlayer" << currentHand->getCurrentBeRo()->getLastActionPlayer() << endl;
-        //
-        //    int lastActionPlayer = ;
-        //
-        //    if(lastActionPlayer == -1) {
-        //        lastActionPlayer = 0;
-        //    }
-        //
-        //
-        //
+	else {
 
 
-            PlayerListConstIterator lastActionPlayerIt;
-            PlayerListConstIterator it_c;
 
-        //    cout << "lAP-Ende: " << currentHand->getLastActionPlayer() << endl;
-            // search lastActionPlayer
-			for(it_c = activePlayerList->begin(); it_c != activePlayerList->end(); ++it_c) {
-                if((*it_c)->getMyUniqueID() == lastActionPlayer && (*it_c)->getMyAction() != PLAYER_ACTION_FOLD) {
-                    lastActionPlayerIt = it_c;
+		// all winners have to show their cards
+		//    playerNeedToShowCards = winners;
+
+		//    std::_List_const_iterator<unsigned> it_c;
+
+		std::list<int*> level;
+
+		//   for(it_c=winners.begin(); it_c != winners.end(); it_c++) {
+		//        cout << (*it_c) << endl;
+		//    }
+		//
+		//    cout << "lastActionPlayer" << currentHand->getCurrentBeRo()->getLastActionPlayer() << endl;
+		//
+		//    int lastActionPlayer = ;
+		//
+		//    if(lastActionPlayer == -1) {
+		//        lastActionPlayer = 0;
+		//    }
+		//
+		//
+		//
+
+
+		PlayerListConstIterator lastActionPlayerIt;
+		PlayerListConstIterator it_c;
+
+		//    cout << "lAP-Ende: " << currentHand->getLastActionPlayer() << endl;
+		// search lastActionPlayer
+		for(it_c = activePlayerList->begin(); it_c != activePlayerList->end(); ++it_c) {
+			if((*it_c)->getMyUniqueID() == lastActionPlayer && (*it_c)->getMyAction() != PLAYER_ACTION_FOLD) {
+				lastActionPlayerIt = it_c;
 //                    cout << (*it_c)->getMyUniqueID() << endl;
-                    break;
-                }
-            }
+				break;
+			}
+		}
 
-            if(it_c == activePlayerList->end()) {
-				for(it_c = activePlayerList->begin(); it_c != activePlayerList->end(); ++it_c) {
-                    if((*it_c)->getMyAction() != PLAYER_ACTION_FOLD) {
-                        lastActionPlayerIt = it_c;
-                        break;
-                    }
-                }
-            }
+		if(it_c == activePlayerList->end()) {
+			for(it_c = activePlayerList->begin(); it_c != activePlayerList->end(); ++it_c) {
+				if((*it_c)->getMyAction() != PLAYER_ACTION_FOLD) {
+					lastActionPlayerIt = it_c;
+					break;
+				}
+			}
+		}
 
-            // the player who has done the last action has to show his cards first
-            playerNeedToShowCards.push_back((*lastActionPlayerIt)->getMyUniqueID());
+		// the player who has done the last action has to show his cards first
+		playerNeedToShowCards.push_back((*lastActionPlayerIt)->getMyUniqueID());
 
 //            cout << (*lastActionPlayerIt)->getMyUniqueID() << " - " << (*lastActionPlayerIt)->getMyName() << endl;
 
-            int *level_tmp = new int[2];
-            // get position und cardsValue of the player who show his cards first
-            level_tmp[0] = (*lastActionPlayerIt)->getMyCardsValueInt();
-            level_tmp[1] = (*lastActionPlayerIt)->getMyRoundStartCash()-(*lastActionPlayerIt)->getMyCash();
+		int *level_tmp = new int[2];
+		// get position und cardsValue of the player who show his cards first
+		level_tmp[0] = (*lastActionPlayerIt)->getMyCardsValueInt();
+		level_tmp[1] = (*lastActionPlayerIt)->getMyRoundStartCash()-(*lastActionPlayerIt)->getMyCash();
 
-        //    level_tmp = {(*lastActionPlayerIt)->getMyCardsValueInt(),(*lastActionPlayerIt)->getMyRoundStartCash()-(*lastActionPlayerIt)->getMyCash()};
+		//    level_tmp = {(*lastActionPlayerIt)->getMyCardsValueInt(),(*lastActionPlayerIt)->getMyRoundStartCash()-(*lastActionPlayerIt)->getMyCash()};
 
 //            cout << level_tmp[0] << "," << level_tmp[1] << endl;
 
-            level.push_back(level_tmp);
+		level.push_back(level_tmp);
 
-            std::_List_iterator<int*> level_it;
-            std::_List_iterator<int*> level_it_tmp;
-            std::_List_iterator<int*> next_level_it;
+		std::_List_iterator<int*> level_it;
+		std::_List_iterator<int*> level_it_tmp;
+		std::_List_iterator<int*> next_level_it;
 
-        //    PlayerListConstIterator firstAfterLastActionPlayerIt = lastActionPlayerIt;
-        //    firstAfterLastActionPlayerIt++;
+		//    PlayerListConstIterator firstAfterLastActionPlayerIt = lastActionPlayerIt;
+		//    firstAfterLastActionPlayerIt++;
 
-            it_c = lastActionPlayerIt;
-			++it_c;
+		it_c = lastActionPlayerIt;
+		++it_c;
 
-            for(unsigned i = 0; i < activePlayerList->size(); i++) {
+		for(unsigned i = 0; i < activePlayerList->size(); i++) {
 
-                if(it_c == activePlayerList->end()) it_c = activePlayerList->begin();
+			if(it_c == activePlayerList->end()) it_c = activePlayerList->begin();
 
-                if((*it_c)->getMyAction() != PLAYER_ACTION_FOLD) {
-        //    for(it_c = firstAfterLastActionPlayerIt; it_c != lastActionPlayerIt; it_c++) {
+			if((*it_c)->getMyAction() != PLAYER_ACTION_FOLD) {
+				//    for(it_c = firstAfterLastActionPlayerIt; it_c != lastActionPlayerIt; it_c++) {
 
-        //            if(it_c == lastActionPlayerIt) {
-        //                break;
-        //            }
-        //        }
-                    for(level_it = level.begin(); level_it != level.end(); level_it++) {
-                        if((*it_c)->getMyCardsValueInt() > (*level_it)[0]) {
-                            next_level_it = level_it;
-                            next_level_it++;
-                            if(next_level_it == level.end()) {
-                                playerNeedToShowCards.push_back((*it_c)->getMyUniqueID());
-                                level_tmp = new int[2];
-                                level_tmp[0] = (*it_c)->getMyCardsValueInt();
-                                level_tmp[1] = (*it_c)->getMyRoundStartCash()-(*it_c)->getMyCash();
-                                level.push_back(level_tmp);
-                                break;
-                            }
-                        } else {
-                            if((*it_c)->getMyCardsValueInt() == (*level_it)[0]) {
-                                next_level_it = level_it;
-                                next_level_it++;
+				//            if(it_c == lastActionPlayerIt) {
+				//                break;
+				//            }
+				//        }
+				for(level_it = level.begin(); level_it != level.end(); level_it++) {
+					if((*it_c)->getMyCardsValueInt() > (*level_it)[0]) {
+						next_level_it = level_it;
+						next_level_it++;
+						if(next_level_it == level.end()) {
+							playerNeedToShowCards.push_back((*it_c)->getMyUniqueID());
+							level_tmp = new int[2];
+							level_tmp[0] = (*it_c)->getMyCardsValueInt();
+							level_tmp[1] = (*it_c)->getMyRoundStartCash()-(*it_c)->getMyCash();
+							level.push_back(level_tmp);
+							break;
+						}
+					} else {
+						if((*it_c)->getMyCardsValueInt() == (*level_it)[0]) {
+							next_level_it = level_it;
+							next_level_it++;
 //
 //                                for(level_it_tmp = level.begin(); level_it_tmp != level.end(); level_it_tmp++) {
 //                                    cout << (*level_it_tmp)[0] << "," << (*level_it_tmp)[1] << endl;
 //                                }
 
 
-                                if(next_level_it == level.end() || (*it_c)->getMyRoundStartCash()-(*it_c)->getMyCash() > (*next_level_it)[1]) {
-                                    playerNeedToShowCards.push_back((*it_c)->getMyUniqueID());
-                                    if((*it_c)->getMyRoundStartCash()-(*it_c)->getMyCash() > (*level_it)[1]) {
-                                        (*level_it)[1] = (*it_c)->getMyRoundStartCash()-(*it_c)->getMyCash();
-                                    }
-                                }
-                                break;
-                            } else {
-                                if((*it_c)->getMyRoundStartCash()-(*it_c)->getMyCash() > (*level_it)[1]) {
-                                    playerNeedToShowCards.push_back((*it_c)->getMyUniqueID());
-                                    level_tmp = new int(2);
-                                    level_tmp[0] = (*it_c)->getMyCardsValueInt();
-                                    level_tmp[1] = (*it_c)->getMyRoundStartCash()-(*it_c)->getMyCash();
+							if(next_level_it == level.end() || (*it_c)->getMyRoundStartCash()-(*it_c)->getMyCash() > (*next_level_it)[1]) {
+								playerNeedToShowCards.push_back((*it_c)->getMyUniqueID());
+								if((*it_c)->getMyRoundStartCash()-(*it_c)->getMyCash() > (*level_it)[1]) {
+									(*level_it)[1] = (*it_c)->getMyRoundStartCash()-(*it_c)->getMyCash();
+								}
+							}
+							break;
+						} else {
+							if((*it_c)->getMyRoundStartCash()-(*it_c)->getMyCash() > (*level_it)[1]) {
+								playerNeedToShowCards.push_back((*it_c)->getMyUniqueID());
+								level_tmp = new int(2);
+								level_tmp[0] = (*it_c)->getMyCardsValueInt();
+								level_tmp[1] = (*it_c)->getMyRoundStartCash()-(*it_c)->getMyCash();
 //
 //                                    for(level_it_tmp = level.begin(); level_it_tmp != level.end(); level_it_tmp++) {
 //                                        cout << (*level_it_tmp)[0] << "," << (*level_it_tmp)[1] << endl;
 //                                    }
 
-                                    level.insert(level_it,level_tmp);
+								level.insert(level_it,level_tmp);
 
 //                                    for(level_it_tmp = level.begin(); level_it_tmp != level.end(); level_it_tmp++) {
 //                                        cout << (*level_it_tmp)[0] << "," << (*level_it_tmp)[1] << endl;
 //                                    }
 
-                                    break;
-                                }
-                            }
-                        }
-                    }
+								break;
+							}
+						}
+					}
+				}
 
-                }
+			}
 
-				++it_c;
+			++it_c;
 
-            }
-
-
-
-        //    bool showCards;
-
-            // search for more player who have to show their cards (perhaps not all situation are considered yet)
-        //    for(it_c = ++lastActionPlayerIt; it_c!=activePlayerList->end(); it_c++) {
-        //
-        //        showCards = false;
-        //
-        ////        if((*it_c)->getMyCardsValueInt() >= highestCardsValueInt) {
-        ////            playerNeedToShowCards.push_back((*it_c)->getMyUniqueID());
-        ////            highestCardsValueInt = (*it_c)->getMyCardsValueInt();
-        ////        }
-        //    }
-        //
-        //    for(it_c = activePlayerList->begin(); it_c!=lastActionPlayerIt; it_c++) {
-        ////        if((*it_c)->getMyCardsValueInt() >= highestCardsValueInt) {
-        ////            playerNeedToShowCards.push_back((*it_c)->getMyUniqueID());
-        ////            highestCardsValueInt = (*it_c)->getMyCardsValueInt();
-        ////        }
-        //    }
-
-    }
+		}
 
 
-    // sort and unique the list
-    playerNeedToShowCards.sort();
-    playerNeedToShowCards.unique();
+
+		//    bool showCards;
+
+		// search for more player who have to show their cards (perhaps not all situation are considered yet)
+		//    for(it_c = ++lastActionPlayerIt; it_c!=activePlayerList->end(); it_c++) {
+		//
+		//        showCards = false;
+		//
+		////        if((*it_c)->getMyCardsValueInt() >= highestCardsValueInt) {
+		////            playerNeedToShowCards.push_back((*it_c)->getMyUniqueID());
+		////            highestCardsValueInt = (*it_c)->getMyCardsValueInt();
+		////        }
+		//    }
+		//
+		//    for(it_c = activePlayerList->begin(); it_c!=lastActionPlayerIt; it_c++) {
+		////        if((*it_c)->getMyCardsValueInt() >= highestCardsValueInt) {
+		////            playerNeedToShowCards.push_back((*it_c)->getMyUniqueID());
+		////            highestCardsValueInt = (*it_c)->getMyCardsValueInt();
+		////        }
+		//    }
+
+	}
+
+
+	// sort and unique the list
+	playerNeedToShowCards.sort();
+	playerNeedToShowCards.unique();
 
 //    std::_List_iterator<unsigned> playerNeedToShowCardsIt;
 //

@@ -34,9 +34,9 @@
 using namespace std;
 
 ServerAdminBot::ServerAdminBot()
-: m_notifyTimeoutMinutes(0), m_notifyIntervalMinutes(0), m_notifyCounter(0),
-  m_ircRestartTimer(boost::posix_time::time_duration(0, 0, 0), boost::timers::portable::second_timer::auto_start),
-  m_notifyTimer(boost::posix_time::time_duration(0, 0, 0), boost::timers::portable::second_timer::manual_start)
+	: m_notifyTimeoutMinutes(0), m_notifyIntervalMinutes(0), m_notifyCounter(0),
+	  m_ircRestartTimer(boost::posix_time::time_duration(0, 0, 0), boost::timers::portable::second_timer::auto_start),
+	  m_notifyTimer(boost::posix_time::time_duration(0, 0, 0), boost::timers::portable::second_timer::manual_start)
 {
 }
 
@@ -67,62 +67,47 @@ ServerAdminBot::SignalIrcSelfJoined(const std::string &nickName, const std::stri
 void
 ServerAdminBot::SignalIrcChatMsg(const std::string &nickName, const std::string &msg)
 {
-	if (m_ircAdminThread)
-	{
-		try
-		{
+	if (m_ircAdminThread) {
+		try {
 			istringstream msgStream(msg);
 			string target;
 			msgStream >> target;
-			if (boost::algorithm::iequals(target, m_ircNick + ":"))
-			{
+			if (boost::algorithm::iequals(target, m_ircNick + ":")) {
 				string command;
 				msgStream >> command;
-				if (command == "kick")
-				{
+				if (command == "kick") {
 					while (msgStream.peek() == ' ')
 						msgStream.get();
 					string playerName(msgStream.str().substr(msgStream.tellg()));
-					if (!playerName.empty())
-					{
+					if (!playerName.empty()) {
 						if (GetLobbyThread().KickPlayerByName(playerName))
 							m_ircAdminThread->SendChatMessage(nickName + ": Successfully kicked player \"" + playerName + "\" from the server.");
 						else
 							m_ircAdminThread->SendChatMessage(nickName + ": Player \"" + playerName + "\" was not found on the server.");
 					}
-				}
-				else if (command == "cleaner-reconnect")
-				{
+				} else if (command == "cleaner-reconnect") {
 					GetLobbyThread().ReconnectChatBot();
 					m_ircAdminThread->SendChatMessage(nickName + ": Cleaner bot reconnect initiated.");
-				}
-				else if (command == "showip")
-				{
+				} else if (command == "showip") {
 					while (msgStream.peek() == ' ')
 						msgStream.get();
 					string playerName(msgStream.str().substr(msgStream.tellg()));
-					if (!playerName.empty())
-					{
+					if (!playerName.empty()) {
 						string ipAddress(GetLobbyThread().GetPlayerIPAddress(playerName));
 						if (!ipAddress.empty())
 							m_ircAdminThread->SendChatMessage(nickName + ": The IP address of player \"" + playerName + "\" is: \"" + ipAddress + "\"");
 						else
 							m_ircAdminThread->SendChatMessage(nickName + ": The IP address of player \"" + playerName + "\" is unknown.");
 					}
-				}
-				else if (command == "bannick")
-				{
+				} else if (command == "bannick") {
 					while (msgStream.peek() == ' ')
 						msgStream.get();
 					string playerRegex(msgStream.str().substr(msgStream.tellg()));
-					if (!playerRegex.empty())
-					{
+					if (!playerRegex.empty()) {
 						GetLobbyThread().GetBanManager().BanPlayerRegex(playerRegex);
 						m_ircAdminThread->SendChatMessage(nickName + ": The regex \"" + playerRegex + "\" was added to the player ban list.");
 					}
-				}
-				else if (command == "banip")
-				{
+				} else if (command == "banip") {
 					while (msgStream.peek() == ' ')
 						msgStream.get();
 					string ipAddress;
@@ -132,115 +117,94 @@ ServerAdminBot::SignalIrcChatMsg(const std::string &nickName, const std::string 
 						msgStream.get();
 					if (!msgStream.eof())
 						msgStream >> durationHours;
-					if (!ipAddress.empty())
-					{
+					if (!ipAddress.empty()) {
 						ostringstream durationStr;
 						durationStr << durationHours;
 						GetLobbyThread().GetBanManager().BanIPAddress(ipAddress, durationHours);
 						m_ircAdminThread->SendChatMessage(nickName + ": The IP address \"" + ipAddress + "\" was added to the IP address ban list for " + durationStr.str() + (durationHours == 1 ? " hour." : " hours."));
 					}
-				}
-				else if (command == "listban")
-				{
+				} else if (command == "listban") {
 					list<string> banList;
 					GetLobbyThread().GetBanManager().GetBanList(banList);
 					list<string>::const_iterator i = banList.begin();
 					list<string>::const_iterator end = banList.end();
-					while (i != end)
-					{
+					while (i != end) {
 						m_ircAdminThread->SendChatMessage(*i);
 						++i;
 					}
 					ostringstream banListStream;
 					banListStream
-						<< nickName << ": Total count of bans: " << banList.size();
+							<< nickName << ": Total count of bans: " << banList.size();
 					m_ircAdminThread->SendChatMessage(banListStream.str());
-				}
-				else if (command == "removeban")
-				{
+				} else if (command == "removeban") {
 					unsigned banId = 0;
 					msgStream >> banId;
 					if (GetLobbyThread().GetBanManager().UnBan(banId))
 						m_ircAdminThread->SendChatMessage(nickName + ": The ban was successfully removed.");
 					else
 						m_ircAdminThread->SendChatMessage(nickName + ": This ban does not exist.");
-				}
-				else if (command == "clearban")
-				{
+				} else if (command == "clearban") {
 					GetLobbyThread().GetBanManager().ClearBanList();
 					m_ircAdminThread->SendChatMessage(nickName + ": All ban lists were cleared.");
-				}
-				else if (command == "stat")
-				{
+				} else if (command == "stat") {
 					ServerStats tmpStats = GetLobbyThread().GetStats();
 					{
 						boost::posix_time::time_duration timeDiff(boost::posix_time::second_clock::local_time() - GetLobbyThread().GetStartTime());
 						ostringstream statStream;
 						statStream
-							<< "Server uptime................ " << timeDiff.hours() / 24 << " days " << timeDiff.hours() % 24 << " hours " << timeDiff.minutes() << " minutes " << timeDiff.seconds() << " seconds";
+								<< "Server uptime................ " << timeDiff.hours() / 24 << " days " << timeDiff.hours() % 24 << " hours " << timeDiff.minutes() << " minutes " << timeDiff.seconds() << " seconds";
 						m_ircAdminThread->SendChatMessage(statStream.str());
 					}
 					{
 						ostringstream statStream;
 						statStream
-							<< "Players currently on Server.. " << tmpStats.numberOfPlayersOnServer;
+								<< "Players currently on Server.. " << tmpStats.numberOfPlayersOnServer;
 						m_ircAdminThread->SendChatMessage(statStream.str());
 					}
 					{
 						ostringstream statStream;
 						statStream
-							<< "Games currently open......... " << tmpStats.numberOfGamesOpen;
+								<< "Games currently open......... " << tmpStats.numberOfGamesOpen;
 						m_ircAdminThread->SendChatMessage(statStream.str());
 					}
 					{
 						ostringstream statStream;
 						statStream
-							<< "Total players ever logged in. " << tmpStats.totalPlayersEverLoggedIn
-							<< "    (Max at a time: " << tmpStats.maxPlayersLoggedIn << ")";
+								<< "Total players ever logged in. " << tmpStats.totalPlayersEverLoggedIn
+								<< "    (Max at a time: " << tmpStats.maxPlayersLoggedIn << ")";
 						m_ircAdminThread->SendChatMessage(statStream.str());
 					}
 					{
 						ostringstream statStream;
 						statStream
-							<< "Total games ever open........ " << tmpStats.totalGamesEverCreated
-							<< "    (Max at a time: " << tmpStats.maxGamesOpen << ")";
+								<< "Total games ever open........ " << tmpStats.totalGamesEverCreated
+								<< "    (Max at a time: " << tmpStats.maxGamesOpen << ")";
 						m_ircAdminThread->SendChatMessage(statStream.str());
 					}
-				}
-				else if (command == "chat")
-				{
+				} else if (command == "chat") {
 					while (msgStream.peek() == ' ')
 						msgStream.get();
 					string chat(msgStream.str().substr(msgStream.tellg()));
-					if (!chat.empty() && chat.size() < MAX_CHAT_TEXT_SIZE)
-					{
+					if (!chat.empty() && chat.size() < MAX_CHAT_TEXT_SIZE) {
 						GetLobbyThread().SendGlobalChat(chat);
 						m_ircAdminThread->SendChatMessage(nickName + ": Global chat message sent.");
-					}
-					else
+					} else
 						m_ircAdminThread->SendChatMessage(nickName + ": Invalid message.");
-				}
-				else if (command == "msg")
-				{
+				} else if (command == "msg") {
 					while (msgStream.peek() == ' ')
 						msgStream.get();
 					string message(msgStream.str().substr(msgStream.tellg()));
-					if (!message.empty() && message.size() < MAX_CHAT_TEXT_SIZE)
-					{
+					if (!message.empty() && message.size() < MAX_CHAT_TEXT_SIZE) {
 						GetLobbyThread().SendGlobalMsgBox(message);
 						m_ircAdminThread->SendChatMessage(nickName + ": Global message box sent.");
-					}
-					else
+					} else
 						m_ircAdminThread->SendChatMessage(nickName + ": Invalid message.");
-				}
-				else if (command == "notify-restart")
-				{
+				} else if (command == "notify-restart") {
 					int timeoutMinutes = 0;
 					int intervalMinutes = 0;
 					msgStream >> timeoutMinutes;
 					msgStream >> intervalMinutes;
-					if (timeoutMinutes && intervalMinutes)
-					{
+					if (timeoutMinutes && intervalMinutes) {
 						ostringstream ack;
 						ack << nickName << ": Restart planned in " << timeoutMinutes << " minutes, notifying every " << intervalMinutes << " minutes.";
 						m_ircAdminThread->SendChatMessage(ack.str());
@@ -250,18 +214,14 @@ ServerAdminBot::SignalIrcChatMsg(const std::string &nickName, const std::string 
 						m_notifyCounter = 0;
 						m_notifyTimer.reset();
 						m_notifyTimer.start();
-					}
-					else
-					{
+					} else {
 						m_ircAdminThread->SendChatMessage(nickName + ": Invalid parameters.");
 					}
 
-				}
-				else
+				} else
 					m_ircAdminThread->SendChatMessage(nickName + ": Invalid command \"" + command + "\".");
 			}
-		} catch (...)
-		{
+		} catch (...) {
 			m_ircAdminThread->SendChatMessage(nickName + ": Syntax error. Please check the command.");
 		}
 	}
@@ -289,13 +249,10 @@ ServerAdminBot::Run()
 void
 ServerAdminBot::Process()
 {
-	if (m_ircRestartTimer.elapsed().total_seconds() > SERVER_RESTART_IRC_BOT_INTERVAL_SEC)
-	{
-		if (m_ircAdminThread)
-		{
+	if (m_ircRestartTimer.elapsed().total_seconds() > SERVER_RESTART_IRC_BOT_INTERVAL_SEC) {
+		if (m_ircAdminThread) {
 			m_ircAdminThread->SignalTermination();
-			if (m_ircAdminThread->Join(NET_ADMIN_IRC_TERMINATE_TIMEOUT_MSEC))
-			{
+			if (m_ircAdminThread->Join(NET_ADMIN_IRC_TERMINATE_TIMEOUT_MSEC)) {
 				boost::shared_ptr<IrcThread> tmpIrcThread(new IrcThread(*m_ircAdminThread));
 				tmpIrcThread->Run();
 				m_ircAdminThread = tmpIrcThread;
@@ -307,12 +264,10 @@ ServerAdminBot::Process()
 	{
 		boost::mutex::scoped_lock lock(m_notifyMutex);
 
-		if (m_notifyTimeoutMinutes && m_notifyTimer.elapsed().total_seconds() >= m_notifyCounter * m_notifyIntervalMinutes * 60)
-		{
+		if (m_notifyTimeoutMinutes && m_notifyTimer.elapsed().total_seconds() >= m_notifyCounter * m_notifyIntervalMinutes * 60) {
 			int remainingMinutes = m_notifyTimeoutMinutes - m_notifyCounter * m_notifyIntervalMinutes;
 			++m_notifyCounter;
-			if (remainingMinutes > 1)
-			{
+			if (remainingMinutes > 1) {
 				ostringstream notifyStream;
 				notifyStream << "The server will be restarted in " << remainingMinutes << " minutes.";
 				GetLobbyThread().SendGlobalChat(notifyStream.str());
@@ -328,9 +283,7 @@ ServerAdminBot::Process()
 				notifyStream.str("");
 				notifyStream << "El servidor se reiniciará en " << remainingMinutes << " minutos.";
 				GetLobbyThread().SendGlobalChat(notifyStream.str());
-			}
-			else if (remainingMinutes == 1)
-			{
+			} else if (remainingMinutes == 1) {
 				ostringstream notifyStream;
 				notifyStream << "The server will be restarted in " << remainingMinutes << " minute.";
 				GetLobbyThread().SendGlobalChat(notifyStream.str());
@@ -346,9 +299,7 @@ ServerAdminBot::Process()
 				notifyStream.str("");
 				notifyStream << "El servidor se reiniciará en " << remainingMinutes << " minuto.";
 				GetLobbyThread().SendGlobalChat(notifyStream.str());
-			}
-			else
-			{
+			} else {
 				GetLobbyThread().SendGlobalChat("The server will be restarted NOW.");
 				GetLobbyThread().SendGlobalMsgBox("The server will be restarted NOW.");
 				m_notifyTimeoutMinutes = m_notifyCounter = m_notifyIntervalMinutes = 0;

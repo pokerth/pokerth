@@ -23,11 +23,12 @@
 #include <game_defs.h>
 #include <engine_defs.h>
 
-class BeRoInterface{
+class BeRoInterface
+{
 public:
 
 	virtual ~BeRoInterface();
-	
+
 	virtual GameState getMyBeRoID() const =0;
 
 	virtual void setCurrentPlayersTurnId(unsigned) =0;

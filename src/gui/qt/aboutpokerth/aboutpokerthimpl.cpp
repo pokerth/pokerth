@@ -24,12 +24,12 @@
 
 
 aboutPokerthImpl::aboutPokerthImpl(QWidget *parent, ConfigFile *c)
-    : QDialog(parent), myConfig(c)
+	: QDialog(parent), myConfig(c)
 {
 #ifdef __APPLE__
 	setWindowModality(Qt::ApplicationModal);
 	setWindowFlags(Qt::WindowSystemMenuHint | Qt::CustomizeWindowHint | Qt::Dialog);
-#endif	
+#endif
 	setupUi(this);
 
 	myAppDataPath = QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str());
@@ -51,9 +51,9 @@ aboutPokerthImpl::aboutPokerthImpl(QWidget *parent, ConfigFile *c)
 			textBrowser_licence->setHtml(gplString);
 		}
 	}
-	
-	
-        label_logo->setPixmap(QPixmap(":/gfx/logoChip3D.png"));
+
+
+	label_logo->setPixmap(QPixmap(":/gfx/logoChip3D.png"));
 
 	label_pokerthVersion->setStyleSheet("QLabel { font-size: 16px; font-weight: bold;}");
 	label_pokerthVersion->setText(QString(tr("PokerTH %1").arg(POKERTH_BETA_RELEASE_STRING)));

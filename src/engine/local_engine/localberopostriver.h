@@ -26,13 +26,18 @@
 class HandInterface;
 
 
-class LocalBeRoPostRiver : public LocalBeRo{
+class LocalBeRoPostRiver : public LocalBeRo
+{
 public:
 	LocalBeRoPostRiver(HandInterface*, int, int, int);
 	~LocalBeRoPostRiver();
 
-	void setHighestCardsValue(int theValue) { highestCardsValue = theValue;}
-	int getHighestCardsValue() const { return highestCardsValue;}
+	void setHighestCardsValue(int theValue) {
+		highestCardsValue = theValue;
+	}
+	int getHighestCardsValue() const {
+		return highestCardsValue;
+	}
 
 	void run();
 

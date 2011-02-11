@@ -6,10 +6,10 @@ BadWordCheck::BadWordCheck()
 {
 }
 
-bool BadWordCheck::run(QString msg) 
+bool BadWordCheck::run(QString msg)
 {
 	msg = msg.toLower();
-	
+
 	QStringListIterator it(badWords);
 	while (it.hasNext()) {
 		if(msg.contains(it.next()))

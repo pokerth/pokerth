@@ -24,14 +24,14 @@
 
 
 selectAvatarDialogImpl::selectAvatarDialogImpl(QWidget *parent, ConfigFile *c)
-    : QDialog(parent), myConfig(c), settingsCorrect(TRUE), avatarDir("")
+	: QDialog(parent), myConfig(c), settingsCorrect(TRUE), avatarDir("")
 {
 #ifdef __APPLE__
 	setWindowModality(Qt::ApplicationModal);
 	setWindowFlags(Qt::WindowSystemMenuHint | Qt::CustomizeWindowHint | Qt::Dialog);
-#endif	
+#endif
 	setupUi(this);
-	
+
 	myAppDataPath = QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str());
 
 	pushButton_OpenAvatarFile->setIcon(QIcon(QPixmap(myAppDataPath+"gfx/gui/misc/fileopen16.png")));
@@ -39,7 +39,7 @@ selectAvatarDialogImpl::selectAvatarDialogImpl(QWidget *parent, ConfigFile *c)
 // 	listWidget->setViewMode(QListView::IconMode);
 // 	listWidget->setIconSize(QSize(50,50));
 // 	listWidget->setLayoutDirection(Qt::LeftToRight);
-    	listWidget->setViewMode(QListView::IconMode);
+	listWidget->setViewMode(QListView::IconMode);
 	listWidget->setIconSize(QSize(50, 50));
 //     	listWidget->setFlow(QListView::TopToBottom);
 //       	listWidget->setWrapping(true);
@@ -47,7 +47,7 @@ selectAvatarDialogImpl::selectAvatarDialogImpl(QWidget *parent, ConfigFile *c)
 	listWidget->setDragEnabled(FALSE);
 	listWidget->setResizeMode(QListView::Adjust);
 
-		
+
 // 	int i;
 // 	for (i=0; i<30; i++) {
 // 		MyAvatarListItem *myItem = new MyAvatarListItem(listWidget);
@@ -60,7 +60,7 @@ selectAvatarDialogImpl::selectAvatarDialogImpl(QWidget *parent, ConfigFile *c)
 	peopleAvatarList << myAppDataPath +"gfx/avatars/default/people/95df673e5ee4d02f0f95d5c7ff091cfb.png";
 	peopleAvatarList << myAppDataPath +"gfx/avatars/default/people/490ed3a748f6f4d6c261436198f2368f.png";
 	peopleAvatarList << myAppDataPath +"gfx/avatars/default/people/e3e1ae15f7d808fce16c26c049e2cbe9.png";
-	peopleAvatarList << myAppDataPath +"gfx/avatars/default/people/237c518f2bb6ac99f6eb1012e18460b9.png";	
+	peopleAvatarList << myAppDataPath +"gfx/avatars/default/people/237c518f2bb6ac99f6eb1012e18460b9.png";
 	peopleAvatarList << myAppDataPath +"gfx/avatars/default/people/9f49fc3d6062ddc08dc6bbd9ef9b399d.png";
 	peopleAvatarList << myAppDataPath +"gfx/avatars/default/people/bed234c6672d512bdb4c2768f0b3f90c.png";
 	peopleAvatarList << myAppDataPath +"gfx/avatars/default/people/d6f8a45e9243b7e7e4e2c8e41df1c9f5.png";
@@ -76,7 +76,7 @@ selectAvatarDialogImpl::selectAvatarDialogImpl(QWidget *parent, ConfigFile *c)
 	peopleAvatarList << myAppDataPath +"gfx/avatars/default/people/6ecea83d9fac6b4cae97e2fccd09a5f6.png";
 	peopleAvatarList << myAppDataPath +"gfx/avatars/default/people/74672ebfa2ab02968386c4e441a08668.png";
 	peopleAvatarList << myAppDataPath +"gfx/avatars/default/people/e54e67ebd5265cf549362a2cda5a999c.png";
-	peopleAvatarList << myAppDataPath +"gfx/avatars/default/people/da34195981d255656f39c05481de3b6a.png";	
+	peopleAvatarList << myAppDataPath +"gfx/avatars/default/people/da34195981d255656f39c05481de3b6a.png";
 	peopleAvatarList << myAppDataPath +"gfx/avatars/default/people/6ad16e2c3e4b8e4e6da47032d4372f4b.png";
 	peopleAvatarList << myAppDataPath +"gfx/avatars/default/people/c018b15b8164a303b9395b1e89c51004.png";
 	peopleAvatarList << myAppDataPath +"gfx/avatars/default/people/0c24b06358f7b308d6b47c59ebace73d.png";
@@ -147,8 +147,8 @@ selectAvatarDialogImpl::selectAvatarDialogImpl(QWidget *parent, ConfigFile *c)
 	miscAvatarList << myAppDataPath +"gfx/avatars/default/misc/eb7612a2b515bd826babec8f649b44cf.png";
 	miscAvatarList << myAppDataPath +"gfx/avatars/default/misc/08ced517579b3d258c947aec6c0a0dd4.png";
 
-		
-	
+
+
 // 	peopleAvatarList << myAppDataPath +"gfx/avatars/default/misc/
 
 	connect(groupBox, SIGNAL(toggled(bool)), this, SLOT(toggleGroupBox1(bool)));
@@ -158,11 +158,12 @@ selectAvatarDialogImpl::selectAvatarDialogImpl(QWidget *parent, ConfigFile *c)
 	connect( pushButton_OpenAvatarFile, SIGNAL( clicked() ), this, SLOT( setExternalAvatar() ) );
 	connect( listWidget, SIGNAL( doubleClicked(QModelIndex) ), this, SLOT( isAccepted() ) );
 	connect( comboBox_avatarViewCategorie, SIGNAL( currentIndexChanged(int) ), this, SLOT( refreshAvatarView() ) );
-	
+
 
 }
 
-void selectAvatarDialogImpl::exec() {
+void selectAvatarDialogImpl::exec()
+{
 
 	//clear
 	lineEdit->setText("");
@@ -171,24 +172,29 @@ void selectAvatarDialogImpl::exec() {
 	QDialog::exec();
 }
 
-void selectAvatarDialogImpl::refreshAvatarView() {
+void selectAvatarDialogImpl::refreshAvatarView()
+{
 
 	listWidget->clear();
 
 	int i;
 	QStringList currentViewList;
-	
+
 	switch(comboBox_avatarViewCategorie->currentIndex()) {
 
-	case 0: { currentViewList = peopleAvatarList; }
+	case 0: {
+		currentViewList = peopleAvatarList;
+	}
 	break;
-	
-	case 1: { currentViewList = miscAvatarList; }	
+
+	case 1: {
+		currentViewList = miscAvatarList;
+	}
 	break;
 	}
 
 	for (i=0; i<currentViewList.size(); i++) {
-	
+
 		MyAvatarListItem *myItem = new MyAvatarListItem(listWidget);
 		myItem->setIcon(QIcon(QPixmap(currentViewList.at(i)).scaled(50,50,Qt::IgnoreAspectRatio,Qt::SmoothTransformation)));
 		myItem->setMyLink(currentViewList.at(i));
@@ -197,82 +203,94 @@ void selectAvatarDialogImpl::refreshAvatarView() {
 	}
 }
 
-void selectAvatarDialogImpl::toggleGroupBox1(bool /*toggleState*/) { if(groupBox->isChecked()) groupBox_2->setChecked(FALSE); }
+void selectAvatarDialogImpl::toggleGroupBox1(bool /*toggleState*/)
+{
+	if(groupBox->isChecked()) groupBox_2->setChecked(FALSE);
+}
 
-void selectAvatarDialogImpl::toggleGroupBox2(bool /*toggleState*/) { if(groupBox_2->isChecked()) groupBox->setChecked(FALSE); }
+void selectAvatarDialogImpl::toggleGroupBox2(bool /*toggleState*/)
+{
+	if(groupBox_2->isChecked()) groupBox->setChecked(FALSE);
+}
 
-QString selectAvatarDialogImpl::getAvatarLink() {
+QString selectAvatarDialogImpl::getAvatarLink()
+{
 
 	QList<QListWidgetItem *> myItemList = listWidget->selectedItems();
 
 	if(groupBox->isChecked()) {
 		if(myItemList.size() == 1) {
 			return static_cast<MyAvatarListItem*>(listWidget->currentItem())->getMyLink();
-		}
-		else return QString("");
+		} else return QString("");
 	}
-	
+
 	QFile lineEditFile(lineEdit->text());
 	if(groupBox_2->isChecked() && lineEditFile.exists() ) return externalAvatar;
 	else return QString("");
 }
 
 
-void selectAvatarDialogImpl::isAccepted() {
+void selectAvatarDialogImpl::isAccepted()
+{
 
 	QList<QListWidgetItem *> myItemList = listWidget->selectedItems();
 
-        settingsCorrect = TRUE;
+	settingsCorrect = TRUE;
 
-	if(groupBox->isChecked()) { 
+	if(groupBox->isChecked()) {
 		if(myItemList.size() == 0) {
 			QMessageBox::warning(this, tr("Avatar File Error"),
-			tr("Please select an avatar from the list!"),
-			QMessageBox::Ok);
-			settingsCorrect = FALSE; 
-		}
-		else settingsCorrect = TRUE;;
+								 tr("Please select an avatar from the list!"),
+								 QMessageBox::Ok);
+			settingsCorrect = FALSE;
+		} else settingsCorrect = TRUE;;
 	}
-	
+
 	if(groupBox_2->isChecked()) {
 		QFile lineEditFile(lineEdit->text());
-		if(lineEditFile.exists()) { 
+		if(lineEditFile.exists()) {
 
 			if(lineEditFile.size() <= 30720 ) {
 				externalAvatar = lineEdit->text();
 				settingsCorrect = TRUE;
-			}
-			else { QMessageBox::warning(this, tr("Avatar File Error"),
-				tr("The file size of the chosen picture is too big. (max. 30KB)\n"
-				"Please choose a smaller picture!"),
-				QMessageBox::Ok);
-				settingsCorrect = FALSE; 
+			} else {
+				QMessageBox::warning(this, tr("Avatar File Error"),
+									 tr("The file size of the chosen picture is too big. (max. 30KB)\n"
+										"Please choose a smaller picture!"),
+									 QMessageBox::Ok);
+				settingsCorrect = FALSE;
 				externalAvatar = "";
 
-			 }
-		}
-		else { QMessageBox::warning(this, tr("Avatar File Error"),
-			tr("The entered avatar picture doesn't exist.\n"
-			"Please enter an valid picture!"),
-			QMessageBox::Ok);
-			settingsCorrect = FALSE; 
+			}
+		} else {
+			QMessageBox::warning(this, tr("Avatar File Error"),
+								 tr("The entered avatar picture doesn't exist.\n"
+									"Please enter an valid picture!"),
+								 QMessageBox::Ok);
+			settingsCorrect = FALSE;
 			externalAvatar = "";
 		}
 	}
 
 	//Wenn alles richtig eingegeben wurde --> Dialog schließen
-	if(settingsCorrect) { this->hide(); }
+	if(settingsCorrect) {
+		this->hide();
+	}
 }
 
-void selectAvatarDialogImpl::isRejected() { settingsCorrect = FALSE;  }
+void selectAvatarDialogImpl::isRejected()
+{
+	settingsCorrect = FALSE;
+}
 
-void selectAvatarDialogImpl::setExternalAvatar() {
-	
+void selectAvatarDialogImpl::setExternalAvatar()
+{
+
 	if (avatarDir == "") avatarDir = QDir::homePath();
 	QString fileName = QFileDialog::getOpenFileName(this, tr("Select external avatar picture"), avatarDir, tr("Images (*.png *.jpg *.gif)"));
 
-     	if (!fileName.isEmpty()) {
-     		lineEdit->setText(fileName);	
+	if (!fileName.isEmpty()) {
+		lineEdit->setText(fileName);
 		avatarDir =  fileName;
 	}
 }

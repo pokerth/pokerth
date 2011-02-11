@@ -23,7 +23,7 @@
 using namespace std;
 
 PokerTHException::PokerTHException(const char *sourcefile, int sourceline, int errorId, int osErrorCode)
-: m_errorId(errorId), m_osErrorCode(osErrorCode)
+	: m_errorId(errorId), m_osErrorCode(osErrorCode)
 {
 	ostringstream msgStream;
 	msgStream << sourcefile << " (" << sourceline << "): Error " << errorId;

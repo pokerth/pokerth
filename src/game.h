@@ -35,12 +35,13 @@ struct GameData;
 struct StartData;
 
 
-class Game {
+class Game
+{
 
 public:
-    Game(GuiInterface *gui, boost::shared_ptr<EngineFactory> factory,
-		const PlayerDataList &playerDataList, const GameData &gameData,
-		const StartData &startData, int gameId, Log *myLog);
+	Game(GuiInterface *gui, boost::shared_ptr<EngineFactory> factory,
+		 const PlayerDataList &playerDataList, const GameData &gameData,
+		 const StartData &startData, int gameId, Log *myLog);
 
 	~Game();
 
@@ -50,28 +51,58 @@ public:
 	boost::shared_ptr<HandInterface> getCurrentHand();
 	const boost::shared_ptr<HandInterface> getCurrentHand() const;
 
-	PlayerList getSeatsList() const {return seatsList;}
-	PlayerList getActivePlayerList() const {return activePlayerList;}
-	PlayerList getRunningPlayerList() const {return runningPlayerList;}
+	PlayerList getSeatsList() const {
+		return seatsList;
+	}
+	PlayerList getActivePlayerList() const {
+		return activePlayerList;
+	}
+	PlayerList getRunningPlayerList() const {
+		return runningPlayerList;
+	}
 
-	void setStartQuantityPlayers(int theValue) { startQuantityPlayers = theValue; }
-	int getStartQuantityPlayers() const { return startQuantityPlayers; }
-	
-	void setStartSmallBlind(int theValue) { startSmallBlind = theValue; }
-	int getStartSmallBlind() const { return startSmallBlind; }
+	void setStartQuantityPlayers(int theValue) {
+		startQuantityPlayers = theValue;
+	}
+	int getStartQuantityPlayers() const {
+		return startQuantityPlayers;
+	}
 
-	void setStartCash(int theValue)	{ startCash = theValue; }
-	int getStartCash() const { return startCash;	}
+	void setStartSmallBlind(int theValue) {
+		startSmallBlind = theValue;
+	}
+	int getStartSmallBlind() const {
+		return startSmallBlind;
+	}
 
-	int getMyGameID() const	{ return myGameID; }
+	void setStartCash(int theValue)	{
+		startCash = theValue;
+	}
+	int getStartCash() const {
+		return startCash;
+	}
 
-	void setCurrentSmallBlind(int theValue) { currentSmallBlind = theValue; }
-	int getCurrentSmallBlind() const { return currentSmallBlind; }
+	int getMyGameID() const	{
+		return myGameID;
+	}
 
-	void setCurrentHandID(int theValue) { currentHandID = theValue; }
-	int getCurrentHandID() const { return currentHandID; }
+	void setCurrentSmallBlind(int theValue) {
+		currentSmallBlind = theValue;
+	}
+	int getCurrentSmallBlind() const {
+		return currentSmallBlind;
+	}
 
-	unsigned getDealerPosition() const { return dealerPosition; }
+	void setCurrentHandID(int theValue) {
+		currentHandID = theValue;
+	}
+	int getCurrentHandID() const {
+		return currentHandID;
+	}
+
+	unsigned getDealerPosition() const {
+		return dealerPosition;
+	}
 
 	boost::shared_ptr<PlayerInterface> getPlayerByUniqueId(unsigned id);
 	boost::shared_ptr<PlayerInterface> getCurrentPlayer();
@@ -82,7 +113,7 @@ private:
 	boost::shared_ptr<EngineFactory> myFactory;
 
 	GuiInterface *myGui;
-    Log *myLog;
+	Log *myLog;
 	boost::shared_ptr<HandInterface> currentHand;
 	boost::shared_ptr<BoardInterface> currentBoard;
 

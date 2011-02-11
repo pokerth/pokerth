@@ -25,7 +25,8 @@
 
 class HandInterface;
 
-class LocalBeRoTurn : public LocalBeRo{
+class LocalBeRoTurn : public LocalBeRo
+{
 public:
 	LocalBeRoTurn(HandInterface*, int, unsigned, int);
 	~LocalBeRoTurn();

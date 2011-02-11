@@ -4,21 +4,21 @@
 #include <QSortFilterProxyModel>
 
 class MyNickListSortFilterProxyModel : public QSortFilterProxyModel
-{  
-    Q_OBJECT
+{
+	Q_OBJECT
 
 public:
-    MyNickListSortFilterProxyModel(QObject *parent = 0);
+	MyNickListSortFilterProxyModel(QObject *parent = 0);
 
-    void setFilterState(int state);
+	void setFilterState(int state);
 
 protected:
-    bool filterAcceptsRow(int sourceRow, const QModelIndex &sourceParent) const;
-    bool lessThan(const QModelIndex &left, const QModelIndex &right) const;
+	bool filterAcceptsRow(int sourceRow, const QModelIndex &sourceParent) const;
+	bool lessThan(const QModelIndex &left, const QModelIndex &right) const;
 
 private:
 
-    int filterState;
+	int filterState;
 
 
 };

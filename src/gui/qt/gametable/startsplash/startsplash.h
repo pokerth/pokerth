@@ -1,7 +1,7 @@
 //
 // C++ Interface: startsplash
 //
-// Description: 
+// Description:
 //
 //
 // Author: FThauer FHammer <f.thauer@web.de>, (C) 2007
@@ -18,11 +18,11 @@
 
 class StartSplash : public QSplashScreen
 {
-Q_OBJECT
+	Q_OBJECT
 public:
-    StartSplash(QPixmap& p);
+	StartSplash(QPixmap& p);
 
-    ~StartSplash();
+	~StartSplash();
 
 public slots:
 

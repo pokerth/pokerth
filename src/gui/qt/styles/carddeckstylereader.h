@@ -29,39 +29,58 @@
 #define POKERTH_CD_STYLE_FILE_VERSION	1
 
 enum CdStyleState {
-    CD_STYLE_OK = 0,
-    CD_STYLE_OUTDATED,
-    CD_STYLE_FIELDS_EMPTY,
-    CD_STYLE_PICTURES_MISSING,
+	CD_STYLE_OK = 0,
+	CD_STYLE_OUTDATED,
+	CD_STYLE_FIELDS_EMPTY,
+	CD_STYLE_PICTURES_MISSING,
 };
 
-class CardDeckStyleReader : public QObject {
-Q_OBJECT
+class CardDeckStyleReader : public QObject
+{
+	Q_OBJECT
 public:
-        CardDeckStyleReader(ConfigFile *c, QWidget *w );
+	CardDeckStyleReader(ConfigFile *c, QWidget *w );
 	~CardDeckStyleReader();
-	
+
 	void readStyleFile(QString);
 
-	QString getStyleDescription() const { return StyleDescription; }
-	QString getStyleMaintainerName() const { return StyleMaintainerName; }
-	QString getStyleMaintainerEMail() const	{ return StyleMaintainerEMail; }
-	QString getStyleCreateDate() const { return StyleCreateDate; }
+	QString getStyleDescription() const {
+		return StyleDescription;
+	}
+	QString getStyleMaintainerName() const {
+		return StyleMaintainerName;
+	}
+	QString getStyleMaintainerEMail() const	{
+		return StyleMaintainerEMail;
+	}
+	QString getStyleCreateDate() const {
+		return StyleCreateDate;
+	}
 
-	QString getCurrentFileName() const { return currentFileName; }
-	QString getCurrentDir() const { return currentDir; }
-	
-	QString getPreview() const { return Preview; }
+	QString getCurrentFileName() const {
+		return currentFileName;
+	}
+	QString getCurrentDir() const {
+		return currentDir;
+	}
 
-	bool getFallBack() const { return fallBack; }	
-        bool getLoadedSuccessfull() const { return loadedSuccessfull; }
+	QString getPreview() const {
+		return Preview;
+	}
+
+	bool getFallBack() const {
+		return fallBack;
+	}
+	bool getLoadedSuccessfull() const {
+		return loadedSuccessfull;
+	}
 
 	void showLeftItemsErrorMessage(QString, QStringList, QString);
 	void showCardsLeftErrorMessage(QString, QStringList, QString);
 
 private:
 
-	QString StyleDescription;	
+	QString StyleDescription;
 	QString StyleMaintainerName;
 	QString StyleMaintainerEMail;
 	QString StyleCreateDate;
@@ -76,10 +95,10 @@ private:
 	QStringList leftItems;
 
 	ConfigFile *myConfig;
-        QWidget *myW;
+	QWidget *myW;
 
 	bool fallBack;
-        bool loadedSuccessfull;
+	bool loadedSuccessfull;
 };
 
 #endif

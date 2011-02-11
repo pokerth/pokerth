@@ -40,96 +40,99 @@ class IrcThread;
 class AvatarManager;
 class QtToolsInterface;
 
-class Session{
+class Session
+{
 public:
 
-    Session(GuiInterface*, ConfigFile*);
+	Session(GuiInterface*, ConfigFile*);
 
-    ~Session();
+	~Session();
 
-    enum GameType { GAME_TYPE_NONE, GAME_TYPE_LOCAL, GAME_TYPE_NETWORK, GAME_TYPE_INTERNET };
+	enum GameType { GAME_TYPE_NONE, GAME_TYPE_LOCAL, GAME_TYPE_NETWORK, GAME_TYPE_INTERNET };
 
-    // Only one of the two inits should be called.
-    bool init();
-    void init(boost::shared_ptr<AvatarManager> manager);
+	// Only one of the two inits should be called.
+	bool init();
+	void init(boost::shared_ptr<AvatarManager> manager);
 
-    void addOwnAvatar(const std::string &avatarFile);
+	void addOwnAvatar(const std::string &avatarFile);
 
-    void startLocalGame(const GameData &gameData, const StartData &startData);
-    void startClientGame(boost::shared_ptr<Game> game);
+	void startLocalGame(const GameData &gameData, const StartData &startData);
+	void startClientGame(boost::shared_ptr<Game> game);
 
 	boost::shared_ptr<Game> getCurrentGame();
 
-    GuiInterface *getGui();
-    Log* getMyLog() {return myLog; }
-    GameType getGameType();
+	GuiInterface *getGui();
+	Log* getMyLog() {
+		return myLog;
+	}
+	GameType getGameType();
 
-    boost::shared_ptr<AvatarManager> getAvatarManager();
+	boost::shared_ptr<AvatarManager> getAvatarManager();
 
-    void startInternetClient();
-    void startNetworkClient(const std::string &serverAddress, unsigned serverPort, bool ipv6, bool sctp);
-    void startNetworkClientForLocalServer(const GameData &gameData);
-    void terminateNetworkClient();
-    void clientCreateGame(const GameData &gameData, const std::string &name, const std::string &password);
-    void clientJoinGame(unsigned gameId, const std::string &password);
+	void startInternetClient();
+	void startNetworkClient(const std::string &serverAddress, unsigned serverPort, bool ipv6, bool sctp);
+	void startNetworkClientForLocalServer(const GameData &gameData);
+	void terminateNetworkClient();
+	void clientCreateGame(const GameData &gameData, const std::string &name, const std::string &password);
+	void clientJoinGame(unsigned gameId, const std::string &password);
 
-    void startNetworkServer(bool dedicated);
-    void sendLeaveCurrentGame();
-    void sendStartEvent(bool fillUpWithCpuPlayers);
-    void terminateNetworkServer();
-    bool pollNetworkServerTerminated();
+	void startNetworkServer(bool dedicated);
+	void sendLeaveCurrentGame();
+	void sendStartEvent(bool fillUpWithCpuPlayers);
+	void terminateNetworkServer();
+	bool pollNetworkServerTerminated();
 
-    void sendClientPlayerAction();
+	void sendClientPlayerAction();
 
-    void sendGameChatMessage(const std::string &message);
-    void sendLobbyChatMessage(const std::string &message);
+	void sendGameChatMessage(const std::string &message);
+	void sendLobbyChatMessage(const std::string &message);
 	void sendPrivateChatMessage(unsigned targetPlayerId, const std::string &message);
-    void kickPlayer(unsigned playerId);
-    void kickPlayer(const std::string &playerName);
-    void startVoteKickPlayer(unsigned playerId);
-    void voteKick(bool doKick);
-    void showMyCards();
-    void selectServer(unsigned serverId);
-    void setLogin(const std::string &userName, const std::string &password, bool isGuest);
+	void kickPlayer(unsigned playerId);
+	void kickPlayer(const std::string &playerName);
+	void startVoteKickPlayer(unsigned playerId);
+	void voteKick(bool doKick);
+	void showMyCards();
+	void selectServer(unsigned serverId);
+	void setLogin(const std::string &userName, const std::string &password, bool isGuest);
 
-    void invitePlayerToCurrentGame(unsigned playerId);
-    void acceptGameInvitation(unsigned gameId);
-    void rejectGameInvitation(unsigned gameId, DenyGameInvitationReason reason);
+	void invitePlayerToCurrentGame(unsigned playerId);
+	void acceptGameInvitation(unsigned gameId);
+	void rejectGameInvitation(unsigned gameId, DenyGameInvitationReason reason);
 
 	void reportBadAvatar(unsigned reportedPlayerId, const std::string &avatarHash);
 
-    void resetNetworkTimeout();
+	void resetNetworkTimeout();
 
-    bool isNetworkClientRunning() const; // TODO hack
-    bool isNetworkServerRunning() const; // TODO hack
+	bool isNetworkClientRunning() const; // TODO hack
+	bool isNetworkServerRunning() const; // TODO hack
 
-    ServerInfo getClientServerInfo(unsigned serverId) const;
-    GameInfo getClientGameInfo(unsigned gameId) const;
-    PlayerInfo getClientPlayerInfo(unsigned playerId) const;
+	ServerInfo getClientServerInfo(unsigned serverId) const;
+	GameInfo getClientGameInfo(unsigned gameId) const;
+	PlayerInfo getClientPlayerInfo(unsigned playerId) const;
 	unsigned getGameIdOfPlayer(unsigned playerId) const;
-    ServerStats getClientStats() const;
-    unsigned getClientCurrentGameId() const;
-    unsigned getClientUniquePlayerId() const;
+	ServerStats getClientStats() const;
+	unsigned getClientCurrentGameId() const;
+	unsigned getClientUniquePlayerId() const;
 
-    bool getAvatarFile(const MD5Buf &avatarMD5, std::string &fileName);
+	bool getAvatarFile(const MD5Buf &avatarMD5, std::string &fileName);
 
 private:
 
-    int currentGameNum;
+	int currentGameNum;
 
-    std::string myIrcNick;
+	std::string myIrcNick;
 
-    boost::shared_ptr<ClientThread> myNetClient;
-    boost::shared_ptr<ServerManager> myNetServer;
+	boost::shared_ptr<ClientThread> myNetClient;
+	boost::shared_ptr<ServerManager> myNetServer;
 
-    boost::shared_ptr<AvatarManager> myAvatarManager;
+	boost::shared_ptr<AvatarManager> myAvatarManager;
 
-    boost::shared_ptr<Game> currentGame;
-    GuiInterface *myGui;
-    ConfigFile *myConfig;
-    Log *myLog;
-    GameType myGameType;
-    QtToolsInterface *myQtToolsInterface;
+	boost::shared_ptr<Game> currentGame;
+	GuiInterface *myGui;
+	ConfigFile *myConfig;
+	Log *myLog;
+	GameType myGameType;
+	QtToolsInterface *myQtToolsInterface;
 };
 
 #endif

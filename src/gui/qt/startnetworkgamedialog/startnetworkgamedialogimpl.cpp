@@ -25,15 +25,15 @@
 #include <net/socket_msg.h>
 
 startNetworkGameDialogImpl::startNetworkGameDialogImpl(startWindowImpl *parent, ConfigFile *config)
-      : QDialog(parent), myW(NULL), myStartWindow(parent), keyUpDownChatCounter(0), myPlayerId(0), isAdmin(false), myConfig(config), myChat(NULL)
+	: QDialog(parent), myW(NULL), myStartWindow(parent), keyUpDownChatCounter(0), myPlayerId(0), isAdmin(false), myConfig(config), myChat(NULL)
 {
 #ifdef __APPLE__
 	setWindowModality(Qt::ApplicationModal);
 	setWindowFlags(Qt::WindowSystemMenuHint | Qt::CustomizeWindowHint | Qt::Dialog);
-#endif	
+#endif
 	setupUi(this);
 
-        myChat = new ChatTools(lineEdit_ChatInput, myConfig, LAN_LOBBY_CHAT, textBrowser_ChatDisplay);
+	myChat = new ChatTools(lineEdit_ChatInput, myConfig, LAN_LOBBY_CHAT, textBrowser_ChatDisplay);
 
 	lineEdit_ChatInput->installEventFilter(this);
 
@@ -48,36 +48,41 @@ startNetworkGameDialogImpl::startNetworkGameDialogImpl(startWindowImpl *parent, 
 	clearDialog();
 }
 
-void startNetworkGameDialogImpl::exec() {
+void startNetworkGameDialogImpl::exec()
+{
 
 	QDialog::exec();
 }
 
-void startNetworkGameDialogImpl::startGame() {
+void startNetworkGameDialogImpl::startGame()
+{
 	assert(mySession);
 	mySession->sendStartEvent(checkBox_fillUpWithComputerOpponents->isChecked());
 }
 
-void startNetworkGameDialogImpl::cancel() {
-	
+void startNetworkGameDialogImpl::cancel()
+{
+
 }
 
-void startNetworkGameDialogImpl::refresh(int actionID) {
+void startNetworkGameDialogImpl::refresh(int actionID)
+{
 
-	if (actionID == MSG_NET_GAME_CLIENT_START)
-	{
+	if (actionID == MSG_NET_GAME_CLIENT_START) {
 		QTimer::singleShot(500, this, SLOT(accept()));
 	}
 }
 
-void startNetworkGameDialogImpl::joinedNetworkGame(unsigned playerId, QString playerName, bool admin) {
+void startNetworkGameDialogImpl::joinedNetworkGame(unsigned playerId, QString playerName, bool admin)
+{
 
 	myPlayerId = playerId;
-        isAdmin = admin;
-        addConnectedPlayer(playerId, playerName, admin);
+	isAdmin = admin;
+	addConnectedPlayer(playerId, playerName, admin);
 }
 
-void startNetworkGameDialogImpl::addConnectedPlayer(unsigned playerId, QString playerName, bool) {
+void startNetworkGameDialogImpl::addConnectedPlayer(unsigned playerId, QString playerName, bool)
+{
 
 	// TODO mark admin
 	QTreeWidgetItem *item = new QTreeWidgetItem(treeWidget, 0);
@@ -89,8 +94,7 @@ void startNetworkGameDialogImpl::addConnectedPlayer(unsigned playerId, QString p
 	if(this->isVisible() && myConfig->readConfigInt("PlayNetworkGameNotification")) {
 		if(treeWidget->topLevelItemCount() < info.data.maxNumberOfPlayers) {
 			myW->getMySDLPlayer()->playSound("playerconnected", 0);
-		}
-		else {
+		} else {
 			myW->getMySDLPlayer()->playSound("onlinegameready", 0);
 		}
 	}
@@ -102,8 +106,7 @@ void startNetworkGameDialogImpl::updatePlayer(unsigned playerId, QString newPlay
 {
 	QTreeWidgetItemIterator it(treeWidget);
 	while (*it) {
-		if ((*it)->data(0, Qt::UserRole) == playerId)
-		{
+		if ((*it)->data(0, Qt::UserRole) == playerId) {
 			(*it)->setData(0, Qt::DisplayRole, newPlayerName);
 			break;
 		}
@@ -111,12 +114,12 @@ void startNetworkGameDialogImpl::updatePlayer(unsigned playerId, QString newPlay
 	}
 }
 
-void startNetworkGameDialogImpl::removePlayer(unsigned playerId, QString) {
+void startNetworkGameDialogImpl::removePlayer(unsigned playerId, QString)
+{
 
 	QTreeWidgetItemIterator it(treeWidget);
 	while (*it) {
-		if ((*it)->data(0, Qt::UserRole) == playerId)
-		{
+		if ((*it)->data(0, Qt::UserRole) == playerId) {
 			treeWidget->takeTopLevelItem(treeWidget->indexOfTopLevelItem(*it));
 			break;
 		}
@@ -128,8 +131,7 @@ void startNetworkGameDialogImpl::removePlayer(unsigned playerId, QString) {
 
 void startNetworkGameDialogImpl::newGameAdmin(unsigned playerId, QString)
 {
-	if (myPlayerId == playerId)
-	{
+	if (myPlayerId == playerId) {
 		isAdmin = true;
 		checkPlayerQuantity();
 	}
@@ -141,25 +143,27 @@ void startNetworkGameDialogImpl::gameCreated(unsigned /*gameId*/)
 	label_maxPlayerNumber->setText(QString::number(info.data.maxNumberOfPlayers));
 }
 
-void startNetworkGameDialogImpl::playerSelected(QTreeWidgetItem* item, QTreeWidgetItem*) {
+void startNetworkGameDialogImpl::playerSelected(QTreeWidgetItem* item, QTreeWidgetItem*)
+{
 
 	if (item)
 		pushButton_Kick->setEnabled(isAdmin);
 }
 
-void startNetworkGameDialogImpl::kickPlayer() {
+void startNetworkGameDialogImpl::kickPlayer()
+{
 
-	
+
 	QTreeWidgetItem *item = treeWidget->currentItem();
-	if (item)
-	{
+	if (item) {
 		QString playerName = item->text(0);
 		if(playerName == QString::fromUtf8(myConfig->readConfigString("MyName").c_str())) {
-			{ QMessageBox::warning(this, tr("Server Error"),
-					tr("You should not kick yourself from this game!"),
-					QMessageBox::Close); }
-		}
-		else {
+			{
+				QMessageBox::warning(this, tr("Server Error"),
+									 tr("You should not kick yourself from this game!"),
+									 QMessageBox::Close);
+			}
+		} else {
 			assert(mySession);
 			mySession->kickPlayer(item->data(0, Qt::UserRole).toUInt());
 		}
@@ -167,17 +171,17 @@ void startNetworkGameDialogImpl::kickPlayer() {
 	pushButton_Kick->setEnabled(false);
 }
 
-void startNetworkGameDialogImpl::checkPlayerQuantity() {
+void startNetworkGameDialogImpl::checkPlayerQuantity()
+{
 
-	if(isAdmin){
+	if(isAdmin) {
 		pushButton_Kick->show();
 		pushButton_startGame->show();
 		checkBox_fillUpWithComputerOpponents->show();
-		
+
 		if (treeWidget->topLevelItemCount() >= 2) {
 			pushButton_startGame->setEnabled(true);
-		}
-		else {
+		} else {
 			pushButton_startGame->setEnabled(false);
 		}
 	}
@@ -203,27 +207,31 @@ void startNetworkGameDialogImpl::setSession(boost::shared_ptr<Session> session)
 	myChat->setSession(mySession);
 }
 
-void startNetworkGameDialogImpl::keyPressEvent ( QKeyEvent * event ) {
+void startNetworkGameDialogImpl::keyPressEvent ( QKeyEvent * event )
+{
 
-	if (event->key() == Qt::Key_Up && lineEdit_ChatInput->hasFocus()) { 
-		if((keyUpDownChatCounter + 1) <= myChat->getChatLinesHistorySize()) { keyUpDownChatCounter++; }
+	if (event->key() == Qt::Key_Up && lineEdit_ChatInput->hasFocus()) {
+		if((keyUpDownChatCounter + 1) <= myChat->getChatLinesHistorySize()) {
+			keyUpDownChatCounter++;
+		}
 // 		std::cout << "Up keyUpDownChatCounter: " << keyUpDownChatCounter << "\n";
-		myChat->showChatHistoryIndex(keyUpDownChatCounter); 
-	}
-	else if(event->key() == Qt::Key_Down && lineEdit_ChatInput->hasFocus()) { 
-		if((keyUpDownChatCounter - 1) >= 0) { keyUpDownChatCounter--; }
+		myChat->showChatHistoryIndex(keyUpDownChatCounter);
+	} else if(event->key() == Qt::Key_Down && lineEdit_ChatInput->hasFocus()) {
+		if((keyUpDownChatCounter - 1) >= 0) {
+			keyUpDownChatCounter--;
+		}
 // 		std::cout << "Down keyUpDownChatCounter: " << keyUpDownChatCounter << "\n";
-		myChat->showChatHistoryIndex(keyUpDownChatCounter); 
+		myChat->showChatHistoryIndex(keyUpDownChatCounter);
+	} else {
+		keyUpDownChatCounter = 0;
 	}
-	else { keyUpDownChatCounter = 0; }
 }
 
 bool startNetworkGameDialogImpl::eventFilter(QObject *obj, QEvent *event)
 {
 	QKeyEvent *keyEvent = static_cast<QKeyEvent*>(event);
 
-	if (obj == lineEdit_ChatInput && lineEdit_ChatInput->text() != "" && event->type() == QEvent::KeyPress && keyEvent->key() == Qt::Key_Tab) 
-	{
+	if (obj == lineEdit_ChatInput && lineEdit_ChatInput->text() != "" && event->type() == QEvent::KeyPress && keyEvent->key() == Qt::Key_Tab) {
 		myChat->nickAutoCompletition();
 		return true;
 	} else {

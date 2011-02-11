@@ -1,7 +1,7 @@
 //
 // C++ Interface: mycardspixmaplabel
 //
-// Description: 
+// Description:
 //
 //
 // Author: FThauer FHammer <f.thauer@web.de>, (C) 2007
@@ -21,26 +21,38 @@ class gameTableImpl;
 
 class MyCardsPixmapLabel : public QLabel
 {
-Q_OBJECT
+	Q_OBJECT
 public:
-    MyCardsPixmapLabel(QGroupBox*);
+	MyCardsPixmapLabel(QGroupBox*);
 
-    ~MyCardsPixmapLabel();
+	~MyCardsPixmapLabel();
 
-	void setMyW ( gameTableImpl* theValue ) { myW = theValue; }
+	void setMyW ( gameTableImpl* theValue ) {
+		myW = theValue;
+	}
 
-	void setIsFlipside(bool theValue){ isFlipside = theValue;}
-	bool getIsFlipside() const{ return isFlipside;}
-	
-	void setFadeOutAction(bool theValue) { fadeOutAction = theValue; }
-	bool getFadeOutAction() const { return fadeOutAction;}
-	
+	void setIsFlipside(bool theValue) {
+		isFlipside = theValue;
+	}
+	bool getIsFlipside() const {
+		return isFlipside;
+	}
+
+	void setFadeOutAction(bool theValue) {
+		fadeOutAction = theValue;
+	}
+	bool getFadeOutAction() const {
+		return fadeOutAction;
+	}
+
 	void startFadeOut(int);
-        void stopFadeOut();
+	void stopFadeOut();
 	void startFlipCards(int, const QPixmap & , const QPixmap &);
 	void stopFlipCardsAnimation();
-	
-        void setFlipsidePix(QPixmap p) { flipside = p; }
+
+	void setFlipsidePix(QPixmap p) {
+		flipside = p;
+	}
 
 	void paintEvent(QPaintEvent * event);
 
@@ -49,26 +61,28 @@ signals:
 
 
 public slots:
-	
+
 	void setPixmap ( const QPixmap &, const bool );
 	void setHiddenFrontPixmap ( const QPixmap &);
 
 	void nextFadeOutFrame();
 	void nextFlipCardsFrame();
-	
+
 	void fastFlipCards(bool front);
 
-// 	void mouseMoveEvent ( QMouseEvent *); 
-	
+// 	void mouseMoveEvent ( QMouseEvent *);
+
 	void mousePressEvent ( QMouseEvent *);
 	void mouseReleaseEvent ( QMouseEvent *);
 
-	void setFront ( const QPixmap& theValue ) { front = theValue; }
-	
+	void setFront ( const QPixmap& theValue ) {
+		front = theValue;
+	}
 
-private: 
 
-	gameTableImpl* myW;	
+private:
+
+	gameTableImpl* myW;
 
 	qreal frameOpacity;
 	qreal opacityRaiseInterval;
@@ -78,22 +92,22 @@ private:
 	qreal frameFlipCardsAction2Size;
 
 	QTimer *fadeOutTimer;
-	QTimer *flipCardsTimer;	
+	QTimer *flipCardsTimer;
 
 	bool isFlipside;
 	bool fadeOutAction;
 	bool flipCardsAction1;
 	bool flipCardsAction2;
 	bool stopFlipCards;
-	
-	bool mousePress;	
-	bool fastFlipCardsFront;	
+
+	bool mousePress;
+	bool fastFlipCardsFront;
 
 	QPixmap front;
 	QPixmap flipside;
 	QPixmap myHiddenFront;
 
-friend class gameTableImpl;
+	friend class gameTableImpl;
 };
 
 #endif

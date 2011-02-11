@@ -5,13 +5,13 @@ TextFloodCheck::TextFloodCheck()
 {
 	timer.reset();
 	timer.start();
-	     
+
 	cleanTimer = new QTimer();
-	
+
 	connect(cleanTimer, SIGNAL(timeout()), this, SLOT(cleanMsgTimesList()));
 
 	cleanTimer->start(4000);
-			
+
 }
 
 TextFloodCheck::~TextFloodCheck()
@@ -19,24 +19,24 @@ TextFloodCheck::~TextFloodCheck()
 	delete cleanTimer;
 }
 
-bool TextFloodCheck::run(unsigned playerId) {
-	
+bool TextFloodCheck::run(unsigned playerId)
+{
+
 	QMapIterator<unsigned, TextFloodInfos> it(msgTimesList);
 	while (it.hasNext()) {
-		 it.next();
+		it.next();
 //		 qDebug() << "counter: " << msgTimesList.count() << " playerid: " << it.key() << " floodlevel: " << it.value().floodLevel << " timestamp: " <<  it.value().timeStamp;
 	}
-	
+
 	QMap<unsigned, TextFloodInfos>::const_iterator i = msgTimesList.find(playerId);
-	
+
 	if(i == msgTimesList.end()) {
 		TextFloodInfos tmpInfos1;
 		tmpInfos1.floodLevel = 0;
 		tmpInfos1.timeStamp = timer.elapsed().total_seconds();
 		msgTimesList.insert(playerId, tmpInfos1);
 		qDebug () << "Add Player: set player floodlevel to " << tmpInfos1.floodLevel;
-	}
-	else {
+	} else {
 		TextFloodInfos tmpInfos2;
 		if(timer.elapsed().total_seconds()-i.value().timeStamp <= 1) {
 			if(i.value().floodLevel == textFloodLevelToTrigger) {
@@ -46,35 +46,33 @@ bool TextFloodCheck::run(unsigned playerId) {
 				qDebug () << "Trigger: set player floodlevel to " << tmpInfos3.floodLevel;
 				msgTimesList.insert(playerId, tmpInfos3);
 				return true;
-			}
-			else {
+			} else {
 				tmpInfos2.floodLevel = i.value().floodLevel+1;
 				qDebug () << "Raise: set player floodlevel to " << tmpInfos2.floodLevel << " from " << i.value().floodLevel;
-			}		
-		}
-		else {
-			tmpInfos2.floodLevel = i.value().floodLevel;		
+			}
+		} else {
+			tmpInfos2.floodLevel = i.value().floodLevel;
 			qDebug () << "Keep: player floodlevel is " << tmpInfos2.floodLevel << " from " << i.value().floodLevel;
 		}
-		
+
 		tmpInfos2.timeStamp = timer.elapsed().total_seconds();
 		msgTimesList.insert(playerId, tmpInfos2);
 	}
 	return false;
 }
 
-void TextFloodCheck::cleanMsgTimesList() {
+void TextFloodCheck::cleanMsgTimesList()
+{
 
 	QMapIterator<unsigned, TextFloodInfos> it(msgTimesList);
 	while (it.hasNext()) {
-		 it.next();
-		 if(timer.elapsed().total_seconds()-it.value().timeStamp > 3) {
-			 
+		it.next();
+		if(timer.elapsed().total_seconds()-it.value().timeStamp > 3) {
+
 			if(it.value().floodLevel == 0) {
 				msgTimesList.remove(it.key());
 				qDebug () << "Refresh: player removed from List";
-			}
-			else {
+			} else {
 				TextFloodInfos tmpInfos;
 				tmpInfos.floodLevel = it.value().floodLevel-1;
 				tmpInfos.timeStamp = it.value().timeStamp;
@@ -86,8 +84,9 @@ void TextFloodCheck::cleanMsgTimesList() {
 	}
 }
 
-void TextFloodCheck::removeNickFromList(unsigned playerId) {
-	
+void TextFloodCheck::removeNickFromList(unsigned playerId)
+{
+
 //	qDebug() << "id " << playerId << "removed from textfloodcheck list" << endl;
 	msgTimesList.remove(playerId);
 }

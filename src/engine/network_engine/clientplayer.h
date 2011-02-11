@@ -29,7 +29,8 @@ class CardsValue;
 class ConfigFile;
 class HandInterface;
 
-class ClientPlayer : public PlayerInterface{
+class ClientPlayer : public PlayerInterface
+{
 public:
 	ClientPlayer(ConfigFile*, int id, unsigned uniqueId, PlayerType type, std::string name, std::string avatar, int sC, bool aS, int mB);
 	~ClientPlayer();
@@ -134,7 +135,9 @@ public:
 	boost::shared_ptr<SessionData> getNetSessionData();
 
 	// unused as client
-	unsigned getActionTimeoutCounter() const {return 0;}
+	unsigned getActionTimeoutCounter() const {
+		return 0;
+	}
 	void incrementActionTimeoutCounter() {}
 	void resetActionTimeoutCounter() {}
 
@@ -171,7 +174,7 @@ private:
 	int myAction; // 0 = none, 1 = fold, 2 = check, 3 = call, 4 = bet, 5 = raise, 6 = allin
 	int myButton; // 0 = none, 1 = dealer, 2 =small, 3 = big
 	bool myActiveStatus; // 0 = inactive, 1 = active
-        bool myStayOnTableStatus; // 0 = left, 1 = stay
+	bool myStayOnTableStatus; // 0 = left, 1 = stay
 	bool myTurn; // 0 = no, 1 = yes
 	bool myCardsFlip; // 0 = cards are not fliped, 1 = cards are already flipped,
 	int myRoundStartCash;

@@ -1,7 +1,7 @@
 //
 // C++ Interface: MyLeftTabWidget
 //
-// Description: 
+// Description:
 //
 //
 // Author: FThauer FHammer <f.thauer@web.de>, (C) 2007
@@ -18,11 +18,11 @@
 
 class MyLeftTabWidget : public QTabWidget
 {
-Q_OBJECT
+	Q_OBJECT
 public:
-    MyLeftTabWidget(QGroupBox*);
+	MyLeftTabWidget(QGroupBox*);
 
-    ~MyLeftTabWidget();
+	~MyLeftTabWidget();
 
 
 	void paintEvent(QPaintEvent * event);
@@ -32,12 +32,14 @@ public:
 	void disableTab(int tabIndex, bool yesNO);
 
 public slots:
-	
+
 	void blinkChatTab();
 
-	QTabBar* getMyTabBar() const { return myTabBar; }
+	QTabBar* getMyTabBar() const {
+		return myTabBar;
+	}
 
-private: 
+private:
 
 	QTimer *chatBlinkTimer;
 	QTabBar *myTabBar;

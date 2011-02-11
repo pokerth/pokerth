@@ -26,9 +26,10 @@
 // MUST be larger than MAX_PACKET_SIZE
 #define RECV_BUF_SIZE		2 * MAX_PACKET_SIZE
 
-struct ReceiveBuffer
-{
-	ReceiveBuffer() : recvBufUsed(0) {recvBuf[0] = 0;}
+struct ReceiveBuffer {
+	ReceiveBuffer() : recvBufUsed(0) {
+		recvBuf[0] = 0;
+	}
 	NetPacketList					receivedPackets;
 	char							recvBuf[RECV_BUF_SIZE];
 	unsigned						recvBufUsed;

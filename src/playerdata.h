@@ -32,37 +32,32 @@
 
 class SessionData;
 
-enum PlayerType
-{
+enum PlayerType {
 	PLAYER_TYPE_COMPUTER,
 	PLAYER_TYPE_HUMAN
 };
 
-enum PlayerRights
-{
+enum PlayerRights {
 	PLAYER_RIGHTS_GUEST = 1,
 	PLAYER_RIGHTS_NORMAL,
 	PLAYER_RIGHTS_ADMIN
 };
 
-enum AvatarFileType
-{
+enum AvatarFileType {
 	AVATAR_FILE_TYPE_UNKNOWN = 0,
 	AVATAR_FILE_TYPE_PNG,
 	AVATAR_FILE_TYPE_JPG,
 	AVATAR_FILE_TYPE_GIF
 };
 
-struct AvatarFile
-{
+struct AvatarFile {
 	AvatarFile() : fileType(AVATAR_FILE_TYPE_UNKNOWN), reportedSize(0) {}
 	std::vector<unsigned char>	fileData;
 	AvatarFileType				fileType;
 	unsigned					reportedSize;
 };
 
-struct PlayerInfo
-{
+struct PlayerInfo {
 	PlayerInfo() : ptype(PLAYER_TYPE_HUMAN), isGuest(false), hasAvatar(false), avatarType(AVATAR_FILE_TYPE_UNKNOWN) {}
 	std::string		playerName;
 	PlayerType		ptype;

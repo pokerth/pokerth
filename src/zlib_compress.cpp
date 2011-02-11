@@ -33,8 +33,7 @@ using namespace boost::filesystem;
 int
 main(int argc, char *argv[])
 {
-	if (argc != 2)
-	{
+	if (argc != 2) {
 		cout << "Usage: zlib_compress <text input file>" << endl;
 		return 1;
 	}
@@ -43,8 +42,7 @@ main(int argc, char *argv[])
 	path outputFilePath(inputFilePath);
 	outputFilePath = change_extension(outputFilePath, extension(outputFilePath) + ".z");
 	// Check whether file exists.
-	if (!exists(inputFilePath))
-	{
+	if (!exists(inputFilePath)) {
 		cerr << "Input file does not exist." << endl;
 		return 2;
 	}
@@ -56,8 +54,7 @@ main(int argc, char *argv[])
 		out.push(outFile);
 		boost::iostreams::copy(inFile, out);
 		cout << "Compression of \"" << inputFilePath.directory_string() << "\" to \"" << outputFilePath.directory_string() << "\" was successful." << endl;
-	} catch (...)
-	{
+	} catch (...) {
 		cerr << "Compression failed." << endl;
 		return 3;
 	}

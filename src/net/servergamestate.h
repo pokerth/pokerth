@@ -160,8 +160,8 @@ protected:
 private:
 	static ServerGameStateHand s_state;
 
-friend class ServerGameStateStartGame;
-friend class ServerGameStateWaitNextHand;
+	friend class ServerGameStateStartGame;
+	friend class ServerGameStateWaitNextHand;
 };
 
 // State: Wait for a player action.

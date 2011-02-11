@@ -34,21 +34,21 @@
 #include <csignal>
 
 #ifdef _MSC_VER
-	#ifdef _DEBUG
-		#define _CRTDBG_MAP_ALLOC
-		#include <crtdbg.h>
+#ifdef _DEBUG
+#define _CRTDBG_MAP_ALLOC
+#include <crtdbg.h>
 
-		#define ENABLE_LEAK_CHECK() \
+#define ENABLE_LEAK_CHECK() \
 			{ \
 				int tmpFlag = _CrtSetDbgFlag(_CRTDBG_REPORT_FLAG); \
 				tmpFlag |= _CRTDBG_LEAK_CHECK_DF; \
 				_CrtSetDbgFlag(tmpFlag); \
 			}
-	#endif
+#endif
 #endif
 
 #ifndef ENABLE_LEAK_CHECK
-	#define ENABLE_LEAK_CHECK()
+#define ENABLE_LEAK_CHECK()
 #endif
 
 using namespace std;
@@ -65,12 +65,12 @@ TerminateHandler(int /*signal*/)
 
 // TODO: Hack
 #ifdef _WIN32
-	#include <process.h>
+#include <process.h>
 #else
-	#include <unistd.h>
-	#ifndef daemon
-		int daemon(int, int);
-	#endif
+#include <unistd.h>
+#ifndef daemon
+int daemon(int, int);
+#endif
 #endif
 
 int
@@ -87,33 +87,29 @@ main(int argc, char *argv[])
 		// Check command line options.
 		po::options_description desc("Allowed options");
 		desc.add_options()
-			("help,h", "produce help message")
-			("version,v", "print version string")
-			("log-level,l", po::value<int>(), "set log level (0=minimal, 1=default, 2=verbose)")
-			("pid-file,p", po::value<string>(), "create pid-file in different location")
-			("readonly-config", "treat config file as read-only")
-			;
+		("help,h", "produce help message")
+		("version,v", "print version string")
+		("log-level,l", po::value<int>(), "set log level (0=minimal, 1=default, 2=verbose)")
+		("pid-file,p", po::value<string>(), "create pid-file in different location")
+		("readonly-config", "treat config file as read-only")
+		;
 
 		po::variables_map vm;
 		po::store(po::parse_command_line(argc, argv, desc), vm);
 		po::notify(vm);
 
-		if (vm.count("help"))
-		{
+		if (vm.count("help")) {
 			cout << desc << endl;
 			return 1;
 		}
-		if (vm.count("version"))
-		{
+		if (vm.count("version")) {
 			cout << "PokerTH server version   " << POKERTH_BETA_RELEASE_STRING << endl
 				 << "Network protocol version " << NET_VERSION_MAJOR << "." << NET_VERSION_MINOR << endl;
 			return 1;
 		}
-		if (vm.count("log-level"))
-		{
+		if (vm.count("log-level")) {
 			logLevel = vm["log-level"].as<int>();
-			if (logLevel < 0 || logLevel > 2)
-			{
+			if (logLevel < 0 || logLevel > 2) {
 				cout << "Invalid log-level: \"" << logLevel << "\", allowed range 0-2." << endl;
 				return 1;
 			}
@@ -131,8 +127,7 @@ main(int argc, char *argv[])
 
 	// TODO: Hack
 #ifndef _WIN32
-	if (daemon(0, 0) != 0)
-	{
+	if (daemon(0, 0) != 0) {
 		cout << "Failed to start daemon." << endl;
 		return 1;
 	}
@@ -144,11 +139,10 @@ main(int argc, char *argv[])
 	socket_startup();
 
 	LOG_MSG("Starting PokerTH dedicated server. Availability: IPv6 "
-		<< socket_has_ipv6() << ", SCTP " << socket_has_sctp() << ", Dual Stack " << socket_has_dual_stack() << ".");
+			<< socket_has_ipv6() << ", SCTP " << socket_has_sctp() << ", Dual Stack " << socket_has_dual_stack() << ".");
 
 	// Store pid in file.
-	if (pidFile.empty())
-	{
+	if (pidFile.empty()) {
 		path tmpPidPath(myConfig->readConfigString("LogDir"));
 		tmpPidPath /= "pokerth.pid";
 		pidFile = tmpPidPath.directory_string();
@@ -169,8 +163,7 @@ main(int argc, char *argv[])
 	myServerGuiInterface->setSession(session);
 
 	myServerGuiInterface->getSession()->startNetworkServer(true);
-	while (!g_pokerthTerminate)
-	{
+	while (!g_pokerthTerminate) {
 		Thread::Msleep(100);
 		if (myServerGuiInterface->getSession()->pollNetworkServerTerminated())
 			g_pokerthTerminate = true;

@@ -1,7 +1,7 @@
 //
 // C++ Implementation: mycardspixmaplabel
 //
-// Description: 
+// Description:
 //
 //
 // Author: FThauer FHammer <f.thauer@web.de>, (C) 2007
@@ -16,7 +16,7 @@
 using namespace std;
 
 MyTimeoutLabel::MyTimeoutLabel(QGroupBox* parent)
- : QLabel(parent), timeOutAnimation(FALSE), timeOutValue(0), timeOutFrame(0), waitFrames(0), timerIntervall(0), isBeep(0), isBeepPlayed(0)
+	: QLabel(parent), timeOutAnimation(FALSE), timeOutValue(0), timeOutFrame(0), waitFrames(0), timerIntervall(0), isBeep(0), isBeepPlayed(0)
 {
 
 	timeOutAnimationTimer = new QTimer;
@@ -29,10 +29,10 @@ MyTimeoutLabel::~MyTimeoutLabel()
 {
 }
 
-void MyTimeoutLabel::startTimeOutAnimation(int secs, bool beep) {
+void MyTimeoutLabel::startTimeOutAnimation(int secs, bool beep)
+{
 
-	if (secs >= 4) // smaller timeouts may lead to errors/endless loops below
-	{
+	if (secs >= 4) { // smaller timeouts may lead to errors/endless loops below
 		isBeepPlayed = FALSE;
 		isBeep = beep;
 
@@ -49,8 +49,7 @@ void MyTimeoutLabel::startTimeOutAnimation(int secs, bool beep) {
 			if(secs <= 9 && secs >= 6) {
 				//fix inaccuracies caused by integer division
 				timerIntervall = timerIntervall + preTimerIntervall + 5;
-			}
-			else {
+			} else {
 				timerIntervall = timerIntervall + preTimerIntervall;
 			}
 		}
@@ -61,20 +60,22 @@ void MyTimeoutLabel::startTimeOutAnimation(int secs, bool beep) {
 		realTimer.reset();
 		realTimer.start();
 
-	// 	std::cout << timerIntervall << endl;
+		// 	std::cout << timerIntervall << endl;
 		timeOutAnimation = TRUE;
 		timeOutAnimationTimer->start(timerIntervall);
 	}
 }
 
-void MyTimeoutLabel::startTimeOutAnimationNow() {
+void MyTimeoutLabel::startTimeOutAnimationNow()
+{
 
 	timeOutAnimation = TRUE;
 	timeOutAnimationTimer->start(83);
 
 }
 
-void MyTimeoutLabel::stopTimeOutAnimation() {
+void MyTimeoutLabel::stopTimeOutAnimation()
+{
 
 // 	timeOutAnimationKickOnTimer->stop();
 	timeOutAnimationTimer->stop();
@@ -82,24 +83,24 @@ void MyTimeoutLabel::stopTimeOutAnimation() {
 	update();
 }
 
-void MyTimeoutLabel::nextTimeOutAnimationFrame() {
+void MyTimeoutLabel::nextTimeOutAnimationFrame()
+{
 
 	if(timeOutAnimationWidth >=0) {
-		if(timeOutFrame > waitFrames) { 
+		if(timeOutFrame > waitFrames) {
 			//play beep after waitFrames one time
-			if(isBeep && !isBeepPlayed) { 
+			if(isBeep && !isBeepPlayed) {
 				myW->getMySDLPlayer()->playSound("yourturn",0);
 				isBeepPlayed = TRUE;
 			}
 			//save gfx ressources and never play more the 10 pps
 			unsigned int realTimerValue = realTimer.elapsed().total_milliseconds();
-                        timeOutAnimationWidth = 52-(((realTimerValue-3000)*52)/((timeOutValue-3)*1000));
+			timeOutAnimationWidth = 52-(((realTimerValue-3000)*52)/((timeOutValue-3)*1000));
 
 		}
 		timeOutFrame++;
 		update();
-	}	
-	else { 
+	} else {
 		stopTimeOutAnimation();
 		// no callback is called here.
 		// the server initiates any action required.
@@ -107,7 +108,8 @@ void MyTimeoutLabel::nextTimeOutAnimationFrame() {
 }
 
 
-void MyTimeoutLabel::paintEvent(QPaintEvent * event) {
+void MyTimeoutLabel::paintEvent(QPaintEvent * event)
+{
 
 	if(!timeOutAnimation || timeOutFrame <= waitFrames) {
 		QLabel::paintEvent(event);
@@ -116,15 +118,15 @@ void MyTimeoutLabel::paintEvent(QPaintEvent * event) {
 	if(timeOutAnimation && timeOutFrame > waitFrames) {
 
 		QPainter painter(this);
-	
-                QLinearGradient linearGrad(QPointF(0, 10), QPointF(47, 10));
+
+		QLinearGradient linearGrad(QPointF(0, 10), QPointF(47, 10));
 		linearGrad.setColorAt(0, Qt::red);
 		linearGrad.setColorAt(0.5, Qt::yellow);
 		linearGrad.setColorAt(1, Qt::green);
-	
+
 		painter.setBrush(linearGrad);
-		
+
 		painter.setPen(QColor(0,0,0));
-                painter.drawRect(0,1,timeOutAnimationWidth-1,8);
+		painter.drawRect(0,1,timeOutAnimationWidth-1,8);
 	}
 }

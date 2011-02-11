@@ -24,8 +24,7 @@
 #include <string>
 
 
-struct ServerInfo
-{
+struct ServerInfo {
 	ServerInfo() : id(0), supportsSctp(false), port(0) {}
 	unsigned id;
 	std::string name;

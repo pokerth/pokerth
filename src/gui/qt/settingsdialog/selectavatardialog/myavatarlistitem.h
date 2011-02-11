@@ -1,7 +1,7 @@
 //
 // C++ Interface: mycardspixmaplabel
 //
-// Description: 
+// Description:
 //
 //
 // Author: FThauer FHammer <f.thauer@web.de>, (C) 2007
@@ -18,13 +18,17 @@
 class MyAvatarListItem : public QListWidgetItem
 {
 public:
-    MyAvatarListItem(QListWidget*);
+	MyAvatarListItem(QListWidget*);
 
-    ~MyAvatarListItem();
+	~MyAvatarListItem();
 
-	void setMyLink(QString theValue){ myLink = theValue;}
-	QString getMyLink() const{ return myLink;}
-	
+	void setMyLink(QString theValue) {
+		myLink = theValue;
+	}
+	QString getMyLink() const {
+		return myLink;
+	}
+
 
 
 private:

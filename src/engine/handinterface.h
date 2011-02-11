@@ -25,9 +25,10 @@
 #include "playerinterface.h"
 #include "berointerface.h"
 
-class HandInterface{
+class HandInterface
+{
 public:
-    
+
 	virtual ~HandInterface();
 
 	virtual void start() = 0;
@@ -46,7 +47,7 @@ public:
 
 	virtual void setMyID(int theValue) =0;
 	virtual int getMyID() const =0;
-	
+
 	virtual void setStartQuantityPlayers(int theValue) =0;
 	virtual int getStartQuantityPlayers() const =0;
 
@@ -84,13 +85,13 @@ protected:
 	virtual PlayerListIterator getActivePlayerIt(unsigned) const =0;
 	virtual PlayerListIterator getRunningPlayerIt(unsigned) const =0;
 
-friend class Game;
-friend class LocalBeRo;
-friend class LocalBeRoPreflop;
-friend class LocalBeRoFlop;
-friend class LocalBeRoTurn;
-friend class LocalBeRoRiver;
-friend class LocalBeRoPostRiver;
+	friend class Game;
+	friend class LocalBeRo;
+	friend class LocalBeRoPreflop;
+	friend class LocalBeRoFlop;
+	friend class LocalBeRoTurn;
+	friend class LocalBeRoRiver;
+	friend class LocalBeRoPostRiver;
 };
 
 #endif

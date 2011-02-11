@@ -24,12 +24,12 @@
 
 class Replay
 {
-    public:
-        Replay();
-        ~Replay();
+public:
+	Replay();
+	~Replay();
 
 private:
-        QSqlDatabase *replaySqliteLogDb;
+	QSqlDatabase *replaySqliteLogDb;
 
 };
 

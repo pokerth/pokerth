@@ -58,7 +58,7 @@ public:
 	GuiInterface &GetGui();
 	ServerAdminBot &GetAdminBot();
 	ServerLobbyBot &GetLobbyBot();
-	
+
 protected:
 	typedef std::list<boost::shared_ptr<ServerAcceptHelper> > AcceptHelperList;
 

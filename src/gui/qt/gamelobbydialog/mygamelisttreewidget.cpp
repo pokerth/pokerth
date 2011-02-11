@@ -1,7 +1,7 @@
 //
 // C++ Implementation: mycardspixmaplabel
 //
-// Description: 
+// Description:
 //
 //
 // Author: FThauer FHammer <f.thauer@web.de>, (C) 2007
@@ -16,9 +16,9 @@
 using namespace std;
 
 MyGameListTreeWidget::MyGameListTreeWidget(QDialog* parent)
- : QTreeWidget(parent)
+	: QTreeWidget(parent)
 {
-	
+
 	//set the pixmap cache size in the main function only one time
 	QPixmapCache::setCacheLimit(1024);
 }
@@ -28,13 +28,14 @@ MyGameListTreeWidget::~MyGameListTreeWidget()
 {
 }
 
-void MyGameListTreeWidget::setGameListBackgroundImage(QString pmString) {
-       
+void MyGameListTreeWidget::setGameListBackgroundImage(QString pmString)
+{
+
 	gameListBGPixmap.load(pmString);
 }
 
 // void MyGameListTreeWidget::paintEvent(QPaintEvent *event) {
-// 
+//
 // /*        QPainter painter(viewport());
 //  	QVector<QRect> rects = event->region().rects();
 //    	for (int i = 0; i < rects.count(); i++) {
@@ -46,16 +47,17 @@ void MyGameListTreeWidget::setGameListBackgroundImage(QString pmString) {
 // 	}
 //    	painter.end();
 //        QTreeWidget::paintEvent(event);*/
-// 
+//
 //        QPainter painter(viewport());
 //        painter.drawPixmap(50, 5, gameListBGPixmap);
-// 
+//
 //        QTreeWidget::paintEvent(event);
 // }
 
-void MyGameListTreeWidget::scrollContentsBy ( int dx, int dy ) {
+void MyGameListTreeWidget::scrollContentsBy ( int dx, int dy )
+{
 
 	viewport()->update();
-	
+
 	QTreeWidget::scrollContentsBy ( dx,dy );
 }

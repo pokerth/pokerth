@@ -38,61 +38,88 @@ public:
 	void SetSessionData(boost::shared_ptr<SessionData> sessionData);
 	boost::shared_ptr<boost::asio::ip::tcp::resolver> GetResolver() const;
 	void SetResolver(boost::shared_ptr<boost::asio::ip::tcp::resolver> resolver);
-	bool GetSctp() const
-	{return m_sctp;}
-	void SetSctp(bool sctp)
-	{m_sctp = sctp;}
-	int GetAddrFamily() const
-	{return m_addrFamily;}
-	void SetAddrFamily(int addrFamily)
-	{m_addrFamily = addrFamily;}
-	const std::string &GetServerAddr() const
-	{return m_serverAddr;}
-	void SetServerAddr(const std::string &serverAddr)
-	{m_serverAddr = serverAddr;}
-	const std::string &GetServerListUrl() const
-	{return m_serverListUrl;}
-	void SetServerListUrl(const std::string &serverListUrl)
-	{m_serverListUrl = serverListUrl;}
-	bool GetUseServerList() const
-	{return m_useServerList;}
-	void SetUseServerList(bool use)
-	{m_useServerList = use;}
-	unsigned GetServerPort() const
-	{return m_serverPort;}
-	void SetServerPort(unsigned serverPort)
-	{m_serverPort = serverPort;}
-	const std::string &GetAvatarServerAddr() const
-	{return m_avatarServerAddr;}
-	void SetAvatarServerAddr(const std::string &avatarServerAddr)
-	{m_avatarServerAddr = avatarServerAddr;}
-	const std::string &GetPassword() const
-	{return m_password;}
-	void SetPassword(const std::string &password)
-	{m_password = password;}
-	const std::string &GetPlayerName() const
-	{return m_playerName;}
-	void SetPlayerName(const std::string &playerName)
-	{m_playerName = playerName;}
-	PlayerRights GetPlayerRights() const
-	{return m_playerRights;}
-	void SetPlayerRights(PlayerRights rights)
-	{m_playerRights = rights;}
-	const std::string &GetAvatarFile() const
-	{return m_avatarFile;}
-	void SetAvatarFile(const std::string &avatarFile)
-	{m_avatarFile = avatarFile;}
-	const std::string &GetCacheDir() const
-	{return m_cacheDir;}
-	void SetCacheDir(const std::string &cacheDir)
-	{m_cacheDir = cacheDir;}
-	bool GetSubscribeLobbyMsg() const
-	{return m_hasSubscribedLobbyMsg;}
-	void SetSubscribeLobbyMsg(bool setSubscribe)
-	{m_hasSubscribedLobbyMsg = setSubscribe;}
+	bool GetSctp() const {
+		return m_sctp;
+	}
+	void SetSctp(bool sctp) {
+		m_sctp = sctp;
+	}
+	int GetAddrFamily() const {
+		return m_addrFamily;
+	}
+	void SetAddrFamily(int addrFamily) {
+		m_addrFamily = addrFamily;
+	}
+	const std::string &GetServerAddr() const {
+		return m_serverAddr;
+	}
+	void SetServerAddr(const std::string &serverAddr) {
+		m_serverAddr = serverAddr;
+	}
+	const std::string &GetServerListUrl() const {
+		return m_serverListUrl;
+	}
+	void SetServerListUrl(const std::string &serverListUrl) {
+		m_serverListUrl = serverListUrl;
+	}
+	bool GetUseServerList() const {
+		return m_useServerList;
+	}
+	void SetUseServerList(bool use) {
+		m_useServerList = use;
+	}
+	unsigned GetServerPort() const {
+		return m_serverPort;
+	}
+	void SetServerPort(unsigned serverPort) {
+		m_serverPort = serverPort;
+	}
+	const std::string &GetAvatarServerAddr() const {
+		return m_avatarServerAddr;
+	}
+	void SetAvatarServerAddr(const std::string &avatarServerAddr) {
+		m_avatarServerAddr = avatarServerAddr;
+	}
+	const std::string &GetPassword() const {
+		return m_password;
+	}
+	void SetPassword(const std::string &password) {
+		m_password = password;
+	}
+	const std::string &GetPlayerName() const {
+		return m_playerName;
+	}
+	void SetPlayerName(const std::string &playerName) {
+		m_playerName = playerName;
+	}
+	PlayerRights GetPlayerRights() const {
+		return m_playerRights;
+	}
+	void SetPlayerRights(PlayerRights rights) {
+		m_playerRights = rights;
+	}
+	const std::string &GetAvatarFile() const {
+		return m_avatarFile;
+	}
+	void SetAvatarFile(const std::string &avatarFile) {
+		m_avatarFile = avatarFile;
+	}
+	const std::string &GetCacheDir() const {
+		return m_cacheDir;
+	}
+	void SetCacheDir(const std::string &cacheDir) {
+		m_cacheDir = cacheDir;
+	}
+	bool GetSubscribeLobbyMsg() const {
+		return m_hasSubscribedLobbyMsg;
+	}
+	void SetSubscribeLobbyMsg(bool setSubscribe) {
+		m_hasSubscribedLobbyMsg = setSubscribe;
+	}
 
-	ReceiveBuffer &GetReceiveBuffer()
-	{return m_receiveBuffer;}
+	ReceiveBuffer &GetReceiveBuffer() {
+		return m_receiveBuffer;
+	}
 
 private:
 	boost::shared_ptr<SessionData> m_sessionData;

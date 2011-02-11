@@ -25,7 +25,7 @@
 #endif
 
 #if defined(__FreeBSD__) || defined(__NetBSD__)
-	#define HAVE_ICONV_CONST
+#define HAVE_ICONV_CONST
 #endif
 
 #include <string>
@@ -57,8 +57,7 @@ ConvHelper::NativeToUtf8(const std::string &inStr)
 
 	if (conversion == (iconv_t)(-1))
 		LOG_ERROR("iconv_open() failed: " << strerror(errno));
-	else
-	{
+	else {
 		size_t retval = iconv(conversion, &inbuf, &insize, &outbuf, &outsize);
 
 		if (retval == (size_t)-1)
@@ -91,8 +90,7 @@ ConvHelper::Utf8ToNative(const std::string &inStr)
 
 	if (conversion == (iconv_t)(-1))
 		LOG_ERROR("iconv_open() failed: " << strerror(errno));
-	else
-	{
+	else {
 		size_t retval = iconv(conversion, &inbuf, &insize, &outbuf, &outsize);
 
 		if (retval == (size_t)-1)

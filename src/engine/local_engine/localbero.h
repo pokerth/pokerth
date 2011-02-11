@@ -26,75 +26,142 @@
 #include "berointerface.h"
 #include "handinterface.h"
 
-class LocalBeRo : public BeRoInterface{
+class LocalBeRo : public BeRoInterface
+{
 public:
 	LocalBeRo(HandInterface* hi, int id, unsigned dP, int sB, GameState gS);
 	~LocalBeRo();
 
-	GameState getMyBeRoID() const { return myBeRoID; }
+	GameState getMyBeRoID() const {
+		return myBeRoID;
+	}
 
 	int getHighestCardsValue() const;
 	void setHighestCardsValue(int /*theValue*/) { }
 
-	void setMinimumRaise ( int theValue ) { minimumRaise = theValue; }
-	int getMinimumRaise() const { return minimumRaise; }
+	void setMinimumRaise ( int theValue ) {
+		minimumRaise = theValue;
+	}
+	int getMinimumRaise() const {
+		return minimumRaise;
+	}
 
-	void setFullBetRule ( bool theValue ) { fullBetRule = theValue; }
-	bool getFullBetRule() const { return fullBetRule; }
+	void setFullBetRule ( bool theValue ) {
+		fullBetRule = theValue;
+	}
+	bool getFullBetRule() const {
+		return fullBetRule;
+	}
 
-	void skipFirstRunGui() { firstRunGui = false; }
+	void skipFirstRunGui() {
+		firstRunGui = false;
+	}
 
 	void nextPlayer();
 	void run();
 
 	void postRiverRun() {};
-	
+
 
 protected:
 
-	HandInterface* getMyHand() const { return myHand; }
+	HandInterface* getMyHand() const {
+		return myHand;
+	}
 
-	int getDealerPosition() const {return dealerPosition; }
-	void setDealerPosition(int theValue) { dealerPosition = theValue; }
+	int getDealerPosition() const {
+		return dealerPosition;
+	}
+	void setDealerPosition(int theValue) {
+		dealerPosition = theValue;
+	}
 
-	void setCurrentPlayersTurnId(unsigned theValue) { currentPlayersTurnId = theValue; }
-	unsigned getCurrentPlayersTurnId() const { return currentPlayersTurnId;}
+	void setCurrentPlayersTurnId(unsigned theValue) {
+		currentPlayersTurnId = theValue;
+	}
+	unsigned getCurrentPlayersTurnId() const {
+		return currentPlayersTurnId;
+	}
 
-	void setFirstRoundLastPlayersTurnId(unsigned theValue) { firstRoundLastPlayersTurnId = theValue; }
-	unsigned getFirstRoundLastPlayersTurnId() const { return firstRoundLastPlayersTurnId;}
+	void setFirstRoundLastPlayersTurnId(unsigned theValue) {
+		firstRoundLastPlayersTurnId = theValue;
+	}
+	unsigned getFirstRoundLastPlayersTurnId() const {
+		return firstRoundLastPlayersTurnId;
+	}
 
-	void setCurrentPlayersTurnIt(PlayerListIterator theValue) { currentPlayersTurnIt = theValue; }
-	PlayerListIterator getCurrentPlayersTurnIt() const { return currentPlayersTurnIt; }
+	void setCurrentPlayersTurnIt(PlayerListIterator theValue) {
+		currentPlayersTurnIt = theValue;
+	}
+	PlayerListIterator getCurrentPlayersTurnIt() const {
+		return currentPlayersTurnIt;
+	}
 
-	void setLastPlayersTurnIt(PlayerListIterator theValue) { lastPlayersTurnIt = theValue; }
-	PlayerListIterator getLastPlayersTurnIt() const { return lastPlayersTurnIt; }
-	
-	void setHighestSet(int theValue) { highestSet = theValue; }
-	int getHighestSet() const { return highestSet;}
+	void setLastPlayersTurnIt(PlayerListIterator theValue) {
+		lastPlayersTurnIt = theValue;
+	}
+	PlayerListIterator getLastPlayersTurnIt() const {
+		return lastPlayersTurnIt;
+	}
 
-	void setFirstRun(bool theValue) { firstRun = theValue;}
-	bool getFirstRun() const {  return firstRun;}
+	void setHighestSet(int theValue) {
+		highestSet = theValue;
+	}
+	int getHighestSet() const {
+		return highestSet;
+	}
 
-	void setFirstRound(bool theValue) { firstRound = theValue;}
-	bool getFirstRound() const {  return firstRound;}
+	void setFirstRun(bool theValue) {
+		firstRun = theValue;
+	}
+	bool getFirstRun() const {
+		return firstRun;
+	}
+
+	void setFirstRound(bool theValue) {
+		firstRound = theValue;
+	}
+	bool getFirstRound() const {
+		return firstRound;
+	}
 
 
-	void setDealerPositionId(unsigned theValue) { dealerPositionId = theValue;}
-	unsigned getDealerPositionId() const { return dealerPositionId; }
+	void setDealerPositionId(unsigned theValue) {
+		dealerPositionId = theValue;
+	}
+	unsigned getDealerPositionId() const {
+		return dealerPositionId;
+	}
 
-	void setSmallBlindPositionId(unsigned theValue) { smallBlindPositionId = theValue;}
-	unsigned getSmallBlindPositionId() const { return smallBlindPositionId; }
+	void setSmallBlindPositionId(unsigned theValue) {
+		smallBlindPositionId = theValue;
+	}
+	unsigned getSmallBlindPositionId() const {
+		return smallBlindPositionId;
+	}
 
-	void setBigBlindPositionId(unsigned theValue) { bigBlindPositionId = theValue;}
-	unsigned getBigBlindPositionId() const { return bigBlindPositionId; }
+	void setBigBlindPositionId(unsigned theValue) {
+		bigBlindPositionId = theValue;
+	}
+	unsigned getBigBlindPositionId() const {
+		return bigBlindPositionId;
+	}
 
 
-	void setSmallBlindPosition(int theValue) { smallBlindPosition = theValue;}
-	int getSmallBlindPosition() const { return smallBlindPosition; }
+	void setSmallBlindPosition(int theValue) {
+		smallBlindPosition = theValue;
+	}
+	int getSmallBlindPosition() const {
+		return smallBlindPosition;
+	}
 
-	void setSmallBlind(int theValue) { smallBlind = theValue; }
-	int getSmallBlind() const { return smallBlind; }
-	
+	void setSmallBlind(int theValue) {
+		smallBlind = theValue;
+	}
+	int getSmallBlind() const {
+		return smallBlind;
+	}
+
 
 
 
@@ -115,7 +182,7 @@ private:
 	int smallBlind;
 	int highestSet;
 	int minimumRaise;
-        bool fullBetRule;
+	bool fullBetRule;
 
 	bool firstRun;
 	bool firstRunGui; // HACK

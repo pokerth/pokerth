@@ -1,7 +1,7 @@
 //
 // C++ Interface: sdlplayer
 //
-// Description: 
+// Description:
 //
 //
 // Author: FThauer FHammer <webmaster@pokerth.net>, (C) 2007
@@ -17,9 +17,9 @@
 #include "configfile.h"
 
 #if (defined __APPLE__)
-	#include <SDL_mixer.h>
+#include <SDL_mixer.h>
 #else
-	#include <SDL/SDL_mixer.h>
+#include <SDL/SDL_mixer.h>
 #endif
 
 #include <iostream>
@@ -30,8 +30,9 @@
 /**
 	@author FThauer FHammer <webmaster@pokerth.net>
 */
-class SDLPlayer : public QObject{
-Q_OBJECT
+class SDLPlayer : public QObject
+{
+	Q_OBJECT
 
 public:
 	SDLPlayer(ConfigFile*);

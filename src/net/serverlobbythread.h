@@ -55,7 +55,7 @@ class ServerLobbyThread : public Thread, public boost::enable_shared_from_this<S
 {
 public:
 	ServerLobbyThread(GuiInterface &gui, ServerMode mode, ServerIrcBotCallback &ircBotCb, ConfigFile &serverConfig, AvatarManager &avatarManager,
-		boost::shared_ptr<boost::asio::io_service> ioService);
+					  boost::shared_ptr<boost::asio::io_service> ioService);
 	virtual ~ServerLobbyThread();
 
 	void Init(const std::string &logDir);
@@ -263,7 +263,7 @@ private:
 
 	const boost::posix_time::ptime m_startTime;
 
-friend class InternalServerCallback;
+	friend class InternalServerCallback;
 };
 
 #endif

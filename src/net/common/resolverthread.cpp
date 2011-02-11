@@ -29,7 +29,7 @@ using namespace std;
 
 
 ResolverThread::ResolverThread()
-: m_retVal(false)
+	: m_retVal(false)
 {
 	m_context.reset(new ClientContext);
 }
@@ -72,13 +72,13 @@ ResolverThread::Main()
 
 	// Start the name resolution.
 	m_retVal = socket_resolve(
-		context.GetServerAddr().c_str(),
-		tmpStr.str().c_str(),
-		context.GetAddrFamily(),
-		SOCK_STREAM,
-		context.GetProtocol(),
-		(struct sockaddr *)context.GetClientSockaddr(),
-		context.GetClientSockaddrSize());
+				   context.GetServerAddr().c_str(),
+				   tmpStr.str().c_str(),
+				   context.GetAddrFamily(),
+				   SOCK_STREAM,
+				   context.GetProtocol(),
+				   (struct sockaddr *)context.GetClientSockaddr(),
+				   context.GetClientSockaddrSize());
 }
 
 const ClientContext &

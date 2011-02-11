@@ -44,25 +44,23 @@ typedef std::list<boost::shared_ptr<EncodedPacket> > SendDataList;
 
 class SendDataManager : public boost::enable_shared_from_this<SendDataManager>
 {
-	public:
-		SendDataManager()
-		: sendBuf(NULL), writeInProgress(false)
-		{
-		}
+public:
+	SendDataManager()
+		: sendBuf(NULL), writeInProgress(false) {
+	}
 
-		~SendDataManager()
-		{
-			delete[] sendBuf;
-		}
+	~SendDataManager() {
+		delete[] sendBuf;
+	}
 
-		void HandleWrite(boost::shared_ptr<boost::asio::ip::tcp::socket> socket, const boost::system::error_code &error);
+	void HandleWrite(boost::shared_ptr<boost::asio::ip::tcp::socket> socket, const boost::system::error_code &error);
 
-		void AsyncSendNextPacket(boost::shared_ptr<boost::asio::ip::tcp::socket> socket, bool handlerMode = false);
+	void AsyncSendNextPacket(boost::shared_ptr<boost::asio::ip::tcp::socket> socket, bool handlerMode = false);
 
-		mutable boost::mutex dataMutex;
-		SendDataList list;
-		char *sendBuf;
-		bool writeInProgress;
+	mutable boost::mutex dataMutex;
+	SendDataList list;
+	char *sendBuf;
+	bool writeInProgress;
 };
 
 
@@ -77,8 +75,7 @@ void
 SendDataManager::AsyncSendNextPacket(boost::shared_ptr<boost::asio::ip::tcp::socket> socket, bool handlerMode)
 {
 	boost::mutex::scoped_lock lock(dataMutex);
-	if (!writeInProgress || handlerMode)
-	{
+	if (!writeInProgress || handlerMode) {
 		delete[] sendBuf;
 		sendBuf = NULL;
 
@@ -87,18 +84,15 @@ SendDataManager::AsyncSendNextPacket(boost::shared_ptr<boost::asio::ip::tcp::soc
 		// Count required bytes.
 		SendDataList::iterator i = list.begin();
 		SendDataList::iterator end = list.end();
-		while (i != end)
-		{
+		while (i != end) {
 			bufSize += (*i)->GetSize();
 			++i;
 		}
-		if (bufSize)
-		{
+		if (bufSize) {
 			sendBuf = new char[bufSize];
 			i = list.begin();
 			end = list.end();
-			while (i != end)
-			{
+			while (i != end) {
 				memcpy(sendBuf + bufPos, (*i)->GetData(), (*i)->GetSize());
 				bufPos += (*i)->GetSize();
 				++i;
@@ -108,18 +102,17 @@ SendDataManager::AsyncSendNextPacket(boost::shared_ptr<boost::asio::ip::tcp::soc
 				*socket,
 				boost::asio::buffer(sendBuf, bufSize),
 				boost::bind(&SendDataManager::HandleWrite,
-					shared_from_this(),
-					socket,
-					boost::asio::placeholders::error));
+							shared_from_this(),
+							socket,
+							boost::asio::placeholders::error));
 			writeInProgress = true;
-		}
-		else
+		} else
 			writeInProgress = false;
 	}
 }
 
 SenderHelper::SenderHelper(SenderCallback &cb, boost::shared_ptr<boost::asio::io_service> ioService)
-: m_callback(cb), m_ioService(ioService)
+	: m_callback(cb), m_ioService(ioService)
 {
 }
 
@@ -130,8 +123,7 @@ SenderHelper::~SenderHelper()
 void
 SenderHelper::Send(boost::shared_ptr<SessionData> session, boost::shared_ptr<NetPacket> packet)
 {
-	if (packet && session)
-	{
+	if (packet && session) {
 		boost::shared_ptr<SendDataManager> tmpManager;
 		{
 			// First: lock map of all queues. Locate/insert queue.
@@ -144,8 +136,7 @@ SenderHelper::Send(boost::shared_ptr<SessionData> session, boost::shared_ptr<Net
 		{
 			// Second: Add packet to specific queue.
 			boost::mutex::scoped_lock lock(tmpManager->dataMutex);
-			if (tmpManager->list.size() < SEND_QUEUE_SIZE)
-			{
+			if (tmpManager->list.size() < SEND_QUEUE_SIZE) {
 				InternalStorePacket(*tmpManager, packet);
 			}
 		}
@@ -159,8 +150,7 @@ SenderHelper::Send(boost::shared_ptr<SessionData> session, boost::shared_ptr<Net
 void
 SenderHelper::Send(boost::shared_ptr<SessionData> session, const NetPacketList &packetList)
 {
-	if (!packetList.empty() && session)
-	{
+	if (!packetList.empty() && session) {
 		boost::shared_ptr<SendDataManager> tmpManager;
 		{
 			// First: lock map of all queues. Locate/insert queue.
@@ -173,12 +163,10 @@ SenderHelper::Send(boost::shared_ptr<SessionData> session, const NetPacketList &
 		{
 			// Second: Add packets to specific queue.
 			boost::mutex::scoped_lock lock(tmpManager->dataMutex);
-			if (tmpManager->list.size() + packetList.size() <= SEND_QUEUE_SIZE)
-			{
+			if (tmpManager->list.size() + packetList.size() <= SEND_QUEUE_SIZE) {
 				NetPacketList::const_iterator i = packetList.begin();
 				NetPacketList::const_iterator end = packetList.end();
-				while (i != end)
-				{
+				while (i != end) {
 					if (*i)
 						InternalStorePacket(*tmpManager, *i);
 					++i;

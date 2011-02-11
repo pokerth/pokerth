@@ -44,8 +44,20 @@ NonQtToolsWrapper::~NonQtToolsWrapper()
 	myQtHelper = 0;
 }
 
-std::string NonQtToolsWrapper::stringToUtf8(const std::string &myString) { return myQtHelper->stringToUtf8(myString); }
-std::string NonQtToolsWrapper::stringFromUtf8(const std::string &myString) { return myQtHelper->stringFromUtf8(myString); }
-std::string NonQtToolsWrapper::getDefaultLanguage() { return myQtHelper->getDefaultLanguage(); }
-std::string NonQtToolsWrapper::getDataPathStdString(const char * argv0) { return myQtHelper->getDataPathStdString(argv0); }
+std::string NonQtToolsWrapper::stringToUtf8(const std::string &myString)
+{
+	return myQtHelper->stringToUtf8(myString);
+}
+std::string NonQtToolsWrapper::stringFromUtf8(const std::string &myString)
+{
+	return myQtHelper->stringFromUtf8(myString);
+}
+std::string NonQtToolsWrapper::getDefaultLanguage()
+{
+	return myQtHelper->getDefaultLanguage();
+}
+std::string NonQtToolsWrapper::getDataPathStdString(const char * argv0)
+{
+	return myQtHelper->getDataPathStdString(argv0);
+}
 

@@ -30,13 +30,16 @@ class ConfigFile;
 class changeCompleteBlindsDialogImpl;
 
 
-class createNetworkGameDialogImpl: public QDialog, public Ui::createNetworkGameDialog {
-Q_OBJECT
+class createNetworkGameDialogImpl: public QDialog, public Ui::createNetworkGameDialog
+{
+	Q_OBJECT
 public:
-    createNetworkGameDialogImpl(QWidget *parent = 0, ConfigFile *c = 0);
+	createNetworkGameDialogImpl(QWidget *parent = 0, ConfigFile *c = 0);
 
 	void exec();
-	changeCompleteBlindsDialogImpl* getChangeCompleteBlindsDialog() { return myChangeCompleteBlindsDialog; }
+	changeCompleteBlindsDialogImpl* getChangeCompleteBlindsDialog() {
+		return myChangeCompleteBlindsDialog;
+	}
 
 public slots:
 
@@ -48,8 +51,8 @@ public slots:
 
 	void callChangeBlindsDialog(bool);
 private:
-		
-	ConfigFile *myConfig;	
+
+	ConfigFile *myConfig;
 	changeCompleteBlindsDialogImpl *myChangeCompleteBlindsDialog;
 };
 

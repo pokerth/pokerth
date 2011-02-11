@@ -30,17 +30,20 @@ enum ConfigType { CONFIG_TYPE_INT, CONFIG_TYPE_STRING, CONFIG_TYPE_INT_LIST, CON
 
 class QtToolsInterface;
 
-class ConfigFile{
+class ConfigFile
+{
 public:
 	ConfigFile(char *argv0, bool readonly);
 
 	~ConfigFile();
-	
+
 	void fillBuffer();
 	void writeBuffer() const;
 
 	void updateConfig(ConfigState);
-        ConfigState getConfigState() const { return myConfigState; }
+	ConfigState getConfigState() const {
+		return myConfigState;
+	}
 
 	std::string readConfigString(std::string varName) const;
 	std::list<std::string> readConfigStringList(std::string varName) const;
@@ -50,22 +53,21 @@ public:
 	std::list<int> readConfigIntList(std::string varName) const;
 	void writeConfigInt(std::string varName, int varCont);
 	void writeConfigIntList(std::string varName, std::list<int> varCont);
-	
+
 
 private:
 
 	mutable boost::recursive_mutex m_configMutex;
 
-	struct ConfigInfo
-	{
+	struct ConfigInfo {
 		ConfigInfo(const std::string &n, ConfigType t, const std::string &d, const std::list<std::string> &l =std::list<std::string>()) : name(n), type(t), defaultValue(d), defaultListValue(l) {}
 		std::string name;
 		ConfigType type;
 		std::string defaultValue;
 		std::list<std::string> defaultListValue;
-		
+
 	};
-	
+
 	std::vector<ConfigInfo> configList;
 	std::vector<ConfigInfo> configBufferList;
 

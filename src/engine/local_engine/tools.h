@@ -20,7 +20,8 @@
 #ifndef TOOLS_H
 #define TOOLS_H
 
-class Tools{
+class Tools
+{
 public:
 	static void getRandNumber(int, int, int, int*, bool, int* = 0, int = 0);
 

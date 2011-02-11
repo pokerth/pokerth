@@ -27,8 +27,7 @@
 typedef unsigned DB_id;
 #define DB_ID_INVALID 0
 
-struct DBPlayerData
-{
+struct DBPlayerData {
 	DBPlayerData() : id(DB_ID_INVALID) {}
 	DB_id id;
 	std::string secret;

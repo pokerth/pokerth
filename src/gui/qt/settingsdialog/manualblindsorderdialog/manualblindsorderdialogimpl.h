@@ -27,23 +27,26 @@
 
 class ConfigFile;
 
-class manualBlindsOrderDialogImpl: public QDialog, public Ui::manualBlindsOrderDialog {
-Q_OBJECT
+class manualBlindsOrderDialogImpl: public QDialog, public Ui::manualBlindsOrderDialog
+{
+	Q_OBJECT
 public:
-    manualBlindsOrderDialogImpl(QWidget *parent = 0, ConfigFile *c = 0);
-	
+	manualBlindsOrderDialogImpl(QWidget *parent = 0, ConfigFile *c = 0);
+
 	void exec();
 
-	
+
 public slots:
-	bool getSettingsCorrect() const	{ return settingsCorrect;}
-	
+	bool getSettingsCorrect() const	{
+		return settingsCorrect;
+	}
+
 	void addBlindValueToList();
 	void removeBlindFromList();
 	void sortBlindsList();
 
 private:
-	
+
 	ConfigFile* myConfig;
 
 	bool settingsCorrect;

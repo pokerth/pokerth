@@ -1,7 +1,7 @@
 //
 // C++ Interface: mycardspixmaplabel
 //
-// Description: 
+// Description:
 //
 //
 // Author: FThauer FHammer <f.thauer@web.de>, (C) 2007
@@ -21,24 +21,26 @@ class gameTableImpl;
 
 class MyStatusLabel : public QLabel
 {
-Q_OBJECT
+	Q_OBJECT
 public:
-    MyStatusLabel(QGroupBox*);
+	MyStatusLabel(QGroupBox*);
 
-    ~MyStatusLabel();
+	~MyStatusLabel();
 
-	
-	void setMyW ( gameTableImpl* theValue ) { myW = theValue; }
+
+	void setMyW ( gameTableImpl* theValue ) {
+		myW = theValue;
+	}
 
 	void mousePressEvent ( QMouseEvent *);
 	void mouseReleaseEvent ( QMouseEvent *);
 
-	
-private: 
+
+private:
 
 	gameTableImpl *myW;
 	bool mousePress;
-	
+
 };
 
 #endif

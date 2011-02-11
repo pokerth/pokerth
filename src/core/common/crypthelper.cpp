@@ -53,8 +53,7 @@ HashBuf::ToString() const
 	char tmpBuf[2 + 1];
 	tmpBuf[sizeof(tmpBuf) - 1] = 0;
 	const unsigned char *tmpData = GetData();
-	for (int i = 0; i < GetDataSize(); i++)
-	{
+	for (int i = 0; i < GetDataSize(); i++) {
 		sprintf(tmpBuf, "%02x", tmpData[i]);
 		retValue += tmpBuf;
 	}
@@ -67,8 +66,7 @@ HashBuf::FromString(const std::string &text)
 	// Convert hex-based string to MD5 data.
 	bool retVal = false;
 	int tmpSize = GetDataSize();
-	if (text.size() == 2 * (unsigned)tmpSize)
-	{
+	if (text.size() == 2 * (unsigned)tmpSize) {
 		unsigned char *tmpData = GetData();
 		const char *t = text.c_str();
 		int i = 0;
@@ -92,8 +90,7 @@ HashBuf::IsZero() const
 	int dataSize = GetDataSize();
 	const unsigned char *tmpData = GetData();
 	int i;
-	for (i = 0; i < dataSize; i++)
-	{
+	for (i = 0; i < dataSize; i++) {
 		if (tmpData[i] != 0)
 			break;
 	}
@@ -166,8 +163,7 @@ CryptHelper::MD5Sum(const std::string &fileName, MD5Buf &buf)
 	bool retVal = false;
 	FILE *file = fopen(fileName.c_str(), "rb");
 
-	if (file)
-	{
+	if (file) {
 		// Calculate MD5 sum of file.
 		unsigned char readBuf[8192];
 		MD5_CTX context;
@@ -211,15 +207,12 @@ CryptHelper::HMACSha1(const unsigned char *keyData, unsigned keySize, const unsi
 	retVal = false;
 	gcry_md_hd_t hd;
 	gcry_error_t err = gcry_md_open(&hd, GCRY_MD_SHA1, GCRY_MD_FLAG_HMAC);
-	if (!err)
-	{
+	if (!err) {
 		err = gcry_md_setkey(hd, keyData, keySize);
-		if (!err)
-		{
+		if (!err) {
 			gcry_md_write(hd, plainData, plainSize);
 			unsigned char *hash = gcry_md_read(hd, 0);
-			if (hash)
-			{
+			if (hash) {
 				memcpy(buf.GetData(), hash, buf.GetDataSize());
 				retVal = true;
 			}
@@ -260,8 +253,7 @@ CryptHelper::AES128Encrypt(const unsigned char *keyData, unsigned keySize, const
 {
 	bool retVal = false;
 	unsigned plainSize = static_cast<unsigned>(plainStr.size());
-	if (keySize && plainSize)
-	{
+	if (keySize && plainSize) {
 		unsigned char key[AES_BLOCK_SIZE];
 		unsigned char iv[AES_BLOCK_SIZE];
 		BytesToKey(keyData, keySize, key, iv);
@@ -281,24 +273,20 @@ CryptHelper::AES128Encrypt(const unsigned char *keyData, unsigned keySize, const
 
 		int success = EVP_EncryptInit(&encryptCtx, EVP_aes_128_cbc(), key, iv);
 		EVP_CIPHER_CTX_set_padding(&encryptCtx, 0);
-		if (success)
-		{
+		if (success) {
 			success = EVP_EncryptUpdate(&encryptCtx, &outCipher[0], &outCipherSize, paddedPlainStr, paddedPlainSize);
 
-			if (success && outCipherSize)
-			{
+			if (success && outCipherSize) {
 				// Since padding is off, this will not modify the cipher. However, parameters need to be set.
 				EVP_EncryptFinal(&encryptCtx, &outCipher[0], &outCipherSize);
 				retVal = true;
 			}
-		}
-		else
+		} else
 			outCipher.clear();
 #else
 		gcry_cipher_hd_t hd;
 		gcry_error_t err = gcry_cipher_open(&hd, GCRY_CIPHER_AES128, GCRY_CIPHER_MODE_CBC, 0);
-		if (!err)
-		{
+		if (!err) {
 			gcry_cipher_setkey(hd, key, sizeof(key));
 			gcry_cipher_setiv(hd, iv, sizeof(iv));
 			err = gcry_cipher_encrypt(hd, &outCipher[0], cipherSize, paddedPlainStr, paddedPlainSize);
@@ -306,8 +294,7 @@ CryptHelper::AES128Encrypt(const unsigned char *keyData, unsigned keySize, const
 				retVal = true;
 			else
 				outCipher.clear();
-		}
-		else
+		} else
 			outCipher.clear();
 
 		gcry_cipher_close(hd);
@@ -320,8 +307,7 @@ bool
 CryptHelper::AES128Decrypt(const unsigned char *keyData, unsigned keySize, const unsigned char *cipher, unsigned cipherSize, string &outPlain)
 {
 	bool retVal = false;
-	if (keySize && cipherSize)
-	{
+	if (keySize && cipherSize) {
 		unsigned char key[AES_BLOCK_SIZE];
 		unsigned char iv[AES_BLOCK_SIZE];
 		BytesToKey(keyData, keySize, key, iv);
@@ -333,24 +319,20 @@ CryptHelper::AES128Decrypt(const unsigned char *keyData, unsigned keySize, const
 
 		int success = EVP_DecryptInit(&decryptCtx, EVP_aes_128_cbc(), key, iv);
 		EVP_CIPHER_CTX_set_padding(&decryptCtx, 0);
-		if (success)
-		{
+		if (success) {
 			success = EVP_DecryptUpdate(&decryptCtx, (unsigned char *)&outPlain[0], &outPlainSize, cipher, cipherSize);
 
-			if (success && outPlainSize)
-			{
+			if (success && outPlainSize) {
 				// Since padding is off, this will not modify the plain text. However, parameters need to be set.
 				EVP_DecryptFinal(&decryptCtx, (unsigned char *)outPlain.c_str(), &outPlainSize);
 				retVal = true;
 			}
-		}
-		else
+		} else
 			outPlain.clear();
 #else
 		gcry_cipher_hd_t hd;
 		gcry_error_t err = gcry_cipher_open(&hd, GCRY_CIPHER_AES128, GCRY_CIPHER_MODE_CBC, 0);
-		if (!err)
-		{
+		if (!err) {
 			gcry_cipher_setkey(hd, key, sizeof(key));
 			gcry_cipher_setiv(hd, iv, sizeof(iv));
 			err = gcry_cipher_decrypt(hd, &outPlain[0], outPlain.size(), cipher, cipherSize);
@@ -358,15 +340,13 @@ CryptHelper::AES128Decrypt(const unsigned char *keyData, unsigned keySize, const
 				retVal = true;
 			else
 				outPlain.clear();
-		}
-		else
+		} else
 			outPlain.clear();
 
 		gcry_cipher_close(hd);
 #endif
 		// Remove trailing zeroes (padding).
-		if (!outPlain.empty())
-		{
+		if (!outPlain.empty()) {
 			size_t pos = outPlain.find_first_of('\0');
 			if (pos != string::npos)
 				outPlain = outPlain.substr(0, pos);

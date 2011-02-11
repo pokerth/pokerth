@@ -23,11 +23,11 @@
 using namespace std;
 
 SessionData::SessionData(boost::shared_ptr<boost::asio::ip::tcp::socket> sock, SessionId id, SessionDataCallback &cb)
-: m_socket(sock), m_id(id), m_gameId(0), m_state(SessionData::Init), m_readyFlag(false), m_wantsLobbyMsg(true),
-  m_activityTimer(boost::posix_time::time_duration(0, 0, 0), boost::timers::portable::microsec_timer::auto_start),
-  m_activityTimeoutNoticeSent(false),
-  m_autoDisconnectTimer(boost::posix_time::time_duration(0, 0, 0), boost::timers::portable::microsec_timer::auto_start),
-  m_callback(cb), m_authSession(NULL), m_curAuthStep(0)
+	: m_socket(sock), m_id(id), m_gameId(0), m_state(SessionData::Init), m_readyFlag(false), m_wantsLobbyMsg(true),
+	  m_activityTimer(boost::posix_time::time_duration(0, 0, 0), boost::timers::portable::microsec_timer::auto_start),
+	  m_activityTimeoutNoticeSent(false),
+	  m_autoDisconnectTimer(boost::posix_time::time_duration(0, 0, 0), boost::timers::portable::microsec_timer::auto_start),
+	  m_callback(cb), m_authSession(NULL), m_curAuthStep(0)
 {
 }
 
@@ -96,8 +96,7 @@ SessionData::CreateClientAuthSession(Gsasl *context, const string &userName, con
 	InternalClearAuthSession();
 	int errorCode;
 	errorCode = gsasl_client_start(context, "SCRAM-SHA-1", &m_authSession);
-	if (errorCode == GSASL_OK)
-	{
+	if (errorCode == GSASL_OK) {
 		gsasl_property_set(m_authSession, GSASL_AUTHID, userName.c_str());
 		gsasl_property_set(m_authSession, GSASL_PASSWORD, password.c_str());
 
@@ -111,19 +110,15 @@ SessionData::AuthStep(int stepNum, const std::string &inData)
 {
 	bool retVal = false;
 	boost::mutex::scoped_lock lock(m_dataMutex);
-	if (m_authSession && stepNum == m_curAuthStep + 1)
-	{
+	if (m_authSession && stepNum == m_curAuthStep + 1) {
 		m_curAuthStep = stepNum;
 		char *tmpOut;
 		size_t tmpOutSize;
 		int errorCode = gsasl_step(m_authSession, inData.c_str(), inData.length(), &tmpOut, &tmpOutSize);
-		if (errorCode == GSASL_NEEDS_MORE)
-		{
+		if (errorCode == GSASL_NEEDS_MORE) {
 			m_nextGsaslMsg = string(tmpOut, tmpOutSize);
 			retVal = true;
-		}
-		else if (errorCode == GSASL_OK && stepNum != 1)
-		{
+		} else if (errorCode == GSASL_OK && stepNum != 1) {
 			m_nextGsaslMsg = string(tmpOut, tmpOutSize);
 			retVal = true;
 			InternalClearAuthSession();
@@ -137,8 +132,7 @@ string
 SessionData::AuthGetUser() const
 {
 	string retStr;
-	if (m_authSession)
-	{
+	if (m_authSession) {
 		const char *tmpUser = gsasl_property_fast(m_authSession, GSASL_AUTHID);
 		if (tmpUser)
 			retStr = tmpUser;
@@ -175,8 +169,7 @@ SessionData::AuthGetCurStepNum() const
 void
 SessionData::InternalClearAuthSession()
 {
-	if (m_authSession)
-	{
+	if (m_authSession) {
 		gsasl_finish(m_authSession);
 		m_authSession = NULL;
 		m_curAuthStep = 0;

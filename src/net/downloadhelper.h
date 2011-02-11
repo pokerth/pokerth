@@ -32,7 +32,7 @@ public:
 
 protected:
 	virtual void InternalInit(const std::string &url, const std::string &targetFileName,
-		const std::string &user, const std::string &password, int filesize);
+							  const std::string &user, const std::string &password, int filesize);
 };
 
 #endif

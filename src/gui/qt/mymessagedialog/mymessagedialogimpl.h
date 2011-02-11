@@ -24,25 +24,26 @@
 
 class ConfigFile;
 
-class myMessageDialogImpl: public QDialog, public Ui::myMessageDialog {
-Q_OBJECT
+class myMessageDialogImpl: public QDialog, public Ui::myMessageDialog
+{
+	Q_OBJECT
 public:
 
-    myMessageDialogImpl(ConfigFile *, QWidget *parent = 0);
+	myMessageDialogImpl(ConfigFile *, QWidget *parent = 0);
 
 public slots:
 
-    bool checkIfMesssageWillBeDisplayed(int id);
-    int exec(int messageId, QString msg, QString title, QPixmap pix, QDialogButtonBox::StandardButtons buttons, bool showCheckBox = false);
-    void accept();
-    void reject();
-    void writeConfig();
+	bool checkIfMesssageWillBeDisplayed(int id);
+	int exec(int messageId, QString msg, QString title, QPixmap pix, QDialogButtonBox::StandardButtons buttons, bool showCheckBox = false);
+	void accept();
+	void reject();
+	void writeConfig();
 
 private:
 
-    ConfigFile *myConfig;
-    int currentMsgId;
-    std::list<std::string> currentMsgShowList;
+	ConfigFile *myConfig;
+	int currentMsgId;
+	std::list<std::string> currentMsgShowList;
 
 };
 

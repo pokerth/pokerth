@@ -1,7 +1,7 @@
 //
 // C++ Implementation: mycardspixmaplabel
 //
-// Description: 
+// Description:
 //
 //
 // Author: FThauer FHammer <f.thauer@web.de>, (C) 2007
@@ -14,7 +14,7 @@
 using namespace std;
 
 MyAvatarListItem::MyAvatarListItem(QListWidget* parent)
- : QListWidgetItem(parent, QListWidgetItem::UserType)
+	: QListWidgetItem(parent, QListWidgetItem::UserType)
 {
 
 }

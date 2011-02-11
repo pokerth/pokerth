@@ -28,7 +28,8 @@ class HandInterface;
 /**
 	@author FThauer FHammer <webmaster@pokerth.net>
 */
-class ClientBeRo : public BeRoInterface{
+class ClientBeRo : public BeRoInterface
+{
 public:
 	ClientBeRo(HandInterface* hi, int id, unsigned dP, int sB, GameState gS);
 	~ClientBeRo();
@@ -38,8 +39,8 @@ public:
 	int getHighestCardsValue() const;
 	void setHighestCardsValue(int theValue);
 
-    void setLastActionPlayer ( unsigned theValue );
-    unsigned getLastActionPlayer() const;
+	void setLastActionPlayer ( unsigned theValue );
+	unsigned getLastActionPlayer() const;
 
 	void setSmallBlindPositionId(unsigned theValue);
 	unsigned getSmallBlindPositionId() const;
@@ -58,7 +59,7 @@ public:
 
 	void setLastPlayersTurnIt(PlayerListIterator theValue);
 	PlayerListIterator getLastPlayersTurnIt() const;
-	
+
 	void setHighestSet(int theValue);
 	int getHighestSet() const;
 

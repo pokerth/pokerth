@@ -1,7 +1,7 @@
 //
 // C++ Interface: opengametimeoutmsgboximpl
 //
-// Description: 
+// Description:
 //
 //
 // Author: Felix Hammer <f.hammer@web.de>, (C) 2008
@@ -25,11 +25,11 @@ class Session;
 
 class timeoutMsgBoxImpl : public QMessageBox
 {
-Q_OBJECT
+	Q_OBJECT
 public:
-    timeoutMsgBoxImpl(QMainWindow*);
+	timeoutMsgBoxImpl(QMainWindow*);
 
-    ~timeoutMsgBoxImpl();
+	~timeoutMsgBoxImpl();
 
 public slots:
 
@@ -37,11 +37,17 @@ public slots:
 	void timerRefresh();
 	void stopTimeout();
 
-	void setMySession ( boost::shared_ptr<Session>  theValue ) { mySession = theValue; }
-	void setMsgID ( NetTimeoutReason theValue ) { msgID = theValue; }
-	void setTimeoutDuration ( int theValue ) { timeoutDuration = theValue; }
-	
-private: 
+	void setMySession ( boost::shared_ptr<Session>  theValue ) {
+		mySession = theValue;
+	}
+	void setMsgID ( NetTimeoutReason theValue ) {
+		msgID = theValue;
+	}
+	void setTimeoutDuration ( int theValue ) {
+		timeoutDuration = theValue;
+	}
+
+private:
 
 	QTimer *timeOutTimer;
 	QPushButton *okButton;

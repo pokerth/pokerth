@@ -1,7 +1,7 @@
 //
 // C++ Implementation: MyRightTabWidget
 //
-// Description: 
+// Description:
 //
 //
 // Author: FThauer FHammer <f.thauer@web.de>, (C) 2007
@@ -15,7 +15,7 @@
 using namespace std;
 
 MyRightTabWidget::MyRightTabWidget(QGroupBox *parent)
- : QTabWidget(parent), myTabBar(0)
+	: QTabWidget(parent), myTabBar(0)
 {
 	myTabBar = this->tabBar();
 }
@@ -24,10 +24,11 @@ MyRightTabWidget::~MyRightTabWidget()
 {
 }
 
-void MyRightTabWidget::paintEvent(QPaintEvent * event) {
+void MyRightTabWidget::paintEvent(QPaintEvent * event)
+{
 
 	QTabWidget::paintEvent(event);
-	
+
 }
 
 

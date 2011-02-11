@@ -25,7 +25,8 @@
 
 class SessionData;
 
-class PlayerInterface{
+class PlayerInterface
+{
 public:
 
 	virtual ~PlayerInterface() =0;
@@ -66,8 +67,8 @@ public:
 	virtual void setMyActiveStatus(bool theValue) =0;
 	virtual bool getMyActiveStatus() const =0;
 
-        virtual void setMyStayOnTableStatus(bool theValue) =0;
-        virtual bool getMyStayOnTableStatus() const =0;
+	virtual void setMyStayOnTableStatus(bool theValue) =0;
+	virtual bool getMyStayOnTableStatus() const =0;
 
 	virtual void setMyCards(int* theValue) =0;
 	virtual void getMyCards(int* theValue) const =0;

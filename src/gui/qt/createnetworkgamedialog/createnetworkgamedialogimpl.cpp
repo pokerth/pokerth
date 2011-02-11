@@ -23,14 +23,14 @@
 #include "changecompleteblindsdialogimpl.h"
 
 createNetworkGameDialogImpl::createNetworkGameDialogImpl(QWidget *parent, ConfigFile *c)
-      : QDialog(parent), myConfig(c)
+	: QDialog(parent), myConfig(c)
 {
 #ifdef __APPLE__
 	setWindowModality(Qt::ApplicationModal);
 	setWindowFlags(Qt::WindowSystemMenuHint | Qt::CustomizeWindowHint | Qt::Dialog);
-#endif	
-    	setupUi(this);
-	
+#endif
+	setupUi(this);
+
 	myChangeCompleteBlindsDialog = new changeCompleteBlindsDialogImpl;
 
 	fillFormular();
@@ -47,22 +47,26 @@ createNetworkGameDialogImpl::createNetworkGameDialogImpl(QWidget *parent, Config
 }
 
 
-void createNetworkGameDialogImpl::exec() { 
-	
+void createNetworkGameDialogImpl::exec()
+{
+
 	fillFormular();
 	QDialog::exec();
 }
 
-void createNetworkGameDialogImpl::createGame() {
-	
+void createNetworkGameDialogImpl::createGame()
+{
+
 }
 
-void createNetworkGameDialogImpl::cancel() {
-	
+void createNetworkGameDialogImpl::cancel()
+{
+
 }
 
-void createNetworkGameDialogImpl::fillFormular() {
-	
+void createNetworkGameDialogImpl::fillFormular()
+{
+
 	//Network Game Settings
 	spinBox_quantityPlayers->setValue(myConfig->readConfigInt("NetNumberOfPlayers"));
 	spinBox_startCash->setValue(myConfig->readConfigInt("NetStartCash"));
@@ -83,32 +87,37 @@ void createNetworkGameDialogImpl::fillFormular() {
 
 	std::list<int> myBlindsList = myConfig->readConfigIntList("NetManualBlindsList");
 	std::list<int>::iterator it1;
-	
+
 	for(it1= myBlindsList.begin(); it1 != myBlindsList.end(); ++it1) {
 		myChangeCompleteBlindsDialog->listWidget_blinds->addItem(QString::number(*it1,10));
 	}
 	myChangeCompleteBlindsDialog->sortBlindsList();
-	
+
 	myChangeCompleteBlindsDialog->radioButton_afterThisAlwaysDoubleBlinds->setChecked(myConfig->readConfigInt("NetAfterMBAlwaysDoubleBlinds"));
 	myChangeCompleteBlindsDialog->radioButton_afterThisAlwaysRaiseAbout->setChecked(myConfig->readConfigInt("NetAfterMBAlwaysRaiseAbout"));
 	myChangeCompleteBlindsDialog->spinBox_afterThisAlwaysRaiseValue->setValue(myConfig->readConfigInt("NetAfterMBAlwaysRaiseValue"));
 	myChangeCompleteBlindsDialog->radioButton_afterThisStayAtLastBlind->setChecked(myConfig->readConfigInt("NetAfterMBStayAtLastBlind"));
 }
 
-void createNetworkGameDialogImpl::showDialog() { 
-	
+void createNetworkGameDialogImpl::showDialog()
+{
+
 	fillFormular();
 	exec();
 }
 
-void createNetworkGameDialogImpl::keyPressEvent ( QKeyEvent * event ) {
+void createNetworkGameDialogImpl::keyPressEvent ( QKeyEvent * event )
+{
 
 
-	if (event->key() == 16777220) { pushButton_createGame->click(); } //ENTER 
-	
+	if (event->key() == 16777220) {
+		pushButton_createGame->click();    //ENTER
+	}
+
 }
 
-void createNetworkGameDialogImpl::callChangeBlindsDialog(bool show) {
+void createNetworkGameDialogImpl::callChangeBlindsDialog(bool show)
+{
 
 	if(show) {
 		myChangeCompleteBlindsDialog->exec();

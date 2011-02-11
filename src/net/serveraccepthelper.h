@@ -37,13 +37,13 @@ public:
 
 	// Set the parameters.
 	void Listen(unsigned serverPort, bool ipv6, bool sctp, const std::string &logDir,
-		boost::shared_ptr<ServerLobbyThread> lobbyThread);
+				boost::shared_ptr<ServerLobbyThread> lobbyThread);
 
 protected:
 
 	void InternalListen(unsigned serverPort, bool ipv6, bool sctp);
 	void HandleAccept(boost::shared_ptr<boost::asio::ip::tcp::socket> acceptedSocket,
-		const boost::system::error_code &error);
+					  const boost::system::error_code &error);
 
 	ServerCallback &GetCallback();
 

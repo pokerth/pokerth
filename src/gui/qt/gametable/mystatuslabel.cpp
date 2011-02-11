@@ -1,7 +1,7 @@
 //
 // C++ Implementation: mycardspixmaplabel
 //
-// Description: 
+// Description:
 //
 //
 // Author: FThauer FHammer <f.thauer@web.de>, (C) 2007
@@ -16,7 +16,8 @@
 using namespace std;
 
 MyStatusLabel::MyStatusLabel(QGroupBox* parent)
- : QLabel(parent), myW(NULL), mousePress(false) {
+	: QLabel(parent), myW(NULL), mousePress(false)
+{
 
 	mousePress = FALSE;
 
@@ -26,23 +27,25 @@ MyStatusLabel::~MyStatusLabel()
 {
 }
 
-void MyStatusLabel::mousePressEvent(QMouseEvent * event) {
+void MyStatusLabel::mousePressEvent(QMouseEvent * event)
+{
 
 	if (!mousePress && objectName().contains("textLabel_Status0")) {
-			mousePress = TRUE;	
-			myW->mouseOverFlipCards(TRUE);
-			
+		mousePress = TRUE;
+		myW->mouseOverFlipCards(TRUE);
+
 	}
 
 	QLabel::mousePressEvent(event);
 }
 
-void MyStatusLabel::mouseReleaseEvent(QMouseEvent * event) {
+void MyStatusLabel::mouseReleaseEvent(QMouseEvent * event)
+{
 
 	if (mousePress && objectName().contains("textLabel_Status0")) {
-		mousePress = FALSE;	
+		mousePress = FALSE;
 		myW->mouseOverFlipCards(FALSE);
-	}	
+	}
 
 	QLabel::mouseReleaseEvent(event);
 }

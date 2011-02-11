@@ -30,143 +30,192 @@ CardsValue::~CardsValue()
 {
 }
 
-int CardsValue::holeCardsClass(int one, int two) const {
+int CardsValue::holeCardsClass(int one, int two) const
+{
 
-  if((one-1)%13<(two-1)%13) {
-    int temp = one;
-    one = two;
-    two = temp;
-  }
+	if((one-1)%13<(two-1)%13) {
+		int temp = one;
+		one = two;
+		two = temp;
+	}
 
 
-  if((one-1)%13 == (two-1)%13) {
-    if((one-1)%13+2 > 10) return 10;
-    else {
-      switch((one-1)%13+2) {
-        case 10: return 9;
-        case 9: return 8;
-        case 8: return 7;
-        case 7: return 6;
-        default: return 5;
-      }
-    }
-  }
-  switch((one-1)%13+2) {
-  //Ass
-    case 14: { 
-      if((one-1)/13 == (two-1)/13) {
-        switch((one-1)%13-(two-1)%13) {
-          case 1: return 10;
-	  case 2: return 9;
-	  case 3: return 9;
-	  case 4: return 8;
-	  default: return 7;
-        }
-      }
-      else {
-        switch((one-1)%13-(two-1)%13) {
-          case 1: return 9;
-	  case 2: return 8;
-	  case 3: return 7;
-	  case 4: return 7;
-	  default: return 4;
-        }
-      }
-    } break;
-    //K�ig
-    case 13: { 
-      if((one-1)/13 == (two-1)/13) {
-        switch((one-1)%13-(two-1)%13) {
-          case 1: return 9;
-	  case 2: return 8;
-	  case 3: return 8;
-	  case 4: return 6;
-	  default: return 5;
-        }
-      }
-      else {
-        switch((one-1)%13-(two-1)%13) {
-          case 1: return 7;
-	  case 2: return 6;
-	  case 3: return 6;
-	  default: return 4;
-        }
-      }
-    } break;
-    //Dame
-    case 12: { 
-      if((one-1)/13 == (two-1)/13) {
-        switch((one-1)%13-(two-1)%13) {
-          case 1: return 8;
-	  case 2: return 7;
-	  case 3: return 6;
-	  case 4: return 5;
-	  default: return 4;
-        }
-      }
-      else {
-        switch((one-1)%13-(two-1)%13) {
-          case 1: return 6;
-	  case 2: return 6;
-	  case 3: return 4;
-	  default: return 3;
-        }
-      }
-    } break;
-    //Bube
-    case 11: { 
-      if((one-1)/13 == (two-1)/13) {
-        switch((one-1)%13-(two-1)%13) {
-          case 1: return 7;
-	  case 2: return 6;
-	  case 3: return 5;
-	  case 4: return 4;
-	  default: return 3;
-        }
-      }
-      else {
-        switch((one-1)%13-(two-1)%13) {
-          case 1: return 6;
-	  case 2: return 5;
-	  case 3: return 4;
-	  default: return 2;
-        }
-      }
-    } break;
-    //10
-    case 10: { 
-      if((one-1)/13 == (two-1)/13) {
-        switch((one-1)%13-(two-1)%13) {
-          case 1: return 6;
-	  case 2: return 5;
-	  default: return 2;
-        }
-      }
-      else {
-        switch((one-1)%13-(two-1)%13) {
-          case 1: return 5;
-	  case 2: return 4;
-	  default: return 1;
-        }
-      }
-    } break;
-    //Rest
-    default: {
-      if((one-1)%13 - (two-1)%13 <= 2) {
-        if((one-1)/13 == (two-1)/13) return 5;
-        else return 3;
-      }
-      else {
-        if((one-1)%13 - (two-1)%13 == 3) return 2;
-        else return 1;
-      }
-    }
- }
+	if((one-1)%13 == (two-1)%13) {
+		if((one-1)%13+2 > 10) return 10;
+		else {
+			switch((one-1)%13+2) {
+			case 10:
+				return 9;
+			case 9:
+				return 8;
+			case 8:
+				return 7;
+			case 7:
+				return 6;
+			default:
+				return 5;
+			}
+		}
+	}
+	switch((one-1)%13+2) {
+		//Ass
+	case 14: {
+		if((one-1)/13 == (two-1)/13) {
+			switch((one-1)%13-(two-1)%13) {
+			case 1:
+				return 10;
+			case 2:
+				return 9;
+			case 3:
+				return 9;
+			case 4:
+				return 8;
+			default:
+				return 7;
+			}
+		} else {
+			switch((one-1)%13-(two-1)%13) {
+			case 1:
+				return 9;
+			case 2:
+				return 8;
+			case 3:
+				return 7;
+			case 4:
+				return 7;
+			default:
+				return 4;
+			}
+		}
+	}
+	break;
+	//K�ig
+	case 13: {
+		if((one-1)/13 == (two-1)/13) {
+			switch((one-1)%13-(two-1)%13) {
+			case 1:
+				return 9;
+			case 2:
+				return 8;
+			case 3:
+				return 8;
+			case 4:
+				return 6;
+			default:
+				return 5;
+			}
+		} else {
+			switch((one-1)%13-(two-1)%13) {
+			case 1:
+				return 7;
+			case 2:
+				return 6;
+			case 3:
+				return 6;
+			default:
+				return 4;
+			}
+		}
+	}
+	break;
+	//Dame
+	case 12: {
+		if((one-1)/13 == (two-1)/13) {
+			switch((one-1)%13-(two-1)%13) {
+			case 1:
+				return 8;
+			case 2:
+				return 7;
+			case 3:
+				return 6;
+			case 4:
+				return 5;
+			default:
+				return 4;
+			}
+		} else {
+			switch((one-1)%13-(two-1)%13) {
+			case 1:
+				return 6;
+			case 2:
+				return 6;
+			case 3:
+				return 4;
+			default:
+				return 3;
+			}
+		}
+	}
+	break;
+	//Bube
+	case 11: {
+		if((one-1)/13 == (two-1)/13) {
+			switch((one-1)%13-(two-1)%13) {
+			case 1:
+				return 7;
+			case 2:
+				return 6;
+			case 3:
+				return 5;
+			case 4:
+				return 4;
+			default:
+				return 3;
+			}
+		} else {
+			switch((one-1)%13-(two-1)%13) {
+			case 1:
+				return 6;
+			case 2:
+				return 5;
+			case 3:
+				return 4;
+			default:
+				return 2;
+			}
+		}
+	}
+	break;
+	//10
+	case 10: {
+		if((one-1)/13 == (two-1)/13) {
+			switch((one-1)%13-(two-1)%13) {
+			case 1:
+				return 6;
+			case 2:
+				return 5;
+			default:
+				return 2;
+			}
+		} else {
+			switch((one-1)%13-(two-1)%13) {
+			case 1:
+				return 5;
+			case 2:
+				return 4;
+			default:
+				return 1;
+			}
+		}
+	}
+	break;
+	//Rest
+	default: {
+		if((one-1)%13 - (two-1)%13 <= 2) {
+			if((one-1)/13 == (two-1)/13) return 5;
+			else return 3;
+		} else {
+			if((one-1)%13 - (two-1)%13 == 3) return 2;
+			else return 1;
+		}
+	}
+	}
 
 
 }
 
-int CardsValue::holeCardsToIntCode(int* cards) const {
+int CardsValue::holeCardsToIntCode(int* cards) const
+{
 
 	// Code der HoleCards ermitteln
 	if(cards[0]%13 == cards[1]%13) {
@@ -189,7 +238,8 @@ int CardsValue::holeCardsToIntCode(int* cards) const {
 
 }
 
-int* CardsValue::intCodeToHoleCards(int code) const {
+int* CardsValue::intCodeToHoleCards(int code) const
+{
 
 	// one possibility !!!
 
@@ -198,8 +248,9 @@ int* CardsValue::intCodeToHoleCards(int code) const {
 	cards[0] = code/1000;
 	cards[1] = (code-cards[0]*1000)/10;
 
-	if(cards[0]==cards[1]) { cards[1] +=13; }
-	else {
+	if(cards[0]==cards[1]) {
+		cards[1] +=13;
+	} else {
 		if(code%10 == 0) cards[1] +=13;
 	}
 
@@ -207,9 +258,10 @@ int* CardsValue::intCodeToHoleCards(int code) const {
 
 }
 
-int CardsValue::cardsValue(int* cards, int* position) const {
+int CardsValue::cardsValue(int* cards, int* position) const
+{
 
-int array[7][3];
+	int array[7][3];
 	int j1, j2, j3, j4, j5, k1, k2, ktemp[3];
 
 	// Kartenwerte umwandeln (z.B. [ 11 (Karo K�ig) -> 0 11 ] oder [ 31 (Pik 7) -> 2 5 ] )
@@ -360,7 +412,7 @@ int array[7][3];
 	for(j1=0; j1<4; j1++) {
 		if(array[j1][1] == array[j1+1][1] && array[j1][1] == array[j1+2][1] && array[j1][1] == array[j1+3][1]) {
 			// Position des Kickers ermitteln und der Blattwertung als dritte Gewichtung hinzuaddieren
-			if(j1==0) { 
+			if(j1==0) {
 				if(position) {
 					// Position-Array fuellen
 					for(j2=0; j2<5; j2++) {
@@ -368,8 +420,7 @@ int array[7][3];
 					}
 				}
 				return 700000000+array[j1][1]*1000000+array[j1+4][1]*10000;
-			}
-			else {
+			} else {
 				if(position) {
 					// Position-Array fuellen
 					for(j2=0; j2<4; j2++) {
@@ -414,8 +465,13 @@ int array[7][3];
 								position[4] = array[j5][2];
 							}
 							// Paar und Drilling des Full House ermitteln ermitteln
-							if(array[j3][1]==array[j1][1]) { drei = array[j1][1]; zwei = array[j4][1]; }
-							else { drei = array[j4][1]; zwei = array[j1][1]; }
+							if(array[j3][1]==array[j1][1]) {
+								drei = array[j1][1];
+								zwei = array[j4][1];
+							} else {
+								drei = array[j4][1];
+								zwei = array[j1][1];
+							}
 							return 600000000+drei*1000000+zwei*10000;
 						}
 					}
@@ -454,26 +510,24 @@ int array[7][3];
 			if(j1==0) {
 				if(position) {
 					// Position-Array fuellen
-					for(j2=0; j2<5;j2++) {
+					for(j2=0; j2<5; j2++) {
 						position[j2] = array[j2][2];
 					}
 				}
 				return 300000000+array[j1][1]*1000000+array[j1+3][1]*10000+array[j1+4][1]*100;
-			}
-			else {
+			} else {
 				if(j1==1) {
 					if(position) {
 						// Position-Array fuellen
-						for(j2=0; j2<5;j2++) {
+						for(j2=0; j2<5; j2++) {
 							position[j2] = array[j2][2];
 						}
 					}
 					return 300000000+array[j1][1]*1000000+array[j1-1][1]*10000+array[j1+3][1]*100;
-				}
-				else {
+				} else {
 					if(position) {
 						// Position-Array fuellen
-						for(j2=0; j2<3;j2++) {
+						for(j2=0; j2<3; j2++) {
 							position[j2] = array[j1+j2][2];
 						}
 						position[3] = array[0][2];
@@ -498,30 +552,28 @@ int array[7][3];
 							position[1] = array[j1+1][2];
 							position[2] = array[j2][2];
 							position[3] = array[j2+1][2];
-							position[4] = array[j2+2][2];	
+							position[4] = array[j2+2][2];
 						}
 						return 200000000+array[j1][1]*1000000+array[j2][1]*10000+array[j2+2][1]*100;
-					}
-					else {
+					} else {
 						if(position) {
 							// Position-Array fuellen
 							position[0] = array[j1][2];
 							position[1] = array[j1+1][2];
 							position[2] = array[j2][2];
 							position[3] = array[j2+1][2];
-							position[4] = array[j1+2][2];	
+							position[4] = array[j1+2][2];
 						}
 						return 200000000+array[j1][1]*1000000+array[j2][1]*10000+array[j1+2][1]*100;
 					}
-				}
-				else {
+				} else {
 					if(position) {
 						// Position-Array fuellen
 						position[0] = array[j1][2];
 						position[1] = array[j1+1][2];
 						position[2] = array[j2][2];
 						position[3] = array[j2+1][2];
-						position[4] = array[0][2];	
+						position[4] = array[0][2];
 					}
 					return 200000000+array[j1][1]*1000000+array[j2][1]*10000+array[0][1]*100;
 				}
@@ -559,8 +611,7 @@ int array[7][3];
 					}
 				}
 				return 100000000+array[j1][1]*1000000+array[j1-2][1]*10000+array[j1-1][1]*100+array[j1+2][1];
-			}
-			else {
+			} else {
 				if(position) {
 					// Position-Array fuellen
 					for(j2=0; j2<2; j2++) {
@@ -595,7 +646,7 @@ vector< vector<int> > CardsValue::calcCardsChance(GameState beRoID, int* playerC
 	chance[0].resize(10);
 	chance[1].resize(10);
 
-	for(i=0;i<10;i++) {
+	for(i=0; i<10; i++) {
 		chance[0][i] = 0;
 		chance[1][i] = 0;
 	}
@@ -605,22 +656,23 @@ vector< vector<int> > CardsValue::calcCardsChance(GameState beRoID, int* playerC
 
 	cards[0] = playerCards[0];
 	cards[1] = playerCards[1];
-	for(i=0;i<5;i++) cards[i+2] = boardCards[i];
+	for(i=0; i<5; i++) cards[i+2] = boardCards[i];
 
 	switch(beRoID) {
-		case GAME_STATE_PREFLOP: {
-			ArrayData* myArrayData = new ArrayData;
+	case GAME_STATE_PREFLOP: {
+		ArrayData* myArrayData = new ArrayData;
 
-			chance = myArrayData->getHandChancePreflop(holeCardsToIntCode(playerCards));
+		chance = myArrayData->getHandChancePreflop(holeCardsToIntCode(playerCards));
 
-			delete myArrayData;
+		delete myArrayData;
 
-		} break;
-		case GAME_STATE_FLOP: {
+	}
+	break;
+	case GAME_STATE_FLOP: {
 
-			for(i=0;i<51;i++) {
-				if(i!=cards[0] && i!=cards[1] && i!=cards[2] && i!=cards[3] && i!=cards[4]) {
-				for(j=i+1;j<52;j++) {
+		for(i=0; i<51; i++) {
+			if(i!=cards[0] && i!=cards[1] && i!=cards[2] && i!=cards[3] && i!=cards[4]) {
+				for(j=i+1; j<52; j++) {
 					if(j!=cards[0] && j!=cards[1] && j!=cards[2] && j!=cards[3] && j!=cards[4]) {
 						cards[5] = i;
 						cards[6] = j;
@@ -628,35 +680,38 @@ vector< vector<int> > CardsValue::calcCardsChance(GameState beRoID, int* playerC
 						sum++;
 					}
 				}
-				}
 			}
-			for(i=0;i<10;i++) {
-				if(chance[0][i] > 0) chance[1][i] = 1;
-				chance[0][i] = (int)(((double)chance[0][i]/(double)sum)*100.0+0.5);
-			}
-
-		} break;
-		case GAME_STATE_TURN: {
-
-			for(i=0;i<52;i++) {
-				if(i!=cards[0] && i!=cards[1] && i!=cards[2] && i!=cards[3] && i!=cards[4] && i!=cards[5]) {
-					cards[6] = i;
-					(chance[0][cardsValue(cards,0)/100000000])++;
-					sum++;
-				}
-			}
-			for(i=0;i<10;i++) {
-				if(chance[0][i] > 0) chance[1][i] = 1;
-				chance[0][i] = (int)(((double)chance[0][i]/(double)sum)*100.0+0.5);
-			}
-
-		} break;
-		case GAME_STATE_RIVER: {
-			chance[0][cardsValue(cards,0)/100000000] = 100;
-			chance[1][cardsValue(cards,0)/100000000] = 1;
-		} break;
-		default: {
 		}
+		for(i=0; i<10; i++) {
+			if(chance[0][i] > 0) chance[1][i] = 1;
+			chance[0][i] = (int)(((double)chance[0][i]/(double)sum)*100.0+0.5);
+		}
+
+	}
+	break;
+	case GAME_STATE_TURN: {
+
+		for(i=0; i<52; i++) {
+			if(i!=cards[0] && i!=cards[1] && i!=cards[2] && i!=cards[3] && i!=cards[4] && i!=cards[5]) {
+				cards[6] = i;
+				(chance[0][cardsValue(cards,0)/100000000])++;
+				sum++;
+			}
+		}
+		for(i=0; i<10; i++) {
+			if(chance[0][i] > 0) chance[1][i] = 1;
+			chance[0][i] = (int)(((double)chance[0][i]/(double)sum)*100.0+0.5);
+		}
+
+	}
+	break;
+	case GAME_STATE_RIVER: {
+		chance[0][cardsValue(cards,0)/100000000] = 100;
+		chance[1][cardsValue(cards,0)/100000000] = 1;
+	}
+	break;
+	default: {
+	}
 	}
 
 	return chance;
@@ -665,18 +720,18 @@ vector< vector<int> > CardsValue::calcCardsChance(GameState beRoID, int* playerC
 //int** CardsValue::showdown(GameState beRoID, int** playerCards, int playerCount) {
 //
 // 	int i,j;
-// 
+//
 // 	int** chance = new int*[2];
-// 
+//
 // 	for(i=0;i<10;i++) {
 // 		chance[i] = new int[2];
 // 		for(j=0;j<2;j++) {
 // 			chance[i][j] = 0;
 // 		}
 // 	}
-// 
+//
 // 	int rand[5];
-// 
+//
 // 	return chance;
 //
 //}

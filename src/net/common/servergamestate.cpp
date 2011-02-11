@@ -44,23 +44,23 @@ using namespace std;
 //#define POKERTH_SERVER_TEST
 
 #ifdef POKERTH_SERVER_TEST
-	#define SERVER_DELAY_NEXT_GAME_SEC				0
-	#define SERVER_DEAL_FLOP_CARDS_DELAY_SEC		0
-	#define SERVER_DEAL_TURN_CARD_DELAY_SEC			0
-	#define SERVER_DEAL_RIVER_CARD_DELAY_SEC		0
-	#define SERVER_DEAL_ADD_ALL_IN_DELAY_SEC		0
-	#define SERVER_SHOW_CARDS_DELAY_SEC				0
-	#define SERVER_COMPUTER_ACTION_DELAY_SEC		0
-	#define SERVER_PLAYER_TIMEOUT_ADD_DELAY_SEC		1
+#define SERVER_DELAY_NEXT_GAME_SEC				0
+#define SERVER_DEAL_FLOP_CARDS_DELAY_SEC		0
+#define SERVER_DEAL_TURN_CARD_DELAY_SEC			0
+#define SERVER_DEAL_RIVER_CARD_DELAY_SEC		0
+#define SERVER_DEAL_ADD_ALL_IN_DELAY_SEC		0
+#define SERVER_SHOW_CARDS_DELAY_SEC				0
+#define SERVER_COMPUTER_ACTION_DELAY_SEC		0
+#define SERVER_PLAYER_TIMEOUT_ADD_DELAY_SEC		1
 #else
-	#define SERVER_DELAY_NEXT_GAME_SEC				10
-	#define SERVER_DEAL_FLOP_CARDS_DELAY_SEC		5
-	#define SERVER_DEAL_TURN_CARD_DELAY_SEC			2
-	#define SERVER_DEAL_RIVER_CARD_DELAY_SEC		2
-	#define SERVER_DEAL_ADD_ALL_IN_DELAY_SEC		2
-	#define SERVER_SHOW_CARDS_DELAY_SEC				2
-	#define SERVER_COMPUTER_ACTION_DELAY_SEC		2
-	#define SERVER_PLAYER_TIMEOUT_ADD_DELAY_SEC		2
+#define SERVER_DELAY_NEXT_GAME_SEC				10
+#define SERVER_DEAL_FLOP_CARDS_DELAY_SEC		5
+#define SERVER_DEAL_TURN_CARD_DELAY_SEC			2
+#define SERVER_DEAL_RIVER_CARD_DELAY_SEC		2
+#define SERVER_DEAL_ADD_ALL_IN_DELAY_SEC		2
+#define SERVER_SHOW_CARDS_DELAY_SEC				2
+#define SERVER_COMPUTER_ACTION_DELAY_SEC		2
+#define SERVER_PLAYER_TIMEOUT_ADD_DELAY_SEC		2
 #endif
 
 #define SERVER_START_GAME_TIMEOUT_SEC				10
@@ -100,41 +100,44 @@ static void SendNewRoundCards(ServerGame &server, Game &curGame, int state)
 	int cards[5];
 	curGame.getCurrentHand()->getBoard()->getMyCards(cards);
 	switch(state) {
-		case GAME_STATE_PREFLOP: {
-			// nothing to do
-		} break;
-		case GAME_STATE_FLOP: {
-			// deal flop cards
-			boost::shared_ptr<NetPacket> packet(new NetPacket(NetPacket::Alloc));
-			packet->GetMsg()->present = PokerTHMessage_PR_dealFlopCardsMessage;
-			DealFlopCardsMessage_t *netDealFlop = &packet->GetMsg()->choice.dealFlopCardsMessage;
-			netDealFlop->gameId = server.GetId();
-			netDealFlop->flopCard1 = cards[0];
-			netDealFlop->flopCard2 = cards[1];
-			netDealFlop->flopCard3 = cards[2];
-			server.SendToAllPlayers(packet, SessionData::Game);
-		} break;
-		case GAME_STATE_TURN: {
-			// deal turn card
-			boost::shared_ptr<NetPacket> packet(new NetPacket(NetPacket::Alloc));
-			packet->GetMsg()->present = PokerTHMessage_PR_dealTurnCardMessage;
-			DealTurnCardMessage_t *netDealTurn = &packet->GetMsg()->choice.dealTurnCardMessage;
-			netDealTurn->gameId = server.GetId();
-			netDealTurn->turnCard = cards[3];
-			server.SendToAllPlayers(packet, SessionData::Game);
-		} break;
-		case GAME_STATE_RIVER: {
-			// deal river card
-			boost::shared_ptr<NetPacket> packet(new NetPacket(NetPacket::Alloc));
-			packet->GetMsg()->present = PokerTHMessage_PR_dealRiverCardMessage;
-			DealRiverCardMessage_t *netDealRiver = &packet->GetMsg()->choice.dealRiverCardMessage;
-			netDealRiver->gameId = server.GetId();
-			netDealRiver->riverCard = cards[4];
-			server.SendToAllPlayers(packet, SessionData::Game);
-		} break;
-		default: {
-			// 
-		}
+	case GAME_STATE_PREFLOP: {
+		// nothing to do
+	} break;
+	case GAME_STATE_FLOP: {
+		// deal flop cards
+		boost::shared_ptr<NetPacket> packet(new NetPacket(NetPacket::Alloc));
+		packet->GetMsg()->present = PokerTHMessage_PR_dealFlopCardsMessage;
+		DealFlopCardsMessage_t *netDealFlop = &packet->GetMsg()->choice.dealFlopCardsMessage;
+		netDealFlop->gameId = server.GetId();
+		netDealFlop->flopCard1 = cards[0];
+		netDealFlop->flopCard2 = cards[1];
+		netDealFlop->flopCard3 = cards[2];
+		server.SendToAllPlayers(packet, SessionData::Game);
+	}
+	break;
+	case GAME_STATE_TURN: {
+		// deal turn card
+		boost::shared_ptr<NetPacket> packet(new NetPacket(NetPacket::Alloc));
+		packet->GetMsg()->present = PokerTHMessage_PR_dealTurnCardMessage;
+		DealTurnCardMessage_t *netDealTurn = &packet->GetMsg()->choice.dealTurnCardMessage;
+		netDealTurn->gameId = server.GetId();
+		netDealTurn->turnCard = cards[3];
+		server.SendToAllPlayers(packet, SessionData::Game);
+	}
+	break;
+	case GAME_STATE_RIVER: {
+		// deal river card
+		boost::shared_ptr<NetPacket> packet(new NetPacket(NetPacket::Alloc));
+		packet->GetMsg()->present = PokerTHMessage_PR_dealRiverCardMessage;
+		DealRiverCardMessage_t *netDealRiver = &packet->GetMsg()->choice.dealRiverCardMessage;
+		netDealRiver->gameId = server.GetId();
+		netDealRiver->riverCard = cards[4];
+		server.SendToAllPlayers(packet, SessionData::Game);
+	}
+	break;
+	default: {
+		//
+	}
 	}
 }
 
@@ -145,31 +148,33 @@ static void PerformPlayerAction(ServerGame &server, boost::shared_ptr<PlayerInte
 		throw ServerException(__FILE__, __LINE__, ERR_NET_NO_CURRENT_PLAYER, 0);
 	player->setMyAction(action);
 	// Only change the player bet if action is not fold/check
-	if (action != PLAYER_ACTION_FOLD && action != PLAYER_ACTION_CHECK)
-	{
+	if (action != PLAYER_ACTION_FOLD && action != PLAYER_ACTION_CHECK) {
 
 		player->setMySet(bet);
 
 		// update minimumRaise and lastActionPlayer
 		switch(action) {
-			case PLAYER_ACTION_BET: {
-				curGame.getCurrentHand()->getCurrentBeRo()->setMinimumRaise(bet);
-				curGame.getCurrentHand()->setLastActionPlayer(player->getMyUniqueID());
-			} break;
-			case PLAYER_ACTION_RAISE: {
+		case PLAYER_ACTION_BET: {
+			curGame.getCurrentHand()->getCurrentBeRo()->setMinimumRaise(bet);
+			curGame.getCurrentHand()->setLastActionPlayer(player->getMyUniqueID());
+		}
+		break;
+		case PLAYER_ACTION_RAISE: {
+			curGame.getCurrentHand()->getCurrentBeRo()->setMinimumRaise(player->getMySet() - curGame.getCurrentHand()->getCurrentBeRo()->getHighestSet());
+			curGame.getCurrentHand()->setLastActionPlayer(player->getMyUniqueID());
+		}
+		break;
+		case PLAYER_ACTION_ALLIN: {
+			if(player->getMySet() - curGame.getCurrentHand()->getCurrentBeRo()->getHighestSet() > curGame.getCurrentHand()->getCurrentBeRo()->getMinimumRaise()) {
 				curGame.getCurrentHand()->getCurrentBeRo()->setMinimumRaise(player->getMySet() - curGame.getCurrentHand()->getCurrentBeRo()->getHighestSet());
-				curGame.getCurrentHand()->setLastActionPlayer(player->getMyUniqueID());
-			} break;
-			case PLAYER_ACTION_ALLIN: {
-				if(player->getMySet() - curGame.getCurrentHand()->getCurrentBeRo()->getHighestSet() > curGame.getCurrentHand()->getCurrentBeRo()->getMinimumRaise()) {
-					curGame.getCurrentHand()->getCurrentBeRo()->setMinimumRaise(player->getMySet() - curGame.getCurrentHand()->getCurrentBeRo()->getHighestSet());
-				}
-				if(player->getMySet() - curGame.getCurrentHand()->getCurrentBeRo()->getHighestSet() > 0) {
-					curGame.getCurrentHand()->setLastActionPlayer(player->getMyUniqueID());
-				}
-			} break;
-			default: {
 			}
+			if(player->getMySet() - curGame.getCurrentHand()->getCurrentBeRo()->getHighestSet() > 0) {
+				curGame.getCurrentHand()->setLastActionPlayer(player->getMyUniqueID());
+			}
+		}
+		break;
+		default: {
+		}
 		}
 
 		// update highestSet
@@ -193,8 +198,7 @@ SetPlayerResult(PlayerResult_t &playerResult, boost::shared_ptr<PlayerInterface>
 	playerResult.resultCard1 = tmpCards[0];
 	playerResult.resultCard2 = tmpCards[1];
 	tmpPlayer->getMyBestHandPosition(bestHandPos);
-	for (int num = 0; num < 5; num++)
-	{
+	for (int num = 0; num < 5; num++) {
 		long *handPos = (long *)calloc(1, sizeof(long));
 		*handPos = bestHandPos[num];
 		ASN_SEQUENCE_ADD(&playerResult.bestHandPosition.list, handPos);
@@ -222,64 +226,45 @@ AbstractServerGameStateReceiving::ProcessPacket(boost::shared_ptr<ServerGame> se
 {
 	if (packet->IsClientActivity())
 		session.sessionData->ResetActivityTimer();
-	if (packet->GetMsg()->present == PokerTHMessage_PR_playerInfoRequestMessage)
-	{
+	if (packet->GetMsg()->present == PokerTHMessage_PR_playerInfoRequestMessage) {
 		// Delegate to Lobby.
 		server->GetLobbyThread().HandleGameRetrievePlayerInfo(session, packet->GetMsg()->choice.playerInfoRequestMessage);
-	}
-	else if (packet->GetMsg()->present == PokerTHMessage_PR_avatarRequestMessage)
-	{
+	} else if (packet->GetMsg()->present == PokerTHMessage_PR_avatarRequestMessage) {
 		// Delegate to Lobby.
 		server->GetLobbyThread().HandleGameRetrieveAvatar(session, packet->GetMsg()->choice.avatarRequestMessage);
-	}
-	else if (packet->GetMsg()->present == PokerTHMessage_PR_leaveGameRequestMessage)
-	{
+	} else if (packet->GetMsg()->present == PokerTHMessage_PR_leaveGameRequestMessage) {
 		server->MoveSessionToLobby(session, NTF_NET_REMOVED_ON_REQUEST);
-	}
-	else if (packet->GetMsg()->present == PokerTHMessage_PR_kickPlayerRequestMessage)
-	{
+	} else if (packet->GetMsg()->present == PokerTHMessage_PR_kickPlayerRequestMessage) {
 		// Only admins are allowed to kick, and only in the lobby.
 		// After leaving the lobby, a vote needs to be initiated to kick.
 		KickPlayerRequestMessage_t *netKickRequest = &packet->GetMsg()->choice.kickPlayerRequestMessage;
 		if (session.playerData->IsGameAdmin() && !server->IsRunning()
-			&& netKickRequest->gameId == server->GetId() && server->GetGameData().gameType != GAME_TYPE_RANKING)
-		{
+				&& netKickRequest->gameId == server->GetId() && server->GetGameData().gameType != GAME_TYPE_RANKING) {
 			server->InternalKickPlayer(netKickRequest->playerId);
 		}
-	}
-	else if (packet->GetMsg()->present == PokerTHMessage_PR_askKickPlayerMessage)
-	{
-		if (session.playerData && server->GetGameData().gameType != GAME_TYPE_RANKING)
-		{
+	} else if (packet->GetMsg()->present == PokerTHMessage_PR_askKickPlayerMessage) {
+		if (session.playerData && server->GetGameData().gameType != GAME_TYPE_RANKING) {
 			AskKickPlayerMessage_t *netAskKick = &packet->GetMsg()->choice.askKickPlayerMessage;
 			server->InternalAskVoteKick(session, netAskKick->playerId, SERVER_VOTE_KICK_TIMEOUT_SEC);
 		}
-	}
-	else if (packet->GetMsg()->present == PokerTHMessage_PR_voteKickRequestMessage)
-	{
-		if (session.playerData)
-		{
+	} else if (packet->GetMsg()->present == PokerTHMessage_PR_voteKickRequestMessage) {
+		if (session.playerData) {
 			VoteKickRequestMessage_t *netVoteKick = &packet->GetMsg()->choice.voteKickRequestMessage;
 			server->InternalVoteKick(session, netVoteKick->petitionId, netVoteKick->voteKick ? KICK_VOTE_IN_FAVOUR : KICK_VOTE_AGAINST);
 		}
 	}
 	// Chat text is always allowed.
-	else if (packet->GetMsg()->present == PokerTHMessage_PR_chatRequestMessage)
-	{
+	else if (packet->GetMsg()->present == PokerTHMessage_PR_chatRequestMessage) {
 		// Only forward if this player is known and not a guest.
-		if (session.playerData && session.playerData->GetRights() != PLAYER_RIGHTS_GUEST)
-		{
+		if (session.playerData && session.playerData->GetRights() != PLAYER_RIGHTS_GUEST) {
 			// Forward chat text to all players.
 			// TODO: Some limitation needed.
 			ChatRequestMessage_t *netChatRequest = &packet->GetMsg()->choice.chatRequestMessage;
 			if (netChatRequest->chatRequestType.present == chatRequestType_PR_chatRequestTypeLobby
-				|| netChatRequest->chatRequestType.present == chatRequestType_PR_chatRequestTypePrivate)
-			{
+					|| netChatRequest->chatRequestType.present == chatRequestType_PR_chatRequestTypePrivate) {
 				if (!server->IsRunning())
 					server->GetLobbyThread().HandleChatRequest(session, *netChatRequest);
-			}
-			else if (netChatRequest->chatRequestType.present == chatRequestType_PR_chatRequestTypeGame)
-			{
+			} else if (netChatRequest->chatRequestType.present == chatRequestType_PR_chatRequestTypeGame) {
 				boost::shared_ptr<NetPacket> packet(new NetPacket(NetPacket::Alloc));
 				packet->GetMsg()->present = PokerTHMessage_PR_chatMessage;
 				ChatMessage_t *netChat = &packet->GetMsg()->choice.chatMessage;
@@ -296,36 +281,28 @@ AbstractServerGameStateReceiving::ProcessPacket(boost::shared_ptr<ServerGame> se
 				// Send the message to the chat cleaner bot for ranking games.
 				//if (server->GetGameData().gameType == GAME_TYPE_RANKING)
 				//{
-					server->GetLobbyThread().GetChatCleaner().HandleGameChatText(
-						server->GetId(),
-						session.playerData->GetUniqueId(),
-						session.playerData->GetName(),
-						string((char *)netChatRequest->chatText.buf, netChatRequest->chatText.size));
+				server->GetLobbyThread().GetChatCleaner().HandleGameChatText(
+					server->GetId(),
+					session.playerData->GetUniqueId(),
+					session.playerData->GetName(),
+					string((char *)netChatRequest->chatText.buf, netChatRequest->chatText.size));
 				//}
 			}
 		}
-	}
-	else if (packet->GetMsg()->present == PokerTHMessage_PR_subscriptionRequestMessage)
-	{
+	} else if (packet->GetMsg()->present == PokerTHMessage_PR_subscriptionRequestMessage) {
 		SubscriptionRequestMessage_t *netSubscription = &packet->GetMsg()->choice.subscriptionRequestMessage;
-		if (netSubscription->subscriptionAction == subscriptionAction_resubscribeGameList)
-		{
+		if (netSubscription->subscriptionAction == subscriptionAction_resubscribeGameList) {
 			if (!session.sessionData->WantsLobbyMsg())
 				server->GetLobbyThread().ResubscribeLobbyMsg(session);
-		}
-		else
+		} else
 			session.sessionData->ResetWantsLobbyMsg();
-	}
-	else if (packet->GetMsg()->present == PokerTHMessage_PR_reportAvatarMessage)
-	{
+	} else if (packet->GetMsg()->present == PokerTHMessage_PR_reportAvatarMessage) {
 		ReportAvatarMessage_t *netReport = &packet->GetMsg()->choice.reportAvatarMessage;
 		boost::shared_ptr<PlayerData> tmpPlayer = server->GetPlayerDataByUniqueId(netReport->reportedPlayerId);
 		MD5Buf tmpMD5;
 		memcpy(tmpMD5.GetData(), netReport->reportedAvatar.buf, MD5_DATA_SIZE);
-		if (tmpPlayer && tmpPlayer->GetDBId() && !tmpMD5.IsZero() && tmpPlayer->GetAvatarMD5() == tmpMD5)
-		{
-			if (!server->IsAvatarReported(tmpPlayer->GetUniqueId()))
-			{
+		if (tmpPlayer && tmpPlayer->GetDBId() && !tmpMD5.IsZero() && tmpPlayer->GetAvatarMD5() == tmpMD5) {
+			if (!server->IsAvatarReported(tmpPlayer->GetUniqueId())) {
 				// Temporarily note that this avatar was reported.
 				// This prevents spamming of the avatar report.
 				server->AddReportedAvatar(tmpPlayer->GetUniqueId());
@@ -340,16 +317,14 @@ AbstractServerGameStateReceiving::ProcessPacket(boost::shared_ptr<ServerGame> se
 					tmpAvatarType.erase(0, 1); // Only store extension without the "."
 
 				server->GetLobbyThread().GetDatabase()->AsyncReportAvatar(
-						session.playerData->GetUniqueId(),
-						tmpPlayer->GetUniqueId(),
-						tmpPlayer->GetDBId(),
-						tmpPlayer->GetAvatarMD5().ToString(),
-						tmpAvatarType,
-						myDBid != 0 ? &myDBid : NULL
+					session.playerData->GetUniqueId(),
+					tmpPlayer->GetUniqueId(),
+					tmpPlayer->GetDBId(),
+					tmpPlayer->GetAvatarMD5().ToString(),
+					tmpAvatarType,
+					myDBid != 0 ? &myDBid : NULL
 				);
-			}
-			else
-			{
+			} else {
 				boost::shared_ptr<NetPacket> packet(new NetPacket(NetPacket::Alloc));
 				packet->GetMsg()->present = PokerTHMessage_PR_reportAvatarAckMessage;
 				ReportAvatarAckMessage_t *netReportAck = &packet->GetMsg()->choice.reportAvatarAckMessage;
@@ -357,9 +332,7 @@ AbstractServerGameStateReceiving::ProcessPacket(boost::shared_ptr<ServerGame> se
 				netReportAck->reportResult = reportResult_avatarReportDuplicate;
 				server->GetLobbyThread().GetSender().Send(session.sessionData, packet);
 			}
-		}
-		else
-		{
+		} else {
 			boost::shared_ptr<NetPacket> packet(new NetPacket(NetPacket::Alloc));
 			packet->GetMsg()->present = PokerTHMessage_PR_reportAvatarAckMessage;
 			ReportAvatarAckMessage_t *netReportAck = &packet->GetMsg()->choice.reportAvatarAckMessage;
@@ -367,9 +340,7 @@ AbstractServerGameStateReceiving::ProcessPacket(boost::shared_ptr<ServerGame> se
 			netReportAck->reportResult = reportResult_avatarReportInvalid;
 			server->GetLobbyThread().GetSender().Send(session.sessionData, packet);
 		}
-	}
-	else
-	{
+	} else {
 		// Packet processing in subclass.
 		InternalProcessPacket(server, session, packet);
 	}
@@ -422,16 +393,12 @@ ServerGameStateInit::NotifySessionRemoved(boost::shared_ptr<ServerGame> server)
 void
 ServerGameStateInit::HandleNewSession(boost::shared_ptr<ServerGame> server, SessionWrapper session)
 {
-	if (session.sessionData && session.playerData)
-	{
+	if (session.sessionData && session.playerData) {
 		const GameData &tmpGameData = server->GetGameData();
 		// Check the number of players.
-		if (server->GetCurNumberOfPlayers() >= (size_t)tmpGameData.maxNumberOfPlayers)
-		{
+		if (server->GetCurNumberOfPlayers() >= (size_t)tmpGameData.maxNumberOfPlayers) {
 			server->MoveSessionToLobby(session, NTF_NET_REMOVED_GAME_FULL);
-		}
-		else
-		{
+		} else {
 			session.playerData->SetGameAdmin(session.playerData->GetUniqueId() == server->GetAdminPlayerId());
 
 			// Send ack to client.
@@ -454,8 +421,7 @@ ServerGameStateInit::HandleNewSession(boost::shared_ptr<ServerGame> server, Sess
 			PlayerDataList tmpPlayerList = server->GetFullPlayerDataList();
 			PlayerDataList::iterator player_i = tmpPlayerList.begin();
 			PlayerDataList::iterator player_end = tmpPlayerList.end();
-			while (player_i != player_end)
-			{
+			while (player_i != player_end) {
 				server->GetLobbyThread().GetSender().Send(session.sessionData, CreateNetPacketPlayerJoined(server->GetId(), *(*player_i)));
 				++player_i;
 			}
@@ -469,8 +435,7 @@ ServerGameStateInit::HandleNewSession(boost::shared_ptr<ServerGame> server, Sess
 			// Notify lobby.
 			server->GetLobbyThread().NotifyPlayerJoinedGame(server->GetId(), session.playerData->GetUniqueId());
 
-			if (server->GetCurNumberOfPlayers() == (size_t)tmpGameData.maxNumberOfPlayers)
-			{
+			if (server->GetCurNumberOfPlayers() == (size_t)tmpGameData.maxNumberOfPlayers) {
 				// Automatically start the game if it is full.
 				RegisterAutoStartTimer(server);
 			}
@@ -482,8 +447,7 @@ void
 ServerGameStateInit::RegisterAdminTimer(boost::shared_ptr<ServerGame> server)
 {
 	// No admin timeout in LAN games.
-	if (server->GetLobbyThread().GetServerMode() != SERVER_MODE_LAN)
-	{
+	if (server->GetLobbyThread().GetServerMode() != SERVER_MODE_LAN) {
 		server->GetStateTimer1().expires_from_now(
 			boost::posix_time::seconds(SERVER_GAME_ADMIN_TIMEOUT_SEC - SERVER_GAME_ADMIN_WARNING_REMAINING_SEC));
 		server->GetStateTimer1().async_wait(
@@ -502,8 +466,7 @@ void
 ServerGameStateInit::RegisterAutoStartTimer(boost::shared_ptr<ServerGame> server)
 {
 	// No autostart in LAN games.
-	if (server->GetLobbyThread().GetServerMode() != SERVER_MODE_LAN)
-	{
+	if (server->GetLobbyThread().GetServerMode() != SERVER_MODE_LAN) {
 		server->GetStateTimer2().expires_from_now(
 			boost::posix_time::seconds(SERVER_AUTOSTART_GAME_DELAY_SEC));
 		server->GetStateTimer2().async_wait(
@@ -521,8 +484,7 @@ ServerGameStateInit::UnregisterAutoStartTimer(boost::shared_ptr<ServerGame> serv
 void
 ServerGameStateInit::TimerAutoStart(const boost::system::error_code &ec, boost::shared_ptr<ServerGame> server)
 {
-	if (!ec && &server->GetState() == this)
-	{
+	if (!ec && &server->GetState() == this) {
 		SendStartEvent(*server, false);
 	}
 }
@@ -530,12 +492,10 @@ ServerGameStateInit::TimerAutoStart(const boost::system::error_code &ec, boost::
 void
 ServerGameStateInit::TimerAdminWarning(const boost::system::error_code &ec, boost::shared_ptr<ServerGame> server)
 {
-	if (!ec && &server->GetState() == this)
-	{
+	if (!ec && &server->GetState() == this) {
 		// Find game admin.
 		SessionWrapper session = server->GetSessionManager().GetSessionByUniquePlayerId(server->GetAdminPlayerId());
-		if (session.sessionData.get())
-		{
+		if (session.sessionData.get()) {
 			// Send him a warning.
 			boost::shared_ptr<NetPacket> packet(new NetPacket(NetPacket::Alloc));
 			packet->GetMsg()->present = PokerTHMessage_PR_timeoutWarningMessage;
@@ -556,12 +516,10 @@ ServerGameStateInit::TimerAdminWarning(const boost::system::error_code &ec, boos
 void
 ServerGameStateInit::TimerAdminTimeout(const boost::system::error_code &ec, boost::shared_ptr<ServerGame> server)
 {
-	if (!ec && &server->GetState() == this)
-	{
+	if (!ec && &server->GetState() == this) {
 		// Find game admin.
 		SessionWrapper session = server->GetSessionManager().GetSessionByUniquePlayerId(server->GetAdminPlayerId());
-		if (session.sessionData.get())
-		{
+		if (session.sessionData.get()) {
 			// Remove him from the game.
 			server->MoveSessionToLobby(session, NTF_NET_REMOVED_TIMEOUT);
 		}
@@ -571,11 +529,9 @@ ServerGameStateInit::TimerAdminTimeout(const boost::system::error_code &ec, boos
 void
 ServerGameStateInit::SendStartEvent(ServerGame &server, bool fillWithComputerPlayers)
 {
-	if (fillWithComputerPlayers)
-	{
+	if (fillWithComputerPlayers) {
 		int remainingSlots = server.GetGameData().maxNumberOfPlayers - server.GetCurNumberOfPlayers();
-		for (int i = 1; i <= remainingSlots; i++)
-		{
+		for (int i = 1; i <= remainingSlots; i++) {
 			boost::shared_ptr<PlayerData> tmpPlayerData(
 				new PlayerData(server.GetLobbyThread().GetNextUniquePlayerId(), 0, PLAYER_TYPE_COMPUTER, PLAYER_RIGHTS_NORMAL, false));
 
@@ -608,29 +564,22 @@ ServerGameStateInit::SendStartEvent(ServerGame &server, bool fillWithComputerPla
 void
 ServerGameStateInit::InternalProcessPacket(boost::shared_ptr<ServerGame> server, SessionWrapper session, boost::shared_ptr<NetPacket> packet)
 {
-	if (packet->GetMsg()->present == PokerTHMessage_PR_startEventMessage)
-	{
+	if (packet->GetMsg()->present == PokerTHMessage_PR_startEventMessage) {
 		StartEventMessage_t *netStartEvent = &packet->GetMsg()->choice.startEventMessage;
 		// Only admins are allowed to start the game.
 		if (session.playerData->IsGameAdmin()
-			&& netStartEvent->gameId == server->GetId()
-			&& (server->GetGameData().gameType != GAME_TYPE_RANKING // ranking games need to be full
-				|| server->GetGameData().maxNumberOfPlayers == (int)server->GetCurNumberOfPlayers()))
-		{
+				&& netStartEvent->gameId == server->GetId()
+				&& (server->GetGameData().gameType != GAME_TYPE_RANKING // ranking games need to be full
+					|| server->GetGameData().maxNumberOfPlayers == (int)server->GetCurNumberOfPlayers())) {
 			SendStartEvent(*server, netStartEvent->fillWithComputerPlayers);
-		}
-		else // kick players who try to start but are not allowed to
-		{
+		} else { // kick players who try to start but are not allowed to
 			server->MoveSessionToLobby(session, NTF_NET_REMOVED_START_FAILED);
 		}
-	}
-	else if (packet->GetMsg()->present == PokerTHMessage_PR_invitePlayerToGameMessage)
-	{
+	} else if (packet->GetMsg()->present == PokerTHMessage_PR_invitePlayerToGameMessage) {
 		InvitePlayerToGameMessage_t *netInvite = &packet->GetMsg()->choice.invitePlayerToGameMessage;
 
 		// Only invite players which are not already within the group.
-		if (netInvite->gameId == server->GetId() && !server->IsPlayerConnected(netInvite->playerId))
-		{
+		if (netInvite->gameId == server->GetId() && !server->IsPlayerConnected(netInvite->playerId)) {
 			boost::shared_ptr<NetPacket> packet(new NetPacket(NetPacket::Alloc));
 			packet->GetMsg()->present = PokerTHMessage_PR_inviteNotifyMessage;
 			InviteNotifyMessage_t *netInvNotif = &packet->GetMsg()->choice.inviteNotifyMessage;
@@ -640,13 +589,10 @@ ServerGameStateInit::InternalProcessPacket(boost::shared_ptr<ServerGame> server,
 
 			bool requestSent = server->GetLobbyThread().SendToLobbyPlayer(netInvite->playerId, packet);
 			server->SendToAllPlayers(packet, SessionData::Game);
-			if (requestSent)
-			{
+			if (requestSent) {
 				// This player has been invited.
 				server->AddPlayerInvitation(netInvite->playerId);
-			}
-			else
-			{
+			} else {
 				// Player is not in lobby - send reject message.
 				boost::shared_ptr<NetPacket> p2(new NetPacket(NetPacket::Alloc));
 				p2->GetMsg()->present = PokerTHMessage_PR_rejectInvNotifyMessage;
@@ -658,16 +604,11 @@ ServerGameStateInit::InternalProcessPacket(boost::shared_ptr<ServerGame> server,
 				server->SendToAllPlayers(p2, SessionData::Game);
 			}
 		}
-	}
-	else if (packet->GetMsg()->present == PokerTHMessage_PR_resetTimeoutMessage)
-	{
-		if (session.playerData->IsGameAdmin())
-		{
+	} else if (packet->GetMsg()->present == PokerTHMessage_PR_resetTimeoutMessage) {
+		if (session.playerData->IsGameAdmin()) {
 			RegisterAdminTimer(server);
 		}
-	}
-	else
-	{
+	} else {
 		server->SessionError(session, ERR_SOCK_INVALID_PACKET);
 	}
 }
@@ -730,11 +671,9 @@ ServerGameStateStartGame::HandleNewSession(boost::shared_ptr<ServerGame> server,
 void
 ServerGameStateStartGame::InternalProcessPacket(boost::shared_ptr<ServerGame> server, SessionWrapper session, boost::shared_ptr<NetPacket> packet)
 {
-	if (packet->GetMsg()->present == PokerTHMessage_PR_startEventAckMessage)
-	{
+	if (packet->GetMsg()->present == PokerTHMessage_PR_startEventAckMessage) {
 		session.sessionData->SetReadyFlag();
-		if (server->GetSessionManager().CountReadySessions() == server->GetSessionManager().GetRawSessionCount())
-		{
+		if (server->GetSessionManager().CountReadySessions() == server->GetSessionManager().GetRawSessionCount()) {
 			// Everyone is ready.
 			server->GetSessionManager().ResetAllReadyFlags();
 			DoStart(server);
@@ -745,8 +684,7 @@ ServerGameStateStartGame::InternalProcessPacket(boost::shared_ptr<ServerGame> se
 void
 ServerGameStateStartGame::TimerTimeout(const boost::system::error_code &ec, boost::shared_ptr<ServerGame> server)
 {
-	if (!ec && &server->GetState() == this)
-	{
+	if (!ec && &server->GetState() == this) {
 		// On timeout: start anyway.
 		server->GetSessionManager().ResetAllReadyFlags();
 		// TODO report successful start! -> new callback?!
@@ -759,18 +697,14 @@ void
 ServerGameStateStartGame::DoStart(boost::shared_ptr<ServerGame> server)
 {
 	PlayerDataList tmpPlayerList(server->InternalStartGame());
-	if (tmpPlayerList.size() <= 1)
-	{
-		if (!tmpPlayerList.empty())
-		{
+	if (tmpPlayerList.size() <= 1) {
+		if (!tmpPlayerList.empty()) {
 			boost::shared_ptr<PlayerData> tmpPlayer(tmpPlayerList.front());
 			SessionWrapper tmpSession = server->GetSessionManager().GetSessionByUniquePlayerId(tmpPlayer->GetUniqueId());
 			if (tmpSession.sessionData)
 				server->MoveSessionToLobby(tmpSession, NTF_NET_REMOVED_START_FAILED);
 		}
-	}
-	else
-	{
+	} else {
 		boost::shared_ptr<NetPacket> packet(new NetPacket(NetPacket::Alloc));
 		packet->GetMsg()->present = PokerTHMessage_PR_gameStartMessage;
 		GameStartMessage_t *netGameStart = &packet->GetMsg()->choice.gameStartMessage;
@@ -781,12 +715,11 @@ ServerGameStateStartGame::DoStart(boost::shared_ptr<ServerGame> server)
 		// Assume player list is sorted by number.
 		PlayerDataList::iterator player_i = tmpPlayerList.begin();
 		PlayerDataList::iterator player_end = tmpPlayerList.end();
-		while (player_i != player_end)
-		{
+		while (player_i != player_end) {
 			NonZeroId_t *playerSlot = (NonZeroId_t *)calloc(1, sizeof(NonZeroId_t));
 			*playerSlot = (*player_i)->GetUniqueId();
 			ASN_SEQUENCE_ADD(&netGameStart->playerSeats.list, playerSlot);
-	
+
 			++player_i;
 		}
 
@@ -848,14 +781,10 @@ ServerGameStateHand::InternalProcessPacket(boost::shared_ptr<ServerGame> /*serve
 void
 ServerGameStateHand::TimerLoop(const boost::system::error_code &ec, boost::shared_ptr<ServerGame> server)
 {
-	if (!ec && &server->GetState() == this)
-	{
-		try
-		{
+	if (!ec && &server->GetState() == this) {
+		try {
 			EngineLoop(server);
-		}
-		catch (const PokerTHException &e)
-		{
+		} catch (const PokerTHException &e) {
 			LOG_ERROR("Game " << server->GetId() << " - Engine exception: " << e.what());
 			server->RemoveAllSessions(); // Close this game on error.
 		}
@@ -875,8 +804,7 @@ ServerGameStateHand::EngineLoop(boost::shared_ptr<ServerGame> server)
 	int newRound = curGame.getCurrentHand()->getCurrentRound();
 
 	// If round changes, deal cards if needed.
-	if (newRound != curRound && newRound != GAME_STATE_POST_RIVER)
-	{
+	if (newRound != curRound && newRound != GAME_STATE_POST_RIVER) {
 		if (newRound <= curRound)
 			throw ServerException(__FILE__, __LINE__, ERR_NET_INVALID_GAME_ROUND, 0);
 
@@ -885,9 +813,8 @@ ServerGameStateHand::EngineLoop(boost::shared_ptr<ServerGame> server)
 		nonFoldPlayers.remove_if(boost::bind(&PlayerInterface::getMyAction, _1) == PLAYER_ACTION_FOLD);
 
 		if (curGame.getCurrentHand()->getAllInCondition()
-			&& !curGame.getCurrentHand()->getCardsShown()
-			&& nonFoldPlayers.size() > 1)
-		{
+				&& !curGame.getCurrentHand()->getCardsShown()
+				&& nonFoldPlayers.size() > 1) {
 			// Send cards of all active players to all players (all in).
 			boost::shared_ptr<NetPacket> allIn(new NetPacket(NetPacket::Alloc));
 			allIn->GetMsg()->present = PokerTHMessage_PR_allInShowCardsMessage;
@@ -897,8 +824,7 @@ ServerGameStateHand::EngineLoop(boost::shared_ptr<ServerGame> server)
 			PlayerListConstIterator i = nonFoldPlayers.begin();
 			PlayerListConstIterator end = nonFoldPlayers.end();
 
-			while (i != end)
-			{
+			while (i != end) {
 				PlayerAllIn_t *playerAllIn = (PlayerAllIn_t *)calloc(1, sizeof(PlayerAllIn_t));
 				playerAllIn->playerId = (*i)->getMyUniqueID();
 				int tmpCards[2];
@@ -917,9 +843,7 @@ ServerGameStateHand::EngineLoop(boost::shared_ptr<ServerGame> server)
 			server->GetStateTimer1().async_wait(
 				boost::bind(
 					&ServerGameStateHand::TimerShowCards, this, boost::asio::placeholders::error, server));
-		}
-		else
-		{
+		} else {
 			SendNewRoundCards(*server, curGame, newRound);
 
 			server->GetStateTimer1().expires_from_now(
@@ -928,11 +852,8 @@ ServerGameStateHand::EngineLoop(boost::shared_ptr<ServerGame> server)
 				boost::bind(
 					&ServerGameStateHand::TimerLoop, this, boost::asio::placeholders::error, server));
 		}
-	}
-	else
-	{
-		if (newRound != GAME_STATE_POST_RIVER) // continue hand
-		{
+	} else {
+		if (newRound != GAME_STATE_POST_RIVER) { // continue hand
 			if (curGame.getCurrentHand()->getAllInCondition())
 				throw ServerException(__FILE__, __LINE__, ERR_NET_INTERNAL_GAME_ERROR, 0);
 
@@ -952,8 +873,7 @@ ServerGameStateHand::EngineLoop(boost::shared_ptr<ServerGame> server)
 			server->SendToAllPlayers(notification, SessionData::Game);
 
 			// If the player is computer controlled, let the engine act.
-			if (curPlayer->getMyType() == PLAYER_TYPE_COMPUTER)
-			{
+			if (curPlayer->getMyType() == PLAYER_TYPE_COMPUTER) {
 				server->GetStateTimer1().expires_from_now(
 					boost::posix_time::seconds(SERVER_COMPUTER_ACTION_DELAY_SEC));
 				server->GetStateTimer1().async_wait(
@@ -961,8 +881,7 @@ ServerGameStateHand::EngineLoop(boost::shared_ptr<ServerGame> server)
 						&ServerGameStateHand::TimerComputerAction, this, boost::asio::placeholders::error, server));
 			}
 			// If the player we are waiting for left, continue without him.
-			else if (!server->GetSessionManager().IsPlayerConnected(curPlayer->getMyUniqueID()))
-			{
+			else if (!server->GetSessionManager().IsPlayerConnected(curPlayer->getMyUniqueID())) {
 				PerformPlayerAction(*server, curPlayer, PLAYER_ACTION_FOLD, 0);
 
 				server->GetStateTimer1().expires_from_now(
@@ -970,14 +889,10 @@ ServerGameStateHand::EngineLoop(boost::shared_ptr<ServerGame> server)
 				server->GetStateTimer1().async_wait(
 					boost::bind(
 						&ServerGameStateHand::TimerLoop, this, boost::asio::placeholders::error, server));
-			}
-			else
-			{
+			} else {
 				server->SetState(ServerGameStateWaitPlayerAction::Instance());
 			}
-		}
-		else // hand is over
-		{
+		} else { // hand is over
 			// Engine will find out who won.
 			curGame.getCurrentHand()->getCurrentBeRo()->postRiverRun();
 
@@ -985,8 +900,7 @@ ServerGameStateHand::EngineLoop(boost::shared_ptr<ServerGame> server)
 			list<boost::shared_ptr<PlayerInterface> > nonFoldPlayers = *curGame.getActivePlayerList();
 			nonFoldPlayers.remove_if(boost::bind(&PlayerInterface::getMyAction, _1) == PLAYER_ACTION_FOLD);
 
-			if (nonFoldPlayers.size() == 1)
-			{
+			if (nonFoldPlayers.size() == 1) {
 				// End of Hand, but keep cards hidden.
 				boost::shared_ptr<PlayerInterface> player = nonFoldPlayers.front();
 				boost::shared_ptr<NetPacket> endHand(new NetPacket(NetPacket::Alloc));
@@ -1000,9 +914,7 @@ ServerGameStateHand::EngineLoop(boost::shared_ptr<ServerGame> server)
 				endHandHide->moneyWon = player->getLastMoneyWon();
 				endHandHide->playerMoney = player->getMyCash();
 				server->SendToAllPlayers(endHand, SessionData::Game);
-			}
-			else
-			{
+			} else {
 				// End of Hand - show cards.
 				const PlayerIdList showList(curGame.getCurrentHand()->getBoard()->getPlayerNeedToShowCards());
 				boost::shared_ptr<NetPacket> endHand(new NetPacket(NetPacket::Alloc));
@@ -1016,11 +928,9 @@ ServerGameStateHand::EngineLoop(boost::shared_ptr<ServerGame> server)
 				PlayerIdList::const_iterator i = showList.begin();
 				PlayerIdList::const_iterator end = showList.end();
 
-				while (i != end)
-				{
+				while (i != end) {
 					boost::shared_ptr<PlayerInterface> tmpPlayer(curGame.getPlayerByUniqueId(*i));
-					if (tmpPlayer)
-					{
+					if (tmpPlayer) {
 						PlayerResult_t *playerResult = (PlayerResult_t *)calloc(1, sizeof(PlayerResult_t));
 						SetPlayerResult(*playerResult, tmpPlayer);
 
@@ -1041,13 +951,10 @@ ServerGameStateHand::EngineLoop(boost::shared_ptr<ServerGame> server)
 			list<boost::shared_ptr<PlayerInterface> > playersWithCash = *curGame.getActivePlayerList();
 			playersWithCash.remove_if(boost::bind(&PlayerInterface::getMyCash, _1) < 1);
 
-			if (playersWithCash.empty())
-			{
+			if (playersWithCash.empty()) {
 				// No more players left - restart.
 				server->SetState(SERVER_INITIAL_STATE::Instance());
-			}
-			else if (playersWithCash.size() == 1)
-			{
+			} else if (playersWithCash.size() == 1) {
 				boost::shared_ptr<PlayerInterface> winnerPlayer = *(playersWithCash.begin());
 				server->InternalEndGame();
 
@@ -1057,9 +964,7 @@ ServerGameStateHand::EngineLoop(boost::shared_ptr<ServerGame> server)
 				server->GetStateTimer1().async_wait(
 					boost::bind(
 						&ServerGameStateHand::TimerNextGame, this, boost::asio::placeholders::error, server, winnerPlayer->getMyUniqueID()));
-			}
-			else
-			{
+			} else {
 				server->SetState(ServerGameStateWaitNextHand::Instance());
 			}
 		}
@@ -1069,8 +974,7 @@ ServerGameStateHand::EngineLoop(boost::shared_ptr<ServerGame> server)
 void
 ServerGameStateHand::TimerShowCards(const boost::system::error_code &ec, boost::shared_ptr<ServerGame> server)
 {
-	if (!ec && &server->GetState() == this)
-	{
+	if (!ec && &server->GetState() == this) {
 		Game &curGame = server->GetGame();
 		SendNewRoundCards(*server, curGame, curGame.getCurrentHand()->getCurrentRound());
 
@@ -1085,10 +989,8 @@ ServerGameStateHand::TimerShowCards(const boost::system::error_code &ec, boost::
 void
 ServerGameStateHand::TimerComputerAction(const boost::system::error_code &ec, boost::shared_ptr<ServerGame> server)
 {
-	if (!ec && &server->GetState() == this)
-	{
-		try
-		{
+	if (!ec && &server->GetState() == this) {
+		try {
 			boost::shared_ptr<PlayerInterface> curPlayer = server->GetGame().getCurrentPlayer();
 			if (!curPlayer)
 				throw ServerException(__FILE__, __LINE__, ERR_NET_NO_CURRENT_PLAYER, 0);
@@ -1096,9 +998,7 @@ ServerGameStateHand::TimerComputerAction(const boost::system::error_code &ec, bo
 			curPlayer->action();
 			SendPlayerAction(*server, curPlayer);
 			EngineLoop(server);
-		}
-		catch (const PokerTHException &e)
-		{
+		} catch (const PokerTHException &e) {
 			LOG_ERROR("Game " << server->GetId() << " - Computer timer exception: " << e.what());
 			server->RemoveAllSessions(); // Close this game on error.
 		}
@@ -1108,8 +1008,7 @@ ServerGameStateHand::TimerComputerAction(const boost::system::error_code &ec, bo
 void
 ServerGameStateHand::TimerNextHand(const boost::system::error_code &ec, boost::shared_ptr<ServerGame> server)
 {
-	if (!ec && &server->GetState() == this)
-	{
+	if (!ec && &server->GetState() == this) {
 		StartNewHand(server);
 		TimerLoop(ec, server);
 	}
@@ -1118,8 +1017,7 @@ ServerGameStateHand::TimerNextHand(const boost::system::error_code &ec, boost::s
 void
 ServerGameStateHand::TimerNextGame(const boost::system::error_code &ec, boost::shared_ptr<ServerGame> server, unsigned winnerPlayerId)
 {
-	if (!ec && &server->GetState() == this)
-	{
+	if (!ec && &server->GetState() == this) {
 		boost::shared_ptr<NetPacket> endGame(new NetPacket(NetPacket::Alloc));
 		endGame->GetMsg()->present = PokerTHMessage_PR_endOfGameMessage;
 		EndOfGameMessage_t *netEndGame = &endGame->GetMsg()->choice.endOfGameMessage;
@@ -1142,17 +1040,16 @@ ServerGameStateHand::GetDealCardsDelaySec(ServerGame &server)
 	int allInDelay = curGame.getCurrentHand()->getAllInCondition() ? SERVER_DEAL_ADD_ALL_IN_DELAY_SEC : 0;
 	int delay = 0;
 
-	switch(curGame.getCurrentHand()->getCurrentRound())
-	{
-		case GAME_STATE_FLOP:
-			delay = SERVER_DEAL_FLOP_CARDS_DELAY_SEC;
-			break;
-		case GAME_STATE_TURN:
-			delay = SERVER_DEAL_TURN_CARD_DELAY_SEC + allInDelay;
-			break;
-		case GAME_STATE_RIVER:
-			delay = SERVER_DEAL_RIVER_CARD_DELAY_SEC;
-			break;
+	switch(curGame.getCurrentHand()->getCurrentRound()) {
+	case GAME_STATE_FLOP:
+		delay = SERVER_DEAL_FLOP_CARDS_DELAY_SEC;
+		break;
+	case GAME_STATE_TURN:
+		delay = SERVER_DEAL_TURN_CARD_DELAY_SEC + allInDelay;
+		break;
+	case GAME_STATE_RIVER:
+		delay = SERVER_DEAL_RIVER_CARD_DELAY_SEC;
+		break;
 	}
 	return delay;
 }
@@ -1174,12 +1071,10 @@ ServerGameStateHand::StartNewHand(boost::shared_ptr<ServerGame> server)
 	PlayerListIterator end = curGame.getSeatsList()->end();
 
 	// Send cards to all players.
-	while (i != end)
-	{
+	while (i != end) {
 		// also send to inactive players, but not to disconnected players.
 		boost::shared_ptr<PlayerInterface> tmpPlayer = *i;
-		if (tmpPlayer->getNetSessionData())
-		{
+		if (tmpPlayer->getNetSessionData()) {
 			int cards[2];
 			bool errorFlag = false;
 			tmpPlayer->getMyCards(cards);
@@ -1189,15 +1084,12 @@ ServerGameStateHand::StartNewHand(boost::shared_ptr<ServerGame> server)
 			HandStartMessage_t *netHandStart = &notifyCards->GetMsg()->choice.handStartMessage;
 			netHandStart->gameId = server->GetId();
 			string tmpPassword(tmpPlayer->getNetSessionData()->AuthGetPassword());
-			if (tmpPassword.empty()) // encrypt only if password is present
-			{
+			if (tmpPassword.empty()) { // encrypt only if password is present
 				netHandStart->yourCards.present = yourCards_PR_plainCards;
 				PlainCards_t *plainCards = &netHandStart->yourCards.choice.plainCards;
 				plainCards->plainCard1 = cards[0];
 				plainCards->plainCard2 = cards[1];
-			}
-			else
-			{
+			} else {
 				ostringstream cardDataStream;
 				vector<unsigned char> tmpCipher;
 				cardDataStream
@@ -1207,26 +1099,22 @@ ServerGameStateHand::StartNewHand(boost::shared_ptr<ServerGame> server)
 						<< cards[0] << " "
 						<< cards[1];
 				if (CryptHelper::AES128Encrypt((const unsigned char *)tmpPassword.c_str(),
-												(unsigned)tmpPassword.size(),
-												cardDataStream.str(),
-												tmpCipher)
-					&& !tmpCipher.empty())
-				{
+											   (unsigned)tmpPassword.size(),
+											   cardDataStream.str(),
+											   tmpCipher)
+						&& !tmpCipher.empty()) {
 					netHandStart->yourCards.present = yourCards_PR_encryptedCards;
 					EncryptedCards_t *encryptedCards = &netHandStart->yourCards.choice.encryptedCards;
 					OCTET_STRING_fromBuf(
-							&encryptedCards->cardData,
-							(const char *)&tmpCipher[0],
-							(int)tmpCipher.size());
-				}
-				else
-				{
+						&encryptedCards->cardData,
+						(const char *)&tmpCipher[0],
+						(int)tmpCipher.size());
+				} else {
 					server->RemovePlayer(tmpPlayer->getMyUniqueID(), ERR_SOCK_INVALID_STATE);
 					errorFlag = true;
 				}
 			}
-			if (!errorFlag)
-			{
+			if (!errorFlag) {
 				netHandStart->smallBlind = curGame.getCurrentHand()->getSmallBlind();
 				server->GetLobbyThread().GetSender().Send(tmpPlayer->getNetSessionData(), notifyCards);
 			}
@@ -1241,11 +1129,9 @@ ServerGameStateHand::StartNewHand(boost::shared_ptr<ServerGame> server)
 	i = curGame.getActivePlayerList()->begin();
 	end = curGame.getActivePlayerList()->end();
 
-	while (i != end)
-	{
+	while (i != end) {
 		boost::shared_ptr<PlayerInterface> tmpPlayer = *i;
-		if (tmpPlayer->getMyButton() == BUTTON_SMALL_BLIND)
-		{
+		if (tmpPlayer->getMyButton() == BUTTON_SMALL_BLIND) {
 			boost::shared_ptr<NetPacket> notifySmallBlind(new NetPacket(NetPacket::Alloc));
 			notifySmallBlind->GetMsg()->present = PokerTHMessage_PR_playersActionDoneMessage;
 			PlayersActionDoneMessage_t *netSmallBlind = &notifySmallBlind->GetMsg()->choice.playersActionDoneMessage;
@@ -1265,11 +1151,9 @@ ServerGameStateHand::StartNewHand(boost::shared_ptr<ServerGame> server)
 
 	i = curGame.getActivePlayerList()->begin();
 	end = curGame.getActivePlayerList()->end();
-	while (i != end)
-	{
+	while (i != end) {
 		boost::shared_ptr<PlayerInterface> tmpPlayer = *i;
-		if (tmpPlayer->getMyButton() == BUTTON_BIG_BLIND)
-		{
+		if (tmpPlayer->getMyButton() == BUTTON_BIG_BLIND) {
 			boost::shared_ptr<NetPacket> notifyBigBlind(new NetPacket(NetPacket::Alloc));
 			notifyBigBlind->GetMsg()->present = PokerTHMessage_PR_playersActionDoneMessage;
 			PlayersActionDoneMessage_t *netBigBlind = &notifyBigBlind->GetMsg()->choice.playersActionDoneMessage;
@@ -1310,8 +1194,7 @@ ServerGameStateWaitPlayerAction::~ServerGameStateWaitPlayerAction()
 void
 ServerGameStateWaitPlayerAction::Enter(boost::shared_ptr<ServerGame> server)
 {
-	if (server->GetGameData().playerActionTimeoutSec > 0) // zero means unlimited thinking time
-	{
+	if (server->GetGameData().playerActionTimeoutSec > 0) { // zero means unlimited thinking time
 #ifdef POKERTH_SERVER_TEST
 		int timeoutSec = SERVER_PLAYER_TIMEOUT_ADD_DELAY_SEC;
 #else
@@ -1341,8 +1224,7 @@ ServerGameStateWaitPlayerAction::HandleNewSession(boost::shared_ptr<ServerGame> 
 void
 ServerGameStateWaitPlayerAction::InternalProcessPacket(boost::shared_ptr<ServerGame> server, SessionWrapper session, boost::shared_ptr<NetPacket> packet)
 {
-	if (packet->GetMsg()->present == PokerTHMessage_PR_myActionRequestMessage)
-	{
+	if (packet->GetMsg()->present == PokerTHMessage_PR_myActionRequestMessage) {
 		MyActionRequestMessage_t *netMyAction = &packet->GetMsg()->choice.myActionRequestMessage;
 
 		// TODO consider game id.
@@ -1359,14 +1241,12 @@ ServerGameStateWaitPlayerAction::InternalProcessPacket(boost::shared_ptr<ServerG
 		// Check whether this is the correct player.
 		boost::shared_ptr<PlayerInterface> curPlayer = server->GetGame().getCurrentPlayer();
 		if (code == ACTION_CODE_VALID
-			&& (curPlayer->getMyUniqueID() != tmpPlayer->getMyUniqueID()))
-		{
+				&& (curPlayer->getMyUniqueID() != tmpPlayer->getMyUniqueID())) {
 			code = ACTION_CODE_NOT_YOUR_TURN;
 		}
 
 		// If the client omitted some values, fill them in.
-		if (netMyAction->myAction == PLAYER_ACTION_CALL && netMyAction->myRelativeBet == 0)
-		{
+		if (netMyAction->myAction == PLAYER_ACTION_CALL && netMyAction->myRelativeBet == 0) {
 			if (curGame.getCurrentHand()->getCurrentBeRo()->getHighestSet() >= tmpPlayer->getMySet() + tmpPlayer->getMyCash())
 				netMyAction->myAction = PLAYER_ACTION_ALLIN;
 			else
@@ -1377,23 +1257,19 @@ ServerGameStateWaitPlayerAction::InternalProcessPacket(boost::shared_ptr<ServerG
 
 		// Check whether the action is valid.
 		if (code == ACTION_CODE_VALID
-			&& (tmpPlayer->checkMyAction(
-					netMyAction->myAction,
-					netMyAction->myRelativeBet,
-					curGame.getCurrentHand()->getCurrentBeRo()->getHighestSet(),
-					curGame.getCurrentHand()->getCurrentBeRo()->getMinimumRaise(),
-					curGame.getCurrentHand()->getSmallBlind()) != 0))
-		{
+				&& (tmpPlayer->checkMyAction(
+						netMyAction->myAction,
+						netMyAction->myRelativeBet,
+						curGame.getCurrentHand()->getCurrentBeRo()->getHighestSet(),
+						curGame.getCurrentHand()->getCurrentBeRo()->getMinimumRaise(),
+						curGame.getCurrentHand()->getSmallBlind()) != 0)) {
 			code = ACTION_CODE_NOT_ALLOWED;
 		}
 
-		if (code == ACTION_CODE_VALID)
-		{
+		if (code == ACTION_CODE_VALID) {
 			PerformPlayerAction(*server, tmpPlayer, static_cast<PlayerAction>(netMyAction->myAction), netMyAction->myRelativeBet);
 			server->SetState(ServerGameStateHand::Instance());
-		}
-		else
-		{
+		} else {
 			// Send reject message.
 			boost::shared_ptr<NetPacket> reject(new NetPacket(NetPacket::Alloc));
 			reject->GetMsg()->present = PokerTHMessage_PR_yourActionRejectedMessage;
@@ -1411,10 +1287,8 @@ ServerGameStateWaitPlayerAction::InternalProcessPacket(boost::shared_ptr<ServerG
 void
 ServerGameStateWaitPlayerAction::TimerTimeout(const boost::system::error_code &ec, boost::shared_ptr<ServerGame> server)
 {
-	if (!ec && &server->GetState() == this)
-	{
-		try
-		{
+	if (!ec && &server->GetState() == this) {
+		try {
 			Game &curGame = server->GetGame();
 			// Retrieve current player.
 			boost::shared_ptr<PlayerInterface> curPlayer = curGame.getCurrentPlayer();
@@ -1430,25 +1304,19 @@ ServerGameStateWaitPlayerAction::TimerTimeout(const boost::system::error_code &e
 			curPlayer->incrementActionTimeoutCounter();
 
 			if (server->GetGameData().gameType == GAME_TYPE_RANKING
-				&& server->GetGameData().playerActionTimeoutSec >= (int)server->GetSmallDelaySec())
-			{
-				if (curPlayer->getActionTimeoutCounter() == SERVER_WARNING_ACTION_TIMEOUT_THRESHOLD)
-				{
+					&& server->GetGameData().playerActionTimeoutSec >= (int)server->GetSmallDelaySec()) {
+				if (curPlayer->getActionTimeoutCounter() == SERVER_WARNING_ACTION_TIMEOUT_THRESHOLD) {
 					boost::shared_ptr<NetPacket> warning(new NetPacket(NetPacket::Alloc));
 					warning->GetMsg()->present = PokerTHMessage_PR_afkWarningMessage;
 					AfkWarningMessage_t *netWarning = &warning->GetMsg()->choice.afkWarningMessage;
 					netWarning->remainingTimeouts = SERVER_KICK_ACTION_TIMEOUT_REMAINING;
 					server->GetLobbyThread().GetSender().Send(curPlayer->getNetSessionData(), warning);
-				}
-				else if (curPlayer->getActionTimeoutCounter() > SERVER_WARNING_ACTION_TIMEOUT_THRESHOLD + SERVER_KICK_ACTION_TIMEOUT_REMAINING)
-				{
+				} else if (curPlayer->getActionTimeoutCounter() > SERVER_WARNING_ACTION_TIMEOUT_THRESHOLD + SERVER_KICK_ACTION_TIMEOUT_REMAINING) {
 					server->InternalKickPlayer(curPlayer->getMyUniqueID());
 				}
 			}
 			server->SetState(ServerGameStateHand::Instance());
-		}
-		catch (const PokerTHException &e)
-		{
+		} catch (const PokerTHException &e) {
 			LOG_ERROR("Game " << server->GetId() << " - Player timer exception: " << e.what());
 			server->RemoveAllSessions(); // Close this game on error.
 		}
@@ -1507,16 +1375,14 @@ ServerGameStateWaitNextHand::HandleNewSession(boost::shared_ptr<ServerGame> serv
 void
 ServerGameStateWaitNextHand::InternalProcessPacket(boost::shared_ptr<ServerGame> server, SessionWrapper session, boost::shared_ptr<NetPacket> packet)
 {
-	if (packet->GetMsg()->present == PokerTHMessage_PR_showMyCardsRequestMessage)
-	{
+	if (packet->GetMsg()->present == PokerTHMessage_PR_showMyCardsRequestMessage) {
 		Game &curGame = server->GetGame();
 		boost::shared_ptr<NetPacket> show(new NetPacket(NetPacket::Alloc));
 		show->GetMsg()->present = PokerTHMessage_PR_afterHandShowCardsMessage;
 
 		AfterHandShowCardsMessage_t *netShowCards = &show->GetMsg()->choice.afterHandShowCardsMessage;
 		boost::shared_ptr<PlayerInterface> tmpPlayer(curGame.getPlayerByUniqueId(session.playerData->GetUniqueId()));
-		if (tmpPlayer)
-		{
+		if (tmpPlayer) {
 			SetPlayerResult(netShowCards->playerResult, tmpPlayer);
 			server->SendToAllPlayers(show, SessionData::Game);
 		}
@@ -1526,8 +1392,7 @@ ServerGameStateWaitNextHand::InternalProcessPacket(boost::shared_ptr<ServerGame>
 void
 ServerGameStateWaitNextHand::TimerTimeout(const boost::system::error_code &ec, boost::shared_ptr<ServerGame> server)
 {
-	if (!ec && &server->GetState() == this)
-	{
+	if (!ec && &server->GetState() == this) {
 		ServerGameStateHand::StartNewHand(server);
 		server->SetState(ServerGameStateHand::Instance());
 	}

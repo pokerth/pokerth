@@ -1,7 +1,7 @@
 //
 // C++ Implementation: mycardspixmaplabel
 //
-// Description: 
+// Description:
 //
 //
 // Author: FThauer FHammer <f.thauer@web.de>, (C) 2007
@@ -15,7 +15,7 @@
 using namespace std;
 
 MyAvatarButton::MyAvatarButton(QGroupBox* parent)
- : QPushButton(parent)
+	: QPushButton(parent)
 {
 
 }

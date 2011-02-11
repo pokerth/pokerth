@@ -1,7 +1,7 @@
 //
 // C++ Interface: mycardspixmaplabel
 //
-// Description: 
+// Description:
 //
 //
 // Author: FThauer FHammer <f.thauer@web.de>, (C) 2007
@@ -20,14 +20,18 @@ class GameTableStyleReader;
 class MyActionButton : public QPushButton
 {
 public:
-    MyActionButton(QGroupBox*);
+	MyActionButton(QGroupBox*);
 
-    ~MyActionButton();
+	~MyActionButton();
 
-	void paintEvent(QPaintEvent * event); 
-	void setFKeyText ( const QString& theValue ){fKeyText = theValue;}
+	void paintEvent(QPaintEvent * event);
+	void setFKeyText ( const QString& theValue ) {
+		fKeyText = theValue;
+	}
 
-	void setMyStyle ( GameTableStyleReader* theValue ) { myStyle = theValue; }
+	void setMyStyle ( GameTableStyleReader* theValue ) {
+		myStyle = theValue;
+	}
 
 private:
 

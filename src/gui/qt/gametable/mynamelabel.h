@@ -1,7 +1,7 @@
 //
 // C++ Interface: mycardspixmaplabel
 //
-// Description: 
+// Description:
 //
 //
 // Author: FThauer FHammer <f.thauer@web.de>, (C) 2007
@@ -21,20 +21,22 @@ class gameTableImpl;
 
 class MyNameLabel : public QLabel
 {
-Q_OBJECT
+	Q_OBJECT
 public:
-    MyNameLabel(QGroupBox*);
-    ~MyNameLabel();
+	MyNameLabel(QGroupBox*);
+	~MyNameLabel();
 
-        void setMyW(gameTableImpl* theValue) { myW = theValue; }
+	void setMyW(gameTableImpl* theValue) {
+		myW = theValue;
+	}
 
 public slots:
 
-        void setText ( const QString &, bool = FALSE, bool = FALSE, bool = FALSE);
+	void setText ( const QString &, bool = FALSE, bool = FALSE, bool = FALSE);
 private:
 
-        QString myText;
-        gameTableImpl *myW;
+	QString myText;
+	gameTableImpl *myW;
 
 };
 

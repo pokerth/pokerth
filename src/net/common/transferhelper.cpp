@@ -71,16 +71,14 @@ TransferHelper::Process()
 	bool retVal = false;
 	int runningHandles = 0;
 	CURLMcode curlResult;
-	do
-	{
+	do {
 		curlResult = curl_multi_perform(m_data->curlMultiHandle, &runningHandles);
 	} while (curlResult == CURLM_CALL_MULTI_PERFORM);
 
 	if (curlResult != CURLM_OK)
 		throw NetException(__FILE__, __LINE__, ERR_SOCK_TRANSFER_FAILED, 0);
 
-	if (runningHandles)
-	{
+	if (runningHandles) {
 		struct timeval timeout;
 		fd_set readSet;
 		fd_set writeSet;
@@ -96,15 +94,12 @@ TransferHelper::Process()
 
 		curl_multi_fdset(m_data->curlMultiHandle, &readSet, &writeSet, &exceptSet, &maxfd);
 
-		if (maxfd >= 0)
-		{
+		if (maxfd >= 0) {
 			int selectResult = select(maxfd+1, &readSet, &writeSet, &exceptSet, &timeout);
 			if (selectResult == -1)
 				throw NetException(__FILE__, __LINE__, ERR_SOCK_TRANSFER_SELECT_FAILED, 0);
 		}
-	}
-	else
-	{
+	} else {
 		// Retrieve actual error code.
 		int numMsgs;
 		CURLMsg *tmpMsg;
@@ -119,8 +114,7 @@ TransferHelper::Process()
 		Cleanup();
 
 		// Throw exception if an error occured.
-		if (code != CURLE_OK)
-		{
+		if (code != CURLE_OK) {
 			if (code == CURLE_URL_MALFORMAT)
 				throw NetException(__FILE__, __LINE__, ERR_SOCK_TRANSFER_INVALID_URL, 0);
 			else
@@ -135,18 +129,15 @@ TransferHelper::Process()
 void
 TransferHelper::Cleanup()
 {
-	if (m_data->curlMultiHandle)
-	{
+	if (m_data->curlMultiHandle) {
 		curl_multi_cleanup(m_data->curlMultiHandle);
 		m_data->curlMultiHandle = NULL;
 	}
-	if (m_data->curlHandle)
-	{
+	if (m_data->curlHandle) {
 		curl_easy_cleanup(m_data->curlHandle);
 		m_data->curlHandle = NULL;
 	}
-	if (m_data->targetFile)
-	{
+	if (m_data->targetFile) {
 		fflush(m_data->targetFile);
 		fclose(m_data->targetFile);
 		m_data->targetFile = NULL;

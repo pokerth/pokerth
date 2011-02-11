@@ -20,9 +20,9 @@
 #include "startsplash.h"
 
 StartSplash::StartSplash(QPixmap &p)
- : QSplashScreen(p)
+	: QSplashScreen(p)
 {
-	  QTimer::singleShot(3000, this, SLOT(closeThis()));
+	QTimer::singleShot(3000, this, SLOT(closeThis()));
 }
 
 
@@ -30,4 +30,7 @@ StartSplash::~StartSplash()
 {
 }
 
-void StartSplash::closeThis() { this->close(); }
+void StartSplash::closeThis()
+{
+	this->close();
+}

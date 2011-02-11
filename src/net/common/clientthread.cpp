@@ -55,22 +55,20 @@ public:
 	ClientSenderCallback() {}
 	virtual ~ClientSenderCallback() {}
 
-	virtual void SignalNetError(SessionId /*session*/, int /*errorID*/, int /*osErrorID*/)
-	{
+	virtual void SignalNetError(SessionId /*session*/, int /*errorID*/, int /*osErrorID*/) {
 	}
 
-	virtual void SignalSessionTerminated(unsigned /*session*/)
-	{
+	virtual void SignalSessionTerminated(unsigned /*session*/) {
 	}
 
 private:
 };
 
 ClientThread::ClientThread(GuiInterface &gui, AvatarManager &avatarManager)
-: m_ioService(new boost::asio::io_service), m_curState(NULL), m_gui(gui),
-  m_avatarManager(avatarManager), m_isServerSelected(false),
-  m_curGameId(0), m_curGameNum(1), m_guiPlayerId(0), m_sessionEstablished(false),
-  m_stateTimer(*m_ioService), m_avatarTimer(*m_ioService)
+	: m_ioService(new boost::asio::io_service), m_curState(NULL), m_gui(gui),
+	  m_avatarManager(avatarManager), m_isServerSelected(false),
+	  m_curGameId(0), m_curGameNum(1), m_guiPlayerId(0), m_sessionEstablished(false),
+	  m_stateTimer(*m_ioService), m_avatarTimer(*m_ioService)
 {
 	m_clientLog.reset(new Log("", 0));
 	m_context.reset(new ClientContext);
@@ -91,8 +89,7 @@ ClientThread::Init(
 	const string &avatarServerAddress, const string &playerName,
 	const string &avatarFile, const string &cacheDir)
 {
-	if (IsRunning())
-	{
+	if (IsRunning()) {
 		assert(false);
 		return;
 	}
@@ -239,12 +236,11 @@ ClientThread::SendJoinFirstGame(const std::string &password, bool autoLeave)
 	packet->GetMsg()->present = PokerTHMessage_PR_joinGameRequestMessage;
 	JoinGameRequestMessage_t *netJoinGame = &packet->GetMsg()->choice.joinGameRequestMessage;
 	netJoinGame->autoLeave = autoLeave;
-	if (!password.empty())
-	{
+	if (!password.empty()) {
 		netJoinGame->password = OCTET_STRING_new_fromBuf(
-			&asn_DEF_UTF8String,
-			password.c_str(),
-			password.length());
+									&asn_DEF_UTF8String,
+									password.c_str(),
+									password.length());
 	}
 	netJoinGame->joinGameAction.present = joinGameAction_PR_joinExistingGame;
 
@@ -262,12 +258,11 @@ ClientThread::SendJoinGame(unsigned gameId, const std::string &password, bool au
 	packet->GetMsg()->present = PokerTHMessage_PR_joinGameRequestMessage;
 	JoinGameRequestMessage_t *netJoinGame = &packet->GetMsg()->choice.joinGameRequestMessage;
 	netJoinGame->autoLeave = autoLeave;
-	if (!password.empty())
-	{
+	if (!password.empty()) {
 		netJoinGame->password = OCTET_STRING_new_fromBuf(
-			&asn_DEF_UTF8String,
-			password.c_str(),
-			password.length());
+									&asn_DEF_UTF8String,
+									password.c_str(),
+									password.length());
 	}
 	netJoinGame->joinGameAction.present = joinGameAction_PR_joinExistingGame;
 
@@ -285,12 +280,11 @@ ClientThread::SendCreateGame(const GameData &gameData, const std::string &name, 
 	packet->GetMsg()->present = PokerTHMessage_PR_joinGameRequestMessage;
 	JoinGameRequestMessage_t *netJoinGame = &packet->GetMsg()->choice.joinGameRequestMessage;
 	netJoinGame->autoLeave = autoLeave;
-	if (!password.empty())
-	{
+	if (!password.empty()) {
 		netJoinGame->password = OCTET_STRING_new_fromBuf(
-			&asn_DEF_UTF8String,
-			password.c_str(),
-			password.length());
+									&asn_DEF_UTF8String,
+									password.c_str(),
+									password.length());
 	}
 	netJoinGame->joinGameAction.present = joinGameAction_PR_joinNewGame;
 
@@ -374,8 +368,7 @@ ClientThread::SendReportAvatar(unsigned reportedPlayerId, const std::string &ava
 	ReportAvatarMessage_t *netReport = &packet->GetMsg()->choice.reportAvatarMessage;
 	netReport->reportedPlayerId = reportedPlayerId;
 	MD5Buf tmpMD5;
-	if (tmpMD5.FromString(avatarHash) && !tmpMD5.IsZero())
-	{
+	if (tmpMD5.FromString(avatarHash) && !tmpMD5.IsZero()) {
 		OCTET_STRING_fromBuf(
 			&netReport->reportedAvatar,
 			(const char *)tmpMD5.GetData(),
@@ -401,23 +394,19 @@ ClientThread::StartAsyncRead()
 void
 ClientThread::HandleRead(const boost::system::error_code& ec, size_t bytesRead)
 {
-	if (!ec)
-	{
+	if (!ec) {
 		ReceiveBuffer &buf = GetContext().GetSessionData()->GetReceiveBuffer();
 		buf.recvBufUsed += bytesRead;
 		GetReceiver().ScanPackets(buf);
 
-		while (!buf.receivedPackets.empty())
-		{
+		while (!buf.receivedPackets.empty()) {
 			boost::shared_ptr<NetPacket> packet = buf.receivedPackets.front();
 			buf.receivedPackets.pop_front();
 			if (packet)
 				GetState().HandlePacket(shared_from_this(), packet);
 		}
 		StartAsyncRead();
-	}
-	else
-	{
+	} else {
 		if (ec != boost::asio::error::operation_aborted)
 			throw NetException(__FILE__, __LINE__, ERR_SOCK_CONN_RESET, 0);
 	}
@@ -446,8 +435,7 @@ ClientThread::GetServerInfo(unsigned serverId) const
 	ServerInfo tmpInfo;
 	boost::mutex::scoped_lock lock(m_serverInfoMapMutex);
 	ServerInfoMap::const_iterator pos = m_serverInfoMap.find(serverId);
-	if (pos != m_serverInfoMap.end())
-	{
+	if (pos != m_serverInfoMap.end()) {
 		tmpInfo = pos->second;
 	}
 	return tmpInfo;
@@ -459,8 +447,7 @@ ClientThread::GetGameInfo(unsigned gameId) const
 	GameInfo tmpInfo;
 	boost::mutex::scoped_lock lock(m_gameInfoMapMutex);
 	GameInfoMap::const_iterator pos = m_gameInfoMap.find(gameId);
-	if (pos != m_gameInfoMap.end())
-	{
+	if (pos != m_gameInfoMap.end()) {
 		tmpInfo = pos->second;
 	}
 	return tmpInfo;
@@ -470,8 +457,7 @@ PlayerInfo
 ClientThread::GetPlayerInfo(unsigned playerId) const
 {
 	PlayerInfo info;
-	if (!GetCachedPlayerInfo(playerId, info))
-	{
+	if (!GetCachedPlayerInfo(playerId, info)) {
 		ostringstream name;
 		name << "#" << playerId;
 
@@ -489,10 +475,8 @@ ClientThread::GetPlayerIdFromName(const string &playerName, unsigned &playerId) 
 	PlayerInfoMap::const_reverse_iterator i = m_playerInfoMap.rbegin();
 	PlayerInfoMap::const_reverse_iterator end = m_playerInfoMap.rend();
 
-	while (i != end)
-	{
-		if (i->second.playerName == playerName)
-		{
+	while (i != end) {
+		if (i->second.playerName == playerName) {
 			playerId = i->first;
 			retVal = true;
 			break;
@@ -511,14 +495,11 @@ ClientThread::GetGameIdOfPlayer(unsigned playerId) const
 	boost::mutex::scoped_lock lock(m_gameInfoMapMutex);
 	GameInfoMap::const_iterator i = m_gameInfoMap.begin();
 	GameInfoMap::const_iterator i_end = m_gameInfoMap.end();
-	while (i != i_end)
-	{
+	while (i != i_end) {
 		PlayerIdList::const_iterator j = (*i).second.players.begin();
 		PlayerIdList::const_iterator j_end = (*i).second.players.end();
-		while (j != j_end)
-		{
-			if (playerId == *j)
-			{
+		while (j != j_end) {
+			if (playerId == *j) {
 				gameId = (*i).first;
 				break;
 			}
@@ -554,8 +535,7 @@ ClientThread::Main()
 {
 	// Main loop.
 	boost::asio::io_service::work ioWork(*m_ioService);
-	try
-	{
+	try {
 		InitAuthContext();
 		// Start sub-threads.
 		m_avatarDownloader.reset(new DownloaderThread);
@@ -566,8 +546,7 @@ ClientThread::Main()
 		boost::asio::io_service::work ioWork(*m_ioService);
 		m_ioService->run(); // Will only be aborted asynchronously.
 
-	} catch (const PokerTHException &e)
-	{
+	} catch (const PokerTHException &e) {
 		GetCallback().SignalNetClientError(e.GetErrorId(), e.GetOsErrorCode());
 	}
 	// Close the socket.
@@ -608,8 +587,7 @@ ClientThread::InitAuthContext()
 	if (res != GSASL_OK)
 		throw ClientException(__FILE__, __LINE__, ERR_NET_GSASL_INIT_FAILED, 0);
 
-	if (!gsasl_server_support_p(m_authContext, "SCRAM-SHA-1"))
-	{
+	if (!gsasl_server_support_p(m_authContext, "SCRAM-SHA-1")) {
 		gsasl_done(m_authContext);
 		throw ClientException(__FILE__, __LINE__, ERR_NET_GSASL_NO_SCRAM, 0);
 	}
@@ -655,13 +633,11 @@ ClientThread::SendSessionPacket(boost::shared_ptr<NetPacket> packet)
 void
 ClientThread::SendQueuedPackets()
 {
-	if (!m_outPacketList.empty())
-	{
+	if (!m_outPacketList.empty()) {
 		NetPacketList::iterator i = m_outPacketList.begin();
 		NetPacketList::iterator end = m_outPacketList.end();
 
-		while (i != end)
-		{
+		while (i != end) {
 			GetSender().Send(GetContext().GetSessionData(), *i);
 			++i;
 		}
@@ -676,8 +652,7 @@ ClientThread::GetCachedPlayerInfo(unsigned id, PlayerInfo &info) const
 
 	boost::mutex::scoped_lock lock(m_playerInfoMapMutex);
 	PlayerInfoMap::const_iterator pos = m_playerInfoMap.find(id);
-	if (pos != m_playerInfoMap.end())
-	{
+	if (pos != m_playerInfoMap.end()) {
 		info = pos->second;
 		retVal = true;
 	}
@@ -687,8 +662,7 @@ ClientThread::GetCachedPlayerInfo(unsigned id, PlayerInfo &info) const
 void
 ClientThread::RequestPlayerInfo(unsigned id, bool requestAvatar)
 {
-	if (find(m_playerInfoRequestList.begin(), m_playerInfoRequestList.end(), id) == m_playerInfoRequestList.end())
-	{
+	if (find(m_playerInfoRequestList.begin(), m_playerInfoRequestList.end(), id) == m_playerInfoRequestList.end()) {
 		boost::shared_ptr<NetPacket> packet(new NetPacket(NetPacket::Alloc));
 		packet->GetMsg()->present = PokerTHMessage_PR_playerInfoRequestMessage;
 		PlayerInfoRequestMessage_t *netPlayerInfo = &packet->GetMsg()->choice.playerInfoRequestMessage;
@@ -699,8 +673,7 @@ ClientThread::RequestPlayerInfo(unsigned id, bool requestAvatar)
 
 	}
 	// Remember that we have to request an avatar.
-	if (requestAvatar)
-	{
+	if (requestAvatar) {
 		m_avatarShouldRequestList.push_back(id);
 	}
 }
@@ -715,14 +688,11 @@ ClientThread::SetPlayerInfo(unsigned id, const PlayerInfo &info)
 		// This can only be one entry, since every time a duplicate
 		// name is added one is removed.
 		// Only erase non computer player entries.
-		if (info.playerName.substr(0, sizeof(SERVER_COMPUTER_PLAYER_NAME) - 1) != SERVER_COMPUTER_PLAYER_NAME)
-		{
+		if (info.playerName.substr(0, sizeof(SERVER_COMPUTER_PLAYER_NAME) - 1) != SERVER_COMPUTER_PLAYER_NAME) {
 			PlayerInfoMap::iterator i = m_playerInfoMap.begin();
 			PlayerInfoMap::iterator end = m_playerInfoMap.end();
-			while (i != end)
-			{
-				if (i->first != id && i->second.playerName == info.playerName)
-				{
+			while (i != end) {
+				if (i->first != id && i->second.playerName == info.playerName) {
 					m_playerInfoMap.erase(i);
 					break;
 				}
@@ -734,22 +704,18 @@ ClientThread::SetPlayerInfo(unsigned id, const PlayerInfo &info)
 
 	// Update player data for current game.
 	boost::shared_ptr<PlayerData> playerData = GetPlayerDataByUniqueId(id);
-	if (playerData.get())
-	{
+	if (playerData.get()) {
 		playerData->SetName(info.playerName);
 		playerData->SetType(info.ptype);
-		if (info.hasAvatar)
-		{
+		if (info.hasAvatar) {
 			string avatarFile;
-			if (GetAvatarManager().GetAvatarFileName(info.avatar, avatarFile))
-			{
+			if (GetAvatarManager().GetAvatarFileName(info.avatar, avatarFile)) {
 				playerData->SetAvatarFile(GetQtToolsInterface().stringToUtf8(avatarFile));
 			}
 		}
 	}
 
-	if (find(m_avatarShouldRequestList.begin(), m_avatarShouldRequestList.end(), id) != m_avatarShouldRequestList.end())
-	{
+	if (find(m_avatarShouldRequestList.begin(), m_avatarShouldRequestList.end(), id) != m_avatarShouldRequestList.end()) {
 		m_avatarShouldRequestList.remove(id);
 		// Retrieve avatar if needed.
 		RetrieveAvatarIfNeeded(id, info);
@@ -777,8 +743,7 @@ ClientThread::SetNewGameAdmin(unsigned id)
 {
 	// Update player data for current game.
 	boost::shared_ptr<PlayerData> playerData = GetPlayerDataByUniqueId(id);
-	if (playerData.get())
-	{
+	if (playerData.get()) {
 		playerData->SetGameAdmin(true);
 		GetCallback().SignalNetClientNewGameAdmin(id, playerData->GetName());
 	}
@@ -787,22 +752,17 @@ ClientThread::SetNewGameAdmin(unsigned id)
 void
 ClientThread::RetrieveAvatarIfNeeded(unsigned id, const PlayerInfo &info)
 {
-	if (find(m_avatarHasRequestedList.begin(), m_avatarHasRequestedList.end(), id) == m_avatarHasRequestedList.end())
-	{
-		if (info.hasAvatar && !info.avatar.IsZero() && !GetAvatarManager().HasAvatar(info.avatar))
-		{
+	if (find(m_avatarHasRequestedList.begin(), m_avatarHasRequestedList.end(), id) == m_avatarHasRequestedList.end()) {
+		if (info.hasAvatar && !info.avatar.IsZero() && !GetAvatarManager().HasAvatar(info.avatar)) {
 			m_avatarHasRequestedList.push_back(id); // Never remove from this list. Only request once.
 
 			// Download from avatar server if applicable.
 			string avatarServerAddress(GetContext().GetAvatarServerAddr());
-			if (!avatarServerAddress.empty() && m_avatarDownloader)
-			{
+			if (!avatarServerAddress.empty() && m_avatarDownloader) {
 				string serverFileName(info.avatar.ToString() + AvatarManager::GetAvatarFileExtension(info.avatarType));
 				m_avatarDownloader->QueueDownload(
 					id, avatarServerAddress + serverFileName, GetContext().GetCacheDir() + TEMP_AVATAR_FILENAME);
-			}
-			else
-			{
+			} else {
 				boost::shared_ptr<NetPacket> packet(new NetPacket(NetPacket::Alloc));
 				packet->GetMsg()->present = PokerTHMessage_PR_avatarRequestMessage;
 				AvatarRequestMessage_t *netAvatar = &packet->GetMsg()->choice.avatarRequestMessage;
@@ -860,8 +820,7 @@ ClientThread::PassAvatarFileToManager(unsigned playerId, boost::shared_ptr<Avata
 	PlayerInfo tmpPlayerInfo;
 	if (!GetCachedPlayerInfo(playerId, tmpPlayerInfo))
 		LOG_ERROR("Client received invalid player id!");
-	else
-	{
+	else {
 		if (AvatarFile->fileType == AVATAR_FILE_TYPE_UNKNOWN)
 			AvatarFile->fileType = tmpPlayerInfo.avatarType;
 		if (!GetAvatarManager().StoreAvatarInCache(tmpPlayerInfo.avatar, AvatarFile->fileType, &AvatarFile->fileData[0], AvatarFile->reportedSize, false))
@@ -871,8 +830,7 @@ ClientThread::PassAvatarFileToManager(unsigned playerId, boost::shared_ptr<Avata
 		SetPlayerInfo(playerId, tmpPlayerInfo);
 
 		string fileName;
-		if (GetAvatarManager().GetAvatarFileName(tmpPlayerInfo.avatar, fileName))
-		{
+		if (GetAvatarManager().GetAvatarFileName(tmpPlayerInfo.avatar, fileName)) {
 			// Dynamically update avatar in GUI.
 			GetGui().setPlayerAvatar(playerId, GetQtToolsInterface().stringToUtf8(fileName));
 		}
@@ -889,10 +847,8 @@ ClientThread::SetUnknownAvatar(unsigned playerId)
 void
 ClientThread::TimerCheckAvatarDownloads(const boost::system::error_code& ec)
 {
-	if (!ec)
-	{
-		if (m_avatarDownloader && m_avatarDownloader->HasDownloadResult())
-		{
+	if (!ec) {
+		if (m_avatarDownloader && m_avatarDownloader->HasDownloadResult()) {
 			unsigned playerId;
 			boost::shared_ptr<AvatarFile> tmpAvatar(new AvatarFile);
 			m_avatarDownloader->GetDownloadResult(playerId, tmpAvatar->fileData);
@@ -910,8 +866,7 @@ ClientThread::TimerCheckAvatarDownloads(const boost::system::error_code& ec)
 void
 ClientThread::UnsubscribeLobbyMsg()
 {
-	if (GetContext().GetSubscribeLobbyMsg())
-	{
+	if (GetContext().GetSubscribeLobbyMsg()) {
 		// Send unsubscribe request.
 		boost::shared_ptr<NetPacket> packet(new NetPacket(NetPacket::Alloc));
 		packet->GetMsg()->present = PokerTHMessage_PR_subscriptionRequestMessage;
@@ -925,8 +880,7 @@ ClientThread::UnsubscribeLobbyMsg()
 void
 ClientThread::ResubscribeLobbyMsg()
 {
-	if (!GetContext().GetSubscribeLobbyMsg())
-	{
+	if (!GetContext().GetSubscribeLobbyMsg()) {
 		// Clear game info map as it is outdated.
 		ClearGameInfoMap();
 		// Send resubscribe request.
@@ -970,14 +924,13 @@ ClientThread::CreateContextSession()
 		newSock->set_option(boost::asio::socket_base::keep_alive(true));
 
 		GetContext().SetSessionData(boost::shared_ptr<SessionData>(new SessionData(
-			newSock,
-			SESSION_ID_GENERIC,
-			*m_senderCallback)));
+										newSock,
+										SESSION_ID_GENERIC,
+										*m_senderCallback)));
 		GetContext().SetResolver(boost::shared_ptr<boost::asio::ip::tcp::resolver>(
-			new boost::asio::ip::tcp::resolver(*m_ioService)));
+									 new boost::asio::ip::tcp::resolver(*m_ioService)));
 		validSocket = true;
-	} catch (...)
-	{
+	} catch (...) {
 	}
 	if (!validSocket)
 		throw ClientException(__FILE__, __LINE__, ERR_SOCK_CREATION_FAILED, 0);
@@ -1094,8 +1047,7 @@ ClientThread::GetQtToolsInterface()
 void
 ClientThread::AddPlayerData(boost::shared_ptr<PlayerData> playerData)
 {
-	if (playerData.get() && !playerData->GetName().empty())
-	{
+	if (playerData.get() && !playerData->GetName().empty()) {
 		m_playerDataList.push_back(playerData);
 		if (playerData->GetUniqueId() == GetGuiPlayerId())
 			GetCallback().SignalNetClientSelfJoined(playerData->GetUniqueId(), playerData->GetName(), playerData->IsGameAdmin());
@@ -1111,10 +1063,8 @@ ClientThread::RemovePlayerData(unsigned playerId, int removeReason)
 
 	PlayerDataList::iterator i = m_playerDataList.begin();
 	PlayerDataList::iterator end = m_playerDataList.end();
-	while (i != end)
-	{
-		if ((*i)->GetUniqueId() == playerId)
-		{
+	while (i != end) {
+		if ((*i)->GetUniqueId() == playerId) {
 			tmpData = *i;
 			m_playerDataList.erase(i);
 			break;
@@ -1122,8 +1072,7 @@ ClientThread::RemovePlayerData(unsigned playerId, int removeReason)
 		++i;
 	}
 
-	if (tmpData.get())
-	{
+	if (tmpData.get()) {
 		// Remove player from gui.
 		GetCallback().SignalNetClientPlayerLeft(tmpData->GetUniqueId(), tmpData->GetName(), removeReason);
 	}
@@ -1151,8 +1100,7 @@ ClientThread::MapPlayerDataList()
 	PlayerDataList::const_iterator end = m_playerDataList.end();
 	int numPlayers = GetStartData().numberOfPlayers;
 
-	while (i != end)
-	{
+	while (i != end) {
 		boost::shared_ptr<PlayerData> tmpData(new PlayerData(*(*i)));
 		int numberDiff = tmpData->GetNumber() - guiPlayerNum;
 		if (numberDiff >= 0)
@@ -1183,10 +1131,8 @@ ClientThread::GetPlayerDataByUniqueId(unsigned id)
 	PlayerDataList::const_iterator i = m_playerDataList.begin();
 	PlayerDataList::const_iterator end = m_playerDataList.end();
 
-	while (i != end)
-	{
-		if ((*i)->GetUniqueId() == id)
-		{
+	while (i != end) {
+		if ((*i)->GetUniqueId() == id) {
 			tmpPlayer = *i;
 			break;
 		}
@@ -1200,15 +1146,12 @@ ClientThread::GetPlayerDataByName(const std::string &name)
 {
 	boost::shared_ptr<PlayerData> tmpPlayer;
 
-	if (!name.empty())
-	{
+	if (!name.empty()) {
 		PlayerDataList::const_iterator i = m_playerDataList.begin();
 		PlayerDataList::const_iterator end = m_playerDataList.end();
 
-		while (i != end)
-		{
-			if ((*i)->GetName() == name)
-			{
+		while (i != end) {
+			if ((*i)->GetName() == name) {
 				tmpPlayer = *i;
 				break;
 			}
@@ -1222,19 +1165,15 @@ void
 ClientThread::RemoveDisconnectedPlayers()
 {
 	// This should only be called between hands.
-	if (m_game)
-	{
+	if (m_game) {
 		PlayerList tmpList(m_game->getSeatsList());
 		PlayerListIterator i = tmpList->begin();
 		PlayerListIterator end = tmpList->end();
-		while (i != end)
-		{
+		while (i != end) {
 			boost::shared_ptr<PlayerInterface> tmpPlayer = *i;
-			if (tmpPlayer->getMyActiveStatus())
-			{
+			if (tmpPlayer->getMyActiveStatus()) {
 				// If a player is not in the player data list, it was disconnected.
-				if (!GetPlayerDataByUniqueId(tmpPlayer->getMyUniqueID()).get())
-				{
+				if (!GetPlayerDataByUniqueId(tmpPlayer->getMyUniqueID()).get()) {
 					tmpPlayer->setMyCash(0);
 					tmpPlayer->setMyActiveStatus(false);
 				}
@@ -1269,8 +1208,7 @@ ClientThread::GetSelectedServer(unsigned &serverId) const
 {
 	bool retVal = false;
 	boost::mutex::scoped_lock lock(m_selectServerMutex);
-	if (m_isServerSelected)
-	{
+	if (m_isServerSelected) {
 		retVal = true;
 		serverId = m_selectedServerId;
 	}
@@ -1297,8 +1235,7 @@ ClientThread::GetLoginData(LoginData &loginData) const
 {
 	bool retVal = false;
 	boost::mutex::scoped_lock lock(m_loginDataMutex);
-	if (!m_loginData.userName.empty())
-	{
+	if (!m_loginData.userName.empty()) {
 		loginData = m_loginData;
 		retVal = true;
 	}
@@ -1312,8 +1249,7 @@ ClientThread::GetGameIdByName(const std::string &name) const
 	boost::mutex::scoped_lock lock(m_gameInfoMapMutex);
 	GameInfoMap::const_iterator i = m_gameInfoMap.begin();
 	GameInfoMap::const_iterator end = m_gameInfoMap.end();
-	while (i != end)
-	{
+	while (i != end) {
 		if (i->second.name == name)
 			break;
 		++i;
@@ -1341,8 +1277,7 @@ ClientThread::UpdateGameInfoMode(unsigned gameId, GameMode mode)
 	{
 		boost::mutex::scoped_lock lock(m_gameInfoMapMutex);
 		GameInfoMap::iterator pos = m_gameInfoMap.find(gameId);
-		if (pos != m_gameInfoMap.end())
-		{
+		if (pos != m_gameInfoMap.end()) {
 			found = true;
 			(*pos).second.mode = mode;
 		}
@@ -1358,8 +1293,7 @@ ClientThread::UpdateGameInfoAdmin(unsigned gameId, unsigned adminPlayerId)
 	{
 		boost::mutex::scoped_lock lock(m_gameInfoMapMutex);
 		GameInfoMap::iterator pos = m_gameInfoMap.find(gameId);
-		if (pos != m_gameInfoMap.end())
-		{
+		if (pos != m_gameInfoMap.end()) {
 			found = true;
 			(*pos).second.adminPlayerId = adminPlayerId;
 		}
@@ -1375,8 +1309,7 @@ ClientThread::RemoveGameInfo(unsigned gameId)
 	{
 		boost::mutex::scoped_lock lock(m_gameInfoMapMutex);
 		GameInfoMap::iterator pos = m_gameInfoMap.find(gameId);
-		if (pos != m_gameInfoMap.end())
-		{
+		if (pos != m_gameInfoMap.end()) {
 			found = true;
 			m_gameInfoMap.erase(pos);
 		}
@@ -1392,8 +1325,7 @@ ClientThread::ModifyGameInfoAddPlayer(unsigned gameId, unsigned playerId)
 	{
 		boost::mutex::scoped_lock lock(m_gameInfoMapMutex);
 		GameInfoMap::iterator pos = m_gameInfoMap.find(gameId);
-		if (pos != m_gameInfoMap.end())
-		{
+		if (pos != m_gameInfoMap.end()) {
 			pos->second.players.push_back(playerId);
 			playerAdded = true;
 		}
@@ -1409,8 +1341,7 @@ ClientThread::ModifyGameInfoRemovePlayer(unsigned gameId, unsigned playerId)
 	{
 		boost::mutex::scoped_lock lock(m_gameInfoMapMutex);
 		GameInfoMap::iterator pos = m_gameInfoMap.find(gameId);
-		if (pos != m_gameInfoMap.end())
-		{
+		if (pos != m_gameInfoMap.end()) {
 			pos->second.players.remove(playerId);
 			playerRemoved = true;
 		}
@@ -1435,8 +1366,7 @@ ClientThread::StartPetition(unsigned petitionId, unsigned proposingPlayerId, uns
 	}
 	GetGui().startVoteOnKick(kickPlayerId, proposingPlayerId, timeoutSec, numVotesToKick);
 	if (GetGuiPlayerId() != kickPlayerId
-		&& GetGuiPlayerId() != proposingPlayerId)
-	{
+			&& GetGuiPlayerId() != proposingPlayerId) {
 		GetGui().changeVoteOnKickButtonsState(true);
 	}
 }
@@ -1449,8 +1379,7 @@ ClientThread::UpdatePetition(unsigned petitionId, int /*numVotesAgainstKicking*/
 		boost::mutex::scoped_lock lock(m_curPetitionIdMutex);
 		isCurPetition = m_curPetitionId == petitionId;
 	}
-	if (isCurPetition)
-	{
+	if (isCurPetition) {
 		GetGui().refreshVotesMonitor(numVotesInFavourOfKicking, numVotesToKick);
 	}
 }
@@ -1499,8 +1428,7 @@ ClientThread::IsSessionEstablished() const
 void
 ClientThread::SetSessionEstablished(bool flag)
 {
-	if (m_sessionEstablished != flag)
-	{
+	if (m_sessionEstablished != flag) {
 		m_sessionEstablished = flag;
 		if (flag)
 			SendQueuedPackets();

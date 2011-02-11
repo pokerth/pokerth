@@ -36,25 +36,34 @@ class selectAvatarDialogImpl;
 class manualBlindsOrderDialogImpl;
 class MyStyleListItem;
 
-class settingsDialogImpl: public QDialog, public Ui::settingsDialog {
-Q_OBJECT
+class settingsDialogImpl: public QDialog, public Ui::settingsDialog
+{
+	Q_OBJECT
 public:
-    settingsDialogImpl(QWidget *parent = 0, ConfigFile *c = 0, selectAvatarDialogImpl *s = 0);
+	settingsDialogImpl(QWidget *parent = 0, ConfigFile *c = 0, selectAvatarDialogImpl *s = 0);
 
-    ~settingsDialogImpl();
+	~settingsDialogImpl();
 
-        void prepareDialog();
+	void prepareDialog();
 	void exec();
 
-	void setPlayerNickIsChanged(bool theValue){ playerNickIsChanged = theValue;}
-	bool getPlayerNickIsChanged() const{ return playerNickIsChanged;}
+	void setPlayerNickIsChanged(bool theValue) {
+		playerNickIsChanged = theValue;
+	}
+	bool getPlayerNickIsChanged() const {
+		return playerNickIsChanged;
+	}
 
-	bool getSettingsCorrect() const{ return settingsCorrect;}
+	bool getSettingsCorrect() const {
+		return settingsCorrect;
+	}
 
 public slots:
 
 	void isAccepted();
-	void playerNickChanged() { setPlayerNickIsChanged(TRUE); };
+	void playerNickChanged() {
+		setPlayerNickIsChanged(TRUE);
+	};
 	void setFlipsidePicFileName();
 	void setLogDir();
 	void setAvatarFile0();
@@ -71,10 +80,12 @@ public slots:
 	void callManualBlindsOrderDialog();
 	void callNetManualBlindsOrderDialog();
 
-	void callSelectAvatarDialog() { mySelectAvatarDialogImpl->exec(); } 
+	void callSelectAvatarDialog() {
+		mySelectAvatarDialogImpl->exec();
+	}
 
 	void clearInternetGamePassword(bool);
-	
+
 // 	void checkProperNetFirstSmallBlind(int);
 // 	void checkProperFirstSmallBlind(int);
 	void setFirstSmallBlindMargin() ;
@@ -93,15 +104,15 @@ public slots:
 	void showCurrentCardDeckStylePreview();
 	void addCardDeckStyle();
 	void removeCardDeckStyle();
-        void removePlayerFromIgnoredPlayersList();
-        void refreshLogFileList();
-        void deleteLogFile();
-        void exportLogToHtml();
-        void exportLogToTxt();
-        void saveLogFileAs();
+	void removePlayerFromIgnoredPlayersList();
+	void refreshLogFileList();
+	void deleteLogFile();
+	void exportLogToHtml();
+	void exportLogToTxt();
+	void saveLogFileAs();
 
 private:
-	
+
 	bool playerNickIsChanged;
 	bool settingsCorrect;
 
@@ -117,10 +128,10 @@ private:
 	std::list<int> myNetManualBlindsList;
 	std::list<std::string> myGameTableStylesList;
 	std::list<std::string> myCardDeckStylesList;
-	
+
 	ConfigFile* myConfig;
-        selectAvatarDialogImpl *mySelectAvatarDialogImpl;
-	manualBlindsOrderDialogImpl *myManualBlindsOrderDialog; 
+	selectAvatarDialogImpl *mySelectAvatarDialogImpl;
+	manualBlindsOrderDialogImpl *myManualBlindsOrderDialog;
 
 	QString myAppDataPath;
 

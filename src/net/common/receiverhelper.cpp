@@ -18,7 +18,7 @@
  ***************************************************************************/
 
 #ifdef _WIN32
-	#define FD_SETSIZE 512
+#define FD_SETSIZE 512
 #endif
 
 #include <net/receiverhelper.h>
@@ -41,35 +41,29 @@ void
 ReceiverHelper::ScanPackets(ReceiveBuffer &buf)
 {
 	bool dataAvailable = true;
-	do
-	{
+	do {
 		boost::shared_ptr<NetPacket> tmpPacket;
 		// This is necessary, because we use TCP.
 		// Packets may be received in multiple chunks or
 		// several packets may be received at once.
-		if (buf.recvBufUsed)
-		{
-			try
-			{
+		if (buf.recvBufUsed) {
+			try {
 				// This call will also handle the memmove stuff, i.e.
 				// buffering for partial packets.
 				tmpPacket = NetPacket::Create(buf.recvBuf, buf.recvBufUsed);
-			} catch (const exception &e)
-			{
+			} catch (const exception &e) {
 				// Reset buffer on error.
 				buf.recvBufUsed = 0;
 				LOG_ERROR(e.what());
 			}
 		}
-		if (tmpPacket)
-		{
+		if (tmpPacket) {
 			//cerr << "IN:" << endl << tmpPacket->ToString() << endl;
 			if (asn_check_constraints(&asn_DEF_PokerTHMessage, tmpPacket->GetMsg(), NULL, NULL) == 0)
 				buf.receivedPackets.push_back(tmpPacket);
 			else
 				LOG_ERROR("Invalid packet: " << endl << tmpPacket->ToString());
-		}
-		else
+		} else
 			dataAvailable = false;
 	} while(dataAvailable);
 }

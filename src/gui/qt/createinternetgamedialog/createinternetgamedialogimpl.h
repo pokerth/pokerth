@@ -29,32 +29,35 @@ class Session;
 class ConfigFile;
 class changeCompleteBlindsDialogImpl;
 
-class createInternetGameDialogImpl: public QDialog, public Ui::createInternetGameDialog {
-Q_OBJECT
+class createInternetGameDialogImpl: public QDialog, public Ui::createInternetGameDialog
+{
+	Q_OBJECT
 public:
-    createInternetGameDialogImpl(QWidget *parent = 0, ConfigFile *c = 0);
+	createInternetGameDialogImpl(QWidget *parent = 0, ConfigFile *c = 0);
 
-        void exec(bool guestMode, QString playerName);
-	changeCompleteBlindsDialogImpl* getChangeCompleteBlindsDialog() { return myChangeCompleteBlindsDialog; }
+	void exec(bool guestMode, QString playerName);
+	changeCompleteBlindsDialogImpl* getChangeCompleteBlindsDialog() {
+		return myChangeCompleteBlindsDialog;
+	}
 
 public slots:
 
 	void createGame();
 	void cancel();
-        void fillFormular(bool guestMode, QString playerName);
+	void fillFormular(bool guestMode, QString playerName);
 	void keyPressEvent ( QKeyEvent * event );
 	void clearGamePassword(bool);
-        void gameTypeChanged();
+	void gameTypeChanged();
 
 	void callChangeBlindsDialog(bool);
 private:
-		
-	ConfigFile *myConfig;	
+
+	ConfigFile *myConfig;
 	changeCompleteBlindsDialogImpl *myChangeCompleteBlindsDialog;
-        bool currentGuestMode;
-        QString currentPlayerName;
-        QLabel *startBlind;
-        QLabel *raiseMode;
+	bool currentGuestMode;
+	QString currentPlayerName;
+	QLabel *startBlind;
+	QLabel *raiseMode;
 
 };
 

@@ -1,7 +1,7 @@
 //
 // C++ Interface: mycardspixmaplabel
 //
-// Description: 
+// Description:
 //
 //
 // Author: FThauer FHammer <f.thauer@web.de>, (C) 2007
@@ -23,32 +23,34 @@ class gameTableImpl;
 
 class MyTimeoutLabel : public QLabel
 {
-Q_OBJECT
+	Q_OBJECT
 public:
-    MyTimeoutLabel(QGroupBox*);
+	MyTimeoutLabel(QGroupBox*);
 
-    ~MyTimeoutLabel();
+	~MyTimeoutLabel();
 
-	
-	void setMyW ( gameTableImpl* theValue ) { myW = theValue; }
-	
+
+	void setMyW ( gameTableImpl* theValue ) {
+		myW = theValue;
+	}
+
 	void startTimeOutAnimation(int secs, bool beep);
 	void stopTimeOutAnimation();
-	
+
 	void paintEvent(QPaintEvent * event);
 
-	
+
 public slots:
 	void startTimeOutAnimationNow();
 	void nextTimeOutAnimationFrame();
 
-	
-private: 
+
+private:
 
 	gameTableImpl *myW;
 	QTimer *timeOutAnimationTimer;
 	QTimer *timeOutAnimationKickOnTimer;
-	
+
 // 	boost::shared_ptr<SDLPlayer> mySDLPlayer;
 
 	boost::timers::portable::microsec_timer realTimer;
@@ -63,8 +65,8 @@ private:
 	int timerIntervall;
 	bool isBeep;
 	bool isBeepPlayed;
-	
-	
+
+
 };
 
 #endif

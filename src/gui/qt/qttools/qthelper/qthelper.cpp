@@ -1,7 +1,7 @@
 //
 // C++ Implementation: qthelper
 //
-// Description: 
+// Description:
 //
 //
 // Author: FThauer FHammer <webmaster@pokerth.net>, (C) 2007
@@ -23,35 +23,42 @@ QtHelper::~QtHelper()
 {
 }
 
-std::string QtHelper::stringToUtf8(const std::string &myString) {
+std::string QtHelper::stringToUtf8(const std::string &myString)
+{
 
 	QString tmpString = QString::fromLocal8Bit(myString.c_str());
 	std::string myUtf8String = tmpString.toUtf8().constData();
-	
+
 	return myUtf8String;
 }
 
-std::string QtHelper::stringFromUtf8(const std::string &myString) {
+std::string QtHelper::stringFromUtf8(const std::string &myString)
+{
 	QString tmpString = QString::fromUtf8(myString.c_str());
-	
+
 	return tmpString.toLocal8Bit().constData();
 }
 
-std::string QtHelper::getDefaultLanguage() { return QLocale::system().name().toStdString(); }
+std::string QtHelper::getDefaultLanguage()
+{
+	return QLocale::system().name().toStdString();
+}
 
 std::string QtHelper::getDataPathStdString(const char * /*argv0*/)
 {
 	QString path(QCoreApplication::instance()->applicationDirPath());
-	
-#ifdef _WIN32 
+
+#ifdef _WIN32
 	path += "/data/";
 #else
-	#ifdef __APPLE__
+#ifdef __APPLE__
 	if (QRegExp("Contents/MacOS/?$").indexIn(path) != -1) {
 		// pointing into an macosx application bundle
 		path += "/../Resources/data/";
-	} else { path += "/data/"; }
-	#else //Unix
+	} else {
+		path += "/data/";
+	}
+#else //Unix
 	if (QRegExp("pokerth/?$").indexIn(path) != -1) {
 		// there is an own application directory
 		path += "/data/";
@@ -64,9 +71,11 @@ std::string QtHelper::getDataPathStdString(const char * /*argv0*/)
 	} else if (QRegExp("bin/?$").indexIn(path) != -1) {
 		// we are in a bin directory. e.g. /usr/bin
 		path += "/../share/pokerth/data/";
-	
-	} else { path += "/data/"; }
-	#endif
+
+	} else {
+		path += "/data/";
+	}
+#endif
 #endif
 	return (QDir::cleanPath(path) + "/").toStdString();
 }

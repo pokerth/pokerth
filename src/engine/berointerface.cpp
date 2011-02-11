@@ -1,7 +1,7 @@
 //
 // C++ Implementation: berointerface
 //
-// Description: 
+// Description:
 //
 //
 // Author: FThauer FHammer <webmaster@pokerth.net>, (C) 2007

@@ -33,10 +33,12 @@ LocalBeRoPostRiver::~LocalBeRoPostRiver()
 {
 }
 
-void LocalBeRoPostRiver::run() {
+void LocalBeRoPostRiver::run()
+{
 }
 
-void LocalBeRoPostRiver::postRiverRun() {
+void LocalBeRoPostRiver::postRiverRun()
+{
 
 	PlayerListConstIterator it_c;
 	PlayerListIterator it;
@@ -44,8 +46,8 @@ void LocalBeRoPostRiver::postRiverRun() {
 	// who is the winner
 	for(it_c=getMyHand()->getActivePlayerList()->begin(); it_c!=getMyHand()->getActivePlayerList()->end(); ++it_c) {
 
-		if( (*it_c)->getMyAction() != PLAYER_ACTION_FOLD && (*it_c)->getMyCardsValueInt() > highestCardsValue ) { 
-			highestCardsValue = (*it_c)->getMyCardsValueInt(); 
+		if( (*it_c)->getMyAction() != PLAYER_ACTION_FOLD && (*it_c)->getMyCardsValueInt() > highestCardsValue ) {
+			highestCardsValue = (*it_c)->getMyCardsValueInt();
 		}
 	}
 
@@ -83,5 +85,5 @@ void LocalBeRoPostRiver::postRiverRun() {
 	getMyHand()->getBoard()->setPot(0);
 
 	//starte die Animaionsreihe
-	getMyHand()->getGuiInterface()->postRiverRunAnimation1();	
+	getMyHand()->getGuiInterface()->postRiverRunAnimation1();
 }

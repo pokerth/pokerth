@@ -37,10 +37,10 @@ public:
 	std::string getDefaultLanguage();
 	std::string getDataPathStdString(const char *argv0);
 
-private: 
-	
+private:
+
 	NonQtHelper *myQtHelper;
-	
+
 };
 
 #endif

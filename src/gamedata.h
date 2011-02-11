@@ -28,43 +28,37 @@
 
 typedef std::list<unsigned> PlayerIdList;
 
-enum GameMode
-{
+enum GameMode {
 	GAME_MODE_CREATED = 1,
 	GAME_MODE_STARTED,
 	GAME_MODE_CLOSED
 };
 
-enum GameType
-{
+enum GameType {
 	GAME_TYPE_NORMAL = 1,
 	GAME_TYPE_REGISTERED_ONLY,
 	GAME_TYPE_INVITE_ONLY,
 	GAME_TYPE_RANKING
 };
 
-enum RaiseIntervalMode
-{
+enum RaiseIntervalMode {
 	RAISE_ON_HANDNUMBER = 1,
 	RAISE_ON_MINUTES
 };
 
-enum RaiseMode
-{
+enum RaiseMode {
 	DOUBLE_BLINDS = 1,
 	MANUAL_BLINDS_ORDER
 };
 
-enum AfterManualBlindsMode
-{
+enum AfterManualBlindsMode {
 	AFTERMB_DOUBLE_BLINDS = 1,
 	AFTERMB_RAISE_ABOUT,
 	AFTERMB_STAY_AT_LAST_BLIND
 };
 
 // For the sake of simplicity, this is a struct.
-struct GameData
-{
+struct GameData {
 	GameData() : gameType(GAME_TYPE_NORMAL), maxNumberOfPlayers(0), startMoney(0),
 		firstSmallBlind(0), raiseIntervalMode(RAISE_ON_HANDNUMBER),
 		raiseSmallBlindEveryHandsValue(8), raiseSmallBlindEveryMinutesValue(1),
@@ -87,8 +81,7 @@ struct GameData
 	int playerActionTimeoutSec;
 };
 
-struct GameInfo
-{
+struct GameInfo {
 	GameInfo() : mode(GAME_MODE_CREATED), adminPlayerId(0), isPasswordProtected(false) {}
 	std::string name;
 	GameData data;
@@ -98,19 +91,17 @@ struct GameInfo
 	bool isPasswordProtected;
 };
 
-struct StartData
-{
+struct StartData {
 	StartData() : startDealerPlayerId(0), numberOfPlayers(0) {}
 	unsigned startDealerPlayerId;
 	int numberOfPlayers;
 };
 
-struct VoteKickData
-{
+struct VoteKickData {
 	VoteKickData()
-	: petitionId(0), kickPlayerId(0), numVotesToKick(0),
-	numVotesInFavourOfKicking(0), numVotesAgainstKicking(0), timeLimitSec(0),
-	voteTimer(boost::posix_time::time_duration(0, 0, 0), boost::timers::portable::microsec_timer::auto_start) {}
+		: petitionId(0), kickPlayerId(0), numVotesToKick(0),
+		  numVotesInFavourOfKicking(0), numVotesAgainstKicking(0), timeLimitSec(0),
+		  voteTimer(boost::posix_time::time_duration(0, 0, 0), boost::timers::portable::microsec_timer::auto_start) {}
 	unsigned petitionId;
 	unsigned kickPlayerId;
 	int numVotesToKick;

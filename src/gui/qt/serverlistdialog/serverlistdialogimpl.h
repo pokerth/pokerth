@@ -29,10 +29,11 @@
 class ConfigFile;
 class startWindowImpl;
 
-class serverListDialogImpl: public QDialog, public Ui::ServerListDialog {
-Q_OBJECT
+class serverListDialogImpl: public QDialog, public Ui::ServerListDialog
+{
+	Q_OBJECT
 public:
-    serverListDialogImpl(startWindowImpl *sw, QMainWindow *parent = 0, ConfigFile* = 0 );
+	serverListDialogImpl(startWindowImpl *sw, QMainWindow *parent = 0, ConfigFile* = 0 );
 
 public slots:
 
@@ -43,8 +44,8 @@ public slots:
 	void closeNetworkClient();
 
 private:
-		
-	ConfigFile *myConfig;	
+
+	ConfigFile *myConfig;
 	startWindowImpl *mySw;
 
 };

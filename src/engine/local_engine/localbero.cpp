@@ -26,7 +26,7 @@
 using namespace std;
 
 LocalBeRo::LocalBeRo(HandInterface* hi, int id, unsigned dP, int sB, GameState gS)
-: BeRoInterface(), myHand(hi), myBeRoID(gS), myID(id), dealerPosition(dP), smallBlindPosition(0), dealerPositionId(dP), smallBlindPositionId(0), bigBlindPositionId(0), smallBlind(sB), highestSet(0), minimumRaise(2*sB), fullBetRule(false), firstRun(true), firstRunGui(true), firstRound(true), firstHeadsUpRound(true), currentPlayersTurnId(0), firstRoundLastPlayersTurnId(0), logBoardCardsDone(false)
+	: BeRoInterface(), myHand(hi), myBeRoID(gS), myID(id), dealerPosition(dP), smallBlindPosition(0), dealerPositionId(dP), smallBlindPositionId(0), bigBlindPositionId(0), smallBlind(sB), highestSet(0), minimumRaise(2*sB), fullBetRule(false), firstRun(true), firstRunGui(true), firstRound(true), firstHeadsUpRound(true), currentPlayersTurnId(0), firstRoundLastPlayersTurnId(0), logBoardCardsDone(false)
 {
 	currentPlayersTurnIt = myHand->getRunningPlayerList()->begin();
 	lastPlayersTurnIt = myHand->getRunningPlayerList()->begin();
@@ -68,7 +68,8 @@ int LocalBeRo::getHighestCardsValue() const
 	return 0;
 }
 
-void LocalBeRo::nextPlayer() {
+void LocalBeRo::nextPlayer()
+{
 
 	PlayerListConstIterator currentPlayersTurnConstIt = myHand->getRunningPlayerIt(currentPlayersTurnId);
 	if(currentPlayersTurnConstIt == myHand->getRunningPlayerList()->end()) {
@@ -79,37 +80,37 @@ void LocalBeRo::nextPlayer() {
 
 }
 
-void LocalBeRo::run() {
+void LocalBeRo::run()
+{
 
 	if(firstRunGui) {
 		firstRunGui = false;
 		myHand->setLastPlayersTurn(-1);
 		myHand->getGuiInterface()->dealBeRoCards(myBeRoID);
-	}
-	else {
+	} else {
 
 		if(firstRun) {
 
 			firstRun = false;
-	
+
 			if(!(myHand->getAllInCondition())) {
 
 				PlayerListIterator it_1, it_2;
-			
+
 				// running player before smallBlind
 				bool formerRunningPlayerFound = false;
 				if(myHand->getActivePlayerList()->size() > 2) {
-		
+
 					it_1 = myHand->getActivePlayerIt(smallBlindPositionId);
 					if(it_1 == myHand->getActivePlayerList()->end()) {
 						throw LocalException(__FILE__, __LINE__, ERR_ACTIVE_PLAYER_NOT_FOUND);
 					}
-		
+
 					for(size_t i=0; i<myHand->getActivePlayerList()->size(); i++) {
-		
+
 						if(it_1 == myHand->getActivePlayerList()->begin()) it_1 = myHand->getActivePlayerList()->end();
 						--it_1;
-		
+
 						it_2 = myHand->getRunningPlayerIt((*it_1)->getMyUniqueID());
 						// running player found
 						if(it_2 != myHand->getRunningPlayerList()->end()) {
@@ -125,7 +126,7 @@ void LocalBeRo::run() {
 				// heads up: bigBlind begins -> dealer/smallBlind is running player before bigBlind
 				else {
 					firstRoundLastPlayersTurnId = smallBlindPositionId;
-				}	
+				}
 				currentPlayersTurnId = firstRoundLastPlayersTurnId;
 			}
 		}
@@ -138,13 +139,18 @@ void LocalBeRo::run() {
 			myHand->getBoard()->getMyCards(tempBoardCardsArray);
 
 			switch(myBeRoID) {
-				case GAME_STATE_FLOP: myHand->getGuiInterface()->logDealBoardCardsMsg(myBeRoID, tempBoardCardsArray[0], tempBoardCardsArray[1], tempBoardCardsArray[2]);
+			case GAME_STATE_FLOP:
+				myHand->getGuiInterface()->logDealBoardCardsMsg(myBeRoID, tempBoardCardsArray[0], tempBoardCardsArray[1], tempBoardCardsArray[2]);
 				break;
-				case GAME_STATE_TURN: myHand->getGuiInterface()->logDealBoardCardsMsg(myBeRoID, tempBoardCardsArray[0], tempBoardCardsArray[1], tempBoardCardsArray[2], tempBoardCardsArray[3]);
+			case GAME_STATE_TURN:
+				myHand->getGuiInterface()->logDealBoardCardsMsg(myBeRoID, tempBoardCardsArray[0], tempBoardCardsArray[1], tempBoardCardsArray[2], tempBoardCardsArray[3]);
 				break;
-				case GAME_STATE_RIVER: myHand->getGuiInterface()->logDealBoardCardsMsg(myBeRoID, tempBoardCardsArray[0], tempBoardCardsArray[1], tempBoardCardsArray[2], tempBoardCardsArray[3], tempBoardCardsArray[4]);
+			case GAME_STATE_RIVER:
+				myHand->getGuiInterface()->logDealBoardCardsMsg(myBeRoID, tempBoardCardsArray[0], tempBoardCardsArray[1], tempBoardCardsArray[2], tempBoardCardsArray[3], tempBoardCardsArray[4]);
 				break;
-				default: { LOG_ERROR(__FILE__ << " (" << __LINE__ << "): ERROR - wrong myBeRoID"); }
+			default: {
+				LOG_ERROR(__FILE__ << " (" << __LINE__ << "): ERROR - wrong myBeRoID");
+			}
 			}
 			logBoardCardsDone = true;
 
@@ -165,8 +171,8 @@ void LocalBeRo::run() {
 		}
 
 		// prfen, ob aktuelle bero wirklich dran ist
-		if(!firstRound && allHighestSet) { 
-	
+		if(!firstRound && allHighestSet) {
+
 			// aktuelle bero nicht dran, weil alle Sets gleich sind
 			//also gehe in naechste bero
 			myHand->setCurrentRound(myBeRoID+1);
@@ -180,14 +186,15 @@ void LocalBeRo::run() {
 			myHand->getBoard()->collectSets();
 			myHand->getBoard()->collectPot();
 			myHand->getGuiInterface()->refreshPot();
-			
+
 			myHand->getGuiInterface()->refreshSet();
 			myHand->getGuiInterface()->refreshCash();
-			for(int i=0; i<MAX_NUMBER_OF_PLAYERS; i++) { myHand->getGuiInterface()->refreshAction(i,PLAYER_ACTION_NONE); }
-			
+			for(int i=0; i<MAX_NUMBER_OF_PLAYERS; i++) {
+				myHand->getGuiInterface()->refreshAction(i,PLAYER_ACTION_NONE);
+			}
+
 			myHand->switchRounds();
-		}
-		else {
+		} else {
 			// aktuelle bero ist wirklich dran
 
 			// Anzahl der effektiv gespielten Runden (des human player) erhöhen
@@ -204,10 +211,10 @@ void LocalBeRo::run() {
 			if(currentPlayersTurnIt == myHand->getRunningPlayerList()->end()) {
 				throw LocalException(__FILE__, __LINE__, ERR_RUNNING_PLAYER_NOT_FOUND);
 			}
-			
+
 			++currentPlayersTurnIt;
 			if(currentPlayersTurnIt == myHand->getRunningPlayerList()->end()) currentPlayersTurnIt = myHand->getRunningPlayerList()->begin();
-			
+
 			currentPlayersTurnId = (*currentPlayersTurnIt)->getMyUniqueID();
 
 			//highlight active players groupbox and clear action
@@ -229,8 +236,7 @@ void LocalBeRo::run() {
 			if( currentPlayersTurnId == 0) {
 				// Wir sind dran
 				myHand->getGuiInterface()->meInAction();
-			}
-			else {
+			} else {
 
 				//Gegner sind dran
 				myHand->getGuiInterface()->beRoAnimation2(myBeRoID);

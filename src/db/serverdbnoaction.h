@@ -27,7 +27,7 @@
 class ServerDBNoAction : public ServerDBInterface
 {
 public:
-    ServerDBNoAction();
+	ServerDBNoAction();
 	virtual ~ServerDBNoAction();
 
 	virtual void Init(const std::string &/*host*/, const std::string &/*user*/, const std::string &/*pwd*/,

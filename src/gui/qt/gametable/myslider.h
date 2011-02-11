@@ -11,18 +11,15 @@ class Slider : public QSlider
 
 public:
 	Slider( QWidget* parent = 0 )
-		: QSlider( parent )
-	{
+		: QSlider( parent ) {
 	}
-	
+
 	Slider( Qt::Orientation orientation, QWidget* parent = 0 )
-		: QSlider( orientation, parent )
-	{
+		: QSlider( orientation, parent ) {
 	}
 
 protected:
-	int pixelPosToRangeValue(int pos) const // getted from QSlider.cpp with little adapt
-	{
+	int pixelPosToRangeValue(int pos) const { // getted from QSlider.cpp with little adapt
 		QStyleOptionSlider opt;
 		initStyleOption(&opt);
 		QRect gr = style()->subControlRect(QStyle::CC_Slider, &opt, QStyle::SC_SliderGroove, this);
@@ -41,24 +38,22 @@ protected:
 		return QStyle::sliderValueFromPosition(minimum(), maximum(), pos - sliderMin,
 											   sliderMax - sliderMin, opt.upsideDown);
 	}
-	
-	int pick(const QPoint &pt) const // getted from QSlider.cpp with little adapt
-	{
+
+	int pick(const QPoint &pt) const { // getted from QSlider.cpp with little adapt
 		return orientation() == Qt::Horizontal ? pt.x() : pt.y();
 	}
-	
-	virtual void mousePressEvent( QMouseEvent* ev ) // getted from QSlider.cpp with little adapt
-	{
+
+	virtual void mousePressEvent( QMouseEvent* ev ) { // getted from QSlider.cpp with little adapt
 		if (maximum() == minimum() || (ev->buttons() ^ ev->button())) {
 			ev->ignore();
 			return;
 		}
-	#ifdef QT_KEYPAD_NAVIGATION
+#ifdef QT_KEYPAD_NAVIGATION
 		if (QApplication::keypadNavigationEnabled())
 			setEditFocus(true);
-	#endif
+#endif
 		ev->accept();
-		
+
 		//if ((ev->button() & style()->styleHint(QStyle::SH_Slider_AbsoluteSetButtons)) == ev->button())
 		{
 			QStyleOptionSlider opt;
@@ -84,7 +79,7 @@ protected:
 			update(sr);
 			setSliderDown(true);
 		}
-		
+
 		QSlider::mousePressEvent( ev ); // should not be needed but as we can't update private d pointer it's needed.
 	}
 };

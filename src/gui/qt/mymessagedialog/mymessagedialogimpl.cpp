@@ -30,114 +30,114 @@ using namespace std;
 
 
 myMessageDialogImpl::myMessageDialogImpl(ConfigFile *c, QWidget *parent)
-    : QDialog(parent), myConfig(c), currentMsgId(0)
+	: QDialog(parent), myConfig(c), currentMsgId(0)
 {
 #ifdef __APPLE__
-    setWindowModality(Qt::ApplicationModal);
-    setWindowFlags(Qt::WindowSystemMenuHint | Qt::CustomizeWindowHint | Qt::Dialog);
-#endif	
-    setupUi(this);
+	setWindowModality(Qt::ApplicationModal);
+	setWindowFlags(Qt::WindowSystemMenuHint | Qt::CustomizeWindowHint | Qt::Dialog);
+#endif
+	setupUi(this);
 }
 
 int myMessageDialogImpl::exec(int messageId, QString msg, QString title, QPixmap pix, QDialogButtonBox::StandardButtons buttons, bool showCheckBox)
 {
-    if(showCheckBox) checkBox->show();
-    else checkBox->hide();
+	if(showCheckBox) checkBox->show();
+	else checkBox->hide();
 
-    bool show = false;
-    bool found = false;
+	bool show = false;
+	bool found = false;
 
-    currentMsgId = messageId;
+	currentMsgId = messageId;
 
-    currentMsgShowList = myConfig->readConfigStringList("IfInfoMessageShowList");
-    list<std::string>::iterator it1;
+	currentMsgShowList = myConfig->readConfigStringList("IfInfoMessageShowList");
+	list<std::string>::iterator it1;
 	for(it1= currentMsgShowList.begin(); it1 != currentMsgShowList.end(); ++it1) {
 
-        QString tmpString = QString::fromUtf8(it1->c_str());
-        if(QString("%1").arg(messageId) ==  tmpString.split(",").at(1)) {
+		QString tmpString = QString::fromUtf8(it1->c_str());
+		if(QString("%1").arg(messageId) ==  tmpString.split(",").at(1)) {
 
-            found = true;
-            show = tmpString.split(",").at(0).toInt();
+			found = true;
+			show = tmpString.split(",").at(0).toInt();
 
-            break;
-        }
-    }
+			break;
+		}
+	}
 
-    if(!found) {
-        currentMsgShowList.push_back(QString("1,%1").arg(messageId).toUtf8().constData());
-        myConfig->writeConfigStringList("IfInfoMessageShowList", currentMsgShowList);
-        myConfig->writeBuffer();
-    }
+	if(!found) {
+		currentMsgShowList.push_back(QString("1,%1").arg(messageId).toUtf8().constData());
+		myConfig->writeConfigStringList("IfInfoMessageShowList", currentMsgShowList);
+		myConfig->writeBuffer();
+	}
 
-    if(!found || show) {
+	if(!found || show) {
 
-        setWindowTitle(title);
-        label_icon->setPixmap(pix.scaled(50,50,Qt::KeepAspectRatio,Qt::SmoothTransformation));
-        label->setText(msg);
-        buttonBox->setStandardButtons(buttons);
+		setWindowTitle(title);
+		label_icon->setPixmap(pix.scaled(50,50,Qt::KeepAspectRatio,Qt::SmoothTransformation));
+		label->setText(msg);
+		buttonBox->setStandardButtons(buttons);
 
-        return QDialog::exec();
-    }
+		return QDialog::exec();
+	}
 
-    return -1;
+	return -1;
 }
 
 void myMessageDialogImpl::accept()
 {
-    writeConfig();
-    QDialog::accept();
+	writeConfig();
+	QDialog::accept();
 }
 
 void myMessageDialogImpl::reject()
 {
-    writeConfig();
-    QDialog::reject();
+	writeConfig();
+	QDialog::reject();
 }
 
 void myMessageDialogImpl::writeConfig()
 {
-    if(checkBox->isChecked()) {
+	if(checkBox->isChecked()) {
 
-        list<std::string>::iterator it1;
+		list<std::string>::iterator it1;
 		for(it1= currentMsgShowList.begin(); it1 != currentMsgShowList.end(); ++it1) {
 
-            QString tmpString = QString::fromUtf8(it1->c_str());
-            if(QString("%1").arg(currentMsgId) == tmpString.split(",").at(1)) {
+			QString tmpString = QString::fromUtf8(it1->c_str());
+			if(QString("%1").arg(currentMsgId) == tmpString.split(",").at(1)) {
 
-                (*it1) = QString("0,%1").arg(currentMsgId).toUtf8().constData();
-                break;
-            }
-        }
+				(*it1) = QString("0,%1").arg(currentMsgId).toUtf8().constData();
+				break;
+			}
+		}
 
-        myConfig->writeConfigStringList("IfInfoMessageShowList", currentMsgShowList);
-        myConfig->writeBuffer();
-    }
+		myConfig->writeConfigStringList("IfInfoMessageShowList", currentMsgShowList);
+		myConfig->writeBuffer();
+	}
 }
 
 bool myMessageDialogImpl::checkIfMesssageWillBeDisplayed(int id)
 {
-    bool found = false;
-    bool show = true;
+	bool found = false;
+	bool show = true;
 
-    currentMsgShowList = myConfig->readConfigStringList("IfInfoMessageShowList");
-    list<std::string>::iterator it1;
+	currentMsgShowList = myConfig->readConfigStringList("IfInfoMessageShowList");
+	list<std::string>::iterator it1;
 	for(it1= currentMsgShowList.begin(); it1 != currentMsgShowList.end(); ++it1) {
 
-        QString tmpString = QString::fromUtf8(it1->c_str());
-        if(QString("%1").arg(id) ==  tmpString.split(",").at(1)) {
+		QString tmpString = QString::fromUtf8(it1->c_str());
+		if(QString("%1").arg(id) ==  tmpString.split(",").at(1)) {
 
-            found = true;
-            show = tmpString.split(",").at(0).toInt();
+			found = true;
+			show = tmpString.split(",").at(0).toInt();
 
-            break;
-        }
-    }
+			break;
+		}
+	}
 
-    if(!found) {
-        currentMsgShowList.push_back(QString("1,%1").arg(id).toUtf8().constData());
-        myConfig->writeConfigStringList("IfInfoMessageShowList", currentMsgShowList);
-        myConfig->writeBuffer();
-    }
+	if(!found) {
+		currentMsgShowList.push_back(QString("1,%1").arg(id).toUtf8().constData());
+		myConfig->writeConfigStringList("IfInfoMessageShowList", currentMsgShowList);
+		myConfig->writeBuffer();
+	}
 
-    return show;
+	return show;
 }

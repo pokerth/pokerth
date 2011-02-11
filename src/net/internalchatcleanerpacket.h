@@ -32,16 +32,13 @@ public:
 	InternalChatCleanerPacket();
 
 	InternalChatCleanerPacket(ChatCleanerMessage_t *msg)
-	: m_msg(msg)
-	{
+		: m_msg(msg) {
 	}
 	~InternalChatCleanerPacket();
-	ChatCleanerMessage_t *GetMsg()
-	{
+	ChatCleanerMessage_t *GetMsg() {
 		return m_msg;
 	}
-	ChatCleanerMessage_t **GetMsgPtr()
-	{
+	ChatCleanerMessage_t **GetMsgPtr() {
 		return &m_msg;
 	}
 

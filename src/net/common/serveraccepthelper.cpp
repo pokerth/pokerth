@@ -28,7 +28,7 @@ using namespace std;
 using boost::asio::ip::tcp;
 
 ServerAcceptHelper::ServerAcceptHelper(ServerCallback &serverCallback, boost::shared_ptr<boost::asio::io_service> ioService)
-: m_ioService(ioService), m_serverCallback(serverCallback)
+	: m_ioService(ioService), m_serverCallback(serverCallback)
 {
 	m_acceptor.reset(new tcp::acceptor(*m_ioService));
 }
@@ -42,17 +42,12 @@ ServerAcceptHelper::Listen(unsigned serverPort, bool ipv6, bool sctp, const stri
 {
 	m_lobbyThread = lobbyThread;
 
-	try
-	{
+	try {
 		InternalListen(serverPort, ipv6, sctp);
-	}
-	catch (const PokerTHException &e)
-	{
+	} catch (const PokerTHException &e) {
 		LOG_ERROR(e.what());
 		GetCallback().SignalNetServerError(e.GetErrorId(), e.GetOsErrorCode());
-	}
-	catch (...)
-	{
+	} catch (...) {
 		// This is probably an asio exception. Assume that bind failed,
 		// which is the most frequent case.
 		LOG_ERROR("Cannot bind/listen on TCP port.");
@@ -88,16 +83,15 @@ ServerAcceptHelper::InternalListen(unsigned serverPort, bool ipv6, bool /*sctp*/
 	m_acceptor->async_accept(
 		*newSocket,
 		boost::bind(&ServerAcceptHelper::HandleAccept, this, newSocket,
-			boost::asio::placeholders::error)
-		);
+					boost::asio::placeholders::error)
+	);
 }
 
 void
 ServerAcceptHelper::HandleAccept(boost::shared_ptr<boost::asio::ip::tcp::socket> acceptedSocket,
 								 const boost::system::error_code &error)
 {
-	if (!error)
-	{
+	if (!error) {
 		boost::asio::socket_base::non_blocking_io command(true);
 		acceptedSocket->io_control(command);
 		acceptedSocket->set_option(tcp::no_delay(true));
@@ -108,11 +102,9 @@ ServerAcceptHelper::HandleAccept(boost::shared_ptr<boost::asio::ip::tcp::socket>
 		m_acceptor->async_accept(
 			*newSocket,
 			boost::bind(&ServerAcceptHelper::HandleAccept, this, newSocket,
-				boost::asio::placeholders::error)
-			);
-	}
-	else
-	{
+						boost::asio::placeholders::error)
+		);
+	} else {
 		// Accept failed. This is a fatal error.
 		LOG_ERROR("In boost::asio handler: Accept failed.");
 		GetCallback().SignalNetServerError(ERR_SOCK_ACCEPT_FAILED, 0);

@@ -32,12 +32,12 @@ using namespace std;
 
 Game::Game(GuiInterface* gui, boost::shared_ptr<EngineFactory> factory,
 		   const PlayerDataList &playerDataList, const GameData &gameData,
-           const StartData &startData, int gameId, Log* log)
-: myFactory(factory), myGui(gui), myLog(log), startQuantityPlayers(startData.numberOfPlayers),
-  startCash(gameData.startMoney), startSmallBlind(gameData.firstSmallBlind),
-  myGameID(gameId), currentSmallBlind(gameData.firstSmallBlind), currentHandID(0), dealerPosition(0),
-  lastHandBlindsRaised(1), lastTimeBlindsRaised(0), myGameData(gameData),
-  blindsTimer(boost::posix_time::time_duration(0, 0, 0), boost::timers::portable::second_timer::manual_start)
+		   const StartData &startData, int gameId, Log* log)
+	: myFactory(factory), myGui(gui), myLog(log), startQuantityPlayers(startData.numberOfPlayers),
+	  startCash(gameData.startMoney), startSmallBlind(gameData.firstSmallBlind),
+	  myGameID(gameId), currentSmallBlind(gameData.firstSmallBlind), currentHandID(0), dealerPosition(0),
+	  lastHandBlindsRaised(1), lastTimeBlindsRaised(0), myGameData(gameData),
+	  blindsTimer(boost::posix_time::time_duration(0, 0, 0), boost::timers::portable::second_timer::manual_start)
 {
 
 	blindsList = myGameData.manualBlindsList;
@@ -56,8 +56,7 @@ Game::Game(GuiInterface* gui, boost::shared_ptr<EngineFactory> factory,
 	PlayerDataList::const_iterator player_i = playerDataList.begin();
 	PlayerDataList::const_iterator player_end = playerDataList.end();
 
-	while (player_i != player_end)
-	{
+	while (player_i != player_end) {
 		if ((*player_i)->GetUniqueId() == dealerPosition)
 			break;
 		++player_i;
@@ -66,7 +65,7 @@ Game::Game(GuiInterface* gui, boost::shared_ptr<EngineFactory> factory,
 		throw LocalException(__FILE__, __LINE__, ERR_DEALER_NOT_FOUND);
 
 	// create board
-    currentBoard = myFactory->createBoard(dealerPosition);
+	currentBoard = myFactory->createBoard(dealerPosition);
 
 	// create player lists
 	seatsList = PlayerList(new std::list<boost::shared_ptr<PlayerInterface> >);
@@ -84,8 +83,7 @@ Game::Game(GuiInterface* gui, boost::shared_ptr<EngineFactory> factory,
 		PlayerType type = PLAYER_TYPE_COMPUTER;
 		boost::shared_ptr<SessionData> myNetSession;
 
-		if (player_i != player_end)
-		{
+		if (player_i != player_end) {
 			uniqueId = (*player_i)->GetUniqueId();
 			type = (*player_i)->GetType();
 			myName = (*player_i)->GetName();
@@ -110,8 +108,8 @@ Game::Game(GuiInterface* gui, boost::shared_ptr<EngineFactory> factory,
 
 	currentBoard->setPlayerLists(seatsList, activePlayerList, runningPlayerList);
 
-    // log game data
-    myLog->logNewGameMsg(myGameID, startCash, startSmallBlind, dealerPosition, seatsList);
+	// log game data
+	myLog->logNewGameMsg(myGameID, startCash, startSmallBlind, dealerPosition, seatsList);
 
 	//start timer
 	blindsTimer.reset();
@@ -154,7 +152,7 @@ void Game::initHand()
 	while( it!=activePlayerList->end() ) {
 
 		if((*it)->getMyCash() == 0) {
-                        (*it)->setMyActiveStatus(false);
+			(*it)->setMyActiveStatus(false);
 			it = activePlayerList->erase(it);
 		} else {
 			++it;
@@ -165,7 +163,7 @@ void Game::initHand()
 	(*runningPlayerList) = (*activePlayerList);
 
 	// create Hand
-    currentHand = myFactory->createHand(myFactory, myGui, currentBoard, myLog, seatsList, activePlayerList, runningPlayerList, currentHandID, startQuantityPlayers, dealerPosition, currentSmallBlind, startCash);
+	currentHand = myFactory->createHand(myFactory, myGui, currentBoard, myLog, seatsList, activePlayerList, runningPlayerList, currentHandID, startQuantityPlayers, dealerPosition, currentSmallBlind, startCash);
 
 	// shifting dealer button -> TODO exception-rule !!!
 	bool nextDealerFound = false;
@@ -197,7 +195,7 @@ void Game::startHand()
 
 	// log new hand
 	myGui->logNewGameHandMsg(myGameID, currentHandID);
-	myGui->flushLogAtGame(myGameID);	
+	myGui->flushLogAtGame(myGameID);
 
 	currentHand->start();
 }
@@ -207,10 +205,8 @@ boost::shared_ptr<PlayerInterface> Game::getPlayerByUniqueId(unsigned id)
 	boost::shared_ptr<PlayerInterface> tmpPlayer;
 	PlayerListIterator i = getSeatsList()->begin();
 	PlayerListIterator end = getSeatsList()->end();
-	while (i != end)
-	{
-		if ((*i)->getMyUniqueID() == id)
-		{
+	while (i != end) {
+		if ((*i)->getMyUniqueID() == id) {
 			tmpPlayer = *i;
 			break;
 		}
@@ -227,7 +223,8 @@ boost::shared_ptr<PlayerInterface> Game::getCurrentPlayer()
 	return tmpPlayer;
 }
 
-void Game::raiseBlinds() {
+void Game::raiseBlinds()
+{
 
 	bool raiseBlinds = false;
 
@@ -236,8 +233,7 @@ void Game::raiseBlinds() {
 			raiseBlinds = true;
 			lastHandBlindsRaised = currentHandID;
 		}
-	}
-	else {
+	} else {
 		if (lastTimeBlindsRaised + myGameData.raiseSmallBlindEveryMinutesValue <= blindsTimer.elapsed().total_seconds()/60) {
 			raiseBlinds = true;
 			lastTimeBlindsRaised = blindsTimer.elapsed().total_seconds()/60;
@@ -245,22 +241,19 @@ void Game::raiseBlinds() {
 	}
 	if (raiseBlinds) {
 		// At this point, the blinds must be raised
-		// Now we check how the blinds should be raised	
-		if (myGameData.raiseMode == DOUBLE_BLINDS) { 
-			currentSmallBlind *= 2; 
-		}	
-		else {
+		// Now we check how the blinds should be raised
+		if (myGameData.raiseMode == DOUBLE_BLINDS) {
+			currentSmallBlind *= 2;
+		} else {
 			if(!blindsList.empty()) {
 				currentSmallBlind = blindsList.front();
 				blindsList.pop_front();
-			}
-			else {
+			} else {
 				// The position exceeds the list
-				if (myGameData.afterManualBlindsMode == AFTERMB_DOUBLE_BLINDS) { 
-					currentSmallBlind *= 2; 
-				}
-				else {
-					if(myGameData.afterManualBlindsMode == AFTERMB_RAISE_ABOUT) { 
+				if (myGameData.afterManualBlindsMode == AFTERMB_DOUBLE_BLINDS) {
+					currentSmallBlind *= 2;
+				} else {
+					if(myGameData.afterManualBlindsMode == AFTERMB_RAISE_ABOUT) {
 						currentSmallBlind += myGameData.afterMBAlwaysRaiseValue;
 					}
 				}

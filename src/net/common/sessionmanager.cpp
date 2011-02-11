@@ -56,8 +56,7 @@ SessionManager::AddSession(SessionWrapper session)
 
 	// If pos points to a pair whose key is equivalent to the socket, this handle
 	// already exists within the list.
-	if (pos != m_sessionMap.end() && session.sessionData->GetId() == pos->first)
-	{
+	if (pos != m_sessionMap.end() && session.sessionData->GetId() == pos->first) {
 		throw ServerException(__FILE__, __LINE__, ERR_SOCK_CONN_EXISTS, 0);
 	}
 	m_sessionMap.insert(pos, SessionMap::value_type(session.sessionData->GetId(), session));
@@ -100,16 +99,13 @@ SessionManager::GetSessionByPlayerName(const string &playerName) const
 	SessionMap::const_iterator session_i = m_sessionMap.begin();
 	SessionMap::const_iterator session_end = m_sessionMap.end();
 
-	while (session_i != session_end)
-	{
+	while (session_i != session_end) {
 		// Check all players which are fully connected.
-		if (session_i->second.sessionData->GetState() != SessionData::Init)
-		{
+		if (session_i->second.sessionData->GetState() != SessionData::Init) {
 			boost::shared_ptr<PlayerData> tmpPlayer(session_i->second.playerData);
 			if (!tmpPlayer.get())
 				throw ServerException(__FILE__, __LINE__, ERR_NET_INVALID_SESSION, 0);
-			if (tmpPlayer->GetName() == playerName)
-			{
+			if (tmpPlayer->GetName() == playerName) {
 				tmpSession = session_i->second;
 				break;
 			}
@@ -129,14 +125,11 @@ SessionManager::GetSessionByUniquePlayerId(unsigned uniqueId, bool initSessions)
 	SessionMap::const_iterator session_i = m_sessionMap.begin();
 	SessionMap::const_iterator session_end = m_sessionMap.end();
 
-	while (session_i != session_end)
-	{
+	while (session_i != session_end) {
 		// Check all players which are fully connected.
-		if (initSessions || session_i->second.sessionData->GetState() != SessionData::Init)
-		{
+		if (initSessions || session_i->second.sessionData->GetState() != SessionData::Init) {
 			boost::shared_ptr<PlayerData> tmpPlayer(session_i->second.playerData);
-			if (tmpPlayer && tmpPlayer->GetUniqueId() == uniqueId)
-			{
+			if (tmpPlayer && tmpPlayer->GetUniqueId() == uniqueId) {
 				tmpSession = session_i->second;
 				break;
 			}
@@ -156,11 +149,9 @@ SessionManager::GetPlayerDataList() const
 	SessionMap::const_iterator session_i = m_sessionMap.begin();
 	SessionMap::const_iterator session_end = m_sessionMap.end();
 
-	while (session_i != session_end)
-	{
+	while (session_i != session_end) {
 		// Get all players in the game.
-		if (session_i->second.sessionData->GetState() == SessionData::Game)
-		{
+		if (session_i->second.sessionData->GetState() == SessionData::Game) {
 			boost::shared_ptr<PlayerData> tmpPlayer(session_i->second.playerData);
 			if (!tmpPlayer.get() || tmpPlayer->GetName().empty())
 				throw ServerException(__FILE__, __LINE__, ERR_NET_INVALID_SESSION, 0);
@@ -180,11 +171,9 @@ SessionManager::GetPlayerIdList(SessionData::State state) const
 	SessionMap::const_iterator session_i = m_sessionMap.begin();
 	SessionMap::const_iterator session_end = m_sessionMap.end();
 
-	while (session_i != session_end)
-	{
+	while (session_i != session_end) {
 		// Get all players in the game.
-		if (session_i->second.sessionData->GetState() == state)
-		{
+		if (session_i->second.sessionData->GetState() == state) {
 			playerList.push_back(session_i->second.playerData->GetUniqueId());
 		}
 		++session_i;
@@ -227,10 +216,8 @@ SessionManager::IsClientAddressConnected(const std::string &clientAddress) const
 	SessionMap::const_iterator i = m_sessionMap.begin();
 	SessionMap::const_iterator end = m_sessionMap.end();
 
-	while (i != end)
-	{
-		if ((*i).second.sessionData->GetClientAddr() == clientAddress)
-		{
+	while (i != end) {
+		if ((*i).second.sessionData->GetClientAddr() == clientAddress) {
 			retVal = true;
 			break;
 		}
@@ -247,8 +234,7 @@ SessionManager::ForEach(boost::function<void (SessionWrapper)> func)
 	SessionMap::iterator i = m_sessionMap.begin();
 	SessionMap::iterator end = m_sessionMap.end();
 
-	while (i != end)
-	{
+	while (i != end) {
 		SessionMap::iterator next = i;
 		++next;
 		func((*i).second);
@@ -265,8 +251,7 @@ SessionManager::CountReadySessions() const
 	SessionMap::const_iterator i = m_sessionMap.begin();
 	SessionMap::const_iterator end = m_sessionMap.end();
 
-	while (i != end)
-	{
+	while (i != end) {
 		if ((*i).second.sessionData->IsReady())
 			++counter;
 		++i;
@@ -282,8 +267,7 @@ SessionManager::ResetAllReadyFlags()
 	SessionMap::iterator i = m_sessionMap.begin();
 	SessionMap::iterator end = m_sessionMap.end();
 
-	while (i != end)
-	{
+	while (i != end) {
 		(*i).second.sessionData->ResetReadyFlag();
 		++i;
 	}
@@ -297,8 +281,7 @@ SessionManager::Clear()
 	SessionMap::iterator end = m_sessionMap.end();
 
 	boost::system::error_code ec;
-	while (i != end)
-	{
+	while (i != end) {
 		i->second.sessionData->GetAsioSocket()->close(ec);
 		++i;
 	}
@@ -320,8 +303,7 @@ SessionManager::SendToAllSessions(SenderHelper &sender, boost::shared_ptr<NetPac
 	SessionMap::iterator i = m_sessionMap.begin();
 	SessionMap::iterator end = m_sessionMap.end();
 
-	while (i != end)
-	{
+	while (i != end) {
 		if (!i->second.sessionData.get())
 			throw ServerException(__FILE__, __LINE__, ERR_NET_INVALID_SESSION, 0);
 
@@ -340,8 +322,7 @@ SessionManager::SendLobbyMsgToAllSessions(SenderHelper &sender, boost::shared_pt
 	SessionMap::iterator i = m_sessionMap.begin();
 	SessionMap::iterator end = m_sessionMap.end();
 
-	while (i != end)
-	{
+	while (i != end) {
 		if (!i->second.sessionData.get())
 			throw ServerException(__FILE__, __LINE__, ERR_NET_INVALID_SESSION, 0);
 
@@ -360,8 +341,7 @@ SessionManager::SendToAllButOneSessions(SenderHelper &sender, boost::shared_ptr<
 	SessionMap::iterator i = m_sessionMap.begin();
 	SessionMap::iterator end = m_sessionMap.end();
 
-	while (i != end)
-	{
+	while (i != end) {
 		// Send each fully connected client but one a copy of the packet.
 		if (i->second.sessionData->GetState() == state)
 			if (i->first != except)

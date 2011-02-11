@@ -22,15 +22,15 @@
 using namespace std;
 
 PlayerData::PlayerData(unsigned uniqueId, int number, PlayerType type, PlayerRights rights, bool isGameAdmin)
-: m_uniqueId(uniqueId), m_dbId(DB_ID_INVALID), m_number(number), m_type(type), m_rights(rights), m_isGameAdmin(isGameAdmin)
+	: m_uniqueId(uniqueId), m_dbId(DB_ID_INVALID), m_number(number), m_type(type), m_rights(rights), m_isGameAdmin(isGameAdmin)
 {
 }
 
 PlayerData::PlayerData(const PlayerData &other)
-: m_uniqueId(other.GetUniqueId()), m_dbId(other.GetDBId()), m_number(other.GetNumber()), m_name(other.GetName()),
-  m_password(), m_country(other.GetCountry()), m_avatarFile(other.GetAvatarFile()), m_avatarMD5(other.GetAvatarMD5()),
-  m_type(other.GetType()), m_rights(other.GetRights()), m_isGameAdmin(other.IsGameAdmin()),
-  m_netSessionData(other.GetNetSessionData()), m_netAvatarFile(), m_dataMutex()
+	: m_uniqueId(other.GetUniqueId()), m_dbId(other.GetDBId()), m_number(other.GetNumber()), m_name(other.GetName()),
+	  m_password(), m_country(other.GetCountry()), m_avatarFile(other.GetAvatarFile()), m_avatarMD5(other.GetAvatarMD5()),
+	  m_type(other.GetType()), m_rights(other.GetRights()), m_isGameAdmin(other.IsGameAdmin()),
+	  m_netSessionData(other.GetNetSessionData()), m_netAvatarFile(), m_dataMutex()
 {
 }
 

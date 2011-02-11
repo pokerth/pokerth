@@ -34,15 +34,18 @@ extern "C" {
 	{
 		return 0;
 	}
-	int gcry_bmutex_init(void **obj) {
+	int gcry_bmutex_init(void **obj)
+	{
 		*obj = (void*)(new boost::mutex);
 		return 0;
 	}
-	int gcry_bmutex_destroy(void **obj) {
+	int gcry_bmutex_destroy(void **obj)
+	{
 		delete (boost::mutex *)(*obj);
 		return 0;
 	}
-	int gcry_bmutex_lock(void **obj) {
+	int gcry_bmutex_lock(void **obj)
+	{
 #if (BOOST_VERSION) >= 103500
 		((boost::mutex *)(*obj))->lock();
 #else
@@ -50,7 +53,8 @@ extern "C" {
 #endif
 		return 0;
 	}
-	int gcry_bmutex_unlock(void **obj) {
+	int gcry_bmutex_unlock(void **obj)
+	{
 #if (BOOST_VERSION) >= 103500
 		((boost::mutex *)(*obj))->unlock();
 #else
@@ -59,8 +63,7 @@ extern "C" {
 		return 0;
 	}
 
-	struct gcry_thread_cbs gcry_threads_boost =
-	{
+	struct gcry_thread_cbs gcry_threads_boost = {
 		GCRY_THREAD_OPTION_USER, gcry_bthread_init, gcry_bmutex_init,
 		gcry_bmutex_destroy, gcry_bmutex_lock, gcry_bmutex_unlock,
 		NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL
@@ -124,16 +127,15 @@ socket_has_dual_stack()
 	bool retVal = false;
 	boost::asio::detail::socket_type test = socket(AF_INET6, SOCK_STREAM, 0);
 
-	if (test != boost::asio::detail::invalid_socket)
-	{
+	if (test != boost::asio::detail::invalid_socket) {
 		int ipv6only = 0;
 		if (setsockopt(test, IPPROTO_IPV6, IPV6_V6ONLY, (char *)&ipv6only, sizeof(ipv6only)) == 0)
 			retVal = true;
-	#ifdef _WIN32
+#ifdef _WIN32
 		closesocket(test);
-	#else
+#else
 		close(test);
-	#endif
+#endif
 	}
 	return retVal;
 }

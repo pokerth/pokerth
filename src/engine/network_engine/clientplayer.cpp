@@ -23,10 +23,10 @@ using namespace std;
 
 
 ClientPlayer::ClientPlayer(ConfigFile *c, int id, unsigned uniqueId, PlayerType type, std::string name, std::string avatar, int sC, bool aS, int mB)
-: PlayerInterface(), myConfig(c), currentHand(0), myCardsValue(0), myID(id), myUniqueID(uniqueId), myType(type),
-  myName(name), myAvatar(avatar), myDude(0), myDude4(0), myCardsValueInt(0), myOdds(-1.0), myCash(sC), mySet(0), myLastRelativeSet(0),
-  myAction(0), myButton(mB), myActiveStatus(aS), myStayOnTableStatus(true), myTurn(false), myCardsFlip(false), myRoundStartCash(0),
-  lastMoneyWon(0), sBluff(0), sBluffStatus(false), myWinnerState(false)
+	: PlayerInterface(), myConfig(c), currentHand(0), myCardsValue(0), myID(id), myUniqueID(uniqueId), myType(type),
+	  myName(name), myAvatar(avatar), myDude(0), myDude4(0), myCardsValueInt(0), myOdds(-1.0), myCash(sC), mySet(0), myLastRelativeSet(0),
+	  myAction(0), myButton(mB), myActiveStatus(aS), myStayOnTableStatus(true), myTurn(false), myCardsFlip(false), myRoundStartCash(0),
+	  lastMoneyWon(0), sBluff(0), sBluffStatus(false), myWinnerState(false)
 {
 	myBestHandPosition[0] = myBestHandPosition[1] = myBestHandPosition[2] = myBestHandPosition[3] = myBestHandPosition[4] = 0;
 	myNiveau[0] = myNiveau[1] = myNiveau[2] = 0;
@@ -266,13 +266,17 @@ ClientPlayer::setMyCardsFlip(bool theValue, int state)
 	// log flipping cards
 	if (myCardsFlip) {
 		switch(state) {
-                        case 1: currentHand->getGuiInterface()->logFlipHoleCardsMsg(myName, myID, myCards[0], myCards[1], myCardsValueInt);
+		case 1:
+			currentHand->getGuiInterface()->logFlipHoleCardsMsg(myName, myID, myCards[0], myCards[1], myCardsValueInt);
 			break;
-                        case 2: currentHand->getGuiInterface()->logFlipHoleCardsMsg(myName, myID, myCards[0], myCards[1]);
+		case 2:
+			currentHand->getGuiInterface()->logFlipHoleCardsMsg(myName, myID, myCards[0], myCards[1]);
 			break;
-                        case 3: currentHand->getGuiInterface()->logFlipHoleCardsMsg(myName, myID, myCards[0], myCards[1], myCardsValueInt, "has");
+		case 3:
+			currentHand->getGuiInterface()->logFlipHoleCardsMsg(myName, myID, myCards[0], myCards[1], myCardsValueInt, "has");
 			break;
-			default: ;
+		default:
+			;
 		}
 	}
 }
@@ -363,8 +367,7 @@ void
 ClientPlayer::setMyAggressive(bool theValue)
 {
 	boost::recursive_mutex::scoped_lock lock(m_syncMutex);
-	for (int i=0; i<6; i++)
-	{
+	for (int i=0; i<6; i++) {
 		myAggressive[i] = myAggressive[i+1];
 	}
 	myAggressive[6] = theValue;
@@ -375,14 +378,13 @@ ClientPlayer::getMyAggressive() const
 {
 	boost::recursive_mutex::scoped_lock lock(m_syncMutex);
 	int sum = 0;
-	for (int i=0; i<7; i++)
-	{
+	for (int i=0; i<7; i++) {
 		sum += myAggressive[i];
 	}
 	return sum;
 }
 
-void 
+void
 ClientPlayer::setSBluff(int theValue)
 {
 	boost::recursive_mutex::scoped_lock lock(m_syncMutex);
@@ -527,10 +529,9 @@ bool ClientPlayer::checkIfINeedToShowCards()
 {
 	boost::recursive_mutex::scoped_lock lock(m_syncMutex);
 	std::list<unsigned> playerNeedToShowCardsList = currentHand->getBoard()->getPlayerNeedToShowCards();
-	for(std::list<unsigned>::iterator it = playerNeedToShowCardsList.begin(); it != playerNeedToShowCardsList.end(); ++it)
-    {
-        if(*it == myUniqueID) return true;
-    }
+	for(std::list<unsigned>::iterator it = playerNeedToShowCardsList.begin(); it != playerNeedToShowCardsList.end(); ++it) {
+		if(*it == myUniqueID) return true;
+	}
 
-    return false;
+	return false;
 }

@@ -1,6 +1,6 @@
 /***************************************************************************
  *   Copyright (C) 2006 by FThauer FHammer   *
- *   f.thauer@web.de   *Irische Segenswnsche, 
+ *   f.thauer@web.de   *Irische Segenswnsche,
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -38,37 +38,38 @@ LocalBeRoPreflop::~LocalBeRoPreflop()
 {
 }
 
-void LocalBeRoPreflop::run() {
+void LocalBeRoPreflop::run()
+{
 
 	if(getFirstRun()) {
-	
+
 		PlayerListIterator it;
-	
+
 		// search bigBlindPosition in runningPlayerList
 		PlayerListIterator bigBlindPositionIt = getMyHand()->getRunningPlayerIt(getBigBlindPositionId());
-	
+
 		// more than 2 players are still active -> runningPlayerList is not empty
 		if(getMyHand()->getActivePlayerList()->size() > 2) {
-	
+
 			// bigBlindPlayer not found in runningPlayerList (he is all in) -> bigBlindPlayer is not the running player before first action player
 			if(bigBlindPositionIt == getMyHand()->getRunningPlayerList()->end()) {
-	
+
 				// search smallBlindPosition in runningPlayerList
 				PlayerListIterator smallBlindPositionIt = getMyHand()->getRunningPlayerIt(getSmallBlindPositionId());
-	
+
 				// smallBlindPlayer not found in runningPlayerList (he is all in) -> next active player before smallBlindPlayer is running player before first action player
 				if(smallBlindPositionIt == getMyHand()->getRunningPlayerList()->end()) {
-	
+
 					it = getMyHand()->getActivePlayerIt(getSmallBlindPositionId());
 					if(it == getMyHand()->getActivePlayerList()->end()) {
 						throw LocalException(__FILE__, __LINE__, ERR_ACTIVE_PLAYER_NOT_FOUND);
 					}
-	
+
 					if(it == getMyHand()->getActivePlayerList()->begin()) it = getMyHand()->getActivePlayerList()->end();
 					--it;
-	
+
 					setFirstRoundLastPlayersTurnId( (*it)->getMyUniqueID() );
-	
+
 				}
 				// smallBlindPlayer found in runningPlayerList -> running player before first action player
 				else {
@@ -82,30 +83,30 @@ void LocalBeRoPreflop::run() {
 		}
 		// heads up -> dealer/smallBlindPlayer is first action player and bigBlindPlayer is player before
 		else {
-	
+
 			// bigBlindPlayer not found in runningPlayerList (he is all in) -> only smallBlind has to choose fold or call the bigBlindAmount
 			if(bigBlindPositionIt == getMyHand()->getRunningPlayerList()->end()) {
-	
+
 				// search smallBlindPosition in runningPlayerList
 				PlayerListIterator smallBlindPositionIt = getMyHand()->getRunningPlayerIt(getSmallBlindPositionId());
-	
+
 				// smallBlindPlayer not found in runningPlayerList (he is all in) -> no running player -> showdown and no firstRoundLastPlayersTurnId is used
 				if(smallBlindPositionIt == getMyHand()->getRunningPlayerList()->end()) {
-	
+
 				}
 				// smallBlindPlayer found in runningPlayerList -> running player before first action player (himself)
 				else {
 					setFirstRoundLastPlayersTurnId( getSmallBlindPositionId() );
 				}
-	
-	
+
+
 			} else {
 				setFirstRoundLastPlayersTurnId( getBigBlindPositionId() );
 			}
 		}
-	
+
 		setCurrentPlayersTurnId( getFirstRoundLastPlayersTurnId() );
-	
+
 		setFirstRun(false);
 
 	}
@@ -131,9 +132,9 @@ void LocalBeRoPreflop::run() {
 	if(currentPlayersTurnIt == getMyHand()->getRunningPlayerList()->end()) currentPlayersTurnIt = getMyHand()->getRunningPlayerList()->begin();
 
 	setCurrentPlayersTurnId( (*currentPlayersTurnIt)->getMyUniqueID() );
-	
+
 	// prfen, ob Preflop wirklich dran ist
-	if(!getFirstRound() && allHighestSet) { 
+	if(!getFirstRound() && allHighestSet) {
 
 		// Preflop nicht dran, weil wir nicht mehr in erster PreflopRunde und alle Sets gleich sind
 		//also gehe in Flop
@@ -148,14 +149,15 @@ void LocalBeRoPreflop::run() {
 		getMyHand()->getBoard()->collectSets();
 		getMyHand()->getBoard()->collectPot();
 		getMyHand()->getGuiInterface()->refreshPot();
-		
+
 		getMyHand()->getGuiInterface()->refreshSet();
 		getMyHand()->getGuiInterface()->refreshCash();
-		for(int i=0; i<MAX_NUMBER_OF_PLAYERS; i++) { getMyHand()->getGuiInterface()->refreshAction(i,PLAYER_ACTION_NONE); }
+		for(int i=0; i<MAX_NUMBER_OF_PLAYERS; i++) {
+			getMyHand()->getGuiInterface()->refreshAction(i,PLAYER_ACTION_NONE);
+		}
 
 		getMyHand()->switchRounds();
-	}
-	else {
+	} else {
 		// lastPlayersTurn -> PreflopFirstRound is over
 		if( getCurrentPlayersTurnId() == getFirstRoundLastPlayersTurnId() ) {
 			setFirstRound(false);
@@ -175,8 +177,7 @@ void LocalBeRoPreflop::run() {
 		if( getCurrentPlayersTurnId() == 0) {
 			// Wir sind dran
 			getMyHand()->getGuiInterface()->meInAction();
-		}
-		else {
+		} else {
 			//Gegner sind dran
 			getMyHand()->getGuiInterface()->beRoAnimation2(getMyBeRoID());
 		}

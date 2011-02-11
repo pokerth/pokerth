@@ -30,7 +30,8 @@ class CardsValue;
 class ConfigFile;
 class HandInterface;
 
-class LocalPlayer : public PlayerInterface{
+class LocalPlayer : public PlayerInterface
+{
 public:
 	LocalPlayer(ConfigFile*, int id, unsigned uniqueId, PlayerType type, std::string name, std::string avatar, int sC, bool aS, int mB);
 
@@ -38,93 +39,179 @@ public:
 
 	void setHand(HandInterface *);
 
-	int getMyID() const { return myID; }
-	unsigned getMyUniqueID() const { return myUniqueID; }
-	PlayerType getMyType() const { return myType; }
-
-	void setMyDude(int theValue) { myDude = theValue; }
-	int getMyDude() const { return myDude; }
-
-	void setMyDude4(int theValue) { myDude4 = theValue; }
-	int getMyDude4() const { return myDude4; }
-
-	void setMyName(const std::string& theValue) { myName = theValue; }
-	std::string getMyName() const { return myName; }
-
-	void setMyAvatar(const std::string& theValue) { myAvatar = theValue; }
-	std::string getMyAvatar() const { return myAvatar; }
-
-	void setMyCash(int theValue) { myCash = theValue; }
-	int getMyCash() const { return myCash; }
-
-	void setMySet(int theValue) { myLastRelativeSet = theValue; mySet += theValue; myCash -= theValue;	}
-	void setMySetAbsolute(int theValue) { mySet = theValue; }
-	void setMySetNull() { mySet = 0; myLastRelativeSet = 0; }
-	int getMySet() const { return mySet;}
-	int getMyLastRelativeSet() const { return myLastRelativeSet; }
-
-	void setMyAction(int theValue, bool blind = 0) { 
-		myAction = theValue; 
-		// logging for human player 
-                if(myAction && !blind) currentHand->getGuiInterface()->logPlayerActionMsg(myName, myID, myAction, mySet);
+	int getMyID() const {
+		return myID;
 	}
-	int getMyAction() const	{ return myAction; }
+	unsigned getMyUniqueID() const {
+		return myUniqueID;
+	}
+	PlayerType getMyType() const {
+		return myType;
+	}
 
-	void setMyButton(int theValue) { myButton = theValue; }
-	int getMyButton() const	{ return myButton; }
+	void setMyDude(int theValue) {
+		myDude = theValue;
+	}
+	int getMyDude() const {
+		return myDude;
+	}
 
-	void setMyActiveStatus(bool theValue) { myActiveStatus = theValue; }
-	bool getMyActiveStatus() const { return myActiveStatus; }
+	void setMyDude4(int theValue) {
+		myDude4 = theValue;
+	}
+	int getMyDude4() const {
+		return myDude4;
+	}
 
-	void setMyStayOnTableStatus(bool theValue) { myStayOnTableStatus = theValue; }
-	bool getMyStayOnTableStatus() const { return myStayOnTableStatus; }
+	void setMyName(const std::string& theValue) {
+		myName = theValue;
+	}
+	std::string getMyName() const {
+		return myName;
+	}
 
-	void setMyCards(int* theValue) { int i; for(i=0; i<2; i++) myCards[i] = theValue[i]; }
-	void getMyCards(int* theValue) const { int i; for(i=0; i<2; i++) theValue[i] = myCards[i]; }
+	void setMyAvatar(const std::string& theValue) {
+		myAvatar = theValue;
+	}
+	std::string getMyAvatar() const {
+		return myAvatar;
+	}
 
-	void setMyTurn(bool theValue){ myTurn = theValue;}
-	bool getMyTurn() const{ return myTurn;}
+	void setMyCash(int theValue) {
+		myCash = theValue;
+	}
+	int getMyCash() const {
+		return myCash;
+	}
 
-	void setMyCardsFlip(bool theValue, int state){ 
+	void setMySet(int theValue) {
+		myLastRelativeSet = theValue;
+		mySet += theValue;
+		myCash -= theValue;
+	}
+	void setMySetAbsolute(int theValue) {
+		mySet = theValue;
+	}
+	void setMySetNull() {
+		mySet = 0;
+		myLastRelativeSet = 0;
+	}
+	int getMySet() const {
+		return mySet;
+	}
+	int getMyLastRelativeSet() const {
+		return myLastRelativeSet;
+	}
+
+	void setMyAction(int theValue, bool blind = 0) {
+		myAction = theValue;
+		// logging for human player
+		if(myAction && !blind) currentHand->getGuiInterface()->logPlayerActionMsg(myName, myID, myAction, mySet);
+	}
+	int getMyAction() const	{
+		return myAction;
+	}
+
+	void setMyButton(int theValue) {
+		myButton = theValue;
+	}
+	int getMyButton() const	{
+		return myButton;
+	}
+
+	void setMyActiveStatus(bool theValue) {
+		myActiveStatus = theValue;
+	}
+	bool getMyActiveStatus() const {
+		return myActiveStatus;
+	}
+
+	void setMyStayOnTableStatus(bool theValue) {
+		myStayOnTableStatus = theValue;
+	}
+	bool getMyStayOnTableStatus() const {
+		return myStayOnTableStatus;
+	}
+
+	void setMyCards(int* theValue) {
+		int i;
+		for(i=0; i<2; i++) myCards[i] = theValue[i];
+	}
+	void getMyCards(int* theValue) const {
+		int i;
+		for(i=0; i<2; i++) theValue[i] = myCards[i];
+	}
+
+	void setMyTurn(bool theValue) {
+		myTurn = theValue;
+	}
+	bool getMyTurn() const {
+		return myTurn;
+	}
+
+	void setMyCardsFlip(bool theValue, int state) {
 		myCardsFlip = theValue;
 		// log flipping cards
 		if(myCardsFlip) {
 			switch(state) {
-                                case 1: currentHand->getGuiInterface()->logFlipHoleCardsMsg(myName, myID, myCards[0], myCards[1], myCardsValueInt);
+			case 1:
+				currentHand->getGuiInterface()->logFlipHoleCardsMsg(myName, myID, myCards[0], myCards[1], myCardsValueInt);
 				break;
-                                case 2: currentHand->getGuiInterface()->logFlipHoleCardsMsg(myName, myID, myCards[0], myCards[1]);
+			case 2:
+				currentHand->getGuiInterface()->logFlipHoleCardsMsg(myName, myID, myCards[0], myCards[1]);
 				break;
-                                case 3: currentHand->getGuiInterface()->logFlipHoleCardsMsg(myName, myID, myCards[0], myCards[1], myCardsValueInt, "has");
+			case 3:
+				currentHand->getGuiInterface()->logFlipHoleCardsMsg(myName, myID, myCards[0], myCards[1], myCardsValueInt, "has");
 				break;
-				default: ;
+			default:
+				;
 			}
 		}
 	}
-	bool getMyCardsFlip() const{ return myCardsFlip;}
+	bool getMyCardsFlip() const {
+		return myCardsFlip;
+	}
 
-	void setMyCardsValueInt(int theValue) { myCardsValueInt = theValue;}
-	int getMyCardsValueInt() const { return myCardsValueInt; }
+	void setMyCardsValueInt(int theValue) {
+		myCardsValueInt = theValue;
+	}
+	int getMyCardsValueInt() const {
+		return myCardsValueInt;
+	}
 
-	void setMyBestHandPosition(int* theValue)
-	{
+	void setMyBestHandPosition(int* theValue) {
 		for (int i = 0; i < 5; i++)
 			myBestHandPosition[i] = theValue[i];
 	}
-	void getMyBestHandPosition(int* theValue) const
-	{
+	void getMyBestHandPosition(int* theValue) const {
 		for (int i = 0; i < 5; i++)
 			theValue[i] = myBestHandPosition[i];
 	}
 
-	void setMyRoundStartCash(int theValue) { myRoundStartCash = theValue;}
-	int getMyRoundStartCash() const { return myRoundStartCash; }
+	void setMyRoundStartCash(int theValue) {
+		myRoundStartCash = theValue;
+	}
+	int getMyRoundStartCash() const {
+		return myRoundStartCash;
+	}
 
-	void setLastMoneyWon ( int theValue ) { lastMoneyWon = theValue; }
-	int getLastMoneyWon() const { return lastMoneyWon; }
+	void setLastMoneyWon ( int theValue ) {
+		lastMoneyWon = theValue;
+	}
+	int getLastMoneyWon() const {
+		return lastMoneyWon;
+	}
 
-	void setMyAverageSets(int theValue) { myAverageSets[0] = myAverageSets[1]; myAverageSets[1] = myAverageSets[2]; myAverageSets[2] = myAverageSets[3]; myAverageSets[3] = theValue; }
-	int getMyAverageSets() const { return (myAverageSets[0]+myAverageSets[1]+myAverageSets[2]+myAverageSets[3])/4; }
-	
+	void setMyAverageSets(int theValue) {
+		myAverageSets[0] = myAverageSets[1];
+		myAverageSets[1] = myAverageSets[2];
+		myAverageSets[2] = myAverageSets[3];
+		myAverageSets[3] = theValue;
+	}
+	int getMyAverageSets() const {
+		return (myAverageSets[0]+myAverageSets[1]+myAverageSets[2]+myAverageSets[3])/4;
+	}
+
 	void setMyAggressive(bool theValue) {
 		int i;
 		for(i=0; i<6; i++) {
@@ -140,24 +227,34 @@ public:
 		return sum;
 	}
 
-	void setSBluff ( int theValue ) { sBluff = theValue; }
-	int getSBluff() const { return sBluff; }
+	void setSBluff ( int theValue ) {
+		sBluff = theValue;
+	}
+	int getSBluff() const {
+		return sBluff;
+	}
 
-	void setSBluffStatus ( bool theValue ) { sBluffStatus = theValue; }
-	bool getSBluffStatus() const { return sBluffStatus; }
+	void setSBluffStatus ( bool theValue ) {
+		sBluffStatus = theValue;
+	}
+	bool getSBluffStatus() const {
+		return sBluffStatus;
+	}
 
 	void setMyWinnerState ( bool theValue, int pot ) {
 		if(theValue) myWinnerState = theValue;
-		currentHand->getGuiInterface()->logPlayerWinsMsg(myName, pot, theValue);	
+		currentHand->getGuiInterface()->logPlayerWinsMsg(myName, pot, theValue);
 	}
-	bool getMyWinnerState() const { return myWinnerState;}
-	
+	bool getMyWinnerState() const {
+		return myWinnerState;
+	}
+
 
 
 	void action();
 
 	int checkMyAction(int targetAction, int targetBet, int highestSet, int minimumRaise, int smallBlind);
-	
+
 	void preflopEngine();
 	void flopEngine();
 	void turnEngine();
@@ -214,7 +311,7 @@ private:
 	int myAction; // 0 = none, 1 = fold, 2 = check, 3 = call, 4 = bet, 5 = raise, 6 = allin
 	int myButton; // 0 = none, 1 = dealer, 2 =small, 3 = big
 	bool myActiveStatus; // 0 = inactive, 1 = active
-        bool myStayOnTableStatus; // 0 = left, 1 = stay
+	bool myStayOnTableStatus; // 0 = left, 1 = stay
 	bool myTurn; // 0 = no, 1 = yes
 	bool myCardsFlip; // 0 = cards are not fliped, 1 = cards are already flipped,
 	int myRoundStartCash;
@@ -225,7 +322,7 @@ private:
 
 	int sBluff;
 	bool sBluffStatus;
-	
+
 	bool myWinnerState;
 
 	unsigned m_actionTimeoutCounter;

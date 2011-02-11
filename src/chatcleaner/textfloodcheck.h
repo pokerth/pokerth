@@ -10,18 +10,20 @@ class TextFloodCheck: public QObject
 {
 	Q_OBJECT
 public:
-    TextFloodCheck();
+	TextFloodCheck();
 	~TextFloodCheck();
-	
-	void setTextFloodLevelToTrigger(int level) { textFloodLevelToTrigger = level; }
-	
+
+	void setTextFloodLevelToTrigger(int level) {
+		textFloodLevelToTrigger = level;
+	}
+
 	bool run(unsigned);
-	
+
 public slots:
 	void cleanMsgTimesList();
 	void removeNickFromList(unsigned);
-	
-private: 
+
+private:
 	QTimer *cleanTimer;
 	boost::timers::portable::second_timer timer;
 	struct TextFloodInfos {
@@ -29,7 +31,7 @@ private:
 		size_t timeStamp;
 	};
 	QMap<unsigned, TextFloodInfos> msgTimesList;
-	
+
 	int textFloodLevelToTrigger;
 };
 

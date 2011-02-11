@@ -53,8 +53,12 @@ public:
 
 	static boost::shared_ptr<NetPacket> Create(char *data, unsigned &dataSize);
 
-	const PokerTHMessage_t *GetMsg() const {return m_msg;}
-	PokerTHMessage_t *GetMsg() {return m_msg;}
+	const PokerTHMessage_t *GetMsg() const {
+		return m_msg;
+	}
+	PokerTHMessage_t *GetMsg() {
+		return m_msg;
+	}
 
 	bool IsClientActivity() const;
 

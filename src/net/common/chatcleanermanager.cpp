@@ -30,8 +30,8 @@ using boost::asio::ip::tcp;
 
 
 ChatCleanerManager::ChatCleanerManager(ChatCleanerCallback &cb, boost::shared_ptr<boost::asio::io_service> ioService)
-: m_callback(cb), m_ioService(ioService), m_connected(false), m_curRequestId(0), m_serverPort(0), m_useIpv6(false),
-  m_recvBufUsed(0)
+	: m_callback(cb), m_ioService(ioService), m_connected(false), m_curRequestId(0), m_serverPort(0), m_useIpv6(false),
+	  m_recvBufUsed(0)
 {
 	m_recvBuf[0] = 0;
 	m_resolver.reset(
@@ -69,9 +69,9 @@ ChatCleanerManager::ReInit()
 	m_resolver->async_resolve(
 		q,
 		boost::bind(&ChatCleanerManager::HandleResolve,
-		shared_from_this(),
-		boost::asio::placeholders::error,
-		boost::asio::placeholders::iterator));
+					shared_from_this(),
+					boost::asio::placeholders::error,
+					boost::asio::placeholders::iterator));
 }
 
 void
@@ -83,19 +83,15 @@ ChatCleanerManager::HandleLobbyChatText(unsigned playerId, const std::string &na
 void
 ChatCleanerManager::HandleGameChatText(unsigned gameId, unsigned playerId, const std::string &name, const std::string &text)
 {
-	if (m_connected)
-	{
+	if (m_connected) {
 		InternalChatCleanerPacket tmpChat;
 		tmpChat.GetMsg()->present = ChatCleanerMessage_PR_cleanerChatRequestMessage;
 		CleanerChatRequestMessage_t *netRequest = &tmpChat.GetMsg()->choice.cleanerChatRequestMessage;
 		netRequest->requestId = GetNextRequestId();
-		if (gameId)
-		{
+		if (gameId) {
 			netRequest->cleanerChatType.present = CleanerChatType_PR_cleanerChatTypeGame;
 			netRequest->cleanerChatType.choice.cleanerChatTypeGame.gameId = gameId;
-		}
-		else
-		{
+		} else {
 			netRequest->cleanerChatType.present = CleanerChatType_PR_cleanerChatTypeLobby;
 		}
 		netRequest->playerId = playerId;
@@ -113,18 +109,15 @@ void
 ChatCleanerManager::HandleResolve(const boost::system::error_code& ec,
 								  boost::asio::ip::tcp::resolver::iterator endpoint_iterator)
 {
-	if (!ec)
-	{
+	if (!ec) {
 		boost::asio::ip::tcp::endpoint endpoint = *endpoint_iterator;
 		m_socket->async_connect(
 			endpoint,
 			boost::bind(&ChatCleanerManager::HandleConnect,
-				shared_from_this(),
-				boost::asio::placeholders::error,
-				++endpoint_iterator));
-	}
-	else if (ec != boost::asio::error::operation_aborted)
-	{
+						shared_from_this(),
+						boost::asio::placeholders::error,
+						++endpoint_iterator));
+	} else if (ec != boost::asio::error::operation_aborted) {
 		LOG_ERROR("Could not resolve chat cleaner server.");
 	}
 }
@@ -133,8 +126,7 @@ void
 ChatCleanerManager::HandleConnect(const boost::system::error_code& ec,
 								  boost::asio::ip::tcp::resolver::iterator endpoint_iterator)
 {
-	if (!ec)
-	{
+	if (!ec) {
 		InternalChatCleanerPacket tmpInit;
 		tmpInit.GetMsg()->present = ChatCleanerMessage_PR_cleanerInitMessage;
 		CleanerInitMessage_t *netInit = &tmpInit.GetMsg()->choice.cleanerInitMessage;
@@ -150,11 +142,8 @@ ChatCleanerManager::HandleConnect(const boost::system::error_code& ec,
 				shared_from_this(),
 				boost::asio::placeholders::error,
 				boost::asio::placeholders::bytes_transferred));
-	}
-	else if (ec != boost::asio::error::operation_aborted)
-	{
-		if (endpoint_iterator != boost::asio::ip::tcp::resolver::iterator())
-		{
+	} else if (ec != boost::asio::error::operation_aborted) {
+		if (endpoint_iterator != boost::asio::ip::tcp::resolver::iterator()) {
 			// Try next resolve entry.
 			boost::system::error_code ec;
 			m_socket->close(ec);
@@ -162,11 +151,10 @@ ChatCleanerManager::HandleConnect(const boost::system::error_code& ec,
 			m_socket->async_connect(
 				endpoint,
 				boost::bind(&ChatCleanerManager::HandleConnect,
-					shared_from_this(),
-					boost::asio::placeholders::error,
-					++endpoint_iterator));
-		}
-		else
+							shared_from_this(),
+							boost::asio::placeholders::error,
+							++endpoint_iterator));
+		} else
 			LOG_ERROR("Could not connect to chat cleaner server.");
 	}
 }
@@ -175,8 +163,7 @@ void
 ChatCleanerManager::HandleWrite(const boost::system::error_code &ec,
 								boost::shared_ptr<EncodedPacket> /*tmpPacket*/)
 {
-	if (ec && ec != boost::asio::error::operation_aborted)
-	{
+	if (ec && ec != boost::asio::error::operation_aborted) {
 		LOG_ERROR("Error sending message to chat cleaner.");
 		boost::system::error_code ec;
 		m_socket->close(ec);
@@ -187,25 +174,20 @@ ChatCleanerManager::HandleWrite(const boost::system::error_code &ec,
 void
 ChatCleanerManager::HandleRead(const boost::system::error_code &ec, size_t bytesRead)
 {
-	if (!ec)
-	{
+	if (!ec) {
 		bool error = false;
 		m_recvBufUsed += bytesRead;
 
 		asn_dec_rval_t retVal;
-		do
-		{
+		do {
 			InternalChatCleanerPacket recvMsg;
 			retVal = ber_decode(0, &asn_DEF_ChatCleanerMessage, (void **)recvMsg.GetMsgPtr(), m_recvBuf, m_recvBufUsed);
-			if(retVal.code == RC_OK)
-			{
+			if(retVal.code == RC_OK) {
 				// Consume the bytes.
-				if (retVal.consumed < m_recvBufUsed)
-				{
+				if (retVal.consumed < m_recvBufUsed) {
 					m_recvBufUsed -= retVal.consumed;
 					memmove(m_recvBuf, m_recvBuf + retVal.consumed, m_recvBufUsed);
-				}
-				else
+				} else
 					m_recvBufUsed = 0;
 
 				if (asn_check_constraints(&asn_DEF_ChatCleanerMessage, recvMsg.GetMsg(), NULL, NULL) == 0)
@@ -215,8 +197,7 @@ ChatCleanerManager::HandleRead(const boost::system::error_code &ec, size_t bytes
 			}
 		} while (!error && retVal.code == RC_OK);
 
-		if (!error)
-		{
+		if (!error) {
 			m_socket->async_read_some(
 				boost::asio::buffer(m_recvBuf + m_recvBufUsed, sizeof(m_recvBuf) - m_recvBufUsed),
 				boost::bind(
@@ -224,16 +205,12 @@ ChatCleanerManager::HandleRead(const boost::system::error_code &ec, size_t bytes
 					shared_from_this(),
 					boost::asio::placeholders::error,
 					boost::asio::placeholders::bytes_transferred));
-		}
-		else
-		{
+		} else {
 			boost::system::error_code ec;
 			m_socket->close(ec);
 			m_connected = false;
 		}
-	}
-	else if (ec != boost::asio::error::operation_aborted)
-	{
+	} else if (ec != boost::asio::error::operation_aborted) {
 		LOG_ERROR("Error receiving data from chat cleaner.");
 		bool wasConnected = m_connected;
 		boost::system::error_code ec;
@@ -248,14 +225,11 @@ bool
 ChatCleanerManager::HandleMessage(InternalChatCleanerPacket &msg)
 {
 	bool error = true;
-	if (msg.GetMsg()->present == ChatCleanerMessage_PR_cleanerInitAckMessage)
-	{
+	if (msg.GetMsg()->present == ChatCleanerMessage_PR_cleanerInitAckMessage) {
 		CleanerInitAckMessage_t *netAck = &msg.GetMsg()->choice.cleanerInitAckMessage;
-		if (netAck->serverVersion == CLEANER_PROTOCOL_VERSION)
-		{
+		if (netAck->serverVersion == CLEANER_PROTOCOL_VERSION) {
 			string tmpSecret((const char *)netAck->serverSecret.buf, netAck->serverSecret.size);
-			if (m_serverSecret == tmpSecret)
-			{
+			if (m_serverSecret == tmpSecret) {
 				m_connected = true;
 				error = false;
 				LOG_MSG("Successfully connected to chat cleaner.");
@@ -263,18 +237,12 @@ ChatCleanerManager::HandleMessage(InternalChatCleanerPacket &msg)
 		}
 		if (!m_connected)
 			LOG_ERROR("Chat cleaner handshake failed.");
-	}
-	else if (msg.GetMsg()->present == ChatCleanerMessage_PR_cleanerChatReplyMessage)
-	{
+	} else if (msg.GetMsg()->present == ChatCleanerMessage_PR_cleanerChatReplyMessage) {
 		CleanerChatReplyMessage_t *netReply = &msg.GetMsg()->choice.cleanerChatReplyMessage;
-		if (netReply->cleanerText)
-		{
-			if (netReply->cleanerChatType.present == CleanerChatType_PR_cleanerChatTypeLobby)
-			{
+		if (netReply->cleanerText) {
+			if (netReply->cleanerChatType.present == CleanerChatType_PR_cleanerChatTypeLobby) {
 				m_callback.SignalChatBotMessage(string((const char *)netReply->cleanerText->buf, netReply->cleanerText->size));
-			}
-			else if (netReply->cleanerChatType.present == CleanerChatType_PR_cleanerChatTypeGame)
-			{
+			} else if (netReply->cleanerChatType.present == CleanerChatType_PR_cleanerChatTypeGame) {
 				m_callback.SignalChatBotMessage(netReply->cleanerChatType.choice.cleanerChatTypeGame.gameId, string((const char *)netReply->cleanerText->buf, netReply->cleanerText->size));
 			}
 		}
@@ -295,8 +263,7 @@ ChatCleanerManager::SendMessageToServer(InternalChatCleanerPacket &msg)
 
 	if (e.encoded == -1)
 		LOG_ERROR("Failed to encode chat cleaner packet: " << msg.GetMsg()->present);
-	else
-	{
+	else {
 		boost::shared_ptr<EncodedPacket> tmpPacket(new EncodedPacket(buf, e.encoded));
 		// Actually, this should not be done (parallel async_write calls might break data).
 		// But we do not want to create additional buffers here.
@@ -304,9 +271,9 @@ ChatCleanerManager::SendMessageToServer(InternalChatCleanerPacket &msg)
 			*m_socket,
 			boost::asio::buffer(tmpPacket->GetData(), tmpPacket->GetSize()),
 			boost::bind(&ChatCleanerManager::HandleWrite,
-				shared_from_this(),
-				boost::asio::placeholders::error,
-				tmpPacket));
+						shared_from_this(),
+						boost::asio::placeholders::error,
+						tmpPacket));
 	}
 }
 

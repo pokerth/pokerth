@@ -25,23 +25,24 @@
 #include "session.h"
 
 serverListDialogImpl::serverListDialogImpl(startWindowImpl *sw, QMainWindow *parent, ConfigFile *c)
-      : QDialog(parent), myConfig(c), mySw(sw)
+	: QDialog(parent), myConfig(c), mySw(sw)
 {
 #ifdef __APPLE__
 	setWindowModality(Qt::ApplicationModal);
 	setWindowFlags(Qt::WindowSystemMenuHint | Qt::CustomizeWindowHint | Qt::Dialog);
-#endif	
-    	setupUi(this);
-	
+#endif
+	setupUi(this);
+
 	connect( treeWidget_serverList, SIGNAL( itemDoubleClicked ( QTreeWidgetItem*, int) ), this, SLOT( connectToServer() ));
 	connect( buttonBox, SIGNAL( accepted() ), this, SLOT( connectToServer() ));
 	connect( buttonBox, SIGNAL( rejected() ), this, SLOT( closeNetworkClient() ));
 	connect( this, SIGNAL( rejected() ), this, SLOT( closeNetworkClient() ));
 }
 
-void serverListDialogImpl::exec() {
+void serverListDialogImpl::exec()
+{
 
-	QDialog::exec();	
+	QDialog::exec();
 }
 
 void serverListDialogImpl::clearList()
@@ -70,7 +71,8 @@ void serverListDialogImpl::connectToServer()
 	this->hide();
 }
 
-void serverListDialogImpl::closeNetworkClient() {
+void serverListDialogImpl::closeNetworkClient()
+{
 
 	mySw->getSession()->terminateNetworkClient();
 	mySw->getMyConnectToServerDialog()->reject();

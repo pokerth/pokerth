@@ -39,8 +39,7 @@ using namespace std;
 #define IRC_MAX_NICK_LEN					16
 
 
-struct IrcContext
-{
+struct IrcContext {
 	IrcContext(IrcThread &t) : ircThread(t), session(NULL), serverPort(0), useIPv6(false), renameTries(0), sendingBlocked(false), sendCounter(0) {}
 	IrcThread &ircThread;
 	irc_session_t *session;
@@ -60,34 +59,27 @@ void irc_auto_rename_nick(irc_session_t *session)
 {
 	IrcContext *context = (IrcContext *) irc_get_ctx(session);
 
-	if (context->renameTries <= IRC_MAX_RENAME_TRIES) // Limit number of rename tries.
-	{
+	if (context->renameTries <= IRC_MAX_RENAME_TRIES) { // Limit number of rename tries.
 		// Automatically rename the nick on collision.
 		// First: Try to append the string "Lobby".
-		if (context->nick.find(IRC_RENAME_ATTACH) == string::npos)
-		{
+		if (context->nick.find(IRC_RENAME_ATTACH) == string::npos) {
 			if (context->nick.length() + (sizeof(IRC_RENAME_ATTACH)) > IRC_MAX_NICK_LEN)
 				context->nick = context->nick.substr(0, IRC_MAX_NICK_LEN - (sizeof(IRC_RENAME_ATTACH)));
 			context->nick = context->nick + IRC_RENAME_ATTACH;
-		}
-		else
-		{
+		} else {
 			// This didn't work out. Append a number or increment it.
 			string::reverse_iterator end = context->nick.rbegin();
-			if (!context->nick.empty() && isdigit(*end))
-			{
+			if (!context->nick.empty() && isdigit(*end)) {
 				if (*end != '9')
 					*end = (*end) + 1;
 				else
 					context->nick = context->nick + "0";
-			}
-			else
+			} else
 				context->nick = context->nick + "1";
 		}
 		irc_cmd_nick(session, context->nick.c_str());
 		context->renameTries++;
-	}
-	else
+	} else
 		irc_cmd_quit(session, NULL);
 }
 
@@ -98,8 +90,7 @@ void irc_notify_player_list(irc_session_t *session, const char *players)
 	istringstream input(players);
 	string name;
 	input >> name;
-	while (!input.fail() && !input.eof())
-	{
+	while (!input.fail() && !input.eof()) {
 		context->ircThread.GetCallback().SignalIrcPlayerJoined(name);
 		input >> name;
 	}
@@ -139,8 +130,7 @@ irc_event_nick(irc_session_t *session, const char * /*irc_event*/, const char *o
 	// someone changed his/her nick
 	IrcContext *context = (IrcContext *) irc_get_ctx(session);
 
-	if (count && context->nick != params[0]) // only act if this was not an auto-rename
-	{
+	if (count && context->nick != params[0]) { // only act if this was not an auto-rename
 		if (context->nick == origin)
 			context->nick = params[0];
 		context->ircThread.GetCallback().SignalIrcPlayerChanged(origin, params[0]);
@@ -179,8 +169,7 @@ irc_event_channel(irc_session_t *session, const char * /*irc_event*/, const char
 {
 	IrcContext *context = (IrcContext *) irc_get_ctx(session);
 
-	if (count >= 2 && boost::algorithm::iequals(context->channel, params[0])) // check whether this message is for our channel
-	{
+	if (count >= 2 && boost::algorithm::iequals(context->channel, params[0])) { // check whether this message is for our channel
 		// Signal the message (if any) to GUI.
 		if (*params[1] != 0)
 			context->ircThread.GetCallback().SignalIrcChatMsg(origin, params[1]);
@@ -192,8 +181,7 @@ irc_event_unknown(irc_session_t *session, const char * irc_event, const char * /
 {
 	IrcContext *context = (IrcContext *) irc_get_ctx(session);
 
-	if (boost::algorithm::iequals(irc_event, "PONG"))
-	{
+	if (boost::algorithm::iequals(irc_event, "PONG")) {
 		context->sendingBlocked = false;
 		context->ircThread.FlushQueue();
 	}
@@ -202,77 +190,76 @@ irc_event_unknown(irc_session_t *session, const char * irc_event, const char * /
 void
 irc_event_numeric(irc_session_t * session, unsigned irc_event, const char * /*origin*/, const char **params, unsigned count)
 {
-	switch (irc_event)
-	{
-		case LIBIRC_RFC_ERR_NICKNAMEINUSE :
-		case LIBIRC_RFC_ERR_NICKCOLLISION :
-			irc_auto_rename_nick(session);
-			break;
-		case LIBIRC_RFC_RPL_TOPIC :
-			break;
-		case LIBIRC_RFC_RPL_NAMREPLY :
-			if (count >= 4)
-				irc_notify_player_list(session, params[3]);
-			break;
-		case LIBIRC_RFC_ERR_NOSUCHNICK :
-		case LIBIRC_RFC_ERR_NOSUCHCHANNEL :
-		case LIBIRC_RFC_ERR_CANNOTSENDTOCHAN :
-		case LIBIRC_RFC_ERR_TOOMANYCHANNELS :
-		case LIBIRC_RFC_ERR_WASNOSUCHNICK :
-		case LIBIRC_RFC_ERR_TOOMANYTARGETS :
-		case LIBIRC_RFC_ERR_NOSUCHSERVICE :
-		case LIBIRC_RFC_ERR_NOORIGIN :
-		case LIBIRC_RFC_ERR_NORECIPIENT :
-		case LIBIRC_RFC_ERR_NOTEXTTOSEND :
-		case LIBIRC_RFC_ERR_NOTOPLEVEL :
-		case LIBIRC_RFC_ERR_WILDTOPLEVEL :
-		case LIBIRC_RFC_ERR_BADMASK :
-		case LIBIRC_RFC_ERR_UNKNOWNCOMMAND :
-		case LIBIRC_RFC_ERR_NOMOTD :
-		case LIBIRC_RFC_ERR_NOADMININFO :
-		case LIBIRC_RFC_ERR_FILEERROR :
-		case LIBIRC_RFC_ERR_NONICKNAMEGIVEN :
-		case LIBIRC_RFC_ERR_ERRONEUSNICKNAME :
-		case LIBIRC_RFC_ERR_UNAVAILRESOURCE :
-		case LIBIRC_RFC_ERR_USERNOTINCHANNEL :
-		case LIBIRC_RFC_ERR_NOTONCHANNEL :
-		case LIBIRC_RFC_ERR_USERONCHANNEL :
-		case LIBIRC_RFC_ERR_NOLOGIN :
-		case LIBIRC_RFC_ERR_SUMMONDISABLED :
-		case LIBIRC_RFC_ERR_USERSDISABLED :
-		case LIBIRC_RFC_ERR_NOTREGISTERED :
-		case LIBIRC_RFC_ERR_NEEDMOREPARAMS :
-		case LIBIRC_RFC_ERR_ALREADYREGISTRED :
-		case LIBIRC_RFC_ERR_NOPERMFORHOST :
-		case LIBIRC_RFC_ERR_PASSWDMISMATCH :
-		case LIBIRC_RFC_ERR_YOUREBANNEDCREEP :
-		case LIBIRC_RFC_ERR_YOUWILLBEBANNED :
-		case LIBIRC_RFC_ERR_KEYSET :
-		case LIBIRC_RFC_ERR_CHANNELISFULL :
-		case LIBIRC_RFC_ERR_UNKNOWNMODE :
-		case LIBIRC_RFC_ERR_INVITEONLYCHAN :
-		case LIBIRC_RFC_ERR_BANNEDFROMCHAN :
-		case LIBIRC_RFC_ERR_BADCHANNELKEY :
-		case LIBIRC_RFC_ERR_BADCHANMASK :
-		case LIBIRC_RFC_ERR_NOCHANMODES :
-		case LIBIRC_RFC_ERR_BANLISTFULL :
-		case LIBIRC_RFC_ERR_NOPRIVILEGES :
-		case LIBIRC_RFC_ERR_CHANOPRIVSNEEDED :
-		case LIBIRC_RFC_ERR_CANTKILLSERVER :
-		case LIBIRC_RFC_ERR_RESTRICTED :
-		case LIBIRC_RFC_ERR_UNIQOPPRIVSNEEDED :
-		case LIBIRC_RFC_ERR_NOOPERHOST :
-		case LIBIRC_RFC_ERR_UMODEUNKNOWNFLAG :
-		case LIBIRC_RFC_ERR_USERSDONTMATCH :
-			irc_handle_server_error(session, irc_event);
-			break;
+	switch (irc_event) {
+	case LIBIRC_RFC_ERR_NICKNAMEINUSE :
+	case LIBIRC_RFC_ERR_NICKCOLLISION :
+		irc_auto_rename_nick(session);
+		break;
+	case LIBIRC_RFC_RPL_TOPIC :
+		break;
+	case LIBIRC_RFC_RPL_NAMREPLY :
+		if (count >= 4)
+			irc_notify_player_list(session, params[3]);
+		break;
+	case LIBIRC_RFC_ERR_NOSUCHNICK :
+	case LIBIRC_RFC_ERR_NOSUCHCHANNEL :
+	case LIBIRC_RFC_ERR_CANNOTSENDTOCHAN :
+	case LIBIRC_RFC_ERR_TOOMANYCHANNELS :
+	case LIBIRC_RFC_ERR_WASNOSUCHNICK :
+	case LIBIRC_RFC_ERR_TOOMANYTARGETS :
+	case LIBIRC_RFC_ERR_NOSUCHSERVICE :
+	case LIBIRC_RFC_ERR_NOORIGIN :
+	case LIBIRC_RFC_ERR_NORECIPIENT :
+	case LIBIRC_RFC_ERR_NOTEXTTOSEND :
+	case LIBIRC_RFC_ERR_NOTOPLEVEL :
+	case LIBIRC_RFC_ERR_WILDTOPLEVEL :
+	case LIBIRC_RFC_ERR_BADMASK :
+	case LIBIRC_RFC_ERR_UNKNOWNCOMMAND :
+	case LIBIRC_RFC_ERR_NOMOTD :
+	case LIBIRC_RFC_ERR_NOADMININFO :
+	case LIBIRC_RFC_ERR_FILEERROR :
+	case LIBIRC_RFC_ERR_NONICKNAMEGIVEN :
+	case LIBIRC_RFC_ERR_ERRONEUSNICKNAME :
+	case LIBIRC_RFC_ERR_UNAVAILRESOURCE :
+	case LIBIRC_RFC_ERR_USERNOTINCHANNEL :
+	case LIBIRC_RFC_ERR_NOTONCHANNEL :
+	case LIBIRC_RFC_ERR_USERONCHANNEL :
+	case LIBIRC_RFC_ERR_NOLOGIN :
+	case LIBIRC_RFC_ERR_SUMMONDISABLED :
+	case LIBIRC_RFC_ERR_USERSDISABLED :
+	case LIBIRC_RFC_ERR_NOTREGISTERED :
+	case LIBIRC_RFC_ERR_NEEDMOREPARAMS :
+	case LIBIRC_RFC_ERR_ALREADYREGISTRED :
+	case LIBIRC_RFC_ERR_NOPERMFORHOST :
+	case LIBIRC_RFC_ERR_PASSWDMISMATCH :
+	case LIBIRC_RFC_ERR_YOUREBANNEDCREEP :
+	case LIBIRC_RFC_ERR_YOUWILLBEBANNED :
+	case LIBIRC_RFC_ERR_KEYSET :
+	case LIBIRC_RFC_ERR_CHANNELISFULL :
+	case LIBIRC_RFC_ERR_UNKNOWNMODE :
+	case LIBIRC_RFC_ERR_INVITEONLYCHAN :
+	case LIBIRC_RFC_ERR_BANNEDFROMCHAN :
+	case LIBIRC_RFC_ERR_BADCHANNELKEY :
+	case LIBIRC_RFC_ERR_BADCHANMASK :
+	case LIBIRC_RFC_ERR_NOCHANMODES :
+	case LIBIRC_RFC_ERR_BANLISTFULL :
+	case LIBIRC_RFC_ERR_NOPRIVILEGES :
+	case LIBIRC_RFC_ERR_CHANOPRIVSNEEDED :
+	case LIBIRC_RFC_ERR_CANTKILLSERVER :
+	case LIBIRC_RFC_ERR_RESTRICTED :
+	case LIBIRC_RFC_ERR_UNIQOPPRIVSNEEDED :
+	case LIBIRC_RFC_ERR_NOOPERHOST :
+	case LIBIRC_RFC_ERR_UMODEUNKNOWNFLAG :
+	case LIBIRC_RFC_ERR_USERSDONTMATCH :
+		irc_handle_server_error(session, irc_event);
+		break;
 	}
 }
 
 IrcThread::IrcThread(const IrcThread &other)
-: Thread(),
-  m_terminationTimer(boost::posix_time::time_duration(0, 0, 0), boost::timers::portable::microsec_timer::manual_start),
-  m_lastConnectTimer(boost::posix_time::time_duration(0, 0, 0), boost::timers::portable::microsec_timer::manual_start)
+	: Thread(),
+	  m_terminationTimer(boost::posix_time::time_duration(0, 0, 0), boost::timers::portable::microsec_timer::manual_start),
+	  m_lastConnectTimer(boost::posix_time::time_duration(0, 0, 0), boost::timers::portable::microsec_timer::manual_start)
 {
 	m_callback = other.m_callback;
 	m_context.reset(new IrcContext(*this));
@@ -289,9 +276,9 @@ IrcThread::IrcThread(const IrcThread &other)
 }
 
 IrcThread::IrcThread(IrcCallback *callback)
-: m_callback(callback),
-  m_terminationTimer(boost::posix_time::time_duration(0, 0, 0), boost::timers::portable::microsec_timer::manual_start),
-  m_lastConnectTimer(boost::posix_time::time_duration(0, 0, 0), boost::timers::portable::microsec_timer::manual_start)
+	: m_callback(callback),
+	  m_terminationTimer(boost::posix_time::time_duration(0, 0, 0), boost::timers::portable::microsec_timer::manual_start),
+	  m_lastConnectTimer(boost::posix_time::time_duration(0, 0, 0), boost::timers::portable::microsec_timer::manual_start)
 {
 	assert(callback);
 	m_context.reset(new IrcContext(*this));
@@ -324,19 +311,16 @@ void
 IrcThread::SendChatMessage(const std::string &msg)
 {
 	IrcContext &context = GetContext();
-	if (!context.sendingBlocked)
-	{
+	if (!context.sendingBlocked) {
 		irc_cmd_msg(context.session, context.channel.c_str(), msg.c_str());
 		context.sendCounter += msg.size();
 
-		if (context.sendCounter >= IRC_SEND_LIMIT_BYTES)
-		{
+		if (context.sendCounter >= IRC_SEND_LIMIT_BYTES) {
 			context.sendingBlocked = true;
 			context.sendCounter = 0;
 			SendPing();
 		}
-	}
-	else
+	} else
 		context.sendQueue.push(msg);
 }
 
@@ -357,8 +341,7 @@ IrcThread::SignalTermination()
 void
 IrcThread::Main()
 {
-	do
-	{
+	do {
 		if (IrcInit())
 			IrcMain(); // Will loop until terminated.
 	} while (!ShouldTerminate() && GetContext().session && !irc_is_connected(GetContext().session) && m_lastConnectTimer.elapsed().total_seconds() > IRC_MIN_RECONNECT_INTERVAL_SEC);
@@ -370,8 +353,7 @@ IrcThread::IrcInit()
 	bool retVal = false;
 
 	IrcContext &context = GetContext();
-	if (context.session)
-	{
+	if (context.session) {
 		irc_destroy_session(context.session);
 		context.session = NULL;
 	}
@@ -402,8 +384,7 @@ IrcThread::IrcInit()
 
 	context.session = irc_create_session(&callbacks);
 
-	if (context.session)
-	{
+	if (context.session) {
 		irc_set_ctx(context.session, &context);
 		// We want nicknames only, strip them from nick!host.
 		irc_option_set(context.session, LIBIRC_OPTION_STRIPNICKS);
@@ -428,23 +409,18 @@ IrcThread::IrcMain()
 
 	if (!connected)
 		HandleIrcError(irc_errno(s));
-	else
-	{
+	else {
 		// Main loop.
-		while (irc_is_connected(s))
-		{
+		while (irc_is_connected(s)) {
 			// Handle thread termination - gracefully.
-			if (!m_terminationTimer.is_running())
-			{
+			if (!m_terminationTimer.is_running()) {
 				if (ShouldTerminate())
 					m_terminationTimer.start();
-			}
-			else
-			{
+			} else {
 				if (m_terminationTimer.elapsed().total_milliseconds() > IRC_WAIT_TERMINATION_MSEC)
 					break;
 			}
-			
+
 			struct timeval timeout;
 			fd_set readSet, writeSet;
 			int maxfd = 0;
@@ -458,17 +434,14 @@ IrcThread::IrcMain()
 			irc_add_select_descriptors(s, &readSet, &writeSet, &maxfd);
 
 			int selectResult = select(maxfd + 1, &readSet, &writeSet, 0, &timeout);
-			if (selectResult == -1)
-			{
+			if (selectResult == -1) {
 				GetCallback().SignalIrcError(ERR_IRC_SELECT_FAILED);
 				break;
 			}
 
-			if (irc_process_select_descriptors(s, &readSet, &writeSet) != 0)
-			{
+			if (irc_process_select_descriptors(s, &readSet, &writeSet) != 0) {
 				int errorCode = irc_errno(s);
-				if (errorCode)
-				{
+				if (errorCode) {
 					HandleIrcError(errorCode);
 					break;
 				}
@@ -483,8 +456,7 @@ IrcThread::FlushQueue()
 {
 	IrcContext &context = GetContext();
 
-	while (!context.sendingBlocked && !context.sendQueue.empty())
-	{
+	while (!context.sendingBlocked && !context.sendQueue.empty()) {
 		string msg(context.sendQueue.front());
 		context.sendQueue.pop();
 		SendChatMessage(msg);
@@ -495,30 +467,29 @@ void
 IrcThread::HandleIrcError(int errorCode)
 {
 	int internalErrorCode = ERR_IRC_INTERNAL;
-	switch(errorCode)
-	{
-		case LIBIRC_ERR_RESOLV:
-		case LIBIRC_ERR_SOCKET:
-		case LIBIRC_ERR_CONNECT:
-			internalErrorCode = ERR_IRC_CONNECT_FAILED;
-			break;
-		case LIBIRC_ERR_INVAL:
-		case LIBIRC_ERR_STATE:
-			internalErrorCode = ERR_IRC_INVALID_PARAM;
-			break;
-		case LIBIRC_ERR_CLOSED:
-		case LIBIRC_ERR_TERMINATED:
-			internalErrorCode = ERR_IRC_TERMINATED;
-			break;
-		case LIBIRC_ERR_READ:
-			internalErrorCode = ERR_IRC_RECV_FAILED;
-			break;
-		case LIBIRC_ERR_WRITE:
-			internalErrorCode = ERR_IRC_SEND_FAILED;
-			break;
-		case LIBIRC_ERR_TIMEOUT:
-			internalErrorCode = ERR_IRC_TIMEOUT;
-			break;
+	switch(errorCode) {
+	case LIBIRC_ERR_RESOLV:
+	case LIBIRC_ERR_SOCKET:
+	case LIBIRC_ERR_CONNECT:
+		internalErrorCode = ERR_IRC_CONNECT_FAILED;
+		break;
+	case LIBIRC_ERR_INVAL:
+	case LIBIRC_ERR_STATE:
+		internalErrorCode = ERR_IRC_INVALID_PARAM;
+		break;
+	case LIBIRC_ERR_CLOSED:
+	case LIBIRC_ERR_TERMINATED:
+		internalErrorCode = ERR_IRC_TERMINATED;
+		break;
+	case LIBIRC_ERR_READ:
+		internalErrorCode = ERR_IRC_RECV_FAILED;
+		break;
+	case LIBIRC_ERR_WRITE:
+		internalErrorCode = ERR_IRC_SEND_FAILED;
+		break;
+	case LIBIRC_ERR_TIMEOUT:
+		internalErrorCode = ERR_IRC_TIMEOUT;
+		break;
 	}
 	GetCallback().SignalIrcError(internalErrorCode);
 }

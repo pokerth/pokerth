@@ -98,8 +98,7 @@ public:
 
 protected:
 
-	struct RankingData
-	{
+	struct RankingData {
 		RankingData() : dbid(DB_ID_INVALID), place(0) {}
 		RankingData(DB_id i, int p = 0) : dbid(i), place(p) {}
 		DB_id dbid;
@@ -210,14 +209,14 @@ private:
 	boost::asio::deadline_timer m_stateTimer1;
 	boost::asio::deadline_timer m_stateTimer2;
 
-friend class ServerLobbyThread;
-friend class AbstractServerGameStateReceiving;
-friend class ServerGameStateInit;
-friend class ServerGameStateWaitAck;
-friend class ServerGameStateStartGame;
-friend class ServerGameStateHand;
-friend class ServerGameStateWaitPlayerAction;
-friend class ServerGameStateWaitNextHand;
+	friend class ServerLobbyThread;
+	friend class AbstractServerGameStateReceiving;
+	friend class ServerGameStateInit;
+	friend class ServerGameStateWaitAck;
+	friend class ServerGameStateStartGame;
+	friend class ServerGameStateHand;
+	friend class ServerGameStateWaitPlayerAction;
+	friend class ServerGameStateWaitNextHand;
 };
 
 #endif

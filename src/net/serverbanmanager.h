@@ -50,14 +50,12 @@ public:
 
 protected:
 
-	struct TimedPlayerBan
-	{
+	struct TimedPlayerBan {
 		boost::shared_ptr<boost::asio::deadline_timer> timer;
 		std::string nameStr;
 		boost::regex nameRegex;
 	};
-	struct TimedIPBan
-	{
+	struct TimedIPBan {
 		boost::shared_ptr<boost::asio::deadline_timer> timer;
 		std::string ipAddress;
 	};

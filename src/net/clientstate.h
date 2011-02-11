@@ -85,8 +85,8 @@ protected:
 	ClientStateStartResolve();
 
 	void HandleResolve(
-			const boost::system::error_code& ec, boost::asio::ip::tcp::resolver::iterator endpoint_iterator,
-			boost::shared_ptr<ClientThread> client);
+		const boost::system::error_code& ec, boost::asio::ip::tcp::resolver::iterator endpoint_iterator,
+		boost::shared_ptr<ClientThread> client);
 };
 
 // State: Start download of the server list.

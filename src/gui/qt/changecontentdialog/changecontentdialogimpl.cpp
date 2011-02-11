@@ -23,88 +23,89 @@
 #include "configfile.h"
 
 changeContentDialogImpl::changeContentDialogImpl(QWidget *parent, ConfigFile *config, DialogType t)
-    : QDialog(parent), myConfig(config), myType(t)
+	: QDialog(parent), myConfig(config), myType(t)
 {
 #ifdef __APPLE__
-    setWindowModality(Qt::ApplicationModal);
-    setWindowFlags(Qt::WindowSystemMenuHint | Qt::CustomizeWindowHint | Qt::Dialog);
-#endif	
-    setupUi(this);
+	setWindowModality(Qt::ApplicationModal);
+	setWindowFlags(Qt::WindowSystemMenuHint | Qt::CustomizeWindowHint | Qt::Dialog);
+#endif
+	setupUi(this);
 
-    switch (myType) {
-    case CHANGE_HUMAN_PLAYER_NAME: {
+	switch (myType) {
+	case CHANGE_HUMAN_PLAYER_NAME: {
 
-            label_Message->setText(tr("You cannot join Internet-Game-Lobby with \"Human Player\" as nickname.\nPlease choose another one."));
-            label_lineLabel->setText(tr("Nick name:"));
-            lineEdit->setText(QString::fromUtf8(myConfig->readConfigString("MyName").c_str()));
-            lineEdit->setMaxLength(12);
-            checkBox->hide();
-            this->setGeometry(this->x(), this->y(), this->width(), this->height()-20 );
-        }
-        break;
-    case CHANGE_NICK_ALREADY_IN_USE: {
-            label_Message->setText(tr("Your player name is already used by another player.\nPlease choose a different name."));
-            label_lineLabel->setText(tr("Nick name:"));
-            lineEdit->setText(QString::fromUtf8(myConfig->readConfigString("MyName").c_str()));
-            lineEdit->setMaxLength(12);
-        }
-        break;
-    case CHANGE_NICK_INVALID: {
-            label_Message->setText(tr("The player name is too short, too long or invalid. Please choose another one."));
-            label_lineLabel->setText(tr("Nick name:"));
-            lineEdit->setText(QString::fromUtf8(myConfig->readConfigString("MyName").c_str()));
-            lineEdit->setMaxLength(12);
-        }
-        break;
-    case CHANGE_INET_GAME_NAME_IN_USE: {
-            label_Message->setText(tr("There is already a game with your chosen game name.\nPlease choose another one!"));
-            label_lineLabel->setText(tr("Game name:"));
-            lineEdit->setText(QString::fromUtf8(myConfig->readConfigString("InternetGameName").c_str()));
-            lineEdit->setMaxLength(48);
-        }
-        break;
-    case CHANGE_INET_BAD_GAME_NAME: {
-            label_Message->setText(tr("There is a forbidden word in your chosen game name.\nPlease choose another one!"));
-            label_lineLabel->setText(tr("Game name:"));
-            lineEdit->setText(QString::fromUtf8(myConfig->readConfigString("InternetGameName").c_str()));
-            lineEdit->setMaxLength(48);
-        }
-        break;
-    }
+		label_Message->setText(tr("You cannot join Internet-Game-Lobby with \"Human Player\" as nickname.\nPlease choose another one."));
+		label_lineLabel->setText(tr("Nick name:"));
+		lineEdit->setText(QString::fromUtf8(myConfig->readConfigString("MyName").c_str()));
+		lineEdit->setMaxLength(12);
+		checkBox->hide();
+		this->setGeometry(this->x(), this->y(), this->width(), this->height()-20 );
+	}
+	break;
+	case CHANGE_NICK_ALREADY_IN_USE: {
+		label_Message->setText(tr("Your player name is already used by another player.\nPlease choose a different name."));
+		label_lineLabel->setText(tr("Nick name:"));
+		lineEdit->setText(QString::fromUtf8(myConfig->readConfigString("MyName").c_str()));
+		lineEdit->setMaxLength(12);
+	}
+	break;
+	case CHANGE_NICK_INVALID: {
+		label_Message->setText(tr("The player name is too short, too long or invalid. Please choose another one."));
+		label_lineLabel->setText(tr("Nick name:"));
+		lineEdit->setText(QString::fromUtf8(myConfig->readConfigString("MyName").c_str()));
+		lineEdit->setMaxLength(12);
+	}
+	break;
+	case CHANGE_INET_GAME_NAME_IN_USE: {
+		label_Message->setText(tr("There is already a game with your chosen game name.\nPlease choose another one!"));
+		label_lineLabel->setText(tr("Game name:"));
+		lineEdit->setText(QString::fromUtf8(myConfig->readConfigString("InternetGameName").c_str()));
+		lineEdit->setMaxLength(48);
+	}
+	break;
+	case CHANGE_INET_BAD_GAME_NAME: {
+		label_Message->setText(tr("There is a forbidden word in your chosen game name.\nPlease choose another one!"));
+		label_lineLabel->setText(tr("Game name:"));
+		lineEdit->setText(QString::fromUtf8(myConfig->readConfigString("InternetGameName").c_str()));
+		lineEdit->setMaxLength(48);
+	}
+	break;
+	}
 
-    connect(this, SIGNAL(accepted ()), this, SLOT(saveContent()));
+	connect(this, SIGNAL(accepted ()), this, SLOT(saveContent()));
 
 }
 
-void changeContentDialogImpl::saveContent() {
+void changeContentDialogImpl::saveContent()
+{
 
-    switch (myType) {
-    case CHANGE_HUMAN_PLAYER_NAME: {
-            myConfig->writeConfigString("MyName", lineEdit->text().toUtf8().constData());
-        }        
-        break;
-    case CHANGE_NICK_ALREADY_IN_USE: {
-            if(checkBox->isChecked())               {
-                myConfig->writeConfigString("MyName", lineEdit->text().toUtf8().constData());
-            }
-        }
-        break;
-    case CHANGE_NICK_INVALID: {
-            if(checkBox->isChecked()) {
-                myConfig->writeConfigString("MyName", lineEdit->text().toUtf8().constData());
-            }
-        }
-        break;
-    case CHANGE_INET_BAD_GAME_NAME:
-    case CHANGE_INET_GAME_NAME_IN_USE: {
-            if(checkBox->isChecked()) {
-                myConfig->writeConfigString("InternetGameName", lineEdit->text().toUtf8().constData());
-            }
-        }
-        break;
-    }
+	switch (myType) {
+	case CHANGE_HUMAN_PLAYER_NAME: {
+		myConfig->writeConfigString("MyName", lineEdit->text().toUtf8().constData());
+	}
+	break;
+	case CHANGE_NICK_ALREADY_IN_USE: {
+		if(checkBox->isChecked())               {
+			myConfig->writeConfigString("MyName", lineEdit->text().toUtf8().constData());
+		}
+	}
+	break;
+	case CHANGE_NICK_INVALID: {
+		if(checkBox->isChecked()) {
+			myConfig->writeConfigString("MyName", lineEdit->text().toUtf8().constData());
+		}
+	}
+	break;
+	case CHANGE_INET_BAD_GAME_NAME:
+	case CHANGE_INET_GAME_NAME_IN_USE: {
+		if(checkBox->isChecked()) {
+			myConfig->writeConfigString("InternetGameName", lineEdit->text().toUtf8().constData());
+		}
+	}
+	break;
+	}
 
-    //write buffer to disc
-    myConfig->writeBuffer();
+	//write buffer to disc
+	myConfig->writeBuffer();
 }
 

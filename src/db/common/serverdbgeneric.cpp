@@ -24,7 +24,7 @@ using namespace std;
 
 
 ServerDBGeneric::ServerDBGeneric(ServerDBCallback &cb, boost::shared_ptr<boost::asio::io_service> ioService)
-: m_ioService(ioService), m_callback(cb)
+	: m_ioService(ioService), m_callback(cb)
 {
 }
 
@@ -87,7 +87,7 @@ ServerDBGeneric::EndGame(DB_id /*gameId*/)
 }
 
 void
-		ServerDBGeneric::AsyncReportAvatar(unsigned requestId, unsigned replyId, DB_id /*reportedPlayerId*/, const std::string &/*avatarHash*/, const std::string &/*avatarType*/, DB_id */*byPlayerId*/)
+ServerDBGeneric::AsyncReportAvatar(unsigned requestId, unsigned replyId, DB_id /*reportedPlayerId*/, const std::string &/*avatarHash*/, const std::string &/*avatarType*/, DB_id */*byPlayerId*/)
 {
 	m_ioService->post(boost::bind(&ServerDBCallback::ReportAvatarFailed, &m_callback, requestId, replyId));
 }

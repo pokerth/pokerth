@@ -31,57 +31,120 @@
 
 class Log;
 
-class LocalHand : public HandInterface{
+class LocalHand : public HandInterface
+{
 public:
 	LocalHand(boost::shared_ptr<EngineFactory> f, GuiInterface*, boost::shared_ptr<BoardInterface>, Log*, PlayerList, PlayerList, PlayerList, int, int, unsigned, int, int);
 	~LocalHand();
 
 	void start();
 
-	PlayerList getSeatsList() const {return seatsList;}
-	PlayerList getActivePlayerList() const {return activePlayerList;}
-	PlayerList getRunningPlayerList() const {return runningPlayerList;}
+	PlayerList getSeatsList() const {
+		return seatsList;
+	}
+	PlayerList getActivePlayerList() const {
+		return activePlayerList;
+	}
+	PlayerList getRunningPlayerList() const {
+		return runningPlayerList;
+	}
 
-	boost::shared_ptr<BoardInterface> getBoard() const { return myBoard; }
-	boost::shared_ptr<BeRoInterface> getPreflop() const { return myBeRo[GAME_STATE_PREFLOP]; }
-	boost::shared_ptr<BeRoInterface> getFlop() const { return myBeRo[GAME_STATE_FLOP]; }
-	boost::shared_ptr<BeRoInterface> getTurn() const { return myBeRo[GAME_STATE_TURN]; }
-	boost::shared_ptr<BeRoInterface> getRiver() const { return myBeRo[GAME_STATE_RIVER]; }
-	GuiInterface* getGuiInterface() const { return myGui; }
-	boost::shared_ptr<BeRoInterface> getCurrentBeRo() const { return myBeRo[currentRound]; }
+	boost::shared_ptr<BoardInterface> getBoard() const {
+		return myBoard;
+	}
+	boost::shared_ptr<BeRoInterface> getPreflop() const {
+		return myBeRo[GAME_STATE_PREFLOP];
+	}
+	boost::shared_ptr<BeRoInterface> getFlop() const {
+		return myBeRo[GAME_STATE_FLOP];
+	}
+	boost::shared_ptr<BeRoInterface> getTurn() const {
+		return myBeRo[GAME_STATE_TURN];
+	}
+	boost::shared_ptr<BeRoInterface> getRiver() const {
+		return myBeRo[GAME_STATE_RIVER];
+	}
+	GuiInterface* getGuiInterface() const {
+		return myGui;
+	}
+	boost::shared_ptr<BeRoInterface> getCurrentBeRo() const {
+		return myBeRo[currentRound];
+	}
 
-	void setMyID(int theValue) { myID = theValue; }
-	int getMyID() const { return myID; }
+	void setMyID(int theValue) {
+		myID = theValue;
+	}
+	int getMyID() const {
+		return myID;
+	}
 
-	void setStartQuantityPlayers(int theValue) { startQuantityPlayers = theValue; }
-	int getStartQuantityPlayers() const { return startQuantityPlayers; }
+	void setStartQuantityPlayers(int theValue) {
+		startQuantityPlayers = theValue;
+	}
+	int getStartQuantityPlayers() const {
+		return startQuantityPlayers;
+	}
 
-	void setCurrentRound(int theValue) { currentRound = theValue; }
-	int getCurrentRound() const { return currentRound; }
+	void setCurrentRound(int theValue) {
+		currentRound = theValue;
+	}
+	int getCurrentRound() const {
+		return currentRound;
+	}
 
-	void setDealerPosition(int theValue) { dealerPosition = theValue; }
-	int getDealerPosition() const { return dealerPosition; }
+	void setDealerPosition(int theValue) {
+		dealerPosition = theValue;
+	}
+	int getDealerPosition() const {
+		return dealerPosition;
+	}
 
-	void setSmallBlind(int theValue) { smallBlind = theValue; }
-	int getSmallBlind() const { return smallBlind; }
+	void setSmallBlind(int theValue) {
+		smallBlind = theValue;
+	}
+	int getSmallBlind() const {
+		return smallBlind;
+	}
 
-	void setAllInCondition(bool theValue) { allInCondition = theValue; }
-	bool getAllInCondition() const { return allInCondition; }
+	void setAllInCondition(bool theValue) {
+		allInCondition = theValue;
+	}
+	bool getAllInCondition() const {
+		return allInCondition;
+	}
 
-	void setStartCash(int theValue)	{ startCash = theValue; }
-	int getStartCash() const { return startCash;	}
-	
-	void setBettingRoundsPlayed(int theValue) { bettingRoundsPlayed = theValue; }
-	int getBettingRoundsPlayed() const { return bettingRoundsPlayed; }
+	void setStartCash(int theValue)	{
+		startCash = theValue;
+	}
+	int getStartCash() const {
+		return startCash;
+	}
 
-	void setLastPlayersTurn(int theValue) { lastPlayersTurn = theValue; }
-	int getLastPlayersTurn() const { return lastPlayersTurn; }
+	void setBettingRoundsPlayed(int theValue) {
+		bettingRoundsPlayed = theValue;
+	}
+	int getBettingRoundsPlayed() const {
+		return bettingRoundsPlayed;
+	}
+
+	void setLastPlayersTurn(int theValue) {
+		lastPlayersTurn = theValue;
+	}
+	int getLastPlayersTurn() const {
+		return lastPlayersTurn;
+	}
 
 	void setLastActionPlayer ( unsigned theValue );
-	unsigned getLastActionPlayer() const { return lastActionPlayer; }
+	unsigned getLastActionPlayer() const {
+		return lastActionPlayer;
+	}
 
-	void setCardsShown(bool theValue) { cardsShown = theValue; }
-	bool getCardsShown() const { return cardsShown; }
+	void setCardsShown(bool theValue) {
+		cardsShown = theValue;
+	}
+	bool getCardsShown() const {
+		return cardsShown;
+	}
 
 	void assignButtons();
 
@@ -97,25 +160,25 @@ private:
 	boost::shared_ptr<EngineFactory> myFactory;
 	GuiInterface *myGui;
 	boost::shared_ptr<BoardInterface> myBoard;
-    Log *myLog;
+	Log *myLog;
 
-    PlayerList seatsList; // all player
-    PlayerList activePlayerList; // all player who are not out
-    PlayerList runningPlayerList; // all player who are not folded, not all in and not out
+	PlayerList seatsList; // all player
+	PlayerList activePlayerList; // all player who are not out
+	PlayerList runningPlayerList; // all player who are not folded, not all in and not out
 
 	std::vector<boost::shared_ptr<BeRoInterface> > myBeRo;
 
 	int myID;
 	int startQuantityPlayers;
 	unsigned dealerPosition;
-    unsigned smallBlindPosition;
-    unsigned bigBlindPosition;
+	unsigned smallBlindPosition;
+	unsigned bigBlindPosition;
 	int currentRound; //0 = preflop, 1 = flop, 2 = turn, 3 = river
 	int smallBlind;
 	int startCash;
 
 	int lastPlayersTurn;
-        unsigned lastActionPlayer;
+	unsigned lastActionPlayer;
 
 	bool allInCondition;
 	bool cardsShown;

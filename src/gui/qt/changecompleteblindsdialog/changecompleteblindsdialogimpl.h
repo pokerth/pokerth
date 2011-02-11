@@ -27,24 +27,27 @@
 
 class ConfigFile;
 
-class changeCompleteBlindsDialogImpl: public QDialog, public Ui::changeCompleteBlindsDialog {
-Q_OBJECT
+class changeCompleteBlindsDialogImpl: public QDialog, public Ui::changeCompleteBlindsDialog
+{
+	Q_OBJECT
 public:
-    changeCompleteBlindsDialogImpl(QWidget *parent = 0, ConfigFile *c = 0);
-	
+	changeCompleteBlindsDialogImpl(QWidget *parent = 0, ConfigFile *c = 0);
+
 	void exec();
 
-	
+
 public slots:
-	bool getSettingsCorrect() const	{ return settingsCorrect;}
-	
+	bool getSettingsCorrect() const	{
+		return settingsCorrect;
+	}
+
 	void updateSpinBoxInputMinimum(int);
 	void addBlindValueToList();
 	void removeBlindFromList();
 	void sortBlindsList();
 
 private:
-	
+
 	ConfigFile* myConfig;
 
 	bool settingsCorrect;

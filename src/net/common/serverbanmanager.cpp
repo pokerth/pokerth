@@ -23,7 +23,7 @@ using namespace std;
 
 
 ServerBanManager::ServerBanManager(boost::shared_ptr<boost::asio::io_service> ioService)
-: m_ioService(ioService), m_curBanId(0)
+	: m_ioService(ioService), m_curBanId(0)
 {
 }
 
@@ -73,18 +73,14 @@ ServerBanManager::UnBan(unsigned banId)
 	bool retVal = false;
 	boost::mutex::scoped_lock lock(m_banMutex);
 	RegexMap::iterator posNick = m_banPlayerNameMap.find(banId);
-	if (posNick != m_banPlayerNameMap.end())
-	{
+	if (posNick != m_banPlayerNameMap.end()) {
 		if (posNick->second.timer)
 			posNick->second.timer->cancel();
 		m_banPlayerNameMap.erase(posNick);
 		retVal = true;
-	}
-	else
-	{
+	} else {
 		IPAddressMap::iterator posIP = m_banIPAddressMap.find(banId);
-		if (posIP != m_banIPAddressMap.end())
-		{
+		if (posIP != m_banIPAddressMap.end()) {
 			if (posIP->second.timer)
 				posIP->second.timer->cancel();
 			m_banIPAddressMap.erase(posIP);
@@ -100,8 +96,7 @@ ServerBanManager::GetBanList(list<string> &list) const
 	boost::mutex::scoped_lock lock(m_banMutex);
 	RegexMap::const_iterator i_nick = m_banPlayerNameMap.begin();
 	RegexMap::const_iterator end_nick = m_banPlayerNameMap.end();
-	while (i_nick != end_nick)
-	{
+	while (i_nick != end_nick) {
 		ostringstream banText;
 		if ((*i_nick).second.nameStr.empty())
 			banText << (*i_nick).first << ": (nickRegex) - " << (*i_nick).second.nameRegex.str();
@@ -115,8 +110,7 @@ ServerBanManager::GetBanList(list<string> &list) const
 	}
 	IPAddressMap::const_iterator i_ip = m_banIPAddressMap.begin();
 	IPAddressMap::const_iterator end_ip = m_banIPAddressMap.end();
-	while (i_ip != end_ip)
-	{
+	while (i_ip != end_ip) {
 		ostringstream banText;
 		banText << (*i_ip).first << ": (IP) - " << (*i_ip).second.ipAddress;
 		if ((*i_ip).second.timer)
@@ -141,21 +135,15 @@ ServerBanManager::IsPlayerBanned(const std::string &name) const
 	boost::mutex::scoped_lock lock(m_banMutex);
 	RegexMap::const_iterator i = m_banPlayerNameMap.begin();
 	RegexMap::const_iterator end = m_banPlayerNameMap.end();
-	while (i != end)
-	{
+	while (i != end) {
 		// Use regex only if name not set.
-		if ((*i).second.nameStr.empty())
-		{
-			if (regex_match(name, (*i).second.nameRegex))
-			{
+		if ((*i).second.nameStr.empty()) {
+			if (regex_match(name, (*i).second.nameRegex)) {
 				retVal = true;
 				break;
 			}
-		}
-		else
-		{
-			if (name == (*i).second.nameStr)
-			{
+		} else {
+			if (name == (*i).second.nameStr) {
 				retVal = true;
 				break;
 			}
@@ -173,10 +161,8 @@ ServerBanManager::IsIPAddressBanned(const std::string &ipAddress) const
 	boost::mutex::scoped_lock lock(m_banMutex);
 	IPAddressMap::const_iterator i = m_banIPAddressMap.begin();
 	IPAddressMap::const_iterator end = m_banIPAddressMap.end();
-	while (i != end)
-	{
-		if (ipAddress == (*i).second.ipAddress)
-		{
+	while (i != end) {
+		if (ipAddress == (*i).second.ipAddress) {
 			retVal = true;
 			break;
 		}
@@ -191,8 +177,7 @@ ServerBanManager::InitGameNameBadWordList(const std::list<string> &badWordList)
 {
 	list<string>::const_iterator i = badWordList.begin();
 	list<string>::const_iterator end = badWordList.end();
-	while (i != end)
-	{
+	while (i != end) {
 		m_gameNameBadWordFilter.push_back(boost::regex(*i, boost::regex::extended | boost::regex::icase));
 		++i;
 	}
@@ -204,10 +189,8 @@ ServerBanManager::IsBadGameName(const std::string &name) const
 	bool retVal = false;
 	RegexList::const_iterator i = m_gameNameBadWordFilter.begin();
 	RegexList::const_iterator end = m_gameNameBadWordFilter.end();
-	while (i != end)
-	{
-		if (regex_match(name, *i))
-		{
+	while (i != end) {
+		if (regex_match(name, *i)) {
 			retVal = true;
 			break;
 		}
@@ -220,8 +203,7 @@ boost::shared_ptr<boost::asio::deadline_timer>
 ServerBanManager::InternalRegisterTimedBan(unsigned timerId, unsigned durationHours)
 {
 	boost::shared_ptr<boost::asio::deadline_timer> tmpTimer;
-	if (durationHours)
-	{
+	if (durationHours) {
 		tmpTimer.reset(new boost::asio::deadline_timer(*m_ioService));
 		tmpTimer->expires_from_now(
 			boost::posix_time::hours(durationHours));

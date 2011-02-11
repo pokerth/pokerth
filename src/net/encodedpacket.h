@@ -28,13 +28,11 @@ public:
 	EncodedPacket(const unsigned char *data, unsigned size);
 	~EncodedPacket();
 
-	unsigned GetSize() const
-	{
+	unsigned GetSize() const {
 		return m_size;
 	}
 
-	const unsigned char *GetData() const
-	{
+	const unsigned char *GetData() const {
 		return m_data;
 	}
 

@@ -42,21 +42,19 @@ public:
 	bool GetDownloadResult(unsigned &downloadId, std::vector<unsigned char> &filedata);
 
 protected:
-	struct DownloadData
-	{
+	struct DownloadData {
 		DownloadData() : id(0) {}
 		DownloadData(unsigned i, const std::string &a, const std::string &f)
-		: id(i), address(a), filename(f) {}
+			: id(i), address(a), filename(f) {}
 
 		unsigned id;
 		std::string address;
 		std::string filename;
 	};
-	struct ResultData
-	{
+	struct ResultData {
 		ResultData() : id(0) {}
 		ResultData(unsigned i, const std::vector<unsigned char> &d)
-		: id(i), data(d) {}
+			: id(i), data(d) {}
 
 		unsigned id;
 		std::vector<unsigned char> data;

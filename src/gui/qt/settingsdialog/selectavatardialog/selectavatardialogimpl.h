@@ -28,30 +28,33 @@
 class ConfigFile;
 class selectAvatarDialogImpl;
 
-class selectAvatarDialogImpl: public QDialog, public Ui::selectAvatarDialog {
-Q_OBJECT
+class selectAvatarDialogImpl: public QDialog, public Ui::selectAvatarDialog
+{
+	Q_OBJECT
 public:
-    selectAvatarDialogImpl(QWidget *parent = 0, ConfigFile *c = 0);
-	
+	selectAvatarDialogImpl(QWidget *parent = 0, ConfigFile *c = 0);
+
 	void exec();
 
-	
+
 public slots:
 	void toggleGroupBox1(bool);
 	void toggleGroupBox2(bool);
 	void isAccepted();
 	void isRejected();
-	
+
 	QString getAvatarLink();
 	void setExternalAvatar();
 
-	bool getSettingsCorrect() const	{ return settingsCorrect;}
+	bool getSettingsCorrect() const	{
+		return settingsCorrect;
+	}
 
 	void refreshAvatarView();
-	
+
 
 private:
-	
+
 	ConfigFile* myConfig;
 
 	bool settingsCorrect;

@@ -27,7 +27,7 @@
 #include <QtCore>
 
 #ifdef __APPLE__
-	#include <QMacStyle>
+#include <QMacStyle>
 #endif
 
 #include <curl/curl.h>
@@ -41,21 +41,21 @@
 #include <third_party/qtsingleapplication/qtsingleapplication.h>
 
 #ifdef _MSC_VER
-	#ifdef _DEBUG
-		#define _CRTDBG_MAP_ALLOC
-		#include <crtdbg.h>
+#ifdef _DEBUG
+#define _CRTDBG_MAP_ALLOC
+#include <crtdbg.h>
 
-		#define ENABLE_LEAK_CHECK() \
+#define ENABLE_LEAK_CHECK() \
 			{ \
 				int tmpFlag = _CrtSetDbgFlag(_CRTDBG_REPORT_FLAG); \
 				tmpFlag |= _CRTDBG_LEAK_CHECK_DF; \
 				_CrtSetDbgFlag(tmpFlag); \
 			}
-	#endif
+#endif
 #endif
 
 #ifndef ENABLE_LEAK_CHECK
-	#define ENABLE_LEAK_CHECK()
+#define ENABLE_LEAK_CHECK()
 #endif
 
 using namespace std;
@@ -65,7 +65,7 @@ class Game;
 
 int main( int argc, char **argv )
 {
-	
+
 	//ENABLE_LEAK_CHECK();
 
 	//_CrtSetBreakAlloc(49937);
@@ -91,26 +91,26 @@ int main( int argc, char **argv )
 	ConfigFile *myConfig = new ConfigFile(argv[0], false);
 
 	// set PlastiqueStyle even for mac-version to prevent artefacts on styled widgets
-        a.setStyle(new QPlastiqueStyle);
+	a.setStyle(new QPlastiqueStyle);
 
 	QString	myAppDataPath = QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str());
-	//set QApplication default font	
+	//set QApplication default font
 
 	QFontDatabase::addApplicationFont (myAppDataPath +"fonts/n019003l.pfb");
-	QFontDatabase::addApplicationFont (myAppDataPath +"fonts/VeraBd.ttf");	
+	QFontDatabase::addApplicationFont (myAppDataPath +"fonts/VeraBd.ttf");
 	QFontDatabase::addApplicationFont (myAppDataPath +"fonts/c059013l.pfb");
 
 #ifdef _WIN32
-        QString font1String("QApplication, QWidget, QDialog { font-size: 12px; }");
+	QString font1String("QApplication, QWidget, QDialog { font-size: 12px; }");
 #else
-        #ifdef __APPLE__
+#ifdef __APPLE__
 //            QString font1String("font-family: \"Lucida Grande\";");
-            QString font1String("QApplication, QWidget, QDialog { font-size: 11px; }");
-        #else
-            QString font1String("QApplication, QWidget, QDialog { font-family: \"Nimbus Sans L\"; font-size: 12px; }");
-        #endif
+	QString font1String("QApplication, QWidget, QDialog { font-size: 11px; }");
+#else
+	QString font1String("QApplication, QWidget, QDialog { font-family: \"Nimbus Sans L\"; font-size: 12px; }");
 #endif
-        a.setStyleSheet(font1String + " QDialogButtonBox, QMessageBox { dialogbuttonbox-buttons-have-icons: 1; dialog-ok-icon: url(:/gfx/dialog_ok_apply.png); dialog-cancel-icon: url(:/gfx/dialog_close.png); dialog-close-icon: url(:/gfx/dialog_close.png); dialog-yes-icon: url(:/gfx/dialog_ok_apply.png); dialog-no-icon: url(:/gfx/dialog_close.png) }");
+#endif
+	a.setStyleSheet(font1String + " QDialogButtonBox, QMessageBox { dialogbuttonbox-buttons-have-icons: 1; dialog-ok-icon: url(:/gfx/dialog_ok_apply.png); dialog-cancel-icon: url(:/gfx/dialog_close.png); dialog-close-icon: url(:/gfx/dialog_close.png); dialog-yes-icon: url(:/gfx/dialog_ok_apply.png); dialog-no-icon: url(:/gfx/dialog_close.png) }");
 
 	QPixmap *pixmap = new QPixmap(myAppDataPath + "gfx/gui/misc/welcomepokerth.png");
 	StartSplash splash(*pixmap);
@@ -118,11 +118,11 @@ int main( int argc, char **argv )
 		splash.show();
 		splash.showMessage(QString("Version %1").arg(POKERTH_BETA_RELEASE_STRING), 0x0042, QColor(153,213,0));
 	}
-	
+
 	//Set translations
 	QTranslator qtTranslator;
-        qtTranslator.load(QString(myAppDataPath +"translations/qt_") + QString::fromStdString(myConfig->readConfigString("Language")));
-        a.installTranslator(&qtTranslator);
+	qtTranslator.load(QString(myAppDataPath +"translations/qt_") + QString::fromStdString(myConfig->readConfigString("Language")));
+	a.installTranslator(&qtTranslator);
 
 	QTranslator translator;
 	translator.load(QString(myAppDataPath +"translations/pokerth_") + QString::fromStdString(myConfig->readConfigString("Language")));
@@ -132,17 +132,17 @@ int main( int argc, char **argv )
 	qRegisterMetaType<boost::shared_ptr<Game> >("boost::shared_ptr<Game>");
 	qRegisterMetaType<ServerStats>("ServerStats");
 	qRegisterMetaType<DenyGameInvitationReason>("DenyGameInvitationReason");
-	///////////////////////////////////////////////////	
+	///////////////////////////////////////////////////
 
 	startWindowImpl mainWin(myConfig);
 	a.setActivationWindow(&mainWin, true);
 
 	int retVal = a.exec();
-	
+
 	curl_global_cleanup();
 	socket_cleanup();
-        
-        
+
+
 	return retVal;
-	
+
 }

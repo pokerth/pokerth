@@ -112,8 +112,7 @@ protected:
 	typedef std::map<unsigned, PlayerInfo> PlayerInfoMap;
 	typedef std::map<unsigned, boost::shared_ptr<AvatarFile> > AvatarFileMap;
 	typedef std::map<unsigned, ServerInfo> ServerInfoMap;
-	struct LoginData
-	{
+	struct LoginData {
 		LoginData() : isGuest(false) {}
 		std::string userName;
 		std::string password;
@@ -276,30 +275,30 @@ private:
 	boost::asio::deadline_timer m_stateTimer;
 	boost::asio::deadline_timer m_avatarTimer;
 
-friend class AbstractClientStateReceiving;
-friend class ClientStateInit;
-friend class ClientStateStartResolve;
-friend class ClientStateResolving;
-friend class ClientStateStartServerListDownload;
-friend class ClientStateSynchronizingServerList;
-friend class ClientStateDownloadingServerList;
-friend class ClientStateReadingServerList;
-friend class ClientStateWaitChooseServer;
-friend class ClientStateStartConnect;
-friend class ClientStateConnecting;
-friend class ClientStateStartSession;
-friend class ClientStateWaitEnterLogin;
-friend class ClientStateWaitAuthChallenge;
-friend class ClientStateWaitAuthVerify;
-friend class ClientStateWaitSession;
-friend class ClientStateWaitJoin;
-friend class ClientStateWaitGame;
-friend class ClientStateSynchronizeStart;
-friend class ClientStateWaitStart;
-friend class ClientStateWaitHand;
-friend class ClientStateRunHand;
-friend class ClientStateFinal;
-friend class ClientSenderCallback;
+	friend class AbstractClientStateReceiving;
+	friend class ClientStateInit;
+	friend class ClientStateStartResolve;
+	friend class ClientStateResolving;
+	friend class ClientStateStartServerListDownload;
+	friend class ClientStateSynchronizingServerList;
+	friend class ClientStateDownloadingServerList;
+	friend class ClientStateReadingServerList;
+	friend class ClientStateWaitChooseServer;
+	friend class ClientStateStartConnect;
+	friend class ClientStateConnecting;
+	friend class ClientStateStartSession;
+	friend class ClientStateWaitEnterLogin;
+	friend class ClientStateWaitAuthChallenge;
+	friend class ClientStateWaitAuthVerify;
+	friend class ClientStateWaitSession;
+	friend class ClientStateWaitJoin;
+	friend class ClientStateWaitGame;
+	friend class ClientStateSynchronizeStart;
+	friend class ClientStateWaitStart;
+	friend class ClientStateWaitHand;
+	friend class ClientStateRunHand;
+	friend class ClientStateFinal;
+	friend class ClientSenderCallback;
 };
 
 #endif

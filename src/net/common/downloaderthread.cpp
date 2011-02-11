@@ -33,7 +33,7 @@ using namespace boost::filesystem;
 
 
 DownloaderThread::DownloaderThread()
-: m_downloadInProgress(false)
+	: m_downloadInProgress(false)
 {
 	m_downloadHelper.reset(new DownloadHelper());
 }
@@ -61,8 +61,7 @@ DownloaderThread::GetDownloadResult(unsigned &downloadId, std::vector<unsigned c
 {
 	bool result = false;
 	boost::mutex::scoped_lock lock(m_downloadDoneQueueMutex);
-	if (!m_downloadDoneQueue.empty())
-	{
+	if (!m_downloadDoneQueue.empty()) {
 		const ResultData &d = m_downloadDoneQueue.front();
 		downloadId = d.id;
 		filedata = d.data;
@@ -75,20 +74,15 @@ DownloaderThread::GetDownloadResult(unsigned &downloadId, std::vector<unsigned c
 void
 DownloaderThread::Main()
 {
-	while (!ShouldTerminate())
-	{
-		try
-		{
-			if (m_downloadInProgress)
-			{
+	while (!ShouldTerminate()) {
+		try {
+			if (m_downloadInProgress) {
 				m_downloadInProgress = !m_downloadHelper->Process();
 			}
 
-			if (!m_downloadInProgress)
-			{
+			if (!m_downloadInProgress) {
 				// Previous download was finished.
-				if (m_curDownloadData)
-				{
+				if (m_curDownloadData) {
 					path filepath(m_curDownloadData->filename);
 					ifstream instream(filepath.file_string().c_str(), ios_base::in | ios_base::binary);
 					// Find out file size.
@@ -119,22 +113,18 @@ DownloaderThread::Main()
 				// Start next download.
 				{
 					boost::mutex::scoped_lock lock(m_downloadQueueMutex);
-					if (!m_downloadQueue.empty())
-					{
+					if (!m_downloadQueue.empty()) {
 						m_curDownloadData.reset(new DownloadData(m_downloadQueue.front()));
 						m_downloadQueue.pop();
 					}
 				}
-				if (m_curDownloadData && !m_curDownloadData->filename.empty())
-				{
+				if (m_curDownloadData && !m_curDownloadData->filename.empty()) {
 					path filepath(m_curDownloadData->filename);
 					m_downloadHelper->Init(m_curDownloadData->address, filepath.file_string());
 					m_downloadInProgress = true;
 				}
 			}
-		}
-		catch (const NetException &e)
-		{
+		} catch (const NetException &e) {
 			LOG_ERROR("Download failed: " << e.what());
 			m_downloadInProgress = false;
 			m_curDownloadData.reset();

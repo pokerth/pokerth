@@ -28,18 +28,19 @@ enum DialogType { CHANGE_HUMAN_PLAYER_NAME=0, CHANGE_NICK_ALREADY_IN_USE, CHANGE
 
 class ConfigFile;
 
-class changeContentDialogImpl: public QDialog, public Ui::changeContentDialog {
-    Q_OBJECT
+class changeContentDialogImpl: public QDialog, public Ui::changeContentDialog
+{
+	Q_OBJECT
 public:
-    changeContentDialogImpl(QWidget *parent, ConfigFile *config, DialogType t);
+	changeContentDialogImpl(QWidget *parent, ConfigFile *config, DialogType t);
 
 public slots:
 
-    void saveContent();
+	void saveContent();
 
-private: 
-    ConfigFile *myConfig;
-    DialogType myType;
+private:
+	ConfigFile *myConfig;
+	DialogType myType;
 
 };
 

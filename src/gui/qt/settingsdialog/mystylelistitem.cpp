@@ -1,7 +1,7 @@
 //
 // C++ Implementation: mycardspixmaplabel
 //
-// Description: 
+// Description:
 //
 //
 // Author: FThauer FHammer <f.thauer@web.de>, (C) 2007
@@ -12,16 +12,16 @@
 #include "mystylelistitem.h"
 
 MyStyleListItem::MyStyleListItem(QStringList s, QTreeWidget *w)
- : QTreeWidgetItem(w, s, QTreeWidgetItem::UserType)
+	: QTreeWidgetItem(w, s, QTreeWidgetItem::UserType)
 {
 }
 
-MyStyleListItem::~MyStyleListItem() 
+MyStyleListItem::~MyStyleListItem()
 {
 }
 
 bool MyStyleListItem::operator<( const QTreeWidgetItem &other ) const
 {
-        return text(0).toLower() < other.text(0).toLower();
+	return text(0).toLower() < other.text(0).toLower();
 }
 

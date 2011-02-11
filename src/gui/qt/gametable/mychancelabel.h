@@ -1,7 +1,7 @@
 //
 // C++ Interface: mycardspixmaplabel
 //
-// Description: 
+// Description:
 //
 //
 // Author: FThauer FHammer <f.thauer@web.de>, (C) 2007
@@ -22,19 +22,23 @@ class GameTableStyleReader;
 
 class MyChanceLabel : public QLabel
 {
-Q_OBJECT
+	Q_OBJECT
 public:
-    MyChanceLabel(QWidget*);
+	MyChanceLabel(QWidget*);
 
-    ~MyChanceLabel();
-	
-	void setMyW ( gameTableImpl* theValue ) { myW = theValue; }
-	void setMyStyle ( GameTableStyleReader* theValue ) { myStyle = theValue; }
+	~MyChanceLabel();
+
+	void setMyW ( gameTableImpl* theValue ) {
+		myW = theValue;
+	}
+	void setMyStyle ( GameTableStyleReader* theValue ) {
+		myStyle = theValue;
+	}
 	void paintEvent(QPaintEvent * event);
 	void refreshChance(std::vector< std::vector<int> >);
 	void resetChance();
-	
-private: 
+
+private:
 
 	gameTableImpl *myW;
 	GameTableStyleReader *myStyle;

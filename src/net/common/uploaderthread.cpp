@@ -30,7 +30,7 @@ using namespace boost::filesystem;
 
 
 UploaderThread::UploaderThread()
-: m_uploadInProgress(false)
+	: m_uploadInProgress(false)
 {
 	m_uploadHelper.reset(new UploadHelper());
 }
@@ -49,38 +49,30 @@ UploaderThread::QueueUpload(const string &url, const string &user, const string 
 void
 UploaderThread::Main()
 {
-	while (!ShouldTerminate())
-	{
-		try
-		{
-			if (m_uploadInProgress)
-			{
+	while (!ShouldTerminate()) {
+		try {
+			if (m_uploadInProgress) {
 				m_uploadInProgress = !m_uploadHelper->Process();
 			}
 
-			if (!m_uploadInProgress)
-			{
+			if (!m_uploadInProgress) {
 				Msleep(UPLOAD_DELAY_MSEC);
 				// The upload needs only local state, as no value needs to be returned.
 				UploadData data;
 				{
 					boost::mutex::scoped_lock lock(m_uploadQueueMutex);
-					if (!m_uploadQueue.empty())
-					{
+					if (!m_uploadQueue.empty()) {
 						data = m_uploadQueue.front();
 						m_uploadQueue.pop();
 					}
 				}
-				if (!data.filename.empty() && data.filesize > 0)
-				{
+				if (!data.filename.empty() && data.filesize > 0) {
 					path filepath(data.filename);
 					m_uploadHelper->Init(data.address + filepath.leaf(), filepath.file_string(), data.user, data.pwd, data.filesize);
 					m_uploadInProgress = true;
 				}
 			}
-		}
-		catch (const NetException &e)
-		{
+		} catch (const NetException &e) {
 			LOG_ERROR("Upload failed: " << e.what());
 			m_uploadInProgress = false;
 		}

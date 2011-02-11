@@ -26,26 +26,26 @@
 using namespace std;
 
 joinNetworkGameDialogImpl::joinNetworkGameDialogImpl(QWidget *parent, ConfigFile *c)
-      : QDialog(parent), myConfig(c)
+	: QDialog(parent), myConfig(c)
 {
 #ifdef __APPLE__
 	setWindowModality(Qt::ApplicationModal);
 	setWindowFlags(Qt::WindowSystemMenuHint | Qt::CustomizeWindowHint | Qt::Dialog);
-#endif	
+#endif
 	setupUi(this);
 
 // 	QShortcut *connectKey = new QShortcut(QKeySequence(Qt::Key_Enter), this);
 // 	connect( connectKey, SIGNAL(activated() ), pushButton_connect, SLOT( click() ) );
 
-	if (myConfig->readConfigInt("CLA_NoWriteAccess")) { 
+	if (myConfig->readConfigInt("CLA_NoWriteAccess")) {
 
 		pushButton_save->setDisabled(TRUE);
 		pushButton_delete->setDisabled(TRUE);
 		treeWidget->setDisabled(TRUE);
 	}
 
-        connect( lineEdit_ipAddress, SIGNAL( editingFinished()), this, SLOT( checkIp() ) );
-        connect( lineEdit_ipAddress, SIGNAL( textChanged(QString)), this, SLOT( connectButtonTest() ) );
+	connect( lineEdit_ipAddress, SIGNAL( editingFinished()), this, SLOT( checkIp() ) );
+	connect( lineEdit_ipAddress, SIGNAL( textChanged(QString)), this, SLOT( connectButtonTest() ) );
 
 	connect( pushButton_connect, SIGNAL( clicked() ), this, SLOT( startClient() ) );
 	connect( pushButton_save, SIGNAL( clicked() ), this, SLOT( saveServerProfile() ) );
@@ -55,7 +55,8 @@ joinNetworkGameDialogImpl::joinNetworkGameDialogImpl(QWidget *parent, ConfigFile
 
 }
 
-void joinNetworkGameDialogImpl::exec() {
+void joinNetworkGameDialogImpl::exec()
+{
 
 	bool toIntTrue;
 
@@ -63,35 +64,35 @@ void joinNetworkGameDialogImpl::exec() {
 
 	//Profile Name darf nicht mit einer Zahl beginnen --> XML konform
 	QRegExp rx("[A-Z|a-z]+[A-Z|a-z|\\d]*");
- 	QValidator *validator = new QRegExpValidator(rx, this);
- 	lineEdit_profileName->setValidator(validator);
+	QValidator *validator = new QRegExpValidator(rx, this);
+	lineEdit_profileName->setValidator(validator);
 
 	pushButton_delete->setDisabled(TRUE);
 
 	lineEdit_ipAddress->setFocus();
 
-	if (myConfig->readConfigInt("CLA_NoWriteAccess") == 0 ) { 
-	//if discwrite-access
+	if (myConfig->readConfigInt("CLA_NoWriteAccess") == 0 ) {
+		//if discwrite-access
 		myServerProfilesFile = myConfig->readConfigString("UserDataDir")+"serverprofiles.xml";
-	
+
 		//Anlegen wenn noch nicht existiert!
 		QFile serverProfilesfile(QString::fromUtf8(myServerProfilesFile.c_str()));
-	
+
 		if(!serverProfilesfile.exists()) {
-			
-			TiXmlDocument doc;  
-			TiXmlDeclaration * decl = new TiXmlDeclaration( "1.0", "UTF-8", ""); 
-			doc.LinkEndChild( decl );  
-			
-			TiXmlElement * root = new TiXmlElement( "PokerTH" );  
-			doc.LinkEndChild( root );  		
-			
-			TiXmlElement * profiles = new TiXmlElement( "ServerProfiles" );  
-			root->LinkEndChild( profiles );  
-		
+
+			TiXmlDocument doc;
+			TiXmlDeclaration * decl = new TiXmlDeclaration( "1.0", "UTF-8", "");
+			doc.LinkEndChild( decl );
+
+			TiXmlElement * root = new TiXmlElement( "PokerTH" );
+			doc.LinkEndChild( root );
+
+			TiXmlElement * profiles = new TiXmlElement( "ServerProfiles" );
+			root->LinkEndChild( profiles );
+
 			doc.SaveFile(QString::fromUtf8(myServerProfilesFile.c_str()).toStdString());
 		}
-		
+
 		//Liste Füllen
 		fillServerProfileList();
 	}
@@ -99,74 +100,82 @@ void joinNetworkGameDialogImpl::exec() {
 	checkBox_ipv6->setEnabled(socket_has_ipv6());
 	checkBox_sctp->setEnabled(socket_has_sctp());
 
-        connectButtonTest();
+	connectButtonTest();
 
 	QDialog::exec();
-	
+
 }
 
-void joinNetworkGameDialogImpl::startClient() {
+void joinNetworkGameDialogImpl::startClient()
+{
 
 	// TODO: Check input values!
 }
 
-void joinNetworkGameDialogImpl::fillServerProfileList() {
+void joinNetworkGameDialogImpl::fillServerProfileList()
+{
 
-	
+
 	treeWidget->clear();
 
-	TiXmlDocument doc(QString::fromUtf8(myServerProfilesFile.c_str()).toStdString()); 
-	if(!doc.LoadFile()) {	
+	TiXmlDocument doc(QString::fromUtf8(myServerProfilesFile.c_str()).toStdString());
+	if(!doc.LoadFile()) {
 		QMessageBox::warning(this, tr("Load Server-Profile-File Error"),
-			tr("Could not load server-profiles-file:\n"+QString::fromUtf8(myServerProfilesFile.c_str()).toAscii()),
-			QMessageBox::Close);		
+							 tr("Could not load server-profiles-file:\n"+QString::fromUtf8(myServerProfilesFile.c_str()).toAscii()),
+							 QMessageBox::Close);
 	}
-	TiXmlHandle docHandle( &doc );		
+	TiXmlHandle docHandle( &doc );
 
 	TiXmlElement* profile = docHandle.FirstChild( "PokerTH" ).FirstChild( "ServerProfiles" ).FirstChild().ToElement();
 	if ( profile ) {
 
 		for( ; profile; profile = profile->NextSiblingElement()) {
-			
+
 			QTreeWidgetItem *item = new QTreeWidgetItem(treeWidget,0);
 			item->setData(0, 0, QString::fromUtf8(profile->Attribute("Name")));
 			item->setData(1, 0, QString::fromUtf8(profile->Attribute("Address")));
 			item->setData(2, 0, profile->Attribute("Port"));
-			
+
 			string isIpv6 = "no";
 			int tempInt = 0;
 			profile->QueryIntAttribute("IsIpv6", &tempInt );
-			if( tempInt == 1 ) { isIpv6 = "yes"; }
+			if( tempInt == 1 ) {
+				isIpv6 = "yes";
+			}
 			item->setData(3, 0, QString::fromUtf8(isIpv6.c_str()));
-			
+
 			string isSctp = "no";
 			int tempInt1 = 0;
 			profile->QueryIntAttribute("IsSctp", &tempInt1 );
-			if( tempInt1 == 1 ) { isSctp = "yes"; }
+			if( tempInt1 == 1 ) {
+				isSctp = "yes";
+			}
 			item->setData(4, 0, QString::fromUtf8(isSctp.c_str()));
 
 			treeWidget->addTopLevelItem(item);
 		}
-	} 
-	else { cout << "No Profiles Found \n";  }
+	} else {
+		cout << "No Profiles Found \n";
+	}
 
-	treeWidget->resizeColumnToContents ( 0 );  
+	treeWidget->resizeColumnToContents ( 0 );
 	treeWidget->resizeColumnToContents ( 1 );
 	treeWidget->resizeColumnToContents ( 2 );
 	treeWidget->resizeColumnToContents ( 3 );
 }
 
-void joinNetworkGameDialogImpl::itemFillForm (QTreeWidgetItem* item, int /*column*/) {
+void joinNetworkGameDialogImpl::itemFillForm (QTreeWidgetItem* item, int /*column*/)
+{
 
 	bool toIntTrue;
 
-	TiXmlDocument doc(QString::fromUtf8(myServerProfilesFile.c_str()).toStdString()); 
-	if(!doc.LoadFile()) {	
+	TiXmlDocument doc(QString::fromUtf8(myServerProfilesFile.c_str()).toStdString());
+	if(!doc.LoadFile()) {
 		QMessageBox::warning(this, tr("Load Server-Profile-File Error"),
-			tr("Could not load server-profiles-file:\n"+QString::fromUtf8(myServerProfilesFile.c_str()).toAscii()),
-			QMessageBox::Close);		
+							 tr("Could not load server-profiles-file:\n"+QString::fromUtf8(myServerProfilesFile.c_str()).toAscii()),
+							 QMessageBox::Close);
 	}
-	TiXmlHandle docHandle( &doc );		
+	TiXmlHandle docHandle( &doc );
 
 	TiXmlElement* profile = docHandle.FirstChild( "PokerTH" ).FirstChild( "ServerProfiles" ).FirstChild( item->data(0,0).toString().toStdString() ).ToElement();
 	if ( profile ) {
@@ -182,53 +191,53 @@ void joinNetworkGameDialogImpl::itemFillForm (QTreeWidgetItem* item, int /*colum
 	pushButton_delete->setEnabled(TRUE);
 }
 
-void joinNetworkGameDialogImpl::saveServerProfile() {
+void joinNetworkGameDialogImpl::saveServerProfile()
+{
 
 // 	bool toIntTrue;
 
-	TiXmlDocument doc(QString::fromUtf8(myServerProfilesFile.c_str()).toStdString()); 
-	if(!doc.LoadFile()) {	
+	TiXmlDocument doc(QString::fromUtf8(myServerProfilesFile.c_str()).toStdString());
+	if(!doc.LoadFile()) {
 		QMessageBox::warning(this, tr("Load Server-Profile-File Error"),
-			tr("Could not load server-profiles-file:\n"+QString::fromUtf8(myServerProfilesFile.c_str()).toAscii()),
-			QMessageBox::Close);		
+							 tr("Could not load server-profiles-file:\n"+QString::fromUtf8(myServerProfilesFile.c_str()).toAscii()),
+							 QMessageBox::Close);
 	}
-	TiXmlHandle docHandle( &doc );		
+	TiXmlHandle docHandle( &doc );
 
 	TiXmlElement* profiles = docHandle.FirstChild( "PokerTH" ).FirstChild( "ServerProfiles" ).ToElement();
 	if ( profiles ) {
 
-		TiXmlElement * testProfile = docHandle.FirstChild( "PokerTH" ).FirstChild( "ServerProfiles" ).FirstChild( lineEdit_profileName->text().toStdString() ).ToElement();	
-		
+		TiXmlElement * testProfile = docHandle.FirstChild( "PokerTH" ).FirstChild( "ServerProfiles" ).FirstChild( lineEdit_profileName->text().toStdString() ).ToElement();
+
 		if( testProfile ) {
 			// Wenn der Name schon existiert --> Überschreiben?
 			QMessageBox msgBox(QMessageBox::Warning, tr("Save Server Profile Error"),
-				QString(tr("A profile with the name: %1 already exists.\nWould you like to overwrite ?")).arg(lineEdit_profileName->text()), QMessageBox::Yes | QMessageBox::No, this);
+							   QString(tr("A profile with the name: %1 already exists.\nWould you like to overwrite ?")).arg(lineEdit_profileName->text()), QMessageBox::Yes | QMessageBox::No, this);
 			switch (msgBox.exec()) {
 
-				case QMessageBox::Yes: {
-					// yes was clicked
-					// remove the old
-					testProfile->Parent()->RemoveChild(testProfile);
-					// write the new
-					TiXmlElement * profile1 = new TiXmlElement( lineEdit_profileName->text().toUtf8().constData() );
-					profiles->LinkEndChild( profile1 );
-					profile1->SetAttribute("Name", lineEdit_profileName->text().toUtf8().constData());
-                                        profile1->SetAttribute("Address", lineEdit_ipAddress->text().toUtf8().constData());
-					profile1->SetAttribute("Port", spinBox_port->value());
-					profile1->SetAttribute("IsIpv6", checkBox_ipv6->isChecked());
-					profile1->SetAttribute("IsSctp", checkBox_sctp->isChecked());
-				}
-				break;
-				case QMessageBox::No:
+			case QMessageBox::Yes: {
+				// yes was clicked
+				// remove the old
+				testProfile->Parent()->RemoveChild(testProfile);
+				// write the new
+				TiXmlElement * profile1 = new TiXmlElement( lineEdit_profileName->text().toUtf8().constData() );
+				profiles->LinkEndChild( profile1 );
+				profile1->SetAttribute("Name", lineEdit_profileName->text().toUtf8().constData());
+				profile1->SetAttribute("Address", lineEdit_ipAddress->text().toUtf8().constData());
+				profile1->SetAttribute("Port", spinBox_port->value());
+				profile1->SetAttribute("IsIpv6", checkBox_ipv6->isChecked());
+				profile1->SetAttribute("IsSctp", checkBox_sctp->isChecked());
+			}
+			break;
+			case QMessageBox::No:
 				// no was clicked
 				break;
-				default:
+			default:
 				// should never be reached
 				break;
 			}
-	
-		}
-		else {
+
+		} else {
 			// Wenn der Name nicht existiert --> speichern
 			TiXmlElement * profile2 = new TiXmlElement( lineEdit_profileName->text().toStdString() );
 			profiles->LinkEndChild( profile2 );
@@ -237,65 +246,76 @@ void joinNetworkGameDialogImpl::saveServerProfile() {
 			profile2->SetAttribute("Port", spinBox_port->value());
 			profile2->SetAttribute("IsIpv6", checkBox_ipv6->isChecked());
 			profile2->SetAttribute("IsSctp", checkBox_sctp->isChecked());
- 			
-		}
-        } 
-	else { QMessageBox::warning(this, tr("Read Server-Profile List Error"),
-			tr("Could not read server-profiles list"),
-			QMessageBox::Close);	 }
 
-	if(!doc.SaveFile()) {	QMessageBox::warning(this, tr("Save Server-Profile-File Error"),
-			tr("Could not save server-profiles-file:\n"+QString::fromUtf8(myServerProfilesFile.c_str()).toAscii()),
-			QMessageBox::Close);	 }
+		}
+	} else {
+		QMessageBox::warning(this, tr("Read Server-Profile List Error"),
+							 tr("Could not read server-profiles list"),
+							 QMessageBox::Close);
+	}
+
+	if(!doc.SaveFile()) {
+		QMessageBox::warning(this, tr("Save Server-Profile-File Error"),
+							 tr("Could not save server-profiles-file:\n"+QString::fromUtf8(myServerProfilesFile.c_str()).toAscii()),
+							 QMessageBox::Close);
+	}
 
 	fillServerProfileList();
 }
 
-void joinNetworkGameDialogImpl::deleteServerProfile() {
+void joinNetworkGameDialogImpl::deleteServerProfile()
+{
 
-	TiXmlDocument doc(QString::fromUtf8(myServerProfilesFile.c_str()).toStdString()); 
-	if(!doc.LoadFile()) {	
+	TiXmlDocument doc(QString::fromUtf8(myServerProfilesFile.c_str()).toStdString());
+	if(!doc.LoadFile()) {
 		QMessageBox::warning(this, tr("Load Server-Profile-File Error"),
-			tr("Could not load server-profiles-file:\n"+QString::fromUtf8(myServerProfilesFile.c_str()).toAscii()),
-			QMessageBox::Close);		
-	}
-	else {
-		TiXmlHandle docHandle( &doc );		
-	
+							 tr("Could not load server-profiles-file:\n"+QString::fromUtf8(myServerProfilesFile.c_str()).toAscii()),
+							 QMessageBox::Close);
+	} else {
+		TiXmlHandle docHandle( &doc );
+
 		TiXmlElement* profile = docHandle.FirstChild( "PokerTH" ).FirstChild( "ServerProfiles" ).FirstChild( treeWidget->currentItem()->data(0,0).toString().toUtf8().constData() ).ToElement();
-	
-		if ( profile ) { profile->Parent()->RemoveChild(profile); } 
-		
-		if(!doc.SaveFile()) {	QMessageBox::warning(this, tr("Save Server-Profile-File Error"),
-			tr("Could not save server-profiles-file:\n"+QString::fromUtf8(myServerProfilesFile.c_str()).toAscii()),
-			QMessageBox::Close);	 }
+
+		if ( profile ) {
+			profile->Parent()->RemoveChild(profile);
+		}
+
+		if(!doc.SaveFile()) {
+			QMessageBox::warning(this, tr("Save Server-Profile-File Error"),
+								 tr("Could not save server-profiles-file:\n"+QString::fromUtf8(myServerProfilesFile.c_str()).toAscii()),
+								 QMessageBox::Close);
+		}
 
 		//Liste Füllen
 		fillServerProfileList();
 	}
-		
+
 	pushButton_delete->setDisabled(TRUE);
 }
 
-void joinNetworkGameDialogImpl::keyPressEvent ( QKeyEvent * event ) {
+void joinNetworkGameDialogImpl::keyPressEvent ( QKeyEvent * event )
+{
 
 // 	std::cout << "key" << event->key();
-	if (event->key() == 16777220) { pushButton_connect->click(); } //ENTER 
+	if (event->key() == 16777220) {
+		pushButton_connect->click();    //ENTER
+	}
 }
 
-void joinNetworkGameDialogImpl::checkIp() {
-	
+void joinNetworkGameDialogImpl::checkIp()
+{
+
 	//remove whitespaces
 	QString tmp = lineEdit_ipAddress->text();
 	lineEdit_ipAddress->setText(tmp.remove(" "));
 }
 
-void joinNetworkGameDialogImpl::connectButtonTest() {
+void joinNetworkGameDialogImpl::connectButtonTest()
+{
 
-    if(lineEdit_ipAddress->text().isEmpty()) {
-        pushButton_connect->setDisabled(TRUE);
-    }
-    else {
-        pushButton_connect->setDisabled(FALSE);
-    }
+	if(lineEdit_ipAddress->text().isEmpty()) {
+		pushButton_connect->setDisabled(TRUE);
+	} else {
+		pushButton_connect->setDisabled(FALSE);
+	}
 }

@@ -37,7 +37,7 @@ CleanerServer::CleanerServer(): config(0), blockConnection(false), m_recvBufUsed
 	configRefreshTimer->start(10000);
 }
 
-CleanerServer::~CleanerServer() 
+CleanerServer::~CleanerServer()
 {
 	delete config;
 	delete myMessageFilter;
@@ -59,24 +59,19 @@ void CleanerServer::onRead()
 {
 	qint64 bytesRead = tcpSocket->read((char *)m_recvBuf + m_recvBufUsed, sizeof(m_recvBuf) - m_recvBufUsed);
 	bool error = bytesRead < 1;
-	if (!error)
-	{
+	if (!error) {
 		m_recvBufUsed += bytesRead;
 
 		asn_dec_rval_t retVal;
-		do
-		{
+		do {
 			// Try to decode the packets.
 			InternalChatCleanerPacket recvMsg;
 			retVal = ber_decode(0, &asn_DEF_ChatCleanerMessage, (void **)recvMsg.GetMsgPtr(), m_recvBuf, m_recvBufUsed);
-			if(retVal.code == RC_OK)
-			{
-				if (retVal.consumed < m_recvBufUsed)
-				{
+			if(retVal.code == RC_OK) {
+				if (retVal.consumed < m_recvBufUsed) {
 					m_recvBufUsed -= retVal.consumed;
 					memmove(m_recvBuf, m_recvBuf + retVal.consumed, m_recvBufUsed);
-				}
-				else
+				} else
 					m_recvBufUsed = 0;
 
 				// Handle the packets.
@@ -85,8 +80,7 @@ void CleanerServer::onRead()
 		} while (!error && retVal.code == RC_OK);
 	}
 
-	if (error)
-	{
+	if (error) {
 		qDebug() << "Error handling packets from client.";
 		tcpSocket->close();
 	}
@@ -104,16 +98,14 @@ void CleanerServer::onRead()
 	tcpSocket->write(checkMessage.toAscii().data(), checkMessage.length());*/
 }
 
-bool CleanerServer::handleMessage(InternalChatCleanerPacket &msg) {
+bool CleanerServer::handleMessage(InternalChatCleanerPacket &msg)
+{
 	bool error = true;
-	if (msg.GetMsg()->present == ChatCleanerMessage_PR_cleanerInitMessage)
-	{
+	if (msg.GetMsg()->present == ChatCleanerMessage_PR_cleanerInitMessage) {
 		CleanerInitMessage_t *netInit = &msg.GetMsg()->choice.cleanerInitMessage;
-		if (netInit->requestedVersion == CLEANER_PROTOCOL_VERSION)
-		{
+		if (netInit->requestedVersion == CLEANER_PROTOCOL_VERSION) {
 			string tmpClientSecret((const char *)netInit->clientSecret.buf, netInit->clientSecret.size);
-			if (clientSecret == QString::fromStdString(tmpClientSecret))
-			{
+			if (clientSecret == QString::fromStdString(tmpClientSecret)) {
 				error = false;
 
 				InternalChatCleanerPacket tmpAck;
@@ -125,28 +117,23 @@ bool CleanerServer::handleMessage(InternalChatCleanerPacket &msg) {
 									 tmpServerSecret.c_str(),
 									 tmpServerSecret.length());
 				sendMessageToClient(tmpAck);
-			}
-			else
+			} else
 				qDebug() << "Invalid client secret.";
-		}
-		else
+		} else
 			qDebug() << "Invalid client version: " << netInit->requestedVersion;
-	}
-	else if (msg.GetMsg()->present == ChatCleanerMessage_PR_cleanerChatRequestMessage)
-	{
+	} else if (msg.GetMsg()->present == ChatCleanerMessage_PR_cleanerChatRequestMessage) {
 		error = false;
 		CleanerChatRequestMessage_t *netRequest = &msg.GetMsg()->choice.cleanerChatRequestMessage;
 		unsigned playerId = netRequest->playerId;
 		QString nick(QString::fromUtf8(
-				string((const char *)netRequest->playerName.buf, netRequest->playerName.size).c_str()));
+						 string((const char *)netRequest->playerName.buf, netRequest->playerName.size).c_str()));
 		QString message(QString::fromUtf8(
-				string((const char *)netRequest->chatMessage.buf, netRequest->chatMessage.size).c_str()));
+							string((const char *)netRequest->chatMessage.buf, netRequest->chatMessage.size).c_str()));
 		QStringList checkreturn = myMessageFilter->check(playerId, nick, message);
 		QString checkAction = checkreturn.at(0);
 		QString checkMessage = checkreturn.at(1);
 
-		if (!checkAction.isEmpty())
-		{
+		if (!checkAction.isEmpty()) {
 			InternalChatCleanerPacket tmpReply;
 			tmpReply.GetMsg()->present = ChatCleanerMessage_PR_cleanerChatReplyMessage;
 			CleanerChatReplyMessage_t *netReply = &tmpReply.GetMsg()->choice.cleanerChatReplyMessage;
@@ -156,33 +143,33 @@ bool CleanerServer::handleMessage(InternalChatCleanerPacket &msg) {
 
 			if(checkAction == "warn") {
 				netReply->cleanerActionType = cleanerActionType_cleanerActionWarning;
-			}
-			else if(checkAction == "kick") {
+			} else if(checkAction == "kick") {
 				netReply->cleanerActionType = cleanerActionType_cleanerActionKick;
-			}
-			else if(checkAction == "kickban") {
+			} else if(checkAction == "kickban") {
 				netReply->cleanerActionType = cleanerActionType_cleanerActionBan;
 			}
 
 			string tmpCheck(checkMessage.toUtf8());
 			netReply->cleanerText =
-					OCTET_STRING_new_fromBuf(
-							&asn_DEF_OCTET_STRING,
-							(const char *)tmpCheck.c_str(),
-							tmpCheck.length());
+				OCTET_STRING_new_fromBuf(
+					&asn_DEF_OCTET_STRING,
+					(const char *)tmpCheck.c_str(),
+					tmpCheck.length());
 			sendMessageToClient(tmpReply);
 		}
 	}
 	return error;
 }
 
-void CleanerServer::socketStateChanged(QAbstractSocket::SocketState state) {
+void CleanerServer::socketStateChanged(QAbstractSocket::SocketState state)
+{
 
 	qDebug() << "Socket state changed to: " << QAbstractSocket::UnconnectedState;
 	if(state == QAbstractSocket::UnconnectedState) blockConnection = false;
 }
 
-void CleanerServer::refreshConfig() {
+void CleanerServer::refreshConfig()
+{
 
 	QFileInfo configFileInfo(QString::fromUtf8(config->getConfigFileName().c_str()));
 

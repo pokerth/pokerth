@@ -3,14 +3,17 @@
 
 #include <QtCore>
 
-class LetterRepeatingCheck: public QObject {
-Q_OBJECT
+class LetterRepeatingCheck: public QObject
+{
+	Q_OBJECT
 public:
-    LetterRepeatingCheck();
-	
-	void setLetterNumberToTrigger(int n) { letterNumberToTrigger = n; }
+	LetterRepeatingCheck();
+
+	void setLetterNumberToTrigger(int n) {
+		letterNumberToTrigger = n;
+	}
 	bool run(QString);
-	
+
 private:
 
 	int letterNumberToTrigger;

@@ -21,13 +21,13 @@
 #include <net/socket_msg.h>
 
 connectToServerDialogImpl::connectToServerDialogImpl(QWidget *parent)
-      : QDialog(parent)
+	: QDialog(parent)
 {
 #ifdef __APPLE__
 	setWindowModality(Qt::ApplicationModal);
 	setWindowFlags(Qt::WindowSystemMenuHint | Qt::CustomizeWindowHint | Qt::Dialog);
-#endif	
-    	setupUi(this);
+#endif
+	setupUi(this);
 }
 
 void connectToServerDialogImpl::exec()
@@ -38,26 +38,37 @@ void connectToServerDialogImpl::exec()
 	QDialog::exec();
 }
 
-void connectToServerDialogImpl::refresh(int actionID) {
+void connectToServerDialogImpl::refresh(int actionID)
+{
 
 	bool skip = false;
 	switch (actionID) {
 
-		case MSG_SOCK_INIT_DONE: { label_actionMessage->setText(tr("Resolving address...")); }
-		break;
-		case MSG_SOCK_SERVER_LIST_DONE : { label_actionMessage->setText(tr("Reading server list...")); }
-		break;
-		case MSG_SOCK_RESOLVE_DONE: { label_actionMessage->setText(tr("Connecting to server...")); }
-		break;
-		case MSG_SOCK_CONNECT_DONE: { label_actionMessage->setText(tr("Starting session...")); }
-		break;
-		case MSG_SOCK_SESSION_DONE: { label_actionMessage->setText(tr("Connection established!")); }
-		break;
-		default: skip = true;
+	case MSG_SOCK_INIT_DONE: {
+		label_actionMessage->setText(tr("Resolving address..."));
+	}
+	break;
+	case MSG_SOCK_SERVER_LIST_DONE : {
+		label_actionMessage->setText(tr("Reading server list..."));
+	}
+	break;
+	case MSG_SOCK_RESOLVE_DONE: {
+		label_actionMessage->setText(tr("Connecting to server..."));
+	}
+	break;
+	case MSG_SOCK_CONNECT_DONE: {
+		label_actionMessage->setText(tr("Starting session..."));
+	}
+	break;
+	case MSG_SOCK_SESSION_DONE: {
+		label_actionMessage->setText(tr("Connection established!"));
+	}
+	break;
+	default:
+		skip = true;
 	}
 
-	if (!skip)
-	{
+	if (!skip) {
 		progressBar->setValue(actionID*(100/MSG_SOCK_LIMIT_CONNECT));
 
 		if (actionID == MSG_SOCK_LIMIT_CONNECT)

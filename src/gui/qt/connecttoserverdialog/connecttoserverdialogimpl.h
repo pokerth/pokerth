@@ -26,10 +26,11 @@
 #include <QtCore>
 
 
-class connectToServerDialogImpl: public QDialog, public Ui::connectToServerDialog {
-Q_OBJECT
+class connectToServerDialogImpl: public QDialog, public Ui::connectToServerDialog
+{
+	Q_OBJECT
 public:
-    connectToServerDialogImpl(QWidget *parent = 0);
+	connectToServerDialogImpl(QWidget *parent = 0);
 
 	void exec();
 

@@ -26,8 +26,7 @@ inline void ADD_MSEC_TO_XTIME(boost::xtime &xt, unsigned msec)
 {
 	xt.sec += msec / 1000;
 	xt.nsec += (msec % 1000) * 1000000;
-	if (xt.nsec > NANOSECONDS_PER_SECOND)
-	{
+	if (xt.nsec > NANOSECONDS_PER_SECOND) {
 		xt.sec++;
 		xt.nsec -= NANOSECONDS_PER_SECOND;
 	}
@@ -39,8 +38,7 @@ class ThreadStarter
 {
 public:
 	ThreadStarter(Thread &thread) : m_thread(thread) {}
-	void operator()()
-	{
+	void operator()() {
 		m_thread.MainWrapper();
 	}
 
@@ -62,8 +60,7 @@ Thread::Run()
 	boost::mutex::scoped_lock threadLock(m_threadObjMutex);
 
 	// Create the boost thread object.
-	if (!m_threadObj.get())
-	{
+	if (!m_threadObj.get()) {
 		// Initialise data structures within the context of the thread
 		// who runs/terminates this thread.
 		m_userReqTerminateLock.reset(new boost::timed_mutex::scoped_try_lock(m_shouldTerminateMutex));
@@ -89,14 +86,11 @@ Thread::Join(unsigned msecTimeout)
 		return true;
 
 	bool tmpIsTerminated;
-	if (msecTimeout == THREAD_WAIT_INFINITE)
-	{
+	if (msecTimeout == THREAD_WAIT_INFINITE) {
 		// Wait infinitely.
 		boost::timed_mutex::scoped_lock lock(m_isTerminatedMutex);
 		tmpIsTerminated = true;
-	}
-	else
-	{
+	} else {
 		// Wait for the termination of the application code.
 #if (BOOST_VERSION) >= 103500
 		boost::defer_lock_t defer;
@@ -113,12 +107,10 @@ Thread::Join(unsigned msecTimeout)
 #endif
 	}
 
-	if (tmpIsTerminated)
-	{
+	if (tmpIsTerminated) {
 		boost::mutex::scoped_lock lock(m_threadObjMutex);
 		// Wait for "real" termination of the thread.
-		if (m_threadObj.get())
-		{
+		if (m_threadObj.get()) {
 			m_threadObj->join();
 			m_threadObj.reset();
 		}

@@ -1,7 +1,7 @@
 //
 // C++ Interface: MyGameListTreeWidget
 //
-// Description: 
+// Description:
 //
 //
 // Author: FThauer FHammer <f.thauer@web.de>, (C) 2007
@@ -17,20 +17,20 @@
 
 class MyGameListTreeWidget : public QTreeWidget
 {
-Q_OBJECT
+	Q_OBJECT
 public:
-    MyGameListTreeWidget(QDialog*);
+	MyGameListTreeWidget(QDialog*);
 
-    ~MyGameListTreeWidget();
+	~MyGameListTreeWidget();
 
 
 public slots:
-	
+
 // 	void paintEvent(QPaintEvent *);
 	void setGameListBackgroundImage(QString pmString);
 	void scrollContentsBy ( int dx, int dy );
 
-private: 
+private:
 
 	QPixmap gameListBGPixmap;
 

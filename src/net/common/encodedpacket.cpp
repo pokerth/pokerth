@@ -23,7 +23,7 @@
 using namespace std;
 
 EncodedPacket::EncodedPacket(const unsigned char *data, unsigned size)
-: m_size(size)
+	: m_size(size)
 {
 	m_data = new unsigned char[size];
 	memcpy(m_data, data, size);

@@ -22,15 +22,15 @@
 using namespace std;
 
 ClientHand::ClientHand(boost::shared_ptr<EngineFactory> f, GuiInterface *g, boost::shared_ptr<BoardInterface> b, Log *l, PlayerList sl, PlayerList apl, PlayerList rpl, int id, int sP, int dP, int sB,int sC)
-: myFactory(f), myGui(g),  myBoard(b), myLog(l), seatsList(sl), activePlayerList(apl), runningPlayerList(rpl), myID(id), startQuantityPlayers(sP), dealerPosition(dP), currentRound(0),
-  smallBlind(sB), startCash(sC), lastPlayersTurn(-1), allInCondition(0),
-  cardsShown(false), bettingRoundsPlayed(0)
+	: myFactory(f), myGui(g),  myBoard(b), myLog(l), seatsList(sl), activePlayerList(apl), runningPlayerList(rpl), myID(id), startQuantityPlayers(sP), dealerPosition(dP), currentRound(0),
+	  smallBlind(sB), startCash(sC), lastPlayersTurn(-1), allInCondition(0),
+	  cardsShown(false), bettingRoundsPlayed(0)
 {
 	PlayerListIterator it;
 
 	for(it=seatsList->begin(); it!=seatsList->end(); ++it) {
 		(*it)->setHand(this);
-	// myFlipCards auf 0 setzen
+		// myFlipCards auf 0 setzen
 		(*it)->setMyCardsFlip(0, 0);
 	}
 

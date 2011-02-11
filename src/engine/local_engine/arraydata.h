@@ -24,11 +24,12 @@
 
 #include<vector>
 
-class ArrayData{
+class ArrayData
+{
 public:
-    ArrayData();
+	ArrayData();
 
-    ~ArrayData();
+	~ArrayData();
 
 	void getHandChancePreflop(int, int**);
 	std::vector< std::vector<int> > getHandChancePreflop(int);

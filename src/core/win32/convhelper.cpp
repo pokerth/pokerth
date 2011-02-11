@@ -33,22 +33,18 @@ Convert(const std::string &inStr, int fromCP, int toCP)
 	// convert str from current Windows source to target charset
 	string retStr(inStr);
 
-	if (!inStr.empty())
-	{
+	if (!inStr.empty()) {
 		int len = (int)inStr.length() + 1;
 		int reqLen = ::MultiByteToWideChar(fromCP, 0, inStr.c_str(), len, NULL, 0);
 
-		if (reqLen)
-		{
+		if (reqLen) {
 			wchar_t *wstr = new wchar_t[reqLen];
 			wstr[0] = L'\0';
-			if (::MultiByteToWideChar(fromCP, 0, inStr.c_str(), len, wstr, reqLen) == (int)reqLen)
-			{
+			if (::MultiByteToWideChar(fromCP, 0, inStr.c_str(), len, wstr, reqLen) == (int)reqLen) {
 				len = reqLen;
 				reqLen = ::WideCharToMultiByte(toCP, 0, wstr, len, NULL, 0, NULL, NULL);
 
-				if (reqLen)
-				{
+				if (reqLen) {
 					char *str = new char[reqLen];
 					if (::WideCharToMultiByte(toCP, 0, wstr, len, str, reqLen, NULL, NULL) == (int)reqLen)
 						retStr = str;

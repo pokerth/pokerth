@@ -82,7 +82,7 @@ private:
 
 	mutable boost::shared_ptr<boost::barrier> m_threadStartBarrier;
 
-friend class ThreadStarter;
+	friend class ThreadStarter;
 };
 
 #endif

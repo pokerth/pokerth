@@ -1,7 +1,7 @@
 //
 // C++ Interface: MyRightTabWidget
 //
-// Description: 
+// Description:
 //
 //
 // Author: FThauer FHammer <f.thauer@web.de>, (C) 2007
@@ -17,22 +17,24 @@
 
 class MyRightTabWidget : public QTabWidget
 {
-Q_OBJECT
+	Q_OBJECT
 public:
-    MyRightTabWidget(QGroupBox*);
+	MyRightTabWidget(QGroupBox*);
 
-    ~MyRightTabWidget();
+	~MyRightTabWidget();
 
 
 	void paintEvent(QPaintEvent * event);
 
-	QTabBar* getMyTabBar() const { return myTabBar; }
-	
+	QTabBar* getMyTabBar() const {
+		return myTabBar;
+	}
+
 
 public slots:
-	
 
-private: 
+
+private:
 	QTabBar *myTabBar;
 
 };

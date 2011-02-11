@@ -25,8 +25,7 @@
 #include <curl/curl.h>
 
 
-struct TransferData
-{
+struct TransferData {
 	CURL *curlHandle;
 	CURLM *curlMultiHandle;
 	FILE *targetFile;

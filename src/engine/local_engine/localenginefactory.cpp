@@ -32,7 +32,7 @@
 
 
 LocalEngineFactory::LocalEngineFactory(ConfigFile *c)
-: myConfig(c)
+	: myConfig(c)
 {
 }
 

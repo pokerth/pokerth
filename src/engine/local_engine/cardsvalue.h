@@ -28,20 +28,21 @@
 
 
 
-class CardsValue{
+class CardsValue
+{
 public:
-    CardsValue();
+	CardsValue();
 
-    ~CardsValue();
+	~CardsValue();
 
-   int holeCardsClass(int, int) const;
-   int cardsValue(int*, int*) const;
+	int holeCardsClass(int, int) const;
+	int cardsValue(int*, int*) const;
 
-   int holeCardsToIntCode(int*) const;
-   int* intCodeToHoleCards(int) const;
+	int holeCardsToIntCode(int*) const;
+	int* intCodeToHoleCards(int) const;
 
-   std::vector< std::vector<int> > calcCardsChance(GameState, int*, int*) const;
-   //int** showdown(GameState, int**, int);
+	std::vector< std::vector<int> > calcCardsChance(GameState, int*, int*) const;
+	//int** showdown(GameState, int**, int);
 
 };
 

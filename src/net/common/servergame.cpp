@@ -50,11 +50,11 @@ static bool LessThanPlayerHandStartMoney(const boost::shared_ptr<PlayerInterface
 
 
 ServerGame::ServerGame(boost::shared_ptr<ServerLobbyThread> lobbyThread, u_int32_t id, const string &name, const string &pwd, const GameData &gameData, unsigned adminPlayerId, GuiInterface &gui, ConfigFile &playerConfig, Log &serverLog)
-: m_adminPlayerId(adminPlayerId), m_lobbyThread(lobbyThread), m_gui(gui),
-  m_gameData(gameData), m_curState(NULL), m_id(id), m_dbId(DB_ID_INVALID), m_name(name),
-  m_password(pwd), m_playerConfig(playerConfig), m_serverLog(serverLog), m_gameNum(1),
-  m_curPetitionId(1), m_doNotAutoKickSmallDelaySec(10), m_voteKickTimer(lobbyThread->GetIOService()),
-  m_stateTimer1(lobbyThread->GetIOService()), m_stateTimer2(lobbyThread->GetIOService())
+	: m_adminPlayerId(adminPlayerId), m_lobbyThread(lobbyThread), m_gui(gui),
+	  m_gameData(gameData), m_curState(NULL), m_id(id), m_dbId(DB_ID_INVALID), m_name(name),
+	  m_password(pwd), m_playerConfig(playerConfig), m_serverLog(serverLog), m_gameNum(1),
+	  m_curPetitionId(1), m_doNotAutoKickSmallDelaySec(10), m_voteKickTimer(lobbyThread->GetIOService()),
+	  m_stateTimer1(lobbyThread->GetIOService()), m_stateTimer2(lobbyThread->GetIOService())
 {
 	LOG_VERBOSE("Game object " << GetId() << " created.");
 
@@ -157,12 +157,10 @@ ServerGame::RemoveAllSessions()
 void
 ServerGame::TimerVoteKick(const boost::system::error_code &ec)
 {
-	if (!ec && m_curState != &ServerGameStateFinal::Instance())
-	{
+	if (!ec && m_curState != &ServerGameStateFinal::Instance()) {
 		// Check whether someone should be kicked, or whether a vote kick should be aborted.
 		// Only one vote kick can be active at a time.
-		if (m_voteKickData)
-		{
+		if (m_voteKickData) {
 			// Prepare some values.
 			const PlayerIdList playerIds(GetPlayerIdList());
 			int votesRequiredToKick = m_voteKickData->numVotesToKick - m_voteKickData->numVotesInFavourOfKicking;
@@ -170,8 +168,7 @@ ServerGame::TimerVoteKick(const boost::system::error_code &ec)
 			// We need to count the number of players which are still allowed to vote.
 			PlayerIdList::const_iterator player_i = playerIds.begin();
 			PlayerIdList::const_iterator player_end = playerIds.end();
-			while (player_i != player_end)
-			{
+			while (player_i != player_end) {
 				if (find(m_voteKickData->votedPlayerIds.begin(), m_voteKickData->votedPlayerIds.end(), *player_i) == m_voteKickData->votedPlayerIds.end())
 					playersAllowedToVote++;
 				++player_i;
@@ -181,32 +178,27 @@ ServerGame::TimerVoteKick(const boost::system::error_code &ec)
 			EndPetitionReason reason;
 
 			// 1. Enough votes to kick the player.
-			if (m_voteKickData->numVotesInFavourOfKicking >= m_voteKickData->numVotesToKick)
-			{
+			if (m_voteKickData->numVotesInFavourOfKicking >= m_voteKickData->numVotesToKick) {
 				reason = PETITION_END_ENOUGH_VOTES;
 				abortPetition = true;
 				doKick = true;
 			}
 			// 2. Several players left the game, so a kick is no longer possible.
-			else if (votesRequiredToKick > playersAllowedToVote)
-			{
+			else if (votesRequiredToKick > playersAllowedToVote) {
 				reason = PETITION_END_NOT_ENOUGH_PLAYERS;
 				abortPetition = true;
 			}
 			// 3. The kick has become invalid because the player to be kicked left.
-			else if (!IsValidPlayer(m_voteKickData->kickPlayerId))
-			{
+			else if (!IsValidPlayer(m_voteKickData->kickPlayerId)) {
 				reason = PETITION_END_PLAYER_LEFT;
 				abortPetition = true;
 			}
 			// 4. A kick request timed out (because not everyone voted).
-			else if (m_voteKickData->voteTimer.elapsed().total_seconds() >= m_voteKickData->timeLimitSec)
-			{
+			else if (m_voteKickData->voteTimer.elapsed().total_seconds() >= m_voteKickData->timeLimitSec) {
 				reason = PETITION_END_TIMEOUT;
 				abortPetition = true;
 			}
-			if (abortPetition)
-			{
+			if (abortPetition) {
 				boost::shared_ptr<NetPacket> packet(new NetPacket(NetPacket::Alloc));
 				packet->GetMsg()->present = PokerTHMessage_PR_endKickPetitionMessage;
 				EndKickPetitionMessage_t *netEndPetition = &packet->GetMsg()->choice.endKickPetitionMessage;
@@ -239,8 +231,7 @@ ServerGame::InternalStartGame()
 	// Initialize the game.
 	PlayerDataList playerData(GetFullPlayerDataList());
 
-	if (playerData.size() >= 2)
-	{
+	if (playerData.size() >= 2) {
 		// Set DB Backend.
 		if (GetGameData().gameType == GAME_TYPE_RANKING)
 			m_database = GetLobbyThread().GetDatabase();
@@ -273,8 +264,7 @@ ServerGame::InternalStartGame()
 		PlayerDataList::const_iterator player_end = playerData.end();
 
 		int tmpPos = 0;
-		while (player_i != player_end)
-		{
+		while (player_i != player_end) {
 			startData.startDealerPlayerId = static_cast<unsigned>((*player_i)->GetUniqueId());
 			if (tmpPos == tmpDealerPos)
 				break;
@@ -300,8 +290,7 @@ ServerGame::InitRankingMap(const PlayerDataList &playerDataList)
 {
 	PlayerDataList::const_iterator i = playerDataList.begin();
 	PlayerDataList::const_iterator end = playerDataList.end();
-	while (i != end)
-	{
+	while (i != end) {
 		boost::shared_ptr<PlayerData> tmpPlayer(*i);
 		RankingData tmpData(tmpPlayer->GetDBId());
 		m_rankingMap[tmpPlayer->GetUniqueId()] = tmpData;
@@ -318,32 +307,27 @@ ServerGame::UpdateRankingMap()
 	PlayerListIterator active_i = activePlayers.begin();
 	PlayerListIterator active_end = activePlayers.end();
 	PlayerListIterator next_active_i = active_i;
-	while(active_i != active_end)
-	{
+	while(active_i != active_end) {
 		++next_active_i;
-		if ((*active_i)->getMyCash() < 1)
-		{
+		if ((*active_i)->getMyCash() < 1) {
 			tmpRemovedPlayers.push_back(*active_i);
 			activePlayers.erase(active_i);
 		}
 		active_i = next_active_i;
 	}
 
-	if (!tmpRemovedPlayers.empty())
-	{
+	if (!tmpRemovedPlayers.empty()) {
 		tmpRemovedPlayers.sort(LessThanPlayerHandStartMoney);
 		PlayerListConstIterator removed_i = tmpRemovedPlayers.begin();
 		PlayerListConstIterator removed_end = tmpRemovedPlayers.end();
 		PlayerListConstIterator next_removed_i = removed_i;
 		int currentRankCounter = 0;
-		while (removed_i != removed_end)
-		{
+		while (removed_i != removed_end) {
 			++next_removed_i;
 
 			SetPlayerPlace((*removed_i)->getMyUniqueID(), currentRank);
 			++currentRankCounter;
-			if (next_removed_i != removed_end && (*removed_i)->getMyRoundStartCash() < (*next_removed_i)->getMyRoundStartCash())
-			{
+			if (next_removed_i != removed_end && (*removed_i)->getMyRoundStartCash() < (*next_removed_i)->getMyRoundStartCash()) {
 				currentRank -= currentRankCounter;
 				currentRankCounter = 0;
 			}
@@ -352,8 +336,7 @@ ServerGame::UpdateRankingMap()
 		}
 	}
 	// Last player is winner.
-	if (activePlayers.size() == 1)
-	{
+	if (activePlayers.size() == 1) {
 		SetPlayerPlace((*(activePlayers.begin()))->getMyUniqueID(), 1);
 	}
 }
@@ -362,8 +345,7 @@ void
 ServerGame::SetPlayerPlace(unsigned playerId, int place)
 {
 	RankingMap::iterator pos = m_rankingMap.find(playerId);
-	if (pos != m_rankingMap.end())
-	{
+	if (pos != m_rankingMap.end()) {
 		(*pos).second.place = place;
 	}
 }
@@ -372,14 +354,11 @@ void
 ServerGame::StoreAndResetRanking()
 {
 	// Store players in database.
-	if (GetDBId() != DB_ID_INVALID)
-	{
+	if (GetDBId() != DB_ID_INVALID) {
 		RankingMap::const_iterator i = m_rankingMap.begin();
 		RankingMap::const_iterator end = m_rankingMap.end();
-		while (i != end)
-		{
-			if ((*i).second.dbid != DB_ID_INVALID)
-			{
+		while (i != end) {
+			if ((*i).second.dbid != DB_ID_INVALID) {
 				GetDatabase().SetGamePlayerPlace(GetDBId(), (*i).second.dbid, (*i).second.place);
 			}
 			++i;
@@ -395,8 +374,7 @@ ServerGame::RemoveAutoLeavePlayers()
 	boost::mutex::scoped_lock lock(m_autoLeavePlayerListMutex);
 	PlayerIdList::const_iterator i = m_autoLeavePlayerList.begin();
 	PlayerIdList::const_iterator end = m_autoLeavePlayerList.end();
-	while (i != end)
-	{
+	while (i != end) {
 		SessionWrapper tmpSession = GetSessionManager().GetSessionByUniquePlayerId(*i);
 		// Only remove if the player was found.
 		if (tmpSession.sessionData.get())
@@ -433,18 +411,14 @@ ServerGame::InternalKickPlayer(unsigned playerId)
 void
 ServerGame::InternalAskVoteKick(SessionWrapper byWhom, unsigned playerIdWho, unsigned timeoutSec)
 {
-	if (IsRunning() && byWhom.playerData)
-	{
+	if (IsRunning() && byWhom.playerData) {
 		// Retrieve only the number of human players.
 		size_t numPlayers = GetSessionManager().GetPlayerIdList(SessionData::Game).size();
-		if (numPlayers > 2)
-		{
+		if (numPlayers > 2) {
 			// Check whether the player to be kicked exists.
-			if (IsValidPlayer(playerIdWho))
-			{
+			if (IsValidPlayer(playerIdWho)) {
 				// Lock the vote kick data.
-				if (!m_voteKickData)
-				{
+				if (!m_voteKickData) {
 					// Initiate a vote kick.
 					unsigned playerIdByWhom = byWhom.playerData->GetUniqueId();
 					m_voteKickData.reset(new VoteKickData);
@@ -473,17 +447,13 @@ ServerGame::InternalAskVoteKick(SessionWrapper byWhom, unsigned playerIdWho, uns
 						boost::bind(
 							&ServerGame::TimerVoteKick, shared_from_this(), boost::asio::placeholders::error));
 
-				}
-				else
+				} else
 					InternalDenyAskVoteKick(byWhom, playerIdWho, KICK_DENIED_OTHER_IN_PROGRESS);
-			}
-			else
+			} else
 				InternalDenyAskVoteKick(byWhom, playerIdWho, KICK_DENIED_INVALID_PLAYER_ID);
-		}
-		else
+		} else
 			InternalDenyAskVoteKick(byWhom, playerIdWho, KICK_DENIED_TOO_FEW_PLAYERS);
-	}
-	else
+	} else
 		InternalDenyAskVoteKick(byWhom, playerIdWho, KICK_DENIED_INVALID_STATE);
 }
 
@@ -502,15 +472,12 @@ ServerGame::InternalDenyAskVoteKick(SessionWrapper byWhom, unsigned playerIdWho,
 void
 ServerGame::InternalVoteKick(SessionWrapper byWhom, unsigned petitionId, KickVote vote)
 {
-	if (IsRunning() && byWhom.playerData)
-	{
+	if (IsRunning() && byWhom.playerData) {
 		// Check whether this is the valid petition id.
-		if (m_voteKickData && m_voteKickData->petitionId == petitionId)
-		{
+		if (m_voteKickData && m_voteKickData->petitionId == petitionId) {
 			// Check whether the player already voted.
 			unsigned playerId = byWhom.playerData->GetUniqueId();
-			if (find(m_voteKickData->votedPlayerIds.begin(), m_voteKickData->votedPlayerIds.end(), playerId) == m_voteKickData->votedPlayerIds.end())
-			{
+			if (find(m_voteKickData->votedPlayerIds.begin(), m_voteKickData->votedPlayerIds.end(), playerId) == m_voteKickData->votedPlayerIds.end()) {
 				m_voteKickData->votedPlayerIds.push_back(playerId);
 				if (vote == KICK_VOTE_IN_FAVOUR)
 					m_voteKickData->numVotesInFavourOfKicking++;
@@ -526,14 +493,11 @@ ServerGame::InternalVoteKick(SessionWrapper byWhom, unsigned petitionId, KickVot
 				netKickUpdate->numVotesInFavourOfKicking = m_voteKickData->numVotesInFavourOfKicking;
 				netKickUpdate->numVotesNeededToKick = m_voteKickData->numVotesToKick;
 				SendToAllPlayers(packet, SessionData::Game);
-			}
-			else
+			} else
 				InternalDenyVoteKick(byWhom, petitionId, VOTE_DENIED_ALREADY_VOTED);
-		}
-		else
+		} else
 			InternalDenyVoteKick(byWhom, petitionId, VOTE_DENIED_INVALID_PETITION);
-	}
-	else
+	} else
 		InternalDenyVoteKick(byWhom, petitionId, VOTE_DENIED_INVALID_PETITION);
 }
 
@@ -567,19 +531,14 @@ ServerGame::GetPlayerDataByUniqueId(unsigned playerId) const
 {
 	boost::shared_ptr<PlayerData> tmpPlayer;
 	SessionWrapper session = GetSessionManager().GetSessionByUniquePlayerId(playerId);
-	if (session.playerData.get())
-	{
+	if (session.playerData.get()) {
 		tmpPlayer = session.playerData;
-	}
-	else
-	{
+	} else {
 		boost::mutex::scoped_lock lock(m_computerPlayerListMutex);
 		PlayerDataList::const_iterator i = m_computerPlayerList.begin();
 		PlayerDataList::const_iterator end = m_computerPlayerList.end();
-		while (i != end)
-		{
-			if ((*i)->GetUniqueId() == playerId)
-			{
+		while (i != end) {
+			if ((*i)->GetUniqueId() == playerId) {
 				tmpPlayer = *i;
 				break;
 			}
@@ -596,8 +555,7 @@ ServerGame::GetPlayerIdList() const
 	boost::mutex::scoped_lock lock(m_computerPlayerListMutex);
 	PlayerDataList::const_iterator i = m_computerPlayerList.begin();
 	PlayerDataList::const_iterator end = m_computerPlayerList.end();
-	while (i != end)
-	{
+	while (i != end) {
 		idList.push_back((*i)->GetUniqueId());
 		++i;
 	}
@@ -693,10 +651,8 @@ ServerGame::RemoveComputerPlayer(unsigned playerId)
 		boost::mutex::scoped_lock lock(m_computerPlayerListMutex);
 		PlayerDataList::iterator i = m_computerPlayerList.begin();
 		PlayerDataList::iterator end = m_computerPlayerList.end();
-		while (i != end)
-		{
-			if ((*i)->GetUniqueId() == playerId)
-			{
+		while (i != end) {
+			if ((*i)->GetUniqueId() == playerId) {
 				tmpPlayer = *i;
 				m_computerPlayerList.erase(i);
 				break;
@@ -715,8 +671,7 @@ ServerGame::IsComputerPlayerActive(unsigned playerId) const
 	boost::mutex::scoped_lock lock(m_computerPlayerListMutex);
 	PlayerDataList::const_iterator i = m_computerPlayerList.begin();
 	PlayerDataList::const_iterator end = m_computerPlayerList.end();
-	while (i != end)
-	{
+	while (i != end) {
 		if ((*i)->GetUniqueId() == playerId)
 			retVal = true;
 		++i;
@@ -732,8 +687,7 @@ ServerGame::ResetComputerPlayerList()
 	PlayerDataList::iterator i = m_computerPlayerList.begin();
 	PlayerDataList::iterator end = m_computerPlayerList.end();
 
-	while (i != end)
-	{
+	while (i != end) {
 		GetLobbyThread().RemoveComputerPlayer(*i);
 		RemovePlayerData(*i, NTF_NET_REMOVED_ON_REQUEST);
 		++i;
@@ -748,11 +702,9 @@ ServerGame::GracefulRemoveSession(SessionWrapper session, int reason)
 	if (!session.sessionData)
 		throw ServerException(__FILE__, __LINE__, ERR_NET_INVALID_SESSION, 0);
 
-	if (GetSessionManager().RemoveSession(session.sessionData->GetId()))
-	{
+	if (GetSessionManager().RemoveSession(session.sessionData->GetId())) {
 		boost::shared_ptr<PlayerData> tmpPlayerData = session.playerData;
-		if (tmpPlayerData && !tmpPlayerData->GetName().empty())
-		{
+		if (tmpPlayerData && !tmpPlayerData->GetName().empty()) {
 			RemovePlayerData(tmpPlayerData, reason);
 		}
 	}
@@ -761,12 +713,10 @@ ServerGame::GracefulRemoveSession(SessionWrapper session, int reason)
 void
 ServerGame::RemovePlayerData(boost::shared_ptr<PlayerData> player, int reason)
 {
-	if (player->IsGameAdmin())
-	{
+	if (player->IsGameAdmin()) {
 		// Find new admin for the game
 		PlayerDataList playerList(GetSessionManager().GetPlayerDataList());
-		if (!playerList.empty())
-		{
+		if (!playerList.empty()) {
 			boost::shared_ptr<PlayerData> newAdmin = playerList.front();
 			SetAdminPlayerId(newAdmin->GetUniqueId());
 			newAdmin->SetGameAdmin(true);
@@ -798,17 +748,16 @@ ServerGame::RemovePlayerData(boost::shared_ptr<PlayerData> player, int reason)
 	netPlayerLeft->gamePlayerNotification.present = gamePlayerNotification_PR_gamePlayerLeft;
 	GamePlayerLeft_t *gamePlayer = &netPlayerLeft->gamePlayerNotification.choice.gamePlayerLeft;
 	gamePlayer->playerId = player->GetUniqueId();
-	switch (reason)
-	{
-		case NTF_NET_REMOVED_ON_REQUEST :
-			gamePlayer->gamePlayerLeftReason = gamePlayerLeftReason_leftOnRequest;
-			break;
-		case NTF_NET_REMOVED_KICKED :
-			gamePlayer->gamePlayerLeftReason = gamePlayerLeftReason_leftKicked;
-			break;
-		default :
-			gamePlayer->gamePlayerLeftReason = gamePlayerLeftReason_leftError;
-			break;
+	switch (reason) {
+	case NTF_NET_REMOVED_ON_REQUEST :
+		gamePlayer->gamePlayerLeftReason = gamePlayerLeftReason_leftOnRequest;
+		break;
+	case NTF_NET_REMOVED_KICKED :
+		gamePlayer->gamePlayerLeftReason = gamePlayerLeftReason_leftKicked;
+		break;
+	default :
+		gamePlayer->gamePlayerLeftReason = gamePlayerLeftReason_leftError;
+		break;
 	}
 	GetSessionManager().SendToAllSessions(GetLobbyThread().GetSender(), thisPlayerLeft, SessionData::Game);
 
@@ -845,17 +794,14 @@ void
 ServerGame::RemoveDisconnectedPlayers()
 {
 	// This should only be called between hands.
-	if (m_game)
-	{
+	if (m_game) {
 		PlayerList tmpList(m_game->getSeatsList());
 		PlayerListIterator i = tmpList->begin();
 		PlayerListIterator end = tmpList->end();
-		while (i != end)
-		{
+		while (i != end) {
 			boost::shared_ptr<PlayerInterface> tmpPlayer = *i;
 			if ((tmpPlayer->getMyType() == PLAYER_TYPE_HUMAN && !GetSessionManager().IsPlayerConnected(tmpPlayer->getMyUniqueID()))
-				|| (tmpPlayer->getMyType() == PLAYER_TYPE_COMPUTER && !IsComputerPlayerActive(tmpPlayer->getMyUniqueID())))
-			{
+					|| (tmpPlayer->getMyType() == PLAYER_TYPE_COMPUTER && !IsComputerPlayerActive(tmpPlayer->getMyUniqueID()))) {
 				// Setting player cash to 0 will deactivate the player.
 				tmpPlayer->setMyCash(0);
 				tmpPlayer->setNetSessionData(boost::shared_ptr<SessionData>());
@@ -879,8 +825,7 @@ ServerGame::AssignPlayerNumbers(PlayerDataList &playerList)
 	PlayerDataList::iterator player_i = playerList.begin();
 	PlayerDataList::iterator player_end = playerList.end();
 
-	while (player_i != player_end)
-	{
+	while (player_i != player_end) {
 		(*player_i)->SetNumber(playerNumber);
 		++playerNumber;
 		++player_i;
@@ -1034,23 +979,19 @@ bool
 ServerGame::CheckSettings(const GameData &data, const string &password, ServerMode mode)
 {
 	bool retVal = true;
-	if (mode != SERVER_MODE_LAN)
-	{
-		if (data.playerActionTimeoutSec < 5)
-		{
+	if (mode != SERVER_MODE_LAN) {
+		if (data.playerActionTimeoutSec < 5) {
 			retVal = false;
 		}
 	}
-	if (data.gameType == GAME_TYPE_RANKING)
-	{
+	if (data.gameType == GAME_TYPE_RANKING) {
 		if ((data.startMoney != RANKING_GAME_START_CASH)
-			|| (data.maxNumberOfPlayers != RANKING_GAME_NUMBER_OF_PLAYERS)
-			|| (data.firstSmallBlind != RANKING_GAME_START_SBLIND)
-			|| (data.raiseIntervalMode != RAISE_ON_HANDNUMBER)
-			|| (data.raiseMode != DOUBLE_BLINDS)
-			|| (data.raiseSmallBlindEveryHandsValue != RANKING_GAME_RAISE_EVERY_HAND)
-			|| (!password.empty()))
-		{
+				|| (data.maxNumberOfPlayers != RANKING_GAME_NUMBER_OF_PLAYERS)
+				|| (data.firstSmallBlind != RANKING_GAME_START_SBLIND)
+				|| (data.raiseIntervalMode != RAISE_ON_HANDNUMBER)
+				|| (data.raiseMode != DOUBLE_BLINDS)
+				|| (data.raiseSmallBlindEveryHandsValue != RANKING_GAME_RAISE_EVERY_HAND)
+				|| (!password.empty())) {
 			retVal = false;
 		}
 	}

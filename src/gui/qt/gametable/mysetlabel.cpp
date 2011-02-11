@@ -1,7 +1,7 @@
 //
 // C++ Implementation: mycardspixmaplabel
 //
-// Description: 
+// Description:
 //
 //
 // Author: FThauer FHammer <f.thauer@web.de>, (C) 2007
@@ -16,7 +16,7 @@
 using namespace std;
 
 MySetLabel::MySetLabel(QGroupBox* parent)
- : QLabel(parent), myW(0)
+	: QLabel(parent), myW(0)
 {
 }
 
@@ -25,7 +25,8 @@ MySetLabel::~MySetLabel()
 {
 }
 
-void MySetLabel::paintEvent(QPaintEvent * event) {
+void MySetLabel::paintEvent(QPaintEvent * event)
+{
 
-		QLabel::paintEvent(event);
+	QLabel::paintEvent(event);
 }

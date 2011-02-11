@@ -34,7 +34,7 @@
 using namespace std;
 
 ServerLobbyBot::ServerLobbyBot()
-: m_ircRestartTimer(boost::posix_time::time_duration(0, 0, 0), boost::timers::portable::second_timer::auto_start)
+	: m_ircRestartTimer(boost::posix_time::time_duration(0, 0, 0), boost::timers::portable::second_timer::auto_start)
 {
 }
 
@@ -82,8 +82,7 @@ ServerLobbyBot::SignalIrcServerError(int errorCode)
 void
 ServerLobbyBot::SignalLobbyMessage(unsigned playerId, const std::string &playerName, const std::string &msg)
 {
-	if (m_ircLobbyThread && !msg.empty())
-	{
+	if (m_ircLobbyThread && !msg.empty()) {
 		ostringstream ircMsg;
 		if (playerId)
 			ircMsg << playerName << " (" << playerId << "): " << msg;
@@ -103,13 +102,10 @@ ServerLobbyBot::Run()
 void
 ServerLobbyBot::Process()
 {
-	if (m_ircRestartTimer.elapsed().total_seconds() > SERVER_RESTART_IRC_BOT_INTERVAL_SEC)
-	{
-		if (m_ircLobbyThread)
-		{
+	if (m_ircRestartTimer.elapsed().total_seconds() > SERVER_RESTART_IRC_BOT_INTERVAL_SEC) {
+		if (m_ircLobbyThread) {
 			m_ircLobbyThread->SignalTermination();
-			if (m_ircLobbyThread->Join(NET_ADMIN_IRC_TERMINATE_TIMEOUT_MSEC))
-			{
+			if (m_ircLobbyThread->Join(NET_ADMIN_IRC_TERMINATE_TIMEOUT_MSEC)) {
 				boost::shared_ptr<IrcThread> tmpIrcThread(new IrcThread(*m_ircLobbyThread));
 				tmpIrcThread->Run();
 				m_ircLobbyThread = tmpIrcThread;

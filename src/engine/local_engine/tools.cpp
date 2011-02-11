@@ -27,7 +27,8 @@
 
 using namespace std;
 
-void Tools::getRandNumber(int start, int end, int howMany, int* randArray, bool different, int* bad, int countBad) {
+void Tools::getRandNumber(int start, int end, int howMany, int* randArray, bool different, int* bad, int countBad)
+{
 
 	int r = end-start+1;
 	unsigned char rand_buf[4];
@@ -39,8 +40,7 @@ void Tools::getRandNumber(int start, int end, int howMany, int* randArray, bool 
 
 		for (i=0; i<howMany; i++) {
 
-			if(!RAND_bytes(rand_buf, 4))
-			{
+			if(!RAND_bytes(rand_buf, 4)) {
 				LOG_MSG("RAND_bytes failed!");
 			}
 
@@ -54,23 +54,21 @@ void Tools::getRandNumber(int start, int end, int howMany, int* randArray, bool 
 			}
 
 		}
-	}
-	else {
+	} else {
 
 		int *tempArray = new int[end-start+1];
 		for (i=0; i<(end-start+1); i++) tempArray[i]=1;
 
 		if(bad) {
-			for(i=0;i<countBad;i++) {
+			for(i=0; i<countBad; i++) {
 				tempArray[bad[i]]=0;
 			}
 		}
-		
+
 		int counter(0);
 		while (counter < howMany) {
 
-			if(!RAND_bytes(rand_buf, 4))
-			{
+			if(!RAND_bytes(rand_buf, 4)) {
 				LOG_MSG("RAND_bytes failed!");
 			}
 
@@ -82,14 +80,14 @@ void Tools::getRandNumber(int start, int end, int howMany, int* randArray, bool 
 			if(randNumber < ( (unsigned int) ( ((double)numeric_limits<unsigned int>::max()) / r ) ) * r) {
 				randNumber = randNumber % r;
 
-				if (tempArray[randNumber] == 1) { 
-	
-					randArray[counter] = start + randNumber; 
+				if (tempArray[randNumber] == 1) {
+
+					randArray[counter] = start + randNumber;
 					tempArray[randNumber] = 0;
 					counter++;
 				}
 			}
-			
+
 		}
 
 		delete[] tempArray;

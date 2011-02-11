@@ -6,11 +6,11 @@
 
 class MyMenuBar  : public QMenuBar
 {
-Q_OBJECT
+	Q_OBJECT
 public:
-    MyMenuBar(QMainWindow*);
+	MyMenuBar(QMainWindow*);
 
-    void paintEvent(QPaintEvent * event);
+	void paintEvent(QPaintEvent * event);
 };
 
 #endif

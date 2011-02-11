@@ -34,58 +34,70 @@ class gameLobbyDialogImpl;
 
 class ChatTools : public QObject
 {
-    Q_OBJECT
+	Q_OBJECT
 
 public:
-    ChatTools(QLineEdit*, ConfigFile*, ChatType, QTextBrowser *b = NULL, QStandardItemModel *m = NULL, gameLobbyDialogImpl *lo = NULL);
+	ChatTools(QLineEdit*, ConfigFile*, ChatType, QTextBrowser *b = NULL, QStandardItemModel *m = NULL, gameLobbyDialogImpl *lo = NULL);
 
-    ~ChatTools();
+	~ChatTools();
 
-    void setSession(boost::shared_ptr<Session> session) { mySession = session; }
+	void setSession(boost::shared_ptr<Session> session) {
+		mySession = session;
+	}
 
 public slots:
 
-    void sendMessage();
-    void receiveMessage(QString playerName, QString message);
-    void clearChat();
-    void checkInputLength(QString string);
+	void sendMessage();
+	void receiveMessage(QString playerName, QString message);
+	void clearChat();
+	void checkInputLength(QString string);
 
-    void fillChatLinesHistory(QString fillString);
-    void showChatHistoryIndex(int index);
-    int getChatLinesHistorySize() { return chatLinesHistory.size(); }
+	void fillChatLinesHistory(QString fillString);
+	void showChatHistoryIndex(int index);
+	int getChatLinesHistorySize() {
+		return chatLinesHistory.size();
+	}
 
-    void nickAutoCompletition();
-    void setChatTextEdited();
+	void nickAutoCompletition();
+	void setChatTextEdited();
 
-    void setPlayerNicksList(QStringList value) { myNickStringList = value; }
-    void setMyNick ( const QString& theValue ) { myNick = theValue; }
-    QString getMyNick () { return myNick; }
+	void setPlayerNicksList(QStringList value) {
+		myNickStringList = value;
+	}
+	void setMyNick ( const QString& theValue ) {
+		myNick = theValue;
+	}
+	QString getMyNick () {
+		return myNick;
+	}
 
-    void setMyStyle ( GameTableStyleReader* theValue ) { myStyle = theValue; }
-    void refreshIgnoreList();
+	void setMyStyle ( GameTableStyleReader* theValue ) {
+		myStyle = theValue;
+	}
+	void refreshIgnoreList();
 
 
 private:
 
-    QStringList chatLinesHistory;
-    QString lastChatString;
-    QStringList lastMatchStringList;
-    int nickAutoCompletitionCounter;
+	QStringList chatLinesHistory;
+	QString lastChatString;
+	QStringList lastMatchStringList;
+	int nickAutoCompletitionCounter;
 
-    QLineEdit *myLineEdit;
-    QStandardItemModel *myNickListModel;
-    QStringList myNickStringList;
-    QTextBrowser *myTextBrowser;
-    boost::shared_ptr<Session> mySession;
-    ChatType myChatType;
-    ConfigFile *myConfig;
+	QLineEdit *myLineEdit;
+	QStandardItemModel *myNickListModel;
+	QStringList myNickStringList;
+	QTextBrowser *myTextBrowser;
+	boost::shared_ptr<Session> mySession;
+	ChatType myChatType;
+	ConfigFile *myConfig;
 
-    QString myNick;
+	QString myNick;
 
-    GameTableStyleReader *myStyle;
-    gameLobbyDialogImpl *myLobby;
+	GameTableStyleReader *myStyle;
+	gameLobbyDialogImpl *myLobby;
 
-    std::list<std::string> ignoreList;
+	std::list<std::string> ignoreList;
 };
 
 #endif

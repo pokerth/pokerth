@@ -28,19 +28,19 @@ class Log
 {
 
 public:
-    Log(std::string logDirString, int logOnOffInt);
+	Log(std::string logDirString, int logOnOffInt);
 
-    ~Log();
+	~Log();
 
-    void logNewGameMsg(int gameID, int startCash, int startSmallBlind, unsigned dealerPosition, PlayerList seatsList);
-    void logNewHandMsg(int handID, unsigned dealerPosition, int smallBlind, unsigned smallBlindPosition, int bigBlind, unsigned bigBlindPosition, PlayerList seatsList);
+	void logNewGameMsg(int gameID, int startCash, int startSmallBlind, unsigned dealerPosition, PlayerList seatsList);
+	void logNewHandMsg(int handID, unsigned dealerPosition, int smallBlind, unsigned smallBlindPosition, int bigBlind, unsigned bigBlindPosition, PlayerList seatsList);
 //    void closeLogDbAtExit();
 
 
 private:
-    sqlite3 *mySqliteLogDb;
-    int curGameID;
-    bool logOnOff;
+	sqlite3 *mySqliteLogDb;
+	int curGameID;
+	bool logOnOff;
 
 };
 

@@ -32,7 +32,7 @@
 using namespace std;
 
 ServerManager::ServerManager(GuiInterface &gui, ConfigFile &config, AvatarManager &avatarManager)
-: m_gui(gui), m_playerConfig(config), m_avatarManager(avatarManager)
+	: m_gui(gui), m_playerConfig(config), m_avatarManager(avatarManager)
 {
 	m_ioService.reset(new boost::asio::io_service);
 	m_adminBot.reset(new ServerAdminBot);
@@ -52,19 +52,18 @@ ServerManager::Init(unsigned serverPort, bool ipv6, ServerTransportProtocol prot
 	m_adminBot->Init(m_lobbyThread, ircAdminThread);
 	m_lobbyBot->Init(m_lobbyThread, ircLobbyThread);
 
-	if (proto & TRANSPORT_PROTOCOL_TCP)
-	{
+	if (proto & TRANSPORT_PROTOCOL_TCP) {
 		boost::shared_ptr<ServerAcceptHelper> tcpAcceptHelper(new ServerAcceptHelper(GetGui(), m_ioService));
 		tcpAcceptHelper->Listen(serverPort, ipv6, false, logDir, m_lobbyThread);
 		m_acceptHelperPool.push_back(tcpAcceptHelper);
 	}
 	// TODO: Re-add SCTP support once asio supports SCTP.
-/*	if (mode & TRANSPORT_PROTOCOL_SCTP)
-	{
-		boost::shared_ptr<ServerAcceptHelper> sctpAcceptHelper(new ServerAcceptHelper(GetGui(), m_ioService));
-		sctpAcceptHelper->Listen(serverPort, ipv6, true, logDir, m_lobbyThread);
-		m_acceptHelperPool.push_back(sctpAcceptHelper);
-	}*/
+	/*	if (mode & TRANSPORT_PROTOCOL_SCTP)
+		{
+			boost::shared_ptr<ServerAcceptHelper> sctpAcceptHelper(new ServerAcceptHelper(GetGui(), m_ioService));
+			sctpAcceptHelper->Listen(serverPort, ipv6, true, logDir, m_lobbyThread);
+			m_acceptHelperPool.push_back(sctpAcceptHelper);
+		}*/
 }
 
 GuiInterface &

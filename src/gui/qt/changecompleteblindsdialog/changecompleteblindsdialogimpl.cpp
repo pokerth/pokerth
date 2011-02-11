@@ -23,66 +23,73 @@
 
 
 changeCompleteBlindsDialogImpl::changeCompleteBlindsDialogImpl(QWidget *parent, ConfigFile *c)
-    : QDialog(parent), myConfig(c), settingsCorrect(TRUE)
+	: QDialog(parent), myConfig(c), settingsCorrect(TRUE)
 {
 #ifdef __APPLE__
 	setWindowModality(Qt::ApplicationModal);
 	setWindowFlags(Qt::WindowSystemMenuHint | Qt::CustomizeWindowHint | Qt::Dialog);
-#endif	
+#endif
 	setupUi(this);
 
 	connect( pushButton_add, SIGNAL( clicked() ), this, SLOT( addBlindValueToList() ) );
 	connect( pushButton_delete, SIGNAL( clicked() ), this, SLOT( removeBlindFromList() ) );
 	connect( spinBox_firstSmallBlind, SIGNAL( valueChanged(int) ), this, SLOT( updateSpinBoxInputMinimum(int) ) );
-	
+
 }
 
-void changeCompleteBlindsDialogImpl::exec() {
+void changeCompleteBlindsDialogImpl::exec()
+{
 
 
 	QDialog::exec();
 }
 
-void changeCompleteBlindsDialogImpl::updateSpinBoxInputMinimum(int value) { spinBox_input->setMinimum(value+1); }
+void changeCompleteBlindsDialogImpl::updateSpinBoxInputMinimum(int value)
+{
+	spinBox_input->setMinimum(value+1);
+}
 
-void changeCompleteBlindsDialogImpl::addBlindValueToList() {
+void changeCompleteBlindsDialogImpl::addBlindValueToList()
+{
 
-	if(listWidget_blinds->count() == 30) { 
+	if(listWidget_blinds->count() == 30) {
 		QMessageBox::warning(this, tr("Manual Blinds Order"),
-			tr("You cannot set more than 30 manual blinds."),
-			QMessageBox::Close); }
-	else {
+							 tr("You cannot set more than 30 manual blinds."),
+							 QMessageBox::Close);
+	} else {
 		listWidget_blinds->addItem(QString::number(spinBox_input->value(),10));
 		sortBlindsList();
 	}
 }
 
-void changeCompleteBlindsDialogImpl::removeBlindFromList() {
+void changeCompleteBlindsDialogImpl::removeBlindFromList()
+{
 
 	listWidget_blinds->takeItem(listWidget_blinds->currentRow());
 	sortBlindsList();
 }
 
-void changeCompleteBlindsDialogImpl::sortBlindsList() {
+void changeCompleteBlindsDialogImpl::sortBlindsList()
+{
 
 	int i;
 	QList<int> tempIntList;
 	QStringList tempStringList;
 	bool ok = TRUE;
-		
+
 	for(i=0; i<listWidget_blinds->count(); i++) {
 // 		std::cout << listWidget_blinds->item(i)->text().toInt(&ok,10) << "\n";
-		tempIntList << listWidget_blinds->item(i)->text().toInt(&ok,10);		
+		tempIntList << listWidget_blinds->item(i)->text().toInt(&ok,10);
 	}
 
 	qStableSort(tempIntList.begin(), tempIntList.end());
-// 
+//
 	for(i=0; i<tempIntList.count(); i++) {
-// 		
+//
 // 		std::cout << tempIntList[i] << "\n";
 		tempStringList << QString::number(tempIntList[i],10);
 	}
-// 	
+//
 	listWidget_blinds->clear();
 	listWidget_blinds->addItems(tempStringList);
 }

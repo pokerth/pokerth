@@ -32,8 +32,9 @@ class ConfigFile;
 class ChatTools;
 class startWindowImpl;
 
-class startNetworkGameDialogImpl: public QDialog, public Ui::startNetworkGameDialog {
-Q_OBJECT
+class startNetworkGameDialogImpl: public QDialog, public Ui::startNetworkGameDialog
+{
+	Q_OBJECT
 public:
 	startNetworkGameDialogImpl(startWindowImpl *parent = 0, ConfigFile *config = 0);
 
@@ -41,16 +42,20 @@ public:
 
 public slots:
 
-	void setMyW ( gameTableImpl* theValue ) { myW = theValue; }
-	ChatTools *getMyChat() { return myChat; }	
+	void setMyW ( gameTableImpl* theValue ) {
+		myW = theValue;
+	}
+	ChatTools *getMyChat() {
+		return myChat;
+	}
 
 	void startGame();
 	void cancel();
 	void refresh(int actionID);
 	void accept();
 	void reject();
-        void joinedNetworkGame(unsigned playerId, QString playerName, bool admin);
-        void addConnectedPlayer(unsigned playerId, QString playerName, bool admin);
+	void joinedNetworkGame(unsigned playerId, QString playerName, bool admin);
+	void addConnectedPlayer(unsigned playerId, QString playerName, bool admin);
 	void updatePlayer(unsigned playerId, QString newPlayerName);
 	void removePlayer(unsigned playerId, QString playerName);
 	void newGameAdmin(unsigned playerId, QString playerName);
@@ -65,23 +70,28 @@ public slots:
 	void keyPressEvent ( QKeyEvent*);
 	bool eventFilter(QObject *obj, QEvent *event);
 
-	void setMaxPlayerNumber ( int theValue ) { maxPlayerNumber = theValue; label_maxPlayerNumber->setText(QString::number(theValue,10)); }
-	int getMaxPlayerNumber() const { return maxPlayerNumber; }
+	void setMaxPlayerNumber ( int theValue ) {
+		maxPlayerNumber = theValue;
+		label_maxPlayerNumber->setText(QString::number(theValue,10));
+	}
+	int getMaxPlayerNumber() const {
+		return maxPlayerNumber;
+	}
 
 	void exec();
 
-private: 
+private:
 
 	gameTableImpl* myW;
 	startWindowImpl* myStartWindow;
 	int maxPlayerNumber;
 	int keyUpDownChatCounter;
 	unsigned myPlayerId;
-        bool isAdmin;
+	bool isAdmin;
 	ConfigFile *myConfig;
 	boost::shared_ptr<Session> mySession;
 	ChatTools *myChat;
-	
+
 };
 
 #endif

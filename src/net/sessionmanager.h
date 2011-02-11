@@ -31,8 +31,7 @@
 class NetPacket;
 class SenderHelper;
 
-struct SessionWrapper
-{
+struct SessionWrapper {
 	SessionWrapper() {}
 	SessionWrapper(boost::shared_ptr<SessionData> s, boost::shared_ptr<PlayerData> p)
 		: sessionData(s), playerData(p) {}

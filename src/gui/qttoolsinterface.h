@@ -22,7 +22,8 @@
 
 #include <string>
 
-class QtToolsInterface {
+class QtToolsInterface
+{
 public:
 	virtual ~QtToolsInterface();
 
@@ -31,7 +32,7 @@ public:
 	virtual std::string stringFromUtf8(const std::string &) =0;
 	virtual std::string getDefaultLanguage() =0;
 	virtual std::string getDataPathStdString(const char *argv0) =0;
-	
+
 
 };
 

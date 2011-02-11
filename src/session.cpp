@@ -43,96 +43,103 @@
 using namespace std;
 
 Session::Session(GuiInterface *g, ConfigFile *c)
-    : currentGameNum(0), myGui(g), myConfig(c), myLog(0), myGameType(GAME_TYPE_NONE)
+	: currentGameNum(0), myGui(g), myConfig(c), myLog(0), myGameType(GAME_TYPE_NONE)
 {
-    myQtToolsInterface = CreateQtToolsWrapper();
-    myLog = new Log(myConfig->readConfigString("LogDir"),myConfig->readConfigInt("LogOnOff"));
+	myQtToolsInterface = CreateQtToolsWrapper();
+	myLog = new Log(myConfig->readConfigString("LogDir"),myConfig->readConfigInt("LogOnOff"));
 }
 
 
 Session::~Session()
 {
-    terminateNetworkClient();
-    terminateNetworkServer();
-    delete myQtToolsInterface;
-    myQtToolsInterface = 0;
-    delete myLog;
-    myLog = 0;
+	terminateNetworkClient();
+	terminateNetworkServer();
+	delete myQtToolsInterface;
+	myQtToolsInterface = 0;
+	delete myLog;
+	myLog = 0;
 }
 
 bool Session::init()
 {
-    myAvatarManager.reset(new AvatarManager(
-            myConfig->readConfigInt("ServerUsePutAvatars") == 1,
-            myConfig->readConfigString("ServerPutAvatarsAddress"),
-            myConfig->readConfigString("ServerPutAvatarsUser"),
-            myConfig->readConfigString("ServerPutAvatarsPassword")
-            ));
-    bool retVal = myAvatarManager->Init(
-            myQtToolsInterface->stringFromUtf8(myConfig->readConfigString("AppDataDir")),
-            myQtToolsInterface->stringFromUtf8(myConfig->readConfigString("CacheDir")));
-    addOwnAvatar(myQtToolsInterface->stringFromUtf8(myConfig->readConfigString("MyAvatar")));
-    myAvatarManager->RemoveOldAvatarCacheEntries();
-    return retVal;
+	myAvatarManager.reset(new AvatarManager(
+							  myConfig->readConfigInt("ServerUsePutAvatars") == 1,
+							  myConfig->readConfigString("ServerPutAvatarsAddress"),
+							  myConfig->readConfigString("ServerPutAvatarsUser"),
+							  myConfig->readConfigString("ServerPutAvatarsPassword")
+						  ));
+	bool retVal = myAvatarManager->Init(
+					  myQtToolsInterface->stringFromUtf8(myConfig->readConfigString("AppDataDir")),
+					  myQtToolsInterface->stringFromUtf8(myConfig->readConfigString("CacheDir")));
+	addOwnAvatar(myQtToolsInterface->stringFromUtf8(myConfig->readConfigString("MyAvatar")));
+	myAvatarManager->RemoveOldAvatarCacheEntries();
+	return retVal;
 }
 
 void Session::init(boost::shared_ptr<AvatarManager> manager)
 {
-    myAvatarManager = manager;
+	myAvatarManager = manager;
 }
 
 void Session::addOwnAvatar(const std::string &avatarFile)
 {
-    myAvatarManager->AddSingleAvatar(avatarFile);
+	myAvatarManager->AddSingleAvatar(avatarFile);
 }
 
-void Session::startLocalGame(const GameData &gameData, const StartData &startData) {
+void Session::startLocalGame(const GameData &gameData, const StartData &startData)
+{
 
-    myGameType = GAME_TYPE_LOCAL;
+	myGameType = GAME_TYPE_LOCAL;
 
-    currentGame.reset();
-    currentGameNum++;
+	currentGame.reset();
+	currentGameNum++;
 
-    myGui->initGui(gameData.guiSpeed);
+	myGui->initGui(gameData.guiSpeed);
 
-    PlayerDataList playerDataList;
-    for(int i = 0; i < startData.numberOfPlayers; i++) {
+	PlayerDataList playerDataList;
+	for(int i = 0; i < startData.numberOfPlayers; i++) {
 
-        //Namen und Avatarpfad abfragen
-        ostringstream myName;
-        if (i==0) { myName << "MyName";	}
-        else { myName << "Opponent" << i << "Name"; }
-        ostringstream myAvatar;
-        if (i==0) { myAvatar << "MyAvatar";	}
-        else { myAvatar << "Opponent" << i << "Avatar"; }
+		//Namen und Avatarpfad abfragen
+		ostringstream myName;
+		if (i==0) {
+			myName << "MyName";
+		} else {
+			myName << "Opponent" << i << "Name";
+		}
+		ostringstream myAvatar;
+		if (i==0) {
+			myAvatar << "MyAvatar";
+		} else {
+			myAvatar << "Opponent" << i << "Avatar";
+		}
 
-        //PlayerData erzeugen
-        // UniqueId = PlayerNumber for local games.
-        boost::shared_ptr<PlayerData> playerData(new PlayerData(i, i,
-                                                                i == 0 ? PLAYER_TYPE_HUMAN : PLAYER_TYPE_COMPUTER,
-                                                                PLAYER_RIGHTS_NORMAL,
-                                                                i == 0));
-        playerData->SetName(myConfig->readConfigString(myName.str()));
-        playerData->SetAvatarFile(myConfig->readConfigString(myAvatar.str()));
+		//PlayerData erzeugen
+		// UniqueId = PlayerNumber for local games.
+		boost::shared_ptr<PlayerData> playerData(new PlayerData(i, i,
+				i == 0 ? PLAYER_TYPE_HUMAN : PLAYER_TYPE_COMPUTER,
+				PLAYER_RIGHTS_NORMAL,
+				i == 0));
+		playerData->SetName(myConfig->readConfigString(myName.str()));
+		playerData->SetAvatarFile(myConfig->readConfigString(myAvatar.str()));
 
-        playerDataList.push_back(playerData);
-    }
-    // EngineFactory erstellen
-    boost::shared_ptr<EngineFactory> factory(new LocalEngineFactory(myConfig)); // LocalEngine erstellen
+		playerDataList.push_back(playerData);
+	}
+	// EngineFactory erstellen
+	boost::shared_ptr<EngineFactory> factory(new LocalEngineFactory(myConfig)); // LocalEngine erstellen
 
-    currentGame.reset(new Game(myGui, factory, playerDataList, gameData, startData, currentGameNum, myLog));
+	currentGame.reset(new Game(myGui, factory, playerDataList, gameData, startData, currentGameNum, myLog));
 
-    //// SPIEL-SCHLEIFE
-    currentGame->initHand();
-    currentGame->startHand();
-    // SPIEL-SCHLEIFE
+	//// SPIEL-SCHLEIFE
+	currentGame->initHand();
+	currentGame->startHand();
+	// SPIEL-SCHLEIFE
 }
 
 void Session::startClientGame(boost::shared_ptr<Game> game)
 {
-    currentGameNum++;
+	currentGameNum++;
 
-    currentGame = game;
+	currentGame = game;
 }
 
 boost::shared_ptr<Game> Session::getCurrentGame()
@@ -142,116 +149,113 @@ boost::shared_ptr<Game> Session::getCurrentGame()
 
 GuiInterface *Session::getGui()
 {
-    return myGui;
+	return myGui;
 }
 
 Session::GameType Session::getGameType()
 {
-    return myGameType;
+	return myGameType;
 }
 
 boost::shared_ptr<AvatarManager> Session::getAvatarManager()
 {
-    return myAvatarManager;
+	return myAvatarManager;
 }
 
 void Session::startInternetClient()
 {
-    if (myNetClient || !myGui)
-    {
-        assert(false);
-        return;
-    }
-    myGameType = GAME_TYPE_INTERNET;
+	if (myNetClient || !myGui) {
+		assert(false);
+		return;
+	}
+	myGameType = GAME_TYPE_INTERNET;
 
-    myNetClient.reset(new ClientThread(*myGui, *myAvatarManager));
-    bool useAvatarServer = myConfig->readConfigInt("UseAvatarServer") != 0;
+	myNetClient.reset(new ClientThread(*myGui, *myAvatarManager));
+	bool useAvatarServer = myConfig->readConfigInt("UseAvatarServer") != 0;
 
-    myNetClient->Init(
-            myConfig->readConfigString("InternetServerAddress"),
-            myConfig->readConfigString("InternetServerListAddress"),
-            myConfig->readConfigInt("InternetServerConfigMode") == 0,
-            myConfig->readConfigInt("InternetServerPort"),
-            myConfig->readConfigInt("InternetServerUseIpv6") == 1,
-            myConfig->readConfigInt("InternetServerUseSctp") == 1,
-            useAvatarServer ? myConfig->readConfigString("AvatarServerAddress") : "",
-            myConfig->readConfigString("MyName"),
-            myConfig->readConfigString("MyAvatar"),
-            myQtToolsInterface->stringFromUtf8(myConfig->readConfigString("CacheDir")));
-    myNetClient->Run();
+	myNetClient->Init(
+		myConfig->readConfigString("InternetServerAddress"),
+		myConfig->readConfigString("InternetServerListAddress"),
+		myConfig->readConfigInt("InternetServerConfigMode") == 0,
+		myConfig->readConfigInt("InternetServerPort"),
+		myConfig->readConfigInt("InternetServerUseIpv6") == 1,
+		myConfig->readConfigInt("InternetServerUseSctp") == 1,
+		useAvatarServer ? myConfig->readConfigString("AvatarServerAddress") : "",
+		myConfig->readConfigString("MyName"),
+		myConfig->readConfigString("MyAvatar"),
+		myQtToolsInterface->stringFromUtf8(myConfig->readConfigString("CacheDir")));
+	myNetClient->Run();
 }
 
 void Session::startNetworkClient(const string &serverAddress, unsigned serverPort, bool ipv6, bool sctp)
 {
-    if (myNetClient || !myGui)
-    {
-        assert(false);
-        return;
-    }
-    myGameType = GAME_TYPE_NETWORK;
+	if (myNetClient || !myGui) {
+		assert(false);
+		return;
+	}
+	myGameType = GAME_TYPE_NETWORK;
 
-    myNetClient.reset(new ClientThread(*myGui, *myAvatarManager));
-    myNetClient->Init(
-            serverAddress,
-            "",
-            false,
-            serverPort,
-            ipv6,
-            sctp,
-            "", // no avatar server
-            myConfig->readConfigString("MyName"),
-            myConfig->readConfigString("MyAvatar"),
-            myQtToolsInterface->stringFromUtf8(myConfig->readConfigString("CacheDir")));
-    myNetClient->Run();
+	myNetClient.reset(new ClientThread(*myGui, *myAvatarManager));
+	myNetClient->Init(
+		serverAddress,
+		"",
+		false,
+		serverPort,
+		ipv6,
+		sctp,
+		"", // no avatar server
+		myConfig->readConfigString("MyName"),
+		myConfig->readConfigString("MyAvatar"),
+		myQtToolsInterface->stringFromUtf8(myConfig->readConfigString("CacheDir")));
+	myNetClient->Run();
 	myNetClient->SendJoinFirstGame(
-			"",
-			myConfig->readConfigInt("NetAutoLeaveGameAfterFinish") == 1
+		"",
+		myConfig->readConfigInt("NetAutoLeaveGameAfterFinish") == 1
 	);
 }
 
 void Session::startNetworkClientForLocalServer(const GameData &gameData)
 {
-    if (myNetClient || !myGui)
-    {
-        assert(false);
-        return;
-    }
-    myGameType = GAME_TYPE_NETWORK;
+	if (myNetClient || !myGui) {
+		assert(false);
+		return;
+	}
+	myGameType = GAME_TYPE_NETWORK;
 
-    myNetClient.reset(new ClientThread(*myGui, *myAvatarManager));
-    bool useIpv6 = myConfig->readConfigInt("ServerUseIpv6") == 1;
-    const char *loopbackAddr = useIpv6 ? "::1" : "127.0.0.1";
-    myNetClient->Init(
-            loopbackAddr,
-            "",
-            false,
-            myConfig->readConfigInt("ServerPort"),
-            useIpv6,
-            myConfig->readConfigInt("ServerUseSctp") == 1,
-            "", // no avatar server
-            myConfig->readConfigString("MyName"),
-            myConfig->readConfigString("MyAvatar"),
-            myQtToolsInterface->stringFromUtf8(myConfig->readConfigString("CacheDir")));
-    myNetClient->Run();
+	myNetClient.reset(new ClientThread(*myGui, *myAvatarManager));
+	bool useIpv6 = myConfig->readConfigInt("ServerUseIpv6") == 1;
+	const char *loopbackAddr = useIpv6 ? "::1" : "127.0.0.1";
+	myNetClient->Init(
+		loopbackAddr,
+		"",
+		false,
+		myConfig->readConfigInt("ServerPort"),
+		useIpv6,
+		myConfig->readConfigInt("ServerUseSctp") == 1,
+		"", // no avatar server
+		myConfig->readConfigString("MyName"),
+		myConfig->readConfigString("MyAvatar"),
+		myQtToolsInterface->stringFromUtf8(myConfig->readConfigString("CacheDir")));
+	myNetClient->Run();
 	myNetClient->SendCreateGame(
-			gameData,
-			NET_DEFAULT_GAME,
-			"",
-			myConfig->readConfigInt("NetAutoLeaveGameAfterFinish") == 1
+		gameData,
+		NET_DEFAULT_GAME,
+		"",
+		myConfig->readConfigInt("NetAutoLeaveGameAfterFinish") == 1
 	);
 }
 
 void Session::terminateNetworkClient()
 {
-    if (!myNetClient)
-        return; // already terminated
-    myNetClient->SignalTermination();
-    // Give the threads some time to terminate.
-    if (myNetClient->Join(NET_CLIENT_TERMINATE_TIMEOUT_MSEC))
-        myNetClient.reset();
+	if (!myNetClient)
+		return; // already terminated
+	myNetClient->SignalTermination();
+	// Give the threads some time to terminate.
+	if (myNetClient->Join(NET_CLIENT_TERMINATE_TIMEOUT_MSEC))
+		myNetClient.reset();
 
-    // If termination fails, leave a memory leak to prevent a crash.
-    myGameType = GAME_TYPE_NONE;
+	// If termination fails, leave a memory leak to prevent a crash.
+	myGameType = GAME_TYPE_NONE;
 }
 
 void Session::clientCreateGame(const GameData &gameData, const string &name, const string &password)
@@ -259,10 +263,10 @@ void Session::clientCreateGame(const GameData &gameData, const string &name, con
 	if (!myNetClient)
 		return; // only act if client is running.
 	myNetClient->SendCreateGame(
-			gameData,
-			name,
-			password,
-			myConfig->readConfigInt("NetAutoLeaveGameAfterFinish") == 1
+		gameData,
+		name,
+		password,
+		myConfig->readConfigInt("NetAutoLeaveGameAfterFinish") == 1
 	);
 }
 
@@ -271,133 +275,127 @@ void Session::clientJoinGame(unsigned gameId, const std::string &password)
 	if (!myNetClient)
 		return; // only act if client is running.
 	myNetClient->SendJoinGame(
-			gameId,
-			password,
-			myConfig->readConfigInt("NetAutoLeaveGameAfterFinish") == 1
+		gameId,
+		password,
+		myConfig->readConfigInt("NetAutoLeaveGameAfterFinish") == 1
 	);
 }
 
 void Session::startNetworkServer(bool dedicated)
 {
-    if (myNetServer)
-    {
-        assert(false);
-        return;
-    }
+	if (myNetServer) {
+		assert(false);
+		return;
+	}
 
 	myNetServer.reset(new ServerManager(*myGui, *myConfig, *myAvatarManager));
 
-    boost::shared_ptr<IrcThread> tmpIrcAdminThread;
-    boost::shared_ptr<IrcThread> tmpIrcLobbyThread;
-    if (myConfig->readConfigInt("UseAdminIRC"))
-    {
-        tmpIrcAdminThread = boost::shared_ptr<IrcThread>(new IrcThread(&myNetServer->GetAdminBot()));
+	boost::shared_ptr<IrcThread> tmpIrcAdminThread;
+	boost::shared_ptr<IrcThread> tmpIrcLobbyThread;
+	if (myConfig->readConfigInt("UseAdminIRC")) {
+		tmpIrcAdminThread = boost::shared_ptr<IrcThread>(new IrcThread(&myNetServer->GetAdminBot()));
 
-        tmpIrcAdminThread->Init(
-                myConfig->readConfigString("AdminIRCServerAddress"),
-                myConfig->readConfigInt("AdminIRCServerPort"),
-                myConfig->readConfigInt("AdminIRCServerUseIpv6") == 1,
-                myConfig->readConfigString("AdminIRCServerNick"),
-                myConfig->readConfigString("AdminIRCChannel"),
-                myConfig->readConfigString("AdminIRCChannelPassword"));
-    }
+		tmpIrcAdminThread->Init(
+			myConfig->readConfigString("AdminIRCServerAddress"),
+			myConfig->readConfigInt("AdminIRCServerPort"),
+			myConfig->readConfigInt("AdminIRCServerUseIpv6") == 1,
+			myConfig->readConfigString("AdminIRCServerNick"),
+			myConfig->readConfigString("AdminIRCChannel"),
+			myConfig->readConfigString("AdminIRCChannelPassword"));
+	}
 
-    if (myConfig->readConfigInt("UseLobbyIRC"))
-    {
-        tmpIrcLobbyThread = boost::shared_ptr<IrcThread>(new IrcThread(&myNetServer->GetLobbyBot()));
+	if (myConfig->readConfigInt("UseLobbyIRC")) {
+		tmpIrcLobbyThread = boost::shared_ptr<IrcThread>(new IrcThread(&myNetServer->GetLobbyBot()));
 
-        tmpIrcLobbyThread->Init(
-                myConfig->readConfigString("LobbyIRCServerAddress"),
-                myConfig->readConfigInt("LobbyIRCServerPort"),
-                myConfig->readConfigInt("LobbyIRCServerUseIpv6") == 1,
-                myConfig->readConfigString("LobbyIRCServerNick"),
-                myConfig->readConfigString("LobbyIRCChannel"),
-                myConfig->readConfigString("LobbyIRCChannelPassword"));
-    }
+		tmpIrcLobbyThread->Init(
+			myConfig->readConfigString("LobbyIRCServerAddress"),
+			myConfig->readConfigInt("LobbyIRCServerPort"),
+			myConfig->readConfigInt("LobbyIRCServerUseIpv6") == 1,
+			myConfig->readConfigString("LobbyIRCServerNick"),
+			myConfig->readConfigString("LobbyIRCChannel"),
+			myConfig->readConfigString("LobbyIRCChannelPassword"));
+	}
 
-    ServerMode mode;
-    if (dedicated)
-    {
+	ServerMode mode;
+	if (dedicated) {
 #ifdef POKERTH_OFFICIAL_SERVER
-        mode = SERVER_MODE_INTERNET_AUTH;
+		mode = SERVER_MODE_INTERNET_AUTH;
 #else
-        mode = SERVER_MODE_INTERNET_NOAUTH;
+		mode = SERVER_MODE_INTERNET_NOAUTH;
 #endif
-    }
-    else
-        mode = SERVER_MODE_LAN;
+	} else
+		mode = SERVER_MODE_LAN;
 
-    myNetServer->Init(
-            myConfig->readConfigInt("ServerPort"),
-            myConfig->readConfigInt("ServerUseIpv6") == 1,
-            myConfig->readConfigInt("ServerUseSctp") == 1 ? TRANSPORT_PROTOCOL_TCP_SCTP : TRANSPORT_PROTOCOL_TCP,
-            mode,
-            myQtToolsInterface->stringFromUtf8(myConfig->readConfigString("LogDir")),
-            tmpIrcAdminThread,
-            tmpIrcLobbyThread
-            );
+	myNetServer->Init(
+		myConfig->readConfigInt("ServerPort"),
+		myConfig->readConfigInt("ServerUseIpv6") == 1,
+		myConfig->readConfigInt("ServerUseSctp") == 1 ? TRANSPORT_PROTOCOL_TCP_SCTP : TRANSPORT_PROTOCOL_TCP,
+		mode,
+		myQtToolsInterface->stringFromUtf8(myConfig->readConfigString("LogDir")),
+		tmpIrcAdminThread,
+		tmpIrcLobbyThread
+	);
 
-    myNetServer->RunAll();
+	myNetServer->RunAll();
 }
 
 void Session::terminateNetworkServer()
 {
-    if (!myNetServer)
-        return; // already terminated
-    myNetServer->SignalTerminationAll();
-    // Give the thread some time to terminate.
-    if (myNetServer->JoinAll(true))
-        myNetServer.reset();
-    // If termination fails, leave a memory leak to prevent a crash.
+	if (!myNetServer)
+		return; // already terminated
+	myNetServer->SignalTerminationAll();
+	// Give the thread some time to terminate.
+	if (myNetServer->JoinAll(true))
+		myNetServer.reset();
+	// If termination fails, leave a memory leak to prevent a crash.
 }
 
 bool Session::pollNetworkServerTerminated()
 {
-    bool retVal = false;
-    if (!myNetServer)
-        retVal = true; // already terminated
-    else
-    {
-        myNetServer->Process();
-        if (myNetServer->JoinAll(false))
-            retVal = true;
-    }
-    return retVal;
+	bool retVal = false;
+	if (!myNetServer)
+		retVal = true; // already terminated
+	else {
+		myNetServer->Process();
+		if (myNetServer->JoinAll(false))
+			retVal = true;
+	}
+	return retVal;
 }
 
 void Session::sendLeaveCurrentGame()
 {
-    if (!myNetClient)
-        return; // only act if client is running.
-    myNetClient->SendLeaveCurrentGame();
+	if (!myNetClient)
+		return; // only act if client is running.
+	myNetClient->SendLeaveCurrentGame();
 }
 
 void Session::sendStartEvent(bool fillUpWithCpuPlayers)
 {
-    if (!myNetClient)
-        return; // only act if client is running.
-    myNetClient->SendStartEvent(fillUpWithCpuPlayers);
+	if (!myNetClient)
+		return; // only act if client is running.
+	myNetClient->SendStartEvent(fillUpWithCpuPlayers);
 }
 
 void Session::sendClientPlayerAction()
 {
-    if (!myNetClient)
-        return; // only act if client is running.
-    myNetClient->SendPlayerAction();
+	if (!myNetClient)
+		return; // only act if client is running.
+	myNetClient->SendPlayerAction();
 }
 
 void Session::sendGameChatMessage(const std::string &message)
 {
-    if (!myNetClient)
-        return; // only act if client is running.
-    myNetClient->SendGameChatMessage(message);
+	if (!myNetClient)
+		return; // only act if client is running.
+	myNetClient->SendGameChatMessage(message);
 }
 
 void Session::sendLobbyChatMessage(const std::string &message)
 {
-    if (!myNetClient)
-        return;
-    myNetClient->SendLobbyChatMessage(message);
+	if (!myNetClient)
+		return;
+	myNetClient->SendLobbyChatMessage(message);
 }
 
 void Session::sendPrivateChatMessage(unsigned targetPlayerId, const std::string &message)
@@ -410,75 +408,75 @@ void Session::sendPrivateChatMessage(unsigned targetPlayerId, const std::string 
 
 void Session::kickPlayer(unsigned playerId)
 {
-    if (!myNetClient)
-        return; // only act if client is running.
-    myNetClient->SendKickPlayer(playerId);
+	if (!myNetClient)
+		return; // only act if client is running.
+	myNetClient->SendKickPlayer(playerId);
 }
 
 void Session::resetNetworkTimeout()
 {
-    if (!myNetClient)
-        return; // only act if client is running.
-    myNetClient->SendResetTimeout();
+	if (!myNetClient)
+		return; // only act if client is running.
+	myNetClient->SendResetTimeout();
 }
 
 void Session::kickPlayer(const string &playerName)
 {
-    if (!myNetClient)
-        return; // only act if client is running.
-    unsigned playerId;
-    if (myNetClient->GetPlayerIdFromName(playerName, playerId))
-        kickPlayer(playerId);
+	if (!myNetClient)
+		return; // only act if client is running.
+	unsigned playerId;
+	if (myNetClient->GetPlayerIdFromName(playerName, playerId))
+		kickPlayer(playerId);
 }
 
 void Session::startVoteKickPlayer(unsigned playerId)
 {
-    if (!myNetClient)
-        return; // only act if client is running.
-    myNetClient->SendAskKickPlayer(playerId);
+	if (!myNetClient)
+		return; // only act if client is running.
+	myNetClient->SendAskKickPlayer(playerId);
 }
 
 void Session::selectServer(unsigned serverId)
 {
-    if (!myNetClient)
-        return; // only act if client is running.
-    myNetClient->SelectServer(serverId);
+	if (!myNetClient)
+		return; // only act if client is running.
+	myNetClient->SelectServer(serverId);
 }
 
 void
 Session::setLogin(const std::string &userName, const std::string &password, bool isGuest)
 {
-    if (!myNetClient)
-        return; // only act if client is running.
-    myNetClient->SetLogin(userName, password, isGuest);
+	if (!myNetClient)
+		return; // only act if client is running.
+	myNetClient->SetLogin(userName, password, isGuest);
 }
 
 void
 Session::invitePlayerToCurrentGame(unsigned playerId)
 {
-    if (!myNetClient)
-        return; // only act if client is running.
-    myNetClient->SendInvitePlayerToCurrentGame(playerId);
+	if (!myNetClient)
+		return; // only act if client is running.
+	myNetClient->SendInvitePlayerToCurrentGame(playerId);
 }
 
 void
 Session::acceptGameInvitation(unsigned gameId)
 {
-    if (!myNetClient)
-        return; // only act if client is running.
+	if (!myNetClient)
+		return; // only act if client is running.
 	myNetClient->SendJoinGame(
-			gameId,
-			"",
-			myConfig->readConfigInt("NetAutoLeaveGameAfterFinish") == 1
+		gameId,
+		"",
+		myConfig->readConfigInt("NetAutoLeaveGameAfterFinish") == 1
 	);
 }
 
 void
 Session::rejectGameInvitation(unsigned gameId, DenyGameInvitationReason reason)
 {
-    if (!myNetClient)
-        return; // only act if client is running.
-    myNetClient->SendRejectGameInvitation(gameId, reason);
+	if (!myNetClient)
+		return; // only act if client is running.
+	myNetClient->SendRejectGameInvitation(gameId, reason);
 }
 
 void Session::reportBadAvatar(unsigned reportedPlayerId, const std::string &avatarHash)
@@ -490,52 +488,52 @@ void Session::reportBadAvatar(unsigned reportedPlayerId, const std::string &avat
 
 void Session::voteKick(bool doKick)
 {
-    if (!myNetClient)
-        return; // only act if client is running.
-    myNetClient->SendVoteKick(doKick);
+	if (!myNetClient)
+		return; // only act if client is running.
+	myNetClient->SendVoteKick(doKick);
 }
 
 void Session::showMyCards()
 {
 	if (!myNetClient)
-                return; // only act if client is running.
+		return; // only act if client is running.
 	myNetClient->SendShowMyCards();
 }
 
 bool Session::isNetworkClientRunning() const
 {
-    // This, and every place which calls this, is a HACK.
-    return myNetClient.get() != NULL;
+	// This, and every place which calls this, is a HACK.
+	return myNetClient.get() != NULL;
 }
 
 bool Session::isNetworkServerRunning() const
 {
-    // This, and every place which calls this, is a HACK.
-    return myNetServer.get() != NULL;
+	// This, and every place which calls this, is a HACK.
+	return myNetServer.get() != NULL;
 }
 
 ServerInfo Session::getClientServerInfo(unsigned serverId) const
 {
-    ServerInfo info;
-    if (myNetClient)
-        info = myNetClient->GetServerInfo(serverId);
-    return info;
+	ServerInfo info;
+	if (myNetClient)
+		info = myNetClient->GetServerInfo(serverId);
+	return info;
 }
 
 GameInfo Session::getClientGameInfo(unsigned playerId) const
 {
-    GameInfo info;
-    if (myNetClient)
-        info = myNetClient->GetGameInfo(playerId);
-    return info;
+	GameInfo info;
+	if (myNetClient)
+		info = myNetClient->GetGameInfo(playerId);
+	return info;
 }
 
 PlayerInfo Session::getClientPlayerInfo(unsigned playerId) const
 {
-    PlayerInfo info;
-    if (myNetClient)
-        info = myNetClient->GetPlayerInfo(playerId);
-    return info;
+	PlayerInfo info;
+	if (myNetClient)
+		info = myNetClient->GetPlayerInfo(playerId);
+	return info;
 }
 
 unsigned Session::getGameIdOfPlayer(unsigned playerId) const
@@ -548,38 +546,37 @@ unsigned Session::getGameIdOfPlayer(unsigned playerId) const
 
 ServerStats Session::getClientStats() const
 {
-    ServerStats stats;
-    if (myNetClient)
-        stats = myNetClient->GetStatData();
-    return stats;
+	ServerStats stats;
+	if (myNetClient)
+		stats = myNetClient->GetStatData();
+	return stats;
 }
 
 unsigned Session::getClientCurrentGameId() const
 {
-    unsigned id = 0;
-    if (myNetClient)
-        id = myNetClient->GetGameId();
-    return id;
+	unsigned id = 0;
+	if (myNetClient)
+		id = myNetClient->GetGameId();
+	return id;
 }
 
 unsigned Session::getClientUniquePlayerId() const
 {
-    unsigned id = 0;
-    if (myNetClient)
-        id = myNetClient->GetGuiPlayerId();
-    return id;
+	unsigned id = 0;
+	if (myNetClient)
+		id = myNetClient->GetGuiPlayerId();
+	return id;
 }
 
 bool Session::getAvatarFile(const MD5Buf &avatarMD5, std::string &fileName)
 {
-    bool retVal = false;
-    if (myAvatarManager.get())
-    {
-        string tmpFileName;
-        retVal = myAvatarManager->GetAvatarFileName(avatarMD5, tmpFileName);
-        if (retVal)
-            fileName = myQtToolsInterface->stringToUtf8(tmpFileName);
-    }
-    return retVal;
+	bool retVal = false;
+	if (myAvatarManager.get()) {
+		string tmpFileName;
+		retVal = myAvatarManager->GetAvatarFileName(avatarMD5, tmpFileName);
+		if (retVal)
+			fileName = myQtToolsInterface->stringToUtf8(tmpFileName);
+	}
+	return retVal;
 }
 

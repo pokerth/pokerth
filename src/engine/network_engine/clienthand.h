@@ -32,97 +32,97 @@
 
 class ClientHand : public HandInterface
 {
-	public:
-		ClientHand ( boost::shared_ptr<EngineFactory> f, GuiInterface*, boost::shared_ptr<BoardInterface>, Log*, PlayerList, PlayerList, PlayerList , int, int, int, int, int );
-		~ClientHand();
+public:
+	ClientHand ( boost::shared_ptr<EngineFactory> f, GuiInterface*, boost::shared_ptr<BoardInterface>, Log*, PlayerList, PlayerList, PlayerList , int, int, int, int, int );
+	~ClientHand();
 
-		void start();
+	void start();
 
-		PlayerList getSeatsList() const;
-		PlayerList getActivePlayerList() const;
-		PlayerList getRunningPlayerList() const;
+	PlayerList getSeatsList() const;
+	PlayerList getActivePlayerList() const;
+	PlayerList getRunningPlayerList() const;
 
-		boost::shared_ptr<BoardInterface> getBoard() const;
-		boost::shared_ptr<BeRoInterface> getPreflop() const;
-		boost::shared_ptr<BeRoInterface> getFlop() const;
-		boost::shared_ptr<BeRoInterface> getTurn() const;
-		boost::shared_ptr<BeRoInterface> getRiver() const;
-		GuiInterface* getGuiInterface() const;
-		boost::shared_ptr<BeRoInterface> getCurrentBeRo() const;
+	boost::shared_ptr<BoardInterface> getBoard() const;
+	boost::shared_ptr<BeRoInterface> getPreflop() const;
+	boost::shared_ptr<BeRoInterface> getFlop() const;
+	boost::shared_ptr<BeRoInterface> getTurn() const;
+	boost::shared_ptr<BeRoInterface> getRiver() const;
+	GuiInterface* getGuiInterface() const;
+	boost::shared_ptr<BeRoInterface> getCurrentBeRo() const;
 
-		void setMyID ( int theValue );
-		int getMyID() const;
+	void setMyID ( int theValue );
+	int getMyID() const;
 
-		void setCurrentQuantityPlayers ( int theValue );
-		int getCurrentQuantityPlayers() const;
+	void setCurrentQuantityPlayers ( int theValue );
+	int getCurrentQuantityPlayers() const;
 
-		void setStartQuantityPlayers ( int theValue );
-		int getStartQuantityPlayers() const;
+	void setStartQuantityPlayers ( int theValue );
+	int getStartQuantityPlayers() const;
 
-		void setCurrentRound ( int theValue );
-		int getCurrentRound() const;
+	void setCurrentRound ( int theValue );
+	int getCurrentRound() const;
 
-		void setDealerPosition ( int theValue );
-		int getDealerPosition() const;
+	void setDealerPosition ( int theValue );
+	int getDealerPosition() const;
 
-		void setSmallBlind ( int theValue );
-		int getSmallBlind() const;
+	void setSmallBlind ( int theValue );
+	int getSmallBlind() const;
 
-		void setAllInCondition ( bool theValue );
-		bool getAllInCondition() const;
+	void setAllInCondition ( bool theValue );
+	bool getAllInCondition() const;
 
-		void setStartCash ( int theValue );
-		int getStartCash() const;
+	void setStartCash ( int theValue );
+	int getStartCash() const;
 
-		void setBettingRoundsPlayed ( int theValue );
-		int getBettingRoundsPlayed() const;
+	void setBettingRoundsPlayed ( int theValue );
+	int getBettingRoundsPlayed() const;
 
-		void setLastPlayersTurn ( int theValue );
-		int getLastPlayersTurn() const;
+	void setLastPlayersTurn ( int theValue );
+	int getLastPlayersTurn() const;
 
-		void setLastActionPlayer ( unsigned theValue );
-		unsigned getLastActionPlayer() const;
+	void setLastActionPlayer ( unsigned theValue );
+	unsigned getLastActionPlayer() const;
 
-		void setCardsShown ( bool theValue );
-		bool getCardsShown() const;
+	void setCardsShown ( bool theValue );
+	bool getCardsShown() const;
 
-		void switchRounds();
+	void switchRounds();
 
 protected:
-		PlayerListIterator getSeatIt(unsigned) const;
-		PlayerListIterator getActivePlayerIt(unsigned) const;
-		PlayerListIterator getRunningPlayerIt(unsigned) const;
+	PlayerListIterator getSeatIt(unsigned) const;
+	PlayerListIterator getActivePlayerIt(unsigned) const;
+	PlayerListIterator getRunningPlayerIt(unsigned) const;
 
 
 private:
-		mutable boost::recursive_mutex m_syncMutex;
+	mutable boost::recursive_mutex m_syncMutex;
 
-		boost::shared_ptr<EngineFactory> myFactory;
-		GuiInterface *myGui;
-		boost::shared_ptr<BoardInterface> myBoard;
-        Log *myLog;
+	boost::shared_ptr<EngineFactory> myFactory;
+	GuiInterface *myGui;
+	boost::shared_ptr<BoardInterface> myBoard;
+	Log *myLog;
 
-		PlayerList seatsList;
-		PlayerList activePlayerList;
-		PlayerList runningPlayerList;
+	PlayerList seatsList;
+	PlayerList activePlayerList;
+	PlayerList runningPlayerList;
 
-		std::vector<boost::shared_ptr<BeRoInterface> > myBeRo;
+	std::vector<boost::shared_ptr<BeRoInterface> > myBeRo;
 
-		int myID;
-		int startQuantityPlayers;
-		unsigned dealerPosition;
-		int currentRound; //0 = preflop, 1 = flop, 2 = turn, 3 = river
-		int smallBlind;
-		int startCash;
+	int myID;
+	int startQuantityPlayers;
+	unsigned dealerPosition;
+	int currentRound; //0 = preflop, 1 = flop, 2 = turn, 3 = river
+	int smallBlind;
+	int startCash;
 
-		int lastPlayersTurn;
-                unsigned lastActionPlayer;
+	int lastPlayersTurn;
+	unsigned lastActionPlayer;
 
-		bool allInCondition;
-		bool cardsShown;
+	bool allInCondition;
+	bool cardsShown;
 
-		// hier steht bis zu welcher bettingRound der human player gespielt hat: 0 - nur Preflop, 1 - bis Flop, ...
-		int bettingRoundsPlayed;
+	// hier steht bis zu welcher bettingRound der human player gespielt hat: 0 - nur Preflop, 1 - bis Flop, ...
+	int bettingRoundsPlayed;
 };
 
 #endif

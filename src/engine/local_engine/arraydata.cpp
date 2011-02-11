@@ -22,14 +22,12 @@
 
 using namespace std;
 
-struct RoundData
-{
+struct RoundData {
 	int hand;
 	double data[4];
 };
 
-static const RoundData PreflopValues[] =
-{
+static const RoundData PreflopValues[] = {
 	{     0, { 0.392398, 0.276545, 0.212940, 0.178564 } },
 	{    10, { 0.341141, 0.213735, 0.153802, 0.121123 } },
 	{    11, { 0.374930, 0.252093, 0.194671, 0.161691 } },
@@ -201,8 +199,7 @@ static const RoundData PreflopValues[] =
 	{ 12120, { 0.855608, 0.736617, 0.642366, 0.562044 } }
 };
 
-static const RoundData FlopValues[] =
-{
+static const RoundData FlopValues[] = {
 	{   106, { 0.160312, 0.078750, 0.048325, 0.033350 } },
 	{   206, { 0.185012, 0.099666, 0.071425, 0.053450 } },
 	{   306, { 0.199662, 0.115567, 0.081625, 0.067500 } },
@@ -839,14 +836,12 @@ static const RoundData FlopValues[] =
 	{ 71212, { 0.751687, 0.628100, 0.560100, 0.516900 } }
 };
 
-struct calcHandsData
-{
+struct calcHandsData {
 	int hand;
 	int data[10][2];
 };
 
-static const calcHandsData handChancePreflop[] =
-{
+static const calcHandsData handChancePreflop[] = {
 	{     0,	{ { 0,0}, { 36,1}, { 40,1}, { 12,1}, { 1,1}, { 2,1}, { 9,1}, { 1,1}, { 0,1}, { 0,1} } },
 	{     10,	{ { 19,1}, { 45,1}, { 23,1}, { 4,1}, { 5,1}, { 2,1}, { 2,1}, { 0,1}, { 0,1}, { 0,1} } },
 	{     11,	{ { 18,1}, { 42,1}, { 22,1}, { 4,1}, { 5,1}, { 6,1}, { 2,1}, { 0,1}, { 0,1}, { 0,1} } },
@@ -1030,15 +1025,16 @@ ArrayData::~ArrayData()
 {
 }
 
-void ArrayData::getHandChancePreflop(int handCode, int** values) {
+void ArrayData::getHandChancePreflop(int handCode, int** values)
+{
 
 	int check = -1;
 
 	for (unsigned val = 0; val < NUM_HAND_CHANCE_PREFLOP; val++) {
 		if(handCode == handChancePreflop[val].hand) {
 			check = 1;
-			for(int i=0;i<10;i++) {
-				for(int j=0;j<2;j++) {
+			for(int i=0; i<10; i++) {
+				for(int j=0; j<2; j++) {
 					values[i][j] = handChancePreflop[val].data[i][j];
 				}
 			}
@@ -1049,7 +1045,8 @@ void ArrayData::getHandChancePreflop(int handCode, int** values) {
 
 }
 
-vector< vector<int> > ArrayData::getHandChancePreflop(int handCode) {
+vector< vector<int> > ArrayData::getHandChancePreflop(int handCode)
+{
 
 	int check = -1;
 
@@ -1060,7 +1057,7 @@ vector< vector<int> > ArrayData::getHandChancePreflop(int handCode) {
 	chance[0].resize(10);
 	chance[1].resize(10);
 
-	for(i=0;i<10;i++) {
+	for(i=0; i<10; i++) {
 		chance[0][i] = 0;
 		chance[1][i] = 0;
 	}
@@ -1068,8 +1065,8 @@ vector< vector<int> > ArrayData::getHandChancePreflop(int handCode) {
 	for (unsigned val = 0; val < NUM_HAND_CHANCE_PREFLOP; val++) {
 		if(handCode == handChancePreflop[val].hand) {
 			check = 1;
-			for(int i=0;i<10;i++) {
-				for(int j=0;j<2;j++) {
+			for(int i=0; i<10; i++) {
+				for(int j=0; j<2; j++) {
 					chance[j][i] = handChancePreflop[val].data[i][j];
 				}
 			}

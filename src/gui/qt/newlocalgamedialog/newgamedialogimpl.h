@@ -29,21 +29,24 @@
 class ConfigFile;
 class changeCompleteBlindsDialogImpl;
 
-class newGameDialogImpl: public QDialog, public Ui::newGameDialog {
-Q_OBJECT
+class newGameDialogImpl: public QDialog, public Ui::newGameDialog
+{
+	Q_OBJECT
 public:
-    newGameDialogImpl(QMainWindow *parent = 0, ConfigFile* = 0);
+	newGameDialogImpl(QMainWindow *parent = 0, ConfigFile* = 0);
 
 	void exec();
-	changeCompleteBlindsDialogImpl* getChangeCompleteBlindsDialog() { return myChangeCompleteBlindsDialog; }
+	changeCompleteBlindsDialogImpl* getChangeCompleteBlindsDialog() {
+		return myChangeCompleteBlindsDialog;
+	}
 
 public slots:
 
 	void callChangeBlindsDialog(bool);
 
 private:
-		
-	ConfigFile *myConfig;	
+
+	ConfigFile *myConfig;
 	changeCompleteBlindsDialogImpl *myChangeCompleteBlindsDialog;
 
 };

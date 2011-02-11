@@ -3,11 +3,11 @@
 #include <QtCore>
 
 CapsFloodCheck::CapsFloodCheck()
-: capsNumberToTrigger(0)
+	: capsNumberToTrigger(0)
 {
 }
 
-bool CapsFloodCheck::run(QString msg) 
+bool CapsFloodCheck::run(QString msg)
 {
 	msg = msg.simplified().remove(" ");
 	QRegExp e(QString("[A-Z]{%1,}").arg(capsNumberToTrigger));
@@ -16,8 +16,7 @@ bool CapsFloodCheck::run(QString msg)
 		e.indexIn(msg);
 		if(e.matchedLength() != -1 ) return true;
 		else return false;
-	}
-	else { 
+	} else {
 //		qDebug() << "The current Caps Flood RegExp is invalid" << endl;
 		return false;
 	}
