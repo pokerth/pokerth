@@ -10,7 +10,13 @@ on your Linux system.
 2. Download the latest release of mingw-cross-env and extract it to /opt/mingw
 
 3. Within /opt/mingw, run
-make
+make gcc
+make qt
+make boost
+make curl
+make libgsasl
+make sdl_mixer
+make tinyxml
 (this takes quite some time)
 
 4. As the user you would like to use to compile PokerTH for Windows,
