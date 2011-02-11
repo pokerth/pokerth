@@ -404,6 +404,10 @@ void GuiWrapper::SignalNetClientLobbyChatMsg(const string &playerName, const str
 {
 	myStartWindow->signalNetClientLobbyChatMsg(QString::fromUtf8(playerName.c_str()), QString::fromUtf8(msg.c_str()));
 }
+void GuiWrapper::SignalNetClientPrivateChatMsg(const std::string &playerName, const std::string &msg)
+{
+	myStartWindow->signalNetClientPrivateChatMsg(QString::fromUtf8(playerName.c_str()), QString::fromUtf8(msg.c_str()));
+}
 void GuiWrapper::SignalNetClientMsgBox(const string &msg)
 {
 	myStartWindow->signalNetClientMsgBox(QString::fromUtf8(msg.c_str()));

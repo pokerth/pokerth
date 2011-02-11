@@ -1396,9 +1396,9 @@ ServerLobbyThread::HandleNetPacketChatRequest(SessionWrapper session, const Chat
 					boost::shared_ptr<NetPacket> packet(new NetPacket(NetPacket::Alloc));
 					packet->GetMsg()->present = PokerTHMessage_PR_chatMessage;
 					ChatMessage_t *netChat = &packet->GetMsg()->choice.chatMessage;
-					netChat->chatType.present = chatType_PR_chatTypeLobby;
-					ChatTypeLobby_t *netLobbyChat = &netChat->chatType.choice.chatTypeLobby;
-					netLobbyChat->playerId = session.playerData->GetUniqueId();
+					netChat->chatType.present = chatType_PR_chatTypePrivate;
+					ChatTypePrivate_t *netPrivateChat = &netChat->chatType.choice.chatTypePrivate;
+					netPrivateChat->playerId = session.playerData->GetUniqueId();
 					OCTET_STRING_fromBuf(
 						&netChat->chatText,
 						(char *)chatRequest.chatText.buf,

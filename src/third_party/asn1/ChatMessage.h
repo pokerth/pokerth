@@ -17,6 +17,7 @@
 #include "ChatTypeGame.h"
 #include "ChatTypeBot.h"
 #include "ChatTypeBroadcast.h"
+#include "ChatTypePrivate.h"
 #include <constr_CHOICE.h>
 #include <constr_SEQUENCE.h>
 
@@ -31,6 +32,7 @@ typedef enum chatType_PR {
 	chatType_PR_chatTypeGame,
 	chatType_PR_chatTypeBot,
 	chatType_PR_chatTypeBroadcast,
+	chatType_PR_chatTypePrivate,
 	/* Extensions may appear below */
 	
 } chatType_PR;
@@ -44,6 +46,7 @@ typedef struct ChatMessage {
 			ChatTypeGame_t	 chatTypeGame;
 			ChatTypeBot_t	 chatTypeBot;
 			ChatTypeBroadcast_t	 chatTypeBroadcast;
+			ChatTypePrivate_t	 chatTypePrivate;
 			/*
 			 * This type is extensible,
 			 * possible extensions are below.

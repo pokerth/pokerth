@@ -44,10 +44,19 @@ void ChatTools::sendMessage()
 
 	if(myLineEdit->text().size() && mySession) {
 		fillChatLinesHistory(myLineEdit->text());
+		QString chatText(myLineEdit->text());
 		if(myChatType == INGAME_CHAT) {
-			mySession->sendGameChatMessage(myLineEdit->text().toUtf8().constData());
+			mySession->sendGameChatMessage(chatText.toUtf8().constData());
 		} else {
-			mySession->sendLobbyChatMessage(myLineEdit->text().toUtf8().constData());
+			// Parse user name for private messages.
+			if(chatText.indexOf(QString("/msg ")) == 0) {
+				chatText.remove(0, 5);
+				unsigned playerId = parsePrivateMessageTarget(chatText);
+				if (playerId)
+					mySession->sendPrivateChatMessage(playerId, chatText.toUtf8().constData());
+			} else {
+				mySession->sendLobbyChatMessage(chatText.toUtf8().constData());
+			}
 		}
 		myLineEdit->setText("");
 	}
@@ -143,6 +152,11 @@ void ChatTools::receiveMessage(QString playerName, QString message)
 			}
 		}
 	}
+}
+
+void ChatTools::privateMessage(QString playerName, QString message)
+{
+	receiveMessage(playerName, "->" + message);
 }
 
 void ChatTools::clearChat()
@@ -247,3 +261,37 @@ void ChatTools::refreshIgnoreList()
 {
 	ignoreList = myConfig->readConfigStringList("PlayerIgnoreList");
 }
+
+unsigned ChatTools::parsePrivateMessageTarget(QString &chatText)
+{
+	QString playerName;
+	int endPosName = -1;
+	// Target player is either in the format "this is a user" or singlename.
+	if (chatText.startsWith('"')) {
+		chatText.remove(0, 1);
+		endPosName = chatText.indexOf('"');
+	} else {
+		endPosName = chatText.indexOf(' ');
+	}
+	if (endPosName > 0) {
+		playerName = chatText.left(endPosName);
+		chatText.remove(0, endPosName + 1);
+	}
+	chatText = chatText.trimmed();
+	unsigned playerId = 0;
+	if (!playerName.isEmpty() && !chatText.isEmpty()) {
+		if(myNickListModel) {
+			int it = 0;
+			while (myNickListModel->item(it)) {
+				QString text = myNickListModel->item(it, 0)->data(Qt::DisplayRole).toString();
+				if(text == playerName) {
+					playerId = myNickListModel->item(it, 0)->data(Qt::UserRole).toUInt();
+					break;
+				}
+				++it;
+			}
+		}
+	}
+	return playerId;
+}
+

@@ -100,6 +100,7 @@ signals:
 	void signalNetClientGameStart(boost::shared_ptr<Game> game);
 	void signalNetClientGameChatMsg(QString nickName, QString msg);
 	void signalNetClientLobbyChatMsg(QString nickName, QString msg);
+	void signalNetClientPrivateChatMsg(QString nickName, QString msg);
 	void signalNetClientMsgBox(QString msg);
 	void signalNetClientMsgBox(unsigned msgId);
 

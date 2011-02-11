@@ -223,6 +223,10 @@ void ServerGuiWrapper::SignalNetClientLobbyChatMsg(const string &playerName, con
 {
 	if (myClientcb) myClientcb->SignalNetClientLobbyChatMsg(playerName, msg);
 }
+void ServerGuiWrapper::SignalNetClientPrivateChatMsg(const string &playerName, const string &msg)
+{
+	if (myClientcb) myClientcb->SignalNetClientPrivateChatMsg(playerName, msg);
+}
 void ServerGuiWrapper::SignalNetClientMsgBox(const string &msg)
 {
 	if (myClientcb) myClientcb->SignalNetClientMsgBox(msg);

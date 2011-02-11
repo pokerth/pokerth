@@ -49,6 +49,7 @@ public slots:
 
 	void sendMessage();
 	void receiveMessage(QString playerName, QString message);
+	void privateMessage(QString playerName, QString message);
 	void clearChat();
 	void checkInputLength(QString string);
 
@@ -76,6 +77,9 @@ public slots:
 	}
 	void refreshIgnoreList();
 
+protected:
+
+	unsigned parsePrivateMessageTarget(QString &chatText);
 
 private:
 

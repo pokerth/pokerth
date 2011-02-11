@@ -669,7 +669,8 @@ ChatMessage ::= [APPLICATION 130] SEQUENCE {
 		chatTypeLobby			[0] ChatTypeLobby,
 		chatTypeGame			[1] ChatTypeGame,
 		chatTypeBot				[2] ChatTypeBot,
-		chatTypeBroadcast		[3] ChatTypeBroadcast
+		chatTypeBroadcast		[3] ChatTypeBroadcast,
+		chatTypePrivate			[4] ChatTypePrivate
 	},
 	chatText					UTF8String (SIZE(1..128))
 }
@@ -687,6 +688,10 @@ ChatTypeBroadcast ::= SEQUENCE {
 }
 
 ChatTypeBot ::= SEQUENCE {
+}
+
+ChatTypePrivate ::= SEQUENCE {
+	playerId					NonZeroId
 }
 
 DialogMessage ::= [APPLICATION 131] SEQUENCE {

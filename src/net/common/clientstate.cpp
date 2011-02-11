@@ -715,6 +715,11 @@ AbstractClientStateReceiving::HandlePacket(boost::shared_ptr<ClientThread> clien
 			PlayerInfo info;
 			if (client->GetCachedPlayerInfo(playerId, info))
 				client->GetCallback().SignalNetClientLobbyChatMsg(info.playerName, STL_STRING_FROM_OCTET_STRING(netMessage->chatText));
+		} else if (netMessage->chatType.present == chatType_PR_chatTypePrivate) {
+			unsigned playerId = netMessage->chatType.choice.chatTypeLobby.playerId;
+			PlayerInfo info;
+			if (client->GetCachedPlayerInfo(playerId, info))
+				client->GetCallback().SignalNetClientPrivateChatMsg(info.playerName, STL_STRING_FROM_OCTET_STRING(netMessage->chatText));
 		}
 	} else if (tmpPacket->GetMsg()->present == PokerTHMessage_PR_dialogMessage) {
 		// Message box - display it in the GUI.
