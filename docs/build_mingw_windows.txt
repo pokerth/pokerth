@@ -8,6 +8,8 @@ http://mingw-cross-env.nongnu.org/#requirements
 on your Linux system.
 
 2. Download the latest release of mingw-cross-env and extract it to /opt/mingw
+(if this does not work, as some packages might be broken, try the latest development release:
+hg clone http://hg.savannah.nongnu.org/hgweb/mingw-cross-env mingw )
 
 3. Within /opt/mingw, run
 make gcc
@@ -23,6 +25,8 @@ make tinyxml
 add the cross compiler to your path; e.g.:
 PATH="/opt/mingw/usr/bin:$PATH"
 (in .profile)
+Alternatively, run
+export PATH="/opt/mingw/usr/bin:$PATH"
 
 5. Download and extract whichever source version of PokerTH you wish to compile.
 http://pokerth.net/download.html
