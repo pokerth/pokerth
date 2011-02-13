@@ -87,8 +87,7 @@ public abstract class TestBase {
 	public long guestInit(Socket s) throws Exception {
 		long playerId = 0;
 		PokerTHMessage msg = receiveMessage(s);
-		AnnounceMessage announce = msg.getAnnounceMessage();
-		assertTrue(announce.getValue().getServerType().getValue() == ServerTypeEnumType.EnumType.serverTypeInternetAuth);
+		assertTrue(msg.isAnnounceMessageSelected());
 
 		Version requestedVersion = new Version();
 		requestedVersion.setMajor(PROTOCOL_VERSION_MAJOR);

@@ -84,11 +84,11 @@ public class PlayerInfoTest extends TestBase {
 			assertTrue(reply.getValue().getPlayerId().getValue() == firstPlayerId);
 			assertTrue(reply.getValue().getPlayerInfoResult().isPlayerInfoDataSelected());
 			PlayerInfoData info = reply.getValue().getPlayerInfoResult().getPlayerInfoData();
-			assertEquals(info.getPlayerName(), GuestUser);
-			assertEquals(info.getCountryCode(), null);
+			assertEquals(GuestUser, info.getPlayerName());
+			assertEquals(null, info.getCountryCode());
 			assertTrue(info.getIsHuman());
-			assertEquals(info.getPlayerRights().getValue(), PlayerInfoRights.EnumType.playerRightsGuest);
-			assertEquals(info.getAvatarData(), null);
+			assertEquals(PlayerInfoRights.EnumType.playerRightsGuest, info.getPlayerRights().getValue());
+			assertEquals(null, info.getAvatarData());
 		}
 		// Request other players' info.
 		for (int i = 0; i < 9; i++) {
@@ -101,16 +101,16 @@ public class PlayerInfoTest extends TestBase {
 			assertTrue(reply.getValue().getPlayerId().getValue() == playerId[i]);
 			assertTrue(reply.getValue().getPlayerInfoResult().isPlayerInfoDataSelected());
 			PlayerInfoData info = reply.getValue().getPlayerInfoResult().getPlayerInfoData();
-			assertEquals(info.getPlayerName(), "test" + (i+1));
-			assertEquals(info.getCountryCode(), null);
+			assertEquals("test" + (i+1), info.getPlayerName());
+			assertEquals(null, info.getCountryCode());
 			assertTrue(info.getIsHuman());
-			assertEquals(info.getPlayerRights().getValue(), PlayerInfoRights.EnumType.playerRightsNormal);
+			assertEquals(PlayerInfoRights.EnumType.playerRightsNormal, info.getPlayerRights().getValue());
 			// Every second player has an avatar, see above.
 			if (i % 2 == 0) {
-				assertEquals(info.getAvatarData(), null);
+				assertEquals(null, info.getAvatarData());
 			} else {
 				assertTrue(Arrays.equals(info.getAvatarData().getAvatar().getValue(), avatarHash));
-				assertEquals(info.getAvatarData().getAvatarType().getValue(), NetAvatarType.EnumType.avatarImagePng);
+				assertEquals(NetAvatarType.EnumType.avatarImagePng, info.getAvatarData().getAvatarType().getValue());
 			}
 		}
 		// Request invalid player info.

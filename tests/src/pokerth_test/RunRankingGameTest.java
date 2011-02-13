@@ -264,7 +264,7 @@ public class RunRankingGameTest extends TestBase {
 		gameResult.first();
 		long idgame = gameResult.getLong(1);
 		String dbGameName = gameResult.getString(2);
-		assertEquals(gameName, dbGameName);
+		assertEquals(dbGameName, gameName);
 		java.sql.Timestamp gameStart = gameResult.getTimestamp(3);
 		java.sql.Timestamp gameEnd = gameResult.getTimestamp(4);
 		assertTrue(gameEnd.after(gameStart));
@@ -276,11 +276,11 @@ public class RunRankingGameTest extends TestBase {
 		// Check database entries for the players in the game.
 		ResultSet gamePlayerResult = dbStatement.executeQuery("SELECT COUNT(DISTINCT player_idplayer) FROM game_has_player WHERE game_idgame = " + idgame);
 		gamePlayerResult.first();
-		assertEquals(gamePlayerResult.getLong(1), 10);
+		assertEquals(10, gamePlayerResult.getLong(1));
 		// The one who always went all in should have won!
 		ResultSet winnerResult = dbStatement.executeQuery(
 				"SELECT place FROM game_has_player LEFT JOIN player_login on (game_has_player.player_idplayer = player_login.id) WHERE game_idgame = " + idgame + " AND username = '" + AuthUser + "'");
 		winnerResult.first();
-		assertEquals(winnerResult.getLong(1), 1);
+		assertEquals(1, winnerResult.getLong(1));
 	}
 }
