@@ -69,6 +69,7 @@ public:
 
 	void Clear();
 	unsigned GetRawSessionCount();
+	unsigned GetEstablishedSessionCount();
 
 	void SendToAllSessions(SenderHelper &sender, boost::shared_ptr<NetPacket> packet, SessionData::State state);
 	void SendLobbyMsgToAllSessions(SenderHelper &sender, boost::shared_ptr<NetPacket> packet, SessionData::State state);

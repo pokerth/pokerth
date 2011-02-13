@@ -295,6 +295,23 @@ SessionManager::GetRawSessionCount()
 	return m_sessionMap.size();
 }
 
+unsigned
+SessionManager::GetEstablishedSessionCount()
+{
+	unsigned counter = 0;
+	boost::recursive_mutex::scoped_lock lock(m_sessionMapMutex);
+
+	SessionMap::const_iterator i = m_sessionMap.begin();
+	SessionMap::const_iterator end = m_sessionMap.end();
+
+	while (i != end) {
+		if ((*i).second.sessionData->GetState() >= SessionData::Established)
+			++counter;
+		++i;
+	}
+	return counter;
+}
+
 void
 SessionManager::SendToAllSessions(SenderHelper &sender, boost::shared_ptr<NetPacket> packet, SessionData::State state)
 {

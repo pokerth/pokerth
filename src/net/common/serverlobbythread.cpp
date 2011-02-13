@@ -272,6 +272,10 @@ ServerLobbyThread::AddConnection(boost::shared_ptr<tcp::socket> sock)
 					netAnnounce->serverType = serverType_serverTypeInternetAuth;
 					break;
 				}
+				{
+					boost::mutex::scoped_lock lock(m_statMutex);
+					netAnnounce->numPlayersOnServer = m_statData.numberOfPlayersOnServer;
+				}
 				GetSender().Send(sessionData, packet);
 
 				sock->async_read_some(
@@ -1984,7 +1988,8 @@ void
 ServerLobbyThread::UpdateStatisticsNumberOfPlayers()
 {
 	ServerStats stats;
-	unsigned curNumberOfPlayersOnServer = m_sessionManager.GetRawSessionCount() + m_gameSessionManager.GetRawSessionCount();
+	// Get all logged-in sessions and all sessions within a game.
+	unsigned curNumberOfPlayersOnServer = m_sessionManager.GetEstablishedSessionCount() + m_gameSessionManager.GetRawSessionCount();
 	{
 		boost::mutex::scoped_lock lock(m_statMutex);
 		if (curNumberOfPlayersOnServer != m_statData.numberOfPlayersOnServer) {
