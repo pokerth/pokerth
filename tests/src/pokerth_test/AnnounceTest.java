@@ -56,7 +56,26 @@ public class AnnounceTest extends TestBase {
 
 		for (int i = 0; i < 9; i++) {
 			s[i].close();
+
+			// Closing non-established sessions: counter stays the same.
+			sock.close();
+			sock = new Socket("localhost", 7234);
+			msg = receiveMessage();
+			assertTrue(msg.isAnnounceMessageSelected());
+			// After login: Counter is incremented.
+			TestAnnounceMsg(msg.getAnnounceMessage(), 9);
+		}
+
+		for (int i = 0; i < 9; i++) {
 			t[i].close();
+
+			// Closing established sessions: counter is decremented.
+			sock.close();
+			sock = new Socket("localhost", 7234);
+			msg = receiveMessage();
+			assertTrue(msg.isAnnounceMessageSelected());
+			// After login: Counter is incremented.
+			TestAnnounceMsg(msg.getAnnounceMessage(), 8 - i);
 		}
 	}
 }
