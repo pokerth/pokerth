@@ -49,6 +49,12 @@ public class CreateGameTest extends TestBase {
 
 		PokerTHMessage msg;
 		msg = receiveMessage();
+		if (!msg.isPlayerListMessageSelected()) {
+			failOnErrorMessage(msg);
+			fail("Invalid message.");
+		}
+
+		msg = receiveMessage();
 		if (!msg.isGameListMessageSelected()) {
 			failOnErrorMessage(msg);
 			fail("Invalid message.");

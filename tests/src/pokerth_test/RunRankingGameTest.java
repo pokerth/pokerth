@@ -87,6 +87,14 @@ public class RunRankingGameTest extends TestBase {
 
 		long firstPlayerId = userInit();
 
+		// Waiting for player list update.
+		PokerTHMessage msg;
+		msg = receiveMessage();
+		if (!msg.isPlayerListMessageSelected()) {
+			failOnErrorMessage(msg);
+			fail("Invalid message.");
+		}
+
 		Collection<Integer> l = new ArrayList<Integer>();
 		String gameName = AuthUser + " run ranking game";
 		NetGameInfo gameInfo = createGameInfo(5, EndRaiseModeEnumType.EnumType.doubleBlinds, 0, 50, gameName, l, 10, 0, 11, 10000);
@@ -97,8 +105,6 @@ public class RunRankingGameTest extends TestBase {
 				7,
 				"",
 				false));
-
-		PokerTHMessage msg;
 
 		// Game list update (new game)
 		msg = receiveMessage();
@@ -135,6 +141,14 @@ public class RunRankingGameTest extends TestBase {
 			String username = "test" + (i+1);
 			String password = username;
 			playerId[i] = userInit(s[i], username, password);
+			// Waiting for player list update.
+			do {
+				msg = receiveMessage(s[i]);
+			} while (msg.isGameListMessageSelected() || msg.isGamePlayerMessageSelected());
+			if (!msg.isPlayerListMessageSelected()) {
+				failOnErrorMessage(msg);
+				fail("Invalid message.");
+			}
 			sendMessage(joinGameRequestMsg(gameId, "", false), s[i]);
 			do {
 				msg = receiveMessage(s[i]);

@@ -50,8 +50,14 @@ public class CreateRankingGameTest extends TestBase {
 	public void testCreateRankingGameAsGuest() throws Exception {
 		guestInit();
 
-		createRankingGame("");
 		PokerTHMessage msg;
+		msg = receiveMessage();
+		if (!msg.isPlayerListMessageSelected()) {
+			failOnErrorMessage(msg);
+			fail("Invalid message.");
+		}
+
+		createRankingGame("");
 		msg = receiveMessage();
 
 		if (msg.isJoinGameReplyMessageSelected())
@@ -71,8 +77,15 @@ public class CreateRankingGameTest extends TestBase {
 	public void testCreateRankingGameNoPasswordAsUser() throws Exception {
 		userInit();
 
-		createRankingGame("");
+		// Waiting for player list update.
 		PokerTHMessage msg;
+		msg = receiveMessage();
+		if (!msg.isPlayerListMessageSelected()) {
+			failOnErrorMessage(msg);
+			fail("Invalid message.");
+		}
+
+		createRankingGame("");
 		msg = receiveMessage();
 
 		if (msg.isGameListMessageSelected())
@@ -93,8 +106,15 @@ public class CreateRankingGameTest extends TestBase {
 	public void testCreateRankingGameWithPasswordAsUser() throws Exception {
 		userInit();
 
-		createRankingGame(GamePassword);
+		// Waiting for player list update.
 		PokerTHMessage msg;
+		msg = receiveMessage();
+		if (!msg.isPlayerListMessageSelected()) {
+			failOnErrorMessage(msg);
+			fail("Invalid message.");
+		}
+
+		createRankingGame(GamePassword);
 		msg = receiveMessage();
 
 		if (msg.isJoinGameReplyMessageSelected())

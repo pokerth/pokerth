@@ -46,6 +46,13 @@ public class StartNormalGameTest extends TestBase {
 				false));
 
 		PokerTHMessage msg;
+		// Waiting for player list update.
+		msg = receiveMessage();
+		if (!msg.isPlayerListMessageSelected()) {
+			failOnErrorMessage(msg);
+			fail("Invalid message.");
+		}
+
 		msg = receiveMessage();
 		if (!msg.isGameListMessageSelected()) {
 			failOnErrorMessage(msg);

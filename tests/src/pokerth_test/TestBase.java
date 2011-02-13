@@ -117,12 +117,6 @@ public abstract class TestBase {
 			failOnErrorMessage(msg);
 			fail("Invalid message.");
 		}
-		// Waiting for player list update.
-		msg = receiveMessage(s);
-		if (!msg.isPlayerListMessageSelected()) {
-			failOnErrorMessage(msg);
-			fail("Invalid message.");
-		}
 		return playerId;
 	}
 
@@ -194,14 +188,6 @@ public abstract class TestBase {
 			playerId = initAck.getValue().getYourPlayerId().getValue();
 		}
 		else {
-			failOnErrorMessage(msg);
-			fail("Invalid message.");
-		}
-		// Waiting for player list update.
-		do {
-			msg = receiveMessage(s);
-		} while (msg.isGameListMessageSelected() || msg.isGamePlayerMessageSelected());
-		if (!msg.isPlayerListMessageSelected()) {
 			failOnErrorMessage(msg);
 			fail("Invalid message.");
 		}

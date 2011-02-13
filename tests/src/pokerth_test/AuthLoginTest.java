@@ -17,14 +17,7 @@
 
 package pokerth_test;
 
-import static org.junit.Assert.*;
 import org.junit.Test;
-
-import pokerth_protocol.*;
-import pokerth_protocol.AnnounceMessage.AnnounceMessageSequenceType.ServerTypeEnumType;
-import pokerth_protocol.AuthMessage.AuthMessageChoiceType;
-import pokerth_protocol.InitMessage.*;
-import pokerth_protocol.InitMessage.InitMessageSequenceType.LoginChoiceType;
 
 public class AuthLoginTest extends TestBase {
 

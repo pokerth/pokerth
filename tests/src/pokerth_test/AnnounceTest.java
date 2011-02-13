@@ -4,7 +4,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import java.net.Socket;
-import java.util.Arrays;
 
 import org.junit.Test;
 
@@ -23,7 +22,7 @@ public class AnnounceTest extends TestBase {
 	}
 
 	@Test
-	public void testPlayerInfoRequest() throws Exception {
+	public void testAnnounce() throws Exception {
 
 		PokerTHMessage msg = receiveMessage();
 		assertTrue(msg.isAnnounceMessageSelected());
@@ -68,6 +67,7 @@ public class AnnounceTest extends TestBase {
 
 		for (int i = 0; i < 9; i++) {
 			t[i].close();
+			Thread.sleep(1000);
 
 			// Closing established sessions: counter is decremented.
 			sock.close();
