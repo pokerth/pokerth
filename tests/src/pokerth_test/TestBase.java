@@ -80,11 +80,12 @@ public abstract class TestBase {
 		return decoder.decode(s.getInputStream(), PokerTHMessage.class);
 	}
 
-	public void guestInit() throws Exception {
-		guestInit(sock);
+	public long guestInit() throws Exception {
+		return guestInit(sock);
 	}
 
-	public void guestInit(Socket s) throws Exception {
+	public long guestInit(Socket s) throws Exception {
+		long playerId = 0;
 		PokerTHMessage msg = receiveMessage(s);
 		AnnounceMessage announce = msg.getAnnounceMessage();
 		assertTrue(announce.getValue().getServerType().getValue() == ServerTypeEnumType.EnumType.serverTypeInternetAuth);
@@ -107,11 +108,11 @@ public abstract class TestBase {
 		sendMessage(msg, s);
 
 		msg = receiveMessage(s);
-		if (msg.isInitAckMessageSelected())
-		{
+		if (msg.isInitAckMessageSelected()) {
 			InitAckMessage initAck = msg.getInitAckMessage();
 			assertTrue(initAck.getValue().getYourPlayerId().getValue() != 0L);
 			assertTrue(!initAck.getValue().isYourAvatarPresent());
+			playerId = initAck.getValue().getYourPlayerId().getValue();
 		}
 		else {
 			failOnErrorMessage(msg);
@@ -123,6 +124,7 @@ public abstract class TestBase {
 			failOnErrorMessage(msg);
 			fail("Invalid message.");
 		}
+		return playerId;
 	}
 
 	public long userInit() throws Exception {
@@ -130,6 +132,10 @@ public abstract class TestBase {
 	}
 
 	public long userInit(Socket s, String user, String password) throws Exception {
+		return userInit(s, user, password, null);
+	}
+
+	public long userInit(Socket s, String user, String password, byte[] avatarData) throws Exception {
 		long playerId = 0;
 		PokerTHMessage msg = receiveMessage(s);
 		AnnounceMessage announce = msg.getAnnounceMessage();
@@ -142,6 +148,11 @@ public abstract class TestBase {
 		requestedVersion.setMajor(PROTOCOL_VERSION_MAJOR);
 		requestedVersion.setMinor(PROTOCOL_VERSION_MINOR);
 		AuthenticatedLogin authLogin = new AuthenticatedLogin();
+		AvatarHash avatar = null;
+		if (avatarData != null) {
+			avatar = new AvatarHash(avatarData);
+		}
+		authLogin.setAvatar(avatar);
 		authLogin.setClientUserData(scramAuth.executeStep1(user).getBytes());
 		LoginChoiceType loginType = new LoginChoiceType();
 		loginType.selectAuthenticatedLogin(authLogin);

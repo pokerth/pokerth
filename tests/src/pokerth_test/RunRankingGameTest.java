@@ -248,6 +248,9 @@ public class RunRankingGameTest extends TestBase {
 			}
 		} while (!msg.isEndOfGameMessageSelected());
 
+		for (int i = 0; i < 9; i++) {
+			s[i].close();
+		}
 		Thread.sleep(2000);
 
 		// Check database entry for the game.
