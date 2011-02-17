@@ -40,9 +40,9 @@ static ber_tlv_tag_t asn_DEF_AuthMessage_tags_1[] = {
 	(ASN_TAG_CLASS_APPLICATION | (2 << 2))
 };
 static asn_TYPE_tag2member_t asn_MAP_AuthMessage_tag2el_1[] = {
-    { (ASN_TAG_CLASS_CONTEXT | (0 << 2)), 0, 0, 0 }, /* authServerChallenge at 126 */
-    { (ASN_TAG_CLASS_CONTEXT | (1 << 2)), 1, 0, 0 }, /* authClientResponse at 127 */
-    { (ASN_TAG_CLASS_CONTEXT | (2 << 2)), 2, 0, 0 } /* authServerVerification at 129 */
+    { (ASN_TAG_CLASS_CONTEXT | (0 << 2)), 0, 0, 0 }, /* authServerChallenge at 127 */
+    { (ASN_TAG_CLASS_CONTEXT | (1 << 2)), 1, 0, 0 }, /* authClientResponse at 128 */
+    { (ASN_TAG_CLASS_CONTEXT | (2 << 2)), 2, 0, 0 } /* authServerVerification at 130 */
 };
 static asn_CHOICE_specifics_t asn_SPC_AuthMessage_specs_1 = {
 	sizeof(struct AuthMessage),

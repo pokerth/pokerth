@@ -37,9 +37,9 @@ static asn_TYPE_member_t asn_MBR_login_4[] = {
 		},
 };
 static asn_TYPE_tag2member_t asn_MAP_login_tag2el_4[] = {
-    { (ASN_TAG_CLASS_CONTEXT | (0 << 2)), 0, 0, 0 }, /* guestLogin at 99 */
-    { (ASN_TAG_CLASS_CONTEXT | (1 << 2)), 1, 0, 0 }, /* authenticatedLogin at 100 */
-    { (ASN_TAG_CLASS_CONTEXT | (2 << 2)), 2, 0, 0 } /* unauthenticatedLogin at 102 */
+    { (ASN_TAG_CLASS_CONTEXT | (0 << 2)), 0, 0, 0 }, /* guestLogin at 100 */
+    { (ASN_TAG_CLASS_CONTEXT | (1 << 2)), 1, 0, 0 }, /* authenticatedLogin at 101 */
+    { (ASN_TAG_CLASS_CONTEXT | (2 << 2)), 2, 0, 0 } /* unauthenticatedLogin at 103 */
 };
 static asn_CHOICE_specifics_t asn_SPC_login_specs_4 = {
 	sizeof(struct login),
@@ -108,11 +108,11 @@ static ber_tlv_tag_t asn_DEF_InitMessage_tags_1[] = {
 	(ASN_TAG_CLASS_UNIVERSAL | (16 << 2))
 };
 static asn_TYPE_tag2member_t asn_MAP_InitMessage_tag2el_1[] = {
-    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 1, 0, 0 }, /* buildId at 97 */
-    { (ASN_TAG_CLASS_UNIVERSAL | (16 << 2)), 0, 0, 0 }, /* requestedVersion at 96 */
-    { (ASN_TAG_CLASS_CONTEXT | (0 << 2)), 2, 0, 0 }, /* guestLogin at 99 */
-    { (ASN_TAG_CLASS_CONTEXT | (1 << 2)), 2, 0, 0 }, /* authenticatedLogin at 100 */
-    { (ASN_TAG_CLASS_CONTEXT | (2 << 2)), 2, 0, 0 } /* unauthenticatedLogin at 102 */
+    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 1, 0, 0 }, /* buildId at 98 */
+    { (ASN_TAG_CLASS_UNIVERSAL | (16 << 2)), 0, 0, 0 }, /* requestedVersion at 97 */
+    { (ASN_TAG_CLASS_CONTEXT | (0 << 2)), 2, 0, 0 }, /* guestLogin at 100 */
+    { (ASN_TAG_CLASS_CONTEXT | (1 << 2)), 2, 0, 0 }, /* authenticatedLogin at 101 */
+    { (ASN_TAG_CLASS_CONTEXT | (2 << 2)), 2, 0, 0 } /* unauthenticatedLogin at 103 */
 };
 static asn_SEQUENCE_specifics_t asn_SPC_InitMessage_specs_1 = {
 	sizeof(struct InitMessage),

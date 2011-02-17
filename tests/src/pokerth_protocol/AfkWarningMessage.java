@@ -59,7 +59,7 @@ import org.bn.types.*;
 
        
                 
-        @ASN1Element ( name = "AfkWarningMessage", isOptional =  false , hasTag =  true, tag = 134, 
+        @ASN1Element ( name = "AfkWarningMessage", isOptional =  false , hasTag =  true, tag = 135, 
         tagClass =  TagClass.Application  , hasDefaultValue =  false  )
     
         private AfkWarningMessageSequenceType  value;        

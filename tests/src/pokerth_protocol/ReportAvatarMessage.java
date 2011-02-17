@@ -75,7 +75,7 @@ import org.bn.types.*;
 
        
                 
-        @ASN1Element ( name = "ReportAvatarMessage", isOptional =  false , hasTag =  true, tag = 135, 
+        @ASN1Element ( name = "ReportAvatarMessage", isOptional =  false , hasTag =  true, tag = 136, 
         tagClass =  TagClass.Application  , hasDefaultValue =  false  )
     
         private ReportAvatarMessageSequenceType  value;        

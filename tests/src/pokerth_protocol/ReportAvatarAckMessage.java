@@ -120,7 +120,7 @@ import org.bn.types.*;
 
        
                 
-        @ASN1Element ( name = "ReportAvatarAckMessage", isOptional =  false , hasTag =  true, tag = 136, 
+        @ASN1Element ( name = "ReportAvatarAckMessage", isOptional =  false , hasTag =  true, tag = 137, 
         tagClass =  TagClass.Application  , hasDefaultValue =  false  )
     
         private ReportAvatarAckMessageSequenceType  value;        

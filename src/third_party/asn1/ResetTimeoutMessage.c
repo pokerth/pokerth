@@ -8,7 +8,7 @@
 #include "ResetTimeoutMessage.h"
 
 static ber_tlv_tag_t asn_DEF_ResetTimeoutMessage_tags_1[] = {
-	(ASN_TAG_CLASS_APPLICATION | (133 << 2)),
+	(ASN_TAG_CLASS_APPLICATION | (134 << 2)),
 	(ASN_TAG_CLASS_UNIVERSAL | (16 << 2))
 };
 static asn_SEQUENCE_specifics_t asn_SPC_ResetTimeoutMessage_specs_1 = {

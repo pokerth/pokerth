@@ -58,6 +58,7 @@
 #include "StatisticsMessage.h"
 #include "ChatRequestMessage.h"
 #include "ChatMessage.h"
+#include "ChatRejectMessage.h"
 #include "DialogMessage.h"
 #include "TimeoutWarningMessage.h"
 #include "ResetTimeoutMessage.h"
@@ -120,6 +121,7 @@ typedef enum PokerTHMessage_PR {
 	PokerTHMessage_PR_statisticsMessage,
 	PokerTHMessage_PR_chatRequestMessage,
 	PokerTHMessage_PR_chatMessage,
+	PokerTHMessage_PR_chatRejectMessage,
 	PokerTHMessage_PR_dialogMessage,
 	PokerTHMessage_PR_timeoutWarningMessage,
 	PokerTHMessage_PR_resetTimeoutMessage,
@@ -181,6 +183,7 @@ typedef struct PokerTHMessage {
 		StatisticsMessage_t	 statisticsMessage;
 		ChatRequestMessage_t	 chatRequestMessage;
 		ChatMessage_t	 chatMessage;
+		ChatRejectMessage_t	 chatRejectMessage;
 		DialogMessage_t	 dialogMessage;
 		TimeoutWarningMessage_t	 timeoutWarningMessage;
 		ResetTimeoutMessage_t	 resetTimeoutMessage;

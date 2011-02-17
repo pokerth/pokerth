@@ -54,7 +54,7 @@ static ber_tlv_tag_t asn_DEF_GuestLogin_tags_1[] = {
 	(ASN_TAG_CLASS_UNIVERSAL | (16 << 2))
 };
 static asn_TYPE_tag2member_t asn_MAP_GuestLogin_tag2el_1[] = {
-    { (ASN_TAG_CLASS_UNIVERSAL | (12 << 2)), 0, 0, 0 } /* nickName at 111 */
+    { (ASN_TAG_CLASS_UNIVERSAL | (12 << 2)), 0, 0, 0 } /* nickName at 112 */
 };
 static asn_SEQUENCE_specifics_t asn_SPC_GuestLogin_specs_1 = {
 	sizeof(struct GuestLogin),

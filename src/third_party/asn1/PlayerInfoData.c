@@ -95,8 +95,8 @@ static ber_tlv_tag_t asn_DEF_avatarData_tags_6[] = {
 	(ASN_TAG_CLASS_UNIVERSAL | (16 << 2))
 };
 static asn_TYPE_tag2member_t asn_MAP_avatarData_tag2el_6[] = {
-    { (ASN_TAG_CLASS_UNIVERSAL | (4 << 2)), 1, 0, 0 }, /* avatar at 262 */
-    { (ASN_TAG_CLASS_UNIVERSAL | (10 << 2)), 0, 0, 0 } /* avatarType at 260 */
+    { (ASN_TAG_CLASS_UNIVERSAL | (4 << 2)), 1, 0, 0 }, /* avatar at 263 */
+    { (ASN_TAG_CLASS_UNIVERSAL | (10 << 2)), 0, 0, 0 } /* avatarType at 261 */
 };
 static asn_SEQUENCE_specifics_t asn_SPC_avatarData_specs_6 = {
 	sizeof(struct avatarData),
@@ -183,11 +183,11 @@ static ber_tlv_tag_t asn_DEF_PlayerInfoData_tags_1[] = {
 	(ASN_TAG_CLASS_UNIVERSAL | (16 << 2))
 };
 static asn_TYPE_tag2member_t asn_MAP_PlayerInfoData_tag2el_1[] = {
-    { (ASN_TAG_CLASS_UNIVERSAL | (1 << 2)), 1, 0, 0 }, /* isHuman at 256 */
-    { (ASN_TAG_CLASS_UNIVERSAL | (10 << 2)), 2, 0, 0 }, /* playerRights at 257 */
-    { (ASN_TAG_CLASS_UNIVERSAL | (12 << 2)), 0, 0, 1 }, /* playerName at 255 */
-    { (ASN_TAG_CLASS_UNIVERSAL | (12 << 2)), 3, -1, 0 }, /* countryCode at 258 */
-    { (ASN_TAG_CLASS_UNIVERSAL | (16 << 2)), 4, 0, 0 } /* avatarData at 260 */
+    { (ASN_TAG_CLASS_UNIVERSAL | (1 << 2)), 1, 0, 0 }, /* isHuman at 257 */
+    { (ASN_TAG_CLASS_UNIVERSAL | (10 << 2)), 2, 0, 0 }, /* playerRights at 258 */
+    { (ASN_TAG_CLASS_UNIVERSAL | (12 << 2)), 0, 0, 1 }, /* playerName at 256 */
+    { (ASN_TAG_CLASS_UNIVERSAL | (12 << 2)), 3, -1, 0 }, /* countryCode at 259 */
+    { (ASN_TAG_CLASS_UNIVERSAL | (16 << 2)), 4, 0, 0 } /* avatarData at 261 */
 };
 static asn_SEQUENCE_specifics_t asn_SPC_PlayerInfoData_specs_1 = {
 	sizeof(struct PlayerInfoData),

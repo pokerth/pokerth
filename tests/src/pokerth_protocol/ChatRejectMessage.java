@@ -16,14 +16,14 @@ import org.bn.types.*;
 
 
     @ASN1PreparedElement
-    @ASN1BoxedType ( name = "DialogMessage" )
-    public class DialogMessage implements IASN1PreparedElement {
+    @ASN1BoxedType ( name = "ChatRejectMessage" )
+    public class ChatRejectMessage implements IASN1PreparedElement {
                 
         
 
        @ASN1PreparedElement
-       @ASN1Sequence ( name = "DialogMessage" , isSet = false )
-       public static class DialogMessageSequenceType implements IASN1PreparedElement {
+       @ASN1Sequence ( name = "ChatRejectMessage" , isSet = false )
+       public static class ChatRejectMessageSequenceType implements IASN1PreparedElement {
                 
     @ASN1String( name = "", 
         stringType = UniversalTag.UTF8String , isUCS = false )
@@ -35,20 +35,20 @@ import org.bn.types.*;
 		
 	   )
 	   
-        @ASN1Element ( name = "notificationText", isOptional =  false , hasTag =  false  , hasDefaultValue =  false  )
+        @ASN1Element ( name = "chatText", isOptional =  false , hasTag =  false  , hasDefaultValue =  false  )
     
-	private String notificationText = null;
+	private String chatText = null;
                 
   
         
-        public String getNotificationText () {
-            return this.notificationText;
+        public String getChatText () {
+            return this.chatText;
         }
 
         
 
-        public void setNotificationText (String value) {
-            this.notificationText = value;
+        public void setChatText (String value) {
+            this.chatText = value;
         }
         
   
@@ -59,34 +59,34 @@ import org.bn.types.*;
         }
 
         public IASN1PreparedElementData getPreparedData() {
-            return preparedData_DialogMessageSequenceType;
+            return preparedData_ChatRejectMessageSequenceType;
         }
 
-       private static IASN1PreparedElementData preparedData_DialogMessageSequenceType = CoderFactory.getInstance().newPreparedElementData(DialogMessageSequenceType.class);
+       private static IASN1PreparedElementData preparedData_ChatRejectMessageSequenceType = CoderFactory.getInstance().newPreparedElementData(ChatRejectMessageSequenceType.class);
                 
        }
 
        
                 
-        @ASN1Element ( name = "DialogMessage", isOptional =  false , hasTag =  true, tag = 132, 
+        @ASN1Element ( name = "ChatRejectMessage", isOptional =  false , hasTag =  true, tag = 131, 
         tagClass =  TagClass.Application  , hasDefaultValue =  false  )
     
-        private DialogMessageSequenceType  value;        
+        private ChatRejectMessageSequenceType  value;        
 
         
         
-        public DialogMessage () {
+        public ChatRejectMessage () {
         }
         
         
         
-        public void setValue(DialogMessageSequenceType value) {
+        public void setValue(ChatRejectMessageSequenceType value) {
             this.value = value;
         }
         
         
         
-        public DialogMessageSequenceType getValue() {
+        public ChatRejectMessageSequenceType getValue() {
             return this.value;
         }            
         
@@ -94,7 +94,7 @@ import org.bn.types.*;
 	    public void initWithDefaults() {
 	    }
 
-        private static IASN1PreparedElementData preparedData = CoderFactory.getInstance().newPreparedElementData(DialogMessage.class);
+        private static IASN1PreparedElementData preparedData = CoderFactory.getInstance().newPreparedElementData(ChatRejectMessage.class);
         public IASN1PreparedElementData getPreparedData() {
             return preparedData;
         }

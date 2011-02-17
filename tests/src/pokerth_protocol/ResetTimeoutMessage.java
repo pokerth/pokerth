@@ -41,7 +41,7 @@ import org.bn.types.*;
 
        
                 
-        @ASN1Element ( name = "ResetTimeoutMessage", isOptional =  false , hasTag =  true, tag = 133, 
+        @ASN1Element ( name = "ResetTimeoutMessage", isOptional =  false , hasTag =  true, tag = 134, 
         tagClass =  TagClass.Application  , hasDefaultValue =  false  )
     
         private ResetTimeoutMessageSequenceType  value;        

@@ -249,6 +249,11 @@ import org.bn.types.*;
 	private ChatMessage chatMessage = null;
                 
   
+        @ASN1Element ( name = "chatRejectMessage", isOptional =  false , hasTag =  false  , hasDefaultValue =  false  )
+    
+	private ChatRejectMessage chatRejectMessage = null;
+                
+  
         @ASN1Element ( name = "dialogMessage", isOptional =  false , hasTag =  false  , hasDefaultValue =  false  )
     
 	private DialogMessage dialogMessage = null;
@@ -391,6 +396,8 @@ import org.bn.types.*;
                 
                     setChatMessage(null);
                 
+                    setChatRejectMessage(null);
+                
                     setDialogMessage(null);
                 
                     setTimeoutWarningMessage(null);
@@ -515,6 +522,8 @@ import org.bn.types.*;
                     setChatRequestMessage(null);
                 
                     setChatMessage(null);
+                
+                    setChatRejectMessage(null);
                 
                     setDialogMessage(null);
                 
@@ -641,6 +650,8 @@ import org.bn.types.*;
                 
                     setChatMessage(null);
                 
+                    setChatRejectMessage(null);
+                
                     setDialogMessage(null);
                 
                     setTimeoutWarningMessage(null);
@@ -765,6 +776,8 @@ import org.bn.types.*;
                     setChatRequestMessage(null);
                 
                     setChatMessage(null);
+                
+                    setChatRejectMessage(null);
                 
                     setDialogMessage(null);
                 
@@ -891,6 +904,8 @@ import org.bn.types.*;
                 
                     setChatMessage(null);
                 
+                    setChatRejectMessage(null);
+                
                     setDialogMessage(null);
                 
                     setTimeoutWarningMessage(null);
@@ -1015,6 +1030,8 @@ import org.bn.types.*;
                     setChatRequestMessage(null);
                 
                     setChatMessage(null);
+                
+                    setChatRejectMessage(null);
                 
                     setDialogMessage(null);
                 
@@ -1141,6 +1158,8 @@ import org.bn.types.*;
                 
                     setChatMessage(null);
                 
+                    setChatRejectMessage(null);
+                
                     setDialogMessage(null);
                 
                     setTimeoutWarningMessage(null);
@@ -1265,6 +1284,8 @@ import org.bn.types.*;
                     setChatRequestMessage(null);
                 
                     setChatMessage(null);
+                
+                    setChatRejectMessage(null);
                 
                     setDialogMessage(null);
                 
@@ -1391,6 +1412,8 @@ import org.bn.types.*;
                 
                     setChatMessage(null);
                 
+                    setChatRejectMessage(null);
+                
                     setDialogMessage(null);
                 
                     setTimeoutWarningMessage(null);
@@ -1515,6 +1538,8 @@ import org.bn.types.*;
                     setChatRequestMessage(null);
                 
                     setChatMessage(null);
+                
+                    setChatRejectMessage(null);
                 
                     setDialogMessage(null);
                 
@@ -1641,6 +1666,8 @@ import org.bn.types.*;
                 
                     setChatMessage(null);
                 
+                    setChatRejectMessage(null);
+                
                     setDialogMessage(null);
                 
                     setTimeoutWarningMessage(null);
@@ -1765,6 +1792,8 @@ import org.bn.types.*;
                     setChatRequestMessage(null);
                 
                     setChatMessage(null);
+                
+                    setChatRejectMessage(null);
                 
                     setDialogMessage(null);
                 
@@ -1891,6 +1920,8 @@ import org.bn.types.*;
                 
                     setChatMessage(null);
                 
+                    setChatRejectMessage(null);
+                
                     setDialogMessage(null);
                 
                     setTimeoutWarningMessage(null);
@@ -2015,6 +2046,8 @@ import org.bn.types.*;
                     setChatRequestMessage(null);
                 
                     setChatMessage(null);
+                
+                    setChatRejectMessage(null);
                 
                     setDialogMessage(null);
                 
@@ -2141,6 +2174,8 @@ import org.bn.types.*;
                 
                     setChatMessage(null);
                 
+                    setChatRejectMessage(null);
+                
                     setDialogMessage(null);
                 
                     setTimeoutWarningMessage(null);
@@ -2265,6 +2300,8 @@ import org.bn.types.*;
                     setChatRequestMessage(null);
                 
                     setChatMessage(null);
+                
+                    setChatRejectMessage(null);
                 
                     setDialogMessage(null);
                 
@@ -2391,6 +2428,8 @@ import org.bn.types.*;
                 
                     setChatMessage(null);
                 
+                    setChatRejectMessage(null);
+                
                     setDialogMessage(null);
                 
                     setTimeoutWarningMessage(null);
@@ -2515,6 +2554,8 @@ import org.bn.types.*;
                     setChatRequestMessage(null);
                 
                     setChatMessage(null);
+                
+                    setChatRejectMessage(null);
                 
                     setDialogMessage(null);
                 
@@ -2641,6 +2682,8 @@ import org.bn.types.*;
                 
                     setChatMessage(null);
                 
+                    setChatRejectMessage(null);
+                
                     setDialogMessage(null);
                 
                     setTimeoutWarningMessage(null);
@@ -2765,6 +2808,8 @@ import org.bn.types.*;
                     setChatRequestMessage(null);
                 
                     setChatMessage(null);
+                
+                    setChatRejectMessage(null);
                 
                     setDialogMessage(null);
                 
@@ -2891,6 +2936,8 @@ import org.bn.types.*;
                 
                     setChatMessage(null);
                 
+                    setChatRejectMessage(null);
+                
                     setDialogMessage(null);
                 
                     setTimeoutWarningMessage(null);
@@ -3015,6 +3062,8 @@ import org.bn.types.*;
                     setChatRequestMessage(null);
                 
                     setChatMessage(null);
+                
+                    setChatRejectMessage(null);
                 
                     setDialogMessage(null);
                 
@@ -3141,6 +3190,8 @@ import org.bn.types.*;
                 
                     setChatMessage(null);
                 
+                    setChatRejectMessage(null);
+                
                     setDialogMessage(null);
                 
                     setTimeoutWarningMessage(null);
@@ -3265,6 +3316,8 @@ import org.bn.types.*;
                     setChatRequestMessage(null);
                 
                     setChatMessage(null);
+                
+                    setChatRejectMessage(null);
                 
                     setDialogMessage(null);
                 
@@ -3391,6 +3444,8 @@ import org.bn.types.*;
                 
                     setChatMessage(null);
                 
+                    setChatRejectMessage(null);
+                
                     setDialogMessage(null);
                 
                     setTimeoutWarningMessage(null);
@@ -3515,6 +3570,8 @@ import org.bn.types.*;
                     setChatRequestMessage(null);
                 
                     setChatMessage(null);
+                
+                    setChatRejectMessage(null);
                 
                     setDialogMessage(null);
                 
@@ -3641,6 +3698,8 @@ import org.bn.types.*;
                 
                     setChatMessage(null);
                 
+                    setChatRejectMessage(null);
+                
                     setDialogMessage(null);
                 
                     setTimeoutWarningMessage(null);
@@ -3765,6 +3824,8 @@ import org.bn.types.*;
                     setChatRequestMessage(null);
                 
                     setChatMessage(null);
+                
+                    setChatRejectMessage(null);
                 
                     setDialogMessage(null);
                 
@@ -3891,6 +3952,8 @@ import org.bn.types.*;
                 
                     setChatMessage(null);
                 
+                    setChatRejectMessage(null);
+                
                     setDialogMessage(null);
                 
                     setTimeoutWarningMessage(null);
@@ -4015,6 +4078,8 @@ import org.bn.types.*;
                     setChatRequestMessage(null);
                 
                     setChatMessage(null);
+                
+                    setChatRejectMessage(null);
                 
                     setDialogMessage(null);
                 
@@ -4141,6 +4206,8 @@ import org.bn.types.*;
                 
                     setChatMessage(null);
                 
+                    setChatRejectMessage(null);
+                
                     setDialogMessage(null);
                 
                     setTimeoutWarningMessage(null);
@@ -4265,6 +4332,8 @@ import org.bn.types.*;
                     setChatRequestMessage(null);
                 
                     setChatMessage(null);
+                
+                    setChatRejectMessage(null);
                 
                     setDialogMessage(null);
                 
@@ -4391,6 +4460,8 @@ import org.bn.types.*;
                 
                     setChatMessage(null);
                 
+                    setChatRejectMessage(null);
+                
                     setDialogMessage(null);
                 
                     setTimeoutWarningMessage(null);
@@ -4515,6 +4586,8 @@ import org.bn.types.*;
                     setChatRequestMessage(null);
                 
                     setChatMessage(null);
+                
+                    setChatRejectMessage(null);
                 
                     setDialogMessage(null);
                 
@@ -4641,6 +4714,8 @@ import org.bn.types.*;
                 
                     setChatMessage(null);
                 
+                    setChatRejectMessage(null);
+                
                     setDialogMessage(null);
                 
                     setTimeoutWarningMessage(null);
@@ -4765,6 +4840,8 @@ import org.bn.types.*;
                     setChatRequestMessage(null);
                 
                     setChatMessage(null);
+                
+                    setChatRejectMessage(null);
                 
                     setDialogMessage(null);
                 
@@ -4891,6 +4968,8 @@ import org.bn.types.*;
                 
                     setChatMessage(null);
                 
+                    setChatRejectMessage(null);
+                
                     setDialogMessage(null);
                 
                     setTimeoutWarningMessage(null);
@@ -5015,6 +5094,8 @@ import org.bn.types.*;
                     setChatRequestMessage(null);
                 
                     setChatMessage(null);
+                
+                    setChatRejectMessage(null);
                 
                     setDialogMessage(null);
                 
@@ -5141,6 +5222,8 @@ import org.bn.types.*;
                 
                     setChatMessage(null);
                 
+                    setChatRejectMessage(null);
+                
                     setDialogMessage(null);
                 
                     setTimeoutWarningMessage(null);
@@ -5265,6 +5348,8 @@ import org.bn.types.*;
                     setChatRequestMessage(null);
                 
                     setChatMessage(null);
+                
+                    setChatRejectMessage(null);
                 
                     setDialogMessage(null);
                 
@@ -5391,6 +5476,8 @@ import org.bn.types.*;
                 
                     setChatMessage(null);
                 
+                    setChatRejectMessage(null);
+                
                     setDialogMessage(null);
                 
                     setTimeoutWarningMessage(null);
@@ -5515,6 +5602,8 @@ import org.bn.types.*;
                     setChatRequestMessage(null);
                 
                     setChatMessage(null);
+                
+                    setChatRejectMessage(null);
                 
                     setDialogMessage(null);
                 
@@ -5641,6 +5730,8 @@ import org.bn.types.*;
                 
                     setChatMessage(null);
                 
+                    setChatRejectMessage(null);
+                
                     setDialogMessage(null);
                 
                     setTimeoutWarningMessage(null);
@@ -5765,6 +5856,8 @@ import org.bn.types.*;
                     setChatRequestMessage(null);
                 
                     setChatMessage(null);
+                
+                    setChatRejectMessage(null);
                 
                     setDialogMessage(null);
                 
@@ -5891,6 +5984,8 @@ import org.bn.types.*;
                 
                     setChatMessage(null);
                 
+                    setChatRejectMessage(null);
+                
                     setDialogMessage(null);
                 
                     setTimeoutWarningMessage(null);
@@ -6015,6 +6110,135 @@ import org.bn.types.*;
                     setStatisticsMessage(null);
                 
                     setChatRequestMessage(null);
+                
+                    setChatRejectMessage(null);
+                
+                    setDialogMessage(null);
+                
+                    setTimeoutWarningMessage(null);
+                
+                    setResetTimeoutMessage(null);
+                
+                    setAfkWarningMessage(null);
+                
+                    setReportAvatarMessage(null);
+                
+                    setReportAvatarAckMessage(null);
+                
+                    setErrorMessage(null);
+                            
+        }
+
+        
+  
+        
+        public ChatRejectMessage getChatRejectMessage () {
+            return this.chatRejectMessage;
+        }
+
+        public boolean isChatRejectMessageSelected () {
+            return this.chatRejectMessage != null;
+        }
+
+        private void setChatRejectMessage (ChatRejectMessage value) {
+            this.chatRejectMessage = value;
+        }
+
+        
+        public void selectChatRejectMessage (ChatRejectMessage value) {
+            this.chatRejectMessage = value;
+            
+                    setAnnounceMessage(null);
+                
+                    setInitMessage(null);
+                
+                    setAuthMessage(null);
+                
+                    setInitAckMessage(null);
+                
+                    setAvatarRequestMessage(null);
+                
+                    setAvatarReplyMessage(null);
+                
+                    setPlayerListMessage(null);
+                
+                    setGameListMessage(null);
+                
+                    setPlayerInfoRequestMessage(null);
+                
+                    setPlayerInfoReplyMessage(null);
+                
+                    setSubscriptionRequestMessage(null);
+                
+                    setJoinGameRequestMessage(null);
+                
+                    setJoinGameReplyMessage(null);
+                
+                    setGamePlayerMessage(null);
+                
+                    setKickPlayerRequestMessage(null);
+                
+                    setLeaveGameRequestMessage(null);
+                
+                    setInvitePlayerToGameMessage(null);
+                
+                    setInviteNotifyMessage(null);
+                
+                    setRejectGameInvitationMessage(null);
+                
+                    setRejectInvNotifyMessage(null);
+                
+                    setStartEventMessage(null);
+                
+                    setStartEventAckMessage(null);
+                
+                    setGameStartMessage(null);
+                
+                    setHandStartMessage(null);
+                
+                    setPlayersTurnMessage(null);
+                
+                    setMyActionRequestMessage(null);
+                
+                    setYourActionRejectedMessage(null);
+                
+                    setPlayersActionDoneMessage(null);
+                
+                    setDealFlopCardsMessage(null);
+                
+                    setDealTurnCardMessage(null);
+                
+                    setDealRiverCardMessage(null);
+                
+                    setAllInShowCardsMessage(null);
+                
+                    setEndOfHandMessage(null);
+                
+                    setShowMyCardsRequestMessage(null);
+                
+                    setAfterHandShowCardsMessage(null);
+                
+                    setEndOfGameMessage(null);
+                
+                    setAskKickPlayerMessage(null);
+                
+                    setAskKickDeniedMessage(null);
+                
+                    setStartKickPetitionMessage(null);
+                
+                    setVoteKickRequestMessage(null);
+                
+                    setVoteKickReplyMessage(null);
+                
+                    setKickPetitionUpdateMessage(null);
+                
+                    setEndKickPetitionMessage(null);
+                
+                    setStatisticsMessage(null);
+                
+                    setChatRequestMessage(null);
+                
+                    setChatMessage(null);
                 
                     setDialogMessage(null);
                 
@@ -6143,6 +6367,8 @@ import org.bn.types.*;
                 
                     setChatMessage(null);
                 
+                    setChatRejectMessage(null);
+                
                     setTimeoutWarningMessage(null);
                 
                     setResetTimeoutMessage(null);
@@ -6267,6 +6493,8 @@ import org.bn.types.*;
                     setChatRequestMessage(null);
                 
                     setChatMessage(null);
+                
+                    setChatRejectMessage(null);
                 
                     setDialogMessage(null);
                 
@@ -6393,6 +6621,8 @@ import org.bn.types.*;
                 
                     setChatMessage(null);
                 
+                    setChatRejectMessage(null);
+                
                     setDialogMessage(null);
                 
                     setTimeoutWarningMessage(null);
@@ -6517,6 +6747,8 @@ import org.bn.types.*;
                     setChatRequestMessage(null);
                 
                     setChatMessage(null);
+                
+                    setChatRejectMessage(null);
                 
                     setDialogMessage(null);
                 
@@ -6643,6 +6875,8 @@ import org.bn.types.*;
                 
                     setChatMessage(null);
                 
+                    setChatRejectMessage(null);
+                
                     setDialogMessage(null);
                 
                     setTimeoutWarningMessage(null);
@@ -6768,6 +7002,8 @@ import org.bn.types.*;
                 
                     setChatMessage(null);
                 
+                    setChatRejectMessage(null);
+                
                     setDialogMessage(null);
                 
                     setTimeoutWarningMessage(null);
@@ -6892,6 +7128,8 @@ import org.bn.types.*;
                     setChatRequestMessage(null);
                 
                     setChatMessage(null);
+                
+                    setChatRejectMessage(null);
                 
                     setDialogMessage(null);
                 

@@ -50,6 +50,11 @@ import org.bn.types.*;
 	private ChatTypeBroadcast chatTypeBroadcast = null;
                 
   
+        @ASN1Element ( name = "chatTypePrivate", isOptional =  false , hasTag =  true, tag = 4 , hasDefaultValue =  false  )
+    
+	private ChatTypePrivate chatTypePrivate = null;
+                
+  
         
         public ChatTypeLobby getChatTypeLobby () {
             return this.chatTypeLobby;
@@ -72,6 +77,8 @@ import org.bn.types.*;
                     setChatTypeBot(null);
                 
                     setChatTypeBroadcast(null);
+                
+                    setChatTypePrivate(null);
                             
         }
 
@@ -99,6 +106,8 @@ import org.bn.types.*;
                     setChatTypeBot(null);
                 
                     setChatTypeBroadcast(null);
+                
+                    setChatTypePrivate(null);
                             
         }
 
@@ -126,6 +135,8 @@ import org.bn.types.*;
                     setChatTypeGame(null);
                 
                     setChatTypeBroadcast(null);
+                
+                    setChatTypePrivate(null);
                             
         }
 
@@ -153,6 +164,37 @@ import org.bn.types.*;
                     setChatTypeGame(null);
                 
                     setChatTypeBot(null);
+                
+                    setChatTypePrivate(null);
+                            
+        }
+
+        
+  
+        
+        public ChatTypePrivate getChatTypePrivate () {
+            return this.chatTypePrivate;
+        }
+
+        public boolean isChatTypePrivateSelected () {
+            return this.chatTypePrivate != null;
+        }
+
+        private void setChatTypePrivate (ChatTypePrivate value) {
+            this.chatTypePrivate = value;
+        }
+
+        
+        public void selectChatTypePrivate (ChatTypePrivate value) {
+            this.chatTypePrivate = value;
+            
+                    setChatTypeLobby(null);
+                
+                    setChatTypeGame(null);
+                
+                    setChatTypeBot(null);
+                
+                    setChatTypeBroadcast(null);
                             
         }
 

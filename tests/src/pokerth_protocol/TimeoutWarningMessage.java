@@ -119,7 +119,7 @@ import org.bn.types.*;
 
        
                 
-        @ASN1Element ( name = "TimeoutWarningMessage", isOptional =  false , hasTag =  true, tag = 132, 
+        @ASN1Element ( name = "TimeoutWarningMessage", isOptional =  false , hasTag =  true, tag = 133, 
         tagClass =  TagClass.Application  , hasDefaultValue =  false  )
     
         private TimeoutWarningMessageSequenceType  value;        

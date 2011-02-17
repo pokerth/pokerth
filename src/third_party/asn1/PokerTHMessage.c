@@ -422,8 +422,17 @@ static asn_TYPE_member_t asn_MBR_PokerTHMessage_1[] = {
 		0,
 		"chatMessage"
 		},
-	{ ATF_NOFLAGS, 0, offsetof(struct PokerTHMessage, choice.dialogMessage),
+	{ ATF_NOFLAGS, 0, offsetof(struct PokerTHMessage, choice.chatRejectMessage),
 		(ASN_TAG_CLASS_APPLICATION | (131 << 2)),
+		0,
+		&asn_DEF_ChatRejectMessage,
+		0,	/* Defer constraints checking to the member type */
+		0,	/* PER is not compiled, use -gen-PER */
+		0,
+		"chatRejectMessage"
+		},
+	{ ATF_NOFLAGS, 0, offsetof(struct PokerTHMessage, choice.dialogMessage),
+		(ASN_TAG_CLASS_APPLICATION | (132 << 2)),
 		0,
 		&asn_DEF_DialogMessage,
 		0,	/* Defer constraints checking to the member type */
@@ -432,7 +441,7 @@ static asn_TYPE_member_t asn_MBR_PokerTHMessage_1[] = {
 		"dialogMessage"
 		},
 	{ ATF_NOFLAGS, 0, offsetof(struct PokerTHMessage, choice.timeoutWarningMessage),
-		(ASN_TAG_CLASS_APPLICATION | (132 << 2)),
+		(ASN_TAG_CLASS_APPLICATION | (133 << 2)),
 		0,
 		&asn_DEF_TimeoutWarningMessage,
 		0,	/* Defer constraints checking to the member type */
@@ -441,7 +450,7 @@ static asn_TYPE_member_t asn_MBR_PokerTHMessage_1[] = {
 		"timeoutWarningMessage"
 		},
 	{ ATF_NOFLAGS, 0, offsetof(struct PokerTHMessage, choice.resetTimeoutMessage),
-		(ASN_TAG_CLASS_APPLICATION | (133 << 2)),
+		(ASN_TAG_CLASS_APPLICATION | (134 << 2)),
 		0,
 		&asn_DEF_ResetTimeoutMessage,
 		0,	/* Defer constraints checking to the member type */
@@ -450,7 +459,7 @@ static asn_TYPE_member_t asn_MBR_PokerTHMessage_1[] = {
 		"resetTimeoutMessage"
 		},
 	{ ATF_NOFLAGS, 0, offsetof(struct PokerTHMessage, choice.afkWarningMessage),
-		(ASN_TAG_CLASS_APPLICATION | (134 << 2)),
+		(ASN_TAG_CLASS_APPLICATION | (135 << 2)),
 		0,
 		&asn_DEF_AfkWarningMessage,
 		0,	/* Defer constraints checking to the member type */
@@ -459,7 +468,7 @@ static asn_TYPE_member_t asn_MBR_PokerTHMessage_1[] = {
 		"afkWarningMessage"
 		},
 	{ ATF_NOFLAGS, 0, offsetof(struct PokerTHMessage, choice.reportAvatarMessage),
-		(ASN_TAG_CLASS_APPLICATION | (135 << 2)),
+		(ASN_TAG_CLASS_APPLICATION | (136 << 2)),
 		0,
 		&asn_DEF_ReportAvatarMessage,
 		0,	/* Defer constraints checking to the member type */
@@ -468,7 +477,7 @@ static asn_TYPE_member_t asn_MBR_PokerTHMessage_1[] = {
 		"reportAvatarMessage"
 		},
 	{ ATF_NOFLAGS, 0, offsetof(struct PokerTHMessage, choice.reportAvatarAckMessage),
-		(ASN_TAG_CLASS_APPLICATION | (136 << 2)),
+		(ASN_TAG_CLASS_APPLICATION | (137 << 2)),
 		0,
 		&asn_DEF_ReportAvatarAckMessage,
 		0,	/* Defer constraints checking to the member type */
@@ -533,13 +542,14 @@ static asn_TYPE_tag2member_t asn_MAP_PokerTHMessage_tag2el_1[] = {
     { (ASN_TAG_CLASS_APPLICATION | (128 << 2)), 43, 0, 0 }, /* statisticsMessage at 70 */
     { (ASN_TAG_CLASS_APPLICATION | (129 << 2)), 44, 0, 0 }, /* chatRequestMessage at 71 */
     { (ASN_TAG_CLASS_APPLICATION | (130 << 2)), 45, 0, 0 }, /* chatMessage at 72 */
-    { (ASN_TAG_CLASS_APPLICATION | (131 << 2)), 46, 0, 0 }, /* dialogMessage at 73 */
-    { (ASN_TAG_CLASS_APPLICATION | (132 << 2)), 47, 0, 0 }, /* timeoutWarningMessage at 74 */
-    { (ASN_TAG_CLASS_APPLICATION | (133 << 2)), 48, 0, 0 }, /* resetTimeoutMessage at 75 */
-    { (ASN_TAG_CLASS_APPLICATION | (134 << 2)), 49, 0, 0 }, /* afkWarningMessage at 76 */
-    { (ASN_TAG_CLASS_APPLICATION | (135 << 2)), 50, 0, 0 }, /* reportAvatarMessage at 77 */
-    { (ASN_TAG_CLASS_APPLICATION | (136 << 2)), 51, 0, 0 }, /* reportAvatarAckMessage at 78 */
-    { (ASN_TAG_CLASS_APPLICATION | (255 << 2)), 52, 0, 0 } /* errorMessage at 80 */
+    { (ASN_TAG_CLASS_APPLICATION | (131 << 2)), 46, 0, 0 }, /* chatRejectMessage at 73 */
+    { (ASN_TAG_CLASS_APPLICATION | (132 << 2)), 47, 0, 0 }, /* dialogMessage at 74 */
+    { (ASN_TAG_CLASS_APPLICATION | (133 << 2)), 48, 0, 0 }, /* timeoutWarningMessage at 75 */
+    { (ASN_TAG_CLASS_APPLICATION | (134 << 2)), 49, 0, 0 }, /* resetTimeoutMessage at 76 */
+    { (ASN_TAG_CLASS_APPLICATION | (135 << 2)), 50, 0, 0 }, /* afkWarningMessage at 77 */
+    { (ASN_TAG_CLASS_APPLICATION | (136 << 2)), 51, 0, 0 }, /* reportAvatarMessage at 78 */
+    { (ASN_TAG_CLASS_APPLICATION | (137 << 2)), 52, 0, 0 }, /* reportAvatarAckMessage at 79 */
+    { (ASN_TAG_CLASS_APPLICATION | (255 << 2)), 53, 0, 0 } /* errorMessage at 81 */
 };
 static asn_CHOICE_specifics_t asn_SPC_PokerTHMessage_specs_1 = {
 	sizeof(struct PokerTHMessage),
@@ -547,9 +557,9 @@ static asn_CHOICE_specifics_t asn_SPC_PokerTHMessage_specs_1 = {
 	offsetof(struct PokerTHMessage, present),
 	sizeof(((struct PokerTHMessage *)0)->present),
 	asn_MAP_PokerTHMessage_tag2el_1,
-	53,	/* Count of tags in the map */
+	54,	/* Count of tags in the map */
 	0,
-	53	/* Extensions start */
+	54	/* Extensions start */
 };
 asn_TYPE_descriptor_t asn_DEF_PokerTHMessage = {
 	"PokerTHMessage",
@@ -569,7 +579,7 @@ asn_TYPE_descriptor_t asn_DEF_PokerTHMessage = {
 	0,	/* No tags (count) */
 	0,	/* No PER visible constraints */
 	asn_MBR_PokerTHMessage_1,
-	53,	/* Elements count */
+	54,	/* Elements count */
 	&asn_SPC_PokerTHMessage_specs_1	/* Additional specs */
 };
 

@@ -70,6 +70,7 @@ PokerTHMessage ::= CHOICE {
 	statisticsMessage			StatisticsMessage,
 	chatRequestMessage			ChatRequestMessage,
 	chatMessage					ChatMessage,
+	chatRejectMessage			ChatRejectMessage,
 	dialogMessage				DialogMessage,
 	timeoutWarningMessage		TimeoutWarningMessage,
 	resetTimeoutMessage			ResetTimeoutMessage,
@@ -694,11 +695,15 @@ ChatTypePrivate ::= SEQUENCE {
 	playerId					NonZeroId
 }
 
-DialogMessage ::= [APPLICATION 131] SEQUENCE {
+ChatRejectMessage ::= [APPLICATION 131] SEQUENCE {
+	chatText					UTF8String (SIZE(1..128))
+}
+
+DialogMessage ::= [APPLICATION 132] SEQUENCE {
 	notificationText			UTF8String (SIZE(1..128))
 }
 
-TimeoutWarningMessage ::= [APPLICATION 132] SEQUENCE {
+TimeoutWarningMessage ::= [APPLICATION 133] SEQUENCE {
 	timeoutReason				ENUMERATED {
 		timeoutNoDataReceived			(0),
 		timeoutInactiveGame				(1)
@@ -706,19 +711,19 @@ TimeoutWarningMessage ::= [APPLICATION 132] SEQUENCE {
 	remainingSeconds			INTEGER
 }
 
-ResetTimeoutMessage ::= [APPLICATION 133] SEQUENCE {
+ResetTimeoutMessage ::= [APPLICATION 134] SEQUENCE {
 }
 
-AfkWarningMessage ::= [APPLICATION 134] SEQUENCE {
+AfkWarningMessage ::= [APPLICATION 135] SEQUENCE {
 	remainingTimeouts			INTEGER
 }
 
-ReportAvatarMessage ::= [APPLICATION 135] SEQUENCE {
+ReportAvatarMessage ::= [APPLICATION 136] SEQUENCE {
 	reportedPlayerId			NonZeroId,
 	reportedAvatar				AvatarHash
 }
 
-ReportAvatarAckMessage ::= [APPLICATION 136] SEQUENCE {
+ReportAvatarAckMessage ::= [APPLICATION 137] SEQUENCE {
 	reportedPlayerId			NonZeroId,
 	reportResult				ENUMERATED {
 		avatarReportAccepted			(0),

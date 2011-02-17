@@ -1357,6 +1357,7 @@ ServerLobbyThread::HandleNetPacketJoinGame(SessionWrapper session, const std::st
 void
 ServerLobbyThread::HandleNetPacketChatRequest(SessionWrapper session, const ChatRequestMessage_t &chatRequest)
 {
+	bool chatSent = false;
 	// Guests are not allowed to chat.
 	if (session.playerData && session.playerData->GetRights() != PLAYER_RIGHTS_GUEST) {
 		if (chatRequest.chatRequestType.present == chatRequestType_PR_chatRequestTypeLobby) {
@@ -1385,6 +1386,7 @@ ServerLobbyThread::HandleNetPacketChatRequest(SessionWrapper session, const Chat
 				session.playerData->GetUniqueId(),
 				session.playerData->GetName(),
 				chatMsg);
+			chatSent = true;
 		} else if (chatRequest.chatRequestType.present == chatRequestType_PR_chatRequestTypePrivate) {
 			const ChatRequestTypePrivate_t *netPrivateChat = &chatRequest.chatRequestType.choice.chatRequestTypePrivate;
 			SessionWrapper targetSession = m_sessionManager.GetSessionByUniquePlayerId(netPrivateChat->targetPlayerId);
@@ -1393,7 +1395,6 @@ ServerLobbyThread::HandleNetPacketChatRequest(SessionWrapper session, const Chat
 
 			if (targetSession.sessionData && targetSession.playerData) {
 				// Only allow private messages to players which are not in running games.
-				// TODO: Send chat reject message if private message was not sent.
 				unsigned gameId = targetSession.sessionData->GetGameId();
 				GameMap::const_iterator pos = m_gameMap.find(gameId);
 				if (pos == m_gameMap.end() || !pos->second->IsRunning()) {
@@ -1408,9 +1409,21 @@ ServerLobbyThread::HandleNetPacketChatRequest(SessionWrapper session, const Chat
 						(char *)chatRequest.chatText.buf,
 						chatRequest.chatText.size);
 					GetSender().Send(targetSession.sessionData, packet);
+					chatSent = true;
 				}
 			}
 		}
+	}
+	// Other chat types are not allowed in the lobby.
+	if (!chatSent) {
+		boost::shared_ptr<NetPacket> packet(new NetPacket(NetPacket::Alloc));
+		packet->GetMsg()->present = PokerTHMessage_PR_chatRejectMessage;
+		ChatRejectMessage_t *netReject = &packet->GetMsg()->choice.chatRejectMessage;
+		OCTET_STRING_fromBuf(
+			&netReject->chatText,
+			(char *)chatRequest.chatText.buf,
+			chatRequest.chatText.size);
+		GetSender().Send(session.sessionData, packet);
 	}
 }
 

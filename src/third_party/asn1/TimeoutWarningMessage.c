@@ -145,12 +145,12 @@ static asn_TYPE_member_t asn_MBR_TimeoutWarningMessage_1[] = {
 		},
 };
 static ber_tlv_tag_t asn_DEF_TimeoutWarningMessage_tags_1[] = {
-	(ASN_TAG_CLASS_APPLICATION | (132 << 2)),
+	(ASN_TAG_CLASS_APPLICATION | (133 << 2)),
 	(ASN_TAG_CLASS_UNIVERSAL | (16 << 2))
 };
 static asn_TYPE_tag2member_t asn_MAP_TimeoutWarningMessage_tag2el_1[] = {
-    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 1, 0, 0 }, /* remainingSeconds at 707 */
-    { (ASN_TAG_CLASS_UNIVERSAL | (10 << 2)), 0, 0, 0 } /* timeoutReason at 703 */
+    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 1, 0, 0 }, /* remainingSeconds at 712 */
+    { (ASN_TAG_CLASS_UNIVERSAL | (10 << 2)), 0, 0, 0 } /* timeoutReason at 708 */
 };
 static asn_SEQUENCE_specifics_t asn_SPC_TimeoutWarningMessage_specs_1 = {
 	sizeof(struct TimeoutWarningMessage),

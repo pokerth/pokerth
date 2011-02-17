@@ -60,8 +60,8 @@ static asn_TYPE_member_t asn_MBR_joinGameAction_2[] = {
 		},
 };
 static asn_TYPE_tag2member_t asn_MAP_joinGameAction_tag2el_2[] = {
-    { (ASN_TAG_CLASS_CONTEXT | (0 << 2)), 0, 0, 0 }, /* joinExistingGame at 280 */
-    { (ASN_TAG_CLASS_CONTEXT | (1 << 2)), 1, 0, 0 } /* joinNewGame at 282 */
+    { (ASN_TAG_CLASS_CONTEXT | (0 << 2)), 0, 0, 0 }, /* joinExistingGame at 281 */
+    { (ASN_TAG_CLASS_CONTEXT | (1 << 2)), 1, 0, 0 } /* joinNewGame at 283 */
 };
 static asn_CHOICE_specifics_t asn_SPC_joinGameAction_specs_2 = {
 	sizeof(struct joinGameAction),
@@ -130,10 +130,10 @@ static ber_tlv_tag_t asn_DEF_JoinGameRequestMessage_tags_1[] = {
 	(ASN_TAG_CLASS_UNIVERSAL | (16 << 2))
 };
 static asn_TYPE_tag2member_t asn_MAP_JoinGameRequestMessage_tag2el_1[] = {
-    { (ASN_TAG_CLASS_UNIVERSAL | (1 << 2)), 2, 0, 0 }, /* autoLeave at 284 */
-    { (ASN_TAG_CLASS_UNIVERSAL | (12 << 2)), 1, 0, 0 }, /* password at 283 */
-    { (ASN_TAG_CLASS_CONTEXT | (0 << 2)), 0, 0, 0 }, /* joinExistingGame at 280 */
-    { (ASN_TAG_CLASS_CONTEXT | (1 << 2)), 0, 0, 0 } /* joinNewGame at 282 */
+    { (ASN_TAG_CLASS_UNIVERSAL | (1 << 2)), 2, 0, 0 }, /* autoLeave at 285 */
+    { (ASN_TAG_CLASS_UNIVERSAL | (12 << 2)), 1, 0, 0 }, /* password at 284 */
+    { (ASN_TAG_CLASS_CONTEXT | (0 << 2)), 0, 0, 0 }, /* joinExistingGame at 281 */
+    { (ASN_TAG_CLASS_CONTEXT | (1 << 2)), 0, 0, 0 } /* joinNewGame at 283 */
 };
 static asn_SEQUENCE_specifics_t asn_SPC_JoinGameRequestMessage_specs_1 = {
 	sizeof(struct JoinGameRequestMessage),

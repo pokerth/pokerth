@@ -95,5 +95,9 @@ public class LobbySubscriptionTest extends TestBase {
 		// Now there should be one game list message.
 		msg = receiveMessage();
 		assertTrue(msg.isGameListMessageSelected());
+
+		for (int i = 0; i < 9; i++) {
+			s[i].close();
+		}
 	}
 }

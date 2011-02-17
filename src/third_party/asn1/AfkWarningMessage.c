@@ -19,11 +19,11 @@ static asn_TYPE_member_t asn_MBR_AfkWarningMessage_1[] = {
 		},
 };
 static ber_tlv_tag_t asn_DEF_AfkWarningMessage_tags_1[] = {
-	(ASN_TAG_CLASS_APPLICATION | (134 << 2)),
+	(ASN_TAG_CLASS_APPLICATION | (135 << 2)),
 	(ASN_TAG_CLASS_UNIVERSAL | (16 << 2))
 };
 static asn_TYPE_tag2member_t asn_MAP_AfkWarningMessage_tag2el_1[] = {
-    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 0, 0, 0 } /* remainingTimeouts at 714 */
+    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 0, 0, 0 } /* remainingTimeouts at 719 */
 };
 static asn_SEQUENCE_specifics_t asn_SPC_AfkWarningMessage_specs_1 = {
 	sizeof(struct AfkWarningMessage),
