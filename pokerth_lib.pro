@@ -104,7 +104,6 @@ HEADERS += \
 		src/net/uploadhelper.h \
 		src/net/downloaderthread.h \
 		src/net/downloadhelper.h \
-		src/net/encodedpacket.h \
 		src/net/internalchatcleanerpacket.h \
 		src/third_party/libircclient/include/libircclient.h \
 		src/third_party/libircclient/include/config.h \
@@ -208,10 +207,10 @@ SOURCES += \
 		src/net/common/transferhelper.cpp \
 		src/net/common/uploaderthread.cpp \
 		src/net/common/uploadhelper.cpp \
-		src/net/common/encodedpacket.cpp \
 		src/net/common/internalchatcleanerpacket.cpp \
 		src/gui/generic/serverguiwrapper.cpp \
-		src/gui/qttoolsinterface.cpp
+		src/gui/qttoolsinterface.cpp \
+    src/net/common/senddatamanager.cpp
 
 official_server{
 	INCLUDEPATH += pkth_stat/daemon_lib/src

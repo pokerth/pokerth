@@ -18,7 +18,7 @@
  ***************************************************************************/
 
 #include <net/chatcleanermanager.h>
-#include <net/encodedpacket.h>
+#include <net/senddatamanager.h>
 #include <boost/bind.hpp>
 #include <core/loghelper.h>
 #include <third_party/asn1/ChatCleanerMessage.h>
@@ -36,6 +36,8 @@ ChatCleanerManager::ChatCleanerManager(ChatCleanerCallback &cb, boost::shared_pt
 	m_recvBuf[0] = 0;
 	m_resolver.reset(
 		new boost::asio::ip::tcp::resolver(*m_ioService));
+	m_sendManager.reset(
+		new SendDataManager);
 }
 
 ChatCleanerManager::~ChatCleanerManager()
@@ -160,18 +162,6 @@ ChatCleanerManager::HandleConnect(const boost::system::error_code& ec,
 }
 
 void
-ChatCleanerManager::HandleWrite(const boost::system::error_code &ec,
-								boost::shared_ptr<EncodedPacket> /*tmpPacket*/)
-{
-	if (ec && ec != boost::asio::error::operation_aborted) {
-		LOG_ERROR("Error sending message to chat cleaner.");
-		boost::system::error_code ec;
-		m_socket->close(ec);
-		m_connected = false;
-	}
-}
-
-void
 ChatCleanerManager::HandleRead(const boost::system::error_code &ec, size_t bytesRead)
 {
 	if (!ec) {
@@ -258,22 +248,12 @@ ChatCleanerManager::HandleMessage(InternalChatCleanerPacket &msg)
 void
 ChatCleanerManager::SendMessageToServer(InternalChatCleanerPacket &msg)
 {
-	unsigned char buf[MAX_CLEANER_PACKET_SIZE];
-	asn_enc_rval_t e = der_encode_to_buffer(&asn_DEF_ChatCleanerMessage, msg.GetMsg(), buf, MAX_CLEANER_PACKET_SIZE);
+	asn_enc_rval_t e = der_encode(&asn_DEF_ChatCleanerMessage, msg.GetMsg(), &SendDataManager::EncodeToBuf, &m_sendManager);
 
 	if (e.encoded == -1)
 		LOG_ERROR("Failed to encode chat cleaner packet: " << msg.GetMsg()->present);
 	else {
-		boost::shared_ptr<EncodedPacket> tmpPacket(new EncodedPacket(buf, e.encoded));
-		// Actually, this should not be done (parallel async_write calls might break data).
-		// But we do not want to create additional buffers here.
-		boost::asio::async_write(
-			*m_socket,
-			boost::asio::buffer(tmpPacket->GetData(), tmpPacket->GetSize()),
-			boost::bind(&ChatCleanerManager::HandleWrite,
-						shared_from_this(),
-						boost::asio::placeholders::error,
-						tmpPacket));
+		m_sendManager->AsyncSendNextPacket(m_socket);
 	}
 }
 
