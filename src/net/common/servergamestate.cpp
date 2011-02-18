@@ -255,15 +255,18 @@ AbstractServerGameStateReceiving::ProcessPacket(boost::shared_ptr<ServerGame> se
 	}
 	// Chat text is always allowed.
 	else if (packet->GetMsg()->present == PokerTHMessage_PR_chatRequestMessage) {
+		bool chatSent = false;
+		ChatRequestMessage_t *netChatRequest = &packet->GetMsg()->choice.chatRequestMessage;
 		// Only forward if this player is known and not a guest.
 		if (session.playerData && session.playerData->GetRights() != PLAYER_RIGHTS_GUEST) {
 			// Forward chat text to all players.
 			// TODO: Some limitation needed.
-			ChatRequestMessage_t *netChatRequest = &packet->GetMsg()->choice.chatRequestMessage;
 			if (netChatRequest->chatRequestType.present == chatRequestType_PR_chatRequestTypeLobby
 					|| netChatRequest->chatRequestType.present == chatRequestType_PR_chatRequestTypePrivate) {
-				if (!server->IsRunning())
+				if (!server->IsRunning()) {
 					server->GetLobbyThread().HandleChatRequest(session, *netChatRequest);
+					chatSent = true;
+				}
 			} else if (netChatRequest->chatRequestType.present == chatRequestType_PR_chatRequestTypeGame) {
 				boost::shared_ptr<NetPacket> packet(new NetPacket(NetPacket::Alloc));
 				packet->GetMsg()->present = PokerTHMessage_PR_chatMessage;
@@ -277,6 +280,7 @@ AbstractServerGameStateReceiving::ProcessPacket(boost::shared_ptr<ServerGame> se
 					(char *)netChatRequest->chatText.buf,
 					netChatRequest->chatText.size);
 				server->SendToAllPlayers(packet, SessionData::Game);
+				chatSent = true;
 
 				// Send the message to the chat cleaner bot for ranking games.
 				//if (server->GetGameData().gameType == GAME_TYPE_RANKING)
@@ -288,6 +292,17 @@ AbstractServerGameStateReceiving::ProcessPacket(boost::shared_ptr<ServerGame> se
 					string((char *)netChatRequest->chatText.buf, netChatRequest->chatText.size));
 				//}
 			}
+		}
+		// Reject chat otherwise.
+		if (!chatSent) {
+			boost::shared_ptr<NetPacket> packet(new NetPacket(NetPacket::Alloc));
+			packet->GetMsg()->present = PokerTHMessage_PR_chatRejectMessage;
+			ChatRejectMessage_t *netReject = &packet->GetMsg()->choice.chatRejectMessage;
+			OCTET_STRING_fromBuf(
+				&netReject->chatText,
+				(char *)netChatRequest->chatText.buf,
+				netChatRequest->chatText.size);
+			server->GetLobbyThread().GetSender().Send(session.sessionData, packet);
 		}
 	} else if (packet->GetMsg()->present == PokerTHMessage_PR_subscriptionRequestMessage) {
 		SubscriptionRequestMessage_t *netSubscription = &packet->GetMsg()->choice.subscriptionRequestMessage;
