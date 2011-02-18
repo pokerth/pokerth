@@ -5,7 +5,6 @@ import static org.junit.Assert.*;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.concurrent.ThreadPoolExecutor.AbortPolicy;
 
 import org.junit.Test;
 
@@ -16,12 +15,10 @@ import pokerth_protocol.ChatRequestTypePrivate;
 import pokerth_protocol.NetGameInfo;
 import pokerth_protocol.NonZeroId;
 import pokerth_protocol.PokerTHMessage;
-import pokerth_protocol.StartEventAckMessage;
 import pokerth_protocol.ChatRequestMessage.ChatRequestMessageSequenceType;
 import pokerth_protocol.ChatRequestMessage.ChatRequestMessageSequenceType.ChatRequestTypeChoiceType;
 import pokerth_protocol.NetGameInfo.EndRaiseModeEnumType;
 import pokerth_protocol.NetGameInfo.NetGameTypeEnumType;
-import pokerth_protocol.StartEventAckMessage.StartEventAckMessageSequenceType;
 
 
 public class ChatTest extends TestBase {
@@ -74,7 +71,7 @@ public class ChatTest extends TestBase {
 
 	@Test
 	public void testChat() throws Exception {
-		long myId = guestInit();
+		guestInit();
 
 		Socket s[] = new Socket[9];
 		long playerId[] = new long[9];
