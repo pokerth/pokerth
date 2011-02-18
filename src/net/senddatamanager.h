@@ -37,19 +37,16 @@ public:
 	SendDataManager();
 	~SendDataManager();
 
-	inline size_t GetSendBufLeft() const
-	{
+	inline size_t GetSendBufLeft() const {
 		int bytesLeft = sendBufAllocated - sendBufUsed;
 		return bytesLeft < 0 ? (size_t)0 : (size_t)bytesLeft;
 	}
 
-	inline size_t GetAllocated() const
-	{
+	inline size_t GetAllocated() const {
 		return sendBufAllocated;
 	}
 
-	inline bool ReallocSendBuf()
-	{
+	inline bool ReallocSendBuf() {
 		bool retVal = false;
 		size_t allocAmount = sendBufAllocated * 2;
 		if (0 == allocAmount) {
@@ -64,8 +61,7 @@ public:
 		return retVal;
 	}
 
-	inline void AppendToSendBufWithoutCheck(const char *data, size_t size)
-	{
+	inline void AppendToSendBufWithoutCheck(const char *data, size_t size) {
 		std::memcpy(sendBuf + sendBufUsed, data, size);
 		sendBufUsed += size;
 	}

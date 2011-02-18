@@ -28,8 +28,8 @@ using boost::asio::ip::tcp;
 
 
 SendDataManager::SendDataManager()
-: sendBuf(NULL), curWriteBuf(NULL), sendBufAllocated(0), sendBufUsed(0),
-  curWriteBufAllocated(0), curWriteBufUsed(0)
+	: sendBuf(NULL), curWriteBuf(NULL), sendBufAllocated(0), sendBufUsed(0),
+	  curWriteBufAllocated(0), curWriteBufUsed(0)
 {
 }
 
