@@ -18,8 +18,6 @@
 package pokerth_test;
 
 import java.net.Socket;
-import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
 
@@ -34,48 +32,11 @@ import pokerth_protocol.*;
 import pokerth_protocol.NetGameInfo.EndRaiseModeEnumType;
 import pokerth_protocol.NetGameInfo.NetGameTypeEnumType;
 
-import org.junit.Before;
-
-import java.io.File;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-
 import pokerth_protocol.MyActionRequestMessage.MyActionRequestMessageSequenceType;
 import pokerth_protocol.StartEventAckMessage.StartEventAckMessageSequenceType;
 
 
 public class RunRankingGameTest extends TestBase {
-
-	Connection dbConn;
-
-	@Before
-	public void dbInit() throws Exception {
-		String configFileName = System.getProperty("user.home") + "/.pokerth/config.xml";
-		File file = new File(configFileName);
-		DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-		DocumentBuilder db = dbf.newDocumentBuilder();
-		Document doc = db.parse(file);
-		doc.getDocumentElement().normalize();
-		Element configNode = (Element)doc.getElementsByTagName("Configuration").item(0);
-
-		Element dbAddressNode = (Element)configNode.getElementsByTagName("DBServerAddress").item(0);
-		String dbAddress = dbAddressNode.getAttribute("value");
-
-		Element dbUserNode = (Element)configNode.getElementsByTagName("DBServerUser").item(0);
-		String dbUser = dbUserNode.getAttribute("value");
-
-		Element dbPasswordNode = (Element)configNode.getElementsByTagName("DBServerPassword").item(0);
-		String dbPassword = dbPasswordNode.getAttribute("value");
-
-		Element dbNameNode = (Element)configNode.getElementsByTagName("DBServerDatabaseName").item(0);
-		String dbName = dbNameNode.getAttribute("value");
-
-		final String dbUrl = "jdbc:mysql://" + dbAddress + ":3306/" + dbName;
-		Class.forName("com.mysql.jdbc.Driver").newInstance ();
-		dbConn = DriverManager.getConnection(dbUrl, dbUser, dbPassword);
-	}
 
 	@Test
 	public void testRunRankingGame() throws Exception {

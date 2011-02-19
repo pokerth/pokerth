@@ -22,6 +22,8 @@ import static org.junit.Assert.*;
 import org.bn.*;
 import org.junit.After;
 import org.junit.Before;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 
 import pokerth_protocol.*;
 import pokerth_protocol.AnnounceMessage.AnnounceMessageSequenceType.ServerTypeEnumType;
@@ -36,7 +38,12 @@ import pokerth_protocol.NetGameInfo.RaiseIntervalModeChoiceType;
 
 import java.io.*;
 import java.net.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
 import java.util.Collection;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
 
 public abstract class TestBase {
 
@@ -50,6 +57,39 @@ public abstract class TestBase {
 	protected IEncoder<PokerTHMessage> encoder;
 	protected IDecoder decoder;
 	protected Socket sock;
+	protected Connection dbConn;
+
+	@Before
+	public void dbInit() throws Exception {
+		String configFileName = System.getProperty("user.home") + "/.pokerth/config.xml";
+		File file = new File(configFileName);
+		DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+		DocumentBuilder db = dbf.newDocumentBuilder();
+		Document doc = db.parse(file);
+		doc.getDocumentElement().normalize();
+		Element configNode = (Element)doc.getElementsByTagName("Configuration").item(0);
+
+		Element dbAddressNode = (Element)configNode.getElementsByTagName("DBServerAddress").item(0);
+		String dbAddress = dbAddressNode.getAttribute("value");
+
+		Element dbUserNode = (Element)configNode.getElementsByTagName("DBServerUser").item(0);
+		String dbUser = dbUserNode.getAttribute("value");
+
+		Element dbPasswordNode = (Element)configNode.getElementsByTagName("DBServerPassword").item(0);
+		String dbPassword = dbPasswordNode.getAttribute("value");
+
+		Element dbNameNode = (Element)configNode.getElementsByTagName("DBServerDatabaseName").item(0);
+		String dbName = dbNameNode.getAttribute("value");
+
+		final String dbUrl = "jdbc:mysql://" + dbAddress + ":3306/" + dbName;
+		Class.forName("com.mysql.jdbc.Driver").newInstance ();
+		dbConn = DriverManager.getConnection(dbUrl, dbUser, dbPassword);
+	}
+
+	@After
+	public void dbClose() throws Exception {
+		dbConn.close();
+	}
 
 	@Before
 	public void setUp() throws Exception {
