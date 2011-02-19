@@ -42,17 +42,13 @@ SenderHelper::Send(boost::shared_ptr<SessionData> session, boost::shared_ptr<Net
 {
 	if (packet && session) {
 		SendDataManager &tmpManager = session->GetSendDataManager();
-		{
-			// First: Add packet to specific queue.
-			boost::mutex::scoped_lock lock(tmpManager.dataMutex);
-			if (tmpManager.GetAllocated() <= MAX_SEND_BUF_SIZE) {
-				InternalStorePacket(tmpManager, packet);
-			}
+		// Add packet to specific queue.
+		boost::mutex::scoped_lock lock(tmpManager.dataMutex);
+		if (tmpManager.GetAllocated() <= MAX_SEND_BUF_SIZE) {
+			InternalStorePacket(tmpManager, packet);
 		}
-		{
-			// Second: Activate async send, if needed.
-			tmpManager.AsyncSendNextPacket(session->GetAsioSocket());
-		}
+		// Activate async send, if needed.
+		tmpManager.AsyncSendNextPacket(session->GetAsioSocket());
 	}
 }
 
@@ -61,23 +57,19 @@ SenderHelper::Send(boost::shared_ptr<SessionData> session, const NetPacketList &
 {
 	if (!packetList.empty() && session) {
 		SendDataManager &tmpManager = session->GetSendDataManager();
-		{
-			// First: Add packets to specific queue.
-			boost::mutex::scoped_lock lock(tmpManager.dataMutex);
-			if (tmpManager.GetAllocated() <= MAX_SEND_BUF_SIZE) {
-				NetPacketList::const_iterator i = packetList.begin();
-				NetPacketList::const_iterator end = packetList.end();
-				while (i != end) {
-					if (*i)
-						InternalStorePacket(tmpManager, *i);
-					++i;
-				}
+		// Add packets to specific queue.
+		boost::mutex::scoped_lock lock(tmpManager.dataMutex);
+		if (tmpManager.GetAllocated() <= MAX_SEND_BUF_SIZE) {
+			NetPacketList::const_iterator i = packetList.begin();
+			NetPacketList::const_iterator end = packetList.end();
+			while (i != end) {
+				if (*i)
+					InternalStorePacket(tmpManager, *i);
+				++i;
 			}
 		}
-		{
-			// Second: Activate async send, if needed.
-			tmpManager.AsyncSendNextPacket(session->GetAsioSocket());
-		}
+		// Activate async send, if needed.
+		tmpManager.AsyncSendNextPacket(session->GetAsioSocket());
 	}
 }
 

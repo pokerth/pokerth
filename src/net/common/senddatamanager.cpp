@@ -44,6 +44,7 @@ SendDataManager::HandleWrite(boost::shared_ptr<boost::asio::ip::tcp::socket> soc
 {
 	if (!error) {
 		// Successfully sent the data.
+		boost::mutex::scoped_lock lock(dataMutex);
 		curWriteBufUsed = 0;
 		// Send more data, if available.
 		AsyncSendNextPacket(socket);
@@ -53,7 +54,6 @@ SendDataManager::HandleWrite(boost::shared_ptr<boost::asio::ip::tcp::socket> soc
 void
 SendDataManager::AsyncSendNextPacket(boost::shared_ptr<boost::asio::ip::tcp::socket> socket)
 {
-	boost::mutex::scoped_lock lock(dataMutex);
 	if (!curWriteBufUsed) {
 		// Swap buffers and send data.
 		boost::swap(curWriteBuf, sendBuf);
