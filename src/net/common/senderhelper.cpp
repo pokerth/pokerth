@@ -44,9 +44,7 @@ SenderHelper::Send(boost::shared_ptr<SessionData> session, boost::shared_ptr<Net
 		SendDataManager &tmpManager = session->GetSendDataManager();
 		// Add packet to specific queue.
 		boost::mutex::scoped_lock lock(tmpManager.dataMutex);
-		if (tmpManager.GetAllocated() <= MAX_SEND_BUF_SIZE) {
-			InternalStorePacket(tmpManager, packet);
-		}
+		InternalStorePacket(tmpManager, packet);
 		// Activate async send, if needed.
 		tmpManager.AsyncSendNextPacket(session->GetAsioSocket());
 	}
@@ -59,14 +57,12 @@ SenderHelper::Send(boost::shared_ptr<SessionData> session, const NetPacketList &
 		SendDataManager &tmpManager = session->GetSendDataManager();
 		// Add packets to specific queue.
 		boost::mutex::scoped_lock lock(tmpManager.dataMutex);
-		if (tmpManager.GetAllocated() <= MAX_SEND_BUF_SIZE) {
-			NetPacketList::const_iterator i = packetList.begin();
-			NetPacketList::const_iterator end = packetList.end();
-			while (i != end) {
-				if (*i)
-					InternalStorePacket(tmpManager, *i);
-				++i;
-			}
+		NetPacketList::const_iterator i = packetList.begin();
+		NetPacketList::const_iterator end = packetList.end();
+		while (i != end) {
+			if (*i)
+				InternalStorePacket(tmpManager, *i);
+			++i;
 		}
 		// Activate async send, if needed.
 		tmpManager.AsyncSendNextPacket(session->GetAsioSocket());

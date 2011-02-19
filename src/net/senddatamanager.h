@@ -28,7 +28,7 @@
 
 
 #define SEND_BUF_FIRST_ALLOC_CHUNKSIZE		4096
-#define MAX_SEND_BUF_SIZE					SEND_BUF_FIRST_ALLOC_CHUNKSIZE * 1000
+#define MAX_SEND_BUF_SIZE					SEND_BUF_FIRST_ALLOC_CHUNKSIZE * 256
 
 
 class SendDataManager : public boost::enable_shared_from_this<SendDataManager>
@@ -52,11 +52,13 @@ public:
 		if (0 == allocAmount) {
 			allocAmount = (size_t)SEND_BUF_FIRST_ALLOC_CHUNKSIZE;
 		}
-		char *tempBuf = (char *)std::realloc(sendBuf, allocAmount);
-		if (tempBuf) {
-			sendBuf = tempBuf;
-			sendBufAllocated = allocAmount;
-			retVal = true;
+		if (allocAmount <= MAX_SEND_BUF_SIZE) {
+			char *tempBuf = (char *)std::realloc(sendBuf, allocAmount);
+			if (tempBuf) {
+				sendBuf = tempBuf;
+				sendBufAllocated = allocAmount;
+				retVal = true;
+			}
 		}
 		return retVal;
 	}
