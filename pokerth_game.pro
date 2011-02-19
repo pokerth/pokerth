@@ -195,8 +195,7 @@ HEADERS += src/game.h \
 	src/gui/qt/internetgamelogindialog/internetgamelogindialogimpl.h \
 	src/engine/local_engine/replay.h \
 	src/gui/qt/gamelobbydialog/mynicklistsortfilterproxymodel.h \
-	src/gui/qt/gametable/myslider.h \
-    src/net/senddatamanager.h
+	src/gui/qt/gametable/myslider.h
 FORMS += src/gui/qt/gametable.ui \
 	src/gui/qt/aboutpokerth.ui \
 	src/gui/qt/connecttoserverdialog.ui \
