@@ -36,20 +36,13 @@ public:
 	void Send(boost::shared_ptr<SessionData> session, boost::shared_ptr<NetPacket> packet);
 	void Send(boost::shared_ptr<SessionData> session, const NetPacketList &packetList);
 
-	void SignalSessionTerminated(unsigned sessionId);
-
 protected:
 	void InternalStorePacket(SendDataManager &tmpManager, boost::shared_ptr<NetPacket> packet);
-
-	typedef std::map<SessionId, boost::shared_ptr<SendDataManager> > SendQueueMap;
 
 private:
 
 	SenderCallback &m_callback;
 	boost::shared_ptr<boost::asio::io_service> m_ioService;
-
-	SendQueueMap m_sendQueueMap;
-	mutable boost::mutex m_sendQueueMapMutex;
 };
 
 #endif

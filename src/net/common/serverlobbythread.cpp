@@ -94,8 +94,7 @@ public:
 		// A serious send error should trigger a read error or a read
 		// returning 0 afterwards, and we will handle this error.
 	}
-	virtual void SignalSessionTerminated(unsigned session) {
-		m_server.GetSender().SignalSessionTerminated(session);
+	virtual void SignalSessionTerminated(unsigned /*session*/) {
 	}
 
 	virtual void SignalChatBotMessage(const string &msg) {

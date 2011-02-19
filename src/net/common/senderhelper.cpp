@@ -41,25 +41,17 @@ void
 SenderHelper::Send(boost::shared_ptr<SessionData> session, boost::shared_ptr<NetPacket> packet)
 {
 	if (packet && session) {
-		boost::shared_ptr<SendDataManager> tmpManager;
+		SendDataManager &tmpManager = session->GetSendDataManager();
 		{
-			// First: lock map of all queues. Locate/insert queue.
-			boost::mutex::scoped_lock lock(m_sendQueueMapMutex);
-			SendQueueMap::iterator pos = m_sendQueueMap.find(session->GetId());
-			if (pos == m_sendQueueMap.end())
-				pos = m_sendQueueMap.insert(SendQueueMap::value_type(session->GetId(), boost::shared_ptr<SendDataManager>(new SendDataManager))).first;
-			tmpManager = pos->second;
-		}
-		{
-			// Second: Add packet to specific queue.
-			boost::mutex::scoped_lock lock(tmpManager->dataMutex);
-			if (tmpManager->GetAllocated() <= MAX_SEND_BUF_SIZE) {
-				InternalStorePacket(*tmpManager, packet);
+			// First: Add packet to specific queue.
+			boost::mutex::scoped_lock lock(tmpManager.dataMutex);
+			if (tmpManager.GetAllocated() <= MAX_SEND_BUF_SIZE) {
+				InternalStorePacket(tmpManager, packet);
 			}
 		}
 		{
-			// Third: Activate async send, if needed.
-			tmpManager->AsyncSendNextPacket(session->GetAsioSocket());
+			// Second: Activate async send, if needed.
+			tmpManager.AsyncSendNextPacket(session->GetAsioSocket());
 		}
 	}
 }
@@ -68,43 +60,25 @@ void
 SenderHelper::Send(boost::shared_ptr<SessionData> session, const NetPacketList &packetList)
 {
 	if (!packetList.empty() && session) {
-		boost::shared_ptr<SendDataManager> tmpManager;
+		SendDataManager &tmpManager = session->GetSendDataManager();
 		{
-			// First: lock map of all queues. Locate/insert queue.
-			boost::mutex::scoped_lock lock(m_sendQueueMapMutex);
-			SendQueueMap::iterator pos = m_sendQueueMap.find(session->GetId());
-			if (pos == m_sendQueueMap.end())
-				pos = m_sendQueueMap.insert(SendQueueMap::value_type(session->GetId(), boost::shared_ptr<SendDataManager>(new SendDataManager))).first;
-			tmpManager = pos->second;
-		}
-		{
-			// Second: Add packets to specific queue.
-			boost::mutex::scoped_lock lock(tmpManager->dataMutex);
-			if (tmpManager->GetAllocated() <= MAX_SEND_BUF_SIZE) {
+			// First: Add packets to specific queue.
+			boost::mutex::scoped_lock lock(tmpManager.dataMutex);
+			if (tmpManager.GetAllocated() <= MAX_SEND_BUF_SIZE) {
 				NetPacketList::const_iterator i = packetList.begin();
 				NetPacketList::const_iterator end = packetList.end();
 				while (i != end) {
 					if (*i)
-						InternalStorePacket(*tmpManager, *i);
+						InternalStorePacket(tmpManager, *i);
 					++i;
 				}
 			}
 		}
 		{
-			// Third: Activate async send, if needed.
-			tmpManager->AsyncSendNextPacket(session->GetAsioSocket());
+			// Second: Activate async send, if needed.
+			tmpManager.AsyncSendNextPacket(session->GetAsioSocket());
 		}
 	}
-}
-
-void
-SenderHelper::SignalSessionTerminated(unsigned sessionId)
-{
-	boost::mutex::scoped_lock lock(m_sendQueueMapMutex);
-
-	SendQueueMap::iterator pos = m_sendQueueMap.find(sessionId);
-	if (pos != m_sendQueueMap.end())
-		m_sendQueueMap.erase(pos);
 }
 
 void

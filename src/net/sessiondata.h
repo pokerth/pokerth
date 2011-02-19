@@ -38,6 +38,7 @@ typedef unsigned SessionId;
 
 struct Gsasl;
 struct Gsasl_session;
+class SendDataManager;
 
 class SessionData
 {
@@ -76,7 +77,12 @@ public:
 	const std::string &GetClientAddr() const;
 	void SetClientAddr(const std::string &addr);
 
-	ReceiveBuffer &GetReceiveBuffer();
+	ReceiveBuffer &GetReceiveBuffer() {
+		return m_receiveBuffer;
+	}
+	SendDataManager &GetSendDataManager() {
+		return *m_sendDataManager;
+	}
 
 	void ResetActivityTimer();
 	unsigned GetActivityTimerElapsedSec() const;
@@ -85,6 +91,8 @@ public:
 	unsigned GetAutoDisconnectTimerElapsedSec() const;
 
 protected:
+	SessionData(const SessionData &other);
+	SessionData &operator=(const SessionData &other);
 	void InternalClearAuthSession();
 
 private:
@@ -94,6 +102,7 @@ private:
 	State							m_state;
 	std::string						m_clientAddr;
 	ReceiveBuffer					m_receiveBuffer;
+	boost::shared_ptr<SendDataManager> m_sendDataManager;
 	bool							m_readyFlag;
 	bool							m_wantsLobbyMsg;
 	boost::timers::portable::microsec_timer m_activityTimer;
