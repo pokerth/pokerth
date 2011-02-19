@@ -134,7 +134,8 @@ HEADERS += \
 		src/db/serverdbfactorygeneric.h \
 		src/gui/qttoolsinterface.h \
 		src/gui/generic/serverguiwrapper.h \
-		src/net/receivebuffer.h
+		src/net/receivebuffer.h \
+    src/net/sendbuffer.h
 
 SOURCES += \
 		src/game.cpp \
@@ -210,7 +211,7 @@ SOURCES += \
 		src/net/common/internalchatcleanerpacket.cpp \
 		src/gui/generic/serverguiwrapper.cpp \
 		src/gui/qttoolsinterface.cpp \
-    src/net/common/senddatamanager.cpp
+    src/net/common/sendbuffer.cpp
 
 official_server{
 	INCLUDEPATH += pkth_stat/daemon_lib/src

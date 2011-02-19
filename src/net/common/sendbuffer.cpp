@@ -20,7 +20,7 @@
 #include <boost/asio.hpp>
 #include <boost/bind.hpp>
 
-#include <net/senddatamanager.h>
+#include <net/sendbuffer.h>
 #include <boost/swap.hpp>
 
 using namespace std;

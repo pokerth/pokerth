@@ -18,7 +18,7 @@
  ***************************************************************************/
 
 #include <net/chatcleanermanager.h>
-#include <net/senddatamanager.h>
+#include <net/sendbuffer.h>
 #include <boost/bind.hpp>
 #include <core/loghelper.h>
 #include <third_party/asn1/ChatCleanerMessage.h>

@@ -18,7 +18,7 @@
  ***************************************************************************/
 
 #include <net/sessiondata.h>
-#include <net/senddatamanager.h>
+#include <net/sendbuffer.h>
 #include <gsasl.h>
 
 using namespace std;

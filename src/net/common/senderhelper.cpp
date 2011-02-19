@@ -18,7 +18,7 @@
  ***************************************************************************/
 
 #include <net/senderhelper.h>
-#include <net/senddatamanager.h>
+#include <net/sendbuffer.h>
 #include <net/sendercallback.h>
 #include <net/socket_helper.h>
 #include <net/socket_msg.h>
