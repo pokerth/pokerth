@@ -20,7 +20,6 @@
 #include <net/servergamestate.h>
 #include <net/servergame.h>
 #include <net/serverlobbythread.h>
-#include <net/receiverhelper.h>
 #include <net/senderhelper.h>
 #include <net/netpacket.h>
 #include <net/socket_msg.h>

@@ -26,6 +26,7 @@
 
 #include <net/sessiondata.h>
 #include <playerdata.h>
+#include <gamedata.h>
 #include <core/thread.h>
 
 class NetPacket;

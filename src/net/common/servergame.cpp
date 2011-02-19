@@ -26,7 +26,6 @@
 #include <net/serverlobbythread.h>
 #include <net/serverexception.h>
 #include <net/senderhelper.h>
-#include <net/receiverhelper.h>
 #include <net/socket_msg.h>
 #include <core/loghelper.h>
 #include <db/serverdbinterface.h>
@@ -57,8 +56,6 @@ ServerGame::ServerGame(boost::shared_ptr<ServerLobbyThread> lobbyThread, u_int32
 	  m_stateTimer1(lobbyThread->GetIOService()), m_stateTimer2(lobbyThread->GetIOService())
 {
 	LOG_VERBOSE("Game object " << GetId() << " created.");
-
-	m_receiver.reset(new ReceiverHelper);
 }
 
 ServerGame::~ServerGame()
@@ -916,13 +913,6 @@ boost::asio::deadline_timer &
 ServerGame::GetStateTimer2()
 {
 	return m_stateTimer2;
-}
-
-ReceiverHelper &
-ServerGame::GetReceiver()
-{
-	assert(m_receiver.get());
-	return *m_receiver;
 }
 
 unsigned

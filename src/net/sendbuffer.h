@@ -16,10 +16,10 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-/* Manager for sending network data. */
+/* Buffer for sending network data. */
 
-#ifndef _SENDDATAMANAGER_H_
-#define _SENDDATAMANAGER_H_
+#ifndef _SENDBUFFER_H_
+#define _SENDBUFFER_H_
 
 #include <boost/asio.hpp>
 #include <boost/thread.hpp>

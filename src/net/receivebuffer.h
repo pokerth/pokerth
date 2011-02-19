@@ -21,15 +21,29 @@
 #ifndef _RECEIVEBUFFER_H_
 #define _RECEIVEBUFFER_H_
 
+#include <boost/enable_shared_from_this.hpp>
 #include <net/netpacket.h>
 
 // MUST be larger than MAX_PACKET_SIZE
-#define RECV_BUF_SIZE		2 * MAX_PACKET_SIZE
+#define RECV_BUF_SIZE		5 * MAX_PACKET_SIZE
 
-struct ReceiveBuffer {
-	ReceiveBuffer() : recvBufUsed(0) {
-		recvBuf[0] = 0;
-	}
+class SessionData;
+
+class ReceiveBuffer : public boost::enable_shared_from_this<ReceiveBuffer>
+{
+public:
+	ReceiveBuffer();
+
+	void StartAsyncRead(boost::shared_ptr<SessionData> session);
+
+protected:
+	void HandleRead(boost::shared_ptr<SessionData> session, const boost::system::error_code &error, size_t bytesRead);
+
+	void ScanPackets();
+	void ProcessPackets(boost::shared_ptr<SessionData> session);
+
+
+private:
 	NetPacketList					receivedPackets;
 	char							recvBuf[RECV_BUF_SIZE];
 	unsigned						recvBufUsed;

@@ -31,7 +31,6 @@
 #include <gamedata.h>
 
 
-class ReceiverHelper;
 class ServerLobbyThread;
 class ServerGameState;
 class ServerDBInterface;
@@ -152,8 +151,6 @@ protected:
 	boost::asio::deadline_timer &GetStateTimer1();
 	boost::asio::deadline_timer &GetStateTimer2();
 
-	ReceiverHelper &GetReceiver();
-
 	const StartData &GetStartData() const;
 	void SetStartData(const StartData &startData);
 
@@ -187,7 +184,6 @@ private:
 	boost::shared_ptr<VoteKickData> m_voteKickData;
 
 	boost::shared_ptr<ServerLobbyThread> m_lobbyThread;
-	boost::shared_ptr<ReceiverHelper> m_receiver;
 	boost::shared_ptr<ServerDBInterface> m_database;
 	GuiInterface &m_gui;
 

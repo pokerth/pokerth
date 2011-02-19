@@ -96,7 +96,6 @@ HEADERS += \
 		src/net/irccallback.h \
 		src/net/ircthread.h \
 		src/net/netexception.h \
-		src/net/receiverhelper.h \
 		src/net/servermanager.h \
 		src/net/transferdata.h \
 		src/net/transferhelper.h \
@@ -201,7 +200,6 @@ SOURCES += \
 		src/net/common/clientexception.cpp \
 		src/net/common/netcontext.cpp \
 		src/net/common/netexception.cpp \
-		src/net/common/receiverhelper.cpp \
 		src/net/common/irccallback.cpp \
 		src/net/common/ircthread.cpp \
 		src/net/common/servermanager.cpp \
@@ -211,7 +209,8 @@ SOURCES += \
 		src/net/common/internalchatcleanerpacket.cpp \
 		src/gui/generic/serverguiwrapper.cpp \
 		src/gui/qttoolsinterface.cpp \
-    src/net/common/sendbuffer.cpp
+    src/net/common/sendbuffer.cpp \
+    src/net/common/receivebuffer.cpp
 
 official_server{
 	INCLUDEPATH += pkth_stat/daemon_lib/src

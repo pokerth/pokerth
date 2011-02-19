@@ -25,11 +25,11 @@ typedef unsigned SessionId;
 
 #include <boost/asio.hpp>
 #include <boost/thread.hpp>
+#include <boost/enable_shared_from_this.hpp>
 #include <third_party/boost/timers.hpp>
 #include <string>
 
 #include <net/socket_helper.h>
-#include <net/receivebuffer.h>
 #include <net/sessiondatacallback.h>
 
 #define INVALID_SESSION			0
@@ -38,9 +38,11 @@ typedef unsigned SessionId;
 
 struct Gsasl;
 struct Gsasl_session;
+class ReceiveBuffer;
 class SendBuffer;
+class NetPacket;
 
-class SessionData
+class SessionData : public boost::enable_shared_from_this<SessionData>
 {
 public:
 	enum State { Init, ReceivingAvatar, Established, Game, Closed };
@@ -78,11 +80,14 @@ public:
 	void SetClientAddr(const std::string &addr);
 
 	ReceiveBuffer &GetReceiveBuffer() {
-		return m_receiveBuffer;
+		return *m_receiveBuffer;
 	}
 	SendBuffer &GetSendBuffer() {
 		return *m_sendBuffer;
 	}
+
+	void Close() {m_callback.CloseSession(shared_from_this());}
+	void HandlePacket(boost::shared_ptr<NetPacket> packet) {m_callback.HandlePacket(shared_from_this(), packet);}
 
 	void ResetActivityTimer();
 	unsigned GetActivityTimerElapsedSec() const;
@@ -101,8 +106,8 @@ private:
 	unsigned						m_gameId;
 	State							m_state;
 	std::string						m_clientAddr;
-	ReceiveBuffer					m_receiveBuffer;
-	boost::shared_ptr<SendBuffer> m_sendBuffer;
+	boost::shared_ptr<ReceiveBuffer>	m_receiveBuffer;
+	boost::shared_ptr<SendBuffer>	m_sendBuffer;
 	bool							m_readyFlag;
 	bool							m_wantsLobbyMsg;
 	boost::timers::portable::microsec_timer m_activityTimer;

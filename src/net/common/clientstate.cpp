@@ -21,7 +21,6 @@
 #include <net/clientthread.h>
 #include <net/clientcontext.h>
 #include <net/senderhelper.h>
-#include <net/receiverhelper.h>
 #include <net/netpacket.h>
 #include <net/resolverthread.h>
 #include <net/clientexception.h>

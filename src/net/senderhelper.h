@@ -21,8 +21,8 @@
 #ifndef _SENDERHELPER_H_
 #define _SENDERHELPER_H_
 
+#include <boost/asio.hpp>
 #include <net/netpacket.h>
-#include <net/sendercallback.h>
 
 class SessionData;
 class SendBuffer;
@@ -30,7 +30,7 @@ class SendBuffer;
 class SenderHelper
 {
 public:
-	SenderHelper(SenderCallback &cb, boost::shared_ptr<boost::asio::io_service> ioService);
+	SenderHelper(boost::shared_ptr<boost::asio::io_service> ioService);
 	~SenderHelper();
 
 	void Send(boost::shared_ptr<SessionData> session, boost::shared_ptr<NetPacket> packet);
@@ -41,7 +41,6 @@ protected:
 
 private:
 
-	SenderCallback &m_callback;
 	boost::shared_ptr<boost::asio::io_service> m_ioService;
 };
 

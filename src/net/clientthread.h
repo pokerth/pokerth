@@ -27,6 +27,7 @@
 #include <string>
 
 #include <core/thread.h>
+#include <net/sessiondatacallback.h>
 #include <guiinterface.h>
 #include <serverdata.h>
 #include <playerdata.h>
@@ -35,9 +36,7 @@
 class ClientContext;
 class ClientState;
 class SenderHelper;
-class ReceiverHelper;
 class DownloaderThread;
-class ClientSenderCallback;
 class Game;
 class NetPacket;
 class AvatarManager;
@@ -45,7 +44,7 @@ class Log;
 class QtToolsInterface;
 struct Gsasl;
 
-class ClientThread : public Thread, public boost::enable_shared_from_this<ClientThread>
+class ClientThread : public Thread, public boost::enable_shared_from_this<ClientThread>, public SessionDataCallback
 {
 public:
 	ClientThread(GuiInterface &gui, AvatarManager &avatarManager);
@@ -86,7 +85,10 @@ public:
 	void SendReportAvatar(unsigned reportedPlayerId, const std::string &avatarHash);
 
 	void StartAsyncRead();
-	void HandleRead(const boost::system::error_code& ec, size_t bytesRead);
+	virtual void CloseSession(boost::shared_ptr<SessionData> /*session*/) {
+		// TODO
+	}
+	virtual void HandlePacket(boost::shared_ptr<SessionData> session, boost::shared_ptr<NetPacket> packet);
 
 	void SelectServer(unsigned serverId);
 	void SetLogin(const std::string &userName, const std::string &password, bool isGuest);
@@ -158,7 +160,6 @@ protected:
 	boost::asio::deadline_timer &GetStateTimer();
 
 	SenderHelper &GetSender();
-	ReceiverHelper &GetReceiver();
 
 	void SetGameId(unsigned id);
 	const GameData &GetGameData() const;
@@ -168,8 +169,6 @@ protected:
 	void SetGuiPlayerId(unsigned guiPlayerId);
 
 	boost::shared_ptr<Game> GetGame();
-
-	ClientSenderCallback &GetSenderCallback();
 
 	QtToolsInterface &GetQtToolsInterface();
 
@@ -213,7 +212,6 @@ protected:
 private:
 
 	boost::shared_ptr<boost::asio::io_service> m_ioService;
-	boost::shared_ptr<ClientSenderCallback> m_senderCallback;
 	boost::shared_ptr<Log> m_clientLog;
 
 	Gsasl *m_authContext;
@@ -226,7 +224,6 @@ private:
 	AvatarManager &m_avatarManager;
 
 	boost::shared_ptr<SenderHelper> m_senderHelper;
-	boost::shared_ptr<ReceiverHelper> m_receiver;
 
 	boost::shared_ptr<DownloaderThread> m_avatarDownloader;
 
@@ -298,7 +295,6 @@ private:
 	friend class ClientStateWaitHand;
 	friend class ClientStateRunHand;
 	friend class ClientStateFinal;
-	friend class ClientSenderCallback;
 };
 
 #endif

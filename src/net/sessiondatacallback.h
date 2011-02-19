@@ -21,12 +21,19 @@
 #ifndef _SESSIONDATACALLBACK_H_
 #define _SESSIONDATACALLBACK_H_
 
+#include <boost/shared_ptr.hpp>
+
+
+class NetPacket;
+class SessionData;
+
 class SessionDataCallback
 {
 public:
 	virtual ~SessionDataCallback();
 
-	virtual void SignalSessionTerminated(unsigned session) = 0;
+	virtual void CloseSession(boost::shared_ptr<SessionData> session) = 0;
+	virtual void HandlePacket(boost::shared_ptr<SessionData> session, boost::shared_ptr<NetPacket> packet) = 0;
 };
 
 #endif

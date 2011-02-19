@@ -38,7 +38,6 @@ class Log;
 
 
 class SenderHelper;
-class ReceiverHelper;
 class InternalServerCallback;
 class ServerIrcBotCallback;
 class ServerGame;
@@ -75,6 +74,7 @@ public:
 	void NotifyStartingGame(unsigned gameId);
 	void NotifyReopeningGame(unsigned gameId);
 
+	void DispatchPacket(boost::shared_ptr<SessionData> session, boost::shared_ptr<NetPacket> packet);
 	void HandleGameRetrievePlayerInfo(SessionWrapper session, const PlayerInfoRequestMessage_t &playerInfoRequest);
 	void HandleGameRetrieveAvatar(SessionWrapper session, const AvatarRequestMessage_t &retrieveAvatar);
 	void HandleChatRequest(SessionWrapper session, const ChatRequestMessage_t &chatRequest);
@@ -131,7 +131,6 @@ protected:
 	void ClearAuthContext();
 	void InitChatCleaner();
 
-	void HandleRead(const boost::system::error_code &ec, SessionId sessionId, size_t bytesRead);
 	void HandlePacket(SessionWrapper session, boost::shared_ptr<NetPacket> packet);
 	void HandleNetPacketInit(SessionWrapper session, const InitMessage_t &initMessage);
 	void HandleNetPacketAuthClientResponse(SessionWrapper session, const AuthClientResponse_t &clientResponse);
@@ -178,6 +177,7 @@ protected:
 
 	void CleanupSessionMap();
 
+	void CloseSession(SessionId sessionId);
 	void CloseSession(SessionWrapper session);
 	void SendError(boost::shared_ptr<SessionData> s, int errorCode);
 	void SendJoinGameFailed(boost::shared_ptr<SessionData> s, unsigned gameId, int reason);
@@ -188,8 +188,6 @@ protected:
 
 	void ReadStatisticsFile();
 	void TimerSaveStatisticsFile(const boost::system::error_code &ec);
-
-	ReceiverHelper &GetReceiver();
 
 	InternalServerCallback &GetSenderCallback();
 	GuiInterface &GetGui();
@@ -208,7 +206,6 @@ private:
 
 	boost::shared_ptr<InternalServerCallback> m_internalServerCallback;
 	boost::shared_ptr<SenderHelper> m_sender;
-	boost::shared_ptr<ReceiverHelper> m_receiver;
 
 	SessionManager m_sessionManager;
 	SessionManager m_gameSessionManager;

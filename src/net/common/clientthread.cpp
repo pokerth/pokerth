@@ -23,7 +23,6 @@
 #include <net/clientstate.h>
 #include <net/clientcontext.h>
 #include <net/senderhelper.h>
-#include <net/receiverhelper.h>
 #include <net/downloaderthread.h>
 #include <net/clientexception.h>
 #include <net/socket_msg.h>
@@ -48,22 +47,6 @@
 using namespace std;
 using boost::asio::ip::tcp;
 
-
-class ClientSenderCallback : public SenderCallback, public SessionDataCallback
-{
-public:
-	ClientSenderCallback() {}
-	virtual ~ClientSenderCallback() {}
-
-	virtual void SignalNetError(SessionId /*session*/, int /*errorID*/, int /*osErrorID*/) {
-	}
-
-	virtual void SignalSessionTerminated(unsigned /*session*/) {
-	}
-
-private:
-};
-
 ClientThread::ClientThread(GuiInterface &gui, AvatarManager &avatarManager)
 	: m_ioService(new boost::asio::io_service), m_curState(NULL), m_gui(gui),
 	  m_avatarManager(avatarManager), m_isServerSelected(false),
@@ -72,10 +55,8 @@ ClientThread::ClientThread(GuiInterface &gui, AvatarManager &avatarManager)
 {
 	m_clientLog.reset(new Log("", 0));
 	m_context.reset(new ClientContext);
-	m_receiver.reset(new ReceiverHelper);
 	myQtToolsInterface.reset(CreateQtToolsWrapper());
-	m_senderCallback.reset(new ClientSenderCallback());
-	m_senderHelper.reset(new SenderHelper(*m_senderCallback, m_ioService));
+	m_senderHelper.reset(new SenderHelper(m_ioService));
 }
 
 ClientThread::~ClientThread()
@@ -381,35 +362,13 @@ ClientThread::SendReportAvatar(unsigned reportedPlayerId, const std::string &ava
 void
 ClientThread::StartAsyncRead()
 {
-	ReceiveBuffer &buf = GetContext().GetSessionData()->GetReceiveBuffer();
-	GetContext().GetSessionData()->GetAsioSocket()->async_read_some(
-		boost::asio::buffer(buf.recvBuf + buf.recvBufUsed, RECV_BUF_SIZE - buf.recvBufUsed),
-		boost::bind(
-			&ClientThread::HandleRead,
-			shared_from_this(),
-			boost::asio::placeholders::error,
-			boost::asio::placeholders::bytes_transferred));
+	GetContext().GetSessionData()->GetReceiveBuffer().StartAsyncRead(GetContext().GetSessionData());
 }
 
 void
-ClientThread::HandleRead(const boost::system::error_code& ec, size_t bytesRead)
+ClientThread::HandlePacket(boost::shared_ptr<SessionData> /*session*/, boost::shared_ptr<NetPacket> packet)
 {
-	if (!ec) {
-		ReceiveBuffer &buf = GetContext().GetSessionData()->GetReceiveBuffer();
-		buf.recvBufUsed += bytesRead;
-		GetReceiver().ScanPackets(buf);
-
-		while (!buf.receivedPackets.empty()) {
-			boost::shared_ptr<NetPacket> packet = buf.receivedPackets.front();
-			buf.receivedPackets.pop_front();
-			if (packet)
-				GetState().HandlePacket(shared_from_this(), packet);
-		}
-		StartAsyncRead();
-	} else {
-		if (ec != boost::asio::error::operation_aborted)
-			throw NetException(__FILE__, __LINE__, ERR_SOCK_CONN_RESET, 0);
-	}
+	GetState().HandlePacket(shared_from_this(), packet);
 }
 
 void
@@ -926,7 +885,7 @@ ClientThread::CreateContextSession()
 		GetContext().SetSessionData(boost::shared_ptr<SessionData>(new SessionData(
 										newSock,
 										SESSION_ID_GENERIC,
-										*m_senderCallback)));
+										*this)));
 		GetContext().SetResolver(boost::shared_ptr<boost::asio::ip::tcp::resolver>(
 									 new boost::asio::ip::tcp::resolver(*m_ioService)));
 		validSocket = true;
@@ -963,13 +922,6 @@ ClientThread::GetSender()
 {
 	assert(m_senderHelper);
 	return *m_senderHelper;
-}
-
-ReceiverHelper &
-ClientThread::GetReceiver()
-{
-	assert(m_receiver);
-	return *m_receiver;
 }
 
 unsigned

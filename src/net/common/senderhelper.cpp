@@ -18,8 +18,8 @@
  ***************************************************************************/
 
 #include <net/senderhelper.h>
+#include <net/sessiondata.h>
 #include <net/sendbuffer.h>
-#include <net/sendercallback.h>
 #include <net/socket_helper.h>
 #include <net/socket_msg.h>
 #include <core/loghelper.h>
@@ -28,8 +28,8 @@
 
 using namespace std;
 
-SenderHelper::SenderHelper(SenderCallback &cb, boost::shared_ptr<boost::asio::io_service> ioService)
-	: m_callback(cb), m_ioService(ioService)
+SenderHelper::SenderHelper(boost::shared_ptr<boost::asio::io_service> ioService)
+	: m_ioService(ioService)
 {
 }
 
