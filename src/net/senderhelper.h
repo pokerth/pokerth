@@ -25,7 +25,7 @@
 #include <net/sendercallback.h>
 
 class SessionData;
-class SendDataManager;
+class SendBuffer;
 
 class SenderHelper
 {
@@ -37,7 +37,7 @@ public:
 	void Send(boost::shared_ptr<SessionData> session, const NetPacketList &packetList);
 
 protected:
-	void InternalStorePacket(SendDataManager &tmpManager, boost::shared_ptr<NetPacket> packet);
+	void InternalStorePacket(SendBuffer &tmpManager, boost::shared_ptr<NetPacket> packet);
 
 private:
 

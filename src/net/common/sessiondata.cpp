@@ -30,7 +30,7 @@ SessionData::SessionData(boost::shared_ptr<boost::asio::ip::tcp::socket> sock, S
 	  m_autoDisconnectTimer(boost::posix_time::time_duration(0, 0, 0), boost::timers::portable::microsec_timer::auto_start),
 	  m_callback(cb), m_authSession(NULL), m_curAuthStep(0)
 {
-	m_sendDataManager.reset(new SendDataManager);
+	m_sendBuffer.reset(new SendBuffer);
 }
 
 SessionData::~SessionData()

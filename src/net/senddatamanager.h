@@ -31,11 +31,11 @@
 #define MAX_SEND_BUF_SIZE					SEND_BUF_FIRST_ALLOC_CHUNKSIZE * 256
 
 
-class SendDataManager : public boost::enable_shared_from_this<SendDataManager>
+class SendBuffer : public boost::enable_shared_from_this<SendBuffer>
 {
 public:
-	SendDataManager();
-	~SendDataManager();
+	SendBuffer();
+	~SendBuffer();
 
 	inline size_t GetSendBufLeft() const {
 		int bytesLeft = sendBufAllocated - sendBufUsed;

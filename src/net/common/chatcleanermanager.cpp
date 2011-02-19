@@ -37,7 +37,7 @@ ChatCleanerManager::ChatCleanerManager(ChatCleanerCallback &cb, boost::shared_pt
 	m_resolver.reset(
 		new boost::asio::ip::tcp::resolver(*m_ioService));
 	m_sendManager.reset(
-		new SendDataManager);
+		new SendBuffer);
 }
 
 ChatCleanerManager::~ChatCleanerManager()
@@ -248,7 +248,7 @@ ChatCleanerManager::HandleMessage(InternalChatCleanerPacket &msg)
 void
 ChatCleanerManager::SendMessageToServer(InternalChatCleanerPacket &msg)
 {
-	asn_enc_rval_t e = der_encode(&asn_DEF_ChatCleanerMessage, msg.GetMsg(), &SendDataManager::EncodeToBuf, &m_sendManager);
+	asn_enc_rval_t e = der_encode(&asn_DEF_ChatCleanerMessage, msg.GetMsg(), &SendBuffer::EncodeToBuf, &m_sendManager);
 
 	if (e.encoded == -1)
 		LOG_ERROR("Failed to encode chat cleaner packet: " << msg.GetMsg()->present);

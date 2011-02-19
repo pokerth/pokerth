@@ -27,7 +27,7 @@
 #include <net/chatcleanercallback.h>
 #include <net/internalchatcleanerpacket.h>
 
-class SendDataManager;
+class SendBuffer;
 
 class ChatCleanerManager : public boost::enable_shared_from_this<ChatCleanerManager>
 {
@@ -57,7 +57,7 @@ private:
 	boost::shared_ptr<boost::asio::io_service> m_ioService;
 	boost::shared_ptr<boost::asio::ip::tcp::resolver> m_resolver;
 	boost::shared_ptr<boost::asio::ip::tcp::socket> m_socket;
-	boost::shared_ptr<SendDataManager> m_sendManager;
+	boost::shared_ptr<SendBuffer> m_sendManager;
 
 	bool m_connected;
 	unsigned m_curRequestId;

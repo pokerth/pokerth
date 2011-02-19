@@ -41,12 +41,12 @@ void
 SenderHelper::Send(boost::shared_ptr<SessionData> session, boost::shared_ptr<NetPacket> packet)
 {
 	if (packet && session) {
-		SendDataManager &tmpManager = session->GetSendDataManager();
+		SendBuffer &tmpBuffer = session->GetSendBuffer();
 		// Add packet to specific queue.
-		boost::mutex::scoped_lock lock(tmpManager.dataMutex);
-		InternalStorePacket(tmpManager, packet);
+		boost::mutex::scoped_lock lock(tmpBuffer.dataMutex);
+		InternalStorePacket(tmpBuffer, packet);
 		// Activate async send, if needed.
-		tmpManager.AsyncSendNextPacket(session->GetAsioSocket());
+		tmpBuffer.AsyncSendNextPacket(session->GetAsioSocket());
 	}
 }
 
@@ -54,25 +54,25 @@ void
 SenderHelper::Send(boost::shared_ptr<SessionData> session, const NetPacketList &packetList)
 {
 	if (!packetList.empty() && session) {
-		SendDataManager &tmpManager = session->GetSendDataManager();
+		SendBuffer &tmpBuffer = session->GetSendBuffer();
 		// Add packets to specific queue.
-		boost::mutex::scoped_lock lock(tmpManager.dataMutex);
+		boost::mutex::scoped_lock lock(tmpBuffer.dataMutex);
 		NetPacketList::const_iterator i = packetList.begin();
 		NetPacketList::const_iterator end = packetList.end();
 		while (i != end) {
 			if (*i)
-				InternalStorePacket(tmpManager, *i);
+				InternalStorePacket(tmpBuffer, *i);
 			++i;
 		}
 		// Activate async send, if needed.
-		tmpManager.AsyncSendNextPacket(session->GetAsioSocket());
+		tmpBuffer.AsyncSendNextPacket(session->GetAsioSocket());
 	}
 }
 
 void
-SenderHelper::InternalStorePacket(SendDataManager &tmpManager, boost::shared_ptr<NetPacket> packet)
+SenderHelper::InternalStorePacket(SendBuffer &tmpBuffer, boost::shared_ptr<NetPacket> packet)
 {
-	asn_enc_rval_t e = der_encode(&asn_DEF_PokerTHMessage, packet->GetMsg(), &SendDataManager::EncodeToBuf, &tmpManager);
+	asn_enc_rval_t e = der_encode(&asn_DEF_PokerTHMessage, packet->GetMsg(), &SendBuffer::EncodeToBuf, &tmpBuffer);
 	//cerr << "OUT:" << endl << packet->ToString() << endl;
 	if (e.encoded == -1)
 		LOG_ERROR("Failed to encode NetPacket: " << packet->GetMsg()->present);

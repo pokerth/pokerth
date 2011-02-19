@@ -38,7 +38,7 @@ typedef unsigned SessionId;
 
 struct Gsasl;
 struct Gsasl_session;
-class SendDataManager;
+class SendBuffer;
 
 class SessionData
 {
@@ -80,8 +80,8 @@ public:
 	ReceiveBuffer &GetReceiveBuffer() {
 		return m_receiveBuffer;
 	}
-	SendDataManager &GetSendDataManager() {
-		return *m_sendDataManager;
+	SendBuffer &GetSendBuffer() {
+		return *m_sendBuffer;
 	}
 
 	void ResetActivityTimer();
@@ -102,7 +102,7 @@ private:
 	State							m_state;
 	std::string						m_clientAddr;
 	ReceiveBuffer					m_receiveBuffer;
-	boost::shared_ptr<SendDataManager> m_sendDataManager;
+	boost::shared_ptr<SendBuffer> m_sendBuffer;
 	bool							m_readyFlag;
 	bool							m_wantsLobbyMsg;
 	boost::timers::portable::microsec_timer m_activityTimer;

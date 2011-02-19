@@ -27,20 +27,20 @@ using namespace std;
 using boost::asio::ip::tcp;
 
 
-SendDataManager::SendDataManager()
+SendBuffer::SendBuffer()
 	: sendBuf(NULL), curWriteBuf(NULL), sendBufAllocated(0), sendBufUsed(0),
 	  curWriteBufAllocated(0), curWriteBufUsed(0)
 {
 }
 
-SendDataManager::~SendDataManager()
+SendBuffer::~SendBuffer()
 {
 	free(sendBuf);
 	free(curWriteBuf);
 }
 
 void
-SendDataManager::HandleWrite(boost::shared_ptr<boost::asio::ip::tcp::socket> socket, const boost::system::error_code &error)
+SendBuffer::HandleWrite(boost::shared_ptr<boost::asio::ip::tcp::socket> socket, const boost::system::error_code &error)
 {
 	if (!error) {
 		// Successfully sent the data.
@@ -52,7 +52,7 @@ SendDataManager::HandleWrite(boost::shared_ptr<boost::asio::ip::tcp::socket> soc
 }
 
 void
-SendDataManager::AsyncSendNextPacket(boost::shared_ptr<boost::asio::ip::tcp::socket> socket)
+SendBuffer::AsyncSendNextPacket(boost::shared_ptr<boost::asio::ip::tcp::socket> socket)
 {
 	if (!curWriteBufUsed) {
 		// Swap buffers and send data.
@@ -63,7 +63,7 @@ SendDataManager::AsyncSendNextPacket(boost::shared_ptr<boost::asio::ip::tcp::soc
 			boost::asio::async_write(
 				*socket,
 				boost::asio::buffer(curWriteBuf, curWriteBufUsed),
-				boost::bind(&SendDataManager::HandleWrite,
+				boost::bind(&SendBuffer::HandleWrite,
 							shared_from_this(),
 							socket,
 							boost::asio::placeholders::error));
@@ -72,9 +72,9 @@ SendDataManager::AsyncSendNextPacket(boost::shared_ptr<boost::asio::ip::tcp::soc
 }
 
 int
-SendDataManager::EncodeToBuf(const void *data, size_t size, void *arg)
+SendBuffer::EncodeToBuf(const void *data, size_t size, void *arg)
 {
-	SendDataManager *m = (SendDataManager *)arg;
+	SendBuffer *m = (SendBuffer *)arg;
 
 	// Realloc buffer if necessary.
 	while (m->GetSendBufLeft() < size) {
