@@ -24,7 +24,6 @@
 #include <boost/swap.hpp>
 
 using namespace std;
-using boost::asio::ip::tcp;
 
 
 SendBuffer::SendBuffer()

@@ -31,7 +31,6 @@
 #include <gui/guiinterface.h>
 
 class ServerLobbyThread;
-class ServerAcceptHelper;
 class SenderThread;
 class ConfigFile;
 class AvatarManager;

@@ -32,7 +32,7 @@
 
 class ServerLobbyThread;
 class IrcThread;
-class ServerAcceptHelper;
+class ServerAcceptInterface;
 class SenderThread;
 class ConfigFile;
 class AvatarManager;
@@ -60,7 +60,7 @@ public:
 	ServerLobbyBot &GetLobbyBot();
 
 protected:
-	typedef std::list<boost::shared_ptr<ServerAcceptHelper> > AcceptHelperList;
+	typedef std::list<boost::shared_ptr<ServerAcceptInterface> > AcceptHelperList;
 
 	ServerLobbyThread &GetLobbyThread();
 

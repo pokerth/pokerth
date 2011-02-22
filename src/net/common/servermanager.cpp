@@ -17,8 +17,9 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#include <net/socket_helper.h>
+#include <boost/asio.hpp>
 #include <net/servermanager.h>
+#include <net/socket_helper.h>
 #include <net/serverlobbythread.h>
 #include <net/serveraccepthelper.h>
 #include <net/serverexception.h>
@@ -53,17 +54,16 @@ ServerManager::Init(unsigned serverPort, bool ipv6, ServerTransportProtocol prot
 	m_lobbyBot->Init(m_lobbyThread, ircLobbyThread);
 
 	if (proto & TRANSPORT_PROTOCOL_TCP) {
-		boost::shared_ptr<ServerAcceptHelper> tcpAcceptHelper(new ServerAcceptHelper(GetGui(), m_ioService));
-		tcpAcceptHelper->Listen(serverPort, ipv6, false, logDir, m_lobbyThread);
+		boost::shared_ptr<ServerAcceptInterface> tcpAcceptHelper(new ServerAcceptHelper<boost::asio::ip::tcp>(GetGui(), m_ioService));
+		tcpAcceptHelper->Listen(serverPort, ipv6, logDir, m_lobbyThread);
 		m_acceptHelperPool.push_back(tcpAcceptHelper);
 	}
-	// TODO: Re-add SCTP support once asio supports SCTP.
-	/*	if (mode & TRANSPORT_PROTOCOL_SCTP)
-		{
-			boost::shared_ptr<ServerAcceptHelper> sctpAcceptHelper(new ServerAcceptHelper(GetGui(), m_ioService));
-			sctpAcceptHelper->Listen(serverPort, ipv6, true, logDir, m_lobbyThread);
-			m_acceptHelperPool.push_back(sctpAcceptHelper);
-		}*/
+/*	if (proto & TRANSPORT_PROTOCOL_SCTP)
+	{
+		boost::shared_ptr<ServerAcceptInterface> sctpAcceptHelper(new ServerAcceptHelper<boost::asio::ip::sctp>(GetGui(), m_ioService));
+		sctpAcceptHelper->Listen(serverPort, ipv6, logDir, m_lobbyThread);
+		m_acceptHelperPool.push_back(sctpAcceptHelper);
+	}*/
 }
 
 GuiInterface &

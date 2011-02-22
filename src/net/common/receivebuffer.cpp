@@ -27,7 +27,6 @@
 #include <boost/swap.hpp>
 
 using namespace std;
-using boost::asio::ip::tcp;
 
 
 ReceiveBuffer::ReceiveBuffer()
