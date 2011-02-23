@@ -85,9 +85,7 @@ public:
 	void SendReportAvatar(unsigned reportedPlayerId, const std::string &avatarHash);
 
 	void StartAsyncRead();
-	virtual void CloseSession(boost::shared_ptr<SessionData> /*session*/) {
-		// TODO
-	}
+	virtual void CloseSession(boost::shared_ptr<SessionData> session);
 	virtual void HandlePacket(boost::shared_ptr<SessionData> session, boost::shared_ptr<NetPacket> packet);
 
 	void SelectServer(unsigned serverId);

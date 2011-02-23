@@ -366,6 +366,12 @@ ClientThread::StartAsyncRead()
 }
 
 void
+ClientThread::CloseSession(boost::shared_ptr<SessionData> session)
+{
+	throw NetException(__FILE__, __LINE__, ERR_SOCK_CONN_RESET, 0);
+}
+
+void
 ClientThread::HandlePacket(boost::shared_ptr<SessionData> /*session*/, boost::shared_ptr<NetPacket> packet)
 {
 	GetState().HandlePacket(shared_from_this(), packet);

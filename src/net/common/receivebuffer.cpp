@@ -23,7 +23,6 @@
 #include <net/receivebuffer.h>
 #include <net/sessiondata.h>
 #include <core/loghelper.h>
-#include <core/pokerthexception.h>
 #include <boost/swap.hpp>
 
 using namespace std;
@@ -68,6 +67,7 @@ ReceiveBuffer::HandleRead(boost::shared_ptr<SessionData> session, const boost::s
 			}
 		} catch (const exception &e) {
 			LOG_ERROR("Session " << session->GetId() << " - unhandled exception in HandleRead: " << e.what());
+			throw;
 		}
 	}
 }
@@ -109,13 +109,7 @@ ReceiveBuffer::ProcessPackets(boost::shared_ptr<SessionData> session)
 	while (!receivedPackets.empty()) {
 		boost::shared_ptr<NetPacket> p = receivedPackets.front();
 		receivedPackets.pop_front();
-		// We need to catch specific exceptions, so that they do not affect the server.
-		try {
-			session->HandlePacket(p);
-		} catch (const PokerTHException &e) {
-			LOG_ERROR("Session " << session->GetId() << " - Read handler exception: " << e.what());
-			// TODO add error handling, close session.
-		}
+		session->HandlePacket(p);
 	}
 	if (recvBufUsed >= RECV_BUF_SIZE) {
 		LOG_ERROR("Session " << session->GetId() << " - Receive buf full: " << recvBufUsed);
