@@ -38,7 +38,7 @@ namespace po = boost::program_options;
 #define BUF_SIZE 1024
 
 struct NetSession {
-	NetSession(boost::asio::io_service &ioService) : recBufPos(0), socket(ioService) {}
+	NetSession(boost::asio::io_service &ioService) : recBufPos(0), authSession(NULL), socket(ioService) {}
 	boost::array<char, BUF_SIZE> recBuf;
 	size_t recBufPos;
 	boost::array<char, BUF_SIZE> sendBuf;
@@ -114,6 +114,7 @@ main(int argc, char *argv[])
 		("server,s", po::value<string>(), "PokerTH server name")
 		("port,P", po::value<string>(), "PokerTH server port")
 		("numGames,n", po::value<unsigned>(), "Number of games to open")
+		("firstId,f", po::value<int>(), "First id of username testx")
 		;
 
 		po::variables_map vm;
@@ -124,7 +125,7 @@ main(int argc, char *argv[])
 			cout << desc << endl;
 			return 1;
 		}
-		if (!vm.count("server") || !vm.count("port") || !vm.count("numGames")) {
+		if (!vm.count("server") || !vm.count("port") || !vm.count("numGames") || !vm.count("firstId")) {
 			cout << "Missing option!" << endl << desc << endl;
 			return 1;
 		}
@@ -132,6 +133,7 @@ main(int argc, char *argv[])
 		string server(vm["server"].as<string>());
 		string port = vm["port"].as<string>();
 		unsigned numGames = vm["numGames"].as<unsigned>();
+		int firstId = vm["firstId"].as<int>();
 
 		// Initialise gsasl.
 		Gsasl *authContext;
@@ -193,7 +195,7 @@ main(int argc, char *argv[])
 			int errorCode = gsasl_client_start(authContext, "SCRAM-SHA-1", &session->authSession);
 			if (errorCode == GSASL_OK) {
 				ostringstream param;
-				param << "test" << i + 1;
+				param << "test" << i + firstId;
 				cout << "User " << param.str() << " logging in." << endl;
 				session->name = param.str();
 				gsasl_property_set(session->authSession, GSASL_AUTHID, session->name.c_str());
