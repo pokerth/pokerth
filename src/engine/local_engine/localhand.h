@@ -71,6 +71,10 @@ public:
 		return myBeRo[currentRound];
 	}
 
+    Log* getLog() const {
+        return myLog;
+    }
+
 	void setMyID(int theValue) {
 		myID = theValue;
 	}
@@ -147,6 +151,7 @@ public:
 	}
 
 	void assignButtons();
+    void setBlinds();
 
 	void switchRounds();
 

@@ -357,9 +357,12 @@ LocalHand::LocalHand(boost::shared_ptr<EngineFactory> f, GuiInterface *g, boost:
 // ----------------------------------------
 
 	// determine dealer, SB, BB
+
 	assignButtons();
 
 	myLog->logNewHandMsg(myID, dealerPosition, smallBlind, smallBlindPosition, 2*smallBlind, bigBlindPosition, seatsList);
+
+    setBlinds();
 
 	myBeRo = myFactory->createBeRo(this, myID, dealerPosition, smallBlind);
 }
@@ -467,40 +470,46 @@ void LocalHand::assignButtons()
 	}
 
 //        cout << "lAP-Button: " << lastActionPlayer << endl;
+}
 
-	//do sets --> TODO switch?
-	for (it_c=runningPlayerList->begin(); it_c!=runningPlayerList->end(); ++it_c) {
+void LocalHand::setBlinds()
+{
 
-		//small blind
-		if((*it_c)->getMyButton() == BUTTON_SMALL_BLIND) {
+    PlayerListConstIterator it_c;
 
-			// All in ?
-			if((*it_c)->getMyCash() <= smallBlind) {
+    //do sets --> TODO switch?
+    for (it_c=runningPlayerList->begin(); it_c!=runningPlayerList->end(); ++it_c) {
 
-				(*it_c)->setMySet((*it_c)->getMyCash());
-				// 1 to do not log this
-				(*it_c)->setMyAction(PLAYER_ACTION_ALLIN,1);
+        //small blind
+        if((*it_c)->getMyButton() == BUTTON_SMALL_BLIND) {
 
-			} else {
-				(*it_c)->setMySet(smallBlind);
-			}
-		}
+            // All in ?
+            if((*it_c)->getMyCash() <= smallBlind) {
 
-		//big blind
-		if((*it_c)->getMyButton() == BUTTON_BIG_BLIND) {
+                (*it_c)->setMySet((*it_c)->getMyCash());
+                // 1 to do not log this
+                (*it_c)->setMyAction(PLAYER_ACTION_ALLIN,1);
 
-			// all in ?
-			if((*it_c)->getMyCash() <= 2*smallBlind) {
+            } else {
+                (*it_c)->setMySet(smallBlind);
+            }
+        }
 
-				(*it_c)->setMySet((*it_c)->getMyCash());
-				// 1 to do not log this
-				(*it_c)->setMyAction(PLAYER_ACTION_ALLIN,1);
+        //big blind
+        if((*it_c)->getMyButton() == BUTTON_BIG_BLIND) {
 
-			} else {
-				(*it_c)->setMySet(2*smallBlind);
-			}
-		}
-	}
+            // all in ?
+            if((*it_c)->getMyCash() <= 2*smallBlind) {
+
+                (*it_c)->setMySet((*it_c)->getMyCash());
+                // 1 to do not log this
+                (*it_c)->setMyAction(PLAYER_ACTION_ALLIN,1);
+
+            } else {
+                (*it_c)->setMySet(2*smallBlind);
+            }
+        }
+    }
 }
 
 
