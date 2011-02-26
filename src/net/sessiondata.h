@@ -86,8 +86,12 @@ public:
 		return *m_sendBuffer;
 	}
 
-	void Close() {m_callback.CloseSession(shared_from_this());}
-	void HandlePacket(boost::shared_ptr<NetPacket> packet) {m_callback.HandlePacket(shared_from_this(), packet);}
+	void Close() {
+		m_callback.CloseSession(shared_from_this());
+	}
+	void HandlePacket(boost::shared_ptr<NetPacket> packet) {
+		m_callback.HandlePacket(shared_from_this(), packet);
+	}
 
 	void ResetActivityTimer();
 	unsigned GetActivityTimerElapsedSec() const;

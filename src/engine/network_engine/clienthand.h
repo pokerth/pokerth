@@ -50,9 +50,9 @@ public:
 	GuiInterface* getGuiInterface() const;
 	boost::shared_ptr<BeRoInterface> getCurrentBeRo() const;
 
-    Log* getLog() const {
-        return myLog;
-    }
+	Log* getLog() const {
+		return myLog;
+	}
 
 	void setMyID ( int theValue );
 	int getMyID() const;

@@ -45,7 +45,7 @@ public:
 	virtual boost::shared_ptr<BeRoInterface> getRiver() const =0;
 	virtual GuiInterface* getGuiInterface() const =0;
 	virtual boost::shared_ptr<BeRoInterface> getCurrentBeRo() const =0;
-    virtual Log* getLog() const =0;
+	virtual Log* getLog() const =0;
 
 	virtual void setMyID(int theValue) =0;
 	virtual int getMyID() const =0;

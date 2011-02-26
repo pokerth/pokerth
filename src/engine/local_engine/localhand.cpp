@@ -362,7 +362,7 @@ LocalHand::LocalHand(boost::shared_ptr<EngineFactory> f, GuiInterface *g, boost:
 
 	myLog->logNewHandMsg(myID, dealerPosition, smallBlind, smallBlindPosition, 2*smallBlind, bigBlindPosition, seatsList);
 
-    setBlinds();
+	setBlinds();
 
 	myBeRo = myFactory->createBeRo(this, myID, dealerPosition, smallBlind);
 }
@@ -475,41 +475,41 @@ void LocalHand::assignButtons()
 void LocalHand::setBlinds()
 {
 
-    PlayerListConstIterator it_c;
+	PlayerListConstIterator it_c;
 
-    //do sets --> TODO switch?
-    for (it_c=runningPlayerList->begin(); it_c!=runningPlayerList->end(); ++it_c) {
+	//do sets --> TODO switch?
+	for (it_c=runningPlayerList->begin(); it_c!=runningPlayerList->end(); ++it_c) {
 
-        //small blind
-        if((*it_c)->getMyButton() == BUTTON_SMALL_BLIND) {
+		//small blind
+		if((*it_c)->getMyButton() == BUTTON_SMALL_BLIND) {
 
-            // All in ?
-            if((*it_c)->getMyCash() <= smallBlind) {
+			// All in ?
+			if((*it_c)->getMyCash() <= smallBlind) {
 
-                (*it_c)->setMySet((*it_c)->getMyCash());
-                // 1 to do not log this
-                (*it_c)->setMyAction(PLAYER_ACTION_ALLIN,1);
+				(*it_c)->setMySet((*it_c)->getMyCash());
+				// 1 to do not log this
+				(*it_c)->setMyAction(PLAYER_ACTION_ALLIN,1);
 
-            } else {
-                (*it_c)->setMySet(smallBlind);
-            }
-        }
+			} else {
+				(*it_c)->setMySet(smallBlind);
+			}
+		}
 
-        //big blind
-        if((*it_c)->getMyButton() == BUTTON_BIG_BLIND) {
+		//big blind
+		if((*it_c)->getMyButton() == BUTTON_BIG_BLIND) {
 
-            // all in ?
-            if((*it_c)->getMyCash() <= 2*smallBlind) {
+			// all in ?
+			if((*it_c)->getMyCash() <= 2*smallBlind) {
 
-                (*it_c)->setMySet((*it_c)->getMyCash());
-                // 1 to do not log this
-                (*it_c)->setMyAction(PLAYER_ACTION_ALLIN,1);
+				(*it_c)->setMySet((*it_c)->getMyCash());
+				// 1 to do not log this
+				(*it_c)->setMyAction(PLAYER_ACTION_ALLIN,1);
 
-            } else {
-                (*it_c)->setMySet(2*smallBlind);
-            }
-        }
-    }
+			} else {
+				(*it_c)->setMySet(2*smallBlind);
+			}
+		}
+	}
 }
 
 

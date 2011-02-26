@@ -34,14 +34,14 @@ public:
 
 	void logNewGameMsg(int gameID, int startCash, int startSmallBlind, unsigned dealerPosition, PlayerList seatsList);
 	void logNewHandMsg(int handID, unsigned dealerPosition, int smallBlind, unsigned smallBlindPosition, int bigBlind, unsigned bigBlindPosition, PlayerList seatsList);
-        void logBoardCards(GameState beroID, int boardCards[5]);
+	void logBoardCards(GameState beroID, int boardCards[5]);
 //    void closeLogDbAtExit();
 
 
 private:
 	sqlite3 *mySqliteLogDb;
 	int curGameID;
-        int curHandID;
+	int curHandID;
 	bool logOnOff;
 
 };

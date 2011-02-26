@@ -141,7 +141,7 @@ void LocalBeRo::run()
 			switch(myBeRoID) {
 			case GAME_STATE_FLOP:
 				myHand->getGuiInterface()->logDealBoardCardsMsg(myBeRoID, tempBoardCardsArray[0], tempBoardCardsArray[1], tempBoardCardsArray[2]);
-                myHand->getLog()->logBoardCards(myBeRoID, tempBoardCardsArray);
+				myHand->getLog()->logBoardCards(myBeRoID, tempBoardCardsArray);
 				break;
 			case GAME_STATE_TURN:
 				myHand->getGuiInterface()->logDealBoardCardsMsg(myBeRoID, tempBoardCardsArray[0], tempBoardCardsArray[1], tempBoardCardsArray[2], tempBoardCardsArray[3]);

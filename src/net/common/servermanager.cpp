@@ -58,12 +58,12 @@ ServerManager::Init(unsigned serverPort, bool ipv6, ServerTransportProtocol prot
 		tcpAcceptHelper->Listen(serverPort, ipv6, logDir, m_lobbyThread);
 		m_acceptHelperPool.push_back(tcpAcceptHelper);
 	}
-/*	if (proto & TRANSPORT_PROTOCOL_SCTP)
-	{
-		boost::shared_ptr<ServerAcceptInterface> sctpAcceptHelper(new ServerAcceptHelper<boost::asio::ip::sctp>(GetGui(), m_ioService));
-		sctpAcceptHelper->Listen(serverPort, ipv6, logDir, m_lobbyThread);
-		m_acceptHelperPool.push_back(sctpAcceptHelper);
-	}*/
+	/*	if (proto & TRANSPORT_PROTOCOL_SCTP)
+		{
+			boost::shared_ptr<ServerAcceptInterface> sctpAcceptHelper(new ServerAcceptHelper<boost::asio::ip::sctp>(GetGui(), m_ioService));
+			sctpAcceptHelper->Listen(serverPort, ipv6, logDir, m_lobbyThread);
+			m_acceptHelperPool.push_back(sctpAcceptHelper);
+		}*/
 }
 
 GuiInterface &
