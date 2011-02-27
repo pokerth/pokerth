@@ -242,7 +242,7 @@ void Log::logNewHandMsg(int handID, unsigned dealerPosition, int smallBlind, uns
 					sql += ",Seat_" + boost::lexical_cast<std::string>(i) + "_Cash";
 				}
 				sql += ") VALUES (";
-				sql += boost::lexical_cast<string>(handID);
+				sql += boost::lexical_cast<string>(curHandID);
 				sql += "," + boost::lexical_cast<string>(curGameID);
 				sql += "," + boost::lexical_cast<string>(dealerPosition+1);
 				sql += "," + boost::lexical_cast<string>(smallBlind);
@@ -261,47 +261,86 @@ void Log::logNewHandMsg(int handID, unsigned dealerPosition, int smallBlind, uns
 					cout << "Error in statement: " << sql.data() << "[" << errmsg << "]." << endl;
 				}
 
-				// Action 'starts as dealer'
-				sql = "INSERT INTO Action (";
-				sql += "HandID";
-				sql += ",GameID";
-				sql += ",BeRo";
-				sql += ",Player";
-				sql += ",Action";
-				sql += ",Amount";
-				sql += ") VALUES (";
-				sql += boost::lexical_cast<string>(handID);
-				sql += "," + boost::lexical_cast<string>(curGameID);
-				sql += ",0";
-				sql += "," + boost::lexical_cast<string>(dealerPosition+1);
-				sql += ",'starts as dealer'";
-				sql += ",NULL";
-				sql += ")";
-				if(sqlite3_exec(mySqliteLogDb, sql.data(), 0, 0, &errmsg) != SQLITE_OK) {
-					cout << "Error in statement: " << sql.data() << "[" << errmsg << "]." << endl;
-				}
+				logPlayerAction(0,dealerPosition+1,LOG_ACTION_DEALER);
 
-				// Action 'posts small blind'
-				sql = "INSERT INTO Action (";
-				sql += "HandID";
-				sql += ",GameID";
-				sql += ",BeRo";
-				sql += ",Player";
-				sql += ",Action";
-				sql += ",Amount";
-				sql += ") VALUES (";
-				sql += boost::lexical_cast<string>(handID);
-				sql += "," + boost::lexical_cast<string>(curGameID);
-				sql += ",0";
-				sql += "," + boost::lexical_cast<string>(smallBlindPosition+1);
-				sql += ",'posts small blind'";
-				sql += "," + boost::lexical_cast<string>(smallBlind);
-				sql += ")";
-				if(sqlite3_exec(mySqliteLogDb, sql.data(), 0, 0, &errmsg) != SQLITE_OK) {
-					cout << "Error in statement: " << sql.data() << "[" << errmsg << "]." << endl;
-				}
+//                // Action 'starts as dealer'
+//                sql = "INSERT INTO Action (";
+//                sql += "HandID";
+//                sql += ",GameID";
+//                sql += ",BeRo";
+//                sql += ",Player";
+//                sql += ",Action";
+//                sql += ",Amount";
+//                sql += ") VALUES (";
+//                sql += boost::lexical_cast<string>(curHandID);
+//                sql += "," + boost::lexical_cast<string>(curGameID);
+//                sql += ",0";
+//                sql += "," + boost::lexical_cast<string>(dealerPosition+1);
+//                sql += ",'starts as dealer'";
+//                sql += ",NULL";
+//                sql += ")";
+//                if(sqlite3_exec(mySqliteLogDb, sql.data(), 0, 0, &errmsg) != SQLITE_OK) {
+//                    cout << "Error in statement: " << sql.data() << "[" << errmsg << "]." << endl;
+//                }
 
-				// Action 'posts big blind'
+//                // Action 'posts small blind'
+//                sql = "INSERT INTO Action (";
+//                sql += "HandID";
+//                sql += ",GameID";
+//                sql += ",BeRo";
+//                sql += ",Player";
+//                sql += ",Action";
+//                sql += ",Amount";
+//                sql += ") VALUES (";
+//                sql += boost::lexical_cast<string>(curHandID);
+//                sql += "," + boost::lexical_cast<string>(curGameID);
+//                sql += ",0";
+//                sql += "," + boost::lexical_cast<string>(smallBlindPosition+1);
+//                sql += ",'posts small blind'";
+//                sql += "," + boost::lexical_cast<string>(smallBlind);
+//                sql += ")";
+//                if(sqlite3_exec(mySqliteLogDb, sql.data(), 0, 0, &errmsg) != SQLITE_OK) {
+//                    cout << "Error in statement: " << sql.data() << "[" << errmsg << "]." << endl;
+//                }
+
+//                // Action 'posts big blind'
+//                sql = "INSERT INTO Action (";
+//                sql += "HandID";
+//                sql += ",GameID";
+//                sql += ",BeRo";
+//                sql += ",Player";
+//                sql += ",Action";
+//                sql += ",Amount";
+//                sql += ") VALUES (";
+//                sql += boost::lexical_cast<string>(curHandID);
+//                sql += "," + boost::lexical_cast<string>(curGameID);
+//                sql += ",0";
+//                sql += "," + boost::lexical_cast<string>(bigBlindPosition+1);
+//                sql += ",\'posts big blind'";
+//                sql += "," + boost::lexical_cast<string>(bigBlind);
+//                sql += ")";
+//                if(sqlite3_exec(mySqliteLogDb, sql.data(), 0, 0, &errmsg) != SQLITE_OK) {
+//                    cout << "Error in statement: " << sql.data() << "[" << errmsg << "]." << endl;
+//                }
+			}
+		}
+	}
+}
+
+void Log::logPlayerAction(int bero, int seat, int action, int amount)
+{
+
+	if(SQLITE_LOG) {
+
+		if(logOnOff) {
+			//if write logfiles is enabled
+
+			string sql;
+			char *errmsg;
+
+			if( mySqliteLogDb != 0 ) {
+				// sqlite-db is open
+
 				sql = "INSERT INTO Action (";
 				sql += "HandID";
 				sql += ",GameID";
@@ -310,12 +349,61 @@ void Log::logNewHandMsg(int handID, unsigned dealerPosition, int smallBlind, uns
 				sql += ",Action";
 				sql += ",Amount";
 				sql += ") VALUES (";
-				sql += boost::lexical_cast<string>(handID);
+				sql += boost::lexical_cast<string>(curHandID);
 				sql += "," + boost::lexical_cast<string>(curGameID);
-				sql += ",0";
-				sql += "," + boost::lexical_cast<string>(bigBlindPosition+1);
-				sql += ",\'posts big blind'";
-				sql += "," + boost::lexical_cast<string>(bigBlind);
+				sql += "," + boost::lexical_cast<string>(bero);;
+				sql += "," + boost::lexical_cast<string>(seat);
+				switch(action) {
+				case LOG_ACTION_DEALER:
+					sql += ",'starts as dealer'";
+					break;
+				case LOG_ACTION_SMALL_BLIND:
+					sql += ",'posts small blind'";
+					break;
+				case LOG_ACTION_BIG_BLIND:
+					sql += ",'posts big blind'";
+					break;
+				case LOG_ACTION_FOLD:
+					sql += ",'folds'";
+					break;
+				case LOG_ACTION_CHECK:
+					sql += ",'checks'";
+					break;
+				case LOG_ACTION_CALL:
+					sql += ",'calls'";
+					break;
+				case LOG_ACTION_BET:
+					sql += ",'bets'";
+					break;
+				case LOG_ACTION_ALL_IN:
+					sql += ",'is all in with'";
+					break;
+				case LOG_ACTION_SHOW:
+					sql += ",'shows'";
+					break;
+				case LOG_ACTION_HAS:
+					sql += ",'has'";
+					break;
+				case LOG_ACTION_WIN:
+					sql += ",'wins'";
+					break;
+				case LOG_ACTION_WIN_SIDE_POT:
+					sql += ",'wins (side pot)'";
+					break;
+				case LOG_ACTION_SIT_OUT:
+					sql += ",'sits out'";
+					break;
+				case LOG_ACTION_WIN_GAME:
+					sql += ",'wins game'";
+					break;
+				default:
+					return;
+				}
+				if(amount>0) {
+					sql += "," + boost::lexical_cast<string>(amount);
+				} else {
+					sql += ",NULL";
+				}
 				sql += ")";
 				if(sqlite3_exec(mySqliteLogDb, sql.data(), 0, 0, &errmsg) != SQLITE_OK) {
 					cout << "Error in statement: " << sql.data() << "[" << errmsg << "]." << endl;
@@ -342,3 +430,21 @@ void Log::logBoardCards(GameState beroID, int boardCards[5])
 //    }
 
 //}
+
+
+
+// ACTION-Code
+// 0    starts as dealer
+// 1    posts small blind
+// 2    posts big blind
+// 3    folds
+// 4    checks
+// 5    calls
+// 6    bets
+// 7    is all in with
+// 8    shows
+// 9    has
+// 10   wins
+// 11   wins (side pot)
+// 11   sits out
+// 12   wins game

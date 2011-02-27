@@ -486,14 +486,21 @@ void LocalHand::setBlinds()
 			// All in ?
 			if((*it_c)->getMyCash() <= smallBlind) {
 
+				myLog->logPlayerAction(0,smallBlindPosition+1,LOG_ACTION_SMALL_BLIND,(*it_c)->getMyCash());
 				(*it_c)->setMySet((*it_c)->getMyCash());
 				// 1 to do not log this
 				(*it_c)->setMyAction(PLAYER_ACTION_ALLIN,1);
 
 			} else {
+				myLog->logPlayerAction(0,smallBlindPosition+1,LOG_ACTION_SMALL_BLIND,smallBlind);
 				(*it_c)->setMySet(smallBlind);
 			}
 		}
+
+	}
+
+	//do sets --> TODO switch?
+	for (it_c=runningPlayerList->begin(); it_c!=runningPlayerList->end(); ++it_c) {
 
 		//big blind
 		if((*it_c)->getMyButton() == BUTTON_BIG_BLIND) {
@@ -501,11 +508,13 @@ void LocalHand::setBlinds()
 			// all in ?
 			if((*it_c)->getMyCash() <= 2*smallBlind) {
 
+				myLog->logPlayerAction(0,bigBlindPosition+1,LOG_ACTION_BIG_BLIND,(*it_c)->getMyCash());
 				(*it_c)->setMySet((*it_c)->getMyCash());
 				// 1 to do not log this
 				(*it_c)->setMyAction(PLAYER_ACTION_ALLIN,1);
 
 			} else {
+				myLog->logPlayerAction(0,bigBlindPosition+1,LOG_ACTION_BIG_BLIND,2*smallBlind);
 				(*it_c)->setMySet(2*smallBlind);
 			}
 		}

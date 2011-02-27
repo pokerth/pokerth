@@ -34,23 +34,25 @@ void Tools::getRandNumber(int start, int end, int howMany, int* randArray, bool 
 	unsigned char rand_buf[4];
 	unsigned int randNumber;
 
-	int i,j;
+	int i;
 
 	if (!different) {
 
-		for (i=0; i<howMany; i++) {
+		int counter(0);
+		while(counter < howMany) {
 
 			if(!RAND_bytes(rand_buf, 4)) {
 				LOG_MSG("RAND_bytes failed!");
 			}
 
 			randNumber = 0;
-			for(j=0; j<4; j++) {
-				randNumber += (rand_buf[j] << 8*j);
+			for(i=0; i<4; i++) {
+				randNumber += (rand_buf[i] << 8*i);
 			}
 
 			if(randNumber < ( (unsigned int) ( ((double)numeric_limits<unsigned int>::max()) / r ) ) * r) {
-				randArray[i] = start + (randNumber % r);
+				randArray[counter] = start + (randNumber % r);
+				counter++;
 			}
 
 		}
@@ -73,8 +75,8 @@ void Tools::getRandNumber(int start, int end, int howMany, int* randArray, bool 
 			}
 
 			randNumber = 0;
-			for(j=0; j<4; j++) {
-				randNumber += (rand_buf[j] << 8*j);
+			for(i=0; i<4; i++) {
+				randNumber += (rand_buf[i] << 8*i);
 			}
 
 			if(randNumber < ( (unsigned int) ( ((double)numeric_limits<unsigned int>::max()) / r ) ) * r) {

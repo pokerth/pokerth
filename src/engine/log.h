@@ -34,6 +34,7 @@ public:
 
 	void logNewGameMsg(int gameID, int startCash, int startSmallBlind, unsigned dealerPosition, PlayerList seatsList);
 	void logNewHandMsg(int handID, unsigned dealerPosition, int smallBlind, unsigned smallBlindPosition, int bigBlind, unsigned bigBlindPosition, PlayerList seatsList);
+	void logPlayerAction(int bero, int seat, int action, int amount = 0);
 	void logBoardCards(GameState beroID, int boardCards[5]);
 //    void closeLogDbAtExit();
 
