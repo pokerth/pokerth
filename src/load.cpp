@@ -169,31 +169,45 @@ main(int argc, char *argv[])
 			return 1;
 		}
 
-		PokerTHMessage_t *msg;
+		PokerTHMessage_t *msg = NULL;
+		int errorCode;
+		char *tmpOut;
+		size_t tmpOutSize;
+		string nextGsaslMsg;
 		NetSession **sessionArray = new NetSession *[numGames * 10];
 		unsigned *gameId = new unsigned[numGames];
-		for (int i = 0; i < numGames * 10; i++) {
-			sessionArray[i] = new NetSession(ioService);
-			NetSession *session = sessionArray[i];
-
-			session->socket.connect(*curEndpoint, error);
-
-			// Receive server information
-			msg = receiveMessage(session);
-			if (!msg || msg->present != PokerTHMessage_PR_announceMessage) {
-				cout << "Announce failed" << endl;
-				return 1;
+		const int LoginsPerLoop = 50;
+		for (int t = 0; t < (numGames * 10) / LoginsPerLoop + 1; t++) {
+			int startNum = t * LoginsPerLoop;
+			int endNum = (t + 1) * LoginsPerLoop;
+			if (endNum > numGames * 10) {
+				endNum = numGames * 10;
 			}
-			ASN_STRUCT_FREE(asn_DEF_PokerTHMessage, msg);
+			for (int i = startNum; i < endNum; i++) {
+				sessionArray[i] = new NetSession(ioService);
+				NetSession *session = sessionArray[i];
 
-			// Send init
-			msg = (PokerTHMessage_t *)calloc(1, sizeof(PokerTHMessage_t));
-			msg->present = PokerTHMessage_PR_initMessage;
-			InitMessage_t *netInit = &msg->choice.initMessage;
-			netInit->requestedVersion.major = 2;
-			netInit->requestedVersion.minor = 0;
-			int errorCode = gsasl_client_start(authContext, "SCRAM-SHA-1", &session->authSession);
-			if (errorCode == GSASL_OK) {
+				session->socket.connect(*curEndpoint, error);
+
+				// Receive server information
+				msg = receiveMessage(session);
+				if (!msg || msg->present != PokerTHMessage_PR_announceMessage) {
+					cout << "Announce failed" << endl;
+					return 1;
+				}
+				ASN_STRUCT_FREE(asn_DEF_PokerTHMessage, msg);
+
+				// Send init
+				msg = (PokerTHMessage_t *)calloc(1, sizeof(PokerTHMessage_t));
+				msg->present = PokerTHMessage_PR_initMessage;
+				InitMessage_t *netInit = &msg->choice.initMessage;
+				netInit->requestedVersion.major = 2;
+				netInit->requestedVersion.minor = 0;
+				errorCode = gsasl_client_start(authContext, "SCRAM-SHA-1", &session->authSession);
+				if (errorCode != GSASL_OK) {
+					cout << "Auth start error." << endl;
+					return 1;
+				}
 				ostringstream param;
 				param << "test" << i + firstId;
 				cout << "User " << param.str() << " logging in." << endl;
@@ -204,9 +218,6 @@ main(int argc, char *argv[])
 				netInit->login.present = login_PR_authenticatedLogin;
 				AuthenticatedLogin_t *authLogin = &netInit->login.choice.authenticatedLogin;
 
-				char *tmpOut;
-				size_t tmpOutSize;
-				string nextGsaslMsg;
 				errorCode = gsasl_step(session->authSession, NULL, 0, &tmpOut, &tmpOutSize);
 				if (errorCode == GSASL_NEEDS_MORE) {
 					nextGsaslMsg = string(tmpOut, tmpOutSize);
@@ -223,7 +234,10 @@ main(int argc, char *argv[])
 					cout << "Init auth request failed" << endl;
 					return 1;
 				}
+			}
 
+			for (int i = startNum; i < endNum; i++) {
+				NetSession *session = sessionArray[i];
 				msg = receiveMessage(session);
 				if (!msg || msg->present != PokerTHMessage_PR_authMessage) {
 					cout << "Auth request failed" << endl;
@@ -255,28 +269,32 @@ main(int argc, char *argv[])
 					cout << "Init auth response failed" << endl;
 					return 1;
 				}
+			}
+
+			for (int i = startNum; i < endNum; i++) {
+				NetSession *session = sessionArray[i];
 				msg = receiveMessage(session);
 				if (!msg || msg->present != PokerTHMessage_PR_authMessage) {
 					cout << "Auth response failed" << endl;
 					return 1;
 				}
 				ASN_STRUCT_FREE(asn_DEF_PokerTHMessage, msg);
-			}
 
-			// Receive init ack
-			msg = receiveMessage(session);
-			if (!msg || msg->present != PokerTHMessage_PR_initAckMessage) {
-				cout << "Init ack failed" << endl;
-				return 1;
-			}
-			ASN_STRUCT_FREE(asn_DEF_PokerTHMessage, msg);
+				// Receive init ack
+				msg = receiveMessage(session);
+				if (!msg || msg->present != PokerTHMessage_PR_initAckMessage) {
+					cout << "Init ack failed" << endl;
+					return 1;
+				}
+				ASN_STRUCT_FREE(asn_DEF_PokerTHMessage, msg);
 
-			for (int j = i; j >= 0; j--) {
-				size_t bytes_readable = sessionArray[j]->socket.available();
-				while (bytes_readable > 0) {
-					msg = receiveMessage(sessionArray[j]);
-					ASN_STRUCT_FREE(asn_DEF_PokerTHMessage, msg);
-					bytes_readable = sessionArray[j]->socket.available();
+				for (int j = i; j >= 0; j--) {
+					size_t bytes_readable = sessionArray[j]->socket.available();
+					while (bytes_readable > 0) {
+						msg = receiveMessage(sessionArray[j]);
+						ASN_STRUCT_FREE(asn_DEF_PokerTHMessage, msg);
+						bytes_readable = sessionArray[j]->socket.available();
+					}
 				}
 			}
 		}
@@ -336,47 +354,61 @@ main(int argc, char *argv[])
 			ASN_STRUCT_FREE(asn_DEF_PokerTHMessage, msg);
 		}
 
-		for (int i = 0; i < numGames * 10; i++) {
-			if (i % 10 == 0) {
-				continue;
+		for (int t = 0; t < (numGames * 10) / LoginsPerLoop + 1; t++) {
+			int startNum = t * LoginsPerLoop;
+			int endNum = (t + 1) * LoginsPerLoop;
+			if (endNum > numGames * 10) {
+				endNum = numGames * 10;
 			}
-			NetSession *session = sessionArray[i];
+			for (int i = startNum; i < endNum; i++) {
+				if (i % 10 == 0) {
+					continue;
+				}
+				NetSession *session = sessionArray[i];
 
-			cout << "Player " << session->name << " joining game " << (i / 10)+1 << endl;
-			msg = (PokerTHMessage_t *)calloc(1, sizeof(PokerTHMessage_t));
-			msg->present = PokerTHMessage_PR_joinGameRequestMessage;
-			JoinGameRequestMessage_t *netJoinGame = &msg->choice.joinGameRequestMessage;
-			string tmpGamePassword("blah123");
-			netJoinGame->password = OCTET_STRING_new_fromBuf(
-										&asn_DEF_UTF8String,
-										tmpGamePassword.c_str(),
-										tmpGamePassword.length());
-			netJoinGame->joinGameAction.present = joinGameAction_PR_joinExistingGame;
-			JoinExistingGame_t *joinExisting = &netJoinGame->joinGameAction.choice.joinExistingGame;
-			joinExisting->gameId = gameId[i / 10];
-			if (!sendMessage(session, msg)) {
-				cout << "Join game failed" << endl;
-				return 1;
+				cout << "Player " << session->name << " joining game " << (i / 10)+1 << endl;
+				msg = (PokerTHMessage_t *)calloc(1, sizeof(PokerTHMessage_t));
+				msg->present = PokerTHMessage_PR_joinGameRequestMessage;
+				JoinGameRequestMessage_t *netJoinGame = &msg->choice.joinGameRequestMessage;
+				string tmpGamePassword("blah123");
+				netJoinGame->password = OCTET_STRING_new_fromBuf(
+											&asn_DEF_UTF8String,
+											tmpGamePassword.c_str(),
+											tmpGamePassword.length());
+				netJoinGame->joinGameAction.present = joinGameAction_PR_joinExistingGame;
+				JoinExistingGame_t *joinExisting = &netJoinGame->joinGameAction.choice.joinExistingGame;
+				joinExisting->gameId = gameId[i / 10];
+				if (!sendMessage(session, msg)) {
+					cout << "Join game failed" << endl;
+					return 1;
+				}
+				msg = NULL;
 			}
-			msg = NULL;
-			// Receive join game ack
-			do {
+			for (int i = startNum; i < endNum; i++) {
+				if (i % 10 == 0) {
+					continue;
+				}
+				NetSession *session = sessionArray[i];
+				// Receive join game ack
+				do {
+					ASN_STRUCT_FREE(asn_DEF_PokerTHMessage, msg);
+					msg = receiveMessage(session);
+					if (!msg) {
+						cout << "Receive in lobby failed" << endl;
+						return 1;
+					}
+					if (msg->present == PokerTHMessage_PR_errorMessage) {
+						cout << "Received error" << endl;
+						return 1;
+					}
+				} while (msg->present != PokerTHMessage_PR_joinGameReplyMessage);
+				if (msg->choice.joinGameReplyMessage.joinGameResult.present != joinGameResult_PR_joinGameAck) {
+					cout << "Join game ack failed" << endl;
+					return 1;
+				}
 				ASN_STRUCT_FREE(asn_DEF_PokerTHMessage, msg);
-				msg = receiveMessage(session);
-				if (!msg) {
-					cout << "Receive in lobby failed" << endl;
-					return 1;
-				}
-				if (msg->present == PokerTHMessage_PR_errorMessage) {
-					cout << "Received error" << endl;
-					return 1;
-				}
-			} while (msg->present != PokerTHMessage_PR_joinGameReplyMessage);
-			if (msg->choice.joinGameReplyMessage.joinGameResult.present != joinGameResult_PR_joinGameAck) {
-				cout << "Join game ack failed" << endl;
-				return 1;
+				msg = NULL;
 			}
-			ASN_STRUCT_FREE(asn_DEF_PokerTHMessage, msg);
 		}
 		bool terminated = false;
 		while (!terminated) {
