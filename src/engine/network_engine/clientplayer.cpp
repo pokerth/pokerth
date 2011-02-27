@@ -267,13 +267,13 @@ ClientPlayer::setMyCardsFlip(bool theValue, int state)
 	if (myCardsFlip) {
 		switch(state) {
 		case 1:
-			currentHand->getGuiInterface()->logFlipHoleCardsMsg(myName, myID, myCards[0], myCards[1], myCardsValueInt);
+			currentHand->getGuiInterface()->logFlipHoleCardsMsg(myName, myCards[0], myCards[1], myCardsValueInt);
 			break;
 		case 2:
-			currentHand->getGuiInterface()->logFlipHoleCardsMsg(myName, myID, myCards[0], myCards[1]);
+			currentHand->getGuiInterface()->logFlipHoleCardsMsg(myName, myCards[0], myCards[1]);
 			break;
 		case 3:
-			currentHand->getGuiInterface()->logFlipHoleCardsMsg(myName, myID, myCards[0], myCards[1], myCardsValueInt, "has");
+			currentHand->getGuiInterface()->logFlipHoleCardsMsg(myName, myCards[0], myCards[1], myCardsValueInt, "has");
 			break;
 		default:
 			;

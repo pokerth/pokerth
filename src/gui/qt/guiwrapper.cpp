@@ -239,9 +239,9 @@ void GuiWrapper::endVoteOnKick()
 	myW->signalEndVoteOnKick();
 }
 
-void GuiWrapper::logPlayerActionMsg(string playerName, int playerID, int action, int setValue)
+void GuiWrapper::logPlayerActionMsg(string playerName, int action, int setValue)
 {
-	myGuiLog->signalLogPlayerActionMsg(QString::fromUtf8(playerName.c_str()), playerID, action, setValue);
+	myGuiLog->signalLogPlayerActionMsg(QString::fromUtf8(playerName.c_str()), action, setValue);
 }
 void GuiWrapper::logNewGameHandMsg(int gameID, int handID)
 {
@@ -263,9 +263,9 @@ void GuiWrapper::logDealBoardCardsMsg(int roundID, int card1, int card2, int car
 {
 	myGuiLog->signalLogDealBoardCardsMsg(roundID, card1, card2, card3, card4, card5);
 }
-void GuiWrapper::logFlipHoleCardsMsg(string playerName, int playerID, int card1, int card2, int cardsValueInt, string showHas)
+void GuiWrapper::logFlipHoleCardsMsg(string playerName, int card1, int card2, int cardsValueInt, string showHas)
 {
-	myGuiLog->signalLogFlipHoleCardsMsg(QString::fromUtf8(playerName.c_str()), playerID, card1, card2, cardsValueInt, QString::fromUtf8(showHas.c_str()));
+	myGuiLog->signalLogFlipHoleCardsMsg(QString::fromUtf8(playerName.c_str()), card1, card2, cardsValueInt, QString::fromUtf8(showHas.c_str()));
 }
 void GuiWrapper::logPlayerWinGame(std::string playerName, int gameID)
 {

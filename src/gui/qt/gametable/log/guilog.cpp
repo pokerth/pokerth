@@ -36,13 +36,13 @@ guiLog::guiLog(gameTableImpl* w, ConfigFile *c) : myW(w), myConfig(c), myLogDir(
 
 	myAppDataPath = QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str());
 
-	connect(this, SIGNAL(signalLogPlayerActionMsg(QString, int, int, int)), this, SLOT(logPlayerActionMsg(QString, int, int, int)));
+	connect(this, SIGNAL(signalLogPlayerActionMsg(QString, int, int)), this, SLOT(logPlayerActionMsg(QString, int, int)));
 	connect(this, SIGNAL(signalLogNewGameHandMsg(int, int)), this, SLOT(logNewGameHandMsg(int, int)));
 	connect(this, SIGNAL(signalLogNewBlindsSetsMsg(int, int, QString, QString)), this, SLOT(logNewBlindsSetsMsg(int, int, QString, QString)));
 	connect(this, SIGNAL(signalLogPlayerWinsMsg(QString, int, bool)), this, SLOT(logPlayerWinsMsg(QString, int, bool)));
 	connect(this, SIGNAL(signalLogPlayerSitsOut(QString)), this, SLOT(logPlayerSitsOut(QString)));
 	connect(this, SIGNAL(signalLogDealBoardCardsMsg(int, int, int, int, int, int)), this, SLOT(logDealBoardCardsMsg(int, int, int, int, int, int)));
-	connect(this, SIGNAL(signalLogFlipHoleCardsMsg(QString, int, int, int, int, QString)), this, SLOT(logFlipHoleCardsMsg(QString, int, int, int, int, QString)));
+	connect(this, SIGNAL(signalLogFlipHoleCardsMsg(QString, int, int, int, QString)), this, SLOT(logFlipHoleCardsMsg(QString, int, int, int, QString)));
 	connect(this, SIGNAL(signalLogPlayerLeftMsg(QString, int)), this, SLOT(logPlayerLeftMsg(QString, int)));
 	connect(this, SIGNAL(signalLogNewGameAdminMsg(QString)), this, SLOT(logNewGameAdminMsg(QString)));
 	connect(this, SIGNAL(signalLogPlayerWinGame(QString, int)), this, SLOT(logPlayerWinGame(QString, int)));
@@ -129,7 +129,7 @@ guiLog::~guiLog()
 
 }
 
-void guiLog::logPlayerActionMsg(QString msg, int playerID, int action, int setValue)
+void guiLog::logPlayerActionMsg(QString msg, int action, int setValue)
 {
 
 	switch (action) {
@@ -580,7 +580,7 @@ void guiLog::logDealBoardCardsMsg(int roundID, int card1, int card2, int card3, 
 	}
 }
 
-void guiLog::logFlipHoleCardsMsg(QString playerName, int playerID, int card1, int card2, int cardsValueInt, QString showHas)
+void guiLog::logFlipHoleCardsMsg(QString playerName, int card1, int card2, int cardsValueInt, QString showHas)
 {
 
 	QString tempHandName;

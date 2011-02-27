@@ -1073,7 +1073,7 @@ void LocalPlayer::action()
 	//set that i was the last active player. need this for unhighlighting groupbox
 	currentHand->setLastPlayersTurn(myID);
 
-	currentHand->getGuiInterface()->logPlayerActionMsg(myName, myID, myAction, mySet);
+	currentHand->getGuiInterface()->logPlayerActionMsg(myName, myAction, mySet);
 	currentHand->getGuiInterface()->nextPlayerAnimation();
 
 	// 	cout << "playerID in action(): " << (*(currentHand->getCurrentBeRo()->getCurrentPlayersTurnIt()))->getMyID() << endl;

@@ -2476,6 +2476,7 @@ void gameTableImpl::postRiverRunAnimation3()
 			// 			if (textLabel_handLabel->text() == "River") {
 
 			//set Player value (logging)
+			currentHand->getLog()->logPlayerAction(5,(*it_c)->getMyID()+1,LOG_ACTION_WIN,pot);
 			(*it_c)->setMyWinnerState(true, pot);
 
 			// 			}
@@ -2502,6 +2503,7 @@ void gameTableImpl::postRiverRunAnimation3()
 			for(it_int = winners.begin(); it_int != winners.end(); ++it_int) {
 				if((*it_int) == (*it_c)->getMyUniqueID()) {
 					int pot = (*it_c)->getLastMoneyWon();
+					currentHand->getLog()->logPlayerAction(5,(*it_c)->getMyID()+1,LOG_ACTION_WIN_SIDE_POT,pot);
 					(*it_c)->setMyWinnerState(false, pot);
 				}
 			}
