@@ -45,7 +45,8 @@ struct nondet_rng : std::unary_function<unsigned, unsigned> {
 	nondet_rng(boost::random_device &state) : _state(state) {}
 };
 
-static inline void InitRandState() {
+static inline void InitRandState()
+{
 	if (!g_rand_state.get()) {
 		g_rand_state.reset(new boost::random_device);
 	}
@@ -55,7 +56,7 @@ void Tools::ShuffleArrayNonDeterministic(int *inout, unsigned count)
 {
 	InitRandState();
 	nondet_rng rand(*g_rand_state);
-	std::random_shuffle(&inout[0], &inout[count], rand);
+	random_shuffle(&inout[0], &inout[count], rand);
 }
 
 void Tools::GetRand(int minValue, int maxValue, unsigned count, int *out)
@@ -65,7 +66,7 @@ void Tools::GetRand(int minValue, int maxValue, unsigned count, int *out)
 	boost::variate_generator<boost::random_device&, boost::uniform_int<> > gen(*g_rand_state, dist);
 	int *startPtr = out;
 	for (unsigned i = 0; i < count; i++) {
-			*startPtr++ = gen();
+		*startPtr++ = gen();
 	}
 }
 
@@ -74,22 +75,22 @@ void Tools::GetRandUnique(int minValue, int maxValue, unsigned count, int *out)
 	InitRandState();
 	unsigned numCreated = 0;
 	int *startPtr = out;
-	std::set<int> tmpSet;
+	set<int> tmpSet;
 	for (unsigned i = 0; i < count; i++) {
-			boost::uniform_int<> dist(minValue, maxValue - numCreated);
-			boost::variate_generator<boost::random_device&, boost::uniform_int<> > gen(*g_rand_state, dist);
-			*startPtr = gen();
-			std::set<int>::const_iterator v = tmpSet.begin();
-			std::set<int>::const_iterator end = tmpSet.end();
-			while (v != end) {
-					if (*v <= *startPtr) {
-							(*startPtr)++;
-					}
-					++v;
+		boost::uniform_int<> dist(minValue, maxValue - numCreated);
+		boost::variate_generator<boost::random_device&, boost::uniform_int<> > gen(*g_rand_state, dist);
+		*startPtr = gen();
+		set<int>::const_iterator v = tmpSet.begin();
+		set<int>::const_iterator end = tmpSet.end();
+		while (v != end) {
+			if (*v <= *startPtr) {
+				(*startPtr)++;
 			}
-			tmpSet.insert(*startPtr);
-			startPtr++;
-			numCreated++;
+			++v;
+		}
+		tmpSet.insert(*startPtr);
+		startPtr++;
+		numCreated++;
 	}
 }
 #endif
