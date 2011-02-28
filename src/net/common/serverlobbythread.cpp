@@ -46,6 +46,7 @@
 #include <boost/lambda/lambda.hpp>
 #include <boost/filesystem.hpp>
 #include <boost/bind.hpp>
+#include <boost/foreach.hpp>
 #include <boost/uuid/uuid.hpp>
 #include <gsasl.h>
 
@@ -747,9 +748,13 @@ ServerLobbyThread::Main()
 		GetCallback().SignalNetServerError(e.GetErrorId(), e.GetOsErrorCode());
 		LOG_ERROR("Lobby exception: " << e.what());
 	}
-	// Clear all sessions.
+	// Clear all sessions and games.
 	m_sessionManager.Clear();
 	m_gameSessionManager.Clear();
+	BOOST_FOREACH(const GameMap::value_type& tmpGame, m_gameMap) {
+		tmpGame.second->Exit();
+	}
+	m_gameMap.clear();
 	// Cancel pending timer callbacks.
 	CancelTimers();
 	// Stop database engine.
