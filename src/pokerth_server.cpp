@@ -30,7 +30,6 @@
 
 #include <iostream>
 #include <fstream>
-#include <memory>
 #include <csignal>
 
 #ifdef _MSC_VER
@@ -78,7 +77,7 @@ main(int argc, char *argv[])
 {
 	ENABLE_LEAK_CHECK();
 
-//	_CrtSetBreakAlloc(4772);
+	//_CrtSetBreakAlloc(10260);
 
 	bool readonlyConfig = false;
 	string pidFile;
@@ -120,9 +119,9 @@ main(int argc, char *argv[])
 			readonlyConfig = true;
 	}
 
-	auto_ptr<QtToolsInterface> myQtToolsInterface(CreateQtToolsWrapper());
+	boost::shared_ptr<QtToolsInterface> myQtToolsInterface(CreateQtToolsWrapper());
 	//create defaultconfig
-	ConfigFile *myConfig = new ConfigFile(argv[0], readonlyConfig);
+	boost::shared_ptr<ConfigFile> myConfig(new ConfigFile(argv[0], readonlyConfig));
 	loghelper_init(myQtToolsInterface->stringFromUtf8(myConfig->readConfigString("LogDir")), logLevel);
 
 	// TODO: Hack
@@ -156,8 +155,8 @@ main(int argc, char *argv[])
 	}
 
 	// Create pseudo Gui Wrapper for the server.
-	boost::shared_ptr<GuiInterface> myServerGuiInterface(new ServerGuiWrapper(myConfig, NULL, NULL, NULL));
-	boost::shared_ptr<Session> session(new Session(myServerGuiInterface.get(), myConfig));
+	boost::shared_ptr<GuiInterface> myServerGuiInterface(new ServerGuiWrapper(myConfig.get(), NULL, NULL, NULL));
+	boost::shared_ptr<Session> session(new Session(myServerGuiInterface.get(), myConfig.get()));
 	if (!session->init())
 		LOG_ERROR("Missing files - please check your directory settings!");
 	myServerGuiInterface->setSession(session);
@@ -169,6 +168,9 @@ main(int argc, char *argv[])
 			g_pokerthTerminate = true;
 	}
 	myServerGuiInterface->getSession()->terminateNetworkServer();
+	session.reset();
+	myServerGuiInterface.reset();
+	myConfig.reset();
 
 	LOG_MSG("Terminating PokerTH dedicated server." << endl);
 	socket_cleanup();

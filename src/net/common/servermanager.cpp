@@ -42,6 +42,13 @@ ServerManager::ServerManager(GuiInterface &gui, ConfigFile &config, AvatarManage
 
 ServerManager::~ServerManager()
 {
+	size_t remainingHandler = 0;
+	// Call all pending handlers to clean up.
+	do {
+		m_ioService->reset();
+		remainingHandler = m_ioService->poll();
+	} while (remainingHandler > 0);
+	m_ioService->reset();
 }
 
 void
