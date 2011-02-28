@@ -355,10 +355,10 @@ void LocalBoard::determinePlayerNeedToShowCards()
 				//                break;
 				//            }
 				//        }
-				for(level_it = level.begin(); level_it != level.end(); level_it++) {
+				for(level_it = level.begin(); level_it != level.end(); ++level_it) {
 					if((*it_c)->getMyCardsValueInt() > (*level_it)[0]) {
 						next_level_it = level_it;
-						next_level_it++;
+						++next_level_it;
 						if(next_level_it == level.end()) {
 							playerNeedToShowCards.push_back((*it_c)->getMyUniqueID());
 							level_tmp = new int[2];
@@ -370,7 +370,7 @@ void LocalBoard::determinePlayerNeedToShowCards()
 					} else {
 						if((*it_c)->getMyCardsValueInt() == (*level_it)[0]) {
 							next_level_it = level_it;
-							next_level_it++;
+							++next_level_it;
 //
 //                                for(level_it_tmp = level.begin(); level_it_tmp != level.end(); level_it_tmp++) {
 //                                    cout << (*level_it_tmp)[0] << "," << (*level_it_tmp)[1] << endl;

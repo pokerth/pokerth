@@ -166,7 +166,7 @@ AvatarManager::ChunkReadAvatarFile(boost::shared_ptr<AvatarFileState> fileState,
 		try {
 			if (!fileState->inputStream.fail() && !fileState->inputStream.eof()) {
 				fileState->inputStream.read((char *)data, chunkSize);
-				retVal = fileState->inputStream.gcount();
+				retVal = static_cast<unsigned>(fileState->inputStream.gcount());
 			}
 		} catch (...) {
 			LOG_ERROR("Exception caught when trying to read avatar.");
