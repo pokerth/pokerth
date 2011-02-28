@@ -3536,8 +3536,7 @@ void gameTableImpl::refreshVotesMonitor(int currentVotes, int numVotesNeededToKi
 
 void gameTableImpl::refreshCardsChance(GameState bero)
 {
-
-	CardsValue* myCardsValue = new CardsValue;
+	CardsValue myCardsValue;
 
 	if(myConfig->readConfigInt("ShowCardsChanceMonitor")) {
 
@@ -3549,13 +3548,11 @@ void gameTableImpl::refreshCardsChance(GameState bero)
 			humanPlayer->getMyCards(holeCards);
 			myStartWindow->getSession()->getCurrentGame()->getCurrentHand()->getBoard()->getMyCards(boardCards);
 
-			label_chance->refreshChance(myCardsValue->calcCardsChance(bero, holeCards, boardCards));
+			label_chance->refreshChance(myCardsValue.calcCardsChance(bero, holeCards, boardCards));
 		} else {
 			label_chance->resetChance();
 		}
 	}
-
-	delete myCardsValue;
 }
 
 void gameTableImpl::refreshActionButtonFKeyIndicator(bool clear)
