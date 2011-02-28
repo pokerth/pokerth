@@ -334,9 +334,9 @@ void LocalBoard::determinePlayerNeedToShowCards()
 
 		level.push_back(level_tmp);
 
-		std::_List_iterator<int*> level_it;
-		std::_List_iterator<int*> level_it_tmp;
-		std::_List_iterator<int*> next_level_it;
+		std::list<int*>::iterator level_it;
+		std::list<int*>::iterator level_it_tmp;
+		std::list<int*>::iterator next_level_it;
 
 		//    PlayerListConstIterator firstAfterLastActionPlayerIt = lastActionPlayerIt;
 		//    firstAfterLastActionPlayerIt++;
