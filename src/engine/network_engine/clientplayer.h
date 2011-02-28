@@ -25,7 +25,6 @@
 #include <boost/thread.hpp>
 #include <string>
 
-class CardsValue;
 class ConfigFile;
 class HandInterface;
 
@@ -148,8 +147,6 @@ private:
 
 	ConfigFile *myConfig;
 	HandInterface *currentHand;
-
-	CardsValue *myCardsValue;
 
 	// Konstanten
 	const int myID;

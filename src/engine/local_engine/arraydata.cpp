@@ -1017,13 +1017,6 @@ static const calcHandsData handChancePreflop[] = {
 #define NUM_FLOP_VALUES (sizeof(FlopValues)/sizeof(RoundData))
 #define NUM_HAND_CHANCE_PREFLOP (sizeof(handChancePreflop)/sizeof(calcHandsData))
 
-ArrayData::ArrayData()
-{
-}
-
-ArrayData::~ArrayData()
-{
-}
 
 void ArrayData::getHandChancePreflop(int handCode, int** values)
 {

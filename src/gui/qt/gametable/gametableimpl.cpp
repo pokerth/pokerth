@@ -3536,8 +3536,6 @@ void gameTableImpl::refreshVotesMonitor(int currentVotes, int numVotesNeededToKi
 
 void gameTableImpl::refreshCardsChance(GameState bero)
 {
-	CardsValue myCardsValue;
-
 	if(myConfig->readConfigInt("ShowCardsChanceMonitor")) {
 
 		boost::shared_ptr<PlayerInterface> humanPlayer = myStartWindow->getSession()->getCurrentGame()->getSeatsList()->front();
@@ -3548,7 +3546,7 @@ void gameTableImpl::refreshCardsChance(GameState bero)
 			humanPlayer->getMyCards(holeCards);
 			myStartWindow->getSession()->getCurrentGame()->getCurrentHand()->getBoard()->getMyCards(boardCards);
 
-			label_chance->refreshChance(myCardsValue.calcCardsChance(bero, holeCards, boardCards));
+			label_chance->refreshChance(CardsValue::calcCardsChance(bero, holeCards, boardCards));
 		} else {
 			label_chance->resetChance();
 		}

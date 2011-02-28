@@ -847,7 +847,7 @@ static const RoundData FlopValues[] = {
 #define NUM_FLOP_VALUES (sizeof(FlopValues)/sizeof(RoundData))
 
 LocalPlayer::LocalPlayer(ConfigFile *c, int id, unsigned uniqueId, PlayerType type, std::string name, std::string avatar, int sC, bool aS, int mB)
-	: PlayerInterface(), myConfig(c), currentHand(0), myCardsValue(0), myID(id), myUniqueID(uniqueId), myType(type), myName(name), myAvatar(avatar), myDude(0), myDude4(0), myCardsValueInt(0), myOdds(-1.0), myCash(sC), mySet(0), myLastRelativeSet(0), myAction(0), myButton(mB), myActiveStatus(aS), myStayOnTableStatus(1), myTurn(0), myCardsFlip(0), myRoundStartCash(0), lastMoneyWon(0), sBluff(0), sBluffStatus(0), myWinnerState(false), m_actionTimeoutCounter(0)
+	: PlayerInterface(), myConfig(c), currentHand(0), myID(id), myUniqueID(uniqueId), myType(type), myName(name), myAvatar(avatar), myDude(0), myDude4(0), myCardsValueInt(0), myOdds(-1.0), myCash(sC), mySet(0), myLastRelativeSet(0), myAction(0), myButton(mB), myActiveStatus(aS), myStayOnTableStatus(1), myTurn(0), myCardsFlip(0), myRoundStartCash(0), lastMoneyWon(0), sBluff(0), sBluffStatus(0), myWinnerState(false), m_actionTimeoutCounter(0)
 {
 
 	// !!!!!!!!!!!!!!!!!!!!!!!! testing !!!!!!!!!!!!!!!!!!!!!!!!
@@ -934,10 +934,10 @@ LocalPlayer::LocalPlayer(ConfigFile *c, int id, unsigned uniqueId, PlayerType ty
 	// 	cout << "Spieler: " << myID << " Dude: " << myDude << " Cash: " << myCash << " ActiveStatus: " << myActiveStatus << " Button: " << myButton << endl;
 
 	// Dude4 zuweisen
-	int interval = 7;
-	int count = 4;
+	const int interval = 7;
+	const int count = 4;
 
-	int *tempArray = new int[count];
+	int tempArray[count];
 	Tools::getRandNumber(0, 2*interval, count, tempArray, 0);
 	for(i=0; i<count; i++) {
 		myDude4 += tempArray[i];
@@ -988,18 +988,11 @@ LocalPlayer::LocalPlayer(ConfigFile *c, int id, unsigned uniqueId, PlayerType ty
 	}
 	////////////////////////////
 
-
-	delete[] tempArray;
-
-	myCardsValue = new CardsValue;
-
-
 }
 
 
 LocalPlayer::~LocalPlayer()
 {
-	delete myCardsValue;
 }
 
 
@@ -4013,7 +4006,7 @@ void LocalPlayer::calcMyOdds()
 
 	case 0: {
 
-		handCode = myCardsValue->holeCardsToIntCode(myCards);
+		handCode = CardsValue::holeCardsToIntCode(myCards);
 
 		// übergang solange preflopValue und flopValue noch nicht bereinigt
 		int players = currentHand->getActivePlayerList()->size();
@@ -4117,8 +4110,8 @@ void LocalPlayer::calcMyOdds()
 								tempOpponentCardsArray[1] = j;
 								tempOpponentCardsArray[6] = k;
 								tempMyCardsArray[6] = k;
-								tempMyCardsValue = myCardsValue->cardsValue(tempMyCardsArray,0);
-								tempOpponentCardsValue = myCardsValue->cardsValue(tempOpponentCardsArray,0);
+								tempMyCardsValue = CardsValue::cardsValue(tempMyCardsArray,0);
+								tempOpponentCardsValue = CardsValue::cardsValue(tempOpponentCardsArray,0);
 
 								if(tempMyCardsValue>=tempOpponentCardsValue) countMy++;
 							}
@@ -4171,8 +4164,8 @@ void LocalPlayer::calcMyOdds()
 
 						tempOpponentCardsArray[0] = i;
 						tempOpponentCardsArray[1] = j;
-						tempMyCardsValue = myCardsValue->cardsValue(tempMyCardsArray,0);
-						tempOpponentCardsValue = myCardsValue->cardsValue(tempOpponentCardsArray,0);
+						tempMyCardsValue = CardsValue::cardsValue(tempMyCardsArray,0);
+						tempOpponentCardsValue = CardsValue::cardsValue(tempOpponentCardsArray,0);
 
 						if(tempMyCardsValue>=tempOpponentCardsValue) countMy++;
 					}
@@ -4467,7 +4460,7 @@ void LocalPlayer::preflopEngine3()
 	// 	cout << "preflop-bluff " << bluff << endl;
 
 	// Potential
-	int potential = 10*(4*(myCardsValue->holeCardsClass(myCards[0], myCards[1]))+1*tempRand)/50-myDude;
+	int potential = 10*(4*(CardsValue::holeCardsClass(myCards[0], myCards[1]))+1*tempRand)/50-myDude;
 
 	int setToHighest = currentHand->getCurrentBeRo()->getHighestSet() - mySet;
 
@@ -4477,7 +4470,7 @@ void LocalPlayer::preflopEngine3()
 	Tools::getRandNumber(2,3,1,&tempFold,0);
 
 	// FOLD --> wenn Potential negativ oder HighestSet zu hoch
-	if( (potential*setToHighest<0 || (setToHighest > tempFold * currentHand->getSmallBlind() &&  potential<1) || (setToHighest > 2 * tempFold * currentHand->getSmallBlind() &&  potential<2) || (setToHighest > 4 * tempFold * currentHand->getSmallBlind() &&  potential<3) || (setToHighest > 10 * tempFold * currentHand->getSmallBlind() &&  potential<4))  && myCardsValue->holeCardsClass(myCards[0], myCards[1]) < 9 && bluff > 15) {
+	if( (potential*setToHighest<0 || (setToHighest > tempFold * currentHand->getSmallBlind() &&  potential<1) || (setToHighest > 2 * tempFold * currentHand->getSmallBlind() &&  potential<2) || (setToHighest > 4 * tempFold * currentHand->getSmallBlind() &&  potential<3) || (setToHighest > 10 * tempFold * currentHand->getSmallBlind() &&  potential<4))  && CardsValue::holeCardsClass(myCards[0], myCards[1]) < 9 && bluff > 15) {
 		myAction=1;
 	} else {
 		// RAISE --> wenn hohes Potential
@@ -4666,8 +4659,8 @@ void LocalPlayer::flopEngine3()
 									tempOpponentCardsArray[6] = l;
 									tempMyCardsArray[5] = k;
 									tempMyCardsArray[6] = l;
-									tempMyCardsValue = myCardsValue->cardsValue(tempMyCardsArray,0);
-									tempOpponentCardsValue = myCardsValue->cardsValue(tempOpponentCardsArray,0);
+									tempMyCardsValue = CardsValue::cardsValue(tempMyCardsArray,0);
+									tempOpponentCardsValue = CardsValue::cardsValue(tempOpponentCardsArray,0);
 
 									if(tempMyCardsValue>=tempOpponentCardsValue) countMy++;
 
@@ -4835,8 +4828,8 @@ void LocalPlayer::turnEngine3()
 							tempOpponentCardsArray[1] = j;
 							tempOpponentCardsArray[6] = k;
 							tempMyCardsArray[6] = k;
-							tempMyCardsValue = myCardsValue->cardsValue(tempMyCardsArray,0);
-							tempOpponentCardsValue = myCardsValue->cardsValue(tempOpponentCardsArray,0);
+							tempMyCardsValue = CardsValue::cardsValue(tempMyCardsArray,0);
+							tempOpponentCardsValue = CardsValue::cardsValue(tempOpponentCardsArray,0);
 
 							if(tempMyCardsValue>=tempOpponentCardsValue) countMy++;
 						}
@@ -4999,8 +4992,8 @@ void LocalPlayer::riverEngine3()
 
 					tempOpponentCardsArray[0] = i;
 					tempOpponentCardsArray[1] = j;
-					tempMyCardsValue = myCardsValue->cardsValue(tempMyCardsArray,0);
-					tempOpponentCardsValue = myCardsValue->cardsValue(tempOpponentCardsArray,0);
+					tempMyCardsValue = CardsValue::cardsValue(tempMyCardsArray,0);
+					tempOpponentCardsValue = CardsValue::cardsValue(tempOpponentCardsArray,0);
 
 					if(tempMyCardsValue>=tempOpponentCardsValue) countMy++;
 				}

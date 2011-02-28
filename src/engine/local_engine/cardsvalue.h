@@ -31,18 +31,14 @@
 class CardsValue
 {
 public:
-	CardsValue();
+	static int holeCardsClass(int, int);
+	static int cardsValue(int*, int*);
 
-	~CardsValue();
+	static int holeCardsToIntCode(int*);
+	static int* intCodeToHoleCards(int);
 
-	int holeCardsClass(int, int) const;
-	int cardsValue(int*, int*) const;
-
-	int holeCardsToIntCode(int*) const;
-	int* intCodeToHoleCards(int) const;
-
-	std::vector< std::vector<int> > calcCardsChance(GameState, int*, int*) const;
-	//int** showdown(GameState, int**, int);
+	static std::vector< std::vector<int> > calcCardsChance(GameState, int*, int*);
+	//static int** showdown(GameState, int**, int);
 
 };
 

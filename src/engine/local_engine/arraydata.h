@@ -27,12 +27,8 @@
 class ArrayData
 {
 public:
-	ArrayData();
-
-	~ArrayData();
-
-	void getHandChancePreflop(int, int**);
-	std::vector< std::vector<int> > getHandChancePreflop(int);
+	static void getHandChancePreflop(int, int**);
+	static std::vector< std::vector<int> > getHandChancePreflop(int);
 };
 
 #endif

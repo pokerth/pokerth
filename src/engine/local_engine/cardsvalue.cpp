@@ -21,16 +21,7 @@
 
 using namespace std;
 
-CardsValue::CardsValue()
-{
-}
-
-
-CardsValue::~CardsValue()
-{
-}
-
-int CardsValue::holeCardsClass(int one, int two) const
+int CardsValue::holeCardsClass(int one, int two)
 {
 
 	if((one-1)%13<(two-1)%13) {
@@ -214,7 +205,7 @@ int CardsValue::holeCardsClass(int one, int two) const
 
 }
 
-int CardsValue::holeCardsToIntCode(int* cards) const
+int CardsValue::holeCardsToIntCode(int* cards)
 {
 
 	// Code der HoleCards ermitteln
@@ -238,7 +229,8 @@ int CardsValue::holeCardsToIntCode(int* cards) const
 
 }
 
-int* CardsValue::intCodeToHoleCards(int code) const
+/* DO NOT USE, THIS MAY LEAK MEMORY
+int* CardsValue::intCodeToHoleCards(int code)
 {
 
 	// one possibility !!!
@@ -256,9 +248,9 @@ int* CardsValue::intCodeToHoleCards(int code) const
 
 	return cards;
 
-}
+}*/
 
-int CardsValue::cardsValue(int* cards, int* position) const
+int CardsValue::cardsValue(int* cards, int* position)
 {
 
 	int array[7][3];
@@ -637,7 +629,7 @@ int CardsValue::cardsValue(int* cards, int* position) const
 }
 
 
-vector< vector<int> > CardsValue::calcCardsChance(GameState beRoID, int* playerCards, int* boardCards) const
+vector< vector<int> > CardsValue::calcCardsChance(GameState beRoID, int* playerCards, int* boardCards)
 {
 	int i,j;
 
@@ -660,11 +652,8 @@ vector< vector<int> > CardsValue::calcCardsChance(GameState beRoID, int* playerC
 
 	switch(beRoID) {
 	case GAME_STATE_PREFLOP: {
-		ArrayData* myArrayData = new ArrayData;
 
-		chance = myArrayData->getHandChancePreflop(holeCardsToIntCode(playerCards));
-
-		delete myArrayData;
+		chance = ArrayData::getHandChancePreflop(holeCardsToIntCode(playerCards));
 
 	}
 	break;

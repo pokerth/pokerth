@@ -26,7 +26,6 @@
 #include <string>
 
 
-class CardsValue;
 class ConfigFile;
 class HandInterface;
 
@@ -285,8 +284,6 @@ private:
 
 	ConfigFile *myConfig;
 	HandInterface *currentHand;
-
-	CardsValue *myCardsValue;
 
 	// Konstanten
 	int myID;
