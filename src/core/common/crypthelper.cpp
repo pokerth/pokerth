@@ -299,6 +299,7 @@ CryptHelper::AES128Encrypt(const unsigned char *keyData, unsigned keySize, const
 
 		gcry_cipher_close(hd);
 #endif
+		delete[] paddedPlainStr;
 	}
 	return retVal;
 }
