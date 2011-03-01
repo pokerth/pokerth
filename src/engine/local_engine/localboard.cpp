@@ -413,7 +413,10 @@ void LocalBoard::determinePlayerNeedToShowCards()
 
 		}
 
-
+		for(level_it = level.begin(); level_it != level.end(); ++level_it) {
+			delete[] *level_it;
+		}
+		level.clear();
 
 		//    bool showCards;
 
