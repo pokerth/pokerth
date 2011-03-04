@@ -89,7 +89,7 @@ gameLobbyDialogImpl::gameLobbyDialogImpl(startWindowImpl *parent, ConfigFile *c)
 	myGameListSelectionModel = treeView_GameList->selectionModel();
 
 	QStringList headerList;
-	headerList << tr("Game") << tr("Players") << tr("State") << tr("R") << tr("P");
+	headerList << tr("Game") << tr("Players") << tr("State") << tr("T") << tr("P");
 	myGameListModel->setHorizontalHeaderLabels(headerList);
 
 	treeView_GameList->setColumnWidth(0,190);
@@ -1403,6 +1403,13 @@ void gameLobbyDialogImpl::changeGameListFilter(int index)
 		myGameListSortFilterProxyModel->setColumn2RegExp(QRegExp("open", Qt::CaseInsensitive, QRegExp::FixedString));
 		myGameListSortFilterProxyModel->setColumn3RegExp(QRegExp());
 		myGameListSortFilterProxyModel->setColumn4RegExp(QRegExp("private", Qt::CaseInsensitive, QRegExp::FixedString));
+	}
+	break;
+	case 5: {
+		myGameListSortFilterProxyModel->setColumn1RegExp(QRegExp("nonfull", Qt::CaseInsensitive, QRegExp::FixedString));
+		myGameListSortFilterProxyModel->setColumn2RegExp(QRegExp("open", Qt::CaseInsensitive, QRegExp::FixedString));
+		myGameListSortFilterProxyModel->setColumn3RegExp(QRegExp("ranking", Qt::CaseInsensitive, QRegExp::FixedString));
+		myGameListSortFilterProxyModel->setColumn4RegExp(QRegExp());
 	}
 	break;
 	default:

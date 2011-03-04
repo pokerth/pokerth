@@ -87,6 +87,11 @@
        <string>4 - Show open &amp; non-full &amp; private games</string>
       </property>
      </item>
+     <item>
+      <property name="text">
+       <string>5 - Show open &amp; non-full &amp; ranking games</string>
+      </property>
+     </item>
     </widget>
    </item>
    <item row="0" column="2" rowspan="5">
