@@ -144,6 +144,9 @@
           <height>237</height>
          </size>
         </property>
+        <property name="contextMenuPolicy">
+         <enum>Qt::CustomContextMenu</enum>
+        </property>
         <property name="midLineWidth">
          <number>1</number>
         </property>

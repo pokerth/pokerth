@@ -119,6 +119,7 @@ public slots:
 	void registeredUserMode();
 	void guestUserMode();
 	void showNickListContextMenu(QPoint);
+	void showConnectedPlayersContextMenu(QPoint);
 	void invitePlayerToCurrentGame();
 	void showInfoMsgBox();
 	void showInvitationDialog(unsigned gameId, unsigned playerIdFrom);
@@ -129,6 +130,7 @@ public slots:
 	void searchForPlayerRegExpChanged();
 	void showAutoStartTimer();
 	void updateAutoStartTimer();
+	void openPlayerStats();
 
 private:
 
@@ -163,7 +165,9 @@ private:
 	QAction *nickListInviteAction;
 	QAction *nickListIgnorePlayerAction;
 	QMenu *nickListPlayerInfoSubMenu;
+	QMenu *connectedPlayersListPlayerInfoSubMenu;
 	QAction *nickListPlayerInGameInfo;
+	QAction *nickListOpenPlayerStats;
 	int infoMsgToShowId;
 	int currentInvitationGameId;
 	bool inviteDialogIsCurrentlyShown;

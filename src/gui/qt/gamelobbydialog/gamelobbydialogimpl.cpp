@@ -125,6 +125,11 @@ gameLobbyDialogImpl::gameLobbyDialogImpl(startWindowImpl *parent, ConfigFile *c)
 	nickListPlayerInfoSubMenu = nickListContextMenu->addMenu(QIcon(":/gfx/dialog-information.png"), tr("Player infos ..."));
 	nickListPlayerInGameInfo = new QAction(nickListContextMenu);
 	nickListPlayerInfoSubMenu->addAction(nickListPlayerInGameInfo);
+	nickListOpenPlayerStats = new QAction(QIcon(":/gfx/view-statistics.png"), tr("Show player stats"), nickListContextMenu);
+	nickListContextMenu->addAction(nickListOpenPlayerStats);
+
+	connectedPlayersListPlayerInfoSubMenu = new QMenu();
+	connectedPlayersListPlayerInfoSubMenu->addAction(nickListOpenPlayerStats);
 
 	connect( pushButton_CreateGame, SIGNAL( clicked() ), this, SLOT( createGame() ) );
 	connect( pushButton_JoinGame, SIGNAL( clicked() ), this, SLOT( joinGame() ) );
@@ -146,8 +151,10 @@ gameLobbyDialogImpl::gameLobbyDialogImpl(startWindowImpl *parent, ConfigFile *c)
 	connect( comboBox_gameListFilter, SIGNAL(currentIndexChanged(int)), this, SLOT(changeGameListFilter(int)));
 	connect( comboBox_nickListFilter, SIGNAL(currentIndexChanged(int)), this, SLOT(changeNickListFilter(int)));
 	connect( treeView_NickList, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT( showNickListContextMenu(QPoint) ) );
+	connect( treeWidget_connectedPlayers, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT( showConnectedPlayersContextMenu(QPoint) ) );
 	connect( nickListInviteAction, SIGNAL(triggered()), this, SLOT( invitePlayerToCurrentGame() ));
 	connect( nickListIgnorePlayerAction, SIGNAL(triggered()), this, SLOT( putPlayerOnIgnoreList() ));
+	connect( nickListOpenPlayerStats, SIGNAL(triggered()), this, SLOT( openPlayerStats() ));
 	connect( lineEdit_searchForPlayers, SIGNAL(textChanged(QString)),this, SLOT(searchForPlayerRegExpChanged()));
 
 	lineEdit_searchForPlayers->installEventFilter(this);
@@ -1628,5 +1635,34 @@ void gameLobbyDialogImpl::updateAutoStartTimer()
 	} else {
 		autoStartTimer->stop();
 		autoStartTimerOverlay->hide();
+	}
+}
+
+void gameLobbyDialogImpl::openPlayerStats()
+{
+	if(myNickListSelectionModel->currentIndex().isValid()) {
+
+		unsigned playerId = myNickListSelectionModel->currentIndex().data(Qt::UserRole).toUInt();
+		if(!mySession->getClientPlayerInfo(playerId).isGuest) {
+			QUrl url("http://pokerth.net/redirect_user_profile.php?nick="+QUrl::toPercentEncoding(myNickListSelectionModel->currentIndex().data(Qt::DisplayRole).toString()));
+			QDesktopServices::openUrl(url);
+		}
+	}
+}
+
+void gameLobbyDialogImpl::showConnectedPlayersContextMenu(QPoint p)
+{
+	if(treeWidget_connectedPlayers->currentItem()) {
+
+		assert(mySession);
+		unsigned playerUid = treeWidget_connectedPlayers->currentItem()->data(0, Qt::UserRole).toUInt();
+
+		if(!mySession->getClientPlayerInfo(playerUid).isGuest) {
+
+			//popup a little more to the right to avaoid double click action
+			QPoint tempPoint = p;
+			tempPoint.setX(p.x()+5);
+			connectedPlayersListPlayerInfoSubMenu->popup(treeWidget_connectedPlayers->mapToGlobal(tempPoint));
+		}
 	}
 }
