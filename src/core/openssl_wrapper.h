@@ -55,7 +55,7 @@ typedef int pid_t;
 // "2. Can I use OpenSSL with GPL software?"
 // http://www.openssl.org/support/faq.html#LEGAL2
 //
-#if defined(_WIN64) || defined(__APPLE__) || defined(__OpenBSD__) || defined(__FreeBSD__) || defined(__NetBSD__)
+#if defined(__APPLE__) || defined(__OpenBSD__) || defined(__FreeBSD__) || defined(__NetBSD__)
 #define HAVE_OPENSSL
 #endif
 

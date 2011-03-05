@@ -18,19 +18,7 @@
  ***************************************************************************/
 
 #include "thread.h"
-#include <boost/version.hpp> // solve compatibility issues
 
-
-// This is ugly, but I can't help it.
-inline void ADD_MSEC_TO_XTIME(boost::xtime &xt, unsigned msec)
-{
-	xt.sec += msec / 1000;
-	xt.nsec += (msec % 1000) * 1000000;
-	if (xt.nsec > NANOSECONDS_PER_SECOND) {
-		xt.sec++;
-		xt.nsec -= NANOSECONDS_PER_SECOND;
-	}
-}
 
 
 // Helper class for thread creation.
@@ -92,19 +80,9 @@ Thread::Join(unsigned msecTimeout)
 		tmpIsTerminated = true;
 	} else {
 		// Wait for the termination of the application code.
-#if (BOOST_VERSION) >= 103500
 		boost::defer_lock_t defer;
 		boost::timed_mutex::scoped_timed_lock lock(m_isTerminatedMutex, defer);
 		tmpIsTerminated = lock.timed_lock(boost::posix_time::millisec(msecTimeout));
-#else
-		// Calculate time after timeout
-		boost::xtime t;
-		boost::xtime_get(&t, boost::TIME_UTC);
-		ADD_MSEC_TO_XTIME(t, msecTimeout);
-
-		boost::timed_mutex::scoped_timed_lock lock(m_isTerminatedMutex, t);
-		tmpIsTerminated = lock.locked();
-#endif
 	}
 
 	if (tmpIsTerminated) {
@@ -122,11 +100,7 @@ Thread::Join(unsigned msecTimeout)
 void
 Thread::Msleep(unsigned msecs)
 {
-	boost::xtime t;
-	boost::xtime_get(&t, boost::TIME_UTC);
-	ADD_MSEC_TO_XTIME(t, msecs);
-
-	boost::thread::sleep(t);
+	boost::this_thread::sleep(boost::posix_time::millisec(msecs));
 }
 
 void
@@ -141,14 +115,9 @@ Thread::MainWrapper()
 bool
 Thread::ShouldTerminate() const
 {
-#if (BOOST_VERSION) >= 103500
 	boost::defer_lock_t defer;
 	boost::timed_mutex::scoped_try_lock lock(m_shouldTerminateMutex, defer);
 	return lock.try_lock();
-#else
-	boost::timed_mutex::scoped_try_lock lock(m_shouldTerminateMutex);
-	return lock.locked();
-#endif
 }
 
 bool
