@@ -131,6 +131,7 @@ public slots:
 	void showAutoStartTimer();
 	void updateAutoStartTimer();
 	void openPlayerStats();
+	QString getFullCountryString(QString);
 
 private:
 
