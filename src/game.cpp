@@ -259,5 +259,6 @@ void Game::raiseBlinds()
 				}
 			}
 		}
+		currentSmallBlind = min(currentSmallBlind,startQuantityPlayers*startCash/2);
 	}
 }
