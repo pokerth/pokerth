@@ -3210,10 +3210,7 @@ void LocalPlayer::evaluation(int bet, int raise)
 {
 
 
-	int highestSet = 0;
-
-	highestSet = currentHand->getCurrentBeRo()->getHighestSet();
-
+	int highestSet = currentHand->getCurrentBeRo()->getHighestSet();
 
 	// 	cout << "myAction(evaluation): " << myAction << endl;
 	switch(myAction) {
@@ -3254,8 +3251,8 @@ void LocalPlayer::evaluation(int bet, int raise)
 	case 4: {
 		// all in
 		if(bet >= myCash) {
-			// -> full bet rule
 			if(myCash < 2*currentHand->getSmallBlind()) {
+				// -> full bet rule
 				currentHand->getCurrentBeRo()->setFullBetRule(true);
 			}
 			currentHand->getCurrentBeRo()->setMinimumRaise(myCash);

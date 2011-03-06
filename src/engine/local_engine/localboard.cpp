@@ -278,7 +278,7 @@ void LocalBoard::determinePlayerNeedToShowCards()
 
 		//    std::_List_const_iterator<unsigned> it_c;
 
-		std::list<int*> level;
+		std::list<std::pair<int,int> > level;
 
 		//   for(it_c=winners.begin(); it_c != winners.end(); it_c++) {
 		//        cout << (*it_c) << endl;
@@ -323,10 +323,11 @@ void LocalBoard::determinePlayerNeedToShowCards()
 
 //            cout << (*lastActionPlayerIt)->getMyUniqueID() << " - " << (*lastActionPlayerIt)->getMyName() << endl;
 
-		int *level_tmp = new int[2];
+//		int *level_tmp = new int[2];
+		std::pair<int,int> level_tmp;
 		// get position und cardsValue of the player who show his cards first
-		level_tmp[0] = (*lastActionPlayerIt)->getMyCardsValueInt();
-		level_tmp[1] = (*lastActionPlayerIt)->getMyRoundStartCash()-(*lastActionPlayerIt)->getMyCash();
+		level_tmp.first = (*lastActionPlayerIt)->getMyCardsValueInt();
+		level_tmp.second = (*lastActionPlayerIt)->getMyRoundStartCash()-(*lastActionPlayerIt)->getMyCash();
 
 		//    level_tmp = {(*lastActionPlayerIt)->getMyCardsValueInt(),(*lastActionPlayerIt)->getMyRoundStartCash()-(*lastActionPlayerIt)->getMyCash()};
 
@@ -334,9 +335,9 @@ void LocalBoard::determinePlayerNeedToShowCards()
 
 		level.push_back(level_tmp);
 
-		std::list<int*>::iterator level_it;
-		std::list<int*>::iterator level_it_tmp;
-		std::list<int*>::iterator next_level_it;
+		std::list<std::pair<int,int> >::iterator level_it;
+//		std::list<std::pair<int,int> >::iterator level_it_tmp;
+		std::list<std::pair<int,int> >::iterator next_level_it;
 
 		//    PlayerListConstIterator firstAfterLastActionPlayerIt = lastActionPlayerIt;
 		//    firstAfterLastActionPlayerIt++;
@@ -356,19 +357,19 @@ void LocalBoard::determinePlayerNeedToShowCards()
 				//            }
 				//        }
 				for(level_it = level.begin(); level_it != level.end(); ++level_it) {
-					if((*it_c)->getMyCardsValueInt() > (*level_it)[0]) {
+					if((*it_c)->getMyCardsValueInt() > (*level_it).first) {
 						next_level_it = level_it;
 						++next_level_it;
 						if(next_level_it == level.end()) {
 							playerNeedToShowCards.push_back((*it_c)->getMyUniqueID());
-							level_tmp = new int[2];
-							level_tmp[0] = (*it_c)->getMyCardsValueInt();
-							level_tmp[1] = (*it_c)->getMyRoundStartCash()-(*it_c)->getMyCash();
+//							level_tmp = new int[2];
+							level_tmp.first = (*it_c)->getMyCardsValueInt();
+							level_tmp.second = (*it_c)->getMyRoundStartCash()-(*it_c)->getMyCash();
 							level.push_back(level_tmp);
 							break;
 						}
 					} else {
-						if((*it_c)->getMyCardsValueInt() == (*level_it)[0]) {
+						if((*it_c)->getMyCardsValueInt() == (*level_it).first) {
 							next_level_it = level_it;
 							++next_level_it;
 //
@@ -377,19 +378,19 @@ void LocalBoard::determinePlayerNeedToShowCards()
 //                                }
 
 
-							if(next_level_it == level.end() || (*it_c)->getMyRoundStartCash()-(*it_c)->getMyCash() > (*next_level_it)[1]) {
+							if(next_level_it == level.end() || (*it_c)->getMyRoundStartCash()-(*it_c)->getMyCash() > (*next_level_it).second) {
 								playerNeedToShowCards.push_back((*it_c)->getMyUniqueID());
-								if((*it_c)->getMyRoundStartCash()-(*it_c)->getMyCash() > (*level_it)[1]) {
-									(*level_it)[1] = (*it_c)->getMyRoundStartCash()-(*it_c)->getMyCash();
+								if((*it_c)->getMyRoundStartCash()-(*it_c)->getMyCash() > (*level_it).second) {
+									(*level_it).second = (*it_c)->getMyRoundStartCash()-(*it_c)->getMyCash();
 								}
 							}
 							break;
 						} else {
-							if((*it_c)->getMyRoundStartCash()-(*it_c)->getMyCash() > (*level_it)[1]) {
+							if((*it_c)->getMyRoundStartCash()-(*it_c)->getMyCash() > (*level_it).second) {
 								playerNeedToShowCards.push_back((*it_c)->getMyUniqueID());
-								level_tmp = new int(2);
-								level_tmp[0] = (*it_c)->getMyCardsValueInt();
-								level_tmp[1] = (*it_c)->getMyRoundStartCash()-(*it_c)->getMyCash();
+//								level_tmp = new int(2);
+								level_tmp.first = (*it_c)->getMyCardsValueInt();
+								level_tmp.second = (*it_c)->getMyRoundStartCash()-(*it_c)->getMyCash();
 //
 //                                    for(level_it_tmp = level.begin(); level_it_tmp != level.end(); level_it_tmp++) {
 //                                        cout << (*level_it_tmp)[0] << "," << (*level_it_tmp)[1] << endl;
@@ -413,9 +414,9 @@ void LocalBoard::determinePlayerNeedToShowCards()
 
 		}
 
-		for(level_it = level.begin(); level_it != level.end(); ++level_it) {
-			delete[] *level_it;
-		}
+//		for(level_it = level.begin(); level_it != level.end(); ++level_it) {
+//			delete[] *level_it;
+//		}
 		level.clear();
 
 		//    bool showCards;
