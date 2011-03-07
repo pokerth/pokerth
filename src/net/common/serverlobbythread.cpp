@@ -50,7 +50,8 @@
 #include <boost/uuid/uuid.hpp>
 #include <gsasl.h>
 
-#define SERVER_MAX_NUM_SESSIONS						512		// Maximum number of idle users in lobby.
+#define SERVER_MAX_NUM_LOBBY_SESSIONS				512		// Maximum number of idle users in lobby.
+#define SERVER_MAX_NUM_TOTAL_SESSIONS				2000	// Total maximum of sessions, fitting a 2048 handle limit
 
 #define SERVER_CACHE_CLEANUP_INTERVAL_SEC			86400	// 1 day
 #define SERVER_SAVE_STATISTICS_INTERVAL_SEC			60
@@ -242,7 +243,10 @@ ServerLobbyThread::AddConnection(boost::shared_ptr<tcp::socket> sock)
 	LOG_VERBOSE("Accepted connection - session #" << sessionData->GetId() << ".");
 
 	bool hasClientIp = false;
-	if (m_sessionManager.GetRawSessionCount() <= SERVER_MAX_NUM_SESSIONS) {
+	unsigned numLobbySessions = m_sessionManager.GetRawSessionCount();
+	unsigned numGameSessions = m_gameSessionManager.GetRawSessionCount();
+	if (numLobbySessions <= SERVER_MAX_NUM_LOBBY_SESSIONS
+			&& numLobbySessions + numGameSessions <= SERVER_MAX_NUM_TOTAL_SESSIONS) {
 		boost::system::error_code errCode;
 		tcp::endpoint clientEndpoint = sock->remote_endpoint(errCode);
 		if (!errCode) {
@@ -1815,7 +1819,7 @@ ServerLobbyThread::HandleReAddedSession(SessionWrapper session)
 	// Remove session from game session list.
 	m_gameSessionManager.RemoveSession(session.sessionData->GetId());
 
-	if (m_sessionManager.GetRawSessionCount() <= SERVER_MAX_NUM_SESSIONS) {
+	if (m_sessionManager.GetRawSessionCount() <= SERVER_MAX_NUM_LOBBY_SESSIONS) {
 		// Set state (back) to established.
 		session.sessionData->SetState(SessionData::Established);
 		session.sessionData->SetGameId(0);
