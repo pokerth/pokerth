@@ -25,6 +25,7 @@ import static org.junit.Assert.*;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Iterator;
 
 import org.junit.Test;
 
@@ -175,6 +176,7 @@ public class RunRankingGameTest extends TestBase {
 		}
 
 		long handNum = 0;
+		long lastPlayerMoney = 0;
 		do {
 			msg = receiveMessage();
 			failOnErrorMessage(msg);
@@ -219,6 +221,23 @@ public class RunRankingGameTest extends TestBase {
 							sendMessage(outMsg, s[i]);
 						}
 					}
+					else if (inMsg.isEndOfHandMessageSelected()) {
+						if (inMsg.getEndOfHandMessage().getValue().getEndOfHandType().isEndOfHandHideCardsSelected()) {
+							lastPlayerMoney = inMsg.getEndOfHandMessage().getValue().getEndOfHandType().getEndOfHandHideCards().getPlayerMoney();
+						} else if (inMsg.getEndOfHandMessage().getValue().getEndOfHandType().isEndOfHandShowCardsSelected()) {
+							Collection<PlayerResult> result = inMsg.getEndOfHandMessage().getValue().getEndOfHandType().getEndOfHandShowCards().getPlayerResults();
+							assertFalse(result.isEmpty());
+							long maxPlayerMoney = 0;
+							for (Iterator<PlayerResult> it = result.iterator(); it.hasNext(); ) {
+								PlayerResult r = it.next();
+								long curMoney = r.getPlayerMoney();
+								if (curMoney > maxPlayerMoney) {
+									maxPlayerMoney = curMoney;
+								}
+							}
+							lastPlayerMoney = maxPlayerMoney;
+						}
+					}
 				}
 			}
 		} while (!msg.isEndOfGameMessageSelected());
@@ -227,6 +246,9 @@ public class RunRankingGameTest extends TestBase {
 			s[i].close();
 		}
 		Thread.sleep(2000);
+
+		// Last player money should be sum of all money.
+		assertEquals(10000 * 10, lastPlayerMoney);
 
 		// Check database entry for the game.
 		ResultSet countAfterResult = dbStatement.executeQuery("SELECT COUNT(idgame) FROM game");

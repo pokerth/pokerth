@@ -17,15 +17,19 @@
 
 package pokerth_test;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.fail;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Iterator;
 
 import org.junit.Test;
 
 import pokerth_protocol.NetGameInfo;
 import pokerth_protocol.NonZeroId;
+import pokerth_protocol.PlayerResult;
 import pokerth_protocol.PokerTHMessage;
 import pokerth_protocol.StartEventAckMessage;
 import pokerth_protocol.StartEventMessage;
@@ -138,8 +142,26 @@ public class RunNormalGameTest extends TestBase {
 			fail("Invalid message.");
 		}
 
+		long lastPlayerMoney = 0;
 		do {
 			msg = receiveMessage();
+			if (msg.isEndOfHandMessageSelected()) {
+				if (msg.getEndOfHandMessage().getValue().getEndOfHandType().isEndOfHandHideCardsSelected()) {
+					lastPlayerMoney = msg.getEndOfHandMessage().getValue().getEndOfHandType().getEndOfHandHideCards().getPlayerMoney();
+				} else if (msg.getEndOfHandMessage().getValue().getEndOfHandType().isEndOfHandShowCardsSelected()) {
+					Collection<PlayerResult> result = msg.getEndOfHandMessage().getValue().getEndOfHandType().getEndOfHandShowCards().getPlayerResults();
+					assertFalse(result.isEmpty());
+					long maxPlayerMoney = 0;
+					for (Iterator<PlayerResult> it = result.iterator(); it.hasNext(); ) {
+						PlayerResult r = it.next();
+						long curMoney = r.getPlayerMoney();
+						if (curMoney > maxPlayerMoney) {
+							maxPlayerMoney = curMoney;
+						}
+					}
+					lastPlayerMoney = maxPlayerMoney;
+				}
+			}
 		} while (
 				msg.isHandStartMessageSelected()
 				|| msg.isDealFlopCardsMessageSelected()
@@ -153,6 +175,9 @@ public class RunNormalGameTest extends TestBase {
 		if (!msg.isEndOfGameMessageSelected()) {
 			fail("No end of game received.");
 		}
+		// Last player money should be sum of all money.
+		assertEquals(2000 * 10, lastPlayerMoney);
+
 		// Now the computer players should leave.
 		for (int i = 0; i < 9; i++) {
 			msg = receiveMessage();
