@@ -323,7 +323,9 @@ win32 {
 		-lSDLmain \
 		-ltinyxml \
 		-lz \
+		-lgnutls \
 		-lgcrypt \
+		-lgpg-error \
 		-lgsasl \
 		-lidn
 	debug:LIBPATH += debug/lib
@@ -454,7 +456,7 @@ unix:!mac {
 		./lib/libpokerth_protocol.a
 
 	# #### My release static libs
-	# LIBS += -lgcrypt_static -lSDL_mixer_static -lSDL -lmikmod -lcurl
+	# LIBS += -lgcrypt_static -lgpg-error_static -lgnutls_static -lSDL_mixer_static -lSDL -lmikmod -lcurl
 	# ### INSTALL ####
 	binary.path += $${PREFIX}/bin/
 	binary.files += pokerth

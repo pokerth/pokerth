@@ -126,7 +126,7 @@ win32 {
 	debug:LIBPATH += debug/lib
 	release:LIBPATH += release/lib
 
-	LIBS += -lgcrypt -lgsasl -lidn -ltinyxml
+	LIBS += -lgnutls -lgcrypt -lgpg-error -lgsasl -lidn -ltinyxml
 	win32-g++-cross {
 		LIBS += -lsqlite3
 		LIBS += -lntlm
