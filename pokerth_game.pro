@@ -323,7 +323,9 @@ win32 {
 		-lSDLmain \
 		-ltinyxml \
 		-lz \
-		-lgnutls-openssl -lgnutls -lgcrypt -lgpg-error -lgsasl -lidn
+		-lgcrypt \
+		-lgsasl \
+		-lidn
 	debug:LIBPATH += debug/lib
 	release:LIBPATH += release/lib
 	win32-g++-cross {
@@ -446,14 +448,13 @@ unix:!mac {
 			-lSDL_mixer \
 		-lgsasl
 	!isEmpty( BSD ):isEmpty( kFreeBSD ):LIBS += -lcrypto
-	else:LIBS += -lgnutls-openssl \
-		-lgcrypt
+	else:LIBS += -lgcrypt
 	TARGETDEPS += ./lib/libpokerth_lib.a \
 		./lib/libpokerth_db.a \
 		./lib/libpokerth_protocol.a
 
 	# #### My release static libs
-	# LIBS += -lgcrypt_static -lgpg-error_static -lgnutls-openssl_static -lgnutls_static -lSDL_mixer_static -lSDL -lmikmod -lcurl
+	# LIBS += -lgcrypt_static -lSDL_mixer_static -lSDL -lmikmod -lcurl
 	# ### INSTALL ####
 	binary.path += $${PREFIX}/bin/
 	binary.files += pokerth

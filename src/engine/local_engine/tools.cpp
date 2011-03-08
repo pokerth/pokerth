@@ -109,9 +109,13 @@ void Tools::getRandNumber(int start, int end, int howMany, int* randArray, bool 
 		int counter(0);
 		while(counter < howMany) {
 
+#ifdef HAVE_OPENSSL
 			if(!RAND_bytes(rand_buf, 4)) {
 				LOG_MSG("RAND_bytes failed!");
 			}
+#else
+			gcry_randomize(rand_buf, 4, GCRY_VERY_STRONG_RANDOM);
+#endif
 
 			randNumber = 0;
 			for(i=0; i<4; i++) {
@@ -138,9 +142,13 @@ void Tools::getRandNumber(int start, int end, int howMany, int* randArray, bool 
 		int counter(0);
 		while (counter < howMany) {
 
+#ifdef HAVE_OPENSSL
 			if(!RAND_bytes(rand_buf, 4)) {
 				LOG_MSG("RAND_bytes failed!");
 			}
+#else
+			gcry_randomize(rand_buf, 4, GCRY_VERY_STRONG_RANDOM);
+#endif
 
 			randNumber = 0;
 			for(i=0; i<4; i++) {

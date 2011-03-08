@@ -67,10 +67,8 @@ typedef int pid_t;
 #include <openssl/rand.h>
 #include <openssl/evp.h>
 #else
-// For all other systems, we use GnuTLS.
-#include <gnutls/openssl.h>
+// For all other systems, we use gcrypt.
 #include <gcrypt.h>
-#define PKTH_USE_GNUTLS
 #endif
 
 #endif

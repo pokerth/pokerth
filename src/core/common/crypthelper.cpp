@@ -165,16 +165,29 @@ CryptHelper::MD5Sum(const std::string &fileName, MD5Buf &buf)
 
 	if (file) {
 		// Calculate MD5 sum of file.
-		unsigned char readBuf[8192];
-		MD5_CTX context;
+		unsigned char *readBuf = new unsigned char[8192];
 		int numBytes;
 
+#ifdef HAVE_OPENSSL
+		MD5_CTX context;
 		MD5_Init(&context);
-		while ((numBytes = fread(readBuf, 1, sizeof(readBuf), file)) > 0)
+		while ((numBytes = fread(readBuf, 1, sizeof(readBuf), file)) > 0) {
 			MD5_Update(&context, readBuf, numBytes);
+		}
 		MD5_Final(buf.GetData(), &context);
+#else
+		gcry_md_hd_t hash;
+		gcry_md_open(&hash, GCRY_MD_MD5, 0);
+		while ((numBytes = fread(readBuf, 1, sizeof(readBuf), file)) > 0) {
+			gcry_md_write(hash, readBuf, numBytes);
+		}
+		memcpy(buf.GetData(), gcry_md_read(hash, GCRY_MD_MD5), MD5_DATA_SIZE);
+		gcry_md_close(hash);
+#endif
+
 		retVal = ferror(file) == 0;
 
+		delete[] readBuf;
 		fclose(file);
 	}
 	return retVal;

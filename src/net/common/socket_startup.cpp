@@ -23,9 +23,7 @@
 #include <net/socket_startup.h>
 #include <core/openssl_wrapper.h>
 
-#ifdef PKTH_USE_GNUTLS
-
-#include <gcrypt.h>
+#ifndef HAVE_OPENSSL
 
 extern "C" {
 
@@ -60,16 +58,20 @@ extern "C" {
 		NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL
 	};
 }
-#endif // PKTH_USE_GNUTLS
+#endif // not HAVE_OPENSSL
 
 bool
 socket_startup()
 {
-#ifdef PKTH_USE_GNUTLS
+#ifdef HAVE_OPENSSL
+	return SSL_library_init() == 1;
+#else
+	gcry_check_version(NULL);
 	gcry_control(GCRYCTL_SET_THREAD_CBS, &gcry_threads_boost);
 	gcry_control(GCRYCTL_ENABLE_QUICK_RANDOM, 0);
+	gcry_control(GCRYCTL_INITIALIZATION_FINISHED, 0);
+	return true;
 #endif
-	return SSL_library_init() == 1;
 }
 
 void

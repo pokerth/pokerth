@@ -126,7 +126,7 @@ win32 {
 	debug:LIBPATH += debug/lib
 	release:LIBPATH += release/lib
 
-	LIBS += -lgnutls-openssl -lgnutls -lgcrypt -lgpg-error -lgsasl -lidn -ltinyxml
+	LIBS += -lgcrypt -lgsasl -lidn -ltinyxml
 	win32-g++-cross {
 		LIBS += -lsqlite3
 		LIBS += -lntlm
@@ -269,7 +269,7 @@ unix : !mac {
 	!isEmpty( BSD ): isEmpty( kFreeBSD ){
 		LIBS += -lcrypto -liconv
 	} else {
-		LIBS += -lgnutls-openssl -lgcrypt
+		LIBS += -lgcrypt
 	}
 
 	TARGETDEPS += ./lib/libpokerth_lib.a \
