@@ -2966,19 +2966,19 @@ void gameTableImpl::changePlayingMode()
 	}
 
 
-/*	switch (mode) {
+	/*	switch (mode) {
 
-		// 		case 0: { statusBar()->showMessage(tr("Manual mode set. You've got to choose yourself now."), 5000); }
-		break;
-		// 		case 1: { statusBar()->showMessage(tr("Auto mode set: Check or call any."), 5000); }
-		break;
-		// 		case 2: { statusBar()->showMessage(tr("Auto mode set: Check or fold."), 5000); }
-		break;
-	default: {
-		//cout << "changePlayingMode ERROR!!!!" << endl;
-	}
+			// 		case 0: { statusBar()->showMessage(tr("Manual mode set. You've got to choose yourself now."), 5000); }
+			break;
+			// 		case 1: { statusBar()->showMessage(tr("Auto mode set: Check or call any."), 5000); }
+			break;
+			// 		case 2: { statusBar()->showMessage(tr("Auto mode set: Check or fold."), 5000); }
+			break;
+		default: {
+			//cout << "changePlayingMode ERROR!!!!" << endl;
+		}
 
-	}*/
+		}*/
 
 	playingMode = mode;
 }
