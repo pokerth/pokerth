@@ -38,10 +38,14 @@ import pokerth_protocol.NetGameInfo.RaiseIntervalModeChoiceType;
 
 import java.io.*;
 import java.net.*;
+import java.security.MessageDigest;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.util.Collection;
 
+import javax.crypto.Cipher;
+import javax.crypto.spec.IvParameterSpec;
+import javax.crypto.spec.SecretKeySpec;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
@@ -309,5 +313,35 @@ public abstract class TestBase {
 			ErrorMessage error = msg.getErrorMessage();
 			fail("Received error: " + error.getValue().getErrorReason().getValue().toString());
 		}
+	}
+
+	public byte[] decryptCards(final String password, final byte[] ciphertext) throws Exception
+	{
+		/* compute key and initialization vector */
+		final MessageDigest shaDigest = MessageDigest.getInstance("SHA-1");
+		byte[] pw1 = password.getBytes("UTF-8");
+
+		byte[] keyHash1 = shaDigest.digest(pw1);
+		keyHash1 = shaDigest.digest(keyHash1);
+		byte[] pw2 = new byte[keyHash1.length + pw1.length];
+		System.arraycopy(keyHash1, 0, pw2, 0, keyHash1.length);
+		System.arraycopy(pw1, 0, pw2, keyHash1.length, pw1.length);
+		byte[] keyHash2 = shaDigest.digest(pw2);
+		keyHash2 = shaDigest.digest(keyHash2);
+
+		byte[] key = new byte[16];
+		System.arraycopy(keyHash1, 0, key, 0, key.length);
+		byte[] iv = new byte[16];
+		System.arraycopy(keyHash1, 16, iv, 0, 4);
+		System.arraycopy(keyHash2, 0, iv, 4, 12);
+
+		Cipher cipher = Cipher.getInstance("AES/CBC/NoPadding");
+
+		cipher.init(
+			Cipher.DECRYPT_MODE,
+			new SecretKeySpec(key, "AES"),
+			new IvParameterSpec(iv));
+
+		return cipher.doFinal(ciphertext);
 	}
 }

@@ -26,6 +26,7 @@ import static org.junit.Assert.*;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.StringTokenizer;
 
 import org.junit.Test;
 
@@ -182,6 +183,29 @@ public class RunRankingGameTest extends TestBase {
 			failOnErrorMessage(msg);
 			if (msg.isHandStartMessageSelected()) {
 				handNum++;
+				// Cards should be encrypted for registered users.
+				assertTrue(msg.getHandStartMessage().getValue().getYourCards().isEncryptedCardsSelected());
+				byte[] encData = msg.getHandStartMessage().getValue().getYourCards().getEncryptedCards().getCardData();
+				byte[] cardData = decryptCards(AuthPassword, encData);
+				int size = cardData.length;
+				while (size > 0 && cardData[size-1] == 0) {
+					size--;
+				}
+				String cardStr = new String(cardData, 0, size);
+				String[] cardTok = cardStr.split("\\s");
+				// First token is player id.
+				assertEquals(String.valueOf(firstPlayerId), cardTok[0]);
+				// Second token is game id.
+				assertEquals(String.valueOf(gameId), cardTok[1]);
+				// Third token is hand num.
+				assertEquals(String.valueOf(handNum), cardTok[2]);
+				// Fourth and fifth tokens are cards.
+				int card1 = Integer.valueOf(cardTok[3]);
+				int card2 = Integer.valueOf(cardTok[4]);
+				assertTrue(card1 < 52);
+				assertTrue(card1 >= 0);
+				assertTrue(card2 < 52);
+				assertTrue(card2 >= 0);
 			}
 			else if (msg.isPlayersTurnMessageSelected()) {
 				if (msg.getPlayersTurnMessage().getValue().getPlayerId().getValue() == firstPlayerId) {
