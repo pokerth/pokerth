@@ -102,25 +102,25 @@ ServerGame::SetDBId(DB_id newId)
 }
 
 void
-ServerGame::AddSession(SessionWrapper session)
+ServerGame::AddSession(boost::shared_ptr<SessionData> session)
 {
-	if (session.sessionData)
+	if (session)
 		GetState().HandleNewSession(shared_from_this(), session);
 }
 
 void
 ServerGame::RemovePlayer(unsigned playerId, unsigned errorCode)
 {
-	SessionWrapper tmpSession = GetSessionManager().GetSessionByUniquePlayerId(playerId);
+	boost::shared_ptr<SessionData> tmpSession = GetSessionManager().GetSessionByUniquePlayerId(playerId);
 	// Only kick if the player was found.
-	if (tmpSession.sessionData.get())
+	if (tmpSession)
 		SessionError(tmpSession, errorCode);
 }
 
 void
-ServerGame::HandlePacket(SessionWrapper session, boost::shared_ptr<NetPacket> packet)
+ServerGame::HandlePacket(boost::shared_ptr<SessionData> session, boost::shared_ptr<NetPacket> packet)
 {
-	if (session.sessionData && packet)
+	if (session && packet)
 		GetState().ProcessPacket(shared_from_this(), session, packet);
 }
 
@@ -372,9 +372,9 @@ ServerGame::RemoveAutoLeavePlayers()
 	PlayerIdList::const_iterator i = m_autoLeavePlayerList.begin();
 	PlayerIdList::const_iterator end = m_autoLeavePlayerList.end();
 	while (i != end) {
-		SessionWrapper tmpSession = GetSessionManager().GetSessionByUniquePlayerId(*i);
+		boost::shared_ptr<SessionData> tmpSession = GetSessionManager().GetSessionByUniquePlayerId(*i);
 		// Only remove if the player was found.
-		if (tmpSession.sessionData.get())
+		if (tmpSession)
 			MoveSessionToLobby(tmpSession, NTF_NET_REMOVED_ON_REQUEST);
 		++i;
 	}
@@ -391,9 +391,9 @@ ServerGame::InternalEndGame()
 void
 ServerGame::InternalKickPlayer(unsigned playerId)
 {
-	SessionWrapper tmpSession = GetSessionManager().GetSessionByUniquePlayerId(playerId);
+	boost::shared_ptr<SessionData> tmpSession = GetSessionManager().GetSessionByUniquePlayerId(playerId);
 	// Only kick if the player was found.
-	if (tmpSession.sessionData.get())
+	if (tmpSession)
 		MoveSessionToLobby(tmpSession, NTF_NET_REMOVED_KICKED);
 	// KICKING COMPUTER PLAYERS IS BUGGY AND OCCASIONALLY CAUSES A CRASH
 	// Disabled for now.
@@ -406,9 +406,9 @@ ServerGame::InternalKickPlayer(unsigned playerId)
 }
 
 void
-ServerGame::InternalAskVoteKick(SessionWrapper byWhom, unsigned playerIdWho, unsigned timeoutSec)
+ServerGame::InternalAskVoteKick(boost::shared_ptr<SessionData> byWhom, unsigned playerIdWho, unsigned timeoutSec)
 {
-	if (IsRunning() && byWhom.playerData) {
+	if (IsRunning() && byWhom->GetPlayerData()) {
 		// Retrieve only the number of human players.
 		size_t numPlayers = GetSessionManager().GetPlayerIdList(SessionData::Game).size();
 		if (numPlayers > 2) {
@@ -417,7 +417,7 @@ ServerGame::InternalAskVoteKick(SessionWrapper byWhom, unsigned playerIdWho, uns
 				// Lock the vote kick data.
 				if (!m_voteKickData) {
 					// Initiate a vote kick.
-					unsigned playerIdByWhom = byWhom.playerData->GetUniqueId();
+					unsigned playerIdByWhom = byWhom->GetPlayerData()->GetUniqueId();
 					m_voteKickData.reset(new VoteKickData);
 					m_voteKickData->petitionId = m_curPetitionId++;
 					m_voteKickData->kickPlayerId = playerIdWho;
@@ -455,7 +455,7 @@ ServerGame::InternalAskVoteKick(SessionWrapper byWhom, unsigned playerIdWho, uns
 }
 
 void
-ServerGame::InternalDenyAskVoteKick(SessionWrapper byWhom, unsigned playerIdWho, DenyKickPlayerReason reason)
+ServerGame::InternalDenyAskVoteKick(boost::shared_ptr<SessionData> byWhom, unsigned playerIdWho, DenyKickPlayerReason reason)
 {
 	boost::shared_ptr<NetPacket> packet(new NetPacket(NetPacket::Alloc));
 	packet->GetMsg()->present = PokerTHMessage_PR_askKickDeniedMessage;
@@ -463,17 +463,17 @@ ServerGame::InternalDenyAskVoteKick(SessionWrapper byWhom, unsigned playerIdWho,
 	netKickDenied->gameId = GetId();
 	netKickDenied->playerId = playerIdWho;
 	netKickDenied->kickDeniedReason = reason;
-	GetLobbyThread().GetSender().Send(byWhom.sessionData, packet);
+	GetLobbyThread().GetSender().Send(byWhom, packet);
 }
 
 void
-ServerGame::InternalVoteKick(SessionWrapper byWhom, unsigned petitionId, KickVote vote)
+ServerGame::InternalVoteKick(boost::shared_ptr<SessionData> byWhom, unsigned petitionId, KickVote vote)
 {
-	if (IsRunning() && byWhom.playerData) {
+	if (IsRunning() && byWhom->GetPlayerData()) {
 		// Check whether this is the valid petition id.
 		if (m_voteKickData && m_voteKickData->petitionId == petitionId) {
 			// Check whether the player already voted.
-			unsigned playerId = byWhom.playerData->GetUniqueId();
+			unsigned playerId = byWhom->GetPlayerData()->GetUniqueId();
 			if (find(m_voteKickData->votedPlayerIds.begin(), m_voteKickData->votedPlayerIds.end(), playerId) == m_voteKickData->votedPlayerIds.end()) {
 				m_voteKickData->votedPlayerIds.push_back(playerId);
 				if (vote == KICK_VOTE_IN_FAVOUR)
@@ -499,7 +499,7 @@ ServerGame::InternalVoteKick(SessionWrapper byWhom, unsigned petitionId, KickVot
 }
 
 void
-ServerGame::InternalDenyVoteKick(SessionWrapper byWhom, unsigned petitionId, DenyVoteReason reason)
+ServerGame::InternalDenyVoteKick(boost::shared_ptr<SessionData> byWhom, unsigned petitionId, DenyVoteReason reason)
 {
 	boost::shared_ptr<NetPacket> packet(new NetPacket(NetPacket::Alloc));
 	packet->GetMsg()->present = PokerTHMessage_PR_voteKickReplyMessage;
@@ -510,7 +510,7 @@ ServerGame::InternalDenyVoteKick(SessionWrapper byWhom, unsigned petitionId, Den
 
 	VoteKickDenied_t *kickDenied = &netVoteReply->voteKickReplyType.choice.voteKickDenied;
 	kickDenied->voteKickDeniedReason = reason;
-	GetLobbyThread().GetSender().Send(byWhom.sessionData, packet);
+	GetLobbyThread().GetSender().Send(byWhom, packet);
 }
 
 PlayerDataList
@@ -527,10 +527,9 @@ boost::shared_ptr<PlayerData>
 ServerGame::GetPlayerDataByUniqueId(unsigned playerId) const
 {
 	boost::shared_ptr<PlayerData> tmpPlayer;
-	SessionWrapper session = GetSessionManager().GetSessionByUniquePlayerId(playerId);
-	if (session.playerData.get()) {
-		tmpPlayer = session.playerData;
-	} else {
+	boost::shared_ptr<SessionData> session = GetSessionManager().GetSessionByUniquePlayerId(playerId);
+	tmpPlayer = session->GetPlayerData();
+	if (!tmpPlayer) {
 		boost::mutex::scoped_lock lock(m_computerPlayerListMutex);
 		PlayerDataList::const_iterator i = m_computerPlayerList.begin();
 		PlayerDataList::const_iterator end = m_computerPlayerList.end();
@@ -694,13 +693,13 @@ ServerGame::ResetComputerPlayerList()
 }
 
 void
-ServerGame::GracefulRemoveSession(SessionWrapper session, int reason)
+ServerGame::GracefulRemoveSession(boost::shared_ptr<SessionData> session, int reason)
 {
-	if (!session.sessionData)
+	if (!session)
 		throw ServerException(__FILE__, __LINE__, ERR_NET_INVALID_SESSION, 0);
 
-	if (GetSessionManager().RemoveSession(session.sessionData->GetId())) {
-		boost::shared_ptr<PlayerData> tmpPlayerData = session.playerData;
+	if (GetSessionManager().RemoveSession(session->GetId())) {
+		boost::shared_ptr<PlayerData> tmpPlayerData = session->GetPlayerData();
 		if (tmpPlayerData && !tmpPlayerData->GetName().empty()) {
 			RemovePlayerData(tmpPlayerData, reason);
 		}
@@ -763,27 +762,27 @@ ServerGame::RemovePlayerData(boost::shared_ptr<PlayerData> player, int reason)
 }
 
 void
-ServerGame::ErrorRemoveSession(SessionWrapper session)
+ServerGame::ErrorRemoveSession(boost::shared_ptr<SessionData> session)
 {
 	GetLobbyThread().RemoveSessionFromGame(session);
 	GracefulRemoveSession(session, NTF_NET_INTERNAL);
 }
 
 void
-ServerGame::SessionError(SessionWrapper session, int errorCode)
+ServerGame::SessionError(boost::shared_ptr<SessionData> session, int errorCode)
 {
-	if (!session.sessionData.get())
+	if (!session)
 		throw ServerException(__FILE__, __LINE__, ERR_NET_INVALID_SESSION, 0);
 	ErrorRemoveSession(session);
 	GetLobbyThread().SessionError(session, errorCode);
 }
 
 void
-ServerGame::MoveSessionToLobby(SessionWrapper session, int reason)
+ServerGame::MoveSessionToLobby(boost::shared_ptr<SessionData> session, int reason)
 {
 	GracefulRemoveSession(session, reason);
 	// Reset ready flag - just in case it is set, player may leave at any time.
-	session.sessionData->ResetReadyFlag();
+	session->ResetReadyFlag();
 	GetLobbyThread().ReAddSession(session, reason);
 }
 

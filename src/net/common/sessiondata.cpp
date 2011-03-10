@@ -271,3 +271,18 @@ SessionData::GetAutoDisconnectTimerElapsedSec() const
 	boost::mutex::scoped_lock lock(m_dataMutex);
 	return m_autoDisconnectTimer.elapsed().total_seconds();
 }
+
+void
+SessionData::SetPlayerData(boost::shared_ptr<PlayerData> player)
+{
+	boost::mutex::scoped_lock lock(m_dataMutex);
+	m_playerData = player;
+}
+
+boost::shared_ptr<PlayerData>
+SessionData::GetPlayerData()
+{
+	boost::mutex::scoped_lock lock(m_dataMutex);
+	return m_playerData;
+}
+

@@ -55,10 +55,10 @@ public:
 	DB_id GetDBId() const;
 	void SetDBId(DB_id newId);
 
-	void AddSession(SessionWrapper session);
+	void AddSession(boost::shared_ptr<SessionData> session);
 	void RemovePlayer(unsigned playerId, unsigned errorCode);
 
-	void HandlePacket(SessionWrapper session, boost::shared_ptr<NetPacket> packet);
+	void HandlePacket(boost::shared_ptr<SessionData> session, boost::shared_ptr<NetPacket> packet);
 
 	ServerCallback &GetCallback();
 	GameState GetCurRound() const;
@@ -117,10 +117,10 @@ protected:
 	void InternalEndGame();
 
 	void InternalKickPlayer(unsigned playerId);
-	void InternalAskVoteKick(SessionWrapper byWhom, unsigned playerIdWho, unsigned timeoutSec);
-	void InternalDenyAskVoteKick(SessionWrapper byWhom, unsigned playerIdWho, DenyKickPlayerReason reason);
-	void InternalVoteKick(SessionWrapper byWhom, unsigned petitionId, KickVote vote);
-	void InternalDenyVoteKick(SessionWrapper byWhom, unsigned petitionId, DenyVoteReason reason);
+	void InternalAskVoteKick(boost::shared_ptr<SessionData> byWhom, unsigned playerIdWho, unsigned timeoutSec);
+	void InternalDenyAskVoteKick(boost::shared_ptr<SessionData> byWhom, unsigned playerIdWho, DenyKickPlayerReason reason);
+	void InternalVoteKick(boost::shared_ptr<SessionData> byWhom, unsigned petitionId, KickVote vote);
+	void InternalDenyVoteKick(boost::shared_ptr<SessionData> byWhom, unsigned petitionId, DenyVoteReason reason);
 
 	PlayerDataList GetFullPlayerDataList() const;
 
@@ -129,11 +129,11 @@ protected:
 	bool IsComputerPlayerActive(unsigned playerId) const;
 	void ResetComputerPlayerList();
 
-	void GracefulRemoveSession(SessionWrapper session, int reason);
+	void GracefulRemoveSession(boost::shared_ptr<SessionData> session, int reason);
 	void RemovePlayerData(boost::shared_ptr<PlayerData> player, int reason);
-	void ErrorRemoveSession(SessionWrapper session);
-	void SessionError(SessionWrapper session, int errorCode);
-	void MoveSessionToLobby(SessionWrapper session, int reason);
+	void ErrorRemoveSession(boost::shared_ptr<SessionData> session);
+	void SessionError(boost::shared_ptr<SessionData> session, int errorCode);
+	void MoveSessionToLobby(boost::shared_ptr<SessionData> session, int reason);
 
 	void RemoveDisconnectedPlayers();
 	size_t GetCurNumberOfPlayers() const;

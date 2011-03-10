@@ -32,14 +32,6 @@
 class NetPacket;
 class SenderHelper;
 
-struct SessionWrapper {
-	SessionWrapper() {}
-	SessionWrapper(boost::shared_ptr<SessionData> s, boost::shared_ptr<PlayerData> p)
-		: sessionData(s), playerData(p) {}
-	boost::shared_ptr<SessionData>	sessionData;
-	boost::shared_ptr<PlayerData>	playerData;
-};
-
 class SessionManager
 {
 public:
@@ -48,14 +40,13 @@ public:
 
 	bool HasSessions() const;
 
-	void AddSession(boost::shared_ptr<SessionData> sessionData); // new Sessions without player data
-	void AddSession(SessionWrapper session);
+	void AddSession(boost::shared_ptr<SessionData> sessionData);
 	void SetSessionPlayerData(SessionId session, boost::shared_ptr<PlayerData> playerData);
 	bool RemoveSession(SessionId session);
 
-	SessionWrapper GetSessionById(SessionId id) const;
-	SessionWrapper GetSessionByPlayerName(const std::string &playerName) const;
-	SessionWrapper GetSessionByUniquePlayerId(unsigned uniqueId, bool initSessions = false) const;
+	boost::shared_ptr<SessionData> GetSessionById(SessionId id) const;
+	boost::shared_ptr<SessionData> GetSessionByPlayerName(const std::string &playerName) const;
+	boost::shared_ptr<SessionData> GetSessionByUniquePlayerId(unsigned uniqueId, bool initSessions = false) const;
 
 	PlayerDataList GetPlayerDataList() const;
 	PlayerIdList GetPlayerIdList(SessionData::State state) const;
@@ -63,7 +54,7 @@ public:
 	bool IsPlayerConnected(unsigned uniqueId) const;
 	bool IsClientAddressConnected(const std::string &clientAddress) const;
 
-	void ForEach(boost::function<void (SessionWrapper)> func);
+	void ForEach(boost::function<void (boost::shared_ptr<SessionData>)> func);
 
 	unsigned CountReadySessions() const;
 	void ResetAllReadyFlags();
@@ -78,7 +69,7 @@ public:
 
 protected:
 
-	typedef std::map<SessionId, SessionWrapper> SessionMap;
+	typedef std::map<SessionId, boost::shared_ptr<SessionData> > SessionMap;
 
 private:
 

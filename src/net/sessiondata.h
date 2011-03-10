@@ -41,6 +41,7 @@ struct Gsasl_session;
 class ReceiveBuffer;
 class SendBuffer;
 class NetPacket;
+class PlayerData;
 
 class SessionData : public boost::enable_shared_from_this<SessionData>
 {
@@ -99,6 +100,9 @@ public:
 	void MarkActivityNotice();
 	unsigned GetAutoDisconnectTimerElapsedSec() const;
 
+	void SetPlayerData(boost::shared_ptr<PlayerData> player);
+	boost::shared_ptr<PlayerData> GetPlayerData();
+
 protected:
 	SessionData(const SessionData &other);
 	SessionData &operator=(const SessionData &other);
@@ -122,6 +126,7 @@ private:
 	int								m_curAuthStep;
 	std::string						m_nextGsaslMsg;
 	std::string						m_password;
+	boost::shared_ptr<PlayerData>	m_playerData;
 
 	mutable boost::mutex			m_dataMutex;
 };
