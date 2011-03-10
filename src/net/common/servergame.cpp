@@ -801,7 +801,7 @@ ServerGame::RemoveDisconnectedPlayers()
 					|| (tmpPlayer->getMyType() == PLAYER_TYPE_COMPUTER && !IsComputerPlayerActive(tmpPlayer->getMyUniqueID()))) {
 				// Setting player cash to 0 will deactivate the player.
 				tmpPlayer->setMyCash(0);
-				tmpPlayer->setNetSessionData(boost::shared_ptr<SessionData>());
+				tmpPlayer->setIsConnected(false);
 			}
 			++i;
 		}

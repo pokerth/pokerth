@@ -30,7 +30,7 @@ PlayerData::PlayerData(const PlayerData &other)
 	: m_uniqueId(other.GetUniqueId()), m_dbId(other.GetDBId()), m_number(other.GetNumber()), m_name(other.GetName()),
 	  m_password(), m_country(other.GetCountry()), m_avatarFile(other.GetAvatarFile()), m_avatarMD5(other.GetAvatarMD5()),
 	  m_type(other.GetType()), m_rights(other.GetRights()), m_isGameAdmin(other.IsGameAdmin()),
-	  m_netSessionData(other.GetNetSessionData()), m_netAvatarFile(), m_dataMutex()
+	  m_netAvatarFile(), m_dataMutex()
 {
 }
 
@@ -91,20 +91,6 @@ PlayerData::SetAvatarMD5(const MD5Buf &avatarMD5)
 {
 	boost::mutex::scoped_lock lock(m_dataMutex);
 	m_avatarMD5 = avatarMD5;
-}
-
-boost::shared_ptr<SessionData>
-PlayerData::GetNetSessionData() const
-{
-	// setting/getting boost::shared_ptr is thread safe.
-	return m_netSessionData;
-}
-
-void
-PlayerData::SetNetSessionData(boost::shared_ptr<SessionData> session)
-{
-	// setting/getting boost::shared_ptr is thread safe.
-	m_netSessionData = session;
 }
 
 boost::shared_ptr<AvatarFile>

@@ -114,8 +114,8 @@ public:
 	virtual void turnEngine() =0;
 	virtual void riverEngine() =0;
 
-	virtual void setNetSessionData(boost::shared_ptr<SessionData> session) =0;
-	virtual boost::shared_ptr<SessionData> getNetSessionData() =0;
+	virtual void setIsConnected(bool connected) =0;
+	virtual bool isConnected() const=0;
 
 	virtual unsigned getActionTimeoutCounter() const =0;
 	virtual void incrementActionTimeoutCounter() =0;

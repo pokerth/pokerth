@@ -81,21 +81,18 @@ Game::Game(GuiInterface* gui, boost::shared_ptr<EngineFactory> factory,
 		string myAvatarFile;
 		unsigned uniqueId = 0;
 		PlayerType type = PLAYER_TYPE_COMPUTER;
-		boost::shared_ptr<SessionData> myNetSession;
 
 		if (player_i != player_end) {
 			uniqueId = (*player_i)->GetUniqueId();
 			type = (*player_i)->GetType();
 			myName = (*player_i)->GetName();
 			myAvatarFile = (*player_i)->GetAvatarFile();
-			myNetSession = (*player_i)->GetNetSessionData();
 			++player_i;
 		}
 
 		// create player objects
 		boost::shared_ptr<PlayerInterface> tmpPlayer = myFactory->createPlayer(i, uniqueId, type, myName, myAvatarFile, startCash, startQuantityPlayers > i, 0);
-
-		tmpPlayer->setNetSessionData(myNetSession);
+		tmpPlayer->setIsConnected(true);
 
 		// fill player lists
 		seatsList->push_back(tmpPlayer);

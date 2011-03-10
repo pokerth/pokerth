@@ -83,8 +83,6 @@ public:
 	void SetAvatarFile(const std::string &avatarFile);
 	MD5Buf GetAvatarMD5() const;
 	void SetAvatarMD5(const MD5Buf &avatarMD5);
-	boost::shared_ptr<SessionData> GetNetSessionData() const;
-	void SetNetSessionData(boost::shared_ptr<SessionData> session);
 	boost::shared_ptr<AvatarFile> GetNetAvatarFile() const;
 	void SetNetAvatarFile(boost::shared_ptr<AvatarFile> AvatarFile);
 	PlayerType GetType() const;
@@ -112,7 +110,6 @@ private:
 	PlayerType						m_type;
 	PlayerRights					m_rights;
 	bool							m_isGameAdmin;
-	boost::shared_ptr<SessionData>	m_netSessionData;
 	boost::shared_ptr<AvatarFile>	m_netAvatarFile;
 
 	mutable boost::mutex			m_dataMutex;

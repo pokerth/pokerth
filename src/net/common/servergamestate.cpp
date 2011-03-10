@@ -1088,7 +1088,8 @@ ServerGameStateHand::StartNewHand(boost::shared_ptr<ServerGame> server)
 	while (i != end) {
 		// also send to inactive players, but not to disconnected players.
 		boost::shared_ptr<PlayerInterface> tmpPlayer = *i;
-		if (tmpPlayer->getNetSessionData()) {
+		SessionWrapper tmpSession = server->GetSessionManager().GetSessionByUniquePlayerId(tmpPlayer->getMyUniqueID());
+		if (tmpPlayer->isConnected() && tmpSession.sessionData) {
 			int cards[2];
 			bool errorFlag = false;
 			tmpPlayer->getMyCards(cards);
@@ -1097,7 +1098,7 @@ ServerGameStateHand::StartNewHand(boost::shared_ptr<ServerGame> server)
 			notifyCards->GetMsg()->present = PokerTHMessage_PR_handStartMessage;
 			HandStartMessage_t *netHandStart = &notifyCards->GetMsg()->choice.handStartMessage;
 			netHandStart->gameId = server->GetId();
-			string tmpPassword(tmpPlayer->getNetSessionData()->AuthGetPassword());
+			string tmpPassword(tmpSession.sessionData->AuthGetPassword());
 			if (tmpPassword.empty()) { // encrypt only if password is present
 				netHandStart->yourCards.present = yourCards_PR_plainCards;
 				PlainCards_t *plainCards = &netHandStart->yourCards.choice.plainCards;
@@ -1130,7 +1131,7 @@ ServerGameStateHand::StartNewHand(boost::shared_ptr<ServerGame> server)
 			}
 			if (!errorFlag) {
 				netHandStart->smallBlind = curGame.getCurrentHand()->getSmallBlind();
-				server->GetLobbyThread().GetSender().Send(tmpPlayer->getNetSessionData(), notifyCards);
+				server->GetLobbyThread().GetSender().Send(tmpSession.sessionData, notifyCards);
 			}
 		}
 		++i;
@@ -1308,6 +1309,9 @@ ServerGameStateWaitPlayerAction::TimerTimeout(const boost::system::error_code &e
 			boost::shared_ptr<PlayerInterface> curPlayer = curGame.getCurrentPlayer();
 			if (!curPlayer)
 				throw ServerException(__FILE__, __LINE__, ERR_NET_NO_CURRENT_PLAYER, 0);
+			SessionWrapper tmpSession = server->GetSessionManager().GetSessionByUniquePlayerId(curPlayer->getMyUniqueID());
+			if (!tmpSession.sessionData)
+				throw ServerException(__FILE__, __LINE__, ERR_NET_NO_CURRENT_PLAYER, 0);
 
 			// Player did not act fast enough. Act for him.
 			if (curGame.getCurrentHand()->getCurrentBeRo()->getHighestSet() == curPlayer->getMySet())
@@ -1324,7 +1328,7 @@ ServerGameStateWaitPlayerAction::TimerTimeout(const boost::system::error_code &e
 					warning->GetMsg()->present = PokerTHMessage_PR_afkWarningMessage;
 					AfkWarningMessage_t *netWarning = &warning->GetMsg()->choice.afkWarningMessage;
 					netWarning->remainingTimeouts = SERVER_KICK_ACTION_TIMEOUT_REMAINING;
-					server->GetLobbyThread().GetSender().Send(curPlayer->getNetSessionData(), warning);
+					server->GetLobbyThread().GetSender().Send(tmpSession.sessionData, warning);
 				} else if (curPlayer->getActionTimeoutCounter() > SERVER_WARNING_ACTION_TIMEOUT_THRESHOLD + SERVER_KICK_ACTION_TIMEOUT_REMAINING) {
 					server->InternalKickPlayer(curPlayer->getMyUniqueID());
 				}

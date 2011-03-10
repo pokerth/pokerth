@@ -130,8 +130,8 @@ public:
 
 	void evaluation(int, int);
 
-	void setNetSessionData(boost::shared_ptr<SessionData> session);
-	boost::shared_ptr<SessionData> getNetSessionData();
+	void setIsConnected(bool connected);
+	bool isConnected() const;
 
 	// unused as client
 	unsigned getActionTimeoutCounter() const {
@@ -184,8 +184,7 @@ private:
 	bool sBluffStatus;
 
 	bool myWinnerState;
-
-	boost::shared_ptr<SessionData> myNetSessionData;
+	bool m_isConnected;
 };
 
 #endif
