@@ -783,7 +783,7 @@ ServerGame::MoveSessionToLobby(boost::shared_ptr<SessionData> session, int reaso
 	GracefulRemoveSession(session, reason);
 	// Reset ready flag - just in case it is set, player may leave at any time.
 	session->ResetReadyFlag();
-	GetLobbyThread().ReAddSession(session, reason);
+	GetLobbyThread().ReAddSession(session, reason, GetId());
 }
 
 void

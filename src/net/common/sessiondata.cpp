@@ -25,7 +25,7 @@
 using namespace std;
 
 SessionData::SessionData(boost::shared_ptr<boost::asio::ip::tcp::socket> sock, SessionId id, SessionDataCallback &cb)
-	: m_socket(sock), m_id(id), m_gameId(0), m_state(SessionData::Init), m_readyFlag(false), m_wantsLobbyMsg(true),
+	: m_socket(sock), m_id(id), m_state(SessionData::Init), m_readyFlag(false), m_wantsLobbyMsg(true),
 	  m_activityTimer(boost::posix_time::time_duration(0, 0, 0), boost::timers::portable::microsec_timer::auto_start),
 	  m_activityTimeoutNoticeSent(false),
 	  m_autoDisconnectTimer(boost::posix_time::time_duration(0, 0, 0), boost::timers::portable::microsec_timer::auto_start),
@@ -47,18 +47,18 @@ SessionData::GetId() const
 	return m_id;
 }
 
-unsigned
-SessionData::GetGameId() const
+boost::shared_ptr<ServerGame>
+SessionData::GetGame() const
 {
 	boost::mutex::scoped_lock lock(m_dataMutex);
-	return m_gameId;
+	return m_game.lock();
 }
 
 void
-SessionData::SetGameId(unsigned gameId)
+SessionData::SetGame(boost::shared_ptr<ServerGame> game)
 {
 	boost::mutex::scoped_lock lock(m_dataMutex);
-	m_gameId = gameId;
+	m_game = game;
 }
 
 SessionData::State

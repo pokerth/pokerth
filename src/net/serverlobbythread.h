@@ -61,8 +61,8 @@ public:
 	virtual void SignalTermination();
 
 	void AddConnection(boost::shared_ptr<boost::asio::ip::tcp::socket> sock);
-	void ReAddSession(boost::shared_ptr<SessionData> session, int reason);
-	void MoveSessionToGame(ServerGame &game, boost::shared_ptr<SessionData> session, bool autoLeave);
+	void ReAddSession(boost::shared_ptr<SessionData> session, int reason, unsigned gameId);
+	void MoveSessionToGame(boost::shared_ptr<ServerGame> game, boost::shared_ptr<SessionData> session, bool autoLeave);
 	void RemoveSessionFromGame(boost::shared_ptr<SessionData> session);
 	void SessionError(boost::shared_ptr<SessionData> session, int errorCode);
 	void ResubscribeLobbyMsg(boost::shared_ptr<SessionData> session);

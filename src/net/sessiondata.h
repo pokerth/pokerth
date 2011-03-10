@@ -42,6 +42,7 @@ class ReceiveBuffer;
 class SendBuffer;
 class NetPacket;
 class PlayerData;
+class ServerGame;
 
 class SessionData : public boost::enable_shared_from_this<SessionData>
 {
@@ -53,8 +54,8 @@ public:
 
 	SessionId GetId() const;
 
-	unsigned GetGameId() const;
-	void SetGameId(unsigned gameId);
+	boost::shared_ptr<ServerGame> GetGame() const;
+	void SetGame(boost::shared_ptr<ServerGame> game);
 
 	State GetState() const;
 	void SetState(State state);
@@ -111,7 +112,7 @@ protected:
 private:
 	boost::shared_ptr<boost::asio::ip::tcp::socket> m_socket;
 	const SessionId					m_id;
-	unsigned						m_gameId;
+	boost::weak_ptr<ServerGame>		m_game;
 	State							m_state;
 	std::string						m_clientAddr;
 	boost::shared_ptr<ReceiveBuffer>	m_receiveBuffer;

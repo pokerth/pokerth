@@ -295,13 +295,13 @@ ServerLobbyThread::AddConnection(boost::shared_ptr<tcp::socket> sock)
 }
 
 void
-ServerLobbyThread::ReAddSession(boost::shared_ptr<SessionData> session, int reason)
+ServerLobbyThread::ReAddSession(boost::shared_ptr<SessionData> session, int reason, unsigned gameId)
 {
 	if (session && session->GetPlayerData()) {
 		boost::shared_ptr<NetPacket> packet(new NetPacket(NetPacket::Alloc));
 		packet->GetMsg()->present = PokerTHMessage_PR_gamePlayerMessage;
 		GamePlayerMessage_t *netPlayerMsg = &packet->GetMsg()->choice.gamePlayerMessage;
-		netPlayerMsg->gameId = session->GetGameId();
+		netPlayerMsg->gameId = gameId;
 		netPlayerMsg->gamePlayerNotification.present = gamePlayerNotification_PR_removedFromGame;
 		RemovedFromGame_t *removed = &netPlayerMsg->gamePlayerNotification.choice.removedFromGame;
 
@@ -332,7 +332,7 @@ ServerLobbyThread::ReAddSession(boost::shared_ptr<SessionData> session, int reas
 }
 
 void
-ServerLobbyThread::MoveSessionToGame(ServerGame &game, boost::shared_ptr<SessionData> session, bool autoLeave)
+ServerLobbyThread::MoveSessionToGame(boost::shared_ptr<ServerGame> game, boost::shared_ptr<SessionData> session, bool autoLeave)
 {
 	// Remove session from the lobby.
 	m_sessionManager.RemoveSession(session->GetId());
@@ -341,12 +341,12 @@ ServerLobbyThread::MoveSessionToGame(ServerGame &game, boost::shared_ptr<Session
 	// Store it in the list of game sessions.
 	m_gameSessionManager.AddSession(session);
 	// Set the game id of the session.
-	session->SetGameId(game.GetId());
+	session->SetGame(game);
 	// Add session to the game.
-	game.AddSession(session);
+	game->AddSession(session);
 	// Optionally enable auto leave after game finish.
 	if (autoLeave)
-		game.SetPlayerAutoLeaveOnFinish(session->GetPlayerData()->GetUniqueId());
+		game->SetPlayerAutoLeaveOnFinish(session->GetPlayerData()->GetUniqueId());
 }
 
 void
@@ -363,9 +363,9 @@ ServerLobbyThread::CloseSession(SessionId sessionId)
 	if (!session)
 		session = m_gameSessionManager.GetSessionById(sessionId);
 	if (session) {
-		GameMap::iterator pos = m_gameMap.find(session->GetGameId());
-		if (pos != m_gameMap.end()) {
-			pos->second->ErrorRemoveSession(session);
+		boost::shared_ptr<ServerGame> tmpGame = session->GetGame();
+		if (tmpGame) {
+			tmpGame->ErrorRemoveSession(session);
 		} else {
 			CloseSession(session);
 		}
@@ -386,7 +386,7 @@ ServerLobbyThread::CloseSession(boost::shared_ptr<SessionData> session)
 			NotifyPlayerLeftLobby(session->GetPlayerData()->GetUniqueId());
 		// Update stats (if needed).
 		UpdateStatisticsNumberOfPlayers();
-		session->SetGameId(0);
+		session->SetGame(boost::shared_ptr<ServerGame>());
 	}
 }
 
@@ -857,7 +857,7 @@ ServerLobbyThread::DispatchPacket(boost::shared_ptr<SessionData> session, boost:
 {
 	if (session) {
 		// Retrieve current game, if applicable.
-		boost::shared_ptr<ServerGame> game = InternalGetGameFromId(session->GetGameId());
+		boost::shared_ptr<ServerGame> game = session->GetGame();
 		if (game) {
 			// We need to catch game-specific exceptions, so that they do not affect the server.
 			try {
@@ -1281,7 +1281,7 @@ ServerLobbyThread::HandleNetPacketCreateGame(boost::shared_ptr<SessionData> sess
 		// Add game to list of games.
 		InternalAddGame(game);
 
-		MoveSessionToGame(*game, session, autoLeave);
+		MoveSessionToGame(game, session, autoLeave);
 	}
 }
 
@@ -1292,21 +1292,21 @@ ServerLobbyThread::HandleNetPacketJoinGame(boost::shared_ptr<SessionData> sessio
 	GameMap::iterator pos = m_gameMap.find(joinGame.gameId);
 
 	if (pos != m_gameMap.end()) {
-		ServerGame &game = *pos->second;
-		const GameData &tmpData = game.GetGameData();
+		boost::shared_ptr<ServerGame> game = pos->second;
+		const GameData &tmpData = game->GetGameData();
 		if (session->GetPlayerData()->GetRights() == PLAYER_RIGHTS_GUEST
 				&& tmpData.gameType != GAME_TYPE_NORMAL) {
 			SendJoinGameFailed(session, joinGame.gameId, NTF_NET_JOIN_GUEST_FORBIDDEN);
 		} else if (tmpData.gameType == GAME_TYPE_INVITE_ONLY
-				   && !game.IsPlayerInvited(session->GetPlayerData()->GetUniqueId())) {
+				   && !game->IsPlayerInvited(session->GetPlayerData()->GetUniqueId())) {
 			SendJoinGameFailed(session, joinGame.gameId, NTF_NET_JOIN_NOT_INVITED);
-		} else if (!game.CheckPassword(password)) {
+		} else if (!game->CheckPassword(password)) {
 			SendJoinGameFailed(session, joinGame.gameId, NTF_NET_JOIN_INVALID_PASSWORD);
 		} else if (tmpData.gameType == GAME_TYPE_RANKING
 				   && session->GetClientAddr() != SERVER_ADDRESS_LOCALHOST_STR
 				   && session->GetClientAddr() != SERVER_ADDRESS_LOCALHOST_STR_V4V6
 				   && session->GetClientAddr() != SERVER_ADDRESS_LOCALHOST_STR_V4
-				   && game.IsClientAddressConnected(session->GetClientAddr())) {
+				   && game->IsClientAddressConnected(session->GetClientAddr())) {
 			SendJoinGameFailed(session, joinGame.gameId, NTF_NET_JOIN_IP_BLOCKED);
 		} else {
 			MoveSessionToGame(game, session, autoLeave);
@@ -1357,9 +1357,8 @@ ServerLobbyThread::HandleNetPacketChatRequest(boost::shared_ptr<SessionData> ses
 
 			if (targetSession && targetSession->GetPlayerData()) {
 				// Only allow private messages to players which are not in running games.
-				unsigned gameId = targetSession->GetGameId();
-				GameMap::const_iterator pos = m_gameMap.find(gameId);
-				if (pos == m_gameMap.end() || !pos->second->IsRunning()) {
+				boost::shared_ptr<ServerGame> tmpGame = targetSession->GetGame();
+				if (!tmpGame || !tmpGame->IsRunning()) {
 					boost::shared_ptr<NetPacket> packet(new NetPacket(NetPacket::Alloc));
 					packet->GetMsg()->present = PokerTHMessage_PR_chatMessage;
 					ChatMessage_t *netChat = &packet->GetMsg()->choice.chatMessage;
@@ -1823,7 +1822,7 @@ ServerLobbyThread::HandleReAddedSession(boost::shared_ptr<SessionData> session)
 	if (m_sessionManager.GetRawSessionCount() <= SERVER_MAX_NUM_LOBBY_SESSIONS) {
 		// Set state (back) to established.
 		session->SetState(SessionData::Established);
-		session->SetGameId(0);
+		session->SetGame(boost::shared_ptr<ServerGame>());
 		// Add session to lobby list.
 		m_sessionManager.AddSession(session);
 	} else {
