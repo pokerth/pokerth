@@ -317,7 +317,6 @@ public abstract class TestBase {
 
 	public byte[] decryptCards(final String password, final byte[] ciphertext) throws Exception
 	{
-		/* compute key and initialization vector */
 		final MessageDigest shaDigest = MessageDigest.getInstance("SHA-1");
 		byte[] pw1 = password.getBytes("UTF-8");
 
