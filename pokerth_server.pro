@@ -111,7 +111,8 @@ SOURCES += \
 LIBS += -lpokerth_lib \
 	-lpokerth_db \
 	-lpokerth_protocol \
-	-lcurl
+	-lcurl \
+	-lircclient
 
 win32 {
 	DEFINES += CURL_STATICLIB
