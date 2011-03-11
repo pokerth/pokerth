@@ -99,14 +99,18 @@ HEADERS += \
 		src/gui/qttoolsinterface.h \
 		src/gui/qt/qttools/nonqttoolswrapper.h \
 		src/gui/qt/qttools/nonqthelper/nonqthelper.h \
-		src/gui/generic/serverguiwrapper.h
+		src/gui/generic/serverguiwrapper.h \
+    src/net/servermanagerirc.h
 
 SOURCES += \
 		src/pokerth_server.cpp \
 		src/gui/qt/qttools/nonqttoolswrapper.cpp \
 		src/gui/qt/qttools/nonqthelper/nonqthelper.cpp \
 		src/net/common/net_helper_server.cpp \
-		src/core/common/loghelper_server.cpp
+		src/core/common/loghelper_server.cpp \
+    src/net/common/ircthread.cpp \
+    src/net/common/servermanagerirc.cpp \
+    src/net/common/servermanagerfactoryserver.cpp
 
 LIBS += -lpokerth_lib \
 	-lpokerth_db \

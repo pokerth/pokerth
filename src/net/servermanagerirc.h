@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2007 by Lothar May                                      *
+ *   Copyright (C) 2011 by Lothar May                                      *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -16,30 +16,21 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-/* Manager thread for the server. */
+/* Manager thread for the server, with irc bots. */
 
-#ifndef _SERVERMANAGER_H_
-#define _SERVERMANAGER_H_
+#ifndef _SERVERMANAGERIRC_H_
+#define _SERVERMANAGERIRC_H_
 
-#include <boost/asio.hpp>
-#include <string>
-#include <list>
+#include <net/servermanager.h>
 
-#include <game_defs.h>
-#include <gui/guiinterface.h>
+class ServerAdminBot;
+class ServerLobbyBot;
 
-class ServerLobbyThread;
-class ServerAcceptInterface;
-class SenderThread;
-class ConfigFile;
-class AvatarManager;
-
-class ServerManager
+class ServerManagerIrc : public ServerManager
 {
 public:
-	ServerManager(ConfigFile &config, GuiInterface &gui);
-	ServerManager(ConfigFile &config, GuiInterface &gui, ServerMode mode, AvatarManager &avatarManager);
-	virtual ~ServerManager();
+	ServerManagerIrc(ConfigFile &config, GuiInterface &gui, ServerMode mode, AvatarManager &avatarManager);
+	virtual ~ServerManagerIrc();
 
 	// Set the parameters.
 	virtual void Init(unsigned serverPort, bool ipv6, ServerTransportProtocol proto, const std::string &logDir);
@@ -53,24 +44,12 @@ public:
 	virtual void SignalTerminationAll();
 	virtual bool JoinAll(bool wait);
 
-protected:
-	typedef std::list<boost::shared_ptr<ServerAcceptInterface> > AcceptHelperList;
-
-	ServerLobbyThread &GetLobbyThread();
-	ConfigFile &GetConfig() {
-		return m_playerConfig;
-	}
-	GuiInterface &GetGui() {
-		return m_gui;
-	}
-	boost::shared_ptr<boost::asio::io_service> m_ioService;
-	boost::shared_ptr<ServerLobbyThread> m_lobbyThread;
+	GuiInterface &GetGui();
 
 private:
-	ConfigFile &m_playerConfig;
-	GuiInterface &m_gui;
 
-	AcceptHelperList m_acceptHelperPool;
+	boost::shared_ptr<ServerAdminBot> m_adminBot;
+	boost::shared_ptr<ServerLobbyBot> m_lobbyBot;
 };
 
 #endif

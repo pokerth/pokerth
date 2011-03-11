@@ -25,6 +25,7 @@
 #include <net/serverexception.h>
 #include <net/socket_msg.h>
 #include <net/socket_startup.h>
+#include <net/serverircbotcallback.h>
 #include <core/loghelper.h>
 
 #include <boost/bind.hpp>
@@ -32,12 +33,24 @@
 
 using namespace std;
 
-ServerManager::ServerManager(GuiInterface &gui, ConfigFile &config, AvatarManager &avatarManager)
-	: m_gui(gui), m_playerConfig(config), m_avatarManager(avatarManager)
+class GenericIrcCallback : public ServerIrcBotCallback
+{
+	virtual void SignalLobbyMessage(unsigned /*playerId*/, const std::string &/*playerName*/, const std::string &/*msg*/) {}
+};
+
+static GenericIrcCallback g_ircCallback;
+
+ServerManager::ServerManager(ConfigFile &config, GuiInterface &gui)
+	: m_playerConfig(config), m_gui(gui)
 {
 	m_ioService.reset(new boost::asio::io_service);
-	m_adminBot.reset(new ServerAdminBot);
-	m_lobbyBot.reset(new ServerLobbyBot);
+}
+
+ServerManager::ServerManager(ConfigFile &config, GuiInterface &gui, ServerMode mode, AvatarManager &avatarManager)
+	: m_playerConfig(config), m_gui(gui)
+{
+	m_ioService.reset(new boost::asio::io_service);
+	m_lobbyThread.reset(new ServerLobbyThread(gui, mode, g_ircCallback, config, avatarManager, m_ioService));
 }
 
 ServerManager::~ServerManager()
@@ -52,13 +65,9 @@ ServerManager::~ServerManager()
 }
 
 void
-ServerManager::Init(unsigned serverPort, bool ipv6, ServerTransportProtocol proto, ServerMode mode, const string &logDir, boost::shared_ptr<IrcThread> ircAdminThread, boost::shared_ptr<IrcThread> ircLobbyThread)
+ServerManager::Init(unsigned serverPort, bool ipv6, ServerTransportProtocol proto, const string &logDir)
 {
-	m_lobbyThread.reset(new ServerLobbyThread(GetGui(), mode, *m_lobbyBot, m_playerConfig, m_avatarManager, m_ioService));
 	GetLobbyThread().Init(logDir);
-
-	m_adminBot->Init(m_lobbyThread, ircAdminThread);
-	m_lobbyBot->Init(m_lobbyThread, ircLobbyThread);
 
 	if (proto & TRANSPORT_PROTOCOL_TCP) {
 		boost::shared_ptr<ServerAcceptInterface> tcpAcceptHelper(new ServerAcceptHelper<boost::asio::ip::tcp>(GetGui(), m_ioService));
@@ -73,52 +82,26 @@ ServerManager::Init(unsigned serverPort, bool ipv6, ServerTransportProtocol prot
 		}*/
 }
 
-GuiInterface &
-ServerManager::GetGui()
-{
-	return m_gui;
-}
-
-ServerAdminBot &
-ServerManager::GetAdminBot()
-{
-	return *m_adminBot;
-}
-
-ServerLobbyBot &
-ServerManager::GetLobbyBot()
-{
-	return *m_lobbyBot;
-}
-
 void
 ServerManager::RunAll()
 {
-	m_adminBot->Run();
-	m_lobbyBot->Run();
 	GetLobbyThread().Run();
 }
 
 void
 ServerManager::Process()
 {
-	m_adminBot->Process();
-	m_lobbyBot->Process();
 }
 
 void
 ServerManager::SignalTerminationAll()
 {
-	m_adminBot->SignalTermination();
-	m_lobbyBot->SignalTermination();
 	GetLobbyThread().SignalTermination();
 }
 
 bool
 ServerManager::JoinAll(bool wait)
 {
-	m_adminBot->Join(wait);
-	m_lobbyBot->Join(wait);
 	return GetLobbyThread().Join(wait ? NET_LOBBY_THREAD_TERMINATE_TIMEOUT_MSEC : 0);
 }
 

@@ -128,7 +128,8 @@ HEADERS += \
 		src/gui/qttoolsinterface.h \
 		src/gui/generic/serverguiwrapper.h \
 		src/net/receivebuffer.h \
-    src/net/sendbuffer.h
+    src/net/sendbuffer.h \
+    src/net/servermanagerfactory.h
 
 SOURCES += \
 		src/game.cpp \
@@ -194,7 +195,6 @@ SOURCES += \
 		src/net/common/netcontext.cpp \
 		src/net/common/netexception.cpp \
 		src/net/common/irccallback.cpp \
-		src/net/common/ircthread.cpp \
 		src/net/common/servermanager.cpp \
 		src/net/common/transferhelper.cpp \
 		src/net/common/uploaderthread.cpp \

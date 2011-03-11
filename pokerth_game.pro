@@ -263,7 +263,8 @@ SOURCES += src/pokerth.cpp \
 	src/gui/qt/gamelobbydialog/mygamelistsortfilterproxymodel.cpp \
 	src/gui/qt/internetgamelogindialog/internetgamelogindialogimpl.cpp \
 	src/engine/local_engine/replay.cpp \
-	src/gui/qt/gamelobbydialog/mynicklistsortfilterproxymodel.cpp
+	src/gui/qt/gamelobbydialog/mynicklistsortfilterproxymodel.cpp \
+    src/net/common/servermanagerfactoryclient.cpp
 TRANSLATIONS = ts/pokerth_af.ts \
 	ts/pokerth_bg.ts \
 	ts/pokerth_zhcn.ts \
@@ -293,8 +294,7 @@ TRANSLATIONS = ts/pokerth_af.ts \
 LIBS += -lpokerth_lib \
 	-lpokerth_db \
 	-lpokerth_protocol \
-	-lcurl \
-	-lircclient
+	-lcurl
 
 win32 { 
 	DEFINES += CURL_STATICLIB

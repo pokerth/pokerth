@@ -28,9 +28,8 @@
 #include <localenginefactory.h>
 #include <clientenginefactory.h>
 #include <net/clientthread.h>
-#include <net/servermanager.h>
-#include <net/ircthread.h>
 #include <core/avatarmanager.h>
+#include <net/servermanagerfactory.h>
 
 #include <sstream>
 
@@ -288,34 +287,6 @@ void Session::startNetworkServer(bool dedicated)
 		return;
 	}
 
-	myNetServer.reset(new ServerManager(*myGui, *myConfig, *myAvatarManager));
-
-	boost::shared_ptr<IrcThread> tmpIrcAdminThread;
-	boost::shared_ptr<IrcThread> tmpIrcLobbyThread;
-	if (myConfig->readConfigInt("UseAdminIRC")) {
-		tmpIrcAdminThread = boost::shared_ptr<IrcThread>(new IrcThread(&myNetServer->GetAdminBot()));
-
-		tmpIrcAdminThread->Init(
-			myConfig->readConfigString("AdminIRCServerAddress"),
-			myConfig->readConfigInt("AdminIRCServerPort"),
-			myConfig->readConfigInt("AdminIRCServerUseIpv6") == 1,
-			myConfig->readConfigString("AdminIRCServerNick"),
-			myConfig->readConfigString("AdminIRCChannel"),
-			myConfig->readConfigString("AdminIRCChannelPassword"));
-	}
-
-	if (myConfig->readConfigInt("UseLobbyIRC")) {
-		tmpIrcLobbyThread = boost::shared_ptr<IrcThread>(new IrcThread(&myNetServer->GetLobbyBot()));
-
-		tmpIrcLobbyThread->Init(
-			myConfig->readConfigString("LobbyIRCServerAddress"),
-			myConfig->readConfigInt("LobbyIRCServerPort"),
-			myConfig->readConfigInt("LobbyIRCServerUseIpv6") == 1,
-			myConfig->readConfigString("LobbyIRCServerNick"),
-			myConfig->readConfigString("LobbyIRCChannel"),
-			myConfig->readConfigString("LobbyIRCChannelPassword"));
-	}
-
 	ServerMode mode;
 	if (dedicated) {
 #ifdef POKERTH_OFFICIAL_SERVER
@@ -323,17 +294,17 @@ void Session::startNetworkServer(bool dedicated)
 #else
 		mode = SERVER_MODE_INTERNET_NOAUTH;
 #endif
-	} else
+	} else {
 		mode = SERVER_MODE_LAN;
+	}
+
+	myNetServer = ServerManagerFactory::CreateServerManager(*myConfig, *myGui, mode, *myAvatarManager);
 
 	myNetServer->Init(
 		myConfig->readConfigInt("ServerPort"),
 		myConfig->readConfigInt("ServerUseIpv6") == 1,
 		myConfig->readConfigInt("ServerUseSctp") == 1 ? TRANSPORT_PROTOCOL_TCP_SCTP : TRANSPORT_PROTOCOL_TCP,
-		mode,
-		myQtToolsInterface->stringFromUtf8(myConfig->readConfigString("LogDir")),
-		tmpIrcAdminThread,
-		tmpIrcLobbyThread
+		myQtToolsInterface->stringFromUtf8(myConfig->readConfigString("LogDir"))
 	);
 
 	myNetServer->RunAll();
