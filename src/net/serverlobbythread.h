@@ -116,7 +116,7 @@ public:
 protected:
 
 	typedef std::deque<boost::shared_ptr<boost::asio::ip::tcp::socket> > ConnectQueue;
-	typedef std::list<boost::shared_ptr<SessionData>> SessionList;
+	typedef std::list<boost::shared_ptr<SessionData> > SessionList;
 	typedef std::list<SessionId> SessionIdList;
 	typedef std::map<SessionId, boost::timers::portable::microsec_timer> TimerSessionMap;
 	typedef std::map<unsigned, boost::shared_ptr<ServerGame> > GameMap;
