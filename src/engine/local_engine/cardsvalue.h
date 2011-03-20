@@ -21,18 +21,18 @@
 #define CARDSVALUE_H
 
 #include "game_defs.h"
-#include "arraydata.h"
-#include "tools.h"
+#include "engine_defs.h"
 
-#include<vector>
-
-
+#include <iostream>
+#include <vector>
 
 class CardsValue
 {
 public:
 	static int holeCardsClass(int, int);
 	static int cardsValue(int*, int*);
+	static std::string determineHandName(int myCardsValueInt, PlayerList activePlayerList);
+	static std::list<std::string> translateCardsValueCode(int cardsValueCode);
 
 	static int holeCardsToIntCode(int*);
 	static int* intCodeToHoleCards(int);

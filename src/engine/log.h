@@ -20,7 +20,8 @@
 #ifndef LOG_H
 #define LOG_H
 
-#include <engine_defs.h>
+#include "engine_defs.h"
+#include "game_defs.h"
 
 struct sqlite3;
 
@@ -36,6 +37,8 @@ public:
 	void logNewHandMsg(int handID, unsigned dealerPosition, int smallBlind, unsigned smallBlindPosition, int bigBlind, unsigned bigBlindPosition, PlayerList seatsList);
 	void logPlayerAction(int bero, int seat, PlayerActionLog action, int amount = 0);
 	void logBoardCards(int bero, int boardCards[5]);
+	void logHoleCards(int bero, int seat, PlayerActionLog action, int cards[2], int cardsValueInt = 0);
+//	void Log::logFlipHoleCards(int bero, int seat, PlayerActionLog action, int cards[2], int cardsValueInt)
 //    void closeLogDbAtExit();
 
 

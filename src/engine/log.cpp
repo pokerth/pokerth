@@ -18,10 +18,12 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#include "configfile.h"
-#include "game_defs.h"
 #include "log.h"
+
+#include "configfile.h"
 #include "playerinterface.h"
+#include "cardsvalue.h"
+
 #include <sqlite3.h>
 #include <iostream>
 #include <dirent.h>
@@ -244,11 +246,11 @@ void Log::logNewHandMsg(int handID, unsigned dealerPosition, int smallBlind, uns
 				sql += ") VALUES (";
 				sql += boost::lexical_cast<string>(curHandID);
 				sql += "," + boost::lexical_cast<string>(curGameID);
-				sql += "," + boost::lexical_cast<string>(dealerPosition+1);
+				sql += "," + boost::lexical_cast<string>(dealerPosition);
 				sql += "," + boost::lexical_cast<string>(smallBlind);
-				sql += "," + boost::lexical_cast<string>(smallBlindPosition+1);
+				sql += "," + boost::lexical_cast<string>(smallBlindPosition);
 				sql += "," + boost::lexical_cast<string>(bigBlind);
-				sql += "," + boost::lexical_cast<string>(bigBlindPosition+1);
+				sql += "," + boost::lexical_cast<string>(bigBlindPosition);
 				for(it_c = seatsList->begin(); it_c!=seatsList->end(); it_c++) {
 					if((*it_c)->getMyActiveStatus()) {
 						sql += "," + boost::lexical_cast<string>((*it_c)->getMyCash());
@@ -261,7 +263,7 @@ void Log::logNewHandMsg(int handID, unsigned dealerPosition, int smallBlind, uns
 					cout << "Error in statement: " << sql.data() << "[" << errmsg << "]." << endl;
 				}
 
-				logPlayerAction(0,dealerPosition+1,LOG_ACTION_DEALER);
+				logPlayerAction(0,dealerPosition,LOG_ACTION_DEALER);
 			}
 		}
 	}
@@ -395,6 +397,44 @@ void Log::logBoardCards(int bero, int boardCards[5])
 		}
 	}
 }
+
+//void Log::logFlipHoleCards(int bero, int seat, PlayerActionLog action, int cards[2], int cardsValueInt)
+//{
+//	if(SQLITE_LOG) {
+
+//		if(logOnOff) {
+//			//if write logfiles is enabled
+
+//			string sql;
+//			char *errmsg;
+
+//			if( mySqliteLogDb != 0 ) {
+//				// sqlite-db is open
+
+//				sql = "UPDATE Hand SET ";
+//				sql += "Seat_" + boost::lexical_cast<string>(seat) +"_Card_1=" + boost::lexical_cast<string>(cards[0]) + ",";
+//				sql += "Seat_" + boost::lexical_cast<string>(seat) +"_Card_1=" + boost::lexical_cast<string>(cards[0]);
+//				if(cardsVauleInt > 0) {
+//					sql += "Seat_" + boost::lexical_cast<string>(seat) +"_Hand_int=" + boost::lexical_cast<string>(cardsValueInt);
+//					sql += "Seat_" + boost::lexical_cast<string>(seat) +"_Hand_text=" + boost::lexical_cast<string>(CardsValue::determineHandname(cardsValueInt));
+//				}
+//				sql += " WHERE ";
+//				sql += "GameID=" + boost::lexical_cast<string>(curGameID) + " AND ";
+//				sql += "HandID=" + boost::lexical_cast<string>(curHandID);
+//				if(sqlite3_exec(mySqliteLogDb, sql.data(), 0, 0, &errmsg) != SQLITE_OK) {
+//					cout << "Error in statement: " << sql.data() << "[" << errmsg << "]." << endl;
+//				}
+
+
+
+
+//				logPlayerAction(bero, seat, action);
+
+
+//			}
+//		}
+//	}
+//}
 
 //void
 //Log::closeLogDbAtExit()

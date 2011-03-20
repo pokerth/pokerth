@@ -18,8 +18,12 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 #include "cardsvalue.h"
+#include "arraydata.h"
+#include "tools.h"
+#include "playerinterface.h"
 
-using namespace std;
+#include <list>
+#include <boost/shared_ptr.hpp>
 
 int CardsValue::holeCardsClass(int one, int two)
 {
@@ -629,11 +633,11 @@ int CardsValue::cardsValue(int* cards, int* position)
 }
 
 
-vector< vector<int> > CardsValue::calcCardsChance(GameState beRoID, int* playerCards, int* boardCards)
+std::vector< std::vector<int> > CardsValue::calcCardsChance(GameState beRoID, int* playerCards, int* boardCards)
 {
 	int i,j;
 
-	vector< vector<int> > chance(2);
+	std::vector< std::vector<int> > chance(2);
 
 	chance[0].resize(10);
 	chance[1].resize(10);
@@ -705,6 +709,1607 @@ vector< vector<int> > CardsValue::calcCardsChance(GameState beRoID, int* playerC
 
 	return chance;
 }
+
+std::string CardsValue::determineHandName(int myCardsValueInt, PlayerList activePlayerList)
+{
+
+	std::list<int> shownCardsValueInt;
+	std::list<int> sameHandCardsValueInt;
+	bool different = false;
+	bool equal = false;
+//	boost::shared_ptr<Game> currentGame = myW->getSession()->getCurrentGame();
+	PlayerListConstIterator it_c;
+//	PlayerList activePlayerList = currentGame->getActivePlayerList();
+
+	// collect cardsValueInt of all players who will show their cards
+	for(it_c=activePlayerList->begin(); it_c!=activePlayerList->end(); ++it_c) {
+
+		if( (*it_c)->getMyAction() != PLAYER_ACTION_FOLD) {
+			shownCardsValueInt.push_back( (*it_c)->getMyCardsValueInt());
+		}
+	}
+
+	// erase own cardsValueInt
+	std::list<int>::iterator it;
+	for(it = shownCardsValueInt.begin(); it != shownCardsValueInt.end(); ++it) {
+		if((*it) == myCardsValueInt) {
+			shownCardsValueInt.erase(it);
+			break;
+		}
+	}
+
+	std::list<std::string> cardString = translateCardsValueCode(myCardsValueInt);
+	std::list<std::string>::const_iterator cardStringIt_c = cardString.begin();
+
+	std::string handName;
+
+	switch(myCardsValueInt/100000000) {
+		// Royal Flush
+	case 9: {
+
+		handName = *cardStringIt_c;
+
+	}
+	break;
+	// Straight Flush
+	case 8: {
+
+		handName = *cardStringIt_c;
+		++cardStringIt_c;
+		handName += *cardStringIt_c;
+
+	}
+	break;
+	// Four of a kind
+	case 7: {
+
+		handName = *cardStringIt_c;
+		++cardStringIt_c;
+		handName += *cardStringIt_c;
+
+		// same hand detection
+		for(it = shownCardsValueInt.begin(); it != shownCardsValueInt.end(); ++it) {
+			if(((*it)/1000000) == (myCardsValueInt/1000000)) {
+				sameHandCardsValueInt.push_back(*it);
+			}
+		}
+
+		// 1.same hands existing
+		if(!(sameHandCardsValueInt.empty())) {
+			// first kicker?
+			for(it = sameHandCardsValueInt.begin(); it != sameHandCardsValueInt.end(); ) {
+				if(((*it)/10000) == (myCardsValueInt/10000)) {
+					equal = true;
+					++it;
+				} else {
+					different = true;
+					it = sameHandCardsValueInt.erase(it);
+				}
+			}
+			if(different) {
+				++cardStringIt_c;
+				handName += ", fifth card " + *cardStringIt_c;
+			}
+		}
+	}
+	break;
+	// Full House
+	case 6: {
+
+		handName = *cardStringIt_c;
+		++cardStringIt_c;
+		handName += *cardStringIt_c;
+		++cardStringIt_c;
+		handName += *cardStringIt_c;
+
+	}
+	break;
+	// Flush
+	case 5: {
+
+		handName = *cardStringIt_c;
+		++cardStringIt_c;
+		handName += *cardStringIt_c;
+
+		// same hand detection
+		for(it = shownCardsValueInt.begin(); it != shownCardsValueInt.end(); ++it) {
+			if(((*it)/1000000) == (myCardsValueInt/1000000)) {
+				sameHandCardsValueInt.push_back(*it);
+			}
+		}
+
+		// 1.same hands existing
+		if(!(sameHandCardsValueInt.empty())) {
+			// first kicker?
+			for(it = sameHandCardsValueInt.begin(); it != sameHandCardsValueInt.end(); ) {
+				if(((*it)/10000) == (myCardsValueInt/10000)) {
+					equal = true;
+					++it;
+				} else {
+					different = true;
+					it = sameHandCardsValueInt.erase(it);
+				}
+			}
+			if(different) {
+				++cardStringIt_c;
+				handName += ", second card " + *cardStringIt_c;
+			}
+			// 2.there are still same hands
+			if(equal) {
+				different = false;
+				equal = false;
+				// second kicker?
+				for(it = sameHandCardsValueInt.begin(); it != sameHandCardsValueInt.end(); ) {
+					if(((*it)/100) == (myCardsValueInt/100)) {
+						equal = true;
+						++it;
+					} else {
+						different = true;
+						it = sameHandCardsValueInt.erase(it);
+					}
+				}
+				if(different) {
+					++cardStringIt_c;
+					handName += ", third card " + *cardStringIt_c;
+				}
+				// 3.there are still same hands
+				if(equal) {
+					different = false;
+					equal = false;
+					// third kicker?
+					for(it = sameHandCardsValueInt.begin(); it != sameHandCardsValueInt.end(); ) {
+						if(((*it)/10) == (myCardsValueInt/10)) {
+							equal = true;
+							++it;
+						} else {
+							different = true;
+							it = sameHandCardsValueInt.erase(it);
+						}
+					}
+					if(different) {
+						++cardStringIt_c;
+						handName += ", fourth card " + *cardStringIt_c;
+					}
+					// 4.there are still same hands
+					if(equal) {
+						different = false;
+						equal = false;
+						// third kicker?
+						for(it = sameHandCardsValueInt.begin(); it != sameHandCardsValueInt.end(); ) {
+							if((*it) == myCardsValueInt) {
+								equal = true;
+								++it;
+							} else {
+								different = true;
+								it = sameHandCardsValueInt.erase(it);
+							}
+						}
+						if(different) {
+							++cardStringIt_c;
+							handName += ", fifth card " + *cardStringIt_c;
+						}
+					}
+				}
+			}
+		}
+	}
+	break;
+	// Straight
+	case 4: {
+
+		handName = *cardStringIt_c;
+		++cardStringIt_c;
+		handName += *cardStringIt_c;
+
+	}
+	break;
+	// Three of a kind
+	case 3: {
+
+		handName = *cardStringIt_c;
+		++cardStringIt_c;
+		handName += *cardStringIt_c;
+
+		// same hand detection
+		for(it = shownCardsValueInt.begin(); it != shownCardsValueInt.end(); ++it) {
+			if(((*it)/1000000) == (myCardsValueInt/1000000)) {
+				sameHandCardsValueInt.push_back(*it);
+			}
+		}
+
+		// 1.same hands existing
+		if(!(sameHandCardsValueInt.empty())) {
+			// first kicker?
+			for(it = sameHandCardsValueInt.begin(); it != sameHandCardsValueInt.end(); ) {
+				if(((*it)/10000) == (myCardsValueInt/10000)) {
+					equal = true;
+					++it;
+				} else {
+					different = true;
+					it = sameHandCardsValueInt.erase(it);
+				}
+			}
+			if(different) {
+				++cardStringIt_c;
+				handName += ", fourth card " + *cardStringIt_c;
+			}
+			// 2.there are still same hands
+			if(equal) {
+				different = false;
+				equal = false;
+				// second kicker?
+				for(it = sameHandCardsValueInt.begin(); it != sameHandCardsValueInt.end(); ) {
+					if(((*it)/100) == (myCardsValueInt/100)) {
+						equal = true;
+						++it;
+					} else {
+						different = true;
+						it = sameHandCardsValueInt.erase(it);
+					}
+				}
+				if(different) {
+					++cardStringIt_c;
+					handName += ", fifth card " + *cardStringIt_c;
+				}
+			}
+		}
+	}
+	break;
+	// Two Pairs
+	case 2: {
+
+		handName = *cardStringIt_c;
+		++cardStringIt_c;
+		handName += *cardStringIt_c;
+		++cardStringIt_c;
+		handName += *cardStringIt_c;
+
+		// same hand detection
+		for(it = shownCardsValueInt.begin(); it != shownCardsValueInt.end(); ++it) {
+			if(((*it)/10000) == (myCardsValueInt/10000)) {
+				sameHandCardsValueInt.push_back(*it);
+			}
+		}
+
+		// 1.same hands existing
+		if(!(sameHandCardsValueInt.empty())) {
+			// first kicker?
+			for(it = sameHandCardsValueInt.begin(); it != sameHandCardsValueInt.end(); ) {
+				if(((*it)/100) == (myCardsValueInt/100)) {
+					equal = true;
+					++it;
+				} else {
+					different = true;
+					it = sameHandCardsValueInt.erase(it);
+				}
+			}
+			if(different) {
+				++cardStringIt_c;
+				handName += ", fifth card " + *cardStringIt_c;
+			}
+		}
+	}
+	break;
+	// Pair
+	case 1: {
+
+		handName = *cardStringIt_c;
+		++cardStringIt_c;
+		handName += *cardStringIt_c;
+
+		// same hand detection
+		for(it = shownCardsValueInt.begin(); it != shownCardsValueInt.end(); ++it) {
+			if(((*it)/1000000) == (myCardsValueInt/1000000)) {
+				sameHandCardsValueInt.push_back(*it);
+			}
+		}
+
+		// 1.same hands existing
+		if(!(sameHandCardsValueInt.empty())) {
+			// first kicker?
+			for(it = sameHandCardsValueInt.begin(); it != sameHandCardsValueInt.end(); ) {
+				if(((*it)/10000) == (myCardsValueInt/10000)) {
+					equal = true;
+					++it;
+				} else {
+					different = true;
+					it = sameHandCardsValueInt.erase(it);
+				}
+			}
+			if(different) {
+				++cardStringIt_c;
+				handName += ", third card " + *cardStringIt_c;
+			}
+			// 2.there are still same hands
+			if(equal) {
+				different = false;
+				equal = false;
+				// second kicker?
+				for(it = sameHandCardsValueInt.begin(); it != sameHandCardsValueInt.end(); ) {
+					if(((*it)/100) == (myCardsValueInt/100)) {
+						equal = true;
+						++it;
+					} else {
+						different = true;
+						it = sameHandCardsValueInt.erase(it);
+					}
+				}
+				if(different) {
+					++cardStringIt_c;
+					handName += ", fourth card " + *cardStringIt_c;
+				}
+				// 3.there are still same hands
+				if(equal) {
+					different = false;
+					equal = false;
+					// third kicker?
+					for(it = sameHandCardsValueInt.begin(); it != sameHandCardsValueInt.end(); ) {
+						if((*it) == myCardsValueInt) {
+							equal = true;
+							++it;
+						} else {
+							different = true;
+							it = sameHandCardsValueInt.erase(it);
+						}
+					}
+					if(different) {
+						++cardStringIt_c;
+						handName += ", fifth card " + *cardStringIt_c;
+					}
+				}
+			}
+		}
+	}
+	break;
+	// highestCard
+	case 0: {
+
+		handName = *cardStringIt_c;
+		++cardStringIt_c;
+		handName += *cardStringIt_c;
+
+		// same hand detection
+		for(it = shownCardsValueInt.begin(); it != shownCardsValueInt.end(); ++it) {
+			if(((*it)/1000000) == (myCardsValueInt/1000000)) {
+				sameHandCardsValueInt.push_back(*it);
+			}
+		}
+
+		// 1.same hands existing
+		if(!(sameHandCardsValueInt.empty())) {
+			// first kicker?
+			for(it = sameHandCardsValueInt.begin(); it != sameHandCardsValueInt.end(); ) {
+				if(((*it)/10000) == (myCardsValueInt/10000)) {
+					equal = true;
+					++it;
+				} else {
+					different = true;
+					it = sameHandCardsValueInt.erase(it);
+				}
+			}
+			if(different) {
+				++cardStringIt_c;
+				handName += ", second card " + *cardStringIt_c;
+			}
+			// 2.there are still same hands
+			if(equal) {
+				different = false;
+				equal = false;
+				// second kicker?
+				for(it = sameHandCardsValueInt.begin(); it != sameHandCardsValueInt.end(); ) {
+					if(((*it)/100) == (myCardsValueInt/100)) {
+						equal = true;
+						++it;
+					} else {
+						different = true;
+						it = sameHandCardsValueInt.erase(it);
+					}
+				}
+				if(different) {
+					++cardStringIt_c;
+					handName += ", third card " + *cardStringIt_c;
+				}
+				// 3.there are still same hands
+				if(equal) {
+					different = false;
+					equal = false;
+					// third kicker?
+					for(it = sameHandCardsValueInt.begin(); it != sameHandCardsValueInt.end(); ) {
+						if(((*it)/10) == (myCardsValueInt/10)) {
+							equal = true;
+							++it;
+						} else {
+							different = true;
+							it = sameHandCardsValueInt.erase(it);
+						}
+					}
+					if(different) {
+						++cardStringIt_c;
+						handName += ", fourth card " + *cardStringIt_c;
+					}
+					// 4.there are still same hands
+					if(equal) {
+						different = false;
+						equal = false;
+						// third kicker?
+						for(it = sameHandCardsValueInt.begin(); it != sameHandCardsValueInt.end(); ) {
+							if((*it) == myCardsValueInt) {
+								equal = true;
+								++it;
+							} else {
+								different = true;
+								it = sameHandCardsValueInt.erase(it);
+							}
+						}
+						if(different) {
+							++cardStringIt_c;
+							handName += ", fifth card " + *cardStringIt_c;
+						}
+					}
+				}
+			}
+		}
+	}
+	break;
+	default:
+	{}
+	}
+
+	return handName;
+
+}
+
+std::list<std::string> CardsValue::translateCardsValueCode(int cardsValueCode)
+{
+
+	std::list<std::string> cardString;
+
+	//erste Ziffer : Blattname
+	int firstPart = cardsValueCode/100000000;
+	//zweite und dritte Ziffer : Kicker, highest Card, usw.
+	int secondPart = cardsValueCode/1000000 - firstPart*100;
+	//vierte und fünfte Ziffer
+	int thirdPart = cardsValueCode/10000 - firstPart*10000 - secondPart*100;
+	// usw
+	int fourthPart = cardsValueCode/100 - firstPart*1000000 - secondPart*10000 - thirdPart*100;
+	//
+	int fifthPart = cardsValueCode - firstPart*100000000 - secondPart*1000000 - thirdPart*10000 - fourthPart*100;
+	// fuer highest Card
+	int fifthPartA = cardsValueCode/10 - firstPart*10000000 - secondPart*100000 - thirdPart*1000 - fourthPart*10;
+	int fifthPartB = cardsValueCode - firstPart*100000000 - secondPart*1000000 - thirdPart*10000 - fourthPart*100 - fifthPartA*10;
+
+
+	switch (firstPart) {
+
+		// Royal Flush
+	case 9:
+		cardString.push_back("Royal Flush");
+		break;
+		// Straight Flush
+	case 8: {
+		cardString.push_back("Straight Flush, ");
+		switch(secondPart) {
+		case 11:
+			cardString.push_back("King high");
+			break;
+		case 10:
+			cardString.push_back("Queen high");
+			break;
+		case 9:
+			cardString.push_back("Jack high");
+			break;
+		case 8:
+			cardString.push_back("Ten high");
+			break;
+		case 7:
+			cardString.push_back("Nine high");
+			break;
+		case 6:
+			cardString.push_back("Eight high");
+			break;
+		case 5:
+			cardString.push_back("Seven high");
+			break;
+		case 4:
+			cardString.push_back("Six high");
+			break;
+		case 3:
+			cardString.push_back("Five high");
+			break;
+		default:
+			cardString.push_back("ERROR");
+		}
+	}
+	break;
+	// Four of a Kind
+	case 7: {
+		cardString.push_back("Four of a Kind, ");
+		switch(secondPart) {
+		case 12:
+			cardString.push_back("Aces");
+			break;
+		case 11:
+			cardString.push_back("Kings");
+			break;
+		case 10:
+			cardString.push_back("Queens");
+			break;
+		case 9:
+			cardString.push_back("Jacks");
+			break;
+		case 8:
+			cardString.push_back("Tens");
+			break;
+		case 7:
+			cardString.push_back("Nines");
+			break;
+		case 6:
+			cardString.push_back("Eights");
+			break;
+		case 5:
+			cardString.push_back("Sevens");
+			break;
+		case 4:
+			cardString.push_back("Sixes");
+			break;
+		case 3:
+			cardString.push_back("Fives");
+			break;
+		case 2:
+			cardString.push_back("Fours");
+			break;
+		case 1:
+			cardString.push_back("Threes");
+			break;
+		case 0:
+			cardString.push_back("Deuces");
+			break;
+		default:
+			cardString.push_back("ERROR");
+		}
+		// Kicker
+		switch(thirdPart) {
+		case 12:
+			cardString.push_back("Ace");
+			break;
+		case 11:
+			cardString.push_back("King");
+			break;
+		case 10:
+			cardString.push_back("Queen");
+			break;
+		case 9:
+			cardString.push_back("Jack");
+			break;
+		case 8:
+			cardString.push_back("Ten");
+			break;
+		case 7:
+			cardString.push_back("Nine");
+			break;
+		case 6:
+			cardString.push_back("Eight");
+			break;
+		case 5:
+			cardString.push_back("Seven");
+			break;
+		case 4:
+			cardString.push_back("Six");
+			break;
+		case 3:
+			cardString.push_back("Five");
+			break;
+		case 2:
+			cardString.push_back("Four");
+			break;
+		case 1:
+			cardString.push_back("Three");
+			break;
+		case 0:
+			cardString.push_back("Deuce");
+			break;
+		default:
+			cardString.push_back("ERROR");
+		}
+	}
+	break;
+	// Full House
+	case 6: {
+		cardString.push_back("Full House, ");
+		//Drilling
+		switch(secondPart) {
+		case 12:
+			cardString.push_back("Aces full of ");
+			break;
+		case 11:
+			cardString.push_back("Kings full of ");
+			break;
+		case 10:
+			cardString.push_back("Queens full of ");
+			break;
+		case 9:
+			cardString.push_back("Jacks full of ");
+			break;
+		case 8:
+			cardString.push_back("Tens full of ");
+			break;
+		case 7:
+			cardString.push_back("Nines full of ");
+			break;
+		case 6:
+			cardString.push_back("Eights full of ");
+			break;
+		case 5:
+			cardString.push_back("Sevens full of ");
+			break;
+		case 4:
+			cardString.push_back("Sixes full of ");
+			break;
+		case 3:
+			cardString.push_back("Fives full of ");
+			break;
+		case 2:
+			cardString.push_back("Fours full of ");
+			break;
+		case 1:
+			cardString.push_back("Threes full of ");
+			break;
+		case 0:
+			cardString.push_back("Deuces full of ");
+			break;
+		default:
+			cardString.push_back("ERROR");
+		}
+		//Pärchen
+		switch(thirdPart) {
+		case 12:
+			cardString.push_back("Aces");
+			break;
+		case 11:
+			cardString.push_back("Kings");
+			break;
+		case 10:
+			cardString.push_back("Queens");
+			break;
+		case 9:
+			cardString.push_back("Jacks");
+			break;
+		case 8:
+			cardString.push_back("Tens");
+			break;
+		case 7:
+			cardString.push_back("Nines");
+			break;
+		case 6:
+			cardString.push_back("Eights");
+			break;
+		case 5:
+			cardString.push_back("Sevens");
+			break;
+		case 4:
+			cardString.push_back("Sixes");
+			break;
+		case 3:
+			cardString.push_back("Fives");
+			break;
+		case 2:
+			cardString.push_back("Fours");
+			break;
+		case 1:
+			cardString.push_back("Threes");
+			break;
+		case 0:
+			cardString.push_back("Deuces");
+			break;
+		default:
+			cardString.push_back("ERROR");
+		}
+	}
+	break;
+	// Flush
+	case 5: {
+		cardString.push_back("Flush, ");
+		//highest Card
+		switch(secondPart) {
+		case 12:
+			cardString.push_back("Ace high");
+			break;
+		case 11:
+			cardString.push_back("King high");
+			break;
+		case 10:
+			cardString.push_back("Queen high");
+			break;
+		case 9:
+			cardString.push_back("Jack high");
+			break;
+		case 8:
+			cardString.push_back("Ten high");
+			break;
+		case 7:
+			cardString.push_back("Nine high");
+			break;
+		case 6:
+			cardString.push_back("Eight high");
+			break;
+		case 5:
+			cardString.push_back("Seven high");
+			break;
+		case 4:
+			cardString.push_back("Six high");
+			break;
+		default:
+			cardString.push_back("ERROR");
+		}
+		// Kicker 1
+		switch(thirdPart) {
+		case 12:
+			cardString.push_back("Ace");
+			break;
+		case 11:
+			cardString.push_back("King");
+			break;
+		case 10:
+			cardString.push_back("Queen");
+			break;
+		case 9:
+			cardString.push_back("Jack");
+			break;
+		case 8:
+			cardString.push_back("Ten");
+			break;
+		case 7:
+			cardString.push_back("Nine");
+			break;
+		case 6:
+			cardString.push_back("Eight");
+			break;
+		case 5:
+			cardString.push_back("Seven");
+			break;
+		case 4:
+			cardString.push_back("Six");
+			break;
+		case 3:
+			cardString.push_back("Five");
+			break;
+		case 2:
+			cardString.push_back("Four");
+			break;
+		case 1:
+			cardString.push_back("Three");
+			break;
+		case 0:
+			cardString.push_back("Deuce");
+			break;
+		default:
+			cardString.push_back("ERROR");
+		}
+		//Kicker 2
+		switch(fourthPart) {
+		case 12:
+			cardString.push_back("Ace");
+			break;
+		case 11:
+			cardString.push_back("King");
+			break;
+		case 10:
+			cardString.push_back("Queen");
+			break;
+		case 9:
+			cardString.push_back("Jack");
+			break;
+		case 8:
+			cardString.push_back("Ten");
+			break;
+		case 7:
+			cardString.push_back("Nine");
+			break;
+		case 6:
+			cardString.push_back("Eight");
+			break;
+		case 5:
+			cardString.push_back("Seven");
+			break;
+		case 4:
+			cardString.push_back("Six");
+			break;
+		case 3:
+			cardString.push_back("Five");
+			break;
+		case 2:
+			cardString.push_back("Four");
+			break;
+		case 1:
+			cardString.push_back("Three");
+			break;
+		case 0:
+			cardString.push_back("Deuce");
+			break;
+		default:
+			cardString.push_back("ERROR");
+		}
+		//Kicker 3
+		switch(fifthPartA) {
+		case 9:
+			cardString.push_back("Jack");
+			break;
+		case 8:
+			cardString.push_back("Ten");
+			break;
+		case 7:
+			cardString.push_back("Nine");
+			break;
+		case 6:
+			cardString.push_back("Eight");
+			break;
+		case 5:
+			cardString.push_back("Seven");
+			break;
+		case 4:
+			cardString.push_back("Six");
+			break;
+		case 3:
+			cardString.push_back("Five");
+			break;
+		case 2:
+			cardString.push_back("Four");
+			break;
+		case 1:
+			cardString.push_back("Three");
+			break;
+		case 0:
+			cardString.push_back("Deuce");
+			break;
+		default:
+			cardString.push_back("ERROR");
+		}
+		//Kicker 4
+		switch(fifthPartB) {
+		case 9:
+			cardString.push_back("Jack");
+			break;
+		case 8:
+			cardString.push_back("Ten");
+			break;
+		case 7:
+			cardString.push_back("Nine");
+			break;
+		case 6:
+			cardString.push_back("Eight");
+			break;
+		case 5:
+			cardString.push_back("Seven");
+			break;
+		case 4:
+			cardString.push_back("Six");
+			break;
+		case 3:
+			cardString.push_back("Five");
+			break;
+		case 2:
+			cardString.push_back("Four");
+			break;
+		case 1:
+			cardString.push_back("Three");
+			break;
+		case 0:
+			cardString.push_back("Deuce");
+			break;
+		default:
+			cardString.push_back("ERROR");
+		}
+	}
+	break;
+	// Straight
+	case 4: {
+		cardString.push_back("Straight, ");
+		switch(secondPart) {
+		case 12:
+			cardString.push_back("Ace high");
+			break;
+		case 11:
+			cardString.push_back("King high");
+			break;
+		case 10:
+			cardString.push_back("Queen high");
+			break;
+		case 9:
+			cardString.push_back("Jack high");
+			break;
+		case 8:
+			cardString.push_back("Ten high");
+			break;
+		case 7:
+			cardString.push_back("Nine high");
+			break;
+		case 6:
+			cardString.push_back("Eight high");
+			break;
+		case 5:
+			cardString.push_back("Seven high");
+			break;
+		case 4:
+			cardString.push_back("Six high");
+			break;
+		case 3:
+			cardString.push_back("Five high");
+			break;
+		default:
+			cardString.push_back("ERROR");
+		}
+	}
+	break;
+	// Three of a Kind
+	case 3: {
+		cardString.push_back("Three of a Kind, ");
+		switch(secondPart) {
+		case 12:
+			cardString.push_back("Aces");
+			break;
+		case 11:
+			cardString.push_back("Kings");
+			break;
+		case 10:
+			cardString.push_back("Queens");
+			break;
+		case 9:
+			cardString.push_back("Jacks");
+			break;
+		case 8:
+			cardString.push_back("Tens");
+			break;
+		case 7:
+			cardString.push_back("Nines");
+			break;
+		case 6:
+			cardString.push_back("Eights");
+			break;
+		case 5:
+			cardString.push_back("Sevens");
+			break;
+		case 4:
+			cardString.push_back("Sixes");
+			break;
+		case 3:
+			cardString.push_back("Fives");
+			break;
+		case 2:
+			cardString.push_back("Fours");
+			break;
+		case 1:
+			cardString.push_back("Threes");
+			break;
+		case 0:
+			cardString.push_back("Deuces");
+			break;
+		default:
+			cardString.push_back("ERROR");
+		}
+		//Kicker 1
+		switch(thirdPart) {
+		case 12:
+			cardString.push_back("Ace");
+			break;
+		case 11:
+			cardString.push_back("King");
+			break;
+		case 10:
+			cardString.push_back("Queen");
+			break;
+		case 9:
+			cardString.push_back("Jack");
+			break;
+		case 8:
+			cardString.push_back("Ten");
+			break;
+		case 7:
+			cardString.push_back("Nine");
+			break;
+		case 6:
+			cardString.push_back("Eight");
+			break;
+		case 5:
+			cardString.push_back("Seven");
+			break;
+		case 4:
+			cardString.push_back("Six");
+			break;
+		case 3:
+			cardString.push_back("Five");
+			break;
+		case 2:
+			cardString.push_back("Four");
+			break;
+		case 1:
+			cardString.push_back("Three");
+			break;
+		case 0:
+			cardString.push_back("Deuce");
+			break;
+		default:
+			cardString.push_back("ERROR");
+		}
+		//Kicker 2
+		switch(fourthPart) {
+		case 12:
+			cardString.push_back("Ace");
+			break;
+		case 11:
+			cardString.push_back("King");
+			break;
+		case 10:
+			cardString.push_back("Queen");
+			break;
+		case 9:
+			cardString.push_back("Jack");
+			break;
+		case 8:
+			cardString.push_back("Ten");
+			break;
+		case 7:
+			cardString.push_back("Nine");
+			break;
+		case 6:
+			cardString.push_back("Eight");
+			break;
+		case 5:
+			cardString.push_back("Seven");
+			break;
+		case 4:
+			cardString.push_back("Six");
+			break;
+		case 3:
+			cardString.push_back("Five");
+			break;
+		case 2:
+			cardString.push_back("Four");
+			break;
+		case 1:
+			cardString.push_back("Three");
+			break;
+		case 0:
+			cardString.push_back("Deuce");
+			break;
+		default:
+			cardString.push_back("ERROR");
+		}
+	}
+	break;
+	// Two Pairs
+	case 2: {
+		cardString.push_back("Two Pairs, ");
+		// erster Pair
+		switch(secondPart) {
+		case 12:
+			cardString.push_back("Aces and ");
+			break;
+		case 11:
+			cardString.push_back("Kings and ");
+			break;
+		case 10:
+			cardString.push_back("Queens and ");
+			break;
+		case 9:
+			cardString.push_back("Jacks and ");
+			break;
+		case 8:
+			cardString.push_back("Tens and ");
+			break;
+		case 7:
+			cardString.push_back("Nines and ");
+			break;
+		case 6:
+			cardString.push_back("Eights and ");
+			break;
+		case 5:
+			cardString.push_back("Sevens and ");
+			break;
+		case 4:
+			cardString.push_back("Sixes and ");
+			break;
+		case 3:
+			cardString.push_back("Fives and ");
+			break;
+		case 2:
+			cardString.push_back("Fours and ");
+			break;
+		case 1:
+			cardString.push_back("Threes and ");
+			break;
+		case 0:
+			cardString.push_back("Deuces and ");
+			break;
+		default:
+			cardString.push_back("ERROR");
+		}
+		// zweiter Pair
+		switch(thirdPart) {
+		case 12:
+			cardString.push_back("Aces");
+			break;
+		case 11:
+			cardString.push_back("Kings");
+			break;
+		case 10:
+			cardString.push_back("Queens");
+			break;
+		case 9:
+			cardString.push_back("Jacks");
+			break;
+		case 8:
+			cardString.push_back("Tens");
+			break;
+		case 7:
+			cardString.push_back("Nines");
+			break;
+		case 6:
+			cardString.push_back("Eights");
+			break;
+		case 5:
+			cardString.push_back("Sevens");
+			break;
+		case 4:
+			cardString.push_back("Sixes");
+			break;
+		case 3:
+			cardString.push_back("Fives");
+			break;
+		case 2:
+			cardString.push_back("Fours");
+			break;
+		case 1:
+			cardString.push_back("Threes");
+			break;
+		case 0:
+			cardString.push_back("Deuces");
+			break;
+		default:
+			cardString.push_back("ERROR");
+		}
+		//Kicker
+		switch(fourthPart) {
+		case 12:
+			cardString.push_back("Ace");
+			break;
+		case 11:
+			cardString.push_back("King");
+			break;
+		case 10:
+			cardString.push_back("Queen");
+			break;
+		case 9:
+			cardString.push_back("Jack");
+			break;
+		case 8:
+			cardString.push_back("Ten");
+			break;
+		case 7:
+			cardString.push_back("Nine");
+			break;
+		case 6:
+			cardString.push_back("Eight");
+			break;
+		case 5:
+			cardString.push_back("Seven");
+			break;
+		case 4:
+			cardString.push_back("Six");
+			break;
+		case 3:
+			cardString.push_back("Five");
+			break;
+		case 2:
+			cardString.push_back("Four");
+			break;
+		case 1:
+			cardString.push_back("Three");
+			break;
+		case 0:
+			cardString.push_back("Deuce");
+			break;
+		default:
+			cardString.push_back("ERROR");
+		}
+	}
+	break;
+	// One Pair
+	case 1: {
+		cardString.push_back("One Pair, ");
+		// Pair
+		switch(secondPart) {
+		case 12:
+			cardString.push_back("Aces");
+			break;
+		case 11:
+			cardString.push_back("Kings");
+			break;
+		case 10:
+			cardString.push_back("Queens");
+			break;
+		case 9:
+			cardString.push_back("Jacks");
+			break;
+		case 8:
+			cardString.push_back("Tens");
+			break;
+		case 7:
+			cardString.push_back("Nines");
+			break;
+		case 6:
+			cardString.push_back("Eights");
+			break;
+		case 5:
+			cardString.push_back("Sevens");
+			break;
+		case 4:
+			cardString.push_back("Sixes");
+			break;
+		case 3:
+			cardString.push_back("Fives");
+			break;
+		case 2:
+			cardString.push_back("Fours");
+			break;
+		case 1:
+			cardString.push_back("Threes");
+			break;
+		case 0:
+			cardString.push_back("Deuces");
+			break;
+		default:
+			cardString.push_back("ERROR");
+		}
+		// Kicker 1
+		switch(thirdPart) {
+		case 12:
+			cardString.push_back("Ace");
+			break;
+		case 11:
+			cardString.push_back("King");
+			break;
+		case 10:
+			cardString.push_back("Queen");
+			break;
+		case 9:
+			cardString.push_back("Jack");
+			break;
+		case 8:
+			cardString.push_back("Ten");
+			break;
+		case 7:
+			cardString.push_back("Nine");
+			break;
+		case 6:
+			cardString.push_back("Eight");
+			break;
+		case 5:
+			cardString.push_back("Seven");
+			break;
+		case 4:
+			cardString.push_back("Six");
+			break;
+		case 3:
+			cardString.push_back("Five");
+			break;
+		case 2:
+			cardString.push_back("Four");
+			break;
+		case 1:
+			cardString.push_back("Three");
+			break;
+		case 0:
+			cardString.push_back("Deuce");
+			break;
+		default:
+			cardString.push_back("ERROR");
+		}
+		//Kicker 2
+		switch(fourthPart) {
+		case 12:
+			cardString.push_back("Ace");
+			break;
+		case 11:
+			cardString.push_back("King");
+			break;
+		case 10:
+			cardString.push_back("Queen");
+			break;
+		case 9:
+			cardString.push_back("Jack");
+			break;
+		case 8:
+			cardString.push_back("Ten");
+			break;
+		case 7:
+			cardString.push_back("Nine");
+			break;
+		case 6:
+			cardString.push_back("Eight");
+			break;
+		case 5:
+			cardString.push_back("Seven");
+			break;
+		case 4:
+			cardString.push_back("Six");
+			break;
+		case 3:
+			cardString.push_back("Five");
+			break;
+		case 2:
+			cardString.push_back("Four");
+			break;
+		case 1:
+			cardString.push_back("Three");
+			break;
+		case 0:
+			cardString.push_back("Deuce");
+			break;
+		default:
+			cardString.push_back("ERROR");
+		}
+		//Kicker 3
+		switch(fifthPart) {
+		case 12:
+			cardString.push_back("Ace");
+			break;
+		case 11:
+			cardString.push_back("King");
+			break;
+		case 10:
+			cardString.push_back("Queen");
+			break;
+		case 9:
+			cardString.push_back("Jack");
+			break;
+		case 8:
+			cardString.push_back("Ten");
+			break;
+		case 7:
+			cardString.push_back("Nine");
+			break;
+		case 6:
+			cardString.push_back("Eight");
+			break;
+		case 5:
+			cardString.push_back("Seven");
+			break;
+		case 4:
+			cardString.push_back("Six");
+			break;
+		case 3:
+			cardString.push_back("Five");
+			break;
+		case 2:
+			cardString.push_back("Four");
+			break;
+		case 1:
+			cardString.push_back("Three");
+			break;
+		case 0:
+			cardString.push_back("Deuce");
+			break;
+		default:
+			cardString.push_back("ERROR");
+		}
+	}
+	break;
+	// Highest Card
+	case 0:  {
+		cardString.push_back("High Card, ");
+		// Kicker 1
+		switch(secondPart) {
+		case 12:
+			cardString.push_back("Ace");
+			break;
+		case 11:
+			cardString.push_back("King");
+			break;
+		case 10:
+			cardString.push_back("Queen");
+			break;
+		case 9:
+			cardString.push_back("Jack");
+			break;
+		case 8:
+			cardString.push_back("Ten");
+			break;
+		case 7:
+			cardString.push_back("Nine");
+			break;
+		case 6:
+			cardString.push_back("Eight");
+			break;
+		case 5:
+			cardString.push_back("Seven");
+			break;
+		case 4:
+			cardString.push_back("Six");
+			break;
+		case 3:
+			cardString.push_back("Five");
+			break;
+		case 2:
+			cardString.push_back("Four");
+			break;
+		case 1:
+			cardString.push_back("Three");
+			break;
+		case 0:
+			cardString.push_back("Deuces");
+			break;
+		default:
+			cardString.push_back("ERROR");
+		}
+		// Kicker 2
+		switch(thirdPart) {
+		case 12:
+			cardString.push_back("Ace");
+			break;
+		case 11:
+			cardString.push_back("King");
+			break;
+		case 10:
+			cardString.push_back("Queen");
+			break;
+		case 9:
+			cardString.push_back("Jack");
+			break;
+		case 8:
+			cardString.push_back("Ten");
+			break;
+		case 7:
+			cardString.push_back("Nine");
+			break;
+		case 6:
+			cardString.push_back("Eight");
+			break;
+		case 5:
+			cardString.push_back("Seven");
+			break;
+		case 4:
+			cardString.push_back("Six");
+			break;
+		case 3:
+			cardString.push_back("Five");
+			break;
+		case 2:
+			cardString.push_back("Four");
+			break;
+		case 1:
+			cardString.push_back("Three");
+			break;
+		case 0:
+			cardString.push_back("Deuce");
+			break;
+		default:
+			cardString.push_back("ERROR");
+		}
+		//Kicker 3
+		switch(fourthPart) {
+		case 12:
+			cardString.push_back("Ace");
+			break;
+		case 11:
+			cardString.push_back("King");
+			break;
+		case 10:
+			cardString.push_back("Queen");
+			break;
+		case 9:
+			cardString.push_back("Jack");
+			break;
+		case 8:
+			cardString.push_back("Ten");
+			break;
+		case 7:
+			cardString.push_back("Nine");
+			break;
+		case 6:
+			cardString.push_back("Eight");
+			break;
+		case 5:
+			cardString.push_back("Seven");
+			break;
+		case 4:
+			cardString.push_back("Six");
+			break;
+		case 3:
+			cardString.push_back("Five");
+			break;
+		case 2:
+			cardString.push_back("Four");
+			break;
+		case 1:
+			cardString.push_back("Three");
+			break;
+		case 0:
+			cardString.push_back("Deuce");
+			break;
+		default:
+			cardString.push_back("ERROR");
+		}
+		//Kicker 4
+		switch(fifthPartA) {
+		case 9:
+			cardString.push_back("Jack");
+			break;
+		case 8:
+			cardString.push_back("Ten");
+			break;
+		case 7:
+			cardString.push_back("Nine");
+			break;
+		case 6:
+			cardString.push_back("Eight");
+			break;
+		case 5:
+			cardString.push_back("Seven");
+			break;
+		case 4:
+			cardString.push_back("Six");
+			break;
+		case 3:
+			cardString.push_back("Five");
+			break;
+		case 2:
+			cardString.push_back("Four");
+			break;
+		case 1:
+			cardString.push_back("Three");
+			break;
+		case 0:
+			cardString.push_back("Deuce");
+			break;
+		default:
+			cardString.push_back("ERROR");
+		}
+		//Kicker 5
+		switch(fifthPartB) {
+		case 9:
+			cardString.push_back("Jack");
+			break;
+		case 8:
+			cardString.push_back("Ten");
+			break;
+		case 7:
+			cardString.push_back("Nine");
+			break;
+		case 6:
+			cardString.push_back("Eight");
+			break;
+		case 5:
+			cardString.push_back("Seven");
+			break;
+		case 4:
+			cardString.push_back("Six");
+			break;
+		case 3:
+			cardString.push_back("Five");
+			break;
+		case 2:
+			cardString.push_back("Four");
+			break;
+		case 1:
+			cardString.push_back("Three");
+			break;
+		case 0:
+			cardString.push_back("Deuce");
+			break;
+		default:
+			cardString.push_back("ERROR");
+		}
+	}
+	break;
+	default:
+		cardString.push_back("ERROR");
+
+	}
+
+	return cardString;
+
+}
+
 
 //int** CardsValue::showdown(GameState beRoID, int** playerCards, int playerCount) {
 //

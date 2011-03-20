@@ -25,8 +25,6 @@
 #include "localexception.h"
 #include "engine_msg.h"
 
-using namespace std;
-
 LocalBoard::LocalBoard(unsigned dp) : BoardInterface(), pot(0), sets(0), dealerPosition(dp), allInCondition(false), lastActionPlayer(0)
 {
 	myCards[0] = myCards[1] = myCards[2] = myCards[3] = myCards[4] = 0;
@@ -78,7 +76,7 @@ void LocalBoard::distributePot()
 	PlayerListConstIterator it_c;
 
 	// filling player sets vector
-	vector<unsigned> playerSets;
+	std::vector<unsigned> playerSets;
 	for(it=seatsList->begin(); it!=seatsList->end(); ++it) {
 		if((*it)->getMyActiveStatus()) {
 			playerSets.push_back( ( ((*it)->getMyRoundStartCash()) - ((*it)->getMyCash()) ) );
@@ -89,11 +87,11 @@ void LocalBoard::distributePot()
 	}
 
 	// sort player sets asc
-	vector<unsigned> playerSetsSort = playerSets;
+	std::vector<unsigned> playerSetsSort = playerSets;
 	sort(playerSetsSort.begin(), playerSetsSort.end());
 
 	// potLevel[0] = amount, potLevel[1] = sum, potLevel[2..n] = winner
-	vector<unsigned> potLevel;
+	std::vector<unsigned> potLevel;
 
 	// temp var
 	int highestCardsValue;
