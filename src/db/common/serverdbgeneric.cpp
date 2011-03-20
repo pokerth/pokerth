@@ -77,12 +77,12 @@ ServerDBGeneric::AsyncCreateGame(unsigned requestId, const string &/*gameName*/)
 }
 
 void
-ServerDBGeneric::SetGamePlayerPlace(DB_id /*gameId*/, DB_id /*playerId*/, unsigned /*place*/)
+ServerDBGeneric::SetGamePlayerPlace(unsigned /*requestId*/, DB_id /*playerId*/, unsigned /*place*/)
 {
 }
 
 void
-ServerDBGeneric::EndGame(DB_id /*gameId*/)
+ServerDBGeneric::EndGame(unsigned /*requestId*/)
 {
 }
 

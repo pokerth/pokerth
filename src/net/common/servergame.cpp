@@ -50,7 +50,7 @@ static bool LessThanPlayerHandStartMoney(const boost::shared_ptr<PlayerInterface
 
 ServerGame::ServerGame(boost::shared_ptr<ServerLobbyThread> lobbyThread, u_int32_t id, const string &name, const string &pwd, const GameData &gameData, unsigned adminPlayerId, GuiInterface &gui, ConfigFile &playerConfig, Log &serverLog)
 	: m_adminPlayerId(adminPlayerId), m_lobbyThread(lobbyThread), m_gui(gui),
-	  m_gameData(gameData), m_curState(NULL), m_id(id), m_dbId(DB_ID_INVALID), m_name(name),
+	  m_gameData(gameData), m_curState(NULL), m_id(id), m_name(name),
 	  m_password(pwd), m_playerConfig(playerConfig), m_serverLog(serverLog), m_gameNum(1),
 	  m_curPetitionId(1), m_doNotAutoKickSmallDelaySec(10), m_voteKickTimer(lobbyThread->GetIOService()),
 	  m_stateTimer1(lobbyThread->GetIOService()), m_stateTimer2(lobbyThread->GetIOService())
@@ -87,18 +87,6 @@ const std::string &
 ServerGame::GetName() const
 {
 	return m_name;
-}
-
-DB_id
-ServerGame::GetDBId() const
-{
-	return m_dbId;
-}
-
-void
-ServerGame::SetDBId(DB_id newId)
-{
-	m_dbId = newId;
 }
 
 void
@@ -351,17 +339,15 @@ void
 ServerGame::StoreAndResetRanking()
 {
 	// Store players in database.
-	if (GetDBId() != DB_ID_INVALID) {
-		RankingMap::const_iterator i = m_rankingMap.begin();
-		RankingMap::const_iterator end = m_rankingMap.end();
-		while (i != end) {
-			if ((*i).second.dbid != DB_ID_INVALID) {
-				GetDatabase().SetGamePlayerPlace(GetDBId(), (*i).second.dbid, (*i).second.place);
-			}
-			++i;
+	RankingMap::const_iterator i = m_rankingMap.begin();
+	RankingMap::const_iterator end = m_rankingMap.end();
+	while (i != end) {
+		if ((*i).second.dbid != DB_ID_INVALID) {
+			GetDatabase().SetGamePlayerPlace(GetId(), (*i).second.dbid, (*i).second.place);
 		}
+		++i;
 	}
-	GetDatabase().EndGame(GetDBId());
+	GetDatabase().EndGame(GetId());
 	m_rankingMap.clear();
 }
 

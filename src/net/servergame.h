@@ -52,9 +52,6 @@ public:
 	u_int32_t GetId() const;
 	const std::string &GetName() const;
 
-	DB_id GetDBId() const;
-	void SetDBId(DB_id newId);
-
 	void AddSession(boost::shared_ptr<SessionData> session);
 	void RemovePlayer(unsigned playerId, unsigned errorCode);
 
@@ -193,7 +190,6 @@ private:
 	ServerGameState			*m_curState;
 
 	const u_int32_t		m_id;
-	DB_id				m_dbId;
 	const std::string	m_name;
 	const std::string	m_password;
 	ConfigFile		   &m_playerConfig;

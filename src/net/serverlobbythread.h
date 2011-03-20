@@ -99,8 +99,6 @@ public:
 	u_int32_t GetNextGameId();
 	ServerCallback &GetCallback();
 
-	void SetGameDBId(u_int32_t gameId, DB_id gameDBId);
-
 	AvatarManager &GetAvatarManager();
 	ChatCleanerManager &GetChatCleaner();
 

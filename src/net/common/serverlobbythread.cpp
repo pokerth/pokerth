@@ -150,8 +150,8 @@ public:
 		m_server.AvatarOK(requestId);
 	}
 
-	virtual void CreateGameSuccess(unsigned requestId, DB_id gameId) {
-		m_server.SetGameDBId((u_int32_t)requestId, gameId);
+	virtual void CreateGameSuccess(unsigned /*requestId*/) {
+		// Nothing to do.
 	}
 
 	virtual void CreateGameFailed(unsigned requestId) {
@@ -2052,14 +2052,6 @@ ServerCallback &
 ServerLobbyThread::GetCallback()
 {
 	return m_gui;
-}
-
-void
-ServerLobbyThread::SetGameDBId(u_int32_t gameId, DB_id gameDBId)
-{
-	boost::shared_ptr<ServerGame> game = InternalGetGameFromId(gameId);
-	if (game)
-		game->SetDBId(gameDBId);
 }
 
 ServerIrcBotCallback &

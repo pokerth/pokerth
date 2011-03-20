@@ -43,7 +43,7 @@ public:
 	virtual void AvatarIsBlacklisted(unsigned requestId) = 0;
 	virtual void AvatarIsOK(unsigned requestId) = 0;
 
-	virtual void CreateGameSuccess(unsigned requestId, DB_id gameId) = 0;
+	virtual void CreateGameSuccess(unsigned requestId) = 0;
 	virtual void CreateGameFailed(unsigned requestId) = 0;
 
 	virtual void ReportAvatarSuccess(unsigned requestId, unsigned replyId) = 0;

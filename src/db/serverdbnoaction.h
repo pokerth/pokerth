@@ -42,8 +42,8 @@ public:
 	virtual void PlayerLogout(DB_id /*playerId*/) {}
 
 	virtual void AsyncCreateGame(unsigned /*requestId*/, const std::string &/*gameName*/) {}
-	virtual void SetGamePlayerPlace(DB_id /*gameId*/, DB_id /*playerId*/, unsigned /*place*/) {}
-	virtual void EndGame(DB_id /*gameId*/) {}
+	virtual void SetGamePlayerPlace(unsigned /*requestId*/, DB_id /*playerId*/, unsigned /*place*/) {}
+	virtual void EndGame(unsigned /*requestId*/) {}
 
 	virtual void AsyncReportAvatar(unsigned /*requestId*/, unsigned /*replyId*/, DB_id /*reportedPlayerId*/, const std::string &/*avatarHash*/, const std::string &/*avatarType*/, DB_id */*byPlayerId*/) {}
 };
