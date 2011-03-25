@@ -631,6 +631,7 @@ void LocalHand::switchRounds()
 
 			myBoard->getMyCards(tempBoardCardsArray);
 			myGui->logDealBoardCardsMsg(currentRound, tempBoardCardsArray[0], tempBoardCardsArray[1], tempBoardCardsArray[2], tempBoardCardsArray[3], tempBoardCardsArray[4]);
+			myLog->logBoardCards(currentRound+1, tempBoardCardsArray);
 		}
 
 	}

@@ -155,12 +155,15 @@ public:
 			switch(state) {
 			case 1:
 				currentHand->getGuiInterface()->logFlipHoleCardsMsg(myName, myCards[0], myCards[1], myCardsValueInt);
+				currentHand->getLog()->logHoleCardsHandName(myID+1,myCards,myCardsValueInt,currentHand->getActivePlayerList());
 				break;
 			case 2:
 				currentHand->getGuiInterface()->logFlipHoleCardsMsg(myName, myCards[0], myCards[1]);
+				currentHand->getLog()->logHoleCards(currentHand->getCurrentRound()+1,myID+1,myCards);
 				break;
 			case 3:
 				currentHand->getGuiInterface()->logFlipHoleCardsMsg(myName, myCards[0], myCards[1], myCardsValueInt, "has");
+				currentHand->getLog()->logHandName(myID+1,myCardsValueInt,currentHand->getActivePlayerList());
 				break;
 			default:
 				;

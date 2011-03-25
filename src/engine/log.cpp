@@ -398,43 +398,94 @@ void Log::logBoardCards(int bero, int boardCards[5])
 	}
 }
 
-//void Log::logFlipHoleCards(int bero, int seat, PlayerActionLog action, int cards[2], int cardsValueInt)
-//{
-//	if(SQLITE_LOG) {
+void Log::logHoleCards(int bero, int seat, int cards[2])
+{
+	if(SQLITE_LOG) {
 
-//		if(logOnOff) {
-//			//if write logfiles is enabled
+		if(logOnOff) {
+			//if write logfiles is enabled
 
-//			string sql;
-//			char *errmsg;
+			string sql;
+			char *errmsg;
 
-//			if( mySqliteLogDb != 0 ) {
-//				// sqlite-db is open
+			if( mySqliteLogDb != 0 ) {
+				// sqlite-db is open
 
-//				sql = "UPDATE Hand SET ";
-//				sql += "Seat_" + boost::lexical_cast<string>(seat) +"_Card_1=" + boost::lexical_cast<string>(cards[0]) + ",";
-//				sql += "Seat_" + boost::lexical_cast<string>(seat) +"_Card_1=" + boost::lexical_cast<string>(cards[0]);
-//				if(cardsVauleInt > 0) {
-//					sql += "Seat_" + boost::lexical_cast<string>(seat) +"_Hand_int=" + boost::lexical_cast<string>(cardsValueInt);
-//					sql += "Seat_" + boost::lexical_cast<string>(seat) +"_Hand_text=" + boost::lexical_cast<string>(CardsValue::determineHandname(cardsValueInt));
-//				}
-//				sql += " WHERE ";
-//				sql += "GameID=" + boost::lexical_cast<string>(curGameID) + " AND ";
-//				sql += "HandID=" + boost::lexical_cast<string>(curHandID);
-//				if(sqlite3_exec(mySqliteLogDb, sql.data(), 0, 0, &errmsg) != SQLITE_OK) {
-//					cout << "Error in statement: " << sql.data() << "[" << errmsg << "]." << endl;
-//				}
+				sql = "UPDATE Hand SET ";
+				sql += "Seat_" + boost::lexical_cast<string>(seat) + "_Card_1=" + boost::lexical_cast<string>(cards[0]);
+				sql += ",Seat_" + boost::lexical_cast<string>(seat) + "_Card_2=" + boost::lexical_cast<string>(cards[1]);
+				sql += " WHERE ";
+				sql += "GameID=" + boost::lexical_cast<string>(curGameID) + " AND ";
+				sql += "HandID=" + boost::lexical_cast<string>(curHandID);
+				if(sqlite3_exec(mySqliteLogDb, sql.data(), 0, 0, &errmsg) != SQLITE_OK) {
+					cout << "Error in statement: " << sql.data() << "[" << errmsg << "]." << endl;
+				}
 
+				logPlayerAction(bero,seat,LOG_ACTION_SHOW);
+			}
+		}
+	}
+}
 
+void Log::logHandName(int seat, int cardsValueInt, PlayerList activePlayerList)
+{
+	if(SQLITE_LOG) {
 
+		if(logOnOff) {
+			//if write logfiles is enabled
 
-//				logPlayerAction(bero, seat, action);
+			string sql;
+			char *errmsg;
 
+			if( mySqliteLogDb != 0 ) {
+				// sqlite-db is open
 
-//			}
-//		}
-//	}
-//}
+				sql = "UPDATE Hand SET ";
+				sql += "Seat_" + boost::lexical_cast<string>(seat) + "_Hand_text=\"" + CardsValue::determineHandName(cardsValueInt,activePlayerList) + "\"";
+				sql += ",Seat_" + boost::lexical_cast<string>(seat) + "_Hand_int=" + boost::lexical_cast<string>(cardsValueInt);
+				sql += " WHERE ";
+				sql += "GameID=" + boost::lexical_cast<string>(curGameID) + " AND ";
+				sql += "HandID=" + boost::lexical_cast<string>(curHandID);
+				if(sqlite3_exec(mySqliteLogDb, sql.data(), 0, 0, &errmsg) != SQLITE_OK) {
+					cout << "Error in statement: " << sql.data() << "[" << errmsg << "]." << endl;
+				}
+
+				logPlayerAction(5,seat,LOG_ACTION_HAS);
+			}
+		}
+	}
+}
+
+void Log::logHoleCardsHandName(int seat, int cards[2], int cardsValueInt, PlayerList activePlayerList)
+{
+	if(SQLITE_LOG) {
+
+		if(logOnOff) {
+			//if write logfiles is enabled
+
+			string sql;
+			char *errmsg;
+
+			if( mySqliteLogDb != 0 ) {
+				// sqlite-db is open
+
+				sql = "UPDATE Hand SET ";
+				sql += "Seat_" + boost::lexical_cast<string>(seat) + "_Card_1=" + boost::lexical_cast<string>(cards[0]);
+				sql += ",Seat_" + boost::lexical_cast<string>(seat) + "_Card_2=" + boost::lexical_cast<string>(cards[1]);
+				sql += ",Seat_" + boost::lexical_cast<string>(seat) + "_Hand_text=\"" + CardsValue::determineHandName(cardsValueInt,activePlayerList) + "\"";
+				sql += ",Seat_" + boost::lexical_cast<string>(seat) + "_Hand_int=" + boost::lexical_cast<string>(cardsValueInt);
+				sql += " WHERE ";
+				sql += "GameID=" + boost::lexical_cast<string>(curGameID) + " AND ";
+				sql += "HandID=" + boost::lexical_cast<string>(curHandID);
+				if(sqlite3_exec(mySqliteLogDb, sql.data(), 0, 0, &errmsg) != SQLITE_OK) {
+					cout << "Error in statement: " << sql.data() << "[" << errmsg << "]." << endl;
+				}
+
+				logPlayerAction(5,seat,LOG_ACTION_SHOW);
+			}
+		}
+	}
+}
 
 //void
 //Log::closeLogDbAtExit()
