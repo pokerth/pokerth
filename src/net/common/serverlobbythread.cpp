@@ -1427,7 +1427,7 @@ ServerLobbyThread::AuthChallenge(boost::shared_ptr<SessionData> session, const s
 		OCTET_STRING_fromBuf(
 			&challenge->serverChallenge,
 			(char *)outChallenge.c_str(),
-			outChallenge.size());
+			(int)outChallenge.size());
 		GetSender().Send(session, packet);
 	}
 }
