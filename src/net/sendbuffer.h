@@ -38,7 +38,7 @@ public:
 	~SendBuffer();
 
 	inline size_t GetSendBufLeft() const {
-		int bytesLeft = sendBufAllocated - sendBufUsed;
+		int bytesLeft = (int)(sendBufAllocated - sendBufUsed);
 		return bytesLeft < 0 ? (size_t)0 : (size_t)bytesLeft;
 	}
 

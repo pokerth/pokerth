@@ -43,7 +43,7 @@ TransferHelper::~TransferHelper()
 }
 
 void
-TransferHelper::Init(const string &url, const string &targetFileName, const string &user, const string &password, int filesize)
+TransferHelper::Init(const string &url, const string &targetFileName, const string &user, const string &password, size_t filesize)
 {
 	// Initialise curl.
 	m_data->curlHandle = curl_easy_init();

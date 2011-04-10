@@ -54,7 +54,7 @@ struct AvatarFile {
 	AvatarFile() : fileType(AVATAR_FILE_TYPE_UNKNOWN), reportedSize(0) {}
 	std::vector<unsigned char>	fileData;
 	AvatarFileType				fileType;
-	unsigned					reportedSize;
+	size_t						reportedSize;
 };
 
 struct PlayerInfo {

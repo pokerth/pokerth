@@ -46,7 +46,7 @@ protected:
 private:
 	NetPacketList					receivedPackets;
 	char							recvBuf[RECV_BUF_SIZE];
-	unsigned						recvBufUsed;
+	size_t							recvBufUsed;
 };
 
 #endif

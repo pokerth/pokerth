@@ -166,7 +166,7 @@ CryptHelper::MD5Sum(const std::string &fileName, MD5Buf &buf)
 	if (file) {
 		// Calculate MD5 sum of file.
 		unsigned char *readBuf = new unsigned char[8192];
-		int numBytes;
+		size_t numBytes;
 
 #ifdef HAVE_OPENSSL
 		MD5_CTX context;

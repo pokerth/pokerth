@@ -44,7 +44,7 @@ UploadHelper::~UploadHelper()
 }
 
 void
-UploadHelper::InternalInit(const string &/*url*/, const string &targetFileName, const string &user, const string &password, int filesize)
+UploadHelper::InternalInit(const string &/*url*/, const string &targetFileName, const string &user, const string &password, size_t filesize)
 {
 	// Open target file for reading.
 	GetData()->targetFile = fopen(targetFileName.c_str(), "rb");

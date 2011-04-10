@@ -133,7 +133,7 @@ protected:
 	void MoveSessionToLobby(boost::shared_ptr<SessionData> session, int reason);
 
 	void RemoveDisconnectedPlayers();
-	size_t GetCurNumberOfPlayers() const;
+	int GetCurNumberOfPlayers() const;
 	void AssignPlayerNumbers(PlayerDataList &playerList);
 	bool IsValidPlayer(unsigned playerId) const;
 

@@ -51,7 +51,7 @@ public:
 	NetPacket(MemAllocType alloc = NoAlloc);
 	~NetPacket();
 
-	static boost::shared_ptr<NetPacket> Create(char *data, unsigned &dataSize);
+	static boost::shared_ptr<NetPacket> Create(char *data, size_t &dataSize);
 
 	const PokerTHMessage_t *GetMsg() const {
 		return m_msg;

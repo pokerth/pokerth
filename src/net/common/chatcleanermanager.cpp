@@ -99,10 +99,10 @@ ChatCleanerManager::HandleGameChatText(unsigned gameId, unsigned playerId, const
 		netRequest->playerId = playerId;
 		OCTET_STRING_fromBuf(&netRequest->playerName,
 							 name.c_str(),
-							 name.length());
+							 (int)name.length());
 		OCTET_STRING_fromBuf(&netRequest->chatMessage,
 							 text.c_str(),
-							 text.length());
+							 (int)text.length());
 		SendMessageToServer(tmpChat);
 	}
 }
@@ -135,7 +135,7 @@ ChatCleanerManager::HandleConnect(const boost::system::error_code& ec,
 		netInit->requestedVersion = CLEANER_PROTOCOL_VERSION;
 		OCTET_STRING_fromBuf(&netInit->clientSecret,
 							 m_clientSecret.c_str(),
-							 m_clientSecret.length());
+							 (int)m_clientSecret.length());
 		SendMessageToServer(tmpInit);
 		m_socket->async_read_some(
 			boost::asio::buffer(m_recvBuf, sizeof(m_recvBuf)),

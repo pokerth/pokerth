@@ -51,7 +51,7 @@ struct IrcContext {
 	string channelPassword;
 	unsigned renameTries;
 	bool sendingBlocked;
-	unsigned sendCounter;
+	size_t sendCounter;
 	queue<string> sendQueue;
 };
 

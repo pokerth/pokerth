@@ -67,7 +67,7 @@ private:
 	std::string m_clientSecret;
 	std::string m_serverSecret;
 	unsigned char m_recvBuf[2*MAX_CLEANER_PACKET_SIZE];
-	unsigned m_recvBufUsed;
+	size_t m_recvBufUsed;
 };
 
 #endif

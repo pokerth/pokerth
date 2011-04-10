@@ -37,7 +37,7 @@ DownloadHelper::~DownloadHelper()
 }
 
 void
-DownloadHelper::InternalInit(const string &/*url*/, const string &targetFileName, const string &/*user*/, const string &/*password*/, int /*filesize*/)
+DownloadHelper::InternalInit(const string &/*url*/, const string &targetFileName, const string &/*user*/, const string &/*password*/, size_t /*filesize*/)
 {
 	// Open target file for writing.
 	GetData()->targetFile = fopen(targetFileName.c_str(), "wb");

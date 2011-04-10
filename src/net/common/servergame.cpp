@@ -238,7 +238,7 @@ ServerGame::InternalStartGame()
 
 		// Set start data.
 		StartData startData;
-		startData.numberOfPlayers = playerData.size();
+		startData.numberOfPlayers = (int)playerData.size();
 
 		int tmpDealerPos = 0;
 		Tools::getRandNumber(0, startData.numberOfPlayers-1, 1, &tmpDealerPos, 0);
@@ -793,10 +793,10 @@ ServerGame::RemoveDisconnectedPlayers()
 	}
 }
 
-size_t
+int
 ServerGame::GetCurNumberOfPlayers() const
 {
-	return GetFullPlayerDataList().size();
+	return (int)GetFullPlayerDataList().size();
 }
 
 void

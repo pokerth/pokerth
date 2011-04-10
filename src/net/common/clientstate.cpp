@@ -920,7 +920,7 @@ ClientStateStartSession::InternalHandlePacket(boost::shared_ptr<ClientThread> cl
 			UnauthenticatedLogin_t *noauthLogin = &netInit->login.choice.unauthenticatedLogin;
 			OCTET_STRING_fromBuf(&noauthLogin->nickName,
 								 context.GetPlayerName().c_str(),
-								 context.GetPlayerName().length());
+								 (int)context.GetPlayerName().length());
 			string avatarFile = client->GetQtToolsInterface().stringFromUtf8(context.GetAvatarFile());
 			if (!avatarFile.empty()) {
 				MD5Buf tmpMD5;
@@ -995,7 +995,7 @@ ClientStateWaitEnterLogin::TimerLoop(const boost::system::error_code& ec, boost:
 				GuestLogin_t *guestLogin = &netInit->login.choice.guestLogin;
 				OCTET_STRING_fromBuf(&guestLogin->nickName,
 									 context.GetPlayerName().c_str(),
-									 context.GetPlayerName().length());
+									 (int)context.GetPlayerName().length());
 
 				client->GetSender().Send(context.GetSessionData(), init);
 				client->SetState(ClientStateWaitSession::Instance());
@@ -1013,7 +1013,7 @@ ClientStateWaitEnterLogin::TimerLoop(const boost::system::error_code& ec, boost:
 				string outUserData(tmpSession->AuthGetNextOutMsg());
 				OCTET_STRING_fromBuf(&authLogin->clientUserData,
 									 outUserData.c_str(),
-									 outUserData.length());
+									 (int)outUserData.length());
 				string avatarFile = client->GetQtToolsInterface().stringFromUtf8(context.GetAvatarFile());
 				if (!avatarFile.empty()) {
 					MD5Buf tmpMD5;
@@ -1089,7 +1089,7 @@ ClientStateWaitAuthChallenge::InternalHandlePacket(boost::shared_ptr<ClientThrea
 
 			OCTET_STRING_fromBuf(&outResponse->clientResponse,
 								 outUserData.c_str(),
-								 outUserData.length());
+								 (int)outUserData.length());
 			client->GetSender().Send(tmpSession, packet);
 			client->SetState(ClientStateWaitAuthVerify::Instance());
 		} else

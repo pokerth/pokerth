@@ -561,7 +561,7 @@ ServerLobbyThread::SendGlobalChat(const string &message)
 	OCTET_STRING_fromBuf(
 		&netChat->chatText,
 		message.c_str(),
-		message.length());
+		(int)message.length());
 
 	m_sessionManager.SendToAllSessions(GetSender(), packet, SessionData::Established);
 	m_gameSessionManager.SendToAllSessions(GetSender(), packet, SessionData::Game);
@@ -577,7 +577,7 @@ ServerLobbyThread::SendGlobalMsgBox(const string &message)
 	OCTET_STRING_fromBuf(
 		&netDialog->notificationText,
 		message.c_str(),
-		message.length());
+		(int)message.length());
 	m_sessionManager.SendToAllSessions(GetSender(), packet, SessionData::Established);
 	m_gameSessionManager.SendToAllSessions(GetSender(), packet, SessionData::Game);
 }
@@ -592,7 +592,7 @@ ServerLobbyThread::SendChatBotMsg(const std::string &message)
 	OCTET_STRING_fromBuf(
 		&netChat->chatText,
 		message.c_str(),
-		message.length());
+		(int)message.length());
 
 	m_sessionManager.SendLobbyMsgToAllSessions(GetSender(), packet, SessionData::Established);
 	m_gameSessionManager.SendLobbyMsgToAllSessions(GetSender(), packet, SessionData::Game);
@@ -613,7 +613,7 @@ ServerLobbyThread::SendChatBotMsg(unsigned gameId, const std::string &message)
 	OCTET_STRING_fromBuf(
 		&netChat->chatText,
 		message.c_str(),
-		message.length());
+		(int)message.length());
 
 	GameMap::const_iterator pos = m_gameMap.find(gameId);
 	if (pos != m_gameMap.end()) {
@@ -1075,7 +1075,7 @@ ServerLobbyThread::HandleNetPacketAuthClientResponse(boost::shared_ptr<SessionDa
 			OCTET_STRING_fromBuf(
 				&verification->serverVerification,
 				(char *)outVerification.c_str(),
-				outVerification.size());
+				(int)outVerification.size());
 			GetSender().Send(session, packet);
 			// The last message is only for server verification.
 			// We are done now, the user has logged in.
@@ -1193,12 +1193,12 @@ ServerLobbyThread::HandleNetPacketRetrievePlayerInfo(boost::shared_ptr<SessionDa
 		OCTET_STRING_fromBuf(
 			&data->playerName,
 			tmpPlayer->GetName().c_str(),
-			tmpPlayer->GetName().length());
+			(int)tmpPlayer->GetName().length());
 		if (!tmpPlayer->GetCountry().empty()) {
 			data->countryCode = OCTET_STRING_new_fromBuf(
 									&asn_DEF_UTF8String,
 									tmpPlayer->GetCountry().c_str(),
-									tmpPlayer->GetCountry().length());
+									(int)tmpPlayer->GetCountry().length());
 		}
 		if (!tmpPlayer->GetAvatarMD5().IsZero()) {
 			data->avatarData = (struct PlayerInfoData::avatarData *)calloc(1, sizeof(struct PlayerInfoData::avatarData));
@@ -1503,7 +1503,7 @@ ServerLobbyThread::EstablishSession(boost::shared_ptr<SessionData> session)
 	OCTET_STRING_fromBuf(
 		&netInitAck->yourSessionId,
 		(char *)&sessionId,
-		boost::uuids::uuid::static_size());
+		(int)boost::uuids::uuid::static_size());
 	netInitAck->yourPlayerId = session->GetPlayerData()->GetUniqueId();
 	GetSender().Send(session, ack);
 
@@ -2124,7 +2124,7 @@ ServerLobbyThread::CreateNetPacketGameListNew(const ServerGame &game)
 	OCTET_STRING_fromBuf(
 		&gameNew->gameInfo.gameName,
 		game.GetName().c_str(),
-		game.GetName().length());
+		(int)game.GetName().length());
 	gameNew->isPrivate = game.IsPasswordProtected();
 
 	PlayerIdList tmpList = game.GetPlayerIdList();

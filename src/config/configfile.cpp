@@ -97,10 +97,10 @@ ConfigFile::ConfigFile(char *argv0, bool readonly) : noWriteAccess(readonly)
 	cacheDir += "cache\\";
 
 	//create directories on first start of app
-	mkdir(configFileName.c_str());
-	mkdir(logDir.c_str());
-	mkdir(dataDir.c_str());
-	mkdir(cacheDir.c_str());
+	_mkdir(configFileName.c_str());
+	_mkdir(logDir.c_str());
+	_mkdir(dataDir.c_str());
+	_mkdir(cacheDir.c_str());
 
 #else
 	//define app-dir

@@ -59,9 +59,9 @@ public:
 	bool GetHashForAvatar(const std::string &fileName, MD5Buf &md5buf) const;
 	bool GetAvatarFileName(const MD5Buf &md5buf, std::string &fileName) const;
 	bool HasAvatar(const MD5Buf &md5buf) const;
-	bool StoreAvatarInCache(const MD5Buf &md5buf, AvatarFileType avatarFileType, const unsigned char *data, unsigned size, bool upload);
+	bool StoreAvatarInCache(const MD5Buf &md5buf, AvatarFileType avatarFileType, const unsigned char *data, size_t size, bool upload);
 
-	static bool IsValidAvatarFileType(AvatarFileType avatarFileType, const unsigned char *fileHeader, unsigned fileHeaderSize);
+	static bool IsValidAvatarFileType(AvatarFileType avatarFileType, const unsigned char *fileHeader, size_t fileHeaderSize);
 
 	void RemoveOldAvatarCacheEntries();
 

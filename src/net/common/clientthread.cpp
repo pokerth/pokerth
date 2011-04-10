@@ -162,7 +162,7 @@ ClientThread::SendGameChatMessage(const std::string &msg)
 	ChatRequestMessage_t *netChat = &packet->GetMsg()->choice.chatRequestMessage;
 	OCTET_STRING_fromBuf(&netChat->chatText,
 						 msg.c_str(),
-						 msg.length());
+						 (int)msg.length());
 
 	netChat->chatRequestType.present = chatRequestType_PR_chatRequestTypeGame;
 	netChat->chatRequestType.choice.chatRequestTypeGame.gameId = GetGameId();
@@ -181,7 +181,7 @@ ClientThread::SendLobbyChatMessage(const std::string &msg)
 	ChatRequestMessage_t *netChat = &packet->GetMsg()->choice.chatRequestMessage;
 	OCTET_STRING_fromBuf(&netChat->chatText,
 						 msg.c_str(),
-						 msg.length());
+						 (int)msg.length());
 
 	netChat->chatRequestType.present = chatRequestType_PR_chatRequestTypeLobby;
 
@@ -199,7 +199,7 @@ ClientThread::SendPrivateChatMessage(unsigned targetPlayerId, const std::string 
 	ChatRequestMessage_t *netChat = &packet->GetMsg()->choice.chatRequestMessage;
 	OCTET_STRING_fromBuf(&netChat->chatText,
 						 msg.c_str(),
-						 msg.length());
+						 (int)msg.length());
 
 	netChat->chatRequestType.present = chatRequestType_PR_chatRequestTypePrivate;
 	netChat->chatRequestType.choice.chatRequestTypePrivate.targetPlayerId = targetPlayerId;
@@ -221,7 +221,7 @@ ClientThread::SendJoinFirstGame(const std::string &password, bool autoLeave)
 		netJoinGame->password = OCTET_STRING_new_fromBuf(
 									&asn_DEF_UTF8String,
 									password.c_str(),
-									password.length());
+									(int)password.length());
 	}
 	netJoinGame->joinGameAction.present = joinGameAction_PR_joinExistingGame;
 
@@ -243,7 +243,7 @@ ClientThread::SendJoinGame(unsigned gameId, const std::string &password, bool au
 		netJoinGame->password = OCTET_STRING_new_fromBuf(
 									&asn_DEF_UTF8String,
 									password.c_str(),
-									password.length());
+									(int)password.length());
 	}
 	netJoinGame->joinGameAction.present = joinGameAction_PR_joinExistingGame;
 
@@ -265,7 +265,7 @@ ClientThread::SendCreateGame(const GameData &gameData, const std::string &name, 
 		netJoinGame->password = OCTET_STRING_new_fromBuf(
 									&asn_DEF_UTF8String,
 									password.c_str(),
-									password.length());
+									(int)password.length());
 	}
 	netJoinGame->joinGameAction.present = joinGameAction_PR_joinNewGame;
 
@@ -273,7 +273,7 @@ ClientThread::SendCreateGame(const GameData &gameData, const std::string &name, 
 	NetPacket::SetGameData(gameData, &joinNew->gameInfo);
 	OCTET_STRING_fromBuf(&joinNew->gameInfo.gameName,
 						 name.c_str(),
-						 name.length());
+						 (int)name.length());
 	m_ioService->post(boost::bind(&ClientThread::SendSessionPacket, shared_from_this(), packet));
 }
 

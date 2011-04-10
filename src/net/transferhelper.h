@@ -36,7 +36,7 @@ public:
 	// Set the parameters. Does not do any error checking.
 	// Throws an exception on failure.
 	void Init(const std::string &url, const std::string &targetFileName,
-			  const std::string &user = "", const std::string &password = "", int filesize = 0);
+			  const std::string &user = "", const std::string &password = "", size_t filesize = 0);
 
 	// Returns true when done, false should call again.
 	// Throws an exception on error.
@@ -49,7 +49,7 @@ protected:
 	boost::shared_ptr<TransferData> GetData();
 
 	virtual void InternalInit(const std::string &url, const std::string &targetFileName,
-							  const std::string &user, const std::string &password, int filesize) = 0;
+							  const std::string &user, const std::string &password, size_t filesize) = 0;
 
 private:
 

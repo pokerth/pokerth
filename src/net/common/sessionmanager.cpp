@@ -286,7 +286,7 @@ unsigned
 SessionManager::GetRawSessionCount()
 {
 	boost::recursive_mutex::scoped_lock lock(m_sessionMapMutex);
-	return m_sessionMap.size();
+	return (unsigned)m_sessionMap.size();
 }
 
 unsigned

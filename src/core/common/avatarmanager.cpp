@@ -341,7 +341,7 @@ AvatarManager::HasAvatar(const MD5Buf &md5buf) const
 }
 
 bool
-AvatarManager::StoreAvatarInCache(const MD5Buf &md5buf, AvatarFileType avatarFileType, const unsigned char *data, unsigned size, bool upload)
+AvatarManager::StoreAvatarInCache(const MD5Buf &md5buf, AvatarFileType avatarFileType, const unsigned char *data, size_t size, bool upload)
 {
 	bool retVal = false;
 	string cacheDir;
@@ -380,7 +380,7 @@ AvatarManager::StoreAvatarInCache(const MD5Buf &md5buf, AvatarFileType avatarFil
 }
 
 bool
-AvatarManager::IsValidAvatarFileType(AvatarFileType avatarFileType, const unsigned char *fileHeader, unsigned fileHeaderSize)
+AvatarManager::IsValidAvatarFileType(AvatarFileType avatarFileType, const unsigned char *fileHeader, size_t fileHeaderSize)
 {
 	bool validType = false;
 

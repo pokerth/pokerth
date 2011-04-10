@@ -408,7 +408,7 @@ ServerGameStateInit::HandleNewSession(boost::shared_ptr<ServerGame> server, boos
 	if (session && session->GetPlayerData()) {
 		const GameData &tmpGameData = server->GetGameData();
 		// Check the number of players.
-		if (server->GetCurNumberOfPlayers() >= (size_t)tmpGameData.maxNumberOfPlayers) {
+		if (server->GetCurNumberOfPlayers() >= tmpGameData.maxNumberOfPlayers) {
 			server->MoveSessionToLobby(session, NTF_NET_REMOVED_GAME_FULL);
 		} else {
 			session->GetPlayerData()->SetGameAdmin(session->GetPlayerData()->GetUniqueId() == server->GetAdminPlayerId());
@@ -426,7 +426,7 @@ ServerGameStateInit::HandleNewSession(boost::shared_ptr<ServerGame> server, boos
 			OCTET_STRING_fromBuf(
 				&joinAck->gameInfo.gameName,
 				server->GetName().c_str(),
-				server->GetName().length());
+				(int)server->GetName().length());
 			server->GetLobbyThread().GetSender().Send(session, packet);
 
 			// Send notifications for connected players to client.
@@ -447,7 +447,7 @@ ServerGameStateInit::HandleNewSession(boost::shared_ptr<ServerGame> server, boos
 			// Notify lobby.
 			server->GetLobbyThread().NotifyPlayerJoinedGame(server->GetId(), session->GetPlayerData()->GetUniqueId());
 
-			if (server->GetCurNumberOfPlayers() == (size_t)tmpGameData.maxNumberOfPlayers) {
+			if (server->GetCurNumberOfPlayers() == tmpGameData.maxNumberOfPlayers) {
 				// Automatically start the game if it is full.
 				RegisterAutoStartTimer(server);
 			}
@@ -582,7 +582,7 @@ ServerGameStateInit::InternalProcessPacket(boost::shared_ptr<ServerGame> server,
 		if (session->GetPlayerData()->IsGameAdmin()
 				&& netStartEvent->gameId == server->GetId()
 				&& (server->GetGameData().gameType != GAME_TYPE_RANKING // ranking games need to be full
-					|| server->GetGameData().maxNumberOfPlayers == (int)server->GetCurNumberOfPlayers())) {
+					|| server->GetGameData().maxNumberOfPlayers == server->GetCurNumberOfPlayers())) {
 			SendStartEvent(*server, netStartEvent->fillWithComputerPlayers);
 		} else { // kick players who try to start but are not allowed to
 			server->MoveSessionToLobby(session, NTF_NET_REMOVED_START_FAILED);
