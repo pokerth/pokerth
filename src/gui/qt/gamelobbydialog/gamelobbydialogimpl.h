@@ -17,12 +17,11 @@
 #include <QtGui>
 #include <QtCore>
 
-#include <iostream>
-
 #include <gamedata.h>
 #include "createinternetgamedialogimpl.h"
 #include "sdlplayer.h"
 #include "gametableimpl.h"
+#include <map>
 
 class Session;
 class ConfigFile;
@@ -145,6 +144,8 @@ private:
 	bool isGameAdministrator;
 	bool inGame;
 	bool guestMode;
+	typedef std::map<QString, QString> CountryStringMap;
+	CountryStringMap countryStringMap;
 
 	QString myAppDataPath;
 	QMessageBox *waitStartGameMsgBox;
