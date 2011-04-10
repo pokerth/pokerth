@@ -149,7 +149,7 @@ main(int argc, char *argv[])
 	{
 		ofstream pidStream(pidFile.c_str(), ios_base::out | ios_base::trunc);
 		if (!pidStream.fail())
-			pidStream << _getpid();
+			pidStream << getpid();
 		else
 			LOG_ERROR("Could not create process id file \"" << pidFile << "\"!");
 	}
