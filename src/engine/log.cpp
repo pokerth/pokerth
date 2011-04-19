@@ -50,7 +50,7 @@ Log::Log(string logDirString, int logOnOffInt) : curGameID(0), curHandID(0), log
 			if(logDirString != "" && dirExists) {
 
 				string sql;
-				char *errmsg;
+				char *errmsg = NULL;
 
 				// detect current time
 				char curDateTime[20];
@@ -79,6 +79,7 @@ Log::Log(string logDirString, int logOnOffInt) : curGameID(0), curHandID(0), log
 					if(sqlite3_exec(mySqliteLogDb, sql.data(), 0, 0, &errmsg) != SQLITE_OK) {
 						cout << "Error in statement: " << sql.data() << "[" << errmsg << "]." << endl;
 						sqlite3_free(errmsg);
+						errmsg = NULL;
 					}
 
 					sql = "INSERT INTO Session (";
@@ -92,6 +93,7 @@ Log::Log(string logDirString, int logOnOffInt) : curGameID(0), curHandID(0), log
 					if(sqlite3_exec(mySqliteLogDb, sql.data(), 0, 0, &errmsg) != SQLITE_OK) {
 						cout << "Error in statement: " << sql.data() << "[" << errmsg << "]." << endl;
 						sqlite3_free(errmsg);
+						errmsg = NULL;
 					}
 
 					// create game table
@@ -108,6 +110,7 @@ Log::Log(string logDirString, int logOnOffInt) : curGameID(0), curHandID(0), log
 					if(sqlite3_exec(mySqliteLogDb, sql.data(), 0, 0, &errmsg) != SQLITE_OK) {
 						cout << "Error in statement: " << sql.data() << "[" << errmsg << "]." << endl;
 						sqlite3_free(errmsg);
+						errmsg = NULL;
 					}
 
 					// create hand table
@@ -133,6 +136,7 @@ Log::Log(string logDirString, int logOnOffInt) : curGameID(0), curHandID(0), log
 					if(sqlite3_exec(mySqliteLogDb, sql.data(), 0, 0, &errmsg) != SQLITE_OK) {
 						cout << "Error in statement: " << sql.data() << "[" << errmsg << "]." << endl;
 						sqlite3_free(errmsg);
+						errmsg = NULL;
 					}
 
 					// create action table
@@ -148,15 +152,11 @@ Log::Log(string logDirString, int logOnOffInt) : curGameID(0), curHandID(0), log
 					if(sqlite3_exec(mySqliteLogDb, sql.data(), 0, 0, &errmsg) != SQLITE_OK) {
 						cout << "Error in statement: " << sql.data() << "[" << errmsg << "]." << endl;
 						sqlite3_free(errmsg);
+						errmsg = NULL;
 					}
-
-
 				}
-
 			}
-
 		}
-
 	}
 }
 
@@ -179,7 +179,7 @@ void Log::logNewGameMsg(int gameID, int startCash, int startSmallBlind, unsigned
 
 			PlayerListConstIterator it_c;
 			string sql;
-			char *errmsg;
+			char *errmsg = NULL;
 
 			if( mySqliteLogDb != 0 ) {
 				// sqlite-db is open
@@ -208,6 +208,8 @@ void Log::logNewGameMsg(int gameID, int startCash, int startSmallBlind, unsigned
 				sql += ")";
 				if(sqlite3_exec(mySqliteLogDb, sql.data(), 0, 0, &errmsg) != SQLITE_OK) {
 					cout << "Error in statement: " << sql.data() << "[" << errmsg << "]." << endl;
+					sqlite3_free(errmsg);
+					errmsg = NULL;
 				}
 			}
 		}
@@ -226,7 +228,7 @@ void Log::logNewHandMsg(int handID, unsigned dealerPosition, int smallBlind, uns
 
 			PlayerListConstIterator it_c;
 			string sql;
-			char *errmsg;
+			char *errmsg = NULL;
 
 			if( mySqliteLogDb != 0 ) {
 				// sqlite-db is open
@@ -261,6 +263,8 @@ void Log::logNewHandMsg(int handID, unsigned dealerPosition, int smallBlind, uns
 				sql += ")";
 				if(sqlite3_exec(mySqliteLogDb, sql.data(), 0, 0, &errmsg) != SQLITE_OK) {
 					cout << "Error in statement: " << sql.data() << "[" << errmsg << "]." << endl;
+					sqlite3_free(errmsg);
+					errmsg = NULL;
 				}
 
 				logPlayerAction(0,dealerPosition,LOG_ACTION_DEALER);
@@ -278,7 +282,7 @@ void Log::logPlayerAction(int bero, int seat, PlayerActionLog action, int amount
 			//if write logfiles is enabled
 
 			string sql;
-			char *errmsg;
+			char *errmsg = NULL;
 
 			if( mySqliteLogDb != 0 ) {
 				// sqlite-db is open
@@ -349,6 +353,8 @@ void Log::logPlayerAction(int bero, int seat, PlayerActionLog action, int amount
 				sql += ")";
 				if(sqlite3_exec(mySqliteLogDb, sql.data(), 0, 0, &errmsg) != SQLITE_OK) {
 					cout << "Error in statement: " << sql.data() << "[" << errmsg << "]." << endl;
+					sqlite3_free(errmsg);
+					errmsg = NULL;
 				}
 			}
 		}
@@ -363,7 +369,7 @@ void Log::logBoardCards(int bero, int boardCards[5])
 			//if write logfiles is enabled
 
 			string sql;
-			char *errmsg;
+			char *errmsg = NULL;
 
 			if( mySqliteLogDb != 0 ) {
 				// sqlite-db is open
@@ -392,6 +398,8 @@ void Log::logBoardCards(int bero, int boardCards[5])
 				sql += "HandID=" + boost::lexical_cast<string>(curHandID);
 				if(sqlite3_exec(mySqliteLogDb, sql.data(), 0, 0, &errmsg) != SQLITE_OK) {
 					cout << "Error in statement: " << sql.data() << "[" << errmsg << "]." << endl;
+					sqlite3_free(errmsg);
+					errmsg = NULL;
 				}
 			}
 		}
@@ -406,7 +414,7 @@ void Log::logHoleCards(int bero, int seat, int cards[2])
 			//if write logfiles is enabled
 
 			string sql;
-			char *errmsg;
+			char *errmsg = NULL;
 
 			if( mySqliteLogDb != 0 ) {
 				// sqlite-db is open
@@ -419,6 +427,8 @@ void Log::logHoleCards(int bero, int seat, int cards[2])
 				sql += "HandID=" + boost::lexical_cast<string>(curHandID);
 				if(sqlite3_exec(mySqliteLogDb, sql.data(), 0, 0, &errmsg) != SQLITE_OK) {
 					cout << "Error in statement: " << sql.data() << "[" << errmsg << "]." << endl;
+					sqlite3_free(errmsg);
+					errmsg = NULL;
 				}
 
 				logPlayerAction(bero,seat,LOG_ACTION_SHOW);
@@ -435,7 +445,7 @@ void Log::logHandName(int seat, int cardsValueInt, PlayerList activePlayerList)
 			//if write logfiles is enabled
 
 			string sql;
-			char *errmsg;
+			char *errmsg = NULL;
 
 			if( mySqliteLogDb != 0 ) {
 				// sqlite-db is open
@@ -449,6 +459,9 @@ void Log::logHandName(int seat, int cardsValueInt, PlayerList activePlayerList)
 				if(sqlite3_exec(mySqliteLogDb, sql.data(), 0, 0, &errmsg) != SQLITE_OK) {
 					cout << "Error in statement: " << sql.data() << "[" << errmsg << "]." << endl;
 				}
+
+				sqlite3_free(errmsg);
+				errmsg = NULL;
 
 				logPlayerAction(5,seat,LOG_ACTION_HAS);
 			}
@@ -464,7 +477,7 @@ void Log::logHoleCardsHandName(int seat, int cards[2], int cardsValueInt, Player
 			//if write logfiles is enabled
 
 			string sql;
-			char *errmsg;
+			char *errmsg = NULL;
 
 			if( mySqliteLogDb != 0 ) {
 				// sqlite-db is open
@@ -479,6 +492,8 @@ void Log::logHoleCardsHandName(int seat, int cards[2], int cardsValueInt, Player
 				sql += "HandID=" + boost::lexical_cast<string>(curHandID);
 				if(sqlite3_exec(mySqliteLogDb, sql.data(), 0, 0, &errmsg) != SQLITE_OK) {
 					cout << "Error in statement: " << sql.data() << "[" << errmsg << "]." << endl;
+					sqlite3_free(errmsg);
+					errmsg = NULL;
 				}
 
 				logPlayerAction(5,seat,LOG_ACTION_SHOW);
