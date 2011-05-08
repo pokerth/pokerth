@@ -368,8 +368,6 @@ win32 {
 		-lwldap32
 	RC_FILE = pokerth.rc
 }
-unix:# workaround for problems with boost_filesystem exceptions
-QMAKE_LFLAGS += -no_dead_strip_inits_and_terms
 unix:!mac { 
 	# #### My release static build options
 	# QMAKE_CXXFLAGS += -ffunction-sections -fdata-sections
@@ -478,6 +476,9 @@ mac {
 	CONFIG -= ppc
 	QMAKE_MACOSX_DEPLOYMENT_TARGET = 10.5
 	QMAKE_CXXFLAGS -= -std=gnu++0x
+
+	# workaround for problems with boost_filesystem exceptions
+	QMAKE_LFLAGS += -no_dead_strip_inits_and_terms
 
 	# for universal-compilation on PPC-Mac uncomment the following line
 	# on Intel-Mac you have to comment this line out or build will fail.

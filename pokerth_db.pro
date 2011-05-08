@@ -10,6 +10,7 @@ CODECFORSRC = UTF-8
 CONFIG += staticlib thread exceptions rtti stl warn_on
 UI_DIR = uics
 TARGET = lib/pokerth_db
+QMAKE_CLEAN += ./lib/libpokerth_db.a
 MOC_DIR = mocs
 OBJECTS_DIR = obj
 DEFINES += ENABLE_IPV6 TIXML_USE_STL

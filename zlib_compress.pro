@@ -41,11 +41,6 @@ win32 {
     LIBS += -lgdi32 -lcomdlg32 -loleaut32 -limm32 -lwinmm -lwinspool -lole32 -luuid -luser32 -lmsimg32 -lshell32 -lkernel32
 }
 
-unix {
-	# workaround for problems with boost_filesystem exceptions
-	QMAKE_LFLAGS += -no_dead_strip_inits_and_terms
-}
-
 unix : !mac {
 
 	##### My release static build options
@@ -93,6 +88,9 @@ mac{
 	CONFIG += x86
 	CONFIG += ppc
 	QMAKE_MACOSX_DEPLOYMENT_TARGET = 10.3
+
+	# workaround for problems with boost_filesystem exceptions
+	QMAKE_LFLAGS += -no_dead_strip_inits_and_terms
 
 	# for universal-compilation on PPC-Mac uncomment the following line
 	# on Intel-Mac you have to comment this line out or build will fail.

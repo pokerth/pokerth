@@ -9,6 +9,7 @@ CONFIG += staticlib \
 	warn_on
 UI_DIR = uics
 TARGET = lib/pokerth_protocol
+QMAKE_CLEAN += ./lib/libpokerth_protocol.a
 MOC_DIR = mocs
 OBJECTS_DIR = obj
 DEFINES += ENABLE_IPV6
