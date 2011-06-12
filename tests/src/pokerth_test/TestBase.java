@@ -65,7 +65,12 @@ public abstract class TestBase {
 
 	@Before
 	public void dbInit() throws Exception {
-		String configFileName = System.getProperty("user.home") + "/.pokerth/config.xml";
+		String configFileName = System.getProperty("user.home");
+		if (System.getProperty("os.name").toLowerCase().indexOf("linux") > -1) {
+			configFileName += "/.pokerth/config.xml";
+		} else {
+			configFileName += "/AppData/Roaming/pokerth/config.xml";
+		}
 		File file = new File(configFileName);
 		DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
 		DocumentBuilder db = dbf.newDocumentBuilder();
