@@ -23,6 +23,7 @@ make curl
 make libgsasl
 make sdl_mixer
 make tinyxml
+make libircclient
 (this takes quite some time)
 
 5. As the user you would like to use to compile PokerTH for Windows,
