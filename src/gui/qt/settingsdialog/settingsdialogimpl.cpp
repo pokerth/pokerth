@@ -72,6 +72,7 @@ settingsDialogImpl::settingsDialogImpl(QWidget *parent, ConfigFile *c, selectAva
 	comboBox_switchLanguage->addItem(QString(tr("Greek")+" "+QString::fromUtf8("(Ελληνικά)")),"gr");
 	comboBox_switchLanguage->addItem(QString(tr("Hungarian")+" "+QString::fromUtf8("(Magyar)")),"hu");
 	comboBox_switchLanguage->addItem(QString(tr("Italian")+" "+QString::fromUtf8("(italiano)")),"it");
+	comboBox_switchLanguage->addItem(QString(tr("Japanese")+" "+QString::fromUtf8("(日本語)")),"jp");
 	comboBox_switchLanguage->addItem(QString(tr("Lithuania")+" "+QString::fromUtf8("(Lietuviškai)")),"lt");
 	comboBox_switchLanguage->addItem(QString(tr("Norwegian")+" "+QString::fromUtf8("(Norsk)")),"no");
 	comboBox_switchLanguage->addItem(QString(tr("Polish")+" "+QString::fromUtf8("(polski)")),"pl");
