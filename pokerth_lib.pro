@@ -47,7 +47,7 @@ DEPENDPATH += . \
 
 # Input
 HEADERS += \
-		src/game.h \
+		src/engine/game.h \
 		src/session.h \
 		src/playerdata.h \
 		src/gamedata.h \
@@ -133,7 +133,7 @@ HEADERS += \
     src/net/servermanagerfactory.h
 
 SOURCES += \
-		src/game.cpp \
+		src/engine/game.cpp \
 		src/session.cpp \
 		src/playerdata.cpp \
 		src/config/configfile.cpp \
