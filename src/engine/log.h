@@ -14,7 +14,9 @@
  *                                                                           *
  * You should have received a copy of the GNU Affero General Public License  *
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.     *
- *****************************************************************************/ #ifndef LOG_H
+ *****************************************************************************/
+
+#ifndef LOG_H
 #define LOG_H
 
 #include "engine_defs.h"
