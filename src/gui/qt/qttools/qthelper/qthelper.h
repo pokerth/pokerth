@@ -14,7 +14,8 @@
  *                                                                           *
  * You should have received a copy of the GNU Affero General Public License  *
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.     *
- *****************************************************************************/ #ifndef QTHELPER_H
+ *****************************************************************************/
+#ifndef QTHELPER_H
 #define QTHELPER_H
 
 #ifdef POKERTH_DEDICATED_SERVER

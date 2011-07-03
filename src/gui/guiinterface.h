@@ -14,7 +14,8 @@
  *                                                                           *
  * You should have received a copy of the GNU Affero General Public License  *
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.     *
- *****************************************************************************/ #ifndef GUIINTERFACE_H
+ *****************************************************************************/
+#ifndef GUIINTERFACE_H
 #define GUIINTERFACE_H
 
 #include <net/clientcallback.h>

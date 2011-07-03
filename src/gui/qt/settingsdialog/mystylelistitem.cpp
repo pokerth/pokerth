@@ -14,7 +14,8 @@
  *                                                                           *
  * You should have received a copy of the GNU Affero General Public License  *
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.     *
- *****************************************************************************/ #include "mystylelistitem.h"
+ *****************************************************************************/
+#include "mystylelistitem.h"
 
 MyStyleListItem::MyStyleListItem(QStringList s, QTreeWidget *w)
 	: QTreeWidgetItem(w, s, QTreeWidgetItem::UserType)

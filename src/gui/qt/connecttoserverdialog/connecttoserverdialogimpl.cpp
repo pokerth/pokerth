@@ -14,7 +14,8 @@
  *                                                                           *
  * You should have received a copy of the GNU Affero General Public License  *
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.     *
- *****************************************************************************/ #include "connecttoserverdialogimpl.h"
+ *****************************************************************************/
+#include "connecttoserverdialogimpl.h"
 #include <net/socket_msg.h>
 
 connectToServerDialogImpl::connectToServerDialogImpl(QWidget *parent)

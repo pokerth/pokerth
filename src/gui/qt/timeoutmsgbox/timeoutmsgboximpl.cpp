@@ -14,7 +14,8 @@
  *                                                                           *
  * You should have received a copy of the GNU Affero General Public License  *
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.     *
- *****************************************************************************/ #include "timeoutmsgboximpl.h"
+ *****************************************************************************/
+#include "timeoutmsgboximpl.h"
 #include "session.h"
 
 timeoutMsgBoxImpl::timeoutMsgBoxImpl(QMainWindow *parent)

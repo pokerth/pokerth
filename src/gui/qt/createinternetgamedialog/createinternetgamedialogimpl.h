@@ -14,7 +14,8 @@
  *                                                                           *
  * You should have received a copy of the GNU Affero General Public License  *
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.     *
- *****************************************************************************/ #ifndef CREATEINTERNETGAMEDIALOGIMPL_H
+ *****************************************************************************/
+#ifndef CREATEINTERNETGAMEDIALOGIMPL_H
 #define CREATEINTERNETGAMEDIALOGIMPL_H
 
 #include "ui_createinternetgamedialog.h"

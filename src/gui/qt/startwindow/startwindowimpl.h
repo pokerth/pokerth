@@ -14,7 +14,8 @@
  *                                                                           *
  * You should have received a copy of the GNU Affero General Public License  *
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.     *
- *****************************************************************************/ #ifndef STARTWINDOWIMPL_H
+ *****************************************************************************/
+#ifndef STARTWINDOWIMPL_H
 #define STARTWINDOWIMPL_H
 
 #include <boost/shared_ptr.hpp>

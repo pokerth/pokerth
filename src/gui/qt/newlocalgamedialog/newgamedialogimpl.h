@@ -14,7 +14,8 @@
  *                                                                           *
  * You should have received a copy of the GNU Affero General Public License  *
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.     *
- *****************************************************************************/ #ifndef NEWGAMEDIALOGIMPL_H
+ *****************************************************************************/
+#ifndef NEWGAMEDIALOGIMPL_H
 #define NEWGAMEDIALOGIMPL_H
 
 #include "ui_newgamedialog.h"

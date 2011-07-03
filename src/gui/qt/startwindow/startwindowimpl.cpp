@@ -14,19 +14,16 @@
  *                                                                           *
  * You should have received a copy of the GNU Affero General Public License  *
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.     *
- *****************************************************************************/ #include "startwindowimpl.h"
-
+ *****************************************************************************/
+#include "startwindowimpl.h"
 #include "playerinterface.h"
-
 #include <gamedata.h>
 #include <generic/serverguiwrapper.h>
 #include <net/socket_msg.h>
 #include "tools.h"
-
 #include "session.h"
 #include "game.h"
 #include "guiwrapper.h"
-
 #include "configfile.h"
 #include "gametableimpl.h"
 #include "newgamedialogimpl.h"

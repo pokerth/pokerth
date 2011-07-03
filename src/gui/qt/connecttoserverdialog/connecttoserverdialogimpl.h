@@ -14,7 +14,8 @@
  *                                                                           *
  * You should have received a copy of the GNU Affero General Public License  *
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.     *
- *****************************************************************************/ #ifndef CONNECTTOSERVERDIALOGIMPL_H
+ *****************************************************************************/
+#ifndef CONNECTTOSERVERDIALOGIMPL_H
 #define CONNECTTOSERVERDIALOGIMPL_H
 
 #include "ui_connecttoserverdialog.h"

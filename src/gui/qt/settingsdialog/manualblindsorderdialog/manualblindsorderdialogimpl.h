@@ -14,7 +14,8 @@
  *                                                                           *
  * You should have received a copy of the GNU Affero General Public License  *
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.     *
- *****************************************************************************/ #ifndef MANUALBLINDSORDERDIALOGIMPL_H
+ *****************************************************************************/
+#ifndef MANUALBLINDSORDERDIALOGIMPL_H
 #define MANUALBLINDSORDERDIALOGIMPL_H
 
 #include "ui_manualblindsorderdialog.h"

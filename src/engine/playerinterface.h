@@ -14,7 +14,8 @@
  *                                                                           *
  * You should have received a copy of the GNU Affero General Public License  *
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.     *
- *****************************************************************************/ #ifndef PLAYERINTERFACE_H
+ *****************************************************************************/
+#ifndef PLAYERINTERFACE_H
 #define PLAYERINTERFACE_H
 
 #include "handinterface.h"

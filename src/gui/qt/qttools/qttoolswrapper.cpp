@@ -16,9 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.     *
  *****************************************************************************/
 #include "qttoolswrapper.h"
-
 #include <qthelper/qthelper.h>
-
 
 using namespace std;
 
