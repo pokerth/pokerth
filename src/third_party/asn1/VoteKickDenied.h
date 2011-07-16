@@ -19,27 +19,28 @@
 extern "C" {
 #endif
 
-/* Dependencies */
-typedef enum voteKickDeniedReason {
-	voteKickDeniedReason_voteKickDeniedInvalid	= 0,
-	voteKickDeniedReason_voteKickDeniedAlreadyVoted	= 1
-} e_voteKickDeniedReason;
+	/* Dependencies */
+	typedef enum voteKickDeniedReason {
+		voteKickDeniedReason_voteKickDeniedInvalid	= 0,
+		 voteKickDeniedReason_voteKickDeniedAlreadyVoted	= 1
+	}
+	         e_voteKickDeniedReason;
 
-/* VoteKickDenied */
-typedef struct VoteKickDenied {
-	long	 voteKickDeniedReason;
-	/*
-	 * This type is extensible,
-	 * possible extensions are below.
-	 */
-	
-	/* Context for parsing across buffer boundaries */
-	asn_struct_ctx_t _asn_ctx;
-} VoteKickDenied_t;
+	/* VoteKickDenied */
+	typedef struct VoteKickDenied {
+		long	 voteKickDeniedReason;
+		/*
+		 * This type is extensible,
+		 * possible extensions are below.
+		 */
 
-/* Implementation */
-/* extern asn_TYPE_descriptor_t asn_DEF_voteKickDeniedReason_2;	// (Use -fall-defs-global to expose) */
-extern asn_TYPE_descriptor_t asn_DEF_VoteKickDenied;
+		/* Context for parsing across buffer boundaries */
+		asn_struct_ctx_t _asn_ctx;
+	} VoteKickDenied_t;
+
+	/* Implementation */
+	/* extern asn_TYPE_descriptor_t asn_DEF_voteKickDeniedReason_2;	// (Use -fall-defs-global to expose) */
+	extern asn_TYPE_descriptor_t asn_DEF_VoteKickDenied;
 
 #ifdef __cplusplus
 }

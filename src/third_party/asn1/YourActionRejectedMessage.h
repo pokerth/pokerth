@@ -23,32 +23,33 @@
 extern "C" {
 #endif
 
-/* Dependencies */
-typedef enum rejectionReason {
-	rejectionReason_rejectedInvalidGameState	= 1,
-	rejectionReason_rejectedNotYourTurn	= 2,
-	rejectionReason_rejectedActionNotAllowed	= 3
-} e_rejectionReason;
+	/* Dependencies */
+	typedef enum rejectionReason {
+		rejectionReason_rejectedInvalidGameState	= 1,
+		   rejectionReason_rejectedNotYourTurn	= 2,
+		   rejectionReason_rejectedActionNotAllowed	= 3
+	}
+	           e_rejectionReason;
 
-/* YourActionRejectedMessage */
-typedef struct YourActionRejectedMessage {
-	NonZeroId_t	 gameId;
-	NetGameState_t	 gameState;
-	NetPlayerAction_t	 yourAction;
-	long	 yourRelativeBet;
-	long	 rejectionReason;
-	/*
-	 * This type is extensible,
-	 * possible extensions are below.
-	 */
-	
-	/* Context for parsing across buffer boundaries */
-	asn_struct_ctx_t _asn_ctx;
-} YourActionRejectedMessage_t;
+	/* YourActionRejectedMessage */
+	typedef struct YourActionRejectedMessage {
+		NonZeroId_t	 gameId;
+		NetGameState_t	 gameState;
+		NetPlayerAction_t	 yourAction;
+		long	 yourRelativeBet;
+		long	 rejectionReason;
+		/*
+		 * This type is extensible,
+		 * possible extensions are below.
+		 */
 
-/* Implementation */
-/* extern asn_TYPE_descriptor_t asn_DEF_rejectionReason_6;	// (Use -fall-defs-global to expose) */
-extern asn_TYPE_descriptor_t asn_DEF_YourActionRejectedMessage;
+		/* Context for parsing across buffer boundaries */
+		asn_struct_ctx_t _asn_ctx;
+	} YourActionRejectedMessage_t;
+
+	/* Implementation */
+	/* extern asn_TYPE_descriptor_t asn_DEF_rejectionReason_6;	// (Use -fall-defs-global to expose) */
+	extern asn_TYPE_descriptor_t asn_DEF_YourActionRejectedMessage;
 
 #ifdef __cplusplus
 }

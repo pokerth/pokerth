@@ -9,31 +9,31 @@
 
 static int
 memb_smallBlind_constraint_1(asn_TYPE_descriptor_t *td, const void *sptr,
-			asn_app_constraint_failed_f *ctfailcb, void *app_key) {
+                             asn_app_constraint_failed_f *ctfailcb, void *app_key) {
 	long value;
-	
+
 	if(!sptr) {
 		_ASN_CTFAIL(app_key, td, sptr,
-			"%s: value not given (%s:%d)",
-			td->name, __FILE__, __LINE__);
+		            "%s: value not given (%s:%d)",
+		            td->name, __FILE__, __LINE__);
 		return -1;
 	}
-	
+
 	value = *(const long *)sptr;
-	
+
 	if((value >= 1 && value <= 100000000)) {
 		/* Constraint check succeeded */
 		return 0;
 	} else {
 		_ASN_CTFAIL(app_key, td, sptr,
-			"%s: constraint failed (%s:%d)",
-			td->name, __FILE__, __LINE__);
+		            "%s: constraint failed (%s:%d)",
+		            td->name, __FILE__, __LINE__);
 		return -1;
 	}
 }
 
 static asn_TYPE_member_t asn_MBR_yourCards_3[] = {
-	{ ATF_NOFLAGS, 0, offsetof(struct yourCards, choice.plainCards),
+	{	ATF_NOFLAGS, 0, offsetof(struct yourCards, choice.plainCards),
 		(ASN_TAG_CLASS_CONTEXT | (0 << 2)),
 		-1,	/* IMPLICIT tag at current level */
 		&asn_DEF_PlainCards,
@@ -41,8 +41,8 @@ static asn_TYPE_member_t asn_MBR_yourCards_3[] = {
 		0,	/* PER is not compiled, use -gen-PER */
 		0,
 		"plainCards"
-		},
-	{ ATF_NOFLAGS, 0, offsetof(struct yourCards, choice.encryptedCards),
+	},
+	{	ATF_NOFLAGS, 0, offsetof(struct yourCards, choice.encryptedCards),
 		(ASN_TAG_CLASS_CONTEXT | (1 << 2)),
 		-1,	/* IMPLICIT tag at current level */
 		&asn_DEF_EncryptedCards,
@@ -50,11 +50,11 @@ static asn_TYPE_member_t asn_MBR_yourCards_3[] = {
 		0,	/* PER is not compiled, use -gen-PER */
 		0,
 		"encryptedCards"
-		},
+	},
 };
 static asn_TYPE_tag2member_t asn_MAP_yourCards_tag2el_3[] = {
-    { (ASN_TAG_CLASS_CONTEXT | (0 << 2)), 0, 0, 0 }, /* plainCards at 453 */
-    { (ASN_TAG_CLASS_CONTEXT | (1 << 2)), 1, 0, 0 } /* encryptedCards at 455 */
+	{ (ASN_TAG_CLASS_CONTEXT | (0 << 2)), 0, 0, 0 }, /* plainCards at 476 */
+	{ (ASN_TAG_CLASS_CONTEXT | (1 << 2)), 1, 0, 0 } /* encryptedCards at 478 */
 };
 static asn_CHOICE_specifics_t asn_SPC_yourCards_specs_3 = {
 	sizeof(struct yourCards),
@@ -90,7 +90,7 @@ asn_TYPE_descriptor_t asn_DEF_yourCards_3 = {
 };
 
 static asn_TYPE_member_t asn_MBR_HandStartMessage_1[] = {
-	{ ATF_NOFLAGS, 0, offsetof(struct HandStartMessage, gameId),
+	{	ATF_NOFLAGS, 0, offsetof(struct HandStartMessage, gameId),
 		(ASN_TAG_CLASS_UNIVERSAL | (2 << 2)),
 		0,
 		&asn_DEF_NonZeroId,
@@ -98,8 +98,8 @@ static asn_TYPE_member_t asn_MBR_HandStartMessage_1[] = {
 		0,	/* PER is not compiled, use -gen-PER */
 		0,
 		"gameId"
-		},
-	{ ATF_NOFLAGS, 0, offsetof(struct HandStartMessage, yourCards),
+	},
+	{	ATF_NOFLAGS, 0, offsetof(struct HandStartMessage, yourCards),
 		-1 /* Ambiguous tag (CHOICE?) */,
 		0,
 		&asn_DEF_yourCards_3,
@@ -107,8 +107,8 @@ static asn_TYPE_member_t asn_MBR_HandStartMessage_1[] = {
 		0,	/* PER is not compiled, use -gen-PER */
 		0,
 		"yourCards"
-		},
-	{ ATF_NOFLAGS, 0, offsetof(struct HandStartMessage, smallBlind),
+	},
+	{	ATF_NOFLAGS, 0, offsetof(struct HandStartMessage, smallBlind),
 		(ASN_TAG_CLASS_UNIVERSAL | (2 << 2)),
 		0,
 		&asn_DEF_NativeInteger,
@@ -116,17 +116,17 @@ static asn_TYPE_member_t asn_MBR_HandStartMessage_1[] = {
 		0,	/* PER is not compiled, use -gen-PER */
 		0,
 		"smallBlind"
-		},
+	},
 };
 static ber_tlv_tag_t asn_DEF_HandStartMessage_tags_1[] = {
 	(ASN_TAG_CLASS_APPLICATION | (23 << 2)),
 	(ASN_TAG_CLASS_UNIVERSAL | (16 << 2))
 };
 static asn_TYPE_tag2member_t asn_MAP_HandStartMessage_tag2el_1[] = {
-    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 0, 0, 1 }, /* gameId at 451 */
-    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 2, -1, 0 }, /* smallBlind at 456 */
-    { (ASN_TAG_CLASS_CONTEXT | (0 << 2)), 1, 0, 0 }, /* plainCards at 453 */
-    { (ASN_TAG_CLASS_CONTEXT | (1 << 2)), 1, 0, 0 } /* encryptedCards at 455 */
+	{ (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 0, 0, 1 }, /* gameId at 474 */
+	{ (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 2, -1, 0 }, /* smallBlind at 479 */
+	{ (ASN_TAG_CLASS_CONTEXT | (0 << 2)), 1, 0, 0 }, /* plainCards at 476 */
+	{ (ASN_TAG_CLASS_CONTEXT | (1 << 2)), 1, 0, 0 } /* encryptedCards at 478 */
 };
 static asn_SEQUENCE_specifics_t asn_SPC_HandStartMessage_specs_1 = {
 	sizeof(struct HandStartMessage),
@@ -151,10 +151,10 @@ asn_TYPE_descriptor_t asn_DEF_HandStartMessage = {
 	0,	/* Use generic outmost tag fetcher */
 	asn_DEF_HandStartMessage_tags_1,
 	sizeof(asn_DEF_HandStartMessage_tags_1)
-		/sizeof(asn_DEF_HandStartMessage_tags_1[0]) - 1, /* 1 */
+	/sizeof(asn_DEF_HandStartMessage_tags_1[0]) - 1, /* 1 */
 	asn_DEF_HandStartMessage_tags_1,	/* Same as above */
 	sizeof(asn_DEF_HandStartMessage_tags_1)
-		/sizeof(asn_DEF_HandStartMessage_tags_1[0]), /* 2 */
+	/sizeof(asn_DEF_HandStartMessage_tags_1[0]), /* 2 */
 	0,	/* No PER visible constraints */
 	asn_MBR_HandStartMessage_1,
 	3,	/* Elements count */

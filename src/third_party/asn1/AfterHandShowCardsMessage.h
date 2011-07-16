@@ -19,20 +19,20 @@
 extern "C" {
 #endif
 
-/* AfterHandShowCardsMessage */
-typedef struct AfterHandShowCardsMessage {
-	PlayerResult_t	 playerResult;
-	/*
-	 * This type is extensible,
-	 * possible extensions are below.
-	 */
-	
-	/* Context for parsing across buffer boundaries */
-	asn_struct_ctx_t _asn_ctx;
-} AfterHandShowCardsMessage_t;
+	/* AfterHandShowCardsMessage */
+	typedef struct AfterHandShowCardsMessage {
+		PlayerResult_t	 playerResult;
+		/*
+		 * This type is extensible,
+		 * possible extensions are below.
+		 */
 
-/* Implementation */
-extern asn_TYPE_descriptor_t asn_DEF_AfterHandShowCardsMessage;
+		/* Context for parsing across buffer boundaries */
+		asn_struct_ctx_t _asn_ctx;
+	} AfterHandShowCardsMessage_t;
+
+	/* Implementation */
+	extern asn_TYPE_descriptor_t asn_DEF_AfterHandShowCardsMessage;
 
 #ifdef __cplusplus
 }

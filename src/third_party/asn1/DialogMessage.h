@@ -19,20 +19,20 @@
 extern "C" {
 #endif
 
-/* DialogMessage */
-typedef struct DialogMessage {
-	UTF8String_t	 notificationText;
-	/*
-	 * This type is extensible,
-	 * possible extensions are below.
-	 */
-	
-	/* Context for parsing across buffer boundaries */
-	asn_struct_ctx_t _asn_ctx;
-} DialogMessage_t;
+	/* DialogMessage */
+	typedef struct DialogMessage {
+		UTF8String_t	 notificationText;
+		/*
+		 * This type is extensible,
+		 * possible extensions are below.
+		 */
 
-/* Implementation */
-extern asn_TYPE_descriptor_t asn_DEF_DialogMessage;
+		/* Context for parsing across buffer boundaries */
+		asn_struct_ctx_t _asn_ctx;
+	} DialogMessage_t;
+
+	/* Implementation */
+	extern asn_TYPE_descriptor_t asn_DEF_DialogMessage;
 
 #ifdef __cplusplus
 }

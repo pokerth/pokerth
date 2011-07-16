@@ -21,22 +21,23 @@
 extern "C" {
 #endif
 
-/* InitAckMessage */
-typedef struct InitAckMessage {
-	Guid_t	 yourSessionId;
-	NonZeroId_t	 yourPlayerId;
-	AvatarHash_t	*yourAvatar	/* OPTIONAL */;
-	/*
-	 * This type is extensible,
-	 * possible extensions are below.
-	 */
-	
-	/* Context for parsing across buffer boundaries */
-	asn_struct_ctx_t _asn_ctx;
-} InitAckMessage_t;
+	/* InitAckMessage */
+	typedef struct InitAckMessage {
+		Guid_t	 yourSessionId;
+		NonZeroId_t	 yourPlayerId;
+		AvatarHash_t	*yourAvatar	/* OPTIONAL */;
+		NonZeroId_t	*rejoinGameId	/* OPTIONAL */;
+		/*
+		 * This type is extensible,
+		 * possible extensions are below.
+		 */
 
-/* Implementation */
-extern asn_TYPE_descriptor_t asn_DEF_InitAckMessage;
+		/* Context for parsing across buffer boundaries */
+		asn_struct_ctx_t _asn_ctx;
+	} InitAckMessage_t;
+
+	/* Implementation */
+	extern asn_TYPE_descriptor_t asn_DEF_InitAckMessage;
 
 #ifdef __cplusplus
 }

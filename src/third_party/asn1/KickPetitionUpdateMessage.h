@@ -20,24 +20,24 @@
 extern "C" {
 #endif
 
-/* KickPetitionUpdateMessage */
-typedef struct KickPetitionUpdateMessage {
-	NonZeroId_t	 gameId;
-	NonZeroId_t	 petitionId;
-	long	 numVotesAgainstKicking;
-	long	 numVotesInFavourOfKicking;
-	long	 numVotesNeededToKick;
-	/*
-	 * This type is extensible,
-	 * possible extensions are below.
-	 */
-	
-	/* Context for parsing across buffer boundaries */
-	asn_struct_ctx_t _asn_ctx;
-} KickPetitionUpdateMessage_t;
+	/* KickPetitionUpdateMessage */
+	typedef struct KickPetitionUpdateMessage {
+		NonZeroId_t	 gameId;
+		NonZeroId_t	 petitionId;
+		long	 numVotesAgainstKicking;
+		long	 numVotesInFavourOfKicking;
+		long	 numVotesNeededToKick;
+		/*
+		 * This type is extensible,
+		 * possible extensions are below.
+		 */
 
-/* Implementation */
-extern asn_TYPE_descriptor_t asn_DEF_KickPetitionUpdateMessage;
+		/* Context for parsing across buffer boundaries */
+		asn_struct_ctx_t _asn_ctx;
+	} KickPetitionUpdateMessage_t;
+
+	/* Implementation */
+	extern asn_TYPE_descriptor_t asn_DEF_KickPetitionUpdateMessage;
 
 #ifdef __cplusplus
 }

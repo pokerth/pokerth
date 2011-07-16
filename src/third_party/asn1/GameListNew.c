@@ -9,32 +9,32 @@
 
 static int
 memb_playerIds_constraint_1(asn_TYPE_descriptor_t *td, const void *sptr,
-			asn_app_constraint_failed_f *ctfailcb, void *app_key) {
+                            asn_app_constraint_failed_f *ctfailcb, void *app_key) {
 	size_t size;
-	
+
 	if(!sptr) {
 		_ASN_CTFAIL(app_key, td, sptr,
-			"%s: value not given (%s:%d)",
-			td->name, __FILE__, __LINE__);
+		            "%s: value not given (%s:%d)",
+		            td->name, __FILE__, __LINE__);
 		return -1;
 	}
-	
+
 	/* Determine the number of elements */
 	size = _A_CSEQUENCE_FROM_VOID(sptr)->count;
-	
+
 	if((size <= 10)) {
 		/* Perform validation of the inner elements */
 		return td->check_constraints(td, sptr, ctfailcb, app_key);
 	} else {
 		_ASN_CTFAIL(app_key, td, sptr,
-			"%s: constraint failed (%s:%d)",
-			td->name, __FILE__, __LINE__);
+		            "%s: constraint failed (%s:%d)",
+		            td->name, __FILE__, __LINE__);
 		return -1;
 	}
 }
 
 static asn_TYPE_member_t asn_MBR_playerIds_4[] = {
-	{ ATF_POINTER, 0, 0,
+	{	ATF_POINTER, 0, 0,
 		(ASN_TAG_CLASS_UNIVERSAL | (2 << 2)),
 		0,
 		&asn_DEF_NonZeroId,
@@ -42,7 +42,7 @@ static asn_TYPE_member_t asn_MBR_playerIds_4[] = {
 		0,	/* PER is not compiled, use -gen-PER */
 		0,
 		""
-		},
+	},
 };
 static ber_tlv_tag_t asn_DEF_playerIds_tags_4[] = {
 	(ASN_TAG_CLASS_UNIVERSAL | (16 << 2))
@@ -67,10 +67,10 @@ asn_TYPE_descriptor_t asn_DEF_playerIds_4 = {
 	0,	/* Use generic outmost tag fetcher */
 	asn_DEF_playerIds_tags_4,
 	sizeof(asn_DEF_playerIds_tags_4)
-		/sizeof(asn_DEF_playerIds_tags_4[0]), /* 1 */
+	/sizeof(asn_DEF_playerIds_tags_4[0]), /* 1 */
 	asn_DEF_playerIds_tags_4,	/* Same as above */
 	sizeof(asn_DEF_playerIds_tags_4)
-		/sizeof(asn_DEF_playerIds_tags_4[0]), /* 1 */
+	/sizeof(asn_DEF_playerIds_tags_4[0]), /* 1 */
 	0,	/* No PER visible constraints */
 	asn_MBR_playerIds_4,
 	1,	/* Single element */
@@ -78,7 +78,7 @@ asn_TYPE_descriptor_t asn_DEF_playerIds_4 = {
 };
 
 static asn_TYPE_member_t asn_MBR_GameListNew_1[] = {
-	{ ATF_NOFLAGS, 0, offsetof(struct GameListNew, gameMode),
+	{	ATF_NOFLAGS, 0, offsetof(struct GameListNew, gameMode),
 		(ASN_TAG_CLASS_UNIVERSAL | (10 << 2)),
 		0,
 		&asn_DEF_NetGameMode,
@@ -86,8 +86,8 @@ static asn_TYPE_member_t asn_MBR_GameListNew_1[] = {
 		0,	/* PER is not compiled, use -gen-PER */
 		0,
 		"gameMode"
-		},
-	{ ATF_NOFLAGS, 0, offsetof(struct GameListNew, isPrivate),
+	},
+	{	ATF_NOFLAGS, 0, offsetof(struct GameListNew, isPrivate),
 		(ASN_TAG_CLASS_UNIVERSAL | (1 << 2)),
 		0,
 		&asn_DEF_BOOLEAN,
@@ -95,8 +95,8 @@ static asn_TYPE_member_t asn_MBR_GameListNew_1[] = {
 		0,	/* PER is not compiled, use -gen-PER */
 		0,
 		"isPrivate"
-		},
-	{ ATF_NOFLAGS, 0, offsetof(struct GameListNew, playerIds),
+	},
+	{	ATF_NOFLAGS, 0, offsetof(struct GameListNew, playerIds),
 		(ASN_TAG_CLASS_UNIVERSAL | (16 << 2)),
 		0,
 		&asn_DEF_playerIds_4,
@@ -104,8 +104,8 @@ static asn_TYPE_member_t asn_MBR_GameListNew_1[] = {
 		0,	/* PER is not compiled, use -gen-PER */
 		0,
 		"playerIds"
-		},
-	{ ATF_NOFLAGS, 0, offsetof(struct GameListNew, adminPlayerId),
+	},
+	{	ATF_NOFLAGS, 0, offsetof(struct GameListNew, adminPlayerId),
 		(ASN_TAG_CLASS_UNIVERSAL | (2 << 2)),
 		0,
 		&asn_DEF_NonZeroId,
@@ -113,8 +113,8 @@ static asn_TYPE_member_t asn_MBR_GameListNew_1[] = {
 		0,	/* PER is not compiled, use -gen-PER */
 		0,
 		"adminPlayerId"
-		},
-	{ ATF_NOFLAGS, 0, offsetof(struct GameListNew, gameInfo),
+	},
+	{	ATF_NOFLAGS, 0, offsetof(struct GameListNew, gameInfo),
 		(ASN_TAG_CLASS_UNIVERSAL | (16 << 2)),
 		0,
 		&asn_DEF_NetGameInfo,
@@ -122,17 +122,17 @@ static asn_TYPE_member_t asn_MBR_GameListNew_1[] = {
 		0,	/* PER is not compiled, use -gen-PER */
 		0,
 		"gameInfo"
-		},
+	},
 };
 static ber_tlv_tag_t asn_DEF_GameListNew_tags_1[] = {
 	(ASN_TAG_CLASS_UNIVERSAL | (16 << 2))
 };
 static asn_TYPE_tag2member_t asn_MAP_GameListNew_tag2el_1[] = {
-    { (ASN_TAG_CLASS_UNIVERSAL | (1 << 2)), 1, 0, 0 }, /* isPrivate at 209 */
-    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 3, 0, 0 }, /* adminPlayerId at 211 */
-    { (ASN_TAG_CLASS_UNIVERSAL | (10 << 2)), 0, 0, 0 }, /* gameMode at 208 */
-    { (ASN_TAG_CLASS_UNIVERSAL | (16 << 2)), 2, 0, 1 }, /* playerIds at 210 */
-    { (ASN_TAG_CLASS_UNIVERSAL | (16 << 2)), 4, -1, 0 } /* gameInfo at 213 */
+	{ (ASN_TAG_CLASS_UNIVERSAL | (1 << 2)), 1, 0, 0 }, /* isPrivate at 211 */
+	{ (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 3, 0, 0 }, /* adminPlayerId at 213 */
+	{ (ASN_TAG_CLASS_UNIVERSAL | (10 << 2)), 0, 0, 0 }, /* gameMode at 210 */
+	{ (ASN_TAG_CLASS_UNIVERSAL | (16 << 2)), 2, 0, 1 }, /* playerIds at 212 */
+	{ (ASN_TAG_CLASS_UNIVERSAL | (16 << 2)), 4, -1, 0 } /* gameInfo at 215 */
 };
 static asn_SEQUENCE_specifics_t asn_SPC_GameListNew_specs_1 = {
 	sizeof(struct GameListNew),
@@ -157,10 +157,10 @@ asn_TYPE_descriptor_t asn_DEF_GameListNew = {
 	0,	/* Use generic outmost tag fetcher */
 	asn_DEF_GameListNew_tags_1,
 	sizeof(asn_DEF_GameListNew_tags_1)
-		/sizeof(asn_DEF_GameListNew_tags_1[0]), /* 1 */
+	/sizeof(asn_DEF_GameListNew_tags_1[0]), /* 1 */
 	asn_DEF_GameListNew_tags_1,	/* Same as above */
 	sizeof(asn_DEF_GameListNew_tags_1)
-		/sizeof(asn_DEF_GameListNew_tags_1[0]), /* 1 */
+	/sizeof(asn_DEF_GameListNew_tags_1[0]), /* 1 */
 	0,	/* No PER visible constraints */
 	asn_MBR_GameListNew_1,
 	5,	/* Elements count */

@@ -19,20 +19,20 @@
 extern "C" {
 #endif
 
-/* ChatTypePrivate */
-typedef struct ChatTypePrivate {
-	NonZeroId_t	 playerId;
-	/*
-	 * This type is extensible,
-	 * possible extensions are below.
-	 */
-	
-	/* Context for parsing across buffer boundaries */
-	asn_struct_ctx_t _asn_ctx;
-} ChatTypePrivate_t;
+	/* ChatTypePrivate */
+	typedef struct ChatTypePrivate {
+		NonZeroId_t	 playerId;
+		/*
+		 * This type is extensible,
+		 * possible extensions are below.
+		 */
 
-/* Implementation */
-extern asn_TYPE_descriptor_t asn_DEF_ChatTypePrivate;
+		/* Context for parsing across buffer boundaries */
+		asn_struct_ctx_t _asn_ctx;
+	} ChatTypePrivate_t;
+
+	/* Implementation */
+	extern asn_TYPE_descriptor_t asn_DEF_ChatTypePrivate;
 
 #ifdef __cplusplus
 }

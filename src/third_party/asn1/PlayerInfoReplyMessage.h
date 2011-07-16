@@ -22,43 +22,44 @@
 extern "C" {
 #endif
 
-/* Dependencies */
-typedef enum playerInfoResult_PR {
-	playerInfoResult_PR_NOTHING,	/* No components present */
-	playerInfoResult_PR_playerInfoData,
-	playerInfoResult_PR_unknownPlayerInfo,
-	/* Extensions may appear below */
-	
-} playerInfoResult_PR;
+	/* Dependencies */
+	typedef enum playerInfoResult_PR {
+		playerInfoResult_PR_NOTHING,	/* No components present */
+		playerInfoResult_PR_playerInfoData,
+		playerInfoResult_PR_unknownPlayerInfo,
+		/* Extensions may appear below */
 
-/* PlayerInfoReplyMessage */
-typedef struct PlayerInfoReplyMessage {
-	NonZeroId_t	 playerId;
-	struct playerInfoResult {
-		playerInfoResult_PR present;
-		union PlayerInfoReplyMessage__playerInfoResult_u {
-			PlayerInfoData_t	 playerInfoData;
-			UnknownPlayerInfo_t	 unknownPlayerInfo;
-			/*
-			 * This type is extensible,
-			 * possible extensions are below.
-			 */
-		} choice;
-		
+	}
+	playerInfoResult_PR;
+
+	/* PlayerInfoReplyMessage */
+	typedef struct PlayerInfoReplyMessage {
+		NonZeroId_t	 playerId;
+		struct playerInfoResult {
+			playerInfoResult_PR present;
+			union PlayerInfoReplyMessage__playerInfoResult_u {
+				PlayerInfoData_t	 playerInfoData;
+				UnknownPlayerInfo_t	 unknownPlayerInfo;
+				/*
+				 * This type is extensible,
+				 * possible extensions are below.
+				 */
+			} choice;
+
+			/* Context for parsing across buffer boundaries */
+			asn_struct_ctx_t _asn_ctx;
+		} playerInfoResult;
+		/*
+		 * This type is extensible,
+		 * possible extensions are below.
+		 */
+
 		/* Context for parsing across buffer boundaries */
 		asn_struct_ctx_t _asn_ctx;
-	} playerInfoResult;
-	/*
-	 * This type is extensible,
-	 * possible extensions are below.
-	 */
-	
-	/* Context for parsing across buffer boundaries */
-	asn_struct_ctx_t _asn_ctx;
-} PlayerInfoReplyMessage_t;
+	} PlayerInfoReplyMessage_t;
 
-/* Implementation */
-extern asn_TYPE_descriptor_t asn_DEF_PlayerInfoReplyMessage;
+	/* Implementation */
+	extern asn_TYPE_descriptor_t asn_DEF_PlayerInfoReplyMessage;
 
 #ifdef __cplusplus
 }

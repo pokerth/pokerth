@@ -13,35 +13,54 @@
 
 /* Including external dependencies */
 #include "NonZeroId.h"
-#include <asn_SEQUENCE_OF.h>
-#include <constr_SEQUENCE_OF.h>
+#include "GameStartModeInitial.h"
+#include "GameStartModeRejoin.h"
+#include <constr_CHOICE.h>
 #include <constr_SEQUENCE.h>
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-/* GameStartMessage */
-typedef struct GameStartMessage {
-	NonZeroId_t	 gameId;
-	NonZeroId_t	 startDealerPlayerId;
-	struct playerSeats {
-		A_SEQUENCE_OF(NonZeroId_t) list;
-		
+	/* Dependencies */
+	typedef enum gameStartMode_PR {
+		gameStartMode_PR_NOTHING,	/* No components present */
+		gameStartMode_PR_gameStartModeInitial,
+		gameStartMode_PR_gameStartModeRejoin,
+		/* Extensions may appear below */
+
+	}
+	gameStartMode_PR;
+
+	/* GameStartMessage */
+	typedef struct GameStartMessage {
+		NonZeroId_t	 gameId;
+		NonZeroId_t	 startDealerPlayerId;
+		struct gameStartMode {
+			gameStartMode_PR present;
+			union GameStartMessage__gameStartMode_u {
+				GameStartModeInitial_t	 gameStartModeInitial;
+				GameStartModeRejoin_t	 gameStartModeRejoin;
+				/*
+				 * This type is extensible,
+				 * possible extensions are below.
+				 */
+			} choice;
+
+			/* Context for parsing across buffer boundaries */
+			asn_struct_ctx_t _asn_ctx;
+		} gameStartMode;
+		/*
+		 * This type is extensible,
+		 * possible extensions are below.
+		 */
+
 		/* Context for parsing across buffer boundaries */
 		asn_struct_ctx_t _asn_ctx;
-	} playerSeats;
-	/*
-	 * This type is extensible,
-	 * possible extensions are below.
-	 */
-	
-	/* Context for parsing across buffer boundaries */
-	asn_struct_ctx_t _asn_ctx;
-} GameStartMessage_t;
+	} GameStartMessage_t;
 
-/* Implementation */
-extern asn_TYPE_descriptor_t asn_DEF_GameStartMessage;
+	/* Implementation */
+	extern asn_TYPE_descriptor_t asn_DEF_GameStartMessage;
 
 #ifdef __cplusplus
 }

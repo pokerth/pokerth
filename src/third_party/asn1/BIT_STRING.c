@@ -32,10 +32,10 @@ asn_TYPE_descriptor_t asn_DEF_BIT_STRING = {
 	0, /* Use generic outmost tag fetcher */
 	asn_DEF_BIT_STRING_tags,
 	sizeof(asn_DEF_BIT_STRING_tags)
-	  / sizeof(asn_DEF_BIT_STRING_tags[0]),
+	/ sizeof(asn_DEF_BIT_STRING_tags[0]),
 	asn_DEF_BIT_STRING_tags,	/* Same as above */
 	sizeof(asn_DEF_BIT_STRING_tags)
-	  / sizeof(asn_DEF_BIT_STRING_tags[0]),
+	/ sizeof(asn_DEF_BIT_STRING_tags[0]),
 	0,	/* No PER visible constraints */
 	0, 0,	/* No members */
 	&asn_DEF_BIT_STRING_specs
@@ -46,21 +46,21 @@ asn_TYPE_descriptor_t asn_DEF_BIT_STRING = {
  */
 int
 BIT_STRING_constraint(asn_TYPE_descriptor_t *td, const void *sptr,
-		asn_app_constraint_failed_f *ctfailcb, void *app_key) {
+                      asn_app_constraint_failed_f *ctfailcb, void *app_key) {
 	const BIT_STRING_t *st = (const BIT_STRING_t *)sptr;
 
 	if(st && st->buf) {
 		if((st->size == 0 && st->bits_unused)
-		|| st->bits_unused < 0 || st->bits_unused > 7) {
+		        || st->bits_unused < 0 || st->bits_unused > 7) {
 			_ASN_CTFAIL(app_key, td, sptr,
-				"%s: invalid padding byte (%s:%d)",
-				td->name, __FILE__, __LINE__);
+			            "%s: invalid padding byte (%s:%d)",
+			            td->name, __FILE__, __LINE__);
 			return -1;
 		}
 	} else {
 		_ASN_CTFAIL(app_key, td, sptr,
-			"%s: value not given (%s:%d)",
-			td->name, __FILE__, __LINE__);
+		            "%s: value not given (%s:%d)",
+		            td->name, __FILE__, __LINE__);
 		return -1;
 	}
 
@@ -74,8 +74,8 @@ static char *_bit_pattern[16] = {
 
 asn_enc_rval_t
 BIT_STRING_encode_xer(asn_TYPE_descriptor_t *td, void *sptr,
-	int ilevel, enum xer_encoder_flags_e flags,
-		asn_app_consume_bytes_f *cb, void *app_key) {
+                      int ilevel, enum xer_encoder_flags_e flags,
+                      asn_app_consume_bytes_f *cb, void *app_key) {
 	asn_enc_rval_t er;
 	char scratch[128];
 	char *p = scratch;
@@ -139,7 +139,7 @@ cb_failed:
  */
 int
 BIT_STRING_print(asn_TYPE_descriptor_t *td, const void *sptr, int ilevel,
-		asn_app_consume_bytes_f *cb, void *app_key) {
+                 asn_app_consume_bytes_f *cb, void *app_key) {
 	static const char *h2c = "0123456789ABCDEF";
 	char scratch[64];
 	const BIT_STRING_t *st = (const BIT_STRING_t *)sptr;
@@ -161,7 +161,7 @@ BIT_STRING_print(asn_TYPE_descriptor_t *td, const void *sptr, int ilevel,
 	 */
 	for(; buf < end; buf++) {
 		if((buf - st->buf) % 16 == 0 && (st->size > 16)
-				&& buf != st->buf) {
+		        && buf != st->buf) {
 			_i_INDENT(1);
 			/* Dump the string */
 			if(cb(scratch, p - scratch, app_key) < 0) return -1;

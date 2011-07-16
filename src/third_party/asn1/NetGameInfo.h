@@ -24,71 +24,72 @@
 extern "C" {
 #endif
 
-/* Dependencies */
-typedef enum netGameType {
-	netGameType_normalGame	= 1,
-	netGameType_registeredOnlyGame	= 2,
-	netGameType_inviteOnlyGame	= 3,
-	netGameType_rankingGame	= 4
-} e_netGameType;
-typedef enum raiseIntervalMode_PR {
-	raiseIntervalMode_PR_NOTHING,	/* No components present */
-	raiseIntervalMode_PR_raiseEveryHands,
-	raiseIntervalMode_PR_raiseEveryMinutes,
-	/* Extensions may appear below */
-	
-} raiseIntervalMode_PR;
-typedef enum endRaiseMode {
-	endRaiseMode_doubleBlinds	= 1,
-	endRaiseMode_raiseByEndValue	= 2,
-	endRaiseMode_keepLastBlind	= 3
-} e_endRaiseMode;
+	/* Dependencies */
+	typedef enum netGameType {
+		netGameType_normalGame	= 1,
+		 netGameType_registeredOnlyGame	= 2,
+		  netGameType_inviteOnlyGame	= 3,
+		   netGameType_rankingGame	= 4
+	}
+	                             e_netGameType;
+	typedef enum raiseIntervalMode_PR {
+		raiseIntervalMode_PR_NOTHING,	/* No components present */
+		raiseIntervalMode_PR_raiseEveryHands,
+		raiseIntervalMode_PR_raiseEveryMinutes,
+		/* Extensions may appear below */
 
-/* NetGameInfo */
-typedef struct NetGameInfo {
-	UTF8String_t	 gameName;
-	long	 netGameType;
-	long	 maxNumPlayers;
-	struct raiseIntervalMode {
-		raiseIntervalMode_PR present;
-		union NetGameInfo__raiseIntervalMode_u {
-			long	 raiseEveryHands;
-			long	 raiseEveryMinutes;
-			/*
-			 * This type is extensible,
-			 * possible extensions are below.
-			 */
-		} choice;
-		
+	} raiseIntervalMode_PR;
+	typedef enum endRaiseMode {
+		endRaiseMode_doubleBlinds	= 1,
+		endRaiseMode_raiseByEndValue	= 2,
+		endRaiseMode_keepLastBlind	= 3
+	} e_endRaiseMode;
+
+	/* NetGameInfo */
+	typedef struct NetGameInfo {
+		UTF8String_t	 gameName;
+		long	 netGameType;
+		long	 maxNumPlayers;
+		struct raiseIntervalMode {
+			raiseIntervalMode_PR present;
+			union NetGameInfo__raiseIntervalMode_u {
+				long	 raiseEveryHands;
+				long	 raiseEveryMinutes;
+				/*
+				 * This type is extensible,
+				 * possible extensions are below.
+				 */
+			} choice;
+
+			/* Context for parsing across buffer boundaries */
+			asn_struct_ctx_t _asn_ctx;
+		} raiseIntervalMode;
+		long	 endRaiseMode;
+		long	 proposedGuiSpeed;
+		long	 delayBetweenHands;
+		long	 playerActionTimeout;
+		long	 firstSmallBlind;
+		long	 endRaiseSmallBlindValue;
+		long	 startMoney;
+		struct manualBlinds {
+			A_SEQUENCE_OF(long) list;
+
+			/* Context for parsing across buffer boundaries */
+			asn_struct_ctx_t _asn_ctx;
+		} manualBlinds;
+		/*
+		 * This type is extensible,
+		 * possible extensions are below.
+		 */
+
 		/* Context for parsing across buffer boundaries */
 		asn_struct_ctx_t _asn_ctx;
-	} raiseIntervalMode;
-	long	 endRaiseMode;
-	long	 proposedGuiSpeed;
-	long	 delayBetweenHands;
-	long	 playerActionTimeout;
-	long	 firstSmallBlind;
-	long	 endRaiseSmallBlindValue;
-	long	 startMoney;
-	struct manualBlinds {
-		A_SEQUENCE_OF(long) list;
-		
-		/* Context for parsing across buffer boundaries */
-		asn_struct_ctx_t _asn_ctx;
-	} manualBlinds;
-	/*
-	 * This type is extensible,
-	 * possible extensions are below.
-	 */
-	
-	/* Context for parsing across buffer boundaries */
-	asn_struct_ctx_t _asn_ctx;
-} NetGameInfo_t;
+	} NetGameInfo_t;
 
-/* Implementation */
-/* extern asn_TYPE_descriptor_t asn_DEF_netGameType_3;	// (Use -fall-defs-global to expose) */
-/* extern asn_TYPE_descriptor_t asn_DEF_endRaiseMode_13;	// (Use -fall-defs-global to expose) */
-extern asn_TYPE_descriptor_t asn_DEF_NetGameInfo;
+	/* Implementation */
+	/* extern asn_TYPE_descriptor_t asn_DEF_netGameType_3;	// (Use -fall-defs-global to expose) */
+	/* extern asn_TYPE_descriptor_t asn_DEF_endRaiseMode_13;	// (Use -fall-defs-global to expose) */
+	extern asn_TYPE_descriptor_t asn_DEF_NetGameInfo;
 
 #ifdef __cplusplus
 }

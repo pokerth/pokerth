@@ -8,7 +8,7 @@
 #include "GameAdminChanged.h"
 
 static asn_TYPE_member_t asn_MBR_GameAdminChanged_1[] = {
-	{ ATF_NOFLAGS, 0, offsetof(struct GameAdminChanged, newAdminPlayerId),
+	{	ATF_NOFLAGS, 0, offsetof(struct GameAdminChanged, newAdminPlayerId),
 		(ASN_TAG_CLASS_UNIVERSAL | (2 << 2)),
 		0,
 		&asn_DEF_NonZeroId,
@@ -16,13 +16,13 @@ static asn_TYPE_member_t asn_MBR_GameAdminChanged_1[] = {
 		0,	/* PER is not compiled, use -gen-PER */
 		0,
 		"newAdminPlayerId"
-		},
+	},
 };
 static ber_tlv_tag_t asn_DEF_GameAdminChanged_tags_1[] = {
 	(ASN_TAG_CLASS_UNIVERSAL | (16 << 2))
 };
 static asn_TYPE_tag2member_t asn_MAP_GameAdminChanged_tag2el_1[] = {
-    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 0, 0, 0 } /* newAdminPlayerId at 377 */
+	{ (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 0, 0, 0 } /* newAdminPlayerId at 384 */
 };
 static asn_SEQUENCE_specifics_t asn_SPC_GameAdminChanged_specs_1 = {
 	sizeof(struct GameAdminChanged),
@@ -47,10 +47,10 @@ asn_TYPE_descriptor_t asn_DEF_GameAdminChanged = {
 	0,	/* Use generic outmost tag fetcher */
 	asn_DEF_GameAdminChanged_tags_1,
 	sizeof(asn_DEF_GameAdminChanged_tags_1)
-		/sizeof(asn_DEF_GameAdminChanged_tags_1[0]), /* 1 */
+	/sizeof(asn_DEF_GameAdminChanged_tags_1[0]), /* 1 */
 	asn_DEF_GameAdminChanged_tags_1,	/* Same as above */
 	sizeof(asn_DEF_GameAdminChanged_tags_1)
-		/sizeof(asn_DEF_GameAdminChanged_tags_1[0]), /* 1 */
+	/sizeof(asn_DEF_GameAdminChanged_tags_1[0]), /* 1 */
 	0,	/* No PER visible constraints */
 	asn_MBR_GameAdminChanged_1,
 	1,	/* Elements count */

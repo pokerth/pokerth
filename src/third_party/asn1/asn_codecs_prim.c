@@ -11,8 +11,8 @@
  */
 asn_dec_rval_t
 ber_decode_primitive(asn_codec_ctx_t *opt_codec_ctx,
-	asn_TYPE_descriptor_t *td,
-	void **sptr, const void *buf_ptr, size_t size, int tag_mode) {
+                     asn_TYPE_descriptor_t *td,
+                     void **sptr, const void *buf_ptr, size_t size, int tag_mode) {
 	ASN__PRIMITIVE_TYPE_t *st = (ASN__PRIMITIVE_TYPE_t *)*sptr;
 	asn_dec_rval_t rval;
 	ber_tlv_len_t length;
@@ -27,13 +27,13 @@ ber_decode_primitive(asn_codec_ctx_t *opt_codec_ctx,
 	}
 
 	ASN_DEBUG("Decoding %s as plain primitive (tm=%d)",
-		td->name, tag_mode);
+	          td->name, tag_mode);
 
 	/*
 	 * Check tags and extract value length.
 	 */
 	rval = ber_check_tags(opt_codec_ctx, td, 0, buf_ptr, size,
-			tag_mode, 0, &length, 0);
+	                      tag_mode, 0, &length, 0);
 	if(rval.code != RC_OK)
 		return rval;
 
@@ -53,7 +53,7 @@ ber_decode_primitive(asn_codec_ctx_t *opt_codec_ctx,
 	st->size = (int)length;
 	/* The following better be optimized away. */
 	if(sizeof(st->size) != sizeof(length)
-			&& (ber_tlv_len_t)st->size != length) {
+	        && (ber_tlv_len_t)st->size != length) {
 		st->size = 0;
 		_ASN_DECODE_FAILED;
 	}
@@ -71,8 +71,8 @@ ber_decode_primitive(asn_codec_ctx_t *opt_codec_ctx,
 	rval.consumed += length;
 
 	ASN_DEBUG("Took %ld/%ld bytes to encode %s",
-		(long)rval.consumed,
-		(long)length, td->name);
+	          (long)rval.consumed,
+	          (long)length, td->name);
 
 	return rval;
 }
@@ -82,16 +82,16 @@ ber_decode_primitive(asn_codec_ctx_t *opt_codec_ctx,
  */
 asn_enc_rval_t
 der_encode_primitive(asn_TYPE_descriptor_t *td, void *sptr,
-	int tag_mode, ber_tlv_tag_t tag,
-	asn_app_consume_bytes_f *cb, void *app_key) {
+                     int tag_mode, ber_tlv_tag_t tag,
+                     asn_app_consume_bytes_f *cb, void *app_key) {
 	asn_enc_rval_t erval;
 	ASN__PRIMITIVE_TYPE_t *st = (ASN__PRIMITIVE_TYPE_t *)sptr;
 
 	ASN_DEBUG("%s %s as a primitive type (tm=%d)",
-		cb?"Encoding":"Estimating", td->name, tag_mode);
+	          cb?"Encoding":"Estimating", td->name, tag_mode);
 
 	erval.encoded = der_write_tags(td, st->size, tag_mode, 0, tag,
-		cb, app_key);
+	                               cb, app_key);
 	ASN_DEBUG("%s wrote tags %d", td->name, (int)erval.encoded);
 	if(erval.encoded == -1) {
 		erval.failed_type = td;
@@ -116,7 +116,7 @@ der_encode_primitive(asn_TYPE_descriptor_t *td, void *sptr,
 
 void
 ASN__PRIMITIVE_TYPE_free(asn_TYPE_descriptor_t *td, void *sptr,
-		int contents_only) {
+                         int contents_only) {
 	ASN__PRIMITIVE_TYPE_t *st = (ASN__PRIMITIVE_TYPE_t *)sptr;
 
 	if(!td || !sptr)
@@ -159,7 +159,7 @@ xer_decode__unexpected_tag(void *key, const void *chunk_buf, size_t chunk_size) 
 	}
 
 	bret = arg->prim_body_decoder(arg->type_descriptor,
-		arg->struct_key, chunk_buf, chunk_size);
+	                              arg->struct_key, chunk_buf, chunk_size);
 	switch(bret) {
 	case XPBD_SYSTEM_FAILURE:
 	case XPBD_DECODER_LIMIT:
@@ -204,7 +204,7 @@ xer_decode__body(void *key, const void *chunk_buf, size_t chunk_size, int have_m
 	}
 
 	bret = arg->prim_body_decoder(arg->type_descriptor,
-		arg->struct_key, chunk_buf, chunk_size);
+	                              arg->struct_key, chunk_buf, chunk_size);
 	switch(bret) {
 	case XPBD_SYSTEM_FAILURE:
 	case XPBD_DECODER_LIMIT:
@@ -224,13 +224,13 @@ xer_decode__body(void *key, const void *chunk_buf, size_t chunk_size, int have_m
 
 asn_dec_rval_t
 xer_decode_primitive(asn_codec_ctx_t *opt_codec_ctx,
-	asn_TYPE_descriptor_t *td,
-	void **sptr,
-	size_t struct_size,
-	const char *opt_mname,
-	const void *buf_ptr, size_t size,
-	xer_primitive_body_decoder_f *prim_body_decoder
-) {
+                     asn_TYPE_descriptor_t *td,
+                     void **sptr,
+                     size_t struct_size,
+                     const char *opt_mname,
+                     const void *buf_ptr, size_t size,
+                     xer_primitive_body_decoder_f *prim_body_decoder
+                    ) {
 	const char *xml_tag = opt_mname ? opt_mname : td->xml_tag;
 	asn_struct_ctx_t s_ctx;
 	struct xdp_arg_s s_arg;
@@ -252,22 +252,22 @@ xer_decode_primitive(asn_codec_ctx_t *opt_codec_ctx,
 	s_arg.want_more = 0;
 
 	rc = xer_decode_general(opt_codec_ctx, &s_ctx, &s_arg,
-		xml_tag, buf_ptr, size,
-		xer_decode__unexpected_tag, xer_decode__body);
+	                        xml_tag, buf_ptr, size,
+	                        xer_decode__unexpected_tag, xer_decode__body);
 	switch(rc.code) {
 	case RC_OK:
 		if(!s_arg.decoded_something) {
 			char ch;
 			ASN_DEBUG("Primitive body is not recognized, "
-				"supplying empty one");
+			          "supplying empty one");
 			/*
 			 * Decoding opportunity has come and gone.
 			 * Where's the result?
 			 * Try to feed with empty body, see if it eats it.
 			 */
 			if(prim_body_decoder(s_arg.type_descriptor,
-				s_arg.struct_key, &ch, 0)
-					!= XPBD_BODY_CONSUMED) {
+			                     s_arg.struct_key, &ch, 0)
+			        != XPBD_BODY_CONSUMED) {
 				/*
 				 * This decoder does not like empty stuff.
 				 */

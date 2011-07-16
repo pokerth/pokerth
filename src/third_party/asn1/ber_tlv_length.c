@@ -8,7 +8,7 @@
 
 ssize_t
 ber_fetch_length(int _is_constructed, const void *bufptr, size_t size,
-		ber_tlv_len_t *len_r) {
+                 ber_tlv_len_t *len_r) {
 	const uint8_t *buf = (const uint8_t *)bufptr;
 	unsigned oct;
 
@@ -38,11 +38,11 @@ ber_fetch_length(int _is_constructed, const void *bufptr, size_t size,
 
 		oct &= 0x7F;	/* Leave only the 7 LS bits */
 		for(len = 0, buf++, skipped = 1;
-			oct && (++skipped <= size); buf++, oct--) {
+		        oct && (++skipped <= size); buf++, oct--) {
 
 			len = (len << 8) | *buf;
 			if(len < 0
-			|| (len >> ((8 * sizeof(len)) - 8) && oct > 1)) {
+			        || (len >> ((8 * sizeof(len)) - 8) && oct > 1)) {
 				/*
 				 * Too large length value.
 				 */
@@ -76,7 +76,7 @@ ber_fetch_length(int _is_constructed, const void *bufptr, size_t size,
 
 ssize_t
 ber_skip_length(asn_codec_ctx_t *opt_codec_ctx,
-		int _is_constructed, const void *ptr, size_t size) {
+                int _is_constructed, const void *ptr, size_t size) {
 	ber_tlv_len_t vlen;	/* Length of V in TLV */
 	ssize_t tl;		/* Length of L in TLV */
 	ssize_t ll;		/* Length of L in TLV */
@@ -116,8 +116,8 @@ ber_skip_length(asn_codec_ctx_t *opt_codec_ctx,
 		if(tl <= 0) return tl;
 
 		ll = ber_skip_length(opt_codec_ctx,
-			BER_TLV_CONSTRUCTED(ptr),
-			((const char *)ptr) + tl, size - tl);
+		                     BER_TLV_CONSTRUCTED(ptr),
+		                     ((const char *)ptr) + tl, size - tl);
 		if(ll <= 0) return ll;
 
 		skip += tl + ll;
@@ -128,12 +128,12 @@ ber_skip_length(asn_codec_ctx_t *opt_codec_ctx,
 		 * Check if it is true.
 		 */
 		if(((const uint8_t *)ptr)[0] == 0
-		&& ((const uint8_t *)ptr)[1] == 0)
+		        && ((const uint8_t *)ptr)[1] == 0)
 			return skip;
 
 		ptr = ((const char *)ptr) + tl + ll;
 		size -= tl + ll;
- 	}
+	}
 
 	/* UNREACHABLE */
 }

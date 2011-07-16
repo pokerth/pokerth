@@ -20,33 +20,34 @@
 extern "C" {
 #endif
 
-/* Dependencies */
-typedef enum CleanerChatType_PR {
-	CleanerChatType_PR_NOTHING,	/* No components present */
-	CleanerChatType_PR_cleanerChatTypeLobby,
-	CleanerChatType_PR_cleanerChatTypeGame,
-	/* Extensions may appear below */
-	
-} CleanerChatType_PR;
+	/* Dependencies */
+	typedef enum CleanerChatType_PR {
+		CleanerChatType_PR_NOTHING,	/* No components present */
+		CleanerChatType_PR_cleanerChatTypeLobby,
+		CleanerChatType_PR_cleanerChatTypeGame,
+		/* Extensions may appear below */
 
-/* CleanerChatType */
-typedef struct CleanerChatType {
-	CleanerChatType_PR present;
-	union CleanerChatType_u {
-		CleanerChatTypeLobby_t	 cleanerChatTypeLobby;
-		CleanerChatTypeGame_t	 cleanerChatTypeGame;
-		/*
-		 * This type is extensible,
-		 * possible extensions are below.
-		 */
-	} choice;
-	
-	/* Context for parsing across buffer boundaries */
-	asn_struct_ctx_t _asn_ctx;
-} CleanerChatType_t;
+	}
+	CleanerChatType_PR;
 
-/* Implementation */
-extern asn_TYPE_descriptor_t asn_DEF_CleanerChatType;
+	/* CleanerChatType */
+	typedef struct CleanerChatType {
+		CleanerChatType_PR present;
+		union CleanerChatType_u {
+			CleanerChatTypeLobby_t	 cleanerChatTypeLobby;
+			CleanerChatTypeGame_t	 cleanerChatTypeGame;
+			/*
+			 * This type is extensible,
+			 * possible extensions are below.
+			 */
+		} choice;
+
+		/* Context for parsing across buffer boundaries */
+		asn_struct_ctx_t _asn_ctx;
+	} CleanerChatType_t;
+
+	/* Implementation */
+	extern asn_TYPE_descriptor_t asn_DEF_CleanerChatType;
 
 #ifdef __cplusplus
 }

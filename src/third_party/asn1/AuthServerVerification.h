@@ -19,20 +19,20 @@
 extern "C" {
 #endif
 
-/* AuthServerVerification */
-typedef struct AuthServerVerification {
-	OCTET_STRING_t	 serverVerification;
-	/*
-	 * This type is extensible,
-	 * possible extensions are below.
-	 */
-	
-	/* Context for parsing across buffer boundaries */
-	asn_struct_ctx_t _asn_ctx;
-} AuthServerVerification_t;
+	/* AuthServerVerification */
+	typedef struct AuthServerVerification {
+		OCTET_STRING_t	 serverVerification;
+		/*
+		 * This type is extensible,
+		 * possible extensions are below.
+		 */
 
-/* Implementation */
-extern asn_TYPE_descriptor_t asn_DEF_AuthServerVerification;
+		/* Context for parsing across buffer boundaries */
+		asn_struct_ctx_t _asn_ctx;
+	} AuthServerVerification_t;
+
+	/* Implementation */
+	extern asn_TYPE_descriptor_t asn_DEF_AuthServerVerification;
 
 #ifdef __cplusplus
 }

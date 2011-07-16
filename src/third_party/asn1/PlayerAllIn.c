@@ -8,7 +8,7 @@
 #include "PlayerAllIn.h"
 
 static asn_TYPE_member_t asn_MBR_PlayerAllIn_1[] = {
-	{ ATF_NOFLAGS, 0, offsetof(struct PlayerAllIn, playerId),
+	{	ATF_NOFLAGS, 0, offsetof(struct PlayerAllIn, playerId),
 		(ASN_TAG_CLASS_UNIVERSAL | (2 << 2)),
 		0,
 		&asn_DEF_NonZeroId,
@@ -16,8 +16,8 @@ static asn_TYPE_member_t asn_MBR_PlayerAllIn_1[] = {
 		0,	/* PER is not compiled, use -gen-PER */
 		0,
 		"playerId"
-		},
-	{ ATF_NOFLAGS, 0, offsetof(struct PlayerAllIn, allInCard1),
+	},
+	{	ATF_NOFLAGS, 0, offsetof(struct PlayerAllIn, allInCard1),
 		(ASN_TAG_CLASS_UNIVERSAL | (2 << 2)),
 		0,
 		&asn_DEF_Card,
@@ -25,8 +25,8 @@ static asn_TYPE_member_t asn_MBR_PlayerAllIn_1[] = {
 		0,	/* PER is not compiled, use -gen-PER */
 		0,
 		"allInCard1"
-		},
-	{ ATF_NOFLAGS, 0, offsetof(struct PlayerAllIn, allInCard2),
+	},
+	{	ATF_NOFLAGS, 0, offsetof(struct PlayerAllIn, allInCard2),
 		(ASN_TAG_CLASS_UNIVERSAL | (2 << 2)),
 		0,
 		&asn_DEF_Card,
@@ -34,15 +34,15 @@ static asn_TYPE_member_t asn_MBR_PlayerAllIn_1[] = {
 		0,	/* PER is not compiled, use -gen-PER */
 		0,
 		"allInCard2"
-		},
+	},
 };
 static ber_tlv_tag_t asn_DEF_PlayerAllIn_tags_1[] = {
 	(ASN_TAG_CLASS_UNIVERSAL | (16 << 2))
 };
 static asn_TYPE_tag2member_t asn_MAP_PlayerAllIn_tag2el_1[] = {
-    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 0, 0, 2 }, /* playerId at 519 */
-    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 1, -1, 1 }, /* allInCard1 at 520 */
-    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 2, -2, 0 } /* allInCard2 at 522 */
+	{ (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 0, 0, 2 }, /* playerId at 542 */
+	{ (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 1, -1, 1 }, /* allInCard1 at 543 */
+	{ (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 2, -2, 0 } /* allInCard2 at 545 */
 };
 static asn_SEQUENCE_specifics_t asn_SPC_PlayerAllIn_specs_1 = {
 	sizeof(struct PlayerAllIn),
@@ -67,10 +67,10 @@ asn_TYPE_descriptor_t asn_DEF_PlayerAllIn = {
 	0,	/* Use generic outmost tag fetcher */
 	asn_DEF_PlayerAllIn_tags_1,
 	sizeof(asn_DEF_PlayerAllIn_tags_1)
-		/sizeof(asn_DEF_PlayerAllIn_tags_1[0]), /* 1 */
+	/sizeof(asn_DEF_PlayerAllIn_tags_1[0]), /* 1 */
 	asn_DEF_PlayerAllIn_tags_1,	/* Same as above */
 	sizeof(asn_DEF_PlayerAllIn_tags_1)
-		/sizeof(asn_DEF_PlayerAllIn_tags_1[0]), /* 1 */
+	/sizeof(asn_DEF_PlayerAllIn_tags_1[0]), /* 1 */
 	0,	/* No PER visible constraints */
 	asn_MBR_PlayerAllIn_1,
 	3,	/* Elements count */

@@ -23,44 +23,45 @@
 extern "C" {
 #endif
 
-/* Dependencies */
-typedef enum yourCards_PR {
-	yourCards_PR_NOTHING,	/* No components present */
-	yourCards_PR_plainCards,
-	yourCards_PR_encryptedCards,
-	/* Extensions may appear below */
-	
-} yourCards_PR;
+	/* Dependencies */
+	typedef enum yourCards_PR {
+		yourCards_PR_NOTHING,	/* No components present */
+		yourCards_PR_plainCards,
+		yourCards_PR_encryptedCards,
+		/* Extensions may appear below */
 
-/* HandStartMessage */
-typedef struct HandStartMessage {
-	NonZeroId_t	 gameId;
-	struct yourCards {
-		yourCards_PR present;
-		union HandStartMessage__yourCards_u {
-			PlainCards_t	 plainCards;
-			EncryptedCards_t	 encryptedCards;
-			/*
-			 * This type is extensible,
-			 * possible extensions are below.
-			 */
-		} choice;
-		
+	}
+	yourCards_PR;
+
+	/* HandStartMessage */
+	typedef struct HandStartMessage {
+		NonZeroId_t	 gameId;
+		struct yourCards {
+			yourCards_PR present;
+			union HandStartMessage__yourCards_u {
+				PlainCards_t	 plainCards;
+				EncryptedCards_t	 encryptedCards;
+				/*
+				 * This type is extensible,
+				 * possible extensions are below.
+				 */
+			} choice;
+
+			/* Context for parsing across buffer boundaries */
+			asn_struct_ctx_t _asn_ctx;
+		} yourCards;
+		long	 smallBlind;
+		/*
+		 * This type is extensible,
+		 * possible extensions are below.
+		 */
+
 		/* Context for parsing across buffer boundaries */
 		asn_struct_ctx_t _asn_ctx;
-	} yourCards;
-	long	 smallBlind;
-	/*
-	 * This type is extensible,
-	 * possible extensions are below.
-	 */
-	
-	/* Context for parsing across buffer boundaries */
-	asn_struct_ctx_t _asn_ctx;
-} HandStartMessage_t;
+	} HandStartMessage_t;
 
-/* Implementation */
-extern asn_TYPE_descriptor_t asn_DEF_HandStartMessage;
+	/* Implementation */
+	extern asn_TYPE_descriptor_t asn_DEF_HandStartMessage;
 
 #ifdef __cplusplus
 }

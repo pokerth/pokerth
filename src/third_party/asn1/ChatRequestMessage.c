@@ -9,38 +9,38 @@
 
 static int
 memb_chatText_constraint_1(asn_TYPE_descriptor_t *td, const void *sptr,
-			asn_app_constraint_failed_f *ctfailcb, void *app_key) {
+                           asn_app_constraint_failed_f *ctfailcb, void *app_key) {
 	const UTF8String_t *st = (const UTF8String_t *)sptr;
 	size_t size;
-	
+
 	if(!sptr) {
 		_ASN_CTFAIL(app_key, td, sptr,
-			"%s: value not given (%s:%d)",
-			td->name, __FILE__, __LINE__);
+		            "%s: value not given (%s:%d)",
+		            td->name, __FILE__, __LINE__);
 		return -1;
 	}
-	
+
 	size = UTF8String_length(st);
 	if((ssize_t)size < 0) {
 		_ASN_CTFAIL(app_key, td, sptr,
-			"%s: UTF-8: broken encoding (%s:%d)",
-			td->name, __FILE__, __LINE__);
+		            "%s: UTF-8: broken encoding (%s:%d)",
+		            td->name, __FILE__, __LINE__);
 		return -1;
 	}
-	
+
 	if((size >= 1 && size <= 128)) {
 		/* Constraint check succeeded */
 		return 0;
 	} else {
 		_ASN_CTFAIL(app_key, td, sptr,
-			"%s: constraint failed (%s:%d)",
-			td->name, __FILE__, __LINE__);
+		            "%s: constraint failed (%s:%d)",
+		            td->name, __FILE__, __LINE__);
 		return -1;
 	}
 }
 
 static asn_TYPE_member_t asn_MBR_chatRequestType_2[] = {
-	{ ATF_NOFLAGS, 0, offsetof(struct chatRequestType, choice.chatRequestTypeLobby),
+	{	ATF_NOFLAGS, 0, offsetof(struct chatRequestType, choice.chatRequestTypeLobby),
 		(ASN_TAG_CLASS_CONTEXT | (0 << 2)),
 		-1,	/* IMPLICIT tag at current level */
 		&asn_DEF_ChatRequestTypeLobby,
@@ -48,8 +48,8 @@ static asn_TYPE_member_t asn_MBR_chatRequestType_2[] = {
 		0,	/* PER is not compiled, use -gen-PER */
 		0,
 		"chatRequestTypeLobby"
-		},
-	{ ATF_NOFLAGS, 0, offsetof(struct chatRequestType, choice.chatRequestTypeGame),
+	},
+	{	ATF_NOFLAGS, 0, offsetof(struct chatRequestType, choice.chatRequestTypeGame),
 		(ASN_TAG_CLASS_CONTEXT | (1 << 2)),
 		-1,	/* IMPLICIT tag at current level */
 		&asn_DEF_ChatRequestTypeGame,
@@ -57,8 +57,8 @@ static asn_TYPE_member_t asn_MBR_chatRequestType_2[] = {
 		0,	/* PER is not compiled, use -gen-PER */
 		0,
 		"chatRequestTypeGame"
-		},
-	{ ATF_NOFLAGS, 0, offsetof(struct chatRequestType, choice.chatRequestTypePrivate),
+	},
+	{	ATF_NOFLAGS, 0, offsetof(struct chatRequestType, choice.chatRequestTypePrivate),
 		(ASN_TAG_CLASS_CONTEXT | (2 << 2)),
 		-1,	/* IMPLICIT tag at current level */
 		&asn_DEF_ChatRequestTypePrivate,
@@ -66,12 +66,12 @@ static asn_TYPE_member_t asn_MBR_chatRequestType_2[] = {
 		0,	/* PER is not compiled, use -gen-PER */
 		0,
 		"chatRequestTypePrivate"
-		},
+	},
 };
 static asn_TYPE_tag2member_t asn_MAP_chatRequestType_tag2el_2[] = {
-    { (ASN_TAG_CLASS_CONTEXT | (0 << 2)), 0, 0, 0 }, /* chatRequestTypeLobby at 650 */
-    { (ASN_TAG_CLASS_CONTEXT | (1 << 2)), 1, 0, 0 }, /* chatRequestTypeGame at 651 */
-    { (ASN_TAG_CLASS_CONTEXT | (2 << 2)), 2, 0, 0 } /* chatRequestTypePrivate at 653 */
+	{ (ASN_TAG_CLASS_CONTEXT | (0 << 2)), 0, 0, 0 }, /* chatRequestTypeLobby at 673 */
+	{ (ASN_TAG_CLASS_CONTEXT | (1 << 2)), 1, 0, 0 }, /* chatRequestTypeGame at 674 */
+	{ (ASN_TAG_CLASS_CONTEXT | (2 << 2)), 2, 0, 0 } /* chatRequestTypePrivate at 676 */
 };
 static asn_CHOICE_specifics_t asn_SPC_chatRequestType_specs_2 = {
 	sizeof(struct chatRequestType),
@@ -107,7 +107,7 @@ asn_TYPE_descriptor_t asn_DEF_chatRequestType_2 = {
 };
 
 static asn_TYPE_member_t asn_MBR_ChatRequestMessage_1[] = {
-	{ ATF_NOFLAGS, 0, offsetof(struct ChatRequestMessage, chatRequestType),
+	{	ATF_NOFLAGS, 0, offsetof(struct ChatRequestMessage, chatRequestType),
 		-1 /* Ambiguous tag (CHOICE?) */,
 		0,
 		&asn_DEF_chatRequestType_2,
@@ -115,8 +115,8 @@ static asn_TYPE_member_t asn_MBR_ChatRequestMessage_1[] = {
 		0,	/* PER is not compiled, use -gen-PER */
 		0,
 		"chatRequestType"
-		},
-	{ ATF_NOFLAGS, 0, offsetof(struct ChatRequestMessage, chatText),
+	},
+	{	ATF_NOFLAGS, 0, offsetof(struct ChatRequestMessage, chatText),
 		(ASN_TAG_CLASS_UNIVERSAL | (12 << 2)),
 		0,
 		&asn_DEF_UTF8String,
@@ -124,17 +124,17 @@ static asn_TYPE_member_t asn_MBR_ChatRequestMessage_1[] = {
 		0,	/* PER is not compiled, use -gen-PER */
 		0,
 		"chatText"
-		},
+	},
 };
 static ber_tlv_tag_t asn_DEF_ChatRequestMessage_tags_1[] = {
 	(ASN_TAG_CLASS_APPLICATION | (129 << 2)),
 	(ASN_TAG_CLASS_UNIVERSAL | (16 << 2))
 };
 static asn_TYPE_tag2member_t asn_MAP_ChatRequestMessage_tag2el_1[] = {
-    { (ASN_TAG_CLASS_UNIVERSAL | (12 << 2)), 1, 0, 0 }, /* chatText at 654 */
-    { (ASN_TAG_CLASS_CONTEXT | (0 << 2)), 0, 0, 0 }, /* chatRequestTypeLobby at 650 */
-    { (ASN_TAG_CLASS_CONTEXT | (1 << 2)), 0, 0, 0 }, /* chatRequestTypeGame at 651 */
-    { (ASN_TAG_CLASS_CONTEXT | (2 << 2)), 0, 0, 0 } /* chatRequestTypePrivate at 653 */
+	{ (ASN_TAG_CLASS_UNIVERSAL | (12 << 2)), 1, 0, 0 }, /* chatText at 677 */
+	{ (ASN_TAG_CLASS_CONTEXT | (0 << 2)), 0, 0, 0 }, /* chatRequestTypeLobby at 673 */
+	{ (ASN_TAG_CLASS_CONTEXT | (1 << 2)), 0, 0, 0 }, /* chatRequestTypeGame at 674 */
+	{ (ASN_TAG_CLASS_CONTEXT | (2 << 2)), 0, 0, 0 } /* chatRequestTypePrivate at 676 */
 };
 static asn_SEQUENCE_specifics_t asn_SPC_ChatRequestMessage_specs_1 = {
 	sizeof(struct ChatRequestMessage),
@@ -159,10 +159,10 @@ asn_TYPE_descriptor_t asn_DEF_ChatRequestMessage = {
 	0,	/* Use generic outmost tag fetcher */
 	asn_DEF_ChatRequestMessage_tags_1,
 	sizeof(asn_DEF_ChatRequestMessage_tags_1)
-		/sizeof(asn_DEF_ChatRequestMessage_tags_1[0]) - 1, /* 1 */
+	/sizeof(asn_DEF_ChatRequestMessage_tags_1[0]) - 1, /* 1 */
 	asn_DEF_ChatRequestMessage_tags_1,	/* Same as above */
 	sizeof(asn_DEF_ChatRequestMessage_tags_1)
-		/sizeof(asn_DEF_ChatRequestMessage_tags_1[0]), /* 2 */
+	/sizeof(asn_DEF_ChatRequestMessage_tags_1[0]), /* 2 */
 	0,	/* No PER visible constraints */
 	asn_MBR_ChatRequestMessage_1,
 	2,	/* Elements count */

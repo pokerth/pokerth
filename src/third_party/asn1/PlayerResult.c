@@ -9,82 +9,82 @@
 
 static int
 memb_bestHandPosition_constraint_1(asn_TYPE_descriptor_t *td, const void *sptr,
-			asn_app_constraint_failed_f *ctfailcb, void *app_key) {
+                                   asn_app_constraint_failed_f *ctfailcb, void *app_key) {
 	size_t size;
-	
+
 	if(!sptr) {
 		_ASN_CTFAIL(app_key, td, sptr,
-			"%s: value not given (%s:%d)",
-			td->name, __FILE__, __LINE__);
+		            "%s: value not given (%s:%d)",
+		            td->name, __FILE__, __LINE__);
 		return -1;
 	}
-	
+
 	/* Determine the number of elements */
 	size = _A_CSEQUENCE_FROM_VOID(sptr)->count;
-	
+
 	if((size == 5)) {
 		/* Perform validation of the inner elements */
 		return td->check_constraints(td, sptr, ctfailcb, app_key);
 	} else {
 		_ASN_CTFAIL(app_key, td, sptr,
-			"%s: constraint failed (%s:%d)",
-			td->name, __FILE__, __LINE__);
+		            "%s: constraint failed (%s:%d)",
+		            td->name, __FILE__, __LINE__);
 		return -1;
 	}
 }
 
 static int
 memb_moneyWon_constraint_1(asn_TYPE_descriptor_t *td, const void *sptr,
-			asn_app_constraint_failed_f *ctfailcb, void *app_key) {
+                           asn_app_constraint_failed_f *ctfailcb, void *app_key) {
 	long value;
-	
+
 	if(!sptr) {
 		_ASN_CTFAIL(app_key, td, sptr,
-			"%s: value not given (%s:%d)",
-			td->name, __FILE__, __LINE__);
+		            "%s: value not given (%s:%d)",
+		            td->name, __FILE__, __LINE__);
 		return -1;
 	}
-	
+
 	value = *(const long *)sptr;
-	
+
 	if((value >= 0 && value <= 10000000)) {
 		/* Constraint check succeeded */
 		return 0;
 	} else {
 		_ASN_CTFAIL(app_key, td, sptr,
-			"%s: constraint failed (%s:%d)",
-			td->name, __FILE__, __LINE__);
+		            "%s: constraint failed (%s:%d)",
+		            td->name, __FILE__, __LINE__);
 		return -1;
 	}
 }
 
 static int
 memb_playerMoney_constraint_1(asn_TYPE_descriptor_t *td, const void *sptr,
-			asn_app_constraint_failed_f *ctfailcb, void *app_key) {
+                              asn_app_constraint_failed_f *ctfailcb, void *app_key) {
 	long value;
-	
+
 	if(!sptr) {
 		_ASN_CTFAIL(app_key, td, sptr,
-			"%s: value not given (%s:%d)",
-			td->name, __FILE__, __LINE__);
+		            "%s: value not given (%s:%d)",
+		            td->name, __FILE__, __LINE__);
 		return -1;
 	}
-	
+
 	value = *(const long *)sptr;
-	
+
 	if((value >= 0 && value <= 10000000)) {
 		/* Constraint check succeeded */
 		return 0;
 	} else {
 		_ASN_CTFAIL(app_key, td, sptr,
-			"%s: constraint failed (%s:%d)",
-			td->name, __FILE__, __LINE__);
+		            "%s: constraint failed (%s:%d)",
+		            td->name, __FILE__, __LINE__);
 		return -1;
 	}
 }
 
 static asn_TYPE_member_t asn_MBR_bestHandPosition_5[] = {
-	{ ATF_POINTER, 0, 0,
+	{	ATF_POINTER, 0, 0,
 		(ASN_TAG_CLASS_UNIVERSAL | (2 << 2)),
 		0,
 		&asn_DEF_NativeInteger,
@@ -92,7 +92,7 @@ static asn_TYPE_member_t asn_MBR_bestHandPosition_5[] = {
 		0,	/* PER is not compiled, use -gen-PER */
 		0,
 		""
-		},
+	},
 };
 static ber_tlv_tag_t asn_DEF_bestHandPosition_tags_5[] = {
 	(ASN_TAG_CLASS_UNIVERSAL | (16 << 2))
@@ -117,10 +117,10 @@ asn_TYPE_descriptor_t asn_DEF_bestHandPosition_5 = {
 	0,	/* Use generic outmost tag fetcher */
 	asn_DEF_bestHandPosition_tags_5,
 	sizeof(asn_DEF_bestHandPosition_tags_5)
-		/sizeof(asn_DEF_bestHandPosition_tags_5[0]), /* 1 */
+	/sizeof(asn_DEF_bestHandPosition_tags_5[0]), /* 1 */
 	asn_DEF_bestHandPosition_tags_5,	/* Same as above */
 	sizeof(asn_DEF_bestHandPosition_tags_5)
-		/sizeof(asn_DEF_bestHandPosition_tags_5[0]), /* 1 */
+	/sizeof(asn_DEF_bestHandPosition_tags_5[0]), /* 1 */
 	0,	/* No PER visible constraints */
 	asn_MBR_bestHandPosition_5,
 	1,	/* Single element */
@@ -128,7 +128,7 @@ asn_TYPE_descriptor_t asn_DEF_bestHandPosition_5 = {
 };
 
 static asn_TYPE_member_t asn_MBR_PlayerResult_1[] = {
-	{ ATF_NOFLAGS, 0, offsetof(struct PlayerResult, playerId),
+	{	ATF_NOFLAGS, 0, offsetof(struct PlayerResult, playerId),
 		(ASN_TAG_CLASS_UNIVERSAL | (2 << 2)),
 		0,
 		&asn_DEF_NonZeroId,
@@ -136,8 +136,8 @@ static asn_TYPE_member_t asn_MBR_PlayerResult_1[] = {
 		0,	/* PER is not compiled, use -gen-PER */
 		0,
 		"playerId"
-		},
-	{ ATF_NOFLAGS, 0, offsetof(struct PlayerResult, resultCard1),
+	},
+	{	ATF_NOFLAGS, 0, offsetof(struct PlayerResult, resultCard1),
 		(ASN_TAG_CLASS_UNIVERSAL | (2 << 2)),
 		0,
 		&asn_DEF_Card,
@@ -145,8 +145,8 @@ static asn_TYPE_member_t asn_MBR_PlayerResult_1[] = {
 		0,	/* PER is not compiled, use -gen-PER */
 		0,
 		"resultCard1"
-		},
-	{ ATF_NOFLAGS, 0, offsetof(struct PlayerResult, resultCard2),
+	},
+	{	ATF_NOFLAGS, 0, offsetof(struct PlayerResult, resultCard2),
 		(ASN_TAG_CLASS_UNIVERSAL | (2 << 2)),
 		0,
 		&asn_DEF_Card,
@@ -154,8 +154,8 @@ static asn_TYPE_member_t asn_MBR_PlayerResult_1[] = {
 		0,	/* PER is not compiled, use -gen-PER */
 		0,
 		"resultCard2"
-		},
-	{ ATF_NOFLAGS, 0, offsetof(struct PlayerResult, bestHandPosition),
+	},
+	{	ATF_NOFLAGS, 0, offsetof(struct PlayerResult, bestHandPosition),
 		(ASN_TAG_CLASS_UNIVERSAL | (16 << 2)),
 		0,
 		&asn_DEF_bestHandPosition_5,
@@ -163,8 +163,8 @@ static asn_TYPE_member_t asn_MBR_PlayerResult_1[] = {
 		0,	/* PER is not compiled, use -gen-PER */
 		0,
 		"bestHandPosition"
-		},
-	{ ATF_NOFLAGS, 0, offsetof(struct PlayerResult, cardsValue),
+	},
+	{	ATF_NOFLAGS, 0, offsetof(struct PlayerResult, cardsValue),
 		(ASN_TAG_CLASS_UNIVERSAL | (2 << 2)),
 		0,
 		&asn_DEF_NativeInteger,
@@ -172,8 +172,8 @@ static asn_TYPE_member_t asn_MBR_PlayerResult_1[] = {
 		0,	/* PER is not compiled, use -gen-PER */
 		0,
 		"cardsValue"
-		},
-	{ ATF_NOFLAGS, 0, offsetof(struct PlayerResult, moneyWon),
+	},
+	{	ATF_NOFLAGS, 0, offsetof(struct PlayerResult, moneyWon),
 		(ASN_TAG_CLASS_UNIVERSAL | (2 << 2)),
 		0,
 		&asn_DEF_NativeInteger,
@@ -181,8 +181,8 @@ static asn_TYPE_member_t asn_MBR_PlayerResult_1[] = {
 		0,	/* PER is not compiled, use -gen-PER */
 		0,
 		"moneyWon"
-		},
-	{ ATF_NOFLAGS, 0, offsetof(struct PlayerResult, playerMoney),
+	},
+	{	ATF_NOFLAGS, 0, offsetof(struct PlayerResult, playerMoney),
 		(ASN_TAG_CLASS_UNIVERSAL | (2 << 2)),
 		0,
 		&asn_DEF_NativeInteger,
@@ -190,19 +190,19 @@ static asn_TYPE_member_t asn_MBR_PlayerResult_1[] = {
 		0,	/* PER is not compiled, use -gen-PER */
 		0,
 		"playerMoney"
-		},
+	},
 };
 static ber_tlv_tag_t asn_DEF_PlayerResult_tags_1[] = {
 	(ASN_TAG_CLASS_UNIVERSAL | (16 << 2))
 };
 static asn_TYPE_tag2member_t asn_MAP_PlayerResult_tag2el_1[] = {
-    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 0, 0, 5 }, /* playerId at 537 */
-    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 1, -1, 4 }, /* resultCard1 at 538 */
-    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 2, -2, 3 }, /* resultCard2 at 539 */
-    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 4, -3, 2 }, /* cardsValue at 541 */
-    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 5, -4, 1 }, /* moneyWon at 542 */
-    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 6, -5, 0 }, /* playerMoney at 543 */
-    { (ASN_TAG_CLASS_UNIVERSAL | (16 << 2)), 3, 0, 0 } /* bestHandPosition at 540 */
+	{ (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 0, 0, 5 }, /* playerId at 560 */
+	{ (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 1, -1, 4 }, /* resultCard1 at 561 */
+	{ (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 2, -2, 3 }, /* resultCard2 at 562 */
+	{ (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 4, -3, 2 }, /* cardsValue at 564 */
+	{ (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 5, -4, 1 }, /* moneyWon at 565 */
+	{ (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 6, -5, 0 }, /* playerMoney at 566 */
+	{ (ASN_TAG_CLASS_UNIVERSAL | (16 << 2)), 3, 0, 0 } /* bestHandPosition at 563 */
 };
 static asn_SEQUENCE_specifics_t asn_SPC_PlayerResult_specs_1 = {
 	sizeof(struct PlayerResult),
@@ -227,10 +227,10 @@ asn_TYPE_descriptor_t asn_DEF_PlayerResult = {
 	0,	/* Use generic outmost tag fetcher */
 	asn_DEF_PlayerResult_tags_1,
 	sizeof(asn_DEF_PlayerResult_tags_1)
-		/sizeof(asn_DEF_PlayerResult_tags_1[0]), /* 1 */
+	/sizeof(asn_DEF_PlayerResult_tags_1[0]), /* 1 */
 	asn_DEF_PlayerResult_tags_1,	/* Same as above */
 	sizeof(asn_DEF_PlayerResult_tags_1)
-		/sizeof(asn_DEF_PlayerResult_tags_1[0]), /* 1 */
+	/sizeof(asn_DEF_PlayerResult_tags_1[0]), /* 1 */
 	0,	/* No PER visible constraints */
 	asn_MBR_PlayerResult_1,
 	7,	/* Elements count */

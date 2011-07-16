@@ -8,7 +8,7 @@
 #include "PlayerInfoRequestMessage.h"
 
 static asn_TYPE_member_t asn_MBR_PlayerInfoRequestMessage_1[] = {
-	{ ATF_NOFLAGS, 0, offsetof(struct PlayerInfoRequestMessage, playerId),
+	{	ATF_NOFLAGS, 0, offsetof(struct PlayerInfoRequestMessage, playerId),
 		(ASN_TAG_CLASS_UNIVERSAL | (2 << 2)),
 		0,
 		&asn_DEF_NonZeroId,
@@ -16,14 +16,14 @@ static asn_TYPE_member_t asn_MBR_PlayerInfoRequestMessage_1[] = {
 		0,	/* PER is not compiled, use -gen-PER */
 		0,
 		"playerId"
-		},
+	},
 };
 static ber_tlv_tag_t asn_DEF_PlayerInfoRequestMessage_tags_1[] = {
 	(ASN_TAG_CLASS_APPLICATION | (8 << 2)),
 	(ASN_TAG_CLASS_UNIVERSAL | (16 << 2))
 };
 static asn_TYPE_tag2member_t asn_MAP_PlayerInfoRequestMessage_tag2el_1[] = {
-    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 0, 0, 0 } /* playerId at 239 */
+	{ (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 0, 0, 0 } /* playerId at 241 */
 };
 static asn_SEQUENCE_specifics_t asn_SPC_PlayerInfoRequestMessage_specs_1 = {
 	sizeof(struct PlayerInfoRequestMessage),
@@ -48,10 +48,10 @@ asn_TYPE_descriptor_t asn_DEF_PlayerInfoRequestMessage = {
 	0,	/* Use generic outmost tag fetcher */
 	asn_DEF_PlayerInfoRequestMessage_tags_1,
 	sizeof(asn_DEF_PlayerInfoRequestMessage_tags_1)
-		/sizeof(asn_DEF_PlayerInfoRequestMessage_tags_1[0]) - 1, /* 1 */
+	/sizeof(asn_DEF_PlayerInfoRequestMessage_tags_1[0]) - 1, /* 1 */
 	asn_DEF_PlayerInfoRequestMessage_tags_1,	/* Same as above */
 	sizeof(asn_DEF_PlayerInfoRequestMessage_tags_1)
-		/sizeof(asn_DEF_PlayerInfoRequestMessage_tags_1[0]), /* 2 */
+	/sizeof(asn_DEF_PlayerInfoRequestMessage_tags_1[0]), /* 2 */
 	0,	/* No PER visible constraints */
 	asn_MBR_PlayerInfoRequestMessage_1,
 	1,	/* Elements count */

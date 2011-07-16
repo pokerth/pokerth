@@ -9,7 +9,7 @@
 
 static int
 netGameType_3_constraint(asn_TYPE_descriptor_t *td, const void *sptr,
-			asn_app_constraint_failed_f *ctfailcb, void *app_key) {
+                         asn_app_constraint_failed_f *ctfailcb, void *app_key) {
 	/* Replace with underlying type checker */
 	td->check_constraints = asn_DEF_NativeEnumerated.check_constraints;
 	return td->check_constraints(td, sptr, ctfailcb, app_key);
@@ -33,106 +33,106 @@ netGameType_3_inherit_TYPE_descriptor(asn_TYPE_descriptor_t *td) {
 		td->per_constraints = asn_DEF_NativeEnumerated.per_constraints;
 	td->elements       = asn_DEF_NativeEnumerated.elements;
 	td->elements_count = asn_DEF_NativeEnumerated.elements_count;
-     /* td->specifics      = asn_DEF_NativeEnumerated.specifics;	// Defined explicitly */
+	/* td->specifics      = asn_DEF_NativeEnumerated.specifics;	// Defined explicitly */
 }
 
 static void
 netGameType_3_free(asn_TYPE_descriptor_t *td,
-		void *struct_ptr, int contents_only) {
+                   void *struct_ptr, int contents_only) {
 	netGameType_3_inherit_TYPE_descriptor(td);
 	td->free_struct(td, struct_ptr, contents_only);
 }
 
 static int
 netGameType_3_print(asn_TYPE_descriptor_t *td, const void *struct_ptr,
-		int ilevel, asn_app_consume_bytes_f *cb, void *app_key) {
+                    int ilevel, asn_app_consume_bytes_f *cb, void *app_key) {
 	netGameType_3_inherit_TYPE_descriptor(td);
 	return td->print_struct(td, struct_ptr, ilevel, cb, app_key);
 }
 
 static asn_dec_rval_t
 netGameType_3_decode_ber(asn_codec_ctx_t *opt_codec_ctx, asn_TYPE_descriptor_t *td,
-		void **structure, const void *bufptr, size_t size, int tag_mode) {
+                         void **structure, const void *bufptr, size_t size, int tag_mode) {
 	netGameType_3_inherit_TYPE_descriptor(td);
 	return td->ber_decoder(opt_codec_ctx, td, structure, bufptr, size, tag_mode);
 }
 
 static asn_enc_rval_t
 netGameType_3_encode_der(asn_TYPE_descriptor_t *td,
-		void *structure, int tag_mode, ber_tlv_tag_t tag,
-		asn_app_consume_bytes_f *cb, void *app_key) {
+                         void *structure, int tag_mode, ber_tlv_tag_t tag,
+                         asn_app_consume_bytes_f *cb, void *app_key) {
 	netGameType_3_inherit_TYPE_descriptor(td);
 	return td->der_encoder(td, structure, tag_mode, tag, cb, app_key);
 }
 
 static asn_dec_rval_t
 netGameType_3_decode_xer(asn_codec_ctx_t *opt_codec_ctx, asn_TYPE_descriptor_t *td,
-		void **structure, const char *opt_mname, const void *bufptr, size_t size) {
+                         void **structure, const char *opt_mname, const void *bufptr, size_t size) {
 	netGameType_3_inherit_TYPE_descriptor(td);
 	return td->xer_decoder(opt_codec_ctx, td, structure, opt_mname, bufptr, size);
 }
 
 static asn_enc_rval_t
 netGameType_3_encode_xer(asn_TYPE_descriptor_t *td, void *structure,
-		int ilevel, enum xer_encoder_flags_e flags,
-		asn_app_consume_bytes_f *cb, void *app_key) {
+                         int ilevel, enum xer_encoder_flags_e flags,
+                         asn_app_consume_bytes_f *cb, void *app_key) {
 	netGameType_3_inherit_TYPE_descriptor(td);
 	return td->xer_encoder(td, structure, ilevel, flags, cb, app_key);
 }
 
 static int
 memb_raiseEveryHands_constraint_9(asn_TYPE_descriptor_t *td, const void *sptr,
-			asn_app_constraint_failed_f *ctfailcb, void *app_key) {
+                                  asn_app_constraint_failed_f *ctfailcb, void *app_key) {
 	long value;
-	
+
 	if(!sptr) {
 		_ASN_CTFAIL(app_key, td, sptr,
-			"%s: value not given (%s:%d)",
-			td->name, __FILE__, __LINE__);
+		            "%s: value not given (%s:%d)",
+		            td->name, __FILE__, __LINE__);
 		return -1;
 	}
-	
+
 	value = *(const long *)sptr;
-	
+
 	if((value >= 1 && value <= 1000)) {
 		/* Constraint check succeeded */
 		return 0;
 	} else {
 		_ASN_CTFAIL(app_key, td, sptr,
-			"%s: constraint failed (%s:%d)",
-			td->name, __FILE__, __LINE__);
+		            "%s: constraint failed (%s:%d)",
+		            td->name, __FILE__, __LINE__);
 		return -1;
 	}
 }
 
 static int
 memb_raiseEveryMinutes_constraint_9(asn_TYPE_descriptor_t *td, const void *sptr,
-			asn_app_constraint_failed_f *ctfailcb, void *app_key) {
+                                    asn_app_constraint_failed_f *ctfailcb, void *app_key) {
 	long value;
-	
+
 	if(!sptr) {
 		_ASN_CTFAIL(app_key, td, sptr,
-			"%s: value not given (%s:%d)",
-			td->name, __FILE__, __LINE__);
+		            "%s: value not given (%s:%d)",
+		            td->name, __FILE__, __LINE__);
 		return -1;
 	}
-	
+
 	value = *(const long *)sptr;
-	
+
 	if((value >= 1 && value <= 1000)) {
 		/* Constraint check succeeded */
 		return 0;
 	} else {
 		_ASN_CTFAIL(app_key, td, sptr,
-			"%s: constraint failed (%s:%d)",
-			td->name, __FILE__, __LINE__);
+		            "%s: constraint failed (%s:%d)",
+		            td->name, __FILE__, __LINE__);
 		return -1;
 	}
 }
 
 static int
 endRaiseMode_13_constraint(asn_TYPE_descriptor_t *td, const void *sptr,
-			asn_app_constraint_failed_f *ctfailcb, void *app_key) {
+                           asn_app_constraint_failed_f *ctfailcb, void *app_key) {
 	/* Replace with underlying type checker */
 	td->check_constraints = asn_DEF_NativeEnumerated.check_constraints;
 	return td->check_constraints(td, sptr, ctfailcb, app_key);
@@ -156,307 +156,307 @@ endRaiseMode_13_inherit_TYPE_descriptor(asn_TYPE_descriptor_t *td) {
 		td->per_constraints = asn_DEF_NativeEnumerated.per_constraints;
 	td->elements       = asn_DEF_NativeEnumerated.elements;
 	td->elements_count = asn_DEF_NativeEnumerated.elements_count;
-     /* td->specifics      = asn_DEF_NativeEnumerated.specifics;	// Defined explicitly */
+	/* td->specifics      = asn_DEF_NativeEnumerated.specifics;	// Defined explicitly */
 }
 
 static void
 endRaiseMode_13_free(asn_TYPE_descriptor_t *td,
-		void *struct_ptr, int contents_only) {
+                     void *struct_ptr, int contents_only) {
 	endRaiseMode_13_inherit_TYPE_descriptor(td);
 	td->free_struct(td, struct_ptr, contents_only);
 }
 
 static int
 endRaiseMode_13_print(asn_TYPE_descriptor_t *td, const void *struct_ptr,
-		int ilevel, asn_app_consume_bytes_f *cb, void *app_key) {
+                      int ilevel, asn_app_consume_bytes_f *cb, void *app_key) {
 	endRaiseMode_13_inherit_TYPE_descriptor(td);
 	return td->print_struct(td, struct_ptr, ilevel, cb, app_key);
 }
 
 static asn_dec_rval_t
 endRaiseMode_13_decode_ber(asn_codec_ctx_t *opt_codec_ctx, asn_TYPE_descriptor_t *td,
-		void **structure, const void *bufptr, size_t size, int tag_mode) {
+                           void **structure, const void *bufptr, size_t size, int tag_mode) {
 	endRaiseMode_13_inherit_TYPE_descriptor(td);
 	return td->ber_decoder(opt_codec_ctx, td, structure, bufptr, size, tag_mode);
 }
 
 static asn_enc_rval_t
 endRaiseMode_13_encode_der(asn_TYPE_descriptor_t *td,
-		void *structure, int tag_mode, ber_tlv_tag_t tag,
-		asn_app_consume_bytes_f *cb, void *app_key) {
+                           void *structure, int tag_mode, ber_tlv_tag_t tag,
+                           asn_app_consume_bytes_f *cb, void *app_key) {
 	endRaiseMode_13_inherit_TYPE_descriptor(td);
 	return td->der_encoder(td, structure, tag_mode, tag, cb, app_key);
 }
 
 static asn_dec_rval_t
 endRaiseMode_13_decode_xer(asn_codec_ctx_t *opt_codec_ctx, asn_TYPE_descriptor_t *td,
-		void **structure, const char *opt_mname, const void *bufptr, size_t size) {
+                           void **structure, const char *opt_mname, const void *bufptr, size_t size) {
 	endRaiseMode_13_inherit_TYPE_descriptor(td);
 	return td->xer_decoder(opt_codec_ctx, td, structure, opt_mname, bufptr, size);
 }
 
 static asn_enc_rval_t
 endRaiseMode_13_encode_xer(asn_TYPE_descriptor_t *td, void *structure,
-		int ilevel, enum xer_encoder_flags_e flags,
-		asn_app_consume_bytes_f *cb, void *app_key) {
+                           int ilevel, enum xer_encoder_flags_e flags,
+                           asn_app_consume_bytes_f *cb, void *app_key) {
 	endRaiseMode_13_inherit_TYPE_descriptor(td);
 	return td->xer_encoder(td, structure, ilevel, flags, cb, app_key);
 }
 
 static int
 memb_NativeInteger_constraint_23(asn_TYPE_descriptor_t *td, const void *sptr,
-			asn_app_constraint_failed_f *ctfailcb, void *app_key) {
+                                 asn_app_constraint_failed_f *ctfailcb, void *app_key) {
 	long value;
-	
+
 	if(!sptr) {
 		_ASN_CTFAIL(app_key, td, sptr,
-			"%s: value not given (%s:%d)",
-			td->name, __FILE__, __LINE__);
+		            "%s: value not given (%s:%d)",
+		            td->name, __FILE__, __LINE__);
 		return -1;
 	}
-	
+
 	value = *(const long *)sptr;
-	
+
 	if((value >= 1 && value <= 1000000)) {
 		/* Constraint check succeeded */
 		return 0;
 	} else {
 		_ASN_CTFAIL(app_key, td, sptr,
-			"%s: constraint failed (%s:%d)",
-			td->name, __FILE__, __LINE__);
+		            "%s: constraint failed (%s:%d)",
+		            td->name, __FILE__, __LINE__);
 		return -1;
 	}
 }
 
 static int
 memb_gameName_constraint_1(asn_TYPE_descriptor_t *td, const void *sptr,
-			asn_app_constraint_failed_f *ctfailcb, void *app_key) {
+                           asn_app_constraint_failed_f *ctfailcb, void *app_key) {
 	const UTF8String_t *st = (const UTF8String_t *)sptr;
 	size_t size;
-	
+
 	if(!sptr) {
 		_ASN_CTFAIL(app_key, td, sptr,
-			"%s: value not given (%s:%d)",
-			td->name, __FILE__, __LINE__);
+		            "%s: value not given (%s:%d)",
+		            td->name, __FILE__, __LINE__);
 		return -1;
 	}
-	
+
 	size = UTF8String_length(st);
 	if((ssize_t)size < 0) {
 		_ASN_CTFAIL(app_key, td, sptr,
-			"%s: UTF-8: broken encoding (%s:%d)",
-			td->name, __FILE__, __LINE__);
+		            "%s: UTF-8: broken encoding (%s:%d)",
+		            td->name, __FILE__, __LINE__);
 		return -1;
 	}
-	
+
 	if((size >= 1 && size <= 64)) {
 		/* Constraint check succeeded */
 		return 0;
 	} else {
 		_ASN_CTFAIL(app_key, td, sptr,
-			"%s: constraint failed (%s:%d)",
-			td->name, __FILE__, __LINE__);
+		            "%s: constraint failed (%s:%d)",
+		            td->name, __FILE__, __LINE__);
 		return -1;
 	}
 }
 
 static int
 memb_maxNumPlayers_constraint_1(asn_TYPE_descriptor_t *td, const void *sptr,
-			asn_app_constraint_failed_f *ctfailcb, void *app_key) {
+                                asn_app_constraint_failed_f *ctfailcb, void *app_key) {
 	long value;
-	
+
 	if(!sptr) {
 		_ASN_CTFAIL(app_key, td, sptr,
-			"%s: value not given (%s:%d)",
-			td->name, __FILE__, __LINE__);
+		            "%s: value not given (%s:%d)",
+		            td->name, __FILE__, __LINE__);
 		return -1;
 	}
-	
+
 	value = *(const long *)sptr;
-	
+
 	if((value >= 2 && value <= 10)) {
 		/* Constraint check succeeded */
 		return 0;
 	} else {
 		_ASN_CTFAIL(app_key, td, sptr,
-			"%s: constraint failed (%s:%d)",
-			td->name, __FILE__, __LINE__);
+		            "%s: constraint failed (%s:%d)",
+		            td->name, __FILE__, __LINE__);
 		return -1;
 	}
 }
 
 static int
 memb_proposedGuiSpeed_constraint_1(asn_TYPE_descriptor_t *td, const void *sptr,
-			asn_app_constraint_failed_f *ctfailcb, void *app_key) {
+                                   asn_app_constraint_failed_f *ctfailcb, void *app_key) {
 	long value;
-	
+
 	if(!sptr) {
 		_ASN_CTFAIL(app_key, td, sptr,
-			"%s: value not given (%s:%d)",
-			td->name, __FILE__, __LINE__);
+		            "%s: value not given (%s:%d)",
+		            td->name, __FILE__, __LINE__);
 		return -1;
 	}
-	
+
 	value = *(const long *)sptr;
-	
+
 	if((value >= 1 && value <= 11)) {
 		/* Constraint check succeeded */
 		return 0;
 	} else {
 		_ASN_CTFAIL(app_key, td, sptr,
-			"%s: constraint failed (%s:%d)",
-			td->name, __FILE__, __LINE__);
+		            "%s: constraint failed (%s:%d)",
+		            td->name, __FILE__, __LINE__);
 		return -1;
 	}
 }
 
 static int
 memb_delayBetweenHands_constraint_1(asn_TYPE_descriptor_t *td, const void *sptr,
-			asn_app_constraint_failed_f *ctfailcb, void *app_key) {
+                                    asn_app_constraint_failed_f *ctfailcb, void *app_key) {
 	long value;
-	
+
 	if(!sptr) {
 		_ASN_CTFAIL(app_key, td, sptr,
-			"%s: value not given (%s:%d)",
-			td->name, __FILE__, __LINE__);
+		            "%s: value not given (%s:%d)",
+		            td->name, __FILE__, __LINE__);
 		return -1;
 	}
-	
+
 	value = *(const long *)sptr;
-	
+
 	if((value >= 5 && value <= 20)) {
 		/* Constraint check succeeded */
 		return 0;
 	} else {
 		_ASN_CTFAIL(app_key, td, sptr,
-			"%s: constraint failed (%s:%d)",
-			td->name, __FILE__, __LINE__);
+		            "%s: constraint failed (%s:%d)",
+		            td->name, __FILE__, __LINE__);
 		return -1;
 	}
 }
 
 static int
 memb_playerActionTimeout_constraint_1(asn_TYPE_descriptor_t *td, const void *sptr,
-			asn_app_constraint_failed_f *ctfailcb, void *app_key) {
+                                      asn_app_constraint_failed_f *ctfailcb, void *app_key) {
 	long value;
-	
+
 	if(!sptr) {
 		_ASN_CTFAIL(app_key, td, sptr,
-			"%s: value not given (%s:%d)",
-			td->name, __FILE__, __LINE__);
+		            "%s: value not given (%s:%d)",
+		            td->name, __FILE__, __LINE__);
 		return -1;
 	}
-	
+
 	value = *(const long *)sptr;
-	
+
 	if((value >= 0 && value <= 60)) {
 		/* Constraint check succeeded */
 		return 0;
 	} else {
 		_ASN_CTFAIL(app_key, td, sptr,
-			"%s: constraint failed (%s:%d)",
-			td->name, __FILE__, __LINE__);
+		            "%s: constraint failed (%s:%d)",
+		            td->name, __FILE__, __LINE__);
 		return -1;
 	}
 }
 
 static int
 memb_firstSmallBlind_constraint_1(asn_TYPE_descriptor_t *td, const void *sptr,
-			asn_app_constraint_failed_f *ctfailcb, void *app_key) {
+                                  asn_app_constraint_failed_f *ctfailcb, void *app_key) {
 	long value;
-	
+
 	if(!sptr) {
 		_ASN_CTFAIL(app_key, td, sptr,
-			"%s: value not given (%s:%d)",
-			td->name, __FILE__, __LINE__);
+		            "%s: value not given (%s:%d)",
+		            td->name, __FILE__, __LINE__);
 		return -1;
 	}
-	
+
 	value = *(const long *)sptr;
-	
+
 	if((value >= 1 && value <= 20000)) {
 		/* Constraint check succeeded */
 		return 0;
 	} else {
 		_ASN_CTFAIL(app_key, td, sptr,
-			"%s: constraint failed (%s:%d)",
-			td->name, __FILE__, __LINE__);
+		            "%s: constraint failed (%s:%d)",
+		            td->name, __FILE__, __LINE__);
 		return -1;
 	}
 }
 
 static int
 memb_endRaiseSmallBlindValue_constraint_1(asn_TYPE_descriptor_t *td, const void *sptr,
-			asn_app_constraint_failed_f *ctfailcb, void *app_key) {
+        asn_app_constraint_failed_f *ctfailcb, void *app_key) {
 	long value;
-	
+
 	if(!sptr) {
 		_ASN_CTFAIL(app_key, td, sptr,
-			"%s: value not given (%s:%d)",
-			td->name, __FILE__, __LINE__);
+		            "%s: value not given (%s:%d)",
+		            td->name, __FILE__, __LINE__);
 		return -1;
 	}
-	
+
 	value = *(const long *)sptr;
-	
+
 	if((value >= 0 && value <= 1000000)) {
 		/* Constraint check succeeded */
 		return 0;
 	} else {
 		_ASN_CTFAIL(app_key, td, sptr,
-			"%s: constraint failed (%s:%d)",
-			td->name, __FILE__, __LINE__);
+		            "%s: constraint failed (%s:%d)",
+		            td->name, __FILE__, __LINE__);
 		return -1;
 	}
 }
 
 static int
 memb_startMoney_constraint_1(asn_TYPE_descriptor_t *td, const void *sptr,
-			asn_app_constraint_failed_f *ctfailcb, void *app_key) {
+                             asn_app_constraint_failed_f *ctfailcb, void *app_key) {
 	long value;
-	
+
 	if(!sptr) {
 		_ASN_CTFAIL(app_key, td, sptr,
-			"%s: value not given (%s:%d)",
-			td->name, __FILE__, __LINE__);
+		            "%s: value not given (%s:%d)",
+		            td->name, __FILE__, __LINE__);
 		return -1;
 	}
-	
+
 	value = *(const long *)sptr;
-	
+
 	if((value >= 1 && value <= 1000000)) {
 		/* Constraint check succeeded */
 		return 0;
 	} else {
 		_ASN_CTFAIL(app_key, td, sptr,
-			"%s: constraint failed (%s:%d)",
-			td->name, __FILE__, __LINE__);
+		            "%s: constraint failed (%s:%d)",
+		            td->name, __FILE__, __LINE__);
 		return -1;
 	}
 }
 
 static int
 memb_manualBlinds_constraint_1(asn_TYPE_descriptor_t *td, const void *sptr,
-			asn_app_constraint_failed_f *ctfailcb, void *app_key) {
+                               asn_app_constraint_failed_f *ctfailcb, void *app_key) {
 	size_t size;
-	
+
 	if(!sptr) {
 		_ASN_CTFAIL(app_key, td, sptr,
-			"%s: value not given (%s:%d)",
-			td->name, __FILE__, __LINE__);
+		            "%s: value not given (%s:%d)",
+		            td->name, __FILE__, __LINE__);
 		return -1;
 	}
-	
+
 	/* Determine the number of elements */
 	size = _A_CSEQUENCE_FROM_VOID(sptr)->count;
-	
+
 	if((size <= 30)) {
 		/* Perform validation of the inner elements */
 		return td->check_constraints(td, sptr, ctfailcb, app_key);
 	} else {
 		_ASN_CTFAIL(app_key, td, sptr,
-			"%s: constraint failed (%s:%d)",
-			td->name, __FILE__, __LINE__);
+		            "%s: constraint failed (%s:%d)",
+		            td->name, __FILE__, __LINE__);
 		return -1;
 	}
 }
@@ -500,17 +500,17 @@ asn_TYPE_descriptor_t asn_DEF_netGameType_3 = {
 	0,	/* Use generic outmost tag fetcher */
 	asn_DEF_netGameType_tags_3,
 	sizeof(asn_DEF_netGameType_tags_3)
-		/sizeof(asn_DEF_netGameType_tags_3[0]), /* 1 */
+	/sizeof(asn_DEF_netGameType_tags_3[0]), /* 1 */
 	asn_DEF_netGameType_tags_3,	/* Same as above */
 	sizeof(asn_DEF_netGameType_tags_3)
-		/sizeof(asn_DEF_netGameType_tags_3[0]), /* 1 */
+	/sizeof(asn_DEF_netGameType_tags_3[0]), /* 1 */
 	0,	/* No PER visible constraints */
 	0, 0,	/* Defined elsewhere */
 	&asn_SPC_netGameType_specs_3	/* Additional specs */
 };
 
 static asn_TYPE_member_t asn_MBR_raiseIntervalMode_9[] = {
-	{ ATF_NOFLAGS, 0, offsetof(struct raiseIntervalMode, choice.raiseEveryHands),
+	{	ATF_NOFLAGS, 0, offsetof(struct raiseIntervalMode, choice.raiseEveryHands),
 		(ASN_TAG_CLASS_CONTEXT | (0 << 2)),
 		-1,	/* IMPLICIT tag at current level */
 		&asn_DEF_NativeInteger,
@@ -518,8 +518,8 @@ static asn_TYPE_member_t asn_MBR_raiseIntervalMode_9[] = {
 		0,	/* PER is not compiled, use -gen-PER */
 		0,
 		"raiseEveryHands"
-		},
-	{ ATF_NOFLAGS, 0, offsetof(struct raiseIntervalMode, choice.raiseEveryMinutes),
+	},
+	{	ATF_NOFLAGS, 0, offsetof(struct raiseIntervalMode, choice.raiseEveryMinutes),
 		(ASN_TAG_CLASS_CONTEXT | (1 << 2)),
 		-1,	/* IMPLICIT tag at current level */
 		&asn_DEF_NativeInteger,
@@ -527,11 +527,11 @@ static asn_TYPE_member_t asn_MBR_raiseIntervalMode_9[] = {
 		0,	/* PER is not compiled, use -gen-PER */
 		0,
 		"raiseEveryMinutes"
-		},
+	},
 };
 static asn_TYPE_tag2member_t asn_MAP_raiseIntervalMode_tag2el_9[] = {
-    { (ASN_TAG_CLASS_CONTEXT | (0 << 2)), 0, 0, 0 }, /* raiseEveryHands at 334 */
-    { (ASN_TAG_CLASS_CONTEXT | (1 << 2)), 1, 0, 0 } /* raiseEveryMinutes at 335 */
+	{ (ASN_TAG_CLASS_CONTEXT | (0 << 2)), 0, 0, 0 }, /* raiseEveryHands at 341 */
+	{ (ASN_TAG_CLASS_CONTEXT | (1 << 2)), 1, 0, 0 } /* raiseEveryMinutes at 342 */
 };
 static asn_CHOICE_specifics_t asn_SPC_raiseIntervalMode_specs_9 = {
 	sizeof(struct raiseIntervalMode),
@@ -603,17 +603,17 @@ asn_TYPE_descriptor_t asn_DEF_endRaiseMode_13 = {
 	0,	/* Use generic outmost tag fetcher */
 	asn_DEF_endRaiseMode_tags_13,
 	sizeof(asn_DEF_endRaiseMode_tags_13)
-		/sizeof(asn_DEF_endRaiseMode_tags_13[0]), /* 1 */
+	/sizeof(asn_DEF_endRaiseMode_tags_13[0]), /* 1 */
 	asn_DEF_endRaiseMode_tags_13,	/* Same as above */
 	sizeof(asn_DEF_endRaiseMode_tags_13)
-		/sizeof(asn_DEF_endRaiseMode_tags_13[0]), /* 1 */
+	/sizeof(asn_DEF_endRaiseMode_tags_13[0]), /* 1 */
 	0,	/* No PER visible constraints */
 	0, 0,	/* Defined elsewhere */
 	&asn_SPC_endRaiseMode_specs_13	/* Additional specs */
 };
 
 static asn_TYPE_member_t asn_MBR_manualBlinds_23[] = {
-	{ ATF_POINTER, 0, 0,
+	{	ATF_POINTER, 0, 0,
 		(ASN_TAG_CLASS_UNIVERSAL | (2 << 2)),
 		0,
 		&asn_DEF_NativeInteger,
@@ -621,7 +621,7 @@ static asn_TYPE_member_t asn_MBR_manualBlinds_23[] = {
 		0,	/* PER is not compiled, use -gen-PER */
 		0,
 		""
-		},
+	},
 };
 static ber_tlv_tag_t asn_DEF_manualBlinds_tags_23[] = {
 	(ASN_TAG_CLASS_UNIVERSAL | (16 << 2))
@@ -646,10 +646,10 @@ asn_TYPE_descriptor_t asn_DEF_manualBlinds_23 = {
 	0,	/* Use generic outmost tag fetcher */
 	asn_DEF_manualBlinds_tags_23,
 	sizeof(asn_DEF_manualBlinds_tags_23)
-		/sizeof(asn_DEF_manualBlinds_tags_23[0]), /* 1 */
+	/sizeof(asn_DEF_manualBlinds_tags_23[0]), /* 1 */
 	asn_DEF_manualBlinds_tags_23,	/* Same as above */
 	sizeof(asn_DEF_manualBlinds_tags_23)
-		/sizeof(asn_DEF_manualBlinds_tags_23[0]), /* 1 */
+	/sizeof(asn_DEF_manualBlinds_tags_23[0]), /* 1 */
 	0,	/* No PER visible constraints */
 	asn_MBR_manualBlinds_23,
 	1,	/* Single element */
@@ -657,7 +657,7 @@ asn_TYPE_descriptor_t asn_DEF_manualBlinds_23 = {
 };
 
 static asn_TYPE_member_t asn_MBR_NetGameInfo_1[] = {
-	{ ATF_NOFLAGS, 0, offsetof(struct NetGameInfo, gameName),
+	{	ATF_NOFLAGS, 0, offsetof(struct NetGameInfo, gameName),
 		(ASN_TAG_CLASS_UNIVERSAL | (12 << 2)),
 		0,
 		&asn_DEF_UTF8String,
@@ -665,8 +665,8 @@ static asn_TYPE_member_t asn_MBR_NetGameInfo_1[] = {
 		0,	/* PER is not compiled, use -gen-PER */
 		0,
 		"gameName"
-		},
-	{ ATF_NOFLAGS, 0, offsetof(struct NetGameInfo, netGameType),
+	},
+	{	ATF_NOFLAGS, 0, offsetof(struct NetGameInfo, netGameType),
 		(ASN_TAG_CLASS_UNIVERSAL | (10 << 2)),
 		0,
 		&asn_DEF_netGameType_3,
@@ -674,8 +674,8 @@ static asn_TYPE_member_t asn_MBR_NetGameInfo_1[] = {
 		0,	/* PER is not compiled, use -gen-PER */
 		0,
 		"netGameType"
-		},
-	{ ATF_NOFLAGS, 0, offsetof(struct NetGameInfo, maxNumPlayers),
+	},
+	{	ATF_NOFLAGS, 0, offsetof(struct NetGameInfo, maxNumPlayers),
 		(ASN_TAG_CLASS_UNIVERSAL | (2 << 2)),
 		0,
 		&asn_DEF_NativeInteger,
@@ -683,8 +683,8 @@ static asn_TYPE_member_t asn_MBR_NetGameInfo_1[] = {
 		0,	/* PER is not compiled, use -gen-PER */
 		0,
 		"maxNumPlayers"
-		},
-	{ ATF_NOFLAGS, 0, offsetof(struct NetGameInfo, raiseIntervalMode),
+	},
+	{	ATF_NOFLAGS, 0, offsetof(struct NetGameInfo, raiseIntervalMode),
 		-1 /* Ambiguous tag (CHOICE?) */,
 		0,
 		&asn_DEF_raiseIntervalMode_9,
@@ -692,8 +692,8 @@ static asn_TYPE_member_t asn_MBR_NetGameInfo_1[] = {
 		0,	/* PER is not compiled, use -gen-PER */
 		0,
 		"raiseIntervalMode"
-		},
-	{ ATF_NOFLAGS, 0, offsetof(struct NetGameInfo, endRaiseMode),
+	},
+	{	ATF_NOFLAGS, 0, offsetof(struct NetGameInfo, endRaiseMode),
 		(ASN_TAG_CLASS_UNIVERSAL | (10 << 2)),
 		0,
 		&asn_DEF_endRaiseMode_13,
@@ -701,8 +701,8 @@ static asn_TYPE_member_t asn_MBR_NetGameInfo_1[] = {
 		0,	/* PER is not compiled, use -gen-PER */
 		0,
 		"endRaiseMode"
-		},
-	{ ATF_NOFLAGS, 0, offsetof(struct NetGameInfo, proposedGuiSpeed),
+	},
+	{	ATF_NOFLAGS, 0, offsetof(struct NetGameInfo, proposedGuiSpeed),
 		(ASN_TAG_CLASS_UNIVERSAL | (2 << 2)),
 		0,
 		&asn_DEF_NativeInteger,
@@ -710,8 +710,8 @@ static asn_TYPE_member_t asn_MBR_NetGameInfo_1[] = {
 		0,	/* PER is not compiled, use -gen-PER */
 		0,
 		"proposedGuiSpeed"
-		},
-	{ ATF_NOFLAGS, 0, offsetof(struct NetGameInfo, delayBetweenHands),
+	},
+	{	ATF_NOFLAGS, 0, offsetof(struct NetGameInfo, delayBetweenHands),
 		(ASN_TAG_CLASS_UNIVERSAL | (2 << 2)),
 		0,
 		&asn_DEF_NativeInteger,
@@ -719,8 +719,8 @@ static asn_TYPE_member_t asn_MBR_NetGameInfo_1[] = {
 		0,	/* PER is not compiled, use -gen-PER */
 		0,
 		"delayBetweenHands"
-		},
-	{ ATF_NOFLAGS, 0, offsetof(struct NetGameInfo, playerActionTimeout),
+	},
+	{	ATF_NOFLAGS, 0, offsetof(struct NetGameInfo, playerActionTimeout),
 		(ASN_TAG_CLASS_UNIVERSAL | (2 << 2)),
 		0,
 		&asn_DEF_NativeInteger,
@@ -728,8 +728,8 @@ static asn_TYPE_member_t asn_MBR_NetGameInfo_1[] = {
 		0,	/* PER is not compiled, use -gen-PER */
 		0,
 		"playerActionTimeout"
-		},
-	{ ATF_NOFLAGS, 0, offsetof(struct NetGameInfo, firstSmallBlind),
+	},
+	{	ATF_NOFLAGS, 0, offsetof(struct NetGameInfo, firstSmallBlind),
 		(ASN_TAG_CLASS_UNIVERSAL | (2 << 2)),
 		0,
 		&asn_DEF_NativeInteger,
@@ -737,8 +737,8 @@ static asn_TYPE_member_t asn_MBR_NetGameInfo_1[] = {
 		0,	/* PER is not compiled, use -gen-PER */
 		0,
 		"firstSmallBlind"
-		},
-	{ ATF_NOFLAGS, 0, offsetof(struct NetGameInfo, endRaiseSmallBlindValue),
+	},
+	{	ATF_NOFLAGS, 0, offsetof(struct NetGameInfo, endRaiseSmallBlindValue),
 		(ASN_TAG_CLASS_UNIVERSAL | (2 << 2)),
 		0,
 		&asn_DEF_NativeInteger,
@@ -746,8 +746,8 @@ static asn_TYPE_member_t asn_MBR_NetGameInfo_1[] = {
 		0,	/* PER is not compiled, use -gen-PER */
 		0,
 		"endRaiseSmallBlindValue"
-		},
-	{ ATF_NOFLAGS, 0, offsetof(struct NetGameInfo, startMoney),
+	},
+	{	ATF_NOFLAGS, 0, offsetof(struct NetGameInfo, startMoney),
 		(ASN_TAG_CLASS_UNIVERSAL | (2 << 2)),
 		0,
 		&asn_DEF_NativeInteger,
@@ -755,8 +755,8 @@ static asn_TYPE_member_t asn_MBR_NetGameInfo_1[] = {
 		0,	/* PER is not compiled, use -gen-PER */
 		0,
 		"startMoney"
-		},
-	{ ATF_NOFLAGS, 0, offsetof(struct NetGameInfo, manualBlinds),
+	},
+	{	ATF_NOFLAGS, 0, offsetof(struct NetGameInfo, manualBlinds),
 		(ASN_TAG_CLASS_UNIVERSAL | (16 << 2)),
 		0,
 		&asn_DEF_manualBlinds_23,
@@ -764,25 +764,25 @@ static asn_TYPE_member_t asn_MBR_NetGameInfo_1[] = {
 		0,	/* PER is not compiled, use -gen-PER */
 		0,
 		"manualBlinds"
-		},
+	},
 };
 static ber_tlv_tag_t asn_DEF_NetGameInfo_tags_1[] = {
 	(ASN_TAG_CLASS_UNIVERSAL | (16 << 2))
 };
 static asn_TYPE_tag2member_t asn_MAP_NetGameInfo_tag2el_1[] = {
-    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 2, 0, 6 }, /* maxNumPlayers at 332 */
-    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 5, -1, 5 }, /* proposedGuiSpeed at 342 */
-    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 6, -2, 4 }, /* delayBetweenHands at 343 */
-    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 7, -3, 3 }, /* playerActionTimeout at 344 */
-    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 8, -4, 2 }, /* firstSmallBlind at 345 */
-    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 9, -5, 1 }, /* endRaiseSmallBlindValue at 346 */
-    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 10, -6, 0 }, /* startMoney at 347 */
-    { (ASN_TAG_CLASS_UNIVERSAL | (10 << 2)), 1, 0, 1 }, /* netGameType at 327 */
-    { (ASN_TAG_CLASS_UNIVERSAL | (10 << 2)), 4, -1, 0 }, /* endRaiseMode at 338 */
-    { (ASN_TAG_CLASS_UNIVERSAL | (12 << 2)), 0, 0, 0 }, /* gameName at 325 */
-    { (ASN_TAG_CLASS_UNIVERSAL | (16 << 2)), 11, 0, 0 }, /* manualBlinds at 348 */
-    { (ASN_TAG_CLASS_CONTEXT | (0 << 2)), 3, 0, 0 }, /* raiseEveryHands at 334 */
-    { (ASN_TAG_CLASS_CONTEXT | (1 << 2)), 3, 0, 0 } /* raiseEveryMinutes at 335 */
+	{ (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 2, 0, 6 }, /* maxNumPlayers at 339 */
+	{ (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 5, -1, 5 }, /* proposedGuiSpeed at 349 */
+	{ (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 6, -2, 4 }, /* delayBetweenHands at 350 */
+	{ (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 7, -3, 3 }, /* playerActionTimeout at 351 */
+	{ (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 8, -4, 2 }, /* firstSmallBlind at 352 */
+	{ (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 9, -5, 1 }, /* endRaiseSmallBlindValue at 353 */
+	{ (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 10, -6, 0 }, /* startMoney at 354 */
+	{ (ASN_TAG_CLASS_UNIVERSAL | (10 << 2)), 1, 0, 1 }, /* netGameType at 334 */
+	{ (ASN_TAG_CLASS_UNIVERSAL | (10 << 2)), 4, -1, 0 }, /* endRaiseMode at 345 */
+	{ (ASN_TAG_CLASS_UNIVERSAL | (12 << 2)), 0, 0, 0 }, /* gameName at 332 */
+	{ (ASN_TAG_CLASS_UNIVERSAL | (16 << 2)), 11, 0, 0 }, /* manualBlinds at 355 */
+	{ (ASN_TAG_CLASS_CONTEXT | (0 << 2)), 3, 0, 0 }, /* raiseEveryHands at 341 */
+	{ (ASN_TAG_CLASS_CONTEXT | (1 << 2)), 3, 0, 0 } /* raiseEveryMinutes at 342 */
 };
 static asn_SEQUENCE_specifics_t asn_SPC_NetGameInfo_specs_1 = {
 	sizeof(struct NetGameInfo),
@@ -807,10 +807,10 @@ asn_TYPE_descriptor_t asn_DEF_NetGameInfo = {
 	0,	/* Use generic outmost tag fetcher */
 	asn_DEF_NetGameInfo_tags_1,
 	sizeof(asn_DEF_NetGameInfo_tags_1)
-		/sizeof(asn_DEF_NetGameInfo_tags_1[0]), /* 1 */
+	/sizeof(asn_DEF_NetGameInfo_tags_1[0]), /* 1 */
 	asn_DEF_NetGameInfo_tags_1,	/* Same as above */
 	sizeof(asn_DEF_NetGameInfo_tags_1)
-		/sizeof(asn_DEF_NetGameInfo_tags_1[0]), /* 1 */
+	/sizeof(asn_DEF_NetGameInfo_tags_1[0]), /* 1 */
 	0,	/* No PER visible constraints */
 	asn_MBR_NetGameInfo_1,
 	12,	/* Elements count */

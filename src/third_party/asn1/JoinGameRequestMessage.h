@@ -16,6 +16,7 @@
 #include <BOOLEAN.h>
 #include "JoinExistingGame.h"
 #include "JoinNewGame.h"
+#include "RejoinExistingGame.h"
 #include <constr_CHOICE.h>
 #include <constr_SEQUENCE.h>
 
@@ -23,44 +24,47 @@
 extern "C" {
 #endif
 
-/* Dependencies */
-typedef enum joinGameAction_PR {
-	joinGameAction_PR_NOTHING,	/* No components present */
-	joinGameAction_PR_joinExistingGame,
-	joinGameAction_PR_joinNewGame,
-	/* Extensions may appear below */
-	
-} joinGameAction_PR;
+	/* Dependencies */
+	typedef enum joinGameAction_PR {
+		joinGameAction_PR_NOTHING,	/* No components present */
+		joinGameAction_PR_joinExistingGame,
+		joinGameAction_PR_joinNewGame,
+		joinGameAction_PR_rejoinExistingGame,
+		/* Extensions may appear below */
 
-/* JoinGameRequestMessage */
-typedef struct JoinGameRequestMessage {
-	struct joinGameAction {
-		joinGameAction_PR present;
-		union JoinGameRequestMessage__joinGameAction_u {
-			JoinExistingGame_t	 joinExistingGame;
-			JoinNewGame_t	 joinNewGame;
-			/*
-			 * This type is extensible,
-			 * possible extensions are below.
-			 */
-		} choice;
-		
+	}
+	joinGameAction_PR;
+
+	/* JoinGameRequestMessage */
+	typedef struct JoinGameRequestMessage {
+		struct joinGameAction {
+			joinGameAction_PR present;
+			union JoinGameRequestMessage__joinGameAction_u {
+				JoinExistingGame_t	 joinExistingGame;
+				JoinNewGame_t	 joinNewGame;
+				RejoinExistingGame_t	 rejoinExistingGame;
+				/*
+				 * This type is extensible,
+				 * possible extensions are below.
+				 */
+			} choice;
+
+			/* Context for parsing across buffer boundaries */
+			asn_struct_ctx_t _asn_ctx;
+		} joinGameAction;
+		UTF8String_t	*password	/* OPTIONAL */;
+		BOOLEAN_t	 autoLeave;
+		/*
+		 * This type is extensible,
+		 * possible extensions are below.
+		 */
+
 		/* Context for parsing across buffer boundaries */
 		asn_struct_ctx_t _asn_ctx;
-	} joinGameAction;
-	UTF8String_t	*password	/* OPTIONAL */;
-	BOOLEAN_t	 autoLeave;
-	/*
-	 * This type is extensible,
-	 * possible extensions are below.
-	 */
-	
-	/* Context for parsing across buffer boundaries */
-	asn_struct_ctx_t _asn_ctx;
-} JoinGameRequestMessage_t;
+	} JoinGameRequestMessage_t;
 
-/* Implementation */
-extern asn_TYPE_descriptor_t asn_DEF_JoinGameRequestMessage;
+	/* Implementation */
+	extern asn_TYPE_descriptor_t asn_DEF_JoinGameRequestMessage;
 
 #ifdef __cplusplus
 }

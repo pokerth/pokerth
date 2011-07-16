@@ -18,29 +18,30 @@
 extern "C" {
 #endif
 
-/* Dependencies */
-typedef enum NetPlayerAction {
-	NetPlayerAction_actionNone	= 0,
-	NetPlayerAction_actionFold	= 1,
-	NetPlayerAction_actionCheck	= 2,
-	NetPlayerAction_actionCall	= 3,
-	NetPlayerAction_actionBet	= 4,
-	NetPlayerAction_actionRaise	= 5,
-	NetPlayerAction_actionAllIn	= 6
-} e_NetPlayerAction;
+	/* Dependencies */
+	typedef enum NetPlayerAction {
+		NetPlayerAction_actionNone	= 0,
+		 NetPlayerAction_actionFold	= 1,
+		  NetPlayerAction_actionCheck	= 2,
+		  NetPlayerAction_actionCall	= 3,
+		   NetPlayerAction_actionBet	= 4,
+		     NetPlayerAction_actionRaise	= 5,
+		     NetPlayerAction_actionAllIn	= 6
+	}
+	                                   e_NetPlayerAction;
 
-/* NetPlayerAction */
-typedef long	 NetPlayerAction_t;
+	/* NetPlayerAction */
+	typedef long	 NetPlayerAction_t;
 
-/* Implementation */
-extern asn_TYPE_descriptor_t asn_DEF_NetPlayerAction;
-asn_struct_free_f NetPlayerAction_free;
-asn_struct_print_f NetPlayerAction_print;
-asn_constr_check_f NetPlayerAction_constraint;
-ber_type_decoder_f NetPlayerAction_decode_ber;
-der_type_encoder_f NetPlayerAction_encode_der;
-xer_type_decoder_f NetPlayerAction_decode_xer;
-xer_type_encoder_f NetPlayerAction_encode_xer;
+	/* Implementation */
+	extern asn_TYPE_descriptor_t asn_DEF_NetPlayerAction;
+	asn_struct_free_f NetPlayerAction_free;
+	asn_struct_print_f NetPlayerAction_print;
+	asn_constr_check_f NetPlayerAction_constraint;
+	ber_type_decoder_f NetPlayerAction_decode_ber;
+	der_type_encoder_f NetPlayerAction_encode_der;
+	xer_type_decoder_f NetPlayerAction_decode_xer;
+	xer_type_encoder_f NetPlayerAction_encode_xer;
 
 #ifdef __cplusplus
 }

@@ -19,20 +19,20 @@
 extern "C" {
 #endif
 
-/* GameAdminChanged */
-typedef struct GameAdminChanged {
-	NonZeroId_t	 newAdminPlayerId;
-	/*
-	 * This type is extensible,
-	 * possible extensions are below.
-	 */
-	
-	/* Context for parsing across buffer boundaries */
-	asn_struct_ctx_t _asn_ctx;
-} GameAdminChanged_t;
+	/* GameAdminChanged */
+	typedef struct GameAdminChanged {
+		NonZeroId_t	 newAdminPlayerId;
+		/*
+		 * This type is extensible,
+		 * possible extensions are below.
+		 */
 
-/* Implementation */
-extern asn_TYPE_descriptor_t asn_DEF_GameAdminChanged;
+		/* Context for parsing across buffer boundaries */
+		asn_struct_ctx_t _asn_ctx;
+	} GameAdminChanged_t;
+
+	/* Implementation */
+	extern asn_TYPE_descriptor_t asn_DEF_GameAdminChanged;
 
 #ifdef __cplusplus
 }

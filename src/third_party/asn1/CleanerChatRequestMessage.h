@@ -21,26 +21,26 @@
 extern "C" {
 #endif
 
-/* CleanerChatRequestMessage */
-typedef struct CleanerChatRequestMessage {
-	unsigned long	 requestId;
-	CleanerChatType_t	 cleanerChatType;
-	unsigned long	 playerId;
-	UTF8String_t	 playerName;
-	UTF8String_t	 chatMessage;
-	/*
-	 * This type is extensible,
-	 * possible extensions are below.
-	 */
-	
-	/* Context for parsing across buffer boundaries */
-	asn_struct_ctx_t _asn_ctx;
-} CleanerChatRequestMessage_t;
+	/* CleanerChatRequestMessage */
+	typedef struct CleanerChatRequestMessage {
+		unsigned long	 requestId;
+		CleanerChatType_t	 cleanerChatType;
+		unsigned long	 playerId;
+		UTF8String_t	 playerName;
+		UTF8String_t	 chatMessage;
+		/*
+		 * This type is extensible,
+		 * possible extensions are below.
+		 */
 
-/* Implementation */
-/* extern asn_TYPE_descriptor_t asn_DEF_requestId_2;	// (Use -fall-defs-global to expose) */
-/* extern asn_TYPE_descriptor_t asn_DEF_playerId_4;	// (Use -fall-defs-global to expose) */
-extern asn_TYPE_descriptor_t asn_DEF_CleanerChatRequestMessage;
+		/* Context for parsing across buffer boundaries */
+		asn_struct_ctx_t _asn_ctx;
+	} CleanerChatRequestMessage_t;
+
+	/* Implementation */
+	/* extern asn_TYPE_descriptor_t asn_DEF_requestId_2;	// (Use -fall-defs-global to expose) */
+	/* extern asn_TYPE_descriptor_t asn_DEF_playerId_4;	// (Use -fall-defs-global to expose) */
+	extern asn_TYPE_descriptor_t asn_DEF_CleanerChatRequestMessage;
 
 #ifdef __cplusplus
 }

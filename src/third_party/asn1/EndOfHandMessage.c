@@ -8,7 +8,7 @@
 #include "EndOfHandMessage.h"
 
 static asn_TYPE_member_t asn_MBR_endOfHandType_3[] = {
-	{ ATF_NOFLAGS, 0, offsetof(struct endOfHandType, choice.endOfHandShowCards),
+	{	ATF_NOFLAGS, 0, offsetof(struct endOfHandType, choice.endOfHandShowCards),
 		(ASN_TAG_CLASS_CONTEXT | (0 << 2)),
 		-1,	/* IMPLICIT tag at current level */
 		&asn_DEF_EndOfHandShowCards,
@@ -16,8 +16,8 @@ static asn_TYPE_member_t asn_MBR_endOfHandType_3[] = {
 		0,	/* PER is not compiled, use -gen-PER */
 		0,
 		"endOfHandShowCards"
-		},
-	{ ATF_NOFLAGS, 0, offsetof(struct endOfHandType, choice.endOfHandHideCards),
+	},
+	{	ATF_NOFLAGS, 0, offsetof(struct endOfHandType, choice.endOfHandHideCards),
 		(ASN_TAG_CLASS_CONTEXT | (1 << 2)),
 		-1,	/* IMPLICIT tag at current level */
 		&asn_DEF_EndOfHandHideCards,
@@ -25,11 +25,11 @@ static asn_TYPE_member_t asn_MBR_endOfHandType_3[] = {
 		0,	/* PER is not compiled, use -gen-PER */
 		0,
 		"endOfHandHideCards"
-		},
+	},
 };
 static asn_TYPE_tag2member_t asn_MAP_endOfHandType_tag2el_3[] = {
-    { (ASN_TAG_CLASS_CONTEXT | (0 << 2)), 0, 0, 0 }, /* endOfHandShowCards at 527 */
-    { (ASN_TAG_CLASS_CONTEXT | (1 << 2)), 1, 0, 0 } /* endOfHandHideCards at 529 */
+	{ (ASN_TAG_CLASS_CONTEXT | (0 << 2)), 0, 0, 0 }, /* endOfHandShowCards at 550 */
+	{ (ASN_TAG_CLASS_CONTEXT | (1 << 2)), 1, 0, 0 } /* endOfHandHideCards at 552 */
 };
 static asn_CHOICE_specifics_t asn_SPC_endOfHandType_specs_3 = {
 	sizeof(struct endOfHandType),
@@ -65,7 +65,7 @@ asn_TYPE_descriptor_t asn_DEF_endOfHandType_3 = {
 };
 
 static asn_TYPE_member_t asn_MBR_EndOfHandMessage_1[] = {
-	{ ATF_NOFLAGS, 0, offsetof(struct EndOfHandMessage, gameId),
+	{	ATF_NOFLAGS, 0, offsetof(struct EndOfHandMessage, gameId),
 		(ASN_TAG_CLASS_UNIVERSAL | (2 << 2)),
 		0,
 		&asn_DEF_NonZeroId,
@@ -73,8 +73,8 @@ static asn_TYPE_member_t asn_MBR_EndOfHandMessage_1[] = {
 		0,	/* PER is not compiled, use -gen-PER */
 		0,
 		"gameId"
-		},
-	{ ATF_NOFLAGS, 0, offsetof(struct EndOfHandMessage, endOfHandType),
+	},
+	{	ATF_NOFLAGS, 0, offsetof(struct EndOfHandMessage, endOfHandType),
 		-1 /* Ambiguous tag (CHOICE?) */,
 		0,
 		&asn_DEF_endOfHandType_3,
@@ -82,16 +82,16 @@ static asn_TYPE_member_t asn_MBR_EndOfHandMessage_1[] = {
 		0,	/* PER is not compiled, use -gen-PER */
 		0,
 		"endOfHandType"
-		},
+	},
 };
 static ber_tlv_tag_t asn_DEF_EndOfHandMessage_tags_1[] = {
 	(ASN_TAG_CLASS_APPLICATION | (32 << 2)),
 	(ASN_TAG_CLASS_UNIVERSAL | (16 << 2))
 };
 static asn_TYPE_tag2member_t asn_MAP_EndOfHandMessage_tag2el_1[] = {
-    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 0, 0, 0 }, /* gameId at 525 */
-    { (ASN_TAG_CLASS_CONTEXT | (0 << 2)), 1, 0, 0 }, /* endOfHandShowCards at 527 */
-    { (ASN_TAG_CLASS_CONTEXT | (1 << 2)), 1, 0, 0 } /* endOfHandHideCards at 529 */
+	{ (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 0, 0, 0 }, /* gameId at 548 */
+	{ (ASN_TAG_CLASS_CONTEXT | (0 << 2)), 1, 0, 0 }, /* endOfHandShowCards at 550 */
+	{ (ASN_TAG_CLASS_CONTEXT | (1 << 2)), 1, 0, 0 } /* endOfHandHideCards at 552 */
 };
 static asn_SEQUENCE_specifics_t asn_SPC_EndOfHandMessage_specs_1 = {
 	sizeof(struct EndOfHandMessage),
@@ -116,10 +116,10 @@ asn_TYPE_descriptor_t asn_DEF_EndOfHandMessage = {
 	0,	/* Use generic outmost tag fetcher */
 	asn_DEF_EndOfHandMessage_tags_1,
 	sizeof(asn_DEF_EndOfHandMessage_tags_1)
-		/sizeof(asn_DEF_EndOfHandMessage_tags_1[0]) - 1, /* 1 */
+	/sizeof(asn_DEF_EndOfHandMessage_tags_1[0]) - 1, /* 1 */
 	asn_DEF_EndOfHandMessage_tags_1,	/* Same as above */
 	sizeof(asn_DEF_EndOfHandMessage_tags_1)
-		/sizeof(asn_DEF_EndOfHandMessage_tags_1[0]), /* 2 */
+	/sizeof(asn_DEF_EndOfHandMessage_tags_1[0]), /* 2 */
 	0,	/* No PER visible constraints */
 	asn_MBR_EndOfHandMessage_1,
 	2,	/* Elements count */

@@ -19,20 +19,20 @@
 extern "C" {
 #endif
 
-/* JoinNewGame */
-typedef struct JoinNewGame {
-	NetGameInfo_t	 gameInfo;
-	/*
-	 * This type is extensible,
-	 * possible extensions are below.
-	 */
-	
-	/* Context for parsing across buffer boundaries */
-	asn_struct_ctx_t _asn_ctx;
-} JoinNewGame_t;
+	/* JoinNewGame */
+	typedef struct JoinNewGame {
+		NetGameInfo_t	 gameInfo;
+		/*
+		 * This type is extensible,
+		 * possible extensions are below.
+		 */
 
-/* Implementation */
-extern asn_TYPE_descriptor_t asn_DEF_JoinNewGame;
+		/* Context for parsing across buffer boundaries */
+		asn_struct_ctx_t _asn_ctx;
+	} JoinNewGame_t;
+
+	/* Implementation */
+	extern asn_TYPE_descriptor_t asn_DEF_JoinNewGame;
 
 #ifdef __cplusplus
 }

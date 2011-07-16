@@ -20,28 +20,28 @@
 extern "C" {
 #endif
 
-/* Forward declarations */
-struct PlayerResult;
+	/* Forward declarations */
+	struct PlayerResult;
 
-/* EndOfHandShowCards */
-typedef struct EndOfHandShowCards {
-	struct playerResults {
-		A_SEQUENCE_OF(struct PlayerResult) list;
-		
+	/* EndOfHandShowCards */
+	typedef struct EndOfHandShowCards {
+		struct playerResults {
+			A_SEQUENCE_OF(struct PlayerResult) list;
+
+			/* Context for parsing across buffer boundaries */
+			asn_struct_ctx_t _asn_ctx;
+		} playerResults;
+		/*
+		 * This type is extensible,
+		 * possible extensions are below.
+		 */
+
 		/* Context for parsing across buffer boundaries */
 		asn_struct_ctx_t _asn_ctx;
-	} playerResults;
-	/*
-	 * This type is extensible,
-	 * possible extensions are below.
-	 */
-	
-	/* Context for parsing across buffer boundaries */
-	asn_struct_ctx_t _asn_ctx;
-} EndOfHandShowCards_t;
+	} EndOfHandShowCards_t;
 
-/* Implementation */
-extern asn_TYPE_descriptor_t asn_DEF_EndOfHandShowCards;
+	/* Implementation */
+	extern asn_TYPE_descriptor_t asn_DEF_EndOfHandShowCards;
 
 #ifdef __cplusplus
 }

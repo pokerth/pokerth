@@ -34,10 +34,10 @@ asn_TYPE_descriptor_t asn_DEF_ShowMyCardsRequestMessage = {
 	0,	/* Use generic outmost tag fetcher */
 	asn_DEF_ShowMyCardsRequestMessage_tags_1,
 	sizeof(asn_DEF_ShowMyCardsRequestMessage_tags_1)
-		/sizeof(asn_DEF_ShowMyCardsRequestMessage_tags_1[0]) - 1, /* 1 */
+	/sizeof(asn_DEF_ShowMyCardsRequestMessage_tags_1[0]) - 1, /* 1 */
 	asn_DEF_ShowMyCardsRequestMessage_tags_1,	/* Same as above */
 	sizeof(asn_DEF_ShowMyCardsRequestMessage_tags_1)
-		/sizeof(asn_DEF_ShowMyCardsRequestMessage_tags_1[0]), /* 2 */
+	/sizeof(asn_DEF_ShowMyCardsRequestMessage_tags_1[0]), /* 2 */
 	0,	/* No PER visible constraints */
 	0, 0,	/* No members */
 	&asn_SPC_ShowMyCardsRequestMessage_specs_1	/* Additional specs */

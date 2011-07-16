@@ -21,29 +21,29 @@
 extern "C" {
 #endif
 
-/* Forward declarations */
-struct PlayerAllIn;
+	/* Forward declarations */
+	struct PlayerAllIn;
 
-/* AllInShowCardsMessage */
-typedef struct AllInShowCardsMessage {
-	NonZeroId_t	 gameId;
-	struct playersAllIn {
-		A_SEQUENCE_OF(struct PlayerAllIn) list;
-		
+	/* AllInShowCardsMessage */
+	typedef struct AllInShowCardsMessage {
+		NonZeroId_t	 gameId;
+		struct playersAllIn {
+			A_SEQUENCE_OF(struct PlayerAllIn) list;
+
+			/* Context for parsing across buffer boundaries */
+			asn_struct_ctx_t _asn_ctx;
+		} playersAllIn;
+		/*
+		 * This type is extensible,
+		 * possible extensions are below.
+		 */
+
 		/* Context for parsing across buffer boundaries */
 		asn_struct_ctx_t _asn_ctx;
-	} playersAllIn;
-	/*
-	 * This type is extensible,
-	 * possible extensions are below.
-	 */
-	
-	/* Context for parsing across buffer boundaries */
-	asn_struct_ctx_t _asn_ctx;
-} AllInShowCardsMessage_t;
+	} AllInShowCardsMessage_t;
 
-/* Implementation */
-extern asn_TYPE_descriptor_t asn_DEF_AllInShowCardsMessage;
+	/* Implementation */
+	extern asn_TYPE_descriptor_t asn_DEF_AllInShowCardsMessage;
 
 #ifdef __cplusplus
 }

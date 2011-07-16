@@ -9,32 +9,32 @@
 
 static int
 memb_serverChallenge_constraint_1(asn_TYPE_descriptor_t *td, const void *sptr,
-			asn_app_constraint_failed_f *ctfailcb, void *app_key) {
+                                  asn_app_constraint_failed_f *ctfailcb, void *app_key) {
 	const OCTET_STRING_t *st = (const OCTET_STRING_t *)sptr;
 	size_t size;
-	
+
 	if(!sptr) {
 		_ASN_CTFAIL(app_key, td, sptr,
-			"%s: value not given (%s:%d)",
-			td->name, __FILE__, __LINE__);
+		            "%s: value not given (%s:%d)",
+		            td->name, __FILE__, __LINE__);
 		return -1;
 	}
-	
+
 	size = st->size;
-	
+
 	if((size >= 1 && size <= 256)) {
 		/* Constraint check succeeded */
 		return 0;
 	} else {
 		_ASN_CTFAIL(app_key, td, sptr,
-			"%s: constraint failed (%s:%d)",
-			td->name, __FILE__, __LINE__);
+		            "%s: constraint failed (%s:%d)",
+		            td->name, __FILE__, __LINE__);
 		return -1;
 	}
 }
 
 static asn_TYPE_member_t asn_MBR_AuthServerChallenge_1[] = {
-	{ ATF_NOFLAGS, 0, offsetof(struct AuthServerChallenge, serverChallenge),
+	{	ATF_NOFLAGS, 0, offsetof(struct AuthServerChallenge, serverChallenge),
 		(ASN_TAG_CLASS_UNIVERSAL | (4 << 2)),
 		0,
 		&asn_DEF_OCTET_STRING,
@@ -42,13 +42,13 @@ static asn_TYPE_member_t asn_MBR_AuthServerChallenge_1[] = {
 		0,	/* PER is not compiled, use -gen-PER */
 		0,
 		"serverChallenge"
-		},
+	},
 };
 static ber_tlv_tag_t asn_DEF_AuthServerChallenge_tags_1[] = {
 	(ASN_TAG_CLASS_UNIVERSAL | (16 << 2))
 };
 static asn_TYPE_tag2member_t asn_MAP_AuthServerChallenge_tag2el_1[] = {
-    { (ASN_TAG_CLASS_UNIVERSAL | (4 << 2)), 0, 0, 0 } /* serverChallenge at 133 */
+	{ (ASN_TAG_CLASS_UNIVERSAL | (4 << 2)), 0, 0, 0 } /* serverChallenge at 134 */
 };
 static asn_SEQUENCE_specifics_t asn_SPC_AuthServerChallenge_specs_1 = {
 	sizeof(struct AuthServerChallenge),
@@ -73,10 +73,10 @@ asn_TYPE_descriptor_t asn_DEF_AuthServerChallenge = {
 	0,	/* Use generic outmost tag fetcher */
 	asn_DEF_AuthServerChallenge_tags_1,
 	sizeof(asn_DEF_AuthServerChallenge_tags_1)
-		/sizeof(asn_DEF_AuthServerChallenge_tags_1[0]), /* 1 */
+	/sizeof(asn_DEF_AuthServerChallenge_tags_1[0]), /* 1 */
 	asn_DEF_AuthServerChallenge_tags_1,	/* Same as above */
 	sizeof(asn_DEF_AuthServerChallenge_tags_1)
-		/sizeof(asn_DEF_AuthServerChallenge_tags_1[0]), /* 1 */
+	/sizeof(asn_DEF_AuthServerChallenge_tags_1[0]), /* 1 */
 	0,	/* No PER visible constraints */
 	asn_MBR_AuthServerChallenge_1,
 	1,	/* Elements count */

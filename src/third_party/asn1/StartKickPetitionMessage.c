@@ -9,56 +9,56 @@
 
 static int
 memb_kickTimeoutSec_constraint_1(asn_TYPE_descriptor_t *td, const void *sptr,
-			asn_app_constraint_failed_f *ctfailcb, void *app_key) {
+                                 asn_app_constraint_failed_f *ctfailcb, void *app_key) {
 	long value;
-	
+
 	if(!sptr) {
 		_ASN_CTFAIL(app_key, td, sptr,
-			"%s: value not given (%s:%d)",
-			td->name, __FILE__, __LINE__);
+		            "%s: value not given (%s:%d)",
+		            td->name, __FILE__, __LINE__);
 		return -1;
 	}
-	
+
 	value = *(const long *)sptr;
-	
+
 	if((value >= 1 && value <= 120)) {
 		/* Constraint check succeeded */
 		return 0;
 	} else {
 		_ASN_CTFAIL(app_key, td, sptr,
-			"%s: constraint failed (%s:%d)",
-			td->name, __FILE__, __LINE__);
+		            "%s: constraint failed (%s:%d)",
+		            td->name, __FILE__, __LINE__);
 		return -1;
 	}
 }
 
 static int
 memb_numVotesNeededToKick_constraint_1(asn_TYPE_descriptor_t *td, const void *sptr,
-			asn_app_constraint_failed_f *ctfailcb, void *app_key) {
+                                       asn_app_constraint_failed_f *ctfailcb, void *app_key) {
 	long value;
-	
+
 	if(!sptr) {
 		_ASN_CTFAIL(app_key, td, sptr,
-			"%s: value not given (%s:%d)",
-			td->name, __FILE__, __LINE__);
+		            "%s: value not given (%s:%d)",
+		            td->name, __FILE__, __LINE__);
 		return -1;
 	}
-	
+
 	value = *(const long *)sptr;
-	
+
 	if((value >= 1 && value <= 9)) {
 		/* Constraint check succeeded */
 		return 0;
 	} else {
 		_ASN_CTFAIL(app_key, td, sptr,
-			"%s: constraint failed (%s:%d)",
-			td->name, __FILE__, __LINE__);
+		            "%s: constraint failed (%s:%d)",
+		            td->name, __FILE__, __LINE__);
 		return -1;
 	}
 }
 
 static asn_TYPE_member_t asn_MBR_StartKickPetitionMessage_1[] = {
-	{ ATF_NOFLAGS, 0, offsetof(struct StartKickPetitionMessage, gameId),
+	{	ATF_NOFLAGS, 0, offsetof(struct StartKickPetitionMessage, gameId),
 		(ASN_TAG_CLASS_UNIVERSAL | (2 << 2)),
 		0,
 		&asn_DEF_NonZeroId,
@@ -66,8 +66,8 @@ static asn_TYPE_member_t asn_MBR_StartKickPetitionMessage_1[] = {
 		0,	/* PER is not compiled, use -gen-PER */
 		0,
 		"gameId"
-		},
-	{ ATF_NOFLAGS, 0, offsetof(struct StartKickPetitionMessage, petitionId),
+	},
+	{	ATF_NOFLAGS, 0, offsetof(struct StartKickPetitionMessage, petitionId),
 		(ASN_TAG_CLASS_UNIVERSAL | (2 << 2)),
 		0,
 		&asn_DEF_NonZeroId,
@@ -75,8 +75,8 @@ static asn_TYPE_member_t asn_MBR_StartKickPetitionMessage_1[] = {
 		0,	/* PER is not compiled, use -gen-PER */
 		0,
 		"petitionId"
-		},
-	{ ATF_NOFLAGS, 0, offsetof(struct StartKickPetitionMessage, proposingPlayerId),
+	},
+	{	ATF_NOFLAGS, 0, offsetof(struct StartKickPetitionMessage, proposingPlayerId),
 		(ASN_TAG_CLASS_UNIVERSAL | (2 << 2)),
 		0,
 		&asn_DEF_NonZeroId,
@@ -84,8 +84,8 @@ static asn_TYPE_member_t asn_MBR_StartKickPetitionMessage_1[] = {
 		0,	/* PER is not compiled, use -gen-PER */
 		0,
 		"proposingPlayerId"
-		},
-	{ ATF_NOFLAGS, 0, offsetof(struct StartKickPetitionMessage, kickPlayerId),
+	},
+	{	ATF_NOFLAGS, 0, offsetof(struct StartKickPetitionMessage, kickPlayerId),
 		(ASN_TAG_CLASS_UNIVERSAL | (2 << 2)),
 		0,
 		&asn_DEF_NonZeroId,
@@ -93,8 +93,8 @@ static asn_TYPE_member_t asn_MBR_StartKickPetitionMessage_1[] = {
 		0,	/* PER is not compiled, use -gen-PER */
 		0,
 		"kickPlayerId"
-		},
-	{ ATF_NOFLAGS, 0, offsetof(struct StartKickPetitionMessage, kickTimeoutSec),
+	},
+	{	ATF_NOFLAGS, 0, offsetof(struct StartKickPetitionMessage, kickTimeoutSec),
 		(ASN_TAG_CLASS_UNIVERSAL | (2 << 2)),
 		0,
 		&asn_DEF_NativeInteger,
@@ -102,8 +102,8 @@ static asn_TYPE_member_t asn_MBR_StartKickPetitionMessage_1[] = {
 		0,	/* PER is not compiled, use -gen-PER */
 		0,
 		"kickTimeoutSec"
-		},
-	{ ATF_NOFLAGS, 0, offsetof(struct StartKickPetitionMessage, numVotesNeededToKick),
+	},
+	{	ATF_NOFLAGS, 0, offsetof(struct StartKickPetitionMessage, numVotesNeededToKick),
 		(ASN_TAG_CLASS_UNIVERSAL | (2 << 2)),
 		0,
 		&asn_DEF_NativeInteger,
@@ -111,19 +111,19 @@ static asn_TYPE_member_t asn_MBR_StartKickPetitionMessage_1[] = {
 		0,	/* PER is not compiled, use -gen-PER */
 		0,
 		"numVotesNeededToKick"
-		},
+	},
 };
 static ber_tlv_tag_t asn_DEF_StartKickPetitionMessage_tags_1[] = {
 	(ASN_TAG_CLASS_APPLICATION | (66 << 2)),
 	(ASN_TAG_CLASS_UNIVERSAL | (16 << 2))
 };
 static asn_TYPE_tag2member_t asn_MAP_StartKickPetitionMessage_tag2el_1[] = {
-    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 0, 0, 5 }, /* gameId at 582 */
-    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 1, -1, 4 }, /* petitionId at 583 */
-    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 2, -2, 3 }, /* proposingPlayerId at 584 */
-    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 3, -3, 2 }, /* kickPlayerId at 585 */
-    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 4, -4, 1 }, /* kickTimeoutSec at 586 */
-    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 5, -5, 0 } /* numVotesNeededToKick at 587 */
+	{ (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 0, 0, 5 }, /* gameId at 605 */
+	{ (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 1, -1, 4 }, /* petitionId at 606 */
+	{ (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 2, -2, 3 }, /* proposingPlayerId at 607 */
+	{ (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 3, -3, 2 }, /* kickPlayerId at 608 */
+	{ (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 4, -4, 1 }, /* kickTimeoutSec at 609 */
+	{ (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 5, -5, 0 } /* numVotesNeededToKick at 610 */
 };
 static asn_SEQUENCE_specifics_t asn_SPC_StartKickPetitionMessage_specs_1 = {
 	sizeof(struct StartKickPetitionMessage),
@@ -148,10 +148,10 @@ asn_TYPE_descriptor_t asn_DEF_StartKickPetitionMessage = {
 	0,	/* Use generic outmost tag fetcher */
 	asn_DEF_StartKickPetitionMessage_tags_1,
 	sizeof(asn_DEF_StartKickPetitionMessage_tags_1)
-		/sizeof(asn_DEF_StartKickPetitionMessage_tags_1[0]) - 1, /* 1 */
+	/sizeof(asn_DEF_StartKickPetitionMessage_tags_1[0]) - 1, /* 1 */
 	asn_DEF_StartKickPetitionMessage_tags_1,	/* Same as above */
 	sizeof(asn_DEF_StartKickPetitionMessage_tags_1)
-		/sizeof(asn_DEF_StartKickPetitionMessage_tags_1[0]), /* 2 */
+	/sizeof(asn_DEF_StartKickPetitionMessage_tags_1[0]), /* 2 */
 	0,	/* No PER visible constraints */
 	asn_MBR_StartKickPetitionMessage_1,
 	6,	/* Elements count */

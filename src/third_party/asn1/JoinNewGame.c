@@ -8,7 +8,7 @@
 #include "JoinNewGame.h"
 
 static asn_TYPE_member_t asn_MBR_JoinNewGame_1[] = {
-	{ ATF_NOFLAGS, 0, offsetof(struct JoinNewGame, gameInfo),
+	{	ATF_NOFLAGS, 0, offsetof(struct JoinNewGame, gameInfo),
 		(ASN_TAG_CLASS_UNIVERSAL | (16 << 2)),
 		0,
 		&asn_DEF_NetGameInfo,
@@ -16,13 +16,13 @@ static asn_TYPE_member_t asn_MBR_JoinNewGame_1[] = {
 		0,	/* PER is not compiled, use -gen-PER */
 		0,
 		"gameInfo"
-		},
+	},
 };
 static ber_tlv_tag_t asn_DEF_JoinNewGame_tags_1[] = {
 	(ASN_TAG_CLASS_UNIVERSAL | (16 << 2))
 };
 static asn_TYPE_tag2member_t asn_MAP_JoinNewGame_tag2el_1[] = {
-    { (ASN_TAG_CLASS_UNIVERSAL | (16 << 2)), 0, 0, 0 } /* gameInfo at 294 */
+	{ (ASN_TAG_CLASS_UNIVERSAL | (16 << 2)), 0, 0, 0 } /* gameInfo at 296 */
 };
 static asn_SEQUENCE_specifics_t asn_SPC_JoinNewGame_specs_1 = {
 	sizeof(struct JoinNewGame),
@@ -47,10 +47,10 @@ asn_TYPE_descriptor_t asn_DEF_JoinNewGame = {
 	0,	/* Use generic outmost tag fetcher */
 	asn_DEF_JoinNewGame_tags_1,
 	sizeof(asn_DEF_JoinNewGame_tags_1)
-		/sizeof(asn_DEF_JoinNewGame_tags_1[0]), /* 1 */
+	/sizeof(asn_DEF_JoinNewGame_tags_1[0]), /* 1 */
 	asn_DEF_JoinNewGame_tags_1,	/* Same as above */
 	sizeof(asn_DEF_JoinNewGame_tags_1)
-		/sizeof(asn_DEF_JoinNewGame_tags_1[0]), /* 1 */
+	/sizeof(asn_DEF_JoinNewGame_tags_1[0]), /* 1 */
 	0,	/* No PER visible constraints */
 	asn_MBR_JoinNewGame_1,
 	1,	/* Elements count */

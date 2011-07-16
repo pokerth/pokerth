@@ -20,29 +20,30 @@
 extern "C" {
 #endif
 
-/* Dependencies */
-typedef enum gamePlayerLeftReason {
-	gamePlayerLeftReason_leftOnRequest	= 0,
-	gamePlayerLeftReason_leftKicked	= 1,
-	gamePlayerLeftReason_leftError	= 2
-} e_gamePlayerLeftReason;
+	/* Dependencies */
+	typedef enum gamePlayerLeftReason {
+		gamePlayerLeftReason_leftOnRequest	= 0,
+		 gamePlayerLeftReason_leftKicked	= 1,
+		 gamePlayerLeftReason_leftError	= 2
+	}
+	                                   e_gamePlayerLeftReason;
 
-/* GamePlayerLeft */
-typedef struct GamePlayerLeft {
-	NonZeroId_t	 playerId;
-	long	 gamePlayerLeftReason;
-	/*
-	 * This type is extensible,
-	 * possible extensions are below.
-	 */
-	
-	/* Context for parsing across buffer boundaries */
-	asn_struct_ctx_t _asn_ctx;
-} GamePlayerLeft_t;
+	/* GamePlayerLeft */
+	typedef struct GamePlayerLeft {
+		NonZeroId_t	 playerId;
+		long	 gamePlayerLeftReason;
+		/*
+		 * This type is extensible,
+		 * possible extensions are below.
+		 */
 
-/* Implementation */
-/* extern asn_TYPE_descriptor_t asn_DEF_gamePlayerLeftReason_3;	// (Use -fall-defs-global to expose) */
-extern asn_TYPE_descriptor_t asn_DEF_GamePlayerLeft;
+		/* Context for parsing across buffer boundaries */
+		asn_struct_ctx_t _asn_ctx;
+	} GamePlayerLeft_t;
+
+	/* Implementation */
+	/* extern asn_TYPE_descriptor_t asn_DEF_gamePlayerLeftReason_3;	// (Use -fall-defs-global to expose) */
+	extern asn_TYPE_descriptor_t asn_DEF_GamePlayerLeft;
 
 #ifdef __cplusplus
 }

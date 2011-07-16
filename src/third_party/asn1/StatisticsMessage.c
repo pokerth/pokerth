@@ -9,32 +9,32 @@
 
 static int
 memb_statisticsData_constraint_1(asn_TYPE_descriptor_t *td, const void *sptr,
-			asn_app_constraint_failed_f *ctfailcb, void *app_key) {
+                                 asn_app_constraint_failed_f *ctfailcb, void *app_key) {
 	size_t size;
-	
+
 	if(!sptr) {
 		_ASN_CTFAIL(app_key, td, sptr,
-			"%s: value not given (%s:%d)",
-			td->name, __FILE__, __LINE__);
+		            "%s: value not given (%s:%d)",
+		            td->name, __FILE__, __LINE__);
 		return -1;
 	}
-	
+
 	/* Determine the number of elements */
 	size = _A_CSEQUENCE_FROM_VOID(sptr)->count;
-	
+
 	if((size >= 1 && size <= 32)) {
 		/* Perform validation of the inner elements */
 		return td->check_constraints(td, sptr, ctfailcb, app_key);
 	} else {
 		_ASN_CTFAIL(app_key, td, sptr,
-			"%s: constraint failed (%s:%d)",
-			td->name, __FILE__, __LINE__);
+		            "%s: constraint failed (%s:%d)",
+		            td->name, __FILE__, __LINE__);
 		return -1;
 	}
 }
 
 static asn_TYPE_member_t asn_MBR_statisticsData_2[] = {
-	{ ATF_POINTER, 0, 0,
+	{	ATF_POINTER, 0, 0,
 		(ASN_TAG_CLASS_UNIVERSAL | (16 << 2)),
 		0,
 		&asn_DEF_StatisticsData,
@@ -42,7 +42,7 @@ static asn_TYPE_member_t asn_MBR_statisticsData_2[] = {
 		0,	/* PER is not compiled, use -gen-PER */
 		0,
 		""
-		},
+	},
 };
 static ber_tlv_tag_t asn_DEF_statisticsData_tags_2[] = {
 	(ASN_TAG_CLASS_UNIVERSAL | (16 << 2))
@@ -67,10 +67,10 @@ asn_TYPE_descriptor_t asn_DEF_statisticsData_2 = {
 	0,	/* Use generic outmost tag fetcher */
 	asn_DEF_statisticsData_tags_2,
 	sizeof(asn_DEF_statisticsData_tags_2)
-		/sizeof(asn_DEF_statisticsData_tags_2[0]), /* 1 */
+	/sizeof(asn_DEF_statisticsData_tags_2[0]), /* 1 */
 	asn_DEF_statisticsData_tags_2,	/* Same as above */
 	sizeof(asn_DEF_statisticsData_tags_2)
-		/sizeof(asn_DEF_statisticsData_tags_2[0]), /* 1 */
+	/sizeof(asn_DEF_statisticsData_tags_2[0]), /* 1 */
 	0,	/* No PER visible constraints */
 	asn_MBR_statisticsData_2,
 	1,	/* Single element */
@@ -78,7 +78,7 @@ asn_TYPE_descriptor_t asn_DEF_statisticsData_2 = {
 };
 
 static asn_TYPE_member_t asn_MBR_StatisticsMessage_1[] = {
-	{ ATF_NOFLAGS, 0, offsetof(struct StatisticsMessage, statisticsData),
+	{	ATF_NOFLAGS, 0, offsetof(struct StatisticsMessage, statisticsData),
 		(ASN_TAG_CLASS_UNIVERSAL | (16 << 2)),
 		0,
 		&asn_DEF_statisticsData_2,
@@ -86,14 +86,14 @@ static asn_TYPE_member_t asn_MBR_StatisticsMessage_1[] = {
 		0,	/* PER is not compiled, use -gen-PER */
 		0,
 		"statisticsData"
-		},
+	},
 };
 static ber_tlv_tag_t asn_DEF_StatisticsMessage_tags_1[] = {
 	(ASN_TAG_CLASS_APPLICATION | (128 << 2)),
 	(ASN_TAG_CLASS_UNIVERSAL | (16 << 2))
 };
 static asn_TYPE_tag2member_t asn_MAP_StatisticsMessage_tag2el_1[] = {
-    { (ASN_TAG_CLASS_UNIVERSAL | (16 << 2)), 0, 0, 0 } /* statisticsData at 639 */
+	{ (ASN_TAG_CLASS_UNIVERSAL | (16 << 2)), 0, 0, 0 } /* statisticsData at 662 */
 };
 static asn_SEQUENCE_specifics_t asn_SPC_StatisticsMessage_specs_1 = {
 	sizeof(struct StatisticsMessage),
@@ -118,10 +118,10 @@ asn_TYPE_descriptor_t asn_DEF_StatisticsMessage = {
 	0,	/* Use generic outmost tag fetcher */
 	asn_DEF_StatisticsMessage_tags_1,
 	sizeof(asn_DEF_StatisticsMessage_tags_1)
-		/sizeof(asn_DEF_StatisticsMessage_tags_1[0]) - 1, /* 1 */
+	/sizeof(asn_DEF_StatisticsMessage_tags_1[0]) - 1, /* 1 */
 	asn_DEF_StatisticsMessage_tags_1,	/* Same as above */
 	sizeof(asn_DEF_StatisticsMessage_tags_1)
-		/sizeof(asn_DEF_StatisticsMessage_tags_1[0]), /* 2 */
+	/sizeof(asn_DEF_StatisticsMessage_tags_1[0]), /* 2 */
 	0,	/* No PER visible constraints */
 	asn_MBR_StatisticsMessage_1,
 	1,	/* Elements count */

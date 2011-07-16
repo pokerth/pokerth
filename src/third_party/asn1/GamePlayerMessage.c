@@ -8,7 +8,7 @@
 #include "GamePlayerMessage.h"
 
 static asn_TYPE_member_t asn_MBR_gamePlayerNotification_3[] = {
-	{ ATF_NOFLAGS, 0, offsetof(struct gamePlayerNotification, choice.gamePlayerJoined),
+	{	ATF_NOFLAGS, 0, offsetof(struct gamePlayerNotification, choice.gamePlayerJoined),
 		(ASN_TAG_CLASS_CONTEXT | (0 << 2)),
 		-1,	/* IMPLICIT tag at current level */
 		&asn_DEF_GamePlayerJoined,
@@ -16,8 +16,8 @@ static asn_TYPE_member_t asn_MBR_gamePlayerNotification_3[] = {
 		0,	/* PER is not compiled, use -gen-PER */
 		0,
 		"gamePlayerJoined"
-		},
-	{ ATF_NOFLAGS, 0, offsetof(struct gamePlayerNotification, choice.gamePlayerLeft),
+	},
+	{	ATF_NOFLAGS, 0, offsetof(struct gamePlayerNotification, choice.gamePlayerLeft),
 		(ASN_TAG_CLASS_CONTEXT | (1 << 2)),
 		-1,	/* IMPLICIT tag at current level */
 		&asn_DEF_GamePlayerLeft,
@@ -25,8 +25,8 @@ static asn_TYPE_member_t asn_MBR_gamePlayerNotification_3[] = {
 		0,	/* PER is not compiled, use -gen-PER */
 		0,
 		"gamePlayerLeft"
-		},
-	{ ATF_NOFLAGS, 0, offsetof(struct gamePlayerNotification, choice.gameAdminChanged),
+	},
+	{	ATF_NOFLAGS, 0, offsetof(struct gamePlayerNotification, choice.gameAdminChanged),
 		(ASN_TAG_CLASS_CONTEXT | (2 << 2)),
 		-1,	/* IMPLICIT tag at current level */
 		&asn_DEF_GameAdminChanged,
@@ -34,8 +34,8 @@ static asn_TYPE_member_t asn_MBR_gamePlayerNotification_3[] = {
 		0,	/* PER is not compiled, use -gen-PER */
 		0,
 		"gameAdminChanged"
-		},
-	{ ATF_NOFLAGS, 0, offsetof(struct gamePlayerNotification, choice.removedFromGame),
+	},
+	{	ATF_NOFLAGS, 0, offsetof(struct gamePlayerNotification, choice.removedFromGame),
 		(ASN_TAG_CLASS_CONTEXT | (3 << 2)),
 		-1,	/* IMPLICIT tag at current level */
 		&asn_DEF_RemovedFromGame,
@@ -43,13 +43,13 @@ static asn_TYPE_member_t asn_MBR_gamePlayerNotification_3[] = {
 		0,	/* PER is not compiled, use -gen-PER */
 		0,
 		"removedFromGame"
-		},
+	},
 };
 static asn_TYPE_tag2member_t asn_MAP_gamePlayerNotification_tag2el_3[] = {
-    { (ASN_TAG_CLASS_CONTEXT | (0 << 2)), 0, 0, 0 }, /* gamePlayerJoined at 354 */
-    { (ASN_TAG_CLASS_CONTEXT | (1 << 2)), 1, 0, 0 }, /* gamePlayerLeft at 355 */
-    { (ASN_TAG_CLASS_CONTEXT | (2 << 2)), 2, 0, 0 }, /* gameAdminChanged at 356 */
-    { (ASN_TAG_CLASS_CONTEXT | (3 << 2)), 3, 0, 0 } /* removedFromGame at 358 */
+	{ (ASN_TAG_CLASS_CONTEXT | (0 << 2)), 0, 0, 0 }, /* gamePlayerJoined at 361 */
+	{ (ASN_TAG_CLASS_CONTEXT | (1 << 2)), 1, 0, 0 }, /* gamePlayerLeft at 362 */
+	{ (ASN_TAG_CLASS_CONTEXT | (2 << 2)), 2, 0, 0 }, /* gameAdminChanged at 363 */
+	{ (ASN_TAG_CLASS_CONTEXT | (3 << 2)), 3, 0, 0 } /* removedFromGame at 365 */
 };
 static asn_CHOICE_specifics_t asn_SPC_gamePlayerNotification_specs_3 = {
 	sizeof(struct gamePlayerNotification),
@@ -85,7 +85,7 @@ asn_TYPE_descriptor_t asn_DEF_gamePlayerNotification_3 = {
 };
 
 static asn_TYPE_member_t asn_MBR_GamePlayerMessage_1[] = {
-	{ ATF_NOFLAGS, 0, offsetof(struct GamePlayerMessage, gameId),
+	{	ATF_NOFLAGS, 0, offsetof(struct GamePlayerMessage, gameId),
 		(ASN_TAG_CLASS_UNIVERSAL | (2 << 2)),
 		0,
 		&asn_DEF_NonZeroId,
@@ -93,8 +93,8 @@ static asn_TYPE_member_t asn_MBR_GamePlayerMessage_1[] = {
 		0,	/* PER is not compiled, use -gen-PER */
 		0,
 		"gameId"
-		},
-	{ ATF_NOFLAGS, 0, offsetof(struct GamePlayerMessage, gamePlayerNotification),
+	},
+	{	ATF_NOFLAGS, 0, offsetof(struct GamePlayerMessage, gamePlayerNotification),
 		-1 /* Ambiguous tag (CHOICE?) */,
 		0,
 		&asn_DEF_gamePlayerNotification_3,
@@ -102,18 +102,18 @@ static asn_TYPE_member_t asn_MBR_GamePlayerMessage_1[] = {
 		0,	/* PER is not compiled, use -gen-PER */
 		0,
 		"gamePlayerNotification"
-		},
+	},
 };
 static ber_tlv_tag_t asn_DEF_GamePlayerMessage_tags_1[] = {
 	(ASN_TAG_CLASS_APPLICATION | (13 << 2)),
 	(ASN_TAG_CLASS_UNIVERSAL | (16 << 2))
 };
 static asn_TYPE_tag2member_t asn_MAP_GamePlayerMessage_tag2el_1[] = {
-    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 0, 0, 0 }, /* gameId at 352 */
-    { (ASN_TAG_CLASS_CONTEXT | (0 << 2)), 1, 0, 0 }, /* gamePlayerJoined at 354 */
-    { (ASN_TAG_CLASS_CONTEXT | (1 << 2)), 1, 0, 0 }, /* gamePlayerLeft at 355 */
-    { (ASN_TAG_CLASS_CONTEXT | (2 << 2)), 1, 0, 0 }, /* gameAdminChanged at 356 */
-    { (ASN_TAG_CLASS_CONTEXT | (3 << 2)), 1, 0, 0 } /* removedFromGame at 358 */
+	{ (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 0, 0, 0 }, /* gameId at 359 */
+	{ (ASN_TAG_CLASS_CONTEXT | (0 << 2)), 1, 0, 0 }, /* gamePlayerJoined at 361 */
+	{ (ASN_TAG_CLASS_CONTEXT | (1 << 2)), 1, 0, 0 }, /* gamePlayerLeft at 362 */
+	{ (ASN_TAG_CLASS_CONTEXT | (2 << 2)), 1, 0, 0 }, /* gameAdminChanged at 363 */
+	{ (ASN_TAG_CLASS_CONTEXT | (3 << 2)), 1, 0, 0 } /* removedFromGame at 365 */
 };
 static asn_SEQUENCE_specifics_t asn_SPC_GamePlayerMessage_specs_1 = {
 	sizeof(struct GamePlayerMessage),
@@ -138,10 +138,10 @@ asn_TYPE_descriptor_t asn_DEF_GamePlayerMessage = {
 	0,	/* Use generic outmost tag fetcher */
 	asn_DEF_GamePlayerMessage_tags_1,
 	sizeof(asn_DEF_GamePlayerMessage_tags_1)
-		/sizeof(asn_DEF_GamePlayerMessage_tags_1[0]) - 1, /* 1 */
+	/sizeof(asn_DEF_GamePlayerMessage_tags_1[0]) - 1, /* 1 */
 	asn_DEF_GamePlayerMessage_tags_1,	/* Same as above */
 	sizeof(asn_DEF_GamePlayerMessage_tags_1)
-		/sizeof(asn_DEF_GamePlayerMessage_tags_1[0]), /* 2 */
+	/sizeof(asn_DEF_GamePlayerMessage_tags_1[0]), /* 2 */
 	0,	/* No PER visible constraints */
 	asn_MBR_GamePlayerMessage_1,
 	2,	/* Elements count */

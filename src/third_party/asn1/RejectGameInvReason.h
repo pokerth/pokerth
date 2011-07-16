@@ -18,24 +18,25 @@
 extern "C" {
 #endif
 
-/* Dependencies */
-typedef enum RejectGameInvReason {
-	RejectGameInvReason_no	= 0,
-	RejectGameInvReason_busy	= 1
-} e_RejectGameInvReason;
+	/* Dependencies */
+	typedef enum RejectGameInvReason {
+		RejectGameInvReason_no	= 0,
+		 RejectGameInvReason_busy	= 1
+	}
+	                               e_RejectGameInvReason;
 
-/* RejectGameInvReason */
-typedef long	 RejectGameInvReason_t;
+	/* RejectGameInvReason */
+	typedef long	 RejectGameInvReason_t;
 
-/* Implementation */
-extern asn_TYPE_descriptor_t asn_DEF_RejectGameInvReason;
-asn_struct_free_f RejectGameInvReason_free;
-asn_struct_print_f RejectGameInvReason_print;
-asn_constr_check_f RejectGameInvReason_constraint;
-ber_type_decoder_f RejectGameInvReason_decode_ber;
-der_type_encoder_f RejectGameInvReason_encode_der;
-xer_type_decoder_f RejectGameInvReason_decode_xer;
-xer_type_encoder_f RejectGameInvReason_encode_xer;
+	/* Implementation */
+	extern asn_TYPE_descriptor_t asn_DEF_RejectGameInvReason;
+	asn_struct_free_f RejectGameInvReason_free;
+	asn_struct_print_f RejectGameInvReason_print;
+	asn_constr_check_f RejectGameInvReason_constraint;
+	ber_type_decoder_f RejectGameInvReason_decode_ber;
+	der_type_encoder_f RejectGameInvReason_encode_der;
+	xer_type_decoder_f RejectGameInvReason_decode_xer;
+	xer_type_encoder_f RejectGameInvReason_encode_xer;
 
 #ifdef __cplusplus
 }

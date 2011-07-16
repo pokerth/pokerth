@@ -25,49 +25,50 @@
 extern "C" {
 #endif
 
-/* Dependencies */
-typedef enum chatType_PR {
-	chatType_PR_NOTHING,	/* No components present */
-	chatType_PR_chatTypeLobby,
-	chatType_PR_chatTypeGame,
-	chatType_PR_chatTypeBot,
-	chatType_PR_chatTypeBroadcast,
-	chatType_PR_chatTypePrivate,
-	/* Extensions may appear below */
-	
-} chatType_PR;
+	/* Dependencies */
+	typedef enum chatType_PR {
+		chatType_PR_NOTHING,	/* No components present */
+		chatType_PR_chatTypeLobby,
+		chatType_PR_chatTypeGame,
+		chatType_PR_chatTypeBot,
+		chatType_PR_chatTypeBroadcast,
+		chatType_PR_chatTypePrivate,
+		/* Extensions may appear below */
 
-/* ChatMessage */
-typedef struct ChatMessage {
-	struct chatType {
-		chatType_PR present;
-		union ChatMessage__chatType_u {
-			ChatTypeLobby_t	 chatTypeLobby;
-			ChatTypeGame_t	 chatTypeGame;
-			ChatTypeBot_t	 chatTypeBot;
-			ChatTypeBroadcast_t	 chatTypeBroadcast;
-			ChatTypePrivate_t	 chatTypePrivate;
-			/*
-			 * This type is extensible,
-			 * possible extensions are below.
-			 */
-		} choice;
-		
+	}
+	chatType_PR;
+
+	/* ChatMessage */
+	typedef struct ChatMessage {
+		struct chatType {
+			chatType_PR present;
+			union ChatMessage__chatType_u {
+				ChatTypeLobby_t	 chatTypeLobby;
+				ChatTypeGame_t	 chatTypeGame;
+				ChatTypeBot_t	 chatTypeBot;
+				ChatTypeBroadcast_t	 chatTypeBroadcast;
+				ChatTypePrivate_t	 chatTypePrivate;
+				/*
+				 * This type is extensible,
+				 * possible extensions are below.
+				 */
+			} choice;
+
+			/* Context for parsing across buffer boundaries */
+			asn_struct_ctx_t _asn_ctx;
+		} chatType;
+		UTF8String_t	 chatText;
+		/*
+		 * This type is extensible,
+		 * possible extensions are below.
+		 */
+
 		/* Context for parsing across buffer boundaries */
 		asn_struct_ctx_t _asn_ctx;
-	} chatType;
-	UTF8String_t	 chatText;
-	/*
-	 * This type is extensible,
-	 * possible extensions are below.
-	 */
-	
-	/* Context for parsing across buffer boundaries */
-	asn_struct_ctx_t _asn_ctx;
-} ChatMessage_t;
+	} ChatMessage_t;
 
-/* Implementation */
-extern asn_TYPE_descriptor_t asn_DEF_ChatMessage;
+	/* Implementation */
+	extern asn_TYPE_descriptor_t asn_DEF_ChatMessage;
 
 #ifdef __cplusplus
 }

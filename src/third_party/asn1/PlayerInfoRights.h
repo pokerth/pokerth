@@ -18,25 +18,26 @@
 extern "C" {
 #endif
 
-/* Dependencies */
-typedef enum PlayerInfoRights {
-	PlayerInfoRights_playerRightsGuest	= 1,
-	PlayerInfoRights_playerRightsNormal	= 2,
-	PlayerInfoRights_playerRightsAdmin	= 3
-} e_PlayerInfoRights;
+	/* Dependencies */
+	typedef enum PlayerInfoRights {
+		PlayerInfoRights_playerRightsGuest	= 1,
+		 PlayerInfoRights_playerRightsNormal	= 2,
+		 PlayerInfoRights_playerRightsAdmin	= 3
+	}
+	                                       e_PlayerInfoRights;
 
-/* PlayerInfoRights */
-typedef long	 PlayerInfoRights_t;
+	/* PlayerInfoRights */
+	typedef long	 PlayerInfoRights_t;
 
-/* Implementation */
-extern asn_TYPE_descriptor_t asn_DEF_PlayerInfoRights;
-asn_struct_free_f PlayerInfoRights_free;
-asn_struct_print_f PlayerInfoRights_print;
-asn_constr_check_f PlayerInfoRights_constraint;
-ber_type_decoder_f PlayerInfoRights_decode_ber;
-der_type_encoder_f PlayerInfoRights_encode_der;
-xer_type_decoder_f PlayerInfoRights_decode_xer;
-xer_type_encoder_f PlayerInfoRights_encode_xer;
+	/* Implementation */
+	extern asn_TYPE_descriptor_t asn_DEF_PlayerInfoRights;
+	asn_struct_free_f PlayerInfoRights_free;
+	asn_struct_print_f PlayerInfoRights_print;
+	asn_constr_check_f PlayerInfoRights_constraint;
+	ber_type_decoder_f PlayerInfoRights_decode_ber;
+	der_type_encoder_f PlayerInfoRights_encode_der;
+	xer_type_decoder_f PlayerInfoRights_decode_xer;
+	xer_type_encoder_f PlayerInfoRights_encode_xer;
 
 #ifdef __cplusplus
 }

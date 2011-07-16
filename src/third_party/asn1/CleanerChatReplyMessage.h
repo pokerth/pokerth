@@ -22,35 +22,36 @@
 extern "C" {
 #endif
 
-/* Dependencies */
-typedef enum cleanerActionType {
-	cleanerActionType_cleanerActionNone	= 0,
-	cleanerActionType_cleanerActionWarning	= 1,
-	cleanerActionType_cleanerActionKick	= 2,
-	cleanerActionType_cleanerActionBan	= 3
-} e_cleanerActionType;
+	/* Dependencies */
+	typedef enum cleanerActionType {
+		cleanerActionType_cleanerActionNone	= 0,
+		cleanerActionType_cleanerActionWarning	= 1,
+		 cleanerActionType_cleanerActionKick	= 2,
+		 cleanerActionType_cleanerActionBan	= 3
+	}
+	                                       e_cleanerActionType;
 
-/* CleanerChatReplyMessage */
-typedef struct CleanerChatReplyMessage {
-	unsigned long	 requestId;
-	CleanerChatType_t	 cleanerChatType;
-	unsigned long	 playerId;
-	long	 cleanerActionType;
-	UTF8String_t	*cleanerText	/* OPTIONAL */;
-	/*
-	 * This type is extensible,
-	 * possible extensions are below.
-	 */
-	
-	/* Context for parsing across buffer boundaries */
-	asn_struct_ctx_t _asn_ctx;
-} CleanerChatReplyMessage_t;
+	/* CleanerChatReplyMessage */
+	typedef struct CleanerChatReplyMessage {
+		unsigned long	 requestId;
+		CleanerChatType_t	 cleanerChatType;
+		unsigned long	 playerId;
+		long	 cleanerActionType;
+		UTF8String_t	*cleanerText	/* OPTIONAL */;
+		/*
+		 * This type is extensible,
+		 * possible extensions are below.
+		 */
 
-/* Implementation */
-/* extern asn_TYPE_descriptor_t asn_DEF_requestId_2;	// (Use -fall-defs-global to expose) */
-/* extern asn_TYPE_descriptor_t asn_DEF_playerId_4;	// (Use -fall-defs-global to expose) */
-/* extern asn_TYPE_descriptor_t asn_DEF_cleanerActionType_5;	// (Use -fall-defs-global to expose) */
-extern asn_TYPE_descriptor_t asn_DEF_CleanerChatReplyMessage;
+		/* Context for parsing across buffer boundaries */
+		asn_struct_ctx_t _asn_ctx;
+	} CleanerChatReplyMessage_t;
+
+	/* Implementation */
+	/* extern asn_TYPE_descriptor_t asn_DEF_requestId_2;	// (Use -fall-defs-global to expose) */
+	/* extern asn_TYPE_descriptor_t asn_DEF_playerId_4;	// (Use -fall-defs-global to expose) */
+	/* extern asn_TYPE_descriptor_t asn_DEF_cleanerActionType_5;	// (Use -fall-defs-global to expose) */
+	extern asn_TYPE_descriptor_t asn_DEF_CleanerChatReplyMessage;
 
 #ifdef __cplusplus
 }

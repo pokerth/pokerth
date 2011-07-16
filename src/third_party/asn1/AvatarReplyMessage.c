@@ -8,7 +8,7 @@
 #include "AvatarReplyMessage.h"
 
 static asn_TYPE_member_t asn_MBR_avatarResult_3[] = {
-	{ ATF_NOFLAGS, 0, offsetof(struct avatarResult, choice.avatarHeader),
+	{	ATF_NOFLAGS, 0, offsetof(struct avatarResult, choice.avatarHeader),
 		(ASN_TAG_CLASS_CONTEXT | (0 << 2)),
 		-1,	/* IMPLICIT tag at current level */
 		&asn_DEF_AvatarHeader,
@@ -16,8 +16,8 @@ static asn_TYPE_member_t asn_MBR_avatarResult_3[] = {
 		0,	/* PER is not compiled, use -gen-PER */
 		0,
 		"avatarHeader"
-		},
-	{ ATF_NOFLAGS, 0, offsetof(struct avatarResult, choice.avatarData),
+	},
+	{	ATF_NOFLAGS, 0, offsetof(struct avatarResult, choice.avatarData),
 		(ASN_TAG_CLASS_CONTEXT | (1 << 2)),
 		-1,	/* IMPLICIT tag at current level */
 		&asn_DEF_AvatarData,
@@ -25,8 +25,8 @@ static asn_TYPE_member_t asn_MBR_avatarResult_3[] = {
 		0,	/* PER is not compiled, use -gen-PER */
 		0,
 		"avatarData"
-		},
-	{ ATF_NOFLAGS, 0, offsetof(struct avatarResult, choice.avatarEnd),
+	},
+	{	ATF_NOFLAGS, 0, offsetof(struct avatarResult, choice.avatarEnd),
 		(ASN_TAG_CLASS_CONTEXT | (2 << 2)),
 		-1,	/* IMPLICIT tag at current level */
 		&asn_DEF_AvatarEnd,
@@ -34,8 +34,8 @@ static asn_TYPE_member_t asn_MBR_avatarResult_3[] = {
 		0,	/* PER is not compiled, use -gen-PER */
 		0,
 		"avatarEnd"
-		},
-	{ ATF_NOFLAGS, 0, offsetof(struct avatarResult, choice.unknownAvatar),
+	},
+	{	ATF_NOFLAGS, 0, offsetof(struct avatarResult, choice.unknownAvatar),
 		(ASN_TAG_CLASS_CONTEXT | (3 << 2)),
 		-1,	/* IMPLICIT tag at current level */
 		&asn_DEF_UnknownAvatar,
@@ -43,13 +43,13 @@ static asn_TYPE_member_t asn_MBR_avatarResult_3[] = {
 		0,	/* PER is not compiled, use -gen-PER */
 		0,
 		"unknownAvatar"
-		},
+	},
 };
 static asn_TYPE_tag2member_t asn_MAP_avatarResult_tag2el_3[] = {
-    { (ASN_TAG_CLASS_CONTEXT | (0 << 2)), 0, 0, 0 }, /* avatarHeader at 158 */
-    { (ASN_TAG_CLASS_CONTEXT | (1 << 2)), 1, 0, 0 }, /* avatarData at 159 */
-    { (ASN_TAG_CLASS_CONTEXT | (2 << 2)), 2, 0, 0 }, /* avatarEnd at 160 */
-    { (ASN_TAG_CLASS_CONTEXT | (3 << 2)), 3, 0, 0 } /* unknownAvatar at 162 */
+	{ (ASN_TAG_CLASS_CONTEXT | (0 << 2)), 0, 0, 0 }, /* avatarHeader at 160 */
+	{ (ASN_TAG_CLASS_CONTEXT | (1 << 2)), 1, 0, 0 }, /* avatarData at 161 */
+	{ (ASN_TAG_CLASS_CONTEXT | (2 << 2)), 2, 0, 0 }, /* avatarEnd at 162 */
+	{ (ASN_TAG_CLASS_CONTEXT | (3 << 2)), 3, 0, 0 } /* unknownAvatar at 164 */
 };
 static asn_CHOICE_specifics_t asn_SPC_avatarResult_specs_3 = {
 	sizeof(struct avatarResult),
@@ -85,7 +85,7 @@ asn_TYPE_descriptor_t asn_DEF_avatarResult_3 = {
 };
 
 static asn_TYPE_member_t asn_MBR_AvatarReplyMessage_1[] = {
-	{ ATF_NOFLAGS, 0, offsetof(struct AvatarReplyMessage, requestId),
+	{	ATF_NOFLAGS, 0, offsetof(struct AvatarReplyMessage, requestId),
 		(ASN_TAG_CLASS_UNIVERSAL | (2 << 2)),
 		0,
 		&asn_DEF_NonZeroId,
@@ -93,8 +93,8 @@ static asn_TYPE_member_t asn_MBR_AvatarReplyMessage_1[] = {
 		0,	/* PER is not compiled, use -gen-PER */
 		0,
 		"requestId"
-		},
-	{ ATF_NOFLAGS, 0, offsetof(struct AvatarReplyMessage, avatarResult),
+	},
+	{	ATF_NOFLAGS, 0, offsetof(struct AvatarReplyMessage, avatarResult),
 		-1 /* Ambiguous tag (CHOICE?) */,
 		0,
 		&asn_DEF_avatarResult_3,
@@ -102,18 +102,18 @@ static asn_TYPE_member_t asn_MBR_AvatarReplyMessage_1[] = {
 		0,	/* PER is not compiled, use -gen-PER */
 		0,
 		"avatarResult"
-		},
+	},
 };
 static ber_tlv_tag_t asn_DEF_AvatarReplyMessage_tags_1[] = {
 	(ASN_TAG_CLASS_APPLICATION | (5 << 2)),
 	(ASN_TAG_CLASS_UNIVERSAL | (16 << 2))
 };
 static asn_TYPE_tag2member_t asn_MAP_AvatarReplyMessage_tag2el_1[] = {
-    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 0, 0, 0 }, /* requestId at 156 */
-    { (ASN_TAG_CLASS_CONTEXT | (0 << 2)), 1, 0, 0 }, /* avatarHeader at 158 */
-    { (ASN_TAG_CLASS_CONTEXT | (1 << 2)), 1, 0, 0 }, /* avatarData at 159 */
-    { (ASN_TAG_CLASS_CONTEXT | (2 << 2)), 1, 0, 0 }, /* avatarEnd at 160 */
-    { (ASN_TAG_CLASS_CONTEXT | (3 << 2)), 1, 0, 0 } /* unknownAvatar at 162 */
+	{ (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 0, 0, 0 }, /* requestId at 158 */
+	{ (ASN_TAG_CLASS_CONTEXT | (0 << 2)), 1, 0, 0 }, /* avatarHeader at 160 */
+	{ (ASN_TAG_CLASS_CONTEXT | (1 << 2)), 1, 0, 0 }, /* avatarData at 161 */
+	{ (ASN_TAG_CLASS_CONTEXT | (2 << 2)), 1, 0, 0 }, /* avatarEnd at 162 */
+	{ (ASN_TAG_CLASS_CONTEXT | (3 << 2)), 1, 0, 0 } /* unknownAvatar at 164 */
 };
 static asn_SEQUENCE_specifics_t asn_SPC_AvatarReplyMessage_specs_1 = {
 	sizeof(struct AvatarReplyMessage),
@@ -138,10 +138,10 @@ asn_TYPE_descriptor_t asn_DEF_AvatarReplyMessage = {
 	0,	/* Use generic outmost tag fetcher */
 	asn_DEF_AvatarReplyMessage_tags_1,
 	sizeof(asn_DEF_AvatarReplyMessage_tags_1)
-		/sizeof(asn_DEF_AvatarReplyMessage_tags_1[0]) - 1, /* 1 */
+	/sizeof(asn_DEF_AvatarReplyMessage_tags_1[0]) - 1, /* 1 */
 	asn_DEF_AvatarReplyMessage_tags_1,	/* Same as above */
 	sizeof(asn_DEF_AvatarReplyMessage_tags_1)
-		/sizeof(asn_DEF_AvatarReplyMessage_tags_1[0]), /* 2 */
+	/sizeof(asn_DEF_AvatarReplyMessage_tags_1[0]), /* 2 */
 	0,	/* No PER visible constraints */
 	asn_MBR_AvatarReplyMessage_1,
 	2,	/* Elements count */

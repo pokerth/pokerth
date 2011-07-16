@@ -18,18 +18,18 @@
 extern "C" {
 #endif
 
-/* NonZeroId */
-typedef unsigned long	 NonZeroId_t;
+	/* NonZeroId */
+	typedef unsigned long	 NonZeroId_t;
 
-/* Implementation */
-extern asn_TYPE_descriptor_t asn_DEF_NonZeroId;
-asn_struct_free_f NonZeroId_free;
-asn_struct_print_f NonZeroId_print;
-asn_constr_check_f NonZeroId_constraint;
-ber_type_decoder_f NonZeroId_decode_ber;
-der_type_encoder_f NonZeroId_encode_der;
-xer_type_decoder_f NonZeroId_decode_xer;
-xer_type_encoder_f NonZeroId_encode_xer;
+	/* Implementation */
+	extern asn_TYPE_descriptor_t asn_DEF_NonZeroId;
+	asn_struct_free_f NonZeroId_free;
+	asn_struct_print_f NonZeroId_print;
+	asn_constr_check_f NonZeroId_constraint;
+	ber_type_decoder_f NonZeroId_decode_ber;
+	der_type_encoder_f NonZeroId_encode_der;
+	xer_type_decoder_f NonZeroId_decode_xer;
+	xer_type_encoder_f NonZeroId_encode_xer;
 
 #ifdef __cplusplus
 }

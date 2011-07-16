@@ -22,24 +22,24 @@
 extern "C" {
 #endif
 
-/* MyActionRequestMessage */
-typedef struct MyActionRequestMessage {
-	NonZeroId_t	 gameId;
-	NonZeroId_t	 handNum;
-	NetGameState_t	 gameState;
-	NetPlayerAction_t	 myAction;
-	long	 myRelativeBet;
-	/*
-	 * This type is extensible,
-	 * possible extensions are below.
-	 */
-	
-	/* Context for parsing across buffer boundaries */
-	asn_struct_ctx_t _asn_ctx;
-} MyActionRequestMessage_t;
+	/* MyActionRequestMessage */
+	typedef struct MyActionRequestMessage {
+		NonZeroId_t	 gameId;
+		NonZeroId_t	 handNum;
+		NetGameState_t	 gameState;
+		NetPlayerAction_t	 myAction;
+		long	 myRelativeBet;
+		/*
+		 * This type is extensible,
+		 * possible extensions are below.
+		 */
 
-/* Implementation */
-extern asn_TYPE_descriptor_t asn_DEF_MyActionRequestMessage;
+		/* Context for parsing across buffer boundaries */
+		asn_struct_ctx_t _asn_ctx;
+	} MyActionRequestMessage_t;
+
+	/* Implementation */
+	extern asn_TYPE_descriptor_t asn_DEF_MyActionRequestMessage;
 
 #ifdef __cplusplus
 }

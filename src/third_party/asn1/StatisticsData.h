@@ -20,27 +20,28 @@
 extern "C" {
 #endif
 
-/* Dependencies */
-typedef enum statisticsType {
-	statisticsType_statNumberOfPlayers	= 1
-} e_statisticsType;
+	/* Dependencies */
+	typedef enum statisticsType {
+		statisticsType_statNumberOfPlayers	= 1
+	}
+	                                      e_statisticsType;
 
-/* StatisticsData */
-typedef struct StatisticsData {
-	long	 statisticsType;
-	long	 statisticsValue;
-	/*
-	 * This type is extensible,
-	 * possible extensions are below.
-	 */
-	
-	/* Context for parsing across buffer boundaries */
-	asn_struct_ctx_t _asn_ctx;
-} StatisticsData_t;
+	/* StatisticsData */
+	typedef struct StatisticsData {
+		long	 statisticsType;
+		long	 statisticsValue;
+		/*
+		 * This type is extensible,
+		 * possible extensions are below.
+		 */
 
-/* Implementation */
-/* extern asn_TYPE_descriptor_t asn_DEF_statisticsType_2;	// (Use -fall-defs-global to expose) */
-extern asn_TYPE_descriptor_t asn_DEF_StatisticsData;
+		/* Context for parsing across buffer boundaries */
+		asn_struct_ctx_t _asn_ctx;
+	} StatisticsData_t;
+
+	/* Implementation */
+	/* extern asn_TYPE_descriptor_t asn_DEF_statisticsType_2;	// (Use -fall-defs-global to expose) */
+	extern asn_TYPE_descriptor_t asn_DEF_StatisticsData;
 
 #ifdef __cplusplus
 }

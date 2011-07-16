@@ -20,22 +20,22 @@
 extern "C" {
 #endif
 
-/* VoteKickRequestMessage */
-typedef struct VoteKickRequestMessage {
-	NonZeroId_t	 gameId;
-	NonZeroId_t	 petitionId;
-	BOOLEAN_t	 voteKick;
-	/*
-	 * This type is extensible,
-	 * possible extensions are below.
-	 */
-	
-	/* Context for parsing across buffer boundaries */
-	asn_struct_ctx_t _asn_ctx;
-} VoteKickRequestMessage_t;
+	/* VoteKickRequestMessage */
+	typedef struct VoteKickRequestMessage {
+		NonZeroId_t	 gameId;
+		NonZeroId_t	 petitionId;
+		BOOLEAN_t	 voteKick;
+		/*
+		 * This type is extensible,
+		 * possible extensions are below.
+		 */
 
-/* Implementation */
-extern asn_TYPE_descriptor_t asn_DEF_VoteKickRequestMessage;
+		/* Context for parsing across buffer boundaries */
+		asn_struct_ctx_t _asn_ctx;
+	} VoteKickRequestMessage_t;
+
+	/* Implementation */
+	extern asn_TYPE_descriptor_t asn_DEF_VoteKickRequestMessage;
 
 #ifdef __cplusplus
 }

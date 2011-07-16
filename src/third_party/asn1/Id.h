@@ -18,18 +18,18 @@
 extern "C" {
 #endif
 
-/* Id */
-typedef unsigned long	 Id_t;
+	/* Id */
+	typedef unsigned long	 Id_t;
 
-/* Implementation */
-extern asn_TYPE_descriptor_t asn_DEF_Id;
-asn_struct_free_f Id_free;
-asn_struct_print_f Id_print;
-asn_constr_check_f Id_constraint;
-ber_type_decoder_f Id_decode_ber;
-der_type_encoder_f Id_encode_der;
-xer_type_decoder_f Id_decode_xer;
-xer_type_encoder_f Id_encode_xer;
+	/* Implementation */
+	extern asn_TYPE_descriptor_t asn_DEF_Id;
+	asn_struct_free_f Id_free;
+	asn_struct_print_f Id_print;
+	asn_constr_check_f Id_constraint;
+	ber_type_decoder_f Id_decode_ber;
+	der_type_encoder_f Id_encode_der;
+	xer_type_decoder_f Id_decode_xer;
+	xer_type_encoder_f Id_encode_xer;
 
 #ifdef __cplusplus
 }

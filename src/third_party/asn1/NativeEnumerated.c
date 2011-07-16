@@ -42,17 +42,17 @@ asn_TYPE_descriptor_t asn_DEF_NativeEnumerated = {
 
 asn_enc_rval_t
 NativeEnumerated_encode_xer(asn_TYPE_descriptor_t *td, void *sptr,
-        int ilevel, enum xer_encoder_flags_e flags,
-                asn_app_consume_bytes_f *cb, void *app_key) {
+                            int ilevel, enum xer_encoder_flags_e flags,
+                            asn_app_consume_bytes_f *cb, void *app_key) {
 	asn_INTEGER_specifics_t *specs=(asn_INTEGER_specifics_t *)td->specifics;
-        asn_enc_rval_t er;
-        const long *native = (const long *)sptr;
+	asn_enc_rval_t er;
+	const long *native = (const long *)sptr;
 	const asn_INTEGER_enum_map_t *el;
 
-        (void)ilevel;
-        (void)flags;
+	(void)ilevel;
+	(void)flags;
 
-        if(!native) _ASN_ENCODE_FAILED;
+	if(!native) _ASN_ENCODE_FAILED;
 
 	el = INTEGER_map_value2enum(specs, *native);
 	if(el) {
@@ -65,15 +65,15 @@ NativeEnumerated_encode_xer(asn_TYPE_descriptor_t *td, void *sptr,
 		_ASN_ENCODED_OK(er);
 	} else {
 		ASN_DEBUG("ASN.1 forbids dealing with "
-			"unknown value of ENUMERATED type");
+		          "unknown value of ENUMERATED type");
 		_ASN_ENCODE_FAILED;
 	}
 }
 
 asn_dec_rval_t
 NativeEnumerated_decode_uper(asn_codec_ctx_t *opt_codec_ctx,
-	asn_TYPE_descriptor_t *td, asn_per_constraints_t *constraints,
-	void **sptr, asn_per_data_t *pd) {
+                             asn_TYPE_descriptor_t *td, asn_per_constraints_t *constraints,
+                             void **sptr, asn_per_data_t *pd) {
 	asn_INTEGER_specifics_t *specs = (asn_INTEGER_specifics_t *)td->specifics;
 	asn_dec_rval_t rval = { RC_OK, 0 };
 	long *native = (long *)*sptr;
@@ -104,7 +104,7 @@ NativeEnumerated_decode_uper(asn_codec_ctx_t *opt_codec_ctx,
 		value = per_get_few_bits(pd, ct->range_bits);
 		if(value < 0) _ASN_DECODE_STARVED;
 		if(value >= (specs->extension
-			? specs->extension - 1 : specs->map_count))
+		             ? specs->extension - 1 : specs->map_count))
 			_ASN_DECODE_FAILED;
 	} else {
 		if(!specs->extension)
@@ -138,7 +138,7 @@ NativeEnumerated__compar_value2enum(const void *ap, const void *bp) {
 
 asn_enc_rval_t
 NativeEnumerated_encode_uper(asn_TYPE_descriptor_t *td,
-	asn_per_constraints_t *constraints, void *sptr, asn_per_outp_t *po) {
+                             asn_per_constraints_t *constraints, void *sptr, asn_per_outp_t *po) {
 	asn_INTEGER_specifics_t *specs = (asn_INTEGER_specifics_t *)td->specifics;
 	asn_enc_rval_t er;
 	long native, value;
@@ -163,7 +163,7 @@ NativeEnumerated_encode_uper(asn_TYPE_descriptor_t *td,
 
 	key.nat_value = native;
 	kf = bsearch(&key, specs->value2enum, specs->map_count,
-		sizeof(key), NativeEnumerated__compar_value2enum);
+	             sizeof(key), NativeEnumerated__compar_value2enum);
 	if(!kf) {
 		ASN_DEBUG("No element corresponds to %ld", native);
 		_ASN_ENCODE_FAILED;
@@ -172,7 +172,7 @@ NativeEnumerated_encode_uper(asn_TYPE_descriptor_t *td,
 
 	if(ct->range_bits >= 0) {
 		int cmpWith = specs->extension
-				? specs->extension - 1 : specs->map_count;
+		              ? specs->extension - 1 : specs->map_count;
 		if(value >= cmpWith)
 			inext = 1;
 	}
@@ -197,8 +197,8 @@ NativeEnumerated_encode_uper(asn_TYPE_descriptor_t *td,
 	 * X.691, #10.6: normally small non-negative whole number;
 	 */
 	ASN_DEBUG("value = %ld, ext = %d, inext = %d, res = %ld",
-		value, specs->extension, inext,
-		value - (inext ? (specs->extension - 1) : 0));
+	          value, specs->extension, inext,
+	          value - (inext ? (specs->extension - 1) : 0));
 	if(uper_put_nsnnwn(po, value - (inext ? (specs->extension - 1) : 0)))
 		_ASN_ENCODE_FAILED;
 

@@ -19,21 +19,21 @@
 extern "C" {
 #endif
 
-/* PlainCards */
-typedef struct PlainCards {
-	Card_t	 plainCard1;
-	Card_t	 plainCard2;
-	/*
-	 * This type is extensible,
-	 * possible extensions are below.
-	 */
-	
-	/* Context for parsing across buffer boundaries */
-	asn_struct_ctx_t _asn_ctx;
-} PlainCards_t;
+	/* PlainCards */
+	typedef struct PlainCards {
+		Card_t	 plainCard1;
+		Card_t	 plainCard2;
+		/*
+		 * This type is extensible,
+		 * possible extensions are below.
+		 */
 
-/* Implementation */
-extern asn_TYPE_descriptor_t asn_DEF_PlainCards;
+		/* Context for parsing across buffer boundaries */
+		asn_struct_ctx_t _asn_ctx;
+	} PlainCards_t;
+
+	/* Implementation */
+	extern asn_TYPE_descriptor_t asn_DEF_PlainCards;
 
 #ifdef __cplusplus
 }

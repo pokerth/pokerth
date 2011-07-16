@@ -19,21 +19,21 @@
 extern "C" {
 #endif
 
-/* CleanerChatTypeGame */
-typedef struct CleanerChatTypeGame {
-	unsigned long	 gameId;
-	/*
-	 * This type is extensible,
-	 * possible extensions are below.
-	 */
-	
-	/* Context for parsing across buffer boundaries */
-	asn_struct_ctx_t _asn_ctx;
-} CleanerChatTypeGame_t;
+	/* CleanerChatTypeGame */
+	typedef struct CleanerChatTypeGame {
+		unsigned long	 gameId;
+		/*
+		 * This type is extensible,
+		 * possible extensions are below.
+		 */
 
-/* Implementation */
-/* extern asn_TYPE_descriptor_t asn_DEF_gameId_2;	// (Use -fall-defs-global to expose) */
-extern asn_TYPE_descriptor_t asn_DEF_CleanerChatTypeGame;
+		/* Context for parsing across buffer boundaries */
+		asn_struct_ctx_t _asn_ctx;
+	} CleanerChatTypeGame_t;
+
+	/* Implementation */
+	/* extern asn_TYPE_descriptor_t asn_DEF_gameId_2;	// (Use -fall-defs-global to expose) */
+	extern asn_TYPE_descriptor_t asn_DEF_CleanerChatTypeGame;
 
 #ifdef __cplusplus
 }

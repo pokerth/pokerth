@@ -22,43 +22,44 @@
 extern "C" {
 #endif
 
-/* Dependencies */
-typedef enum endOfHandType_PR {
-	endOfHandType_PR_NOTHING,	/* No components present */
-	endOfHandType_PR_endOfHandShowCards,
-	endOfHandType_PR_endOfHandHideCards,
-	/* Extensions may appear below */
-	
-} endOfHandType_PR;
+	/* Dependencies */
+	typedef enum endOfHandType_PR {
+		endOfHandType_PR_NOTHING,	/* No components present */
+		endOfHandType_PR_endOfHandShowCards,
+		endOfHandType_PR_endOfHandHideCards,
+		/* Extensions may appear below */
 
-/* EndOfHandMessage */
-typedef struct EndOfHandMessage {
-	NonZeroId_t	 gameId;
-	struct endOfHandType {
-		endOfHandType_PR present;
-		union EndOfHandMessage__endOfHandType_u {
-			EndOfHandShowCards_t	 endOfHandShowCards;
-			EndOfHandHideCards_t	 endOfHandHideCards;
-			/*
-			 * This type is extensible,
-			 * possible extensions are below.
-			 */
-		} choice;
-		
+	}
+	endOfHandType_PR;
+
+	/* EndOfHandMessage */
+	typedef struct EndOfHandMessage {
+		NonZeroId_t	 gameId;
+		struct endOfHandType {
+			endOfHandType_PR present;
+			union EndOfHandMessage__endOfHandType_u {
+				EndOfHandShowCards_t	 endOfHandShowCards;
+				EndOfHandHideCards_t	 endOfHandHideCards;
+				/*
+				 * This type is extensible,
+				 * possible extensions are below.
+				 */
+			} choice;
+
+			/* Context for parsing across buffer boundaries */
+			asn_struct_ctx_t _asn_ctx;
+		} endOfHandType;
+		/*
+		 * This type is extensible,
+		 * possible extensions are below.
+		 */
+
 		/* Context for parsing across buffer boundaries */
 		asn_struct_ctx_t _asn_ctx;
-	} endOfHandType;
-	/*
-	 * This type is extensible,
-	 * possible extensions are below.
-	 */
-	
-	/* Context for parsing across buffer boundaries */
-	asn_struct_ctx_t _asn_ctx;
-} EndOfHandMessage_t;
+	} EndOfHandMessage_t;
 
-/* Implementation */
-extern asn_TYPE_descriptor_t asn_DEF_EndOfHandMessage;
+	/* Implementation */
+	extern asn_TYPE_descriptor_t asn_DEF_EndOfHandMessage;
 
 #ifdef __cplusplus
 }

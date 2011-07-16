@@ -31,8 +31,8 @@ ber_fetch_tag(const void *ptr, size_t size, ber_tlv_tag_t *tag_r) {
 	 * The MSB is 0 if it is the last octet of the tag.
 	 */
 	for(val = 0, ptr = ((const char *)ptr) + 1, skipped = 2;
-			skipped <= size;
-				ptr = ((const char *)ptr) + 1, skipped++) {
+	        skipped <= size;
+	        ptr = ((const char *)ptr) + 1, skipped++) {
 		unsigned int oct = *(const uint8_t *)ptr;
 		if(oct & 0x80) {
 			val = (val << 7) | (oct & 0x7F);
@@ -78,10 +78,18 @@ ber_tlv_tag_snprint(ber_tlv_tag_t tag, char *buf, size_t size) {
 	int ret;
 
 	switch(tag & 0x3) {
-	case ASN_TAG_CLASS_UNIVERSAL:	type = "UNIVERSAL ";	break;
-	case ASN_TAG_CLASS_APPLICATION:	type = "APPLICATION ";	break;
-	case ASN_TAG_CLASS_CONTEXT:	type = "";		break;
-	case ASN_TAG_CLASS_PRIVATE:	type = "PRIVATE ";	break;
+	case ASN_TAG_CLASS_UNIVERSAL:
+		type = "UNIVERSAL ";
+		break;
+	case ASN_TAG_CLASS_APPLICATION:
+		type = "APPLICATION ";
+		break;
+	case ASN_TAG_CLASS_CONTEXT:
+		type = "";
+		break;
+	case ASN_TAG_CLASS_PRIVATE:
+		type = "PRIVATE ";
+		break;
 	}
 
 	ret = snprintf(buf, size, "[%s%u]", type, ((unsigned)tag) >> 2);

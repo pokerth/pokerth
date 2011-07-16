@@ -22,37 +22,38 @@
 extern "C" {
 #endif
 
-/* Dependencies */
-typedef enum ChatCleanerMessage_PR {
-	ChatCleanerMessage_PR_NOTHING,	/* No components present */
-	ChatCleanerMessage_PR_cleanerInitMessage,
-	ChatCleanerMessage_PR_cleanerInitAckMessage,
-	ChatCleanerMessage_PR_cleanerChatRequestMessage,
-	ChatCleanerMessage_PR_cleanerChatReplyMessage,
-	/* Extensions may appear below */
-	
-} ChatCleanerMessage_PR;
+	/* Dependencies */
+	typedef enum ChatCleanerMessage_PR {
+		ChatCleanerMessage_PR_NOTHING,	/* No components present */
+		ChatCleanerMessage_PR_cleanerInitMessage,
+		ChatCleanerMessage_PR_cleanerInitAckMessage,
+		ChatCleanerMessage_PR_cleanerChatRequestMessage,
+		ChatCleanerMessage_PR_cleanerChatReplyMessage,
+		/* Extensions may appear below */
 
-/* ChatCleanerMessage */
-typedef struct ChatCleanerMessage {
-	ChatCleanerMessage_PR present;
-	union ChatCleanerMessage_u {
-		CleanerInitMessage_t	 cleanerInitMessage;
-		CleanerInitAckMessage_t	 cleanerInitAckMessage;
-		CleanerChatRequestMessage_t	 cleanerChatRequestMessage;
-		CleanerChatReplyMessage_t	 cleanerChatReplyMessage;
-		/*
-		 * This type is extensible,
-		 * possible extensions are below.
-		 */
-	} choice;
-	
-	/* Context for parsing across buffer boundaries */
-	asn_struct_ctx_t _asn_ctx;
-} ChatCleanerMessage_t;
+	}
+	ChatCleanerMessage_PR;
 
-/* Implementation */
-extern asn_TYPE_descriptor_t asn_DEF_ChatCleanerMessage;
+	/* ChatCleanerMessage */
+	typedef struct ChatCleanerMessage {
+		ChatCleanerMessage_PR present;
+		union ChatCleanerMessage_u {
+			CleanerInitMessage_t	 cleanerInitMessage;
+			CleanerInitAckMessage_t	 cleanerInitAckMessage;
+			CleanerChatRequestMessage_t	 cleanerChatRequestMessage;
+			CleanerChatReplyMessage_t	 cleanerChatReplyMessage;
+			/*
+			 * This type is extensible,
+			 * possible extensions are below.
+			 */
+		} choice;
+
+		/* Context for parsing across buffer boundaries */
+		asn_struct_ctx_t _asn_ctx;
+	} ChatCleanerMessage_t;
+
+	/* Implementation */
+	extern asn_TYPE_descriptor_t asn_DEF_ChatCleanerMessage;
 
 #ifdef __cplusplus
 }

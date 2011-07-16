@@ -20,21 +20,21 @@
 extern "C" {
 #endif
 
-/* AuthenticatedLogin */
-typedef struct AuthenticatedLogin {
-	OCTET_STRING_t	 clientUserData;
-	AvatarHash_t	*avatar	/* OPTIONAL */;
-	/*
-	 * This type is extensible,
-	 * possible extensions are below.
-	 */
-	
-	/* Context for parsing across buffer boundaries */
-	asn_struct_ctx_t _asn_ctx;
-} AuthenticatedLogin_t;
+	/* AuthenticatedLogin */
+	typedef struct AuthenticatedLogin {
+		OCTET_STRING_t	 clientUserData;
+		AvatarHash_t	*avatar	/* OPTIONAL */;
+		/*
+		 * This type is extensible,
+		 * possible extensions are below.
+		 */
 
-/* Implementation */
-extern asn_TYPE_descriptor_t asn_DEF_AuthenticatedLogin;
+		/* Context for parsing across buffer boundaries */
+		asn_struct_ctx_t _asn_ctx;
+	} AuthenticatedLogin_t;
+
+	/* Implementation */
+	extern asn_TYPE_descriptor_t asn_DEF_AuthenticatedLogin;
 
 #ifdef __cplusplus
 }

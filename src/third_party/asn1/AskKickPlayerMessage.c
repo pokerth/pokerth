@@ -8,7 +8,7 @@
 #include "AskKickPlayerMessage.h"
 
 static asn_TYPE_member_t asn_MBR_AskKickPlayerMessage_1[] = {
-	{ ATF_NOFLAGS, 0, offsetof(struct AskKickPlayerMessage, gameId),
+	{	ATF_NOFLAGS, 0, offsetof(struct AskKickPlayerMessage, gameId),
 		(ASN_TAG_CLASS_UNIVERSAL | (2 << 2)),
 		0,
 		&asn_DEF_NonZeroId,
@@ -16,8 +16,8 @@ static asn_TYPE_member_t asn_MBR_AskKickPlayerMessage_1[] = {
 		0,	/* PER is not compiled, use -gen-PER */
 		0,
 		"gameId"
-		},
-	{ ATF_NOFLAGS, 0, offsetof(struct AskKickPlayerMessage, playerId),
+	},
+	{	ATF_NOFLAGS, 0, offsetof(struct AskKickPlayerMessage, playerId),
 		(ASN_TAG_CLASS_UNIVERSAL | (2 << 2)),
 		0,
 		&asn_DEF_NonZeroId,
@@ -25,15 +25,15 @@ static asn_TYPE_member_t asn_MBR_AskKickPlayerMessage_1[] = {
 		0,	/* PER is not compiled, use -gen-PER */
 		0,
 		"playerId"
-		},
+	},
 };
 static ber_tlv_tag_t asn_DEF_AskKickPlayerMessage_tags_1[] = {
 	(ASN_TAG_CLASS_APPLICATION | (64 << 2)),
 	(ASN_TAG_CLASS_UNIVERSAL | (16 << 2))
 };
 static asn_TYPE_tag2member_t asn_MAP_AskKickPlayerMessage_tag2el_1[] = {
-    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 0, 0, 1 }, /* gameId at 565 */
-    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 1, -1, 0 } /* playerId at 567 */
+	{ (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 0, 0, 1 }, /* gameId at 588 */
+	{ (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 1, -1, 0 } /* playerId at 590 */
 };
 static asn_SEQUENCE_specifics_t asn_SPC_AskKickPlayerMessage_specs_1 = {
 	sizeof(struct AskKickPlayerMessage),
@@ -58,10 +58,10 @@ asn_TYPE_descriptor_t asn_DEF_AskKickPlayerMessage = {
 	0,	/* Use generic outmost tag fetcher */
 	asn_DEF_AskKickPlayerMessage_tags_1,
 	sizeof(asn_DEF_AskKickPlayerMessage_tags_1)
-		/sizeof(asn_DEF_AskKickPlayerMessage_tags_1[0]) - 1, /* 1 */
+	/sizeof(asn_DEF_AskKickPlayerMessage_tags_1[0]) - 1, /* 1 */
 	asn_DEF_AskKickPlayerMessage_tags_1,	/* Same as above */
 	sizeof(asn_DEF_AskKickPlayerMessage_tags_1)
-		/sizeof(asn_DEF_AskKickPlayerMessage_tags_1[0]), /* 2 */
+	/sizeof(asn_DEF_AskKickPlayerMessage_tags_1[0]), /* 2 */
 	0,	/* No PER visible constraints */
 	asn_MBR_AskKickPlayerMessage_1,
 	2,	/* Elements count */

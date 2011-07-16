@@ -22,44 +22,45 @@
 extern "C" {
 #endif
 
-/* Dependencies */
-typedef enum voteKickReplyType_PR {
-	voteKickReplyType_PR_NOTHING,	/* No components present */
-	voteKickReplyType_PR_voteKickAck,
-	voteKickReplyType_PR_voteKickDenied,
-	/* Extensions may appear below */
-	
-} voteKickReplyType_PR;
+	/* Dependencies */
+	typedef enum voteKickReplyType_PR {
+		voteKickReplyType_PR_NOTHING,	/* No components present */
+		voteKickReplyType_PR_voteKickAck,
+		voteKickReplyType_PR_voteKickDenied,
+		/* Extensions may appear below */
 
-/* VoteKickReplyMessage */
-typedef struct VoteKickReplyMessage {
-	NonZeroId_t	 gameId;
-	NonZeroId_t	 petitionId;
-	struct voteKickReplyType {
-		voteKickReplyType_PR present;
-		union VoteKickReplyMessage__voteKickReplyType_u {
-			VoteKickAck_t	 voteKickAck;
-			VoteKickDenied_t	 voteKickDenied;
-			/*
-			 * This type is extensible,
-			 * possible extensions are below.
-			 */
-		} choice;
-		
+	}
+	voteKickReplyType_PR;
+
+	/* VoteKickReplyMessage */
+	typedef struct VoteKickReplyMessage {
+		NonZeroId_t	 gameId;
+		NonZeroId_t	 petitionId;
+		struct voteKickReplyType {
+			voteKickReplyType_PR present;
+			union VoteKickReplyMessage__voteKickReplyType_u {
+				VoteKickAck_t	 voteKickAck;
+				VoteKickDenied_t	 voteKickDenied;
+				/*
+				 * This type is extensible,
+				 * possible extensions are below.
+				 */
+			} choice;
+
+			/* Context for parsing across buffer boundaries */
+			asn_struct_ctx_t _asn_ctx;
+		} voteKickReplyType;
+		/*
+		 * This type is extensible,
+		 * possible extensions are below.
+		 */
+
 		/* Context for parsing across buffer boundaries */
 		asn_struct_ctx_t _asn_ctx;
-	} voteKickReplyType;
-	/*
-	 * This type is extensible,
-	 * possible extensions are below.
-	 */
-	
-	/* Context for parsing across buffer boundaries */
-	asn_struct_ctx_t _asn_ctx;
-} VoteKickReplyMessage_t;
+	} VoteKickReplyMessage_t;
 
-/* Implementation */
-extern asn_TYPE_descriptor_t asn_DEF_VoteKickReplyMessage;
+	/* Implementation */
+	extern asn_TYPE_descriptor_t asn_DEF_VoteKickReplyMessage;
 
 #ifdef __cplusplus
 }

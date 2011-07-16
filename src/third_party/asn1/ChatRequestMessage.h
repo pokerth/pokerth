@@ -23,45 +23,46 @@
 extern "C" {
 #endif
 
-/* Dependencies */
-typedef enum chatRequestType_PR {
-	chatRequestType_PR_NOTHING,	/* No components present */
-	chatRequestType_PR_chatRequestTypeLobby,
-	chatRequestType_PR_chatRequestTypeGame,
-	chatRequestType_PR_chatRequestTypePrivate,
-	/* Extensions may appear below */
-	
-} chatRequestType_PR;
+	/* Dependencies */
+	typedef enum chatRequestType_PR {
+		chatRequestType_PR_NOTHING,	/* No components present */
+		chatRequestType_PR_chatRequestTypeLobby,
+		chatRequestType_PR_chatRequestTypeGame,
+		chatRequestType_PR_chatRequestTypePrivate,
+		/* Extensions may appear below */
 
-/* ChatRequestMessage */
-typedef struct ChatRequestMessage {
-	struct chatRequestType {
-		chatRequestType_PR present;
-		union ChatRequestMessage__chatRequestType_u {
-			ChatRequestTypeLobby_t	 chatRequestTypeLobby;
-			ChatRequestTypeGame_t	 chatRequestTypeGame;
-			ChatRequestTypePrivate_t	 chatRequestTypePrivate;
-			/*
-			 * This type is extensible,
-			 * possible extensions are below.
-			 */
-		} choice;
-		
+	}
+	chatRequestType_PR;
+
+	/* ChatRequestMessage */
+	typedef struct ChatRequestMessage {
+		struct chatRequestType {
+			chatRequestType_PR present;
+			union ChatRequestMessage__chatRequestType_u {
+				ChatRequestTypeLobby_t	 chatRequestTypeLobby;
+				ChatRequestTypeGame_t	 chatRequestTypeGame;
+				ChatRequestTypePrivate_t	 chatRequestTypePrivate;
+				/*
+				 * This type is extensible,
+				 * possible extensions are below.
+				 */
+			} choice;
+
+			/* Context for parsing across buffer boundaries */
+			asn_struct_ctx_t _asn_ctx;
+		} chatRequestType;
+		UTF8String_t	 chatText;
+		/*
+		 * This type is extensible,
+		 * possible extensions are below.
+		 */
+
 		/* Context for parsing across buffer boundaries */
 		asn_struct_ctx_t _asn_ctx;
-	} chatRequestType;
-	UTF8String_t	 chatText;
-	/*
-	 * This type is extensible,
-	 * possible extensions are below.
-	 */
-	
-	/* Context for parsing across buffer boundaries */
-	asn_struct_ctx_t _asn_ctx;
-} ChatRequestMessage_t;
+	} ChatRequestMessage_t;
 
-/* Implementation */
-extern asn_TYPE_descriptor_t asn_DEF_ChatRequestMessage;
+	/* Implementation */
+	extern asn_TYPE_descriptor_t asn_DEF_ChatRequestMessage;
 
 #ifdef __cplusplus
 }

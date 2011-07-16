@@ -20,21 +20,21 @@
 extern "C" {
 #endif
 
-/* JoinGameAck */
-typedef struct JoinGameAck {
-	BOOLEAN_t	 areYouGameAdmin;
-	NetGameInfo_t	 gameInfo;
-	/*
-	 * This type is extensible,
-	 * possible extensions are below.
-	 */
-	
-	/* Context for parsing across buffer boundaries */
-	asn_struct_ctx_t _asn_ctx;
-} JoinGameAck_t;
+	/* JoinGameAck */
+	typedef struct JoinGameAck {
+		BOOLEAN_t	 areYouGameAdmin;
+		NetGameInfo_t	 gameInfo;
+		/*
+		 * This type is extensible,
+		 * possible extensions are below.
+		 */
 
-/* Implementation */
-extern asn_TYPE_descriptor_t asn_DEF_JoinGameAck;
+		/* Context for parsing across buffer boundaries */
+		asn_struct_ctx_t _asn_ctx;
+	} JoinGameAck_t;
+
+	/* Implementation */
+	extern asn_TYPE_descriptor_t asn_DEF_JoinGameAck;
 
 #ifdef __cplusplus
 }

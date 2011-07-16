@@ -8,7 +8,7 @@
 #include "RejectInvNotifyMessage.h"
 
 static asn_TYPE_member_t asn_MBR_RejectInvNotifyMessage_1[] = {
-	{ ATF_NOFLAGS, 0, offsetof(struct RejectInvNotifyMessage, gameId),
+	{	ATF_NOFLAGS, 0, offsetof(struct RejectInvNotifyMessage, gameId),
 		(ASN_TAG_CLASS_UNIVERSAL | (2 << 2)),
 		0,
 		&asn_DEF_NonZeroId,
@@ -16,8 +16,8 @@ static asn_TYPE_member_t asn_MBR_RejectInvNotifyMessage_1[] = {
 		0,	/* PER is not compiled, use -gen-PER */
 		0,
 		"gameId"
-		},
-	{ ATF_NOFLAGS, 0, offsetof(struct RejectInvNotifyMessage, playerId),
+	},
+	{	ATF_NOFLAGS, 0, offsetof(struct RejectInvNotifyMessage, playerId),
 		(ASN_TAG_CLASS_UNIVERSAL | (2 << 2)),
 		0,
 		&asn_DEF_NonZeroId,
@@ -25,8 +25,8 @@ static asn_TYPE_member_t asn_MBR_RejectInvNotifyMessage_1[] = {
 		0,	/* PER is not compiled, use -gen-PER */
 		0,
 		"playerId"
-		},
-	{ ATF_NOFLAGS, 0, offsetof(struct RejectInvNotifyMessage, playerRejectReason),
+	},
+	{	ATF_NOFLAGS, 0, offsetof(struct RejectInvNotifyMessage, playerRejectReason),
 		(ASN_TAG_CLASS_UNIVERSAL | (10 << 2)),
 		0,
 		&asn_DEF_RejectGameInvReason,
@@ -34,16 +34,16 @@ static asn_TYPE_member_t asn_MBR_RejectInvNotifyMessage_1[] = {
 		0,	/* PER is not compiled, use -gen-PER */
 		0,
 		"playerRejectReason"
-		},
+	},
 };
 static ber_tlv_tag_t asn_DEF_RejectInvNotifyMessage_tags_1[] = {
 	(ASN_TAG_CLASS_APPLICATION | (19 << 2)),
 	(ASN_TAG_CLASS_UNIVERSAL | (16 << 2))
 };
 static asn_TYPE_tag2member_t asn_MAP_RejectInvNotifyMessage_tag2el_1[] = {
-    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 0, 0, 1 }, /* gameId at 421 */
-    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 1, -1, 0 }, /* playerId at 422 */
-    { (ASN_TAG_CLASS_UNIVERSAL | (10 << 2)), 2, 0, 0 } /* playerRejectReason at 424 */
+	{ (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 0, 0, 1 }, /* gameId at 428 */
+	{ (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 1, -1, 0 }, /* playerId at 429 */
+	{ (ASN_TAG_CLASS_UNIVERSAL | (10 << 2)), 2, 0, 0 } /* playerRejectReason at 431 */
 };
 static asn_SEQUENCE_specifics_t asn_SPC_RejectInvNotifyMessage_specs_1 = {
 	sizeof(struct RejectInvNotifyMessage),
@@ -68,10 +68,10 @@ asn_TYPE_descriptor_t asn_DEF_RejectInvNotifyMessage = {
 	0,	/* Use generic outmost tag fetcher */
 	asn_DEF_RejectInvNotifyMessage_tags_1,
 	sizeof(asn_DEF_RejectInvNotifyMessage_tags_1)
-		/sizeof(asn_DEF_RejectInvNotifyMessage_tags_1[0]) - 1, /* 1 */
+	/sizeof(asn_DEF_RejectInvNotifyMessage_tags_1[0]) - 1, /* 1 */
 	asn_DEF_RejectInvNotifyMessage_tags_1,	/* Same as above */
 	sizeof(asn_DEF_RejectInvNotifyMessage_tags_1)
-		/sizeof(asn_DEF_RejectInvNotifyMessage_tags_1[0]), /* 2 */
+	/sizeof(asn_DEF_RejectInvNotifyMessage_tags_1[0]), /* 2 */
 	0,	/* No PER visible constraints */
 	asn_MBR_RejectInvNotifyMessage_1,
 	3,	/* Elements count */

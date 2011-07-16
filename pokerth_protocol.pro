@@ -94,6 +94,8 @@ HEADERS += src/third_party/asn1/AllInShowCardsMessage.h \
 	src/third_party/asn1/GamePlayerLeft.h \
 	src/third_party/asn1/GamePlayerMessage.h \
 	src/third_party/asn1/GameStartMessage.h \
+	src/third_party/asn1/GameStartModeInitial.h \
+	src/third_party/asn1/GameStartModeRejoin.h \
 	src/third_party/asn1/Guid.h \
 	src/third_party/asn1/HandStartMessage.h \
 	src/third_party/asn1/Id.h \
@@ -138,6 +140,8 @@ HEADERS += src/third_party/asn1/AllInShowCardsMessage.h \
 	src/third_party/asn1/RejectGameInvitationMessage.h \
 	src/third_party/asn1/RejectGameInvReason.h \
 	src/third_party/asn1/RejectInvNotifyMessage.h \
+	src/third_party/asn1/RejoinExistingGame.h \
+	src/third_party/asn1/RejoinPlayerData.h \
 	src/third_party/asn1/RemovedFromGame.h \
 	src/third_party/asn1/ResetTimeoutMessage.h \
 	src/third_party/asn1/StartEventAckMessage.h \
@@ -245,6 +249,8 @@ SOURCES += src/third_party/asn1/ChatCleanerMessage.c \
 	src/third_party/asn1/HandStartMessage.c \
 	src/third_party/asn1/Guid.c \
 	src/third_party/asn1/GameStartMessage.c \
+	src/third_party/asn1/GameStartModeInitial.c \
+	src/third_party/asn1/GameStartModeRejoin.c \
 	src/third_party/asn1/GamePlayerMessage.c \
 	src/third_party/asn1/GamePlayerLeft.c \
 	src/third_party/asn1/GamePlayerJoined.c \
@@ -306,6 +312,8 @@ SOURCES += src/third_party/asn1/ChatCleanerMessage.c \
 	src/third_party/asn1/RejectGameInvitationMessage.c \
 	src/third_party/asn1/RejectInvNotifyMessage.c \
 	src/third_party/asn1/RejectGameInvReason.c \
+	src/third_party/asn1/RejoinExistingGame.c \
+	src/third_party/asn1/RejoinPlayerData.c \
 	src/third_party/asn1/AfterHandShowCardsMessage.c \
 	src/third_party/asn1/ShowMyCardsRequestMessage.c \
 	src/third_party/asn1/EncryptedCards.c \

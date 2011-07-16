@@ -20,28 +20,28 @@
 extern "C" {
 #endif
 
-/* Forward declarations */
-struct StatisticsData;
+	/* Forward declarations */
+	struct StatisticsData;
 
-/* StatisticsMessage */
-typedef struct StatisticsMessage {
-	struct statisticsData {
-		A_SEQUENCE_OF(struct StatisticsData) list;
-		
+	/* StatisticsMessage */
+	typedef struct StatisticsMessage {
+		struct statisticsData {
+			A_SEQUENCE_OF(struct StatisticsData) list;
+
+			/* Context for parsing across buffer boundaries */
+			asn_struct_ctx_t _asn_ctx;
+		} statisticsData;
+		/*
+		 * This type is extensible,
+		 * possible extensions are below.
+		 */
+
 		/* Context for parsing across buffer boundaries */
 		asn_struct_ctx_t _asn_ctx;
-	} statisticsData;
-	/*
-	 * This type is extensible,
-	 * possible extensions are below.
-	 */
-	
-	/* Context for parsing across buffer boundaries */
-	asn_struct_ctx_t _asn_ctx;
-} StatisticsMessage_t;
+	} StatisticsMessage_t;
 
-/* Implementation */
-extern asn_TYPE_descriptor_t asn_DEF_StatisticsMessage;
+	/* Implementation */
+	extern asn_TYPE_descriptor_t asn_DEF_StatisticsMessage;
 
 #ifdef __cplusplus
 }

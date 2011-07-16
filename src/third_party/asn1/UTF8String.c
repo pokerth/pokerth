@@ -28,10 +28,10 @@ asn_TYPE_descriptor_t asn_DEF_UTF8String = {
 	0, /* Use generic outmost tag fetcher */
 	asn_DEF_UTF8String_tags,
 	sizeof(asn_DEF_UTF8String_tags)
-	  / sizeof(asn_DEF_UTF8String_tags[0]) - 1,
+	/ sizeof(asn_DEF_UTF8String_tags[0]) - 1,
 	asn_DEF_UTF8String_tags,
 	sizeof(asn_DEF_UTF8String_tags)
-	  / sizeof(asn_DEF_UTF8String_tags[0]),
+	/ sizeof(asn_DEF_UTF8String_tags[0]),
 	0,	/* No PER visible constraints */
 	0, 0,	/* No members */
 	0	/* No specifics */
@@ -42,23 +42,25 @@ asn_TYPE_descriptor_t asn_DEF_UTF8String = {
  * The second half of this table is only applicable to the long sequences.
  */
 static int UTF8String_ht[2][16] = {
-	{ /* 0x0 ... 0x7 */
-	  /* 0000..0111 */
-	  1, 1, 1, 1, 1, 1, 1, 1,
-	  /* 1000..1011(0), 1100..1101(2), 1110(3), 1111(-1) */
-	  0, 0, 0, 0, 2, 2, 3, -1 },
-	{ /* 0xF0 .. 0xF7 */
-	  /* 11110000..11110111 */
-	  4, 4, 4, 4, 4, 4, 4, 4,
-	  5, 5, 5, 5, 6, 6, -1, -1 }
+	{	/* 0x0 ... 0x7 */
+		/* 0000..0111 */
+		1, 1, 1, 1, 1, 1, 1, 1,
+		/* 1000..1011(0), 1100..1101(2), 1110(3), 1111(-1) */
+		0, 0, 0, 0, 2, 2, 3, -1
+	},
+	{	/* 0xF0 .. 0xF7 */
+		/* 11110000..11110111 */
+		4, 4, 4, 4, 4, 4, 4, 4,
+		5, 5, 5, 5, 6, 6, -1, -1
+	}
 };
 static int32_t UTF8String_mv[7] = { 0, 0,
-	0x00000080,
-	0x00000800,
-	0x00010000,
-	0x00200000,
-	0x04000000
-};
+                                    0x00000080,
+                                    0x00000800,
+                                    0x00010000,
+                                    0x00200000,
+                                    0x04000000
+                                  };
 
 /* Internal aliases for return codes */
 #define	U8E_TRUNC	-1	/* UTF-8 sequence truncated */
@@ -69,32 +71,32 @@ static int32_t UTF8String_mv[7] = { 0, 0,
 
 int
 UTF8String_constraint(asn_TYPE_descriptor_t *td, const void *sptr,
-		asn_app_constraint_failed_f *ctfailcb, void *app_key) {
+                      asn_app_constraint_failed_f *ctfailcb, void *app_key) {
 	ssize_t len = UTF8String_length((const UTF8String_t *)sptr);
 	switch(len) {
 	case U8E_EINVAL:
 		_ASN_CTFAIL(app_key, td, sptr,
-			"%s: value not given", td->name);
+		            "%s: value not given", td->name);
 		break;
 	case U8E_TRUNC:
 		_ASN_CTFAIL(app_key, td, sptr,
-			"%s: truncated UTF-8 sequence (%s:%d)",
-			td->name, __FILE__, __LINE__);
+		            "%s: truncated UTF-8 sequence (%s:%d)",
+		            td->name, __FILE__, __LINE__);
 		break;
 	case U8E_ILLSTART:
 		_ASN_CTFAIL(app_key, td, sptr,
-			"%s: UTF-8 illegal start of encoding (%s:%d)",
-			td->name, __FILE__, __LINE__);
+		            "%s: UTF-8 illegal start of encoding (%s:%d)",
+		            td->name, __FILE__, __LINE__);
 		break;
 	case U8E_NOTCONT:
 		_ASN_CTFAIL(app_key, td, sptr,
-			"%s: UTF-8 not continuation (%s:%d)",
-			td->name, __FILE__, __LINE__);
+		            "%s: UTF-8 not continuation (%s:%d)",
+		            td->name, __FILE__, __LINE__);
 		break;
 	case U8E_NOTMIN:
 		_ASN_CTFAIL(app_key, td, sptr,
-			"%s: UTF-8 not minimal sequence (%s:%d)",
-			td->name, __FILE__, __LINE__);
+		            "%s: UTF-8 not minimal sequence (%s:%d)",
+		            td->name, __FILE__, __LINE__);
 		break;
 	}
 	return (len < 0) ? -1 : 0;
@@ -170,7 +172,7 @@ UTF8String_to_wcs(const UTF8String_t *st, uint32_t *dst, size_t dstlen) {
 
 int
 UTF8String_print(asn_TYPE_descriptor_t *td, const void *sptr, int ilevel,
-	asn_app_consume_bytes_f *cb, void *app_key) {
+                 asn_app_consume_bytes_f *cb, void *app_key) {
 	const UTF8String_t *st = (const UTF8String_t *)sptr;
 
 	(void)td;	/* Unused argument */

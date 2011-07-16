@@ -8,7 +8,7 @@
 #include "AuthMessage.h"
 
 static asn_TYPE_member_t asn_MBR_AuthMessage_1[] = {
-	{ ATF_NOFLAGS, 0, offsetof(struct AuthMessage, choice.authServerChallenge),
+	{	ATF_NOFLAGS, 0, offsetof(struct AuthMessage, choice.authServerChallenge),
 		(ASN_TAG_CLASS_CONTEXT | (0 << 2)),
 		-1,	/* IMPLICIT tag at current level */
 		&asn_DEF_AuthServerChallenge,
@@ -16,8 +16,8 @@ static asn_TYPE_member_t asn_MBR_AuthMessage_1[] = {
 		0,	/* PER is not compiled, use -gen-PER */
 		0,
 		"authServerChallenge"
-		},
-	{ ATF_NOFLAGS, 0, offsetof(struct AuthMessage, choice.authClientResponse),
+	},
+	{	ATF_NOFLAGS, 0, offsetof(struct AuthMessage, choice.authClientResponse),
 		(ASN_TAG_CLASS_CONTEXT | (1 << 2)),
 		-1,	/* IMPLICIT tag at current level */
 		&asn_DEF_AuthClientResponse,
@@ -25,8 +25,8 @@ static asn_TYPE_member_t asn_MBR_AuthMessage_1[] = {
 		0,	/* PER is not compiled, use -gen-PER */
 		0,
 		"authClientResponse"
-		},
-	{ ATF_NOFLAGS, 0, offsetof(struct AuthMessage, choice.authServerVerification),
+	},
+	{	ATF_NOFLAGS, 0, offsetof(struct AuthMessage, choice.authServerVerification),
 		(ASN_TAG_CLASS_CONTEXT | (2 << 2)),
 		-1,	/* IMPLICIT tag at current level */
 		&asn_DEF_AuthServerVerification,
@@ -34,15 +34,15 @@ static asn_TYPE_member_t asn_MBR_AuthMessage_1[] = {
 		0,	/* PER is not compiled, use -gen-PER */
 		0,
 		"authServerVerification"
-		},
+	},
 };
 static ber_tlv_tag_t asn_DEF_AuthMessage_tags_1[] = {
 	(ASN_TAG_CLASS_APPLICATION | (2 << 2))
 };
 static asn_TYPE_tag2member_t asn_MAP_AuthMessage_tag2el_1[] = {
-    { (ASN_TAG_CLASS_CONTEXT | (0 << 2)), 0, 0, 0 }, /* authServerChallenge at 127 */
-    { (ASN_TAG_CLASS_CONTEXT | (1 << 2)), 1, 0, 0 }, /* authClientResponse at 128 */
-    { (ASN_TAG_CLASS_CONTEXT | (2 << 2)), 2, 0, 0 } /* authServerVerification at 130 */
+	{ (ASN_TAG_CLASS_CONTEXT | (0 << 2)), 0, 0, 0 }, /* authServerChallenge at 128 */
+	{ (ASN_TAG_CLASS_CONTEXT | (1 << 2)), 1, 0, 0 }, /* authClientResponse at 129 */
+	{ (ASN_TAG_CLASS_CONTEXT | (2 << 2)), 2, 0, 0 } /* authServerVerification at 131 */
 };
 static asn_CHOICE_specifics_t asn_SPC_AuthMessage_specs_1 = {
 	sizeof(struct AuthMessage),
@@ -68,10 +68,10 @@ asn_TYPE_descriptor_t asn_DEF_AuthMessage = {
 	CHOICE_outmost_tag,
 	asn_DEF_AuthMessage_tags_1,
 	sizeof(asn_DEF_AuthMessage_tags_1)
-		/sizeof(asn_DEF_AuthMessage_tags_1[0]), /* 1 */
+	/sizeof(asn_DEF_AuthMessage_tags_1[0]), /* 1 */
 	asn_DEF_AuthMessage_tags_1,	/* Same as above */
 	sizeof(asn_DEF_AuthMessage_tags_1)
-		/sizeof(asn_DEF_AuthMessage_tags_1[0]), /* 1 */
+	/sizeof(asn_DEF_AuthMessage_tags_1[0]), /* 1 */
 	0,	/* No PER visible constraints */
 	asn_MBR_AuthMessage_1,
 	3,	/* Elements count */

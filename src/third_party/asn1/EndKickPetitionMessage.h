@@ -22,34 +22,35 @@
 extern "C" {
 #endif
 
-/* Dependencies */
-typedef enum petitionEndReason {
-	petitionEndReason_petitionEndEnoughVotes	= 0,
-	petitionEndReason_petitionEndTooFewPlayers	= 1,
-	petitionEndReason_petitionEndPlayerLeft	= 2,
-	petitionEndReason_petitionEndTimeout	= 3
-} e_petitionEndReason;
+	/* Dependencies */
+	typedef enum petitionEndReason {
+		petitionEndReason_petitionEndEnoughVotes	= 0,
+		   petitionEndReason_petitionEndTooFewPlayers	= 1,
+		    petitionEndReason_petitionEndPlayerLeft	= 2,
+		    petitionEndReason_petitionEndTimeout	= 3
+	}
+	            e_petitionEndReason;
 
-/* EndKickPetitionMessage */
-typedef struct EndKickPetitionMessage {
-	NonZeroId_t	 gameId;
-	NonZeroId_t	 petitionId;
-	long	 numVotesAgainstKicking;
-	long	 numVotesInFavourOfKicking;
-	BOOLEAN_t	 resultPlayerKicked;
-	long	 petitionEndReason;
-	/*
-	 * This type is extensible,
-	 * possible extensions are below.
-	 */
-	
-	/* Context for parsing across buffer boundaries */
-	asn_struct_ctx_t _asn_ctx;
-} EndKickPetitionMessage_t;
+	/* EndKickPetitionMessage */
+	typedef struct EndKickPetitionMessage {
+		NonZeroId_t	 gameId;
+		NonZeroId_t	 petitionId;
+		long	 numVotesAgainstKicking;
+		long	 numVotesInFavourOfKicking;
+		BOOLEAN_t	 resultPlayerKicked;
+		long	 petitionEndReason;
+		/*
+		 * This type is extensible,
+		 * possible extensions are below.
+		 */
 
-/* Implementation */
-/* extern asn_TYPE_descriptor_t asn_DEF_petitionEndReason_7;	// (Use -fall-defs-global to expose) */
-extern asn_TYPE_descriptor_t asn_DEF_EndKickPetitionMessage;
+		/* Context for parsing across buffer boundaries */
+		asn_struct_ctx_t _asn_ctx;
+	} EndKickPetitionMessage_t;
+
+	/* Implementation */
+	/* extern asn_TYPE_descriptor_t asn_DEF_petitionEndReason_7;	// (Use -fall-defs-global to expose) */
+	extern asn_TYPE_descriptor_t asn_DEF_EndKickPetitionMessage;
 
 #ifdef __cplusplus
 }

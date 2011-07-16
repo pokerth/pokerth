@@ -19,35 +19,37 @@
 extern "C" {
 #endif
 
-/* Dependencies */
-typedef enum joinGameFailureReason {
-	joinGameFailureReason_invalidGame	= 1,
-	joinGameFailureReason_gameIsFull	= 2,
-	joinGameFailureReason_gameIsRunning	= 3,
-	joinGameFailureReason_invalidPassword	= 4,
-	joinGameFailureReason_notAllowedAsGuest	= 5,
-	joinGameFailureReason_notInvited	= 6,
-	joinGameFailureReason_gameNameInUse	= 7,
-	joinGameFailureReason_badGameName	= 8,
-	joinGameFailureReason_invalidSettings	= 9,
-	joinGameFailureReason_ipAddressBlocked	= 10
-} e_joinGameFailureReason;
+	/* Dependencies */
+	typedef enum joinGameFailureReason {
+		joinGameFailureReason_invalidGame	= 1,
+		  joinGameFailureReason_gameIsFull	= 2,
+		     joinGameFailureReason_gameIsRunning	= 3,
+		     joinGameFailureReason_invalidPassword	= 4,
+		       joinGameFailureReason_notAllowedAsGuest	= 5,
+		       joinGameFailureReason_notInvited	= 6,
+		          joinGameFailureReason_gameNameInUse	= 7,
+		          joinGameFailureReason_badGameName	= 8,
+		            joinGameFailureReason_invalidSettings	= 9,
+		              joinGameFailureReason_ipAddressBlocked	= 10,
+		               joinGameFailureReason_rejoinFailed	= 11
+	}
+	                       e_joinGameFailureReason;
 
-/* JoinGameFailed */
-typedef struct JoinGameFailed {
-	long	 joinGameFailureReason;
-	/*
-	 * This type is extensible,
-	 * possible extensions are below.
-	 */
-	
-	/* Context for parsing across buffer boundaries */
-	asn_struct_ctx_t _asn_ctx;
-} JoinGameFailed_t;
+	/* JoinGameFailed */
+	typedef struct JoinGameFailed {
+		long	 joinGameFailureReason;
+		/*
+		 * This type is extensible,
+		 * possible extensions are below.
+		 */
 
-/* Implementation */
-/* extern asn_TYPE_descriptor_t asn_DEF_joinGameFailureReason_2;	// (Use -fall-defs-global to expose) */
-extern asn_TYPE_descriptor_t asn_DEF_JoinGameFailed;
+		/* Context for parsing across buffer boundaries */
+		asn_struct_ctx_t _asn_ctx;
+	} JoinGameFailed_t;
+
+	/* Implementation */
+	/* extern asn_TYPE_descriptor_t asn_DEF_joinGameFailureReason_2;	// (Use -fall-defs-global to expose) */
+	extern asn_TYPE_descriptor_t asn_DEF_JoinGameFailed;
 
 #ifdef __cplusplus
 }

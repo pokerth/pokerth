@@ -21,32 +21,33 @@
 extern "C" {
 #endif
 
-/* Dependencies */
-typedef enum serverType {
-	serverType_serverTypeLAN	= 0,
-	serverType_serverTypeInternetNoAuth	= 1,
-	serverType_serverTypeInternetAuth	= 2
-} e_serverType;
+	/* Dependencies */
+	typedef enum serverType {
+		serverType_serverTypeLAN	= 0,
+		   serverType_serverTypeInternetNoAuth	= 1,
+		   serverType_serverTypeInternetAuth	= 2
+	}
+	           e_serverType;
 
-/* AnnounceMessage */
-typedef struct AnnounceMessage {
-	Version_t	 protocolVersion;
-	Version_t	 latestGameVersion;
-	long	 latestBetaRevision;
-	long	 serverType;
-	long	 numPlayersOnServer;
-	/*
-	 * This type is extensible,
-	 * possible extensions are below.
-	 */
-	
-	/* Context for parsing across buffer boundaries */
-	asn_struct_ctx_t _asn_ctx;
-} AnnounceMessage_t;
+	/* AnnounceMessage */
+	typedef struct AnnounceMessage {
+		Version_t	 protocolVersion;
+		Version_t	 latestGameVersion;
+		long	 latestBetaRevision;
+		long	 serverType;
+		long	 numPlayersOnServer;
+		/*
+		 * This type is extensible,
+		 * possible extensions are below.
+		 */
 
-/* Implementation */
-/* extern asn_TYPE_descriptor_t asn_DEF_serverType_5;	// (Use -fall-defs-global to expose) */
-extern asn_TYPE_descriptor_t asn_DEF_AnnounceMessage;
+		/* Context for parsing across buffer boundaries */
+		asn_struct_ctx_t _asn_ctx;
+	} AnnounceMessage_t;
+
+	/* Implementation */
+	/* extern asn_TYPE_descriptor_t asn_DEF_serverType_5;	// (Use -fall-defs-global to expose) */
+	extern asn_TYPE_descriptor_t asn_DEF_AnnounceMessage;
 
 #ifdef __cplusplus
 }

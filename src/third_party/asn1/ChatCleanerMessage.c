@@ -8,7 +8,7 @@
 #include "ChatCleanerMessage.h"
 
 static asn_TYPE_member_t asn_MBR_ChatCleanerMessage_1[] = {
-	{ ATF_NOFLAGS, 0, offsetof(struct ChatCleanerMessage, choice.cleanerInitMessage),
+	{	ATF_NOFLAGS, 0, offsetof(struct ChatCleanerMessage, choice.cleanerInitMessage),
 		(ASN_TAG_CLASS_APPLICATION | (0 << 2)),
 		0,
 		&asn_DEF_CleanerInitMessage,
@@ -16,8 +16,8 @@ static asn_TYPE_member_t asn_MBR_ChatCleanerMessage_1[] = {
 		0,	/* PER is not compiled, use -gen-PER */
 		0,
 		"cleanerInitMessage"
-		},
-	{ ATF_NOFLAGS, 0, offsetof(struct ChatCleanerMessage, choice.cleanerInitAckMessage),
+	},
+	{	ATF_NOFLAGS, 0, offsetof(struct ChatCleanerMessage, choice.cleanerInitAckMessage),
 		(ASN_TAG_CLASS_APPLICATION | (1 << 2)),
 		0,
 		&asn_DEF_CleanerInitAckMessage,
@@ -25,8 +25,8 @@ static asn_TYPE_member_t asn_MBR_ChatCleanerMessage_1[] = {
 		0,	/* PER is not compiled, use -gen-PER */
 		0,
 		"cleanerInitAckMessage"
-		},
-	{ ATF_NOFLAGS, 0, offsetof(struct ChatCleanerMessage, choice.cleanerChatRequestMessage),
+	},
+	{	ATF_NOFLAGS, 0, offsetof(struct ChatCleanerMessage, choice.cleanerChatRequestMessage),
 		(ASN_TAG_CLASS_APPLICATION | (2 << 2)),
 		0,
 		&asn_DEF_CleanerChatRequestMessage,
@@ -34,8 +34,8 @@ static asn_TYPE_member_t asn_MBR_ChatCleanerMessage_1[] = {
 		0,	/* PER is not compiled, use -gen-PER */
 		0,
 		"cleanerChatRequestMessage"
-		},
-	{ ATF_NOFLAGS, 0, offsetof(struct ChatCleanerMessage, choice.cleanerChatReplyMessage),
+	},
+	{	ATF_NOFLAGS, 0, offsetof(struct ChatCleanerMessage, choice.cleanerChatReplyMessage),
 		(ASN_TAG_CLASS_APPLICATION | (3 << 2)),
 		0,
 		&asn_DEF_CleanerChatReplyMessage,
@@ -43,13 +43,13 @@ static asn_TYPE_member_t asn_MBR_ChatCleanerMessage_1[] = {
 		0,	/* PER is not compiled, use -gen-PER */
 		0,
 		"cleanerChatReplyMessage"
-		},
+	},
 };
 static asn_TYPE_tag2member_t asn_MAP_ChatCleanerMessage_tag2el_1[] = {
-    { (ASN_TAG_CLASS_APPLICATION | (0 << 2)), 0, 0, 0 }, /* cleanerInitMessage at 27 */
-    { (ASN_TAG_CLASS_APPLICATION | (1 << 2)), 1, 0, 0 }, /* cleanerInitAckMessage at 28 */
-    { (ASN_TAG_CLASS_APPLICATION | (2 << 2)), 2, 0, 0 }, /* cleanerChatRequestMessage at 29 */
-    { (ASN_TAG_CLASS_APPLICATION | (3 << 2)), 3, 0, 0 } /* cleanerChatReplyMessage at 31 */
+	{ (ASN_TAG_CLASS_APPLICATION | (0 << 2)), 0, 0, 0 }, /* cleanerInitMessage at 27 */
+	{ (ASN_TAG_CLASS_APPLICATION | (1 << 2)), 1, 0, 0 }, /* cleanerInitAckMessage at 28 */
+	{ (ASN_TAG_CLASS_APPLICATION | (2 << 2)), 2, 0, 0 }, /* cleanerChatRequestMessage at 29 */
+	{ (ASN_TAG_CLASS_APPLICATION | (3 << 2)), 3, 0, 0 } /* cleanerChatReplyMessage at 31 */
 };
 static asn_CHOICE_specifics_t asn_SPC_ChatCleanerMessage_specs_1 = {
 	sizeof(struct ChatCleanerMessage),

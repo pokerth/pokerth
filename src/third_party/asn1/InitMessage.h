@@ -14,6 +14,7 @@
 /* Including external dependencies */
 #include "Version.h"
 #include <NativeInteger.h>
+#include "Guid.h"
 #include "GuestLogin.h"
 #include "AuthenticatedLogin.h"
 #include "UnauthenticatedLogin.h"
@@ -24,46 +25,48 @@
 extern "C" {
 #endif
 
-/* Dependencies */
-typedef enum login_PR {
-	login_PR_NOTHING,	/* No components present */
-	login_PR_guestLogin,
-	login_PR_authenticatedLogin,
-	login_PR_unauthenticatedLogin,
-	/* Extensions may appear below */
-	
-} login_PR;
+	/* Dependencies */
+	typedef enum login_PR {
+		login_PR_NOTHING,	/* No components present */
+		login_PR_guestLogin,
+		login_PR_authenticatedLogin,
+		login_PR_unauthenticatedLogin,
+		/* Extensions may appear below */
 
-/* InitMessage */
-typedef struct InitMessage {
-	Version_t	 requestedVersion;
-	long	 buildId;
-	struct login {
-		login_PR present;
-		union InitMessage__login_u {
-			GuestLogin_t	 guestLogin;
-			AuthenticatedLogin_t	 authenticatedLogin;
-			UnauthenticatedLogin_t	 unauthenticatedLogin;
-			/*
-			 * This type is extensible,
-			 * possible extensions are below.
-			 */
-		} choice;
-		
+	}
+	login_PR;
+
+	/* InitMessage */
+	typedef struct InitMessage {
+		Version_t	 requestedVersion;
+		long	 buildId;
+		Guid_t	 myLastSessionId;
+		struct login {
+			login_PR present;
+			union InitMessage__login_u {
+				GuestLogin_t	 guestLogin;
+				AuthenticatedLogin_t	 authenticatedLogin;
+				UnauthenticatedLogin_t	 unauthenticatedLogin;
+				/*
+				 * This type is extensible,
+				 * possible extensions are below.
+				 */
+			} choice;
+
+			/* Context for parsing across buffer boundaries */
+			asn_struct_ctx_t _asn_ctx;
+		} login;
+		/*
+		 * This type is extensible,
+		 * possible extensions are below.
+		 */
+
 		/* Context for parsing across buffer boundaries */
 		asn_struct_ctx_t _asn_ctx;
-	} login;
-	/*
-	 * This type is extensible,
-	 * possible extensions are below.
-	 */
-	
-	/* Context for parsing across buffer boundaries */
-	asn_struct_ctx_t _asn_ctx;
-} InitMessage_t;
+	} InitMessage_t;
 
-/* Implementation */
-extern asn_TYPE_descriptor_t asn_DEF_InitMessage;
+	/* Implementation */
+	extern asn_TYPE_descriptor_t asn_DEF_InitMessage;
 
 #ifdef __cplusplus
 }

@@ -19,22 +19,22 @@
 extern "C" {
 #endif
 
-/* InviteNotifyMessage */
-typedef struct InviteNotifyMessage {
-	NonZeroId_t	 gameId;
-	NonZeroId_t	 playerIdWho;
-	NonZeroId_t	 playerIdByWhom;
-	/*
-	 * This type is extensible,
-	 * possible extensions are below.
-	 */
-	
-	/* Context for parsing across buffer boundaries */
-	asn_struct_ctx_t _asn_ctx;
-} InviteNotifyMessage_t;
+	/* InviteNotifyMessage */
+	typedef struct InviteNotifyMessage {
+		NonZeroId_t	 gameId;
+		NonZeroId_t	 playerIdWho;
+		NonZeroId_t	 playerIdByWhom;
+		/*
+		 * This type is extensible,
+		 * possible extensions are below.
+		 */
 
-/* Implementation */
-extern asn_TYPE_descriptor_t asn_DEF_InviteNotifyMessage;
+		/* Context for parsing across buffer boundaries */
+		asn_struct_ctx_t _asn_ctx;
+	} InviteNotifyMessage_t;
+
+	/* Implementation */
+	extern asn_TYPE_descriptor_t asn_DEF_InviteNotifyMessage;
 
 #ifdef __cplusplus
 }

@@ -19,21 +19,21 @@
 extern "C" {
 #endif
 
-/* Version */
-typedef struct Version {
-	long	 major;
-	long	 minor;
-	/*
-	 * This type is extensible,
-	 * possible extensions are below.
-	 */
-	
-	/* Context for parsing across buffer boundaries */
-	asn_struct_ctx_t _asn_ctx;
-} Version_t;
+	/* Version */
+	typedef struct Version {
+		long	 major;
+		long	 minor;
+		/*
+		 * This type is extensible,
+		 * possible extensions are below.
+		 */
 
-/* Implementation */
-extern asn_TYPE_descriptor_t asn_DEF_Version;
+		/* Context for parsing across buffer boundaries */
+		asn_struct_ctx_t _asn_ctx;
+	} Version_t;
+
+	/* Implementation */
+	extern asn_TYPE_descriptor_t asn_DEF_Version;
 
 #ifdef __cplusplus
 }

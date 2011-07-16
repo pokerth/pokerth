@@ -23,31 +23,31 @@
 extern "C" {
 #endif
 
-/* PlayerResult */
-typedef struct PlayerResult {
-	NonZeroId_t	 playerId;
-	Card_t	 resultCard1;
-	Card_t	 resultCard2;
-	struct bestHandPosition {
-		A_SEQUENCE_OF(long) list;
-		
+	/* PlayerResult */
+	typedef struct PlayerResult {
+		NonZeroId_t	 playerId;
+		Card_t	 resultCard1;
+		Card_t	 resultCard2;
+		struct bestHandPosition {
+			A_SEQUENCE_OF(long) list;
+
+			/* Context for parsing across buffer boundaries */
+			asn_struct_ctx_t _asn_ctx;
+		} bestHandPosition;
+		long	 cardsValue;
+		long	 moneyWon;
+		long	 playerMoney;
+		/*
+		 * This type is extensible,
+		 * possible extensions are below.
+		 */
+
 		/* Context for parsing across buffer boundaries */
 		asn_struct_ctx_t _asn_ctx;
-	} bestHandPosition;
-	long	 cardsValue;
-	long	 moneyWon;
-	long	 playerMoney;
-	/*
-	 * This type is extensible,
-	 * possible extensions are below.
-	 */
-	
-	/* Context for parsing across buffer boundaries */
-	asn_struct_ctx_t _asn_ctx;
-} PlayerResult_t;
+	} PlayerResult_t;
 
-/* Implementation */
-extern asn_TYPE_descriptor_t asn_DEF_PlayerResult;
+	/* Implementation */
+	extern asn_TYPE_descriptor_t asn_DEF_PlayerResult;
 
 #ifdef __cplusplus
 }

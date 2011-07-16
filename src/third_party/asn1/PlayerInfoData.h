@@ -23,34 +23,34 @@
 extern "C" {
 #endif
 
-/* PlayerInfoData */
-typedef struct PlayerInfoData {
-	UTF8String_t	 playerName;
-	BOOLEAN_t	 isHuman;
-	PlayerInfoRights_t	 playerRights;
-	UTF8String_t	*countryCode	/* OPTIONAL */;
-	struct avatarData {
-		NetAvatarType_t	 avatarType;
-		AvatarHash_t	 avatar;
+	/* PlayerInfoData */
+	typedef struct PlayerInfoData {
+		UTF8String_t	 playerName;
+		BOOLEAN_t	 isHuman;
+		PlayerInfoRights_t	 playerRights;
+		UTF8String_t	*countryCode	/* OPTIONAL */;
+		struct avatarData {
+			NetAvatarType_t	 avatarType;
+			AvatarHash_t	 avatar;
+			/*
+			 * This type is extensible,
+			 * possible extensions are below.
+			 */
+
+			/* Context for parsing across buffer boundaries */
+			asn_struct_ctx_t _asn_ctx;
+		} *avatarData;
 		/*
 		 * This type is extensible,
 		 * possible extensions are below.
 		 */
-		
+
 		/* Context for parsing across buffer boundaries */
 		asn_struct_ctx_t _asn_ctx;
-	} *avatarData;
-	/*
-	 * This type is extensible,
-	 * possible extensions are below.
-	 */
-	
-	/* Context for parsing across buffer boundaries */
-	asn_struct_ctx_t _asn_ctx;
-} PlayerInfoData_t;
+	} PlayerInfoData_t;
 
-/* Implementation */
-extern asn_TYPE_descriptor_t asn_DEF_PlayerInfoData;
+	/* Implementation */
+	extern asn_TYPE_descriptor_t asn_DEF_PlayerInfoData;
 
 #ifdef __cplusplus
 }

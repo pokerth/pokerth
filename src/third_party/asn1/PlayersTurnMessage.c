@@ -8,7 +8,7 @@
 #include "PlayersTurnMessage.h"
 
 static asn_TYPE_member_t asn_MBR_PlayersTurnMessage_1[] = {
-	{ ATF_NOFLAGS, 0, offsetof(struct PlayersTurnMessage, gameId),
+	{	ATF_NOFLAGS, 0, offsetof(struct PlayersTurnMessage, gameId),
 		(ASN_TAG_CLASS_UNIVERSAL | (2 << 2)),
 		0,
 		&asn_DEF_NonZeroId,
@@ -16,8 +16,8 @@ static asn_TYPE_member_t asn_MBR_PlayersTurnMessage_1[] = {
 		0,	/* PER is not compiled, use -gen-PER */
 		0,
 		"gameId"
-		},
-	{ ATF_NOFLAGS, 0, offsetof(struct PlayersTurnMessage, playerId),
+	},
+	{	ATF_NOFLAGS, 0, offsetof(struct PlayersTurnMessage, playerId),
 		(ASN_TAG_CLASS_UNIVERSAL | (2 << 2)),
 		0,
 		&asn_DEF_NonZeroId,
@@ -25,8 +25,8 @@ static asn_TYPE_member_t asn_MBR_PlayersTurnMessage_1[] = {
 		0,	/* PER is not compiled, use -gen-PER */
 		0,
 		"playerId"
-		},
-	{ ATF_NOFLAGS, 0, offsetof(struct PlayersTurnMessage, gameState),
+	},
+	{	ATF_NOFLAGS, 0, offsetof(struct PlayersTurnMessage, gameState),
 		(ASN_TAG_CLASS_UNIVERSAL | (10 << 2)),
 		0,
 		&asn_DEF_NetGameState,
@@ -34,16 +34,16 @@ static asn_TYPE_member_t asn_MBR_PlayersTurnMessage_1[] = {
 		0,	/* PER is not compiled, use -gen-PER */
 		0,
 		"gameState"
-		},
+	},
 };
 static ber_tlv_tag_t asn_DEF_PlayersTurnMessage_tags_1[] = {
 	(ASN_TAG_CLASS_APPLICATION | (24 << 2)),
 	(ASN_TAG_CLASS_UNIVERSAL | (16 << 2))
 };
 static asn_TYPE_tag2member_t asn_MAP_PlayersTurnMessage_tag2el_1[] = {
-    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 0, 0, 1 }, /* gameId at 460 */
-    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 1, -1, 0 }, /* playerId at 461 */
-    { (ASN_TAG_CLASS_UNIVERSAL | (10 << 2)), 2, 0, 0 } /* gameState at 463 */
+	{ (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 0, 0, 1 }, /* gameId at 483 */
+	{ (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 1, -1, 0 }, /* playerId at 484 */
+	{ (ASN_TAG_CLASS_UNIVERSAL | (10 << 2)), 2, 0, 0 } /* gameState at 486 */
 };
 static asn_SEQUENCE_specifics_t asn_SPC_PlayersTurnMessage_specs_1 = {
 	sizeof(struct PlayersTurnMessage),
@@ -68,10 +68,10 @@ asn_TYPE_descriptor_t asn_DEF_PlayersTurnMessage = {
 	0,	/* Use generic outmost tag fetcher */
 	asn_DEF_PlayersTurnMessage_tags_1,
 	sizeof(asn_DEF_PlayersTurnMessage_tags_1)
-		/sizeof(asn_DEF_PlayersTurnMessage_tags_1[0]) - 1, /* 1 */
+	/sizeof(asn_DEF_PlayersTurnMessage_tags_1[0]) - 1, /* 1 */
 	asn_DEF_PlayersTurnMessage_tags_1,	/* Same as above */
 	sizeof(asn_DEF_PlayersTurnMessage_tags_1)
-		/sizeof(asn_DEF_PlayersTurnMessage_tags_1[0]), /* 2 */
+	/sizeof(asn_DEF_PlayersTurnMessage_tags_1[0]), /* 2 */
 	0,	/* No PER visible constraints */
 	asn_MBR_PlayersTurnMessage_1,
 	3,	/* Elements count */

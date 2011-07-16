@@ -20,23 +20,23 @@
 extern "C" {
 #endif
 
-/* DealFlopCardsMessage */
-typedef struct DealFlopCardsMessage {
-	NonZeroId_t	 gameId;
-	Card_t	 flopCard1;
-	Card_t	 flopCard2;
-	Card_t	 flopCard3;
-	/*
-	 * This type is extensible,
-	 * possible extensions are below.
-	 */
-	
-	/* Context for parsing across buffer boundaries */
-	asn_struct_ctx_t _asn_ctx;
-} DealFlopCardsMessage_t;
+	/* DealFlopCardsMessage */
+	typedef struct DealFlopCardsMessage {
+		NonZeroId_t	 gameId;
+		Card_t	 flopCard1;
+		Card_t	 flopCard2;
+		Card_t	 flopCard3;
+		/*
+		 * This type is extensible,
+		 * possible extensions are below.
+		 */
 
-/* Implementation */
-extern asn_TYPE_descriptor_t asn_DEF_DealFlopCardsMessage;
+		/* Context for parsing across buffer boundaries */
+		asn_struct_ctx_t _asn_ctx;
+	} DealFlopCardsMessage_t;
+
+	/* Implementation */
+	extern asn_TYPE_descriptor_t asn_DEF_DealFlopCardsMessage;
 
 #ifdef __cplusplus
 }

@@ -19,20 +19,20 @@
 extern "C" {
 #endif
 
-/* AuthServerChallenge */
-typedef struct AuthServerChallenge {
-	OCTET_STRING_t	 serverChallenge;
-	/*
-	 * This type is extensible,
-	 * possible extensions are below.
-	 */
-	
-	/* Context for parsing across buffer boundaries */
-	asn_struct_ctx_t _asn_ctx;
-} AuthServerChallenge_t;
+	/* AuthServerChallenge */
+	typedef struct AuthServerChallenge {
+		OCTET_STRING_t	 serverChallenge;
+		/*
+		 * This type is extensible,
+		 * possible extensions are below.
+		 */
 
-/* Implementation */
-extern asn_TYPE_descriptor_t asn_DEF_AuthServerChallenge;
+		/* Context for parsing across buffer boundaries */
+		asn_struct_ctx_t _asn_ctx;
+	} AuthServerChallenge_t;
+
+	/* Implementation */
+	extern asn_TYPE_descriptor_t asn_DEF_AuthServerChallenge;
 
 #ifdef __cplusplus
 }

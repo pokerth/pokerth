@@ -21,35 +21,36 @@
 extern "C" {
 #endif
 
-/* Dependencies */
-typedef enum AuthMessage_PR {
-	AuthMessage_PR_NOTHING,	/* No components present */
-	AuthMessage_PR_authServerChallenge,
-	AuthMessage_PR_authClientResponse,
-	AuthMessage_PR_authServerVerification,
-	/* Extensions may appear below */
-	
-} AuthMessage_PR;
+	/* Dependencies */
+	typedef enum AuthMessage_PR {
+		AuthMessage_PR_NOTHING,	/* No components present */
+		AuthMessage_PR_authServerChallenge,
+		AuthMessage_PR_authClientResponse,
+		AuthMessage_PR_authServerVerification,
+		/* Extensions may appear below */
 
-/* AuthMessage */
-typedef struct AuthMessage {
-	AuthMessage_PR present;
-	union AuthMessage_u {
-		AuthServerChallenge_t	 authServerChallenge;
-		AuthClientResponse_t	 authClientResponse;
-		AuthServerVerification_t	 authServerVerification;
-		/*
-		 * This type is extensible,
-		 * possible extensions are below.
-		 */
-	} choice;
-	
-	/* Context for parsing across buffer boundaries */
-	asn_struct_ctx_t _asn_ctx;
-} AuthMessage_t;
+	}
+	AuthMessage_PR;
 
-/* Implementation */
-extern asn_TYPE_descriptor_t asn_DEF_AuthMessage;
+	/* AuthMessage */
+	typedef struct AuthMessage {
+		AuthMessage_PR present;
+		union AuthMessage_u {
+			AuthServerChallenge_t	 authServerChallenge;
+			AuthClientResponse_t	 authClientResponse;
+			AuthServerVerification_t	 authServerVerification;
+			/*
+			 * This type is extensible,
+			 * possible extensions are below.
+			 */
+		} choice;
+
+		/* Context for parsing across buffer boundaries */
+		asn_struct_ctx_t _asn_ctx;
+	} AuthMessage_t;
+
+	/* Implementation */
+	extern asn_TYPE_descriptor_t asn_DEF_AuthMessage;
 
 #ifdef __cplusplus
 }

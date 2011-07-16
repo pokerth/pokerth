@@ -19,20 +19,20 @@
 extern "C" {
 #endif
 
-/* AuthClientResponse */
-typedef struct AuthClientResponse {
-	OCTET_STRING_t	 clientResponse;
-	/*
-	 * This type is extensible,
-	 * possible extensions are below.
-	 */
-	
-	/* Context for parsing across buffer boundaries */
-	asn_struct_ctx_t _asn_ctx;
-} AuthClientResponse_t;
+	/* AuthClientResponse */
+	typedef struct AuthClientResponse {
+		OCTET_STRING_t	 clientResponse;
+		/*
+		 * This type is extensible,
+		 * possible extensions are below.
+		 */
 
-/* Implementation */
-extern asn_TYPE_descriptor_t asn_DEF_AuthClientResponse;
+		/* Context for parsing across buffer boundaries */
+		asn_struct_ctx_t _asn_ctx;
+	} AuthClientResponse_t;
+
+	/* Implementation */
+	extern asn_TYPE_descriptor_t asn_DEF_AuthClientResponse;
 
 #ifdef __cplusplus
 }

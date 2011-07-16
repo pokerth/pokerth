@@ -24,29 +24,29 @@
 extern "C" {
 #endif
 
-/* GameListNew */
-typedef struct GameListNew {
-	NetGameMode_t	 gameMode;
-	BOOLEAN_t	 isPrivate;
-	struct playerIds {
-		A_SEQUENCE_OF(NonZeroId_t) list;
-		
+	/* GameListNew */
+	typedef struct GameListNew {
+		NetGameMode_t	 gameMode;
+		BOOLEAN_t	 isPrivate;
+		struct playerIds {
+			A_SEQUENCE_OF(NonZeroId_t) list;
+
+			/* Context for parsing across buffer boundaries */
+			asn_struct_ctx_t _asn_ctx;
+		} playerIds;
+		NonZeroId_t	 adminPlayerId;
+		NetGameInfo_t	 gameInfo;
+		/*
+		 * This type is extensible,
+		 * possible extensions are below.
+		 */
+
 		/* Context for parsing across buffer boundaries */
 		asn_struct_ctx_t _asn_ctx;
-	} playerIds;
-	NonZeroId_t	 adminPlayerId;
-	NetGameInfo_t	 gameInfo;
-	/*
-	 * This type is extensible,
-	 * possible extensions are below.
-	 */
-	
-	/* Context for parsing across buffer boundaries */
-	asn_struct_ctx_t _asn_ctx;
-} GameListNew_t;
+	} GameListNew_t;
 
-/* Implementation */
-extern asn_TYPE_descriptor_t asn_DEF_GameListNew;
+	/* Implementation */
+	extern asn_TYPE_descriptor_t asn_DEF_GameListNew;
 
 #ifdef __cplusplus
 }

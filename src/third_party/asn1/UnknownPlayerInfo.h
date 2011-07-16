@@ -18,19 +18,19 @@
 extern "C" {
 #endif
 
-/* UnknownPlayerInfo */
-typedef struct UnknownPlayerInfo {
-	/*
-	 * This type is extensible,
-	 * possible extensions are below.
-	 */
-	
-	/* Context for parsing across buffer boundaries */
-	asn_struct_ctx_t _asn_ctx;
-} UnknownPlayerInfo_t;
+	/* UnknownPlayerInfo */
+	typedef struct UnknownPlayerInfo {
+		/*
+		 * This type is extensible,
+		 * possible extensions are below.
+		 */
 
-/* Implementation */
-extern asn_TYPE_descriptor_t asn_DEF_UnknownPlayerInfo;
+		/* Context for parsing across buffer boundaries */
+		asn_struct_ctx_t _asn_ctx;
+	} UnknownPlayerInfo_t;
+
+	/* Implementation */
+	extern asn_TYPE_descriptor_t asn_DEF_UnknownPlayerInfo;
 
 #ifdef __cplusplus
 }

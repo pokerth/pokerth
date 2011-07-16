@@ -9,25 +9,25 @@
 
 static int
 requestId_2_constraint(asn_TYPE_descriptor_t *td, const void *sptr,
-			asn_app_constraint_failed_f *ctfailcb, void *app_key) {
+                       asn_app_constraint_failed_f *ctfailcb, void *app_key) {
 	unsigned long value;
-	
+
 	if(!sptr) {
 		_ASN_CTFAIL(app_key, td, sptr,
-			"%s: value not given (%s:%d)",
-			td->name, __FILE__, __LINE__);
+		            "%s: value not given (%s:%d)",
+		            td->name, __FILE__, __LINE__);
 		return -1;
 	}
-	
+
 	value = *(const unsigned long *)sptr;
-	
+
 	if((value >= 1 && value <= 4294967295)) {
 		/* Constraint check succeeded */
 		return 0;
 	} else {
 		_ASN_CTFAIL(app_key, td, sptr,
-			"%s: constraint failed (%s:%d)",
-			td->name, __FILE__, __LINE__);
+		            "%s: constraint failed (%s:%d)",
+		            td->name, __FILE__, __LINE__);
 		return -1;
 	}
 }
@@ -50,74 +50,74 @@ requestId_2_inherit_TYPE_descriptor(asn_TYPE_descriptor_t *td) {
 		td->per_constraints = asn_DEF_NativeInteger.per_constraints;
 	td->elements       = asn_DEF_NativeInteger.elements;
 	td->elements_count = asn_DEF_NativeInteger.elements_count;
-     /* td->specifics      = asn_DEF_NativeInteger.specifics;	// Defined explicitly */
+	/* td->specifics      = asn_DEF_NativeInteger.specifics;	// Defined explicitly */
 }
 
 static void
 requestId_2_free(asn_TYPE_descriptor_t *td,
-		void *struct_ptr, int contents_only) {
+                 void *struct_ptr, int contents_only) {
 	requestId_2_inherit_TYPE_descriptor(td);
 	td->free_struct(td, struct_ptr, contents_only);
 }
 
 static int
 requestId_2_print(asn_TYPE_descriptor_t *td, const void *struct_ptr,
-		int ilevel, asn_app_consume_bytes_f *cb, void *app_key) {
+                  int ilevel, asn_app_consume_bytes_f *cb, void *app_key) {
 	requestId_2_inherit_TYPE_descriptor(td);
 	return td->print_struct(td, struct_ptr, ilevel, cb, app_key);
 }
 
 static asn_dec_rval_t
 requestId_2_decode_ber(asn_codec_ctx_t *opt_codec_ctx, asn_TYPE_descriptor_t *td,
-		void **structure, const void *bufptr, size_t size, int tag_mode) {
+                       void **structure, const void *bufptr, size_t size, int tag_mode) {
 	requestId_2_inherit_TYPE_descriptor(td);
 	return td->ber_decoder(opt_codec_ctx, td, structure, bufptr, size, tag_mode);
 }
 
 static asn_enc_rval_t
 requestId_2_encode_der(asn_TYPE_descriptor_t *td,
-		void *structure, int tag_mode, ber_tlv_tag_t tag,
-		asn_app_consume_bytes_f *cb, void *app_key) {
+                       void *structure, int tag_mode, ber_tlv_tag_t tag,
+                       asn_app_consume_bytes_f *cb, void *app_key) {
 	requestId_2_inherit_TYPE_descriptor(td);
 	return td->der_encoder(td, structure, tag_mode, tag, cb, app_key);
 }
 
 static asn_dec_rval_t
 requestId_2_decode_xer(asn_codec_ctx_t *opt_codec_ctx, asn_TYPE_descriptor_t *td,
-		void **structure, const char *opt_mname, const void *bufptr, size_t size) {
+                       void **structure, const char *opt_mname, const void *bufptr, size_t size) {
 	requestId_2_inherit_TYPE_descriptor(td);
 	return td->xer_decoder(opt_codec_ctx, td, structure, opt_mname, bufptr, size);
 }
 
 static asn_enc_rval_t
 requestId_2_encode_xer(asn_TYPE_descriptor_t *td, void *structure,
-		int ilevel, enum xer_encoder_flags_e flags,
-		asn_app_consume_bytes_f *cb, void *app_key) {
+                       int ilevel, enum xer_encoder_flags_e flags,
+                       asn_app_consume_bytes_f *cb, void *app_key) {
 	requestId_2_inherit_TYPE_descriptor(td);
 	return td->xer_encoder(td, structure, ilevel, flags, cb, app_key);
 }
 
 static int
 playerId_4_constraint(asn_TYPE_descriptor_t *td, const void *sptr,
-			asn_app_constraint_failed_f *ctfailcb, void *app_key) {
+                      asn_app_constraint_failed_f *ctfailcb, void *app_key) {
 	unsigned long value;
-	
+
 	if(!sptr) {
 		_ASN_CTFAIL(app_key, td, sptr,
-			"%s: value not given (%s:%d)",
-			td->name, __FILE__, __LINE__);
+		            "%s: value not given (%s:%d)",
+		            td->name, __FILE__, __LINE__);
 		return -1;
 	}
-	
+
 	value = *(const unsigned long *)sptr;
-	
+
 	if((value >= 1 && value <= 4294967295)) {
 		/* Constraint check succeeded */
 		return 0;
 	} else {
 		_ASN_CTFAIL(app_key, td, sptr,
-			"%s: constraint failed (%s:%d)",
-			td->name, __FILE__, __LINE__);
+		            "%s: constraint failed (%s:%d)",
+		            td->name, __FILE__, __LINE__);
 		return -1;
 	}
 }
@@ -140,56 +140,56 @@ playerId_4_inherit_TYPE_descriptor(asn_TYPE_descriptor_t *td) {
 		td->per_constraints = asn_DEF_NativeInteger.per_constraints;
 	td->elements       = asn_DEF_NativeInteger.elements;
 	td->elements_count = asn_DEF_NativeInteger.elements_count;
-     /* td->specifics      = asn_DEF_NativeInteger.specifics;	// Defined explicitly */
+	/* td->specifics      = asn_DEF_NativeInteger.specifics;	// Defined explicitly */
 }
 
 static void
 playerId_4_free(asn_TYPE_descriptor_t *td,
-		void *struct_ptr, int contents_only) {
+                void *struct_ptr, int contents_only) {
 	playerId_4_inherit_TYPE_descriptor(td);
 	td->free_struct(td, struct_ptr, contents_only);
 }
 
 static int
 playerId_4_print(asn_TYPE_descriptor_t *td, const void *struct_ptr,
-		int ilevel, asn_app_consume_bytes_f *cb, void *app_key) {
+                 int ilevel, asn_app_consume_bytes_f *cb, void *app_key) {
 	playerId_4_inherit_TYPE_descriptor(td);
 	return td->print_struct(td, struct_ptr, ilevel, cb, app_key);
 }
 
 static asn_dec_rval_t
 playerId_4_decode_ber(asn_codec_ctx_t *opt_codec_ctx, asn_TYPE_descriptor_t *td,
-		void **structure, const void *bufptr, size_t size, int tag_mode) {
+                      void **structure, const void *bufptr, size_t size, int tag_mode) {
 	playerId_4_inherit_TYPE_descriptor(td);
 	return td->ber_decoder(opt_codec_ctx, td, structure, bufptr, size, tag_mode);
 }
 
 static asn_enc_rval_t
 playerId_4_encode_der(asn_TYPE_descriptor_t *td,
-		void *structure, int tag_mode, ber_tlv_tag_t tag,
-		asn_app_consume_bytes_f *cb, void *app_key) {
+                      void *structure, int tag_mode, ber_tlv_tag_t tag,
+                      asn_app_consume_bytes_f *cb, void *app_key) {
 	playerId_4_inherit_TYPE_descriptor(td);
 	return td->der_encoder(td, structure, tag_mode, tag, cb, app_key);
 }
 
 static asn_dec_rval_t
 playerId_4_decode_xer(asn_codec_ctx_t *opt_codec_ctx, asn_TYPE_descriptor_t *td,
-		void **structure, const char *opt_mname, const void *bufptr, size_t size) {
+                      void **structure, const char *opt_mname, const void *bufptr, size_t size) {
 	playerId_4_inherit_TYPE_descriptor(td);
 	return td->xer_decoder(opt_codec_ctx, td, structure, opt_mname, bufptr, size);
 }
 
 static asn_enc_rval_t
 playerId_4_encode_xer(asn_TYPE_descriptor_t *td, void *structure,
-		int ilevel, enum xer_encoder_flags_e flags,
-		asn_app_consume_bytes_f *cb, void *app_key) {
+                      int ilevel, enum xer_encoder_flags_e flags,
+                      asn_app_consume_bytes_f *cb, void *app_key) {
 	playerId_4_inherit_TYPE_descriptor(td);
 	return td->xer_encoder(td, structure, ilevel, flags, cb, app_key);
 }
 
 static int
 cleanerActionType_5_constraint(asn_TYPE_descriptor_t *td, const void *sptr,
-			asn_app_constraint_failed_f *ctfailcb, void *app_key) {
+                               asn_app_constraint_failed_f *ctfailcb, void *app_key) {
 	/* Replace with underlying type checker */
 	td->check_constraints = asn_DEF_NativeEnumerated.check_constraints;
 	return td->check_constraints(td, sptr, ctfailcb, app_key);
@@ -213,131 +213,131 @@ cleanerActionType_5_inherit_TYPE_descriptor(asn_TYPE_descriptor_t *td) {
 		td->per_constraints = asn_DEF_NativeEnumerated.per_constraints;
 	td->elements       = asn_DEF_NativeEnumerated.elements;
 	td->elements_count = asn_DEF_NativeEnumerated.elements_count;
-     /* td->specifics      = asn_DEF_NativeEnumerated.specifics;	// Defined explicitly */
+	/* td->specifics      = asn_DEF_NativeEnumerated.specifics;	// Defined explicitly */
 }
 
 static void
 cleanerActionType_5_free(asn_TYPE_descriptor_t *td,
-		void *struct_ptr, int contents_only) {
+                         void *struct_ptr, int contents_only) {
 	cleanerActionType_5_inherit_TYPE_descriptor(td);
 	td->free_struct(td, struct_ptr, contents_only);
 }
 
 static int
 cleanerActionType_5_print(asn_TYPE_descriptor_t *td, const void *struct_ptr,
-		int ilevel, asn_app_consume_bytes_f *cb, void *app_key) {
+                          int ilevel, asn_app_consume_bytes_f *cb, void *app_key) {
 	cleanerActionType_5_inherit_TYPE_descriptor(td);
 	return td->print_struct(td, struct_ptr, ilevel, cb, app_key);
 }
 
 static asn_dec_rval_t
 cleanerActionType_5_decode_ber(asn_codec_ctx_t *opt_codec_ctx, asn_TYPE_descriptor_t *td,
-		void **structure, const void *bufptr, size_t size, int tag_mode) {
+                               void **structure, const void *bufptr, size_t size, int tag_mode) {
 	cleanerActionType_5_inherit_TYPE_descriptor(td);
 	return td->ber_decoder(opt_codec_ctx, td, structure, bufptr, size, tag_mode);
 }
 
 static asn_enc_rval_t
 cleanerActionType_5_encode_der(asn_TYPE_descriptor_t *td,
-		void *structure, int tag_mode, ber_tlv_tag_t tag,
-		asn_app_consume_bytes_f *cb, void *app_key) {
+                               void *structure, int tag_mode, ber_tlv_tag_t tag,
+                               asn_app_consume_bytes_f *cb, void *app_key) {
 	cleanerActionType_5_inherit_TYPE_descriptor(td);
 	return td->der_encoder(td, structure, tag_mode, tag, cb, app_key);
 }
 
 static asn_dec_rval_t
 cleanerActionType_5_decode_xer(asn_codec_ctx_t *opt_codec_ctx, asn_TYPE_descriptor_t *td,
-		void **structure, const char *opt_mname, const void *bufptr, size_t size) {
+                               void **structure, const char *opt_mname, const void *bufptr, size_t size) {
 	cleanerActionType_5_inherit_TYPE_descriptor(td);
 	return td->xer_decoder(opt_codec_ctx, td, structure, opt_mname, bufptr, size);
 }
 
 static asn_enc_rval_t
 cleanerActionType_5_encode_xer(asn_TYPE_descriptor_t *td, void *structure,
-		int ilevel, enum xer_encoder_flags_e flags,
-		asn_app_consume_bytes_f *cb, void *app_key) {
+                               int ilevel, enum xer_encoder_flags_e flags,
+                               asn_app_consume_bytes_f *cb, void *app_key) {
 	cleanerActionType_5_inherit_TYPE_descriptor(td);
 	return td->xer_encoder(td, structure, ilevel, flags, cb, app_key);
 }
 
 static int
 memb_requestId_constraint_1(asn_TYPE_descriptor_t *td, const void *sptr,
-			asn_app_constraint_failed_f *ctfailcb, void *app_key) {
+                            asn_app_constraint_failed_f *ctfailcb, void *app_key) {
 	unsigned long value;
-	
+
 	if(!sptr) {
 		_ASN_CTFAIL(app_key, td, sptr,
-			"%s: value not given (%s:%d)",
-			td->name, __FILE__, __LINE__);
+		            "%s: value not given (%s:%d)",
+		            td->name, __FILE__, __LINE__);
 		return -1;
 	}
-	
+
 	value = *(const unsigned long *)sptr;
-	
+
 	if((value >= 1 && value <= 4294967295)) {
 		/* Constraint check succeeded */
 		return 0;
 	} else {
 		_ASN_CTFAIL(app_key, td, sptr,
-			"%s: constraint failed (%s:%d)",
-			td->name, __FILE__, __LINE__);
+		            "%s: constraint failed (%s:%d)",
+		            td->name, __FILE__, __LINE__);
 		return -1;
 	}
 }
 
 static int
 memb_playerId_constraint_1(asn_TYPE_descriptor_t *td, const void *sptr,
-			asn_app_constraint_failed_f *ctfailcb, void *app_key) {
+                           asn_app_constraint_failed_f *ctfailcb, void *app_key) {
 	unsigned long value;
-	
+
 	if(!sptr) {
 		_ASN_CTFAIL(app_key, td, sptr,
-			"%s: value not given (%s:%d)",
-			td->name, __FILE__, __LINE__);
+		            "%s: value not given (%s:%d)",
+		            td->name, __FILE__, __LINE__);
 		return -1;
 	}
-	
+
 	value = *(const unsigned long *)sptr;
-	
+
 	if((value >= 1 && value <= 4294967295)) {
 		/* Constraint check succeeded */
 		return 0;
 	} else {
 		_ASN_CTFAIL(app_key, td, sptr,
-			"%s: constraint failed (%s:%d)",
-			td->name, __FILE__, __LINE__);
+		            "%s: constraint failed (%s:%d)",
+		            td->name, __FILE__, __LINE__);
 		return -1;
 	}
 }
 
 static int
 memb_cleanerText_constraint_1(asn_TYPE_descriptor_t *td, const void *sptr,
-			asn_app_constraint_failed_f *ctfailcb, void *app_key) {
+                              asn_app_constraint_failed_f *ctfailcb, void *app_key) {
 	const UTF8String_t *st = (const UTF8String_t *)sptr;
 	size_t size;
-	
+
 	if(!sptr) {
 		_ASN_CTFAIL(app_key, td, sptr,
-			"%s: value not given (%s:%d)",
-			td->name, __FILE__, __LINE__);
+		            "%s: value not given (%s:%d)",
+		            td->name, __FILE__, __LINE__);
 		return -1;
 	}
-	
+
 	size = UTF8String_length(st);
 	if((ssize_t)size < 0) {
 		_ASN_CTFAIL(app_key, td, sptr,
-			"%s: UTF-8: broken encoding (%s:%d)",
-			td->name, __FILE__, __LINE__);
+		            "%s: UTF-8: broken encoding (%s:%d)",
+		            td->name, __FILE__, __LINE__);
 		return -1;
 	}
-	
+
 	if((size >= 1 && size <= 128)) {
 		/* Constraint check succeeded */
 		return 0;
 	} else {
 		_ASN_CTFAIL(app_key, td, sptr,
-			"%s: constraint failed (%s:%d)",
-			td->name, __FILE__, __LINE__);
+		            "%s: constraint failed (%s:%d)",
+		            td->name, __FILE__, __LINE__);
 		return -1;
 	}
 }
@@ -365,10 +365,10 @@ asn_TYPE_descriptor_t asn_DEF_requestId_2 = {
 	0,	/* Use generic outmost tag fetcher */
 	asn_DEF_requestId_tags_2,
 	sizeof(asn_DEF_requestId_tags_2)
-		/sizeof(asn_DEF_requestId_tags_2[0]), /* 1 */
+	/sizeof(asn_DEF_requestId_tags_2[0]), /* 1 */
 	asn_DEF_requestId_tags_2,	/* Same as above */
 	sizeof(asn_DEF_requestId_tags_2)
-		/sizeof(asn_DEF_requestId_tags_2[0]), /* 1 */
+	/sizeof(asn_DEF_requestId_tags_2[0]), /* 1 */
 	0,	/* No PER visible constraints */
 	0, 0,	/* No members */
 	&asn_SPC_requestId_specs_2	/* Additional specs */
@@ -397,10 +397,10 @@ asn_TYPE_descriptor_t asn_DEF_playerId_4 = {
 	0,	/* Use generic outmost tag fetcher */
 	asn_DEF_playerId_tags_4,
 	sizeof(asn_DEF_playerId_tags_4)
-		/sizeof(asn_DEF_playerId_tags_4[0]), /* 1 */
+	/sizeof(asn_DEF_playerId_tags_4[0]), /* 1 */
 	asn_DEF_playerId_tags_4,	/* Same as above */
 	sizeof(asn_DEF_playerId_tags_4)
-		/sizeof(asn_DEF_playerId_tags_4[0]), /* 1 */
+	/sizeof(asn_DEF_playerId_tags_4[0]), /* 1 */
 	0,	/* No PER visible constraints */
 	0, 0,	/* No members */
 	&asn_SPC_playerId_specs_4	/* Additional specs */
@@ -445,17 +445,17 @@ asn_TYPE_descriptor_t asn_DEF_cleanerActionType_5 = {
 	0,	/* Use generic outmost tag fetcher */
 	asn_DEF_cleanerActionType_tags_5,
 	sizeof(asn_DEF_cleanerActionType_tags_5)
-		/sizeof(asn_DEF_cleanerActionType_tags_5[0]), /* 1 */
+	/sizeof(asn_DEF_cleanerActionType_tags_5[0]), /* 1 */
 	asn_DEF_cleanerActionType_tags_5,	/* Same as above */
 	sizeof(asn_DEF_cleanerActionType_tags_5)
-		/sizeof(asn_DEF_cleanerActionType_tags_5[0]), /* 1 */
+	/sizeof(asn_DEF_cleanerActionType_tags_5[0]), /* 1 */
 	0,	/* No PER visible constraints */
 	0, 0,	/* Defined elsewhere */
 	&asn_SPC_cleanerActionType_specs_5	/* Additional specs */
 };
 
 static asn_TYPE_member_t asn_MBR_CleanerChatReplyMessage_1[] = {
-	{ ATF_NOFLAGS, 0, offsetof(struct CleanerChatReplyMessage, requestId),
+	{	ATF_NOFLAGS, 0, offsetof(struct CleanerChatReplyMessage, requestId),
 		(ASN_TAG_CLASS_UNIVERSAL | (2 << 2)),
 		0,
 		&asn_DEF_requestId_2,
@@ -463,8 +463,8 @@ static asn_TYPE_member_t asn_MBR_CleanerChatReplyMessage_1[] = {
 		0,	/* PER is not compiled, use -gen-PER */
 		0,
 		"requestId"
-		},
-	{ ATF_NOFLAGS, 0, offsetof(struct CleanerChatReplyMessage, cleanerChatType),
+	},
+	{	ATF_NOFLAGS, 0, offsetof(struct CleanerChatReplyMessage, cleanerChatType),
 		-1 /* Ambiguous tag (CHOICE?) */,
 		0,
 		&asn_DEF_CleanerChatType,
@@ -472,8 +472,8 @@ static asn_TYPE_member_t asn_MBR_CleanerChatReplyMessage_1[] = {
 		0,	/* PER is not compiled, use -gen-PER */
 		0,
 		"cleanerChatType"
-		},
-	{ ATF_NOFLAGS, 0, offsetof(struct CleanerChatReplyMessage, playerId),
+	},
+	{	ATF_NOFLAGS, 0, offsetof(struct CleanerChatReplyMessage, playerId),
 		(ASN_TAG_CLASS_UNIVERSAL | (2 << 2)),
 		0,
 		&asn_DEF_playerId_4,
@@ -481,8 +481,8 @@ static asn_TYPE_member_t asn_MBR_CleanerChatReplyMessage_1[] = {
 		0,	/* PER is not compiled, use -gen-PER */
 		0,
 		"playerId"
-		},
-	{ ATF_NOFLAGS, 0, offsetof(struct CleanerChatReplyMessage, cleanerActionType),
+	},
+	{	ATF_NOFLAGS, 0, offsetof(struct CleanerChatReplyMessage, cleanerActionType),
 		(ASN_TAG_CLASS_UNIVERSAL | (10 << 2)),
 		0,
 		&asn_DEF_cleanerActionType_5,
@@ -490,8 +490,8 @@ static asn_TYPE_member_t asn_MBR_CleanerChatReplyMessage_1[] = {
 		0,	/* PER is not compiled, use -gen-PER */
 		0,
 		"cleanerActionType"
-		},
-	{ ATF_POINTER, 1, offsetof(struct CleanerChatReplyMessage, cleanerText),
+	},
+	{	ATF_POINTER, 1, offsetof(struct CleanerChatReplyMessage, cleanerText),
 		(ASN_TAG_CLASS_UNIVERSAL | (12 << 2)),
 		0,
 		&asn_DEF_UTF8String,
@@ -499,19 +499,19 @@ static asn_TYPE_member_t asn_MBR_CleanerChatReplyMessage_1[] = {
 		0,	/* PER is not compiled, use -gen-PER */
 		0,
 		"cleanerText"
-		},
+	},
 };
 static ber_tlv_tag_t asn_DEF_CleanerChatReplyMessage_tags_1[] = {
 	(ASN_TAG_CLASS_APPLICATION | (3 << 2)),
 	(ASN_TAG_CLASS_UNIVERSAL | (16 << 2))
 };
 static asn_TYPE_tag2member_t asn_MAP_CleanerChatReplyMessage_tag2el_1[] = {
-    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 0, 0, 1 }, /* requestId at 64 */
-    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 2, -1, 0 }, /* playerId at 66 */
-    { (ASN_TAG_CLASS_UNIVERSAL | (10 << 2)), 3, 0, 0 }, /* cleanerActionType at 68 */
-    { (ASN_TAG_CLASS_UNIVERSAL | (12 << 2)), 4, 0, 0 }, /* cleanerText at 73 */
-    { (ASN_TAG_CLASS_CONTEXT | (0 << 2)), 1, 0, 0 }, /* cleanerChatTypeLobby at 44 */
-    { (ASN_TAG_CLASS_CONTEXT | (1 << 2)), 1, 0, 0 } /* cleanerChatTypeGame at 46 */
+	{ (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 0, 0, 1 }, /* requestId at 64 */
+	{ (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 2, -1, 0 }, /* playerId at 66 */
+	{ (ASN_TAG_CLASS_UNIVERSAL | (10 << 2)), 3, 0, 0 }, /* cleanerActionType at 68 */
+	{ (ASN_TAG_CLASS_UNIVERSAL | (12 << 2)), 4, 0, 0 }, /* cleanerText at 73 */
+	{ (ASN_TAG_CLASS_CONTEXT | (0 << 2)), 1, 0, 0 }, /* cleanerChatTypeLobby at 44 */
+	{ (ASN_TAG_CLASS_CONTEXT | (1 << 2)), 1, 0, 0 } /* cleanerChatTypeGame at 46 */
 };
 static asn_SEQUENCE_specifics_t asn_SPC_CleanerChatReplyMessage_specs_1 = {
 	sizeof(struct CleanerChatReplyMessage),
@@ -536,10 +536,10 @@ asn_TYPE_descriptor_t asn_DEF_CleanerChatReplyMessage = {
 	0,	/* Use generic outmost tag fetcher */
 	asn_DEF_CleanerChatReplyMessage_tags_1,
 	sizeof(asn_DEF_CleanerChatReplyMessage_tags_1)
-		/sizeof(asn_DEF_CleanerChatReplyMessage_tags_1[0]) - 1, /* 1 */
+	/sizeof(asn_DEF_CleanerChatReplyMessage_tags_1[0]) - 1, /* 1 */
 	asn_DEF_CleanerChatReplyMessage_tags_1,	/* Same as above */
 	sizeof(asn_DEF_CleanerChatReplyMessage_tags_1)
-		/sizeof(asn_DEF_CleanerChatReplyMessage_tags_1[0]), /* 2 */
+	/sizeof(asn_DEF_CleanerChatReplyMessage_tags_1[0]), /* 2 */
 	0,	/* No PER visible constraints */
 	asn_MBR_CleanerChatReplyMessage_1,
 	5,	/* Elements count */

@@ -8,7 +8,7 @@
 #include "JoinGameReplyMessage.h"
 
 static asn_TYPE_member_t asn_MBR_joinGameResult_3[] = {
-	{ ATF_NOFLAGS, 0, offsetof(struct joinGameResult, choice.joinGameAck),
+	{	ATF_NOFLAGS, 0, offsetof(struct joinGameResult, choice.joinGameAck),
 		(ASN_TAG_CLASS_CONTEXT | (0 << 2)),
 		-1,	/* IMPLICIT tag at current level */
 		&asn_DEF_JoinGameAck,
@@ -16,8 +16,8 @@ static asn_TYPE_member_t asn_MBR_joinGameResult_3[] = {
 		0,	/* PER is not compiled, use -gen-PER */
 		0,
 		"joinGameAck"
-		},
-	{ ATF_NOFLAGS, 0, offsetof(struct joinGameResult, choice.joinGameFailed),
+	},
+	{	ATF_NOFLAGS, 0, offsetof(struct joinGameResult, choice.joinGameFailed),
 		(ASN_TAG_CLASS_CONTEXT | (1 << 2)),
 		-1,	/* IMPLICIT tag at current level */
 		&asn_DEF_JoinGameFailed,
@@ -25,11 +25,11 @@ static asn_TYPE_member_t asn_MBR_joinGameResult_3[] = {
 		0,	/* PER is not compiled, use -gen-PER */
 		0,
 		"joinGameFailed"
-		},
+	},
 };
 static asn_TYPE_tag2member_t asn_MAP_joinGameResult_tag2el_3[] = {
-    { (ASN_TAG_CLASS_CONTEXT | (0 << 2)), 0, 0, 0 }, /* joinGameAck at 299 */
-    { (ASN_TAG_CLASS_CONTEXT | (1 << 2)), 1, 0, 0 } /* joinGameFailed at 301 */
+	{ (ASN_TAG_CLASS_CONTEXT | (0 << 2)), 0, 0, 0 }, /* joinGameAck at 305 */
+	{ (ASN_TAG_CLASS_CONTEXT | (1 << 2)), 1, 0, 0 } /* joinGameFailed at 307 */
 };
 static asn_CHOICE_specifics_t asn_SPC_joinGameResult_specs_3 = {
 	sizeof(struct joinGameResult),
@@ -65,7 +65,7 @@ asn_TYPE_descriptor_t asn_DEF_joinGameResult_3 = {
 };
 
 static asn_TYPE_member_t asn_MBR_JoinGameReplyMessage_1[] = {
-	{ ATF_NOFLAGS, 0, offsetof(struct JoinGameReplyMessage, gameId),
+	{	ATF_NOFLAGS, 0, offsetof(struct JoinGameReplyMessage, gameId),
 		(ASN_TAG_CLASS_UNIVERSAL | (2 << 2)),
 		0,
 		&asn_DEF_NonZeroId,
@@ -73,8 +73,8 @@ static asn_TYPE_member_t asn_MBR_JoinGameReplyMessage_1[] = {
 		0,	/* PER is not compiled, use -gen-PER */
 		0,
 		"gameId"
-		},
-	{ ATF_NOFLAGS, 0, offsetof(struct JoinGameReplyMessage, joinGameResult),
+	},
+	{	ATF_NOFLAGS, 0, offsetof(struct JoinGameReplyMessage, joinGameResult),
 		-1 /* Ambiguous tag (CHOICE?) */,
 		0,
 		&asn_DEF_joinGameResult_3,
@@ -82,16 +82,16 @@ static asn_TYPE_member_t asn_MBR_JoinGameReplyMessage_1[] = {
 		0,	/* PER is not compiled, use -gen-PER */
 		0,
 		"joinGameResult"
-		},
+	},
 };
 static ber_tlv_tag_t asn_DEF_JoinGameReplyMessage_tags_1[] = {
 	(ASN_TAG_CLASS_APPLICATION | (12 << 2)),
 	(ASN_TAG_CLASS_UNIVERSAL | (16 << 2))
 };
 static asn_TYPE_tag2member_t asn_MAP_JoinGameReplyMessage_tag2el_1[] = {
-    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 0, 0, 0 }, /* gameId at 297 */
-    { (ASN_TAG_CLASS_CONTEXT | (0 << 2)), 1, 0, 0 }, /* joinGameAck at 299 */
-    { (ASN_TAG_CLASS_CONTEXT | (1 << 2)), 1, 0, 0 } /* joinGameFailed at 301 */
+	{ (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 0, 0, 0 }, /* gameId at 303 */
+	{ (ASN_TAG_CLASS_CONTEXT | (0 << 2)), 1, 0, 0 }, /* joinGameAck at 305 */
+	{ (ASN_TAG_CLASS_CONTEXT | (1 << 2)), 1, 0, 0 } /* joinGameFailed at 307 */
 };
 static asn_SEQUENCE_specifics_t asn_SPC_JoinGameReplyMessage_specs_1 = {
 	sizeof(struct JoinGameReplyMessage),
@@ -116,10 +116,10 @@ asn_TYPE_descriptor_t asn_DEF_JoinGameReplyMessage = {
 	0,	/* Use generic outmost tag fetcher */
 	asn_DEF_JoinGameReplyMessage_tags_1,
 	sizeof(asn_DEF_JoinGameReplyMessage_tags_1)
-		/sizeof(asn_DEF_JoinGameReplyMessage_tags_1[0]) - 1, /* 1 */
+	/sizeof(asn_DEF_JoinGameReplyMessage_tags_1[0]) - 1, /* 1 */
 	asn_DEF_JoinGameReplyMessage_tags_1,	/* Same as above */
 	sizeof(asn_DEF_JoinGameReplyMessage_tags_1)
-		/sizeof(asn_DEF_JoinGameReplyMessage_tags_1[0]), /* 2 */
+	/sizeof(asn_DEF_JoinGameReplyMessage_tags_1[0]), /* 2 */
 	0,	/* No PER visible constraints */
 	asn_MBR_JoinGameReplyMessage_1,
 	2,	/* Elements count */

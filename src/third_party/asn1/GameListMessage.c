@@ -8,7 +8,7 @@
 #include "GameListMessage.h"
 
 static asn_TYPE_member_t asn_MBR_gameListNotification_3[] = {
-	{ ATF_NOFLAGS, 0, offsetof(struct gameListNotification, choice.gameListNew),
+	{	ATF_NOFLAGS, 0, offsetof(struct gameListNotification, choice.gameListNew),
 		(ASN_TAG_CLASS_CONTEXT | (0 << 2)),
 		-1,	/* IMPLICIT tag at current level */
 		&asn_DEF_GameListNew,
@@ -16,8 +16,8 @@ static asn_TYPE_member_t asn_MBR_gameListNotification_3[] = {
 		0,	/* PER is not compiled, use -gen-PER */
 		0,
 		"gameListNew"
-		},
-	{ ATF_NOFLAGS, 0, offsetof(struct gameListNotification, choice.gameListUpdate),
+	},
+	{	ATF_NOFLAGS, 0, offsetof(struct gameListNotification, choice.gameListUpdate),
 		(ASN_TAG_CLASS_CONTEXT | (1 << 2)),
 		-1,	/* IMPLICIT tag at current level */
 		&asn_DEF_GameListUpdate,
@@ -25,8 +25,8 @@ static asn_TYPE_member_t asn_MBR_gameListNotification_3[] = {
 		0,	/* PER is not compiled, use -gen-PER */
 		0,
 		"gameListUpdate"
-		},
-	{ ATF_NOFLAGS, 0, offsetof(struct gameListNotification, choice.gameListPlayerJoined),
+	},
+	{	ATF_NOFLAGS, 0, offsetof(struct gameListNotification, choice.gameListPlayerJoined),
 		(ASN_TAG_CLASS_CONTEXT | (2 << 2)),
 		-1,	/* IMPLICIT tag at current level */
 		&asn_DEF_GameListPlayerJoined,
@@ -34,8 +34,8 @@ static asn_TYPE_member_t asn_MBR_gameListNotification_3[] = {
 		0,	/* PER is not compiled, use -gen-PER */
 		0,
 		"gameListPlayerJoined"
-		},
-	{ ATF_NOFLAGS, 0, offsetof(struct gameListNotification, choice.gameListPlayerLeft),
+	},
+	{	ATF_NOFLAGS, 0, offsetof(struct gameListNotification, choice.gameListPlayerLeft),
 		(ASN_TAG_CLASS_CONTEXT | (3 << 2)),
 		-1,	/* IMPLICIT tag at current level */
 		&asn_DEF_GameListPlayerLeft,
@@ -43,8 +43,8 @@ static asn_TYPE_member_t asn_MBR_gameListNotification_3[] = {
 		0,	/* PER is not compiled, use -gen-PER */
 		0,
 		"gameListPlayerLeft"
-		},
-	{ ATF_NOFLAGS, 0, offsetof(struct gameListNotification, choice.gameListAdminChanged),
+	},
+	{	ATF_NOFLAGS, 0, offsetof(struct gameListNotification, choice.gameListAdminChanged),
 		(ASN_TAG_CLASS_CONTEXT | (4 << 2)),
 		-1,	/* IMPLICIT tag at current level */
 		&asn_DEF_GameListAdminChanged,
@@ -52,14 +52,14 @@ static asn_TYPE_member_t asn_MBR_gameListNotification_3[] = {
 		0,	/* PER is not compiled, use -gen-PER */
 		0,
 		"gameListAdminChanged"
-		},
+	},
 };
 static asn_TYPE_tag2member_t asn_MAP_gameListNotification_tag2el_3[] = {
-    { (ASN_TAG_CLASS_CONTEXT | (0 << 2)), 0, 0, 0 }, /* gameListNew at 199 */
-    { (ASN_TAG_CLASS_CONTEXT | (1 << 2)), 1, 0, 0 }, /* gameListUpdate at 200 */
-    { (ASN_TAG_CLASS_CONTEXT | (2 << 2)), 2, 0, 0 }, /* gameListPlayerJoined at 201 */
-    { (ASN_TAG_CLASS_CONTEXT | (3 << 2)), 3, 0, 0 }, /* gameListPlayerLeft at 202 */
-    { (ASN_TAG_CLASS_CONTEXT | (4 << 2)), 4, 0, 0 } /* gameListAdminChanged at 204 */
+	{ (ASN_TAG_CLASS_CONTEXT | (0 << 2)), 0, 0, 0 }, /* gameListNew at 201 */
+	{ (ASN_TAG_CLASS_CONTEXT | (1 << 2)), 1, 0, 0 }, /* gameListUpdate at 202 */
+	{ (ASN_TAG_CLASS_CONTEXT | (2 << 2)), 2, 0, 0 }, /* gameListPlayerJoined at 203 */
+	{ (ASN_TAG_CLASS_CONTEXT | (3 << 2)), 3, 0, 0 }, /* gameListPlayerLeft at 204 */
+	{ (ASN_TAG_CLASS_CONTEXT | (4 << 2)), 4, 0, 0 } /* gameListAdminChanged at 206 */
 };
 static asn_CHOICE_specifics_t asn_SPC_gameListNotification_specs_3 = {
 	sizeof(struct gameListNotification),
@@ -95,7 +95,7 @@ asn_TYPE_descriptor_t asn_DEF_gameListNotification_3 = {
 };
 
 static asn_TYPE_member_t asn_MBR_GameListMessage_1[] = {
-	{ ATF_NOFLAGS, 0, offsetof(struct GameListMessage, gameId),
+	{	ATF_NOFLAGS, 0, offsetof(struct GameListMessage, gameId),
 		(ASN_TAG_CLASS_UNIVERSAL | (2 << 2)),
 		0,
 		&asn_DEF_NonZeroId,
@@ -103,8 +103,8 @@ static asn_TYPE_member_t asn_MBR_GameListMessage_1[] = {
 		0,	/* PER is not compiled, use -gen-PER */
 		0,
 		"gameId"
-		},
-	{ ATF_NOFLAGS, 0, offsetof(struct GameListMessage, gameListNotification),
+	},
+	{	ATF_NOFLAGS, 0, offsetof(struct GameListMessage, gameListNotification),
 		-1 /* Ambiguous tag (CHOICE?) */,
 		0,
 		&asn_DEF_gameListNotification_3,
@@ -112,19 +112,19 @@ static asn_TYPE_member_t asn_MBR_GameListMessage_1[] = {
 		0,	/* PER is not compiled, use -gen-PER */
 		0,
 		"gameListNotification"
-		},
+	},
 };
 static ber_tlv_tag_t asn_DEF_GameListMessage_tags_1[] = {
 	(ASN_TAG_CLASS_APPLICATION | (7 << 2)),
 	(ASN_TAG_CLASS_UNIVERSAL | (16 << 2))
 };
 static asn_TYPE_tag2member_t asn_MAP_GameListMessage_tag2el_1[] = {
-    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 0, 0, 0 }, /* gameId at 197 */
-    { (ASN_TAG_CLASS_CONTEXT | (0 << 2)), 1, 0, 0 }, /* gameListNew at 199 */
-    { (ASN_TAG_CLASS_CONTEXT | (1 << 2)), 1, 0, 0 }, /* gameListUpdate at 200 */
-    { (ASN_TAG_CLASS_CONTEXT | (2 << 2)), 1, 0, 0 }, /* gameListPlayerJoined at 201 */
-    { (ASN_TAG_CLASS_CONTEXT | (3 << 2)), 1, 0, 0 }, /* gameListPlayerLeft at 202 */
-    { (ASN_TAG_CLASS_CONTEXT | (4 << 2)), 1, 0, 0 } /* gameListAdminChanged at 204 */
+	{ (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 0, 0, 0 }, /* gameId at 199 */
+	{ (ASN_TAG_CLASS_CONTEXT | (0 << 2)), 1, 0, 0 }, /* gameListNew at 201 */
+	{ (ASN_TAG_CLASS_CONTEXT | (1 << 2)), 1, 0, 0 }, /* gameListUpdate at 202 */
+	{ (ASN_TAG_CLASS_CONTEXT | (2 << 2)), 1, 0, 0 }, /* gameListPlayerJoined at 203 */
+	{ (ASN_TAG_CLASS_CONTEXT | (3 << 2)), 1, 0, 0 }, /* gameListPlayerLeft at 204 */
+	{ (ASN_TAG_CLASS_CONTEXT | (4 << 2)), 1, 0, 0 } /* gameListAdminChanged at 206 */
 };
 static asn_SEQUENCE_specifics_t asn_SPC_GameListMessage_specs_1 = {
 	sizeof(struct GameListMessage),
@@ -149,10 +149,10 @@ asn_TYPE_descriptor_t asn_DEF_GameListMessage = {
 	0,	/* Use generic outmost tag fetcher */
 	asn_DEF_GameListMessage_tags_1,
 	sizeof(asn_DEF_GameListMessage_tags_1)
-		/sizeof(asn_DEF_GameListMessage_tags_1[0]) - 1, /* 1 */
+	/sizeof(asn_DEF_GameListMessage_tags_1[0]) - 1, /* 1 */
 	asn_DEF_GameListMessage_tags_1,	/* Same as above */
 	sizeof(asn_DEF_GameListMessage_tags_1)
-		/sizeof(asn_DEF_GameListMessage_tags_1[0]), /* 2 */
+	/sizeof(asn_DEF_GameListMessage_tags_1[0]), /* 2 */
 	0,	/* No PER visible constraints */
 	asn_MBR_GameListMessage_1,
 	2,	/* Elements count */

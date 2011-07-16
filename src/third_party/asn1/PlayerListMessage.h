@@ -20,28 +20,29 @@
 extern "C" {
 #endif
 
-/* Dependencies */
-typedef enum playerListNotification {
-	playerListNotification_playerListNew	= 0,
-	playerListNotification_playerListLeft	= 1
-} e_playerListNotification;
+	/* Dependencies */
+	typedef enum playerListNotification {
+		playerListNotification_playerListNew	= 0,
+		   playerListNotification_playerListLeft	= 1
+	}
+	           e_playerListNotification;
 
-/* PlayerListMessage */
-typedef struct PlayerListMessage {
-	NonZeroId_t	 playerId;
-	long	 playerListNotification;
-	/*
-	 * This type is extensible,
-	 * possible extensions are below.
-	 */
-	
-	/* Context for parsing across buffer boundaries */
-	asn_struct_ctx_t _asn_ctx;
-} PlayerListMessage_t;
+	/* PlayerListMessage */
+	typedef struct PlayerListMessage {
+		NonZeroId_t	 playerId;
+		long	 playerListNotification;
+		/*
+		 * This type is extensible,
+		 * possible extensions are below.
+		 */
 
-/* Implementation */
-/* extern asn_TYPE_descriptor_t asn_DEF_playerListNotification_3;	// (Use -fall-defs-global to expose) */
-extern asn_TYPE_descriptor_t asn_DEF_PlayerListMessage;
+		/* Context for parsing across buffer boundaries */
+		asn_struct_ctx_t _asn_ctx;
+	} PlayerListMessage_t;
+
+	/* Implementation */
+	/* extern asn_TYPE_descriptor_t asn_DEF_playerListNotification_3;	// (Use -fall-defs-global to expose) */
+	extern asn_TYPE_descriptor_t asn_DEF_PlayerListMessage;
 
 #ifdef __cplusplus
 }

@@ -19,20 +19,20 @@
 extern "C" {
 #endif
 
-/* AfkWarningMessage */
-typedef struct AfkWarningMessage {
-	long	 remainingTimeouts;
-	/*
-	 * This type is extensible,
-	 * possible extensions are below.
-	 */
-	
-	/* Context for parsing across buffer boundaries */
-	asn_struct_ctx_t _asn_ctx;
-} AfkWarningMessage_t;
+	/* AfkWarningMessage */
+	typedef struct AfkWarningMessage {
+		long	 remainingTimeouts;
+		/*
+		 * This type is extensible,
+		 * possible extensions are below.
+		 */
 
-/* Implementation */
-extern asn_TYPE_descriptor_t asn_DEF_AfkWarningMessage;
+		/* Context for parsing across buffer boundaries */
+		asn_struct_ctx_t _asn_ctx;
+	} AfkWarningMessage_t;
+
+	/* Implementation */
+	extern asn_TYPE_descriptor_t asn_DEF_AfkWarningMessage;
 
 #ifdef __cplusplus
 }

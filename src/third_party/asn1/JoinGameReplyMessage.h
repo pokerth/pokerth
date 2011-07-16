@@ -22,43 +22,44 @@
 extern "C" {
 #endif
 
-/* Dependencies */
-typedef enum joinGameResult_PR {
-	joinGameResult_PR_NOTHING,	/* No components present */
-	joinGameResult_PR_joinGameAck,
-	joinGameResult_PR_joinGameFailed,
-	/* Extensions may appear below */
-	
-} joinGameResult_PR;
+	/* Dependencies */
+	typedef enum joinGameResult_PR {
+		joinGameResult_PR_NOTHING,	/* No components present */
+		joinGameResult_PR_joinGameAck,
+		joinGameResult_PR_joinGameFailed,
+		/* Extensions may appear below */
 
-/* JoinGameReplyMessage */
-typedef struct JoinGameReplyMessage {
-	NonZeroId_t	 gameId;
-	struct joinGameResult {
-		joinGameResult_PR present;
-		union JoinGameReplyMessage__joinGameResult_u {
-			JoinGameAck_t	 joinGameAck;
-			JoinGameFailed_t	 joinGameFailed;
-			/*
-			 * This type is extensible,
-			 * possible extensions are below.
-			 */
-		} choice;
-		
+	}
+	joinGameResult_PR;
+
+	/* JoinGameReplyMessage */
+	typedef struct JoinGameReplyMessage {
+		NonZeroId_t	 gameId;
+		struct joinGameResult {
+			joinGameResult_PR present;
+			union JoinGameReplyMessage__joinGameResult_u {
+				JoinGameAck_t	 joinGameAck;
+				JoinGameFailed_t	 joinGameFailed;
+				/*
+				 * This type is extensible,
+				 * possible extensions are below.
+				 */
+			} choice;
+
+			/* Context for parsing across buffer boundaries */
+			asn_struct_ctx_t _asn_ctx;
+		} joinGameResult;
+		/*
+		 * This type is extensible,
+		 * possible extensions are below.
+		 */
+
 		/* Context for parsing across buffer boundaries */
 		asn_struct_ctx_t _asn_ctx;
-	} joinGameResult;
-	/*
-	 * This type is extensible,
-	 * possible extensions are below.
-	 */
-	
-	/* Context for parsing across buffer boundaries */
-	asn_struct_ctx_t _asn_ctx;
-} JoinGameReplyMessage_t;
+	} JoinGameReplyMessage_t;
 
-/* Implementation */
-extern asn_TYPE_descriptor_t asn_DEF_JoinGameReplyMessage;
+	/* Implementation */
+	extern asn_TYPE_descriptor_t asn_DEF_JoinGameReplyMessage;
 
 #ifdef __cplusplus
 }

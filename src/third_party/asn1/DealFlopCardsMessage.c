@@ -8,7 +8,7 @@
 #include "DealFlopCardsMessage.h"
 
 static asn_TYPE_member_t asn_MBR_DealFlopCardsMessage_1[] = {
-	{ ATF_NOFLAGS, 0, offsetof(struct DealFlopCardsMessage, gameId),
+	{	ATF_NOFLAGS, 0, offsetof(struct DealFlopCardsMessage, gameId),
 		(ASN_TAG_CLASS_UNIVERSAL | (2 << 2)),
 		0,
 		&asn_DEF_NonZeroId,
@@ -16,8 +16,8 @@ static asn_TYPE_member_t asn_MBR_DealFlopCardsMessage_1[] = {
 		0,	/* PER is not compiled, use -gen-PER */
 		0,
 		"gameId"
-		},
-	{ ATF_NOFLAGS, 0, offsetof(struct DealFlopCardsMessage, flopCard1),
+	},
+	{	ATF_NOFLAGS, 0, offsetof(struct DealFlopCardsMessage, flopCard1),
 		(ASN_TAG_CLASS_UNIVERSAL | (2 << 2)),
 		0,
 		&asn_DEF_Card,
@@ -25,8 +25,8 @@ static asn_TYPE_member_t asn_MBR_DealFlopCardsMessage_1[] = {
 		0,	/* PER is not compiled, use -gen-PER */
 		0,
 		"flopCard1"
-		},
-	{ ATF_NOFLAGS, 0, offsetof(struct DealFlopCardsMessage, flopCard2),
+	},
+	{	ATF_NOFLAGS, 0, offsetof(struct DealFlopCardsMessage, flopCard2),
 		(ASN_TAG_CLASS_UNIVERSAL | (2 << 2)),
 		0,
 		&asn_DEF_Card,
@@ -34,8 +34,8 @@ static asn_TYPE_member_t asn_MBR_DealFlopCardsMessage_1[] = {
 		0,	/* PER is not compiled, use -gen-PER */
 		0,
 		"flopCard2"
-		},
-	{ ATF_NOFLAGS, 0, offsetof(struct DealFlopCardsMessage, flopCard3),
+	},
+	{	ATF_NOFLAGS, 0, offsetof(struct DealFlopCardsMessage, flopCard3),
 		(ASN_TAG_CLASS_UNIVERSAL | (2 << 2)),
 		0,
 		&asn_DEF_Card,
@@ -43,17 +43,17 @@ static asn_TYPE_member_t asn_MBR_DealFlopCardsMessage_1[] = {
 		0,	/* PER is not compiled, use -gen-PER */
 		0,
 		"flopCard3"
-		},
+	},
 };
 static ber_tlv_tag_t asn_DEF_DealFlopCardsMessage_tags_1[] = {
 	(ASN_TAG_CLASS_APPLICATION | (28 << 2)),
 	(ASN_TAG_CLASS_UNIVERSAL | (16 << 2))
 };
 static asn_TYPE_tag2member_t asn_MAP_DealFlopCardsMessage_tag2el_1[] = {
-    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 0, 0, 3 }, /* gameId at 497 */
-    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 1, -1, 2 }, /* flopCard1 at 498 */
-    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 2, -2, 1 }, /* flopCard2 at 499 */
-    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 3, -3, 0 } /* flopCard3 at 501 */
+	{ (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 0, 0, 3 }, /* gameId at 520 */
+	{ (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 1, -1, 2 }, /* flopCard1 at 521 */
+	{ (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 2, -2, 1 }, /* flopCard2 at 522 */
+	{ (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 3, -3, 0 } /* flopCard3 at 524 */
 };
 static asn_SEQUENCE_specifics_t asn_SPC_DealFlopCardsMessage_specs_1 = {
 	sizeof(struct DealFlopCardsMessage),
@@ -78,10 +78,10 @@ asn_TYPE_descriptor_t asn_DEF_DealFlopCardsMessage = {
 	0,	/* Use generic outmost tag fetcher */
 	asn_DEF_DealFlopCardsMessage_tags_1,
 	sizeof(asn_DEF_DealFlopCardsMessage_tags_1)
-		/sizeof(asn_DEF_DealFlopCardsMessage_tags_1[0]) - 1, /* 1 */
+	/sizeof(asn_DEF_DealFlopCardsMessage_tags_1[0]) - 1, /* 1 */
 	asn_DEF_DealFlopCardsMessage_tags_1,	/* Same as above */
 	sizeof(asn_DEF_DealFlopCardsMessage_tags_1)
-		/sizeof(asn_DEF_DealFlopCardsMessage_tags_1[0]), /* 2 */
+	/sizeof(asn_DEF_DealFlopCardsMessage_tags_1[0]), /* 2 */
 	0,	/* No PER visible constraints */
 	asn_MBR_DealFlopCardsMessage_1,
 	4,	/* Elements count */

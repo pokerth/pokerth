@@ -19,26 +19,26 @@
 extern "C" {
 #endif
 
-/* Environment version might be used to avoid running with the old library */
+	/* Environment version might be used to avoid running with the old library */
 #define	ASN1C_ENVIRONMENT_VERSION	923	/* Compile-time version */
-int get_asn1c_environment_version(void);	/* Run-time version */
+	int get_asn1c_environment_version(void);	/* Run-time version */
 
 #define	CALLOC(nmemb, size)	calloc(nmemb, size)
 #define	MALLOC(size)		malloc(size)
 #define	REALLOC(oldptr, size)	realloc(oldptr, size)
 #define	FREEMEM(ptr)		free(ptr)
 
-/*
- * A macro for debugging the ASN.1 internals.
- * You may enable or override it.
- */
+	/*
+	 * A macro for debugging the ASN.1 internals.
+	 * You may enable or override it.
+	 */
 #ifndef	ASN_DEBUG	/* If debugging code is not defined elsewhere... */
 #if	EMIT_ASN_DEBUG == 1	/* And it was asked to emit this code... */
 #ifdef	__GNUC__
 #ifdef	ASN_THREAD_SAFE
 #define	asn_debug_indent	0
 #else	/* !ASN_THREAD_SAFE */
-int asn_debug_indent;
+	int asn_debug_indent;
 #endif	/* ASN_THREAD_SAFE */
 #define	ASN_DEBUG(fmt, args...)	do {			\
 		int adi = asn_debug_indent;		\
@@ -48,17 +48,19 @@ int asn_debug_indent;
 			__FILE__, __LINE__);		\
 	} while(0)
 #else	/* !__GNUC__ */
-void ASN_DEBUG_f(const char *fmt, ...);
+	void ASN_DEBUG_f(const char *fmt, ...);
 #define	ASN_DEBUG	ASN_DEBUG_f
 #endif	/* __GNUC__ */
 #else	/* EMIT_ASN_DEBUG != 1 */
-static inline void ASN_DEBUG(const char *fmt, ...) { (void)fmt; }
+	static inline void ASN_DEBUG(const char *fmt, ...) {
+		(void)fmt;
+	}
 #endif	/* EMIT_ASN_DEBUG */
 #endif	/* ASN_DEBUG */
 
-/*
- * Invoke the application-supplied callback and fail, if something is wrong.
- */
+	/*
+	 * Invoke the application-supplied callback and fail, if something is wrong.
+	 */
 #define	__ASN_E_cbc(buf, size)	(cb((buf), (size), app_key) < 0)
 #define	_ASN_E_CALLBACK(foo)	do {					\
 		if(foo)	goto cb_failed;					\
@@ -90,27 +92,27 @@ static inline void ASN_DEBUG(const char *fmt, ...) { (void)fmt; }
 		if(cb("    ", 4, app_key) < 0) return -1;		\
 } while(0)
 
-/*
- * Check stack against overflow, if limit is set.
- */
+	/*
+	 * Check stack against overflow, if limit is set.
+	 */
 #define	_ASN_DEFAULT_STACK_MAX	(30000)
-static inline int
-_ASN_STACK_OVERFLOW_CHECK(asn_codec_ctx_t *ctx) {
-	if(ctx && ctx->max_stack_size) {
+	static inline int
+	_ASN_STACK_OVERFLOW_CHECK(asn_codec_ctx_t *ctx) {
+		if(ctx && ctx->max_stack_size) {
 
-		/* ctx MUST be allocated on the stack */
-		ptrdiff_t usedstack = ((char *)ctx - (char *)&ctx);
-		if(usedstack > 0) usedstack = -usedstack; /* grows up! */
+			/* ctx MUST be allocated on the stack */
+			ptrdiff_t usedstack = ((char *)ctx - (char *)&ctx);
+			if(usedstack > 0) usedstack = -usedstack; /* grows up! */
 
-		/* double negative required to avoid int wrap-around */
-		if(usedstack < -(ptrdiff_t)ctx->max_stack_size) {
-			ASN_DEBUG("Stack limit %ld reached",
-				(long)ctx->max_stack_size);
-			return -1;
+			/* double negative required to avoid int wrap-around */
+			if(usedstack < -(ptrdiff_t)ctx->max_stack_size) {
+				ASN_DEBUG("Stack limit %ld reached",
+				          (long)ctx->max_stack_size);
+				return -1;
+			}
 		}
+		return 0;
 	}
-	return 0;
-}
 
 #ifdef	__cplusplus
 }

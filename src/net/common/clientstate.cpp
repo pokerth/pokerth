@@ -1485,13 +1485,17 @@ ClientStateWaitStart::InternalHandlePacket(boost::shared_ptr<ClientThread> clien
 		GameStartMessage_t *netGameStart = &tmpPacket->GetMsg()->choice.gameStartMessage;
 
 		StartData startData;
-		startData.numberOfPlayers = netGameStart->playerSeats.list.count;
 		startData.startDealerPlayerId = netGameStart->startDealerPlayerId;
+		if (netGameStart->gameStartMode.present != gameStartMode_PR_gameStartModeInitial)
+			throw ClientException(__FILE__, __LINE__, ERR_NET_INTERNAL_GAME_ERROR, 0);
+
+		GameStartModeInitial_t *netStartModeInitial = &netGameStart->gameStartMode.choice.gameStartModeInitial;
+		startData.numberOfPlayers = netStartModeInitial->playerSeats.list.count;
 		client->SetStartData(startData);
 
 		// Set player numbers using the game start data slots.
-		NonZeroId_t **playerIds = netGameStart->playerSeats.list.array;
-		unsigned numPlayers = netGameStart->playerSeats.list.count;
+		NonZeroId_t **playerIds = netStartModeInitial->playerSeats.list.array;
+		unsigned numPlayers = netStartModeInitial->playerSeats.list.count;
 		// Request player info for players if needed.
 		if (numPlayers && playerIds && *playerIds) {
 			for (unsigned i = 0; i < numPlayers; i++) {

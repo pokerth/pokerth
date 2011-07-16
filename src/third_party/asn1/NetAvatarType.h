@@ -18,25 +18,26 @@
 extern "C" {
 #endif
 
-/* Dependencies */
-typedef enum NetAvatarType {
-	NetAvatarType_avatarImagePng	= 1,
-	NetAvatarType_avatarImageJpg	= 2,
-	NetAvatarType_avatarImageGif	= 3
-} e_NetAvatarType;
+	/* Dependencies */
+	typedef enum NetAvatarType {
+		NetAvatarType_avatarImagePng	= 1,
+		   NetAvatarType_avatarImageJpg	= 2,
+		      NetAvatarType_avatarImageGif	= 3
+	}
+	                                        e_NetAvatarType;
 
-/* NetAvatarType */
-typedef long	 NetAvatarType_t;
+	/* NetAvatarType */
+	typedef long	 NetAvatarType_t;
 
-/* Implementation */
-extern asn_TYPE_descriptor_t asn_DEF_NetAvatarType;
-asn_struct_free_f NetAvatarType_free;
-asn_struct_print_f NetAvatarType_print;
-asn_constr_check_f NetAvatarType_constraint;
-ber_type_decoder_f NetAvatarType_decode_ber;
-der_type_encoder_f NetAvatarType_encode_der;
-xer_type_decoder_f NetAvatarType_decode_xer;
-xer_type_encoder_f NetAvatarType_encode_xer;
+	/* Implementation */
+	extern asn_TYPE_descriptor_t asn_DEF_NetAvatarType;
+	asn_struct_free_f NetAvatarType_free;
+	asn_struct_print_f NetAvatarType_print;
+	asn_constr_check_f NetAvatarType_constraint;
+	ber_type_decoder_f NetAvatarType_decode_ber;
+	der_type_encoder_f NetAvatarType_encode_der;
+	xer_type_decoder_f NetAvatarType_decode_xer;
+	xer_type_encoder_f NetAvatarType_encode_xer;
 
 #ifdef __cplusplus
 }

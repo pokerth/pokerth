@@ -20,21 +20,21 @@
 extern "C" {
 #endif
 
-/* CleanerInitAckMessage */
-typedef struct CleanerInitAckMessage {
-	long	 serverVersion;
-	UTF8String_t	 serverSecret;
-	/*
-	 * This type is extensible,
-	 * possible extensions are below.
-	 */
-	
-	/* Context for parsing across buffer boundaries */
-	asn_struct_ctx_t _asn_ctx;
-} CleanerInitAckMessage_t;
+	/* CleanerInitAckMessage */
+	typedef struct CleanerInitAckMessage {
+		long	 serverVersion;
+		UTF8String_t	 serverSecret;
+		/*
+		 * This type is extensible,
+		 * possible extensions are below.
+		 */
 
-/* Implementation */
-extern asn_TYPE_descriptor_t asn_DEF_CleanerInitAckMessage;
+		/* Context for parsing across buffer boundaries */
+		asn_struct_ctx_t _asn_ctx;
+	} CleanerInitAckMessage_t;
+
+	/* Implementation */
+	extern asn_TYPE_descriptor_t asn_DEF_CleanerInitAckMessage;
 
 #ifdef __cplusplus
 }

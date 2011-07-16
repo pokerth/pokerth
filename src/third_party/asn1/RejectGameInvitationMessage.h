@@ -20,21 +20,21 @@
 extern "C" {
 #endif
 
-/* RejectGameInvitationMessage */
-typedef struct RejectGameInvitationMessage {
-	NonZeroId_t	 gameId;
-	RejectGameInvReason_t	 myRejectReason;
-	/*
-	 * This type is extensible,
-	 * possible extensions are below.
-	 */
-	
-	/* Context for parsing across buffer boundaries */
-	asn_struct_ctx_t _asn_ctx;
-} RejectGameInvitationMessage_t;
+	/* RejectGameInvitationMessage */
+	typedef struct RejectGameInvitationMessage {
+		NonZeroId_t	 gameId;
+		RejectGameInvReason_t	 myRejectReason;
+		/*
+		 * This type is extensible,
+		 * possible extensions are below.
+		 */
 
-/* Implementation */
-extern asn_TYPE_descriptor_t asn_DEF_RejectGameInvitationMessage;
+		/* Context for parsing across buffer boundaries */
+		asn_struct_ctx_t _asn_ctx;
+	} RejectGameInvitationMessage_t;
+
+	/* Implementation */
+	extern asn_TYPE_descriptor_t asn_DEF_RejectGameInvitationMessage;
 
 #ifdef __cplusplus
 }

@@ -8,7 +8,7 @@
 #include "ChatRequestTypePrivate.h"
 
 static asn_TYPE_member_t asn_MBR_ChatRequestTypePrivate_1[] = {
-	{ ATF_NOFLAGS, 0, offsetof(struct ChatRequestTypePrivate, targetPlayerId),
+	{	ATF_NOFLAGS, 0, offsetof(struct ChatRequestTypePrivate, targetPlayerId),
 		(ASN_TAG_CLASS_UNIVERSAL | (2 << 2)),
 		0,
 		&asn_DEF_NonZeroId,
@@ -16,13 +16,13 @@ static asn_TYPE_member_t asn_MBR_ChatRequestTypePrivate_1[] = {
 		0,	/* PER is not compiled, use -gen-PER */
 		0,
 		"targetPlayerId"
-		},
+	},
 };
 static ber_tlv_tag_t asn_DEF_ChatRequestTypePrivate_tags_1[] = {
 	(ASN_TAG_CLASS_UNIVERSAL | (16 << 2))
 };
 static asn_TYPE_tag2member_t asn_MAP_ChatRequestTypePrivate_tag2el_1[] = {
-    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 0, 0, 0 } /* targetPlayerId at 666 */
+	{ (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 0, 0, 0 } /* targetPlayerId at 689 */
 };
 static asn_SEQUENCE_specifics_t asn_SPC_ChatRequestTypePrivate_specs_1 = {
 	sizeof(struct ChatRequestTypePrivate),
@@ -47,10 +47,10 @@ asn_TYPE_descriptor_t asn_DEF_ChatRequestTypePrivate = {
 	0,	/* Use generic outmost tag fetcher */
 	asn_DEF_ChatRequestTypePrivate_tags_1,
 	sizeof(asn_DEF_ChatRequestTypePrivate_tags_1)
-		/sizeof(asn_DEF_ChatRequestTypePrivate_tags_1[0]), /* 1 */
+	/sizeof(asn_DEF_ChatRequestTypePrivate_tags_1[0]), /* 1 */
 	asn_DEF_ChatRequestTypePrivate_tags_1,	/* Same as above */
 	sizeof(asn_DEF_ChatRequestTypePrivate_tags_1)
-		/sizeof(asn_DEF_ChatRequestTypePrivate_tags_1[0]), /* 1 */
+	/sizeof(asn_DEF_ChatRequestTypePrivate_tags_1[0]), /* 1 */
 	0,	/* No PER visible constraints */
 	asn_MBR_ChatRequestTypePrivate_1,
 	1,	/* Elements count */

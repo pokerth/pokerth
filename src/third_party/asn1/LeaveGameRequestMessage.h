@@ -19,20 +19,20 @@
 extern "C" {
 #endif
 
-/* LeaveGameRequestMessage */
-typedef struct LeaveGameRequestMessage {
-	NonZeroId_t	 gameId;
-	/*
-	 * This type is extensible,
-	 * possible extensions are below.
-	 */
-	
-	/* Context for parsing across buffer boundaries */
-	asn_struct_ctx_t _asn_ctx;
-} LeaveGameRequestMessage_t;
+	/* LeaveGameRequestMessage */
+	typedef struct LeaveGameRequestMessage {
+		NonZeroId_t	 gameId;
+		/*
+		 * This type is extensible,
+		 * possible extensions are below.
+		 */
 
-/* Implementation */
-extern asn_TYPE_descriptor_t asn_DEF_LeaveGameRequestMessage;
+		/* Context for parsing across buffer boundaries */
+		asn_struct_ctx_t _asn_ctx;
+	} LeaveGameRequestMessage_t;
+
+	/* Implementation */
+	extern asn_TYPE_descriptor_t asn_DEF_LeaveGameRequestMessage;
 
 #ifdef __cplusplus
 }

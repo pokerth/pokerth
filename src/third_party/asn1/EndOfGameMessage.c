@@ -8,7 +8,7 @@
 #include "EndOfGameMessage.h"
 
 static asn_TYPE_member_t asn_MBR_EndOfGameMessage_1[] = {
-	{ ATF_NOFLAGS, 0, offsetof(struct EndOfGameMessage, gameId),
+	{	ATF_NOFLAGS, 0, offsetof(struct EndOfGameMessage, gameId),
 		(ASN_TAG_CLASS_UNIVERSAL | (2 << 2)),
 		0,
 		&asn_DEF_NonZeroId,
@@ -16,8 +16,8 @@ static asn_TYPE_member_t asn_MBR_EndOfGameMessage_1[] = {
 		0,	/* PER is not compiled, use -gen-PER */
 		0,
 		"gameId"
-		},
-	{ ATF_NOFLAGS, 0, offsetof(struct EndOfGameMessage, winnerPlayerId),
+	},
+	{	ATF_NOFLAGS, 0, offsetof(struct EndOfGameMessage, winnerPlayerId),
 		(ASN_TAG_CLASS_UNIVERSAL | (2 << 2)),
 		0,
 		&asn_DEF_NonZeroId,
@@ -25,15 +25,15 @@ static asn_TYPE_member_t asn_MBR_EndOfGameMessage_1[] = {
 		0,	/* PER is not compiled, use -gen-PER */
 		0,
 		"winnerPlayerId"
-		},
+	},
 };
 static ber_tlv_tag_t asn_DEF_EndOfGameMessage_tags_1[] = {
 	(ASN_TAG_CLASS_APPLICATION | (35 << 2)),
 	(ASN_TAG_CLASS_UNIVERSAL | (16 << 2))
 };
 static asn_TYPE_tag2member_t asn_MAP_EndOfGameMessage_tag2el_1[] = {
-    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 0, 0, 1 }, /* gameId at 560 */
-    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 1, -1, 0 } /* winnerPlayerId at 562 */
+	{ (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 0, 0, 1 }, /* gameId at 583 */
+	{ (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 1, -1, 0 } /* winnerPlayerId at 585 */
 };
 static asn_SEQUENCE_specifics_t asn_SPC_EndOfGameMessage_specs_1 = {
 	sizeof(struct EndOfGameMessage),
@@ -58,10 +58,10 @@ asn_TYPE_descriptor_t asn_DEF_EndOfGameMessage = {
 	0,	/* Use generic outmost tag fetcher */
 	asn_DEF_EndOfGameMessage_tags_1,
 	sizeof(asn_DEF_EndOfGameMessage_tags_1)
-		/sizeof(asn_DEF_EndOfGameMessage_tags_1[0]) - 1, /* 1 */
+	/sizeof(asn_DEF_EndOfGameMessage_tags_1[0]) - 1, /* 1 */
 	asn_DEF_EndOfGameMessage_tags_1,	/* Same as above */
 	sizeof(asn_DEF_EndOfGameMessage_tags_1)
-		/sizeof(asn_DEF_EndOfGameMessage_tags_1[0]), /* 2 */
+	/sizeof(asn_DEF_EndOfGameMessage_tags_1[0]), /* 2 */
 	0,	/* No PER visible constraints */
 	asn_MBR_EndOfGameMessage_1,
 	2,	/* Elements count */

@@ -9,63 +9,63 @@
 
 static int
 memb_serverVersion_constraint_1(asn_TYPE_descriptor_t *td, const void *sptr,
-			asn_app_constraint_failed_f *ctfailcb, void *app_key) {
+                                asn_app_constraint_failed_f *ctfailcb, void *app_key) {
 	long value;
-	
+
 	if(!sptr) {
 		_ASN_CTFAIL(app_key, td, sptr,
-			"%s: value not given (%s:%d)",
-			td->name, __FILE__, __LINE__);
+		            "%s: value not given (%s:%d)",
+		            td->name, __FILE__, __LINE__);
 		return -1;
 	}
-	
+
 	value = *(const long *)sptr;
-	
+
 	if((value >= 0 && value <= 65535)) {
 		/* Constraint check succeeded */
 		return 0;
 	} else {
 		_ASN_CTFAIL(app_key, td, sptr,
-			"%s: constraint failed (%s:%d)",
-			td->name, __FILE__, __LINE__);
+		            "%s: constraint failed (%s:%d)",
+		            td->name, __FILE__, __LINE__);
 		return -1;
 	}
 }
 
 static int
 memb_serverSecret_constraint_1(asn_TYPE_descriptor_t *td, const void *sptr,
-			asn_app_constraint_failed_f *ctfailcb, void *app_key) {
+                               asn_app_constraint_failed_f *ctfailcb, void *app_key) {
 	const UTF8String_t *st = (const UTF8String_t *)sptr;
 	size_t size;
-	
+
 	if(!sptr) {
 		_ASN_CTFAIL(app_key, td, sptr,
-			"%s: value not given (%s:%d)",
-			td->name, __FILE__, __LINE__);
+		            "%s: value not given (%s:%d)",
+		            td->name, __FILE__, __LINE__);
 		return -1;
 	}
-	
+
 	size = UTF8String_length(st);
 	if((ssize_t)size < 0) {
 		_ASN_CTFAIL(app_key, td, sptr,
-			"%s: UTF-8: broken encoding (%s:%d)",
-			td->name, __FILE__, __LINE__);
+		            "%s: UTF-8: broken encoding (%s:%d)",
+		            td->name, __FILE__, __LINE__);
 		return -1;
 	}
-	
+
 	if((size >= 1 && size <= 32)) {
 		/* Constraint check succeeded */
 		return 0;
 	} else {
 		_ASN_CTFAIL(app_key, td, sptr,
-			"%s: constraint failed (%s:%d)",
-			td->name, __FILE__, __LINE__);
+		            "%s: constraint failed (%s:%d)",
+		            td->name, __FILE__, __LINE__);
 		return -1;
 	}
 }
 
 static asn_TYPE_member_t asn_MBR_CleanerInitAckMessage_1[] = {
-	{ ATF_NOFLAGS, 0, offsetof(struct CleanerInitAckMessage, serverVersion),
+	{	ATF_NOFLAGS, 0, offsetof(struct CleanerInitAckMessage, serverVersion),
 		(ASN_TAG_CLASS_UNIVERSAL | (2 << 2)),
 		0,
 		&asn_DEF_NativeInteger,
@@ -73,8 +73,8 @@ static asn_TYPE_member_t asn_MBR_CleanerInitAckMessage_1[] = {
 		0,	/* PER is not compiled, use -gen-PER */
 		0,
 		"serverVersion"
-		},
-	{ ATF_NOFLAGS, 0, offsetof(struct CleanerInitAckMessage, serverSecret),
+	},
+	{	ATF_NOFLAGS, 0, offsetof(struct CleanerInitAckMessage, serverSecret),
 		(ASN_TAG_CLASS_UNIVERSAL | (12 << 2)),
 		0,
 		&asn_DEF_UTF8String,
@@ -82,15 +82,15 @@ static asn_TYPE_member_t asn_MBR_CleanerInitAckMessage_1[] = {
 		0,	/* PER is not compiled, use -gen-PER */
 		0,
 		"serverSecret"
-		},
+	},
 };
 static ber_tlv_tag_t asn_DEF_CleanerInitAckMessage_tags_1[] = {
 	(ASN_TAG_CLASS_APPLICATION | (1 << 2)),
 	(ASN_TAG_CLASS_UNIVERSAL | (16 << 2))
 };
 static asn_TYPE_tag2member_t asn_MAP_CleanerInitAckMessage_tag2el_1[] = {
-    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 0, 0, 0 }, /* serverVersion at 39 */
-    { (ASN_TAG_CLASS_UNIVERSAL | (12 << 2)), 1, 0, 0 } /* serverSecret at 40 */
+	{ (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 0, 0, 0 }, /* serverVersion at 39 */
+	{ (ASN_TAG_CLASS_UNIVERSAL | (12 << 2)), 1, 0, 0 } /* serverSecret at 40 */
 };
 static asn_SEQUENCE_specifics_t asn_SPC_CleanerInitAckMessage_specs_1 = {
 	sizeof(struct CleanerInitAckMessage),
@@ -115,10 +115,10 @@ asn_TYPE_descriptor_t asn_DEF_CleanerInitAckMessage = {
 	0,	/* Use generic outmost tag fetcher */
 	asn_DEF_CleanerInitAckMessage_tags_1,
 	sizeof(asn_DEF_CleanerInitAckMessage_tags_1)
-		/sizeof(asn_DEF_CleanerInitAckMessage_tags_1[0]) - 1, /* 1 */
+	/sizeof(asn_DEF_CleanerInitAckMessage_tags_1[0]) - 1, /* 1 */
 	asn_DEF_CleanerInitAckMessage_tags_1,	/* Same as above */
 	sizeof(asn_DEF_CleanerInitAckMessage_tags_1)
-		/sizeof(asn_DEF_CleanerInitAckMessage_tags_1[0]), /* 2 */
+	/sizeof(asn_DEF_CleanerInitAckMessage_tags_1[0]), /* 2 */
 	0,	/* No PER visible constraints */
 	asn_MBR_CleanerInitAckMessage_1,
 	2,	/* Elements count */

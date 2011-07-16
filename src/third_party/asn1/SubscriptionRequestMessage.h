@@ -19,27 +19,28 @@
 extern "C" {
 #endif
 
-/* Dependencies */
-typedef enum subscriptionAction {
-	subscriptionAction_unsubscribeGameList	= 1,
-	subscriptionAction_resubscribeGameList	= 2
-} e_subscriptionAction;
+	/* Dependencies */
+	typedef enum subscriptionAction {
+		subscriptionAction_unsubscribeGameList	= 1,
+		 subscriptionAction_resubscribeGameList	= 2
+	}
+	         e_subscriptionAction;
 
-/* SubscriptionRequestMessage */
-typedef struct SubscriptionRequestMessage {
-	long	 subscriptionAction;
-	/*
-	 * This type is extensible,
-	 * possible extensions are below.
-	 */
-	
-	/* Context for parsing across buffer boundaries */
-	asn_struct_ctx_t _asn_ctx;
-} SubscriptionRequestMessage_t;
+	/* SubscriptionRequestMessage */
+	typedef struct SubscriptionRequestMessage {
+		long	 subscriptionAction;
+		/*
+		 * This type is extensible,
+		 * possible extensions are below.
+		 */
 
-/* Implementation */
-/* extern asn_TYPE_descriptor_t asn_DEF_subscriptionAction_2;	// (Use -fall-defs-global to expose) */
-extern asn_TYPE_descriptor_t asn_DEF_SubscriptionRequestMessage;
+		/* Context for parsing across buffer boundaries */
+		asn_struct_ctx_t _asn_ctx;
+	} SubscriptionRequestMessage_t;
+
+	/* Implementation */
+	/* extern asn_TYPE_descriptor_t asn_DEF_subscriptionAction_2;	// (Use -fall-defs-global to expose) */
+	extern asn_TYPE_descriptor_t asn_DEF_SubscriptionRequestMessage;
 
 #ifdef __cplusplus
 }

@@ -22,27 +22,27 @@
 extern "C" {
 #endif
 
-/* PlayersActionDoneMessage */
-typedef struct PlayersActionDoneMessage {
-	NonZeroId_t	 gameId;
-	NonZeroId_t	 playerId;
-	NetGameState_t	 gameState;
-	NetPlayerAction_t	 playerAction;
-	long	 totalPlayerBet;
-	long	 playerMoney;
-	long	 highestSet;
-	long	 minimumRaise;
-	/*
-	 * This type is extensible,
-	 * possible extensions are below.
-	 */
-	
-	/* Context for parsing across buffer boundaries */
-	asn_struct_ctx_t _asn_ctx;
-} PlayersActionDoneMessage_t;
+	/* PlayersActionDoneMessage */
+	typedef struct PlayersActionDoneMessage {
+		NonZeroId_t	 gameId;
+		NonZeroId_t	 playerId;
+		NetGameState_t	 gameState;
+		NetPlayerAction_t	 playerAction;
+		long	 totalPlayerBet;
+		long	 playerMoney;
+		long	 highestSet;
+		long	 minimumRaise;
+		/*
+		 * This type is extensible,
+		 * possible extensions are below.
+		 */
 
-/* Implementation */
-extern asn_TYPE_descriptor_t asn_DEF_PlayersActionDoneMessage;
+		/* Context for parsing across buffer boundaries */
+		asn_struct_ctx_t _asn_ctx;
+	} PlayersActionDoneMessage_t;
+
+	/* Implementation */
+	extern asn_TYPE_descriptor_t asn_DEF_PlayersActionDoneMessage;
 
 #ifdef __cplusplus
 }

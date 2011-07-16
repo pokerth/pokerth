@@ -9,7 +9,9 @@
 /*
  * Version of the ASN.1 infrastructure shipped with compiler.
  */
-int get_asn1c_environment_version() { return ASN1C_ENVIRONMENT_VERSION; }
+int get_asn1c_environment_version() {
+	return ASN1C_ENVIRONMENT_VERSION;
+}
 
 static asn_app_consume_bytes_f _print2fp;
 
@@ -18,7 +20,7 @@ static asn_app_consume_bytes_f _print2fp;
  */
 ber_tlv_tag_t
 asn_TYPE_outmost_tag(asn_TYPE_descriptor_t *type_descriptor,
-		const void *struct_ptr, int tag_mode, ber_tlv_tag_t tag) {
+                     const void *struct_ptr, int tag_mode, ber_tlv_tag_t tag) {
 
 	if(tag_mode)
 		return tag;

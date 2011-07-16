@@ -33,10 +33,10 @@ asn_TYPE_descriptor_t asn_DEF_ChatTypeBot = {
 	0,	/* Use generic outmost tag fetcher */
 	asn_DEF_ChatTypeBot_tags_1,
 	sizeof(asn_DEF_ChatTypeBot_tags_1)
-		/sizeof(asn_DEF_ChatTypeBot_tags_1[0]), /* 1 */
+	/sizeof(asn_DEF_ChatTypeBot_tags_1[0]), /* 1 */
 	asn_DEF_ChatTypeBot_tags_1,	/* Same as above */
 	sizeof(asn_DEF_ChatTypeBot_tags_1)
-		/sizeof(asn_DEF_ChatTypeBot_tags_1[0]), /* 1 */
+	/sizeof(asn_DEF_ChatTypeBot_tags_1[0]), /* 1 */
 	0,	/* No PER visible constraints */
 	0, 0,	/* No members */
 	&asn_SPC_ChatTypeBot_specs_1	/* Additional specs */

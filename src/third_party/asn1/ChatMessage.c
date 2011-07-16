@@ -9,38 +9,38 @@
 
 static int
 memb_chatText_constraint_1(asn_TYPE_descriptor_t *td, const void *sptr,
-			asn_app_constraint_failed_f *ctfailcb, void *app_key) {
+                           asn_app_constraint_failed_f *ctfailcb, void *app_key) {
 	const UTF8String_t *st = (const UTF8String_t *)sptr;
 	size_t size;
-	
+
 	if(!sptr) {
 		_ASN_CTFAIL(app_key, td, sptr,
-			"%s: value not given (%s:%d)",
-			td->name, __FILE__, __LINE__);
+		            "%s: value not given (%s:%d)",
+		            td->name, __FILE__, __LINE__);
 		return -1;
 	}
-	
+
 	size = UTF8String_length(st);
 	if((ssize_t)size < 0) {
 		_ASN_CTFAIL(app_key, td, sptr,
-			"%s: UTF-8: broken encoding (%s:%d)",
-			td->name, __FILE__, __LINE__);
+		            "%s: UTF-8: broken encoding (%s:%d)",
+		            td->name, __FILE__, __LINE__);
 		return -1;
 	}
-	
+
 	if((size >= 1 && size <= 128)) {
 		/* Constraint check succeeded */
 		return 0;
 	} else {
 		_ASN_CTFAIL(app_key, td, sptr,
-			"%s: constraint failed (%s:%d)",
-			td->name, __FILE__, __LINE__);
+		            "%s: constraint failed (%s:%d)",
+		            td->name, __FILE__, __LINE__);
 		return -1;
 	}
 }
 
 static asn_TYPE_member_t asn_MBR_chatType_2[] = {
-	{ ATF_NOFLAGS, 0, offsetof(struct chatType, choice.chatTypeLobby),
+	{	ATF_NOFLAGS, 0, offsetof(struct chatType, choice.chatTypeLobby),
 		(ASN_TAG_CLASS_CONTEXT | (0 << 2)),
 		-1,	/* IMPLICIT tag at current level */
 		&asn_DEF_ChatTypeLobby,
@@ -48,8 +48,8 @@ static asn_TYPE_member_t asn_MBR_chatType_2[] = {
 		0,	/* PER is not compiled, use -gen-PER */
 		0,
 		"chatTypeLobby"
-		},
-	{ ATF_NOFLAGS, 0, offsetof(struct chatType, choice.chatTypeGame),
+	},
+	{	ATF_NOFLAGS, 0, offsetof(struct chatType, choice.chatTypeGame),
 		(ASN_TAG_CLASS_CONTEXT | (1 << 2)),
 		-1,	/* IMPLICIT tag at current level */
 		&asn_DEF_ChatTypeGame,
@@ -57,8 +57,8 @@ static asn_TYPE_member_t asn_MBR_chatType_2[] = {
 		0,	/* PER is not compiled, use -gen-PER */
 		0,
 		"chatTypeGame"
-		},
-	{ ATF_NOFLAGS, 0, offsetof(struct chatType, choice.chatTypeBot),
+	},
+	{	ATF_NOFLAGS, 0, offsetof(struct chatType, choice.chatTypeBot),
 		(ASN_TAG_CLASS_CONTEXT | (2 << 2)),
 		-1,	/* IMPLICIT tag at current level */
 		&asn_DEF_ChatTypeBot,
@@ -66,8 +66,8 @@ static asn_TYPE_member_t asn_MBR_chatType_2[] = {
 		0,	/* PER is not compiled, use -gen-PER */
 		0,
 		"chatTypeBot"
-		},
-	{ ATF_NOFLAGS, 0, offsetof(struct chatType, choice.chatTypeBroadcast),
+	},
+	{	ATF_NOFLAGS, 0, offsetof(struct chatType, choice.chatTypeBroadcast),
 		(ASN_TAG_CLASS_CONTEXT | (3 << 2)),
 		-1,	/* IMPLICIT tag at current level */
 		&asn_DEF_ChatTypeBroadcast,
@@ -75,8 +75,8 @@ static asn_TYPE_member_t asn_MBR_chatType_2[] = {
 		0,	/* PER is not compiled, use -gen-PER */
 		0,
 		"chatTypeBroadcast"
-		},
-	{ ATF_NOFLAGS, 0, offsetof(struct chatType, choice.chatTypePrivate),
+	},
+	{	ATF_NOFLAGS, 0, offsetof(struct chatType, choice.chatTypePrivate),
 		(ASN_TAG_CLASS_CONTEXT | (4 << 2)),
 		-1,	/* IMPLICIT tag at current level */
 		&asn_DEF_ChatTypePrivate,
@@ -84,14 +84,14 @@ static asn_TYPE_member_t asn_MBR_chatType_2[] = {
 		0,	/* PER is not compiled, use -gen-PER */
 		0,
 		"chatTypePrivate"
-		},
+	},
 };
 static asn_TYPE_tag2member_t asn_MAP_chatType_tag2el_2[] = {
-    { (ASN_TAG_CLASS_CONTEXT | (0 << 2)), 0, 0, 0 }, /* chatTypeLobby at 670 */
-    { (ASN_TAG_CLASS_CONTEXT | (1 << 2)), 1, 0, 0 }, /* chatTypeGame at 671 */
-    { (ASN_TAG_CLASS_CONTEXT | (2 << 2)), 2, 0, 0 }, /* chatTypeBot at 672 */
-    { (ASN_TAG_CLASS_CONTEXT | (3 << 2)), 3, 0, 0 }, /* chatTypeBroadcast at 673 */
-    { (ASN_TAG_CLASS_CONTEXT | (4 << 2)), 4, 0, 0 } /* chatTypePrivate at 675 */
+	{ (ASN_TAG_CLASS_CONTEXT | (0 << 2)), 0, 0, 0 }, /* chatTypeLobby at 693 */
+	{ (ASN_TAG_CLASS_CONTEXT | (1 << 2)), 1, 0, 0 }, /* chatTypeGame at 694 */
+	{ (ASN_TAG_CLASS_CONTEXT | (2 << 2)), 2, 0, 0 }, /* chatTypeBot at 695 */
+	{ (ASN_TAG_CLASS_CONTEXT | (3 << 2)), 3, 0, 0 }, /* chatTypeBroadcast at 696 */
+	{ (ASN_TAG_CLASS_CONTEXT | (4 << 2)), 4, 0, 0 } /* chatTypePrivate at 698 */
 };
 static asn_CHOICE_specifics_t asn_SPC_chatType_specs_2 = {
 	sizeof(struct chatType),
@@ -127,7 +127,7 @@ asn_TYPE_descriptor_t asn_DEF_chatType_2 = {
 };
 
 static asn_TYPE_member_t asn_MBR_ChatMessage_1[] = {
-	{ ATF_NOFLAGS, 0, offsetof(struct ChatMessage, chatType),
+	{	ATF_NOFLAGS, 0, offsetof(struct ChatMessage, chatType),
 		-1 /* Ambiguous tag (CHOICE?) */,
 		0,
 		&asn_DEF_chatType_2,
@@ -135,8 +135,8 @@ static asn_TYPE_member_t asn_MBR_ChatMessage_1[] = {
 		0,	/* PER is not compiled, use -gen-PER */
 		0,
 		"chatType"
-		},
-	{ ATF_NOFLAGS, 0, offsetof(struct ChatMessage, chatText),
+	},
+	{	ATF_NOFLAGS, 0, offsetof(struct ChatMessage, chatText),
 		(ASN_TAG_CLASS_UNIVERSAL | (12 << 2)),
 		0,
 		&asn_DEF_UTF8String,
@@ -144,19 +144,19 @@ static asn_TYPE_member_t asn_MBR_ChatMessage_1[] = {
 		0,	/* PER is not compiled, use -gen-PER */
 		0,
 		"chatText"
-		},
+	},
 };
 static ber_tlv_tag_t asn_DEF_ChatMessage_tags_1[] = {
 	(ASN_TAG_CLASS_APPLICATION | (130 << 2)),
 	(ASN_TAG_CLASS_UNIVERSAL | (16 << 2))
 };
 static asn_TYPE_tag2member_t asn_MAP_ChatMessage_tag2el_1[] = {
-    { (ASN_TAG_CLASS_UNIVERSAL | (12 << 2)), 1, 0, 0 }, /* chatText at 676 */
-    { (ASN_TAG_CLASS_CONTEXT | (0 << 2)), 0, 0, 0 }, /* chatTypeLobby at 670 */
-    { (ASN_TAG_CLASS_CONTEXT | (1 << 2)), 0, 0, 0 }, /* chatTypeGame at 671 */
-    { (ASN_TAG_CLASS_CONTEXT | (2 << 2)), 0, 0, 0 }, /* chatTypeBot at 672 */
-    { (ASN_TAG_CLASS_CONTEXT | (3 << 2)), 0, 0, 0 }, /* chatTypeBroadcast at 673 */
-    { (ASN_TAG_CLASS_CONTEXT | (4 << 2)), 0, 0, 0 } /* chatTypePrivate at 675 */
+	{ (ASN_TAG_CLASS_UNIVERSAL | (12 << 2)), 1, 0, 0 }, /* chatText at 699 */
+	{ (ASN_TAG_CLASS_CONTEXT | (0 << 2)), 0, 0, 0 }, /* chatTypeLobby at 693 */
+	{ (ASN_TAG_CLASS_CONTEXT | (1 << 2)), 0, 0, 0 }, /* chatTypeGame at 694 */
+	{ (ASN_TAG_CLASS_CONTEXT | (2 << 2)), 0, 0, 0 }, /* chatTypeBot at 695 */
+	{ (ASN_TAG_CLASS_CONTEXT | (3 << 2)), 0, 0, 0 }, /* chatTypeBroadcast at 696 */
+	{ (ASN_TAG_CLASS_CONTEXT | (4 << 2)), 0, 0, 0 } /* chatTypePrivate at 698 */
 };
 static asn_SEQUENCE_specifics_t asn_SPC_ChatMessage_specs_1 = {
 	sizeof(struct ChatMessage),
@@ -181,10 +181,10 @@ asn_TYPE_descriptor_t asn_DEF_ChatMessage = {
 	0,	/* Use generic outmost tag fetcher */
 	asn_DEF_ChatMessage_tags_1,
 	sizeof(asn_DEF_ChatMessage_tags_1)
-		/sizeof(asn_DEF_ChatMessage_tags_1[0]) - 1, /* 1 */
+	/sizeof(asn_DEF_ChatMessage_tags_1[0]) - 1, /* 1 */
 	asn_DEF_ChatMessage_tags_1,	/* Same as above */
 	sizeof(asn_DEF_ChatMessage_tags_1)
-		/sizeof(asn_DEF_ChatMessage_tags_1[0]), /* 2 */
+	/sizeof(asn_DEF_ChatMessage_tags_1[0]), /* 2 */
 	0,	/* No PER visible constraints */
 	asn_MBR_ChatMessage_1,
 	2,	/* Elements count */

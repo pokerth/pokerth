@@ -18,18 +18,18 @@
 extern "C" {
 #endif
 
-/* Card */
-typedef long	 Card_t;
+	/* Card */
+	typedef long	 Card_t;
 
-/* Implementation */
-extern asn_TYPE_descriptor_t asn_DEF_Card;
-asn_struct_free_f Card_free;
-asn_struct_print_f Card_print;
-asn_constr_check_f Card_constraint;
-ber_type_decoder_f Card_decode_ber;
-der_type_encoder_f Card_encode_der;
-xer_type_decoder_f Card_decode_xer;
-xer_type_encoder_f Card_encode_xer;
+	/* Implementation */
+	extern asn_TYPE_descriptor_t asn_DEF_Card;
+	asn_struct_free_f Card_free;
+	asn_struct_print_f Card_print;
+	asn_constr_check_f Card_constraint;
+	ber_type_decoder_f Card_decode_ber;
+	der_type_encoder_f Card_encode_der;
+	xer_type_decoder_f Card_decode_xer;
+	xer_type_encoder_f Card_encode_xer;
 
 #ifdef __cplusplus
 }

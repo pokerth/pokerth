@@ -20,21 +20,21 @@
 extern "C" {
 #endif
 
-/* AvatarHeader */
-typedef struct AvatarHeader {
-	NetAvatarType_t	 avatarType;
-	long	 avatarSize;
-	/*
-	 * This type is extensible,
-	 * possible extensions are below.
-	 */
-	
-	/* Context for parsing across buffer boundaries */
-	asn_struct_ctx_t _asn_ctx;
-} AvatarHeader_t;
+	/* AvatarHeader */
+	typedef struct AvatarHeader {
+		NetAvatarType_t	 avatarType;
+		long	 avatarSize;
+		/*
+		 * This type is extensible,
+		 * possible extensions are below.
+		 */
 
-/* Implementation */
-extern asn_TYPE_descriptor_t asn_DEF_AvatarHeader;
+		/* Context for parsing across buffer boundaries */
+		asn_struct_ctx_t _asn_ctx;
+	} AvatarHeader_t;
+
+	/* Implementation */
+	extern asn_TYPE_descriptor_t asn_DEF_AvatarHeader;
 
 #ifdef __cplusplus
 }

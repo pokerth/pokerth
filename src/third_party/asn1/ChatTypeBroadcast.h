@@ -18,19 +18,19 @@
 extern "C" {
 #endif
 
-/* ChatTypeBroadcast */
-typedef struct ChatTypeBroadcast {
-	/*
-	 * This type is extensible,
-	 * possible extensions are below.
-	 */
-	
-	/* Context for parsing across buffer boundaries */
-	asn_struct_ctx_t _asn_ctx;
-} ChatTypeBroadcast_t;
+	/* ChatTypeBroadcast */
+	typedef struct ChatTypeBroadcast {
+		/*
+		 * This type is extensible,
+		 * possible extensions are below.
+		 */
 
-/* Implementation */
-extern asn_TYPE_descriptor_t asn_DEF_ChatTypeBroadcast;
+		/* Context for parsing across buffer boundaries */
+		asn_struct_ctx_t _asn_ctx;
+	} ChatTypeBroadcast_t;
+
+	/* Implementation */
+	extern asn_TYPE_descriptor_t asn_DEF_ChatTypeBroadcast;
 
 #ifdef __cplusplus
 }

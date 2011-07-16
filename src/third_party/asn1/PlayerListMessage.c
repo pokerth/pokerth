@@ -9,7 +9,7 @@
 
 static int
 playerListNotification_3_constraint(asn_TYPE_descriptor_t *td, const void *sptr,
-			asn_app_constraint_failed_f *ctfailcb, void *app_key) {
+                                    asn_app_constraint_failed_f *ctfailcb, void *app_key) {
 	/* Replace with underlying type checker */
 	td->check_constraints = asn_DEF_NativeEnumerated.check_constraints;
 	return td->check_constraints(td, sptr, ctfailcb, app_key);
@@ -33,49 +33,49 @@ playerListNotification_3_inherit_TYPE_descriptor(asn_TYPE_descriptor_t *td) {
 		td->per_constraints = asn_DEF_NativeEnumerated.per_constraints;
 	td->elements       = asn_DEF_NativeEnumerated.elements;
 	td->elements_count = asn_DEF_NativeEnumerated.elements_count;
-     /* td->specifics      = asn_DEF_NativeEnumerated.specifics;	// Defined explicitly */
+	/* td->specifics      = asn_DEF_NativeEnumerated.specifics;	// Defined explicitly */
 }
 
 static void
 playerListNotification_3_free(asn_TYPE_descriptor_t *td,
-		void *struct_ptr, int contents_only) {
+                              void *struct_ptr, int contents_only) {
 	playerListNotification_3_inherit_TYPE_descriptor(td);
 	td->free_struct(td, struct_ptr, contents_only);
 }
 
 static int
 playerListNotification_3_print(asn_TYPE_descriptor_t *td, const void *struct_ptr,
-		int ilevel, asn_app_consume_bytes_f *cb, void *app_key) {
+                               int ilevel, asn_app_consume_bytes_f *cb, void *app_key) {
 	playerListNotification_3_inherit_TYPE_descriptor(td);
 	return td->print_struct(td, struct_ptr, ilevel, cb, app_key);
 }
 
 static asn_dec_rval_t
 playerListNotification_3_decode_ber(asn_codec_ctx_t *opt_codec_ctx, asn_TYPE_descriptor_t *td,
-		void **structure, const void *bufptr, size_t size, int tag_mode) {
+                                    void **structure, const void *bufptr, size_t size, int tag_mode) {
 	playerListNotification_3_inherit_TYPE_descriptor(td);
 	return td->ber_decoder(opt_codec_ctx, td, structure, bufptr, size, tag_mode);
 }
 
 static asn_enc_rval_t
 playerListNotification_3_encode_der(asn_TYPE_descriptor_t *td,
-		void *structure, int tag_mode, ber_tlv_tag_t tag,
-		asn_app_consume_bytes_f *cb, void *app_key) {
+                                    void *structure, int tag_mode, ber_tlv_tag_t tag,
+                                    asn_app_consume_bytes_f *cb, void *app_key) {
 	playerListNotification_3_inherit_TYPE_descriptor(td);
 	return td->der_encoder(td, structure, tag_mode, tag, cb, app_key);
 }
 
 static asn_dec_rval_t
 playerListNotification_3_decode_xer(asn_codec_ctx_t *opt_codec_ctx, asn_TYPE_descriptor_t *td,
-		void **structure, const char *opt_mname, const void *bufptr, size_t size) {
+                                    void **structure, const char *opt_mname, const void *bufptr, size_t size) {
 	playerListNotification_3_inherit_TYPE_descriptor(td);
 	return td->xer_decoder(opt_codec_ctx, td, structure, opt_mname, bufptr, size);
 }
 
 static asn_enc_rval_t
 playerListNotification_3_encode_xer(asn_TYPE_descriptor_t *td, void *structure,
-		int ilevel, enum xer_encoder_flags_e flags,
-		asn_app_consume_bytes_f *cb, void *app_key) {
+                                    int ilevel, enum xer_encoder_flags_e flags,
+                                    asn_app_consume_bytes_f *cb, void *app_key) {
 	playerListNotification_3_inherit_TYPE_descriptor(td);
 	return td->xer_encoder(td, structure, ilevel, flags, cb, app_key);
 }
@@ -115,17 +115,17 @@ asn_TYPE_descriptor_t asn_DEF_playerListNotification_3 = {
 	0,	/* Use generic outmost tag fetcher */
 	asn_DEF_playerListNotification_tags_3,
 	sizeof(asn_DEF_playerListNotification_tags_3)
-		/sizeof(asn_DEF_playerListNotification_tags_3[0]), /* 1 */
+	/sizeof(asn_DEF_playerListNotification_tags_3[0]), /* 1 */
 	asn_DEF_playerListNotification_tags_3,	/* Same as above */
 	sizeof(asn_DEF_playerListNotification_tags_3)
-		/sizeof(asn_DEF_playerListNotification_tags_3[0]), /* 1 */
+	/sizeof(asn_DEF_playerListNotification_tags_3[0]), /* 1 */
 	0,	/* No PER visible constraints */
 	0, 0,	/* Defined elsewhere */
 	&asn_SPC_playerListNotification_specs_3	/* Additional specs */
 };
 
 static asn_TYPE_member_t asn_MBR_PlayerListMessage_1[] = {
-	{ ATF_NOFLAGS, 0, offsetof(struct PlayerListMessage, playerId),
+	{	ATF_NOFLAGS, 0, offsetof(struct PlayerListMessage, playerId),
 		(ASN_TAG_CLASS_UNIVERSAL | (2 << 2)),
 		0,
 		&asn_DEF_NonZeroId,
@@ -133,8 +133,8 @@ static asn_TYPE_member_t asn_MBR_PlayerListMessage_1[] = {
 		0,	/* PER is not compiled, use -gen-PER */
 		0,
 		"playerId"
-		},
-	{ ATF_NOFLAGS, 0, offsetof(struct PlayerListMessage, playerListNotification),
+	},
+	{	ATF_NOFLAGS, 0, offsetof(struct PlayerListMessage, playerListNotification),
 		(ASN_TAG_CLASS_UNIVERSAL | (10 << 2)),
 		0,
 		&asn_DEF_playerListNotification_3,
@@ -142,15 +142,15 @@ static asn_TYPE_member_t asn_MBR_PlayerListMessage_1[] = {
 		0,	/* PER is not compiled, use -gen-PER */
 		0,
 		"playerListNotification"
-		},
+	},
 };
 static ber_tlv_tag_t asn_DEF_PlayerListMessage_tags_1[] = {
 	(ASN_TAG_CLASS_APPLICATION | (6 << 2)),
 	(ASN_TAG_CLASS_UNIVERSAL | (16 << 2))
 };
 static asn_TYPE_tag2member_t asn_MAP_PlayerListMessage_tag2el_1[] = {
-    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 0, 0, 0 }, /* playerId at 189 */
-    { (ASN_TAG_CLASS_UNIVERSAL | (10 << 2)), 1, 0, 0 } /* playerListNotification at 191 */
+	{ (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 0, 0, 0 }, /* playerId at 191 */
+	{ (ASN_TAG_CLASS_UNIVERSAL | (10 << 2)), 1, 0, 0 } /* playerListNotification at 193 */
 };
 static asn_SEQUENCE_specifics_t asn_SPC_PlayerListMessage_specs_1 = {
 	sizeof(struct PlayerListMessage),
@@ -175,10 +175,10 @@ asn_TYPE_descriptor_t asn_DEF_PlayerListMessage = {
 	0,	/* Use generic outmost tag fetcher */
 	asn_DEF_PlayerListMessage_tags_1,
 	sizeof(asn_DEF_PlayerListMessage_tags_1)
-		/sizeof(asn_DEF_PlayerListMessage_tags_1[0]) - 1, /* 1 */
+	/sizeof(asn_DEF_PlayerListMessage_tags_1[0]) - 1, /* 1 */
 	asn_DEF_PlayerListMessage_tags_1,	/* Same as above */
 	sizeof(asn_DEF_PlayerListMessage_tags_1)
-		/sizeof(asn_DEF_PlayerListMessage_tags_1[0]), /* 2 */
+	/sizeof(asn_DEF_PlayerListMessage_tags_1[0]), /* 2 */
 	0,	/* No PER visible constraints */
 	asn_MBR_PlayerListMessage_1,
 	2,	/* Elements count */

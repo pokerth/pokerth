@@ -721,6 +721,8 @@ ServerGameStateStartGame::DoStart(boost::shared_ptr<ServerGame> server)
 		GameStartMessage_t *netGameStart = &packet->GetMsg()->choice.gameStartMessage;
 		netGameStart->gameId = server->GetId();
 		netGameStart->startDealerPlayerId = server->GetStartData().startDealerPlayerId;
+		netGameStart->gameStartMode.present = gameStartMode_PR_gameStartModeInitial;
+		GameStartModeInitial_t *netStartModeInitial = &netGameStart->gameStartMode.choice.gameStartModeInitial;
 
 		// Send player order to clients.
 		// Assume player list is sorted by number.
@@ -729,7 +731,7 @@ ServerGameStateStartGame::DoStart(boost::shared_ptr<ServerGame> server)
 		while (player_i != player_end) {
 			NonZeroId_t *playerSlot = (NonZeroId_t *)calloc(1, sizeof(NonZeroId_t));
 			*playerSlot = (*player_i)->GetUniqueId();
-			ASN_SEQUENCE_ADD(&netGameStart->playerSeats.list, playerSlot);
+			ASN_SEQUENCE_ADD(&netStartModeInitial->playerSeats.list, playerSlot);
 
 			++player_i;
 		}

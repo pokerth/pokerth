@@ -20,21 +20,21 @@
 extern "C" {
 #endif
 
-/* StartEventMessage */
-typedef struct StartEventMessage {
-	NonZeroId_t	 gameId;
-	BOOLEAN_t	 fillWithComputerPlayers;
-	/*
-	 * This type is extensible,
-	 * possible extensions are below.
-	 */
-	
-	/* Context for parsing across buffer boundaries */
-	asn_struct_ctx_t _asn_ctx;
-} StartEventMessage_t;
+	/* StartEventMessage */
+	typedef struct StartEventMessage {
+		NonZeroId_t	 gameId;
+		BOOLEAN_t	 fillWithComputerPlayers;
+		/*
+		 * This type is extensible,
+		 * possible extensions are below.
+		 */
 
-/* Implementation */
-extern asn_TYPE_descriptor_t asn_DEF_StartEventMessage;
+		/* Context for parsing across buffer boundaries */
+		asn_struct_ctx_t _asn_ctx;
+	} StartEventMessage_t;
+
+	/* Implementation */
+	extern asn_TYPE_descriptor_t asn_DEF_StartEventMessage;
 
 #ifdef __cplusplus
 }

@@ -24,47 +24,48 @@
 extern "C" {
 #endif
 
-/* Dependencies */
-typedef enum avatarResult_PR {
-	avatarResult_PR_NOTHING,	/* No components present */
-	avatarResult_PR_avatarHeader,
-	avatarResult_PR_avatarData,
-	avatarResult_PR_avatarEnd,
-	avatarResult_PR_unknownAvatar,
-	/* Extensions may appear below */
-	
-} avatarResult_PR;
+	/* Dependencies */
+	typedef enum avatarResult_PR {
+		avatarResult_PR_NOTHING,	/* No components present */
+		avatarResult_PR_avatarHeader,
+		avatarResult_PR_avatarData,
+		avatarResult_PR_avatarEnd,
+		avatarResult_PR_unknownAvatar,
+		/* Extensions may appear below */
 
-/* AvatarReplyMessage */
-typedef struct AvatarReplyMessage {
-	NonZeroId_t	 requestId;
-	struct avatarResult {
-		avatarResult_PR present;
-		union AvatarReplyMessage__avatarResult_u {
-			AvatarHeader_t	 avatarHeader;
-			AvatarData_t	 avatarData;
-			AvatarEnd_t	 avatarEnd;
-			UnknownAvatar_t	 unknownAvatar;
-			/*
-			 * This type is extensible,
-			 * possible extensions are below.
-			 */
-		} choice;
-		
+	}
+	avatarResult_PR;
+
+	/* AvatarReplyMessage */
+	typedef struct AvatarReplyMessage {
+		NonZeroId_t	 requestId;
+		struct avatarResult {
+			avatarResult_PR present;
+			union AvatarReplyMessage__avatarResult_u {
+				AvatarHeader_t	 avatarHeader;
+				AvatarData_t	 avatarData;
+				AvatarEnd_t	 avatarEnd;
+				UnknownAvatar_t	 unknownAvatar;
+				/*
+				 * This type is extensible,
+				 * possible extensions are below.
+				 */
+			} choice;
+
+			/* Context for parsing across buffer boundaries */
+			asn_struct_ctx_t _asn_ctx;
+		} avatarResult;
+		/*
+		 * This type is extensible,
+		 * possible extensions are below.
+		 */
+
 		/* Context for parsing across buffer boundaries */
 		asn_struct_ctx_t _asn_ctx;
-	} avatarResult;
-	/*
-	 * This type is extensible,
-	 * possible extensions are below.
-	 */
-	
-	/* Context for parsing across buffer boundaries */
-	asn_struct_ctx_t _asn_ctx;
-} AvatarReplyMessage_t;
+	} AvatarReplyMessage_t;
 
-/* Implementation */
-extern asn_TYPE_descriptor_t asn_DEF_AvatarReplyMessage;
+	/* Implementation */
+	extern asn_TYPE_descriptor_t asn_DEF_AvatarReplyMessage;
 
 #ifdef __cplusplus
 }

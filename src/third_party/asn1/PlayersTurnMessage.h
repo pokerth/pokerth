@@ -20,22 +20,22 @@
 extern "C" {
 #endif
 
-/* PlayersTurnMessage */
-typedef struct PlayersTurnMessage {
-	NonZeroId_t	 gameId;
-	NonZeroId_t	 playerId;
-	NetGameState_t	 gameState;
-	/*
-	 * This type is extensible,
-	 * possible extensions are below.
-	 */
-	
-	/* Context for parsing across buffer boundaries */
-	asn_struct_ctx_t _asn_ctx;
-} PlayersTurnMessage_t;
+	/* PlayersTurnMessage */
+	typedef struct PlayersTurnMessage {
+		NonZeroId_t	 gameId;
+		NonZeroId_t	 playerId;
+		NetGameState_t	 gameState;
+		/*
+		 * This type is extensible,
+		 * possible extensions are below.
+		 */
 
-/* Implementation */
-extern asn_TYPE_descriptor_t asn_DEF_PlayersTurnMessage;
+		/* Context for parsing across buffer boundaries */
+		asn_struct_ctx_t _asn_ctx;
+	} PlayersTurnMessage_t;
+
+	/* Implementation */
+	extern asn_TYPE_descriptor_t asn_DEF_PlayersTurnMessage;
 
 #ifdef __cplusplus
 }

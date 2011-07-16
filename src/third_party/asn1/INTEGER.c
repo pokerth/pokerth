@@ -41,12 +41,12 @@ asn_TYPE_descriptor_t asn_DEF_INTEGER = {
  */
 asn_enc_rval_t
 INTEGER_encode_der(asn_TYPE_descriptor_t *td, void *sptr,
-	int tag_mode, ber_tlv_tag_t tag,
-	asn_app_consume_bytes_f *cb, void *app_key) {
+                   int tag_mode, ber_tlv_tag_t tag,
+                   asn_app_consume_bytes_f *cb, void *app_key) {
 	INTEGER_t *st = (INTEGER_t *)sptr;
 
 	ASN_DEBUG("%s %s as INTEGER (tm=%d)",
-		cb?"Encoding":"Estimating", td->name, tag_mode);
+	          cb?"Encoding":"Estimating", td->name, tag_mode);
 
 	/*
 	 * Canonicalize integer in the buffer.
@@ -67,10 +67,12 @@ INTEGER_encode_der(asn_TYPE_descriptor_t *td, void *sptr,
 			 * b) shall not all be zero.
 			 */
 			switch(*buf) {
-			case 0x00: if((buf[1] & 0x80) == 0)
+			case 0x00:
+				if((buf[1] & 0x80) == 0)
 					continue;
 				break;
-			case 0xff: if((buf[1] & 0x80))
+			case 0xff:
+				if((buf[1] & 0x80))
 					continue;
 				break;
 			}
@@ -120,8 +122,12 @@ INTEGER__dump(asn_TYPE_descriptor_t *td, const INTEGER_t *st, asn_app_consume_by
 	/* Skip the insignificant leading bytes */
 	for(; buf < buf_end-1; buf++) {
 		switch(*buf) {
-		case 0x00: if((buf[1] & 0x80) == 0) continue; break;
-		case 0xff: if((buf[1] & 0x80) != 0) continue; break;
+		case 0x00:
+			if((buf[1] & 0x80) == 0) continue;
+			break;
+		case 0xff:
+			if((buf[1] & 0x80) != 0) continue;
+			break;
 		}
 		break;
 	}
@@ -146,21 +152,21 @@ INTEGER__dump(asn_TYPE_descriptor_t *td, const INTEGER_t *st, asn_app_consume_by
 			scr = (char *)alloca(scrsize);
 			if(plainOrXER == 0)
 				ret = snprintf(scr, scrsize,
-					"%ld (%s)", accum, el->enum_name);
+				               "%ld (%s)", accum, el->enum_name);
 			else
 				ret = snprintf(scr, scrsize,
-					"<%s/>", el->enum_name);
+				               "<%s/>", el->enum_name);
 		} else if(plainOrXER && specs && specs->strict_enumeration) {
 			ASN_DEBUG("ASN.1 forbids dealing with "
-				"unknown value of ENUMERATED type");
+			          "unknown value of ENUMERATED type");
 			errno = EPERM;
 			return -1;
 		} else {
 			scrsize = sizeof(scratch);
 			scr = scratch;
 			ret = snprintf(scr, scrsize,
-				(specs && specs->field_unsigned)
-				?"%lu":"%ld", accum);
+			               (specs && specs->field_unsigned)
+			               ?"%lu":"%ld", accum);
 		}
 		assert(ret > 0 && (size_t)ret < scrsize);
 		return (cb(scr, ret, app_key) < 0) ? -1 : ret;
@@ -170,7 +176,7 @@ INTEGER__dump(asn_TYPE_descriptor_t *td, const INTEGER_t *st, asn_app_consume_by
 		 * if there is no corresponding identifier.
 		 */
 		ASN_DEBUG("ASN.1 forbids dealing with "
-			"unknown value of ENUMERATED type");
+		          "unknown value of ENUMERATED type");
 		errno = EPERM;
 		return -1;
 	}
@@ -202,7 +208,7 @@ INTEGER__dump(asn_TYPE_descriptor_t *td, const INTEGER_t *st, asn_app_consume_by
  */
 int
 INTEGER_print(asn_TYPE_descriptor_t *td, const void *sptr, int ilevel,
-	asn_app_consume_bytes_f *cb, void *app_key) {
+              asn_app_consume_bytes_f *cb, void *app_key) {
 	const INTEGER_t *st = (const INTEGER_t *)sptr;
 	ssize_t ret;
 
@@ -234,10 +240,10 @@ INTEGER__compar_enum2value(const void *kp, const void *am) {
 
 	/* Compare strings */
 	for(ptr = key->start, end = key->stop, name = el->enum_name;
-			ptr < end; ptr++, name++) {
+	        ptr < end; ptr++, name++) {
 		if(*ptr != *name)
 			return *(const unsigned char *)ptr
-				- *(const unsigned char *)name;
+			       - *(const unsigned char *)name;
 	}
 	return name[0] ? -1 : 0;
 }
@@ -255,8 +261,14 @@ INTEGER_map_enum2value(asn_INTEGER_specifics_t *specs, const char *lstart, const
 	/* Figure out the tag name */
 	for(lstart++, lp = lstart; lp < lstop; lp++) {
 		switch(*lp) {
-		case 9: case 10: case 11: case 12: case 13: case 32: /* WSP */
-		case 0x2f: /* '/' */ case 0x3e: /* '>' */
+		case 9:
+		case 10:
+		case 11:
+		case 12:
+		case 13:
+		case 32: /* WSP */
+		case 0x2f: /* '/' */
+		case 0x3e: /* '>' */
 			break;
 		default:
 			continue;
@@ -271,8 +283,8 @@ INTEGER_map_enum2value(asn_INTEGER_specifics_t *specs, const char *lstart, const
 	key.vemap = specs->value2enum;
 	key.evmap = specs->enum2value;
 	el_found = (asn_INTEGER_enum_map_t *)bsearch(&key,
-		specs->value2enum, count, sizeof(specs->value2enum[0]),
-		INTEGER__compar_enum2value);
+	           specs->value2enum, count, sizeof(specs->value2enum[0]),
+	           INTEGER__compar_enum2value);
 	if(el_found) {
 		/* Remap enum2value into value2enum */
 		el_found = key.vemap + key.evmap[el_found - key.vemap];
@@ -295,8 +307,8 @@ INTEGER_map_value2enum(asn_INTEGER_specifics_t *specs, long value) {
 	int count = specs ? specs->map_count : 0;
 	if(!count) return 0;
 	return (asn_INTEGER_enum_map_t *)bsearch(&value, specs->value2enum,
-		count, sizeof(specs->value2enum[0]),
-		INTEGER__compar_value2enum);
+	        count, sizeof(specs->value2enum[0]),
+	        INTEGER__compar_value2enum);
 }
 
 static int
@@ -337,7 +349,7 @@ INTEGER__xer_body_decode(asn_TYPE_descriptor_t *td, void *sptr, const void *chun
 
 	if(chunk_size)
 		ASN_DEBUG("INTEGER body %ld 0x%2x..0x%2x",
-			(long)chunk_size, *lstart, lstop[-1]);
+		          (long)chunk_size, *lstart, lstop[-1]);
 
 	/*
 	 * We may have received a tag here. It will be processed inline.
@@ -346,7 +358,10 @@ INTEGER__xer_body_decode(asn_TYPE_descriptor_t *td, void *sptr, const void *chun
 	for(value = 0, lp = lstart; lp < lstop; lp++) {
 		int lv = *lp;
 		switch(lv) {
-		case 0x09: case 0x0a: case 0x0d: case 0x20:
+		case 0x09:
+		case 0x0a:
+		case 0x0d:
+		case 0x20:
 			switch(state) {
 			case ST_SKIPSPACE:
 			case ST_SKIPSPHEX:
@@ -374,10 +389,19 @@ INTEGER__xer_body_decode(asn_TYPE_descriptor_t *td, void *sptr, const void *chun
 				continue;
 			}
 			break;
-		case 0x30: case 0x31: case 0x32: case 0x33: case 0x34:
-		case 0x35: case 0x36: case 0x37: case 0x38: case 0x39:
+		case 0x30:
+		case 0x31:
+		case 0x32:
+		case 0x33:
+		case 0x34:
+		case 0x35:
+		case 0x36:
+		case 0x37:
+		case 0x38:
+		case 0x39:
 			switch(state) {
-			case ST_DIGITS: break;
+			case ST_DIGITS:
+				break;
 			case ST_SKIPSPHEX:	/* Fall through */
 			case ST_HEXDIGIT1:
 				value = (lv - 0x30) << 4;
@@ -395,37 +419,37 @@ INTEGER__xer_body_decode(asn_TYPE_descriptor_t *td, void *sptr, const void *chun
 				break;
 			}
 
-		    {
-			long new_value = value * 10;
+			{
+				long new_value = value * 10;
 
-			if(new_value / 10 != value)
-				/* Overflow */
-				return XPBD_DECODER_LIMIT;
-
-			value = new_value + (lv - 0x30);
-			/* Check for two's complement overflow */
-			if(value < 0) {
-				/* Check whether it is a LONG_MIN */
-				if(sign == -1
-				&& (unsigned long)value
-						== ~((unsigned long)-1 >> 1)) {
-					sign = 1;
-				} else {
+				if(new_value / 10 != value)
 					/* Overflow */
 					return XPBD_DECODER_LIMIT;
+
+				value = new_value + (lv - 0x30);
+				/* Check for two's complement overflow */
+				if(value < 0) {
+					/* Check whether it is a LONG_MIN */
+					if(sign == -1
+					        && (unsigned long)value
+					        == ~((unsigned long)-1 >> 1)) {
+						sign = 1;
+					} else {
+						/* Overflow */
+						return XPBD_DECODER_LIMIT;
+					}
 				}
 			}
-		    }
 			continue;
 		case 0x3c:	/* '<' */
 			if(state == ST_SKIPSPACE) {
 				const asn_INTEGER_enum_map_t *el;
 				el = INTEGER_map_enum2value(
-					(asn_INTEGER_specifics_t *)
-					td->specifics, lstart, lstop);
+				         (asn_INTEGER_specifics_t *)
+				         td->specifics, lstart, lstop);
 				if(el) {
 					ASN_DEBUG("Found \"%s\" => %ld",
-						el->enum_name, el->nat_value);
+					          el->enum_name, el->nat_value);
 					state = ST_DIGITS;
 					value = el->nat_value;
 					lp = lstop - 1;
@@ -454,9 +478,19 @@ INTEGER__xer_body_decode(asn_TYPE_descriptor_t *td, void *sptr, const void *chun
 				ASN_DEBUG("state %d at %d", state, lp - lstart);
 				break;
 			}
-		/* [A-Fa-f] */
-		case 0x41:case 0x42:case 0x43:case 0x44:case 0x45:case 0x46:
-		case 0x61:case 0x62:case 0x63:case 0x64:case 0x65:case 0x66:
+			/* [A-Fa-f] */
+		case 0x41:
+		case 0x42:
+		case 0x43:
+		case 0x44:
+		case 0x45:
+		case 0x46:
+		case 0x61:
+		case 0x62:
+		case 0x63:
+		case 0x64:
+		case 0x65:
+		case 0x66:
 			switch(state) {
 			case ST_SKIPSPHEX:
 			case ST_SKIPSPACE: /* Fall through */
@@ -487,7 +521,7 @@ INTEGER__xer_body_decode(asn_TYPE_descriptor_t *td, void *sptr, const void *chun
 
 		/* Found extra non-numeric stuff */
 		ASN_DEBUG("Found non-numeric 0x%2x at %d",
-			lv, lp - lstart);
+		          lv, lp - lstart);
 		state = ST_EXTRASTUFF;
 		break;
 	}
@@ -510,7 +544,7 @@ INTEGER__xer_body_decode(asn_TYPE_descriptor_t *td, void *sptr, const void *chun
 			break;
 		} else {
 			ASN_DEBUG("INTEGER: No useful digits (state %d)",
-				state);
+			          state);
 			return XPBD_BROKEN_ENCODING;	/* No digits */
 		}
 		break;
@@ -526,24 +560,24 @@ INTEGER__xer_body_decode(asn_TYPE_descriptor_t *td, void *sptr, const void *chun
 
 asn_dec_rval_t
 INTEGER_decode_xer(asn_codec_ctx_t *opt_codec_ctx,
-	asn_TYPE_descriptor_t *td, void **sptr, const char *opt_mname,
-		const void *buf_ptr, size_t size) {
+                   asn_TYPE_descriptor_t *td, void **sptr, const char *opt_mname,
+                   const void *buf_ptr, size_t size) {
 
 	return xer_decode_primitive(opt_codec_ctx, td,
-		sptr, sizeof(INTEGER_t), opt_mname,
-		buf_ptr, size, INTEGER__xer_body_decode);
+	                            sptr, sizeof(INTEGER_t), opt_mname,
+	                            buf_ptr, size, INTEGER__xer_body_decode);
 }
 
 asn_enc_rval_t
 INTEGER_encode_xer(asn_TYPE_descriptor_t *td, void *sptr,
-	int ilevel, enum xer_encoder_flags_e flags,
-		asn_app_consume_bytes_f *cb, void *app_key) {
+                   int ilevel, enum xer_encoder_flags_e flags,
+                   asn_app_consume_bytes_f *cb, void *app_key) {
 	const INTEGER_t *st = (const INTEGER_t *)sptr;
 	asn_enc_rval_t er;
 
 	(void)ilevel;
 	(void)flags;
-	
+
 	if(!st || !st->buf)
 		_ASN_ENCODE_FAILED;
 
@@ -555,7 +589,7 @@ INTEGER_encode_xer(asn_TYPE_descriptor_t *td, void *sptr,
 
 asn_dec_rval_t
 INTEGER_decode_uper(asn_codec_ctx_t *opt_codec_ctx, asn_TYPE_descriptor_t *td,
-	asn_per_constraints_t *constraints, void **sptr, asn_per_data_t *pd) {
+                    asn_per_constraints_t *constraints, void **sptr, asn_per_data_t *pd) {
 	asn_INTEGER_specifics_t *specs=(asn_INTEGER_specifics_t *)td->specifics;
 	asn_dec_rval_t rval = { RC_OK, 0 };
 	INTEGER_t *st = (INTEGER_t *)*sptr;
@@ -612,11 +646,11 @@ INTEGER_decode_uper(asn_codec_ctx_t *opt_codec_ctx, asn_TYPE_descriptor_t *td,
 				if(value < 0) _ASN_DECODE_STARVED;
 			}
 			ASN_DEBUG("Got value %ld + low %ld",
-				value, ct->lower_bound);
+			          value, ct->lower_bound);
 			value += ct->lower_bound;
 			if((specs && specs->field_unsigned)
-				? asn_ulong2INTEGER(st, value)
-				: asn_long2INTEGER(st, value))
+			        ? asn_ulong2INTEGER(st, value)
+			        : asn_long2INTEGER(st, value))
 				_ASN_DECODE_FAILED;
 			return rval;
 		}
@@ -661,7 +695,7 @@ INTEGER_decode_uper(asn_codec_ctx_t *opt_codec_ctx, asn_TYPE_descriptor_t *td,
 
 asn_enc_rval_t
 INTEGER_encode_uper(asn_TYPE_descriptor_t *td,
-	asn_per_constraints_t *constraints, void *sptr, asn_per_outp_t *po) {
+                    asn_per_constraints_t *constraints, void *sptr, asn_per_outp_t *po) {
 	asn_INTEGER_specifics_t *specs=(asn_INTEGER_specifics_t *)td->specifics;
 	asn_enc_rval_t er;
 	INTEGER_t *st = (INTEGER_t *)sptr;
@@ -689,13 +723,13 @@ INTEGER_encode_uper(asn_TYPE_descriptor_t *td,
 					inext = 1;
 			} else if(ct->range_bits >= 0) {
 				if(uval < (unsigned long)ct->lower_bound
-				|| uval > (unsigned long)ct->upper_bound)
+				        || uval > (unsigned long)ct->upper_bound)
 					inext = 1;
 			}
 			ASN_DEBUG("Value %lu (%02x/%d) lb %lu ub %lu %s",
-				uval, st->buf[0], st->size,
-				ct->lower_bound, ct->upper_bound,
-				inext ? "ext" : "fix");
+			          uval, st->buf[0], st->size,
+			          ct->lower_bound, ct->upper_bound,
+			          inext ? "ext" : "fix");
 			value = uval;
 		} else {
 			if(asn_INTEGER2long(st, &value))
@@ -706,13 +740,13 @@ INTEGER_encode_uper(asn_TYPE_descriptor_t *td,
 					inext = 1;
 			} else if(ct->range_bits >= 0) {
 				if(value < ct->lower_bound
-				|| value > ct->upper_bound)
+				        || value > ct->upper_bound)
 					inext = 1;
 			}
 			ASN_DEBUG("Value %ld (%02x/%d) lb %ld ub %ld %s",
-				value, st->buf[0], st->size,
-				ct->lower_bound, ct->upper_bound,
-				inext ? "ext" : "fix");
+			          value, st->buf[0], st->size,
+			          ct->lower_bound, ct->upper_bound,
+			          inext ? "ext" : "fix");
 		}
 		if(ct->flags & APC_EXTENSIBLE) {
 			if(per_put_few_bits(po, inext, 1))
@@ -728,16 +762,16 @@ INTEGER_encode_uper(asn_TYPE_descriptor_t *td,
 	if(ct && ct->range_bits >= 0) {
 		/* #10.5.6 */
 		ASN_DEBUG("Encoding integer with range %d bits",
-			ct->range_bits);
+		          ct->range_bits);
 		if(ct->range_bits == 32) {
 			/* TODO: extend to >32 bits */
 			long v = value - ct->lower_bound;
 			if(per_put_few_bits(po, v >> 1, 31)
-			|| per_put_few_bits(po, v, 1))
+			        || per_put_few_bits(po, v, 1))
 				_ASN_ENCODE_FAILED;
 		} else {
 			if(per_put_few_bits(po, value - ct->lower_bound,
-				ct->range_bits))
+			                    ct->range_bits))
 				_ASN_ENCODE_FAILED;
 		}
 		_ASN_ENCODED_OK(er);
@@ -789,8 +823,12 @@ asn_INTEGER2long(const INTEGER_t *iptr, long *lptr) {
 		/* Skip out the insignificant leading bytes */
 		for(; b < end1; b++) {
 			switch(*b) {
-			case 0x00: if((b[1] & 0x80) == 0) continue; break;
-			case 0xff: if((b[1] & 0x80) != 0) continue; break;
+			case 0x00:
+				if((b[1] & 0x80) == 0) continue;
+				break;
+			case 0xff:
+				if((b[1] & 0x80) != 0) continue;
+				break;
 			}
 			break;
 		}
@@ -811,7 +849,8 @@ asn_INTEGER2long(const INTEGER_t *iptr, long *lptr) {
 
 	/* Perform the sign initialization */
 	/* Actually l = -(*b >> 7); gains nothing, yet unreadable! */
-	if((*b >> 7)) l = -1; else l = 0;
+	if((*b >> 7)) l = -1;
+	else l = 0;
 
 	/* Conversion engine */
 	for(; b < end; b++)
@@ -913,10 +952,12 @@ asn_long2INTEGER(INTEGER_t *st, long value) {
 	 */
 	for(p = pstart; p != pend1; p += add) {
 		switch(*p) {
-		case 0x00: if((*(p+add) & 0x80) == 0)
+		case 0x00:
+			if((*(p+add) & 0x80) == 0)
 				continue;
 			break;
-		case 0xff: if((*(p+add) & 0x80))
+		case 0xff:
+			if((*(p+add) & 0x80))
 				continue;
 			break;
 		}

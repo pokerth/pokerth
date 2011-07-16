@@ -8,7 +8,7 @@
 #include "PlayerInfoReplyMessage.h"
 
 static asn_TYPE_member_t asn_MBR_playerInfoResult_3[] = {
-	{ ATF_NOFLAGS, 0, offsetof(struct playerInfoResult, choice.playerInfoData),
+	{	ATF_NOFLAGS, 0, offsetof(struct playerInfoResult, choice.playerInfoData),
 		(ASN_TAG_CLASS_CONTEXT | (0 << 2)),
 		-1,	/* IMPLICIT tag at current level */
 		&asn_DEF_PlayerInfoData,
@@ -16,8 +16,8 @@ static asn_TYPE_member_t asn_MBR_playerInfoResult_3[] = {
 		0,	/* PER is not compiled, use -gen-PER */
 		0,
 		"playerInfoData"
-		},
-	{ ATF_NOFLAGS, 0, offsetof(struct playerInfoResult, choice.unknownPlayerInfo),
+	},
+	{	ATF_NOFLAGS, 0, offsetof(struct playerInfoResult, choice.unknownPlayerInfo),
 		(ASN_TAG_CLASS_CONTEXT | (1 << 2)),
 		-1,	/* IMPLICIT tag at current level */
 		&asn_DEF_UnknownPlayerInfo,
@@ -25,11 +25,11 @@ static asn_TYPE_member_t asn_MBR_playerInfoResult_3[] = {
 		0,	/* PER is not compiled, use -gen-PER */
 		0,
 		"unknownPlayerInfo"
-		},
+	},
 };
 static asn_TYPE_tag2member_t asn_MAP_playerInfoResult_tag2el_3[] = {
-    { (ASN_TAG_CLASS_CONTEXT | (0 << 2)), 0, 0, 0 }, /* playerInfoData at 244 */
-    { (ASN_TAG_CLASS_CONTEXT | (1 << 2)), 1, 0, 0 } /* unknownPlayerInfo at 246 */
+	{ (ASN_TAG_CLASS_CONTEXT | (0 << 2)), 0, 0, 0 }, /* playerInfoData at 246 */
+	{ (ASN_TAG_CLASS_CONTEXT | (1 << 2)), 1, 0, 0 } /* unknownPlayerInfo at 248 */
 };
 static asn_CHOICE_specifics_t asn_SPC_playerInfoResult_specs_3 = {
 	sizeof(struct playerInfoResult),
@@ -65,7 +65,7 @@ asn_TYPE_descriptor_t asn_DEF_playerInfoResult_3 = {
 };
 
 static asn_TYPE_member_t asn_MBR_PlayerInfoReplyMessage_1[] = {
-	{ ATF_NOFLAGS, 0, offsetof(struct PlayerInfoReplyMessage, playerId),
+	{	ATF_NOFLAGS, 0, offsetof(struct PlayerInfoReplyMessage, playerId),
 		(ASN_TAG_CLASS_UNIVERSAL | (2 << 2)),
 		0,
 		&asn_DEF_NonZeroId,
@@ -73,8 +73,8 @@ static asn_TYPE_member_t asn_MBR_PlayerInfoReplyMessage_1[] = {
 		0,	/* PER is not compiled, use -gen-PER */
 		0,
 		"playerId"
-		},
-	{ ATF_NOFLAGS, 0, offsetof(struct PlayerInfoReplyMessage, playerInfoResult),
+	},
+	{	ATF_NOFLAGS, 0, offsetof(struct PlayerInfoReplyMessage, playerInfoResult),
 		-1 /* Ambiguous tag (CHOICE?) */,
 		0,
 		&asn_DEF_playerInfoResult_3,
@@ -82,16 +82,16 @@ static asn_TYPE_member_t asn_MBR_PlayerInfoReplyMessage_1[] = {
 		0,	/* PER is not compiled, use -gen-PER */
 		0,
 		"playerInfoResult"
-		},
+	},
 };
 static ber_tlv_tag_t asn_DEF_PlayerInfoReplyMessage_tags_1[] = {
 	(ASN_TAG_CLASS_APPLICATION | (9 << 2)),
 	(ASN_TAG_CLASS_UNIVERSAL | (16 << 2))
 };
 static asn_TYPE_tag2member_t asn_MAP_PlayerInfoReplyMessage_tag2el_1[] = {
-    { (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 0, 0, 0 }, /* playerId at 242 */
-    { (ASN_TAG_CLASS_CONTEXT | (0 << 2)), 1, 0, 0 }, /* playerInfoData at 244 */
-    { (ASN_TAG_CLASS_CONTEXT | (1 << 2)), 1, 0, 0 } /* unknownPlayerInfo at 246 */
+	{ (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 0, 0, 0 }, /* playerId at 244 */
+	{ (ASN_TAG_CLASS_CONTEXT | (0 << 2)), 1, 0, 0 }, /* playerInfoData at 246 */
+	{ (ASN_TAG_CLASS_CONTEXT | (1 << 2)), 1, 0, 0 } /* unknownPlayerInfo at 248 */
 };
 static asn_SEQUENCE_specifics_t asn_SPC_PlayerInfoReplyMessage_specs_1 = {
 	sizeof(struct PlayerInfoReplyMessage),
@@ -116,10 +116,10 @@ asn_TYPE_descriptor_t asn_DEF_PlayerInfoReplyMessage = {
 	0,	/* Use generic outmost tag fetcher */
 	asn_DEF_PlayerInfoReplyMessage_tags_1,
 	sizeof(asn_DEF_PlayerInfoReplyMessage_tags_1)
-		/sizeof(asn_DEF_PlayerInfoReplyMessage_tags_1[0]) - 1, /* 1 */
+	/sizeof(asn_DEF_PlayerInfoReplyMessage_tags_1[0]) - 1, /* 1 */
 	asn_DEF_PlayerInfoReplyMessage_tags_1,	/* Same as above */
 	sizeof(asn_DEF_PlayerInfoReplyMessage_tags_1)
-		/sizeof(asn_DEF_PlayerInfoReplyMessage_tags_1[0]), /* 2 */
+	/sizeof(asn_DEF_PlayerInfoReplyMessage_tags_1[0]), /* 2 */
 	0,	/* No PER visible constraints */
 	asn_MBR_PlayerInfoReplyMessage_1,
 	2,	/* Elements count */

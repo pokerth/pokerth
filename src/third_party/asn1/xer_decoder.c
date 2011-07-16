@@ -12,7 +12,7 @@
  */
 asn_dec_rval_t
 xer_decode(asn_codec_ctx_t *opt_codec_ctx, asn_TYPE_descriptor_t *td,
-		void **struct_ptr, const void *buffer, size_t size) {
+           void **struct_ptr, const void *buffer, size_t size) {
 	asn_codec_ctx_t s_codec_ctx;
 
 	/*
@@ -83,7 +83,8 @@ xer_next_token(int *stateContext, const void *buffer, size_t size, pxer_chunk_ty
 	case PXML_TEXT:
 		*ch_type = PXER_TEXT;
 		break;
-	case PXML_TAG: return 0;	/* Want more */
+	case PXML_TAG:
+		return 0;	/* Want more */
 	case PXML_TAG_END:
 		*ch_type = PXER_TAG;
 		break;
@@ -109,7 +110,7 @@ xer_check_tag(const void *buf_ptr, int size, const char *need_tag) {
 
 	if(size < 2 || buf[0] != LANGLE || buf[size-1] != RANGLE) {
 		if(size >= 2)
-		ASN_DEBUG("Broken XML tag: \"%c...%c\"", buf[0], buf[size - 1]);
+			ASN_DEBUG("Broken XML tag: \"%c...%c\"", buf[0], buf[size - 1]);
 		return XCT_BROKEN;
 	}
 
@@ -143,7 +144,10 @@ xer_check_tag(const void *buf_ptr, int size, const char *need_tag) {
 		if(b != n) {
 			if(n == 0) {
 				switch(b) {
-				case 0x09: case 0x0a: case 0x0c: case 0x0d:
+				case 0x09:
+				case 0x0a:
+				case 0x0c:
+				case 0x0d:
 				case 0x20:
 					/* "<abc def/>": whitespace is normal */
 					return ct;
@@ -198,16 +202,16 @@ xer_check_tag(const void *buf_ptr, int size, const char *need_tag) {
  */
 asn_dec_rval_t
 xer_decode_general(asn_codec_ctx_t *opt_codec_ctx,
-	asn_struct_ctx_t *ctx,	/* Type decoder context */
-	void *struct_key,
-	const char *xml_tag,	/* Expected XML tag */
-	const void *buf_ptr, size_t size,
-	int (*opt_unexpected_tag_decoder)
-		(void *struct_key, const void *chunk_buf, size_t chunk_size),
-	ssize_t (*body_receiver)
-		(void *struct_key, const void *chunk_buf, size_t chunk_size,
-			int have_more)
-	) {
+                   asn_struct_ctx_t *ctx,	/* Type decoder context */
+                   void *struct_key,
+                   const char *xml_tag,	/* Expected XML tag */
+                   const void *buf_ptr, size_t size,
+                   int (*opt_unexpected_tag_decoder)
+                   (void *struct_key, const void *chunk_buf, size_t chunk_size),
+                   ssize_t (*body_receiver)
+                   (void *struct_key, const void *chunk_buf, size_t chunk_size,
+                    int have_more)
+                  ) {
 
 	asn_dec_rval_t rval;
 	ssize_t consumed_myself = 0;
@@ -229,9 +233,10 @@ xer_decode_general(asn_codec_ctx_t *opt_codec_ctx,
 		 * Get the next part of the XML stream.
 		 */
 		ch_size = xer_next_token(&ctx->context, buf_ptr, size,
-			&ch_type);
+		                         &ch_type);
 		switch(ch_size) {
-		case -1: RETURN(RC_FAIL);
+		case -1:
+			RETURN(RC_FAIL);
 		case 0:
 			RETURN(RC_WMORE);
 		default:
@@ -290,8 +295,8 @@ xer_decode_general(asn_codec_ctx_t *opt_codec_ctx,
 			 * Certain tags in the body may be expected.
 			 */
 			if(opt_unexpected_tag_decoder
-			&& opt_unexpected_tag_decoder(struct_key,
-					buf_ptr, ch_size) >= 0) {
+			        && opt_unexpected_tag_decoder(struct_key,
+			                                      buf_ptr, ch_size) >= 0) {
 				/* Tag's processed fine */
 				ADVANCE(ch_size);
 				if(!ctx->phase) {
@@ -322,13 +327,16 @@ xer_is_whitespace(const void *chunk_buf, size_t chunk_size) {
 
 	for(; p < pend; p++) {
 		switch(*p) {
-		/* X.693, #8.1.4
-		 * HORISONTAL TAB (9)
-		 * LINE FEED (10) 
-		 * CARRIAGE RETURN (13) 
-		 * SPACE (32)
-		 */
-		case 0x09: case 0x0a: case 0x0d: case 0x20:
+			/* X.693, #8.1.4
+			 * HORISONTAL TAB (9)
+			 * LINE FEED (10)
+			 * CARRIAGE RETURN (13)
+			 * SPACE (32)
+			 */
+		case 0x09:
+		case 0x0a:
+		case 0x0d:
+		case 0x20:
 			break;
 		default:
 			return 0;

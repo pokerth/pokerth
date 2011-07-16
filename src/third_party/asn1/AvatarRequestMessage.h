@@ -20,21 +20,21 @@
 extern "C" {
 #endif
 
-/* AvatarRequestMessage */
-typedef struct AvatarRequestMessage {
-	NonZeroId_t	 requestId;
-	AvatarHash_t	 avatar;
-	/*
-	 * This type is extensible,
-	 * possible extensions are below.
-	 */
-	
-	/* Context for parsing across buffer boundaries */
-	asn_struct_ctx_t _asn_ctx;
-} AvatarRequestMessage_t;
+	/* AvatarRequestMessage */
+	typedef struct AvatarRequestMessage {
+		NonZeroId_t	 requestId;
+		AvatarHash_t	 avatar;
+		/*
+		 * This type is extensible,
+		 * possible extensions are below.
+		 */
 
-/* Implementation */
-extern asn_TYPE_descriptor_t asn_DEF_AvatarRequestMessage;
+		/* Context for parsing across buffer boundaries */
+		asn_struct_ctx_t _asn_ctx;
+	} AvatarRequestMessage_t;
+
+	/* Implementation */
+	extern asn_TYPE_descriptor_t asn_DEF_AvatarRequestMessage;
 
 #ifdef __cplusplus
 }
