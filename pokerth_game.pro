@@ -102,7 +102,7 @@ DEPENDPATH += . \
 	src/gui/qt/timeoutmsgbox
 
 # Input
-HEADERS += src/game.h \
+HEADERS += src/engine/game.h \
 	src/session.h \
 	src/playerdata.h \
 	src/gamedata.h \
