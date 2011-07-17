@@ -40,6 +40,11 @@ import org.bn.types.*;
 	private JoinNewGame joinNewGame = null;
                 
   
+        @ASN1Element ( name = "rejoinExistingGame", isOptional =  false , hasTag =  true, tag = 2 , hasDefaultValue =  false  )
+    
+	private RejoinExistingGame rejoinExistingGame = null;
+                
+  
         
         public JoinExistingGame getJoinExistingGame () {
             return this.joinExistingGame;
@@ -58,6 +63,8 @@ import org.bn.types.*;
             this.joinExistingGame = value;
             
                     setJoinNewGame(null);
+                
+                    setRejoinExistingGame(null);
                             
         }
 
@@ -81,6 +88,33 @@ import org.bn.types.*;
             this.joinNewGame = value;
             
                     setJoinExistingGame(null);
+                
+                    setRejoinExistingGame(null);
+                            
+        }
+
+        
+  
+        
+        public RejoinExistingGame getRejoinExistingGame () {
+            return this.rejoinExistingGame;
+        }
+
+        public boolean isRejoinExistingGameSelected () {
+            return this.rejoinExistingGame != null;
+        }
+
+        private void setRejoinExistingGame (RejoinExistingGame value) {
+            this.rejoinExistingGame = value;
+        }
+
+        
+        public void selectRejoinExistingGame (RejoinExistingGame value) {
+            this.rejoinExistingGame = value;
+            
+                    setJoinExistingGame(null);
+                
+                    setJoinNewGame(null);
                             
         }
 

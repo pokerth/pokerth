@@ -40,6 +40,11 @@ import org.bn.types.*;
 	private AvatarHash yourAvatar = null;
                 
   
+        @ASN1Element ( name = "rejoinGameId", isOptional =  true , hasTag =  false  , hasDefaultValue =  false  )
+    
+	private NonZeroId rejoinGameId = null;
+                
+  
         
         public Guid getYourSessionId () {
             return this.yourSessionId;
@@ -77,6 +82,22 @@ import org.bn.types.*;
 
         public void setYourAvatar (AvatarHash value) {
             this.yourAvatar = value;
+        }
+        
+  
+        
+        public NonZeroId getRejoinGameId () {
+            return this.rejoinGameId;
+        }
+
+        
+        public boolean isRejoinGameIdPresent () {
+            return this.rejoinGameId != null;
+        }
+        
+
+        public void setRejoinGameId (NonZeroId value) {
+            this.rejoinGameId = value;
         }
         
   

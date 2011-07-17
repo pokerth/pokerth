@@ -35,19 +35,83 @@ import org.bn.types.*;
 	private NonZeroId startDealerPlayerId = null;
                 
   
-@ASN1SequenceOf( name = "playerSeats", isSetOf = false ) 
-
-    @ASN1ValueRangeConstraint ( 
-		
-		min = 2L, 
-		
-		max = 10L 
-		
-	   )
-	   
-        @ASN1Element ( name = "playerSeats", isOptional =  false , hasTag =  false  , hasDefaultValue =  false  )
+        
+    @ASN1PreparedElement
+    @ASN1Choice ( name = "gameStartMode" )
+    public static class GameStartModeChoiceType implements IASN1PreparedElement {
+            
+        @ASN1Element ( name = "gameStartModeInitial", isOptional =  false , hasTag =  true, tag = 0 , hasDefaultValue =  false  )
     
-	private java.util.Collection<NonZeroId>  playerSeats = null;
+	private GameStartModeInitial gameStartModeInitial = null;
+                
+  
+        @ASN1Element ( name = "gameStartModeRejoin", isOptional =  false , hasTag =  true, tag = 1 , hasDefaultValue =  false  )
+    
+	private GameStartModeRejoin gameStartModeRejoin = null;
+                
+  
+        
+        public GameStartModeInitial getGameStartModeInitial () {
+            return this.gameStartModeInitial;
+        }
+
+        public boolean isGameStartModeInitialSelected () {
+            return this.gameStartModeInitial != null;
+        }
+
+        private void setGameStartModeInitial (GameStartModeInitial value) {
+            this.gameStartModeInitial = value;
+        }
+
+        
+        public void selectGameStartModeInitial (GameStartModeInitial value) {
+            this.gameStartModeInitial = value;
+            
+                    setGameStartModeRejoin(null);
+                            
+        }
+
+        
+  
+        
+        public GameStartModeRejoin getGameStartModeRejoin () {
+            return this.gameStartModeRejoin;
+        }
+
+        public boolean isGameStartModeRejoinSelected () {
+            return this.gameStartModeRejoin != null;
+        }
+
+        private void setGameStartModeRejoin (GameStartModeRejoin value) {
+            this.gameStartModeRejoin = value;
+        }
+
+        
+        public void selectGameStartModeRejoin (GameStartModeRejoin value) {
+            this.gameStartModeRejoin = value;
+            
+                    setGameStartModeInitial(null);
+                            
+        }
+
+        
+  
+
+	    public void initWithDefaults() {
+	    }
+
+        public IASN1PreparedElementData getPreparedData() {
+            return preparedData_GameStartModeChoiceType;
+        }
+
+        private static IASN1PreparedElementData preparedData_GameStartModeChoiceType = CoderFactory.getInstance().newPreparedElementData(GameStartModeChoiceType.class);
+
+    }
+
+                
+        @ASN1Element ( name = "gameStartMode", isOptional =  false , hasTag =  false  , hasDefaultValue =  false  )
+    
+	private GameStartModeChoiceType gameStartMode = null;
                 
   
         
@@ -75,14 +139,14 @@ import org.bn.types.*;
         
   
         
-        public java.util.Collection<NonZeroId>  getPlayerSeats () {
-            return this.playerSeats;
+        public GameStartModeChoiceType getGameStartMode () {
+            return this.gameStartMode;
         }
 
         
 
-        public void setPlayerSeats (java.util.Collection<NonZeroId>  value) {
-            this.playerSeats = value;
+        public void setGameStartMode (GameStartModeChoiceType value) {
+            this.gameStartMode = value;
         }
         
   

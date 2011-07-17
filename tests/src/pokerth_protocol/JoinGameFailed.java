@@ -47,6 +47,8 @@ import org.bn.types.*;
             invalidSettings , 
             @ASN1EnumItem ( name = "ipAddressBlocked", hasTag = true , tag = 10 )
             ipAddressBlocked , 
+            @ASN1EnumItem ( name = "rejoinFailed", hasTag = true , tag = 11 )
+            rejoinFailed , 
         }
         
         private EnumType value;

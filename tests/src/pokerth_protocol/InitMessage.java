@@ -36,6 +36,11 @@ import org.bn.types.*;
 	private Long buildId = null;
                 
   
+        @ASN1Element ( name = "myLastSessionId", isOptional =  false , hasTag =  false  , hasDefaultValue =  false  )
+    
+	private Guid myLastSessionId = null;
+                
+  
         
     @ASN1PreparedElement
     @ASN1Choice ( name = "login" )
@@ -170,6 +175,18 @@ import org.bn.types.*;
 
         public void setBuildId (Long value) {
             this.buildId = value;
+        }
+        
+  
+        
+        public Guid getMyLastSessionId () {
+            return this.myLastSessionId;
+        }
+
+        
+
+        public void setMyLastSessionId (Guid value) {
+            this.myLastSessionId = value;
         }
         
   
