@@ -96,7 +96,7 @@ AnnounceMessage ::= [APPLICATION 0] SEQUENCE {
 InitMessage ::= [APPLICATION 1] SEQUENCE {
 	requestedVersion			Version,
 	buildId						INTEGER,
-	myLastSessionId				Guid,
+	myLastSessionId				Guid OPTIONAL,
 	login						CHOICE {
 		guestLogin				[0]	GuestLogin,
 		authenticatedLogin		[1]	AuthenticatedLogin,

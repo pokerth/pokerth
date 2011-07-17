@@ -40,7 +40,7 @@ extern "C" {
 	typedef struct InitMessage {
 		Version_t	 requestedVersion;
 		long	 buildId;
-		Guid_t	 myLastSessionId;
+		Guid_t	*myLastSessionId	/* OPTIONAL */;
 		struct login {
 			login_PR present;
 			union InitMessage__login_u {

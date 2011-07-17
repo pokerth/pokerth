@@ -93,7 +93,7 @@ static asn_TYPE_member_t asn_MBR_InitMessage_1[] = {
 		0,
 		"buildId"
 	},
-	{	ATF_NOFLAGS, 0, offsetof(struct InitMessage, myLastSessionId),
+	{	ATF_POINTER, 1, offsetof(struct InitMessage, myLastSessionId),
 		(ASN_TAG_CLASS_UNIVERSAL | (4 << 2)),
 		0,
 		&asn_DEF_Guid,
