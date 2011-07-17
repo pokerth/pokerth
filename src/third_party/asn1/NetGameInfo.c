@@ -204,31 +204,6 @@ endRaiseMode_13_encode_xer(asn_TYPE_descriptor_t *td, void *structure,
 }
 
 static int
-memb_NativeInteger_constraint_23(asn_TYPE_descriptor_t *td, const void *sptr,
-                                 asn_app_constraint_failed_f *ctfailcb, void *app_key) {
-	long value;
-
-	if(!sptr) {
-		_ASN_CTFAIL(app_key, td, sptr,
-		            "%s: value not given (%s:%d)",
-		            td->name, __FILE__, __LINE__);
-		return -1;
-	}
-
-	value = *(const long *)sptr;
-
-	if((value >= 1 && value <= 1000000)) {
-		/* Constraint check succeeded */
-		return 0;
-	} else {
-		_ASN_CTFAIL(app_key, td, sptr,
-		            "%s: constraint failed (%s:%d)",
-		            td->name, __FILE__, __LINE__);
-		return -1;
-	}
-}
-
-static int
 memb_gameName_constraint_1(asn_TYPE_descriptor_t *td, const void *sptr,
                            asn_app_constraint_failed_f *ctfailcb, void *app_key) {
 	const UTF8String_t *st = (const UTF8String_t *)sptr;
@@ -375,56 +350,6 @@ memb_firstSmallBlind_constraint_1(asn_TYPE_descriptor_t *td, const void *sptr,
 	value = *(const long *)sptr;
 
 	if((value >= 1 && value <= 20000)) {
-		/* Constraint check succeeded */
-		return 0;
-	} else {
-		_ASN_CTFAIL(app_key, td, sptr,
-		            "%s: constraint failed (%s:%d)",
-		            td->name, __FILE__, __LINE__);
-		return -1;
-	}
-}
-
-static int
-memb_endRaiseSmallBlindValue_constraint_1(asn_TYPE_descriptor_t *td, const void *sptr,
-        asn_app_constraint_failed_f *ctfailcb, void *app_key) {
-	long value;
-
-	if(!sptr) {
-		_ASN_CTFAIL(app_key, td, sptr,
-		            "%s: value not given (%s:%d)",
-		            td->name, __FILE__, __LINE__);
-		return -1;
-	}
-
-	value = *(const long *)sptr;
-
-	if((value >= 0 && value <= 1000000)) {
-		/* Constraint check succeeded */
-		return 0;
-	} else {
-		_ASN_CTFAIL(app_key, td, sptr,
-		            "%s: constraint failed (%s:%d)",
-		            td->name, __FILE__, __LINE__);
-		return -1;
-	}
-}
-
-static int
-memb_startMoney_constraint_1(asn_TYPE_descriptor_t *td, const void *sptr,
-                             asn_app_constraint_failed_f *ctfailcb, void *app_key) {
-	long value;
-
-	if(!sptr) {
-		_ASN_CTFAIL(app_key, td, sptr,
-		            "%s: value not given (%s:%d)",
-		            td->name, __FILE__, __LINE__);
-		return -1;
-	}
-
-	value = *(const long *)sptr;
-
-	if((value >= 1 && value <= 1000000)) {
 		/* Constraint check succeeded */
 		return 0;
 	} else {
@@ -616,8 +541,8 @@ static asn_TYPE_member_t asn_MBR_manualBlinds_23[] = {
 	{	ATF_POINTER, 0, 0,
 		(ASN_TAG_CLASS_UNIVERSAL | (2 << 2)),
 		0,
-		&asn_DEF_NativeInteger,
-		memb_NativeInteger_constraint_23,
+		&asn_DEF_InitialNonZeroAmountOfMoney,
+		0,	/* Defer constraints checking to the member type */
 		0,	/* PER is not compiled, use -gen-PER */
 		0,
 		""
@@ -741,8 +666,8 @@ static asn_TYPE_member_t asn_MBR_NetGameInfo_1[] = {
 	{	ATF_NOFLAGS, 0, offsetof(struct NetGameInfo, endRaiseSmallBlindValue),
 		(ASN_TAG_CLASS_UNIVERSAL | (2 << 2)),
 		0,
-		&asn_DEF_NativeInteger,
-		memb_endRaiseSmallBlindValue_constraint_1,
+		&asn_DEF_InitialAmountOfMoney,
+		0,	/* Defer constraints checking to the member type */
 		0,	/* PER is not compiled, use -gen-PER */
 		0,
 		"endRaiseSmallBlindValue"
@@ -750,8 +675,8 @@ static asn_TYPE_member_t asn_MBR_NetGameInfo_1[] = {
 	{	ATF_NOFLAGS, 0, offsetof(struct NetGameInfo, startMoney),
 		(ASN_TAG_CLASS_UNIVERSAL | (2 << 2)),
 		0,
-		&asn_DEF_NativeInteger,
-		memb_startMoney_constraint_1,
+		&asn_DEF_InitialNonZeroAmountOfMoney,
+		0,	/* Defer constraints checking to the member type */
 		0,	/* PER is not compiled, use -gen-PER */
 		0,
 		"startMoney"
@@ -780,7 +705,7 @@ static asn_TYPE_tag2member_t asn_MAP_NetGameInfo_tag2el_1[] = {
 	{ (ASN_TAG_CLASS_UNIVERSAL | (10 << 2)), 1, 0, 1 }, /* netGameType at 334 */
 	{ (ASN_TAG_CLASS_UNIVERSAL | (10 << 2)), 4, -1, 0 }, /* endRaiseMode at 345 */
 	{ (ASN_TAG_CLASS_UNIVERSAL | (12 << 2)), 0, 0, 0 }, /* gameName at 332 */
-	{ (ASN_TAG_CLASS_UNIVERSAL | (16 << 2)), 11, 0, 0 }, /* manualBlinds at 355 */
+	{ (ASN_TAG_CLASS_UNIVERSAL | (16 << 2)), 11, 0, 0 }, /* manualBlinds at 356 */
 	{ (ASN_TAG_CLASS_CONTEXT | (0 << 2)), 3, 0, 0 }, /* raiseEveryHands at 341 */
 	{ (ASN_TAG_CLASS_CONTEXT | (1 << 2)), 3, 0, 0 } /* raiseEveryMinutes at 342 */
 };

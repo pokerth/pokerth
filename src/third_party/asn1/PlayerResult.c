@@ -33,56 +33,6 @@ memb_bestHandPosition_constraint_1(asn_TYPE_descriptor_t *td, const void *sptr,
 	}
 }
 
-static int
-memb_moneyWon_constraint_1(asn_TYPE_descriptor_t *td, const void *sptr,
-                           asn_app_constraint_failed_f *ctfailcb, void *app_key) {
-	long value;
-
-	if(!sptr) {
-		_ASN_CTFAIL(app_key, td, sptr,
-		            "%s: value not given (%s:%d)",
-		            td->name, __FILE__, __LINE__);
-		return -1;
-	}
-
-	value = *(const long *)sptr;
-
-	if((value >= 0 && value <= 10000000)) {
-		/* Constraint check succeeded */
-		return 0;
-	} else {
-		_ASN_CTFAIL(app_key, td, sptr,
-		            "%s: constraint failed (%s:%d)",
-		            td->name, __FILE__, __LINE__);
-		return -1;
-	}
-}
-
-static int
-memb_playerMoney_constraint_1(asn_TYPE_descriptor_t *td, const void *sptr,
-                              asn_app_constraint_failed_f *ctfailcb, void *app_key) {
-	long value;
-
-	if(!sptr) {
-		_ASN_CTFAIL(app_key, td, sptr,
-		            "%s: value not given (%s:%d)",
-		            td->name, __FILE__, __LINE__);
-		return -1;
-	}
-
-	value = *(const long *)sptr;
-
-	if((value >= 0 && value <= 10000000)) {
-		/* Constraint check succeeded */
-		return 0;
-	} else {
-		_ASN_CTFAIL(app_key, td, sptr,
-		            "%s: constraint failed (%s:%d)",
-		            td->name, __FILE__, __LINE__);
-		return -1;
-	}
-}
-
 static asn_TYPE_member_t asn_MBR_bestHandPosition_5[] = {
 	{	ATF_POINTER, 0, 0,
 		(ASN_TAG_CLASS_UNIVERSAL | (2 << 2)),
@@ -176,8 +126,8 @@ static asn_TYPE_member_t asn_MBR_PlayerResult_1[] = {
 	{	ATF_NOFLAGS, 0, offsetof(struct PlayerResult, moneyWon),
 		(ASN_TAG_CLASS_UNIVERSAL | (2 << 2)),
 		0,
-		&asn_DEF_NativeInteger,
-		memb_moneyWon_constraint_1,
+		&asn_DEF_AmountOfMoney,
+		0,	/* Defer constraints checking to the member type */
 		0,	/* PER is not compiled, use -gen-PER */
 		0,
 		"moneyWon"
@@ -185,8 +135,8 @@ static asn_TYPE_member_t asn_MBR_PlayerResult_1[] = {
 	{	ATF_NOFLAGS, 0, offsetof(struct PlayerResult, playerMoney),
 		(ASN_TAG_CLASS_UNIVERSAL | (2 << 2)),
 		0,
-		&asn_DEF_NativeInteger,
-		memb_playerMoney_constraint_1,
+		&asn_DEF_AmountOfMoney,
+		0,	/* Defer constraints checking to the member type */
 		0,	/* PER is not compiled, use -gen-PER */
 		0,
 		"playerMoney"
@@ -201,7 +151,7 @@ static asn_TYPE_tag2member_t asn_MAP_PlayerResult_tag2el_1[] = {
 	{ (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 2, -2, 3 }, /* resultCard2 at 562 */
 	{ (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 4, -3, 2 }, /* cardsValue at 564 */
 	{ (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 5, -4, 1 }, /* moneyWon at 565 */
-	{ (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 6, -5, 0 }, /* playerMoney at 566 */
+	{ (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 6, -5, 0 }, /* playerMoney at 567 */
 	{ (ASN_TAG_CLASS_UNIVERSAL | (16 << 2)), 3, 0, 0 } /* bestHandPosition at 563 */
 };
 static asn_SEQUENCE_specifics_t asn_SPC_PlayerResult_specs_1 = {

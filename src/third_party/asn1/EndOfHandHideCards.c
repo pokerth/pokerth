@@ -7,56 +7,6 @@
 
 #include "EndOfHandHideCards.h"
 
-static int
-memb_moneyWon_constraint_1(asn_TYPE_descriptor_t *td, const void *sptr,
-                           asn_app_constraint_failed_f *ctfailcb, void *app_key) {
-	long value;
-
-	if(!sptr) {
-		_ASN_CTFAIL(app_key, td, sptr,
-		            "%s: value not given (%s:%d)",
-		            td->name, __FILE__, __LINE__);
-		return -1;
-	}
-
-	value = *(const long *)sptr;
-
-	if((value >= 0 && value <= 10000000)) {
-		/* Constraint check succeeded */
-		return 0;
-	} else {
-		_ASN_CTFAIL(app_key, td, sptr,
-		            "%s: constraint failed (%s:%d)",
-		            td->name, __FILE__, __LINE__);
-		return -1;
-	}
-}
-
-static int
-memb_playerMoney_constraint_1(asn_TYPE_descriptor_t *td, const void *sptr,
-                              asn_app_constraint_failed_f *ctfailcb, void *app_key) {
-	long value;
-
-	if(!sptr) {
-		_ASN_CTFAIL(app_key, td, sptr,
-		            "%s: value not given (%s:%d)",
-		            td->name, __FILE__, __LINE__);
-		return -1;
-	}
-
-	value = *(const long *)sptr;
-
-	if((value >= 0 && value <= 10000000)) {
-		/* Constraint check succeeded */
-		return 0;
-	} else {
-		_ASN_CTFAIL(app_key, td, sptr,
-		            "%s: constraint failed (%s:%d)",
-		            td->name, __FILE__, __LINE__);
-		return -1;
-	}
-}
-
 static asn_TYPE_member_t asn_MBR_EndOfHandHideCards_1[] = {
 	{	ATF_NOFLAGS, 0, offsetof(struct EndOfHandHideCards, playerId),
 		(ASN_TAG_CLASS_UNIVERSAL | (2 << 2)),
@@ -70,8 +20,8 @@ static asn_TYPE_member_t asn_MBR_EndOfHandHideCards_1[] = {
 	{	ATF_NOFLAGS, 0, offsetof(struct EndOfHandHideCards, moneyWon),
 		(ASN_TAG_CLASS_UNIVERSAL | (2 << 2)),
 		0,
-		&asn_DEF_NativeInteger,
-		memb_moneyWon_constraint_1,
+		&asn_DEF_AmountOfMoney,
+		0,	/* Defer constraints checking to the member type */
 		0,	/* PER is not compiled, use -gen-PER */
 		0,
 		"moneyWon"
@@ -79,8 +29,8 @@ static asn_TYPE_member_t asn_MBR_EndOfHandHideCards_1[] = {
 	{	ATF_NOFLAGS, 0, offsetof(struct EndOfHandHideCards, playerMoney),
 		(ASN_TAG_CLASS_UNIVERSAL | (2 << 2)),
 		0,
-		&asn_DEF_NativeInteger,
-		memb_playerMoney_constraint_1,
+		&asn_DEF_AmountOfMoney,
+		0,	/* Defer constraints checking to the member type */
 		0,	/* PER is not compiled, use -gen-PER */
 		0,
 		"playerMoney"
@@ -92,7 +42,7 @@ static ber_tlv_tag_t asn_DEF_EndOfHandHideCards_tags_1[] = {
 static asn_TYPE_tag2member_t asn_MAP_EndOfHandHideCards_tag2el_1[] = {
 	{ (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 0, 0, 2 }, /* playerId at 570 */
 	{ (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 1, -1, 1 }, /* moneyWon at 571 */
-	{ (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 2, -2, 0 } /* playerMoney at 572 */
+	{ (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 2, -2, 0 } /* playerMoney at 573 */
 };
 static asn_SEQUENCE_specifics_t asn_SPC_EndOfHandHideCards_specs_1 = {
 	sizeof(struct EndOfHandHideCards),

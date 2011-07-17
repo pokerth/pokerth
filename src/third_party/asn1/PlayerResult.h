@@ -15,6 +15,7 @@
 #include "NonZeroId.h"
 #include "Card.h"
 #include <NativeInteger.h>
+#include "AmountOfMoney.h"
 #include <asn_SEQUENCE_OF.h>
 #include <constr_SEQUENCE_OF.h>
 #include <constr_SEQUENCE.h>
@@ -35,8 +36,8 @@ extern "C" {
 			asn_struct_ctx_t _asn_ctx;
 		} bestHandPosition;
 		long	 cardsValue;
-		long	 moneyWon;
-		long	 playerMoney;
+		AmountOfMoney_t	 moneyWon;
+		AmountOfMoney_t	 playerMoney;
 		/*
 		 * This type is extensible,
 		 * possible extensions are below.

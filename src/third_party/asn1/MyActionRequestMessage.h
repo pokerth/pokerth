@@ -15,7 +15,7 @@
 #include "NonZeroId.h"
 #include "NetGameState.h"
 #include "NetPlayerAction.h"
-#include <NativeInteger.h>
+#include "AmountOfMoney.h"
 #include <constr_SEQUENCE.h>
 
 #ifdef __cplusplus
@@ -28,7 +28,7 @@ extern "C" {
 		NonZeroId_t	 handNum;
 		NetGameState_t	 gameState;
 		NetPlayerAction_t	 myAction;
-		long	 myRelativeBet;
+		AmountOfMoney_t	 myRelativeBet;
 		/*
 		 * This type is extensible,
 		 * possible extensions are below.

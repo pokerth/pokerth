@@ -7,31 +7,6 @@
 
 #include "MyActionRequestMessage.h"
 
-static int
-memb_myRelativeBet_constraint_1(asn_TYPE_descriptor_t *td, const void *sptr,
-                                asn_app_constraint_failed_f *ctfailcb, void *app_key) {
-	long value;
-
-	if(!sptr) {
-		_ASN_CTFAIL(app_key, td, sptr,
-		            "%s: value not given (%s:%d)",
-		            td->name, __FILE__, __LINE__);
-		return -1;
-	}
-
-	value = *(const long *)sptr;
-
-	if((value >= 0 && value <= 10000000)) {
-		/* Constraint check succeeded */
-		return 0;
-	} else {
-		_ASN_CTFAIL(app_key, td, sptr,
-		            "%s: constraint failed (%s:%d)",
-		            td->name, __FILE__, __LINE__);
-		return -1;
-	}
-}
-
 static asn_TYPE_member_t asn_MBR_MyActionRequestMessage_1[] = {
 	{	ATF_NOFLAGS, 0, offsetof(struct MyActionRequestMessage, gameId),
 		(ASN_TAG_CLASS_UNIVERSAL | (2 << 2)),
@@ -72,8 +47,8 @@ static asn_TYPE_member_t asn_MBR_MyActionRequestMessage_1[] = {
 	{	ATF_NOFLAGS, 0, offsetof(struct MyActionRequestMessage, myRelativeBet),
 		(ASN_TAG_CLASS_UNIVERSAL | (2 << 2)),
 		0,
-		&asn_DEF_NativeInteger,
-		memb_myRelativeBet_constraint_1,
+		&asn_DEF_AmountOfMoney,
+		0,	/* Defer constraints checking to the member type */
 		0,	/* PER is not compiled, use -gen-PER */
 		0,
 		"myRelativeBet"
@@ -86,7 +61,7 @@ static ber_tlv_tag_t asn_DEF_MyActionRequestMessage_tags_1[] = {
 static asn_TYPE_tag2member_t asn_MAP_MyActionRequestMessage_tag2el_1[] = {
 	{ (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 0, 0, 2 }, /* gameId at 489 */
 	{ (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 1, -1, 1 }, /* handNum at 490 */
-	{ (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 4, -2, 0 }, /* myRelativeBet at 493 */
+	{ (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 4, -2, 0 }, /* myRelativeBet at 494 */
 	{ (ASN_TAG_CLASS_UNIVERSAL | (10 << 2)), 2, 0, 1 }, /* gameState at 491 */
 	{ (ASN_TAG_CLASS_UNIVERSAL | (10 << 2)), 3, -1, 0 } /* myAction at 492 */
 };

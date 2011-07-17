@@ -13,7 +13,7 @@
 
 /* Including external dependencies */
 #include "NonZeroId.h"
-#include <NativeInteger.h>
+#include "AmountOfMoney.h"
 #include <constr_SEQUENCE.h>
 
 #ifdef __cplusplus
@@ -23,8 +23,8 @@ extern "C" {
 	/* EndOfHandHideCards */
 	typedef struct EndOfHandHideCards {
 		NonZeroId_t	 playerId;
-		long	 moneyWon;
-		long	 playerMoney;
+		AmountOfMoney_t	 moneyWon;
+		AmountOfMoney_t	 playerMoney;
 		/*
 		 * This type is extensible,
 		 * possible extensions are below.

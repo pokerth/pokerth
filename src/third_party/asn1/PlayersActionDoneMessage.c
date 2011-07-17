@@ -7,106 +7,6 @@
 
 #include "PlayersActionDoneMessage.h"
 
-static int
-memb_totalPlayerBet_constraint_1(asn_TYPE_descriptor_t *td, const void *sptr,
-                                 asn_app_constraint_failed_f *ctfailcb, void *app_key) {
-	long value;
-
-	if(!sptr) {
-		_ASN_CTFAIL(app_key, td, sptr,
-		            "%s: value not given (%s:%d)",
-		            td->name, __FILE__, __LINE__);
-		return -1;
-	}
-
-	value = *(const long *)sptr;
-
-	if((value >= 0 && value <= 10000000)) {
-		/* Constraint check succeeded */
-		return 0;
-	} else {
-		_ASN_CTFAIL(app_key, td, sptr,
-		            "%s: constraint failed (%s:%d)",
-		            td->name, __FILE__, __LINE__);
-		return -1;
-	}
-}
-
-static int
-memb_playerMoney_constraint_1(asn_TYPE_descriptor_t *td, const void *sptr,
-                              asn_app_constraint_failed_f *ctfailcb, void *app_key) {
-	long value;
-
-	if(!sptr) {
-		_ASN_CTFAIL(app_key, td, sptr,
-		            "%s: value not given (%s:%d)",
-		            td->name, __FILE__, __LINE__);
-		return -1;
-	}
-
-	value = *(const long *)sptr;
-
-	if((value >= 0 && value <= 10000000)) {
-		/* Constraint check succeeded */
-		return 0;
-	} else {
-		_ASN_CTFAIL(app_key, td, sptr,
-		            "%s: constraint failed (%s:%d)",
-		            td->name, __FILE__, __LINE__);
-		return -1;
-	}
-}
-
-static int
-memb_highestSet_constraint_1(asn_TYPE_descriptor_t *td, const void *sptr,
-                             asn_app_constraint_failed_f *ctfailcb, void *app_key) {
-	long value;
-
-	if(!sptr) {
-		_ASN_CTFAIL(app_key, td, sptr,
-		            "%s: value not given (%s:%d)",
-		            td->name, __FILE__, __LINE__);
-		return -1;
-	}
-
-	value = *(const long *)sptr;
-
-	if((value >= 0 && value <= 10000000)) {
-		/* Constraint check succeeded */
-		return 0;
-	} else {
-		_ASN_CTFAIL(app_key, td, sptr,
-		            "%s: constraint failed (%s:%d)",
-		            td->name, __FILE__, __LINE__);
-		return -1;
-	}
-}
-
-static int
-memb_minimumRaise_constraint_1(asn_TYPE_descriptor_t *td, const void *sptr,
-                               asn_app_constraint_failed_f *ctfailcb, void *app_key) {
-	long value;
-
-	if(!sptr) {
-		_ASN_CTFAIL(app_key, td, sptr,
-		            "%s: value not given (%s:%d)",
-		            td->name, __FILE__, __LINE__);
-		return -1;
-	}
-
-	value = *(const long *)sptr;
-
-	if((value >= 0 && value <= 10000000)) {
-		/* Constraint check succeeded */
-		return 0;
-	} else {
-		_ASN_CTFAIL(app_key, td, sptr,
-		            "%s: constraint failed (%s:%d)",
-		            td->name, __FILE__, __LINE__);
-		return -1;
-	}
-}
-
 static asn_TYPE_member_t asn_MBR_PlayersActionDoneMessage_1[] = {
 	{	ATF_NOFLAGS, 0, offsetof(struct PlayersActionDoneMessage, gameId),
 		(ASN_TAG_CLASS_UNIVERSAL | (2 << 2)),
@@ -147,8 +47,8 @@ static asn_TYPE_member_t asn_MBR_PlayersActionDoneMessage_1[] = {
 	{	ATF_NOFLAGS, 0, offsetof(struct PlayersActionDoneMessage, totalPlayerBet),
 		(ASN_TAG_CLASS_UNIVERSAL | (2 << 2)),
 		0,
-		&asn_DEF_NativeInteger,
-		memb_totalPlayerBet_constraint_1,
+		&asn_DEF_AmountOfMoney,
+		0,	/* Defer constraints checking to the member type */
 		0,	/* PER is not compiled, use -gen-PER */
 		0,
 		"totalPlayerBet"
@@ -156,8 +56,8 @@ static asn_TYPE_member_t asn_MBR_PlayersActionDoneMessage_1[] = {
 	{	ATF_NOFLAGS, 0, offsetof(struct PlayersActionDoneMessage, playerMoney),
 		(ASN_TAG_CLASS_UNIVERSAL | (2 << 2)),
 		0,
-		&asn_DEF_NativeInteger,
-		memb_playerMoney_constraint_1,
+		&asn_DEF_AmountOfMoney,
+		0,	/* Defer constraints checking to the member type */
 		0,	/* PER is not compiled, use -gen-PER */
 		0,
 		"playerMoney"
@@ -165,8 +65,8 @@ static asn_TYPE_member_t asn_MBR_PlayersActionDoneMessage_1[] = {
 	{	ATF_NOFLAGS, 0, offsetof(struct PlayersActionDoneMessage, highestSet),
 		(ASN_TAG_CLASS_UNIVERSAL | (2 << 2)),
 		0,
-		&asn_DEF_NativeInteger,
-		memb_highestSet_constraint_1,
+		&asn_DEF_AmountOfMoney,
+		0,	/* Defer constraints checking to the member type */
 		0,	/* PER is not compiled, use -gen-PER */
 		0,
 		"highestSet"
@@ -174,8 +74,8 @@ static asn_TYPE_member_t asn_MBR_PlayersActionDoneMessage_1[] = {
 	{	ATF_NOFLAGS, 0, offsetof(struct PlayersActionDoneMessage, minimumRaise),
 		(ASN_TAG_CLASS_UNIVERSAL | (2 << 2)),
 		0,
-		&asn_DEF_NativeInteger,
-		memb_minimumRaise_constraint_1,
+		&asn_DEF_AmountOfMoney,
+		0,	/* Defer constraints checking to the member type */
 		0,	/* PER is not compiled, use -gen-PER */
 		0,
 		"minimumRaise"
@@ -191,7 +91,7 @@ static asn_TYPE_tag2member_t asn_MAP_PlayersActionDoneMessage_tag2el_1[] = {
 	{ (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 4, -2, 3 }, /* totalPlayerBet at 513 */
 	{ (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 5, -3, 2 }, /* playerMoney at 514 */
 	{ (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 6, -4, 1 }, /* highestSet at 515 */
-	{ (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 7, -5, 0 }, /* minimumRaise at 516 */
+	{ (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 7, -5, 0 }, /* minimumRaise at 517 */
 	{ (ASN_TAG_CLASS_UNIVERSAL | (10 << 2)), 2, 0, 1 }, /* gameState at 511 */
 	{ (ASN_TAG_CLASS_UNIVERSAL | (10 << 2)), 3, -1, 0 } /* playerAction at 512 */
 };

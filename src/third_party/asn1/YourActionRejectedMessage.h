@@ -15,7 +15,7 @@
 #include "NonZeroId.h"
 #include "NetGameState.h"
 #include "NetPlayerAction.h"
-#include <NativeInteger.h>
+#include "AmountOfMoney.h"
 #include <NativeEnumerated.h>
 #include <constr_SEQUENCE.h>
 
@@ -36,7 +36,7 @@ extern "C" {
 		NonZeroId_t	 gameId;
 		NetGameState_t	 gameState;
 		NetPlayerAction_t	 yourAction;
-		long	 yourRelativeBet;
+		AmountOfMoney_t	 yourRelativeBet;
 		long	 rejectionReason;
 		/*
 		 * This type is extensible,

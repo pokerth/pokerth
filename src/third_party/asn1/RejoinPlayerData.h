@@ -13,7 +13,7 @@
 
 /* Including external dependencies */
 #include "NonZeroId.h"
-#include <NativeInteger.h>
+#include "AmountOfMoney.h"
 #include <constr_SEQUENCE.h>
 
 #ifdef __cplusplus
@@ -23,7 +23,7 @@ extern "C" {
 	/* RejoinPlayerData */
 	typedef struct RejoinPlayerData {
 		NonZeroId_t	 playerId;
-		long	 playerMoney;
+		AmountOfMoney_t	 playerMoney;
 		/*
 		 * This type is extensible,
 		 * possible extensions are below.

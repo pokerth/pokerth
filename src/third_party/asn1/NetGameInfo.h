@@ -15,6 +15,8 @@
 #include <UTF8String.h>
 #include <NativeEnumerated.h>
 #include <NativeInteger.h>
+#include "InitialAmountOfMoney.h"
+#include "InitialNonZeroAmountOfMoney.h"
 #include <constr_CHOICE.h>
 #include <asn_SEQUENCE_OF.h>
 #include <constr_SEQUENCE_OF.h>
@@ -69,10 +71,10 @@ extern "C" {
 		long	 delayBetweenHands;
 		long	 playerActionTimeout;
 		long	 firstSmallBlind;
-		long	 endRaiseSmallBlindValue;
-		long	 startMoney;
+		InitialAmountOfMoney_t	 endRaiseSmallBlindValue;
+		InitialNonZeroAmountOfMoney_t	 startMoney;
 		struct manualBlinds {
-			A_SEQUENCE_OF(long) list;
+			A_SEQUENCE_OF(InitialNonZeroAmountOfMoney_t) list;
 
 			/* Context for parsing across buffer boundaries */
 			asn_struct_ctx_t _asn_ctx;

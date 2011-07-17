@@ -32,6 +32,9 @@ HEADERS += src/third_party/asn1/AllInShowCardsMessage.h \
 	src/third_party/asn1/CleanerChatRequestMessage.h \
 	src/third_party/asn1/CleanerChatReplyMessage.h \
 	src/third_party/asn1/GuestLogin.h \
+	src/third_party/asn1/AmountOfMoney.h \
+	src/third_party/asn1/InitialAmountOfMoney.h \
+	src/third_party/asn1/InitialNonZeroAmountOfMoney.h \
 	src/third_party/asn1/AskKickDeniedMessage.h \
 	src/third_party/asn1/AskKickPlayerMessage.h \
 	src/third_party/asn1/AuthMessage.h \
@@ -183,6 +186,9 @@ SOURCES += src/third_party/asn1/ChatCleanerMessage.c \
 	src/third_party/asn1/CleanerInitAckMessage.c \
 	src/third_party/asn1/CleanerChatRequestMessage.c \
 	src/third_party/asn1/CleanerChatReplyMessage.c \
+	src/third_party/asn1/AmountOfMoney.c \
+	src/third_party/asn1/InitialAmountOfMoney.c \
+	src/third_party/asn1/InitialNonZeroAmountOfMoney.c \
 	src/third_party/asn1/AuthMessage.c \
 	src/third_party/asn1/AuthClientResponse.c \
 	src/third_party/asn1/AuthServerChallenge.c \
