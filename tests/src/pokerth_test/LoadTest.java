@@ -64,7 +64,7 @@ public class LoadTest extends TestBase {
 				fail("Invalid message.");
 			}
 
-			Collection<Integer> l = new ArrayList<Integer>();
+			Collection<InitialNonZeroAmountOfMoney> l = new ArrayList<InitialNonZeroAmountOfMoney>();
 			String gameName = AuthUser + " load game " + i;
 			NetGameInfo gameInfo = createGameInfo(5, EndRaiseModeEnumType.EnumType.doubleBlinds, 0, 200, gameName, l, 10, 0, 1, 10000);
 			sendMessage(createGameRequestMsg(
@@ -142,7 +142,7 @@ public class LoadTest extends TestBase {
 							myRequest.setGameState(msg.getPlayersTurnMessage().getValue().getGameState());
 							myRequest.setHandNum(new NonZeroId(handNum));
 							myRequest.setMyAction(action);
-							myRequest.setMyRelativeBet(0);
+							myRequest.setMyRelativeBet(new AmountOfMoney(0));
 							MyActionRequestMessage myAction = new MyActionRequestMessage();
 							myAction.setValue(myRequest);
 							PokerTHMessage outMsg = new PokerTHMessage();

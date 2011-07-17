@@ -33,6 +33,7 @@ import pokerth_protocol.NetGameInfo.EndRaiseModeEnumType;
 import pokerth_protocol.NetGameInfo.NetGameTypeEnumType;
 import pokerth_protocol.SubscriptionRequestMessage.SubscriptionRequestMessageSequenceType;
 import pokerth_protocol.SubscriptionRequestMessage.SubscriptionRequestMessageSequenceType.SubscriptionActionEnumType;
+import pokerth_protocol.InitialNonZeroAmountOfMoney;
 
 
 public class LobbySubscriptionTest extends TestBase {
@@ -59,7 +60,7 @@ public class LobbySubscriptionTest extends TestBase {
 		sendMessage(msg);
 
 		// Create a new game.
-		Collection<Integer> l = new ArrayList<Integer>();
+		Collection<InitialNonZeroAmountOfMoney> l = new ArrayList<InitialNonZeroAmountOfMoney>();
 		NetGameInfo gameInfo = createGameInfo(5, EndRaiseModeEnumType.EnumType.doubleBlinds, 0, 100, GuestUser + " game list normal game", l, 10, 0, 2, 2000);
 		sendMessage(createGameRequestMsg(
 				gameInfo,

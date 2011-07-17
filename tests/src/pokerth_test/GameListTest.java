@@ -33,6 +33,7 @@ import pokerth_protocol.NetGameMode;
 import pokerth_protocol.PokerTHMessage;
 import pokerth_protocol.NetGameInfo.EndRaiseModeEnumType;
 import pokerth_protocol.NetGameInfo.NetGameTypeEnumType;
+import pokerth_protocol.InitialNonZeroAmountOfMoney;
 
 
 public class GameListTest extends TestBase {
@@ -67,7 +68,7 @@ public class GameListTest extends TestBase {
 		assertTrue(msg.isPlayerListMessageSelected());
 
 		// Create a new game.
-		Collection<Integer> l = new ArrayList<Integer>();
+		Collection<InitialNonZeroAmountOfMoney> l = new ArrayList<InitialNonZeroAmountOfMoney>();
 		NetGameInfo gameInfo = createGameInfo(5, EndRaiseModeEnumType.EnumType.doubleBlinds, 0, 100, GuestUser + " game list normal game", l, 10, 0, 2, 2000);
 		sendMessage(createGameRequestMsg(
 				gameInfo,

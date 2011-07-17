@@ -37,6 +37,7 @@ import pokerth_protocol.NetGameInfo.EndRaiseModeEnumType;
 import pokerth_protocol.NetGameInfo.NetGameTypeEnumType;
 import pokerth_protocol.StartEventAckMessage.StartEventAckMessageSequenceType;
 import pokerth_protocol.StartEventMessage.StartEventMessageSequenceType;
+import pokerth_protocol.InitialNonZeroAmountOfMoney;
 
 
 public class RunNormalGameTest extends TestBase {
@@ -45,7 +46,7 @@ public class RunNormalGameTest extends TestBase {
 	public void testRunNormalGameAsGuest() throws Exception {
 		guestInit();
 
-		Collection<Integer> l = new ArrayList<Integer>();
+		Collection<InitialNonZeroAmountOfMoney> l = new ArrayList<InitialNonZeroAmountOfMoney>();
 		NetGameInfo gameInfo = createGameInfo(5, EndRaiseModeEnumType.EnumType.doubleBlinds, 0, 100, GuestUser + " run normal game", l, 10, 0, 2, 2000);
 		sendMessage(createGameRequestMsg(
 				gameInfo,
@@ -147,14 +148,14 @@ public class RunNormalGameTest extends TestBase {
 			msg = receiveMessage();
 			if (msg.isEndOfHandMessageSelected()) {
 				if (msg.getEndOfHandMessage().getValue().getEndOfHandType().isEndOfHandHideCardsSelected()) {
-					lastPlayerMoney = msg.getEndOfHandMessage().getValue().getEndOfHandType().getEndOfHandHideCards().getPlayerMoney();
+					lastPlayerMoney = msg.getEndOfHandMessage().getValue().getEndOfHandType().getEndOfHandHideCards().getPlayerMoney().getValue();
 				} else if (msg.getEndOfHandMessage().getValue().getEndOfHandType().isEndOfHandShowCardsSelected()) {
 					Collection<PlayerResult> result = msg.getEndOfHandMessage().getValue().getEndOfHandType().getEndOfHandShowCards().getPlayerResults();
 					assertFalse(result.isEmpty());
 					long maxPlayerMoney = 0;
 					for (Iterator<PlayerResult> it = result.iterator(); it.hasNext(); ) {
 						PlayerResult r = it.next();
-						long curMoney = r.getPlayerMoney();
+						long curMoney = r.getPlayerMoney().getValue();
 						if (curMoney > maxPlayerMoney) {
 							maxPlayerMoney = curMoney;
 						}

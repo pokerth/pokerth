@@ -39,18 +39,10 @@ import org.bn.types.*;
     
 	private NetPlayerAction yourAction = null;
                 
-  @ASN1Integer( name = "" )
-    @ASN1ValueRangeConstraint ( 
-		
-		min = 0L, 
-		
-		max = 10000000L 
-		
-	   )
-	   
+  
         @ASN1Element ( name = "yourRelativeBet", isOptional =  false , hasTag =  false  , hasDefaultValue =  false  )
     
-	private Integer yourRelativeBet = null;
+	private AmountOfMoney yourRelativeBet = null;
                 
   
 
@@ -140,13 +132,13 @@ import org.bn.types.*;
         
   
         
-        public Integer getYourRelativeBet () {
+        public AmountOfMoney getYourRelativeBet () {
             return this.yourRelativeBet;
         }
 
         
 
-        public void setYourRelativeBet (Integer value) {
+        public void setYourRelativeBet (AmountOfMoney value) {
             this.yourRelativeBet = value;
         }
         

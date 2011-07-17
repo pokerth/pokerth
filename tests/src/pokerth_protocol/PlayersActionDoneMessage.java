@@ -44,57 +44,25 @@ import org.bn.types.*;
     
 	private NetPlayerAction playerAction = null;
                 
-  @ASN1Integer( name = "" )
-    @ASN1ValueRangeConstraint ( 
-		
-		min = 0L, 
-		
-		max = 10000000L 
-		
-	   )
-	   
+  
         @ASN1Element ( name = "totalPlayerBet", isOptional =  false , hasTag =  false  , hasDefaultValue =  false  )
     
-	private Integer totalPlayerBet = null;
+	private AmountOfMoney totalPlayerBet = null;
                 
-  @ASN1Integer( name = "" )
-    @ASN1ValueRangeConstraint ( 
-		
-		min = 0L, 
-		
-		max = 10000000L 
-		
-	   )
-	   
+  
         @ASN1Element ( name = "playerMoney", isOptional =  false , hasTag =  false  , hasDefaultValue =  false  )
     
-	private Integer playerMoney = null;
+	private AmountOfMoney playerMoney = null;
                 
-  @ASN1Integer( name = "" )
-    @ASN1ValueRangeConstraint ( 
-		
-		min = 0L, 
-		
-		max = 10000000L 
-		
-	   )
-	   
+  
         @ASN1Element ( name = "highestSet", isOptional =  false , hasTag =  false  , hasDefaultValue =  false  )
     
-	private Integer highestSet = null;
+	private AmountOfMoney highestSet = null;
                 
-  @ASN1Integer( name = "" )
-    @ASN1ValueRangeConstraint ( 
-		
-		min = 0L, 
-		
-		max = 10000000L 
-		
-	   )
-	   
+  
         @ASN1Element ( name = "minimumRaise", isOptional =  false , hasTag =  false  , hasDefaultValue =  false  )
     
-	private Integer minimumRaise = null;
+	private AmountOfMoney minimumRaise = null;
                 
   
         
@@ -146,49 +114,49 @@ import org.bn.types.*;
         
   
         
-        public Integer getTotalPlayerBet () {
+        public AmountOfMoney getTotalPlayerBet () {
             return this.totalPlayerBet;
         }
 
         
 
-        public void setTotalPlayerBet (Integer value) {
+        public void setTotalPlayerBet (AmountOfMoney value) {
             this.totalPlayerBet = value;
         }
         
   
         
-        public Integer getPlayerMoney () {
+        public AmountOfMoney getPlayerMoney () {
             return this.playerMoney;
         }
 
         
 
-        public void setPlayerMoney (Integer value) {
+        public void setPlayerMoney (AmountOfMoney value) {
             this.playerMoney = value;
         }
         
   
         
-        public Integer getHighestSet () {
+        public AmountOfMoney getHighestSet () {
             return this.highestSet;
         }
 
         
 
-        public void setHighestSet (Integer value) {
+        public void setHighestSet (AmountOfMoney value) {
             this.highestSet = value;
         }
         
   
         
-        public Integer getMinimumRaise () {
+        public AmountOfMoney getMinimumRaise () {
             return this.minimumRaise;
         }
 
         
 
-        public void setMinimumRaise (Integer value) {
+        public void setMinimumRaise (AmountOfMoney value) {
             this.minimumRaise = value;
         }
         

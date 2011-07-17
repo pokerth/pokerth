@@ -288,13 +288,13 @@ public abstract class TestBase {
 	}
 
 	public NetGameInfo createGameInfo(int delayBetweenHands, EndRaiseModeEnumType.EnumType endMode, int endRaiseValue, int sb, String gameName,
-			Collection<Integer> manualBlinds, int maxNumPlayers, int raiseEveryMinutes, int raiseEveryHands, int startMoney) {
+			Collection<InitialNonZeroAmountOfMoney> manualBlinds, int maxNumPlayers, int raiseEveryMinutes, int raiseEveryHands, int startMoney) {
 		NetGameInfo gameInfo = new NetGameInfo();
 		EndRaiseModeEnumType endRaise = new EndRaiseModeEnumType();
 		endRaise.setValue(endMode);
 		gameInfo.setDelayBetweenHands(delayBetweenHands);
 		gameInfo.setEndRaiseMode(endRaise);
-		gameInfo.setEndRaiseSmallBlindValue(endRaiseValue);
+		gameInfo.setEndRaiseSmallBlindValue(new InitialAmountOfMoney(endRaiseValue));
 		gameInfo.setFirstSmallBlind(sb);
 		gameInfo.setGameName(gameName);
 		gameInfo.setManualBlinds(manualBlinds);
@@ -307,7 +307,7 @@ public abstract class TestBase {
 			raiseInterval.selectRaiseEveryHands(raiseEveryHands);
 		}
 		gameInfo.setRaiseIntervalMode(raiseInterval);
-		gameInfo.setStartMoney(startMoney);
+		gameInfo.setStartMoney(new InitialNonZeroAmountOfMoney(startMoney));
 
 		return gameInfo;
 	}

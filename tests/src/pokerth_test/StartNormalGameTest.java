@@ -35,7 +35,7 @@ public class StartNormalGameTest extends TestBase {
 	public void testGameStartMessage() throws Exception {
 		guestInit();
 
-		Collection<Integer> l = new ArrayList<Integer>();
+		Collection<InitialNonZeroAmountOfMoney> l = new ArrayList<InitialNonZeroAmountOfMoney>();
 		NetGameInfo gameInfo = createGameInfo(10, EndRaiseModeEnumType.EnumType.doubleBlinds, 0, 100, GuestUser + " start normal game", l, 10, 0, 11, 20000);
 		sendMessage(createGameRequestMsg(
 				gameInfo,

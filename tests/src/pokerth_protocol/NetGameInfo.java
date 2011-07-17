@@ -295,34 +295,17 @@ import org.bn.types.*;
     
 	private Integer firstSmallBlind = null;
                 
-  @ASN1Integer( name = "" )
-    @ASN1ValueRangeConstraint ( 
-		
-		min = 0L, 
-		
-		max = 1000000L 
-		
-	   )
-	   
+  
         @ASN1Element ( name = "endRaiseSmallBlindValue", isOptional =  false , hasTag =  false  , hasDefaultValue =  false  )
     
-	private Integer endRaiseSmallBlindValue = null;
+	private InitialAmountOfMoney endRaiseSmallBlindValue = null;
                 
-  @ASN1Integer( name = "" )
-    @ASN1ValueRangeConstraint ( 
-		
-		min = 1L, 
-		
-		max = 1000000L 
-		
-	   )
-	   
+  
         @ASN1Element ( name = "startMoney", isOptional =  false , hasTag =  false  , hasDefaultValue =  false  )
     
-	private Integer startMoney = null;
+	private InitialNonZeroAmountOfMoney startMoney = null;
                 
-  @ASN1Integer( name = "" )
-	   
+  
 @ASN1SequenceOf( name = "manualBlinds", isSetOf = false ) 
 
     @ASN1ValueRangeConstraint ( 
@@ -335,7 +318,7 @@ import org.bn.types.*;
 	   
         @ASN1Element ( name = "manualBlinds", isOptional =  false , hasTag =  false  , hasDefaultValue =  false  )
     
-	private java.util.Collection<Integer>  manualBlinds = null;
+	private java.util.Collection<InitialNonZeroAmountOfMoney>  manualBlinds = null;
                 
   
         
@@ -447,37 +430,37 @@ import org.bn.types.*;
         
   
         
-        public Integer getEndRaiseSmallBlindValue () {
+        public InitialAmountOfMoney getEndRaiseSmallBlindValue () {
             return this.endRaiseSmallBlindValue;
         }
 
         
 
-        public void setEndRaiseSmallBlindValue (Integer value) {
+        public void setEndRaiseSmallBlindValue (InitialAmountOfMoney value) {
             this.endRaiseSmallBlindValue = value;
         }
         
   
         
-        public Integer getStartMoney () {
+        public InitialNonZeroAmountOfMoney getStartMoney () {
             return this.startMoney;
         }
 
         
 
-        public void setStartMoney (Integer value) {
+        public void setStartMoney (InitialNonZeroAmountOfMoney value) {
             this.startMoney = value;
         }
         
   
         
-        public java.util.Collection<Integer>  getManualBlinds () {
+        public java.util.Collection<InitialNonZeroAmountOfMoney>  getManualBlinds () {
             return this.manualBlinds;
         }
 
         
 
-        public void setManualBlinds (java.util.Collection<Integer>  value) {
+        public void setManualBlinds (java.util.Collection<InitialNonZeroAmountOfMoney>  value) {
             this.manualBlinds = value;
         }
         

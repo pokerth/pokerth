@@ -34,10 +34,10 @@ public class CreateGameTest extends TestBase {
 	public void testJoinGameRequestMessage() throws Exception {
 		guestInit();
 
-		Collection<Integer> l = new ArrayList<Integer>();
-		l.add(250);
-		l.add(600);
-		l.add(1000);
+		Collection<InitialNonZeroAmountOfMoney> l = new ArrayList<InitialNonZeroAmountOfMoney>();
+		l.add(new InitialNonZeroAmountOfMoney(250));
+		l.add(new InitialNonZeroAmountOfMoney(600));
+		l.add(new InitialNonZeroAmountOfMoney(1000));
 		NetGameInfo gameInfo = createGameInfo(8, EndRaiseModeEnumType.EnumType.raiseByEndValue, 1000, 100, GuestUser + " create test game", l, 10, 0, 7, 2000);
 		sendMessage(createGameRequestMsg(
 				gameInfo,

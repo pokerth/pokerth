@@ -23,18 +23,10 @@ import org.bn.types.*;
     
 	private NonZeroId playerId = null;
                 
-  @ASN1Integer( name = "" )
-    @ASN1ValueRangeConstraint ( 
-		
-		min = 0L, 
-		
-		max = 10000000L 
-		
-	   )
-	   
+  
         @ASN1Element ( name = "playerMoney", isOptional =  false , hasTag =  false  , hasDefaultValue =  false  )
     
-	private Integer playerMoney = null;
+	private AmountOfMoney playerMoney = null;
                 
   
         
@@ -50,13 +42,13 @@ import org.bn.types.*;
         
   
         
-        public Integer getPlayerMoney () {
+        public AmountOfMoney getPlayerMoney () {
             return this.playerMoney;
         }
 
         
 
-        public void setPlayerMoney (Integer value) {
+        public void setPlayerMoney (AmountOfMoney value) {
             this.playerMoney = value;
         }
         

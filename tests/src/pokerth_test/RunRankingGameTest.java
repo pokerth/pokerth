@@ -26,7 +26,6 @@ import static org.junit.Assert.*;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
-import java.util.StringTokenizer;
 
 import org.junit.Test;
 
@@ -58,7 +57,7 @@ public class RunRankingGameTest extends TestBase {
 			fail("Invalid message.");
 		}
 
-		Collection<Integer> l = new ArrayList<Integer>();
+		Collection<InitialNonZeroAmountOfMoney> l = new ArrayList<InitialNonZeroAmountOfMoney>();
 		String gameName = AuthUser + " run ranking game";
 		NetGameInfo gameInfo = createGameInfo(5, EndRaiseModeEnumType.EnumType.doubleBlinds, 0, 50, gameName, l, 10, 0, 11, 10000);
 		sendMessage(createGameRequestMsg(
@@ -216,7 +215,7 @@ public class RunRankingGameTest extends TestBase {
 					myRequest.setGameState(msg.getPlayersTurnMessage().getValue().getGameState());
 					myRequest.setHandNum(new NonZeroId(handNum));
 					myRequest.setMyAction(action);
-					myRequest.setMyRelativeBet(0);
+					myRequest.setMyRelativeBet(new AmountOfMoney(0));
 					MyActionRequestMessage myAction = new MyActionRequestMessage();
 					myAction.setValue(myRequest);
 					PokerTHMessage outMsg = new PokerTHMessage();
@@ -237,7 +236,7 @@ public class RunRankingGameTest extends TestBase {
 							myRequest.setGameState(inMsg.getPlayersTurnMessage().getValue().getGameState());
 							myRequest.setHandNum(new NonZeroId(handNum));
 							myRequest.setMyAction(action);
-							myRequest.setMyRelativeBet(0);
+							myRequest.setMyRelativeBet(new AmountOfMoney(0));
 							MyActionRequestMessage myAction = new MyActionRequestMessage();
 							myAction.setValue(myRequest);
 							PokerTHMessage outMsg = new PokerTHMessage();
@@ -247,14 +246,14 @@ public class RunRankingGameTest extends TestBase {
 					}
 					else if (inMsg.isEndOfHandMessageSelected()) {
 						if (inMsg.getEndOfHandMessage().getValue().getEndOfHandType().isEndOfHandHideCardsSelected()) {
-							lastPlayerMoney = inMsg.getEndOfHandMessage().getValue().getEndOfHandType().getEndOfHandHideCards().getPlayerMoney();
+							lastPlayerMoney = inMsg.getEndOfHandMessage().getValue().getEndOfHandType().getEndOfHandHideCards().getPlayerMoney().getValue();
 						} else if (inMsg.getEndOfHandMessage().getValue().getEndOfHandType().isEndOfHandShowCardsSelected()) {
 							Collection<PlayerResult> result = inMsg.getEndOfHandMessage().getValue().getEndOfHandType().getEndOfHandShowCards().getPlayerResults();
 							assertFalse(result.isEmpty());
 							long maxPlayerMoney = 0;
 							for (Iterator<PlayerResult> it = result.iterator(); it.hasNext(); ) {
 								PlayerResult r = it.next();
-								long curMoney = r.getPlayerMoney();
+								long curMoney = r.getPlayerMoney().getValue();
 								if (curMoney > maxPlayerMoney) {
 									maxPlayerMoney = curMoney;
 								}

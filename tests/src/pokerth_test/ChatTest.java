@@ -36,6 +36,7 @@ import pokerth_protocol.ChatRequestMessage.ChatRequestMessageSequenceType;
 import pokerth_protocol.ChatRequestMessage.ChatRequestMessageSequenceType.ChatRequestTypeChoiceType;
 import pokerth_protocol.NetGameInfo.EndRaiseModeEnumType;
 import pokerth_protocol.NetGameInfo.NetGameTypeEnumType;
+import pokerth_protocol.InitialNonZeroAmountOfMoney;
 
 
 public class ChatTest extends TestBase {
@@ -162,7 +163,7 @@ public class ChatTest extends TestBase {
 		assertEquals(playerId[0], msg.getChatMessage().getValue().getChatType().getChatTypePrivate().getPlayerId().getValue().longValue());
 
 		// Game messages can be sent by registered users within a game.
-		Collection<Integer> l = new ArrayList<Integer>();
+		Collection<InitialNonZeroAmountOfMoney> l = new ArrayList<InitialNonZeroAmountOfMoney>();
 		NetGameInfo gameInfo = createGameInfo(5, EndRaiseModeEnumType.EnumType.doubleBlinds, 0, 100, GuestUser + " game list normal game", l, 10, 0, 2, 2000);
 		sendMessage(createGameRequestMsg(
 				gameInfo,

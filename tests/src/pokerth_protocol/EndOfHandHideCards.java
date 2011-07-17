@@ -23,31 +23,15 @@ import org.bn.types.*;
     
 	private NonZeroId playerId = null;
                 
-  @ASN1Integer( name = "" )
-    @ASN1ValueRangeConstraint ( 
-		
-		min = 0L, 
-		
-		max = 10000000L 
-		
-	   )
-	   
+  
         @ASN1Element ( name = "moneyWon", isOptional =  false , hasTag =  false  , hasDefaultValue =  false  )
     
-	private Integer moneyWon = null;
+	private AmountOfMoney moneyWon = null;
                 
-  @ASN1Integer( name = "" )
-    @ASN1ValueRangeConstraint ( 
-		
-		min = 0L, 
-		
-		max = 10000000L 
-		
-	   )
-	   
+  
         @ASN1Element ( name = "playerMoney", isOptional =  false , hasTag =  false  , hasDefaultValue =  false  )
     
-	private Integer playerMoney = null;
+	private AmountOfMoney playerMoney = null;
                 
   
         
@@ -63,25 +47,25 @@ import org.bn.types.*;
         
   
         
-        public Integer getMoneyWon () {
+        public AmountOfMoney getMoneyWon () {
             return this.moneyWon;
         }
 
         
 
-        public void setMoneyWon (Integer value) {
+        public void setMoneyWon (AmountOfMoney value) {
             this.moneyWon = value;
         }
         
   
         
-        public Integer getPlayerMoney () {
+        public AmountOfMoney getPlayerMoney () {
             return this.playerMoney;
         }
 
         
 
-        public void setPlayerMoney (Integer value) {
+        public void setPlayerMoney (AmountOfMoney value) {
             this.playerMoney = value;
         }
         

@@ -35,7 +35,7 @@ public class CreateRankingGameTest extends TestBase {
 
 	private void createRankingGame(String password) throws Exception {
 		counter++;
-		Collection<Integer> l = new ArrayList<Integer>();
+		Collection<InitialNonZeroAmountOfMoney> l = new ArrayList<InitialNonZeroAmountOfMoney>();
 		NetGameInfo gameInfo = createGameInfo(8, EndRaiseModeEnumType.EnumType.doubleBlinds, 0, 50, GuestUser + " create ranking game " + counter, l, 10, 0, 11, 10000);
 		sendMessage(createGameRequestMsg(
 				gameInfo,
