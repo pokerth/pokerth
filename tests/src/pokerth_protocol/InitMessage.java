@@ -36,7 +36,7 @@ import org.bn.types.*;
 	private Long buildId = null;
                 
   
-        @ASN1Element ( name = "myLastSessionId", isOptional =  false , hasTag =  false  , hasDefaultValue =  false  )
+        @ASN1Element ( name = "myLastSessionId", isOptional =  true , hasTag =  false  , hasDefaultValue =  false  )
     
 	private Guid myLastSessionId = null;
                 
@@ -183,6 +183,10 @@ import org.bn.types.*;
             return this.myLastSessionId;
         }
 
+        
+        public boolean isMyLastSessionIdPresent () {
+            return this.myLastSessionId != null;
+        }
         
 
         public void setMyLastSessionId (Guid value) {
