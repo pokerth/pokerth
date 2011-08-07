@@ -68,6 +68,7 @@ public:
 	virtual void SignalNetClientServerListShow() = 0;
 
 	virtual void SignalNetClientLoginShow() = 0;
+	virtual void SignalNetClientRejoinPossible(const std::string &gameName) = 0;
 	virtual void SignalNetClientPostRiverShowCards(unsigned playerId) = 0;
 
 	virtual void SignalLobbyPlayerJoined(unsigned playerId, const std::string &nickName) = 0;

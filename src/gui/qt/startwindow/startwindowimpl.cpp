@@ -114,6 +114,7 @@ startWindowImpl::startWindowImpl(ConfigFile *c)
 	connect(this, SIGNAL(signalNetClientServerListAdd(unsigned)), myServerListDialog, SLOT(addServerItem(unsigned)));
 
 	connect(this, SIGNAL(signalNetClientLoginShow()), this, SLOT(callInternetGameLoginDialog()));
+	connect(this, SIGNAL(signalNetClientRejoinPossible(QString)), this, SLOT(callRejoinPossibleDialog(QString)));
 
 	connect(this, SIGNAL(signalNetClientSelfJoined(unsigned, QString, bool)), myStartNetworkGameDialog, SLOT(joinedNetworkGame(unsigned, QString, bool)));
 	connect(this, SIGNAL(signalNetClientPlayerJoined(unsigned, QString, bool)), myStartNetworkGameDialog, SLOT(addConnectedPlayer(unsigned, QString, bool)));
@@ -359,14 +360,35 @@ void startWindowImpl::callInternetGameLoginDialog()
 	if(myInternetGameLoginDialog->result() == QDialog::Accepted) {
 		//send login infos
 		mySession->setLogin(
-			myConfig->readConfigString("MyName"),
-			myInternetGameLoginDialog->lineEdit_password->text().toUtf8().constData(),
-			myInternetGameLoginDialog->checkBox_guest->isChecked());
+					myConfig->readConfigString("MyName"),
+					myInternetGameLoginDialog->lineEdit_password->text().toUtf8().constData(),
+					myInternetGameLoginDialog->checkBox_guest->isChecked());
 	} else {
 		myConnectToServerDialog->reject();
 		mySession->terminateNetworkClient();
 	}
 }
+
+
+void startWindowImpl::callRejoinPossibleDialog(QString gameName)
+{
+	QMessageBox msgBox;
+	msgBox.setIcon(QMessageBox::Question);
+	msgBox.setWindowTitle("Rejoin possible!");
+	msgBox.setText(QString("There is an existing session with the game: %1").arg(gameName));
+	msgBox.setInformativeText("Do you want to rejoin this game?");
+	msgBox.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
+	msgBox.setDefaultButton(QMessageBox::Yes);
+	int ret = msgBox.exec();
+
+	switch (ret) {
+	case QMessageBox::Yes:; //rejoin
+		break;
+	case QMessageBox::No:; //lobby
+		break;
+	}
+}
+
 
 void startWindowImpl::callCreateNetworkGameDialog()
 {
@@ -471,10 +493,10 @@ void startWindowImpl::callJoinNetworkGameDialog()
 		myStartNetworkGameDialog->clearDialog();
 		// Maybe use QUrl::toPunycode.
 		mySession->startNetworkClient(
-			myJoinNetworkGameDialog->lineEdit_ipAddress->text().toUtf8().constData(),
-			myJoinNetworkGameDialog->spinBox_port->value(),
-			myJoinNetworkGameDialog->checkBox_ipv6->isChecked(),
-			myJoinNetworkGameDialog->checkBox_sctp->isChecked());
+					myJoinNetworkGameDialog->lineEdit_ipAddress->text().toUtf8().constData(),
+					myJoinNetworkGameDialog->spinBox_port->value(),
+					myJoinNetworkGameDialog->checkBox_ipv6->isChecked(),
+					myJoinNetworkGameDialog->checkBox_sctp->isChecked());
 
 		//Dialog mit Statusbalken
 		myConnectToServerDialog->exec();
@@ -1032,7 +1054,7 @@ void startWindowImpl::networkMessage(unsigned msgId)
 
 	QMessageBox msgBox(QMessageBox::Information, tr("Server Message"),
 					   msgText, QMessageBox::Close, this);
-//    msgBox.setTextFormat(Qt::RichText);
+	//    msgBox.setTextFormat(Qt::RichText);
 	msgBox.exec();
 }
 
@@ -1082,7 +1104,7 @@ bool startWindowImpl::eventFilter(QObject *obj, QEvent *event)
 {
 	if (event->type() == QEvent::Close) {
 		event->ignore();
-//        mySession->getMyLog()->closeLogDbAtExit();
+		//        mySession->getMyLog()->closeLogDbAtExit();
 		return QMainWindow::eventFilter(obj, event);
 	} else {
 		// pass the event on to the parent class

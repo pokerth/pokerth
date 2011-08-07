@@ -3784,9 +3784,9 @@ p, li { white-space: pre-wrap; }
              </widget>
              <widget class="QWidget" name="tab_editTip">
               <attribute name="title">
-               <string>Players tip</string>
+               <string>Player info</string>
               </attribute>
-              <layout class="QGridLayout" name="gridLayout">
+              <layout class="QGridLayout" name="gridLayout4">
                <property name="verticalSpacing">
                 <number>3</number>
                </property>
