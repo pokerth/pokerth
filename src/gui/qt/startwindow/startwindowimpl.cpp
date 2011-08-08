@@ -114,7 +114,7 @@ startWindowImpl::startWindowImpl(ConfigFile *c)
 	connect(this, SIGNAL(signalNetClientServerListAdd(unsigned)), myServerListDialog, SLOT(addServerItem(unsigned)));
 
 	connect(this, SIGNAL(signalNetClientLoginShow()), this, SLOT(callInternetGameLoginDialog()));
-	connect(this, SIGNAL(signalNetClientRejoinPossible(QString)), this, SLOT(callRejoinPossibleDialog(QString)));
+	connect(this, SIGNAL(signalNetClientRejoinPossible(unsigned)), this, SLOT(callRejoinPossibleDialog(unsigned)));
 
 	connect(this, SIGNAL(signalNetClientSelfJoined(unsigned, QString, bool)), myStartNetworkGameDialog, SLOT(joinedNetworkGame(unsigned, QString, bool)));
 	connect(this, SIGNAL(signalNetClientPlayerJoined(unsigned, QString, bool)), myStartNetworkGameDialog, SLOT(addConnectedPlayer(unsigned, QString, bool)));
@@ -370,12 +370,15 @@ void startWindowImpl::callInternetGameLoginDialog()
 }
 
 
-void startWindowImpl::callRejoinPossibleDialog(QString gameName)
+void startWindowImpl::callRejoinPossibleDialog(unsigned gameId)
 {
+//	assert(mySession);
+//	GameInfo info(mySession->getClientGameInfo(gameId));
+
 	QMessageBox msgBox;
 	msgBox.setIcon(QMessageBox::Question);
 	msgBox.setWindowTitle("Rejoin possible!");
-	msgBox.setText(QString("There is an existing session with the game: %1").arg(gameName));
+	msgBox.setText(QString("There is an existing session with the game: %1").arg("QString::fromUtf8(info.name.c_str())"));
 	msgBox.setInformativeText("Do you want to rejoin this game?");
 	msgBox.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
 	msgBox.setDefaultButton(QMessageBox::Yes);
@@ -384,7 +387,7 @@ void startWindowImpl::callRejoinPossibleDialog(QString gameName)
 	switch (ret) {
 	case QMessageBox::Yes:; //rejoin
 		break;
-	case QMessageBox::No:; //lobby
+	case QMessageBox::No: showClientDialog();
 		break;
 	}
 }

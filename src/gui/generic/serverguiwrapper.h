@@ -139,7 +139,7 @@ public:
 	void SignalNetClientServerListShow();
 
 	void SignalNetClientLoginShow();
-	void SignalNetClientRejoinPossible(const std::string &gameName);
+	void SignalNetClientRejoinPossible(unsigned gameId);
 	void SignalNetClientPostRiverShowCards(unsigned playerId);
 
 	void SignalNetServerSuccess(int actionID);

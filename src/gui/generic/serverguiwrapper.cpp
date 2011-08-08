@@ -133,9 +133,9 @@ void ServerGuiWrapper::SignalNetClientLoginShow()
 	if (myClientcb) myClientcb->SignalNetClientLoginShow();
 }
 
-void ServerGuiWrapper::SignalNetClientRejoinPossible(const std::string &gameName)
+void ServerGuiWrapper::SignalNetClientRejoinPossible(unsigned gameId)
 {
-	if (myClientcb) myClientcb->SignalNetClientRejoinPossible(gameName);
+	if (myClientcb) myClientcb->SignalNetClientRejoinPossible(gameId);
 }
 
 void ServerGuiWrapper::SignalNetClientPostRiverShowCards(unsigned playerId)

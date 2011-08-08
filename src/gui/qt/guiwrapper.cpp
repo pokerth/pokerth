@@ -294,9 +294,9 @@ void GuiWrapper::SignalNetClientLoginShow()
 {
 	myStartWindow->signalNetClientLoginShow();
 }
-void GuiWrapper::SignalNetClientRejoinPossible(const string &gameName)
+void GuiWrapper::SignalNetClientRejoinPossible(unsigned gameId)
 {
-	myStartWindow->signalNetClientRejoinPossible(QString::fromUtf8(gameName.c_str()));
+	myStartWindow->signalNetClientRejoinPossible(gameId);
 }
 void GuiWrapper::SignalNetClientPostRiverShowCards(unsigned playerId)
 {
