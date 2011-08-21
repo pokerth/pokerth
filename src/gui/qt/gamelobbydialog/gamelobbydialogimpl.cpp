@@ -1315,6 +1315,11 @@ void gameLobbyDialogImpl::showWaitStartGameMsgBox()
 	}
 }
 
+void gameLobbyDialogImpl::hideWaitStartGameMsgBox()
+{
+	waitStartGameMsgBox->hide();
+}
+
 void gameLobbyDialogImpl::joinAnyGameButtonRefresh()
 {
 

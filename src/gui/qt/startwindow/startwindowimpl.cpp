@@ -928,6 +928,7 @@ void startWindowImpl::networkNotification(int notificationId)
 	}
 	break;
 	case NTF_NET_REMOVED_START_FAILED: {
+		myGameLobbyDialog->hideWaitStartGameMsgBox();
 		QMessageBox::warning(this, tr("Network Notification"),
 							 tr("Your connection to the server is very slow, the game had to start without you."),
 							 QMessageBox::Close);
