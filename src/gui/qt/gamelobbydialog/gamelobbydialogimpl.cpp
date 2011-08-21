@@ -1938,3 +1938,8 @@ QString gameLobbyDialogImpl::getFullCountryString(QString cs)
 	}
 	return fullString;
 }
+
+void gameLobbyDialogImpl::stopWaitStartGameMsgBoxTimer()
+{
+	waitStartGameMsgBoxTimer->stop();
+}

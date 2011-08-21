@@ -114,6 +114,7 @@ public slots:
 	void showGameDescription(bool show);
 	void showWaitStartGameMsgBox();
 	void hideWaitStartGameMsgBox();
+	void stopWaitStartGameMsgBoxTimer();
 	void joinAnyGameButtonRefresh();
 	void reject();
 	void closeEvent(QCloseEvent *event);
