@@ -112,7 +112,9 @@ void Session::startLocalGame(const GameData &gameData, const StartData &startDat
 
 		//PlayerData erzeugen
 		// UniqueId = PlayerNumber for local games.
-		boost::shared_ptr<PlayerData> playerData(new PlayerData(i, i,
+		boost::shared_ptr<PlayerData> playerData(new PlayerData(
+				i,
+				i,
 				i == 0 ? PLAYER_TYPE_HUMAN : PLAYER_TYPE_COMPUTER,
 				PLAYER_RIGHTS_NORMAL,
 				i == 0));

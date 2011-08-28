@@ -983,6 +983,14 @@ ClientStateWaitEnterLogin::TimerLoop(const boost::system::error_code& ec, boost:
 			InitMessage_t *netInit = &init->GetMsg()->choice.initMessage;
 			netInit->requestedVersion.major = NET_VERSION_MAJOR;
 			netInit->requestedVersion.minor = NET_VERSION_MINOR;
+			if (!context.GetSessionGuid().empty())
+			{
+				netInit->myLastSessionId =
+					OCTET_STRING_new_fromBuf(
+						&asn_DEF_OCTET_STRING,
+						context.GetSessionGuid().c_str(),
+						(int)context.GetSessionGuid().length());
+			}
 
 			context.SetPlayerName(loginData.userName);
 
@@ -1177,8 +1185,11 @@ ClientStateWaitSession::InternalHandlePacket(boost::shared_ptr<ClientThread> cli
 		InitAckMessage_t *netInitAck = &tmpPacket->GetMsg()->choice.initAckMessage;
 		client->SetGuiPlayerId(netInitAck->yourPlayerId);
 
+		client->GetContext().SetSessionGuid(STL_STRING_FROM_OCTET_STRING(netInitAck->yourSessionId));
 		client->SetSessionEstablished(true);
 		client->GetCallback().SignalNetClientConnect(MSG_SOCK_SESSION_DONE);
+		if (netInitAck->rejoinGameId)
+			client->GetCallback().SignalNetClientRejoinPossible(*netInitAck->rejoinGameId);
 		client->SetState(ClientStateWaitJoin::Instance());
 	} else if (tmpPacket->GetMsg()->present == PokerTHMessage_PR_avatarRequestMessage) {
 		// Before letting us join the lobby, the server requests our avatar.

@@ -33,6 +33,7 @@
 class ServerLobbyThread;
 class ServerGameState;
 class ServerDBInterface;
+class PlayerInterface;
 class ConfigFile;
 struct GameData;
 class Game;
@@ -73,6 +74,7 @@ public:
 	bool IsPlayerConnected(const std::string &name) const;
 	bool IsPlayerConnected(unsigned playerId) const;
 	bool IsClientAddressConnected(const std::string &clientAddress) const;
+	boost::shared_ptr<PlayerInterface> GetPlayerInterfaceFromGame(const std::string &playerName);
 
 	bool IsRunning() const;
 

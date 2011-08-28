@@ -36,6 +36,7 @@
 #include <core/loghelper.h>
 #include <core/openssl_wrapper.h>
 #include <configfile.h>
+#include <playerinterface.h>
 #include <log.h>
 
 #include <fstream>
@@ -225,16 +226,6 @@ ServerLobbyThread::SignalTermination()
 void
 ServerLobbyThread::AddConnection(boost::shared_ptr<tcp::socket> sock)
 {
-	// Create a random session id.
-	// This id can be used to reconnect to the server if the connection was lost.
-	//unsigned sessionId;
-
-	// TODO: use randomized method.
-	//if(!RAND_bytes((unsigned char *)&sessionId, sizeof(sessionId)))
-	//{
-	//	RAND_pseudo_bytes((unsigned char *)&sessionId, sizeof(sessionId));
-	//}
-
 	// Create a new session.
 	boost::shared_ptr<SessionData> sessionData(new SessionData(sock, m_curSessionId++, *m_internalServerCallback));
 	m_sessionManager.AddSession(sessionData);
@@ -712,6 +703,26 @@ ServerLobbyThread::GetBanManager()
 }
 
 u_int32_t
+ServerLobbyThread::GetRejoinGameIdForPlayer(const std::string &playerName, const std::string &guid, unsigned &outPlayerUniqueId)
+{
+	u_int32_t retGameId = 0;
+	GameMap::iterator i = m_gameMap.begin();
+	GameMap::iterator end = m_gameMap.end();
+	while (i != end) {
+		boost::shared_ptr<ServerGame> tmpGame = i->second;
+		boost::shared_ptr<PlayerInterface> tmpPlayer = tmpGame->GetPlayerInterfaceFromGame(playerName);
+		if (tmpPlayer && tmpPlayer->getMyGuid() == guid)
+		{
+			retGameId = tmpGame->GetId();
+			outPlayerUniqueId = tmpPlayer->getMyUniqueID();
+			break;
+		}
+		++i;
+	}
+	return retGameId;
+}
+
+u_int32_t
 ServerLobbyThread::GetNextUniquePlayerId()
 {
 	boost::mutex::scoped_lock lock(m_curUniquePlayerIdMutex);
@@ -1025,12 +1036,6 @@ ServerLobbyThread::HandleNetPacketInit(boost::shared_ptr<SessionData> session, c
 		return;
 	}
 
-	// Check whether this player is already connected.
-	if (IsPlayerConnected(playerName)) {
-		SessionError(session, ERR_NET_PLAYER_NAME_IN_USE);
-		return;
-	}
-
 	// Check whether the player name is banned.
 	if (GetBanManager().IsPlayerBanned(playerName)) {
 		SessionError(session, ERR_NET_PLAYER_BANNED);
@@ -1047,6 +1052,10 @@ ServerLobbyThread::HandleNetPacketInit(boost::shared_ptr<SessionData> session, c
 		new PlayerData(GetNextUniquePlayerId(), 0, PLAYER_TYPE_HUMAN, validGuest ? PLAYER_RIGHTS_GUEST : PLAYER_RIGHTS_NORMAL, false));
 	tmpPlayerData->SetName(playerName);
 	tmpPlayerData->SetAvatarMD5(avatarMD5);
+	if (initMessage.myLastSessionId)
+	{
+		tmpPlayerData->SetGuid(STL_STRING_FROM_OCTET_STRING(*initMessage.myLastSessionId));
+	}
 
 	// Set player data for session.
 	m_sessionManager.SetSessionPlayerData(session->GetId(), tmpPlayerData);
@@ -1483,6 +1492,21 @@ ServerLobbyThread::EstablishSession(boost::shared_ptr<SessionData> session)
 	if (!session->GetPlayerData())
 		throw ServerException(__FILE__, __LINE__, ERR_NET_INVALID_SESSION, 0);
 
+	u_int32_t rejoinPlayerId = 0;
+	u_int32_t rejoinGameId = GetRejoinGameIdForPlayer(session->GetPlayerData()->GetName(), session->GetPlayerData()->GetGuid(), rejoinPlayerId);
+	if (rejoinGameId != 0)
+	{
+		// Offer rejoin, and disconnect current player with the same name.
+		InternalRemovePlayer(rejoinPlayerId, ERR_NET_PLAYER_NAME_IN_USE);
+	}
+
+	// Check whether this player is already connected.
+	// We need to enforce this here to prevent duplicates.
+	if (IsPlayerConnected(session->GetPlayerData()->GetName())) {
+		SessionError(session, ERR_NET_PLAYER_KICKED);
+		return;
+	}
+
 	// Run postlogin for DB
 	string tmpAvatarHash;
 	string tmpAvatarType;
@@ -1494,16 +1518,24 @@ ServerLobbyThread::EstablishSession(boost::shared_ptr<SessionData> session)
 	}
 	m_database->PlayerPostLogin(session->GetPlayerData()->GetDBId(), tmpAvatarHash, tmpAvatarType);
 
+	// Generate a new GUID.
+	boost::uuids::uuid sessionGuid(m_sessionIdGenerator());
+	session->GetPlayerData()->SetGuid(string((char *)&sessionGuid, boost::uuids::uuid::static_size()));
+
 	// Send ACK to client.
 	boost::shared_ptr<NetPacket> ack(new NetPacket(NetPacket::Alloc));
 	ack->GetMsg()->present = PokerTHMessage_PR_initAckMessage;
 	InitAckMessage_t *netInitAck = &ack->GetMsg()->choice.initAckMessage;
-	boost::uuids::uuid sessionId(m_sessionIdGenerator());
 	OCTET_STRING_fromBuf(
 		&netInitAck->yourSessionId,
-		(char *)&sessionId,
-		(int)boost::uuids::uuid::static_size());
+		session->GetPlayerData()->GetGuid().c_str(),
+		session->GetPlayerData()->GetGuid().size());
 	netInitAck->yourPlayerId = session->GetPlayerData()->GetUniqueId();
+	if (rejoinGameId != 0)
+	{
+		netInitAck->rejoinGameId = (NonZeroId_t *)calloc(1, sizeof(NonZeroId_t));
+		*netInitAck->rejoinGameId =	rejoinGameId;
+	}
 	GetSender().Send(session, ack);
 
 	// Send the connected players list to the client.
@@ -1782,7 +1814,7 @@ ServerLobbyThread::InternalRemovePlayer(unsigned playerId, unsigned errorCode)
 
 		while (i != end) {
 			boost::shared_ptr<ServerGame> tmpGame = i->second;
-			if (tmpGame->GetPlayerDataByUniqueId(playerId).get()) {
+			if (tmpGame->GetPlayerDataByUniqueId(playerId)) {
 				tmpGame->RemovePlayer(playerId, errorCode);
 				break;
 			}

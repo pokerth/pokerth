@@ -34,6 +34,10 @@ public:
 
 	virtual int getMyID() const =0;
 	virtual unsigned getMyUniqueID() const =0;
+
+	virtual void setMyGuid(const std::string &theValue) =0;
+	virtual std::string getMyGuid() const =0;
+
 	virtual PlayerType getMyType() const =0;
 
 	virtual void setMyDude(int theValue) =0;

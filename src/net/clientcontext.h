@@ -120,6 +120,14 @@ public:
 		return m_receiveBuffer;
 	}
 
+	const std::string &GetSessionGuid() const {
+		return m_sessionGuid;
+	}
+
+	void SetSessionGuid(const std::string &sessionGuid) {
+		m_sessionGuid = sessionGuid;
+	}
+
 private:
 	boost::shared_ptr<SessionData> m_sessionData;
 	boost::shared_ptr<boost::asio::ip::tcp::resolver> m_resolver;
@@ -137,6 +145,7 @@ private:
 	std::string			m_cacheDir;
 	bool				m_hasSubscribedLobbyMsg;
 	ReceiveBuffer		m_receiveBuffer;
+	std::string			m_sessionGuid;
 };
 
 #endif

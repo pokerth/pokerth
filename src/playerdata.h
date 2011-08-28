@@ -92,6 +92,8 @@ public:
 	unsigned GetUniqueId() const;
 	int GetNumber() const;
 	void SetNumber(int number);
+	std::string GetGuid() const;
+	void SetGuid(const std::string &guid);
 	DB_id GetDBId() const;
 	void SetDBId(DB_id id);
 
@@ -101,6 +103,7 @@ private:
 	const unsigned					m_uniqueId;
 	DB_id							m_dbId;
 	int								m_number;
+	std::string						m_guid;
 	std::string						m_name;
 	std::string						m_password;
 	std::string						m_country;

@@ -206,6 +206,9 @@ protected:
 
 	bool IsSynchronized() const;
 
+	void ReadSessionGuidFromFile();
+	void WriteSessionGuidToFile() const;
+
 private:
 
 	boost::shared_ptr<boost::asio::io_service> m_ioService;

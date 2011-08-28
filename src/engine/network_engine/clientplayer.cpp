@@ -60,9 +60,23 @@ ClientPlayer::getMyUniqueID() const
 	return myUniqueID;
 }
 
+void
+ClientPlayer::setMyGuid(const std::string &theValue)
+{
+	myGuid = theValue;
+}
+
+std::string
+ClientPlayer::getMyGuid() const
+{
+	boost::recursive_mutex::scoped_lock lock(m_syncMutex);
+	return myGuid;
+}
+
 PlayerType
 ClientPlayer::getMyType() const
 {
+	boost::recursive_mutex::scoped_lock lock(m_syncMutex);
 	return myType;
 }
 

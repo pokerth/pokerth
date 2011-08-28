@@ -35,11 +35,14 @@
 
 #include <boost/lambda/lambda.hpp>
 #include <sstream>
+#include <fstream>
 #include <memory>
 #include <cassert>
 #include <gsasl.h>
 
-#define TEMP_AVATAR_FILENAME "avatar.tmp"
+#define TEMP_AVATAR_FILENAME	"avatar.tmp"
+#define TEMP_GUID_FILENAME		"guid.tmp"
+#define CLIENT_GUID_SIZE		16
 #define CLIENT_AVATAR_LOOP_MSEC	100
 #define CLIENT_SEND_LOOP_MSEC	50
 
@@ -86,6 +89,8 @@ ClientThread::Init(
 	context.SetPlayerName(playerName);
 	context.SetAvatarFile(avatarFile);
 	context.SetCacheDir(cacheDir);
+
+	ReadSessionGuidFromFile();
 }
 
 void
@@ -567,6 +572,9 @@ ClientThread::ClearAuthContext()
 void
 ClientThread::InitGame()
 {
+	// Store current session guid, in case we need to rejoin the game.
+	WriteSessionGuidToFile();
+
 	// EngineFactory erstellen
 	boost::shared_ptr<EngineFactory> factory(new ClientEngineFactory); // LocalEngine erstellen
 
@@ -1396,5 +1404,29 @@ bool
 ClientThread::IsSynchronized() const
 {
 	return m_playerInfoRequestList.empty();
+}
+
+void
+ClientThread::ReadSessionGuidFromFile()
+{
+	string guidFileName(GetContext().GetCacheDir() + TEMP_GUID_FILENAME);
+	ifstream guidStream(guidFileName.c_str(), ios::in | ios::binary);
+	if (guidStream.good())
+	{
+		std::vector<char> tmpGuid(CLIENT_GUID_SIZE);
+		guidStream.read(&tmpGuid[0], CLIENT_GUID_SIZE);
+		GetContext().SetSessionGuid(string(tmpGuid.begin(), tmpGuid.end()));
+	}
+}
+
+void
+ClientThread::WriteSessionGuidToFile() const
+{
+	string guidFileName(GetContext().GetCacheDir() + TEMP_GUID_FILENAME);
+	ofstream guidStream(guidFileName.c_str(), ios::out | ios::trunc | ios::binary);
+	if (guidStream.good())
+	{
+		guidStream.write(GetContext().GetSessionGuid().c_str(), GetContext().GetSessionGuid().size());
+	}
 }
 

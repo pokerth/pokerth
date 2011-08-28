@@ -78,6 +78,7 @@ Game::Game(GuiInterface* gui, boost::shared_ptr<EngineFactory> factory,
 
 		string myName;
 		string myAvatarFile;
+		string myGuid;
 		unsigned uniqueId = 0;
 		PlayerType type = PLAYER_TYPE_COMPUTER;
 
@@ -86,12 +87,14 @@ Game::Game(GuiInterface* gui, boost::shared_ptr<EngineFactory> factory,
 			type = (*player_i)->GetType();
 			myName = (*player_i)->GetName();
 			myAvatarFile = (*player_i)->GetAvatarFile();
+			myGuid = (*player_i)->GetGuid();
 			++player_i;
 		}
 
 		// create player objects
 		boost::shared_ptr<PlayerInterface> tmpPlayer = myFactory->createPlayer(i, uniqueId, type, myName, myAvatarFile, startCash, startQuantityPlayers > i, 0);
 		tmpPlayer->setIsConnected(true);
+		tmpPlayer->setMyGuid(myGuid);
 
 		// fill player lists
 		seatsList->push_back(tmpPlayer);
@@ -216,6 +219,21 @@ boost::shared_ptr<PlayerInterface> Game::getCurrentPlayer()
 	boost::shared_ptr<PlayerInterface> tmpPlayer = getPlayerByUniqueId(getCurrentHand()->getCurrentBeRo()->getCurrentPlayersTurnId());
 	if (!tmpPlayer.get())
 		throw LocalException(__FILE__, __LINE__, ERR_CURRENT_PLAYER_NOT_FOUND);
+	return tmpPlayer;
+}
+
+boost::shared_ptr<PlayerInterface> Game::getPlayerByName(const std::string &name)
+{
+	boost::shared_ptr<PlayerInterface> tmpPlayer;
+	PlayerListIterator i = getSeatsList()->begin();
+	PlayerListIterator end = getSeatsList()->end();
+	while (i != end) {
+		if ((*i)->getMyName() == name) {
+			tmpPlayer = *i;
+			break;
+		}
+		++i;
+	}
 	return tmpPlayer;
 }
 

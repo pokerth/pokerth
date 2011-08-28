@@ -26,7 +26,7 @@ PlayerData::PlayerData(unsigned uniqueId, int number, PlayerType type, PlayerRig
 }
 
 PlayerData::PlayerData(const PlayerData &other)
-	: m_uniqueId(other.GetUniqueId()), m_dbId(other.GetDBId()), m_number(other.GetNumber()), m_name(other.GetName()),
+	: m_uniqueId(other.GetUniqueId()), m_dbId(other.GetDBId()), m_number(other.GetNumber()), m_guid(other.GetGuid()), m_name(other.GetName()),
 	  m_password(), m_country(other.GetCountry()), m_avatarFile(other.GetAvatarFile()), m_avatarMD5(other.GetAvatarMD5()),
 	  m_type(other.GetType()), m_rights(other.GetRights()), m_isGameAdmin(other.IsGameAdmin()),
 	  m_netAvatarFile(), m_dataMutex()
@@ -158,6 +158,20 @@ PlayerData::SetNumber(int number)
 {
 	boost::mutex::scoped_lock lock(m_dataMutex);
 	m_number = number;
+}
+
+std::string
+PlayerData::GetGuid() const
+{
+	boost::mutex::scoped_lock lock(m_dataMutex);
+	return m_guid;
+}
+
+void
+PlayerData::SetGuid(const std::string &guid)
+{
+	boost::mutex::scoped_lock lock(m_dataMutex);
+	m_guid = guid;
 }
 
 DB_id

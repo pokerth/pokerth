@@ -43,6 +43,15 @@ public:
 	unsigned getMyUniqueID() const {
 		return myUniqueID;
 	}
+
+	void setMyGuid(const std::string &theValue) {
+		myGuid = theValue;
+	}
+
+	std::string getMyGuid() const {
+		return myGuid;
+	}
+
 	PlayerType getMyType() const {
 		return myType;
 	}
@@ -290,6 +299,7 @@ private:
 	// Konstanten
 	int myID;
 	unsigned myUniqueID;
+	std::string myGuid;
 	PlayerType myType;
 	std::string myName;
 	std::string myAvatar;

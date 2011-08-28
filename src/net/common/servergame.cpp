@@ -562,6 +562,17 @@ ServerGame::IsClientAddressConnected(const std::string &clientAddress) const
 	return GetSessionManager().IsClientAddressConnected(clientAddress);
 }
 
+boost::shared_ptr<PlayerInterface>
+ServerGame::GetPlayerInterfaceFromGame(const std::string &playerName)
+{
+	boost::shared_ptr<PlayerInterface> tmpPlayer;
+	if (m_game)
+	{
+		tmpPlayer = m_game->getPlayerByName(playerName);
+	}
+	return tmpPlayer;
+}
+
 bool
 ServerGame::IsRunning() const
 {

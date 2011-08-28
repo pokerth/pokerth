@@ -104,6 +104,7 @@ public:
 	}
 
 	boost::shared_ptr<PlayerInterface> getPlayerByUniqueId(unsigned id);
+	boost::shared_ptr<PlayerInterface> getPlayerByName(const std::string &name);
 	boost::shared_ptr<PlayerInterface> getCurrentPlayer();
 
 	void raiseBlinds();

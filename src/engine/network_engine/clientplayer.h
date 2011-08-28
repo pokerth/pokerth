@@ -38,6 +38,8 @@ public:
 
 	int getMyID() const;
 	unsigned getMyUniqueID() const;
+	void setMyGuid(const std::string &theValue);
+	std::string getMyGuid() const;
 	PlayerType getMyType() const;
 
 	void setMyDude(int theValue);
@@ -151,6 +153,7 @@ private:
 	// Konstanten
 	const int myID;
 	const unsigned myUniqueID;
+	std::string myGuid;
 	const PlayerType myType;
 	std::string myName;
 	std::string myAvatar;

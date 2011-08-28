@@ -110,6 +110,8 @@ public:
 	boost::shared_ptr<ServerDBInterface> GetDatabase();
 	ServerBanManager &GetBanManager();
 
+	u_int32_t GetRejoinGameIdForPlayer(const std::string &playerName, const std::string &guid, unsigned &outPlayerUniqueId);
+
 protected:
 
 	typedef std::deque<boost::shared_ptr<boost::asio::ip::tcp::socket> > ConnectQueue;
