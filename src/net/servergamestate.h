@@ -129,8 +129,16 @@ private:
 	static ServerGameStateStartGame s_state;
 };
 
+class AbstractServerGameStateRunning : public AbstractServerGameStateReceiving
+{
+public:
+	virtual ~AbstractServerGameStateRunning();
+
+	virtual void HandleNewSession(boost::shared_ptr<ServerGame> server, boost::shared_ptr<SessionData> session);
+};
+
 // State: Within hand.
-class ServerGameStateHand : public AbstractServerGameStateReceiving
+class ServerGameStateHand : public AbstractServerGameStateRunning
 {
 public:
 	static ServerGameStateHand &Instance();
@@ -141,7 +149,6 @@ public:
 
 	virtual void NotifyGameAdminChanged(boost::shared_ptr<ServerGame> /*server*/) {}
 	virtual void NotifySessionRemoved(boost::shared_ptr<ServerGame> /*server*/) {}
-	virtual void HandleNewSession(boost::shared_ptr<ServerGame> server, boost::shared_ptr<SessionData> session);
 
 protected:
 	ServerGameStateHand();
@@ -164,7 +171,7 @@ private:
 };
 
 // State: Wait for a player action.
-class ServerGameStateWaitPlayerAction : public AbstractServerGameStateReceiving
+class ServerGameStateWaitPlayerAction : public AbstractServerGameStateRunning
 {
 public:
 	static ServerGameStateWaitPlayerAction &Instance();
@@ -175,7 +182,6 @@ public:
 
 	virtual void NotifyGameAdminChanged(boost::shared_ptr<ServerGame> /*server*/) {}
 	virtual void NotifySessionRemoved(boost::shared_ptr<ServerGame> /*server*/) {}
-	virtual void HandleNewSession(boost::shared_ptr<ServerGame> server, boost::shared_ptr<SessionData> session);
 
 protected:
 	ServerGameStateWaitPlayerAction();
@@ -188,7 +194,7 @@ private:
 };
 
 // State: Wait for the next hand.
-class ServerGameStateWaitNextHand : public AbstractServerGameStateReceiving
+class ServerGameStateWaitNextHand : public AbstractServerGameStateRunning
 {
 public:
 	static ServerGameStateWaitNextHand &Instance();
@@ -199,7 +205,6 @@ public:
 
 	virtual void NotifyGameAdminChanged(boost::shared_ptr<ServerGame> /*server*/) {}
 	virtual void NotifySessionRemoved(boost::shared_ptr<ServerGame> /*server*/) {}
-	virtual void HandleNewSession(boost::shared_ptr<ServerGame> server, boost::shared_ptr<SessionData> session);
 
 protected:
 	ServerGameStateWaitNextHand();

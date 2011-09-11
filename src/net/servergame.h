@@ -204,6 +204,7 @@ private:
 
 	friend class ServerLobbyThread;
 	friend class AbstractServerGameStateReceiving;
+	friend class AbstractServerGameStateRunning;
 	friend class ServerGameStateInit;
 	friend class ServerGameStateWaitAck;
 	friend class ServerGameStateStartGame;

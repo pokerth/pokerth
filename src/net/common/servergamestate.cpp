@@ -746,6 +746,19 @@ ServerGameStateStartGame::DoStart(boost::shared_ptr<ServerGame> server)
 
 //-----------------------------------------------------------------------------
 
+AbstractServerGameStateRunning::~AbstractServerGameStateRunning()
+{
+}
+
+void
+AbstractServerGameStateRunning::HandleNewSession(boost::shared_ptr<ServerGame> server, boost::shared_ptr<SessionData> session)
+{
+	// Do not accept new sessions in this state.
+	server->MoveSessionToLobby(session, NTF_NET_REMOVED_ALREADY_RUNNING);
+}
+
+//-----------------------------------------------------------------------------
+
 ServerGameStateHand ServerGameStateHand::s_state;
 
 ServerGameStateHand &
@@ -776,13 +789,6 @@ void
 ServerGameStateHand::Exit(boost::shared_ptr<ServerGame> server)
 {
 	server->GetStateTimer1().cancel();
-}
-
-void
-ServerGameStateHand::HandleNewSession(boost::shared_ptr<ServerGame> server, boost::shared_ptr<SessionData> session)
-{
-	// Do not accept new sessions in this state.
-	server->MoveSessionToLobby(session, NTF_NET_REMOVED_ALREADY_RUNNING);
 }
 
 void
@@ -1229,13 +1235,6 @@ ServerGameStateWaitPlayerAction::Exit(boost::shared_ptr<ServerGame> server)
 }
 
 void
-ServerGameStateWaitPlayerAction::HandleNewSession(boost::shared_ptr<ServerGame> server, boost::shared_ptr<SessionData> session)
-{
-	// Do not accept new sessions in this state.
-	server->MoveSessionToLobby(session, NTF_NET_REMOVED_ALREADY_RUNNING);
-}
-
-void
 ServerGameStateWaitPlayerAction::InternalProcessPacket(boost::shared_ptr<ServerGame> server, boost::shared_ptr<SessionData> session, boost::shared_ptr<NetPacket> packet)
 {
 	if (packet->GetMsg()->present == PokerTHMessage_PR_myActionRequestMessage) {
@@ -1380,13 +1379,6 @@ void
 ServerGameStateWaitNextHand::Exit(boost::shared_ptr<ServerGame> server)
 {
 	server->GetStateTimer1().cancel();
-}
-
-void
-ServerGameStateWaitNextHand::HandleNewSession(boost::shared_ptr<ServerGame> server, boost::shared_ptr<SessionData> session)
-{
-	// Do not accept new sessions in this state.
-	server->MoveSessionToLobby(session, NTF_NET_REMOVED_ALREADY_RUNNING);
 }
 
 void

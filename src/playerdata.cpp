@@ -174,6 +174,20 @@ PlayerData::SetGuid(const std::string &guid)
 	m_guid = guid;
 }
 
+std::string
+PlayerData::GetOldGuid() const
+{
+	boost::mutex::scoped_lock lock(m_dataMutex);
+	return m_oldGuid;
+}
+
+void
+PlayerData::SetOldGuid(const std::string &guid)
+{
+	boost::mutex::scoped_lock lock(m_dataMutex);
+	m_oldGuid = guid;
+}
+
 DB_id
 PlayerData::GetDBId() const
 {

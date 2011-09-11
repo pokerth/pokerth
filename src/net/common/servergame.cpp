@@ -513,7 +513,9 @@ ServerGame::GetPlayerDataByUniqueId(unsigned playerId) const
 {
 	boost::shared_ptr<PlayerData> tmpPlayer;
 	boost::shared_ptr<SessionData> session = GetSessionManager().GetSessionByUniquePlayerId(playerId);
-	tmpPlayer = session->GetPlayerData();
+	if (session) {
+		tmpPlayer = session->GetPlayerData();
+	}
 	if (!tmpPlayer) {
 		boost::mutex::scoped_lock lock(m_computerPlayerListMutex);
 		PlayerDataList::const_iterator i = m_computerPlayerList.begin();

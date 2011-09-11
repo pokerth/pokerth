@@ -280,6 +280,16 @@ void Session::clientJoinGame(unsigned gameId, const std::string &password)
 	);
 }
 
+void Session::clientRejoinGame(unsigned gameId)
+{
+	if (!myNetClient)
+		return; // only act if client is running.
+	myNetClient->SendRejoinGame(
+		gameId,
+		myConfig->readConfigInt("NetAutoLeaveGameAfterFinish") == 1
+	);
+}
+
 void Session::startNetworkServer(bool dedicated)
 {
 	if (myNetServer) {

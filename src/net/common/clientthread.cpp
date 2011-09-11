@@ -257,6 +257,22 @@ ClientThread::SendJoinGame(unsigned gameId, const std::string &password, bool au
 }
 
 void
+ClientThread::SendRejoinGame(unsigned gameId, bool autoLeave)
+{
+	// Warning: This function is called in the context of the GUI thread.
+	// Create a network packet to request rejoining a running game.
+	boost::shared_ptr<NetPacket> packet(new NetPacket(NetPacket::Alloc));
+	packet->GetMsg()->present = PokerTHMessage_PR_joinGameRequestMessage;
+	JoinGameRequestMessage_t *netJoinGame = &packet->GetMsg()->choice.joinGameRequestMessage;
+	netJoinGame->autoLeave = autoLeave;
+	netJoinGame->joinGameAction.present = joinGameAction_PR_rejoinExistingGame;
+
+	RejoinExistingGame_t *rejoinExisting = &netJoinGame->joinGameAction.choice.rejoinExistingGame;
+	rejoinExisting->gameId = gameId;
+	m_ioService->post(boost::bind(&ClientThread::SendSessionPacket, shared_from_this(), packet));
+}
+
+void
 ClientThread::SendCreateGame(const GameData &gameData, const std::string &name, const std::string &password, bool autoLeave)
 {
 	// Warning: This function is called in the context of the GUI thread.

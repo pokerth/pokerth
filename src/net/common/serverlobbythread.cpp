@@ -703,26 +703,6 @@ ServerLobbyThread::GetBanManager()
 }
 
 u_int32_t
-ServerLobbyThread::GetRejoinGameIdForPlayer(const std::string &playerName, const std::string &guid, unsigned &outPlayerUniqueId)
-{
-	u_int32_t retGameId = 0;
-	GameMap::iterator i = m_gameMap.begin();
-	GameMap::iterator end = m_gameMap.end();
-	while (i != end) {
-		boost::shared_ptr<ServerGame> tmpGame = i->second;
-		boost::shared_ptr<PlayerInterface> tmpPlayer = tmpGame->GetPlayerInterfaceFromGame(playerName);
-		if (tmpPlayer && tmpPlayer->getMyGuid() == guid)
-		{
-			retGameId = tmpGame->GetId();
-			outPlayerUniqueId = tmpPlayer->getMyUniqueID();
-			break;
-		}
-		++i;
-	}
-	return retGameId;
-}
-
-u_int32_t
 ServerLobbyThread::GetNextUniquePlayerId()
 {
 	boost::mutex::scoped_lock lock(m_curUniquePlayerIdMutex);
@@ -940,6 +920,8 @@ ServerLobbyThread::HandlePacket(boost::shared_ptr<SessionData> session, boost::s
 					HandleNetPacketCreateGame(session, password, joinRequest->autoLeave, joinRequest->joinGameAction.choice.joinNewGame);
 				else if (joinRequest->joinGameAction.present == joinGameAction_PR_joinExistingGame)
 					HandleNetPacketJoinGame(session, password, joinRequest->autoLeave, joinRequest->joinGameAction.choice.joinExistingGame);
+				else if (joinRequest->joinGameAction.present == joinGameAction_PR_rejoinExistingGame)
+					HandleNetPacketRejoinGame(session, joinRequest->autoLeave, joinRequest->joinGameAction.choice.rejoinExistingGame);
 			} else if (packet->GetMsg()->present == PokerTHMessage_PR_chatRequestMessage)
 				HandleNetPacketChatRequest(session, packet->GetMsg()->choice.chatRequestMessage);
 			else if (packet->GetMsg()->present == PokerTHMessage_PR_rejectGameInvitationMessage)
@@ -1054,7 +1036,7 @@ ServerLobbyThread::HandleNetPacketInit(boost::shared_ptr<SessionData> session, c
 	tmpPlayerData->SetAvatarMD5(avatarMD5);
 	if (initMessage.myLastSessionId)
 	{
-		tmpPlayerData->SetGuid(STL_STRING_FROM_OCTET_STRING(*initMessage.myLastSessionId));
+		tmpPlayerData->SetOldGuid(STL_STRING_FROM_OCTET_STRING(*initMessage.myLastSessionId));
 	}
 
 	// Set player data for session.
@@ -1325,6 +1307,26 @@ ServerLobbyThread::HandleNetPacketJoinGame(boost::shared_ptr<SessionData> sessio
 }
 
 void
+ServerLobbyThread::HandleNetPacketRejoinGame(boost::shared_ptr<SessionData> session, bool autoLeave, const RejoinExistingGame_t &rejoinGame)
+{
+	// Rejoin a running game.
+	GameMap::iterator pos = m_gameMap.find(rejoinGame.gameId);
+
+	if (pos != m_gameMap.end()) {
+		boost::shared_ptr<ServerGame> game = pos->second;
+		// Verify that the user is allowed to rejoin.
+		boost::shared_ptr<PlayerInterface> tmpPlayer = game->GetPlayerInterfaceFromGame(session->GetPlayerData()->GetName());
+		if (tmpPlayer && tmpPlayer->getMyGuid() == session->GetPlayerData()->GetOldGuid()) {
+			MoveSessionToGame(game, session, autoLeave);
+		} else {
+			SendJoinGameFailed(session, rejoinGame.gameId, NTF_NET_JOIN_REJOIN_FAILED);
+		}
+	} else {
+		SendJoinGameFailed(session, rejoinGame.gameId, NTF_NET_JOIN_GAME_INVALID);
+	}
+}
+
+void
 ServerLobbyThread::HandleNetPacketChatRequest(boost::shared_ptr<SessionData> session, const ChatRequestMessage_t &chatRequest)
 {
 	bool chatSent = false;
@@ -1493,7 +1495,7 @@ ServerLobbyThread::EstablishSession(boost::shared_ptr<SessionData> session)
 		throw ServerException(__FILE__, __LINE__, ERR_NET_INVALID_SESSION, 0);
 
 	u_int32_t rejoinPlayerId = 0;
-	u_int32_t rejoinGameId = GetRejoinGameIdForPlayer(session->GetPlayerData()->GetName(), session->GetPlayerData()->GetGuid(), rejoinPlayerId);
+	u_int32_t rejoinGameId = GetRejoinGameIdForPlayer(session->GetPlayerData()->GetName(), session->GetPlayerData()->GetOldGuid(), rejoinPlayerId);
 	if (rejoinGameId != 0)
 	{
 		// Offer rejoin, and disconnect current player with the same name.
@@ -1955,6 +1957,9 @@ ServerLobbyThread::SendJoinGameFailed(boost::shared_ptr<SessionData> s, unsigned
 	case NTF_NET_JOIN_IP_BLOCKED :
 		joinFailed->joinGameFailureReason = joinGameFailureReason_ipAddressBlocked;
 		break;
+	case NTF_NET_JOIN_REJOIN_FAILED :
+		joinFailed->joinGameFailureReason = joinGameFailureReason_rejoinFailed;
+		break;
 	default :
 		joinFailed->joinGameFailureReason = joinGameFailureReason_invalidGame;
 		break;
@@ -2184,5 +2189,25 @@ ServerLobbyThread::CreateNetPacketGameListUpdate(unsigned gameId, GameMode mode)
 
 	gameUpdate->gameMode = mode;
 	return packet;
+}
+
+u_int32_t
+ServerLobbyThread::GetRejoinGameIdForPlayer(const std::string &playerName, const std::string &guid, unsigned &outPlayerUniqueId)
+{
+	u_int32_t retGameId = 0;
+	GameMap::iterator i = m_gameMap.begin();
+	GameMap::iterator end = m_gameMap.end();
+	while (i != end) {
+		boost::shared_ptr<ServerGame> tmpGame = i->second;
+		boost::shared_ptr<PlayerInterface> tmpPlayer = tmpGame->GetPlayerInterfaceFromGame(playerName);
+		if (tmpPlayer && tmpPlayer->getMyGuid() == guid)
+		{
+			retGameId = tmpGame->GetId();
+			outPlayerUniqueId = tmpPlayer->getMyUniqueID();
+			break;
+		}
+		++i;
+	}
+	return retGameId;
 }
 

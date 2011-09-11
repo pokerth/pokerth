@@ -110,8 +110,6 @@ public:
 	boost::shared_ptr<ServerDBInterface> GetDatabase();
 	ServerBanManager &GetBanManager();
 
-	u_int32_t GetRejoinGameIdForPlayer(const std::string &playerName, const std::string &guid, unsigned &outPlayerUniqueId);
-
 protected:
 
 	typedef std::deque<boost::shared_ptr<boost::asio::ip::tcp::socket> > ConnectQueue;
@@ -141,6 +139,7 @@ protected:
 	void HandleNetPacketRetrieveAvatar(boost::shared_ptr<SessionData> session, const AvatarRequestMessage_t &retrieveAvatar);
 	void HandleNetPacketCreateGame(boost::shared_ptr<SessionData> session, const std::string &password, bool autoLeave, const JoinNewGame_t &newGame);
 	void HandleNetPacketJoinGame(boost::shared_ptr<SessionData> session, const std::string &password, bool autoLeave, const JoinExistingGame_t &joinGame);
+	void HandleNetPacketRejoinGame(boost::shared_ptr<SessionData> session, bool autoLeave, const RejoinExistingGame_t &rejoinGame);
 	void HandleNetPacketChatRequest(boost::shared_ptr<SessionData> session, const ChatRequestMessage_t &chatRequest);
 	void HandleNetPacketRejectGameInvitation(boost::shared_ptr<SessionData> session, const RejectGameInvitationMessage_t &reject);
 	// TODO would be better to use state pattern here.
@@ -198,6 +197,8 @@ protected:
 	static boost::shared_ptr<NetPacket> CreateNetPacketPlayerListLeft(unsigned playerId);
 	static boost::shared_ptr<NetPacket> CreateNetPacketGameListNew(const ServerGame &game);
 	static boost::shared_ptr<NetPacket> CreateNetPacketGameListUpdate(unsigned gameId, GameMode mode);
+
+	u_int32_t GetRejoinGameIdForPlayer(const std::string &playerName, const std::string &guid, unsigned &outPlayerUniqueId);
 
 private:
 

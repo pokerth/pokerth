@@ -117,10 +117,11 @@
 #define NTF_NET_JOIN_GAME_BAD_NAME		217
 #define NTF_NET_JOIN_INVALID_SETTINGS	218
 #define NTF_NET_JOIN_IP_BLOCKED			219
+#define NTF_NET_JOIN_REJOIN_FAILED		220
 
 // Notifications - version
-#define NTF_NET_NEW_RELEASE_AVAILABLE	220
-#define NTF_NET_OUTDATED_BETA			221
+#define NTF_NET_NEW_RELEASE_AVAILABLE	221
+#define NTF_NET_OUTDATED_BETA			222
 
 // This is an internal message which is not reported.
 #define MSG_SOCK_INTERNAL_PENDING		0
