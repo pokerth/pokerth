@@ -357,6 +357,20 @@ AbstractServerGameStateReceiving::ProcessPacket(boost::shared_ptr<ServerGame> se
 	}
 }
 
+boost::shared_ptr<NetPacket>
+AbstractServerGameStateReceiving::CreateNetPacketPlayerJoined(unsigned gameId, const PlayerData &playerData)
+{
+	boost::shared_ptr<NetPacket> packet(new NetPacket(NetPacket::Alloc));
+	packet->GetMsg()->present = PokerTHMessage_PR_gamePlayerMessage;
+	GamePlayerMessage_t *netGamePlayer = &packet->GetMsg()->choice.gamePlayerMessage;
+	netGamePlayer->gameId = gameId;
+	netGamePlayer->gamePlayerNotification.present = gamePlayerNotification_PR_gamePlayerJoined;
+	GamePlayerJoined_t *playerJoined = &netGamePlayer->gamePlayerNotification.choice.gamePlayerJoined;
+	playerJoined->playerId = playerData.GetUniqueId();
+	playerJoined->isGameAdmin = playerData.IsGameAdmin();
+	return packet;
+}
+
 //-----------------------------------------------------------------------------
 
 ServerGameStateInit ServerGameStateInit::s_state;
@@ -429,7 +443,7 @@ ServerGameStateInit::HandleNewSession(boost::shared_ptr<ServerGame> server, boos
 			server->GetLobbyThread().GetSender().Send(session, packet);
 
 			// Send notifications for connected players to client.
-			PlayerDataList tmpPlayerList = server->GetFullPlayerDataList();
+			PlayerDataList tmpPlayerList(server->GetFullPlayerDataList());
 			PlayerDataList::iterator player_i = tmpPlayerList.begin();
 			PlayerDataList::iterator player_end = tmpPlayerList.end();
 			while (player_i != player_end) {
@@ -624,20 +638,6 @@ ServerGameStateInit::InternalProcessPacket(boost::shared_ptr<ServerGame> server,
 	}
 }
 
-boost::shared_ptr<NetPacket>
-ServerGameStateInit::CreateNetPacketPlayerJoined(unsigned gameId, const PlayerData &playerData)
-{
-	boost::shared_ptr<NetPacket> packet(new NetPacket(NetPacket::Alloc));
-	packet->GetMsg()->present = PokerTHMessage_PR_gamePlayerMessage;
-	GamePlayerMessage_t *netGamePlayer = &packet->GetMsg()->choice.gamePlayerMessage;
-	netGamePlayer->gameId = gameId;
-	netGamePlayer->gamePlayerNotification.present = gamePlayerNotification_PR_gamePlayerJoined;
-	GamePlayerJoined_t *playerJoined = &netGamePlayer->gamePlayerNotification.choice.gamePlayerJoined;
-	playerJoined->playerId = playerData.GetUniqueId();
-	playerJoined->isGameAdmin = playerData.IsGameAdmin();
-	return packet;
-}
-
 //-----------------------------------------------------------------------------
 
 ServerGameStateStartGame ServerGameStateStartGame::s_state;
@@ -753,8 +753,65 @@ AbstractServerGameStateRunning::~AbstractServerGameStateRunning()
 void
 AbstractServerGameStateRunning::HandleNewSession(boost::shared_ptr<ServerGame> server, boost::shared_ptr<SessionData> session)
 {
-	// Do not accept new sessions in this state.
-	server->MoveSessionToLobby(session, NTF_NET_REMOVED_ALREADY_RUNNING);
+
+	// Verify that the user is allowed to rejoin.
+	boost::shared_ptr<PlayerInterface> tmpPlayer = server->GetPlayerInterfaceFromGame(session->GetPlayerData()->GetName());
+	if (tmpPlayer && tmpPlayer->getMyGuid() == session->GetPlayerData()->GetOldGuid()) {
+		// Perform rejoin at hand start.
+		// Send ack to client.
+		// TODO this code is partly copy & paste.
+		{
+			boost::shared_ptr<NetPacket> packet(new NetPacket(NetPacket::Alloc));
+			packet->GetMsg()->present = PokerTHMessage_PR_joinGameReplyMessage;
+			JoinGameReplyMessage_t *netJoinReply = &packet->GetMsg()->choice.joinGameReplyMessage;
+			netJoinReply->gameId = server->GetId();
+			netJoinReply->joinGameResult.present = joinGameResult_PR_joinGameAck;
+			JoinGameAck_t *joinAck = &netJoinReply->joinGameResult.choice.joinGameAck;
+			joinAck->areYouGameAdmin = static_cast<PlayerInfoRights>(session->GetPlayerData()->IsGameAdmin());
+
+			NetPacket::SetGameData(server->GetGameData(), &joinAck->gameInfo);
+			OCTET_STRING_fromBuf(
+				&joinAck->gameInfo.gameName,
+				server->GetName().c_str(),
+				(int)server->GetName().length());
+			server->GetLobbyThread().GetSender().Send(session, packet);
+		}
+
+		// Send notifications for connected players to client.
+		PlayerDataList tmpPlayerList = server->GetFullPlayerDataList();
+		PlayerDataList::iterator player_i = tmpPlayerList.begin();
+		PlayerDataList::iterator player_end = tmpPlayerList.end();
+		while (player_i != player_end) {
+			server->GetLobbyThread().GetSender().Send(session, CreateNetPacketPlayerJoined(server->GetId(), *(*player_i)));
+			++player_i;
+		}
+
+		// Send "Player Joined" to other fully connected clients.
+		server->SendToAllPlayers(CreateNetPacketPlayerJoined(server->GetId(), *session->GetPlayerData()), SessionData::Game);
+
+		// Accept session.
+		server->GetSessionManager().AddSession(session);
+		// Remember: We need to initiate a rejoin when starting the next hand.
+		server->AddRejoinPlayer(session->GetPlayerData()->GetUniqueId());
+
+		// Notify lobby.
+		server->GetLobbyThread().NotifyPlayerJoinedGame(server->GetId(), session->GetPlayerData()->GetUniqueId());
+
+		// Send start event right away.
+		{
+			boost::shared_ptr<NetPacket> packet(new NetPacket(NetPacket::Alloc));
+			packet->GetMsg()->present = PokerTHMessage_PR_startEventMessage;
+			StartEventMessage_t *netStartEvent = &packet->GetMsg()->choice.startEventMessage;
+			netStartEvent->gameId = server->GetId();
+			netStartEvent->fillWithComputerPlayers = false;
+
+			// Wait for rejoining player to confirm start of game.
+			server->GetLobbyThread().GetSender().Send(session, packet);
+		}
+	} else {
+		// Do not accept "new" sessions in this state, only rejoin is allowed.
+		server->MoveSessionToLobby(session, NTF_NET_REMOVED_ALREADY_RUNNING);
+	}
 }
 
 //-----------------------------------------------------------------------------
@@ -963,7 +1020,7 @@ ServerGameStateHand::EngineLoop(boost::shared_ptr<ServerGame> server)
 			// Remove disconnected players. This is the one and only place to do this.
 			server->RemoveDisconnectedPlayers();
 
-			// Update rankings of all remaining players.
+			// Update rankings of all remaining players
 			server->UpdateRankingMap();
 
 			// Start next hand - if enough players are left.
@@ -1079,6 +1136,41 @@ ServerGameStateHand::StartNewHand(boost::shared_ptr<ServerGame> server)
 	// Initialize hand.
 	Game &curGame = server->GetGame();
 	curGame.initHand();
+	// Initialize rejoining players.
+	{
+		PlayerIdList rejoinIdList(server->GetAndResetRejoinPlayers());
+		PlayerIdList::iterator i = rejoinIdList.begin();
+		PlayerIdList::iterator end = rejoinIdList.end();
+		while (i != end) {
+			boost::shared_ptr<SessionData> session(server->GetSessionManager().GetSessionByUniquePlayerId(*i));
+			if (session) {
+				boost::shared_ptr<NetPacket> packet(new NetPacket(NetPacket::Alloc));
+				packet->GetMsg()->present = PokerTHMessage_PR_gameStartMessage;
+				GameStartMessage_t *netGameStart = &packet->GetMsg()->choice.gameStartMessage;
+				netGameStart->gameId = server->GetId();
+				netGameStart->startDealerPlayerId = curGame.getDealerPosition();
+				netGameStart->gameStartMode.present = gameStartMode_PR_gameStartModeRejoin;
+				GameStartModeRejoin_t *netStartModeRejoin = &netGameStart->gameStartMode.choice.gameStartModeRejoin;
+
+				// Send player data to client.
+				PlayerListIterator player_i = curGame.getSeatsList()->begin();
+				PlayerListIterator player_end = curGame.getSeatsList()->end();
+				while (player_i != player_end) {
+					boost::shared_ptr<PlayerInterface> tmpPlayer = *player_i;
+					if (tmpPlayer->getMyActiveStatus()) {
+						RejoinPlayerData_t *playerSlot = (RejoinPlayerData_t *)calloc(1, sizeof(RejoinPlayerData_t));
+						playerSlot->playerId = tmpPlayer->getMyUniqueID();
+						playerSlot->playerMoney = tmpPlayer->getMyCash();
+						ASN_SEQUENCE_ADD(&netStartModeRejoin->rejoinPlayerData.list, playerSlot);
+					}
+					++player_i;
+				}
+
+				server->GetLobbyThread().GetSender().Send(session, packet);
+			}
+			++i;
+		}
+	}
 
 	// HACK: Skip GUI notification run
 	curGame.getCurrentHand()->getFlop()->skipFirstRunGui();

@@ -87,6 +87,9 @@ public:
 
 	void SetPlayerAutoLeaveOnFinish(unsigned playerId);
 
+	void AddRejoinPlayer(unsigned playerId);
+	PlayerIdList GetAndResetRejoinPlayers();
+
 	unsigned GetSmallDelaySec() const;
 
 	// should be protected, but is needed in function.
@@ -172,6 +175,9 @@ private:
 
 	PlayerIdList m_autoLeavePlayerList;
 	mutable boost::mutex m_autoLeavePlayerListMutex;
+
+	PlayerIdList m_rejoinPlayerList;
+	mutable boost::mutex m_rejoinPlayerListMutex;
 
 	PlayerIdList m_reportedAvatarList;
 

@@ -1314,13 +1314,7 @@ ServerLobbyThread::HandleNetPacketRejoinGame(boost::shared_ptr<SessionData> sess
 
 	if (pos != m_gameMap.end()) {
 		boost::shared_ptr<ServerGame> game = pos->second;
-		// Verify that the user is allowed to rejoin.
-		boost::shared_ptr<PlayerInterface> tmpPlayer = game->GetPlayerInterfaceFromGame(session->GetPlayerData()->GetName());
-		if (tmpPlayer && tmpPlayer->getMyGuid() == session->GetPlayerData()->GetOldGuid()) {
-			MoveSessionToGame(game, session, autoLeave);
-		} else {
-			SendJoinGameFailed(session, rejoinGame.gameId, NTF_NET_JOIN_REJOIN_FAILED);
-		}
+		MoveSessionToGame(game, session, autoLeave);
 	} else {
 		SendJoinGameFailed(session, rejoinGame.gameId, NTF_NET_JOIN_GAME_INVALID);
 	}

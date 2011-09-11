@@ -628,6 +628,22 @@ ServerGame::SetPlayerAutoLeaveOnFinish(unsigned playerId)
 }
 
 void
+ServerGame::AddRejoinPlayer(unsigned playerId)
+{
+	boost::mutex::scoped_lock lock(m_rejoinPlayerListMutex);
+	m_rejoinPlayerList.push_back(playerId);
+}
+
+PlayerIdList
+ServerGame::GetAndResetRejoinPlayers()
+{
+	boost::mutex::scoped_lock lock(m_rejoinPlayerListMutex);
+	PlayerIdList tmpList(m_rejoinPlayerList);
+	m_rejoinPlayerList.clear();
+	return tmpList;
+}
+
+void
 ServerGame::AddComputerPlayer(boost::shared_ptr<PlayerData> player)
 {
 	{

@@ -64,6 +64,8 @@ public:
 	// Calls InternalProcess if packet has not been processed.
 	virtual void ProcessPacket(boost::shared_ptr<ServerGame> server, boost::shared_ptr<SessionData> session, boost::shared_ptr<NetPacket> packet);
 
+	static boost::shared_ptr<NetPacket> CreateNetPacketPlayerJoined(unsigned gameId, const PlayerData &playerData);
+
 protected:
 
 	virtual void InternalProcessPacket(boost::shared_ptr<ServerGame> server, boost::shared_ptr<SessionData> session, boost::shared_ptr<NetPacket> packet) = 0;
@@ -97,8 +99,6 @@ protected:
 	void SendStartEvent(ServerGame &server, bool fillWithComputerPlayers);
 
 	virtual void InternalProcessPacket(boost::shared_ptr<ServerGame> server, boost::shared_ptr<SessionData> session, boost::shared_ptr<NetPacket> packet);
-
-	static boost::shared_ptr<NetPacket> CreateNetPacketPlayerJoined(unsigned gameId, const PlayerData &playerData);
 
 private:
 	static ServerGameStateInit s_state;

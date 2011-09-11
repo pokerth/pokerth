@@ -1500,28 +1500,49 @@ ClientStateWaitStart::InternalHandlePacket(boost::shared_ptr<ClientThread> clien
 
 		StartData startData;
 		startData.startDealerPlayerId = netGameStart->startDealerPlayerId;
-		if (netGameStart->gameStartMode.present != gameStartMode_PR_gameStartModeInitial)
+		if (netGameStart->gameStartMode.present == gameStartMode_PR_gameStartModeInitial)
+		{
+			GameStartModeInitial_t *netStartModeInitial = &netGameStart->gameStartMode.choice.gameStartModeInitial;
+			startData.numberOfPlayers = netStartModeInitial->playerSeats.list.count;
+			client->SetStartData(startData);
+
+			// Set player numbers using the game start data slots.
+			NonZeroId_t **playerIds = netStartModeInitial->playerSeats.list.array;
+			unsigned numPlayers = netStartModeInitial->playerSeats.list.count;
+			// Request player info for players if needed.
+			if (numPlayers && playerIds && *playerIds) {
+				for (unsigned i = 0; i < numPlayers; i++) {
+					unsigned playerId = *playerIds[i];
+					boost::shared_ptr<PlayerData> tmpPlayer = client->GetPlayerDataByUniqueId(playerId);
+					if (!tmpPlayer.get())
+						throw ClientException(__FILE__, __LINE__, ERR_NET_UNKNOWN_PLAYER_ID, 0);
+					tmpPlayer->SetNumber(i);
+				}
+			} else
+				throw ClientException(__FILE__, __LINE__, ERR_NET_INVALID_PLAYER_COUNT, 0);
+		} else if (netGameStart->gameStartMode.present == gameStartMode_PR_gameStartModeRejoin) {
+			GameStartModeRejoin_t *netStartModeRejoin = &netGameStart->gameStartMode.choice.gameStartModeRejoin;
+			startData.numberOfPlayers = netStartModeRejoin->rejoinPlayerData.list.count;
+			client->SetStartData(startData);
+
+			// Set player numbers using the game start data slots.
+			RejoinPlayerData_t **playerInfos = netStartModeRejoin->rejoinPlayerData.list.array;
+			unsigned numPlayers = netStartModeRejoin->rejoinPlayerData.list.count;
+			// Request player info for players if needed.
+			if (numPlayers && playerInfos && *playerInfos) {
+				for (unsigned i = 0; i < numPlayers; i++) {
+					RejoinPlayerData_t *playerData = playerInfos[i];
+					boost::shared_ptr<PlayerData> tmpPlayer = client->GetPlayerDataByUniqueId(playerData->playerId);
+					if (!tmpPlayer.get())
+						throw ClientException(__FILE__, __LINE__, ERR_NET_UNKNOWN_PLAYER_ID, 0);
+					tmpPlayer->SetNumber(i);
+					// TODO set money
+				}
+			} else
+				throw ClientException(__FILE__, __LINE__, ERR_NET_INVALID_PLAYER_COUNT, 0);
+		} else {
 			throw ClientException(__FILE__, __LINE__, ERR_NET_INTERNAL_GAME_ERROR, 0);
-
-		GameStartModeInitial_t *netStartModeInitial = &netGameStart->gameStartMode.choice.gameStartModeInitial;
-		startData.numberOfPlayers = netStartModeInitial->playerSeats.list.count;
-		client->SetStartData(startData);
-
-		// Set player numbers using the game start data slots.
-		NonZeroId_t **playerIds = netStartModeInitial->playerSeats.list.array;
-		unsigned numPlayers = netStartModeInitial->playerSeats.list.count;
-		// Request player info for players if needed.
-		if (numPlayers && playerIds && *playerIds) {
-			for (unsigned i = 0; i < numPlayers; i++) {
-				unsigned playerId = *playerIds[i];
-				boost::shared_ptr<PlayerData> tmpPlayer = client->GetPlayerDataByUniqueId(playerId);
-				if (!tmpPlayer.get())
-					throw ClientException(__FILE__, __LINE__, ERR_NET_UNKNOWN_PLAYER_ID, 0);
-				tmpPlayer->SetNumber(i);
-			}
-		} else
-			throw ClientException(__FILE__, __LINE__, ERR_NET_INVALID_PLAYER_COUNT, 0);
-
+		}
 		client->InitGame();
 		client->GetCallback().SignalNetClientGameInfo(MSG_NET_GAME_CLIENT_START);
 		client->SetState(ClientStateWaitHand::Instance());
