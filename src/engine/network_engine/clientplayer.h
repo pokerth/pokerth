@@ -37,6 +37,7 @@ public:
 	void setHand(HandInterface *);
 
 	int getMyID() const;
+	void setMyUniqueID(unsigned newId);
 	unsigned getMyUniqueID() const;
 	void setMyGuid(const std::string &theValue);
 	std::string getMyGuid() const;
@@ -152,7 +153,7 @@ private:
 
 	// Konstanten
 	const int myID;
-	const unsigned myUniqueID;
+	unsigned myUniqueID;
 	std::string myGuid;
 	const PlayerType myType;
 	std::string myName;

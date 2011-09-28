@@ -98,6 +98,8 @@ public:
 	void SetOldGuid(const std::string &guid);
 	DB_id GetDBId() const;
 	void SetDBId(DB_id id);
+	int GetStartCash() const;
+	void SetStartCash(int cash);
 
 	bool operator<(const PlayerData &other) const;
 
@@ -105,6 +107,7 @@ private:
 	const unsigned					m_uniqueId;
 	DB_id							m_dbId;
 	int								m_number;
+	int								m_startCash; // only used if > 0
 	std::string						m_guid;
 	std::string						m_oldGuid;
 	std::string						m_name;

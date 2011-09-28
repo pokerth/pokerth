@@ -81,6 +81,7 @@ Game::Game(GuiInterface* gui, boost::shared_ptr<EngineFactory> factory,
 		string myGuid;
 		unsigned uniqueId = 0;
 		PlayerType type = PLAYER_TYPE_COMPUTER;
+		int myStartCash = startCash;
 
 		if (player_i != player_end) {
 			uniqueId = (*player_i)->GetUniqueId();
@@ -88,11 +89,13 @@ Game::Game(GuiInterface* gui, boost::shared_ptr<EngineFactory> factory,
 			myName = (*player_i)->GetName();
 			myAvatarFile = (*player_i)->GetAvatarFile();
 			myGuid = (*player_i)->GetGuid();
+			if ((*player_i)->GetStartCash() > 0)
+				myStartCash = (*player_i)->GetStartCash();
 			++player_i;
 		}
 
 		// create player objects
-		boost::shared_ptr<PlayerInterface> tmpPlayer = myFactory->createPlayer(i, uniqueId, type, myName, myAvatarFile, startCash, startQuantityPlayers > i, 0);
+		boost::shared_ptr<PlayerInterface> tmpPlayer = myFactory->createPlayer(i, uniqueId, type, myName, myAvatarFile, myStartCash, startQuantityPlayers > i, 0);
 		tmpPlayer->setIsConnected(true);
 		tmpPlayer->setMyGuid(myGuid);
 

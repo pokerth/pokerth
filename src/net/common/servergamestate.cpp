@@ -1144,29 +1144,36 @@ ServerGameStateHand::StartNewHand(boost::shared_ptr<ServerGame> server)
 		while (i != end) {
 			boost::shared_ptr<SessionData> session(server->GetSessionManager().GetSessionByUniquePlayerId(*i));
 			if (session) {
-				boost::shared_ptr<NetPacket> packet(new NetPacket(NetPacket::Alloc));
-				packet->GetMsg()->present = PokerTHMessage_PR_gameStartMessage;
-				GameStartMessage_t *netGameStart = &packet->GetMsg()->choice.gameStartMessage;
-				netGameStart->gameId = server->GetId();
-				netGameStart->startDealerPlayerId = curGame.getDealerPosition();
-				netGameStart->gameStartMode.present = gameStartMode_PR_gameStartModeRejoin;
-				GameStartModeRejoin_t *netStartModeRejoin = &netGameStart->gameStartMode.choice.gameStartModeRejoin;
+				// Set new player id.
+				boost::shared_ptr<PlayerInterface> rejoinPlayer = curGame.getPlayerByName(session->GetPlayerData()->GetName());
+				if (rejoinPlayer)
+				{
+					rejoinPlayer->setMyUniqueID(session->GetPlayerData()->GetUniqueId());
+					rejoinPlayer->setIsConnected(true);
+					boost::shared_ptr<NetPacket> packet(new NetPacket(NetPacket::Alloc));
+					packet->GetMsg()->present = PokerTHMessage_PR_gameStartMessage;
+					GameStartMessage_t *netGameStart = &packet->GetMsg()->choice.gameStartMessage;
+					netGameStart->gameId = server->GetId();
+					netGameStart->startDealerPlayerId = curGame.getDealerPosition();
+					netGameStart->gameStartMode.present = gameStartMode_PR_gameStartModeRejoin;
+					GameStartModeRejoin_t *netStartModeRejoin = &netGameStart->gameStartMode.choice.gameStartModeRejoin;
 
-				// Send player data to client.
-				PlayerListIterator player_i = curGame.getSeatsList()->begin();
-				PlayerListIterator player_end = curGame.getSeatsList()->end();
-				while (player_i != player_end) {
-					boost::shared_ptr<PlayerInterface> tmpPlayer = *player_i;
-					if (tmpPlayer->getMyActiveStatus()) {
-						RejoinPlayerData_t *playerSlot = (RejoinPlayerData_t *)calloc(1, sizeof(RejoinPlayerData_t));
-						playerSlot->playerId = tmpPlayer->getMyUniqueID();
-						playerSlot->playerMoney = tmpPlayer->getMyCash();
-						ASN_SEQUENCE_ADD(&netStartModeRejoin->rejoinPlayerData.list, playerSlot);
+					// Send player data to client.
+					PlayerListIterator player_i = curGame.getSeatsList()->begin();
+					PlayerListIterator player_end = curGame.getSeatsList()->end();
+					while (player_i != player_end) {
+						boost::shared_ptr<PlayerInterface> tmpPlayer = *player_i;
+						if (tmpPlayer->getMyActiveStatus()) {
+							RejoinPlayerData_t *playerSlot = (RejoinPlayerData_t *)calloc(1, sizeof(RejoinPlayerData_t));
+							playerSlot->playerId = tmpPlayer->getMyUniqueID();
+							playerSlot->playerMoney = tmpPlayer->getMyCash();
+							ASN_SEQUENCE_ADD(&netStartModeRejoin->rejoinPlayerData.list, playerSlot);
+						}
+						++player_i;
 					}
-					++player_i;
-				}
 
-				server->GetLobbyThread().GetSender().Send(session, packet);
+					server->GetLobbyThread().GetSender().Send(session, packet);
+				}
 			}
 			++i;
 		}

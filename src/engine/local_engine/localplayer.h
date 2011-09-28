@@ -43,6 +43,9 @@ public:
 	unsigned getMyUniqueID() const {
 		return myUniqueID;
 	}
+	void setMyUniqueID(unsigned newId) {
+		myUniqueID = newId;
+	}
 
 	void setMyGuid(const std::string &theValue) {
 		myGuid = theValue;

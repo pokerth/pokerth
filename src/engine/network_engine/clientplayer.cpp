@@ -54,9 +54,17 @@ ClientPlayer::getMyID() const
 	return myID;
 }
 
+void
+ClientPlayer::setMyUniqueID(unsigned newId)
+{
+	boost::recursive_mutex::scoped_lock lock(m_syncMutex);
+	myUniqueID = newId;
+}
+
 unsigned
 ClientPlayer::getMyUniqueID() const
 {
+	boost::recursive_mutex::scoped_lock lock(m_syncMutex);
 	return myUniqueID;
 }
 

@@ -1536,7 +1536,7 @@ ClientStateWaitStart::InternalHandlePacket(boost::shared_ptr<ClientThread> clien
 					if (!tmpPlayer.get())
 						throw ClientException(__FILE__, __LINE__, ERR_NET_UNKNOWN_PLAYER_ID, 0);
 					tmpPlayer->SetNumber(i);
-					// TODO set money
+					tmpPlayer->SetStartCash(playerData->playerMoney);
 				}
 			} else
 				throw ClientException(__FILE__, __LINE__, ERR_NET_INVALID_PLAYER_COUNT, 0);
