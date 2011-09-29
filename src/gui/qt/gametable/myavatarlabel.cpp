@@ -253,7 +253,8 @@ QString MyAvatarLabel::getPlayerTip(QString playerName)
 void MyAvatarLabel::setPlayerTip()
 {
 	int found=0;
-	std::string rating="1", separator="(!#$%)";
+	//std::string rating="1";
+	std::string separator="(!#$%)";
 	std::string tip = std::string((const char*)myW->textEdit_tipInput->toPlainText().toUtf8());
 	std::string playerName;
 	if(myW->tabWidget_Left->widget(2) == myW->tab_editTip)playerName = myW->tabWidget_Left->tabText(2).toUtf8().constData();

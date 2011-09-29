@@ -29,7 +29,6 @@
 
 class ClientThread;
 class ClientCallback;
-class ResolverThread;
 class Game;
 class NetPacket;
 class DownloadHelper;

@@ -187,7 +187,6 @@ protected:
 
 	bool GetLoginData(LoginData &loginData) const;
 
-	unsigned GetGameIdByName(const std::string &name) const;
 	void AddGameInfo(unsigned gameId, const GameInfo &info);
 	void UpdateGameInfoMode(unsigned gameId, GameMode mode);
 	void UpdateGameInfoAdmin(unsigned gameId, unsigned adminPlayerId);

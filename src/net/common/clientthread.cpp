@@ -1225,24 +1225,6 @@ ClientThread::GetLoginData(LoginData &loginData) const
 	return retVal;
 }
 
-unsigned
-ClientThread::GetGameIdByName(const std::string &name) const
-{
-	// Find the game.
-	boost::mutex::scoped_lock lock(m_gameInfoMapMutex);
-	GameInfoMap::const_iterator i = m_gameInfoMap.begin();
-	GameInfoMap::const_iterator end = m_gameInfoMap.end();
-	while (i != end) {
-		if (i->second.name == name)
-			break;
-		++i;
-	}
-
-	if (i == end)
-		throw ClientException(__FILE__, __LINE__, ERR_NET_UNKNOWN_GAME, 0);
-	return i->first;
-}
-
 void
 ClientThread::AddGameInfo(unsigned gameId, const GameInfo &info)
 {
