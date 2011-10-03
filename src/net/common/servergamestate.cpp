@@ -1133,9 +1133,8 @@ ServerGameStateHand::GetDealCardsDelaySec(ServerGame &server)
 void
 ServerGameStateHand::StartNewHand(boost::shared_ptr<ServerGame> server)
 {
-	// Initialize hand.
 	Game &curGame = server->GetGame();
-	curGame.initHand();
+
 	// Initialize rejoining players.
 	{
 		PlayerIdList rejoinIdList(server->GetAndResetRejoinPlayers());
@@ -1158,6 +1157,7 @@ ServerGameStateHand::StartNewHand(boost::shared_ptr<ServerGame> server)
 					GameStartModeRejoin_t *netStartModeRejoin = &netGameStart->gameStartMode.choice.gameStartModeRejoin;
 
 					// Send player data to client.
+					netStartModeRejoin->handNum = curGame.getCurrentHandID();
 					PlayerListIterator player_i = curGame.getSeatsList()->begin();
 					PlayerListIterator player_end = curGame.getSeatsList()->end();
 					while (player_i != player_end) {
@@ -1177,6 +1177,9 @@ ServerGameStateHand::StartNewHand(boost::shared_ptr<ServerGame> server)
 			++i;
 		}
 	}
+
+	// Initialize hand.
+	curGame.initHand();
 
 	// HACK: Skip GUI notification run
 	curGame.getCurrentHand()->getFlop()->skipFirstRunGui();

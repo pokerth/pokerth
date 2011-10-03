@@ -1495,6 +1495,7 @@ ClientStateWaitStart::InternalHandlePacket(boost::shared_ptr<ClientThread> clien
 	if (tmpPacket->GetMsg()->present == PokerTHMessage_PR_gameStartMessage) {
 		// Start the network game as client.
 		GameStartMessage_t *netGameStart = &tmpPacket->GetMsg()->choice.gameStartMessage;
+		unsigned tmpHandId = 0;
 
 		StartData startData;
 		startData.startDealerPlayerId = netGameStart->startDealerPlayerId;
@@ -1525,6 +1526,7 @@ ClientStateWaitStart::InternalHandlePacket(boost::shared_ptr<ClientThread> clien
 			// Set player numbers using the game start data slots.
 			RejoinPlayerData_t **playerInfos = netStartModeRejoin->rejoinPlayerData.list.array;
 			unsigned numPlayers = netStartModeRejoin->rejoinPlayerData.list.count;
+			tmpHandId = netStartModeRejoin->handNum;
 			// Request player info for players if needed.
 			if (numPlayers && playerInfos && *playerInfos) {
 				for (unsigned i = 0; i < numPlayers; i++) {
@@ -1541,6 +1543,7 @@ ClientStateWaitStart::InternalHandlePacket(boost::shared_ptr<ClientThread> clien
 			throw ClientException(__FILE__, __LINE__, ERR_NET_INTERNAL_GAME_ERROR, 0);
 		}
 		client->InitGame();
+		client->GetGame()->setCurrentHandID(tmpHandId);
 		client->GetCallback().SignalNetClientGameInfo(MSG_NET_GAME_CLIENT_START);
 		client->SetState(ClientStateWaitHand::Instance());
 	}
