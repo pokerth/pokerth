@@ -568,8 +568,7 @@ boost::shared_ptr<PlayerInterface>
 ServerGame::GetPlayerInterfaceFromGame(const std::string &playerName)
 {
 	boost::shared_ptr<PlayerInterface> tmpPlayer;
-	if (m_game)
-	{
+	if (m_game) {
 		tmpPlayer = m_game->getPlayerByName(playerName);
 	}
 	return tmpPlayer;

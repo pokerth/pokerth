@@ -1146,8 +1146,7 @@ ServerGameStateHand::StartNewHand(boost::shared_ptr<ServerGame> server)
 			if (session) {
 				// Set new player id.
 				boost::shared_ptr<PlayerInterface> rejoinPlayer = curGame.getPlayerByName(session->GetPlayerData()->GetName());
-				if (rejoinPlayer)
-				{
+				if (rejoinPlayer) {
 					rejoinPlayer->setMyUniqueID(session->GetPlayerData()->GetUniqueId());
 					rejoinPlayer->setIsConnected(true);
 					boost::shared_ptr<NetPacket> packet(new NetPacket(NetPacket::Alloc));

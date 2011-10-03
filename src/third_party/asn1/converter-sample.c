@@ -48,18 +48,18 @@ static int opt_onepdu;	/* -1 (decode single PDU) */
 
 /* Input data format selector */
 static enum input_format {
-	INP_BER,	/* -iber: BER input */
-	INP_XER,	/* -ixer: XER input */
-	INP_PER		/* -iper: Unaligned PER input */
+    INP_BER,	/* -iber: BER input */
+    INP_XER,	/* -ixer: XER input */
+    INP_PER		/* -iper: Unaligned PER input */
 } iform;	/* -i<format> */
 
 /* Output data format selector */
 static enum output_format {
-	OUT_XER,	/* -oxer: XER (XML) output */
-	OUT_DER,	/* -oder: DER (BER) output */
-	OUT_PER,	/* -oper: Unaligned PER output */
-	OUT_TEXT,	/* -otext: semi-structured text */
-	OUT_NULL	/* -onull: No pretty-printing */
+    OUT_XER,	/* -oxer: XER (XML) output */
+    OUT_DER,	/* -oder: DER (BER) output */
+    OUT_PER,	/* -oper: Unaligned PER output */
+    OUT_TEXT,	/* -otext: semi-structured text */
+    OUT_NULL	/* -onull: No pretty-printing */
 } oform;	/* -o<format> */
 
 #ifdef	JUNKTEST		/* Enable -J <probability> */

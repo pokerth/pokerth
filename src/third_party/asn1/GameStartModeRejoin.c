@@ -33,7 +33,7 @@ memb_rejoinPlayerData_constraint_1(asn_TYPE_descriptor_t *td, const void *sptr,
 	}
 }
 
-static asn_TYPE_member_t asn_MBR_rejoinPlayerData_2[] = {
+static asn_TYPE_member_t asn_MBR_rejoinPlayerData_3[] = {
 	{	ATF_POINTER, 0, 0,
 		(ASN_TAG_CLASS_UNIVERSAL | (16 << 2)),
 		0,
@@ -44,16 +44,16 @@ static asn_TYPE_member_t asn_MBR_rejoinPlayerData_2[] = {
 		""
 	},
 };
-static ber_tlv_tag_t asn_DEF_rejoinPlayerData_tags_2[] = {
+static ber_tlv_tag_t asn_DEF_rejoinPlayerData_tags_3[] = {
 	(ASN_TAG_CLASS_UNIVERSAL | (16 << 2))
 };
-static asn_SET_OF_specifics_t asn_SPC_rejoinPlayerData_specs_2 = {
+static asn_SET_OF_specifics_t asn_SPC_rejoinPlayerData_specs_3 = {
 	sizeof(struct rejoinPlayerData),
 	offsetof(struct rejoinPlayerData, _asn_ctx),
 	0,	/* XER encoding is XMLDelimitedItemList */
 };
 static /* Use -fall-defs-global to expose */
-asn_TYPE_descriptor_t asn_DEF_rejoinPlayerData_2 = {
+asn_TYPE_descriptor_t asn_DEF_rejoinPlayerData_3 = {
 	"rejoinPlayerData",
 	"rejoinPlayerData",
 	SEQUENCE_OF_free,
@@ -65,23 +65,32 @@ asn_TYPE_descriptor_t asn_DEF_rejoinPlayerData_2 = {
 	SEQUENCE_OF_encode_xer,
 	0, 0,	/* No PER support, use "-gen-PER" to enable */
 	0,	/* Use generic outmost tag fetcher */
-	asn_DEF_rejoinPlayerData_tags_2,
-	sizeof(asn_DEF_rejoinPlayerData_tags_2)
-	/sizeof(asn_DEF_rejoinPlayerData_tags_2[0]), /* 1 */
-	asn_DEF_rejoinPlayerData_tags_2,	/* Same as above */
-	sizeof(asn_DEF_rejoinPlayerData_tags_2)
-	/sizeof(asn_DEF_rejoinPlayerData_tags_2[0]), /* 1 */
+	asn_DEF_rejoinPlayerData_tags_3,
+	sizeof(asn_DEF_rejoinPlayerData_tags_3)
+	/sizeof(asn_DEF_rejoinPlayerData_tags_3[0]), /* 1 */
+	asn_DEF_rejoinPlayerData_tags_3,	/* Same as above */
+	sizeof(asn_DEF_rejoinPlayerData_tags_3)
+	/sizeof(asn_DEF_rejoinPlayerData_tags_3[0]), /* 1 */
 	0,	/* No PER visible constraints */
-	asn_MBR_rejoinPlayerData_2,
+	asn_MBR_rejoinPlayerData_3,
 	1,	/* Single element */
-	&asn_SPC_rejoinPlayerData_specs_2	/* Additional specs */
+	&asn_SPC_rejoinPlayerData_specs_3	/* Additional specs */
 };
 
 static asn_TYPE_member_t asn_MBR_GameStartModeRejoin_1[] = {
+	{	ATF_NOFLAGS, 0, offsetof(struct GameStartModeRejoin, handNum),
+		(ASN_TAG_CLASS_UNIVERSAL | (2 << 2)),
+		0,
+		&asn_DEF_NonZeroId,
+		0,	/* Defer constraints checking to the member type */
+		0,	/* PER is not compiled, use -gen-PER */
+		0,
+		"handNum"
+	},
 	{	ATF_NOFLAGS, 0, offsetof(struct GameStartModeRejoin, rejoinPlayerData),
 		(ASN_TAG_CLASS_UNIVERSAL | (16 << 2)),
 		0,
-		&asn_DEF_rejoinPlayerData_2,
+		&asn_DEF_rejoinPlayerData_3,
 		memb_rejoinPlayerData_constraint_1,
 		0,	/* PER is not compiled, use -gen-PER */
 		0,
@@ -92,16 +101,17 @@ static ber_tlv_tag_t asn_DEF_GameStartModeRejoin_tags_1[] = {
 	(ASN_TAG_CLASS_UNIVERSAL | (16 << 2))
 };
 static asn_TYPE_tag2member_t asn_MAP_GameStartModeRejoin_tag2el_1[] = {
-	{ (ASN_TAG_CLASS_UNIVERSAL | (16 << 2)), 0, 0, 0 } /* rejoinPlayerData at 453 */
+	{ (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 0, 0, 0 }, /* handNum at 455 */
+	{ (ASN_TAG_CLASS_UNIVERSAL | (16 << 2)), 1, 0, 0 } /* rejoinPlayerData at 457 */
 };
 static asn_SEQUENCE_specifics_t asn_SPC_GameStartModeRejoin_specs_1 = {
 	sizeof(struct GameStartModeRejoin),
 	offsetof(struct GameStartModeRejoin, _asn_ctx),
 	asn_MAP_GameStartModeRejoin_tag2el_1,
-	1,	/* Count of tags in the map */
+	2,	/* Count of tags in the map */
 	0, 0, 0,	/* Optional elements (not needed) */
-	0,	/* Start extensions */
-	2	/* Stop extensions */
+	1,	/* Start extensions */
+	3	/* Stop extensions */
 };
 asn_TYPE_descriptor_t asn_DEF_GameStartModeRejoin = {
 	"GameStartModeRejoin",
@@ -123,7 +133,7 @@ asn_TYPE_descriptor_t asn_DEF_GameStartModeRejoin = {
 	/sizeof(asn_DEF_GameStartModeRejoin_tags_1[0]), /* 1 */
 	0,	/* No PER visible constraints */
 	asn_MBR_GameStartModeRejoin_1,
-	1,	/* Elements count */
+	2,	/* Elements count */
 	&asn_SPC_GameStartModeRejoin_specs_1	/* Additional specs */
 };
 

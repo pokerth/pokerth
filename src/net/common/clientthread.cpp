@@ -221,16 +221,16 @@ ClientThread::SendJoinFirstGame(const std::string &password, bool autoLeave)
 	packet->GetMsg()->present = PokerTHMessage_PR_joinGameRequestMessage;
 	JoinGameRequestMessage_t *netJoinGame = &packet->GetMsg()->choice.joinGameRequestMessage;
 	netJoinGame->autoLeave = autoLeave;
-	if (!password.empty()) {
-		netJoinGame->password = OCTET_STRING_new_fromBuf(
-									&asn_DEF_UTF8String,
-									password.c_str(),
-									(int)password.length());
-	}
 	netJoinGame->joinGameAction.present = joinGameAction_PR_joinExistingGame;
 
 	JoinExistingGame_t *joinExisting = &netJoinGame->joinGameAction.choice.joinExistingGame;
 	joinExisting->gameId = 1;
+	if (!password.empty()) {
+		joinExisting->password = OCTET_STRING_new_fromBuf(
+									&asn_DEF_UTF8String,
+									password.c_str(),
+									(int)password.length());
+	}
 	m_ioService->post(boost::bind(&ClientThread::SendSessionPacket, shared_from_this(), packet));
 }
 
@@ -243,16 +243,16 @@ ClientThread::SendJoinGame(unsigned gameId, const std::string &password, bool au
 	packet->GetMsg()->present = PokerTHMessage_PR_joinGameRequestMessage;
 	JoinGameRequestMessage_t *netJoinGame = &packet->GetMsg()->choice.joinGameRequestMessage;
 	netJoinGame->autoLeave = autoLeave;
-	if (!password.empty()) {
-		netJoinGame->password = OCTET_STRING_new_fromBuf(
-									&asn_DEF_UTF8String,
-									password.c_str(),
-									(int)password.length());
-	}
 	netJoinGame->joinGameAction.present = joinGameAction_PR_joinExistingGame;
 
 	JoinExistingGame_t *joinExisting = &netJoinGame->joinGameAction.choice.joinExistingGame;
 	joinExisting->gameId = gameId;
+	if (!password.empty()) {
+		joinExisting->password = OCTET_STRING_new_fromBuf(
+									&asn_DEF_UTF8String,
+									password.c_str(),
+									(int)password.length());
+	}
 	m_ioService->post(boost::bind(&ClientThread::SendSessionPacket, shared_from_this(), packet));
 }
 
@@ -281,12 +281,6 @@ ClientThread::SendCreateGame(const GameData &gameData, const std::string &name, 
 	packet->GetMsg()->present = PokerTHMessage_PR_joinGameRequestMessage;
 	JoinGameRequestMessage_t *netJoinGame = &packet->GetMsg()->choice.joinGameRequestMessage;
 	netJoinGame->autoLeave = autoLeave;
-	if (!password.empty()) {
-		netJoinGame->password = OCTET_STRING_new_fromBuf(
-									&asn_DEF_UTF8String,
-									password.c_str(),
-									(int)password.length());
-	}
 	netJoinGame->joinGameAction.present = joinGameAction_PR_joinNewGame;
 
 	JoinNewGame_t *joinNew = &netJoinGame->joinGameAction.choice.joinNewGame;
@@ -294,6 +288,12 @@ ClientThread::SendCreateGame(const GameData &gameData, const std::string &name, 
 	OCTET_STRING_fromBuf(&joinNew->gameInfo.gameName,
 						 name.c_str(),
 						 (int)name.length());
+	if (!password.empty()) {
+		joinNew->password = OCTET_STRING_new_fromBuf(
+									&asn_DEF_UTF8String,
+									password.c_str(),
+									(int)password.length());
+	}
 	m_ioService->post(boost::bind(&ClientThread::SendSessionPacket, shared_from_this(), packet));
 }
 
@@ -1411,8 +1411,7 @@ ClientThread::ReadSessionGuidFromFile()
 {
 	string guidFileName(GetContext().GetCacheDir() + TEMP_GUID_FILENAME);
 	ifstream guidStream(guidFileName.c_str(), ios::in | ios::binary);
-	if (guidStream.good())
-	{
+	if (guidStream.good()) {
 		std::vector<char> tmpGuid(CLIENT_GUID_SIZE);
 		guidStream.read(&tmpGuid[0], CLIENT_GUID_SIZE);
 		GetContext().SetSessionGuid(string(tmpGuid.begin(), tmpGuid.end()));
@@ -1424,8 +1423,7 @@ ClientThread::WriteSessionGuidToFile() const
 {
 	string guidFileName(GetContext().GetCacheDir() + TEMP_GUID_FILENAME);
 	ofstream guidStream(guidFileName.c_str(), ios::out | ios::trunc | ios::binary);
-	if (guidStream.good())
-	{
+	if (guidStream.good()) {
 		guidStream.write(GetContext().GetSessionGuid().c_str(), GetContext().GetSessionGuid().size());
 	}
 }

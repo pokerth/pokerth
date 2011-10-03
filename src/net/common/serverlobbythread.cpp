@@ -904,7 +904,7 @@ ServerLobbyThread::HandlePacket(boost::shared_ptr<SessionData> session, boost::s
 			else if (packet->GetMsg()->present == PokerTHMessage_PR_avatarRequestMessage)
 				HandleNetPacketRetrieveAvatar(session, packet->GetMsg()->choice.avatarRequestMessage);
 			else if (packet->GetMsg()->present == PokerTHMessage_PR_resetTimeoutMessage)
-				{}
+			{}
 			else if (packet->GetMsg()->present == PokerTHMessage_PR_subscriptionRequestMessage) {
 				SubscriptionRequestMessage_t *subscriptionRequest = &packet->GetMsg()->choice.subscriptionRequestMessage;
 				if (subscriptionRequest->subscriptionAction == subscriptionAction_resubscribeGameList)
@@ -913,13 +913,10 @@ ServerLobbyThread::HandlePacket(boost::shared_ptr<SessionData> session, boost::s
 					session->ResetWantsLobbyMsg();
 			} else if (packet->GetMsg()->present == PokerTHMessage_PR_joinGameRequestMessage) {
 				JoinGameRequestMessage_t *joinRequest = &packet->GetMsg()->choice.joinGameRequestMessage;
-				string password;
-				if (joinRequest->password)
-					password = string((char *)joinRequest->password->buf, joinRequest->password->size);
 				if (joinRequest->joinGameAction.present == joinGameAction_PR_joinNewGame)
-					HandleNetPacketCreateGame(session, password, joinRequest->autoLeave, joinRequest->joinGameAction.choice.joinNewGame);
+					HandleNetPacketCreateGame(session, joinRequest->autoLeave, joinRequest->joinGameAction.choice.joinNewGame);
 				else if (joinRequest->joinGameAction.present == joinGameAction_PR_joinExistingGame)
-					HandleNetPacketJoinGame(session, password, joinRequest->autoLeave, joinRequest->joinGameAction.choice.joinExistingGame);
+					HandleNetPacketJoinGame(session, joinRequest->autoLeave, joinRequest->joinGameAction.choice.joinExistingGame);
 				else if (joinRequest->joinGameAction.present == joinGameAction_PR_rejoinExistingGame)
 					HandleNetPacketRejoinGame(session, joinRequest->autoLeave, joinRequest->joinGameAction.choice.rejoinExistingGame);
 			} else if (packet->GetMsg()->present == PokerTHMessage_PR_chatRequestMessage)
@@ -1034,8 +1031,7 @@ ServerLobbyThread::HandleNetPacketInit(boost::shared_ptr<SessionData> session, c
 		new PlayerData(GetNextUniquePlayerId(), 0, PLAYER_TYPE_HUMAN, validGuest ? PLAYER_RIGHTS_GUEST : PLAYER_RIGHTS_NORMAL, false));
 	tmpPlayerData->SetName(playerName);
 	tmpPlayerData->SetAvatarMD5(avatarMD5);
-	if (initMessage.myLastSessionId)
-	{
+	if (initMessage.myLastSessionId) {
 		tmpPlayerData->SetOldGuid(STL_STRING_FROM_OCTET_STRING(*initMessage.myLastSessionId));
 	}
 
@@ -1235,9 +1231,13 @@ ServerLobbyThread::HandleNetPacketRetrieveAvatar(boost::shared_ptr<SessionData> 
 }
 
 void
-ServerLobbyThread::HandleNetPacketCreateGame(boost::shared_ptr<SessionData> session, const std::string &password, bool autoLeave, const JoinNewGame_t &newGame)
+ServerLobbyThread::HandleNetPacketCreateGame(boost::shared_ptr<SessionData> session, bool autoLeave, const JoinNewGame_t &newGame)
 {
 	LOG_VERBOSE("Creating new game, initiated by session #" << session->GetId() << ".");
+
+	string password;
+	if (newGame.password)
+		password = string((char *)newGame.password->buf, newGame.password->size);
 
 	// Create a new game.
 	GameData tmpData;
@@ -1276,8 +1276,12 @@ ServerLobbyThread::HandleNetPacketCreateGame(boost::shared_ptr<SessionData> sess
 }
 
 void
-ServerLobbyThread::HandleNetPacketJoinGame(boost::shared_ptr<SessionData> session, const std::string &password, bool autoLeave, const JoinExistingGame_t &joinGame)
+ServerLobbyThread::HandleNetPacketJoinGame(boost::shared_ptr<SessionData> session, bool autoLeave, const JoinExistingGame_t &joinGame)
 {
+	string password;
+	if (joinGame.password)
+		password = string((char *)joinGame.password->buf, joinGame.password->size);
+
 	// Join an existing game.
 	GameMap::iterator pos = m_gameMap.find(joinGame.gameId);
 
@@ -1490,8 +1494,7 @@ ServerLobbyThread::EstablishSession(boost::shared_ptr<SessionData> session)
 
 	u_int32_t rejoinPlayerId = 0;
 	u_int32_t rejoinGameId = GetRejoinGameIdForPlayer(session->GetPlayerData()->GetName(), session->GetPlayerData()->GetOldGuid(), rejoinPlayerId);
-	if (rejoinGameId != 0)
-	{
+	if (rejoinGameId != 0) {
 		// Offer rejoin, and disconnect current player with the same name.
 		InternalRemovePlayer(rejoinPlayerId, ERR_NET_PLAYER_NAME_IN_USE);
 	}
@@ -1527,8 +1530,7 @@ ServerLobbyThread::EstablishSession(boost::shared_ptr<SessionData> session)
 		session->GetPlayerData()->GetGuid().c_str(),
 		session->GetPlayerData()->GetGuid().size());
 	netInitAck->yourPlayerId = session->GetPlayerData()->GetUniqueId();
-	if (rejoinGameId != 0)
-	{
+	if (rejoinGameId != 0) {
 		netInitAck->rejoinGameId = (NonZeroId_t *)calloc(1, sizeof(NonZeroId_t));
 		*netInitAck->rejoinGameId =	rejoinGameId;
 	}
@@ -2194,8 +2196,7 @@ ServerLobbyThread::GetRejoinGameIdForPlayer(const std::string &playerName, const
 	while (i != end) {
 		boost::shared_ptr<ServerGame> tmpGame = i->second;
 		boost::shared_ptr<PlayerInterface> tmpPlayer = tmpGame->GetPlayerInterfaceFromGame(playerName);
-		if (tmpPlayer && tmpPlayer->getMyGuid() == guid)
-		{
+		if (tmpPlayer && tmpPlayer->getMyGuid() == guid) {
 			retGameId = tmpGame->GetId();
 			outPlayerUniqueId = tmpPlayer->getMyUniqueID();
 			break;

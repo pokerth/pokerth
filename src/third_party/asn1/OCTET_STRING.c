@@ -1411,10 +1411,10 @@ OCTET_STRING_decode_uper(asn_codec_ctx_t *opt_codec_ctx,
 	ssize_t consumed_myself = 0;
 	int repeat;
 	enum {
-		OS__BPC_BIT	= 0,
-		OS__BPC_CHAR	= 1,
-		OS__BPC_U16	= 2,
-		OS__BPC_U32	= 4
+	    OS__BPC_BIT	= 0,
+	    OS__BPC_CHAR	= 1,
+	    OS__BPC_U16	= 2,
+	    OS__BPC_U32	= 4
 	} bpc;	/* Bytes per character */
 	unsigned int unit_bits;
 	unsigned int canonical_unit_bits;
@@ -1589,10 +1589,10 @@ OCTET_STRING_encode_uper(asn_TYPE_descriptor_t *td,
 	const uint8_t *buf;
 	int ret;
 	enum {
-		OS__BPC_BIT	= 0,
-		OS__BPC_CHAR	= 1,
-		OS__BPC_U16	= 2,
-		OS__BPC_U32	= 4
+	    OS__BPC_BIT	= 0,
+	    OS__BPC_CHAR	= 1,
+	    OS__BPC_U16	= 2,
+	    OS__BPC_U32	= 4
 	} bpc;	/* Bytes per character */
 	int ct_extensible;
 

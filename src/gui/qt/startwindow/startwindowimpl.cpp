@@ -360,9 +360,9 @@ void startWindowImpl::callInternetGameLoginDialog()
 	if(myInternetGameLoginDialog->result() == QDialog::Accepted) {
 		//send login infos
 		mySession->setLogin(
-					myConfig->readConfigString("MyName"),
-					myInternetGameLoginDialog->lineEdit_password->text().toUtf8().constData(),
-					myInternetGameLoginDialog->checkBox_guest->isChecked());
+			myConfig->readConfigString("MyName"),
+			myInternetGameLoginDialog->lineEdit_password->text().toUtf8().constData(),
+			myInternetGameLoginDialog->checkBox_guest->isChecked());
 	} else {
 		myConnectToServerDialog->reject();
 		mySession->terminateNetworkClient();
@@ -385,10 +385,12 @@ void startWindowImpl::callRejoinPossibleDialog(unsigned gameId)
 	int ret = msgBox.exec();
 
 	switch (ret) {
-	case QMessageBox::Yes:;
+	case QMessageBox::Yes:
+		;
 		mySession->clientRejoinGame(gameId);
 		break;
-	case QMessageBox::No: showClientDialog();
+	case QMessageBox::No:
+		showClientDialog();
 		break;
 	}
 }
@@ -497,10 +499,10 @@ void startWindowImpl::callJoinNetworkGameDialog()
 		myStartNetworkGameDialog->clearDialog();
 		// Maybe use QUrl::toPunycode.
 		mySession->startNetworkClient(
-					myJoinNetworkGameDialog->lineEdit_ipAddress->text().toUtf8().constData(),
-					myJoinNetworkGameDialog->spinBox_port->value(),
-					myJoinNetworkGameDialog->checkBox_ipv6->isChecked(),
-					myJoinNetworkGameDialog->checkBox_sctp->isChecked());
+			myJoinNetworkGameDialog->lineEdit_ipAddress->text().toUtf8().constData(),
+			myJoinNetworkGameDialog->spinBox_port->value(),
+			myJoinNetworkGameDialog->checkBox_ipv6->isChecked(),
+			myJoinNetworkGameDialog->checkBox_sctp->isChecked());
 
 		//Dialog mit Statusbalken
 		myConnectToServerDialog->exec();
@@ -931,7 +933,7 @@ void startWindowImpl::networkNotification(int notificationId)
 	case NTF_NET_REMOVED_START_FAILED: {
 		myGameLobbyDialog->stopWaitStartGameMsgBoxTimer();
 		if(QMessageBox::warning(this, tr("Network Notification"),
-							 tr("Your connection to the server is very slow, the game had to start without you."),
+								tr("Your connection to the server is very slow, the game had to start without you."),
 								QMessageBox::Close) == QMessageBox::Close) {
 			myGameLobbyDialog->hideWaitStartGameMsgBox();
 		}

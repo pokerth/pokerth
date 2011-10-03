@@ -5,25 +5,24 @@
  * 	`asn1c -fskeletons-copy`
  */
 
-#ifndef	_JoinExistingGame_H_
-#define	_JoinExistingGame_H_
+#ifndef	_PlayerIdChangedMessage_H_
+#define	_PlayerIdChangedMessage_H_
 
 
 #include <asn_application.h>
 
 /* Including external dependencies */
 #include "NonZeroId.h"
-#include <UTF8String.h>
 #include <constr_SEQUENCE.h>
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-	/* JoinExistingGame */
-	typedef struct JoinExistingGame {
-		NonZeroId_t	 gameId;
-		UTF8String_t	*password	/* OPTIONAL */;
+	/* PlayerIdChangedMessage */
+	typedef struct PlayerIdChangedMessage {
+		NonZeroId_t	 oldPlayerId;
+		NonZeroId_t	 newPlayerId;
 		/*
 		 * This type is extensible,
 		 * possible extensions are below.
@@ -31,14 +30,14 @@ extern "C" {
 
 		/* Context for parsing across buffer boundaries */
 		asn_struct_ctx_t _asn_ctx;
-	} JoinExistingGame_t;
+	} PlayerIdChangedMessage_t;
 
 	/* Implementation */
-	extern asn_TYPE_descriptor_t asn_DEF_JoinExistingGame;
+	extern asn_TYPE_descriptor_t asn_DEF_PlayerIdChangedMessage;
 
 #ifdef __cplusplus
 }
 #endif
 
-#endif	/* _JoinExistingGame_H_ */
+#endif	/* _PlayerIdChangedMessage_H_ */
 #include <asn_internal.h>

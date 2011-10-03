@@ -48,6 +48,7 @@
 #include "ShowMyCardsRequestMessage.h"
 #include "AfterHandShowCardsMessage.h"
 #include "EndOfGameMessage.h"
+#include "PlayerIdChangedMessage.h"
 #include "AskKickPlayerMessage.h"
 #include "AskKickDeniedMessage.h"
 #include "StartKickPetitionMessage.h"
@@ -111,6 +112,7 @@ extern "C" {
 		PokerTHMessage_PR_showMyCardsRequestMessage,
 		PokerTHMessage_PR_afterHandShowCardsMessage,
 		PokerTHMessage_PR_endOfGameMessage,
+		PokerTHMessage_PR_playerIdChangedMessage,
 		PokerTHMessage_PR_askKickPlayerMessage,
 		PokerTHMessage_PR_askKickDeniedMessage,
 		PokerTHMessage_PR_startKickPetitionMessage,
@@ -174,6 +176,7 @@ extern "C" {
 			ShowMyCardsRequestMessage_t	 showMyCardsRequestMessage;
 			AfterHandShowCardsMessage_t	 afterHandShowCardsMessage;
 			EndOfGameMessage_t	 endOfGameMessage;
+			PlayerIdChangedMessage_t	 playerIdChangedMessage;
 			AskKickPlayerMessage_t	 askKickPlayerMessage;
 			AskKickDeniedMessage_t	 askKickDeniedMessage;
 			StartKickPetitionMessage_t	 startKickPetitionMessage;

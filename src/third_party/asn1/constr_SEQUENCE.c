@@ -619,7 +619,7 @@ SEQUENCE_decode_xer(asn_codec_ctx_t *opt_codec_ctx, asn_TYPE_descriptor_t *td,
 	 * Bring closer parts of structure description.
 	 */
 	asn_SEQUENCE_specifics_t *specs
-	= (asn_SEQUENCE_specifics_t *)td->specifics;
+	    = (asn_SEQUENCE_specifics_t *)td->specifics;
 	asn_TYPE_member_t *elements = td->elements;
 	const char *xml_tag = opt_mname ? opt_mname : td->xml_tag;
 
@@ -1256,7 +1256,7 @@ static int
 SEQUENCE_handle_extensions(asn_TYPE_descriptor_t *td, void *sptr,
                            asn_per_outp_t *po1, asn_per_outp_t *po2) {
 	asn_SEQUENCE_specifics_t *specs
-	= (asn_SEQUENCE_specifics_t *)td->specifics;
+	    = (asn_SEQUENCE_specifics_t *)td->specifics;
 	int exts_present = 0;
 	int exts_count = 0;
 	int edx;
@@ -1308,7 +1308,7 @@ asn_enc_rval_t
 SEQUENCE_encode_uper(asn_TYPE_descriptor_t *td,
                      asn_per_constraints_t *constraints, void *sptr, asn_per_outp_t *po) {
 	asn_SEQUENCE_specifics_t *specs
-	= (asn_SEQUENCE_specifics_t *)td->specifics;
+	    = (asn_SEQUENCE_specifics_t *)td->specifics;
 	asn_enc_rval_t er;
 	int n_extensions;
 	int edx;

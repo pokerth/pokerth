@@ -15,6 +15,7 @@
 #include "Version.h"
 #include <NativeInteger.h>
 #include "Guid.h"
+#include <UTF8String.h>
 #include "GuestLogin.h"
 #include "AuthenticatedLogin.h"
 #include "UnauthenticatedLogin.h"
@@ -41,6 +42,7 @@ extern "C" {
 		Version_t	 requestedVersion;
 		long	 buildId;
 		Guid_t	*myLastSessionId	/* OPTIONAL */;
+		UTF8String_t	*authServerPassword	/* OPTIONAL */;
 		struct login {
 			login_PR present;
 			union InitMessage__login_u {

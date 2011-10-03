@@ -63,9 +63,9 @@ extern "C" {
 	 * the return value is greater than 0.
 	 */
 	typedef enum pxer_chunk_type {
-		PXER_TAG,	/* Complete XER tag */
-		PXER_TEXT,	/* Plain text between XER tags */
-		PXER_COMMENT	/* A comment, may be part of */
+	    PXER_TAG,	/* Complete XER tag */
+	    PXER_TEXT,	/* Plain text between XER tags */
+	    PXER_COMMENT	/* A comment, may be part of */
 	} pxer_chunk_type_e;
 	ssize_t xer_next_token(int *stateContext,
 	                       const void *buffer, size_t size, pxer_chunk_type_e *_ch_type);
@@ -74,14 +74,14 @@ extern "C" {
 	 * This function checks the buffer against the tag name is expected to occur.
 	 */
 	typedef enum xer_check_tag {
-		XCT_BROKEN	= 0,	/* The tag is broken */
-		XCT_OPENING	= 1,	/* This is the <opening> tag */
-		XCT_CLOSING	= 2,	/* This is the </closing> tag */
-		XCT_BOTH	= 3,	/* This is the <modified/> tag */
-		XCT__UNK__MASK	= 4,	/* Mask of everything unexpected */
-		XCT_UNKNOWN_OP	= 5,	/* Unexpected <opening> tag */
-		XCT_UNKNOWN_CL	= 6,	/* Unexpected </closing> tag */
-		XCT_UNKNOWN_BO	= 7	/* Unexpected <modified/> tag */
+	    XCT_BROKEN	= 0,	/* The tag is broken */
+	    XCT_OPENING	= 1,	/* This is the <opening> tag */
+	    XCT_CLOSING	= 2,	/* This is the </closing> tag */
+	    XCT_BOTH	= 3,	/* This is the <modified/> tag */
+	    XCT__UNK__MASK	= 4,	/* Mask of everything unexpected */
+	    XCT_UNKNOWN_OP	= 5,	/* Unexpected <opening> tag */
+	    XCT_UNKNOWN_CL	= 6,	/* Unexpected </closing> tag */
+	    XCT_UNKNOWN_BO	= 7	/* Unexpected <modified/> tag */
 	} xer_check_tag_e;
 	xer_check_tag_e xer_check_tag(const void *buf_ptr, int size,
 	                              const char *need_tag);

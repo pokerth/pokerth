@@ -35,16 +35,16 @@ extern "C" {
 	}
 	                             e_netGameType;
 	typedef enum raiseIntervalMode_PR {
-		raiseIntervalMode_PR_NOTHING,	/* No components present */
-		raiseIntervalMode_PR_raiseEveryHands,
-		raiseIntervalMode_PR_raiseEveryMinutes,
-		/* Extensions may appear below */
+	    raiseIntervalMode_PR_NOTHING,	/* No components present */
+	    raiseIntervalMode_PR_raiseEveryHands,
+	    raiseIntervalMode_PR_raiseEveryMinutes,
+	    /* Extensions may appear below */
 
 	} raiseIntervalMode_PR;
 	typedef enum endRaiseMode {
-		endRaiseMode_doubleBlinds	= 1,
-		endRaiseMode_raiseByEndValue	= 2,
-		endRaiseMode_keepLastBlind	= 3
+	    endRaiseMode_doubleBlinds	= 1,
+	    endRaiseMode_raiseByEndValue	= 2,
+	    endRaiseMode_keepLastBlind	= 3
 	} e_endRaiseMode;
 
 	/* NetGameInfo */

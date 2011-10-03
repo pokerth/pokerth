@@ -60,6 +60,7 @@ PokerTHMessage ::= CHOICE {
 	showMyCardsRequestMessage	ShowMyCardsRequestMessage,
 	afterHandShowCardsMessage	AfterHandShowCardsMessage,
 	endOfGameMessage			EndOfGameMessage,
+	playerIdChangedMessage		PlayerIdChangedMessage,
 	askKickPlayerMessage		AskKickPlayerMessage,
 	askKickDeniedMessage		AskKickDeniedMessage,
 	startKickPetitionMessage	StartKickPetitionMessage,
@@ -97,6 +98,7 @@ InitMessage ::= [APPLICATION 1] SEQUENCE {
 	requestedVersion			Version,
 	buildId						INTEGER,
 	myLastSessionId				Guid OPTIONAL,
+	authServerPassword			UTF8String (SIZE(1..64)) OPTIONAL,
 	login						CHOICE {
 		guestLogin				[0]	GuestLogin,
 		authenticatedLogin		[1]	AuthenticatedLogin,
@@ -287,13 +289,13 @@ JoinGameRequestMessage ::= [APPLICATION 11] SEQUENCE {
 }
 
 JoinExistingGame ::= SEQUENCE {
-	gameId						NonZeroId
-	password					UTF8String (SIZE(1..64)) OPTIONAL,
+	gameId						NonZeroId,
+	password					UTF8String (SIZE(1..64)) OPTIONAL
 }
 
 JoinNewGame ::= SEQUENCE {
-	gameInfo					NetGameInfo
-	password					UTF8String (SIZE(1..64)) OPTIONAL,
+	gameInfo					NetGameInfo,
+	password					UTF8String (SIZE(1..64)) OPTIONAL
 }
 
 RejoinExistingGame ::= SEQUENCE {
@@ -450,6 +452,7 @@ GameStartModeInitial ::= SEQUENCE {
 }
 
 GameStartModeRejoin ::= SEQUENCE {
+	handNum						NonZeroId,
 	rejoinPlayerData			SEQUENCE SIZE(2..10) OF RejoinPlayerData
 }
 
@@ -583,6 +586,11 @@ AfterHandShowCardsMessage ::= [APPLICATION 34] SEQUENCE {
 EndOfGameMessage ::= [APPLICATION 35] SEQUENCE {
 	gameId						NonZeroId,
 	winnerPlayerId				NonZeroId
+}
+
+PlayerIdChangedMessage ::= [APPLICATION 36] SEQUENCE {
+	oldPlayerId					NonZeroId,
+	newPlayerId					NonZeroId
 }
 
 AskKickPlayerMessage ::= [APPLICATION 64] SEQUENCE {

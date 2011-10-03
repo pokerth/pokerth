@@ -133,9 +133,9 @@ extern "C" {
 	 * i.e. SEQUENCE, SET, CHOICE, etc.
 	 */
 	enum asn_TYPE_flags_e {
-		ATF_NOFLAGS,
-		ATF_POINTER	= 0x01,	/* Represented by the pointer */
-		ATF_OPEN_TYPE	= 0x02	/* ANY type, without meaningful tag */
+	    ATF_NOFLAGS,
+	    ATF_POINTER	= 0x01,	/* Represented by the pointer */
+	    ATF_OPEN_TYPE	= 0x02	/* ANY type, without meaningful tag */
 	};
 	typedef struct asn_TYPE_member_s {
 		enum asn_TYPE_flags_e flags;	/* Element's presentation flags */

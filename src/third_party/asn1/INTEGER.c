@@ -337,14 +337,14 @@ INTEGER__xer_body_decode(asn_TYPE_descriptor_t *td, void *sptr, const void *chun
 	const char *lstart = (const char *)chunk_buf;
 	const char *lstop = lstart + chunk_size;
 	enum {
-		ST_SKIPSPACE,
-		ST_SKIPSPHEX,
-		ST_WAITDIGITS,
-		ST_DIGITS,
-		ST_HEXDIGIT1,
-		ST_HEXDIGIT2,
-		ST_HEXCOLON,
-		ST_EXTRASTUFF
+	    ST_SKIPSPACE,
+	    ST_SKIPSPHEX,
+	    ST_WAITDIGITS,
+	    ST_DIGITS,
+	    ST_HEXDIGIT1,
+	    ST_HEXDIGIT2,
+	    ST_HEXCOLON,
+	    ST_EXTRASTUFF
 	} state = ST_SKIPSPACE;
 
 	if(chunk_size)

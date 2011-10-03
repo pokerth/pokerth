@@ -22,7 +22,7 @@ static ber_tlv_tag_t asn_DEF_ChatTypePrivate_tags_1[] = {
 	(ASN_TAG_CLASS_UNIVERSAL | (16 << 2))
 };
 static asn_TYPE_tag2member_t asn_MAP_ChatTypePrivate_tag2el_1[] = {
-	{ (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 0, 0, 0 } /* playerId at 719 */
+	{ (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 0, 0, 0 } /* playerId at 728 */
 };
 static asn_SEQUENCE_specifics_t asn_SPC_ChatTypePrivate_specs_1 = {
 	sizeof(struct ChatTypePrivate),

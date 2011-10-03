@@ -12,7 +12,6 @@
 #include <asn_application.h>
 
 /* Including external dependencies */
-#include <UTF8String.h>
 #include <BOOLEAN.h>
 #include "JoinExistingGame.h"
 #include "JoinNewGame.h"
@@ -52,7 +51,6 @@ extern "C" {
 			/* Context for parsing across buffer boundaries */
 			asn_struct_ctx_t _asn_ctx;
 		} joinGameAction;
-		UTF8String_t	*password	/* OPTIONAL */;
 		BOOLEAN_t	 autoLeave;
 		/*
 		 * This type is extensible,

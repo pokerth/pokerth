@@ -7,7 +7,39 @@
 
 #include "InitMessage.h"
 
-static asn_TYPE_member_t asn_MBR_login_5[] = {
+static int
+memb_authServerPassword_constraint_1(asn_TYPE_descriptor_t *td, const void *sptr,
+                                     asn_app_constraint_failed_f *ctfailcb, void *app_key) {
+	const UTF8String_t *st = (const UTF8String_t *)sptr;
+	size_t size;
+
+	if(!sptr) {
+		_ASN_CTFAIL(app_key, td, sptr,
+		            "%s: value not given (%s:%d)",
+		            td->name, __FILE__, __LINE__);
+		return -1;
+	}
+
+	size = UTF8String_length(st);
+	if((ssize_t)size < 0) {
+		_ASN_CTFAIL(app_key, td, sptr,
+		            "%s: UTF-8: broken encoding (%s:%d)",
+		            td->name, __FILE__, __LINE__);
+		return -1;
+	}
+
+	if((size >= 1 && size <= 64)) {
+		/* Constraint check succeeded */
+		return 0;
+	} else {
+		_ASN_CTFAIL(app_key, td, sptr,
+		            "%s: constraint failed (%s:%d)",
+		            td->name, __FILE__, __LINE__);
+		return -1;
+	}
+}
+
+static asn_TYPE_member_t asn_MBR_login_6[] = {
 	{	ATF_NOFLAGS, 0, offsetof(struct login, choice.guestLogin),
 		(ASN_TAG_CLASS_CONTEXT | (0 << 2)),
 		-1,	/* IMPLICIT tag at current level */
@@ -36,23 +68,23 @@ static asn_TYPE_member_t asn_MBR_login_5[] = {
 		"unauthenticatedLogin"
 	},
 };
-static asn_TYPE_tag2member_t asn_MAP_login_tag2el_5[] = {
-	{ (ASN_TAG_CLASS_CONTEXT | (0 << 2)), 0, 0, 0 }, /* guestLogin at 101 */
-	{ (ASN_TAG_CLASS_CONTEXT | (1 << 2)), 1, 0, 0 }, /* authenticatedLogin at 102 */
-	{ (ASN_TAG_CLASS_CONTEXT | (2 << 2)), 2, 0, 0 } /* unauthenticatedLogin at 104 */
+static asn_TYPE_tag2member_t asn_MAP_login_tag2el_6[] = {
+	{ (ASN_TAG_CLASS_CONTEXT | (0 << 2)), 0, 0, 0 }, /* guestLogin at 103 */
+	{ (ASN_TAG_CLASS_CONTEXT | (1 << 2)), 1, 0, 0 }, /* authenticatedLogin at 104 */
+	{ (ASN_TAG_CLASS_CONTEXT | (2 << 2)), 2, 0, 0 } /* unauthenticatedLogin at 106 */
 };
-static asn_CHOICE_specifics_t asn_SPC_login_specs_5 = {
+static asn_CHOICE_specifics_t asn_SPC_login_specs_6 = {
 	sizeof(struct login),
 	offsetof(struct login, _asn_ctx),
 	offsetof(struct login, present),
 	sizeof(((struct login *)0)->present),
-	asn_MAP_login_tag2el_5,
+	asn_MAP_login_tag2el_6,
 	3,	/* Count of tags in the map */
 	0,
 	3	/* Extensions start */
 };
 static /* Use -fall-defs-global to expose */
-asn_TYPE_descriptor_t asn_DEF_login_5 = {
+asn_TYPE_descriptor_t asn_DEF_login_6 = {
 	"login",
 	"login",
 	CHOICE_free,
@@ -69,9 +101,9 @@ asn_TYPE_descriptor_t asn_DEF_login_5 = {
 	0,	/* No tags (pointer) */
 	0,	/* No tags (count) */
 	0,	/* No PER visible constraints */
-	asn_MBR_login_5,
+	asn_MBR_login_6,
 	3,	/* Elements count */
-	&asn_SPC_login_specs_5	/* Additional specs */
+	&asn_SPC_login_specs_6	/* Additional specs */
 };
 
 static asn_TYPE_member_t asn_MBR_InitMessage_1[] = {
@@ -93,7 +125,7 @@ static asn_TYPE_member_t asn_MBR_InitMessage_1[] = {
 		0,
 		"buildId"
 	},
-	{	ATF_POINTER, 1, offsetof(struct InitMessage, myLastSessionId),
+	{	ATF_POINTER, 2, offsetof(struct InitMessage, myLastSessionId),
 		(ASN_TAG_CLASS_UNIVERSAL | (4 << 2)),
 		0,
 		&asn_DEF_Guid,
@@ -102,10 +134,19 @@ static asn_TYPE_member_t asn_MBR_InitMessage_1[] = {
 		0,
 		"myLastSessionId"
 	},
+	{	ATF_POINTER, 1, offsetof(struct InitMessage, authServerPassword),
+		(ASN_TAG_CLASS_UNIVERSAL | (12 << 2)),
+		0,
+		&asn_DEF_UTF8String,
+		memb_authServerPassword_constraint_1,
+		0,	/* PER is not compiled, use -gen-PER */
+		0,
+		"authServerPassword"
+	},
 	{	ATF_NOFLAGS, 0, offsetof(struct InitMessage, login),
 		-1 /* Ambiguous tag (CHOICE?) */,
 		0,
-		&asn_DEF_login_5,
+		&asn_DEF_login_6,
 		0,	/* Defer constraints checking to the member type */
 		0,	/* PER is not compiled, use -gen-PER */
 		0,
@@ -117,21 +158,22 @@ static ber_tlv_tag_t asn_DEF_InitMessage_tags_1[] = {
 	(ASN_TAG_CLASS_UNIVERSAL | (16 << 2))
 };
 static asn_TYPE_tag2member_t asn_MAP_InitMessage_tag2el_1[] = {
-	{ (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 1, 0, 0 }, /* buildId at 98 */
-	{ (ASN_TAG_CLASS_UNIVERSAL | (4 << 2)), 2, 0, 0 }, /* myLastSessionId at 99 */
-	{ (ASN_TAG_CLASS_UNIVERSAL | (16 << 2)), 0, 0, 0 }, /* requestedVersion at 97 */
-	{ (ASN_TAG_CLASS_CONTEXT | (0 << 2)), 3, 0, 0 }, /* guestLogin at 101 */
-	{ (ASN_TAG_CLASS_CONTEXT | (1 << 2)), 3, 0, 0 }, /* authenticatedLogin at 102 */
-	{ (ASN_TAG_CLASS_CONTEXT | (2 << 2)), 3, 0, 0 } /* unauthenticatedLogin at 104 */
+	{ (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 1, 0, 0 }, /* buildId at 99 */
+	{ (ASN_TAG_CLASS_UNIVERSAL | (4 << 2)), 2, 0, 0 }, /* myLastSessionId at 100 */
+	{ (ASN_TAG_CLASS_UNIVERSAL | (12 << 2)), 3, 0, 0 }, /* authServerPassword at 101 */
+	{ (ASN_TAG_CLASS_UNIVERSAL | (16 << 2)), 0, 0, 0 }, /* requestedVersion at 98 */
+	{ (ASN_TAG_CLASS_CONTEXT | (0 << 2)), 4, 0, 0 }, /* guestLogin at 103 */
+	{ (ASN_TAG_CLASS_CONTEXT | (1 << 2)), 4, 0, 0 }, /* authenticatedLogin at 104 */
+	{ (ASN_TAG_CLASS_CONTEXT | (2 << 2)), 4, 0, 0 } /* unauthenticatedLogin at 106 */
 };
 static asn_SEQUENCE_specifics_t asn_SPC_InitMessage_specs_1 = {
 	sizeof(struct InitMessage),
 	offsetof(struct InitMessage, _asn_ctx),
 	asn_MAP_InitMessage_tag2el_1,
-	6,	/* Count of tags in the map */
+	7,	/* Count of tags in the map */
 	0, 0, 0,	/* Optional elements (not needed) */
-	3,	/* Start extensions */
-	5	/* Stop extensions */
+	4,	/* Start extensions */
+	6	/* Stop extensions */
 };
 asn_TYPE_descriptor_t asn_DEF_InitMessage = {
 	"InitMessage",
@@ -153,7 +195,7 @@ asn_TYPE_descriptor_t asn_DEF_InitMessage = {
 	/sizeof(asn_DEF_InitMessage_tags_1[0]), /* 2 */
 	0,	/* No PER visible constraints */
 	asn_MBR_InitMessage_1,
-	4,	/* Elements count */
+	5,	/* Elements count */
 	&asn_SPC_InitMessage_specs_1	/* Additional specs */
 };
 

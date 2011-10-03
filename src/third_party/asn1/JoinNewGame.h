@@ -13,6 +13,7 @@
 
 /* Including external dependencies */
 #include "NetGameInfo.h"
+#include <UTF8String.h>
 #include <constr_SEQUENCE.h>
 
 #ifdef __cplusplus
@@ -22,6 +23,7 @@ extern "C" {
 	/* JoinNewGame */
 	typedef struct JoinNewGame {
 		NetGameInfo_t	 gameInfo;
+		UTF8String_t	*password	/* OPTIONAL */;
 		/*
 		 * This type is extensible,
 		 * possible extensions are below.

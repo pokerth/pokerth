@@ -80,9 +80,9 @@ extern "C" {
 	 * (i.e., print the offending remainder of the buffer).
 	 */
 	enum asn_dec_rval_code_e {
-		RC_OK,		/* Decoded successfully */
-		RC_WMORE,	/* More data expected, call again */
-		RC_FAIL		/* Failure to decode data */
+	    RC_OK,		/* Decoded successfully */
+	    RC_WMORE,	/* More data expected, call again */
+	    RC_FAIL		/* Failure to decode data */
 	};
 	typedef struct asn_dec_rval_s {
 		enum asn_dec_rval_code_e code;	/* Result code */

@@ -12,6 +12,7 @@
 #include <asn_application.h>
 
 /* Including external dependencies */
+#include "NonZeroId.h"
 #include <asn_SEQUENCE_OF.h>
 #include <constr_SEQUENCE_OF.h>
 #include <constr_SEQUENCE.h>
@@ -25,6 +26,7 @@ extern "C" {
 
 	/* GameStartModeRejoin */
 	typedef struct GameStartModeRejoin {
+		NonZeroId_t	 handNum;
 		struct rejoinPlayerData {
 			A_SEQUENCE_OF(struct RejoinPlayerData) list;
 

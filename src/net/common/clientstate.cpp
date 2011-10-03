@@ -982,8 +982,7 @@ ClientStateWaitEnterLogin::TimerLoop(const boost::system::error_code& ec, boost:
 			InitMessage_t *netInit = &init->GetMsg()->choice.initMessage;
 			netInit->requestedVersion.major = NET_VERSION_MAJOR;
 			netInit->requestedVersion.minor = NET_VERSION_MINOR;
-			if (!context.GetSessionGuid().empty())
-			{
+			if (!context.GetSessionGuid().empty()) {
 				netInit->myLastSessionId =
 					OCTET_STRING_new_fromBuf(
 						&asn_DEF_OCTET_STRING,
@@ -1499,8 +1498,7 @@ ClientStateWaitStart::InternalHandlePacket(boost::shared_ptr<ClientThread> clien
 
 		StartData startData;
 		startData.startDealerPlayerId = netGameStart->startDealerPlayerId;
-		if (netGameStart->gameStartMode.present == gameStartMode_PR_gameStartModeInitial)
-		{
+		if (netGameStart->gameStartMode.present == gameStartMode_PR_gameStartModeInitial) {
 			GameStartModeInitial_t *netStartModeInitial = &netGameStart->gameStartMode.choice.gameStartModeInitial;
 			startData.numberOfPlayers = netStartModeInitial->playerSeats.list.count;
 			client->SetStartData(startData);

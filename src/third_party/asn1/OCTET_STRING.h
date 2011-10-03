@@ -71,11 +71,11 @@ extern "C" {
 		int ctx_offset;		/* Offset of the asn_struct_ctx_t member */
 
 		enum asn_OS_Subvariant {
-			ASN_OSUBV_ANY,	/* The open type (ANY) */
-			ASN_OSUBV_BIT,	/* BIT STRING */
-			ASN_OSUBV_STR,	/* String types, not {BMP,Universal}String  */
-			ASN_OSUBV_U16,	/* 16-bit character (BMPString) */
-			ASN_OSUBV_U32	/* 32-bit character (UniversalString) */
+		    ASN_OSUBV_ANY,	/* The open type (ANY) */
+		    ASN_OSUBV_BIT,	/* BIT STRING */
+		    ASN_OSUBV_STR,	/* String types, not {BMP,Universal}String  */
+		    ASN_OSUBV_U16,	/* 16-bit character (BMPString) */
+		    ASN_OSUBV_U32	/* 32-bit character (UniversalString) */
 		} subvariant;
 	} asn_OCTET_STRING_specifics_t;
 
