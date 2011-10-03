@@ -45,7 +45,7 @@ public class GameListTest extends TestBase {
 		NetGameInfo receivedGameInfo = gameListNew.getGameInfo();
 		assertEquals(gameInfo.getDelayBetweenHands(), receivedGameInfo.getDelayBetweenHands());
 		assertEquals(gameInfo.getEndRaiseMode().getValue(), receivedGameInfo.getEndRaiseMode().getValue());
-		assertEquals(gameInfo.getEndRaiseSmallBlindValue(), receivedGameInfo.getEndRaiseSmallBlindValue());
+		assertEquals(gameInfo.getEndRaiseSmallBlindValue().getValue(), receivedGameInfo.getEndRaiseSmallBlindValue().getValue());
 		assertEquals(gameInfo.getFirstSmallBlind(), receivedGameInfo.getFirstSmallBlind());
 		assertEquals(gameInfo.getGameName(), receivedGameInfo.getGameName());
 		assertTrue(receivedGameInfo.getManualBlinds().isEmpty());

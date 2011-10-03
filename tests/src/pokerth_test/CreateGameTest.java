@@ -69,7 +69,7 @@ public class CreateGameTest extends TestBase {
 				NetGameInfo receivedGameInfo = msg.getJoinGameReplyMessage().getValue().getJoinGameResult().getJoinGameAck().getGameInfo();
 				assertEquals(receivedGameInfo.getDelayBetweenHands(), gameInfo.getDelayBetweenHands());
 				assertEquals(receivedGameInfo.getEndRaiseMode().getValue(), gameInfo.getEndRaiseMode().getValue());
-				assertEquals(receivedGameInfo.getEndRaiseSmallBlindValue(), gameInfo.getEndRaiseSmallBlindValue());
+				assertEquals(receivedGameInfo.getEndRaiseSmallBlindValue().getValue(), gameInfo.getEndRaiseSmallBlindValue().getValue());
 				assertEquals(receivedGameInfo.getFirstSmallBlind(), gameInfo.getFirstSmallBlind());
 				assertEquals(receivedGameInfo.getGameName(), gameInfo.getGameName());
 				assertEquals(receivedGameInfo.getManualBlinds(), gameInfo.getManualBlinds());
