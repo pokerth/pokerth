@@ -630,8 +630,7 @@ void gameLobbyDialogImpl::refreshGameStats()
 
 void gameLobbyDialogImpl::refreshPlayerStats()
 {
-
-	ServerStats stats = mySession->getClientStats();
+	//ServerStats stats = mySession->getClientStats();
 	label_connectedPlayersCounter->setText(tr("connected players: %1").arg(myNickListModel->rowCount()));
 }
 
