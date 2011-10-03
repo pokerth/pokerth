@@ -54,7 +54,7 @@ public class GameListTest extends TestBase {
 		assertEquals(gameInfo.getPlayerActionTimeout(), receivedGameInfo.getPlayerActionTimeout());
 		assertEquals(gameInfo.getProposedGuiSpeed(), receivedGameInfo.getProposedGuiSpeed());
 		assertTrue(gameInfo.getRaiseIntervalMode().isRaiseEveryHandsSelected());
-		assertEquals(gameInfo.getStartMoney(), receivedGameInfo.getStartMoney());
+		assertEquals(gameInfo.getStartMoney().getValue(), receivedGameInfo.getStartMoney().getValue());
 	}
 
 	@Test

@@ -21,6 +21,7 @@ import static org.junit.Assert.*;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Iterator;
 
 import org.junit.Test;
 
@@ -72,14 +73,20 @@ public class CreateGameTest extends TestBase {
 				assertEquals(receivedGameInfo.getEndRaiseSmallBlindValue().getValue(), gameInfo.getEndRaiseSmallBlindValue().getValue());
 				assertEquals(receivedGameInfo.getFirstSmallBlind(), gameInfo.getFirstSmallBlind());
 				assertEquals(receivedGameInfo.getGameName(), gameInfo.getGameName());
-				assertEquals(receivedGameInfo.getManualBlinds(), gameInfo.getManualBlinds());
+				assertEquals(receivedGameInfo.getManualBlinds().size(), gameInfo.getManualBlinds().size());
+				for (Iterator<InitialNonZeroAmountOfMoney> rec_it = receivedGameInfo.getManualBlinds().iterator(),
+						game_it = gameInfo.getManualBlinds().iterator();
+						rec_it.hasNext() && game_it.hasNext();)
+				{
+					assertEquals(rec_it.next().getValue(), game_it.next().getValue());
+				}
 				assertEquals(receivedGameInfo.getMaxNumPlayers(), gameInfo.getMaxNumPlayers());
 				assertEquals(receivedGameInfo.getNetGameType().getValue(), gameInfo.getNetGameType().getValue());
 				assertEquals(receivedGameInfo.getPlayerActionTimeout(), gameInfo.getPlayerActionTimeout());
 				assertEquals(receivedGameInfo.getProposedGuiSpeed(), gameInfo.getProposedGuiSpeed());
 				assertEquals(receivedGameInfo.getRaiseIntervalMode().getRaiseEveryHands(), gameInfo.getRaiseIntervalMode().getRaiseEveryHands());
 				assertEquals(receivedGameInfo.getRaiseIntervalMode().getRaiseEveryMinutes(), gameInfo.getRaiseIntervalMode().getRaiseEveryMinutes());
-				assertEquals(receivedGameInfo.getStartMoney(), gameInfo.getStartMoney());
+				assertEquals(receivedGameInfo.getStartMoney().getValue(), gameInfo.getStartMoney().getValue());
 			}
 			else
 			{
