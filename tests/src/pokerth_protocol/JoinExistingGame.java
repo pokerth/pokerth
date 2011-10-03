@@ -24,6 +24,21 @@ import org.bn.types.*;
 	private NonZeroId gameId = null;
                 
   
+    @ASN1String( name = "", 
+        stringType = UniversalTag.UTF8String , isUCS = false )
+    @ASN1ValueRangeConstraint ( 
+		
+		min = 1L, 
+		
+		max = 64L 
+		
+	   )
+	   
+        @ASN1Element ( name = "password", isOptional =  true , hasTag =  false  , hasDefaultValue =  false  )
+    
+	private String password = null;
+                
+  
         
         public NonZeroId getGameId () {
             return this.gameId;
@@ -33,6 +48,22 @@ import org.bn.types.*;
 
         public void setGameId (NonZeroId value) {
             this.gameId = value;
+        }
+        
+  
+        
+        public String getPassword () {
+            return this.password;
+        }
+
+        
+        public boolean isPasswordPresent () {
+            return this.password != null;
+        }
+        
+
+        public void setPassword (String value) {
+            this.password = value;
         }
         
   

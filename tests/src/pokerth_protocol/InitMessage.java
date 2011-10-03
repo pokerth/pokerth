@@ -41,6 +41,21 @@ import org.bn.types.*;
 	private Guid myLastSessionId = null;
                 
   
+    @ASN1String( name = "", 
+        stringType = UniversalTag.UTF8String , isUCS = false )
+    @ASN1ValueRangeConstraint ( 
+		
+		min = 1L, 
+		
+		max = 64L 
+		
+	   )
+	   
+        @ASN1Element ( name = "authServerPassword", isOptional =  true , hasTag =  false  , hasDefaultValue =  false  )
+    
+	private String authServerPassword = null;
+                
+  
         
     @ASN1PreparedElement
     @ASN1Choice ( name = "login" )
@@ -191,6 +206,22 @@ import org.bn.types.*;
 
         public void setMyLastSessionId (Guid value) {
             this.myLastSessionId = value;
+        }
+        
+  
+        
+        public String getAuthServerPassword () {
+            return this.authServerPassword;
+        }
+
+        
+        public boolean isAuthServerPasswordPresent () {
+            return this.authServerPassword != null;
+        }
+        
+
+        public void setAuthServerPassword (String value) {
+            this.authServerPassword = value;
         }
         
   

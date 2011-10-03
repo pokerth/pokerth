@@ -199,6 +199,11 @@ import org.bn.types.*;
 	private EndOfGameMessage endOfGameMessage = null;
                 
   
+        @ASN1Element ( name = "playerIdChangedMessage", isOptional =  false , hasTag =  false  , hasDefaultValue =  false  )
+    
+	private PlayerIdChangedMessage playerIdChangedMessage = null;
+                
+  
         @ASN1Element ( name = "askKickPlayerMessage", isOptional =  false , hasTag =  false  , hasDefaultValue =  false  )
     
 	private AskKickPlayerMessage askKickPlayerMessage = null;
@@ -376,6 +381,8 @@ import org.bn.types.*;
                 
                     setEndOfGameMessage(null);
                 
+                    setPlayerIdChangedMessage(null);
+                
                     setAskKickPlayerMessage(null);
                 
                     setAskKickDeniedMessage(null);
@@ -502,6 +509,8 @@ import org.bn.types.*;
                     setAfterHandShowCardsMessage(null);
                 
                     setEndOfGameMessage(null);
+                
+                    setPlayerIdChangedMessage(null);
                 
                     setAskKickPlayerMessage(null);
                 
@@ -630,6 +639,8 @@ import org.bn.types.*;
                 
                     setEndOfGameMessage(null);
                 
+                    setPlayerIdChangedMessage(null);
+                
                     setAskKickPlayerMessage(null);
                 
                     setAskKickDeniedMessage(null);
@@ -756,6 +767,8 @@ import org.bn.types.*;
                     setAfterHandShowCardsMessage(null);
                 
                     setEndOfGameMessage(null);
+                
+                    setPlayerIdChangedMessage(null);
                 
                     setAskKickPlayerMessage(null);
                 
@@ -884,6 +897,8 @@ import org.bn.types.*;
                 
                     setEndOfGameMessage(null);
                 
+                    setPlayerIdChangedMessage(null);
+                
                     setAskKickPlayerMessage(null);
                 
                     setAskKickDeniedMessage(null);
@@ -1010,6 +1025,8 @@ import org.bn.types.*;
                     setAfterHandShowCardsMessage(null);
                 
                     setEndOfGameMessage(null);
+                
+                    setPlayerIdChangedMessage(null);
                 
                     setAskKickPlayerMessage(null);
                 
@@ -1138,6 +1155,8 @@ import org.bn.types.*;
                 
                     setEndOfGameMessage(null);
                 
+                    setPlayerIdChangedMessage(null);
+                
                     setAskKickPlayerMessage(null);
                 
                     setAskKickDeniedMessage(null);
@@ -1264,6 +1283,8 @@ import org.bn.types.*;
                     setAfterHandShowCardsMessage(null);
                 
                     setEndOfGameMessage(null);
+                
+                    setPlayerIdChangedMessage(null);
                 
                     setAskKickPlayerMessage(null);
                 
@@ -1392,6 +1413,8 @@ import org.bn.types.*;
                 
                     setEndOfGameMessage(null);
                 
+                    setPlayerIdChangedMessage(null);
+                
                     setAskKickPlayerMessage(null);
                 
                     setAskKickDeniedMessage(null);
@@ -1518,6 +1541,8 @@ import org.bn.types.*;
                     setAfterHandShowCardsMessage(null);
                 
                     setEndOfGameMessage(null);
+                
+                    setPlayerIdChangedMessage(null);
                 
                     setAskKickPlayerMessage(null);
                 
@@ -1646,6 +1671,8 @@ import org.bn.types.*;
                 
                     setEndOfGameMessage(null);
                 
+                    setPlayerIdChangedMessage(null);
+                
                     setAskKickPlayerMessage(null);
                 
                     setAskKickDeniedMessage(null);
@@ -1772,6 +1799,8 @@ import org.bn.types.*;
                     setAfterHandShowCardsMessage(null);
                 
                     setEndOfGameMessage(null);
+                
+                    setPlayerIdChangedMessage(null);
                 
                     setAskKickPlayerMessage(null);
                 
@@ -1900,6 +1929,8 @@ import org.bn.types.*;
                 
                     setEndOfGameMessage(null);
                 
+                    setPlayerIdChangedMessage(null);
+                
                     setAskKickPlayerMessage(null);
                 
                     setAskKickDeniedMessage(null);
@@ -2026,6 +2057,8 @@ import org.bn.types.*;
                     setAfterHandShowCardsMessage(null);
                 
                     setEndOfGameMessage(null);
+                
+                    setPlayerIdChangedMessage(null);
                 
                     setAskKickPlayerMessage(null);
                 
@@ -2154,6 +2187,8 @@ import org.bn.types.*;
                 
                     setEndOfGameMessage(null);
                 
+                    setPlayerIdChangedMessage(null);
+                
                     setAskKickPlayerMessage(null);
                 
                     setAskKickDeniedMessage(null);
@@ -2280,6 +2315,8 @@ import org.bn.types.*;
                     setAfterHandShowCardsMessage(null);
                 
                     setEndOfGameMessage(null);
+                
+                    setPlayerIdChangedMessage(null);
                 
                     setAskKickPlayerMessage(null);
                 
@@ -2408,6 +2445,8 @@ import org.bn.types.*;
                 
                     setEndOfGameMessage(null);
                 
+                    setPlayerIdChangedMessage(null);
+                
                     setAskKickPlayerMessage(null);
                 
                     setAskKickDeniedMessage(null);
@@ -2534,6 +2573,8 @@ import org.bn.types.*;
                     setAfterHandShowCardsMessage(null);
                 
                     setEndOfGameMessage(null);
+                
+                    setPlayerIdChangedMessage(null);
                 
                     setAskKickPlayerMessage(null);
                 
@@ -2662,6 +2703,8 @@ import org.bn.types.*;
                 
                     setEndOfGameMessage(null);
                 
+                    setPlayerIdChangedMessage(null);
+                
                     setAskKickPlayerMessage(null);
                 
                     setAskKickDeniedMessage(null);
@@ -2788,6 +2831,8 @@ import org.bn.types.*;
                     setAfterHandShowCardsMessage(null);
                 
                     setEndOfGameMessage(null);
+                
+                    setPlayerIdChangedMessage(null);
                 
                     setAskKickPlayerMessage(null);
                 
@@ -2916,6 +2961,8 @@ import org.bn.types.*;
                 
                     setEndOfGameMessage(null);
                 
+                    setPlayerIdChangedMessage(null);
+                
                     setAskKickPlayerMessage(null);
                 
                     setAskKickDeniedMessage(null);
@@ -3042,6 +3089,8 @@ import org.bn.types.*;
                     setAfterHandShowCardsMessage(null);
                 
                     setEndOfGameMessage(null);
+                
+                    setPlayerIdChangedMessage(null);
                 
                     setAskKickPlayerMessage(null);
                 
@@ -3170,6 +3219,8 @@ import org.bn.types.*;
                 
                     setEndOfGameMessage(null);
                 
+                    setPlayerIdChangedMessage(null);
+                
                     setAskKickPlayerMessage(null);
                 
                     setAskKickDeniedMessage(null);
@@ -3296,6 +3347,8 @@ import org.bn.types.*;
                     setAfterHandShowCardsMessage(null);
                 
                     setEndOfGameMessage(null);
+                
+                    setPlayerIdChangedMessage(null);
                 
                     setAskKickPlayerMessage(null);
                 
@@ -3424,6 +3477,8 @@ import org.bn.types.*;
                 
                     setEndOfGameMessage(null);
                 
+                    setPlayerIdChangedMessage(null);
+                
                     setAskKickPlayerMessage(null);
                 
                     setAskKickDeniedMessage(null);
@@ -3550,6 +3605,8 @@ import org.bn.types.*;
                     setAfterHandShowCardsMessage(null);
                 
                     setEndOfGameMessage(null);
+                
+                    setPlayerIdChangedMessage(null);
                 
                     setAskKickPlayerMessage(null);
                 
@@ -3678,6 +3735,8 @@ import org.bn.types.*;
                 
                     setEndOfGameMessage(null);
                 
+                    setPlayerIdChangedMessage(null);
+                
                     setAskKickPlayerMessage(null);
                 
                     setAskKickDeniedMessage(null);
@@ -3804,6 +3863,8 @@ import org.bn.types.*;
                     setAfterHandShowCardsMessage(null);
                 
                     setEndOfGameMessage(null);
+                
+                    setPlayerIdChangedMessage(null);
                 
                     setAskKickPlayerMessage(null);
                 
@@ -3932,6 +3993,8 @@ import org.bn.types.*;
                 
                     setEndOfGameMessage(null);
                 
+                    setPlayerIdChangedMessage(null);
+                
                     setAskKickPlayerMessage(null);
                 
                     setAskKickDeniedMessage(null);
@@ -4058,6 +4121,8 @@ import org.bn.types.*;
                     setAfterHandShowCardsMessage(null);
                 
                     setEndOfGameMessage(null);
+                
+                    setPlayerIdChangedMessage(null);
                 
                     setAskKickPlayerMessage(null);
                 
@@ -4186,6 +4251,8 @@ import org.bn.types.*;
                 
                     setEndOfGameMessage(null);
                 
+                    setPlayerIdChangedMessage(null);
+                
                     setAskKickPlayerMessage(null);
                 
                     setAskKickDeniedMessage(null);
@@ -4312,6 +4379,8 @@ import org.bn.types.*;
                     setAfterHandShowCardsMessage(null);
                 
                     setEndOfGameMessage(null);
+                
+                    setPlayerIdChangedMessage(null);
                 
                     setAskKickPlayerMessage(null);
                 
@@ -4440,6 +4509,8 @@ import org.bn.types.*;
                 
                     setEndOfGameMessage(null);
                 
+                    setPlayerIdChangedMessage(null);
+                
                     setAskKickPlayerMessage(null);
                 
                     setAskKickDeniedMessage(null);
@@ -4566,6 +4637,8 @@ import org.bn.types.*;
                     setAfterHandShowCardsMessage(null);
                 
                     setEndOfGameMessage(null);
+                
+                    setPlayerIdChangedMessage(null);
                 
                     setAskKickPlayerMessage(null);
                 
@@ -4694,6 +4767,8 @@ import org.bn.types.*;
                 
                     setEndOfGameMessage(null);
                 
+                    setPlayerIdChangedMessage(null);
+                
                     setAskKickPlayerMessage(null);
                 
                     setAskKickDeniedMessage(null);
@@ -4820,6 +4895,137 @@ import org.bn.types.*;
                     setShowMyCardsRequestMessage(null);
                 
                     setAfterHandShowCardsMessage(null);
+                
+                    setPlayerIdChangedMessage(null);
+                
+                    setAskKickPlayerMessage(null);
+                
+                    setAskKickDeniedMessage(null);
+                
+                    setStartKickPetitionMessage(null);
+                
+                    setVoteKickRequestMessage(null);
+                
+                    setVoteKickReplyMessage(null);
+                
+                    setKickPetitionUpdateMessage(null);
+                
+                    setEndKickPetitionMessage(null);
+                
+                    setStatisticsMessage(null);
+                
+                    setChatRequestMessage(null);
+                
+                    setChatMessage(null);
+                
+                    setChatRejectMessage(null);
+                
+                    setDialogMessage(null);
+                
+                    setTimeoutWarningMessage(null);
+                
+                    setResetTimeoutMessage(null);
+                
+                    setAfkWarningMessage(null);
+                
+                    setReportAvatarMessage(null);
+                
+                    setReportAvatarAckMessage(null);
+                
+                    setErrorMessage(null);
+                            
+        }
+
+        
+  
+        
+        public PlayerIdChangedMessage getPlayerIdChangedMessage () {
+            return this.playerIdChangedMessage;
+        }
+
+        public boolean isPlayerIdChangedMessageSelected () {
+            return this.playerIdChangedMessage != null;
+        }
+
+        private void setPlayerIdChangedMessage (PlayerIdChangedMessage value) {
+            this.playerIdChangedMessage = value;
+        }
+
+        
+        public void selectPlayerIdChangedMessage (PlayerIdChangedMessage value) {
+            this.playerIdChangedMessage = value;
+            
+                    setAnnounceMessage(null);
+                
+                    setInitMessage(null);
+                
+                    setAuthMessage(null);
+                
+                    setInitAckMessage(null);
+                
+                    setAvatarRequestMessage(null);
+                
+                    setAvatarReplyMessage(null);
+                
+                    setPlayerListMessage(null);
+                
+                    setGameListMessage(null);
+                
+                    setPlayerInfoRequestMessage(null);
+                
+                    setPlayerInfoReplyMessage(null);
+                
+                    setSubscriptionRequestMessage(null);
+                
+                    setJoinGameRequestMessage(null);
+                
+                    setJoinGameReplyMessage(null);
+                
+                    setGamePlayerMessage(null);
+                
+                    setKickPlayerRequestMessage(null);
+                
+                    setLeaveGameRequestMessage(null);
+                
+                    setInvitePlayerToGameMessage(null);
+                
+                    setInviteNotifyMessage(null);
+                
+                    setRejectGameInvitationMessage(null);
+                
+                    setRejectInvNotifyMessage(null);
+                
+                    setStartEventMessage(null);
+                
+                    setStartEventAckMessage(null);
+                
+                    setGameStartMessage(null);
+                
+                    setHandStartMessage(null);
+                
+                    setPlayersTurnMessage(null);
+                
+                    setMyActionRequestMessage(null);
+                
+                    setYourActionRejectedMessage(null);
+                
+                    setPlayersActionDoneMessage(null);
+                
+                    setDealFlopCardsMessage(null);
+                
+                    setDealTurnCardMessage(null);
+                
+                    setDealRiverCardMessage(null);
+                
+                    setAllInShowCardsMessage(null);
+                
+                    setEndOfHandMessage(null);
+                
+                    setShowMyCardsRequestMessage(null);
+                
+                    setAfterHandShowCardsMessage(null);
+                
+                    setEndOfGameMessage(null);
                 
                     setAskKickPlayerMessage(null);
                 
@@ -4950,6 +5156,8 @@ import org.bn.types.*;
                 
                     setEndOfGameMessage(null);
                 
+                    setPlayerIdChangedMessage(null);
+                
                     setAskKickDeniedMessage(null);
                 
                     setStartKickPetitionMessage(null);
@@ -5076,6 +5284,8 @@ import org.bn.types.*;
                     setAfterHandShowCardsMessage(null);
                 
                     setEndOfGameMessage(null);
+                
+                    setPlayerIdChangedMessage(null);
                 
                     setAskKickPlayerMessage(null);
                 
@@ -5204,6 +5414,8 @@ import org.bn.types.*;
                 
                     setEndOfGameMessage(null);
                 
+                    setPlayerIdChangedMessage(null);
+                
                     setAskKickPlayerMessage(null);
                 
                     setAskKickDeniedMessage(null);
@@ -5330,6 +5542,8 @@ import org.bn.types.*;
                     setAfterHandShowCardsMessage(null);
                 
                     setEndOfGameMessage(null);
+                
+                    setPlayerIdChangedMessage(null);
                 
                     setAskKickPlayerMessage(null);
                 
@@ -5458,6 +5672,8 @@ import org.bn.types.*;
                 
                     setEndOfGameMessage(null);
                 
+                    setPlayerIdChangedMessage(null);
+                
                     setAskKickPlayerMessage(null);
                 
                     setAskKickDeniedMessage(null);
@@ -5584,6 +5800,8 @@ import org.bn.types.*;
                     setAfterHandShowCardsMessage(null);
                 
                     setEndOfGameMessage(null);
+                
+                    setPlayerIdChangedMessage(null);
                 
                     setAskKickPlayerMessage(null);
                 
@@ -5712,6 +5930,8 @@ import org.bn.types.*;
                 
                     setEndOfGameMessage(null);
                 
+                    setPlayerIdChangedMessage(null);
+                
                     setAskKickPlayerMessage(null);
                 
                     setAskKickDeniedMessage(null);
@@ -5838,6 +6058,8 @@ import org.bn.types.*;
                     setAfterHandShowCardsMessage(null);
                 
                     setEndOfGameMessage(null);
+                
+                    setPlayerIdChangedMessage(null);
                 
                     setAskKickPlayerMessage(null);
                 
@@ -5966,6 +6188,8 @@ import org.bn.types.*;
                 
                     setEndOfGameMessage(null);
                 
+                    setPlayerIdChangedMessage(null);
+                
                     setAskKickPlayerMessage(null);
                 
                     setAskKickDeniedMessage(null);
@@ -6092,6 +6316,8 @@ import org.bn.types.*;
                     setAfterHandShowCardsMessage(null);
                 
                     setEndOfGameMessage(null);
+                
+                    setPlayerIdChangedMessage(null);
                 
                     setAskKickPlayerMessage(null);
                 
@@ -6220,6 +6446,8 @@ import org.bn.types.*;
                 
                     setEndOfGameMessage(null);
                 
+                    setPlayerIdChangedMessage(null);
+                
                     setAskKickPlayerMessage(null);
                 
                     setAskKickDeniedMessage(null);
@@ -6346,6 +6574,8 @@ import org.bn.types.*;
                     setAfterHandShowCardsMessage(null);
                 
                     setEndOfGameMessage(null);
+                
+                    setPlayerIdChangedMessage(null);
                 
                     setAskKickPlayerMessage(null);
                 
@@ -6474,6 +6704,8 @@ import org.bn.types.*;
                 
                     setEndOfGameMessage(null);
                 
+                    setPlayerIdChangedMessage(null);
+                
                     setAskKickPlayerMessage(null);
                 
                     setAskKickDeniedMessage(null);
@@ -6600,6 +6832,8 @@ import org.bn.types.*;
                     setAfterHandShowCardsMessage(null);
                 
                     setEndOfGameMessage(null);
+                
+                    setPlayerIdChangedMessage(null);
                 
                     setAskKickPlayerMessage(null);
                 
@@ -6728,6 +6962,8 @@ import org.bn.types.*;
                 
                     setEndOfGameMessage(null);
                 
+                    setPlayerIdChangedMessage(null);
+                
                     setAskKickPlayerMessage(null);
                 
                     setAskKickDeniedMessage(null);
@@ -6854,6 +7090,8 @@ import org.bn.types.*;
                     setAfterHandShowCardsMessage(null);
                 
                     setEndOfGameMessage(null);
+                
+                    setPlayerIdChangedMessage(null);
                 
                     setAskKickPlayerMessage(null);
                 
@@ -6982,6 +7220,8 @@ import org.bn.types.*;
                 
                     setEndOfGameMessage(null);
                 
+                    setPlayerIdChangedMessage(null);
+                
                     setAskKickPlayerMessage(null);
                 
                     setAskKickDeniedMessage(null);
@@ -7108,6 +7348,8 @@ import org.bn.types.*;
                     setAfterHandShowCardsMessage(null);
                 
                     setEndOfGameMessage(null);
+                
+                    setPlayerIdChangedMessage(null);
                 
                     setAskKickPlayerMessage(null);
                 

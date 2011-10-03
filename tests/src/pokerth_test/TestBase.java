@@ -251,13 +251,13 @@ public abstract class TestBase {
 		gameInfo.setProposedGuiSpeed(guiSpeed);
 		JoinNewGame joinNew = new JoinNewGame();
 		joinNew.setGameInfo(gameInfo);
+		if (!password.isEmpty()) {
+			joinNew.setPassword(password);
+		}
 		JoinGameActionChoiceType joinAction = new JoinGameActionChoiceType();
 		joinAction.selectJoinNewGame(joinNew);
 		JoinGameRequestMessageSequenceType joinType = new JoinGameRequestMessageSequenceType();
 		joinType.setJoinGameAction(joinAction);
-		if (!password.isEmpty()) {
-			joinType.setPassword(password);
-		}
 		joinType.setAutoLeave(autoLeave);
 		JoinGameRequestMessage joinRequest = new JoinGameRequestMessage();
 		joinRequest.setValue(joinType);
@@ -270,13 +270,13 @@ public abstract class TestBase {
 	public PokerTHMessage joinGameRequestMsg(long gameId, String password, boolean autoLeave) {
 		JoinExistingGame joinExisting = new JoinExistingGame();
 		joinExisting.setGameId(new NonZeroId(gameId));
+		if (!password.isEmpty()) {
+			joinExisting.setPassword(password);
+		}
 		JoinGameActionChoiceType joinAction = new JoinGameActionChoiceType();
 		joinAction.selectJoinExistingGame(joinExisting);
 		JoinGameRequestMessageSequenceType joinType = new JoinGameRequestMessageSequenceType();
 		joinType.setJoinGameAction(joinAction);
-		if (!password.isEmpty()) {
-			joinType.setPassword(password);
-		}
 		joinType.setAutoLeave(autoLeave);
 
 		JoinGameRequestMessage joinRequest = new JoinGameRequestMessage();

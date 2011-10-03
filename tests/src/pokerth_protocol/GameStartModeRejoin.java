@@ -19,6 +19,11 @@ import org.bn.types.*;
     @ASN1Sequence ( name = "GameStartModeRejoin", isSet = false )
     public class GameStartModeRejoin implements IASN1PreparedElement {
             
+        @ASN1Element ( name = "handNum", isOptional =  false , hasTag =  false  , hasDefaultValue =  false  )
+    
+	private NonZeroId handNum = null;
+                
+  
 @ASN1SequenceOf( name = "rejoinPlayerData", isSetOf = false ) 
 
     @ASN1ValueRangeConstraint ( 
@@ -33,6 +38,18 @@ import org.bn.types.*;
     
 	private java.util.Collection<RejoinPlayerData>  rejoinPlayerData = null;
                 
+  
+        
+        public NonZeroId getHandNum () {
+            return this.handNum;
+        }
+
+        
+
+        public void setHandNum (NonZeroId value) {
+            this.handNum = value;
+        }
+        
   
         
         public java.util.Collection<RejoinPlayerData>  getRejoinPlayerData () {
