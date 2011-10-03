@@ -131,6 +131,7 @@ HEADERS += src/third_party/asn1/AllInShowCardsMessage.h \
 	src/third_party/asn1/per_opentype.h \
 	src/third_party/asn1/per_support.h \
 	src/third_party/asn1/PlayerAllIn.h \
+	src/third_party/asn1/PlayerIdChangedMessage.h \
 	src/third_party/asn1/PlayerInfoData.h \
 	src/third_party/asn1/PlayerInfoRights.h \
 	src/third_party/asn1/PlayerInfoReplyMessage.h \
@@ -224,6 +225,7 @@ SOURCES += src/third_party/asn1/ChatCleanerMessage.c \
 	src/third_party/asn1/PlayerInfoData.c \
 	src/third_party/asn1/PlayerInfoRights.c \
 	src/third_party/asn1/PlayerAllIn.c \
+	src/third_party/asn1/PlayerIdChangedMessage.c \
 	src/third_party/asn1/PlayerListMessage.c \
 	src/third_party/asn1/per_support.c \
 	src/third_party/asn1/per_opentype.c \
