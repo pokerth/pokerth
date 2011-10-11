@@ -103,6 +103,11 @@ public:
 		return dealerPosition;
 	}
 
+	void replaceDealer(unsigned oldDealer, unsigned newDealer) {
+		if (dealerPosition == oldDealer)
+			dealerPosition = newDealer;
+	}
+
 	boost::shared_ptr<PlayerInterface> getPlayerByUniqueId(unsigned id);
 	boost::shared_ptr<PlayerInterface> getPlayerByName(const std::string &name);
 	boost::shared_ptr<PlayerInterface> getCurrentPlayer();

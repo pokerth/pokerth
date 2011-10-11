@@ -682,6 +682,36 @@ AbstractClientStateReceiving::HandlePacket(boost::shared_ptr<ClientThread> clien
 
 			// Set new game admin and signal to GUI.
 			client->SetNewGameAdmin(netChanged->newAdminPlayerId);
+		} else if (netGamePlayer->gamePlayerNotification.present == gamePlayerNotification_PR_gamePlayerJoined) {
+			// Another player joined the network game.
+			GamePlayerJoined_t *netPlayerJoined = &netGamePlayer->gamePlayerNotification.choice.gamePlayerJoined;
+
+			boost::shared_ptr<PlayerData> playerData;
+			PlayerInfo info;
+			if (client->GetCachedPlayerInfo(netPlayerJoined->playerId, info)) {
+				playerData.reset(
+					new PlayerData(netPlayerJoined->playerId, 0, info.ptype,
+								   info.isGuest ? PLAYER_RIGHTS_GUEST : PLAYER_RIGHTS_NORMAL, netPlayerJoined->isGameAdmin));
+				playerData->SetName(info.playerName);
+				if (info.hasAvatar) {
+					string avatarFile;
+					if (client->GetAvatarManager().GetAvatarFileName(info.avatar, avatarFile))
+						playerData->SetAvatarFile(client->GetQtToolsInterface().stringToUtf8(avatarFile));
+					else
+						client->RetrieveAvatarIfNeeded(netPlayerJoined->playerId, info);
+				}
+			} else {
+				ostringstream name;
+				name << "#" << netPlayerJoined->playerId;
+
+				// Request player info.
+				client->RequestPlayerInfo(netPlayerJoined->playerId, true);
+				// Use temporary data until the PlayerInfo request is completed.
+				playerData.reset(
+					new PlayerData(netPlayerJoined->playerId, 0, PLAYER_TYPE_HUMAN, PLAYER_RIGHTS_NORMAL, netPlayerJoined->isGameAdmin));
+				playerData->SetName(name.str());
+			}
+			client->AddPlayerData(playerData);
 		}
 	} else if (tmpPacket->GetMsg()->present == PokerTHMessage_PR_timeoutWarningMessage) {
 		TimeoutWarningMessage_t *tmpTimeout = &tmpPacket->GetMsg()->choice.timeoutWarningMessage;
@@ -1347,40 +1377,6 @@ ClientStateWaitGame::InternalHandlePacket(boost::shared_ptr<ClientThread> client
 	if (tmpPacket->GetMsg()->present == PokerTHMessage_PR_startEventMessage) {
 		client->GetCallback().SignalNetClientGameInfo(MSG_NET_GAME_CLIENT_SYNCSTART);
 		client->SetState(ClientStateSynchronizeStart::Instance());
-	} else if (tmpPacket->GetMsg()->present == PokerTHMessage_PR_gamePlayerMessage) {
-		GamePlayerMessage_t *netGamePlayer = &tmpPacket->GetMsg()->choice.gamePlayerMessage;
-//		unsigned gameId = netGamePlayer->gameId;
-		if (netGamePlayer->gamePlayerNotification.present == gamePlayerNotification_PR_gamePlayerJoined) {
-			// Another player joined the network game.
-			GamePlayerJoined_t *netPlayerJoined = &netGamePlayer->gamePlayerNotification.choice.gamePlayerJoined;
-
-			boost::shared_ptr<PlayerData> playerData;
-			PlayerInfo info;
-			if (client->GetCachedPlayerInfo(netPlayerJoined->playerId, info)) {
-				playerData.reset(
-					new PlayerData(netPlayerJoined->playerId, 0, info.ptype,
-								   info.isGuest ? PLAYER_RIGHTS_GUEST : PLAYER_RIGHTS_NORMAL, netPlayerJoined->isGameAdmin));
-				playerData->SetName(info.playerName);
-				if (info.hasAvatar) {
-					string avatarFile;
-					if (client->GetAvatarManager().GetAvatarFileName(info.avatar, avatarFile))
-						playerData->SetAvatarFile(client->GetQtToolsInterface().stringToUtf8(avatarFile));
-					else
-						client->RetrieveAvatarIfNeeded(netPlayerJoined->playerId, info);
-				}
-			} else {
-				ostringstream name;
-				name << "#" << netPlayerJoined->playerId;
-
-				// Request player info.
-				client->RequestPlayerInfo(netPlayerJoined->playerId, true);
-				// Use temporary data until the PlayerInfo request is completed.
-				playerData.reset(
-					new PlayerData(netPlayerJoined->playerId, 0, PLAYER_TYPE_HUMAN, PLAYER_RIGHTS_NORMAL, netPlayerJoined->isGameAdmin));
-				playerData->SetName(name.str());
-			}
-			client->AddPlayerData(playerData);
-		}
 	} else if (tmpPacket->GetMsg()->present == PokerTHMessage_PR_inviteNotifyMessage) {
 		InviteNotifyMessage_t *netInvNotify = &tmpPacket->GetMsg()->choice.inviteNotifyMessage;
 		client->GetCallback().SignalPlayerGameInvitation(
@@ -1635,7 +1631,7 @@ ClientStateWaitHand::InternalHandlePacket(boost::shared_ptr<ClientThread> client
 		client->SetState(ClientStateRunHand::Instance());
 	} else if (tmpPacket->GetMsg()->present == PokerTHMessage_PR_endOfGameMessage) {
 		boost::shared_ptr<Game> curGame = client->GetGame();
-		if (curGame.get()) {
+		if (curGame) {
 			EndOfGameMessage_t *netEndOfGame = &tmpPacket->GetMsg()->choice.endOfGameMessage;
 
 			boost::shared_ptr<PlayerInterface> tmpPlayer = curGame->getPlayerByUniqueId(netEndOfGame->winnerPlayerId);
@@ -1670,6 +1666,18 @@ ClientStateWaitHand::InternalHandlePacket(boost::shared_ptr<ClientThread> client
 		tmpPlayer->setLastMoneyWon(r->moneyWon);
 
 		client->GetCallback().SignalNetClientPostRiverShowCards(r->playerId);
+	} else if (tmpPacket->GetMsg()->present == PokerTHMessage_PR_playerIdChangedMessage) {
+		boost::shared_ptr<Game> curGame = client->GetGame();
+		if (curGame) {
+			// Perform Id change.
+			PlayerIdChangedMessage_t *idChanged = &tmpPacket->GetMsg()->choice.playerIdChangedMessage;
+			boost::shared_ptr<PlayerInterface> tmpPlayer = curGame->getPlayerByUniqueId(idChanged->oldPlayerId);
+			if (!tmpPlayer)
+				throw ClientException(__FILE__, __LINE__, ERR_NET_UNKNOWN_PLAYER_ID, 0);
+			tmpPlayer->setMyUniqueID(idChanged->newPlayerId);
+			// Also update the dealer, if necessary.
+			curGame->replaceDealer(idChanged->oldPlayerId, idChanged->newPlayerId);
+		}
 	}
 }
 

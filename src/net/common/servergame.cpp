@@ -812,7 +812,7 @@ ServerGame::RemoveDisconnectedPlayers()
 			if ((tmpPlayer->getMyType() == PLAYER_TYPE_HUMAN && !GetSessionManager().IsPlayerConnected(tmpPlayer->getMyUniqueID()))
 					|| (tmpPlayer->getMyType() == PLAYER_TYPE_COMPUTER && !IsComputerPlayerActive(tmpPlayer->getMyUniqueID()))) {
 				// Setting player cash to 0 will deactivate the player.
-				tmpPlayer->setMyCash(0);
+				//tmpPlayer->setMyCash(0);
 				tmpPlayer->setIsConnected(false);
 			}
 			++i;

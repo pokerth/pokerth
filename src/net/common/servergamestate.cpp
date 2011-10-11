@@ -1146,9 +1146,22 @@ ServerGameStateHand::StartNewHand(boost::shared_ptr<ServerGame> server)
 				// Set new player id.
 				boost::shared_ptr<PlayerInterface> rejoinPlayer = curGame.getPlayerByName(session->GetPlayerData()->GetName());
 				if (rejoinPlayer) {
+					// Notify other clients about id change.
+					boost::shared_ptr<NetPacket> packet(new NetPacket(NetPacket::Alloc));
+					packet->GetMsg()->present = PokerTHMessage_PR_playerIdChangedMessage;
+					PlayerIdChangedMessage_t *netIdChanged = &packet->GetMsg()->choice.playerIdChangedMessage;
+					netIdChanged->oldPlayerId = rejoinPlayer->getMyUniqueID();
+					netIdChanged->newPlayerId = session->GetPlayerData()->GetUniqueId();
+					server->SendToAllButOnePlayers(packet, session->GetId(), SessionData::Game);
+
+					// Change the Id in the poker engine.
 					rejoinPlayer->setMyUniqueID(session->GetPlayerData()->GetUniqueId());
 					rejoinPlayer->setIsConnected(true);
-					boost::shared_ptr<NetPacket> packet(new NetPacket(NetPacket::Alloc));
+					// Also update the dealer, if necessary.
+					curGame.replaceDealer(rejoinPlayer->getMyUniqueID(), session->GetPlayerData()->GetUniqueId());
+
+					// Send game start notification to rejoining client.
+					packet.reset(new NetPacket(NetPacket::Alloc));
 					packet->GetMsg()->present = PokerTHMessage_PR_gameStartMessage;
 					GameStartMessage_t *netGameStart = &packet->GetMsg()->choice.gameStartMessage;
 					netGameStart->gameId = server->GetId();
@@ -1156,7 +1169,6 @@ ServerGameStateHand::StartNewHand(boost::shared_ptr<ServerGame> server)
 					netGameStart->gameStartMode.present = gameStartMode_PR_gameStartModeRejoin;
 					GameStartModeRejoin_t *netStartModeRejoin = &netGameStart->gameStartMode.choice.gameStartModeRejoin;
 
-					// Send player data to client.
 					netStartModeRejoin->handNum = curGame.getCurrentHandID();
 					PlayerListIterator player_i = curGame.getSeatsList()->begin();
 					PlayerListIterator player_end = curGame.getSeatsList()->end();
