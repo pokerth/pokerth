@@ -339,6 +339,7 @@ win32 {
 		LIBS += -lboost_filesystem-mt
 		LIBS += -lboost_regex-mt
 		LIBS += -lboost_iostreams-mt
+		LIBS += -lboost_random-mt
 		LIBS += -lboost_system-mt
 	}
 	win32-g++ {
@@ -348,6 +349,7 @@ win32 {
 		LIBS += -lboost_filesystem-mgw45-mt-1_45.dll
 		LIBS += -lboost_regex-mgw45-mt-1_45
 		LIBS += -lboost_iostreams-mgw45-mt-1_45.dll
+		LIBS += -lboost_random-mgw45-mt-1_45.dll
 		LIBS += -lboost_system-mgw45-mt-1_45.dll
 	}
 	LIBS += \
@@ -387,6 +389,8 @@ unix:!mac {
 		boost_regex-mt
 	BOOST_SYS = boost_system \
 		boost_system-mt
+	BOOST_RANDOM = boost_random \
+		boost_random-mt
 
 	# searching in $PREFIX/lib and $PREFIX/lib64
 	# to override the default '/usr' pass PREFIX
@@ -424,6 +428,14 @@ unix:!mac {
 				message("Found $$lib")
 				BOOST_REGEX = -l$$lib
 			}
+			for(lib, BOOST_RANDOM):exists($${dir}/lib$${lib}.so*) {
+				message("Found $$lib")
+				BOOST_RANDOM = -l$$lib
+			}
+			for(lib, BOOST_RANDOM):exists($${dir}/lib$${lib}.a) {
+				message("Found $$lib")
+				BOOST_RANDOM = -l$$lib
+			}
 			for(lib, BOOST_SYS):exists($${dir}/lib$${lib}.so*) {
 				message("Found $$lib")
 				BOOST_SYS = -l$$lib
@@ -437,8 +449,9 @@ unix:!mac {
 		$$BOOST_FS \
 		$$BOOST_IOSTREAMS \
 		$$BOOST_REGEX \
+		$$BOOST_RANDOM \
 		$$BOOST_SYS
-	!count(BOOST_LIBS, 5):error("Unable to find boost libraries in PREFIX=$${PREFIX}")
+	!count(BOOST_LIBS, 6):error("Unable to find boost libraries in PREFIX=$${PREFIX}")
 	if($$system(sdl-config --version)):error("sdl-config not found in PATH - libSDL_mixer, libSDL are required!")
 	UNAME = $$system(uname -s)
 	BSD = $$find(UNAME, "BSD")
@@ -503,6 +516,7 @@ mac {
 	LIBS += /usr/local/lib/libboost_thread.a
 	LIBS += /usr/local/lib/libboost_filesystem.a
 	LIBS += /usr/local/lib/libboost_regex.a
+	LIBS += /usr/local/lib/libboost_random.a
 	LIBS += /usr/local/lib/libboost_system.a
 	LIBS += /usr/local/lib/libboost_iostreams.a
 	LIBS += /usr/local/lib/libgsasl.a

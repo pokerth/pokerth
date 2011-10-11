@@ -932,7 +932,7 @@ LocalPlayer::LocalPlayer(ConfigFile *c, int id, unsigned uniqueId, PlayerType ty
 	}
 
 	// Dude zuweisen
-	Tools::getRandNumber(3 , 5, 1, &myDude, 0);
+	Tools::GetRand(3, 5, 1, &myDude);
 	// 	cout << "Spieler: " << myID << " Dude: " << myDude << " Cash: " << myCash << " ActiveStatus: " << myActiveStatus << " Button: " << myButton << endl;
 
 	// Dude4 zuweisen
@@ -940,7 +940,7 @@ LocalPlayer::LocalPlayer(ConfigFile *c, int id, unsigned uniqueId, PlayerType ty
 	const int count = 4;
 
 	int tempArray[count];
-	Tools::getRandNumber(0, 2*interval, count, tempArray, 0);
+	Tools::GetRand(0, 2*interval, count, tempArray);
 	for(i=0; i<count; i++) {
 		myDude4 += tempArray[i];
 	}
@@ -1210,7 +1210,7 @@ void LocalPlayer::preflopEngine()
 	//	cout << "Spieler " << myID << ": Dude " << myDude4 << "\t Wert " <<  myHoleCardsValue << "\t Niveau " << myNiveau[0] << " " << myNiveau[1] << " " << myNiveau[2] << "\t Agg " << aggValue << " " << endl;
 
 	// Check-Bluff generieren
-	Tools::getRandNumber(1,100,1,&cBluff,0);
+	Tools::GetRand(1, 100, 1, &cBluff);
 
 	// aktive oder passivie Situation ? -> im preflop nur passiv
 
@@ -1565,7 +1565,7 @@ void LocalPlayer::flopEngine()
 
 
 	// Check-Bluff generieren
-	Tools::getRandNumber(1,100,1,&cBluff,0);
+	Tools::GetRand(1, 100, 1, &cBluff);
 
 	// aktiv oder passiv?
 	if(currentHand->getCurrentBeRo()->getHighestSet() > 0) {
@@ -1668,7 +1668,7 @@ void LocalPlayer::flopEngine()
 			// Position
 			if(myButton == 1) {
 				// Position-Bluff generieren
-				Tools::getRandNumber(1,100,1,&pBluff,0);
+				Tools::GetRand(1, 100, 1, &pBluff);
 				if(pBluff <= 16) {
 					bet = (pBluff/4)*2*currentHand->getSmallBlind();
 					// bet zu klein
@@ -1706,7 +1706,7 @@ void LocalPlayer::flopEngine()
 			// Standard-Raise-Routine
 			else {
 				// raise-Betrag ermitteln
-				Tools::getRandNumber(1,8,1,&rand,0);
+				Tools::GetRand(1, 8, 1, &rand);
 				raise = rand*currentHand->getSmallBlind();
 				// raise-Betrag zu klein -> mindestens Standard-raise
 				// 				if(raise < currentHand->getCurrentBeRo()->getHighestSet()) {
@@ -1729,7 +1729,7 @@ void LocalPlayer::flopEngine()
 
 			// 		cout << "sBLUFF!" << endl;
 
-			Tools::getRandNumber(1,8,1,&rand,0);
+			Tools::GetRand(1, 8, 1, &rand);
 			bet = rand*currentHand->getSmallBlind();
 			// bet zu klein
 			if(bet < 2*currentHand->getSmallBlind()) {
@@ -2267,7 +2267,7 @@ void LocalPlayer::turnEngine()
 	if(individualHighestSet > myCash) individualHighestSet = myCash;
 
 	// Check-Bluff generieren
-	Tools::getRandNumber(1,100,1,&cBluff,0);
+	Tools::GetRand(1, 100, 1, &cBluff);
 
 	// aktiv oder passiv?
 	if(currentHand->getCurrentBeRo()->getHighestSet() > 0) {
@@ -2369,7 +2369,7 @@ void LocalPlayer::turnEngine()
 			// Position
 			if(myButton == 1) {
 				// Position-Bluff generieren
-				Tools::getRandNumber(1,100,1,&pBluff,0);
+				Tools::GetRand(1, 100, 1, &pBluff);
 				if(pBluff <= 16) {
 					bet = (pBluff/4)*2*currentHand->getSmallBlind();
 					// bet zu klein
@@ -2406,7 +2406,7 @@ void LocalPlayer::turnEngine()
 			// Standard-Raise-Routine
 			else {
 				// raise-Betrag ermitteln
-				Tools::getRandNumber(1,8,1,&rand,0);
+				Tools::GetRand(1, 8, 1, &rand);
 				raise = rand*currentHand->getSmallBlind();
 				// raise-Betrag zu klein -> mindestens Standard-raise
 				// 				if(raise < currentHand->getCurrentBeRo()->getHighestSet()) {
@@ -2429,7 +2429,7 @@ void LocalPlayer::turnEngine()
 
 			// 		cout << "sBLUFF!" << endl;
 
-			Tools::getRandNumber(1,8,1,&rand,0);
+			Tools::GetRand(1, 8, 1, &rand);
 			bet = rand*currentHand->getSmallBlind();
 			// bet zu klein
 			if(bet < 2*currentHand->getSmallBlind()) {
@@ -2877,7 +2877,7 @@ void LocalPlayer::riverEngine()
 			// Position
 			if(myButton == 1) {
 				// Position-Bluff generieren
-				Tools::getRandNumber(1,100,1,&pBluff,0);
+				Tools::GetRand(1, 100, 1, &pBluff);
 				if(pBluff <= 20) {
 					bet = (pBluff/4)*2*currentHand->getSmallBlind();
 					// bet zu klein
@@ -2918,7 +2918,7 @@ void LocalPlayer::riverEngine()
 			// Standard-Raise-Routine
 			else {
 				// raise-Betrag ermitteln
-				Tools::getRandNumber(1,8,1,&rand,0);
+				Tools::GetRand(1, 8, 1, &rand);
 				raise = rand*currentHand->getSmallBlind();
 				// raise-Betrag zu klein -> mindestens Standard-raise
 				// 				if(raise < currentHand->getCurrentBeRo()->getHighestSet()) {
@@ -2941,7 +2941,7 @@ void LocalPlayer::riverEngine()
 
 			// 		cout << "sBLUFF!" << endl;
 
-			Tools::getRandNumber(1,8,1,&rand,0);
+			Tools::GetRand(1, 8, 1, &rand);
 			bet = rand*currentHand->getSmallBlind();
 			// bet zu klein
 			if(bet < 2*currentHand->getSmallBlind()) {
@@ -4450,11 +4450,11 @@ void LocalPlayer::preflopEngine3()
 
 	// 	Bauchgefhl (zufÃ¯Â¿Ålig)
 	int tempRand;
-	Tools::getRandNumber(1,10,1,&tempRand,0);
+	Tools::GetRand(1, 10, 1, &tempRand);
 
 	// bluff, checkbluff
 	int bluff;
-	Tools::getRandNumber(1,100,1,&bluff,0);
+	Tools::GetRand(1, 100, 1, &bluff);
 
 	// 	cout << "preflop-bluff " << bluff << endl;
 
@@ -4466,7 +4466,7 @@ void LocalPlayer::preflopEngine3()
 	// temp fr das Vielfache des Small Blind, sodass HighestSet zu hoch ist
 	int tempFold;
 	// 	tempFold = (currentHand->getPlayerArray()[0]->getMyAverageSets())/(8*currentHand->getSmallBlind());
-	Tools::getRandNumber(2,3,1,&tempFold,0);
+	Tools::GetRand(2, 3, 1, &tempFold);
 
 	// FOLD --> wenn Potential negativ oder HighestSet zu hoch
 	if( (potential*setToHighest<0 || (setToHighest > tempFold * currentHand->getSmallBlind() &&  potential<1) || (setToHighest > 2 * tempFold * currentHand->getSmallBlind() &&  potential<2) || (setToHighest > 4 * tempFold * currentHand->getSmallBlind() &&  potential<3) || (setToHighest > 10 * tempFold * currentHand->getSmallBlind() &&  potential<4))  && CardsValue::holeCardsClass(myCards[0], myCards[1]) < 9 && bluff > 15) {
@@ -4677,11 +4677,11 @@ void LocalPlayer::flopEngine3()
 
 	// 	Bauchgefhl (zufÃ¯Â¿Ålig)
 	int tempRand;
-	Tools::getRandNumber((int)(percent*10.)-2,(int)(percent*10.)+2,1,&tempRand,0);
+	Tools::GetRand((int)(percent*10.)-2, (int)(percent*10.)+2, 1, &tempRand);
 
 	// bluff, checkbluff
 	int bluff;
-	Tools::getRandNumber(1,100,1,&bluff,0);
+	Tools::GetRand(1, 100, 1, &bluff);
 
 	// 	cout << "flop-bluff " << bluff << endl;
 
@@ -4693,7 +4693,7 @@ void LocalPlayer::flopEngine3()
 	// temp fr das Vielfache des Small Blind, sodass HighestSet zu hoch ist
 	int tempFold;
 	// 	tempFold = (currentHand->getPlayerArray()[0]->getMyAverageSets())/(8*currentHand->getSmallBlind());
-	Tools::getRandNumber(2,3,1,&tempFold,0);
+	Tools::GetRand(2, 3, 1, &tempFold);
 
 	// FOLD --> wenn potential negativ oder HighestSet zu hoch
 	if(( potential*setToHighest<0 || (setToHighest > tempFold * currentHand->getSmallBlind() &&  potential<1) || (setToHighest > 3 * tempFold * currentHand->getSmallBlind() &&  potential<2) || (setToHighest > 9 * tempFold * currentHand->getSmallBlind() &&  potential<3) || (setToHighest > 20*tempFold * currentHand->getSmallBlind() &&  potential<4) || (setToHighest > 40 *tempFold * currentHand->getSmallBlind() &&  potential<5)) && percent < 0.90 && bluff > 18) {
@@ -4843,11 +4843,11 @@ void LocalPlayer::turnEngine3()
 
 	// 	Bauchgefhl (zufÃ¯Â¿Ålig)
 	int tempRand;
-	Tools::getRandNumber((int)(percent*10.)-2,(int)(percent*10.)+2,1,&tempRand,0);
+	Tools::GetRand((int)(percent*10.)-2, (int)(percent*10.)+2, 1, &tempRand);
 
 	// bluff, checkbluff
 	int bluff;
-	Tools::getRandNumber(1,100,1,&bluff,0);
+	Tools::GetRand(1, 100, 1, &bluff);
 
 	// 	cout << "turn-bluff " << bluff << endl;
 
@@ -4859,7 +4859,7 @@ void LocalPlayer::turnEngine3()
 	// temp fr das Vielfache des Small Blind, sodass HighestSet zu hoch ist
 	int tempFold;
 	// 	tempFold = (currentHand->getPlayerArray()[0]->getMyAverageSets())/(7*currentHand->getSmallBlind());
-	Tools::getRandNumber(3,4,1,&tempFold,0);
+	Tools::GetRand(3, 4, 1, &tempFold);
 
 	// FOLD
 	// --> wenn potential negativ oder HighestSet zu hoch
@@ -5005,11 +5005,11 @@ void LocalPlayer::riverEngine3()
 
 	// 	Bauchgefhl (zufÃ¯Â¿Ålig)
 	int tempRand;
-	Tools::getRandNumber((int)(percent*10.)-2,(int)(percent*10.)+2,1,&tempRand,0);
+	Tools::GetRand((int)(percent*10.)-2, (int)(percent*10.)+2, 1, &tempRand);
 
 	// bluff, checkbluff
 	int bluff;
-	Tools::getRandNumber(1,100,1,&bluff,0);
+	Tools::GetRand(1, 100, 1, &bluff);
 
 	// 	cout << "river-bluff " << bluff << endl;
 
@@ -5021,7 +5021,7 @@ void LocalPlayer::riverEngine3()
 	// temp fr das Vielfache des Small Blind, sodass HighestSet zu hoch ist
 	int tempFold;
 	// 		tempFold = (currentHand->getPlayerArray()[0]->getMyAverageSets())/(6*currentHand->getSmallBlind());
-	Tools::getRandNumber(4,6,1,&tempFold,0);
+	Tools::GetRand(4, 6, 1, &tempFold);
 
 	// FOLD
 	// --> wenn potential negativ oder HighestSet zu hoch

@@ -140,6 +140,7 @@ win32 {
 		LIBS += -lboost_regex-mt
 		LIBS += -lboost_program_options-mt
 		LIBS += -lboost_iostreams-mt
+		LIBS += -lboost_random-mt
 		LIBS += -lboost_system-mt
 	}
 	win32-g++ {
@@ -150,6 +151,7 @@ win32 {
 		LIBS += -lboost_regex-mgw45-mt-1_45
 		LIBS += -lboost_program_options-mgw45-mt-1_45.dll
 		LIBS += -lboost_iostreams-mgw45-mt-1_45.dll
+		LIBS += -lboost_random-mgw45-mt-1_45.dll
 		LIBS += -lboost_system-mgw45-mt-1_45.dll
 	}
 
@@ -194,7 +196,7 @@ unix : !mac {
 	BOOST_IOSTREAMS = boost_iostreams boost_iostreams-mt
 	BOOST_SYS = boost_system boost_system-mt
 	BOOST_REGEX = boost_regex boost_regex-mt
-
+	BOOST_RANDOM = boost_random boost_random-mt
 
 	#
 	# searching in $PREFIX/lib and $PREFIX/lib64
@@ -243,6 +245,14 @@ unix : !mac {
 				message("Found $$lib")
 				BOOST_REGEX = -l$$lib
 			}
+			for(lib, BOOST_RANDOM):exists($${dir}/lib$${lib}.so*) {
+				message("Found $$lib")
+				BOOST_RANDOM = -l$$lib
+			}
+			for(lib, BOOST_RANDOM):exists($${dir}/lib$${lib}.a) {
+				message("Found $$lib")
+				BOOST_RANDOM = -l$$lib
+			}
 			for(lib, BOOST_SYS):exists($${dir}/lib$${lib}.so*) {
 				message("Found $$lib")
 				BOOST_SYS = -l$$lib
@@ -253,8 +263,8 @@ unix : !mac {
 			}
 		}
 	}
-	BOOST_LIBS = $$BOOST_THREAD $$BOOST_FS $$BOOST_PROGRAM_OPTIONS $$BOOST_IOSTREAMS $$BOOST_REGEX $$BOOST_SYS
-	!count(BOOST_LIBS, 6){
+	BOOST_LIBS = $$BOOST_THREAD $$BOOST_FS $$BOOST_PROGRAM_OPTIONS $$BOOST_IOSTREAMS $$BOOST_REGEX $$BOOST_RANDOM $$BOOST_SYS
+	!count(BOOST_LIBS, 7){
 		error("Unable to find boost libraries in PREFIX=$${PREFIX}")
 	}
 
@@ -304,6 +314,7 @@ mac {
 	LIBS += /usr/local/lib/libboost_thread.a
 	LIBS += /usr/local/lib/libboost_filesystem.a
 	LIBS += /usr/local/lib/libboost_regex.a
+	LIBS += /usr/local/lib/libboost_random.a
 	LIBS += /usr/local/lib/libboost_system.a
 	LIBS += /usr/local/lib/libboost_iostreams.a
 	LIBS += /usr/local/lib/libboost_program_options.a

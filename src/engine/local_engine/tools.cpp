@@ -32,7 +32,6 @@
 
 using namespace std;
 
-#if 0 // TODO temporarily disabled until build problems are solved
 boost::thread_specific_ptr<boost::random_device> g_rand_state;
 
 struct nondet_rng : std::unary_function<unsigned, unsigned> {
@@ -92,8 +91,8 @@ void Tools::GetRandUnique(int minValue, int maxValue, unsigned count, int *out)
 		numCreated++;
 	}
 }
-#endif
 
+/*
 void Tools::getRandNumber(int start, int end, int howMany, int* randArray, bool different, int* bad, int countBad)
 {
 
@@ -170,6 +169,6 @@ void Tools::getRandNumber(int start, int end, int howMany, int* randArray, bool 
 		delete[] tempArray;
 	}
 
-}
+}*/
 
 

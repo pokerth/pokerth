@@ -285,7 +285,7 @@ void startWindowImpl::startNewLocalGame(newGameDialogImpl *v)
 	StartData startData;
 	int tmpDealerPos = 0;
 	startData.numberOfPlayers = gameData.maxNumberOfPlayers;
-	Tools::getRandNumber(0, startData.numberOfPlayers-1, 1, &tmpDealerPos, 0);
+	Tools::GetRand(0, startData.numberOfPlayers-1, 1, &tmpDealerPos);
 	//if(DEBUG_MODE) {
 	//    tmpDealerPos = 4;
 	//}

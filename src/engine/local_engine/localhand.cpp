@@ -44,8 +44,16 @@ LocalHand::LocalHand(boost::shared_ptr<EngineFactory> f, GuiInterface *g, boost:
 	}
 
 	// generate cards and assign to board and player
-	int *cardsArray = new int[2*activePlayerList->size()+5];
-	Tools::getRandNumber(0, 51, 2*activePlayerList->size()+5, cardsArray, 1);
+	const int NumCards = 52;
+	int cardsArray[NumCards] = {
+		 0,  1,  2,  3,  4,  5,  6,  7,  8,  9,
+		10, 11, 12, 13, 14, 15, 16, 17, 18, 19,
+		20, 21, 22, 23, 24, 25, 26, 27, 28, 29,
+		30, 31, 32, 33, 34, 35, 36, 37, 38, 39,
+		40, 41, 42, 43, 44, 45, 46, 47, 48, 49,
+		50, 51
+	};
+	Tools::ShuffleArrayNonDeterministic(cardsArray, NumCards);
 	int tempBoardArray[5];
 	int tempPlayerArray[2];
 	int tempPlayerAndBoardArray[7];
@@ -81,13 +89,11 @@ LocalHand::LocalHand(boost::shared_ptr<EngineFactory> f, GuiInterface *g, boost:
 
 		// set sBluff for all players --> TODO for ai-player in internet
 		if((*it)->getMyID() != 0) {
-			Tools::getRandNumber(1,100,1,&sBluff,0);
+			Tools::GetRand(1, 100, 1, &sBluff);
 			(*it)->setSBluff(sBluff);
 			(*it)->setSBluffStatus(0);
 		}
 	}
-
-	delete[] cardsArray;
 
 	// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!   DEBUGGER   !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! //
 

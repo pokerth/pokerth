@@ -240,7 +240,7 @@ ServerGame::InternalStartGame()
 		startData.numberOfPlayers = (int)playerData.size();
 
 		int tmpDealerPos = 0;
-		Tools::getRandNumber(0, startData.numberOfPlayers-1, 1, &tmpDealerPos, 0);
+		Tools::GetRand(0, startData.numberOfPlayers-1, 1, &tmpDealerPos);
 		// The Player Id is not continuous. Therefore, the start dealer position
 		// needs to be converted to a player Id, and cannot be directly generated
 		// as player Id.
