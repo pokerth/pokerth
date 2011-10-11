@@ -1420,9 +1420,6 @@ ServerGameStateWaitPlayerAction::TimerTimeout(const boost::system::error_code &e
 			boost::shared_ptr<PlayerInterface> curPlayer = curGame.getCurrentPlayer();
 			if (!curPlayer)
 				throw ServerException(__FILE__, __LINE__, ERR_NET_NO_CURRENT_PLAYER, 0);
-			boost::shared_ptr<SessionData> tmpSession = server->GetSessionManager().GetSessionByUniquePlayerId(curPlayer->getMyUniqueID());
-			if (!tmpSession)
-				throw ServerException(__FILE__, __LINE__, ERR_NET_NO_CURRENT_PLAYER, 0);
 
 			// Player did not act fast enough. Act for him.
 			if (curGame.getCurrentHand()->getCurrentBeRo()->getHighestSet() == curPlayer->getMySet())
@@ -1435,11 +1432,15 @@ ServerGameStateWaitPlayerAction::TimerTimeout(const boost::system::error_code &e
 			if (server->GetGameData().gameType == GAME_TYPE_RANKING
 					&& server->GetGameData().playerActionTimeoutSec >= (int)server->GetSmallDelaySec()) {
 				if (curPlayer->getActionTimeoutCounter() == SERVER_WARNING_ACTION_TIMEOUT_THRESHOLD) {
-					boost::shared_ptr<NetPacket> warning(new NetPacket(NetPacket::Alloc));
-					warning->GetMsg()->present = PokerTHMessage_PR_afkWarningMessage;
-					AfkWarningMessage_t *netWarning = &warning->GetMsg()->choice.afkWarningMessage;
-					netWarning->remainingTimeouts = SERVER_KICK_ACTION_TIMEOUT_REMAINING;
-					server->GetLobbyThread().GetSender().Send(tmpSession, warning);
+					boost::shared_ptr<SessionData> tmpSession = server->GetSessionManager().GetSessionByUniquePlayerId(curPlayer->getMyUniqueID());
+					if (tmpSession) { // The session may not exist at this point, because the player may have left.
+						// Send warning to player.
+						boost::shared_ptr<NetPacket> warning(new NetPacket(NetPacket::Alloc));
+						warning->GetMsg()->present = PokerTHMessage_PR_afkWarningMessage;
+						AfkWarningMessage_t *netWarning = &warning->GetMsg()->choice.afkWarningMessage;
+						netWarning->remainingTimeouts = SERVER_KICK_ACTION_TIMEOUT_REMAINING;
+						server->GetLobbyThread().GetSender().Send(tmpSession, warning);
+					}
 				} else if (curPlayer->getActionTimeoutCounter() > SERVER_WARNING_ACTION_TIMEOUT_THRESHOLD + SERVER_KICK_ACTION_TIMEOUT_REMAINING) {
 					server->InternalKickPlayer(curPlayer->getMyUniqueID());
 				}
