@@ -48,6 +48,7 @@
 #include <boost/bind.hpp>
 #include <boost/foreach.hpp>
 #include <boost/uuid/uuid.hpp>
+#include <boost/algorithm/string.hpp>
 #include <gsasl.h>
 
 #define SERVER_MAX_NUM_LOBBY_SESSIONS				512		// Maximum number of idle users in lobby.
@@ -1243,9 +1244,13 @@ ServerLobbyThread::HandleNetPacketCreateGame(boost::shared_ptr<SessionData> sess
 	GameData tmpData;
 	NetPacket::GetGameData(&newGame.gameInfo, tmpData);
 	string gameName(STL_STRING_FROM_OCTET_STRING(newGame.gameInfo.gameName));
+	// Always trim the game name.
+	boost::trim(gameName);
 	unsigned gameId = GetNextGameId();
 
-	if (IsGameNameInUse(gameName)) {
+	if (gameName.empty() || !isprint(gameName[0])) {
+		SendJoinGameFailed(session, gameId, NTF_NET_JOIN_GAME_BAD_NAME);
+	} else if (IsGameNameInUse(gameName)) {
 		SendJoinGameFailed(session, gameId, NTF_NET_JOIN_GAME_NAME_IN_USE);
 	} else if (GetBanManager().IsBadGameName(gameName)) {
 		SendJoinGameFailed(session, gameId, NTF_NET_JOIN_GAME_BAD_NAME);
