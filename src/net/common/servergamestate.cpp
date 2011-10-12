@@ -1154,11 +1154,11 @@ ServerGameStateHand::StartNewHand(boost::shared_ptr<ServerGame> server)
 					netIdChanged->newPlayerId = session->GetPlayerData()->GetUniqueId();
 					server->SendToAllButOnePlayers(packet, session->GetId(), SessionData::Game);
 
+					// Update the dealer, if necessary.
+					curGame.replaceDealer(rejoinPlayer->getMyUniqueID(), session->GetPlayerData()->GetUniqueId());
 					// Change the Id in the poker engine.
 					rejoinPlayer->setMyUniqueID(session->GetPlayerData()->GetUniqueId());
 					rejoinPlayer->setIsConnected(true);
-					// Also update the dealer, if necessary.
-					curGame.replaceDealer(rejoinPlayer->getMyUniqueID(), session->GetPlayerData()->GetUniqueId());
 
 					// Send game start notification to rejoining client.
 					packet.reset(new NetPacket(NetPacket::Alloc));
