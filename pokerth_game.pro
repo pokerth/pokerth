@@ -196,7 +196,9 @@ HEADERS += src/engine/game.h \
 	src/engine/local_engine/replay.h \
 	src/gui/qt/gamelobbydialog/mynicklistsortfilterproxymodel.h \
 	src/gui/qt/gametable/myslider.h
-FORMS += src/gui/qt/gametable.ui \
+
+!gui_800x480 {
+    FORMS += src/gui/qt/gametable.ui \
 	src/gui/qt/aboutpokerth.ui \
 	src/gui/qt/connecttoserverdialog.ui \
 	src/gui/qt/createnetworkgamedialog.ui \
@@ -214,6 +216,29 @@ FORMS += src/gui/qt/gametable.ui \
 	src/gui/qt/serverlistdialog.ui \
 	src/gui/qt/internetgamelogindialog.ui \
 	src/gui/qt/changecontentdialog.ui
+}
+
+gui_800x480 {
+    FORMS += src/gui/qt/gui_800x480/gametable_800x480.ui \
+        src/gui/qt/gui_800x480/aboutpokerth_800x480.ui \
+        src/gui/qt/gui_800x480/connecttoserverdialog_800x480.ui \
+        src/gui/qt/gui_800x480/createnetworkgamedialog_800x480.ui \
+        src/gui/qt/gui_800x480/createinternetgamedialog_800x480.ui \
+        src/gui/qt/gui_800x480/joinnetworkgamedialog_800x480.ui \
+        src/gui/qt/gui_800x480/newgamedialog_800x480.ui \
+        src/gui/qt/gui_800x480/settingsdialog_800x480.ui \
+        src/gui/qt/gui_800x480/selectavatardialog_800x480.ui \
+        src/gui/qt/gui_800x480/startnetworkgamedialog_800x480.ui \
+        src/gui/qt/gui_800x480/startwindow_800x480.ui \
+        src/gui/qt/gui_800x480/changecompleteblindsdialog_800x480.ui \
+        src/gui/qt/gui_800x480/gamelobbydialog_800x480.ui \
+        src/gui/qt/gui_800x480/mymessagedialog_800x480.ui \
+        src/gui/qt/gui_800x480/manualblindsorderdialog_800x480.ui \
+        src/gui/qt/gui_800x480/serverlistdialog_800x480.ui \
+        src/gui/qt/gui_800x480/internetgamelogindialog_800x480.ui \
+        src/gui/qt/gui_800x480/changecontentdialog_800x480.ui
+}
+
 SOURCES += src/pokerth.cpp \
 	src/gui/qt/chattools/chattools.cpp \
 	src/gui/qt/sound/sdlplayer.cpp \
