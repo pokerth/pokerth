@@ -691,7 +691,7 @@ void startWindowImpl::networkError(int errorID, int /*osErrorID*/)
 	case ERR_SOCK_RECV_FAILED: // Sometimes windows reports recv failed on close.
 	case ERR_SOCK_CONN_RESET: {
 		QMessageBox::warning(this, tr("Network Error"),
-							 tr("Connection was closed by the server."),
+                                                         tr("The connection to the server was lost."),
 							 QMessageBox::Close);
 	}
 	break;
@@ -917,7 +917,7 @@ void startWindowImpl::networkError(int errorID, int /*osErrorID*/)
 	myGameLobbyDialog->reject();
 	myConnectToServerDialog->reject();
 	myStartNetworkGameDialog->reject();
-	myGuiInterface->getMyW()->close();
+        myGuiInterface->getMyW()->close();
 }
 
 void startWindowImpl::networkNotification(int notificationId)

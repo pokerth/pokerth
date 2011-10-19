@@ -1554,7 +1554,7 @@ p, li { white-space: pre-wrap; }
          <item row="2" column="0" colspan="2">
           <widget class="QTabWidget" name="tabWidget_2">
            <property name="currentIndex">
-            <number>0</number>
+            <number>1</number>
            </property>
            <widget class="QWidget" name="tab_2">
             <attribute name="title">
@@ -1844,7 +1844,7 @@ p, li { white-space: pre-wrap; }
                </property>
               </widget>
              </item>
-             <item row="5" column="0">
+             <item row="6" column="0">
               <spacer name="spacer">
                <property name="orientation">
                 <enum>Qt::Vertical</enum>
@@ -1856,6 +1856,13 @@ p, li { white-space: pre-wrap; }
                 </size>
                </property>
               </spacer>
+             </item>
+             <item row="5" column="0">
+              <widget class="QCheckBox" name="checkBox_InetGane_AutoLeaveTheTableAfterGameFinished">
+               <property name="text">
+                <string>Automatically leave the table after the game finished</string>
+               </property>
+              </widget>
              </item>
             </layout>
            </widget>
