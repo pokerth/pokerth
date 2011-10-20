@@ -959,6 +959,15 @@ ServerLobbyThread::HandleNetPacketInit(boost::shared_ptr<SessionData> session, c
 		SessionError(session, ERR_NET_VERSION_NOT_SUPPORTED);
 		return;
 	}
+	// Check (clear text) server password.
+	string serverPassword;
+	if (initMessage.authServerPassword) {
+		serverPassword = STL_STRING_FROM_OCTET_STRING(*initMessage.authServerPassword);
+	}
+	if (serverPassword != m_serverConfig.readConfigString("ServerPassword")) {
+		SessionError(session, ERR_NET_INVALID_PASSWORD);
+		return;
+	}
 
 	string playerName;
 	MD5Buf avatarMD5;

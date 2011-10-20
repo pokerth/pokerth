@@ -48,7 +48,7 @@ ConfigFile::ConfigFile(char *argv0, bool readonly) : noWriteAccess(readonly)
 	myConfigState = OK;
 
 	// !!!! Revisionsnummer der Configdefaults !!!!!
-	configRev = 92;
+	configRev = 93;
 
 	//standard defaults
 	logOnOffDefault = "1";
@@ -206,7 +206,6 @@ ConfigFile::ConfigFile(char *argv0, bool readonly) : noWriteAccess(readonly)
 	configList.push_back(ConfigInfo("InternetServerListAddress", CONFIG_TYPE_STRING, "pokerth.net/serverlist.xml.z"));
 	configList.push_back(ConfigInfo("InternetServerAddress", CONFIG_TYPE_STRING, "pokerth.6dns.org"));
 	configList.push_back(ConfigInfo("InternetServerPort", CONFIG_TYPE_INT, "7234"));
-	configList.push_back(ConfigInfo("InternetServerPassword", CONFIG_TYPE_STRING, ""));
 	configList.push_back(ConfigInfo("InternetServerUseIpv6", CONFIG_TYPE_INT, "0"));
 	configList.push_back(ConfigInfo("InternetServerUseSctp", CONFIG_TYPE_INT, "0"));
 	configList.push_back(ConfigInfo("UseAvatarServer", CONFIG_TYPE_INT, "0"));

@@ -175,6 +175,7 @@ void Session::startInternetClient()
 	myNetClient->Init(
 		myConfig->readConfigString("InternetServerAddress"),
 		myConfig->readConfigString("InternetServerListAddress"),
+		myConfig->readConfigString("ServerPassword"),
 		myConfig->readConfigInt("InternetServerConfigMode") == 0,
 		myConfig->readConfigInt("InternetServerPort"),
 		myConfig->readConfigInt("InternetServerUseIpv6") == 1,
@@ -198,6 +199,7 @@ void Session::startNetworkClient(const string &serverAddress, unsigned serverPor
 	myNetClient->Init(
 		serverAddress,
 		"",
+		myConfig->readConfigString("ServerPassword"),
 		false,
 		serverPort,
 		ipv6,
@@ -227,6 +229,7 @@ void Session::startNetworkClientForLocalServer(const GameData &gameData)
 	myNetClient->Init(
 		loopbackAddr,
 		"",
+		myConfig->readConfigString("ServerPassword"),
 		false,
 		myConfig->readConfigInt("ServerPort"),
 		useIpv6,

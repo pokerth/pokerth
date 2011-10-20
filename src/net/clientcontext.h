@@ -55,6 +55,12 @@ public:
 	void SetServerAddr(const std::string &serverAddr) {
 		m_serverAddr = serverAddr;
 	}
+	const std::string &GetServerPassword() const {
+		return m_serverPassword;
+	}
+	void SetServerPassword(const std::string &serverPassword) {
+		m_serverPassword = serverPassword;
+	}
 	const std::string &GetServerListUrl() const {
 		return m_serverListUrl;
 	}
@@ -134,6 +140,7 @@ private:
 	bool				m_sctp;
 	int					m_addrFamily;
 	std::string			m_serverAddr;
+	std::string			m_serverPassword;
 	std::string			m_serverListUrl;
 	bool				m_useServerList;
 	unsigned			m_serverPort;

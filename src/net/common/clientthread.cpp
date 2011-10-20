@@ -68,6 +68,7 @@ ClientThread::~ClientThread()
 void
 ClientThread::Init(
 	const string &serverAddress, const string &serverListUrl,
+	const string &serverPassword,
 	bool useServerList, unsigned serverPort, bool ipv6, bool sctp,
 	const string &avatarServerAddress, const string &playerName,
 	const string &avatarFile, const string &cacheDir)
@@ -83,6 +84,7 @@ ClientThread::Init(
 	context.SetAddrFamily(ipv6 ? AF_INET6 : AF_INET);
 	context.SetServerAddr(serverAddress);
 	context.SetServerListUrl(serverListUrl);
+	context.SetServerPassword(serverPassword);
 	context.SetUseServerList(useServerList);
 	context.SetServerPort(serverPort);
 	context.SetAvatarServerAddr(avatarServerAddress);

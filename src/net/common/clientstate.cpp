@@ -944,6 +944,14 @@ ClientStateStartSession::InternalHandlePacket(boost::shared_ptr<ClientThread> cl
 			InitMessage_t *netInit = &init->GetMsg()->choice.initMessage;
 			netInit->requestedVersion.major = NET_VERSION_MAJOR;
 			netInit->requestedVersion.minor = NET_VERSION_MINOR;
+			if (!context.GetServerPassword().empty())
+			{
+				netInit->authServerPassword =
+						OCTET_STRING_new_fromBuf(
+							&asn_DEF_OCTET_STRING,
+							context.GetServerPassword().c_str(),
+							context.GetServerPassword().length());
+			}
 			netInit->login.present = login_PR_unauthenticatedLogin;
 			UnauthenticatedLogin_t *noauthLogin = &netInit->login.choice.unauthenticatedLogin;
 			OCTET_STRING_fromBuf(&noauthLogin->nickName,
@@ -953,7 +961,7 @@ ClientStateStartSession::InternalHandlePacket(boost::shared_ptr<ClientThread> cl
 			if (!avatarFile.empty()) {
 				MD5Buf tmpMD5;
 				if (client->GetAvatarManager().GetHashForAvatar(avatarFile, tmpMD5)) {
-					// TODO: use sha1.
+					// Send MD5 hash of avatar.
 					noauthLogin->avatar =
 						OCTET_STRING_new_fromBuf(
 							&asn_DEF_OCTET_STRING,
@@ -1018,6 +1026,14 @@ ClientStateWaitEnterLogin::TimerLoop(const boost::system::error_code& ec, boost:
 						&asn_DEF_OCTET_STRING,
 						context.GetSessionGuid().c_str(),
 						(int)context.GetSessionGuid().length());
+			}
+			if (!context.GetServerPassword().empty())
+			{
+				netInit->authServerPassword =
+						OCTET_STRING_new_fromBuf(
+							&asn_DEF_OCTET_STRING,
+							context.GetServerPassword().c_str(),
+							context.GetServerPassword().length());
 			}
 
 			context.SetPlayerName(loginData.userName);

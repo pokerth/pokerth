@@ -56,6 +56,7 @@ public:
 	void Init(
 		const std::string &serverAddress,
 		const std::string &serverListUrl,
+		const std::string &serverPassword,
 		bool useServerList,
 		unsigned serverPort,
 		bool ipv6,
