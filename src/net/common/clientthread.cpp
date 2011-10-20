@@ -49,7 +49,7 @@
 using namespace std;
 using boost::asio::ip::tcp;
 
-ClientThread::ClientThread(GuiInterface &gui, AvatarManager &avatarManager)
+ClientThread::ClientThread(GuiInterface &gui, AvatarManager &avatarManager, ConfigFile *config)
 	: m_ioService(new boost::asio::io_service), m_curState(NULL), m_gui(gui),
 	  m_avatarManager(avatarManager), m_isServerSelected(false),
 	  m_curGameId(0), m_curGameNum(1), m_guiPlayerId(0), m_sessionEstablished(false),

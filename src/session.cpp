@@ -169,7 +169,7 @@ void Session::startInternetClient()
 	}
 	myGameType = GAME_TYPE_INTERNET;
 
-	myNetClient.reset(new ClientThread(*myGui, *myAvatarManager));
+	myNetClient.reset(new ClientThread(*myGui, *myAvatarManager, myConfig));
 	bool useAvatarServer = myConfig->readConfigInt("UseAvatarServer") != 0;
 
 	myNetClient->Init(
@@ -194,7 +194,7 @@ void Session::startNetworkClient(const string &serverAddress, unsigned serverPor
 	}
 	myGameType = GAME_TYPE_NETWORK;
 
-	myNetClient.reset(new ClientThread(*myGui, *myAvatarManager));
+	myNetClient.reset(new ClientThread(*myGui, *myAvatarManager, myConfig));
 	myNetClient->Init(
 		serverAddress,
 		"",
@@ -221,7 +221,7 @@ void Session::startNetworkClientForLocalServer(const GameData &gameData)
 	}
 	myGameType = GAME_TYPE_NETWORK;
 
-	myNetClient.reset(new ClientThread(*myGui, *myAvatarManager));
+	myNetClient.reset(new ClientThread(*myGui, *myAvatarManager, myConfig));
 	bool useIpv6 = myConfig->readConfigInt("ServerUseIpv6") == 1;
 	const char *loopbackAddr = useIpv6 ? "::1" : "127.0.0.1";
 	myNetClient->Init(

@@ -41,12 +41,13 @@ class NetPacket;
 class AvatarManager;
 class Log;
 class QtToolsInterface;
+class ConfigFile;
 struct Gsasl;
 
 class ClientThread : public Thread, public boost::enable_shared_from_this<ClientThread>, public SessionDataCallback
 {
 public:
-	ClientThread(GuiInterface &gui, AvatarManager &avatarManager);
+	ClientThread(GuiInterface &gui, AvatarManager &avatarManager, ConfigFile *config);
 	virtual ~ClientThread();
 
 	// Set the parameters. Does not do any error checking.
