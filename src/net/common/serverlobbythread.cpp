@@ -959,7 +959,8 @@ ServerLobbyThread::HandleNetPacketInit(boost::shared_ptr<SessionData> session, c
 		SessionError(session, ERR_NET_VERSION_NOT_SUPPORTED);
 		return;
 	}
-	// Check (clear text) server password.
+#ifndef POKERTH_OFFICIAL_SERVER
+	// Check (clear text) server password (skip for official server, they are open to everyone).
 	string serverPassword;
 	if (initMessage.authServerPassword) {
 		serverPassword = STL_STRING_FROM_OCTET_STRING(*initMessage.authServerPassword);
@@ -968,6 +969,7 @@ ServerLobbyThread::HandleNetPacketInit(boost::shared_ptr<SessionData> session, c
 		SessionError(session, ERR_NET_INVALID_PASSWORD);
 		return;
 	}
+#endif
 
 	string playerName;
 	MD5Buf avatarMD5;
