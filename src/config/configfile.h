@@ -39,9 +39,7 @@ public:
 	void writeBuffer() const;
 
 	void updateConfig(ConfigState);
-	ConfigState getConfigState() const {
-		return myConfigState;
-	}
+	ConfigState getConfigState() const;
 
 	std::string readConfigString(std::string varName) const;
 	std::list<std::string> readConfigStringList(std::string varName) const;

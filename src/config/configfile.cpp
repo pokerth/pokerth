@@ -584,6 +584,12 @@ void ConfigFile::updateConfig(ConfigState myConfigState)
 	}
 }
 
+ConfigState ConfigFile::getConfigState() const
+{
+	boost::recursive_mutex::scoped_lock lock(m_configMutex);
+	return myConfigState;
+}
+
 string ConfigFile::readConfigString(string varName) const
 {
 	boost::recursive_mutex::scoped_lock lock(m_configMutex);
