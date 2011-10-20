@@ -46,7 +46,7 @@ public:
 public slots:
 
 	void sendMessage();
-        void receiveMessage(QString playerName, QString message, bool pm=false);
+	void receiveMessage(QString playerName, QString message, bool pm=false);
 	void privateMessage(QString playerName, QString message);
 	void clearChat();
 	void checkInputLength(QString string);

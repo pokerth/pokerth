@@ -227,9 +227,9 @@ ClientThread::SendJoinFirstGame(const std::string &password, bool autoLeave)
 	joinExisting->gameId = 1;
 	if (!password.empty()) {
 		joinExisting->password = OCTET_STRING_new_fromBuf(
-									&asn_DEF_UTF8String,
-									password.c_str(),
-									(int)password.length());
+									 &asn_DEF_UTF8String,
+									 password.c_str(),
+									 (int)password.length());
 	}
 	m_ioService->post(boost::bind(&ClientThread::SendSessionPacket, shared_from_this(), packet));
 }
@@ -249,9 +249,9 @@ ClientThread::SendJoinGame(unsigned gameId, const std::string &password, bool au
 	joinExisting->gameId = gameId;
 	if (!password.empty()) {
 		joinExisting->password = OCTET_STRING_new_fromBuf(
-									&asn_DEF_UTF8String,
-									password.c_str(),
-									(int)password.length());
+									 &asn_DEF_UTF8String,
+									 password.c_str(),
+									 (int)password.length());
 	}
 	m_ioService->post(boost::bind(&ClientThread::SendSessionPacket, shared_from_this(), packet));
 }
@@ -290,9 +290,9 @@ ClientThread::SendCreateGame(const GameData &gameData, const std::string &name, 
 						 (int)name.length());
 	if (!password.empty()) {
 		joinNew->password = OCTET_STRING_new_fromBuf(
-									&asn_DEF_UTF8String,
-									password.c_str(),
-									(int)password.length());
+								&asn_DEF_UTF8String,
+								password.c_str(),
+								(int)password.length());
 	}
 	m_ioService->post(boost::bind(&ClientThread::SendSessionPacket, shared_from_this(), packet));
 }
