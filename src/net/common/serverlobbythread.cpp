@@ -214,7 +214,7 @@ ServerLobbyThread::Init(const string &logDir)
 		m_serverConfig.readConfigString("DBServerEncryptionKey"));
 
 	GetBanManager().InitGameNameBadWordList(m_serverConfig.readConfigStringList("GameNameBadWordList"));
-	m_serverLog.reset(new Log(logDir, 0));
+        m_serverLog.reset(new Log(&m_serverConfig));
 }
 
 void

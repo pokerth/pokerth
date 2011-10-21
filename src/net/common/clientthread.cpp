@@ -55,7 +55,7 @@ ClientThread::ClientThread(GuiInterface &gui, AvatarManager &avatarManager, Conf
 	  m_curGameId(0), m_curGameNum(1), m_guiPlayerId(0), m_sessionEstablished(false),
 	  m_stateTimer(*m_ioService), m_avatarTimer(*m_ioService)
 {
-	m_clientLog.reset(new Log("", 0));
+        m_clientLog.reset(new Log(config));
 	m_context.reset(new ClientContext);
 	myQtToolsInterface.reset(CreateQtToolsWrapper());
 	m_senderHelper.reset(new SenderHelper(m_ioService));

@@ -30,7 +30,7 @@ class HandInterface;
 class ClientBeRo : public BeRoInterface
 {
 public:
-	ClientBeRo(HandInterface* hi, int id, unsigned dP, int sB, GameState gS);
+        ClientBeRo(HandInterface* hi, unsigned dP, int sB, GameState gS);
 	~ClientBeRo();
 
 	GameState getMyBeRoID() const;

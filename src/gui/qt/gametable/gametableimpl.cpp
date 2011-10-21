@@ -2512,6 +2512,7 @@ void gameTableImpl::postRiverRunAnimation3()
 	for(it_c=activePlayerList->begin(); it_c!=activePlayerList->end(); ++it_c) {
 		if((*it_c)->getMyCash() == 0) {
 			currentHand->getGuiInterface()->logPlayerSitsOut((*it_c)->getMyName());
+                        currentHand->getLog()->logPlayerAction(5, (*it_c)->getMyID()+1, LOG_ACTION_SIT_OUT);
 		}
 	}
 

@@ -23,7 +23,7 @@
 
 using namespace std;
 
-LocalBeRoFlop::LocalBeRoFlop(HandInterface* hi, int id, unsigned dP, int sB) : LocalBeRo(hi, id, dP, sB, GAME_STATE_FLOP)
+LocalBeRoFlop::LocalBeRoFlop(HandInterface* hi, unsigned dP, int sB) : LocalBeRo(hi, dP, sB, GAME_STATE_FLOP)
 {
 }
 

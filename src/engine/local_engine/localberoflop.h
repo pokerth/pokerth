@@ -28,7 +28,7 @@ class LocalBeRoFlop : public LocalBeRo
 {
 
 public:
-	LocalBeRoFlop(HandInterface*, int, unsigned, int);
+        LocalBeRoFlop(HandInterface*, unsigned, int);
 	~LocalBeRoFlop();
 
 };

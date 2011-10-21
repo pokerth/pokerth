@@ -43,7 +43,7 @@ Session::Session(GuiInterface *g, ConfigFile *c)
 	: currentGameNum(0), myGui(g), myConfig(c), myLog(0), myGameType(GAME_TYPE_NONE)
 {
 	myQtToolsInterface = CreateQtToolsWrapper();
-	myLog = new Log(myConfig->readConfigString("LogDir"),myConfig->readConfigInt("LogOnOff"));
+        myLog = new Log(myConfig);
 }
 
 

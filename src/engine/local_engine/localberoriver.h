@@ -28,7 +28,7 @@ class HandInterface;
 class LocalBeRoRiver : public LocalBeRo
 {
 public:
-	LocalBeRoRiver(HandInterface*, int, unsigned, int);
+        LocalBeRoRiver(HandInterface*, unsigned, int);
 	~LocalBeRoRiver();
 };
 

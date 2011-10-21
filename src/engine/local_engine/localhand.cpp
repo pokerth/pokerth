@@ -367,7 +367,7 @@ LocalHand::LocalHand(boost::shared_ptr<EngineFactory> f, GuiInterface *g, boost:
 
 	setBlinds();
 
-	myBeRo = myFactory->createBeRo(this, myID, dealerPosition, smallBlind);
+        myBeRo = myFactory->createBeRo(this, dealerPosition, smallBlind);
 }
 
 
@@ -626,6 +626,14 @@ void LocalHand::switchRounds()
 		myGui->refreshPot();
 		myGui->refreshSet();
 		myGui->flipHolecardsAllIn();
+                // Logging HoleCards
+                int myCards[2];
+                for (it_c=activePlayerList->begin(); it_c!=activePlayerList->end(); ++it_c) {
+                        if ((*it_c)->getMyAction() != PLAYER_ACTION_FOLD) {
+                                (*it_c)->getMyCards(myCards);
+                                myLog->logHoleCards(currentRound+1,(*it_c)->getMyID()+1,myCards);
+                        }
+                }
 
 		if (currentRound < 4) // do not increment past 4
 			currentRound++;

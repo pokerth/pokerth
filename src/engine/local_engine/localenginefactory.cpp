@@ -60,19 +60,19 @@ LocalEngineFactory::createPlayer(int id, unsigned uniqueId, PlayerType type, std
 }
 
 std::vector<boost::shared_ptr<BeRoInterface> >
-LocalEngineFactory::createBeRo(HandInterface *hi, int id, unsigned dP, int sB)
+LocalEngineFactory::createBeRo(HandInterface *hi, unsigned dP, int sB)
 {
 	std::vector<boost::shared_ptr<BeRoInterface> > myBeRo;
 
-	myBeRo.push_back(boost::shared_ptr<BeRoInterface>(new LocalBeRoPreflop(hi, id, dP, sB)));
+        myBeRo.push_back(boost::shared_ptr<BeRoInterface>(new LocalBeRoPreflop(hi, dP, sB)));
 
-	myBeRo.push_back(boost::shared_ptr<BeRoInterface>(new LocalBeRoFlop(hi, id, dP, sB)));
+        myBeRo.push_back(boost::shared_ptr<BeRoInterface>(new LocalBeRoFlop(hi, dP, sB)));
 
-	myBeRo.push_back(boost::shared_ptr<BeRoInterface>(new LocalBeRoTurn(hi, id, dP, sB)));
+        myBeRo.push_back(boost::shared_ptr<BeRoInterface>(new LocalBeRoTurn(hi, dP, sB)));
 
-	myBeRo.push_back(boost::shared_ptr<BeRoInterface>(new LocalBeRoRiver(hi, id, dP, sB)));
+        myBeRo.push_back(boost::shared_ptr<BeRoInterface>(new LocalBeRoRiver(hi, dP, sB)));
 
-	myBeRo.push_back(boost::shared_ptr<BeRoInterface>(new LocalBeRoPostRiver(hi, id, dP, sB)));
+        myBeRo.push_back(boost::shared_ptr<BeRoInterface>(new LocalBeRoPostRiver(hi, dP, sB)));
 
 	return myBeRo;
 

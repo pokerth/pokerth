@@ -24,11 +24,13 @@
 
 struct sqlite3;
 
+class ConfigFile;
+
 class Log
 {
 
 public:
-	Log(std::string logDirString, int logOnOffInt);
+        Log(ConfigFile *c);
 
 	~Log();
 
@@ -39,15 +41,17 @@ public:
 	void logHoleCards(int bero, int seat, int cards[2]);
 	void logHandName(int seat, int cardsValueInt, PlayerList activePlayerList);
 	void logHoleCardsHandName(int seat, int cards[2], int cardsValueInt, PlayerList activePlayerList);
+        void exec_transaction(std::string *sql);
 //    void closeLogDbAtExit();
 
 
 private:
 	sqlite3 *mySqliteLogDb;
+        ConfigFile *myConfig;
 	int curGameID;
 	int curHandID;
-	bool logOnOff;
-
+        std::string sql;
+        bool logHoleCardsDone;
 };
 
 #endif // LOG_H

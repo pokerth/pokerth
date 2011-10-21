@@ -24,7 +24,7 @@
 
 using namespace std;
 
-LocalBeRoPostRiver::LocalBeRoPostRiver(HandInterface* hi, int id, int dP, int sB) : LocalBeRo(hi, id, dP, sB, GAME_STATE_POST_RIVER), highestCardsValue(0)
+LocalBeRoPostRiver::LocalBeRoPostRiver(HandInterface* hi, int dP, int sB) : LocalBeRo(hi, dP, sB, GAME_STATE_POST_RIVER), highestCardsValue(0)
 {
 }
 
@@ -82,6 +82,15 @@ void LocalBeRoPostRiver::postRiverRun()
 
 	//Pot auf 0 setzen
 	getMyHand()->getBoard()->setPot(0);
+
+        // Logging hole Cards / Hands
+        int myCards[2];
+        for(it_c=getMyHand()->getActivePlayerList()->begin(); it_c!=getMyHand()->getActivePlayerList()->end(); ++it_c) {
+                if( (*it_c)->getMyAction() != PLAYER_ACTION_FOLD) {
+                        (*it_c)->getMyCards(myCards);
+                        getMyHand()->getLog()->logHoleCardsHandName((*it_c)->getMyID()+1,myCards,(*it_c)->getMyCardsValueInt(),getMyHand()->getActivePlayerList());
+                }
+        }
 
 	//starte die Animaionsreihe
 	getMyHand()->getGuiInterface()->postRiverRunAnimation1();

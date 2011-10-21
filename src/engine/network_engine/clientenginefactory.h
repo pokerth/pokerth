@@ -41,7 +41,7 @@ public:
 	virtual boost::shared_ptr<HandInterface> createHand(boost::shared_ptr<EngineFactory> f, GuiInterface *g, boost::shared_ptr<BoardInterface> b, Log *l, PlayerList sl, PlayerList apl, PlayerList rpl, int id, int sP, int dP, int sB,int sC);
 	virtual boost::shared_ptr<BoardInterface> createBoard(unsigned dp);
 	virtual boost::shared_ptr<PlayerInterface> createPlayer(int id, unsigned uniqueId, PlayerType type, std::string name, std::string avatar, int sC, bool aS, int mB);
-	virtual std::vector<boost::shared_ptr<BeRoInterface> > createBeRo(HandInterface *hi, int id, unsigned dP, int sB);
+        virtual std::vector<boost::shared_ptr<BeRoInterface> > createBeRo(HandInterface *hi, unsigned dP, int sB);
 };
 
 #endif
