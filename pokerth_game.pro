@@ -489,10 +489,11 @@ unix:!mac {
 		desktop
 }
 mac { 
-	# make it universal
-	CONFIG += x86
-	CONFIG -= ppc
-	QMAKE_MACOSX_DEPLOYMENT_TARGET = 10.5
+        # make it x86_64 only
+        CONFIG += x86_64
+        CONFIG -= x86
+        CONFIG -= ppc
+        QMAKE_MACOSX_DEPLOYMENT_TARGET = 10.6
 	QMAKE_CXXFLAGS -= -std=gnu++0x
 
 	# workaround for problems with boost_filesystem exceptions
@@ -515,8 +516,7 @@ mac {
 	LIBS += -framework \
 		SDL_mixer
 
-	# standard path for darwinports
-	# make sure you have a universal version of boost
+        # make sure you have an x86_64 version of boost
 	LIBS += /usr/local/lib/libboost_thread.a
 	LIBS += /usr/local/lib/libboost_filesystem.a
 	LIBS += /usr/local/lib/libboost_regex.a
@@ -536,8 +536,8 @@ mac {
 
 	# set the application icon
 	RC_FILE = pokerth.icns
-	LIBPATH += /Developer/SDKs/MacOSX10.5.sdk/usr/lib
-	INCLUDEPATH += /Developer/SDKs/MacOSX10.5.sdk/usr/include/
+        LIBPATH += /Developer/SDKs/MacOSX10.6.sdk/usr/lib
+        INCLUDEPATH += /Developer/SDKs/MacOSX10.6.sdk/usr/include/
 	INCLUDEPATH += /Library/Frameworks/SDL.framework/Headers
 	INCLUDEPATH += /Library/Frameworks/SDL_mixer.framework/Headers
 }

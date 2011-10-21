@@ -226,17 +226,18 @@ win32{
 }
 
 mac{
-	# make it universal  
-	CONFIG += x86
-	CONFIG -= ppc
-	QMAKE_MACOSX_DEPLOYMENT_TARGET = 10.5
-	QMAKE_CXXFLAGS -= -std=gnu++0x
+        # make it x86_64 only
+        CONFIG += x86_64
+        CONFIG -= x86
+        CONFIG -= ppc
+        QMAKE_MACOSX_DEPLOYMENT_TARGET = 10.6
+        QMAKE_CXXFLAGS -= -std=gnu++0x
 
 	# for universal-compilation on PPC-Mac uncomment the following line
 	# on Intel-Mac you have to comment this line out or build will fail.
 	#	QMAKE_MAC_SDK=/Developer/SDKs/MacOSX10.4u.sdk/
 
-	INCLUDEPATH += /Developer/SDKs/MacOSX10.5.sdk/usr/include/
+        INCLUDEPATH += /Developer/SDKs/MacOSX10.6.sdk/usr/include/
 	INCLUDEPATH += /Library/Frameworks/SDL.framework/Headers
 	INCLUDEPATH += /Library/Frameworks/SDL_mixer.framework/Headers
 	INCLUDEPATH += /opt/local/include
