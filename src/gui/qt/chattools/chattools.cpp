@@ -50,8 +50,11 @@ void ChatTools::sendMessage()
 			if(chatText.indexOf(QString("/msg ")) == 0) {
 				chatText.remove(0, 5);
 				unsigned playerId = parsePrivateMessageTarget(chatText);
-				if (playerId)
+				if (playerId) {
 					mySession->sendPrivateChatMessage(playerId, chatText.toUtf8().constData());
+					QString tmp = tr("private message sent to player: %1");
+					myTextBrowser->append("<i>"+tmp.arg(QString::fromUtf8(mySession->getClientPlayerInfo(playerId).playerName.c_str()))+"</i>");
+				}
 			} else {
 				mySession->sendLobbyChatMessage(chatText.toUtf8().constData());
 			}
@@ -243,10 +246,18 @@ void ChatTools::nickAutoCompletition()
 
 		// 		cout << nickAutoCompletitionCounter << "\n";
 
-		if(lastChatString == "")
+		if(lastChatString == "") {
 			myLineEdit->setText(lastMatchStringList.at(nickAutoCompletitionCounter)+": ");
-		else
-			myLineEdit->setText(lastChatString+" "+lastMatchStringList.at(nickAutoCompletitionCounter)+" ");
+		}
+		else {
+			//check if lastChatString is pm-code
+			if((lastChatString == "/msg" || lastChatString == "/msg ") && lastMatchStringList.at(nickAutoCompletitionCounter).contains(" ")) {
+				myLineEdit->setText(lastChatString+" \""+lastMatchStringList.at(nickAutoCompletitionCounter)+"\" ");
+			}
+			else {
+				myLineEdit->setText(lastChatString+" "+lastMatchStringList.at(nickAutoCompletitionCounter)+" ");
+			}
+		}
 
 		nickAutoCompletitionCounter++;
 	}
