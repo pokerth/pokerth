@@ -28,7 +28,7 @@
 
 using namespace std;
 
-Log::Log(ConfigFile *c) : myConfig(c), curGameID(0), curHandID(0), sql(""), logHoleCardsDone(false)
+Log::Log(ConfigFile *c) : mySqliteLogDb(0), myConfig(c), curGameID(0), curHandID(0), sql(""), logHoleCardsDone(false)
 {
 
 	if(SQLITE_LOG) {
@@ -183,6 +183,7 @@ void Log::logNewHandMsg(int handID, unsigned dealerPosition, int smallBlind, uns
 {
 
 	curHandID = handID;
+        logHoleCardsDone = false;
 
 	if(SQLITE_LOG) {
 
@@ -358,37 +359,72 @@ void Log::logBoardCards(int bero, int boardCards[5])
 	}
 }
 
-void Log::logHoleCards(int bero, int seat, int cards[2])
+void Log::logHoleCards(int bero, PlayerList activePlayerList)
 {
-
-        logHoleCardsDone = false;
 
 	if(SQLITE_LOG) {
 
-                if(myConfig->readConfigInt("LogOnOff")) {
+                if(myConfig->readConfigInt("LogOnOff") & !logHoleCardsDone) {
 			//if write logfiles is enabled
 
 			if( mySqliteLogDb != 0 ) {
 				// sqlite-db is open
 
-                                sql += "UPDATE Hand SET ";
-				sql += "Seat_" + boost::lexical_cast<string>(seat) + "_Card_1=" + boost::lexical_cast<string>(cards[0]);
-				sql += ",Seat_" + boost::lexical_cast<string>(seat) + "_Card_2=" + boost::lexical_cast<string>(cards[1]);
-				sql += " WHERE ";
-				sql += "GameID=" + boost::lexical_cast<string>(curGameID) + " AND ";
-				sql += "HandID=" + boost::lexical_cast<string>(curHandID);
-                                sql += ";";
-                                if(myConfig->readConfigInt("LogInterval") == 0) {
-                                        exec_transaction(&sql);
+                                PlayerListConstIterator it_c;
+                                int myCards[2];
+
+                                for (it_c=activePlayerList->begin(); it_c!=activePlayerList->end(); ++it_c) {
+                                        if ((*it_c)->getMyAction() != PLAYER_ACTION_FOLD) {
+                                                (*it_c)->getMyCards(myCards);
+                                                sql += "UPDATE Hand SET ";
+                                                sql += "Seat_" + boost::lexical_cast<string>((*it_c)->getMyID()+1) + "_Card_1=" + boost::lexical_cast<string>(myCards[0]);
+                                                sql += ",Seat_" + boost::lexical_cast<string>((*it_c)->getMyID()+1) + "_Card_2=" + boost::lexical_cast<string>(myCards[1]);
+                                                sql += " WHERE ";
+                                                sql += "GameID=" + boost::lexical_cast<string>(curGameID) + " AND ";
+                                                sql += "HandID=" + boost::lexical_cast<string>(curHandID);
+                                                sql += ";";
+                                                if(myConfig->readConfigInt("LogInterval") == 0) {
+                                                        exec_transaction(&sql);
+                                                }
+
+                                                logPlayerAction(bero,(*it_c)->getMyID()+1,LOG_ACTION_SHOW);
+                                        }
                                 }
 
-				logPlayerAction(bero,seat,LOG_ACTION_SHOW);
+                                logHoleCardsDone = true;
 			}
 		}
 	}
 }
 
-void Log::logHandName(int seat, int cardsValueInt, PlayerList activePlayerList)
+//void Log::logHandName(int seat, int cardsValueInt, PlayerList activePlayerList)
+//{
+//	if(SQLITE_LOG) {
+
+//                if(myConfig->readConfigInt("LogOnOff")) {
+//			//if write logfiles is enabled
+
+//			if( mySqliteLogDb != 0 ) {
+//				// sqlite-db is open
+
+//                                sql += "UPDATE Hand SET ";
+//				sql += "Seat_" + boost::lexical_cast<string>(seat) + "_Hand_text=\"" + CardsValue::determineHandName(cardsValueInt,activePlayerList) + "\"";
+//				sql += ",Seat_" + boost::lexical_cast<string>(seat) + "_Hand_int=" + boost::lexical_cast<string>(cardsValueInt);
+//				sql += " WHERE ";
+//				sql += "GameID=" + boost::lexical_cast<string>(curGameID) + " AND ";
+//				sql += "HandID=" + boost::lexical_cast<string>(curHandID);
+//                                sql += ";";
+//                                if(myConfig->readConfigInt("LogInterval") == 0) {
+//                                        exec_transaction(&sql);
+//                                }
+
+//				logPlayerAction(5,seat,LOG_ACTION_HAS);
+//			}
+//		}
+//	}
+//}
+
+void Log::logHoleCardsHandName(int bero, PlayerList activePlayerList)
 {
 	if(SQLITE_LOG) {
 
@@ -398,53 +434,33 @@ void Log::logHandName(int seat, int cardsValueInt, PlayerList activePlayerList)
 			if( mySqliteLogDb != 0 ) {
 				// sqlite-db is open
 
-                                sql += "UPDATE Hand SET ";
-				sql += "Seat_" + boost::lexical_cast<string>(seat) + "_Hand_text=\"" + CardsValue::determineHandName(cardsValueInt,activePlayerList) + "\"";
-				sql += ",Seat_" + boost::lexical_cast<string>(seat) + "_Hand_int=" + boost::lexical_cast<string>(cardsValueInt);
-				sql += " WHERE ";
-				sql += "GameID=" + boost::lexical_cast<string>(curGameID) + " AND ";
-				sql += "HandID=" + boost::lexical_cast<string>(curHandID);
-                                sql += ";";
-                                if(myConfig->readConfigInt("LogInterval") == 0) {
-                                        exec_transaction(&sql);
-                                }
+                                PlayerListConstIterator it_c;
+                                int myCards[2];
 
-				logPlayerAction(5,seat,LOG_ACTION_HAS);
-			}
-		}
-	}
-}
+                                for(it_c=activePlayerList->begin(); it_c!=activePlayerList->end(); ++it_c) {
+                                        if( (*it_c)->getMyAction() != PLAYER_ACTION_FOLD) {
+                                                (*it_c)->getMyCards(myCards);
+                                                sql += "UPDATE Hand SET ";
+                                                sql += "Seat_" + boost::lexical_cast<string>((*it_c)->getMyID()+1) + "_Hand_text=\"" + CardsValue::determineHandName((*it_c)->getMyCardsValueInt(),activePlayerList) + "\"";
+                                                sql += ",Seat_" + boost::lexical_cast<string>((*it_c)->getMyID()+1) + "_Hand_int=" + boost::lexical_cast<string>((*it_c)->getMyCardsValueInt());
+                                                if(!logHoleCardsDone) {
+                                                        sql += ",Seat_" + boost::lexical_cast<string>((*it_c)->getMyID()+1) + "_Card_1=" + boost::lexical_cast<string>(myCards[0]);
+                                                        sql += ",Seat_" + boost::lexical_cast<string>((*it_c)->getMyID()+1) + "_Card_2=" + boost::lexical_cast<string>(myCards[1]);
+                                                }
+                                                sql += " WHERE ";
+                                                sql += "GameID=" + boost::lexical_cast<string>(curGameID) + " AND ";
+                                                sql += "HandID=" + boost::lexical_cast<string>(curHandID);
+                                                sql += ";";
+                                                if(myConfig->readConfigInt("LogInterval") == 0) {
+                                                        exec_transaction(&sql);
+                                                }
 
-void Log::logHoleCardsHandName(int seat, int cards[2], int cardsValueInt, PlayerList activePlayerList)
-{
-	if(SQLITE_LOG) {
-
-                if(myConfig->readConfigInt("LogOnOff")) {
-			//if write logfiles is enabled
-
-			if( mySqliteLogDb != 0 ) {
-				// sqlite-db is open
-
-                                sql += "UPDATE Hand SET ";
-                                sql += "Seat_" + boost::lexical_cast<string>(seat) + "_Hand_text=\"" + CardsValue::determineHandName(cardsValueInt,activePlayerList) + "\"";
-                                sql += ",Seat_" + boost::lexical_cast<string>(seat) + "_Hand_int=" + boost::lexical_cast<string>(cardsValueInt);
-                                if(!logHoleCardsDone) {
-                                        sql += ",Seat_" + boost::lexical_cast<string>(seat) + "_Card_1=" + boost::lexical_cast<string>(cards[0]);
-                                        sql += ",Seat_" + boost::lexical_cast<string>(seat) + "_Card_2=" + boost::lexical_cast<string>(cards[1]);
-                                }
-				sql += " WHERE ";
-				sql += "GameID=" + boost::lexical_cast<string>(curGameID) + " AND ";
-				sql += "HandID=" + boost::lexical_cast<string>(curHandID);
-                                sql += ";";
-                                if(myConfig->readConfigInt("LogInterval") == 0) {
-                                        exec_transaction(&sql);
-                                }
-
-				logPlayerAction(5,seat,LOG_ACTION_SHOW);
-                                if(!logHoleCardsDone) {
-                                        logPlayerAction(5,seat,LOG_ACTION_SHOW);
-                                } else {
-                                        logPlayerAction(5,seat,LOG_ACTION_HAS);
+                                                if(!logHoleCardsDone) {
+                                                        logPlayerAction(bero,(*it_c)->getMyID()+1,LOG_ACTION_SHOW);
+                                                } else {
+                                                        logPlayerAction(bero,(*it_c)->getMyID()+1,LOG_ACTION_HAS);
+                                                }
+                                        }
                                 }
 			}
 		}

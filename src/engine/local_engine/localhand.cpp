@@ -627,13 +627,7 @@ void LocalHand::switchRounds()
 		myGui->refreshSet();
 		myGui->flipHolecardsAllIn();
                 // Logging HoleCards
-                int myCards[2];
-                for (it_c=activePlayerList->begin(); it_c!=activePlayerList->end(); ++it_c) {
-                        if ((*it_c)->getMyAction() != PLAYER_ACTION_FOLD) {
-                                (*it_c)->getMyCards(myCards);
-                                myLog->logHoleCards(currentRound+1,(*it_c)->getMyID()+1,myCards);
-                        }
-                }
+                myLog->logHoleCards(currentRound+1,activePlayerList);
 
 		if (currentRound < 4) // do not increment past 4
 			currentRound++;

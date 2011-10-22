@@ -84,12 +84,12 @@ void LocalBeRoPostRiver::postRiverRun()
 	getMyHand()->getBoard()->setPot(0);
 
         // Logging hole Cards / Hands
-        int myCards[2];
-        for(it_c=getMyHand()->getActivePlayerList()->begin(); it_c!=getMyHand()->getActivePlayerList()->end(); ++it_c) {
-                if( (*it_c)->getMyAction() != PLAYER_ACTION_FOLD) {
-                        (*it_c)->getMyCards(myCards);
-                        getMyHand()->getLog()->logHoleCardsHandName((*it_c)->getMyID()+1,myCards,(*it_c)->getMyCardsValueInt(),getMyHand()->getActivePlayerList());
-                }
+        int nonfoldPlayersCounter = 0;
+        for (it_c=getMyHand()->getActivePlayerList()->begin(); it_c!=getMyHand()->getActivePlayerList()->end(); ++it_c) {
+                if ((*it_c)->getMyAction() != PLAYER_ACTION_FOLD) nonfoldPlayersCounter++;
+        }
+        if(nonfoldPlayersCounter>1) {
+                getMyHand()->getLog()->logHoleCardsHandName(5,getMyHand()->getActivePlayerList());
         }
 
 	//starte die Animaionsreihe
