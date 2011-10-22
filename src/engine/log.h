@@ -38,8 +38,6 @@ public:
 	void logNewHandMsg(int handID, unsigned dealerPosition, int smallBlind, unsigned smallBlindPosition, int bigBlind, unsigned bigBlindPosition, PlayerList seatsList);
 	void logPlayerAction(int bero, int seat, PlayerActionLog action, int amount = 0);
 	void logBoardCards(int bero, int boardCards[5]);
-        void logHoleCards(int bero, PlayerList activePlayerList);
-//	void logHandName(int seat, int cardsValueInt, PlayerList activePlayerList);
         void logHoleCardsHandName(int bero, PlayerList activePlayerList);
         void exec_transaction(std::string *sql);
 //    void closeLogDbAtExit();

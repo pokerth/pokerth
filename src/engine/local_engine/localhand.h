@@ -88,10 +88,10 @@ public:
 		return startQuantityPlayers;
 	}
 
-	void setCurrentRound(int theValue) {
+        void setCurrentRound(GameState theValue) {
 		currentRound = theValue;
 	}
-	int getCurrentRound() const {
+        GameState getCurrentRound() const {
 		return currentRound;
 	}
 
@@ -177,7 +177,7 @@ private:
 	unsigned dealerPosition;
 	unsigned smallBlindPosition;
 	unsigned bigBlindPosition;
-	int currentRound; //0 = preflop, 1 = flop, 2 = turn, 3 = river
+        GameState currentRound;
 	int smallBlind;
 	int startCash;
 

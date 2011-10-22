@@ -52,8 +52,8 @@ public:
 	virtual void setStartQuantityPlayers(int theValue) =0;
 	virtual int getStartQuantityPlayers() const =0;
 
-	virtual void setCurrentRound(int theValue) =0;
-	virtual int getCurrentRound() const =0;
+        virtual void setCurrentRound(GameState theValue) =0;
+        virtual GameState getCurrentRound() const =0;
 
 	virtual void setDealerPosition(int theValue) =0;
 	virtual int getDealerPosition() const =0;

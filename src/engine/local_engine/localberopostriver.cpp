@@ -83,13 +83,27 @@ void LocalBeRoPostRiver::postRiverRun()
 	//Pot auf 0 setzen
 	getMyHand()->getBoard()->setPot(0);
 
-        // Logging hole Cards / Hands
+        // logging hole Cards / Hands
         int nonfoldPlayersCounter = 0;
         for (it_c=getMyHand()->getActivePlayerList()->begin(); it_c!=getMyHand()->getActivePlayerList()->end(); ++it_c) {
                 if ((*it_c)->getMyAction() != PLAYER_ACTION_FOLD) nonfoldPlayersCounter++;
         }
         if(nonfoldPlayersCounter>1) {
                 getMyHand()->getLog()->logHoleCardsHandName(5,getMyHand()->getActivePlayerList());
+        }
+
+        // logging winner if game is over
+        // wenn nur noch ein Spieler aktive "neues Spiel"-Dialog anzeigen
+        int playersPositiveCashCounter = 0;
+        for (it_c=getMyHand()->getActivePlayerList()->begin(); it_c!=getMyHand()->getActivePlayerList()->end(); ++it_c) {
+                if ((*it_c)->getMyCash() > 0) playersPositiveCashCounter++;
+        }
+        if (playersPositiveCashCounter==1) {
+                for (it_c=getMyHand()->getActivePlayerList()->begin(); it_c!=getMyHand()->getActivePlayerList()->end(); ++it_c) {
+                        if ((*it_c)->getMyCash() > 0) {
+                                getMyHand()->getLog()->logPlayerAction(5,(*it_c)->getMyID()+1,LOG_ACTION_WIN_GAME);
+                        }
+                }
         }
 
 	//starte die Animaionsreihe

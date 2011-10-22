@@ -176,7 +176,7 @@ void LocalBeRo::run()
 
 			// aktuelle bero nicht dran, weil alle Sets gleich sind
 			//also gehe in naechste bero
-			myHand->setCurrentRound(myBeRoID+1);
+                        myHand->setCurrentRound(GameState(myBeRoID+1));
 
 			//Action loeschen und ActionButtons refresh
 			for(it_c=myHand->getRunningPlayerList()->begin(); it_c!=myHand->getRunningPlayerList()->end(); ++it_c) {

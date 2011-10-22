@@ -2651,11 +2651,12 @@ void gameTableImpl::showHoleCards(unsigned playerId, bool allIn)
 				}
 			}
 			//set Player value (logging)
-			if(currentHand->getCurrentRound() < 3 || allIn) {
+                        if(currentHand->getCurrentRound() < GAME_STATE_RIVER || allIn) {
 				(*it_c)->setMyCardsFlip(1,2); //for bero before postriver or allin just log the hole cards
-			} else {
-				(*it_c)->setMyCardsFlip(1,1); //for postriver log the value
-			}
+                        }
+                        else {
+                                (*it_c)->setMyCardsFlip(1,1); //for postriver log the value
+                        }
 		}
 	}
 }
@@ -2665,7 +2666,7 @@ void gameTableImpl::flipHolecardsAllIn()
 
 	boost::shared_ptr<Game> currentGame = myStartWindow->getSession()->getCurrentGame();
 
-	if(!flipHolecardsAllInAlreadyDone) {
+        if(!flipHolecardsAllInAlreadyDone && currentGame->getCurrentHand()->getCurrentRound() < GAME_STATE_RIVER) {
 		//Aktive Spieler zählen --> wenn nur noch einer nicht-folded dann keine Karten umdrehen
 		int nonfoldPlayersCounter = 0;
 		PlayerListConstIterator it_c;

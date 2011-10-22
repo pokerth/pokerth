@@ -30,7 +30,7 @@
 using namespace std;
 
 LocalHand::LocalHand(boost::shared_ptr<EngineFactory> f, GuiInterface *g, boost::shared_ptr<BoardInterface> b, Log *l, PlayerList sl, PlayerList apl, PlayerList rpl, int id, int sP, unsigned dP, int sB,int sC)
-	: myFactory(f), myGui(g),  myBoard(b), myLog(l), seatsList(sl), activePlayerList(apl), runningPlayerList(rpl), myBeRo(0), myID(id), startQuantityPlayers(sP), dealerPosition(dP), smallBlindPosition(dP), bigBlindPosition(dP), currentRound(0), smallBlind(sB), startCash(sC), lastPlayersTurn(-1), lastActionPlayer(0), allInCondition(false),
+        : myFactory(f), myGui(g),  myBoard(b), myLog(l), seatsList(sl), activePlayerList(apl), runningPlayerList(rpl), myBeRo(0), myID(id), startQuantityPlayers(sP), dealerPosition(dP), smallBlindPosition(dP), bigBlindPosition(dP), currentRound(GAME_STATE_PREFLOP), smallBlind(sB), startCash(sC), lastPlayersTurn(-1), lastActionPlayer(0), allInCondition(false),
 	  cardsShown(false), bettingRoundsPlayed(0)
 {
 
@@ -566,7 +566,7 @@ void LocalHand::switchRounds()
 		myBoard->collectPot();
 		myGui->refreshPot();
 		myGui->refreshSet();
-		currentRound = 4;
+                currentRound = GAME_STATE_POST_RIVER;
 	}
 
 	// check for all in condition
@@ -627,13 +627,15 @@ void LocalHand::switchRounds()
 		myGui->refreshSet();
 		myGui->flipHolecardsAllIn();
                 // Logging HoleCards
-                myLog->logHoleCards(currentRound+1,activePlayerList);
+                if(currentRound<GAME_STATE_RIVER) {
+                        myLog->logHoleCardsHandName(currentRound+1,activePlayerList);
+                }
 
-		if (currentRound < 4) // do not increment past 4
-			currentRound++;
+                if (currentRound < GAME_STATE_POST_RIVER) // do not increment past 4
+                        currentRound = GameState(currentRound + 1);
 
 		//log board cards for allin
-		if(currentRound >= 1) {
+                if(currentRound >= GAME_STATE_FLOP) {
 			int tempBoardCardsArray[5];
 
 			myBoard->getMyCards(tempBoardCardsArray);

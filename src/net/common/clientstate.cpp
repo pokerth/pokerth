@@ -1799,7 +1799,7 @@ ClientStateRunHand::InternalHandlePacket(boost::shared_ptr<ClientThread> client,
 		// Set round.
 		if (curGame->getCurrentHand()->getCurrentRound() != netPlayersTurn->gameState) {
 			ResetPlayerActions(*curGame);
-			curGame->getCurrentHand()->setCurrentRound(netPlayersTurn->gameState);
+                        curGame->getCurrentHand()->setCurrentRound(GameState(netPlayersTurn->gameState));
 			// Refresh actions.
 			client->GetGui().refreshSet();
 			client->GetGui().refreshAction();

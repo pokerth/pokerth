@@ -63,8 +63,8 @@ public:
 	void setStartQuantityPlayers ( int theValue );
 	int getStartQuantityPlayers() const;
 
-	void setCurrentRound ( int theValue );
-	int getCurrentRound() const;
+        void setCurrentRound ( GameState theValue );
+        GameState getCurrentRound() const;
 
 	void setDealerPosition ( int theValue );
 	int getDealerPosition() const;
@@ -115,7 +115,7 @@ private:
 	int myID;
 	int startQuantityPlayers;
 	unsigned dealerPosition;
-	int currentRound; //0 = preflop, 1 = flop, 2 = turn, 3 = river
+        GameState currentRound;
 	int smallBlind;
 	int startCash;
 
