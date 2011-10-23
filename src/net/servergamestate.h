@@ -65,6 +65,9 @@ public:
 	virtual void ProcessPacket(boost::shared_ptr<ServerGame> server, boost::shared_ptr<SessionData> session, boost::shared_ptr<NetPacket> packet);
 
 	static boost::shared_ptr<NetPacket> CreateNetPacketPlayerJoined(unsigned gameId, const PlayerData &playerData);
+	static boost::shared_ptr<NetPacket> CreateNetPacketJoinGameAck(const ServerGame &server, const PlayerData &playerData);
+
+	static void AcceptNewSession(boost::shared_ptr<ServerGame> server, boost::shared_ptr<SessionData> session);
 
 protected:
 
@@ -162,6 +165,8 @@ protected:
 	void TimerNextGame(const boost::system::error_code &ec, boost::shared_ptr<ServerGame> server, unsigned winnerPlayerId);
 	int GetDealCardsDelaySec(ServerGame &server);
 	static void StartNewHand(boost::shared_ptr<ServerGame> server);
+	static void InitRejoiningPlayers(boost::shared_ptr<ServerGame> server);
+	static void PerformRejoin(boost::shared_ptr<ServerGame> server, boost::shared_ptr<SessionData> session);
 
 private:
 	static ServerGameStateHand s_state;
