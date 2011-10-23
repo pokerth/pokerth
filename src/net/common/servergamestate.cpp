@@ -1105,6 +1105,8 @@ ServerGameStateHand::GetDealCardsDelaySec(ServerGame &server)
 	case GAME_STATE_RIVER:
 		delay = SERVER_DEAL_RIVER_CARD_DELAY_SEC;
 		break;
+	default:
+		break;
 	}
 	return delay;
 }
