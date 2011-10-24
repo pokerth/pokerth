@@ -1756,7 +1756,7 @@ ClientStateRunHand::InternalHandlePacket(boost::shared_ptr<ClientThread> client,
 			curGame->getCurrentHand()->setLastPlayersTurn(tmpPlayer->getMyID());
 		}
 
-		tmpPlayer->setMyAction(netActionDone->playerAction);
+                tmpPlayer->setMyAction(PlayerAction(netActionDone->playerAction));
 		tmpPlayer->setMySetAbsolute(netActionDone->totalPlayerBet);
 		tmpPlayer->setMyCash(netActionDone->playerMoney);
 		curGame->getCurrentHand()->getCurrentBeRo()->setHighestSet(netActionDone->highestSet);
@@ -1992,7 +1992,7 @@ ClientStateRunHand::ResetPlayerActions(Game &curGame)
 	while (i != end) {
 		int action = (*i)->getMyAction();
 		if (action != 1 && action != 6)
-			(*i)->setMyAction(0);
+                        (*i)->setMyAction(PLAYER_ACTION_NONE);
 		(*i)->setMySetNull();
 		++i;
 	}

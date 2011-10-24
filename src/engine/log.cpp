@@ -227,7 +227,26 @@ void Log::logNewHandMsg(int handID, unsigned dealerPosition, int smallBlind, uns
                                         exec_transaction(&sql);
                                 }
 
-				logPlayerAction(0,dealerPosition,LOG_ACTION_DEALER);
+                                // !! TODO !! Hack, weil Button-Regel noch falsch und dealerPosition noch teilweise falsche ID enthält (HeadsUp: dealerPosition=bigBlindPosition <-- falsch)
+                                bool dealerButtonOnTable = false;
+                                int countActivePlayer = 0;
+                                for(it_c = seatsList->begin(); it_c!=seatsList->end(); it_c++) {
+                                        if((*it_c)->getMyActiveStatus()) {
+                                                countActivePlayer++;
+                                                if((*it_c)->getMyButton()==BUTTON_DEALER && (*it_c)->getMyActiveStatus()) {
+                                                        dealerButtonOnTable = true;
+                                                }
+                                        }
+                                }
+                                if(countActivePlayer==2) {
+                                        logPlayerAction(0,smallBlindPosition,LOG_ACTION_DEALER);
+                                }
+                                else {
+                                        if(dealerButtonOnTable) {
+                                                logPlayerAction(0,dealerPosition,LOG_ACTION_DEALER);
+                                        }
+                                }
+                                // !! TODO !! Hack
 			}
 		}
 	}
@@ -433,24 +452,6 @@ void Log::exec_transaction(string *sql)
 //    }
 
 //}
-
-
-
-// ACTION-Code
-// 0    starts as dealer
-// 1    posts small blind
-// 2    posts big blind
-// 3    folds
-// 4    checks
-// 5    calls
-// 6    bets
-// 7    is all in with
-// 8    shows
-// 9    has
-// 10   wins
-// 11   wins (side pot)
-// 11   sits out
-// 12   wins game
 
 // Bero-Code
 // 0	Pre-Preflop

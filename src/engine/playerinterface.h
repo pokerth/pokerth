@@ -62,8 +62,8 @@ public:
 	virtual int getMySet() const =0;
 	virtual int getMyLastRelativeSet() const =0;
 
-	virtual void setMyAction(int theValue, bool blind=0) =0;
-	virtual int getMyAction() const	=0;
+        virtual void setMyAction(PlayerAction theValue, bool blind=0) =0;
+        virtual PlayerAction getMyAction() const	=0;
 
 	virtual void setMyButton(int theValue) =0;
 	virtual int getMyButton() const	=0;

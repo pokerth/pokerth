@@ -1823,8 +1823,8 @@ void gameTableImpl::myFold()
 
 		boost::shared_ptr<HandInterface> currentHand = myStartWindow->getSession()->getCurrentGame()->getCurrentHand();
 		boost::shared_ptr<PlayerInterface> humanPlayer = currentHand->getSeatsList()->front();
-		humanPlayer->setMyAction(1);
-		currentHand->getLog()->logPlayerAction(currentHand->getCurrentRound()+1,1,LOG_ACTION_FOLD);
+                humanPlayer->setMyAction(PLAYER_ACTION_FOLD);
+                currentHand->getLog()->logPlayerAction(currentHand->getCurrentRound()+1,1,LOG_ACTION_FOLD);
 		humanPlayer->setMyTurn(0);
 
 		//set that i was the last active player. need this for unhighlighting groupbox
@@ -1844,7 +1844,7 @@ void gameTableImpl::myCheck()
 	boost::shared_ptr<PlayerInterface> humanPlayer = currentHand->getSeatsList()->front();
 	humanPlayer->setMyTurn(0);
 	currentHand->getLog()->logPlayerAction(currentHand->getCurrentRound()+1,1,LOG_ACTION_CHECK);
-	humanPlayer->setMyAction(2);
+        humanPlayer->setMyAction(PLAYER_ACTION_CHECK);
 
 	//set that i was the last active player. need this for unhighlighting groupbox
 	currentHand->setLastPlayersTurn(0);
@@ -1911,11 +1911,11 @@ void gameTableImpl::myCall()
 		humanPlayer->setMySet(humanPlayer->getMyCash());
 		humanPlayer->setMyCash(0);
 		currentHand->getLog()->logPlayerAction(currentHand->getCurrentRound()+1,1,LOG_ACTION_ALL_IN,humanPlayer->getMySet());
-		humanPlayer->setMyAction(6);
+                humanPlayer->setMyAction(PLAYER_ACTION_ALLIN);
 	} else {
 		humanPlayer->setMySet(tempHighestSet - humanPlayer->getMySet());
 		currentHand->getLog()->logPlayerAction(currentHand->getCurrentRound()+1,1,LOG_ACTION_CALL,humanPlayer->getMySet());
-		humanPlayer->setMyAction(3);
+                humanPlayer->setMyAction(PLAYER_ACTION_CALL);
 	}
 	humanPlayer->setMyTurn(0);
 
@@ -1948,7 +1948,7 @@ void gameTableImpl::mySet()
 
 			humanPlayer->setMySet(humanPlayer->getMyCash());
 			humanPlayer->setMyCash(0);
-			humanPlayer->setMyAction(6);
+                        humanPlayer->setMyAction(PLAYER_ACTION_ALLIN);
 			currentHand->getLog()->logPlayerAction(currentHand->getCurrentRound()+1,1,LOG_ACTION_ALL_IN,humanPlayer->getMySet());
 
 			// full bet rule
@@ -1960,7 +1960,7 @@ void gameTableImpl::mySet()
 		if(myActionIsRaise) {
 			//do not if allIn
 			if(humanPlayer->getMyAction() != 6) {
-				humanPlayer->setMyAction(5);
+                                humanPlayer->setMyAction(PLAYER_ACTION_RAISE);
 				currentHand->getLog()->logPlayerAction(currentHand->getCurrentRound()+1,1,LOG_ACTION_BET,humanPlayer->getMySet());
 			}
 			myActionIsRaise = 0;
@@ -1971,7 +1971,7 @@ void gameTableImpl::mySet()
 		if(myActionIsBet) {
 			//do not if allIn
 			if(humanPlayer->getMyAction() != 6) {
-				humanPlayer->setMyAction(4);
+                                humanPlayer->setMyAction(PLAYER_ACTION_BET);
 				currentHand->getLog()->logPlayerAction(currentHand->getCurrentRound()+1,1,LOG_ACTION_BET,humanPlayer->getMySet());
 			}
 			myActionIsBet = 0;
@@ -2009,7 +2009,7 @@ void gameTableImpl::myAllIn()
 
 		humanPlayer->setMySet(humanPlayer->getMyCash());
 		humanPlayer->setMyCash(0);
-		humanPlayer->setMyAction(6);
+                humanPlayer->setMyAction(PLAYER_ACTION_ALLIN);
 		currentHand->getLog()->logPlayerAction(currentHand->getCurrentRound()+1,1,LOG_ACTION_ALL_IN,humanPlayer->getMySet());
 
 		// full bet rule

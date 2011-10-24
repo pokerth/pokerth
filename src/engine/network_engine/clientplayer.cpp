@@ -25,7 +25,7 @@ using namespace std;
 ClientPlayer::ClientPlayer(ConfigFile *c, int id, unsigned uniqueId, PlayerType type, std::string name, std::string avatar, int sC, bool aS, int mB)
 	: PlayerInterface(), myConfig(c), currentHand(0), myID(id), myUniqueID(uniqueId), myType(type),
 	  myName(name), myAvatar(avatar), myDude(0), myDude4(0), myCardsValueInt(0), myOdds(-1.0), myCash(sC), mySet(0), myLastRelativeSet(0),
-	  myAction(0), myButton(mB), myActiveStatus(aS), myStayOnTableStatus(true), myTurn(false), myCardsFlip(false), myRoundStartCash(0),
+          myAction(PLAYER_ACTION_NONE), myButton(mB), myActiveStatus(aS), myStayOnTableStatus(true), myTurn(false), myCardsFlip(false), myRoundStartCash(0),
 	  lastMoneyWon(0), sBluff(0), sBluffStatus(false), myWinnerState(false), m_isConnected(false)
 {
 	myBestHandPosition[0] = myBestHandPosition[1] = myBestHandPosition[2] = myBestHandPosition[3] = myBestHandPosition[4] = 0;
@@ -195,13 +195,13 @@ ClientPlayer::getMyLastRelativeSet() const
 }
 
 void
-ClientPlayer::setMyAction(int theValue, bool /*blind*/)
+ClientPlayer::setMyAction(PlayerAction theValue, bool /*blind*/)
 {
 	boost::recursive_mutex::scoped_lock lock(m_syncMutex);
 	myAction = theValue;
 }
 
-int
+PlayerAction
 ClientPlayer::getMyAction() const
 {
 	boost::recursive_mutex::scoped_lock lock(m_syncMutex);

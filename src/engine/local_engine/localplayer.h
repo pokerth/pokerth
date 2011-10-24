@@ -113,12 +113,12 @@ public:
 		return myLastRelativeSet;
 	}
 
-	void setMyAction(int theValue, bool blind = 0) {
+        void setMyAction(PlayerAction theValue, bool blind = 0) {
 		myAction = theValue;
 		// logging for human player
 		if(myAction && !blind) currentHand->getGuiInterface()->logPlayerActionMsg(myName, myAction, mySet);
 	}
-	int getMyAction() const	{
+        PlayerAction getMyAction() const	{
 		return myAction;
 	}
 
@@ -166,15 +166,12 @@ public:
 			switch(state) {
 			case 1:
 				currentHand->getGuiInterface()->logFlipHoleCardsMsg(myName, myCards[0], myCards[1], myCardsValueInt);
-//				currentHand->getLog()->logHoleCardsHandName(myID+1,myCards,myCardsValueInt,currentHand->getActivePlayerList());
 				break;
 			case 2:
 				currentHand->getGuiInterface()->logFlipHoleCardsMsg(myName, myCards[0], myCards[1]);
-//				currentHand->getLog()->logHoleCards(currentHand->getCurrentRound()+1,myID+1,myCards);
 				break;
 			case 3:
 				currentHand->getGuiInterface()->logFlipHoleCardsMsg(myName, myCards[0], myCards[1], myCardsValueInt, "has");
-//				currentHand->getLog()->logHandName(myID+1,myCardsValueInt,currentHand->getActivePlayerList());
 				break;
 			default:
 				;
@@ -320,7 +317,7 @@ private:
 	int myCash;
 	int mySet;
 	int myLastRelativeSet;
-	int myAction; // 0 = none, 1 = fold, 2 = check, 3 = call, 4 = bet, 5 = raise, 6 = allin
+        PlayerAction myAction;
 	int myButton; // 0 = none, 1 = dealer, 2 =small, 3 = big
 	bool myActiveStatus; // 0 = inactive, 1 = active
 	bool myStayOnTableStatus; // 0 = left, 1 = stay

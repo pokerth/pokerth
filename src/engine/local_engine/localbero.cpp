@@ -242,6 +242,33 @@ void LocalBeRo::run()
 				//Gegner sind dran
 				myHand->getGuiInterface()->beRoAnimation2(myBeRoID);
 			}
+
+                        // logging action
+                        PlayerActionLog myActionLog = LOG_ACTION_NONE;
+                        switch((*currentPlayersTurnIt)->getMyAction()) {
+                                case PLAYER_ACTION_FOLD: {
+                                        myActionLog = LOG_ACTION_FOLD;
+                                } break;
+                                case PLAYER_ACTION_CHECK: {
+                                        myActionLog = LOG_ACTION_CHECK;
+                                } break;
+                                case PLAYER_ACTION_CALL: {
+                                        myActionLog = LOG_ACTION_CALL;
+                                } break;
+                                case PLAYER_ACTION_BET:
+                                case PLAYER_ACTION_RAISE: {
+                                        myActionLog = LOG_ACTION_BET;
+                                } break;
+                                case PLAYER_ACTION_ALLIN: {
+                                        myActionLog = LOG_ACTION_ALL_IN;
+                                } break;
+                                default: {
+                                }
+                        }
+                        if(myActionLog) {
+//                                myHand->getLog()->logPlayerAction(myBeRoID+1,(*currentPlayersTurnIt)->getMyID()+1,myActionLog);
+                        }
+
 		}
 	}
 }
