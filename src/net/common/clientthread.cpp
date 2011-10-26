@@ -55,7 +55,7 @@ ClientThread::ClientThread(GuiInterface &gui, AvatarManager &avatarManager, Conf
 	  m_curGameId(0), m_curGameNum(1), m_guiPlayerId(0), m_sessionEstablished(false),
 	  m_stateTimer(*m_ioService), m_avatarTimer(*m_ioService)
 {
-        m_clientLog.reset(new Log(config));
+	m_clientLog.reset(new Log(config));
 	m_context.reset(new ClientContext);
 	myQtToolsInterface.reset(CreateQtToolsWrapper());
 	m_senderHelper.reset(new SenderHelper(m_ioService));
@@ -132,7 +132,10 @@ ClientThread::SendStartEvent(bool fillUpWithCpuPlayers)
 	packet->GetMsg()->present = PokerTHMessage_PR_startEventMessage;
 	StartEventMessage_t *netStartEvent = &packet->GetMsg()->choice.startEventMessage;
 	netStartEvent->gameId = GetGameId();
-	netStartEvent->fillWithComputerPlayers = fillUpWithCpuPlayers;
+
+	netStartEvent->startEventType.present = startEventType_PR_startEvent;
+	StartEvent_t *start = &netStartEvent->startEventType.choice.startEvent;
+	start->fillWithComputerPlayers = fillUpWithCpuPlayers;
 	m_ioService->post(boost::bind(&ClientThread::SendSessionPacket, shared_from_this(), packet));
 }
 

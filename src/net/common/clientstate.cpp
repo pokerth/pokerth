@@ -944,13 +944,12 @@ ClientStateStartSession::InternalHandlePacket(boost::shared_ptr<ClientThread> cl
 			InitMessage_t *netInit = &init->GetMsg()->choice.initMessage;
 			netInit->requestedVersion.major = NET_VERSION_MAJOR;
 			netInit->requestedVersion.minor = NET_VERSION_MINOR;
-			if (!context.GetServerPassword().empty())
-			{
+			if (!context.GetServerPassword().empty()) {
 				netInit->authServerPassword =
-						OCTET_STRING_new_fromBuf(
-							&asn_DEF_OCTET_STRING,
-							context.GetServerPassword().c_str(),
-							context.GetServerPassword().length());
+					OCTET_STRING_new_fromBuf(
+						&asn_DEF_OCTET_STRING,
+						context.GetServerPassword().c_str(),
+						context.GetServerPassword().length());
 			}
 			netInit->login.present = login_PR_unauthenticatedLogin;
 			UnauthenticatedLogin_t *noauthLogin = &netInit->login.choice.unauthenticatedLogin;
@@ -1027,13 +1026,12 @@ ClientStateWaitEnterLogin::TimerLoop(const boost::system::error_code& ec, boost:
 						context.GetSessionGuid().c_str(),
 						(int)context.GetSessionGuid().length());
 			}
-			if (!context.GetServerPassword().empty())
-			{
+			if (!context.GetServerPassword().empty()) {
 				netInit->authServerPassword =
-						OCTET_STRING_new_fromBuf(
-							&asn_DEF_OCTET_STRING,
-							context.GetServerPassword().c_str(),
-							context.GetServerPassword().length());
+					OCTET_STRING_new_fromBuf(
+						&asn_DEF_OCTET_STRING,
+						context.GetServerPassword().c_str(),
+						context.GetServerPassword().length());
 			}
 
 			context.SetPlayerName(loginData.userName);
@@ -1391,7 +1389,12 @@ void
 ClientStateWaitGame::InternalHandlePacket(boost::shared_ptr<ClientThread> client, boost::shared_ptr<NetPacket> tmpPacket)
 {
 	if (tmpPacket->GetMsg()->present == PokerTHMessage_PR_startEventMessage) {
-		client->GetCallback().SignalNetClientGameInfo(MSG_NET_GAME_CLIENT_SYNCSTART);
+		StartEventMessage_t *netStartEvent = &tmpPacket->GetMsg()->choice.startEventMessage;
+		if (netStartEvent->startEventType.present == startEventType_PR_rejoinEvent) {
+			client->GetCallback().SignalNetClientGameInfo(MSG_NET_GAME_CLIENT_SYNCSTART);
+		} else {
+			client->GetCallback().SignalNetClientGameInfo(MSG_NET_GAME_CLIENT_SYNCREJOIN);
+		}
 		client->SetState(ClientStateSynchronizeStart::Instance());
 	} else if (tmpPacket->GetMsg()->present == PokerTHMessage_PR_inviteNotifyMessage) {
 		InviteNotifyMessage_t *netInvNotify = &tmpPacket->GetMsg()->choice.inviteNotifyMessage;
@@ -1799,7 +1802,7 @@ ClientStateRunHand::InternalHandlePacket(boost::shared_ptr<ClientThread> client,
 		// Set round.
 		if (curGame->getCurrentHand()->getCurrentRound() != netPlayersTurn->gameState) {
 			ResetPlayerActions(*curGame);
-                        curGame->getCurrentHand()->setCurrentRound(GameState(netPlayersTurn->gameState));
+			curGame->getCurrentHand()->setCurrentRound(GameState(netPlayersTurn->gameState));
 			// Refresh actions.
 			client->GetGui().refreshSet();
 			client->GetGui().refreshAction();

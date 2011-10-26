@@ -590,7 +590,10 @@ ServerGameStateInit::SendStartEvent(ServerGame &server, bool fillWithComputerPla
 	packet->GetMsg()->present = PokerTHMessage_PR_startEventMessage;
 	StartEventMessage_t *netStartEvent = &packet->GetMsg()->choice.startEventMessage;
 	netStartEvent->gameId = server.GetId();
-	netStartEvent->fillWithComputerPlayers = fillWithComputerPlayers;
+
+	netStartEvent->startEventType.present = startEventType_PR_startEvent;
+	StartEvent_t *start = &netStartEvent->startEventType.choice.startEvent;
+	start->fillWithComputerPlayers = fillWithComputerPlayers;
 
 	// Wait for all players to confirm start of game.
 	server.SendToAllPlayers(packet, SessionData::Game);
@@ -608,9 +611,10 @@ ServerGameStateInit::InternalProcessPacket(boost::shared_ptr<ServerGame> server,
 		// Only admins are allowed to start the game.
 		if (session->GetPlayerData()->IsGameAdmin()
 				&& netStartEvent->gameId == server->GetId()
+				&& netStartEvent->startEventType.present == startEventType_PR_startEvent
 				&& (server->GetGameData().gameType != GAME_TYPE_RANKING // ranking games need to be full
 					|| server->GetGameData().maxNumberOfPlayers == server->GetCurNumberOfPlayers())) {
-			SendStartEvent(*server, netStartEvent->fillWithComputerPlayers);
+			SendStartEvent(*server, netStartEvent->startEventType.choice.startEvent.fillWithComputerPlayers);
 		} else { // kick players who try to start but are not allowed to
 			server->MoveSessionToLobby(session, NTF_NET_REMOVED_START_FAILED);
 		}
@@ -782,7 +786,7 @@ AbstractServerGameStateRunning::HandleNewSession(boost::shared_ptr<ServerGame> s
 			packet->GetMsg()->present = PokerTHMessage_PR_startEventMessage;
 			StartEventMessage_t *netStartEvent = &packet->GetMsg()->choice.startEventMessage;
 			netStartEvent->gameId = server->GetId();
-			netStartEvent->fillWithComputerPlayers = false;
+			netStartEvent->startEventType.present = startEventType_PR_rejoinEvent;
 
 			// Wait for rejoining player to confirm start of game.
 			server->GetLobbyThread().GetSender().Send(session, packet);

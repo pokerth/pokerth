@@ -144,10 +144,12 @@ HEADERS += src/third_party/asn1/AllInShowCardsMessage.h \
 	src/third_party/asn1/RejectGameInvitationMessage.h \
 	src/third_party/asn1/RejectGameInvReason.h \
 	src/third_party/asn1/RejectInvNotifyMessage.h \
+	src/third_party/asn1/RejoinEvent.h \
 	src/third_party/asn1/RejoinExistingGame.h \
 	src/third_party/asn1/RejoinPlayerData.h \
 	src/third_party/asn1/RemovedFromGame.h \
 	src/third_party/asn1/ResetTimeoutMessage.h \
+	src/third_party/asn1/StartEvent.h \
 	src/third_party/asn1/StartEventAckMessage.h \
 	src/third_party/asn1/StartEventMessage.h \
 	src/third_party/asn1/StartKickPetitionMessage.h \
@@ -212,6 +214,7 @@ SOURCES += src/third_party/asn1/ChatCleanerMessage.c \
 	src/third_party/asn1/StatisticsMessage.c \
 	src/third_party/asn1/StatisticsData.c \
 	src/third_party/asn1/StartKickPetitionMessage.c \
+	src/third_party/asn1/StartEvent.c \
 	src/third_party/asn1/StartEventMessage.c \
 	src/third_party/asn1/StartEventAckMessage.c \
 	src/third_party/asn1/ResetTimeoutMessage.c \
@@ -320,6 +323,7 @@ SOURCES += src/third_party/asn1/ChatCleanerMessage.c \
 	src/third_party/asn1/RejectGameInvitationMessage.c \
 	src/third_party/asn1/RejectInvNotifyMessage.c \
 	src/third_party/asn1/RejectGameInvReason.c \
+	src/third_party/asn1/RejoinEvent.c \
 	src/third_party/asn1/RejoinExistingGame.c \
 	src/third_party/asn1/RejoinPlayerData.c \
 	src/third_party/asn1/AfterHandShowCardsMessage.c \

@@ -164,9 +164,9 @@ static ber_tlv_tag_t asn_DEF_AskKickDeniedMessage_tags_1[] = {
 	(ASN_TAG_CLASS_UNIVERSAL | (16 << 2))
 };
 static asn_TYPE_tag2member_t asn_MAP_AskKickDeniedMessage_tag2el_1[] = {
-	{ (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 0, 0, 1 }, /* gameId at 602 */
-	{ (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 1, -1, 0 }, /* playerId at 603 */
-	{ (ASN_TAG_CLASS_UNIVERSAL | (10 << 2)), 2, 0, 0 } /* kickDeniedReason at 605 */
+	{ (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 0, 0, 1 }, /* gameId at 612 */
+	{ (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 1, -1, 0 }, /* playerId at 613 */
+	{ (ASN_TAG_CLASS_UNIVERSAL | (10 << 2)), 2, 0, 0 } /* kickDeniedReason at 615 */
 };
 static asn_SEQUENCE_specifics_t asn_SPC_AskKickDeniedMessage_specs_1 = {
 	sizeof(struct AskKickDeniedMessage),

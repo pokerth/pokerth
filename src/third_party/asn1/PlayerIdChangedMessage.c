@@ -32,8 +32,8 @@ static ber_tlv_tag_t asn_DEF_PlayerIdChangedMessage_tags_1[] = {
 	(ASN_TAG_CLASS_UNIVERSAL | (16 << 2))
 };
 static asn_TYPE_tag2member_t asn_MAP_PlayerIdChangedMessage_tag2el_1[] = {
-	{ (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 0, 0, 1 }, /* oldPlayerId at 592 */
-	{ (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 1, -1, 0 } /* newPlayerId at 594 */
+	{ (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 0, 0, 1 }, /* oldPlayerId at 602 */
+	{ (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 1, -1, 0 } /* newPlayerId at 604 */
 };
 static asn_SEQUENCE_specifics_t asn_SPC_PlayerIdChangedMessage_specs_1 = {
 	sizeof(struct PlayerIdChangedMessage),

@@ -13,17 +13,42 @@
 
 /* Including external dependencies */
 #include "NonZeroId.h"
-#include <BOOLEAN.h>
+#include "StartEvent.h"
+#include "RejoinEvent.h"
+#include <constr_CHOICE.h>
 #include <constr_SEQUENCE.h>
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
+	/* Dependencies */
+	typedef enum startEventType_PR {
+		startEventType_PR_NOTHING,	/* No components present */
+		startEventType_PR_startEvent,
+		startEventType_PR_rejoinEvent,
+		/* Extensions may appear below */
+
+	}
+	startEventType_PR;
+
 	/* StartEventMessage */
 	typedef struct StartEventMessage {
 		NonZeroId_t	 gameId;
-		BOOLEAN_t	 fillWithComputerPlayers;
+		struct startEventType {
+			startEventType_PR present;
+			union StartEventMessage__startEventType_u {
+				StartEvent_t	 startEvent;
+				RejoinEvent_t	 rejoinEvent;
+				/*
+				 * This type is extensible,
+				 * possible extensions are below.
+				 */
+			} choice;
+
+			/* Context for parsing across buffer boundaries */
+			asn_struct_ctx_t _asn_ctx;
+		} startEventType;
 		/*
 		 * This type is extensible,
 		 * possible extensions are below.

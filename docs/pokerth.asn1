@@ -435,7 +435,17 @@ RejectInvNotifyMessage ::= [APPLICATION 19] SEQUENCE {
 
 StartEventMessage ::= [APPLICATION 20] SEQUENCE {
 	gameId						NonZeroId,
+	startEventType				CHOICE {
+		startEvent				[0] StartEvent,
+		rejoinEvent				[1] RejoinEvent
+	}
+}
+
+StartEvent ::= SEQUENCE {
 	fillWithComputerPlayers		BOOLEAN
+}
+
+RejoinEvent ::= SEQUENCE {
 }
 
 StartEventAckMessage ::= [APPLICATION 21] SEQUENCE {
