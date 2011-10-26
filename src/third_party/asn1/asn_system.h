@@ -39,7 +39,7 @@
 #endif
 #ifndef	ASSUMESTDTYPES	/* Standard types have been defined elsewhere */
 #define	ssize_t		SSIZE_T
-//typedef	char		int8_t;
+typedef	char		int8_t;
 typedef	short		int16_t;
 typedef	int		int32_t;
 typedef	unsigned char	uint8_t;
