@@ -1391,9 +1391,9 @@ ClientStateWaitGame::InternalHandlePacket(boost::shared_ptr<ClientThread> client
 	if (tmpPacket->GetMsg()->present == PokerTHMessage_PR_startEventMessage) {
 		StartEventMessage_t *netStartEvent = &tmpPacket->GetMsg()->choice.startEventMessage;
 		if (netStartEvent->startEventType.present == startEventType_PR_rejoinEvent) {
-			client->GetCallback().SignalNetClientGameInfo(MSG_NET_GAME_CLIENT_SYNCSTART);
-		} else {
 			client->GetCallback().SignalNetClientGameInfo(MSG_NET_GAME_CLIENT_SYNCREJOIN);
+		} else {
+			client->GetCallback().SignalNetClientGameInfo(MSG_NET_GAME_CLIENT_SYNCSTART);
 		}
 		client->SetState(ClientStateSynchronizeStart::Instance());
 	} else if (tmpPacket->GetMsg()->present == PokerTHMessage_PR_inviteNotifyMessage) {
