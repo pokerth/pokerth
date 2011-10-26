@@ -24,7 +24,7 @@
 using namespace std;
 
 ClientBoard::ClientBoard(unsigned dp)
-	: pot(0), sets(0), dealerPosition(dp), allInCondition(false), lastActionPlayer(0)
+        : pot(0), sets(0), dealerPosition(dp), allInCondition(false), lastActionPlayerID(0)
 {
 	myCards[0] = myCards[1] = myCards[2] = myCards[3] = myCards[4] = 0;
 }
@@ -95,10 +95,10 @@ ClientBoard::setAllInCondition(bool theValue)
 }
 
 void
-ClientBoard::setLastActionPlayer(unsigned theValue)
+ClientBoard::setLastActionPlayerID(unsigned theValue)
 {
 	boost::recursive_mutex::scoped_lock lock(m_syncMutex);
-	lastActionPlayer = theValue;
+        lastActionPlayerID = theValue;
 }
 
 void

@@ -49,8 +49,8 @@ public:
 	void setAllInCondition(bool theValue) {
 		allInCondition = theValue;
 	}
-	void setLastActionPlayer(unsigned theValue) {
-		lastActionPlayer = theValue;
+        void setLastActionPlayerID(unsigned theValue) {
+                lastActionPlayerID = theValue;
 	}
 
 	int getPot() const {
@@ -100,7 +100,7 @@ private:
 	int sets;
 	unsigned dealerPosition;
 	bool allInCondition;
-	unsigned lastActionPlayer;
+        unsigned lastActionPlayerID;
 
 };
 

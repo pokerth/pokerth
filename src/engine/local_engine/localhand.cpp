@@ -30,7 +30,7 @@
 using namespace std;
 
 LocalHand::LocalHand(boost::shared_ptr<EngineFactory> f, GuiInterface *g, boost::shared_ptr<BoardInterface> b, Log *l, PlayerList sl, PlayerList apl, PlayerList rpl, int id, int sP, unsigned dP, int sB,int sC)
-        : myFactory(f), myGui(g),  myBoard(b), myLog(l), seatsList(sl), activePlayerList(apl), runningPlayerList(rpl), myBeRo(0), myID(id), startQuantityPlayers(sP), dealerPosition(dP), smallBlindPosition(dP), bigBlindPosition(dP), currentRound(GAME_STATE_PREFLOP), smallBlind(sB), startCash(sC), lastPlayersTurn(-1), lastActionPlayer(0), allInCondition(false),
+        : myFactory(f), myGui(g),  myBoard(b), myLog(l), seatsList(sl), activePlayerList(apl), runningPlayerList(rpl), myBeRo(0), myID(id), startQuantityPlayers(sP), dealerPosition(dP), smallBlindPosition(dP), bigBlindPosition(dP), currentRound(GAME_STATE_PREFLOP), smallBlind(sB), startCash(sC), previousPlayerID(-1), lastActionPlayerID(0), allInCondition(false),
 	  cardsShown(false), bettingRoundsPlayed(0)
 {
 
@@ -448,8 +448,8 @@ void LocalHand::assignButtons()
 			}
 
 			// first player after dealer have to show his cards first (in showdown)
-			lastActionPlayer = (*it)->getMyUniqueID();
-			myBoard->setLastActionPlayer(lastActionPlayer);
+                        lastActionPlayerID = (*it)->getMyUniqueID();
+                        myBoard->setLastActionPlayerID(lastActionPlayerID);
 
 			++it;
 			if(it == activePlayerList->end()) it = activePlayerList->begin();
@@ -527,6 +527,35 @@ void LocalHand::setBlinds()
 
 void LocalHand::switchRounds()
 {
+
+        // logging last player action
+//        currentPlayersTurnIt = myHand->getRunningPlayerIt( currentPlayersTurnId );
+//        if(currentPlayersTurnIt == myHand->getRunningPlayerList()->end()) {
+//                throw LocalException(__FILE__, __LINE__, ERR_RUNNING_PLAYER_NOT_FOUND);
+//        }
+
+
+//        switch((*currentPlayersTurnIt)->getMyAction()) {
+//                case PLAYER_ACTION_FOLD: {
+//                        myHand->getLog()->logPlayerAction(myBeRoID+1,(*currentPlayersTurnIt)->getMyID()+1,LOG_ACTION_FOLD);
+//                } break;
+//                case PLAYER_ACTION_CHECK: {
+//                        myHand->getLog()->logPlayerAction(myBeRoID+1,(*currentPlayersTurnIt)->getMyID()+1,LOG_ACTION_CHECK);
+//                } break;
+//                case PLAYER_ACTION_CALL: {
+//                        myHand->getLog()->logPlayerAction(myBeRoID+1,(*currentPlayersTurnIt)->getMyID()+1,LOG_ACTION_CALL);
+//                } break;
+//                case PLAYER_ACTION_BET:
+//                case PLAYER_ACTION_RAISE: {
+//                        myHand->getLog()->logPlayerAction(myBeRoID+1,(*currentPlayersTurnIt)->getMyID()+1,LOG_ACTION_BET,(*currentPlayersTurnIt)->getMySet());
+//                } break;
+//                case PLAYER_ACTION_ALLIN: {
+//                        myHand->getLog()->logPlayerAction(myBeRoID+1,(*currentPlayersTurnIt)->getMyID()+1,LOG_ACTION_ALL_IN,(*currentPlayersTurnIt)->getMySet());
+//                } break;
+//                default: {
+//                }
+//        }
+
 
 	PlayerListIterator it, it_1;
 	PlayerListConstIterator it_c;
@@ -646,10 +675,10 @@ void LocalHand::switchRounds()
 	}
 
 	//unhighlight current players groupbox
-	it_c = getActivePlayerIt(lastPlayersTurn);
+        it_c = getActivePlayerIt(previousPlayerID);
 	if( it_c != activePlayerList->end() ) {
 		// lastPlayersTurn is active
-		myGui->refreshGroupbox(lastPlayersTurn,1);
+                myGui->refreshGroupbox(previousPlayerID,1);
 	}
 
 	myGui->refreshGameLabels((GameState)getCurrentRound());
@@ -738,8 +767,8 @@ PlayerListIterator LocalHand::getRunningPlayerIt(unsigned uniqueId) const
 
 }
 
-void LocalHand::setLastActionPlayer(unsigned theValue)
+void LocalHand::setLastActionPlayerID(unsigned theValue)
 {
-	lastActionPlayer = theValue;
-	myBoard->setLastActionPlayer(theValue);
+        lastActionPlayerID = theValue;
+        myBoard->setLastActionPlayerID(theValue);
 }

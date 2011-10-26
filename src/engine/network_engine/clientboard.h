@@ -45,7 +45,7 @@ public:
 	void setSets(int theValue);
 
 	void setAllInCondition(bool theValue);
-	void setLastActionPlayer(unsigned theValue);
+        void setLastActionPlayerID(unsigned theValue);
 
 	void collectSets();
 	void collectPot();
@@ -74,7 +74,7 @@ private:
 	int sets;
 	unsigned dealerPosition;
 	bool allInCondition;
-	unsigned lastActionPlayer;
+        unsigned lastActionPlayerID;
 };
 
 #endif

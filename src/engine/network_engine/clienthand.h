@@ -81,11 +81,11 @@ public:
 	void setBettingRoundsPlayed ( int theValue );
 	int getBettingRoundsPlayed() const;
 
-	void setLastPlayersTurn ( int theValue );
-	int getLastPlayersTurn() const;
+        void setPreviousPlayerID ( int theValue );
+        int getPreviousPlayerID() const;
 
-	void setLastActionPlayer ( unsigned theValue );
-	unsigned getLastActionPlayer() const;
+        void setLastActionPlayerID ( unsigned theValue );
+        unsigned getLastActionPlayerID() const;
 
 	void setCardsShown ( bool theValue );
 	bool getCardsShown() const;
@@ -119,8 +119,8 @@ private:
 	int smallBlind;
 	int startCash;
 
-	int lastPlayersTurn;
-	unsigned lastActionPlayer;
+        int previousPlayerID;
+        unsigned lastActionPlayerID;
 
 	bool allInCondition;
 	bool cardsShown;

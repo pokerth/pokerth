@@ -24,7 +24,7 @@
 #include "localexception.h"
 #include "engine_msg.h"
 
-LocalBoard::LocalBoard(unsigned dp) : BoardInterface(), pot(0), sets(0), dealerPosition(dp), allInCondition(false), lastActionPlayer(0)
+LocalBoard::LocalBoard(unsigned dp) : BoardInterface(), pot(0), sets(0), dealerPosition(dp), allInCondition(false), lastActionPlayerID(0)
 {
 	myCards[0] = myCards[1] = myCards[2] = myCards[3] = myCards[4] = 0;
 }
@@ -299,7 +299,7 @@ void LocalBoard::determinePlayerNeedToShowCards()
 		//    cout << "lAP-Ende: " << currentHand->getLastActionPlayer() << endl;
 		// search lastActionPlayer
 		for(it_c = activePlayerList->begin(); it_c != activePlayerList->end(); ++it_c) {
-			if((*it_c)->getMyUniqueID() == lastActionPlayer && (*it_c)->getMyAction() != PLAYER_ACTION_FOLD) {
+                        if((*it_c)->getMyUniqueID() == lastActionPlayerID && (*it_c)->getMyAction() != PLAYER_ACTION_FOLD) {
 				lastActionPlayerIt = it_c;
 //                    cout << (*it_c)->getMyUniqueID() << endl;
 				break;

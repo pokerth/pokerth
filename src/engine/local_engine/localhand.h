@@ -130,16 +130,16 @@ public:
 		return bettingRoundsPlayed;
 	}
 
-	void setLastPlayersTurn(int theValue) {
-		lastPlayersTurn = theValue;
+        void setPreviousPlayerID(int theValue) {
+                previousPlayerID = theValue;
 	}
-	int getLastPlayersTurn() const {
-		return lastPlayersTurn;
+        int getPreviousPlayerID() const {
+                return previousPlayerID;
 	}
 
-	void setLastActionPlayer ( unsigned theValue );
-	unsigned getLastActionPlayer() const {
-		return lastActionPlayer;
+        void setLastActionPlayerID ( unsigned theValue );
+        unsigned getLastActionPlayerID() const {
+                return lastActionPlayerID;
 	}
 
 	void setCardsShown(bool theValue) {
@@ -181,8 +181,8 @@ private:
 	int smallBlind;
 	int startCash;
 
-	int lastPlayersTurn;
-	unsigned lastActionPlayer;
+        int previousPlayerID;
+        unsigned lastActionPlayerID;
 
 	bool allInCondition;
 	bool cardsShown;

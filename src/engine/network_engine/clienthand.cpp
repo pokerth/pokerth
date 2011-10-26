@@ -23,7 +23,7 @@ using namespace std;
 
 ClientHand::ClientHand(boost::shared_ptr<EngineFactory> f, GuiInterface *g, boost::shared_ptr<BoardInterface> b, Log *l, PlayerList sl, PlayerList apl, PlayerList rpl, int id, int sP, int dP, int sB,int sC)
         : myFactory(f), myGui(g),  myBoard(b), myLog(l), seatsList(sl), activePlayerList(apl), runningPlayerList(rpl), myID(id), startQuantityPlayers(sP), dealerPosition(dP), currentRound(GAME_STATE_PREFLOP),
-	  smallBlind(sB), startCash(sC), lastPlayersTurn(-1), allInCondition(0),
+          smallBlind(sB), startCash(sC), previousPlayerID(-1), allInCondition(0),
 	  cardsShown(false), bettingRoundsPlayed(0)
 {
 	PlayerListIterator it;
@@ -287,31 +287,31 @@ ClientHand::getBettingRoundsPlayed() const
 }
 
 void
-ClientHand::setLastPlayersTurn(int theValue)
+ClientHand::setPreviousPlayerID(int theValue)
 {
 	boost::recursive_mutex::scoped_lock lock(m_syncMutex);
-	lastPlayersTurn = theValue;
+        previousPlayerID = theValue;
 }
 
 int
-ClientHand::getLastPlayersTurn() const
+ClientHand::getPreviousPlayerID() const
 {
 	boost::recursive_mutex::scoped_lock lock(m_syncMutex);
-	return lastPlayersTurn;
+        return previousPlayerID;
 }
 
 void
-ClientHand::setLastActionPlayer (unsigned theValue)
+ClientHand::setLastActionPlayerID (unsigned theValue)
 {
 	boost::recursive_mutex::scoped_lock lock(m_syncMutex);
-	lastActionPlayer = theValue;
+        lastActionPlayerID = theValue;
 }
 
 unsigned
-ClientHand::getLastActionPlayer() const
+ClientHand::getLastActionPlayerID() const
 {
 	boost::recursive_mutex::scoped_lock lock(m_syncMutex);
-	return lastActionPlayer;
+        return lastActionPlayerID;
 }
 
 void

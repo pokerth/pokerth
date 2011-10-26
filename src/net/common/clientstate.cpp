@@ -1753,7 +1753,7 @@ ClientStateRunHand::InternalHandlePacket(boost::shared_ptr<ClientThread> client,
 					netActionDone->totalPlayerBet - tmpPlayer->getMySet());
 			}
 			// Update last players turn only after the blinds.
-			curGame->getCurrentHand()->setLastPlayersTurn(tmpPlayer->getMyID());
+                        curGame->getCurrentHand()->setPreviousPlayerID(tmpPlayer->getMyID());
 		}
 
                 tmpPlayer->setMyAction(PlayerAction(netActionDone->playerAction));
@@ -1832,7 +1832,7 @@ ClientStateRunHand::InternalHandlePacket(boost::shared_ptr<ClientThread> client,
 		tmpCards[3] = tmpCards[4] = 0;
 		curGame->getCurrentHand()->getBoard()->setMyCards(tmpCards);
 		curGame->getCurrentHand()->getBoard()->collectPot();
-		curGame->getCurrentHand()->setLastPlayersTurn(-1);
+                curGame->getCurrentHand()->setPreviousPlayerID(-1);
 
 		client->GetGui().logDealBoardCardsMsg(GAME_STATE_FLOP, tmpCards[0], tmpCards[1], tmpCards[2], tmpCards[3], tmpCards[4]);
 		client->GetGui().refreshGameLabels(GAME_STATE_FLOP);
@@ -1847,7 +1847,7 @@ ClientStateRunHand::InternalHandlePacket(boost::shared_ptr<ClientThread> client,
 		tmpCards[3] = static_cast<int>(netDealTurn->turnCard);
 		curGame->getCurrentHand()->getBoard()->setMyCards(tmpCards);
 		curGame->getCurrentHand()->getBoard()->collectPot();
-		curGame->getCurrentHand()->setLastPlayersTurn(-1);
+                curGame->getCurrentHand()->setPreviousPlayerID(-1);
 
 		client->GetGui().logDealBoardCardsMsg(GAME_STATE_TURN, tmpCards[0], tmpCards[1], tmpCards[2], tmpCards[3], tmpCards[4]);
 		client->GetGui().refreshGameLabels(GAME_STATE_TURN);
@@ -1862,7 +1862,7 @@ ClientStateRunHand::InternalHandlePacket(boost::shared_ptr<ClientThread> client,
 		tmpCards[4] = static_cast<int>(netDealRiver->riverCard);
 		curGame->getCurrentHand()->getBoard()->setMyCards(tmpCards);
 		curGame->getCurrentHand()->getBoard()->collectPot();
-		curGame->getCurrentHand()->setLastPlayersTurn(-1);
+                curGame->getCurrentHand()->setPreviousPlayerID(-1);
 
 		client->GetGui().logDealBoardCardsMsg(GAME_STATE_RIVER, tmpCards[0], tmpCards[1], tmpCards[2], tmpCards[3], tmpCards[4]);
 		client->GetGui().refreshGameLabels(GAME_STATE_RIVER);

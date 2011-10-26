@@ -70,11 +70,11 @@ public:
 	virtual void setBettingRoundsPlayed(int theValue) =0;
 	virtual int getBettingRoundsPlayed() const =0;
 
-	virtual void setLastPlayersTurn(int theValue) =0;
-	virtual int getLastPlayersTurn() const =0;
+        virtual void setPreviousPlayerID(int theValue) =0;
+        virtual int getPreviousPlayerID() const =0;
 
-	virtual void setLastActionPlayer( unsigned theValue ) =0;
-	virtual unsigned getLastActionPlayer() const =0;
+        virtual void setLastActionPlayerID( unsigned theValue ) =0;
+        virtual unsigned getLastActionPlayerID() const =0;
 
 	virtual void setCardsShown(bool theValue) =0;
 	virtual bool getCardsShown() const =0;
