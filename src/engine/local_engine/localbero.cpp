@@ -25,7 +25,7 @@
 using namespace std;
 
 LocalBeRo::LocalBeRo(HandInterface* hi, unsigned dP, int sB, GameState gS)
-        : BeRoInterface(), myHand(hi), myBeRoID(gS), dealerPosition(dP), smallBlindPosition(0), dealerPositionId(dP), smallBlindPositionId(0), bigBlindPositionId(0), smallBlind(sB), highestSet(0), minimumRaise(2*sB), fullBetRule(false), firstRun(true), firstRunGui(true), firstRound(true), firstHeadsUpRound(true), currentPlayersTurnId(0), firstRoundLastPlayersTurnId(0), logBoardCardsDone(false)
+	: BeRoInterface(), myHand(hi), myBeRoID(gS), dealerPosition(dP), smallBlindPosition(0), dealerPositionId(dP), smallBlindPositionId(0), bigBlindPositionId(0), smallBlind(sB), highestSet(0), minimumRaise(2*sB), fullBetRule(false), firstRun(true), firstRunGui(true), firstRound(true), firstHeadsUpRound(true), currentPlayersTurnId(0), firstRoundLastPlayersTurnId(0), logBoardCardsDone(false)
 {
 	currentPlayersTurnIt = myHand->getRunningPlayerList()->begin();
 	lastPlayersTurnIt = myHand->getRunningPlayerList()->begin();
@@ -84,7 +84,7 @@ void LocalBeRo::run()
 
 	if(firstRunGui) {
 		firstRunGui = false;
-                myHand->setPreviousPlayerID(-1);
+		myHand->setPreviousPlayerID(-1);
 		myHand->getGuiInterface()->dealBeRoCards(myBeRoID);
 	} else {
 
@@ -176,7 +176,7 @@ void LocalBeRo::run()
 
 			// aktuelle bero nicht dran, weil alle Sets gleich sind
 			//also gehe in naechste bero
-                        myHand->setCurrentRound(GameState(myBeRoID+1));
+			myHand->setCurrentRound(GameState(myBeRoID+1));
 
 			//Action loeschen und ActionButtons refresh
 			for(it_c=myHand->getRunningPlayerList()->begin(); it_c!=myHand->getRunningPlayerList()->end(); ++it_c) {

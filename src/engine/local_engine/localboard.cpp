@@ -299,7 +299,7 @@ void LocalBoard::determinePlayerNeedToShowCards()
 		//    cout << "lAP-Ende: " << currentHand->getLastActionPlayer() << endl;
 		// search lastActionPlayer
 		for(it_c = activePlayerList->begin(); it_c != activePlayerList->end(); ++it_c) {
-                        if((*it_c)->getMyUniqueID() == lastActionPlayerID && (*it_c)->getMyAction() != PLAYER_ACTION_FOLD) {
+			if((*it_c)->getMyUniqueID() == lastActionPlayerID && (*it_c)->getMyAction() != PLAYER_ACTION_FOLD) {
 				lastActionPlayerIt = it_c;
 //                    cout << (*it_c)->getMyUniqueID() << endl;
 				break;

@@ -154,12 +154,12 @@ static void PerformPlayerAction(ServerGame &server, boost::shared_ptr<PlayerInte
 		switch(action) {
 		case PLAYER_ACTION_BET: {
 			curGame.getCurrentHand()->getCurrentBeRo()->setMinimumRaise(bet);
-                        curGame.getCurrentHand()->setLastActionPlayerID(player->getMyUniqueID());
+			curGame.getCurrentHand()->setLastActionPlayerID(player->getMyUniqueID());
 		}
 		break;
 		case PLAYER_ACTION_RAISE: {
 			curGame.getCurrentHand()->getCurrentBeRo()->setMinimumRaise(player->getMySet() - curGame.getCurrentHand()->getCurrentBeRo()->getHighestSet());
-                        curGame.getCurrentHand()->setLastActionPlayerID(player->getMyUniqueID());
+			curGame.getCurrentHand()->setLastActionPlayerID(player->getMyUniqueID());
 		}
 		break;
 		case PLAYER_ACTION_ALLIN: {
@@ -167,7 +167,7 @@ static void PerformPlayerAction(ServerGame &server, boost::shared_ptr<PlayerInte
 				curGame.getCurrentHand()->getCurrentBeRo()->setMinimumRaise(player->getMySet() - curGame.getCurrentHand()->getCurrentBeRo()->getHighestSet());
 			}
 			if(player->getMySet() - curGame.getCurrentHand()->getCurrentBeRo()->getHighestSet() > 0) {
-                                curGame.getCurrentHand()->setLastActionPlayerID(player->getMyUniqueID());
+				curGame.getCurrentHand()->setLastActionPlayerID(player->getMyUniqueID());
 			}
 		}
 		break;

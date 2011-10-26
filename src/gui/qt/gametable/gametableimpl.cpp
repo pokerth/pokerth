@@ -1823,12 +1823,12 @@ void gameTableImpl::myFold()
 
 		boost::shared_ptr<HandInterface> currentHand = myStartWindow->getSession()->getCurrentGame()->getCurrentHand();
 		boost::shared_ptr<PlayerInterface> humanPlayer = currentHand->getSeatsList()->front();
-                humanPlayer->setMyAction(PLAYER_ACTION_FOLD);
+		humanPlayer->setMyAction(PLAYER_ACTION_FOLD);
 //                currentHand->getLog()->logPlayerAction(currentHand->getCurrentRound()+1,1,LOG_ACTION_FOLD);
 		humanPlayer->setMyTurn(0);
 
 		//set that i was the last active player. need this for unhighlighting groupbox
-                currentHand->setPreviousPlayerID(0);
+		currentHand->setPreviousPlayerID(0);
 
 		// 		statusBar()->clearMessage();
 
@@ -1844,10 +1844,10 @@ void gameTableImpl::myCheck()
 	boost::shared_ptr<PlayerInterface> humanPlayer = currentHand->getSeatsList()->front();
 	humanPlayer->setMyTurn(0);
 //	currentHand->getLog()->logPlayerAction(currentHand->getCurrentRound()+1,1,LOG_ACTION_CHECK);
-        humanPlayer->setMyAction(PLAYER_ACTION_CHECK);
+	humanPlayer->setMyAction(PLAYER_ACTION_CHECK);
 
 	//set that i was the last active player. need this for unhighlighting groupbox
-        currentHand->setPreviousPlayerID(0);
+	currentHand->setPreviousPlayerID(0);
 
 	// 	statusBar()->clearMessage();
 
@@ -1911,11 +1911,11 @@ void gameTableImpl::myCall()
 		humanPlayer->setMySet(humanPlayer->getMyCash());
 		humanPlayer->setMyCash(0);
 //		currentHand->getLog()->logPlayerAction(currentHand->getCurrentRound()+1,1,LOG_ACTION_ALL_IN,humanPlayer->getMySet());
-                humanPlayer->setMyAction(PLAYER_ACTION_ALLIN);
+		humanPlayer->setMyAction(PLAYER_ACTION_ALLIN);
 	} else {
 		humanPlayer->setMySet(tempHighestSet - humanPlayer->getMySet());
 //		currentHand->getLog()->logPlayerAction(currentHand->getCurrentRound()+1,1,LOG_ACTION_CALL,humanPlayer->getMySet());
-                humanPlayer->setMyAction(PLAYER_ACTION_CALL);
+		humanPlayer->setMyAction(PLAYER_ACTION_CALL);
 	}
 	humanPlayer->setMyTurn(0);
 
@@ -1923,7 +1923,7 @@ void gameTableImpl::myCall()
 	refreshPot();
 
 	//set that i was the last active player. need this for unhighlighting groupbox
-        currentHand->setPreviousPlayerID(0);
+	currentHand->setPreviousPlayerID(0);
 
 	// 	statusBar()->clearMessage();
 
@@ -1948,7 +1948,7 @@ void gameTableImpl::mySet()
 
 			humanPlayer->setMySet(humanPlayer->getMyCash());
 			humanPlayer->setMyCash(0);
-                        humanPlayer->setMyAction(PLAYER_ACTION_ALLIN);
+			humanPlayer->setMyAction(PLAYER_ACTION_ALLIN);
 //			currentHand->getLog()->logPlayerAction(currentHand->getCurrentRound()+1,1,LOG_ACTION_ALL_IN,humanPlayer->getMySet());
 
 			// full bet rule
@@ -1960,7 +1960,7 @@ void gameTableImpl::mySet()
 		if(myActionIsRaise) {
 			//do not if allIn
 			if(humanPlayer->getMyAction() != 6) {
-                                humanPlayer->setMyAction(PLAYER_ACTION_RAISE);
+				humanPlayer->setMyAction(PLAYER_ACTION_RAISE);
 //				currentHand->getLog()->logPlayerAction(currentHand->getCurrentRound()+1,1,LOG_ACTION_BET,humanPlayer->getMySet());
 			}
 			myActionIsRaise = 0;
@@ -1971,7 +1971,7 @@ void gameTableImpl::mySet()
 		if(myActionIsBet) {
 			//do not if allIn
 			if(humanPlayer->getMyAction() != 6) {
-                                humanPlayer->setMyAction(PLAYER_ACTION_BET);
+				humanPlayer->setMyAction(PLAYER_ACTION_BET);
 //				currentHand->getLog()->logPlayerAction(currentHand->getCurrentRound()+1,1,LOG_ACTION_BET,humanPlayer->getMySet());
 			}
 			myActionIsBet = 0;
@@ -1989,10 +1989,10 @@ void gameTableImpl::mySet()
 		// 		statusBar()->clearMessage();
 
 		//set that i was the last active player. need this for unhighlighting groupbox
-                currentHand->setPreviousPlayerID(0);
+		currentHand->setPreviousPlayerID(0);
 
 		// lastPlayerAction für Karten umblättern reihenfolge setzrn
-                currentHand->setLastActionPlayerID(humanPlayer->getMyUniqueID());
+		currentHand->setLastActionPlayerID(humanPlayer->getMyUniqueID());
 
 		//Spiel läuft weiter
 		myActionDone();
@@ -2009,7 +2009,7 @@ void gameTableImpl::myAllIn()
 
 		humanPlayer->setMySet(humanPlayer->getMyCash());
 		humanPlayer->setMyCash(0);
-                humanPlayer->setMyAction(PLAYER_ACTION_ALLIN);
+		humanPlayer->setMyAction(PLAYER_ACTION_ALLIN);
 //		currentHand->getLog()->logPlayerAction(currentHand->getCurrentRound()+1,1,LOG_ACTION_ALL_IN,humanPlayer->getMySet());
 
 		// full bet rule
@@ -2023,7 +2023,7 @@ void gameTableImpl::myAllIn()
 			currentHand->getCurrentBeRo()->setHighestSet(humanPlayer->getMySet());
 
 			// lastPlayerAction für Karten umblättern reihenfolge setzrn
-                        currentHand->setLastActionPlayerID(humanPlayer->getMyUniqueID());
+			currentHand->setLastActionPlayerID(humanPlayer->getMyUniqueID());
 
 		}
 
@@ -2033,7 +2033,7 @@ void gameTableImpl::myAllIn()
 		refreshPot();
 
 		//set that i was the last active player. need this for unhighlighting groupbox
-                currentHand->setPreviousPlayerID(0);
+		currentHand->setPreviousPlayerID(0);
 
 		//Spiel läuft weiter
 		myActionDone();
@@ -2174,11 +2174,11 @@ void gameTableImpl::nextPlayerAnimation()
 	PlayerListConstIterator it_c;
 	PlayerList seatsList = currentHand->getSeatsList();
 	for (it_c=seatsList->begin(); it_c!=seatsList->end(); ++it_c) {
-                if((*it_c)->getMyID() == currentHand->getPreviousPlayerID()) break;
+		if((*it_c)->getMyID() == currentHand->getPreviousPlayerID()) break;
 	}
 
-        if(currentHand->getPreviousPlayerID() != -1) {
-                refreshAction(currentHand->getPreviousPlayerID(), (*it_c)->getMyAction());
+	if(currentHand->getPreviousPlayerID() != -1) {
+		refreshAction(currentHand->getPreviousPlayerID(), (*it_c)->getMyAction());
 	}
 	refreshCash();
 
@@ -2512,7 +2512,7 @@ void gameTableImpl::postRiverRunAnimation3()
 	for(it_c=activePlayerList->begin(); it_c!=activePlayerList->end(); ++it_c) {
 		if((*it_c)->getMyCash() == 0) {
 			currentHand->getGuiInterface()->logPlayerSitsOut((*it_c)->getMyName());
-                        currentHand->getLog()->logPlayerAction(5, (*it_c)->getMyID()+1, LOG_ACTION_SIT_OUT);
+			currentHand->getLog()->logPlayerAction(5, (*it_c)->getMyID()+1, LOG_ACTION_SIT_OUT);
 		}
 	}
 
@@ -2651,12 +2651,11 @@ void gameTableImpl::showHoleCards(unsigned playerId, bool allIn)
 				}
 			}
 			//set Player value (logging)
-                        if(currentHand->getCurrentRound() < GAME_STATE_RIVER || allIn) {
+			if(currentHand->getCurrentRound() < GAME_STATE_RIVER || allIn) {
 				(*it_c)->setMyCardsFlip(1,2); //for bero before postriver or allin just log the hole cards
-                        }
-                        else {
-                                (*it_c)->setMyCardsFlip(1,1); //for postriver log the value
-                        }
+			} else {
+				(*it_c)->setMyCardsFlip(1,1); //for postriver log the value
+			}
 		}
 	}
 }
@@ -2666,7 +2665,7 @@ void gameTableImpl::flipHolecardsAllIn()
 
 	boost::shared_ptr<Game> currentGame = myStartWindow->getSession()->getCurrentGame();
 
-        if(!flipHolecardsAllInAlreadyDone && currentGame->getCurrentHand()->getCurrentRound() < GAME_STATE_RIVER) {
+	if(!flipHolecardsAllInAlreadyDone && currentGame->getCurrentHand()->getCurrentRound() < GAME_STATE_RIVER) {
 		//Aktive Spieler zählen --> wenn nur noch einer nicht-folded dann keine Karten umdrehen
 		int nonfoldPlayersCounter = 0;
 		PlayerListConstIterator it_c;
@@ -3229,7 +3228,7 @@ void gameTableImpl::updateMyButtonsState(int mode)
 
 	boost::shared_ptr<HandInterface> currentHand = myStartWindow->getSession()->getCurrentGame()->getCurrentHand();
 
-        if(currentHand->getPreviousPlayerID() == 0) {
+	if(currentHand->getPreviousPlayerID() == 0) {
 		myButtonsCheckable(FALSE);
 		clearMyButtons();
 	} else {

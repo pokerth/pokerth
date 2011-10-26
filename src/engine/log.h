@@ -30,7 +30,7 @@ class Log
 {
 
 public:
-        Log(ConfigFile *c);
+	Log(ConfigFile *c);
 
 	~Log();
 
@@ -38,18 +38,18 @@ public:
 	void logNewHandMsg(int handID, unsigned dealerPosition, int smallBlind, unsigned smallBlindPosition, int bigBlind, unsigned bigBlindPosition, PlayerList seatsList);
 	void logPlayerAction(int bero, int seat, PlayerActionLog action, int amount = 0);
 	void logBoardCards(int bero, int boardCards[5]);
-        void logHoleCardsHandName(int bero, PlayerList activePlayerList);
-        void exec_transaction(std::string *sql);
+	void logHoleCardsHandName(int bero, PlayerList activePlayerList);
+	void exec_transaction(std::string *sql);
 //    void closeLogDbAtExit();
 
 
 private:
 	sqlite3 *mySqliteLogDb;
-        ConfigFile *myConfig;
+	ConfigFile *myConfig;
 	int curGameID;
 	int curHandID;
-        std::string sql;
-        bool logHoleCardsDone;
+	std::string sql;
+	bool logHoleCardsDone;
 };
 
 #endif // LOG_H

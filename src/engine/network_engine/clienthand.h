@@ -63,8 +63,8 @@ public:
 	void setStartQuantityPlayers ( int theValue );
 	int getStartQuantityPlayers() const;
 
-        void setCurrentRound ( GameState theValue );
-        GameState getCurrentRound() const;
+	void setCurrentRound ( GameState theValue );
+	GameState getCurrentRound() const;
 
 	void setDealerPosition ( int theValue );
 	int getDealerPosition() const;
@@ -81,11 +81,11 @@ public:
 	void setBettingRoundsPlayed ( int theValue );
 	int getBettingRoundsPlayed() const;
 
-        void setPreviousPlayerID ( int theValue );
-        int getPreviousPlayerID() const;
+	void setPreviousPlayerID ( int theValue );
+	int getPreviousPlayerID() const;
 
-        void setLastActionPlayerID ( unsigned theValue );
-        unsigned getLastActionPlayerID() const;
+	void setLastActionPlayerID ( unsigned theValue );
+	unsigned getLastActionPlayerID() const;
 
 	void setCardsShown ( bool theValue );
 	bool getCardsShown() const;
@@ -115,12 +115,12 @@ private:
 	int myID;
 	int startQuantityPlayers;
 	unsigned dealerPosition;
-        GameState currentRound;
+	GameState currentRound;
 	int smallBlind;
 	int startCash;
 
-        int previousPlayerID;
-        unsigned lastActionPlayerID;
+	int previousPlayerID;
+	unsigned lastActionPlayerID;
 
 	bool allInCondition;
 	bool cardsShown;

@@ -64,8 +64,8 @@ public:
 	int getMySet() const;
 	int getMyLastRelativeSet() const;
 
-        void setMyAction(PlayerAction theValue, bool blind);
-        PlayerAction getMyAction() const;
+	void setMyAction(PlayerAction theValue, bool blind);
+	PlayerAction getMyAction() const;
 
 	void setMyButton(int theValue);
 	int getMyButton() const;
@@ -172,7 +172,7 @@ private:
 	int myCash;
 	int mySet;
 	int myLastRelativeSet;
-        PlayerAction myAction;
+	PlayerAction myAction;
 	int myButton; // 0 = none, 1 = dealer, 2 =small, 3 = big
 	bool myActiveStatus; // 0 = inactive, 1 = active
 	bool myStayOnTableStatus; // 0 = left, 1 = stay

@@ -64,15 +64,15 @@ LocalEngineFactory::createBeRo(HandInterface *hi, unsigned dP, int sB)
 {
 	std::vector<boost::shared_ptr<BeRoInterface> > myBeRo;
 
-        myBeRo.push_back(boost::shared_ptr<BeRoInterface>(new LocalBeRoPreflop(hi, dP, sB)));
+	myBeRo.push_back(boost::shared_ptr<BeRoInterface>(new LocalBeRoPreflop(hi, dP, sB)));
 
-        myBeRo.push_back(boost::shared_ptr<BeRoInterface>(new LocalBeRoFlop(hi, dP, sB)));
+	myBeRo.push_back(boost::shared_ptr<BeRoInterface>(new LocalBeRoFlop(hi, dP, sB)));
 
-        myBeRo.push_back(boost::shared_ptr<BeRoInterface>(new LocalBeRoTurn(hi, dP, sB)));
+	myBeRo.push_back(boost::shared_ptr<BeRoInterface>(new LocalBeRoTurn(hi, dP, sB)));
 
-        myBeRo.push_back(boost::shared_ptr<BeRoInterface>(new LocalBeRoRiver(hi, dP, sB)));
+	myBeRo.push_back(boost::shared_ptr<BeRoInterface>(new LocalBeRoRiver(hi, dP, sB)));
 
-        myBeRo.push_back(boost::shared_ptr<BeRoInterface>(new LocalBeRoPostRiver(hi, dP, sB)));
+	myBeRo.push_back(boost::shared_ptr<BeRoInterface>(new LocalBeRoPostRiver(hi, dP, sB)));
 
 	return myBeRo;
 

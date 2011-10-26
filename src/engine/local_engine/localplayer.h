@@ -113,12 +113,12 @@ public:
 		return myLastRelativeSet;
 	}
 
-        void setMyAction(PlayerAction theValue, bool blind = 0) {
+	void setMyAction(PlayerAction theValue, bool blind = 0) {
 		myAction = theValue;
 		// logging for human player
 		if(myAction && !blind) currentHand->getGuiInterface()->logPlayerActionMsg(myName, myAction, mySet);
 	}
-        PlayerAction getMyAction() const	{
+	PlayerAction getMyAction() const	{
 		return myAction;
 	}
 
@@ -317,7 +317,7 @@ private:
 	int myCash;
 	int mySet;
 	int myLastRelativeSet;
-        PlayerAction myAction;
+	PlayerAction myAction;
 	int myButton; // 0 = none, 1 = dealer, 2 =small, 3 = big
 	bool myActiveStatus; // 0 = inactive, 1 = active
 	bool myStayOnTableStatus; // 0 = left, 1 = stay

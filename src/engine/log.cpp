@@ -34,15 +34,15 @@ Log::Log(ConfigFile *c) : mySqliteLogDb(0), myConfig(c), curGameID(0), curHandID
 	if(SQLITE_LOG) {
 
 		// logging activated
-                if(myConfig->readConfigInt("LogOnOff")) {
+		if(myConfig->readConfigInt("LogOnOff")) {
 
 			DIR *logDir;
-                        logDir = opendir((myConfig->readConfigString("LogDir")).c_str());
+			logDir = opendir((myConfig->readConfigString("LogDir")).c_str());
 			bool dirExists = logDir != NULL;
 			closedir(logDir);
 
 			// check if logging path exist
-                        if(myConfig->readConfigString("LogDir") != "" && dirExists) {
+			if(myConfig->readConfigString("LogDir") != "" && dirExists) {
 
 				// detect current time
 				char curDateTime[20];
@@ -54,7 +54,7 @@ Log::Log(ConfigFile *c) : mySqliteLogDb(0), myConfig(c), curGameID(0), curHandID
 				strftime(curDate,11,"%Y-%m-%d",z);
 				strftime(curTime,9,"%H:%M:%S",z);
 
-                                string mySqliteLogFileName = boost::lexical_cast<string>((myConfig->readConfigString("LogDir")).c_str());
+				string mySqliteLogFileName = boost::lexical_cast<string>((myConfig->readConfigString("LogDir")).c_str());
 				mySqliteLogFileName += "pokerth-log-" + boost::lexical_cast<string>(curDateTime) + ".pdb";
 
 				// open sqlite-db
@@ -63,23 +63,23 @@ Log::Log(ConfigFile *c) : mySqliteLogDb(0), myConfig(c), curGameID(0), curHandID
 
 					int i;
 					// create session table
-                                        sql += "CREATE TABLE Session (";
+					sql += "CREATE TABLE Session (";
 					sql += "PokerTH_Version TEXT NOT NULL";
 					sql += ",Date TEXT NOT NULL";
 					sql += ",Time TEXT NOT NULL";
-                                        sql += ", PRIMARY KEY(Date,Time));";
+					sql += ", PRIMARY KEY(Date,Time));";
 
-                                        sql += "INSERT INTO Session (";
+					sql += "INSERT INTO Session (";
 					sql += "PokerTH_Version";
 					sql += ",Date";
 					sql += ",Time";
 					sql += ") VALUES (";
 					sql += "\"" + boost::lexical_cast<string>(POKERTH_BETA_RELEASE_STRING) + "\",";
 					sql += "\"" + boost::lexical_cast<string>(curDate) + "\",";
-                                        sql += "\"" + boost::lexical_cast<string>(curTime) + "\");";
+					sql += "\"" + boost::lexical_cast<string>(curTime) + "\");";
 
 					// create game table
-                                        sql += "CREATE TABLE Game (";
+					sql += "CREATE TABLE Game (";
 					sql += "GameID INTEGER NOT NULL PRIMARY KEY";
 					sql += ",Startmoney INTEGER NOT NULL";
 					sql += ",StartSb INTEGER NOT NULL";
@@ -88,10 +88,10 @@ Log::Log(ConfigFile *c) : mySqliteLogDb(0), myConfig(c), curGameID(0), curHandID
 						sql += ",Seat_" + boost::lexical_cast<std::string>(i) + " TEXT";
 					}
 					sql += ",Winner_Seat INTEGER";
-                                        sql += ");";
+					sql += ");";
 
 					// create hand table
-                                        sql += "CREATE TABLE Hand (";
+					sql += "CREATE TABLE Hand (";
 					sql += "HandID INTEGER NOT NULL";
 					sql += ",GameID INTEGER NOT NULL";
 					sql += ",Dealer_Seat INTEGER";
@@ -109,10 +109,10 @@ Log::Log(ConfigFile *c) : mySqliteLogDb(0), myConfig(c), curGameID(0), curHandID
 					for(i=1; i<=5; i++) {
 						sql += ",BoardCard_" + boost::lexical_cast<std::string>(i) + " INTEGER";
 					}
-                                        sql += ",PRIMARY KEY(HandID,GameID));";
+					sql += ",PRIMARY KEY(HandID,GameID));";
 
 					// create action table
-                                        sql += "CREATE TABLE Action (";
+					sql += "CREATE TABLE Action (";
 					sql += "ActionID INTEGER PRIMARY KEY AUTOINCREMENT";
 					sql += ",HandID INTEGER NOT NULL";
 					sql += ",GameID INTEGER NOT NULL";
@@ -120,9 +120,9 @@ Log::Log(ConfigFile *c) : mySqliteLogDb(0), myConfig(c), curGameID(0), curHandID
 					sql += ",Player INTEGER NOT NULL";
 					sql += ",Action TEXT NOT NULL";
 					sql += ",Amount INTEGER";
-                                        sql += ");";
+					sql += ");";
 
-                                        exec_transaction(&sql);
+					exec_transaction(&sql);
 				}
 			}
 		}
@@ -143,7 +143,7 @@ void Log::logNewGameMsg(int gameID, int startCash, int startSmallBlind, unsigned
 
 	if(SQLITE_LOG) {
 
-                if(myConfig->readConfigInt("LogOnOff")) {
+		if(myConfig->readConfigInt("LogOnOff")) {
 			//if write logfiles is enabled
 
 			PlayerListConstIterator it_c;
@@ -152,7 +152,7 @@ void Log::logNewGameMsg(int gameID, int startCash, int startSmallBlind, unsigned
 				// sqlite-db is open
 				int i;
 
-                                sql += "INSERT INTO Game (";
+				sql += "INSERT INTO Game (";
 				sql += "GameID";
 				sql += ",Startmoney";
 				sql += ",StartSb";
@@ -172,8 +172,8 @@ void Log::logNewGameMsg(int gameID, int startCash, int startSmallBlind, unsigned
 						sql += ",NULL";
 					}
 				}
-                                sql += ");";
-                                exec_transaction(&sql);
+				sql += ");";
+				exec_transaction(&sql);
 			}
 		}
 	}
@@ -183,11 +183,11 @@ void Log::logNewHandMsg(int handID, unsigned dealerPosition, int smallBlind, uns
 {
 
 	curHandID = handID;
-        logHoleCardsDone = false;
+	logHoleCardsDone = false;
 
 	if(SQLITE_LOG) {
 
-                if(myConfig->readConfigInt("LogOnOff")) {
+		if(myConfig->readConfigInt("LogOnOff")) {
 			//if write logfiles is enabled
 
 			PlayerListConstIterator it_c;
@@ -196,7 +196,7 @@ void Log::logNewHandMsg(int handID, unsigned dealerPosition, int smallBlind, uns
 				// sqlite-db is open
 				int i;
 
-                                sql += "INSERT INTO Hand (";
+				sql += "INSERT INTO Hand (";
 				sql += "HandID";
 				sql += ",GameID";
 				sql += ",Dealer_Seat";
@@ -222,31 +222,30 @@ void Log::logNewHandMsg(int handID, unsigned dealerPosition, int smallBlind, uns
 						sql += ",NULL";
 					}
 				}
-                                sql += ");";
-                                if(myConfig->readConfigInt("LogInterval") == 0) {
-                                        exec_transaction(&sql);
-                                }
+				sql += ");";
+				if(myConfig->readConfigInt("LogInterval") == 0) {
+					exec_transaction(&sql);
+				}
 
-                                // !! TODO !! Hack, weil Button-Regel noch falsch und dealerPosition noch teilweise falsche ID enthält (HeadsUp: dealerPosition=bigBlindPosition <-- falsch)
-                                bool dealerButtonOnTable = false;
-                                int countActivePlayer = 0;
-                                for(it_c = seatsList->begin(); it_c!=seatsList->end(); it_c++) {
-                                        if((*it_c)->getMyActiveStatus()) {
-                                                countActivePlayer++;
-                                                if((*it_c)->getMyButton()==BUTTON_DEALER && (*it_c)->getMyActiveStatus()) {
-                                                        dealerButtonOnTable = true;
-                                                }
-                                        }
-                                }
-                                if(countActivePlayer==2) {
-                                        logPlayerAction(0,smallBlindPosition,LOG_ACTION_DEALER);
-                                }
-                                else {
-                                        if(dealerButtonOnTable) {
-                                                logPlayerAction(0,dealerPosition,LOG_ACTION_DEALER);
-                                        }
-                                }
-                                // !! TODO !! Hack
+				// !! TODO !! Hack, weil Button-Regel noch falsch und dealerPosition noch teilweise falsche ID enthält (HeadsUp: dealerPosition=bigBlindPosition <-- falsch)
+				bool dealerButtonOnTable = false;
+				int countActivePlayer = 0;
+				for(it_c = seatsList->begin(); it_c!=seatsList->end(); it_c++) {
+					if((*it_c)->getMyActiveStatus()) {
+						countActivePlayer++;
+						if((*it_c)->getMyButton()==BUTTON_DEALER && (*it_c)->getMyActiveStatus()) {
+							dealerButtonOnTable = true;
+						}
+					}
+				}
+				if(countActivePlayer==2) {
+					logPlayerAction(0,smallBlindPosition,LOG_ACTION_DEALER);
+				} else {
+					if(dealerButtonOnTable) {
+						logPlayerAction(0,dealerPosition,LOG_ACTION_DEALER);
+					}
+				}
+				// !! TODO !! Hack
 			}
 		}
 	}
@@ -257,13 +256,13 @@ void Log::logPlayerAction(int bero, int seat, PlayerActionLog action, int amount
 
 	if(SQLITE_LOG) {
 
-                if(myConfig->readConfigInt("LogOnOff")) {
+		if(myConfig->readConfigInt("LogOnOff")) {
 			//if write logfiles is enabled
 
 			if( mySqliteLogDb != 0 ) {
 				// sqlite-db is open
 
-                                sql += "INSERT INTO Action (";
+				sql += "INSERT INTO Action (";
 				sql += "HandID";
 				sql += ",GameID";
 				sql += ",BeRo";
@@ -326,10 +325,10 @@ void Log::logPlayerAction(int bero, int seat, PlayerActionLog action, int amount
 				} else {
 					sql += ",NULL";
 				}
-                                sql += ");";
-                                if(myConfig->readConfigInt("LogInterval") == 0) {
-                                        exec_transaction(&sql);
-                                }
+				sql += ");";
+				if(myConfig->readConfigInt("LogInterval") == 0) {
+					exec_transaction(&sql);
+				}
 			}
 		}
 	}
@@ -339,7 +338,7 @@ void Log::logBoardCards(int bero, int boardCards[5])
 {
 	if(SQLITE_LOG) {
 
-                if(myConfig->readConfigInt("LogOnOff")) {
+		if(myConfig->readConfigInt("LogOnOff")) {
 			//if write logfiles is enabled
 
 			if( mySqliteLogDb != 0 ) {
@@ -347,19 +346,19 @@ void Log::logBoardCards(int bero, int boardCards[5])
 
 				switch(bero) {
 				case 2: {
-                                        sql += "UPDATE Hand SET ";
+					sql += "UPDATE Hand SET ";
 					sql += "BoardCard_1=" + boost::lexical_cast<string>(boardCards[0]) + ",";
 					sql += "BoardCard_2=" + boost::lexical_cast<string>(boardCards[1]) + ",";
 					sql += "BoardCard_3=" + boost::lexical_cast<string>(boardCards[2]);
 				}
 				break;
 				case 3: {
-                                        sql += "UPDATE Hand SET ";
+					sql += "UPDATE Hand SET ";
 					sql += "BoardCard_4=" + boost::lexical_cast<string>(boardCards[3]);
 				}
 				break;
 				case 4: {
-                                        sql += "UPDATE Hand SET ";
+					sql += "UPDATE Hand SET ";
 					sql += "BoardCard_5=" + boost::lexical_cast<string>(boardCards[4]);
 				}
 				break;
@@ -369,10 +368,10 @@ void Log::logBoardCards(int bero, int boardCards[5])
 				sql += " WHERE ";
 				sql += "GameID=" + boost::lexical_cast<string>(curGameID) + " AND ";
 				sql += "HandID=" + boost::lexical_cast<string>(curHandID);
-                                sql += ";";
-                                if(myConfig->readConfigInt("LogInterval") == 0) {
-                                        exec_transaction(&sql);
-                                }
+				sql += ";";
+				if(myConfig->readConfigInt("LogInterval") == 0) {
+					exec_transaction(&sql);
+				}
 			}
 		}
 	}
@@ -382,47 +381,47 @@ void Log::logHoleCardsHandName(int bero, PlayerList activePlayerList)
 {
 	if(SQLITE_LOG) {
 
-                if(myConfig->readConfigInt("LogOnOff")) {
+		if(myConfig->readConfigInt("LogOnOff")) {
 			//if write logfiles is enabled
 
-                        if( mySqliteLogDb != 0 && (bero==5 || !logHoleCardsDone)) {
-                                // sqlite-db is open and we are in postriver or before postriver doesn't log hole cards til now
+			if( mySqliteLogDb != 0 && (bero==5 || !logHoleCardsDone)) {
+				// sqlite-db is open and we are in postriver or before postriver doesn't log hole cards til now
 
-                                PlayerListConstIterator it_c;
-                                int myCards[2];
+				PlayerListConstIterator it_c;
+				int myCards[2];
 
-                                for(it_c=activePlayerList->begin(); it_c!=activePlayerList->end(); ++it_c) {
-                                        if( (*it_c)->getMyAction() != PLAYER_ACTION_FOLD) {
-                                                (*it_c)->getMyCards(myCards);
-                                                sql += "UPDATE Hand SET ";
-                                                if(bero==5) {
-                                                        sql += "Seat_" + boost::lexical_cast<string>((*it_c)->getMyID()+1) + "_Hand_text=\"" + CardsValue::determineHandName((*it_c)->getMyCardsValueInt(),activePlayerList) + "\"";
-                                                        sql += ",Seat_" + boost::lexical_cast<string>((*it_c)->getMyID()+1) + "_Hand_int=" + boost::lexical_cast<string>((*it_c)->getMyCardsValueInt());
-                                                }
-                                                if(bero==5 && !logHoleCardsDone) {
-                                                        sql+= ",";
-                                                }
-                                                if(!logHoleCardsDone) {
-                                                        sql += "Seat_" + boost::lexical_cast<string>((*it_c)->getMyID()+1) + "_Card_1=" + boost::lexical_cast<string>(myCards[0]);
-                                                        sql += ",Seat_" + boost::lexical_cast<string>((*it_c)->getMyID()+1) + "_Card_2=" + boost::lexical_cast<string>(myCards[1]);
-                                                }
-                                                sql += " WHERE ";
-                                                sql += "GameID=" + boost::lexical_cast<string>(curGameID) + " AND ";
-                                                sql += "HandID=" + boost::lexical_cast<string>(curHandID);
-                                                sql += ";";
-                                                if(myConfig->readConfigInt("LogInterval") == 0) {
-                                                        exec_transaction(&sql);
-                                                }
+				for(it_c=activePlayerList->begin(); it_c!=activePlayerList->end(); ++it_c) {
+					if( (*it_c)->getMyAction() != PLAYER_ACTION_FOLD) {
+						(*it_c)->getMyCards(myCards);
+						sql += "UPDATE Hand SET ";
+						if(bero==5) {
+							sql += "Seat_" + boost::lexical_cast<string>((*it_c)->getMyID()+1) + "_Hand_text=\"" + CardsValue::determineHandName((*it_c)->getMyCardsValueInt(),activePlayerList) + "\"";
+							sql += ",Seat_" + boost::lexical_cast<string>((*it_c)->getMyID()+1) + "_Hand_int=" + boost::lexical_cast<string>((*it_c)->getMyCardsValueInt());
+						}
+						if(bero==5 && !logHoleCardsDone) {
+							sql+= ",";
+						}
+						if(!logHoleCardsDone) {
+							sql += "Seat_" + boost::lexical_cast<string>((*it_c)->getMyID()+1) + "_Card_1=" + boost::lexical_cast<string>(myCards[0]);
+							sql += ",Seat_" + boost::lexical_cast<string>((*it_c)->getMyID()+1) + "_Card_2=" + boost::lexical_cast<string>(myCards[1]);
+						}
+						sql += " WHERE ";
+						sql += "GameID=" + boost::lexical_cast<string>(curGameID) + " AND ";
+						sql += "HandID=" + boost::lexical_cast<string>(curHandID);
+						sql += ";";
+						if(myConfig->readConfigInt("LogInterval") == 0) {
+							exec_transaction(&sql);
+						}
 
-                                                if(!logHoleCardsDone) {
-                                                        logPlayerAction(bero,(*it_c)->getMyID()+1,LOG_ACTION_SHOW);
-                                                } else {
-                                                        logPlayerAction(bero,(*it_c)->getMyID()+1,LOG_ACTION_HAS);
-                                                }
-                                        }
-                                }
+						if(!logHoleCardsDone) {
+							logPlayerAction(bero,(*it_c)->getMyID()+1,LOG_ACTION_SHOW);
+						} else {
+							logPlayerAction(bero,(*it_c)->getMyID()+1,LOG_ACTION_HAS);
+						}
+					}
+				}
 
-                                logHoleCardsDone = true;
+				logHoleCardsDone = true;
 			}
 		}
 	}
@@ -430,16 +429,16 @@ void Log::logHoleCardsHandName(int bero, PlayerList activePlayerList)
 
 void Log::exec_transaction(string *sql)
 {
-        char *errmsg = NULL;
+	char *errmsg = NULL;
 
-        string sql_transaction = "BEGIN;" + *sql + "COMMIT;";
-        *sql = "";
+	string sql_transaction = "BEGIN;" + *sql + "COMMIT;";
+	*sql = "";
 
-        if(sqlite3_exec(mySqliteLogDb, sql_transaction.data(), 0, 0, &errmsg) != SQLITE_OK) {
-                cout << "Error in statement: " << sql_transaction.data() << "[" << errmsg << "]." << endl;
-                sqlite3_free(errmsg);
-                errmsg = NULL;
-        }
+	if(sqlite3_exec(mySqliteLogDb, sql_transaction.data(), 0, 0, &errmsg) != SQLITE_OK) {
+		cout << "Error in statement: " << sql_transaction.data() << "[" << errmsg << "]." << endl;
+		sqlite3_free(errmsg);
+		errmsg = NULL;
+	}
 }
 
 //void

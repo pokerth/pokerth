@@ -248,13 +248,11 @@ void ChatTools::nickAutoCompletition()
 
 		if(lastChatString == "") {
 			myLineEdit->setText(lastMatchStringList.at(nickAutoCompletitionCounter)+": ");
-		}
-		else {
+		} else {
 			//check if lastChatString is pm-code
 			if((lastChatString == "/msg" || lastChatString == "/msg ") && lastMatchStringList.at(nickAutoCompletitionCounter).contains(" ")) {
 				myLineEdit->setText(lastChatString+" \""+lastMatchStringList.at(nickAutoCompletitionCounter)+"\" ");
-			}
-			else {
+			} else {
 				myLineEdit->setText(lastChatString+" "+lastMatchStringList.at(nickAutoCompletitionCounter)+" ");
 			}
 		}

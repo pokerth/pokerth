@@ -88,10 +88,10 @@ public:
 		return startQuantityPlayers;
 	}
 
-        void setCurrentRound(GameState theValue) {
+	void setCurrentRound(GameState theValue) {
 		currentRound = theValue;
 	}
-        GameState getCurrentRound() const {
+	GameState getCurrentRound() const {
 		return currentRound;
 	}
 
@@ -130,16 +130,16 @@ public:
 		return bettingRoundsPlayed;
 	}
 
-        void setPreviousPlayerID(int theValue) {
-                previousPlayerID = theValue;
+	void setPreviousPlayerID(int theValue) {
+		previousPlayerID = theValue;
 	}
-        int getPreviousPlayerID() const {
-                return previousPlayerID;
+	int getPreviousPlayerID() const {
+		return previousPlayerID;
 	}
 
-        void setLastActionPlayerID ( unsigned theValue );
-        unsigned getLastActionPlayerID() const {
-                return lastActionPlayerID;
+	void setLastActionPlayerID ( unsigned theValue );
+	unsigned getLastActionPlayerID() const {
+		return lastActionPlayerID;
 	}
 
 	void setCardsShown(bool theValue) {
@@ -177,12 +177,12 @@ private:
 	unsigned dealerPosition;
 	unsigned smallBlindPosition;
 	unsigned bigBlindPosition;
-        GameState currentRound;
+	GameState currentRound;
 	int smallBlind;
 	int startCash;
 
-        int previousPlayerID;
-        unsigned lastActionPlayerID;
+	int previousPlayerID;
+	unsigned lastActionPlayerID;
 
 	bool allInCondition;
 	bool cardsShown;
