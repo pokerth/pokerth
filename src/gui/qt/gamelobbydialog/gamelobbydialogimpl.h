@@ -157,6 +157,7 @@ private:
 
 	QString myAppDataPath;
 	QMessageBox *waitStartGameMsgBox;
+	QMessageBox *waitRejoinStartGameMsgBox;
 	QTimer *waitStartGameMsgBoxTimer;
 	QTimer *blinkingButtonAnimationTimer;
 	QTimer *showInfoMsgBoxTimer;

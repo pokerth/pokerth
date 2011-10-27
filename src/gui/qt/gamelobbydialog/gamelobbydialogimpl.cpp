@@ -52,6 +52,16 @@ gameLobbyDialogImpl::gameLobbyDialogImpl(startWindowImpl *parent, ConfigFile *c)
 #endif
 	waitStartGameMsgBox->setStandardButtons(QMessageBox::NoButton);
 
+	//wait start game message for rejoin
+	waitRejoinStartGameMsgBox = new QMessageBox(this);
+	waitRejoinStartGameMsgBox->setText(tr("Reconnection done! Now we are waiting for the next hand to rejoin the game ..."));
+	waitRejoinStartGameMsgBox->setWindowModality(Qt::NonModal);
+#ifdef __APPLE__
+	waitRejoinStartGameMsgBox->setWindowFlags(Qt::WindowSystemMenuHint | Qt::CustomizeWindowHint | Qt::Dialog);
+#endif
+	waitRejoinStartGameMsgBox->setStandardButtons(QMessageBox::NoButton);
+
+
 	waitStartGameMsgBoxTimer = new QTimer(this);
 	waitStartGameMsgBoxTimer->setSingleShot(TRUE);
 	blinkingButtonAnimationTimer = new QTimer(this);
@@ -192,6 +202,7 @@ void gameLobbyDialogImpl::exec()
 
 	waitStartGameMsgBoxTimer->stop();
 	waitStartGameMsgBox->hide();
+	waitRejoinStartGameMsgBox->hide();
 }
 
 
@@ -381,15 +392,23 @@ void gameLobbyDialogImpl::refresh(int actionID)
 		headerList2 << tr("Available Players");
 		myNickListModel->setHorizontalHeaderLabels(headerList2);
 
-		//stop waitStartGameMsgBox
+		//stop waitStartGameMsgBoxes
 		waitStartGameMsgBoxTimer->stop();
 		waitStartGameMsgBox->hide();
+		waitRejoinStartGameMsgBox->hide();
 
 		this->accept();
 		myW->show();
 	} else if(actionID == MSG_NET_GAME_CLIENT_SYNCSTART) {
 
 		waitStartGameMsgBoxTimer->start(2000);
+	} else if(actionID == MSG_NET_GAME_CLIENT_SYNCREJOIN) {
+
+		if(this->isVisible()) {
+			waitRejoinStartGameMsgBox->show();
+			waitRejoinStartGameMsgBox->raise();
+			waitRejoinStartGameMsgBox->activateWindow();
+		}
 	}
 }
 
@@ -1202,9 +1221,10 @@ void gameLobbyDialogImpl::leaveGame()
 	autoStartTimerOverlay->hide();
 	autoStartTimer->stop();
 
-	//stop waitStartGameMsgBox
+	//stop waitStartGameMsgBoxes
 	waitStartGameMsgBoxTimer->stop();
 	waitStartGameMsgBox->hide();
+	waitRejoinStartGameMsgBox->hide();
 }
 
 void gameLobbyDialogImpl::kickPlayer()
@@ -1317,6 +1337,7 @@ void gameLobbyDialogImpl::showWaitStartGameMsgBox()
 void gameLobbyDialogImpl::hideWaitStartGameMsgBox()
 {
 	waitStartGameMsgBox->hide();
+	waitRejoinStartGameMsgBox->hide();
 }
 
 void gameLobbyDialogImpl::joinAnyGameButtonRefresh()
@@ -1348,9 +1369,10 @@ void gameLobbyDialogImpl::reject()
 void gameLobbyDialogImpl::closeEvent(QCloseEvent *event)
 {
 	event->accept();
-	//stop waitStartGameMsgBox
+	//stop waitStartGameMsgBoxes
 	waitStartGameMsgBoxTimer->stop();
 	waitStartGameMsgBox->hide();
+	waitRejoinStartGameMsgBox->hide();
 }
 
 

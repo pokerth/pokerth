@@ -371,14 +371,15 @@ void startWindowImpl::callInternetGameLoginDialog()
 
 
 void startWindowImpl::callRejoinPossibleDialog(unsigned gameId)
-{
-//	assert(mySession);
-//	GameInfo info(mySession->getClientGameInfo(gameId));
+{/*
+	assert(mySession);
+	GameInfo info(mySession->getClientGameInfo(gameId));*/
 
 	QMessageBox msgBox;
 	msgBox.setIcon(QMessageBox::Question);
 	msgBox.setWindowTitle("Rejoin possible!");
-	msgBox.setText(QString("There is an existing session with the game: %1").arg("QString::fromUtf8(info.name.c_str())"));
+//	msgBox.setText(QString("There is an existing session with the game: %1").arg(QString::fromUtf8(info.name.c_str())));
+	msgBox.setText("There is an existing session with a previous game.");
 	msgBox.setInformativeText("Do you want to rejoin this game?");
 	msgBox.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
 	msgBox.setDefaultButton(QMessageBox::Yes);
