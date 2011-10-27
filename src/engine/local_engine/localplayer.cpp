@@ -849,7 +849,7 @@ LocalPlayer::LocalPlayer(ConfigFile *c, int id, unsigned uniqueId, PlayerType ty
 	: PlayerInterface(), myConfig(c), currentHand(0), myID(id), myUniqueID(uniqueId), myType(type), myName(name), myAvatar(avatar),
 	  myDude(0), myDude4(0), myCardsValueInt(0), myOdds(-1.0), myCash(sC), mySet(0), myLastRelativeSet(0), myAction(PLAYER_ACTION_NONE),
 	  myButton(mB), myActiveStatus(aS), myStayOnTableStatus(1), myTurn(0), myCardsFlip(0), myRoundStartCash(0), lastMoneyWon(0),
-	  sBluff(0), sBluffStatus(0), myWinnerState(false), m_actionTimeoutCounter(0), m_isConnected(false)
+	  sBluff(0), sBluffStatus(false), myWinnerState(false), m_actionTimeoutCounter(0), m_isConnected(false)
 {
 
 	// !!!!!!!!!!!!!!!!!!!!!!!! testing !!!!!!!!!!!!!!!!!!!!!!!!
@@ -1298,10 +1298,10 @@ void LocalPlayer::preflopEngine()
 	// 	cout << sBluff << endl;
 
 	// auf sBluff testen --> raise statt call oder fold
-	if((sBluff < 100/((((int)currentHand->getActivePlayerList()->size()-2)*6)+3) && myOdds < myNiveau[2] && currentHand->getCurrentBeRo()->getHighestSet() == 2*currentHand->getSmallBlind() && sBluffStatus == 0) || sBluffStatus == 1) {
+	if((sBluff < 100/((((int)currentHand->getActivePlayerList()->size()-2)*6)+3) && myOdds < myNiveau[2] && currentHand->getCurrentBeRo()->getHighestSet() == 2*currentHand->getSmallBlind() && !sBluffStatus) || sBluffStatus) {
 
 		// 		cout << "sBLUFF!" << endl;
-		sBluffStatus = 1;
+		sBluffStatus = true;
 
 		// Gegner raisen ebenfalls -> call
 		if(currentHand->getCurrentBeRo()->getHighestSet() >= 4*currentHand->getSmallBlind()) {
