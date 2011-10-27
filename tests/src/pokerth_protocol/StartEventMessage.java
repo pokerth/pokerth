@@ -29,11 +29,84 @@ import org.bn.types.*;
     
 	private NonZeroId gameId = null;
                 
-  @ASN1Boolean( name = "" )
+  
+        
+    @ASN1PreparedElement
+    @ASN1Choice ( name = "startEventType" )
+    public static class StartEventTypeChoiceType implements IASN1PreparedElement {
+            
+        @ASN1Element ( name = "startEvent", isOptional =  false , hasTag =  true, tag = 0 , hasDefaultValue =  false  )
     
-        @ASN1Element ( name = "fillWithComputerPlayers", isOptional =  false , hasTag =  false  , hasDefaultValue =  false  )
+	private StartEvent startEvent = null;
+                
+  
+        @ASN1Element ( name = "rejoinEvent", isOptional =  false , hasTag =  true, tag = 1 , hasDefaultValue =  false  )
     
-	private Boolean fillWithComputerPlayers = null;
+	private RejoinEvent rejoinEvent = null;
+                
+  
+        
+        public StartEvent getStartEvent () {
+            return this.startEvent;
+        }
+
+        public boolean isStartEventSelected () {
+            return this.startEvent != null;
+        }
+
+        private void setStartEvent (StartEvent value) {
+            this.startEvent = value;
+        }
+
+        
+        public void selectStartEvent (StartEvent value) {
+            this.startEvent = value;
+            
+                    setRejoinEvent(null);
+                            
+        }
+
+        
+  
+        
+        public RejoinEvent getRejoinEvent () {
+            return this.rejoinEvent;
+        }
+
+        public boolean isRejoinEventSelected () {
+            return this.rejoinEvent != null;
+        }
+
+        private void setRejoinEvent (RejoinEvent value) {
+            this.rejoinEvent = value;
+        }
+
+        
+        public void selectRejoinEvent (RejoinEvent value) {
+            this.rejoinEvent = value;
+            
+                    setStartEvent(null);
+                            
+        }
+
+        
+  
+
+	    public void initWithDefaults() {
+	    }
+
+        public IASN1PreparedElementData getPreparedData() {
+            return preparedData_StartEventTypeChoiceType;
+        }
+
+        private static IASN1PreparedElementData preparedData_StartEventTypeChoiceType = CoderFactory.getInstance().newPreparedElementData(StartEventTypeChoiceType.class);
+
+    }
+
+                
+        @ASN1Element ( name = "startEventType", isOptional =  false , hasTag =  false  , hasDefaultValue =  false  )
+    
+	private StartEventTypeChoiceType startEventType = null;
                 
   
         
@@ -49,14 +122,14 @@ import org.bn.types.*;
         
   
         
-        public Boolean getFillWithComputerPlayers () {
-            return this.fillWithComputerPlayers;
+        public StartEventTypeChoiceType getStartEventType () {
+            return this.startEventType;
         }
 
         
 
-        public void setFillWithComputerPlayers (Boolean value) {
-            this.fillWithComputerPlayers = value;
+        public void setStartEventType (StartEventTypeChoiceType value) {
+            this.startEventType = value;
         }
         
   

@@ -31,6 +31,7 @@ import pokerth_protocol.NetGameInfo;
 import pokerth_protocol.NonZeroId;
 import pokerth_protocol.PlayerResult;
 import pokerth_protocol.PokerTHMessage;
+import pokerth_protocol.StartEvent;
 import pokerth_protocol.StartEventAckMessage;
 import pokerth_protocol.StartEventMessage;
 import pokerth_protocol.NetGameInfo.EndRaiseModeEnumType;
@@ -38,6 +39,7 @@ import pokerth_protocol.NetGameInfo.NetGameTypeEnumType;
 import pokerth_protocol.StartEventAckMessage.StartEventAckMessageSequenceType;
 import pokerth_protocol.StartEventMessage.StartEventMessageSequenceType;
 import pokerth_protocol.InitialNonZeroAmountOfMoney;
+import pokerth_protocol.StartEventMessage.StartEventMessageSequenceType.StartEventTypeChoiceType;
 
 
 public class RunNormalGameTest extends TestBase {
@@ -92,9 +94,13 @@ public class RunNormalGameTest extends TestBase {
 			fail("Invalid message.");
 		}
 
+		StartEvent startEvent = new StartEvent();
+		startEvent.setFillWithComputerPlayers(true);
+		StartEventTypeChoiceType eventType = new StartEventTypeChoiceType();
+		eventType.selectStartEvent(startEvent);
 		StartEventMessageSequenceType gameStartType = new StartEventMessageSequenceType();
 		gameStartType.setGameId(new NonZeroId(gameId));
-		gameStartType.setFillWithComputerPlayers(true);
+		gameStartType.setStartEventType(eventType);
 		StartEventMessage startMsg = new StartEventMessage();
 		startMsg.setValue(gameStartType);
 		msg = new PokerTHMessage();
