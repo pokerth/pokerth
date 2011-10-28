@@ -54,7 +54,7 @@ gameLobbyDialogImpl::gameLobbyDialogImpl(startWindowImpl *parent, ConfigFile *c)
 
 	//wait start game message for rejoin
 	waitRejoinStartGameMsgBox = new QMessageBox(this);
-	waitRejoinStartGameMsgBox->setText(tr("Reconnection done! Now we are waiting for the next hand to rejoin the game ..."));
+	waitRejoinStartGameMsgBox->setText(tr("Waiting for the start of the next hand to rejoin the game ..."));
 	waitRejoinStartGameMsgBox->setWindowModality(Qt::NonModal);
 #ifdef __APPLE__
 	waitRejoinStartGameMsgBox->setWindowFlags(Qt::WindowSystemMenuHint | Qt::CustomizeWindowHint | Qt::Dialog);
