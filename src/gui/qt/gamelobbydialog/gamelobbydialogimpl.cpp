@@ -408,6 +408,7 @@ void gameLobbyDialogImpl::refresh(int actionID)
 			waitRejoinStartGameMsgBox->show();
 			waitRejoinStartGameMsgBox->raise();
 			waitRejoinStartGameMsgBox->activateWindow();
+			pushButton_Leave->setDisabled(true);
 		}
 	}
 }
@@ -1090,6 +1091,7 @@ void gameLobbyDialogImpl::joinedGameDialogUpdate()
 	pushButton_JoinGame->hide();
 	pushButton_joinAnyGame->hide();
 	pushButton_Leave->show();
+	pushButton_Leave->setEnabled(true);
 
 	//this was added to show game infos even if no game was selected (e.g. invite only game)
 	assert(mySession);
@@ -1331,6 +1333,7 @@ void gameLobbyDialogImpl::showWaitStartGameMsgBox()
 		waitStartGameMsgBox->show();
 		waitStartGameMsgBox->raise();
 		waitStartGameMsgBox->activateWindow();
+		pushButton_Leave->setDisabled(true);
 	}
 }
 
