@@ -41,7 +41,7 @@ public:
 		myStyle = theValue;
 	}
 	void paintEvent(QPaintEvent * event);
-	void refreshChance(std::vector< std::vector<int> >);
+	void refreshChance(std::vector< std::vector<int> >, bool);
 	void resetChance();
 
 private:
@@ -58,6 +58,8 @@ private:
 	int TPChance[2];
 	int OPChance[2];
 	int HCChance[2];
+
+	bool myFoldState;
 };
 
 #endif

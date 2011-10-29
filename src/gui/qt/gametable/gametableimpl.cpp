@@ -3527,14 +3527,19 @@ void gameTableImpl::refreshCardsChance(GameState bero)
 	if(myConfig->readConfigInt("ShowCardsChanceMonitor")) {
 
 		boost::shared_ptr<PlayerInterface> humanPlayer = myStartWindow->getSession()->getCurrentGame()->getSeatsList()->front();
-		if(humanPlayer->getMyActiveStatus() && humanPlayer->getMyAction() != PLAYER_ACTION_FOLD) {
+		if(humanPlayer->getMyActiveStatus()) {
 			int boardCards[5];
 			int holeCards[2];
 
 			humanPlayer->getMyCards(holeCards);
 			myStartWindow->getSession()->getCurrentGame()->getCurrentHand()->getBoard()->getMyCards(boardCards);
 
-			label_chance->refreshChance(CardsValue::calcCardsChance(bero, holeCards, boardCards));
+			if(humanPlayer->getMyAction() == PLAYER_ACTION_FOLD) {
+				label_chance->refreshChance(CardsValue::calcCardsChance(bero, holeCards, boardCards), true);
+			}
+			else {
+				label_chance->refreshChance(CardsValue::calcCardsChance(bero, holeCards, boardCards), false);
+			}
 		} else {
 			label_chance->resetChance();
 		}
