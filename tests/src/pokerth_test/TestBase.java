@@ -240,13 +240,14 @@ public abstract class TestBase {
 			assertTrue(initAck.getValue().getYourPlayerId().getValue() != 0L);
 			assertTrue(!initAck.getValue().isYourAvatarPresent());
 			playerId = initAck.getValue().getYourPlayerId().getValue();
-			if (lastSessionId != null)
-			{
+			if (lastSessionId != null) {
 				lastSessionId.setValue(initAck.getValue().getYourSessionId().getValue());
 			}
-			if (initAck.getValue().isRejoinGameIdPresent())
-			{
+			if (initAck.getValue().isRejoinGameIdPresent()) {
 				lastRejoinGameId = initAck.getValue().getRejoinGameId().getValue();
+			}
+			else {
+				lastRejoinGameId = 0;
 			}
 		}
 		else {
