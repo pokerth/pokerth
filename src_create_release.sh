@@ -1,13 +1,18 @@
 #!/bin/bash
 if [[ -n "$1" && -n "$2"  ]] ; then
 
+	rm PokerTH-$1-src.tar.bz2
 	rm -r PokerTH-$1-src
 	mkdir PokerTH-$1-src
 	cd PokerTH-$1-src
 	
 	# CHECKOUT PokerTH SOURCECODE
-	svn co http://pokerth.svn.sourceforge.net/svnroot/pokerth/trunk/pokerth .
-	
+	if [[ -n "$3" ]] ; then
+	  svn co http://pokerth.svn.sourceforge.net/svnroot/pokerth/trunk/pokerth . -r $3
+	else
+	  svn co http://pokerth.svn.sourceforge.net/svnroot/pokerth/trunk/pokerth .
+	fi
+
 	# CLEAN SOURCES
 	svn cleanup
 	find . -type d -name .svn -exec rm -rf {} \;
@@ -32,5 +37,5 @@ if [[ -n "$1" && -n "$2"  ]] ; then
 	rm -r PokerTH-$1-src
 
 else
-echo "Please use 'linux-create-release.sh version sf-dir-version'"
+echo "Please use 'linux-create-release.sh version sf-dir-version (svn-rev)'"
 fi
