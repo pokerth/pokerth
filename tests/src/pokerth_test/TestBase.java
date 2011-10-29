@@ -62,6 +62,7 @@ public abstract class TestBase {
 	protected IDecoder decoder;
 	protected Socket sock;
 	protected Connection dbConn;
+	protected long lastRejoinGameId = 0;
 
 	@Before
 	public void dbInit() throws Exception {
@@ -174,10 +175,10 @@ public abstract class TestBase {
 	}
 
 	public long userInit(Socket s, String user, String password) throws Exception {
-		return userInit(s, user, password, null);
+		return userInit(s, user, password, null, null);
 	}
 
-	public long userInit(Socket s, String user, String password, byte[] avatarData) throws Exception {
+	public long userInit(Socket s, String user, String password, byte[] avatarData, Guid lastSessionId) throws Exception {
 		long playerId = 0;
 		PokerTHMessage msg = receiveMessage(s);
 		AnnounceMessage announce = msg.getAnnounceMessage();
@@ -202,6 +203,10 @@ public abstract class TestBase {
 		msgType.setBuildId(0L);
 		msgType.setLogin(loginType);
 		msgType.setRequestedVersion(requestedVersion);
+		if (lastSessionId != null && lastSessionId.getValue() != null)
+		{
+			msgType.setMyLastSessionId(lastSessionId);
+		}
 		InitMessage init = new InitMessage();
 		init.setValue(msgType);
 		msg = new PokerTHMessage();
@@ -235,6 +240,14 @@ public abstract class TestBase {
 			assertTrue(initAck.getValue().getYourPlayerId().getValue() != 0L);
 			assertTrue(!initAck.getValue().isYourAvatarPresent());
 			playerId = initAck.getValue().getYourPlayerId().getValue();
+			if (lastSessionId != null)
+			{
+				lastSessionId.setValue(initAck.getValue().getYourSessionId().getValue());
+			}
+			if (initAck.getValue().isRejoinGameIdPresent())
+			{
+				lastRejoinGameId = initAck.getValue().getRejoinGameId().getValue();
+			}
 		}
 		else {
 			failOnErrorMessage(msg);
@@ -275,6 +288,23 @@ public abstract class TestBase {
 		}
 		JoinGameActionChoiceType joinAction = new JoinGameActionChoiceType();
 		joinAction.selectJoinExistingGame(joinExisting);
+		JoinGameRequestMessageSequenceType joinType = new JoinGameRequestMessageSequenceType();
+		joinType.setJoinGameAction(joinAction);
+		joinType.setAutoLeave(autoLeave);
+
+		JoinGameRequestMessage joinRequest = new JoinGameRequestMessage();
+		joinRequest.setValue(joinType);
+
+		PokerTHMessage msg = new PokerTHMessage();
+		msg.selectJoinGameRequestMessage(joinRequest);
+		return msg;
+	}
+
+	public PokerTHMessage rejoinGameRequestMsg(long gameId, boolean autoLeave) {
+		RejoinExistingGame rejoinExisting = new RejoinExistingGame();
+		rejoinExisting.setGameId(new NonZeroId(gameId));
+		JoinGameActionChoiceType joinAction = new JoinGameActionChoiceType();
+		joinAction.selectRejoinExistingGame(rejoinExisting);
 		JoinGameRequestMessageSequenceType joinType = new JoinGameRequestMessageSequenceType();
 		joinType.setJoinGameAction(joinAction);
 		joinType.setAutoLeave(autoLeave);

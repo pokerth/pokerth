@@ -65,7 +65,7 @@ public class PlayerInfoTest extends TestBase {
 			if (i % 2 == 0) {
 				playerId[i] = userInit(s[i], username, password);
 			} else {
-				playerId[i] = userInit(s[i], username, password, avatarHash);
+				playerId[i] = userInit(s[i], username, password, avatarHash, null);
 			}
 			if (playerId[i] > maxPlayerId) {
 				maxPlayerId = playerId[i];

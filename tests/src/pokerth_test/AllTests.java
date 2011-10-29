@@ -37,7 +37,8 @@ import org.junit.runners.Suite;
 	StartNormalGameTest.class,
 	RunNormalGameTest.class,
 	BlockedPlayerTest.class,
-	RunRankingGameTest.class
+	RunRankingGameTest.class,
+	RejoinGameTest.class
 })
 public class AllTests {
 	public static void main(String[] args)
