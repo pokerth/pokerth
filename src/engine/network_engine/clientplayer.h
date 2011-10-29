@@ -109,8 +109,6 @@ public:
 	void setSBluffStatus (bool theValue);
 	bool getSBluffStatus() const;
 
-	void setMyWinnerState (bool theValue, int pot);
-
 	void action();
 	int checkMyAction(int targetAction, int targetBet, int highestSet, int minimumRaise, int smallBlind);
 
@@ -186,7 +184,6 @@ private:
 	int sBluff;
 	bool sBluffStatus;
 
-	bool myWinnerState;
 	bool m_isConnected;
 };
 

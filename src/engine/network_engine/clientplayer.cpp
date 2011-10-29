@@ -26,7 +26,7 @@ ClientPlayer::ClientPlayer(ConfigFile *c, int id, unsigned uniqueId, PlayerType 
 	: PlayerInterface(), myConfig(c), currentHand(0), myID(id), myUniqueID(uniqueId), myType(type),
 	  myName(name), myAvatar(avatar), myDude(0), myDude4(0), myCardsValueInt(0), myOdds(-1.0), myCash(sC), mySet(0), myLastRelativeSet(0),
 	  myAction(PLAYER_ACTION_NONE), myButton(mB), myActiveStatus(aS), myStayOnTableStatus(true), myTurn(false), myCardsFlip(false), myRoundStartCash(0),
-	  lastMoneyWon(0), sBluff(0), sBluffStatus(false), myWinnerState(false), m_isConnected(false)
+	  lastMoneyWon(0), sBluff(0), sBluffStatus(false), m_isConnected(false)
 {
 	myBestHandPosition[0] = myBestHandPosition[1] = myBestHandPosition[2] = myBestHandPosition[3] = myBestHandPosition[4] = 0;
 	myNiveau[0] = myNiveau[1] = myNiveau[2] = 0;
@@ -432,14 +432,6 @@ ClientPlayer::getSBluffStatus() const
 {
 	boost::recursive_mutex::scoped_lock lock(m_syncMutex);
 	return sBluffStatus;
-}
-
-void
-ClientPlayer::setMyWinnerState(bool theValue, int pot)
-{
-	boost::recursive_mutex::scoped_lock lock(m_syncMutex);
-	if(theValue) myWinnerState = theValue;
-	currentHand->getGuiInterface()->logPlayerWinsMsg(myName, pot, theValue);
 }
 
 void

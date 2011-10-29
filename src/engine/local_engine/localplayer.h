@@ -251,11 +251,6 @@ public:
 		return sBluffStatus;
 	}
 
-	void setMyWinnerState ( bool theValue, int pot ) {
-		if(theValue) myWinnerState = theValue;
-		currentHand->getGuiInterface()->logPlayerWinsMsg(myName, pot, theValue);
-	}
-
 	void action();
 
 	int checkMyAction(int targetAction, int targetBet, int highestSet, int minimumRaise, int smallBlind);
@@ -326,8 +321,6 @@ private:
 
 	int sBluff;
 	bool sBluffStatus;
-
-	bool myWinnerState;
 
 	unsigned m_actionTimeoutCounter;
 	bool m_isConnected;

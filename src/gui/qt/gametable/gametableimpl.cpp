@@ -2460,14 +2460,12 @@ void gameTableImpl::postRiverRunAnimation3()
 				}
 			}
 			//Pot-Verteilung Loggen
-			//Pro Spieler den Cash aus dem Player und dem Label auslesen. Player_cash - Label_cash = Gewinnsumme
-			int pot = (*it_c)->getLastMoneyWon();
 			//Wenn River dann auch das Blatt loggen!
 			// 			if (textLabel_handLabel->text() == "River") {
 
 			//set Player value (logging)
-			currentHand->getLog()->logPlayerAction(5,(*it_c)->getMyID()+1,LOG_ACTION_WIN,pot);
-			(*it_c)->setMyWinnerState(true, pot);
+			currentHand->getLog()->logPlayerAction(5,(*it_c)->getMyID()+1,LOG_ACTION_WIN,(*it_c)->getLastMoneyWon());
+			myGuiLog->logPlayerWinsMsg(QString::fromUtf8((*it_c)->getMyName().c_str()),(*it_c)->getLastMoneyWon(),true);
 
 			// 			}
 			// 			else {
@@ -2492,9 +2490,8 @@ void gameTableImpl::postRiverRunAnimation3()
 
 			for(it_int = winners.begin(); it_int != winners.end(); ++it_int) {
 				if((*it_int) == (*it_c)->getMyUniqueID()) {
-					int pot = (*it_c)->getLastMoneyWon();
-					currentHand->getLog()->logPlayerAction(5,(*it_c)->getMyID()+1,LOG_ACTION_WIN_SIDE_POT,pot);
-					(*it_c)->setMyWinnerState(false, pot);
+					currentHand->getLog()->logPlayerAction(5,(*it_c)->getMyID()+1,LOG_ACTION_WIN_SIDE_POT,(*it_c)->getLastMoneyWon());
+					myGuiLog->logPlayerWinsMsg(QString::fromUtf8((*it_c)->getMyName().c_str()), (*it_c)->getLastMoneyWon(), false);
 				}
 			}
 
