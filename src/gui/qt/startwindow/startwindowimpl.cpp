@@ -371,7 +371,8 @@ void startWindowImpl::callInternetGameLoginDialog()
 
 
 void startWindowImpl::callRejoinPossibleDialog(unsigned gameId)
-{/*
+{
+	/*
 	assert(mySession);
 	GameInfo info(mySession->getClientGameInfo(gameId));*/
 

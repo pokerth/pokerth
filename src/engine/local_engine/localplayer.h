@@ -255,11 +255,6 @@ public:
 		if(theValue) myWinnerState = theValue;
 		currentHand->getGuiInterface()->logPlayerWinsMsg(myName, pot, theValue);
 	}
-	bool getMyWinnerState() const {
-		return myWinnerState;
-	}
-
-
 
 	void action();
 

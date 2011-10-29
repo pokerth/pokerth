@@ -528,34 +528,35 @@ void LocalHand::setBlinds()
 void LocalHand::switchRounds()
 {
 
-//		// logging last player action
-//		PlayerListConstIterator previousPlayerIt = getRunningPlayerIt(previousPlayerID);
-//		if(previousPlayerIt == runningPlayerList->end()) {
-//				throw LocalException(__FILE__, __LINE__, ERR_RUNNING_PLAYER_NOT_FOUND);
-//		}
-
-
-//        switch((*previousPlayerIt)->getMyAction()) {
-//                case PLAYER_ACTION_FOLD: {
-//                        myLog->logPlayerAction(currentRound+1,(*previousPlayerIt)->getMyID()+1,LOG_ACTION_FOLD);
-//                } break;
-//                case PLAYER_ACTION_CHECK: {
-//                        myLog->logPlayerAction(currentRound+1,(*previousPlayerIt)->getMyID()+1,LOG_ACTION_CHECK);
-//                } break;
-//                case PLAYER_ACTION_CALL: {
-//                        myLog->logPlayerAction(currentRound+1,(*previousPlayerIt)->getMyID()+1,LOG_ACTION_CALL);
-//                } break;
-//                case PLAYER_ACTION_BET:
-//                case PLAYER_ACTION_RAISE: {
-//                        myLog->logPlayerAction(currentRound+1,(*previousPlayerIt)->getMyID()+1,LOG_ACTION_BET,(*previousPlayerIt)->getMySet());
-//                } break;
-//                case PLAYER_ACTION_ALLIN: {
-//                        myLog->logPlayerAction(currentRound+1,(*previousPlayerIt)->getMyID()+1,LOG_ACTION_ALL_IN,(*previousPlayerIt)->getMySet());
-//                } break;
-//                default: {
-//                }
-//        }
-
+	// logging last player action
+	PlayerListConstIterator previousPlayerIt = getRunningPlayerIt(previousPlayerID);
+	if(previousPlayerIt != runningPlayerList->end()) {
+		switch((*previousPlayerIt)->getMyAction()) {
+		case PLAYER_ACTION_FOLD: {
+			myLog->logPlayerAction(currentRound+1,(*previousPlayerIt)->getMyID()+1,LOG_ACTION_FOLD);
+		}
+		break;
+		case PLAYER_ACTION_CHECK: {
+			myLog->logPlayerAction(currentRound+1,(*previousPlayerIt)->getMyID()+1,LOG_ACTION_CHECK);
+		}
+		break;
+		case PLAYER_ACTION_CALL: {
+			myLog->logPlayerAction(currentRound+1,(*previousPlayerIt)->getMyID()+1,LOG_ACTION_CALL,(*previousPlayerIt)->getMySet());
+		}
+		break;
+		case PLAYER_ACTION_BET:
+		case PLAYER_ACTION_RAISE: {
+			myLog->logPlayerAction(currentRound+1,(*previousPlayerIt)->getMyID()+1,LOG_ACTION_BET,(*previousPlayerIt)->getMySet());
+		}
+		break;
+		case PLAYER_ACTION_ALLIN: {
+			myLog->logPlayerAction(currentRound+1,(*previousPlayerIt)->getMyID()+1,LOG_ACTION_ALL_IN,(*previousPlayerIt)->getMySet());
+		}
+		break;
+		default: {
+		}
+		}
+	}
 
 	PlayerListIterator it, it_1;
 	PlayerListConstIterator it_c;

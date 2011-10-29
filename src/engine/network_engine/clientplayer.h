@@ -110,7 +110,6 @@ public:
 	bool getSBluffStatus() const;
 
 	void setMyWinnerState (bool theValue, int pot);
-	bool getMyWinnerState() const;
 
 	void action();
 	int checkMyAction(int targetAction, int targetBet, int highestSet, int minimumRaise, int smallBlind);

@@ -108,7 +108,6 @@ public:
 	virtual bool getSBluffStatus() const =0;
 
 	virtual void setMyWinnerState ( bool theValue, int pot ) =0;
-	virtual bool getMyWinnerState() const =0;
 
 	virtual void action() =0;
 	virtual int checkMyAction(int targetAction, int targetBet, int highestSet, int minimumRaise, int smallBlind) = 0;
