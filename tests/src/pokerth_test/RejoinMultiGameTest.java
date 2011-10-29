@@ -184,6 +184,7 @@ public class RejoinMultiGameTest extends TestBase {
 		// 9 players leave the game by closing the socket.
 		for (int i = 0; i < 9; i++) {
 			s[i].close();
+			Thread.sleep(500);
 		}
 		// No rejoin game id set yet.
 		assertEquals(0, lastRejoinGameId);
