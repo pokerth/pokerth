@@ -266,7 +266,7 @@ public class RejoinMultiGameTest extends TestBase {
 			assertTrue(msg.getGameStartMessage().getValue().getGameStartMode().isGameStartModeRejoinSelected());
 			GameStartModeRejoin rejoinData = msg.getGameStartMessage().getValue().getGameStartMode().getGameStartModeRejoin();
 			// We left at the first hand.
-			assertEquals(1, rejoinData.getHandNum().getValue().longValue());
+			assertTrue(rejoinData.getHandNum().getValue().longValue() >= 1);
 			// 10 Players should now be active again.
 			assertEquals(10, rejoinData.getRejoinPlayerData().size());
 		}
