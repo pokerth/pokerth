@@ -1,3 +1,22 @@
+2011-10-29 version 0.9-alpha
+- Players are able to rejoin internet games after being disconnected (#5)
+- The chat bot is now also present in ranking games (#1)
+- Tooltip and rating system for other players (#36)
+- Linking connected players in the game info box to poker-heroes player data (#63)
+- Country flag name is displayed in a tooltip (#9)
+- New game list filter (show only ranking games) (#6)
+- Show cards chances also after fold (#79)
+- Private messages in the lobby chat are possible (use /msg command) (#12)
+- Automatically leave the table after the game finished (optional) (#2)
+- Maximum limit for highest set and minimum raise (#61)
+- Automatic notifications before server restart (#47)
+- Ensure that the ranking data is stored even if the DB server is not available (#51, #14, #66)
+- Support single internet server password (#76)
+- Optional unlimited thinking time in network games (#24, #71)
+- Performance improvements in network code (#52)
+- BUGFIX: There are games without a name (#75)
+- BUGFIX: More than 10 players are sometimes assigned to a game in the database (#74)
+
 2011-01-16 version 0.8.3:
 - Fixed a crash which sometimes occurs when other players leave a game (bug 0000021)
 - Updated language files
