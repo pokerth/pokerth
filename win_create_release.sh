@@ -12,7 +12,7 @@ if [[ -n "$1" && -n "$2" ]] ; then
         ~/bitrock-installbuilder/installbuilder-7.2.5/bin/builder build ~/slave/pokerth-release-win32/build/pokerth_bitrock_windows.xml windows
 
         mv ~/bitrock-installbuilder/installbuilder-7.2.5/output/PokerTH-$1-windows-installer.exe .
-        scp PokerTH-$1-windows-installer.exe PokerTH-$1-windows.zip lotodore,pokerth@frs.sourceforge.net:/home/frs/project/p/po/pokerth/PokerTH/$2/
+        scp PokerTH-$1-windows-installer.exe PokerTH-$1-windows.zip lotodore,pokerth@frs.sourceforge.net:/home/frs/project/p/po/pokerth/pokerth/$2/
         md5sum PokerTH-$1-windows-installer.exe
         rm PokerTH-$1-windows-installer.exe
         md5sum PokerTH-$1-windows.zip
