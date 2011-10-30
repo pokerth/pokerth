@@ -247,7 +247,7 @@ ChatCleanerManager::HandleMessage(InternalChatCleanerPacket &msg)
 void
 ChatCleanerManager::SendMessageToServer(InternalChatCleanerPacket &msg)
 {
-	asn_enc_rval_t e = der_encode(&asn_DEF_ChatCleanerMessage, msg.GetMsg(), &SendBuffer::EncodeToBuf, &m_sendManager);
+	asn_enc_rval_t e = der_encode(&asn_DEF_ChatCleanerMessage, msg.GetMsg(), &SendBuffer::EncodeToBuf, m_sendManager.get());
 
 	if (e.encoded == -1)
 		LOG_ERROR("Failed to encode chat cleaner packet: " << msg.GetMsg()->present);
