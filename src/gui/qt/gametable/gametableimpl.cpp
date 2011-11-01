@@ -2464,7 +2464,6 @@ void gameTableImpl::postRiverRunAnimation3()
 			// 			if (textLabel_handLabel->text() == "River") {
 
 			//set Player value (logging)
-			currentHand->getLog()->logPlayerAction(5,(*it_c)->getMyID()+1,LOG_ACTION_WIN,(*it_c)->getLastMoneyWon());
 			myGuiLog->logPlayerWinsMsg(QString::fromUtf8((*it_c)->getMyName().c_str()),(*it_c)->getLastMoneyWon(),true);
 
 			// 			}
@@ -2490,7 +2489,6 @@ void gameTableImpl::postRiverRunAnimation3()
 
 			for(it_int = winners.begin(); it_int != winners.end(); ++it_int) {
 				if((*it_int) == (*it_c)->getMyUniqueID()) {
-					currentHand->getLog()->logPlayerAction(5,(*it_c)->getMyID()+1,LOG_ACTION_WIN_SIDE_POT,(*it_c)->getLastMoneyWon());
 					myGuiLog->logPlayerWinsMsg(QString::fromUtf8((*it_c)->getMyName().c_str()), (*it_c)->getLastMoneyWon(), false);
 				}
 			}
@@ -2501,7 +2499,6 @@ void gameTableImpl::postRiverRunAnimation3()
 	for(it_c=activePlayerList->begin(); it_c!=activePlayerList->end(); ++it_c) {
 		if((*it_c)->getMyCash() == 0) {
 			currentHand->getGuiInterface()->logPlayerSitsOut((*it_c)->getMyName());
-			currentHand->getLog()->logPlayerAction(5, (*it_c)->getMyID()+1, LOG_ACTION_SIT_OUT);
 		}
 	}
 

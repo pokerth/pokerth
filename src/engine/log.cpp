@@ -122,7 +122,7 @@ Log::Log(ConfigFile *c) : mySqliteLogDb(0), myConfig(c), curGameID(0), curHandID
 					sql += ",Amount INTEGER";
 					sql += ");";
 
-					exec_transaction(&sql);
+					exec_transaction();
 				}
 			}
 		}
@@ -136,7 +136,8 @@ Log::~Log()
 	}
 }
 
-void Log::logNewGameMsg(int gameID, int startCash, int startSmallBlind, unsigned dealerPosition, PlayerList seatsList)
+void
+Log::logNewGameMsg(int gameID, int startCash, int startSmallBlind, unsigned dealerPosition, PlayerList seatsList)
 {
 
 	curGameID = gameID;
@@ -173,13 +174,16 @@ void Log::logNewGameMsg(int gameID, int startCash, int startSmallBlind, unsigned
 					}
 				}
 				sql += ");";
-				exec_transaction(&sql);
+				if(myConfig->readConfigInt("LogInterval") == 0) {
+					exec_transaction();
+				}
 			}
 		}
 	}
 }
 
-void Log::logNewHandMsg(int handID, unsigned dealerPosition, int smallBlind, unsigned smallBlindPosition, int bigBlind, unsigned bigBlindPosition, PlayerList seatsList)
+void
+Log::logNewHandMsg(int handID, unsigned dealerPosition, int smallBlind, unsigned smallBlindPosition, int bigBlind, unsigned bigBlindPosition, PlayerList seatsList)
 {
 
 	curHandID = handID;
@@ -224,7 +228,7 @@ void Log::logNewHandMsg(int handID, unsigned dealerPosition, int smallBlind, uns
 				}
 				sql += ");";
 				if(myConfig->readConfigInt("LogInterval") == 0) {
-					exec_transaction(&sql);
+					exec_transaction();
 				}
 
 				// !! TODO !! Hack, weil Button-Regel noch falsch und dealerPosition noch teilweise falsche ID enthält (HeadsUp: dealerPosition=bigBlindPosition <-- falsch)
@@ -251,7 +255,8 @@ void Log::logNewHandMsg(int handID, unsigned dealerPosition, int smallBlind, uns
 	}
 }
 
-void Log::logPlayerAction(int bero, int seat, PlayerActionLog action, int amount)
+void
+Log::logPlayerAction(int bero, int seat, PlayerActionLog action, int amount)
 {
 
 	if(SQLITE_LOG) {
@@ -327,14 +332,15 @@ void Log::logPlayerAction(int bero, int seat, PlayerActionLog action, int amount
 				}
 				sql += ");";
 				if(myConfig->readConfigInt("LogInterval") == 0) {
-					exec_transaction(&sql);
+					exec_transaction();
 				}
 			}
 		}
 	}
 }
 
-void Log::logBoardCards(int bero, int boardCards[5])
+void
+Log::logBoardCards(int bero, int boardCards[5])
 {
 	if(SQLITE_LOG) {
 
@@ -370,14 +376,15 @@ void Log::logBoardCards(int bero, int boardCards[5])
 				sql += "HandID=" + boost::lexical_cast<string>(curHandID);
 				sql += ";";
 				if(myConfig->readConfigInt("LogInterval") == 0) {
-					exec_transaction(&sql);
+					exec_transaction();
 				}
 			}
 		}
 	}
 }
 
-void Log::logHoleCardsHandName(int bero, PlayerList activePlayerList)
+void
+Log::logHoleCardsHandName(int bero, PlayerList activePlayerList)
 {
 	if(SQLITE_LOG) {
 
@@ -410,7 +417,7 @@ void Log::logHoleCardsHandName(int bero, PlayerList activePlayerList)
 						sql += "HandID=" + boost::lexical_cast<string>(curHandID);
 						sql += ";";
 						if(myConfig->readConfigInt("LogInterval") == 0) {
-							exec_transaction(&sql);
+							exec_transaction();
 						}
 
 						if(!logHoleCardsDone) {
@@ -427,12 +434,27 @@ void Log::logHoleCardsHandName(int bero, PlayerList activePlayerList)
 	}
 }
 
-void Log::exec_transaction(string *sql)
+void
+Log::logAfterHand() {
+	if(myConfig->readConfigInt("LogInterval") == 1) {
+		exec_transaction();
+	}
+}
+
+void
+Log::logAfterGame() {
+	if(myConfig->readConfigInt("LogInterval") == 2) {
+		exec_transaction();
+	}
+}
+
+void
+Log::exec_transaction()
 {
 	char *errmsg = NULL;
 
-	string sql_transaction = "BEGIN;" + *sql + "COMMIT;";
-	*sql = "";
+	string sql_transaction = "BEGIN;" + sql + "COMMIT;";
+	sql = "";
 
 	if(sqlite3_exec(mySqliteLogDb, sql_transaction.data(), 0, 0, &errmsg) != SQLITE_OK) {
 		cout << "Error in statement: " << sql_transaction.data() << "[" << errmsg << "]." << endl;

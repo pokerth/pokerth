@@ -92,8 +92,38 @@ void LocalBeRoPostRiver::postRiverRun()
 		getMyHand()->getLog()->logHoleCardsHandName(5,getMyHand()->getActivePlayerList());
 	}
 
-	// logging winner if game is over
-	// wenn nur noch ein Spieler aktive "neues Spiel"-Dialog anzeigen
+	// logging winner of the hand
+	for(it_c=getMyHand()->getActivePlayerList()->begin(); it_c!=getMyHand()->getActivePlayerList()->end(); ++it_c) {
+		if((*it_c)->getMyAction() != PLAYER_ACTION_FOLD && (*it_c)->getMyCardsValueInt() == highestCardsValue) {
+			getMyHand()->getLog()->logPlayerAction(5,(*it_c)->getMyID()+1,LOG_ACTION_WIN,(*it_c)->getLastMoneyWon());
+		}
+	}
+
+	// log side pot winners
+	list<unsigned> winners = getMyHand()->getBoard()->getWinners();
+	list<unsigned>::iterator it_int;
+	for(it_c=getMyHand()->getActivePlayerList()->begin(); it_c!=getMyHand()->getActivePlayerList()->end(); ++it_c) {
+		if((*it_c)->getMyAction() != PLAYER_ACTION_FOLD && (*it_c)->getMyCardsValueInt() != highestCardsValue ) {
+
+			for(it_int = winners.begin(); it_int != winners.end(); ++it_int) {
+				if((*it_int) == (*it_c)->getMyUniqueID()) {
+					getMyHand()->getLog()->logPlayerAction(5,(*it_c)->getMyID()+1,LOG_ACTION_WIN_SIDE_POT,(*it_c)->getLastMoneyWon());
+				}
+			}
+		}
+	}
+
+	// log player sits out
+	for(it_c=getMyHand()->getActivePlayerList()->begin(); it_c!=getMyHand()->getActivePlayerList()->end(); ++it_c) {
+		if((*it_c)->getMyCash() == 0) {
+			getMyHand()->getLog()->logPlayerAction(5, (*it_c)->getMyID()+1, LOG_ACTION_SIT_OUT);
+		}
+	}
+
+	// for log after every hand
+	getMyHand()->getLog()->logAfterHand();
+
+	// log winner of the game if only one player is left
 	int playersPositiveCashCounter = 0;
 	for (it_c=getMyHand()->getActivePlayerList()->begin(); it_c!=getMyHand()->getActivePlayerList()->end(); ++it_c) {
 		if ((*it_c)->getMyCash() > 0) playersPositiveCashCounter++;
@@ -104,6 +134,8 @@ void LocalBeRoPostRiver::postRiverRun()
 				getMyHand()->getLog()->logPlayerAction(5,(*it_c)->getMyID()+1,LOG_ACTION_WIN_GAME);
 			}
 		}
+		// for log after every game
+		getMyHand()->getLog()->logAfterGame();
 	}
 
 	//starte die Animaionsreihe

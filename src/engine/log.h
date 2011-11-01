@@ -39,7 +39,9 @@ public:
 	void logPlayerAction(int bero, int seat, PlayerActionLog action, int amount = 0);
 	void logBoardCards(int bero, int boardCards[5]);
 	void logHoleCardsHandName(int bero, PlayerList activePlayerList);
-	void exec_transaction(std::string *sql);
+	void logAfterHand();
+	void logAfterGame();
+	void exec_transaction();
 //    void closeLogDbAtExit();
 
 
