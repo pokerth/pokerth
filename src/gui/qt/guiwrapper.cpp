@@ -336,7 +336,7 @@ void GuiWrapper::SignalNetClientSelfJoined(unsigned playerId, const string &play
 }
 void GuiWrapper::SignalNetClientPlayerJoined(unsigned playerId, const string &playerName, bool isGameAdmin)
 {
-	myStartWindow->signalNetClientPlayerJoined(playerId, QString::fromUtf8(playerName.c_str()), isGameAdmin);	
+	myStartWindow->signalNetClientPlayerJoined(playerId, QString::fromUtf8(playerName.c_str()), isGameAdmin);
 	if (!playerName.empty() && playerName[0] != '#' && myW->isVisible()) {
 		QString tmpName(QString::fromUtf8(playerName.c_str()));
 		myGuiLog->signalLogPlayerJoinedMsg(tmpName);

@@ -435,14 +435,16 @@ Log::logHoleCardsHandName(int bero, PlayerList activePlayerList)
 }
 
 void
-Log::logAfterHand() {
+Log::logAfterHand()
+{
 	if(myConfig->readConfigInt("LogInterval") == 1) {
 		exec_transaction();
 	}
 }
 
 void
-Log::logAfterGame() {
+Log::logAfterGame()
+{
 	if(myConfig->readConfigInt("LogInterval") == 2) {
 		exec_transaction();
 	}

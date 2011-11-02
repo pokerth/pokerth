@@ -184,8 +184,11 @@ void MyChanceLabel::paintEvent(QPaintEvent * /*event*/)
 	linearGrad.setColorAt(1, Qt::red);
 	painter.setBrush(linearGrad);
 
-	if(myFoldState) { painter.setOpacity(0.4); }
-	else { painter.setOpacity(1.0); }
+	if(myFoldState) {
+		painter.setOpacity(0.4);
+	} else {
+		painter.setOpacity(1.0);
+	}
 
 	if(RFChance[1] != 0) painter.drawRect(89,3,(108*RFChance[0])/100,7);
 	if(SFChance[1] != 0) painter.drawRect(89,16,(108*SFChance[0])/100,7);

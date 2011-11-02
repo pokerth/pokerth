@@ -3533,8 +3533,7 @@ void gameTableImpl::refreshCardsChance(GameState bero)
 
 			if(humanPlayer->getMyAction() == PLAYER_ACTION_FOLD) {
 				label_chance->refreshChance(CardsValue::calcCardsChance(bero, holeCards, boardCards), true);
-			}
-			else {
+			} else {
 				label_chance->refreshChance(CardsValue::calcCardsChance(bero, holeCards, boardCards), false);
 			}
 		} else {
