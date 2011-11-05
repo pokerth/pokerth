@@ -1162,7 +1162,7 @@ ClientThread::RemoveDisconnectedPlayers()
 			if (tmpPlayer->getMyActiveStatus()) {
 				// If a player is not in the player data list, it was disconnected.
 				if (!GetPlayerDataByUniqueId(tmpPlayer->getMyUniqueID()).get()) {
-					tmpPlayer->setMyCash(0);
+					//tmpPlayer->setMyCash(0);
 					tmpPlayer->setMyActiveStatus(false);
 				}
 			}

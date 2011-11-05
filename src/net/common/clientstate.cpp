@@ -1694,6 +1694,8 @@ ClientStateWaitHand::InternalHandlePacket(boost::shared_ptr<ClientThread> client
 			if (!tmpPlayer)
 				throw ClientException(__FILE__, __LINE__, ERR_NET_UNKNOWN_PLAYER_ID, 0);
 			tmpPlayer->setMyUniqueID(idChanged->newPlayerId);
+			// This player is now active again.
+			tmpPlayer->setMyActiveStatus(true);
 			// Also update the dealer, if necessary.
 			curGame->replaceDealer(idChanged->oldPlayerId, idChanged->newPlayerId);
 		}
