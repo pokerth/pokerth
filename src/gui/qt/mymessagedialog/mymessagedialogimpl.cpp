@@ -79,6 +79,48 @@ int myMessageDialogImpl::exec(int messageId, QString msg, QString title, QPixmap
 	return -1;
 }
 
+void myMessageDialogImpl::show(int messageId, QString msg, QString title, QPixmap pix, QDialogButtonBox::StandardButtons buttons, bool showCheckBox)
+{
+	if(showCheckBox) checkBox->show();
+	else checkBox->hide();
+
+	bool show = false;
+	bool found = false;
+
+	currentMsgId = messageId;
+
+	currentMsgShowList = myConfig->readConfigStringList("IfInfoMessageShowList");
+	list<std::string>::iterator it1;
+	for(it1= currentMsgShowList.begin(); it1 != currentMsgShowList.end(); ++it1) {
+
+		QString tmpString = QString::fromUtf8(it1->c_str());
+		if(QString("%1").arg(messageId) ==  tmpString.split(",").at(1)) {
+
+			found = true;
+			show = tmpString.split(",").at(0).toInt();
+
+			break;
+		}
+	}
+
+	if(!found) {
+		currentMsgShowList.push_back(QString("1,%1").arg(messageId).toUtf8().constData());
+		myConfig->writeConfigStringList("IfInfoMessageShowList", currentMsgShowList);
+		myConfig->writeBuffer();
+	}
+
+	if(!found || show) {
+
+		setWindowTitle(title);
+		label_icon->setPixmap(pix.scaled(50,50,Qt::KeepAspectRatio,Qt::SmoothTransformation));
+		label->setText(msg);
+		buttonBox->setStandardButtons(buttons);
+
+		QDialog::show();
+	}
+}
+
+
 void myMessageDialogImpl::accept()
 {
 	writeConfig();
