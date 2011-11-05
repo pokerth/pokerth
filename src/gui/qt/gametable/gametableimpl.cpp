@@ -3137,9 +3137,6 @@ void gameTableImpl::localGameModification()
 	//Set the playing mode to "manual"
 	radioButton_manualAction->click();
 
-	//clear log
-	textBrowser_Log->clear();
-
 	//restore saved windows geometry
 	restoreGameTableGeometry();
 
@@ -3180,9 +3177,6 @@ void gameTableImpl::networkGameModification()
 	}
 	//Set the playing mode to "manual"
 	radioButton_manualAction->click();
-
-	//clear log
-	textBrowser_Log->clear();
 
 	//restore saved windows geometry
 	restoreGameTableGeometry();
@@ -3803,4 +3797,11 @@ void gameTableImpl::closeMessageBoxes()
 {
 
 	myUniversalMessageDialog->close();
+}
+
+void gameTableImpl::hide()
+{
+	//clear log
+	textBrowser_Log->clear();
+	QWidget::hide();
 }

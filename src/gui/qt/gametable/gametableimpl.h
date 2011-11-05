@@ -328,6 +328,8 @@ public slots:
 	void showWarningAutoFoldInRankingGame(unsigned);
 	void closeMessageBoxes();
 
+	void hide();
+
 private:
 
 	boost::shared_ptr<GuiInterface> myServerGuiInterface;
