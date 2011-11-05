@@ -1558,7 +1558,8 @@ void gameLobbyDialogImpl::showInfoMsgBox()
 	switch(infoMsgToShowId) {
 	case 2: {
 		myMessageDialogImpl dialog(myConfig, this);
-		dialog.exec(2, tr("You have entered a game with type \"invite-only\".\nFeel free to invite other players by right-clicking on their nick in the available players list."), tr("PokerTH - Info Message"), QPixmap(":/gfx/ktip.png"), QDialogButtonBox::Ok, true);
+		dialog.setWindowModality(Qt::NonModal);
+		dialog.show(2, tr("You have entered a game with type \"invite-only\".\nFeel free to invite other players by right-clicking on their nick in the available players list."), tr("PokerTH - Info Message"), QPixmap(":/gfx/ktip.png"), QDialogButtonBox::Ok, true);
 	}
 	break;
 	default:
