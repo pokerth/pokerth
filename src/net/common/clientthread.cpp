@@ -49,13 +49,12 @@
 using namespace std;
 using boost::asio::ip::tcp;
 
-ClientThread::ClientThread(GuiInterface &gui, AvatarManager &avatarManager, ConfigFile *config)
-	: m_ioService(new boost::asio::io_service), m_curState(NULL), m_gui(gui),
+ClientThread::ClientThread(GuiInterface &gui, AvatarManager &avatarManager, Log *myLog)
+	: m_ioService(new boost::asio::io_service), m_clientLog(myLog), m_curState(NULL), m_gui(gui),
 	  m_avatarManager(avatarManager), m_isServerSelected(false),
 	  m_curGameId(0), m_curGameNum(1), m_guiPlayerId(0), m_sessionEstablished(false),
 	  m_stateTimer(*m_ioService), m_avatarTimer(*m_ioService)
 {
-	m_clientLog.reset(new Log(config));
 	m_context.reset(new ClientContext);
 	myQtToolsInterface.reset(CreateQtToolsWrapper());
 	m_senderHelper.reset(new SenderHelper(m_ioService));
