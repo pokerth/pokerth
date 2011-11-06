@@ -61,6 +61,8 @@ gameLobbyDialogImpl::gameLobbyDialogImpl(startWindowImpl *parent, ConfigFile *c)
 #endif
 	waitRejoinStartGameMsgBox->setStandardButtons(QMessageBox::NoButton);
 
+	inviteOnlyInfoMsgBox = new myMessageDialogImpl(myConfig, this);
+
 
 	waitStartGameMsgBoxTimer = new QTimer(this);
 	waitStartGameMsgBoxTimer->setSingleShot(TRUE);
@@ -201,8 +203,7 @@ void gameLobbyDialogImpl::exec()
 	QDialog::exec();
 
 	waitStartGameMsgBoxTimer->stop();
-	waitStartGameMsgBox->hide();
-	waitRejoinStartGameMsgBox->hide();
+	closeAllChildDialogs();
 }
 
 
@@ -211,6 +212,8 @@ gameLobbyDialogImpl::~gameLobbyDialogImpl()
 	delete myChat;
 	myChat = NULL;
 
+	delete inviteOnlyInfoMsgBox;
+	inviteOnlyInfoMsgBox = NULL;
 }
 
 void gameLobbyDialogImpl::setSession(boost::shared_ptr<Session> session)
@@ -394,8 +397,7 @@ void gameLobbyDialogImpl::refresh(int actionID)
 
 		//stop waitStartGameMsgBoxes
 		waitStartGameMsgBoxTimer->stop();
-		waitStartGameMsgBox->hide();
-		waitRejoinStartGameMsgBox->hide();
+		closeAllChildDialogs();
 
 		this->accept();
 		myW->show();
@@ -405,6 +407,11 @@ void gameLobbyDialogImpl::refresh(int actionID)
 	} else if(actionID == MSG_NET_GAME_CLIENT_SYNCREJOIN) {
 
 		if(this->isVisible()) {
+			//break the autoStartTimer animation
+			autoStartTimer->stop();
+			autoStartTimerOverlay->hide();
+
+			//show msg dialog
 			waitRejoinStartGameMsgBox->show();
 			waitRejoinStartGameMsgBox->raise();
 			waitRejoinStartGameMsgBox->activateWindow();
@@ -1557,9 +1564,8 @@ void gameLobbyDialogImpl::showInfoMsgBox()
 {
 	switch(infoMsgToShowId) {
 	case 2: {
-		myMessageDialogImpl dialog(myConfig, this);
-		dialog.setWindowModality(Qt::NonModal);
-		dialog.show(2, tr("You have entered a game with type \"invite-only\".\nFeel free to invite other players by right-clicking on their nick in the available players list."), tr("PokerTH - Info Message"), QPixmap(":/gfx/ktip.png"), QDialogButtonBox::Ok, true);
+		inviteOnlyInfoMsgBox->setModal(false);
+		inviteOnlyInfoMsgBox->show(2, tr("You have entered a game with type \"invite-only\".\nFeel free to invite other players by right-clicking on their nick in the available players list."), tr("PokerTH - Info Message"), QPixmap(":/gfx/ktip.png"), QDialogButtonBox::Ok, true);
 	}
 	break;
 	default:
@@ -1967,4 +1973,11 @@ QString gameLobbyDialogImpl::getFullCountryString(QString cs)
 void gameLobbyDialogImpl::stopWaitStartGameMsgBoxTimer()
 {
 	waitStartGameMsgBoxTimer->stop();
+}
+
+void gameLobbyDialogImpl::closeAllChildDialogs()
+{
+	inviteOnlyInfoMsgBox->hide();
+	waitStartGameMsgBox->hide();
+	waitRejoinStartGameMsgBox->hide();
 }

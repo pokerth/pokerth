@@ -139,6 +139,7 @@ public slots:
 	void updateAutoStartTimer();
 	void openPlayerStats();
 	QString getFullCountryString(QString);
+	void closeAllChildDialogs();
 
 private:
 
@@ -158,6 +159,7 @@ private:
 	QString myAppDataPath;
 	QMessageBox *waitStartGameMsgBox;
 	QMessageBox *waitRejoinStartGameMsgBox;
+	myMessageDialogImpl *inviteOnlyInfoMsgBox;
 	QTimer *waitStartGameMsgBoxTimer;
 	QTimer *blinkingButtonAnimationTimer;
 	QTimer *showInfoMsgBoxTimer;
