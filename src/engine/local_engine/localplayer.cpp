@@ -5123,24 +5123,6 @@ bool LocalPlayer::isConnected() const
 	return m_isConnected;
 }
 
-unsigned
-LocalPlayer::getActionTimeoutCounter() const
-{
-	return m_actionTimeoutCounter;
-}
-
-void
-LocalPlayer::incrementActionTimeoutCounter()
-{
-	m_actionTimeoutCounter++;
-}
-
-void
-LocalPlayer::resetActionTimeoutCounter()
-{
-	m_actionTimeoutCounter = 0;
-}
-
 bool LocalPlayer::checkIfINeedToShowCards()
 {
 	std::list<unsigned> playerNeedToShowCardsList = currentHand->getBoard()->getPlayerNeedToShowCards();

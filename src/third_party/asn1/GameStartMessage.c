@@ -28,8 +28,8 @@ static asn_TYPE_member_t asn_MBR_gameStartMode_4[] = {
 	},
 };
 static asn_TYPE_tag2member_t asn_MAP_gameStartMode_tag2el_4[] = {
-	{ (ASN_TAG_CLASS_CONTEXT | (0 << 2)), 0, 0, 0 }, /* gameStartModeInitial at 473 */
-	{ (ASN_TAG_CLASS_CONTEXT | (1 << 2)), 1, 0, 0 } /* gameStartModeRejoin at 475 */
+	{ (ASN_TAG_CLASS_CONTEXT | (0 << 2)), 0, 0, 0 }, /* gameStartModeInitial at 472 */
+	{ (ASN_TAG_CLASS_CONTEXT | (1 << 2)), 1, 0, 0 } /* gameStartModeRejoin at 474 */
 };
 static asn_CHOICE_specifics_t asn_SPC_gameStartMode_specs_4 = {
 	sizeof(struct gameStartMode),
@@ -98,10 +98,10 @@ static ber_tlv_tag_t asn_DEF_GameStartMessage_tags_1[] = {
 	(ASN_TAG_CLASS_UNIVERSAL | (16 << 2))
 };
 static asn_TYPE_tag2member_t asn_MAP_GameStartMessage_tag2el_1[] = {
-	{ (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 0, 0, 1 }, /* gameId at 470 */
-	{ (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 1, -1, 0 }, /* startDealerPlayerId at 471 */
-	{ (ASN_TAG_CLASS_CONTEXT | (0 << 2)), 2, 0, 0 }, /* gameStartModeInitial at 473 */
-	{ (ASN_TAG_CLASS_CONTEXT | (1 << 2)), 2, 0, 0 } /* gameStartModeRejoin at 475 */
+	{ (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 0, 0, 1 }, /* gameId at 469 */
+	{ (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 1, -1, 0 }, /* startDealerPlayerId at 470 */
+	{ (ASN_TAG_CLASS_CONTEXT | (0 << 2)), 2, 0, 0 }, /* gameStartModeInitial at 472 */
+	{ (ASN_TAG_CLASS_CONTEXT | (1 << 2)), 2, 0, 0 } /* gameStartModeRejoin at 474 */
 };
 static asn_SEQUENCE_specifics_t asn_SPC_GameStartMessage_specs_1 = {
 	sizeof(struct GameStartMessage),

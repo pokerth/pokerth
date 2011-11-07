@@ -396,11 +396,6 @@ void GuiWrapper::SignalNetClientWaitDialog()
 {
 	myStartWindow->signalShowClientDialog();
 }
-void GuiWrapper::SignalNetClientWarningAutoFoldInRankingGame(unsigned remainingAutoFolds)
-{
-	myW->signalWarningAutoFoldInRankingGame(remainingAutoFolds);
-}
-
 void GuiWrapper::SignalNetClientGameChatMsg(const string &playerName, const string &msg)
 {
 	myStartWindow->signalNetClientGameChatMsg(QString::fromUtf8(playerName.c_str()), QString::fromUtf8(msg.c_str()));

@@ -243,12 +243,6 @@ void ServerGuiWrapper::SignalNetClientWaitDialog()
 {
 	if (myClientcb) myClientcb->SignalNetClientWaitDialog();
 }
-void ServerGuiWrapper::SignalNetClientWarningAutoFoldInRankingGame(unsigned remainingAutoFolds)
-{
-	if (myClientcb) myClientcb->SignalNetClientWarningAutoFoldInRankingGame(remainingAutoFolds);
-}
-
-
 void ServerGuiWrapper::SignalNetServerSuccess(int actionID)
 {
 	if (myServercb) myServercb->SignalNetServerSuccess(actionID);

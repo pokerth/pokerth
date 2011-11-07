@@ -75,7 +75,6 @@ PokerTHMessage ::= CHOICE {
 	dialogMessage				DialogMessage,
 	timeoutWarningMessage		TimeoutWarningMessage,
 	resetTimeoutMessage			ResetTimeoutMessage,
-	afkWarningMessage			AfkWarningMessage,
 	reportAvatarMessage			ReportAvatarMessage,
 	reportAvatarAckMessage		ReportAvatarAckMessage,
 	errorMessage				ErrorMessage
@@ -756,16 +755,12 @@ TimeoutWarningMessage ::= [APPLICATION 133] SEQUENCE {
 ResetTimeoutMessage ::= [APPLICATION 134] SEQUENCE {
 }
 
-AfkWarningMessage ::= [APPLICATION 135] SEQUENCE {
-	remainingTimeouts			INTEGER
-}
-
-ReportAvatarMessage ::= [APPLICATION 136] SEQUENCE {
+ReportAvatarMessage ::= [APPLICATION 135] SEQUENCE {
 	reportedPlayerId			NonZeroId,
 	reportedAvatar				AvatarHash
 }
 
-ReportAvatarAckMessage ::= [APPLICATION 137] SEQUENCE {
+ReportAvatarAckMessage ::= [APPLICATION 136] SEQUENCE {
 	reportedPlayerId			NonZeroId,
 	reportResult				ENUMERATED {
 		avatarReportAccepted			(0),

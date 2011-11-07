@@ -139,7 +139,6 @@ signals:
 	void signalChangeVoteOnKickButtonsState(bool showHide);
 	void signalEndVoteOnKick();
 	void signalNetClientPlayerLeft(unsigned playerId);
-	void signalWarningAutoFoldInRankingGame(unsigned remainingAutoFolds);
 
 public slots:
 
@@ -325,7 +324,6 @@ public slots:
 	void showShowMyCardsButton();
 	void sendShowMyCardsSignal();
 
-	void showWarningAutoFoldInRankingGame(unsigned);
 	void closeMessageBoxes();
 
 	void hide();

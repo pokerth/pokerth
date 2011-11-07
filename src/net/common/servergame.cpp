@@ -51,7 +51,7 @@ ServerGame::ServerGame(boost::shared_ptr<ServerLobbyThread> lobbyThread, u_int32
 	: m_adminPlayerId(adminPlayerId), m_lobbyThread(lobbyThread), m_gui(gui),
 	  m_gameData(gameData), m_curState(NULL), m_id(id), m_name(name),
 	  m_password(pwd), m_playerConfig(playerConfig), m_serverLog(serverLog), m_gameNum(1),
-	  m_curPetitionId(1), m_doNotAutoKickSmallDelaySec(10), m_voteKickTimer(lobbyThread->GetIOService()),
+	  m_curPetitionId(1), m_voteKickTimer(lobbyThread->GetIOService()),
 	  m_stateTimer1(lobbyThread->GetIOService()), m_stateTimer2(lobbyThread->GetIOService())
 {
 	LOG_VERBOSE("Game object " << GetId() << " created.");
@@ -65,7 +65,6 @@ ServerGame::~ServerGame()
 void
 ServerGame::Init()
 {
-	m_doNotAutoKickSmallDelaySec = m_playerConfig.readConfigInt("ServerDoNotAutoKickSmallDelaySec");
 	SetState(SERVER_INITIAL_STATE::Instance());
 }
 
@@ -925,12 +924,6 @@ boost::asio::deadline_timer &
 ServerGame::GetStateTimer2()
 {
 	return m_stateTimer2;
-}
-
-unsigned
-ServerGame::GetSmallDelaySec() const
-{
-	return m_doNotAutoKickSmallDelaySec;
 }
 
 Game &

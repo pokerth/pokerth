@@ -28,8 +28,8 @@ static asn_TYPE_member_t asn_MBR_startEventType_3[] = {
 	},
 };
 static asn_TYPE_tag2member_t asn_MAP_startEventType_tag2el_3[] = {
-	{ (ASN_TAG_CLASS_CONTEXT | (0 << 2)), 0, 0, 0 }, /* startEvent at 439 */
-	{ (ASN_TAG_CLASS_CONTEXT | (1 << 2)), 1, 0, 0 } /* rejoinEvent at 441 */
+	{ (ASN_TAG_CLASS_CONTEXT | (0 << 2)), 0, 0, 0 }, /* startEvent at 438 */
+	{ (ASN_TAG_CLASS_CONTEXT | (1 << 2)), 1, 0, 0 } /* rejoinEvent at 440 */
 };
 static asn_CHOICE_specifics_t asn_SPC_startEventType_specs_3 = {
 	sizeof(struct startEventType),
@@ -89,9 +89,9 @@ static ber_tlv_tag_t asn_DEF_StartEventMessage_tags_1[] = {
 	(ASN_TAG_CLASS_UNIVERSAL | (16 << 2))
 };
 static asn_TYPE_tag2member_t asn_MAP_StartEventMessage_tag2el_1[] = {
-	{ (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 0, 0, 0 }, /* gameId at 437 */
-	{ (ASN_TAG_CLASS_CONTEXT | (0 << 2)), 1, 0, 0 }, /* startEvent at 439 */
-	{ (ASN_TAG_CLASS_CONTEXT | (1 << 2)), 1, 0, 0 } /* rejoinEvent at 441 */
+	{ (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 0, 0, 0 }, /* gameId at 436 */
+	{ (ASN_TAG_CLASS_CONTEXT | (0 << 2)), 1, 0, 0 }, /* startEvent at 438 */
+	{ (ASN_TAG_CLASS_CONTEXT | (1 << 2)), 1, 0, 0 } /* rejoinEvent at 440 */
 };
 static asn_SEQUENCE_specifics_t asn_SPC_StartEventMessage_specs_1 = {
 	sizeof(struct StartEventMessage),

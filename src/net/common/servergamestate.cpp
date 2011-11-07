@@ -68,9 +68,6 @@ using namespace std;
 #define SERVER_VOTE_KICK_TIMEOUT_SEC				30
 #define SERVER_LOOP_DELAY_MSEC						50
 
-#define SERVER_WARNING_ACTION_TIMEOUT_THRESHOLD		6
-#define SERVER_KICK_ACTION_TIMEOUT_REMAINING		2
-
 // Helper functions
 
 static void SendPlayerAction(ServerGame &server, boost::shared_ptr<PlayerInterface> player)
@@ -1427,24 +1424,6 @@ ServerGameStateWaitPlayerAction::TimerTimeout(const boost::system::error_code &e
 			else
 				PerformPlayerAction(*server, curPlayer, PLAYER_ACTION_FOLD, 0);
 
-			curPlayer->incrementActionTimeoutCounter();
-
-			if (server->GetGameData().gameType == GAME_TYPE_RANKING
-					&& server->GetGameData().playerActionTimeoutSec >= (int)server->GetSmallDelaySec()) {
-				if (curPlayer->getActionTimeoutCounter() == SERVER_WARNING_ACTION_TIMEOUT_THRESHOLD) {
-					boost::shared_ptr<SessionData> tmpSession = server->GetSessionManager().GetSessionByUniquePlayerId(curPlayer->getMyUniqueID());
-					if (tmpSession) { // The session may not exist at this point, because the player may have left.
-						// Send warning to player.
-						boost::shared_ptr<NetPacket> warning(new NetPacket(NetPacket::Alloc));
-						warning->GetMsg()->present = PokerTHMessage_PR_afkWarningMessage;
-						AfkWarningMessage_t *netWarning = &warning->GetMsg()->choice.afkWarningMessage;
-						netWarning->remainingTimeouts = SERVER_KICK_ACTION_TIMEOUT_REMAINING;
-						server->GetLobbyThread().GetSender().Send(tmpSession, warning);
-					}
-				} else if (curPlayer->getActionTimeoutCounter() > SERVER_WARNING_ACTION_TIMEOUT_THRESHOLD + SERVER_KICK_ACTION_TIMEOUT_REMAINING) {
-					server->InternalKickPlayer(curPlayer->getMyUniqueID());
-				}
-			}
 			server->SetState(ServerGameStateHand::Instance());
 		} catch (const PokerTHException &e) {
 			LOG_ERROR("Game " << server->GetId() << " - Player timer exception: " << e.what());

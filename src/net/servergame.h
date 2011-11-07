@@ -90,8 +90,6 @@ public:
 	void AddRejoinPlayer(unsigned playerId);
 	PlayerIdList GetAndResetRejoinPlayers();
 
-	unsigned GetSmallDelaySec() const;
-
 	// should be protected, but is needed in function.
 	const Game &GetGame() const;
 	Game &GetGame();
@@ -203,7 +201,6 @@ private:
 	Log				   &m_serverLog;
 	unsigned			m_gameNum;
 	unsigned			m_curPetitionId;
-	unsigned			m_doNotAutoKickSmallDelaySec;
 	boost::asio::deadline_timer m_voteKickTimer;
 	boost::asio::deadline_timer m_stateTimer1;
 	boost::asio::deadline_timer m_stateTimer2;

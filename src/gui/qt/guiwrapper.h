@@ -139,8 +139,6 @@ public:
 	void SignalNetClientMsgBox(unsigned msgId);
 
 	void SignalNetClientWaitDialog();
-	void SignalNetClientWarningAutoFoldInRankingGame(unsigned remainingAutoFolds);
-
 
 	void SignalNetClientGameListNew(unsigned gameId);
 	void SignalNetClientGameListRemove(unsigned gameId);

@@ -133,13 +133,6 @@ public:
 	void setIsConnected(bool connected);
 	bool isConnected() const;
 
-	// unused as client
-	unsigned getActionTimeoutCounter() const {
-		return 0;
-	}
-	void incrementActionTimeoutCounter() {}
-	void resetActionTimeoutCounter() {}
-
 	bool checkIfINeedToShowCards();
 
 private:

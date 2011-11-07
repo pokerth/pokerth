@@ -63,7 +63,6 @@
 #include "DialogMessage.h"
 #include "TimeoutWarningMessage.h"
 #include "ResetTimeoutMessage.h"
-#include "AfkWarningMessage.h"
 #include "ReportAvatarMessage.h"
 #include "ReportAvatarAckMessage.h"
 #include "ErrorMessage.h"
@@ -127,7 +126,6 @@ extern "C" {
 		PokerTHMessage_PR_dialogMessage,
 		PokerTHMessage_PR_timeoutWarningMessage,
 		PokerTHMessage_PR_resetTimeoutMessage,
-		PokerTHMessage_PR_afkWarningMessage,
 		PokerTHMessage_PR_reportAvatarMessage,
 		PokerTHMessage_PR_reportAvatarAckMessage,
 		PokerTHMessage_PR_errorMessage,
@@ -191,7 +189,6 @@ extern "C" {
 			DialogMessage_t	 dialogMessage;
 			TimeoutWarningMessage_t	 timeoutWarningMessage;
 			ResetTimeoutMessage_t	 resetTimeoutMessage;
-			AfkWarningMessage_t	 afkWarningMessage;
 			ReportAvatarMessage_t	 reportAvatarMessage;
 			ReportAvatarAckMessage_t	 reportAvatarAckMessage;
 			ErrorMessage_t	 errorMessage;

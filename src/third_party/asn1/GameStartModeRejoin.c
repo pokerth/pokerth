@@ -101,8 +101,8 @@ static ber_tlv_tag_t asn_DEF_GameStartModeRejoin_tags_1[] = {
 	(ASN_TAG_CLASS_UNIVERSAL | (16 << 2))
 };
 static asn_TYPE_tag2member_t asn_MAP_GameStartModeRejoin_tag2el_1[] = {
-	{ (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 0, 0, 0 }, /* handNum at 465 */
-	{ (ASN_TAG_CLASS_UNIVERSAL | (16 << 2)), 1, 0, 0 } /* rejoinPlayerData at 467 */
+	{ (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 0, 0, 0 }, /* handNum at 464 */
+	{ (ASN_TAG_CLASS_UNIVERSAL | (16 << 2)), 1, 0, 0 } /* rejoinPlayerData at 466 */
 };
 static asn_SEQUENCE_specifics_t asn_SPC_GameStartModeRejoin_specs_1 = {
 	sizeof(struct GameStartModeRejoin),

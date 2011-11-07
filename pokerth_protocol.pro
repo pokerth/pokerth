@@ -175,7 +175,6 @@ HEADERS += src/third_party/asn1/AllInShowCardsMessage.h \
 	src/third_party/asn1/ShowMyCardsRequestMessage.h \
 	src/third_party/asn1/PlainCards.h \
 	src/third_party/asn1/EncryptedCards.h \
-	src/third_party/asn1/AfkWarningMessage.h \
     src/third_party/asn1/ChatRequestTypePrivate.h \
     src/third_party/asn1/ReportAvatarMessage.h \
     src/third_party/asn1/ReportAvatarAckMessage.h \
@@ -330,7 +329,6 @@ SOURCES += src/third_party/asn1/ChatCleanerMessage.c \
 	src/third_party/asn1/ShowMyCardsRequestMessage.c \
 	src/third_party/asn1/EncryptedCards.c \
 	src/third_party/asn1/PlainCards.c \
-	src/third_party/asn1/AfkWarningMessage.c \
     src/third_party/asn1/ChatRequestTypePrivate.c \
     src/third_party/asn1/ReportAvatarMessage.c \
     src/third_party/asn1/ReportAvatarAckMessage.c \
