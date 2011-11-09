@@ -363,9 +363,9 @@ LocalHand::LocalHand(boost::shared_ptr<EngineFactory> f, GuiInterface *g, boost:
 
 	assignButtons();
 
-	myLog->logNewHandMsg(myID, dealerPosition+1, smallBlind, smallBlindPosition+1, 2*smallBlind, bigBlindPosition+1, seatsList);
-
 	setBlinds();
+
+	myLog->logNewHandMsg(myID, dealerPosition+1, smallBlind, smallBlindPosition+1, 2*smallBlind, bigBlindPosition+1, seatsList);
 
 	myBeRo = myFactory->createBeRo(this, dealerPosition, smallBlind);
 }
@@ -489,13 +489,11 @@ void LocalHand::setBlinds()
 			// All in ?
 			if((*it_c)->getMyCash() <= smallBlind) {
 
-				myLog->logPlayerAction(0,smallBlindPosition+1,LOG_ACTION_SMALL_BLIND,(*it_c)->getMyCash());
 				(*it_c)->setMySet((*it_c)->getMyCash());
 				// 1 to do not log this
 				(*it_c)->setMyAction(PLAYER_ACTION_ALLIN,1);
 
 			} else {
-				myLog->logPlayerAction(0,smallBlindPosition+1,LOG_ACTION_SMALL_BLIND,smallBlind);
 				(*it_c)->setMySet(smallBlind);
 			}
 		}
@@ -511,13 +509,11 @@ void LocalHand::setBlinds()
 			// all in ?
 			if((*it_c)->getMyCash() <= 2*smallBlind) {
 
-				myLog->logPlayerAction(0,bigBlindPosition+1,LOG_ACTION_BIG_BLIND,(*it_c)->getMyCash());
 				(*it_c)->setMySet((*it_c)->getMyCash());
 				// 1 to do not log this
 				(*it_c)->setMyAction(PLAYER_ACTION_ALLIN,1);
 
 			} else {
-				myLog->logPlayerAction(0,bigBlindPosition+1,LOG_ACTION_BIG_BLIND,2*smallBlind);
 				(*it_c)->setMySet(2*smallBlind);
 			}
 		}
@@ -531,31 +527,7 @@ void LocalHand::switchRounds()
 	// logging last player action
 	PlayerListConstIterator previousPlayerIt = getRunningPlayerIt(previousPlayerID);
 	if(previousPlayerIt != runningPlayerList->end()) {
-		switch((*previousPlayerIt)->getMyAction()) {
-		case PLAYER_ACTION_FOLD: {
-			myLog->logPlayerAction(currentRound+1,(*previousPlayerIt)->getMyID()+1,LOG_ACTION_FOLD);
-		}
-		break;
-		case PLAYER_ACTION_CHECK: {
-			myLog->logPlayerAction(currentRound+1,(*previousPlayerIt)->getMyID()+1,LOG_ACTION_CHECK);
-		}
-		break;
-		case PLAYER_ACTION_CALL: {
-			myLog->logPlayerAction(currentRound+1,(*previousPlayerIt)->getMyID()+1,LOG_ACTION_CALL,(*previousPlayerIt)->getMySet());
-		}
-		break;
-		case PLAYER_ACTION_BET:
-		case PLAYER_ACTION_RAISE: {
-			myLog->logPlayerAction(currentRound+1,(*previousPlayerIt)->getMyID()+1,LOG_ACTION_BET,(*previousPlayerIt)->getMySet());
-		}
-		break;
-		case PLAYER_ACTION_ALLIN: {
-			myLog->logPlayerAction(currentRound+1,(*previousPlayerIt)->getMyID()+1,LOG_ACTION_ALL_IN,(*previousPlayerIt)->getMySet());
-		}
-		break;
-		default: {
-		}
-		}
+		myLog->logPlayerAction(currentRound,(*previousPlayerIt)->getMyID()+1,myLog->transformPlayerActionLog((*previousPlayerIt)->getMyAction()),(*previousPlayerIt)->getMySet());
 	}
 
 	PlayerListIterator it, it_1;
@@ -658,7 +630,7 @@ void LocalHand::switchRounds()
 		myGui->flipHolecardsAllIn();
 		// Logging HoleCards
 		if(currentRound<GAME_STATE_RIVER) {
-			myLog->logHoleCardsHandName(currentRound+1,activePlayerList);
+			myLog->logHoleCardsHandName(currentRound,activePlayerList);
 		}
 
 		if (currentRound < GAME_STATE_POST_RIVER) // do not increment past 4
@@ -670,7 +642,7 @@ void LocalHand::switchRounds()
 
 			myBoard->getMyCards(tempBoardCardsArray);
 			myGui->logDealBoardCardsMsg(currentRound, tempBoardCardsArray[0], tempBoardCardsArray[1], tempBoardCardsArray[2], tempBoardCardsArray[3], tempBoardCardsArray[4]);
-			myLog->logBoardCards(currentRound+1, tempBoardCardsArray);
+			myLog->logBoardCards(currentRound, tempBoardCardsArray);
 		}
 
 	}

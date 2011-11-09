@@ -105,6 +105,7 @@ public:
 
 	ClientCallback &GetCallback();
 	GuiInterface &GetGui();
+	boost::shared_ptr<Log> GetClientLog();
 	AvatarManager &GetAvatarManager();
 
 protected:

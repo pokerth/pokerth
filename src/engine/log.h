@@ -36,9 +36,10 @@ public:
 
 	void logNewGameMsg(int gameID, int startCash, int startSmallBlind, unsigned dealerPosition, PlayerList seatsList);
 	void logNewHandMsg(int handID, unsigned dealerPosition, int smallBlind, unsigned smallBlindPosition, int bigBlind, unsigned bigBlindPosition, PlayerList seatsList);
-	void logPlayerAction(int bero, int seat, PlayerActionLog action, int amount = 0);
-	void logBoardCards(int bero, int boardCards[5]);
-	void logHoleCardsHandName(int bero, PlayerList activePlayerList);
+	void logPlayerAction(GameState bero, int seat, PlayerActionLog action, int amount = 0);
+	PlayerActionLog transformPlayerActionLog(PlayerAction action);
+	void logBoardCards(GameState bero, int boardCards[5]);
+	void logHoleCardsHandName(GameState bero, PlayerList activePlayerList);
 	void logAfterHand();
 	void logAfterGame();
 	void exec_transaction();

@@ -89,13 +89,13 @@ void LocalBeRoPostRiver::postRiverRun()
 		if ((*it_c)->getMyAction() != PLAYER_ACTION_FOLD) nonfoldPlayersCounter++;
 	}
 	if(nonfoldPlayersCounter>1) {
-		getMyHand()->getLog()->logHoleCardsHandName(5,getMyHand()->getActivePlayerList());
+		getMyHand()->getLog()->logHoleCardsHandName(GAME_STATE_POST_RIVER,getMyHand()->getActivePlayerList());
 	}
 
 	// logging winner of the hand
 	for(it_c=getMyHand()->getActivePlayerList()->begin(); it_c!=getMyHand()->getActivePlayerList()->end(); ++it_c) {
 		if((*it_c)->getMyAction() != PLAYER_ACTION_FOLD && (*it_c)->getMyCardsValueInt() == highestCardsValue) {
-			getMyHand()->getLog()->logPlayerAction(5,(*it_c)->getMyID()+1,LOG_ACTION_WIN,(*it_c)->getLastMoneyWon());
+			getMyHand()->getLog()->logPlayerAction(GAME_STATE_POST_RIVER,(*it_c)->getMyID()+1,LOG_ACTION_WIN,(*it_c)->getLastMoneyWon());
 		}
 	}
 
@@ -107,7 +107,7 @@ void LocalBeRoPostRiver::postRiverRun()
 
 			for(it_int = winners.begin(); it_int != winners.end(); ++it_int) {
 				if((*it_int) == (*it_c)->getMyUniqueID()) {
-					getMyHand()->getLog()->logPlayerAction(5,(*it_c)->getMyID()+1,LOG_ACTION_WIN_SIDE_POT,(*it_c)->getLastMoneyWon());
+					getMyHand()->getLog()->logPlayerAction(GAME_STATE_POST_RIVER,(*it_c)->getMyID()+1,LOG_ACTION_WIN_SIDE_POT,(*it_c)->getLastMoneyWon());
 				}
 			}
 		}
@@ -116,7 +116,7 @@ void LocalBeRoPostRiver::postRiverRun()
 	// log player sits out
 	for(it_c=getMyHand()->getActivePlayerList()->begin(); it_c!=getMyHand()->getActivePlayerList()->end(); ++it_c) {
 		if((*it_c)->getMyCash() == 0) {
-			getMyHand()->getLog()->logPlayerAction(5, (*it_c)->getMyID()+1, LOG_ACTION_SIT_OUT);
+			getMyHand()->getLog()->logPlayerAction(GAME_STATE_POST_RIVER, (*it_c)->getMyID()+1, LOG_ACTION_SIT_OUT);
 		}
 	}
 
@@ -131,7 +131,7 @@ void LocalBeRoPostRiver::postRiverRun()
 	if (playersPositiveCashCounter==1) {
 		for (it_c=getMyHand()->getActivePlayerList()->begin(); it_c!=getMyHand()->getActivePlayerList()->end(); ++it_c) {
 			if ((*it_c)->getMyCash() > 0) {
-				getMyHand()->getLog()->logPlayerAction(5,(*it_c)->getMyID()+1,LOG_ACTION_WIN_GAME);
+				getMyHand()->getLog()->logPlayerAction(GAME_STATE_POST_RIVER,(*it_c)->getMyID()+1,LOG_ACTION_WIN_GAME);
 			}
 		}
 		// for log after every game

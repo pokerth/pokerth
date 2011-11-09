@@ -152,7 +152,7 @@ void LocalBeRo::run()
 				LOG_ERROR(__FILE__ << " (" << __LINE__ << "): ERROR - wrong myBeRoID");
 			}
 			}
-			myHand->getLog()->logBoardCards(myBeRoID+1, tempBoardCardsArray);
+			myHand->getLog()->logBoardCards(myBeRoID, tempBoardCardsArray);
 			logBoardCardsDone = true;
 
 		}

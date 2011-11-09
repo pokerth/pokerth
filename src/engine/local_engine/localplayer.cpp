@@ -3222,12 +3222,12 @@ void LocalPlayer::evaluation(int bet, int raise)
 	break;
 	// fold
 	case 1: {
-//		currentHand->getLog()->logPlayerAction(currentHand->getCurrentRound()+1,myID+1,LOG_ACTION_FOLD);
+//		currentHand->getLog()->logPlayerAction(currentHand->getCurrentRound(),myID+1,LOG_ACTION_FOLD);
 	}
 	break;
 	// check
 	case 2: {
-//		currentHand->getLog()->logPlayerAction(currentHand->getCurrentRound()+1,myID+1,LOG_ACTION_CHECK);
+//		currentHand->getLog()->logPlayerAction(currentHand->getCurrentRound(),myID+1,LOG_ACTION_CHECK);
 	}
 	break;
 	// call
@@ -3238,14 +3238,14 @@ void LocalPlayer::evaluation(int bet, int raise)
 			mySet += myCash;
 			myCash = 0;
 			myAction = PLAYER_ACTION_ALLIN;
-//			currentHand->getLog()->logPlayerAction(currentHand->getCurrentRound()+1,myID+1,LOG_ACTION_ALL_IN,mySet);
+//			currentHand->getLog()->logPlayerAction(currentHand->getCurrentRound(),myID+1,LOG_ACTION_ALL_IN,mySet);
 			// 				cout << "evaluation(call) - mySet: " << mySet << endl;
 		}
 		// sonst
 		else {
 			myCash = myCash - highestSet + mySet;
 			mySet = highestSet;
-//			currentHand->getLog()->logPlayerAction(currentHand->getCurrentRound()+1,myID+1,LOG_ACTION_CALL,mySet);
+//			currentHand->getLog()->logPlayerAction(currentHand->getCurrentRound(),myID+1,LOG_ACTION_CALL,mySet);
 		}
 	}
 	break;
@@ -3262,7 +3262,7 @@ void LocalPlayer::evaluation(int bet, int raise)
 			myCash = 0;
 			myAction = PLAYER_ACTION_ALLIN;
 			highestSet = mySet;
-//			currentHand->getLog()->logPlayerAction(currentHand->getCurrentRound()+1,myID+1,LOG_ACTION_ALL_IN,mySet);
+//			currentHand->getLog()->logPlayerAction(currentHand->getCurrentRound(),myID+1,LOG_ACTION_ALL_IN,mySet);
 		}
 		// sonst
 		else {
@@ -3270,7 +3270,7 @@ void LocalPlayer::evaluation(int bet, int raise)
 			myCash = myCash - bet;
 			mySet = bet;
 			highestSet = mySet;
-//			currentHand->getLog()->logPlayerAction(currentHand->getCurrentRound()+1,myID+1,LOG_ACTION_BET,mySet);
+//			currentHand->getLog()->logPlayerAction(currentHand->getCurrentRound(),myID+1,LOG_ACTION_BET,mySet);
 
 		}
 		// lastPlayerAction für Karten umblättern reihenfolge setzrn
@@ -3285,14 +3285,14 @@ void LocalPlayer::evaluation(int bet, int raise)
 				mySet += myCash;
 				myCash = 0;
 				myAction = PLAYER_ACTION_ALLIN;
-//				currentHand->getLog()->logPlayerAction(currentHand->getCurrentRound()+1,myID+1,LOG_ACTION_ALL_IN,mySet);
+//				currentHand->getLog()->logPlayerAction(currentHand->getCurrentRound(),myID+1,LOG_ACTION_ALL_IN,mySet);
 			}
 			// sonst
 			else {
 				myCash = myCash - highestSet + mySet;
 				mySet = highestSet;
 				myAction = PLAYER_ACTION_CALL;
-//				currentHand->getLog()->logPlayerAction(currentHand->getCurrentRound()+1,myID+1,LOG_ACTION_CALL,mySet);
+//				currentHand->getLog()->logPlayerAction(currentHand->getCurrentRound(),myID+1,LOG_ACTION_CALL,mySet);
 			}
 		} else {
 			if(raise < currentHand->getCurrentBeRo()->getMinimumRaise()) {
@@ -3329,7 +3329,7 @@ void LocalPlayer::evaluation(int bet, int raise)
 					myAction = PLAYER_ACTION_ALLIN;
 					highestSet = mySet;
 				}
-//				currentHand->getLog()->logPlayerAction(currentHand->getCurrentRound()+1,myID+1,LOG_ACTION_ALL_IN,mySet);
+//				currentHand->getLog()->logPlayerAction(currentHand->getCurrentRound(),myID+1,LOG_ACTION_ALL_IN,mySet);
 			}
 			// sonst
 			else {
@@ -3339,14 +3339,14 @@ void LocalPlayer::evaluation(int bet, int raise)
 				highestSet = mySet;
 				// lastPlayerAction für Karten umblättern reihenfolge setzrn
 				currentHand->setLastActionPlayerID(myUniqueID);
-//				currentHand->getLog()->logPlayerAction(currentHand->getCurrentRound()+1,myID+1,LOG_ACTION_BET,mySet);
+//				currentHand->getLog()->logPlayerAction(currentHand->getCurrentRound(),myID+1,LOG_ACTION_BET,mySet);
 			}
 		}
 	}
 	break;
 	// all in
 	case 6: {
-//		currentHand->getLog()->logPlayerAction(currentHand->getCurrentRound()+1,myID+1,LOG_ACTION_ALL_IN,mySet);
+//		currentHand->getLog()->logPlayerAction(currentHand->getCurrentRound(),myID+1,LOG_ACTION_ALL_IN,mySet);
 	}
 	break;
 	default:

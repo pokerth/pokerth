@@ -86,7 +86,6 @@ private:
 	QTextStream stream;
 	QDir *myLogDir;
 	QFile *myHtmlLogFile;
-	sqlite3 *mySqliteLogDb;
 	QString logFileStreamString;
 	QString myAppDataPath;
 

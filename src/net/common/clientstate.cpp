@@ -1753,6 +1753,12 @@ ClientStateRunHand::InternalHandlePacket(boost::shared_ptr<ClientThread> client,
 					tmpPlayer->getMyName(),
 					netActionDone->playerAction,
 					netActionDone->totalPlayerBet - tmpPlayer->getMySet());
+				client->GetClientLog()->logPlayerAction(
+					curGame->getCurrentHand()->getCurrentBeRo()->getMyBeRoID(),
+					tmpPlayer->getMyID()+1,
+					client->GetClientLog()->transformPlayerActionLog(PlayerAction(netActionDone->playerAction)),
+					netActionDone->totalPlayerBet - tmpPlayer->getMySet()
+				);
 			}
 			// Update last players turn only after the blinds.
 			curGame->getCurrentHand()->setPreviousPlayerID(tmpPlayer->getMyID());
@@ -1774,6 +1780,15 @@ ClientStateRunHand::InternalHandlePacket(boost::shared_ptr<ClientThread> client,
 				curGame->getPlayerByUniqueId(curGame->getCurrentHand()->getCurrentBeRo()->getSmallBlindPositionId())->getMyName(),
 				curGame->getPlayerByUniqueId(curGame->getCurrentHand()->getCurrentBeRo()->getBigBlindPositionId())->getMyName());
 			client->GetGui().flushLogAtHand();
+			client->GetClientLog()->logNewHandMsg(
+				curGame->getCurrentHandID(),
+				curGame->getDealerPosition(),
+				curGame->getCurrentHand()->getSmallBlind(),
+				curGame->getPlayerByUniqueId(curGame->getCurrentHand()->getCurrentBeRo()->getSmallBlindPositionId())->getMyID()+1,
+				curGame->getCurrentHand()->getSmallBlind()*2,
+				curGame->getPlayerByUniqueId(curGame->getCurrentHand()->getCurrentBeRo()->getBigBlindPositionId())->getMyID()+1,
+				curGame->getSeatsList()
+			);
 		}
 
 		// Stop the timeout for the player.
@@ -1837,6 +1852,7 @@ ClientStateRunHand::InternalHandlePacket(boost::shared_ptr<ClientThread> client,
 		curGame->getCurrentHand()->setPreviousPlayerID(-1);
 
 		client->GetGui().logDealBoardCardsMsg(GAME_STATE_FLOP, tmpCards[0], tmpCards[1], tmpCards[2], tmpCards[3], tmpCards[4]);
+		client->GetClientLog()->logBoardCards(GAME_STATE_FLOP,tmpCards);
 		client->GetGui().refreshGameLabels(GAME_STATE_FLOP);
 		client->GetGui().refreshPot();
 		client->GetGui().refreshSet();
@@ -1852,6 +1868,7 @@ ClientStateRunHand::InternalHandlePacket(boost::shared_ptr<ClientThread> client,
 		curGame->getCurrentHand()->setPreviousPlayerID(-1);
 
 		client->GetGui().logDealBoardCardsMsg(GAME_STATE_TURN, tmpCards[0], tmpCards[1], tmpCards[2], tmpCards[3], tmpCards[4]);
+		client->GetClientLog()->logBoardCards(GAME_STATE_TURN,tmpCards);
 		client->GetGui().refreshGameLabels(GAME_STATE_TURN);
 		client->GetGui().refreshPot();
 		client->GetGui().refreshSet();
@@ -1867,6 +1884,7 @@ ClientStateRunHand::InternalHandlePacket(boost::shared_ptr<ClientThread> client,
 		curGame->getCurrentHand()->setPreviousPlayerID(-1);
 
 		client->GetGui().logDealBoardCardsMsg(GAME_STATE_RIVER, tmpCards[0], tmpCards[1], tmpCards[2], tmpCards[3], tmpCards[4]);
+		client->GetClientLog()->logBoardCards(GAME_STATE_RIVER,tmpCards);
 		client->GetGui().refreshGameLabels(GAME_STATE_RIVER);
 		client->GetGui().refreshPot();
 		client->GetGui().refreshSet();

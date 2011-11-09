@@ -513,6 +513,12 @@ ClientThread::GetGui()
 	return m_gui;
 }
 
+boost::shared_ptr<Log>
+ClientThread::GetClientLog()
+{
+	return m_clientLog;
+}
+
 AvatarManager &
 ClientThread::GetAvatarManager()
 {
