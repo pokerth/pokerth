@@ -962,6 +962,7 @@ void gameLobbyDialogImpl::updatePlayer(unsigned playerId, QString newPlayerName)
 			myNickListModel->item(it1, 0)->setData(countryString, 33);
 			if(playerInfo.isGuest || countryString.isEmpty()) {
 				myNickListModel->item(it1, 0)->setIcon(QIcon(":/cflags/cflags/undefined.png"));
+				myNickListModel->item(it1, 0)->setToolTip("");
 			} else {
 				myNickListModel->item(it1, 0)->setIcon(QIcon(QString(":/cflags/cflags/%1.png").arg(countryString)));
 				myNickListModel->item(it1, 0)->setToolTip(getFullCountryString(countryString.toUpper()));
