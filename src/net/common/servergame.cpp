@@ -375,17 +375,20 @@ ServerGame::InternalEndGame()
 void
 ServerGame::InternalKickPlayer(unsigned playerId)
 {
+	// Mark the player as kicked in the engine.
+	if (m_game) {
+		boost::shared_ptr<PlayerInterface> tmpPlayer(m_game->getPlayerByUniqueId(playerId));
+		if (tmpPlayer) {
+			// Player was kicked, so he is not allowed to rejoin.
+			tmpPlayer->setIsKicked(true);
+			tmpPlayer->setMyGuid("");
+		}
+	}
+
+	// Kick the network session from this game.
 	boost::shared_ptr<SessionData> tmpSession(GetSessionManager().GetSessionByUniquePlayerId(playerId));
 	// Only kick if the player was found.
 	if (tmpSession) {
-		if (m_game) {
-			boost::shared_ptr<PlayerInterface> tmpPlayer(m_game->getPlayerByUniqueId(playerId));
-			if (tmpPlayer) {
-				// Mark the player as kicked, so that he is not allowed to rejoin.
-				tmpPlayer->setIsKicked(true);
-				tmpPlayer->setMyGuid("");
-			}
-		}
 		MoveSessionToLobby(tmpSession, NTF_NET_REMOVED_KICKED);
 	}
 	// KICKING COMPUTER PLAYERS IS BUGGY AND OCCASIONALLY CAUSES A CRASH
