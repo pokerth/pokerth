@@ -282,6 +282,8 @@ public:
 
 	void setIsConnected(bool connected);
 	bool isConnected() const;
+	void setIsKicked(bool kicked);
+	bool isKicked() const;
 
 	unsigned getActionTimeoutCounter() const;
 	void incrementActionTimeoutCounter();
@@ -333,6 +335,7 @@ private:
 
 	unsigned m_actionTimeoutCounter;
 	bool m_isConnected;
+	bool m_isKicked;
 };
 
 #endif

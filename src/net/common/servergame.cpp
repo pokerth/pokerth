@@ -375,10 +375,19 @@ ServerGame::InternalEndGame()
 void
 ServerGame::InternalKickPlayer(unsigned playerId)
 {
-	boost::shared_ptr<SessionData> tmpSession = GetSessionManager().GetSessionByUniquePlayerId(playerId);
+	boost::shared_ptr<SessionData> tmpSession(GetSessionManager().GetSessionByUniquePlayerId(playerId));
 	// Only kick if the player was found.
-	if (tmpSession)
+	if (tmpSession) {
+		if (m_game) {
+			boost::shared_ptr<PlayerInterface> tmpPlayer(m_game->getPlayerByUniqueId(playerId));
+			if (tmpPlayer) {
+				// Mark the player as kicked, so that he is not allowed to rejoin.
+				tmpPlayer->setIsKicked(true);
+				tmpPlayer->setMyGuid("");
+			}
+		}
 		MoveSessionToLobby(tmpSession, NTF_NET_REMOVED_KICKED);
+	}
 	// KICKING COMPUTER PLAYERS IS BUGGY AND OCCASIONALLY CAUSES A CRASH
 	// Disabled for now.
 	//else
@@ -811,7 +820,10 @@ ServerGame::RemoveDisconnectedPlayers()
 			if ((tmpPlayer->getMyType() == PLAYER_TYPE_HUMAN && !GetSessionManager().IsPlayerConnected(tmpPlayer->getMyUniqueID()))
 					|| (tmpPlayer->getMyType() == PLAYER_TYPE_COMPUTER && !IsComputerPlayerActive(tmpPlayer->getMyUniqueID()))) {
 				// Setting player cash to 0 will deactivate the player.
-				//tmpPlayer->setMyCash(0);
+				// The player should only be deactivated if rejoin is not possible.
+				if (tmpPlayer->isKicked() || tmpPlayer->getMyGuid().empty()) {
+					tmpPlayer->setMyCash(0);
+				}
 				tmpPlayer->setIsConnected(false);
 			}
 			++i;

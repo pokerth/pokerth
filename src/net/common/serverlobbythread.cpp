@@ -905,7 +905,7 @@ ServerLobbyThread::HandlePacket(boost::shared_ptr<SessionData> session, boost::s
 			else if (packet->GetMsg()->present == PokerTHMessage_PR_avatarRequestMessage)
 				HandleNetPacketRetrieveAvatar(session, packet->GetMsg()->choice.avatarRequestMessage);
 			else if (packet->GetMsg()->present == PokerTHMessage_PR_resetTimeoutMessage)
-				{}
+			{}
 			else if (packet->GetMsg()->present == PokerTHMessage_PR_subscriptionRequestMessage) {
 				SubscriptionRequestMessage_t *subscriptionRequest = &packet->GetMsg()->choice.subscriptionRequestMessage;
 				if (subscriptionRequest->subscriptionAction == subscriptionAction_resubscribeGameList)
@@ -2207,17 +2207,19 @@ u_int32_t
 ServerLobbyThread::GetRejoinGameIdForPlayer(const std::string &playerName, const std::string &guid, unsigned &outPlayerUniqueId)
 {
 	u_int32_t retGameId = 0;
-	GameMap::iterator i = m_gameMap.begin();
-	GameMap::iterator end = m_gameMap.end();
-	while (i != end) {
-		boost::shared_ptr<ServerGame> tmpGame = i->second;
-		boost::shared_ptr<PlayerInterface> tmpPlayer = tmpGame->GetPlayerInterfaceFromGame(playerName);
-		if (tmpPlayer && tmpPlayer->getMyGuid() == guid) {
-			retGameId = tmpGame->GetId();
-			outPlayerUniqueId = tmpPlayer->getMyUniqueID();
-			break;
+	if (!guid.empty()) {
+		GameMap::iterator i = m_gameMap.begin();
+		GameMap::iterator end = m_gameMap.end();
+		while (i != end) {
+			boost::shared_ptr<ServerGame> tmpGame = i->second;
+			boost::shared_ptr<PlayerInterface> tmpPlayer = tmpGame->GetPlayerInterfaceFromGame(playerName);
+			if (tmpPlayer && tmpPlayer->getMyGuid() == guid) {
+				retGameId = tmpGame->GetId();
+				outPlayerUniqueId = tmpPlayer->getMyUniqueID();
+				break;
+			}
+			++i;
 		}
-		++i;
 	}
 	return retGameId;
 }

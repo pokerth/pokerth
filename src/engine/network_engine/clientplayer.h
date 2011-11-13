@@ -135,6 +135,8 @@ public:
 
 	void setIsConnected(bool connected);
 	bool isConnected() const;
+	void setIsKicked(bool kicked);
+	bool isKicked() const;
 
 	bool checkIfINeedToShowCards();
 
@@ -182,6 +184,7 @@ private:
 	bool sBluffStatus;
 
 	bool m_isConnected;
+	bool m_isKicked;
 };
 
 #endif
