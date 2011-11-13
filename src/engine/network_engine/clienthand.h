@@ -65,6 +65,7 @@ public:
 
 	void setCurrentRound ( GameState theValue );
 	GameState getCurrentRound() const;
+	GameState getRoundBeforePostRiver() const;
 
 	void setDealerPosition ( int theValue );
 	int getDealerPosition() const;
@@ -116,6 +117,7 @@ private:
 	int startQuantityPlayers;
 	unsigned dealerPosition;
 	GameState currentRound;
+	GameState roundBeforePostRiver;
 	int smallBlind;
 	int startCash;
 
@@ -124,9 +126,6 @@ private:
 
 	bool allInCondition;
 	bool cardsShown;
-
-	// hier steht bis zu welcher bettingRound der human player gespielt hat: 0 - nur Preflop, 1 - bis Flop, ...
-	int bettingRoundsPlayed;
 };
 
 #endif

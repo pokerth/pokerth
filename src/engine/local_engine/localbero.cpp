@@ -198,15 +198,6 @@ void LocalBeRo::run()
 		} else {
 			// aktuelle bero ist wirklich dran
 
-			// Anzahl der effektiv gespielten Runden (des human player) erhöhen
-			it_c = myHand->getActivePlayerIt(0);
-			if( it_c != myHand->getActivePlayerList()->end() ) {
-				// human player is active
-				if( (*it_c)->getMyAction() != PLAYER_ACTION_FOLD ) {
-					myHand->setBettingRoundsPlayed(myBeRoID);
-				}
-			}
-
 			// determine next running player
 			PlayerListConstIterator currentPlayersTurnIt = myHand->getRunningPlayerIt( currentPlayersTurnId );
 			if(currentPlayersTurnIt == myHand->getRunningPlayerList()->end()) {

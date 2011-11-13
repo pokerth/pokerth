@@ -22,9 +22,9 @@
 using namespace std;
 
 ClientHand::ClientHand(boost::shared_ptr<EngineFactory> f, GuiInterface *g, boost::shared_ptr<BoardInterface> b, Log *l, PlayerList sl, PlayerList apl, PlayerList rpl, int id, int sP, int dP, int sB,int sC)
-	: myFactory(f), myGui(g),  myBoard(b), myLog(l), seatsList(sl), activePlayerList(apl), runningPlayerList(rpl), myID(id), startQuantityPlayers(sP), dealerPosition(dP), currentRound(GAME_STATE_PREFLOP),
+	: myFactory(f), myGui(g),  myBoard(b), myLog(l), seatsList(sl), activePlayerList(apl), runningPlayerList(rpl), myID(id), startQuantityPlayers(sP), dealerPosition(dP), currentRound(GAME_STATE_PREFLOP), roundBeforePostRiver(GAME_STATE_PREFLOP),
 	  smallBlind(sB), startCash(sC), previousPlayerID(-1), allInCondition(0),
-	  cardsShown(false), bettingRoundsPlayed(0)
+	  cardsShown(false)
 {
 	PlayerListIterator it;
 
@@ -216,6 +216,13 @@ ClientHand::getCurrentRound() const
 	return currentRound;
 }
 
+GameState
+ClientHand::getRoundBeforePostRiver() const
+{
+	boost::recursive_mutex::scoped_lock lock(m_syncMutex);
+	return roundBeforePostRiver;
+}
+
 void
 ClientHand::setDealerPosition(int theValue)
 {
@@ -270,20 +277,6 @@ ClientHand::getStartCash() const
 {
 	boost::recursive_mutex::scoped_lock lock(m_syncMutex);
 	return startCash;
-}
-
-void
-ClientHand::setBettingRoundsPlayed(int theValue)
-{
-	boost::recursive_mutex::scoped_lock lock(m_syncMutex);
-	bettingRoundsPlayed = theValue;
-}
-
-int
-ClientHand::getBettingRoundsPlayed() const
-{
-	boost::recursive_mutex::scoped_lock lock(m_syncMutex);
-	return bettingRoundsPlayed;
 }
 
 void

@@ -30,8 +30,8 @@
 using namespace std;
 
 LocalHand::LocalHand(boost::shared_ptr<EngineFactory> f, GuiInterface *g, boost::shared_ptr<BoardInterface> b, Log *l, PlayerList sl, PlayerList apl, PlayerList rpl, int id, int sP, unsigned dP, int sB,int sC)
-	: myFactory(f), myGui(g),  myBoard(b), myLog(l), seatsList(sl), activePlayerList(apl), runningPlayerList(rpl), myBeRo(0), myID(id), startQuantityPlayers(sP), dealerPosition(dP), smallBlindPosition(dP), bigBlindPosition(dP), currentRound(GAME_STATE_PREFLOP), smallBlind(sB), startCash(sC), previousPlayerID(-1), lastActionPlayerID(0), allInCondition(false),
-	  cardsShown(false), bettingRoundsPlayed(0)
+	: myFactory(f), myGui(g),  myBoard(b), myLog(l), seatsList(sl), activePlayerList(apl), runningPlayerList(rpl), myBeRo(0), myID(id), startQuantityPlayers(sP), dealerPosition(dP), smallBlindPosition(dP), bigBlindPosition(dP), currentRound(GAME_STATE_PREFLOP), roundBeforePostRiver(GAME_STATE_PREFLOP), smallBlind(sB), startCash(sC), previousPlayerID(-1), lastActionPlayerID(0), allInCondition(false),
+	  cardsShown(false)
 {
 
 	int i, j, k;
@@ -656,39 +656,33 @@ void LocalHand::switchRounds()
 
 	myGui->refreshGameLabels((GameState)getCurrentRound());
 
+	if(currentRound < GAME_STATE_POST_RIVER) {
+		roundBeforePostRiver = currentRound;
+	}
+
 	switch(currentRound) {
-	case 0: {
-		// start preflop
+	case GAME_STATE_PREFLOP: {
 		myGui->preflopAnimation1();
 	}
 	break;
-	case 1: {
-		// start flop
+	case GAME_STATE_FLOP: {
 		myGui->flopAnimation1();
 	}
 	break;
-	case 2: {
-		// start turn
+	case GAME_STATE_TURN: {
 		myGui->turnAnimation1();
-
 	}
 	break;
-	case 3: {
-		// start river
+	case GAME_STATE_RIVER: {
 		myGui->riverAnimation1();
-
 	}
 	break;
-	case 4: {
-		// start post river
+	case GAME_STATE_POST_RIVER: {
 		myGui->postRiverAnimation1();
-
 	}
 	break;
 	default:
 	{}
-
-
 
 	}
 

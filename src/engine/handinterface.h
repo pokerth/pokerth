@@ -54,6 +54,7 @@ public:
 
 	virtual void setCurrentRound(GameState theValue) =0;
 	virtual GameState getCurrentRound() const =0;
+	virtual GameState getRoundBeforePostRiver() const =0;
 
 	virtual void setDealerPosition(int theValue) =0;
 	virtual int getDealerPosition() const =0;
@@ -66,9 +67,6 @@ public:
 
 	virtual void setStartCash(int theValue) =0;
 	virtual int getStartCash() const =0;
-
-	virtual void setBettingRoundsPlayed(int theValue) =0;
-	virtual int getBettingRoundsPlayed() const =0;
 
 	virtual void setPreviousPlayerID(int theValue) =0;
 	virtual int getPreviousPlayerID() const =0;

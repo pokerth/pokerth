@@ -94,6 +94,9 @@ public:
 	GameState getCurrentRound() const {
 		return currentRound;
 	}
+	GameState getRoundBeforePostRiver() const {
+		return roundBeforePostRiver;
+	}
 
 	void setDealerPosition(int theValue) {
 		dealerPosition = theValue;
@@ -121,13 +124,6 @@ public:
 	}
 	int getStartCash() const {
 		return startCash;
-	}
-
-	void setBettingRoundsPlayed(int theValue) {
-		bettingRoundsPlayed = theValue;
-	}
-	int getBettingRoundsPlayed() const {
-		return bettingRoundsPlayed;
 	}
 
 	void setPreviousPlayerID(int theValue) {
@@ -178,6 +174,7 @@ private:
 	unsigned smallBlindPosition;
 	unsigned bigBlindPosition;
 	GameState currentRound;
+	GameState roundBeforePostRiver;
 	int smallBlind;
 	int startCash;
 
@@ -186,9 +183,6 @@ private:
 
 	bool allInCondition;
 	bool cardsShown;
-
-	// hier steht bis zu welcher bettingRound der human player gespielt hat: 0 - nur Preflop, 1 - bis Flop, ...
-	int bettingRoundsPlayed;
 };
 
 #endif
