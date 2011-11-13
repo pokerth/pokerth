@@ -88,6 +88,9 @@ public:
 	void setMyCardsValueInt(int theValue);
 	int getMyCardsValueInt() const;
 
+	void setLogHoleCardsDone(bool theValue);
+	bool getLogHoleCardsDone() const;
+
 	void setMyBestHandPosition(int* theValue);
 	void getMyBestHandPosition(int* theValue) const;
 
@@ -157,6 +160,7 @@ private:
 	int myBestHandPosition[5];
 	double myOdds;
 	int myNiveau[3];
+	bool logHoleCardsDone;
 
 	int myCards[2];
 	int myCash;

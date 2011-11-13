@@ -1682,6 +1682,7 @@ ClientStateWaitHand::InternalHandlePacket(boost::shared_ptr<ClientThread> client
 		tmpPlayer->setLastMoneyWon(r->moneyWon);
 
 		client->GetCallback().SignalNetClientPostRiverShowCards(r->playerId);
+		client->GetClientLog()->logHoleCardsHandName(GAME_STATE_POST_RIVER, client->GetGame()->getActivePlayerList(), tmpPlayer, true);
 	} else if (tmpPacket->GetMsg()->present == PokerTHMessage_PR_playerIdChangedMessage) {
 		boost::shared_ptr<Game> curGame = client->GetGame();
 		if (curGame) {
@@ -1782,7 +1783,7 @@ ClientStateRunHand::InternalHandlePacket(boost::shared_ptr<ClientThread> client,
 			client->GetGui().flushLogAtHand();
 			client->GetClientLog()->logNewHandMsg(
 				curGame->getCurrentHandID(),
-				curGame->getDealerPosition(),
+				curGame->getPlayerByUniqueId(curGame->getCurrentHand()->getDealerPosition())->getMyID()+1,
 				curGame->getCurrentHand()->getSmallBlind(),
 				curGame->getPlayerByUniqueId(curGame->getCurrentHand()->getCurrentBeRo()->getSmallBlindPositionId())->getMyID()+1,
 				curGame->getCurrentHand()->getSmallBlind()*2,
@@ -1911,6 +1912,12 @@ ClientStateRunHand::InternalHandlePacket(boost::shared_ptr<ClientThread> client,
 			tmpPlayer->setMyCards(tmpCards);
 		}
 		client->GetGui().flipHolecardsAllIn();
+		if(curGame->getCurrentHand()->getCurrentRound()<GAME_STATE_RIVER) {
+			client->GetClientLog()->logHoleCardsHandName(
+				curGame->getCurrentHand()->getCurrentRound(),
+				curGame->getActivePlayerList()
+			);
+		}
 	} else if (tmpPacket->GetMsg()->present == PokerTHMessage_PR_endOfHandMessage) {
 		EndOfHandMessage_t *netEndHand = &tmpPacket->GetMsg()->choice.endOfHandMessage;
 
@@ -1936,6 +1943,9 @@ ClientStateRunHand::InternalHandlePacket(boost::shared_ptr<ClientThread> client,
 
 			curGame->getCurrentHand()->getBoard()->setPot(0);
 			curGame->getCurrentHand()->getBoard()->setWinners(winnerList);
+
+			// logging
+			client->GetClientLog()->logHandWinner(curGame->getActivePlayerList(), tmpPlayer->getMyCardsValueInt(), winnerList);
 
 			client->GetGui().postRiverRunAnimation1();
 
@@ -1991,12 +2001,22 @@ ClientStateRunHand::InternalHandlePacket(boost::shared_ptr<ClientThread> client,
 			curGame->getCurrentHand()->getBoard()->setWinners(winnerList);
 			curGame->getCurrentHand()->getBoard()->setPlayerNeedToShowCards(showList);
 
+			// logging
+			client->GetClientLog()->logHoleCardsHandName(GAME_STATE_POST_RIVER,curGame->getActivePlayerList());
+			client->GetClientLog()->logHandWinner(curGame->getActivePlayerList(), highestValueOfCards, winnerList);
+
 			client->GetGui().postRiverRunAnimation1();
 
 			// Wait for next Hand.
 			client->GetCallback().SignalNetClientGameInfo(MSG_NET_GAME_CLIENT_HAND_END);
 			client->SetState(ClientStateWaitHand::Instance());
 		}
+
+		// logging
+		client->GetClientLog()->logPlayerSitsOut(curGame->getActivePlayerList());
+		client->GetClientLog()->logGameWinner(curGame->getActivePlayerList());
+		client->GetClientLog()->logAfterHand();
+
 	}
 	// Synchronize with GUI.
 	client->GetGui().waitForGuiUpdateDone();

@@ -24,7 +24,7 @@ using namespace std;
 
 ClientPlayer::ClientPlayer(ConfigFile *c, int id, unsigned uniqueId, PlayerType type, std::string name, std::string avatar, int sC, bool aS, int mB)
 	: PlayerInterface(), myConfig(c), currentHand(0), myID(id), myUniqueID(uniqueId), myType(type),
-	  myName(name), myAvatar(avatar), myDude(0), myDude4(0), myCardsValueInt(0), myOdds(-1.0), myCash(sC), mySet(0), myLastRelativeSet(0),
+	  myName(name), myAvatar(avatar), myDude(0), myDude4(0), myCardsValueInt(0), myOdds(-1.0), logHoleCardsDone(false), myCash(sC), mySet(0), myLastRelativeSet(0),
 	  myAction(PLAYER_ACTION_NONE), myButton(mB), myActiveStatus(aS), myStayOnTableStatus(true), myTurn(false), myCardsFlip(false), myRoundStartCash(0),
 	  lastMoneyWon(0), sBluff(0), sBluffStatus(false), m_isConnected(false)
 {
@@ -322,6 +322,20 @@ ClientPlayer::getMyCardsValueInt() const
 {
 	boost::recursive_mutex::scoped_lock lock(m_syncMutex);
 	return myCardsValueInt;
+}
+
+void
+ClientPlayer::setLogHoleCardsDone(bool theValue)
+{
+	boost::recursive_mutex::scoped_lock lock(m_syncMutex);
+	logHoleCardsDone = theValue;
+}
+
+bool
+ClientPlayer::getLogHoleCardsDone() const
+{
+	boost::recursive_mutex::scoped_lock lock(m_syncMutex);
+	return logHoleCardsDone;
 }
 
 void

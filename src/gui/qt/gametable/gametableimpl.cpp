@@ -2501,7 +2501,7 @@ void gameTableImpl::postRiverRunAnimation3()
 		}
 	}
 
-	textBrowser_Log->append("");
+//	textBrowser_Log->append("");
 
 	postRiverRunAnimation3Timer->start(postRiverRunAnimationSpeed/2);
 }

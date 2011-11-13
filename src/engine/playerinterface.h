@@ -86,6 +86,9 @@ public:
 	virtual void setMyCardsValueInt(int theValue) =0;
 	virtual int getMyCardsValueInt() const =0;
 
+	virtual void setLogHoleCardsDone(bool theValue) =0;
+	virtual bool getLogHoleCardsDone() const =0;
+
 	virtual void setMyBestHandPosition(int* theValue) =0;
 	virtual void getMyBestHandPosition(int* theValue) const =0;
 

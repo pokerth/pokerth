@@ -189,6 +189,14 @@ public:
 		return myCardsValueInt;
 	}
 
+	void setLogHoleCardsDone(bool theValue) {
+		logHoleCardsDone = theValue;
+	}
+
+	bool getLogHoleCardsDone() const {
+		return logHoleCardsDone;
+	}
+
 	void setMyBestHandPosition(int* theValue) {
 		for (int i = 0; i < 5; i++)
 			myBestHandPosition[i] = theValue[i];
@@ -302,6 +310,7 @@ private:
 	int myBestHandPosition[5];
 	double myOdds;
 	int myNiveau[3];
+	bool logHoleCardsDone;
 
 	int myCards[2];
 	int myCash;

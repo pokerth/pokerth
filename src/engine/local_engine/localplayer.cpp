@@ -847,7 +847,7 @@ static const RoundData FlopValues[] = {
 
 LocalPlayer::LocalPlayer(ConfigFile *c, int id, unsigned uniqueId, PlayerType type, std::string name, std::string avatar, int sC, bool aS, int mB)
 	: PlayerInterface(), myConfig(c), currentHand(0), myID(id), myUniqueID(uniqueId), myType(type), myName(name), myAvatar(avatar),
-	  myDude(0), myDude4(0), myCardsValueInt(0), myOdds(-1.0), myCash(sC), mySet(0), myLastRelativeSet(0), myAction(PLAYER_ACTION_NONE),
+	  myDude(0), myDude4(0), myCardsValueInt(0), myOdds(-1.0), logHoleCardsDone(false), myCash(sC), mySet(0), myLastRelativeSet(0), myAction(PLAYER_ACTION_NONE),
 	  myButton(mB), myActiveStatus(aS), myStayOnTableStatus(1), myTurn(0), myCardsFlip(0), myRoundStartCash(0), lastMoneyWon(0),
 	  sBluff(0), sBluffStatus(false), m_actionTimeoutCounter(0), m_isConnected(false)
 {
@@ -3211,10 +3211,8 @@ void LocalPlayer::riverEngine()
 void LocalPlayer::evaluation(int bet, int raise)
 {
 
-
 	int highestSet = currentHand->getCurrentBeRo()->getHighestSet();
 
-	// 	cout << "myAction(evaluation): " << myAction << endl;
 	switch(myAction) {
 		// none
 	case 0:
@@ -3222,30 +3220,24 @@ void LocalPlayer::evaluation(int bet, int raise)
 	break;
 	// fold
 	case 1: {
-//		currentHand->getLog()->logPlayerAction(currentHand->getCurrentRound(),myID+1,LOG_ACTION_FOLD);
 	}
 	break;
 	// check
 	case 2: {
-//		currentHand->getLog()->logPlayerAction(currentHand->getCurrentRound(),myID+1,LOG_ACTION_CHECK);
 	}
 	break;
 	// call
 	case 3: {
-		// 			cout << "evaluation(call) - highestSet = " << highestSet << endl;
 		// all in
 		if(highestSet >= myCash + mySet) {
 			mySet += myCash;
 			myCash = 0;
 			myAction = PLAYER_ACTION_ALLIN;
-//			currentHand->getLog()->logPlayerAction(currentHand->getCurrentRound(),myID+1,LOG_ACTION_ALL_IN,mySet);
-			// 				cout << "evaluation(call) - mySet: " << mySet << endl;
 		}
 		// sonst
 		else {
 			myCash = myCash - highestSet + mySet;
 			mySet = highestSet;
-//			currentHand->getLog()->logPlayerAction(currentHand->getCurrentRound(),myID+1,LOG_ACTION_CALL,mySet);
 		}
 	}
 	break;
@@ -3262,7 +3254,6 @@ void LocalPlayer::evaluation(int bet, int raise)
 			myCash = 0;
 			myAction = PLAYER_ACTION_ALLIN;
 			highestSet = mySet;
-//			currentHand->getLog()->logPlayerAction(currentHand->getCurrentRound(),myID+1,LOG_ACTION_ALL_IN,mySet);
 		}
 		// sonst
 		else {
@@ -3270,7 +3261,6 @@ void LocalPlayer::evaluation(int bet, int raise)
 			myCash = myCash - bet;
 			mySet = bet;
 			highestSet = mySet;
-//			currentHand->getLog()->logPlayerAction(currentHand->getCurrentRound(),myID+1,LOG_ACTION_BET,mySet);
 
 		}
 		// lastPlayerAction für Karten umblättern reihenfolge setzrn
@@ -3285,14 +3275,12 @@ void LocalPlayer::evaluation(int bet, int raise)
 				mySet += myCash;
 				myCash = 0;
 				myAction = PLAYER_ACTION_ALLIN;
-//				currentHand->getLog()->logPlayerAction(currentHand->getCurrentRound(),myID+1,LOG_ACTION_ALL_IN,mySet);
 			}
 			// sonst
 			else {
 				myCash = myCash - highestSet + mySet;
 				mySet = highestSet;
 				myAction = PLAYER_ACTION_CALL;
-//				currentHand->getLog()->logPlayerAction(currentHand->getCurrentRound(),myID+1,LOG_ACTION_CALL,mySet);
 			}
 		} else {
 			if(raise < currentHand->getCurrentBeRo()->getMinimumRaise()) {
@@ -3329,7 +3317,6 @@ void LocalPlayer::evaluation(int bet, int raise)
 					myAction = PLAYER_ACTION_ALLIN;
 					highestSet = mySet;
 				}
-//				currentHand->getLog()->logPlayerAction(currentHand->getCurrentRound(),myID+1,LOG_ACTION_ALL_IN,mySet);
 			}
 			// sonst
 			else {
@@ -3339,25 +3326,19 @@ void LocalPlayer::evaluation(int bet, int raise)
 				highestSet = mySet;
 				// lastPlayerAction für Karten umblättern reihenfolge setzrn
 				currentHand->setLastActionPlayerID(myUniqueID);
-//				currentHand->getLog()->logPlayerAction(currentHand->getCurrentRound(),myID+1,LOG_ACTION_BET,mySet);
 			}
 		}
 	}
 	break;
 	// all in
 	case 6: {
-//		currentHand->getLog()->logPlayerAction(currentHand->getCurrentRound(),myID+1,LOG_ACTION_ALL_IN,mySet);
 	}
 	break;
 	default:
 	{}
 	}
 
-	// 	cout << "highestSet(ende evaluation): " << highestSet << endl;
-
 	currentHand->getCurrentBeRo()->setHighestSet(highestSet);
-
-//    cout << "lAP: " << currentHand->getLastActionPlayer() << endl;
 
 }
 

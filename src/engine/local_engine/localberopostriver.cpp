@@ -83,7 +83,7 @@ void LocalBeRoPostRiver::postRiverRun()
 	//Pot auf 0 setzen
 	getMyHand()->getBoard()->setPot(0);
 
-	// logging hole Cards / Hands
+	// logging
 	int nonfoldPlayersCounter = 0;
 	for (it_c=getMyHand()->getActivePlayerList()->begin(); it_c!=getMyHand()->getActivePlayerList()->end(); ++it_c) {
 		if ((*it_c)->getMyAction() != PLAYER_ACTION_FOLD) nonfoldPlayersCounter++;
@@ -91,52 +91,10 @@ void LocalBeRoPostRiver::postRiverRun()
 	if(nonfoldPlayersCounter>1) {
 		getMyHand()->getLog()->logHoleCardsHandName(GAME_STATE_POST_RIVER,getMyHand()->getActivePlayerList());
 	}
-
-	// logging winner of the hand
-	for(it_c=getMyHand()->getActivePlayerList()->begin(); it_c!=getMyHand()->getActivePlayerList()->end(); ++it_c) {
-		if((*it_c)->getMyAction() != PLAYER_ACTION_FOLD && (*it_c)->getMyCardsValueInt() == highestCardsValue) {
-			getMyHand()->getLog()->logPlayerAction(GAME_STATE_POST_RIVER,(*it_c)->getMyID()+1,LOG_ACTION_WIN,(*it_c)->getLastMoneyWon());
-		}
-	}
-
-	// log side pot winners
-	list<unsigned> winners = getMyHand()->getBoard()->getWinners();
-	list<unsigned>::iterator it_int;
-	for(it_c=getMyHand()->getActivePlayerList()->begin(); it_c!=getMyHand()->getActivePlayerList()->end(); ++it_c) {
-		if((*it_c)->getMyAction() != PLAYER_ACTION_FOLD && (*it_c)->getMyCardsValueInt() != highestCardsValue ) {
-
-			for(it_int = winners.begin(); it_int != winners.end(); ++it_int) {
-				if((*it_int) == (*it_c)->getMyUniqueID()) {
-					getMyHand()->getLog()->logPlayerAction(GAME_STATE_POST_RIVER,(*it_c)->getMyID()+1,LOG_ACTION_WIN_SIDE_POT,(*it_c)->getLastMoneyWon());
-				}
-			}
-		}
-	}
-
-	// log player sits out
-	for(it_c=getMyHand()->getActivePlayerList()->begin(); it_c!=getMyHand()->getActivePlayerList()->end(); ++it_c) {
-		if((*it_c)->getMyCash() == 0) {
-			getMyHand()->getLog()->logPlayerAction(GAME_STATE_POST_RIVER, (*it_c)->getMyID()+1, LOG_ACTION_SIT_OUT);
-		}
-	}
-
-	// for log after every hand
+	getMyHand()->getLog()->logHandWinner(getMyHand()->getActivePlayerList(), highestCardsValue, getMyHand()->getBoard()->getWinners());
+	getMyHand()->getLog()->logPlayerSitsOut(getMyHand()->getActivePlayerList());
+	getMyHand()->getLog()->logGameWinner(getMyHand()->getActivePlayerList());
 	getMyHand()->getLog()->logAfterHand();
-
-	// log winner of the game if only one player is left
-	int playersPositiveCashCounter = 0;
-	for (it_c=getMyHand()->getActivePlayerList()->begin(); it_c!=getMyHand()->getActivePlayerList()->end(); ++it_c) {
-		if ((*it_c)->getMyCash() > 0) playersPositiveCashCounter++;
-	}
-	if (playersPositiveCashCounter==1) {
-		for (it_c=getMyHand()->getActivePlayerList()->begin(); it_c!=getMyHand()->getActivePlayerList()->end(); ++it_c) {
-			if ((*it_c)->getMyCash() > 0) {
-				getMyHand()->getLog()->logPlayerAction(GAME_STATE_POST_RIVER,(*it_c)->getMyID()+1,LOG_ACTION_WIN_GAME);
-			}
-		}
-		// for log after every game
-		getMyHand()->getLog()->logAfterGame();
-	}
 
 	//starte die Animaionsreihe
 	getMyHand()->getGuiInterface()->postRiverRunAnimation1();

@@ -40,6 +40,10 @@ public:
 	PlayerActionLog transformPlayerActionLog(PlayerAction action);
 	void logBoardCards(GameState bero, int boardCards[5]);
 	void logHoleCardsHandName(GameState bero, PlayerList activePlayerList);
+	void logHoleCardsHandName(GameState bero, PlayerList activePlayerList, boost::shared_ptr<PlayerInterface> player, bool forceExecLog = 0);
+	void logHandWinner(PlayerList activePlayerList, int highestCardsValue, std::list<unsigned> winners);
+	void logGameWinner(PlayerList activePlayerList);
+	void logPlayerSitsOut(PlayerList activePlayerList);
 	void logAfterHand();
 	void logAfterGame();
 	void exec_transaction();
@@ -52,7 +56,6 @@ private:
 	int curGameID;
 	int curHandID;
 	std::string sql;
-	bool logHoleCardsDone;
 };
 
 #endif // LOG_H
