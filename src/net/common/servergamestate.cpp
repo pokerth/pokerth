@@ -184,7 +184,7 @@ static void PerformPlayerAction(ServerGame &server, boost::shared_ptr<PlayerInte
 }
 
 static void
-SetPlayerResult(PlayerResult_t &playerResult, boost::shared_ptr<PlayerInterface> tmpPlayer)
+SetPlayerResult(PlayerResult_t &playerResult, boost::shared_ptr<PlayerInterface> tmpPlayer, GameState roundBeforePostRiver)
 {
 	playerResult.playerId = tmpPlayer->getMyUniqueID();
 	int tmpCards[2];
@@ -199,8 +199,10 @@ SetPlayerResult(PlayerResult_t &playerResult, boost::shared_ptr<PlayerInterface>
 		ASN_SEQUENCE_ADD(&playerResult.bestHandPosition.list, handPos);
 	}
 
-	playerResult.cardsValue = (long *)calloc(1, sizeof(long));
-	*playerResult.cardsValue = tmpPlayer->getMyCardsValueInt();
+	if (roundBeforePostRiver == GAME_STATE_RIVER) {
+		playerResult.cardsValue = (long *)calloc(1, sizeof(long));
+		*playerResult.cardsValue = tmpPlayer->getMyCardsValueInt();
+	}
 	playerResult.moneyWon = tmpPlayer->getLastMoneyWon();
 	playerResult.playerMoney = tmpPlayer->getMyCash();
 }
@@ -989,7 +991,7 @@ ServerGameStateHand::EngineLoop(boost::shared_ptr<ServerGame> server)
 					boost::shared_ptr<PlayerInterface> tmpPlayer(curGame.getPlayerByUniqueId(*i));
 					if (tmpPlayer) {
 						PlayerResult_t *playerResult = (PlayerResult_t *)calloc(1, sizeof(PlayerResult_t));
-						SetPlayerResult(*playerResult, tmpPlayer);
+						SetPlayerResult(*playerResult, tmpPlayer, GAME_STATE_RIVER);
 
 						ASN_SEQUENCE_ADD(&endHandShow->playerResults.list, playerResult);
 					}
@@ -1486,7 +1488,7 @@ ServerGameStateWaitNextHand::InternalProcessPacket(boost::shared_ptr<ServerGame>
 		AfterHandShowCardsMessage_t *netShowCards = &show->GetMsg()->choice.afterHandShowCardsMessage;
 		boost::shared_ptr<PlayerInterface> tmpPlayer(curGame.getPlayerByUniqueId(session->GetPlayerData()->GetUniqueId()));
 		if (tmpPlayer) {
-			SetPlayerResult(netShowCards->playerResult, tmpPlayer);
+			SetPlayerResult(netShowCards->playerResult, tmpPlayer, curGame.getCurrentHand()->getRoundBeforePostRiver());
 			server->SendToAllPlayers(show, SessionData::Game);
 		}
 	}
