@@ -44,12 +44,6 @@ import org.bn.types.*;
     
 	private java.util.Collection<Long>  bestHandPosition = null;
                 
-  @ASN1Integer( name = "" )
-    
-        @ASN1Element ( name = "cardsValue", isOptional =  true , hasTag =  false  , hasDefaultValue =  false  )
-    
-	private Long cardsValue = null;
-                
   
         @ASN1Element ( name = "moneyWon", isOptional =  false , hasTag =  false  , hasDefaultValue =  false  )
     
@@ -59,6 +53,12 @@ import org.bn.types.*;
         @ASN1Element ( name = "playerMoney", isOptional =  false , hasTag =  false  , hasDefaultValue =  false  )
     
 	private AmountOfMoney playerMoney = null;
+                
+  @ASN1Integer( name = "" )
+    
+        @ASN1Element ( name = "cardsValue", isOptional =  true , hasTag =  false  , hasDefaultValue =  false  )
+    
+	private Long cardsValue = null;
                 
   
         
@@ -110,22 +110,6 @@ import org.bn.types.*;
         
   
         
-        public Long getCardsValue () {
-            return this.cardsValue;
-        }
-
-        
-        public boolean isCardsValuePresent () {
-            return this.cardsValue != null;
-        }
-        
-
-        public void setCardsValue (Long value) {
-            this.cardsValue = value;
-        }
-        
-  
-        
         public AmountOfMoney getMoneyWon () {
             return this.moneyWon;
         }
@@ -146,6 +130,22 @@ import org.bn.types.*;
 
         public void setPlayerMoney (AmountOfMoney value) {
             this.playerMoney = value;
+        }
+        
+  
+        
+        public Long getCardsValue () {
+            return this.cardsValue;
+        }
+
+        
+        public boolean isCardsValuePresent () {
+            return this.cardsValue != null;
+        }
+        
+
+        public void setCardsValue (Long value) {
+            this.cardsValue = value;
         }
         
   
