@@ -674,6 +674,10 @@ AbstractClientStateReceiving::HandlePacket(boost::shared_ptr<ClientThread> clien
 			// A player left the game.
 			GamePlayerLeft_t *netLeft = &netGamePlayer->gamePlayerNotification.choice.gamePlayerLeft;
 
+			boost::shared_ptr<PlayerInterface> tmpPlayer = client->GetGame()->getPlayerByUniqueId(netLeft->playerId);
+			if (tmpPlayer) {
+				tmpPlayer->setIsKicked(netLeft->gamePlayerLeftReason == gamePlayerLeftReason_leftKicked);
+			}
 			// Signal to GUI and remove from data list.
 			client->RemovePlayerData(netLeft->playerId, netLeft->gamePlayerLeftReason);
 		} else if (netGamePlayer->gamePlayerNotification.present == gamePlayerNotification_PR_gameAdminChanged) {
