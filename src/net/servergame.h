@@ -115,6 +115,7 @@ protected:
 	void RemoveAutoLeavePlayers();
 	void InternalEndGame();
 
+	void MarkPlayerAsKicked(unsigned playerId);
 	void InternalKickPlayer(unsigned playerId);
 	void InternalAskVoteKick(boost::shared_ptr<SessionData> byWhom, unsigned playerIdWho, unsigned timeoutSec);
 	void InternalDenyAskVoteKick(boost::shared_ptr<SessionData> byWhom, unsigned playerIdWho, DenyKickPlayerReason reason);

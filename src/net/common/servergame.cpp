@@ -97,6 +97,9 @@ ServerGame::AddSession(boost::shared_ptr<SessionData> session)
 void
 ServerGame::RemovePlayer(unsigned playerId, unsigned errorCode)
 {
+	if (errorCode == ERR_NET_PLAYER_KICKED) {
+		MarkPlayerAsKicked(playerId);
+	}
 	boost::shared_ptr<SessionData> tmpSession = GetSessionManager().GetSessionByUniquePlayerId(playerId);
 	// Only kick if the player was found.
 	if (tmpSession)
@@ -373,7 +376,7 @@ ServerGame::InternalEndGame()
 }
 
 void
-ServerGame::InternalKickPlayer(unsigned playerId)
+ServerGame::MarkPlayerAsKicked(unsigned playerId)
 {
 	// Mark the player as kicked in the engine.
 	if (m_game) {
@@ -384,6 +387,12 @@ ServerGame::InternalKickPlayer(unsigned playerId)
 			tmpPlayer->setMyGuid("");
 		}
 	}
+}
+
+void
+ServerGame::InternalKickPlayer(unsigned playerId)
+{
+	MarkPlayerAsKicked(playerId);
 
 	// Kick the network session from this game.
 	boost::shared_ptr<SessionData> tmpSession(GetSessionManager().GetSessionByUniquePlayerId(playerId));

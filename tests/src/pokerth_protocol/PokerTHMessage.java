@@ -274,11 +274,6 @@ import org.bn.types.*;
 	private ResetTimeoutMessage resetTimeoutMessage = null;
                 
   
-        @ASN1Element ( name = "afkWarningMessage", isOptional =  false , hasTag =  false  , hasDefaultValue =  false  )
-    
-	private AfkWarningMessage afkWarningMessage = null;
-                
-  
         @ASN1Element ( name = "reportAvatarMessage", isOptional =  false , hasTag =  false  , hasDefaultValue =  false  )
     
 	private ReportAvatarMessage reportAvatarMessage = null;
@@ -411,8 +406,6 @@ import org.bn.types.*;
                 
                     setResetTimeoutMessage(null);
                 
-                    setAfkWarningMessage(null);
-                
                     setReportAvatarMessage(null);
                 
                     setReportAvatarAckMessage(null);
@@ -539,8 +532,6 @@ import org.bn.types.*;
                     setTimeoutWarningMessage(null);
                 
                     setResetTimeoutMessage(null);
-                
-                    setAfkWarningMessage(null);
                 
                     setReportAvatarMessage(null);
                 
@@ -669,8 +660,6 @@ import org.bn.types.*;
                 
                     setResetTimeoutMessage(null);
                 
-                    setAfkWarningMessage(null);
-                
                     setReportAvatarMessage(null);
                 
                     setReportAvatarAckMessage(null);
@@ -797,8 +786,6 @@ import org.bn.types.*;
                     setTimeoutWarningMessage(null);
                 
                     setResetTimeoutMessage(null);
-                
-                    setAfkWarningMessage(null);
                 
                     setReportAvatarMessage(null);
                 
@@ -927,8 +914,6 @@ import org.bn.types.*;
                 
                     setResetTimeoutMessage(null);
                 
-                    setAfkWarningMessage(null);
-                
                     setReportAvatarMessage(null);
                 
                     setReportAvatarAckMessage(null);
@@ -1055,8 +1040,6 @@ import org.bn.types.*;
                     setTimeoutWarningMessage(null);
                 
                     setResetTimeoutMessage(null);
-                
-                    setAfkWarningMessage(null);
                 
                     setReportAvatarMessage(null);
                 
@@ -1185,8 +1168,6 @@ import org.bn.types.*;
                 
                     setResetTimeoutMessage(null);
                 
-                    setAfkWarningMessage(null);
-                
                     setReportAvatarMessage(null);
                 
                     setReportAvatarAckMessage(null);
@@ -1313,8 +1294,6 @@ import org.bn.types.*;
                     setTimeoutWarningMessage(null);
                 
                     setResetTimeoutMessage(null);
-                
-                    setAfkWarningMessage(null);
                 
                     setReportAvatarMessage(null);
                 
@@ -1443,8 +1422,6 @@ import org.bn.types.*;
                 
                     setResetTimeoutMessage(null);
                 
-                    setAfkWarningMessage(null);
-                
                     setReportAvatarMessage(null);
                 
                     setReportAvatarAckMessage(null);
@@ -1571,8 +1548,6 @@ import org.bn.types.*;
                     setTimeoutWarningMessage(null);
                 
                     setResetTimeoutMessage(null);
-                
-                    setAfkWarningMessage(null);
                 
                     setReportAvatarMessage(null);
                 
@@ -1701,8 +1676,6 @@ import org.bn.types.*;
                 
                     setResetTimeoutMessage(null);
                 
-                    setAfkWarningMessage(null);
-                
                     setReportAvatarMessage(null);
                 
                     setReportAvatarAckMessage(null);
@@ -1829,8 +1802,6 @@ import org.bn.types.*;
                     setTimeoutWarningMessage(null);
                 
                     setResetTimeoutMessage(null);
-                
-                    setAfkWarningMessage(null);
                 
                     setReportAvatarMessage(null);
                 
@@ -1959,8 +1930,6 @@ import org.bn.types.*;
                 
                     setResetTimeoutMessage(null);
                 
-                    setAfkWarningMessage(null);
-                
                     setReportAvatarMessage(null);
                 
                     setReportAvatarAckMessage(null);
@@ -2087,8 +2056,6 @@ import org.bn.types.*;
                     setTimeoutWarningMessage(null);
                 
                     setResetTimeoutMessage(null);
-                
-                    setAfkWarningMessage(null);
                 
                     setReportAvatarMessage(null);
                 
@@ -2217,8 +2184,6 @@ import org.bn.types.*;
                 
                     setResetTimeoutMessage(null);
                 
-                    setAfkWarningMessage(null);
-                
                     setReportAvatarMessage(null);
                 
                     setReportAvatarAckMessage(null);
@@ -2345,8 +2310,6 @@ import org.bn.types.*;
                     setTimeoutWarningMessage(null);
                 
                     setResetTimeoutMessage(null);
-                
-                    setAfkWarningMessage(null);
                 
                     setReportAvatarMessage(null);
                 
@@ -2475,8 +2438,6 @@ import org.bn.types.*;
                 
                     setResetTimeoutMessage(null);
                 
-                    setAfkWarningMessage(null);
-                
                     setReportAvatarMessage(null);
                 
                     setReportAvatarAckMessage(null);
@@ -2603,8 +2564,6 @@ import org.bn.types.*;
                     setTimeoutWarningMessage(null);
                 
                     setResetTimeoutMessage(null);
-                
-                    setAfkWarningMessage(null);
                 
                     setReportAvatarMessage(null);
                 
@@ -2733,8 +2692,6 @@ import org.bn.types.*;
                 
                     setResetTimeoutMessage(null);
                 
-                    setAfkWarningMessage(null);
-                
                     setReportAvatarMessage(null);
                 
                     setReportAvatarAckMessage(null);
@@ -2861,8 +2818,6 @@ import org.bn.types.*;
                     setTimeoutWarningMessage(null);
                 
                     setResetTimeoutMessage(null);
-                
-                    setAfkWarningMessage(null);
                 
                     setReportAvatarMessage(null);
                 
@@ -2991,8 +2946,6 @@ import org.bn.types.*;
                 
                     setResetTimeoutMessage(null);
                 
-                    setAfkWarningMessage(null);
-                
                     setReportAvatarMessage(null);
                 
                     setReportAvatarAckMessage(null);
@@ -3119,8 +3072,6 @@ import org.bn.types.*;
                     setTimeoutWarningMessage(null);
                 
                     setResetTimeoutMessage(null);
-                
-                    setAfkWarningMessage(null);
                 
                     setReportAvatarMessage(null);
                 
@@ -3249,8 +3200,6 @@ import org.bn.types.*;
                 
                     setResetTimeoutMessage(null);
                 
-                    setAfkWarningMessage(null);
-                
                     setReportAvatarMessage(null);
                 
                     setReportAvatarAckMessage(null);
@@ -3377,8 +3326,6 @@ import org.bn.types.*;
                     setTimeoutWarningMessage(null);
                 
                     setResetTimeoutMessage(null);
-                
-                    setAfkWarningMessage(null);
                 
                     setReportAvatarMessage(null);
                 
@@ -3507,8 +3454,6 @@ import org.bn.types.*;
                 
                     setResetTimeoutMessage(null);
                 
-                    setAfkWarningMessage(null);
-                
                     setReportAvatarMessage(null);
                 
                     setReportAvatarAckMessage(null);
@@ -3635,8 +3580,6 @@ import org.bn.types.*;
                     setTimeoutWarningMessage(null);
                 
                     setResetTimeoutMessage(null);
-                
-                    setAfkWarningMessage(null);
                 
                     setReportAvatarMessage(null);
                 
@@ -3765,8 +3708,6 @@ import org.bn.types.*;
                 
                     setResetTimeoutMessage(null);
                 
-                    setAfkWarningMessage(null);
-                
                     setReportAvatarMessage(null);
                 
                     setReportAvatarAckMessage(null);
@@ -3893,8 +3834,6 @@ import org.bn.types.*;
                     setTimeoutWarningMessage(null);
                 
                     setResetTimeoutMessage(null);
-                
-                    setAfkWarningMessage(null);
                 
                     setReportAvatarMessage(null);
                 
@@ -4023,8 +3962,6 @@ import org.bn.types.*;
                 
                     setResetTimeoutMessage(null);
                 
-                    setAfkWarningMessage(null);
-                
                     setReportAvatarMessage(null);
                 
                     setReportAvatarAckMessage(null);
@@ -4151,8 +4088,6 @@ import org.bn.types.*;
                     setTimeoutWarningMessage(null);
                 
                     setResetTimeoutMessage(null);
-                
-                    setAfkWarningMessage(null);
                 
                     setReportAvatarMessage(null);
                 
@@ -4281,8 +4216,6 @@ import org.bn.types.*;
                 
                     setResetTimeoutMessage(null);
                 
-                    setAfkWarningMessage(null);
-                
                     setReportAvatarMessage(null);
                 
                     setReportAvatarAckMessage(null);
@@ -4409,8 +4342,6 @@ import org.bn.types.*;
                     setTimeoutWarningMessage(null);
                 
                     setResetTimeoutMessage(null);
-                
-                    setAfkWarningMessage(null);
                 
                     setReportAvatarMessage(null);
                 
@@ -4539,8 +4470,6 @@ import org.bn.types.*;
                 
                     setResetTimeoutMessage(null);
                 
-                    setAfkWarningMessage(null);
-                
                     setReportAvatarMessage(null);
                 
                     setReportAvatarAckMessage(null);
@@ -4667,8 +4596,6 @@ import org.bn.types.*;
                     setTimeoutWarningMessage(null);
                 
                     setResetTimeoutMessage(null);
-                
-                    setAfkWarningMessage(null);
                 
                     setReportAvatarMessage(null);
                 
@@ -4797,8 +4724,6 @@ import org.bn.types.*;
                 
                     setResetTimeoutMessage(null);
                 
-                    setAfkWarningMessage(null);
-                
                     setReportAvatarMessage(null);
                 
                     setReportAvatarAckMessage(null);
@@ -4925,8 +4850,6 @@ import org.bn.types.*;
                     setTimeoutWarningMessage(null);
                 
                     setResetTimeoutMessage(null);
-                
-                    setAfkWarningMessage(null);
                 
                     setReportAvatarMessage(null);
                 
@@ -5055,8 +4978,6 @@ import org.bn.types.*;
                 
                     setResetTimeoutMessage(null);
                 
-                    setAfkWarningMessage(null);
-                
                     setReportAvatarMessage(null);
                 
                     setReportAvatarAckMessage(null);
@@ -5183,8 +5104,6 @@ import org.bn.types.*;
                     setTimeoutWarningMessage(null);
                 
                     setResetTimeoutMessage(null);
-                
-                    setAfkWarningMessage(null);
                 
                     setReportAvatarMessage(null);
                 
@@ -5313,8 +5232,6 @@ import org.bn.types.*;
                 
                     setResetTimeoutMessage(null);
                 
-                    setAfkWarningMessage(null);
-                
                     setReportAvatarMessage(null);
                 
                     setReportAvatarAckMessage(null);
@@ -5441,8 +5358,6 @@ import org.bn.types.*;
                     setTimeoutWarningMessage(null);
                 
                     setResetTimeoutMessage(null);
-                
-                    setAfkWarningMessage(null);
                 
                     setReportAvatarMessage(null);
                 
@@ -5571,8 +5486,6 @@ import org.bn.types.*;
                 
                     setResetTimeoutMessage(null);
                 
-                    setAfkWarningMessage(null);
-                
                     setReportAvatarMessage(null);
                 
                     setReportAvatarAckMessage(null);
@@ -5699,8 +5612,6 @@ import org.bn.types.*;
                     setTimeoutWarningMessage(null);
                 
                     setResetTimeoutMessage(null);
-                
-                    setAfkWarningMessage(null);
                 
                     setReportAvatarMessage(null);
                 
@@ -5829,8 +5740,6 @@ import org.bn.types.*;
                 
                     setResetTimeoutMessage(null);
                 
-                    setAfkWarningMessage(null);
-                
                     setReportAvatarMessage(null);
                 
                     setReportAvatarAckMessage(null);
@@ -5957,8 +5866,6 @@ import org.bn.types.*;
                     setTimeoutWarningMessage(null);
                 
                     setResetTimeoutMessage(null);
-                
-                    setAfkWarningMessage(null);
                 
                     setReportAvatarMessage(null);
                 
@@ -6087,8 +5994,6 @@ import org.bn.types.*;
                 
                     setResetTimeoutMessage(null);
                 
-                    setAfkWarningMessage(null);
-                
                     setReportAvatarMessage(null);
                 
                     setReportAvatarAckMessage(null);
@@ -6215,8 +6120,6 @@ import org.bn.types.*;
                     setTimeoutWarningMessage(null);
                 
                     setResetTimeoutMessage(null);
-                
-                    setAfkWarningMessage(null);
                 
                     setReportAvatarMessage(null);
                 
@@ -6345,8 +6248,6 @@ import org.bn.types.*;
                 
                     setResetTimeoutMessage(null);
                 
-                    setAfkWarningMessage(null);
-                
                     setReportAvatarMessage(null);
                 
                     setReportAvatarAckMessage(null);
@@ -6473,8 +6374,6 @@ import org.bn.types.*;
                     setTimeoutWarningMessage(null);
                 
                     setResetTimeoutMessage(null);
-                
-                    setAfkWarningMessage(null);
                 
                     setReportAvatarMessage(null);
                 
@@ -6603,8 +6502,6 @@ import org.bn.types.*;
                 
                     setResetTimeoutMessage(null);
                 
-                    setAfkWarningMessage(null);
-                
                     setReportAvatarMessage(null);
                 
                     setReportAvatarAckMessage(null);
@@ -6732,8 +6629,6 @@ import org.bn.types.*;
                 
                     setResetTimeoutMessage(null);
                 
-                    setAfkWarningMessage(null);
-                
                     setReportAvatarMessage(null);
                 
                     setReportAvatarAckMessage(null);
@@ -6860,137 +6755,6 @@ import org.bn.types.*;
                     setDialogMessage(null);
                 
                     setTimeoutWarningMessage(null);
-                
-                    setAfkWarningMessage(null);
-                
-                    setReportAvatarMessage(null);
-                
-                    setReportAvatarAckMessage(null);
-                
-                    setErrorMessage(null);
-                            
-        }
-
-        
-  
-        
-        public AfkWarningMessage getAfkWarningMessage () {
-            return this.afkWarningMessage;
-        }
-
-        public boolean isAfkWarningMessageSelected () {
-            return this.afkWarningMessage != null;
-        }
-
-        private void setAfkWarningMessage (AfkWarningMessage value) {
-            this.afkWarningMessage = value;
-        }
-
-        
-        public void selectAfkWarningMessage (AfkWarningMessage value) {
-            this.afkWarningMessage = value;
-            
-                    setAnnounceMessage(null);
-                
-                    setInitMessage(null);
-                
-                    setAuthMessage(null);
-                
-                    setInitAckMessage(null);
-                
-                    setAvatarRequestMessage(null);
-                
-                    setAvatarReplyMessage(null);
-                
-                    setPlayerListMessage(null);
-                
-                    setGameListMessage(null);
-                
-                    setPlayerInfoRequestMessage(null);
-                
-                    setPlayerInfoReplyMessage(null);
-                
-                    setSubscriptionRequestMessage(null);
-                
-                    setJoinGameRequestMessage(null);
-                
-                    setJoinGameReplyMessage(null);
-                
-                    setGamePlayerMessage(null);
-                
-                    setKickPlayerRequestMessage(null);
-                
-                    setLeaveGameRequestMessage(null);
-                
-                    setInvitePlayerToGameMessage(null);
-                
-                    setInviteNotifyMessage(null);
-                
-                    setRejectGameInvitationMessage(null);
-                
-                    setRejectInvNotifyMessage(null);
-                
-                    setStartEventMessage(null);
-                
-                    setStartEventAckMessage(null);
-                
-                    setGameStartMessage(null);
-                
-                    setHandStartMessage(null);
-                
-                    setPlayersTurnMessage(null);
-                
-                    setMyActionRequestMessage(null);
-                
-                    setYourActionRejectedMessage(null);
-                
-                    setPlayersActionDoneMessage(null);
-                
-                    setDealFlopCardsMessage(null);
-                
-                    setDealTurnCardMessage(null);
-                
-                    setDealRiverCardMessage(null);
-                
-                    setAllInShowCardsMessage(null);
-                
-                    setEndOfHandMessage(null);
-                
-                    setShowMyCardsRequestMessage(null);
-                
-                    setAfterHandShowCardsMessage(null);
-                
-                    setEndOfGameMessage(null);
-                
-                    setPlayerIdChangedMessage(null);
-                
-                    setAskKickPlayerMessage(null);
-                
-                    setAskKickDeniedMessage(null);
-                
-                    setStartKickPetitionMessage(null);
-                
-                    setVoteKickRequestMessage(null);
-                
-                    setVoteKickReplyMessage(null);
-                
-                    setKickPetitionUpdateMessage(null);
-                
-                    setEndKickPetitionMessage(null);
-                
-                    setStatisticsMessage(null);
-                
-                    setChatRequestMessage(null);
-                
-                    setChatMessage(null);
-                
-                    setChatRejectMessage(null);
-                
-                    setDialogMessage(null);
-                
-                    setTimeoutWarningMessage(null);
-                
-                    setResetTimeoutMessage(null);
                 
                     setReportAvatarMessage(null);
                 
@@ -7121,8 +6885,6 @@ import org.bn.types.*;
                 
                     setResetTimeoutMessage(null);
                 
-                    setAfkWarningMessage(null);
-                
                     setReportAvatarAckMessage(null);
                 
                     setErrorMessage(null);
@@ -7250,8 +7012,6 @@ import org.bn.types.*;
                 
                     setResetTimeoutMessage(null);
                 
-                    setAfkWarningMessage(null);
-                
                     setReportAvatarMessage(null);
                 
                     setErrorMessage(null);
@@ -7378,8 +7138,6 @@ import org.bn.types.*;
                     setTimeoutWarningMessage(null);
                 
                     setResetTimeoutMessage(null);
-                
-                    setAfkWarningMessage(null);
                 
                     setReportAvatarMessage(null);
                 

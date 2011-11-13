@@ -46,7 +46,7 @@ import org.bn.types.*;
                 
   @ASN1Integer( name = "" )
     
-        @ASN1Element ( name = "cardsValue", isOptional =  false , hasTag =  false  , hasDefaultValue =  false  )
+        @ASN1Element ( name = "cardsValue", isOptional =  true , hasTag =  false  , hasDefaultValue =  false  )
     
 	private Long cardsValue = null;
                 
@@ -114,6 +114,10 @@ import org.bn.types.*;
             return this.cardsValue;
         }
 
+        
+        public boolean isCardsValuePresent () {
+            return this.cardsValue != null;
+        }
         
 
         public void setCardsValue (Long value) {
