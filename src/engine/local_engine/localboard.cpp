@@ -243,7 +243,7 @@ void LocalBoard::distributePot()
 
 	/*int sum = 0;
 
-	for(it_c=activePlayerList->begin(); it_c!=activePlayerList->end(); it_c++) {
+	for(it_c=activePlayerList->begin(); it_c!=activePlayerList->end(); ++it_c) {
 		sum += (*it_c)->getMyCash();
 	}*/
 }
@@ -277,7 +277,7 @@ void LocalBoard::determinePlayerNeedToShowCards()
 
 		std::list<std::pair<int,int> > level;
 
-		//   for(it_c=winners.begin(); it_c != winners.end(); it_c++) {
+		//   for(it_c=winners.begin(); it_c != winners.end(); ++it_c) {
 		//        cout << (*it_c) << endl;
 		//    }
 		//
@@ -347,7 +347,7 @@ void LocalBoard::determinePlayerNeedToShowCards()
 			if(it_c == activePlayerList->end()) it_c = activePlayerList->begin();
 
 			if((*it_c)->getMyAction() != PLAYER_ACTION_FOLD) {
-				//    for(it_c = firstAfterLastActionPlayerIt; it_c != lastActionPlayerIt; it_c++) {
+				//    for(it_c = firstAfterLastActionPlayerIt; it_c != lastActionPlayerIt; ++it_c) {
 
 				//            if(it_c == lastActionPlayerIt) {
 				//                break;
@@ -419,7 +419,7 @@ void LocalBoard::determinePlayerNeedToShowCards()
 		//    bool showCards;
 
 		// search for more player who have to show their cards (perhaps not all situation are considered yet)
-		//    for(it_c = ++lastActionPlayerIt; it_c!=activePlayerList->end(); it_c++) {
+		//    for(it_c = ++lastActionPlayerIt; it_c!=activePlayerList->end(); ++it_c) {
 		//
 		//        showCards = false;
 		//
@@ -429,7 +429,7 @@ void LocalBoard::determinePlayerNeedToShowCards()
 		////        }
 		//    }
 		//
-		//    for(it_c = activePlayerList->begin(); it_c!=lastActionPlayerIt; it_c++) {
+		//    for(it_c = activePlayerList->begin(); it_c!=lastActionPlayerIt; ++it_c) {
 		////        if((*it_c)->getMyCardsValueInt() >= highestCardsValueInt) {
 		////            playerNeedToShowCards.push_back((*it_c)->getMyUniqueID());
 		////            highestCardsValueInt = (*it_c)->getMyCardsValueInt();

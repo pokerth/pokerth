@@ -166,7 +166,7 @@ Log::logNewGameMsg(int gameID, int startCash, int startSmallBlind, unsigned deal
 				sql += "," + boost::lexical_cast<string>(startCash);
 				sql += "," + boost::lexical_cast<string>(startSmallBlind);
 				sql += "," + boost::lexical_cast<string>(dealerPosition);
-				for(it_c = seatsList->begin(); it_c!=seatsList->end(); it_c++) {
+				for(it_c = seatsList->begin(); it_c!=seatsList->end(); ++it_c) {
 					if((*it_c)->getMyActiveStatus()) {
 						sql += ",\"" + (*it_c)->getMyName() +"\"";
 					} else {
@@ -188,7 +188,7 @@ Log::logNewHandMsg(int handID, unsigned dealerPosition, int smallBlind, unsigned
 
 	curHandID = handID;
 	PlayerListConstIterator it_c;
-	for(it_c = seatsList->begin(); it_c!=seatsList->end(); it_c++) {
+	for(it_c = seatsList->begin(); it_c!=seatsList->end(); ++it_c) {
 		(*it_c)->setLogHoleCardsDone(false);
 	}
 
@@ -220,7 +220,7 @@ Log::logNewHandMsg(int handID, unsigned dealerPosition, int smallBlind, unsigned
 				sql += "," + boost::lexical_cast<string>(smallBlindPosition);
 				sql += "," + boost::lexical_cast<string>(bigBlind);
 				sql += "," + boost::lexical_cast<string>(bigBlindPosition);
-				for(it_c = seatsList->begin(); it_c!=seatsList->end(); it_c++) {
+				for(it_c = seatsList->begin(); it_c!=seatsList->end(); ++it_c) {
 					if((*it_c)->getMyActiveStatus()) {
 						sql += "," + boost::lexical_cast<string>((*it_c)->getMyRoundStartCash());
 					} else {
@@ -235,7 +235,7 @@ Log::logNewHandMsg(int handID, unsigned dealerPosition, int smallBlind, unsigned
 				// !! TODO !! Hack, weil Button-Regel noch falsch und dealerPosition noch teilweise falsche ID enthält (HeadsUp: dealerPosition=bigBlindPosition <-- falsch)
 				bool dealerButtonOnTable = false;
 				int countActivePlayer = 0;
-				for(it_c = seatsList->begin(); it_c!=seatsList->end(); it_c++) {
+				for(it_c = seatsList->begin(); it_c!=seatsList->end(); ++it_c) {
 					if((*it_c)->getMyActiveStatus()) {
 						countActivePlayer++;
 						if((*it_c)->getMyButton()==BUTTON_DEALER && (*it_c)->getMyActiveStatus()) {
@@ -252,12 +252,12 @@ Log::logNewHandMsg(int handID, unsigned dealerPosition, int smallBlind, unsigned
 				}
 
 				// log blinds
-				for(it_c = seatsList->begin(); it_c!=seatsList->end(); it_c++) {
+				for(it_c = seatsList->begin(); it_c!=seatsList->end(); ++it_c) {
 					if((*it_c)->getMyButton() == BUTTON_SMALL_BLIND) {
 						logPlayerAction(GAME_STATE_PREFLOP,smallBlindPosition,LOG_ACTION_SMALL_BLIND,(*it_c)->getMySet());
 					}
 				}
-				for(it_c = seatsList->begin(); it_c!=seatsList->end(); it_c++) {
+				for(it_c = seatsList->begin(); it_c!=seatsList->end(); ++it_c) {
 					if((*it_c)->getMyButton() == BUTTON_BIG_BLIND) {
 						logPlayerAction(GAME_STATE_PREFLOP,bigBlindPosition,LOG_ACTION_BIG_BLIND,(*it_c)->getMySet());
 					}
