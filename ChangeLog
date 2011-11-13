@@ -4,6 +4,7 @@
 - BUGFIX: Country flag name is displayed in a tooltip (#9)
 - BUGFIX: prevent delayed begin of logging in network games
 - BUGFIX: close an information gap in server-client-communication
+- BUGFIX: player is now shown as "active" after rejoin
 
 2011-10-29 version 0.9-alpha
 - Players are able to rejoin internet games after being disconnected (#5)
