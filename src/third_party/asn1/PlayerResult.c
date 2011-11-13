@@ -114,15 +114,6 @@ static asn_TYPE_member_t asn_MBR_PlayerResult_1[] = {
 		0,
 		"bestHandPosition"
 	},
-	{	ATF_NOFLAGS, 0, offsetof(struct PlayerResult, cardsValue),
-		(ASN_TAG_CLASS_UNIVERSAL | (2 << 2)),
-		0,
-		&asn_DEF_NativeInteger,
-		0,	/* Defer constraints checking to the member type */
-		0,	/* PER is not compiled, use -gen-PER */
-		0,
-		"cardsValue"
-	},
 	{	ATF_NOFLAGS, 0, offsetof(struct PlayerResult, moneyWon),
 		(ASN_TAG_CLASS_UNIVERSAL | (2 << 2)),
 		0,
@@ -141,6 +132,15 @@ static asn_TYPE_member_t asn_MBR_PlayerResult_1[] = {
 		0,
 		"playerMoney"
 	},
+	{	ATF_POINTER, 1, offsetof(struct PlayerResult, cardsValue),
+		(ASN_TAG_CLASS_UNIVERSAL | (2 << 2)),
+		0,
+		&asn_DEF_NativeInteger,
+		0,	/* Defer constraints checking to the member type */
+		0,	/* PER is not compiled, use -gen-PER */
+		0,
+		"cardsValue"
+	},
 };
 static ber_tlv_tag_t asn_DEF_PlayerResult_tags_1[] = {
 	(ASN_TAG_CLASS_UNIVERSAL | (16 << 2))
@@ -149,9 +149,9 @@ static asn_TYPE_tag2member_t asn_MAP_PlayerResult_tag2el_1[] = {
 	{ (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 0, 0, 5 }, /* playerId at 573 */
 	{ (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 1, -1, 4 }, /* resultCard1 at 574 */
 	{ (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 2, -2, 3 }, /* resultCard2 at 575 */
-	{ (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 4, -3, 2 }, /* cardsValue at 577 */
-	{ (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 5, -4, 1 }, /* moneyWon at 578 */
-	{ (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 6, -5, 0 }, /* playerMoney at 580 */
+	{ (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 4, -3, 2 }, /* moneyWon at 577 */
+	{ (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 5, -4, 1 }, /* playerMoney at 578 */
+	{ (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 6, -5, 0 }, /* cardsValue at 579 */
 	{ (ASN_TAG_CLASS_UNIVERSAL | (16 << 2)), 3, 0, 0 } /* bestHandPosition at 576 */
 };
 static asn_SEQUENCE_specifics_t asn_SPC_PlayerResult_specs_1 = {

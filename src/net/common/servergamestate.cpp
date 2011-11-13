@@ -199,7 +199,8 @@ SetPlayerResult(PlayerResult_t &playerResult, boost::shared_ptr<PlayerInterface>
 		ASN_SEQUENCE_ADD(&playerResult.bestHandPosition.list, handPos);
 	}
 
-	playerResult.cardsValue = tmpPlayer->getMyCardsValueInt();
+	playerResult.cardsValue = (long *)calloc(1, sizeof(long));
+	*playerResult.cardsValue = tmpPlayer->getMyCardsValueInt();
 	playerResult.moneyWon = tmpPlayer->getLastMoneyWon();
 	playerResult.playerMoney = tmpPlayer->getMyCash();
 }

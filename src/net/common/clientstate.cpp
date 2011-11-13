@@ -1676,7 +1676,9 @@ ClientStateWaitHand::InternalHandlePacket(boost::shared_ptr<ClientThread> client
 		tmpPlayer->setMyCards(tmpCards);
 		for (int num = 0; num < 5; num++)
 			bestHandPos[num] = *r->bestHandPosition.list.array[num];
-		tmpPlayer->setMyCardsValueInt(r->cardsValue);
+		if (r->cardsValue) {
+			tmpPlayer->setMyCardsValueInt(*r->cardsValue);
+		}
 		tmpPlayer->setMyBestHandPosition(bestHandPos);
 		tmpPlayer->setMyCash(r->playerMoney);
 		tmpPlayer->setLastMoneyWon(r->moneyWon);
@@ -1984,7 +1986,9 @@ ClientStateRunHand::InternalHandlePacket(boost::shared_ptr<ClientThread> client,
 				tmpPlayer->setMyCards(tmpCards);
 				for (int num = 0; num < 5; num++)
 					bestHandPos[num] = *r->bestHandPosition.list.array[num];
-				tmpPlayer->setMyCardsValueInt(r->cardsValue);
+				if (r->cardsValue) {
+					tmpPlayer->setMyCardsValueInt(*r->cardsValue);
+				}
 				tmpPlayer->setMyBestHandPosition(bestHandPos);
 				if (tmpPlayer->getMyCardsValueInt() > highestValueOfCards)
 					highestValueOfCards = tmpPlayer->getMyCardsValueInt();

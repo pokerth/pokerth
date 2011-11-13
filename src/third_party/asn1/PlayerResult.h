@@ -14,8 +14,8 @@
 /* Including external dependencies */
 #include "NonZeroId.h"
 #include "Card.h"
-#include <NativeInteger.h>
 #include "AmountOfMoney.h"
+#include <NativeInteger.h>
 #include <asn_SEQUENCE_OF.h>
 #include <constr_SEQUENCE_OF.h>
 #include <constr_SEQUENCE.h>
@@ -35,9 +35,9 @@ extern "C" {
 			/* Context for parsing across buffer boundaries */
 			asn_struct_ctx_t _asn_ctx;
 		} bestHandPosition;
-		long	 cardsValue;
 		AmountOfMoney_t	 moneyWon;
 		AmountOfMoney_t	 playerMoney;
+		long	*cardsValue	/* OPTIONAL */;
 		/*
 		 * This type is extensible,
 		 * possible extensions are below.

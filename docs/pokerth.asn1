@@ -574,7 +574,7 @@ PlayerResult ::= SEQUENCE {
 	resultCard1					Card,
 	resultCard2					Card,
 	bestHandPosition			SEQUENCE SIZE(5) OF INTEGER, -- TODO size restrictions
-	cardsValue					INTEGER,
+	cardsValue					INTEGER OPTIONAL,
 	moneyWon					AmountOfMoney,
 	playerMoney					AmountOfMoney
 }
