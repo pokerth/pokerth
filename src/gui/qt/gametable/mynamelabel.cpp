@@ -18,6 +18,8 @@
 #include "mynamelabel.h"
 #include "gametableimpl.h"
 #include "session.h"
+#include "game.h"
+#include "playerinterface.h"
 #include "gametablestylereader.h"
 
 MyNameLabel::MyNameLabel(QGroupBox* parent)
@@ -55,12 +57,29 @@ void MyNameLabel::setText ( const QString &t, bool trans, bool guest, bool compu
 
 			GameInfo info(myW->getSession()->getClientGameInfo(myW->getSession()->getClientCurrentGameId()));
 			if(info.data.gameType == GAME_TYPE_RANKING) {
-				linkString = QString("http://pokerth.net/redirect_user_profile.php?nick="+QUrl::toPercentEncoding(t)+"&tableview=1");
+
+				QString nickList;
+				//build nick string list
+				if(myW->getSession()->getCurrentGame()) {
+
+					boost::shared_ptr<Game> currentGame = myW->getSession()->getCurrentGame();
+					PlayerListConstIterator it_c;
+					PlayerList seatsList = currentGame->getSeatsList();
+					int playerCounter = 0;
+					for (it_c=seatsList->begin(); it_c!=seatsList->end(); ++it_c) {
+						if((*it_c)->getMyActiveStatus()) {
+							++playerCounter;
+							nickList += QString("&nick%1=").arg(playerCounter);
+							nickList += QUrl::toPercentEncoding(QString::fromUtf8((*it_c)->getMyName().c_str()));
+						}
+					}
+				}
+
+				linkString = QString("http://pokerth.net/redirect_user_profile.php?tableview=1"+nickList);
 			}
 			else {
 				linkString = QString("http://pokerth.net/redirect_user_profile.php?nick="+QUrl::toPercentEncoding(t));
 			}
-
 
 			if(trans) {
 				text = "<a style='color: rgba("+red+", "+green+", "+blue+", 80);' href='"+linkString+"'>"+t+"</a>";
