@@ -14,7 +14,7 @@ TARGET = bin/pokerth_server
 MOC_DIR = mocs
 OBJECTS_DIR = obj
 DEFINES += POKERTH_DEDICATED_SERVER
-DEFINES += ENABLE_IPV6 TIXML_USE_STL BOOST_FILESYSTEM_VERSION=3 BOOST_FILESYSTEM_DEPRECATED
+DEFINES += ENABLE_IPV6 TIXML_USE_STL BOOST_FILESYSTEM_DEPRECATED
 DEFINES += PREFIX=\"$${PREFIX}\"
 QT -= core gui
 QMAKE_CXXFLAGS += -std=gnu++0x
@@ -131,7 +131,7 @@ win32 {
 	debug:LIBPATH += debug/lib
 	release:LIBPATH += release/lib
 
-	LIBS += -lgnutls -lgcrypt -lgpg-error -lgsasl -lidn -ltinyxml
+	LIBS += -lssh2 -lgnutls -lgcrypt -lgpg-error -lgsasl -lidn -ltinyxml
 	win32-g++-cross {
 		LIBS += -lsqlite3
 		LIBS += -lntlm

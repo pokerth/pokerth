@@ -19,7 +19,7 @@ QMAKE_CXXFLAGS += -std=gnu++0x
 UI_DIR = uics
 MOC_DIR = mocs
 OBJECTS_DIR = obj
-DEFINES += ENABLE_IPV6 TIXML_USE_STL BOOST_FILESYSTEM_VERSION=3 BOOST_FILESYSTEM_DEPRECATED
+DEFINES += ENABLE_IPV6 TIXML_USE_STL BOOST_FILESYSTEM_DEPRECATED
 DEFINES += PREFIX=\"$${PREFIX}\"
 TARGET = pokerth
 
@@ -329,6 +329,7 @@ win32 {
 		-lSDLmain \
 		-ltinyxml \
 		-lz \
+		-lssh2 \
 		-lgnutls \
 		-lgcrypt \
 		-lgpg-error \
