@@ -332,6 +332,7 @@ win32 {
 		-lssh2 \
 		-lgnutls \
 		-lnettle \
+		-lhogweed \
 		-lgmp \
 		-lgcrypt \
 		-lgpg-error \

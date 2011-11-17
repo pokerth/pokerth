@@ -131,7 +131,7 @@ win32 {
 	debug:LIBPATH += debug/lib
 	release:LIBPATH += release/lib
 
-	LIBS += -lssh2 -lgnutls -lnettle -lgmp -lgcrypt -lgpg-error -lgsasl -lidn -ltinyxml -lsqlite3 -lntlm
+	LIBS += -lssh2 -lgnutls -lnettle -lhogweed -lgmp -lgcrypt -lgpg-error -lgsasl -lidn -ltinyxml -lsqlite3 -lntlm
 	LIBS += -lboost_thread_win32-mt
 	LIBS += -lboost_filesystem-mt
 	LIBS += -lboost_regex-mt
