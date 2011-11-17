@@ -131,29 +131,14 @@ win32 {
 	debug:LIBPATH += debug/lib
 	release:LIBPATH += release/lib
 
-	LIBS += -lssh2 -lgnutls -lgcrypt -lgpg-error -lgsasl -lidn -ltinyxml
-	win32-g++-cross {
-		LIBS += -lsqlite3
-		LIBS += -lntlm
-		LIBS += -lboost_thread_win32-mt
-		LIBS += -lboost_filesystem-mt
-		LIBS += -lboost_regex-mt
-		LIBS += -lboost_program_options-mt
-		LIBS += -lboost_iostreams-mt
-		LIBS += -lboost_random-mt
-		LIBS += -lboost_system-mt
-	}
-	win32-g++ {
-		SOURCES += ../sqlite/sqlite3.c
-		!pkth_win64:LIBS += -ltasn1
-		LIBS += -lboost_thread-mgw45-mt-1_45.dll
-		LIBS += -lboost_filesystem-mgw45-mt-1_45.dll
-		LIBS += -lboost_regex-mgw45-mt-1_45
-		LIBS += -lboost_program_options-mgw45-mt-1_45.dll
-		LIBS += -lboost_iostreams-mgw45-mt-1_45.dll
-		LIBS += -lboost_random-mgw45-mt-1_45.dll
-		LIBS += -lboost_system-mgw45-mt-1_45.dll
-	}
+	LIBS += -lssh2 -lgnutls -lnettle -lgmp -lgcrypt -lgpg-error -lgsasl -lidn -ltinyxml -lsqlite3 -lntlm
+	LIBS += -lboost_thread_win32-mt
+	LIBS += -lboost_filesystem-mt
+	LIBS += -lboost_regex-mt
+	LIBS += -lboost_program_options-mt
+	LIBS += -lboost_iostreams-mt
+	LIBS += -lboost_random-mt
+	LIBS += -lboost_system-mt
 
 	LIBS += -liconv \
 			-lz \
