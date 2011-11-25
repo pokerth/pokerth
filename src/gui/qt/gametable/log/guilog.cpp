@@ -66,7 +66,11 @@ guiLog::guiLog(gameTableImpl* w, ConfigFile *c) : myW(w), myConfig(c), myLogDir(
 
 				myLogDir = new QDir(QString::fromUtf8(myConfig->readConfigString("LogDir").c_str()));
 				QDateTime currentTime = QDateTime::currentDateTime();
-				myHtmlLogFile = new QFile(myLogDir->absolutePath()+"/pokerth-log-"+currentTime.toString("yyyy-MM-dd_hh.mm.ss")+".html");
+				if(SQLITE_LOG) {
+					myHtmlLogFile = new QFile(myLogDir->absolutePath()+"/pokerth-log-"+currentTime.toString("yyyy-MM-dd_hh.mm.ss")+"_old.html");
+				} else {
+					myHtmlLogFile = new QFile(myLogDir->absolutePath()+"/pokerth-log-"+currentTime.toString("yyyy-MM-dd_hh.mm.ss")+".html");
+				}
 
 				//Logo-Pixmap extrahieren
 				QPixmap logoChipPixmapFile(":/gfx/logoChip3D.png");
@@ -574,4 +578,25 @@ void guiLog::flushLogAtGame(int gameID)
 			lastGameID = gameID;
 		}
 	}
+}
+
+void guiLog::exportLogPdbToHtml(string fileString)
+{
+
+	cout << "Export pdb to html" << endl;
+
+}
+
+void guiLog::exportLogPdbToTxt(string fileString)
+{
+
+	cout << "Export pdb to txt" << endl;
+
+}
+
+void guiLog::showLog(string fileString)
+{
+
+	cout << "show Log" << endl;
+
 }

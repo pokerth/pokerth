@@ -55,6 +55,9 @@ public slots:
 	void logPlayerWinGame(QString playerName, int gameID);
 	void flushLogAtGame(int gameID);
 	void flushLogAtHand();
+	void exportLogPdbToHtml(std::string fileString);
+	void exportLogPdbToTxt(std::string fileString);
+	void showLog(std::string fileString);
 
 
 public:
