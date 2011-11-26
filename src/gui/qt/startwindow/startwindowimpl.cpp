@@ -42,6 +42,7 @@
 #include "chattools.h"
 #include "serverlistdialogimpl.h"
 #include "internetgamelogindialogimpl.h"
+#include "guilog.h"
 
 using namespace std;
 
@@ -85,6 +86,7 @@ startWindowImpl::startWindowImpl(ConfigFile *c)
 
 	myStartNetworkGameDialog->setMyW(myGuiInterface->getMyW());
 	myGameLobbyDialog->setMyW(myGuiInterface->getMyW());
+	mySettingsDialog->setGuiLog(myGuiLog);
 
 	myTimeoutDialog = new timeoutMsgBoxImpl(this);
 	myServerListDialog = new serverListDialogImpl(this, this, myConfig);

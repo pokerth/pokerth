@@ -22,6 +22,7 @@
 #include "carddeckstylereader.h"
 
 #include "configfile.h"
+#include "guilog.h"
 #include <net/socket_startup.h>
 
 enum StyleType { POKERTH_DISTRIBUTED_STYLE, ADDITIONAL_STYLE };
@@ -135,6 +136,7 @@ settingsDialogImpl::settingsDialogImpl(QWidget *parent, ConfigFile *c, selectAva
 	connect( pushButton_exportLogHtml, SIGNAL(clicked()), this, SLOT (exportLogToHtml()));
 	connect( pushButton_exportLogTxt, SIGNAL(clicked()), this, SLOT (exportLogToTxt()));
 	connect( pushButton_saveLogAs, SIGNAL(clicked()), this, SLOT (saveLogFileAs()));
+	connect( treeWidget_logFiles, SIGNAL(itemSelectionChanged()), this, SLOT(showLogFilePreview()));
 
 }
 
@@ -1309,12 +1311,32 @@ void settingsDialogImpl::deleteLogFile()
 
 void settingsDialogImpl::exportLogToHtml()
 {
+	QTreeWidgetItem* selectedItem = treeWidget_logFiles->currentItem();
 
+	if(selectedItem) {
+		QString fileName = QFileDialog::getSaveFileName(this, tr("Export PokerTH log file to HTML"),
+						   QDir::homePath()+"/"+selectedItem->text(0),
+						   tr("PokerTH HTML log (*.html)"));
+
+		if(!fileName.isEmpty()) {
+			myGuiLog->exportLogPdbToHtml(fileName);
+		}
+	}
 }
 
 void settingsDialogImpl::exportLogToTxt()
 {
+	QTreeWidgetItem* selectedItem = treeWidget_logFiles->currentItem();
 
+	if(selectedItem) {
+		QString fileName = QFileDialog::getSaveFileName(this, tr("Export PokerTH log file to plain text"),
+						   QDir::homePath()+"/"+selectedItem->text(0),
+						   tr("PokerTH plain text log (*.txt)"));
+
+		if(!fileName.isEmpty()) {
+			myGuiLog->exportLogPdbToTxt(fileName);
+		}
+	}
 }
 
 void settingsDialogImpl::saveLogFileAs()
@@ -1329,5 +1351,14 @@ void settingsDialogImpl::saveLogFileAs()
 		if(!fileName.isEmpty()) {
 			QFile::copy(selectedItem->data(0, Qt::UserRole).toString(), fileName);
 		}
+	}
+}
+
+void settingsDialogImpl::showLogFilePreview()
+{
+	QTreeWidgetItem* selectedItem = treeWidget_logFiles->currentItem();
+
+	if(selectedItem) {
+		myGuiLog->showLog(selectedItem->data(0, Qt::UserRole).toString(), textBrowser_logPreview);
 	}
 }

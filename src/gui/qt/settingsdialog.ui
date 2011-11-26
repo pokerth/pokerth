@@ -3356,6 +3356,23 @@ p, li { white-space: pre-wrap; }
          <property name="spacing">
           <number>6</number>
          </property>
+         <item row="0" column="0">
+          <widget class="QLabel" name="label_6">
+           <property name="styleSheet">
+            <string notr="true">QLabel { font-weight: bold;  }</string>
+           </property>
+           <property name="text">
+            <string>Log Messages</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="0">
+          <widget class="Line" name="line_2">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+          </widget>
+         </item>
          <item row="2" column="0">
           <widget class="QGroupBox" name="groupBox_logOnOff">
            <property name="title">
@@ -3370,8 +3387,14 @@ p, li { white-space: pre-wrap; }
            <layout class="QGridLayout" name="gridLayout_20">
             <item row="0" column="0">
              <widget class="QLabel" name="label_27">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
               <property name="text">
-               <string>Store log files for</string>
+               <string>Store log files for:</string>
               </property>
               <property name="buddy">
                <cstring>spinBox_logStoreDuration</cstring>
@@ -3380,6 +3403,12 @@ p, li { white-space: pre-wrap; }
             </item>
             <item row="0" column="1">
              <widget class="QSpinBox" name="spinBox_logStoreDuration">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
               <property name="suffix">
                <string> Day(s)</string>
               </property>
@@ -3396,6 +3425,12 @@ p, li { white-space: pre-wrap; }
             </item>
             <item row="1" column="0">
              <widget class="QLabel" name="label_39">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
               <property name="text">
                <string>Write log after every: </string>
               </property>
@@ -3434,6 +3469,12 @@ p, li { white-space: pre-wrap; }
             </item>
             <item row="2" column="0">
              <widget class="QLabel" name="label_29">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
               <property name="text">
                <string>Log File Directory: </string>
               </property>
@@ -3472,12 +3513,64 @@ p, li { white-space: pre-wrap; }
               </item>
              </layout>
             </item>
+            <item row="3" column="0" colspan="2">
+             <layout class="QHBoxLayout" name="horizontalLayout_10">
+              <item>
+               <widget class="QTreeWidget" name="treeWidget_logFiles">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="alternatingRowColors">
+                 <bool>true</bool>
+                </property>
+                <property name="indentation">
+                 <number>5</number>
+                </property>
+                <property name="rootIsDecorated">
+                 <bool>false</bool>
+                </property>
+                <property name="allColumnsShowFocus">
+                 <bool>true</bool>
+                </property>
+                <column>
+                 <property name="text">
+                  <string>Log File</string>
+                 </property>
+                </column>
+               </widget>
+              </item>
+              <item>
+               <layout class="QVBoxLayout" name="verticalLayout_3">
+                <item>
+                 <widget class="QLabel" name="label_37">
+                  <property name="text">
+                   <string>Preview:</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QTextBrowser" name="textBrowser_logPreview">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="MinimumExpanding" vsizetype="Expanding">
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </item>
+             </layout>
+            </item>
             <item row="4" column="0" colspan="2">
              <layout class="QHBoxLayout" name="horizontalLayout_9">
               <item>
                <widget class="QPushButton" name="pushButton_exportLogHtml">
                 <property name="text">
-                 <string>Export as html</string>
+                 <string>Export as HTML</string>
                 </property>
                 <property name="icon">
                  <iconset resource="resources/pokerth.qrc">
@@ -3520,59 +3613,8 @@ p, li { white-space: pre-wrap; }
               </item>
              </layout>
             </item>
-            <item row="3" column="0" colspan="2">
-             <widget class="QTreeWidget" name="treeWidget_logFiles">
-              <property name="alternatingRowColors">
-               <bool>true</bool>
-              </property>
-              <property name="indentation">
-               <number>5</number>
-              </property>
-              <property name="rootIsDecorated">
-               <bool>false</bool>
-              </property>
-              <property name="allColumnsShowFocus">
-               <bool>true</bool>
-              </property>
-              <column>
-               <property name="text">
-                <string>Log File</string>
-               </property>
-              </column>
-             </widget>
-            </item>
            </layout>
           </widget>
-         </item>
-         <item row="0" column="0">
-          <widget class="QLabel" name="label_6">
-           <property name="styleSheet">
-            <string notr="true">QLabel { font-weight: bold;  }</string>
-           </property>
-           <property name="text">
-            <string>Log Messages</string>
-           </property>
-          </widget>
-         </item>
-         <item row="1" column="0">
-          <widget class="Line" name="line_2">
-           <property name="orientation">
-            <enum>Qt::Horizontal</enum>
-           </property>
-          </widget>
-         </item>
-         <item row="3" column="0">
-          <spacer>
-           <property name="orientation">
-            <enum>Qt::Vertical</enum>
-           </property>
-           <property name="sizeHint" stdset="0">
-            <size>
-             <width>20</width>
-             <height>40</height>
-            </size>
-           </property>
-          </spacer>
          </item>
         </layout>
        </widget>

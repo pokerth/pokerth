@@ -50,6 +50,7 @@ class gameLobbyDialogImpl;
 class timeoutMsgBoxImpl;
 class serverListDialogImpl;
 class internetGameLoginDialogImpl;
+class guiLog;
 
 class startWindowImpl: public QMainWindow, public Ui::startWindow
 {
@@ -70,6 +71,10 @@ public:
 	}
 	connectToServerDialogImpl* getMyConnectToServerDialog() const {
 		return myConnectToServerDialog;
+	}
+
+	void setGuiLog(guiLog* l) {
+		myGuiLog = l;
 	}
 
 	//	void keyPressEvent( QKeyEvent *);
@@ -149,6 +154,7 @@ public slots:
 
 private:
 	ConfigFile *myConfig;
+	guiLog *myGuiLog;
 
 	boost::shared_ptr<GuiInterface> myGuiInterface;
 	boost::shared_ptr<Session> mySession;

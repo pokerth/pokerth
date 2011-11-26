@@ -33,6 +33,7 @@ class ConfigFile;
 class selectAvatarDialogImpl;
 class manualBlindsOrderDialogImpl;
 class MyStyleListItem;
+class guiLog;
 
 class settingsDialogImpl: public QDialog, public Ui::settingsDialog
 {
@@ -54,6 +55,10 @@ public:
 
 	bool getSettingsCorrect() const {
 		return settingsCorrect;
+	}
+
+	void setGuiLog(guiLog* l) {
+		myGuiLog = l;
 	}
 
 public slots:
@@ -108,6 +113,7 @@ public slots:
 	void exportLogToHtml();
 	void exportLogToTxt();
 	void saveLogFileAs();
+	void showLogFilePreview();
 
 private:
 
@@ -128,6 +134,7 @@ private:
 	std::list<std::string> myCardDeckStylesList;
 
 	ConfigFile* myConfig;
+	guiLog* myGuiLog;
 	selectAvatarDialogImpl *mySelectAvatarDialogImpl;
 	manualBlindsOrderDialogImpl *myManualBlindsOrderDialog;
 

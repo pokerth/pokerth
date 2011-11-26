@@ -580,23 +580,26 @@ void guiLog::flushLogAtGame(int gameID)
 	}
 }
 
-void guiLog::exportLogPdbToHtml(string fileString)
+void guiLog::exportLogPdbToHtml(QString fileString)
 {
 
-	cout << "Export pdb to html" << endl;
+	qDebug() << "Export pdb to html" << fileString;
 
 }
 
-void guiLog::exportLogPdbToTxt(string fileString)
+void guiLog::exportLogPdbToTxt(QString fileString)
 {
 
-	cout << "Export pdb to txt" << endl;
+	qDebug() << "Export pdb to txt" << fileString;
 
 }
 
-void guiLog::showLog(string fileString)
+void guiLog::showLog(QString fileString, QTextBrowser *tb)
 {
 
-	cout << "show Log" << endl;
+	tb->clear();
+	for(int i=0; i<5; i++) {
+		tb->append(fileString);
+	}
 
 }

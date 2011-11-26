@@ -26,6 +26,7 @@
 #include <sqlite3.h>
 
 #include <QtCore>
+#include <QtGui>
 #include <QtSql>
 
 class gameTableImpl;
@@ -55,9 +56,9 @@ public slots:
 	void logPlayerWinGame(QString playerName, int gameID);
 	void flushLogAtGame(int gameID);
 	void flushLogAtHand();
-	void exportLogPdbToHtml(std::string fileString);
-	void exportLogPdbToTxt(std::string fileString);
-	void showLog(std::string fileString);
+	void exportLogPdbToHtml(QString fileString);
+	void exportLogPdbToTxt(QString fileString);
+	void showLog(QString fileString, QTextBrowser* tb);
 
 
 public:
