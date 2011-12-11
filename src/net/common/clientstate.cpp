@@ -1011,7 +1011,7 @@ ClientStateWaitEnterLogin::Exit(boost::shared_ptr<ClientThread> client)
 }
 
 void
-ClientStateWaitEnterLogin::HandlePacket(boost::shared_ptr<ClientThread> client, boost::shared_ptr<NetPacket> tmpPacket)
+ClientStateWaitEnterLogin::HandlePacket(boost::shared_ptr<ClientThread> /*client*/, boost::shared_ptr<NetPacket> tmpPacket)
 {
 	if (tmpPacket->GetMsg()->present == PokerTHMessage_PR_errorMessage) {
 		// Server reported an error.

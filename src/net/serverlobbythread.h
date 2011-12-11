@@ -215,9 +215,6 @@ private:
 	RemoveGameList m_removeGameList;
 	mutable boost::mutex m_removeGameListMutex;
 
-	RemovePlayerList m_removePlayerList;
-	mutable boost::mutex m_removePlayerListMutex;
-
 	PlayerDataMap m_computerPlayers;
 	mutable boost::mutex m_computerPlayersMutex;
 
@@ -247,7 +244,6 @@ private:
 	boost::shared_ptr<ServerDBInterface> m_database;
 
 	boost::asio::deadline_timer m_removeGameTimer;
-	boost::asio::deadline_timer m_removePlayerTimer;
 	boost::asio::deadline_timer m_saveStatisticsTimer;
 	boost::asio::deadline_timer m_loginLockTimer;
 

@@ -184,7 +184,7 @@ ServerLobbyThread::ServerLobbyThread(GuiInterface &gui, ServerMode mode, ServerI
 									 AvatarManager &avatarManager, boost::shared_ptr<boost::asio::io_service> ioService)
 	: m_ioService(ioService), m_authContext(NULL), m_gui(gui), m_ircBotCb(ircBotCb), m_avatarManager(avatarManager),
 	  m_mode(mode), m_serverConfig(serverConfig), m_curGameId(0), m_curUniquePlayerId(0), m_curSessionId(INVALID_SESSION + 1),
-	  m_statDataChanged(false), m_removeGameTimer(*ioService), m_removePlayerTimer(*ioService),
+	  m_statDataChanged(false), m_removeGameTimer(*ioService),
 	  m_saveStatisticsTimer(*ioService), m_loginLockTimer(*ioService),
 	  m_startTime(boost::posix_time::second_clock::local_time())
 {
@@ -536,8 +536,7 @@ ServerLobbyThread::GetPlayerNameFromId(unsigned playerId) const
 void
 ServerLobbyThread::RemovePlayer(unsigned playerId, unsigned errorCode)
 {
-	boost::mutex::scoped_lock lock(m_removePlayerListMutex);
-	m_removePlayerList.push_back(RemovePlayerList::value_type(playerId, errorCode));
+	m_ioService->post(boost::bind(&ServerLobbyThread::InternalRemovePlayer, shared_from_this(), playerId, errorCode));
 }
 
 void
@@ -765,12 +764,6 @@ ServerLobbyThread::RegisterTimers()
 	m_removeGameTimer.async_wait(
 		boost::bind(
 			&ServerLobbyThread::TimerRemoveGame, shared_from_this(), boost::asio::placeholders::error));
-	// Remove inactive/kicked players.
-	m_removePlayerTimer.expires_from_now(
-		boost::posix_time::milliseconds(SERVER_REMOVE_PLAYER_INTERVAL_MSEC));
-	m_removePlayerTimer.async_wait(
-		boost::bind(
-			&ServerLobbyThread::TimerRemovePlayer, shared_from_this(), boost::asio::placeholders::error));
 	// Update the statistics file.
 	m_saveStatisticsTimer.expires_from_now(
 		boost::posix_time::seconds(SERVER_SAVE_STATISTICS_INTERVAL_SEC));
@@ -789,7 +782,6 @@ void
 ServerLobbyThread::CancelTimers()
 {
 	m_removeGameTimer.cancel();
-	m_removePlayerTimer.cancel();
 	m_saveStatisticsTimer.cancel();
 	m_loginLockTimer.cancel();
 }
@@ -1640,31 +1632,6 @@ ServerLobbyThread::TimerRemoveGame(const boost::system::error_code &ec)
 		m_removeGameTimer.async_wait(
 			boost::bind(
 				&ServerLobbyThread::TimerRemoveGame, shared_from_this(), boost::asio::placeholders::error));
-	}
-}
-
-void
-ServerLobbyThread::TimerRemovePlayer(const boost::system::error_code &ec)
-{
-	if (!ec) {
-		boost::mutex::scoped_lock lock(m_removePlayerListMutex);
-
-		if (!m_removePlayerList.empty()) {
-			RemovePlayerList::iterator i = m_removePlayerList.begin();
-			RemovePlayerList::iterator end = m_removePlayerList.end();
-
-			while (i != end) {
-				InternalRemovePlayer(i->first, i->second);
-				++i;
-			}
-			m_removePlayerList.clear();
-		}
-		// Restart timer
-		m_removePlayerTimer.expires_from_now(
-			boost::posix_time::milliseconds(SERVER_REMOVE_PLAYER_INTERVAL_MSEC));
-		m_removePlayerTimer.async_wait(
-			boost::bind(
-				&ServerLobbyThread::TimerRemovePlayer, shared_from_this(), boost::asio::placeholders::error));
 	}
 }
 
