@@ -926,7 +926,8 @@ ClientThread::CreateContextSession()
 		GetContext().SetSessionData(boost::shared_ptr<SessionData>(new SessionData(
 										newSock,
 										SESSION_ID_GENERIC,
-										*this)));
+										*this,
+										*m_ioService)));
 		GetContext().SetResolver(boost::shared_ptr<boost::asio::ip::tcp::resolver>(
 									 new boost::asio::ip::tcp::resolver(*m_ioService)));
 		validSocket = true;

@@ -69,6 +69,18 @@ SenderHelper::Send(boost::shared_ptr<SessionData> session, const NetPacketList &
 }
 
 void
+SenderHelper::SetCloseAfterSend(boost::shared_ptr<SessionData> session)
+{
+	SendBuffer &tmpBuffer = session->GetSendBuffer();
+	// Add packet to specific queue.
+	boost::mutex::scoped_lock lock(tmpBuffer.dataMutex);
+	// Mark that the socket should be closed after the send operation.
+	tmpBuffer.SetCloseAfterSend();
+	// Activate async send, if needed.
+	tmpBuffer.AsyncSendNextPacket(session->GetAsioSocket());
+}
+
+void
 SenderHelper::InternalStorePacket(SendBuffer &tmpBuffer, boost::shared_ptr<NetPacket> packet)
 {
 	asn_enc_rval_t e = der_encode(&asn_DEF_PokerTHMessage, packet->GetMsg(), &SendBuffer::EncodeToBuf, &tmpBuffer);

@@ -274,7 +274,7 @@ public:
 	virtual void Enter(boost::shared_ptr<ClientThread> client);
 	virtual void Exit(boost::shared_ptr<ClientThread> client);
 
-	virtual void HandlePacket(boost::shared_ptr<ClientThread> /*client*/, boost::shared_ptr<NetPacket> /*tmpPacket*/) {}
+	virtual void HandlePacket(boost::shared_ptr<ClientThread> client, boost::shared_ptr<NetPacket> tmpPacket);
 
 protected:
 

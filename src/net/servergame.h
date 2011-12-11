@@ -129,9 +129,8 @@ protected:
 	bool IsComputerPlayerActive(unsigned playerId) const;
 	void ResetComputerPlayerList();
 
-	void GracefulRemoveSession(boost::shared_ptr<SessionData> session, int reason);
+	void RemoveSession(boost::shared_ptr<SessionData> session, int reason);
 	void RemovePlayerData(boost::shared_ptr<PlayerData> player, int reason);
-	void ErrorRemoveSession(boost::shared_ptr<SessionData> session);
 	void SessionError(boost::shared_ptr<SessionData> session, int errorCode);
 	void MoveSessionToLobby(boost::shared_ptr<SessionData> session, int reason);
 

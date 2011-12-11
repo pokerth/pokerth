@@ -135,7 +135,7 @@ void
 ServerGame::RemoveAllSessions()
 {
 	// Clean up ALL sessions which are left.
-	GetSessionManager().ForEach(boost::bind(&ServerLobbyThread::RemoveSessionFromGame, boost::ref(*m_lobbyThread), _1));
+	GetSessionManager().ForEach(&SessionData::Close);
 	GetSessionManager().Clear();
 	SetState(ServerGameStateFinal::Instance());
 }
@@ -726,7 +726,7 @@ ServerGame::ResetComputerPlayerList()
 }
 
 void
-ServerGame::GracefulRemoveSession(boost::shared_ptr<SessionData> session, int reason)
+ServerGame::RemoveSession(boost::shared_ptr<SessionData> session, int reason)
 {
 	if (!session)
 		throw ServerException(__FILE__, __LINE__, ERR_NET_INVALID_SESSION, 0);
@@ -795,25 +795,18 @@ ServerGame::RemovePlayerData(boost::shared_ptr<PlayerData> player, int reason)
 }
 
 void
-ServerGame::ErrorRemoveSession(boost::shared_ptr<SessionData> session)
-{
-	GetLobbyThread().RemoveSessionFromGame(session);
-	GracefulRemoveSession(session, NTF_NET_INTERNAL);
-}
-
-void
 ServerGame::SessionError(boost::shared_ptr<SessionData> session, int errorCode)
 {
 	if (!session)
 		throw ServerException(__FILE__, __LINE__, ERR_NET_INVALID_SESSION, 0);
-	ErrorRemoveSession(session);
+	RemoveSession(session, NTF_NET_INTERNAL);
 	GetLobbyThread().SessionError(session, errorCode);
 }
 
 void
 ServerGame::MoveSessionToLobby(boost::shared_ptr<SessionData> session, int reason)
 {
-	GracefulRemoveSession(session, reason);
+	RemoveSession(session, reason);
 	// Reset ready flag - just in case it is set, player may leave at any time.
 	session->ResetReadyFlag();
 	GetLobbyThread().ReAddSession(session, reason, GetId());

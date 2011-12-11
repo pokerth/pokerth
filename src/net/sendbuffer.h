@@ -67,6 +67,10 @@ public:
 		sendBufUsed += size;
 	}
 
+	inline void SetCloseAfterSend() {
+		closeAfterSend = true;
+	}
+
 	void HandleWrite(boost::shared_ptr<boost::asio::ip::tcp::socket> socket, const boost::system::error_code &error);
 	void AsyncSendNextPacket(boost::shared_ptr<boost::asio::ip::tcp::socket> socket);
 
@@ -81,6 +85,7 @@ private:
 	size_t sendBufUsed;
 	size_t curWriteBufAllocated;
 	size_t curWriteBufUsed;
+	bool closeAfterSend;
 };
 
 #endif

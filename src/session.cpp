@@ -69,7 +69,9 @@ bool Session::init()
 					  myQtToolsInterface->stringFromUtf8(myConfig->readConfigString("AppDataDir")),
 					  myQtToolsInterface->stringFromUtf8(myConfig->readConfigString("CacheDir")));
 	addOwnAvatar(myQtToolsInterface->stringFromUtf8(myConfig->readConfigString("MyAvatar")));
+#ifndef POKERTH_OFFICIAL_SERVER
 	myAvatarManager->RemoveOldAvatarCacheEntries();
+#endif
 	return retVal;
 }
 
@@ -174,11 +176,11 @@ void Session::startInternetClient()
 
 	myNetClient->Init(
 		myConfig->readConfigString("InternetServerAddress"),
-//		myConfig->readConfigString("InternetServerListAddress"),
-		"pokerth.net/serverlist_testing.xml.z",
+		myConfig->readConfigString("InternetServerListAddress"),
+//		"pokerth.net/serverlist_testing.xml.z",
 		myConfig->readConfigString("ServerPassword"),
-//		myConfig->readConfigInt("InternetServerConfigMode") == 0,
-		true,
+		myConfig->readConfigInt("InternetServerConfigMode") == 0,
+//		true,
 		myConfig->readConfigInt("InternetServerPort"),
 		myConfig->readConfigInt("InternetServerUseIpv6") == 1,
 		myConfig->readConfigInt("InternetServerUseSctp") == 1,

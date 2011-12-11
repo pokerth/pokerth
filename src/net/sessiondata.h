@@ -25,7 +25,6 @@ typedef unsigned SessionId;
 #include <boost/asio.hpp>
 #include <boost/thread.hpp>
 #include <boost/enable_shared_from_this.hpp>
-#include <third_party/boost/timers.hpp>
 #include <string>
 
 #include <net/socket_helper.h>
@@ -48,7 +47,7 @@ class SessionData : public boost::enable_shared_from_this<SessionData>
 public:
 	enum State { Init, ReceivingAvatar, Established, Game, Closed };
 
-	SessionData(boost::shared_ptr<boost::asio::ip::tcp::socket> sock, SessionId id, SessionDataCallback &cb);
+	SessionData(boost::shared_ptr<boost::asio::ip::tcp::socket> sock, SessionId id, SessionDataCallback &cb, boost::asio::io_service &ioService);
 	~SessionData();
 
 	SessionId GetId() const;
@@ -95,10 +94,11 @@ public:
 	}
 
 	void ResetActivityTimer();
-	unsigned GetActivityTimerElapsedSec() const;
-	bool HasActivityNoticeBeenSent() const;
-	void MarkActivityNotice();
-	unsigned GetAutoDisconnectTimerElapsedSec() const;
+
+	void StartTimerInitTimeout(unsigned timeoutSec);
+	void StartTimerGlobalTimeout(unsigned timeoutSec);
+	void StartTimerActivityTimeout(unsigned timeoutSec, unsigned warningRemainingSec);
+	void CancelTimers();
 
 	void SetPlayerData(boost::shared_ptr<PlayerData> player);
 	boost::shared_ptr<PlayerData> GetPlayerData();
@@ -107,6 +107,9 @@ protected:
 	SessionData(const SessionData &other);
 	SessionData &operator=(const SessionData &other);
 	void InternalClearAuthSession();
+	void TimerInitTimeout(const boost::system::error_code &ec);
+	void TimerSessionTimeout(const boost::system::error_code &ec);
+	void TimerActivityWarning(const boost::system::error_code &ec);
 
 private:
 	boost::shared_ptr<boost::asio::ip::tcp::socket> m_socket;
@@ -118,9 +121,11 @@ private:
 	boost::shared_ptr<SendBuffer>	m_sendBuffer;
 	bool							m_readyFlag;
 	bool							m_wantsLobbyMsg;
-	boost::timers::portable::microsec_timer m_activityTimer;
-	bool							m_activityTimeoutNoticeSent;
-	boost::timers::portable::microsec_timer m_autoDisconnectTimer;
+	unsigned						m_activityTimeoutSec;
+	unsigned						m_activityWarningRemainingSec;
+	boost::asio::deadline_timer		m_initTimeoutTimer;
+	boost::asio::deadline_timer		m_globalTimeoutTimer;
+	boost::asio::deadline_timer		m_activityTimeoutTimer;
 	SessionDataCallback				&m_callback;
 	Gsasl_session					*m_authSession;
 	int								m_curAuthStep;

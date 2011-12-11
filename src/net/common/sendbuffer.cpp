@@ -27,7 +27,7 @@ using namespace std;
 
 SendBuffer::SendBuffer()
 	: sendBuf(NULL), curWriteBuf(NULL), sendBufAllocated(0), sendBufUsed(0),
-	  curWriteBufAllocated(0), curWriteBufUsed(0)
+	  curWriteBufAllocated(0), curWriteBufUsed(0), closeAfterSend(false)
 {
 }
 
@@ -65,6 +65,8 @@ SendBuffer::AsyncSendNextPacket(boost::shared_ptr<boost::asio::ip::tcp::socket> 
 							shared_from_this(),
 							socket,
 							boost::asio::placeholders::error));
+		} else if (closeAfterSend) {
+			socket->close();
 		}
 	}
 }

@@ -32,6 +32,8 @@ public:
 	virtual ~SessionDataCallback();
 
 	virtual void CloseSession(boost::shared_ptr<SessionData> session) = 0;
+	virtual void SessionError(boost::shared_ptr<SessionData> session, int errorCode) = 0;
+	virtual void SessionTimeoutWarning(boost::shared_ptr<SessionData> session, unsigned remainingSec) = 0;
 	virtual void HandlePacket(boost::shared_ptr<SessionData> session, boost::shared_ptr<NetPacket> packet) = 0;
 };
 

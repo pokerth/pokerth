@@ -62,7 +62,6 @@ public:
 	void AddConnection(boost::shared_ptr<boost::asio::ip::tcp::socket> sock);
 	void ReAddSession(boost::shared_ptr<SessionData> session, int reason, unsigned gameId);
 	void MoveSessionToGame(boost::shared_ptr<ServerGame> game, boost::shared_ptr<SessionData> session, bool autoLeave);
-	void RemoveSessionFromGame(boost::shared_ptr<SessionData> session);
 	void SessionError(boost::shared_ptr<SessionData> session, int errorCode);
 	void ResubscribeLobbyMsg(boost::shared_ptr<SessionData> session);
 	void NotifyPlayerJoinedLobby(unsigned playerId);
@@ -159,7 +158,6 @@ protected:
 	void TimerRemoveGame(const boost::system::error_code &ec);
 	void TimerRemovePlayer(const boost::system::error_code &ec);
 	void TimerUpdateClientLoginLock(const boost::system::error_code &ec);
-	void TimerCheckSessionTimeouts(const boost::system::error_code &ec);
 	void TimerCleanupAvatarCache(const boost::system::error_code &ec);
 
 	bool IsGameNameInUse(const std::string &gameName) const;
@@ -171,11 +169,10 @@ protected:
 
 	void HandleReAddedSession(boost::shared_ptr<SessionData> session);
 
-	void InternalCheckSessionTimeouts(boost::shared_ptr<SessionData> session);
+	void SessionTimeoutWarning(boost::shared_ptr<SessionData> session, unsigned remainingSec);
 
 	void CleanupSessionMap();
 
-	void CloseSession(SessionId sessionId);
 	void CloseSession(boost::shared_ptr<SessionData> session);
 	void SendError(boost::shared_ptr<SessionData> s, int errorCode);
 	void SendJoinGameFailed(boost::shared_ptr<SessionData> s, unsigned gameId, int reason);
@@ -251,8 +248,6 @@ private:
 
 	boost::asio::deadline_timer m_removeGameTimer;
 	boost::asio::deadline_timer m_removePlayerTimer;
-	boost::asio::deadline_timer m_sessionTimeoutTimer;
-	boost::asio::deadline_timer m_avatarCleanupTimer;
 	boost::asio::deadline_timer m_saveStatisticsTimer;
 	boost::asio::deadline_timer m_loginLockTimer;
 

@@ -35,6 +35,8 @@ public:
 	void Send(boost::shared_ptr<SessionData> session, boost::shared_ptr<NetPacket> packet);
 	void Send(boost::shared_ptr<SessionData> session, const NetPacketList &packetList);
 
+	void SetCloseAfterSend(boost::shared_ptr<SessionData> session);
+
 protected:
 	void InternalStorePacket(SendBuffer &tmpManager, boost::shared_ptr<NetPacket> packet);
 

@@ -54,7 +54,6 @@
 #define SERVER_MAX_NUM_LOBBY_SESSIONS				512		// Maximum number of idle users in lobby.
 #define SERVER_MAX_NUM_TOTAL_SESSIONS				2000	// Total maximum of sessions, fitting a 2048 handle limit
 
-#define SERVER_CACHE_CLEANUP_INTERVAL_SEC			86400	// 1 day
 #define SERVER_SAVE_STATISTICS_INTERVAL_SEC			60
 #define SERVER_CHECK_SESSION_TIMEOUTS_INTERVAL_MSEC	500
 #define SERVER_REMOVE_GAME_INTERVAL_MSEC			500
@@ -92,7 +91,15 @@ public:
 	virtual ~InternalServerCallback() {}
 
 	virtual void CloseSession(boost::shared_ptr<SessionData> session) {
-		m_server.CloseSession(session->GetId());
+		m_server.CloseSession(session);
+	}
+
+	virtual void SessionError(boost::shared_ptr<SessionData> session, int errorCode) {
+		m_server.SessionError(session, errorCode);
+	}
+
+	virtual void SessionTimeoutWarning(boost::shared_ptr<SessionData> session, unsigned remainingSec) {
+		m_server.SessionTimeoutWarning(session, remainingSec);
 	}
 
 	virtual void HandlePacket(boost::shared_ptr<SessionData> session, boost::shared_ptr<NetPacket> packet) {
@@ -178,7 +185,6 @@ ServerLobbyThread::ServerLobbyThread(GuiInterface &gui, ServerMode mode, ServerI
 	: m_ioService(ioService), m_authContext(NULL), m_gui(gui), m_ircBotCb(ircBotCb), m_avatarManager(avatarManager),
 	  m_mode(mode), m_serverConfig(serverConfig), m_curGameId(0), m_curUniquePlayerId(0), m_curSessionId(INVALID_SESSION + 1),
 	  m_statDataChanged(false), m_removeGameTimer(*ioService), m_removePlayerTimer(*ioService),
-	  m_sessionTimeoutTimer(*ioService), m_avatarCleanupTimer(*ioService),
 	  m_saveStatisticsTimer(*ioService), m_loginLockTimer(*ioService),
 	  m_startTime(boost::posix_time::second_clock::local_time())
 {
@@ -228,10 +234,14 @@ void
 ServerLobbyThread::AddConnection(boost::shared_ptr<tcp::socket> sock)
 {
 	// Create a new session.
-	boost::shared_ptr<SessionData> sessionData(new SessionData(sock, m_curSessionId++, *m_internalServerCallback));
+	boost::shared_ptr<SessionData> sessionData(new SessionData(sock, m_curSessionId++, *m_internalServerCallback, GetIOService()));
 	m_sessionManager.AddSession(sessionData);
 
 	LOG_VERBOSE("Accepted connection - session #" << sessionData->GetId() << ".");
+
+	sessionData->StartTimerInitTimeout(SERVER_INIT_SESSION_TIMEOUT_SEC);
+	sessionData->StartTimerGlobalTimeout(SERVER_SESSION_FORCED_TIMEOUT_SEC);
+	sessionData->StartTimerActivityTimeout(SERVER_SESSION_ACTIVITY_TIMEOUT_SEC, SERVER_TIMEOUT_WARNING_REMAINING_SEC);
 
 	bool hasClientIp = false;
 	unsigned numLobbySessions = m_sessionManager.GetRawSessionCount();
@@ -341,34 +351,17 @@ ServerLobbyThread::MoveSessionToGame(boost::shared_ptr<ServerGame> game, boost::
 }
 
 void
-ServerLobbyThread::RemoveSessionFromGame(boost::shared_ptr<SessionData> session)
-{
-	// Just remove the session. Only for fatal errors.
-	CloseSession(session);
-}
-
-void
-ServerLobbyThread::CloseSession(SessionId sessionId)
-{
-	boost::shared_ptr<SessionData> session = m_sessionManager.GetSessionById(sessionId);
-	if (!session)
-		session = m_gameSessionManager.GetSessionById(sessionId);
-	if (session) {
-		boost::shared_ptr<ServerGame> tmpGame = session->GetGame();
-		if (tmpGame) {
-			tmpGame->ErrorRemoveSession(session);
-		} else {
-			CloseSession(session);
-		}
-	}
-}
-
-void
 ServerLobbyThread::CloseSession(boost::shared_ptr<SessionData> session)
 {
 	if (session && session->GetState() != SessionData::Closed) { // Make this call reentrant.
 		LOG_VERBOSE("Closing session #" << session->GetId() << ".");
+
 		session->SetState(SessionData::Closed);
+
+		boost::shared_ptr<ServerGame> tmpGame = session->GetGame();
+		if (tmpGame) {
+			tmpGame->RemoveSession(session, NTF_NET_INTERNAL);
+		}
 
 		m_sessionManager.RemoveSession(session->GetId());
 		m_gameSessionManager.RemoveSession(session->GetId());
@@ -378,6 +371,11 @@ ServerLobbyThread::CloseSession(boost::shared_ptr<SessionData> session)
 		// Update stats (if needed).
 		UpdateStatisticsNumberOfPlayers();
 		session->SetGame(boost::shared_ptr<ServerGame>());
+		session->GetAsioSocket()->shutdown(boost::asio::ip::tcp::socket::shutdown_receive);
+		// Close this session after send.
+		GetSender().SetCloseAfterSend(session);
+		// Cancel all timers of the session.
+		session->CancelTimers();
 	}
 }
 
@@ -773,18 +771,6 @@ ServerLobbyThread::RegisterTimers()
 	m_removePlayerTimer.async_wait(
 		boost::bind(
 			&ServerLobbyThread::TimerRemovePlayer, shared_from_this(), boost::asio::placeholders::error));
-	// Check the timeout of sessions which have not been initialised.
-	m_sessionTimeoutTimer.expires_from_now(
-		boost::posix_time::milliseconds(SERVER_CHECK_SESSION_TIMEOUTS_INTERVAL_MSEC));
-	m_sessionTimeoutTimer.async_wait(
-		boost::bind(
-			&ServerLobbyThread::TimerCheckSessionTimeouts, shared_from_this(), boost::asio::placeholders::error));
-	// Cleanup the avatar cache. Note: Only works if there are no users on the server.
-	m_avatarCleanupTimer.expires_from_now(
-		boost::posix_time::seconds(SERVER_CACHE_CLEANUP_INTERVAL_SEC));
-	m_avatarCleanupTimer.async_wait(
-		boost::bind(
-			&ServerLobbyThread::TimerCleanupAvatarCache, shared_from_this(), boost::asio::placeholders::error));
 	// Update the statistics file.
 	m_saveStatisticsTimer.expires_from_now(
 		boost::posix_time::seconds(SERVER_SAVE_STATISTICS_INTERVAL_SEC));
@@ -804,8 +790,6 @@ ServerLobbyThread::CancelTimers()
 {
 	m_removeGameTimer.cancel();
 	m_removePlayerTimer.cancel();
-	m_sessionTimeoutTimer.cancel();
-	m_avatarCleanupTimer.cancel();
 	m_saveStatisticsTimer.cancel();
 	m_loginLockTimer.cancel();
 }
@@ -1709,40 +1693,6 @@ ServerLobbyThread::TimerUpdateClientLoginLock(const boost::system::error_code &e
 	}
 }
 
-void
-ServerLobbyThread::TimerCheckSessionTimeouts(const boost::system::error_code &ec)
-{
-	if (!ec) {
-		m_sessionManager.ForEach(boost::bind(&ServerLobbyThread::InternalCheckSessionTimeouts, boost::ref(*this), _1));
-		m_gameSessionManager.ForEach(boost::bind(&ServerLobbyThread::InternalCheckSessionTimeouts, boost::ref(*this), _1));
-		// Restart timer
-		m_sessionTimeoutTimer.expires_from_now(
-			boost::posix_time::milliseconds(SERVER_CHECK_SESSION_TIMEOUTS_INTERVAL_MSEC));
-		m_sessionTimeoutTimer.async_wait(
-			boost::bind(
-				&ServerLobbyThread::TimerCheckSessionTimeouts, shared_from_this(), boost::asio::placeholders::error));
-	}
-}
-
-void
-ServerLobbyThread::TimerCleanupAvatarCache(const boost::system::error_code &ec)
-{
-	if (!ec) {
-		// Only act if there are no sessions.
-		if (!m_sessionManager.HasSessions() && !m_gameSessionManager.HasSessions()) {
-			LOG_VERBOSE("Cleaning up avatar cache.");
-
-			m_avatarManager.RemoveOldAvatarCacheEntries();
-		}
-		// Restart timer
-		m_avatarCleanupTimer.expires_from_now(
-			boost::posix_time::seconds(SERVER_CACHE_CLEANUP_INTERVAL_SEC));
-		m_avatarCleanupTimer.async_wait(
-			boost::bind(
-				&ServerLobbyThread::TimerCleanupAvatarCache, shared_from_this(), boost::asio::placeholders::error));
-	}
-}
-
 bool
 ServerLobbyThread::IsGameNameInUse(const std::string &gameName) const
 {
@@ -1877,37 +1827,14 @@ ServerLobbyThread::HandleReAddedSession(boost::shared_ptr<SessionData> session)
 }
 
 void
-ServerLobbyThread::InternalCheckSessionTimeouts(boost::shared_ptr<SessionData> session)
+ServerLobbyThread::SessionTimeoutWarning(boost::shared_ptr<SessionData> session, unsigned remainingSec)
 {
-	bool closeSession = false;
-	if (session) {
-		if (session->GetState() == SessionData::Init && session->GetAutoDisconnectTimerElapsedSec() >= SERVER_INIT_SESSION_TIMEOUT_SEC) {
-			LOG_VERBOSE("Session init timeout, removing session #" << session->GetId() << ".");
-			closeSession = true;
-		} else if (session->GetActivityTimerElapsedSec() >= SERVER_SESSION_ACTIVITY_TIMEOUT_SEC - SERVER_TIMEOUT_WARNING_REMAINING_SEC
-				   && !session->HasActivityNoticeBeenSent()) {
-			session->MarkActivityNotice();
-
-			boost::shared_ptr<NetPacket> packet(new NetPacket(NetPacket::Alloc));
-			packet->GetMsg()->present = PokerTHMessage_PR_timeoutWarningMessage;
-			TimeoutWarningMessage_t *netWarning = &packet->GetMsg()->choice.timeoutWarningMessage;
-			netWarning->timeoutReason = timeoutReason_timeoutNoDataReceived;
-			netWarning->remainingSeconds = SERVER_TIMEOUT_WARNING_REMAINING_SEC;
-			GetSender().Send(session, packet);
-		} else if (session->GetActivityTimerElapsedSec() >= SERVER_SESSION_ACTIVITY_TIMEOUT_SEC) {
-			LOG_VERBOSE("Activity timeout, removing session #" << session->GetId() << ".");
-			closeSession = true;
-		} else if (session->GetAutoDisconnectTimerElapsedSec() >= SERVER_SESSION_FORCED_TIMEOUT_SEC) {
-			LOG_VERBOSE("Auto disconnect timeout, removing session #" << session->GetId() << ".");
-			closeSession = true;
-		}
-	}
-	if (closeSession) {
-		if (session->GetPlayerData())
-			RemovePlayer(session->GetPlayerData()->GetUniqueId(), ERR_NET_SESSION_TIMED_OUT);
-		else
-			m_sessionManager.RemoveSession(session->GetId());
-	}
+	boost::shared_ptr<NetPacket> packet(new NetPacket(NetPacket::Alloc));
+	packet->GetMsg()->present = PokerTHMessage_PR_timeoutWarningMessage;
+	TimeoutWarningMessage_t *netWarning = &packet->GetMsg()->choice.timeoutWarningMessage;
+	netWarning->timeoutReason = timeoutReason_timeoutNoDataReceived;
+	netWarning->remainingSeconds = remainingSec;
+	GetSender().Send(session, packet);
 }
 
 void
