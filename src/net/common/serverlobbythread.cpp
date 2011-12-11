@@ -65,7 +65,7 @@
 
 #define SERVER_INIT_SESSION_TIMEOUT_SEC				60
 #define SERVER_TIMEOUT_WARNING_REMAINING_SEC		60
-#define SERVER_SESSION_ACTIVITY_TIMEOUT_SEC			1800	// 30 min, MUST be > SERVER_TIMEOUT_WARNING_REMAINING_SEC
+#define SERVER_SESSION_ACTIVITY_TIMEOUT_SEC			180/*1800*/	// 30 min, MUST be > SERVER_TIMEOUT_WARNING_REMAINING_SEC
 #define SERVER_SESSION_FORCED_TIMEOUT_SEC			86400	// 1 day, should be quite large.
 
 #define SERVER_ADDRESS_LOCALHOST_STR_V4				"127.0.0.1"
@@ -1802,12 +1802,22 @@ ServerLobbyThread::SessionTimeoutWarning(boost::shared_ptr<SessionData> session,
 	netWarning->timeoutReason = timeoutReason_timeoutNoDataReceived;
 	netWarning->remainingSeconds = remainingSec;
 	GetSender().Send(session, packet);
+
+	if (session->GetGame() && session->GetPlayerData()) {
+		session->GetGame()->MarkPlayerAsInactive(session->GetPlayerData()->GetUniqueId());
+	}
 }
 
 void
 ServerLobbyThread::SessionError(boost::shared_ptr<SessionData> session, int errorCode)
 {
 	if (session) {
+		if (errorCode == ERR_NET_PLAYER_KICKED || errorCode == ERR_NET_SESSION_TIMED_OUT) {
+			if (session->GetGame() && session->GetPlayerData()) {
+				session->GetGame()->MarkPlayerAsKicked(session->GetPlayerData()->GetUniqueId());
+			}
+		}
+
 		SendError(session, errorCode);
 		CloseSession(session);
 	}

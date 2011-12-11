@@ -96,7 +96,7 @@ Game::Game(GuiInterface* gui, boost::shared_ptr<EngineFactory> factory,
 
 		// create player objects
 		boost::shared_ptr<PlayerInterface> tmpPlayer = myFactory->createPlayer(i, uniqueId, type, myName, myAvatarFile, myStartCash, startQuantityPlayers > i, 0);
-		tmpPlayer->setIsConnected(true);
+		tmpPlayer->setIsSessionActive(true);
 		tmpPlayer->setMyGuid(myGuid);
 
 		// fill player lists

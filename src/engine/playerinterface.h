@@ -118,8 +118,8 @@ public:
 	virtual void turnEngine() =0;
 	virtual void riverEngine() =0;
 
-	virtual void setIsConnected(bool connected) =0;
-	virtual bool isConnected() const=0;
+	virtual void setIsSessionActive(bool connected) =0;
+	virtual bool isSessionActive() const=0;
 	virtual void setIsKicked(bool kicked) =0;
 	virtual bool isKicked() const=0;
 

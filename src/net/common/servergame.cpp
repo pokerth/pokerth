@@ -97,13 +97,35 @@ ServerGame::AddSession(boost::shared_ptr<SessionData> session)
 void
 ServerGame::RemovePlayer(unsigned playerId, unsigned errorCode)
 {
-	if (errorCode == ERR_NET_PLAYER_KICKED) {
-		MarkPlayerAsKicked(playerId);
-	}
 	boost::shared_ptr<SessionData> tmpSession = GetSessionManager().GetSessionByUniquePlayerId(playerId);
 	// Only kick if the player was found.
 	if (tmpSession)
 		SessionError(tmpSession, errorCode);
+}
+
+void
+ServerGame::MarkPlayerAsInactive(unsigned playerId)
+{
+	if (m_game) {
+		boost::shared_ptr<PlayerInterface> tmpPlayer(m_game->getPlayerByUniqueId(playerId));
+		if (tmpPlayer) {
+			tmpPlayer->setIsSessionActive(false);
+		}
+	}
+}
+
+void
+ServerGame::MarkPlayerAsKicked(unsigned playerId)
+{
+	// Mark the player as kicked in the engine.
+	if (m_game) {
+		boost::shared_ptr<PlayerInterface> tmpPlayer(m_game->getPlayerByUniqueId(playerId));
+		if (tmpPlayer) {
+			// Player was kicked, so he is not allowed to rejoin.
+			tmpPlayer->setIsKicked(true);
+			tmpPlayer->setMyGuid("");
+		}
+	}
 }
 
 void
@@ -373,20 +395,6 @@ ServerGame::InternalEndGame()
 {
 	StoreAndResetRanking();
 	m_game.reset();
-}
-
-void
-ServerGame::MarkPlayerAsKicked(unsigned playerId)
-{
-	// Mark the player as kicked in the engine.
-	if (m_game) {
-		boost::shared_ptr<PlayerInterface> tmpPlayer(m_game->getPlayerByUniqueId(playerId));
-		if (tmpPlayer) {
-			// Player was kicked, so he is not allowed to rejoin.
-			tmpPlayer->setIsKicked(true);
-			tmpPlayer->setMyGuid("");
-		}
-	}
 }
 
 void
@@ -828,8 +836,9 @@ ServerGame::RemoveDisconnectedPlayers()
 				// The player should only be deactivated if rejoin is not possible.
 				if (tmpPlayer->isKicked() || tmpPlayer->getMyGuid().empty()) {
 					tmpPlayer->setMyCash(0);
+					tmpPlayer->setMyGuid("");
 				}
-				tmpPlayer->setIsConnected(false);
+				tmpPlayer->setIsSessionActive(false);
 			}
 			++i;
 		}

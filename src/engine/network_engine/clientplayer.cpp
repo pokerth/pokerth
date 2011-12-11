@@ -26,7 +26,7 @@ ClientPlayer::ClientPlayer(ConfigFile *c, int id, unsigned uniqueId, PlayerType 
 	: PlayerInterface(), myConfig(c), currentHand(0), myID(id), myUniqueID(uniqueId), myType(type),
 	  myName(name), myAvatar(avatar), myDude(0), myDude4(0), myCardsValueInt(0), myOdds(-1.0), logHoleCardsDone(false), myCash(sC), mySet(0), myLastRelativeSet(0),
 	  myAction(PLAYER_ACTION_NONE), myButton(mB), myActiveStatus(aS), myStayOnTableStatus(true), myTurn(false), myCardsFlip(false), myRoundStartCash(0),
-	  lastMoneyWon(0), sBluff(0), sBluffStatus(false), m_isConnected(false), m_isKicked(false)
+	  lastMoneyWon(0), sBluff(0), sBluffStatus(false), m_isSessionActive(false), m_isKicked(false)
 {
 	myBestHandPosition[0] = myBestHandPosition[1] = myBestHandPosition[2] = myBestHandPosition[3] = myBestHandPosition[4] = 0;
 	myNiveau[0] = myNiveau[1] = myNiveau[2] = 0;
@@ -536,17 +536,17 @@ ClientPlayer::riverEngine3()
 
 
 void
-ClientPlayer::setIsConnected(bool connected)
+ClientPlayer::setIsSessionActive(bool active)
 {
 	boost::recursive_mutex::scoped_lock lock(m_syncMutex);
-	m_isConnected = connected;
+	m_isSessionActive = active;
 }
 
 bool
-ClientPlayer::isConnected() const
+ClientPlayer::isSessionActive() const
 {
 	boost::recursive_mutex::scoped_lock lock(m_syncMutex);
-	return m_isConnected;
+	return m_isSessionActive;
 }
 
 void

@@ -849,7 +849,7 @@ LocalPlayer::LocalPlayer(ConfigFile *c, int id, unsigned uniqueId, PlayerType ty
 	: PlayerInterface(), myConfig(c), currentHand(0), myID(id), myUniqueID(uniqueId), myType(type), myName(name), myAvatar(avatar),
 	  myDude(0), myDude4(0), myCardsValueInt(0), myOdds(-1.0), logHoleCardsDone(false), myCash(sC), mySet(0), myLastRelativeSet(0), myAction(PLAYER_ACTION_NONE),
 	  myButton(mB), myActiveStatus(aS), myStayOnTableStatus(1), myTurn(0), myCardsFlip(0), myRoundStartCash(0), lastMoneyWon(0),
-	  sBluff(0), sBluffStatus(false), m_actionTimeoutCounter(0), m_isConnected(false), m_isKicked(false)
+	  sBluff(0), sBluffStatus(false), m_actionTimeoutCounter(0), m_isSessionActive(false), m_isKicked(false)
 {
 
 	// !!!!!!!!!!!!!!!!!!!!!!!! testing !!!!!!!!!!!!!!!!!!!!!!!!
@@ -5094,14 +5094,14 @@ void LocalPlayer::riverEngine3()
 
 }
 
-void LocalPlayer::setIsConnected(bool connected)
+void LocalPlayer::setIsSessionActive(bool active)
 {
-	m_isConnected = connected;
+	m_isSessionActive = active;
 }
 
-bool LocalPlayer::isConnected() const
+bool LocalPlayer::isSessionActive() const
 {
-	return m_isConnected;
+	return m_isSessionActive;
 }
 
 void LocalPlayer::setIsKicked(bool kicked)

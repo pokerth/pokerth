@@ -280,8 +280,8 @@ public:
 
 	void evaluation(int, int);
 
-	void setIsConnected(bool connected);
-	bool isConnected() const;
+	void setIsSessionActive(bool active);
+	bool isSessionActive() const;
 	void setIsKicked(bool kicked);
 	bool isKicked() const;
 
@@ -334,7 +334,7 @@ private:
 	bool sBluffStatus;
 
 	unsigned m_actionTimeoutCounter;
-	bool m_isConnected;
+	bool m_isSessionActive;
 	bool m_isKicked;
 };
 

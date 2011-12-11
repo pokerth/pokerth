@@ -54,6 +54,8 @@ public:
 
 	void AddSession(boost::shared_ptr<SessionData> session);
 	void RemovePlayer(unsigned playerId, unsigned errorCode);
+	void MarkPlayerAsInactive(unsigned playerId);
+	void MarkPlayerAsKicked(unsigned playerId);
 
 	void HandlePacket(boost::shared_ptr<SessionData> session, boost::shared_ptr<NetPacket> packet);
 
@@ -115,7 +117,6 @@ protected:
 	void RemoveAutoLeavePlayers();
 	void InternalEndGame();
 
-	void MarkPlayerAsKicked(unsigned playerId);
 	void InternalKickPlayer(unsigned playerId);
 	void InternalAskVoteKick(boost::shared_ptr<SessionData> byWhom, unsigned playerIdWho, unsigned timeoutSec);
 	void InternalDenyAskVoteKick(boost::shared_ptr<SessionData> byWhom, unsigned playerIdWho, DenyKickPlayerReason reason);

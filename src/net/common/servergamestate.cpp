@@ -222,8 +222,15 @@ AbstractServerGameStateReceiving::~AbstractServerGameStateReceiving()
 void
 AbstractServerGameStateReceiving::ProcessPacket(boost::shared_ptr<ServerGame> server, boost::shared_ptr<SessionData> session, boost::shared_ptr<NetPacket> packet)
 {
-	if (packet->IsClientActivity())
+	if (packet->IsClientActivity()) {
 		session->ResetActivityTimer();
+		if (server->IsRunning()) {
+			boost::shared_ptr<PlayerInterface> tmpPlayer(server->GetGame().getPlayerByUniqueId(session->GetPlayerData()->GetUniqueId()));
+			if (tmpPlayer) {
+				tmpPlayer->setIsSessionActive(true);
+			}
+		}
+	}
 	if (packet->GetMsg()->present == PokerTHMessage_PR_playerInfoRequestMessage) {
 		// Delegate to Lobby.
 		server->GetLobbyThread().HandleGameRetrievePlayerInfo(session, packet->GetMsg()->choice.playerInfoRequestMessage);
@@ -940,7 +947,8 @@ ServerGameStateHand::EngineLoop(boost::shared_ptr<ServerGame> server)
 						&ServerGameStateHand::TimerComputerAction, this, boost::asio::placeholders::error, server));
 			}
 			// If the player we are waiting for left, continue without him.
-			else if (!server->GetSessionManager().IsPlayerConnected(curPlayer->getMyUniqueID())) {
+			else if (!server->GetSessionManager().IsPlayerConnected(curPlayer->getMyUniqueID())
+				|| !curPlayer->isSessionActive()) {
 				PerformPlayerAction(*server, curPlayer, PLAYER_ACTION_FOLD, 0);
 
 				server->GetStateTimer1().expires_from_now(
@@ -1138,10 +1146,10 @@ ServerGameStateHand::StartNewHand(boost::shared_ptr<ServerGame> server)
 
 	// Send cards to all players.
 	while (i != end) {
-		// also send to inactive players, but not to disconnected players.
+		// Also send to inactive players.
 		boost::shared_ptr<PlayerInterface> tmpPlayer = *i;
 		boost::shared_ptr<SessionData> tmpSession = server->GetSessionManager().GetSessionByUniquePlayerId(tmpPlayer->getMyUniqueID());
-		if (tmpPlayer->isConnected() && tmpSession) {
+		if (tmpSession) {
 			int cards[2];
 			bool errorFlag = false;
 			tmpPlayer->getMyCards(cards);
@@ -1274,7 +1282,7 @@ ServerGameStateHand::PerformRejoin(boost::shared_ptr<ServerGame> server, boost::
 		// Change the Id in the poker engine.
 		rejoinPlayer->setMyUniqueID(session->GetPlayerData()->GetUniqueId());
 		rejoinPlayer->setMyGuid(session->GetPlayerData()->GetGuid());
-		rejoinPlayer->setIsConnected(true);
+		rejoinPlayer->setIsSessionActive(true);
 
 		// Send game start notification to rejoining client.
 		packet.reset(new NetPacket(NetPacket::Alloc));
