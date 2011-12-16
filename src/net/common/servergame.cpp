@@ -220,7 +220,7 @@ ServerGame::TimerVoteKick(const boost::system::error_code &ec)
 
 				// Perform kick.
 				if (doKick)
-					InternalKickPlayer(m_voteKickData->kickPlayerId);
+					KickPlayer(m_voteKickData->kickPlayerId);
 				// This petition has ended.
 				m_voteKickData.reset();
 			}
@@ -398,7 +398,7 @@ ServerGame::InternalEndGame()
 }
 
 void
-ServerGame::InternalKickPlayer(unsigned playerId)
+ServerGame::KickPlayer(unsigned playerId)
 {
 	MarkPlayerAsKicked(playerId);
 

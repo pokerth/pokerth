@@ -285,11 +285,10 @@ public:
 	void setIsKicked(bool kicked);
 	bool isKicked() const;
 
-	unsigned getActionTimeoutCounter() const;
-	void incrementActionTimeoutCounter();
-	void resetActionTimeoutCounter();
-
 	bool checkIfINeedToShowCards();
+
+	void markRemoteAction();
+	unsigned getTimeSecSinceLastRemoteAction() const;
 
 private:
 
@@ -336,6 +335,7 @@ private:
 	unsigned m_actionTimeoutCounter;
 	bool m_isSessionActive;
 	bool m_isKicked;
+	boost::timers::portable::microsec_timer m_lastRemoteActionTimer;
 };
 
 #endif

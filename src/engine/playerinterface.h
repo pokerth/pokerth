@@ -124,6 +124,9 @@ public:
 	virtual bool isKicked() const=0;
 
 	virtual bool checkIfINeedToShowCards() =0;
+
+	virtual void markRemoteAction() =0;
+	virtual unsigned getTimeSecSinceLastRemoteAction() const =0;
 };
 
 #endif

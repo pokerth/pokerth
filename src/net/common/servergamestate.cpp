@@ -65,6 +65,8 @@ using namespace std;
 #define SERVER_AUTOSTART_GAME_DELAY_SEC				6
 #define SERVER_GAME_ADMIN_WARNING_REMAINING_SEC		60
 #define SERVER_GAME_ADMIN_TIMEOUT_SEC				300		// 5 min, MUST be > SERVER_GAME_ADMIN_WARNING_REMAINING_SEC
+#define SERVER_GAME_AUTOFOLD_TIMEOUT_SEC			60
+#define SERVER_GAME_FORCED_TIMEOUT_SEC				120
 #define SERVER_VOTE_KICK_TIMEOUT_SEC				30
 #define SERVER_LOOP_DELAY_MSEC						50
 
@@ -179,8 +181,15 @@ static void PerformPlayerAction(ServerGame &server, boost::shared_ptr<PlayerInte
 		curGame.getCurrentHand()->getBoard()->collectSets();
 	}
 
-
 	SendPlayerAction(server, player);
+
+	// Check timeout.
+	if (player->getTimeSecSinceLastRemoteAction() >= SERVER_GAME_AUTOFOLD_TIMEOUT_SEC) {
+		player->setIsSessionActive(false);
+		if (player->getTimeSecSinceLastRemoteAction() >= SERVER_GAME_FORCED_TIMEOUT_SEC) {
+			server.KickPlayer(player->getMyUniqueID());
+		}
+	}
 }
 
 static void
@@ -224,12 +233,6 @@ AbstractServerGameStateReceiving::ProcessPacket(boost::shared_ptr<ServerGame> se
 {
 	if (packet->IsClientActivity()) {
 		session->ResetActivityTimer();
-		if (server->IsRunning()) {
-			boost::shared_ptr<PlayerInterface> tmpPlayer(server->GetGame().getPlayerByUniqueId(session->GetPlayerData()->GetUniqueId()));
-			if (tmpPlayer) {
-				tmpPlayer->setIsSessionActive(true);
-			}
-		}
 	}
 	if (packet->GetMsg()->present == PokerTHMessage_PR_playerInfoRequestMessage) {
 		// Delegate to Lobby.
@@ -245,7 +248,7 @@ AbstractServerGameStateReceiving::ProcessPacket(boost::shared_ptr<ServerGame> se
 		KickPlayerRequestMessage_t *netKickRequest = &packet->GetMsg()->choice.kickPlayerRequestMessage;
 		if (session->GetPlayerData()->IsGameAdmin() && !server->IsRunning()
 				&& netKickRequest->gameId == server->GetId() && server->GetGameData().gameType != GAME_TYPE_RANKING) {
-			server->InternalKickPlayer(netKickRequest->playerId);
+			server->KickPlayer(netKickRequest->playerId);
 		}
 	} else if (packet->GetMsg()->present == PokerTHMessage_PR_askKickPlayerMessage) {
 		if (server->GetGameData().gameType != GAME_TYPE_RANKING) {
@@ -946,18 +949,20 @@ ServerGameStateHand::EngineLoop(boost::shared_ptr<ServerGame> server)
 					boost::bind(
 						&ServerGameStateHand::TimerComputerAction, this, boost::asio::placeholders::error, server));
 			}
-			// If the player we are waiting for left, continue without him.
-			else if (!server->GetSessionManager().IsPlayerConnected(curPlayer->getMyUniqueID())
-				|| !curPlayer->isSessionActive()) {
-				PerformPlayerAction(*server, curPlayer, PLAYER_ACTION_FOLD, 0);
+			else {
+				// If the player we are waiting for left, continue without him.
+				if (!server->GetSessionManager().IsPlayerConnected(curPlayer->getMyUniqueID())
+					|| !curPlayer->isSessionActive()) {
+					PerformPlayerAction(*server, curPlayer, PLAYER_ACTION_FOLD, 0);
 
-				server->GetStateTimer1().expires_from_now(
-					boost::posix_time::milliseconds(SERVER_LOOP_DELAY_MSEC));
-				server->GetStateTimer1().async_wait(
-					boost::bind(
-						&ServerGameStateHand::TimerLoop, this, boost::asio::placeholders::error, server));
-			} else {
-				server->SetState(ServerGameStateWaitPlayerAction::Instance());
+					server->GetStateTimer1().expires_from_now(
+						boost::posix_time::milliseconds(SERVER_LOOP_DELAY_MSEC));
+					server->GetStateTimer1().async_wait(
+						boost::bind(
+							&ServerGameStateHand::TimerLoop, this, boost::asio::placeholders::error, server));
+				} else {
+					server->SetState(ServerGameStateWaitPlayerAction::Instance());
+				}
 			}
 		} else { // hand is over
 			// Engine will find out who won.
@@ -1401,6 +1406,8 @@ ServerGameStateWaitPlayerAction::InternalProcessPacket(boost::shared_ptr<ServerG
 		}
 
 		if (code == ACTION_CODE_VALID) {
+			tmpPlayer->setIsSessionActive(true);
+			tmpPlayer->markRemoteAction();
 			PerformPlayerAction(*server, tmpPlayer, static_cast<PlayerAction>(netMyAction->myAction), netMyAction->myRelativeBet);
 			server->SetState(ServerGameStateHand::Instance());
 		} else {

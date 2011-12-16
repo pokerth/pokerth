@@ -96,6 +96,8 @@ public:
 	const Game &GetGame() const;
 	Game &GetGame();
 
+	void KickPlayer(unsigned playerId);
+
 protected:
 
 	struct RankingData {
@@ -117,7 +119,6 @@ protected:
 	void RemoveAutoLeavePlayers();
 	void InternalEndGame();
 
-	void InternalKickPlayer(unsigned playerId);
 	void InternalAskVoteKick(boost::shared_ptr<SessionData> byWhom, unsigned playerIdWho, unsigned timeoutSec);
 	void InternalDenyAskVoteKick(boost::shared_ptr<SessionData> byWhom, unsigned playerIdWho, DenyKickPlayerReason reason);
 	void InternalVoteKick(boost::shared_ptr<SessionData> byWhom, unsigned petitionId, KickVote vote);

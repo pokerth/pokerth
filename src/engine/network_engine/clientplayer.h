@@ -140,6 +140,9 @@ public:
 
 	bool checkIfINeedToShowCards();
 
+	void markRemoteAction() {}
+	unsigned getTimeSecSinceLastRemoteAction() const {return 0;}
+
 private:
 	mutable boost::recursive_mutex m_syncMutex;
 
