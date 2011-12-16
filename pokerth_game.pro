@@ -337,7 +337,8 @@ win32 {
 		-lgcrypt \
 		-lgpg-error \
 		-lgsasl \
-		-lidn
+		-lidn \
+		-lintl
 	debug:LIBPATH += debug/lib
 	release:LIBPATH += release/lib
 		LIBS += -lsqlite3
