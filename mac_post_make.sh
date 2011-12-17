@@ -14,12 +14,13 @@ QT_PLUGIN_PATH="/Developer/Applications/Qt/plugins"
 SDL_FW_PATH="/Library/Frameworks"
 APPLICATION="./pokerth.app"
 BINARY="$APPLICATION/Contents/MacOs/pokerth"
-RESOURCES="$APPLICATION/Contents/Resources/"
+RESOURCES="$APPLICATION/Contents/Resources"
 
 # strip binary
 strip $BINARY
 
-cp -R ./data $RESOURCES
+cp -R ./data $RESOURCES/
+find $RESOURCES/data -name ".svn" | xargs rm -Rf
 # create framework-path
 BINARY_FW_PATH="$APPLICATION/Contents/Frameworks"
 mkdir $BINARY_FW_PATH
