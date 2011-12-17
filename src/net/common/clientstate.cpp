@@ -1785,6 +1785,7 @@ ClientStateRunHand::InternalHandlePacket(boost::shared_ptr<ClientThread> client,
 		}
 
 		tmpPlayer->setMyAction(PlayerAction(netActionDone->playerAction));
+		tmpPlayer->setIsSessionActive(netActionDone->playerState == NetPlayerState_playerStateNormal);
 		tmpPlayer->setMySetAbsolute(netActionDone->totalPlayerBet);
 		tmpPlayer->setMyCash(netActionDone->playerMoney);
 		curGame->getCurrentHand()->getCurrentBeRo()->setHighestSet(netActionDone->highestSet);

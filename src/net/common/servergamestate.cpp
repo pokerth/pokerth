@@ -65,8 +65,8 @@ using namespace std;
 #define SERVER_AUTOSTART_GAME_DELAY_SEC				6
 #define SERVER_GAME_ADMIN_WARNING_REMAINING_SEC		60
 #define SERVER_GAME_ADMIN_TIMEOUT_SEC				300		// 5 min, MUST be > SERVER_GAME_ADMIN_WARNING_REMAINING_SEC
-#define SERVER_GAME_AUTOFOLD_TIMEOUT_SEC			60
-#define SERVER_GAME_FORCED_TIMEOUT_SEC				120
+#define SERVER_GAME_AUTOFOLD_TIMEOUT_FACTOR			20
+#define SERVER_GAME_FORCED_TIMEOUT_FACTOR			60
 #define SERVER_VOTE_KICK_TIMEOUT_SEC				30
 #define SERVER_LOOP_DELAY_MSEC						50
 
@@ -85,7 +85,8 @@ static void SendPlayerAction(ServerGame &server, boost::shared_ptr<PlayerInterfa
 	netActionDone->gameState = server.GetCurRound();
 	netActionDone->highestSet = server.GetGame().getCurrentHand()->getCurrentBeRo()->getHighestSet();
 	netActionDone->minimumRaise = server.GetGame().getCurrentHand()->getCurrentBeRo()->getMinimumRaise();
-	netActionDone->playerAction = static_cast<PlayerAction>(player->getMyAction());
+	netActionDone->playerAction = player->getMyAction();
+	netActionDone->playerState = player->isSessionActive() ? NetPlayerState_playerStateNormal : NetPlayerState_playerStateSessionInactive;
 	netActionDone->playerId = player->getMyUniqueID();
 	netActionDone->playerMoney = player->getMyCash();
 	netActionDone->totalPlayerBet = player->getMySet();
@@ -184,10 +185,13 @@ static void PerformPlayerAction(ServerGame &server, boost::shared_ptr<PlayerInte
 	SendPlayerAction(server, player);
 
 	// Check timeout.
-	if (player->getTimeSecSinceLastRemoteAction() >= SERVER_GAME_AUTOFOLD_TIMEOUT_SEC) {
-		player->setIsSessionActive(false);
-		if (player->getTimeSecSinceLastRemoteAction() >= SERVER_GAME_FORCED_TIMEOUT_SEC) {
-			server.KickPlayer(player->getMyUniqueID());
+	int actionTimeout = server.GetGameData().playerActionTimeoutSec;
+	if (actionTimeout) {
+		if (player->getTimeSecSinceLastRemoteAction() >= actionTimeout * SERVER_GAME_AUTOFOLD_TIMEOUT_FACTOR) {
+			player->setIsSessionActive(false);
+			if (player->getTimeSecSinceLastRemoteAction() >= actionTimeout * SERVER_GAME_FORCED_TIMEOUT_FACTOR) {
+				server.KickPlayer(player->getMyUniqueID());
+			}
 		}
 	}
 }
@@ -1219,6 +1223,7 @@ ServerGameStateHand::StartNewHand(boost::shared_ptr<ServerGame> server)
 			netSmallBlind->gameState = NetGameState_statePreflopSmallBlind;
 			netSmallBlind->playerId = tmpPlayer->getMyUniqueID();
 			netSmallBlind->playerAction = tmpPlayer->getMyAction();
+			netSmallBlind->playerState = tmpPlayer->isSessionActive() ? NetPlayerState_playerStateNormal : NetPlayerState_playerStateSessionInactive;
 			netSmallBlind->totalPlayerBet = tmpPlayer->getMySet();
 			netSmallBlind->playerMoney = tmpPlayer->getMyCash();
 			netSmallBlind->highestSet = server->GetGame().getCurrentHand()->getCurrentBeRo()->getHighestSet();
@@ -1241,6 +1246,7 @@ ServerGameStateHand::StartNewHand(boost::shared_ptr<ServerGame> server)
 			netBigBlind->gameState = NetGameState_statePreflopBigBlind;
 			netBigBlind->playerId = tmpPlayer->getMyUniqueID();
 			netBigBlind->playerAction = tmpPlayer->getMyAction();
+			netBigBlind->playerState = tmpPlayer->isSessionActive() ? NetPlayerState_playerStateNormal : NetPlayerState_playerStateSessionInactive;
 			netBigBlind->totalPlayerBet = tmpPlayer->getMySet();
 			netBigBlind->playerMoney = tmpPlayer->getMyCash();
 			netBigBlind->highestSet = server->GetGame().getCurrentHand()->getCurrentBeRo()->getHighestSet();

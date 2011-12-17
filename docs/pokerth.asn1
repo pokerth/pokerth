@@ -523,6 +523,7 @@ PlayersActionDoneMessage ::= [APPLICATION 27] SEQUENCE {
 	playerId					NonZeroId,
 	gameState					NetGameState,
 	playerAction				NetPlayerAction,
+	playerState					NetPlayerState,
 	totalPlayerBet				AmountOfMoney,
 	playerMoney					AmountOfMoney,
 	highestSet					AmountOfMoney,
@@ -806,6 +807,11 @@ NetPlayerAction ::= ENUMERATED {
 	actionBet		(4),
 	actionRaise		(5),
 	actionAllIn		(6)
+}
+
+NetPlayerState ::= ENUMERATED {
+	playerStateNormal			(0),
+	playerStateSessionInactive	(1)
 }
 
 NonZeroId ::= INTEGER(1..4294967295)

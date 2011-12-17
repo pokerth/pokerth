@@ -45,6 +45,11 @@ import org.bn.types.*;
 	private NetPlayerAction playerAction = null;
                 
   
+        @ASN1Element ( name = "playerState", isOptional =  false , hasTag =  false  , hasDefaultValue =  false  )
+    
+	private NetPlayerState playerState = null;
+                
+  
         @ASN1Element ( name = "totalPlayerBet", isOptional =  false , hasTag =  false  , hasDefaultValue =  false  )
     
 	private AmountOfMoney totalPlayerBet = null;
@@ -110,6 +115,18 @@ import org.bn.types.*;
 
         public void setPlayerAction (NetPlayerAction value) {
             this.playerAction = value;
+        }
+        
+  
+        
+        public NetPlayerState getPlayerState () {
+            return this.playerState;
+        }
+
+        
+
+        public void setPlayerState (NetPlayerState value) {
+            this.playerState = value;
         }
         
   

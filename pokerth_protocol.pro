@@ -124,6 +124,7 @@ HEADERS += src/third_party/asn1/AllInShowCardsMessage.h \
 	src/third_party/asn1/NetGameMode.h \
 	src/third_party/asn1/NetGameState.h \
 	src/third_party/asn1/NetPlayerAction.h \
+	src/third_party/asn1/NetPlayerState.h \
 	src/third_party/asn1/NonZeroId.h \
 	src/third_party/asn1/OCTET_STRING.h \
 	src/third_party/asn1/per_decoder.h \
@@ -236,6 +237,7 @@ SOURCES += src/third_party/asn1/ChatCleanerMessage.c \
 	src/third_party/asn1/OCTET_STRING.c \
 	src/third_party/asn1/NonZeroId.c \
 	src/third_party/asn1/NetPlayerAction.c \
+	src/third_party/asn1/NetPlayerState.c \
 	src/third_party/asn1/NetGameState.c \
 	src/third_party/asn1/NetGameMode.c \
 	src/third_party/asn1/NetGameInfo.c \

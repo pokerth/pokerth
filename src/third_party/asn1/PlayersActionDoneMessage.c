@@ -44,6 +44,15 @@ static asn_TYPE_member_t asn_MBR_PlayersActionDoneMessage_1[] = {
 		0,
 		"playerAction"
 	},
+	{	ATF_NOFLAGS, 0, offsetof(struct PlayersActionDoneMessage, playerState),
+		(ASN_TAG_CLASS_UNIVERSAL | (10 << 2)),
+		0,
+		&asn_DEF_NetPlayerState,
+		0,	/* Defer constraints checking to the member type */
+		0,	/* PER is not compiled, use -gen-PER */
+		0,
+		"playerState"
+	},
 	{	ATF_NOFLAGS, 0, offsetof(struct PlayersActionDoneMessage, totalPlayerBet),
 		(ASN_TAG_CLASS_UNIVERSAL | (2 << 2)),
 		0,
@@ -88,21 +97,22 @@ static ber_tlv_tag_t asn_DEF_PlayersActionDoneMessage_tags_1[] = {
 static asn_TYPE_tag2member_t asn_MAP_PlayersActionDoneMessage_tag2el_1[] = {
 	{ (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 0, 0, 5 }, /* gameId at 522 */
 	{ (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 1, -1, 4 }, /* playerId at 523 */
-	{ (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 4, -2, 3 }, /* totalPlayerBet at 526 */
-	{ (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 5, -3, 2 }, /* playerMoney at 527 */
-	{ (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 6, -4, 1 }, /* highestSet at 528 */
-	{ (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 7, -5, 0 }, /* minimumRaise at 530 */
-	{ (ASN_TAG_CLASS_UNIVERSAL | (10 << 2)), 2, 0, 1 }, /* gameState at 524 */
-	{ (ASN_TAG_CLASS_UNIVERSAL | (10 << 2)), 3, -1, 0 } /* playerAction at 525 */
+	{ (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 5, -2, 3 }, /* totalPlayerBet at 527 */
+	{ (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 6, -3, 2 }, /* playerMoney at 528 */
+	{ (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 7, -4, 1 }, /* highestSet at 529 */
+	{ (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 8, -5, 0 }, /* minimumRaise at 531 */
+	{ (ASN_TAG_CLASS_UNIVERSAL | (10 << 2)), 2, 0, 2 }, /* gameState at 524 */
+	{ (ASN_TAG_CLASS_UNIVERSAL | (10 << 2)), 3, -1, 1 }, /* playerAction at 525 */
+	{ (ASN_TAG_CLASS_UNIVERSAL | (10 << 2)), 4, -2, 0 } /* playerState at 526 */
 };
 static asn_SEQUENCE_specifics_t asn_SPC_PlayersActionDoneMessage_specs_1 = {
 	sizeof(struct PlayersActionDoneMessage),
 	offsetof(struct PlayersActionDoneMessage, _asn_ctx),
 	asn_MAP_PlayersActionDoneMessage_tag2el_1,
-	8,	/* Count of tags in the map */
+	9,	/* Count of tags in the map */
 	0, 0, 0,	/* Optional elements (not needed) */
-	7,	/* Start extensions */
-	9	/* Stop extensions */
+	8,	/* Start extensions */
+	10	/* Stop extensions */
 };
 asn_TYPE_descriptor_t asn_DEF_PlayersActionDoneMessage = {
 	"PlayersActionDoneMessage",
@@ -124,7 +134,7 @@ asn_TYPE_descriptor_t asn_DEF_PlayersActionDoneMessage = {
 	/sizeof(asn_DEF_PlayersActionDoneMessage_tags_1[0]), /* 2 */
 	0,	/* No PER visible constraints */
 	asn_MBR_PlayersActionDoneMessage_1,
-	8,	/* Elements count */
+	9,	/* Elements count */
 	&asn_SPC_PlayersActionDoneMessage_specs_1	/* Additional specs */
 };
 
