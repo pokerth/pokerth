@@ -371,7 +371,9 @@ ServerLobbyThread::CloseSession(boost::shared_ptr<SessionData> session)
 		// Update stats (if needed).
 		UpdateStatisticsNumberOfPlayers();
 		session->SetGame(boost::shared_ptr<ServerGame>());
-		session->GetAsioSocket()->shutdown(boost::asio::ip::tcp::socket::shutdown_receive);
+		// Ignore error when shutting down the socket.
+		boost::system::error_code ec;
+		session->GetAsioSocket()->shutdown(boost::asio::ip::tcp::socket::shutdown_receive, ec);
 		// Close this session after send.
 		GetSender().SetCloseAfterSend(session);
 		// Cancel all timers of the session.
