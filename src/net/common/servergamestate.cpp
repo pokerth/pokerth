@@ -958,7 +958,7 @@ ServerGameStateHand::EngineLoop(boost::shared_ptr<ServerGame> server)
 					if (curPlayer->getTimeSecSinceLastRemoteAction() >= actionTimeout * SERVER_GAME_AUTOFOLD_TIMEOUT_FACTOR) {
 						if (curPlayer->isSessionActive()) {
 							curPlayer->setIsSessionActive(false);
-							boost::shared_ptr<SessionData> session = server->GetSessionManager().GetSessionByUniquePlayerId(server->GetAdminPlayerId());
+							boost::shared_ptr<SessionData> session = server->GetSessionManager().GetSessionByUniquePlayerId(curPlayer->getMyUniqueID());
 							if (session) {
 								boost::shared_ptr<NetPacket> packet(new NetPacket(NetPacket::Alloc));
 								packet->GetMsg()->present = PokerTHMessage_PR_timeoutWarningMessage;
