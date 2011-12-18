@@ -359,6 +359,7 @@ AbstractServerGameStateReceiving::ProcessPacket(boost::shared_ptr<ServerGame> se
 		if (server->IsRunning()) {
 			boost::shared_ptr<PlayerInterface> tmpPlayer = server->GetGame().getPlayerByUniqueId(session->GetPlayerData()->GetUniqueId());
 			if (tmpPlayer) {
+				tmpPlayer->markRemoteAction();
 				tmpPlayer->setIsSessionActive(true);
 			}
 		}
