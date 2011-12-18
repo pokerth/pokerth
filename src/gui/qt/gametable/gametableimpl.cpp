@@ -968,10 +968,12 @@ void gameTableImpl::refreshPlayerAvatar()
 			}
 				break;
 			case SEAT_AUTOFOLD: {
+				qDebug() << seatPlace << "AUTOFOLD";
 				playerAvatarLabelArray[(*it_c)->getMyID()]->setPixmapAndCountry(avatarPic, countryString, seatPlace, TRUE);
 			}
 				break;
 			case SEAT_STAYONTABLE: {
+				qDebug() << seatPlace << "STAYONTABLE";
 				playerAvatarLabelArray[(*it_c)->getMyID()]->setPixmapAndCountry(avatarPic, countryString, seatPlace, TRUE);
 			}
 				break;
@@ -1087,8 +1089,8 @@ void gameTableImpl::refreshCash()
 		}
 			break;
 		case SEAT_AUTOFOLD: {
-			cashLabelArray[(*it_c)->getMyID()]->setText("$"+QString("%L1").arg((*it_c)->getMyCash()));
 			cashLabelArray[(*it_c)->getMyID()]->setGraphicsEffect(&opacity);
+			cashLabelArray[(*it_c)->getMyID()]->setText("$"+QString("%L1").arg((*it_c)->getMyCash()));
 		}
 			break;
 		case SEAT_STAYONTABLE: {

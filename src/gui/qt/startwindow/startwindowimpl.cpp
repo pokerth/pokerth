@@ -592,7 +592,7 @@ void startWindowImpl::callSettingsDialog()
 
 void startWindowImpl::showTimeoutDialog(int msgID, unsigned duration)
 {
-
+	qDebug() << "show timeout";
 	if(myTimeoutDialog->isHidden()) {
 		myTimeoutDialog->setMySession(mySession);
 		myTimeoutDialog->setMsgID((NetTimeoutReason)msgID);
