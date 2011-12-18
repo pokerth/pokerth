@@ -183,17 +183,6 @@ static void PerformPlayerAction(ServerGame &server, boost::shared_ptr<PlayerInte
 	}
 
 	SendPlayerAction(server, player);
-
-	// Check timeout.
-	int actionTimeout = server.GetGameData().playerActionTimeoutSec;
-	if (actionTimeout) {
-		if (player->getTimeSecSinceLastRemoteAction() >= actionTimeout * SERVER_GAME_AUTOFOLD_TIMEOUT_FACTOR) {
-			player->setIsSessionActive(false);
-			if (player->getTimeSecSinceLastRemoteAction() >= actionTimeout * SERVER_GAME_FORCED_TIMEOUT_FACTOR) {
-				server.KickPlayer(player->getMyUniqueID());
-			}
-		}
-	}
 }
 
 static void
@@ -365,6 +354,13 @@ AbstractServerGameStateReceiving::ProcessPacket(boost::shared_ptr<ServerGame> se
 			netReportAck->reportResult = reportResult_avatarReportInvalid;
 			server->GetLobbyThread().GetSender().Send(session, packet);
 		}
+	} else if (packet->GetMsg()->present == PokerTHMessage_PR_resetTimeoutMessage) {
+		// Reactivate session.
+		if (server->IsRunning()) {
+			boost::shared_ptr<PlayerInterface> tmpPlayer = server->GetGame().getPlayerByUniqueId(session->GetPlayerData()->GetUniqueId());
+			if (tmpPlayer) {
+				tmpPlayer->setIsSessionActive(true);
+			}
 	} else {
 		// Packet processing in subclass.
 		InternalProcessPacket(server, session, packet);
@@ -954,6 +950,28 @@ ServerGameStateHand::EngineLoop(boost::shared_ptr<ServerGame> server)
 						&ServerGameStateHand::TimerComputerAction, this, boost::asio::placeholders::error, server));
 			}
 			else {
+				// Check timeout.
+				int actionTimeout = server->GetGameData().playerActionTimeoutSec;
+				if (actionTimeout) {
+					if (curPlayer->getTimeSecSinceLastRemoteAction() >= actionTimeout * SERVER_GAME_AUTOFOLD_TIMEOUT_FACTOR) {
+						if (curPlayer->isSessionActive()) {
+							curPlayer->setIsSessionActive(false);
+							boost::shared_ptr<SessionData> session = server->GetSessionManager().GetSessionByUniquePlayerId(server->GetAdminPlayerId());
+							if (session) {
+								boost::shared_ptr<NetPacket> packet(new NetPacket(NetPacket::Alloc));
+								packet->GetMsg()->present = PokerTHMessage_PR_timeoutWarningMessage;
+								TimeoutWarningMessage_t *netWarning = &packet->GetMsg()->choice.timeoutWarningMessage;
+								netWarning->timeoutReason = NETWORK_TIMEOUT_GENERIC;
+								netWarning->remainingSeconds = actionTimeout * SERVER_GAME_FORCED_TIMEOUT_FACTOR - curPlayer->getTimeSecSinceLastRemoteAction();
+								server->GetLobbyThread().GetSender().Send(session, packet);
+							}
+						}
+						if (curPlayer->getTimeSecSinceLastRemoteAction() >= actionTimeout * SERVER_GAME_FORCED_TIMEOUT_FACTOR) {
+							server->KickPlayer(curPlayer->getMyUniqueID());
+						}
+					}
+				}
+
 				// If the player we are waiting for left, continue without him.
 				if (!server->GetSessionManager().IsPlayerConnected(curPlayer->getMyUniqueID())
 					|| !curPlayer->isSessionActive()) {
