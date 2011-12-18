@@ -361,6 +361,7 @@ AbstractServerGameStateReceiving::ProcessPacket(boost::shared_ptr<ServerGame> se
 			if (tmpPlayer) {
 				tmpPlayer->setIsSessionActive(true);
 			}
+		}
 	} else {
 		// Packet processing in subclass.
 		InternalProcessPacket(server, session, packet);
