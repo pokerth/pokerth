@@ -49,6 +49,8 @@ class CardDeckStyleReader;
 
 class SDLPlayer;
 
+enum SeatState { SEAT_UNDEFINED, SEAT_ACTIVE, SEAT_AUTOFOLD, SEAT_STAYONTABLE, SEAT_CLEAR };
+
 class gameTableImpl: public QMainWindow, public Ui::gameTable
 {
 	Q_OBJECT
@@ -158,6 +160,8 @@ public slots:
 	void refreshPlayerAvatar();
 	void refreshActionButtonFKeyIndicator(bool =0);
 	void setPlayerAvatar(int myID, QString myAvatar);
+
+	SeatState getCurrentSeatState(boost::shared_ptr<PlayerInterface> );
 
 	void guiUpdateDone();
 	void waitForGuiUpdateDone();
