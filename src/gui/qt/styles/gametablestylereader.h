@@ -129,9 +129,19 @@ public:
 	QString getPlayerNickTextColor() const {
 		return PlayerNickTextColor;
 	}
+
+	QString getPlayerCashTextColor() const {
+		return PlayerCashTextColor;
+	}
+
 	QString getPlayerNameLabelFontSize() const {
 		return playerNameLabelFontSize;
 	}
+
+	QString getPlayerCashLabelFontSize() const {
+		return cashFontSize;
+	}
+
 	QString getFont2String() const {
 		return font2String;
 	}

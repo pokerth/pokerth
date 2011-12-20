@@ -26,6 +26,8 @@
 #include "mysetlabel.h"
 #include "myavatarlabel.h"
 #include "myactionbutton.h"
+#include "mycashlabel.h"
+#include "mynamelabel.h"
 #include "mychancelabel.h"
 #include "mytimeoutlabel.h"
 #include "mymenubar.h"
@@ -248,16 +250,6 @@ gameTableImpl::gameTableImpl(ConfigFile *c, QMainWindow *parent)
 	playerStarsArray[4][9]=label_Star49;
 	playerStarsArray[5][9]=label_Star59;
 
-
-
-
-
-
-
-
-
-
-
 	// buttonLabelArray init
 	buttonLabelArray[0] = textLabel_Button0;
 	buttonLabelArray[1] = textLabel_Button1;
@@ -281,6 +273,9 @@ gameTableImpl::gameTableImpl(ConfigFile *c, QMainWindow *parent)
 	cashLabelArray[7] = textLabel_Cash7;
 	cashLabelArray[8] = textLabel_Cash8;
 	cashLabelArray[9] = textLabel_Cash9;
+	for (i=0; i<MAX_NUMBER_OF_PLAYERS; i++) {
+		cashLabelArray[i]->setMyW(this);
+	}
 
 	playerTipLabelArray[0] = label_playerTip0;
 	playerTipLabelArray[1] = label_playerTip1;
@@ -964,16 +959,17 @@ void gameTableImpl::refreshPlayerAvatar()
 			switch(getCurrentSeatState((*it_c))) {
 
 			case SEAT_ACTIVE: {
+				qDebug() << seatPlace << "AVATAR ACTIVE";
 				playerAvatarLabelArray[(*it_c)->getMyID()]->setPixmapAndCountry(avatarPic, countryString, seatPlace);
 			}
 				break;
 			case SEAT_AUTOFOLD: {
-				qDebug() << seatPlace << "AUTOFOLD";
+				qDebug() << seatPlace << "AVATAR AUTOFOLD";
 				playerAvatarLabelArray[(*it_c)->getMyID()]->setPixmapAndCountry(avatarPic, countryString, seatPlace, TRUE);
 			}
 				break;
 			case SEAT_STAYONTABLE: {
-				qDebug() << seatPlace << "STAYONTABLE";
+				qDebug() << seatPlace << "AVATAR STAYONTABLE";
 				playerAvatarLabelArray[(*it_c)->getMyID()]->setPixmapAndCountry(avatarPic, countryString, seatPlace, TRUE);
 			}
 				break;
@@ -1074,23 +1070,22 @@ void gameTableImpl::refreshCash()
 
 	boost::shared_ptr<Game> currentGame = myStartWindow->getSession()->getCurrentGame();
 
+	bool transparent = true;
 	PlayerListConstIterator it_c;
 	PlayerList seatsList = currentGame->getSeatsList();
 	for (it_c=seatsList->begin(); it_c!=seatsList->end(); ++it_c) {
-
-		QGraphicsOpacityEffect opacity;
-		opacity.setOpacity(0.8);
 
 		//check SeatStates and refresh
 		switch(getCurrentSeatState((*it_c))) {
 
 		case SEAT_ACTIVE: {
+//			qDebug() << (*it_c)->getMyID() << "CASH ACTIVE";
 			cashLabelArray[(*it_c)->getMyID()]->setText("$"+QString("%L1").arg((*it_c)->getMyCash()));
 		}
 			break;
 		case SEAT_AUTOFOLD: {
-			cashLabelArray[(*it_c)->getMyID()]->setGraphicsEffect(&opacity);
-			cashLabelArray[(*it_c)->getMyID()]->setText("$"+QString("%L1").arg((*it_c)->getMyCash()));
+//			qDebug() << (*it_c)->getMyID() << "CASH AUTOFOLD"; //TODO transparent
+			cashLabelArray[(*it_c)->getMyID()]->setText("$"+QString("%L1").arg((*it_c)->getMyCash()), transparent);
 		}
 			break;
 		case SEAT_STAYONTABLE: {

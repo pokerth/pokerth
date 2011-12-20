@@ -58,6 +58,9 @@ void timeoutMsgBoxImpl::timerRefresh()
 	case NETWORK_TIMEOUT_GAME_ADMIN_IDLE:
 		this->setText(tr("You are game-admin of an open game which will time out in %1 seconds.").arg(sec,0,10));
 		break;
+	case NETWORK_TIMEOUT_KICK_AFTER_AUTOFOLD:
+		this->setText(tr("You did not act in the game recently. You will be removed from the game in %1 seconds.").arg(sec,0,10));
+		break;
 	default:
 		this->setText(tr("Your connection is about to time out due to inactivity in %1 seconds.").arg(sec,0,10));
 		break;

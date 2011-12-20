@@ -161,7 +161,7 @@
           <set>Qt::AlignBottom|Qt::AlignHCenter</set>
          </property>
         </widget>
-        <widget class="QLabel" name="textLabel_Cash3">
+        <widget class="MyCashLabel" name="textLabel_Cash3">
          <property name="geometry">
           <rect>
            <x>70</x>
@@ -464,7 +464,7 @@ p, li { white-space: pre-wrap; }
           <set>Qt::AlignBottom|Qt::AlignHCenter</set>
          </property>
         </widget>
-        <widget class="QLabel" name="textLabel_Cash2">
+        <widget class="MyCashLabel" name="textLabel_Cash2">
          <property name="geometry">
           <rect>
            <x>70</x>
@@ -777,7 +777,7 @@ p, li { white-space: pre-wrap; }
           <set>Qt::AlignBottom|Qt::AlignHCenter</set>
          </property>
         </widget>
-        <widget class="QLabel" name="textLabel_Cash4">
+        <widget class="MyCashLabel" name="textLabel_Cash4">
          <property name="geometry">
           <rect>
            <x>70</x>
@@ -1067,7 +1067,7 @@ p, li { white-space: pre-wrap; }
           <set>Qt::AlignBottom|Qt::AlignHCenter</set>
          </property>
         </widget>
-        <widget class="QLabel" name="textLabel_Cash5">
+        <widget class="MyCashLabel" name="textLabel_Cash5">
          <property name="geometry">
           <rect>
            <x>70</x>
@@ -1357,7 +1357,7 @@ p, li { white-space: pre-wrap; }
           <set>Qt::AlignBottom|Qt::AlignHCenter</set>
          </property>
         </widget>
-        <widget class="QLabel" name="textLabel_Cash6">
+        <widget class="MyCashLabel" name="textLabel_Cash6">
          <property name="geometry">
           <rect>
            <x>70</x>
@@ -1667,7 +1667,7 @@ p, li { white-space: pre-wrap; }
           <set>Qt::AlignBottom|Qt::AlignHCenter</set>
          </property>
         </widget>
-        <widget class="QLabel" name="textLabel_Cash7">
+        <widget class="MyCashLabel" name="textLabel_Cash7">
          <property name="geometry">
           <rect>
            <x>70</x>
@@ -1970,7 +1970,7 @@ p, li { white-space: pre-wrap; }
           <set>Qt::AlignBottom|Qt::AlignHCenter</set>
          </property>
         </widget>
-        <widget class="QLabel" name="textLabel_Cash8">
+        <widget class="MyCashLabel" name="textLabel_Cash8">
          <property name="geometry">
           <rect>
            <x>70</x>
@@ -2735,7 +2735,7 @@ p, li { white-space: pre-wrap; }
           <set>Qt::AlignBottom|Qt::AlignHCenter</set>
          </property>
         </widget>
-        <widget class="QLabel" name="textLabel_Cash1">
+        <widget class="MyCashLabel" name="textLabel_Cash1">
          <property name="geometry">
           <rect>
            <x>70</x>
@@ -3025,7 +3025,7 @@ p, li { white-space: pre-wrap; }
           <set>Qt::AlignBottom|Qt::AlignHCenter</set>
          </property>
         </widget>
-        <widget class="QLabel" name="textLabel_Cash0">
+        <widget class="MyCashLabel" name="textLabel_Cash0">
          <property name="geometry">
           <rect>
            <x>70</x>
@@ -3328,7 +3328,7 @@ p, li { white-space: pre-wrap; }
           <set>Qt::AlignBottom|Qt::AlignHCenter</set>
          </property>
         </widget>
-        <widget class="QLabel" name="textLabel_Cash9">
+        <widget class="MyCashLabel" name="textLabel_Cash9">
          <property name="geometry">
           <rect>
            <x>70</x>
@@ -4676,6 +4676,11 @@ p, li { white-space: pre-wrap; }
    <class>Slider</class>
    <extends>QSlider</extends>
    <header>myslider.h</header>
+  </customwidget>
+  <customwidget>
+   <class>MyCashLabel</class>
+   <extends>QLabel</extends>
+   <header>mycashlabel.h</header>
   </customwidget>
  </customwidgets>
  <resources>

@@ -39,6 +39,8 @@ class PlayerInterface;
 class MyCardsPixmapLabel;
 class MyAvatarLabel;
 class MyTimeoutLabel;
+class MyCashLabel;
+class MyNameLabel;
 
 class settingsDialogImpl;
 class startWindowImpl;
@@ -381,7 +383,7 @@ private:
 
 	QWidget *userWidgetsArray[6];
 	QLabel *buttonLabelArray[MAX_NUMBER_OF_PLAYERS];
-	QLabel *cashLabelArray[MAX_NUMBER_OF_PLAYERS];
+	MyCashLabel *cashLabelArray[MAX_NUMBER_OF_PLAYERS];
 	QLabel *cashTopLabelArray[MAX_NUMBER_OF_PLAYERS];
 	MySetLabel *setLabelArray[MAX_NUMBER_OF_PLAYERS];
 	QLabel *actionLabelArray[MAX_NUMBER_OF_PLAYERS];
