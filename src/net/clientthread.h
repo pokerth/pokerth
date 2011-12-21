@@ -102,6 +102,7 @@ public:
 	ServerStats GetStatData() const;
 	unsigned GetGameId() const;
 	unsigned GetGuiPlayerId() const;
+	int GetOrigGuiPlayerNum() const;
 
 	Gsasl *GetAuthContext();
 
@@ -268,6 +269,7 @@ private:
 	unsigned m_curGameNum;
 	unsigned m_guiPlayerId;
 	mutable boost::mutex m_guiPlayerIdMutex;
+	int m_origGuiPlayerNum;
 	bool m_sessionEstablished;
 
 	mutable boost::mutex m_curStatsMutex;

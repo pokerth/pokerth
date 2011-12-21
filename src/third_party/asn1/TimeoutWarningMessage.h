@@ -23,9 +23,10 @@ extern "C" {
 	/* Dependencies */
 	typedef enum timeoutReason {
 		timeoutReason_timeoutNoDataReceived	= 0,
-		timeoutReason_timeoutInactiveGame	= 1
+		timeoutReason_timeoutInactiveGame	= 1,
+		  timeoutReason_timeoutKickAfterAutofold	= 2
 	}
-	                                      e_timeoutReason;
+	          e_timeoutReason;
 
 	/* TimeoutWarningMessage */
 	typedef struct TimeoutWarningMessage {

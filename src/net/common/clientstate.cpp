@@ -1647,6 +1647,20 @@ ClientStateWaitHand::InternalHandlePacket(boost::shared_ptr<ClientThread> client
 			cardDataStream >> myCards[0];
 			cardDataStream >> myCards[1];
 		}
+		// Retrieve state for each seat (not based on player id).
+		NetPlayerState_t **seatStates = netHandStart->seatStates.list.array;
+		unsigned numPlayers = netHandStart->seatStates.list.count;
+		// Request player info for players if needed.
+		if (numPlayers && seatStates && *seatStates) {
+			for (int i = 0; i < numPlayers; i++) {
+				NetPlayerState_t *seatState = seatStates[i];
+				boost::shared_ptr<PlayerInterface> tmpPlayer = client->GetGame()->getPlayerByNumber((i + client->GetOrigGuiPlayerNum()) % client->GetStartData().numberOfPlayers);
+				if (!tmpPlayer)
+					throw ClientException(__FILE__, __LINE__, ERR_NET_UNKNOWN_PLAYER_ID, 0);
+				tmpPlayer->setIsSessionActive(*seatState == NetPlayerState_playerStateNormal);
+			}
+		}
+
 		// Basic synchronisation before a new hand is started.
 		client->GetGui().waitForGuiUpdateDone();
 		// Start new hand.
@@ -1785,7 +1799,6 @@ ClientStateRunHand::InternalHandlePacket(boost::shared_ptr<ClientThread> client,
 		}
 
 		tmpPlayer->setMyAction(PlayerAction(netActionDone->playerAction));
-		tmpPlayer->setIsSessionActive(netActionDone->playerState == NetPlayerState_playerStateNormal);
 		tmpPlayer->setMySetAbsolute(netActionDone->totalPlayerBet);
 		tmpPlayer->setMyCash(netActionDone->playerMoney);
 		curGame->getCurrentHand()->getCurrentBeRo()->setHighestSet(netActionDone->highestSet);

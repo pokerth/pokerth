@@ -489,7 +489,8 @@ HandStartMessage ::= [APPLICATION 23] SEQUENCE {
 		plainCards				[0]	PlainCards,
 		encryptedCards			[1]	EncryptedCards
 	},
-	smallBlind					INTEGER(1..100000000)
+	smallBlind					INTEGER(1..100000000),
+	seatStates					SEQUENCE SIZE(2..10) OF NetPlayerState
 }
 
 PlayersTurnMessage ::= [APPLICATION 24] SEQUENCE {
@@ -523,7 +524,6 @@ PlayersActionDoneMessage ::= [APPLICATION 27] SEQUENCE {
 	playerId					NonZeroId,
 	gameState					NetGameState,
 	playerAction				NetPlayerAction,
-	playerState					NetPlayerState,
 	totalPlayerBet				AmountOfMoney,
 	playerMoney					AmountOfMoney,
 	highestSet					AmountOfMoney,
@@ -748,7 +748,8 @@ DialogMessage ::= [APPLICATION 132] SEQUENCE {
 TimeoutWarningMessage ::= [APPLICATION 133] SEQUENCE {
 	timeoutReason				ENUMERATED {
 		timeoutNoDataReceived			(0),
-		timeoutInactiveGame				(1)
+		timeoutInactiveGame				(1),
+		timeoutKickAfterAutofold		(2)
 	},
 	remainingSeconds			INTEGER
 }

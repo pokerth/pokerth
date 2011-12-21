@@ -17,6 +17,9 @@
 #include "PlainCards.h"
 #include "EncryptedCards.h"
 #include <constr_CHOICE.h>
+#include "NetPlayerState.h"
+#include <asn_SEQUENCE_OF.h>
+#include <constr_SEQUENCE_OF.h>
 #include <constr_SEQUENCE.h>
 
 #ifdef __cplusplus
@@ -51,6 +54,12 @@ extern "C" {
 			asn_struct_ctx_t _asn_ctx;
 		} yourCards;
 		long	 smallBlind;
+		struct seatStates {
+			A_SEQUENCE_OF(NetPlayerState_t) list;
+
+			/* Context for parsing across buffer boundaries */
+			asn_struct_ctx_t _asn_ctx;
+		} seatStates;
 		/*
 		 * This type is extensible,
 		 * possible extensions are below.

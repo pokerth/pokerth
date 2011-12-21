@@ -92,6 +92,9 @@ public:
 	void AddRejoinPlayer(unsigned playerId);
 	PlayerIdList GetAndResetRejoinPlayers();
 
+	void AddReactivatePlayer(unsigned playerId);
+	PlayerIdList GetAndResetReactivatePlayers();
+
 	// should be protected, but is needed in function.
 	const Game &GetGame() const;
 	Game &GetGame();
@@ -178,6 +181,9 @@ private:
 
 	PlayerIdList m_rejoinPlayerList;
 	mutable boost::mutex m_rejoinPlayerListMutex;
+
+	PlayerIdList m_reactivatePlayerList;
+	mutable boost::mutex m_reactivatePlayerListMutex;
 
 	PlayerIdList m_reportedAvatarList;
 

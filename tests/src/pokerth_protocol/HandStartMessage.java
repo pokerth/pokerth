@@ -122,6 +122,21 @@ import org.bn.types.*;
 	private Integer smallBlind = null;
                 
   
+@ASN1SequenceOf( name = "seatStates", isSetOf = false ) 
+
+    @ASN1ValueRangeConstraint ( 
+		
+		min = 2L, 
+		
+		max = 10L 
+		
+	   )
+	   
+        @ASN1Element ( name = "seatStates", isOptional =  false , hasTag =  false  , hasDefaultValue =  false  )
+    
+	private java.util.Collection<NetPlayerState>  seatStates = null;
+                
+  
         
         public NonZeroId getGameId () {
             return this.gameId;
@@ -155,6 +170,18 @@ import org.bn.types.*;
 
         public void setSmallBlind (Integer value) {
             this.smallBlind = value;
+        }
+        
+  
+        
+        public java.util.Collection<NetPlayerState>  getSeatStates () {
+            return this.seatStates;
+        }
+
+        
+
+        public void setSeatStates (java.util.Collection<NetPlayerState>  value) {
+            this.seatStates = value;
         }
         
   

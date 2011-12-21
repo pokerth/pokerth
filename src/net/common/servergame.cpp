@@ -671,6 +671,22 @@ ServerGame::GetAndResetRejoinPlayers()
 }
 
 void
+ServerGame::AddReactivatePlayer(unsigned playerId)
+{
+	boost::mutex::scoped_lock lock(m_reactivatePlayerListMutex);
+	m_reactivatePlayerList.push_back(playerId);
+}
+
+PlayerIdList
+ServerGame::GetAndResetReactivatePlayers()
+{
+	boost::mutex::scoped_lock lock(m_reactivatePlayerListMutex);
+	PlayerIdList tmpList(m_reactivatePlayerList);
+	m_reactivatePlayerList.clear();
+	return tmpList;
+}
+
+void
 ServerGame::AddComputerPlayer(boost::shared_ptr<PlayerData> player)
 {
 	{

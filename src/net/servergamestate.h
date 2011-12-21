@@ -165,6 +165,8 @@ protected:
 	void TimerNextGame(const boost::system::error_code &ec, boost::shared_ptr<ServerGame> server, unsigned winnerPlayerId);
 	int GetDealCardsDelaySec(ServerGame &server);
 	static void StartNewHand(boost::shared_ptr<ServerGame> server);
+	static void CheckPlayerTimeouts(boost::shared_ptr<ServerGame> server);
+	static void ReactivatePlayers(boost::shared_ptr<ServerGame> server);
 	static void InitRejoiningPlayers(boost::shared_ptr<ServerGame> server);
 	static void PerformRejoin(boost::shared_ptr<ServerGame> server, boost::shared_ptr<SessionData> session);
 

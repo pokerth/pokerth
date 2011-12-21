@@ -86,7 +86,6 @@ static void SendPlayerAction(ServerGame &server, boost::shared_ptr<PlayerInterfa
 	netActionDone->highestSet = server.GetGame().getCurrentHand()->getCurrentBeRo()->getHighestSet();
 	netActionDone->minimumRaise = server.GetGame().getCurrentHand()->getCurrentBeRo()->getMinimumRaise();
 	netActionDone->playerAction = player->getMyAction();
-	netActionDone->playerState = player->isSessionActive() ? NetPlayerState_playerStateNormal : NetPlayerState_playerStateSessionInactive;
 	netActionDone->playerId = player->getMyUniqueID();
 	netActionDone->playerMoney = player->getMyCash();
 	netActionDone->totalPlayerBet = player->getMySet();
@@ -357,11 +356,7 @@ AbstractServerGameStateReceiving::ProcessPacket(boost::shared_ptr<ServerGame> se
 	} else if (packet->GetMsg()->present == PokerTHMessage_PR_resetTimeoutMessage) {
 		// Reactivate session.
 		if (server->IsRunning()) {
-			boost::shared_ptr<PlayerInterface> tmpPlayer = server->GetGame().getPlayerByUniqueId(session->GetPlayerData()->GetUniqueId());
-			if (tmpPlayer) {
-				tmpPlayer->markRemoteAction();
-				tmpPlayer->setIsSessionActive(true);
-			}
+			server->AddReactivatePlayer(session->GetPlayerData()->GetUniqueId());
 		}
 	} else {
 		// Packet processing in subclass.
@@ -626,7 +621,7 @@ ServerGameStateInit::InternalProcessPacket(boost::shared_ptr<ServerGame> server,
 				&& netStartEvent->startEventType.present == startEventType_PR_startEvent
 				&& (server->GetGameData().gameType != GAME_TYPE_RANKING // ranking games need to be full
 					|| server->GetGameData().maxNumberOfPlayers == server->GetCurNumberOfPlayers())) {
-			SendStartEvent(*server, netStartEvent->startEventType.choice.startEvent.fillWithComputerPlayers);
+			SendStartEvent(*server, netStartEvent->startEventType.choice.startEvent.fillWithComputerPlayers != 0);
 		} else { // kick players who try to start but are not allowed to
 			server->MoveSessionToLobby(session, NTF_NET_REMOVED_START_FAILED);
 		}
@@ -952,28 +947,6 @@ ServerGameStateHand::EngineLoop(boost::shared_ptr<ServerGame> server)
 						&ServerGameStateHand::TimerComputerAction, this, boost::asio::placeholders::error, server));
 			}
 			else {
-				// Check timeout.
-				int actionTimeout = server->GetGameData().playerActionTimeoutSec;
-				if (actionTimeout) {
-					if (curPlayer->getTimeSecSinceLastRemoteAction() >= actionTimeout * SERVER_GAME_AUTOFOLD_TIMEOUT_FACTOR) {
-						if (curPlayer->isSessionActive()) {
-							curPlayer->setIsSessionActive(false);
-							boost::shared_ptr<SessionData> session = server->GetSessionManager().GetSessionByUniquePlayerId(curPlayer->getMyUniqueID());
-							if (session) {
-								boost::shared_ptr<NetPacket> packet(new NetPacket(NetPacket::Alloc));
-								packet->GetMsg()->present = PokerTHMessage_PR_timeoutWarningMessage;
-								TimeoutWarningMessage_t *netWarning = &packet->GetMsg()->choice.timeoutWarningMessage;
-								netWarning->timeoutReason = NETWORK_TIMEOUT_GENERIC;
-								netWarning->remainingSeconds = actionTimeout * SERVER_GAME_FORCED_TIMEOUT_FACTOR - curPlayer->getTimeSecSinceLastRemoteAction();
-								server->GetLobbyThread().GetSender().Send(session, packet);
-							}
-						}
-						if (curPlayer->getTimeSecSinceLastRemoteAction() >= actionTimeout * SERVER_GAME_FORCED_TIMEOUT_FACTOR) {
-							server->KickPlayer(curPlayer->getMyUniqueID());
-						}
-					}
-				}
-
 				// If the player we are waiting for left, continue without him.
 				if (!server->GetSessionManager().IsPlayerConnected(curPlayer->getMyUniqueID())
 					|| !curPlayer->isSessionActive()) {
@@ -1157,6 +1130,10 @@ ServerGameStateHand::StartNewHand(boost::shared_ptr<ServerGame> server)
 {
 	Game &curGame = server->GetGame();
 
+	// Kick inactive players.
+	ReactivatePlayers(server);
+	CheckPlayerTimeouts(server);
+
 	// Initialize rejoining players.
 	// This has to be done before initialising the new hand, because there are side effects.
 	InitRejoiningPlayers(server);
@@ -1218,6 +1195,15 @@ ServerGameStateHand::StartNewHand(boost::shared_ptr<ServerGame> server)
 					errorFlag = true;
 				}
 			}
+			PlayerListIterator player_i = curGame.getSeatsList()->begin();
+			PlayerListIterator player_end = curGame.getSeatsList()->end();
+			while (player_i != player_end) {
+				NetPlayerState_t *seatState = (NetPlayerState_t *)calloc(1, sizeof(NetPlayerState_t));
+				*seatState = (*player_i)->isSessionActive() ? NetPlayerState_playerStateNormal : NetPlayerState_playerStateSessionInactive;
+				ASN_SEQUENCE_ADD(&netHandStart->seatStates.list, seatState);
+				++player_i;
+			}
+
 			if (!errorFlag) {
 				netHandStart->smallBlind = curGame.getCurrentHand()->getSmallBlind();
 				server->GetLobbyThread().GetSender().Send(tmpSession, notifyCards);
@@ -1243,7 +1229,6 @@ ServerGameStateHand::StartNewHand(boost::shared_ptr<ServerGame> server)
 			netSmallBlind->gameState = NetGameState_statePreflopSmallBlind;
 			netSmallBlind->playerId = tmpPlayer->getMyUniqueID();
 			netSmallBlind->playerAction = tmpPlayer->getMyAction();
-			netSmallBlind->playerState = tmpPlayer->isSessionActive() ? NetPlayerState_playerStateNormal : NetPlayerState_playerStateSessionInactive;
 			netSmallBlind->totalPlayerBet = tmpPlayer->getMySet();
 			netSmallBlind->playerMoney = tmpPlayer->getMyCash();
 			netSmallBlind->highestSet = server->GetGame().getCurrentHand()->getCurrentBeRo()->getHighestSet();
@@ -1266,7 +1251,6 @@ ServerGameStateHand::StartNewHand(boost::shared_ptr<ServerGame> server)
 			netBigBlind->gameState = NetGameState_statePreflopBigBlind;
 			netBigBlind->playerId = tmpPlayer->getMyUniqueID();
 			netBigBlind->playerAction = tmpPlayer->getMyAction();
-			netBigBlind->playerState = tmpPlayer->isSessionActive() ? NetPlayerState_playerStateNormal : NetPlayerState_playerStateSessionInactive;
 			netBigBlind->totalPlayerBet = tmpPlayer->getMySet();
 			netBigBlind->playerMoney = tmpPlayer->getMyCash();
 			netBigBlind->highestSet = server->GetGame().getCurrentHand()->getCurrentBeRo()->getHighestSet();
@@ -1274,6 +1258,55 @@ ServerGameStateHand::StartNewHand(boost::shared_ptr<ServerGame> server)
 			server->SendToAllPlayers(notifyBigBlind, SessionData::Game);
 			break;
 		}
+		++i;
+	}
+}
+
+void
+ServerGameStateHand::CheckPlayerTimeouts(boost::shared_ptr<ServerGame> server)
+{
+	// Consider all players, even inactive.
+	PlayerListIterator i = server->GetGame().getSeatsList()->begin();
+	PlayerListIterator end = server->GetGame().getSeatsList()->end();
+
+	// Send cards to all players.
+	while (i != end) {
+		boost::shared_ptr<PlayerInterface> tmpPlayer = *i;
+		// Check timeout.
+		int actionTimeout = server->GetGameData().playerActionTimeoutSec;
+		if (actionTimeout) {
+			if ((int)tmpPlayer->getTimeSecSinceLastRemoteAction() >= actionTimeout * SERVER_GAME_AUTOFOLD_TIMEOUT_FACTOR) {
+				if (tmpPlayer->isSessionActive()) {
+					tmpPlayer->setIsSessionActive(false);
+					boost::shared_ptr<SessionData> session = server->GetSessionManager().GetSessionByUniquePlayerId(tmpPlayer->getMyUniqueID());
+					if (session) {
+						boost::shared_ptr<NetPacket> packet(new NetPacket(NetPacket::Alloc));
+						packet->GetMsg()->present = PokerTHMessage_PR_timeoutWarningMessage;
+						TimeoutWarningMessage_t *netWarning = &packet->GetMsg()->choice.timeoutWarningMessage;
+						netWarning->timeoutReason = NETWORK_TIMEOUT_GENERIC;
+						netWarning->remainingSeconds = actionTimeout * SERVER_GAME_FORCED_TIMEOUT_FACTOR - tmpPlayer->getTimeSecSinceLastRemoteAction();
+						server->GetLobbyThread().GetSender().Send(session, packet);
+					}
+				}
+				if ((int)tmpPlayer->getTimeSecSinceLastRemoteAction() >= actionTimeout * SERVER_GAME_FORCED_TIMEOUT_FACTOR) {
+					server->KickPlayer(tmpPlayer->getMyUniqueID());
+				}
+			}
+		}
+		++i;
+	}
+}
+
+void
+ServerGameStateHand::ReactivatePlayers(boost::shared_ptr<ServerGame> server)
+{
+	PlayerIdList reactivateIdList(server->GetAndResetReactivatePlayers());
+	PlayerIdList::iterator i = reactivateIdList.begin();
+	PlayerIdList::iterator end = reactivateIdList.end();
+	while (i != end) {
+		boost::shared_ptr<PlayerInterface> tmpPlayer(server->GetGame().getPlayerByUniqueId(*i));
+		tmpPlayer->markRemoteAction();
+		tmpPlayer->setIsSessionActive(true);
 		++i;
 	}
 }

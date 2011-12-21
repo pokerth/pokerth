@@ -217,6 +217,21 @@ boost::shared_ptr<PlayerInterface> Game::getPlayerByUniqueId(unsigned id)
 	return tmpPlayer;
 }
 
+boost::shared_ptr<PlayerInterface> Game::getPlayerByNumber(int number)
+{
+	boost::shared_ptr<PlayerInterface> tmpPlayer;
+	PlayerListIterator i = getSeatsList()->begin();
+	PlayerListIterator end = getSeatsList()->end();
+	while (i != end) {
+		if ((*i)->getMyID() == number) {
+			tmpPlayer = *i;
+			break;
+		}
+		++i;
+	}
+	return tmpPlayer;
+}
+
 boost::shared_ptr<PlayerInterface> Game::getCurrentPlayer()
 {
 	boost::shared_ptr<PlayerInterface> tmpPlayer = getPlayerByUniqueId(getCurrentHand()->getCurrentBeRo()->getCurrentPlayersTurnId());

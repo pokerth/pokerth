@@ -1018,6 +1018,12 @@ ClientThread::GetGuiPlayerId() const
 	return m_guiPlayerId;
 }
 
+int
+ClientThread::GetOrigGuiPlayerNum() const
+{
+	return m_origGuiPlayerNum;
+}
+
 void
 ClientThread::SetGuiPlayerId(unsigned guiPlayerId)
 {
@@ -1084,7 +1090,7 @@ ClientThread::MapPlayerDataList()
 	// Retrieve the GUI player.
 	boost::shared_ptr<PlayerData> guiPlayer = GetPlayerDataByUniqueId(GetGuiPlayerId());
 	assert(guiPlayer.get());
-	int guiPlayerNum = guiPlayer->GetNumber();
+	m_origGuiPlayerNum = guiPlayer->GetNumber();
 
 	// Create a copy of the player list so that the GUI player
 	// is player 0. This is mapped because the GUI depends on it.
@@ -1096,7 +1102,7 @@ ClientThread::MapPlayerDataList()
 
 	while (i != end) {
 		boost::shared_ptr<PlayerData> tmpData(new PlayerData(*(*i)));
-		int numberDiff = tmpData->GetNumber() - guiPlayerNum;
+		int numberDiff = tmpData->GetNumber() - m_origGuiPlayerNum;
 		if (numberDiff >= 0)
 			tmpData->SetNumber(numberDiff);
 		else
@@ -1171,7 +1177,6 @@ ClientThread::RemoveDisconnectedPlayers()
 					if (tmpPlayer->isKicked()) {
 						tmpPlayer->setMyCash(0);
 					}
-					tmpPlayer->setMyActiveStatus(false);
 				}
 			}
 			++i;

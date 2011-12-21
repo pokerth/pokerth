@@ -37,6 +37,8 @@ import org.bn.types.*;
             timeoutNoDataReceived , 
             @ASN1EnumItem ( name = "timeoutInactiveGame", hasTag = true , tag = 1 )
             timeoutInactiveGame , 
+            @ASN1EnumItem ( name = "timeoutKickAfterAutofold", hasTag = true , tag = 2 )
+            timeoutKickAfterAutofold , 
         }
         
         private EnumType value;

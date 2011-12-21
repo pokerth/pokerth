@@ -15,7 +15,6 @@
 #include "NonZeroId.h"
 #include "NetGameState.h"
 #include "NetPlayerAction.h"
-#include "NetPlayerState.h"
 #include "AmountOfMoney.h"
 #include <constr_SEQUENCE.h>
 
@@ -29,7 +28,6 @@ extern "C" {
 		NonZeroId_t	 playerId;
 		NetGameState_t	 gameState;
 		NetPlayerAction_t	 playerAction;
-		NetPlayerState_t	 playerState;
 		AmountOfMoney_t	 totalPlayerBet;
 		AmountOfMoney_t	 playerMoney;
 		AmountOfMoney_t	 highestSet;

@@ -82,16 +82,18 @@ timeoutReason_2_encode_xer(asn_TYPE_descriptor_t *td, void *structure,
 
 static asn_INTEGER_enum_map_t asn_MAP_timeoutReason_value2enum_2[] = {
 	{ 0,	21,	"timeoutNoDataReceived" },
-	{ 1,	19,	"timeoutInactiveGame" }
+	{ 1,	19,	"timeoutInactiveGame" },
+	{ 2,	24,	"timeoutKickAfterAutofold" }
 };
 static unsigned int asn_MAP_timeoutReason_enum2value_2[] = {
 	1,	/* timeoutInactiveGame(1) */
+	2,	/* timeoutKickAfterAutofold(2) */
 	0	/* timeoutNoDataReceived(0) */
 };
 static asn_INTEGER_specifics_t asn_SPC_timeoutReason_specs_2 = {
 	asn_MAP_timeoutReason_value2enum_2,	/* "tag" => N; sorted by tag */
 	asn_MAP_timeoutReason_enum2value_2,	/* N => "tag"; sorted by N */
-	2,	/* Number of elements in the maps */
+	3,	/* Number of elements in the maps */
 	0,	/* Enumeration is not extensible */
 	1,	/* Strict enumeration */
 	0,	/* Native long size */
@@ -149,7 +151,7 @@ static ber_tlv_tag_t asn_DEF_TimeoutWarningMessage_tags_1[] = {
 	(ASN_TAG_CLASS_UNIVERSAL | (16 << 2))
 };
 static asn_TYPE_tag2member_t asn_MAP_TimeoutWarningMessage_tag2el_1[] = {
-	{ (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 1, 0, 0 }, /* remainingSeconds at 754 */
+	{ (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 1, 0, 0 }, /* remainingSeconds at 755 */
 	{ (ASN_TAG_CLASS_UNIVERSAL | (10 << 2)), 0, 0, 0 } /* timeoutReason at 750 */
 };
 static asn_SEQUENCE_specifics_t asn_SPC_TimeoutWarningMessage_specs_1 = {
