@@ -1197,7 +1197,8 @@ ServerGameStateHand::StartNewHand(boost::shared_ptr<ServerGame> server)
 			}
 			PlayerListIterator player_i = curGame.getSeatsList()->begin();
 			PlayerListIterator player_end = curGame.getSeatsList()->end();
-			while (player_i != player_end) {
+			unsigned playerCounter = 0;
+			while (player_i != player_end && playerCounter < server->GetStartData().numberOfPlayers) {
 				NetPlayerState_t *seatState = (NetPlayerState_t *)calloc(1, sizeof(NetPlayerState_t));
 				if ((*player_i)->getMyCash() <= 0) {
 					*seatState = NetPlayerState_playerStateNoMoney;
@@ -1208,6 +1209,7 @@ ServerGameStateHand::StartNewHand(boost::shared_ptr<ServerGame> server)
 				}
 				ASN_SEQUENCE_ADD(&netHandStart->seatStates.list, seatState);
 				++player_i;
+				++playerCounter;
 			}
 
 			if (!errorFlag) {

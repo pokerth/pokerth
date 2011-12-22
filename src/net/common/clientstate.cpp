@@ -1651,7 +1651,8 @@ ClientStateWaitHand::InternalHandlePacket(boost::shared_ptr<ClientThread> client
 		if (numPlayers && seatStates && *seatStates) {
 			for (int i = 0; i < (int)numPlayers; i++) {
 				NetPlayerState_t *seatState = seatStates[i];
-				boost::shared_ptr<PlayerInterface> tmpPlayer = client->GetGame()->getPlayerByNumber((i + client->GetOrigGuiPlayerNum()) % numPlayers);
+				int numberDiff = client->GetStartData().numberOfPlayers - client->GetOrigGuiPlayerNum();
+				boost::shared_ptr<PlayerInterface> tmpPlayer = client->GetGame()->getPlayerByNumber((i + numberDiff) % client->GetStartData().numberOfPlayers);
 				if (!tmpPlayer)
 					throw ClientException(__FILE__, __LINE__, ERR_NET_UNKNOWN_PLAYER_ID, 0);
 				switch (*seatState)
