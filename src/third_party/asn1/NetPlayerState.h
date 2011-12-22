@@ -21,9 +21,10 @@ extern "C" {
 	/* Dependencies */
 	typedef enum NetPlayerState {
 		NetPlayerState_playerStateNormal	= 0,
-		   NetPlayerState_playerStateSessionInactive	= 1
+		   NetPlayerState_playerStateSessionInactive	= 1,
+		     NetPlayerState_playerStateNoMoney	= 2
 	}
-	           e_NetPlayerState;
+	             e_NetPlayerState;
 
 	/* NetPlayerState */
 	typedef long	 NetPlayerState_t;

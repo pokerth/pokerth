@@ -812,7 +812,8 @@ NetPlayerAction ::= ENUMERATED {
 
 NetPlayerState ::= ENUMERATED {
 	playerStateNormal			(0),
-	playerStateSessionInactive	(1)
+	playerStateSessionInactive	(1),
+	playerStateNoMoney			(2)
 }
 
 NonZeroId ::= INTEGER(1..4294967295)

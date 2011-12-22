@@ -26,6 +26,8 @@ import org.bn.types.*;
             playerStateNormal , 
             @ASN1EnumItem ( name = "playerStateSessionInactive", hasTag = true , tag = 1 )
             playerStateSessionInactive , 
+            @ASN1EnumItem ( name = "playerStateNoMoney", hasTag = true , tag = 2 )
+            playerStateNoMoney , 
         }
         
         private EnumType value;

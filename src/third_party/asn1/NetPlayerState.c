@@ -82,16 +82,18 @@ NetPlayerState_encode_xer(asn_TYPE_descriptor_t *td, void *structure,
 
 static asn_INTEGER_enum_map_t asn_MAP_NetPlayerState_value2enum_1[] = {
 	{ 0,	17,	"playerStateNormal" },
-	{ 1,	26,	"playerStateSessionInactive" }
+	{ 1,	26,	"playerStateSessionInactive" },
+	{ 2,	18,	"playerStateNoMoney" }
 };
 static unsigned int asn_MAP_NetPlayerState_enum2value_1[] = {
+	2,	/* playerStateNoMoney(2) */
 	0,	/* playerStateNormal(0) */
 	1	/* playerStateSessionInactive(1) */
 };
 static asn_INTEGER_specifics_t asn_SPC_NetPlayerState_specs_1 = {
 	asn_MAP_NetPlayerState_value2enum_1,	/* "tag" => N; sorted by tag */
 	asn_MAP_NetPlayerState_enum2value_1,	/* N => "tag"; sorted by N */
-	2,	/* Number of elements in the maps */
+	3,	/* Number of elements in the maps */
 	0,	/* Enumeration is not extensible */
 	1,	/* Strict enumeration */
 	0,	/* Native long size */

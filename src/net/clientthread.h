@@ -183,8 +183,6 @@ protected:
 	boost::shared_ptr<PlayerData> GetPlayerDataByUniqueId(unsigned id);
 	boost::shared_ptr<PlayerData> GetPlayerDataByName(const std::string &name);
 
-	void RemoveDisconnectedPlayers();
-
 	void AddServerInfo(unsigned serverId, const ServerInfo &info);
 	void ClearServerInfoMap();
 	bool GetSelectedServer(unsigned &serverId) const;

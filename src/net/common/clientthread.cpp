@@ -1162,29 +1162,6 @@ ClientThread::GetPlayerDataByName(const std::string &name)
 }
 
 void
-ClientThread::RemoveDisconnectedPlayers()
-{
-	// This should only be called between hands.
-	if (m_game) {
-		PlayerList tmpList(m_game->getSeatsList());
-		PlayerListIterator i = tmpList->begin();
-		PlayerListIterator end = tmpList->end();
-		while (i != end) {
-			boost::shared_ptr<PlayerInterface> tmpPlayer = *i;
-			if (tmpPlayer->getMyActiveStatus()) {
-				// If a player is not in the player data list, it was disconnected.
-				if (!GetPlayerDataByUniqueId(tmpPlayer->getMyUniqueID()).get()) {
-					if (tmpPlayer->isKicked()) {
-						tmpPlayer->setMyCash(0);
-					}
-				}
-			}
-			++i;
-		}
-	}
-}
-
-void
 ClientThread::AddServerInfo(unsigned serverId, const ServerInfo &info)
 {
 	{

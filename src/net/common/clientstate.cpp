@@ -1609,9 +1609,6 @@ void
 ClientStateWaitHand::InternalHandlePacket(boost::shared_ptr<ClientThread> client, boost::shared_ptr<NetPacket> tmpPacket)
 {
 	if (tmpPacket->GetMsg()->present == PokerTHMessage_PR_handStartMessage) {
-		// Remove all players which left the server.
-		client->RemoveDisconnectedPlayers();
-
 		// Hand was started.
 		// These are the cards. Good luck.
 		HandStartMessage_t *netHandStart = &tmpPacket->GetMsg()->choice.handStartMessage;
@@ -1657,7 +1654,18 @@ ClientStateWaitHand::InternalHandlePacket(boost::shared_ptr<ClientThread> client
 				boost::shared_ptr<PlayerInterface> tmpPlayer = client->GetGame()->getPlayerByNumber((i + client->GetOrigGuiPlayerNum()) % client->GetStartData().numberOfPlayers);
 				if (!tmpPlayer)
 					throw ClientException(__FILE__, __LINE__, ERR_NET_UNKNOWN_PLAYER_ID, 0);
-				tmpPlayer->setIsSessionActive(*seatState == NetPlayerState_playerStateNormal);
+				switch (*seatState)
+				{
+					case NetPlayerState_playerStateNormal :
+						tmpPlayer->setIsSessionActive(true);
+						break;
+					case NetPlayerState_playerStateSessionInactive :
+						tmpPlayer->setIsSessionActive(false);
+						break;
+					case NetPlayerState_playerStateNoMoney :
+						tmpPlayer->setMyCash(0);
+						break;
+				}
 			}
 		}
 
