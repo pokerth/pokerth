@@ -27,7 +27,7 @@
 
 using namespace std;
 
-guiLog::guiLog(gameTableImpl* w, ConfigFile *c) : myW(w), myConfig(c), myLogDir(0), myHtmlLogFile(0)
+guiLog::guiLog(gameTableImpl* w, ConfigFile *c) : myW(w), myConfig(c), myLogDir(0), myHtmlLogFile(0), myHtmlLogFile_old(0), myTxtLogFile(0), tb(0)
 {
 
 	myW->setGuiLog(this);
@@ -67,28 +67,28 @@ guiLog::guiLog(gameTableImpl* w, ConfigFile *c) : myW(w), myConfig(c), myLogDir(
 				myLogDir = new QDir(QString::fromUtf8(myConfig->readConfigString("LogDir").c_str()));
 				QDateTime currentTime = QDateTime::currentDateTime();
 				if(SQLITE_LOG) {
-					myHtmlLogFile = new QFile(myLogDir->absolutePath()+"/pokerth-log-"+currentTime.toString("yyyy-MM-dd_hh.mm.ss")+"_old.html");
+					myHtmlLogFile_old = new QFile(myLogDir->absolutePath()+"/pokerth-log-"+currentTime.toString("yyyy-MM-dd_hh.mm.ss")+"_old.html");
 				} else {
-					myHtmlLogFile = new QFile(myLogDir->absolutePath()+"/pokerth-log-"+currentTime.toString("yyyy-MM-dd_hh.mm.ss")+".html");
+					myHtmlLogFile_old = new QFile(myLogDir->absolutePath()+"/pokerth-log-"+currentTime.toString("yyyy-MM-dd_hh.mm.ss")+".html");
 				}
 
 				//Logo-Pixmap extrahieren
 				QPixmap logoChipPixmapFile(":/gfx/logoChip3D.png");
 				logoChipPixmapFile.save(myLogDir->absolutePath()+"/logo.png");
 
-//                myW->textBrowser_Log->append(myHtmlLogFile->fileName());
+//                myW->textBrowser_Log->append(myHtmlLogFile_old->fileName());
 
 				// erstelle html-Datei
-				myHtmlLogFile->open( QIODevice::WriteOnly );
-				QTextStream stream( myHtmlLogFile );
-				stream << "<html>\n";
-				stream << "<head>\n";
-				stream << "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf8\">";
-				stream << "</head>\n";
-				stream << "<body style=\"font-size:smaller\">\n";
-				stream << "<img src='logo.png'>\n";
-				stream << QString("<h3><b>Log-File for PokerTH %1 Session started on ").arg(POKERTH_BETA_RELEASE_STRING)+QDate::currentDate().toString("yyyy-MM-dd")+" at "+QTime::currentTime().toString("hh:mm:ss")+"</b></h3>\n";
-				myHtmlLogFile->close();
+				myHtmlLogFile_old->open( QIODevice::WriteOnly );
+				QTextStream stream_old( myHtmlLogFile_old );
+				stream_old << "<html>\n";
+				stream_old << "<head>\n";
+				stream_old << "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf8\">";
+				stream_old << "</head>\n";
+				stream_old << "<body style=\"font-size:smaller\">\n";
+				stream_old << "<img src='logo.png'>\n";
+				stream_old << QString("<h3><b>Log-File for PokerTH %1 Session started on ").arg(POKERTH_BETA_RELEASE_STRING)+QDate::currentDate().toString("yyyy-MM-dd")+" at "+QTime::currentTime().toString("hh:mm:ss")+"</b></h3>\n";
+				myHtmlLogFile_old->close();
 
 			}
 
@@ -130,6 +130,7 @@ guiLog::~guiLog()
 {
 	delete myLogDir;
 	delete myHtmlLogFile;
+	delete myHtmlLogFile_old;
 
 }
 
@@ -541,18 +542,46 @@ QStringList guiLog::translateCardCode(int cardCode)
 void guiLog::writeLogFileStream(QString streamString)
 {
 
-	if(myHtmlLogFile) {
-		if(myHtmlLogFile->open( QIODevice::ReadWrite )) {
-			QTextStream stream( myHtmlLogFile );
-			stream.readAll();
-			stream << streamString;
-			myHtmlLogFile->close();
+	if(myHtmlLogFile_old) {
+		if(myHtmlLogFile_old->open( QIODevice::ReadWrite )) {
+			QTextStream stream_old( myHtmlLogFile_old );
+			stream_old.readAll();
+			stream_old << streamString;
+			myHtmlLogFile_old->close();
 		} else {
 			cout << "Could not open log-file to write log-messages!" << endl;
 		}
 	} else {
 		cout << "Could not find log-file to write log-messages!" << endl;
 	}
+}
+
+void guiLog::writeLogFileStream(string log_string, QFile *LogFile)
+{
+
+	QTextStream stream( LogFile );
+	stream.readAll();
+	stream << log_string.data();
+
+}
+
+void guiLog::writeLog(string log_string, int modus)
+{
+
+	switch(modus) {
+	case 1:
+		writeLogFileStream(log_string,myHtmlLogFile);
+		break;
+	case 2:
+		writeLogFileStream(log_string,myTxtLogFile);
+		break;
+	case 3:
+		tb->append(log_string.data());
+		break;
+	default:
+		;
+	}
+
 }
 
 void guiLog::flushLogAtHand()
@@ -580,26 +609,796 @@ void guiLog::flushLogAtGame(int gameID)
 	}
 }
 
-void guiLog::exportLogPdbToHtml(QString fileString)
+void guiLog::exportLogPdbToHtml(QString fileStringPdb, QString exportFileString)
 {
 
-	qDebug() << "Export pdb to html" << fileString;
+	myHtmlLogFile = new QFile(exportFileString);
+
+	myHtmlLogFile->open( QIODevice::ReadWrite | QFile::Truncate);
+
+	string log_string = "<html>\n";
+	log_string += "<head>\n";
+	log_string += "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf8\">";
+	log_string += "</head>\n";
+	log_string += "<body style=\"font-size:smaller\">\n";
+	writeLog(log_string,1);
+
+	exportLog(fileStringPdb,1);
+
+	myHtmlLogFile->close();
 
 }
 
-void guiLog::exportLogPdbToTxt(QString fileString)
+void guiLog::exportLogPdbToTxt(QString fileStringPdb, QString exportFileString)
 {
 
-	qDebug() << "Export pdb to txt" << fileString;
+	myTxtLogFile = new QFile(exportFileString);
+
+	myTxtLogFile->open( QIODevice::ReadWrite | QFile::Truncate );
+
+	exportLog(fileStringPdb,2);
+
+	myTxtLogFile->close();
 
 }
 
-void guiLog::showLog(QString fileString, QTextBrowser *tb)
+void guiLog::showLog(QString fileStringPdb, QTextBrowser *tb_tmp)
 {
 
+	tb = tb_tmp;
 	tb->clear();
-	for(int i=0; i<5; i++) {
-		tb->append(fileString);
+	exportLog(fileStringPdb,3);
+
+}
+
+int guiLog::exportLog(QString fileStringPdb,int modus)
+{
+	bool neu = false;
+
+	string sql = "";
+	string log_string = "";
+	bool data_found = false;
+	char **result_Session = 0, **result_Game = 0, **result_Hand = 0, **result_Hand_ID = 0, **result_Action = 0;
+	int nRow_Session=0, nRow_Game=0, nRow_Hand=0, nRow_Hand_ID=0, nRow_Action=0;
+	int nCol_Session=0, nCol_Game=0, nCol_Hand=0, nCol_Action=0;
+	char *errmsg = 0;
+	int game_ctr = 0, hand_ctr = 0, round_ctr = 0, action_ctr = 0;
+	int i = 0, j = 0;
+	int gameID = 0;
+	string cmpString = "", string_tmp = "";
+	string player[MAX_NUMBER_OF_PLAYERS];
+	for(i=1; i<=MAX_NUMBER_OF_PLAYERS; i++) {
+		player[i-1] = "";
 	}
 
+	// open sqlite log-db
+	sqlite3 *mySqliteLogDb;
+	sqlite3_open(fileStringPdb.toStdString().data(), &mySqliteLogDb);
+	if( mySqliteLogDb != 0 ) {
+
+		// read session
+		sql = "SELECT * FROM Session";
+		if(sqlite3_get_table(mySqliteLogDb,sql.data(),&result_Session,&nRow_Session,&nCol_Session,&errmsg) != SQLITE_OK) {
+			cout << "Error in statement: " << sql.data() << "[" << errmsg << "]." << endl;
+			sqlite3_close(mySqliteLogDb);
+			return 1;
+		}
+		if(nRow_Session<1 || nRow_Session>1) {
+			cout << "Number of Sessions implausible!" << endl;
+			sqlite3_close(mySqliteLogDb);
+			return 1;
+		}
+
+		log_string += "Log-File for PokerTH ";
+
+		// pokerth version
+		data_found = false;
+		for(i=0; i<nCol_Session; i++) {
+			if(boost::lexical_cast<std::string>(result_Session[i]) == "PokerTH_Version") {
+				log_string += boost::lexical_cast<std::string>(result_Session[i+nCol_Session]);
+				data_found = true;
+			}
+		}
+		if(!data_found) {
+			cout << "Missing PokerTH version information!" << endl;
+			sqlite3_close(mySqliteLogDb);
+			return 1;
+		}
+
+		log_string += " Session started on ";
+
+		// logging date
+		data_found = false;
+		for(i=0; i<nCol_Session; i++) {
+			if(boost::lexical_cast<std::string>(result_Session[i]) == "Date") {
+				log_string += boost::lexical_cast<std::string>(result_Session[i+nCol_Session]);
+				data_found = true;
+			}
+		}
+		if(!data_found) {
+			cout << "Missing date information!" << endl;
+			sqlite3_close(mySqliteLogDb);
+			return 1;
+		}
+
+		log_string += " at ";
+
+		// logging time
+		data_found = false;
+		for(i=0; i<nCol_Session; i++) {
+			if(boost::lexical_cast<std::string>(result_Session[i]) == "Time") {
+				log_string += boost::lexical_cast<std::string>(result_Session[i+nCol_Session]);
+				data_found = true;
+			}
+		}
+		if(!data_found) {
+			cout << "Missing time information!" << endl;
+			sqlite3_close(mySqliteLogDb);
+			return 1;
+		}
+
+		sqlite3_free_table(result_Session);
+
+		switch(modus) {
+		case 1:
+			log_string = "<h3><b>" + log_string + "</b></h3>";
+			if(!neu) log_string = "<img src='logo.png'>" + log_string;
+			break;
+		case 2:
+			log_string += "\n";
+			break;
+		case 3:
+			log_string = "<h4><b>" + log_string + "</b></h4>";
+			break;
+		default:
+			;
+		}
+		writeLog(log_string,modus);
+		log_string = "";
+
+		// read game
+		sql = "SELECT * FROM Game";
+		if(sqlite3_get_table(mySqliteLogDb,sql.data(),&result_Game,&nRow_Game,&nCol_Game,&errmsg) != SQLITE_OK) {
+			cout << "Error in statement: " << sql.data() << "[" << errmsg << "]." << endl;
+			sqlite3_close(mySqliteLogDb);
+			return 1;
+		}
+
+		// run through all games
+		for(game_ctr=1; game_ctr<=nRow_Game; game_ctr++) {
+
+			// game id
+			data_found = false;
+			for(i=0; i<nCol_Game; i++) {
+				if(boost::lexical_cast<std::string>(result_Game[i]) == "GameID") {
+					gameID = boost::lexical_cast<int>(result_Game[i+nCol_Game*game_ctr]);
+					data_found = true;
+				}
+			}
+
+			if(!data_found) {
+				sqlite3_close(mySqliteLogDb);
+				return 1;
+			}
+
+			// read player
+			for(i=1; i<=MAX_NUMBER_OF_PLAYERS; i++) {
+				data_found = false;
+				for(j=0; j<nCol_Game; j++) {
+					cmpString = "Seat_";
+					cmpString+= boost::lexical_cast<std::string>(i);
+					if(boost::lexical_cast<std::string>(result_Game[j]) == cmpString) {
+						// Seat found
+						if(result_Game[j+nCol_Game*game_ctr]) {
+							// the Seat is not empty
+							player[i-1] = boost::lexical_cast<std::string>(result_Game[j+nCol_Game*game_ctr]);
+						} else {
+							player[i-1] = "";
+						}
+						data_found = true;
+					}
+				}
+				if(!data_found) {
+					cout << "Missing some seats!" << endl;
+					sqlite3_close(mySqliteLogDb);
+					return 1;
+				}
+			}
+
+			// read all hand id
+			sql = "SELECT HandID FROM Hand WHERE GameID=";
+			sql+= boost::lexical_cast<std::string>(gameID);
+			if(sqlite3_get_table(mySqliteLogDb,sql.data(),&result_Hand_ID,&nRow_Hand_ID,&nCol_Hand,&errmsg) != SQLITE_OK) {
+				cout << "Error in statement: " << sql.data() << "[" << errmsg << "]." << endl;
+				sqlite3_close(mySqliteLogDb);
+				return 1;
+			}
+
+			// run through all hands
+			for(hand_ctr=1; hand_ctr<=nRow_Hand_ID-1; hand_ctr++) {
+
+				// log game and hand id
+				log_string += "Game: ";
+				log_string += boost::lexical_cast<std::string>(gameID);
+				log_string += " | Hand: ";
+				log_string += boost::lexical_cast<std::string>(result_Hand_ID[hand_ctr]);
+
+				switch(modus) {
+				case 1:
+					log_string = "<table><tr><td width=\"600\" align=\"center\"><hr noshade size=\"3\"><b>" + log_string;
+					log_string += "</b></td></tr></table>";
+					break;
+				case 2:
+					log_string += "\n";
+					break;
+				case 3:
+					log_string = "----------- <b>" + log_string;
+					log_string += "</b> -----------<br />";
+					break;
+				default:
+					;
+				}
+
+				// read current hand
+				sql = "SELECT * FROM Hand WHERE GameID=";
+				sql+= boost::lexical_cast<std::string>(gameID);
+				sql+= " AND HandID=";
+				sql+= boost::lexical_cast<std::string>(result_Hand_ID[hand_ctr]);
+				if(sqlite3_get_table(mySqliteLogDb,sql.data(),&result_Hand,&nRow_Hand,&nCol_Hand,&errmsg) != SQLITE_OK) {
+					cout << "Error in statement: " << sql.data() << "[" << errmsg << "]." << endl;
+					sqlite3_close(mySqliteLogDb);
+					return 1;
+				}
+
+
+				// log blind level
+				log_string += "BLIND LEVEL: $";
+
+				// read small blind amount
+				data_found = false;
+				for(i=0; i<nCol_Hand; i++) {
+					if(boost::lexical_cast<std::string>(result_Hand[i]) == "Sb_Amount") {
+						log_string += boost::lexical_cast<std::string>(result_Hand[i+nCol_Hand]);
+						data_found = true;
+					}
+				}
+				if(!data_found) {
+					cout << "Missing small blind information!" << endl;
+					sqlite3_close(mySqliteLogDb);
+					return 1;
+				}
+
+				log_string += " / $";
+
+				// read big blind amount
+				data_found = false;
+				for(i=0; i<nCol_Hand; i++) {
+					if(boost::lexical_cast<std::string>(result_Hand[i]) == "Bb_Amount") {
+						log_string += boost::lexical_cast<std::string>(result_Hand[i+nCol_Hand]);
+						data_found = true;
+					}
+				}
+				if(!data_found) {
+					cout << "Missing big blind information!" << endl;
+					sqlite3_close(mySqliteLogDb);
+					return 1;
+				}
+
+				switch(modus) {
+				case 1:
+					log_string += "<br />";
+					break;
+				case 2:
+					log_string += "\n";
+					break;
+				case 3:
+					log_string += "<br />";
+					break;
+				default:
+					;
+				}
+
+				// read seat cash
+				for(i=1; i<=MAX_NUMBER_OF_PLAYERS; i++) {
+
+					data_found = false;
+					for(j=0; j<nCol_Hand; j++) {
+						cmpString = "Seat_";
+						cmpString+= boost::lexical_cast<std::string>(i);
+						cmpString+= "_Cash";
+						if(boost::lexical_cast<std::string>(result_Hand[j]) == cmpString) { // seat found
+							if(result_Hand[j+nCol_Hand]) { // player has cash > 0
+								log_string += "Seat ";
+								log_string += boost::lexical_cast<std::string>(i);
+								log_string += ": ";
+								if(modus == 1 || modus == 3) {
+									log_string += "<b>";
+								}
+								log_string += player[i-1];
+								if(modus == 1 || modus == 3) {
+									log_string += "</b>";
+								}
+								log_string += "($";
+								log_string += boost::lexical_cast<std::string>(result_Hand[j+nCol_Hand]);
+								log_string += ")";
+								switch(modus) {
+								case 1:
+									log_string += "<br />";
+									break;
+								case 2:
+									log_string += "\n";
+									break;
+								case 3:
+									log_string += "<br />";
+									break;
+								default:
+									;
+								}
+							}
+							data_found = true;
+						}
+					}
+					if(!data_found) {
+						cout << "Missing seat information in game " << gameID << " and hand " << result_Hand_ID[hand_ctr] << "!" << endl;
+						sqlite3_close(mySqliteLogDb);
+						return 1;
+					}
+				}
+
+				if(neu) {
+
+					if(modus == 1) log_string += "</br>";
+
+					// read dealer and blinds
+					sql = "SELECT Player,Action,Amount FROM Action WHERE GameID=";
+					sql += boost::lexical_cast<std::string>(gameID);
+					sql += " AND HandID=";
+					sql += boost::lexical_cast<std::string>(result_Hand_ID[hand_ctr]);
+					sql += " AND BeRo=0";
+
+					if(sqlite3_get_table(mySqliteLogDb,sql.data(),&result_Action,&nRow_Action,&nCol_Action,&errmsg) != SQLITE_OK) {
+						cout << "Error in statement: " << sql.data() << "[" << errmsg << "]." << endl;
+						sqlite3_close(mySqliteLogDb);
+						return 1;
+					}
+					if(nRow_Action<1) {
+						cout << "Missing information about dealer and blinds in game " << gameID << " hand " << result_Hand_ID[hand_ctr] << "!" << endl;
+						sqlite3_close(mySqliteLogDb);
+						return 1;
+					}
+					// log dealer and blind setting
+					for(i=1; i<=nRow_Action; i++) {
+						log_string += player[boost::lexical_cast<int>(result_Action[3*i])-1];
+						log_string += " ";
+						log_string += boost::lexical_cast<std::string>(result_Action[3*i+1]);
+						if(result_Action[3*i+2]) {
+							// with amount
+							log_string +=  " $";
+							log_string += boost::lexical_cast<std::string>(result_Action[3*i+2]);
+						}
+						log_string += ".";
+						switch(modus) {
+						case 1:
+							log_string += "<br />";
+							break;
+						case 2:
+							log_string += "\n";
+							break;
+						case 3:
+							;
+							break;
+						default:
+							;
+						}
+					}
+
+					sqlite3_free_table(result_Action);
+
+				} else {
+
+					log_string += "BLINDS: ";
+
+					// read small blind
+					sql = "SELECT Player,Amount FROM Action WHERE GameID=";
+					sql += boost::lexical_cast<std::string>(gameID);
+					sql += " AND HandID=";
+					sql += boost::lexical_cast<std::string>(result_Hand_ID[hand_ctr]);
+					sql += " AND BeRo=0 AND Action='posts small blind'";
+
+					if(sqlite3_get_table(mySqliteLogDb,sql.data(),&result_Action,&nRow_Action,&nCol_Action,&errmsg) != SQLITE_OK) {
+						cout << "Error in statement: " << sql.data() << "[" << errmsg << "]." << endl;
+						sqlite3_close(mySqliteLogDb);
+						return 1;
+					}
+					if(nRow_Action<1 || nRow_Action>1) {
+						cout << "Missing information about small blinds in game " << gameID << " hand " << result_Hand_ID[hand_ctr] << "!" << endl;
+						sqlite3_close(mySqliteLogDb);
+						return 1;
+					}
+
+					// log small blind
+					log_string += player[boost::lexical_cast<int>(result_Action[2])-1];
+					log_string += " ($";
+					log_string += boost::lexical_cast<std::string>(result_Action[3]);
+					log_string += "), ";
+
+					sqlite3_free_table(result_Action);
+
+					// read big blind
+					sql = "SELECT Player,Amount FROM Action WHERE GameID=";
+					sql += boost::lexical_cast<std::string>(gameID);
+					sql += " AND HandID=";
+					sql += boost::lexical_cast<std::string>(result_Hand_ID[hand_ctr]);
+					sql += " AND BeRo=0 AND Action='posts big blind'";
+
+					if(sqlite3_get_table(mySqliteLogDb,sql.data(),&result_Action,&nRow_Action,&nCol_Action,&errmsg) != SQLITE_OK) {
+						cout << "Error in statement: " << sql.data() << "[" << errmsg << "]." << endl;
+						sqlite3_close(mySqliteLogDb);
+						return 1;
+					}
+					if(nRow_Action<1 || nRow_Action>1) {
+						cout << "Missing information about small blinds in game " << gameID << " hand " << result_Hand_ID[hand_ctr] << "!" << endl;
+						sqlite3_close(mySqliteLogDb);
+						return 1;
+					}
+
+					// log big blind
+					log_string += player[boost::lexical_cast<int>(result_Action[2])-1];
+					log_string += " ($";
+					log_string += boost::lexical_cast<std::string>(result_Action[3]);
+					log_string += ")";
+
+					sqlite3_free_table(result_Action);
+
+					// read dealer
+					sql = "SELECT Player,Amount FROM Action WHERE GameID=";
+					sql += boost::lexical_cast<std::string>(gameID);
+					sql += " AND HandID=";
+					sql += boost::lexical_cast<std::string>(result_Hand_ID[hand_ctr]);
+					sql += " AND BeRo=0 AND Action='starts as dealer'";
+
+					if(sqlite3_get_table(mySqliteLogDb,sql.data(),&result_Action,&nRow_Action,&nCol_Action,&errmsg) != SQLITE_OK) {
+						cout << "Error in statement: " << sql.data() << "[" << errmsg << "]." << endl;
+						sqlite3_close(mySqliteLogDb);
+						return 1;
+					}
+					if(nRow_Action>1) {
+						cout << "Implausible information about dealer in game " << gameID << " hand " << result_Hand_ID[hand_ctr] << "!" << endl;
+						sqlite3_close(mySqliteLogDb);
+						return 1;
+					}
+
+					if(nRow_Action == 1) {
+						if(modus == 1 || modus == 3) log_string += "<br />";
+						log_string += player[boost::lexical_cast<int>(result_Action[2])-1];
+						log_string += " starts as dealer.";
+					}
+
+					sqlite3_free_table(result_Action);
+
+				}
+
+				writeLog(log_string,modus);
+				log_string = "";
+
+				for(round_ctr=GAME_STATE_PREFLOP; round_ctr<=GAME_STATE_POST_RIVER; round_ctr++) {
+
+					// write round name and board cards
+					if(round_ctr<=GAME_STATE_RIVER) {
+						switch(round_ctr) {
+						case GAME_STATE_PREFLOP:
+							log_string += "PREFLOP";
+							break;
+						case GAME_STATE_FLOP:
+							log_string += "FLOP";
+							break;
+						case GAME_STATE_TURN:
+							log_string += "TURN";
+							break;
+						case GAME_STATE_RIVER:
+							log_string += "RIVER";
+							break;
+						default:
+							;
+						}
+						switch(modus) {
+						case 1:
+							log_string = "<br /><b>" + log_string + "</b>";
+							break;
+						case 3:
+							log_string = "<b>" + log_string + "</b>";
+							break;
+						default:
+							;
+						}
+						log_string += " [board cards ";
+						for(i=1; i<=round_ctr+2; i++) {
+							data_found = false;
+							for(j=0; j<nCol_Hand; j++) {
+								if(boost::lexical_cast<std::string>(result_Hand[j]) == "BoardCard_"+boost::lexical_cast<std::string>(i)) {
+									if(result_Hand[j+nCol_Hand]) {
+										if(modus == 1 || modus == 3) log_string += "<b>";
+										string_tmp = convertCardIntToString(boost::lexical_cast<int>(result_Hand[j+nCol_Hand]));
+										if(string_tmp == "") {
+											cout << "Implausible board card in game " << gameID << " hand " << result_Hand_ID[hand_ctr] << "!" << endl;
+											sqlite3_close(mySqliteLogDb);
+											return 1;
+										}
+										log_string += boost::lexical_cast<std::string>(string_tmp.at(0));
+										if(modus==1 || modus == 3) log_string += "</b>";
+										log_string += boost::lexical_cast<std::string>(string_tmp.at(1));
+										if(round_ctr+2-i > 0) log_string += ",";
+
+										data_found = true;
+									}
+								}
+							}
+						}
+						log_string += "]";
+						if(modus == 1 || modus == 3) log_string += "<br />";
+					}
+
+					// read round action
+					sql = "SELECT Player,Action,Amount FROM Action WHERE GameID=";
+					sql += boost::lexical_cast<std::string>(gameID);
+					sql += " AND HandID=";
+					sql += boost::lexical_cast<std::string>(result_Hand_ID[hand_ctr]);
+					sql += " AND BeRo=";
+					sql += boost::lexical_cast<std::string>(round_ctr);
+					sql += " AND Action<>'starts as dealer' AND Action<>'posts big blind' AND Action<>'posts small blind'";
+
+					if(sqlite3_get_table(mySqliteLogDb,sql.data(),&result_Action,&nRow_Action,&nCol_Action,&errmsg) != SQLITE_OK) {
+						cout << "Error in statement: " << sql.data() << "[" << errmsg << "]." << endl;
+						sqlite3_close(mySqliteLogDb);
+						return 1;
+					}
+
+					for(action_ctr=1; action_ctr<=nRow_Action; action_ctr++) {
+						log_string += player[boost::lexical_cast<int>(result_Action[3*action_ctr])-1];
+						log_string += " ";
+						log_string += boost::lexical_cast<std::string>(result_Action[3*action_ctr+1]);
+						if(result_Action[3*action_ctr+2]) {
+							// with amount
+							log_string += " $";
+							log_string += boost::lexical_cast<std::string>(result_Action[3*action_ctr+2]);
+						}
+
+						// show
+						if(boost::lexical_cast<std::string>(result_Action[3*action_ctr+1]) == "shows") {
+							// log cards
+							log_string += " [";
+							if(modus == 1 || modus == 3) log_string += "<b>";
+
+							// find hole card 1
+							data_found = false;
+							for(i=0; i<nCol_Hand; i++) {
+								cmpString = "Seat_";
+								cmpString += boost::lexical_cast<std::string>(result_Action[3*action_ctr]);
+								cmpString += "_Card_1";
+								if(boost::lexical_cast<std::string>(result_Hand[i]) == cmpString) {
+									string_tmp = convertCardIntToString(boost::lexical_cast<int>(result_Hand[i+nCol_Hand]));
+									if(string_tmp == "") {
+										cout << "Hole card information implausible in game " << gameID << " hand " << result_Hand_ID[hand_ctr] << "!" << endl;
+										sqlite3_close(mySqliteLogDb);
+										return 1;
+									}
+									log_string += boost::lexical_cast<std::string>(string_tmp.at(0));
+									if(modus == 1 || modus == 3) log_string += "</b>";
+									log_string += boost::lexical_cast<std::string>(string_tmp.at(1));
+									if(modus == 1 || modus == 3) log_string += ",<b>";
+									data_found = true;
+								}
+							}
+							if(!data_found) {
+								cout << "Missing hole card information in game " << gameID << " hand " << result_Hand_ID[hand_ctr] << "!" << endl;
+								sqlite3_close(mySqliteLogDb);
+								return 1;
+							}
+
+							// find hole card 2
+							data_found = false;
+							for(i=0; i<nCol_Hand; i++) {
+								cmpString = "Seat_";
+								cmpString += boost::lexical_cast<std::string>(result_Action[3*action_ctr]);
+								cmpString += "_Card_2";
+								if(boost::lexical_cast<std::string>(result_Hand[i]) == cmpString) {
+									string_tmp = convertCardIntToString(boost::lexical_cast<int>(result_Hand[i+nCol_Hand]));
+									if(string_tmp == "") {
+										cout << "Hole card information implausible in game " << gameID << " hand " << result_Hand_ID[hand_ctr] << "!" << endl;
+										sqlite3_close(mySqliteLogDb);
+										return 1;
+									}
+									log_string += boost::lexical_cast<std::string>(string_tmp.at(0));
+									if(modus == 1 || modus == 3) log_string += "</b>";
+									log_string += boost::lexical_cast<std::string>(string_tmp.at(1));
+									log_string += "]";
+									data_found = true;
+								}
+							}
+							if(!data_found) {
+								cout << "Missing hole card information in game " << gameID << " hand " << result_Hand_ID[hand_ctr] << "!" << endl;
+								sqlite3_close(mySqliteLogDb);
+								return 1;
+							}
+
+						}
+
+						log_string += ".";
+						if(action_ctr<nRow_Action && (modus == 1 || modus == 3)) {
+							log_string += "<br />";
+						}
+					}
+					if(modus == 1) log_string += "<br />";
+
+					sqlite3_free_table(result_Action);
+
+					// log river actions together with post river actions
+					if(round_ctr!=GAME_STATE_RIVER) {
+						writeLog(log_string,modus);
+						log_string = "";
+					}
+
+
+				}
+
+
+
+			}
+
+		}
+
+	}
+
+	/*switch(modus) {
+	case 1:
+	    break;
+	case 2:
+	    break;
+	case 3:
+	    break;
+	default:
+	    ;
+	}*/
+
+	return 0;
+
+}
+
+int guiLog::convertCardStringToInt(string val, string col)
+{
+
+	int tmp;
+
+	switch(*col.data()) {
+	case 'd':
+		tmp = 0;
+		break;
+	case 'h':
+		tmp = 13;
+		break;
+	case 's':
+		tmp = 26;
+		break;
+	case 'c':
+		tmp = 39;
+		break;
+	default:
+		return -1;
+	}
+
+	switch(*val.data()) {
+	case '2':
+		tmp += 0;
+		break;
+	case '3':
+		tmp += 1;
+		break;
+	case '4':
+		tmp += 2;
+		break;
+	case '5':
+		tmp += 3;
+		break;
+	case '6':
+		tmp += 4;
+		break;
+	case '7':
+		tmp += 5;
+		break;
+	case '8':
+		tmp += 6;
+		break;
+	case '9':
+		tmp += 7;
+		break;
+	case 'T':
+		tmp += 8;
+		break;
+	case 'J':
+		tmp += 9;
+		break;
+	case 'Q':
+		tmp += 10;
+		break;
+	case 'K':
+		tmp += 11;
+		break;
+	case 'A':
+		tmp += 12;
+		break;
+	default:
+		return -1;
+	}
+
+	return tmp;
+
+}
+
+string guiLog::convertCardIntToString(int code)
+{
+
+	string tmp;
+
+	switch(code%13) {
+	case 0:
+		tmp = "2";
+		break;
+	case 1:
+		tmp = "3";
+		break;
+	case 2:
+		tmp = "4";
+		break;
+	case 3:
+		tmp = "5";
+		break;
+	case 4:
+		tmp = "6";
+		break;
+	case 5:
+		tmp = "7";
+		break;
+	case 6:
+		tmp = "8";
+		break;
+	case 7:
+		tmp = "9";
+		break;
+	case 8:
+		tmp = "T";
+		break;
+	case 9:
+		tmp = "J";
+		break;
+	case 10:
+		tmp = "Q";
+		break;
+	case 11:
+		tmp = "K";
+		break;
+	case 12:
+		tmp = "A";
+		break;
+	default:
+		return "";
+	}
+
+	switch(code/13) {
+	case 0:
+		tmp+= "d";
+		break;
+	case 1:
+		tmp+= "h";
+		break;
+	case 2:
+		tmp+= "s";
+		break;
+	case 3:
+		tmp+= "c";
+		break;
+	default:
+		return "";
+	}
+
+	return tmp;
 }

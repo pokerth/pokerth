@@ -1315,11 +1315,11 @@ void settingsDialogImpl::exportLogToHtml()
 
 	if(selectedItem) {
 		QString fileName = QFileDialog::getSaveFileName(this, tr("Export PokerTH log file to HTML"),
-						   QDir::homePath()+"/"+selectedItem->text(0),
+						   QString::fromUtf8(myConfig->readConfigString("LogDir").c_str())+"/"+selectedItem->text(0),
 						   tr("PokerTH HTML log (*.html)"));
 
 		if(!fileName.isEmpty()) {
-			myGuiLog->exportLogPdbToHtml(fileName);
+			myGuiLog->exportLogPdbToHtml(selectedItem->data(0, Qt::UserRole).toString(),fileName);
 		}
 	}
 }
@@ -1330,11 +1330,11 @@ void settingsDialogImpl::exportLogToTxt()
 
 	if(selectedItem) {
 		QString fileName = QFileDialog::getSaveFileName(this, tr("Export PokerTH log file to plain text"),
-						   QDir::homePath()+"/"+selectedItem->text(0),
+						   QString::fromUtf8(myConfig->readConfigString("LogDir").c_str())+"/"+selectedItem->text(0),
 						   tr("PokerTH plain text log (*.txt)"));
 
 		if(!fileName.isEmpty()) {
-			myGuiLog->exportLogPdbToTxt(fileName);
+			myGuiLog->exportLogPdbToTxt(selectedItem->data(0, Qt::UserRole).toString(),fileName);
 		}
 	}
 }

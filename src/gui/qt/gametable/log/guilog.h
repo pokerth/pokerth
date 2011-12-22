@@ -56,9 +56,10 @@ public slots:
 	void logPlayerWinGame(QString playerName, int gameID);
 	void flushLogAtGame(int gameID);
 	void flushLogAtHand();
-	void exportLogPdbToHtml(QString fileString);
-	void exportLogPdbToTxt(QString fileString);
-	void showLog(QString fileString, QTextBrowser* tb);
+	void exportLogPdbToHtml(QString fileStringPdb, QString exportFileString);
+	void exportLogPdbToTxt(QString fileStringPdb, QString exportFileString);
+	void showLog(QString fileStringPdb, QTextBrowser *tb);
+	int exportLog(QString fileStringPdb, int modus);
 
 
 public:
@@ -83,15 +84,24 @@ signals:
 
 
 private:
+
+	void writeLogFileStream(std::string log_string, QFile *LogFile);
+	void writeLog(std::string log_string, int modus);
+	int convertCardStringToInt(std::string val, std::string col);
+	std::string convertCardIntToString(int code);
+
 	int lastGameID;
 
 	gameTableImpl *myW;
 	ConfigFile *myConfig;
-	QTextStream stream;
+	QTextStream stream_old;
 	QDir *myLogDir;
 	QFile *myHtmlLogFile;
+	QFile *myHtmlLogFile_old;
+	QFile *myTxtLogFile;
 	QString logFileStreamString;
 	QString myAppDataPath;
+	QTextBrowser* tb;
 
 	GameTableStyleReader *myStyle;
 
