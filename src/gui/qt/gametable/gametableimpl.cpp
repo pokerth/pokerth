@@ -959,17 +959,17 @@ void gameTableImpl::refreshPlayerAvatar()
 			switch(getCurrentSeatState((*it_c))) {
 
 			case SEAT_ACTIVE: {
-				qDebug() << seatPlace << "AVATAR ACTIVE";
+//				qDebug() << seatPlace << "AVATAR ACTIVE";
 				playerAvatarLabelArray[(*it_c)->getMyID()]->setPixmapAndCountry(avatarPic, countryString, seatPlace);
 			}
 				break;
 			case SEAT_AUTOFOLD: {
-				qDebug() << seatPlace << "AVATAR AUTOFOLD";
+//				qDebug() << seatPlace << "AVATAR AUTOFOLD";
 				playerAvatarLabelArray[(*it_c)->getMyID()]->setPixmapAndCountry(avatarPic, countryString, seatPlace, TRUE);
 			}
 				break;
 			case SEAT_STAYONTABLE: {
-				qDebug() << seatPlace << "AVATAR STAYONTABLE";
+//				qDebug() << seatPlace << "AVATAR STAYONTABLE";
 				playerAvatarLabelArray[(*it_c)->getMyID()]->setPixmapAndCountry(avatarPic, countryString, seatPlace, TRUE);
 			}
 				break;
