@@ -1102,8 +1102,8 @@ ClientThread::MapPlayerDataList()
 
 	while (i != end) {
 		boost::shared_ptr<PlayerData> tmpData(new PlayerData(*(*i)));
-		int numberDiff = GetStartData().numberOfPlayers - m_origGuiPlayerNum;
-		tmpData->SetNumber((tmpData->GetNumber() + numberDiff) % GetStartData().numberOfPlayers);
+		int numberDiff = numPlayers - m_origGuiPlayerNum;
+		tmpData->SetNumber((tmpData->GetNumber() + numberDiff) % numPlayers);
 		mappedList.push_back(tmpData);
 		++i;
 	}
