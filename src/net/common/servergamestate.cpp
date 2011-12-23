@@ -1197,7 +1197,7 @@ ServerGameStateHand::StartNewHand(boost::shared_ptr<ServerGame> server)
 			}
 			PlayerListIterator player_i = curGame.getSeatsList()->begin();
 			PlayerListIterator player_end = curGame.getSeatsList()->end();
-			unsigned playerCounter = 0;
+			int playerCounter = 0;
 			while (player_i != player_end && playerCounter < server->GetStartData().numberOfPlayers) {
 				NetPlayerState_t *seatState = (NetPlayerState_t *)calloc(1, sizeof(NetPlayerState_t));
 				if ((*player_i)->getMyCash() <= 0) {
@@ -1273,17 +1273,18 @@ ServerGameStateHand::StartNewHand(boost::shared_ptr<ServerGame> server)
 void
 ServerGameStateHand::CheckPlayerTimeouts(boost::shared_ptr<ServerGame> server)
 {
-	// Consider all players, even inactive.
-	PlayerListIterator i = server->GetGame().getSeatsList()->begin();
-	PlayerListIterator end = server->GetGame().getSeatsList()->end();
+	// Check timeout.
+	int actionTimeout = server->GetGameData().playerActionTimeoutSec;
+	if (actionTimeout) {
+		// Consider all players, even inactive.
+		PlayerListIterator i = server->GetGame().getSeatsList()->begin();
+		PlayerListIterator end = server->GetGame().getSeatsList()->end();
 
-	// Send cards to all players.
-	while (i != end) {
-		boost::shared_ptr<PlayerInterface> tmpPlayer = *i;
-		// Check timeout.
-		int actionTimeout = server->GetGameData().playerActionTimeoutSec;
-		if (actionTimeout) {
-			if ((int)tmpPlayer->getTimeSecSinceLastRemoteAction() >= actionTimeout * SERVER_GAME_AUTOFOLD_TIMEOUT_FACTOR) {
+		// Check timeouts of all players.
+		while (i != end) {
+			boost::shared_ptr<PlayerInterface> tmpPlayer = *i;
+			if (tmpPlayer->getMyType() == PLAYER_TYPE_HUMAN
+				&& (int)tmpPlayer->getTimeSecSinceLastRemoteAction() >= actionTimeout * SERVER_GAME_AUTOFOLD_TIMEOUT_FACTOR) {
 				if (tmpPlayer->isSessionActive()) {
 					tmpPlayer->setIsSessionActive(false);
 					boost::shared_ptr<SessionData> session = server->GetSessionManager().GetSessionByUniquePlayerId(tmpPlayer->getMyUniqueID());
@@ -1300,8 +1301,8 @@ ServerGameStateHand::CheckPlayerTimeouts(boost::shared_ptr<ServerGame> server)
 					server->KickPlayer(tmpPlayer->getMyUniqueID());
 				}
 			}
+			++i;
 		}
-		++i;
 	}
 }
 
