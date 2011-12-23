@@ -196,7 +196,8 @@ HEADERS += src/engine/game.h \
 	src/engine/local_engine/replay.h \
 	src/gui/qt/gamelobbydialog/mynicklistsortfilterproxymodel.h \
 	src/gui/qt/gametable/myslider.h \
-    src/gui/qt/gametable/mycashlabel.h
+    src/gui/qt/gametable/mycashlabel.h \
+    src/gui/qt/sound/soundevents.h
 
 !gui_800x480 {
     FORMS += src/gui/qt/gametable.ui \
@@ -270,7 +271,8 @@ SOURCES += src/pokerth.cpp \
 	src/engine/local_engine/replay.cpp \
 	src/gui/qt/gamelobbydialog/mynicklistsortfilterproxymodel.cpp \
     src/net/common/servermanagerfactoryclient.cpp \
-    src/gui/qt/gametable/mycashlabel.cpp
+    src/gui/qt/gametable/mycashlabel.cpp \
+    src/gui/qt/sound/soundevents.cpp
 TRANSLATIONS = ts/pokerth_af.ts \
 	ts/pokerth_bg.ts \
 	ts/pokerth_zhcn.ts \
@@ -589,5 +591,7 @@ gui_800x480 {
 
 
 }
+
+
 
 
