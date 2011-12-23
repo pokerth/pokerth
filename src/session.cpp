@@ -176,11 +176,11 @@ void Session::startInternetClient()
 
 	myNetClient->Init(
 		myConfig->readConfigString("InternetServerAddress"),
-		myConfig->readConfigString("InternetServerListAddress"),
-//		"pokerth.net/serverlist_testing.xml.z",
+//		myConfig->readConfigString("InternetServerListAddress"),
+		"pokerth.net/serverlist_testing.xml.z",
 		myConfig->readConfigString("ServerPassword"),
-		myConfig->readConfigInt("InternetServerConfigMode") == 0,
-//		true,
+//		myConfig->readConfigInt("InternetServerConfigMode") == 0,
+		true,
 		myConfig->readConfigInt("InternetServerPort"),
 		myConfig->readConfigInt("InternetServerUseIpv6") == 1,
 		myConfig->readConfigInt("InternetServerUseSctp") == 1,

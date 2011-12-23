@@ -1,3 +1,9 @@
+2011-12-23 version 0.9-beta3
+- After a certain timeout, players are switched to an "autofold" state
+- Players no longer stay as "ghosts" after leaving the table (#82), they are kicked after some time
+- Several fixes regarding the new rejoin feature
+- BUGFIX: close login dialog after error message
+
 2011-11-15 version 0.9-beta2
 - Fixing nasty crash when a player left a game which was not running
 - add a tableview-link for each nick on the table instead of calling every single profile page

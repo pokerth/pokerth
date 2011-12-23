@@ -26,7 +26,7 @@
 #include <third_party/asn1/PokerTHMessage.h>
 #include <gamedata.h>
 
-#define NET_VERSION_MAJOR			3
+#define NET_VERSION_MAJOR			4
 #define NET_VERSION_MINOR			0
 
 #define MAX_FILE_DATA_SIZE			256
