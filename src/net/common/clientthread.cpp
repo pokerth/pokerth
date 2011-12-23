@@ -1074,6 +1074,12 @@ ClientThread::RemovePlayerData(unsigned playerId, int removeReason)
 
 	if (tmpData.get()) {
 		// Remove player from gui.
+		if (GetGame()) {
+			boost::shared_ptr<PlayerInterface> tmpPlayer(GetGame()->getPlayerByUniqueId(tmpData->GetUniqueId()));
+			if (tmpPlayer) {
+				tmpPlayer->setMyStayOnTableStatus(false);
+			}
+		}
 		GetCallback().SignalNetClientPlayerLeft(tmpData->GetUniqueId(), tmpData->GetName(), removeReason);
 	}
 }
