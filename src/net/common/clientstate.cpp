@@ -183,7 +183,7 @@ ClientStateStartServerListDownload::Enter(boost::shared_ptr<ClientThread> client
 	tmpServerListPath /= serverListUrl.substr(pos);
 	if (exists(tmpServerListPath)) {
 		// Download and compare md5.
-		tmpServerListPath = change_extension(tmpServerListPath, extension(tmpServerListPath) + ".md5");
+		tmpServerListPath = tmpServerListPath.directory_string() + ".md5";
 		boost::shared_ptr<DownloadHelper> downloader(new DownloadHelper);
 		downloader->Init(serverListUrl + ".md5", tmpServerListPath.directory_string());
 		ClientStateSynchronizingServerList::Instance().SetDownloadHelper(downloader);
