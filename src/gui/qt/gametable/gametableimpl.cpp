@@ -43,6 +43,7 @@
 
 #include "configfile.h"
 #include "sdlplayer.h"
+#include "soundevents.h"
 #include "gametablestylereader.h"
 #include "carddeckstylereader.h"
 #include <gamedata.h>
@@ -76,6 +77,7 @@ gameTableImpl::gameTableImpl(ConfigFile *c, QMainWindow *parent)
 
 	//Sound
 	mySDLPlayer = new SDLPlayer(myConfig);
+	mySoundEventHandler = new SoundEvents(myConfig, this);
 
 	// 	Init game table style
 	myGameTableStyle = new GameTableStyleReader(myConfig, this);

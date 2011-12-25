@@ -21,6 +21,7 @@
 #include "gametableimpl.h"
 #include "startwindowimpl.h"
 #include "configfile.h"
+#include "soundevents.h"
 #include <net/socket_msg.h>
 
 
@@ -247,7 +248,9 @@ void GuiWrapper::logNewGameHandMsg(int gameID, int handID)
 }
 void GuiWrapper::logNewBlindsSetsMsg(int sbSet, int bbSet, std::string sbName, std::string bbName)
 {
+	myW->getMySoundEventHandler()->blindsWereSet(sbSet);
 	myGuiLog->signalLogNewBlindsSetsMsg(sbSet, bbSet, QString::fromUtf8(sbName.c_str()), QString::fromUtf8(bbName.c_str()));
+
 }
 void GuiWrapper::logPlayerWinsMsg(std::string playerName, int pot, bool main)
 {

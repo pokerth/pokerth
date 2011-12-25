@@ -50,6 +50,7 @@ class GameTableStyleReader;
 class CardDeckStyleReader;
 
 class SDLPlayer;
+class SoundEvents;
 
 enum SeatState { SEAT_UNDEFINED, SEAT_ACTIVE, SEAT_AUTOFOLD, SEAT_STAYONTABLE, SEAT_CLEAR };
 
@@ -63,8 +64,12 @@ public:
 	~gameTableImpl();
 
 	boost::shared_ptr<Session> getSession();
+
 	SDLPlayer* getMySDLPlayer() const {
 		return mySDLPlayer;
+	}
+	SoundEvents* getMySoundEventHandler() const{
+		return mySoundEventHandler;
 	}
 	ChatTools* getMyChat() const {
 		return myChat;
@@ -405,6 +410,7 @@ private:
 
 	//Sound
 	SDLPlayer *mySDLPlayer;
+	SoundEvents *mySoundEventHandler;
 	QString myAppDataPath;
 
 	int distributePotAnimCounter;
