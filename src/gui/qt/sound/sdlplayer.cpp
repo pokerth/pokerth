@@ -115,7 +115,7 @@ void SDLPlayer::playSound(string audioString, int playerID)
 			break;
 			}
 
-			audioDone();
+//			audioDone();
 
 			QDataStream in(&myFile);
 			soundData = new Uint8[(int)myFile.size()];
