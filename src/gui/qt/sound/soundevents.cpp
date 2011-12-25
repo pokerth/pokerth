@@ -5,7 +5,7 @@
 #include "game.h"
 #include "soundevents.h"
 
-SoundEvents::SoundEvents(ConfigFile *c, gameTableImpl *w): myConfig(c), myW(w)
+SoundEvents::SoundEvents(ConfigFile *c, gameTableImpl *w): myConfig(c), myW(w), lastSBValue(0), lastSBLevel(0), lastGameId(0)
 {
 	mySDLPlayer = new SDLPlayer(myConfig);
 }
