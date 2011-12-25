@@ -18,6 +18,7 @@ sounds/default:
 	- allin.wav, bet.wav, 
 	raise.wav, check.wav, 
 	call.wav, dealtwocards.waw 		--> donated by pokerth.net user: doc_dos
+        - blinds_raises_level1-3                --> donated by pokerth.net user: texas_outlaw
 
 
 gfx/cards/default: 
