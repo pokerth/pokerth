@@ -1292,7 +1292,7 @@ ServerGameStateHand::CheckPlayerTimeouts(boost::shared_ptr<ServerGame> server)
 						boost::shared_ptr<NetPacket> packet(new NetPacket(NetPacket::Alloc));
 						packet->GetMsg()->present = PokerTHMessage_PR_timeoutWarningMessage;
 						TimeoutWarningMessage_t *netWarning = &packet->GetMsg()->choice.timeoutWarningMessage;
-						netWarning->timeoutReason = NETWORK_TIMEOUT_GENERIC;
+						netWarning->timeoutReason = NETWORK_TIMEOUT_KICK_AFTER_AUTOFOLD;
 						netWarning->remainingSeconds = actionTimeout * SERVER_GAME_FORCED_TIMEOUT_FACTOR - tmpPlayer->getTimeSecSinceLastRemoteAction();
 						server->GetLobbyThread().GetSender().Send(session, packet);
 					}
