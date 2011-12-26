@@ -1,3 +1,9 @@
+2011-12-26 version 0.9-beta4
+- Sound when blinds increase (#83)
+- BUGFIX: Could not open the server list MD5 file (#85)
+- BUGFIX: Server crash when reactivating an unknown player
+- BUGFIX: Use correct timeout message
+
 2011-12-23 version 0.9-beta3
 - After a certain timeout, players are switched to an "autofold" state
 - Players no longer stay as "ghosts" after leaving the table (#82), they are kicked after some time
