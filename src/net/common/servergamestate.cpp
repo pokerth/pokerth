@@ -1314,8 +1314,10 @@ ServerGameStateHand::ReactivatePlayers(boost::shared_ptr<ServerGame> server)
 	PlayerIdList::iterator end = reactivateIdList.end();
 	while (i != end) {
 		boost::shared_ptr<PlayerInterface> tmpPlayer(server->GetGame().getPlayerByUniqueId(*i));
-		tmpPlayer->markRemoteAction();
-		tmpPlayer->setIsSessionActive(true);
+		if (tmpPlayer) {
+			tmpPlayer->markRemoteAction();
+			tmpPlayer->setIsSessionActive(true);
+		}
 		++i;
 	}
 }
