@@ -82,6 +82,7 @@ Game::Game(GuiInterface* gui, boost::shared_ptr<EngineFactory> factory,
 		unsigned uniqueId = 0;
 		PlayerType type = PLAYER_TYPE_COMPUTER;
 		int myStartCash = startCash;
+		bool myStayOnTableStatus = false;
 
 		if (player_i != player_end) {
 			uniqueId = (*player_i)->GetUniqueId();
@@ -91,11 +92,12 @@ Game::Game(GuiInterface* gui, boost::shared_ptr<EngineFactory> factory,
 			myGuid = (*player_i)->GetGuid();
 			if ((*player_i)->GetStartCash() > 0)
 				myStartCash = (*player_i)->GetStartCash();
+			myStayOnTableStatus = type == PLAYER_TYPE_HUMAN;
 			++player_i;
 		}
 
 		// create player objects
-		boost::shared_ptr<PlayerInterface> tmpPlayer = myFactory->createPlayer(i, uniqueId, type, myName, myAvatarFile, myStartCash, startQuantityPlayers > i, startQuantityPlayers > i, 0);
+		boost::shared_ptr<PlayerInterface> tmpPlayer = myFactory->createPlayer(i, uniqueId, type, myName, myAvatarFile, myStartCash, startQuantityPlayers > i, myStayOnTableStatus, 0);
 		tmpPlayer->setIsSessionActive(true);
 		tmpPlayer->setMyGuid(myGuid);
 
