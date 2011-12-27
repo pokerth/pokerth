@@ -1486,18 +1486,24 @@ ServerLobbyThread::EstablishSession(boost::shared_ptr<SessionData> session)
 	if (!session->GetPlayerData())
 		throw ServerException(__FILE__, __LINE__, ERR_NET_INVALID_SESSION, 0);
 
-	u_int32_t rejoinPlayerId = 0;
+	unsigned rejoinPlayerId = 0;
 	u_int32_t rejoinGameId = GetRejoinGameIdForPlayer(session->GetPlayerData()->GetName(), session->GetPlayerData()->GetOldGuid(), rejoinPlayerId);
 	if (rejoinGameId != 0) {
 		// Offer rejoin, and disconnect current player with the same name.
 		InternalRemovePlayer(rejoinPlayerId, ERR_NET_PLAYER_NAME_IN_USE);
-	}
-
-	// Check whether this player is already connected.
-	// We need to enforce this here to prevent duplicates.
-	if (IsPlayerConnected(session->GetPlayerData()->GetName())) {
-		SessionError(session, ERR_NET_PLAYER_KICKED);
+	} else {
+		// Check whether this player is already connected.
+#ifdef POKERTH_OFFICIAL_SERVER
+		// If so, and this is a login server, disconnect the already connected player.
+		unsigned previousPlayerId = GetPlayerId(session->GetPlayerData()->GetName());
+		if (previousPlayerId != 0) {
+			InternalRemovePlayer(previousPlayerId, ERR_NET_PLAYER_NAME_IN_USE);
+		}
+#else
+		// If this is a server without password protection, close this new session and return.
+		SessionError(session, ERR_NET_PLAYER_NAME_IN_USE);
 		return;
+#endif
 	}
 
 	// Run postlogin for DB
@@ -2027,17 +2033,20 @@ ServerLobbyThread::GetGui()
 	return m_gui;
 }
 
-bool
-ServerLobbyThread::IsPlayerConnected(const string &name) const
+unsigned
+ServerLobbyThread::GetPlayerId(const string &name) const
 {
-	bool retVal = false;
+	unsigned playerId = 0;
 
-	retVal = m_sessionManager.IsPlayerConnected(name);
+	boost::shared_ptr<SessionData> tmpSession(m_sessionManager.GetSessionByPlayerName(name));
 
-	if (!retVal)
-		retVal = m_gameSessionManager.IsPlayerConnected(name);
+	if (!tmpSession)
+		tmpSession = m_gameSessionManager.GetSessionByPlayerName(name);
 
-	return retVal;
+	if (tmpSession && tmpSession->GetPlayerData())
+		playerId = tmpSession->GetPlayerData()->GetUniqueId();
+
+	return playerId;
 }
 
 boost::shared_ptr<NetPacket>

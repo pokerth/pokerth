@@ -188,7 +188,7 @@ protected:
 	GuiInterface &GetGui();
 	ServerIrcBotCallback &GetIrcBotCallback();
 
-	bool IsPlayerConnected(const std::string &name) const;
+	unsigned GetPlayerId(const std::string &name) const;
 
 	static boost::shared_ptr<NetPacket> CreateNetPacketPlayerListNew(unsigned playerId);
 	static boost::shared_ptr<NetPacket> CreateNetPacketPlayerListLeft(unsigned playerId);
