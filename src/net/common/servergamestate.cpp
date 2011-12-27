@@ -1371,15 +1371,15 @@ ServerGameStateHand::PerformRejoin(boost::shared_ptr<ServerGame> server, boost::
 		netStartModeRejoin->handNum = curGame.getCurrentHandID();
 		PlayerListIterator player_i = curGame.getSeatsList()->begin();
 		PlayerListIterator player_end = curGame.getSeatsList()->end();
-		while (player_i != player_end) {
+		int player_count = 0;
+		while (player_i != player_end && player_count < server->GetStartData().numberOfPlayers) {
 			boost::shared_ptr<PlayerInterface> tmpPlayer = *player_i;
-			if (tmpPlayer->getMyActiveStatus()) {
-				RejoinPlayerData_t *playerSlot = (RejoinPlayerData_t *)calloc(1, sizeof(RejoinPlayerData_t));
-				playerSlot->playerId = tmpPlayer->getMyUniqueID();
-				playerSlot->playerMoney = tmpPlayer->getMyCash();
-				ASN_SEQUENCE_ADD(&netStartModeRejoin->rejoinPlayerData.list, playerSlot);
-			}
+			RejoinPlayerData_t *playerSlot = (RejoinPlayerData_t *)calloc(1, sizeof(RejoinPlayerData_t));
+			playerSlot->playerId = tmpPlayer->getMyUniqueID();
+			playerSlot->playerMoney = tmpPlayer->getMyCash();
+			ASN_SEQUENCE_ADD(&netStartModeRejoin->rejoinPlayerData.list, playerSlot);
 			++player_i;
+			++player_count;
 		}
 
 		server->GetLobbyThread().GetSender().Send(session, packet);

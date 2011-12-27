@@ -21,7 +21,7 @@
 using namespace std;
 
 PlayerData::PlayerData(unsigned uniqueId, int number, PlayerType type, PlayerRights rights, bool isGameAdmin)
-	: m_uniqueId(uniqueId), m_dbId(DB_ID_INVALID), m_number(number), m_startCash(0), m_type(type), m_rights(rights), m_isGameAdmin(isGameAdmin)
+	: m_uniqueId(uniqueId), m_dbId(DB_ID_INVALID), m_number(number), m_startCash(-1), m_type(type), m_rights(rights), m_isGameAdmin(isGameAdmin)
 {
 }
 
