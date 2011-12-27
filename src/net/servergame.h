@@ -118,6 +118,7 @@ protected:
 	void InitRankingMap(const PlayerDataList &playerDataList);
 	void UpdateRankingMap();
 	void SetPlayerPlace(unsigned playerId, int place);
+	void ReplaceRankingPlayer(unsigned oldPlayerId, unsigned newPlayerId);
 	void StoreAndResetRanking();
 	void RemoveAutoLeavePlayers();
 	void InternalEndGame();

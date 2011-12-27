@@ -1360,6 +1360,8 @@ ServerGameStateHand::PerformRejoin(boost::shared_ptr<ServerGame> server, boost::
 
 		// Update the dealer, if necessary.
 		curGame.replaceDealer(rejoinPlayer->getMyUniqueID(), session->GetPlayerData()->GetUniqueId());
+		// Update the ranking map.
+		server->ReplaceRankingPlayer(rejoinPlayer->getMyUniqueID(), session->GetPlayerData()->GetUniqueId());
 		// Change the Id in the poker engine.
 		rejoinPlayer->setMyUniqueID(session->GetPlayerData()->GetUniqueId());
 		rejoinPlayer->setMyGuid(session->GetPlayerData()->GetGuid());

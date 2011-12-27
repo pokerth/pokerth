@@ -359,6 +359,17 @@ ServerGame::SetPlayerPlace(unsigned playerId, int place)
 }
 
 void
+ServerGame::ReplaceRankingPlayer(unsigned oldPlayerId, unsigned newPlayerId)
+{
+	RankingMap::iterator pos = m_rankingMap.find(oldPlayerId);
+	if (pos != m_rankingMap.end()) {
+		RankingData tmpData((*pos).second);
+		m_rankingMap[newPlayerId] = tmpData;
+		m_rankingMap.erase(pos);
+	}
+}
+
+void
 ServerGame::StoreAndResetRanking()
 {
 	// Store players in database.
