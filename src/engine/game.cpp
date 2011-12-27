@@ -90,7 +90,7 @@ Game::Game(GuiInterface* gui, boost::shared_ptr<EngineFactory> factory,
 			myName = (*player_i)->GetName();
 			myAvatarFile = (*player_i)->GetAvatarFile();
 			myGuid = (*player_i)->GetGuid();
-			if ((*player_i)->GetStartCash() > 0)
+			if ((*player_i)->GetStartCash() >= 0)
 				myStartCash = (*player_i)->GetStartCash();
 			myStayOnTableStatus = type == PLAYER_TYPE_HUMAN;
 			++player_i;

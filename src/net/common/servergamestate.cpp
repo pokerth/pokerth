@@ -1130,13 +1130,15 @@ ServerGameStateHand::StartNewHand(boost::shared_ptr<ServerGame> server)
 {
 	Game &curGame = server->GetGame();
 
-	// Kick inactive players.
+	// Reactivate players which were previously inactive.
 	ReactivatePlayers(server);
-	CheckPlayerTimeouts(server);
 
 	// Initialize rejoining players.
 	// This has to be done before initialising the new hand, because there are side effects.
 	InitRejoiningPlayers(server);
+
+	// Kick inactive players.
+	CheckPlayerTimeouts(server);
 
 	// Initialize hand.
 	curGame.initHand();
@@ -1357,6 +1359,7 @@ ServerGameStateHand::PerformRejoin(boost::shared_ptr<ServerGame> server, boost::
 		// Change the Id in the poker engine.
 		rejoinPlayer->setMyUniqueID(session->GetPlayerData()->GetUniqueId());
 		rejoinPlayer->setMyGuid(session->GetPlayerData()->GetGuid());
+		rejoinPlayer->markRemoteAction();
 		rejoinPlayer->setIsSessionActive(true);
 
 		// Send game start notification to rejoining client.
