@@ -67,6 +67,13 @@ Vyberte styl karet a zkuste to znovu!</translation>
     </message>
 </context>
 <context>
+    <name>ChatTools</name>
+    <message>
+        <source>private message sent to player: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>GameTableStyleReader</name>
     <message>
         <source>Game Table Style Error</source>
@@ -886,7 +893,9 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt; font-weight:600;&quot;&gt;danuxi&lt;/span&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;    - for startwindow background gfx and danuxi1 table background&lt;/span&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt; font-weight:600;&quot;&gt;heyn&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;    - for moderating forum and organise bugtracker and feature requests&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/body&gt;&lt;/html&gt;</source>
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;    - for moderating forum and organise bugtracker and feature requests&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt; font-weight:600;&quot;&gt;texas_outlaw&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;    - for new table sounds&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -2655,6 +2664,10 @@ Další hráče můžete pozvat pravým kliknutím na jejich přezdívku v sezna
         <source>Zimbabwe</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Waiting for the start of the next hand to rejoin the game ...</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>gameTable</name>
@@ -2851,12 +2864,12 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Players tip</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Save</source>
         <translation type="unfinished">Uložit</translation>
+    </message>
+    <message>
+        <source>Player info</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -2937,14 +2950,14 @@ a vrátit se zpět do lobby?</translation>
     </message>
     <message>
         <source>PokerTH - Warning</source>
-        <translation>PokerTH - Upozornění</translation>
+        <translation type="obsolete">PokerTH - Upozornění</translation>
     </message>
     <message>
         <source>You have triggered a warning level of timeouts in a ranking game.
 After %1 additional timeouts the server needs to kick you to provide a better game flow!
 
 If you are temporarily away, you can use the &quot;away&quot; tools in the tool box on the right.</source>
-        <translation>Toto je hodnocená hra! Tím, že nehrajete, zdržujete ostatní.
+        <translation type="obsolete">Toto je hodnocená hra! Tím, že nehrajete, zdržujete ostatní.
 Budete-li takto zdržovat ještě %1-krát, budete ze hry vyhozeni!
 
 Pokud chcete ve hře zůstat, ale potřebujete si odskočit, využijte funkci &quot;Pryč&quot; z panelu napravo.</translation>
@@ -3625,7 +3638,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Store log files for</source>
-        <translation>Ukládat soubory záznamu po</translation>
+        <translation type="obsolete">Ukládat soubory záznamu po</translation>
     </message>
     <message>
         <source>Log File Directory: </source>
@@ -3867,7 +3880,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Export as html</source>
-        <translation>Exportovat jako html</translation>
+        <translation type="obsolete">Exportovat jako html</translation>
     </message>
     <message>
         <source>Export as txt</source>
@@ -3888,6 +3901,22 @@ p, li { white-space: pre-wrap; }
     <message>
         <source>Show country flag in the corner of avatar</source>
         <translation>Zobrazit v rohu avataru vlajku mé země</translation>
+    </message>
+    <message>
+        <source>Automatically leave the table after the game finished</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Store log files for:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Preview:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Export as HTML</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -4175,6 +4204,22 @@ Styl nebude umístěn do seznamu!</translation>
         <source>Japanese</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Export PokerTH log file to HTML</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>PokerTH HTML log (*.html)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Export PokerTH log file to plain text</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>PokerTH plain text log (*.txt)</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>startNetworkGameDialog</name>
@@ -4304,6 +4349,10 @@ Styl nebude umístěn do seznamu!</translation>
         <source>&amp;Settings</source>
         <translation>&amp;Nastavení</translation>
     </message>
+    <message>
+        <source>PokerTH - The Open-Source Texas Holdem Engine</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>startWindowImpl</name>
@@ -4377,7 +4426,7 @@ Pokud je server za routerem s NATem, ujistěte se, že byl nastaven port forward
     </message>
     <message>
         <source>Connection was closed by the server.</source>
-        <translation>Server ukončil připojení.</translation>
+        <translation type="obsolete">Server ukončil připojení.</translation>
     </message>
     <message>
         <source>Internal network error: Duplicate TCP connection.</source>
@@ -4615,6 +4664,10 @@ Prosím, zkontrolujte své uživatelské jméno a heslo.</translation>
         <source>An error occurred while reporting the avatar.</source>
         <translation>Při nahlašování avataru nastala chyba.</translation>
     </message>
+    <message>
+        <source>The connection to the server was lost.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>timeoutMsgBoxImpl</name>
@@ -4633,6 +4686,10 @@ Prosím, zkontrolujte své uživatelské jméno a heslo.</translation>
     <message>
         <source>Your connection is about to time out due to inactivity in %1 seconds.</source>
         <translation>Po %1 sekund jste neprovedli žádnou akci, vaše připojení vyprší.</translation>
+    </message>
+    <message>
+        <source>You did not act in the game recently. You will be removed from the game in %1 seconds.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 </TS>

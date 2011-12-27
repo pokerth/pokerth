@@ -71,6 +71,13 @@ Por favor selecione o estilo das cartas e tente denovo!</translation>
     </message>
 </context>
 <context>
+    <name>ChatTools</name>
+    <message>
+        <source>private message sent to player: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>GameTableStyleReader</name>
     <message>
         <source>Game Table Style Error</source>
@@ -1547,7 +1554,9 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt; font-weight:600;&quot;&gt;danuxi&lt;/span&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;    - for startwindow background gfx and danuxi1 table background&lt;/span&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt; font-weight:600;&quot;&gt;heyn&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;    - for moderating forum and organise bugtracker and feature requests&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/body&gt;&lt;/html&gt;</source>
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;    - for moderating forum and organise bugtracker and feature requests&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt; font-weight:600;&quot;&gt;texas_outlaw&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;    - for new table sounds&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -3365,6 +3374,10 @@ Sinta se avontade para convidar outro jogador clicando no apelido na lista de jo
         <source>Zimbabwe</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Waiting for the start of the next hand to rejoin the game ...</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>gameTable</name>
@@ -3605,12 +3618,12 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Players tip</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Save</source>
         <translation type="unfinished">Salvar</translation>
+    </message>
+    <message>
+        <source>Player info</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -4025,14 +4038,14 @@ Por favor tenha certeza de que está conectado a internet.</translation>
     </message>
     <message>
         <source>PokerTH - Warning</source>
-        <translation>Aviso - PokerTH</translation>
+        <translation type="obsolete">Aviso - PokerTH</translation>
     </message>
     <message>
         <source>You have triggered a warning level of timeouts in a ranking game.
 After %1 additional timeouts the server needs to kick you to provide a better game flow!
 
 If you are temporarily away, you can use the &quot;away&quot; tools in the tool box on the right.</source>
-        <translation>Você começou o alerta de tempo limite para a classificação de um jogo.(new line)
+        <translation type="obsolete">Você começou o alerta de tempo limite para a classificação de um jogo.(new line)
 Depois %1 do tempo adicional o servidor precisa chutar você para que o jogo tenha melhor fluxo!(new line)
 (new line)
 Se você está longe temporariamente, você pode usar o &quot;longe&quot; na caixa de ferramentas na direita.</translation>
@@ -4694,7 +4707,7 @@ p, li { white-space: pre-wrap; }(new line)
     </message>
     <message>
         <source>Export as html</source>
-        <translation>Exportar como html</translation>
+        <translation type="obsolete">Exportar como html</translation>
     </message>
     <message>
         <source>Export as txt</source>
@@ -4790,7 +4803,7 @@ p, li { white-space: pre-wrap; }(new line)
     </message>
     <message>
         <source>Store log files for</source>
-        <translation>Armazenar arquivos de registro para</translation>
+        <translation type="obsolete">Armazenar arquivos de registro para</translation>
     </message>
     <message>
         <source>Timeout for player action (sec):</source>
@@ -5139,6 +5152,22 @@ p, li { white-space: pre-wrap; }
         <source>Show country flag in the corner of avatar</source>
         <translation>Mostrar bandeira do país no canto do avatar</translation>
     </message>
+    <message>
+        <source>Automatically leave the table after the game finished</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Store log files for:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Preview:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Export as HTML</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>settingsDialogImpl</name>
@@ -5446,6 +5475,22 @@ Style will not be placed into list!</source>
         <source>Japanese</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Export PokerTH log file to HTML</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>PokerTH HTML log (*.html)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Export PokerTH log file to plain text</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>PokerTH plain text log (*.txt)</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>startNetworkGameDialog</name>
@@ -5595,6 +5640,10 @@ Style will not be placed into list!</source>
         <source>&amp;Settings</source>
         <translation>&amp;Configurações</translation>
     </message>
+    <message>
+        <source>PokerTH - The Open-Source Texas Holdem Engine</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>startWindowImpl</name>
@@ -5672,7 +5721,7 @@ Caso o servidor esteja atrás de um NAT-Router, tenha certeza de que a porta est
     </message>
     <message>
         <source>Connection was closed by the server.</source>
-        <translation>Conexão foi fechada pelo servidor.</translation>
+        <translation type="obsolete">Conexão foi fechada pelo servidor.</translation>
     </message>
     <message>
         <source>Internal network error: Duplicate TCP connection.</source>
@@ -5910,6 +5959,10 @@ Por favor escolha um nome diferente.</translation>
         <source>An error occurred while reporting the avatar.</source>
         <translation>Um erro ocorreu durante o reporte de avatar.</translation>
     </message>
+    <message>
+        <source>The connection to the server was lost.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>timeoutMsgBoxImpl</name>
@@ -5928,6 +5981,10 @@ Por favor escolha um nome diferente.</translation>
     <message>
         <source>Your connection is about to time out due to inactivity in %1 seconds.</source>
         <translation>Sua conexão está prestes ser encerrada devido a inatividade em %1 segundos.</translation>
+    </message>
+    <message>
+        <source>You did not act in the game recently. You will be removed from the game in %1 seconds.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

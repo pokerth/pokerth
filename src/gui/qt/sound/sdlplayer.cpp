@@ -125,7 +125,7 @@ void SDLPlayer::playSound(string audioString, int playerID)
 
 
 			// set channel 0 to settings volume
-			Mix_Volume(0,myConfig->readConfigInt("SoundVolume")*10);
+			Mix_Volume(-1,myConfig->readConfigInt("SoundVolume")*10);
 
 			// set 3d effect
 			if(!Mix_SetPosition(0, position, distance)) {

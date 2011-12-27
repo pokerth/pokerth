@@ -15,8 +15,8 @@ public:
 
 private:
 	SDLPlayer *mySDLPlayer;
-	gameTableImpl *myW;
 	ConfigFile *myConfig;
+	gameTableImpl *myW;
 
 	unsigned int lastSBValue;
 	unsigned int lastSBLevel;
