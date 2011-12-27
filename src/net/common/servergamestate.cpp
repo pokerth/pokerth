@@ -353,11 +353,6 @@ AbstractServerGameStateReceiving::ProcessPacket(boost::shared_ptr<ServerGame> se
 			netReportAck->reportResult = reportResult_avatarReportInvalid;
 			server->GetLobbyThread().GetSender().Send(session, packet);
 		}
-	} else if (packet->GetMsg()->present == PokerTHMessage_PR_resetTimeoutMessage) {
-		// Reactivate session.
-		if (server->IsRunning()) {
-			server->AddReactivatePlayer(session->GetPlayerData()->GetUniqueId());
-		}
 	} else {
 		// Packet processing in subclass.
 		InternalProcessPacket(server, session, packet);
@@ -804,6 +799,15 @@ AbstractServerGameStateRunning::HandleNewSession(boost::shared_ptr<ServerGame> s
 	}
 }
 
+void
+AbstractServerGameStateRunning::InternalProcessPacket(boost::shared_ptr<ServerGame> server, boost::shared_ptr<SessionData> session, boost::shared_ptr<NetPacket> packet)
+{
+	if (packet->GetMsg()->present == PokerTHMessage_PR_resetTimeoutMessage) {
+		// Reactivate session.
+		server->AddReactivatePlayer(session->GetPlayerData()->GetUniqueId());
+	}
+}
+
 //-----------------------------------------------------------------------------
 
 ServerGameStateHand ServerGameStateHand::s_state;
@@ -839,9 +843,9 @@ ServerGameStateHand::Exit(boost::shared_ptr<ServerGame> server)
 }
 
 void
-ServerGameStateHand::InternalProcessPacket(boost::shared_ptr<ServerGame> /*server*/, boost::shared_ptr<SessionData> /*session*/, boost::shared_ptr<NetPacket> /*packet*/)
+ServerGameStateHand::InternalProcessPacket(boost::shared_ptr<ServerGame> server, boost::shared_ptr<SessionData> session, boost::shared_ptr<NetPacket> packet)
 {
-	// TODO: maybe reject packet.
+	AbstractServerGameStateRunning::InternalProcessPacket(server, session, packet);
 }
 
 void
@@ -1436,6 +1440,8 @@ ServerGameStateWaitPlayerAction::Exit(boost::shared_ptr<ServerGame> server)
 void
 ServerGameStateWaitPlayerAction::InternalProcessPacket(boost::shared_ptr<ServerGame> server, boost::shared_ptr<SessionData> session, boost::shared_ptr<NetPacket> packet)
 {
+	AbstractServerGameStateRunning::InternalProcessPacket(server, session, packet);
+
 	if (packet->GetMsg()->present == PokerTHMessage_PR_myActionRequestMessage) {
 		MyActionRequestMessage_t *netMyAction = &packet->GetMsg()->choice.myActionRequestMessage;
 
@@ -1568,6 +1574,8 @@ ServerGameStateWaitNextHand::Exit(boost::shared_ptr<ServerGame> server)
 void
 ServerGameStateWaitNextHand::InternalProcessPacket(boost::shared_ptr<ServerGame> server, boost::shared_ptr<SessionData> session, boost::shared_ptr<NetPacket> packet)
 {
+	AbstractServerGameStateRunning::InternalProcessPacket(server, session, packet);
+
 	if (packet->GetMsg()->present == PokerTHMessage_PR_showMyCardsRequestMessage) {
 		Game &curGame = server->GetGame();
 		boost::shared_ptr<NetPacket> show(new NetPacket(NetPacket::Alloc));

@@ -138,6 +138,9 @@ public:
 	virtual ~AbstractServerGameStateRunning();
 
 	virtual void HandleNewSession(boost::shared_ptr<ServerGame> server, boost::shared_ptr<SessionData> session);
+
+protected:
+	virtual void InternalProcessPacket(boost::shared_ptr<ServerGame> server, boost::shared_ptr<SessionData> session, boost::shared_ptr<NetPacket> packet);
 };
 
 // State: Within hand.
