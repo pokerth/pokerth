@@ -1,3 +1,9 @@
+2011-12-27 version 0.9-beta5
+- BUGFIX: Behaviour is now correct if someone is all in due to blinds (blind-of-death)
+- BUGFIX: Fixed admin-timeout (in non-ranking games)
+- BUGFIX: Players rejoining the lobby are no longer kicked directly after login (#81)
+- BUGFIX: Seat state is now displayed correctly after rejoin
+
 2011-12-26 version 0.9-beta4
 - Sound when blinds increase (#83)
 - BUGFIX: Could not open the server list MD5 file (#85)
