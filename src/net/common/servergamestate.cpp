@@ -1206,7 +1206,7 @@ ServerGameStateHand::StartNewHand(boost::shared_ptr<ServerGame> server)
 			int playerCounter = 0;
 			while (player_i != player_end && playerCounter < server->GetStartData().numberOfPlayers) {
 				NetPlayerState_t *seatState = (NetPlayerState_t *)calloc(1, sizeof(NetPlayerState_t));
-				if ((*player_i)->getMyCash() <= 0) {
+				if (!(*player_i)->getMyActiveStatus()) {
 					*seatState = NetPlayerState_playerStateNoMoney;
 				} else if (!(*player_i)->isSessionActive()) {
 					*seatState = NetPlayerState_playerStateSessionInactive;
