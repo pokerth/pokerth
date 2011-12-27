@@ -178,6 +178,7 @@ public class RunNormalGameTest extends TestBase {
 				|| msg.isPlayersActionDoneMessageSelected()
 				|| msg.isEndOfHandMessageSelected()
 				|| msg.isAllInShowCardsMessageSelected()
+				|| msg.isTimeoutWarningMessageSelected()
 				);
 		if (!msg.isEndOfGameMessageSelected()) {
 			fail("No end of game received.");
