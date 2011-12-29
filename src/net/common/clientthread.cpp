@@ -1044,6 +1044,37 @@ ClientThread::GetQtToolsInterface()
 	return *myQtToolsInterface;
 }
 
+boost::shared_ptr<PlayerData>
+ClientThread::CreatePlayerData(unsigned playerId, bool isGameAdmin)
+{
+	boost::shared_ptr<PlayerData> playerData;
+	PlayerInfo info;
+	if (GetCachedPlayerInfo(playerId, info)) {
+		playerData.reset(
+			new PlayerData(playerId, 0, info.ptype,
+							info.isGuest ? PLAYER_RIGHTS_GUEST : PLAYER_RIGHTS_NORMAL, isGameAdmin));
+		playerData->SetName(info.playerName);
+		if (info.hasAvatar) {
+			string avatarFile;
+			if (GetAvatarManager().GetAvatarFileName(info.avatar, avatarFile))
+				playerData->SetAvatarFile(GetQtToolsInterface().stringToUtf8(avatarFile));
+			else
+				RetrieveAvatarIfNeeded(playerId, info);
+		}
+	} else {
+		ostringstream name;
+		name << "#" << playerId;
+
+		// Request player info.
+		RequestPlayerInfo(playerId, true);
+		// Use temporary data until the PlayerInfo request is completed.
+		playerData.reset(
+			new PlayerData(playerId, 0, PLAYER_TYPE_HUMAN, PLAYER_RIGHTS_NORMAL, isGameAdmin));
+		playerData->SetName(name.str());
+	}
+	return playerData;
+}
+
 void
 ClientThread::AddPlayerData(boost::shared_ptr<PlayerData> playerData)
 {

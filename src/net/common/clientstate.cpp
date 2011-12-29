@@ -34,6 +34,7 @@
 
 #include <tinyxml.h>
 #include <boost/bind.hpp>
+#include <boost/foreach.hpp>
 #include <boost/iostreams/filtering_streambuf.hpp>
 #include <boost/iostreams/copy.hpp>
 #include <boost/iostreams/filter/zlib.hpp>
@@ -692,31 +693,7 @@ AbstractClientStateReceiving::HandlePacket(boost::shared_ptr<ClientThread> clien
 			// Another player joined the network game.
 			GamePlayerJoined_t *netPlayerJoined = &netGamePlayer->gamePlayerNotification.choice.gamePlayerJoined;
 
-			boost::shared_ptr<PlayerData> playerData;
-			PlayerInfo info;
-			if (client->GetCachedPlayerInfo(netPlayerJoined->playerId, info)) {
-				playerData.reset(
-					new PlayerData(netPlayerJoined->playerId, 0, info.ptype,
-								   info.isGuest ? PLAYER_RIGHTS_GUEST : PLAYER_RIGHTS_NORMAL, netPlayerJoined->isGameAdmin));
-				playerData->SetName(info.playerName);
-				if (info.hasAvatar) {
-					string avatarFile;
-					if (client->GetAvatarManager().GetAvatarFileName(info.avatar, avatarFile))
-						playerData->SetAvatarFile(client->GetQtToolsInterface().stringToUtf8(avatarFile));
-					else
-						client->RetrieveAvatarIfNeeded(netPlayerJoined->playerId, info);
-				}
-			} else {
-				ostringstream name;
-				name << "#" << netPlayerJoined->playerId;
-
-				// Request player info.
-				client->RequestPlayerInfo(netPlayerJoined->playerId, true);
-				// Use temporary data until the PlayerInfo request is completed.
-				playerData.reset(
-					new PlayerData(netPlayerJoined->playerId, 0, PLAYER_TYPE_HUMAN, PLAYER_RIGHTS_NORMAL, netPlayerJoined->isGameAdmin));
-				playerData->SetName(name.str());
-			}
+			boost::shared_ptr<PlayerData> playerData = client->CreatePlayerData(netPlayerJoined->playerId, netPlayerJoined->isGameAdmin != 0);
 			client->AddPlayerData(playerData);
 		}
 	} else if (tmpPacket->GetMsg()->present == PokerTHMessage_PR_timeoutWarningMessage) {
@@ -1527,6 +1504,7 @@ ClientStateWaitStart::InternalHandlePacket(boost::shared_ptr<ClientThread> clien
 		unsigned tmpHandId = 0;
 
 		StartData startData;
+		PlayerIdList tmpPlayerList;
 		startData.startDealerPlayerId = netGameStart->startDealerPlayerId;
 		if (netGameStart->gameStartMode.present == gameStartMode_PR_gameStartModeInitial) {
 			GameStartModeInitial_t *netStartModeInitial = &netGameStart->gameStartMode.choice.gameStartModeInitial;
@@ -1541,7 +1519,7 @@ ClientStateWaitStart::InternalHandlePacket(boost::shared_ptr<ClientThread> clien
 				for (unsigned i = 0; i < numPlayers; i++) {
 					unsigned playerId = *playerIds[i];
 					boost::shared_ptr<PlayerData> tmpPlayer = client->GetPlayerDataByUniqueId(playerId);
-					if (!tmpPlayer.get())
+					if (!tmpPlayer)
 						throw ClientException(__FILE__, __LINE__, ERR_NET_UNKNOWN_PLAYER_ID, 0);
 					tmpPlayer->SetNumber(i);
 				}
@@ -1561,8 +1539,13 @@ ClientStateWaitStart::InternalHandlePacket(boost::shared_ptr<ClientThread> clien
 				for (unsigned i = 0; i < numPlayers; i++) {
 					RejoinPlayerData_t *playerData = playerInfos[i];
 					boost::shared_ptr<PlayerData> tmpPlayer = client->GetPlayerDataByUniqueId(playerData->playerId);
-					if (!tmpPlayer.get())
-						throw ClientException(__FILE__, __LINE__, ERR_NET_UNKNOWN_PLAYER_ID, 0);
+					if (!tmpPlayer) {
+						// If the player is not found: The corresponding session left. We need to create a generic player object.
+						// In order to have a complete seat list, we need all players, even those who left.
+						tmpPlayer = client->CreatePlayerData(playerData->playerId, false);
+						client->AddPlayerData(tmpPlayer);
+						tmpPlayerList.push_back(playerData->playerId);
+					}
 					tmpPlayer->SetNumber(i);
 					tmpPlayer->SetStartCash(playerData->playerMoney);
 				}
@@ -1573,6 +1556,10 @@ ClientStateWaitStart::InternalHandlePacket(boost::shared_ptr<ClientThread> clien
 		}
 		client->InitGame();
 		client->GetGame()->setCurrentHandID(tmpHandId);
+		// We need to remove the temporary player data objects after creating the game.
+		BOOST_FOREACH(unsigned tmpPlayerId, tmpPlayerList) {
+			client->RemovePlayerData(tmpPlayerId, gamePlayerLeftReason_leftOnRequest);
+		}
 		client->GetCallback().SignalNetClientGameInfo(MSG_NET_GAME_CLIENT_START);
 		client->SetState(ClientStateWaitHand::Instance());
 	}
