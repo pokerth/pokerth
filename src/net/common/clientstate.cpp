@@ -1725,6 +1725,11 @@ ClientStateWaitHand::InternalHandlePacket(boost::shared_ptr<ClientThread> client
 			tmpPlayer->setMyStayOnTableStatus(true);
 			// Also update the dealer, if necessary.
 			curGame->replaceDealer(idChanged->oldPlayerId, idChanged->newPlayerId);
+			// Update the player name, if necessary.
+			PlayerInfo info;
+			if (client->GetCachedPlayerInfo(idChanged->newPlayerId, info)) {
+				tmpPlayer->setMyName(info.playerName);
+			}
 		}
 	}
 }

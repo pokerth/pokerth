@@ -703,8 +703,8 @@ ClientThread::SetPlayerInfo(unsigned id, const PlayerInfo &info)
 	}
 
 	// Update player data for current game.
-	boost::shared_ptr<PlayerData> playerData = GetPlayerDataByUniqueId(id);
-	if (playerData.get()) {
+	boost::shared_ptr<PlayerData> playerData(GetPlayerDataByUniqueId(id));
+	if (playerData) {
 		playerData->SetName(info.playerName);
 		playerData->SetType(info.ptype);
 		if (info.hasAvatar) {
@@ -713,6 +713,12 @@ ClientThread::SetPlayerInfo(unsigned id, const PlayerInfo &info)
 				playerData->SetAvatarFile(GetQtToolsInterface().stringToUtf8(avatarFile));
 			}
 		}
+	}
+	if (GetGame()) {
+		boost::shared_ptr<PlayerInterface> clientPlayer(GetGame()->getPlayerByUniqueId(id));
+		if (clientPlayer)
+			clientPlayer->setMyName(info.playerName);
+		// Skip avatar here, the game is already running.
 	}
 
 	if (find(m_avatarShouldRequestList.begin(), m_avatarShouldRequestList.end(), id) != m_avatarShouldRequestList.end()) {
