@@ -32,7 +32,7 @@ MyAvatarLabel::MyAvatarLabel(QGroupBox* parent)
 {
 
 	myContextMenu = new QMenu;
-	action_EditTip = new QAction(QIcon(), tr("Add/Edit/Remove tooltip"), myContextMenu);
+	action_EditTip = new QAction(QIcon(":/gfx/user_properties.png"), tr("Add/Edit/Remove tooltip"), myContextMenu);
 	myContextMenu->addAction(action_EditTip);
 	action_VoteForKick = new QAction(QIcon(":/gfx/list_remove_user.png"), tr("Start vote to kick this player"), myContextMenu);
 	myContextMenu->addAction(action_VoteForKick);

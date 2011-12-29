@@ -66,9 +66,6 @@
         <property name="focusPolicy">
          <enum>Qt::NoFocus</enum>
         </property>
-        <property name="styleSheet">
-         <string>QPushButton { text-align:left; font-weight:bold; padding-left: 1px; padding-bottom: 3px; padding-top: 3px; padding-right: 3px;}</string>
-        </property>
         <property name="text">
          <string>&amp;1 Start Local Game</string>
         </property>
@@ -95,9 +92,6 @@
         <property name="focusPolicy">
          <enum>Qt::NoFocus</enum>
         </property>
-        <property name="styleSheet">
-         <string>QPushButton { text-align:left; font-weight:bold; padding-left: 1px; padding-bottom: 3px; padding-top: 3px; padding-right: 3px;}</string>
-        </property>
         <property name="text">
          <string>&amp;2 Internet Game</string>
         </property>
@@ -123,9 +117,6 @@
         </property>
         <property name="focusPolicy">
          <enum>Qt::NoFocus</enum>
-        </property>
-        <property name="styleSheet">
-         <string>QPushButton { text-align:left; font-weight:bold; padding-left: 1px; padding-bottom: 3px; padding-top: 3px; padding-right: 3px;}</string>
         </property>
         <property name="text">
          <string>&amp;3 Create Network Game</string>
@@ -154,7 +145,7 @@
          <enum>Qt::NoFocus</enum>
         </property>
         <property name="styleSheet">
-         <string>QPushButton { text-align:left; font-weight:bold; padding-left: 1px; padding-bottom: 3px; padding-top: 3px; padding-right: 3px;}</string>
+         <string notr="true"/>
         </property>
         <property name="text">
          <string>&amp;4 Join Network Game</string>

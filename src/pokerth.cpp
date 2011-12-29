@@ -113,7 +113,7 @@ int main( int argc, char **argv )
 	StartSplash splash(*pixmap);
 	if(!myConfig->readConfigInt("DisableSplashScreenOnStartup")) {
 		splash.show();
-		splash.showMessage(QString("Version %1").arg(POKERTH_BETA_RELEASE_STRING), 0x0042, QColor(153,213,0));
+		splash.showMessage(QString("Version %1").arg(POKERTH_BETA_RELEASE_STRING), 0x0042, QColor(240,240,240));
 	}
 
 	//Set translations
