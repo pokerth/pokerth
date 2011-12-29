@@ -1282,11 +1282,11 @@ ServerGameStateHand::CheckPlayerTimeouts(boost::shared_ptr<ServerGame> server)
 	// Check timeout.
 	int actionTimeout = server->GetGameData().playerActionTimeoutSec;
 	if (actionTimeout) {
-		// Consider all players, even inactive.
-		PlayerListIterator i = server->GetGame().getSeatsList()->begin();
-		PlayerListIterator end = server->GetGame().getSeatsList()->end();
+		// Consider all active players.
+		PlayerListIterator i = server->GetGame().getActivePlayerList()->begin();
+		PlayerListIterator end = server->GetGame().getActivePlayerList()->end();
 
-		// Check timeouts of all players.
+		// Check timeouts of players.
 		while (i != end) {
 			boost::shared_ptr<PlayerInterface> tmpPlayer = *i;
 			if (tmpPlayer->getMyType() == PLAYER_TYPE_HUMAN
