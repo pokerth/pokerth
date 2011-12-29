@@ -1563,7 +1563,7 @@ void gameTableImpl::provideMyActions(int mode)
 	PlayerList activePlayerList = currentHand->getActivePlayerList();
 
 	//really disabled buttons if human player is fold/all-in or ... and not called from dealberocards
-	if(/*pushButton_BetRaise->isCheckable() && */mode != 0 && (humanPlayer->getMyAction() == PLAYER_ACTION_ALLIN || humanPlayer->getMyAction() == PLAYER_ACTION_FOLD || (humanPlayer->getMySet() == currentHand->getCurrentBeRo()->getHighestSet() && (humanPlayer->getMyAction() != PLAYER_ACTION_NONE)))) {
+	if(/*pushButton_BetRaise->isCheckable() && */(mode != 0 && (humanPlayer->getMyAction() == PLAYER_ACTION_ALLIN || humanPlayer->getMyAction() == PLAYER_ACTION_FOLD || (humanPlayer->getMySet() == currentHand->getCurrentBeRo()->getHighestSet() && (humanPlayer->getMyAction() != PLAYER_ACTION_NONE)))) || !humanPlayer->isSessionActive() /*autofold*/) {
 
 		pushButton_BetRaise->setText("");
 		pushButton_CallCheck->setText("");

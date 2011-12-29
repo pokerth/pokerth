@@ -1384,6 +1384,8 @@ void gameLobbyDialogImpl::closeEvent(QCloseEvent *event)
 	waitStartGameMsgBoxTimer->stop();
 	waitStartGameMsgBox->hide();
 	waitRejoinStartGameMsgBox->hide();
+	//enable leave button again - it was disabled during waitxyzMsgBoxes
+	pushButton_Leave->setEnabled(true);
 }
 
 
