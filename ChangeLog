@@ -1,3 +1,11 @@
+2011-12-30 version 0.9-beta6
+- New start window and splash screen
+- BUGFIX: Ranking calculation corrected for players which rejoin (#86)
+- BUGFIX: Timeout warning within game occurs even after sitting out (#87)
+- BUGFIX: Error "the server referred to an unknown player" directly after rejoin (#88)
+- BUGFIX: Leave game button now correctly enabled after end of game
+- BUGFIX: Choosing preaction is no longer possible during autofold-state
+
 2011-12-27 version 0.9-beta5
 - BUGFIX: Behaviour is now correct if someone is all in due to blinds (blind-of-death)
 - BUGFIX: Fixed admin-timeout (in non-ranking games)
