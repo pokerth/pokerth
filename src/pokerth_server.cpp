@@ -125,10 +125,12 @@ main(int argc, char *argv[])
 
 	// TODO: Hack
 #ifndef _WIN32
+#ifdef QT_NO_DEBUG
 	if (daemon(0, 0) != 0) {
 		cout << "Failed to start daemon." << endl;
 		return 1;
 	}
+#endif
 #endif
 
 	signal(SIGTERM, TerminateHandler);
