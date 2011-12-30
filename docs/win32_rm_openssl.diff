@@ -1,24 +1,24 @@
---- a/src/qt.mk	Mon Feb 21 21:18:11 2011 +0100
-+++ b/src/qt.mk	Tue Feb 22 00:17:48 2011 +0100
+--- a/src/qt.mk Thu Dec 29 19:46:44 2011 +0100
++++ b/src/qt.mk Fri Dec 30 23:44:38 2011 +0100
 @@ -10,7 +10,7 @@
  $(PKG)_FILE     := $(PKG)-everywhere-opensource-src-$($(PKG)_VERSION).tar.gz
  $(PKG)_WEBSITE  := http://qt.nokia.com/
  $(PKG)_URL      := http://get.qt.nokia.com/qt/source/$($(PKG)_FILE)
--$(PKG)_DEPS     := gcc libodbc++ postgresql freetds openssl libgcrypt zlib libpng jpeg libmng tiff sqlite libiconv dbus
-+$(PKG)_DEPS     := gcc libodbc++ freetds libgcrypt zlib libpng jpeg libmng tiff sqlite libiconv dbus
- 
+-$(PKG)_DEPS     := gcc libodbc++ postgresql freetds openssl zlib libpng jpeg libmng tiff sqlite dbus
++$(PKG)_DEPS     := gcc libodbc++ freetds zlib libpng jpeg libmng tiff sqlite dbus
+
  define $(PKG)_UPDATE
      wget -q -O- 'http://qt.gitorious.org/qt/qt/commits' | \
-@@ -26,8 +26,6 @@
-     #
-     # For shared Qt with qt-zlib, add -lQtCore4 to end of OPENSSL_LIBS to satisfy zlib dependency.
+@@ -23,8 +23,6 @@
+     cd '$(1)' && QTDIR='$(1)' ./bin/syncqt
+
      cd '$(1)' && \
 -        OPENSSL_LIBS="`'$(TARGET)-pkg-config' --libs-only-l openssl`" \
 -        PSQL_LIBS="-lpq -lsecur32 `'$(TARGET)-pkg-config' --libs-only-l openssl` -lws2_32" \
-         SYBASE_LIBS="-lsybdb -liconv -lws2_32" \
+         SYBASE_LIBS="-lsybdb `'$(TARGET)-pkg-config' --libs-only-l gnutls` -liconv -lws2_32" \
          ./configure \
          -opensource \
-@@ -47,6 +45,7 @@
+@@ -45,6 +43,7 @@
          -no-gstreamer \
          -no-phonon \
          -no-phonon-backend \
@@ -26,7 +26,7 @@
          -accessibility \
          -no-reduce-exports \
          -no-rpath \
-@@ -56,7 +55,6 @@
+@@ -54,7 +53,6 @@
          -nomake examples \
          -qt-sql-sqlite \
          -qt-sql-odbc \
@@ -34,11 +34,10 @@
          -qt-sql-tds -D Q_USE_SYBASE \
          -system-zlib \
          -system-libpng \
-@@ -64,7 +62,6 @@
+@@ -62,7 +60,6 @@
          -system-libtiff \
          -system-libmng \
          -system-sqlite \
 -        -openssl-linked \
          -dbus-linked \
          -v
- 
