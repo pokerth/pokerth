@@ -377,7 +377,6 @@ void gameLobbyDialogImpl::refresh(int actionID)
 		myGameListSelectionModel->clear();
 		myGameListSelectionModel->clearSelection();
 		myGameListSortFilterProxyModel->clear();
-
 		myNickListModel->clear();
 		myNickListSelectionModel->clear();
 		myNickListSelectionModel->clearSelection();;
@@ -398,19 +397,15 @@ void gameLobbyDialogImpl::refresh(int actionID)
 		//stop waitStartGameMsgBoxes
 		waitStartGameMsgBoxTimer->stop();
 		closeAllChildDialogs();
-
 		this->accept();
 		myW->show();
 	} else if(actionID == MSG_NET_GAME_CLIENT_SYNCSTART) {
-
 		waitStartGameMsgBoxTimer->start(2000);
 	} else if(actionID == MSG_NET_GAME_CLIENT_SYNCREJOIN) {
-
 		if(this->isVisible()) {
 			//break the autoStartTimer animation
 			autoStartTimer->stop();
 			autoStartTimerOverlay->hide();
-
 			//show msg dialog
 			waitRejoinStartGameMsgBox->show();
 			waitRejoinStartGameMsgBox->raise();
@@ -1379,15 +1374,25 @@ void gameLobbyDialogImpl::reject()
 
 void gameLobbyDialogImpl::closeEvent(QCloseEvent *event)
 {
-	event->accept();
 	//stop waitStartGameMsgBoxes
 	waitStartGameMsgBoxTimer->stop();
 	waitStartGameMsgBox->hide();
 	waitRejoinStartGameMsgBox->hide();
 	//enable leave button again - it was disabled during waitxyzMsgBoxes
 	pushButton_Leave->setEnabled(true);
+	event->accept();
 }
 
+void gameLobbyDialogImpl::accept()
+{
+	//stop waitStartGameMsgBoxes
+	waitStartGameMsgBoxTimer->stop();
+	closeAllChildDialogs();
+	//enable leave button again - it was disabled during waitxyzMsgBoxes
+	pushButton_Leave->setEnabled(true);
+	qDebug() << "hide";
+	QDialog::accept();
+}
 
 void gameLobbyDialogImpl::writeDialogSettings(int saveMode)
 {
