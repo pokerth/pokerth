@@ -1361,4 +1361,8 @@ void settingsDialogImpl::showLogFilePreview()
 	if(selectedItem) {
 		myGuiLog->showLog(selectedItem->data(0, Qt::UserRole).toString(), textBrowser_logPreview);
 	}
+
+	QTextCursor cursor(textBrowser_logPreview->textCursor());
+	cursor.movePosition(QTextCursor::Start);
+	textBrowser_logPreview->setTextCursor(cursor);
 }

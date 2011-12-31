@@ -62,9 +62,10 @@ guiLog::guiLog(gameTableImpl* w, ConfigFile *c) : myW(w), myConfig(c), myLogDir(
 
 			int i;
 
+			myLogDir = new QDir(QString::fromUtf8(myConfig->readConfigString("LogDir").c_str()));
+
 			if(HTML_LOG) {
 
-				myLogDir = new QDir(QString::fromUtf8(myConfig->readConfigString("LogDir").c_str()));
 				QDateTime currentTime = QDateTime::currentDateTime();
 				if(SQLITE_LOG) {
 					myHtmlLogFile_old = new QFile(myLogDir->absolutePath()+"/pokerth-log-"+currentTime.toString("yyyy-MM-dd_hh.mm.ss")+"_old.html");
@@ -167,10 +168,10 @@ void guiLog::logPlayerActionMsg(QString msg, int action, int setValue)
 
 	myW->textBrowser_Log->append("<span style=\"color:#"+myStyle->getChatLogTextColor()+";\">"+msg+"</span>");
 
-	if(myConfig->readConfigInt("LogOnOff")) {
-		//if write logfiles is enabled
+	if(HTML_LOG) {
 
-		if(HTML_LOG) {
+		if(myConfig->readConfigInt("LogOnOff")) {
+			//if write logfiles is enabled
 
 			logFileStreamString += msg+"</br>\n";
 
@@ -194,10 +195,10 @@ void guiLog::logNewGameHandMsg(int gameID, int handID)
 
 	myW->textBrowser_Log->append("<span style=\"color:#"+myStyle->getChatLogTextColor()+"; font-size:large; font-weight:bold\">## Game: "+QString::number(gameID,10)+" | Hand: "+QString::number(handID,10)+" ##</span>");
 
-	if(myConfig->readConfigInt("LogOnOff")) {
-		//if write logfiles is enabled
+	if(HTML_LOG) {
 
-		if(HTML_LOG) {
+		if(myConfig->readConfigInt("LogOnOff")) {
+			//if write logfiles is enabled
 
 			logFileStreamString += "<table><tr><td width=\"600\" align=\"center\"><hr noshade size=\"3\"><b>Game: "+QString::number(gameID,10)+" | Hand: "+QString::number(handID,10)+"</b></td><td></td></tr></table>";
 			logFileStreamString += "BLIND LEVEL: $"+QString::number(currentHand->getSmallBlind())+" / $"+QString::number(currentHand->getSmallBlind()*2)+"</br>";
@@ -222,10 +223,10 @@ void guiLog::logNewBlindsSetsMsg(int sbSet, int bbSet, QString sbName, QString b
 	myW->textBrowser_Log->append("<span style=\"color:#"+myStyle->getChatLogTextColor()+";\">"+sbName+" posts small blind ($"+QString::number(sbSet,10)+")</span>");
 	myW->textBrowser_Log->append("<span style=\"color:#"+myStyle->getChatLogTextColor()+";\">"+bbName+" posts big blind ($"+QString::number(bbSet,10)+")</span>");
 
-	if(myConfig->readConfigInt("LogOnOff")) {
-		//if write logfiles is enabled
+	if(HTML_LOG) {
 
-		if(HTML_LOG) {
+		if(myConfig->readConfigInt("LogOnOff")) {
+			//if write logfiles is enabled
 
 			logFileStreamString += "BLINDS: ";
 
@@ -271,19 +272,23 @@ void guiLog::logPlayerWinsMsg(QString playerName, int pot, bool main)
 		myW->textBrowser_Log->append("<span style=\"color:#"+myStyle->getLogWinnerSidePotColor()+";\">"+playerName+" wins $"+QString::number(pot,10)+" (side pot)</span>");
 	}
 
-	if(myConfig->readConfigInt("LogOnOff")) {
-		//if write logfiles is enabled
+	if(HTML_LOG) {
 
-		logFileStreamString += "</br><i>"+playerName+" wins $"+QString::number(pot,10);
-		if(!main) {
-			logFileStreamString += " (side pot)";
-		}
-		logFileStreamString += "</i>\n";
+		if(myConfig->readConfigInt("LogOnOff")) {
+			//if write logfiles is enabled
 
-		if(myConfig->readConfigInt("LogInterval") == 0) {
-			writeLogFileStream(logFileStreamString);
-			logFileStreamString = "";
+			logFileStreamString += "</br><i>"+playerName+" wins $"+QString::number(pot,10);
+			if(!main) {
+				logFileStreamString += " (side pot)";
+			}
+			logFileStreamString += "</i>\n";
+
+			if(myConfig->readConfigInt("LogInterval") == 0) {
+				writeLogFileStream(logFileStreamString);
+				logFileStreamString = "";
+			}
 		}
+
 	}
 }
 
@@ -292,14 +297,18 @@ void guiLog::logPlayerSitsOut(QString playerName)
 
 	myW->textBrowser_Log->append("<i><span style=\"color:#"+myStyle->getLogPlayerSitsOutColor()+";\">"+playerName+" sits out</span></i>");
 
-	if(myConfig->readConfigInt("LogOnOff")) {
+	if(HTML_LOG) {
 
-		logFileStreamString += "</br><i><span style=\"font-size:smaller;\">"+playerName+" sits out</span></i>\n";
+		if(myConfig->readConfigInt("LogOnOff")) {
 
-		if(myConfig->readConfigInt("LogInterval") == 0) {
-			writeLogFileStream(logFileStreamString);
-			logFileStreamString = "";
+			logFileStreamString += "</br><i><span style=\"font-size:smaller;\">"+playerName+" sits out</span></i>\n";
+
+			if(myConfig->readConfigInt("LogInterval") == 0) {
+				writeLogFileStream(logFileStreamString);
+				logFileStreamString = "";
+			}
 		}
+
 	}
 }
 
@@ -326,10 +335,10 @@ void guiLog::logDealBoardCardsMsg(int roundID, int card1, int card2, int card3, 
 		round = "ERROR";
 	}
 
-	if(myConfig->readConfigInt("LogOnOff")) {
-		//if write logfiles is enabled
+	if(HTML_LOG) {
 
-		if(HTML_LOG) {
+		if(myConfig->readConfigInt("LogOnOff")) {
+			//if write logfiles is enabled
 
 			switch (roundID) {
 
@@ -376,10 +385,10 @@ void guiLog::logFlipHoleCardsMsg(QString playerName, int card1, int card2, int c
 
 	}
 
-	if(myConfig->readConfigInt("LogOnOff")) {
-		//if write logfiles is enabled
+	if(HTML_LOG) {
 
-		if(HTML_LOG) {
+		if(myConfig->readConfigInt("LogOnOff")) {
+			//if write logfiles is enabled
 
 			if (cardsValueInt != -1) {
 
@@ -415,14 +424,18 @@ void guiLog::logPlayerLeftMsg(QString playerName, int wasKicked)
 
 	myW->textBrowser_Log->append( "<span style=\"color:#"+myStyle->getChatLogTextColor()+";\"><i>"+playerName+" "+action+" the game!</i></span>");
 
-	if(myConfig->readConfigInt("LogOnOff")) {
+	if(HTML_LOG) {
 
-		logFileStreamString += "<i>"+playerName+" "+action+" the game!</i><br>\n";
+		if(myConfig->readConfigInt("LogOnOff")) {
 
-		if(myConfig->readConfigInt("LogInterval") == 0) {
-			writeLogFileStream(logFileStreamString);
-			logFileStreamString = "";
+			logFileStreamString += "<i>"+playerName+" "+action+" the game!</i><br>\n";
+
+			if(myConfig->readConfigInt("LogInterval") == 0) {
+				writeLogFileStream(logFileStreamString);
+				logFileStreamString = "";
+			}
 		}
+
 	}
 }
 
@@ -431,14 +444,18 @@ void guiLog::logNewGameAdminMsg(QString playerName)
 
 	myW->textBrowser_Log->append( "<i><span style=\"color:#"+myStyle->getLogNewGameAdminColor()+";\">"+playerName+" is game admin now!</span></i>");
 
-	if(myConfig->readConfigInt("LogOnOff")) {
+	if(HTML_LOG) {
 
-		logFileStreamString += "<i>"+playerName+" is game admin now!</i><br>\n";
+		if(myConfig->readConfigInt("LogOnOff")) {
 
-		if(myConfig->readConfigInt("LogInterval") == 0) {
-			writeLogFileStream(logFileStreamString);
-			logFileStreamString = "";
+			logFileStreamString += "<i>"+playerName+" is game admin now!</i><br>\n";
+
+			if(myConfig->readConfigInt("LogInterval") == 0) {
+				writeLogFileStream(logFileStreamString);
+				logFileStreamString = "";
+			}
 		}
+
 	}
 }
 
@@ -453,14 +470,18 @@ void guiLog::logPlayerWinGame(QString playerName, int gameID)
 
 	myW->textBrowser_Log->append( "<i><b>"+playerName+" wins game " + QString::number(gameID,10)  +"!</i></b><br>");
 
-	if(myConfig->readConfigInt("LogOnOff")) {
+	if(HTML_LOG) {
 
-		logFileStreamString += "</br></br><i><b>"+playerName+" wins game " + QString::number(gameID,10)  +"!</i></b></br>\n";
+		if(myConfig->readConfigInt("LogOnOff")) {
 
-		if(myConfig->readConfigInt("LogInterval") == 0) {
-			writeLogFileStream(logFileStreamString);
-			logFileStreamString = "";
+			logFileStreamString += "</br></br><i><b>"+playerName+" wins game " + QString::number(gameID,10)  +"!</i></b></br>\n";
+
+			if(myConfig->readConfigInt("LogInterval") == 0) {
+				writeLogFileStream(logFileStreamString);
+				logFileStreamString = "";
+			}
 		}
+
 	}
 
 }
@@ -587,25 +608,33 @@ void guiLog::writeLog(string log_string, int modus)
 void guiLog::flushLogAtHand()
 {
 
-	if(myConfig->readConfigInt("LogOnOff")) {
-		if(myConfig->readConfigInt("LogInterval") < 2) {
-			// 	write for log after every action and after every hand
-			writeLogFileStream(logFileStreamString);
-			logFileStreamString = "";
+	if(HTML_LOG) {
+
+		if(myConfig->readConfigInt("LogOnOff")) {
+			if(myConfig->readConfigInt("LogInterval") < 2) {
+				// 	write for log after every action and after every hand
+				writeLogFileStream(logFileStreamString);
+				logFileStreamString = "";
+			}
 		}
+
 	}
 }
 
 void guiLog::flushLogAtGame(int gameID)
 {
 
-	if(myConfig->readConfigInt("LogOnOff")) {
-		//	write for log after every game
-		if(gameID > lastGameID) {
-			writeLogFileStream(logFileStreamString);
-			logFileStreamString = "";
-			lastGameID = gameID;
+	if(HTML_LOG) {
+
+		if(myConfig->readConfigInt("LogOnOff")) {
+			//	write for log after every game
+			if(gameID > lastGameID) {
+				writeLogFileStream(logFileStreamString);
+				logFileStreamString = "";
+				lastGameID = gameID;
+			}
 		}
+
 	}
 }
 
@@ -657,6 +686,8 @@ int guiLog::exportLog(QString fileStringPdb,int modus)
 
 	string sql = "";
 	string log_string = "";
+	string round_string = "";
+	string action_string = "";
 	bool data_found = false;
 	char **result_Session = 0, **result_Game = 0, **result_Hand = 0, **result_Hand_ID = 0, **result_Action = 0;
 	int nRow_Session=0, nRow_Game=0, nRow_Hand=0, nRow_Hand_ID=0, nRow_Action=0;
@@ -741,8 +772,8 @@ int guiLog::exportLog(QString fileStringPdb,int modus)
 
 		switch(modus) {
 		case 1:
-			log_string = "<h3><b>" + log_string + "</b></h3>";
-			if(!neu) log_string = "<img src='logo.png'>" + log_string;
+			log_string = "<h3><b>" + log_string + "</b></h3>\n";
+			if(!neu) log_string = "<img src='logo.png'>\n" + log_string;
 			break;
 		case 2:
 			log_string += "\n";
@@ -815,7 +846,7 @@ int guiLog::exportLog(QString fileStringPdb,int modus)
 			}
 
 			// run through all hands
-			for(hand_ctr=1; hand_ctr<=nRow_Hand_ID-1; hand_ctr++) {
+			for(hand_ctr=1; hand_ctr<=nRow_Hand_ID; hand_ctr++) {
 
 				// log game and hand id
 				log_string += "Game: ";
@@ -826,7 +857,8 @@ int guiLog::exportLog(QString fileStringPdb,int modus)
 				switch(modus) {
 				case 1:
 					log_string = "<table><tr><td width=\"600\" align=\"center\"><hr noshade size=\"3\"><b>" + log_string;
-					log_string += "</b></td></tr></table>";
+					if(!neu) log_string += "</b></td><td></td></tr></table>";
+					else log_string += "</b></td></tr></table>";
 					break;
 				case 2:
 					log_string += "\n";
@@ -886,7 +918,8 @@ int guiLog::exportLog(QString fileStringPdb,int modus)
 
 				switch(modus) {
 				case 1:
-					log_string += "<br />";
+					if(!neu) log_string += "</br>";
+					else log_string += "<br />";
 					break;
 				case 2:
 					log_string += "\n";
@@ -918,12 +951,13 @@ int guiLog::exportLog(QString fileStringPdb,int modus)
 								if(modus == 1 || modus == 3) {
 									log_string += "</b>";
 								}
-								log_string += "($";
+								log_string += " ($";
 								log_string += boost::lexical_cast<std::string>(result_Hand[j+nCol_Hand]);
 								log_string += ")";
 								switch(modus) {
 								case 1:
-									log_string += "<br />";
+									if(!neu) log_string += "</br>";
+									else log_string += "<br />";
 									break;
 								case 2:
 									log_string += "\n";
@@ -947,7 +981,7 @@ int guiLog::exportLog(QString fileStringPdb,int modus)
 
 				if(neu) {
 
-					if(modus == 1) log_string += "</br>";
+					if(modus == 1) log_string += "<br />";
 
 					// read dealer and blinds
 					sql = "SELECT Player,Action,Amount FROM Action WHERE GameID=";
@@ -1069,7 +1103,17 @@ int guiLog::exportLog(QString fileStringPdb,int modus)
 					}
 
 					if(nRow_Action == 1) {
-						if(modus == 1 || modus == 3) log_string += "<br />";
+						switch(modus) {
+						case 1:
+							if(!neu) log_string += "</br>";
+							else log_string += "<br />";
+							break;
+						case 3:
+							log_string += "<br />";
+							break;
+						default:
+							;
+						}
 						log_string += player[boost::lexical_cast<int>(result_Action[2])-1];
 						log_string += " starts as dealer.";
 					}
@@ -1078,64 +1122,81 @@ int guiLog::exportLog(QString fileStringPdb,int modus)
 
 				}
 
+				if(!neu && modus==1) log_string += "</br>";
+
 				writeLog(log_string,modus);
 				log_string = "";
 
 				for(round_ctr=GAME_STATE_PREFLOP; round_ctr<=GAME_STATE_POST_RIVER; round_ctr++) {
 
+					round_string = "";
 					// write round name and board cards
 					if(round_ctr<=GAME_STATE_RIVER) {
 						switch(round_ctr) {
 						case GAME_STATE_PREFLOP:
-							log_string += "PREFLOP";
+							round_string += "PREFLOP";
 							break;
 						case GAME_STATE_FLOP:
-							log_string += "FLOP";
+							round_string += "FLOP";
 							break;
 						case GAME_STATE_TURN:
-							log_string += "TURN";
+							round_string += "TURN";
 							break;
 						case GAME_STATE_RIVER:
-							log_string += "RIVER";
+							round_string += "RIVER";
 							break;
 						default:
 							;
 						}
 						switch(modus) {
 						case 1:
-							log_string = "<br /><b>" + log_string + "</b>";
+							if(!neu) round_string = "</br><b>" + round_string + "</b>";
+							else round_string = "<br /><b>" + round_string + "</b>";
+							if(round_ctr >= GAME_STATE_FLOP) {
+								if(!neu) round_string = "</br>\n" + round_string;
+								else round_string = "<br />\n" + round_string;
+							}
 							break;
 						case 3:
-							log_string = "<b>" + log_string + "</b>";
+							round_string = "<b>" + round_string + "</b>";
+							if(round_ctr >= GAME_STATE_FLOP) {
+								round_string = "<br /><br />" + round_string;
+							}
 							break;
 						default:
 							;
 						}
-						log_string += " [board cards ";
-						for(i=1; i<=round_ctr+2; i++) {
-							data_found = false;
-							for(j=0; j<nCol_Hand; j++) {
-								if(boost::lexical_cast<std::string>(result_Hand[j]) == "BoardCard_"+boost::lexical_cast<std::string>(i)) {
-									if(result_Hand[j+nCol_Hand]) {
-										if(modus == 1 || modus == 3) log_string += "<b>";
-										string_tmp = convertCardIntToString(boost::lexical_cast<int>(result_Hand[j+nCol_Hand]));
-										if(string_tmp == "") {
-											cout << "Implausible board card in game " << gameID << " hand " << result_Hand_ID[hand_ctr] << "!" << endl;
-											sqlite3_close(mySqliteLogDb);
-											return 1;
-										}
-										log_string += boost::lexical_cast<std::string>(string_tmp.at(0));
-										if(modus==1 || modus == 3) log_string += "</b>";
-										log_string += boost::lexical_cast<std::string>(string_tmp.at(1));
-										if(round_ctr+2-i > 0) log_string += ",";
+						if(round_ctr >= GAME_STATE_FLOP) {
+							round_string += " [board cards ";
+							for(i=1; i<=round_ctr+2; i++) {
+								data_found = false;
+								for(j=0; j<nCol_Hand; j++) {
+									if(boost::lexical_cast<std::string>(result_Hand[j]) == "BoardCard_"+boost::lexical_cast<std::string>(i)) {
+										if(result_Hand[j+nCol_Hand]) {
+											if(modus == 1 || modus == 3) round_string += "<b>";
+											string_tmp = convertCardIntToString(boost::lexical_cast<int>(result_Hand[j+nCol_Hand]));
+											if(string_tmp == "") {
+												cout << "Implausible board card in game " << gameID << " hand " << result_Hand_ID[hand_ctr] << "!" << endl;
+												sqlite3_close(mySqliteLogDb);
+												return 1;
+											}
+											round_string += boost::lexical_cast<std::string>(string_tmp.at(0));
+											if(modus==1 || modus == 3) round_string += "</b>";
+											round_string += boost::lexical_cast<std::string>(string_tmp.at(1));
+											if(round_ctr+2-i > 0) round_string += ",";
 
-										data_found = true;
+											data_found = true;
+										}
 									}
 								}
 							}
+							round_string += "]";
 						}
-						log_string += "]";
-						if(modus == 1 || modus == 3) log_string += "<br />";
+						if(data_found) {
+							log_string += round_string;
+						} else {
+							continue;
+						}
 					}
 
 					// read round action
@@ -1154,19 +1215,92 @@ int guiLog::exportLog(QString fileStringPdb,int modus)
 					}
 
 					for(action_ctr=1; action_ctr<=nRow_Action; action_ctr++) {
-						log_string += player[boost::lexical_cast<int>(result_Action[3*action_ctr])-1];
-						log_string += " ";
-						log_string += boost::lexical_cast<std::string>(result_Action[3*action_ctr+1]);
-						if(result_Action[3*action_ctr+2]) {
-							// with amount
-							log_string += " $";
-							log_string += boost::lexical_cast<std::string>(result_Action[3*action_ctr+2]);
+						switch(modus) {
+						case 1:
+							if(!neu) {
+								if(action_ctr>1 && (boost::lexical_cast<std::string>(result_Action[3*(action_ctr-1)+1]) == "wins" || boost::lexical_cast<std::string>(result_Action[3*(action_ctr-1)+1]) == "sits out" || boost::lexical_cast<std::string>(result_Action[3*(action_ctr-1)+1]) == "wins (side pot)"))
+									log_string += "\n";
+								else
+									log_string += "</br>\n";
+							} else {
+								log_string += "<br />\n";
+							}
+							break;
+						case 3:
+							log_string += "<br />";
+							break;
+						default:
+							;
+						}
+						if(!neu && boost::lexical_cast<std::string>(result_Action[3*action_ctr+1]) == "wins (side pot)") {
+							action_string += player[boost::lexical_cast<int>(result_Action[3*action_ctr])-1];
+							action_string += " wins $";
+							action_string += boost::lexical_cast<std::string>(result_Action[3*action_ctr+2]);
+							action_string += " (side pot)";
+						} else {
+							action_string += player[boost::lexical_cast<int>(result_Action[3*action_ctr])-1];
+							action_string += " ";
+							action_string += boost::lexical_cast<std::string>(result_Action[3*action_ctr+1]);
+							if(result_Action[3*action_ctr+2]) {
+								// with amount
+								action_string += " $";
+								action_string += boost::lexical_cast<std::string>(result_Action[3*action_ctr+2]);
+							}
 						}
 
-						// show
-						if(boost::lexical_cast<std::string>(result_Action[3*action_ctr+1]) == "shows") {
+						// wins game
+						if(boost::lexical_cast<std::string>(result_Action[3*action_ctr+1]) == "wins game") {
+							switch(modus) {
+							case 1:
+								if(!neu) action_string = "</br></br><i><b>" + action_string + " " + boost::lexical_cast<std::string>(gameID) + "!</i></b></br>";
+								else action_string = "</br><i><b>" + action_string + " " + boost::lexical_cast<std::string>(gameID) + "!</b></i>";
+								break;
+							case 3:
+								action_string = "<i><b>" + action_string + " " + boost::lexical_cast<std::string>(gameID) + "!</b></i>";
+								break;
+							default:
+								;
+							}
+						}
+
+						// wins
+						if(boost::lexical_cast<std::string>(result_Action[3*action_ctr+1]) == "wins" || boost::lexical_cast<std::string>(result_Action[3*action_ctr+1]) == "wins (side pot)") {
+							switch(modus) {
+							case 1:
+								if(!neu) action_string = "</br><i>" + action_string + "</i>";
+								else action_string = "<i>" + action_string + "</i>";
+								break;
+							case 3:
+								action_string = "<i>" + action_string + "</i>";
+								break;
+							default:
+								;
+							}
+						}
+
+						// sits out
+						if(boost::lexical_cast<std::string>(result_Action[3*action_ctr+1]) == "sits out") {
+							switch(modus) {
+							case 1:
+								if(!neu) action_string = "</br><i><span style=\"font-size:smaller;\">" + action_string + "</span></i>";
+								else action_string = "<i><span style=\"font-size:smaller;\">" + action_string + "</span></i>";
+								break;
+							case 3:
+								action_string = "<i><span style=\"font-size:smaller;\">" + action_string + "</span></i>";
+								break;
+							default:
+								;
+							}
+						}
+
+						log_string += action_string;
+						action_string = "";
+
+						// show cards
+						if(boost::lexical_cast<std::string>(result_Action[3*action_ctr+1]) == "shows" || boost::lexical_cast<std::string>(result_Action[3*action_ctr+1]) == "has") {
 							// log cards
-							log_string += " [";
+							if(!neu && round_ctr == GAME_STATE_POST_RIVER) log_string += " [ ";
+							else log_string += " [";
 							if(modus == 1 || modus == 3) log_string += "<b>";
 
 							// find hole card 1
@@ -1221,25 +1355,41 @@ int guiLog::exportLog(QString fileStringPdb,int modus)
 								return 1;
 							}
 
+							if(round_ctr == GAME_STATE_POST_RIVER) {
+								// find hand name
+								data_found = false;
+								for(i=0; i<nCol_Hand; i++) {
+									cmpString = "Seat_";
+									cmpString += boost::lexical_cast<std::string>(result_Action[3*action_ctr]);
+									cmpString += "_Hand_text";
+									if(boost::lexical_cast<std::string>(result_Hand[i]) == cmpString) {
+										log_string += " - " + boost::lexical_cast<std::string>(result_Hand[i+nCol_Hand]);
+										data_found = true;
+									}
+								}
+								if(!data_found) {
+									cout << "Missing hand name information in game " << gameID << " hand " << result_Hand_ID[hand_ctr] << "!" << endl;
+									sqlite3_close(mySqliteLogDb);
+									return 1;
+								}
+							}
+
 						}
 
-						log_string += ".";
-						if(action_ctr<nRow_Action && (modus == 1 || modus == 3)) {
-							log_string += "<br />";
+						if(!neu && boost::lexical_cast<std::string>(result_Action[3*action_ctr+1]) != "wins" && boost::lexical_cast<std::string>(result_Action[3*action_ctr+1]) != "shows" && boost::lexical_cast<std::string>(result_Action[3*action_ctr+1]) != "has" && boost::lexical_cast<std::string>(result_Action[3*action_ctr+1]) != "sits out" && boost::lexical_cast<std::string>(result_Action[3*action_ctr+1]) != "wins (side pot)" && boost::lexical_cast<std::string>(result_Action[3*action_ctr+1]) != "wins game") {
+							log_string += ".";
 						}
+						if(neu && boost::lexical_cast<std::string>(result_Action[3*action_ctr+1]) != "wins game") log_string += ".";
+
 					}
-					if(modus == 1) log_string += "<br />";
 
 					sqlite3_free_table(result_Action);
 
-					// log river actions together with post river actions
-					if(round_ctr!=GAME_STATE_RIVER) {
-						writeLog(log_string,modus);
-						log_string = "";
-					}
-
-
 				}
+
+				if(modus == 1) log_string += "\n";
+				writeLog(log_string,modus);
+				log_string = "";
 
 
 
@@ -1248,17 +1398,6 @@ int guiLog::exportLog(QString fileStringPdb,int modus)
 		}
 
 	}
-
-	/*switch(modus) {
-	case 1:
-	    break;
-	case 2:
-	    break;
-	case 3:
-	    break;
-	default:
-	    ;
-	}*/
 
 	return 0;
 
