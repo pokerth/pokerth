@@ -12,6 +12,8 @@ on your Linux system.
 hg clone http://hg.savannah.nongnu.org/hgweb/mingw-cross-env mingw )
 
 3. Patch OpenSSL dependencies out of Qt build file (OpenSSL license is not compatible with the GPL)
+For your convenience, a patch file is included to remove at least one OpenSSL dependency. This patch
+is without warranty, you need to make sure for yourself that you do not link to OpenSSL.
 Within /opt/mingw, run
 patch -p1 < /path/to/pokerth/docs/win32_rm_openssl.diff
 
