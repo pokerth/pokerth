@@ -1390,7 +1390,6 @@ void gameLobbyDialogImpl::accept()
 	closeAllChildDialogs();
 	//enable leave button again - it was disabled during waitxyzMsgBoxes
 	pushButton_Leave->setEnabled(true);
-	qDebug() << "hide";
 	QDialog::accept();
 }
 
