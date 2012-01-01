@@ -170,7 +170,7 @@ void MyAvatarLabel::refreshStars()
 	QString fontSize("12");
 
 #ifdef _WIN32
-	fontSize = "12";
+	fontSize = "10";
 #else
 	#ifdef __APPLE__
 		fontSize = "7";
