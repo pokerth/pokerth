@@ -77,7 +77,7 @@ gameTableImpl::gameTableImpl(ConfigFile *c, QMainWindow *parent)
 
 	//Sound
 	mySDLPlayer = new SDLPlayer(myConfig);
-	mySoundEventHandler = new SoundEvents(myConfig, this);
+	mySoundEventHandler = new SoundEvents(myConfig);
 
 	// 	Init game table style
 	myGameTableStyle = new GameTableStyleReader(myConfig, this);
@@ -2875,6 +2875,9 @@ void gameTableImpl::breakButtonClicked()
 		pushButton_break->setText(tr("Stop"));
 
 		if(currentGameOver) {
+			//let the SoundEventHandler know that there is a new game
+			mySoundEventHandler->newGameStarts();
+
 			currentGameOver = FALSE;
 			myStartWindow->callNewGameDialog();
 			//Bei Cancel nichts machen!!!
@@ -3173,6 +3176,9 @@ void gameTableImpl::localGameModification()
 	restoreGameTableGeometry();
 
 	if(myGameTableStyle->getState() != GT_STYLE_OK) myGameTableStyle->showErrorMessage();
+
+	//let the SoundEventHandler know that there is a new game
+	mySoundEventHandler->newGameStarts();
 }
 
 void gameTableImpl::networkGameModification()
@@ -3222,6 +3228,8 @@ void gameTableImpl::networkGameModification()
 	blinkingStartButtonAnimationTimer->stop();
 	myGameTableStyle->setBreakButtonStyle(pushButton_break,0);
 
+	//let the SoundEventHandler know that there is a new game
+	mySoundEventHandler->newGameStarts();
 }
 
 void gameTableImpl::mouseOverFlipCards(bool front)
@@ -3841,4 +3849,9 @@ SeatState gameTableImpl::getCurrentSeatState(boost::shared_ptr<PlayerInterface> 
 		}
 	}
 	return SEAT_UNDEFINED;
+}
+
+void gameTableImpl::soundEvent_blindsWereSet(int sbSet)
+{
+	mySoundEventHandler->blindsWereSet(sbSet);
 }

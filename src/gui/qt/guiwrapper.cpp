@@ -248,7 +248,7 @@ void GuiWrapper::logNewGameHandMsg(int gameID, int handID)
 }
 void GuiWrapper::logNewBlindsSetsMsg(int sbSet, int bbSet, std::string sbName, std::string bbName)
 {
-	myW->getMySoundEventHandler()->blindsWereSet(sbSet);
+	myW->soundEvent_blindsWereSet(sbSet);
 	myGuiLog->signalLogNewBlindsSetsMsg(sbSet, bbSet, QString::fromUtf8(sbName.c_str()), QString::fromUtf8(bbName.c_str()));
 
 }

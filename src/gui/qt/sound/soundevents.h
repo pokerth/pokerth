@@ -3,24 +3,22 @@
 
 class SDLPlayer;
 class ConfigFile;
-class gameTableImpl;
 class SoundEvents
 {
 public:
-	SoundEvents(ConfigFile*, gameTableImpl*);
+	SoundEvents(ConfigFile*);
 	~SoundEvents();
 
 	void blindsWereSet(int sB);
-
+	void newGameStarts();
 
 private:
 	SDLPlayer *mySDLPlayer;
 	ConfigFile *myConfig;
-	gameTableImpl *myW;
 
 	unsigned int lastSBValue;
 	unsigned int lastSBLevel;
-	unsigned int lastGameId;
+	bool newGameNow;
 
 };
 
