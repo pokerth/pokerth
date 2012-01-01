@@ -16,7 +16,7 @@ private:
 	SDLPlayer *mySDLPlayer;
 	ConfigFile *myConfig;
 
-	unsigned int lastSBValue;
+	int lastSBValue;
 	unsigned int lastSBLevel;
 	bool newGameNow;
 
