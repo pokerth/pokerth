@@ -294,7 +294,7 @@ public class RunRankingGameTest extends TestBase {
 		assertTrue(gameDurationMsec < 60 * 60 * 1000); // game duration should be smaller than 1 hour.
 
 		// Check database entries for the players in the game.
-		ResultSet gamePlayerResult = dbStatement.executeQuery("SELECT COUNT(DISTINCT player_idplayer) FROM game_has_player WHERE game_idgame = " + idgame);
+		ResultSet gamePlayerResult = dbStatement.executeQuery("SELECT COUNT(*) FROM game_has_player WHERE game_idgame = " + idgame);
 		gamePlayerResult.first();
 		assertEquals(10, gamePlayerResult.getLong(1));
 		// The one who always went all in should have won!

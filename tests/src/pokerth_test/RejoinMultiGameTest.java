@@ -21,6 +21,8 @@ import java.net.Socket;
 
 import static org.junit.Assert.*;
 
+import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -38,6 +40,11 @@ public class RejoinMultiGameTest extends TestBase {
 
 	@Test
 	public void testRejoinMultiGame() throws Exception {
+
+		Statement dbStatement = dbConn.createStatement();
+		ResultSet countBeforeResult = dbStatement.executeQuery("SELECT COUNT(idgame) FROM game");
+		countBeforeResult.first();
+		long countBefore = countBeforeResult.getLong(1);
 
 		userInit();
 
@@ -293,8 +300,41 @@ public class RejoinMultiGameTest extends TestBase {
 			} while (!msg.isHandStartMessageSelected());
 		}
 
+		// The game should continue to the end.
+		do {
+			msg = receiveMessage();
+			failOnErrorMessage(msg);
+		} while (!msg.isEndOfGameMessageSelected());
+
 		for (int i = 0; i < 9; i++) {
 			s[i].close();
+		}
+		Thread.sleep(2000);
+
+		// Check database entry for the game.
+		ResultSet countAfterResult = dbStatement.executeQuery("SELECT COUNT(idgame) FROM game");
+		countAfterResult.first();
+		long countAfter = countAfterResult.getLong(1);
+		assertEquals(countBefore + 1, countAfter);
+
+		// Select the latest game.
+		ResultSet gameResult = dbStatement.executeQuery("SELECT idgame, name, start_time, end_time FROM game WHERE start_time = (SELECT MAX(start_time) from game)");
+		gameResult.first();
+		long idgame = gameResult.getLong(1);
+
+		// Check database entries for the players in the game.
+		// There should be exactly 10 entries, just as
+		ResultSet gamePlayerResult = dbStatement.executeQuery("SELECT COUNT(*) FROM game_has_player WHERE game_idgame = " + idgame);
+		gamePlayerResult.first();
+		assertEquals(10, gamePlayerResult.getLong(1));
+		// Each player should have a place in the range 1..10
+		ResultSet winnerResult = dbStatement.executeQuery(
+				"SELECT place FROM game_has_player LEFT JOIN player_login on (game_has_player.player_idplayer = player_login.id) WHERE game_idgame = " + idgame);
+		winnerResult.first();
+		for (int i = 0; i < 9; i++) {
+			assertTrue(winnerResult.getLong(1) >= 1);
+			assertTrue(winnerResult.getLong(1) <= 10);
+			winnerResult.next();
 		}
 	}
 }

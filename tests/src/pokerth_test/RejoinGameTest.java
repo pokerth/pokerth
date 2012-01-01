@@ -55,7 +55,7 @@ public class RejoinGameTest extends TestBase {
 		NetGameInfo gameInfo = createGameInfo(5, EndRaiseModeEnumType.EnumType.doubleBlinds, 0, 50, gameName, l, 10, 0, 11, 10000);
 		sendMessage(createGameRequestMsg(
 				gameInfo,
-				NetGameTypeEnumType.EnumType.rankingGame,
+				NetGameTypeEnumType.EnumType.normalGame,
 				5,
 				7,
 				"",
