@@ -39,7 +39,8 @@ import org.junit.runners.Suite;
 	BlockedPlayerTest.class,
 	RunRankingGameTest.class,
 	RejoinGameTest.class,
-	RejoinMultiGameTest.class
+	RejoinMultiGameTest.class,
+	SeatStateTest.class
 })
 public class AllTests {
 	public static void main(String[] args)

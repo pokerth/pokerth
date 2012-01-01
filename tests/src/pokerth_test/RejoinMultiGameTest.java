@@ -323,7 +323,7 @@ public class RejoinMultiGameTest extends TestBase {
 		long idgame = gameResult.getLong(1);
 
 		// Check database entries for the players in the game.
-		// There should be exactly 10 entries, just as
+		// There should be exactly 10 entries, just as usual.
 		ResultSet gamePlayerResult = dbStatement.executeQuery("SELECT COUNT(*) FROM game_has_player WHERE game_idgame = " + idgame);
 		gamePlayerResult.first();
 		assertEquals(10, gamePlayerResult.getLong(1));
