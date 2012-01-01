@@ -776,7 +776,7 @@ int guiLog::exportLog(QString fileStringPdb,int modus)
 			if(!neu) log_string = "<img src='logo.png'>\n" + log_string;
 			break;
 		case 2:
-			log_string += "\n";
+			log_string += "";
 			break;
 		case 3:
 			log_string = "<h4><b>" + log_string + "</b></h4>";
@@ -861,7 +861,8 @@ int guiLog::exportLog(QString fileStringPdb,int modus)
 					else log_string += "</b></td></tr></table>";
 					break;
 				case 2:
-					log_string += "\n";
+					log_string = "\n\n----------- " + log_string;
+					log_string += " -----------\n";
 					break;
 				case 3:
 					log_string = "----------- <b>" + log_string;
@@ -1018,9 +1019,6 @@ int guiLog::exportLog(QString fileStringPdb,int modus)
 						case 2:
 							log_string += "\n";
 							break;
-						case 3:
-							;
-							break;
 						default:
 							;
 						}
@@ -1108,6 +1106,9 @@ int guiLog::exportLog(QString fileStringPdb,int modus)
 							if(!neu) log_string += "</br>";
 							else log_string += "<br />";
 							break;
+						case 2:
+							log_string += "\n";
+							break;
 						case 3:
 							log_string += "<br />";
 							break;
@@ -1156,6 +1157,9 @@ int guiLog::exportLog(QString fileStringPdb,int modus)
 								if(!neu) round_string = "</br>\n" + round_string;
 								else round_string = "<br />\n" + round_string;
 							}
+							break;
+						case 2:
+							round_string = "\n\n" + round_string;
 							break;
 						case 3:
 							round_string = "<b>" + round_string + "</b>";
@@ -1225,6 +1229,9 @@ int guiLog::exportLog(QString fileStringPdb,int modus)
 							} else {
 								log_string += "<br />\n";
 							}
+							break;
+						case 2:
+							log_string += "\n";
 							break;
 						case 3:
 							log_string += "<br />";
@@ -1319,7 +1326,8 @@ int guiLog::exportLog(QString fileStringPdb,int modus)
 									log_string += boost::lexical_cast<std::string>(string_tmp.at(0));
 									if(modus == 1 || modus == 3) log_string += "</b>";
 									log_string += boost::lexical_cast<std::string>(string_tmp.at(1));
-									if(modus == 1 || modus == 3) log_string += ",<b>";
+									log_string += ",";
+									if(modus == 1 || modus == 3) log_string += "<b>";
 									data_found = true;
 								}
 							}
