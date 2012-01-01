@@ -167,6 +167,18 @@ void MyAvatarLabel::startChangePlayerTip(QString playerName)
 
 void MyAvatarLabel::refreshStars()
 {
+	QString fontSize("12");
+
+#ifdef _WIN32
+	fontSize = "12";
+#else
+	#ifdef __APPLE__
+		fontSize = "10";
+	#else
+		fontSize = "12";
+	#endif
+#endif
+
 	boost::shared_ptr<Game> curGame = myW->myStartWindow->getSession()->getCurrentGame();
 	PlayerListConstIterator it_c;
 	int seatPlace;
@@ -177,10 +189,10 @@ void MyAvatarLabel::refreshStars()
 			if((*it_c)->getMyStayOnTableStatus() == TRUE && (*it_c)->getMyName()!="" && seatPlace!=0) {
 				int playerStars=getPlayerRating(QString::fromUtf8((*it_c)->getMyName().c_str()));
 				for(int i=1; i<=5; i++) {
-					myW->playerStarsArray[i][seatPlace]->setText("<a style='color: #"+myW->getMyGameTableStyle()->getRatingStarsColor()+"; "+myW->getMyGameTableStyle()->getFont2String()+" font-size: 12px;' href='"+QString::fromUtf8((*it_c)->getMyName().c_str())+"\""+QString::number(i)+"'>&#9734;</a>");
+					myW->playerStarsArray[i][seatPlace]->setText("<a style='color: #"+myW->getMyGameTableStyle()->getRatingStarsColor()+"; "+myW->getMyGameTableStyle()->getFont2String()+" font-size: "+fontSize+"px;' href='"+QString::fromUtf8((*it_c)->getMyName().c_str())+"\""+QString::number(i)+"'>&#9734;</a>");
 				}
 				for(int i=1; i<=playerStars; i++) {
-					myW->playerStarsArray[i][seatPlace]->setText("<a style='color: #"+myW->getMyGameTableStyle()->getRatingStarsColor()+"; "+myW->getMyGameTableStyle()->getFont2String()+" font-size: 12px;' href='"+QString::fromUtf8((*it_c)->getMyName().c_str())+"\""+QString::number(i)+"'>&#9733;</a>");
+					myW->playerStarsArray[i][seatPlace]->setText("<a style='color: #"+myW->getMyGameTableStyle()->getRatingStarsColor()+"; "+myW->getMyGameTableStyle()->getFont2String()+" font-size: "+fontSize+"px;' href='"+QString::fromUtf8((*it_c)->getMyName().c_str())+"\""+QString::number(i)+"'>&#9733;</a>");
 				}
 
 			}
