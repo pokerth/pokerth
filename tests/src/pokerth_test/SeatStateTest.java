@@ -108,6 +108,23 @@ public class SeatStateTest extends TestBase {
 			sendMessage(msg, s[i]);
 		}
 
+		// Wait for game start message.
+		do {
+			msg = receiveMessage();
+			failOnErrorMessage(msg);
+		} while (!msg.isGameStartMessageSelected());
+		assertEquals(gameId, msg.getGameStartMessage().getValue().getGameId().getValue().longValue());
+		assertTrue(msg.getGameStartMessage().getValue().getGameStartMode().isGameStartModeInitialSelected());
+		Collection<NonZeroId> seats = msg.getGameStartMessage().getValue().getGameStartMode().getGameStartModeInitial().getPlayerSeats();
+		assertEquals(10, seats.size());
+		int firstPlayerPos = 0;
+		for (Iterator<NonZeroId> it = seats.iterator(); it.hasNext(); ) {
+			NonZeroId seat = it.next();
+			if (seat.getValue().longValue() == firstPlayerId)
+				break;
+			firstPlayerPos++;
+		}
+
 		// Wait for first seat state list.
 		do {
 			msg = receiveMessage();
@@ -137,15 +154,18 @@ public class SeatStateTest extends TestBase {
 		assertEquals(10, seatStates.size());
 		int stateNormalCounter = 0;
 		int stateInactiveCounter = 0;
+		int seatPos = 0;
 		for (Iterator<NetPlayerState> it = seatStates.iterator(); it.hasNext(); ) {
 			NetPlayerState state = it.next();
 			assertTrue(NetPlayerState.EnumType.playerStateNoMoney != state.getValue());
 			if (NetPlayerState.EnumType.playerStateNormal == state.getValue()) {
+				assertEquals(firstPlayerPos, seatPos);
 				stateNormalCounter++;
 			}
 			if (NetPlayerState.EnumType.playerStateSessionInactive == state.getValue()) {
 				stateInactiveCounter++;
 			}
+			seatPos++;
 		}
 		assertEquals(1, stateNormalCounter);
 		assertEquals(9, stateInactiveCounter);
