@@ -402,7 +402,7 @@ void gameLobbyDialogImpl::refresh(int actionID)
 	} else if(actionID == MSG_NET_GAME_CLIENT_SYNCSTART) {
 		waitStartGameMsgBoxTimer->start(2000);
 	} else if(actionID == MSG_NET_GAME_CLIENT_SYNCREJOIN) {
-		if(this->isVisible()) {
+//		if(this->isVisible()) { //TODO <-- does it work without isVisible???
 			//break the autoStartTimer animation
 			autoStartTimer->stop();
 			autoStartTimerOverlay->hide();
@@ -411,7 +411,7 @@ void gameLobbyDialogImpl::refresh(int actionID)
 			waitRejoinStartGameMsgBox->raise();
 			waitRejoinStartGameMsgBox->activateWindow();
 			pushButton_Leave->setDisabled(true);
-		}
+//		}
 	}
 }
 
