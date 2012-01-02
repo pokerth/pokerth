@@ -397,11 +397,9 @@ void startWindowImpl::callRejoinPossibleDialog(unsigned gameId)
 
 	switch (ret) {
 	case QMessageBox::Yes:
-		;
 		mySession->clientRejoinGame(gameId);
 		break;
-	case QMessageBox::No:
-		showClientDialog();
+	case QMessageBox::No:;
 		break;
 	}
 }
