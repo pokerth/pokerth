@@ -1,3 +1,10 @@
+2012-01-02 version 0.9-rc1
+- New game log format with export function
+- BUGFIX: "stars" on the game table are displayed correctly on Windows and MacOS
+- BUGFIX: Message "Waiting for next hand to rejoin" did not appear sometimes
+- BUGFIX: Leave game button now correctly enabled after end of game (really :-) )
+- BUGFIX: Creating a network game is now possible again (#90)
+
 2011-12-30 version 0.9-beta6
 - New start window and splash screen
 - BUGFIX: Ranking calculation corrected for players which rejoin (#86)
