@@ -23,9 +23,9 @@ is run on a vserver with very limited memory.
 2.1 Package dependencies (Linux)
 ---------------------------------
 
-The following packages are required to compile the server:
+The following development packages are required to compile the server:
 * qmake (Qt development tools)
-* boost 1.42, latest recommended
+* boost 1.44, latest recommended (requires libbz2)
   - boost-thread
   - boost-filesystem
   - boost-datetime
@@ -33,7 +33,13 @@ The following packages are required to compile the server:
   - boost-iostreams
   - boost-asio
   - boost-regex
-* GnuTLS (any version should be fine)
+  - boost-random
+* libcurl4-gnutls
+* libtinyxml
+* libircclient
+* libgsasl (at least 1.4)
+* libsqlite3
+* libgcrypt (should already be there as dependency to the previous libs)
 
 The following packages are optional but recommended:
 * monit (http://tildeslash.com/monit/)
@@ -51,7 +57,7 @@ If you do not have root access, log in as usual.
 To use the stable version, download the latest PokerTH
 source release from http://www.pokerth.net/.
 Unpack the source release:
-	tar xjf PokerTH-0.6-2.src.tar.bz2
+	tar xjf PokerTH-0.9.src.tar.bz2
 
 If you wish to use the current development version instead, run
 	svn co http://pokerth.svn.sourceforge.net/svnroot/pokerth/trunk/pokerth
@@ -62,7 +68,7 @@ Enter the pokerth source directory:
 Edit pokerth.pro and remove the pokerth_game.pro entry.
 
 Create the Makefile and compile the PokerTH dedicated server:
-	qmake
+	qmake -spec linux-g++ pokerth.pro
 	make
 
 2.3 Post-compile actions (Linux)
@@ -72,7 +78,7 @@ The binary for the server is created in the bin/ subdirectory.
 Move it to the main directory:
 	mv bin/pokerth_server .
 
-Make sure your firewall allows port 7234 (IP/IPv6, TCP and SCTP).
+Make sure your firewall allows port 7234 (IP/IPv6, TCP).
 If you wish to use a different port, allow this port in your firewall,
 and continue the steps.
 
@@ -172,14 +178,8 @@ once monit is running, is to log in as user "pokerth" and run
 This will cause monit to restart the pokerth_server within the configured
 interval.
 
-+++++++++++++++++++++++++++
-3. Installation on Windows
-+++++++++++++++++++++++++++
-
-TODO
-
 +++++++++++++++++++++++++++++++++
-4. Configuration file config.xml
+3. Configuration file config.xml
 +++++++++++++++++++++++++++++++++
 
 There are three areas for server configuration:
@@ -243,7 +243,7 @@ Directory for avatar cache:
 
 
 ++++++++++++++++++++++++
-5. Server Admin IRC bot
+4. Server Admin IRC bot
 ++++++++++++++++++++++++
 
 The irc bot only accepts two commands within the configured channel.
@@ -286,4 +286,4 @@ The bot always answers to "BotName: " style commands.
 It ignores private messages. 
 
 
-2007-2011 by Lothar May
+2007-2012 by Lothar May
