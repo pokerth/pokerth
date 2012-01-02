@@ -39,11 +39,10 @@
 
 using namespace std;
 
-Session::Session(GuiInterface *g, ConfigFile *c)
-	: currentGameNum(0), myGui(g), myConfig(c), myLog(0), myGameType(GAME_TYPE_NONE)
+Session::Session(GuiInterface *g, ConfigFile *c, Log *l)
+	: currentGameNum(0), myGui(g), myConfig(c), myLog(l), myGameType(GAME_TYPE_NONE)
 {
 	myQtToolsInterface = CreateQtToolsWrapper();
-	myLog = new Log(myConfig);
 }
 
 

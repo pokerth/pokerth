@@ -89,12 +89,14 @@ void LocalBeRoPostRiver::postRiverRun()
 		if ((*it_c)->getMyAction() != PLAYER_ACTION_FOLD) nonfoldPlayersCounter++;
 	}
 	if(nonfoldPlayersCounter>1) {
-		getMyHand()->getLog()->logHoleCardsHandName(GAME_STATE_POST_RIVER,getMyHand()->getActivePlayerList());
+		if(getMyHand()->getLog()) getMyHand()->getLog()->logHoleCardsHandName(GAME_STATE_POST_RIVER,getMyHand()->getActivePlayerList());
 	}
-	getMyHand()->getLog()->logHandWinner(getMyHand()->getActivePlayerList(), highestCardsValue, getMyHand()->getBoard()->getWinners());
-	getMyHand()->getLog()->logPlayerSitsOut(getMyHand()->getActivePlayerList());
-	getMyHand()->getLog()->logGameWinner(getMyHand()->getActivePlayerList());
-	getMyHand()->getLog()->logAfterHand();
+	if(getMyHand()->getLog()) {
+		getMyHand()->getLog()->logHandWinner(getMyHand()->getActivePlayerList(), highestCardsValue, getMyHand()->getBoard()->getWinners());
+		getMyHand()->getLog()->logPlayerSitsOut(getMyHand()->getActivePlayerList());
+		getMyHand()->getLog()->logGameWinner(getMyHand()->getActivePlayerList());
+		getMyHand()->getLog()->logAfterHand();
+	}
 
 	//starte die Animaionsreihe
 	getMyHand()->getGuiInterface()->postRiverRunAnimation1();

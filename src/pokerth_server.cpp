@@ -157,7 +157,7 @@ main(int argc, char *argv[])
 
 	// Create pseudo Gui Wrapper for the server.
 	boost::shared_ptr<GuiInterface> myServerGuiInterface(new ServerGuiWrapper(myConfig.get(), NULL, NULL, NULL));
-	boost::shared_ptr<Session> session(new Session(myServerGuiInterface.get(), myConfig.get()));
+	boost::shared_ptr<Session> session(new Session(myServerGuiInterface.get(), myConfig.get(), NULL));
 	if (!session->init())
 		LOG_ERROR("Missing files - please check your directory settings!");
 	myServerGuiInterface->setSession(session);

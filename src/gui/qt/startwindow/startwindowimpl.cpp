@@ -46,14 +46,15 @@
 
 using namespace std;
 
-startWindowImpl::startWindowImpl(ConfigFile *c)
-	: myConfig(c), msgBoxOutdatedVersionActive(false)
+startWindowImpl::startWindowImpl(ConfigFile *c, Log *l)
+	: myConfig(c), myLog(l), msgBoxOutdatedVersionActive(false)
 {
 
 	myGuiInterface.reset(new GuiWrapper(myConfig, this));
 	{
-		mySession.reset(new Session(myGuiInterface.get(), myConfig));
+		mySession.reset(new Session(myGuiInterface.get(), myConfig, myLog));
 		mySession->init(); // TODO handle error
+		myLog->init();
 		// 		myGuiInterface->setSession(session);
 	}
 
@@ -399,7 +400,8 @@ void startWindowImpl::callRejoinPossibleDialog(unsigned gameId)
 	case QMessageBox::Yes:
 		mySession->clientRejoinGame(gameId);
 		break;
-	case QMessageBox::No:;
+	case QMessageBox::No:
+		;
 		break;
 	}
 }
@@ -419,7 +421,7 @@ void startWindowImpl::callCreateNetworkGameDialog()
 			// Create pseudo Gui Wrapper for the server.
 			myServerGuiInterface.reset(new ServerGuiWrapper(myConfig, mySession->getGui(), mySession->getGui(), mySession->getGui()));
 			{
-				boost::shared_ptr<Session> session(new Session(myServerGuiInterface.get(), myConfig));
+				boost::shared_ptr<Session> session(new Session(myServerGuiInterface.get(), myConfig, 0));
 				session->init(mySession->getAvatarManager());
 				myServerGuiInterface->setSession(session);
 			}

@@ -365,7 +365,7 @@ LocalHand::LocalHand(boost::shared_ptr<EngineFactory> f, GuiInterface *g, boost:
 
 	setBlinds();
 
-	myLog->logNewHandMsg(myID, dealerPosition+1, smallBlind, smallBlindPosition+1, 2*smallBlind, bigBlindPosition+1, seatsList);
+	if(myLog) myLog->logNewHandMsg(myID, dealerPosition+1, smallBlind, smallBlindPosition+1, 2*smallBlind, bigBlindPosition+1, seatsList);
 
 	myBeRo = myFactory->createBeRo(this, dealerPosition, smallBlind);
 }
@@ -527,7 +527,7 @@ void LocalHand::switchRounds()
 	// logging last player action
 	PlayerListConstIterator previousPlayerIt = getRunningPlayerIt(previousPlayerID);
 	if(previousPlayerIt != runningPlayerList->end()) {
-		myLog->logPlayerAction(currentRound,(*previousPlayerIt)->getMyID()+1,myLog->transformPlayerActionLog((*previousPlayerIt)->getMyAction()),(*previousPlayerIt)->getMySet());
+		if(myLog) myLog->logPlayerAction(currentRound,(*previousPlayerIt)->getMyID()+1,myLog->transformPlayerActionLog((*previousPlayerIt)->getMyAction()),(*previousPlayerIt)->getMySet());
 	}
 
 	PlayerListIterator it, it_1;
@@ -630,7 +630,7 @@ void LocalHand::switchRounds()
 		myGui->flipHolecardsAllIn();
 		// Logging HoleCards
 		if(currentRound<GAME_STATE_RIVER) {
-			myLog->logHoleCardsHandName(currentRound,activePlayerList);
+			if(myLog) myLog->logHoleCardsHandName(currentRound,activePlayerList);
 		}
 
 		if (currentRound < GAME_STATE_POST_RIVER) // do not increment past 4
@@ -642,7 +642,7 @@ void LocalHand::switchRounds()
 
 			myBoard->getMyCards(tempBoardCardsArray);
 			myGui->logDealBoardCardsMsg(currentRound, tempBoardCardsArray[0], tempBoardCardsArray[1], tempBoardCardsArray[2], tempBoardCardsArray[3], tempBoardCardsArray[4]);
-			myLog->logBoardCards(currentRound, tempBoardCardsArray);
+			if(myLog) myLog->logBoardCards(currentRound, tempBoardCardsArray);
 		}
 
 	}

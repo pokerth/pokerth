@@ -42,7 +42,7 @@ class Session
 {
 public:
 
-	Session(GuiInterface*, ConfigFile*);
+	Session(GuiInterface*, ConfigFile*, Log*);
 
 	~Session();
 

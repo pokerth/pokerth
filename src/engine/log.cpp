@@ -30,6 +30,18 @@ using namespace std;
 
 Log::Log(ConfigFile *c) : mySqliteLogDb(0), myConfig(c), curGameID(0), curHandID(0), sql("")
 {
+}
+
+Log::~Log()
+{
+	if(SQLITE_LOG) {
+		sqlite3_close(mySqliteLogDb);
+	}
+}
+
+void
+Log::init()
+{
 
 	if(SQLITE_LOG) {
 
@@ -80,7 +92,8 @@ Log::Log(ConfigFile *c) : mySqliteLogDb(0), myConfig(c), curGameID(0), curHandID
 
 					// create game table
 					sql += "CREATE TABLE Game (";
-					sql += "GameID INTEGER NOT NULL PRIMARY KEY";
+					sql += "UniqueGameID INTEGER PRIMARY KEY AUTOINCREMENT";
+					sql += ",GameID INTEGER NOT NULL";
 					sql += ",Startmoney INTEGER NOT NULL";
 					sql += ",StartSb INTEGER NOT NULL";
 					sql += ",DealerPos INTEGER NOT NULL";
@@ -126,13 +139,6 @@ Log::Log(ConfigFile *c) : mySqliteLogDb(0), myConfig(c), curGameID(0), curHandID
 				}
 			}
 		}
-	}
-}
-
-Log::~Log()
-{
-	if(SQLITE_LOG) {
-		sqlite3_close(mySqliteLogDb);
 	}
 }
 

@@ -34,6 +34,7 @@ public:
 
 	~Log();
 
+	void init();
 	void logNewGameMsg(int gameID, int startCash, int startSmallBlind, unsigned dealerPosition, PlayerList seatsList);
 	void logNewHandMsg(int handID, unsigned dealerPosition, int smallBlind, unsigned smallBlindPosition, int bigBlind, unsigned bigBlindPosition, PlayerList seatsList);
 	void logPlayerAction(GameState bero, int seat, PlayerActionLog action, int amount = 0);
@@ -46,11 +47,13 @@ public:
 	void logPlayerSitsOut(PlayerList activePlayerList);
 	void logAfterHand();
 	void logAfterGame();
-	void exec_transaction();
 //    void closeLogDbAtExit();
 
 
 private:
+
+	void exec_transaction();
+
 	sqlite3 *mySqliteLogDb;
 	ConfigFile *myConfig;
 	int curGameID;

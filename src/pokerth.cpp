@@ -32,6 +32,7 @@
 #include "session.h"
 #include "startwindowimpl.h"
 #include "configfile.h"
+#include "log.h"
 #include "startsplash.h"
 #include "game_defs.h"
 #include <net/socket_startup.h>
@@ -86,6 +87,7 @@ int main( int argc, char **argv )
 
 	//create defaultconfig
 	ConfigFile *myConfig = new ConfigFile(argv[0], false);
+	Log *myLog = new Log(myConfig);
 
 	// set PlastiqueStyle even for mac-version to prevent artefacts on styled widgets
 	a.setStyle(new QPlastiqueStyle);
@@ -131,7 +133,7 @@ int main( int argc, char **argv )
 	qRegisterMetaType<DenyGameInvitationReason>("DenyGameInvitationReason");
 	///////////////////////////////////////////////////
 
-	startWindowImpl mainWin(myConfig);
+	startWindowImpl mainWin(myConfig,myLog);
 	a.setActivationWindow(&mainWin, true);
 
 	int retVal = a.exec();

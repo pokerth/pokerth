@@ -51,12 +51,13 @@ class timeoutMsgBoxImpl;
 class serverListDialogImpl;
 class internetGameLoginDialogImpl;
 class guiLog;
+class Log;
 
 class startWindowImpl: public QMainWindow, public Ui::startWindow
 {
 	Q_OBJECT
 public:
-	startWindowImpl(ConfigFile *c =0);
+	startWindowImpl(ConfigFile *c, Log *l);
 	~startWindowImpl();
 
 	void setSession(boost::shared_ptr<Session> session) {
@@ -155,6 +156,7 @@ public slots:
 private:
 	ConfigFile *myConfig;
 	guiLog *myGuiLog;
+	Log *myLog;
 
 	boost::shared_ptr<GuiInterface> myGuiInterface;
 	boost::shared_ptr<Session> mySession;
