@@ -37,13 +37,12 @@ class PlayerInterface;
 class ConfigFile;
 struct GameData;
 class Game;
-class Log;
 
 class ServerGame : public boost::enable_shared_from_this<ServerGame>
 {
 public:
 	ServerGame(
-		boost::shared_ptr<ServerLobbyThread> lobbyThread, u_int32_t id, const std::string &name, const std::string &pwd, const GameData &gameData, unsigned adminPlayerId, GuiInterface &gui, ConfigFile &playerConfig, Log &serverLog);
+		boost::shared_ptr<ServerLobbyThread> lobbyThread, u_int32_t id, const std::string &name, const std::string &pwd, const GameData &gameData, unsigned adminPlayerId, GuiInterface &gui, ConfigFile &playerConfig);
 	virtual ~ServerGame();
 
 	void Init();
@@ -207,7 +206,6 @@ private:
 	const std::string	m_name;
 	const std::string	m_password;
 	ConfigFile		   &m_playerConfig;
-	Log				   &m_serverLog;
 	unsigned			m_gameNum;
 	unsigned			m_curPetitionId;
 	boost::asio::deadline_timer m_voteKickTimer;

@@ -37,7 +37,6 @@
 #include <core/openssl_wrapper.h>
 #include <configfile.h>
 #include <playerinterface.h>
-#include <log.h>
 
 #include <fstream>
 #include <sstream>
@@ -220,7 +219,6 @@ ServerLobbyThread::Init(const string &logDir)
 		m_serverConfig.readConfigString("DBServerEncryptionKey"));
 
 	GetBanManager().InitGameNameBadWordList(m_serverConfig.readConfigStringList("GameNameBadWordList"));
-	m_serverLog.reset(new Log(&m_serverConfig));
 }
 
 void
@@ -1258,8 +1256,7 @@ ServerLobbyThread::HandleNetPacketCreateGame(boost::shared_ptr<SessionData> sess
 				tmpData,
 				session->GetPlayerData()->GetUniqueId(),
 				GetGui(),
-				m_serverConfig,
-				*m_serverLog));
+				m_serverConfig));
 		game->Init();
 
 		// Add game to list of games.

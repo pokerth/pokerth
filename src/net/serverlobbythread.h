@@ -30,8 +30,6 @@
 #include <gui/guiinterface.h>
 #include <gamedata.h>
 
-class Log;
-
 #define NET_LOBBY_THREAD_TERMINATE_TIMEOUT_MSEC		20000
 #define NET_ADMIN_IRC_TERMINATE_TIMEOUT_MSEC		4000
 
@@ -232,8 +230,6 @@ private:
 	u_int32_t m_curUniquePlayerId;
 	u_int32_t m_curSessionId;
 	mutable boost::mutex m_curUniquePlayerIdMutex;
-
-	boost::shared_ptr<Log> m_serverLog;
 
 	ServerStats m_statData;
 	bool m_statDataChanged;
