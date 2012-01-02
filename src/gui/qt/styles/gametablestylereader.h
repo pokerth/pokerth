@@ -146,6 +146,10 @@ public:
 		return font2String;
 	}
 
+	QString getFont1String() const {
+		return font1String;
+	}
+
 	QString getMinimumWindowWidth() const {
 		return MinimumWindowWidth;
 	}
