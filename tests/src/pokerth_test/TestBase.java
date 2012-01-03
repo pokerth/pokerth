@@ -51,7 +51,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
 
 public abstract class TestBase {
 
-	public final int PROTOCOL_VERSION_MAJOR = 4;
+	public final int PROTOCOL_VERSION_MAJOR = 5;
 	public final int PROTOCOL_VERSION_MINOR = 0;
 	public final String AuthUser = "user";
 	public final String AuthPassword = "pencil";
