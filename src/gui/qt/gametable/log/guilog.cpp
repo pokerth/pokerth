@@ -695,7 +695,7 @@ int guiLog::exportLog(QString fileStringPdb,int modus)
 	char *errmsg = 0;
 	int game_ctr = 0, hand_ctr = 0, round_ctr = 0, action_ctr = 0;
 	int i = 0, j = 0;
-	int gameID = 0;
+	int gameID = 0; int uniqueGameID = 0;
 	string cmpString = "", string_tmp = "";
 	string player[MAX_NUMBER_OF_PLAYERS];
 	for(i=1; i<=MAX_NUMBER_OF_PLAYERS; i++) {
@@ -798,6 +798,20 @@ int guiLog::exportLog(QString fileStringPdb,int modus)
 		// run through all games
 		for(game_ctr=1; game_ctr<=nRow_Game; game_ctr++) {
 
+			// unique game id
+			data_found = false;
+			for(i=0; i<nCol_Game; i++) {
+				if(boost::lexical_cast<std::string>(result_Game[i]) == "UniqueGameID") {
+					uniqueGameID = boost::lexical_cast<int>(result_Game[i+nCol_Game*game_ctr]);
+					data_found = true;
+				}
+			}
+
+			if(!data_found) {
+				sqlite3_close(mySqliteLogDb);
+				return 1;
+			}
+
 			// game id
 			data_found = false;
 			for(i=0; i<nCol_Game; i++) {
@@ -837,8 +851,8 @@ int guiLog::exportLog(QString fileStringPdb,int modus)
 			}
 
 			// read all hand id
-			sql = "SELECT HandID FROM Hand WHERE GameID=";
-			sql+= boost::lexical_cast<std::string>(gameID);
+			sql = "SELECT HandID FROM Hand WHERE UniqueGameID=";
+			sql+= boost::lexical_cast<std::string>(uniqueGameID);
 			if(sqlite3_get_table(mySqliteLogDb,sql.data(),&result_Hand_ID,&nRow_Hand_ID,&nCol_Hand,&errmsg) != SQLITE_OK) {
 				cout << "Error in statement: " << sql.data() << "[" << errmsg << "]." << endl;
 				sqlite3_close(mySqliteLogDb);
@@ -873,8 +887,8 @@ int guiLog::exportLog(QString fileStringPdb,int modus)
 				}
 
 				// read current hand
-				sql = "SELECT * FROM Hand WHERE GameID=";
-				sql+= boost::lexical_cast<std::string>(gameID);
+				sql = "SELECT * FROM Hand WHERE UniqueGameID=";
+				sql+= boost::lexical_cast<std::string>(uniqueGameID);
 				sql+= " AND HandID=";
 				sql+= boost::lexical_cast<std::string>(result_Hand_ID[hand_ctr]);
 				if(sqlite3_get_table(mySqliteLogDb,sql.data(),&result_Hand,&nRow_Hand,&nCol_Hand,&errmsg) != SQLITE_OK) {
@@ -974,7 +988,7 @@ int guiLog::exportLog(QString fileStringPdb,int modus)
 						}
 					}
 					if(!data_found) {
-						cout << "Missing seat information in game " << gameID << " and hand " << result_Hand_ID[hand_ctr] << "!" << endl;
+						cout << "Missing seat information in uniqueGame " << uniqueGameID << " and hand " << result_Hand_ID[hand_ctr] << "!" << endl;
 						sqlite3_close(mySqliteLogDb);
 						return 1;
 					}
@@ -985,8 +999,8 @@ int guiLog::exportLog(QString fileStringPdb,int modus)
 					if(modus == 1) log_string += "<br />";
 
 					// read dealer and blinds
-					sql = "SELECT Player,Action,Amount FROM Action WHERE GameID=";
-					sql += boost::lexical_cast<std::string>(gameID);
+					sql = "SELECT Player,Action,Amount FROM Action WHERE UniqueGameID=";
+					sql += boost::lexical_cast<std::string>(uniqueGameID);
 					sql += " AND HandID=";
 					sql += boost::lexical_cast<std::string>(result_Hand_ID[hand_ctr]);
 					sql += " AND BeRo=0";
@@ -997,7 +1011,7 @@ int guiLog::exportLog(QString fileStringPdb,int modus)
 						return 1;
 					}
 					if(nRow_Action<1) {
-						cout << "Missing information about dealer and blinds in game " << gameID << " hand " << result_Hand_ID[hand_ctr] << "!" << endl;
+						cout << "Missing information about dealer and blinds in uniqueGame " << uniqueGameID << " hand " << result_Hand_ID[hand_ctr] << "!" << endl;
 						sqlite3_close(mySqliteLogDb);
 						return 1;
 					}
@@ -1031,8 +1045,8 @@ int guiLog::exportLog(QString fileStringPdb,int modus)
 					log_string += "BLINDS: ";
 
 					// read small blind
-					sql = "SELECT Player,Amount FROM Action WHERE GameID=";
-					sql += boost::lexical_cast<std::string>(gameID);
+					sql = "SELECT Player,Amount FROM Action WHERE UniqueGameID=";
+					sql += boost::lexical_cast<std::string>(uniqueGameID);
 					sql += " AND HandID=";
 					sql += boost::lexical_cast<std::string>(result_Hand_ID[hand_ctr]);
 					sql += " AND BeRo=0 AND Action='posts small blind'";
@@ -1043,7 +1057,7 @@ int guiLog::exportLog(QString fileStringPdb,int modus)
 						return 1;
 					}
 					if(nRow_Action<1 || nRow_Action>1) {
-						cout << "Missing information about small blinds in game " << gameID << " hand " << result_Hand_ID[hand_ctr] << "!" << endl;
+						cout << "Missing information about small blinds in uniqueGame " << uniqueGameID << " hand " << result_Hand_ID[hand_ctr] << "!" << endl;
 						sqlite3_close(mySqliteLogDb);
 						return 1;
 					}
@@ -1057,8 +1071,8 @@ int guiLog::exportLog(QString fileStringPdb,int modus)
 					sqlite3_free_table(result_Action);
 
 					// read big blind
-					sql = "SELECT Player,Amount FROM Action WHERE GameID=";
-					sql += boost::lexical_cast<std::string>(gameID);
+					sql = "SELECT Player,Amount FROM Action WHERE UniqueGameID=";
+					sql += boost::lexical_cast<std::string>(uniqueGameID);
 					sql += " AND HandID=";
 					sql += boost::lexical_cast<std::string>(result_Hand_ID[hand_ctr]);
 					sql += " AND BeRo=0 AND Action='posts big blind'";
@@ -1069,7 +1083,7 @@ int guiLog::exportLog(QString fileStringPdb,int modus)
 						return 1;
 					}
 					if(nRow_Action<1 || nRow_Action>1) {
-						cout << "Missing information about small blinds in game " << gameID << " hand " << result_Hand_ID[hand_ctr] << "!" << endl;
+						cout << "Missing information about small blinds in uniqueGame " << uniqueGameID << " hand " << result_Hand_ID[hand_ctr] << "!" << endl;
 						sqlite3_close(mySqliteLogDb);
 						return 1;
 					}
@@ -1083,8 +1097,8 @@ int guiLog::exportLog(QString fileStringPdb,int modus)
 					sqlite3_free_table(result_Action);
 
 					// read dealer
-					sql = "SELECT Player,Amount FROM Action WHERE GameID=";
-					sql += boost::lexical_cast<std::string>(gameID);
+					sql = "SELECT Player,Amount FROM Action WHERE UniqueGameID=";
+					sql += boost::lexical_cast<std::string>(uniqueGameID);
 					sql += " AND HandID=";
 					sql += boost::lexical_cast<std::string>(result_Hand_ID[hand_ctr]);
 					sql += " AND BeRo=0 AND Action='starts as dealer'";
@@ -1095,7 +1109,7 @@ int guiLog::exportLog(QString fileStringPdb,int modus)
 						return 1;
 					}
 					if(nRow_Action>1) {
-						cout << "Implausible information about dealer in game " << gameID << " hand " << result_Hand_ID[hand_ctr] << "!" << endl;
+						cout << "Implausible information about dealer in uniqueGame " << uniqueGameID << " hand " << result_Hand_ID[hand_ctr] << "!" << endl;
 						sqlite3_close(mySqliteLogDb);
 						return 1;
 					}
@@ -1180,7 +1194,7 @@ int guiLog::exportLog(QString fileStringPdb,int modus)
 											if(modus == 1 || modus == 3) round_string += "<b>";
 											string_tmp = convertCardIntToString(boost::lexical_cast<int>(result_Hand[j+nCol_Hand]));
 											if(string_tmp == "") {
-												cout << "Implausible board card in game " << gameID << " hand " << result_Hand_ID[hand_ctr] << "!" << endl;
+												cout << "Implausible board card in uniqueGame " << uniqueGameID << " hand " << result_Hand_ID[hand_ctr] << "!" << endl;
 												sqlite3_close(mySqliteLogDb);
 												return 1;
 											}
@@ -1204,8 +1218,8 @@ int guiLog::exportLog(QString fileStringPdb,int modus)
 					}
 
 					// read round action
-					sql = "SELECT Player,Action,Amount FROM Action WHERE GameID=";
-					sql += boost::lexical_cast<std::string>(gameID);
+					sql = "SELECT Player,Action,Amount FROM Action WHERE UniqueGameID=";
+					sql += boost::lexical_cast<std::string>(uniqueGameID);
 					sql += " AND HandID=";
 					sql += boost::lexical_cast<std::string>(result_Hand_ID[hand_ctr]);
 					sql += " AND BeRo=";
@@ -1261,6 +1275,9 @@ int guiLog::exportLog(QString fileStringPdb,int modus)
 							case 1:
 								if(!neu) action_string = "</br></br><i><b>" + action_string + " " + boost::lexical_cast<std::string>(gameID) + "!</i></b></br>";
 								else action_string = "</br><i><b>" + action_string + " " + boost::lexical_cast<std::string>(gameID) + "!</b></i>";
+								break;
+							case 2:
+								action_string += action_string + " " + boost::lexical_cast<std::string>(gameID) + "!";
 								break;
 							case 3:
 								action_string = "<i><b>" + action_string + " " + boost::lexical_cast<std::string>(gameID) + "!</b></i>";
@@ -1319,7 +1336,7 @@ int guiLog::exportLog(QString fileStringPdb,int modus)
 								if(boost::lexical_cast<std::string>(result_Hand[i]) == cmpString) {
 									string_tmp = convertCardIntToString(boost::lexical_cast<int>(result_Hand[i+nCol_Hand]));
 									if(string_tmp == "") {
-										cout << "Hole card information implausible in game " << gameID << " hand " << result_Hand_ID[hand_ctr] << "!" << endl;
+										cout << "Hole card information implausible in uniqueGame " << uniqueGameID << " hand " << result_Hand_ID[hand_ctr] << "!" << endl;
 										sqlite3_close(mySqliteLogDb);
 										return 1;
 									}
@@ -1332,7 +1349,7 @@ int guiLog::exportLog(QString fileStringPdb,int modus)
 								}
 							}
 							if(!data_found) {
-								cout << "Missing hole card information in game " << gameID << " hand " << result_Hand_ID[hand_ctr] << "!" << endl;
+								cout << "Missing hole card information in uniqueGame " << uniqueGameID << " hand " << result_Hand_ID[hand_ctr] << "!" << endl;
 								sqlite3_close(mySqliteLogDb);
 								return 1;
 							}
@@ -1346,7 +1363,7 @@ int guiLog::exportLog(QString fileStringPdb,int modus)
 								if(boost::lexical_cast<std::string>(result_Hand[i]) == cmpString) {
 									string_tmp = convertCardIntToString(boost::lexical_cast<int>(result_Hand[i+nCol_Hand]));
 									if(string_tmp == "") {
-										cout << "Hole card information implausible in game " << gameID << " hand " << result_Hand_ID[hand_ctr] << "!" << endl;
+										cout << "Hole card information implausible in uniqueGame " << uniqueGameID << " hand " << result_Hand_ID[hand_ctr] << "!" << endl;
 										sqlite3_close(mySqliteLogDb);
 										return 1;
 									}
@@ -1358,7 +1375,7 @@ int guiLog::exportLog(QString fileStringPdb,int modus)
 								}
 							}
 							if(!data_found) {
-								cout << "Missing hole card information in game " << gameID << " hand " << result_Hand_ID[hand_ctr] << "!" << endl;
+								cout << "Missing hole card information in uniqueGame " << uniqueGameID << " hand " << result_Hand_ID[hand_ctr] << "!" << endl;
 								sqlite3_close(mySqliteLogDb);
 								return 1;
 							}
@@ -1376,7 +1393,7 @@ int guiLog::exportLog(QString fileStringPdb,int modus)
 									}
 								}
 								if(!data_found) {
-									cout << "Missing hand name information in game " << gameID << " hand " << result_Hand_ID[hand_ctr] << "!" << endl;
+									cout << "Missing hand name information in uniqueGame " << uniqueGameID << " hand " << result_Hand_ID[hand_ctr] << "!" << endl;
 									sqlite3_close(mySqliteLogDb);
 									return 1;
 								}

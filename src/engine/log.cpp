@@ -28,8 +28,11 @@
 
 using namespace std;
 
-Log::Log(ConfigFile *c) : mySqliteLogDb(0), myConfig(c), curGameID(0), curHandID(0), sql("")
+Log::Log(ConfigFile *c) : mySqliteLogDb(0), myConfig(c), uniqueGameID(0), curHandID(0), sql("")
 {
+
+	logVersion = 1;
+
 }
 
 Log::~Log()
@@ -79,20 +82,23 @@ Log::init()
 					sql += "PokerTH_Version TEXT NOT NULL";
 					sql += ",Date TEXT NOT NULL";
 					sql += ",Time TEXT NOT NULL";
+					sql += ",LogVersion INTEGER NOT NULL";
 					sql += ", PRIMARY KEY(Date,Time));";
 
 					sql += "INSERT INTO Session (";
 					sql += "PokerTH_Version";
 					sql += ",Date";
 					sql += ",Time";
+					sql += ",LogVersion";
 					sql += ") VALUES (";
 					sql += "\"" + boost::lexical_cast<string>(POKERTH_BETA_RELEASE_STRING) + "\",";
 					sql += "\"" + boost::lexical_cast<string>(curDate) + "\",";
-					sql += "\"" + boost::lexical_cast<string>(curTime) + "\");";
+					sql += "\"" + boost::lexical_cast<string>(curTime) + "\",";
+					sql += boost::lexical_cast<string>(logVersion) + ");";
 
 					// create game table
 					sql += "CREATE TABLE Game (";
-					sql += "UniqueGameID INTEGER PRIMARY KEY AUTOINCREMENT";
+					sql += "UniqueGameID INTEGER PRIMARY KEY";
 					sql += ",GameID INTEGER NOT NULL";
 					sql += ",Startmoney INTEGER NOT NULL";
 					sql += ",StartSb INTEGER NOT NULL";
@@ -106,7 +112,7 @@ Log::init()
 					// create hand table
 					sql += "CREATE TABLE Hand (";
 					sql += "HandID INTEGER NOT NULL";
-					sql += ",GameID INTEGER NOT NULL";
+					sql += ",UniqueGameID INTEGER NOT NULL";
 					sql += ",Dealer_Seat INTEGER";
 					sql += ",Sb_Amount INTEGER NOT NULL";
 					sql += ",Sb_Seat INTEGER NOT NULL";
@@ -122,13 +128,13 @@ Log::init()
 					for(i=1; i<=5; i++) {
 						sql += ",BoardCard_" + boost::lexical_cast<std::string>(i) + " INTEGER";
 					}
-					sql += ",PRIMARY KEY(HandID,GameID));";
+					sql += ",PRIMARY KEY(HandID,UniqueGameID));";
 
 					// create action table
 					sql += "CREATE TABLE Action (";
 					sql += "ActionID INTEGER PRIMARY KEY AUTOINCREMENT";
 					sql += ",HandID INTEGER NOT NULL";
-					sql += ",GameID INTEGER NOT NULL";
+					sql += ",UniqueGameID INTEGER NOT NULL";
 					sql += ",BeRo INTEGER NOT NULL";
 					sql += ",Player INTEGER NOT NULL";
 					sql += ",Action TEXT NOT NULL";
@@ -145,8 +151,7 @@ Log::init()
 void
 Log::logNewGameMsg(int gameID, int startCash, int startSmallBlind, unsigned dealerPosition, PlayerList seatsList)
 {
-
-	curGameID = gameID;
+	uniqueGameID++;
 
 	if(SQLITE_LOG) {
 
@@ -160,7 +165,8 @@ Log::logNewGameMsg(int gameID, int startCash, int startSmallBlind, unsigned deal
 				int i;
 
 				sql += "INSERT INTO Game (";
-				sql += "GameID";
+				sql += "UniqueGameID";
+				sql += ",GameID";
 				sql += ",Startmoney";
 				sql += ",StartSb";
 				sql += ",DealerPos";
@@ -168,7 +174,8 @@ Log::logNewGameMsg(int gameID, int startCash, int startSmallBlind, unsigned deal
 					sql += ",Seat_" + boost::lexical_cast<std::string>(i);
 				}
 				sql += ") VALUES (";
-				sql += boost::lexical_cast<string>(curGameID);
+				sql += boost::lexical_cast<string>(uniqueGameID);
+				sql += "," + boost::lexical_cast<string>(gameID);
 				sql += "," + boost::lexical_cast<string>(startCash);
 				sql += "," + boost::lexical_cast<string>(startSmallBlind);
 				sql += "," + boost::lexical_cast<string>(dealerPosition);
@@ -209,7 +216,7 @@ Log::logNewHandMsg(int handID, unsigned dealerPosition, int smallBlind, unsigned
 
 				sql += "INSERT INTO Hand (";
 				sql += "HandID";
-				sql += ",GameID";
+				sql += ",UniqueGameID";
 				sql += ",Dealer_Seat";
 				sql += ",Sb_Amount";
 				sql += ",Sb_Seat";
@@ -220,7 +227,7 @@ Log::logNewHandMsg(int handID, unsigned dealerPosition, int smallBlind, unsigned
 				}
 				sql += ") VALUES (";
 				sql += boost::lexical_cast<string>(curHandID);
-				sql += "," + boost::lexical_cast<string>(curGameID);
+				sql += "," + boost::lexical_cast<string>(uniqueGameID);
 				sql += "," + boost::lexical_cast<string>(dealerPosition);
 				sql += "," + boost::lexical_cast<string>(smallBlind);
 				sql += "," + boost::lexical_cast<string>(smallBlindPosition);
@@ -290,14 +297,14 @@ Log::logPlayerAction(GameState bero, int seat, PlayerActionLog action, int amoun
 				if(action!=LOG_ACTION_NONE) {
 					sql += "INSERT INTO Action (";
 					sql += "HandID";
-					sql += ",GameID";
+					sql += ",UniqueGameID";
 					sql += ",BeRo";
 					sql += ",Player";
 					sql += ",Action";
 					sql += ",Amount";
 					sql += ") VALUES (";
 					sql += boost::lexical_cast<string>(curHandID);
-					sql += "," + boost::lexical_cast<string>(curGameID);
+					sql += "," + boost::lexical_cast<string>(uniqueGameID);
 					sql += "," + boost::lexical_cast<string>(bero);;
 					sql += "," + boost::lexical_cast<string>(seat);
 					switch(action) {
@@ -428,7 +435,7 @@ Log::logBoardCards(GameState bero, int boardCards[5])
 					return;
 				}
 				sql += " WHERE ";
-				sql += "GameID=" + boost::lexical_cast<string>(curGameID) + " AND ";
+				sql += "UniqueGameID=" + boost::lexical_cast<string>(uniqueGameID) + " AND ";
 				sql += "HandID=" + boost::lexical_cast<string>(curHandID);
 				sql += ";";
 				if(myConfig->readConfigInt("LogInterval") == 0) {
@@ -480,7 +487,7 @@ Log::logHoleCardsHandName(GameState bero, PlayerList activePlayerList, boost::sh
 					sql += ",Seat_" + boost::lexical_cast<string>(player->getMyID()+1) + "_Card_2=" + boost::lexical_cast<string>(myCards[1]);
 				}
 				sql += " WHERE ";
-				sql += "GameID=" + boost::lexical_cast<string>(curGameID) + " AND ";
+				sql += "UniqueGameID=" + boost::lexical_cast<string>(uniqueGameID) + " AND ";
 				sql += "HandID=" + boost::lexical_cast<string>(curHandID);
 				sql += ";";
 				if(myConfig->readConfigInt("LogInterval") == 0 || forceExecLog) {

@@ -54,9 +54,10 @@ private:
 
 	void exec_transaction();
 
+	int logVersion;
 	sqlite3 *mySqliteLogDb;
 	ConfigFile *myConfig;
-	int curGameID;
+	int uniqueGameID;
 	int curHandID;
 	std::string sql;
 };
