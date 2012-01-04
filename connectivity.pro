@@ -83,7 +83,7 @@ unix : !mac {
 	kFreeBSD = $$find(UNAME, "kFreeBSD")
 
 	LIBS += $$BOOST_LIBS
-	LIBS += -lgsasl
+	LIBS += -lgsasl -lgcrypt -lidn
 
 	POST_TARGETDEPS += ./lib/libpokerth_protocol.a
 
