@@ -21,6 +21,7 @@
 #include <third_party/asn1/PokerTHMessage.h>
 #include <boost/program_options.hpp>
 #include <boost/asio.hpp>
+#include <boost/array.hpp>
 #include <third_party/boost/timers.hpp>
 #include <gsasl.h>
 
@@ -174,7 +175,7 @@ main(int argc, char *argv[])
 		msg = (PokerTHMessage_t *)calloc(1, sizeof(PokerTHMessage_t));
 		msg->present = PokerTHMessage_PR_initMessage;
 		InitMessage_t *netInit = &msg->choice.initMessage;
-		netInit->requestedVersion.major = 1;
+		netInit->requestedVersion.major = 5;
 		netInit->requestedVersion.minor = 0;
 		if (password.empty()) {
 			netInit->login.present = login_PR_guestLogin;
@@ -271,11 +272,7 @@ main(int argc, char *argv[])
 		msg = (PokerTHMessage_t *)calloc(1, sizeof(PokerTHMessage_t));
 		msg->present = PokerTHMessage_PR_joinGameRequestMessage;
 		JoinGameRequestMessage_t *netJoinGame = &msg->choice.joinGameRequestMessage;
-		string tmpGamePassword("blah123");
-		netJoinGame->password = OCTET_STRING_new_fromBuf(
-									&asn_DEF_UTF8String,
-									tmpGamePassword.c_str(),
-									tmpGamePassword.length());
+		netJoinGame->autoLeave = 0;
 		netJoinGame->joinGameAction.present = joinGameAction_PR_joinNewGame;
 		JoinNewGame_t *joinNew = &netJoinGame->joinGameAction.choice.joinNewGame;
 		string tmpGameName("_perftest_do_not_join_" + username);
@@ -293,6 +290,11 @@ main(int argc, char *argv[])
 		OCTET_STRING_fromBuf(&joinNew->gameInfo.gameName,
 							 tmpGameName.c_str(),
 							 tmpGameName.length());
+		string tmpGamePassword("blah123");
+		joinNew->password = OCTET_STRING_new_fromBuf(
+								&asn_DEF_UTF8String,
+								tmpGamePassword.c_str(),
+								tmpGamePassword.length());
 		if (!sendMessage(socket, msg)) {
 			cout << "Create game failed" << endl;
 			return 1;
