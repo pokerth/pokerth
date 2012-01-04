@@ -103,7 +103,7 @@ Valitse korttipakkatyyli ja yritä uudestaan!</translation>
     <message>
         <location filename="../src/gui/qt/chattools/chattools.cpp" line="55"/>
         <source>private message sent to player: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Yksityisviesti lähetetty pelaajalle: %1</translation>
     </message>
 </context>
 <context>
@@ -126,12 +126,20 @@ is/are missing.
 Anyway you can play with this style, because the missing content will be filled up by PokerTH default style. 
 
 Please contact the game table style builder via &quot;%3&quot;.</source>
-        <translation type="unfinished"></translation>
+        <translation>Valittu pelipöydän tyyli &quot;%1&quot; näyttäisi olevan puutteellinen tai viallinen. 
+
+Arvo(t): 
+%2 
+on/ovat kadoksissa. 
+
+Voit tästä huolimatta pelata tällä tyylillä, koska puuttuvat osat korvataan PokerTH:n oletustyyleillä. 
+
+Ota yhteyttä pelipöydän tyylin tekijään osoitteella &quot;%3&quot;.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/styles/gametablestylereader.cpp" line="1258"/>
         <source>Game Table Style Error - Fields content missing</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/gui/qt/styles/gametablestylereader.cpp" line="1272"/>
@@ -142,12 +150,19 @@ Please contact the game table style builder via &quot;%3&quot;.</source>
 Anyway you can play with this style, because the missing content will be filled up by PokerTH default style. 
 
 Please contact the game table style builder via &quot;%3&quot;.</source>
-        <translation type="unfinished"></translation>
+        <translation>Yksi tai useampi kuva nykyisestä pelipöydän tyylistä &quot;%1&quot; ei löytynyt: 
+
+%2 
+on/ovat kadoksissa. 
+
+Voit tästä huolimatta pelata tällä tyylillä, koska puuttuvat osat korvataan PokerTH:n oletustyyleillä. 
+
+Ota yhteyttä pelipöydän tyylin tekijään osoitteella &quot;%3&quot;.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/styles/gametablestylereader.cpp" line="1272"/>
         <source>Game Table Style Error - Pictures missing</source>
-        <translation type="unfinished"></translation>
+        <translation>Pelipöydän tyylivirhe - Kuvia puuttuu</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/styles/gametablestylereader.cpp" line="1284"/>
@@ -157,32 +172,37 @@ The current PokerTH game table style version is &quot;%2&quot;, but this style h
 Anyway you can play with this style, because the missing content will be filled up by PokerTH default style. 
 
 Please contact the game table style builder  via &quot;%4&quot;.</source>
-        <translation type="unfinished"></translation>
+        <translation>Valittu pelipöydän tyyli &quot;%1&quot; näyttäisi olevan vanhentunut. 
+Nykyinen PokerTH:n pelipödän tyylin versio on &quot;%2&quot;, mutta tämän tyylin versio on &quot;%3&quot;. 
+
+Voit tästä huolimatta pelata tällä tyylillä, koska puuttuvat osat korvataan PokerTH:n oletustyyleillä. 
+
+Ota yhteyttä pelipöydän tyylin tekijään osoitteella &quot;%4&quot;.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/styles/gametablestylereader.cpp" line="1284"/>
         <source>Game Table Style Error - Outdated</source>
-        <translation type="unfinished"></translation>
+        <translation>Pelipöydän tyylivirhe - Vanhentunut</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/styles/gametablestylereader.cpp" line="1640"/>
         <source>Everything OK!</source>
-        <translation type="unfinished"></translation>
+        <translation>Kaikki on OK!</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/styles/gametablestylereader.cpp" line="1643"/>
         <source>Some pictures are missing, please contact style maintainer for this issue.</source>
-        <translation type="unfinished"></translation>
+        <translation>Joitakin kuvia puuttuu. Ota yhteyttä tyylin tekijään ilmoittaaksesi ongelmasta.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/styles/gametablestylereader.cpp" line="1646"/>
         <source>Some style fields are missing, please contact style maintainer for this issue.</source>
-        <translation type="unfinished"></translation>
+        <translation>Joitakin tyylikenttiä puuttuu. Ota yhteyttä tyylin tekijään ilmoittaaksesi ongelmasta.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/styles/gametablestylereader.cpp" line="1649"/>
         <source>This style is outdated, please contact style maintainer for this issue.</source>
-        <translation type="unfinished"></translation>
+        <translation>Tämä tyyli on vanhentunut. Ota yhteyttä tyylin tekijään ilmoittaaksesi ongelmasta.</translation>
     </message>
     <message>
         <source>Selected game table style &quot;%1&quot; seems to be outdated. 
@@ -292,38 +312,38 @@ Ota yhteyttä pelipöytätyylin tekijään %3.</translation>
     <message>
         <location filename="../src/gui/qt/gametable/myavatarlabel.cpp" line="35"/>
         <source>Add/Edit/Remove tooltip</source>
-        <translation type="unfinished"></translation>
+        <translation>Lisää/muokkaa/poista työkaluvinkki</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gametable/myavatarlabel.cpp" line="37"/>
         <source>Start vote to kick this player</source>
-        <translation type="unfinished"></translation>
+        <translation>Aloita äänestys pelaajan potkaisemisesta</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gametable/myavatarlabel.cpp" line="39"/>
         <source>Ignore Player</source>
-        <translation type="unfinished"></translation>
+        <translation>Jätä pelaaja huomiotta</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gametable/myavatarlabel.cpp" line="41"/>
         <source>Report inappropriate avatar</source>
-        <translation type="unfinished"></translation>
+        <translation>Ilmoita sopimaton avatar</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gametable/myavatarlabel.cpp" line="374"/>
         <source>You will no longer receive chat messages or game invitations from this user.&lt;br&gt;Do you really want to put player &lt;b&gt;%1&lt;/b&gt; on ignore list?</source>
-        <translation type="unfinished"></translation>
+        <translation>Et saa enää chat-viestejä tai pelikutsuja tältä käyttäjältä.&lt;br&gt;Haluatko varmasti olla huomioimatta pelaajaa &lt;b&gt;%1&lt;/b&gt;?</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gametable/myavatarlabel.cpp" line="374"/>
         <location filename="../src/gui/qt/gametable/myavatarlabel.cpp" line="401"/>
         <source>PokerTH - Question</source>
-        <translation type="unfinished"></translation>
+        <translation>PokerTH - Kysymys</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gametable/myavatarlabel.cpp" line="402"/>
         <source>Are you sure you want to report the avatar of &quot;%1&quot; as inappropriate?</source>
-        <translation type="unfinished"></translation>
+        <translation>Haluatko varmasti ilmoittaa pelaajan &quot;%1&quot; avatarin sopimattomaksi?</translation>
     </message>
 </context>
 <context>
@@ -367,7 +387,20 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:8pt;&quot;&gt;&lt;/p&gt;
 &lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:8pt;&quot;&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;© 2006-2011, Felix Hammer, Florian Thauer, Lothar May&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;table border=&quot;0&quot; style=&quot;-qt-table-type: root; margin-top:4px; margin-bottom:4px; margin-left:4px; margin-right:4px;&quot;&gt;
+&lt;tr&gt;
+&lt;td style=&quot;border: none;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;- Pokeri-alusta suositulle &amp;quot;Texas Hold&apos;em&amp;quot; -Pokerille&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;- Yksinpelit jopa 9:n tietokonevastustajan kanssa&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;- Verkkomoninpelit&lt;br /&gt;- Internet-pelit&lt;br /&gt;- Muunneltava graafinen kyttöliittymä verkkogallerialla&lt;br /&gt;- &lt;/span&gt;&lt;a href=&quot;http://online-ranking.pokerth.net&quot;&gt;&lt;span style=&quot; font-size:8pt; text-decoration: underline; color:#0057ae;&quot;&gt;Online sijoitussivusto&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt; tulostaulukoilla&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:8pt;&quot;&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:8pt;&quot;&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:8pt;&quot;&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;© 2006-2011, Felix Hammer, Florian Thauer, Lothar May&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/aboutpokerth.ui" line="101"/>
@@ -403,7 +436,28 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;          - basic architecture, network development, windows package, MacOS package&lt;/span&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;     Oskar Lindqvist (&lt;/span&gt;&lt;a href=&quot;mailto:tranberry@pokerth.net&quot;&gt;&lt;span style=&quot; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;tranberry@pokerth.net&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;)&lt;/span&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;          - initial gui graphics design&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;table border=&quot;0&quot; style=&quot;-qt-table-type: root; margin-top:4px; margin-bottom:4px; margin-left:4px; margin-right:4px;&quot;&gt;
+&lt;tr&gt;
+&lt;td style=&quot;border: none;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt; font-weight:600;&quot;&gt;Projektisivu: &lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;     &lt;/span&gt;&lt;a href=&quot;http://www.pokerth.net&quot;&gt;&lt;span style=&quot; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;http://www.pokerth.net&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:8pt;&quot;&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt; font-weight:600;&quot;&gt;IRC: &lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;     #pokerth (irc.freenode.net)&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:8pt;&quot;&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt; font-weight:600;&quot;&gt;Tekijt: &lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;     Felix Hammer (&lt;/span&gt;&lt;a href=&quot;mailto:doitux@pokerth.net&quot;&gt;&lt;span style=&quot; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;doitux@pokerth.net&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;)&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;          - alkuperäinen idea, perusarkkitehtuuri, graafisen käyttöliittymän toteutus, graafisen käyytöliittymän gaafikoiden muokkaus, linux-paketti&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;     Florian Thauer (&lt;/span&gt;&lt;a href=&quot;mailto:floty@pokerth.net&quot;&gt;&lt;span style=&quot; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;floty@pokerth.net&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;)&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;          - alkuperäinen idea, perusarkkitehtuuri, moottorin kehitys&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;     Lothar May (&lt;/span&gt;&lt;a href=&quot;mailto:lotodore@pokerth.net&quot;&gt;&lt;span style=&quot; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;lotodore@pokerth.net&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;)&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;          - perusarkkitehtuuri, verkkokehitys, windows-paketti, MacOS-paketti&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;     Oskar Lindqvist (&lt;/span&gt;&lt;a href=&quot;mailto:tranberry@pokerth.net&quot;&gt;&lt;span style=&quot; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;tranberry@pokerth.net&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;)&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;          - alkuperäisen graafisen käyttöliittymän grafiikkamalli&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/aboutpokerth.ui" line="174"/>
@@ -415,7 +469,14 @@ p, li { white-space: pre-wrap; }
 &lt;tr&gt;
 &lt;td style=&quot;border: none;&quot;&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;translator name - mail address&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;table border=&quot;0&quot; style=&quot;-qt-table-type: root; margin-top:4px; margin-bottom:4px; margin-left:4px; margin-right:4px;&quot;&gt;
+&lt;tr&gt;
+&lt;td style=&quot;border: none;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;Rami Selin - rami.selin@gmail.com&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/aboutpokerth.ui" line="162"/>
@@ -456,7 +517,33 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;    - for moderating forum and organise bugtracker and feature requests&lt;/span&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt; font-weight:600;&quot;&gt;texas_outlaw&lt;/span&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;    - for new table sounds&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;table border=&quot;0&quot; style=&quot;-qt-table-type: root; margin-top:4px; margin-bottom:4px; margin-left:4px; margin-right:4px;&quot;&gt;
+&lt;tr&gt;
+&lt;td style=&quot;border: none;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://commons.wikimedia.org/wiki/Main_Page&quot;&gt;&lt;span style=&quot; font-size:8pt; font-weight:600; text-decoration: underline; color:#0000ff;&quot;&gt;Wikimedia Commons&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt; font-weight:600;&quot;&gt;     - &lt;/span&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;erinäisistä suosittujen avatar-kuvien resursseista&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt; font-weight:600;&quot;&gt;Benedikt, Erhard, Felix, Florian, Linus, Lothar, Steffi, Caro&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;     - ihmisten avatar-kuvista&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt; font-weight:600;&quot;&gt;ZeiZei&lt;/span&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt; &lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;    - for &amp;quot;misc&amp;quot; avatar-kuvista&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://kde-look.org/&quot;&gt;&lt;span style=&quot; font-size:8pt; font-weight:600; text-decoration: underline; color:#0000ff;&quot;&gt;http://kde-look.org/&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;     - erinäisistä gpl-lisensioiduista äänistä&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt; font-weight:600;&quot;&gt;doc_dos&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;     - itse äänittämistä pelimerkkiäänistä&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt; font-weight:600;&quot;&gt;thiger, dunkanx, BerndA, coldz&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;     - erinäisistä korjauksista&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt; font-weight:600;&quot;&gt;kraut&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;     - internet-pelipalvelimen ylläpidosta ja hallinnoinnista&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt; font-weight:600;&quot;&gt;danuxi&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;    - käynnistysikkunan ja danuxi1-pöydän taustakuvista&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt; font-weight:600;&quot;&gt;heyn&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;    - foorumeiden valvonnasta, bugiseurannan järjestämisestä ja ominaisuuspyynnöistä&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt; font-weight:600;&quot;&gt;texas_outlaw&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;    - uusista pöytien äänistä&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/aboutpokerth.ui" line="241"/>
@@ -851,17 +938,17 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/gui/qt/changecontentdialog.ui" line="20"/>
         <source>Network Error</source>
-        <translation type="unfinished">Verkkovirhe</translation>
+        <translation>Verkkovirhe</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/changecontentdialog.ui" line="31"/>
         <source>Name:</source>
-        <translation type="unfinished">Nimi:</translation>
+        <translation>Nimi:</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/changecontentdialog.ui" line="46"/>
         <source>Save in configuration</source>
-        <translation type="unfinished"></translation>
+        <translation>Tallenna asetuksiin</translation>
     </message>
 </context>
 <context>
@@ -870,45 +957,47 @@ p, li { white-space: pre-wrap; }
         <location filename="../src/gui/qt/changecontentdialog/changecontentdialogimpl.cpp" line="34"/>
         <source>You cannot join Internet-Game-Lobby with &quot;Human Player&quot; as nickname.
 Please choose another one.</source>
-        <translation type="unfinished">Et voi liittyä Internet-peliaulaan &quot;Human Player&quot; nimimerkkinäsi.
-Valitse toinen nimi.</translation>
+        <translation>Et voi liittyä Internet-peliaulaan &quot;Human Player&quot; nimimerkkinäsi.
+Valitse toinen nimimerkki.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/changecontentdialog/changecontentdialogimpl.cpp" line="35"/>
         <location filename="../src/gui/qt/changecontentdialog/changecontentdialogimpl.cpp" line="44"/>
         <location filename="../src/gui/qt/changecontentdialog/changecontentdialogimpl.cpp" line="51"/>
         <source>Nick name:</source>
-        <translation type="unfinished"></translation>
+        <translation>Nimimerkki:</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/changecontentdialog/changecontentdialogimpl.cpp" line="43"/>
         <source>Your player name is already used by another player.
 Please choose a different name.</source>
-        <translation type="unfinished">Nimesi on jo käytössä toisella pelaajalla.
+        <translation>Nimesi on jo käytössä toisella pelaajalla.
 Valitse toinen nimi.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/changecontentdialog/changecontentdialogimpl.cpp" line="50"/>
         <source>The player name is too short, too long or invalid. Please choose another one.</source>
-        <translation type="unfinished">Nimesi on liian lyhyt, pitkä ja epäkelpo. Valitse toinen nimi.</translation>
+        <translation>Nimesi on liian lyhyt, pitkä tai kelpaamaton. Valitse toinen nimi.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/changecontentdialog/changecontentdialogimpl.cpp" line="57"/>
         <source>There is already a game with your chosen game name.
 Please choose another one!</source>
-        <translation type="unfinished"></translation>
+        <translation>Toinen samanniminen peli on jo käynnissä.
+Valitse toinen nimi!</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/changecontentdialog/changecontentdialogimpl.cpp" line="64"/>
         <source>There is a forbidden word in your chosen game name.
 Please choose another one!</source>
-        <translation type="unfinished"></translation>
+        <translation>Valitsemassasi pelinimessä on kielletty sana.
+Valitse toinen nimi!</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/changecontentdialog/changecontentdialogimpl.cpp" line="58"/>
         <location filename="../src/gui/qt/changecontentdialog/changecontentdialogimpl.cpp" line="65"/>
         <source>Game name:</source>
-        <translation type="unfinished"></translation>
+        <translation>Pelin nimi:</translation>
     </message>
 </context>
 <context>
@@ -983,32 +1072,32 @@ Please choose another one!</source>
     <message>
         <location filename="../src/gui/qt/createinternetgamedialog.ui" line="28"/>
         <source>Default game name:</source>
-        <translation type="unfinished"></translation>
+        <translation>Oletuspelinimi:</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/createinternetgamedialog.ui" line="46"/>
         <source>Game type:</source>
-        <translation type="unfinished"></translation>
+        <translation>Pelityyppi:</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/createinternetgamedialog.ui" line="60"/>
         <source>Standard</source>
-        <translation type="unfinished"></translation>
+        <translation>Tavallinen</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/createinternetgamedialog.ui" line="69"/>
         <source>Registered players only</source>
-        <translation type="unfinished"></translation>
+        <translation>Vain rekistöröityneet pelaajat</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/createinternetgamedialog.ui" line="78"/>
         <source>Invited players only</source>
-        <translation type="unfinished"></translation>
+        <translation>Vain kutsutut pelaajat</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/createinternetgamedialog.ui" line="87"/>
         <source>Ranking game</source>
-        <translation type="unfinished"></translation>
+        <translation>Sijoituspeli</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/createinternetgamedialog.ui" line="139"/>
@@ -1063,7 +1152,7 @@ Please choose another one!</source>
     <message>
         <location filename="../src/gui/qt/createinternetgamedialog.ui" line="255"/>
         <source>Delay between hands:</source>
-        <translation type="unfinished"></translation>
+        <translation>Viive käsien välillä:</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/createinternetgamedialog.ui" line="311"/>
@@ -1081,17 +1170,17 @@ Please choose another one!</source>
     <message>
         <location filename="../src/gui/qt/createinternetgamedialog/createinternetgamedialogimpl.cpp" line="41"/>
         <source>&lt;i&gt;First small blind: $%1&lt;/i&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;i&gt;Ensimmäinen pieni sokko: $%1&lt;/i&gt;</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/createinternetgamedialog/createinternetgamedialogimpl.cpp" line="42"/>
         <source>&lt;i&gt;Double blinds every %1&apos;th hand&lt;/i&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;i&gt;Tuplaa sokot %1:n käden välein&lt;/i&gt;</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/createinternetgamedialog/createinternetgamedialogimpl.cpp" line="91"/>
         <source>%1&apos;s game</source>
-        <translation type="unfinished">%1&apos;n peli</translation>
+        <translation>Pelaajan %1 peli</translation>
     </message>
 </context>
 <context>
@@ -1148,7 +1237,7 @@ Please choose another one!</source>
     <message>
         <location filename="../src/gui/qt/createnetworkgamedialog.ui" line="120"/>
         <source>Delay between hands:</source>
-        <translation type="unfinished"></translation>
+        <translation>Viive käsien välissä:</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/createnetworkgamedialog.ui" line="130"/>
@@ -1197,7 +1286,7 @@ Please choose another one!</source>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog.ui" line="86"/>
         <source>5 - Show open &amp; non-full &amp; ranking games</source>
-        <translation type="unfinished"></translation>
+        <translation>5 - Näytä avoimet &amp; vapaat &amp; sijoituspelit</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog.ui" line="115"/>
@@ -1212,27 +1301,27 @@ Please choose another one!</source>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog.ui" line="245"/>
         <source>Start Cash:</source>
-        <translation type="unfinished">Aloitusraha:</translation>
+        <translation>Aloitusraha:</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog.ui" line="271"/>
         <source>First small blind:</source>
-        <translation type="unfinished"></translation>
+        <translation>Ensimmäinen pieni sokko:</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog.ui" line="297"/>
         <source>Blinds raise interval:</source>
-        <translation type="unfinished"></translation>
+        <translation>Sokkojen korotuksen väli:</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog.ui" line="323"/>
         <source>Blinds raise mode:</source>
-        <translation type="unfinished"></translation>
+        <translation>Sokkojen korotuksen tapa:</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog.ui" line="381"/>
         <source>Timeout for player action (sec):</source>
-        <translation type="unfinished"></translation>
+        <translation>Aikakatkaisu pelaajan toiminnalle (sek):</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog.ui" line="419"/>
@@ -1242,17 +1331,17 @@ Please choose another one!</source>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog.ui" line="851"/>
         <source>Sort alphabetically</source>
-        <translation type="unfinished"></translation>
+        <translation>Järjestä aakkosellisesti</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog.ui" line="856"/>
         <source>Sort by country</source>
-        <translation type="unfinished"></translation>
+        <translation>Järjestä maittain</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog.ui" line="861"/>
         <source>Display idle players</source>
-        <translation type="unfinished"></translation>
+        <translation>Näytä joutilaat pelaajat</translation>
     </message>
     <message>
         <source>Start Game</source>
@@ -1304,7 +1393,7 @@ Please choose another one!</source>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog.ui" line="196"/>
         <source>Game type:</source>
-        <translation type="unfinished"></translation>
+        <translation>Pelityyppi:</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog.ui" line="577"/>
@@ -1336,7 +1425,14 @@ p, li { white-space: pre-wrap; }
 &lt;tr&gt;
 &lt;td style=&quot;border: none;&quot;&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://online-ranking.pokerth.net&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Click here to view the online rankings&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body&gt;
+&lt;table border=&quot;0&quot; style=&quot;-qt-table-type: root; margin-top:4px; margin-bottom:4px; margin-left:4px; margin-right:4px;&quot;&gt;
+&lt;tr&gt;
+&lt;td style=&quot;border: none;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://online-ranking.pokerth.net&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Klikkaa tästä nähdäksesi online-sijoitukset&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog.ui" line="61"/>
@@ -1346,7 +1442,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/gui/qt/gamelobbydialog.ui" line="53"/>
         <source>search for player ...</source>
-        <translation type="unfinished"></translation>
+        <translation>hae pelaajaa ...</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog.ui" line="66"/>
@@ -1467,85 +1563,85 @@ p, li { white-space: pre-wrap; }
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="386"/>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="783"/>
         <source>P</source>
-        <translation type="unfinished"></translation>
+        <translation>P</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="132"/>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="395"/>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="799"/>
         <source>Available Players</source>
-        <translation type="unfinished">Käytettävissä olevat pelaajat</translation>
+        <translation>Vapaat pelaajat</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="139"/>
         <source>Invite player</source>
-        <translation type="unfinished"></translation>
+        <translation>Kutsu pelaaja</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="141"/>
         <source>Ignore player</source>
-        <translation type="unfinished"></translation>
+        <translation>Jätä pelaaja huomiotta</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="143"/>
         <source>Player infos ...</source>
-        <translation type="unfinished"></translation>
+        <translation>Pelaajan tiedot ...</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="283"/>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="447"/>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1113"/>
         <source>Standard</source>
-        <translation type="unfinished"></translation>
+        <translation>Tavallinen</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="288"/>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="452"/>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1118"/>
         <source>Registered players only</source>
-        <translation type="unfinished"></translation>
+        <translation>Vain rekistöröityneet pelaajat</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="293"/>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="457"/>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1123"/>
         <source>Invited players only</source>
-        <translation type="unfinished"></translation>
+        <translation>Vain kutsutut pelaajat</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="298"/>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="462"/>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1128"/>
         <source>Ranking game</source>
-        <translation type="unfinished"></translation>
+        <translation>Sijoituspeli</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="309"/>
         <source>Connected players - max. %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Yhdistettyjä pelaajia - maks. %1</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="110"/>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="386"/>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="783"/>
         <source>T</source>
-        <translation type="unfinished"></translation>
+        <translation>T</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="57"/>
         <source>Waiting for the start of the next hand to rejoin the game ...</source>
-        <translation type="unfinished"></translation>
+        <translation>Odotetaan seuraavan käden alkamista peliin liittymiseksi ...</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="146"/>
         <source>Show player stats</source>
-        <translation type="unfinished"></translation>
+        <translation>Näytä pelaajatilastot</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="486"/>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1140"/>
         <source>Connected players - Max. %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Yhdistettyjä pelaajia - Maks. %1</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="537"/>
@@ -1567,49 +1663,50 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1523"/>
         <source>Invite %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Kutsu %1</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1533"/>
         <source>Ignore %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Jätä %1 huomiotta</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1602"/>
         <source>&lt;span style=&apos;color:blue;&apos;&gt;%1 has been invited to %2 by %3.&lt;/span&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;span style=&apos;color:blue;&apos;&gt;%1 on kutsu peliin%2 pelaajan %3 toimesta.&lt;/span&gt;</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1609"/>
         <source>&lt;span style=&apos;color:red;&apos;&gt;%1 has rejected the invitation to %2.&lt;/span&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;span style=&apos;color:red;&apos;&gt;%1 on hylännyt kutsun peliin %2.&lt;/span&gt;</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1611"/>
         <source>&lt;span style=&apos;color:red;&apos;&gt;%1 cannot join %2 because he is busy.&lt;/span&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;span style=&apos;color:red;&apos;&gt;%1 ei voi liittyä peliin %2, koska hän on kiireinen.&lt;/span&gt;</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1667"/>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1678"/>
         <source>The game will start in&lt;br&gt;&lt;b&gt;%1&lt;/b&gt; seconds.</source>
-        <translation type="unfinished"></translation>
+        <translation>Peli alkaa &lt;br&gt;&lt;b&gt;%1&lt;/b&gt; sekunnin kuluttua.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1569"/>
         <source>You have entered a game with type &quot;invite-only&quot;.
 Feel free to invite other players by right-clicking on their nick in the available players list.</source>
-        <translation type="unfinished"></translation>
+        <translation>Olet liittynyt vain kutsutuille tarkoitettuun peliin.
+Olet vapaa kutsumaan muita pelaajia klikkaamalla heidän nimimerkkiänsä vapaiden pelaajien listasta.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1588"/>
         <source>You have been invited to the game &lt;b&gt;%1&lt;/b&gt; by &lt;b&gt;%2&lt;/b&gt;.&lt;br&gt;Would you like to join this game?</source>
-        <translation type="unfinished"></translation>
+        <translation>Sinut on kutsuttu peliin&lt;b&gt;%1&lt;/b&gt; pelaajan &lt;b&gt;%2&lt;/b&gt; toimesta.&lt;br&gt;Haluatko liittyä tähän peliin?</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1642"/>
         <source>You will no longer receive chat messages or game invitations from this user.&lt;br&gt;Do you really want to put player &lt;b&gt;%1&lt;/b&gt; on your ignore list?</source>
-        <translation type="unfinished"></translation>
+        <translation>Et saa enää chat-viestejä tai pelikutsuja tältä käyttäjältä.&lt;br&gt;Haluatko varmasti jättää pelaajan&lt;b&gt;%1&lt;/b&gt; huomiotta?</translation>
     </message>
     <message>
         <source>players in chat: %1</source>
@@ -1625,7 +1722,7 @@ Feel free to invite other players by right-clicking on their nick in the availab
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="751"/>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1155"/>
         <source>Connected players</source>
-        <translation type="unfinished"></translation>
+        <translation>Yhdistetyt pelaajat</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1187"/>
@@ -1660,253 +1757,253 @@ Feel free to invite other players by right-clicking on their nick in the availab
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1300"/>
         <source>search for player ...</source>
-        <translation type="unfinished"></translation>
+        <translation>hae pelaajaa ...</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1508"/>
         <source>Chat is only available to registered players.</source>
-        <translation type="unfinished"></translation>
+        <translation>Chat on vain rekistöröityneille pelaajille.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1526"/>
         <source>Invite player ...</source>
-        <translation type="unfinished"></translation>
+        <translation>Kutsu pelaaja ...</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1537"/>
         <source>Ignore player ...</source>
-        <translation type="unfinished"></translation>
+        <translation>Jätä pelaaja huomiotta ...</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1544"/>
         <source>%1 is playing in &quot;%2&quot;.</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 on pelissä &quot;%2&quot;.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1546"/>
         <source>%1 is not playing at the moment.</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 ei pelaa tällä hetkellä.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1569"/>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1588"/>
         <source>PokerTH - Info Message</source>
-        <translation type="unfinished"></translation>
+        <translation>PokerTH - Infoviesti</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1642"/>
         <source>PokerTH - Question</source>
-        <translation type="unfinished"></translation>
+        <translation>PokerTH - Kysymys</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1719"/>
         <source>Afghanistan</source>
-        <translation type="unfinished"></translation>
+        <translation>Afganistan</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1720"/>
         <source>ALand Islands</source>
-        <translation type="unfinished"></translation>
+        <translation>Ahvenanmaa</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1721"/>
         <source>Albania</source>
-        <translation type="unfinished"></translation>
+        <translation>Albania</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1722"/>
         <source>Algeria</source>
-        <translation type="unfinished"></translation>
+        <translation>Algeria</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1723"/>
         <source>American Samoa</source>
-        <translation type="unfinished"></translation>
+        <translation>Amerikan Samoa</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1724"/>
         <source>Andorra</source>
-        <translation type="unfinished"></translation>
+        <translation>Andorra</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1725"/>
         <source>Angola</source>
-        <translation type="unfinished"></translation>
+        <translation>Angola</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1726"/>
         <source>Anguilla</source>
-        <translation type="unfinished"></translation>
+        <translation>Anguilla</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1727"/>
         <source>Antarctica</source>
-        <translation type="unfinished"></translation>
+        <translation>Etelämanner</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1728"/>
         <source>Antigua And Barbuda</source>
-        <translation type="unfinished"></translation>
+        <translation>Antigua ja Barbuda</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1729"/>
         <source>Argentina</source>
-        <translation type="unfinished"></translation>
+        <translation>Argentiina</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1730"/>
         <source>Armenia</source>
-        <translation type="unfinished"></translation>
+        <translation>Armenia</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1731"/>
         <source>Aruba</source>
-        <translation type="unfinished"></translation>
+        <translation>Aruba</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1732"/>
         <source>Australia</source>
-        <translation type="unfinished"></translation>
+        <translation>Australia</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1733"/>
         <source>Austria</source>
-        <translation type="unfinished"></translation>
+        <translation>Itävalta</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1734"/>
         <source>Azerbaijan</source>
-        <translation type="unfinished"></translation>
+        <translation>Azerbaidžan</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1735"/>
         <source>Bahamas</source>
-        <translation type="unfinished"></translation>
+        <translation>Bahama</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1736"/>
         <source>Bahrain</source>
-        <translation type="unfinished"></translation>
+        <translation>Bahrain</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1737"/>
         <source>Bangladesh</source>
-        <translation type="unfinished"></translation>
+        <translation>Bangladesh</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1738"/>
         <source>Barbados</source>
-        <translation type="unfinished"></translation>
+        <translation>Barbados</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1739"/>
         <source>Belarus</source>
-        <translation type="unfinished"></translation>
+        <translation>Valko-Venäjä</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1740"/>
         <source>Belgium</source>
-        <translation type="unfinished"></translation>
+        <translation>Belgia</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1741"/>
         <source>Belize</source>
-        <translation type="unfinished"></translation>
+        <translation>Belize</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1742"/>
         <source>Benin</source>
-        <translation type="unfinished"></translation>
+        <translation>Benin</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1743"/>
         <source>Bermuda</source>
-        <translation type="unfinished"></translation>
+        <translation>Bermuda</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1744"/>
         <source>Bhutan</source>
-        <translation type="unfinished"></translation>
+        <translation>Bhutan</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1745"/>
         <source>Bolivia</source>
-        <translation type="unfinished"></translation>
+        <translation>Bolivia</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1746"/>
         <source>Bosnia And Herzegovina</source>
-        <translation type="unfinished"></translation>
+        <translation>Bosnia ja Hertsegovina</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1747"/>
         <source>Botswana</source>
-        <translation type="unfinished"></translation>
+        <translation>Botswana</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1748"/>
         <source>Bouvet Island</source>
-        <translation type="unfinished"></translation>
+        <translation>Bouvet&apos;nsaari</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1749"/>
         <source>Brazil</source>
-        <translation type="unfinished"></translation>
+        <translation>Brasilia</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1750"/>
         <source>British Indian Ocean Territory</source>
-        <translation type="unfinished"></translation>
+        <translation>Brittiläinen Intian valtameren alue</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1751"/>
         <source>Brunei Darussalam</source>
-        <translation type="unfinished"></translation>
+        <translation>Brunei</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1752"/>
         <source>Bulgaria</source>
-        <translation type="unfinished"></translation>
+        <translation>Bulgaria</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1753"/>
         <source>Burkina Faso</source>
-        <translation type="unfinished"></translation>
+        <translation>Burkina Faso</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1754"/>
         <source>Burundi</source>
-        <translation type="unfinished"></translation>
+        <translation>Burundi</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1755"/>
         <source>Cambodia</source>
-        <translation type="unfinished"></translation>
+        <translation>Kambodža</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1756"/>
         <source>Cameroon</source>
-        <translation type="unfinished"></translation>
+        <translation>Kamerun</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1757"/>
         <source>Canada</source>
-        <translation type="unfinished"></translation>
+        <translation>Kanada</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1758"/>
         <source>Cape Verde</source>
-        <translation type="unfinished"></translation>
+        <translation>Kap Verde</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1759"/>
         <source>Cayman Islands</source>
-        <translation type="unfinished"></translation>
+        <translation>Caymansaaret</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1760"/>
         <source>Central African Republic</source>
-        <translation type="unfinished"></translation>
+        <translation>Keski-Afrikan tasavalta</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1761"/>
@@ -1921,7 +2018,7 @@ Feel free to invite other players by right-clicking on their nick in the availab
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1763"/>
         <source>China</source>
-        <translation type="unfinished"></translation>
+        <translation>Kiina</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1764"/>
@@ -1976,7 +2073,7 @@ Feel free to invite other players by right-clicking on their nick in the availab
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1774"/>
         <source>Cuba</source>
-        <translation type="unfinished"></translation>
+        <translation>Kuuba</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1775"/>
@@ -1991,7 +2088,7 @@ Feel free to invite other players by right-clicking on their nick in the availab
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1777"/>
         <source>Denmark</source>
-        <translation type="unfinished"></translation>
+        <translation>Tanska</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1778"/>
@@ -2016,7 +2113,7 @@ Feel free to invite other players by right-clicking on their nick in the availab
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1782"/>
         <source>Egypt</source>
-        <translation type="unfinished"></translation>
+        <translation>Egypti</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1783"/>
@@ -2036,7 +2133,7 @@ Feel free to invite other players by right-clicking on their nick in the availab
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1786"/>
         <source>Estonia</source>
-        <translation type="unfinished"></translation>
+        <translation>Viro</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1787"/>
@@ -2061,12 +2158,12 @@ Feel free to invite other players by right-clicking on their nick in the availab
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1791"/>
         <source>Finland</source>
-        <translation type="unfinished"></translation>
+        <translation>Suomi</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1792"/>
         <source>France</source>
-        <translation type="unfinished"></translation>
+        <translation>Ranska</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1793"/>
@@ -2101,7 +2198,7 @@ Feel free to invite other players by right-clicking on their nick in the availab
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1799"/>
         <source>Germany</source>
-        <translation type="unfinished"></translation>
+        <translation>Saksa</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1800"/>
@@ -2116,7 +2213,7 @@ Feel free to invite other players by right-clicking on their nick in the availab
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1802"/>
         <source>Greece</source>
-        <translation type="unfinished"></translation>
+        <translation>Kreikka</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1803"/>
@@ -2191,17 +2288,17 @@ Feel free to invite other players by right-clicking on their nick in the availab
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1817"/>
         <source>Hungary</source>
-        <translation type="unfinished"></translation>
+        <translation>Unkari</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1818"/>
         <source>Iceland</source>
-        <translation type="unfinished"></translation>
+        <translation>Islanti</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1819"/>
         <source>India</source>
-        <translation type="unfinished"></translation>
+        <translation>Intia</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1820"/>
@@ -2216,12 +2313,12 @@ Feel free to invite other players by right-clicking on their nick in the availab
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1822"/>
         <source>Iraq</source>
-        <translation type="unfinished"></translation>
+        <translation>Irak</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1823"/>
         <source>Ireland</source>
-        <translation type="unfinished"></translation>
+        <translation>Irlanti</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1824"/>
@@ -2231,22 +2328,22 @@ Feel free to invite other players by right-clicking on their nick in the availab
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1825"/>
         <source>Israel</source>
-        <translation type="unfinished"></translation>
+        <translation>Israeli</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1826"/>
         <source>Italy</source>
-        <translation type="unfinished"></translation>
+        <translation>Italia</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1827"/>
         <source>Jamaica</source>
-        <translation type="unfinished"></translation>
+        <translation>Jamaika</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1828"/>
         <source>Japan</source>
-        <translation type="unfinished"></translation>
+        <translation>Japani</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1829"/>
@@ -2406,7 +2503,7 @@ Feel free to invite other players by right-clicking on their nick in the availab
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1860"/>
         <source>Mexico</source>
-        <translation type="unfinished"></translation>
+        <translation>Meksiko</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1861"/>
@@ -2516,7 +2613,7 @@ Feel free to invite other players by right-clicking on their nick in the availab
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1882"/>
         <source>Norway</source>
-        <translation type="unfinished"></translation>
+        <translation>Norja</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1883"/>
@@ -2556,12 +2653,12 @@ Feel free to invite other players by right-clicking on their nick in the availab
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1890"/>
         <source>Peru</source>
-        <translation type="unfinished"></translation>
+        <translation>Peru</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1891"/>
         <source>Philippines</source>
-        <translation type="unfinished"></translation>
+        <translation>Filippiinit</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1892"/>
@@ -2571,12 +2668,12 @@ Feel free to invite other players by right-clicking on their nick in the availab
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1893"/>
         <source>Poland</source>
-        <translation type="unfinished"></translation>
+        <translation>Puola</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1894"/>
         <source>Portugal</source>
-        <translation type="unfinished"></translation>
+        <translation>Portugali</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1895"/>
@@ -2596,7 +2693,7 @@ Feel free to invite other players by right-clicking on their nick in the availab
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1898"/>
         <source>Romania</source>
-        <translation type="unfinished"></translation>
+        <translation>Romania</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1899"/>
@@ -2681,12 +2778,12 @@ Feel free to invite other players by right-clicking on their nick in the availab
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1915"/>
         <source>Slovakia</source>
-        <translation type="unfinished"></translation>
+        <translation>Slovakia</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1916"/>
         <source>Slovenia</source>
-        <translation type="unfinished"></translation>
+        <translation>Slovenia</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1917"/>
@@ -2696,7 +2793,7 @@ Feel free to invite other players by right-clicking on their nick in the availab
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1918"/>
         <source>Somalia</source>
-        <translation type="unfinished"></translation>
+        <translation>Somalia</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1919"/>
@@ -2711,7 +2808,7 @@ Feel free to invite other players by right-clicking on their nick in the availab
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1921"/>
         <source>Spain</source>
-        <translation type="unfinished"></translation>
+        <translation>Espanja</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1922"/>
@@ -2741,12 +2838,12 @@ Feel free to invite other players by right-clicking on their nick in the availab
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1927"/>
         <source>Sweden</source>
-        <translation type="unfinished"></translation>
+        <translation>Ruotsi</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1928"/>
         <source>Switzerland</source>
-        <translation type="unfinished"></translation>
+        <translation>Sveitsi</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1929"/>
@@ -2756,7 +2853,7 @@ Feel free to invite other players by right-clicking on their nick in the availab
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1930"/>
         <source>Taiwan, Province Of China</source>
-        <translation type="unfinished"></translation>
+        <translation>Taiwan, Kiinan maakunta</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1931"/>
@@ -2771,7 +2868,7 @@ Feel free to invite other players by right-clicking on their nick in the availab
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1933"/>
         <source>Thailand</source>
-        <translation type="unfinished"></translation>
+        <translation>Thaimaa</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1934"/>
@@ -2806,7 +2903,7 @@ Feel free to invite other players by right-clicking on their nick in the availab
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1940"/>
         <source>Turkey</source>
-        <translation type="unfinished"></translation>
+        <translation>Turkki</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1941"/>
@@ -2846,7 +2943,7 @@ Feel free to invite other players by right-clicking on their nick in the availab
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1948"/>
         <source>United States</source>
-        <translation type="unfinished"></translation>
+        <translation>Yhdysvallat</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1949"/>
@@ -3006,12 +3103,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/gui/qt/gametable.ui" line="3809"/>
         <source>Save</source>
-        <translation type="unfinished">Tallenna</translation>
+        <translation>Tallenna</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gametable.ui" line="4138"/>
         <source>Log</source>
-        <translation>Logi</translation>
+        <translation>Loki</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gametable.ui" line="4164"/>
@@ -3135,7 +3232,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/gui/qt/gametable.ui" line="4565"/>
         <source>Show/Hide Log Window</source>
-        <translation>Näytä/piilota Logi-ikkuna</translation>
+        <translation>Näytä/piilota Loki-ikkuna</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gametable.ui" line="4568"/>
@@ -3185,7 +3282,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/gui/qt/gametable.ui" line="3787"/>
         <source>Player info</source>
-        <translation type="unfinished"></translation>
+        <translation>Pelaajan tiedot</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gametable.ui" line="4217"/>
@@ -3594,12 +3691,12 @@ Varmista, että olet yhdistetty suoraan internetiin.</translation>
     <message>
         <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3349"/>
         <source>Really want to exit?</source>
-        <translation type="unfinished"></translation>
+        <translation>Haluatko varmasti poistua?</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3349"/>
         <source>PokerTH - Close Table?</source>
-        <translation type="unfinished"></translation>
+        <translation>PokerTH - Sulje pöytä?</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3450"/>
@@ -3630,7 +3727,7 @@ Varmista, että olet yhdistetty suoraan internetiin.</translation>
     <message>
         <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3791"/>
         <source>Chat is only available to registered players.</source>
-        <translation type="unfinished"></translation>
+        <translation>Chat on saatavilla vain rekistöröityneille pelaajille.</translation>
     </message>
     <message>
         <source>Player &lt;b&gt;%1&lt;/b&gt; has &lt;b&gt;%2&lt;/b&gt; %3&lt;br&gt;against him. &lt;b&gt;%4&lt;/b&gt; votes needed to kick.</source>
@@ -3656,42 +3753,42 @@ Varmista, että olet yhdistetty suoraan internetiin.</translation>
     <message>
         <location filename="../src/gui/qt/internetgamelogindialog.ui" line="14"/>
         <source>Internet Game Login</source>
-        <translation type="unfinished"></translation>
+        <translation>Internet-pelin kirjautuminen</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/internetgamelogindialog.ui" line="20"/>
         <source>Registered user</source>
-        <translation type="unfinished"></translation>
+        <translation>Rekistöröitynyt käyttäjä</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/internetgamelogindialog.ui" line="29"/>
         <source>Username:</source>
-        <translation type="unfinished"></translation>
+        <translation>Käyttäjänimi:</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/internetgamelogindialog.ui" line="39"/>
         <source>Password:</source>
-        <translation type="unfinished">Salasana:</translation>
+        <translation>Salasana:</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/internetgamelogindialog.ui" line="53"/>
         <source>Remember password (not recommended)</source>
-        <translation type="unfinished"></translation>
+        <translation>Muista salasana (ei suositeltavaa)</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/internetgamelogindialog.ui" line="63"/>
         <source>Login as guest</source>
-        <translation type="unfinished"></translation>
+        <translation>Kirjaudu vieraana</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/internetgamelogindialog.ui" line="85"/>
         <source>Login</source>
-        <translation type="unfinished"></translation>
+        <translation>Kirjaudu</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/internetgamelogindialog.ui" line="92"/>
         <source>Cancel</source>
-        <translation type="unfinished">Peruuta</translation>
+        <translation>Peruuta</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/internetgamelogindialog.ui" line="101"/>
@@ -3703,7 +3800,14 @@ p, li { white-space: pre-wrap; }
 &lt;tr&gt;
 &lt;td style=&quot;border: none;&quot;&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://create-gaming-account.pokerth.net&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Create new user account&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body&gt;
+&lt;table style=&quot;-qt-table-type: root; margin-top:4px; margin-bottom:4px; margin-left:4px; margin-right:4px;&quot;&gt;
+&lt;tr&gt;
+&lt;td style=&quot;border: none;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://create-gaming-account.pokerth.net&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Luo uusi käyttäjätili&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
 </context>
 <context>
@@ -3944,7 +4048,7 @@ Korvataanko vanha?</translation>
     <message>
         <location filename="../src/gui/qt/mymessagedialog.ui" line="20"/>
         <source>Dialog</source>
-        <translation>Dialogi</translation>
+        <translation>Keskustelu</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/mymessagedialog.ui" line="41"/>
@@ -3954,7 +4058,7 @@ Korvataanko vanha?</translation>
     <message>
         <location filename="../src/gui/qt/mymessagedialog.ui" line="64"/>
         <source>Do not show this message again.</source>
-        <translation type="unfinished"></translation>
+        <translation>Älä näytä tätä viestiä uudestaan.</translation>
     </message>
     <message>
         <source>Do not show this warning again.</source>
@@ -4350,22 +4454,22 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="3581"/>
         <source>Export as txt</source>
-        <translation type="unfinished"></translation>
+        <translation>Vie txt-tiedostona</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="3592"/>
         <source>Save as ...</source>
-        <translation type="unfinished"></translation>
+        <translation>Tallenna nimellä ...</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="3603"/>
         <source>Delete</source>
-        <translation type="unfinished">Poista</translation>
+        <translation>Poista</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="3537"/>
         <source>Log File</source>
-        <translation type="unfinished"></translation>
+        <translation>Lokitiedosto</translation>
     </message>
     <message>
         <source>Game Speed for computer opponents:</source>
@@ -4537,12 +4641,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="3473"/>
         <source>Log File Directory: </source>
-        <translation>Logikansio: </translation>
+        <translation>Lokikansio: </translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="3429"/>
         <source>Write log after every: </source>
-        <translation>Kirjoita logi jokaisen: </translation>
+        <translation>Kirjoita loki jokaisen: </translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="3449"/>
@@ -4563,7 +4667,7 @@ p, li { white-space: pre-wrap; }
         <location filename="../src/gui/qt/settingsdialog.ui" line="116"/>
         <location filename="../src/gui/qt/settingsdialog.ui" line="3359"/>
         <source>Log Messages</source>
-        <translation>Logiviestit</translation>
+        <translation>Lokiviestit</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="1939"/>
@@ -4583,24 +4687,24 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="269"/>
         <source>Show country flag in the corner of avatar</source>
-        <translation type="unfinished"></translation>
+        <translation>Näytä maan lippu avatarin kulmassa</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="434"/>
         <location filename="../src/gui/qt/settingsdialog.ui" line="564"/>
         <source>Description</source>
-        <translation type="unfinished"></translation>
+        <translation>Kuvaus</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="439"/>
         <location filename="../src/gui/qt/settingsdialog.ui" line="569"/>
         <source>Maintainer</source>
-        <translation type="unfinished"></translation>
+        <translation>Ylläpitäjä</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="444"/>
         <source>State</source>
-        <translation type="unfinished">Tila</translation>
+        <translation>Tila</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="649"/>
@@ -4612,17 +4716,24 @@ p, li { white-space: pre-wrap; }
 &lt;tr&gt;
 &lt;td style=&quot;border: none;&quot;&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-style:italic;&quot;&gt;Note: Best quality with image ratio like &lt;/span&gt;&lt;span style=&quot; font-weight:600; font-style:italic;&quot;&gt;width=48, height=76.&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:8pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;table style=&quot;-qt-table-type: root; margin-top:4px; margin-bottom:4px; margin-left:4px; margin-right:4px;&quot;&gt;
+&lt;tr&gt;
+&lt;td style=&quot;border: none;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-style:italic;&quot;&gt;Huom: Paras laatu kuvasuhteella &lt;/span&gt;&lt;span style=&quot; font-weight:600; font-style:italic;&quot;&gt;leveys=48, korkeus=76.&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="1386"/>
         <source>Delay between hands:</source>
-        <translation type="unfinished"></translation>
+        <translation>Viive käsien välillä:</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="1561"/>
         <source>Server</source>
-        <translation type="unfinished"></translation>
+        <translation>Palvelin</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="1567"/>
@@ -4642,62 +4753,62 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="1725"/>
         <source>Game</source>
-        <translation type="unfinished">Peli</translation>
+        <translation>Peli</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="1746"/>
         <source>Default game name:</source>
-        <translation type="unfinished"></translation>
+        <translation>Oletus pelinimi:</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="1760"/>
         <source>Default game type:</source>
-        <translation type="unfinished"></translation>
+        <translation>Oletuspelityyppi:</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="1774"/>
         <source>Standard</source>
-        <translation type="unfinished"></translation>
+        <translation>Tavallinen</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="1783"/>
         <source>Registered players only</source>
-        <translation type="unfinished"></translation>
+        <translation>Vain rekistöröityneet pelaajat</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="1792"/>
         <source>Invited players only</source>
-        <translation type="unfinished"></translation>
+        <translation>Vain kutsutut pelaajat</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="1801"/>
         <source>Ranking game</source>
-        <translation type="unfinished"></translation>
+        <translation>Sijoituspeli</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="1843"/>
         <source>Show lobby chat</source>
-        <translation type="unfinished"></translation>
+        <translation>Näytä aulan chat</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="1863"/>
         <source>Automatically leave the table after the game finished</source>
-        <translation type="unfinished"></translation>
+        <translation>Poistu pöydästä automaattisesti pelin päätyttyä</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="1871"/>
         <source>Ignored Players</source>
-        <translation type="unfinished"></translation>
+        <translation>Jätä pelaaja huomiotta</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="1890"/>
         <source>Player</source>
-        <translation type="unfinished"></translation>
+        <translation>Pelaaja</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="1898"/>
         <source>Remove Player</source>
-        <translation type="unfinished"></translation>
+        <translation>Poista pelaaja</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="1971"/>
@@ -4706,12 +4817,16 @@ p, li { white-space: pre-wrap; }
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-weight:400; font-style:normal;&quot;&gt;
 &lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Human Player:&lt;br /&gt;&lt;span style=&quot; font-style:italic;&quot;&gt;(This nick will also be used for the online game login)&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Ihmispelaaja:&lt;br /&gt;&lt;span style=&quot; font-style:italic;&quot;&gt;(Tätä nimimerkkiä käytetään myös online-peliin kirjautumisessa)&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="3391"/>
         <source>Store log files for:</source>
-        <translation type="unfinished"></translation>
+        <translation>Säilö lokitiedostot sijaintiin:</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="3407"/>
@@ -4721,12 +4836,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="3547"/>
         <source>Preview:</source>
-        <translation type="unfinished"></translation>
+        <translation>Esikatselu:</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="3570"/>
         <source>Export as HTML</source>
-        <translation type="unfinished"></translation>
+        <translation>Vie HTML-tiedostoon</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="80"/>
@@ -4862,37 +4977,37 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="66"/>
         <source>Dutch</source>
-        <translation type="unfinished">hollanti</translation>
+        <translation>hollanti</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="67"/>
         <source>English</source>
-        <translation type="unfinished">englanti</translation>
+        <translation>englanti</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="69"/>
         <source>French</source>
-        <translation type="unfinished">ranska</translation>
+        <translation>ranska</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="70"/>
         <source>German</source>
-        <translation type="unfinished">saksa</translation>
+        <translation>saksa</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="72"/>
         <source>Hungarian</source>
-        <translation type="unfinished">unkari</translation>
+        <translation>unkari</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="73"/>
         <source>Italian</source>
-        <translation type="unfinished">italia</translation>
+        <translation>italia</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="76"/>
         <source>Norwegian</source>
-        <translation type="unfinished">norja</translation>
+        <translation>norja</translation>
     </message>
     <message>
         <source>Portuguese</source>
@@ -4901,27 +5016,27 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="80"/>
         <source>Russian</source>
-        <translation type="unfinished">venäjä</translation>
+        <translation>venäjä</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="81"/>
         <source>Slovak</source>
-        <translation type="unfinished">slovakia</translation>
+        <translation>slovakia</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="82"/>
         <source>Spanish</source>
-        <translation type="unfinished">espanja</translation>
+        <translation>espanja</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="84"/>
         <source>Tamil</source>
-        <translation type="unfinished"></translation>
+        <translation>tamil</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="85"/>
         <source>Turkish</source>
-        <translation type="unfinished">turkki</translation>
+        <translation>turkki</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="577"/>
@@ -4943,7 +5058,7 @@ Valitse olemassa oleva kuva!</translation>
         <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="867"/>
         <source>The log file directory doesn&apos;t exist.
 Please select an valid directory!</source>
-        <translation>Logikansiota ei ole olemassa.
+        <translation>Lokikansiota ei ole olemassa.
 Valitse olemassa oleva kansio!</translation>
     </message>
     <message>
@@ -4992,57 +5107,57 @@ Tämä &quot;ensimmäinen pieni sokkopanosarvo&quot; asetetaan suurimmaksi salli
     <message>
         <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="61"/>
         <source>Bulgarian</source>
-        <translation type="unfinished">bulgaria</translation>
+        <translation>bulgaria</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="77"/>
         <source>Polish</source>
-        <translation type="unfinished">puola</translation>
+        <translation>puola</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="63"/>
         <source>Chinese</source>
-        <translation type="unfinished">kiina</translation>
+        <translation>kiina</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="60"/>
         <source>Afrikaans</source>
-        <translation type="unfinished"></translation>
+        <translation>afrikaans</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="62"/>
         <source>Catalan</source>
-        <translation type="unfinished"></translation>
+        <translation>katalaani</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="64"/>
         <source>Czech</source>
-        <translation type="unfinished"></translation>
+        <translation>tšekki</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="71"/>
         <source>Greek</source>
-        <translation type="unfinished">kreikka</translation>
+        <translation>kreikka</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="75"/>
         <source>Lithuania</source>
-        <translation type="unfinished"></translation>
+        <translation>liettua</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="78"/>
         <source>Portuguese-Brazilian</source>
-        <translation type="unfinished"></translation>
+        <translation>brasilianportugali</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="79"/>
         <source>Portuguese-Portuguese</source>
-        <translation type="unfinished"></translation>
+        <translation>portugalinportugali</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="83"/>
         <source>Swedish</source>
-        <translation type="unfinished">ruotsi</translation>
+        <translation>ruotsi</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="578"/>
@@ -5054,17 +5169,17 @@ Valitse kelvollinen palvelinlistaosoite!</translation>
     <message>
         <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="68"/>
         <source>Finnish</source>
-        <translation type="unfinished">Suomi</translation>
+        <translation>suomi</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="65"/>
         <source>Danish</source>
-        <translation type="unfinished">Tanska</translation>
+        <translation>tanska</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="74"/>
         <source>Japanese</source>
-        <translation type="unfinished"></translation>
+        <translation>japani</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="1021"/>
@@ -5117,7 +5232,7 @@ Valitse kelvollinen palvelinlistaosoite!</translation>
     <message>
         <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="1030"/>
         <source>State</source>
-        <translation type="unfinished">Tila</translation>
+        <translation>Tila</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="1082"/>
@@ -5190,42 +5305,42 @@ Tyyliä ei aseteta listaan!</translation>
     <message>
         <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="1297"/>
         <source>PokerTH - Log file</source>
-        <translation type="unfinished"></translation>
+        <translation>PokerTH - Lokitiedosto</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="1298"/>
         <source>Do you really want to delete the selected log file?</source>
-        <translation type="unfinished"></translation>
+        <translation>Haluatko varmasti poistaa valitun lokitiedoston?</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="1317"/>
         <source>Export PokerTH log file to HTML</source>
-        <translation type="unfinished"></translation>
+        <translation>Vie PokerTH:n lokitiedosto HTML-tiedostoon</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="1319"/>
         <source>PokerTH HTML log (*.html)</source>
-        <translation type="unfinished"></translation>
+        <translation>PokerTH HTML loki (*.html)</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="1332"/>
         <source>Export PokerTH log file to plain text</source>
-        <translation type="unfinished"></translation>
+        <translation>Vie PokerTH:n lokitiedosto tekstitiedostoon</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="1334"/>
         <source>PokerTH plain text log (*.txt)</source>
-        <translation type="unfinished"></translation>
+        <translation>PokerTH tekstitiedostoloki (*.txt)</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="1347"/>
         <source>Save PokerTH log file</source>
-        <translation type="unfinished"></translation>
+        <translation>Tallenna PokerTH:n lokitiedosto</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="1349"/>
         <source>PokerTH SQL log (*.pdb)</source>
-        <translation type="unfinished"></translation>
+        <translation>PokerTH SQL loki (*.pdb)</translation>
     </message>
     <message>
         <source>Portuguese (Brazilian)</source>
@@ -5416,7 +5531,7 @@ Tyyliä ei aseteta listaan!</translation>
     <message>
         <location filename="../src/gui/qt/gui_800x480/startwindow_800x480.ui" line="26"/>
         <source>PokerTH - The Open-Source Texas Holdem Engine</source>
-        <translation type="unfinished"></translation>
+        <translation>PokerTH - Avoimen lähdekoodin Texas Holdem -alusta</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gui_800x480/startwindow_800x480.ui" line="328"/>
@@ -5572,7 +5687,7 @@ Jos palvelin on NAT-reitittimen takana, varmista, että porttiohjaus on asetettu
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="697"/>
         <source>The connection to the server was lost.</source>
-        <translation type="unfinished"></translation>
+        <translation>Yhteys palvelimeen menetettiin.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="703"/>
@@ -5652,32 +5767,33 @@ Varmista, että olet yhdistetty suoraan internetiin.</translation>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="780"/>
         <source>Invalid login.
 Please check your username and password.</source>
-        <translation type="unfinished"></translation>
+        <translation>Kirjautuminen epäonnistui.
+Tarkista käyttäjänimesi ja salasanasi.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="853"/>
         <source>Your account is blocked indefinitely.</source>
-        <translation type="unfinished"></translation>
+        <translation>Tilisi on estetty toistaiseksi.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="891"/>
         <source>You cannot login at this time. Please try again in a few seconds.</source>
-        <translation type="unfinished"></translation>
+        <translation>Et voi nyt kirjautua. Yritä hetken kuluttua uudestaan.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="934"/>
         <source>You cannot join this game, because another player in that game has your network address.</source>
-        <translation type="unfinished"></translation>
+        <translation>Et voi liittyä tähän peliin, koska toinen pelaaja tässä pelissä omaa saman verkko-osoitteen.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="941"/>
         <source>Your connection to the server is very slow, the game had to start without you.</source>
-        <translation type="unfinished"></translation>
+        <translation>Yhteytesi palvelimeen on hyvin hidas. Pelin täytyi alkaa ilman sinua.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="969"/>
         <source>This game is of type invite-only. You cannot join this game without being invited.</source>
-        <translation type="unfinished"></translation>
+        <translation>Tähän peli on vain kutsutuille. Et voi liittyä tähän peliin kutsutta.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="997"/>
@@ -5689,17 +5805,17 @@ Kirjoita salasana uudestaan ja yritä uudestaan.</translation>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1053"/>
         <source>The avatar report was accepted by the server. Thank you.</source>
-        <translation type="unfinished"></translation>
+        <translation>Palvelin hyväksyi ilmoituksen avatarista. Kiitoksia.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1057"/>
         <source>This avatar was already reported by another player.</source>
-        <translation type="unfinished"></translation>
+        <translation>Toinen pelaaja oli jo ilmoittanut tästä avatarista.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1061"/>
         <source>An error occurred while reporting the avatar.</source>
-        <translation type="unfinished"></translation>
+        <translation>Virhe tapahtui avatarin ilmoittamisessa.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="786"/>
@@ -5844,12 +5960,12 @@ Valitse toinen nimi.</translation>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1003"/>
         <source>You cannot join this type of game as guest.</source>
-        <translation type="unfinished"></translation>
+        <translation>Et voi liittyä tämän tyyppiseen peliin vieraana.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1009"/>
         <source>The settings are invalid for this type of game.</source>
-        <translation type="unfinished"></translation>
+        <translation>Asetukset eivät kelpaa tämän tyyppiseen peliin.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1016"/>
@@ -5893,7 +6009,7 @@ Valitse toinen nimi.</translation>
     <message>
         <location filename="../src/gui/qt/timeoutmsgbox/timeoutmsgboximpl.cpp" line="62"/>
         <source>You did not act in the game recently. You will be removed from the game in %1 seconds.</source>
-        <translation type="unfinished"></translation>
+        <translation>Et ole toiminut pelissä hetkeen. Sinut poistetaan pelistä %1 sekunnin kuluttua.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/timeoutmsgbox/timeoutmsgboximpl.cpp" line="65"/>
