@@ -15,6 +15,7 @@ TARGET = bin/zlib_compress
 MOC_DIR = mocs
 OBJECTS_DIR = obj
 DEFINES += PREFIX=\"$${PREFIX}\"
+DEFINES += BOOST_FILESYSTEM_DEPRECATED
 QT -= core gui
 
 INCLUDEPATH += . \
@@ -50,6 +51,7 @@ unix : !mac {
 	LIB_DIRS = $${PREFIX}/lib $${PREFIX}/lib64
 	BOOST_FS = boost_filesystem boost_filesystem-mt
 	BOOST_IOSTREAMS = boost_iostreams boost_iostreams-mt
+	BOOST_SYSTEM = boost_system boost_system-mt
 
 	for(dir, LIB_DIRS) {
 		exists($$dir) {
@@ -65,10 +67,16 @@ unix : !mac {
 					BOOST_IOSTREAMS = -l$$lib
 				}
 			}
+			for(lib, BOOST_SYSTEM) {
+				exists($${dir}/lib$${lib}.so*) {
+					message("Found $$lib")
+					BOOST_SYSTEM = -l$$lib
+				}
+			}
  		}
  	}
-	BOOST_LIBS = $$BOOST_FS $$BOOST_IOSTREAMS
-	!count(BOOST_LIBS, 2) {
+	BOOST_LIBS = $$BOOST_FS $$BOOST_IOSTREAMS $$BOOST_SYSTEM
+	!count(BOOST_LIBS, 3) {
 		error("could not locate required library: \
 		    libboost (version >= 1.34.1)  --> http://www.boost.org/")
 	}

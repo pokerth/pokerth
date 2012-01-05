@@ -114,6 +114,7 @@ public slots:
 	void exportLogToTxt();
 	void saveLogFileAs();
 	void showLogFilePreview();
+	void resetSettings();
 
 private:
 

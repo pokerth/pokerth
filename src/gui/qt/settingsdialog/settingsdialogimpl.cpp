@@ -109,6 +109,7 @@ settingsDialogImpl::settingsDialogImpl(QWidget *parent, ConfigFile *c, selectAva
 	connect( pushButton_Opponent9Avatar, SIGNAL( clicked() ), this, SLOT( setAvatarFile9()) );
 	connect( pushButton_editManualBlindsOrder, SIGNAL( clicked() ), this, SLOT( callManualBlindsOrderDialog()) );
 	connect( pushButton_netEditManualBlindsOrder, SIGNAL( clicked() ), this, SLOT( callNetManualBlindsOrderDialog()) );
+	connect( pushButton_resetSettings, SIGNAL(clicked()), this, SLOT(resetSettings()));
 
 	connect( checkBox_UseInternetGamePassword, SIGNAL( toggled(bool) ), this, SLOT( clearInternetGamePassword(bool)) );
 
@@ -1365,4 +1366,16 @@ void settingsDialogImpl::showLogFilePreview()
 	QTextCursor cursor(textBrowser_logPreview->textCursor());
 	cursor.movePosition(QTextCursor::Start);
 	textBrowser_logPreview->setTextCursor(cursor);
+}
+
+void settingsDialogImpl::resetSettings()
+{
+	int ret = QMessageBox::warning(this, tr("PokerTH - Settings"),
+									tr("Attention: this will delete all your personal settings!\n"
+										"Do you really want to reset factory settings?"),
+									QMessageBox::Yes | QMessageBox::No);
+	if(ret == QMessageBox::Yes)
+	{
+		//TODO delete config.xml and directly close PokerTH
+	}
 }

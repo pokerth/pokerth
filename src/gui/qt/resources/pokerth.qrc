@@ -53,6 +53,7 @@
         <file>emblem-important-64.png</file>
         <file>dialog-information.png</file>
         <file>view-statistics.png</file>
+        <file>document-revert.png</file>
     </qresource>
     <qresource prefix="/cflags">
         <file>cflags/ad.png</file>

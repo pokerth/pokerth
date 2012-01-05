@@ -120,6 +120,15 @@
           <normaloff>:/gfx/utilities-log-viewer.png</normaloff>:/gfx/utilities-log-viewer.png</iconset>
         </property>
        </item>
+       <item>
+        <property name="text">
+         <string>Factory Settings</string>
+        </property>
+        <property name="icon">
+         <iconset resource="resources/pokerth.qrc">
+          <normaloff>:/gfx/document-revert.png</normaloff>:/gfx/document-revert.png</iconset>
+        </property>
+       </item>
       </widget>
      </item>
      <item>
@@ -3609,6 +3618,108 @@ p, li { white-space: pre-wrap; }
             </widget>
            </item>
           </layout>
+         </item>
+        </layout>
+       </widget>
+       <widget class="QWidget" name="page_9">
+        <layout class="QGridLayout" name="gridLayout_22">
+         <item row="0" column="0" colspan="2">
+          <widget class="QLabel" name="label_44">
+           <property name="font">
+            <font>
+             <weight>75</weight>
+             <bold>true</bold>
+            </font>
+           </property>
+           <property name="text">
+            <string>Factory Settings</string>
+           </property>
+          </widget>
+         </item>
+         <item row="3" column="1">
+          <spacer name="verticalSpacer_5">
+           <property name="orientation">
+            <enum>Qt::Vertical</enum>
+           </property>
+           <property name="sizeType">
+            <enum>QSizePolicy::Fixed</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>269</width>
+             <height>40</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item row="4" column="0" colspan="2">
+          <layout class="QHBoxLayout" name="horizontalLayout_10">
+           <item>
+            <spacer name="horizontalSpacer_9">
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>40</width>
+               <height>20</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+           <item>
+            <widget class="QPushButton" name="pushButton_resetSettings">
+             <property name="minimumSize">
+              <size>
+               <width>300</width>
+               <height>60</height>
+              </size>
+             </property>
+             <property name="font">
+              <font>
+               <weight>75</weight>
+               <bold>true</bold>
+              </font>
+             </property>
+             <property name="text">
+              <string>Reset all settings to default ...</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <spacer name="horizontalSpacer_10">
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>40</width>
+               <height>20</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+          </layout>
+         </item>
+         <item row="5" column="1">
+          <spacer name="verticalSpacer_6">
+           <property name="orientation">
+            <enum>Qt::Vertical</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>269</width>
+             <height>292</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item row="1" column="0" colspan="2">
+          <widget class="Line" name="line_10">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+          </widget>
          </item>
         </layout>
        </widget>
