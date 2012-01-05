@@ -1491,7 +1491,7 @@ ServerLobbyThread::EstablishSession(boost::shared_ptr<SessionData> session)
 	} else {
 		// Check whether this player is already connected.
 		unsigned previousPlayerId = GetPlayerId(session->GetPlayerData()->GetName());
-		if (previousPlayerId != 0) {
+		if (previousPlayerId != 0 && previousPlayerId != session->GetPlayerData()->GetUniqueId()) {
 #ifdef POKERTH_OFFICIAL_SERVER
 			// If so, and this is a login server, disconnect the already connected player.
 			InternalRemovePlayer(previousPlayerId, ERR_NET_PLAYER_NAME_IN_USE);
