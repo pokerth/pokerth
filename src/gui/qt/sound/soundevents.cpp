@@ -16,8 +16,7 @@ SoundEvents::~SoundEvents()
 
 void SoundEvents::blindsWereSet(int sB)
 {
-	if(newGameNow)
-	{
+	if(newGameNow) {
 		lastSBLevel = 0;
 		lastSBValue = sB;
 		newGameNow = false;
@@ -28,16 +27,13 @@ void SoundEvents::blindsWereSet(int sB)
 		lastSBValue = sB;
 		++lastSBLevel;
 
-		if(lastSBLevel == 1 || lastSBLevel == 2)
-		{
+		if(lastSBLevel == 1 || lastSBLevel == 2) {
 			mySDLPlayer->playSound("blinds_raises_level1", 0);
 		}
-		if(lastSBLevel == 3 || lastSBLevel == 4)
-		{
+		if(lastSBLevel == 3 || lastSBLevel == 4) {
 			mySDLPlayer->playSound("blinds_raises_level2", 0);
 		}
-		if(lastSBLevel >= 5)
-		{
+		if(lastSBLevel >= 5) {
 			mySDLPlayer->playSound("blinds_raises_level3", 0);
 		}
 	}

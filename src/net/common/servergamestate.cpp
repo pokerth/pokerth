@@ -949,11 +949,10 @@ ServerGameStateHand::EngineLoop(boost::shared_ptr<ServerGame> server)
 				server->GetStateTimer1().async_wait(
 					boost::bind(
 						&ServerGameStateHand::TimerComputerAction, this, boost::asio::placeholders::error, server));
-			}
-			else {
+			} else {
 				// If the player we are waiting for left, continue without him.
 				if (!server->GetSessionManager().IsPlayerConnected(curPlayer->getMyUniqueID())
-					|| !curPlayer->isSessionActive()) {
+						|| !curPlayer->isSessionActive()) {
 					PerformPlayerAction(*server, curPlayer, PLAYER_ACTION_FOLD, 0);
 
 					server->GetStateTimer1().expires_from_now(
@@ -1290,7 +1289,7 @@ ServerGameStateHand::CheckPlayerTimeouts(boost::shared_ptr<ServerGame> server)
 		while (i != end) {
 			boost::shared_ptr<PlayerInterface> tmpPlayer = *i;
 			if (tmpPlayer->getMyType() == PLAYER_TYPE_HUMAN
-				&& (int)tmpPlayer->getTimeSecSinceLastRemoteAction() >= actionTimeout * SERVER_GAME_AUTOFOLD_TIMEOUT_FACTOR) {
+					&& (int)tmpPlayer->getTimeSecSinceLastRemoteAction() >= actionTimeout * SERVER_GAME_AUTOFOLD_TIMEOUT_FACTOR) {
 				if (tmpPlayer->isSessionActive()) {
 					tmpPlayer->setIsSessionActive(false);
 					boost::shared_ptr<SessionData> session = server->GetSessionManager().GetSessionByUniquePlayerId(tmpPlayer->getMyUniqueID());

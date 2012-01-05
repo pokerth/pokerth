@@ -266,15 +266,18 @@ Log::logNewHandMsg(int handID, unsigned dealerPosition, int smallBlind, unsigned
 
 				// log blinds
 				for(it_c = seatsList->begin(); it_c!=seatsList->end(); ++it_c) {
-					if((*it_c)->getMyButton() == BUTTON_SMALL_BLIND) {
+					if((*it_c)->getMyButton() == BUTTON_SMALL_BLIND && (*it_c)->getMySet()>0) {
 						logPlayerAction(GAME_STATE_PREFLOP,smallBlindPosition,LOG_ACTION_SMALL_BLIND,(*it_c)->getMySet());
 					}
 				}
 				for(it_c = seatsList->begin(); it_c!=seatsList->end(); ++it_c) {
-					if((*it_c)->getMyButton() == BUTTON_BIG_BLIND) {
+					if((*it_c)->getMyButton() == BUTTON_BIG_BLIND && (*it_c)->getMySet()>0) {
 						logPlayerAction(GAME_STATE_PREFLOP,bigBlindPosition,LOG_ACTION_BIG_BLIND,(*it_c)->getMySet());
 					}
 				}
+
+				// (*it_c)->getMySet() ist ein Hack, da es im Internetspiel vorkam, dass ein Spieler zweimal geloggt wurde mit Blind - einmal jedoch mit $0
+
 				// !! TODO !! Hack
 
 			}
@@ -362,6 +365,22 @@ Log::logPlayerAction(GameState bero, int seat, PlayerActionLog action, int amoun
 						break;
 					case LOG_ACTION_WIN_GAME:
 						sql += ",'wins game'";
+						sql += ",NULL";
+						break;
+					case LOG_ACTION_LEFT:
+						sql += ",'has left the game'";
+						sql += ",NULL";
+						break;
+					case LOG_ACTION_KICKED:
+						sql += ",'was kicked from the game'";
+						sql += ",NULL";
+						break;
+					case LOG_ACTION_ADMIN:
+						sql += ",'is game admin now'";
+						sql += ",NULL";
+						break;
+					case LOG_ACTION_JOIN:
+						sql += ",'has joined the game'";
 						sql += ",NULL";
 						break;
 					default:

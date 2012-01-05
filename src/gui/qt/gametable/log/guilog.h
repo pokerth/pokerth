@@ -29,6 +29,14 @@
 #include <QtGui>
 #include <QtSql>
 
+struct result_struct {
+	char **result_Session;
+	char **result_Game;
+	char **result_Hand;
+	char **result_Hand_ID;
+	char **result_Action;
+};
+
 class gameTableImpl;
 class GameTableStyleReader;
 
@@ -87,6 +95,7 @@ private:
 
 	void writeLogFileStream(std::string log_string, QFile *LogFile);
 	void writeLog(std::string log_string, int modus);
+	void cleanUp(result_struct &results, sqlite3 *mySqliteLogDb);
 	int convertCardStringToInt(std::string val, std::string col);
 	std::string convertCardIntToString(int code);
 

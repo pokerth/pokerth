@@ -17,13 +17,15 @@
  *****************************************************************************/
 #include "guiwrapper.h"
 #include "session.h"
+#include "game.h"
+#include "playerinterface.h"
 #include "guilog.h"
+#include "log.h"
 #include "gametableimpl.h"
 #include "startwindowimpl.h"
 #include "configfile.h"
 #include "soundevents.h"
 #include <net/socket_msg.h>
-
 
 using namespace std;
 
@@ -364,7 +366,6 @@ void GuiWrapper::SignalNetClientNewGameAdmin(unsigned playerId, const string &pl
 	myStartWindow->signalNetClientNewGameAdmin(playerId, QString::fromUtf8(playerName.c_str()));
 	if (!playerName.empty() && playerName[0] != '#' && myW->isVisible())
 		myGuiLog->signalLogNewGameAdminMsg(QString::fromUtf8(playerName.c_str()));
-
 }
 
 void GuiWrapper::SignalNetClientGameListNew(unsigned gameId)

@@ -907,19 +907,19 @@ void gameTableImpl::refreshPlayerName()
 			case SEAT_ACTIVE: {
 				playerNameLabelArray[(*it_c)->getMyID()]->setText(nick, FALSE, guest, computerPlayer );
 			}
-				break;
+			break;
 			case SEAT_AUTOFOLD: {
 				playerNameLabelArray[(*it_c)->getMyID()]->setText(nick, TRUE, guest, computerPlayer );
 			}
-				break;
+			break;
 			case SEAT_STAYONTABLE: {
 				playerNameLabelArray[(*it_c)->getMyID()]->setText(nick, TRUE, guest, computerPlayer );
 			}
-				break;
+			break;
 			case SEAT_CLEAR: {
 				playerNameLabelArray[(*it_c)->getMyID()]->setText("");
 			}
-				break;
+			break;
 			default: {
 				playerNameLabelArray[(*it_c)->getMyID()]->setText("");
 			}
@@ -952,8 +952,7 @@ void gameTableImpl::refreshPlayerAvatar()
 			QPixmap avatarPic;
 			if((*it_c)->getMyAvatar() == "" || !myAvatarFile.exists()) {
 				avatarPic = QPixmap::fromImage(QImage(myGameTableStyle->getDefaultAvatar()));
-			}
-			else {
+			} else {
 				avatarPic = QPixmap::fromImage(QImage(QString::fromUtf8((*it_c)->getMyAvatar().c_str())));
 			}
 
@@ -964,21 +963,21 @@ void gameTableImpl::refreshPlayerAvatar()
 //				qDebug() << seatPlace << "AVATAR ACTIVE";
 				playerAvatarLabelArray[(*it_c)->getMyID()]->setPixmapAndCountry(avatarPic, countryString, seatPlace);
 			}
-				break;
+			break;
 			case SEAT_AUTOFOLD: {
 //				qDebug() << seatPlace << "AVATAR AUTOFOLD";
 				playerAvatarLabelArray[(*it_c)->getMyID()]->setPixmapAndCountry(avatarPic, countryString, seatPlace, TRUE);
 			}
-				break;
+			break;
 			case SEAT_STAYONTABLE: {
 //				qDebug() << seatPlace << "AVATAR STAYONTABLE";
 				playerAvatarLabelArray[(*it_c)->getMyID()]->setPixmapAndCountry(avatarPic, countryString, seatPlace, TRUE);
 			}
-				break;
+			break;
 			case SEAT_CLEAR: {
 				playerAvatarLabelArray[(*it_c)->getMyID()]->setPixmap(onePix);
 			}
-				break;
+			break;
 			default: {
 				playerAvatarLabelArray[(*it_c)->getMyID()]->setPixmap(onePix);
 			}
@@ -1084,20 +1083,20 @@ void gameTableImpl::refreshCash()
 //			qDebug() << (*it_c)->getMyID() << "CASH ACTIVE";
 			cashLabelArray[(*it_c)->getMyID()]->setText("$"+QString("%L1").arg((*it_c)->getMyCash()));
 		}
-			break;
+		break;
 		case SEAT_AUTOFOLD: {
 //			qDebug() << (*it_c)->getMyID() << "CASH AUTOFOLD"; //TODO transparent
 			cashLabelArray[(*it_c)->getMyID()]->setText("$"+QString("%L1").arg((*it_c)->getMyCash()), transparent);
 		}
-			break;
+		break;
 		case SEAT_STAYONTABLE: {
 			cashLabelArray[(*it_c)->getMyID()]->setText("");
 		}
-			break;
+		break;
 		case SEAT_CLEAR: {
 			cashLabelArray[(*it_c)->getMyID()]->setText("");
 		}
-			break;
+		break;
 		default: {
 			cashLabelArray[(*it_c)->getMyID()]->setText("");
 		}
@@ -3830,21 +3829,19 @@ void gameTableImpl::hide()
 	QWidget::hide();
 }
 
-SeatState gameTableImpl::getCurrentSeatState(boost::shared_ptr<PlayerInterface> player) {
+SeatState gameTableImpl::getCurrentSeatState(boost::shared_ptr<PlayerInterface> player)
+{
 
 	if(player->getMyActiveStatus()) {
 		if(player->isSessionActive()) {
 			return SEAT_ACTIVE;
-		}
-		else {
+		} else {
 			return SEAT_AUTOFOLD;
 		}
-	}
-	else {
+	} else {
 		if(player->getMyStayOnTableStatus() && (myStartWindow->getSession()->getGameType() == Session::GAME_TYPE_INTERNET || myStartWindow->getSession()->getGameType() == Session::GAME_TYPE_NETWORK)) {
 			return SEAT_STAYONTABLE;
-		}
-		else {
+		} else {
 			return SEAT_CLEAR;
 		}
 	}

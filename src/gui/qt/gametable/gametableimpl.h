@@ -68,7 +68,7 @@ public:
 	SDLPlayer* getMySDLPlayer() const {
 		return mySDLPlayer;
 	}
-	SoundEvents* getMySoundEventHandler() const{
+	SoundEvents* getMySoundEventHandler() const {
 		return mySoundEventHandler;
 	}
 	ChatTools* getMyChat() const {

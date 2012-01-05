@@ -752,6 +752,11 @@ ClientThread::SetNewGameAdmin(unsigned id)
 	if (playerData.get()) {
 		playerData->SetGameAdmin(true);
 		GetCallback().SignalNetClientNewGameAdmin(id, playerData->GetName());
+		m_clientLog->logPlayerAction(
+			m_game->getCurrentHand()->getCurrentRound(),
+			m_game->getPlayerByUniqueId(id)->getMyID()+1,
+			LOG_ACTION_ADMIN
+		);
 	}
 }
 
@@ -1058,7 +1063,7 @@ ClientThread::CreatePlayerData(unsigned playerId, bool isGameAdmin)
 	if (GetCachedPlayerInfo(playerId, info)) {
 		playerData.reset(
 			new PlayerData(playerId, 0, info.ptype,
-							info.isGuest ? PLAYER_RIGHTS_GUEST : PLAYER_RIGHTS_NORMAL, isGameAdmin));
+						   info.isGuest ? PLAYER_RIGHTS_GUEST : PLAYER_RIGHTS_NORMAL, isGameAdmin));
 		playerData->SetName(info.playerName);
 		if (info.hasAvatar) {
 			string avatarFile;
@@ -1118,6 +1123,21 @@ ClientThread::RemovePlayerData(unsigned playerId, int removeReason)
 			}
 		}
 		GetCallback().SignalNetClientPlayerLeft(tmpData->GetUniqueId(), tmpData->GetName(), removeReason);
+
+		if(removeReason == NTF_NET_REMOVED_KICKED) {
+			m_clientLog->logPlayerAction(
+				m_game->getCurrentHand()->getCurrentRound(),
+				m_game->getPlayerByUniqueId(tmpData->GetUniqueId())->getMyID()+1,
+				LOG_ACTION_KICKED
+			);
+		} else {
+			m_clientLog->logPlayerAction(
+				m_game->getCurrentHand()->getCurrentRound(),
+				m_game->getPlayerByUniqueId(tmpData->GetUniqueId())->getMyID()+1,
+				LOG_ACTION_LEFT
+			);
+		}
+
 	}
 }
 

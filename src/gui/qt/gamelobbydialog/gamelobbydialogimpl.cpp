@@ -403,14 +403,14 @@ void gameLobbyDialogImpl::refresh(int actionID)
 		waitStartGameMsgBoxTimer->start(2000);
 	} else if(actionID == MSG_NET_GAME_CLIENT_SYNCREJOIN) {
 //		if(this->isVisible()) { //TODO <-- does it work without isVisible???
-			//break the autoStartTimer animation
-			autoStartTimer->stop();
-			autoStartTimerOverlay->hide();
-			//show msg dialog
-			waitRejoinStartGameMsgBox->show();
-			waitRejoinStartGameMsgBox->raise();
-			waitRejoinStartGameMsgBox->activateWindow();
-			pushButton_Leave->setDisabled(true);
+		//break the autoStartTimer animation
+		autoStartTimer->stop();
+		autoStartTimerOverlay->hide();
+		//show msg dialog
+		waitRejoinStartGameMsgBox->show();
+		waitRejoinStartGameMsgBox->raise();
+		waitRejoinStartGameMsgBox->activateWindow();
+		pushButton_Leave->setDisabled(true);
 //		}
 	}
 }

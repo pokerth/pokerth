@@ -1642,17 +1642,16 @@ ClientStateWaitHand::InternalHandlePacket(boost::shared_ptr<ClientThread> client
 				boost::shared_ptr<PlayerInterface> tmpPlayer = client->GetGame()->getPlayerByNumber((i + numberDiff) % client->GetStartData().numberOfPlayers);
 				if (!tmpPlayer)
 					throw ClientException(__FILE__, __LINE__, ERR_NET_UNKNOWN_PLAYER_ID, 0);
-				switch (*seatState)
-				{
-					case NetPlayerState_playerStateNormal :
-						tmpPlayer->setIsSessionActive(true);
-						break;
-					case NetPlayerState_playerStateSessionInactive :
-						tmpPlayer->setIsSessionActive(false);
-						break;
-					case NetPlayerState_playerStateNoMoney :
-						tmpPlayer->setMyCash(0);
-						break;
+				switch (*seatState) {
+				case NetPlayerState_playerStateNormal :
+					tmpPlayer->setIsSessionActive(true);
+					break;
+				case NetPlayerState_playerStateSessionInactive :
+					tmpPlayer->setIsSessionActive(false);
+					break;
+				case NetPlayerState_playerStateNoMoney :
+					tmpPlayer->setMyCash(0);
+					break;
 				}
 			}
 		}

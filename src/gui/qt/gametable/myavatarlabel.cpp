@@ -172,11 +172,11 @@ void MyAvatarLabel::refreshStars()
 #ifdef _WIN32
 	fontSize = "10";
 #else
-	#ifdef __APPLE__
-		fontSize = "7";
-	#else
-		fontSize = "12";
-	#endif
+#ifdef __APPLE__
+	fontSize = "7";
+#else
+	fontSize = "12";
+#endif
 #endif
 
 	boost::shared_ptr<Game> curGame = myW->myStartWindow->getSession()->getCurrentGame();
