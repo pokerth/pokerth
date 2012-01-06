@@ -44,7 +44,7 @@ public:
 	~settingsDialogImpl();
 
 	void prepareDialog();
-	void exec();
+	void exec(bool ingame);
 
 	void setPlayerNickIsChanged(bool theValue) {
 		playerNickIsChanged = theValue;
@@ -142,6 +142,7 @@ private:
 	QString myAppDataPath;
 
 	bool languageIsChanged;
+	bool calledIngame;
 	int changedLanguageIndex;
 };
 

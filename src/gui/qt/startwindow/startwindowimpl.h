@@ -126,7 +126,8 @@ signals:
 public slots:
 
 	void callAboutPokerthDialog();
-	void callSettingsDialog();
+	void callSettingsDialog(bool);
+	void callSettingsDialogFromStartwindow();
 	void callNewGameDialog();
 	void callGameLobbyDialog();
 	void callCreateNetworkGameDialog();

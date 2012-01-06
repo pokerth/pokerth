@@ -486,11 +486,22 @@ void settingsDialogImpl::prepareDialog()
 
 	//set this AFTER switch combobox like config-settings. This IS a currentIndexChanged() ;-)
 	languageIsChanged = FALSE;
+
+	//disable reset config button when dialog is called from ingame
+	if(calledIngame) {
+		pushButton_resetSettings->setDisabled(true);
+		label_resetNote->show();
+	}
+	else {
+		pushButton_resetSettings->setEnabled(true);
+		label_resetNote->hide();
+	}
+
 }
 
-void settingsDialogImpl::exec()
+void settingsDialogImpl::exec(bool in_game)
 {
-
+	calledIngame = in_game;
 	prepareDialog();
 	QDialog::exec();
 
@@ -1371,7 +1382,7 @@ void settingsDialogImpl::showLogFilePreview()
 void settingsDialogImpl::resetSettings()
 {
 	int ret = QMessageBox::warning(this, tr("PokerTH - Settings"),
-									tr("Attention: this will delete all your personal settings!\n"
+									tr("Attention: this will delete all your personal settings and close PokerTH!\n"
 										"Do you really want to reset factory settings?"),
 									QMessageBox::Yes | QMessageBox::No);
 	if(ret == QMessageBox::Yes)

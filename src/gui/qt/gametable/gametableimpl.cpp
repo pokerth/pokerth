@@ -605,7 +605,8 @@ gameTableImpl::~gameTableImpl()
 
 void gameTableImpl::callSettingsDialog()
 {
-	myStartWindow->callSettingsDialog();
+	bool iamInGame = true;
+	myStartWindow->callSettingsDialog(iamInGame);
 }
 
 void gameTableImpl::applySettings(settingsDialogImpl* mySettingsDialog)
