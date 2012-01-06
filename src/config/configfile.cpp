@@ -744,3 +744,7 @@ void ConfigFile::writeConfigStringList(string varName, list<string> varCont)
 	}
 }
 
+void ConfigFile::deleteConfigFile()
+{
+	remove(configFileName.c_str());
+}

@@ -49,7 +49,7 @@ public:
 	std::list<int> readConfigIntList(std::string varName) const;
 	void writeConfigInt(std::string varName, int varCont);
 	void writeConfigIntList(std::string varName, std::list<int> varCont);
-
+	void deleteConfigFile();
 
 private:
 

@@ -1376,6 +1376,8 @@ void settingsDialogImpl::resetSettings()
 									QMessageBox::Yes | QMessageBox::No);
 	if(ret == QMessageBox::Yes)
 	{
-		//TODO delete config.xml and directly close PokerTH
+		myConfig->deleteConfigFile();
+		exit(0);
 	}
+
 }
