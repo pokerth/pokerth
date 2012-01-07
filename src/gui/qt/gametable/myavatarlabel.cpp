@@ -168,14 +168,16 @@ void MyAvatarLabel::startChangePlayerTip(QString playerName)
 void MyAvatarLabel::refreshStars()
 {
 	QString fontSize("12");
+	QString fontFamily(myW->getMyGameTableStyle()->getFont1String());
 
 #ifdef _WIN32
 	fontSize = "10";
+	fontFamily = "font-family: \"Nimbus Sans L\";";
 #else
 #ifdef __APPLE__
 	fontSize = "7";
 #else
-	fontSize = "12";
+	fontSize = "12";	
 #endif
 #endif
 
@@ -185,17 +187,17 @@ void MyAvatarLabel::refreshStars()
 	PlayerList seatsList = curGame->getSeatsList();
 	for (seatPlace=0,it_c=seatsList->begin(); it_c!=seatsList->end(); ++it_c, seatPlace++) {
 		for(int i=1; i<=5; i++)myW->playerStarsArray[i][seatPlace]->setText("");
-		if(myW->myStartWindow->getSession()->getGameType() == Session::GAME_TYPE_INTERNET && !myW->getSession()->getClientPlayerInfo((*it_c)->getMyUniqueID()).isGuest && (*it_c)->getMyType() != PLAYER_TYPE_COMPUTER)
+		if(myW->myStartWindow->getSession()->getGameType() == Session::GAME_TYPE_INTERNET && !myW->getSession()->getClientPlayerInfo((*it_c)->getMyUniqueID()).isGuest && (*it_c)->getMyType() != PLAYER_TYPE_COMPUTER) {
 			if((*it_c)->getMyStayOnTableStatus() == TRUE && (*it_c)->getMyName()!="" && seatPlace!=0) {
 				int playerStars=getPlayerRating(QString::fromUtf8((*it_c)->getMyName().c_str()));
 				for(int i=1; i<=5; i++) {
-					myW->playerStarsArray[i][seatPlace]->setText("<a style='color: #"+myW->getMyGameTableStyle()->getRatingStarsColor()+"; "+myW->getMyGameTableStyle()->getFont1String()+" font-size: "+fontSize+"px; text-decoration: none;' href='"+QString::fromUtf8((*it_c)->getMyName().c_str())+"\""+QString::number(i)+"'>&#9734;</a>");
+					myW->playerStarsArray[i][seatPlace]->setText("<a style='color: #"+myW->getMyGameTableStyle()->getRatingStarsColor()+"; "+fontFamily+" font-size: "+fontSize+"px; text-decoration: none;' href='"+QString::fromUtf8((*it_c)->getMyName().c_str())+"\""+QString::number(i)+"'>&#9734;</a>");
 				}
 				for(int i=1; i<=playerStars; i++) {
-					myW->playerStarsArray[i][seatPlace]->setText("<a style='color: #"+myW->getMyGameTableStyle()->getRatingStarsColor()+"; "+myW->getMyGameTableStyle()->getFont1String()+" font-size: "+fontSize+"px; text-decoration: none;' href='"+QString::fromUtf8((*it_c)->getMyName().c_str())+"\""+QString::number(i)+"'>&#9733;</a>");
+					myW->playerStarsArray[i][seatPlace]->setText("<a style='color: #"+myW->getMyGameTableStyle()->getRatingStarsColor()+"; "+fontFamily+" font-size: "+fontSize+"px; text-decoration: none;' href='"+QString::fromUtf8((*it_c)->getMyName().c_str())+"\""+QString::number(i)+"'>&#9733;</a>");
 				}
-
 			}
+		}
 	}
 }
 
