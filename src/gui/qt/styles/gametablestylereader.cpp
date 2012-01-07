@@ -47,7 +47,7 @@ GameTableStyleReader::GameTableStyleReader(ConfigFile *c, QWidget *w)
 	tabBarPaddingSide = "9";
 #else
 	font1String = "font-family: \"Nimbus Sans L\";";
-	font2String = "font-family: \"Bitstream Vera Sans\";";
+	font2String = "font-family: \"DejaVu Sans\";";
 
 	tabBarPaddingTop = "0";
 	tabBarPaddingSide = "9";
