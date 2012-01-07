@@ -569,7 +569,7 @@ void LocalHand::switchRounds()
 		myGui->refreshPot();
 		myGui->refreshSet();
 		currentRound = GAME_STATE_POST_RIVER;
-		myLog->setCurrentRound(currentRound);
+		if(myLog) myLog->setCurrentRound(currentRound);
 	}
 
 	// check for all in condition
@@ -636,7 +636,7 @@ void LocalHand::switchRounds()
 
 		if (currentRound < GAME_STATE_POST_RIVER) { // do not increment past 4
 			currentRound = GameState(currentRound + 1);
-			myLog->setCurrentRound(currentRound);
+			if(myLog) myLog->setCurrentRound(currentRound);
 		}
 
 		//log board cards for allin
