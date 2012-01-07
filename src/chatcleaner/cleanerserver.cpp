@@ -133,8 +133,8 @@ bool CleanerServer::handleMessage(InternalChatCleanerPacket &msg)
 		if (netRequest->cleanerChatType.present == CleanerChatType_PR_cleanerChatTypeGame) {
 			gameId = netRequest->cleanerChatType.choice.cleanerChatTypeGame.gameId;
 		}
-		// TODO use gameId
-		QStringList checkreturn = myMessageFilter->check(playerId, nick, message);
+
+		QStringList checkreturn = myMessageFilter->check(gameId, playerId, nick, message);
 		QString checkAction = checkreturn.at(0);
 		QString checkMessage = checkreturn.at(1);
 

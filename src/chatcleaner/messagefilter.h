@@ -19,7 +19,7 @@ public:
 	MessageFilter(CleanerConfig*);
 	~MessageFilter();
 
-	QStringList check(unsigned, QString, QString);
+	QStringList check(unsigned, unsigned, QString, QString);
 	void refreshConfig();
 
 public slots:

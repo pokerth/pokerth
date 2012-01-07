@@ -13,7 +13,8 @@ enum ActionType {
 	NOTHING,
 	WARN,
 	KICK,
-	KICKBAN
+	KICKBAN,
+	MUTE
 };
 
 enum OffenceType {
@@ -49,7 +50,7 @@ MessageFilter::~MessageFilter()
 	delete cleanTimer;
 }
 
-QStringList MessageFilter::check(unsigned playerId, QString nick, QString msg)
+QStringList MessageFilter::check(unsigned gameId, unsigned playerId, QString nick, QString msg)
 {
 	QStringList returnList;
 	QString returnMessage;
@@ -77,30 +78,36 @@ QStringList MessageFilter::check(unsigned playerId, QString nick, QString msg)
 			action = WARN;
 		} else {
 			if(i.value().warnLevel == warnLevelToKick || i.value().lastWarnType == offence) {
-				//				Kick Command
-				action = KICK;
-				//remove playerId from all lists and as LAST from myClientWarnLevelList
-				myTextFloodCheck->removeNickFromList(i.key());
-				myClientWarnLevelList.remove(i.key());
-				//check if player is already on kickCounterList
-				QMap<QString, ClientKickInfos>::const_iterator j = myClientKickCounterList.find(nick);
-				if(j == myClientKickCounterList.end()) {
-					//if player is NOT on this list put the playerId on it to ban after multiple offence
-					ClientKickInfos tmpInfos;
-					tmpInfos.kickNumber = 1;
-					tmpInfos.lastKickTimestamp = timer.elapsed().total_seconds();
-					myClientKickCounterList.insert(nick, tmpInfos);
-				} else {
-					//pleayer is already on the list: either raise kickNumber or kickban when kickNumerToBan is reached
-					if(j.value().kickNumber == kickNumberToBan) {
-						action = KICKBAN;
-						//remove player from kickCounterList
-						myClientKickCounterList.remove(j.key());
-					} else {
+				if(gameId) {
+				//check for ingame to do not kick but mute
+					action = MUTE;
+				}
+				else {
+					//				Kick Command
+					action = KICK;
+					//remove playerId from all lists and as LAST from myClientWarnLevelList
+					myTextFloodCheck->removeNickFromList(i.key());
+					myClientWarnLevelList.remove(i.key());
+					//check if player is already on kickCounterList
+					QMap<QString, ClientKickInfos>::const_iterator j = myClientKickCounterList.find(nick);
+					if(j == myClientKickCounterList.end()) {
+						//if player is NOT on this list put the playerId on it to ban after multiple offence
 						ClientKickInfos tmpInfos;
-						tmpInfos.kickNumber = j.value().kickNumber+1;
+						tmpInfos.kickNumber = 1;
 						tmpInfos.lastKickTimestamp = timer.elapsed().total_seconds();
 						myClientKickCounterList.insert(nick, tmpInfos);
+					} else {
+						//pleayer is already on the list: either raise kickNumber or kickban when kickNumerToBan is reached
+						if(j.value().kickNumber == kickNumberToBan) {
+							action = KICKBAN;
+							//remove player from kickCounterList
+							myClientKickCounterList.remove(j.key());
+						} else {
+							ClientKickInfos tmpInfos;
+							tmpInfos.kickNumber = j.value().kickNumber+1;
+							tmpInfos.lastKickTimestamp = timer.elapsed().total_seconds();
+							myClientKickCounterList.insert(nick, tmpInfos);
+						}
 					}
 				}
 			} else {
@@ -146,6 +153,9 @@ QStringList MessageFilter::check(unsigned playerId, QString nick, QString msg)
 		} else if(action == KICKBAN) {
 			returnMessage = QString("%1 kicked and banned! Please respect: http://chatrules.pokerth.net\n").arg(nick);
 			returnAction = QString("kickban");
+		} else if(action == MUTE) {
+			returnMessage = QString("%1 muted! Please respect: http://chatrules.pokerth.net\n").arg(nick);
+			returnAction = QString("mute");
 		}
 	} else {
 		returnAction = QString("");
