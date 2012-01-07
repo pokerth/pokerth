@@ -1850,6 +1850,7 @@ ClientStateRunHand::InternalHandlePacket(boost::shared_ptr<ClientThread> client,
 		if (curGame->getCurrentHand()->getCurrentRound() != netPlayersTurn->gameState) {
 			ResetPlayerActions(*curGame);
 			curGame->getCurrentHand()->setCurrentRound(GameState(netPlayersTurn->gameState));
+			client->GetClientLog()->setCurrentRound(GameState(netPlayersTurn->gameState));
 			// Refresh actions.
 			client->GetGui().refreshSet();
 			client->GetGui().refreshAction();
@@ -2029,6 +2030,7 @@ ClientStateRunHand::InternalHandlePacket(boost::shared_ptr<ClientThread> client,
 			}
 
 			curGame->getCurrentHand()->setCurrentRound(GAME_STATE_POST_RIVER);
+			client->GetClientLog()->setCurrentRound(GAME_STATE_POST_RIVER);
 			curGame->getCurrentHand()->getCurrentBeRo()->setHighestCardsValue(highestValueOfCards);
 			curGame->getCurrentHand()->getBoard()->setPot(0);
 			curGame->getCurrentHand()->getBoard()->setWinners(winnerList);
