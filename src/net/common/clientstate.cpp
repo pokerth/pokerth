@@ -1886,6 +1886,7 @@ ClientStateRunHand::InternalHandlePacket(boost::shared_ptr<ClientThread> client,
 		curGame->getCurrentHand()->setPreviousPlayerID(-1);
 
 		client->GetGui().logDealBoardCardsMsg(GAME_STATE_FLOP, tmpCards[0], tmpCards[1], tmpCards[2], tmpCards[3], tmpCards[4]);
+		client->GetClientLog()->setCurrentRound(GAME_STATE_FLOP);
 		client->GetClientLog()->logBoardCards(tmpCards);
 		client->GetGui().refreshGameLabels(GAME_STATE_FLOP);
 		client->GetGui().refreshPot();
@@ -1902,6 +1903,7 @@ ClientStateRunHand::InternalHandlePacket(boost::shared_ptr<ClientThread> client,
 		curGame->getCurrentHand()->setPreviousPlayerID(-1);
 
 		client->GetGui().logDealBoardCardsMsg(GAME_STATE_TURN, tmpCards[0], tmpCards[1], tmpCards[2], tmpCards[3], tmpCards[4]);
+		client->GetClientLog()->setCurrentRound(GAME_STATE_TURN);
 		client->GetClientLog()->logBoardCards(tmpCards);
 		client->GetGui().refreshGameLabels(GAME_STATE_TURN);
 		client->GetGui().refreshPot();
@@ -1918,6 +1920,7 @@ ClientStateRunHand::InternalHandlePacket(boost::shared_ptr<ClientThread> client,
 		curGame->getCurrentHand()->setPreviousPlayerID(-1);
 
 		client->GetGui().logDealBoardCardsMsg(GAME_STATE_RIVER, tmpCards[0], tmpCards[1], tmpCards[2], tmpCards[3], tmpCards[4]);
+		client->GetClientLog()->setCurrentRound(GAME_STATE_RIVER);
 		client->GetClientLog()->logBoardCards(tmpCards);
 		client->GetGui().refreshGameLabels(GAME_STATE_RIVER);
 		client->GetGui().refreshPot();
