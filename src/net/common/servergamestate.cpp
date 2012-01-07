@@ -487,8 +487,8 @@ ServerGameStateInit::HandleNewSession(boost::shared_ptr<ServerGame> server, boos
 void
 ServerGameStateInit::RegisterAdminTimer(boost::shared_ptr<ServerGame> server)
 {
-	// No admin timeout in LAN games.
-	if (server->GetLobbyThread().GetServerMode() != SERVER_MODE_LAN) {
+	// No admin timeout in LAN or ranking games.
+	if (server->GetLobbyThread().GetServerMode() != SERVER_MODE_LAN && server->GetGameData().gameType != GAME_TYPE_RANKING) {
 		server->GetStateTimer1().expires_from_now(
 			boost::posix_time::seconds(SERVER_GAME_ADMIN_TIMEOUT_SEC - SERVER_GAME_ADMIN_WARNING_REMAINING_SEC));
 		server->GetStateTimer1().async_wait(
