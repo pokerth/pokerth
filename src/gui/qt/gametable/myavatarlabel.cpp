@@ -168,11 +168,10 @@ void MyAvatarLabel::startChangePlayerTip(QString playerName)
 void MyAvatarLabel::refreshStars()
 {
 	QString fontSize("12");
-	QString fontFamily(myW->getMyGameTableStyle()->getFont1String());
+	QString fontFamily("font-family: \"DejaVu Sans\";");
 
 #ifdef _WIN32
 	fontSize = "10";
-	fontFamily = "font-family: \"Bitstream Vera Sans\";";
 #else
 #ifdef __APPLE__
 	fontSize = "7";

@@ -98,6 +98,7 @@ int main( int argc, char **argv )
 	QFontDatabase::addApplicationFont (myAppDataPath +"fonts/n019003l.pfb");
 	QFontDatabase::addApplicationFont (myAppDataPath +"fonts/VeraBd.ttf");
 	QFontDatabase::addApplicationFont (myAppDataPath +"fonts/c059013l.pfb");
+	QFontDatabase::addApplicationFont (myAppDataPath +"fonts/DejaVuSans-Bold.ttf");
 
 #ifdef _WIN32
 	QString font1String("QApplication, QWidget, QDialog { font-size: 12px; }");
