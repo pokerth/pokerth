@@ -172,7 +172,7 @@ void MyAvatarLabel::refreshStars()
 
 #ifdef _WIN32
 	fontSize = "10";
-	fontFamily = "font-family: \"Nimbus Sans L\";";
+	fontFamily = "font-family: \"Bitstream Vera Sans\";";
 #else
 #ifdef __APPLE__
 	fontSize = "7";
