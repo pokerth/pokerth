@@ -171,7 +171,7 @@ void MyAvatarLabel::refreshStars()
 	QString fontFamily(myW->getMyGameTableStyle()->getFont1String());
 
 #ifdef _WIN32
-	fontSize = "12";
+	fontSize = "14";
 	fontFamily = "font-family: \"DejaVu Sans\";";
 #else
 #ifdef __APPLE__
