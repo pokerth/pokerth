@@ -753,8 +753,7 @@ ClientThread::SetNewGameAdmin(unsigned id)
 		playerData->SetGameAdmin(true);
 		GetCallback().SignalNetClientNewGameAdmin(id, playerData->GetName());
 		m_clientLog->logPlayerAction(
-			m_game->getCurrentHand()->getCurrentRound(),
-			m_game->getPlayerByUniqueId(id)->getMyID()+1,
+			playerData->GetName(),
 			LOG_ACTION_ADMIN
 		);
 	}
@@ -1126,14 +1125,12 @@ ClientThread::RemovePlayerData(unsigned playerId, int removeReason)
 
 		if(removeReason == NTF_NET_REMOVED_KICKED) {
 			m_clientLog->logPlayerAction(
-				m_game->getCurrentHand()->getCurrentRound(),
-				m_game->getPlayerByUniqueId(tmpData->GetUniqueId())->getMyID()+1,
+				tmpData->GetName(),
 				LOG_ACTION_KICKED
 			);
 		} else {
 			m_clientLog->logPlayerAction(
-				m_game->getCurrentHand()->getCurrentRound(),
-				m_game->getPlayerByUniqueId(tmpData->GetUniqueId())->getMyID()+1,
+				tmpData->GetName(),
 				LOG_ACTION_LEFT
 			);
 		}

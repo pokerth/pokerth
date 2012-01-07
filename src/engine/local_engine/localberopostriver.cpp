@@ -89,7 +89,7 @@ void LocalBeRoPostRiver::postRiverRun()
 		if ((*it_c)->getMyAction() != PLAYER_ACTION_FOLD) nonfoldPlayersCounter++;
 	}
 	if(nonfoldPlayersCounter>1) {
-		if(getMyHand()->getLog()) getMyHand()->getLog()->logHoleCardsHandName(GAME_STATE_POST_RIVER,getMyHand()->getActivePlayerList());
+		if(getMyHand()->getLog()) getMyHand()->getLog()->logHoleCardsHandName(getMyHand()->getActivePlayerList());
 	}
 	if(getMyHand()->getLog()) {
 		getMyHand()->getLog()->logHandWinner(getMyHand()->getActivePlayerList(), highestCardsValue, getMyHand()->getBoard()->getWinners());

@@ -491,8 +491,7 @@ void settingsDialogImpl::prepareDialog()
 	if(calledIngame) {
 		pushButton_resetSettings->setDisabled(true);
 		label_resetNote->show();
-	}
-	else {
+	} else {
 		pushButton_resetSettings->setEnabled(true);
 		label_resetNote->hide();
 	}
@@ -1382,11 +1381,10 @@ void settingsDialogImpl::showLogFilePreview()
 void settingsDialogImpl::resetSettings()
 {
 	int ret = QMessageBox::warning(this, tr("PokerTH - Settings"),
-									tr("Attention: this will delete all your personal settings and close PokerTH!\n"
-										"Do you really want to reset factory settings?"),
-									QMessageBox::Yes | QMessageBox::No);
-	if(ret == QMessageBox::Yes)
-	{
+								   tr("Attention: this will delete all your personal settings and close PokerTH!\n"
+									  "Do you really want to reset factory settings?"),
+								   QMessageBox::Yes | QMessageBox::No);
+	if(ret == QMessageBox::Yes) {
 		myConfig->deleteConfigFile();
 		exit(0);
 	}

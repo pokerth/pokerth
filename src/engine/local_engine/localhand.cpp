@@ -527,7 +527,7 @@ void LocalHand::switchRounds()
 	// logging last player action
 	PlayerListConstIterator previousPlayerIt = getRunningPlayerIt(previousPlayerID);
 	if(previousPlayerIt != runningPlayerList->end()) {
-		if(myLog) myLog->logPlayerAction(currentRound,(*previousPlayerIt)->getMyID()+1,myLog->transformPlayerActionLog((*previousPlayerIt)->getMyAction()),(*previousPlayerIt)->getMySet());
+		if(myLog) myLog->logPlayerAction((*previousPlayerIt)->getMyName(),myLog->transformPlayerActionLog((*previousPlayerIt)->getMyAction()),(*previousPlayerIt)->getMySet());
 	}
 
 	PlayerListIterator it, it_1;
@@ -569,6 +569,7 @@ void LocalHand::switchRounds()
 		myGui->refreshPot();
 		myGui->refreshSet();
 		currentRound = GAME_STATE_POST_RIVER;
+		myLog->setCurrentRound(currentRound);
 	}
 
 	// check for all in condition
@@ -630,11 +631,13 @@ void LocalHand::switchRounds()
 		myGui->flipHolecardsAllIn();
 		// Logging HoleCards
 		if(currentRound<GAME_STATE_RIVER) {
-			if(myLog) myLog->logHoleCardsHandName(currentRound,activePlayerList);
+			if(myLog) myLog->logHoleCardsHandName(activePlayerList);
 		}
 
-		if (currentRound < GAME_STATE_POST_RIVER) // do not increment past 4
+		if (currentRound < GAME_STATE_POST_RIVER) { // do not increment past 4
 			currentRound = GameState(currentRound + 1);
+			myLog->setCurrentRound(currentRound);
+		}
 
 		//log board cards for allin
 		if(currentRound >= GAME_STATE_FLOP) {
@@ -642,7 +645,7 @@ void LocalHand::switchRounds()
 
 			myBoard->getMyCards(tempBoardCardsArray);
 			myGui->logDealBoardCardsMsg(currentRound, tempBoardCardsArray[0], tempBoardCardsArray[1], tempBoardCardsArray[2], tempBoardCardsArray[3], tempBoardCardsArray[4]);
-			if(myLog) myLog->logBoardCards(currentRound, tempBoardCardsArray);
+			if(myLog) myLog->logBoardCards(tempBoardCardsArray);
 		}
 
 	}

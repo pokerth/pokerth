@@ -687,6 +687,7 @@ int guiLog::exportLog(QString fileStringPdb,int modus)
 	result_struct results;
 	results.result_Session = 0;
 	results.result_Game = 0;
+	results.result_Player = 0;
 	results.result_Hand = 0;
 	results.result_Hand_ID = 0;
 	results.result_Action = 0;
@@ -696,8 +697,8 @@ int guiLog::exportLog(QString fileStringPdb,int modus)
 	string round_string = "";
 	string action_string = "";
 	bool data_found = false;
-	int nRow_Session=0, nRow_Game=0, nRow_Hand=0, nRow_Hand_ID=0, nRow_Action=0;
-	int nCol_Session=0, nCol_Game=0, nCol_Hand=0, nCol_Action=0;
+	int nRow_Session=0, nRow_Game=0, nRow_Player=0, nRow_Hand=0, nRow_Hand_ID=0, nRow_Action=0;
+	int nCol_Session=0, nCol_Game=0, nCol_Player=0, nCol_Hand=0, nCol_Action=0;
 	char *errmsg = 0;
 	int game_ctr = 0, hand_ctr = 0, round_ctr = 0, action_ctr = 0;
 	int i = 0, j = 0;
@@ -721,7 +722,7 @@ int guiLog::exportLog(QString fileStringPdb,int modus)
 			cleanUp(results, mySqliteLogDb);
 			return 1;
 		}
-		if(nRow_Session<1 || nRow_Session>1) {
+		if(nRow_Session != 1) {
 			cout << "Number of Sessions implausible!" << endl;
 			cleanUp(results, mySqliteLogDb);
 			return 1;
@@ -774,8 +775,6 @@ int guiLog::exportLog(QString fileStringPdb,int modus)
 			cleanUp(results, mySqliteLogDb);
 			return 1;
 		}
-
-//		sqlite3_free_table(results.result_Session);
 
 		switch(modus) {
 		case 1:
@@ -834,28 +833,42 @@ int guiLog::exportLog(QString fileStringPdb,int modus)
 			}
 
 			// read player
-			for(i=1; i<=MAX_NUMBER_OF_PLAYERS; i++) {
-				data_found = false;
-				for(j=0; j<nCol_Game; j++) {
-					cmpString = "Seat_";
-					cmpString+= boost::lexical_cast<std::string>(i);
-					if(boost::lexical_cast<std::string>(results.result_Game[j]) == cmpString) {
-						// Seat found
-						if(results.result_Game[j+nCol_Game*game_ctr]) {
-							// the Seat is not empty
-							player[i-1] = boost::lexical_cast<std::string>(results.result_Game[j+nCol_Game*game_ctr]);
-						} else {
-							player[i-1] = "";
-						}
-						data_found = true;
-					}
-				}
-				if(!data_found) {
-					cout << "Missing some seats!" << endl;
-					cleanUp(results, mySqliteLogDb);
-					return 1;
-				}
+			sql  = "SELECT Player,Seat FROM Player WHERE UniqueGameID=";
+			sql += boost::lexical_cast<std::string>(uniqueGameID);
+			sql += " ORDER BY Seat;";
+			if(sqlite3_get_table(mySqliteLogDb,sql.data(),&results.result_Player,&nRow_Player,&nCol_Player,&errmsg) != SQLITE_OK) {
+				cout << "Error in statement: " << sql.data() << "[" << errmsg << "]." << endl;
+				cleanUp(results, mySqliteLogDb);
+				return 1;
 			}
+			for(i=1; i<=nRow_Player; i++) {
+				player[i-1] = boost::lexical_cast<std::string>(results.result_Player[nCol_Player*i]);
+			}
+
+
+
+//			for(i=1; i<=MAX_NUMBER_OF_PLAYERS; i++) {
+//				data_found = false;
+//				for(j=0; j<nCol_Game; j++) {
+//					cmpString = "Seat_";
+//					cmpString+= boost::lexical_cast<std::string>(i);
+//					if(boost::lexical_cast<std::string>(results.result_Game[j]) == cmpString) {
+//						// Seat found
+//						if(results.result_Game[j+nCol_Game*game_ctr]) {
+//							// the Seat is not empty
+//							player[i-1] = boost::lexical_cast<std::string>(results.result_Game[j+nCol_Game*game_ctr]);
+//						} else {
+//							player[i-1] = "";
+//						}
+//						data_found = true;
+//					}
+//				}
+//				if(!data_found) {
+//					cout << "Missing some seats!" << endl;
+//					cleanUp(results, mySqliteLogDb);
+//					return 1;
+//				}
+//			}
 
 			// read all hand id
 			sql = "SELECT HandID FROM Hand WHERE UniqueGameID=";
@@ -1050,8 +1063,6 @@ int guiLog::exportLog(QString fileStringPdb,int modus)
 						}
 					}
 
-//					sqlite3_free_table(results.result_Action);
-
 				} else {
 
 					log_string += "BLINDS: ";
@@ -1080,8 +1091,6 @@ int guiLog::exportLog(QString fileStringPdb,int modus)
 					log_string += boost::lexical_cast<std::string>(results.result_Action[3]);
 					log_string += "), ";
 
-//					sqlite3_free_table(results.result_Action);
-
 					// read big blind
 					sql = "SELECT Player,Amount FROM Action WHERE UniqueGameID=";
 					sql += boost::lexical_cast<std::string>(uniqueGameID);
@@ -1105,8 +1114,6 @@ int guiLog::exportLog(QString fileStringPdb,int modus)
 					log_string += " ($";
 					log_string += boost::lexical_cast<std::string>(results.result_Action[3]);
 					log_string += ")";
-
-//					sqlite3_free_table(results.result_Action);
 
 					// read dealer
 					sql = "SELECT Player,Amount FROM Action WHERE UniqueGameID=";
@@ -1144,8 +1151,6 @@ int guiLog::exportLog(QString fileStringPdb,int modus)
 						log_string += player[boost::lexical_cast<int>(results.result_Action[2])-1];
 						log_string += " starts as dealer.";
 					}
-
-//					sqlite3_free_table(results.result_Action);
 
 				}
 
@@ -1300,10 +1305,25 @@ int guiLog::exportLog(QString fileStringPdb,int modus)
 						}
 
 						// wins
-						if(boost::lexical_cast<std::string>(results.result_Action[3*action_ctr+1]) == "wins" || boost::lexical_cast<std::string>(results.result_Action[3*action_ctr+1]) == "wins (side pot)" || boost::lexical_cast<std::string>(results.result_Action[3*action_ctr+1]) == "has left the game" || boost::lexical_cast<std::string>(results.result_Action[3*action_ctr+1]) == "was kicked from the game" || boost::lexical_cast<std::string>(results.result_Action[3*action_ctr+1]) == "is game admin now" || boost::lexical_cast<std::string>(results.result_Action[3*action_ctr+1]) == "has joined the game") {
+						if(boost::lexical_cast<std::string>(results.result_Action[3*action_ctr+1]) == "wins" || boost::lexical_cast<std::string>(results.result_Action[3*action_ctr+1]) == "wins (side pot)") {
 							switch(modus) {
 							case 1:
 								if(!neu) action_string = "</br><i>" + action_string + "</i>";
+								else action_string = "<i>" + action_string + "</i>";
+								break;
+							case 3:
+								action_string = "<i>" + action_string + "</i>";
+								break;
+							default:
+								;
+							}
+						}
+
+						// network actions
+						if(boost::lexical_cast<std::string>(results.result_Action[3*action_ctr+1]) == "has left the game" || boost::lexical_cast<std::string>(results.result_Action[3*action_ctr+1]) == "was kicked from the game" || boost::lexical_cast<std::string>(results.result_Action[3*action_ctr+1]) == "is game admin now" || boost::lexical_cast<std::string>(results.result_Action[3*action_ctr+1]) == "has joined the game") {
+							switch(modus) {
+							case 1:
+								if(!neu) action_string = "<i>" + action_string + "!</i>";
 								else action_string = "<i>" + action_string + "</i>";
 								break;
 							case 3:
@@ -1394,33 +1414,25 @@ int guiLog::exportLog(QString fileStringPdb,int modus)
 
 							if(round_ctr == GAME_STATE_POST_RIVER) {
 								// find hand name
-//								data_found = false;
 								for(i=0; i<nCol_Hand; i++) {
 									cmpString = "Seat_";
 									cmpString += boost::lexical_cast<std::string>(results.result_Action[3*action_ctr]);
 									cmpString += "_Hand_text";
 									if(boost::lexical_cast<std::string>(results.result_Hand[i]) == cmpString && results.result_Hand[i+nCol_Hand]) {
 										log_string += " - " + boost::lexical_cast<std::string>(results.result_Hand[i+nCol_Hand]);
-//										data_found = true;
 									}
 								}
-//								if(!data_found) {
-//									cout << "Missing hand name information in uniqueGame " << uniqueGameID << " hand " << results.result_Hand_ID[hand_ctr] << "!" << endl;
-//									sqlite3_close(mySqliteLogDb);
-//									return 1;
-//								}
 							}
 
 						}
 
-						if(!neu && boost::lexical_cast<std::string>(results.result_Action[3*action_ctr+1]) != "wins" && boost::lexical_cast<std::string>(results.result_Action[3*action_ctr+1]) != "shows" && boost::lexical_cast<std::string>(results.result_Action[3*action_ctr+1]) != "has" && boost::lexical_cast<std::string>(results.result_Action[3*action_ctr+1]) != "sits out" && boost::lexical_cast<std::string>(results.result_Action[3*action_ctr+1]) != "wins (side pot)" && boost::lexical_cast<std::string>(results.result_Action[3*action_ctr+1]) != "wins game") {
+						if(!neu && boost::lexical_cast<std::string>(results.result_Action[3*action_ctr+1]) != "wins" && boost::lexical_cast<std::string>(results.result_Action[3*action_ctr+1]) != "shows" && boost::lexical_cast<std::string>(results.result_Action[3*action_ctr+1]) != "has" && boost::lexical_cast<std::string>(results.result_Action[3*action_ctr+1]) != "sits out" && boost::lexical_cast<std::string>(results.result_Action[3*action_ctr+1]) != "wins (side pot)" && boost::lexical_cast<std::string>(results.result_Action[3*action_ctr+1]) != "wins game" && boost::lexical_cast<std::string>(results.result_Action[3*action_ctr+1]) != "has left the game" && boost::lexical_cast<std::string>(results.result_Action[3*action_ctr+1]) != "was kicked from the game" && boost::lexical_cast<std::string>(results.result_Action[3*action_ctr+1]) != "is game admin now" && boost::lexical_cast<std::string>(results.result_Action[3*action_ctr+1]) != "has joined the game") {
 							log_string += ".";
 						}
-						if(neu && boost::lexical_cast<std::string>(results.result_Action[3*action_ctr+1]) != "wins game") log_string += ".";
+						if(neu && boost::lexical_cast<std::string>(results.result_Action[3*action_ctr+1]) != "wins game" && boost::lexical_cast<std::string>(results.result_Action[3*action_ctr+1]) != "has left the game" && boost::lexical_cast<std::string>(results.result_Action[3*action_ctr+1]) != "was kicked from the game" && boost::lexical_cast<std::string>(results.result_Action[3*action_ctr+1]) != "is game admin now" && boost::lexical_cast<std::string>(results.result_Action[3*action_ctr+1]) != "has joined the game")
+							log_string += ".";
 
 					}
-
-//					sqlite3_free_table(results.result_Action);
 
 				}
 

@@ -177,7 +177,7 @@ void MyAvatarLabel::refreshStars()
 #ifdef __APPLE__
 	fontSize = "7";
 #else
-	fontSize = "12";	
+	fontSize = "12";
 #endif
 #endif
 

@@ -32,6 +32,7 @@
 struct result_struct {
 	char **result_Session;
 	char **result_Game;
+	char **result_Player;
 	char **result_Hand;
 	char **result_Hand_ID;
 	char **result_Action;

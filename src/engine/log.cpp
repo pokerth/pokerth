@@ -28,11 +28,8 @@
 
 using namespace std;
 
-Log::Log(ConfigFile *c) : mySqliteLogDb(0), myConfig(c), uniqueGameID(0), curHandID(0), sql("")
+Log::Log(ConfigFile *c) : mySqliteLogDb(0), myConfig(c), uniqueGameID(0), currentHandID(0), currentRound(GAME_STATE_PREFLOP), sql("")
 {
-
-	logVersion = 1;
-
 }
 
 Log::~Log()
@@ -94,7 +91,7 @@ Log::init()
 					sql += "\"" + boost::lexical_cast<string>(POKERTH_BETA_RELEASE_STRING) + "\",";
 					sql += "\"" + boost::lexical_cast<string>(curDate) + "\",";
 					sql += "\"" + boost::lexical_cast<string>(curTime) + "\",";
-					sql += boost::lexical_cast<string>(logVersion) + ");";
+					sql += boost::lexical_cast<string>(SQLITE_LOG_VERSION) + ");";
 
 					// create game table
 					sql += "CREATE TABLE Game (";
@@ -103,11 +100,15 @@ Log::init()
 					sql += ",Startmoney INTEGER NOT NULL";
 					sql += ",StartSb INTEGER NOT NULL";
 					sql += ",DealerPos INTEGER NOT NULL";
-					for(i=1; i<=MAX_NUMBER_OF_PLAYERS; i++) {
-						sql += ",Seat_" + boost::lexical_cast<std::string>(i) + " TEXT";
-					}
 					sql += ",Winner_Seat INTEGER";
 					sql += ");";
+
+					// create player table
+					sql += "CREATE TABLE Player (";
+					sql += "UniqueGameID INTEGER NOT NULL";
+					sql += ",Seat INTEGER NOT NULL";
+					sql += ",Player TEXT NOT NULL";
+					sql += ",PRIMARY KEY(UniqueGameID,Seat));";
 
 					// create hand table
 					sql += "CREATE TABLE Hand (";
@@ -170,26 +171,31 @@ Log::logNewGameMsg(int gameID, int startCash, int startSmallBlind, unsigned deal
 				sql += ",Startmoney";
 				sql += ",StartSb";
 				sql += ",DealerPos";
-				for(i=1; i<=MAX_NUMBER_OF_PLAYERS; i++) {
-					sql += ",Seat_" + boost::lexical_cast<std::string>(i);
-				}
 				sql += ") VALUES (";
 				sql += boost::lexical_cast<string>(uniqueGameID);
 				sql += "," + boost::lexical_cast<string>(gameID);
 				sql += "," + boost::lexical_cast<string>(startCash);
 				sql += "," + boost::lexical_cast<string>(startSmallBlind);
 				sql += "," + boost::lexical_cast<string>(dealerPosition);
+				sql += ");";
+
+				i = 1;
 				for(it_c = seatsList->begin(); it_c!=seatsList->end(); ++it_c) {
 					if((*it_c)->getMyActiveStatus()) {
+						sql += "INSERT INTO Player (";
+						sql += "UniqueGameID";
+						sql += ",Seat";
+						sql += ",Player";
+						sql += ") VALUES (";
+						sql += boost::lexical_cast<string>(uniqueGameID);
+						sql += "," + boost::lexical_cast<string>(i);
 						sql += ",\"" + (*it_c)->getMyName() +"\"";
-					} else {
-						sql += ",NULL";
+						sql += ");";
 					}
+					i++;
 				}
-				sql += ");";
-				if(myConfig->readConfigInt("LogInterval") == 0) {
-					exec_transaction();
-				}
+
+				exec_transaction();
 			}
 		}
 	}
@@ -199,7 +205,8 @@ void
 Log::logNewHandMsg(int handID, unsigned dealerPosition, int smallBlind, unsigned smallBlindPosition, int bigBlind, unsigned bigBlindPosition, PlayerList seatsList)
 {
 
-	curHandID = handID;
+	currentRound = GAME_STATE_PREFLOP;
+	currentHandID = handID;
 	PlayerListConstIterator it_c;
 	for(it_c = seatsList->begin(); it_c!=seatsList->end(); ++it_c) {
 		(*it_c)->setLogHoleCardsDone(false);
@@ -226,7 +233,7 @@ Log::logNewHandMsg(int handID, unsigned dealerPosition, int smallBlind, unsigned
 					sql += ",Seat_" + boost::lexical_cast<std::string>(i) + "_Cash";
 				}
 				sql += ") VALUES (";
-				sql += boost::lexical_cast<string>(curHandID);
+				sql += boost::lexical_cast<string>(currentHandID);
 				sql += "," + boost::lexical_cast<string>(uniqueGameID);
 				sql += "," + boost::lexical_cast<string>(dealerPosition);
 				sql += "," + boost::lexical_cast<string>(smallBlind);
@@ -257,22 +264,22 @@ Log::logNewHandMsg(int handID, unsigned dealerPosition, int smallBlind, unsigned
 					}
 				}
 				if(countActivePlayer==2) {
-					logPlayerAction(GAME_STATE_PREFLOP,smallBlindPosition,LOG_ACTION_DEALER);
+					logPlayerAction(smallBlindPosition,LOG_ACTION_DEALER);
 				} else {
 					if(dealerButtonOnTable) {
-						logPlayerAction(GAME_STATE_PREFLOP,dealerPosition,LOG_ACTION_DEALER);
+						logPlayerAction(dealerPosition,LOG_ACTION_DEALER);
 					}
 				}
 
 				// log blinds
 				for(it_c = seatsList->begin(); it_c!=seatsList->end(); ++it_c) {
 					if((*it_c)->getMyButton() == BUTTON_SMALL_BLIND && (*it_c)->getMySet()>0) {
-						logPlayerAction(GAME_STATE_PREFLOP,smallBlindPosition,LOG_ACTION_SMALL_BLIND,(*it_c)->getMySet());
+						logPlayerAction(smallBlindPosition,LOG_ACTION_SMALL_BLIND,(*it_c)->getMySet());
 					}
 				}
 				for(it_c = seatsList->begin(); it_c!=seatsList->end(); ++it_c) {
 					if((*it_c)->getMyButton() == BUTTON_BIG_BLIND && (*it_c)->getMySet()>0) {
-						logPlayerAction(GAME_STATE_PREFLOP,bigBlindPosition,LOG_ACTION_BIG_BLIND,(*it_c)->getMySet());
+						logPlayerAction(bigBlindPosition,LOG_ACTION_BIG_BLIND,(*it_c)->getMySet());
 					}
 				}
 
@@ -286,7 +293,45 @@ Log::logNewHandMsg(int handID, unsigned dealerPosition, int smallBlind, unsigned
 }
 
 void
-Log::logPlayerAction(GameState bero, int seat, PlayerActionLog action, int amount)
+Log::logPlayerAction(string playerName, PlayerActionLog action, int amount)
+{
+
+	if(SQLITE_LOG) {
+
+		if(myConfig->readConfigInt("LogOnOff")) {
+			//if write logfiles is enabled
+
+			if( mySqliteLogDb != 0 ) {
+				// sqlite-db is open
+
+				char **result_Player=0;
+				int nRow_Player=0;
+				int nCol_Player=0;
+				char *errmsg = 0;
+
+				// read seat
+				string sql_select = "SELECT Seat FROM Player WHERE UniqueGameID=" + boost::lexical_cast<std::string>(uniqueGameID);
+				sql_select += " AND ";
+				sql_select += "Player=\"" + playerName +"\"";
+				if(sqlite3_get_table(mySqliteLogDb,sql_select.data(),&result_Player,&nRow_Player,&nCol_Player,&errmsg) != SQLITE_OK) {
+					cout << "Error in statement: " << sql_select.data() << "[" << errmsg << "]." << endl;
+				} else {
+					if(nRow_Player == 1) {
+						logPlayerAction(boost::lexical_cast<int>(result_Player[1]), action, amount);
+					} else {
+						cout << sql_select << endl;
+						cout << "Implausible information about player " << playerName << " in log-db!" << endl;
+					}
+				}
+
+				sqlite3_free_table(result_Player);
+			}
+		}
+	}
+}
+
+void
+Log::logPlayerAction(int seat, PlayerActionLog action, int amount)
 {
 
 	if(SQLITE_LOG) {
@@ -306,9 +351,9 @@ Log::logPlayerAction(GameState bero, int seat, PlayerActionLog action, int amoun
 					sql += ",Action";
 					sql += ",Amount";
 					sql += ") VALUES (";
-					sql += boost::lexical_cast<string>(curHandID);
+					sql += boost::lexical_cast<string>(currentHandID);
 					sql += "," + boost::lexical_cast<string>(uniqueGameID);
-					sql += "," + boost::lexical_cast<string>(bero);;
+					sql += "," + boost::lexical_cast<string>(currentRound);;
 					sql += "," + boost::lexical_cast<string>(seat);
 					switch(action) {
 					case LOG_ACTION_DEALER:
@@ -422,7 +467,7 @@ Log::transformPlayerActionLog(PlayerAction action)
 }
 
 void
-Log::logBoardCards(GameState bero, int boardCards[5])
+Log::logBoardCards(int boardCards[5])
 {
 	if(SQLITE_LOG) {
 
@@ -432,7 +477,7 @@ Log::logBoardCards(GameState bero, int boardCards[5])
 			if( mySqliteLogDb != 0 ) {
 				// sqlite-db is open
 
-				switch(bero) {
+				switch(currentRound) {
 				case GAME_STATE_FLOP: {
 					sql += "UPDATE Hand SET ";
 					sql += "BoardCard_1=" + boost::lexical_cast<string>(boardCards[0]) + ",";
@@ -455,7 +500,7 @@ Log::logBoardCards(GameState bero, int boardCards[5])
 				}
 				sql += " WHERE ";
 				sql += "UniqueGameID=" + boost::lexical_cast<string>(uniqueGameID) + " AND ";
-				sql += "HandID=" + boost::lexical_cast<string>(curHandID);
+				sql += "HandID=" + boost::lexical_cast<string>(currentHandID);
 				sql += ";";
 				if(myConfig->readConfigInt("LogInterval") == 0) {
 					exec_transaction();
@@ -466,22 +511,22 @@ Log::logBoardCards(GameState bero, int boardCards[5])
 }
 
 void
-Log::logHoleCardsHandName(GameState bero, PlayerList activePlayerList)
+Log::logHoleCardsHandName(PlayerList activePlayerList)
 {
 	PlayerListConstIterator it_c;
 
 	for(it_c=activePlayerList->begin(); it_c!=activePlayerList->end(); ++it_c) {
 
-		if( (*it_c)->getMyAction() != PLAYER_ACTION_FOLD && ( ((*it_c)->checkIfINeedToShowCards() && bero==GAME_STATE_POST_RIVER ) || ( bero!=GAME_STATE_POST_RIVER && !(*it_c)->getLogHoleCardsDone()) ) ) {
+		if( (*it_c)->getMyAction() != PLAYER_ACTION_FOLD && ( ((*it_c)->checkIfINeedToShowCards() && currentRound==GAME_STATE_POST_RIVER ) || ( currentRound!=GAME_STATE_POST_RIVER && !(*it_c)->getLogHoleCardsDone()) ) ) {
 
-			logHoleCardsHandName(bero, activePlayerList, *it_c);
+			logHoleCardsHandName(activePlayerList, *it_c);
 
 		}
 	}
 }
 
 void
-Log::logHoleCardsHandName(GameState bero, PlayerList activePlayerList, boost::shared_ptr<PlayerInterface> player, bool forceExecLog)
+Log::logHoleCardsHandName(PlayerList activePlayerList, boost::shared_ptr<PlayerInterface> player, bool forceExecLog)
 {
 
 	if(SQLITE_LOG) {
@@ -494,11 +539,11 @@ Log::logHoleCardsHandName(GameState bero, PlayerList activePlayerList, boost::sh
 				int myCards[2];
 				player->getMyCards(myCards);
 				sql += "UPDATE Hand SET ";
-				if(bero==GAME_STATE_POST_RIVER && player->getMyCardsValueInt()>0) {
+				if(currentRound==GAME_STATE_POST_RIVER && player->getMyCardsValueInt()>0) {
 					sql += "Seat_" + boost::lexical_cast<string>(player->getMyID()+1) + "_Hand_text=\"" + CardsValue::determineHandName(player->getMyCardsValueInt(),activePlayerList) + "\"";
 					sql += ",Seat_" + boost::lexical_cast<string>(player->getMyID()+1) + "_Hand_int=" + boost::lexical_cast<string>(player->getMyCardsValueInt());
 				}
-				if(bero==GAME_STATE_POST_RIVER && player->getMyCardsValueInt()>0 && !player->getLogHoleCardsDone()) {
+				if(currentRound==GAME_STATE_POST_RIVER && player->getMyCardsValueInt()>0 && !player->getLogHoleCardsDone()) {
 					sql+= ",";
 				}
 				if(!player->getLogHoleCardsDone()) {
@@ -507,16 +552,16 @@ Log::logHoleCardsHandName(GameState bero, PlayerList activePlayerList, boost::sh
 				}
 				sql += " WHERE ";
 				sql += "UniqueGameID=" + boost::lexical_cast<string>(uniqueGameID) + " AND ";
-				sql += "HandID=" + boost::lexical_cast<string>(curHandID);
+				sql += "HandID=" + boost::lexical_cast<string>(currentHandID);
 				sql += ";";
 				if(myConfig->readConfigInt("LogInterval") == 0 || forceExecLog) {
 					exec_transaction();
 				}
 
 				if(!player->getLogHoleCardsDone()) {
-					logPlayerAction(bero,player->getMyID()+1,LOG_ACTION_SHOW);
+					logPlayerAction(player->getMyName(),LOG_ACTION_SHOW);
 				} else {
-					logPlayerAction(bero,player->getMyID()+1,LOG_ACTION_HAS);
+					logPlayerAction(player->getMyName(),LOG_ACTION_HAS);
 				}
 
 				player->setLogHoleCardsDone(true);
@@ -537,7 +582,7 @@ Log::logHandWinner(PlayerList activePlayerList, int highestCardsValue, std::list
 	// log winner
 	for(it_c=activePlayerList->begin(); it_c!=activePlayerList->end(); ++it_c) {
 		if((*it_c)->getMyAction() != PLAYER_ACTION_FOLD && (*it_c)->getMyCardsValueInt() == highestCardsValue) {
-			logPlayerAction(GAME_STATE_POST_RIVER,(*it_c)->getMyID()+1,LOG_ACTION_WIN,(*it_c)->getLastMoneyWon());
+			logPlayerAction((*it_c)->getMyName(),LOG_ACTION_WIN,(*it_c)->getLastMoneyWon());
 		}
 	}
 
@@ -547,7 +592,7 @@ Log::logHandWinner(PlayerList activePlayerList, int highestCardsValue, std::list
 
 			for(it_int = winners.begin(); it_int != winners.end(); ++it_int) {
 				if((*it_int) == (*it_c)->getMyUniqueID()) {
-					logPlayerAction(GAME_STATE_POST_RIVER,(*it_c)->getMyID()+1,LOG_ACTION_WIN_SIDE_POT,(*it_c)->getLastMoneyWon());
+					logPlayerAction((*it_c)->getMyName(),LOG_ACTION_WIN_SIDE_POT,(*it_c)->getLastMoneyWon());
 				}
 			}
 		}
@@ -567,7 +612,7 @@ Log::logGameWinner(PlayerList activePlayerList)
 	if (playersPositiveCashCounter==1) {
 		for (it_c=activePlayerList->begin(); it_c!=activePlayerList->end(); ++it_c) {
 			if ((*it_c)->getMyCash() > 0) {
-				logPlayerAction(GAME_STATE_POST_RIVER,(*it_c)->getMyID()+1,LOG_ACTION_WIN_GAME);
+				logPlayerAction((*it_c)->getMyName(),LOG_ACTION_WIN_GAME);
 			}
 		}
 		// for log after every game
@@ -584,7 +629,7 @@ Log::logPlayerSitsOut(PlayerList activePlayerList)
 	for(it_c=activePlayerList->begin(); it_c!=activePlayerList->end(); ++it_c) {
 
 		if((*it_c)->getMyCash() == 0) {
-			logPlayerAction(GAME_STATE_POST_RIVER, (*it_c)->getMyID()+1, LOG_ACTION_SIT_OUT);
+			logPlayerAction((*it_c)->getMyName(), LOG_ACTION_SIT_OUT);
 		}
 	}
 

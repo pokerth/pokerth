@@ -1710,7 +1710,7 @@ ClientStateWaitHand::InternalHandlePacket(boost::shared_ptr<ClientThread> client
 		tmpPlayer->setLastMoneyWon(r->moneyWon);
 
 		client->GetCallback().SignalNetClientPostRiverShowCards(r->playerId);
-		client->GetClientLog()->logHoleCardsHandName(GAME_STATE_POST_RIVER, client->GetGame()->getActivePlayerList(), tmpPlayer, true);
+		client->GetClientLog()->logHoleCardsHandName(client->GetGame()->getActivePlayerList(), tmpPlayer, true);
 	} else if (tmpPacket->GetMsg()->present == PokerTHMessage_PR_playerIdChangedMessage) {
 		boost::shared_ptr<Game> curGame = client->GetGame();
 		if (curGame) {
@@ -1788,8 +1788,7 @@ ClientStateRunHand::InternalHandlePacket(boost::shared_ptr<ClientThread> client,
 					netActionDone->playerAction,
 					netActionDone->totalPlayerBet - tmpPlayer->getMySet());
 				client->GetClientLog()->logPlayerAction(
-					curGame->getCurrentHand()->getCurrentBeRo()->getMyBeRoID(),
-					tmpPlayer->getMyID()+1,
+					tmpPlayer->getMyName(),
 					client->GetClientLog()->transformPlayerActionLog(PlayerAction(netActionDone->playerAction)),
 					netActionDone->totalPlayerBet - tmpPlayer->getMySet()
 				);
@@ -1886,7 +1885,7 @@ ClientStateRunHand::InternalHandlePacket(boost::shared_ptr<ClientThread> client,
 		curGame->getCurrentHand()->setPreviousPlayerID(-1);
 
 		client->GetGui().logDealBoardCardsMsg(GAME_STATE_FLOP, tmpCards[0], tmpCards[1], tmpCards[2], tmpCards[3], tmpCards[4]);
-		client->GetClientLog()->logBoardCards(GAME_STATE_FLOP,tmpCards);
+		client->GetClientLog()->logBoardCards(tmpCards);
 		client->GetGui().refreshGameLabels(GAME_STATE_FLOP);
 		client->GetGui().refreshPot();
 		client->GetGui().refreshSet();
@@ -1902,7 +1901,7 @@ ClientStateRunHand::InternalHandlePacket(boost::shared_ptr<ClientThread> client,
 		curGame->getCurrentHand()->setPreviousPlayerID(-1);
 
 		client->GetGui().logDealBoardCardsMsg(GAME_STATE_TURN, tmpCards[0], tmpCards[1], tmpCards[2], tmpCards[3], tmpCards[4]);
-		client->GetClientLog()->logBoardCards(GAME_STATE_TURN,tmpCards);
+		client->GetClientLog()->logBoardCards(tmpCards);
 		client->GetGui().refreshGameLabels(GAME_STATE_TURN);
 		client->GetGui().refreshPot();
 		client->GetGui().refreshSet();
@@ -1918,7 +1917,7 @@ ClientStateRunHand::InternalHandlePacket(boost::shared_ptr<ClientThread> client,
 		curGame->getCurrentHand()->setPreviousPlayerID(-1);
 
 		client->GetGui().logDealBoardCardsMsg(GAME_STATE_RIVER, tmpCards[0], tmpCards[1], tmpCards[2], tmpCards[3], tmpCards[4]);
-		client->GetClientLog()->logBoardCards(GAME_STATE_RIVER,tmpCards);
+		client->GetClientLog()->logBoardCards(tmpCards);
 		client->GetGui().refreshGameLabels(GAME_STATE_RIVER);
 		client->GetGui().refreshPot();
 		client->GetGui().refreshSet();
@@ -1947,7 +1946,6 @@ ClientStateRunHand::InternalHandlePacket(boost::shared_ptr<ClientThread> client,
 		client->GetGui().flipHolecardsAllIn();
 		if(curGame->getCurrentHand()->getCurrentRound()<GAME_STATE_RIVER) {
 			client->GetClientLog()->logHoleCardsHandName(
-				curGame->getCurrentHand()->getCurrentRound(),
 				curGame->getActivePlayerList()
 			);
 		}
@@ -2037,7 +2035,7 @@ ClientStateRunHand::InternalHandlePacket(boost::shared_ptr<ClientThread> client,
 			curGame->getCurrentHand()->getBoard()->setPlayerNeedToShowCards(showList);
 
 			// logging
-			client->GetClientLog()->logHoleCardsHandName(GAME_STATE_POST_RIVER,curGame->getActivePlayerList());
+			client->GetClientLog()->logHoleCardsHandName(curGame->getActivePlayerList());
 			client->GetClientLog()->logHandWinner(curGame->getActivePlayerList(), highestValueOfCards, winnerList);
 
 			client->GetGui().postRiverRunAnimation1();
