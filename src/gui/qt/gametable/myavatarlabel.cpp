@@ -172,6 +172,7 @@ void MyAvatarLabel::refreshStars()
 
 #ifdef _WIN32
 	fontSize = "10";
+	fontFamily = "font-family: \"Arial\", \"DejaVu Sans\";";
 #else
 #ifdef __APPLE__
 	fontSize = "7";
