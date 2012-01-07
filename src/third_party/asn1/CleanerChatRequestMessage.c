@@ -417,12 +417,12 @@ static ber_tlv_tag_t asn_DEF_CleanerChatRequestMessage_tags_1[] = {
 	(ASN_TAG_CLASS_UNIVERSAL | (16 << 2))
 };
 static asn_TYPE_tag2member_t asn_MAP_CleanerChatRequestMessage_tag2el_1[] = {
-	{ (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 0, 0, 1 }, /* requestId at 56 */
-	{ (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 2, -1, 0 }, /* playerId at 58 */
-	{ (ASN_TAG_CLASS_UNIVERSAL | (12 << 2)), 3, 0, 1 }, /* playerName at 59 */
-	{ (ASN_TAG_CLASS_UNIVERSAL | (12 << 2)), 4, -1, 0 }, /* chatMessage at 60 */
-	{ (ASN_TAG_CLASS_CONTEXT | (0 << 2)), 1, 0, 0 }, /* cleanerChatTypeLobby at 44 */
-	{ (ASN_TAG_CLASS_CONTEXT | (1 << 2)), 1, 0, 0 } /* cleanerChatTypeGame at 46 */
+	{ (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 0, 0, 1 }, /* requestId at 55 */
+	{ (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 2, -1, 0 }, /* playerId at 57 */
+	{ (ASN_TAG_CLASS_UNIVERSAL | (12 << 2)), 3, 0, 1 }, /* playerName at 58 */
+	{ (ASN_TAG_CLASS_UNIVERSAL | (12 << 2)), 4, -1, 0 }, /* chatMessage at 59 */
+	{ (ASN_TAG_CLASS_CONTEXT | (0 << 2)), 1, 0, 0 }, /* cleanerChatTypeLobby at 43 */
+	{ (ASN_TAG_CLASS_CONTEXT | (1 << 2)), 1, 0, 0 } /* cleanerChatTypeGame at 45 */
 };
 static asn_SEQUENCE_specifics_t asn_SPC_CleanerChatRequestMessage_specs_1 = {
 	sizeof(struct CleanerChatRequestMessage),

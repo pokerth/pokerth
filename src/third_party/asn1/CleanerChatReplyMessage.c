@@ -410,18 +410,20 @@ static asn_INTEGER_enum_map_t asn_MAP_cleanerActionType_value2enum_5[] = {
 	{ 0,	17,	"cleanerActionNone" },
 	{ 1,	20,	"cleanerActionWarning" },
 	{ 2,	17,	"cleanerActionKick" },
-	{ 3,	16,	"cleanerActionBan" }
+	{ 3,	16,	"cleanerActionBan" },
+	{ 4,	17,	"cleanerActionMute" }
 };
 static unsigned int asn_MAP_cleanerActionType_enum2value_5[] = {
 	3,	/* cleanerActionBan(3) */
 	2,	/* cleanerActionKick(2) */
+	4,	/* cleanerActionMute(4) */
 	0,	/* cleanerActionNone(0) */
 	1	/* cleanerActionWarning(1) */
 };
 static asn_INTEGER_specifics_t asn_SPC_cleanerActionType_specs_5 = {
 	asn_MAP_cleanerActionType_value2enum_5,	/* "tag" => N; sorted by tag */
 	asn_MAP_cleanerActionType_enum2value_5,	/* N => "tag"; sorted by N */
-	4,	/* Number of elements in the maps */
+	5,	/* Number of elements in the maps */
 	0,	/* Enumeration is not extensible */
 	1,	/* Strict enumeration */
 	0,	/* Native long size */
@@ -506,12 +508,12 @@ static ber_tlv_tag_t asn_DEF_CleanerChatReplyMessage_tags_1[] = {
 	(ASN_TAG_CLASS_UNIVERSAL | (16 << 2))
 };
 static asn_TYPE_tag2member_t asn_MAP_CleanerChatReplyMessage_tag2el_1[] = {
-	{ (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 0, 0, 1 }, /* requestId at 64 */
-	{ (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 2, -1, 0 }, /* playerId at 66 */
-	{ (ASN_TAG_CLASS_UNIVERSAL | (10 << 2)), 3, 0, 0 }, /* cleanerActionType at 68 */
+	{ (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 0, 0, 1 }, /* requestId at 63 */
+	{ (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 2, -1, 0 }, /* playerId at 65 */
+	{ (ASN_TAG_CLASS_UNIVERSAL | (10 << 2)), 3, 0, 0 }, /* cleanerActionType at 67 */
 	{ (ASN_TAG_CLASS_UNIVERSAL | (12 << 2)), 4, 0, 0 }, /* cleanerText at 73 */
-	{ (ASN_TAG_CLASS_CONTEXT | (0 << 2)), 1, 0, 0 }, /* cleanerChatTypeLobby at 44 */
-	{ (ASN_TAG_CLASS_CONTEXT | (1 << 2)), 1, 0, 0 } /* cleanerChatTypeGame at 46 */
+	{ (ASN_TAG_CLASS_CONTEXT | (0 << 2)), 1, 0, 0 }, /* cleanerChatTypeLobby at 43 */
+	{ (ASN_TAG_CLASS_CONTEXT | (1 << 2)), 1, 0, 0 } /* cleanerChatTypeGame at 45 */
 };
 static asn_SEQUENCE_specifics_t asn_SPC_CleanerChatReplyMessage_specs_1 = {
 	sizeof(struct CleanerChatReplyMessage),

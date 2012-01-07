@@ -169,7 +169,7 @@ static ber_tlv_tag_t asn_DEF_CleanerChatTypeGame_tags_1[] = {
 	(ASN_TAG_CLASS_UNIVERSAL | (16 << 2))
 };
 static asn_TYPE_tag2member_t asn_MAP_CleanerChatTypeGame_tag2el_1[] = {
-	{ (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 0, 0, 0 } /* gameId at 52 */
+	{ (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 0, 0, 0 } /* gameId at 51 */
 };
 static asn_SEQUENCE_specifics_t asn_SPC_CleanerChatTypeGame_specs_1 = {
 	sizeof(struct CleanerChatTypeGame),

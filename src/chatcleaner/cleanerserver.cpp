@@ -129,6 +129,11 @@ bool CleanerServer::handleMessage(InternalChatCleanerPacket &msg)
 						 string((const char *)netRequest->playerName.buf, netRequest->playerName.size).c_str()));
 		QString message(QString::fromUtf8(
 							string((const char *)netRequest->chatMessage.buf, netRequest->chatMessage.size).c_str()));
+		unsigned gameId = 0;
+		if (netRequest->cleanerChatType.present == CleanerChatType_PR_cleanerChatTypeGame) {
+			gameId = netRequest->cleanerChatType.choice.cleanerChatTypeGame.gameId;
+		}
+		// TODO use gameId
 		QStringList checkreturn = myMessageFilter->check(playerId, nick, message);
 		QString checkAction = checkreturn.at(0);
 		QString checkMessage = checkreturn.at(1);
@@ -143,10 +148,12 @@ bool CleanerServer::handleMessage(InternalChatCleanerPacket &msg)
 
 			if(checkAction == "warn") {
 				netReply->cleanerActionType = cleanerActionType_cleanerActionWarning;
-			} else if(checkAction == "kick") {
+			} else if (checkAction == "kick") {
 				netReply->cleanerActionType = cleanerActionType_cleanerActionKick;
-			} else if(checkAction == "kickban") {
+			} else if (checkAction == "kickban") {
 				netReply->cleanerActionType = cleanerActionType_cleanerActionBan;
+			} else if (checkAction == "mute") {
+				netReply->cleanerActionType = cleanerActionType_cleanerActionMute;
 			}
 
 			string tmpCheck(checkMessage.toUtf8());

@@ -27,9 +27,10 @@ extern "C" {
 		cleanerActionType_cleanerActionNone	= 0,
 		cleanerActionType_cleanerActionWarning	= 1,
 		 cleanerActionType_cleanerActionKick	= 2,
-		 cleanerActionType_cleanerActionBan	= 3
+		 cleanerActionType_cleanerActionBan	= 3,
+		  cleanerActionType_cleanerActionMute	= 4
 	}
-	                                       e_cleanerActionType;
+	                                        e_cleanerActionType;
 
 	/* CleanerChatReplyMessage */
 	typedef struct CleanerChatReplyMessage {
