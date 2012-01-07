@@ -48,7 +48,7 @@ static ber_tlv_tag_t asn_DEF_AuthServerChallenge_tags_1[] = {
 	(ASN_TAG_CLASS_UNIVERSAL | (16 << 2))
 };
 static asn_TYPE_tag2member_t asn_MAP_AuthServerChallenge_tag2el_1[] = {
-	{ (ASN_TAG_CLASS_UNIVERSAL | (4 << 2)), 0, 0, 0 } /* serverChallenge at 135 */
+	{ (ASN_TAG_CLASS_UNIVERSAL | (4 << 2)), 0, 0, 0 } /* serverChallenge at 134 */
 };
 static asn_SEQUENCE_specifics_t asn_SPC_AuthServerChallenge_specs_1 = {
 	sizeof(struct AuthServerChallenge),
