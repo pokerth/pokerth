@@ -173,7 +173,7 @@ void MyAvatarLabel::refreshStars()
 
 #ifdef _WIN32
 	fontSize = "10";
-	if(QSysInfo::windowsVersion == QSysInfo::WV_XP) {
+	if(QSysInfo::windowsVersion() == QSysInfo::WV_XP) {
 		fontFamily = "font-family: \"DejaVu Sans\";";
 	}
 #else
