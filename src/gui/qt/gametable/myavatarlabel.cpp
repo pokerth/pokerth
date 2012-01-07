@@ -24,6 +24,7 @@
 #include "game.h"
 #include "mymessagedialogimpl.h"
 #include "chattools.h"
+#include <QSysInfo>
 
 using namespace std;
 
@@ -172,7 +173,9 @@ void MyAvatarLabel::refreshStars()
 
 #ifdef _WIN32
 	fontSize = "10";
-	fontFamily = "font-family: \"Arial\", \"DejaVu Sans\";";
+	if(QSysInfo::windowsVersion == QSysInfo::WV_XP) {
+		fontFamily = "font-family: \"DejaVu Sans\";";
+	}
 #else
 #ifdef __APPLE__
 	fontSize = "7";
