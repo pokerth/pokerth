@@ -4280,7 +4280,7 @@ int LocalPlayer::turnCardsValue(int* cards)
 					break;
 				} else {
 					// Test auf Straight-Flush-Ausnahme 5-4-3-2-A
-					if(array[j1][1] == 12 && (array[j1+1][1]<=3 || (array[j1+2][1]<=3 && array[j1][0]==array[j1+4][0]) || (array[j1+3][1]<=3 && array[j1][0]==array[j1+4][0] && array[j1][0]==array[j1+4][0]))) {
+					if(array[j1][1] == 12 && (array[j1+1][1]<=3 || (array[j1+2][1]<=3 && array[j1][0]==array[j1+4][0]) || (array[j1+3][1]<=3 && array[j1][0]==array[j1+4][0]))) {
 						//                              cout << "Straight-Flush-Draw Ass unten   ";
 						break;
 					}

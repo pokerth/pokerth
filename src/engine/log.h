@@ -59,7 +59,6 @@ private:
 
 	void exec_transaction();
 
-	int logVersion;
 	sqlite3 *mySqliteLogDb;
 	ConfigFile *myConfig;
 	int uniqueGameID;
