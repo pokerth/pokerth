@@ -267,7 +267,9 @@ AbstractServerGameStateReceiving::ProcessPacket(boost::shared_ptr<ServerGame> se
 				}
 			} else if (netChatRequest->chatRequestType.present == chatRequestType_PR_chatRequestTypeGame) {
 				boost::shared_ptr<PlayerInterface> tmpPlayer (server->GetPlayerInterfaceFromGame(session->GetPlayerData()->GetUniqueId()));
-				if (tmpPlayer && !tmpPlayer->isMuted()) {
+				// If we did not find the player, then the game did not start yet. Allow chat for now.
+				// Otherwise, check whether the player is muted.
+				if (!tmpPlayer || !tmpPlayer->isMuted()) {
 					boost::shared_ptr<NetPacket> packet(new NetPacket(NetPacket::Alloc));
 					packet->GetMsg()->present = PokerTHMessage_PR_chatMessage;
 					ChatMessage_t *netChat = &packet->GetMsg()->choice.chatMessage;
