@@ -734,18 +734,6 @@ void startWindowImpl::networkError(int errorID, int /*osErrorID*/)
 							 QMessageBox::Close);
 	}
 	break;
-	case ERR_SOCK_OPEN_MD5_FAILED: {
-		QMessageBox::warning(this, tr("Network Error"),
-							 tr("Could not open the server list MD5 file.\nPlease make sure that the server list URL is correct."),
-							 QMessageBox::Close);
-	}
-	break;
-	case ERR_SOCK_INVALID_SERVERLIST_MD5: {
-		QMessageBox::warning(this, tr("Network Error"),
-							 tr("Synchronization of the PokerTH internet server list has failed.\nPlease make sure that the server list URL is correct."),
-							 QMessageBox::Close);
-	}
-	break;
 	case ERR_SOCK_INVALID_SERVERLIST_XML: {
 		QMessageBox::warning(this, tr("Network Error"),
 							 tr("The PokerTH internet server list contains invalid data.\nIf you use a custom server list, please make sure its format is correct."),

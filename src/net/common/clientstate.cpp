@@ -178,119 +178,26 @@ ClientStateStartServerListDownload::Enter(boost::shared_ptr<ClientThread> client
 	string serverListUrl(context.GetServerListUrl());
 	// Retrieve the file name from the URL.
 	size_t pos = serverListUrl.find_last_of('/');
-	if (serverListUrl.empty() || pos == string::npos || ++pos >= serverListUrl.length()) {
+	if (context.GetCacheDir().empty() || serverListUrl.empty() || pos == string::npos || ++pos >= serverListUrl.length()) {
 		throw ClientException(__FILE__, __LINE__, ERR_SOCK_INVALID_SERVERLIST_URL, 0);
 	}
 	tmpServerListPath /= serverListUrl.substr(pos);
 	if (exists(tmpServerListPath)) {
-		// Download and compare md5.
-		tmpServerListPath = tmpServerListPath.directory_string() + ".md5";
-		boost::shared_ptr<DownloadHelper> downloader(new DownloadHelper);
-		downloader->Init(serverListUrl + ".md5", tmpServerListPath.directory_string());
-		ClientStateSynchronizingServerList::Instance().SetDownloadHelper(downloader);
-		client->SetState(ClientStateSynchronizingServerList::Instance());
-	} else {
-		// Download server list.
-		boost::shared_ptr<DownloadHelper> downloader(new DownloadHelper);
-		downloader->Init(serverListUrl, tmpServerListPath.directory_string());
-		ClientStateDownloadingServerList::Instance().SetDownloadHelper(downloader);
-		client->SetState(ClientStateDownloadingServerList::Instance());
+		// Always download the current server list.
+		// If a previous file exists, delete it.
+		remove(tmpServerListPath);
 	}
+	// Download server list.
+	boost::shared_ptr<DownloadHelper> downloader(new DownloadHelper);
+	downloader->Init(serverListUrl, tmpServerListPath.directory_string());
+	ClientStateDownloadingServerList::Instance().SetDownloadHelper(downloader);
+	client->SetState(ClientStateDownloadingServerList::Instance());
 }
 
 void
 ClientStateStartServerListDownload::Exit(boost::shared_ptr<ClientThread> /*client*/)
 {
 	// Nothing to do.
-}
-
-//-----------------------------------------------------------------------------
-
-ClientStateSynchronizingServerList &
-ClientStateSynchronizingServerList::Instance()
-{
-	static ClientStateSynchronizingServerList state;
-	return state;
-}
-
-ClientStateSynchronizingServerList::ClientStateSynchronizingServerList()
-{
-}
-
-ClientStateSynchronizingServerList::~ClientStateSynchronizingServerList()
-{
-}
-
-void
-ClientStateSynchronizingServerList::Enter(boost::shared_ptr<ClientThread> client)
-{
-	client->GetStateTimer().expires_from_now(
-		boost::posix_time::milliseconds(CLIENT_WAIT_TIMEOUT_MSEC));
-	client->GetStateTimer().async_wait(
-		boost::bind(
-			&ClientStateSynchronizingServerList::TimerLoop, this, boost::asio::placeholders::error, client));
-}
-
-void
-ClientStateSynchronizingServerList::Exit(boost::shared_ptr<ClientThread> client)
-{
-	client->GetStateTimer().cancel();
-}
-
-void
-ClientStateSynchronizingServerList::SetDownloadHelper(boost::shared_ptr<DownloadHelper> helper)
-{
-	m_downloadHelper = helper;
-}
-
-void
-ClientStateSynchronizingServerList::TimerLoop(const boost::system::error_code& ec, boost::shared_ptr<ClientThread> client)
-{
-	if (!ec && &client->GetState() == this) {
-		if (m_downloadHelper->Process()) {
-			m_downloadHelper.reset();
-			ClientContext &context = client->GetContext();
-			path md5ServerListPath(context.GetCacheDir());
-
-			// No more checking needed as this was done before.
-			md5ServerListPath /= context.GetServerListUrl().substr(context.GetServerListUrl().find_last_of('/') + 1) + ".md5";
-			path serverListPath = change_extension(md5ServerListPath, "");
-			// Compare the md5 sums.
-			string tmpMd5;
-			{
-				ifstream inFile(md5ServerListPath.directory_string().c_str(), ios_base::in);
-				if (inFile.fail())
-					throw ClientException(__FILE__, __LINE__, ERR_SOCK_OPEN_MD5_FAILED, 0);
-				inFile >> tmpMd5;
-			}
-			MD5Buf downloadedMd5;
-			if (!downloadedMd5.FromString(tmpMd5))
-				throw ClientException(__FILE__, __LINE__, ERR_SOCK_INVALID_SERVERLIST_MD5, 0);
-			MD5Buf currentMd5;
-			if (!CryptHelper::MD5Sum(serverListPath.directory_string(), currentMd5))
-				throw ClientException(__FILE__, __LINE__, ERR_SOCK_INVALID_SERVERLIST_MD5, 0);
-			if (downloadedMd5 == currentMd5) {
-				// Server list is still current.
-				client->SetState(ClientStateReadingServerList::Instance());
-			} else {
-				// Download new server list.
-				// Paranoia check before removing the file, we do not want to delete wrong files.
-				path tmpPath(serverListPath);
-				if (path(context.GetCacheDir()) == tmpPath.remove_leaf()) {
-					remove(serverListPath);
-					client->SetState(ClientStateStartServerListDownload::Instance());
-				} else
-					throw ClientException(__FILE__, __LINE__, ERR_SOCK_INVALID_SERVERLIST_URL, 0);
-			}
-		} else {
-			// Download still in process. Delay.
-			client->GetStateTimer().expires_from_now(
-				boost::posix_time::milliseconds(CLIENT_WAIT_TIMEOUT_MSEC));
-			client->GetStateTimer().async_wait(
-				boost::bind(
-					&ClientStateSynchronizingServerList::TimerLoop, this, boost::asio::placeholders::error, client));
-		}
-	}
 }
 
 //-----------------------------------------------------------------------------
@@ -379,7 +286,7 @@ ClientStateReadingServerList::Enter(boost::shared_ptr<ClientThread> client)
 		// Unzip the file using zlib.
 		try {
 			ifstream inFile(zippedServerListPath.directory_string().c_str(), ios_base::in | ios_base::binary);
-			ofstream outFile(xmlServerListPath.directory_string().c_str(), ios_base::out);
+			ofstream outFile(xmlServerListPath.directory_string().c_str(), ios_base::out | ios_base::trunc);
 			boost::iostreams::filtering_streambuf<boost::iostreams::input> in;
 			in.push(boost::iostreams::zlib_decompressor());
 			in.push(inFile);

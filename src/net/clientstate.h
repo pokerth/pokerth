@@ -107,34 +107,6 @@ protected:
 	ClientStateStartServerListDownload();
 };
 
-// State: Synchronizing server list.
-class ClientStateSynchronizingServerList : public ClientState
-{
-public:
-	// Access the state singleton.
-	static ClientStateSynchronizingServerList &Instance();
-	virtual ~ClientStateSynchronizingServerList();
-
-	virtual void Enter(boost::shared_ptr<ClientThread> client);
-	virtual void Exit(boost::shared_ptr<ClientThread> client);
-
-	virtual void HandlePacket(boost::shared_ptr<ClientThread> /*client*/, boost::shared_ptr<NetPacket> /*tmpPacket*/) {}
-
-	void SetDownloadHelper(boost::shared_ptr<DownloadHelper> helper);
-
-protected:
-
-	// Protected constructor - this is a singleton.
-	ClientStateSynchronizingServerList();
-
-	// Poll for the completion of the download.
-	void TimerLoop(const boost::system::error_code& ec, boost::shared_ptr<ClientThread> client);
-
-private:
-
-	boost::shared_ptr<DownloadHelper> m_downloadHelper;
-};
-
 // State: Downloading the server list.
 class ClientStateDownloadingServerList : public ClientState
 {
