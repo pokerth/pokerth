@@ -32,10 +32,16 @@ import pokerth_protocol.ChatRequestTypePrivate;
 import pokerth_protocol.NetGameInfo;
 import pokerth_protocol.NonZeroId;
 import pokerth_protocol.PokerTHMessage;
+import pokerth_protocol.StartEvent;
+import pokerth_protocol.StartEventAckMessage;
+import pokerth_protocol.StartEventMessage;
 import pokerth_protocol.ChatRequestMessage.ChatRequestMessageSequenceType;
 import pokerth_protocol.ChatRequestMessage.ChatRequestMessageSequenceType.ChatRequestTypeChoiceType;
 import pokerth_protocol.NetGameInfo.EndRaiseModeEnumType;
 import pokerth_protocol.NetGameInfo.NetGameTypeEnumType;
+import pokerth_protocol.StartEventAckMessage.StartEventAckMessageSequenceType;
+import pokerth_protocol.StartEventMessage.StartEventMessageSequenceType;
+import pokerth_protocol.StartEventMessage.StartEventMessageSequenceType.StartEventTypeChoiceType;
 import pokerth_protocol.InitialNonZeroAmountOfMoney;
 
 
@@ -91,9 +97,9 @@ public class ChatTest extends TestBase {
 	public void testChat() throws Exception {
 		guestInit();
 
-		Socket s[] = new Socket[9];
-		long playerId[] = new long[9];
-		for (int i = 0; i < 9; i++) {
+		Socket s[] = new Socket[8];
+		long playerId[] = new long[8];
+		for (int i = 0; i < 8; i++) {
 			s[i] = new Socket("localhost", 7234);
 			String username = "test" + (i+1);
 			String password = username;
@@ -119,7 +125,7 @@ public class ChatTest extends TestBase {
 		assertTrue(msg.getChatMessage().getValue().getChatType().isChatTypeLobbySelected());
 		assertEquals(playerId[0], msg.getChatMessage().getValue().getChatType().getChatTypeLobby().getPlayerId().getValue().longValue());
 
-		for (int i = 0; i < 9; i++) {
+		for (int i = 0; i < 8; i++) {
 			do {
 				msg = receiveMessage(s[i]);
 			} while (msg.isPlayerListMessageSelected());
@@ -189,12 +195,52 @@ public class ChatTest extends TestBase {
 			assertTrue(msg.getJoinGameReplyMessage().getValue().getJoinGameResult().isJoinGameAckSelected());
 		}
 
+		StartEvent startEvent = new StartEvent();
+		startEvent.setFillWithComputerPlayers(false);
+		StartEventTypeChoiceType eventType = new StartEventTypeChoiceType();
+		eventType.selectStartEvent(startEvent);
+		StartEventMessageSequenceType gameStartType = new StartEventMessageSequenceType();
+		gameStartType.setGameId(new NonZeroId(gameId));
+		gameStartType.setStartEventType(eventType);
+		StartEventMessage startMsg = new StartEventMessage();
+		startMsg.setValue(gameStartType);
+		msg = new PokerTHMessage();
+		msg.selectStartEventMessage(startMsg);
+		sendMessage(msg);
+
+		// Server should confirm start event.
+		do {
+			msg = receiveMessage();
+			failOnErrorMessage(msg);
+		} while (!msg.isStartEventMessageSelected());
+
+		// Acknowledge start event.
+		StartEventAckMessageSequenceType startType = new StartEventAckMessageSequenceType();
+		startType.setGameId(new NonZeroId(gameId));
+		StartEventAckMessage startAck = new StartEventAckMessage();
+		startAck.setValue(startType);
+		msg = new PokerTHMessage();
+		msg.selectStartEventAckMessage(startAck);
+		sendMessage(msg);
+		
+		for (int i = 0; i < 8; i++) {
+			sendMessage(msg, s[i]);
+		}
+
+		// Server should game start.
+		do {
+			msg = receiveMessage();
+			failOnErrorMessage(msg);
+		} while (!msg.isGameStartMessageSelected());
+
+
 		// Guest user: not allowed.
 		msg = createGameChatMsg(ChatText + 7, gameId);
 		sendMessage(msg);
 		do {
 			msg = receiveMessage();
 			failOnErrorMessage(msg);
+			assertFalse(msg.isChatMessageSelected());
 		} while (!msg.isChatRejectMessageSelected());
 		assertEquals(ChatText + 7, msg.getChatRejectMessage().getValue().getChatText());
 
@@ -203,7 +249,7 @@ public class ChatTest extends TestBase {
 			msg = createGameChatMsg(ChatText + "c" + c, gameId);
 			sendMessage(msg, s[c]);
 			do {
-				msg = receiveMessage();
+				msg = receiveMessage(s[c]);
 				failOnErrorMessage(msg);
 				assertFalse(msg.isChatRejectMessageSelected());
 			} while (!msg.isChatMessageSelected());
@@ -214,34 +260,19 @@ public class ChatTest extends TestBase {
 			assertEquals(gameId, msg.getChatMessage().getValue().getChatType().getChatTypeGame().getGameId().getValue().longValue());
 	
 			for (int i = 0; i < 8; i++) {
-				do {
-					msg = receiveMessage(s[i]);
-					failOnErrorMessage(msg);
-					assertFalse(msg.isChatRejectMessageSelected());
-				} while (!msg.isChatMessageSelected());
-				assertEquals(ChatText + "c" + c, msg.getChatMessage().getValue().getChatText());
-				assertTrue(msg.getChatMessage().getValue().getChatType().isChatTypeGameSelected());
-				assertEquals(playerId[c], msg.getChatMessage().getValue().getChatType().getChatTypeGame().getPlayerId().getValue().longValue());
-				assertEquals(gameId, msg.getChatMessage().getValue().getChatType().getChatTypeGame().getGameId().getValue().longValue());
+				if (i != c) {
+					do {
+						msg = receiveMessage(s[i]);
+						failOnErrorMessage(msg);
+						assertFalse(msg.isChatRejectMessageSelected());
+					} while (!msg.isChatMessageSelected());
+					assertEquals(ChatText + "c" + c, msg.getChatMessage().getValue().getChatText());
+					assertTrue(msg.getChatMessage().getValue().getChatType().isChatTypeGameSelected());
+					assertEquals(playerId[c], msg.getChatMessage().getValue().getChatType().getChatTypeGame().getPlayerId().getValue().longValue());
+					assertEquals(gameId, msg.getChatMessage().getValue().getChatType().getChatTypeGame().getGameId().getValue().longValue());
+				}
 			}
 		}
-
-		// Private and lobby messages are forbidden once the game is running.
-		sendMessage(joinGameRequestMsg(gameId, "", false), s[8]);
-		do {
-			msg = receiveMessage(s[8]);
-			failOnErrorMessage(msg);
-			// This player was not in the game and should not have received chat messages.
-			assertFalse(msg.isChatMessageSelected());
-		} while (!msg.isJoinGameReplyMessageSelected());
-		assertTrue(msg.getJoinGameReplyMessage().getValue().getJoinGameResult().isJoinGameAckSelected());
-
-
-		// Server should confirm start event.
-		do {
-			msg = receiveMessage(s[0]);
-			failOnErrorMessage(msg);
-		} while (!msg.isGameStartMessageSelected());
 
 		// Private chat message should now be rejected.
 		msg = createPrivateChatMsg(ChatText + 8, playerId[1]);
@@ -252,7 +283,7 @@ public class ChatTest extends TestBase {
 			assertFalse(msg.isChatMessageSelected());
 		} while (!msg.isChatRejectMessageSelected());
 
-		for (int i = 0; i < 9; i++) {
+		for (int i = 0; i < 8; i++) {
 			s[i].close();
 		}
 	}

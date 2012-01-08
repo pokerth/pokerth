@@ -281,17 +281,17 @@ AbstractServerGameStateReceiving::ProcessPacket(boost::shared_ptr<ServerGame> se
 						netChatRequest->chatText.size);
 					server->SendToAllPlayers(packet, SessionData::Game);
 					chatSent = true;
-				}
 
-				// Send the message to the chat cleaner bot for ranking games.
-				//if (server->GetGameData().gameType == GAME_TYPE_RANKING)
-				//{
-				server->GetLobbyThread().GetChatCleaner().HandleGameChatText(
-					server->GetId(),
-					session->GetPlayerData()->GetUniqueId(),
-					session->GetPlayerData()->GetName(),
-					string((char *)netChatRequest->chatText.buf, netChatRequest->chatText.size));
-				//}
+					// Send the message to the chat cleaner bot for ranking games.
+					//if (server->GetGameData().gameType == GAME_TYPE_RANKING)
+					//{
+					server->GetLobbyThread().GetChatCleaner().HandleGameChatText(
+						server->GetId(),
+						session->GetPlayerData()->GetUniqueId(),
+						session->GetPlayerData()->GetName(),
+						string((char *)netChatRequest->chatText.buf, netChatRequest->chatText.size));
+					//}
+				}
 			}
 		}
 		// Reject chat otherwise.
