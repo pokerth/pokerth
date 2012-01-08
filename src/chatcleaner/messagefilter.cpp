@@ -79,10 +79,9 @@ QStringList MessageFilter::check(unsigned gameId, unsigned playerId, QString nic
 		} else {
 			if(i.value().warnLevel == warnLevelToKick || i.value().lastWarnType == offence) {
 				if(gameId) {
-				//check for ingame to do not kick but mute
+					//check for ingame to do not kick but mute
 					action = MUTE;
-				}
-				else {
+				} else {
 					//				Kick Command
 					action = KICK;
 					//remove playerId from all lists and as LAST from myClientWarnLevelList

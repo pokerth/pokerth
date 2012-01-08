@@ -849,7 +849,7 @@ LocalPlayer::LocalPlayer(ConfigFile *c, int id, unsigned uniqueId, PlayerType ty
 	: PlayerInterface(), myConfig(c), currentHand(0), myID(id), myUniqueID(uniqueId), myType(type), myName(name), myAvatar(avatar),
 	  myDude(0), myDude4(0), myCardsValueInt(0), myOdds(-1.0), logHoleCardsDone(false), myCash(sC), mySet(0), myLastRelativeSet(0), myAction(PLAYER_ACTION_NONE),
 	  myButton(mB), myActiveStatus(aS), myStayOnTableStatus(sotS), myTurn(0), myCardsFlip(0), myRoundStartCash(0), lastMoneyWon(0),
-	  sBluff(0), sBluffStatus(false), m_actionTimeoutCounter(0), m_isSessionActive(false), m_isKicked(false)
+	  sBluff(0), sBluffStatus(false), m_actionTimeoutCounter(0), m_isSessionActive(false), m_isKicked(false), m_isMuted(false)
 {
 
 	// !!!!!!!!!!!!!!!!!!!!!!!! testing !!!!!!!!!!!!!!!!!!!!!!!!
@@ -5112,6 +5112,16 @@ void LocalPlayer::setIsKicked(bool kicked)
 bool LocalPlayer::isKicked() const
 {
 	return m_isKicked;
+}
+
+void LocalPlayer::setIsMuted(bool muted)
+{
+	m_isMuted = muted;
+}
+
+bool LocalPlayer::isMuted() const
+{
+	return m_isMuted;
 }
 
 bool LocalPlayer::checkIfINeedToShowCards()

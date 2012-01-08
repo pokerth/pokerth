@@ -239,6 +239,8 @@ ChatCleanerManager::HandleMessage(InternalChatCleanerPacket &msg)
 			m_callback.SignalKickPlayer(netReply->playerId);
 		else if (netReply->cleanerActionType == cleanerActionType_cleanerActionBan)
 			m_callback.SignalBanPlayer(netReply->playerId);
+		else if (netReply->cleanerActionType == cleanerActionType_cleanerActionMute)
+			m_callback.SignalMutePlayer(netReply->playerId);
 		error = false;
 	}
 	return error;

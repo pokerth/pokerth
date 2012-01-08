@@ -284,6 +284,8 @@ public:
 	bool isSessionActive() const;
 	void setIsKicked(bool kicked);
 	bool isKicked() const;
+	void setIsMuted(bool muted);
+	bool isMuted() const;
 
 	bool checkIfINeedToShowCards();
 
@@ -335,6 +337,7 @@ private:
 	unsigned m_actionTimeoutCounter;
 	bool m_isSessionActive;
 	bool m_isKicked;
+	bool m_isMuted;
 	boost::timers::portable::microsec_timer m_lastRemoteActionTimer;
 };
 

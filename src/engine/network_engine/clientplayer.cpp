@@ -26,7 +26,7 @@ ClientPlayer::ClientPlayer(ConfigFile *c, int id, unsigned uniqueId, PlayerType 
 	: PlayerInterface(), myConfig(c), currentHand(0), myID(id), myUniqueID(uniqueId), myType(type),
 	  myName(name), myAvatar(avatar), myDude(0), myDude4(0), myCardsValueInt(0), myOdds(-1.0), logHoleCardsDone(false), myCash(sC), mySet(0), myLastRelativeSet(0),
 	  myAction(PLAYER_ACTION_NONE), myButton(mB), myActiveStatus(aS), myStayOnTableStatus(sotS), myTurn(false), myCardsFlip(false), myRoundStartCash(0),
-	  lastMoneyWon(0), sBluff(0), sBluffStatus(false), m_isSessionActive(false), m_isKicked(false)
+	  lastMoneyWon(0), sBluff(0), sBluffStatus(false), m_isSessionActive(false), m_isKicked(false), m_isMuted(false)
 {
 	myBestHandPosition[0] = myBestHandPosition[1] = myBestHandPosition[2] = myBestHandPosition[3] = myBestHandPosition[4] = 0;
 	myNiveau[0] = myNiveau[1] = myNiveau[2] = 0;
@@ -561,6 +561,20 @@ ClientPlayer::isKicked() const
 {
 	boost::recursive_mutex::scoped_lock lock(m_syncMutex);
 	return m_isKicked;
+}
+
+void
+ClientPlayer::setIsMuted(bool muted)
+{
+	boost::recursive_mutex::scoped_lock lock(m_syncMutex);
+	m_isMuted = muted;
+}
+
+bool
+ClientPlayer::isMuted() const
+{
+	boost::recursive_mutex::scoped_lock lock(m_syncMutex);
+	return m_isMuted;
 }
 
 bool ClientPlayer::checkIfINeedToShowCards()

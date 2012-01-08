@@ -125,6 +125,10 @@ public:
 		}
 	}
 
+	virtual void SignalMutePlayer(unsigned playerId) {
+		m_server.MutePlayerInGame(playerId);
+	}
+
 	virtual void ConnectSuccess() {
 		LOG_MSG("Successfully connected to database.");
 	}
@@ -540,6 +544,12 @@ ServerLobbyThread::RemovePlayer(unsigned playerId, unsigned errorCode)
 }
 
 void
+ServerLobbyThread::MutePlayerInGame(unsigned playerId)
+{
+	m_ioService->post(boost::bind(&ServerLobbyThread::InternalMutePlayerInGame, shared_from_this(), playerId));
+}
+
+void
 ServerLobbyThread::SendGlobalChat(const string &message)
 {
 	boost::shared_ptr<NetPacket> packet(new NetPacket(NetPacket::Alloc));
@@ -881,7 +891,7 @@ ServerLobbyThread::HandlePacket(boost::shared_ptr<SessionData> session, boost::s
 			else if (packet->GetMsg()->present == PokerTHMessage_PR_avatarRequestMessage)
 				HandleNetPacketRetrieveAvatar(session, packet->GetMsg()->choice.avatarRequestMessage);
 			else if (packet->GetMsg()->present == PokerTHMessage_PR_resetTimeoutMessage)
-				{}
+			{}
 			else if (packet->GetMsg()->present == PokerTHMessage_PR_subscriptionRequestMessage) {
 				SubscriptionRequestMessage_t *subscriptionRequest = &packet->GetMsg()->choice.subscriptionRequestMessage;
 				if (subscriptionRequest->subscriptionAction == subscriptionAction_resubscribeGameList)
@@ -1744,17 +1754,25 @@ ServerLobbyThread::InternalRemovePlayer(unsigned playerId, unsigned errorCode)
 	if (session)
 		SessionError(session, errorCode);
 	else {
-		// Scan games for the player.
-		GameMap::iterator i = m_gameMap.begin();
-		GameMap::iterator end = m_gameMap.end();
-
-		while (i != end) {
-			boost::shared_ptr<ServerGame> tmpGame = i->second;
-			if (tmpGame->GetPlayerDataByUniqueId(playerId)) {
+		// Remove player from game.
+		boost::shared_ptr<SessionData> session = m_gameSessionManager.GetSessionByUniquePlayerId(playerId);
+		if (session) {
+			boost::shared_ptr<ServerGame> tmpGame = session->GetGame();
+			if (tmpGame) {
 				tmpGame->RemovePlayer(playerId, errorCode);
-				break;
 			}
-			++i;
+		}
+	}
+}
+
+void
+ServerLobbyThread::InternalMutePlayerInGame(unsigned playerId)
+{
+	boost::shared_ptr<SessionData> session = m_gameSessionManager.GetSessionByUniquePlayerId(playerId);
+	if (session) {
+		boost::shared_ptr<ServerGame> tmpGame = session->GetGame();
+		if (tmpGame) {
+			tmpGame->MutePlayer(playerId, true);
 		}
 	}
 }

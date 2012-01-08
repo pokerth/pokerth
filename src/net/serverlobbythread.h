@@ -79,6 +79,7 @@ public:
 	std::string GetPlayerIPAddress(const std::string &playerName) const;
 	std::string GetPlayerNameFromId(unsigned playerId) const;
 	void RemovePlayer(unsigned playerId, unsigned errorCode);
+	void MutePlayerInGame(unsigned playerId);
 
 	void SendGlobalChat(const std::string &message);
 	void SendGlobalMsgBox(const std::string &message);
@@ -163,6 +164,7 @@ protected:
 	void InternalAddGame(boost::shared_ptr<ServerGame> game);
 	void InternalRemoveGame(boost::shared_ptr<ServerGame> game);
 	void InternalRemovePlayer(unsigned playerId, unsigned errorCode);
+	void InternalMutePlayerInGame(unsigned playerId);
 	void InternalResubscribeMsg(boost::shared_ptr<SessionData> session);
 
 	void HandleReAddedSession(boost::shared_ptr<SessionData> session);

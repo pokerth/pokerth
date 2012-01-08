@@ -266,19 +266,22 @@ AbstractServerGameStateReceiving::ProcessPacket(boost::shared_ptr<ServerGame> se
 					chatSent = true;
 				}
 			} else if (netChatRequest->chatRequestType.present == chatRequestType_PR_chatRequestTypeGame) {
-				boost::shared_ptr<NetPacket> packet(new NetPacket(NetPacket::Alloc));
-				packet->GetMsg()->present = PokerTHMessage_PR_chatMessage;
-				ChatMessage_t *netChat = &packet->GetMsg()->choice.chatMessage;
-				netChat->chatType.present = chatType_PR_chatTypeGame;
-				ChatTypeGame_t *netGameChat = &netChat->chatType.choice.chatTypeGame;
-				netGameChat->gameId = server->GetId();
-				netGameChat->playerId = session->GetPlayerData()->GetUniqueId();
-				OCTET_STRING_fromBuf(
-					&netChat->chatText,
-					(char *)netChatRequest->chatText.buf,
-					netChatRequest->chatText.size);
-				server->SendToAllPlayers(packet, SessionData::Game);
-				chatSent = true;
+				boost::shared_ptr<PlayerInterface> tmpPlayer (server->GetPlayerInterfaceFromGame(session->GetPlayerData()->GetUniqueId()));
+				if (tmpPlayer && !tmpPlayer->isMuted()) {
+					boost::shared_ptr<NetPacket> packet(new NetPacket(NetPacket::Alloc));
+					packet->GetMsg()->present = PokerTHMessage_PR_chatMessage;
+					ChatMessage_t *netChat = &packet->GetMsg()->choice.chatMessage;
+					netChat->chatType.present = chatType_PR_chatTypeGame;
+					ChatTypeGame_t *netGameChat = &netChat->chatType.choice.chatTypeGame;
+					netGameChat->gameId = server->GetId();
+					netGameChat->playerId = session->GetPlayerData()->GetUniqueId();
+					OCTET_STRING_fromBuf(
+						&netChat->chatText,
+						(char *)netChatRequest->chatText.buf,
+						netChatRequest->chatText.size);
+					server->SendToAllPlayers(packet, SessionData::Game);
+					chatSent = true;
+				}
 
 				// Send the message to the chat cleaner bot for ranking games.
 				//if (server->GetGameData().gameType == GAME_TYPE_RANKING)

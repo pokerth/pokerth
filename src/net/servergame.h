@@ -53,6 +53,7 @@ public:
 
 	void AddSession(boost::shared_ptr<SessionData> session);
 	void RemovePlayer(unsigned playerId, unsigned errorCode);
+	void MutePlayer(unsigned playerId, bool mute);
 	void MarkPlayerAsInactive(unsigned playerId);
 	void MarkPlayerAsKicked(unsigned playerId);
 
@@ -76,6 +77,7 @@ public:
 	bool IsPlayerConnected(unsigned playerId) const;
 	bool IsClientAddressConnected(const std::string &clientAddress) const;
 	boost::shared_ptr<PlayerInterface> GetPlayerInterfaceFromGame(const std::string &playerName);
+	boost::shared_ptr<PlayerInterface> GetPlayerInterfaceFromGame(unsigned playerId);
 
 	bool IsRunning() const;
 

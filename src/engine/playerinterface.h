@@ -122,6 +122,8 @@ public:
 	virtual bool isSessionActive() const=0;
 	virtual void setIsKicked(bool kicked) =0;
 	virtual bool isKicked() const=0;
+	virtual void setIsMuted(bool muted) =0;
+	virtual bool isMuted() const=0;
 
 	virtual bool checkIfINeedToShowCards() =0;
 

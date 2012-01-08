@@ -103,6 +103,17 @@ ServerGame::RemovePlayer(unsigned playerId, unsigned errorCode)
 }
 
 void
+ServerGame::MutePlayer(unsigned playerId, bool mute)
+{
+	if (m_game) {
+		boost::shared_ptr<PlayerInterface> tmpPlayer(m_game->getPlayerByUniqueId(playerId));
+		if (tmpPlayer) {
+			tmpPlayer->setIsMuted(mute);
+		}
+	}
+}
+
+void
 ServerGame::MarkPlayerAsInactive(unsigned playerId)
 {
 	if (m_game) {
@@ -608,6 +619,16 @@ ServerGame::GetPlayerInterfaceFromGame(const std::string &playerName)
 	boost::shared_ptr<PlayerInterface> tmpPlayer;
 	if (m_game) {
 		tmpPlayer = m_game->getPlayerByName(playerName);
+	}
+	return tmpPlayer;
+}
+
+boost::shared_ptr<PlayerInterface>
+ServerGame::GetPlayerInterfaceFromGame(unsigned playerId)
+{
+	boost::shared_ptr<PlayerInterface> tmpPlayer;
+	if (m_game) {
+		tmpPlayer = m_game->getPlayerByUniqueId(playerId);
 	}
 	return tmpPlayer;
 }
