@@ -682,7 +682,16 @@ AbstractClientStateReceiving::HandlePacket(boost::shared_ptr<ClientThread> clien
 				}
 			}
 			// Signal to GUI and remove from data list.
-			client->RemovePlayerData(netLeft->playerId, netLeft->gamePlayerLeftReason);
+			int removeReason;
+			switch (netLeft->gamePlayerLeftReason) {
+			case gamePlayerLeftReason_leftKicked :
+				removeReason = NTF_NET_REMOVED_KICKED;
+				break;
+			default :
+				removeReason = NTF_NET_REMOVED_ON_REQUEST;
+				break;
+			}
+			client->RemovePlayerData(netLeft->playerId, removeReason);
 		} else if (netGamePlayer->gamePlayerNotification.present == gamePlayerNotification_PR_gameAdminChanged) {
 			// New admin for the game.
 			GameAdminChanged_t *netChanged = &netGamePlayer->gamePlayerNotification.choice.gameAdminChanged;
@@ -1558,7 +1567,7 @@ ClientStateWaitStart::InternalHandlePacket(boost::shared_ptr<ClientThread> clien
 		client->GetGame()->setCurrentHandID(tmpHandId);
 		// We need to remove the temporary player data objects after creating the game.
 		BOOST_FOREACH(unsigned tmpPlayerId, tmpPlayerList) {
-			client->RemovePlayerData(tmpPlayerId, gamePlayerLeftReason_leftOnRequest);
+			client->RemovePlayerData(tmpPlayerId, NTF_NET_REMOVED_ON_REQUEST);
 		}
 		client->GetCallback().SignalNetClientGameInfo(MSG_NET_GAME_CLIENT_START);
 		client->SetState(ClientStateWaitHand::Instance());
