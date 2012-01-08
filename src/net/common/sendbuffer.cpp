@@ -74,7 +74,7 @@ SendBuffer::AsyncSendNextPacket(boost::shared_ptr<boost::asio::ip::tcp::socket> 
 int
 SendBuffer::EncodeToBuf(const void *data, size_t size, void *arg)
 {
-	SendBuffer *m = (SendBuffer *)arg;
+	SendBuffer *m = static_cast<SendBuffer *>(arg);
 
 	// Realloc buffer if necessary.
 	while (m->GetSendBufLeft() < size) {
