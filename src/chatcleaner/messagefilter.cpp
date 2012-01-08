@@ -81,6 +81,9 @@ QStringList MessageFilter::check(unsigned gameId, unsigned playerId, QString nic
 				if(gameId) {
 					//check for ingame to do not kick but mute
 					action = MUTE;
+					//remove playerId from all lists and as LAST from myClientWarnLevelList
+					myTextFloodCheck->removeNickFromList(i.key());
+					myClientWarnLevelList.remove(i.key());
 				} else {
 					//				Kick Command
 					action = KICK;
