@@ -646,8 +646,8 @@ AbstractClientStateReceiving::HandlePacket(boost::shared_ptr<ClientThread> clien
 		}
 	} else if (tmpPacket->GetMsg()->present == PokerTHMessage_PR_chatRejectMessage) {
 		ChatRejectMessage_t *netMessage = &tmpPacket->GetMsg()->choice.chatRejectMessage;
-		client->GetCallback().SignalNetClientGameChatMsg("(global notice)", "Chat rejected: " + STL_STRING_FROM_OCTET_STRING(netMessage->chatText));
-		client->GetCallback().SignalNetClientLobbyChatMsg("(global notice)", "Chat rejected: " + STL_STRING_FROM_OCTET_STRING(netMessage->chatText));
+		client->GetCallback().SignalNetClientGameChatMsg("(notice)", "Chat rejected: " + STL_STRING_FROM_OCTET_STRING(netMessage->chatText));
+		client->GetCallback().SignalNetClientLobbyChatMsg("(notice)", "Chat rejected: " + STL_STRING_FROM_OCTET_STRING(netMessage->chatText));
 	} else if (tmpPacket->GetMsg()->present == PokerTHMessage_PR_dialogMessage) {
 		// Message box - display it in the GUI.
 		DialogMessage_t *netDialog = &tmpPacket->GetMsg()->choice.dialogMessage;
