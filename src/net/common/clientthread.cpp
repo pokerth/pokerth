@@ -752,10 +752,9 @@ ClientThread::SetNewGameAdmin(unsigned id)
 	if (playerData.get()) {
 		playerData->SetGameAdmin(true);
 		GetCallback().SignalNetClientNewGameAdmin(id, playerData->GetName());
-		m_clientLog->logPlayerAction(
-			playerData->GetName(),
-			LOG_ACTION_ADMIN
-		);
+		if(m_game) {
+			m_clientLog->logPlayerAction(playerData->GetName(),LOG_ACTION_ADMIN);
+		}
 	}
 }
 
@@ -1092,8 +1091,12 @@ ClientThread::AddPlayerData(boost::shared_ptr<PlayerData> playerData)
 		m_playerDataList.push_back(playerData);
 		if (playerData->GetUniqueId() == GetGuiPlayerId())
 			GetCallback().SignalNetClientSelfJoined(playerData->GetUniqueId(), playerData->GetName(), playerData->IsGameAdmin());
-		else
+		else {
 			GetCallback().SignalNetClientPlayerJoined(playerData->GetUniqueId(), playerData->GetName(), playerData->IsGameAdmin());
+//			if(m_game) {
+//				m_clientLog->logPlayerAction(playerData->GetName(),LOG_ACTION_JOIN);
+//			}
+		}
 	}
 }
 
@@ -1123,16 +1126,12 @@ ClientThread::RemovePlayerData(unsigned playerId, int removeReason)
 		}
 		GetCallback().SignalNetClientPlayerLeft(tmpData->GetUniqueId(), tmpData->GetName(), removeReason);
 
-		if(removeReason == NTF_NET_REMOVED_KICKED) {
-			m_clientLog->logPlayerAction(
-				tmpData->GetName(),
-				LOG_ACTION_KICKED
-			);
-		} else {
-			m_clientLog->logPlayerAction(
-				tmpData->GetName(),
-				LOG_ACTION_LEFT
-			);
+		if(m_game) {
+			if(removeReason == NTF_NET_REMOVED_KICKED) {
+				m_clientLog->logPlayerAction(tmpData->GetName(),LOG_ACTION_KICKED);
+			} else {
+				m_clientLog->logPlayerAction(tmpData->GetName(),LOG_ACTION_LEFT);
+			}
 		}
 
 	}

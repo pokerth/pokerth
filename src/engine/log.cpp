@@ -319,7 +319,6 @@ Log::logPlayerAction(string playerName, PlayerActionLog action, int amount)
 					if(nRow_Player == 1) {
 						logPlayerAction(boost::lexical_cast<int>(result_Player[1]), action, amount);
 					} else {
-						cout << sql_select << endl;
 						cout << "Implausible information about player " << playerName << " in log-db!" << endl;
 					}
 				}

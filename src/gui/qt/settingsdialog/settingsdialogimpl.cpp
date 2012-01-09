@@ -529,13 +529,12 @@ void settingsDialogImpl::isAccepted()
 	checkSetPlayerNicks.insert(lineEdit_Opponent9Name->text().trimmed());
 
 	if(checkSetPlayerNicks.count() != 10) {
-	QMessageBox::warning(this, tr("Settings Error"),
-						 tr("The opponent names are not unique.\n"
-							"Please choose different names for each Opponent!"),
-						 QMessageBox::Ok);
-	settingsCorrect = FALSE;
-	}
-	else {
+		QMessageBox::warning(this, tr("Settings Error"),
+							 tr("The opponent names are not unique.\n"
+								"Please choose different names for each Opponent!"),
+							 QMessageBox::Ok);
+		settingsCorrect = FALSE;
+	} else {
 		//save nicks and avatars
 		myConfig->writeConfigString("MyName", lineEdit_HumanPlayerName->text().trimmed().toUtf8().constData());
 		myConfig->writeConfigString("MyAvatar", pushButton_HumanPlayerAvatar->getMyLink().toUtf8().constData());
@@ -1352,7 +1351,7 @@ void settingsDialogImpl::exportLogToHtml()
 
 	if(selectedItem) {
 		QString fileName = QFileDialog::getSaveFileName(this, tr("Export PokerTH log file to HTML"),
-						   QString::fromUtf8(myConfig->readConfigString("LogDir").c_str())+"/"+selectedItem->text(0),
+						   QDir::homePath()+"/"+selectedItem->text(0),
 						   tr("PokerTH HTML log (*.html)"));
 
 		if(!fileName.isEmpty()) {
@@ -1367,7 +1366,7 @@ void settingsDialogImpl::exportLogToTxt()
 
 	if(selectedItem) {
 		QString fileName = QFileDialog::getSaveFileName(this, tr("Export PokerTH log file to plain text"),
-						   QString::fromUtf8(myConfig->readConfigString("LogDir").c_str())+"/"+selectedItem->text(0),
+						   QDir::homePath()+"/"+selectedItem->text(0),
 						   tr("PokerTH plain text log (*.txt)"));
 
 		if(!fileName.isEmpty()) {

@@ -845,31 +845,6 @@ int guiLog::exportLog(QString fileStringPdb,int modus)
 				player[i-1] = boost::lexical_cast<std::string>(results.result_Player[nCol_Player*i]);
 			}
 
-
-
-//			for(i=1; i<=MAX_NUMBER_OF_PLAYERS; i++) {
-//				data_found = false;
-//				for(j=0; j<nCol_Game; j++) {
-//					cmpString = "Seat_";
-//					cmpString+= boost::lexical_cast<std::string>(i);
-//					if(boost::lexical_cast<std::string>(results.result_Game[j]) == cmpString) {
-//						// Seat found
-//						if(results.result_Game[j+nCol_Game*game_ctr]) {
-//							// the Seat is not empty
-//							player[i-1] = boost::lexical_cast<std::string>(results.result_Game[j+nCol_Game*game_ctr]);
-//						} else {
-//							player[i-1] = "";
-//						}
-//						data_found = true;
-//					}
-//				}
-//				if(!data_found) {
-//					cout << "Missing some seats!" << endl;
-//					cleanUp(results, mySqliteLogDb);
-//					return 1;
-//				}
-//			}
-
 			// read all hand id
 			sql = "SELECT HandID FROM Hand WHERE UniqueGameID=";
 			sql+= boost::lexical_cast<std::string>(uniqueGameID);

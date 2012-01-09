@@ -25,8 +25,8 @@
 #define MAX_GUI_SPEED			11
 
 #define DEBUG_MODE			0
-#define SQLITE_LOG          0
-#define HTML_LOG            1
+#define SQLITE_LOG          1
+#define HTML_LOG            0
 
 #define POKERTH_VERSION_MAJOR	0
 #define POKERTH_VERSION_MINOR	90
