@@ -32,6 +32,7 @@
 #include <cstdlib>
 #include <fstream>
 #include <set>
+#include <algorithm>
 
 #include <sys/types.h>
 #include <sys/stat.h>
@@ -558,20 +559,12 @@ void ConfigFile::updateConfig(ConfigState myConfigState)
 
 			for (i=0; i<configList.size(); i++) {
 
-				//test
-
-				//bool contains = noUpdateElemtsList.find(value) != mylist.end();
-
-				/////// HIER GEHTS WEITER LOTHAR ;) ///////
-
-
 				TiXmlElement* oldConf = oldDocHandle.FirstChild( "PokerTH" ).FirstChild( "Configuration" ).FirstChild( configList[i].name ).ToElement();
 
 				if ( oldConf ) { // if element is already there --> take over the saved values
 
 					// dont update ConfigRevision and AppDataDir AND possible hacked Config-Elements becaus it was already set ^^
-
-					if(configList[i].name != "ConfigRevision" && configList[i].name != "AppDataDir") {
+					if(!(bool)count(noUpdateElemtsList.begin(), noUpdateElemtsList.end(), configList[i].name)) {
 
 						TiXmlElement *tmpElement = new TiXmlElement(configList[i].name);
 						config->LinkEndChild( tmpElement );
