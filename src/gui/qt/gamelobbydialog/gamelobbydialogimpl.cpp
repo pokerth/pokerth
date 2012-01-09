@@ -341,7 +341,7 @@ void gameLobbyDialogImpl::joinGame()
 void gameLobbyDialogImpl::joinAnyGame()
 {
 
-	if(comboBox_gameListFilter->currentIndex() != 3 && comboBox_gameListFilter->currentIndex() != 0) comboBox_gameListFilter->setCurrentIndex(0);
+	if(comboBox_gameListFilter->currentIndex() != 3 && comboBox_gameListFilter->currentIndex() != 0 && comboBox_gameListFilter->currentIndex() != 5) comboBox_gameListFilter->setCurrentIndex(0);
 
 	bool found = FALSE;
 
