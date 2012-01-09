@@ -19,6 +19,8 @@
 #ifndef LOG_H
 #define LOG_H
 
+#include <string>
+
 #include "engine_defs.h"
 #include "game_defs.h"
 
