@@ -499,13 +499,10 @@ void ConfigFile::updateConfig(ConfigState myConfigState)
 					tmpElement->LinkEndChild( tmpSubElement );
 					tmpSubElement->SetAttribute("value", *it);
 				}
-
 			}
 		}
-
 		doc.SaveFile( configFileName );
 	}
-
 
 	if(myConfigState == OLD) {
 
@@ -564,7 +561,7 @@ void ConfigFile::updateConfig(ConfigState myConfigState)
 				if ( oldConf ) { // if element is already there --> take over the saved values
 
 					// dont update ConfigRevision and AppDataDir AND possible hacked Config-Elements becaus it was already set ^^
-					if(!(bool)count(noUpdateElemtsList.begin(), noUpdateElemtsList.end(), configList[i].name)) {
+					if(count(noUpdateElemtsList.begin(), noUpdateElemtsList.end(), configList[i].name) == 0) {
 
 						TiXmlElement *tmpElement = new TiXmlElement(configList[i].name);
 						config->LinkEndChild( tmpElement );
