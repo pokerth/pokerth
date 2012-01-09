@@ -36,6 +36,7 @@ public:
 	~ConfigFile();
 
 	void fillBuffer();
+	void checkAndCorrectBuffer();
 	void writeBuffer() const;
 
 	void updateConfig(ConfigState);
@@ -50,6 +51,9 @@ public:
 	void writeConfigInt(std::string varName, int varCont);
 	void writeConfigIntList(std::string varName, std::list<int> varCont);
 	void deleteConfigFile();
+
+protected:
+	void checkAndCorrectPlayerNames();
 
 private:
 

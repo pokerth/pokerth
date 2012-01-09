@@ -31,6 +31,7 @@
 #include <sstream>
 #include <cstdlib>
 #include <fstream>
+#include <set>
 
 #include <sys/types.h>
 #include <sys/stat.h>
@@ -322,6 +323,7 @@ ConfigFile::ConfigFile(char *argv0, bool readonly) : noWriteAccess(readonly)
 		}
 
 		fillBuffer();
+		checkAndCorrectBuffer();
 	}
 }
 
@@ -380,6 +382,37 @@ void ConfigFile::fillBuffer()
 			}
 
 			// 			cout << configBufferList[i].name << " " << configBufferList[i].defaultValue << endl;
+		}
+	}
+}
+
+void ConfigFile::checkAndCorrectBuffer()
+{
+	boost::recursive_mutex::scoped_lock lock(m_configMutex);
+	// For now, only the player names are checked.
+	checkAndCorrectPlayerNames();
+}
+
+void ConfigFile::checkAndCorrectPlayerNames()
+{
+	// Verify that the player names are uniquely set.
+	set<string> playerNames;
+	playerNames.insert(readConfigString("MyName"));
+	for(int i = 1; i <= 9; i++) {
+		ostringstream opponentVar;
+		opponentVar << "Opponent" << i << "Name";
+		playerNames.insert(readConfigString(opponentVar.str()));
+	}
+	if (playerNames.size() < 10 || playerNames.find("") != playerNames.end()) {
+		// The set contains less than 10 players or an empty player name.
+		// Reset to default player names.
+		writeConfigString("MyName", "Human Player");
+		for(int i = 1; i <= 9; i++) {
+			ostringstream opponentVar;
+			ostringstream opponentName;
+			opponentVar << "Opponent" << i << "Name";
+			opponentName << "Player " << i;
+			writeConfigString(opponentVar.str(), opponentName.str());
 		}
 	}
 }
@@ -527,7 +560,7 @@ void ConfigFile::updateConfig(ConfigState myConfigState)
 
 				//test
 
-				bool contains = noUpdateElemtsList.find(value) != mylist.end();
+				//bool contains = noUpdateElemtsList.find(value) != mylist.end();
 
 				/////// HIER GEHTS WEITER LOTHAR ;) ///////
 
