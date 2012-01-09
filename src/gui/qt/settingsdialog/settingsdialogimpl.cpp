@@ -24,6 +24,7 @@
 #include "configfile.h"
 #include "guilog.h"
 #include <net/socket_startup.h>
+#include <QSet>
 
 enum StyleType { POKERTH_DISTRIBUTED_STYLE, ADDITIONAL_STYLE };
 
@@ -170,6 +171,8 @@ void settingsDialogImpl::prepareDialog()
 	pushButton_Opponent8Avatar->setMyLink(QString::fromUtf8(myConfig->readConfigString("Opponent8Avatar").c_str()));
 	lineEdit_Opponent9Name->setText(QString::fromUtf8(myConfig->readConfigString("Opponent9Name").c_str()));
 	pushButton_Opponent9Avatar->setMyLink(QString::fromUtf8(myConfig->readConfigString("Opponent9Avatar").c_str()));
+	//disable player nicks page if the dialogs is called ingame to prevent changes during game
+	this->page_3->setDisabled(calledIngame);
 
 	//refresh AvatarIcons
 	pushButton_HumanPlayerAvatar->setIcon(QIcon(pushButton_HumanPlayerAvatar->getMyLink()));
@@ -512,35 +515,58 @@ void settingsDialogImpl::isAccepted()
 	settingsCorrect = TRUE;
 
 	// 	Player Nicks
-	myConfig->writeConfigString("MyName", lineEdit_HumanPlayerName->text().trimmed().toUtf8().constData());
-	myConfig->writeConfigString("MyAvatar", pushButton_HumanPlayerAvatar->getMyLink().toUtf8().constData());
+	//check if all player nicks are unique --> otherwise dont save
+	QSet<QString> checkSetPlayerNicks;
+	checkSetPlayerNicks.insert(lineEdit_HumanPlayerName->text().trimmed());
+	checkSetPlayerNicks.insert(lineEdit_Opponent1Name->text().trimmed());
+	checkSetPlayerNicks.insert(lineEdit_Opponent2Name->text().trimmed());
+	checkSetPlayerNicks.insert(lineEdit_Opponent3Name->text().trimmed());
+	checkSetPlayerNicks.insert(lineEdit_Opponent4Name->text().trimmed());
+	checkSetPlayerNicks.insert(lineEdit_Opponent5Name->text().trimmed());
+	checkSetPlayerNicks.insert(lineEdit_Opponent6Name->text().trimmed());
+	checkSetPlayerNicks.insert(lineEdit_Opponent7Name->text().trimmed());
+	checkSetPlayerNicks.insert(lineEdit_Opponent8Name->text().trimmed());
+	checkSetPlayerNicks.insert(lineEdit_Opponent9Name->text().trimmed());
 
-	myConfig->writeConfigString("Opponent1Name", lineEdit_Opponent1Name->text().toUtf8().constData());
-	myConfig->writeConfigString("Opponent1Avatar", pushButton_Opponent1Avatar->getMyLink().toUtf8().constData());
+	if(checkSetPlayerNicks.count() != 10) {
+	QMessageBox::warning(this, tr("Settings Error"),
+						 tr("The opponent names are not unique.\n"
+							"Please choose different names for each Opponent!"),
+						 QMessageBox::Ok);
+	settingsCorrect = FALSE;
+	}
+	else {
+		//save nicks and avatars
+		myConfig->writeConfigString("MyName", lineEdit_HumanPlayerName->text().trimmed().toUtf8().constData());
+		myConfig->writeConfigString("MyAvatar", pushButton_HumanPlayerAvatar->getMyLink().toUtf8().constData());
 
-	myConfig->writeConfigString("Opponent2Name", lineEdit_Opponent2Name->text().toUtf8().constData());
-	myConfig->writeConfigString("Opponent2Avatar", pushButton_Opponent2Avatar->getMyLink().toUtf8().constData());
+		myConfig->writeConfigString("Opponent1Name", lineEdit_Opponent1Name->text().trimmed().toUtf8().constData());
+		myConfig->writeConfigString("Opponent1Avatar", pushButton_Opponent1Avatar->getMyLink().toUtf8().constData());
 
-	myConfig->writeConfigString("Opponent3Name", lineEdit_Opponent3Name->text().toUtf8().constData());
-	myConfig->writeConfigString("Opponent3Avatar", pushButton_Opponent3Avatar->getMyLink().toUtf8().constData());
+		myConfig->writeConfigString("Opponent2Name", lineEdit_Opponent2Name->text().trimmed().toUtf8().constData());
+		myConfig->writeConfigString("Opponent2Avatar", pushButton_Opponent2Avatar->getMyLink().toUtf8().constData());
 
-	myConfig->writeConfigString("Opponent4Name", lineEdit_Opponent4Name->text().toUtf8().constData());
-	myConfig->writeConfigString("Opponent4Avatar", pushButton_Opponent4Avatar->getMyLink().toUtf8().constData());
+		myConfig->writeConfigString("Opponent3Name", lineEdit_Opponent3Name->text().trimmed().toUtf8().constData());
+		myConfig->writeConfigString("Opponent3Avatar", pushButton_Opponent3Avatar->getMyLink().toUtf8().constData());
 
-	myConfig->writeConfigString("Opponent5Name", lineEdit_Opponent5Name->text().toUtf8().constData());
-	myConfig->writeConfigString("Opponent5Avatar", pushButton_Opponent5Avatar->getMyLink().toUtf8().constData());
+		myConfig->writeConfigString("Opponent4Name", lineEdit_Opponent4Name->text().trimmed().toUtf8().constData());
+		myConfig->writeConfigString("Opponent4Avatar", pushButton_Opponent4Avatar->getMyLink().toUtf8().constData());
 
-	myConfig->writeConfigString("Opponent6Name", lineEdit_Opponent6Name->text().toUtf8().constData());
-	myConfig->writeConfigString("Opponent6Avatar", pushButton_Opponent6Avatar->getMyLink().toUtf8().constData());
+		myConfig->writeConfigString("Opponent5Name", lineEdit_Opponent5Name->text().trimmed().toUtf8().constData());
+		myConfig->writeConfigString("Opponent5Avatar", pushButton_Opponent5Avatar->getMyLink().toUtf8().constData());
 
-	myConfig->writeConfigString("Opponent7Name", lineEdit_Opponent7Name->text().toUtf8().constData());
-	myConfig->writeConfigString("Opponent7Avatar", pushButton_Opponent7Avatar->getMyLink().toUtf8().constData());
+		myConfig->writeConfigString("Opponent6Name", lineEdit_Opponent6Name->text().trimmed().toUtf8().constData());
+		myConfig->writeConfigString("Opponent6Avatar", pushButton_Opponent6Avatar->getMyLink().toUtf8().constData());
 
-	myConfig->writeConfigString("Opponent8Name", lineEdit_Opponent8Name->text().toUtf8().constData());
-	myConfig->writeConfigString("Opponent8Avatar", pushButton_Opponent8Avatar->getMyLink().toUtf8().constData());
+		myConfig->writeConfigString("Opponent7Name", lineEdit_Opponent7Name->text().trimmed().toUtf8().constData());
+		myConfig->writeConfigString("Opponent7Avatar", pushButton_Opponent7Avatar->getMyLink().toUtf8().constData());
 
-	myConfig->writeConfigString("Opponent9Name", lineEdit_Opponent9Name->text().toUtf8().constData());
-	myConfig->writeConfigString("Opponent9Avatar", pushButton_Opponent9Avatar->getMyLink().toUtf8().constData());
+		myConfig->writeConfigString("Opponent8Name", lineEdit_Opponent8Name->text().trimmed().toUtf8().constData());
+		myConfig->writeConfigString("Opponent8Avatar", pushButton_Opponent8Avatar->getMyLink().toUtf8().constData());
+
+		myConfig->writeConfigString("Opponent9Name", lineEdit_Opponent9Name->text().trimmed().toUtf8().constData());
+		myConfig->writeConfigString("Opponent9Avatar", pushButton_Opponent9Avatar->getMyLink().toUtf8().constData());
+	}
 
 	// 	Local Game Settings
 	myConfig->writeConfigInt("NumberOfPlayers", spinBox_quantityPlayers->value());
