@@ -1,3 +1,12 @@
+2012-01-09 version 0.9.1
+- New game log format with export function (now active)
+- The chat bot in games no longer kicks players, instead they are muted
+- Configuration can now be reset to default settings
+- Admin kick no longer happens in ranking games (#93)
+- BUGFIX: Rating stars are now shown correctly on Windows XP (#91)
+- BUGFIX: Several problems with the server list download were solved (#95)
+- Several additional bugfixes
+
 2012-01-04 version 0.9
 - Players are able to rejoin internet games after being disconnected
 - The chat bot is now also present in ranking games
