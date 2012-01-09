@@ -48,7 +48,7 @@ ConfigFile::ConfigFile(char *argv0, bool readonly) : noWriteAccess(readonly)
 	myConfigState = OK;
 
 	// !!!! Revisionsnummer der Configdefaults !!!!!
-	configRev = 94;
+	configRev = 95;
 
 	//standard defaults
 	logOnOffDefault = "1";
@@ -258,7 +258,7 @@ ConfigFile::ConfigFile(char *argv0, bool readonly) : noWriteAccess(readonly)
 	configList.push_back(ConfigInfo("LogOnOff", CONFIG_TYPE_INT, logOnOffDefault));
 	configList.push_back(ConfigInfo("LogDir", CONFIG_TYPE_STRING, logDir));
 	configList.push_back(ConfigInfo("LogStoreDuration", CONFIG_TYPE_INT, "2"));
-	configList.push_back(ConfigInfo("LogInterval", CONFIG_TYPE_INT, "0"));
+	configList.push_back(ConfigInfo("LogInterval", CONFIG_TYPE_INT, "1"));
 	configList.push_back(ConfigInfo("UserDataDir", CONFIG_TYPE_STRING, dataDir));
 	configList.push_back(ConfigInfo("CacheDir", CONFIG_TYPE_STRING, cacheDir));
 	configList.push_back(ConfigInfo("CLA_NoWriteAccess", CONFIG_TYPE_INT, "0"));
@@ -497,28 +497,48 @@ void ConfigFile::updateConfig(ConfigState myConfigState)
 			root->LinkEndChild( config );
 
 			//change configRev and AppDataPath
+			std::list<std::string> noUpdateElemtsList;
+
 			TiXmlElement * confElement0 = new TiXmlElement( "ConfigRevision" );
 			config->LinkEndChild( confElement0 );
 			confElement0->SetAttribute("value", configRev);
+			noUpdateElemtsList.push_back("ConfigRevision");
 
 			TiXmlElement * confElement1 = new TiXmlElement( "AppDataDir" );
 			config->LinkEndChild( confElement1 );
 			confElement1->SetAttribute("value", myQtToolsInterface->stringToUtf8(myQtToolsInterface->getDataPathStdString(myArgv0)));
+			noUpdateElemtsList.push_back("AppDataDir");
+
+			///////// VERSION HACK SECTION ///////////////////////
+			//this is the right place for special version depending config hacks:
+			//0.9.1 - log interval needs to be set to 1 instead of 0
+			if (configRev == 95) // this means 0.9.1
+			{
+				TiXmlElement * confElement2 = new TiXmlElement( "LogInterval" );
+				config->LinkEndChild( confElement2 );
+				confElement2->SetAttribute("value", 1);
+				noUpdateElemtsList.push_back("LogInterval");
+			}
+			///////// VERSION HACK SECTION ///////////////////////
 
 			TiXmlHandle oldDocHandle( &oldDoc );
 
 			for (i=0; i<configList.size(); i++) {
 
+				//test
+
+				bool contains = noUpdateElemtsList.find(value) != mylist.end();
+
+				/////// HIER GEHTS WEITER LOTHAR ;) ///////
+
+
 				TiXmlElement* oldConf = oldDocHandle.FirstChild( "PokerTH" ).FirstChild( "Configuration" ).FirstChild( configList[i].name ).ToElement();
 
-				// 				//HACK remove after 0.6
-				// 				TiXmlElement* ISAIRCChannelUpdateDone = oldDocHandle.FirstChild( "PokerTH" ).FirstChild( "Configuration" ).FirstChild( "InternetServerAddressIRCChannelUpdateDone" ).ToElement();
+				if ( oldConf ) { // if element is already there --> take over the saved values
 
-				if ( oldConf /*&& (ISAIRCChannelUpdateDone || !(configList[i].name == "IRCChannel" || (configList[i].name == "InternetServerAddress" )))*/ /*HACK remove after 0.6*/ ) {
-					// if element is already there --> take over the saved values
+					// dont update ConfigRevision and AppDataDir AND possible hacked Config-Elements becaus it was already set ^^
 
 					if(configList[i].name != "ConfigRevision" && configList[i].name != "AppDataDir") {
-						// dont update ConfigRevision and AppDataDir becaus it was already set ^
 
 						TiXmlElement *tmpElement = new TiXmlElement(configList[i].name);
 						config->LinkEndChild( tmpElement );
