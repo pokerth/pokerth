@@ -67,7 +67,7 @@ Log::init()
 				strftime(curTime,9,"%H:%M:%S",z);
 
 				string mySqliteLogFileName = boost::lexical_cast<string>((myConfig->readConfigString("LogDir")).c_str());
-				mySqliteLogFileName += "pokerth-log-" + boost::lexical_cast<string>(curDateTime) + ".pdb";
+				mySqliteLogFileName += "/pokerth-log-" + boost::lexical_cast<string>(curDateTime) + ".pdb";
 
 				// open sqlite-db
 				sqlite3_open(mySqliteLogFileName.data(), &mySqliteLogDb);
