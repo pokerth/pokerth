@@ -1350,9 +1350,10 @@ void settingsDialogImpl::exportLogToHtml()
 	QTreeWidgetItem* selectedItem = treeWidget_logFiles->currentItem();
 
 	if(selectedItem) {
+		QFileInfo fi(selectedItem->text(0));
 		QString fileName = QFileDialog::getSaveFileName(this, tr("Export PokerTH log file to HTML"),
-						   QDir::homePath()+"/"+selectedItem->text(0),
-						   tr("PokerTH HTML log (*.html)"));
+		QDir::homePath()+"/"+fi.baseName()+".html",
+		tr("PokerTH HTML log (*.html)"));
 
 		if(!fileName.isEmpty()) {
 			myGuiLog->exportLogPdbToHtml(selectedItem->data(0, Qt::UserRole).toString(),fileName);
@@ -1365,8 +1366,9 @@ void settingsDialogImpl::exportLogToTxt()
 	QTreeWidgetItem* selectedItem = treeWidget_logFiles->currentItem();
 
 	if(selectedItem) {
+		QFileInfo fi(selectedItem->text(0));
 		QString fileName = QFileDialog::getSaveFileName(this, tr("Export PokerTH log file to plain text"),
-						   QDir::homePath()+"/"+selectedItem->text(0),
+						   QDir::homePath()+"/"+fi.baseName()+".txt",
 						   tr("PokerTH plain text log (*.txt)"));
 
 		if(!fileName.isEmpty()) {
@@ -1380,8 +1382,9 @@ void settingsDialogImpl::saveLogFileAs()
 	QTreeWidgetItem* selectedItem = treeWidget_logFiles->currentItem();
 
 	if(selectedItem) {
+		QFileInfo fi(selectedItem->text(0));
 		QString fileName = QFileDialog::getSaveFileName(this, tr("Save PokerTH log file"),
-						   QDir::homePath()+"/"+selectedItem->text(0),
+						   QDir::homePath()+"/"+fi.baseName()+".pdb",
 						   tr("PokerTH SQL log (*.pdb)"));
 
 		if(!fileName.isEmpty()) {
