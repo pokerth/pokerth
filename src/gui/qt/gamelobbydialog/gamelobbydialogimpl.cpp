@@ -143,11 +143,12 @@ gameLobbyDialogImpl::gameLobbyDialogImpl(startWindowImpl *parent, ConfigFile *c)
 	nickListPlayerInfoSubMenu = nickListContextMenu->addMenu(QIcon(":/gfx/dialog-information.png"), tr("Player infos ..."));
 	nickListPlayerInGameInfo = new QAction(nickListContextMenu);
 	nickListPlayerInfoSubMenu->addAction(nickListPlayerInGameInfo);
-	nickListOpenPlayerStats = new QAction(QIcon(":/gfx/view-statistics.png"), tr("Show player stats"), nickListContextMenu);
-	nickListContextMenu->addAction(nickListOpenPlayerStats);
+	nickListOpenPlayerStats1 = new QAction(QIcon(":/gfx/view-statistics.png"), tr("Show player stats"), nickListContextMenu);
+	nickListContextMenu->addAction(nickListOpenPlayerStats1);
 
 	connectedPlayersListPlayerInfoSubMenu = new QMenu();
-	connectedPlayersListPlayerInfoSubMenu->addAction(nickListOpenPlayerStats);
+	nickListOpenPlayerStats2 = new QAction(QIcon(":/gfx/view-statistics.png"), tr("Show player stats"), nickListContextMenu);
+	connectedPlayersListPlayerInfoSubMenu->addAction(nickListOpenPlayerStats2);
 
 	connect( pushButton_CreateGame, SIGNAL( clicked() ), this, SLOT( createGame() ) );
 	connect( pushButton_JoinGame, SIGNAL( clicked() ), this, SLOT( joinGame() ) );
@@ -172,7 +173,8 @@ gameLobbyDialogImpl::gameLobbyDialogImpl(startWindowImpl *parent, ConfigFile *c)
 	connect( treeWidget_connectedPlayers, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT( showConnectedPlayersContextMenu(QPoint) ) );
 	connect( nickListInviteAction, SIGNAL(triggered()), this, SLOT( invitePlayerToCurrentGame() ));
 	connect( nickListIgnorePlayerAction, SIGNAL(triggered()), this, SLOT( putPlayerOnIgnoreList() ));
-	connect( nickListOpenPlayerStats, SIGNAL(triggered()), this, SLOT( openPlayerStats() ));
+	connect( nickListOpenPlayerStats1, SIGNAL(triggered()), this, SLOT( openPlayerStats1() ));
+	connect( nickListOpenPlayerStats2, SIGNAL(triggered()), this, SLOT( openPlayerStats2() ));
 	connect( lineEdit_searchForPlayers, SIGNAL(textChanged(QString)),this, SLOT(searchForPlayerRegExpChanged()));
 
 	lineEdit_searchForPlayers->installEventFilter(this);
@@ -1689,13 +1691,25 @@ void gameLobbyDialogImpl::updateAutoStartTimer()
 	}
 }
 
-void gameLobbyDialogImpl::openPlayerStats()
+void gameLobbyDialogImpl::openPlayerStats1()
 {
 	if(myNickListSelectionModel->currentIndex().isValid()) {
 
 		unsigned playerId = myNickListSelectionModel->currentIndex().data(Qt::UserRole).toUInt();
 		if(!mySession->getClientPlayerInfo(playerId).isGuest) {
 			QUrl url("http://pokerth.net/redirect_user_profile.php?nick="+QUrl::toPercentEncoding(myNickListSelectionModel->currentIndex().data(Qt::DisplayRole).toString()));
+			QDesktopServices::openUrl(url);
+		}
+	}
+}
+
+void gameLobbyDialogImpl::openPlayerStats2()
+{
+	if(treeWidget_connectedPlayers->currentItem()) {
+
+		unsigned playerId = treeWidget_connectedPlayers->currentItem()->data(0, Qt::UserRole).toUInt();
+		if(!mySession->getClientPlayerInfo(playerId).isGuest) {
+			QUrl url("http://pokerth.net/redirect_user_profile.php?nick="+QUrl::toPercentEncoding(treeWidget_connectedPlayers->currentItem()->data(0, Qt::DisplayRole).toString()));
 			QDesktopServices::openUrl(url);
 		}
 	}

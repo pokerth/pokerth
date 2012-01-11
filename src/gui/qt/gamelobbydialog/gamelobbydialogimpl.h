@@ -138,7 +138,8 @@ public slots:
 	void searchForPlayerRegExpChanged();
 	void showAutoStartTimer();
 	void updateAutoStartTimer();
-	void openPlayerStats();
+	void openPlayerStats1();
+	void openPlayerStats2();
 	QString getFullCountryString(QString);
 	void closeAllChildDialogs();
 
@@ -181,7 +182,8 @@ private:
 	QMenu *nickListPlayerInfoSubMenu;
 	QMenu *connectedPlayersListPlayerInfoSubMenu;
 	QAction *nickListPlayerInGameInfo;
-	QAction *nickListOpenPlayerStats;
+	QAction *nickListOpenPlayerStats1;
+	QAction *nickListOpenPlayerStats2;
 	int infoMsgToShowId;
 	int currentInvitationGameId;
 	bool inviteDialogIsCurrentlyShown;
