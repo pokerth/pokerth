@@ -582,7 +582,7 @@ void guiLog::writeLogFileStream(string log_string, QFile *LogFile)
 
 	QTextStream stream( LogFile );
 	stream.readAll();
-	stream << log_string.data();
+	stream << log_string.c_str();
 
 }
 
@@ -597,7 +597,7 @@ void guiLog::writeLog(string log_string, int modus)
 		writeLogFileStream(log_string,myTxtLogFile);
 		break;
 	case 3:
-		tb->append(log_string.data());
+		tb->append(log_string.c_str());
 		break;
 	default:
 		;
@@ -712,13 +712,13 @@ int guiLog::exportLog(QString fileStringPdb,int modus)
 
 	// open sqlite log-db
 	sqlite3 *mySqliteLogDb;
-	sqlite3_open(fileStringPdb.toStdString().data(), &mySqliteLogDb);
+	sqlite3_open(fileStringPdb.toStdString().c_str(), &mySqliteLogDb);
 	if( mySqliteLogDb != 0 ) {
 
 		// read session
 		sql = "SELECT * FROM Session";
-		if(sqlite3_get_table(mySqliteLogDb,sql.data(),&results.result_Session,&nRow_Session,&nCol_Session,&errmsg) != SQLITE_OK) {
-			cout << "Error in statement: " << sql.data() << "[" << errmsg << "]." << endl;
+		if(sqlite3_get_table(mySqliteLogDb,sql.c_str(),&results.result_Session,&nRow_Session,&nCol_Session,&errmsg) != SQLITE_OK) {
+			cout << "Error in statement: " << sql.c_str() << "[" << errmsg << "]." << endl;
 			cleanUp(results, mySqliteLogDb);
 			return 1;
 		}
@@ -795,8 +795,8 @@ int guiLog::exportLog(QString fileStringPdb,int modus)
 
 		// read game
 		sql = "SELECT * FROM Game";
-		if(sqlite3_get_table(mySqliteLogDb,sql.data(),&results.result_Game,&nRow_Game,&nCol_Game,&errmsg) != SQLITE_OK) {
-			cout << "Error in statement: " << sql.data() << "[" << errmsg << "]." << endl;
+		if(sqlite3_get_table(mySqliteLogDb,sql.c_str(),&results.result_Game,&nRow_Game,&nCol_Game,&errmsg) != SQLITE_OK) {
+			cout << "Error in statement: " << sql.c_str() << "[" << errmsg << "]." << endl;
 			cleanUp(results, mySqliteLogDb);
 			return 1;
 		}
@@ -836,8 +836,8 @@ int guiLog::exportLog(QString fileStringPdb,int modus)
 			sql  = "SELECT Player,Seat FROM Player WHERE UniqueGameID=";
 			sql += boost::lexical_cast<std::string>(uniqueGameID);
 			sql += " ORDER BY Seat;";
-			if(sqlite3_get_table(mySqliteLogDb,sql.data(),&results.result_Player,&nRow_Player,&nCol_Player,&errmsg) != SQLITE_OK) {
-				cout << "Error in statement: " << sql.data() << "[" << errmsg << "]." << endl;
+			if(sqlite3_get_table(mySqliteLogDb,sql.c_str(),&results.result_Player,&nRow_Player,&nCol_Player,&errmsg) != SQLITE_OK) {
+				cout << "Error in statement: " << sql.c_str() << "[" << errmsg << "]." << endl;
 				cleanUp(results, mySqliteLogDb);
 				return 1;
 			}
@@ -848,8 +848,8 @@ int guiLog::exportLog(QString fileStringPdb,int modus)
 			// read all hand id
 			sql = "SELECT HandID FROM Hand WHERE UniqueGameID=";
 			sql+= boost::lexical_cast<std::string>(uniqueGameID);
-			if(sqlite3_get_table(mySqliteLogDb,sql.data(),&results.result_Hand_ID,&nRow_Hand_ID,&nCol_Hand,&errmsg) != SQLITE_OK) {
-				cout << "Error in statement: " << sql.data() << "[" << errmsg << "]." << endl;
+			if(sqlite3_get_table(mySqliteLogDb,sql.c_str(),&results.result_Hand_ID,&nRow_Hand_ID,&nCol_Hand,&errmsg) != SQLITE_OK) {
+				cout << "Error in statement: " << sql.c_str() << "[" << errmsg << "]." << endl;
 				cleanUp(results, mySqliteLogDb);
 				return 1;
 			}
@@ -886,8 +886,8 @@ int guiLog::exportLog(QString fileStringPdb,int modus)
 				sql+= boost::lexical_cast<std::string>(uniqueGameID);
 				sql+= " AND HandID=";
 				sql+= boost::lexical_cast<std::string>(results.result_Hand_ID[hand_ctr]);
-				if(sqlite3_get_table(mySqliteLogDb,sql.data(),&results.result_Hand,&nRow_Hand,&nCol_Hand,&errmsg) != SQLITE_OK) {
-					cout << "Error in statement: " << sql.data() << "[" << errmsg << "]." << endl;
+				if(sqlite3_get_table(mySqliteLogDb,sql.c_str(),&results.result_Hand,&nRow_Hand,&nCol_Hand,&errmsg) != SQLITE_OK) {
+					cout << "Error in statement: " << sql.c_str() << "[" << errmsg << "]." << endl;
 					cleanUp(results, mySqliteLogDb);
 					return 1;
 				}
@@ -1002,8 +1002,8 @@ int guiLog::exportLog(QString fileStringPdb,int modus)
 					sql += boost::lexical_cast<std::string>(GAME_STATE_PREFLOP);
 					sql += " AND (Action='posts small blind' OR Action='posts big blind' OR Action='starts as dealer')";
 
-					if(sqlite3_get_table(mySqliteLogDb,sql.data(),&results.result_Action,&nRow_Action,&nCol_Action,&errmsg) != SQLITE_OK) {
-						cout << "Error in statement: " << sql.data() << "[" << errmsg << "]." << endl;
+					if(sqlite3_get_table(mySqliteLogDb,sql.c_str(),&results.result_Action,&nRow_Action,&nCol_Action,&errmsg) != SQLITE_OK) {
+						cout << "Error in statement: " << sql.c_str() << "[" << errmsg << "]." << endl;
 						cleanUp(results, mySqliteLogDb);
 						return 1;
 					}
@@ -1049,8 +1049,8 @@ int guiLog::exportLog(QString fileStringPdb,int modus)
 					sql += boost::lexical_cast<std::string>(results.result_Hand_ID[hand_ctr]);
 					sql += " AND BeRo=0 AND Action='posts small blind'";
 
-					if(sqlite3_get_table(mySqliteLogDb,sql.data(),&results.result_Action,&nRow_Action,&nCol_Action,&errmsg) != SQLITE_OK) {
-						cout << "Error in statement: " << sql.data() << "[" << errmsg << "]." << endl;
+					if(sqlite3_get_table(mySqliteLogDb,sql.c_str(),&results.result_Action,&nRow_Action,&nCol_Action,&errmsg) != SQLITE_OK) {
+						cout << "Error in statement: " << sql.c_str() << "[" << errmsg << "]." << endl;
 						cleanUp(results, mySqliteLogDb);
 						return 1;
 					}
@@ -1073,8 +1073,8 @@ int guiLog::exportLog(QString fileStringPdb,int modus)
 					sql += boost::lexical_cast<std::string>(results.result_Hand_ID[hand_ctr]);
 					sql += " AND BeRo=0 AND Action='posts big blind'";
 
-					if(sqlite3_get_table(mySqliteLogDb,sql.data(),&results.result_Action,&nRow_Action,&nCol_Action,&errmsg) != SQLITE_OK) {
-						cout << "Error in statement: " << sql.data() << "[" << errmsg << "]." << endl;
+					if(sqlite3_get_table(mySqliteLogDb,sql.c_str(),&results.result_Action,&nRow_Action,&nCol_Action,&errmsg) != SQLITE_OK) {
+						cout << "Error in statement: " << sql.c_str() << "[" << errmsg << "]." << endl;
 						cleanUp(results, mySqliteLogDb);
 						return 1;
 					}
@@ -1097,8 +1097,8 @@ int guiLog::exportLog(QString fileStringPdb,int modus)
 					sql += boost::lexical_cast<std::string>(results.result_Hand_ID[hand_ctr]);
 					sql += " AND BeRo=0 AND Action='starts as dealer'";
 
-					if(sqlite3_get_table(mySqliteLogDb,sql.data(),&results.result_Action,&nRow_Action,&nCol_Action,&errmsg) != SQLITE_OK) {
-						cout << "Error in statement: " << sql.data() << "[" << errmsg << "]." << endl;
+					if(sqlite3_get_table(mySqliteLogDb,sql.c_str(),&results.result_Action,&nRow_Action,&nCol_Action,&errmsg) != SQLITE_OK) {
+						cout << "Error in statement: " << sql.c_str() << "[" << errmsg << "]." << endl;
 						cleanUp(results, mySqliteLogDb);
 						return 1;
 					}
@@ -1218,8 +1218,8 @@ int guiLog::exportLog(QString fileStringPdb,int modus)
 					sql += boost::lexical_cast<std::string>(round_ctr);
 					sql += " AND Action<>'starts as dealer' AND Action<>'posts big blind' AND Action<>'posts small blind'";
 
-					if(sqlite3_get_table(mySqliteLogDb,sql.data(),&results.result_Action,&nRow_Action,&nCol_Action,&errmsg) != SQLITE_OK) {
-						cout << "Error in statement: " << sql.data() << "[" << errmsg << "]." << endl;
+					if(sqlite3_get_table(mySqliteLogDb,sql.c_str(),&results.result_Action,&nRow_Action,&nCol_Action,&errmsg) != SQLITE_OK) {
+						cout << "Error in statement: " << sql.c_str() << "[" << errmsg << "]." << endl;
 						cleanUp(results, mySqliteLogDb);
 						return 1;
 					}
@@ -1445,7 +1445,7 @@ int guiLog::convertCardStringToInt(string val, string col)
 
 	int tmp;
 
-	switch(*col.data()) {
+	switch(*col.c_str()) {
 	case 'd':
 		tmp = 0;
 		break;
@@ -1462,7 +1462,7 @@ int guiLog::convertCardStringToInt(string val, string col)
 		return -1;
 	}
 
-	switch(*val.data()) {
+	switch(*val.c_str()) {
 	case '2':
 		tmp += 0;
 		break;

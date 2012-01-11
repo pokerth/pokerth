@@ -26,7 +26,7 @@ Replay::Replay() : replaySqliteLogDb(0)
 //    *replaySqliteLogDb = QSqlDatabase::addDatabase("QSQLITE");
 	//replaySqliteLogDb->setDatabaseName(myLogDir->absolutePath()+"/pokerth-log-"+currentTime.toString("yyyy-MM-dd_hh.mm.ss")+".pdb");
 	//if(!mySqliteLogDb->open()) {
-	//   QMessageBox::critical(0, tr("ERROR"),mySqliteLogDb->lastError().text().toUtf8().data(), QMessageBox::Cancel);
+	//   QMessageBox::critical(0, tr("ERROR"),mySqliteLogDb->lastError().text().toUtf8().c_str(), QMessageBox::Cancel);
 	//}
 
 }

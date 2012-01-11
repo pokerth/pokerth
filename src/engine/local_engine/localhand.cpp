@@ -108,7 +108,7 @@ LocalHand::LocalHand(boost::shared_ptr<EngineFactory> f, GuiInterface *g, boost:
 		//QSqlDatabase * test = myGui->getMyLog()->getMySqliteLogDb();
 
 //           if(!mySqliteLogDb->open()) {
-//               QMessageBox::critical(0, tr("ERROR"),mySqliteLogDb->lastError().text().toUtf8().data(), QMessageBox::Cancel);
+//               QMessageBox::critical(0, tr("ERROR"),mySqliteLogDb->lastError().text().toUtf8().c_str(), QMessageBox::Cancel);
 //           }
 
 

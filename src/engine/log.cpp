@@ -25,8 +25,10 @@
 #include <sqlite3.h>
 #include <dirent.h>
 #include <boost/lexical_cast.hpp>
+#include <boost/filesystem.hpp>
 
 using namespace std;
+using namespace boost::filesystem;
 
 Log::Log(ConfigFile *c) : mySqliteLogDb(0), myConfig(c), uniqueGameID(0), currentHandID(0), currentRound(GAME_STATE_PREFLOP), sql("")
 {
@@ -66,11 +68,11 @@ Log::init()
 				strftime(curDate,11,"%Y-%m-%d",z);
 				strftime(curTime,9,"%H:%M:%S",z);
 
-				string mySqliteLogFileName = boost::lexical_cast<string>((myConfig->readConfigString("LogDir")).c_str());
-				mySqliteLogFileName += "/pokerth-log-" + boost::lexical_cast<string>(curDateTime) + ".pdb";
+				path mySqliteLogFileName(myConfig->readConfigString("LogDir"));
+				mySqliteLogFileName /= string("pokerth-log-") + curDateTime + ".pdb";
 
 				// open sqlite-db
-				sqlite3_open(mySqliteLogFileName.data(), &mySqliteLogDb);
+				sqlite3_open(mySqliteLogFileName.directory_string().c_str(), &mySqliteLogDb);
 				if( mySqliteLogDb != 0 ) {
 
 					int i;
@@ -313,8 +315,8 @@ Log::logPlayerAction(string playerName, PlayerActionLog action, int amount)
 				string sql_select = "SELECT Seat FROM Player WHERE UniqueGameID=" + boost::lexical_cast<std::string>(uniqueGameID);
 				sql_select += " AND ";
 				sql_select += "Player=\"" + playerName +"\"";
-				if(sqlite3_get_table(mySqliteLogDb,sql_select.data(),&result_Player,&nRow_Player,&nCol_Player,&errmsg) != SQLITE_OK) {
-					cout << "Error in statement: " << sql_select.data() << "[" << errmsg << "]." << endl;
+				if(sqlite3_get_table(mySqliteLogDb,sql_select.c_str(),&result_Player,&nRow_Player,&nCol_Player,&errmsg) != SQLITE_OK) {
+					cout << "Error in statement: " << sql_select.c_str() << "[" << errmsg << "]." << endl;
 				} else {
 					if(nRow_Player == 1) {
 						logPlayerAction(boost::lexical_cast<int>(result_Player[1]), action, amount);
@@ -658,8 +660,8 @@ Log::exec_transaction()
 	string sql_transaction = "BEGIN;" + sql + "COMMIT;";
 	sql = "";
 
-	if(sqlite3_exec(mySqliteLogDb, sql_transaction.data(), 0, 0, &errmsg) != SQLITE_OK) {
-		cout << "Error in statement: " << sql_transaction.data() << "[" << errmsg << "]." << endl;
+	if(sqlite3_exec(mySqliteLogDb, sql_transaction.c_str(), 0, 0, &errmsg) != SQLITE_OK) {
+		cout << "Error in statement: " << sql_transaction.c_str() << "[" << errmsg << "]." << endl;
 		sqlite3_free(errmsg);
 		errmsg = NULL;
 	}
