@@ -338,6 +338,7 @@ public slots:
 	void closeMessageBoxes();
 	void hide();
 	void soundEvent_blindsWereSet(int);
+	void enableCallCheckPushButton();
 
 private:
 
@@ -385,6 +386,7 @@ private:
 	QTimer *blinkingStartButtonAnimationTimer;
 	QTimer *voteOnKickTimeoutTimer;
 	boost::timers::portable::microsec_timer voteOnKickRealTimer;
+	QTimer *enableCallCheckPushButtonTimer;
 
 	QWidget *userWidgetsArray[6];
 	QLabel *buttonLabelArray[MAX_NUMBER_OF_PLAYERS];

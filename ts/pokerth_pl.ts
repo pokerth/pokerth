@@ -481,7 +481,7 @@ p, li { white-space: pre-wrap; }
 &lt;tr&gt;
 &lt;td style=&quot;border: none;&quot;&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;Władysław Bodzek - wbodzek@poczta.onet.pl&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;Cz0rny - liczne sugestie dotyczące jakości tłumaczenia&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;Mariusz Chmiel - liczne sugestie dotyczące jakości tłumaczenia&lt;/span&gt;&lt;/p&gt;
 &lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
@@ -3558,7 +3558,7 @@ Proszę wejdź na stronę &lt;a href=&quot;http://www.pokerth.net/&quot; target=
         <source>Attention! Do you really want to leave the current game
 and go back to the lobby?</source>
         <translation>Uwaga! Czy na pewno chcesz opuścić tę grę
-i powrócić go chatu serwera gier?</translation>
+i powrócić do chatu serwera gier?</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="638"/>
@@ -4311,7 +4311,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="3373"/>
         <source>Enable/Disable Logging</source>
-        <translation>Włącz logowanie</translation>
+        <translation>Włącz zapisywanie historii</translation>
     </message>
     <message>
         <source>Store log files for</source>
@@ -4324,17 +4324,17 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="3473"/>
         <source>Log File Directory: </source>
-        <translation>Zapisz plik log w: </translation>
+        <translation>Zapisz pliki w: </translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="3429"/>
         <source>Write log after every: </source>
-        <translation>Zapisuj do logu po każdej:</translation>
+        <translation>Zapisuj po każdej:</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="3391"/>
         <source>Store log files for:</source>
-        <translation>Przechowuj logi przez:</translation>
+        <translation>Przechowuj pliki przez:</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="3449"/>
@@ -4355,7 +4355,7 @@ p, li { white-space: pre-wrap; }
         <location filename="../src/gui/qt/settingsdialog.ui" line="116"/>
         <location filename="../src/gui/qt/settingsdialog.ui" line="3359"/>
         <source>Log Messages</source>
-        <translation>Logowanie</translation>
+        <translation>Historia rozdań</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="823"/>

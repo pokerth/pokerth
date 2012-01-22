@@ -39,10 +39,14 @@ public:
 		myStyle = theValue;
 	}
 
+	void setEatMyEvents(bool e) { eatMyEvents = e; }
+	bool event(QEvent *e);
+
 private:
 
 	QString fKeyText;
 	GameTableStyleReader *myStyle;
+	bool eatMyEvents;
 };
 
 #endif

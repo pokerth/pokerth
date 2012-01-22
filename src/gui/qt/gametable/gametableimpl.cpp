@@ -168,6 +168,7 @@ gameTableImpl::gameTableImpl(ConfigFile *c, QMainWindow *parent)
 
 	blinkingStartButtonAnimationTimer = new QTimer(this);
 	voteOnKickTimeoutTimer = new QTimer(this);
+	enableCallCheckPushButtonTimer = new QTimer(this);
 
 	dealFlopCards0Timer->setSingleShot(TRUE);
 	dealFlopCards1Timer->setSingleShot(TRUE);
@@ -200,6 +201,7 @@ gameTableImpl::gameTableImpl(ConfigFile *c, QMainWindow *parent)
 	postRiverRunAnimation5Timer->setSingleShot(TRUE);
 	postRiverRunAnimation6Timer->setSingleShot(TRUE);
 
+	enableCallCheckPushButtonTimer->setSingleShot(TRUE);
 
 	playerStarsArray[1][0]=label_Star10;
 	playerStarsArray[2][0]=label_Star20;
@@ -512,6 +514,8 @@ gameTableImpl::gameTableImpl(ConfigFile *c, QMainWindow *parent)
 
 	connect(blinkingStartButtonAnimationTimer, SIGNAL(timeout()), this, SLOT( blinkingStartButtonAnimationAction()));
 	connect(voteOnKickTimeoutTimer, SIGNAL(timeout()), this, SLOT(nextVoteOnKickTimeoutAnimationFrame()));
+	connect(enableCallCheckPushButtonTimer, SIGNAL(timeout()), this, SLOT(enableCallCheckPushButton()));
+
 
 	connect( actionConfigure_PokerTH, SIGNAL( triggered() ), this, SLOT( callSettingsDialog() ) );
 	connect( actionClose, SIGNAL( triggered() ), this, SLOT( closeGameTable()) );
@@ -1644,12 +1648,18 @@ void gameTableImpl::provideMyActions(int mode)
 			}
 		}
 
-		//if text changed on checked button --> uncheck to prevent unwanted actions
-		if((pushButtonCallCheckString != lastPushButtonCallCheckString && pushButton_CallCheck->isChecked())) {
+		//if text changed on checked button --> do something to prevent unwanted actions
+		if(pushButtonCallCheckString != lastPushButtonCallCheckString) {
 
-			//			cout << "jo" << endl;
-			uncheckMyButtons();
-			resetMyButtonsCheckStateMemory();
+			if(pushButton_CallCheck->isChecked()) {
+				//uncheck a previous checked button to prevent unwanted action
+				uncheckMyButtons();
+				resetMyButtonsCheckStateMemory();
+			}
+			//disable button to prevent unwanted clicks (e.g. call allin)
+			pushButton_CallCheck->setEatMyEvents(true);
+			enableCallCheckPushButtonTimer->start(1000);
+
 		}
 
 		if(pushButtonBetRaiseString == "") {
@@ -3852,4 +3862,9 @@ SeatState gameTableImpl::getCurrentSeatState(boost::shared_ptr<PlayerInterface> 
 void gameTableImpl::soundEvent_blindsWereSet(int sbSet)
 {
 	mySoundEventHandler->blindsWereSet(sbSet);
+}
+
+void gameTableImpl::enableCallCheckPushButton()
+{
+	pushButton_CallCheck->setEatMyEvents(false);
 }
