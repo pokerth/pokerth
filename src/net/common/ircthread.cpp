@@ -20,6 +20,7 @@
 #include <net/ircthread.h>
 #include <net/socket_msg.h>
 #include <libircclient/libircclient.h>
+#include <libircclient/libirc_rfcnumeric.h>
 #include <boost/algorithm/string/predicate.hpp>
 #include <queue>
 #include <sstream>
