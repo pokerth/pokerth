@@ -829,8 +829,8 @@ std::string CardsValue::determineHandName(int myCardsValueInt, PlayerList active
 					it = sameHandCardsValueInt.erase(it);
 				}
 			}
+			++cardStringIt_c;
 			if(different) {
-				++cardStringIt_c;
 				handName += ", second card " + *cardStringIt_c;
 			}
 			// 2.there are still same hands
@@ -847,8 +847,8 @@ std::string CardsValue::determineHandName(int myCardsValueInt, PlayerList active
 						it = sameHandCardsValueInt.erase(it);
 					}
 				}
+				++cardStringIt_c;
 				if(different) {
-					++cardStringIt_c;
 					handName += ", third card " + *cardStringIt_c;
 				}
 				// 3.there are still same hands
@@ -865,8 +865,8 @@ std::string CardsValue::determineHandName(int myCardsValueInt, PlayerList active
 							it = sameHandCardsValueInt.erase(it);
 						}
 					}
+					++cardStringIt_c;
 					if(different) {
-						++cardStringIt_c;
 						handName += ", fourth card " + *cardStringIt_c;
 					}
 					// 4.there are still same hands
@@ -928,8 +928,8 @@ std::string CardsValue::determineHandName(int myCardsValueInt, PlayerList active
 					it = sameHandCardsValueInt.erase(it);
 				}
 			}
+			++cardStringIt_c;
 			if(different) {
-				++cardStringIt_c;
 				handName += ", fourth card " + *cardStringIt_c;
 			}
 			// 2.there are still same hands
@@ -1015,8 +1015,8 @@ std::string CardsValue::determineHandName(int myCardsValueInt, PlayerList active
 					it = sameHandCardsValueInt.erase(it);
 				}
 			}
+			++cardStringIt_c;
 			if(different) {
-				++cardStringIt_c;
 				handName += ", third card " + *cardStringIt_c;
 			}
 			// 2.there are still same hands
@@ -1033,8 +1033,8 @@ std::string CardsValue::determineHandName(int myCardsValueInt, PlayerList active
 						it = sameHandCardsValueInt.erase(it);
 					}
 				}
+				++cardStringIt_c;
 				if(different) {
-					++cardStringIt_c;
 					handName += ", fourth card " + *cardStringIt_c;
 				}
 				// 3.there are still same hands
@@ -1086,8 +1086,8 @@ std::string CardsValue::determineHandName(int myCardsValueInt, PlayerList active
 					it = sameHandCardsValueInt.erase(it);
 				}
 			}
+			++cardStringIt_c;
 			if(different) {
-				++cardStringIt_c;
 				handName += ", second card " + *cardStringIt_c;
 			}
 			// 2.there are still same hands
@@ -1104,8 +1104,8 @@ std::string CardsValue::determineHandName(int myCardsValueInt, PlayerList active
 						it = sameHandCardsValueInt.erase(it);
 					}
 				}
+				++cardStringIt_c;
 				if(different) {
-					++cardStringIt_c;
 					handName += ", third card " + *cardStringIt_c;
 				}
 				// 3.there are still same hands
@@ -1122,8 +1122,8 @@ std::string CardsValue::determineHandName(int myCardsValueInt, PlayerList active
 							it = sameHandCardsValueInt.erase(it);
 						}
 					}
+					++cardStringIt_c;
 					if(different) {
-						++cardStringIt_c;
 						handName += ", fourth card " + *cardStringIt_c;
 					}
 					// 4.there are still same hands
