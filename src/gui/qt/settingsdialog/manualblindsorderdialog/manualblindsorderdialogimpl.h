@@ -18,7 +18,11 @@
 #ifndef MANUALBLINDSORDERDIALOGIMPL_H
 #define MANUALBLINDSORDERDIALOGIMPL_H
 
+#ifdef GUI_800x480
+#include "ui_manualblindsorderdialog_800x480.h"
+#else
 #include "ui_manualblindsorderdialog.h"
+#endif
 
 #include <QtCore>
 #include <QtGui>

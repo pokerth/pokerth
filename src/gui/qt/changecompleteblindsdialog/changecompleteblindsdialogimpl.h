@@ -18,7 +18,11 @@
 #ifndef CHANGECOMPLETEBLINDSDIALOGIMPL_H
 #define CHANGECOMPLETEBLINDSDIALOGIMPL_H
 
+#ifdef GUI_800x480
+#include "ui_changecompleteblindsdialog_800x480.h"
+#else
 #include "ui_changecompleteblindsdialog.h"
+#endif
 
 #include <QtCore>
 #include <QtGui>

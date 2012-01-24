@@ -39,7 +39,9 @@ public:
 		myStyle = theValue;
 	}
 
-	void setEatMyEvents(bool e) { eatMyEvents = e; }
+	void setEatMyEvents(bool e) {
+		eatMyEvents = e;
+	}
 	bool event(QEvent *e);
 
 private:

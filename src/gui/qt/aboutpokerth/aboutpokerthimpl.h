@@ -18,7 +18,11 @@
 #ifndef ABOUTPOKERTHIMPL_H
 #define ABOUTPOKERTHIMPL_H
 
+#ifdef GUI_800x480
+#include "ui_aboutpokerth_800x480.h"
+#else
 #include "ui_aboutpokerth.h"
+#endif
 
 class ConfigFile;
 

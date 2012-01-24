@@ -899,9 +899,9 @@ void settingsDialogImpl::setLogDir()
 			lineEdit_logDir->setText(dir);
 			refreshLogFileList();
 			QMessageBox::information(this, tr("Settings Information"),
-								 tr("You have changed the log file directory.\n"
-									"Please restart PokerTH to use the new directory for the log files!"),
-								 QMessageBox::Ok);
+									 tr("You have changed the log file directory.\n"
+										"Please restart PokerTH to use the new directory for the log files!"),
+									 QMessageBox::Ok);
 		} else {
 			QMessageBox::warning(this, tr("Settings Error"),
 								 tr("The log file directory doesn't exist.\n"
@@ -1356,8 +1356,8 @@ void settingsDialogImpl::exportLogToHtml()
 	if(selectedItem) {
 		QFileInfo fi(selectedItem->text(0));
 		QString fileName = QFileDialog::getSaveFileName(this, tr("Export PokerTH log file to HTML"),
-		QDir::homePath()+"/"+fi.baseName()+".html",
-		tr("PokerTH HTML log (*.html)"));
+						   QDir::homePath()+"/"+fi.baseName()+".html",
+						   tr("PokerTH HTML log (*.html)"));
 
 		if(!fileName.isEmpty()) {
 			myGuiLog->exportLogPdbToHtml(selectedItem->data(0, Qt::UserRole).toString(),fileName);

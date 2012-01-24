@@ -18,7 +18,11 @@
 #ifndef INTERNETGAMELOGINDIALOGIMPL_H
 #define INTERNETGAMELOGINDIALOGIMPL_H
 
+#ifdef GUI_800x480
+#include "ui_internetgamelogindialog_800x480.h"
+#else
 #include "ui_internetgamelogindialog.h"
+#endif
 
 class ConfigFile;
 

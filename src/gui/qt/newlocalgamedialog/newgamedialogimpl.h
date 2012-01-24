@@ -18,7 +18,11 @@
 #ifndef NEWGAMEDIALOGIMPL_H
 #define NEWGAMEDIALOGIMPL_H
 
+#ifdef GUI_800x480
+#include "ui_newgamedialog_800x480.h"
+#else
 #include "ui_newgamedialog.h"
+#endif
 
 #include <QtGui>
 #include <QtCore>

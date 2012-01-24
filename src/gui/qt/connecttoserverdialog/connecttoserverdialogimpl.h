@@ -18,7 +18,11 @@
 #ifndef CONNECTTOSERVERDIALOGIMPL_H
 #define CONNECTTOSERVERDIALOGIMPL_H
 
+#ifdef GUI_800x480
+#include "ui_connecttoserverdialog_800x480.h"
+#else
 #include "ui_connecttoserverdialog.h"
+#endif
 
 #include <QtGui>
 #include <QtCore>

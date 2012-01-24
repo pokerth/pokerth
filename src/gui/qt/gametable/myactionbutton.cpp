@@ -21,7 +21,7 @@
 using namespace std;
 
 MyActionButton::MyActionButton(QGroupBox* parent)
-: QPushButton(parent), myStyle(NULL), eatMyEvents(false)
+	: QPushButton(parent), myStyle(NULL), eatMyEvents(false)
 {
 }
 
@@ -54,7 +54,7 @@ void MyActionButton::paintEvent(QPaintEvent * event)
 bool MyActionButton::event(QEvent *event)
 {
 	if ((event->type() == QEvent::KeyPress || event->type() == QEvent::MouseButtonPress) && eatMyEvents ) {
-			return true;
+		return true;
 	}
 	return QWidget::event(event);
 }

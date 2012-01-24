@@ -18,7 +18,11 @@
 #ifndef GAMETABLEIMPL_H
 #define GAMETABLEIMPL_H
 
+#ifdef GUI_800x480
+#include "ui_gametable_800x480.h"
+#else
 #include "ui_gametable.h"
+#endif
 #include "game_defs.h"
 
 #include <string>

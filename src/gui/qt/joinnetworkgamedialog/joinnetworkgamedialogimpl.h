@@ -18,7 +18,11 @@
 #ifndef JOINNETWORKGAMEDIALOGIMPL_H
 #define JOINNETWORKGAMEDIALOGIMPL_H
 
+#ifdef GUI_800x480
+#include "ui_joinnetworkgamedialog_800x480.h"
+#else
 #include "ui_joinnetworkgamedialog.h"
+#endif
 
 #include <string>
 #include "configfile.h"

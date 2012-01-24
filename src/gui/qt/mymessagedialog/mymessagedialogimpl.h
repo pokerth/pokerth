@@ -18,7 +18,11 @@
 #ifndef MYMESSAGEDIALOGIMPL_H
 #define MYMESSAGEDIALOGIMPL_H
 
+#ifdef GUI_800x480
+#include "ui_mymessagedialog_800x480.h"
+#else
 #include "ui_mymessagedialog.h"
+#endif
 
 class ConfigFile;
 

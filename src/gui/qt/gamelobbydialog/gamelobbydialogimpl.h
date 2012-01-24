@@ -18,7 +18,11 @@
 #ifndef GAMELOBBYDIALOGIMPL_H
 #define GAMELOBBYDIALOGIMPL_H
 
+#ifdef GUI_800x480
+#include <ui_gamelobbydialog_800x480.h>
+#else
 #include <ui_gamelobbydialog.h>
+#endif
 
 #include <QtGui>
 #include <QtCore>

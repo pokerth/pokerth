@@ -18,7 +18,11 @@
 #ifndef SELECTAVATARDIALOGIMPL_H
 #define SELECTAVATARDIALOGIMPL_H
 
+#ifdef GUI_800x480
+#include "ui_selectavatardialog_800x480.h"
+#else
 #include "ui_selectavatardialog.h"
+#endif
 
 #include <QtCore>
 #include <QtGui>

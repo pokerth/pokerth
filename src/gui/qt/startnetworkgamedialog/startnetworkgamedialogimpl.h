@@ -18,7 +18,11 @@
 #ifndef STARTNETWORKGAMEDIALOGIMPL_H
 #define STARTNETWORKGAMEDIALOGIMPL_H
 
+#ifdef GUI_800x480
+#include "ui_startnetworkgamedialog_800x480.h"
+#else
 #include "ui_startnetworkgamedialog.h"
+#endif
 
 #include <QtGui>
 #include <QtCore>

@@ -18,7 +18,11 @@
 #ifndef CHANGECONTENTDIALOGIMPL_H
 #define CHANGECONTENTDIALOGIMPL_H
 
+#ifdef GUI_800x480
+#include "ui_changecontentdialog_800x480.h"
+#else
 #include "ui_changecontentdialog.h"
+#endif
 
 #include <QtCore>
 

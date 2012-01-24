@@ -6,41 +6,26 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>800</width>
-    <height>448</height>
+    <width>450</width>
+    <height>350</height>
    </rect>
   </property>
   <property name="minimumSize">
    <size>
-    <width>800</width>
-    <height>448</height>
+    <width>450</width>
+    <height>350</height>
    </size>
   </property>
   <property name="maximumSize">
    <size>
-    <width>800</width>
-    <height>448</height>
+    <width>450</width>
+    <height>350</height>
    </size>
   </property>
   <property name="windowTitle">
    <string>PokerTH - The Open-Source Texas Holdem Engine</string>
   </property>
-  <property name="styleSheet">
-   <string notr="true"/>
-  </property>
   <widget class="QWidget" name="centralwidget">
-   <property name="minimumSize">
-    <size>
-     <width>800</width>
-     <height>424</height>
-    </size>
-   </property>
-   <property name="maximumSize">
-    <size>
-     <width>800</width>
-     <height>424</height>
-    </size>
-   </property>
    <layout class="QGridLayout" name="gridLayout_2">
     <item row="0" column="1">
      <spacer>
@@ -78,31 +63,8 @@
           <verstretch>0</verstretch>
          </sizepolicy>
         </property>
-        <property name="minimumSize">
-         <size>
-          <width>350</width>
-          <height>80</height>
-         </size>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>350</width>
-          <height>80</height>
-         </size>
-        </property>
-        <property name="font">
-         <font>
-          <pointsize>-1</pointsize>
-          <weight>75</weight>
-          <italic>false</italic>
-          <bold>true</bold>
-         </font>
-        </property>
         <property name="focusPolicy">
          <enum>Qt::NoFocus</enum>
-        </property>
-        <property name="styleSheet">
-         <string notr="true">QPushButton { text-align:left; font: bold 20px; padding-left: 3px; padding-bottom: 3px; padding-top: 3px; padding-right: 3px;}</string>
         </property>
         <property name="text">
          <string>&amp;1 Start Local Game</string>
@@ -127,31 +89,8 @@
           <verstretch>0</verstretch>
          </sizepolicy>
         </property>
-        <property name="minimumSize">
-         <size>
-          <width>350</width>
-          <height>80</height>
-         </size>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>350</width>
-          <height>80</height>
-         </size>
-        </property>
-        <property name="font">
-         <font>
-          <pointsize>-1</pointsize>
-          <weight>75</weight>
-          <italic>false</italic>
-          <bold>true</bold>
-         </font>
-        </property>
         <property name="focusPolicy">
          <enum>Qt::NoFocus</enum>
-        </property>
-        <property name="styleSheet">
-         <string notr="true">QPushButton { text-align:left; font: bold 20px; padding-left: 3px; padding-bottom: 3px; padding-top: 3px; padding-right: 3px;}</string>
         </property>
         <property name="text">
          <string>&amp;2 Internet Game</string>
@@ -168,7 +107,7 @@
         </property>
        </widget>
       </item>
-      <item row="0" column="1">
+      <item row="2" column="0">
        <widget class="QPushButton" name="pushButton_Create_Network_Game">
         <property name="sizePolicy">
          <sizepolicy hsizetype="MinimumExpanding" vsizetype="Preferred">
@@ -176,31 +115,8 @@
           <verstretch>0</verstretch>
          </sizepolicy>
         </property>
-        <property name="minimumSize">
-         <size>
-          <width>350</width>
-          <height>80</height>
-         </size>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>350</width>
-          <height>80</height>
-         </size>
-        </property>
-        <property name="font">
-         <font>
-          <pointsize>-1</pointsize>
-          <weight>75</weight>
-          <italic>false</italic>
-          <bold>true</bold>
-         </font>
-        </property>
         <property name="focusPolicy">
          <enum>Qt::NoFocus</enum>
-        </property>
-        <property name="styleSheet">
-         <string notr="true">QPushButton { text-align:left; font: bold 20px; padding-left: 3px; padding-bottom: 3px; padding-top: 3px; padding-right: 3px;}</string>
         </property>
         <property name="text">
          <string>&amp;3 Create Network Game</string>
@@ -217,7 +133,7 @@
         </property>
        </widget>
       </item>
-      <item row="1" column="1">
+      <item row="3" column="0">
        <widget class="QPushButton" name="pushButton_Join_Network_Game">
         <property name="sizePolicy">
          <sizepolicy hsizetype="MinimumExpanding" vsizetype="Preferred">
@@ -225,37 +141,11 @@
           <verstretch>0</verstretch>
          </sizepolicy>
         </property>
-        <property name="minimumSize">
-         <size>
-          <width>350</width>
-          <height>80</height>
-         </size>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>350</width>
-          <height>80</height>
-         </size>
-        </property>
-        <property name="font">
-         <font>
-          <pointsize>-1</pointsize>
-          <weight>75</weight>
-          <italic>false</italic>
-          <bold>true</bold>
-         </font>
-        </property>
         <property name="focusPolicy">
          <enum>Qt::NoFocus</enum>
         </property>
-        <property name="layoutDirection">
-         <enum>Qt::LeftToRight</enum>
-        </property>
-        <property name="autoFillBackground">
-         <bool>false</bool>
-        </property>
         <property name="styleSheet">
-         <string notr="true">QPushButton { text-align:left; font: bold 20px; padding-left: 3px; padding-bottom: 3px; padding-top: 3px; padding-right: 3px;}</string>
+         <string notr="true"/>
         </property>
         <property name="text">
          <string>&amp;4 Join Network Game</string>
@@ -269,12 +159,6 @@
           <width>37</width>
           <height>32</height>
          </size>
-        </property>
-        <property name="autoDefault">
-         <bool>false</bool>
-        </property>
-        <property name="flat">
-         <bool>false</bool>
         </property>
        </widget>
       </item>
@@ -313,26 +197,28 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>800</width>
-     <height>34</height>
+     <width>450</width>
+     <height>20</height>
     </rect>
    </property>
-   <property name="styleSheet">
-    <string notr="true">QObject {font-size: 20px}</string>
-   </property>
    <widget class="QMenu" name="menuPokerTH">
-    <property name="styleSheet">
-     <string notr="true"/>
-    </property>
     <property name="title">
      <string>&amp;PokerTH</string>
     </property>
+    <widget class="QMenu" name="menuNetwork_Game">
+     <property name="title">
+      <string>Network Game</string>
+     </property>
+     <addaction name="actionCreate_Network_Game"/>
+     <addaction name="actionJoin_Network_Game"/>
+    </widget>
+    <addaction name="actionStart_Local_Game"/>
+    <addaction name="menuNetwork_Game"/>
+    <addaction name="actionInternet_Game"/>
     <addaction name="actionAbout_PokerTH"/>
+    <addaction name="actionQuit"/>
    </widget>
    <widget class="QMenu" name="menuSettings">
-    <property name="styleSheet">
-     <string notr="true"/>
-    </property>
     <property name="title">
      <string>&amp;Settings</string>
     </property>
@@ -367,29 +253,17 @@
    </property>
   </action>
   <action name="actionAbout_PokerTH">
-   <property name="checkable">
-    <bool>false</bool>
-   </property>
    <property name="text">
     <string>About PokerTH</string>
    </property>
-   <property name="font">
-    <font/>
-   </property>
   </action>
   <action name="actionConfigure_PokerTH">
-   <property name="checkable">
-    <bool>false</bool>
-   </property>
    <property name="icon">
     <iconset resource="resources/pokerth.qrc">
      <normaloff>:/gfx/systemsettings.png</normaloff>:/gfx/systemsettings.png</iconset>
    </property>
    <property name="text">
     <string>Configure PokerTH ...</string>
-   </property>
-   <property name="font">
-    <font/>
    </property>
   </action>
   <action name="actionQuit">

@@ -23,7 +23,7 @@
    </size>
   </property>
   <property name="windowTitle">
-   <string>PokerTH 0.6.3 - The Open-Source Texas Holdem Engine</string>
+   <string>PokerTH - The Open-Source Texas Holdem Engine</string>
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QGridLayout" name="gridLayout_2">
@@ -198,7 +198,7 @@
      <x>0</x>
      <y>0</y>
      <width>450</width>
-     <height>26</height>
+     <height>20</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuPokerTH">

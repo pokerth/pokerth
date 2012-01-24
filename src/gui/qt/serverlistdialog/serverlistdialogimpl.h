@@ -18,7 +18,11 @@
 #ifndef SERVERLISTDIALOGIMPL_H
 #define SERVERLISTDIALOGIMPL_H
 
+#ifdef GUI_800x480
+#include "ui_serverlistdialog_800x480.h"
+#else
 #include "ui_serverlistdialog.h"
+#endif
 
 #include <QtGui>
 #include <QtCore>

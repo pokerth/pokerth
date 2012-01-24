@@ -543,8 +543,7 @@ void ConfigFile::updateConfig(ConfigState myConfigState)
 			///////// VERSION HACK SECTION ///////////////////////
 			//this is the right place for special version depending config hacks:
 			//0.9.1 - log interval needs to be set to 1 instead of 0
-			if (configRev == 95) // this means 0.9.1
-			{
+			if (configRev == 95) { // this means 0.9.1
 				TiXmlElement * confElement2 = new TiXmlElement( "LogInterval" );
 				config->LinkEndChild( confElement2 );
 				confElement2->SetAttribute("value", 1);

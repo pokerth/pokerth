@@ -18,7 +18,11 @@
 #ifndef SETTINGSDIALOGIMPL_H
 #define SETTINGSDIALOGIMPL_H
 
+#ifdef GUI_800x480
+#include "ui_settingsdialog_800x480.h"
+#else
 #include "ui_settingsdialog.h"
+#endif
 #include "selectavatardialogimpl.h"
 #include "manualblindsorderdialogimpl.h"
 

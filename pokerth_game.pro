@@ -552,43 +552,24 @@ gui_800x480 {
     DEFINES += GUI_800x480
     INCLUDEPATH +=  src/gui/qt/gui_800x480/
     DEPENDPATH += src/gui/qt/gui_800x480/
-    FORMS +=  src/gui/qt/gui_800x480/startwindow_800x480.ui
-# src/gui/qt/gui_800x480/gametable_800x480.ui \
-#        src/gui/qt/gui_800x480/aboutpokerth_800x480.ui \
-#        src/gui/qt/gui_800x480/connecttoserverdialog_800x480.ui \
-#        src/gui/qt/gui_800x480/createnetworkgamedialog_800x480.ui \
-#        src/gui/qt/gui_800x480/createinternetgamedialog_800x480.ui \
-#        src/gui/qt/gui_800x480/joinnetworkgamedialog_800x480.ui \
-#        src/gui/qt/gui_800x480/newgamedialog_800x480.ui \
-#        src/gui/qt/gui_800x480/settingsdialog_800x480.ui \
-#        src/gui/qt/gui_800x480/selectavatardialog_800x480.ui \
-#        src/gui/qt/gui_800x480/startnetworkgamedialog_800x480.ui \
-#        src/gui/qt/gui_800x480/changecompleteblindsdialog_800x480.ui \
-#        src/gui/qt/gui_800x480/gamelobbydialog_800x480.ui \
-#        src/gui/qt/gui_800x480/mymessagedialog_800x480.ui \
-#        src/gui/qt/gui_800x480/manualblindsorderdialog_800x480.ui \
-#        src/gui/qt/gui_800x480/serverlistdialog_800x480.ui \
-#        src/gui/qt/gui_800x480/internetgamelogindialog_800x480.ui \
-#        src/gui/qt/gui_800x480/changecontentdialog_800x480.ui
-
-    FORMS += src/gui/qt/gametable.ui \
-        src/gui/qt/aboutpokerth.ui \
-        src/gui/qt/connecttoserverdialog.ui \
-        src/gui/qt/createnetworkgamedialog.ui \
-        src/gui/qt/createinternetgamedialog.ui \
-        src/gui/qt/joinnetworkgamedialog.ui \
-        src/gui/qt/newgamedialog.ui \
-        src/gui/qt/settingsdialog.ui \
-        src/gui/qt/selectavatardialog.ui \
-        src/gui/qt/startnetworkgamedialog.ui \
-        src/gui/qt/changecompleteblindsdialog.ui \
-        src/gui/qt/gamelobbydialog.ui \
-        src/gui/qt/mymessagedialog.ui \
-        src/gui/qt/manualblindsorderdialog.ui \
-        src/gui/qt/serverlistdialog.ui \
-        src/gui/qt/internetgamelogindialog.ui \
-        src/gui/qt/changecontentdialog.ui
-
+	FORMS +=  src/gui/qt/gui_800x480/startwindow_800x480.ui \
+		src/gui/qt/gui_800x480/gametable_800x480.ui \
+		src/gui/qt/gui_800x480/aboutpokerth_800x480.ui \
+		src/gui/qt/gui_800x480/connecttoserverdialog_800x480.ui \
+		src/gui/qt/gui_800x480/createnetworkgamedialog_800x480.ui \
+		src/gui/qt/gui_800x480/createinternetgamedialog_800x480.ui \
+		src/gui/qt/gui_800x480/joinnetworkgamedialog_800x480.ui \
+		src/gui/qt/gui_800x480/newgamedialog_800x480.ui \
+		src/gui/qt/gui_800x480/settingsdialog_800x480.ui \
+		src/gui/qt/gui_800x480/selectavatardialog_800x480.ui \
+		src/gui/qt/gui_800x480/startnetworkgamedialog_800x480.ui \
+		src/gui/qt/gui_800x480/changecompleteblindsdialog_800x480.ui \
+		src/gui/qt/gui_800x480/gamelobbydialog_800x480.ui \
+		src/gui/qt/gui_800x480/mymessagedialog_800x480.ui \
+		src/gui/qt/gui_800x480/manualblindsorderdialog_800x480.ui \
+		src/gui/qt/gui_800x480/serverlistdialog_800x480.ui \
+		src/gui/qt/gui_800x480/internetgamelogindialog_800x480.ui \
+		src/gui/qt/gui_800x480/changecontentdialog_800x480.ui
 
 }
 
