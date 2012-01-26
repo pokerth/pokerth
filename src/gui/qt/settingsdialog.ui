@@ -279,6 +279,13 @@
               </property>
              </widget>
             </item>
+            <item row="2" column="0">
+             <widget class="QCheckBox" name="checkBox_enableAccidentallyCallBlocker">
+              <property name="text">
+               <string>Activate the &quot;accidentally call after big raise&quot; blocker</string>
+              </property>
+             </widget>
+            </item>
            </layout>
           </widget>
          </item>

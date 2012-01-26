@@ -57,4 +57,17 @@ aboutPokerthImpl::aboutPokerthImpl(QWidget *parent, ConfigFile *c)
 	label_pokerthVersion->setText(QString(tr("PokerTH %1").arg(POKERTH_BETA_RELEASE_STRING)));
 	this->setWindowTitle(QString(tr("About PokerTH %1").arg(POKERTH_BETA_RELEASE_STRING)));
 
+	//add thx to infos:
+	QString thxToInfos;
+	thxToInfos.append(tr("- Wikimedia Commons: for different popular avatar picture resources")+"<br>");
+	thxToInfos.append(tr("- Benedikt, Erhard, Felix, Florian, Linus, Lothar, Steffi, Caro: for people avatar pictures")+"<br>");
+	thxToInfos.append(tr("- ZeiZei: for misc avatar pictures")+"<br>");
+	thxToInfos.append(tr("- kde-look.org: for different gpl licensed sounds")+"<br>");
+	thxToInfos.append(tr("- doc_dos: for self recorded chip sounds")+"<br>");
+	thxToInfos.append(tr("- thiger, dunkanx, BerndA, coldz, drull: for different patches")+"<br>");
+	thxToInfos.append(tr("- kraut: for internet-game-server hosting and administration")+"<br>");
+	thxToInfos.append(tr("- danuxi: for startwindow background gfx and danuxi1 table background")+"<br>");
+	thxToInfos.append(tr("- heyn: for moderating forum and organise bugtracker and feature requests")+"<br>");
+	thxToInfos.append(tr("- texas_outlaw: for new table sounds")+"<br>");
+	textBrowser_3->setHtml(thxToInfos);
 }

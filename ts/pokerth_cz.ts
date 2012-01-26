@@ -965,6 +965,14 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt; font-weight:600;&quot;&gt;texas_outlaw&lt;/span&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;    - for new table sounds&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
+    <message>
+        <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>aboutPokerthImpl</name>
@@ -975,6 +983,46 @@ p, li { white-space: pre-wrap; }
     <message>
         <source>About PokerTH %1</source>
         <translation>O hře PokerTH %1</translation>
+    </message>
+    <message>
+        <source>- Wikimedia Commons: for different popular avatar picture resources</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>- Benedikt, Erhard, Felix, Florian, Linus, Lothar, Steffi, Caro: for people avatar pictures</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>- ZeiZei: for misc avatar pictures</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>- kde-look.org: for different gpl licensed sounds</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>- doc_dos: for self recorded chip sounds</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>- thiger, dunkanx, BerndA, coldz, drull: for different patches</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>- kraut: for internet-game-server hosting and administration</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>- danuxi: for startwindow background gfx and danuxi1 table background</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>- heyn: for moderating forum and organise bugtracker and feature requests</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>- texas_outlaw: for new table sounds</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -2924,7 +2972,7 @@ Další hráče můžete pozvat pravým kliknutím na jejich přezdívku v sezna
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Ubuntu&apos;; font-size:11pt; font-weight:400; font-style:normal;&quot;&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600; color:#ffffff;&quot;&gt;*&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+        <translation type="obsolete">&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Ubuntu&apos;; font-size:11pt; font-weight:400; font-style:normal;&quot;&gt;
@@ -2932,7 +2980,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>&lt;a&gt;&amp;#9734;&lt;/a&gt;</source>
-        <translation>&lt;a&gt;&amp;#9734;&lt;/a&gt;</translation>
+        <translation type="obsolete">&lt;a&gt;&amp;#9734;&lt;/a&gt;</translation>
     </message>
     <message>
         <source>Save</source>
@@ -3989,6 +4037,18 @@ p, li { white-space: pre-wrap; }
         <source>Export as HTML</source>
         <translation>Exportovat jako HTML</translation>
     </message>
+    <message>
+        <source>Factory Settings</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Reset all settings to default ...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Note: You can not reset all settings to default during a running game!</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>settingsDialogImpl</name>
@@ -4291,6 +4351,29 @@ Styl nebude umístěn do seznamu!</translation>
         <source>PokerTH plain text log (*.txt)</source>
         <translation>PokerTH textový záznam (*.txt)</translation>
     </message>
+    <message>
+        <source>The opponent names are not unique.
+Please choose different names for each Opponent!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Settings Information</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>You have changed the log file directory.
+Please restart PokerTH to use the new directory for the log files!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>PokerTH - Settings</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Attention: this will delete all your personal settings and close PokerTH!
+Do you really want to reset factory settings?</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>startNetworkGameDialog</name>
@@ -4346,7 +4429,7 @@ Styl nebude umístěn do seznamu!</translation>
     <name>startWindow</name>
     <message>
         <source>PokerTH 0.6.3 - The Open-Source Texas Holdem Engine</source>
-        <translation>PokerTH 0.6.3 - Open-Source Texas Holdem engine</translation>
+        <translation type="obsolete">PokerTH 0.6.3 - Open-Source Texas Holdem engine</translation>
     </message>
     <message>
         <source>&amp;2 Internet Game</source>
@@ -4366,7 +4449,7 @@ Styl nebude umístěn do seznamu!</translation>
     </message>
     <message>
         <source>QPushButton { text-align:left; font-weight:bold; padding-left: 1px; padding-bottom: 3px; padding-top: 3px; padding-right: 3px;}</source>
-        <translation>QPushButton { text-align:left; font-weight:bold; padding-left: 1px; padding-bottom: 3px; padding-top: 3px; padding-right: 3px;}</translation>
+        <translation type="obsolete">QPushButton { text-align:left; font-weight:bold; padding-left: 1px; padding-bottom: 3px; padding-top: 3px; padding-right: 3px;}</translation>
     </message>
     <message>
         <source>Network Game</source>
@@ -4524,13 +4607,13 @@ Opravte adresu v nastavení.</translation>
     <message>
         <source>Could not open the server list MD5 file.
 Please make sure that the server list URL is correct.</source>
-        <translation>Nelze otevřít MD5 soubor seznamu serverů.
+        <translation type="obsolete">Nelze otevřít MD5 soubor seznamu serverů.
 Ujistěte se, že URL seznamu serverů je správná.</translation>
     </message>
     <message>
         <source>Synchronization of the PokerTH internet server list has failed.
 Please make sure that the server list URL is correct.</source>
-        <translation>Selhala synchronizace seznamu internetových serverů PokerTH.
+        <translation type="obsolete">Selhala synchronizace seznamu internetových serverů PokerTH.
 Ujistěte se, že URL seznamu serverů je správná.</translation>
     </message>
     <message>

@@ -50,7 +50,7 @@ ConfigFile::ConfigFile(char *argv0, bool readonly) : noWriteAccess(readonly)
 	myConfigState = OK;
 
 	// !!!! Revisionsnummer der Configdefaults !!!!!
-	configRev = 95;
+	configRev = 96;
 
 	//standard defaults
 	logOnOffDefault = "1";
@@ -141,6 +141,7 @@ ConfigFile::ConfigFile(char *argv0, bool readonly) : noWriteAccess(readonly)
 	configList.push_back(ConfigInfo("ShowCardsChanceMonitor", CONFIG_TYPE_INT, "1"));
 	configList.push_back(ConfigInfo("DontTranslateInternationalPokerStringsFromStyle", CONFIG_TYPE_INT, "0"));
 	configList.push_back(ConfigInfo("DisableSplashScreenOnStartup", CONFIG_TYPE_INT, "0"));
+	configList.push_back(ConfigInfo("AccidentallyCallBlocker", CONFIG_TYPE_INT, "0"));
 	configList.push_back(ConfigInfo("AntiPeekMode", CONFIG_TYPE_INT, "0"));
 	configList.push_back(ConfigInfo("AlternateFKeysUserActionMode", CONFIG_TYPE_INT, "0"));
 	configList.push_back(ConfigInfo("EnableBetInputFocusSwitch", CONFIG_TYPE_INT, "0"));
@@ -543,7 +544,7 @@ void ConfigFile::updateConfig(ConfigState myConfigState)
 			///////// VERSION HACK SECTION ///////////////////////
 			//this is the right place for special version depending config hacks:
 			//0.9.1 - log interval needs to be set to 1 instead of 0
-			if (configRev == 95) { // this means 0.9.1
+			if (configRev == 95 || configRev == 96) { // this means 0.9.1 or 0.9.2
 				TiXmlElement * confElement2 = new TiXmlElement( "LogInterval" );
 				config->LinkEndChild( confElement2 );
 				confElement2->SetAttribute("value", 1);

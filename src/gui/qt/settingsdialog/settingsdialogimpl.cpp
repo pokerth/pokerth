@@ -266,6 +266,7 @@ void settingsDialogImpl::prepareDialog()
 	checkBox_cardsChanceMonitor->setChecked(myConfig->readConfigInt("ShowCardsChanceMonitor"));
 	checkBox_dontTranslatePokerStrings->setChecked(myConfig->readConfigInt("DontTranslateInternationalPokerStringsFromStyle"));
 	checkBox_disableSplashscreen->setChecked(myConfig->readConfigInt("DisableSplashScreenOnStartup"));
+	checkBox_enableAccidentallyCallBlocker->setChecked(myConfig->readConfigInt("AccidentallyCallBlocker"));
 
 	//S t y l e
 	//TABLE
@@ -661,6 +662,7 @@ void settingsDialogImpl::isAccepted()
 	myConfig->writeConfigInt("DontTranslateInternationalPokerStringsFromStyle", checkBox_dontTranslatePokerStrings->isChecked());
 	myConfig->writeConfigInt("DisableSplashScreenOnStartup", checkBox_disableSplashscreen->isChecked());
 	myConfig->writeConfigInt("EnableBetInputFocusSwitch", checkBox_enableBetInputFocusSwitch->isChecked());
+	myConfig->writeConfigInt("AccidentallyCallBlocker", checkBox_enableAccidentallyCallBlocker->isChecked());
 	myConfig->writeConfigInt("FlipsideTux", radioButton_flipsideTux->isChecked());
 	myConfig->writeConfigInt("FlipsideOwn", radioButton_flipsideOwn->isChecked());
 

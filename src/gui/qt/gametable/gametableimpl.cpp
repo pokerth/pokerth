@@ -1657,8 +1657,10 @@ void gameTableImpl::provideMyActions(int mode)
 				resetMyButtonsCheckStateMemory();
 			}
 			//disable button to prevent unwanted clicks (e.g. call allin)
-			pushButton_CallCheck->setEatMyEvents(true);
-			enableCallCheckPushButtonTimer->start(1000);
+			if(myConfig->readConfigInt("AccidentallyCallBlocker")) {
+				pushButton_CallCheck->setEatMyEvents(true);
+				enableCallCheckPushButtonTimer->start(1000);
+			}
 
 		}
 
