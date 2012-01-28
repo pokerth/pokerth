@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
 <TS version="2.0">
 <defaultcodec>UTF-8</defaultcodec>
@@ -375,7 +375,11 @@ p, li { white-space: pre-wrap; }
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
 &lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gui_800x480/aboutpokerth_800x480.ui" line="204"/>
@@ -596,52 +600,52 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/gui/qt/aboutpokerth/aboutpokerthimpl.cpp" line="62"/>
         <source>- Wikimedia Commons: for different popular avatar picture resources</source>
-        <translation type="unfinished"></translation>
+        <translation>- Wikimedia Commons: vir 'n verskeidenheid gewilde avatarprente</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/aboutpokerth/aboutpokerthimpl.cpp" line="63"/>
         <source>- Benedikt, Erhard, Felix, Florian, Linus, Lothar, Steffi, Caro: for people avatar pictures</source>
-        <translation type="unfinished"></translation>
+        <translation>- Benedikt, Erhard, Felix, Florian, Linus, Lothar, Steffi, Caro: vir mensavatar-prente</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/aboutpokerth/aboutpokerthimpl.cpp" line="64"/>
         <source>- ZeiZei: for misc avatar pictures</source>
-        <translation type="unfinished"></translation>
+        <translation>- ZeiZei: vir diverse avatar-prente</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/aboutpokerth/aboutpokerthimpl.cpp" line="65"/>
         <source>- kde-look.org: for different gpl licensed sounds</source>
-        <translation type="unfinished"></translation>
+        <translation>- kde-look.org: vir 'n verskeidenheid GPL-gelisensieerde klanke</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/aboutpokerth/aboutpokerthimpl.cpp" line="66"/>
         <source>- doc_dos: for self recorded chip sounds</source>
-        <translation type="unfinished"></translation>
+        <translation>- doc_dos: vir selfopgeneemde skyfieklanke</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/aboutpokerth/aboutpokerthimpl.cpp" line="67"/>
         <source>- thiger, dunkanx, BerndA, coldz, drull: for different patches</source>
-        <translation type="unfinished"></translation>
+        <translation>- thiger, dunkanx, BerndA, coldz, drull: vir 'n verskeidenheid pleisters</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/aboutpokerth/aboutpokerthimpl.cpp" line="68"/>
         <source>- kraut: for internet-game-server hosting and administration</source>
-        <translation type="unfinished"></translation>
+        <translation>- kraut: vir huisvesting en administrasie van internetspelbediener</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/aboutpokerth/aboutpokerthimpl.cpp" line="69"/>
         <source>- danuxi: for startwindow background gfx and danuxi1 table background</source>
-        <translation type="unfinished"></translation>
+        <translation>- danuxi: vir beginvenster-agtergrondprent en Danuxi1-tafel se agtergrond</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/aboutpokerth/aboutpokerthimpl.cpp" line="70"/>
         <source>- heyn: for moderating forum and organise bugtracker and feature requests</source>
-        <translation type="unfinished"></translation>
+        <translation>- heyn: vir modereer van forum en hantering van foutopsporing en wenslys</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/aboutpokerth/aboutpokerthimpl.cpp" line="71"/>
         <source>- texas_outlaw: for new table sounds</source>
-        <translation type="unfinished"></translation>
+        <translation>- texas_outlaw: vir nuwe tafelklanke</translation>
     </message>
 </context>
 <context>
@@ -3798,7 +3802,7 @@ Tik asseblief &apos;n geldige prent in!</translation>
         <location filename="../src/gui/qt/settingsdialog.ui" line="125"/>
         <location filename="../src/gui/qt/settingsdialog.ui" line="3635"/>
         <source>Factory Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Fabrieksinstellings</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="256"/>
@@ -4066,13 +4070,13 @@ Tik asseblief &apos;n geldige prent in!</translation>
         <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="3685"/>
         <location filename="../src/gui/qt/settingsdialog.ui" line="3685"/>
         <source>Reset all settings to default ...</source>
-        <translation type="unfinished"></translation>
+        <translation>Stel alle instellings terug na verstek...</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="3732"/>
         <location filename="../src/gui/qt/settingsdialog.ui" line="3732"/>
         <source>Note: You can not reset all settings to default during a running game!</source>
-        <translation type="unfinished"></translation>
+        <translation>Let wel: Jy kan nie tydens 'n aktiewe spel alle instellings terugstel na verstek nie!</translation>
     </message>
     <message>
         <source>Export as html</source>
@@ -4785,18 +4789,20 @@ Tik asseblief &apos;n geldige bedienerlysadres in.</translation>
         <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="533"/>
         <source>The opponent names are not unique.
 Please choose different names for each Opponent!</source>
-        <translation type="unfinished"></translation>
+        <translation>Die opponentname is nie uniek nie.
+Kies asseblief verskillende name vir die opponente!</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="901"/>
         <source>Settings Information</source>
-        <translation type="unfinished"></translation>
+        <translation>Instellingsinligting</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="902"/>
         <source>You have changed the log file directory.
 Please restart PokerTH to use the new directory for the log files!</source>
-        <translation type="unfinished"></translation>
+        <translation>Jy het die loglêer-gids verander.
+Herbegin asseblief PokerTH om die nuwe gids vir loglêers te laai!</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="1061"/>
@@ -4952,13 +4958,14 @@ Styl sal nie by lys gevoeg word nie.</translation>
     <message>
         <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="1415"/>
         <source>PokerTH - Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>PokerTH - Instellings</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="1416"/>
         <source>Attention: this will delete all your personal settings and close PokerTH!
 Do you really want to reset factory settings?</source>
-        <translation type="unfinished"></translation>
+        <translation>Let op! Dit sal al jou persoonlike instellings skrap en PokerTH verlaat!
+Wil jy regtig terugstel na die fabrieksinstellings?</translation>
     </message>
     <message>
         <source>Do you really want to delete the seleted log file?</source>
@@ -5616,3 +5623,4 @@ Tik asseblief weer die wagwoord in, en probeer weer.</translation>
     </message>
 </context>
 </TS>
+

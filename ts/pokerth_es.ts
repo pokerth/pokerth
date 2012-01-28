@@ -488,7 +488,11 @@ p, li { white-space: pre-wrap; }
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
 &lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gui_800x480/aboutpokerth_800x480.ui" line="204"/>
@@ -2145,52 +2149,52 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/gui/qt/aboutpokerth/aboutpokerthimpl.cpp" line="62"/>
         <source>- Wikimedia Commons: for different popular avatar picture resources</source>
-        <translation type="unfinished"></translation>
+        <translation>- Wikimedia Commons: por varias imágenes de avatares famosos</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/aboutpokerth/aboutpokerthimpl.cpp" line="63"/>
         <source>- Benedikt, Erhard, Felix, Florian, Linus, Lothar, Steffi, Caro: for people avatar pictures</source>
-        <translation type="unfinished"></translation>
+        <translation>- Benedikt, Erhard, Felix, Florian, Linus, Lothar, Steffi, Caro: por avatares de gente</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/aboutpokerth/aboutpokerthimpl.cpp" line="64"/>
         <source>- ZeiZei: for misc avatar pictures</source>
-        <translation type="unfinished"></translation>
+        <translation>- ZeiZei: por varias imágenes de avatares</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/aboutpokerth/aboutpokerthimpl.cpp" line="65"/>
         <source>- kde-look.org: for different gpl licensed sounds</source>
-        <translation type="unfinished"></translation>
+        <translation>- kde-look.org: por distintos sonidos con licencia gpl</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/aboutpokerth/aboutpokerthimpl.cpp" line="66"/>
         <source>- doc_dos: for self recorded chip sounds</source>
-        <translation type="unfinished"></translation>
+        <translation>- doc_dos: por grabar los sonidos de las fichas</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/aboutpokerth/aboutpokerthimpl.cpp" line="67"/>
         <source>- thiger, dunkanx, BerndA, coldz, drull: for different patches</source>
-        <translation type="unfinished"></translation>
+        <translation>- thiger, dunkanx, BerndA, coldz, drull: por varios parches</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/aboutpokerth/aboutpokerthimpl.cpp" line="68"/>
         <source>- kraut: for internet-game-server hosting and administration</source>
-        <translation type="unfinished"></translation>
+        <translation>- kraut: por el alojamiento y la administración del servidor de partidas en internet</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/aboutpokerth/aboutpokerthimpl.cpp" line="69"/>
         <source>- danuxi: for startwindow background gfx and danuxi1 table background</source>
-        <translation type="unfinished"></translation>
+        <translation>- danuxi: por la imagen de la ventana de inicio y el fondo de mesa danuxi1</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/aboutpokerth/aboutpokerthimpl.cpp" line="70"/>
         <source>- heyn: for moderating forum and organise bugtracker and feature requests</source>
-        <translation type="unfinished"></translation>
+        <translation>- heyn: por moderar el foro y organizar el seguimiento de errores y sugerencias</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/aboutpokerth/aboutpokerthimpl.cpp" line="71"/>
         <source>- texas_outlaw: for new table sounds</source>
-        <translation type="unfinished"></translation>
+        <translation>- texas_outlaw: por nuevos sonidos para las mesas</translation>
     </message>
 </context>
 <context>
@@ -6502,7 +6506,7 @@ p, li { white-space: pre-wrap; }
         <location filename="../src/gui/qt/settingsdialog.ui" line="125"/>
         <location filename="../src/gui/qt/settingsdialog.ui" line="3635"/>
         <source>Factory Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Configuración original</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="278"/>
@@ -6670,13 +6674,13 @@ p, li { white-space: pre-wrap; }
         <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="3685"/>
         <location filename="../src/gui/qt/settingsdialog.ui" line="3685"/>
         <source>Reset all settings to default ...</source>
-        <translation type="unfinished"></translation>
+        <translation>Reiniciar todos los parámetros...</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="3732"/>
         <location filename="../src/gui/qt/settingsdialog.ui" line="3732"/>
         <source>Note: You can not reset all settings to default during a running game!</source>
-        <translation type="unfinished"></translation>
+        <translation>Nota: no es posible reiniciar los parámetros durante una partida.</translation>
     </message>
     <message>
         <source>Export as html</source>
@@ -7085,18 +7089,20 @@ Introduzca una dirección válida.</translation>
         <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="533"/>
         <source>The opponent names are not unique.
 Please choose different names for each Opponent!</source>
-        <translation type="unfinished"></translation>
+        <translation>Los nombres de los oponentes no son únicos.
+Introduzca un nombre distinto para cada oponente.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="901"/>
         <source>Settings Information</source>
-        <translation type="unfinished"></translation>
+        <translation>Información de configuración</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="902"/>
         <source>You have changed the log file directory.
 Please restart PokerTH to use the new directory for the log files!</source>
-        <translation type="unfinished"></translation>
+        <translation>Ha cambiado el directorio del archivo de registro.
+Reinicie PokerTH para comenzar a utilizar el nuevo directorio.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="1061"/>
@@ -7252,13 +7258,14 @@ El estilo no aparecerá en la lista.</translation>
     <message>
         <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="1415"/>
         <source>PokerTH - Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>PokerTH - Configuración</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="1416"/>
         <source>Attention: this will delete all your personal settings and close PokerTH!
 Do you really want to reset factory settings?</source>
-        <translation type="unfinished"></translation>
+        <translation>Atención: esto eliminará todos sus cambios en la configuración y cerrará PokerTH.
+¿Seguro que quiere volver a la configuración original?</translation>
     </message>
     <message>
         <source>Do you really want to delete the seleted log file?</source>

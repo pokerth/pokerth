@@ -971,7 +971,11 @@ p, li { white-space: pre-wrap; }
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
 &lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
 </context>
 <context>
@@ -986,43 +990,43 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>- Wikimedia Commons: for different popular avatar picture resources</source>
-        <translation type="unfinished"></translation>
+        <translation>- Wikimedia Commons: jako zdroji různých oblíbených uživatelských ikon</translation>
     </message>
     <message>
         <source>- Benedikt, Erhard, Felix, Florian, Linus, Lothar, Steffi, Caro: for people avatar pictures</source>
-        <translation type="unfinished"></translation>
+        <translation>- Benedikt, Erhard, Felix, Florian, Linus, Lothar, Steffi, Caro: za obrázky lidských avatarů</translation>
     </message>
     <message>
         <source>- ZeiZei: for misc avatar pictures</source>
-        <translation type="unfinished"></translation>
+        <translation>- ZeiZei: za obrázky ostatních avatarů</translation>
     </message>
     <message>
         <source>- kde-look.org: for different gpl licensed sounds</source>
-        <translation type="unfinished"></translation>
+        <translation>- kde-look.org: za ruzné zvuky licencované pod GPL</translation>
     </message>
     <message>
         <source>- doc_dos: for self recorded chip sounds</source>
-        <translation type="unfinished"></translation>
+        <translation>- doc_dos: za zvuky žetonů</translation>
     </message>
     <message>
         <source>- thiger, dunkanx, BerndA, coldz, drull: for different patches</source>
-        <translation type="unfinished"></translation>
+        <translation>- thiger, dunkanx, BerndA, coldz, drull: za různé opravy</translation>
     </message>
     <message>
         <source>- kraut: for internet-game-server hosting and administration</source>
-        <translation type="unfinished"></translation>
+        <translation>- kraut: za správu a hosting intenetového herního serveru</translation>
     </message>
     <message>
         <source>- danuxi: for startwindow background gfx and danuxi1 table background</source>
-        <translation type="unfinished"></translation>
+        <translation>- danuxi: za grafiku pozadí úvodního okna a pozadí tabulky danuxi1</translation>
     </message>
     <message>
         <source>- heyn: for moderating forum and organise bugtracker and feature requests</source>
-        <translation type="unfinished"></translation>
+        <translation>- heyn: za moderování fóra a organizaci bugtrackeru a seznamu požadovaných vlastností</translation>
     </message>
     <message>
         <source>- texas_outlaw: for new table sounds</source>
-        <translation type="unfinished"></translation>
+        <translation>- texas_outlaw: za nové zvuky stolů</translation>
     </message>
 </context>
 <context>
@@ -4039,15 +4043,15 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Factory Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Tovární nastavení</translation>
     </message>
     <message>
         <source>Reset all settings to default ...</source>
-        <translation type="unfinished"></translation>
+        <translation>Obnovit všechna nastavení ...</translation>
     </message>
     <message>
         <source>Note: You can not reset all settings to default during a running game!</source>
-        <translation type="unfinished"></translation>
+        <translation>Pozn.: Při spuštěné hře nelze obnovit všechna nastavení!</translation>
     </message>
 </context>
 <context>
@@ -4354,25 +4358,28 @@ Styl nebude umístěn do seznamu!</translation>
     <message>
         <source>The opponent names are not unique.
 Please choose different names for each Opponent!</source>
-        <translation type="unfinished"></translation>
+        <translation>Jména protihráčů se shodují.
+Zvolte prosím pro každého jiné jméno!</translation>
     </message>
     <message>
         <source>Settings Information</source>
-        <translation type="unfinished"></translation>
+        <translation>Informace o nastavení</translation>
     </message>
     <message>
         <source>You have changed the log file directory.
 Please restart PokerTH to use the new directory for the log files!</source>
-        <translation type="unfinished"></translation>
+        <translation>Změnili jste adresář pro soubor záznamu.
+Aby jej bylo možno využívat, musíte restartovat PokerTH!</translation>
     </message>
     <message>
         <source>PokerTH - Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>PokerTH - Nastavení</translation>
     </message>
     <message>
         <source>Attention: this will delete all your personal settings and close PokerTH!
 Do you really want to reset factory settings?</source>
-        <translation type="unfinished"></translation>
+        <translation>POZOR tímto smažete všechna vaše nastavení a ukončíte PokerTH!
+Opravdu se chcete vrátit do továrního nastavení?</translation>
     </message>
 </context>
 <context>

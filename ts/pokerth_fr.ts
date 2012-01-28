@@ -398,7 +398,20 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:8pt;&quot;&gt;&lt;/p&gt;
 &lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:8pt;&quot;&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;© 2006-2011, Felix Hammer, Florian Thauer, Lothar May&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;table border=&quot;0&quot; style=&quot;-qt-table-type: root; margin-top:4px; margin-bottom:4px; margin-left:4px; margin-right:4px;&quot;&gt;
+&lt;tr&gt;
+&lt;td style=&quot;border: none;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;- Moteur du célèbre jeu de poker &amp;quot;Texas Hold&apos;em&amp;quot; Poker&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;- Jeu solo avec pas moins de 9 joueurs virtuels gérés par l&apos;ordinateur&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;- Jeu multi-joueurs en réseau local&lt;br /&gt;- Parties multi-joueurs sur Internet&lt;br /&gt;- Interface graphique modifiable avec des styles disponibles dans la galerie du site&lt;br /&gt;- &lt;/span&gt;&lt;a href=&quot;http://online-ranking.pokerth.net&quot;&gt;&lt;span style=&quot; font-size:8pt; text-decoration: underline; color:#0057ae;&quot;&gt;Un site&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;  qui recense tous les résultats des classements dans différents tableaux&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:8pt;&quot;&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:8pt;&quot;&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:8pt;&quot;&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;© 2006-2011, Felix Hammer, Florian Thauer, Lothar May&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/aboutpokerth.ui" line="130"/>
@@ -425,7 +438,23 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;          - basic architecture, network development, windows package, MacOS package&lt;/span&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;     Oskar Lindqvist (&lt;/span&gt;&lt;a href=&quot;mailto:tranberry@pokerth.net&quot;&gt;&lt;span style=&quot; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;tranberry@pokerth.net&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;)&lt;/span&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;          - initial gui graphics design&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:8pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Sans Serif&apos;; font-weight:600;&quot;&gt;Page du projet: &lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Sans Serif&apos;;&quot;&gt;     &lt;/span&gt;&lt;a href=&quot;http://www.pokerth.net&quot;&gt;&lt;span style=&quot; font-family:&apos;Sans Serif&apos;; text-decoration: underline; color:#0000ff;&quot;&gt;http://www.pokerth.net&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;Sans Serif&apos;;&quot;&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Sans Serif&apos;; font-weight:600;&quot;&gt;IRC: &lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Sans Serif&apos;;&quot;&gt;     #pokerth (irc.freenode.net)&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;Sans Serif&apos;;&quot;&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Sans Serif&apos;; font-weight:600;&quot;&gt;Auteurs: &lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Sans Serif&apos;;&quot;&gt;     Felix Hammer (&lt;/span&gt;&lt;a href=&quot;mailto:doitux@pokerth.net&quot;&gt;&lt;span style=&quot; font-family:&apos;Sans Serif&apos;; text-decoration: underline; color:#0000ff;&quot;&gt;doitux@pokerth.net&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; font-family:&apos;Sans Serif&apos;;&quot;&gt;)&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Sans Serif&apos;;&quot;&gt;          - idée initiale, architecture de base, implémentation de l&apos;interface graphique, édition des graphismes de l&apos;interface graphique, paquets Linux&lt;/span&gt;&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Sans Serif&apos;;&quot;&gt;     Florian Thauer (&lt;/span&gt;&lt;a href=&quot;mailto:floty@pokerth.net&quot;&gt;&lt;span style=&quot; font-family:&apos;Sans Serif&apos;; text-decoration: underline; color:#0000ff;&quot;&gt;floty@pokerth.net&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; font-family:&apos;Sans Serif&apos;;&quot;&gt;)&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Sans Serif&apos;;&quot;&gt;          - idée initiale, architecture de base, développement du moteur&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Sans Serif&apos;;&quot;&gt;     Lothar May (&lt;/span&gt;&lt;a href=&quot;mailto:lotodore@pokerth.net&quot;&gt;&lt;span style=&quot; font-family:&apos;Sans Serif&apos;; text-decoration: underline; color:#0000ff;&quot;&gt;lotodore@pokerth.net&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; font-family:&apos;Sans Serif&apos;;&quot;&gt;)&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Sans Serif&apos;;&quot;&gt;          - architecture de base, développement réseau, paquet Windows, paquet MacOS &lt;/span&gt;&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Sans Serif&apos;;&quot;&gt;     Oskar Lindqvist (&lt;/span&gt;&lt;a href=&quot;mailto:tranberry@pokerth.net&quot;&gt;&lt;span style=&quot; font-family:&apos;Sans Serif&apos;; text-decoration: underline; color:#0000ff;&quot;&gt;tranberry@pokerth.net&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; font-family:&apos;Sans Serif&apos;;&quot;&gt;)&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Sans Serif&apos;;&quot;&gt;          - design initial du graphisme de l&apos;interface graphique&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/aboutpokerth.ui" line="174"/>
@@ -438,7 +467,17 @@ p, li { white-space: pre-wrap; }
 &lt;tr&gt;
 &lt;td style=&quot;border: none;&quot;&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;translator name - mail address&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; &quot;&gt;&lt;b&gt;Traducteur actuel pour la version française : &lt;/b&gt;&lt;br&gt;
+Sébastien Kerguen - &lt;a href=&quot;mailto: sebastienkerguen@free.fr&quot;&gt;&lt;span style=&quot;  text-decoration: underline; color:#0000ff;&quot;&gt;sebastienkerguen@free.fr&lt;/span&gt;&lt;/a&gt;&lt;/span&gt;&lt;/p&gt;&lt;br&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; &quot;&gt;&lt;b&gt;Ancien traducteur : &lt;/b&gt;&lt;br&gt;
+Guillaume Delacour - &lt;a href=&quot;mailto: gui@iroqwa.org&quot;&gt;&lt;span style=&quot;  text-decoration: underline; color:#0000ff;&quot;&gt;gui@iroqwa.org&lt;/span&gt;&lt;/a&gt;&lt;/span&gt;&lt;/p&gt;
+&lt;br&gt;&lt;br&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; &quot;&gt;Si vous constatez des erreurs ou omissions dans cette traduction, merci de me contacter pour m&apos;en faire part.&lt;/span&gt;&lt;/p&gt;
+&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/aboutpokerth.ui" line="204"/>
@@ -447,7 +486,11 @@ p, li { white-space: pre-wrap; }
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
 &lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gui_800x480/aboutpokerth_800x480.ui" line="204"/>
@@ -478,7 +521,30 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;    - for moderating forum and organise bugtracker and feature requests&lt;/span&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt; font-weight:600;&quot;&gt;texas_outlaw&lt;/span&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;    - for new table sounds&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:8pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://commons.wikimedia.org/wiki/Main_Page&quot;&gt;&lt;span style=&quot; font-family:&apos;Sans Serif&apos;; font-weight:600; text-decoration: underline; color:#0000ff;&quot;&gt;Wikimedia Commons&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Sans Serif&apos;; font-weight:600;&quot;&gt;&lt;/span&gt;&lt;span style=&quot; font-family:&apos;Sans Serif&apos;;&quot;&gt;     - pour leurs différents avatars populaires&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Sans Serif&apos;; font-weight:600;&quot;&gt;Benedikt, Erhard, Felix, Florian, Linus, Lothar, Steffi, Caro&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Sans Serif&apos;;&quot;&gt;     - pour les avatars des joueurs&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Sans Serif&apos;; font-weight:600;&quot;&gt;ZeiZei&lt;/span&gt;&lt;span style=&quot; font-family:&apos;Sans Serif&apos;;&quot;&gt; &lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Sans Serif&apos;;&quot;&gt;    - pour divers avatars&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://kde-look.org/&quot;&gt;&lt;span style=&quot; font-family:&apos;Sans Serif&apos;; font-weight:600; text-decoration: underline; color:#0000ff;&quot;&gt;http://kde-look.org/&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Sans Serif&apos;;&quot;&gt;     - pour les différents sons sous licence gpl&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Sans Serif&apos;; font-weight:600;&quot;&gt;doc_dos&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Sans Serif&apos;;&quot;&gt;     - pour les sons enregistrés soit-même&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Sans Serif&apos;; font-weight:600;&quot;&gt;thiger, dunkanx, BerndA, coldz&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Sans Serif&apos;;&quot;&gt;     - pour leurs différents patches&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Sans Serif&apos;; font-weight:600;&quot;&gt;kraut&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Sans Serif&apos;;&quot;&gt;     - pour l&apos;hébergement du serveur de parties internet et l&apos;administration&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Sans Serif&apos;; font-weight:600;&quot;&gt;danuxi&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Sans Serif&apos;;&quot;&gt;    - pour le fond de l&apos;écran de démarrage gfx et le fond de la table danuxi1&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Sans Serif&apos;; font-weight:600;&quot;&gt;heyn&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Sans Serif&apos;;&quot;&gt;    - pour la modération sur le forum et l&apos;organisation du système de suivi des bogues et des fonctionnalités&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt; font-weight:600;&quot;&gt;texas_outlaw&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;    - pour les nouveaux effets sonores&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
@@ -2024,52 +2090,52 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/gui/qt/aboutpokerth/aboutpokerthimpl.cpp" line="62"/>
         <source>- Wikimedia Commons: for different popular avatar picture resources</source>
-        <translation type="unfinished"></translation>
+        <translation>- Wikimedia Commons : pour leurs différents avatars populaires</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/aboutpokerth/aboutpokerthimpl.cpp" line="63"/>
         <source>- Benedikt, Erhard, Felix, Florian, Linus, Lothar, Steffi, Caro: for people avatar pictures</source>
-        <translation type="unfinished"></translation>
+        <translation>- Benedikt, Erhard, Felix, Florian, Linus, Lothar, Steffi, Caro : pour les avatars/visages de joueurs</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/aboutpokerth/aboutpokerthimpl.cpp" line="64"/>
         <source>- ZeiZei: for misc avatar pictures</source>
-        <translation type="unfinished"></translation>
+        <translation>- ZeiZei : pour divers avatars</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/aboutpokerth/aboutpokerthimpl.cpp" line="65"/>
         <source>- kde-look.org: for different gpl licensed sounds</source>
-        <translation type="unfinished"></translation>
+        <translation>- http://kde-look.org : pour les différents sons sous licence gpl</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/aboutpokerth/aboutpokerthimpl.cpp" line="66"/>
         <source>- doc_dos: for self recorded chip sounds</source>
-        <translation type="unfinished"></translation>
+        <translation>- doc_dos : pour les sons qu&apos;il a enregistrés lui-même</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/aboutpokerth/aboutpokerthimpl.cpp" line="67"/>
         <source>- thiger, dunkanx, BerndA, coldz, drull: for different patches</source>
-        <translation type="unfinished"></translation>
+        <translation>- thiger, dunkanx, BerndA, coldz : pour leurs différents patches </translation>
     </message>
     <message>
         <location filename="../src/gui/qt/aboutpokerth/aboutpokerthimpl.cpp" line="68"/>
         <source>- kraut: for internet-game-server hosting and administration</source>
-        <translation type="unfinished"></translation>
+        <translation>- kraut : pour l&apos;hébergement du serveur de parties internet et l&apos;administration</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/aboutpokerth/aboutpokerthimpl.cpp" line="69"/>
         <source>- danuxi: for startwindow background gfx and danuxi1 table background</source>
-        <translation type="unfinished"></translation>
+        <translation>- danuxi : pour le fond de l&apos;écran de démarrage gfx et le fond de la table danuxi1</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/aboutpokerth/aboutpokerthimpl.cpp" line="70"/>
         <source>- heyn: for moderating forum and organise bugtracker and feature requests</source>
-        <translation type="unfinished"></translation>
+        <translation>- heyn : pour la modération sur le forum et l&apos;organisation du système de suivi des bogues et des fonctionnalités</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/aboutpokerth/aboutpokerthimpl.cpp" line="71"/>
         <source>- texas_outlaw: for new table sounds</source>
-        <translation type="unfinished"></translation>
+        <translation>- texas_outlaw: pour les nouveaux effets sonores</translation>
     </message>
 </context>
 <context>
@@ -4467,13 +4533,13 @@ Vous ne pourrez plus discuter ou recevoir d&apos;invitations de jeu avec ce joue
         <location filename="../src/gui/qt/gametable.ui" line="4515"/>
         <location filename="../src/gui/qt/gui_800x480/gametable_800x480.ui" line="4515"/>
         <source>Create Network Game ...</source>
-        <translation>Créer une partie en réseau ...</translation>
+        <translation>Créer une partie en réseau</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gametable.ui" line="4523"/>
         <location filename="../src/gui/qt/gui_800x480/gametable_800x480.ui" line="4523"/>
         <source>Join Network Game ...</source>
-        <translation>Rejoindre une partie en réseau ...</translation>
+        <translation>Rejoindre une partie en réseau</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gametable.ui" line="4535"/>
@@ -4503,7 +4569,7 @@ Vous ne pourrez plus discuter ou recevoir d&apos;invitations de jeu avec ce joue
         <location filename="../src/gui/qt/gametable.ui" line="4138"/>
         <location filename="../src/gui/qt/gui_800x480/gametable_800x480.ui" line="4138"/>
         <source>Log</source>
-        <translation type="unfinished">Journal (log)</translation>
+        <translation>Journal (log)</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gametable.ui" line="4489"/>
@@ -4543,7 +4609,7 @@ Vous ne pourrez plus discuter ou recevoir d&apos;invitations de jeu avec ce joue
         <location filename="../src/gui/qt/gametable.ui" line="4565"/>
         <location filename="../src/gui/qt/gui_800x480/gametable_800x480.ui" line="4565"/>
         <source>Show/Hide Log Window</source>
-        <translation type="unfinished">Montrer/Cacher l&apos;onglet de log</translation>
+        <translation>Montrer/Cacher l&apos;onglet de log</translation>
     </message>
     <message>
         <source>⌘L</source>
@@ -5856,7 +5922,7 @@ p, li { white-space: pre-wrap; }
         <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="3482"/>
         <location filename="../src/gui/qt/settingsdialog.ui" line="3482"/>
         <source>Log File Directory: </source>
-        <translation type="unfinished">Chemin des fichiers log : </translation>
+        <translation>Chemin des fichiers log : </translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="116"/>
@@ -5864,7 +5930,7 @@ p, li { white-space: pre-wrap; }
         <location filename="../src/gui/qt/settingsdialog.ui" line="116"/>
         <location filename="../src/gui/qt/settingsdialog.ui" line="3368"/>
         <source>Log Messages</source>
-        <translation type="unfinished">Journalisation (log)</translation>
+        <translation>Journalisation (log)</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="832"/>
@@ -5964,7 +6030,7 @@ p, li { white-space: pre-wrap; }
         <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="3438"/>
         <location filename="../src/gui/qt/settingsdialog.ui" line="3438"/>
         <source>Write log after every: </source>
-        <translation type="unfinished">Écrire dans le log après chaque : </translation>
+        <translation>Écrire dans le log après chaque : </translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="214"/>
@@ -6394,7 +6460,7 @@ p, li { white-space: pre-wrap; }
         <location filename="../src/gui/qt/settingsdialog.ui" line="125"/>
         <location filename="../src/gui/qt/settingsdialog.ui" line="3635"/>
         <source>Factory Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Paramètres par défaut</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="278"/>
@@ -6563,13 +6629,13 @@ p, li { white-space: pre-wrap; }
         <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="3685"/>
         <location filename="../src/gui/qt/settingsdialog.ui" line="3685"/>
         <source>Reset all settings to default ...</source>
-        <translation type="unfinished"></translation>
+        <translation>Réinitialiser les paramètres à leurs valeurs d&apos;origine...</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="3732"/>
         <location filename="../src/gui/qt/settingsdialog.ui" line="3732"/>
         <source>Note: You can not reset all settings to default during a running game!</source>
-        <translation type="unfinished"></translation>
+        <translation>Note : Vous ne pouvez pas réinitialiser les paramètres pendant une partie en cours !</translation>
     </message>
     <message>
         <source>Export as html</source>
@@ -6597,7 +6663,7 @@ p, li { white-space: pre-wrap; }
         <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="3546"/>
         <location filename="../src/gui/qt/settingsdialog.ui" line="3546"/>
         <source>Log File</source>
-        <translation type="unfinished">Fichier de log</translation>
+        <translation>Fichier de log</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="80"/>
@@ -6609,7 +6675,7 @@ p, li { white-space: pre-wrap; }
         <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="89"/>
         <location filename="../src/gui/qt/settingsdialog.ui" line="89"/>
         <source>Network Game</source>
-        <translation type="unfinished">Partie en réseau LAN</translation>
+        <translation>Partie en réseau</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="98"/>
@@ -6871,7 +6937,7 @@ Veuillez entrer une image valide !</translation>
         <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="907"/>
         <source>The log file directory doesn&apos;t exist.
 Please select an valid directory!</source>
-        <translation type="unfinished">Le répertoire des fichiers log n&apos;existe pas.
+        <translation>Le répertoire des fichiers log n&apos;existe pas.
 Veuillez sélectionner un répertoire valide !</translation>
     </message>
     <message>
@@ -6970,18 +7036,20 @@ Veuillez entrer une adresse de liste de serveurs valide !</translation>
         <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="533"/>
         <source>The opponent names are not unique.
 Please choose different names for each Opponent!</source>
-        <translation type="unfinished"></translation>
+        <translation>Les noms d&apos;adversaires sont indentiques.
+Choisissez des noms différents pour chaque adversaire !</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="901"/>
         <source>Settings Information</source>
-        <translation type="unfinished"></translation>
+        <translation>Information sur les paramètres</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="902"/>
         <source>You have changed the log file directory.
 Please restart PokerTH to use the new directory for the log files!</source>
-        <translation type="unfinished"></translation>
+        <translation>Vous avez changé le répertoire pour les fichiers de journalisation (logs).
+Relancez PokerTH pour prendre en compte ce changement.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="1061"/>
@@ -7107,12 +7175,12 @@ Le style ne sera pas placé dans la liste !</translation>
     <message>
         <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="1337"/>
         <source>PokerTH - Log file</source>
-        <translation type="unfinished">PokerTH - Fichier log</translation>
+        <translation>PokerTH - Fichier log</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="1338"/>
         <source>Do you really want to delete the selected log file?</source>
-        <translation type="unfinished">Voulez-vous vraiment supprimer ce fichier de log ?</translation>
+        <translation>Voulez-vous vraiment supprimer ce fichier de log ?</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="1358"/>
@@ -7137,13 +7205,14 @@ Le style ne sera pas placé dans la liste !</translation>
     <message>
         <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="1415"/>
         <source>PokerTH - Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>PokerTH - Paramètres</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="1416"/>
         <source>Attention: this will delete all your personal settings and close PokerTH!
 Do you really want to reset factory settings?</source>
-        <translation type="unfinished"></translation>
+        <translation>Attention : ceci va supprimer tous vos paramètres personnels et fermer PokerTH !
+Voulez-vous vraiment réinitialiser les paramètres à leurs valeurs d&apos;origine ?</translation>
     </message>
     <message>
         <source>Do you really want to delete the seleted log file?</source>
@@ -7152,7 +7221,7 @@ Do you really want to reset factory settings?</source>
     <message>
         <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="1390"/>
         <source>Save PokerTH log file</source>
-        <translation type="unfinished">Enregistrer le fichier de log</translation>
+        <translation>Enregistrer le fichier de log</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="1392"/>
@@ -7288,7 +7357,7 @@ Do you really want to reset factory settings?</source>
         <location filename="../src/gui/qt/gui_800x480/startwindow_800x480.ui" line="210"/>
         <location filename="../src/gui/qt/startwindow.ui" line="210"/>
         <source>Network Game</source>
-        <translation type="unfinished">Partie en réseau LAN</translation>
+        <translation>Partie en réseau</translation>
     </message>
     <message>
         <source>Settings</source>

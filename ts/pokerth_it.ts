@@ -1616,7 +1616,7 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:8pt;&quot;&gt;&lt;/p&gt;
 &lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:8pt;&quot;&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;© 2006-2011, Felix Hammer, Florian Thauer, Lothar May&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished">&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+        <translation>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
@@ -1662,7 +1662,7 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;          - basic architecture, network development, windows package, MacOS package&lt;/span&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;     Oskar Lindqvist (&lt;/span&gt;&lt;a href=&quot;mailto:tranberry@pokerth.net&quot;&gt;&lt;span style=&quot; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;tranberry@pokerth.net&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;)&lt;/span&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;          - initial gui graphics design&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished">&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+        <translation>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
@@ -1718,7 +1718,11 @@ p, li { white-space: pre-wrap; }
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
 &lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gui_800x480/aboutpokerth_800x480.ui" line="204"/>
@@ -2101,52 +2105,52 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/gui/qt/aboutpokerth/aboutpokerthimpl.cpp" line="62"/>
         <source>- Wikimedia Commons: for different popular avatar picture resources</source>
-        <translation type="unfinished"></translation>
+        <translation>- Wikimedia Commons: per le diverse gallerie di avatar</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/aboutpokerth/aboutpokerthimpl.cpp" line="63"/>
         <source>- Benedikt, Erhard, Felix, Florian, Linus, Lothar, Steffi, Caro: for people avatar pictures</source>
-        <translation type="unfinished"></translation>
+        <translation>- Benedikt, Erhard, Felix, Florian, Linus, Lothar, Steffi, Caro: per gli avatar raffiguranti persone</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/aboutpokerth/aboutpokerthimpl.cpp" line="64"/>
         <source>- ZeiZei: for misc avatar pictures</source>
-        <translation type="unfinished"></translation>
+        <translation>- ZeiZei: per gli avatar vari</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/aboutpokerth/aboutpokerthimpl.cpp" line="65"/>
         <source>- kde-look.org: for different gpl licensed sounds</source>
-        <translation type="unfinished"></translation>
+        <translation>- kde-look.org: per diversi suoni rilasciati sotto licenza GPL</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/aboutpokerth/aboutpokerthimpl.cpp" line="66"/>
         <source>- doc_dos: for self recorded chip sounds</source>
-        <translation type="unfinished"></translation>
+        <translation>- doc_dos: per la registrazione del suono delle fiches</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/aboutpokerth/aboutpokerthimpl.cpp" line="67"/>
         <source>- thiger, dunkanx, BerndA, coldz, drull: for different patches</source>
-        <translation type="unfinished"></translation>
+        <translation>- thiger, dunkanx, BerndA, coldz, drull: per diverse patch</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/aboutpokerth/aboutpokerthimpl.cpp" line="68"/>
         <source>- kraut: for internet-game-server hosting and administration</source>
-        <translation type="unfinished"></translation>
+        <translation>- kraut: per l&apos;hosting e l&apos;amministrazione del server per il gioco su internet</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/aboutpokerth/aboutpokerthimpl.cpp" line="69"/>
         <source>- danuxi: for startwindow background gfx and danuxi1 table background</source>
-        <translation type="unfinished"></translation>
+        <translation>- danuxi: per gli sfondi della schermata di avvio e dello stile danuxi1</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/aboutpokerth/aboutpokerthimpl.cpp" line="70"/>
         <source>- heyn: for moderating forum and organise bugtracker and feature requests</source>
-        <translation type="unfinished"></translation>
+        <translation>- heyn: per il lavoro di moderazione sul forum, l&apos;organizzazione del bugtracker e la gestione delle richieste di nuove feature</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/aboutpokerth/aboutpokerthimpl.cpp" line="71"/>
         <source>- texas_outlaw: for new table sounds</source>
-        <translation type="unfinished"></translation>
+        <translation>- texas_outlaw: per i nuovi suoni del tavolo di gioco</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/aboutpokerth/aboutpokerthimpl.cpp" line="57"/>
@@ -2907,7 +2911,7 @@ p, li { white-space: pre-wrap; }
 &lt;tr&gt;
 &lt;td style=&quot;border: none;&quot;&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://online-ranking.pokerth.net&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Click here to view the online rankings&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished">&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+        <translation>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body&gt;
@@ -3222,1217 +3226,1217 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1739"/>
         <source>Afghanistan</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1740"/>
         <source>ALand Islands</source>
-        <translation type="unfinished"></translation>
+        <translation>Isole ALand</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1741"/>
         <source>Albania</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1742"/>
         <source>Algeria</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1743"/>
         <source>American Samoa</source>
-        <translation type="unfinished"></translation>
+        <translation>Samoa Americane</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1744"/>
         <source>Andorra</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1745"/>
         <source>Angola</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1746"/>
         <source>Anguilla</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1747"/>
         <source>Antarctica</source>
-        <translation type="unfinished"></translation>
+        <translation>Antartide</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1748"/>
         <source>Antigua And Barbuda</source>
-        <translation type="unfinished"></translation>
+        <translation>Antigua e Barbuda</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1749"/>
         <source>Argentina</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1750"/>
         <source>Armenia</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1751"/>
         <source>Aruba</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1752"/>
         <source>Australia</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1753"/>
         <source>Austria</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1754"/>
         <source>Azerbaijan</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1755"/>
         <source>Bahamas</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1756"/>
         <source>Bahrain</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1757"/>
         <source>Bangladesh</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1758"/>
         <source>Barbados</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1759"/>
         <source>Belarus</source>
-        <translation type="unfinished"></translation>
+        <translation>Bielorussia</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1760"/>
         <source>Belgium</source>
-        <translation type="unfinished"></translation>
+        <translation>Belgio</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1761"/>
         <source>Belize</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1762"/>
         <source>Benin</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1763"/>
         <source>Bermuda</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1764"/>
         <source>Bhutan</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1765"/>
         <source>Bolivia</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1766"/>
         <source>Bosnia And Herzegovina</source>
-        <translation type="unfinished"></translation>
+        <translation>Bosnia Herzegovina</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1767"/>
         <source>Botswana</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1768"/>
         <source>Bouvet Island</source>
-        <translation type="unfinished"></translation>
+        <translation>Isola Bouvet</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1769"/>
         <source>Brazil</source>
-        <translation type="unfinished"></translation>
+        <translation>Brasile</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1770"/>
         <source>British Indian Ocean Territory</source>
-        <translation type="unfinished"></translation>
+        <translation>Territorio britannico dell&apos;oceano Indiano</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1771"/>
         <source>Brunei Darussalam</source>
-        <translation type="unfinished"></translation>
+        <translation>Sultanato del Brunei</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1772"/>
         <source>Bulgaria</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1773"/>
         <source>Burkina Faso</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1774"/>
         <source>Burundi</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1775"/>
         <source>Cambodia</source>
-        <translation type="unfinished"></translation>
+        <translation>Cambogia</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1776"/>
         <source>Cameroon</source>
-        <translation type="unfinished"></translation>
+        <translation>Camerun</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1777"/>
         <source>Canada</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1778"/>
         <source>Cape Verde</source>
-        <translation type="unfinished"></translation>
+        <translation>Capo Verde</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1779"/>
         <source>Cayman Islands</source>
-        <translation type="unfinished"></translation>
+        <translation>Isole Cayman</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1780"/>
         <source>Central African Republic</source>
-        <translation type="unfinished"></translation>
+        <translation>Repubblica Centrafricana</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1781"/>
         <source>Chad</source>
-        <translation type="unfinished"></translation>
+        <translation>Ciad</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1782"/>
         <source>Chile</source>
-        <translation type="unfinished"></translation>
+        <translation>Cile</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1783"/>
         <source>China</source>
-        <translation type="unfinished"></translation>
+        <translation>Cina</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1784"/>
         <source>Christmas Island</source>
-        <translation type="unfinished"></translation>
+        <translation>Isola di Natale</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1785"/>
         <source>Cocos (Keeling) Islands</source>
-        <translation type="unfinished"></translation>
+        <translation>Isole Cocos e Keeling</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1786"/>
         <source>Colombia</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1787"/>
         <source>Comoros</source>
-        <translation type="unfinished"></translation>
+        <translation>Comore</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1788"/>
         <source>Congo</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1789"/>
         <source>Congo, The Democratic Republic Of The</source>
-        <translation type="unfinished"></translation>
+        <translation>Repubblica Democratica del Congo</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1790"/>
         <source>Cook Islands</source>
-        <translation type="unfinished"></translation>
+        <translation>Isole Cook</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1791"/>
         <source>Costa Rica</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1792"/>
         <source>Cote D&apos;Ivoire</source>
-        <translation type="unfinished"></translation>
+        <translation>Costa D&apos;Avorio</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1793"/>
         <source>Croatia</source>
-        <translation type="unfinished"></translation>
+        <translation>Croazia</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1794"/>
         <source>Cuba</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1795"/>
         <source>Cyprus</source>
-        <translation type="unfinished"></translation>
+        <translation>Cipro</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1796"/>
         <source>Czech Republic</source>
-        <translation type="unfinished"></translation>
+        <translation>Repubblica Ceca</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1797"/>
         <source>Denmark</source>
-        <translation type="unfinished"></translation>
+        <translation>Danimarca</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1798"/>
         <source>Djibouti</source>
-        <translation type="unfinished"></translation>
+        <translation>Gibuti</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1799"/>
         <source>Dominica</source>
-        <translation type="unfinished"></translation>
+        <translation>Dominica</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1800"/>
         <source>Dominican Republic</source>
-        <translation type="unfinished"></translation>
+        <translation>Repubblica Dominicana</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1801"/>
         <source>Ecuador</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1802"/>
         <source>Egypt</source>
-        <translation type="unfinished"></translation>
+        <translation>Egitto</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1803"/>
         <source>El Salvador</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1804"/>
         <source>Equatorial Guinea</source>
-        <translation type="unfinished"></translation>
+        <translation>Guinea Equatoriale</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1805"/>
         <source>Eritrea</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1806"/>
         <source>Estonia</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1807"/>
         <source>Ethiopia</source>
-        <translation type="unfinished"></translation>
+        <translation>Etiopia</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1808"/>
         <source>Falkland Islands (Malvinas)</source>
-        <translation type="unfinished"></translation>
+        <translation>Isole Falkland (Malvine)</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1809"/>
         <source>Faroe Islands</source>
-        <translation type="unfinished"></translation>
+        <translation>Isole Faroe</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1810"/>
         <source>Fiji</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1811"/>
         <source>Finland</source>
-        <translation type="unfinished"></translation>
+        <translation>Finlandia</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1812"/>
         <source>France</source>
-        <translation type="unfinished"></translation>
+        <translation>Francia</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1813"/>
         <source>French Guiana</source>
-        <translation type="unfinished"></translation>
+        <translation>Guiana Francese</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1814"/>
         <source>French Polynesia</source>
-        <translation type="unfinished"></translation>
+        <translation>Polinesia Francese</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1815"/>
         <source>French Southern Territories</source>
-        <translation type="unfinished"></translation>
+        <translation>Territori Francesi del Sud</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1816"/>
         <source>Gabon</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1817"/>
         <source>Gambia</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1818"/>
         <source>Georgia</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1819"/>
         <source>Germany</source>
-        <translation type="unfinished"></translation>
+        <translation>Germania</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1820"/>
         <source>Ghana</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1821"/>
         <source>Gibraltar</source>
-        <translation type="unfinished"></translation>
+        <translation>Gibilterra</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1822"/>
         <source>Greece</source>
-        <translation type="unfinished"></translation>
+        <translation>Grecia</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1823"/>
         <source>Greenland</source>
-        <translation type="unfinished"></translation>
+        <translation>Groenlandia</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1824"/>
         <source>Grenada</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1825"/>
         <source>Guadeloupe</source>
-        <translation type="unfinished"></translation>
+        <translation>Guadalupa</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1826"/>
         <source>Guam</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1827"/>
         <source>Guatemala</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1828"/>
         <source>Guernsey</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1829"/>
         <source>Guinea</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1830"/>
         <source>Guinea-Bissau</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1831"/>
         <source>Guyana</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1832"/>
         <source>Haiti</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1833"/>
         <source>Heard Island And Mcdonald Islands</source>
-        <translation type="unfinished"></translation>
+        <translation>Isole Heard e McDonald</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1834"/>
         <source>Holy See (Vatican City State)</source>
-        <translation type="unfinished"></translation>
+        <translation>Santa Sede (Città Del Vaticano)</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1835"/>
         <source>Honduras</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1836"/>
         <source>Hong Kong</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1837"/>
         <source>Hungary</source>
-        <translation type="unfinished"></translation>
+        <translation>Ungheria</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1838"/>
         <source>Iceland</source>
-        <translation type="unfinished"></translation>
+        <translation>Islanda</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1839"/>
         <source>India</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1840"/>
         <source>Indonesia</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1841"/>
         <source>Iran, Islamic Republic Of</source>
-        <translation type="unfinished"></translation>
+        <translation>Iran</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1842"/>
         <source>Iraq</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1843"/>
         <source>Ireland</source>
-        <translation type="unfinished"></translation>
+        <translation>Irlanda</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1844"/>
         <source>Isle Of Man</source>
-        <translation type="unfinished"></translation>
+        <translation>Isola di Man</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1845"/>
         <source>Israel</source>
-        <translation type="unfinished"></translation>
+        <translation>Israele</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1846"/>
         <source>Italy</source>
-        <translation type="unfinished"></translation>
+        <translation>Italia</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1847"/>
         <source>Jamaica</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1848"/>
         <source>Japan</source>
-        <translation type="unfinished"></translation>
+        <translation>Giappone</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1849"/>
         <source>Jersey</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1850"/>
         <source>Jordan</source>
-        <translation type="unfinished"></translation>
+        <translation>Giordania</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1851"/>
         <source>Kazakhstan</source>
-        <translation type="unfinished"></translation>
+        <translation>Kazakistan</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1852"/>
         <source>Kenya</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1853"/>
         <source>Kiribati</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1854"/>
         <source>Korea, Democratic People&apos;S Republic Of</source>
-        <translation type="unfinished"></translation>
+        <translation>Corea del Nord</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1855"/>
         <source>Korea, Republic Of</source>
-        <translation type="unfinished"></translation>
+        <translation>Corea del Sud</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1856"/>
         <source>Kuwait</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1857"/>
         <source>Kyrgyzstan</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1858"/>
         <source>Lao People&apos;S Democratic Republic</source>
-        <translation type="unfinished"></translation>
+        <translation>Laos</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1859"/>
         <source>Latvia</source>
-        <translation type="unfinished"></translation>
+        <translation>Lettonia</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1860"/>
         <source>Lebanon</source>
-        <translation type="unfinished"></translation>
+        <translation>Libano</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1861"/>
         <source>Lesotho</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1862"/>
         <source>Liberia</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1863"/>
         <source>Libyan Arab Jamahiriya</source>
-        <translation type="unfinished"></translation>
+        <translation>Libia</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1864"/>
         <source>Liechtenstein</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1865"/>
         <source>Lithuania</source>
-        <translation type="unfinished">Lituano</translation>
+        <translation>Lituania</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1866"/>
         <source>Luxembourg</source>
-        <translation type="unfinished"></translation>
+        <translation>Lussemburgo</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1867"/>
         <source>Macao</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1868"/>
         <source>Macedonia, The Former Yugoslav Republic Of</source>
-        <translation type="unfinished"></translation>
+        <translation>Macedonia</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1869"/>
         <source>Madagascar</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1870"/>
         <source>Malawi</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1871"/>
         <source>Malaysia</source>
-        <translation type="unfinished"></translation>
+        <translation>Malesia</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1872"/>
         <source>Maldives</source>
-        <translation type="unfinished"></translation>
+        <translation>Maldive</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1873"/>
         <source>Mali</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1874"/>
         <source>Malta</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1875"/>
         <source>Marshall Islands</source>
-        <translation type="unfinished"></translation>
+        <translation>Isole Marshall</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1876"/>
         <source>Martinique</source>
-        <translation type="unfinished"></translation>
+        <translation>Martinica</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1877"/>
         <source>Mauritania</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1878"/>
         <source>Mauritius</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1879"/>
         <source>Mayotte</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1880"/>
         <source>Mexico</source>
-        <translation type="unfinished"></translation>
+        <translation>Messico</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1881"/>
         <source>Micronesia, Federated States Of</source>
-        <translation type="unfinished"></translation>
+        <translation>Micronesia</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1882"/>
         <source>Moldova, Republic Of</source>
-        <translation type="unfinished"></translation>
+        <translation>Moldavia</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1883"/>
         <source>Monaco</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1884"/>
         <source>Mongolia</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1885"/>
         <source>Montserrat</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1886"/>
         <source>Morocco</source>
-        <translation type="unfinished"></translation>
+        <translation>Marocco</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1887"/>
         <source>Mozambique</source>
-        <translation type="unfinished"></translation>
+        <translation>Mozambico</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1888"/>
         <source>Myanmar</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1889"/>
         <source>Namibia</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1890"/>
         <source>Nauru</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1891"/>
         <source>Nepal</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1892"/>
         <source>Netherlands</source>
-        <translation type="unfinished"></translation>
+        <translation>Olanda</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1893"/>
         <source>Netherlands Antilles</source>
-        <translation type="unfinished"></translation>
+        <translation>Antille Olandesi</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1894"/>
         <source>New Caledonia</source>
-        <translation type="unfinished"></translation>
+        <translation>Nuova Caledonia</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1895"/>
         <source>New Zealand</source>
-        <translation type="unfinished"></translation>
+        <translation>Nuova Zelanda</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1896"/>
         <source>Nicaragua</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1897"/>
         <source>Niger</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1898"/>
         <source>Nigeria</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1899"/>
         <source>Niue</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1900"/>
         <source>Norfolk Island</source>
-        <translation type="unfinished"></translation>
+        <translation>Isole Norfolk</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1901"/>
         <source>Northern Mariana Islands</source>
-        <translation type="unfinished"></translation>
+        <translation>Isole Marianne Settentrionali</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1902"/>
         <source>Norway</source>
-        <translation type="unfinished"></translation>
+        <translation>Norvegia</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1903"/>
         <source>Oman</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1904"/>
         <source>Pakistan</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1905"/>
         <source>Palau</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1906"/>
         <source>Palestinian Territory, Occupied</source>
-        <translation type="unfinished"></translation>
+        <translation>Palestina</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1907"/>
         <source>Panama</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1908"/>
         <source>Papua New Guinea</source>
-        <translation type="unfinished"></translation>
+        <translation>Papua Nuova Guinea</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1909"/>
         <source>Paraguay</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1910"/>
         <source>Peru</source>
-        <translation type="unfinished"></translation>
+        <translation>Perù</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1911"/>
         <source>Philippines</source>
-        <translation type="unfinished"></translation>
+        <translation>Filippine</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1912"/>
         <source>Pitcairn</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1913"/>
         <source>Poland</source>
-        <translation type="unfinished"></translation>
+        <translation>Polonia</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1914"/>
         <source>Portugal</source>
-        <translation type="unfinished"></translation>
+        <translation>Portogallo</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1915"/>
         <source>Puerto Rico</source>
-        <translation type="unfinished"></translation>
+        <translation>Porto Rico</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1916"/>
         <source>Qatar</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1917"/>
         <source>Reunion</source>
-        <translation type="unfinished"></translation>
+        <translation>Riunione</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1918"/>
         <source>Romania</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1919"/>
         <source>Russian Federation</source>
-        <translation type="unfinished"></translation>
+        <translation>Federazione Russa</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1920"/>
         <source>Rwanda</source>
-        <translation type="unfinished"></translation>
+        <translation>Ruanda</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1921"/>
         <source>Saint Helena</source>
-        <translation type="unfinished"></translation>
+        <translation>Sant&apos;Elena</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1922"/>
         <source>Saint Kitts And Nevis</source>
-        <translation type="unfinished"></translation>
+        <translation>Saint Kitts e Nevis</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1923"/>
         <source>Saint Lucia</source>
-        <translation type="unfinished"></translation>
+        <translation>Santa Lucia</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1924"/>
         <source>Saint Pierre And Miquelon</source>
-        <translation type="unfinished"></translation>
+        <translation>Saint-Pierre e Miquelon</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1925"/>
         <source>Saint Vincent And The Grenadines</source>
-        <translation type="unfinished"></translation>
+        <translation>Saint Vincent e Grenadine</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1926"/>
         <source>Samoa</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1927"/>
         <source>San Marino</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1928"/>
         <source>Sao Tome And Principe</source>
-        <translation type="unfinished"></translation>
+        <translation>Sao Tome e Principe</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1929"/>
         <source>Saudi Arabia</source>
-        <translation type="unfinished"></translation>
+        <translation>Arabia Saudita</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1930"/>
         <source>Senegal</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1931"/>
         <source>Serbia And Montenegro</source>
-        <translation type="unfinished"></translation>
+        <translation>Serbia E Montenegro</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1932"/>
         <source>Seychelles</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1933"/>
         <source>Sierra Leone</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1934"/>
         <source>Singapore</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1935"/>
         <source>Slovakia</source>
-        <translation type="unfinished"></translation>
+        <translation>Slovacchia</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1936"/>
         <source>Slovenia</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1937"/>
         <source>Solomon Islands</source>
-        <translation type="unfinished"></translation>
+        <translation>Isole Salomone</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1938"/>
         <source>Somalia</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1939"/>
         <source>South Africa</source>
-        <translation type="unfinished"></translation>
+        <translation>Sudafrica</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1940"/>
         <source>South Georgia And The South Sandwich Islands</source>
-        <translation type="unfinished"></translation>
+        <translation>Georgia del Sud e isole Sandwich meridionali</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1941"/>
         <source>Spain</source>
-        <translation type="unfinished"></translation>
+        <translation>Spagna</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1942"/>
         <source>Sri Lanka</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1943"/>
         <source>Sudan</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1944"/>
         <source>Suriname</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1945"/>
         <source>Svalbard And Jan Mayen</source>
-        <translation type="unfinished"></translation>
+        <translation>Svalbard e Jan Mayen</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1946"/>
         <source>Swaziland</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1947"/>
         <source>Sweden</source>
-        <translation type="unfinished"></translation>
+        <translation>Svezia</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1948"/>
         <source>Switzerland</source>
-        <translation type="unfinished"></translation>
+        <translation>Svizzera</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1949"/>
         <source>Syrian Arab Republic</source>
-        <translation type="unfinished"></translation>
+        <translation>Siria</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1950"/>
         <source>Taiwan, Province Of China</source>
-        <translation type="unfinished"></translation>
+        <translation>Taiwan</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1951"/>
         <source>Tajikistan</source>
-        <translation type="unfinished"></translation>
+        <translation>Tagikistan</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1952"/>
         <source>Tanzania, United Republic Of</source>
-        <translation type="unfinished"></translation>
+        <translation>Tanzania</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1953"/>
         <source>Thailand</source>
-        <translation type="unfinished"></translation>
+        <translation>Thailandia</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1954"/>
         <source>Timor-Leste</source>
-        <translation type="unfinished"></translation>
+        <translation>Timor Est</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1955"/>
         <source>Togo</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1956"/>
         <source>Tokelau</source>
-        <translation type="unfinished"></translation>
+        <translation>Tokelau</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1957"/>
         <source>Tonga</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1958"/>
         <source>Trinidad And Tobago</source>
-        <translation type="unfinished"></translation>
+        <translation>Trinidad e Tobago</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1959"/>
         <source>Tunisia</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1960"/>
         <source>Turkey</source>
-        <translation type="unfinished"></translation>
+        <translation>Tuchia</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1961"/>
         <source>Turkmenistan</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1962"/>
         <source>Turks And Caicos Islands</source>
-        <translation type="unfinished"></translation>
+        <translation>Turks e Caicos</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1963"/>
         <source>Tuvalu</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1964"/>
         <source>Uganda</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1965"/>
         <source>Ukraine</source>
-        <translation type="unfinished"></translation>
+        <translation>Ucraina</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1966"/>
         <source>United Arab Emirates</source>
-        <translation type="unfinished"></translation>
+        <translation>Emirati Arabi Uniti</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1967"/>
         <source>United Kingdom</source>
-        <translation type="unfinished"></translation>
+        <translation>Regno Unito</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1968"/>
         <source>United States</source>
-        <translation type="unfinished"></translation>
+        <translation>Stati Uniti</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1969"/>
         <source>United States Minor Outlying Islands</source>
-        <translation type="unfinished"></translation>
+        <translation>Isole minori esterne degli Stati Uniti d&apos;America</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1970"/>
         <source>Uruguay</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1971"/>
         <source>Uzbekistan</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1972"/>
         <source>Vanuatu</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1973"/>
         <source>Venezuela</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1974"/>
         <source>Viet Nam</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1975"/>
         <source>Virgin Islands, British</source>
-        <translation type="unfinished"></translation>
+        <translation>Isole Vergini britanniche</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1976"/>
         <source>Virgin Islands, U.S.</source>
-        <translation type="unfinished"></translation>
+        <translation>Isole Vergini americane</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1977"/>
         <source>Wallis And Futuna</source>
-        <translation type="unfinished"></translation>
+        <translation>Wallis e Futuna</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1978"/>
         <source>Western Sahara</source>
-        <translation type="unfinished"></translation>
+        <translation>Sahara Occidentale</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1979"/>
         <source>Yemen</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1980"/>
         <source>Zambia</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1981"/>
         <source>Zimbabwe</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1534"/>
@@ -4554,7 +4558,7 @@ Sentiti libero di invitare altri giocatori cliccando col tasto destro sul nickna
         <location filename="../src/gui/qt/gametable.ui" line="3809"/>
         <location filename="../src/gui/qt/gui_800x480/gametable_800x480.ui" line="3809"/>
         <source>Save</source>
-        <translation type="unfinished">Salva</translation>
+        <translation>Salva</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gametable.ui" line="4560"/>
@@ -6178,7 +6182,7 @@ p, li { white-space: pre-wrap; }
         <location filename="../src/gui/qt/settingsdialog.ui" line="125"/>
         <location filename="../src/gui/qt/settingsdialog.ui" line="3635"/>
         <source>Factory Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Impostazioni predefinite</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="278"/>
@@ -6378,13 +6382,13 @@ p, li { white-space: pre-wrap; }
         <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="3685"/>
         <location filename="../src/gui/qt/settingsdialog.ui" line="3685"/>
         <source>Reset all settings to default ...</source>
-        <translation type="unfinished"></translation>
+        <translation>Ripristina tutte le impostazioni predefinite ...</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="3732"/>
         <location filename="../src/gui/qt/settingsdialog.ui" line="3732"/>
         <source>Note: You can not reset all settings to default during a running game!</source>
-        <translation type="unfinished"></translation>
+        <translation>Nota: non è possibile ripristinare le impostazioni di default durante una partita!</translation>
     </message>
     <message>
         <source>Export as html</source>
@@ -7113,18 +7117,20 @@ Inserisci un indirizzo valido!</translation>
         <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="533"/>
         <source>The opponent names are not unique.
 Please choose different names for each Opponent!</source>
-        <translation type="unfinished"></translation>
+        <translation>I nomi degli avversari non sono univoci.
+Scegli un nome diverso per ogni Avversario!</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="901"/>
         <source>Settings Information</source>
-        <translation type="unfinished"></translation>
+        <translation>Informazioni</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="902"/>
         <source>You have changed the log file directory.
 Please restart PokerTH to use the new directory for the log files!</source>
-        <translation type="unfinished"></translation>
+        <translation>Hai modificato la cartella del file di registro.
+Occorre riavviare PokerTH per utilizzare la nuova cartella!</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="1061"/>
@@ -7290,13 +7296,14 @@ Lo stile non verrà aggiunto alla lista!</translation>
     <message>
         <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="1415"/>
         <source>PokerTH - Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>PokerTH - Impostazioni</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="1416"/>
         <source>Attention: this will delete all your personal settings and close PokerTH!
 Do you really want to reset factory settings?</source>
-        <translation type="unfinished"></translation>
+        <translation>Attenzione: questa operazione cancellerà tuttie le impostazioni personalizzate e chiuderà PokerTH!
+Sei sicuro di voler ripristinare le impostazioni predefinite?</translation>
     </message>
     <message>
         <source>Portuguese (Brazilian)</source>

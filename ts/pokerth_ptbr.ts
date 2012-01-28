@@ -1611,7 +1611,11 @@ p, li { white-space: pre-wrap; }
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
 &lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
 </context>
 <context>
@@ -1626,43 +1630,43 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>- Wikimedia Commons: for different popular avatar picture resources</source>
-        <translation type="unfinished"></translation>
+        <translation>- Wikimedia Commons: por diferentes e populares recursos e imagens de avateres</translation>
     </message>
     <message>
         <source>- Benedikt, Erhard, Felix, Florian, Linus, Lothar, Steffi, Caro: for people avatar pictures</source>
-        <translation type="unfinished"></translation>
+        <translation>- Benedikt, Erhard, Felix, Florian, Linus, Lothar, Steffi, Caro: por populares imagens de avateres</translation>
     </message>
     <message>
         <source>- ZeiZei: for misc avatar pictures</source>
-        <translation type="unfinished"></translation>
+        <translation>- ZeiZei: por miscelanios de imagens de avateres</translation>
     </message>
     <message>
         <source>- kde-look.org: for different gpl licensed sounds</source>
-        <translation type="unfinished"></translation>
+        <translation>- kde-look.org: por diferentes sonds de licença gpl</translation>
     </message>
     <message>
         <source>- doc_dos: for self recorded chip sounds</source>
-        <translation type="unfinished"></translation>
+        <translation>- doc_dos: pela gravação dos sons das fichas</translation>
     </message>
     <message>
         <source>- thiger, dunkanx, BerndA, coldz, drull: for different patches</source>
-        <translation type="unfinished"></translation>
+        <translation>- thiger, dunkanx, BerndA, coldz, drull: por diferentes atualizações</translation>
     </message>
     <message>
         <source>- kraut: for internet-game-server hosting and administration</source>
-        <translation type="unfinished"></translation>
+        <translation>- kraut: pela administração e hospedagem do servidor de jogos</translation>
     </message>
     <message>
         <source>- danuxi: for startwindow background gfx and danuxi1 table background</source>
-        <translation type="unfinished"></translation>
+        <translation>- danuxi: pelo fundo da tela inicial e danuxi1 fundo da mesa</translation>
     </message>
     <message>
         <source>- heyn: for moderating forum and organise bugtracker and feature requests</source>
-        <translation type="unfinished"></translation>
+        <translation>- heyn: pela moderação do forum e diagnosticos do bugtracker e requisições de melhorias</translation>
     </message>
     <message>
         <source>- texas_outlaw: for new table sounds</source>
-        <translation type="unfinished"></translation>
+        <translation>- texas_outlaw: pela nova tabela de sons</translation>
     </message>
 </context>
 <context>
@@ -5268,15 +5272,15 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Factory Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Configurações de Fabrica</translation>
     </message>
     <message>
         <source>Reset all settings to default ...</source>
-        <translation type="unfinished"></translation>
+        <translation>Resetar todas as configurações para o padrão ...</translation>
     </message>
     <message>
         <source>Note: You can not reset all settings to default during a running game!</source>
-        <translation type="unfinished"></translation>
+        <translation>Nota: Você não pode resetar todas as configurações para o padrão durante um jogo em andamento!</translation>
     </message>
 </context>
 <context>
@@ -5604,25 +5608,28 @@ Style will not be placed into list!</source>
     <message>
         <source>The opponent names are not unique.
 Please choose different names for each Opponent!</source>
-        <translation type="unfinished"></translation>
+        <translation>Os nomes dos oponentes não são unicos.
+Por favor, escolha um nome diferente para cada Oponente!</translation>
     </message>
     <message>
         <source>Settings Information</source>
-        <translation type="unfinished"></translation>
+        <translation>Informações de Configurações</translation>
     </message>
     <message>
         <source>You have changed the log file directory.
 Please restart PokerTH to use the new directory for the log files!</source>
-        <translation type="unfinished"></translation>
+        <translation>Voce mudou o diretorio do arquivo log.
+Por favor reinicie o PokerTH para usar o novo diretorio para os arquivos de log!</translation>
     </message>
     <message>
         <source>PokerTH - Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Configurações - PorkerTH</translation>
     </message>
     <message>
         <source>Attention: this will delete all your personal settings and close PokerTH!
 Do you really want to reset factory settings?</source>
-        <translation type="unfinished"></translation>
+        <translation>Atenção: isto irá apagar todas as configurações pessoais e fechar o PokerTH!
+Voce tem certeza que deseja resetar para as configurações padrão?</translation>
     </message>
 </context>
 <context>

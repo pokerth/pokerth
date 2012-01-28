@@ -898,7 +898,7 @@ p, li { white-space: pre-wrap; }
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
 &lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gui_800x480/aboutpokerth_800x480.ui" line="204"/>
@@ -1704,52 +1704,52 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/gui/qt/aboutpokerth/aboutpokerthimpl.cpp" line="62"/>
         <source>- Wikimedia Commons: for different popular avatar picture resources</source>
-        <translation type="unfinished"></translation>
+        <translation>- Wikimedia Commons: für verschiedene Avatar Bilder</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/aboutpokerth/aboutpokerthimpl.cpp" line="63"/>
         <source>- Benedikt, Erhard, Felix, Florian, Linus, Lothar, Steffi, Caro: for people avatar pictures</source>
-        <translation type="unfinished"></translation>
+        <translation>- Benedikt, Erhard, Felix, Florian, Linus, Lothar, Steffi, Caro: für Avatar Bilder von sich</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/aboutpokerth/aboutpokerthimpl.cpp" line="64"/>
         <source>- ZeiZei: for misc avatar pictures</source>
-        <translation type="unfinished"></translation>
+        <translation>- ZeiZei: für weitere Avatar Bilder</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/aboutpokerth/aboutpokerthimpl.cpp" line="65"/>
         <source>- kde-look.org: for different gpl licensed sounds</source>
-        <translation type="unfinished"></translation>
+        <translation>- kde-look.org: für verschiedene GPL lizensierte Klänge</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/aboutpokerth/aboutpokerthimpl.cpp" line="66"/>
         <source>- doc_dos: for self recorded chip sounds</source>
-        <translation type="unfinished"></translation>
+        <translation>- doc_dos: für selbst aufgenommene Chip Klänge</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/aboutpokerth/aboutpokerthimpl.cpp" line="67"/>
         <source>- thiger, dunkanx, BerndA, coldz, drull: for different patches</source>
-        <translation type="unfinished"></translation>
+        <translation>- thiger, dunkanx, BerndA, coldz, drull: für diverse Patches</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/aboutpokerth/aboutpokerthimpl.cpp" line="68"/>
         <source>- kraut: for internet-game-server hosting and administration</source>
-        <translation type="unfinished"></translation>
+        <translation>- kraut: für die Administration des Internet-Spiele-Servers</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/aboutpokerth/aboutpokerthimpl.cpp" line="69"/>
         <source>- danuxi: for startwindow background gfx and danuxi1 table background</source>
-        <translation type="unfinished"></translation>
+        <translation>- danuxi: für die Grafiken vom Startfenster und den danuxi1 Tisch Hintergrund</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/aboutpokerth/aboutpokerthimpl.cpp" line="70"/>
         <source>- heyn: for moderating forum and organise bugtracker and feature requests</source>
-        <translation type="unfinished"></translation>
+        <translation>- heyn: für die Forummoderation und das Organisieren des Bugtrackes und der Feature Requests</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/aboutpokerth/aboutpokerthimpl.cpp" line="71"/>
         <source>- texas_outlaw: for new table sounds</source>
-        <translation type="unfinished"></translation>
+        <translation>- texas_outlaw: für neueTisch Klänge</translation>
     </message>
 </context>
 <context>
@@ -4228,7 +4228,7 @@ Sie können nun Spieler einladen, indem Sie auf deren Nicknamen in der Spielerli
         <location filename="../src/gui/qt/gametable.ui" line="3809"/>
         <location filename="../src/gui/qt/gui_800x480/gametable_800x480.ui" line="3809"/>
         <source>Save</source>
-        <translation type="unfinished">Speichern</translation>
+        <translation>Speichern</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gametable.ui" line="4518"/>
@@ -4350,7 +4350,7 @@ Sie können nun Spieler einladen, indem Sie auf deren Nicknamen in der Spielerli
         <location filename="../src/gui/qt/gametable.ui" line="3787"/>
         <location filename="../src/gui/qt/gui_800x480/gametable_800x480.ui" line="3787"/>
         <source>Player info</source>
-        <translation type="unfinished"></translation>
+        <translation>Spieler Information</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gametable.ui" line="4217"/>
@@ -6064,7 +6064,7 @@ p, li { white-space: pre-wrap; }
         <location filename="../src/gui/qt/settingsdialog.ui" line="125"/>
         <location filename="../src/gui/qt/settingsdialog.ui" line="3635"/>
         <source>Factory Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Standardeinstellung</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="278"/>
@@ -6226,13 +6226,13 @@ p, li { white-space: pre-wrap; }
         <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="3685"/>
         <location filename="../src/gui/qt/settingsdialog.ui" line="3685"/>
         <source>Reset all settings to default ...</source>
-        <translation type="unfinished"></translation>
+        <translation>Alle Einstellungen zurücksetzen</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="3732"/>
         <location filename="../src/gui/qt/settingsdialog.ui" line="3732"/>
         <source>Note: You can not reset all settings to default during a running game!</source>
-        <translation type="unfinished"></translation>
+        <translation>Hinweis: Sie können während eines laufenden Spieles die Einstellungen nicht zurücksetzen</translation>
     </message>
     <message>
         <source>Export as html</source>
@@ -6572,7 +6572,7 @@ Der erste Small Blind wird auf den größten erlaubten Wert gesetzt.</translatio
         <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="533"/>
         <source>The opponent names are not unique.
 Please choose different names for each Opponent!</source>
-        <translation type="unfinished"></translation>
+        <translation>Die Namen der Gegner müssen verschieden sein. Bitte wähen Sie unterschiedliche Namen für jeden Gegner!</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="761"/>
@@ -6714,13 +6714,14 @@ Bitte geben Sie eine gültige Serverlisten-Adresse ein!</translation>
     <message>
         <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="901"/>
         <source>Settings Information</source>
-        <translation type="unfinished"></translation>
+        <translation>Einstellungsinformation</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="902"/>
         <source>You have changed the log file directory.
 Please restart PokerTH to use the new directory for the log files!</source>
-        <translation type="unfinished"></translation>
+        <translation>Sie haben das Verzeichnish für die Log-Dateien geändert.
+Bitte starten Sie PokerTH neu, so dass das neue Verzeichnis für die Log-Dateien benutzt wird.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="1061"/>
@@ -6876,13 +6877,14 @@ Der Stil wird nicht zur Liste hinzugefügt!</translation>
     <message>
         <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="1415"/>
         <source>PokerTH - Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>PokerTH - Einstellungen</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="1416"/>
         <source>Attention: this will delete all your personal settings and close PokerTH!
 Do you really want to reset factory settings?</source>
-        <translation type="unfinished"></translation>
+        <translation>Achtung: alle persönlichen Einstellungen werden gelöscht und PokerTH wird beendet!
+Möchten Sie wirklich alle Einstellungen zurücksetzen?</translation>
     </message>
     <message>
         <source>Do you really want to delete the seleted log file?</source>
