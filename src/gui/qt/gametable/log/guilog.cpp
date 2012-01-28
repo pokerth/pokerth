@@ -542,16 +542,16 @@ QStringList guiLog::translateCardCode(int cardCode)
 	switch (color) {
 
 	case 0:
-		cardString << "d";
+		cardString << "&diams;";
 		break;
 	case 1:
-		cardString << "h";
+		cardString << "&hearts;";
 		break;
 	case 2:
-		cardString << "s";
+		cardString << "&spades;";
 		break;
 	case 3:
-		cardString << "c";
+		cardString << "&clubs;";
 		break;
 	default:
 		cardString << "ERROR";
@@ -1184,7 +1184,7 @@ int guiLog::exportLog(QString fileStringPdb,int modus)
 									if(boost::lexical_cast<std::string>(results.result_Hand[j]) == "BoardCard_"+boost::lexical_cast<std::string>(i)) {
 										if(results.result_Hand[j+nCol_Hand]) {
 											if(modus == 1 || modus == 3) round_string += "<b>";
-											string_tmp = convertCardIntToString(boost::lexical_cast<int>(results.result_Hand[j+nCol_Hand]));
+											string_tmp = convertCardIntToString(boost::lexical_cast<int>(results.result_Hand[j+nCol_Hand]),modus);
 											if(string_tmp == "") {
 												cout << "Implausible board card in uniqueGame " << uniqueGameID << " hand " << results.result_Hand_ID[hand_ctr] << "!" << endl;
 												cleanUp(results, mySqliteLogDb);
@@ -1192,7 +1192,7 @@ int guiLog::exportLog(QString fileStringPdb,int modus)
 											}
 											round_string += boost::lexical_cast<std::string>(string_tmp.at(0));
 											if(modus==1 || modus == 3) round_string += "</b>";
-											round_string += boost::lexical_cast<std::string>(string_tmp.at(1));
+											round_string += boost::lexical_cast<std::string>(string_tmp.erase(0,1));
 											if(round_ctr+2-i > 0) round_string += ",";
 
 											data_found = true;
@@ -1341,7 +1341,7 @@ int guiLog::exportLog(QString fileStringPdb,int modus)
 								cmpString += boost::lexical_cast<std::string>(results.result_Action[3*action_ctr]);
 								cmpString += "_Card_1";
 								if(boost::lexical_cast<std::string>(results.result_Hand[i]) == cmpString) {
-									string_tmp = convertCardIntToString(boost::lexical_cast<int>(results.result_Hand[i+nCol_Hand]));
+									string_tmp = convertCardIntToString(boost::lexical_cast<int>(results.result_Hand[i+nCol_Hand]),modus);
 									if(string_tmp == "") {
 										cout << "Hole card information implausible in uniqueGame " << uniqueGameID << " hand " << results.result_Hand_ID[hand_ctr] << "!" << endl;
 										cleanUp(results, mySqliteLogDb);
@@ -1349,7 +1349,7 @@ int guiLog::exportLog(QString fileStringPdb,int modus)
 									}
 									log_string += boost::lexical_cast<std::string>(string_tmp.at(0));
 									if(modus == 1 || modus == 3) log_string += "</b>";
-									log_string += boost::lexical_cast<std::string>(string_tmp.at(1));
+									log_string += boost::lexical_cast<std::string>(string_tmp.erase(0,1));
 									log_string += ",";
 									if(modus == 1 || modus == 3) log_string += "<b>";
 									data_found = true;
@@ -1368,7 +1368,7 @@ int guiLog::exportLog(QString fileStringPdb,int modus)
 								cmpString += boost::lexical_cast<std::string>(results.result_Action[3*action_ctr]);
 								cmpString += "_Card_2";
 								if(boost::lexical_cast<std::string>(results.result_Hand[i]) == cmpString) {
-									string_tmp = convertCardIntToString(boost::lexical_cast<int>(results.result_Hand[i+nCol_Hand]));
+									string_tmp = convertCardIntToString(boost::lexical_cast<int>(results.result_Hand[i+nCol_Hand]),modus);
 									if(string_tmp == "") {
 										cout << "Hole card information implausible in uniqueGame " << uniqueGameID << " hand " << results.result_Hand_ID[hand_ctr] << "!" << endl;
 										cleanUp(results, mySqliteLogDb);
@@ -1376,7 +1376,7 @@ int guiLog::exportLog(QString fileStringPdb,int modus)
 									}
 									log_string += boost::lexical_cast<std::string>(string_tmp.at(0));
 									if(modus == 1 || modus == 3) log_string += "</b>";
-									log_string += boost::lexical_cast<std::string>(string_tmp.at(1));
+									log_string += boost::lexical_cast<std::string>(string_tmp.erase(0,1));
 									log_string += "]";
 									data_found = true;
 								}
@@ -1510,7 +1510,7 @@ int guiLog::convertCardStringToInt(string val, string col)
 
 }
 
-string guiLog::convertCardIntToString(int code)
+string guiLog::convertCardIntToString(int code, int modus)
 {
 
 	string tmp;
@@ -1559,21 +1559,44 @@ string guiLog::convertCardIntToString(int code)
 		return "";
 	}
 
-	switch(code/13) {
-	case 0:
-		tmp+= "d";
-		break;
-	case 1:
-		tmp+= "h";
-		break;
-	case 2:
-		tmp+= "s";
-		break;
-	case 3:
-		tmp+= "c";
-		break;
-	default:
-		return "";
+	if(modus==2) {
+
+		switch(code/13) {
+		case 0:
+			tmp+= "d";
+			break;
+		case 1:
+			tmp+= "h";
+			break;
+		case 2:
+			tmp+= "s";
+			break;
+		case 3:
+			tmp+= "c";
+			break;
+		default:
+			return "";
+		}
+
+	} else {
+
+		switch(code/13) {
+		case 0:
+			tmp+= "&diams;";
+			break;
+		case 1:
+			tmp+= "&hearts;";
+			break;
+		case 2:
+			tmp+= "&spades;";
+			break;
+		case 3:
+			tmp+= "&clubs;";
+			break;
+		default:
+			return "";
+		}
+
 	}
 
 	return tmp;

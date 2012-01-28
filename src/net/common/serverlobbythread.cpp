@@ -891,7 +891,7 @@ ServerLobbyThread::HandlePacket(boost::shared_ptr<SessionData> session, boost::s
 			else if (packet->GetMsg()->present == PokerTHMessage_PR_avatarRequestMessage)
 				HandleNetPacketRetrieveAvatar(session, packet->GetMsg()->choice.avatarRequestMessage);
 			else if (packet->GetMsg()->present == PokerTHMessage_PR_resetTimeoutMessage)
-				{}
+			{}
 			else if (packet->GetMsg()->present == PokerTHMessage_PR_subscriptionRequestMessage) {
 				SubscriptionRequestMessage_t *subscriptionRequest = &packet->GetMsg()->choice.subscriptionRequestMessage;
 				if (subscriptionRequest->subscriptionAction == subscriptionAction_resubscribeGameList)
