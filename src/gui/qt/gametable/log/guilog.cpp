@@ -779,7 +779,7 @@ int guiLog::exportLog(QString fileStringPdb,int modus)
 		switch(modus) {
 		case 1:
 			log_string = "<h3><b>" + log_string + "</b></h3>\n";
-			if(!neu) log_string = "<img src='logo.png'>\n" + log_string;
+			// if(!neu) log_string = "<img src='logo.png'>\n" + log_string;
 			break;
 		case 2:
 			log_string += "";
