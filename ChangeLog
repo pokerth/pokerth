@@ -1,6 +1,6 @@
 2012-01-28 version 0.9.2
 - Show card symbols in the log preview and in html export (#101)
-- Don't instantaneously change Check button to "Call 9000" after a big raise (#35)
+- Implement optional "accidentally call" blocker (#35)
 - BUGFIX: Rejoin a new game when previous game is still running (#108)
 - BUGFIX: Incorrect descriptions of hands in log (#97)
 - BUGFIX: Setting different log path (#99)
