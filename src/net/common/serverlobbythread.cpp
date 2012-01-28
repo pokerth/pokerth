@@ -2143,7 +2143,7 @@ ServerLobbyThread::GetRejoinGameIdForPlayer(const std::string &playerName, const
 		while (i != end) {
 			boost::shared_ptr<ServerGame> tmpGame = i->second;
 			boost::shared_ptr<PlayerInterface> tmpPlayer = tmpGame->GetPlayerInterfaceFromGame(playerName);
-			if (tmpPlayer && tmpPlayer->getMyGuid() == guid) {
+			if (tmpPlayer && tmpPlayer->getMyGuid() == guid && tmpPlayer->getMyCash() > 0) {
 				retGameId = tmpGame->GetId();
 				outPlayerUniqueId = tmpPlayer->getMyUniqueID();
 				break;
