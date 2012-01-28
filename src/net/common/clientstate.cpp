@@ -844,6 +844,13 @@ ClientStateStartSession::InternalHandlePacket(boost::shared_ptr<ClientThread> cl
 			InitMessage_t *netInit = &init->GetMsg()->choice.initMessage;
 			netInit->requestedVersion.major = NET_VERSION_MAJOR;
 			netInit->requestedVersion.minor = NET_VERSION_MINOR;
+			if (!context.GetSessionGuid().empty()) {
+				netInit->myLastSessionId =
+					OCTET_STRING_new_fromBuf(
+						&asn_DEF_OCTET_STRING,
+						context.GetSessionGuid().c_str(),
+						(int)context.GetSessionGuid().length());
+			}
 			if (!context.GetServerPassword().empty()) {
 				netInit->authServerPassword =
 					OCTET_STRING_new_fromBuf(
