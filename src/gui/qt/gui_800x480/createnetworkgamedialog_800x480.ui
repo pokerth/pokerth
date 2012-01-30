@@ -6,58 +6,100 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>336</width>
-    <height>302</height>
+    <width>800</width>
+    <height>350</height>
    </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>800</width>
+    <height>350</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>800</width>
+    <height>350</height>
+   </size>
   </property>
   <property name="windowTitle">
    <string>Create Network Game</string>
   </property>
   <layout class="QGridLayout">
-   <item row="0" column="0">
+   <item row="0" column="1">
+    <spacer name="verticalSpacer_3">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>40</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item row="1" column="1">
     <widget class="QGroupBox" name="groupBox">
+     <property name="styleSheet">
+      <string notr="true">QObject {font-size:20px}</string>
+     </property>
      <property name="title">
-      <string>Network Game Settings</string>
+      <string/>
      </property>
      <layout class="QGridLayout">
       <property name="topMargin">
        <number>9</number>
       </property>
-      <item row="0" column="0">
-       <widget class="QLabel" name="label">
+      <item row="5" column="0">
+       <widget class="QLabel" name="label_6">
+        <property name="styleSheet">
+         <string notr="true">QObject {font-size:20px}</string>
+        </property>
         <property name="text">
-         <string>Maximum number of players:</string>
+         <string>Timeout for player action:</string>
         </property>
         <property name="buddy">
-         <cstring>spinBox_quantityPlayers</cstring>
+         <cstring>spinBox_netTimeOutPlayerAction</cstring>
         </property>
        </widget>
       </item>
-      <item row="0" column="1" colspan="3">
-       <widget class="QSpinBox" name="spinBox_quantityPlayers">
+      <item row="5" column="3">
+       <widget class="QSpinBox" name="spinBox_netTimeOutPlayerAction">
+        <property name="minimumSize">
+         <size>
+          <width>150</width>
+          <height>0</height>
+         </size>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QObject {font-size:20px}</string>
+        </property>
+        <property name="suffix">
+         <string> s</string>
+        </property>
         <property name="minimum">
-         <number>2</number>
+         <number>0</number>
         </property>
         <property name="maximum">
-         <number>10</number>
+         <number>60</number>
         </property>
         <property name="value">
-         <number>10</number>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="0">
-       <widget class="QLabel" name="label_2">
-        <property name="text">
-         <string>Start Cash:</string>
-        </property>
-        <property name="buddy">
-         <cstring>spinBox_startCash</cstring>
+         <number>20</number>
         </property>
        </widget>
       </item>
       <item row="1" column="1" colspan="3">
        <widget class="QSpinBox" name="spinBox_startCash">
+        <property name="minimumSize">
+         <size>
+          <width>150</width>
+          <height>0</height>
+         </size>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QObject {font-size:20px}</string>
+        </property>
         <property name="suffix">
          <string/>
         </property>
@@ -75,8 +117,59 @@
         </property>
        </widget>
       </item>
-      <item row="2" column="0" colspan="4">
+      <item row="1" column="0">
+       <widget class="QLabel" name="label_2">
+        <property name="styleSheet">
+         <string notr="true"/>
+        </property>
+        <property name="text">
+         <string>Start Cash:</string>
+        </property>
+        <property name="buddy">
+         <cstring>spinBox_startCash</cstring>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1" colspan="3">
+       <widget class="QSpinBox" name="spinBox_quantityPlayers">
+        <property name="minimumSize">
+         <size>
+          <width>150</width>
+          <height>0</height>
+         </size>
+        </property>
+        <property name="styleSheet">
+         <string notr="true"/>
+        </property>
+        <property name="minimum">
+         <number>2</number>
+        </property>
+        <property name="maximum">
+         <number>10</number>
+        </property>
+        <property name="value">
+         <number>10</number>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="0">
+       <widget class="QLabel" name="label">
+        <property name="styleSheet">
+         <string notr="true"/>
+        </property>
+        <property name="text">
+         <string>Maximum number of players:</string>
+        </property>
+        <property name="buddy">
+         <cstring>spinBox_quantityPlayers</cstring>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="0" colspan="4">
        <widget class="QGroupBox" name="groupBox_2">
+        <property name="styleSheet">
+         <string notr="true">QObject {font-size:20px}</string>
+        </property>
         <property name="title">
          <string>Blinds</string>
         </property>
@@ -84,6 +177,13 @@
          <property name="topMargin">
           <number>0</number>
          </property>
+         <item row="1" column="0">
+          <widget class="QRadioButton" name="radioButton_changeBlindsSettings">
+           <property name="text">
+            <string>Change blinds settings ...</string>
+           </property>
+          </widget>
+         </item>
          <item row="0" column="0">
           <widget class="QRadioButton" name="radioButton_useSavedBlindsSettings">
            <property name="text">
@@ -94,28 +194,14 @@
            </property>
           </widget>
          </item>
-         <item row="1" column="0">
-          <widget class="QRadioButton" name="radioButton_changeBlindsSettings">
-           <property name="text">
-            <string>Change blinds settings ...</string>
-           </property>
-          </widget>
-         </item>
         </layout>
        </widget>
       </item>
-      <item row="4" column="0" colspan="3">
-       <widget class="QLabel" name="label_6">
-        <property name="text">
-         <string>Timeout for player action:</string>
-        </property>
-        <property name="buddy">
-         <cstring>spinBox_netTimeOutPlayerAction</cstring>
-        </property>
-       </widget>
-      </item>
-      <item row="5" column="0" colspan="3">
+      <item row="6" column="0">
        <widget class="QLabel" name="label_5">
+        <property name="styleSheet">
+         <string notr="true">QObject {font-size:20px}</string>
+        </property>
         <property name="text">
          <string>Delay between hands:</string>
         </property>
@@ -124,24 +210,17 @@
         </property>
        </widget>
       </item>
-      <item row="4" column="3">
-       <widget class="QSpinBox" name="spinBox_netTimeOutPlayerAction">
-        <property name="suffix">
-         <string> s</string>
-        </property>
-        <property name="minimum">
-         <number>0</number>
-        </property>
-        <property name="maximum">
-         <number>60</number>
-        </property>
-        <property name="value">
-         <number>20</number>
-        </property>
-       </widget>
-      </item>
-      <item row="5" column="3">
+      <item row="6" column="3">
        <widget class="QSpinBox" name="spinBox_netDelayBetweenHands">
+        <property name="minimumSize">
+         <size>
+          <width>150</width>
+          <height>0</height>
+         </size>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QObject {font-size:20px}</string>
+        </property>
         <property name="suffix">
          <string> s</string>
         </property>
@@ -156,10 +235,49 @@
         </property>
        </widget>
       </item>
+      <item row="2" column="0">
+       <spacer name="verticalSpacer">
+        <property name="orientation">
+         <enum>Qt::Vertical</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>20</width>
+          <height>40</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item row="4" column="0">
+       <spacer name="verticalSpacer_2">
+        <property name="orientation">
+         <enum>Qt::Vertical</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>20</width>
+          <height>40</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
      </layout>
     </widget>
    </item>
    <item row="1" column="0">
+    <spacer name="horizontalSpacer_2">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>40</width>
+       <height>20</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item row="2" column="0" colspan="3">
     <layout class="QHBoxLayout">
      <property name="spacing">
       <number>6</number>
@@ -182,19 +300,28 @@
      </item>
      <item>
       <widget class="QPushButton" name="pushButton_createGame">
+       <property name="styleSheet">
+        <string notr="true">QObject {font: bold 20px}</string>
+       </property>
        <property name="text">
         <string>Create Game</string>
        </property>
       </widget>
      </item>
-     <item>
-      <widget class="QPushButton" name="pushButton_cancel">
-       <property name="text">
-        <string>Cancel</string>
-       </property>
-      </widget>
-     </item>
     </layout>
+   </item>
+   <item row="1" column="2">
+    <spacer name="horizontalSpacer">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>40</width>
+       <height>20</height>
+      </size>
+     </property>
+    </spacer>
    </item>
   </layout>
  </widget>
@@ -203,10 +330,7 @@
   <tabstop>spinBox_startCash</tabstop>
   <tabstop>radioButton_useSavedBlindsSettings</tabstop>
   <tabstop>radioButton_changeBlindsSettings</tabstop>
-  <tabstop>spinBox_netTimeOutPlayerAction</tabstop>
-  <tabstop>spinBox_netDelayBetweenHands</tabstop>
   <tabstop>pushButton_createGame</tabstop>
-  <tabstop>pushButton_cancel</tabstop>
  </tabstops>
  <resources/>
  <connections>
@@ -223,22 +347,6 @@
     <hint type="destinationlabel">
      <x>87</x>
      <y>215</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>pushButton_cancel</sender>
-   <signal>clicked()</signal>
-   <receiver>createNetworkGameDialog</receiver>
-   <slot>reject()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>304</x>
-     <y>292</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>288</x>
-     <y>190</y>
     </hint>
    </hints>
   </connection>

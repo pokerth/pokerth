@@ -34,7 +34,9 @@ createNetworkGameDialogImpl::createNetworkGameDialogImpl(QWidget *parent, Config
 	fillFormular();
 
 	connect( radioButton_changeBlindsSettings, SIGNAL( clicked(bool) ), this, SLOT( callChangeBlindsDialog(bool) ) );
+#ifndef GUI_800x480
 	connect( pushButton_cancel, SIGNAL( clicked() ), this, SLOT( cancel() ) );
+#endif
 	connect( pushButton_createGame, SIGNAL( clicked() ), this, SLOT( createGame() ) );
 
 	//temporarely unused until ai is enabled in network

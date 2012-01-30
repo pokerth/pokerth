@@ -46,7 +46,9 @@ createInternetGameDialogImpl::createInternetGameDialogImpl(QWidget *parent, Conf
 	gridLayout1->addWidget(raiseMode, 1, 0, 1, 1);
 
 	connect( radioButton_changeBlindsSettings, SIGNAL( clicked(bool) ), this, SLOT( callChangeBlindsDialog(bool) ) );
+#ifndef GUI_800x480
 	connect( pushButton_cancel, SIGNAL( clicked() ), this, SLOT( cancel() ) );
+#endif
 	connect( pushButton_createGame, SIGNAL( clicked() ), this, SLOT( createGame() ) );
 	connect( checkBox_Password, SIGNAL( toggled(bool) ), this, SLOT( clearGamePassword(bool)) );
 	connect( comboBox_gameType, SIGNAL(currentIndexChanged(int)), this, SLOT( gameTypeChanged() ) );

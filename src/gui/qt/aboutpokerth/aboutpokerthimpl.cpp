@@ -33,8 +33,13 @@ aboutPokerthImpl::aboutPokerthImpl(QWidget *parent, ConfigFile *c)
 	myAppDataPath = QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str());
 
 	QPalette myPalette = textBrowser_licence->palette();
+#ifdef GUI_800x480
+	myPalette.setColor(QPalette::Base, QColor(0,0,0,0));
+	myPalette.setColor(QPalette::Text, QColor(255,255,255,255));
+#else
 	QColor myColor = myPalette.color(QPalette::Window);
 	myPalette.setColor(QPalette::Base, myColor);
+#endif
 	textBrowser_licence->setPalette(myPalette);
 	textBrowser_2->setPalette(myPalette);
 	textBrowser_3->setPalette(myPalette);
@@ -53,7 +58,11 @@ aboutPokerthImpl::aboutPokerthImpl(QWidget *parent, ConfigFile *c)
 
 	label_logo->setPixmap(QPixmap(":/gfx/logoChip3D.png"));
 
+#ifdef GUI_800x480
+	label_pokerthVersion->setStyleSheet("QLabel { font-size: 20px; font-weight: bold;}");
+#else
 	label_pokerthVersion->setStyleSheet("QLabel { font-size: 16px; font-weight: bold;}");
+#endif
 	label_pokerthVersion->setText(QString(tr("PokerTH %1").arg(POKERTH_BETA_RELEASE_STRING)));
 	this->setWindowTitle(QString(tr("About PokerTH %1").arg(POKERTH_BETA_RELEASE_STRING)));
 

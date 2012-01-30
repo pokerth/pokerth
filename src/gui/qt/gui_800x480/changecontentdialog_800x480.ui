@@ -6,27 +6,36 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>209</width>
-    <height>126</height>
+    <width>800</width>
+    <height>150</height>
    </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>800</width>
+    <height>150</height>
+   </size>
   </property>
   <property name="maximumSize">
    <size>
-    <width>700</width>
-    <height>300</height>
+    <width>800</width>
+    <height>150</height>
    </size>
   </property>
   <property name="windowTitle">
    <string>Network Error</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
-   <item row="0" column="0">
+   <item row="0" column="1">
     <widget class="QLabel" name="label_Message"/>
    </item>
-   <item row="1" column="0">
+   <item row="1" column="1">
     <layout class="QHBoxLayout" name="horizontalLayout">
      <item>
       <widget class="QLabel" name="label_lineLabel">
+       <property name="styleSheet">
+        <string notr="true">QObject {font-size: 20px}</string>
+       </property>
        <property name="text">
         <string>Name:</string>
        </property>
@@ -36,12 +45,25 @@
       </widget>
      </item>
      <item>
-      <widget class="QLineEdit" name="lineEdit"/>
+      <widget class="QLineEdit" name="lineEdit">
+       <property name="minimumSize">
+        <size>
+         <width>600</width>
+         <height>0</height>
+        </size>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">QObject {font-size: 20px}</string>
+       </property>
+      </widget>
      </item>
     </layout>
    </item>
-   <item row="2" column="0">
+   <item row="2" column="1">
     <widget class="QCheckBox" name="checkBox">
+     <property name="styleSheet">
+      <string notr="true">QObject {font-size: 18px}</string>
+     </property>
      <property name="text">
       <string>Save in configuration</string>
      </property>
@@ -50,15 +72,44 @@
      </property>
     </widget>
    </item>
-   <item row="3" column="0">
+   <item row="3" column="0" colspan="3">
     <widget class="QDialogButtonBox" name="buttonBox">
+     <property name="styleSheet">
+      <string notr="true">QObject {font: bold 20px}</string>
+     </property>
      <property name="orientation">
       <enum>Qt::Horizontal</enum>
      </property>
      <property name="standardButtons">
-      <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
+      <set>QDialogButtonBox::Ok</set>
      </property>
     </widget>
+   </item>
+   <item row="2" column="0">
+    <spacer name="horizontalSpacer_3">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>40</width>
+       <height>20</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item row="2" column="2">
+    <spacer name="horizontalSpacer_4">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>40</width>
+       <height>20</height>
+      </size>
+     </property>
+    </spacer>
    </item>
   </layout>
  </widget>
