@@ -1360,18 +1360,21 @@ void settingsDialogImpl::refreshLogFileList()
 
 void settingsDialogImpl::deleteLogFile()
 {
-	QTreeWidgetItem* selectedItem = treeWidget_logFiles->currentItem();
+	QList<QTreeWidgetItem*> selectedItemsList = treeWidget_logFiles->selectedItems();
 
-	if(selectedItem) {
-		int ret = QMessageBox::warning(this, tr("PokerTH - Log file"),
-									   tr("Do you really want to delete the selected log file?"),
+	if(!selectedItemsList.isEmpty()) {
+		int ret = QMessageBox::warning(this, tr("PokerTH - Delete log files"),
+									   tr("Do you really want to delete the selected log files?"),
 									   QMessageBox::Yes | QMessageBox::No);
 
 		if(ret == QMessageBox::Yes) {
 
-			QFile fileToDelete (selectedItem->data(0, Qt::UserRole).toString());
-			if(!fileToDelete.remove()) {
-				QMessageBox::warning(this, "Remove log file", "PokerTH cannot remove this log file, please check if you have write access to this file!", QMessageBox::Close );
+			for (int i = 0; i < selectedItemsList.size(); ++i) {
+
+				QFile fileToDelete (selectedItemsList.at(i)->data(0, Qt::UserRole).toString());
+				if(!fileToDelete.remove()) {
+					QMessageBox::warning(this, "Remove log file", "PokerTH cannot remove this log file, please check if you have write access to this file!", QMessageBox::Close );
+				}
 			}
 			refreshLogFileList();
 		}
