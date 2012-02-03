@@ -606,16 +606,16 @@ QStringList guiLog::translateCardCode(int cardCode)
 	switch (color) {
 
 	case 0:
-		cardString << "&diams;";
+		cardString << "<font size=+1><b>&diams;</b></font>";
 		break;
 	case 1:
-		cardString << "&hearts;";
+		cardString << "<font size=+1><b>&hearts;</b></font>";
 		break;
 	case 2:
-		cardString << "&spades;";
+		cardString << "<font size=+1><b>&spades;</b></font>";
 		break;
 	case 3:
-		cardString << "&clubs;";
+		cardString << "<font size=+1><b>&clubs;</b></font>";
 		break;
 	default:
 		cardString << "ERROR";
@@ -1646,16 +1646,16 @@ string guiLog::convertCardIntToString(int code, int modus)
 
 		switch(code/13) {
 		case 0:
-			tmp+= "&diams;";
+			tmp+= "<font size=+1><b>&diams;</b></font>";
 			break;
 		case 1:
-			tmp+= "&hearts;";
+			tmp+= "<font size=+1><b>&hearts;</b></font>";
 			break;
 		case 2:
-			tmp+= "&spades;";
+			tmp+= "<font size=+1><b>&spades;</b></font>";
 			break;
 		case 3:
-			tmp+= "&clubs;";
+			tmp+= "<font size=+1><b>&clubs;</b></font>";
 			break;
 		default:
 			return "";
