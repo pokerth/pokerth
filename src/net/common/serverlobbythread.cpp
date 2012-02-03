@@ -1243,6 +1243,11 @@ ServerLobbyThread::HandleNetPacketCreateGame(boost::shared_ptr<SessionData> sess
 	string gameName(STL_STRING_FROM_OCTET_STRING(newGame.gameInfo.gameName));
 	// Always trim the game name.
 	boost::trim(gameName);
+	boost::replace_all(gameName, "\n", " ");
+	boost::replace_all(gameName, "\r", " ");
+	boost::replace_all(gameName, "\t", " ");
+	boost::replace_all(gameName, "\v", " ");
+	boost::replace_all(gameName, "\f", " ");
 	unsigned gameId = GetNextGameId();
 
 	if (gameName.empty() || !isprint(gameName[0])) {
