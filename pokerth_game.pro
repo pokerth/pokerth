@@ -571,8 +571,8 @@ gui_800x480 {
 		src/gui/qt/gui_800x480/manualblindsorderdialog_800x480.ui \
 		src/gui/qt/gui_800x480/serverlistdialog_800x480.ui \
 		src/gui/qt/gui_800x480/internetgamelogindialog_800x480.ui \
-		src/gui/qt/gui_800x480/changecontentdialog_800x480.ui
-
+		src/gui/qt/gui_800x480/changecontentdialog_800x480.ui \
+		src/gui/qt/gui_800x480/tabs_800x480.ui
 }
 
 
