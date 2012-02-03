@@ -281,7 +281,7 @@ void gameLobbyDialogImpl::createGame()
 		gameData.playerActionTimeoutSec = myCreateInternetGameDialog->spinBox_netTimeOutPlayerAction->value();
 		gameData.gameType = GameType(myCreateInternetGameDialog->comboBox_gameType->itemData(myCreateInternetGameDialog->comboBox_gameType->currentIndex(), Qt::UserRole).toInt());
 
-		currentGameName = myCreateInternetGameDialog->lineEdit_gameName->text();
+		currentGameName = myCreateInternetGameDialog->lineEdit_gameName->text().simplified();
 
 		switch (gameData.gameType) {
 		case GAME_TYPE_NORMAL: {
