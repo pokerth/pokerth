@@ -35,7 +35,9 @@ startNetworkGameDialogImpl::startNetworkGameDialogImpl(startWindowImpl *parent, 
 
 	lineEdit_ChatInput->installEventFilter(this);
 
+#ifndef GUI_800x480
 	connect( pushButton_cancel, SIGNAL( clicked() ), this, SLOT( cancel() ) );
+#endif
 	connect( pushButton_startGame, SIGNAL( clicked() ), this, SLOT( startGame() ) );
 	connect( pushButton_Kick, SIGNAL( clicked() ), this, SLOT( kickPlayer() ) );
 	connect( treeWidget, SIGNAL( currentItemChanged ( QTreeWidgetItem*, QTreeWidgetItem*) ), this, SLOT( playerSelected(QTreeWidgetItem*, QTreeWidgetItem*) ) );

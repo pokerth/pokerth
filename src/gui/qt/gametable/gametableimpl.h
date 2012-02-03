@@ -20,6 +20,7 @@
 
 #ifdef GUI_800x480
 #include "ui_gametable_800x480.h"
+#include "ui_tabs_800x480.h"
 #else
 #include "ui_gametable.h"
 #endif
@@ -96,6 +97,11 @@ public:
 	}
 
 	void setSpeeds();
+
+#ifdef GUI_800x480
+	Ui::tabs tabs;
+	QDialog *tabsDiag;
+#endif
 
 
 signals:
@@ -343,6 +349,11 @@ public slots:
 	void hide();
 	void soundEvent_blindsWereSet(int);
 	void enableCallCheckPushButton();
+
+#ifdef GUI_800x480
+	void tabsButtonClicked();
+	void tabsButtonClose();
+#endif
 
 private:
 

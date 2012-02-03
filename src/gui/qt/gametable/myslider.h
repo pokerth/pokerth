@@ -15,6 +15,9 @@
  * You should have received a copy of the GNU Affero General Public License  *
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.     *
  *****************************************************************************/
+#ifndef MYSLIDER_H
+#define MYSLIDER_H
+
 #include <QtGui>
 /*
 * This QSlider Extension was sponsored by: AZEVEDO Filipe aka Nox P@sNox <pasnox@gmail.com>
@@ -100,3 +103,6 @@ protected:
 		QSlider::mousePressEvent( ev ); // should not be needed but as we can't update private d pointer it's needed.
 	}
 };
+
+#endif
+

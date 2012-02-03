@@ -1358,19 +1358,30 @@ void GameTableStyleReader::setBreakButtonStyle(QPushButton *bb, int state)
 	switch(state) {
 		// 		default
 	case 0:
+#ifdef GUI_800x480
+		bb->setStyleSheet("QPushButton:enabled { background-color: #"+BreakLobbyButtonBgColor+"; color: #"+BreakLobbyButtonTextColor+"; font-size: 20px} QPushButton:disabled { background-color: #"+BreakLobbyButtonBgDisabledColor+"; color: #"+BreakLobbyButtonTextDisabledColor+"; font-weight: 900; font-size: 20px}");
+#else
 		bb->setStyleSheet("QPushButton:enabled { background-color: #"+BreakLobbyButtonBgColor+"; color: #"+BreakLobbyButtonTextColor+";} QPushButton:disabled { background-color: #"+BreakLobbyButtonBgDisabledColor+"; color: #"+BreakLobbyButtonTextDisabledColor+"; font-weight: 900;}");
+#endif
 		break;
 		// 		blink
 	case 1:
+#ifdef GUI_800x480
+		bb->setStyleSheet("QPushButton { background-color: #"+BreakLobbyButtonBgBlinkColor+"; color: "+BreakLobbyButtonTextBlinkColor+"; font-size: 20px}");
+#else
 		bb->setStyleSheet("QPushButton { background-color: #"+BreakLobbyButtonBgBlinkColor+"; color: "+BreakLobbyButtonTextBlinkColor+";}");
-
+#endif
 		break;
 	}
 }
 
 void GameTableStyleReader::setSpeedStringStyle(QLabel *l)
 {
+#ifdef GUI_800x480
+	l->setStyleSheet("QLabel { color: #"+SpeedTextColor+"; font-size: 20px}");
+#else
 	l->setStyleSheet("QLabel { color: #"+SpeedTextColor+";}");
+#endif
 }
 
 void GameTableStyleReader::setVoteButtonStyle(QPushButton *b)
@@ -1542,7 +1553,9 @@ void GameTableStyleReader::setTabWidgetStyle(QTabWidget *tw, QTabBar *tb)
 	bottomPadding = " padding-bottom: 3px;";
 #endif
 
+#ifndef GUI_800x480
 	tb->setStyleSheet("QTabBar::tab{ "+ font1String +" font-size: 11px; color: #"+TabWidgetTextColor+"; background-color: #"+TabWidgetBgColor+"; border: 2px solid #"+TabWidgetBorderColor+"; border-bottom-color: #"+TabWidgetBorderColor+"; border-top-left-radius: 4px; border-top-right-radius: 4px; padding-top: "+tabBarPaddingTop+"px;"+bottomPadding+" padding-left:"+tabBarPaddingSide+"px; padding-right:"+tabBarPaddingSide+"px;} QTabBar::tab:selected, QTabBar::tab:hover { background-color: #"+TabWidgetBgColor+"; padding-top: "+tabBarPaddingTop+"px; padding-left:"+tabBarPaddingSide+"px; padding-right:"+tabBarPaddingSide+"px;} QTabBar::tab:selected { border-color: #"+TabWidgetBorderColor+"; border-bottom-color: #"+TabWidgetBgColor+"; padding-top: "+tabBarPaddingTop+"px; padding-left:"+tabBarPaddingSide+"px; padding-right:"+tabBarPaddingSide+"px;}  QTabBar::tab:!selected { margin-top: 2px; padding-top: "+tabBarPaddingTop+"px; padding-left:"+tabBarPaddingSide+"px; padding-right:"+tabBarPaddingSide+"px;} QTabBar::tab:selected { margin-left: -4px; margin-right: -4px; padding-top: "+tabBarPaddingTop+"px; padding-left:"+tabBarPaddingSide+"px; padding-right:"+tabBarPaddingSide+"px;} QTabBar::tab:first:selected { margin-left: 0; padding-top: "+tabBarPaddingTop+"px; padding-left:"+tabBarPaddingSide+"px; padding-right:"+tabBarPaddingSide+"px;} QTabBar::tab:last:selected { margin-right: 0; padding-top: "+tabBarPaddingTop+"px; padding-left:"+tabBarPaddingSide+"px; padding-right:"+tabBarPaddingSide+"px;} QTabBar::tab:only-one { margin: 0; } ");
+#endif
 
 }
 
@@ -1556,6 +1569,7 @@ void GameTableStyleReader::setWindowsGeometry(gameTableImpl *gt)
 		QDesktopWidget dw;
 		int availableWidth = dw.screenGeometry().width();
 		int availableHeight = dw.screenGeometry().height();
+#ifndef GUI_800x480
 		if(availableWidth == FixedWindowWidth.toInt() && availableHeight == FixedWindowHeight.toInt()) {
 			gt->actionFullScreen->setEnabled(TRUE);
 		} else {
@@ -1565,6 +1579,7 @@ void GameTableStyleReader::setWindowsGeometry(gameTableImpl *gt)
 				gt->move(50,50);
 			}
 		}
+#endif
 	} else {
 		gt->setMinimumSize(MinimumWindowWidth.toInt(), MinimumWindowHeight.toInt());
 		gt->setMaximumSize(MaximumWindowWidth.toInt(), MaximumWindowHeight.toInt());
@@ -1573,6 +1588,7 @@ void GameTableStyleReader::setWindowsGeometry(gameTableImpl *gt)
 		QDesktopWidget dw;
 		int availableWidth = dw.screenGeometry().width();
 		int availableHeight = dw.screenGeometry().height();
+#ifndef GUI_800x480
 		if(availableWidth <= MaximumWindowWidth.toInt() && availableHeight <= MaximumWindowHeight.toInt()) {
 			gt->actionFullScreen->setEnabled(TRUE);
 		} else {
@@ -1582,16 +1598,26 @@ void GameTableStyleReader::setWindowsGeometry(gameTableImpl *gt)
 				gt->move(50,50);
 			}
 		}
+#endif
 	}
 
 }
 
 void GameTableStyleReader::setSliderStyle(QSlider *s)
 {
-#if QT_VERSION >= 0x040700
-	s->setStyleSheet("QSlider::groove:horizontal { border: 1px solid #"+BetSpeedSliderGrooveBorderColor+"; height: 3px; background: #"+BetSpeedSliderGrooveBgColor+"; margin: 4px 0; border-radius: 2px; } QSlider::handle:horizontal { background: #"+BetSpeedSliderHandleBgColor+"; border: 1px solid #"+BetSpeedSliderHandleBorderColor+"; width: 12px; margin: -7px 0; border-radius: 4px;}");
+
+	QString height("");
+
+#ifdef GUI_800x480
+	height = " height: 8px;";
 #else
-	s->setStyleSheet("QSlider::groove:horizontal { border: 1px solid #"+BetSpeedSliderGrooveBorderColor+"; height: 3px; background: #"+BetSpeedSliderGrooveBgColor+"; margin: 4px 0; border-radius: 2px; } QSlider::handle:horizontal { background: #"+BetSpeedSliderHandleBgColor+"; border: 1px solid #"+BetSpeedSliderHandleBorderColor+"; width: 12px; margin: -2px 0; border-radius: 4px;}");
+	height = " height: 3px;";
+#endif
+
+#if QT_VERSION >= 0x040700
+	s->setStyleSheet("QSlider::groove:horizontal { border: 1px solid #"+BetSpeedSliderGrooveBorderColor+";"+height+" background: #"+BetSpeedSliderGrooveBgColor+"; margin: 4px 0; border-radius: 2px; } QSlider::handle:horizontal { background: #"+BetSpeedSliderHandleBgColor+"; border: 1px solid #"+BetSpeedSliderHandleBorderColor+"; width: 12px; margin: -7px 0; border-radius: 4px;}");
+#else
+	s->setStyleSheet("QSlider::groove:horizontal { border: 1px solid #"+BetSpeedSliderGrooveBorderColor+";"+height+" background: #"+BetSpeedSliderGrooveBgColor+"; margin: 4px 0; border-radius: 2px; } QSlider::handle:horizontal { background: #"+BetSpeedSliderHandleBgColor+"; border: 1px solid #"+BetSpeedSliderHandleBorderColor+"; width: 12px; margin: -2px 0; border-radius: 4px;}");
 #endif
 
 }

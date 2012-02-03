@@ -116,7 +116,11 @@ gameLobbyDialogImpl::gameLobbyDialogImpl(startWindowImpl *parent, ConfigFile *c)
 	treeView_GameList->setColumnWidth(3,40);
 	treeView_GameList->setColumnWidth(4,40);
 
+#ifdef GUI_800x480
+	treeView_GameList->setStyleSheet("QTreeView {background-color: white; background-image: url(\""+myAppDataPath +"gfx/gui/misc/background_gamelist.png\"); background-attachment: fixed; background-position: top center ; background-repeat: no-repeat; color:rgb(0, 0, 0); font: 14px}");
+#else
 	treeView_GameList->setStyleSheet("QTreeView {background-color: white; background-image: url(\""+myAppDataPath +"gfx/gui/misc/background_gamelist.png\"); background-attachment: fixed; background-position: top center ; background-repeat: no-repeat;}");
+#endif
 	treeView_GameList->setAutoFillBackground(TRUE);
 
 	myNickListModel = new QStandardItemModel(this);
@@ -1480,9 +1484,13 @@ void gameLobbyDialogImpl::changeGameListFilter(int index)
 
 	writeDialogSettings(1);
 
+#ifdef GUI_800x480
+	if(index) treeView_GameList->setStyleSheet("QTreeView { border-radius: 4px; border: 2px solid blue; background-color: white; background-image: url(\""+myAppDataPath +"gfx/gui/misc/background_gamelist.png\"); background-attachment: fixed; background-position: top center ; background-repeat: no-repeat; color:rgb(0, 0, 0); font: 14px}");
+	else treeView_GameList->setStyleSheet("QTreeView { background-color: white; background-image: url(\""+myAppDataPath +"gfx/gui/misc/background_gamelist.png\"); background-attachment: fixed; background-position: top center ; background-repeat: no-repeat; color:rgb(0, 0, 0); font: 14px}");
+#else
 	if(index) treeView_GameList->setStyleSheet("QTreeView { border-radius: 4px; border: 2px solid blue; background-color: white; background-image: url(\""+myAppDataPath +"gfx/gui/misc/background_gamelist.png\"); background-attachment: fixed; background-position: top center ; background-repeat: no-repeat;}");
 	else treeView_GameList->setStyleSheet("QTreeView { background-color: white; background-image: url(\""+myAppDataPath +"gfx/gui/misc/background_gamelist.png\"); background-attachment: fixed; background-position: top center ; background-repeat: no-repeat;}");
-
+#endif
 }
 
 void gameLobbyDialogImpl::changeNickListFilter(int state)

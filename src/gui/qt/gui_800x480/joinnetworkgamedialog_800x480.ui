@@ -6,19 +6,31 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>614</width>
-    <height>458</height>
+    <width>800</width>
+    <height>424</height>
    </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>800</width>
+    <height>424</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>800</width>
+    <height>424</height>
+   </size>
   </property>
   <property name="windowTitle">
    <string>Join Network Game</string>
   </property>
   <layout class="QGridLayout" name="gridLayout2">
    <property name="margin">
-    <number>9</number>
+    <number>1</number>
    </property>
    <property name="spacing">
-    <number>6</number>
+    <number>1</number>
    </property>
    <item row="1" column="0">
     <layout class="QHBoxLayout">
@@ -49,15 +61,11 @@
          <height>0</height>
         </size>
        </property>
+       <property name="styleSheet">
+        <string notr="true">QObject {font: bold 20px}</string>
+       </property>
        <property name="text">
         <string>Connect</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QPushButton" name="pushButton_close">
-       <property name="text">
-        <string>Close</string>
        </property>
       </widget>
      </item>
@@ -66,13 +74,16 @@
    <item row="0" column="0">
     <widget class="QGroupBox" name="groupBox">
      <property name="title">
-      <string>Connect to Network Game</string>
+      <string/>
      </property>
      <layout class="QGridLayout" name="gridLayout">
       <item row="0" column="0" colspan="2">
        <layout class="QHBoxLayout" name="horizontalLayout_2">
         <item>
          <widget class="QLabel" name="label_4">
+          <property name="styleSheet">
+           <string notr="true">QObject {font: 20px}</string>
+          </property>
           <property name="text">
            <string>Profile Name:</string>
           </property>
@@ -83,6 +94,9 @@
         </item>
         <item>
          <widget class="QLineEdit" name="lineEdit_profileName">
+          <property name="styleSheet">
+           <string notr="true">QObject {font: 20px}</string>
+          </property>
           <property name="text">
            <string>myServerProfile1</string>
           </property>
@@ -94,6 +108,9 @@
        <layout class="QHBoxLayout" name="horizontalLayout">
         <item>
          <widget class="QLabel" name="label">
+          <property name="styleSheet">
+           <string notr="true">QObject {font: 20px}</string>
+          </property>
           <property name="text">
            <string>IP Address / Domain Name:</string>
           </property>
@@ -103,10 +120,17 @@
          </widget>
         </item>
         <item>
-         <widget class="QLineEdit" name="lineEdit_ipAddress"/>
+         <widget class="QLineEdit" name="lineEdit_ipAddress">
+          <property name="styleSheet">
+           <string notr="true">QObject {font: 20px}</string>
+          </property>
+         </widget>
         </item>
         <item>
          <widget class="QLabel" name="label_2">
+          <property name="styleSheet">
+           <string notr="true">QObject {font: 20px}</string>
+          </property>
           <property name="text">
            <string>Port:</string>
           </property>
@@ -117,6 +141,9 @@
         </item>
         <item>
          <widget class="QSpinBox" name="spinBox_port">
+          <property name="styleSheet">
+           <string notr="true">QObject {font: 20px}</string>
+          </property>
           <property name="minimum">
            <number>80</number>
           </property>
@@ -140,6 +167,9 @@
         </property>
         <item>
          <widget class="QCheckBox" name="checkBox_ipv6">
+          <property name="styleSheet">
+           <string notr="true">QObject {font: 20px}</string>
+          </property>
           <property name="text">
            <string>Use IPv6</string>
           </property>
@@ -147,6 +177,9 @@
         </item>
         <item>
          <widget class="QLabel" name="label_5">
+          <property name="styleSheet">
+           <string notr="true">QObject {font: 20px}</string>
+          </property>
           <property name="text">
            <string>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
@@ -183,6 +216,9 @@ p, li { white-space: pre-wrap; }
         </property>
         <item>
          <widget class="QCheckBox" name="checkBox_sctp">
+          <property name="styleSheet">
+           <string notr="true">QObject {font: 20px}</string>
+          </property>
           <property name="text">
            <string>Use SCTP</string>
           </property>
@@ -190,6 +226,9 @@ p, li { white-space: pre-wrap; }
         </item>
         <item>
          <widget class="QLabel" name="label_6">
+          <property name="styleSheet">
+           <string notr="true">QObject {font: 20px}</string>
+          </property>
           <property name="text">
            <string>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
@@ -216,8 +255,11 @@ p, li { white-space: pre-wrap; }
         </item>
        </layout>
       </item>
-      <item row="3" column="0" colspan="2">
+      <item row="4" column="0" colspan="2">
        <widget class="QGroupBox" name="groupBox_2">
+        <property name="styleSheet">
+         <string notr="true">QObject {font: 20px}</string>
+        </property>
         <property name="title">
          <string>Server Profiles</string>
         </property>
@@ -302,6 +344,19 @@ p, li { white-space: pre-wrap; }
         </layout>
        </widget>
       </item>
+      <item row="3" column="0">
+       <spacer name="verticalSpacer">
+        <property name="orientation">
+         <enum>Qt::Vertical</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>20</width>
+          <height>40</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
      </layout>
     </widget>
    </item>
@@ -317,7 +372,6 @@ p, li { white-space: pre-wrap; }
   <tabstop>pushButton_save</tabstop>
   <tabstop>pushButton_delete</tabstop>
   <tabstop>pushButton_connect</tabstop>
-  <tabstop>pushButton_close</tabstop>
  </tabstops>
  <resources/>
  <connections>
@@ -334,22 +388,6 @@ p, li { white-space: pre-wrap; }
     <hint type="destinationlabel">
      <x>33</x>
      <y>422</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>pushButton_close</sender>
-   <signal>clicked()</signal>
-   <receiver>joinNetworkGameDialog</receiver>
-   <slot>reject()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>548</x>
-     <y>429</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>483</x>
-     <y>428</y>
     </hint>
    </hints>
   </connection>

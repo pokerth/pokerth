@@ -254,14 +254,16 @@ void settingsDialogImpl::prepareDialog()
 
 	//Interface
 	comboBox_switchLanguage->setCurrentIndex(comboBox_switchLanguage->findData(QString::fromUtf8(myConfig->readConfigString("Language").c_str()).section('_', 0, 0)));
+#ifndef GUI_800x480
 	checkBox_showLeftToolbox->setChecked(myConfig->readConfigInt("ShowLeftToolBox"));
 	checkBox_showRightToolbox->setChecked(myConfig->readConfigInt("ShowRightToolBox"));
+	checkBox_alternateFKeysUserActionMode->setChecked(myConfig->readConfigInt("AlternateFKeysUserActionMode"));
+#endif
 	checkBox_showFadeOutCardsAnimation->setChecked(myConfig->readConfigInt("ShowFadeOutCardsAnimation"));
 	checkBox_showFlipCardsAnimation->setChecked(myConfig->readConfigInt("ShowFlipCardsAnimation"));
 	checkBox_showBlindButtons->setChecked(myConfig->readConfigInt("ShowBlindButtons"));
 	checkBox_showCountryFlagInAvatar->setChecked(myConfig->readConfigInt("ShowCountryFlagInAvatar"));
 	checkBox_antiPeekMode->setChecked(myConfig->readConfigInt("AntiPeekMode"));
-	checkBox_alternateFKeysUserActionMode->setChecked(myConfig->readConfigInt("AlternateFKeysUserActionMode"));
 	checkBox_enableBetInputFocusSwitch->setChecked(myConfig->readConfigInt("EnableBetInputFocusSwitch"));
 	checkBox_cardsChanceMonitor->setChecked(myConfig->readConfigInt("ShowCardsChanceMonitor"));
 	checkBox_dontTranslatePokerStrings->setChecked(myConfig->readConfigInt("DontTranslateInternationalPokerStringsFromStyle"));
@@ -270,6 +272,25 @@ void settingsDialogImpl::prepareDialog()
 
 	//S t y l e
 	//TABLE
+
+#ifdef GUI_800x480
+	// 	define PokerTH default GameTableStyle for Maemo
+	treeWidget_gameTableStyles->clear();
+
+	GameTableStyleReader defaultTableStyle(myConfig, this);
+	defaultTableStyle.readStyleFile(QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str())+"gfx/gui/table/default_800x480/defaulttablestyle_800x480.xml");
+	if(defaultTableStyle.getLoadedSuccessfull()) {
+		QStringList tempStringList1;
+		tempStringList1 << defaultTableStyle.getStyleDescription() << defaultTableStyle.getStyleMaintainerName();
+		MyStyleListItem *defaultTableItem = new MyStyleListItem(tempStringList1, treeWidget_gameTableStyles);
+		defaultTableItem->setData(0, 15, QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str())+"gfx/gui/table/default_800x480/defaulttablestyle_800x480.xml");
+		defaultTableItem->setData(0, 16, POKERTH_DISTRIBUTED_STYLE);
+		defaultTableItem->setData(0, Qt::ToolTipRole, QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str())+"gfx/gui/table/default_800x480/defaulttablestyle_800x480.xml");
+		defaultTableItem->setData(2, Qt::ToolTipRole, defaultTableStyle.getMyStateToolTipInfo());
+		if(defaultTableStyle.getState()) defaultTableItem->setIcon(2, QIcon(":/gfx/emblem-important.png"));
+		else defaultTableItem->setIcon(2, QIcon(":/gfx/dialog_ok_apply.png"));
+	}
+#else
 	// 	define PokerTH default GameTableStyle
 	treeWidget_gameTableStyles->clear();
 
@@ -300,6 +321,7 @@ void settingsDialogImpl::prepareDialog()
 		if(danuxi1TableStyle.getState()) danuxi1TableItem->setIcon(2, QIcon(":/gfx/emblem-important.png"));
 		else danuxi1TableItem->setIcon(2, QIcon(":/gfx/dialog_ok_apply.png"));
 	}
+#endif
 
 	//load secondary styles into list (if fallback no entry)
 	myGameTableStylesList = myConfig->readConfigStringList("GameTableStylesList");
@@ -650,15 +672,17 @@ void settingsDialogImpl::isAccepted()
 
 	// 	Interface
 	myConfig->writeConfigString("Language", comboBox_switchLanguage->itemData(comboBox_switchLanguage->currentIndex()).toString().toUtf8().constData());
+#ifndef GUI_800x480
 	myConfig->writeConfigInt("ShowLeftToolBox", checkBox_showLeftToolbox->isChecked());
 	myConfig->writeConfigInt("ShowRightToolBox", checkBox_showRightToolbox->isChecked());
+	myConfig->writeConfigInt("AlternateFKeysUserActionMode", checkBox_alternateFKeysUserActionMode->isChecked());
+#endif
 	myConfig->writeConfigInt("ShowFadeOutCardsAnimation", checkBox_showFadeOutCardsAnimation->isChecked());
 	myConfig->writeConfigInt("ShowFlipCardsAnimation", checkBox_showFlipCardsAnimation->isChecked());
 	myConfig->writeConfigInt("ShowBlindButtons", checkBox_showBlindButtons->isChecked());
 	myConfig->writeConfigInt("ShowCardsChanceMonitor", checkBox_cardsChanceMonitor->isChecked());
 	myConfig->writeConfigInt("AntiPeekMode", checkBox_antiPeekMode->isChecked());
 	myConfig->writeConfigInt("ShowCountryFlagInAvatar", checkBox_showCountryFlagInAvatar->isChecked());
-	myConfig->writeConfigInt("AlternateFKeysUserActionMode", checkBox_alternateFKeysUserActionMode->isChecked());
 	myConfig->writeConfigInt("DontTranslateInternationalPokerStringsFromStyle", checkBox_dontTranslatePokerStrings->isChecked());
 	myConfig->writeConfigInt("DisableSplashScreenOnStartup", checkBox_disableSplashscreen->isChecked());
 	myConfig->writeConfigInt("EnableBetInputFocusSwitch", checkBox_enableBetInputFocusSwitch->isChecked());
@@ -1209,6 +1233,9 @@ void settingsDialogImpl::showCurrentCardDeckStylePreview()
 			maintainerEMailString = "<b>"+MaintainerEMail+":</b> "+style.getStyleMaintainerEMail()+"<br>";
 		}
 
+#ifdef GUI_800x480
+		label_cardDeckStyleInfo->setWordWrap(TRUE);
+#endif
 		label_cardDeckStyleInfo->setText("<b>"+MaintainerName+":</b> "+style.getStyleMaintainerName()+"<br>"+maintainerEMailString+"<b>"+CreateDate+":</b> "+style.getStyleCreateDate()+"");
 		//active the current selected item directly
 		setSelectedCardDeckStyleActivated();

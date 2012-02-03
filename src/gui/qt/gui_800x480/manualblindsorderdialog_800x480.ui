@@ -6,68 +6,43 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>248</width>
-    <height>362</height>
+    <width>800</width>
+    <height>424</height>
    </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>800</width>
+    <height>424</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>800</width>
+    <height>424</height>
+   </size>
   </property>
   <property name="windowTitle">
    <string>Manual Blinds Order</string>
   </property>
+  <property name="styleSheet">
+   <string notr="true">QObject {font: 20px}</string>
+  </property>
   <layout class="QGridLayout">
-   <item row="0" column="0">
-    <layout class="QGridLayout">
-     <property name="horizontalSpacing">
-      <number>4</number>
-     </property>
-     <item row="0" column="0" rowspan="2">
-      <widget class="QListWidget" name="listWidget_blinds"/>
-     </item>
-     <item row="0" column="1">
-      <widget class="QPushButton" name="pushButton_delete">
-       <property name="text">
-        <string>Delete</string>
-       </property>
-      </widget>
-     </item>
-     <item row="1" column="1">
-      <spacer>
-       <property name="orientation">
-        <enum>Qt::Vertical</enum>
-       </property>
-       <property name="sizeHint" stdset="0">
-        <size>
-         <width>20</width>
-         <height>121</height>
-        </size>
-       </property>
-      </spacer>
-     </item>
-     <item row="2" column="0">
-      <widget class="QSpinBox" name="spinBox_input">
-       <property name="prefix">
-        <string>$</string>
-       </property>
-       <property name="minimum">
-        <number>1</number>
-       </property>
-       <property name="maximum">
-        <number>20000</number>
-       </property>
-       <property name="value">
-        <number>5</number>
-       </property>
-      </widget>
-     </item>
-     <item row="2" column="1">
-      <widget class="QPushButton" name="pushButton_add">
-       <property name="text">
-        <string>Add</string>
-       </property>
-      </widget>
-     </item>
-    </layout>
-   </item>
    <item row="1" column="0">
+    <spacer name="verticalSpacer">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>40</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item row="2" column="0">
     <widget class="QGroupBox" name="groupBox">
      <property name="title">
       <string>Afterwards:</string>
@@ -126,23 +101,76 @@
      </layout>
     </widget>
    </item>
-   <item row="2" column="0">
+   <item row="3" column="0">
     <widget class="QDialogButtonBox" name="buttonBox">
+     <property name="styleSheet">
+      <string notr="true">QObject {font: bold 20px}</string>
+     </property>
      <property name="orientation">
       <enum>Qt::Horizontal</enum>
      </property>
      <property name="standardButtons">
-      <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
+      <set>QDialogButtonBox::Ok</set>
      </property>
     </widget>
+   </item>
+   <item row="0" column="0">
+    <layout class="QGridLayout">
+     <property name="horizontalSpacing">
+      <number>4</number>
+     </property>
+     <item row="2" column="0" rowspan="2">
+      <widget class="QListWidget" name="listWidget_blinds"/>
+     </item>
+     <item row="3" column="1">
+      <widget class="QPushButton" name="pushButton_delete">
+       <property name="text">
+        <string>Delete</string>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="1">
+      <spacer>
+       <property name="orientation">
+        <enum>Qt::Vertical</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>20</width>
+         <height>121</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item row="0" column="0">
+      <widget class="QSpinBox" name="spinBox_input">
+       <property name="prefix">
+        <string>$</string>
+       </property>
+       <property name="minimum">
+        <number>1</number>
+       </property>
+       <property name="maximum">
+        <number>20000</number>
+       </property>
+       <property name="value">
+        <number>5</number>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="1">
+      <widget class="QPushButton" name="pushButton_add">
+       <property name="text">
+        <string>Add</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
    </item>
   </layout>
  </widget>
  <tabstops>
   <tabstop>listWidget_blinds</tabstop>
-  <tabstop>pushButton_delete</tabstop>
-  <tabstop>spinBox_input</tabstop>
-  <tabstop>pushButton_add</tabstop>
   <tabstop>radioButton_alwaysDoubleBlinds</tabstop>
   <tabstop>radioButton_alwaysRaiseAbout</tabstop>
   <tabstop>spinBox_alwaysRaiseValue</tabstop>

@@ -6,18 +6,27 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>275</width>
-    <height>118</height>
+    <width>800</width>
+    <height>250</height>
    </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>800</width>
+    <height>250</height>
+   </size>
   </property>
   <property name="maximumSize">
    <size>
     <width>800</width>
-    <height>600</height>
+    <height>250</height>
    </size>
   </property>
   <property name="windowTitle">
    <string>Dialog</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">QObject {font: 20px}</string>
   </property>
   <layout class="QGridLayout">
    <property name="topMargin">
@@ -67,6 +76,9 @@
      </item>
      <item row="3" column="0">
       <widget class="QDialogButtonBox" name="buttonBox">
+       <property name="styleSheet">
+        <string notr="true">QObject {font: bold 20px}</string>
+       </property>
        <property name="orientation">
         <enum>Qt::Horizontal</enum>
        </property>

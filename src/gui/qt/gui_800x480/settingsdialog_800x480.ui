@@ -6,35 +6,50 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>785</width>
-    <height>530</height>
+    <width>800</width>
+    <height>424</height>
    </rect>
   </property>
   <property name="minimumSize">
    <size>
-    <width>785</width>
-    <height>530</height>
+    <width>800</width>
+    <height>424</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>800</width>
+    <height>424</height>
    </size>
   </property>
   <property name="windowTitle">
    <string>Settings</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
+   <property name="margin">
+    <number>0</number>
+   </property>
+   <property name="spacing">
+    <number>0</number>
+   </property>
    <item row="0" column="0">
     <layout class="QHBoxLayout">
      <item>
       <widget class="QListWidget" name="listWidget">
        <property name="minimumSize">
         <size>
-         <width>190</width>
+         <width>200</width>
          <height>0</height>
         </size>
        </property>
        <property name="maximumSize">
         <size>
-         <width>190</width>
+         <width>200</width>
          <height>16777215</height>
         </size>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">QObject { font: 16px }</string>
        </property>
        <property name="iconSize">
         <size>
@@ -53,7 +68,7 @@
          <string>Interface</string>
         </property>
         <property name="icon">
-         <iconset resource="resources/pokerth.qrc">
+         <iconset resource="../resources/pokerth.qrc">
           <normaloff>:/gfx/preferences-desktop.png</normaloff>:/gfx/preferences-desktop.png</iconset>
         </property>
        </item>
@@ -62,7 +77,7 @@
          <string>Style</string>
         </property>
         <property name="icon">
-         <iconset resource="resources/pokerth.qrc">
+         <iconset resource="../resources/pokerth.qrc">
           <normaloff>:/gfx/fill-color.png</normaloff>:/gfx/fill-color.png</iconset>
         </property>
        </item>
@@ -71,7 +86,7 @@
          <string>Sound</string>
         </property>
         <property name="icon">
-         <iconset resource="resources/pokerth.qrc">
+         <iconset resource="../resources/pokerth.qrc">
           <normaloff>:/gfx/speaker.png</normaloff>:/gfx/speaker.png</iconset>
         </property>
        </item>
@@ -80,7 +95,7 @@
          <string>Local Game</string>
         </property>
         <property name="icon">
-         <iconset resource="resources/pokerth.qrc">
+         <iconset resource="../resources/pokerth.qrc">
           <normaloff>:/gfx/swbuttonlocalgame.png</normaloff>:/gfx/swbuttonlocalgame.png</iconset>
         </property>
        </item>
@@ -89,7 +104,7 @@
          <string>Network Game</string>
         </property>
         <property name="icon">
-         <iconset resource="resources/pokerth.qrc">
+         <iconset resource="../resources/pokerth.qrc">
           <normaloff>:/gfx/swbuttonjoinnetworkgame.png</normaloff>:/gfx/swbuttonjoinnetworkgame.png</iconset>
         </property>
        </item>
@@ -98,7 +113,7 @@
          <string>Internet Game</string>
         </property>
         <property name="icon">
-         <iconset resource="resources/pokerth.qrc">
+         <iconset resource="../resources/pokerth.qrc">
           <normaloff>:/gfx/swbuttoninternetgame.png</normaloff>:/gfx/swbuttoninternetgame.png</iconset>
         </property>
        </item>
@@ -107,7 +122,7 @@
          <string>Nicks/Avatars</string>
         </property>
         <property name="icon">
-         <iconset resource="resources/pokerth.qrc">
+         <iconset resource="../resources/pokerth.qrc">
           <normaloff>:/gfx/system_users.png</normaloff>:/gfx/system_users.png</iconset>
         </property>
        </item>
@@ -116,7 +131,7 @@
          <string>Log Messages</string>
         </property>
         <property name="icon">
-         <iconset resource="resources/pokerth.qrc">
+         <iconset resource="../resources/pokerth.qrc">
           <normaloff>:/gfx/utilities-log-viewer.png</normaloff>:/gfx/utilities-log-viewer.png</iconset>
         </property>
        </item>
@@ -125,7 +140,7 @@
          <string>Factory Settings</string>
         </property>
         <property name="icon">
-         <iconset resource="resources/pokerth.qrc">
+         <iconset resource="../resources/pokerth.qrc">
           <normaloff>:/gfx/document-revert.png</normaloff>:/gfx/document-revert.png</iconset>
         </property>
        </item>
@@ -134,24 +149,35 @@
      <item>
       <widget class="QStackedWidget" name="stackedWidget">
        <property name="currentIndex">
-        <number>0</number>
+        <number>1</number>
        </property>
        <widget class="QWidget" name="page">
+        <property name="styleSheet">
+         <string notr="true">QObject {font: 16px}</string>
+        </property>
         <layout class="QGridLayout" name="gridLayout_8">
+         <property name="leftMargin">
+          <number>2</number>
+         </property>
+         <property name="topMargin">
+          <number>0</number>
+         </property>
+         <property name="rightMargin">
+          <number>0</number>
+         </property>
+         <property name="bottomMargin">
+          <number>0</number>
+         </property>
+         <property name="spacing">
+          <number>0</number>
+         </property>
          <item row="0" column="0">
           <widget class="QLabel" name="label_19">
            <property name="styleSheet">
-            <string notr="true">QLabel { font-weight: bold;  }</string>
+            <string notr="true">QObject { font: bold 20px }</string>
            </property>
            <property name="text">
             <string>Interface</string>
-           </property>
-          </widget>
-         </item>
-         <item row="1" column="0">
-          <widget class="Line" name="line_6">
-           <property name="orientation">
-            <enum>Qt::Horizontal</enum>
            </property>
           </widget>
          </item>
@@ -159,6 +185,9 @@
           <layout class="QHBoxLayout">
            <item>
             <widget class="QLabel" name="label_14">
+             <property name="styleSheet">
+              <string notr="true"/>
+             </property>
              <property name="text">
               <string>Language:</string>
              </property>
@@ -168,7 +197,11 @@
             </widget>
            </item>
            <item>
-            <widget class="QComboBox" name="comboBox_switchLanguage"/>
+            <widget class="QComboBox" name="comboBox_switchLanguage">
+             <property name="styleSheet">
+              <string notr="true"/>
+             </property>
+            </widget>
            </item>
            <item>
             <spacer>
@@ -188,74 +221,66 @@
          <item row="3" column="0">
           <layout class="QGridLayout" name="gridLayout_7">
            <item row="0" column="0" colspan="2">
-            <widget class="QCheckBox" name="checkBox_showRightToolbox">
-             <property name="text">
-              <string>Show right toolbox</string>
-             </property>
-            </widget>
-           </item>
-           <item row="2" column="0" colspan="2">
             <widget class="QCheckBox" name="checkBox_showFadeOutCardsAnimation">
              <property name="text">
               <string>Show fade-out animation for non-winning cards</string>
              </property>
             </widget>
            </item>
-           <item row="4" column="0" colspan="2">
-            <widget class="QCheckBox" name="checkBox_alternateFKeysUserActionMode">
-             <property name="text">
-              <string>Reverse order of F-Keys (F1 - F4)</string>
-             </property>
-            </widget>
-           </item>
-           <item row="5" column="0" colspan="2">
+           <item row="2" column="0" colspan="2">
             <widget class="QCheckBox" name="checkBox_showBlindButtons">
              <property name="text">
               <string>Show buttons for small blind and big blind</string>
              </property>
             </widget>
            </item>
-           <item row="9" column="0" colspan="2">
+           <item row="6" column="0" colspan="2">
             <widget class="QCheckBox" name="checkBox_dontTranslatePokerStrings">
              <property name="text">
               <string>Don't translate poker strings like check, call, raise from game table style</string>
              </property>
             </widget>
            </item>
-           <item row="6" column="0" colspan="2">
+           <item row="3" column="0" colspan="2">
             <widget class="QCheckBox" name="checkBox_cardsChanceMonitor">
              <property name="text">
               <string>Show cards chance monitor</string>
              </property>
             </widget>
            </item>
-           <item row="7" column="0" colspan="2">
+           <item row="4" column="0" colspan="2">
             <widget class="QCheckBox" name="checkBox_antiPeekMode">
              <property name="text">
               <string>Show own cards only on mouse click</string>
              </property>
             </widget>
            </item>
-           <item row="3" column="0" colspan="2">
+           <item row="5" column="0" colspan="2">
+            <widget class="QCheckBox" name="checkBox_disableSplashscreen">
+             <property name="text">
+              <string>Disable splashscreen on startup</string>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="0" colspan="2">
             <widget class="QCheckBox" name="checkBox_showFlipCardsAnimation">
              <property name="text">
               <string>Show flip-card animation</string>
              </property>
             </widget>
            </item>
-           <item row="1" column="0" colspan="2">
-            <widget class="QCheckBox" name="checkBox_showLeftToolbox">
-             <property name="text">
-              <string>Show left toolbox</string>
+           <item row="7" column="0">
+            <spacer name="verticalSpacer_2">
+             <property name="orientation">
+              <enum>Qt::Vertical</enum>
              </property>
-            </widget>
-           </item>
-           <item row="8" column="0" colspan="2">
-            <widget class="QCheckBox" name="checkBox_disableSplashscreen">
-             <property name="text">
-              <string>Disable splashscreen on startup</string>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>20</width>
+               <height>40</height>
+              </size>
              </property>
-            </widget>
+            </spacer>
            </item>
           </layout>
          </item>
@@ -264,23 +289,50 @@
            <property name="title">
             <string>Network / Internet Game</string>
            </property>
+           <property name="alignment">
+            <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+           </property>
            <layout class="QGridLayout">
-            <item row="1" column="0">
+            <property name="leftMargin">
+             <number>20</number>
+            </property>
+            <property name="topMargin">
+             <number>0</number>
+            </property>
+            <property name="rightMargin">
+             <number>0</number>
+            </property>
+            <property name="bottomMargin">
+             <number>0</number>
+            </property>
+            <property name="spacing">
+             <number>0</number>
+            </property>
+            <item row="2" column="0">
              <widget class="QCheckBox" name="checkBox_enableBetInputFocusSwitch">
+              <property name="styleSheet">
+               <string notr="true">QObject {font: 14px}</string>
+              </property>
               <property name="text">
                <string>Switch keyboard focus to bet-input-field if it's your turn</string>
               </property>
              </widget>
             </item>
-            <item row="0" column="0">
+            <item row="1" column="0">
              <widget class="QCheckBox" name="checkBox_showCountryFlagInAvatar">
+              <property name="styleSheet">
+               <string notr="true">QObject {font: 14px}</string>
+              </property>
               <property name="text">
                <string>Show country flag in the corner of avatar</string>
               </property>
              </widget>
             </item>
-            <item row="2" column="0">
+            <item row="3" column="0">
              <widget class="QCheckBox" name="checkBox_enableAccidentallyCallBlocker">
+              <property name="styleSheet">
+               <string notr="true">QObject {font: 14px}</string>
+              </property>
               <property name="text">
                <string>Activate the &quot;accidentally call after big raise&quot; blocker</string>
               </property>
@@ -289,15 +341,15 @@
            </layout>
           </widget>
          </item>
-         <item row="5" column="0">
-          <spacer>
+         <item row="1" column="0">
+          <spacer name="verticalSpacer_7">
            <property name="orientation">
             <enum>Qt::Vertical</enum>
            </property>
            <property name="sizeHint" stdset="0">
             <size>
-             <width>400</width>
-             <height>111</height>
+             <width>20</width>
+             <height>40</height>
             </size>
            </property>
           </spacer>
@@ -305,11 +357,20 @@
         </layout>
        </widget>
        <widget class="QWidget" name="page_8">
+        <property name="styleSheet">
+         <string notr="true">QObject {font: 14px}</string>
+        </property>
         <layout class="QGridLayout" name="gridLayout_12">
+         <property name="margin">
+          <number>0</number>
+         </property>
+         <property name="spacing">
+          <number>0</number>
+         </property>
          <item row="0" column="0">
           <widget class="QLabel" name="label_28">
            <property name="styleSheet">
-            <string notr="true">QLabel { font-weight: bold;  }</string>
+            <string notr="true">QObject {font: bold 20px}</string>
            </property>
            <property name="text">
             <string>Style</string>
@@ -317,16 +378,12 @@
           </widget>
          </item>
          <item row="1" column="0">
-          <widget class="Line" name="line_7">
-           <property name="orientation">
-            <enum>Qt::Horizontal</enum>
-           </property>
-          </widget>
-         </item>
-         <item row="2" column="0">
           <widget class="QTabWidget" name="tabWidget">
+           <property name="styleSheet">
+            <string notr="true"/>
+           </property>
            <property name="currentIndex">
-            <number>0</number>
+            <number>1</number>
            </property>
            <widget class="QWidget" name="tab_3">
             <attribute name="title">
@@ -357,7 +414,7 @@
                  <property name="sizeHint" stdset="0">
                   <size>
                    <width>20</width>
-                   <height>17</height>
+                   <height>10</height>
                   </size>
                  </property>
                 </spacer>
@@ -366,6 +423,18 @@
              </item>
              <item row="1" column="0" colspan="2">
               <widget class="QGroupBox" name="groupBox_13">
+               <property name="minimumSize">
+                <size>
+                 <width>0</width>
+                 <height>170</height>
+                </size>
+               </property>
+               <property name="maximumSize">
+                <size>
+                 <width>16777215</width>
+                 <height>170</height>
+                </size>
+               </property>
                <property name="title">
                 <string>Preview - Information:</string>
                </property>
@@ -391,6 +460,21 @@
                 </item>
                 <item row="0" column="1">
                  <widget class="QLabel" name="label_gameTableStyleInfo">
+                  <property name="minimumSize">
+                   <size>
+                    <width>0</width>
+                    <height>150</height>
+                   </size>
+                  </property>
+                  <property name="maximumSize">
+                   <size>
+                    <width>16777215</width>
+                    <height>150</height>
+                   </size>
+                  </property>
+                  <property name="styleSheet">
+                   <string notr="true">QObject {font: 14px}</string>
+                  </property>
                   <property name="text">
                    <string/>
                   </property>
@@ -405,7 +489,7 @@
                </layout>
               </widget>
              </item>
-             <item row="2" column="0" colspan="2">
+             <item row="3" column="0" colspan="2">
               <widget class="QLabel" name="label_55">
                <property name="text">
                 <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
@@ -421,6 +505,18 @@ p, li { white-space: pre-wrap; }
              </item>
              <item row="0" column="0">
               <widget class="QTreeWidget" name="treeWidget_gameTableStyles">
+               <property name="minimumSize">
+                <size>
+                 <width>0</width>
+                 <height>0</height>
+                </size>
+               </property>
+               <property name="maximumSize">
+                <size>
+                 <width>16777215</width>
+                 <height>16777215</height>
+                </size>
+               </property>
                <property name="indentation">
                 <number>5</number>
                </property>
@@ -462,6 +558,19 @@ p, li { white-space: pre-wrap; }
                </column>
               </widget>
              </item>
+             <item row="2" column="0">
+              <spacer name="verticalSpacer_17">
+               <property name="orientation">
+                <enum>Qt::Vertical</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>20</width>
+                 <height>40</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
             </layout>
            </widget>
            <widget class="QWidget" name="tab_4">
@@ -502,6 +611,18 @@ p, li { white-space: pre-wrap; }
              </item>
              <item row="1" column="0" colspan="2">
               <widget class="QGroupBox" name="groupBox_14">
+               <property name="minimumSize">
+                <size>
+                 <width>0</width>
+                 <height>170</height>
+                </size>
+               </property>
+               <property name="maximumSize">
+                <size>
+                 <width>16777215</width>
+                 <height>170</height>
+                </size>
+               </property>
                <property name="title">
                 <string>Preview - Information:</string>
                </property>
@@ -527,6 +648,21 @@ p, li { white-space: pre-wrap; }
                 </item>
                 <item row="0" column="1">
                  <widget class="QLabel" name="label_cardDeckStyleInfo">
+                  <property name="minimumSize">
+                   <size>
+                    <width>0</width>
+                    <height>160</height>
+                   </size>
+                  </property>
+                  <property name="maximumSize">
+                   <size>
+                    <width>16777215</width>
+                    <height>160</height>
+                   </size>
+                  </property>
+                  <property name="styleSheet">
+                   <string notr="true">QObject {font: 14px}</string>
+                  </property>
                   <property name="text">
                    <string/>
                   </property>
@@ -541,7 +677,7 @@ p, li { white-space: pre-wrap; }
                </layout>
               </widget>
              </item>
-             <item row="2" column="0" colspan="2">
+             <item row="3" column="0" colspan="2">
               <widget class="QLabel" name="label_56">
                <property name="text">
                 <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
@@ -587,14 +723,30 @@ p, li { white-space: pre-wrap; }
                </column>
               </widget>
              </item>
+             <item row="2" column="0">
+              <spacer name="verticalSpacer_18">
+               <property name="orientation">
+                <enum>Qt::Vertical</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>20</width>
+                 <height>40</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
             </layout>
            </widget>
            <widget class="QWidget" name="tab">
+            <property name="styleSheet">
+             <string notr="true">QObject {font: 16px}</string>
+            </property>
             <attribute name="title">
              <string>Card Back</string>
             </attribute>
             <layout class="QGridLayout" name="gridLayout_17">
-             <item row="0" column="0">
+             <item row="1" column="0">
               <widget class="QRadioButton" name="radioButton_flipsideTux">
                <property name="text">
                 <string>Use card back from card style</string>
@@ -604,7 +756,7 @@ p, li { white-space: pre-wrap; }
                </property>
               </widget>
              </item>
-             <item row="1" column="0">
+             <item row="2" column="0">
               <layout class="QVBoxLayout" name="_3">
                <property name="spacing">
                 <number>0</number>
@@ -652,7 +804,7 @@ p, li { white-space: pre-wrap; }
                     </size>
                    </property>
                    <property name="icon">
-                    <iconset resource="resources/pokerth.qrc">
+                    <iconset resource="../resources/pokerth.qrc">
                      <normaloff>:/gfx/document-open-folder.png</normaloff>:/gfx/document-open-folder.png</iconset>
                    </property>
                   </widget>
@@ -661,15 +813,18 @@ p, li { white-space: pre-wrap; }
                </item>
                <item>
                 <widget class="QLabel" name="label_57">
+                 <property name="styleSheet">
+                  <string notr="true"/>
+                 </property>
                  <property name="text">
                   <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Nimbus Sans L'; font-size:8pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;table style=&quot;-qt-table-type: root; margin-top:4px; margin-bottom:4px; margin-left:4px; margin-right:4px;&quot;&gt;
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Sans Serif'; font-weight:400; font-style:normal;&quot;&gt;
+&lt;table border=&quot;0&quot; style=&quot;-qt-table-type: root; margin-top:4px; margin-bottom:4px; margin-left:4px; margin-right:4px;&quot;&gt;
 &lt;tr&gt;
 &lt;td style=&quot;border: none;&quot;&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-style:italic;&quot;&gt;Note: Best quality with image ratio like &lt;/span&gt;&lt;span style=&quot; font-weight:600; font-style:italic;&quot;&gt;width=48, height=76.&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/body&gt;&lt;/html&gt;</string>
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'Nimbus Sans L'; font-size:10pt; font-style:italic;&quot;&gt;Note: Best quality with image ratio like &lt;/span&gt;&lt;span style=&quot; font-family:'Nimbus Sans L'; font-size:10pt; font-weight:600; font-style:italic;&quot;&gt;width=48, height=76.&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/body&gt;&lt;/html&gt;</string>
                  </property>
                  <property name="wordWrap">
                   <bool>true</bool>
@@ -678,7 +833,20 @@ p, li { white-space: pre-wrap; }
                </item>
               </layout>
              </item>
-             <item row="2" column="0">
+             <item row="0" column="0">
+              <spacer name="verticalSpacer_8">
+               <property name="orientation">
+                <enum>Qt::Vertical</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>20</width>
+                 <height>40</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
+             <item row="3" column="0">
               <spacer name="verticalSpacer_4">
                <property name="orientation">
                 <enum>Qt::Vertical</enum>
@@ -686,7 +854,7 @@ p, li { white-space: pre-wrap; }
                <property name="sizeHint" stdset="0">
                 <size>
                  <width>20</width>
-                 <height>276</height>
+                 <height>40</height>
                 </size>
                </property>
               </spacer>
@@ -698,21 +866,32 @@ p, li { white-space: pre-wrap; }
         </layout>
        </widget>
        <widget class="QWidget" name="page_6">
+        <property name="styleSheet">
+         <string notr="true">QObject {font: 16px}</string>
+        </property>
         <layout class="QGridLayout">
+         <property name="leftMargin">
+          <number>2</number>
+         </property>
+         <property name="topMargin">
+          <number>0</number>
+         </property>
+         <property name="rightMargin">
+          <number>0</number>
+         </property>
+         <property name="bottomMargin">
+          <number>0</number>
+         </property>
+         <property name="spacing">
+          <number>0</number>
+         </property>
          <item row="0" column="0">
           <widget class="QLabel" name="label_26">
            <property name="styleSheet">
-            <string notr="true">QLabel { font-weight: bold;  }</string>
+            <string notr="true">QObject {font: bold 20px}</string>
            </property>
            <property name="text">
             <string>Sound</string>
-           </property>
-          </widget>
-         </item>
-         <item row="1" column="0">
-          <widget class="Line" name="line_8">
-           <property name="orientation">
-            <enum>Qt::Horizontal</enum>
            </property>
           </widget>
          </item>
@@ -758,6 +937,100 @@ p, li { white-space: pre-wrap; }
               </item>
               <item>
                <widget class="QSlider" name="horizontalSlider_soundVolume">
+                <property name="palette">
+                 <palette>
+                  <active>
+                   <colorrole role="Button">
+                    <brush brushstyle="SolidPattern">
+                     <color alpha="255">
+                      <red>255</red>
+                      <green>255</green>
+                      <blue>255</blue>
+                     </color>
+                    </brush>
+                   </colorrole>
+                   <colorrole role="Base">
+                    <brush brushstyle="SolidPattern">
+                     <color alpha="255">
+                      <red>255</red>
+                      <green>255</green>
+                      <blue>255</blue>
+                     </color>
+                    </brush>
+                   </colorrole>
+                   <colorrole role="Window">
+                    <brush brushstyle="SolidPattern">
+                     <color alpha="255">
+                      <red>255</red>
+                      <green>255</green>
+                      <blue>255</blue>
+                     </color>
+                    </brush>
+                   </colorrole>
+                  </active>
+                  <inactive>
+                   <colorrole role="Button">
+                    <brush brushstyle="SolidPattern">
+                     <color alpha="255">
+                      <red>255</red>
+                      <green>255</green>
+                      <blue>255</blue>
+                     </color>
+                    </brush>
+                   </colorrole>
+                   <colorrole role="Base">
+                    <brush brushstyle="SolidPattern">
+                     <color alpha="255">
+                      <red>255</red>
+                      <green>255</green>
+                      <blue>255</blue>
+                     </color>
+                    </brush>
+                   </colorrole>
+                   <colorrole role="Window">
+                    <brush brushstyle="SolidPattern">
+                     <color alpha="255">
+                      <red>255</red>
+                      <green>255</green>
+                      <blue>255</blue>
+                     </color>
+                    </brush>
+                   </colorrole>
+                  </inactive>
+                  <disabled>
+                   <colorrole role="Button">
+                    <brush brushstyle="SolidPattern">
+                     <color alpha="255">
+                      <red>255</red>
+                      <green>255</green>
+                      <blue>255</blue>
+                     </color>
+                    </brush>
+                   </colorrole>
+                   <colorrole role="Base">
+                    <brush brushstyle="SolidPattern">
+                     <color alpha="255">
+                      <red>255</red>
+                      <green>255</green>
+                      <blue>255</blue>
+                     </color>
+                    </brush>
+                   </colorrole>
+                   <colorrole role="Window">
+                    <brush brushstyle="SolidPattern">
+                     <color alpha="255">
+                      <red>255</red>
+                      <green>255</green>
+                      <blue>255</blue>
+                     </color>
+                    </brush>
+                   </colorrole>
+                  </disabled>
+                 </palette>
+                </property>
+                <property name="styleSheet">
+                 <string notr="true">background-color: rgb(255, 255, 255);</string>
+                </property>
                 <property name="minimum">
                  <number>1</number>
                 </property>
@@ -810,18 +1083,44 @@ p, li { white-space: pre-wrap; }
               </layout>
              </widget>
             </item>
+            <item row="2" column="0">
+             <spacer name="verticalSpacer_10">
+              <property name="orientation">
+               <enum>Qt::Vertical</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>20</width>
+                <height>40</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+            <item row="3" column="0">
+             <spacer name="verticalSpacer_11">
+              <property name="orientation">
+               <enum>Qt::Vertical</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>20</width>
+                <height>40</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
            </layout>
           </widget>
          </item>
-         <item row="3" column="0">
-          <spacer>
+         <item row="1" column="0">
+          <spacer name="verticalSpacer_9">
            <property name="orientation">
             <enum>Qt::Vertical</enum>
            </property>
            <property name="sizeHint" stdset="0">
             <size>
-             <width>400</width>
-             <height>321</height>
+             <width>20</width>
+             <height>40</height>
             </size>
            </property>
           </spacer>
@@ -829,11 +1128,29 @@ p, li { white-space: pre-wrap; }
         </layout>
        </widget>
        <widget class="QWidget" name="page_2">
+        <property name="styleSheet">
+         <string notr="true">QObject {font: 16px}</string>
+        </property>
         <layout class="QVBoxLayout">
+         <property name="spacing">
+          <number>0</number>
+         </property>
+         <property name="leftMargin">
+          <number>2</number>
+         </property>
+         <property name="topMargin">
+          <number>0</number>
+         </property>
+         <property name="rightMargin">
+          <number>0</number>
+         </property>
+         <property name="bottomMargin">
+          <number>0</number>
+         </property>
          <item>
           <widget class="QLabel" name="label_5">
            <property name="styleSheet">
-            <string notr="true">QLabel { font-weight: bold;  }</string>
+            <string notr="true">QObject {font: bold 20px}</string>
            </property>
            <property name="text">
             <string>Local Game Settings</string>
@@ -841,11 +1158,17 @@ p, li { white-space: pre-wrap; }
           </widget>
          </item>
          <item>
-          <widget class="Line" name="line_3">
+          <spacer name="verticalSpacer_12">
            <property name="orientation">
-            <enum>Qt::Horizontal</enum>
+            <enum>Qt::Vertical</enum>
            </property>
-          </widget>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>20</width>
+             <height>40</height>
+            </size>
+           </property>
+          </spacer>
          </item>
          <item>
           <layout class="QHBoxLayout">
@@ -950,6 +1273,9 @@ p, li { white-space: pre-wrap; }
               </property>
               <item row="0" column="0">
                <widget class="QRadioButton" name="radioButton_raiseBlindsAtHands">
+                <property name="styleSheet">
+                 <string notr="true">QObject {font: 14px}</string>
+                </property>
                 <property name="text">
                  <string>Every:</string>
                 </property>
@@ -960,6 +1286,9 @@ p, li { white-space: pre-wrap; }
               </item>
               <item row="0" column="1">
                <widget class="QSpinBox" name="spinBox_raiseSmallBlindEveryHands">
+                <property name="styleSheet">
+                 <string notr="true">QObject {font: 14px}</string>
+                </property>
                 <property name="minimum">
                  <number>1</number>
                 </property>
@@ -973,6 +1302,9 @@ p, li { white-space: pre-wrap; }
                   <verstretch>0</verstretch>
                  </sizepolicy>
                 </property>
+                <property name="styleSheet">
+                 <string notr="true">QObject {font: 14px}</string>
+                </property>
                 <property name="text">
                  <string>hands</string>
                 </property>
@@ -980,6 +1312,9 @@ p, li { white-space: pre-wrap; }
               </item>
               <item row="1" column="0">
                <widget class="QRadioButton" name="radioButton_raiseBlindsAtMinutes">
+                <property name="styleSheet">
+                 <string notr="true">QObject {font: 14px}</string>
+                </property>
                 <property name="text">
                  <string>Every:</string>
                 </property>
@@ -987,6 +1322,9 @@ p, li { white-space: pre-wrap; }
               </item>
               <item row="1" column="1">
                <widget class="QSpinBox" name="spinBox_raiseSmallBlindEveryMinutes">
+                <property name="styleSheet">
+                 <string notr="true">QObject {font: 14px}</string>
+                </property>
                 <property name="minimum">
                  <number>1</number>
                 </property>
@@ -999,6 +1337,9 @@ p, li { white-space: pre-wrap; }
                   <horstretch>0</horstretch>
                   <verstretch>0</verstretch>
                  </sizepolicy>
+                </property>
+                <property name="styleSheet">
+                 <string notr="true">QObject {font: 14px}</string>
                 </property>
                 <property name="text">
                  <string>minutes</string>
@@ -1038,6 +1379,9 @@ p, li { white-space: pre-wrap; }
               </property>
               <item row="0" column="0">
                <widget class="QRadioButton" name="radioButton_alwaysDoubleBlinds">
+                <property name="styleSheet">
+                 <string notr="true">QObject {font: 14px}</string>
+                </property>
                 <property name="text">
                  <string>Always double blinds</string>
                 </property>
@@ -1048,6 +1392,9 @@ p, li { white-space: pre-wrap; }
               </item>
               <item row="1" column="0">
                <widget class="QRadioButton" name="radioButton_manualBlindsOrder">
+                <property name="styleSheet">
+                 <string notr="true">QObject {font: 14px}</string>
+                </property>
                 <property name="text">
                  <string>Manual blinds order:</string>
                 </property>
@@ -1057,6 +1404,9 @@ p, li { white-space: pre-wrap; }
                <widget class="QPushButton" name="pushButton_editManualBlindsOrder">
                 <property name="enabled">
                  <bool>false</bool>
+                </property>
+                <property name="styleSheet">
+                 <string notr="true">QObject {font: 14px}</string>
                 </property>
                 <property name="text">
                  <string>Edit ...</string>
@@ -1110,14 +1460,14 @@ p, li { white-space: pre-wrap; }
           </widget>
          </item>
          <item>
-          <spacer>
+          <spacer name="verticalSpacer_13">
            <property name="orientation">
             <enum>Qt::Vertical</enum>
            </property>
            <property name="sizeHint" stdset="0">
             <size>
-             <width>437</width>
-             <height>285</height>
+             <width>20</width>
+             <height>40</height>
             </size>
            </property>
           </spacer>
@@ -1125,11 +1475,29 @@ p, li { white-space: pre-wrap; }
         </layout>
        </widget>
        <widget class="QWidget" name="page_4">
+        <property name="styleSheet">
+         <string notr="true">QObject {font: 15px}</string>
+        </property>
         <layout class="QVBoxLayout">
+         <property name="spacing">
+          <number>0</number>
+         </property>
+         <property name="leftMargin">
+          <number>2</number>
+         </property>
+         <property name="topMargin">
+          <number>0</number>
+         </property>
+         <property name="rightMargin">
+          <number>0</number>
+         </property>
+         <property name="bottomMargin">
+          <number>0</number>
+         </property>
          <item>
           <widget class="QLabel" name="label_34">
            <property name="styleSheet">
-            <string notr="true">QLabel { font-weight: bold;  }</string>
+            <string notr="true">QObject {font: bold 20px}</string>
            </property>
            <property name="text">
             <string>Network Game Settings</string>
@@ -1137,11 +1505,17 @@ p, li { white-space: pre-wrap; }
           </widget>
          </item>
          <item>
-          <widget class="Line" name="line_5">
+          <spacer name="verticalSpacer_14">
            <property name="orientation">
-            <enum>Qt::Horizontal</enum>
+            <enum>Qt::Vertical</enum>
            </property>
-          </widget>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>20</width>
+             <height>40</height>
+            </size>
+           </property>
+          </spacer>
          </item>
          <item>
           <layout class="QHBoxLayout">
@@ -1237,6 +1611,9 @@ p, li { white-space: pre-wrap; }
                <height>105</height>
               </size>
              </property>
+             <property name="styleSheet">
+              <string notr="true"/>
+             </property>
              <property name="title">
               <string>Raise blinds:</string>
              </property>
@@ -1258,6 +1635,9 @@ p, li { white-space: pre-wrap; }
               </property>
               <item row="0" column="0">
                <widget class="QRadioButton" name="radioButton_netRaiseBlindsAtHands">
+                <property name="styleSheet">
+                 <string notr="true">QObject {font: 14px}</string>
+                </property>
                 <property name="text">
                  <string>Every:</string>
                 </property>
@@ -1268,6 +1648,9 @@ p, li { white-space: pre-wrap; }
               </item>
               <item row="0" column="1">
                <widget class="QSpinBox" name="spinBox_netRaiseSmallBlindEveryHands">
+                <property name="styleSheet">
+                 <string notr="true">QObject {font: 14px}</string>
+                </property>
                 <property name="minimum">
                  <number>1</number>
                 </property>
@@ -1281,6 +1664,9 @@ p, li { white-space: pre-wrap; }
                   <verstretch>0</verstretch>
                  </sizepolicy>
                 </property>
+                <property name="styleSheet">
+                 <string notr="true">QObject {font: 14px}</string>
+                </property>
                 <property name="text">
                  <string>hands</string>
                 </property>
@@ -1288,6 +1674,9 @@ p, li { white-space: pre-wrap; }
               </item>
               <item row="1" column="0">
                <widget class="QRadioButton" name="radioButton_netRaiseBlindsAtMinutes">
+                <property name="styleSheet">
+                 <string notr="true">QObject {font: 14px}</string>
+                </property>
                 <property name="text">
                  <string>Every:</string>
                 </property>
@@ -1295,6 +1684,9 @@ p, li { white-space: pre-wrap; }
               </item>
               <item row="1" column="1">
                <widget class="QSpinBox" name="spinBox_netRaiseSmallBlindEveryMinutes">
+                <property name="styleSheet">
+                 <string notr="true">QObject {font: 14px}</string>
+                </property>
                 <property name="minimum">
                  <number>1</number>
                 </property>
@@ -1308,23 +1700,13 @@ p, li { white-space: pre-wrap; }
                   <verstretch>0</verstretch>
                  </sizepolicy>
                 </property>
+                <property name="styleSheet">
+                 <string notr="true">QObject {font: 14px}</string>
+                </property>
                 <property name="text">
                  <string>minutes</string>
                 </property>
                </widget>
-              </item>
-              <item row="2" column="1">
-               <spacer>
-                <property name="orientation">
-                 <enum>Qt::Vertical</enum>
-                </property>
-                <property name="sizeHint" stdset="0">
-                 <size>
-                  <width>20</width>
-                  <height>10</height>
-                 </size>
-                </property>
-               </spacer>
               </item>
              </layout>
             </widget>
@@ -1342,6 +1724,9 @@ p, li { white-space: pre-wrap; }
                <width>16777215</width>
                <height>105</height>
               </size>
+             </property>
+             <property name="styleSheet">
+              <string notr="true"/>
              </property>
              <property name="title">
               <string>Raise mode:</string>
@@ -1364,6 +1749,9 @@ p, li { white-space: pre-wrap; }
               </property>
               <item row="0" column="0">
                <widget class="QRadioButton" name="radioButton_netAlwaysDoubleBlinds">
+                <property name="styleSheet">
+                 <string notr="true">QObject {font: 14px}</string>
+                </property>
                 <property name="text">
                  <string>Always double blinds</string>
                 </property>
@@ -1374,6 +1762,9 @@ p, li { white-space: pre-wrap; }
               </item>
               <item row="1" column="0">
                <widget class="QRadioButton" name="radioButton_netManualBlindsOrder">
+                <property name="styleSheet">
+                 <string notr="true">QObject {font: 14px}</string>
+                </property>
                 <property name="text">
                  <string>Manual blinds order:</string>
                 </property>
@@ -1383,6 +1774,9 @@ p, li { white-space: pre-wrap; }
                <widget class="QPushButton" name="pushButton_netEditManualBlindsOrder">
                 <property name="enabled">
                  <bool>false</bool>
+                </property>
+                <property name="styleSheet">
+                 <string notr="true">QObject {font: 14px}</string>
                 </property>
                 <property name="text">
                  <string>Edit ...</string>
@@ -1459,6 +1853,9 @@ p, li { white-space: pre-wrap; }
          </item>
          <item>
           <widget class="QGroupBox" name="groupBox_2">
+           <property name="styleSheet">
+            <string notr="true">QObject {font: 14px}</string>
+           </property>
            <property name="title">
             <string>Network Server Settings</string>
            </property>
@@ -1467,6 +1864,9 @@ p, li { white-space: pre-wrap; }
              <layout class="QHBoxLayout" name="horizontalLayout_5">
               <item>
                <widget class="QLabel" name="label_16">
+                <property name="styleSheet">
+                 <string notr="true">QObject {font: 14px}</string>
+                </property>
                 <property name="text">
                  <string>Server Port:</string>
                 </property>
@@ -1483,6 +1883,9 @@ p, li { white-space: pre-wrap; }
                   <verstretch>0</verstretch>
                  </sizepolicy>
                 </property>
+                <property name="styleSheet">
+                 <string notr="true">QObject {font: 14px}</string>
+                </property>
                 <property name="minimum">
                  <number>80</number>
                 </property>
@@ -1498,6 +1901,9 @@ p, li { white-space: pre-wrap; }
             </item>
             <item row="1" column="0">
              <widget class="QCheckBox" name="checkBox_useIpv6">
+              <property name="styleSheet">
+               <string notr="true">QObject {font: 14px}</string>
+              </property>
               <property name="text">
                <string>Use IPv6</string>
               </property>
@@ -1505,6 +1911,9 @@ p, li { white-space: pre-wrap; }
             </item>
             <item row="1" column="1">
              <widget class="QLabel" name="label_22">
+              <property name="styleSheet">
+               <string notr="true">QObject {font: 14px}</string>
+              </property>
               <property name="text">
                <string>&lt;a href=&quot;http://en.wikipedia.org/wiki/Ipv6&quot;&gt;What is this?&lt;/a&gt;</string>
               </property>
@@ -1515,6 +1924,9 @@ p, li { white-space: pre-wrap; }
             </item>
             <item row="2" column="0">
              <widget class="QCheckBox" name="checkBox_useSctp">
+              <property name="styleSheet">
+               <string notr="true">QObject {font: 14px}</string>
+              </property>
               <property name="text">
                <string>Use SCTP</string>
               </property>
@@ -1522,6 +1934,9 @@ p, li { white-space: pre-wrap; }
             </item>
             <item row="2" column="1">
              <widget class="QLabel" name="label_24">
+              <property name="styleSheet">
+               <string notr="true">QObject {font: 14px}</string>
+              </property>
               <property name="text">
                <string>&lt;a href=&quot;http://en.wikipedia.org/wiki/Stream_Control_Transmission_Protocol&quot;&gt;What is this?&lt;/a&gt;</string>
               </property>
@@ -1533,37 +1948,35 @@ p, li { white-space: pre-wrap; }
            </layout>
           </widget>
          </item>
-         <item>
-          <spacer name="verticalSpacer_2">
-           <property name="orientation">
-            <enum>Qt::Vertical</enum>
-           </property>
-           <property name="sizeHint" stdset="0">
-            <size>
-             <width>20</width>
-             <height>40</height>
-            </size>
-           </property>
-          </spacer>
-         </item>
         </layout>
        </widget>
        <widget class="QWidget" name="page_7">
+        <property name="styleSheet">
+         <string notr="true">QObject {font: 16px}</string>
+        </property>
         <layout class="QGridLayout" name="gridLayout_6">
+         <property name="leftMargin">
+          <number>2</number>
+         </property>
+         <property name="topMargin">
+          <number>0</number>
+         </property>
+         <property name="rightMargin">
+          <number>0</number>
+         </property>
+         <property name="bottomMargin">
+          <number>0</number>
+         </property>
+         <property name="spacing">
+          <number>0</number>
+         </property>
          <item row="0" column="0">
           <widget class="QLabel" name="label_30">
            <property name="styleSheet">
-            <string notr="true">QLabel { font-weight: bold;  }</string>
+            <string notr="true">QObject {font: bold 20px}</string>
            </property>
            <property name="text">
             <string>Internet Game Settings</string>
-           </property>
-          </widget>
-         </item>
-         <item row="1" column="0" colspan="2">
-          <widget class="Line" name="line_9">
-           <property name="orientation">
-            <enum>Qt::Horizontal</enum>
            </property>
           </widget>
          </item>
@@ -1734,6 +2147,19 @@ p, li { white-space: pre-wrap; }
                </layout>
               </widget>
              </item>
+             <item row="2" column="0">
+              <spacer name="verticalSpacer_15">
+               <property name="orientation">
+                <enum>Qt::Vertical</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>20</width>
+                 <height>40</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
             </layout>
            </widget>
            <widget class="QWidget" name="tab_5">
@@ -1743,11 +2169,15 @@ p, li { white-space: pre-wrap; }
             <layout class="QGridLayout" name="gridLayout_5">
              <item row="0" column="0">
               <widget class="QLabel" name="label_43">
+               <property name="styleSheet">
+                <string notr="true">QObject {font: 14px}</string>
+               </property>
                <property name="text">
-                <string>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+                <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot;font-weight:400; font-style:normal;&quot;&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-style:italic;&quot;&gt;Note: Default &lt;/span&gt;&lt;span style=&quot; font-weight:600; font-style:italic;&quot;&gt;Game Settings&lt;/span&gt;&lt;span style=&quot; font-style:italic;&quot;&gt; like &quot;Maximum number of players&quot;, &quot;Start Cash&quot; and &quot;Small Blind&quot; will be used &lt;/span&gt;&lt;span style=&quot; font-weight:600; font-style:italic;&quot;&gt;from Network Game Settings.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Sans Serif'; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:12pt; font-style:italic;&quot;&gt;Note: Default &lt;/span&gt;&lt;span style=&quot; font-size:12pt; font-weight:600; font-style:italic;&quot;&gt;Game Settings&lt;/span&gt;&lt;span style=&quot; font-size:12pt; font-style:italic;&quot;&gt; like &amp;quot;Maximum number of players&amp;quot;, &amp;quot;Start Cash&amp;quot; and &amp;quot;Small Blind&amp;quot; will be used &lt;/span&gt;&lt;span style=&quot; font-size:12pt; font-weight:600; font-style:italic;&quot;&gt;from Network Game Settings.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                </property>
                <property name="wordWrap">
                 <bool>true</bool>
@@ -1790,7 +2220,7 @@ p, li { white-space: pre-wrap; }
                    <string>Standard</string>
                   </property>
                   <property name="icon">
-                   <iconset resource="resources/pokerth.qrc">
+                   <iconset resource="../resources/pokerth.qrc">
                     <normaloff>:/gfx/player_play.png</normaloff>:/gfx/player_play.png</iconset>
                   </property>
                  </item>
@@ -1799,7 +2229,7 @@ p, li { white-space: pre-wrap; }
                    <string>Registered players only</string>
                   </property>
                   <property name="icon">
-                   <iconset resource="resources/pokerth.qrc">
+                   <iconset resource="../resources/pokerth.qrc">
                     <normaloff>:/gfx/registered.png</normaloff>:/gfx/registered.png</iconset>
                   </property>
                  </item>
@@ -1808,7 +2238,7 @@ p, li { white-space: pre-wrap; }
                    <string>Invited players only</string>
                   </property>
                   <property name="icon">
-                   <iconset resource="resources/pokerth.qrc">
+                   <iconset resource="../resources/pokerth.qrc">
                     <normaloff>:/gfx/list_add_user.png</normaloff>:/gfx/list_add_user.png</iconset>
                   </property>
                  </item>
@@ -1817,7 +2247,7 @@ p, li { white-space: pre-wrap; }
                    <string>Ranking game</string>
                   </property>
                   <property name="icon">
-                   <iconset resource="resources/pokerth.qrc">
+                   <iconset resource="../resources/pokerth.qrc">
                     <normaloff>:/gfx/cup.png</normaloff>:/gfx/cup.png</iconset>
                   </property>
                  </item>
@@ -1836,7 +2266,7 @@ p, li { white-space: pre-wrap; }
                   <string>Use password for private game:</string>
                  </property>
                  <property name="icon">
-                  <iconset resource="resources/pokerth.qrc">
+                  <iconset resource="../resources/pokerth.qrc">
                    <normaloff>:/gfx/lock.png</normaloff>:/gfx/lock.png</iconset>
                  </property>
                 </widget>
@@ -1859,19 +2289,6 @@ p, li { white-space: pre-wrap; }
                 <string>Show lobby chat</string>
                </property>
               </widget>
-             </item>
-             <item row="6" column="0">
-              <spacer name="spacer">
-               <property name="orientation">
-                <enum>Qt::Vertical</enum>
-               </property>
-               <property name="sizeHint" stdset="0">
-                <size>
-                 <width>437</width>
-                 <height>72</height>
-                </size>
-               </property>
-              </spacer>
              </item>
              <item row="5" column="0">
               <widget class="QCheckBox" name="checkBox_InetGane_AutoLeaveTheTableAfterGameFinished">
@@ -1914,7 +2331,7 @@ p, li { white-space: pre-wrap; }
                 <string>Remove Player</string>
                </property>
                <property name="icon">
-                <iconset resource="resources/pokerth.qrc">
+                <iconset resource="../resources/pokerth.qrc">
                  <normaloff>:/gfx/list-remove.png</normaloff>:/gfx/list-remove.png</iconset>
                </property>
               </widget>
@@ -1923,7 +2340,7 @@ p, li { white-space: pre-wrap; }
            </widget>
           </widget>
          </item>
-         <item row="3" column="1">
+         <item row="1" column="0">
           <spacer name="verticalSpacer">
            <property name="orientation">
             <enum>Qt::Vertical</enum>
@@ -1931,7 +2348,7 @@ p, li { white-space: pre-wrap; }
            <property name="sizeHint" stdset="0">
             <size>
              <width>20</width>
-             <height>121</height>
+             <height>40</height>
             </size>
            </property>
           </spacer>
@@ -1939,27 +2356,35 @@ p, li { white-space: pre-wrap; }
         </layout>
        </widget>
        <widget class="QWidget" name="page_3">
+        <property name="enabled">
+         <bool>true</bool>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QObject {font: 16px}</string>
+        </property>
         <layout class="QGridLayout" name="gridLayout_10">
-         <property name="bottomMargin">
-          <number>1</number>
+         <property name="leftMargin">
+          <number>2</number>
          </property>
-         <property name="verticalSpacing">
-          <number>8</number>
+         <property name="topMargin">
+          <number>0</number>
+         </property>
+         <property name="rightMargin">
+          <number>0</number>
+         </property>
+         <property name="bottomMargin">
+          <number>0</number>
+         </property>
+         <property name="spacing">
+          <number>0</number>
          </property>
          <item row="0" column="0">
           <widget class="QLabel" name="label_7">
            <property name="styleSheet">
-            <string notr="true">QLabel { font-weight: bold;  }</string>
+            <string notr="true">QObject {font: bold 20px}</string>
            </property>
            <property name="text">
             <string>Player Nicks/Avatars</string>
-           </property>
-          </widget>
-         </item>
-         <item row="1" column="0">
-          <widget class="Line" name="line_4">
-           <property name="orientation">
-            <enum>Qt::Horizontal</enum>
            </property>
           </widget>
          </item>
@@ -1968,115 +2393,21 @@ p, li { white-space: pre-wrap; }
            <property name="spacing">
             <number>0</number>
            </property>
-           <item row="0" column="0">
-            <spacer name="horizontalSpacer_4">
-             <property name="orientation">
-              <enum>Qt::Horizontal</enum>
-             </property>
-             <property name="sizeHint" stdset="0">
-              <size>
-               <width>0</width>
-               <height>0</height>
-              </size>
-             </property>
-            </spacer>
-           </item>
-           <item row="0" column="1" colspan="3">
+           <item row="1" column="0" colspan="2">
             <widget class="QLabel" name="label_8">
              <property name="text">
               <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Human Player:&lt;br /&gt;&lt;span style=&quot; font-style:italic;&quot;&gt;(This nick will also be used for the online game login)&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Sans Serif'; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Human Player:&lt;br /&gt;&lt;span style=&quot; font-size:11pt; font-style:italic;&quot;&gt;(This nick will also be used for the online game login)&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
              </property>
              <property name="alignment">
               <set>Qt::AlignCenter</set>
              </property>
             </widget>
            </item>
-           <item row="0" column="4">
-            <spacer name="horizontalSpacer_5">
-             <property name="orientation">
-              <enum>Qt::Horizontal</enum>
-             </property>
-             <property name="sizeHint" stdset="0">
-              <size>
-               <width>0</width>
-               <height>0</height>
-              </size>
-             </property>
-            </spacer>
-           </item>
-           <item row="1" column="0" colspan="5">
-            <layout class="QHBoxLayout" name="horizontalLayout">
-             <item>
-              <spacer name="horizontalSpacer_3">
-               <property name="orientation">
-                <enum>Qt::Horizontal</enum>
-               </property>
-               <property name="sizeHint" stdset="0">
-                <size>
-                 <width>40</width>
-                 <height>20</height>
-                </size>
-               </property>
-              </spacer>
-             </item>
-             <item>
-              <widget class="MyHPAvatarButton" name="pushButton_HumanPlayerAvatar">
-               <property name="minimumSize">
-                <size>
-                 <width>60</width>
-                 <height>60</height>
-                </size>
-               </property>
-               <property name="maximumSize">
-                <size>
-                 <width>60</width>
-                 <height>60</height>
-                </size>
-               </property>
-               <property name="text">
-                <string/>
-               </property>
-               <property name="iconSize">
-                <size>
-                 <width>50</width>
-                 <height>50</height>
-                </size>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <spacer name="horizontalSpacer_2">
-               <property name="orientation">
-                <enum>Qt::Horizontal</enum>
-               </property>
-               <property name="sizeHint" stdset="0">
-                <size>
-                 <width>40</width>
-                 <height>20</height>
-                </size>
-               </property>
-              </spacer>
-             </item>
-            </layout>
-           </item>
-           <item row="2" column="0" colspan="2">
-            <spacer name="horizontalSpacer_6">
-             <property name="orientation">
-              <enum>Qt::Horizontal</enum>
-             </property>
-             <property name="sizeHint" stdset="0">
-              <size>
-               <width>78</width>
-               <height>20</height>
-              </size>
-             </property>
-            </spacer>
-           </item>
-           <item row="2" column="2">
+           <item row="1" column="2">
             <widget class="QLineEdit" name="lineEdit_HumanPlayerName">
              <property name="sizePolicy">
               <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
@@ -2086,13 +2417,13 @@ p, li { white-space: pre-wrap; }
              </property>
              <property name="minimumSize">
               <size>
-               <width>100</width>
+               <width>150</width>
                <height>25</height>
               </size>
              </property>
              <property name="maximumSize">
               <size>
-               <width>100</width>
+               <width>150</width>
                <height>25</height>
               </size>
              </property>
@@ -2101,18 +2432,43 @@ p, li { white-space: pre-wrap; }
              </property>
             </widget>
            </item>
-           <item row="2" column="3" colspan="2">
-            <spacer name="horizontalSpacer_7">
+           <item row="1" column="3">
+            <spacer name="horizontalSpacer_2">
              <property name="orientation">
               <enum>Qt::Horizontal</enum>
              </property>
              <property name="sizeHint" stdset="0">
               <size>
-               <width>88</width>
+               <width>40</width>
                <height>20</height>
               </size>
              </property>
             </spacer>
+           </item>
+           <item row="1" column="4">
+            <widget class="MyHPAvatarButton" name="pushButton_HumanPlayerAvatar">
+             <property name="minimumSize">
+              <size>
+               <width>60</width>
+               <height>60</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>60</width>
+               <height>60</height>
+              </size>
+             </property>
+             <property name="text">
+              <string/>
+             </property>
+             <property name="iconSize">
+              <size>
+               <width>50</width>
+               <height>50</height>
+              </size>
+             </property>
+            </widget>
            </item>
           </layout>
          </item>
@@ -2122,11 +2478,11 @@ p, li { white-space: pre-wrap; }
             <string>Computer Engine</string>
            </property>
            <layout class="QGridLayout" name="gridLayout_11">
-            <property name="topMargin">
+            <property name="margin">
              <number>0</number>
             </property>
-            <property name="bottomMargin">
-             <number>4</number>
+            <property name="spacing">
+             <number>0</number>
             </property>
             <item row="0" column="0">
              <layout class="QHBoxLayout" name="horizontalLayout_3">
@@ -2148,13 +2504,13 @@ p, li { white-space: pre-wrap; }
                   </property>
                   <property name="minimumSize">
                    <size>
-                    <width>100</width>
+                    <width>110</width>
                     <height>25</height>
                    </size>
                   </property>
                   <property name="maximumSize">
                    <size>
-                    <width>100</width>
+                    <width>110</width>
                     <height>25</height>
                    </size>
                   </property>
@@ -2281,13 +2637,13 @@ p, li { white-space: pre-wrap; }
                   </property>
                   <property name="minimumSize">
                    <size>
-                    <width>100</width>
+                    <width>110</width>
                     <height>25</height>
                    </size>
                   </property>
                   <property name="maximumSize">
                    <size>
-                    <width>100</width>
+                    <width>110</width>
                     <height>25</height>
                    </size>
                   </property>
@@ -2442,13 +2798,13 @@ p, li { white-space: pre-wrap; }
                   </property>
                   <property name="minimumSize">
                    <size>
-                    <width>100</width>
+                    <width>110</width>
                     <height>25</height>
                    </size>
                   </property>
                   <property name="maximumSize">
                    <size>
-                    <width>100</width>
+                    <width>110</width>
                     <height>25</height>
                    </size>
                   </property>
@@ -2547,13 +2903,13 @@ p, li { white-space: pre-wrap; }
                   </property>
                   <property name="minimumSize">
                    <size>
-                    <width>100</width>
+                    <width>110</width>
                     <height>25</height>
                    </size>
                   </property>
                   <property name="maximumSize">
                    <size>
-                    <width>100</width>
+                    <width>110</width>
                     <height>25</height>
                    </size>
                   </property>
@@ -2778,13 +3134,13 @@ p, li { white-space: pre-wrap; }
                   </property>
                   <property name="minimumSize">
                    <size>
-                    <width>100</width>
+                    <width>110</width>
                     <height>25</height>
                    </size>
                   </property>
                   <property name="maximumSize">
                    <size>
-                    <width>100</width>
+                    <width>110</width>
                     <height>25</height>
                    </size>
                   </property>
@@ -2887,13 +3243,13 @@ p, li { white-space: pre-wrap; }
                   </property>
                   <property name="minimumSize">
                    <size>
-                    <width>100</width>
+                    <width>110</width>
                     <height>25</height>
                    </size>
                   </property>
                   <property name="maximumSize">
                    <size>
-                    <width>100</width>
+                    <width>110</width>
                     <height>25</height>
                    </size>
                   </property>
@@ -3020,13 +3376,13 @@ p, li { white-space: pre-wrap; }
                   </property>
                   <property name="minimumSize">
                    <size>
-                    <width>100</width>
+                    <width>110</width>
                     <height>25</height>
                    </size>
                   </property>
                   <property name="maximumSize">
                    <size>
-                    <width>100</width>
+                    <width>110</width>
                     <height>25</height>
                    </size>
                   </property>
@@ -3153,13 +3509,13 @@ p, li { white-space: pre-wrap; }
                   </property>
                   <property name="minimumSize">
                    <size>
-                    <width>100</width>
+                    <width>110</width>
                     <height>25</height>
                    </size>
                   </property>
                   <property name="maximumSize">
                    <size>
-                    <width>100</width>
+                    <width>110</width>
                     <height>25</height>
                    </size>
                   </property>
@@ -3286,13 +3642,13 @@ p, li { white-space: pre-wrap; }
                   </property>
                   <property name="minimumSize">
                    <size>
-                    <width>100</width>
+                    <width>110</width>
                     <height>25</height>
                    </size>
                   </property>
                   <property name="maximumSize">
                    <size>
-                    <width>100</width>
+                    <width>110</width>
                     <height>25</height>
                    </size>
                   </property>
@@ -3338,6 +3694,9 @@ p, li { white-space: pre-wrap; }
          </item>
          <item row="4" column="0">
           <widget class="QLabel" name="label_38">
+           <property name="styleSheet">
+            <string notr="true">QObject {font: 14px}</string>
+           </property>
            <property name="text">
             <string>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
@@ -3349,8 +3708,8 @@ p, li { white-space: pre-wrap; }
            </property>
           </widget>
          </item>
-         <item row="5" column="0">
-          <spacer>
+         <item row="1" column="0">
+          <spacer name="verticalSpacer_16">
            <property name="orientation">
             <enum>Qt::Vertical</enum>
            </property>
@@ -3365,11 +3724,29 @@ p, li { white-space: pre-wrap; }
         </layout>
        </widget>
        <widget class="QWidget" name="page_5">
+        <property name="styleSheet">
+         <string notr="true">QObject {font: 14px}</string>
+        </property>
         <layout class="QGridLayout" name="gridLayout_21">
+         <property name="leftMargin">
+          <number>2</number>
+         </property>
+         <property name="topMargin">
+          <number>0</number>
+         </property>
+         <property name="rightMargin">
+          <number>0</number>
+         </property>
+         <property name="bottomMargin">
+          <number>4</number>
+         </property>
+         <property name="spacing">
+          <number>0</number>
+         </property>
          <item row="0" column="0">
           <widget class="QLabel" name="label_6">
            <property name="styleSheet">
-            <string notr="true">QLabel { font-weight: bold;  }</string>
+            <string notr="true">QObject {font: bold 20px}</string>
            </property>
            <property name="text">
             <string>Log Messages</string>
@@ -3377,13 +3754,6 @@ p, li { white-space: pre-wrap; }
           </widget>
          </item>
          <item row="1" column="0">
-          <widget class="Line" name="line_2">
-           <property name="orientation">
-            <enum>Qt::Horizontal</enum>
-           </property>
-          </widget>
-         </item>
-         <item row="2" column="0">
           <widget class="QGroupBox" name="groupBox_logOnOff">
            <property name="title">
             <string>Enable/Disable Logging</string>
@@ -3395,6 +3765,21 @@ p, li { white-space: pre-wrap; }
             <bool>true</bool>
            </property>
            <layout class="QGridLayout" name="gridLayout_20">
+            <property name="leftMargin">
+             <number>0</number>
+            </property>
+            <property name="topMargin">
+             <number>4</number>
+            </property>
+            <property name="rightMargin">
+             <number>0</number>
+            </property>
+            <property name="bottomMargin">
+             <number>0</number>
+            </property>
+            <property name="spacing">
+             <number>0</number>
+            </property>
             <item row="0" column="0">
              <widget class="QLabel" name="label_27">
               <property name="sizePolicy">
@@ -3496,7 +3881,7 @@ p, li { white-space: pre-wrap; }
             <item row="2" column="1">
              <layout class="QHBoxLayout">
               <property name="spacing">
-               <number>2</number>
+               <number>0</number>
               </property>
               <item>
                <widget class="QLineEdit" name="lineEdit_logDir"/>
@@ -3516,7 +3901,7 @@ p, li { white-space: pre-wrap; }
                  </size>
                 </property>
                 <property name="icon">
-                 <iconset resource="resources/pokerth.qrc">
+                 <iconset resource="../resources/pokerth.qrc">
                   <normaloff>:/gfx/document-open-folder.png</normaloff>:/gfx/document-open-folder.png</iconset>
                 </property>
                </widget>
@@ -3526,8 +3911,11 @@ p, li { white-space: pre-wrap; }
            </layout>
           </widget>
          </item>
-         <item row="3" column="0">
+         <item row="2" column="0">
           <layout class="QHBoxLayout" name="horizontalLayout_11">
+           <property name="spacing">
+            <number>0</number>
+           </property>
            <item>
             <widget class="QTreeWidget" name="treeWidget_logFiles">
              <property name="sizePolicy">
@@ -3557,6 +3945,9 @@ p, li { white-space: pre-wrap; }
            </item>
            <item>
             <layout class="QVBoxLayout" name="verticalLayout_4">
+             <property name="spacing">
+              <number>0</number>
+             </property>
              <item>
               <widget class="QLabel" name="label_37">
                <property name="text">
@@ -3572,21 +3963,27 @@ p, li { white-space: pre-wrap; }
                  <verstretch>0</verstretch>
                 </sizepolicy>
                </property>
+               <property name="styleSheet">
+                <string notr="true">QObject {color: rgb(255, 255, 255);}</string>
+               </property>
               </widget>
              </item>
             </layout>
            </item>
           </layout>
          </item>
-         <item row="4" column="0">
+         <item row="3" column="0">
           <layout class="QHBoxLayout" name="horizontalLayout_9">
+           <property name="spacing">
+            <number>0</number>
+           </property>
            <item>
             <widget class="QPushButton" name="pushButton_exportLogHtml">
              <property name="text">
               <string>Export as HTML</string>
              </property>
              <property name="icon">
-              <iconset resource="resources/pokerth.qrc">
+              <iconset resource="../resources/pokerth.qrc">
                <normaloff>:/gfx/text-html.png</normaloff>:/gfx/text-html.png</iconset>
              </property>
             </widget>
@@ -3597,7 +3994,7 @@ p, li { white-space: pre-wrap; }
               <string>Export as txt</string>
              </property>
              <property name="icon">
-              <iconset resource="resources/pokerth.qrc">
+              <iconset resource="../resources/pokerth.qrc">
                <normaloff>:/gfx/text-plain.png</normaloff>:/gfx/text-plain.png</iconset>
              </property>
             </widget>
@@ -3608,7 +4005,7 @@ p, li { white-space: pre-wrap; }
               <string>Save as ...</string>
              </property>
              <property name="icon">
-              <iconset resource="resources/pokerth.qrc">
+              <iconset resource="../resources/pokerth.qrc">
                <normaloff>:/gfx/filesave.png</normaloff>:/gfx/filesave.png</iconset>
              </property>
             </widget>
@@ -3619,7 +4016,7 @@ p, li { white-space: pre-wrap; }
               <string>Delete</string>
              </property>
              <property name="icon">
-              <iconset resource="resources/pokerth.qrc">
+              <iconset resource="../resources/pokerth.qrc">
                <normaloff>:/gfx/editdelete.png</normaloff>:/gfx/editdelete.png</iconset>
              </property>
             </widget>
@@ -3629,21 +4026,44 @@ p, li { white-space: pre-wrap; }
         </layout>
        </widget>
        <widget class="QWidget" name="page_9">
+        <property name="styleSheet">
+         <string notr="true">QObject {font: 16px}</string>
+        </property>
         <layout class="QGridLayout" name="gridLayout_22">
+         <property name="leftMargin">
+          <number>2</number>
+         </property>
+         <property name="topMargin">
+          <number>0</number>
+         </property>
+         <property name="rightMargin">
+          <number>0</number>
+         </property>
+         <property name="bottomMargin">
+          <number>0</number>
+         </property>
+         <property name="spacing">
+          <number>0</number>
+         </property>
          <item row="0" column="0" colspan="2">
           <widget class="QLabel" name="label_44">
            <property name="font">
             <font>
+             <pointsize>-1</pointsize>
              <weight>75</weight>
+             <italic>false</italic>
              <bold>true</bold>
             </font>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">QObject {font: bold 20px}</string>
            </property>
            <property name="text">
             <string>Factory Settings</string>
            </property>
           </widget>
          </item>
-         <item row="3" column="1">
+         <item row="2" column="1">
           <spacer name="verticalSpacer_5">
            <property name="orientation">
             <enum>Qt::Vertical</enum>
@@ -3659,7 +4079,7 @@ p, li { white-space: pre-wrap; }
            </property>
           </spacer>
          </item>
-         <item row="4" column="0" colspan="2">
+         <item row="3" column="0" colspan="2">
           <layout class="QHBoxLayout" name="horizontalLayout_10">
            <item>
             <spacer name="horizontalSpacer_9">
@@ -3684,8 +4104,10 @@ p, li { white-space: pre-wrap; }
              </property>
              <property name="font">
               <font>
-               <weight>75</weight>
-               <bold>true</bold>
+               <pointsize>-1</pointsize>
+               <weight>50</weight>
+               <italic>false</italic>
+               <bold>false</bold>
               </font>
              </property>
              <property name="text">
@@ -3708,7 +4130,7 @@ p, li { white-space: pre-wrap; }
            </item>
           </layout>
          </item>
-         <item row="6" column="1">
+         <item row="5" column="1">
           <spacer name="verticalSpacer_6">
            <property name="orientation">
             <enum>Qt::Vertical</enum>
@@ -3721,19 +4143,18 @@ p, li { white-space: pre-wrap; }
            </property>
           </spacer>
          </item>
-         <item row="1" column="0" colspan="2">
-          <widget class="Line" name="line_10">
-           <property name="orientation">
-            <enum>Qt::Horizontal</enum>
-           </property>
-          </widget>
-         </item>
-         <item row="5" column="0" colspan="2">
+         <item row="4" column="0" colspan="2">
           <widget class="QLabel" name="label_resetNote">
            <property name="font">
             <font>
-             <italic>true</italic>
+             <pointsize>-1</pointsize>
+             <weight>50</weight>
+             <italic>false</italic>
+             <bold>false</bold>
             </font>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">QObject {font: 14px}</string>
            </property>
            <property name="text">
             <string>Note: You can not reset all settings to default during a running game!</string>
@@ -3755,11 +4176,14 @@ p, li { white-space: pre-wrap; }
    </item>
    <item row="2" column="0">
     <widget class="QDialogButtonBox" name="buttonBox">
+     <property name="styleSheet">
+      <string notr="true">QObject {font: bold 20px}</string>
+     </property>
      <property name="orientation">
       <enum>Qt::Horizontal</enum>
      </property>
      <property name="standardButtons">
-      <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
+      <set>QDialogButtonBox::Ok</set>
      </property>
     </widget>
    </item>
@@ -3780,11 +4204,8 @@ p, li { white-space: pre-wrap; }
  <tabstops>
   <tabstop>listWidget</tabstop>
   <tabstop>comboBox_switchLanguage</tabstop>
-  <tabstop>checkBox_showRightToolbox</tabstop>
-  <tabstop>checkBox_showLeftToolbox</tabstop>
   <tabstop>checkBox_showFadeOutCardsAnimation</tabstop>
   <tabstop>checkBox_showFlipCardsAnimation</tabstop>
-  <tabstop>checkBox_alternateFKeysUserActionMode</tabstop>
   <tabstop>checkBox_showBlindButtons</tabstop>
   <tabstop>checkBox_cardsChanceMonitor</tabstop>
   <tabstop>checkBox_antiPeekMode</tabstop>
@@ -3852,8 +4273,6 @@ p, li { white-space: pre-wrap; }
   <tabstop>checkBox_UseLobbyChat</tabstop>
   <tabstop>treeWidget_internetGameIgnoredPlayers</tabstop>
   <tabstop>pushButton_internetGameRemoveIgnoredPlayer</tabstop>
-  <tabstop>pushButton_HumanPlayerAvatar</tabstop>
-  <tabstop>lineEdit_HumanPlayerName</tabstop>
   <tabstop>pushButton_Opponent1Avatar</tabstop>
   <tabstop>lineEdit_Opponent1Name</tabstop>
   <tabstop>pushButton_Opponent2Avatar</tabstop>
@@ -3884,7 +4303,7 @@ p, li { white-space: pre-wrap; }
   <tabstop>buttonBox</tabstop>
  </tabstops>
  <resources>
-  <include location="resources/pokerth.qrc"/>
+  <include location="../resources/pokerth.qrc"/>
  </resources>
  <connections>
   <connection>
@@ -3996,6 +4415,22 @@ p, li { white-space: pre-wrap; }
     <hint type="destinationlabel">
      <x>747</x>
      <y>103</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>checkBox_useAvatarServer</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>lineEdit_avatarServerAddress</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>283</x>
+     <y>283</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>566</x>
+     <y>283</y>
     </hint>
    </hints>
   </connection>

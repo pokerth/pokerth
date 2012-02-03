@@ -6,16 +6,31 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>292</width>
-    <height>230</height>
+    <width>800</width>
+    <height>300</height>
    </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>800</width>
+    <height>300</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>800</width>
+    <height>300</height>
+   </size>
   </property>
   <property name="windowTitle">
    <string>Internet Game Login</string>
   </property>
   <layout class="QGridLayout" name="gridLayout_2">
-   <item row="0" column="0">
+   <item row="1" column="1">
     <widget class="QGroupBox" name="groupBox_reguser">
+     <property name="styleSheet">
+      <string notr="true">QObject{font: 20px}</string>
+     </property>
      <property name="title">
       <string>Registered user</string>
      </property>
@@ -49,6 +64,9 @@
       </item>
       <item row="2" column="0" colspan="2">
        <widget class="QCheckBox" name="checkBox_rememberPassword">
+        <property name="styleSheet">
+         <string notr="true">QObject{font: 18px}</string>
+        </property>
         <property name="text">
          <string>Remember password (not recommended)</string>
         </property>
@@ -57,15 +75,38 @@
      </layout>
     </widget>
    </item>
-   <item row="1" column="0">
+   <item row="3" column="1">
     <widget class="QCheckBox" name="checkBox_guest">
+     <property name="styleSheet">
+      <string notr="true">QObject{font: 20px}</string>
+     </property>
      <property name="text">
       <string>Login as guest</string>
      </property>
     </widget>
    </item>
-   <item row="2" column="0">
+   <item row="5" column="0" colspan="3">
     <layout class="QHBoxLayout" name="horizontalLayout">
+     <item>
+      <widget class="QLabel" name="label_3">
+       <property name="styleSheet">
+        <string notr="true">QObject {font: 20px}</string>
+       </property>
+       <property name="text">
+        <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body&gt;
+&lt;table style=&quot;-qt-table-type: root; margin-top:4px; margin-bottom:4px; margin-left:4px; margin-right:4px;&quot;&gt;
+&lt;tr&gt;
+&lt;td style=&quot;border: none;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://create-gaming-account.pokerth.net&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Create new user account&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/body&gt;&lt;/html&gt;</string>
+       </property>
+       <property name="openExternalLinks">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
      <item>
       <spacer name="horizontalSpacer">
        <property name="orientation">
@@ -81,36 +122,80 @@
      </item>
      <item>
       <widget class="QPushButton" name="pushButton_login">
+       <property name="styleSheet">
+        <string notr="true">QObject {font: bold 20px}</string>
+       </property>
        <property name="text">
         <string>Login</string>
        </property>
       </widget>
      </item>
-     <item>
-      <widget class="QPushButton" name="pushButton_cancel">
-       <property name="text">
-        <string>Cancel</string>
-       </property>
-      </widget>
-     </item>
     </layout>
    </item>
-   <item row="3" column="0">
-    <widget class="QLabel" name="label_3">
-     <property name="text">
-      <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
-&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
-p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body&gt;
-&lt;table style=&quot;-qt-table-type: root; margin-top:4px; margin-bottom:4px; margin-left:4px; margin-right:4px;&quot;&gt;
-&lt;tr&gt;
-&lt;td style=&quot;border: none;&quot;&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://create-gaming-account.pokerth.net&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Create new user account&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/body&gt;&lt;/html&gt;</string>
+   <item row="1" column="0">
+    <spacer name="horizontalSpacer_2">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
      </property>
-     <property name="openExternalLinks">
-      <bool>true</bool>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>40</width>
+       <height>20</height>
+      </size>
      </property>
-    </widget>
+    </spacer>
+   </item>
+   <item row="1" column="2">
+    <spacer name="horizontalSpacer_3">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>40</width>
+       <height>20</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item row="4" column="1">
+    <spacer name="verticalSpacer">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>40</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item row="2" column="1">
+    <spacer name="verticalSpacer_2">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>40</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item row="0" column="1">
+    <spacer name="verticalSpacer_3">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>40</height>
+      </size>
+     </property>
+    </spacer>
    </item>
   </layout>
  </widget>
@@ -121,7 +206,6 @@ p, li { white-space: pre-wrap; }
   <tabstop>checkBox_rememberPassword</tabstop>
   <tabstop>checkBox_guest</tabstop>
   <tabstop>pushButton_login</tabstop>
-  <tabstop>pushButton_cancel</tabstop>
  </tabstops>
  <resources/>
  <connections>
@@ -138,22 +222,6 @@ p, li { white-space: pre-wrap; }
     <hint type="destinationlabel">
      <x>284</x>
      <y>216</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>pushButton_cancel</sender>
-   <signal>clicked()</signal>
-   <receiver>internetGameLoginDialog</receiver>
-   <slot>reject()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>244</x>
-     <y>194</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>290</x>
-     <y>150</y>
     </hint>
    </hints>
   </connection>

@@ -156,6 +156,16 @@ void MyAvatarLabel::setPlayerRating(QString playerInfo)
 
 void MyAvatarLabel::startChangePlayerTip(QString playerName)
 {
+#ifdef GUI_800x480
+	if(myW->tabs.tabWidget_Left->widget(2) == myW->tabs.tab_Kick) {
+		myW->tabs.tabWidget_Left->insertTab(3, myW->tabs.tab_editTip, playerName);
+		myW->tabs.tabWidget_Left->setCurrentIndex(3);
+	} else {
+		myW->tabs.tabWidget_Left->insertTab(2, myW->tabs.tab_editTip, playerName);
+		myW->tabs.tabWidget_Left->setCurrentIndex(2);
+	}
+	myW->tabs.textEdit_tipInput->setPlainText(getPlayerTip(playerName));
+#else
 	if(myW->tabWidget_Left->widget(2) == myW->tab_Kick) {
 		myW->tabWidget_Left->insertTab(3, myW->tab_editTip, playerName);
 		myW->tabWidget_Left->setCurrentIndex(3);
@@ -164,6 +174,7 @@ void MyAvatarLabel::startChangePlayerTip(QString playerName)
 		myW->tabWidget_Left->setCurrentIndex(2);
 	}
 	myW->textEdit_tipInput->setPlainText(getPlayerTip(playerName));
+#endif
 }
 
 void MyAvatarLabel::refreshStars()
@@ -273,10 +284,16 @@ void MyAvatarLabel::setPlayerTip()
 	int found=0;
 	//std::string rating="1";
 	std::string separator="(!#$%)";
-	std::string tip = std::string((const char*)myW->textEdit_tipInput->toPlainText().toUtf8());
 	std::string playerName;
+#ifdef GUI_800x480
+	std::string tip = std::string((const char*)myW->tabs.textEdit_tipInput->toPlainText().toUtf8());
+	if(myW->tabs.tabWidget_Left->widget(2) == myW->tabs.tab_editTip)playerName = myW->tabs.tabWidget_Left->tabText(2).toUtf8().constData();
+	if(myW->tabs.tabWidget_Left->widget(3) == myW->tabs.tab_editTip)playerName = myW->tabs.tabWidget_Left->tabText(3).toUtf8().constData();
+#else
+	std::string tip = std::string((const char*)myW->textEdit_tipInput->toPlainText().toUtf8());
 	if(myW->tabWidget_Left->widget(2) == myW->tab_editTip)playerName = myW->tabWidget_Left->tabText(2).toUtf8().constData();
 	if(myW->tabWidget_Left->widget(3) == myW->tab_editTip)playerName = myW->tabWidget_Left->tabText(3).toUtf8().constData();
+#endif
 	QStringList playerInfo;
 	std::list<std::string> tipsList = myW->getMyConfig()->readConfigStringList("PlayerTooltips");
 	std::list<std::string> result;
@@ -296,11 +313,19 @@ void MyAvatarLabel::setPlayerTip()
 	myW->getMyConfig()->writeConfigStringList("PlayerTooltips", result);
 	myW->getMyConfig()->writeBuffer();
 
+#ifdef GUI_800x480
+	if(myW->tabs.tabWidget_Left->widget(3) == myW->tabs.tab_editTip) {
+		myW->tabs.tabWidget_Left->removeTab(3);
+	} else if(myW->tabs.tabWidget_Left->widget(2) == myW->tabs.tab_editTip) {
+		myW->tabs.tabWidget_Left->removeTab(2);
+	}
+#else
 	if(myW->tabWidget_Left->widget(3) == myW->tab_editTip) {
 		myW->tabWidget_Left->removeTab(3);
 	} else if(myW->tabWidget_Left->widget(2) == myW->tab_editTip) {
 		myW->tabWidget_Left->removeTab(2);
 	}
+#endif
 	refreshTooltips();
 }
 

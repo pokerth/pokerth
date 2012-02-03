@@ -6,20 +6,20 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1024</width>
-    <height>600</height>
+    <width>800</width>
+    <height>480</height>
    </rect>
   </property>
   <property name="minimumSize">
    <size>
-    <width>1024</width>
-    <height>600</height>
+    <width>800</width>
+    <height>424</height>
    </size>
   </property>
   <property name="maximumSize">
    <size>
-    <width>1920</width>
-    <height>1280</height>
+    <width>800</width>
+    <height>480</height>
    </size>
   </property>
   <property name="mouseTracking">
@@ -32,27 +32,94 @@
    <string notr="true">QStatusbar { height:0px; }</string>
   </property>
   <widget class="QWidget" name="centralwidget">
+   <property name="minimumSize">
+    <size>
+     <width>800</width>
+     <height>424</height>
+    </size>
+   </property>
+   <property name="maximumSize">
+    <size>
+     <width>800</width>
+     <height>480</height>
+    </size>
+   </property>
    <layout class="QGridLayout" name="gridLayout_4">
-    <property name="leftMargin">
-     <number>2</number>
-    </property>
-    <property name="topMargin">
+    <property name="margin">
      <number>0</number>
-    </property>
-    <property name="rightMargin">
-     <number>2</number>
-    </property>
-    <property name="bottomMargin">
-     <number>3</number>
     </property>
     <property name="spacing">
      <number>0</number>
     </property>
-    <item row="0" column="0" rowspan="5">
+    <item row="0" column="0" rowspan="7">
      <layout class="QVBoxLayout" name="verticalLayout_2">
       <property name="spacing">
        <number>0</number>
       </property>
+      <item>
+       <spacer name="verticalSpacer_12">
+        <property name="orientation">
+         <enum>Qt::Vertical</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>20</width>
+          <height>40</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout_10">
+        <item>
+         <widget class="QLabel" name="label_handNumber">
+          <property name="minimumSize">
+           <size>
+            <width>60</width>
+            <height>19</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>60</width>
+            <height>19</height>
+           </size>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">QObject {font: bold 20px}</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="label_handNumberValue">
+          <property name="minimumSize">
+           <size>
+            <width>60</width>
+            <height>19</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>60</width>
+            <height>19</height>
+           </size>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">QObject {font: bold 20px}</string>
+          </property>
+          <property name="text">
+           <string/>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
       <item>
        <spacer name="verticalSpacer_3">
         <property name="orientation">
@@ -70,14 +137,14 @@
        <widget class="QGroupBox" name="groupBox3">
         <property name="minimumSize">
          <size>
-          <width>190</width>
-          <height>142</height>
+          <width>150</width>
+          <height>120</height>
          </size>
         </property>
         <property name="maximumSize">
          <size>
-          <width>190</width>
-          <height>142</height>
+          <width>150</width>
+          <height>120</height>
          </size>
         </property>
         <property name="title">
@@ -86,8 +153,8 @@
         <widget class="MyAvatarLabel" name="label_Avatar3">
          <property name="geometry">
           <rect>
-           <x>13</x>
-           <y>13</y>
+           <x>12</x>
+           <y>25</y>
            <width>50</width>
            <height>50</height>
           </rect>
@@ -111,22 +178,22 @@
         <widget class="MyNameLabel" name="label_PlayerName3">
          <property name="geometry">
           <rect>
-           <x>70</x>
-           <y>11</y>
-           <width>104</width>
-           <height>14</height>
+           <x>12</x>
+           <y>6</y>
+           <width>136</width>
+           <height>15</height>
           </rect>
          </property>
          <property name="minimumSize">
           <size>
-           <width>0</width>
-           <height>14</height>
+           <width>136</width>
+           <height>15</height>
           </size>
          </property>
          <property name="maximumSize">
           <size>
-           <width>16777215</width>
-           <height>14</height>
+           <width>136</width>
+           <height>15</height>
           </size>
          </property>
          <property name="alignment">
@@ -139,69 +206,72 @@
         <widget class="MySetLabel" name="textLabel_Set3">
          <property name="geometry">
           <rect>
-           <x>70</x>
-           <y>119</y>
-           <width>104</width>
-           <height>14</height>
+           <x>60</x>
+           <y>104</y>
+           <width>86</width>
+           <height>9</height>
           </rect>
          </property>
          <property name="minimumSize">
           <size>
-           <width>0</width>
-           <height>14</height>
+           <width>86</width>
+           <height>9</height>
           </size>
          </property>
          <property name="maximumSize">
           <size>
-           <width>16777215</width>
-           <height>14</height>
+           <width>86</width>
+           <height>9</height>
           </size>
          </property>
          <property name="alignment">
-          <set>Qt::AlignBottom|Qt::AlignHCenter</set>
+          <set>Qt::AlignCenter</set>
          </property>
         </widget>
         <widget class="MyCashLabel" name="textLabel_Cash3">
          <property name="geometry">
           <rect>
-           <x>70</x>
-           <y>25</y>
-           <width>104</width>
-           <height>14</height>
+           <x>50</x>
+           <y>20</y>
+           <width>86</width>
+           <height>9</height>
           </rect>
          </property>
          <property name="minimumSize">
           <size>
-           <width>35</width>
-           <height>14</height>
+           <width>86</width>
+           <height>9</height>
           </size>
          </property>
          <property name="maximumSize">
           <size>
-           <width>16777215</width>
-           <height>14</height>
+           <width>86</width>
+           <height>9</height>
           </size>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
          </property>
         </widget>
         <widget class="QLabel" name="textLabel_Button3">
          <property name="geometry">
           <rect>
-           <x>18</x>
-           <y>88</y>
-           <width>40</width>
-           <height>42</height>
+           <x>21</x>
+           <y>86</y>
+           <width>28</width>
+           <height>28</height>
           </rect>
          </property>
          <property name="minimumSize">
           <size>
-           <width>40</width>
-           <height>42</height>
+           <width>28</width>
+           <height>28</height>
           </size>
          </property>
          <property name="maximumSize">
           <size>
-           <width>40</width>
-           <height>42</height>
+           <width>28</width>
+           <height>28</height>
           </size>
          </property>
          <property name="text">
@@ -214,11 +284,23 @@
         <widget class="MyCardsPixmapLabel" name="pixmapLabel_card3a">
          <property name="geometry">
           <rect>
-           <x>86</x>
-           <y>39</y>
-           <width>48</width>
-           <height>76</height>
+           <x>68</x>
+           <y>30</y>
+           <width>46</width>
+           <height>72</height>
           </rect>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>46</width>
+           <height>72</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>46</width>
+           <height>72</height>
+          </size>
          </property>
          <property name="scaledContents">
           <bool>true</bool>
@@ -227,11 +309,23 @@
         <widget class="MyCardsPixmapLabel" name="pixmapLabel_card3b">
          <property name="geometry">
           <rect>
-           <x>110</x>
-           <y>39</y>
-           <width>48</width>
-           <height>76</height>
+           <x>90</x>
+           <y>30</y>
+           <width>46</width>
+           <height>72</height>
           </rect>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>46</width>
+           <height>72</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>46</width>
+           <height>72</height>
+          </size>
          </property>
          <property name="scaledContents">
           <bool>true</bool>
@@ -240,16 +334,22 @@
         <widget class="MyStatusLabel" name="textLabel_Status3">
          <property name="geometry">
           <rect>
-           <x>67</x>
-           <y>56</y>
-           <width>111</width>
+           <x>52</x>
+           <y>46</y>
+           <width>100</width>
            <height>40</height>
           </rect>
          </property>
          <property name="minimumSize">
           <size>
-           <width>0</width>
-           <height>20</height>
+           <width>100</width>
+           <height>40</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>100</width>
+           <height>40</height>
           </size>
          </property>
          <property name="text">
@@ -263,10 +363,22 @@
          <property name="geometry">
           <rect>
            <x>12</x>
-           <y>75</y>
-           <width>52</width>
-           <height>10</height>
+           <y>77</y>
+           <width>50</width>
+           <height>7</height>
           </rect>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>50</width>
+           <height>7</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>50</width>
+           <height>7</height>
+          </size>
          </property>
          <property name="text">
           <string/>
@@ -275,8 +387,8 @@
         <widget class="QLabel" name="label_playerTip3">
          <property name="geometry">
           <rect>
-           <x>70</x>
-           <y>50</y>
+           <x>12</x>
+           <y>25</y>
            <width>16</width>
            <height>17</height>
           </rect>
@@ -293,59 +405,59 @@ p, li { white-space: pre-wrap; }
          <property name="geometry">
           <rect>
            <x>33</x>
-           <y>62</y>
+           <y>70</y>
            <width>12</width>
            <height>12</height>
           </rect>
          </property>
          <property name="text">
-                    <string notr="true">&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
+          <string notr="true">&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
          </property>
         </widget>
         <widget class="QLabel" name="label_Star23">
          <property name="geometry">
           <rect>
            <x>23</x>
-           <y>62</y>
+           <y>70</y>
            <width>12</width>
            <height>12</height>
           </rect>
          </property>
          <property name="text">
-                    <string notr="true">&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
+          <string notr="true">&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
          </property>
         </widget>
         <widget class="QLabel" name="label_Star53">
          <property name="geometry">
           <rect>
            <x>53</x>
-           <y>62</y>
+           <y>70</y>
            <width>12</width>
            <height>12</height>
           </rect>
          </property>
          <property name="text">
-                    <string notr="true">&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
+          <string notr="true">&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
          </property>
         </widget>
         <widget class="QLabel" name="label_Star43">
          <property name="geometry">
           <rect>
            <x>43</x>
-           <y>62</y>
+           <y>70</y>
            <width>12</width>
            <height>12</height>
           </rect>
          </property>
          <property name="text">
-                    <string notr="true">&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
+          <string notr="true">&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
          </property>
         </widget>
         <widget class="QLabel" name="label_Star13">
          <property name="geometry">
           <rect>
            <x>13</x>
-           <y>62</y>
+           <y>70</y>
            <width>12</width>
            <height>12</height>
           </rect>
@@ -373,14 +485,14 @@ p, li { white-space: pre-wrap; }
        <widget class="QGroupBox" name="groupBox2">
         <property name="minimumSize">
          <size>
-          <width>190</width>
-          <height>142</height>
+          <width>150</width>
+          <height>120</height>
          </size>
         </property>
         <property name="maximumSize">
          <size>
-          <width>190</width>
-          <height>142</height>
+          <width>150</width>
+          <height>120</height>
          </size>
         </property>
         <property name="title">
@@ -389,8 +501,8 @@ p, li { white-space: pre-wrap; }
         <widget class="MyAvatarLabel" name="label_Avatar2">
          <property name="geometry">
           <rect>
-           <x>13</x>
-           <y>79</y>
+           <x>12</x>
+           <y>46</y>
            <width>50</width>
            <height>50</height>
           </rect>
@@ -414,22 +526,22 @@ p, li { white-space: pre-wrap; }
         <widget class="MyNameLabel" name="label_PlayerName2">
          <property name="geometry">
           <rect>
-           <x>70</x>
-           <y>117</y>
-           <width>104</width>
-           <height>14</height>
+           <x>12</x>
+           <y>100</y>
+           <width>136</width>
+           <height>15</height>
           </rect>
          </property>
          <property name="minimumSize">
           <size>
-           <width>0</width>
-           <height>14</height>
+           <width>136</width>
+           <height>15</height>
           </size>
          </property>
          <property name="maximumSize">
           <size>
-           <width>16777215</width>
-           <height>14</height>
+           <width>136</width>
+           <height>15</height>
           </size>
          </property>
          <property name="alignment">
@@ -442,69 +554,72 @@ p, li { white-space: pre-wrap; }
         <widget class="MySetLabel" name="textLabel_Set2">
          <property name="geometry">
           <rect>
-           <x>70</x>
+           <x>60</x>
            <y>10</y>
-           <width>104</width>
-           <height>14</height>
+           <width>86</width>
+           <height>9</height>
           </rect>
          </property>
          <property name="minimumSize">
           <size>
-           <width>0</width>
-           <height>14</height>
+           <width>86</width>
+           <height>9</height>
           </size>
          </property>
          <property name="maximumSize">
           <size>
-           <width>16777215</width>
-           <height>14</height>
+           <width>86</width>
+           <height>9</height>
           </size>
          </property>
          <property name="alignment">
-          <set>Qt::AlignBottom|Qt::AlignHCenter</set>
+          <set>Qt::AlignCenter</set>
          </property>
         </widget>
         <widget class="MyCashLabel" name="textLabel_Cash2">
          <property name="geometry">
           <rect>
-           <x>70</x>
-           <y>104</y>
-           <width>104</width>
-           <height>14</height>
+           <x>50</x>
+           <y>92</y>
+           <width>86</width>
+           <height>9</height>
           </rect>
          </property>
          <property name="minimumSize">
           <size>
-           <width>35</width>
-           <height>14</height>
+           <width>86</width>
+           <height>9</height>
           </size>
          </property>
          <property name="maximumSize">
           <size>
-           <width>16777215</width>
-           <height>14</height>
+           <width>86</width>
+           <height>9</height>
           </size>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
          </property>
         </widget>
         <widget class="QLabel" name="textLabel_Button2">
          <property name="geometry">
           <rect>
-           <x>18</x>
-           <y>16</y>
-           <width>40</width>
-           <height>42</height>
+           <x>21</x>
+           <y>7</y>
+           <width>28</width>
+           <height>28</height>
           </rect>
          </property>
          <property name="minimumSize">
           <size>
-           <width>40</width>
-           <height>42</height>
+           <width>28</width>
+           <height>28</height>
           </size>
          </property>
          <property name="maximumSize">
           <size>
-           <width>40</width>
-           <height>42</height>
+           <width>28</width>
+           <height>28</height>
           </size>
          </property>
          <property name="text">
@@ -517,11 +632,23 @@ p, li { white-space: pre-wrap; }
         <widget class="MyCardsPixmapLabel" name="pixmapLabel_card2a">
          <property name="geometry">
           <rect>
-           <x>86</x>
-           <y>26</y>
-           <width>48</width>
-           <height>76</height>
+           <x>68</x>
+           <y>19</y>
+           <width>46</width>
+           <height>72</height>
           </rect>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>46</width>
+           <height>72</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>46</width>
+           <height>72</height>
+          </size>
          </property>
          <property name="scaledContents">
           <bool>true</bool>
@@ -530,11 +657,23 @@ p, li { white-space: pre-wrap; }
         <widget class="MyCardsPixmapLabel" name="pixmapLabel_card2b">
          <property name="geometry">
           <rect>
-           <x>110</x>
-           <y>26</y>
-           <width>48</width>
-           <height>76</height>
+           <x>90</x>
+           <y>19</y>
+           <width>46</width>
+           <height>72</height>
           </rect>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>46</width>
+           <height>72</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>46</width>
+           <height>72</height>
+          </size>
          </property>
          <property name="scaledContents">
           <bool>true</bool>
@@ -543,16 +682,22 @@ p, li { white-space: pre-wrap; }
         <widget class="MyStatusLabel" name="textLabel_Status2">
          <property name="geometry">
           <rect>
-           <x>67</x>
-           <y>43</y>
-           <width>111</width>
+           <x>52</x>
+           <y>35</y>
+           <width>100</width>
            <height>40</height>
           </rect>
          </property>
          <property name="minimumSize">
           <size>
-           <width>0</width>
-           <height>20</height>
+           <width>100</width>
+           <height>40</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>100</width>
+           <height>40</height>
           </size>
          </property>
          <property name="text">
@@ -566,10 +711,22 @@ p, li { white-space: pre-wrap; }
          <property name="geometry">
           <rect>
            <x>12</x>
-           <y>57</y>
-           <width>52</width>
-           <height>10</height>
+           <y>37</y>
+           <width>50</width>
+           <height>7</height>
           </rect>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>50</width>
+           <height>7</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>50</width>
+           <height>7</height>
+          </size>
          </property>
          <property name="text">
           <string/>
@@ -578,8 +735,8 @@ p, li { white-space: pre-wrap; }
         <widget class="QLabel" name="label_playerTip2">
          <property name="geometry">
           <rect>
-           <x>70</x>
-           <y>79</y>
+           <x>12</x>
+           <y>46</y>
            <width>16</width>
            <height>17</height>
           </rect>
@@ -596,65 +753,65 @@ p, li { white-space: pre-wrap; }
          <property name="geometry">
           <rect>
            <x>13</x>
-           <y>65</y>
+           <y>36</y>
            <width>12</width>
            <height>12</height>
           </rect>
          </property>
          <property name="text">
-                    <string notr="true">&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
+          <string notr="true">&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
          </property>
         </widget>
         <widget class="QLabel" name="label_Star22">
          <property name="geometry">
           <rect>
            <x>23</x>
-           <y>65</y>
+           <y>36</y>
            <width>12</width>
            <height>12</height>
           </rect>
          </property>
          <property name="text">
-                    <string notr="true">&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
+          <string notr="true">&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
          </property>
         </widget>
         <widget class="QLabel" name="label_Star32">
          <property name="geometry">
           <rect>
            <x>33</x>
-           <y>65</y>
+           <y>36</y>
            <width>12</width>
            <height>12</height>
           </rect>
          </property>
          <property name="text">
-                    <string notr="true">&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
+          <string notr="true">&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
          </property>
         </widget>
         <widget class="QLabel" name="label_Star42">
          <property name="geometry">
           <rect>
            <x>43</x>
-           <y>65</y>
+           <y>36</y>
            <width>12</width>
            <height>12</height>
           </rect>
          </property>
          <property name="text">
-                    <string notr="true">&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
+          <string notr="true">&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
          </property>
         </widget>
         <widget class="QLabel" name="label_Star52">
          <property name="geometry">
           <rect>
            <x>53</x>
-           <y>65</y>
+           <y>36</y>
            <width>12</width>
            <height>12</height>
           </rect>
          </property>
          <property name="text">
-                    <string notr="true">&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
+          <string notr="true">&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
          </property>
         </widget>
        </widget>
@@ -683,14 +840,14 @@ p, li { white-space: pre-wrap; }
        <widget class="QGroupBox" name="groupBox4">
         <property name="minimumSize">
          <size>
-          <width>190</width>
-          <height>142</height>
+          <width>150</width>
+          <height>120</height>
          </size>
         </property>
         <property name="maximumSize">
          <size>
-          <width>190</width>
-          <height>142</height>
+          <width>150</width>
+          <height>120</height>
          </size>
         </property>
         <property name="title">
@@ -699,8 +856,8 @@ p, li { white-space: pre-wrap; }
         <widget class="MyAvatarLabel" name="label_Avatar4">
          <property name="geometry">
           <rect>
-           <x>13</x>
-           <y>13</y>
+           <x>12</x>
+           <y>25</y>
            <width>50</width>
            <height>50</height>
           </rect>
@@ -724,22 +881,22 @@ p, li { white-space: pre-wrap; }
         <widget class="MyNameLabel" name="label_PlayerName4">
          <property name="geometry">
           <rect>
-           <x>70</x>
-           <y>11</y>
-           <width>104</width>
-           <height>14</height>
+           <x>12</x>
+           <y>6</y>
+           <width>136</width>
+           <height>15</height>
           </rect>
          </property>
          <property name="minimumSize">
           <size>
-           <width>0</width>
-           <height>14</height>
+           <width>136</width>
+           <height>15</height>
           </size>
          </property>
          <property name="maximumSize">
           <size>
-           <width>16777215</width>
-           <height>14</height>
+           <width>136</width>
+           <height>15</height>
           </size>
          </property>
          <property name="autoFillBackground">
@@ -755,69 +912,72 @@ p, li { white-space: pre-wrap; }
         <widget class="MySetLabel" name="textLabel_Set4">
          <property name="geometry">
           <rect>
-           <x>70</x>
-           <y>119</y>
-           <width>104</width>
-           <height>14</height>
+           <x>60</x>
+           <y>104</y>
+           <width>86</width>
+           <height>9</height>
           </rect>
          </property>
          <property name="minimumSize">
           <size>
-           <width>0</width>
-           <height>14</height>
+           <width>86</width>
+           <height>9</height>
           </size>
          </property>
          <property name="maximumSize">
           <size>
-           <width>16777215</width>
-           <height>14</height>
+           <width>86</width>
+           <height>9</height>
           </size>
          </property>
          <property name="alignment">
-          <set>Qt::AlignBottom|Qt::AlignHCenter</set>
+          <set>Qt::AlignCenter</set>
          </property>
         </widget>
         <widget class="MyCashLabel" name="textLabel_Cash4">
          <property name="geometry">
           <rect>
-           <x>70</x>
-           <y>25</y>
-           <width>104</width>
-           <height>14</height>
+           <x>50</x>
+           <y>20</y>
+           <width>86</width>
+           <height>9</height>
           </rect>
          </property>
          <property name="minimumSize">
           <size>
-           <width>35</width>
-           <height>14</height>
+           <width>86</width>
+           <height>9</height>
           </size>
          </property>
          <property name="maximumSize">
           <size>
-           <width>16777215</width>
-           <height>14</height>
+           <width>86</width>
+           <height>9</height>
           </size>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
          </property>
         </widget>
         <widget class="QLabel" name="textLabel_Button4">
          <property name="geometry">
           <rect>
-           <x>18</x>
-           <y>88</y>
-           <width>40</width>
-           <height>42</height>
+           <x>21</x>
+           <y>86</y>
+           <width>28</width>
+           <height>28</height>
           </rect>
          </property>
          <property name="minimumSize">
           <size>
-           <width>40</width>
-           <height>42</height>
+           <width>28</width>
+           <height>28</height>
           </size>
          </property>
          <property name="maximumSize">
           <size>
-           <width>40</width>
-           <height>42</height>
+           <width>28</width>
+           <height>28</height>
           </size>
          </property>
          <property name="text">
@@ -830,11 +990,23 @@ p, li { white-space: pre-wrap; }
         <widget class="MyCardsPixmapLabel" name="pixmapLabel_card4a">
          <property name="geometry">
           <rect>
-           <x>86</x>
-           <y>39</y>
-           <width>48</width>
-           <height>76</height>
+           <x>68</x>
+           <y>30</y>
+           <width>46</width>
+           <height>72</height>
           </rect>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>46</width>
+           <height>72</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>46</width>
+           <height>72</height>
+          </size>
          </property>
          <property name="scaledContents">
           <bool>true</bool>
@@ -843,11 +1015,23 @@ p, li { white-space: pre-wrap; }
         <widget class="MyCardsPixmapLabel" name="pixmapLabel_card4b">
          <property name="geometry">
           <rect>
-           <x>110</x>
-           <y>39</y>
-           <width>48</width>
-           <height>76</height>
+           <x>90</x>
+           <y>30</y>
+           <width>46</width>
+           <height>72</height>
           </rect>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>46</width>
+           <height>72</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>46</width>
+           <height>72</height>
+          </size>
          </property>
          <property name="scaledContents">
           <bool>true</bool>
@@ -856,16 +1040,22 @@ p, li { white-space: pre-wrap; }
         <widget class="MyStatusLabel" name="textLabel_Status4">
          <property name="geometry">
           <rect>
-           <x>67</x>
-           <y>56</y>
-           <width>111</width>
+           <x>52</x>
+           <y>46</y>
+           <width>100</width>
            <height>40</height>
           </rect>
          </property>
          <property name="minimumSize">
           <size>
-           <width>0</width>
-           <height>20</height>
+           <width>100</width>
+           <height>40</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>100</width>
+           <height>40</height>
           </size>
          </property>
          <property name="text">
@@ -879,10 +1069,22 @@ p, li { white-space: pre-wrap; }
          <property name="geometry">
           <rect>
            <x>12</x>
-           <y>75</y>
-           <width>52</width>
-           <height>10</height>
+           <y>77</y>
+           <width>50</width>
+           <height>7</height>
           </rect>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>50</width>
+           <height>7</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>50</width>
+           <height>7</height>
+          </size>
          </property>
          <property name="text">
           <string/>
@@ -891,8 +1093,8 @@ p, li { white-space: pre-wrap; }
         <widget class="QLabel" name="label_playerTip4">
          <property name="geometry">
           <rect>
-           <x>70</x>
-           <y>50</y>
+           <x>12</x>
+           <y>25</y>
            <width>16</width>
            <height>17</height>
           </rect>
@@ -909,65 +1111,65 @@ p, li { white-space: pre-wrap; }
          <property name="geometry">
           <rect>
            <x>33</x>
-           <y>62</y>
+           <y>70</y>
            <width>12</width>
            <height>12</height>
           </rect>
          </property>
          <property name="text">
-                    <string notr="true">&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
+          <string notr="true">&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
          </property>
         </widget>
         <widget class="QLabel" name="label_Star24">
          <property name="geometry">
           <rect>
            <x>23</x>
-           <y>62</y>
+           <y>70</y>
            <width>12</width>
            <height>12</height>
           </rect>
          </property>
          <property name="text">
-                    <string notr="true">&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
+          <string notr="true">&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
          </property>
         </widget>
         <widget class="QLabel" name="label_Star54">
          <property name="geometry">
           <rect>
            <x>53</x>
-           <y>62</y>
+           <y>70</y>
            <width>12</width>
            <height>12</height>
           </rect>
          </property>
          <property name="text">
-                    <string notr="true">&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
+          <string notr="true">&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
          </property>
         </widget>
         <widget class="QLabel" name="label_Star44">
          <property name="geometry">
           <rect>
            <x>43</x>
-           <y>62</y>
+           <y>70</y>
            <width>12</width>
            <height>12</height>
           </rect>
          </property>
          <property name="text">
-                    <string notr="true">&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
+          <string notr="true">&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
          </property>
         </widget>
         <widget class="QLabel" name="label_Star14">
          <property name="geometry">
           <rect>
            <x>13</x>
-           <y>62</y>
+           <y>70</y>
            <width>12</width>
            <height>12</height>
           </rect>
          </property>
          <property name="text">
-                    <string notr="true">&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
+          <string notr="true">&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
          </property>
         </widget>
        </widget>
@@ -976,14 +1178,14 @@ p, li { white-space: pre-wrap; }
        <widget class="QGroupBox" name="groupBox5">
         <property name="minimumSize">
          <size>
-          <width>190</width>
-          <height>142</height>
+          <width>150</width>
+          <height>120</height>
          </size>
         </property>
         <property name="maximumSize">
          <size>
-          <width>190</width>
-          <height>142</height>
+          <width>150</width>
+          <height>120</height>
          </size>
         </property>
         <property name="title">
@@ -992,8 +1194,8 @@ p, li { white-space: pre-wrap; }
         <widget class="MyAvatarLabel" name="label_Avatar5">
          <property name="geometry">
           <rect>
-           <x>13</x>
-           <y>13</y>
+           <x>12</x>
+           <y>25</y>
            <width>50</width>
            <height>50</height>
           </rect>
@@ -1017,22 +1219,22 @@ p, li { white-space: pre-wrap; }
         <widget class="MyNameLabel" name="label_PlayerName5">
          <property name="geometry">
           <rect>
-           <x>70</x>
-           <y>11</y>
-           <width>104</width>
-           <height>14</height>
+           <x>12</x>
+           <y>6</y>
+           <width>136</width>
+           <height>15</height>
           </rect>
          </property>
          <property name="minimumSize">
           <size>
-           <width>0</width>
-           <height>14</height>
+           <width>136</width>
+           <height>15</height>
           </size>
          </property>
          <property name="maximumSize">
           <size>
-           <width>16777215</width>
-           <height>14</height>
+           <width>136</width>
+           <height>15</height>
           </size>
          </property>
          <property name="alignment">
@@ -1045,69 +1247,72 @@ p, li { white-space: pre-wrap; }
         <widget class="MySetLabel" name="textLabel_Set5">
          <property name="geometry">
           <rect>
-           <x>70</x>
-           <y>119</y>
-           <width>104</width>
-           <height>14</height>
+           <x>60</x>
+           <y>104</y>
+           <width>86</width>
+           <height>9</height>
           </rect>
          </property>
          <property name="minimumSize">
           <size>
-           <width>0</width>
-           <height>14</height>
+           <width>86</width>
+           <height>9</height>
           </size>
          </property>
          <property name="maximumSize">
           <size>
-           <width>16777215</width>
-           <height>14</height>
+           <width>86</width>
+           <height>9</height>
           </size>
          </property>
          <property name="alignment">
-          <set>Qt::AlignBottom|Qt::AlignHCenter</set>
+          <set>Qt::AlignCenter</set>
          </property>
         </widget>
         <widget class="MyCashLabel" name="textLabel_Cash5">
          <property name="geometry">
           <rect>
-           <x>70</x>
-           <y>25</y>
-           <width>104</width>
-           <height>14</height>
+           <x>50</x>
+           <y>20</y>
+           <width>86</width>
+           <height>9</height>
           </rect>
          </property>
          <property name="minimumSize">
           <size>
-           <width>35</width>
-           <height>14</height>
+           <width>86</width>
+           <height>9</height>
           </size>
          </property>
          <property name="maximumSize">
           <size>
-           <width>16777215</width>
-           <height>14</height>
+           <width>86</width>
+           <height>9</height>
           </size>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
          </property>
         </widget>
         <widget class="QLabel" name="textLabel_Button5">
          <property name="geometry">
           <rect>
-           <x>18</x>
-           <y>88</y>
-           <width>40</width>
-           <height>42</height>
+           <x>21</x>
+           <y>86</y>
+           <width>28</width>
+           <height>28</height>
           </rect>
          </property>
          <property name="minimumSize">
           <size>
-           <width>40</width>
-           <height>42</height>
+           <width>28</width>
+           <height>28</height>
           </size>
          </property>
          <property name="maximumSize">
           <size>
-           <width>40</width>
-           <height>42</height>
+           <width>28</width>
+           <height>28</height>
           </size>
          </property>
          <property name="text">
@@ -1120,11 +1325,23 @@ p, li { white-space: pre-wrap; }
         <widget class="MyCardsPixmapLabel" name="pixmapLabel_card5a">
          <property name="geometry">
           <rect>
-           <x>86</x>
-           <y>39</y>
-           <width>48</width>
-           <height>76</height>
+           <x>68</x>
+           <y>30</y>
+           <width>46</width>
+           <height>72</height>
           </rect>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>46</width>
+           <height>72</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>46</width>
+           <height>72</height>
+          </size>
          </property>
          <property name="scaledContents">
           <bool>true</bool>
@@ -1133,11 +1350,23 @@ p, li { white-space: pre-wrap; }
         <widget class="MyCardsPixmapLabel" name="pixmapLabel_card5b">
          <property name="geometry">
           <rect>
-           <x>110</x>
-           <y>39</y>
-           <width>48</width>
-           <height>76</height>
+           <x>90</x>
+           <y>30</y>
+           <width>46</width>
+           <height>72</height>
           </rect>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>46</width>
+           <height>72</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>46</width>
+           <height>72</height>
+          </size>
          </property>
          <property name="scaledContents">
           <bool>true</bool>
@@ -1146,16 +1375,22 @@ p, li { white-space: pre-wrap; }
         <widget class="MyStatusLabel" name="textLabel_Status5">
          <property name="geometry">
           <rect>
-           <x>67</x>
-           <y>56</y>
-           <width>111</width>
+           <x>52</x>
+           <y>46</y>
+           <width>100</width>
            <height>40</height>
           </rect>
          </property>
          <property name="minimumSize">
           <size>
-           <width>0</width>
-           <height>20</height>
+           <width>100</width>
+           <height>40</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>100</width>
+           <height>40</height>
           </size>
          </property>
          <property name="text">
@@ -1169,10 +1404,22 @@ p, li { white-space: pre-wrap; }
          <property name="geometry">
           <rect>
            <x>12</x>
-           <y>75</y>
-           <width>52</width>
-           <height>10</height>
+           <y>77</y>
+           <width>50</width>
+           <height>7</height>
           </rect>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>50</width>
+           <height>7</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>50</width>
+           <height>7</height>
+          </size>
          </property>
          <property name="text">
           <string/>
@@ -1181,8 +1428,8 @@ p, li { white-space: pre-wrap; }
         <widget class="QLabel" name="label_playerTip5">
          <property name="geometry">
           <rect>
-           <x>70</x>
-           <y>50</y>
+           <x>12</x>
+           <y>25</y>
            <width>16</width>
            <height>17</height>
           </rect>
@@ -1199,65 +1446,65 @@ p, li { white-space: pre-wrap; }
          <property name="geometry">
           <rect>
            <x>33</x>
-           <y>62</y>
+           <y>70</y>
            <width>12</width>
            <height>12</height>
           </rect>
          </property>
          <property name="text">
-                    <string notr="true">&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
+          <string notr="true">&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
          </property>
         </widget>
         <widget class="QLabel" name="label_Star25">
          <property name="geometry">
           <rect>
            <x>23</x>
-           <y>62</y>
+           <y>70</y>
            <width>12</width>
            <height>12</height>
           </rect>
          </property>
          <property name="text">
-                    <string notr="true">&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
+          <string notr="true">&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
          </property>
         </widget>
         <widget class="QLabel" name="label_Star55">
          <property name="geometry">
           <rect>
            <x>53</x>
-           <y>62</y>
+           <y>70</y>
            <width>12</width>
            <height>12</height>
           </rect>
          </property>
          <property name="text">
-                    <string notr="true">&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
+          <string notr="true">&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
          </property>
         </widget>
         <widget class="QLabel" name="label_Star45">
          <property name="geometry">
           <rect>
            <x>43</x>
-           <y>62</y>
+           <y>70</y>
            <width>12</width>
            <height>12</height>
           </rect>
          </property>
          <property name="text">
-                    <string notr="true">&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
+          <string notr="true">&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
          </property>
         </widget>
         <widget class="QLabel" name="label_Star15">
          <property name="geometry">
           <rect>
            <x>13</x>
-           <y>62</y>
+           <y>70</y>
            <width>12</width>
            <height>12</height>
           </rect>
          </property>
          <property name="text">
-                    <string notr="true">&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
+          <string notr="true">&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
          </property>
         </widget>
        </widget>
@@ -1266,14 +1513,14 @@ p, li { white-space: pre-wrap; }
        <widget class="QGroupBox" name="groupBox6">
         <property name="minimumSize">
          <size>
-          <width>190</width>
-          <height>142</height>
+          <width>150</width>
+          <height>120</height>
          </size>
         </property>
         <property name="maximumSize">
          <size>
-          <width>190</width>
-          <height>142</height>
+          <width>150</width>
+          <height>120</height>
          </size>
         </property>
         <property name="title">
@@ -1282,8 +1529,8 @@ p, li { white-space: pre-wrap; }
         <widget class="MyAvatarLabel" name="label_Avatar6">
          <property name="geometry">
           <rect>
-           <x>13</x>
-           <y>13</y>
+           <x>12</x>
+           <y>25</y>
            <width>50</width>
            <height>50</height>
           </rect>
@@ -1307,22 +1554,22 @@ p, li { white-space: pre-wrap; }
         <widget class="MyNameLabel" name="label_PlayerName6">
          <property name="geometry">
           <rect>
-           <x>70</x>
-           <y>11</y>
-           <width>104</width>
-           <height>14</height>
+           <x>12</x>
+           <y>6</y>
+           <width>136</width>
+           <height>15</height>
           </rect>
          </property>
          <property name="minimumSize">
           <size>
-           <width>0</width>
-           <height>14</height>
+           <width>136</width>
+           <height>15</height>
           </size>
          </property>
          <property name="maximumSize">
           <size>
-           <width>16777215</width>
-           <height>14</height>
+           <width>136</width>
+           <height>15</height>
           </size>
          </property>
          <property name="alignment">
@@ -1335,69 +1582,72 @@ p, li { white-space: pre-wrap; }
         <widget class="MySetLabel" name="textLabel_Set6">
          <property name="geometry">
           <rect>
-           <x>70</x>
-           <y>119</y>
-           <width>104</width>
-           <height>14</height>
+           <x>60</x>
+           <y>104</y>
+           <width>86</width>
+           <height>9</height>
           </rect>
          </property>
          <property name="minimumSize">
           <size>
-           <width>0</width>
-           <height>14</height>
+           <width>86</width>
+           <height>9</height>
           </size>
          </property>
          <property name="maximumSize">
           <size>
-           <width>16777215</width>
-           <height>14</height>
+           <width>86</width>
+           <height>9</height>
           </size>
          </property>
          <property name="alignment">
-          <set>Qt::AlignBottom|Qt::AlignHCenter</set>
+          <set>Qt::AlignCenter</set>
          </property>
         </widget>
         <widget class="MyCashLabel" name="textLabel_Cash6">
          <property name="geometry">
           <rect>
-           <x>70</x>
-           <y>25</y>
-           <width>104</width>
-           <height>14</height>
+           <x>50</x>
+           <y>20</y>
+           <width>86</width>
+           <height>9</height>
           </rect>
          </property>
          <property name="minimumSize">
           <size>
-           <width>35</width>
-           <height>14</height>
+           <width>86</width>
+           <height>9</height>
           </size>
          </property>
          <property name="maximumSize">
           <size>
-           <width>16777215</width>
-           <height>14</height>
+           <width>86</width>
+           <height>9</height>
           </size>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
          </property>
         </widget>
         <widget class="QLabel" name="textLabel_Button6">
          <property name="geometry">
           <rect>
-           <x>18</x>
-           <y>88</y>
-           <width>40</width>
-           <height>42</height>
+           <x>21</x>
+           <y>86</y>
+           <width>28</width>
+           <height>28</height>
           </rect>
          </property>
          <property name="minimumSize">
           <size>
-           <width>40</width>
-           <height>42</height>
+           <width>28</width>
+           <height>28</height>
           </size>
          </property>
          <property name="maximumSize">
           <size>
-           <width>40</width>
-           <height>42</height>
+           <width>28</width>
+           <height>28</height>
           </size>
          </property>
          <property name="text">
@@ -1410,11 +1660,23 @@ p, li { white-space: pre-wrap; }
         <widget class="MyCardsPixmapLabel" name="pixmapLabel_card6a">
          <property name="geometry">
           <rect>
-           <x>86</x>
-           <y>39</y>
-           <width>48</width>
-           <height>76</height>
+           <x>68</x>
+           <y>30</y>
+           <width>46</width>
+           <height>72</height>
           </rect>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>46</width>
+           <height>72</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>46</width>
+           <height>72</height>
+          </size>
          </property>
          <property name="scaledContents">
           <bool>true</bool>
@@ -1423,11 +1685,23 @@ p, li { white-space: pre-wrap; }
         <widget class="MyCardsPixmapLabel" name="pixmapLabel_card6b">
          <property name="geometry">
           <rect>
-           <x>110</x>
-           <y>39</y>
-           <width>48</width>
-           <height>76</height>
+           <x>90</x>
+           <y>30</y>
+           <width>46</width>
+           <height>72</height>
           </rect>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>46</width>
+           <height>72</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>46</width>
+           <height>72</height>
+          </size>
          </property>
          <property name="scaledContents">
           <bool>true</bool>
@@ -1436,16 +1710,22 @@ p, li { white-space: pre-wrap; }
         <widget class="MyStatusLabel" name="textLabel_Status6">
          <property name="geometry">
           <rect>
-           <x>67</x>
-           <y>56</y>
-           <width>111</width>
+           <x>52</x>
+           <y>46</y>
+           <width>100</width>
            <height>40</height>
           </rect>
          </property>
          <property name="minimumSize">
           <size>
-           <width>0</width>
-           <height>20</height>
+           <width>100</width>
+           <height>40</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>100</width>
+           <height>40</height>
           </size>
          </property>
          <property name="text">
@@ -1459,10 +1739,22 @@ p, li { white-space: pre-wrap; }
          <property name="geometry">
           <rect>
            <x>12</x>
-           <y>75</y>
-           <width>52</width>
-           <height>10</height>
+           <y>77</y>
+           <width>50</width>
+           <height>7</height>
           </rect>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>50</width>
+           <height>7</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>50</width>
+           <height>7</height>
+          </size>
          </property>
          <property name="text">
           <string/>
@@ -1471,8 +1763,8 @@ p, li { white-space: pre-wrap; }
         <widget class="QLabel" name="label_playerTip6">
          <property name="geometry">
           <rect>
-           <x>70</x>
-           <y>50</y>
+           <x>12</x>
+           <y>25</y>
            <width>16</width>
            <height>17</height>
           </rect>
@@ -1489,76 +1781,140 @@ p, li { white-space: pre-wrap; }
          <property name="geometry">
           <rect>
            <x>33</x>
-           <y>62</y>
+           <y>70</y>
            <width>12</width>
            <height>12</height>
           </rect>
          </property>
          <property name="text">
-                    <string notr="true">&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
+          <string notr="true">&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
          </property>
         </widget>
         <widget class="QLabel" name="label_Star26">
          <property name="geometry">
           <rect>
            <x>23</x>
-           <y>62</y>
+           <y>70</y>
            <width>12</width>
            <height>12</height>
           </rect>
          </property>
          <property name="text">
-                    <string notr="true">&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
+          <string notr="true">&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
          </property>
         </widget>
         <widget class="QLabel" name="label_Star56">
          <property name="geometry">
           <rect>
            <x>53</x>
-           <y>62</y>
+           <y>70</y>
            <width>12</width>
            <height>12</height>
           </rect>
          </property>
          <property name="text">
-                    <string notr="true">&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
+          <string notr="true">&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
          </property>
         </widget>
         <widget class="QLabel" name="label_Star46">
          <property name="geometry">
           <rect>
            <x>43</x>
-           <y>62</y>
+           <y>70</y>
            <width>12</width>
            <height>12</height>
           </rect>
          </property>
          <property name="text">
-                    <string notr="true">&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
+          <string notr="true">&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
          </property>
         </widget>
         <widget class="QLabel" name="label_Star16">
          <property name="geometry">
           <rect>
            <x>13</x>
-           <y>62</y>
+           <y>70</y>
            <width>12</width>
            <height>12</height>
           </rect>
          </property>
          <property name="text">
-                    <string notr="true">&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
+          <string notr="true">&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
          </property>
         </widget>
        </widget>
       </item>
      </layout>
     </item>
-    <item row="0" column="2" rowspan="5">
+    <item row="0" column="2" rowspan="7">
      <layout class="QVBoxLayout" name="verticalLayout_3">
       <property name="spacing">
        <number>0</number>
       </property>
+      <item>
+       <spacer name="verticalSpacer_13">
+        <property name="orientation">
+         <enum>Qt::Vertical</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>20</width>
+          <height>40</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout_11">
+        <item>
+         <widget class="QLabel" name="label_gameNumber">
+          <property name="minimumSize">
+           <size>
+            <width>60</width>
+            <height>19</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>60</width>
+            <height>19</height>
+           </size>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">QLabel {font: bold 20px}</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="label_gameNumberValue">
+          <property name="minimumSize">
+           <size>
+            <width>60</width>
+            <height>19</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>60</width>
+            <height>19</height>
+           </size>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">QLabel {font: bold 20px}</string>
+          </property>
+          <property name="text">
+           <string/>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
       <item>
        <spacer name="verticalSpacer_5">
         <property name="orientation">
@@ -1576,14 +1932,14 @@ p, li { white-space: pre-wrap; }
        <widget class="QGroupBox" name="groupBox7">
         <property name="minimumSize">
          <size>
-          <width>190</width>
-          <height>142</height>
+          <width>150</width>
+          <height>120</height>
          </size>
         </property>
         <property name="maximumSize">
          <size>
-          <width>190</width>
-          <height>142</height>
+          <width>150</width>
+          <height>120</height>
          </size>
         </property>
         <property name="title">
@@ -1592,8 +1948,8 @@ p, li { white-space: pre-wrap; }
         <widget class="MyAvatarLabel" name="label_Avatar7">
          <property name="geometry">
           <rect>
-           <x>13</x>
-           <y>13</y>
+           <x>12</x>
+           <y>25</y>
            <width>50</width>
            <height>50</height>
           </rect>
@@ -1617,22 +1973,22 @@ p, li { white-space: pre-wrap; }
         <widget class="MyNameLabel" name="label_PlayerName7">
          <property name="geometry">
           <rect>
-           <x>70</x>
-           <y>11</y>
-           <width>104</width>
-           <height>14</height>
+           <x>12</x>
+           <y>6</y>
+           <width>136</width>
+           <height>15</height>
           </rect>
          </property>
          <property name="minimumSize">
           <size>
-           <width>0</width>
-           <height>14</height>
+           <width>136</width>
+           <height>15</height>
           </size>
          </property>
          <property name="maximumSize">
           <size>
-           <width>16777215</width>
-           <height>14</height>
+           <width>136</width>
+           <height>15</height>
           </size>
          </property>
          <property name="alignment">
@@ -1645,69 +2001,72 @@ p, li { white-space: pre-wrap; }
         <widget class="MySetLabel" name="textLabel_Set7">
          <property name="geometry">
           <rect>
-           <x>70</x>
-           <y>119</y>
-           <width>104</width>
-           <height>14</height>
+           <x>60</x>
+           <y>104</y>
+           <width>86</width>
+           <height>9</height>
           </rect>
          </property>
          <property name="minimumSize">
           <size>
-           <width>0</width>
-           <height>14</height>
+           <width>86</width>
+           <height>9</height>
           </size>
          </property>
          <property name="maximumSize">
           <size>
-           <width>16777215</width>
-           <height>14</height>
+           <width>86</width>
+           <height>9</height>
           </size>
          </property>
          <property name="alignment">
-          <set>Qt::AlignBottom|Qt::AlignHCenter</set>
+          <set>Qt::AlignCenter</set>
          </property>
         </widget>
         <widget class="MyCashLabel" name="textLabel_Cash7">
          <property name="geometry">
           <rect>
-           <x>70</x>
-           <y>25</y>
-           <width>104</width>
-           <height>14</height>
+           <x>50</x>
+           <y>20</y>
+           <width>86</width>
+           <height>9</height>
           </rect>
          </property>
          <property name="minimumSize">
           <size>
-           <width>35</width>
-           <height>14</height>
+           <width>86</width>
+           <height>9</height>
           </size>
          </property>
          <property name="maximumSize">
           <size>
-           <width>16777215</width>
-           <height>14</height>
+           <width>86</width>
+           <height>9</height>
           </size>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
          </property>
         </widget>
         <widget class="QLabel" name="textLabel_Button7">
          <property name="geometry">
           <rect>
-           <x>18</x>
-           <y>88</y>
-           <width>40</width>
-           <height>42</height>
+           <x>21</x>
+           <y>86</y>
+           <width>28</width>
+           <height>28</height>
           </rect>
          </property>
          <property name="minimumSize">
           <size>
-           <width>40</width>
-           <height>42</height>
+           <width>28</width>
+           <height>28</height>
           </size>
          </property>
          <property name="maximumSize">
           <size>
-           <width>40</width>
-           <height>42</height>
+           <width>28</width>
+           <height>28</height>
           </size>
          </property>
          <property name="text">
@@ -1720,11 +2079,23 @@ p, li { white-space: pre-wrap; }
         <widget class="MyCardsPixmapLabel" name="pixmapLabel_card7a">
          <property name="geometry">
           <rect>
-           <x>86</x>
-           <y>39</y>
-           <width>48</width>
-           <height>76</height>
+           <x>68</x>
+           <y>30</y>
+           <width>46</width>
+           <height>72</height>
           </rect>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>46</width>
+           <height>72</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>46</width>
+           <height>72</height>
+          </size>
          </property>
          <property name="scaledContents">
           <bool>true</bool>
@@ -1733,11 +2104,23 @@ p, li { white-space: pre-wrap; }
         <widget class="MyCardsPixmapLabel" name="pixmapLabel_card7b">
          <property name="geometry">
           <rect>
-           <x>110</x>
-           <y>39</y>
-           <width>48</width>
-           <height>76</height>
+           <x>90</x>
+           <y>30</y>
+           <width>46</width>
+           <height>72</height>
           </rect>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>46</width>
+           <height>72</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>46</width>
+           <height>72</height>
+          </size>
          </property>
          <property name="scaledContents">
           <bool>true</bool>
@@ -1746,16 +2129,22 @@ p, li { white-space: pre-wrap; }
         <widget class="MyStatusLabel" name="textLabel_Status7">
          <property name="geometry">
           <rect>
-           <x>67</x>
-           <y>56</y>
-           <width>111</width>
+           <x>52</x>
+           <y>46</y>
+           <width>100</width>
            <height>40</height>
           </rect>
          </property>
          <property name="minimumSize">
           <size>
-           <width>0</width>
-           <height>20</height>
+           <width>100</width>
+           <height>40</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>100</width>
+           <height>40</height>
           </size>
          </property>
          <property name="text">
@@ -1769,10 +2158,22 @@ p, li { white-space: pre-wrap; }
          <property name="geometry">
           <rect>
            <x>12</x>
-           <y>75</y>
-           <width>52</width>
-           <height>10</height>
+           <y>77</y>
+           <width>50</width>
+           <height>7</height>
           </rect>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>50</width>
+           <height>7</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>50</width>
+           <height>7</height>
+          </size>
          </property>
          <property name="text">
           <string/>
@@ -1781,8 +2182,8 @@ p, li { white-space: pre-wrap; }
         <widget class="QLabel" name="label_playerTip7">
          <property name="geometry">
           <rect>
-           <x>70</x>
-           <y>50</y>
+           <x>12</x>
+           <y>25</y>
            <width>16</width>
            <height>17</height>
           </rect>
@@ -1799,65 +2200,65 @@ p, li { white-space: pre-wrap; }
          <property name="geometry">
           <rect>
            <x>33</x>
-           <y>62</y>
+           <y>70</y>
            <width>12</width>
            <height>12</height>
           </rect>
          </property>
          <property name="text">
-                    <string notr="true">&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
+          <string notr="true">&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
          </property>
         </widget>
         <widget class="QLabel" name="label_Star27">
          <property name="geometry">
           <rect>
            <x>23</x>
-           <y>62</y>
+           <y>70</y>
            <width>12</width>
            <height>12</height>
           </rect>
          </property>
          <property name="text">
-                    <string notr="true">&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
+          <string notr="true">&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
          </property>
         </widget>
         <widget class="QLabel" name="label_Star57">
          <property name="geometry">
           <rect>
            <x>53</x>
-           <y>62</y>
+           <y>70</y>
            <width>12</width>
            <height>12</height>
           </rect>
          </property>
          <property name="text">
-                    <string notr="true">&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
+          <string notr="true">&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
          </property>
         </widget>
         <widget class="QLabel" name="label_Star47">
          <property name="geometry">
           <rect>
            <x>43</x>
-           <y>62</y>
+           <y>70</y>
            <width>12</width>
            <height>12</height>
           </rect>
          </property>
          <property name="text">
-                    <string notr="true">&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
+          <string notr="true">&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
          </property>
         </widget>
         <widget class="QLabel" name="label_Star17">
          <property name="geometry">
           <rect>
            <x>13</x>
-           <y>62</y>
+           <y>70</y>
            <width>12</width>
            <height>12</height>
           </rect>
          </property>
          <property name="text">
-                    <string notr="true">&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
+          <string notr="true">&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
          </property>
         </widget>
        </widget>
@@ -1879,14 +2280,14 @@ p, li { white-space: pre-wrap; }
        <widget class="QGroupBox" name="groupBox8">
         <property name="minimumSize">
          <size>
-          <width>190</width>
-          <height>142</height>
+          <width>150</width>
+          <height>120</height>
          </size>
         </property>
         <property name="maximumSize">
          <size>
-          <width>190</width>
-          <height>142</height>
+          <width>150</width>
+          <height>120</height>
          </size>
         </property>
         <property name="title">
@@ -1895,8 +2296,8 @@ p, li { white-space: pre-wrap; }
         <widget class="MyAvatarLabel" name="label_Avatar8">
          <property name="geometry">
           <rect>
-           <x>13</x>
-           <y>79</y>
+           <x>12</x>
+           <y>46</y>
            <width>50</width>
            <height>50</height>
           </rect>
@@ -1920,22 +2321,22 @@ p, li { white-space: pre-wrap; }
         <widget class="MyNameLabel" name="label_PlayerName8">
          <property name="geometry">
           <rect>
-           <x>70</x>
-           <y>117</y>
-           <width>104</width>
-           <height>14</height>
+           <x>12</x>
+           <y>100</y>
+           <width>136</width>
+           <height>15</height>
           </rect>
          </property>
          <property name="minimumSize">
           <size>
-           <width>0</width>
-           <height>14</height>
+           <width>136</width>
+           <height>15</height>
           </size>
          </property>
          <property name="maximumSize">
           <size>
-           <width>16777215</width>
-           <height>14</height>
+           <width>136</width>
+           <height>15</height>
           </size>
          </property>
          <property name="alignment">
@@ -1948,69 +2349,72 @@ p, li { white-space: pre-wrap; }
         <widget class="MySetLabel" name="textLabel_Set8">
          <property name="geometry">
           <rect>
-           <x>70</x>
+           <x>60</x>
            <y>10</y>
-           <width>104</width>
-           <height>14</height>
+           <width>86</width>
+           <height>9</height>
           </rect>
          </property>
          <property name="minimumSize">
           <size>
-           <width>0</width>
-           <height>14</height>
+           <width>86</width>
+           <height>9</height>
           </size>
          </property>
          <property name="maximumSize">
           <size>
-           <width>16777215</width>
-           <height>14</height>
+           <width>86</width>
+           <height>9</height>
           </size>
          </property>
          <property name="alignment">
-          <set>Qt::AlignBottom|Qt::AlignHCenter</set>
+          <set>Qt::AlignCenter</set>
          </property>
         </widget>
         <widget class="MyCashLabel" name="textLabel_Cash8">
          <property name="geometry">
           <rect>
-           <x>70</x>
-           <y>104</y>
-           <width>104</width>
-           <height>12</height>
+           <x>50</x>
+           <y>92</y>
+           <width>86</width>
+           <height>9</height>
           </rect>
          </property>
          <property name="minimumSize">
           <size>
-           <width>35</width>
-           <height>12</height>
+           <width>86</width>
+           <height>9</height>
           </size>
          </property>
          <property name="maximumSize">
           <size>
-           <width>16777215</width>
-           <height>12</height>
+           <width>86</width>
+           <height>9</height>
           </size>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
          </property>
         </widget>
         <widget class="QLabel" name="textLabel_Button8">
          <property name="geometry">
           <rect>
-           <x>18</x>
-           <y>16</y>
-           <width>40</width>
-           <height>42</height>
+           <x>21</x>
+           <y>7</y>
+           <width>28</width>
+           <height>28</height>
           </rect>
          </property>
          <property name="minimumSize">
           <size>
-           <width>40</width>
-           <height>42</height>
+           <width>28</width>
+           <height>28</height>
           </size>
          </property>
          <property name="maximumSize">
           <size>
-           <width>40</width>
-           <height>42</height>
+           <width>28</width>
+           <height>28</height>
           </size>
          </property>
          <property name="text">
@@ -2023,11 +2427,23 @@ p, li { white-space: pre-wrap; }
         <widget class="MyCardsPixmapLabel" name="pixmapLabel_card8a">
          <property name="geometry">
           <rect>
-           <x>86</x>
-           <y>26</y>
-           <width>48</width>
-           <height>76</height>
+           <x>68</x>
+           <y>19</y>
+           <width>46</width>
+           <height>72</height>
           </rect>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>46</width>
+           <height>72</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>46</width>
+           <height>72</height>
+          </size>
          </property>
          <property name="scaledContents">
           <bool>true</bool>
@@ -2036,11 +2452,23 @@ p, li { white-space: pre-wrap; }
         <widget class="MyCardsPixmapLabel" name="pixmapLabel_card8b">
          <property name="geometry">
           <rect>
-           <x>110</x>
-           <y>26</y>
-           <width>48</width>
-           <height>76</height>
+           <x>90</x>
+           <y>19</y>
+           <width>46</width>
+           <height>72</height>
           </rect>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>46</width>
+           <height>72</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>46</width>
+           <height>72</height>
+          </size>
          </property>
          <property name="scaledContents">
           <bool>true</bool>
@@ -2049,16 +2477,22 @@ p, li { white-space: pre-wrap; }
         <widget class="MyStatusLabel" name="textLabel_Status8">
          <property name="geometry">
           <rect>
-           <x>67</x>
-           <y>43</y>
-           <width>111</width>
+           <x>52</x>
+           <y>35</y>
+           <width>100</width>
            <height>40</height>
           </rect>
          </property>
          <property name="minimumSize">
           <size>
-           <width>0</width>
-           <height>20</height>
+           <width>100</width>
+           <height>40</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>100</width>
+           <height>40</height>
           </size>
          </property>
          <property name="text">
@@ -2072,10 +2506,22 @@ p, li { white-space: pre-wrap; }
          <property name="geometry">
           <rect>
            <x>12</x>
-           <y>57</y>
-           <width>52</width>
-           <height>10</height>
+           <y>37</y>
+           <width>50</width>
+           <height>7</height>
           </rect>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>50</width>
+           <height>7</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>50</width>
+           <height>7</height>
+          </size>
          </property>
          <property name="text">
           <string/>
@@ -2084,8 +2530,8 @@ p, li { white-space: pre-wrap; }
         <widget class="QLabel" name="label_playerTip8">
          <property name="geometry">
           <rect>
-           <x>70</x>
-           <y>79</y>
+           <x>12</x>
+           <y>46</y>
            <width>16</width>
            <height>17</height>
           </rect>
@@ -2102,65 +2548,65 @@ p, li { white-space: pre-wrap; }
          <property name="geometry">
           <rect>
            <x>33</x>
-           <y>65</y>
+           <y>36</y>
            <width>12</width>
            <height>12</height>
           </rect>
          </property>
          <property name="text">
-                    <string notr="true">&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
+          <string notr="true">&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
          </property>
         </widget>
         <widget class="QLabel" name="label_Star28">
          <property name="geometry">
           <rect>
            <x>23</x>
-           <y>65</y>
+           <y>36</y>
            <width>12</width>
            <height>12</height>
           </rect>
          </property>
          <property name="text">
-                    <string notr="true">&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
+          <string notr="true">&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
          </property>
         </widget>
         <widget class="QLabel" name="label_Star58">
          <property name="geometry">
           <rect>
            <x>53</x>
-           <y>65</y>
+           <y>36</y>
            <width>12</width>
            <height>12</height>
           </rect>
          </property>
          <property name="text">
-                    <string notr="true">&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
+          <string notr="true">&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
          </property>
         </widget>
         <widget class="QLabel" name="label_Star48">
          <property name="geometry">
           <rect>
            <x>43</x>
-           <y>65</y>
+           <y>36</y>
            <width>12</width>
            <height>12</height>
           </rect>
          </property>
          <property name="text">
-                    <string notr="true">&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
+          <string notr="true">&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
          </property>
         </widget>
         <widget class="QLabel" name="label_Star18">
          <property name="geometry">
           <rect>
            <x>13</x>
-           <y>65</y>
+           <y>36</y>
            <width>12</width>
            <height>12</height>
           </rect>
          </property>
          <property name="text">
-                    <string notr="true">&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
+          <string notr="true">&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
          </property>
         </widget>
        </widget>
@@ -2199,19 +2645,6 @@ p, li { white-space: pre-wrap; }
        <number>0</number>
       </property>
       <item>
-       <spacer name="horizontalSpacer">
-        <property name="orientation">
-         <enum>Qt::Horizontal</enum>
-        </property>
-        <property name="sizeHint" stdset="0">
-         <size>
-          <width>40</width>
-          <height>20</height>
-         </size>
-        </property>
-       </spacer>
-      </item>
-      <item>
        <widget class="QGroupBox" name="groupBox_Board">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
@@ -2221,14 +2654,14 @@ p, li { white-space: pre-wrap; }
         </property>
         <property name="minimumSize">
          <size>
-          <width>600</width>
-          <height>94</height>
+          <width>390</width>
+          <height>100</height>
          </size>
         </property>
         <property name="maximumSize">
          <size>
-          <width>600</width>
-          <height>94</height>
+          <width>390</width>
+          <height>100</height>
          </size>
         </property>
         <property name="styleSheet">
@@ -2241,141 +2674,40 @@ p, li { white-space: pre-wrap; }
          <property name="spacing">
           <number>0</number>
          </property>
-         <item row="0" column="1">
-          <spacer name="horizontalSpacer_3">
-           <property name="orientation">
-            <enum>Qt::Horizontal</enum>
-           </property>
-           <property name="sizeType">
-            <enum>QSizePolicy::Fixed</enum>
-           </property>
-           <property name="sizeHint" stdset="0">
-            <size>
-             <width>3</width>
-             <height>91</height>
-            </size>
-           </property>
-          </spacer>
-         </item>
-         <item row="0" column="3">
-          <spacer name="horizontalSpacer_4">
-           <property name="orientation">
-            <enum>Qt::Horizontal</enum>
-           </property>
-           <property name="sizeType">
-            <enum>QSizePolicy::Fixed</enum>
-           </property>
-           <property name="sizeHint" stdset="0">
-            <size>
-             <width>3</width>
-             <height>91</height>
-            </size>
-           </property>
-          </spacer>
-         </item>
-         <item row="0" column="4">
-          <layout class="QVBoxLayout" name="verticalLayout_5">
-           <property name="spacing">
-            <number>0</number>
-           </property>
-           <property name="topMargin">
-            <number>8</number>
-           </property>
-           <property name="bottomMargin">
-            <number>8</number>
-           </property>
-           <item>
-            <widget class="QLabel" name="textLabel_handLabel">
-             <property name="minimumSize">
-              <size>
-               <width>142</width>
-               <height>0</height>
-              </size>
-             </property>
-             <property name="alignment">
-              <set>Qt::AlignCenter</set>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QFrame" name="framegameinfo">
-             <property name="minimumSize">
-              <size>
-               <width>90</width>
-               <height>0</height>
-              </size>
-             </property>
-             <layout class="QGridLayout">
-              <property name="horizontalSpacing">
-               <number>3</number>
-              </property>
-              <property name="verticalSpacing">
-               <number>2</number>
-              </property>
-              <property name="margin">
-               <number>0</number>
-              </property>
-              <item row="0" column="0">
-               <widget class="QLabel" name="label_gameNumber">
-                <property name="alignment">
-                 <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-                </property>
-               </widget>
-              </item>
-              <item row="1" column="1">
-               <widget class="QLabel" name="label_handNumberValue">
-                <property name="text">
-                 <string/>
-                </property>
-                <property name="alignment">
-                 <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
-                </property>
-               </widget>
-              </item>
-              <item row="0" column="1">
-               <widget class="QLabel" name="label_gameNumberValue">
-                <property name="text">
-                 <string/>
-                </property>
-                <property name="alignment">
-                 <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
-                </property>
-               </widget>
-              </item>
-              <item row="1" column="0">
-               <widget class="QLabel" name="label_handNumber">
-                <property name="minimumSize">
-                 <size>
-                  <width>45</width>
-                  <height>0</height>
-                 </size>
-                </property>
-                <property name="alignment">
-                 <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-                </property>
-               </widget>
-              </item>
-             </layout>
-            </widget>
-           </item>
-          </layout>
-         </item>
-         <item row="0" column="2">
+         <item row="0" column="0">
           <widget class="QGroupBox" name="groupBox">
            <property name="minimumSize">
             <size>
-             <width>285</width>
-             <height>0</height>
+             <width>390</width>
+             <height>100</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>390</width>
+             <height>100</height>
             </size>
            </property>
            <widget class="MyCardsPixmapLabel" name="pixmapLabel_cardBoard4">
             <property name="geometry">
              <rect>
-              <x>230</x>
-              <y>10</y>
-              <width>48</width>
-              <height>76</height>
+              <x>326</x>
+              <y>1</y>
+              <width>62</width>
+              <height>98</height>
              </rect>
+            </property>
+            <property name="minimumSize">
+             <size>
+              <width>62</width>
+              <height>98</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>62</width>
+              <height>98</height>
+             </size>
             </property>
             <property name="scaledContents">
              <bool>true</bool>
@@ -2384,11 +2716,23 @@ p, li { white-space: pre-wrap; }
            <widget class="MyCardsPixmapLabel" name="pixmapLabel_cardBoard1">
             <property name="geometry">
              <rect>
-              <x>65</x>
-              <y>10</y>
-              <width>48</width>
-              <height>76</height>
+              <x>83</x>
+              <y>1</y>
+              <width>62</width>
+              <height>98</height>
              </rect>
+            </property>
+            <property name="minimumSize">
+             <size>
+              <width>62</width>
+              <height>98</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>62</width>
+              <height>98</height>
+             </size>
             </property>
             <property name="scaledContents">
              <bool>true</bool>
@@ -2397,11 +2741,23 @@ p, li { white-space: pre-wrap; }
            <widget class="QLabel" name="label_CardHolder1">
             <property name="geometry">
              <rect>
-              <x>62</x>
-              <y>7</y>
-              <width>54</width>
-              <height>82</height>
+              <x>81</x>
+              <y>0</y>
+              <width>66</width>
+              <height>100</height>
              </rect>
+            </property>
+            <property name="minimumSize">
+             <size>
+              <width>66</width>
+              <height>100</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>66</width>
+              <height>100</height>
+             </size>
             </property>
             <property name="scaledContents">
              <bool>true</bool>
@@ -2410,11 +2766,23 @@ p, li { white-space: pre-wrap; }
            <widget class="QLabel" name="label_CardHolder0">
             <property name="geometry">
              <rect>
-              <x>7</x>
-              <y>7</y>
-              <width>54</width>
-              <height>82</height>
+              <x>0</x>
+              <y>0</y>
+              <width>66</width>
+              <height>100</height>
              </rect>
+            </property>
+            <property name="minimumSize">
+             <size>
+              <width>66</width>
+              <height>100</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>66</width>
+              <height>100</height>
+             </size>
             </property>
             <property name="scaledContents">
              <bool>true</bool>
@@ -2423,11 +2791,23 @@ p, li { white-space: pre-wrap; }
            <widget class="MyCardsPixmapLabel" name="pixmapLabel_cardBoard0">
             <property name="geometry">
              <rect>
-              <x>10</x>
-              <y>10</y>
-              <width>48</width>
-              <height>76</height>
+              <x>2</x>
+              <y>1</y>
+              <width>62</width>
+              <height>98</height>
              </rect>
+            </property>
+            <property name="minimumSize">
+             <size>
+              <width>62</width>
+              <height>98</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>62</width>
+              <height>98</height>
+             </size>
             </property>
             <property name="scaledContents">
              <bool>true</bool>
@@ -2436,11 +2816,23 @@ p, li { white-space: pre-wrap; }
            <widget class="QLabel" name="label_CardHolder4">
             <property name="geometry">
              <rect>
-              <x>227</x>
-              <y>7</y>
-              <width>54</width>
-              <height>82</height>
+              <x>324</x>
+              <y>0</y>
+              <width>66</width>
+              <height>100</height>
              </rect>
+            </property>
+            <property name="minimumSize">
+             <size>
+              <width>66</width>
+              <height>100</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>66</width>
+              <height>100</height>
+             </size>
             </property>
             <property name="scaledContents">
              <bool>true</bool>
@@ -2449,11 +2841,23 @@ p, li { white-space: pre-wrap; }
            <widget class="QLabel" name="label_CardHolder2">
             <property name="geometry">
              <rect>
-              <x>117</x>
-              <y>7</y>
-              <width>54</width>
-              <height>82</height>
+              <x>162</x>
+              <y>0</y>
+              <width>66</width>
+              <height>100</height>
              </rect>
+            </property>
+            <property name="minimumSize">
+             <size>
+              <width>66</width>
+              <height>100</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>66</width>
+              <height>100</height>
+             </size>
             </property>
             <property name="scaledContents">
              <bool>true</bool>
@@ -2462,11 +2866,23 @@ p, li { white-space: pre-wrap; }
            <widget class="MyCardsPixmapLabel" name="pixmapLabel_cardBoard2">
             <property name="geometry">
              <rect>
-              <x>120</x>
-              <y>10</y>
-              <width>48</width>
-              <height>76</height>
+              <x>164</x>
+              <y>1</y>
+              <width>62</width>
+              <height>98</height>
              </rect>
+            </property>
+            <property name="minimumSize">
+             <size>
+              <width>62</width>
+              <height>98</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>62</width>
+              <height>98</height>
+             </size>
             </property>
             <property name="scaledContents">
              <bool>true</bool>
@@ -2475,11 +2891,23 @@ p, li { white-space: pre-wrap; }
            <widget class="QLabel" name="label_CardHolder3">
             <property name="geometry">
              <rect>
-              <x>172</x>
-              <y>7</y>
-              <width>54</width>
-              <height>82</height>
+              <x>243</x>
+              <y>0</y>
+              <width>66</width>
+              <height>100</height>
              </rect>
+            </property>
+            <property name="minimumSize">
+             <size>
+              <width>66</width>
+              <height>100</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>66</width>
+              <height>100</height>
+             </size>
             </property>
             <property name="scaledContents">
              <bool>true</bool>
@@ -2488,11 +2916,23 @@ p, li { white-space: pre-wrap; }
            <widget class="MyCardsPixmapLabel" name="pixmapLabel_cardBoard3">
             <property name="geometry">
              <rect>
-              <x>175</x>
-              <y>10</y>
-              <width>48</width>
-              <height>76</height>
+              <x>245</x>
+              <y>1</y>
+              <width>62</width>
+              <height>98</height>
              </rect>
+            </property>
+            <property name="minimumSize">
+             <size>
+              <width>62</width>
+              <height>98</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>62</width>
+              <height>98</height>
+             </size>
             </property>
             <property name="scaledContents">
              <bool>true</bool>
@@ -2500,111 +2940,65 @@ p, li { white-space: pre-wrap; }
            </widget>
           </widget>
          </item>
-         <item row="0" column="0">
-          <widget class="QWidget" name="widget_2" native="true">
-           <layout class="QVBoxLayout" name="verticalLayout_4">
-            <property name="spacing">
-             <number>0</number>
-            </property>
-            <property name="leftMargin">
-             <number>0</number>
-            </property>
-            <property name="topMargin">
-             <number>8</number>
-            </property>
-            <property name="rightMargin">
-             <number>0</number>
-            </property>
-            <property name="bottomMargin">
-             <number>8</number>
-            </property>
-            <item>
-             <layout class="QHBoxLayout" name="horizontalLayout_8">
-              <property name="spacing">
-               <number>0</number>
-              </property>
-              <item>
-               <widget class="QLabel" name="label_Pot">
-                <property name="minimumSize">
-                 <size>
-                  <width>144</width>
-                  <height>0</height>
-                 </size>
-                </property>
-                <property name="text">
-                 <string/>
-                </property>
-                <property name="alignment">
-                 <set>Qt::AlignCenter</set>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <spacer name="horizontalSpacer_5">
-                <property name="orientation">
-                 <enum>Qt::Horizontal</enum>
-                </property>
-                <property name="sizeHint" stdset="0">
-                 <size>
-                  <width>17</width>
-                  <height>17</height>
-                 </size>
-                </property>
-               </spacer>
-              </item>
-             </layout>
-            </item>
-            <item>
-             <layout class="QGridLayout" name="grid2">
-              <property name="horizontalSpacing">
-               <number>3</number>
-              </property>
-              <property name="verticalSpacing">
-               <number>2</number>
-              </property>
-              <property name="margin">
-               <number>0</number>
-              </property>
-              <item row="1" column="1">
-               <widget class="QLabel" name="textLabel_Sets">
-                <property name="alignment">
-                 <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
-                </property>
-               </widget>
-              </item>
-              <item row="0" column="0">
-               <widget class="QLabel" name="label_Total">
-                <property name="alignment">
-                 <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-                </property>
-               </widget>
-              </item>
-              <item row="0" column="1">
-               <widget class="QLabel" name="textLabel_Pot">
-                <property name="minimumSize">
-                 <size>
-                  <width>90</width>
-                  <height>0</height>
-                 </size>
-                </property>
-                <property name="alignment">
-                 <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
-                </property>
-               </widget>
-              </item>
-              <item row="1" column="0">
-               <widget class="QLabel" name="label_Sets">
-                <property name="alignment">
-                 <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-                </property>
-               </widget>
-              </item>
-             </layout>
-            </item>
-           </layout>
-          </widget>
-         </item>
         </layout>
+       </widget>
+      </item>
+     </layout>
+    </item>
+    <item row="4" column="1">
+     <layout class="QHBoxLayout" name="horizontalLayout_12">
+      <property name="spacing">
+       <number>-1</number>
+      </property>
+      <item>
+       <spacer name="horizontalSpacer_8">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>40</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item>
+       <widget class="QLabel" name="label_Sets">
+        <property name="minimumSize">
+         <size>
+          <width>50</width>
+          <height>14</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>50</width>
+          <height>14</height>
+         </size>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="textLabel_Sets">
+        <property name="minimumSize">
+         <size>
+          <width>100</width>
+          <height>21</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>100</width>
+          <height>21</height>
+         </size>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+        </property>
        </widget>
       </item>
       <item>
@@ -2620,9 +3014,92 @@ p, li { white-space: pre-wrap; }
         </property>
        </spacer>
       </item>
+      <item>
+       <widget class="QLabel" name="textLabel_handLabel">
+        <property name="minimumSize">
+         <size>
+          <width>120</width>
+          <height>21</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>120</width>
+          <height>21</height>
+         </size>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <spacer name="horizontalSpacer_6">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>40</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item>
+       <widget class="QLabel" name="label_Total">
+        <property name="minimumSize">
+         <size>
+          <width>50</width>
+          <height>14</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>50</width>
+          <height>14</height>
+         </size>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="textLabel_Pot">
+        <property name="minimumSize">
+         <size>
+          <width>100</width>
+          <height>21</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>100</width>
+          <height>21</height>
+         </size>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <spacer name="horizontalSpacer_7">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>40</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
      </layout>
     </item>
-    <item row="3" column="1">
+    <item row="5" column="1">
      <spacer name="verticalSpacer_10">
       <property name="orientation">
        <enum>Qt::Vertical</enum>
@@ -2635,7 +3112,7 @@ p, li { white-space: pre-wrap; }
       </property>
      </spacer>
     </item>
-    <item row="4" column="1">
+    <item row="6" column="1">
      <layout class="QHBoxLayout" name="horizontalLayout_5">
       <property name="spacing">
        <number>0</number>
@@ -2644,14 +3121,14 @@ p, li { white-space: pre-wrap; }
        <widget class="QGroupBox" name="groupBox1">
         <property name="minimumSize">
          <size>
-          <width>190</width>
-          <height>142</height>
+          <width>150</width>
+          <height>120</height>
          </size>
         </property>
         <property name="maximumSize">
          <size>
-          <width>190</width>
-          <height>142</height>
+          <width>150</width>
+          <height>120</height>
          </size>
         </property>
         <property name="title">
@@ -2660,8 +3137,8 @@ p, li { white-space: pre-wrap; }
         <widget class="MyAvatarLabel" name="label_Avatar1">
          <property name="geometry">
           <rect>
-           <x>13</x>
-           <y>79</y>
+           <x>12</x>
+           <y>46</y>
            <width>50</width>
            <height>50</height>
           </rect>
@@ -2685,22 +3162,22 @@ p, li { white-space: pre-wrap; }
         <widget class="MyNameLabel" name="label_PlayerName1">
          <property name="geometry">
           <rect>
-           <x>70</x>
-           <y>117</y>
-           <width>104</width>
-           <height>14</height>
+           <x>12</x>
+           <y>100</y>
+           <width>136</width>
+           <height>15</height>
           </rect>
          </property>
          <property name="minimumSize">
           <size>
-           <width>0</width>
-           <height>14</height>
+           <width>136</width>
+           <height>15</height>
           </size>
          </property>
          <property name="maximumSize">
           <size>
-           <width>16777215</width>
-           <height>14</height>
+           <width>136</width>
+           <height>15</height>
           </size>
          </property>
          <property name="alignment">
@@ -2713,69 +3190,72 @@ p, li { white-space: pre-wrap; }
         <widget class="MySetLabel" name="textLabel_Set1">
          <property name="geometry">
           <rect>
-           <x>70</x>
+           <x>60</x>
            <y>10</y>
-           <width>104</width>
-           <height>14</height>
+           <width>86</width>
+           <height>9</height>
           </rect>
          </property>
          <property name="minimumSize">
           <size>
-           <width>0</width>
-           <height>14</height>
+           <width>86</width>
+           <height>9</height>
           </size>
          </property>
          <property name="maximumSize">
           <size>
-           <width>16777215</width>
-           <height>14</height>
+           <width>86</width>
+           <height>9</height>
           </size>
          </property>
          <property name="alignment">
-          <set>Qt::AlignBottom|Qt::AlignHCenter</set>
+          <set>Qt::AlignCenter</set>
          </property>
         </widget>
         <widget class="MyCashLabel" name="textLabel_Cash1">
          <property name="geometry">
           <rect>
-           <x>70</x>
-           <y>104</y>
-           <width>104</width>
-           <height>14</height>
+           <x>50</x>
+           <y>92</y>
+           <width>86</width>
+           <height>9</height>
           </rect>
          </property>
          <property name="minimumSize">
           <size>
-           <width>35</width>
-           <height>14</height>
+           <width>86</width>
+           <height>9</height>
           </size>
          </property>
          <property name="maximumSize">
           <size>
-           <width>16777215</width>
-           <height>14</height>
+           <width>86</width>
+           <height>9</height>
           </size>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
          </property>
         </widget>
         <widget class="QLabel" name="textLabel_Button1">
          <property name="geometry">
           <rect>
-           <x>18</x>
-           <y>16</y>
-           <width>40</width>
-           <height>42</height>
+           <x>21</x>
+           <y>7</y>
+           <width>28</width>
+           <height>28</height>
           </rect>
          </property>
          <property name="minimumSize">
           <size>
-           <width>40</width>
-           <height>42</height>
+           <width>28</width>
+           <height>28</height>
           </size>
          </property>
          <property name="maximumSize">
           <size>
-           <width>40</width>
-           <height>42</height>
+           <width>28</width>
+           <height>28</height>
           </size>
          </property>
          <property name="text">
@@ -2788,11 +3268,23 @@ p, li { white-space: pre-wrap; }
         <widget class="MyCardsPixmapLabel" name="pixmapLabel_card1a">
          <property name="geometry">
           <rect>
-           <x>86</x>
-           <y>26</y>
-           <width>48</width>
-           <height>76</height>
+           <x>68</x>
+           <y>19</y>
+           <width>46</width>
+           <height>72</height>
           </rect>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>46</width>
+           <height>72</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>46</width>
+           <height>72</height>
+          </size>
          </property>
          <property name="scaledContents">
           <bool>true</bool>
@@ -2801,11 +3293,23 @@ p, li { white-space: pre-wrap; }
         <widget class="MyCardsPixmapLabel" name="pixmapLabel_card1b">
          <property name="geometry">
           <rect>
-           <x>110</x>
-           <y>26</y>
-           <width>48</width>
-           <height>76</height>
+           <x>90</x>
+           <y>19</y>
+           <width>46</width>
+           <height>72</height>
           </rect>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>46</width>
+           <height>72</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>46</width>
+           <height>72</height>
+          </size>
          </property>
          <property name="scaledContents">
           <bool>true</bool>
@@ -2814,16 +3318,22 @@ p, li { white-space: pre-wrap; }
         <widget class="MyStatusLabel" name="textLabel_Status1">
          <property name="geometry">
           <rect>
-           <x>67</x>
-           <y>43</y>
-           <width>111</width>
+           <x>52</x>
+           <y>35</y>
+           <width>100</width>
            <height>40</height>
           </rect>
          </property>
          <property name="minimumSize">
           <size>
-           <width>0</width>
-           <height>20</height>
+           <width>100</width>
+           <height>40</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>100</width>
+           <height>40</height>
           </size>
          </property>
          <property name="text">
@@ -2837,10 +3347,22 @@ p, li { white-space: pre-wrap; }
          <property name="geometry">
           <rect>
            <x>12</x>
-           <y>57</y>
-           <width>52</width>
-           <height>10</height>
+           <y>37</y>
+           <width>50</width>
+           <height>7</height>
           </rect>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>50</width>
+           <height>7</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>50</width>
+           <height>7</height>
+          </size>
          </property>
          <property name="text">
           <string/>
@@ -2849,8 +3371,8 @@ p, li { white-space: pre-wrap; }
         <widget class="QLabel" name="label_playerTip1">
          <property name="geometry">
           <rect>
-           <x>70</x>
-           <y>79</y>
+           <x>12</x>
+           <y>46</y>
            <width>16</width>
            <height>17</height>
           </rect>
@@ -2867,65 +3389,65 @@ p, li { white-space: pre-wrap; }
          <property name="geometry">
           <rect>
            <x>33</x>
-           <y>65</y>
+           <y>36</y>
            <width>12</width>
            <height>12</height>
           </rect>
          </property>
          <property name="text">
-                    <string notr="true">&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
+          <string notr="true">&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
          </property>
         </widget>
         <widget class="QLabel" name="label_Star21">
          <property name="geometry">
           <rect>
            <x>23</x>
-           <y>65</y>
+           <y>36</y>
            <width>12</width>
            <height>12</height>
           </rect>
          </property>
          <property name="text">
-                    <string notr="true">&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
+          <string notr="true">&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
          </property>
         </widget>
         <widget class="QLabel" name="label_Star51">
          <property name="geometry">
           <rect>
            <x>53</x>
-           <y>65</y>
+           <y>36</y>
            <width>12</width>
            <height>12</height>
           </rect>
          </property>
          <property name="text">
-                    <string notr="true">&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
+          <string notr="true">&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
          </property>
         </widget>
         <widget class="QLabel" name="label_Star41">
          <property name="geometry">
           <rect>
            <x>43</x>
-           <y>65</y>
+           <y>36</y>
            <width>12</width>
            <height>12</height>
           </rect>
          </property>
          <property name="text">
-                    <string notr="true">&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
+          <string notr="true">&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
          </property>
         </widget>
         <widget class="QLabel" name="label_Star11">
          <property name="geometry">
           <rect>
            <x>13</x>
-           <y>65</y>
+           <y>36</y>
            <width>12</width>
            <height>12</height>
           </rect>
          </property>
          <property name="text">
-                    <string notr="true">&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
+          <string notr="true">&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
          </property>
         </widget>
        </widget>
@@ -2934,14 +3456,14 @@ p, li { white-space: pre-wrap; }
        <widget class="QGroupBox" name="groupBox0">
         <property name="minimumSize">
          <size>
-          <width>190</width>
-          <height>142</height>
+          <width>150</width>
+          <height>120</height>
          </size>
         </property>
         <property name="maximumSize">
          <size>
-          <width>190</width>
-          <height>142</height>
+          <width>150</width>
+          <height>120</height>
          </size>
         </property>
         <property name="title">
@@ -2950,8 +3472,8 @@ p, li { white-space: pre-wrap; }
         <widget class="MyAvatarLabel" name="label_Avatar0">
          <property name="geometry">
           <rect>
-           <x>13</x>
-           <y>79</y>
+           <x>12</x>
+           <y>46</y>
            <width>50</width>
            <height>50</height>
           </rect>
@@ -2975,22 +3497,22 @@ p, li { white-space: pre-wrap; }
         <widget class="MyNameLabel" name="label_PlayerName0">
          <property name="geometry">
           <rect>
-           <x>70</x>
-           <y>117</y>
-           <width>104</width>
-           <height>14</height>
+           <x>12</x>
+           <y>100</y>
+           <width>136</width>
+           <height>15</height>
           </rect>
          </property>
          <property name="minimumSize">
           <size>
-           <width>0</width>
-           <height>14</height>
+           <width>136</width>
+           <height>15</height>
           </size>
          </property>
          <property name="maximumSize">
           <size>
-           <width>16777215</width>
-           <height>14</height>
+           <width>136</width>
+           <height>15</height>
           </size>
          </property>
          <property name="alignment">
@@ -3003,69 +3525,75 @@ p, li { white-space: pre-wrap; }
         <widget class="MySetLabel" name="textLabel_Set0">
          <property name="geometry">
           <rect>
-           <x>70</x>
+           <x>60</x>
            <y>10</y>
-           <width>104</width>
-           <height>14</height>
+           <width>86</width>
+           <height>9</height>
           </rect>
          </property>
          <property name="minimumSize">
           <size>
-           <width>0</width>
-           <height>14</height>
+           <width>86</width>
+           <height>9</height>
           </size>
          </property>
          <property name="maximumSize">
           <size>
-           <width>16777215</width>
-           <height>14</height>
+           <width>86</width>
+           <height>9</height>
           </size>
          </property>
          <property name="alignment">
-          <set>Qt::AlignBottom|Qt::AlignHCenter</set>
+          <set>Qt::AlignCenter</set>
          </property>
         </widget>
         <widget class="MyCashLabel" name="textLabel_Cash0">
          <property name="geometry">
           <rect>
-           <x>70</x>
-           <y>104</y>
-           <width>104</width>
-           <height>12</height>
+           <x>50</x>
+           <y>92</y>
+           <width>86</width>
+           <height>9</height>
           </rect>
          </property>
          <property name="minimumSize">
           <size>
-           <width>35</width>
-           <height>12</height>
+           <width>86</width>
+           <height>9</height>
           </size>
          </property>
          <property name="maximumSize">
           <size>
-           <width>16777215</width>
-           <height>12</height>
+           <width>86</width>
+           <height>9</height>
           </size>
+         </property>
+         <property name="layoutDirection">
+          <enum>Qt::LeftToRight</enum>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
          </property>
         </widget>
         <widget class="QLabel" name="textLabel_Button0">
          <property name="geometry">
           <rect>
-           <x>18</x>
-           <y>16</y>
-           <width>40</width>
-           <height>42</height>
+           <x>21</x>
+           <y>7</y>
+           <width>28</width>
+           <height>28</height>
           </rect>
          </property>
          <property name="minimumSize">
           <size>
-           <width>40</width>
-           <height>42</height>
+           <width>28</width>
+           <height>28</height>
           </size>
          </property>
          <property name="maximumSize">
           <size>
-           <width>40</width>
-           <height>42</height>
+           <width>28</width>
+           <height>28</height>
           </size>
          </property>
          <property name="text">
@@ -3078,11 +3606,23 @@ p, li { white-space: pre-wrap; }
         <widget class="MyCardsPixmapLabel" name="pixmapLabel_card0a">
          <property name="geometry">
           <rect>
-           <x>86</x>
-           <y>26</y>
-           <width>48</width>
-           <height>76</height>
+           <x>68</x>
+           <y>19</y>
+           <width>46</width>
+           <height>72</height>
           </rect>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>46</width>
+           <height>72</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>46</width>
+           <height>72</height>
+          </size>
          </property>
          <property name="scaledContents">
           <bool>true</bool>
@@ -3091,11 +3631,23 @@ p, li { white-space: pre-wrap; }
         <widget class="MyCardsPixmapLabel" name="pixmapLabel_card0b">
          <property name="geometry">
           <rect>
-           <x>110</x>
-           <y>26</y>
-           <width>48</width>
-           <height>76</height>
+           <x>90</x>
+           <y>19</y>
+           <width>46</width>
+           <height>72</height>
           </rect>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>46</width>
+           <height>72</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>46</width>
+           <height>72</height>
+          </size>
          </property>
          <property name="scaledContents">
           <bool>true</bool>
@@ -3104,16 +3656,22 @@ p, li { white-space: pre-wrap; }
         <widget class="MyStatusLabel" name="textLabel_Status0">
          <property name="geometry">
           <rect>
-           <x>67</x>
-           <y>43</y>
-           <width>111</width>
+           <x>52</x>
+           <y>35</y>
+           <width>100</width>
            <height>40</height>
           </rect>
          </property>
          <property name="minimumSize">
           <size>
-           <width>0</width>
-           <height>20</height>
+           <width>100</width>
+           <height>40</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>100</width>
+           <height>40</height>
           </size>
          </property>
          <property name="text">
@@ -3127,10 +3685,22 @@ p, li { white-space: pre-wrap; }
          <property name="geometry">
           <rect>
            <x>12</x>
-           <y>64</y>
-           <width>52</width>
-           <height>10</height>
+           <y>37</y>
+           <width>50</width>
+           <height>7</height>
           </rect>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>50</width>
+           <height>7</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>50</width>
+           <height>7</height>
+          </size>
          </property>
          <property name="text">
           <string/>
@@ -3139,11 +3709,23 @@ p, li { white-space: pre-wrap; }
         <widget class="MyActionButton" name="pushButton_showMyCards">
          <property name="geometry">
           <rect>
-           <x>72</x>
-           <y>72</y>
-           <width>100</width>
+           <x>61</x>
+           <y>42</y>
+           <width>80</width>
            <height>25</height>
           </rect>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>80</width>
+           <height>25</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>80</width>
+           <height>25</height>
+          </size>
          </property>
          <property name="text">
           <string notr="true">Show!</string>
@@ -3152,8 +3734,8 @@ p, li { white-space: pre-wrap; }
         <widget class="QLabel" name="label_playerTip0">
          <property name="geometry">
           <rect>
-           <x>70</x>
-           <y>79</y>
+           <x>12</x>
+           <y>46</y>
            <width>16</width>
            <height>17</height>
           </rect>
@@ -3170,65 +3752,65 @@ p, li { white-space: pre-wrap; }
          <property name="geometry">
           <rect>
            <x>33</x>
-           <y>67</y>
+           <y>36</y>
            <width>12</width>
            <height>12</height>
           </rect>
          </property>
          <property name="text">
-                    <string notr="true">&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
+          <string notr="true">&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
          </property>
         </widget>
         <widget class="QLabel" name="label_Star20">
          <property name="geometry">
           <rect>
            <x>23</x>
-           <y>67</y>
+           <y>36</y>
            <width>12</width>
            <height>12</height>
           </rect>
          </property>
          <property name="text">
-                    <string notr="true">&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
+          <string notr="true">&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
          </property>
         </widget>
         <widget class="QLabel" name="label_Star50">
          <property name="geometry">
           <rect>
            <x>53</x>
-           <y>67</y>
+           <y>36</y>
            <width>12</width>
            <height>12</height>
           </rect>
          </property>
          <property name="text">
-                    <string notr="true">&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
+          <string notr="true">&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
          </property>
         </widget>
         <widget class="QLabel" name="label_Star40">
          <property name="geometry">
           <rect>
            <x>43</x>
-           <y>67</y>
+           <y>36</y>
            <width>12</width>
            <height>12</height>
           </rect>
          </property>
          <property name="text">
-                    <string notr="true">&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
+          <string notr="true">&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
          </property>
         </widget>
         <widget class="QLabel" name="label_Star10">
          <property name="geometry">
           <rect>
            <x>13</x>
-           <y>67</y>
+           <y>36</y>
            <width>12</width>
            <height>12</height>
           </rect>
          </property>
          <property name="text">
-                    <string notr="true">&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
+          <string notr="true">&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
          </property>
         </widget>
        </widget>
@@ -3237,14 +3819,14 @@ p, li { white-space: pre-wrap; }
        <widget class="QGroupBox" name="groupBox9">
         <property name="minimumSize">
          <size>
-          <width>190</width>
-          <height>142</height>
+          <width>150</width>
+          <height>120</height>
          </size>
         </property>
         <property name="maximumSize">
          <size>
-          <width>190</width>
-          <height>142</height>
+          <width>150</width>
+          <height>120</height>
          </size>
         </property>
         <property name="title">
@@ -3253,8 +3835,8 @@ p, li { white-space: pre-wrap; }
         <widget class="MyAvatarLabel" name="label_Avatar9">
          <property name="geometry">
           <rect>
-           <x>13</x>
-           <y>79</y>
+           <x>12</x>
+           <y>46</y>
            <width>50</width>
            <height>50</height>
           </rect>
@@ -3278,22 +3860,22 @@ p, li { white-space: pre-wrap; }
         <widget class="MyNameLabel" name="label_PlayerName9">
          <property name="geometry">
           <rect>
-           <x>70</x>
-           <y>117</y>
-           <width>104</width>
-           <height>14</height>
+           <x>12</x>
+           <y>100</y>
+           <width>136</width>
+           <height>15</height>
           </rect>
          </property>
          <property name="minimumSize">
           <size>
-           <width>0</width>
-           <height>14</height>
+           <width>136</width>
+           <height>15</height>
           </size>
          </property>
          <property name="maximumSize">
           <size>
-           <width>16777215</width>
-           <height>14</height>
+           <width>136</width>
+           <height>15</height>
           </size>
          </property>
          <property name="alignment">
@@ -3306,69 +3888,72 @@ p, li { white-space: pre-wrap; }
         <widget class="MySetLabel" name="textLabel_Set9">
          <property name="geometry">
           <rect>
-           <x>70</x>
+           <x>60</x>
            <y>10</y>
-           <width>104</width>
-           <height>14</height>
+           <width>86</width>
+           <height>9</height>
           </rect>
          </property>
          <property name="minimumSize">
           <size>
-           <width>0</width>
-           <height>14</height>
+           <width>86</width>
+           <height>9</height>
           </size>
          </property>
          <property name="maximumSize">
           <size>
-           <width>16777215</width>
-           <height>14</height>
+           <width>86</width>
+           <height>9</height>
           </size>
          </property>
          <property name="alignment">
-          <set>Qt::AlignBottom|Qt::AlignHCenter</set>
+          <set>Qt::AlignCenter</set>
          </property>
         </widget>
         <widget class="MyCashLabel" name="textLabel_Cash9">
          <property name="geometry">
           <rect>
-           <x>70</x>
-           <y>104</y>
-           <width>104</width>
-           <height>12</height>
+           <x>50</x>
+           <y>92</y>
+           <width>86</width>
+           <height>9</height>
           </rect>
          </property>
          <property name="minimumSize">
           <size>
-           <width>35</width>
-           <height>12</height>
+           <width>86</width>
+           <height>9</height>
           </size>
          </property>
          <property name="maximumSize">
           <size>
-           <width>16777215</width>
-           <height>12</height>
+           <width>86</width>
+           <height>9</height>
           </size>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
          </property>
         </widget>
         <widget class="QLabel" name="textLabel_Button9">
          <property name="geometry">
           <rect>
-           <x>18</x>
-           <y>16</y>
-           <width>40</width>
-           <height>42</height>
+           <x>21</x>
+           <y>7</y>
+           <width>28</width>
+           <height>28</height>
           </rect>
          </property>
          <property name="minimumSize">
           <size>
-           <width>40</width>
-           <height>42</height>
+           <width>28</width>
+           <height>28</height>
           </size>
          </property>
          <property name="maximumSize">
           <size>
-           <width>40</width>
-           <height>42</height>
+           <width>28</width>
+           <height>28</height>
           </size>
          </property>
          <property name="text">
@@ -3381,11 +3966,23 @@ p, li { white-space: pre-wrap; }
         <widget class="MyCardsPixmapLabel" name="pixmapLabel_card9a">
          <property name="geometry">
           <rect>
-           <x>86</x>
-           <y>26</y>
-           <width>48</width>
-           <height>76</height>
+           <x>68</x>
+           <y>19</y>
+           <width>46</width>
+           <height>72</height>
           </rect>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>46</width>
+           <height>72</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>46</width>
+           <height>72</height>
+          </size>
          </property>
          <property name="scaledContents">
           <bool>true</bool>
@@ -3394,11 +3991,23 @@ p, li { white-space: pre-wrap; }
         <widget class="MyCardsPixmapLabel" name="pixmapLabel_card9b">
          <property name="geometry">
           <rect>
-           <x>110</x>
-           <y>26</y>
-           <width>48</width>
-           <height>76</height>
+           <x>90</x>
+           <y>19</y>
+           <width>46</width>
+           <height>72</height>
           </rect>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>46</width>
+           <height>72</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>46</width>
+           <height>72</height>
+          </size>
          </property>
          <property name="scaledContents">
           <bool>true</bool>
@@ -3407,16 +4016,22 @@ p, li { white-space: pre-wrap; }
         <widget class="MyStatusLabel" name="textLabel_Status9">
          <property name="geometry">
           <rect>
-           <x>67</x>
-           <y>43</y>
-           <width>111</width>
+           <x>52</x>
+           <y>35</y>
+           <width>100</width>
            <height>40</height>
           </rect>
          </property>
          <property name="minimumSize">
           <size>
-           <width>0</width>
-           <height>20</height>
+           <width>1</width>
+           <height>40</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>100</width>
+           <height>40</height>
           </size>
          </property>
          <property name="text">
@@ -3430,10 +4045,22 @@ p, li { white-space: pre-wrap; }
          <property name="geometry">
           <rect>
            <x>12</x>
-           <y>57</y>
-           <width>52</width>
-           <height>10</height>
+           <y>37</y>
+           <width>50</width>
+           <height>7</height>
           </rect>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>50</width>
+           <height>7</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>50</width>
+           <height>7</height>
+          </size>
          </property>
          <property name="text">
           <string/>
@@ -3442,8 +4069,8 @@ p, li { white-space: pre-wrap; }
         <widget class="QLabel" name="label_playerTip9">
          <property name="geometry">
           <rect>
-           <x>70</x>
-           <y>79</y>
+           <x>12</x>
+           <y>46</y>
            <width>16</width>
            <height>17</height>
           </rect>
@@ -3460,381 +4087,76 @@ p, li { white-space: pre-wrap; }
          <property name="geometry">
           <rect>
            <x>33</x>
-           <y>65</y>
+           <y>36</y>
            <width>12</width>
            <height>12</height>
           </rect>
          </property>
          <property name="text">
-                    <string notr="true">&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
+          <string notr="true">&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
          </property>
         </widget>
         <widget class="QLabel" name="label_Star29">
          <property name="geometry">
           <rect>
            <x>23</x>
-           <y>65</y>
+           <y>36</y>
            <width>12</width>
            <height>12</height>
           </rect>
          </property>
          <property name="text">
-                    <string notr="true">&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
+          <string notr="true">&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
          </property>
         </widget>
         <widget class="QLabel" name="label_Star59">
          <property name="geometry">
           <rect>
            <x>53</x>
-           <y>65</y>
+           <y>36</y>
            <width>12</width>
            <height>12</height>
           </rect>
          </property>
          <property name="text">
-                    <string notr="true">&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
+          <string notr="true">&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
          </property>
         </widget>
         <widget class="QLabel" name="label_Star49">
          <property name="geometry">
           <rect>
            <x>43</x>
-           <y>65</y>
+           <y>36</y>
            <width>12</width>
            <height>12</height>
           </rect>
          </property>
          <property name="text">
-                    <string notr="true">&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
+          <string notr="true">&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
          </property>
         </widget>
         <widget class="QLabel" name="label_Star19">
          <property name="geometry">
           <rect>
            <x>13</x>
-           <y>65</y>
+           <y>36</y>
            <width>12</width>
            <height>12</height>
           </rect>
          </property>
          <property name="text">
-                    <string notr="true">&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
+          <string notr="true">&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
          </property>
         </widget>
        </widget>
       </item>
      </layout>
     </item>
-    <item row="5" column="0" colspan="3">
+    <item row="7" column="0" colspan="3">
      <layout class="QHBoxLayout" name="horizontalLayout_7">
-      <item>
-       <layout class="QVBoxLayout">
-        <property name="spacing">
-         <number>0</number>
-        </property>
-        <property name="margin">
-         <number>0</number>
-        </property>
-        <item>
-         <spacer>
-          <property name="orientation">
-           <enum>Qt::Horizontal</enum>
-          </property>
-          <property name="sizeType">
-           <enum>QSizePolicy::Fixed</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>260</width>
-            <height>0</height>
-           </size>
-          </property>
-         </spacer>
-        </item>
-        <item>
-         <spacer>
-          <property name="orientation">
-           <enum>Qt::Vertical</enum>
-          </property>
-          <property name="sizeType">
-           <enum>QSizePolicy::Expanding</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>0</width>
-            <height>0</height>
-           </size>
-          </property>
-         </spacer>
-        </item>
-        <item>
-         <widget class="QGroupBox" name="groupBox_LeftToolBox">
-          <property name="minimumSize">
-           <size>
-            <width>260</width>
-            <height>188</height>
-           </size>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>260</width>
-            <height>188</height>
-           </size>
-          </property>
-          <layout class="QGridLayout">
-           <property name="margin">
-            <number>4</number>
-           </property>
-           <item row="0" column="0">
-            <widget class="MyLeftTabWidget" name="tabWidget_Left">
-             <property name="focusPolicy">
-              <enum>Qt::NoFocus</enum>
-             </property>
-             <property name="currentIndex">
-              <number>3</number>
-             </property>
-             <widget class="QWidget" name="tab_Hands">
-              <attribute name="title">
-               <string>Hands</string>
-              </attribute>
-              <layout class="QGridLayout">
-               <property name="margin">
-                <number>0</number>
-               </property>
-               <property name="spacing">
-                <number>0</number>
-               </property>
-               <item row="0" column="0">
-                <widget class="QLabel" name="label_Handranking">
-                 <property name="alignment">
-                  <set>Qt::AlignCenter</set>
-                 </property>
-                </widget>
-               </item>
-              </layout>
-             </widget>
-             <widget class="QWidget" name="tab_Chat">
-              <attribute name="title">
-               <string>Chat</string>
-              </attribute>
-              <layout class="QGridLayout">
-               <property name="margin">
-                <number>0</number>
-               </property>
-               <property name="spacing">
-                <number>0</number>
-               </property>
-               <item row="0" column="0">
-                <widget class="QTextBrowser" name="textBrowser_Chat">
-                 <property name="focusPolicy">
-                  <enum>Qt::NoFocus</enum>
-                 </property>
-                 <property name="autoFillBackground">
-                  <bool>true</bool>
-                 </property>
-                 <property name="horizontalScrollBarPolicy">
-                  <enum>Qt::ScrollBarAlwaysOff</enum>
-                 </property>
-                </widget>
-               </item>
-               <item row="1" column="0">
-                <widget class="QLineEdit" name="lineEdit_ChatInput"/>
-               </item>
-              </layout>
-             </widget>
-             <widget class="QWidget" name="tab_Kick">
-              <attribute name="title">
-               <string>Kick</string>
-              </attribute>
-              <layout class="QGridLayout" name="gridLayout_100">
-               <property name="horizontalSpacing">
-                <number>0</number>
-               </property>
-               <property name="verticalSpacing">
-                <number>6</number>
-               </property>
-               <property name="margin">
-                <number>5</number>
-               </property>
-               <item row="0" column="0">
-                <layout class="QVBoxLayout" name="verticalLayout">
-                 <property name="spacing">
-                  <number>0</number>
-                 </property>
-                 <item>
-                  <layout class="QHBoxLayout" name="horizontalLayout_3">
-                   <property name="spacing">
-                    <number>5</number>
-                   </property>
-                   <item>
-                    <widget class="QLabel" name="label_votestartedby">
-                     <property name="text">
-                      <string>Vote started by:</string>
-                     </property>
-                    </widget>
-                   </item>
-                   <item>
-                    <widget class="QLabel" name="label_voteStarterNick">
-                     <property name="sizePolicy">
-                      <sizepolicy hsizetype="MinimumExpanding" vsizetype="Preferred">
-                       <horstretch>0</horstretch>
-                       <verstretch>0</verstretch>
-                      </sizepolicy>
-                     </property>
-                     <property name="text">
-                      <string/>
-                     </property>
-                    </widget>
-                   </item>
-                  </layout>
-                 </item>
-                 <item>
-                  <layout class="QHBoxLayout" name="horizontalLayout_2">
-                   <property name="spacing">
-                    <number>5</number>
-                   </property>
-                   <item>
-                    <widget class="QLabel" name="label_timeout">
-                     <property name="text">
-                      <string>Vote Timeout:</string>
-                     </property>
-                    </widget>
-                   </item>
-                   <item>
-                    <widget class="QLabel" name="label_kickVoteTimeout">
-                     <property name="sizePolicy">
-                      <sizepolicy hsizetype="MinimumExpanding" vsizetype="Preferred">
-                       <horstretch>0</horstretch>
-                       <verstretch>0</verstretch>
-                      </sizepolicy>
-                     </property>
-                     <property name="text">
-                      <string/>
-                     </property>
-                    </widget>
-                   </item>
-                  </layout>
-                 </item>
-                </layout>
-               </item>
-               <item row="1" column="0">
-                <widget class="QLabel" name="label_kickUser">
-                 <property name="sizePolicy">
-                  <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-                   <horstretch>0</horstretch>
-                   <verstretch>0</verstretch>
-                  </sizepolicy>
-                 </property>
-                 <property name="text">
-                  <string/>
-                 </property>
-                </widget>
-               </item>
-               <item row="2" column="0">
-                <layout class="QHBoxLayout" name="horizontalLayout">
-                 <item>
-                  <widget class="QPushButton" name="pushButton_voteOnKickYes">
-                   <property name="maximumSize">
-                    <size>
-                     <width>80</width>
-                     <height>20</height>
-                    </size>
-                   </property>
-                   <property name="text">
-                    <string>Yes</string>
-                   </property>
-                  </widget>
-                 </item>
-                 <item>
-                  <widget class="QPushButton" name="pushButton_voteOnKickNo">
-                   <property name="maximumSize">
-                    <size>
-                     <width>80</width>
-                     <height>20</height>
-                    </size>
-                   </property>
-                   <property name="text">
-                    <string>No</string>
-                   </property>
-                  </widget>
-                 </item>
-                </layout>
-               </item>
-               <item row="3" column="0">
-                <widget class="QLabel" name="label_votesMonitor">
-                 <property name="text">
-                  <string/>
-                 </property>
-                </widget>
-               </item>
-               <item row="4" column="0">
-                <spacer name="verticalSpacer">
-                 <property name="orientation">
-                  <enum>Qt::Vertical</enum>
-                 </property>
-                 <property name="sizeHint" stdset="0">
-                  <size>
-                   <width>20</width>
-                   <height>27</height>
-                  </size>
-                 </property>
-                </spacer>
-               </item>
-              </layout>
-             </widget>
-             <widget class="QWidget" name="tab_editTip">
-              <attribute name="title">
-               <string>Player info</string>
-              </attribute>
-              <layout class="QGridLayout" name="gridLayout4">
-               <property name="verticalSpacing">
-                <number>3</number>
-               </property>
-               <property name="margin">
-                <number>6</number>
-               </property>
-               <item row="0" column="0">
-                <widget class="QPlainTextEdit" name="textEdit_tipInput">
-                 <property name="focusPolicy">
-                  <enum>Qt::ClickFocus</enum>
-                 </property>
-                </widget>
-               </item>
-               <item row="1" column="0">
-                <widget class="QPushButton" name="pushButton_tipSave">
-                 <property name="focusPolicy">
-                  <enum>Qt::NoFocus</enum>
-                 </property>
-                 <property name="text">
-                  <string>Save</string>
-                 </property>
-                </widget>
-               </item>
-              </layout>
-             </widget>
-            </widget>
-           </item>
-          </layout>
-         </widget>
-        </item>
-       </layout>
-      </item>
-      <item>
-       <spacer>
-        <property name="orientation">
-         <enum>Qt::Horizontal</enum>
-        </property>
-        <property name="sizeType">
-         <enum>QSizePolicy::MinimumExpanding</enum>
-        </property>
-        <property name="sizeHint" stdset="0">
-         <size>
-          <width>155</width>
-          <height>0</height>
-         </size>
-        </property>
-       </spacer>
-      </item>
+      <property name="spacing">
+       <number>0</number>
+      </property>
       <item>
        <widget class="QGroupBox" name="groupBoxControls">
         <property name="enabled">
@@ -3848,14 +4170,14 @@ p, li { white-space: pre-wrap; }
         </property>
         <property name="minimumSize">
          <size>
-          <width>168</width>
-          <height>188</height>
+          <width>800</width>
+          <height>60</height>
          </size>
         </property>
         <property name="maximumSize">
          <size>
-          <width>168</width>
-          <height>188</height>
+          <width>800</width>
+          <height>60</height>
          </size>
         </property>
         <property name="styleSheet">
@@ -3864,84 +4186,171 @@ p, li { white-space: pre-wrap; }
         <property name="title">
          <string/>
         </property>
-        <layout class="QGridLayout" name="gridLayout_3">
-         <property name="horizontalSpacing">
-          <number>0</number>
-         </property>
-         <property name="verticalSpacing">
-          <number>1</number>
-         </property>
+        <layout class="QGridLayout" name="gridLayout_2">
          <property name="margin">
           <number>0</number>
          </property>
-         <item row="1" column="0">
-          <layout class="QHBoxLayout">
+         <property name="spacing">
+          <number>0</number>
+         </property>
+         <item row="0" column="1">
+          <spacer name="horizontalSpacer">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>22</width>
+             <height>57</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item row="0" column="2">
+          <layout class="QGridLayout" name="gridLayout">
            <property name="spacing">
             <number>0</number>
            </property>
-           <item>
-            <widget class="QSpinBox" name="spinBox_betValue">
-             <property name="minimumSize">
-              <size>
-               <width>73</width>
-               <height>0</height>
-              </size>
+           <item row="1" column="0">
+            <layout class="QHBoxLayout">
+             <property name="spacing">
+              <number>0</number>
              </property>
-             <property name="buttonSymbols">
-              <enum>QAbstractSpinBox::NoButtons</enum>
-             </property>
-             <property name="accelerated">
-              <bool>true</bool>
-             </property>
-             <property name="correctionMode">
-              <enum>QAbstractSpinBox::CorrectToNearestValue</enum>
-             </property>
-             <property name="maximum">
-              <number>99999999</number>
-             </property>
-             <property name="singleStep">
-              <number>5</number>
-             </property>
-            </widget>
+             <item>
+              <widget class="MyActionButton" name="pushButton_AllIn">
+               <property name="minimumSize">
+                <size>
+                 <width>80</width>
+                 <height>25</height>
+                </size>
+               </property>
+               <property name="maximumSize">
+                <size>
+                 <width>80</width>
+                 <height>25</height>
+                </size>
+               </property>
+               <property name="focusPolicy">
+                <enum>Qt::NoFocus</enum>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <spacer name="horizontalSpacer_5">
+               <property name="orientation">
+                <enum>Qt::Horizontal</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>40</width>
+                 <height>20</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
+             <item>
+              <widget class="QSpinBox" name="spinBox_betValue">
+               <property name="minimumSize">
+                <size>
+                 <width>100</width>
+                 <height>0</height>
+                </size>
+               </property>
+               <property name="maximumSize">
+                <size>
+                 <width>100</width>
+                 <height>16777215</height>
+                </size>
+               </property>
+               <property name="buttonSymbols">
+                <enum>QAbstractSpinBox::NoButtons</enum>
+               </property>
+               <property name="accelerated">
+                <bool>true</bool>
+               </property>
+               <property name="correctionMode">
+                <enum>QAbstractSpinBox::CorrectToNearestValue</enum>
+               </property>
+               <property name="maximum">
+                <number>99999999</number>
+               </property>
+               <property name="singleStep">
+                <number>5</number>
+               </property>
+              </widget>
+             </item>
+            </layout>
            </item>
-           <item>
-            <widget class="MyActionButton" name="pushButton_AllIn">
+           <item row="3" column="0">
+            <widget class="Slider" name="horizontalSlider_bet">
              <property name="minimumSize">
               <size>
-               <width>95</width>
-               <height>25</height>
+               <width>220</width>
+               <height>0</height>
               </size>
              </property>
              <property name="maximumSize">
               <size>
-               <width>95</width>
-               <height>25</height>
+               <width>220</width>
+               <height>16777215</height>
               </size>
              </property>
              <property name="focusPolicy">
               <enum>Qt::NoFocus</enum>
              </property>
+             <property name="maximum">
+              <number>9999999</number>
+             </property>
+             <property name="singleStep">
+              <number>10</number>
+             </property>
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
+             </property>
             </widget>
+           </item>
+           <item row="2" column="0">
+            <spacer name="verticalSpacer_11">
+             <property name="orientation">
+              <enum>Qt::Vertical</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>20</width>
+               <height>40</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+           <item row="4" column="0">
+            <spacer name="verticalSpacer_14">
+             <property name="orientation">
+              <enum>Qt::Vertical</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>20</width>
+               <height>40</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+           <item row="0" column="0">
+            <spacer name="verticalSpacer_16">
+             <property name="orientation">
+              <enum>Qt::Vertical</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>20</width>
+               <height>40</height>
+              </size>
+             </property>
+            </spacer>
            </item>
           </layout>
          </item>
-         <item row="2" column="0">
-          <widget class="Slider" name="horizontalSlider_bet">
-           <property name="focusPolicy">
-            <enum>Qt::NoFocus</enum>
-           </property>
-           <property name="maximum">
-            <number>9999999</number>
-           </property>
-           <property name="singleStep">
-            <number>10</number>
-           </property>
-           <property name="orientation">
-            <enum>Qt::Horizontal</enum>
-           </property>
-          </widget>
-         </item>
-         <item row="3" column="0">
+         <item row="0" column="4">
           <widget class="MyActionButton" name="pushButton_BetRaise">
            <property name="sizePolicy">
             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
@@ -3951,13 +4360,13 @@ p, li { white-space: pre-wrap; }
            </property>
            <property name="minimumSize">
             <size>
-             <width>168</width>
+             <width>120</width>
              <height>43</height>
             </size>
            </property>
            <property name="maximumSize">
             <size>
-             <width>168</width>
+             <width>120</width>
              <height>43</height>
             </size>
            </property>
@@ -3966,7 +4375,7 @@ p, li { white-space: pre-wrap; }
            </property>
           </widget>
          </item>
-         <item row="4" column="0">
+         <item row="0" column="6">
           <widget class="MyActionButton" name="pushButton_CallCheck">
            <property name="sizePolicy">
             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
@@ -3976,13 +4385,13 @@ p, li { white-space: pre-wrap; }
            </property>
            <property name="minimumSize">
             <size>
-             <width>168</width>
+             <width>120</width>
              <height>43</height>
             </size>
            </property>
            <property name="maximumSize">
             <size>
-             <width>168</width>
+             <width>120</width>
              <height>43</height>
             </size>
            </property>
@@ -3991,7 +4400,7 @@ p, li { white-space: pre-wrap; }
            </property>
           </widget>
          </item>
-         <item row="5" column="0">
+         <item row="0" column="8">
           <widget class="MyActionButton" name="pushButton_Fold">
            <property name="sizePolicy">
             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
@@ -4001,13 +4410,13 @@ p, li { white-space: pre-wrap; }
            </property>
            <property name="minimumSize">
             <size>
-             <width>168</width>
+             <width>120</width>
              <height>43</height>
             </size>
            </property>
            <property name="maximumSize">
             <size>
-             <width>168</width>
+             <width>120</width>
              <height>43</height>
             </size>
            </property>
@@ -4016,28 +4425,168 @@ p, li { white-space: pre-wrap; }
            </property>
           </widget>
          </item>
+         <item row="0" column="10">
+          <layout class="QVBoxLayout" name="verticalLayout">
+           <property name="spacing">
+            <number>0</number>
+           </property>
+           <item>
+            <spacer name="verticalSpacer">
+             <property name="orientation">
+              <enum>Qt::Vertical</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>20</width>
+               <height>40</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+           <item>
+            <widget class="QPushButton" name="fullscreenButton">
+             <property name="minimumSize">
+              <size>
+               <width>50</width>
+               <height>50</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>50</width>
+               <height>50</height>
+              </size>
+             </property>
+             <property name="toolTip">
+              <string>Fullscreen</string>
+             </property>
+             <property name="text">
+              <string/>
+             </property>
+             <property name="icon">
+              <iconset resource="../resources/pokerth.qrc">
+               <normaloff>:/gfx/view-fullscreen_50x50.png</normaloff>:/gfx/view-fullscreen_50x50.png</iconset>
+             </property>
+             <property name="iconSize">
+              <size>
+               <width>50</width>
+               <height>50</height>
+              </size>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
          <item row="0" column="0">
-          <spacer name="verticalSpacer_9">
+          <layout class="QVBoxLayout" name="verticalLayout_4">
+           <property name="spacing">
+            <number>0</number>
+           </property>
+           <item>
+            <spacer name="verticalSpacer_9">
+             <property name="orientation">
+              <enum>Qt::Vertical</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>47</width>
+               <height>13</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+           <item>
+            <spacer name="verticalSpacer_15">
+             <property name="orientation">
+              <enum>Qt::Vertical</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>20</width>
+               <height>40</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+           <item>
+            <widget class="QPushButton" name="tabsButton">
+             <property name="minimumSize">
+              <size>
+               <width>50</width>
+               <height>50</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>50</width>
+               <height>50</height>
+              </size>
+             </property>
+             <property name="text">
+              <string/>
+             </property>
+             <property name="icon">
+              <iconset resource="../resources/pokerth.qrc">
+               <normaloff>:/gfx/preferences-desktop_50x50.png</normaloff>:/gfx/preferences-desktop_50x50.png</iconset>
+             </property>
+             <property name="iconSize">
+              <size>
+               <width>50</width>
+               <height>50</height>
+              </size>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item row="0" column="3">
+          <spacer name="horizontalSpacer_3">
            <property name="orientation">
-            <enum>Qt::Vertical</enum>
+            <enum>Qt::Horizontal</enum>
            </property>
            <property name="sizeHint" stdset="0">
             <size>
-             <width>20</width>
-             <height>0</height>
+             <width>40</width>
+             <height>20</height>
             </size>
            </property>
           </spacer>
          </item>
-         <item row="6" column="0">
-          <spacer name="verticalSpacer_11">
+         <item row="0" column="5">
+          <spacer name="horizontalSpacer_4">
            <property name="orientation">
-            <enum>Qt::Vertical</enum>
+            <enum>Qt::Horizontal</enum>
            </property>
            <property name="sizeHint" stdset="0">
             <size>
-             <width>20</width>
-             <height>0</height>
+             <width>40</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item row="0" column="7">
+          <spacer name="horizontalSpacer_9">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>40</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item row="0" column="9">
+          <spacer name="horizontalSpacer_10">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>40</width>
+             <height>20</height>
             </size>
            </property>
           </spacer>
@@ -4045,412 +4594,20 @@ p, li { white-space: pre-wrap; }
         </layout>
        </widget>
       </item>
-      <item>
-       <spacer>
-        <property name="orientation">
-         <enum>Qt::Horizontal</enum>
-        </property>
-        <property name="sizeType">
-         <enum>QSizePolicy::MinimumExpanding</enum>
-        </property>
-        <property name="sizeHint" stdset="0">
-         <size>
-          <width>155</width>
-          <height>0</height>
-         </size>
-        </property>
-       </spacer>
-      </item>
-      <item>
-       <layout class="QVBoxLayout">
-        <property name="spacing">
-         <number>0</number>
-        </property>
-        <property name="margin">
-         <number>0</number>
-        </property>
-        <item>
-         <spacer>
-          <property name="orientation">
-           <enum>Qt::Horizontal</enum>
-          </property>
-          <property name="sizeType">
-           <enum>QSizePolicy::Fixed</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>260</width>
-            <height>0</height>
-           </size>
-          </property>
-         </spacer>
-        </item>
-        <item>
-         <spacer>
-          <property name="orientation">
-           <enum>Qt::Vertical</enum>
-          </property>
-          <property name="sizeType">
-           <enum>QSizePolicy::Expanding</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>0</width>
-            <height>0</height>
-           </size>
-          </property>
-         </spacer>
-        </item>
-        <item>
-         <widget class="QGroupBox" name="groupBox_RightToolBox">
-          <property name="minimumSize">
-           <size>
-            <width>260</width>
-            <height>188</height>
-           </size>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>260</width>
-            <height>188</height>
-           </size>
-          </property>
-          <layout class="QGridLayout">
-           <property name="horizontalSpacing">
-            <number>1</number>
-           </property>
-           <property name="verticalSpacing">
-            <number>2</number>
-           </property>
-           <property name="margin">
-            <number>4</number>
-           </property>
-           <item row="0" column="0">
-            <widget class="MyRightTabWidget" name="tabWidget_Right">
-             <property name="focusPolicy">
-              <enum>Qt::NoFocus</enum>
-             </property>
-             <property name="currentIndex">
-              <number>0</number>
-             </property>
-             <widget class="QWidget" name="tab_Log">
-              <attribute name="title">
-               <string>Log</string>
-              </attribute>
-              <layout class="QGridLayout">
-               <property name="margin">
-                <number>0</number>
-               </property>
-               <property name="spacing">
-                <number>0</number>
-               </property>
-               <item row="0" column="0">
-                <widget class="QTextBrowser" name="textBrowser_Log">
-                 <property name="focusPolicy">
-                  <enum>Qt::NoFocus</enum>
-                 </property>
-                 <property name="autoFillBackground">
-                  <bool>true</bool>
-                 </property>
-                 <property name="horizontalScrollBarPolicy">
-                  <enum>Qt::ScrollBarAlwaysOff</enum>
-                 </property>
-                </widget>
-               </item>
-              </layout>
-             </widget>
-             <widget class="QWidget" name="tab_away">
-              <attribute name="title">
-               <string>Away</string>
-              </attribute>
-              <layout class="QGridLayout">
-               <item row="0" column="0">
-                <widget class="QRadioButton" name="radioButton_manualAction">
-                 <property name="focusPolicy">
-                  <enum>Qt::NoFocus</enum>
-                 </property>
-                 <property name="text">
-                  <string>Manual Action (default)</string>
-                 </property>
-                 <property name="checked">
-                  <bool>true</bool>
-                 </property>
-                </widget>
-               </item>
-               <item row="1" column="0">
-                <widget class="QRadioButton" name="radioButton_autoCheckFold">
-                 <property name="focusPolicy">
-                  <enum>Qt::NoFocus</enum>
-                 </property>
-                 <property name="text">
-                  <string>Auto-Check / Auto-Fold</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="2" column="0">
-                <widget class="QRadioButton" name="radioButton_autoCheckCallAny">
-                 <property name="focusPolicy">
-                  <enum>Qt::NoFocus</enum>
-                 </property>
-                 <property name="text">
-                  <string>Auto-Check / Auto-Call-Any</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="3" column="0">
-                <spacer>
-                 <property name="orientation">
-                  <enum>Qt::Vertical</enum>
-                 </property>
-                 <property name="sizeHint" stdset="0">
-                  <size>
-                   <width>20</width>
-                   <height>40</height>
-                  </size>
-                 </property>
-                </spacer>
-               </item>
-              </layout>
-             </widget>
-             <widget class="QWidget" name="tab_Chance">
-              <attribute name="title">
-               <string>Chance</string>
-              </attribute>
-              <layout class="QGridLayout" name="gridLayout_2">
-               <property name="leftMargin">
-                <number>1</number>
-               </property>
-               <property name="topMargin">
-                <number>0</number>
-               </property>
-               <property name="rightMargin">
-                <number>1</number>
-               </property>
-               <property name="bottomMargin">
-                <number>1</number>
-               </property>
-               <property name="spacing">
-                <number>0</number>
-               </property>
-               <item row="0" column="0">
-                <widget class="MyChanceLabel" name="label_chance">
-                 <property name="text">
-                  <string/>
-                 </property>
-                </widget>
-               </item>
-              </layout>
-             </widget>
-            </widget>
-           </item>
-           <item row="1" column="0">
-            <layout class="QHBoxLayout">
-             <property name="spacing">
-              <number>6</number>
-             </property>
-             <property name="margin">
-              <number>0</number>
-             </property>
-             <item>
-              <widget class="QLabel" name="label_speedString">
-               <property name="palette">
-                <palette>
-                 <active>
-                  <colorrole role="WindowText">
-                   <brush brushstyle="SolidPattern">
-                    <color alpha="255">
-                     <red>240</red>
-                     <green>240</green>
-                     <blue>240</blue>
-                    </color>
-                   </brush>
-                  </colorrole>
-                  <colorrole role="Text">
-                   <brush brushstyle="SolidPattern">
-                    <color alpha="255">
-                     <red>240</red>
-                     <green>240</green>
-                     <blue>240</blue>
-                    </color>
-                   </brush>
-                  </colorrole>
-                 </active>
-                 <inactive>
-                  <colorrole role="WindowText">
-                   <brush brushstyle="SolidPattern">
-                    <color alpha="255">
-                     <red>240</red>
-                     <green>240</green>
-                     <blue>240</blue>
-                    </color>
-                   </brush>
-                  </colorrole>
-                  <colorrole role="Text">
-                   <brush brushstyle="SolidPattern">
-                    <color alpha="255">
-                     <red>240</red>
-                     <green>240</green>
-                     <blue>240</blue>
-                    </color>
-                   </brush>
-                  </colorrole>
-                 </inactive>
-                 <disabled>
-                  <colorrole role="WindowText">
-                   <brush brushstyle="SolidPattern">
-                    <color alpha="255">
-                     <red>128</red>
-                     <green>128</green>
-                     <blue>128</blue>
-                    </color>
-                   </brush>
-                  </colorrole>
-                  <colorrole role="Text">
-                   <brush brushstyle="SolidPattern">
-                    <color alpha="255">
-                     <red>199</red>
-                     <green>199</green>
-                     <blue>199</blue>
-                    </color>
-                   </brush>
-                  </colorrole>
-                 </disabled>
-                </palette>
-               </property>
-               <property name="text">
-                <string>Speed:</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QLabel" name="label_speedValue">
-               <property name="minimumSize">
-                <size>
-                 <width>18</width>
-                 <height>0</height>
-                </size>
-               </property>
-               <property name="palette">
-                <palette>
-                 <active>
-                  <colorrole role="WindowText">
-                   <brush brushstyle="SolidPattern">
-                    <color alpha="255">
-                     <red>240</red>
-                     <green>240</green>
-                     <blue>240</blue>
-                    </color>
-                   </brush>
-                  </colorrole>
-                  <colorrole role="Text">
-                   <brush brushstyle="SolidPattern">
-                    <color alpha="255">
-                     <red>240</red>
-                     <green>240</green>
-                     <blue>240</blue>
-                    </color>
-                   </brush>
-                  </colorrole>
-                 </active>
-                 <inactive>
-                  <colorrole role="WindowText">
-                   <brush brushstyle="SolidPattern">
-                    <color alpha="255">
-                     <red>240</red>
-                     <green>240</green>
-                     <blue>240</blue>
-                    </color>
-                   </brush>
-                  </colorrole>
-                  <colorrole role="Text">
-                   <brush brushstyle="SolidPattern">
-                    <color alpha="255">
-                     <red>240</red>
-                     <green>240</green>
-                     <blue>240</blue>
-                    </color>
-                   </brush>
-                  </colorrole>
-                 </inactive>
-                 <disabled>
-                  <colorrole role="WindowText">
-                   <brush brushstyle="SolidPattern">
-                    <color alpha="255">
-                     <red>128</red>
-                     <green>128</green>
-                     <blue>128</blue>
-                    </color>
-                   </brush>
-                  </colorrole>
-                  <colorrole role="Text">
-                   <brush brushstyle="SolidPattern">
-                    <color alpha="255">
-                     <red>199</red>
-                     <green>199</green>
-                     <blue>199</blue>
-                    </color>
-                   </brush>
-                  </colorrole>
-                 </disabled>
-                </palette>
-               </property>
-               <property name="text">
-                <string/>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="Slider" name="horizontalSlider_speed">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="MinimumExpanding" vsizetype="Expanding">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="focusPolicy">
-                <enum>Qt::NoFocus</enum>
-               </property>
-               <property name="minimum">
-                <number>1</number>
-               </property>
-               <property name="maximum">
-                <number>11</number>
-               </property>
-               <property name="pageStep">
-                <number>1</number>
-               </property>
-               <property name="orientation">
-                <enum>Qt::Horizontal</enum>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QPushButton" name="pushButton_break">
-               <property name="enabled">
-                <bool>true</bool>
-               </property>
-               <property name="minimumSize">
-                <size>
-                 <width>40</width>
-                 <height>20</height>
-                </size>
-               </property>
-               <property name="focusPolicy">
-                <enum>Qt::NoFocus</enum>
-               </property>
-               <property name="toolTip">
-                <string>Shortcut: &lt;Shift&gt;</string>
-               </property>
-              </widget>
-             </item>
-            </layout>
-           </item>
-          </layout>
-         </widget>
-        </item>
-       </layout>
-      </item>
      </layout>
+    </item>
+    <item row="3" column="1">
+     <spacer name="verticalSpacer_17">
+      <property name="orientation">
+       <enum>Qt::Vertical</enum>
+      </property>
+      <property name="sizeHint" stdset="0">
+       <size>
+        <width>20</width>
+        <height>40</height>
+       </size>
+      </property>
+     </spacer>
     </item>
    </layout>
   </widget>
@@ -4459,29 +4616,28 @@ p, li { white-space: pre-wrap; }
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1024</width>
-     <height>26</height>
+     <width>800</width>
+     <height>20</height>
     </rect>
    </property>
-   <widget class="QMenu" name="menuView">
-    <property name="title">
-     <string>&amp;View</string>
-    </property>
-    <addaction name="actionFullScreen"/>
-    <addaction name="actionShowHideChat"/>
-    <addaction name="actionShowHideHelp"/>
-    <addaction name="actionShowHideLog"/>
-    <addaction name="actionShowHideAway"/>
-    <addaction name="actionShowHideChance"/>
-    <addaction name="actionClose"/>
-   </widget>
+   <property name="minimumSize">
+    <size>
+     <width>0</width>
+     <height>0</height>
+    </size>
+   </property>
+   <property name="maximumSize">
+    <size>
+     <width>16777215</width>
+     <height>16777215</height>
+    </size>
+   </property>
    <widget class="QMenu" name="menuSettings">
     <property name="title">
      <string>&amp;Settings</string>
     </property>
     <addaction name="actionConfigure_PokerTH"/>
    </widget>
-   <addaction name="menuView"/>
    <addaction name="menuSettings"/>
   </widget>
   <action name="actionNewGame">
@@ -4528,7 +4684,7 @@ p, li { white-space: pre-wrap; }
   </action>
   <action name="actionFullScreen">
    <property name="icon">
-    <iconset resource="resources/pokerth.qrc">
+    <iconset resource="../resources/pokerth.qrc">
      <normaloff>:/gfx/view-fullscreen.png</normaloff>:/gfx/view-fullscreen.png</iconset>
    </property>
    <property name="text">
@@ -4586,7 +4742,7 @@ p, li { white-space: pre-wrap; }
   </action>
   <action name="actionConfigure_PokerTH">
    <property name="icon">
-    <iconset resource="resources/pokerth.qrc">
+    <iconset resource="../resources/pokerth.qrc">
      <normaloff>:/gfx/systemsettings.png</normaloff>:/gfx/systemsettings.png</iconset>
    </property>
    <property name="text">
@@ -4595,7 +4751,7 @@ p, li { white-space: pre-wrap; }
   </action>
   <action name="actionClose">
    <property name="icon">
-    <iconset resource="resources/pokerth.qrc">
+    <iconset resource="../resources/pokerth.qrc">
      <normaloff>:/gfx/application_exit.png</normaloff>:/gfx/application_exit.png</iconset>
    </property>
    <property name="text">
@@ -4616,21 +4772,14 @@ p, li { white-space: pre-wrap; }
  </widget>
  <customwidgets>
   <customwidget>
+   <class>Slider</class>
+   <extends>QSlider</extends>
+   <header>myslider.h</header>
+  </customwidget>
+  <customwidget>
    <class>MySetLabel</class>
    <extends>QLabel</extends>
    <header>mysetlabel.h</header>
-  </customwidget>
-  <customwidget>
-   <class>MyLeftTabWidget</class>
-   <extends>QTabWidget</extends>
-   <header>mylefttabwidget.h</header>
-   <container>1</container>
-  </customwidget>
-  <customwidget>
-   <class>MyRightTabWidget</class>
-   <extends>QTabWidget</extends>
-   <header>myrighttabwidget.h</header>
-   <container>1</container>
   </customwidget>
   <customwidget>
    <class>MyStatusLabel</class>
@@ -4646,11 +4795,6 @@ p, li { white-space: pre-wrap; }
    <class>MyAvatarLabel</class>
    <extends>QLabel</extends>
    <header>myavatarlabel.h</header>
-  </customwidget>
-  <customwidget>
-   <class>MyChanceLabel</class>
-   <extends>QLabel</extends>
-   <header>mychancelabel.h</header>
   </customwidget>
   <customwidget>
    <class>MyActionButton</class>
@@ -4673,35 +4817,13 @@ p, li { white-space: pre-wrap; }
    <header>mynamelabel.h</header>
   </customwidget>
   <customwidget>
-   <class>Slider</class>
-   <extends>QSlider</extends>
-   <header>myslider.h</header>
-  </customwidget>
-  <customwidget>
    <class>MyCashLabel</class>
    <extends>QLabel</extends>
    <header>mycashlabel.h</header>
   </customwidget>
  </customwidgets>
  <resources>
-  <include location="resources/pokerth.qrc"/>
+  <include location="../resources/pokerth.qrc"/>
  </resources>
- <connections>
-  <connection>
-   <sender>horizontalSlider_speed</sender>
-   <signal>valueChanged(int)</signal>
-   <receiver>label_speedValue</receiver>
-   <slot>setNum(int)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>886</x>
-     <y>624</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>800</x>
-     <y>638</y>
-    </hint>
-   </hints>
-  </connection>
- </connections>
+ <connections/>
 </ui>

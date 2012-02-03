@@ -6,720 +6,42 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>875</width>
-    <height>570</height>
+    <width>800</width>
+    <height>382</height>
    </rect>
   </property>
   <property name="minimumSize">
    <size>
-    <width>875</width>
-    <height>570</height>
+    <width>800</width>
+    <height>380</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>800</width>
+    <height>382</height>
    </size>
   </property>
   <property name="windowTitle">
    <string>Internet Game Lobby</string>
   </property>
+  <property name="styleSheet">
+   <string notr="true"/>
+  </property>
   <layout class="QGridLayout" name="gridLayout_2">
-   <property name="horizontalSpacing">
-    <number>7</number>
-   </property>
-   <property name="verticalSpacing">
-    <number>4</number>
-   </property>
    <property name="margin">
-    <number>5</number>
+    <number>0</number>
    </property>
-   <item row="0" column="0">
-    <widget class="QLineEdit" name="lineEdit_searchForPlayers">
-     <property name="sizePolicy">
-      <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
-     </property>
-     <property name="minimumSize">
-      <size>
-       <width>165</width>
-       <height>0</height>
-      </size>
-     </property>
-     <property name="maximumSize">
-      <size>
-       <width>165</width>
-       <height>16777215</height>
-      </size>
-     </property>
-     <property name="text">
-      <string>search for player ...</string>
-     </property>
-    </widget>
-   </item>
-   <item row="0" column="1">
-    <widget class="QComboBox" name="comboBox_gameListFilter">
-     <item>
-      <property name="text">
-       <string>0 - No game list filter</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>1 - Show open games</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>2 - Show open &amp; non-full games</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>3 - Show open &amp; non-full &amp; non-private games</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>4 - Show open &amp; non-full &amp; private games</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>5 - Show open &amp; non-full &amp; ranking games</string>
-      </property>
-     </item>
-    </widget>
-   </item>
-   <item row="0" column="2" rowspan="5">
-    <widget class="QGroupBox" name="groupBox_GameInfo">
-     <property name="enabled">
-      <bool>false</bool>
-     </property>
-     <property name="sizePolicy">
-      <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
-     </property>
-     <property name="minimumSize">
-      <size>
-       <width>270</width>
-       <height>0</height>
-      </size>
-     </property>
-     <property name="maximumSize">
-      <size>
-       <width>270</width>
-       <height>16777215</height>
-      </size>
-     </property>
-     <property name="title">
-      <string>Game Info</string>
-     </property>
-     <layout class="QVBoxLayout" name="verticalLayout">
-      <property name="spacing">
-       <number>3</number>
-      </property>
-      <property name="leftMargin">
-       <number>7</number>
-      </property>
-      <property name="topMargin">
-       <number>2</number>
-      </property>
-      <property name="rightMargin">
-       <number>7</number>
-      </property>
-      <property name="bottomMargin">
-       <number>6</number>
-      </property>
-      <item>
-       <widget class="QTreeWidget" name="treeWidget_connectedPlayers">
-        <property name="minimumSize">
-         <size>
-          <width>221</width>
-          <height>237</height>
-         </size>
-        </property>
-        <property name="contextMenuPolicy">
-         <enum>Qt::CustomContextMenu</enum>
-        </property>
-        <property name="midLineWidth">
-         <number>1</number>
-        </property>
-        <property name="iconSize">
-         <size>
-          <width>25</width>
-          <height>26</height>
-         </size>
-        </property>
-        <property name="indentation">
-         <number>15</number>
-        </property>
-        <column>
-         <property name="text">
-          <string>Connected Players</string>
-         </property>
-        </column>
-       </widget>
-      </item>
-      <item>
-       <widget class="QScrollArea" name="scrollArea_gameInfos">
-        <property name="minimumSize">
-         <size>
-          <width>252</width>
-          <height>174</height>
-         </size>
-        </property>
-        <property name="widgetResizable">
-         <bool>true</bool>
-        </property>
-        <widget class="QWidget" name="scrollAreaWidgetContents">
-         <property name="geometry">
-          <rect>
-           <x>0</x>
-           <y>0</y>
-           <width>248</width>
-           <height>178</height>
-          </rect>
-         </property>
-         <layout class="QGridLayout" name="gridLayout">
-          <property name="horizontalSpacing">
-           <number>-1</number>
-          </property>
-          <property name="verticalSpacing">
-           <number>2</number>
-          </property>
-          <property name="margin">
-           <number>4</number>
-          </property>
-          <item row="0" column="0">
-           <widget class="QLabel" name="label_gameType">
-            <property name="text">
-             <string>Game type:</string>
-            </property>
-            <property name="alignment">
-             <set>Qt::AlignRight|Qt::AlignTop|Qt::AlignTrailing</set>
-            </property>
-            <property name="wordWrap">
-             <bool>true</bool>
-            </property>
-           </widget>
-          </item>
-          <item row="0" column="1">
-           <layout class="QHBoxLayout" name="horizontalLayout">
-            <item>
-             <widget class="QLabel" name="label_typeIcon">
-              <property name="minimumSize">
-               <size>
-                <width>16</width>
-                <height>16</height>
-               </size>
-              </property>
-              <property name="maximumSize">
-               <size>
-                <width>16</width>
-                <height>16777215</height>
-               </size>
-              </property>
-              <property name="alignment">
-               <set>Qt::AlignRight|Qt::AlignTop|Qt::AlignTrailing</set>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QLabel" name="label_typeText">
-              <property name="text">
-               <string/>
-              </property>
-              <property name="alignment">
-               <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
-              </property>
-              <property name="wordWrap">
-               <bool>true</bool>
-              </property>
-             </widget>
-            </item>
-           </layout>
-          </item>
-          <item row="1" column="0">
-           <widget class="QLabel" name="label_gameDesc2">
-            <property name="text">
-             <string>Start Cash:</string>
-            </property>
-            <property name="alignment">
-             <set>Qt::AlignRight|Qt::AlignTop|Qt::AlignTrailing</set>
-            </property>
-            <property name="wordWrap">
-             <bool>true</bool>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="1">
-           <widget class="QLabel" name="label_StartCash">
-            <property name="styleSheet">
-             <string notr="true">QLabel { color:rgb(0, 0, 255); }</string>
-            </property>
-            <property name="alignment">
-             <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
-            </property>
-            <property name="wordWrap">
-             <bool>true</bool>
-            </property>
-           </widget>
-          </item>
-          <item row="2" column="0">
-           <widget class="QLabel" name="label_gameDesc3">
-            <property name="text">
-             <string>First small blind:</string>
-            </property>
-            <property name="alignment">
-             <set>Qt::AlignRight|Qt::AlignTop|Qt::AlignTrailing</set>
-            </property>
-            <property name="wordWrap">
-             <bool>true</bool>
-            </property>
-           </widget>
-          </item>
-          <item row="2" column="1">
-           <widget class="QLabel" name="label_SmallBlind">
-            <property name="styleSheet">
-             <string notr="true">QLabel { color:rgb(0, 0, 255); }</string>
-            </property>
-            <property name="alignment">
-             <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
-            </property>
-            <property name="wordWrap">
-             <bool>true</bool>
-            </property>
-           </widget>
-          </item>
-          <item row="3" column="0">
-           <widget class="QLabel" name="label_gameDesc4">
-            <property name="text">
-             <string>Blinds raise interval:</string>
-            </property>
-            <property name="alignment">
-             <set>Qt::AlignRight|Qt::AlignTop|Qt::AlignTrailing</set>
-            </property>
-            <property name="wordWrap">
-             <bool>true</bool>
-            </property>
-           </widget>
-          </item>
-          <item row="3" column="1">
-           <widget class="QLabel" name="label_blindsRaiseIntervall">
-            <property name="styleSheet">
-             <string notr="true">QLabel { color:rgb(0, 0, 255); }</string>
-            </property>
-            <property name="alignment">
-             <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
-            </property>
-            <property name="wordWrap">
-             <bool>true</bool>
-            </property>
-           </widget>
-          </item>
-          <item row="4" column="0">
-           <widget class="QLabel" name="label_gameDesc5">
-            <property name="text">
-             <string>Blinds raise mode:</string>
-            </property>
-            <property name="alignment">
-             <set>Qt::AlignRight|Qt::AlignTop|Qt::AlignTrailing</set>
-            </property>
-            <property name="wordWrap">
-             <bool>true</bool>
-            </property>
-           </widget>
-          </item>
-          <item row="4" column="1">
-           <widget class="QLabel" name="label_blindsRaiseMode">
-            <property name="styleSheet">
-             <string notr="true">QLabel { color:rgb(0, 0, 255); }</string>
-            </property>
-            <property name="text">
-             <string/>
-            </property>
-            <property name="alignment">
-             <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
-            </property>
-            <property name="wordWrap">
-             <bool>true</bool>
-            </property>
-           </widget>
-          </item>
-          <item row="5" column="0">
-           <widget class="QLabel" name="label_gameDesc6">
-            <property name="text">
-             <string>Manual blinds list:</string>
-            </property>
-            <property name="alignment">
-             <set>Qt::AlignRight|Qt::AlignTop|Qt::AlignTrailing</set>
-            </property>
-            <property name="wordWrap">
-             <bool>true</bool>
-            </property>
-           </widget>
-          </item>
-          <item row="5" column="1">
-           <widget class="QLabel" name="label_blindsList">
-            <property name="styleSheet">
-             <string notr="true">QLabel { color:rgb(0, 0, 255); }</string>
-            </property>
-            <property name="text">
-             <string/>
-            </property>
-            <property name="alignment">
-             <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
-            </property>
-            <property name="wordWrap">
-             <bool>true</bool>
-            </property>
-           </widget>
-          </item>
-          <item row="6" column="0">
-           <widget class="QLabel" name="label_gameDesc7">
-            <property name="text">
-             <string>Timeout for player action (sec):</string>
-            </property>
-            <property name="alignment">
-             <set>Qt::AlignRight|Qt::AlignTop|Qt::AlignTrailing</set>
-            </property>
-            <property name="wordWrap">
-             <bool>true</bool>
-            </property>
-           </widget>
-          </item>
-          <item row="6" column="1">
-           <widget class="QLabel" name="label_TimeoutForPlayerAction">
-            <property name="styleSheet">
-             <string notr="true">QLabel { color:rgb(0, 0, 255); }</string>
-            </property>
-            <property name="alignment">
-             <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
-            </property>
-            <property name="wordWrap">
-             <bool>true</bool>
-            </property>
-           </widget>
-          </item>
-         </layout>
-        </widget>
-       </widget>
-      </item>
-      <item>
-       <layout class="QHBoxLayout" name="horizontalLayout_2">
-        <item>
-         <widget class="QCheckBox" name="checkBox_fillUpWithComputerOpponents">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="text">
-           <string>Fill up with computer opponents</string>
-          </property>
-          <property name="icon">
-           <iconset resource="resources/pokerth.qrc">
-            <normaloff>:/gfx/swbuttonlocalgame.png</normaloff>:/gfx/swbuttonlocalgame.png</iconset>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <spacer name="verticalSpacer">
-          <property name="orientation">
-           <enum>Qt::Vertical</enum>
-          </property>
-          <property name="sizeType">
-           <enum>QSizePolicy::Fixed</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>0</width>
-            <height>21</height>
-           </size>
-          </property>
-         </spacer>
-        </item>
-       </layout>
-      </item>
-      <item>
-       <layout class="QHBoxLayout">
-        <property name="spacing">
-         <number>3</number>
-        </property>
-        <property name="topMargin">
-         <number>0</number>
-        </property>
-        <property name="bottomMargin">
-         <number>0</number>
-        </property>
-        <item>
-         <widget class="QPushButton" name="pushButton_StartGame">
-          <property name="enabled">
-           <bool>false</bool>
-          </property>
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="minimumSize">
-           <size>
-            <width>0</width>
-            <height>24</height>
-           </size>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>16777215</width>
-            <height>24</height>
-           </size>
-          </property>
-          <property name="text">
-           <string>&amp;Start Game</string>
-          </property>
-          <property name="icon">
-           <iconset resource="resources/pokerth.qrc">
-            <normaloff>:/gfx/dialog_ok_apply.png</normaloff>:/gfx/dialog_ok_apply.png</iconset>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <spacer name="verticalSpacer_2">
-          <property name="orientation">
-           <enum>Qt::Vertical</enum>
-          </property>
-          <property name="sizeType">
-           <enum>QSizePolicy::Fixed</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>0</width>
-            <height>24</height>
-           </size>
-          </property>
-         </spacer>
-        </item>
-        <item>
-         <widget class="QPushButton" name="pushButton_Kick">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="minimumSize">
-           <size>
-            <width>0</width>
-            <height>24</height>
-           </size>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>16777215</width>
-            <height>24</height>
-           </size>
-          </property>
-          <property name="text">
-           <string>&amp;Kick Player</string>
-          </property>
-          <property name="icon">
-           <iconset resource="resources/pokerth.qrc">
-            <normaloff>:/gfx/list-remove.png</normaloff>:/gfx/list-remove.png</iconset>
-          </property>
-         </widget>
-        </item>
-       </layout>
-      </item>
-      <item>
-       <layout class="QHBoxLayout">
-        <property name="spacing">
-         <number>0</number>
-        </property>
-        <item>
-         <spacer>
-          <property name="orientation">
-           <enum>Qt::Vertical</enum>
-          </property>
-          <property name="sizeType">
-           <enum>QSizePolicy::Fixed</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>0</width>
-            <height>24</height>
-           </size>
-          </property>
-         </spacer>
-        </item>
-        <item>
-         <widget class="QPushButton" name="pushButton_Leave">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="minimumSize">
-           <size>
-            <width>0</width>
-            <height>24</height>
-           </size>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>16777215</width>
-            <height>24</height>
-           </size>
-          </property>
-          <property name="text">
-           <string>&amp;Leave Game</string>
-          </property>
-          <property name="icon">
-           <iconset resource="resources/pokerth.qrc">
-            <normaloff>:/gfx/go-previous-view.png</normaloff>:/gfx/go-previous-view.png</iconset>
-          </property>
-         </widget>
-        </item>
-       </layout>
-      </item>
-     </layout>
-    </widget>
-   </item>
-   <item row="1" column="1">
-    <widget class="QTreeView" name="treeView_GameList">
-     <property name="minimumSize">
-      <size>
-       <width>400</width>
-       <height>0</height>
-      </size>
-     </property>
-     <property name="horizontalScrollBarPolicy">
-      <enum>Qt::ScrollBarAlwaysOff</enum>
-     </property>
-     <property name="editTriggers">
-      <set>QAbstractItemView::NoEditTriggers</set>
-     </property>
-     <property name="showDropIndicator" stdset="0">
-      <bool>false</bool>
-     </property>
-     <property name="indentation">
-      <number>5</number>
-     </property>
-     <property name="rootIsDecorated">
-      <bool>false</bool>
-     </property>
-     <property name="sortingEnabled">
-      <bool>true</bool>
-     </property>
-    </widget>
-   </item>
-   <item row="2" column="1">
-    <layout class="QHBoxLayout">
-     <property name="spacing">
-      <number>6</number>
-     </property>
-     <property name="margin">
-      <number>0</number>
-     </property>
-     <item>
-      <widget class="QPushButton" name="pushButton_joinAnyGame">
-       <property name="text">
-        <string>Join &amp;any game</string>
-       </property>
-       <property name="icon">
-        <iconset resource="resources/pokerth.qrc">
-         <normaloff>:/gfx/transform-rotate.png</normaloff>:/gfx/transform-rotate.png</iconset>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <spacer>
-       <property name="orientation">
-        <enum>Qt::Horizontal</enum>
-       </property>
-       <property name="sizeType">
-        <enum>QSizePolicy::Expanding</enum>
-       </property>
-       <property name="sizeHint" stdset="0">
-        <size>
-         <width>181</width>
-         <height>20</height>
-        </size>
-       </property>
-      </spacer>
-     </item>
-     <item>
-      <widget class="QPushButton" name="pushButton_CreateGame">
-       <property name="text">
-        <string>&amp;Create Game</string>
-       </property>
-       <property name="icon">
-        <iconset resource="resources/pokerth.qrc">
-         <normaloff>:/gfx/list_add.png</normaloff>:/gfx/list_add.png</iconset>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QPushButton" name="pushButton_JoinGame">
-       <property name="text">
-        <string>&amp;Join Game</string>
-       </property>
-       <property name="icon">
-        <iconset resource="resources/pokerth.qrc">
-         <normaloff>:/gfx/go-next-view.png</normaloff>:/gfx/go-next-view.png</iconset>
-       </property>
-      </widget>
-     </item>
-    </layout>
-   </item>
-   <item row="3" column="1" rowspan="2">
-    <widget class="QGroupBox" name="groupBox_lobbyChat">
-     <property name="minimumSize">
-      <size>
-       <width>400</width>
-       <height>223</height>
-      </size>
-     </property>
-     <property name="maximumSize">
-      <size>
-       <width>16777215</width>
-       <height>230</height>
-      </size>
-     </property>
-     <property name="title">
-      <string>Lobby-Chat</string>
-     </property>
-     <layout class="QGridLayout">
-      <property name="leftMargin">
-       <number>7</number>
-      </property>
-      <property name="topMargin">
-       <number>2</number>
-      </property>
-      <property name="rightMargin">
-       <number>7</number>
-      </property>
-      <property name="bottomMargin">
-       <number>7</number>
-      </property>
-      <property name="spacing">
-       <number>0</number>
-      </property>
-      <item row="0" column="0">
-       <widget class="QTextBrowser" name="textBrowser_ChatDisplay"/>
-      </item>
-      <item row="1" column="0">
-       <widget class="QLineEdit" name="lineEdit_ChatInput"/>
-      </item>
-     </layout>
-    </widget>
-   </item>
-   <item row="5" column="0" colspan="3">
+   <property name="spacing">
+    <number>0</number>
+   </property>
+   <item row="2" column="0">
     <layout class="QHBoxLayout">
      <item>
       <widget class="QLabel" name="label_connectedPlayersCounter">
+       <property name="styleSheet">
+        <string notr="true">QObject {font: 12px}</string>
+       </property>
        <property name="text">
         <string/>
        </property>
@@ -727,6 +49,9 @@
      </item>
      <item>
       <widget class="QLabel" name="label_runningGamesCounter">
+       <property name="styleSheet">
+        <string notr="true">QObject {font: 12px}</string>
+       </property>
        <property name="text">
         <string/>
        </property>
@@ -740,29 +65,19 @@
          <verstretch>0</verstretch>
         </sizepolicy>
        </property>
+       <property name="styleSheet">
+        <string notr="true">QObject {font: 12px}</string>
+       </property>
        <property name="text">
         <string/>
        </property>
       </widget>
      </item>
      <item>
-      <spacer name="horizontalSpacer">
-       <property name="orientation">
-        <enum>Qt::Horizontal</enum>
-       </property>
-       <property name="sizeType">
-        <enum>QSizePolicy::Expanding</enum>
-       </property>
-       <property name="sizeHint" stdset="0">
-        <size>
-         <width>20</width>
-         <height>20</height>
-        </size>
-       </property>
-      </spacer>
-     </item>
-     <item>
       <widget class="QLabel" name="label">
+       <property name="styleSheet">
+        <string notr="true">QObject {font: 12px}</string>
+       </property>
        <property name="text">
         <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
@@ -796,6 +111,9 @@ p, li { white-space: pre-wrap; }
      </item>
      <item>
       <widget class="QLabel" name="label_pokerthDotNet">
+       <property name="styleSheet">
+        <string notr="true">QObject {font: 12px}</string>
+       </property>
        <property name="text">
         <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
@@ -810,81 +128,1017 @@ p, li { white-space: pre-wrap; }
      </item>
     </layout>
    </item>
-   <item row="1" column="0" rowspan="3">
-    <widget class="QTreeView" name="treeView_NickList">
-     <property name="sizePolicy">
-      <sizepolicy hsizetype="Fixed" vsizetype="Expanding">
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
-     </property>
+   <item row="1" column="0">
+    <widget class="QTabWidget" name="tabWidget">
      <property name="minimumSize">
       <size>
-       <width>165</width>
-       <height>0</height>
+       <width>800</width>
+       <height>360</height>
       </size>
      </property>
      <property name="maximumSize">
       <size>
-       <width>165</width>
-       <height>16777215</height>
+       <width>800</width>
+       <height>360</height>
       </size>
      </property>
-     <property name="contextMenuPolicy">
-      <enum>Qt::CustomContextMenu</enum>
+     <property name="styleSheet">
+      <string notr="true">QObject {font: bold 18px}</string>
      </property>
-     <property name="editTriggers">
-      <set>QAbstractItemView::NoEditTriggers</set>
+     <property name="currentIndex">
+      <number>0</number>
      </property>
-     <property name="rootIsDecorated">
-      <bool>false</bool>
-     </property>
-     <property name="sortingEnabled">
-      <bool>true</bool>
-     </property>
-    </widget>
-   </item>
-   <item row="4" column="0">
-    <widget class="QComboBox" name="comboBox_nickListFilter">
-     <item>
-      <property name="text">
-       <string>Sort alphabetically</string>
+     <widget class="QWidget" name="tab_1">
+      <property name="styleSheet">
+       <string notr="true"/>
       </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>Sort by country</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>Display idle players</string>
-      </property>
-     </item>
+      <attribute name="title">
+       <string>Games</string>
+      </attribute>
+      <layout class="QGridLayout" name="gridLayout_5">
+       <property name="margin">
+        <number>0</number>
+       </property>
+       <property name="spacing">
+        <number>0</number>
+       </property>
+       <item row="0" column="0">
+        <layout class="QHBoxLayout" name="horizontalLayout_3">
+         <item>
+          <layout class="QGridLayout" name="gridLayout_3">
+           <property name="spacing">
+            <number>0</number>
+           </property>
+           <item row="4" column="0">
+            <layout class="QHBoxLayout">
+             <property name="spacing">
+              <number>0</number>
+             </property>
+             <item>
+              <spacer>
+               <property name="orientation">
+                <enum>Qt::Vertical</enum>
+               </property>
+               <property name="sizeType">
+                <enum>QSizePolicy::Fixed</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>0</width>
+                 <height>24</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
+             <item>
+              <spacer name="horizontalSpacer_3">
+               <property name="orientation">
+                <enum>Qt::Horizontal</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>40</width>
+                 <height>20</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
+             <item>
+              <widget class="QPushButton" name="pushButton_Leave">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="minimumSize">
+                <size>
+                 <width>310</width>
+                 <height>24</height>
+                </size>
+               </property>
+               <property name="maximumSize">
+                <size>
+                 <width>300</width>
+                 <height>24</height>
+                </size>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">QObject {font: bold 16px}</string>
+               </property>
+               <property name="text">
+                <string>&amp;Leave Game</string>
+               </property>
+               <property name="icon">
+                <iconset resource="../resources/pokerth.qrc">
+                 <normaloff>:/gfx/go-previous-view.png</normaloff>:/gfx/go-previous-view.png</iconset>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <spacer name="horizontalSpacer_5">
+               <property name="orientation">
+                <enum>Qt::Horizontal</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>40</width>
+                 <height>20</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
+            </layout>
+           </item>
+           <item row="3" column="0">
+            <layout class="QHBoxLayout">
+             <property name="spacing">
+              <number>3</number>
+             </property>
+             <property name="topMargin">
+              <number>0</number>
+             </property>
+             <property name="bottomMargin">
+              <number>0</number>
+             </property>
+             <item>
+              <spacer name="horizontalSpacer_4">
+               <property name="orientation">
+                <enum>Qt::Horizontal</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>40</width>
+                 <height>20</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
+             <item>
+              <widget class="QPushButton" name="pushButton_StartGame">
+               <property name="enabled">
+                <bool>false</bool>
+               </property>
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="minimumSize">
+                <size>
+                 <width>150</width>
+                 <height>24</height>
+                </size>
+               </property>
+               <property name="maximumSize">
+                <size>
+                 <width>150</width>
+                 <height>24</height>
+                </size>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">QObject {font: bold 16px}</string>
+               </property>
+               <property name="text">
+                <string>&amp;Start Game</string>
+               </property>
+               <property name="icon">
+                <iconset resource="../resources/pokerth.qrc">
+                 <normaloff>:/gfx/dialog_ok_apply.png</normaloff>:/gfx/dialog_ok_apply.png</iconset>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <spacer name="verticalSpacer_2">
+               <property name="orientation">
+                <enum>Qt::Vertical</enum>
+               </property>
+               <property name="sizeType">
+                <enum>QSizePolicy::Fixed</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>0</width>
+                 <height>24</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
+             <item>
+              <widget class="QPushButton" name="pushButton_Kick">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="minimumSize">
+                <size>
+                 <width>150</width>
+                 <height>24</height>
+                </size>
+               </property>
+               <property name="maximumSize">
+                <size>
+                 <width>150</width>
+                 <height>24</height>
+                </size>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">QObject {font: bold 16px}</string>
+               </property>
+               <property name="text">
+                <string>&amp;Kick Player</string>
+               </property>
+               <property name="icon">
+                <iconset resource="../resources/pokerth.qrc">
+                 <normaloff>:/gfx/list-remove.png</normaloff>:/gfx/list-remove.png</iconset>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <spacer name="horizontalSpacer_6">
+               <property name="orientation">
+                <enum>Qt::Horizontal</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>40</width>
+                 <height>20</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
+            </layout>
+           </item>
+           <item row="2" column="0">
+            <widget class="QComboBox" name="comboBox_gameListFilter">
+             <property name="minimumSize">
+              <size>
+               <width>0</width>
+               <height>0</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>16777215</width>
+               <height>16777215</height>
+              </size>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">QObject {font: 14px}</string>
+             </property>
+             <item>
+              <property name="text">
+               <string>0 - No game list filter</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>1 - Show open games</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>2 - Show open &amp; non-full games</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>3 - Show open &amp; non-full &amp; non-private games</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>4 - Show open &amp; non-full &amp; private games</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>5 - Show open &amp; non-full &amp; ranking games</string>
+              </property>
+             </item>
+            </widget>
+           </item>
+           <item row="1" column="0">
+            <widget class="QTreeView" name="treeView_GameList">
+             <property name="minimumSize">
+              <size>
+               <width>0</width>
+               <height>0</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>16777215</width>
+               <height>16777215</height>
+              </size>
+             </property>
+             <property name="styleSheet">
+              <string notr="true"/>
+             </property>
+             <property name="horizontalScrollBarPolicy">
+              <enum>Qt::ScrollBarAlwaysOff</enum>
+             </property>
+             <property name="editTriggers">
+              <set>QAbstractItemView::NoEditTriggers</set>
+             </property>
+             <property name="showDropIndicator" stdset="0">
+              <bool>false</bool>
+             </property>
+             <property name="indentation">
+              <number>5</number>
+             </property>
+             <property name="rootIsDecorated">
+              <bool>false</bool>
+             </property>
+             <property name="sortingEnabled">
+              <bool>true</bool>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="0">
+            <layout class="QHBoxLayout">
+             <property name="spacing">
+              <number>6</number>
+             </property>
+             <property name="margin">
+              <number>0</number>
+             </property>
+             <item>
+              <widget class="QPushButton" name="pushButton_joinAnyGame">
+               <property name="minimumSize">
+                <size>
+                 <width>0</width>
+                 <height>0</height>
+                </size>
+               </property>
+               <property name="maximumSize">
+                <size>
+                 <width>16777215</width>
+                 <height>16777215</height>
+                </size>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">QObject {font: bold 14px}</string>
+               </property>
+               <property name="text">
+                <string>Join &amp;any game</string>
+               </property>
+               <property name="icon">
+                <iconset resource="../resources/pokerth.qrc">
+                 <normaloff>:/gfx/transform-rotate.png</normaloff>:/gfx/transform-rotate.png</iconset>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <spacer name="horizontalSpacer">
+               <property name="orientation">
+                <enum>Qt::Horizontal</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>40</width>
+                 <height>20</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
+             <item>
+              <widget class="QPushButton" name="pushButton_CreateGame">
+               <property name="minimumSize">
+                <size>
+                 <width>0</width>
+                 <height>0</height>
+                </size>
+               </property>
+               <property name="maximumSize">
+                <size>
+                 <width>16777215</width>
+                 <height>16777215</height>
+                </size>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">QObject {font: bold 14px}</string>
+               </property>
+               <property name="text">
+                <string>&amp;Create Game</string>
+               </property>
+               <property name="icon">
+                <iconset resource="../resources/pokerth.qrc">
+                 <normaloff>:/gfx/list_add.png</normaloff>:/gfx/list_add.png</iconset>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="pushButton_JoinGame">
+               <property name="minimumSize">
+                <size>
+                 <width>0</width>
+                 <height>0</height>
+                </size>
+               </property>
+               <property name="maximumSize">
+                <size>
+                 <width>16777215</width>
+                 <height>16777215</height>
+                </size>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">QObject {font: bold 14px}</string>
+               </property>
+               <property name="text">
+                <string>&amp;Join Game</string>
+               </property>
+               <property name="icon">
+                <iconset resource="../resources/pokerth.qrc">
+                 <normaloff>:/gfx/go-next-view.png</normaloff>:/gfx/go-next-view.png</iconset>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </item>
+          </layout>
+         </item>
+         <item>
+          <widget class="QGroupBox" name="groupBox_GameInfo">
+           <property name="enabled">
+            <bool>false</bool>
+           </property>
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="minimumSize">
+            <size>
+             <width>300</width>
+             <height>0</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>300</width>
+             <height>16777215</height>
+            </size>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">QObject {font: bold 16px}</string>
+           </property>
+           <property name="title">
+            <string>Game Info</string>
+           </property>
+           <layout class="QVBoxLayout" name="verticalLayout">
+            <property name="spacing">
+             <number>0</number>
+            </property>
+            <property name="margin">
+             <number>0</number>
+            </property>
+            <item>
+             <widget class="QTreeWidget" name="treeWidget_connectedPlayers">
+              <property name="minimumSize">
+               <size>
+                <width>221</width>
+                <height>0</height>
+               </size>
+              </property>
+              <property name="contextMenuPolicy">
+               <enum>Qt::CustomContextMenu</enum>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">QObject {font: 14px}</string>
+              </property>
+              <property name="midLineWidth">
+               <number>1</number>
+              </property>
+              <property name="iconSize">
+               <size>
+                <width>25</width>
+                <height>26</height>
+               </size>
+              </property>
+              <property name="indentation">
+               <number>15</number>
+              </property>
+              <column>
+               <property name="text">
+                <string>Connected Players</string>
+               </property>
+              </column>
+             </widget>
+            </item>
+            <item>
+             <widget class="QScrollArea" name="scrollArea_gameInfos">
+              <property name="minimumSize">
+               <size>
+                <width>252</width>
+                <height>190</height>
+               </size>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>16777215</width>
+                <height>190</height>
+               </size>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">QObject {font: 14px}</string>
+              </property>
+              <property name="widgetResizable">
+               <bool>true</bool>
+              </property>
+              <widget class="QWidget" name="scrollAreaWidgetContents">
+               <property name="geometry">
+                <rect>
+                 <x>0</x>
+                 <y>0</y>
+                 <width>288</width>
+                 <height>184</height>
+                </rect>
+               </property>
+               <layout class="QGridLayout" name="gridLayout">
+                <property name="horizontalSpacing">
+                 <number>-1</number>
+                </property>
+                <property name="verticalSpacing">
+                 <number>2</number>
+                </property>
+                <property name="margin">
+                 <number>4</number>
+                </property>
+                <item row="0" column="0">
+                 <widget class="QLabel" name="label_gameType">
+                  <property name="styleSheet">
+                   <string notr="true"/>
+                  </property>
+                  <property name="text">
+                   <string>Game type:</string>
+                  </property>
+                  <property name="alignment">
+                   <set>Qt::AlignRight|Qt::AlignTop|Qt::AlignTrailing</set>
+                  </property>
+                  <property name="wordWrap">
+                   <bool>true</bool>
+                  </property>
+                 </widget>
+                </item>
+                <item row="0" column="1">
+                 <layout class="QHBoxLayout" name="horizontalLayout">
+                  <item>
+                   <widget class="QLabel" name="label_typeIcon">
+                    <property name="minimumSize">
+                     <size>
+                      <width>16</width>
+                      <height>16</height>
+                     </size>
+                    </property>
+                    <property name="maximumSize">
+                     <size>
+                      <width>16</width>
+                      <height>16777215</height>
+                     </size>
+                    </property>
+                    <property name="alignment">
+                     <set>Qt::AlignRight|Qt::AlignTop|Qt::AlignTrailing</set>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QLabel" name="label_typeText">
+                    <property name="text">
+                     <string/>
+                    </property>
+                    <property name="alignment">
+                     <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+                    </property>
+                    <property name="wordWrap">
+                     <bool>true</bool>
+                    </property>
+                   </widget>
+                  </item>
+                 </layout>
+                </item>
+                <item row="1" column="0">
+                 <widget class="QLabel" name="label_gameDesc2">
+                  <property name="styleSheet">
+                   <string notr="true"/>
+                  </property>
+                  <property name="text">
+                   <string>Start Cash:</string>
+                  </property>
+                  <property name="alignment">
+                   <set>Qt::AlignRight|Qt::AlignTop|Qt::AlignTrailing</set>
+                  </property>
+                  <property name="wordWrap">
+                   <bool>true</bool>
+                  </property>
+                 </widget>
+                </item>
+                <item row="1" column="1">
+                 <widget class="QLabel" name="label_StartCash">
+                  <property name="styleSheet">
+                   <string notr="true">QLabel { color:rgb(0, 0, 255); }</string>
+                  </property>
+                  <property name="alignment">
+                   <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+                  </property>
+                  <property name="wordWrap">
+                   <bool>true</bool>
+                  </property>
+                 </widget>
+                </item>
+                <item row="2" column="0">
+                 <widget class="QLabel" name="label_gameDesc3">
+                  <property name="styleSheet">
+                   <string notr="true"/>
+                  </property>
+                  <property name="text">
+                   <string>First small blind:</string>
+                  </property>
+                  <property name="alignment">
+                   <set>Qt::AlignRight|Qt::AlignTop|Qt::AlignTrailing</set>
+                  </property>
+                  <property name="wordWrap">
+                   <bool>true</bool>
+                  </property>
+                 </widget>
+                </item>
+                <item row="2" column="1">
+                 <widget class="QLabel" name="label_SmallBlind">
+                  <property name="styleSheet">
+                   <string notr="true">QLabel { color:rgb(0, 0, 255); }</string>
+                  </property>
+                  <property name="alignment">
+                   <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+                  </property>
+                  <property name="wordWrap">
+                   <bool>true</bool>
+                  </property>
+                 </widget>
+                </item>
+                <item row="3" column="0">
+                 <widget class="QLabel" name="label_gameDesc4">
+                  <property name="styleSheet">
+                   <string notr="true"/>
+                  </property>
+                  <property name="text">
+                   <string>Blinds raise interval:</string>
+                  </property>
+                  <property name="alignment">
+                   <set>Qt::AlignRight|Qt::AlignTop|Qt::AlignTrailing</set>
+                  </property>
+                  <property name="wordWrap">
+                   <bool>true</bool>
+                  </property>
+                 </widget>
+                </item>
+                <item row="3" column="1">
+                 <widget class="QLabel" name="label_blindsRaiseIntervall">
+                  <property name="styleSheet">
+                   <string notr="true">QLabel { color:rgb(0, 0, 255); }</string>
+                  </property>
+                  <property name="alignment">
+                   <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+                  </property>
+                  <property name="wordWrap">
+                   <bool>true</bool>
+                  </property>
+                 </widget>
+                </item>
+                <item row="4" column="0">
+                 <widget class="QLabel" name="label_gameDesc5">
+                  <property name="styleSheet">
+                   <string notr="true"/>
+                  </property>
+                  <property name="text">
+                   <string>Blinds raise mode:</string>
+                  </property>
+                  <property name="alignment">
+                   <set>Qt::AlignRight|Qt::AlignTop|Qt::AlignTrailing</set>
+                  </property>
+                  <property name="wordWrap">
+                   <bool>true</bool>
+                  </property>
+                 </widget>
+                </item>
+                <item row="4" column="1">
+                 <widget class="QLabel" name="label_blindsRaiseMode">
+                  <property name="styleSheet">
+                   <string notr="true">QLabel { color:rgb(0, 0, 255); }</string>
+                  </property>
+                  <property name="text">
+                   <string/>
+                  </property>
+                  <property name="alignment">
+                   <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+                  </property>
+                  <property name="wordWrap">
+                   <bool>true</bool>
+                  </property>
+                 </widget>
+                </item>
+                <item row="5" column="0">
+                 <widget class="QLabel" name="label_gameDesc6">
+                  <property name="styleSheet">
+                   <string notr="true"/>
+                  </property>
+                  <property name="text">
+                   <string>Manual blinds list:</string>
+                  </property>
+                  <property name="alignment">
+                   <set>Qt::AlignRight|Qt::AlignTop|Qt::AlignTrailing</set>
+                  </property>
+                  <property name="wordWrap">
+                   <bool>true</bool>
+                  </property>
+                 </widget>
+                </item>
+                <item row="5" column="1">
+                 <widget class="QLabel" name="label_blindsList">
+                  <property name="styleSheet">
+                   <string notr="true">QLabel { color:rgb(0, 0, 255); }</string>
+                  </property>
+                  <property name="text">
+                   <string/>
+                  </property>
+                  <property name="alignment">
+                   <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+                  </property>
+                  <property name="wordWrap">
+                   <bool>true</bool>
+                  </property>
+                 </widget>
+                </item>
+                <item row="6" column="0">
+                 <widget class="QLabel" name="label_gameDesc7">
+                  <property name="styleSheet">
+                   <string notr="true"/>
+                  </property>
+                  <property name="text">
+                   <string>Timeout for player action (sec):</string>
+                  </property>
+                  <property name="alignment">
+                   <set>Qt::AlignRight|Qt::AlignTop|Qt::AlignTrailing</set>
+                  </property>
+                  <property name="wordWrap">
+                   <bool>true</bool>
+                  </property>
+                 </widget>
+                </item>
+                <item row="6" column="1">
+                 <widget class="QLabel" name="label_TimeoutForPlayerAction">
+                  <property name="styleSheet">
+                   <string notr="true">QLabel { color:rgb(0, 0, 255); }</string>
+                  </property>
+                  <property name="alignment">
+                   <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+                  </property>
+                  <property name="wordWrap">
+                   <bool>true</bool>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </widget>
+             </widget>
+            </item>
+            <item>
+             <layout class="QHBoxLayout" name="horizontalLayout_2">
+              <item>
+               <widget class="QCheckBox" name="checkBox_fillUpWithComputerOpponents">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="styleSheet">
+                 <string notr="true">QObject {font: 14px}</string>
+                </property>
+                <property name="text">
+                 <string>Fill up with computer opponents</string>
+                </property>
+                <property name="icon">
+                 <iconset resource="../resources/pokerth.qrc">
+                  <normaloff>:/gfx/swbuttonlocalgame.png</normaloff>:/gfx/swbuttonlocalgame.png</iconset>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </item>
+           </layout>
+          </widget>
+         </item>
+        </layout>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="tab_2">
+      <attribute name="title">
+       <string>Lobby-Chat</string>
+      </attribute>
+      <layout class="QGridLayout" name="gridLayout_4">
+       <property name="margin">
+        <number>0</number>
+       </property>
+       <property name="spacing">
+        <number>0</number>
+       </property>
+       <item row="2" column="0">
+        <layout class="QHBoxLayout" name="horizontalLayout_4">
+         <item>
+          <layout class="QVBoxLayout" name="verticalLayout_2">
+           <item>
+            <widget class="QLineEdit" name="lineEdit_searchForPlayers">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="minimumSize">
+              <size>
+               <width>230</width>
+               <height>0</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>230</width>
+               <height>16777215</height>
+              </size>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">QObject {font: 14 px}</string>
+             </property>
+             <property name="text">
+              <string>search for player ...</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QTreeView" name="treeView_NickList">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Fixed" vsizetype="Expanding">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="minimumSize">
+              <size>
+               <width>230</width>
+               <height>0</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>230</width>
+               <height>16777215</height>
+              </size>
+             </property>
+             <property name="contextMenuPolicy">
+              <enum>Qt::CustomContextMenu</enum>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">QObject {font: 14 px}</string>
+             </property>
+             <property name="editTriggers">
+              <set>QAbstractItemView::NoEditTriggers</set>
+             </property>
+             <property name="rootIsDecorated">
+              <bool>false</bool>
+             </property>
+             <property name="sortingEnabled">
+              <bool>true</bool>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QComboBox" name="comboBox_nickListFilter">
+             <property name="minimumSize">
+              <size>
+               <width>230</width>
+               <height>0</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>230</width>
+               <height>16777215</height>
+              </size>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">QObject {font: 14 px}</string>
+             </property>
+             <item>
+              <property name="text">
+               <string>Sort alphabetically</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>Sort by country</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>Display idle players</string>
+              </property>
+             </item>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item>
+          <widget class="QGroupBox" name="groupBox_lobbyChat">
+           <property name="minimumSize">
+            <size>
+             <width>0</width>
+             <height>0</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>16777215</width>
+             <height>16777215</height>
+            </size>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">QObject {font: bold 16px}</string>
+           </property>
+           <property name="title">
+            <string/>
+           </property>
+           <layout class="QGridLayout">
+            <property name="leftMargin">
+             <number>7</number>
+            </property>
+            <property name="topMargin">
+             <number>2</number>
+            </property>
+            <property name="rightMargin">
+             <number>7</number>
+            </property>
+            <property name="bottomMargin">
+             <number>7</number>
+            </property>
+            <property name="spacing">
+             <number>0</number>
+            </property>
+            <item row="0" column="0">
+             <widget class="QTextBrowser" name="textBrowser_ChatDisplay">
+              <property name="minimumSize">
+               <size>
+                <width>0</width>
+                <height>0</height>
+               </size>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>16777215</width>
+                <height>16777215</height>
+               </size>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">QObject {color:rgb(255, 255, 255); font: 14px}</string>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="0">
+             <widget class="QLineEdit" name="lineEdit_ChatInput">
+              <property name="styleSheet">
+               <string notr="true">QObject {font: 14 px}</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+         </item>
+        </layout>
+       </item>
+      </layout>
+     </widget>
     </widget>
    </item>
   </layout>
  </widget>
  <tabstops>
-  <tabstop>lineEdit_searchForPlayers</tabstop>
-  <tabstop>treeView_NickList</tabstop>
-  <tabstop>comboBox_nickListFilter</tabstop>
-  <tabstop>comboBox_gameListFilter</tabstop>
-  <tabstop>treeView_GameList</tabstop>
   <tabstop>pushButton_joinAnyGame</tabstop>
   <tabstop>pushButton_CreateGame</tabstop>
   <tabstop>pushButton_JoinGame</tabstop>
   <tabstop>textBrowser_ChatDisplay</tabstop>
   <tabstop>lineEdit_ChatInput</tabstop>
   <tabstop>treeWidget_connectedPlayers</tabstop>
-  <tabstop>scrollArea_gameInfos</tabstop>
   <tabstop>checkBox_fillUpWithComputerOpponents</tabstop>
   <tabstop>pushButton_StartGame</tabstop>
   <tabstop>pushButton_Kick</tabstop>
   <tabstop>pushButton_Leave</tabstop>
  </tabstops>
  <resources>
-  <include location="resources/pokerth.qrc"/>
+  <include location="../resources/pokerth.qrc"/>
  </resources>
  <connections/>
 </ui>

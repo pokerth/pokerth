@@ -92,7 +92,13 @@ gameTableImpl::gameTableImpl(ConfigFile *c, QMainWindow *parent)
 	pixmapLabel_card0a->setMyW(this);
 
 	//set myStyle to widgets wich needs it
+#ifdef GUI_800x480
+	tabsDiag = new QDialog(this);
+	tabs.setupUi(tabsDiag);
+	tabs.label_chance->setMyStyle(myGameTableStyle);
+#else
 	label_chance->setMyStyle(myGameTableStyle);
+#endif
 
 	//Flipside festlegen;
 	if (myConfig->readConfigInt("FlipsideOwn") && myConfig->readConfigString("FlipsideOwnFile") != "") {
@@ -104,6 +110,7 @@ gameTableImpl::gameTableImpl(ConfigFile *c, QMainWindow *parent)
 	//Flipside Animation noch nicht erledigt
 	flipHolecardsAllInAlreadyDone = FALSE;
 
+#ifndef GUI_800x480
 	//Toolboxen verstecken?
 	if (!myConfig->readConfigInt("ShowRightToolBox")) {
 		groupBox_RightToolBox->hide();
@@ -117,6 +124,7 @@ gameTableImpl::gameTableImpl(ConfigFile *c, QMainWindow *parent)
 		tabWidget_Right->removeTab(2);
 		tabWidget_Right->setCurrentIndex(0);
 	}
+#endif
 
 	// userWidgetsArray init
 	userWidgetsArray[0] = pushButton_BetRaise;
@@ -439,11 +447,17 @@ gameTableImpl::gameTableImpl(ConfigFile *c, QMainWindow *parent)
 	//resize stop-button depending on translation
 	QFontMetrics tempMetrics = this->fontMetrics();
 	int width = tempMetrics.width(tr("Stop"));
-	pushButton_break->setMinimumSize(width+10,20);
 
 	//Clear Focus
+#ifdef GUI_800x480
+	tabs.pushButton_break->setMinimumSize(width+10,20);
+	tabs.groupBox_LeftToolBox->clearFocus();
+	tabs.groupBox_RightToolBox->clearFocus();
+#else
+	pushButton_break->setMinimumSize(width+10,20);
 	groupBox_LeftToolBox->clearFocus();
 	groupBox_RightToolBox->clearFocus();
+#endif
 
 	//set Focus to gametable
 	this->setFocus();
@@ -463,14 +477,28 @@ gameTableImpl::gameTableImpl(ConfigFile *c, QMainWindow *parent)
 	}
 
 	// 	Dialogs
+#ifdef GUI_800x480
+	myChat = new ChatTools(tabs.lineEdit_ChatInput, myConfig, INGAME_CHAT, tabs.textBrowser_Chat);
+#else
 	myChat = new ChatTools(lineEdit_ChatInput, myConfig, INGAME_CHAT, textBrowser_Chat);
+#endif
 	myChat->setMyStyle(myGameTableStyle);
 
+#ifdef GUI_800x480
+	tabs.lineEdit_ChatInput->installEventFilter(this);
+#else
 	lineEdit_ChatInput->installEventFilter(this);
+#endif
+
 	this->installEventFilter(this);
 
 	//set WindowTitle dynamically
+#ifdef GUI_800x480
+	tabsDiag->setWindowTitle("Tabs");
+	this->setWindowTitle(QString(tr("PokerTH %1").arg(POKERTH_BETA_RELEASE_STRING)));
+#else
 	this->setWindowTitle(QString(tr("PokerTH %1 - The Open-Source Texas Holdem Engine").arg(POKERTH_BETA_RELEASE_STRING)));
+#endif
 
 	// create universal messageDialgo
 	myUniversalMessageDialog = new myMessageDialogImpl(myConfig, this);
@@ -479,7 +507,11 @@ gameTableImpl::gameTableImpl(ConfigFile *c, QMainWindow *parent)
 
 
 	//Connects
+#ifdef GUI_800x480
+	connect(tabs.pushButton_tipSave, SIGNAL( clicked(bool) ), playerAvatarLabelArray[0], SLOT ( setPlayerTip() ) );
+#else
 	connect(pushButton_tipSave, SIGNAL( clicked(bool) ), playerAvatarLabelArray[0], SLOT ( setPlayerTip() ) );
+#endif
 	connect(dealFlopCards0Timer, SIGNAL(timeout()), this, SLOT( dealFlopCards1() ));
 	connect(dealFlopCards1Timer, SIGNAL(timeout()), this, SLOT( dealFlopCards2() ));
 	connect(dealFlopCards2Timer, SIGNAL(timeout()), this, SLOT( dealFlopCards3() ));
@@ -519,7 +551,11 @@ gameTableImpl::gameTableImpl(ConfigFile *c, QMainWindow *parent)
 
 	connect( actionConfigure_PokerTH, SIGNAL( triggered() ), this, SLOT( callSettingsDialog() ) );
 	connect( actionClose, SIGNAL( triggered() ), this, SLOT( closeGameTable()) );
+#ifdef GUI_800x480
+	connect( fullscreenButton, SIGNAL( clicked() ), this, SLOT( switchFullscreen() ) );
+#else
 	connect( actionFullScreen, SIGNAL( triggered() ), this, SLOT( switchFullscreen() ) );
+#endif
 	connect( actionShowHideChat, SIGNAL( triggered() ), this, SLOT( switchChatWindow() ) );
 	connect( actionShowHideHelp, SIGNAL( triggered() ), this, SLOT( switchHelpWindow() ) );
 	connect( actionShowHideLog, SIGNAL( triggered() ), this, SLOT( switchLogWindow() ) );
@@ -533,6 +569,22 @@ gameTableImpl::gameTableImpl(ConfigFile *c, QMainWindow *parent)
 	connect( horizontalSlider_bet, SIGNAL( valueChanged(int)), this, SLOT ( changeSpinBoxBetValue(int) ) );
 	connect( spinBox_betValue, SIGNAL( valueChanged(int)), this, SLOT ( spinBoxBetValueChanged(int) ) );
 
+#ifdef GUI_800x480
+	connect( tabs.horizontalSlider_speed, SIGNAL( valueChanged(int)), this, SLOT ( setGameSpeed(int) ) );
+	connect( tabs.pushButton_break, SIGNAL( clicked()), this, SLOT ( breakButtonClicked() ) ); // auch wieder starten!!!!
+
+	connect( tabs.tabWidget_Left, SIGNAL( currentChanged(int) ), this, SLOT( tabSwitchAction() ) );
+	connect( tabs.lineEdit_ChatInput, SIGNAL( returnPressed () ), this, SLOT( sendChatMessage() ) );
+	connect( tabs.lineEdit_ChatInput, SIGNAL( textChanged (QString) ), this, SLOT( checkChatInputLength(QString) ) );
+	connect( tabs.lineEdit_ChatInput, SIGNAL( textEdited (QString) ), myChat, SLOT( setChatTextEdited() ) );
+
+	connect( tabs.radioButton_manualAction, SIGNAL( clicked() ) , this, SLOT( changePlayingMode() ) );
+	connect( tabs.radioButton_autoCheckFold, SIGNAL( clicked() ) , this, SLOT( changePlayingMode() ) );
+	connect( tabs.radioButton_autoCheckCallAny, SIGNAL( clicked() ), this, SLOT( changePlayingMode() ) );
+
+	connect( tabs.pushButton_voteOnKickYes, SIGNAL( clicked() ), this, SLOT( voteOnKickYes() ) );
+	connect( tabs.pushButton_voteOnKickNo, SIGNAL( clicked() ), this, SLOT( voteOnKickNo() ) );
+#else
 	connect( horizontalSlider_speed, SIGNAL( valueChanged(int)), this, SLOT ( setGameSpeed(int) ) );
 	connect( pushButton_break, SIGNAL( clicked()), this, SLOT ( breakButtonClicked() ) ); // auch wieder starten!!!!
 
@@ -547,6 +599,7 @@ gameTableImpl::gameTableImpl(ConfigFile *c, QMainWindow *parent)
 
 	connect( pushButton_voteOnKickYes, SIGNAL( clicked() ), this, SLOT( voteOnKickYes() ) );
 	connect( pushButton_voteOnKickNo, SIGNAL( clicked() ), this, SLOT( voteOnKickNo() ) );
+#endif
 
 	connect( pushButton_showMyCards, SIGNAL( clicked() ), this, SLOT( sendShowMyCardsSignal() ) );
 	for(i=0; i<=9; i++)connect( playerTipLabelArray[i], SIGNAL( linkActivated(QString) ), playerAvatarLabelArray[i], SLOT(startChangePlayerTip(QString) ) );
@@ -599,6 +652,10 @@ gameTableImpl::gameTableImpl(ConfigFile *c, QMainWindow *parent)
 	connect(this, SIGNAL(signalEndVoteOnKick()), this, SLOT(endVoteOnKick()));
 
 	connect(this, SIGNAL(signalNetClientPlayerLeft(unsigned)), this, SLOT(netClientPlayerLeft(unsigned)));
+
+#ifdef GUI_800x480
+	connect( tabsButton, SIGNAL( clicked() ), this, SLOT( tabsButtonClicked() ) );
+#endif
 }
 
 gameTableImpl::~gameTableImpl()
@@ -621,6 +678,17 @@ void gameTableImpl::applySettings(settingsDialogImpl* mySettingsDialog)
 	//apply game table style
 	myGameTableStyle->readStyleFile(QString::fromUtf8(myConfig->readConfigString("CurrentGameTableStyle").c_str()));
 
+
+#ifdef GUI_800x480
+	//cardschancemonitor show/hide
+	if (!myConfig->readConfigInt("ShowCardsChanceMonitor")) {
+		tabs.tabWidget_Right->removeTab(2);
+		tabs.tabWidget_Right->setCurrentIndex(0);
+	} else {
+		if(tabs.tabWidget_Right->widget(2) != tabs.tab_Chance)
+			tabs.tabWidget_Right->insertTab(2, tabs.tab_Chance, QString(tr("Chance")));
+	}
+#else
 	//Toolbox verstecken?
 	if (myConfig->readConfigInt("ShowLeftToolBox")) {
 		groupBox_LeftToolBox->show();
@@ -642,6 +710,7 @@ void gameTableImpl::applySettings(settingsDialogImpl* mySettingsDialog)
 		if(tabWidget_Right->widget(2) != tab_Chance)
 			tabWidget_Right->insertTab(2, tab_Chance, QString(tr("Chance")));
 	}
+#endif
 
 	//Add avatar (if set)
 	myStartWindow->getSession()->addOwnAvatar(QString::fromUtf8(myConfig->readConfigString("MyAvatar").c_str()).toLocal8Bit().constData());
@@ -768,14 +837,21 @@ void gameTableImpl::initGui(int speed)
 	//kill running Singleshots!!!
 	stopTimer();
 
+#ifndef GUI_800x480
 	label_Pot->setText(PotString);
+#endif
 	label_Total->setText(TotalString+":");
 	label_Sets->setText(BetsString+":");
 	label_handNumber->setText(HandString+":");
 	label_gameNumber->setText(GameString+":");
 
+#ifdef GUI_800x480
+	tabs.groupBox_RightToolBox->setDisabled(FALSE);
+	tabs.groupBox_LeftToolBox->setDisabled(FALSE);
+#else
 	groupBox_RightToolBox->setDisabled(FALSE);
 	groupBox_LeftToolBox->setDisabled(FALSE);
+#endif
 
 	//show human player buttons
 	for(int i=0; i<6; i++) {
@@ -783,18 +859,30 @@ void gameTableImpl::initGui(int speed)
 	}
 
 	//set minimum gui speed to prevent gui lags on fast inet games
+#ifdef GUI_800x480
+	if( myStartWindow->getSession()->isNetworkClientRunning() ) {
+		tabs.horizontalSlider_speed->setMinimum(speed);
+	} else {
+		tabs.horizontalSlider_speed->setMinimum(1);
+	}
+#else
 	if( myStartWindow->getSession()->isNetworkClientRunning() ) {
 		horizontalSlider_speed->setMinimum(speed);
 	} else {
 		horizontalSlider_speed->setMinimum(1);
 	}
+#endif
 
 	//set speeds for local game and for first network game
 	if( !myStartWindow->getSession()->isNetworkClientRunning() || (myStartWindow->getSession()->isNetworkClientRunning() && !myStartWindow->getSession()->getCurrentGame()) ) {
 
 		guiGameSpeed = speed;
 		//positioning Slider
+#ifdef GUI_800x480
+		tabs.horizontalSlider_speed->setValue(guiGameSpeed);
+#else
 		horizontalSlider_speed->setValue(guiGameSpeed);
+#endif
 		setSpeeds();
 	}
 
@@ -1710,10 +1798,17 @@ void gameTableImpl::provideMyActions(int mode)
 			resetMyButtonsCheckStateMemory();
 		}
 
+#ifdef GUI_800x480
+		if((myStartWindow->getSession()->getGameType() == Session::GAME_TYPE_INTERNET || myStartWindow->getSession()->getGameType() == Session::GAME_TYPE_NETWORK) && !tabs.lineEdit_ChatInput->hasFocus() && myConfig->readConfigInt("EnableBetInputFocusSwitch")) {
+			spinBox_betValue->setFocus();
+			spinBox_betValue->selectAll();
+		}
+#else
 		if((myStartWindow->getSession()->getGameType() == Session::GAME_TYPE_INTERNET || myStartWindow->getSession()->getGameType() == Session::GAME_TYPE_NETWORK) && !lineEdit_ChatInput->hasFocus() && myConfig->readConfigInt("EnableBetInputFocusSwitch")) {
 			spinBox_betValue->setFocus();
 			spinBox_betValue->selectAll();
 		}
+#endif
 
 		if(myStartWindow->getSession()->getGameType() == Session::GAME_TYPE_LOCAL) {
 			spinBox_betValue->setFocus();
@@ -1731,10 +1826,17 @@ void gameTableImpl::meInAction()
 	horizontalSlider_bet->setEnabled(TRUE);
 	spinBox_betValue->setEnabled(TRUE);
 
+#ifdef GUI_800x480
+	if((myStartWindow->getSession()->getGameType() == Session::GAME_TYPE_INTERNET || myStartWindow->getSession()->getGameType() == Session::GAME_TYPE_NETWORK) && tabs.lineEdit_ChatInput->text() == "" && myConfig->readConfigInt("EnableBetInputFocusSwitch")) {
+		spinBox_betValue->setFocus();
+		spinBox_betValue->selectAll();
+	}
+#else
 	if((myStartWindow->getSession()->getGameType() == Session::GAME_TYPE_INTERNET || myStartWindow->getSession()->getGameType() == Session::GAME_TYPE_NETWORK) && lineEdit_ChatInput->text() == "" && myConfig->readConfigInt("EnableBetInputFocusSwitch")) {
 		spinBox_betValue->setFocus();
 		spinBox_betValue->selectAll();
 	}
+#endif
 
 	//    if(this->isMinimized()){
 	//        this->showNormal();
@@ -2092,9 +2194,13 @@ void gameTableImpl::pushButtonBetRaiseClicked(bool checked)
 
 			pushButtonBetRaiseIsChecked = TRUE;
 
+#ifdef GUI_800x480
+			if(!tabs.radioButton_manualAction->isChecked())
+				tabs.radioButton_manualAction->click();
+#else
 			if(!radioButton_manualAction->isChecked())
 				radioButton_manualAction->click();
-
+#endif
 			// 			myLastPreActionBetValue = spinBox_betValue->value();
 
 		} else {
@@ -2121,8 +2227,13 @@ void gameTableImpl::pushButtonCallCheckClicked(bool checked)
 
 			pushButtonCallCheckIsChecked = TRUE;
 
+#ifdef GUI_800x480
+			if(!tabs.radioButton_manualAction->isChecked())
+				tabs.radioButton_manualAction->click();
+#else
 			if(!radioButton_manualAction->isChecked())
 				radioButton_manualAction->click();
+#endif
 		} else {
 			pushButtonCallCheckIsChecked = FALSE;
 		}
@@ -2146,8 +2257,13 @@ void gameTableImpl::pushButtonFoldClicked(bool checked)
 
 			pushButtonFoldIsChecked = TRUE;
 
+#ifdef GUI_800x480
+			if(!tabs.radioButton_manualAction->isChecked())
+				tabs.radioButton_manualAction->click();
+#else
 			if(!radioButton_manualAction->isChecked())
 				radioButton_manualAction->click();
+#endif
 		} else {
 			pushButtonFoldIsChecked = FALSE;
 		}
@@ -2171,8 +2287,13 @@ void gameTableImpl::pushButtonAllInClicked(bool checked)
 
 			pushButtonAllInIsChecked = TRUE;
 
+#ifdef GUI_800x480
+			if(!tabs.radioButton_manualAction->isChecked())
+				tabs.radioButton_manualAction->click();
+#else
 			if(!radioButton_manualAction->isChecked())
 				radioButton_manualAction->click();
+#endif
 		} else {
 			pushButtonAllInIsChecked = FALSE;
 		}
@@ -2569,7 +2690,9 @@ void gameTableImpl::postRiverRunAnimation5()
 
 		if (distributePotAnimCounter==0 || distributePotAnimCounter==2 || distributePotAnimCounter==4 || distributePotAnimCounter==6 || distributePotAnimCounter==8) {
 
+#ifndef GUI_800x480
 			label_Pot->setText("");
+#endif
 
 			for(it_c=activePlayerList->begin(); it_c!=activePlayerList->end(); ++it_c) {
 
@@ -2579,7 +2702,9 @@ void gameTableImpl::postRiverRunAnimation5()
 				}
 			}
 		} else {
+#ifndef GUI_800x480
 			label_Pot->setText(PotString);
+#endif
 
 			for(it_c=activePlayerList->begin(); it_c!=activePlayerList->end(); ++it_c) {
 
@@ -2639,11 +2764,20 @@ void gameTableImpl::postRiverRunAnimation6()
 
 			if(myStartWindow->getSession()->getGameType() == Session::GAME_TYPE_LOCAL) {
 				currentGameOver = TRUE;
+#ifdef GUI_800x480
+				tabs.pushButton_break->setDisabled(FALSE);
+#else
 				pushButton_break->setDisabled(FALSE);
+#endif
 				QFontMetrics tempMetrics = this->fontMetrics();
 				int width = tempMetrics.width(tr("Start"));
+#ifdef GUI_800x480
+				tabs.pushButton_break->setMinimumSize(width+10,20);
+				tabs.pushButton_break->setText(tr("Start"));
+#else
 				pushButton_break->setMinimumSize(width+10,20);
 				pushButton_break->setText(tr("Start"));
+#endif
 				blinkingStartButtonAnimationTimer->start(500);
 			}
 		} else {
@@ -2728,13 +2862,22 @@ void gameTableImpl::startNewHand()
 	} else {
 
 		if(myStartWindow->getSession()->getGameType() == Session::GAME_TYPE_LOCAL) {
+#ifdef GUI_800x480
+			tabs.pushButton_break->setDisabled(FALSE);
+#else
 			pushButton_break->setDisabled(FALSE);
+#endif
 
 			QFontMetrics tempMetrics = this->fontMetrics();
 			int width = tempMetrics.width(tr("Start"));
+#ifdef GUI_800x480
+			tabs.pushButton_break->setMinimumSize(width+10,20);
+			tabs.pushButton_break->setText(tr("Start"));
+#else
 			pushButton_break->setMinimumSize(width+10,20);
-
 			pushButton_break->setText(tr("Start"));
+#endif
+
 			breakAfterCurrentHand=FALSE;
 
 			blinkingStartButtonAnimationTimer->start(500);
@@ -2781,22 +2924,39 @@ void gameTableImpl::nextRoundCleanGui()
 
 	//Wenn Pause zwischen den Hands in der Konfiguration steht den Stop Button drücken!
 	if (myConfig->readConfigInt("PauseBetweenHands") /*&& blinkingStartButtonAnimationTimer->isActive() == FALSE*/ && myStartWindow->getSession()->getGameType() == Session::GAME_TYPE_LOCAL) {
+#ifdef GUI_800x480
+		tabs.pushButton_break->click();
+#else
 		pushButton_break->click();
+#endif
 	} else {
 		//FIX STRG+N Bug
+#ifdef GUI_800x480
+		tabs.pushButton_break->setEnabled(TRUE);
+#else
 		pushButton_break->setEnabled(TRUE);
+#endif
 		breakAfterCurrentHand=FALSE;
 	}
 
 	//Clean breakbutton
 	if(myStartWindow->getSession()->getGameType() == Session::GAME_TYPE_LOCAL) {
 		blinkingStartButtonAnimationTimer->stop();
+#ifdef GUI_800x480
+		myGameTableStyle->setBreakButtonStyle(tabs.pushButton_break,0);
+#else
 		myGameTableStyle->setBreakButtonStyle(pushButton_break,0);
+#endif
 		blinkingStartButtonAnimationTimer->stop();
 		QFontMetrics tempMetrics = this->fontMetrics();
 		int width = tempMetrics.width(tr("Stop"));
+#ifdef GUI_800x480
+		tabs.pushButton_break->setMinimumSize(width+10,20);
+		tabs.pushButton_break->setText(tr("Stop"));
+#else
 		pushButton_break->setMinimumSize(width+10,20);
 		pushButton_break->setText(tr("Stop"));
+#endif
 	}
 	//Clear Statusbarmessage
 	// 	statusBar()->clearMessage();
@@ -2870,6 +3030,24 @@ void gameTableImpl::setSpeeds()
 void gameTableImpl::breakButtonClicked()
 {
 
+#ifdef GUI_800x480
+	if (tabs.pushButton_break->text() == tr("Stop")) {
+		tabs.pushButton_break->setDisabled(TRUE);
+		breakAfterCurrentHand=TRUE;
+	} else if (tabs.pushButton_break->text() == tr("Lobby")) {
+		tabsButtonClose();
+		leaveCurrentNetworkGame();
+	} else if (tabs.pushButton_break->text() == tr("Start")) {
+
+		blinkingStartButtonAnimationTimer->stop();
+		//Set default Color
+		myGameTableStyle->setBreakButtonStyle(tabs.pushButton_break,0);
+		QFontMetrics tempMetrics = this->fontMetrics();
+		int width = tempMetrics.width(tr("Stop"));
+		tabs.pushButton_break->setMinimumSize(width+10,20);
+
+		tabs.pushButton_break->setText(tr("Stop"));
+#else
 	if (pushButton_break->text() == tr("Stop")) {
 		pushButton_break->setDisabled(TRUE);
 		breakAfterCurrentHand=TRUE;
@@ -2885,6 +3063,7 @@ void gameTableImpl::breakButtonClicked()
 		pushButton_break->setMinimumSize(width+10,20);
 
 		pushButton_break->setText(tr("Stop"));
+#endif
 
 		if(currentGameOver) {
 			//let the SoundEventHandler know that there is a new game
@@ -2944,6 +3123,7 @@ void gameTableImpl::keyPressEvent ( QKeyEvent * event )
 		pushButton_showMyCards->click();
 	}
 
+#ifndef GUI_800x480
 	if (event->key() == Qt::Key_F6) {
 		radioButton_manualAction->click();
 	}
@@ -2978,6 +3158,8 @@ void gameTableImpl::keyPressEvent ( QKeyEvent * event )
 		keyUpDownChatCounter = 0;
 	}
 
+#endif
+
 	//TESTING UNIT
 	//    if (event->key() == Qt::Key_M) { showShowMyCardsButton(); }
 }
@@ -2987,6 +3169,17 @@ void gameTableImpl::changePlayingMode()
 
 	int mode = -1;
 
+#ifdef GUI_800x480
+	if(tabs.radioButton_manualAction->isChecked()) {
+		mode=0;
+	}
+	if(tabs.radioButton_autoCheckFold->isChecked()) {
+		mode=2;
+	}
+	if(tabs.radioButton_autoCheckCallAny->isChecked()) {
+		mode=1;
+	}
+#else
 	if(radioButton_manualAction->isChecked()) {
 		mode=0;
 	}
@@ -2996,6 +3189,7 @@ void gameTableImpl::changePlayingMode()
 	if(radioButton_autoCheckCallAny->isChecked()) {
 		mode=1;
 	}
+#endif
 
 
 	/*	switch (mode) {
@@ -3036,6 +3230,18 @@ void gameTableImpl::switchChatWindow()
 {
 
 	int tab = 1;
+#ifdef GUI_800x480
+	if (tabs.groupBox_LeftToolBox->isHidden()) {
+		tabs.tabWidget_Left->setCurrentIndex(tab);
+		tabs.groupBox_LeftToolBox->show();
+	}	else {
+		if (tabs.tabWidget_Left->currentIndex() == tab) {
+			tabs.groupBox_LeftToolBox->hide();
+		} else {
+			tabs.tabWidget_Left->setCurrentIndex(tab);
+		}
+	}
+#else
 	if (groupBox_LeftToolBox->isHidden()) {
 		tabWidget_Left->setCurrentIndex(tab);
 		groupBox_LeftToolBox->show();
@@ -3046,12 +3252,25 @@ void gameTableImpl::switchChatWindow()
 			tabWidget_Left->setCurrentIndex(tab);
 		}
 	}
+#endif
 }
 
 void gameTableImpl::switchHelpWindow()
 {
 
 	int tab = 0;
+#ifdef GUI_800x480
+	if (tabs.groupBox_LeftToolBox->isHidden()) {
+		tabs.tabWidget_Left->setCurrentIndex(tab);
+		tabs.groupBox_LeftToolBox->show();
+	}	else {
+		if (tabs.tabWidget_Left->currentIndex() == tab) {
+			tabs.groupBox_LeftToolBox->hide();
+		} else {
+			tabs.tabWidget_Left->setCurrentIndex(tab);
+		}
+	}
+#else
 	if (groupBox_LeftToolBox->isHidden()) {
 		tabWidget_Left->setCurrentIndex(tab);
 		groupBox_LeftToolBox->show();
@@ -3062,12 +3281,25 @@ void gameTableImpl::switchHelpWindow()
 			tabWidget_Left->setCurrentIndex(tab);
 		}
 	}
+#endif
 }
 
 void gameTableImpl::switchLogWindow()
 {
 
 	int tab = 0;
+#ifdef GUI_800x480
+	if (tabs.groupBox_RightToolBox->isHidden()) {
+		tabs.tabWidget_Right->setCurrentIndex(tab);
+		tabs.groupBox_RightToolBox->show();
+	}	else {
+		if (tabs.tabWidget_Right->currentIndex() == tab) {
+			tabs.groupBox_RightToolBox->hide();
+		} else {
+			tabs.tabWidget_Right->setCurrentIndex(tab);
+		}
+	}
+#else
 	if (groupBox_RightToolBox->isHidden()) {
 		tabWidget_Right->setCurrentIndex(tab);
 		groupBox_RightToolBox->show();
@@ -3078,12 +3310,25 @@ void gameTableImpl::switchLogWindow()
 			tabWidget_Right->setCurrentIndex(tab);
 		}
 	}
+#endif
 }
 
 void gameTableImpl::switchAwayWindow()
 {
 
 	int tab = 1;
+#ifdef GUI_800x480
+	if (tabs.groupBox_RightToolBox->isHidden()) {
+		tabs.tabWidget_Right->setCurrentIndex(tab);
+		tabs.groupBox_RightToolBox->show();
+	}	else {
+		if (tabs.tabWidget_Right->currentIndex() == tab) {
+			tabs.groupBox_RightToolBox->hide();
+		} else {
+			tabs.tabWidget_Right->setCurrentIndex(tab);
+		}
+	}
+#else
 	if (groupBox_RightToolBox->isHidden()) {
 		tabWidget_Right->setCurrentIndex(tab);
 		groupBox_RightToolBox->show();
@@ -3094,12 +3339,25 @@ void gameTableImpl::switchAwayWindow()
 			tabWidget_Right->setCurrentIndex(tab);
 		}
 	}
+#endif
 }
 
 void gameTableImpl::switchChanceWindow()
 {
 
 	int tab = 2;
+#ifdef GUI_800x480
+	if (tabs.groupBox_RightToolBox->isHidden()) {
+		tabs.tabWidget_Right->setCurrentIndex(tab);
+		tabs.groupBox_RightToolBox->show();
+	}	else {
+		if (tabs.tabWidget_Right->currentIndex() == tab) {
+			tabs.groupBox_RightToolBox->hide();
+		} else {
+			tabs.tabWidget_Right->setCurrentIndex(tab);
+		}
+	}
+#else
 	if (groupBox_RightToolBox->isHidden()) {
 		tabWidget_Right->setCurrentIndex(tab);
 		groupBox_RightToolBox->show();
@@ -3110,6 +3368,7 @@ void gameTableImpl::switchChanceWindow()
 			tabWidget_Right->setCurrentIndex(tab);
 		}
 	}
+#endif
 }
 
 void gameTableImpl::switchFullscreen()
@@ -3125,12 +3384,24 @@ void gameTableImpl::switchFullscreen()
 void gameTableImpl::blinkingStartButtonAnimationAction()
 {
 
+#ifdef GUI_800x480
+	QString style = tabs.pushButton_break->styleSheet();
+#else
 	QString style = pushButton_break->styleSheet();
+#endif
 
 	if(style.contains("QPushButton:enabled { background-color: #"+myGameTableStyle->getBreakLobbyButtonBgColor())) {
+#ifdef GUI_800x480
+		myGameTableStyle->setBreakButtonStyle(tabs.pushButton_break,1);
+#else
 		myGameTableStyle->setBreakButtonStyle(pushButton_break,1);
+#endif
 	} else {
+#ifdef GUI_800x480
+		myGameTableStyle->setBreakButtonStyle(tabs.pushButton_break,0);
+#else
 		myGameTableStyle->setBreakButtonStyle(pushButton_break,0);
+#endif
 	}
 }
 
@@ -3147,6 +3418,19 @@ void gameTableImpl::checkChatInputLength(QString string)
 void gameTableImpl::tabSwitchAction()
 {
 
+#ifdef GUI_800x480
+	switch(tabs.tabWidget_Left->currentIndex()) {
+
+	case 1: {
+		tabs.lineEdit_ChatInput->setFocus();
+	}
+	break;
+	default: {
+		tabs.lineEdit_ChatInput->clearFocus();
+	}
+
+	}
+#else
 	switch(tabWidget_Left->currentIndex()) {
 
 	case 1: {
@@ -3158,16 +3442,25 @@ void gameTableImpl::tabSwitchAction()
 	}
 
 	}
+#endif
+
 }
 
 
 void gameTableImpl::localGameModification()
 {
 
+#ifdef GUI_800x480
+	tabs.tabWidget_Left->setCurrentIndex(0);
+	tabs.tabWidget_Left->removeTab(1);
+	tabs.tabWidget_Left->removeTab(1);
+	tabs.tabWidget_Left->removeTab(1);
+#else
 	tabWidget_Left->setCurrentIndex(0);
 	tabWidget_Left->removeTab(1);
 	tabWidget_Left->removeTab(1);
 	tabWidget_Left->removeTab(1);
+#endif
 
 	int i;
 	for (i=0; i<MAX_NUMBER_OF_PLAYERS; i++ ) {
@@ -3175,14 +3468,27 @@ void gameTableImpl::localGameModification()
 		playerAvatarLabelArray[i]->setEnabledContextMenu(FALSE);
 	}
 
+#ifdef GUI_800x480
+	tabs.pushButton_break->show();
+#else
 	pushButton_break->show();
+#endif
 	QFontMetrics tempMetrics = this->fontMetrics();
 	int width = tempMetrics.width(tr("Stop"));
+#ifdef GUI_800x480
+	tabs.pushButton_break->setText(tr("Stop"));
+	tabs.pushButton_break->setMinimumSize(width+10,20);
+#else
 	pushButton_break->setText(tr("Stop"));
 	pushButton_break->setMinimumSize(width+10,20);
+#endif
 
 	//Set the playing mode to "manual"
+#ifdef GUI_800x480
+	tabs.radioButton_manualAction->click();
+#else
 	radioButton_manualAction->click();
+#endif
 
 	//restore saved windows geometry
 	restoreGameTableGeometry();
@@ -3196,6 +3502,15 @@ void gameTableImpl::localGameModification()
 void gameTableImpl::networkGameModification()
 {
 
+#ifdef GUI_800x480
+	if(tabs.tabWidget_Left->widget(1) != tabs.tab_Chat)
+		tabs.tabWidget_Left->insertTab(1, tabs.tab_Chat, QString(tr("Chat"))); /*TODO text abgeschnitten --> stylesheets*/
+
+	tabs.tabWidget_Left->removeTab(2);
+	tabs.tabWidget_Left->removeTab(2);
+
+	tabs.tabWidget_Left->setCurrentIndex(1);
+#else
 	if(tabWidget_Left->widget(1) != tab_Chat)
 		tabWidget_Left->insertTab(1, tab_Chat, QString(tr("Chat"))); /*TODO text abgeschnitten --> stylesheets*/
 
@@ -3203,6 +3518,7 @@ void gameTableImpl::networkGameModification()
 	tabWidget_Left->removeTab(2);
 
 	tabWidget_Left->setCurrentIndex(1);
+#endif
 	myChat->clearChat();
 
 	int i;
@@ -3213,20 +3529,37 @@ void gameTableImpl::networkGameModification()
 	}
 
 	if(myStartWindow->getSession()->getGameType() == Session::GAME_TYPE_INTERNET) {
+#ifdef GUI_800x480
+		tabs.pushButton_break->show();
+#else
 		pushButton_break->show();
+#endif
 		QFontMetrics tempMetrics = this->fontMetrics();
 		int width = tempMetrics.width(tr("Lobby"));
+#ifdef GUI_800x480
+		tabs.pushButton_break->setText(tr("Lobby"));
+		tabs.pushButton_break->setMinimumSize(width+10,20);
+		myGameTableStyle->setBreakButtonStyle(tabs.pushButton_break,0);
+#else
 		pushButton_break->setText(tr("Lobby"));
 		pushButton_break->setMinimumSize(width+10,20);
 		myGameTableStyle->setBreakButtonStyle(pushButton_break,0);
+#endif
 		blinkingStartButtonAnimationTimer->stop();
 	}
 	if(myStartWindow->getSession()->getGameType() == Session::GAME_TYPE_NETWORK) {
-
+#ifdef GUI_800x480
+		tabs.pushButton_break->hide();
+#else
 		pushButton_break->hide();
+#endif
 	}
 	//Set the playing mode to "manual"
+#ifdef GUI_800x480
+	tabs.radioButton_manualAction->click();
+#else
 	radioButton_manualAction->click();
+#endif
 
 	//restore saved windows geometry
 	restoreGameTableGeometry();
@@ -3238,7 +3571,11 @@ void gameTableImpl::networkGameModification()
 	}
 
 	blinkingStartButtonAnimationTimer->stop();
+#ifdef GUI_800x480
+	myGameTableStyle->setBreakButtonStyle(tabs.pushButton_break,0);
+#else
 	myGameTableStyle->setBreakButtonStyle(pushButton_break,0);
+#endif
 
 	//let the SoundEventHandler know that there is a new game
 	mySoundEventHandler->newGameStarts();
@@ -3466,6 +3803,16 @@ void gameTableImpl::triggerVoteOnKick(int id)
 
 void gameTableImpl::startVoteOnKick(unsigned playerId, unsigned voteStarterPlayerId, int timeoutSec, int numVotesNeededToKick)
 {
+#ifdef GUI_800x480
+	if(tabs.tabWidget_Left->widget(2) != tabs.tab_Kick)
+		tabs.tabWidget_Left->insertTab(2, tabs.tab_Kick, QString(tr("Kick")));
+
+	tabs.tabWidget_Left->setCurrentIndex(2);
+	tabs.pushButton_voteOnKickNo->hide();
+	tabs.pushButton_voteOnKickYes->hide();
+	tabs.label_kickUser->clear();
+	tabs.label_kickVoteTimeout->clear();
+#else
 	if(tabWidget_Left->widget(2) != tab_Kick)
 		tabWidget_Left->insertTab(2, tab_Kick, QString(tr("Kick")));
 
@@ -3474,6 +3821,7 @@ void gameTableImpl::startVoteOnKick(unsigned playerId, unsigned voteStarterPlaye
 	pushButton_voteOnKickYes->hide();
 	label_kickUser->clear();
 	label_kickVoteTimeout->clear();
+#endif
 
 	voteOnKickTimeoutSecs = timeoutSec;
 
@@ -3481,7 +3829,11 @@ void gameTableImpl::startVoteOnKick(unsigned playerId, unsigned voteStarterPlaye
 	refreshVotesMonitor(1, numVotesNeededToKick);
 
 	PlayerInfo info(myStartWindow->getSession()->getClientPlayerInfo(voteStarterPlayerId));
+#ifdef GUI_800x480
+	tabs.label_voteStarterNick->setText("<b>"+QString::fromUtf8(info.playerName.c_str())+"</b>");
+#else
 	label_voteStarterNick->setText("<b>"+QString::fromUtf8(info.playerName.c_str())+"</b>");
+#endif
 
 	startVoteOnKickTimeout();
 
@@ -3496,21 +3848,36 @@ void gameTableImpl::changeVoteOnKickButtonsState(bool showHide)
 	if(showHide) {
 
 		PlayerInfo info(myStartWindow->getSession()->getClientPlayerInfo(playerAboutToBeKickedId));
+#ifdef GUI_800x480
+		tabs.label_kickUser->setText(tr("Do you want to kick <b>%1</b><br>from this game?").arg(QString::fromUtf8(info.playerName.c_str())));
+		tabs.pushButton_voteOnKickNo->show();
+		tabs.pushButton_voteOnKickYes->show();
+#else
 		label_kickUser->setText(tr("Do you want to kick <b>%1</b><br>from this game?").arg(QString::fromUtf8(info.playerName.c_str())));
-
 		pushButton_voteOnKickNo->show();
 		pushButton_voteOnKickYes->show();
+#endif
 	} else {
+#ifdef GUI_800x480
+		tabs.label_kickUser->clear();
+		tabs.pushButton_voteOnKickNo->hide();
+		tabs.pushButton_voteOnKickYes->hide();
+#else
 		label_kickUser->clear();
 		pushButton_voteOnKickNo->hide();
 		pushButton_voteOnKickYes->hide();
+#endif
 	}
 }
 
 void gameTableImpl::endVoteOnKick()
 {
 	stopVoteOnKickTimeout();
+#ifdef GUI_800x480
+	tabs.tabWidget_Left->removeTab(2);
+#else
 	tabWidget_Left->removeTab(2);
+#endif
 
 	int i;
 	for (i=0; i<MAX_NUMBER_OF_PLAYERS; i++ ) {
@@ -3546,9 +3913,17 @@ void gameTableImpl::stopVoteOnKickTimeout()
 void gameTableImpl::nextVoteOnKickTimeoutAnimationFrame()
 {
 	if(voteOnKickTimeoutSecs-voteOnKickRealTimer.elapsed().total_seconds() > 0)
+#ifdef GUI_800x480
+		tabs.label_kickVoteTimeout->setText(tr("<b>%1</b> secs left").arg(voteOnKickTimeoutSecs-voteOnKickRealTimer.elapsed().total_seconds()));
+#else
 		label_kickVoteTimeout->setText(tr("<b>%1</b> secs left").arg(voteOnKickTimeoutSecs-voteOnKickRealTimer.elapsed().total_seconds()));
+#endif
 	else
+#ifdef GUI_800x480
+		tabs.label_kickVoteTimeout->setText(tr("<b>%1</b> secs left").arg(0));
+#else
 		label_kickVoteTimeout->setText(tr("<b>%1</b> secs left").arg(0));
+#endif
 }
 
 void gameTableImpl::refreshVotesMonitor(int currentVotes, int numVotesNeededToKick)
@@ -3559,9 +3934,17 @@ void gameTableImpl::refreshVotesMonitor(int currentVotes, int numVotesNeededToKi
 
 	if((*myStartWindow->getSession()->getCurrentGame()->getSeatsList()->begin())->getMyUniqueID() != playerAboutToBeKickedId) {
 		PlayerInfo info(myStartWindow->getSession()->getClientPlayerInfo(playerAboutToBeKickedId));
+#ifdef GUI_800x480
+		tabs.label_votesMonitor->setText(tr("Player <b>%1</b> has <b>%2</b> %3<br>against him. <b>%4</b> vote(s) needed to kick.").arg(QString::fromUtf8(info.playerName.c_str())).arg(currentVotes).arg(currentVotesString).arg(numVotesNeededToKick-currentVotes));
+#else
 		label_votesMonitor->setText(tr("Player <b>%1</b> has <b>%2</b> %3<br>against him. <b>%4</b> vote(s) needed to kick.").arg(QString::fromUtf8(info.playerName.c_str())).arg(currentVotes).arg(currentVotesString).arg(numVotesNeededToKick-currentVotes));
+#endif
 	} else {
+#ifdef GUI_800x480
+		tabs.label_votesMonitor->setText(tr("You have <b>%1</b> %2 against you.<br><b>%3</b> vote(s) needed to kick.").arg(currentVotes).arg(currentVotesString).arg(numVotesNeededToKick-currentVotes));
+#else
 		label_votesMonitor->setText(tr("You have <b>%1</b> %2 against you.<br><b>%3</b> vote(s) needed to kick.").arg(currentVotes).arg(currentVotesString).arg(numVotesNeededToKick-currentVotes));
+#endif
 	}
 }
 
@@ -3578,12 +3961,24 @@ void gameTableImpl::refreshCardsChance(GameState bero)
 			myStartWindow->getSession()->getCurrentGame()->getCurrentHand()->getBoard()->getMyCards(boardCards);
 
 			if(humanPlayer->getMyAction() == PLAYER_ACTION_FOLD) {
+#ifdef GUI_800x480
+				tabs.label_chance->refreshChance(CardsValue::calcCardsChance(bero, holeCards, boardCards), true);
+#else
 				label_chance->refreshChance(CardsValue::calcCardsChance(bero, holeCards, boardCards), true);
+#endif
 			} else {
+#ifdef GUI_800x480
+				tabs.label_chance->refreshChance(CardsValue::calcCardsChance(bero, holeCards, boardCards), false);
+#else
 				label_chance->refreshChance(CardsValue::calcCardsChance(bero, holeCards, boardCards), false);
+#endif
 			}
 		} else {
+#ifdef GUI_800x480
+			tabs.label_chance->resetChance();
+#else
 			label_chance->resetChance();
+#endif
 		}
 	}
 }
@@ -3596,6 +3991,7 @@ void gameTableImpl::refreshActionButtonFKeyIndicator(bool clear)
 		pushButton_CallCheck->setFKeyText("");
 		pushButton_Fold->setFKeyText("");
 	} else {
+#ifndef GUI_800x480
 		if(myConfig->readConfigInt("AlternateFKeysUserActionMode") == 0 ) {
 			if(!pushButton_AllIn->text().isEmpty()) pushButton_AllIn->setFKeyText("F4");
 			if(!pushButton_BetRaise->text().isEmpty()) pushButton_BetRaise->setFKeyText("F3");
@@ -3607,16 +4003,24 @@ void gameTableImpl::refreshActionButtonFKeyIndicator(bool clear)
 			if(!pushButton_CallCheck->text().isEmpty()) pushButton_CallCheck->setFKeyText("F3");
 			if(!pushButton_Fold->text().isEmpty()) pushButton_Fold->setFKeyText("F4");
 		}
+#endif
 	}
 }
 
 void gameTableImpl::refreshGameTableStyle()
 {
 	myGameTableStyle->setWindowsGeometry(this);
+#ifdef GUI_800x480
+//	myGameTableStyle->setChatLogStyle(textBrowser_Log);
+	myGameTableStyle->setChatLogStyle(tabs.textBrowser_Chat);
+	myGameTableStyle->setChatLogStyle(tabs.textEdit_tipInput);
+	myGameTableStyle->setChatInputStyle(tabs.lineEdit_ChatInput);
+#else
 	myGameTableStyle->setChatLogStyle(textBrowser_Log);
 	myGameTableStyle->setChatLogStyle(textBrowser_Chat);
 	myGameTableStyle->setChatLogStyle(textEdit_tipInput);
 	myGameTableStyle->setChatInputStyle(lineEdit_ChatInput);
+#endif
 
 	int i;
 	for (i=0; i<MAX_NUMBER_OF_PLAYERS; i++) {
@@ -3628,6 +4032,15 @@ void gameTableImpl::refreshGameTableStyle()
 
 	myGameTableStyle->setSmallFontBoardStyle(label_Sets);
 	myGameTableStyle->setSmallFontBoardStyle(label_Total);
+#ifdef GUI_800x480
+	myGameTableStyle->setBigFontBoardStyle(textLabel_Sets);
+	myGameTableStyle->setBigFontBoardStyle(textLabel_Pot);
+	myGameTableStyle->setBigFontBoardStyle(label_handNumber);
+	myGameTableStyle->setBigFontBoardStyle(label_gameNumber);
+	myGameTableStyle->setBigFontBoardStyle(label_handNumberValue);
+	myGameTableStyle->setBigFontBoardStyle(label_gameNumberValue);
+	myGameTableStyle->setBigFontBoardStyle(textLabel_handLabel);
+#else
 	myGameTableStyle->setSmallFontBoardStyle(textLabel_Sets);
 	myGameTableStyle->setSmallFontBoardStyle(textLabel_Pot);
 	myGameTableStyle->setSmallFontBoardStyle(label_handNumber);
@@ -3636,12 +4049,27 @@ void gameTableImpl::refreshGameTableStyle()
 	myGameTableStyle->setSmallFontBoardStyle(label_gameNumberValue);
 	myGameTableStyle->setBigFontBoardStyle(textLabel_handLabel);
 	myGameTableStyle->setBigFontBoardStyle(label_Pot);
+#endif
 	myGameTableStyle->setCardHolderStyle(label_CardHolder0,0);
 	myGameTableStyle->setCardHolderStyle(label_CardHolder1,0);
 	myGameTableStyle->setCardHolderStyle(label_CardHolder2,0);
 	myGameTableStyle->setCardHolderStyle(label_CardHolder3,1);
 	myGameTableStyle->setCardHolderStyle(label_CardHolder4,2);
 	myGameTableStyle->setTableBackground(this);
+#ifdef GUI_800x480
+	myGameTableStyle->setBreakButtonStyle(tabs.pushButton_break,0);
+	myGameTableStyle->setBreakButtonStyle(tabs.pushButton_tipSave,0);
+	myGameTableStyle->setSpeedStringStyle(tabs.label_speedString);
+	myGameTableStyle->setSpeedStringStyle(tabs.label_speedValue);
+	myGameTableStyle->setVoteButtonStyle(tabs.pushButton_voteOnKickYes);
+	myGameTableStyle->setVoteButtonStyle(tabs.pushButton_voteOnKickNo);
+	myGameTableStyle->setVoteStringsStyle(tabs.label_timeout);
+	myGameTableStyle->setVoteStringsStyle(tabs.label_kickVoteTimeout);
+	myGameTableStyle->setVoteStringsStyle(tabs.label_kickUser);
+	myGameTableStyle->setVoteStringsStyle(tabs.label_votesMonitor);
+	myGameTableStyle->setVoteStringsStyle(tabs.label_voteStarterNick);
+	myGameTableStyle->setVoteStringsStyle(tabs.label_votestartedby);
+#else
 	myGameTableStyle->setMenuBarStyle(menubar);
 	myGameTableStyle->setBreakButtonStyle(pushButton_break,0);
 	myGameTableStyle->setBreakButtonStyle(pushButton_tipSave,0);
@@ -3655,6 +4083,7 @@ void gameTableImpl::refreshGameTableStyle()
 	myGameTableStyle->setVoteStringsStyle(label_votesMonitor);
 	myGameTableStyle->setVoteStringsStyle(label_voteStarterNick);
 	myGameTableStyle->setVoteStringsStyle(label_votestartedby);
+#endif
 
 	for (i=0; i<MAX_NUMBER_OF_PLAYERS; i++) {
 
@@ -3666,9 +4095,26 @@ void gameTableImpl::refreshGameTableStyle()
 
 	myGameTableStyle->setBetValueInputStyle(spinBox_betValue);
 	myGameTableStyle->setSliderStyle(horizontalSlider_bet);
+#ifdef GUI_800x480
+	myGameTableStyle->setSliderStyle(tabs.horizontalSlider_speed);
+#else
 	myGameTableStyle->setSliderStyle(horizontalSlider_speed);
+#endif
 
 	// 	away radiobuttons
+#ifdef GUI_800x480
+	myGameTableStyle->setAwayRadioButtonsStyle(tabs.radioButton_manualAction);
+	myGameTableStyle->setAwayRadioButtonsStyle(tabs.radioButton_autoCheckFold);
+	myGameTableStyle->setAwayRadioButtonsStyle(tabs.radioButton_autoCheckCallAny);
+
+	myGameTableStyle->setToolBoxBackground(tabs.groupBox_RightToolBox);
+	myGameTableStyle->setToolBoxBackground(tabs.groupBox_LeftToolBox);
+
+	myGameTableStyle->setTabWidgetStyle(tabs.tabWidget_Right, tabs.tabWidget_Right->getMyTabBar());
+	myGameTableStyle->setTabWidgetStyle(tabs.tabWidget_Left, tabs.tabWidget_Left->getMyTabBar());
+
+	tabs.label_Handranking->setPixmap(myGameTableStyle->getHandRanking());
+#else
 	myGameTableStyle->setAwayRadioButtonsStyle(radioButton_manualAction);
 	myGameTableStyle->setAwayRadioButtonsStyle(radioButton_autoCheckFold);
 	myGameTableStyle->setAwayRadioButtonsStyle(radioButton_autoCheckCallAny);
@@ -3680,6 +4126,7 @@ void gameTableImpl::refreshGameTableStyle()
 	myGameTableStyle->setTabWidgetStyle(tabWidget_Left, tabWidget_Left->getMyTabBar());
 
 	label_Handranking->setPixmap(myGameTableStyle->getHandRanking());
+#endif
 
 	if(myConfig->readConfigInt("DontTranslateInternationalPokerStringsFromStyle") || myGameTableStyle->getActionCallI18NString() == "NULL") {
 		CallString = "Call";
@@ -3757,7 +4204,9 @@ void gameTableImpl::refreshGameTableStyle()
 		RiverString = myGameTableStyle->getRiverI18NString();
 	}
 
+#ifndef GUI_800x480
 	label_Pot->setText(PotString);
+#endif
 	label_Total->setText(TotalString+":");
 	label_Sets->setText(BetsString+":");
 	label_handNumber->setText(HandString+":");
@@ -3780,7 +4229,9 @@ void gameTableImpl::saveGameTableGeometry()
 void gameTableImpl::restoreGameTableGeometry()
 {
 	if(myConfig->readConfigInt("GameTableFullScreenSave")) {
+#ifndef GUI_800x480
 		if(actionFullScreen->isEnabled()) this->showFullScreen();
+#endif
 	} else {
 		//resize only if style size allow this and if NOT fixed windows size
 		if(!myGameTableStyle->getIfFixedWindowSize().toInt() && myConfig->readConfigInt("GameTableHeightSave") <= myGameTableStyle->getMaximumWindowHeight().toInt() && myConfig->readConfigInt("GameTableHeightSave") >= myGameTableStyle->getMinimumWindowHeight().toInt() && myConfig->readConfigInt("GameTableWidthSave") <= myGameTableStyle->getMaximumWindowWidth().toInt() && myConfig->readConfigInt("GameTableWidthSave") >= myGameTableStyle->getMinimumWindowWidth().toInt()) {
@@ -3800,16 +4251,26 @@ void gameTableImpl::netClientPlayerLeft(unsigned /*playerId*/)
 
 void gameTableImpl::registeredUserMode()
 {
+#ifdef GUI_800x480
+	tabs.lineEdit_ChatInput->clear();
+	tabs.lineEdit_ChatInput->setEnabled(true);
+#else
 	lineEdit_ChatInput->clear();
 	lineEdit_ChatInput->setEnabled(true);
+#endif
 	guestMode = false;
 }
 
 
 void gameTableImpl::guestUserMode()
 {
+#ifdef GUI_800x480
+	tabs.lineEdit_ChatInput->setText(tr("Chat is only available to registered players."));
+	tabs.lineEdit_ChatInput->setDisabled(true);
+#else
 	lineEdit_ChatInput->setText(tr("Chat is only available to registered players."));
 	lineEdit_ChatInput->setDisabled(true);
+#endif
 	guestMode = true;
 }
 
@@ -3838,7 +4299,11 @@ void gameTableImpl::closeMessageBoxes()
 void gameTableImpl::hide()
 {
 	//clear log
+#ifdef GUI_800x480
+	tabs.textBrowser_Log->clear();
+#else
 	textBrowser_Log->clear();
+#endif
 	QWidget::hide();
 }
 
@@ -3870,3 +4335,18 @@ void gameTableImpl::enableCallCheckPushButton()
 {
 	pushButton_CallCheck->setEatMyEvents(false);
 }
+
+#ifdef GUI_800x480
+void gameTableImpl::tabsButtonClicked()
+{
+	tabsDiag->setParent(this, Qt::Dialog);
+	tabsDiag->show();
+	tabsDiag->raise();
+	tabsDiag->activateWindow();
+}
+
+void gameTableImpl::tabsButtonClose()
+{
+	tabsDiag->close();
+}
+#endif

@@ -54,6 +54,8 @@
         <file>dialog-information.png</file>
         <file>view-statistics.png</file>
         <file>document-revert.png</file>
+        <file>view-fullscreen_50x50.png</file>
+        <file>preferences-desktop_50x50.png</file>
     </qresource>
     <qresource prefix="/cflags">
         <file>cflags/ad.png</file>
