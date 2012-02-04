@@ -156,6 +156,7 @@ protected:
 
 	const ClientContext &GetContext() const;
 	ClientContext &GetContext();
+	std::string GetCacheServerListFileName();
 	void CreateContextSession();
 
 	ClientState &GetState();

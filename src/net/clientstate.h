@@ -102,8 +102,6 @@ public:
 
 	virtual void HandlePacket(boost::shared_ptr<ClientThread> /*client*/, boost::shared_ptr<NetPacket> /*tmpPacket*/) {}
 
-	static std::string GetCacheServerListFileName(const ClientContext &context);
-
 protected:
 
 	// Protected constructor - this is a singleton.

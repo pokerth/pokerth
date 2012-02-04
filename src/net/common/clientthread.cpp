@@ -34,6 +34,7 @@
 #include <qttoolsinterface.h>
 
 #include <boost/lambda/lambda.hpp>
+#include <boost/filesystem.hpp>
 #include <sstream>
 #include <fstream>
 #include <memory>
@@ -47,6 +48,7 @@
 #define CLIENT_SEND_LOOP_MSEC	50
 
 using namespace std;
+using namespace boost::filesystem;
 using boost::asio::ip::tcp;
 
 ClientThread::ClientThread(GuiInterface &gui, AvatarManager &avatarManager, Log *myLog)
@@ -542,6 +544,11 @@ ClientThread::Main()
 		m_ioService->run(); // Will only be aborted asynchronously.
 
 	} catch (const PokerTHException &e) {
+		// Delete the cached server list, as it may be outdated.
+		path tmpServerListPath(GetCacheServerListFileName());
+		if (exists(tmpServerListPath)) {
+			remove(tmpServerListPath);
+		}
 		GetCallback().SignalNetClientError(e.GetErrorId(), e.GetOsErrorCode());
 	}
 	// Close the socket.
@@ -914,6 +921,20 @@ ClientThread::GetContext()
 {
 	assert(m_context.get());
 	return *m_context;
+}
+
+string
+ClientThread::GetCacheServerListFileName()
+{
+	path tmpServerListPath(GetContext().GetCacheDir());
+	string serverListUrl(GetContext().GetServerListUrl());
+	// Retrieve the file name from the URL.
+	size_t pos = serverListUrl.find_last_of('/');
+	if (GetContext().GetCacheDir().empty() || serverListUrl.empty() || pos == string::npos || ++pos >= serverListUrl.length()) {
+		throw ClientException(__FILE__, __LINE__, ERR_SOCK_INVALID_SERVERLIST_URL, 0);
+	}
+	tmpServerListPath /= serverListUrl.substr(pos);
+	return tmpServerListPath.directory_string();
 }
 
 void
