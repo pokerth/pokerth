@@ -198,6 +198,7 @@ private:
 
 	QLabel *autoStartTimerOverlay;
 	int autoStartTimerCounter;
+	int lastNickListFilterState;
 
 protected:
 	bool eventFilter(QObject *obj, QEvent *event);

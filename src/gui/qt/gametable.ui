@@ -299,7 +299,7 @@ p, li { white-space: pre-wrap; }
           </rect>
          </property>
          <property name="text">
-                    <string notr="true">&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
+          <string notr="true">&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
          </property>
         </widget>
         <widget class="QLabel" name="label_Star23">
@@ -312,7 +312,7 @@ p, li { white-space: pre-wrap; }
           </rect>
          </property>
          <property name="text">
-                    <string notr="true">&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
+          <string notr="true">&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
          </property>
         </widget>
         <widget class="QLabel" name="label_Star53">
@@ -325,7 +325,7 @@ p, li { white-space: pre-wrap; }
           </rect>
          </property>
          <property name="text">
-                    <string notr="true">&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
+          <string notr="true">&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
          </property>
         </widget>
         <widget class="QLabel" name="label_Star43">
@@ -338,7 +338,7 @@ p, li { white-space: pre-wrap; }
           </rect>
          </property>
          <property name="text">
-                    <string notr="true">&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
+          <string notr="true">&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
          </property>
         </widget>
         <widget class="QLabel" name="label_Star13">
@@ -602,7 +602,7 @@ p, li { white-space: pre-wrap; }
           </rect>
          </property>
          <property name="text">
-                    <string notr="true">&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
+          <string notr="true">&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
          </property>
         </widget>
         <widget class="QLabel" name="label_Star22">
@@ -615,7 +615,7 @@ p, li { white-space: pre-wrap; }
           </rect>
          </property>
          <property name="text">
-                    <string notr="true">&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
+          <string notr="true">&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
          </property>
         </widget>
         <widget class="QLabel" name="label_Star32">
@@ -628,7 +628,7 @@ p, li { white-space: pre-wrap; }
           </rect>
          </property>
          <property name="text">
-                    <string notr="true">&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
+          <string notr="true">&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
          </property>
         </widget>
         <widget class="QLabel" name="label_Star42">
@@ -641,7 +641,7 @@ p, li { white-space: pre-wrap; }
           </rect>
          </property>
          <property name="text">
-                    <string notr="true">&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
+          <string notr="true">&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
          </property>
         </widget>
         <widget class="QLabel" name="label_Star52">
@@ -654,7 +654,7 @@ p, li { white-space: pre-wrap; }
           </rect>
          </property>
          <property name="text">
-                    <string notr="true">&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
+          <string notr="true">&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
          </property>
         </widget>
        </widget>
@@ -915,7 +915,7 @@ p, li { white-space: pre-wrap; }
           </rect>
          </property>
          <property name="text">
-                    <string notr="true">&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
+          <string notr="true">&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
          </property>
         </widget>
         <widget class="QLabel" name="label_Star24">
@@ -928,7 +928,7 @@ p, li { white-space: pre-wrap; }
           </rect>
          </property>
          <property name="text">
-                    <string notr="true">&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
+          <string notr="true">&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
          </property>
         </widget>
         <widget class="QLabel" name="label_Star54">
@@ -941,7 +941,7 @@ p, li { white-space: pre-wrap; }
           </rect>
          </property>
          <property name="text">
-                    <string notr="true">&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
+          <string notr="true">&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
          </property>
         </widget>
         <widget class="QLabel" name="label_Star44">
@@ -954,7 +954,7 @@ p, li { white-space: pre-wrap; }
           </rect>
          </property>
          <property name="text">
-                    <string notr="true">&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
+          <string notr="true">&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
          </property>
         </widget>
         <widget class="QLabel" name="label_Star14">
@@ -967,7 +967,7 @@ p, li { white-space: pre-wrap; }
           </rect>
          </property>
          <property name="text">
-                    <string notr="true">&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
+          <string notr="true">&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
          </property>
         </widget>
        </widget>
@@ -1205,7 +1205,7 @@ p, li { white-space: pre-wrap; }
           </rect>
          </property>
          <property name="text">
-                    <string notr="true">&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
+          <string notr="true">&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
          </property>
         </widget>
         <widget class="QLabel" name="label_Star25">
@@ -1218,7 +1218,7 @@ p, li { white-space: pre-wrap; }
           </rect>
          </property>
          <property name="text">
-                    <string notr="true">&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
+          <string notr="true">&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
          </property>
         </widget>
         <widget class="QLabel" name="label_Star55">
@@ -1231,7 +1231,7 @@ p, li { white-space: pre-wrap; }
           </rect>
          </property>
          <property name="text">
-                    <string notr="true">&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
+          <string notr="true">&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
          </property>
         </widget>
         <widget class="QLabel" name="label_Star45">
@@ -1244,7 +1244,7 @@ p, li { white-space: pre-wrap; }
           </rect>
          </property>
          <property name="text">
-                    <string notr="true">&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
+          <string notr="true">&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
          </property>
         </widget>
         <widget class="QLabel" name="label_Star15">
@@ -1257,7 +1257,7 @@ p, li { white-space: pre-wrap; }
           </rect>
          </property>
          <property name="text">
-                    <string notr="true">&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
+          <string notr="true">&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
          </property>
         </widget>
        </widget>
@@ -1495,7 +1495,7 @@ p, li { white-space: pre-wrap; }
           </rect>
          </property>
          <property name="text">
-                    <string notr="true">&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
+          <string notr="true">&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
          </property>
         </widget>
         <widget class="QLabel" name="label_Star26">
@@ -1508,7 +1508,7 @@ p, li { white-space: pre-wrap; }
           </rect>
          </property>
          <property name="text">
-                    <string notr="true">&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
+          <string notr="true">&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
          </property>
         </widget>
         <widget class="QLabel" name="label_Star56">
@@ -1521,7 +1521,7 @@ p, li { white-space: pre-wrap; }
           </rect>
          </property>
          <property name="text">
-                    <string notr="true">&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
+          <string notr="true">&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
          </property>
         </widget>
         <widget class="QLabel" name="label_Star46">
@@ -1534,7 +1534,7 @@ p, li { white-space: pre-wrap; }
           </rect>
          </property>
          <property name="text">
-                    <string notr="true">&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
+          <string notr="true">&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
          </property>
         </widget>
         <widget class="QLabel" name="label_Star16">
@@ -1547,7 +1547,7 @@ p, li { white-space: pre-wrap; }
           </rect>
          </property>
          <property name="text">
-                    <string notr="true">&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
+          <string notr="true">&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
          </property>
         </widget>
        </widget>
@@ -1805,7 +1805,7 @@ p, li { white-space: pre-wrap; }
           </rect>
          </property>
          <property name="text">
-                    <string notr="true">&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
+          <string notr="true">&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
          </property>
         </widget>
         <widget class="QLabel" name="label_Star27">
@@ -1818,7 +1818,7 @@ p, li { white-space: pre-wrap; }
           </rect>
          </property>
          <property name="text">
-                    <string notr="true">&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
+          <string notr="true">&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
          </property>
         </widget>
         <widget class="QLabel" name="label_Star57">
@@ -1831,7 +1831,7 @@ p, li { white-space: pre-wrap; }
           </rect>
          </property>
          <property name="text">
-                    <string notr="true">&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
+          <string notr="true">&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
          </property>
         </widget>
         <widget class="QLabel" name="label_Star47">
@@ -1844,7 +1844,7 @@ p, li { white-space: pre-wrap; }
           </rect>
          </property>
          <property name="text">
-                    <string notr="true">&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
+          <string notr="true">&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
          </property>
         </widget>
         <widget class="QLabel" name="label_Star17">
@@ -1857,7 +1857,7 @@ p, li { white-space: pre-wrap; }
           </rect>
          </property>
          <property name="text">
-                    <string notr="true">&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
+          <string notr="true">&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
          </property>
         </widget>
        </widget>
@@ -2108,7 +2108,7 @@ p, li { white-space: pre-wrap; }
           </rect>
          </property>
          <property name="text">
-                    <string notr="true">&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
+          <string notr="true">&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
          </property>
         </widget>
         <widget class="QLabel" name="label_Star28">
@@ -2121,7 +2121,7 @@ p, li { white-space: pre-wrap; }
           </rect>
          </property>
          <property name="text">
-                    <string notr="true">&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
+          <string notr="true">&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
          </property>
         </widget>
         <widget class="QLabel" name="label_Star58">
@@ -2134,7 +2134,7 @@ p, li { white-space: pre-wrap; }
           </rect>
          </property>
          <property name="text">
-                    <string notr="true">&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
+          <string notr="true">&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
          </property>
         </widget>
         <widget class="QLabel" name="label_Star48">
@@ -2147,7 +2147,7 @@ p, li { white-space: pre-wrap; }
           </rect>
          </property>
          <property name="text">
-                    <string notr="true">&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
+          <string notr="true">&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
          </property>
         </widget>
         <widget class="QLabel" name="label_Star18">
@@ -2160,7 +2160,7 @@ p, li { white-space: pre-wrap; }
           </rect>
          </property>
          <property name="text">
-                    <string notr="true">&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
+          <string notr="true">&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
          </property>
         </widget>
        </widget>
@@ -2873,7 +2873,7 @@ p, li { white-space: pre-wrap; }
           </rect>
          </property>
          <property name="text">
-                    <string notr="true">&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
+          <string notr="true">&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
          </property>
         </widget>
         <widget class="QLabel" name="label_Star21">
@@ -2886,7 +2886,7 @@ p, li { white-space: pre-wrap; }
           </rect>
          </property>
          <property name="text">
-                    <string notr="true">&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
+          <string notr="true">&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
          </property>
         </widget>
         <widget class="QLabel" name="label_Star51">
@@ -2899,7 +2899,7 @@ p, li { white-space: pre-wrap; }
           </rect>
          </property>
          <property name="text">
-                    <string notr="true">&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
+          <string notr="true">&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
          </property>
         </widget>
         <widget class="QLabel" name="label_Star41">
@@ -2912,7 +2912,7 @@ p, li { white-space: pre-wrap; }
           </rect>
          </property>
          <property name="text">
-                    <string notr="true">&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
+          <string notr="true">&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
          </property>
         </widget>
         <widget class="QLabel" name="label_Star11">
@@ -2925,7 +2925,7 @@ p, li { white-space: pre-wrap; }
           </rect>
          </property>
          <property name="text">
-                    <string notr="true">&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
+          <string notr="true">&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
          </property>
         </widget>
        </widget>
@@ -3176,7 +3176,7 @@ p, li { white-space: pre-wrap; }
           </rect>
          </property>
          <property name="text">
-                    <string notr="true">&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
+          <string notr="true">&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
          </property>
         </widget>
         <widget class="QLabel" name="label_Star20">
@@ -3189,7 +3189,7 @@ p, li { white-space: pre-wrap; }
           </rect>
          </property>
          <property name="text">
-                    <string notr="true">&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
+          <string notr="true">&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
          </property>
         </widget>
         <widget class="QLabel" name="label_Star50">
@@ -3202,7 +3202,7 @@ p, li { white-space: pre-wrap; }
           </rect>
          </property>
          <property name="text">
-                    <string notr="true">&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
+          <string notr="true">&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
          </property>
         </widget>
         <widget class="QLabel" name="label_Star40">
@@ -3215,7 +3215,7 @@ p, li { white-space: pre-wrap; }
           </rect>
          </property>
          <property name="text">
-                    <string notr="true">&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
+          <string notr="true">&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
          </property>
         </widget>
         <widget class="QLabel" name="label_Star10">
@@ -3228,7 +3228,7 @@ p, li { white-space: pre-wrap; }
           </rect>
          </property>
          <property name="text">
-                    <string notr="true">&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
+          <string notr="true">&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
          </property>
         </widget>
        </widget>
@@ -3466,7 +3466,7 @@ p, li { white-space: pre-wrap; }
           </rect>
          </property>
          <property name="text">
-                    <string notr="true">&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
+          <string notr="true">&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
          </property>
         </widget>
         <widget class="QLabel" name="label_Star29">
@@ -3479,7 +3479,7 @@ p, li { white-space: pre-wrap; }
           </rect>
          </property>
          <property name="text">
-                    <string notr="true">&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
+          <string notr="true">&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
          </property>
         </widget>
         <widget class="QLabel" name="label_Star59">
@@ -3492,7 +3492,7 @@ p, li { white-space: pre-wrap; }
           </rect>
          </property>
          <property name="text">
-                    <string notr="true">&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
+          <string notr="true">&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
          </property>
         </widget>
         <widget class="QLabel" name="label_Star49">
@@ -3505,7 +3505,7 @@ p, li { white-space: pre-wrap; }
           </rect>
          </property>
          <property name="text">
-                    <string notr="true">&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
+          <string notr="true">&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
          </property>
         </widget>
         <widget class="QLabel" name="label_Star19">
@@ -3518,7 +3518,7 @@ p, li { white-space: pre-wrap; }
           </rect>
          </property>
          <property name="text">
-                    <string notr="true">&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
+          <string notr="true">&lt;a&gt;&amp;#9734;&lt;/a&gt;</string>
          </property>
         </widget>
        </widget>
@@ -3634,6 +3634,9 @@ p, li { white-space: pre-wrap; }
                  </property>
                  <property name="horizontalScrollBarPolicy">
                   <enum>Qt::ScrollBarAlwaysOff</enum>
+                 </property>
+                 <property name="openExternalLinks">
+                  <bool>true</bool>
                  </property>
                 </widget>
                </item>

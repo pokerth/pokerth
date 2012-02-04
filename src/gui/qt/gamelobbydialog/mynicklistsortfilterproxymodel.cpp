@@ -63,7 +63,14 @@ bool MyNickListSortFilterProxyModel::lessThan(const QModelIndex &left, const QMo
 	}
 	break;
 	case 2: {
-		return QSortFilterProxyModel::lessThan(left, right);
+		if(lastFilterStateCountry) {
+			QString leftCountryAndName(sourceModel()->data(left, 33).toString().toUpper()+sourceModel()->data(left, Qt::DisplayRole).toString().toLower());
+			QString rightCountryAndName(sourceModel()->data(right, 33).toString().toUpper()+sourceModel()->data(right, Qt::DisplayRole).toString().toLower());
+			return leftCountryAndName < rightCountryAndName;
+		}
+		else if(lastFilterStateAlpha) {
+			return QSortFilterProxyModel::lessThan(left, right);
+		}
 	}
 	break;
 	}
