@@ -82,7 +82,7 @@
              <enum>Qt::NoFocus</enum>
             </property>
             <property name="currentIndex">
-             <number>3</number>
+             <number>1</number>
             </property>
             <widget class="QWidget" name="tab_Hands">
              <attribute name="title">
@@ -125,6 +125,9 @@
                 </property>
                 <property name="horizontalScrollBarPolicy">
                  <enum>Qt::ScrollBarAlwaysOff</enum>
+                </property>
+                <property name="openExternalLinks">
+                 <bool>true</bool>
                 </property>
                </widget>
               </item>
@@ -766,11 +769,6 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>Slider</class>
-   <extends>QSlider</extends>
-   <header>myslider.h</header>
-  </customwidget>
-  <customwidget>
    <class>MyLeftTabWidget</class>
    <extends>QTabWidget</extends>
    <header>mylefttabwidget.h</header>
@@ -786,6 +784,11 @@
    <class>MyChanceLabel</class>
    <extends>QLabel</extends>
    <header>mychancelabel.h</header>
+  </customwidget>
+  <customwidget>
+   <class>Slider</class>
+   <extends>QSlider</extends>
+   <header>myslider.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

@@ -1566,10 +1566,10 @@ void GameTableStyleReader::setWindowsGeometry(gameTableImpl *gt)
 		gt->setMaximumSize(FixedWindowWidth.toInt(), FixedWindowHeight.toInt());
 		gt->resize(FixedWindowWidth.toInt(), FixedWindowHeight.toInt());
 
+#ifndef GUI_800x480
 		QDesktopWidget dw;
 		int availableWidth = dw.screenGeometry().width();
 		int availableHeight = dw.screenGeometry().height();
-#ifndef GUI_800x480
 		if(availableWidth == FixedWindowWidth.toInt() && availableHeight == FixedWindowHeight.toInt()) {
 			gt->actionFullScreen->setEnabled(TRUE);
 		} else {
@@ -1585,10 +1585,10 @@ void GameTableStyleReader::setWindowsGeometry(gameTableImpl *gt)
 		gt->setMaximumSize(MaximumWindowWidth.toInt(), MaximumWindowHeight.toInt());
 		gt->resize(MinimumWindowWidth.toInt(), MinimumWindowHeight.toInt());
 
+#ifndef GUI_800x480
 		QDesktopWidget dw;
 		int availableWidth = dw.screenGeometry().width();
 		int availableHeight = dw.screenGeometry().height();
-#ifndef GUI_800x480
 		if(availableWidth <= MaximumWindowWidth.toInt() && availableHeight <= MaximumWindowHeight.toInt()) {
 			gt->actionFullScreen->setEnabled(TRUE);
 		} else {
@@ -1609,7 +1609,7 @@ void GameTableStyleReader::setSliderStyle(QSlider *s)
 	QString height("");
 
 #ifdef GUI_800x480
-	height = " height: 8px;";
+	height = " height: 10px;";
 #else
 	height = " height: 3px;";
 #endif

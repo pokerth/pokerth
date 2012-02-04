@@ -146,7 +146,7 @@ p, li { white-space: pre-wrap; }
       <string notr="true">QObject {font: bold 18px}</string>
      </property>
      <property name="currentIndex">
-      <number>0</number>
+      <number>1</number>
      </property>
      <widget class="QWidget" name="tab_1">
       <property name="styleSheet">

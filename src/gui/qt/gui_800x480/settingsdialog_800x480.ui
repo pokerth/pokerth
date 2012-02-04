@@ -149,7 +149,7 @@
      <item>
       <widget class="QStackedWidget" name="stackedWidget">
        <property name="currentIndex">
-        <number>1</number>
+        <number>7</number>
        </property>
        <widget class="QWidget" name="page">
         <property name="styleSheet">
@@ -3811,7 +3811,7 @@ p, li { white-space: pre-wrap; }
                <number>1</number>
               </property>
               <property name="maximum">
-               <number>7</number>
+               <number>3650</number>
               </property>
               <property name="value">
                <number>2</number>
@@ -3926,6 +3926,9 @@ p, li { white-space: pre-wrap; }
              </property>
              <property name="alternatingRowColors">
               <bool>true</bool>
+             </property>
+             <property name="selectionMode">
+              <enum>QAbstractItemView::ExtendedSelection</enum>
              </property>
              <property name="indentation">
               <number>5</number>
