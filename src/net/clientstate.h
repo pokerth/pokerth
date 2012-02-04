@@ -28,6 +28,7 @@
 #define CLIENT_FINAL_STATE ClientStateFinal
 
 class ClientThread;
+class ClientContext;
 class ClientCallback;
 class Game;
 class NetPacket;
@@ -100,6 +101,8 @@ public:
 	virtual void Exit(boost::shared_ptr<ClientThread> client);
 
 	virtual void HandlePacket(boost::shared_ptr<ClientThread> /*client*/, boost::shared_ptr<NetPacket> /*tmpPacket*/) {}
+
+	static std::string GetCacheServerListFileName(const ClientContext &context);
 
 protected:
 

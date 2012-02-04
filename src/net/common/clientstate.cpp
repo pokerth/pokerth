@@ -174,6 +174,34 @@ void
 ClientStateStartServerListDownload::Enter(boost::shared_ptr<ClientThread> client)
 {
 	const ClientContext &context = client->GetContext();
+	path tmpServerListPath(GetCacheServerListFileName(context));
+	if (exists(tmpServerListPath) && (last_write_time(tmpServerListPath) + 86400 < time(NULL))) {
+		// Download the current server list once a day.
+		// If the previous file is older than one day, delete it.
+		remove(tmpServerListPath);
+	}
+
+	if (exists(tmpServerListPath)) {
+		// Use the existing server list.
+		client->SetState(ClientStateReadingServerList::Instance());
+	} else {
+		// Download the server list.
+		boost::shared_ptr<DownloadHelper> downloader(new DownloadHelper);
+		downloader->Init(context.GetServerListUrl(), tmpServerListPath.directory_string());
+		ClientStateDownloadingServerList::Instance().SetDownloadHelper(downloader);
+		client->SetState(ClientStateDownloadingServerList::Instance());
+	}
+}
+
+void
+ClientStateStartServerListDownload::Exit(boost::shared_ptr<ClientThread> /*client*/)
+{
+	// Nothing to do.
+}
+
+string
+ClientStateStartServerListDownload::GetCacheServerListFileName(const ClientContext &context)
+{
 	path tmpServerListPath(context.GetCacheDir());
 	string serverListUrl(context.GetServerListUrl());
 	// Retrieve the file name from the URL.
@@ -182,22 +210,7 @@ ClientStateStartServerListDownload::Enter(boost::shared_ptr<ClientThread> client
 		throw ClientException(__FILE__, __LINE__, ERR_SOCK_INVALID_SERVERLIST_URL, 0);
 	}
 	tmpServerListPath /= serverListUrl.substr(pos);
-	if (exists(tmpServerListPath)) {
-		// Always download the current server list.
-		// If a previous file exists, delete it.
-		remove(tmpServerListPath);
-	}
-	// Download server list.
-	boost::shared_ptr<DownloadHelper> downloader(new DownloadHelper);
-	downloader->Init(serverListUrl, tmpServerListPath.directory_string());
-	ClientStateDownloadingServerList::Instance().SetDownloadHelper(downloader);
-	client->SetState(ClientStateDownloadingServerList::Instance());
-}
-
-void
-ClientStateStartServerListDownload::Exit(boost::shared_ptr<ClientThread> /*client*/)
-{
-	// Nothing to do.
+	return tmpServerListPath.directory_string();
 }
 
 //-----------------------------------------------------------------------------
@@ -493,8 +506,14 @@ ClientStateStartConnect::HandleConnect(const boost::system::error_code& ec, boos
 							++m_remoteEndpointIterator,
 							client));
 		} else {
-			if (ec != boost::asio::error::operation_aborted)
+			if (ec != boost::asio::error::operation_aborted) {
+				// Delete the cached server list, as it may be outdated.
+				path tmpServerListPath(ClientStateStartServerListDownload::GetCacheServerListFileName(client->GetContext()));
+				if (exists(tmpServerListPath)) {
+					remove(tmpServerListPath);
+				}
 				throw ClientException(__FILE__, __LINE__, ERR_SOCK_CONNECT_FAILED, ec.value());
+			}
 		}
 	}
 }
