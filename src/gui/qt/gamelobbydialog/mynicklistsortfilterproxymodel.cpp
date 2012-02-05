@@ -20,7 +20,7 @@
 #include <QtCore>
 
 MyNickListSortFilterProxyModel::MyNickListSortFilterProxyModel(QObject *parent)
-: QSortFilterProxyModel(parent), filterState(0), lastFilterStateAlpha(true), lastFilterStateCountry(false)
+: QSortFilterProxyModel(parent), filterState(0), lastFilterStateCountry(false), lastFilterStateAlpha(true)
 {
 }
 
