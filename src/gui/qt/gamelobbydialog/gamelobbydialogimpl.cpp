@@ -317,7 +317,7 @@ void gameLobbyDialogImpl::createGame()
 
 		updateDialogBlinds(gameData);
 
-		label_TimeoutForPlayerAction->setText(QString::number(gameData.playerActionTimeoutSec));
+		label_GameTiming->setText(QString::number(gameData.playerActionTimeoutSec));
 
 		mySession->clientCreateGame(gameData, currentGameName.toUtf8().constData(), myCreateInternetGameDialog->lineEdit_Password->text().toUtf8().constData());
 
@@ -471,7 +471,7 @@ void gameLobbyDialogImpl::gameSelected(const QModelIndex &index)
 		//		label_MaximumNumberOfPlayers->setText(QString::number(info.data.maxNumberOfPlayers));s
 		updateDialogBlinds(info.data);
 
-		label_TimeoutForPlayerAction->setText(QString::number(info.data.playerActionTimeoutSec));
+		label_GameTiming->setText(QString::number(info.data.playerActionTimeoutSec)+tr(" sec (action)")+"\n"+QString::number(info.data.delayBetweenHandsSec)+tr(" sec (hand delay)"));
 
 		treeWidget_connectedPlayers->clear();
 		PlayerIdList::const_iterator i = info.players.begin();
@@ -760,7 +760,7 @@ void gameLobbyDialogImpl::clearDialog()
 	label_blindsRaiseIntervall->setText("");
 	label_blindsRaiseMode->setText("");
 	label_blindsList->setText("");
-	label_TimeoutForPlayerAction->setText("");
+	label_GameTiming->setText("");
 
 	myGameListModel->clear();
 	myGameListSelectionModel->clear();
@@ -1135,7 +1135,7 @@ void gameLobbyDialogImpl::joinedGameDialogUpdate()
 	label_SmallBlind->setText(QString("%L1").arg(info.data.firstSmallBlind));
 	label_StartCash->setText(QString("%L1").arg(info.data.startMoney));
 	updateDialogBlinds(info.data);
-	label_TimeoutForPlayerAction->setText(QString::number(info.data.playerActionTimeoutSec));
+	label_GameTiming->setText(QString::number(info.data.playerActionTimeoutSec));
 
 	QTreeWidgetItem *header = treeWidget_connectedPlayers->headerItem();
 	header->setText(0, tr("Connected players - Max. %1").arg(info.data.maxNumberOfPlayers));
@@ -1164,7 +1164,7 @@ void gameLobbyDialogImpl::leftGameDialogUpdate()
 	label_blindsRaiseIntervall->setText("");
 	label_blindsRaiseMode->setText("");
 	label_blindsList->setText("");
-	label_TimeoutForPlayerAction->setText("");
+	label_GameTiming->setText("");
 
 	treeWidget_connectedPlayers->clear();
 	pushButton_StartGame->hide();
