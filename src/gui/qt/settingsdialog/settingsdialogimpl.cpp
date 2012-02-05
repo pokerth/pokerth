@@ -1370,7 +1370,6 @@ void settingsDialogImpl::deleteLogFile()
 
 		if(ret == QMessageBox::Yes) {
 			for (int i = 0; i < selectedItemsList.size(); ++i) {
-				qDebug() << selectedItemsList.at(i)->data(0, Qt::UserRole).toString();
 				if(!QFile::remove(selectedItemsList.at(i)->data(0, Qt::UserRole).toString())) {
 					QMessageBox::warning(this, "Remove log file", "PokerTH cannot remove this log file, please verify that you have write access to this file!", QMessageBox::Close );
 				}
