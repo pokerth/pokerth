@@ -1356,6 +1356,7 @@ void settingsDialogImpl::refreshLogFileList()
 		item->setData(0, Qt::UserRole, dbFilesList.at(i).absoluteFilePath());
 		treeWidget_logFiles->addTopLevelItem(item);
 	}
+	treeWidget_logFiles->sortItems(0, Qt::DescendingOrder);
 }
 
 void settingsDialogImpl::deleteLogFile()
@@ -1368,12 +1369,10 @@ void settingsDialogImpl::deleteLogFile()
 									   QMessageBox::Yes | QMessageBox::No);
 
 		if(ret == QMessageBox::Yes) {
-
 			for (int i = 0; i < selectedItemsList.size(); ++i) {
-
-				QFile fileToDelete (selectedItemsList.at(i)->data(0, Qt::UserRole).toString());
-				if(!fileToDelete.remove()) {
-					QMessageBox::warning(this, "Remove log file", "PokerTH cannot remove this log file, please check if you have write access to this file!", QMessageBox::Close );
+				qDebug() << selectedItemsList.at(i)->data(0, Qt::UserRole).toString();
+				if(!QFile::remove(selectedItemsList.at(i)->data(0, Qt::UserRole).toString())) {
+					QMessageBox::warning(this, "Remove log file", "PokerTH cannot remove this log file, please verify that you have write access to this file!", QMessageBox::Close );
 				}
 			}
 			refreshLogFileList();
