@@ -69,7 +69,9 @@ void ChatTools::receiveMessage(QString playerName, QString message, bool pm)
 	if(myTextBrowser) {
 
 		message = message.replace("<","&lt;");
-		message = message.replace(">","&gt;");
+		message = message.replace(">","&gt;");		
+		//doing the links
+		message = message.replace(QRegExp("((?:https?)://\\S+)"), "<a href=\"\\1\">\\1</a>");
 
 		//refresh myNick if it was changed during runtime
 		myNick = QString::fromUtf8(myConfig->readConfigString("MyName").c_str());
@@ -98,8 +100,10 @@ void ChatTools::receiveMessage(QString playerName, QString message, bool pm)
 			case LAN_LOBBY_CHAT:
 				tempMsg = QString("<span style=\"font-weight:bold;\">"+message+"</span>");
 				break;
-			case INGAME_CHAT:
+			case INGAME_CHAT: {
+				message = message.replace("<a href","<a style=\"color:#"+myStyle->getChatLogTextColor()+"; text-decoration: underline;\" href");
 				tempMsg = QString("<span style=\"color:#"+myStyle->getChatTextNickNotifyColor()+";\">"+message+"</span>");
+				}
 				break;
 			default:
 				tempMsg = message;
@@ -112,8 +116,10 @@ void ChatTools::receiveMessage(QString playerName, QString message, bool pm)
 			case LAN_LOBBY_CHAT:
 				tempMsg = QString("<span style=\"font-weight:normal;\">"+message+"</span>");
 				break;
-			case INGAME_CHAT:
+			case INGAME_CHAT: {
+				message = message.replace("<a href","<a style=\"color:#"+myStyle->getChatTextNickNotifyColor()+"; text-decoration: underline;\" href");
 				tempMsg = QString("<span style=\"color:#"+myStyle->getChatLogTextColor()+";\">"+message+"</span>");
+				}
 				break;
 			default:
 				tempMsg = message;
@@ -126,8 +132,10 @@ void ChatTools::receiveMessage(QString playerName, QString message, bool pm)
 			case LAN_LOBBY_CHAT:
 				tempMsg = QString("<span style=\"font-weight:normal;\">"+message+"</span>");
 				break;
-			case INGAME_CHAT:
+			case INGAME_CHAT: {
+				message = message.replace("<a href","<a style=\"color:#"+myStyle->getChatTextNickNotifyColor()+"; text-decoration: underline;\" href");
 				tempMsg = QString("<span style=\"color:#"+myStyle->getChatLogTextColor()+";\">"+message+"</span>");
+				}
 				break;
 			default:
 				tempMsg = message;
