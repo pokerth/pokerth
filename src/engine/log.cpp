@@ -25,12 +25,10 @@
 #include <sqlite3.h>
 #include <dirent.h>
 #include <boost/lexical_cast.hpp>
-#include <boost/filesystem.hpp>
 
 using namespace std;
-using namespace boost::filesystem;
 
-Log::Log(ConfigFile *c) : mySqliteLogDb(0), myConfig(c), uniqueGameID(0), currentHandID(0), currentRound(GAME_STATE_PREFLOP), sql("")
+Log::Log(ConfigFile *c) : mySqliteLogDb(0), mySqliteLogFileName(""), myConfig(c), uniqueGameID(0), currentHandID(0), currentRound(GAME_STATE_PREFLOP), sql("")
 {
 }
 
@@ -68,7 +66,8 @@ Log::init()
 				strftime(curDate,11,"%Y-%m-%d",z);
 				strftime(curTime,9,"%H:%M:%S",z);
 
-				path mySqliteLogFileName(myConfig->readConfigString("LogDir"));
+				mySqliteLogFileName.clear();
+				mySqliteLogFileName /= myConfig->readConfigString("LogDir");
 				mySqliteLogFileName /= string("pokerth-log-") + curDateTime + ".pdb";
 
 				// open sqlite-db

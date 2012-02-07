@@ -20,6 +20,7 @@
 #define LOG_H
 
 #include <string>
+#include <boost/filesystem.hpp>
 
 #include "engine_defs.h"
 #include "game_defs.h"
@@ -56,12 +57,16 @@ public:
 		currentRound = theValue;
 	}
 
+	std::string getMySqliteLogFileName() {
+		return mySqliteLogFileName.directory_string();
+	}
 
 private:
 
 	void exec_transaction();
 
 	sqlite3 *mySqliteLogDb;
+	boost::filesystem::path mySqliteLogFileName;
 	ConfigFile *myConfig;
 	int uniqueGameID;
 	int currentHandID;
