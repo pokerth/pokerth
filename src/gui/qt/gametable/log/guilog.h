@@ -76,6 +76,10 @@ public:
 
 	void writeLogFileStream(QString string);
 
+	void setMySqliteLogFileName(std::string theValue) {
+		mySqliteLogFileName = theValue;
+	}
+
 signals:
 	void signalLogPlayerActionMsg(QString playerName, int action, int setValue);
 	void signalLogNewGameHandMsg(int gameID, int handID);
@@ -116,6 +120,8 @@ private:
 	GameTableStyleReader *myStyle;
 
 	friend class GuiWrapper;
+
+	std::string mySqliteLogFileName;
 };
 
 #endif

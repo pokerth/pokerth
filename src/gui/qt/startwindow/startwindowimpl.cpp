@@ -57,6 +57,7 @@ startWindowImpl::startWindowImpl(ConfigFile *c, Log *l)
 		myLog->init();
 		// 		myGuiInterface->setSession(session);
 	}
+	myGuiInterface->getMyGuiLog()->setMySqliteLogFileName(myLog->getMySqliteLogFileName());
 
 	// #ifdef __APPLE__
 	// 	setWindowModality(Qt::ApplicationModal);
