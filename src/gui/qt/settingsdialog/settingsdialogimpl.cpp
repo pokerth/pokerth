@@ -138,7 +138,7 @@ settingsDialogImpl::settingsDialogImpl(QWidget *parent, ConfigFile *c, selectAva
 	connect( pushButton_exportLogHtml, SIGNAL(clicked()), this, SLOT (exportLogToHtml()));
 	connect( pushButton_exportLogTxt, SIGNAL(clicked()), this, SLOT (exportLogToTxt()));
 	connect( pushButton_saveLogAs, SIGNAL(clicked()), this, SLOT (saveLogFileAs()));
-	connect( treeWidget_logFiles, SIGNAL(itemSelectionChanged()), this, SLOT(showLogFilePreview()));
+	connect( treeWidget_logFiles, SIGNAL(currentItemChanged(QTreeWidgetItem*, QTreeWidgetItem*)), this, SLOT(showLogFilePreview()));
 
 }
 
@@ -1349,7 +1349,6 @@ void settingsDialogImpl::refreshLogFileList()
 
 	QFileInfo currentSqliteLogFile(QString::fromStdString(myGuiLog->getMySqliteLogFileName()));
 
-
 	treeWidget_logFiles->clear();
 	int i;
 	for (i=0; i < dbFilesList.size(); i++) {
@@ -1371,7 +1370,8 @@ void settingsDialogImpl::deleteLogFile()
 {
 	QList<QTreeWidgetItem*> selectedItemsList = treeWidget_logFiles->selectedItems();
 
-	if(!selectedItemsList.isEmpty()) {
+	if(!selectedItemsList.isEmpty() && !( selectedItemsList.size() == 1 && selectedItemsList.front()->data(0, Qt::UserRole+1).toString() == "current" )) {
+
 		int ret = QMessageBox::warning(this, tr("PokerTH - Delete log files"),
 									   tr("Do you really want to delete the selected log files?"),
 									   QMessageBox::Yes | QMessageBox::No);
@@ -1379,6 +1379,7 @@ void settingsDialogImpl::deleteLogFile()
 		if(ret == QMessageBox::Yes) {
 			for (int i = 0; i < selectedItemsList.size(); ++i) {
 				if(selectedItemsList.at(i)->data(0, Qt::UserRole+1).toString() != "current") {
+
 					if(!QFile::remove(selectedItemsList.at(i)->data(0, Qt::UserRole).toString())) {
 						QMessageBox::warning(this, "Remove log file", "PokerTH cannot remove this log file, please verify that you have write access to this file!", QMessageBox::Close );
 					}
@@ -1443,13 +1444,6 @@ void settingsDialogImpl::showLogFilePreview()
 
 	if(selectedItem) {
 		myGuiLog->showLog(selectedItem->data(0, Qt::UserRole).toString(), textBrowser_logPreview);
-
-		if(selectedItem->data(0, Qt::UserRole+1).toString() == "current") {
-			pushButton_deleteLog->setDisabled(true);
-		}
-		else {
-			pushButton_deleteLog->setEnabled(true);
-		}
 	}
 
 	QTextCursor cursor(textBrowser_logPreview->textCursor());
