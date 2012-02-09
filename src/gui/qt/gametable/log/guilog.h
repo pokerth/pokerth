@@ -70,7 +70,6 @@ public slots:
 	void showLog(QString fileStringPdb, QTextBrowser *tb);
 	int exportLog(QString fileStringPdb, int modus);
 
-
 public:
 	QStringList translateCardCode(int cardCode);
 
@@ -79,6 +78,7 @@ public:
 	void setMySqliteLogFileName(std::string theValue) {
 		mySqliteLogFileName = theValue;
 	}
+	std::string getMySqliteLogFileName() { return mySqliteLogFileName; }
 
 signals:
 	void signalLogPlayerActionMsg(QString playerName, int action, int setValue);
@@ -116,12 +116,11 @@ private:
 	QString logFileStreamString;
 	QString myAppDataPath;
 	QTextBrowser* tb;
-
 	GameTableStyleReader *myStyle;
+	std::string mySqliteLogFileName;
 
 	friend class GuiWrapper;
 
-	std::string mySqliteLogFileName;
 };
 
 #endif

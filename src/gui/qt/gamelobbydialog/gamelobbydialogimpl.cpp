@@ -317,7 +317,7 @@ void gameLobbyDialogImpl::createGame()
 
 		updateDialogBlinds(gameData);
 
-		label_GameTiming->setText(QString::number(gameData.playerActionTimeoutSec));
+		label_GameTiming->setText(QString::number(gameData.playerActionTimeoutSec)+tr(" sec (action)")+"\n"+QString::number(gameData.delayBetweenHandsSec)+tr(" sec (hand delay)"));
 
 		mySession->clientCreateGame(gameData, currentGameName.toUtf8().constData(), myCreateInternetGameDialog->lineEdit_Password->text().toUtf8().constData());
 
@@ -1135,7 +1135,7 @@ void gameLobbyDialogImpl::joinedGameDialogUpdate()
 	label_SmallBlind->setText(QString("%L1").arg(info.data.firstSmallBlind));
 	label_StartCash->setText(QString("%L1").arg(info.data.startMoney));
 	updateDialogBlinds(info.data);
-	label_GameTiming->setText(QString::number(info.data.playerActionTimeoutSec));
+	label_GameTiming->setText(QString::number(info.data.playerActionTimeoutSec)+tr(" sec (action)")+"\n"+QString::number(info.data.delayBetweenHandsSec)+tr(" sec (hand delay)"));
 
 	QTreeWidgetItem *header = treeWidget_connectedPlayers->headerItem();
 	header->setText(0, tr("Connected players - Max. %1").arg(info.data.maxNumberOfPlayers));

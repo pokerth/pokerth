@@ -1347,6 +1347,9 @@ void settingsDialogImpl::refreshLogFileList()
 	filters << "*.pdb";
 	QFileInfoList dbFilesList = logFileDir.entryInfoList(filters, QDir::Files, QDir::Time);
 
+	QFileInfo currentSqliteLogFile(QString::fromStdString(myGuiLog->getMySqliteLogFileName()));
+
+
 	treeWidget_logFiles->clear();
 	int i;
 	for (i=0; i < dbFilesList.size(); i++) {
@@ -1354,6 +1357,11 @@ void settingsDialogImpl::refreshLogFileList()
 		QTreeWidgetItem *item = new QTreeWidgetItem;
 		item->setText(0, dbFilesList.at(i).fileName());
 		item->setData(0, Qt::UserRole, dbFilesList.at(i).absoluteFilePath());
+		if(currentSqliteLogFile.fileName() == dbFilesList.at(i).fileName()) {
+			item->setData(0, Qt::BackgroundColorRole, QColor(Qt::red));
+			item->setData(0, Qt::TextColorRole, QColor(Qt::white));
+			item->setData(0, Qt::UserRole+1, "current");
+		}
 		treeWidget_logFiles->addTopLevelItem(item);
 	}
 	treeWidget_logFiles->sortItems(0, Qt::DescendingOrder);
@@ -1370,8 +1378,10 @@ void settingsDialogImpl::deleteLogFile()
 
 		if(ret == QMessageBox::Yes) {
 			for (int i = 0; i < selectedItemsList.size(); ++i) {
-				if(!QFile::remove(selectedItemsList.at(i)->data(0, Qt::UserRole).toString())) {
-					QMessageBox::warning(this, "Remove log file", "PokerTH cannot remove this log file, please verify that you have write access to this file!", QMessageBox::Close );
+				if(selectedItemsList.at(i)->data(0, Qt::UserRole+1).toString() != "current") {
+					if(!QFile::remove(selectedItemsList.at(i)->data(0, Qt::UserRole).toString())) {
+						QMessageBox::warning(this, "Remove log file", "PokerTH cannot remove this log file, please verify that you have write access to this file!", QMessageBox::Close );
+					}
 				}
 			}
 			refreshLogFileList();
@@ -1433,6 +1443,13 @@ void settingsDialogImpl::showLogFilePreview()
 
 	if(selectedItem) {
 		myGuiLog->showLog(selectedItem->data(0, Qt::UserRole).toString(), textBrowser_logPreview);
+
+		if(selectedItem->data(0, Qt::UserRole+1).toString() == "current") {
+			pushButton_deleteLog->setDisabled(true);
+		}
+		else {
+			pushButton_deleteLog->setEnabled(true);
+		}
 	}
 
 	QTextCursor cursor(textBrowser_logPreview->textCursor());

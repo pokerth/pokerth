@@ -198,7 +198,7 @@
      <x>0</x>
      <y>0</y>
      <width>450</width>
-     <height>20</height>
+     <height>26</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuPokerTH">
@@ -213,8 +213,8 @@
      <addaction name="actionJoin_Network_Game"/>
     </widget>
     <addaction name="actionStart_Local_Game"/>
-    <addaction name="menuNetwork_Game"/>
     <addaction name="actionInternet_Game"/>
+    <addaction name="menuNetwork_Game"/>
     <addaction name="actionAbout_PokerTH"/>
     <addaction name="actionQuit"/>
    </widget>
