@@ -737,7 +737,6 @@ void guiLog::exportLogPdbToTxt(QString fileStringPdb, QString exportFileString)
 
 void guiLog::showLog(QString fileStringPdb, QTextBrowser *tb_tmp)
 {
-	qDebug() << "show";
 	tb = tb_tmp;
 	tb->clear();
 	exportLog(fileStringPdb,3);
