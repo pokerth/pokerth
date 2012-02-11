@@ -1,3 +1,12 @@
+2012-02-11 version 0.9.3
+- Maemo support was updated in this source release
+- Logs can now be stored for more than 7 days (#18)
+- Logos are shown in the log preview (#101)
+- "multiline" game names are now prevented in the lobby, also on server side (#116)
+- Several log files can now be deleted at once (select with CTRL + left click) (#110)
+- The behaviour of the "Display idle players" sorting menu was slightly changed (#112)
+- The serverlist is only downloaded once per day (and if an error occurs) (#119)
+
 2012-01-28 version 0.9.2
 - Show card symbols in the log preview and in html export (#101)
 - Implement optional "accidentally call" blocker (#35)
