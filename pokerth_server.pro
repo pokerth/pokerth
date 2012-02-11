@@ -50,7 +50,7 @@ DEPENDPATH += . \
 
 # Input
 HEADERS += \
-		src/game.h \
+		src/engine/game.h \
 		src/session.h \
 		src/playerdata.h \
 		src/gamedata.h \
