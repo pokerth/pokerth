@@ -84,6 +84,16 @@ ServerAdminBot::SignalIrcChatMsg(const std::string &nickName, const std::string 
 						else
 							m_ircAdminThread->SendChatMessage(nickName + ": Player \"" + playerName + "\" was not found on the server.");
 					}
+				} else if (command == "removegame") {
+					while (msgStream.peek() == ' ')
+						msgStream.get();
+					string playerName(msgStream.str().substr(msgStream.tellg()));
+					if (!playerName.empty()) {
+						if (GetLobbyThread().RemoveGameByPlayerName(playerName))
+							m_ircAdminThread->SendChatMessage(nickName + ": Successfully removed game of player \"" + playerName + "\".");
+						else
+							m_ircAdminThread->SendChatMessage(nickName + ": Player \"" + playerName + "\" is currently not playing a game.");
+					}
 				} else if (command == "cleaner-reconnect") {
 					GetLobbyThread().ReconnectChatBot();
 					m_ircAdminThread->SendChatMessage(nickName + ": Cleaner bot reconnect initiated.");

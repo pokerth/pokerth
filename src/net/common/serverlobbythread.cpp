@@ -509,6 +509,23 @@ ServerLobbyThread::KickPlayerByName(const std::string &playerName)
 	return retVal;
 }
 
+bool
+ServerLobbyThread::RemoveGameByPlayerName(const std::string &playerName)
+{
+	bool retVal = false;
+	boost::shared_ptr<SessionData> session = m_gameSessionManager.GetSessionByPlayerName(playerName);
+
+	if (session) {
+		boost::shared_ptr<ServerGame> game = session->GetGame();
+		if (game) {
+			m_ioService->post(boost::bind(&ServerLobbyThread::InternalRemoveGame, shared_from_this(), game));
+			retVal = true;
+		}
+	}
+
+	return retVal;
+}
+
 string
 ServerLobbyThread::GetPlayerIPAddress(const std::string &playerName) const
 {

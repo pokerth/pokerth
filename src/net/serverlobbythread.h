@@ -76,6 +76,7 @@ public:
 	void HandleChatRequest(boost::shared_ptr<SessionData> session, const ChatRequestMessage_t &chatRequest);
 
 	bool KickPlayerByName(const std::string &playerName);
+	bool RemoveGameByPlayerName(const std::string &playerName);
 	std::string GetPlayerIPAddress(const std::string &playerName) const;
 	std::string GetPlayerNameFromId(unsigned playerId) const;
 	void RemovePlayer(unsigned playerId, unsigned errorCode);
