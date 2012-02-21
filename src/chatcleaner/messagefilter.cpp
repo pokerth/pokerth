@@ -126,7 +126,7 @@ QStringList MessageFilter::check(unsigned gameId, unsigned playerId, QString nic
 
 			switch(offence) {
 			case BAD_WORD: {
-				returnMessage = QString ("%1: Warning! No racial, religious, sexually inflammatory or otherwise insulting language \n").arg(nick);
+				returnMessage = QString ("%1: Warning! No racial, religious, sexually inflammatory or otherwise insulting language\n").arg(nick);
 			}
 			break;
 			case TEXT_FLOOD_LINES: {
