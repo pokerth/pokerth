@@ -28,8 +28,12 @@ public:
 	MyNickListSortFilterProxyModel(QObject *parent = 0);
 
 	void setFilterState(int state);
-	void setLastFilterStateCountry( bool country ) { lastFilterStateCountry = country;}
-	void setLastFilterStateAlpha( bool alpha ) { lastFilterStateAlpha = alpha;}
+	void setLastFilterStateCountry( bool country ) {
+		lastFilterStateCountry = country;
+	}
+	void setLastFilterStateAlpha( bool alpha ) {
+		lastFilterStateAlpha = alpha;
+	}
 
 protected:
 	bool filterAcceptsRow(int sourceRow, const QModelIndex &sourceParent) const;

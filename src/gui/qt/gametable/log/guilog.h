@@ -78,7 +78,9 @@ public:
 	void setMySqliteLogFileName(std::string theValue) {
 		mySqliteLogFileName = theValue;
 	}
-	std::string getMySqliteLogFileName() { return mySqliteLogFileName; }
+	std::string getMySqliteLogFileName() {
+		return mySqliteLogFileName;
+	}
 
 signals:
 	void signalLogPlayerActionMsg(QString playerName, int action, int setValue);

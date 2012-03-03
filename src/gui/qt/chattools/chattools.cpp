@@ -69,7 +69,7 @@ void ChatTools::receiveMessage(QString playerName, QString message, bool pm)
 	if(myTextBrowser) {
 
 		message = message.replace("<","&lt;");
-		message = message.replace(">","&gt;");		
+		message = message.replace(">","&gt;");
 		//doing the links
 		message = message.replace(QRegExp("((?:https?)://\\S+)"), "<a href=\"\\1\">\\1</a>");
 
@@ -103,8 +103,8 @@ void ChatTools::receiveMessage(QString playerName, QString message, bool pm)
 			case INGAME_CHAT: {
 				message = message.replace("<a href","<a style=\"color:#"+myStyle->getChatLogTextColor()+"; text-decoration: underline;\" href");
 				tempMsg = QString("<span style=\"color:#"+myStyle->getChatTextNickNotifyColor()+";\">"+message+"</span>");
-				}
-				break;
+			}
+			break;
 			default:
 				tempMsg = message;
 			}
@@ -119,8 +119,8 @@ void ChatTools::receiveMessage(QString playerName, QString message, bool pm)
 			case INGAME_CHAT: {
 				message = message.replace("<a href","<a style=\"color:#"+myStyle->getChatTextNickNotifyColor()+"; text-decoration: underline;\" href");
 				tempMsg = QString("<span style=\"color:#"+myStyle->getChatLogTextColor()+";\">"+message+"</span>");
-				}
-				break;
+			}
+			break;
 			default:
 				tempMsg = message;
 			}
@@ -135,8 +135,8 @@ void ChatTools::receiveMessage(QString playerName, QString message, bool pm)
 			case INGAME_CHAT: {
 				message = message.replace("<a href","<a style=\"color:#"+myStyle->getChatTextNickNotifyColor()+"; text-decoration: underline;\" href");
 				tempMsg = QString("<span style=\"color:#"+myStyle->getChatLogTextColor()+";\">"+message+"</span>");
-				}
-				break;
+			}
+			break;
 			default:
 				tempMsg = message;
 			}

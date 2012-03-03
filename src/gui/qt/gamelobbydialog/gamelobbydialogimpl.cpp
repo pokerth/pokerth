@@ -32,7 +32,7 @@ using namespace std;
 
 
 gameLobbyDialogImpl::gameLobbyDialogImpl(startWindowImpl *parent, ConfigFile *c)
-: QDialog(parent), myW(NULL), myStartWindow(parent), myConfig(c), currentGameName(""), myPlayerId(0), isGameAdministrator(false), inGame(false), guestMode(false), blinkingButtonAnimationState(true), myChat(NULL), keyUpCounter(0), infoMsgToShowId(0), currentInvitationGameId(0), inviteDialogIsCurrentlyShown(false), autoStartTimerCounter(0), lastNickListFilterState(0)
+	: QDialog(parent), myW(NULL), myStartWindow(parent), myConfig(c), currentGameName(""), myPlayerId(0), isGameAdministrator(false), inGame(false), guestMode(false), blinkingButtonAnimationState(true), myChat(NULL), keyUpCounter(0), infoMsgToShowId(0), currentInvitationGameId(0), inviteDialogIsCurrentlyShown(false), autoStartTimerCounter(0), lastNickListFilterState(0)
 {
 
 #ifdef __APPLE__
@@ -1498,8 +1498,7 @@ void gameLobbyDialogImpl::changeNickListFilter(int state)
 	if(lastNickListFilterState == 0) {
 		myNickListSortFilterProxyModel->setLastFilterStateCountry(false);
 		myNickListSortFilterProxyModel->setLastFilterStateAlpha(true);
-	}
-	else if(lastNickListFilterState == 1) {
+	} else if(lastNickListFilterState == 1) {
 		myNickListSortFilterProxyModel->setLastFilterStateCountry(true);
 		myNickListSortFilterProxyModel->setLastFilterStateAlpha(false);
 	}

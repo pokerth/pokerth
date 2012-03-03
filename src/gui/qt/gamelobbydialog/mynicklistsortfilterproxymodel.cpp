@@ -20,7 +20,7 @@
 #include <QtCore>
 
 MyNickListSortFilterProxyModel::MyNickListSortFilterProxyModel(QObject *parent)
-: QSortFilterProxyModel(parent), filterState(0), lastFilterStateCountry(false), lastFilterStateAlpha(true)
+	: QSortFilterProxyModel(parent), filterState(0), lastFilterStateCountry(false), lastFilterStateAlpha(true)
 {
 }
 
@@ -67,8 +67,7 @@ bool MyNickListSortFilterProxyModel::lessThan(const QModelIndex &left, const QMo
 			QString leftCountryAndName(sourceModel()->data(left, 33).toString().toUpper()+sourceModel()->data(left, Qt::DisplayRole).toString().toLower());
 			QString rightCountryAndName(sourceModel()->data(right, 33).toString().toUpper()+sourceModel()->data(right, Qt::DisplayRole).toString().toLower());
 			return leftCountryAndName < rightCountryAndName;
-		}
-		else if(lastFilterStateAlpha) {
+		} else if(lastFilterStateAlpha) {
 			return QSortFilterProxyModel::lessThan(left, right);
 		}
 	}
