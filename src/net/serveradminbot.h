@@ -22,6 +22,7 @@
 
 #include <boost/asio.hpp>
 #include <boost/thread.hpp>
+#include <boost/enable_shared_from_this.hpp>
 #include <third_party/boost/timers.hpp>
 #include <string>
 #include <list>
@@ -36,19 +37,23 @@ class ConfigFile;
 class AvatarManager;
 class IrcThread;
 
-class ServerAdminBot : public IrcCallback
+class ServerAdminBot : public IrcCallback, public boost::enable_shared_from_this<ServerAdminBot>
 {
 public:
-	ServerAdminBot();
+	ServerAdminBot(boost::shared_ptr<boost::asio::io_service> ioService);
 	virtual ~ServerAdminBot();
 
-	void Init(boost::shared_ptr<ServerLobbyThread> lobbyThread, boost::shared_ptr<IrcThread> ircAdminThread);
+	void Init(boost::shared_ptr<ServerLobbyThread> lobbyThread, boost::shared_ptr<IrcThread> ircAdminThread, const std::string &cacheDir);
 
 	// Main start function.
 	void Run();
 
-	// Perform processing.
-	void Process();
+	// Reconnect the bot.
+	void ReconnectHandler(const boost::system::error_code& ec);
+	void Reconnect();
+	void CheckFileHandler(const boost::system::error_code& ec);
+
+	void NotifyLoop(const boost::system::error_code& ec);
 
 	void SignalTermination();
 	bool Join(bool wait);
@@ -68,6 +73,7 @@ protected:
 
 private:
 	std::string m_ircNick;
+	std::string m_cacheDir;
 	mutable boost::mutex m_notifyMutex;
 	int m_notifyTimeoutMinutes;
 	int m_notifyIntervalMinutes;
@@ -75,8 +81,11 @@ private:
 
 	boost::shared_ptr<ServerLobbyThread> m_lobbyThread;
 	boost::shared_ptr<IrcThread> m_ircAdminThread;
-	boost::timers::portable::second_timer m_ircRestartTimer;
 	boost::timers::portable::second_timer m_notifyTimer;
+
+	boost::asio::deadline_timer m_reconnectTimer;
+	boost::asio::deadline_timer m_notifyLoopTimer;
+	boost::asio::deadline_timer m_checkFileTimer;
 };
 
 #endif

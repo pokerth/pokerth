@@ -21,7 +21,7 @@
 #define _THREAD_H_
 
 #include <boost/thread.hpp>
-#include <boost/thread/barrier.hpp>
+#include <boost/interprocess/sync/interprocess_semaphore.hpp>
 #include <boost/shared_ptr.hpp>
 
 #ifndef NANOSECONDS_PER_SECOND
@@ -69,17 +69,14 @@ private:
 
 	// Flag specifying whether the application code within the
 	// thread was terminated.
-	mutable boost::timed_mutex m_isTerminatedMutex;
+	mutable boost::interprocess::interprocess_semaphore m_isTerminatedSemaphore;
 
 	// Flag specifying whether the thread should be terminated.
-	mutable boost::timed_mutex m_shouldTerminateMutex;
-	mutable boost::shared_ptr<boost::timed_mutex::scoped_try_lock> m_userReqTerminateLock;
+	mutable boost::interprocess::interprocess_semaphore m_shouldTerminateSemaphore;
 
 	// The boost thread object.
 	boost::shared_ptr<boost::thread> m_threadObj;
 	mutable boost::mutex m_threadObjMutex;
-
-	mutable boost::shared_ptr<boost::barrier> m_threadStartBarrier;
 
 	friend class ThreadStarter;
 };

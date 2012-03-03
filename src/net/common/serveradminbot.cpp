@@ -25,17 +25,21 @@
 #include <net/socket_startup.h>
 #include <core/loghelper.h>
 
+#include <boost/filesystem.hpp>
 #include <boost/bind.hpp>
 #include <boost/algorithm/string/predicate.hpp>
 
 #define SERVER_RESTART_IRC_BOT_INTERVAL_SEC			86400	// 1 day
+#define SERVER_NOTIFY_IRC_BOT_INTERVAL_SEC			1
+#define SERVER_CHECK_IRC_BOT_INTERVAL_SEC			60
 
 using namespace std;
+using namespace boost::filesystem;
 
-ServerAdminBot::ServerAdminBot()
+ServerAdminBot::ServerAdminBot(boost::shared_ptr<boost::asio::io_service> ioService)
 	: m_notifyTimeoutMinutes(0), m_notifyIntervalMinutes(0), m_notifyCounter(0),
-	  m_ircRestartTimer(boost::posix_time::time_duration(0, 0, 0), boost::timers::portable::second_timer::auto_start),
-	  m_notifyTimer(boost::posix_time::time_duration(0, 0, 0), boost::timers::portable::second_timer::manual_start)
+	  m_notifyTimer(boost::posix_time::time_duration(0, 0, 0), boost::timers::portable::second_timer::manual_start),
+	  m_reconnectTimer(*ioService), m_notifyLoopTimer(*ioService), m_checkFileTimer(*ioService)
 {
 }
 
@@ -44,10 +48,11 @@ ServerAdminBot::~ServerAdminBot()
 }
 
 void
-ServerAdminBot::Init(boost::shared_ptr<ServerLobbyThread> lobbyThread, boost::shared_ptr<IrcThread> ircAdminThread)
+ServerAdminBot::Init(boost::shared_ptr<ServerLobbyThread> lobbyThread, boost::shared_ptr<IrcThread> ircAdminThread, const std::string &cacheDir)
 {
 	m_lobbyThread = lobbyThread;
 	m_ircAdminThread = ircAdminThread;
+	m_cacheDir = cacheDir;
 }
 
 void
@@ -251,26 +256,78 @@ ServerAdminBot::SignalIrcServerError(int errorCode)
 void
 ServerAdminBot::Run()
 {
-	if (m_ircAdminThread)
+	if (m_ircAdminThread) {
+		// Initialise the timers.
+		m_reconnectTimer.expires_from_now(
+			boost::posix_time::seconds(SERVER_RESTART_IRC_BOT_INTERVAL_SEC));
+		m_reconnectTimer.async_wait(
+			boost::bind(
+				&ServerAdminBot::ReconnectHandler, shared_from_this(), boost::asio::placeholders::error));
+		m_notifyLoopTimer.expires_from_now(
+			boost::posix_time::seconds(SERVER_NOTIFY_IRC_BOT_INTERVAL_SEC));
+		m_notifyLoopTimer.async_wait(
+			boost::bind(
+				&ServerAdminBot::NotifyLoop, shared_from_this(), boost::asio::placeholders::error));
+		m_checkFileTimer.expires_from_now(
+			boost::posix_time::seconds(SERVER_CHECK_IRC_BOT_INTERVAL_SEC));
+		m_checkFileTimer.async_wait(
+			boost::bind(
+				&ServerAdminBot::CheckFileHandler, shared_from_this(), boost::asio::placeholders::error));
+
 		m_ircAdminThread->Run();
+	}
 }
 
 void
-ServerAdminBot::Process()
+ServerAdminBot::ReconnectHandler(const boost::system::error_code& ec)
 {
-	if (m_ircRestartTimer.elapsed().total_seconds() > SERVER_RESTART_IRC_BOT_INTERVAL_SEC) {
-		if (m_ircAdminThread) {
-			m_ircAdminThread->SignalTermination();
-			if (m_ircAdminThread->Join(NET_ADMIN_IRC_TERMINATE_TIMEOUT_MSEC)) {
-				boost::shared_ptr<IrcThread> tmpIrcThread(new IrcThread(*m_ircAdminThread));
-				tmpIrcThread->Run();
-				m_ircAdminThread = tmpIrcThread;
-			}
-		}
-		m_ircRestartTimer.reset();
-		m_ircRestartTimer.start();
+	if (!ec) {
+		Reconnect();
+
+		m_reconnectTimer.expires_from_now(
+			boost::posix_time::seconds(SERVER_RESTART_IRC_BOT_INTERVAL_SEC));
+		m_reconnectTimer.async_wait(
+			boost::bind(
+				&ServerAdminBot::ReconnectHandler, shared_from_this(), boost::asio::placeholders::error));
 	}
-	{
+}
+
+void
+ServerAdminBot::Reconnect()
+{
+	if (m_ircAdminThread) {
+		m_ircAdminThread->SignalTermination();
+		if (m_ircAdminThread->Join(NET_ADMIN_IRC_TERMINATE_TIMEOUT_MSEC)) {
+			boost::shared_ptr<IrcThread> tmpIrcThread(new IrcThread(*m_ircAdminThread));
+			tmpIrcThread->Run();
+			m_ircAdminThread = tmpIrcThread;
+		}
+	}
+}
+
+void
+ServerAdminBot::CheckFileHandler(const boost::system::error_code& ec)
+{
+	if (!ec) {
+		// Reconnect the irc bot if a signal file exists.
+		path cachePath(m_cacheDir);
+		cachePath /= "SignalAdminReconnect";
+		if (exists(cachePath)) {
+			remove(cachePath);
+			Reconnect();
+		}
+		m_checkFileTimer.expires_from_now(
+			boost::posix_time::seconds(SERVER_CHECK_IRC_BOT_INTERVAL_SEC));
+		m_checkFileTimer.async_wait(
+			boost::bind(
+				&ServerAdminBot::CheckFileHandler, shared_from_this(), boost::asio::placeholders::error));
+	}
+}
+
+void
+ServerAdminBot::NotifyLoop(const boost::system::error_code& ec)
+{
+	if (!ec) {
 		boost::mutex::scoped_lock lock(m_notifyMutex);
 
 		if (m_notifyTimeoutMinutes && m_notifyTimer.elapsed().total_seconds() >= m_notifyCounter * m_notifyIntervalMinutes * 60) {
@@ -315,6 +372,12 @@ ServerAdminBot::Process()
 				m_notifyTimer.reset();
 			}
 		}
+		m_notifyLoopTimer.expires_from_now(
+			boost::posix_time::seconds(SERVER_NOTIFY_IRC_BOT_INTERVAL_SEC));
+		m_notifyLoopTimer.async_wait(
+			boost::bind(
+				&ServerAdminBot::NotifyLoop, shared_from_this(), boost::asio::placeholders::error));
+
 	}
 }
 
@@ -323,6 +386,11 @@ ServerAdminBot::SignalTermination()
 {
 	if (m_ircAdminThread)
 		m_ircAdminThread->SignalTermination();
+
+	// Terminated the timers.
+	m_notifyLoopTimer.cancel();
+	m_reconnectTimer.cancel();
+	m_checkFileTimer.cancel();
 }
 
 bool

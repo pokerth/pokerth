@@ -32,8 +32,8 @@
 
 using namespace std;
 
-ServerLobbyBot::ServerLobbyBot()
-	: m_ircRestartTimer(boost::posix_time::time_duration(0, 0, 0), boost::timers::portable::second_timer::auto_start)
+ServerLobbyBot::ServerLobbyBot(boost::shared_ptr<boost::asio::io_service> ioService)
+	: m_reconnectTimer(*ioService)
 {
 }
 
@@ -94,14 +94,22 @@ ServerLobbyBot::SignalLobbyMessage(unsigned playerId, const std::string &playerN
 void
 ServerLobbyBot::Run()
 {
-	if (m_ircLobbyThread)
+	if (m_ircLobbyThread) {
+		// Initialise the reconnect timer.
+		m_reconnectTimer.expires_from_now(
+			boost::posix_time::seconds(SERVER_RESTART_IRC_BOT_INTERVAL_SEC));
+		m_reconnectTimer.async_wait(
+			boost::bind(
+				&ServerLobbyBot::Reconnect, shared_from_this(), boost::asio::placeholders::error));
+
 		m_ircLobbyThread->Run();
+	}
 }
 
 void
-ServerLobbyBot::Process()
+ServerLobbyBot::Reconnect(const boost::system::error_code& ec)
 {
-	if (m_ircRestartTimer.elapsed().total_seconds() > SERVER_RESTART_IRC_BOT_INTERVAL_SEC) {
+	if (!ec) {
 		if (m_ircLobbyThread) {
 			m_ircLobbyThread->SignalTermination();
 			if (m_ircLobbyThread->Join(NET_ADMIN_IRC_TERMINATE_TIMEOUT_MSEC)) {
@@ -110,9 +118,11 @@ ServerLobbyBot::Process()
 				m_ircLobbyThread = tmpIrcThread;
 			}
 		}
-
-		m_ircRestartTimer.reset();
-		m_ircRestartTimer.start();
+		m_reconnectTimer.expires_from_now(
+			boost::posix_time::seconds(SERVER_RESTART_IRC_BOT_INTERVAL_SEC));
+		m_reconnectTimer.async_wait(
+			boost::bind(
+				&ServerLobbyBot::Reconnect, shared_from_this(), boost::asio::placeholders::error));
 	}
 }
 
@@ -121,6 +131,9 @@ ServerLobbyBot::SignalTermination()
 {
 	if (m_ircLobbyThread)
 		m_ircLobbyThread->SignalTermination();
+
+	// Terminated the reconnect timer.
+	m_reconnectTimer.cancel();
 }
 
 bool

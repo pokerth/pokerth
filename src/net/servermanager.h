@@ -46,9 +46,6 @@ public:
 	// Main start function.
 	virtual void RunAll();
 
-	// Let the server manager perform processing.
-	virtual void Process();
-
 	virtual void SignalTerminationAll();
 	virtual bool JoinAll(bool wait);
 

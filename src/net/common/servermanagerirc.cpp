@@ -29,8 +29,8 @@ using namespace std;
 ServerManagerIrc::ServerManagerIrc(ConfigFile &config, GuiInterface &gui, ServerMode mode, AvatarManager &avatarManager)
 	: ServerManager(config, gui)
 {
-	m_adminBot.reset(new ServerAdminBot);
-	m_lobbyBot.reset(new ServerLobbyBot);
+	m_adminBot.reset(new ServerAdminBot(m_ioService));
+	m_lobbyBot.reset(new ServerLobbyBot(m_ioService));
 	m_lobbyThread.reset(new ServerLobbyThread(gui, mode, *m_lobbyBot, config, avatarManager, m_ioService));
 }
 
@@ -68,7 +68,7 @@ ServerManagerIrc::Init(unsigned serverPort, bool ipv6, ServerTransportProtocol p
 			myConfig.readConfigString("LobbyIRCChannelPassword"));
 	}
 
-	m_adminBot->Init(m_lobbyThread, tmpIrcAdminThread);
+	m_adminBot->Init(m_lobbyThread, tmpIrcAdminThread, myConfig.readConfigString("CacheDir"));
 	m_lobbyBot->Init(m_lobbyThread, tmpIrcLobbyThread);
 	ServerManager::Init(serverPort, ipv6, proto, logDir);
 }
@@ -79,14 +79,6 @@ ServerManagerIrc::RunAll()
 	m_adminBot->Run();
 	m_lobbyBot->Run();
 	ServerManager::RunAll();
-}
-
-void
-ServerManagerIrc::Process()
-{
-	m_adminBot->Process();
-	m_lobbyBot->Process();
-	ServerManager::Process();
 }
 
 void

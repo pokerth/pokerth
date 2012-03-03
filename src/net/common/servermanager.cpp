@@ -88,11 +88,6 @@ ServerManager::RunAll()
 }
 
 void
-ServerManager::Process()
-{
-}
-
-void
 ServerManager::SignalTerminationAll()
 {
 	GetLobbyThread().SignalTermination();

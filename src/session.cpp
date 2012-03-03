@@ -343,7 +343,6 @@ bool Session::pollNetworkServerTerminated()
 	if (!myNetServer)
 		retVal = true; // already terminated
 	else {
-		myNetServer->Process();
 		if (myNetServer->JoinAll(false))
 			retVal = true;
 	}

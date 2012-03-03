@@ -21,7 +21,7 @@
 #define _SERVERLOBBYBOT_H_
 
 #include <boost/asio.hpp>
-#include <third_party/boost/timers.hpp>
+#include <boost/enable_shared_from_this.hpp>
 #include <string>
 #include <list>
 
@@ -35,10 +35,10 @@ class ConfigFile;
 class AvatarManager;
 class IrcThread;
 
-class ServerLobbyBot : public IrcCallback, public ServerIrcBotCallback
+class ServerLobbyBot : public IrcCallback, public ServerIrcBotCallback, public boost::enable_shared_from_this<ServerLobbyBot>
 {
 public:
-	ServerLobbyBot();
+	ServerLobbyBot(boost::shared_ptr<boost::asio::io_service> ioService);
 	virtual ~ServerLobbyBot();
 
 	void Init(boost::shared_ptr<ServerLobbyThread> lobbyThread, boost::shared_ptr<IrcThread> ircLobbyThread);
@@ -46,8 +46,8 @@ public:
 	// Main start function.
 	void Run();
 
-	// Perform processing.
-	void Process();
+	// Reconnect the bot.
+	void Reconnect(const boost::system::error_code& ec);
 
 	void SignalTermination();
 	bool Join(bool wait);
@@ -72,7 +72,8 @@ private:
 
 	boost::shared_ptr<ServerLobbyThread> m_lobbyThread;
 	boost::shared_ptr<IrcThread> m_ircLobbyThread;
-	boost::timers::portable::second_timer m_ircRestartTimer;
+
+	boost::asio::deadline_timer m_reconnectTimer;
 };
 
 #endif

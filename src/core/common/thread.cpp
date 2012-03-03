@@ -34,6 +34,7 @@ private:
 };
 
 Thread::Thread()
+	: m_isTerminatedSemaphore(0), m_shouldTerminateSemaphore(0)
 {
 }
 
@@ -48,22 +49,14 @@ Thread::Run()
 
 	// Create the boost thread object.
 	if (!m_threadObj.get()) {
-		// Initialise data structures within the context of the thread
-		// who runs/terminates this thread.
-		m_userReqTerminateLock.reset(new boost::timed_mutex::scoped_try_lock(m_shouldTerminateMutex));
-		m_threadStartBarrier.reset(new boost::barrier(2));
-
 		m_threadObj.reset(new boost::thread(ThreadStarter(*this)));
-		m_threadStartBarrier->wait();
 	}
 }
 
 void
 Thread::SignalTermination()
 {
-	// Unlock the shouldTerminateMutex.
-	if (m_userReqTerminateLock.get()) // cannot signal before calling Run
-		m_userReqTerminateLock->unlock();
+	m_shouldTerminateSemaphore.post();
 }
 
 bool
@@ -75,19 +68,17 @@ Thread::Join(unsigned msecTimeout)
 	bool tmpIsTerminated;
 	if (msecTimeout == THREAD_WAIT_INFINITE) {
 		// Wait infinitely.
-		boost::timed_mutex::scoped_lock lock(m_isTerminatedMutex);
+		m_isTerminatedSemaphore.wait();
 		tmpIsTerminated = true;
 	} else {
 		// Wait for the termination of the application code.
-		boost::defer_lock_t defer;
-		boost::timed_mutex::scoped_timed_lock lock(m_isTerminatedMutex, defer);
-		tmpIsTerminated = lock.timed_lock(boost::posix_time::millisec(msecTimeout));
+		tmpIsTerminated = m_isTerminatedSemaphore.timed_wait(boost::posix_time::microsec_clock::universal_time() + boost::posix_time::millisec(msecTimeout));
 	}
 
 	if (tmpIsTerminated) {
 		boost::mutex::scoped_lock lock(m_threadObjMutex);
 		// Wait for "real" termination of the thread.
-		if (m_threadObj.get()) {
+		if (m_threadObj) {
 			m_threadObj->join();
 			m_threadObj.reset();
 		}
@@ -105,18 +96,14 @@ Thread::Msleep(unsigned msecs)
 void
 Thread::MainWrapper()
 {
-	boost::timed_mutex::scoped_lock lock(m_isTerminatedMutex);
-	assert(m_threadStartBarrier.get());
-	m_threadStartBarrier->wait();
 	this->Main();
+	m_isTerminatedSemaphore.post();
 }
 
 bool
 Thread::ShouldTerminate() const
 {
-	boost::defer_lock_t defer;
-	boost::timed_mutex::scoped_try_lock lock(m_shouldTerminateMutex, defer);
-	return lock.try_lock();
+	return m_shouldTerminateSemaphore.try_wait();
 }
 
 bool
