@@ -119,6 +119,7 @@ public slots:
 	void saveLogFileAs();
 	void showLogFilePreview();
 	void resetSettings();
+	void keyPressEvent ( QKeyEvent * event );
 
 private:
 

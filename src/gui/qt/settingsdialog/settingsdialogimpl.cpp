@@ -1465,3 +1465,12 @@ void settingsDialogImpl::resetSettings()
 	}
 
 }
+
+void settingsDialogImpl::keyPressEvent ( QKeyEvent * event )
+{
+	if (event->key() == Qt::Key_Delete ) { /*Delete*/
+		if(treeWidget_logFiles->hasFocus()) {
+			pushButton_deleteLog->click();
+		}
+	}
+}
