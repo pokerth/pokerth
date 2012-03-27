@@ -27,14 +27,16 @@ void SoundEvents::blindsWereSet(int sB)
 		lastSBValue = sB;
 		++lastSBLevel;
 
-		if(lastSBLevel == 1 || lastSBLevel == 2) {
-			mySDLPlayer->playSound("blinds_raises_level1", 0);
-		}
-		if(lastSBLevel == 3 || lastSBLevel == 4) {
-			mySDLPlayer->playSound("blinds_raises_level2", 0);
-		}
-		if(lastSBLevel >= 5) {
-			mySDLPlayer->playSound("blinds_raises_level3", 0);
+		if(myConfig->readConfigInt("PlayBlindRaiseNotification")) {
+			if(lastSBLevel == 1 || lastSBLevel == 2) {
+				mySDLPlayer->playSound("blinds_raises_level1", 0);
+			}
+			if(lastSBLevel == 3 || lastSBLevel == 4) {
+				mySDLPlayer->playSound("blinds_raises_level2", 0);
+			}
+			if(lastSBLevel >= 5) {
+				mySDLPlayer->playSound("blinds_raises_level3", 0);
+			}
 		}
 	}
 }

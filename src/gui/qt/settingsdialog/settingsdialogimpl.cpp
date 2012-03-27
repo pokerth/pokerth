@@ -478,6 +478,7 @@ void settingsDialogImpl::prepareDialog()
 	checkBox_playGameActions->setChecked(myConfig->readConfigInt("PlayGameActions"));
 	checkBox_playLobbyChatNotification->setChecked(myConfig->readConfigInt("PlayLobbyChatNotification"));
 	checkBox_playNetworkGameNotification->setChecked(myConfig->readConfigInt("PlayNetworkGameNotification"));
+	checkBox_playBlindRaiseSound->setChecked(myConfig->readConfigInt("PlayBlindRaiseNotification"));
 
 	//Log
 	groupBox_logOnOff->setChecked(myConfig->readConfigInt("LogOnOff"));
@@ -745,6 +746,7 @@ void settingsDialogImpl::isAccepted()
 	myConfig->writeConfigInt("PlayGameActions", checkBox_playGameActions->isChecked());
 	myConfig->writeConfigInt("PlayLobbyChatNotification", checkBox_playLobbyChatNotification->isChecked());
 	myConfig->writeConfigInt("PlayNetworkGameNotification", checkBox_playNetworkGameNotification->isChecked());
+	myConfig->writeConfigInt("PlayBlindRaiseNotification", checkBox_playBlindRaiseSound->isChecked());
 
 	//	Log
 	myConfig->writeConfigInt("LogOnOff", groupBox_logOnOff->isChecked());
