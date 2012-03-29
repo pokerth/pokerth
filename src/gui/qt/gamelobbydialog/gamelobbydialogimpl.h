@@ -131,6 +131,7 @@ public slots:
 	void registeredUserMode();
 	void guestUserMode();
 	void showNickListContextMenu(QPoint);
+	void showGameListContextMenu(QPoint);
 	void showConnectedPlayersContextMenu(QPoint);
 	void invitePlayerToCurrentGame();
 	void showInfoMsgBox();
@@ -146,6 +147,7 @@ public slots:
 	void openPlayerStats2();
 	QString getFullCountryString(QString);
 	void closeAllChildDialogs();
+	void reportBadGameName();
 
 private:
 
@@ -180,6 +182,8 @@ private:
 	QStandardItemModel *myGameListModel;
 	QItemSelectionModel *myGameListSelectionModel;
 	MyGameListSortFilterProxyModel *myGameListSortFilterProxyModel;
+	QMenu *gameListContextMenu;
+	QAction *gameListReportBadGameNameAction;
 	QMenu *nickListContextMenu;
 	QAction *nickListInviteAction;
 	QAction *nickListIgnorePlayerAction;

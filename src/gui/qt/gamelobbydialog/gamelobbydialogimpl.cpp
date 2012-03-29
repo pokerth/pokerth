@@ -154,6 +154,11 @@ gameLobbyDialogImpl::gameLobbyDialogImpl(startWindowImpl *parent, ConfigFile *c)
 	nickListOpenPlayerStats2 = new QAction(QIcon(":/gfx/view-statistics.png"), tr("Show player stats"), nickListContextMenu);
 	connectedPlayersListPlayerInfoSubMenu->addAction(nickListOpenPlayerStats2);
 
+	gameListContextMenu = new QMenu();
+	gameListReportBadGameNameAction = new QAction(QIcon(":/gfx/emblem-important.png"), tr("Report inappropriate game name"), gameListContextMenu);
+	gameListContextMenu->addAction(gameListReportBadGameNameAction);
+
+
 	connect( pushButton_CreateGame, SIGNAL( clicked() ), this, SLOT( createGame() ) );
 	connect( pushButton_JoinGame, SIGNAL( clicked() ), this, SLOT( joinGame() ) );
 	connect( pushButton_joinAnyGame, SIGNAL( clicked() ), this, SLOT( joinAnyGame() ) );
@@ -175,11 +180,13 @@ gameLobbyDialogImpl::gameLobbyDialogImpl(startWindowImpl *parent, ConfigFile *c)
 	connect( comboBox_nickListFilter, SIGNAL(currentIndexChanged(int)), this, SLOT(changeNickListFilter(int)));
 	connect( treeView_NickList, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT( showNickListContextMenu(QPoint) ) );
 	connect( treeWidget_connectedPlayers, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT( showConnectedPlayersContextMenu(QPoint) ) );
+	connect( treeView_GameList, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT( showGameListContextMenu(QPoint) ) );
 	connect( nickListInviteAction, SIGNAL(triggered()), this, SLOT( invitePlayerToCurrentGame() ));
 	connect( nickListIgnorePlayerAction, SIGNAL(triggered()), this, SLOT( putPlayerOnIgnoreList() ));
 	connect( nickListOpenPlayerStats1, SIGNAL(triggered()), this, SLOT( openPlayerStats1() ));
 	connect( nickListOpenPlayerStats2, SIGNAL(triggered()), this, SLOT( openPlayerStats2() ));
 	connect( lineEdit_searchForPlayers, SIGNAL(textChanged(QString)),this, SLOT(searchForPlayerRegExpChanged()));
+	connect( gameListReportBadGameNameAction, SIGNAL(triggered()), this, SLOT( reportBadGameName()));
 
 	lineEdit_searchForPlayers->installEventFilter(this);
 	lineEdit_ChatInput->installEventFilter(this);
@@ -1579,6 +1586,16 @@ void gameLobbyDialogImpl::showNickListContextMenu(QPoint p)
 	}
 }
 
+void gameLobbyDialogImpl::showGameListContextMenu(QPoint p)
+{
+	if(myGameListModel->rowCount() && myGameListSelectionModel->currentIndex().isValid()) {
+		//popup a little more to the right to avaoid double click action
+		QPoint tempPoint = p;
+		tempPoint.setX(p.x()+5);
+		gameListContextMenu->popup(treeView_GameList->mapToGlobal(tempPoint));
+	}
+}
+
 void gameLobbyDialogImpl::invitePlayerToCurrentGame()
 {
 	if(myNickListSelectionModel->currentIndex().isValid()) {
@@ -2018,4 +2035,21 @@ void gameLobbyDialogImpl::closeAllChildDialogs()
 	inviteOnlyInfoMsgBox->hide();
 	waitStartGameMsgBox->hide();
 	waitRejoinStartGameMsgBox->hide();
+}
+
+void gameLobbyDialogImpl::reportBadGameName()
+{
+	assert(mySession);
+	QItemSelectionModel *selection = treeView_GameList->selectionModel();
+	if (!inGame && selection->hasSelection()) {
+		unsigned gameId = selection->selectedRows().first().data(Qt::UserRole).toUInt();
+		GameInfo info(mySession->getClientGameInfo(gameId));
+
+		int ret = QMessageBox::question(this, tr("PokerTH - Question"),
+							tr("Are you sure you want to report the game name:\n\"%1\" as inappropriate?").arg(QString::fromUtf8(info.name.c_str())), QMessageBox::Yes | QMessageBox::No);
+
+		if(ret == QMessageBox::Yes) {
+//			mySession->reportBadGameName(gameId); TODO
+		}
+	}
 }

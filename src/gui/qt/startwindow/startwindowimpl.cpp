@@ -1073,6 +1073,18 @@ void startWindowImpl::networkMessage(unsigned msgId)
 		msgText = tr("An error occurred while reporting the avatar.");
 	}
 	break;
+	case MSG_NET_GAMENAME_REPORT_ACCEPTED: {
+		msgText = tr("The game name report was accepted by the server. Thank you.");
+	}
+	break;
+	case MSG_NET_GAMENAME_REPORT_DUP: {
+		msgText = tr("This game name was already reported by another player.");
+	}
+	break;
+	case MSG_NET_GAMENAME_REPORT_REJECTED: {
+		msgText = tr("An error occurred while reporting the game name.");
+	}
+	break;
 	default:
 		;
 		break;
