@@ -485,6 +485,24 @@ static asn_TYPE_member_t asn_MBR_PokerTHMessage_1[] = {
 		0,
 		"reportAvatarAckMessage"
 	},
+	{	ATF_NOFLAGS, 0, offsetof(struct PokerTHMessage, choice.reportGameMessage),
+		(ASN_TAG_CLASS_APPLICATION | (137 << 2)),
+		0,
+		&asn_DEF_ReportGameMessage,
+		0,	/* Defer constraints checking to the member type */
+		0,	/* PER is not compiled, use -gen-PER */
+		0,
+		"reportGameMessage"
+	},
+	{	ATF_NOFLAGS, 0, offsetof(struct PokerTHMessage, choice.reportGameAckMessage),
+		(ASN_TAG_CLASS_APPLICATION | (138 << 2)),
+		0,
+		&asn_DEF_ReportGameAckMessage,
+		0,	/* Defer constraints checking to the member type */
+		0,	/* PER is not compiled, use -gen-PER */
+		0,
+		"reportGameAckMessage"
+	},
 	{	ATF_NOFLAGS, 0, offsetof(struct PokerTHMessage, choice.errorMessage),
 		(ASN_TAG_CLASS_APPLICATION | (255 << 2)),
 		0,
@@ -549,7 +567,9 @@ static asn_TYPE_tag2member_t asn_MAP_PokerTHMessage_tag2el_1[] = {
 	{ (ASN_TAG_CLASS_APPLICATION | (134 << 2)), 50, 0, 0 }, /* resetTimeoutMessage at 76 */
 	{ (ASN_TAG_CLASS_APPLICATION | (135 << 2)), 51, 0, 0 }, /* reportAvatarMessage at 77 */
 	{ (ASN_TAG_CLASS_APPLICATION | (136 << 2)), 52, 0, 0 }, /* reportAvatarAckMessage at 78 */
-	{ (ASN_TAG_CLASS_APPLICATION | (255 << 2)), 53, 0, 0 } /* errorMessage at 80 */
+	{ (ASN_TAG_CLASS_APPLICATION | (137 << 2)), 53, 0, 0 }, /* reportGameMessage at 79 */
+	{ (ASN_TAG_CLASS_APPLICATION | (138 << 2)), 54, 0, 0 }, /* reportGameAckMessage at 80 */
+	{ (ASN_TAG_CLASS_APPLICATION | (255 << 2)), 55, 0, 0 } /* errorMessage at 82 */
 };
 static asn_CHOICE_specifics_t asn_SPC_PokerTHMessage_specs_1 = {
 	sizeof(struct PokerTHMessage),
@@ -557,9 +577,9 @@ static asn_CHOICE_specifics_t asn_SPC_PokerTHMessage_specs_1 = {
 	offsetof(struct PokerTHMessage, present),
 	sizeof(((struct PokerTHMessage *)0)->present),
 	asn_MAP_PokerTHMessage_tag2el_1,
-	54,	/* Count of tags in the map */
+	56,	/* Count of tags in the map */
 	0,
-	54	/* Extensions start */
+	56	/* Extensions start */
 };
 asn_TYPE_descriptor_t asn_DEF_PokerTHMessage = {
 	"PokerTHMessage",
@@ -579,7 +599,7 @@ asn_TYPE_descriptor_t asn_DEF_PokerTHMessage = {
 	0,	/* No tags (count) */
 	0,	/* No PER visible constraints */
 	asn_MBR_PokerTHMessage_1,
-	54,	/* Elements count */
+	56,	/* Elements count */
 	&asn_SPC_PokerTHMessage_specs_1	/* Additional specs */
 };
 

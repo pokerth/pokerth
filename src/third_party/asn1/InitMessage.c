@@ -69,9 +69,9 @@ static asn_TYPE_member_t asn_MBR_login_6[] = {
 	},
 };
 static asn_TYPE_tag2member_t asn_MAP_login_tag2el_6[] = {
-	{ (ASN_TAG_CLASS_CONTEXT | (0 << 2)), 0, 0, 0 }, /* guestLogin at 101 */
-	{ (ASN_TAG_CLASS_CONTEXT | (1 << 2)), 1, 0, 0 }, /* authenticatedLogin at 102 */
-	{ (ASN_TAG_CLASS_CONTEXT | (2 << 2)), 2, 0, 0 } /* unauthenticatedLogin at 104 */
+	{ (ASN_TAG_CLASS_CONTEXT | (0 << 2)), 0, 0, 0 }, /* guestLogin at 103 */
+	{ (ASN_TAG_CLASS_CONTEXT | (1 << 2)), 1, 0, 0 }, /* authenticatedLogin at 104 */
+	{ (ASN_TAG_CLASS_CONTEXT | (2 << 2)), 2, 0, 0 } /* unauthenticatedLogin at 106 */
 };
 static asn_CHOICE_specifics_t asn_SPC_login_specs_6 = {
 	sizeof(struct login),
@@ -158,13 +158,13 @@ static ber_tlv_tag_t asn_DEF_InitMessage_tags_1[] = {
 	(ASN_TAG_CLASS_UNIVERSAL | (16 << 2))
 };
 static asn_TYPE_tag2member_t asn_MAP_InitMessage_tag2el_1[] = {
-	{ (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 1, 0, 0 }, /* buildId at 97 */
-	{ (ASN_TAG_CLASS_UNIVERSAL | (4 << 2)), 2, 0, 0 }, /* myLastSessionId at 98 */
-	{ (ASN_TAG_CLASS_UNIVERSAL | (12 << 2)), 3, 0, 0 }, /* authServerPassword at 99 */
-	{ (ASN_TAG_CLASS_UNIVERSAL | (16 << 2)), 0, 0, 0 }, /* requestedVersion at 96 */
-	{ (ASN_TAG_CLASS_CONTEXT | (0 << 2)), 4, 0, 0 }, /* guestLogin at 101 */
-	{ (ASN_TAG_CLASS_CONTEXT | (1 << 2)), 4, 0, 0 }, /* authenticatedLogin at 102 */
-	{ (ASN_TAG_CLASS_CONTEXT | (2 << 2)), 4, 0, 0 } /* unauthenticatedLogin at 104 */
+	{ (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 1, 0, 0 }, /* buildId at 99 */
+	{ (ASN_TAG_CLASS_UNIVERSAL | (4 << 2)), 2, 0, 0 }, /* myLastSessionId at 100 */
+	{ (ASN_TAG_CLASS_UNIVERSAL | (12 << 2)), 3, 0, 0 }, /* authServerPassword at 101 */
+	{ (ASN_TAG_CLASS_UNIVERSAL | (16 << 2)), 0, 0, 0 }, /* requestedVersion at 98 */
+	{ (ASN_TAG_CLASS_CONTEXT | (0 << 2)), 4, 0, 0 }, /* guestLogin at 103 */
+	{ (ASN_TAG_CLASS_CONTEXT | (1 << 2)), 4, 0, 0 }, /* authenticatedLogin at 104 */
+	{ (ASN_TAG_CLASS_CONTEXT | (2 << 2)), 4, 0, 0 } /* unauthenticatedLogin at 106 */
 };
 static asn_SEQUENCE_specifics_t asn_SPC_InitMessage_specs_1 = {
 	sizeof(struct InitMessage),

@@ -1620,7 +1620,7 @@ ServerLobbyThread::SendReportAvatarResult(unsigned byPlayerId, unsigned reported
 		packet->GetMsg()->present = PokerTHMessage_PR_reportAvatarAckMessage;
 		ReportAvatarAckMessage_t *netReportAck = &packet->GetMsg()->choice.reportAvatarAckMessage;
 		netReportAck->reportedPlayerId = reportedPlayerId;
-		netReportAck->reportResult = success ? reportResult_avatarReportAccepted : reportResult_avatarReportInvalid;
+		netReportAck->reportAvatarResult = success ? reportAvatarResult_avatarReportAccepted : reportAvatarResult_avatarReportInvalid;
 		GetSender().Send(session, packet);
 	}
 }

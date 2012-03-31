@@ -386,6 +386,16 @@ ClientThread::SendReportAvatar(unsigned reportedPlayerId, const std::string &ava
 }
 
 void
+ClientThread::SendReportGameName(unsigned reportedGameId)
+{
+	boost::shared_ptr<NetPacket> packet(new NetPacket(NetPacket::Alloc));
+	packet->GetMsg()->present = PokerTHMessage_PR_reportGameMessage;
+	ReportGameMessage_t *netReport = &packet->GetMsg()->choice.reportGameMessage;
+	netReport->reportedGameId = reportedGameId;
+	m_ioService->post(boost::bind(&ClientThread::SendSessionPacket, shared_from_this(), packet));
+}
+
+void
 ClientThread::StartAsyncRead()
 {
 	GetContext().GetSessionData()->GetReceiveBuffer().StartAsyncRead(GetContext().GetSessionData());

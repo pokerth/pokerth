@@ -21,17 +21,17 @@ extern "C" {
 #endif
 
 	/* Dependencies */
-	typedef enum reportResult {
-		reportResult_avatarReportAccepted	= 0,
-		  reportResult_avatarReportDuplicate	= 1,
-		   reportResult_avatarReportInvalid	= 2
+	typedef enum reportAvatarResult {
+		reportAvatarResult_avatarReportAccepted	= 0,
+		reportAvatarResult_avatarReportDuplicate	= 1,
+		   reportAvatarResult_avatarReportInvalid	= 2
 	}
-	           e_reportResult;
+	           e_reportAvatarResult;
 
 	/* ReportAvatarAckMessage */
 	typedef struct ReportAvatarAckMessage {
 		NonZeroId_t	 reportedPlayerId;
-		long	 reportResult;
+		long	 reportAvatarResult;
 		/*
 		 * This type is extensible,
 		 * possible extensions are below.
@@ -42,7 +42,7 @@ extern "C" {
 	} ReportAvatarAckMessage_t;
 
 	/* Implementation */
-	/* extern asn_TYPE_descriptor_t asn_DEF_reportResult_3;	// (Use -fall-defs-global to expose) */
+	/* extern asn_TYPE_descriptor_t asn_DEF_reportAvatarResult_3;	// (Use -fall-defs-global to expose) */
 	extern asn_TYPE_descriptor_t asn_DEF_ReportAvatarAckMessage;
 
 #ifdef __cplusplus

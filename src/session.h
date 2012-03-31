@@ -99,6 +99,7 @@ public:
 	void rejectGameInvitation(unsigned gameId, DenyGameInvitationReason reason);
 
 	void reportBadAvatar(unsigned reportedPlayerId, const std::string &avatarHash);
+	void reportBadGameName(unsigned gameId);
 
 	void resetNetworkTimeout();
 

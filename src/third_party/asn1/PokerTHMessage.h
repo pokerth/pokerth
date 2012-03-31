@@ -65,6 +65,8 @@
 #include "ResetTimeoutMessage.h"
 #include "ReportAvatarMessage.h"
 #include "ReportAvatarAckMessage.h"
+#include "ReportGameMessage.h"
+#include "ReportGameAckMessage.h"
 #include "ErrorMessage.h"
 #include <constr_CHOICE.h>
 
@@ -128,6 +130,8 @@ extern "C" {
 		PokerTHMessage_PR_resetTimeoutMessage,
 		PokerTHMessage_PR_reportAvatarMessage,
 		PokerTHMessage_PR_reportAvatarAckMessage,
+		PokerTHMessage_PR_reportGameMessage,
+		PokerTHMessage_PR_reportGameAckMessage,
 		PokerTHMessage_PR_errorMessage,
 		/* Extensions may appear below */
 
@@ -191,6 +195,8 @@ extern "C" {
 			ResetTimeoutMessage_t	 resetTimeoutMessage;
 			ReportAvatarMessage_t	 reportAvatarMessage;
 			ReportAvatarAckMessage_t	 reportAvatarAckMessage;
+			ReportGameMessage_t	 reportGameMessage;
+			ReportGameAckMessage_t	 reportGameAckMessage;
 			ErrorMessage_t	 errorMessage;
 			/*
 			 * This type is extensible,

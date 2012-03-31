@@ -76,6 +76,8 @@ PokerTHMessage ::= CHOICE {
 	resetTimeoutMessage			ResetTimeoutMessage,
 	reportAvatarMessage			ReportAvatarMessage,
 	reportAvatarAckMessage		ReportAvatarAckMessage,
+	reportGameMessage			ReportGameMessage,
+	reportGameAckMessage		ReportGameAckMessage,
 	errorMessage				ErrorMessage
 }
 
@@ -763,10 +765,23 @@ ReportAvatarMessage ::= [APPLICATION 135] SEQUENCE {
 
 ReportAvatarAckMessage ::= [APPLICATION 136] SEQUENCE {
 	reportedPlayerId			NonZeroId,
-	reportResult				ENUMERATED {
+	reportAvatarResult			ENUMERATED {
 		avatarReportAccepted			(0),
 		avatarReportDuplicate			(1),
 		avatarReportInvalid				(2)
+	}
+}
+
+ReportGameMessage ::= [APPLICATION 137] SEQUENCE {
+	reportedGameId				NonZeroId
+}
+
+ReportGameAckMessage ::= [APPLICATION 138] SEQUENCE {
+	reportedGameId				NonZeroId,
+	reportGameResult			ENUMERATED {
+		gameReportAccepted				(0),
+		gameReportDuplicate				(1),
+		gameReportInvalid				(2)
 	}
 }
 

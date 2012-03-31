@@ -228,11 +228,11 @@ static ber_tlv_tag_t asn_DEF_AnnounceMessage_tags_1[] = {
 	(ASN_TAG_CLASS_UNIVERSAL | (16 << 2))
 };
 static asn_TYPE_tag2member_t asn_MAP_AnnounceMessage_tag2el_1[] = {
-	{ (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 2, 0, 1 }, /* latestBetaRevision at 85 */
-	{ (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 4, -1, 0 }, /* numPlayersOnServer at 91 */
-	{ (ASN_TAG_CLASS_UNIVERSAL | (10 << 2)), 3, 0, 0 }, /* serverType at 87 */
-	{ (ASN_TAG_CLASS_UNIVERSAL | (16 << 2)), 0, 0, 1 }, /* protocolVersion at 83 */
-	{ (ASN_TAG_CLASS_UNIVERSAL | (16 << 2)), 1, -1, 0 } /* latestGameVersion at 84 */
+	{ (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 2, 0, 1 }, /* latestBetaRevision at 87 */
+	{ (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 4, -1, 0 }, /* numPlayersOnServer at 93 */
+	{ (ASN_TAG_CLASS_UNIVERSAL | (10 << 2)), 3, 0, 0 }, /* serverType at 89 */
+	{ (ASN_TAG_CLASS_UNIVERSAL | (16 << 2)), 0, 0, 1 }, /* protocolVersion at 85 */
+	{ (ASN_TAG_CLASS_UNIVERSAL | (16 << 2)), 1, -1, 0 } /* latestGameVersion at 86 */
 };
 static asn_SEQUENCE_specifics_t asn_SPC_AnnounceMessage_specs_1 = {
 	sizeof(struct AnnounceMessage),

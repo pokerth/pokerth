@@ -347,7 +347,7 @@ AbstractServerGameStateReceiving::ProcessPacket(boost::shared_ptr<ServerGame> se
 				packet->GetMsg()->present = PokerTHMessage_PR_reportAvatarAckMessage;
 				ReportAvatarAckMessage_t *netReportAck = &packet->GetMsg()->choice.reportAvatarAckMessage;
 				netReportAck->reportedPlayerId = netReport->reportedPlayerId;
-				netReportAck->reportResult = reportResult_avatarReportDuplicate;
+				netReportAck->reportAvatarResult = reportAvatarResult_avatarReportDuplicate;
 				server->GetLobbyThread().GetSender().Send(session, packet);
 			}
 		} else {
@@ -355,7 +355,7 @@ AbstractServerGameStateReceiving::ProcessPacket(boost::shared_ptr<ServerGame> se
 			packet->GetMsg()->present = PokerTHMessage_PR_reportAvatarAckMessage;
 			ReportAvatarAckMessage_t *netReportAck = &packet->GetMsg()->choice.reportAvatarAckMessage;
 			netReportAck->reportedPlayerId = netReport->reportedPlayerId;
-			netReportAck->reportResult = reportResult_avatarReportInvalid;
+			netReportAck->reportAvatarResult = reportAvatarResult_avatarReportInvalid;
 			server->GetLobbyThread().GetSender().Send(session, packet);
 		}
 	} else {

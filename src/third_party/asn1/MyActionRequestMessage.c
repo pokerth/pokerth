@@ -59,11 +59,11 @@ static ber_tlv_tag_t asn_DEF_MyActionRequestMessage_tags_1[] = {
 	(ASN_TAG_CLASS_UNIVERSAL | (16 << 2))
 };
 static asn_TYPE_tag2member_t asn_MAP_MyActionRequestMessage_tag2el_1[] = {
-	{ (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 0, 0, 2 }, /* gameId at 502 */
-	{ (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 1, -1, 1 }, /* handNum at 503 */
-	{ (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 4, -2, 0 }, /* myRelativeBet at 507 */
-	{ (ASN_TAG_CLASS_UNIVERSAL | (10 << 2)), 2, 0, 1 }, /* gameState at 504 */
-	{ (ASN_TAG_CLASS_UNIVERSAL | (10 << 2)), 3, -1, 0 } /* myAction at 505 */
+	{ (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 0, 0, 2 }, /* gameId at 504 */
+	{ (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 1, -1, 1 }, /* handNum at 505 */
+	{ (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 4, -2, 0 }, /* myRelativeBet at 509 */
+	{ (ASN_TAG_CLASS_UNIVERSAL | (10 << 2)), 2, 0, 1 }, /* gameState at 506 */
+	{ (ASN_TAG_CLASS_UNIVERSAL | (10 << 2)), 3, -1, 0 } /* myAction at 507 */
 };
 static asn_SEQUENCE_specifics_t asn_SPC_MyActionRequestMessage_specs_1 = {
 	sizeof(struct MyActionRequestMessage),

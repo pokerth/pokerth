@@ -87,11 +87,11 @@ static asn_TYPE_member_t asn_MBR_chatType_2[] = {
 	},
 };
 static asn_TYPE_tag2member_t asn_MAP_chatType_tag2el_2[] = {
-	{ (ASN_TAG_CLASS_CONTEXT | (0 << 2)), 0, 0, 0 }, /* chatTypeLobby at 711 */
-	{ (ASN_TAG_CLASS_CONTEXT | (1 << 2)), 1, 0, 0 }, /* chatTypeGame at 712 */
-	{ (ASN_TAG_CLASS_CONTEXT | (2 << 2)), 2, 0, 0 }, /* chatTypeBot at 713 */
-	{ (ASN_TAG_CLASS_CONTEXT | (3 << 2)), 3, 0, 0 }, /* chatTypeBroadcast at 714 */
-	{ (ASN_TAG_CLASS_CONTEXT | (4 << 2)), 4, 0, 0 } /* chatTypePrivate at 716 */
+	{ (ASN_TAG_CLASS_CONTEXT | (0 << 2)), 0, 0, 0 }, /* chatTypeLobby at 713 */
+	{ (ASN_TAG_CLASS_CONTEXT | (1 << 2)), 1, 0, 0 }, /* chatTypeGame at 714 */
+	{ (ASN_TAG_CLASS_CONTEXT | (2 << 2)), 2, 0, 0 }, /* chatTypeBot at 715 */
+	{ (ASN_TAG_CLASS_CONTEXT | (3 << 2)), 3, 0, 0 }, /* chatTypeBroadcast at 716 */
+	{ (ASN_TAG_CLASS_CONTEXT | (4 << 2)), 4, 0, 0 } /* chatTypePrivate at 718 */
 };
 static asn_CHOICE_specifics_t asn_SPC_chatType_specs_2 = {
 	sizeof(struct chatType),
@@ -151,12 +151,12 @@ static ber_tlv_tag_t asn_DEF_ChatMessage_tags_1[] = {
 	(ASN_TAG_CLASS_UNIVERSAL | (16 << 2))
 };
 static asn_TYPE_tag2member_t asn_MAP_ChatMessage_tag2el_1[] = {
-	{ (ASN_TAG_CLASS_UNIVERSAL | (12 << 2)), 1, 0, 0 }, /* chatText at 717 */
-	{ (ASN_TAG_CLASS_CONTEXT | (0 << 2)), 0, 0, 0 }, /* chatTypeLobby at 711 */
-	{ (ASN_TAG_CLASS_CONTEXT | (1 << 2)), 0, 0, 0 }, /* chatTypeGame at 712 */
-	{ (ASN_TAG_CLASS_CONTEXT | (2 << 2)), 0, 0, 0 }, /* chatTypeBot at 713 */
-	{ (ASN_TAG_CLASS_CONTEXT | (3 << 2)), 0, 0, 0 }, /* chatTypeBroadcast at 714 */
-	{ (ASN_TAG_CLASS_CONTEXT | (4 << 2)), 0, 0, 0 } /* chatTypePrivate at 716 */
+	{ (ASN_TAG_CLASS_UNIVERSAL | (12 << 2)), 1, 0, 0 }, /* chatText at 719 */
+	{ (ASN_TAG_CLASS_CONTEXT | (0 << 2)), 0, 0, 0 }, /* chatTypeLobby at 713 */
+	{ (ASN_TAG_CLASS_CONTEXT | (1 << 2)), 0, 0, 0 }, /* chatTypeGame at 714 */
+	{ (ASN_TAG_CLASS_CONTEXT | (2 << 2)), 0, 0, 0 }, /* chatTypeBot at 715 */
+	{ (ASN_TAG_CLASS_CONTEXT | (3 << 2)), 0, 0, 0 }, /* chatTypeBroadcast at 716 */
+	{ (ASN_TAG_CLASS_CONTEXT | (4 << 2)), 0, 0, 0 } /* chatTypePrivate at 718 */
 };
 static asn_SEQUENCE_specifics_t asn_SPC_ChatMessage_specs_1 = {
 	sizeof(struct ChatMessage),

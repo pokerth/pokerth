@@ -753,11 +753,11 @@ AbstractClientStateReceiving::HandlePacket(boost::shared_ptr<ClientThread> clien
 	} else if (tmpPacket->GetMsg()->present == PokerTHMessage_PR_reportAvatarAckMessage) {
 		ReportAvatarAckMessage_t *netReportAck = &tmpPacket->GetMsg()->choice.reportAvatarAckMessage;
 		unsigned msgCode;
-		switch (netReportAck->reportResult) {
-		case reportResult_avatarReportAccepted:
+		switch (netReportAck->reportAvatarResult) {
+		case reportAvatarResult_avatarReportAccepted:
 			msgCode = MSG_NET_AVATAR_REPORT_ACCEPTED;
 			break;
-		case reportResult_avatarReportDuplicate:
+		case reportAvatarResult_avatarReportDuplicate:
 			msgCode = MSG_NET_AVATAR_REPORT_DUP;
 			break;
 		default:
