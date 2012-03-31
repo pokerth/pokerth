@@ -84,7 +84,7 @@ void
 SenderHelper::InternalStorePacket(SendBuffer &tmpBuffer, boost::shared_ptr<NetPacket> packet)
 {
 	asn_enc_rval_t e = der_encode(&asn_DEF_PokerTHMessage, packet->GetMsg(), &SendBuffer::EncodeToBuf, &tmpBuffer);
-	cerr << "OUT:" << endl << packet->ToString() << endl;
+	//cerr << "OUT:" << endl << packet->ToString() << endl;
 	if (e.encoded == -1)
 		LOG_ERROR("Failed to encode NetPacket: " << packet->GetMsg()->present);
 }
