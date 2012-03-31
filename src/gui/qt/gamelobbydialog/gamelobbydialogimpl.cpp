@@ -2046,7 +2046,7 @@ void gameLobbyDialogImpl::reportBadGameName()
 		GameInfo info(mySession->getClientGameInfo(gameId));
 
 		int ret = QMessageBox::question(this, tr("PokerTH - Question"),
-							tr("Are you sure you want to report the game name:\n\"%1\" as inappropriate?").arg(QString::fromUtf8(info.name.c_str())), QMessageBox::Yes | QMessageBox::No);
+										tr("Are you sure you want to report the game name:\n\"%1\" as inappropriate?").arg(QString::fromUtf8(info.name.c_str())), QMessageBox::Yes | QMessageBox::No);
 
 		if(ret == QMessageBox::Yes) {
 //			mySession->reportBadGameName(gameId); TODO
