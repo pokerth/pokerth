@@ -348,7 +348,7 @@ win32 {
 	debug:LIBPATH += debug/lib
 	release:LIBPATH += release/lib
 		LIBS += -lsqlite3
-		LIBS += -lntlm -lmikmod -lddraw -ldxguid -lsmpeg -lvorbisfile -lvorbis -logg
+		LIBS += -lntlm -lmikmod -lpthread -lddraw -ldxguid -lsmpeg -lvorbisfile -lvorbis -logg
 		LIBS += -lboost_thread_win32-mt
 		LIBS += -lboost_filesystem-mt
 		LIBS += -lboost_regex-mt
