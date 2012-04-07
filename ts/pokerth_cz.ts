@@ -1682,7 +1682,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Timeout for player action (sec):</source>
-        <translation>Na hráče se čeká (sec):</translation>
+        <translation type="obsolete">Na hráče se čeká (sec):</translation>
     </message>
     <message>
         <source>search for player ...</source>
@@ -2941,11 +2941,29 @@ Další hráče můžete pozvat pravým kliknutím na jejich přezdívku v sezna
     </message>
     <message>
         <source> sec (action)</source>
-        <translation> s na hráče</translation>
+        <translation type="obsolete"> s na hráče</translation>
     </message>
     <message>
         <source> sec (hand delay)</source>
+        <translation type="obsolete"> s na další rozdání</translation>
+    </message>
+    <message>
+        <source>Report inappropriate game name</source>
+        <translation>Nahlásit nevhodný název hry</translation>
+    </message>
+    <message>
+        <source>sec (action)</source>
+        <translation> s na hráče</translation>
+    </message>
+    <message>
+        <source>sec (hand delay)</source>
         <translation> s na další rozdání</translation>
+    </message>
+    <message>
+        <source>Are you sure you want to report the game name:
+&quot;%1&quot; as inappropriate?</source>
+        <translation>Opravdu chcete nahlásit název hry:
+&quot;%1&quot;, jako nevhodný?</translation>
     </message>
 </context>
 <context>
@@ -4263,6 +4281,10 @@ p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Sans Serif&apos;; font-weight:400; font-style:normal;&quot;&gt;
 &lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Lidský hráč:&lt;br /&gt;&lt;span style=&quot; font-size:11pt; font-style:italic;&quot;&gt;(Tato přezdívka bude použita také pro hry online.)&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
+    <message>
+        <source>Play blind raise notification</source>
+        <translation>Přehrávat zvuk zvýšení blindu</translation>
+    </message>
 </context>
 <context>
     <name>settingsDialogImpl</name>
@@ -5046,6 +5068,18 @@ Prosím, zkontrolujte své uživatelské jméno a heslo.</translation>
     <message>
         <source>The connection to the server was lost.</source>
         <translation>Spojení k serveru bylo ukončeno.</translation>
+    </message>
+    <message>
+        <source>The game name report was accepted by the server. Thank you.</source>
+        <translation>Hlášení o nevhodném názvu hry bylo přijato. Děkujeme.</translation>
+    </message>
+    <message>
+        <source>This game name was already reported by another player.</source>
+        <translation>Tento název hry byl již nahlášen jiným hráčem.</translation>
+    </message>
+    <message>
+        <source>An error occurred while reporting the game name.</source>
+        <translation>Při nahlašování názvu hry se vyskytla chyba.</translation>
     </message>
 </context>
 <context>

@@ -2263,7 +2263,7 @@ Por favor escolha outro!</translation>
     </message>
     <message>
         <source>Timeout for player action (sec):</source>
-        <translation>Tempo esgotado para ação do jogador (seg):</translation>
+        <translation type="obsolete">Tempo esgotado para ação do jogador (seg):</translation>
     </message>
     <message>
         <source>Leave Game</source>
@@ -3630,11 +3630,28 @@ Sinta se avontade para convidar outro jogador clicando no apelido na lista de jo
     </message>
     <message>
         <source> sec (action)</source>
-        <translation> segundos (ação)</translation>
+        <translation type="obsolete"> segundos (ação)</translation>
     </message>
     <message>
         <source> sec (hand delay)</source>
-        <translation> segundos (Atraso mão)</translation>
+        <translation type="obsolete"> segundos (Atraso mão)</translation>
+    </message>
+    <message>
+        <source>Report inappropriate game name</source>
+        <translation>Reportar nome de jogo inapropriado</translation>
+    </message>
+    <message>
+        <source>sec (action)</source>
+        <translation> segundos (ação)</translation>
+    </message>
+    <message>
+        <source>sec (hand delay)</source>
+        <translation> segundos (atraso mão)</translation>
+    </message>
+    <message>
+        <source>Are you sure you want to report the game name:
+&quot;%1&quot; as inappropriate?</source>
+        <translation>Tem certeza que deseja reportar o nome do jogo &quot;%1&quot; como inapropriado?</translation>
     </message>
 </context>
 <context>
@@ -5492,6 +5509,10 @@ p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Sans Serif&apos;; font-weight:400; font-style:normal;&quot;&gt;
 &lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Jogador Humano:&lt;br /&gt;&lt;span style=&quot; font-size:11pt; font-style:italic;&quot;&gt;(Este apelido também será usado para jogos online)&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
+    <message>
+        <source>Play blind raise notification</source>
+        <translation>Norificação de jogo em aumentar o blind</translation>
+    </message>
 </context>
 <context>
     <name>settingsDialogImpl</name>
@@ -6320,6 +6341,18 @@ Por favor escolha um nome diferente.</translation>
     <message>
         <source>The connection to the server was lost.</source>
         <translation>A conexão com o servidor foi perdida.</translation>
+    </message>
+    <message>
+        <source>The game name report was accepted by the server. Thank you.</source>
+        <translation>O reporte do nome do jogo foi aceito pelo servidor. Obrigado.</translation>
+    </message>
+    <message>
+        <source>This game name was already reported by another player.</source>
+        <translation>Este nome de jogo já foi reportado por outro jogador.</translation>
+    </message>
+    <message>
+        <source>An error occurred while reporting the game name.</source>
+        <translation>Um erro foi encontrado durante o reporte do nome do jogo.</translation>
     </message>
 </context>
 <context>

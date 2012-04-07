@@ -2049,7 +2049,7 @@ void gameLobbyDialogImpl::reportBadGameName()
 										tr("Are you sure you want to report the game name:\n\"%1\" as inappropriate?").arg(QString::fromUtf8(info.name.c_str())), QMessageBox::Yes | QMessageBox::No);
 
 		if(ret == QMessageBox::Yes) {
-//			mySession->reportBadGameName(gameId); TODO
+			mySession->reportBadGameName(gameId);
 		}
 	}
 }
