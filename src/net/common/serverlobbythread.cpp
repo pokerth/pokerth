@@ -487,6 +487,13 @@ ServerLobbyThread::HandleGameRetrieveAvatar(boost::shared_ptr<SessionData> sessi
 }
 
 void
+ServerLobbyThread::HandleGameReportGame(boost::shared_ptr<SessionData> session, const ReportGameMessage_t &reportGame)
+{
+	// Someone within a game reportet a game name.
+	HandleNetPacketReportGame(session, reportGame);
+}
+
+void
 ServerLobbyThread::HandleChatRequest(boost::shared_ptr<SessionData> session, const ChatRequestMessage_t &chatRequest)
 {
 	// Someone within a game sent a lobby message.
@@ -927,6 +934,8 @@ ServerLobbyThread::HandlePacket(boost::shared_ptr<SessionData> session, boost::s
 				HandleNetPacketChatRequest(session, packet->GetMsg()->choice.chatRequestMessage);
 			else if (packet->GetMsg()->present == PokerTHMessage_PR_rejectGameInvitationMessage)
 				HandleNetPacketRejectGameInvitation(session, packet->GetMsg()->choice.rejectGameInvitationMessage);
+			else if (packet->GetMsg()->present == PokerTHMessage_PR_reportGameMessage)
+				HandleNetPacketReportGame(session, packet->GetMsg()->choice.reportGameMessage);
 			else
 				SessionError(session, ERR_SOCK_INVALID_STATE);
 		}
@@ -1287,6 +1296,7 @@ ServerLobbyThread::HandleNetPacketCreateGame(boost::shared_ptr<SessionData> sess
 				password,
 				tmpData,
 				session->GetPlayerData()->GetUniqueId(),
+				session->GetPlayerData()->GetDBId(),
 				GetGui(),
 				m_serverConfig));
 		game->Init();
@@ -1441,6 +1451,11 @@ ServerLobbyThread::HandleNetPacketRejectGameInvitation(boost::shared_ptr<Session
 			game.SendToAllPlayers(packet, SessionData::Game);
 		}
 	}
+}
+
+void
+ServerLobbyThread::HandleNetPacketReportGame(boost::shared_ptr<SessionData> session, const ReportGameMessage_t &report)
+{
 }
 
 void

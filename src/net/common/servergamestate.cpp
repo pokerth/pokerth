@@ -358,6 +358,9 @@ AbstractServerGameStateReceiving::ProcessPacket(boost::shared_ptr<ServerGame> se
 			netReportAck->reportAvatarResult = reportAvatarResult_avatarReportInvalid;
 			server->GetLobbyThread().GetSender().Send(session, packet);
 		}
+	} else if (packet->GetMsg()->present == PokerTHMessage_PR_reportGameMessage) {
+		// Delegate to Lobby.
+		server->GetLobbyThread().HandleGameReportGame(session, packet->GetMsg()->choice.reportGameMessage);
 	} else {
 		// Packet processing in subclass.
 		InternalProcessPacket(server, session, packet);

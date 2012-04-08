@@ -46,11 +46,12 @@ static bool LessThanPlayerHandStartMoney(const boost::shared_ptr<PlayerInterface
 }
 
 
-ServerGame::ServerGame(boost::shared_ptr<ServerLobbyThread> lobbyThread, u_int32_t id, const string &name, const string &pwd, const GameData &gameData, unsigned adminPlayerId, GuiInterface &gui, ConfigFile &playerConfig)
+ServerGame::ServerGame(boost::shared_ptr<ServerLobbyThread> lobbyThread, u_int32_t id, const string &name, const string &pwd, const GameData &gameData,
+					   unsigned adminPlayerId, unsigned creatorPlayerDBId, GuiInterface &gui, ConfigFile &playerConfig)
 	: m_adminPlayerId(adminPlayerId), m_lobbyThread(lobbyThread), m_gui(gui),
 	  m_gameData(gameData), m_curState(NULL), m_id(id), m_name(name),
-	  m_password(pwd), m_playerConfig(playerConfig), m_gameNum(1),
-	  m_curPetitionId(1), m_voteKickTimer(lobbyThread->GetIOService()),
+	  m_password(pwd), m_creatorPlayerDBId(creatorPlayerDBId), m_playerConfig(playerConfig),
+	  m_gameNum(1), m_curPetitionId(1), m_voteKickTimer(lobbyThread->GetIOService()),
 	  m_stateTimer1(lobbyThread->GetIOService()), m_stateTimer2(lobbyThread->GetIOService())
 {
 	LOG_VERBOSE("Game object " << GetId() << " created.");
@@ -84,6 +85,12 @@ const std::string &
 ServerGame::GetName() const
 {
 	return m_name;
+}
+
+unsigned
+ServerGame::GetCreatorDBId() const
+{
+	return m_creatorPlayerDBId;
 }
 
 void

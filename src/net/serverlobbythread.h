@@ -73,6 +73,7 @@ public:
 	void DispatchPacket(boost::shared_ptr<SessionData> session, boost::shared_ptr<NetPacket> packet);
 	void HandleGameRetrievePlayerInfo(boost::shared_ptr<SessionData> session, const PlayerInfoRequestMessage_t &playerInfoRequest);
 	void HandleGameRetrieveAvatar(boost::shared_ptr<SessionData> session, const AvatarRequestMessage_t &retrieveAvatar);
+	void HandleGameReportGame(boost::shared_ptr<SessionData> session, const ReportGameMessage_t &reportGame);
 	void HandleChatRequest(boost::shared_ptr<SessionData> session, const ChatRequestMessage_t &chatRequest);
 
 	bool KickPlayerByName(const std::string &playerName);
@@ -141,6 +142,7 @@ protected:
 	void HandleNetPacketRejoinGame(boost::shared_ptr<SessionData> session, bool autoLeave, const RejoinExistingGame_t &rejoinGame);
 	void HandleNetPacketChatRequest(boost::shared_ptr<SessionData> session, const ChatRequestMessage_t &chatRequest);
 	void HandleNetPacketRejectGameInvitation(boost::shared_ptr<SessionData> session, const RejectGameInvitationMessage_t &reject);
+	void HandleNetPacketReportGame(boost::shared_ptr<SessionData> session, const ReportGameMessage_t &report);
 	// TODO would be better to use state pattern here.
 	void AuthChallenge(boost::shared_ptr<SessionData> session, const std::string &secret);
 	void CheckAvatarBlacklist(boost::shared_ptr<SessionData> session);
