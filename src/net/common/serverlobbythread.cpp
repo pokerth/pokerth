@@ -178,6 +178,14 @@ public:
 		m_server.SendReportAvatarResult(requestId, replyId, false);
 	}
 
+	virtual void ReportGameSuccess(unsigned requestId, unsigned replyId) {
+		// TODO
+	}
+
+	virtual void ReportGameFailed(unsigned requestId, unsigned replyId) {
+		// TODO
+	}
+
 private:
 	ServerLobbyThread &m_server;
 };
@@ -1456,6 +1464,40 @@ ServerLobbyThread::HandleNetPacketRejectGameInvitation(boost::shared_ptr<Session
 void
 ServerLobbyThread::HandleNetPacketReportGame(boost::shared_ptr<SessionData> session, const ReportGameMessage_t &report)
 {
+	GameMap::iterator pos = m_gameMap.find(report.reportedGameId);
+
+	if (pos != m_gameMap.end() && session->GetPlayerData()) {
+		if (!IsGameReported(report.reportedGameId)) {
+			// Temporarily note that this game was reported.
+			// This prevents spamming of the game report.
+			AddReportedGame(report.reportedGameId);
+			boost::shared_ptr<ServerGame> tmpGame(pos->second);
+			unsigned creatorDBId = tmpGame->GetCreatorDBId();
+			unsigned reporterDBId = session->GetPlayerData()->GetDBId();
+			GetDatabase()->AsyncReportGame(
+				session->GetPlayerData()->GetUniqueId(),
+				tmpGame->GetId(),
+				creatorDBId != 0 ? &creatorDBId : NULL,
+				tmpGame->GetId(),
+				tmpGame->GetName(),
+				reporterDBId != 0 ? &reporterDBId : NULL
+			);
+		} else {
+			boost::shared_ptr<NetPacket> packet(new NetPacket(NetPacket::Alloc));
+			packet->GetMsg()->present = PokerTHMessage_PR_reportGameAckMessage;
+			ReportGameAckMessage_t *netReportAck = &packet->GetMsg()->choice.reportGameAckMessage;
+			netReportAck->reportedGameId = report.reportedGameId;
+			netReportAck->reportGameResult = reportGameResult_gameReportDuplicate;
+			GetSender().Send(session, packet);
+		}
+	} else {
+		boost::shared_ptr<NetPacket> packet(new NetPacket(NetPacket::Alloc));
+		packet->GetMsg()->present = PokerTHMessage_PR_reportGameAckMessage;
+		ReportGameAckMessage_t *netReportAck = &packet->GetMsg()->choice.reportGameAckMessage;
+		netReportAck->reportedGameId = report.reportedGameId;
+		netReportAck->reportGameResult = reportGameResult_gameReportInvalid;
+		GetSender().Send(session, packet);
+	}
 }
 
 void

@@ -47,6 +47,7 @@ public:
 	virtual void EndGame(unsigned requestId) = 0;
 
 	virtual void AsyncReportAvatar(unsigned requestId, unsigned replyId, DB_id reportedPlayerId, const std::string &avatarHash, const std::string &avatarType, DB_id *byPlayerId) = 0;
+	virtual void AsyncReportGame(unsigned requestId, unsigned replyId, DB_id *creatorPlayerId, unsigned gameId, const std::string &gameName, DB_id *byPlayerId) = 0;
 };
 
 #endif

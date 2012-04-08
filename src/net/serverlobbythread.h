@@ -154,6 +154,8 @@ protected:
 	void UserValid(unsigned playerId, const DBPlayerData &dbPlayerData);
 	void UserInvalid(unsigned playerId);
 	void UserBlocked(unsigned playerId);
+	bool IsGameReported(unsigned /*gameId*/) const {return false;}
+	void AddReportedGame(unsigned /*gameId*/) {}
 
 	void SendReportAvatarResult(unsigned byPlayerId, unsigned reportedPlayerId, bool success);
 	void RequestPlayerAvatar(boost::shared_ptr<SessionData> session);

@@ -90,3 +90,9 @@ ServerDBGeneric::AsyncReportAvatar(unsigned requestId, unsigned replyId, DB_id /
 {
 	m_ioService->post(boost::bind(&ServerDBCallback::ReportAvatarFailed, &m_callback, requestId, replyId));
 }
+
+void
+ServerDBGeneric::AsyncReportGame(unsigned requestId, unsigned replyId, DB_id */*creatorPlayerId*/, unsigned /*gameId*/, const std::string &/*gameName*/, DB_id */*byPlayerId*/)
+{
+	m_ioService->post(boost::bind(&ServerDBCallback::ReportGameFailed, &m_callback, requestId, replyId));
+}

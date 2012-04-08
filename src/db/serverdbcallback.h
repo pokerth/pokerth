@@ -47,6 +47,9 @@ public:
 
 	virtual void ReportAvatarSuccess(unsigned requestId, unsigned replyId) = 0;
 	virtual void ReportAvatarFailed(unsigned requestId, unsigned replyId) = 0;
+
+	virtual void ReportGameSuccess(unsigned requestId, unsigned replyId) = 0;
+	virtual void ReportGameFailed(unsigned requestId, unsigned replyId) = 0;
 };
 
 #endif
