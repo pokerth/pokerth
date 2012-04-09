@@ -52,7 +52,8 @@ ServerGame::ServerGame(boost::shared_ptr<ServerLobbyThread> lobbyThread, u_int32
 	  m_gameData(gameData), m_curState(NULL), m_id(id), m_name(name),
 	  m_password(pwd), m_creatorPlayerDBId(creatorPlayerDBId), m_playerConfig(playerConfig),
 	  m_gameNum(1), m_curPetitionId(1), m_voteKickTimer(lobbyThread->GetIOService()),
-	  m_stateTimer1(lobbyThread->GetIOService()), m_stateTimer2(lobbyThread->GetIOService())
+	  m_stateTimer1(lobbyThread->GetIOService()), m_stateTimer2(lobbyThread->GetIOService()),
+	  m_isNameReported(false)
 {
 	LOG_VERBOSE("Game object " << GetId() << " created.");
 }
@@ -722,6 +723,18 @@ ServerGame::GetAndResetReactivatePlayers()
 	PlayerIdList tmpList(m_reactivatePlayerList);
 	m_reactivatePlayerList.clear();
 	return tmpList;
+}
+
+void
+ServerGame::SetNameReported()
+{
+	m_isNameReported = true;
+}
+
+bool
+ServerGame::IsNameReported() const
+{
+	return m_isNameReported;
 }
 
 void

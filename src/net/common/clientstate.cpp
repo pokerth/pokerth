@@ -765,6 +765,21 @@ AbstractClientStateReceiving::HandlePacket(boost::shared_ptr<ClientThread> clien
 			break;
 		}
 		client->GetCallback().SignalNetClientMsgBox(msgCode);
+	} else if (tmpPacket->GetMsg()->present == PokerTHMessage_PR_reportGameAckMessage) {
+		ReportGameAckMessage_t *netReportAck = &tmpPacket->GetMsg()->choice.reportGameAckMessage;
+		unsigned msgCode;
+		switch (netReportAck->reportGameResult) {
+		case reportGameResult_gameReportAccepted:
+			msgCode = MSG_NET_GAMENAME_REPORT_ACCEPTED;
+			break;
+		case reportGameResult_gameReportDuplicate:
+			msgCode = MSG_NET_GAMENAME_REPORT_DUP;
+			break;
+		default:
+			msgCode = MSG_NET_GAMENAME_REPORT_REJECTED;
+			break;
+		}
+		client->GetCallback().SignalNetClientMsgBox(msgCode);
 	} else if (tmpPacket->GetMsg()->present == PokerTHMessage_PR_statisticsMessage) {
 		StatisticsMessage_t *netStatistics = &tmpPacket->GetMsg()->choice.statisticsMessage;
 

@@ -98,6 +98,9 @@ public:
 	void AddReactivatePlayer(unsigned playerId);
 	PlayerIdList GetAndResetReactivatePlayers();
 
+	void SetNameReported();
+	bool IsNameReported() const;
+
 	// should be protected, but is needed in function.
 	const Game &GetGame() const;
 	Game &GetGame();
@@ -216,6 +219,7 @@ private:
 	boost::asio::deadline_timer m_voteKickTimer;
 	boost::asio::deadline_timer m_stateTimer1;
 	boost::asio::deadline_timer m_stateTimer2;
+	bool				m_isNameReported;
 
 	friend class ServerLobbyThread;
 	friend class AbstractServerGameStateReceiving;
