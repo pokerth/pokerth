@@ -1,3 +1,9 @@
+2012-04-09 versino 0.9.4
+- New report bad-game-name system (right-click on a game in the lobby) (#129)
+- Raise-blind sound is now optional (#127)
+- Delete log files with the Del button of the keyboard (#122)
+- Chat bot and admin bot improvements (#114, #115, #128)
+
 2012-02-11 version 0.9.3
 - Maemo support was updated in this source release
 - Logs can now be stored for more than 7 days (#18)
