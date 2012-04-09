@@ -2041,7 +2041,7 @@ void gameLobbyDialogImpl::reportBadGameName()
 {
 	assert(mySession);
 	QItemSelectionModel *selection = treeView_GameList->selectionModel();
-	if (!inGame && selection->hasSelection()) {
+	if (selection->hasSelection()) {
 		unsigned gameId = selection->selectedRows().first().data(Qt::UserRole).toUInt();
 		GameInfo info(mySession->getClientGameInfo(gameId));
 
