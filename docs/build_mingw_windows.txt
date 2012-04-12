@@ -1,15 +1,14 @@
-PokerTH can be built for Windows using the MinGW cross environment
-http://mingw-cross-env.nongnu.org/
+PokerTH can be built for Windows using MXE (the M cross environment)
+http://mxe.cc/
 
 You need a Linux system to set this up.
 
 1. Install all requirements listed there:
-http://mingw-cross-env.nongnu.org/#requirements
+http://mxe.cc/#requirements
 on your Linux system.
 
-2. Download the latest release of mingw-cross-env and extract it to /opt/mingw
-(if this does not work, as some packages might be broken, try the latest development release:
-hg clone http://hg.savannah.nongnu.org/hgweb/mingw-cross-env mingw )
+2. Download the latest release of MXE and extract it to /opt/mingw
+(if this does not work, as some packages might be broken, try the latest development release)
 
 3. Patch OpenSSL dependencies out of Qt build file (OpenSSL license is not compatible with the GPL)
 For your convenience, a patch file is included to remove at least one OpenSSL dependency. This patch
