@@ -149,7 +149,7 @@
      <item>
       <widget class="QStackedWidget" name="stackedWidget">
        <property name="currentIndex">
-        <number>7</number>
+        <number>0</number>
        </property>
        <widget class="QWidget" name="page">
         <property name="styleSheet">
@@ -1063,20 +1063,27 @@ p, li { white-space: pre-wrap; }
                  </property>
                 </widget>
                </item>
-               <item row="1" column="0">
+               <item row="2" column="0">
                 <widget class="QCheckBox" name="checkBox_playLobbyChatNotification">
                  <property name="text">
                   <string>Play lobby chat notifications</string>
                  </property>
                 </widget>
                </item>
-               <item row="2" column="0">
+               <item row="3" column="0">
                 <widget class="QCheckBox" name="checkBox_playNetworkGameNotification">
                  <property name="text">
                   <string>Play network/internet game notifications like &quot;player joined the game&quot;</string>
                  </property>
                  <property name="tristate">
                   <bool>false</bool>
+                 </property>
+                </widget>
+               </item>
+               <item row="1" column="0">
+                <widget class="QCheckBox" name="checkBox_playBlindRaiseSound">
+                 <property name="text">
+                  <string>Play blind raise notification</string>
                  </property>
                 </widget>
                </item>
