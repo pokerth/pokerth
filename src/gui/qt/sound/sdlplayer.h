@@ -23,7 +23,7 @@
 #include "configfile.h"
 #include <string>
 
-#ifndef __ANDROID_API__
+#ifndef ANDROID
 #ifdef __APPLE__
 #include <SDL_mixer.h>
 #else
@@ -52,7 +52,7 @@ public:
 
 private:
 
-#ifndef __ANDROID_API__
+#ifndef ANDROID
 	Mix_Chunk *sound;
 	unsigned char *soundData;
 	int currentChannel;

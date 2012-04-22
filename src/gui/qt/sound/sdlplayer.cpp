@@ -17,7 +17,7 @@
  *****************************************************************************/
 #include "sdlplayer.h"
 
-#ifndef __ANDROID_API__
+#ifndef ANDROID
 #if (defined __APPLE__)
 #include <SDL.h>
 #else
@@ -28,11 +28,11 @@
 using namespace std;
 
 SDLPlayer::SDLPlayer(ConfigFile *c)
-#ifndef __ANDROID_API__
+#ifndef ANDROID
 	: soundData(NULL), currentChannel(0) , audioEnabled(0), myConfig(c)
 #endif
 {
-#ifndef __ANDROID_API__
+#ifndef ANDROID
 	SDL_Init(SDL_INIT_AUDIO);
 	initAudio();
 
@@ -43,7 +43,7 @@ SDLPlayer::SDLPlayer(ConfigFile *c)
 
 SDLPlayer::~SDLPlayer()
 {
-#ifndef __ANDROID_API__
+#ifndef ANDROID
 	closeAudio();
 	SDL_Quit();
 #endif
@@ -51,7 +51,7 @@ SDLPlayer::~SDLPlayer()
 
 void SDLPlayer::initAudio()
 {
-#ifndef __ANDROID_API__
+#ifndef ANDROID
 	if (!audioEnabled && myConfig->readConfigInt("PlaySoundEffects")) {
 		int		audio_rate = 44100;
 		Uint16	audio_format = AUDIO_S16; /* 16-bit stereo */
@@ -69,7 +69,7 @@ void SDLPlayer::initAudio()
 
 void SDLPlayer::playSound(string audioString, int playerID)
 {
-#ifndef __ANDROID_API__
+#ifndef ANDROID
 	if(audioEnabled && myConfig->readConfigInt("PlaySoundEffects")) {
 
 		QFile myFile(myAppDataPath + "sounds/default/" + QString::fromStdString(audioString)+".wav");
@@ -156,7 +156,7 @@ void SDLPlayer::playSound(string audioString, int playerID)
 
 void SDLPlayer::audioDone()
 {
-#ifndef __ANDROID_API__
+#ifndef ANDROID
 	if(audioEnabled) {
 		Mix_HaltChannel(currentChannel);
 		Mix_FreeChunk(sound);
@@ -169,7 +169,7 @@ void SDLPlayer::audioDone()
 
 void SDLPlayer::closeAudio()
 {
-#ifndef __ANDROID_API__
+#ifndef ANDROID
 	if(audioEnabled) {
 		audioDone();
 		Mix_CloseAudio();
