@@ -15,9 +15,6 @@ CONFIG += qt \
 	warn_on
 include(src/third_party/qtsingleapplication/qtsingleapplication.pri)
 QT += sql
-!gui_800x480 {
-	QMAKE_CXXFLAGS += -std=gnu++0x
-}
 UI_DIR = uics
 MOC_DIR = mocs
 OBJECTS_DIR = obj

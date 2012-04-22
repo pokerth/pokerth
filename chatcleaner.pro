@@ -4,7 +4,6 @@
 CODECFORSRC = UTF-8
 QT += network
 QT -= gui
-QMAKE_CXXFLAGS += -std=gnu++0x
 TARGET = chatcleaner
 CONFIG += console
 CONFIG -= app_bundle

@@ -15,9 +15,6 @@ MOC_DIR = mocs
 OBJECTS_DIR = obj
 DEFINES += ENABLE_IPV6 TIXML_USE_STL
 QT -= core gui
-!gui_800x480 {
-	QMAKE_CXXFLAGS += -std=gnu++0x
-}
 #PRECOMPILED_HEADER = src/pch_lib.h
 
 INCLUDEPATH += . \
