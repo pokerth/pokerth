@@ -19,11 +19,6 @@
 #ifndef _SOCKET_HELPER_H_
 #define _SOCKET_HELPER_H_
 
-#ifndef bzero
-#include <cstring>
-#define	bzero(_ptr, _n)		std::memset(_ptr, 0, _n)
-#endif
-
 #ifdef _WIN32
 
 #ifdef __GNUC__ /* mingw provides stdint.h */
