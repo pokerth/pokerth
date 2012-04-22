@@ -21,15 +21,15 @@
 #define SDLPLAYER_H
 
 #include "configfile.h"
+#include <string>
 
-#if (defined __APPLE__)
+#ifndef __ANDROID_API__
+#ifdef __APPLE__
 #include <SDL_mixer.h>
 #else
 #include <SDL/SDL_mixer.h>
 #endif
-
-#include <iostream>
-#include <string>
+#endif
 
 // struct Mix_Chunk;
 
@@ -52,6 +52,7 @@ public:
 
 private:
 
+#ifndef __ANDROID_API__
 	Mix_Chunk *sound;
 	unsigned char *soundData;
 	int currentChannel;
@@ -60,7 +61,7 @@ private:
 
 	ConfigFile *myConfig;
 	QString myAppDataPath;
-
+#endif
 };
 
 #endif

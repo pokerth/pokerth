@@ -383,7 +383,7 @@ unix:!mac {
 			$${PREFIX}/lib64
 	}
 	android{
-		LIB_DIRS = ../cmoss/bin/droid/lib/armv5
+		LIB_DIRS = $${PREFIX}/lib/armv5
 	}
 	BOOST_FS = boost_filesystem \
 		boost_filesystem-mt
@@ -598,12 +598,6 @@ gui_800x480 {
 android{
 	# Use old boost::filesystem, because the new version requires std::wstring.
 	DEFINES += BOOST_FILESYSTEM_VERSION=2
-	# If /usr/include is included, this will mess with the android sdk.
-	INCLUDEPATH -= /usr/include
-	LIBPATH -= /usr/lib
-	# Include directory containing android builds of used libs.
-	INCLUDEPATH += ../cmoss/bin/droid/include
-	LIBPATH += ../cmoss/bin/droid/lib/armv5
 	# sqlite3 is included directly.
 	INCLUDEPATH += src/third_party/sqlite3
 }

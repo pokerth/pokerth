@@ -245,10 +245,6 @@ mac{
 android{
 	# Use old boost::filesystem, because the new version requires std::wstring.
 	DEFINES += BOOST_FILESYSTEM_VERSION=2
-	# If /usr/include is included, this will mess with the android sdk.
-	INCLUDEPATH -= /usr/include
-	# Include directory containing android builds of used libs.
-	INCLUDEPATH += ../cmoss/bin/droid/include
 	# sqlite3 is included directly.
 	INCLUDEPATH += src/third_party/sqlite3
 	SOURCES += src/third_party/sqlite3/sqlite3.c
