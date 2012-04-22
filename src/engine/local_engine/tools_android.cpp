@@ -18,8 +18,8 @@
 
 #define NOMINMAX // for Windows
 
-#ifdef ANDROID
-#error This file is not for android.
+#ifndef ANDROID
+#error This file is only for android.
 #endif
 
 #include "tools.h"
@@ -27,35 +27,35 @@
 #include <core/openssl_wrapper.h>
 
 #include <boost/thread.hpp>
-#include <boost/nondet_random.hpp>
+#include <boost/random/mersenne_twister.hpp>
 #include <boost/random/uniform_int.hpp>
 #include <boost/random/variate_generator.hpp>
 
-
 using namespace std;
 
-boost::thread_specific_ptr<boost::random_device> g_rand_state;
+boost::thread_specific_ptr<boost::mt19937> g_rand_state;
 
-struct nondet_rng : std::unary_function<unsigned, unsigned> {
-	boost::random_device &_state;
+struct det_rng : std::unary_function<unsigned, unsigned> {
+	boost::mt19937 &_state;
 	unsigned operator()(unsigned i) {
 		boost::uniform_int<> rng(0, i - 1);
 		return rng(_state);
 	}
-	nondet_rng(boost::random_device &state) : _state(state) {}
+	det_rng(boost::mt19937 &state) : _state(state) {}
 };
 
 static inline void InitRandState()
 {
 	if (!g_rand_state.get()) {
-		g_rand_state.reset(new boost::random_device);
+		g_rand_state.reset(new boost::mt19937(static_cast<unsigned>(std::time(0))));
 	}
 }
 
 void Tools::ShuffleArrayNonDeterministic(int *inout, unsigned count)
 {
+	// On android, a deterministic rng is used (for now).
 	InitRandState();
-	nondet_rng rand(*g_rand_state);
+	det_rng rand(*g_rand_state);
 	random_shuffle(&inout[0], &inout[count], rand);
 }
 
@@ -63,7 +63,7 @@ void Tools::GetRand(int minValue, int maxValue, unsigned count, int *out)
 {
 	InitRandState();
 	boost::uniform_int<> dist(minValue, maxValue);
-	boost::variate_generator<boost::random_device&, boost::uniform_int<> > gen(*g_rand_state, dist);
+	boost::variate_generator<boost::mt19937&, boost::uniform_int<> > gen(*g_rand_state, dist);
 	int *startPtr = out;
 	for (unsigned i = 0; i < count; i++) {
 		*startPtr++ = gen();

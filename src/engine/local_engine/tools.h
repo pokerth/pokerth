@@ -25,9 +25,6 @@ public:
 
 	static void ShuffleArrayNonDeterministic(int *inout, unsigned count);
 	static void GetRand(int minValue, int maxValue, unsigned count, int *out);
-	static void GetRandUnique(int minValue, int maxValue, unsigned count, int *out);
-
-	//static void getRandNumber(int, int, int, int*, bool, int* = 0, int = 0);
 
 };
 

@@ -156,7 +156,6 @@ SOURCES += \
 		src/engine/local_engine/localberoturn.cpp \
 		src/engine/local_engine/localberoriver.cpp \
 		src/engine/local_engine/localberopostriver.cpp \
-		src/engine/local_engine/tools.cpp \
 		src/engine/local_engine/localbero.cpp \
 		src/engine/local_engine/localexception.cpp \
 		src/engine/local_engine/arraydata.cpp \
@@ -205,6 +204,13 @@ SOURCES += \
 		src/net/common/sendbuffer.cpp \
 		src/net/common/receivebuffer.cpp
 
+!android{
+	SOURCES += src/engine/local_engine/tools.cpp
+}
+android{
+	SOURCES += src/engine/local_engine/tools_android.cpp
+}
+
 official_server{
 	INCLUDEPATH += pkth_stat/daemon_lib/src
 	DEFINES += POKERTH_OFFICIAL_SERVER
@@ -225,12 +231,12 @@ win32{
 }
 
 mac{
-        # make it x86_64 only
-        CONFIG += x86_64
-        CONFIG -= x86
-        CONFIG -= ppc
-        QMAKE_MACOSX_DEPLOYMENT_TARGET = 10.6
-        QMAKE_CXXFLAGS -= -std=gnu++0x
+	# make it x86_64 only
+	CONFIG += x86_64
+	CONFIG -= x86
+	CONFIG -= ppc
+	QMAKE_MACOSX_DEPLOYMENT_TARGET = 10.6
+	QMAKE_CXXFLAGS -= -std=gnu++0x
 
 	# for universal-compilation on PPC-Mac uncomment the following line
 	# on Intel-Mac you have to comment this line out or build will fail.
