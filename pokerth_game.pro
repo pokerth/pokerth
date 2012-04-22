@@ -480,7 +480,7 @@ unix:!mac {
 			$$BOOST_IOSTREAMS \
 			$$BOOST_REGEX \
 			$$BOOST_SYS
-		!count(BOOST_LIBS, 5):error("Unable to find boost libraries in ../cmoss/bin/droid/lib/armv5")
+		!count(BOOST_LIBS, 5):error("Unable to find boost libraries in PREFIX=$${PREFIX}/armv5")
 		LIBS += -ltinyxml
 		LIBS += $$BOOST_LIBS
 		LIBS += -lgsasl
