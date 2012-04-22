@@ -376,13 +376,15 @@ unix:!mac {
 	# #### My release static build options
 	# QMAKE_CXXFLAGS += -ffunction-sections -fdata-sections
 	# QMAKE_LFLAGS += -Wl,--gc-sections
-	LIBPATH += lib $${PREFIX}/lib /opt/gsasl/lib
 	INCLUDEPATH += $${PREFIX}/include
+	LIBPATH += lib
 	!android{
+		LIBPATH += $${PREFIX}/lib /opt/gsasl/lib
 		LIB_DIRS = $${PREFIX}/lib \
 			$${PREFIX}/lib64
 	}
 	android{
+		LIBPATH += $${PREFIX}/lib/armv5
 		LIB_DIRS = $${PREFIX}/lib/armv5
 	}
 	BOOST_FS = boost_filesystem \
