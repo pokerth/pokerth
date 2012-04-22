@@ -378,8 +378,13 @@ unix:!mac {
 	# QMAKE_LFLAGS += -Wl,--gc-sections
 	LIBPATH += lib $${PREFIX}/lib /opt/gsasl/lib
 	INCLUDEPATH += $${PREFIX}/include
-	LIB_DIRS = $${PREFIX}/lib \
-		$${PREFIX}/lib64
+	!android{
+		LIB_DIRS = $${PREFIX}/lib \
+			$${PREFIX}/lib64
+	}
+	android{
+		LIB_DIRS = ../cmoss/bin/droid/lib/armv5
+	}
 	BOOST_FS = boost_filesystem \
 		boost_filesystem-mt
 	BOOST_THREAD = boost_thread \
@@ -429,13 +434,15 @@ unix:!mac {
 				message("Found $$lib")
 				BOOST_REGEX = -l$$lib
 			}
-			for(lib, BOOST_RANDOM):exists($${dir}/lib$${lib}.so*) {
-				message("Found $$lib")
-				BOOST_RANDOM = -l$$lib
-			}
-			for(lib, BOOST_RANDOM):exists($${dir}/lib$${lib}.a) {
-				message("Found $$lib")
-				BOOST_RANDOM = -l$$lib
+			!android{
+				for(lib, BOOST_RANDOM):exists($${dir}/lib$${lib}.so*) {
+					message("Found $$lib")
+					BOOST_RANDOM = -l$$lib
+				}
+				for(lib, BOOST_RANDOM):exists($${dir}/lib$${lib}.a) {
+					message("Found $$lib")
+					BOOST_RANDOM = -l$$lib
+				}
 			}
 			for(lib, BOOST_SYS):exists($${dir}/lib$${lib}.so*) {
 				message("Found $$lib")
@@ -446,44 +453,60 @@ unix:!mac {
 				BOOST_SYS = -l$$lib
 			}
 	}
-	BOOST_LIBS = $$BOOST_THREAD \
-		$$BOOST_FS \
-		$$BOOST_IOSTREAMS \
-		$$BOOST_REGEX \
-		$$BOOST_RANDOM \
-		$$BOOST_SYS
-	!count(BOOST_LIBS, 6):error("Unable to find boost libraries in PREFIX=$${PREFIX}")
-	if($$system(sdl-config --version)):error("sdl-config not found in PATH - libSDL_mixer, libSDL are required!")
-	UNAME = $$system(uname -s)
-	BSD = $$find(UNAME, "BSD")
-	kFreeBSD = $$find(UNAME, "kFreeBSD")
-	LIBS += -lsqlite3 \
-			-ltinyxml
-	LIBS += $$BOOST_LIBS
-	LIBS += -lSDL \
-			-lSDL_mixer \
-		-lgsasl
-	!isEmpty( BSD ):isEmpty( kFreeBSD ):LIBS += -lcrypto
-	else:LIBS += -lgcrypt
+	!android{
+		BOOST_LIBS = $$BOOST_THREAD \
+			$$BOOST_FS \
+			$$BOOST_IOSTREAMS \
+			$$BOOST_REGEX \
+			$$BOOST_RANDOM \
+			$$BOOST_SYS
+		!count(BOOST_LIBS, 6):error("Unable to find boost libraries in PREFIX=$${PREFIX}")
+		if($$system(sdl-config --version)):error("sdl-config not found in PATH - libSDL_mixer, libSDL are required!")
+		UNAME = $$system(uname -s)
+		BSD = $$find(UNAME, "BSD")
+		kFreeBSD = $$find(UNAME, "kFreeBSD")
+		LIBS += -lsqlite3 \
+				-ltinyxml
+		LIBS += $$BOOST_LIBS
+		LIBS += -lSDL \
+				-lSDL_mixer \
+			-lgsasl
+		!isEmpty( BSD ):isEmpty( kFreeBSD ):LIBS += -lcrypto
+		else:LIBS += -lgcrypt
+	}
+	android{
+		BOOST_LIBS = $$BOOST_THREAD \
+			$$BOOST_FS \
+			$$BOOST_IOSTREAMS \
+			$$BOOST_REGEX \
+			$$BOOST_SYS
+		!count(BOOST_LIBS, 5):error("Unable to find boost libraries in ../cmoss/bin/droid/lib/armv5")
+		LIBS += -ltinyxml
+		LIBS += $$BOOST_LIBS
+		LIBS += -lgsasl
+		LIBS += -lssl -lcrypto -lgcrypt -lgpg-error
+	}
 	TARGETDEPS += ./lib/libpokerth_lib.a \
 		./lib/libpokerth_db.a \
 		./lib/libpokerth_protocol.a
 
-	# #### My release static libs
-	# LIBS += -lgcrypt_static -lgpg-error_static -lgnutls_static -lSDL_mixer_static -lSDL -lmikmod -lcurl
-	# ### INSTALL ####
-	binary.path += $${PREFIX}/bin/
-	binary.files += pokerth
-	data.path += $${PREFIX}/share/pokerth/data/
-	data.files += data/*
-	pixmap.path += $${PREFIX}/share/pixmaps/
-	pixmap.files += pokerth.png
-	desktop.path += $${PREFIX}/share/applications/
-	desktop.files += pokerth.desktop
-	INSTALLS += binary \
-		data \
-		pixmap \
-		desktop
+	!android{
+		# #### My release static libs
+		# LIBS += -lgcrypt_static -lgpg-error_static -lgnutls_static -lSDL_mixer_static -lSDL -lmikmod -lcurl
+		# ### INSTALL ####
+		binary.path += $${PREFIX}/bin/
+		binary.files += pokerth
+		data.path += $${PREFIX}/share/pokerth/data/
+		data.files += data/*
+		pixmap.path += $${PREFIX}/share/pixmaps/
+		pixmap.files += pokerth.png
+		desktop.path += $${PREFIX}/share/applications/
+		desktop.files += pokerth.desktop
+		INSTALLS += binary \
+			data \
+			pixmap \
+			desktop
+	}
 }
 mac { 
         # make it x86_64 only
@@ -572,6 +595,15 @@ gui_800x480 {
 		src/gui/qt/gui_800x480/tabs_800x480.ui
 }
 
-
-
-
+android{
+	# Use old boost::filesystem, because the new version requires std::wstring.
+	DEFINES += BOOST_FILESYSTEM_VERSION=2
+	# If /usr/include is included, this will mess with the android sdk.
+	INCLUDEPATH -= /usr/include
+	LIBPATH -= /usr/lib
+	# Include directory containing android builds of used libs.
+	INCLUDEPATH += ../cmoss/bin/droid/include
+	LIBPATH += ../cmoss/bin/droid/lib/armv5
+	# sqlite3 is included directly.
+	INCLUDEPATH += src/third_party/sqlite3
+}
