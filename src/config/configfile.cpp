@@ -107,7 +107,9 @@ ConfigFile::ConfigFile(char *argv0, bool readonly) : noWriteAccess(readonly)
 	const char *homePath = getenv("HOME");
 	if(homePath) {
 		configFileName = homePath;
+#ifndef ANDROID
 		configFileName += "/.pokerth/";
+#endif
 		////define log-dir
 		logDir = configFileName;
 		logDir += "log-files/";
@@ -123,13 +125,20 @@ ConfigFile::ConfigFile(char *argv0, bool readonly) : noWriteAccess(readonly)
 		mkdir(dataDir.c_str(), MODUS);
 		mkdir(cacheDir.c_str(), MODUS);
 	}
-
+#ifdef ANDROID
+	// TODO temporarily use sdcard for data files.
+	dataDir = "/sdcard/pokerth/data/";
+#endif
 #endif
 
 	ostringstream tempIntToString;
 	tempIntToString << configRev;
 	configList.push_back(ConfigInfo("ConfigRevision", CONFIG_TYPE_INT, tempIntToString.str()));
+#ifdef ANDROID
+	configList.push_back(ConfigInfo("AppDataDir", CONFIG_TYPE_STRING, "/sdcard/pokerth/data/"));
+#else
 	configList.push_back(ConfigInfo("AppDataDir", CONFIG_TYPE_STRING, myQtToolsInterface->getDataPathStdString(myArgv0)));
+#endif
 	configList.push_back(ConfigInfo("Language", CONFIG_TYPE_INT, myQtToolsInterface->getDefaultLanguage()));
 	/*configList.push_back(ConfigInfo("InternetServerAddressIRCChannelUpdateDone", CONFIG_TYPE_INT, "1"));*/ //HACK
 	configList.push_back(ConfigInfo("ShowLeftToolBox", CONFIG_TYPE_INT, "1"));
@@ -314,8 +323,13 @@ ConfigFile::ConfigFile(char *argv0, bool readonly) : noWriteAccess(readonly)
 				const char *tmpStr = confAppDataPath->Attribute("value");
 				if (tmpStr) tempAppDataPath = tmpStr;
 				//if appdatapath changes directly update it here not in UpdateConfig()
+#ifdef ANDROID
+				if(tempAppDataPath != "/sdcard/pokerth/data/") {
+					confAppDataPath->SetAttribute("value", "/sdcard/pokerth/data/");
+#else
 				if(tempAppDataPath != myQtToolsInterface->getDataPathStdString(myArgv0)) {
 					confAppDataPath->SetAttribute("value", myQtToolsInterface->stringToUtf8(myQtToolsInterface->getDataPathStdString(myArgv0)));
+#endif
 					doc.SaveFile( configFileName );
 				}
 			}
