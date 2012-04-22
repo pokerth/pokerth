@@ -205,8 +205,8 @@ SOURCES += \
 		src/net/common/internalchatcleanerpacket.cpp \
 		src/gui/generic/serverguiwrapper.cpp \
 		src/gui/qttoolsinterface.cpp \
-    src/net/common/sendbuffer.cpp \
-    src/net/common/receivebuffer.cpp
+		src/net/common/sendbuffer.cpp \
+		src/net/common/receivebuffer.cpp
 
 official_server{
 	INCLUDEPATH += pkth_stat/daemon_lib/src
@@ -239,8 +239,20 @@ mac{
 	# on Intel-Mac you have to comment this line out or build will fail.
 	#	QMAKE_MAC_SDK=/Developer/SDKs/MacOSX10.4u.sdk/
 
-        INCLUDEPATH += /Developer/SDKs/MacOSX10.6.sdk/usr/include/
+	INCLUDEPATH += /Developer/SDKs/MacOSX10.6.sdk/usr/include/
 	INCLUDEPATH += /Library/Frameworks/SDL.framework/Headers
 	INCLUDEPATH += /Library/Frameworks/SDL_mixer.framework/Headers
 	INCLUDEPATH += /opt/local/include
+}
+
+android{
+	# Use old boost::filesystem, because the new version requires std::wstring.
+	DEFINES += BOOST_FILESYSTEM_VERSION=2
+	# If /usr/include is included, this will mess with the android sdk.
+	INCLUDEPATH -= /usr/include
+	# Include directory containing android builds of used libs.
+	INCLUDEPATH += ../cmoss/bin/droid/include
+	# sqlite3 is included directly.
+	INCLUDEPATH += src/third_party/sqlite3
+	SOURCES += src/third_party/sqlite3/sqlite3.c
 }
