@@ -485,7 +485,7 @@ unix:!mac {
 		!count(BOOST_LIBS, 5):error("Unable to find boost libraries in PREFIX=$${PREFIX}/armv5")
 		LIBS += -ltinyxml
 		LIBS += $$BOOST_LIBS
-		LIBS += -lgsasl
+		LIBS += -lgsasl -lidn
 		LIBS += -lssl -lcrypto -lgcrypt -lgpg-error
 	}
 	TARGETDEPS += ./lib/libpokerth_lib.a \
