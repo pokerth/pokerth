@@ -57,6 +57,7 @@ static PProcessIdToSessionId pProcessIdToSessionId = 0;
 #endif
 #if defined(Q_OS_UNIX)
 #include <time.h>
+#include <unistd.h>
 #endif
 
 namespace QtLP_Private {
@@ -164,8 +165,12 @@ bool QtLocalPeer::sendMessage(const QString &message, int timeout)
     QDataStream ds(&socket);
     ds.writeBytes(uMsg.constData(), uMsg.size());
     bool res = socket.waitForBytesWritten(timeout);
-    res &= socket.waitForReadyRead(timeout);   // wait for ack
-    res &= (socket.read(qstrlen(ack)) == ack);
+    if (res) {
+        res &= socket.waitForReadyRead(timeout);   // wait for ack
+        if (res) {
+            res &= (socket.read(qstrlen(ack)) == ack);
+        }
+    }
     return res;
 }
 
