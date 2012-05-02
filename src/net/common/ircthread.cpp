@@ -45,6 +45,7 @@ struct IrcContext {
 	string serverAddress;
 	unsigned serverPort;
 	bool useIPv6;
+	string origNick;
 	string nick;
 	string channel;
 	string channelPassword;
@@ -269,7 +270,8 @@ IrcThread::IrcThread(const IrcThread &other)
 	context.serverAddress	= otherContext.serverAddress;
 	context.serverPort		= otherContext.serverPort;
 	context.useIPv6			= otherContext.useIPv6;
-	context.nick			= otherContext.nick;
+	context.origNick		= otherContext.origNick;
+	context.nick			= otherContext.origNick; // do not use changed nick.
 	context.channel			= otherContext.channel;
 	context.channelPassword	= otherContext.channelPassword;
 }
@@ -301,6 +303,7 @@ IrcThread::Init(const std::string &serverAddress, unsigned serverPort, bool ipv6
 	context.serverAddress	= serverAddress;
 	context.serverPort		= serverPort;
 	context.useIPv6			= ipv6;
+	context.origNick		= nick;
 	context.nick			= nick;
 	context.channel			= channel;
 	context.channelPassword	= channelPassword;
