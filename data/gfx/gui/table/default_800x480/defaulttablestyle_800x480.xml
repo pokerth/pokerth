@@ -14,8 +14,8 @@
      <FixedWindowHeight value="480" />  <!-- value [min 600] This will set the fixed window height if IfFixedWindowsSize=1 -->
      <MinimumWindowWidth value="800" /> <!-- value [min 1024] This will set the minimum window width if IfFixedWindowsSize=0 -->
      <MinimumWindowHeight value="424" /> <!-- value [min 600] This will set the minimum window height if IfFixedWindowsSize=0 -->
-     <MaximumWindowWidth value="800" /> <!-- value [min 1024] This will set the maximum window width if IfFixedWindowsSize=0 -->
-     <MaximumWindowHeight value="480" /> <!-- value [min 600] This will set the maximum window height if IfFixedWindowsSize=0 -->
+	 <MaximumWindowWidth value="1024" /> <!-- value [min 1024] This will set the maximum window width if IfFixedWindowsSize=0 -->
+	 <MaximumWindowHeight value="600" /> <!-- value [min 600] This will set the maximum window height if IfFixedWindowsSize=0 -->
      
      <!-- Table Pictures - values should contain filenames of pictures which have to be stored in the same folder as this xml file. if you wanna have an item to be not shown please write "NULL" instead of the picture file name -->
      <BigBlindPuck value="bigblindPuck.png" /> <!-- optimal size width:height in px [40:42] -->
