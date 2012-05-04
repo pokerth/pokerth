@@ -18,8 +18,8 @@
   </property>
   <property name="maximumSize">
    <size>
-    <width>800</width>
-    <height>480</height>
+    <width>1024</width>
+    <height>600</height>
    </size>
   </property>
   <property name="windowTitle">
@@ -34,8 +34,8 @@
    </property>
    <property name="maximumSize">
     <size>
-     <width>800</width>
-     <height>424</height>
+     <width>1024</width>
+     <height>600</height>
     </size>
    </property>
    <layout class="QGridLayout" name="gridLayout_2">
@@ -134,7 +134,7 @@
          <string>&amp;1 Start Local Game</string>
         </property>
         <property name="icon">
-         <iconset resource="../resources/pokerth.qrc">
+         <iconset resource="../resources/pokerth_android.qrc">
           <normaloff>:/gfx/swbuttonlocalgame.png</normaloff>:/gfx/swbuttonlocalgame.png</iconset>
         </property>
         <property name="iconSize">
@@ -175,7 +175,7 @@
          <string>&amp;2 Internet Game</string>
         </property>
         <property name="icon">
-         <iconset resource="../resources/pokerth.qrc">
+         <iconset resource="../resources/pokerth_android.qrc">
           <normaloff>:/gfx/swbuttoninternetgame.png</normaloff>:/gfx/swbuttoninternetgame.png</iconset>
         </property>
         <property name="iconSize">
@@ -216,7 +216,7 @@
          <string>&amp;3 Create Network Game</string>
         </property>
         <property name="icon">
-         <iconset resource="../resources/pokerth.qrc">
+         <iconset resource="../resources/pokerth_android.qrc">
           <normaloff>:/gfx/swbuttoncreatenetworkgame.png</normaloff>:/gfx/swbuttoncreatenetworkgame.png</iconset>
         </property>
         <property name="iconSize">
@@ -245,7 +245,7 @@
          <string>&amp;4 Join Network Game</string>
         </property>
         <property name="icon">
-         <iconset resource="../resources/pokerth.qrc">
+         <iconset resource="../resources/pokerth_android.qrc">
           <normaloff>:/gfx/swbuttonjoinnetworkgame.png</normaloff>:/gfx/swbuttonjoinnetworkgame.png</iconset>
         </property>
         <property name="iconSize">
@@ -277,7 +277,7 @@
    </property>
    <property name="maximumSize">
     <size>
-     <width>800</width>
+     <width>1024</width>
      <height>56</height>
     </size>
    </property>
@@ -298,7 +298,7 @@
   </widget>
   <action name="actionStart_Local_Game">
    <property name="icon">
-    <iconset resource="../resources/pokerth.qrc">
+    <iconset resource="../resources/pokerth_android.qrc">
      <normaloff>:/gfx/swbuttonlocalgame.png</normaloff>:/gfx/swbuttonlocalgame.png</iconset>
    </property>
    <property name="text">
@@ -310,7 +310,7 @@
   </action>
   <action name="actionInternet_Game">
    <property name="icon">
-    <iconset resource="../resources/pokerth.qrc">
+    <iconset resource="../resources/pokerth_android.qrc">
      <normaloff>:/gfx/swbuttoninternetgame.png</normaloff>:/gfx/swbuttoninternetgame.png</iconset>
    </property>
    <property name="text">
@@ -332,7 +332,7 @@
   </action>
   <action name="actionConfigure_PokerTH">
    <property name="icon">
-    <iconset resource="../resources/pokerth.qrc">
+    <iconset resource="../resources/pokerth_android.qrc">
      <normaloff>:/gfx/systemsettings.png</normaloff>:/gfx/systemsettings.png</iconset>
    </property>
    <property name="text">
@@ -348,7 +348,7 @@
   </action>
   <action name="actionQuit">
    <property name="icon">
-    <iconset resource="../resources/pokerth.qrc">
+    <iconset resource="../resources/pokerth_android.qrc">
      <normaloff>:/gfx/application_exit.png</normaloff>:/gfx/application_exit.png</iconset>
    </property>
    <property name="text">
@@ -363,7 +363,7 @@
     <bool>true</bool>
    </property>
    <property name="icon">
-    <iconset resource="../resources/pokerth.qrc">
+    <iconset resource="../resources/pokerth_android.qrc">
      <normaloff>:/gfx/swbuttonjoinnetworkgame.png</normaloff>:/gfx/swbuttonjoinnetworkgame.png</iconset>
    </property>
    <property name="text">
@@ -372,7 +372,7 @@
   </action>
   <action name="actionCreate_Network_Game">
    <property name="icon">
-    <iconset resource="../resources/pokerth.qrc">
+    <iconset resource="../resources/pokerth_android.qrc">
      <normaloff>:/gfx/swbuttoncreatenetworkgame.png</normaloff>:/gfx/swbuttoncreatenetworkgame.png</iconset>
    </property>
    <property name="text">
@@ -381,7 +381,7 @@
   </action>
  </widget>
  <resources>
-  <include location="../resources/pokerth.qrc"/>
+  <include location="../resources/pokerth_android.qrc"/>
  </resources>
  <connections>
   <connection>

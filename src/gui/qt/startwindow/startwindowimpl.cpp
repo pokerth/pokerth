@@ -75,9 +75,13 @@ startWindowImpl::startWindowImpl(ConfigFile *c, Log *l)
 
 #ifdef GUI_800x480
 	this->menubar->setStyleSheet("QMenuBar { background-color: #4B4B4B; font-size:20px; border-width: 0px;} QMenuBar::item { color: #F0F0F0; }");
-
-	centralwidget->setStyleSheet(".QWidget { background-image: url(\""+myAppDataPath+"gfx/gui/misc/startwindowbg_800x480.png\"); background-position: bottom center; background-origin: content; background-repeat: no-repeat;}");
-
+    #ifdef ANDROID
+        centralwidget->setStyleSheet(".QWidget { background-image: url(:/android/android-data/gfx/gui/misc/startwindowbg_800x480.png); background-position: bottom center; background-origin: content; background-repeat: no-repeat;}");
+        this->setAttribute(Qt::WA_LockLandscapeOrientation);
+        this->showFullScreen();
+    #else
+        centralwidget->setStyleSheet(".QWidget { background-image: url(\""+myAppDataPath+"gfx/gui/misc/startwindowbg_800x480.png\"); background-position: bottom center; background-origin: content; background-repeat: no-repeat;}");
+    #endif
 	pushButtonStart_Local_Game->setStyleSheet("QPushButton { text-align:left; font-weight:bold; padding-left: 3px; padding-bottom: 3px; padding-top: 3px; padding-right: 3px; background-color: #4B4B4B; color: #F0F0F0; font-size:20px; border-width: 0px;}");
 	pushButtonInternet_Game->setStyleSheet("QPushButton { text-align:left; font-weight:bold; padding-left: 3px; padding-bottom: 3px; padding-top: 3px; padding-right: 3px; background-color: #4B4B4B; color: #F0F0F0; font-size:20px; border-width: 0px;}");
 	pushButton_Create_Network_Game->setStyleSheet("QPushButton { text-align:left; font-weight:bold; padding-left: 3px; padding-bottom: 3px; padding-top: 3px; padding-right: 3px; background-color: #4B4B4B; color: #F0F0F0; font-size:20px; border-width: 0px;}");

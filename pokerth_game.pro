@@ -23,7 +23,14 @@ DEFINES += PREFIX=\"$${PREFIX}\"
 TARGET = pokerth
 
 # PRECOMPILED_HEADER = src/pch_game.h
-RESOURCES = src/gui/qt/resources/pokerth.qrc
+
+android{
+    RESOURCES = src/gui/qt/resources/pokerth_android.qrc
+}
+!android{
+    RESOURCES = src/gui/qt/resources/pokerth.qrc
+}
+
 INCLUDEPATH += . \
 	src \
 	src/engine \
@@ -603,3 +610,4 @@ android{
 	# sqlite3 is included directly.
 	INCLUDEPATH += src/third_party/sqlite3
 }
+

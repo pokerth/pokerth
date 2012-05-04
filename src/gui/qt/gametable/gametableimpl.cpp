@@ -75,6 +75,11 @@ gameTableImpl::gameTableImpl(ConfigFile *c, QMainWindow *parent)
 
 	setupUi(this);
 
+#ifdef ANDROID
+    this->setAttribute(Qt::WA_LockLandscapeOrientation);
+    this->showFullScreen();
+#endif
+
 	//Sound
 	mySDLPlayer = new SDLPlayer(myConfig);
 	mySoundEventHandler = new SoundEvents(myConfig);
@@ -504,7 +509,11 @@ gameTableImpl::gameTableImpl(ConfigFile *c, QMainWindow *parent)
 	myUniversalMessageDialog = new myMessageDialogImpl(myConfig, this);
 	myUniversalMessageDialog->setParent(this);
 
-
+        //hide left and right icon from maemo gui for ANDROID
+#ifdef ANDROID
+        fullscreenButton->hide();
+        tabsButton->hide();
+#endif
 
 	//Connects
 #ifdef GUI_800x480
@@ -4228,10 +4237,15 @@ void gameTableImpl::saveGameTableGeometry()
 
 void gameTableImpl::restoreGameTableGeometry()
 {
+#ifdef ANDROID
+    this->showFullScreen();
+    refreshGameTableStyle();
+    this->showFullScreen();
+#else
 	if(myConfig->readConfigInt("GameTableFullScreenSave")) {
-#ifndef GUI_800x480
+    #ifndef GUI_800x480
 		if(actionFullScreen->isEnabled()) this->showFullScreen();
-#endif
+    #endif
 	} else {
 		//resize only if style size allow this and if NOT fixed windows size
 		if(!myGameTableStyle->getIfFixedWindowSize().toInt() && myConfig->readConfigInt("GameTableHeightSave") <= myGameTableStyle->getMaximumWindowHeight().toInt() && myConfig->readConfigInt("GameTableHeightSave") >= myGameTableStyle->getMinimumWindowHeight().toInt() && myConfig->readConfigInt("GameTableWidthSave") <= myGameTableStyle->getMaximumWindowWidth().toInt() && myConfig->readConfigInt("GameTableWidthSave") >= myGameTableStyle->getMinimumWindowWidth().toInt()) {
@@ -4239,6 +4253,7 @@ void gameTableImpl::restoreGameTableGeometry()
 			this->resize(myConfig->readConfigInt("GameTableWidthSave"), myConfig->readConfigInt("GameTableHeightSave"));
 		}
 	}
+#endif
 }
 
 void gameTableImpl::netClientPlayerLeft(unsigned /*playerId*/)

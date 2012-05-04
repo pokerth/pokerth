@@ -71,7 +71,11 @@ GameTableStyleReader::~GameTableStyleReader()
 
 void GameTableStyleReader::readStyleFile(QString file)
 {
-
+#ifdef ANDROID
+//on Android we use just the defaul style packed with the binary via qrc
+    currentFileName = ":/android/android-data/gfx/gui/table/default_800x480/defaulttablestyle_800x480.xml";
+    currentDir = ":/android/android-data/gfx/gui/table/default_800x480/";
+#else
 	//if style file failed --> default style fallback
 	if(QFile(file).exists()) {
 		currentFileName = QFile(file).fileName();
@@ -80,12 +84,13 @@ void GameTableStyleReader::readStyleFile(QString file)
 		fallBack = 1;
 	}
 
-	QFile myFile(currentFileName);
-	myFile.open(QIODevice::ReadOnly);
-	fileContent = myFile.readAll();
-
 	QFileInfo info(currentFileName);
 	currentDir = info.absolutePath()+"/";
+#endif
+
+        QFile myFile(currentFileName);
+        myFile.open(QIODevice::ReadOnly);
+        fileContent = myFile.readAll();
 
 	//start reading the file and fill vars
 	string tempString1("");
@@ -1609,13 +1614,17 @@ void GameTableStyleReader::setSliderStyle(QSlider *s)
 	QString height("");
 
 #ifdef GUI_800x480
-	height = " height: 10px;";
+        height = " height: 10px;";
 #else
 	height = " height: 3px;";
 #endif
 
 #if QT_VERSION >= 0x040700
-	s->setStyleSheet("QSlider::groove:horizontal { border: 1px solid #"+BetSpeedSliderGrooveBorderColor+";"+height+" background: #"+BetSpeedSliderGrooveBgColor+"; margin: 4px 0; border-radius: 2px; } QSlider::handle:horizontal { background: #"+BetSpeedSliderHandleBgColor+"; border: 1px solid #"+BetSpeedSliderHandleBorderColor+"; width: 12px; margin: -7px 0; border-radius: 4px;}");
+        #ifdef GUI_800x480
+            s->setStyleSheet("QSlider::groove:horizontal { border: 2px solid #"+BetSpeedSliderGrooveBorderColor+";"+height+" background: #"+BetSpeedSliderGrooveBgColor+"; margin: 2px 0; border-radius: 2px; } QSlider::handle:horizontal { background: #"+BetSpeedSliderHandleBgColor+"; border: 2px solid #"+BetSpeedSliderHandleBorderColor+"; width: 40px; margin: -16px 0; border-radius: 4px;}");
+        #else
+            s->setStyleSheet("QSlider::groove:horizontal { border: 1px solid #"+BetSpeedSliderGrooveBorderColor+";"+height+" background: #"+BetSpeedSliderGrooveBgColor+"; margin: 4px 0; border-radius: 2px; } QSlider::handle:horizontal { background: #"+BetSpeedSliderHandleBgColor+"; border: 1px solid #"+BetSpeedSliderHandleBorderColor+"; width: 12px; margin: -7px 0; border-radius: 4px;}");
+        #endif
 #else
 	s->setStyleSheet("QSlider::groove:horizontal { border: 1px solid #"+BetSpeedSliderGrooveBorderColor+";"+height+" background: #"+BetSpeedSliderGrooveBgColor+"; margin: 4px 0; border-radius: 2px; } QSlider::handle:horizontal { background: #"+BetSpeedSliderHandleBgColor+"; border: 1px solid #"+BetSpeedSliderHandleBorderColor+"; width: 12px; margin: -2px 0; border-radius: 4px;}");
 #endif
