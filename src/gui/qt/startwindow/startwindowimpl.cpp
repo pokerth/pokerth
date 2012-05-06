@@ -75,9 +75,8 @@ startWindowImpl::startWindowImpl(ConfigFile *c, Log *l)
 
 #ifdef GUI_800x480
     #ifdef ANDROID
-        this->menubar->setStyleSheet("QMenuBar { background-color: #4B4B4B; font-size:20px; border-width: 0px;} QMenuBar::item { font-size:30px; color: #F0F0F0; }");
+        this->menubar->setStyleSheet("QMenuBar { background-color: #4B4B4B; font-size:20px; border-width: 0px;} QMenuBar::item { font-size:20px; color: #F0F0F0; }");
         centralwidget->setStyleSheet(".QWidget { background-image: url(:/android/android-data/gfx/gui/misc/startwindowbg_800x480.png); background-position: bottom center; background-origin: content; background-repeat: no-repeat;}");
-//        this->setAttribute(Qt::WA_LockLandscapeOrientation);
         this->showFullScreen();
     #else
         this->menubar->setStyleSheet("QMenuBar { background-color: #4B4B4B; font-size:20px; border-width: 0px;} QMenuBar::item { color: #F0F0F0; }");

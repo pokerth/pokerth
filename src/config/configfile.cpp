@@ -320,8 +320,8 @@ ConfigFile::ConfigFile(char *argv0, bool readonly) : noWriteAccess(readonly)
 				if (tmpStr) tempAppDataPath = tmpStr;
 				//if appdatapath changes directly update it here not in UpdateConfig()
 #ifdef ANDROID
-				if(tempAppDataPath != "/sdcard/pokerth/data/") {
-					confAppDataPath->SetAttribute("value", "/sdcard/pokerth/data/");
+                                if(tempAppDataPath != ":/android/android-data/") {
+                                        confAppDataPath->SetAttribute("value", ":/android/android-data/");
 #else
 				if(tempAppDataPath != myQtToolsInterface->getDataPathStdString(myArgv0)) {
 					confAppDataPath->SetAttribute("value", myQtToolsInterface->stringToUtf8(myQtToolsInterface->getDataPathStdString(myArgv0)));

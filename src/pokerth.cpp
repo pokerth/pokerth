@@ -112,14 +112,16 @@ int main( int argc, char **argv )
 #endif
 	a.setStyleSheet(font1String + " QDialogButtonBox, QMessageBox { dialogbuttonbox-buttons-have-icons: 1; dialog-ok-icon: url(:/gfx/dialog_ok_apply.png); dialog-cancel-icon: url(:/gfx/dialog_close.png); dialog-close-icon: url(:/gfx/dialog_close.png); dialog-yes-icon: url(:/gfx/dialog_ok_apply.png); dialog-no-icon: url(:/gfx/dialog_close.png) }");
 
-#ifndef ANDROID
-	QPixmap *pixmap = new QPixmap(myAppDataPath + "gfx/gui/misc/welcomepokerth.png");
-	StartSplash splash(*pixmap);
-	if(!myConfig->readConfigInt("DisableSplashScreenOnStartup")) {
-		splash.show();
+        QPixmap pixmap(myAppDataPath + "gfx/gui/misc/welcomepokerth.png");
+#ifdef ANDROID
+        QDesktopWidget dw;
+        pixmap = pixmap.scaled(dw.screenGeometry().width(), dw.screenGeometry().height(), Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
+#endif
+        StartSplash splash(pixmap);
+        if(!myConfig->readConfigInt("DisableSplashScreenOnStartup")) {
+                splash.show();
 		splash.showMessage(QString("Version %1").arg(POKERTH_BETA_RELEASE_STRING), 0x0042, QColor(240,240,240));
         }
-#endif
 
 	//Set translations
 	QTranslator qtTranslator;

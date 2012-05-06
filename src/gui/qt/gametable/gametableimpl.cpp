@@ -75,11 +75,6 @@ gameTableImpl::gameTableImpl(ConfigFile *c, QMainWindow *parent)
 
 	setupUi(this);
 
-#ifdef ANDROID
-//    this->setAttribute(Qt::WA_LockLandscapeOrientation);
-    this->showFullScreen();
-#endif
-
 	//Sound
 	mySDLPlayer = new SDLPlayer(myConfig);
 	mySoundEventHandler = new SoundEvents(myConfig);
@@ -4239,8 +4234,6 @@ void gameTableImpl::restoreGameTableGeometry()
 {
 #ifdef ANDROID
     this->showFullScreen();
-//    refreshGameTableStyle();
-//    this->showFullScreen();
 #else
 	if(myConfig->readConfigInt("GameTableFullScreenSave")) {
     #ifndef GUI_800x480

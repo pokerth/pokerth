@@ -124,8 +124,7 @@ void MyCardsPixmapLabel::startFlipCards(int speed, const QPixmap &frontPix, cons
 	}
 	if(speed > 8 && speed <= 10) {
 		flipCardsScaleIntervall = 0.5;
-	}
-//
+        }
 
 	if(speed != 11) {
 		flipCardsAction1 = TRUE;
@@ -158,9 +157,8 @@ void MyCardsPixmapLabel::nextFlipCardsFrame()
 		} else {
 			//dann front vergrößern
 			if (frameFlipCardsAction2Size < 0.9 ) {
-
 				frameFlipCardsAction2Size += flipCardsScaleIntervall;
-				update();
+                                update();
 			} else {
 				flipCardsAction2 = FALSE;
 				flipCardsTimer->stop();

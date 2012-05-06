@@ -346,7 +346,7 @@ public slots:
 	void sendShowMyCardsSignal();
 
 	void closeMessageBoxes();
-	void hide();
+        void hide();
 	void soundEvent_blindsWereSet(int);
 	void enableCallCheckPushButton();
 
