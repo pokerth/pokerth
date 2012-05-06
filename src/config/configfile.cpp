@@ -125,17 +125,13 @@ ConfigFile::ConfigFile(char *argv0, bool readonly) : noWriteAccess(readonly)
 		mkdir(dataDir.c_str(), MODUS);
 		mkdir(cacheDir.c_str(), MODUS);
 	}
-#ifdef ANDROID
-	// TODO temporarily use sdcard for data files.
-	dataDir = "/sdcard/pokerth/data/";
-#endif
 #endif
 
 	ostringstream tempIntToString;
 	tempIntToString << configRev;
 	configList.push_back(ConfigInfo("ConfigRevision", CONFIG_TYPE_INT, tempIntToString.str()));
 #ifdef ANDROID
-	configList.push_back(ConfigInfo("AppDataDir", CONFIG_TYPE_STRING, "/sdcard/pokerth/data/"));
+        configList.push_back(ConfigInfo("AppDataDir", CONFIG_TYPE_STRING, ":/android/android-data/"));
 #else
 	configList.push_back(ConfigInfo("AppDataDir", CONFIG_TYPE_STRING, myQtToolsInterface->getDataPathStdString(myArgv0)));
 #endif

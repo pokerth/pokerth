@@ -112,9 +112,7 @@ int main( int argc, char **argv )
 #endif
 	a.setStyleSheet(font1String + " QDialogButtonBox, QMessageBox { dialogbuttonbox-buttons-have-icons: 1; dialog-ok-icon: url(:/gfx/dialog_ok_apply.png); dialog-cancel-icon: url(:/gfx/dialog_close.png); dialog-close-icon: url(:/gfx/dialog_close.png); dialog-yes-icon: url(:/gfx/dialog_ok_apply.png); dialog-no-icon: url(:/gfx/dialog_close.png) }");
 
-#ifdef ANDROID
-	a.setAttribute(Qt::WA_LockLandscapeOrientation);
-#else 
+#ifndef ANDROID
 	QPixmap *pixmap = new QPixmap(myAppDataPath + "gfx/gui/misc/welcomepokerth.png");
 	StartSplash splash(*pixmap);
 	if(!myConfig->readConfigInt("DisableSplashScreenOnStartup")) {

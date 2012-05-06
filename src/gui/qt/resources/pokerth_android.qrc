@@ -419,5 +419,7 @@
         <file>android-data/gfx/gui/misc/welcomepokerth_old.png</file>
         <file>android-data/gfx/gui/misc/welcomepokerth.png</file>
         <file>android-data/gfx/gui/misc/windowicon.png</file>
+        <file>android-data/fonts/DejaVuSans-Bold.ttf</file>
+        <file>android-data/fonts/n019003l.pfb</file>
     </qresource>
 </RCC>
