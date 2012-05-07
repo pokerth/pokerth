@@ -435,6 +435,9 @@ p, li { white-space: pre-wrap; }
                <height>16777215</height>
               </size>
              </property>
+             <property name="contextMenuPolicy">
+              <enum>Qt::CustomContextMenu</enum>
+             </property>
              <property name="styleSheet">
               <string notr="true"/>
              </property>
@@ -655,8 +658,8 @@ p, li { white-space: pre-wrap; }
                 <rect>
                  <x>0</x>
                  <y>0</y>
-                 <width>288</width>
-                 <height>184</height>
+                 <width>292</width>
+                 <height>186</height>
                 </rect>
                </property>
                <layout class="QGridLayout" name="gridLayout">
