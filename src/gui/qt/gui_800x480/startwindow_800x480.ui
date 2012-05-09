@@ -65,32 +65,6 @@
       </property>
      </spacer>
     </item>
-    <item row="1" column="2">
-     <spacer>
-      <property name="orientation">
-       <enum>Qt::Horizontal</enum>
-      </property>
-      <property name="sizeHint" stdset="0">
-       <size>
-        <width>63</width>
-        <height>20</height>
-       </size>
-      </property>
-     </spacer>
-    </item>
-    <item row="2" column="1">
-     <spacer>
-      <property name="orientation">
-       <enum>Qt::Vertical</enum>
-      </property>
-      <property name="sizeHint" stdset="0">
-       <size>
-        <width>20</width>
-        <height>95</height>
-       </size>
-      </property>
-     </spacer>
-    </item>
     <item row="1" column="1">
      <layout class="QGridLayout" name="gridLayout">
       <item row="0" column="0">
@@ -134,49 +108,8 @@
          <string>&amp;1 Start Local Game</string>
         </property>
         <property name="icon">
-         <iconset resource="../resources/pokerth_android.qrc">
+         <iconset resource="../resources/pokerth.qrc">
           <normaloff>:/gfx/swbuttonlocalgame.png</normaloff>:/gfx/swbuttonlocalgame.png</iconset>
-        </property>
-        <property name="iconSize">
-         <size>
-          <width>37</width>
-          <height>32</height>
-         </size>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="0">
-       <widget class="QPushButton" name="pushButtonInternet_Game">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="MinimumExpanding" vsizetype="Preferred">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="minimumSize">
-         <size>
-          <width>350</width>
-          <height>80</height>
-         </size>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>350</width>
-          <height>80</height>
-         </size>
-        </property>
-        <property name="focusPolicy">
-         <enum>Qt::NoFocus</enum>
-        </property>
-        <property name="styleSheet">
-         <string notr="true"/>
-        </property>
-        <property name="text">
-         <string>&amp;2 Internet Game</string>
-        </property>
-        <property name="icon">
-         <iconset resource="../resources/pokerth_android.qrc">
-          <normaloff>:/gfx/swbuttoninternetgame.png</normaloff>:/gfx/swbuttoninternetgame.png</iconset>
         </property>
         <property name="iconSize">
          <size>
@@ -216,8 +149,49 @@
          <string>&amp;3 Create Network Game</string>
         </property>
         <property name="icon">
-         <iconset resource="../resources/pokerth_android.qrc">
+         <iconset resource="../resources/pokerth.qrc">
           <normaloff>:/gfx/swbuttoncreatenetworkgame.png</normaloff>:/gfx/swbuttoncreatenetworkgame.png</iconset>
+        </property>
+        <property name="iconSize">
+         <size>
+          <width>37</width>
+          <height>32</height>
+         </size>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0">
+       <widget class="QPushButton" name="pushButtonInternet_Game">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="MinimumExpanding" vsizetype="Preferred">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="minimumSize">
+         <size>
+          <width>350</width>
+          <height>80</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>350</width>
+          <height>80</height>
+         </size>
+        </property>
+        <property name="focusPolicy">
+         <enum>Qt::NoFocus</enum>
+        </property>
+        <property name="styleSheet">
+         <string notr="true"/>
+        </property>
+        <property name="text">
+         <string>&amp;2 Internet Game</string>
+        </property>
+        <property name="icon">
+         <iconset resource="../resources/pokerth.qrc">
+          <normaloff>:/gfx/swbuttoninternetgame.png</normaloff>:/gfx/swbuttoninternetgame.png</iconset>
         </property>
         <property name="iconSize">
          <size>
@@ -238,14 +212,11 @@
         <property name="focusPolicy">
          <enum>Qt::NoFocus</enum>
         </property>
-        <property name="styleSheet">
-         <string notr="true"/>
-        </property>
         <property name="text">
          <string>&amp;4 Join Network Game</string>
         </property>
         <property name="icon">
-         <iconset resource="../resources/pokerth_android.qrc">
+         <iconset resource="../resources/pokerth.qrc">
           <normaloff>:/gfx/swbuttonjoinnetworkgame.png</normaloff>:/gfx/swbuttonjoinnetworkgame.png</iconset>
         </property>
         <property name="iconSize">
@@ -256,7 +227,91 @@
         </property>
        </widget>
       </item>
+      <item row="2" column="0">
+       <widget class="QPushButton" name="pushButton_configure">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="MinimumExpanding" vsizetype="Preferred">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="minimumSize">
+         <size>
+          <width>0</width>
+          <height>80</height>
+         </size>
+        </property>
+        <property name="focusPolicy">
+         <enum>Qt::NoFocus</enum>
+        </property>
+        <property name="text">
+         <string>Configure PokerTH</string>
+        </property>
+        <property name="icon">
+         <iconset resource="../resources/pokerth.qrc">
+          <normaloff>:/gfx/preferences-desktop.png</normaloff>:/gfx/preferences-desktop.png</iconset>
+        </property>
+        <property name="iconSize">
+         <size>
+          <width>37</width>
+          <height>32</height>
+         </size>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="1">
+       <widget class="QPushButton" name="pushButton_about">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="MinimumExpanding" vsizetype="Preferred">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="focusPolicy">
+         <enum>Qt::NoFocus</enum>
+        </property>
+        <property name="text">
+         <string>About PokerTH</string>
+        </property>
+        <property name="icon">
+         <iconset resource="../resources/pokerth.qrc">
+          <normaloff>:/gfx/ktip.png</normaloff>:/gfx/ktip.png</iconset>
+        </property>
+        <property name="iconSize">
+         <size>
+          <width>37</width>
+          <height>32</height>
+         </size>
+        </property>
+       </widget>
+      </item>
      </layout>
+    </item>
+    <item row="1" column="2">
+     <spacer>
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
+      </property>
+      <property name="sizeHint" stdset="0">
+       <size>
+        <width>63</width>
+        <height>20</height>
+       </size>
+      </property>
+     </spacer>
+    </item>
+    <item row="2" column="1">
+     <spacer>
+      <property name="orientation">
+       <enum>Qt::Vertical</enum>
+      </property>
+      <property name="sizeHint" stdset="0">
+       <size>
+        <width>20</width>
+        <height>95</height>
+       </size>
+      </property>
+     </spacer>
     </item>
    </layout>
   </widget>
@@ -298,7 +353,7 @@
   </widget>
   <action name="actionStart_Local_Game">
    <property name="icon">
-    <iconset resource="../resources/pokerth_android.qrc">
+    <iconset resource="../resources/pokerth.qrc">
      <normaloff>:/gfx/swbuttonlocalgame.png</normaloff>:/gfx/swbuttonlocalgame.png</iconset>
    </property>
    <property name="text">
@@ -310,7 +365,7 @@
   </action>
   <action name="actionInternet_Game">
    <property name="icon">
-    <iconset resource="../resources/pokerth_android.qrc">
+    <iconset resource="../resources/pokerth.qrc">
      <normaloff>:/gfx/swbuttoninternetgame.png</normaloff>:/gfx/swbuttoninternetgame.png</iconset>
    </property>
    <property name="text">
@@ -324,31 +379,19 @@
    <property name="text">
     <string>About PokerTH</string>
    </property>
-   <property name="font">
-    <font>
-     <pointsize>15</pointsize>
-    </font>
-   </property>
   </action>
   <action name="actionConfigure_PokerTH">
    <property name="icon">
-    <iconset resource="../resources/pokerth_android.qrc">
+    <iconset resource="../resources/pokerth.qrc">
      <normaloff>:/gfx/systemsettings.png</normaloff>:/gfx/systemsettings.png</iconset>
    </property>
    <property name="text">
     <string>Configure PokerTH ...</string>
    </property>
-   <property name="font">
-    <font>
-     <pointsize>15</pointsize>
-     <weight>50</weight>
-     <bold>false</bold>
-    </font>
-   </property>
   </action>
   <action name="actionQuit">
    <property name="icon">
-    <iconset resource="../resources/pokerth_android.qrc">
+    <iconset resource="../resources/pokerth.qrc">
      <normaloff>:/gfx/application_exit.png</normaloff>:/gfx/application_exit.png</iconset>
    </property>
    <property name="text">
@@ -363,7 +406,7 @@
     <bool>true</bool>
    </property>
    <property name="icon">
-    <iconset resource="../resources/pokerth_android.qrc">
+    <iconset resource="../resources/pokerth.qrc">
      <normaloff>:/gfx/swbuttonjoinnetworkgame.png</normaloff>:/gfx/swbuttonjoinnetworkgame.png</iconset>
    </property>
    <property name="text">
@@ -372,7 +415,7 @@
   </action>
   <action name="actionCreate_Network_Game">
    <property name="icon">
-    <iconset resource="../resources/pokerth_android.qrc">
+    <iconset resource="../resources/pokerth.qrc">
      <normaloff>:/gfx/swbuttoncreatenetworkgame.png</normaloff>:/gfx/swbuttoncreatenetworkgame.png</iconset>
    </property>
    <property name="text">
@@ -381,7 +424,7 @@
   </action>
  </widget>
  <resources>
-  <include location="../resources/pokerth_android.qrc"/>
+  <include location="../resources/pokerth.qrc"/>
  </resources>
  <connections>
   <connection>

@@ -3164,8 +3164,6 @@ void gameTableImpl::keyPressEvent ( QKeyEvent * event )
 
 #endif
 
-	//TESTING UNIT
-	//    if (event->key() == Qt::Key_M) { showShowMyCardsButton(); }
 }
 
 void gameTableImpl::changePlayingMode()
@@ -3220,7 +3218,11 @@ bool gameTableImpl::eventFilter(QObject *obj, QEvent *event)
 	if (/*obj == lineEdit_ChatInput && lineEdit_ChatInput->text() != "" && */event->type() == QEvent::KeyPress && keyEvent->key() == Qt::Key_Tab) {
 		myChat->nickAutoCompletition();
 		return true;
-	} else if (event->type() == QEvent::Close) {
+//    CURRENTLY not possible in Android :(  -->     } else if (event->type() == QEvent::KeyPress && keyEvent->key() == Qt::Key_Back) {
+//            event->ignore();
+//            closeGameTable();
+//            return true;
+        } else if (event->type() == QEvent::Close) {
 		event->ignore();
 		closeGameTable();
 		return true;

@@ -75,17 +75,23 @@ startWindowImpl::startWindowImpl(ConfigFile *c, Log *l)
 
 #ifdef GUI_800x480
     #ifdef ANDROID
-        this->menubar->setStyleSheet("QMenuBar { background-color: #4B4B4B; font-size:20px; border-width: 0px;} QMenuBar::item { font-size:20px; color: #F0F0F0; }");
+        this->menubar->hide();
         centralwidget->setStyleSheet(".QWidget { background-image: url(:/android/android-data/gfx/gui/misc/startwindowbg_800x480.png); background-position: bottom center; background-origin: content; background-repeat: no-repeat;}");
         this->showFullScreen();
     #else
-        this->menubar->setStyleSheet("QMenuBar { background-color: #4B4B4B; font-size:20px; border-width: 0px;} QMenuBar::item { color: #F0F0F0; }");
+//        this->menubar->setStyleSheet("QMenuBar { background-color: #4B4B4B; font-size:20px; border-width: 0px;} QMenuBar::item { color: #F0F0F0; }");
+        this->menubar->hide();
         centralwidget->setStyleSheet(".QWidget { background-image: url(\""+myAppDataPath+"gfx/gui/misc/startwindowbg_800x480.png\"); background-position: bottom center; background-origin: content; background-repeat: no-repeat;}");
     #endif
-	pushButtonStart_Local_Game->setStyleSheet("QPushButton { text-align:left; font-weight:bold; padding-left: 3px; padding-bottom: 3px; padding-top: 3px; padding-right: 3px; background-color: #4B4B4B; color: #F0F0F0; font-size:20px; border-width: 0px;}");
-	pushButtonInternet_Game->setStyleSheet("QPushButton { text-align:left; font-weight:bold; padding-left: 3px; padding-bottom: 3px; padding-top: 3px; padding-right: 3px; background-color: #4B4B4B; color: #F0F0F0; font-size:20px; border-width: 0px;}");
-	pushButton_Create_Network_Game->setStyleSheet("QPushButton { text-align:left; font-weight:bold; padding-left: 3px; padding-bottom: 3px; padding-top: 3px; padding-right: 3px; background-color: #4B4B4B; color: #F0F0F0; font-size:20px; border-width: 0px;}");
-	pushButton_Join_Network_Game->setStyleSheet("QPushButton { text-align:left; font-weight:bold; padding-left: 3px; padding-bottom: 3px; padding-top: 3px; padding-right: 3px; background-color: #4B4B4B; color: #F0F0F0; font-size:20px; border-width: 0px;}");
+        pushButtonStart_Local_Game->setStyleSheet("QPushButton { text-align:left; font-weight:bold; padding-left: 3px; padding-bottom: 3px; padding-top: 3px; padding-right: 3px; background-color: #4B4B4B; color: #F0F0F0; font-size:22px; border-width: 0px;}");
+        pushButtonInternet_Game->setStyleSheet("QPushButton { text-align:left; font-weight:bold; padding-left: 3px; padding-bottom: 3px; padding-top: 3px; padding-right: 3px; background-color: #4B4B4B; color: #F0F0F0; font-size:22px; border-width: 0px;}");
+        pushButton_Create_Network_Game->setStyleSheet("QPushButton { text-align:left; font-weight:bold; padding-left: 3px; padding-bottom: 3px; padding-top: 3px; padding-right: 3px; background-color: #4B4B4B; color: #F0F0F0; font-size:22px; border-width: 0px;}");
+        pushButton_Join_Network_Game->setStyleSheet("QPushButton { text-align:left; font-weight:bold; padding-left: 3px; padding-bottom: 3px; padding-top: 3px; padding-right: 3px; background-color: #4B4B4B; color: #F0F0F0; font-size:22px; border-width: 0px;}");
+        pushButton_about->setStyleSheet("QPushButton { text-align:left; font-weight:bold; padding-left: 3px; padding-bottom: 3px; padding-top: 3px; padding-right: 3px; background-color: #4B4B4B; color: #F0F0F0; font-size:22px; border-width: 0px;}");
+        pushButton_configure->setStyleSheet("QPushButton { text-align:left; font-weight:bold; padding-left: 3px; padding-bottom: 3px; padding-top: 3px; padding-right: 3px; background-color: #4B4B4B; color: #F0F0F0; font-size:22px; border-width: 0px;}");
+
+        connect( pushButton_about, SIGNAL( clicked() ), this, SLOT( callAboutPokerthDialog() ) );
+        connect( pushButton_configure, SIGNAL( clicked() ), this, SLOT( callSettingsDialogFromStartwindow() ) );
 #else
 	this->menubar->setStyleSheet("QMenuBar { background-color: #4B4B4B; font-size:12px; border-width: 0px;} QMenuBar::item { color: #F0F0F0; }");
 
@@ -95,6 +101,10 @@ startWindowImpl::startWindowImpl(ConfigFile *c, Log *l)
 	pushButtonInternet_Game->setStyleSheet("QPushButton { text-align:left; font-weight:bold; padding-left: 1px; padding-bottom: 3px; padding-top: 3px; padding-right: 3px; background-color: #4B4B4B; color: #F0F0F0; font-size:12px; border-width: 0px;}");
 	pushButton_Create_Network_Game->setStyleSheet("QPushButton { text-align:left; font-weight:bold; padding-left: 1px; padding-bottom: 3px; padding-top: 3px; padding-right: 3px; background-color: #4B4B4B; color: #F0F0F0; font-size:12px; border-width: 0px;}");
 	pushButton_Join_Network_Game->setStyleSheet("QPushButton { text-align:left; font-weight:bold; padding-left: 1px; padding-bottom: 3px; padding-top: 3px; padding-right: 3px; background-color: #4B4B4B; color: #F0F0F0; font-size:12px; border-width: 0px;}");
+
+        connect( actionAbout_PokerTH, SIGNAL( triggered() ), this, SLOT( callAboutPokerthDialog() ) );
+        connect( actionConfigure_PokerTH, SIGNAL( triggered() ), this, SLOT( callSettingsDialogFromStartwindow() ) );
+
 #endif
 
 
@@ -124,11 +134,7 @@ startWindowImpl::startWindowImpl(ConfigFile *c, Log *l)
 	connect( actionCreate_Network_Game, SIGNAL( triggered() ), this, SLOT( callCreateNetworkGameDialog() ) );
 	connect( pushButton_Create_Network_Game, SIGNAL( clicked() ), this, SLOT( callCreateNetworkGameDialog() ) );
 	connect( actionJoin_Network_Game, SIGNAL( triggered() ), this, SLOT( callJoinNetworkGameDialog() ) );
-	connect( pushButton_Join_Network_Game, SIGNAL( clicked() ), this, SLOT( callJoinNetworkGameDialog() ) );
-
-	connect( actionAbout_PokerTH, SIGNAL( triggered() ), this, SLOT( callAboutPokerthDialog() ) );
-	connect( actionConfigure_PokerTH, SIGNAL( triggered() ), this, SLOT( callSettingsDialogFromStartwindow() ) );
-
+        connect( pushButton_Join_Network_Game, SIGNAL( clicked() ), this, SLOT( callJoinNetworkGameDialog() ) );
 
 	connect(this, SIGNAL(signalShowClientDialog()), this, SLOT(showClientDialog()));
 

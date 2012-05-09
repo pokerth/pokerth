@@ -88,10 +88,10 @@ int main( int argc, char **argv )
 	//create defaultconfig
 	ConfigFile *myConfig = new ConfigFile(argv[0], false);
 	Log *myLog = new Log(myConfig);
-#ifndef ANDROID
+//#ifndef ANDROID
 	// set PlastiqueStyle even for mac-version to prevent artefacts on styled widgets
 	a.setStyle(new QPlastiqueStyle);
-#endif
+//#endif
         QString	myAppDataPath = QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str());
         //set QApplication default font
 

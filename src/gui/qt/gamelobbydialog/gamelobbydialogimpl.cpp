@@ -212,7 +212,9 @@ void gameLobbyDialogImpl::exec()
 		registeredUserMode();
 	}
 
-
+#ifdef ANDROID
+        this->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
+#endif
 	QDialog::exec();
 
 	waitStartGameMsgBoxTimer->stop();

@@ -530,9 +530,6 @@ void settingsDialogImpl::exec(bool in_game)
 	calledIngame = in_game;
 	prepareDialog();
 	QDialog::exec();
-#ifdef ANDROID
-        this->showFullScreen();
-#endif
 }
 
 void settingsDialogImpl::isAccepted()

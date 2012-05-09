@@ -29,7 +29,6 @@ newGameDialogImpl::newGameDialogImpl(QMainWindow *parent, ConfigFile *c)
 	setupUi(this);
 
 	myChangeCompleteBlindsDialog = new changeCompleteBlindsDialogImpl;
-
 	connect( radioButton_changeBlindsSettings, SIGNAL( clicked(bool) ), this, SLOT( callChangeBlindsDialog(bool) ) );
 
 }
@@ -66,7 +65,7 @@ void newGameDialogImpl::exec()
 	myChangeCompleteBlindsDialog->spinBox_afterThisAlwaysRaiseValue->setValue(myConfig->readConfigInt("AfterMBAlwaysRaiseValue"));
 	myChangeCompleteBlindsDialog->radioButton_afterThisStayAtLastBlind->setChecked(myConfig->readConfigInt("AfterMBStayAtLastBlind"));
 
-	QDialog::exec();
+        QDialog::exec();
 
 }
 
