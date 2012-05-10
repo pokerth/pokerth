@@ -7,29 +7,44 @@
     <x>0</x>
     <y>0</y>
     <width>800</width>
-    <height>300</height>
+    <height>424</height>
    </rect>
+  </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
   </property>
   <property name="minimumSize">
    <size>
     <width>800</width>
-    <height>300</height>
-   </size>
-  </property>
-  <property name="maximumSize">
-   <size>
-    <width>800</width>
-    <height>300</height>
+    <height>424</height>
    </size>
   </property>
   <property name="windowTitle">
    <string>Internet Game Login</string>
   </property>
+  <property name="styleSheet">
+   <string notr="true">QObject{font: 24px}</string>
+  </property>
   <layout class="QGridLayout" name="gridLayout_2">
+   <property name="leftMargin">
+    <number>30</number>
+   </property>
+   <property name="topMargin">
+    <number>10</number>
+   </property>
+   <property name="rightMargin">
+    <number>30</number>
+   </property>
+   <property name="bottomMargin">
+    <number>30</number>
+   </property>
    <item row="1" column="1">
     <widget class="QGroupBox" name="groupBox_reguser">
      <property name="styleSheet">
-      <string notr="true">QObject{font: 20px}</string>
+      <string notr="true"/>
      </property>
      <property name="title">
       <string>Registered user</string>
@@ -46,7 +61,11 @@
        </widget>
       </item>
       <item row="0" column="1">
-       <widget class="QLineEdit" name="lineEdit_username"/>
+       <widget class="QLineEdit" name="lineEdit_username">
+        <property name="inputMethodHints">
+         <set>Qt::ImhNoPredictiveText</set>
+        </property>
+       </widget>
       </item>
       <item row="1" column="0">
        <widget class="QLabel" name="label_2">
@@ -64,9 +83,6 @@
       </item>
       <item row="2" column="0" colspan="2">
        <widget class="QCheckBox" name="checkBox_rememberPassword">
-        <property name="styleSheet">
-         <string notr="true">QObject{font: 18px}</string>
-        </property>
         <property name="text">
          <string>Remember password (not recommended)</string>
         </property>
@@ -75,23 +91,17 @@
      </layout>
     </widget>
    </item>
-   <item row="3" column="1">
+   <item row="2" column="1">
     <widget class="QCheckBox" name="checkBox_guest">
-     <property name="styleSheet">
-      <string notr="true">QObject{font: 20px}</string>
-     </property>
      <property name="text">
       <string>Login as guest</string>
      </property>
     </widget>
    </item>
-   <item row="5" column="0" colspan="3">
+   <item row="4" column="0" colspan="3">
     <layout class="QHBoxLayout" name="horizontalLayout">
      <item>
       <widget class="QLabel" name="label_3">
-       <property name="styleSheet">
-        <string notr="true">QObject {font: 20px}</string>
-       </property>
        <property name="text">
         <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
@@ -123,7 +133,7 @@ p, li { white-space: pre-wrap; }
      <item>
       <widget class="QPushButton" name="pushButton_login">
        <property name="styleSheet">
-        <string notr="true">QObject {font: bold 20px}</string>
+        <string notr="true">QObject {font: bold}</string>
        </property>
        <property name="text">
         <string>Login</string>
@@ -158,21 +168,8 @@ p, li { white-space: pre-wrap; }
      </property>
     </spacer>
    </item>
-   <item row="4" column="1">
+   <item row="3" column="1">
     <spacer name="verticalSpacer">
-     <property name="orientation">
-      <enum>Qt::Vertical</enum>
-     </property>
-     <property name="sizeHint" stdset="0">
-      <size>
-       <width>20</width>
-       <height>40</height>
-      </size>
-     </property>
-    </spacer>
-   </item>
-   <item row="2" column="1">
-    <spacer name="verticalSpacer_2">
      <property name="orientation">
       <enum>Qt::Vertical</enum>
      </property>
