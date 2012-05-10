@@ -10,13 +10,13 @@
     <height>424</height>
    </rect>
   </property>
-  <property name="minimumSize">
-   <size>
-    <width>800</width>
-    <height>424</height>
-   </size>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
   </property>
-  <property name="maximumSize">
+  <property name="minimumSize">
    <size>
     <width>800</width>
     <height>424</height>
@@ -62,7 +62,7 @@
         </size>
        </property>
        <property name="styleSheet">
-        <string notr="true">QObject {font: bold 20px}</string>
+        <string notr="true">QObject {font: bold 26px}</string>
        </property>
        <property name="text">
         <string>Connect</string>
@@ -72,30 +72,27 @@
     </layout>
    </item>
    <item row="0" column="0">
-    <widget class="QGroupBox" name="groupBox">
-     <property name="title">
-      <string/>
+    <widget class="QFrame" name="frame">
+     <property name="styleSheet">
+      <string notr="true">QObject {font: 26px}</string>
      </property>
      <layout class="QGridLayout" name="gridLayout">
+      <property name="verticalSpacing">
+       <number>6</number>
+      </property>
       <item row="0" column="0" colspan="2">
        <layout class="QHBoxLayout" name="horizontalLayout_2">
         <item>
          <widget class="QLabel" name="label_4">
-          <property name="styleSheet">
-           <string notr="true">QObject {font: 20px}</string>
-          </property>
           <property name="text">
            <string>Profile Name:</string>
-          </property>
-          <property name="buddy">
-           <cstring>lineEdit_profileName</cstring>
           </property>
          </widget>
         </item>
         <item>
          <widget class="QLineEdit" name="lineEdit_profileName">
-          <property name="styleSheet">
-           <string notr="true">QObject {font: 20px}</string>
+          <property name="inputMethodHints">
+           <set>Qt::ImhFormattedNumbersOnly|Qt::ImhNoPredictiveText</set>
           </property>
           <property name="text">
            <string>myServerProfile1</string>
@@ -108,42 +105,27 @@
        <layout class="QHBoxLayout" name="horizontalLayout">
         <item>
          <widget class="QLabel" name="label">
-          <property name="styleSheet">
-           <string notr="true">QObject {font: 20px}</string>
-          </property>
           <property name="text">
            <string>IP Address / Domain Name:</string>
-          </property>
-          <property name="buddy">
-           <cstring>lineEdit_ipAddress</cstring>
           </property>
          </widget>
         </item>
         <item>
          <widget class="QLineEdit" name="lineEdit_ipAddress">
-          <property name="styleSheet">
-           <string notr="true">QObject {font: 20px}</string>
+          <property name="inputMethodHints">
+           <set>Qt::ImhNoPredictiveText</set>
           </property>
          </widget>
         </item>
         <item>
          <widget class="QLabel" name="label_2">
-          <property name="styleSheet">
-           <string notr="true">QObject {font: 20px}</string>
-          </property>
           <property name="text">
            <string>Port:</string>
-          </property>
-          <property name="buddy">
-           <cstring>spinBox_port</cstring>
           </property>
          </widget>
         </item>
         <item>
          <widget class="QSpinBox" name="spinBox_port">
-          <property name="styleSheet">
-           <string notr="true">QObject {font: 20px}</string>
-          </property>
           <property name="minimum">
            <number>80</number>
           </property>
@@ -167,9 +149,6 @@
         </property>
         <item>
          <widget class="QCheckBox" name="checkBox_ipv6">
-          <property name="styleSheet">
-           <string notr="true">QObject {font: 20px}</string>
-          </property>
           <property name="text">
            <string>Use IPv6</string>
           </property>
@@ -216,9 +195,6 @@ p, li { white-space: pre-wrap; }
         </property>
         <item>
          <widget class="QCheckBox" name="checkBox_sctp">
-          <property name="styleSheet">
-           <string notr="true">QObject {font: 20px}</string>
-          </property>
           <property name="text">
            <string>Use SCTP</string>
           </property>
@@ -258,13 +234,22 @@ p, li { white-space: pre-wrap; }
       <item row="4" column="0" colspan="2">
        <widget class="QGroupBox" name="groupBox_2">
         <property name="styleSheet">
-         <string notr="true">QObject {font: 20px}</string>
+         <string notr="true"/>
         </property>
         <property name="title">
          <string>Server Profiles</string>
         </property>
         <layout class="QGridLayout" name="gridLayout3">
-         <property name="margin">
+         <property name="leftMargin">
+          <number>9</number>
+         </property>
+         <property name="topMargin">
+          <number>0</number>
+         </property>
+         <property name="rightMargin">
+          <number>9</number>
+         </property>
+         <property name="bottomMargin">
           <number>9</number>
          </property>
          <property name="spacing">
@@ -388,22 +373,6 @@ p, li { white-space: pre-wrap; }
     <hint type="destinationlabel">
      <x>33</x>
      <y>422</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>treeWidget</sender>
-   <signal>itemDoubleClicked(QTreeWidgetItem*,int)</signal>
-   <receiver>pushButton_connect</receiver>
-   <slot>click()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>113</x>
-     <y>206</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>394</x>
-     <y>427</y>
     </hint>
    </hints>
   </connection>

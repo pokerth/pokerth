@@ -10,13 +10,13 @@
     <height>424</height>
    </rect>
   </property>
-  <property name="minimumSize">
-   <size>
-    <width>800</width>
-    <height>424</height>
-   </size>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
   </property>
-  <property name="maximumSize">
+  <property name="minimumSize">
    <size>
     <width>800</width>
     <height>424</height>
@@ -26,9 +26,12 @@
    <string>Manual Blinds Order</string>
   </property>
   <property name="styleSheet">
-   <string notr="true">QObject {font: 20px}</string>
+   <string notr="true">QObject {font: 26px}</string>
   </property>
   <layout class="QGridLayout">
+   <property name="margin">
+    <number>25</number>
+   </property>
    <item row="1" column="0">
     <spacer name="verticalSpacer">
      <property name="orientation">
@@ -104,7 +107,7 @@
    <item row="3" column="0">
     <widget class="QDialogButtonBox" name="buttonBox">
      <property name="styleSheet">
-      <string notr="true">QObject {font: bold 20px}</string>
+      <string notr="true">QObject {font: bold 30px}</string>
      </property>
      <property name="orientation">
       <enum>Qt::Horizontal</enum>

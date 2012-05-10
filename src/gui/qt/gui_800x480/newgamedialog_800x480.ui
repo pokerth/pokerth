@@ -26,7 +26,7 @@
    <string>Start Local Game</string>
   </property>
   <property name="styleSheet">
-   <string notr="true">QObject {font: 20px}</string>
+   <string notr="true">QObject {font: 26px}</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <property name="margin">
@@ -182,7 +182,7 @@
    <item>
     <widget class="QDialogButtonBox" name="buttonBox">
      <property name="styleSheet">
-      <string notr="true">QObject {font: bold 20px}</string>
+      <string notr="true">QObject {font: 30px}</string>
      </property>
      <property name="orientation">
       <enum>Qt::Horizontal</enum>
