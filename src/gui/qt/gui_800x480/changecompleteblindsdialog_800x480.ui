@@ -192,7 +192,7 @@
      <property name="title">
       <string>Manual blinds order:</string>
      </property>
-     <layout class="QGridLayout" name="gridLayout">
+     <layout class="QGridLayout" name="gridLayout3">
       <property name="topMargin">
        <number>0</number>
       </property>
