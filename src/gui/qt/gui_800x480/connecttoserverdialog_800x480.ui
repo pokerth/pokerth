@@ -35,7 +35,7 @@
    <item row="1" column="0">
     <widget class="QLabel" name="label_actionMessage">
      <property name="styleSheet">
-      <string notr="true">QObject {font-size: 20px}</string>
+      <string notr="true">QObject {font-size: 30px}</string>
      </property>
      <property name="text">
       <string>Connecting to Server ...</string>
@@ -48,7 +48,7 @@
    <item row="2" column="0">
     <widget class="QProgressBar" name="progressBar">
      <property name="styleSheet">
-      <string notr="true">QObject {font-size: 18px}</string>
+      <string notr="true">QObject {font-size: 30px}</string>
      </property>
      <property name="value">
       <number>0</number>

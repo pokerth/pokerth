@@ -10,6 +10,12 @@
     <height>424</height>
    </rect>
   </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
+  </property>
   <property name="minimumSize">
    <size>
     <width>800</width>
@@ -19,7 +25,13 @@
   <property name="windowTitle">
    <string>Change Blinds Settings</string>
   </property>
+  <property name="styleSheet">
+   <string notr="true">QObject {font: 24px}</string>
+  </property>
   <layout class="QGridLayout">
+   <property name="verticalSpacing">
+    <number>8</number>
+   </property>
    <item row="0" column="0">
     <layout class="QHBoxLayout">
      <item>
@@ -27,10 +39,10 @@
        <property name="font">
         <font>
          <pointsize>-1</pointsize>
+         <weight>50</weight>
+         <italic>false</italic>
+         <bold>false</bold>
         </font>
-       </property>
-       <property name="styleSheet">
-        <string notr="true">QObject {font-size: 18px}</string>
        </property>
        <property name="text">
         <string>First small blind:</string>
@@ -39,9 +51,6 @@
      </item>
      <item>
       <widget class="QSpinBox" name="spinBox_firstSmallBlind">
-       <property name="styleSheet">
-        <string notr="true">QObject {font-size: 18px}</string>
-       </property>
        <property name="minimum">
         <number>5</number>
        </property>
@@ -54,9 +63,6 @@
    </item>
    <item row="1" column="0">
     <widget class="QGroupBox" name="groupBox_6">
-     <property name="styleSheet">
-      <string notr="true">QObject {font-size: 18px}</string>
-     </property>
      <property name="title">
       <string>Raise blinds:</string>
      </property>
@@ -72,9 +78,6 @@
       </property>
       <item row="0" column="0">
        <widget class="QRadioButton" name="radioButton_raiseBlindsAtHands">
-        <property name="styleSheet">
-         <string notr="true">QObject {font-size: 16px}</string>
-        </property>
         <property name="text">
          <string>Every:</string>
         </property>
@@ -85,9 +88,6 @@
       </item>
       <item row="0" column="1">
        <widget class="QSpinBox" name="spinBox_raiseSmallBlindEveryHands">
-        <property name="styleSheet">
-         <string notr="true">QObject {font-size: 16px}</string>
-        </property>
         <property name="minimum">
          <number>1</number>
         </property>
@@ -101,9 +101,6 @@
           <verstretch>0</verstretch>
          </sizepolicy>
         </property>
-        <property name="styleSheet">
-         <string notr="true">QObject {font-size: 16px}</string>
-        </property>
         <property name="text">
          <string>hands</string>
         </property>
@@ -111,9 +108,6 @@
       </item>
       <item row="1" column="0">
        <widget class="QRadioButton" name="radioButton_raiseBlindsAtMinutes">
-        <property name="styleSheet">
-         <string notr="true">QObject {font-size: 16px}</string>
-        </property>
         <property name="text">
          <string>Every:</string>
         </property>
@@ -121,9 +115,6 @@
       </item>
       <item row="1" column="1">
        <widget class="QSpinBox" name="spinBox_raiseSmallBlindEveryMinutes">
-        <property name="styleSheet">
-         <string notr="true">QObject {font-size: 16px}</string>
-        </property>
         <property name="minimum">
          <number>1</number>
         </property>
@@ -136,9 +127,6 @@
           <horstretch>0</horstretch>
           <verstretch>0</verstretch>
          </sizepolicy>
-        </property>
-        <property name="styleSheet">
-         <string notr="true">QObject {font-size: 16px}</string>
         </property>
         <property name="text">
          <string>minutes</string>
@@ -156,9 +144,6 @@
        <verstretch>0</verstretch>
       </sizepolicy>
      </property>
-     <property name="styleSheet">
-      <string notr="true">QObject {font-size: 18px}</string>
-     </property>
      <property name="title">
       <string>Raise mode:</string>
      </property>
@@ -168,9 +153,6 @@
       </property>
       <item row="0" column="0">
        <widget class="QRadioButton" name="radioButton_alwaysDoubleBlinds">
-        <property name="styleSheet">
-         <string notr="true">QObject {font-size: 16px}</string>
-        </property>
         <property name="text">
          <string>Always double blinds</string>
         </property>
@@ -181,9 +163,6 @@
       </item>
       <item row="1" column="0">
        <widget class="QRadioButton" name="radioButton_manualBlindsOrder">
-        <property name="styleSheet">
-         <string notr="true">QObject {font-size: 16px}</string>
-        </property>
         <property name="text">
          <string>Manual blinds order:</string>
         </property>
@@ -192,35 +171,41 @@
      </layout>
     </widget>
    </item>
+   <item row="3" column="0" colspan="2">
+    <widget class="QDialogButtonBox" name="buttonBox">
+     <property name="styleSheet">
+      <string notr="true">QObject {font: bold 20px}</string>
+     </property>
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="standardButtons">
+      <set>QDialogButtonBox::Ok</set>
+     </property>
+    </widget>
+   </item>
    <item row="2" column="0" colspan="2">
     <widget class="QGroupBox" name="groupBox_2">
      <property name="enabled">
       <bool>false</bool>
      </property>
-     <property name="styleSheet">
-      <string notr="true">QObject {font-size: 18px}</string>
-     </property>
      <property name="title">
       <string>Manual blinds order:</string>
      </property>
-     <layout class="QGridLayout">
-      <item row="0" column="0" rowspan="2">
+     <layout class="QGridLayout" name="gridLayout">
+      <property name="topMargin">
+       <number>0</number>
+      </property>
+      <item row="0" column="0">
        <layout class="QGridLayout">
         <property name="horizontalSpacing">
          <number>4</number>
         </property>
         <item row="1" column="0" rowspan="2">
-         <widget class="QListWidget" name="listWidget_blinds">
-          <property name="styleSheet">
-           <string notr="true">QObject {font-size: 16px}</string>
-          </property>
-         </widget>
+         <widget class="QListWidget" name="listWidget_blinds"/>
         </item>
         <item row="2" column="1">
          <widget class="QPushButton" name="pushButton_delete">
-          <property name="styleSheet">
-           <string notr="true">QObject {font-size: 16px}</string>
-          </property>
           <property name="text">
            <string>Delete</string>
           </property>
@@ -241,9 +226,6 @@
         </item>
         <item row="0" column="0">
          <widget class="QSpinBox" name="spinBox_input">
-          <property name="styleSheet">
-           <string notr="true">QObject {font-size: 16px}</string>
-          </property>
           <property name="maximum">
            <number>20000</number>
           </property>
@@ -251,9 +233,6 @@
         </item>
         <item row="0" column="1">
          <widget class="QPushButton" name="pushButton_add">
-          <property name="styleSheet">
-           <string notr="true">QObject {font-size: 16px}</string>
-          </property>
           <property name="text">
            <string>Add</string>
           </property>
@@ -262,19 +241,6 @@
        </layout>
       </item>
       <item row="0" column="1">
-       <spacer>
-        <property name="orientation">
-         <enum>Qt::Vertical</enum>
-        </property>
-        <property name="sizeHint" stdset="0">
-         <size>
-          <width>20</width>
-          <height>40</height>
-         </size>
-        </property>
-       </spacer>
-      </item>
-      <item row="1" column="1">
        <widget class="QGroupBox" name="groupBox">
         <property name="title">
          <string>Afterwards:</string>
@@ -283,11 +249,14 @@
          <property name="topMargin">
           <number>0</number>
          </property>
+         <property name="bottomMargin">
+          <number>1</number>
+         </property>
+         <property name="verticalSpacing">
+          <number>0</number>
+         </property>
          <item row="0" column="0">
           <widget class="QRadioButton" name="radioButton_afterThisAlwaysDoubleBlinds">
-           <property name="styleSheet">
-            <string notr="true">QObject {font-size: 16px}</string>
-           </property>
            <property name="text">
             <string>Always double blinds</string>
            </property>
@@ -300,9 +269,6 @@
           <layout class="QHBoxLayout">
            <item>
             <widget class="QRadioButton" name="radioButton_afterThisAlwaysRaiseAbout">
-             <property name="styleSheet">
-              <string notr="true">QObject {font-size: 16px}</string>
-             </property>
              <property name="text">
               <string>Always raise by:</string>
              </property>
@@ -310,9 +276,6 @@
            </item>
            <item>
             <widget class="QSpinBox" name="spinBox_afterThisAlwaysRaiseValue">
-             <property name="styleSheet">
-              <string notr="true">QObject {font-size: 16px}</string>
-             </property>
              <property name="maximum">
               <number>20000</number>
              </property>
@@ -329,9 +292,6 @@
          </item>
          <item row="2" column="0">
           <widget class="QRadioButton" name="radioButton_afterThisStayAtLastBlind">
-           <property name="styleSheet">
-            <string notr="true">QObject {font-size: 16px}</string>
-           </property>
            <property name="text">
             <string>Keep last blind</string>
            </property>
@@ -341,19 +301,6 @@
        </widget>
       </item>
      </layout>
-    </widget>
-   </item>
-   <item row="3" column="0" colspan="2">
-    <widget class="QDialogButtonBox" name="buttonBox">
-     <property name="styleSheet">
-      <string notr="true">QObject {font: bold 20px}</string>
-     </property>
-     <property name="orientation">
-      <enum>Qt::Horizontal</enum>
-     </property>
-     <property name="standardButtons">
-      <set>QDialogButtonBox::Ok</set>
-     </property>
     </widget>
    </item>
   </layout>
