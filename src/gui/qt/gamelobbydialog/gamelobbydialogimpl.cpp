@@ -112,12 +112,13 @@ gameLobbyDialogImpl::gameLobbyDialogImpl(startWindowImpl *parent, ConfigFile *c)
 
 	treeView_GameList->setColumnWidth(0,190);
 	treeView_GameList->setColumnWidth(1,65);
-	treeView_GameList->setColumnWidth(2,65);
+        treeView_GameList->setColumnWidth(2,65);
 	treeView_GameList->setColumnWidth(3,40);
 	treeView_GameList->setColumnWidth(4,40);
 
 #ifdef GUI_800x480
-	treeView_GameList->setStyleSheet("QTreeView {background-color: white; background-image: url(\""+myAppDataPath +"gfx/gui/misc/background_gamelist.png\"); background-attachment: fixed; background-position: top center ; background-repeat: no-repeat; color:rgb(0, 0, 0); font: 14px}");
+        treeView_GameList->setStyleSheet("QTreeView {background-color: white; background-image: url(\""+myAppDataPath +"gfx/gui/misc/background_gamelist.png\"); background-attachment: fixed; background-position: top center ; background-repeat: no-repeat; color:rgb(0, 0, 0); font: 20px}");
+        treeView_GameList->header()->setStyleSheet("QObject {font: bold 18px}");
 #else
 	treeView_GameList->setStyleSheet("QTreeView {background-color: white; background-image: url(\""+myAppDataPath +"gfx/gui/misc/background_gamelist.png\"); background-attachment: fixed; background-position: top center ; background-repeat: no-repeat;}");
 #endif
@@ -1494,8 +1495,10 @@ void gameLobbyDialogImpl::changeGameListFilter(int index)
 	writeDialogSettings(1);
 
 #ifdef GUI_800x480
-	if(index) treeView_GameList->setStyleSheet("QTreeView { border-radius: 4px; border: 2px solid blue; background-color: white; background-image: url(\""+myAppDataPath +"gfx/gui/misc/background_gamelist.png\"); background-attachment: fixed; background-position: top center ; background-repeat: no-repeat; color:rgb(0, 0, 0); font: 14px}");
-	else treeView_GameList->setStyleSheet("QTreeView { background-color: white; background-image: url(\""+myAppDataPath +"gfx/gui/misc/background_gamelist.png\"); background-attachment: fixed; background-position: top center ; background-repeat: no-repeat; color:rgb(0, 0, 0); font: 14px}");
+        if(index) treeView_GameList->setStyleSheet("QTreeView { border-radius: 4px; border: 2px solid blue; background-color: white; background-image: url(\""+myAppDataPath +"gfx/gui/misc/background_gamelist.png\"); background-attachment: fixed; background-position: top center ; background-repeat: no-repeat; color:rgb(0, 0, 0); font: 20px}");
+        else treeView_GameList->setStyleSheet("QTreeView { background-color: white; background-image: url(\""+myAppDataPath +"gfx/gui/misc/background_gamelist.png\"); background-attachment: fixed; background-position: top center ; background-repeat: no-repeat; color:rgb(0, 0, 0); font: 20px}");
+
+        treeView_GameList->header()->setStyleSheet("QObject {font: bold 18px}");
 #else
 	if(index) treeView_GameList->setStyleSheet("QTreeView { border-radius: 4px; border: 2px solid blue; background-color: white; background-image: url(\""+myAppDataPath +"gfx/gui/misc/background_gamelist.png\"); background-attachment: fixed; background-position: top center ; background-repeat: no-repeat;}");
 	else treeView_GameList->setStyleSheet("QTreeView { background-color: white; background-image: url(\""+myAppDataPath +"gfx/gui/misc/background_gamelist.png\"); background-attachment: fixed; background-position: top center ; background-repeat: no-repeat;}");
@@ -1709,7 +1712,7 @@ void gameLobbyDialogImpl::showAutoStartTimer()
 	autoStartTimerOverlay->setGeometry(((scrollArea_gameInfos->geometry().width()-190)/2), ((scrollArea_gameInfos->geometry().height()-50)/2), 190, 50);
 
 	QString string(tr("The game will start in<br><b>%1</b> seconds.").arg(6));
-	autoStartTimerOverlay->setText("<span style='color:#008B00; font-size:9pt;'>"+string+"</span>");
+        autoStartTimerOverlay->setText("<span style='color:#008B00; font-size:10px;'>"+string+"</span>");
 	autoStartTimerCounter = 6;
 	autoStartTimer->start(1000);
 
@@ -1720,7 +1723,7 @@ void gameLobbyDialogImpl::updateAutoStartTimer()
 	--autoStartTimerCounter;
 	if(autoStartTimerCounter) {
 		QString string(tr("The game will start in<br><b>%1</b> seconds.").arg(autoStartTimerCounter));
-		autoStartTimerOverlay->setText("<span style='color:#008B00; font-size:9pt;'>"+string+"</span>");
+                autoStartTimerOverlay->setText("<span style='color:#008B00; font-size:10px;'>"+string+"</span>");
 	} else {
 		autoStartTimer->stop();
 		autoStartTimerOverlay->hide();

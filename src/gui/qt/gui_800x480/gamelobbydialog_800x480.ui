@@ -10,6 +10,12 @@
     <height>424</height>
    </rect>
   </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
+  </property>
   <property name="minimumSize">
    <size>
     <width>800</width>
@@ -44,7 +50,7 @@
       </size>
      </property>
      <property name="styleSheet">
-      <string notr="true">QObject {font: bold 18px}</string>
+      <string notr="true">QObject {font: 24px}</string>
      </property>
      <property name="currentIndex">
       <number>0</number>
@@ -67,8 +73,17 @@
         <layout class="QHBoxLayout" name="horizontalLayout_3">
          <item>
           <layout class="QGridLayout" name="gridLayout_3">
-           <property name="spacing">
+           <property name="topMargin">
+            <number>4</number>
+           </property>
+           <property name="bottomMargin">
+            <number>4</number>
+           </property>
+           <property name="horizontalSpacing">
             <number>0</number>
+           </property>
+           <property name="verticalSpacing">
+            <number>5</number>
            </property>
            <item row="4" column="0">
             <layout class="QHBoxLayout">
@@ -111,18 +126,6 @@
                  <horstretch>0</horstretch>
                  <verstretch>0</verstretch>
                 </sizepolicy>
-               </property>
-               <property name="minimumSize">
-                <size>
-                 <width>310</width>
-                 <height>24</height>
-                </size>
-               </property>
-               <property name="maximumSize">
-                <size>
-                 <width>300</width>
-                 <height>24</height>
-                </size>
                </property>
                <property name="styleSheet">
                 <string notr="true">QObject {font: bold 18px}</string>
@@ -186,18 +189,6 @@
                  <verstretch>0</verstretch>
                 </sizepolicy>
                </property>
-               <property name="minimumSize">
-                <size>
-                 <width>150</width>
-                 <height>24</height>
-                </size>
-               </property>
-               <property name="maximumSize">
-                <size>
-                 <width>150</width>
-                 <height>24</height>
-                </size>
-               </property>
                <property name="styleSheet">
                 <string notr="true">QObject {font: bold 18px}</string>
                </property>
@@ -233,18 +224,6 @@
                  <horstretch>0</horstretch>
                  <verstretch>0</verstretch>
                 </sizepolicy>
-               </property>
-               <property name="minimumSize">
-                <size>
-                 <width>150</width>
-                 <height>24</height>
-                </size>
-               </property>
-               <property name="maximumSize">
-                <size>
-                 <width>150</width>
-                 <height>24</height>
-                </size>
                </property>
                <property name="styleSheet">
                 <string notr="true">QObject {font: bold 18px}</string>
@@ -288,7 +267,7 @@
               </size>
              </property>
              <property name="styleSheet">
-              <string notr="true">QObject {font: 18px}</string>
+              <string notr="true">QObject {font: 20px}</string>
              </property>
              <item>
               <property name="text">
@@ -345,7 +324,7 @@
                 </size>
                </property>
                <property name="styleSheet">
-                <string notr="true">QObject {font: bold 18px}</string>
+                <string notr="true">QObject {font: bold 20px}</string>
                </property>
                <property name="text">
                 <string>Join &amp;any game</string>
@@ -384,7 +363,7 @@
                 </size>
                </property>
                <property name="styleSheet">
-                <string notr="true">QObject {font: bold 18px}</string>
+                <string notr="true">QObject {font: bold 20px}</string>
                </property>
                <property name="text">
                 <string>&amp;Create Game</string>
@@ -410,7 +389,7 @@
                 </size>
                </property>
                <property name="styleSheet">
-                <string notr="true">QObject {font: bold 18px}</string>
+                <string notr="true">QObject {font: bold 20px}</string>
                </property>
                <property name="text">
                 <string>&amp;Join Game</string>
@@ -433,9 +412,6 @@
              </property>
              <property name="contextMenuPolicy">
               <enum>Qt::CustomContextMenu</enum>
-             </property>
-             <property name="styleSheet">
-              <string notr="true">QObject { font: 18px; } QTreeView::item { font: 16px;  }</string>
              </property>
              <property name="horizontalScrollBarPolicy">
               <enum>Qt::ScrollBarAlwaysOff</enum>
@@ -533,7 +509,7 @@
               <property name="minimumSize">
                <size>
                 <width>252</width>
-                <height>190</height>
+                <height>210</height>
                </size>
               </property>
               <property name="styleSheet">
@@ -548,7 +524,7 @@
                  <x>0</x>
                  <y>0</y>
                  <width>292</width>
-                 <height>186</height>
+                 <height>206</height>
                 </rect>
                </property>
                <layout class="QGridLayout" name="gridLayout">
@@ -1041,7 +1017,7 @@
        <item>
         <widget class="QLabel" name="label_connectedPlayersCounter">
          <property name="styleSheet">
-          <string notr="true">QObject {font: 12px}</string>
+          <string notr="true">QObject {font: 14px}</string>
          </property>
          <property name="text">
           <string/>
@@ -1057,7 +1033,7 @@
           </sizepolicy>
          </property>
          <property name="styleSheet">
-          <string notr="true">QObject {font: 12px}</string>
+          <string notr="true">QObject {font: 14px}</string>
          </property>
          <property name="text">
           <string/>
@@ -1067,7 +1043,7 @@
        <item>
         <widget class="QLabel" name="label_runningGamesCounter">
          <property name="styleSheet">
-          <string notr="true">QObject {font: 12px}</string>
+          <string notr="true">QObject {font: 14px}</string>
          </property>
          <property name="text">
           <string/>
@@ -1092,7 +1068,7 @@
      <item>
       <widget class="QLabel" name="label">
        <property name="styleSheet">
-        <string notr="true">QObject {font: 12px}</string>
+        <string notr="true">QObject {font: 14px}</string>
        </property>
        <property name="text">
         <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
@@ -1125,7 +1101,7 @@ p, li { white-space: pre-wrap; }
      <item>
       <widget class="QLabel" name="label_pokerthDotNet">
        <property name="styleSheet">
-        <string notr="true">QObject {font: 12px}</string>
+        <string notr="true">QObject {font: 14px}</string>
        </property>
        <property name="text">
         <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;

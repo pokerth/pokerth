@@ -78,7 +78,7 @@
      <property name="checked">
       <bool>false</bool>
      </property>
-     <layout class="QGridLayout" name="gridLayout">
+     <layout class="QGridLayout" name="gridLayout2">
       <property name="topMargin">
        <number>0</number>
       </property>

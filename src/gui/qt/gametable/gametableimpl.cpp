@@ -504,10 +504,11 @@ gameTableImpl::gameTableImpl(ConfigFile *c, QMainWindow *parent)
 	myUniversalMessageDialog = new myMessageDialogImpl(myConfig, this);
 	myUniversalMessageDialog->setParent(this);
 
-        //hide left and right icon from maemo gui for ANDROID
+        //hide left and right icon and menubar from maemo gui for ANDROID
 #ifdef ANDROID
         fullscreenButton->hide();
         tabsButton->hide();
+        menubar->hide();
 #endif
 
 	//Connects

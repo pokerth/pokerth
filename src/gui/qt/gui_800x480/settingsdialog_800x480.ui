@@ -155,6 +155,9 @@
          </property>
          <item row="0" column="0">
           <layout class="QHBoxLayout">
+           <property name="spacing">
+            <number>6</number>
+           </property>
            <item>
             <widget class="QLabel" name="label_14">
              <property name="styleSheet">
@@ -320,7 +323,7 @@
             <string notr="true"/>
            </property>
            <property name="currentIndex">
-            <number>0</number>
+            <number>1</number>
            </property>
            <widget class="QWidget" name="tab_3">
             <attribute name="title">
@@ -717,6 +720,9 @@ p, li { white-space: pre-wrap; }
                   <widget class="QLineEdit" name="lineEdit_OwnFlipsideFilename">
                    <property name="enabled">
                     <bool>false</bool>
+                   </property>
+                   <property name="inputMethodHints">
+                    <set>Qt::ImhNoPredictiveText</set>
                    </property>
                   </widget>
                  </item>
@@ -1751,7 +1757,11 @@ p, li { white-space: pre-wrap; }
                  </widget>
                 </item>
                 <item row="0" column="1">
-                 <widget class="QLineEdit" name="lineEdit_InternetServerListAddress"/>
+                 <widget class="QLineEdit" name="lineEdit_InternetServerListAddress">
+                  <property name="inputMethodHints">
+                   <set>Qt::ImhNoPredictiveText</set>
+                  </property>
+                 </widget>
                 </item>
                </layout>
               </widget>
@@ -1786,6 +1796,9 @@ p, li { white-space: pre-wrap; }
                 </item>
                 <item row="0" column="1">
                  <widget class="QLineEdit" name="lineEdit_InternetServerAddress">
+                  <property name="inputMethodHints">
+                   <set>Qt::ImhNoPredictiveText</set>
+                  </property>
                   <property name="maxLength">
                    <number>60</number>
                   </property>
@@ -1822,7 +1835,11 @@ p, li { white-space: pre-wrap; }
                  </widget>
                 </item>
                 <item row="2" column="1">
-                 <widget class="QLineEdit" name="lineEdit_avatarServerAddress"/>
+                 <widget class="QLineEdit" name="lineEdit_avatarServerAddress">
+                  <property name="inputMethodHints">
+                   <set>Qt::ImhNoPredictiveText</set>
+                  </property>
+                 </widget>
                 </item>
                 <item row="3" column="0" colspan="2">
                  <layout class="QHBoxLayout" name="horizontalLayout_7">
@@ -1934,7 +1951,11 @@ p, li { white-space: pre-wrap; }
                 </widget>
                </item>
                <item>
-                <widget class="QLineEdit" name="lineEdit_internetGameName"/>
+                <widget class="QLineEdit" name="lineEdit_internetGameName">
+                 <property name="inputMethodHints">
+                  <set>Qt::ImhNoPredictiveText</set>
+                 </property>
+                </widget>
                </item>
               </layout>
              </item>
@@ -2118,6 +2139,9 @@ p, li { white-space: pre-wrap; }
                  <verstretch>0</verstretch>
                 </sizepolicy>
                </property>
+               <property name="inputMethodHints">
+                <set>Qt::ImhNoPredictiveText</set>
+               </property>
                <property name="maxLength">
                 <number>12</number>
                </property>
@@ -2200,6 +2224,9 @@ p, li { white-space: pre-wrap; }
                     <width>110</width>
                     <height>25</height>
                    </size>
+                  </property>
+                  <property name="inputMethodHints">
+                   <set>Qt::ImhNoPredictiveText</set>
                   </property>
                   <property name="maxLength">
                    <number>12</number>
@@ -2333,6 +2360,9 @@ p, li { white-space: pre-wrap; }
                     <width>110</width>
                     <height>25</height>
                    </size>
+                  </property>
+                  <property name="inputMethodHints">
+                   <set>Qt::ImhNoPredictiveText</set>
                   </property>
                   <property name="maxLength">
                    <number>12</number>
@@ -2495,6 +2525,9 @@ p, li { white-space: pre-wrap; }
                     <height>25</height>
                    </size>
                   </property>
+                  <property name="inputMethodHints">
+                   <set>Qt::ImhNoPredictiveText</set>
+                  </property>
                   <property name="maxLength">
                    <number>12</number>
                   </property>
@@ -2599,6 +2632,9 @@ p, li { white-space: pre-wrap; }
                     <width>110</width>
                     <height>25</height>
                    </size>
+                  </property>
+                  <property name="inputMethodHints">
+                   <set>Qt::ImhNoPredictiveText</set>
                   </property>
                   <property name="maxLength">
                    <number>12</number>
@@ -2831,6 +2867,9 @@ p, li { white-space: pre-wrap; }
                     <height>25</height>
                    </size>
                   </property>
+                  <property name="inputMethodHints">
+                   <set>Qt::ImhNoPredictiveText</set>
+                  </property>
                   <property name="maxLength">
                    <number>12</number>
                   </property>
@@ -2939,6 +2978,9 @@ p, li { white-space: pre-wrap; }
                     <width>110</width>
                     <height>25</height>
                    </size>
+                  </property>
+                  <property name="inputMethodHints">
+                   <set>Qt::ImhNoPredictiveText</set>
                   </property>
                   <property name="maxLength">
                    <number>12</number>
@@ -3073,6 +3115,9 @@ p, li { white-space: pre-wrap; }
                     <height>25</height>
                    </size>
                   </property>
+                  <property name="inputMethodHints">
+                   <set>Qt::ImhNoPredictiveText</set>
+                  </property>
                   <property name="maxLength">
                    <number>12</number>
                   </property>
@@ -3206,6 +3251,9 @@ p, li { white-space: pre-wrap; }
                     <height>25</height>
                    </size>
                   </property>
+                  <property name="inputMethodHints">
+                   <set>Qt::ImhNoPredictiveText</set>
+                  </property>
                   <property name="maxLength">
                    <number>12</number>
                   </property>
@@ -3338,6 +3386,9 @@ p, li { white-space: pre-wrap; }
                     <width>110</width>
                     <height>25</height>
                    </size>
+                  </property>
+                  <property name="inputMethodHints">
+                   <set>Qt::ImhNoPredictiveText</set>
                   </property>
                   <property name="maxLength">
                    <number>12</number>
@@ -3530,7 +3581,11 @@ p, li { white-space: pre-wrap; }
                <number>0</number>
               </property>
               <item>
-               <widget class="QLineEdit" name="lineEdit_logDir"/>
+               <widget class="QLineEdit" name="lineEdit_logDir">
+                <property name="inputMethodHints">
+                 <set>Qt::ImhNoPredictiveText</set>
+                </property>
+               </widget>
               </item>
               <item>
                <widget class="QPushButton" name="pushButton_openLogDir">
