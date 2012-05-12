@@ -534,5 +534,6 @@
         <file>android-data/translations/pokerth_ta.qm</file>
         <file>android-data/translations/pokerth_tr.qm</file>
         <file>android-data/translations/pokerth_zhcn.qm</file>
+        <file>android-data/misc/agpl.html</file>
     </qresource>
 </RCC>
