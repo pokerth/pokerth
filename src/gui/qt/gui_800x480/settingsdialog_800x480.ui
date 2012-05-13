@@ -174,7 +174,7 @@
            <item>
             <widget class="QComboBox" name="comboBox_switchLanguage">
              <property name="styleSheet">
-              <string notr="true"/>
+              <string notr="true">QObject {font: 30px}</string>
              </property>
             </widget>
            </item>
