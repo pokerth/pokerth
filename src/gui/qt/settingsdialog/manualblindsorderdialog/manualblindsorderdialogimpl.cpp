@@ -17,6 +17,7 @@
  *****************************************************************************/
 #include "manualblindsorderdialogimpl.h"
 #include "configfile.h"
+#include "mymessagebox.h"
 #include <iostream>
 
 
@@ -46,7 +47,7 @@ void manualBlindsOrderDialogImpl::addBlindValueToList()
 {
 
 	if(listWidget_blinds->count() == 30) {
-		QMessageBox::warning(this, tr("Manual Blinds Order"),
+		MyMessageBox::warning(this, tr("Manual Blinds Order"),
 							 tr("You cannot set more than 30 manual blinds."),
 							 QMessageBox::Close);
 	} else {

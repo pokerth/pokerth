@@ -16,6 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.     *
  *****************************************************************************/
 #include "changecompleteblindsdialogimpl.h"
+#include "mymessagebox.h"
 #include "configfile.h"
 #include <iostream>
 
@@ -51,7 +52,7 @@ void changeCompleteBlindsDialogImpl::addBlindValueToList()
 {
 
 	if(listWidget_blinds->count() == 30) {
-		QMessageBox::warning(this, tr("Manual Blinds Order"),
+		MyMessageBox::warning(this, tr("Manual Blinds Order"),
 							 tr("You cannot set more than 30 manual blinds."),
 							 QMessageBox::Close);
 	} else {

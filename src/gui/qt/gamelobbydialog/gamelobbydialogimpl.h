@@ -165,8 +165,8 @@ private:
 	CountryStringMap countryStringMap;
 
 	QString myAppDataPath;
-	QMessageBox *waitStartGameMsgBox;
-	QMessageBox *waitRejoinStartGameMsgBox;
+        MyMessageBox *waitStartGameMsgBox;
+        MyMessageBox *waitRejoinStartGameMsgBox;
 	myMessageDialogImpl *inviteOnlyInfoMsgBox;
 	QTimer *waitStartGameMsgBoxTimer;
 	QTimer *blinkingButtonAnimationTimer;

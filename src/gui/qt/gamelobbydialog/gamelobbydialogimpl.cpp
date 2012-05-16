@@ -44,7 +44,7 @@ gameLobbyDialogImpl::gameLobbyDialogImpl(startWindowImpl *parent, ConfigFile *c)
 	myAppDataPath = QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str());
 
 	//wait start game message
-	waitStartGameMsgBox = new QMessageBox(this);
+        waitStartGameMsgBox = new MyMessageBox(this);
 	waitStartGameMsgBox->setText(tr("Starting game. Please wait ..."));
 	waitStartGameMsgBox->setWindowModality(Qt::NonModal);
 #ifdef __APPLE__
@@ -53,7 +53,7 @@ gameLobbyDialogImpl::gameLobbyDialogImpl(startWindowImpl *parent, ConfigFile *c)
 	waitStartGameMsgBox->setStandardButtons(QMessageBox::NoButton);
 
 	//wait start game message for rejoin
-	waitRejoinStartGameMsgBox = new QMessageBox(this);
+        waitRejoinStartGameMsgBox = new MyMessageBox(this);
 	waitRejoinStartGameMsgBox->setText(tr("Waiting for the start of the next hand to rejoin the game ..."));
 	waitRejoinStartGameMsgBox->setWindowModality(Qt::NonModal);
 #ifdef __APPLE__
@@ -1256,7 +1256,7 @@ void gameLobbyDialogImpl::kickPlayer()
 		QString playerName = item->text(0);
 		if(playerName == QString::fromUtf8(myConfig->readConfigString("MyName").c_str())) {
 			{
-				QMessageBox::warning(this, tr("Server Error"),
+				MyMessageBox::warning(this, tr("Server Error"),
 									 tr("You should not kick yourself from this game!"),
 									 QMessageBox::Close);
 			}
@@ -2050,7 +2050,7 @@ void gameLobbyDialogImpl::reportBadGameName()
 		unsigned gameId = selection->selectedRows().first().data(Qt::UserRole).toUInt();
 		GameInfo info(mySession->getClientGameInfo(gameId));
 
-		int ret = QMessageBox::question(this, tr("PokerTH - Question"),
+		int ret = MyMessageBox::question(this, tr("PokerTH - Question"),
 										tr("Are you sure you want to report the game name:\n\"%1\" as inappropriate?").arg(QString::fromUtf8(info.name.c_str())), QMessageBox::Yes | QMessageBox::No);
 
 		if(ret == QMessageBox::Yes) {

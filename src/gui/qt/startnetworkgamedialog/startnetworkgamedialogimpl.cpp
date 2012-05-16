@@ -159,7 +159,7 @@ void startNetworkGameDialogImpl::kickPlayer()
 		QString playerName = item->text(0);
 		if(playerName == QString::fromUtf8(myConfig->readConfigString("MyName").c_str())) {
 			{
-				QMessageBox::warning(this, tr("Server Error"),
+				MyMessageBox::warning(this, tr("Server Error"),
 									 tr("You should not kick yourself from this game!"),
 									 QMessageBox::Close);
 			}

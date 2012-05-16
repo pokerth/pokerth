@@ -20,6 +20,7 @@
 #include <sstream>
 #include <cstdlib>
 #include <fstream>
+#include "mymessagebox.h"
 #include "game_defs.h"
 
 using namespace std;
@@ -67,7 +68,7 @@ void CardDeckStyleReader::readStyleFile(QString file)
 
 		TiXmlElement *GameTableElement = docHandle.FirstChild( "PokerTH" ).FirstChild( "TableStyle" ).ToElement();
 		if(GameTableElement) {
-			QMessageBox::warning(myW, tr("Card Deck Style Error"),
+			MyMessageBox::warning(myW, tr("Card Deck Style Error"),
 								 tr("A game table style was selected instead of a card deck style.\nPlease select a card deck style and try again!"),
 								 QMessageBox::Ok);
 		} else {
@@ -138,7 +139,7 @@ void CardDeckStyleReader::readStyleFile(QString file)
 				if(PokerTHStyleFileVersion != "" && PokerTHStyleFileVersion.toInt() != POKERTH_CD_STYLE_FILE_VERSION) {
 					QString EMail;
 					if(StyleMaintainerEMail != "NULL") EMail = StyleMaintainerEMail;
-					QMessageBox::warning(myW, tr("Card Deck Style Error"),
+					MyMessageBox::warning(myW, tr("Card Deck Style Error"),
 										 tr("Selected card deck style \"%1\" seems to be outdated. \n The current PokerTH card deck style version is \"%2\", but this style has version \"%3\" set. \n\nPlease contact the card deck style builder %4.").arg(StyleDescription).arg(POKERTH_CD_STYLE_FILE_VERSION).arg(PokerTHStyleFileVersion).arg(EMail),
 										 QMessageBox::Ok);
 				}
@@ -146,7 +147,7 @@ void CardDeckStyleReader::readStyleFile(QString file)
 		}
 	} else {
 		loadedSuccessfull = 0;
-		QMessageBox::warning(myW, tr("Card Deck Style Error"),
+		MyMessageBox::warning(myW, tr("Card Deck Style Error"),
 							 tr("Cannot load card deck style file: %1 \n\nPlease check the style file or choose another style!").arg(currentFileName),
 							 QMessageBox::Ok);
 	}
@@ -159,7 +160,7 @@ void CardDeckStyleReader::showLeftItemsErrorMessage(QString style, QStringList f
 	QString EMail;
 	if(email != "NULL") EMail = email;
 
-	QMessageBox::warning(myW, tr("Card Deck Style Error"),
+	MyMessageBox::warning(myW, tr("Card Deck Style Error"),
 						 tr("Selected card deck style \"%1\" seems to be incomplete or defective. \n\nThe value(s) of \"%2\" is/are missing. \n\nPlease contact the card deck style builder %3.").arg(style).arg(items).arg(EMail),
 						 QMessageBox::Ok);
 }
@@ -170,7 +171,7 @@ void CardDeckStyleReader::showCardsLeftErrorMessage(QString style, QStringList f
 	QString EMail;
 	if(email != "NULL") EMail = email;
 
-	QMessageBox::warning(myW, tr("Card Deck Style Error"),
+	MyMessageBox::warning(myW, tr("Card Deck Style Error"),
 						 tr("Selected card deck style \"%1\" seems to be incomplete or defective. \nThe card picture(s) \"%2\" is/are not available. \n\nPlease contact the card deck style builder %3.").arg(style).arg(items).arg(EMail),
 						 QMessageBox::Ok);
 }

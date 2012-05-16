@@ -440,7 +440,7 @@ void MyAvatarLabel::reportBadAvatar()
 			if(!avatar.isEmpty()) {
 
 				QString nick = QString::fromUtf8((*it_c)->getMyName().c_str());
-				int ret = QMessageBox::question(this, tr("PokerTH - Question"),
+				int ret = MyMessageBox::question(this, tr("PokerTH - Question"),
 												tr("Are you sure you want to report the avatar of \"%1\" as inappropriate?").arg(nick), QMessageBox::Yes | QMessageBox::No);
 
 				if(ret == QMessageBox::Yes) {

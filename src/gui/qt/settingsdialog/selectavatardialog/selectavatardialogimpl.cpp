@@ -17,6 +17,7 @@
  *****************************************************************************/
 #include "selectavatardialogimpl.h"
 #include "myavatarlistitem.h"
+#include "mymessagebox.h"
 #include "configfile.h"
 #include <iostream>
 
@@ -237,7 +238,7 @@ void selectAvatarDialogImpl::isAccepted()
 
 	if(groupBox->isChecked()) {
 		if(myItemList.size() == 0) {
-			QMessageBox::warning(this, tr("Avatar File Error"),
+			MyMessageBox::warning(this, tr("Avatar File Error"),
 								 tr("Please select an avatar from the list!"),
 								 QMessageBox::Ok);
 			settingsCorrect = FALSE;
@@ -252,7 +253,7 @@ void selectAvatarDialogImpl::isAccepted()
 				externalAvatar = lineEdit->text();
 				settingsCorrect = TRUE;
 			} else {
-				QMessageBox::warning(this, tr("Avatar File Error"),
+				MyMessageBox::warning(this, tr("Avatar File Error"),
 									 tr("The file size of the chosen picture is too big. (max. 30KB)\n"
 										"Please choose a smaller picture!"),
 									 QMessageBox::Ok);
@@ -261,7 +262,7 @@ void selectAvatarDialogImpl::isAccepted()
 
 			}
 		} else {
-			QMessageBox::warning(this, tr("Avatar File Error"),
+			MyMessageBox::warning(this, tr("Avatar File Error"),
 								 tr("The entered avatar picture doesn't exist.\n"
 									"Please enter an valid picture!"),
 								 QMessageBox::Ok);

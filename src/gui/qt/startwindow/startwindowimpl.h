@@ -29,6 +29,7 @@
 
 #include "game_defs.h"
 #include <QMessageBox>
+#include "mymessagebox.h"
 
 class GuiInterface;
 class GuiWrapper;
@@ -178,7 +179,7 @@ private:
 	serverListDialogImpl *myServerListDialog;
 	internetGameLoginDialogImpl *myInternetGameLoginDialog;
 
-	QMessageBox msgBoxOutdatedVersion;
+        MyMessageBox msgBoxOutdatedVersion;
 	bool msgBoxOutdatedVersionActive;
 
 	friend class GuiWrapper;

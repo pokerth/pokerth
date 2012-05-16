@@ -552,7 +552,7 @@ void settingsDialogImpl::isAccepted()
 	checkSetPlayerNicks.insert(lineEdit_Opponent9Name->text().trimmed());
 
 	if(checkSetPlayerNicks.count() != 10) {
-		QMessageBox::warning(this, tr("Settings Error"),
+		MyMessageBox::warning(this, tr("Settings Error"),
 							 tr("The opponent names are not unique.\n"
 								"Please choose different names for each Opponent!"),
 							 QMessageBox::Ok);
@@ -633,7 +633,7 @@ void settingsDialogImpl::isAccepted()
 
 			myConfig->writeConfigString("InternetServerListAddress", lineEdit_InternetServerListAddress->text().toUtf8().constData());
 		} else {
-			QMessageBox::warning(this, tr("Settings Error"),
+			MyMessageBox::warning(this, tr("Settings Error"),
 								 tr("The entered server list address is not a valid URL.\n"
 									"Please enter a valid server list address!"),
 								 QMessageBox::Ok);
@@ -695,7 +695,7 @@ void settingsDialogImpl::isAccepted()
 		if(ownFlipsideFilename.exists() && lineEdit_OwnFlipsideFilename->text() != "") {
 			myConfig->writeConfigString("FlipsideOwnFile", lineEdit_OwnFlipsideFilename->text().toUtf8().constData());
 		} else {
-			QMessageBox::warning(this, tr("Settings Error"),
+			MyMessageBox::warning(this, tr("Settings Error"),
 								 tr("The entered flipside picture doesn't exist.\n"
 									"Please enter an valid picture!"),
 								 QMessageBox::Ok);
@@ -755,7 +755,7 @@ void settingsDialogImpl::isAccepted()
 		if(logDir.exists() && lineEdit_logDir->text() != "") {
 			myConfig->writeConfigString("LogDir", lineEdit_logDir->text().toUtf8().constData());
 		} else {
-			QMessageBox::warning(this, tr("Settings Error"),
+			MyMessageBox::warning(this, tr("Settings Error"),
 								 tr("The log file directory doesn't exist.\n"
 									"Please select an valid directory!"),
 								 QMessageBox::Ok);
@@ -785,7 +785,7 @@ void settingsDialogImpl::isAccepted()
 	myConfig->writeBuffer();
 
 	if(languageIsChanged) {
-		QMessageBox::information(this, tr("Language Changed"),
+		MyMessageBox::information(this, tr("Language Changed"),
 								 tr("You have changed application language to %1.\nPlease restart PokerTH to load new language!").arg(comboBox_switchLanguage->itemText(changedLanguageIndex)),
 								 QMessageBox::Ok);
 	}
@@ -925,12 +925,12 @@ void settingsDialogImpl::setLogDir()
 		if(logDir.exists()) {
 			lineEdit_logDir->setText(dir);
 			refreshLogFileList();
-			QMessageBox::information(this, tr("Settings Information"),
+			MyMessageBox::information(this, tr("Settings Information"),
 									 tr("You have changed the log file directory.\n"
 										"Please restart PokerTH to use the new directory for the log files!"),
 									 QMessageBox::Ok);
 		} else {
-			QMessageBox::warning(this, tr("Settings Error"),
+			MyMessageBox::warning(this, tr("Settings Error"),
 								 tr("The log file directory doesn't exist.\n"
 									"Please select an valid directory!"),
 								 QMessageBox::Ok);
@@ -1033,7 +1033,7 @@ void settingsDialogImpl::setFirstSmallBlindMargin()
 
 	if(radioButton_manualBlindsOrder->isChecked() && !myManualBlindsList.empty()) {
 		if(spinBox_firstSmallBlind->value() > myManualBlindsList.front()) {
-			QMessageBox::warning(this, tr("Blinds Error"),
+			MyMessageBox::warning(this, tr("Blinds Error"),
 								 tr("The first element in your manual-blinds-list \nis smaller than current first-small-blind!\nThis first-small-blind-value will be set to maximum allowed value."),
 								 QMessageBox::Close);
 		}
@@ -1043,7 +1043,7 @@ void settingsDialogImpl::setFirstSmallBlindMargin()
 	}
 	if(radioButton_netManualBlindsOrder->isChecked() && !myNetManualBlindsList.empty()) {
 		if(spinBox_netFirstSmallBlind->value() > myNetManualBlindsList.front()) {
-			QMessageBox::warning(this, tr("Blinds Error"),
+			MyMessageBox::warning(this, tr("Blinds Error"),
 								 tr("The first element in your manual-blinds-list \nis smaller than current first-small-blind!\nThis first-small-blind-value will be set to maximum allowed value."),
 								 QMessageBox::Close);
 		}
@@ -1161,7 +1161,7 @@ void settingsDialogImpl::addGameTableStyle()
 		}
 
 		if(fileNameAlreadyFound) {
-			QMessageBox::warning(this, tr("Game Table Style Error"),
+			MyMessageBox::warning(this, tr("Game Table Style Error"),
 								 tr("Selected game table style file is already in the list. \nPlease select another one to add!"),
 								 QMessageBox::Ok);
 		} else {
@@ -1184,7 +1184,7 @@ void settingsDialogImpl::addGameTableStyle()
 				qDebug() << "settings: " << newStyle.getStyleDescription() << newStyle.getState();
 				if(newStyle.getState() != GT_STYLE_OK) newStyle.showErrorMessage();
 			} else {
-				QMessageBox::warning(this, tr("Game Table Style File Error"),
+				MyMessageBox::warning(this, tr("Game Table Style File Error"),
 									 tr("Could not load game table style file correctly. \nStyle will not be placed into list!"),
 									 QMessageBox::Ok);
 			}
@@ -1287,7 +1287,7 @@ void settingsDialogImpl::addCardDeckStyle()
 		}
 
 		if(fileNameAlreadyFound) {
-			QMessageBox::warning(this, tr("Card Deck Style Error"),
+			MyMessageBox::warning(this, tr("Card Deck Style Error"),
 								 tr("Selected card deck style file is already in the list. \nPlease select another one to add!"),
 								 QMessageBox::Ok);
 		} else {
@@ -1304,7 +1304,7 @@ void settingsDialogImpl::addCardDeckStyle()
 				treeWidget_cardDeckStyles->setCurrentItem(newItem);
 				treeWidget_cardDeckStyles->sortItems(0, Qt::AscendingOrder);
 			} else {
-				QMessageBox::warning(this, tr("Card Deck Style File Error"),
+				MyMessageBox::warning(this, tr("Card Deck Style File Error"),
 									 tr("Could not load card deck style file correctly. \nStyle will not be placed into list!"),
 									 QMessageBox::Ok);
 			}
@@ -1373,7 +1373,7 @@ void settingsDialogImpl::deleteLogFile()
 
 	if(!selectedItemsList.isEmpty() && !( selectedItemsList.size() == 1 && selectedItemsList.front()->data(0, Qt::UserRole+1).toString() == "current" )) {
 
-		int ret = QMessageBox::warning(this, tr("PokerTH - Delete log files"),
+		int ret = MyMessageBox::warning(this, tr("PokerTH - Delete log files"),
 									   tr("Do you really want to delete the selected log files?"),
 									   QMessageBox::Yes | QMessageBox::No);
 
@@ -1382,7 +1382,7 @@ void settingsDialogImpl::deleteLogFile()
 				if(selectedItemsList.at(i)->data(0, Qt::UserRole+1).toString() != "current") {
 
 					if(!QFile::remove(selectedItemsList.at(i)->data(0, Qt::UserRole).toString())) {
-						QMessageBox::warning(this, "Remove log file", "PokerTH cannot remove this log file, please verify that you have write access to this file!", QMessageBox::Close );
+						MyMessageBox::warning(this, "Remove log file", "PokerTH cannot remove this log file, please verify that you have write access to this file!", QMessageBox::Close );
 					}
 				}
 			}
@@ -1454,7 +1454,7 @@ void settingsDialogImpl::showLogFilePreview()
 
 void settingsDialogImpl::resetSettings()
 {
-	int ret = QMessageBox::warning(this, tr("PokerTH - Settings"),
+	int ret = MyMessageBox::warning(this, tr("PokerTH - Settings"),
 								   tr("Attention: this will delete all your personal settings and close PokerTH!\n"
 									  "Do you really want to reset factory settings?"),
 								   QMessageBox::Yes | QMessageBox::No);

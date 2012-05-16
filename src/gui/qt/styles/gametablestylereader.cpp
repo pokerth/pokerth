@@ -102,7 +102,7 @@ void GameTableStyleReader::readStyleFile(QString file)
 
 		TiXmlElement *CardDeckElement = docHandle.FirstChild( "PokerTH" ).FirstChild( "CardDeck" ).ToElement();
 		if(CardDeckElement) {
-			QMessageBox::warning(myW, tr("Game Table Style Error"),
+			MyMessageBox::warning(myW, tr("Game Table Style Error"),
 								 tr("A card deck style was selected instead of a game table style.\nPlease select a game table style and try again!"),
 								 QMessageBox::Ok);
 		} else {
@@ -1228,7 +1228,7 @@ void GameTableStyleReader::readStyleFile(QString file)
 		}
 	} else {
 		loadedSuccessfull = 0;
-		QMessageBox::warning(myW, tr("Game Table Style Error"),
+		MyMessageBox::warning(myW, tr("Game Table Style Error"),
 							 tr("Cannot load game table style file: %1 \n\nPlease check the style file or choose another style!").arg(currentFileName),
 							 QMessageBox::Ok);
 	}
@@ -1647,7 +1647,7 @@ QString GameTableStyleReader::getFallBackFieldContent(QString field, int type)
 
 		TiXmlElement *CardDeckElement = docHandle.FirstChild( "PokerTH" ).FirstChild( "CardDeck" ).ToElement();
 		if(CardDeckElement) {
-			QMessageBox::warning(myW, tr("Game Table Style Error"),
+			MyMessageBox::warning(myW, tr("Game Table Style Error"),
 								 tr("A card deck style was selected instead of a game table style.\nPlease select a game table style and try again!"),
 								 QMessageBox::Ok);
 		} else {
