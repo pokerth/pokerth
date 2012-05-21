@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1024</width>
-    <height>600</height>
+    <width>800</width>
+    <height>424</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -4212,56 +4212,29 @@ p, li { white-space: pre-wrap; }
             <number>0</number>
            </property>
            <item>
-            <spacer name="verticalSpacer_9">
-             <property name="orientation">
-              <enum>Qt::Vertical</enum>
-             </property>
-             <property name="sizeHint" stdset="0">
-              <size>
-               <width>47</width>
-               <height>13</height>
-              </size>
-             </property>
-            </spacer>
-           </item>
-           <item>
-            <spacer name="verticalSpacer_15">
-             <property name="orientation">
-              <enum>Qt::Vertical</enum>
-             </property>
-             <property name="sizeHint" stdset="0">
-              <size>
-               <width>20</width>
-               <height>40</height>
-              </size>
-             </property>
-            </spacer>
-           </item>
-           <item>
             <widget class="QPushButton" name="tabsButton">
              <property name="minimumSize">
               <size>
-               <width>50</width>
-               <height>50</height>
+               <width>60</width>
+               <height>60</height>
               </size>
              </property>
              <property name="maximumSize">
               <size>
-               <width>50</width>
-               <height>50</height>
+               <width>60</width>
+               <height>60</height>
               </size>
              </property>
-             <property name="text">
-              <string/>
+             <property name="focusPolicy">
+              <enum>Qt::NoFocus</enum>
              </property>
-             <property name="icon">
-              <iconset resource="../resources/pokerth_android.qrc">
-               <normaloff>:/gfx/preferences-desktop_50x50.png</normaloff>:/gfx/preferences-desktop_50x50.png</iconset>
+             <property name="styleSheet">
+              <string notr="true">QPushButton { border:none; background-image: url(&quot;:/gfx/tab-new-background.png&quot;); background-repeat: no-repeat; background-position: center center;}</string>
              </property>
              <property name="iconSize">
               <size>
-               <width>50</width>
-               <height>50</height>
+               <width>48</width>
+               <height>48</height>
               </size>
              </property>
             </widget>
@@ -4273,9 +4246,12 @@ p, li { white-space: pre-wrap; }
            <property name="orientation">
             <enum>Qt::Horizontal</enum>
            </property>
+           <property name="sizeType">
+            <enum>QSizePolicy::Fixed</enum>
+           </property>
            <property name="sizeHint" stdset="0">
             <size>
-             <width>40</width>
+             <width>20</width>
              <height>20</height>
             </size>
            </property>
@@ -4299,9 +4275,12 @@ p, li { white-space: pre-wrap; }
            <property name="orientation">
             <enum>Qt::Horizontal</enum>
            </property>
+           <property name="sizeType">
+            <enum>QSizePolicy::Fixed</enum>
+           </property>
            <property name="sizeHint" stdset="0">
             <size>
-             <width>22</width>
+             <width>40</width>
              <height>57</height>
             </size>
            </property>
@@ -4396,7 +4375,7 @@ p, li { white-space: pre-wrap; }
               <string/>
              </property>
              <property name="icon">
-              <iconset resource="../resources/pokerth_android.qrc">
+              <iconset resource="../resources/pokerth.qrc">
                <normaloff>:/gfx/view-fullscreen_50x50.png</normaloff>:/gfx/view-fullscreen_50x50.png</iconset>
              </property>
              <property name="iconSize">
@@ -4495,7 +4474,7 @@ p, li { white-space: pre-wrap; }
           <widget class="Slider" name="horizontalSlider_bet">
            <property name="minimumSize">
             <size>
-             <width>220</width>
+             <width>160</width>
              <height>60</height>
             </size>
            </property>
@@ -4563,7 +4542,7 @@ p, li { white-space: pre-wrap; }
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1024</width>
+     <width>800</width>
      <height>26</height>
     </rect>
    </property>
@@ -4631,7 +4610,7 @@ p, li { white-space: pre-wrap; }
   </action>
   <action name="actionFullScreen">
    <property name="icon">
-    <iconset resource="../resources/pokerth_android.qrc">
+    <iconset resource="../resources/pokerth.qrc">
      <normaloff>:/gfx/view-fullscreen.png</normaloff>:/gfx/view-fullscreen.png</iconset>
    </property>
    <property name="text">
@@ -4689,7 +4668,7 @@ p, li { white-space: pre-wrap; }
   </action>
   <action name="actionConfigure_PokerTH">
    <property name="icon">
-    <iconset resource="../resources/pokerth_android.qrc">
+    <iconset resource="../resources/pokerth.qrc">
      <normaloff>:/gfx/systemsettings.png</normaloff>:/gfx/systemsettings.png</iconset>
    </property>
    <property name="text">
@@ -4698,7 +4677,7 @@ p, li { white-space: pre-wrap; }
   </action>
   <action name="actionClose">
    <property name="icon">
-    <iconset resource="../resources/pokerth_android.qrc">
+    <iconset resource="../resources/pokerth.qrc">
      <normaloff>:/gfx/application_exit.png</normaloff>:/gfx/application_exit.png</iconset>
    </property>
    <property name="text">
@@ -4718,6 +4697,11 @@ p, li { white-space: pre-wrap; }
   </action>
  </widget>
  <customwidgets>
+  <customwidget>
+   <class>Slider</class>
+   <extends>QSlider</extends>
+   <header>myslider.h</header>
+  </customwidget>
   <customwidget>
    <class>MySetLabel</class>
    <extends>QLabel</extends>
@@ -4759,18 +4743,13 @@ p, li { white-space: pre-wrap; }
    <header>mynamelabel.h</header>
   </customwidget>
   <customwidget>
-   <class>Slider</class>
-   <extends>QSlider</extends>
-   <header>myslider.h</header>
-  </customwidget>
-  <customwidget>
    <class>MyCashLabel</class>
    <extends>QLabel</extends>
    <header>mycashlabel.h</header>
   </customwidget>
  </customwidgets>
  <resources>
-  <include location="../resources/pokerth_android.qrc"/>
+  <include location="../resources/pokerth.qrc"/>
  </resources>
  <connections/>
 </ui>

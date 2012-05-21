@@ -87,6 +87,10 @@ public:
 	QString getHandRanking() const {
 		return HandRanking;
 	}
+        QString getTable() const {
+                return Table;
+        }
+
 	QString getActionPic(int);
 
 	QString getFKeyIndicatorColor() const {

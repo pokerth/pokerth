@@ -56,6 +56,8 @@
         <file>document-revert.png</file>
         <file>view-fullscreen_50x50.png</file>
         <file>preferences-desktop_50x50.png</file>
+        <file>tab-new-background.png</file>
+        <file>tab-close.png</file>
     </qresource>
     <qresource prefix="/cflags">
         <file>cflags/ad.png</file>
@@ -535,5 +537,6 @@
         <file>android-data/translations/pokerth_tr.qm</file>
         <file>android-data/translations/pokerth_zhcn.qm</file>
         <file>android-data/misc/agpl.html</file>
+        <file>android-data/gfx/gui/table/default_800x480/android_tablestyle_800x480.xml</file>
     </qresource>
 </RCC>

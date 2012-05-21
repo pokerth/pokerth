@@ -94,7 +94,11 @@ gameTableImpl::gameTableImpl(ConfigFile *c, QMainWindow *parent)
 	//set myStyle to widgets wich needs it
 #ifdef GUI_800x480
 	tabsDiag = new QDialog(this);
-	tabs.setupUi(tabsDiag);
+    tabs.setupUi(tabsDiag);
+#ifdef ANDROID
+        tabsDiag->setStyleSheet("QDialog { font: 26px; background-image: url(\""+myGameTableStyle->getTable()+"\"); background-position: bottom center; background-origin: content;  background-repeat: no-repeat;}");
+        tabs.frame->setStyleSheet("QObject { background-color: rgba(0, 0, 0, 100); }");
+#endif
 	tabs.label_chance->setMyStyle(myGameTableStyle);
 #else
 	label_chance->setMyStyle(myGameTableStyle);
@@ -479,15 +483,12 @@ gameTableImpl::gameTableImpl(ConfigFile *c, QMainWindow *parent)
 	// 	Dialogs
 #ifdef GUI_800x480
 	myChat = new ChatTools(tabs.lineEdit_ChatInput, myConfig, INGAME_CHAT, tabs.textBrowser_Chat);
+        myChat->setMyStyle(myGameTableStyle);
+        tabs.lineEdit_ChatInput->installEventFilter(this);
 #else
 	myChat = new ChatTools(lineEdit_ChatInput, myConfig, INGAME_CHAT, textBrowser_Chat);
-#endif
-	myChat->setMyStyle(myGameTableStyle);
-
-#ifdef GUI_800x480
-	tabs.lineEdit_ChatInput->installEventFilter(this);
-#else
-	lineEdit_ChatInput->installEventFilter(this);
+        myChat->setMyStyle(myGameTableStyle);
+        lineEdit_ChatInput->installEventFilter(this);
 #endif
 
 	this->installEventFilter(this);
@@ -507,8 +508,8 @@ gameTableImpl::gameTableImpl(ConfigFile *c, QMainWindow *parent)
         //hide left and right icon and menubar from maemo gui for ANDROID
 #ifdef ANDROID
         fullscreenButton->hide();
-        tabsButton->hide();
-        menubar->hide();
+        menubar->hide();        
+//        tabsButton->hide();
 #endif
 
 	//Connects
@@ -3728,53 +3729,61 @@ void gameTableImpl::closeGameTable()
 
 void gameTableImpl::changeSpinBoxBetValue(int value)
 {
+        if(betSliderChangedByInput) {
+                //prevent interval cutting of spinBox_betValue input from code below
+                betSliderChangedByInput = FALSE;
+        }
+        else {
 
-	if(betSliderChangedByInput) {
-		//prevent interval cutting of spinBox_betValue input from code below
-		betSliderChangedByInput = FALSE;
-	} else {
-		int temp;
-		if(horizontalSlider_bet->maximum() <= 1000 ) {
-			temp = (int)((value/10)*10);
-		} else if(horizontalSlider_bet->maximum() > 1000 && horizontalSlider_bet->maximum() <= 10000) {
-			temp = (int)((value/50)*50);
-		} else if(horizontalSlider_bet->maximum() > 10000 && horizontalSlider_bet->maximum() <= 100000) {
-			temp = (int)((value/500)*500);
-		} else {
-			temp = (int)((value/5000)*5000);
-		}
+            if(horizontalSlider_bet->value() == horizontalSlider_bet->maximum()) {
 
-		if(temp < horizontalSlider_bet->minimum())
-			spinBox_betValue->setValue(horizontalSlider_bet->minimum());
-		else
-			spinBox_betValue->setValue(temp);
-	}
+                spinBox_betValue->setValue(horizontalSlider_bet->value());
+            }
+            else {
+
+                int temp;
+                if(horizontalSlider_bet->maximum() <= 1000 ) {
+                        temp = (int)((value/10)*10);
+                } else if(horizontalSlider_bet->maximum() > 1000 && horizontalSlider_bet->maximum() <= 10000) {
+                        temp = (int)((value/50)*50);
+                } else if(horizontalSlider_bet->maximum() > 10000 && horizontalSlider_bet->maximum() <= 100000) {
+                        temp = (int)((value/500)*500);
+                } else {
+                        temp = (int)((value/5000)*5000);
+                }
+
+                if(temp < horizontalSlider_bet->minimum())
+                        spinBox_betValue->setValue(horizontalSlider_bet->minimum());
+                else
+                        spinBox_betValue->setValue(temp);
+            }
+        }
 }
 
 void gameTableImpl::spinBoxBetValueChanged(int value)
 {
 
-	if(horizontalSlider_bet->isEnabled()) {
+    if(horizontalSlider_bet->isEnabled()) {
 
-		QString betRaise = pushButton_BetRaise->text().section("\n",0 ,0);
+        QString betRaise = pushButton_BetRaise->text().section("\n",0 ,0);
 
-		if(value >= horizontalSlider_bet->minimum()) {
+        if(value >= horizontalSlider_bet->minimum()) {
 
-			if(value > horizontalSlider_bet->maximum()) { // print the maximum
-				pushButton_BetRaise->setText(betRaise + "\n$" + QString("%L1").arg(horizontalSlider_bet->maximum()));
-				betSliderChangedByInput = TRUE;
-				horizontalSlider_bet->setValue(horizontalSlider_bet->maximum());
-			} else { // really print the value
-				pushButton_BetRaise->setText(betRaise + "\n$" + QString("%L1").arg(value));
-				betSliderChangedByInput = TRUE;
-				horizontalSlider_bet->setValue(value);
-			}
-		} else { // print the minimum
-			pushButton_BetRaise->setText(betRaise + "\n$" + QString("%L1").arg(horizontalSlider_bet->minimum()));
-			betSliderChangedByInput = TRUE;
-			horizontalSlider_bet->setValue(horizontalSlider_bet->minimum());
-		}
-	}
+            if(value > horizontalSlider_bet->maximum()) { // print the maximum
+                pushButton_BetRaise->setText(betRaise + "\n$" + QString("%L1").arg(horizontalSlider_bet->maximum()));
+                betSliderChangedByInput = TRUE;
+                horizontalSlider_bet->setValue(horizontalSlider_bet->maximum());
+            } else { // really print the value
+                pushButton_BetRaise->setText(betRaise + "\n$" + QString("%L1").arg(value));
+                betSliderChangedByInput = TRUE;
+                horizontalSlider_bet->setValue(value);
+            }
+        } else { // print the minimum
+            pushButton_BetRaise->setText(betRaise + "\n$" + QString("%L1").arg(horizontalSlider_bet->minimum()));
+            betSliderChangedByInput = TRUE;
+            horizontalSlider_bet->setValue(horizontalSlider_bet->minimum());
+        }
+    }
 }
 
 void gameTableImpl::leaveCurrentNetworkGame()
@@ -4018,7 +4027,9 @@ void gameTableImpl::refreshGameTableStyle()
 {
 	myGameTableStyle->setWindowsGeometry(this);
 #ifdef GUI_800x480
-//	myGameTableStyle->setChatLogStyle(textBrowser_Log);
+#ifdef ANDROID
+        myGameTableStyle->setChatLogStyle(tabs.textBrowser_Log);
+#endif
 	myGameTableStyle->setChatLogStyle(tabs.textBrowser_Chat);
 	myGameTableStyle->setChatLogStyle(tabs.textEdit_tipInput);
 	myGameTableStyle->setChatInputStyle(tabs.lineEdit_ChatInput);
@@ -4351,6 +4362,7 @@ void gameTableImpl::enableCallCheckPushButton()
 void gameTableImpl::tabsButtonClicked()
 {
 	tabsDiag->setParent(this, Qt::Dialog);
+    tabsDiag->showFullScreen();
 	tabsDiag->show();
 	tabsDiag->raise();
 	tabsDiag->activateWindow();

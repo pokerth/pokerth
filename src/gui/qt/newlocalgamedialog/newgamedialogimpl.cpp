@@ -66,7 +66,6 @@ void newGameDialogImpl::exec()
 	myChangeCompleteBlindsDialog->radioButton_afterThisStayAtLastBlind->setChecked(myConfig->readConfigInt("AfterMBStayAtLastBlind"));
 
         QDialog::exec();
-
 }
 
 void newGameDialogImpl::callChangeBlindsDialog(bool show)

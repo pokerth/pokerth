@@ -46,7 +46,9 @@ gameLobbyDialogImpl::gameLobbyDialogImpl(startWindowImpl *parent, ConfigFile *c)
 	//wait start game message
         waitStartGameMsgBox = new MyMessageBox(this);
 	waitStartGameMsgBox->setText(tr("Starting game. Please wait ..."));
-	waitStartGameMsgBox->setWindowModality(Qt::NonModal);
+#ifndef ANDROID
+        waitRejoinStartGameMsgBox->setWindowModality(Qt::NonModal);
+#endif
 #ifdef __APPLE__
 	waitStartGameMsgBox->setWindowFlags(Qt::WindowSystemMenuHint | Qt::CustomizeWindowHint | Qt::Dialog);
 #endif
@@ -55,7 +57,9 @@ gameLobbyDialogImpl::gameLobbyDialogImpl(startWindowImpl *parent, ConfigFile *c)
 	//wait start game message for rejoin
         waitRejoinStartGameMsgBox = new MyMessageBox(this);
 	waitRejoinStartGameMsgBox->setText(tr("Waiting for the start of the next hand to rejoin the game ..."));
-	waitRejoinStartGameMsgBox->setWindowModality(Qt::NonModal);
+#ifndef ANDROID
+        waitRejoinStartGameMsgBox->setWindowModality(Qt::NonModal);
+#endif
 #ifdef __APPLE__
 	waitRejoinStartGameMsgBox->setWindowFlags(Qt::WindowSystemMenuHint | Qt::CustomizeWindowHint | Qt::Dialog);
 #endif
@@ -1712,7 +1716,13 @@ void gameLobbyDialogImpl::showAutoStartTimer()
 	autoStartTimerOverlay->setGeometry(((scrollArea_gameInfos->geometry().width()-190)/2), ((scrollArea_gameInfos->geometry().height()-50)/2), 190, 50);
 
 	QString string(tr("The game will start in<br><b>%1</b> seconds.").arg(6));
-        autoStartTimerOverlay->setText("<span style='color:#008B00; font-size:10px;'>"+string+"</span>");
+        QString fontsize;
+#ifdef ANDROID
+        fontsize="16px";
+#else
+        fontsize="10px";
+#endif
+        autoStartTimerOverlay->setText("<span style='color:#008B00; font-size:"+fontsize+";'>"+string+"</span>");
 	autoStartTimerCounter = 6;
 	autoStartTimer->start(1000);
 
@@ -1723,7 +1733,13 @@ void gameLobbyDialogImpl::updateAutoStartTimer()
 	--autoStartTimerCounter;
 	if(autoStartTimerCounter) {
 		QString string(tr("The game will start in<br><b>%1</b> seconds.").arg(autoStartTimerCounter));
-                autoStartTimerOverlay->setText("<span style='color:#008B00; font-size:10px;'>"+string+"</span>");
+                QString fontsize;
+#ifdef ANDROID
+                fontsize="16px";
+#else
+                fontsize="10px";
+#endif
+                autoStartTimerOverlay->setText("<span style='color:#008B00; font-size:"+fontsize+";'>"+string+"</span>");
 	} else {
 		autoStartTimer->stop();
 		autoStartTimerOverlay->hide();

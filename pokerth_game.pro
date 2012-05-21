@@ -67,7 +67,9 @@ INCLUDEPATH += . \
 	src/gui/qt/internetgamelogindialog \
 	src/gui/qt/mymessagedialog \
 	src/gui/qt/gamelobbydialog \
-	src/gui/qt/timeoutmsgbox
+        src/gui/qt/timeoutmsgbox \
+        src/gui/qt/mymessagebox
+
 DEPENDPATH += . \
 	src \
 	src/config \
@@ -105,7 +107,8 @@ DEPENDPATH += . \
 	src/gui/qt/changecompleteblindsdialog \
 	src/gui/qt/mymessagedialog \
 	src/gui/qt/gamelobbydialog \
-	src/gui/qt/timeoutmsgbox
+        src/gui/qt/timeoutmsgbox \
+        src/gui/qt/mymessagebox
 
 # Input
 HEADERS += src/engine/game.h \
@@ -203,7 +206,8 @@ HEADERS += src/engine/game.h \
 	src/gui/qt/gamelobbydialog/mynicklistsortfilterproxymodel.h \
 	src/gui/qt/gametable/myslider.h \
     src/gui/qt/gametable/mycashlabel.h \
-    src/gui/qt/sound/soundevents.h
+    src/gui/qt/sound/soundevents.h \
+    src/gui/qt/mymessagebox/mymessagebox.h
 
 !gui_800x480 {
     FORMS += src/gui/qt/gametable.ui \
@@ -278,7 +282,8 @@ SOURCES += src/pokerth.cpp \
 	src/gui/qt/gamelobbydialog/mynicklistsortfilterproxymodel.cpp \
     src/net/common/servermanagerfactoryclient.cpp \
     src/gui/qt/gametable/mycashlabel.cpp \
-    src/gui/qt/sound/soundevents.cpp
+    src/gui/qt/sound/soundevents.cpp \
+    src/gui/qt/mymessagebox/mymessagebox.cpp
 TRANSLATIONS = ts/pokerth_af.ts \
 	ts/pokerth_bg.ts \
 	ts/pokerth_zhcn.ts \
@@ -610,4 +615,6 @@ android{
 	# sqlite3 is included directly.
 	INCLUDEPATH += src/third_party/sqlite3
 }
+
+
 

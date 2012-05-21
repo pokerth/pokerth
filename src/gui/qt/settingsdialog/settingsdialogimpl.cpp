@@ -276,16 +276,21 @@ void settingsDialogImpl::prepareDialog()
 #ifdef GUI_800x480
 	// 	define PokerTH default GameTableStyle for Maemo
 	treeWidget_gameTableStyles->clear();
-
+        QString filename;
+#ifdef MAEMO
+        filename = "defaulttablestyle_800x480.xml";
+#elif ANDROID
+        filename = "android_tablestyle_800x480.xml";
+#endif
 	GameTableStyleReader defaultTableStyle(myConfig, this);
-	defaultTableStyle.readStyleFile(QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str())+"gfx/gui/table/default_800x480/defaulttablestyle_800x480.xml");
+        defaultTableStyle.readStyleFile(QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str())+"gfx/gui/table/default_800x480/"+filename);
 	if(defaultTableStyle.getLoadedSuccessfull()) {
 		QStringList tempStringList1;
 		tempStringList1 << defaultTableStyle.getStyleDescription() << defaultTableStyle.getStyleMaintainerName();
 		MyStyleListItem *defaultTableItem = new MyStyleListItem(tempStringList1, treeWidget_gameTableStyles);
-		defaultTableItem->setData(0, 15, QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str())+"gfx/gui/table/default_800x480/defaulttablestyle_800x480.xml");
+                defaultTableItem->setData(0, 15, QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str())+"gfx/gui/table/default_800x480/"+filename);
 		defaultTableItem->setData(0, 16, POKERTH_DISTRIBUTED_STYLE);
-		defaultTableItem->setData(0, Qt::ToolTipRole, QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str())+"gfx/gui/table/default_800x480/defaulttablestyle_800x480.xml");
+                defaultTableItem->setData(0, Qt::ToolTipRole, QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str())+"gfx/gui/table/default_800x480/"+filename);
 		defaultTableItem->setData(2, Qt::ToolTipRole, defaultTableStyle.getMyStateToolTipInfo());
 		if(defaultTableStyle.getState()) defaultTableItem->setIcon(2, QIcon(":/gfx/emblem-important.png"));
 		else defaultTableItem->setIcon(2, QIcon(":/gfx/dialog_ok_apply.png"));
