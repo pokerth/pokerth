@@ -35,11 +35,11 @@ aboutPokerthImpl::aboutPokerthImpl(QWidget *parent, ConfigFile *c)
 	QPalette myPalette = textBrowser_licence->palette();
 #ifdef GUI_800x480
 #ifdef ANDROID
-        myPalette.setColor(QPalette::Base, QColor(255,255,255,255));
-        myPalette.setColor(QPalette::Text, QColor(0,0,0,255));
+    myPalette.setColor(QPalette::Base, QColor(255,255,255,255));
+    myPalette.setColor(QPalette::Text, QColor(0,0,0,255));
 #else
-        myPalette.setColor(QPalette::Base, QColor(0,0,0,255));
-        myPalette.setColor(QPalette::Text, QColor(255,255,255,255));
+    myPalette.setColor(QPalette::Base, QColor(0,0,0,255));
+    myPalette.setColor(QPalette::Text, QColor(255,255,255,255));
 #endif
 #else
 	QColor myColor = myPalette.color(QPalette::Window);

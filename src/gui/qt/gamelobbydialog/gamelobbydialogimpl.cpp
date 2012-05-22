@@ -114,17 +114,23 @@ gameLobbyDialogImpl::gameLobbyDialogImpl(startWindowImpl *parent, ConfigFile *c)
 	headerList << tr("Game") << tr("Players") << tr("State") << tr("T") << tr("P");
 	myGameListModel->setHorizontalHeaderLabels(headerList);
 
-	treeView_GameList->setColumnWidth(0,190);
-	treeView_GameList->setColumnWidth(1,65);
-        treeView_GameList->setColumnWidth(2,65);
-	treeView_GameList->setColumnWidth(3,40);
-	treeView_GameList->setColumnWidth(4,40);
-
 #ifdef GUI_800x480
-        treeView_GameList->setStyleSheet("QTreeView {background-color: white; background-image: url(\""+myAppDataPath +"gfx/gui/misc/background_gamelist.png\"); background-attachment: fixed; background-position: top center ; background-repeat: no-repeat; color:rgb(0, 0, 0); font: 20px}");
-        treeView_GameList->header()->setStyleSheet("QObject {font: bold 18px}");
+    treeView_GameList->setColumnWidth(0,220);
+    treeView_GameList->setColumnWidth(1,65);
+    treeView_GameList->setColumnWidth(2,90);
+    treeView_GameList->setColumnWidth(3,30);
+    treeView_GameList->setColumnWidth(4,30);
+
+    treeView_GameList->setStyleSheet("QTreeView {background-color: white; background-image: url(\""+myAppDataPath +"gfx/gui/misc/background_gamelist.png\"); background-attachment: fixed; background-position: top center ; background-repeat: no-repeat; color:rgb(0, 0, 0); font: 22px}");
+    treeView_GameList->header()->setStyleSheet("QObject {font: bold 18px}");
 #else
-	treeView_GameList->setStyleSheet("QTreeView {background-color: white; background-image: url(\""+myAppDataPath +"gfx/gui/misc/background_gamelist.png\"); background-attachment: fixed; background-position: top center ; background-repeat: no-repeat;}");
+    treeView_GameList->setColumnWidth(0,190);
+    treeView_GameList->setColumnWidth(1,65);
+    treeView_GameList->setColumnWidth(2,65);
+    treeView_GameList->setColumnWidth(3,40);
+    treeView_GameList->setColumnWidth(4,40);
+
+    treeView_GameList->setStyleSheet("QTreeView {background-color: white; background-image: url(\""+myAppDataPath +"gfx/gui/misc/background_gamelist.png\"); background-attachment: fixed; background-position: top center ; background-repeat: no-repeat;}");
 #endif
 	treeView_GameList->setAutoFillBackground(TRUE);
 
@@ -404,11 +410,20 @@ void gameLobbyDialogImpl::refresh(int actionID)
 		QStringList headerList;
 		headerList << tr("Game") << tr("Players") << tr("State") << tr("T") << tr("P");
 		myGameListModel->setHorizontalHeaderLabels(headerList);
-		treeView_GameList->setColumnWidth(0,190);
+
+#ifdef GUI_800x480
+        treeView_GameList->setColumnWidth(0,220);
+        treeView_GameList->setColumnWidth(1,65);
+        treeView_GameList->setColumnWidth(2,90);
+        treeView_GameList->setColumnWidth(3,30);
+        treeView_GameList->setColumnWidth(4,30);
+#else
+        treeView_GameList->setColumnWidth(0,190);
 		treeView_GameList->setColumnWidth(1,65);
 		treeView_GameList->setColumnWidth(2,65);
 		treeView_GameList->setColumnWidth(3,40);
 		treeView_GameList->setColumnWidth(4,40);
+#endif
 
 		QStringList headerList2;
 		headerList2 << tr("Available Players");
@@ -797,11 +812,20 @@ void gameLobbyDialogImpl::clearDialog()
 	QStringList headerList;
 	headerList << tr("Game") << tr("Players") << tr("State") << tr("T") << tr("P");
 	myGameListModel->setHorizontalHeaderLabels(headerList);
-	treeView_GameList->setColumnWidth(0,190);
+
+#ifdef GUI_800x480
+    treeView_GameList->setColumnWidth(0,220);
+    treeView_GameList->setColumnWidth(1,65);
+    treeView_GameList->setColumnWidth(2,90);
+    treeView_GameList->setColumnWidth(3,30);
+    treeView_GameList->setColumnWidth(4,30);
+#else
+    treeView_GameList->setColumnWidth(0,190);
 	treeView_GameList->setColumnWidth(1,65);
 	treeView_GameList->setColumnWidth(2,65);
 	treeView_GameList->setColumnWidth(3,40);
 	treeView_GameList->setColumnWidth(4,40);
+#endif
 
 	pushButton_CreateGame->clearFocus();
 	lineEdit_ChatInput->setFocus();

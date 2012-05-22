@@ -473,6 +473,12 @@
             </property>
             <item>
              <widget class="QTreeWidget" name="treeWidget_connectedPlayers">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
               <property name="minimumSize">
                <size>
                 <width>221</width>
@@ -506,10 +512,16 @@
             </item>
             <item>
              <widget class="QScrollArea" name="scrollArea_gameInfos">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
               <property name="minimumSize">
                <size>
                 <width>252</width>
-                <height>210</height>
+                <height>208</height>
                </size>
               </property>
               <property name="styleSheet">
@@ -524,7 +536,7 @@
                  <x>0</x>
                  <y>0</y>
                  <width>292</width>
-                 <height>206</height>
+                 <height>204</height>
                 </rect>
                </property>
                <layout class="QGridLayout" name="gridLayout">
@@ -840,7 +852,7 @@
               </size>
              </property>
              <property name="styleSheet">
-              <string notr="true">QObject {font: 14 px}</string>
+              <string notr="true">QObject {font: 22px}</string>
              </property>
              <property name="text">
               <string>search for player ...</string>
@@ -871,7 +883,7 @@
               <enum>Qt::CustomContextMenu</enum>
              </property>
              <property name="styleSheet">
-              <string notr="true">QObject {font: 14 px}</string>
+              <string notr="true">QObject {font: 16px;}</string>
              </property>
              <property name="editTriggers">
               <set>QAbstractItemView::NoEditTriggers</set>
@@ -971,7 +983,7 @@
                </size>
               </property>
               <property name="styleSheet">
-               <string notr="true">QObject {font: 14px}</string>
+               <string notr="true">QObject {font: 18px;}</string>
               </property>
               <property name="html">
                <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
@@ -985,7 +997,7 @@ p, li { white-space: pre-wrap; }
             <item row="1" column="0">
              <widget class="QLineEdit" name="lineEdit_ChatInput">
               <property name="styleSheet">
-               <string notr="true">QObject {font: 14 px}</string>
+               <string notr="true">QObject {font: 22px;}</string>
               </property>
              </widget>
             </item>

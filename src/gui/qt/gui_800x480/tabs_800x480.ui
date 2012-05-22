@@ -155,7 +155,11 @@
                   </widget>
                  </item>
                  <item row="1" column="0">
-                  <widget class="QLineEdit" name="lineEdit_ChatInput"/>
+                  <widget class="QLineEdit" name="lineEdit_ChatInput">
+                   <property name="styleSheet">
+                    <string notr="true">QObject {font: 20px;}</string>
+                   </property>
+                  </widget>
                  </item>
                 </layout>
                </widget>
