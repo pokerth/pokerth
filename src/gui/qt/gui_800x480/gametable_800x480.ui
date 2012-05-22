@@ -4280,7 +4280,7 @@ p, li { white-space: pre-wrap; }
            </property>
            <property name="sizeHint" stdset="0">
             <size>
-             <width>40</width>
+             <width>20</width>
              <height>57</height>
             </size>
            </property>
@@ -4480,7 +4480,7 @@ p, li { white-space: pre-wrap; }
            </property>
            <property name="minimumSize">
             <size>
-             <width>168</width>
+             <width>192</width>
              <height>60</height>
             </size>
            </property>
