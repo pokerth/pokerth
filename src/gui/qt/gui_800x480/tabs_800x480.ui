@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>800</width>
-    <height>424</height>
+    <height>463</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -77,17 +77,14 @@
           </property>
           <item>
            <widget class="QGroupBox" name="groupBox_LeftToolBox">
-            <property name="minimumSize">
-             <size>
-              <width>390</width>
-              <height>350</height>
-             </size>
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Preferred" vsizetype="MinimumExpanding">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
             </property>
-            <property name="maximumSize">
-             <size>
-              <width>390</width>
-              <height>350</height>
-             </size>
+            <property name="styleSheet">
+             <string notr="true">QGroupBox { border: 0px; }</string>
             </property>
             <property name="flat">
              <bool>true</bool>
@@ -98,6 +95,12 @@
              </property>
              <item row="0" column="0">
               <widget class="MyLeftTabWidget" name="tabWidget_Left">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Expanding" vsizetype="MinimumExpanding">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
                <property name="focusPolicy">
                 <enum>Qt::NoFocus</enum>
                </property>
@@ -346,17 +349,14 @@
           </item>
           <item>
            <widget class="QGroupBox" name="groupBox_RightToolBox">
-            <property name="minimumSize">
-             <size>
-              <width>390</width>
-              <height>350</height>
-             </size>
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Preferred" vsizetype="MinimumExpanding">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
             </property>
-            <property name="maximumSize">
-             <size>
-              <width>390</width>
-              <height>350</height>
-             </size>
+            <property name="styleSheet">
+             <string notr="true">QGroupBox { border: 0px; }</string>
             </property>
             <property name="flat">
              <bool>true</bool>
@@ -373,6 +373,12 @@
              </property>
              <item row="0" column="0">
               <widget class="MyRightTabWidget" name="tabWidget_Right">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Expanding" vsizetype="MinimumExpanding">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
                <property name="focusPolicy">
                 <enum>Qt::NoFocus</enum>
                </property>
@@ -538,10 +544,13 @@
           <property name="orientation">
            <enum>Qt::Vertical</enum>
           </property>
+          <property name="sizeType">
+           <enum>QSizePolicy::Fixed</enum>
+          </property>
           <property name="sizeHint" stdset="0">
            <size>
             <width>20</width>
-            <height>40</height>
+            <height>10</height>
            </size>
           </property>
          </spacer>
@@ -719,7 +728,7 @@
           <item>
            <widget class="Slider" name="horizontalSlider_speed">
             <property name="sizePolicy">
-             <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+             <sizepolicy hsizetype="MinimumExpanding" vsizetype="Preferred">
               <horstretch>0</horstretch>
               <verstretch>0</verstretch>
              </sizepolicy>

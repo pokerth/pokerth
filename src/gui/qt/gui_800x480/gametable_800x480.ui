@@ -4251,7 +4251,7 @@ p, li { white-space: pre-wrap; }
            </property>
            <property name="sizeHint" stdset="0">
             <size>
-             <width>20</width>
+             <width>10</width>
              <height>20</height>
             </size>
            </property>
@@ -4472,9 +4472,15 @@ p, li { white-space: pre-wrap; }
          </item>
          <item row="0" column="3">
           <widget class="Slider" name="horizontalSlider_bet">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
            <property name="minimumSize">
             <size>
-             <width>160</width>
+             <width>168</width>
              <height>60</height>
             </size>
            </property>

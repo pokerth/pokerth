@@ -538,5 +538,6 @@
         <file>android-data/translations/pokerth_zhcn.qm</file>
         <file>android-data/misc/agpl.html</file>
         <file>android-data/gfx/gui/table/default_800x480/android_tablestyle_800x480.xml</file>
+        <file>android-data/gfx/gui/table/default_800x480/table_dark.png</file>
     </qresource>
 </RCC>

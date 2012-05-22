@@ -26,7 +26,7 @@ class MyLeftTabWidget : public QTabWidget
 {
 	Q_OBJECT
 public:
-	MyLeftTabWidget(QGroupBox*);
+    MyLeftTabWidget(QGroupBox*);
 
 	~MyLeftTabWidget();
 

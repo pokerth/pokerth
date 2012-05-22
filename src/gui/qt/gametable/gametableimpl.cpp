@@ -96,8 +96,7 @@ gameTableImpl::gameTableImpl(ConfigFile *c, QMainWindow *parent)
 	tabsDiag = new QDialog(this);
     tabs.setupUi(tabsDiag);
 #ifdef ANDROID
-        tabsDiag->setStyleSheet("QDialog { font: 26px; background-image: url(\""+myGameTableStyle->getTable()+"\"); background-position: bottom center; background-origin: content;  background-repeat: no-repeat;}");
-        tabs.frame->setStyleSheet("QObject { background-color: rgba(0, 0, 0, 100); }");
+        tabsDiag->setStyleSheet("QObject { font: 26px; } QDialog { background-image: url(:/android/android-data/gfx/gui/table/default_800x480/table_dark.png); background-position: bottom center; background-origin: content;  background-repeat: no-repeat;}");
 #endif
 	tabs.label_chance->setMyStyle(myGameTableStyle);
 #else
