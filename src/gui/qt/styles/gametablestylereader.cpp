@@ -1364,7 +1364,7 @@ void GameTableStyleReader::setBreakButtonStyle(QPushButton *bb, int state)
 		// 		default
 	case 0:
 #ifdef GUI_800x480
-        bb->setStyleSheet("QPushButton:enabled { background-color: #"+BreakLobbyButtonBgColor+"; color: #"+BreakLobbyButtonTextColor+"; font-size: 26px} QPushButton:disabled { background-color: #"+BreakLobbyButtonBgDisabledColor+"; color: #"+BreakLobbyButtonTextDisabledColor+"; font-weight: 900; font-size: 26px}");
+        bb->setStyleSheet("QPushButton:enabled { padding: 10px; background-color: #"+BreakLobbyButtonBgColor+"; color: #"+BreakLobbyButtonTextColor+"; font-size: 26px} QPushButton:disabled { padding: 10px; background-color: #"+BreakLobbyButtonBgDisabledColor+"; color: #"+BreakLobbyButtonTextDisabledColor+"; font-weight: 900; font-size: 26px}");
 #else
 		bb->setStyleSheet("QPushButton:enabled { background-color: #"+BreakLobbyButtonBgColor+"; color: #"+BreakLobbyButtonTextColor+";} QPushButton:disabled { background-color: #"+BreakLobbyButtonBgDisabledColor+"; color: #"+BreakLobbyButtonTextDisabledColor+"; font-weight: 900;}");
 #endif
@@ -1372,7 +1372,7 @@ void GameTableStyleReader::setBreakButtonStyle(QPushButton *bb, int state)
 		// 		blink
 	case 1:
 #ifdef GUI_800x480
-        bb->setStyleSheet("QPushButton { background-color: #"+BreakLobbyButtonBgBlinkColor+"; color: "+BreakLobbyButtonTextBlinkColor+"; font-size: 26px}");
+        bb->setStyleSheet("QPushButton { padding: 10px; background-color: #"+BreakLobbyButtonBgBlinkColor+"; color: "+BreakLobbyButtonTextBlinkColor+"; font-size: 26px}");
 #else
 		bb->setStyleSheet("QPushButton { background-color: #"+BreakLobbyButtonBgBlinkColor+"; color: "+BreakLobbyButtonTextBlinkColor+";}");
 #endif

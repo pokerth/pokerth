@@ -303,6 +303,17 @@ gameTableImpl::gameTableImpl(ConfigFile *c, QMainWindow *parent)
 	playerTipLabelArray[8] = label_playerTip8;
 	playerTipLabelArray[9] = label_playerTip9;
 
+#ifdef GUI_800x480
+    int j;
+    for (i=0; i<MAX_NUMBER_OF_PLAYERS; ++i) {
+        for (j=1; j<=5; ++j) {
+            playerStarsArray[j][i]->hide();
+        }
+        playerTipLabelArray[i]->hide();
+    }
+
+#endif
+
 	// playerNameLabelArray init
 	playerNameLabelArray[0] = label_PlayerName0;
 	playerNameLabelArray[1] = label_PlayerName1;

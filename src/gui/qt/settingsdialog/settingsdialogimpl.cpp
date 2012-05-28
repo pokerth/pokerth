@@ -39,6 +39,13 @@ settingsDialogImpl::settingsDialogImpl(QWidget *parent, ConfigFile *c, selectAva
 #endif
 	setupUi(this);
 
+#ifdef ANDROID
+    stackedWidget->removeWidget(page_styles);
+    stackedWidget->removeWidget(page_sound);
+    listWidget->takeItem(1);
+    listWidget->takeItem(1);
+#endif
+
 	if(!SQLITE_LOG) {//temporarely remove sql log features
 		pushButton_deleteLog->hide();
 		pushButton_saveLogAs->hide();

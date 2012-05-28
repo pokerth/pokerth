@@ -44,10 +44,10 @@ gameLobbyDialogImpl::gameLobbyDialogImpl(startWindowImpl *parent, ConfigFile *c)
 	myAppDataPath = QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str());
 
 	//wait start game message
-        waitStartGameMsgBox = new MyMessageBox(this);
+    waitStartGameMsgBox = new MyMessageBox(this);
 	waitStartGameMsgBox->setText(tr("Starting game. Please wait ..."));
 #ifndef ANDROID
-        waitRejoinStartGameMsgBox->setWindowModality(Qt::NonModal);
+    waitStartGameMsgBox->setWindowModality(Qt::NonModal);
 #endif
 #ifdef __APPLE__
 	waitStartGameMsgBox->setWindowFlags(Qt::WindowSystemMenuHint | Qt::CustomizeWindowHint | Qt::Dialog);
@@ -55,10 +55,10 @@ gameLobbyDialogImpl::gameLobbyDialogImpl(startWindowImpl *parent, ConfigFile *c)
 	waitStartGameMsgBox->setStandardButtons(QMessageBox::NoButton);
 
 	//wait start game message for rejoin
-        waitRejoinStartGameMsgBox = new MyMessageBox(this);
+    waitRejoinStartGameMsgBox = new MyMessageBox(this);
 	waitRejoinStartGameMsgBox->setText(tr("Waiting for the start of the next hand to rejoin the game ..."));
 #ifndef ANDROID
-        waitRejoinStartGameMsgBox->setWindowModality(Qt::NonModal);
+    waitRejoinStartGameMsgBox->setWindowModality(Qt::NonModal);
 #endif
 #ifdef __APPLE__
 	waitRejoinStartGameMsgBox->setWindowFlags(Qt::WindowSystemMenuHint | Qt::CustomizeWindowHint | Qt::Dialog);
