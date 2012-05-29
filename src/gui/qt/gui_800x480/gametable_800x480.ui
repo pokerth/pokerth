@@ -206,22 +206,22 @@
         <widget class="MySetLabel" name="textLabel_Set3">
          <property name="geometry">
           <rect>
-           <x>60</x>
+           <x>56</x>
            <y>104</y>
-           <width>86</width>
-           <height>9</height>
+           <width>90</width>
+           <height>13</height>
           </rect>
          </property>
          <property name="minimumSize">
           <size>
-           <width>86</width>
-           <height>9</height>
+          <width>90</width>
+          <height>13</height>
           </size>
          </property>
          <property name="maximumSize">
           <size>
-           <width>86</width>
-           <height>9</height>
+          <width>90</width>
+          <height>13</height>
           </size>
          </property>
          <property name="alignment">
@@ -233,20 +233,20 @@
           <rect>
            <x>50</x>
            <y>20</y>
-           <width>86</width>
-           <height>9</height>
+           <width>90</width>
+           <height>13</height>
           </rect>
          </property>
          <property name="minimumSize">
           <size>
-           <width>86</width>
-           <height>9</height>
+           <width>90</width>
+           <height>13</height>
           </size>
          </property>
          <property name="maximumSize">
           <size>
-           <width>86</width>
-           <height>9</height>
+           <width>90</width>
+           <height>13</height>
           </size>
          </property>
          <property name="alignment">
@@ -554,22 +554,22 @@ p, li { white-space: pre-wrap; }
         <widget class="MySetLabel" name="textLabel_Set2">
          <property name="geometry">
           <rect>
-           <x>60</x>
+           <x>56</x>
            <y>10</y>
-           <width>86</width>
-           <height>9</height>
+           <width>90</width>
+           <height>13</height>
           </rect>
          </property>
          <property name="minimumSize">
           <size>
-           <width>86</width>
-           <height>9</height>
+           <width>90</width>
+           <height>13</height>
           </size>
          </property>
          <property name="maximumSize">
           <size>
-           <width>86</width>
-           <height>9</height>
+           <width>90</width>
+           <height>13</height>
           </size>
          </property>
          <property name="alignment">
@@ -581,20 +581,20 @@ p, li { white-space: pre-wrap; }
           <rect>
            <x>50</x>
            <y>92</y>
-           <width>86</width>
-           <height>9</height>
+           <width>90</width>
+           <height>13</height>
           </rect>
          </property>
          <property name="minimumSize">
           <size>
-           <width>86</width>
-           <height>9</height>
+          <width>90</width>
+          <height>13</height>
           </size>
          </property>
          <property name="maximumSize">
           <size>
-           <width>86</width>
-           <height>9</height>
+          <width>90</width>
+          <height>13</height>
           </size>
          </property>
          <property name="alignment">
@@ -912,22 +912,22 @@ p, li { white-space: pre-wrap; }
         <widget class="MySetLabel" name="textLabel_Set4">
          <property name="geometry">
           <rect>
-           <x>60</x>
+           <x>56</x>
            <y>104</y>
-           <width>86</width>
-           <height>9</height>
+           <width>90</width>
+           <height>13</height>
           </rect>
          </property>
          <property name="minimumSize">
           <size>
-           <width>86</width>
-           <height>9</height>
+          <width>90</width>
+          <height>13</height>
           </size>
          </property>
          <property name="maximumSize">
           <size>
-           <width>86</width>
-           <height>9</height>
+          <width>90</width>
+          <height>13</height>
           </size>
          </property>
          <property name="alignment">
@@ -939,20 +939,20 @@ p, li { white-space: pre-wrap; }
           <rect>
            <x>50</x>
            <y>20</y>
-           <width>86</width>
-           <height>9</height>
+           <width>90</width>
+           <height>13</height>
           </rect>
          </property>
          <property name="minimumSize">
           <size>
-           <width>86</width>
-           <height>9</height>
+          <width>90</width>
+          <height>13</height>
           </size>
          </property>
          <property name="maximumSize">
           <size>
-           <width>86</width>
-           <height>9</height>
+          <width>90</width>
+          <height>13</height>
           </size>
          </property>
          <property name="alignment">
@@ -1247,22 +1247,22 @@ p, li { white-space: pre-wrap; }
         <widget class="MySetLabel" name="textLabel_Set5">
          <property name="geometry">
           <rect>
-           <x>60</x>
+           <x>56</x>
            <y>104</y>
-           <width>86</width>
-           <height>9</height>
+           <width>90</width>
+           <height>13</height>
           </rect>
          </property>
          <property name="minimumSize">
           <size>
-           <width>86</width>
-           <height>9</height>
+          <width>90</width>
+          <height>13</height>
           </size>
          </property>
          <property name="maximumSize">
           <size>
-           <width>86</width>
-           <height>9</height>
+          <width>90</width>
+          <height>13</height>
           </size>
          </property>
          <property name="alignment">
@@ -1274,20 +1274,20 @@ p, li { white-space: pre-wrap; }
           <rect>
            <x>50</x>
            <y>20</y>
-           <width>86</width>
-           <height>9</height>
+           <width>90</width>
+           <height>13</height>
           </rect>
          </property>
          <property name="minimumSize">
           <size>
-           <width>86</width>
-           <height>9</height>
+          <width>90</width>
+          <height>13</height>
           </size>
          </property>
          <property name="maximumSize">
           <size>
-           <width>86</width>
-           <height>9</height>
+          <width>90</width>
+          <height>13</height>
           </size>
          </property>
          <property name="alignment">
@@ -1582,22 +1582,22 @@ p, li { white-space: pre-wrap; }
         <widget class="MySetLabel" name="textLabel_Set6">
          <property name="geometry">
           <rect>
-           <x>60</x>
+           <x>56</x>
            <y>104</y>
-           <width>86</width>
-           <height>9</height>
+           <width>90</width>
+           <height>13</height>
           </rect>
          </property>
          <property name="minimumSize">
           <size>
-           <width>86</width>
-           <height>9</height>
+          <width>90</width>
+          <height>13</height>
           </size>
          </property>
          <property name="maximumSize">
           <size>
-           <width>86</width>
-           <height>9</height>
+          <width>90</width>
+          <height>13</height>
           </size>
          </property>
          <property name="alignment">
@@ -1609,20 +1609,20 @@ p, li { white-space: pre-wrap; }
           <rect>
            <x>50</x>
            <y>20</y>
-           <width>86</width>
-           <height>9</height>
+           <width>90</width>
+           <height>13</height>
           </rect>
          </property>
          <property name="minimumSize">
           <size>
-           <width>86</width>
-           <height>9</height>
+          <width>90</width>
+          <height>13</height>
           </size>
          </property>
          <property name="maximumSize">
           <size>
-           <width>86</width>
-           <height>9</height>
+          <width>90</width>
+          <height>13</height>
           </size>
          </property>
          <property name="alignment">
@@ -2001,22 +2001,22 @@ p, li { white-space: pre-wrap; }
         <widget class="MySetLabel" name="textLabel_Set7">
          <property name="geometry">
           <rect>
-           <x>60</x>
+           <x>56</x>
            <y>104</y>
-           <width>86</width>
-           <height>9</height>
+           <width>90</width>
+           <height>13</height>
           </rect>
          </property>
          <property name="minimumSize">
           <size>
-           <width>86</width>
-           <height>9</height>
+          <width>90</width>
+          <height>13</height>
           </size>
          </property>
          <property name="maximumSize">
           <size>
-           <width>86</width>
-           <height>9</height>
+          <width>90</width>
+          <height>13</height>
           </size>
          </property>
          <property name="alignment">
@@ -2028,20 +2028,20 @@ p, li { white-space: pre-wrap; }
           <rect>
            <x>50</x>
            <y>20</y>
-           <width>86</width>
-           <height>9</height>
+           <width>90</width>
+           <height>13</height>
           </rect>
          </property>
          <property name="minimumSize">
           <size>
-           <width>86</width>
-           <height>9</height>
+          <width>90</width>
+          <height>13</height>
           </size>
          </property>
          <property name="maximumSize">
           <size>
-           <width>86</width>
-           <height>9</height>
+          <width>90</width>
+          <height>13</height>
           </size>
          </property>
          <property name="alignment">
@@ -2349,22 +2349,22 @@ p, li { white-space: pre-wrap; }
         <widget class="MySetLabel" name="textLabel_Set8">
          <property name="geometry">
           <rect>
-           <x>60</x>
+           <x>56</x>
            <y>10</y>
-           <width>86</width>
-           <height>9</height>
+           <width>90</width>
+           <height>13</height>
           </rect>
          </property>
          <property name="minimumSize">
           <size>
-           <width>86</width>
-           <height>9</height>
+          <width>90</width>
+          <height>13</height>
           </size>
          </property>
          <property name="maximumSize">
           <size>
-           <width>86</width>
-           <height>9</height>
+          <width>90</width>
+          <height>13</height>
           </size>
          </property>
          <property name="alignment">
@@ -2376,20 +2376,20 @@ p, li { white-space: pre-wrap; }
           <rect>
            <x>50</x>
            <y>92</y>
-           <width>86</width>
-           <height>9</height>
+           <width>90</width>
+           <height>13</height>
           </rect>
          </property>
          <property name="minimumSize">
           <size>
-           <width>86</width>
-           <height>9</height>
+          <width>90</width>
+          <height>13</height>
           </size>
          </property>
          <property name="maximumSize">
           <size>
-           <width>86</width>
-           <height>9</height>
+          <width>90</width>
+          <height>13</height>
           </size>
          </property>
          <property name="alignment">
@@ -3190,22 +3190,22 @@ p, li { white-space: pre-wrap; }
         <widget class="MySetLabel" name="textLabel_Set1">
          <property name="geometry">
           <rect>
-           <x>60</x>
+           <x>56</x>
            <y>10</y>
-           <width>86</width>
-           <height>9</height>
+           <width>90</width>
+           <height>13</height>
           </rect>
          </property>
          <property name="minimumSize">
           <size>
-           <width>86</width>
-           <height>9</height>
+          <width>90</width>
+          <height>13</height>
           </size>
          </property>
          <property name="maximumSize">
           <size>
-           <width>86</width>
-           <height>9</height>
+          <width>90</width>
+          <height>13</height>
           </size>
          </property>
          <property name="alignment">
@@ -3217,20 +3217,20 @@ p, li { white-space: pre-wrap; }
           <rect>
            <x>50</x>
            <y>92</y>
-           <width>86</width>
-           <height>9</height>
+           <width>90</width>
+           <height>13</height>
           </rect>
          </property>
          <property name="minimumSize">
           <size>
-           <width>86</width>
-           <height>9</height>
+          <width>90</width>
+          <height>13</height>
           </size>
          </property>
          <property name="maximumSize">
           <size>
-           <width>86</width>
-           <height>9</height>
+          <width>90</width>
+          <height>13</height>
           </size>
          </property>
          <property name="alignment">
@@ -3525,22 +3525,22 @@ p, li { white-space: pre-wrap; }
         <widget class="MySetLabel" name="textLabel_Set0">
          <property name="geometry">
           <rect>
-           <x>60</x>
+           <x>56</x>
            <y>10</y>
-           <width>86</width>
-           <height>9</height>
+           <width>90</width>
+           <height>13</height>
           </rect>
          </property>
          <property name="minimumSize">
           <size>
-           <width>86</width>
-           <height>9</height>
+          <width>90</width>
+          <height>13</height>
           </size>
          </property>
          <property name="maximumSize">
           <size>
-           <width>86</width>
-           <height>9</height>
+          <width>90</width>
+          <height>13</height>
           </size>
          </property>
          <property name="alignment">
@@ -3552,20 +3552,20 @@ p, li { white-space: pre-wrap; }
           <rect>
            <x>50</x>
            <y>92</y>
-           <width>86</width>
-           <height>9</height>
+           <width>90</width>
+           <height>13</height>
           </rect>
          </property>
          <property name="minimumSize">
           <size>
-           <width>86</width>
-           <height>9</height>
+          <width>90</width>
+          <height>13</height>
           </size>
          </property>
          <property name="maximumSize">
           <size>
-           <width>86</width>
-           <height>9</height>
+          <width>90</width>
+          <height>13</height>
           </size>
          </property>
          <property name="layoutDirection">
@@ -3888,22 +3888,22 @@ p, li { white-space: pre-wrap; }
         <widget class="MySetLabel" name="textLabel_Set9">
          <property name="geometry">
           <rect>
-           <x>60</x>
+           <x>56</x>
            <y>10</y>
-           <width>86</width>
-           <height>9</height>
+           <width>90</width>
+           <height>13</height>
           </rect>
          </property>
          <property name="minimumSize">
           <size>
-           <width>86</width>
-           <height>9</height>
+          <width>90</width>
+          <height>13</height>
           </size>
          </property>
          <property name="maximumSize">
           <size>
-           <width>86</width>
-           <height>9</height>
+          <width>90</width>
+          <height>13</height>
           </size>
          </property>
          <property name="alignment">
@@ -3915,20 +3915,20 @@ p, li { white-space: pre-wrap; }
           <rect>
            <x>50</x>
            <y>92</y>
-           <width>86</width>
-           <height>9</height>
+           <width>90</width>
+           <height>13</height>
           </rect>
          </property>
          <property name="minimumSize">
           <size>
-           <width>86</width>
-           <height>9</height>
+          <width>90</width>
+          <height>13</height>
           </size>
          </property>
          <property name="maximumSize">
           <size>
-           <width>86</width>
-           <height>9</height>
+          <width>90</width>
+          <height>13</height>
           </size>
          </property>
          <property name="alignment">
