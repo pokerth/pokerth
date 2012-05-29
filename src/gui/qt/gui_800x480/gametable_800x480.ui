@@ -137,14 +137,14 @@
        <widget class="QGroupBox" name="groupBox3">
         <property name="minimumSize">
          <size>
-          <width>150</width>
-          <height>120</height>
+          <width>155</width>
+          <height>130</height>
          </size>
         </property>
         <property name="maximumSize">
          <size>
-          <width>150</width>
-          <height>120</height>
+          <width>155</width>
+          <height>130</height>
          </size>
         </property>
         <property name="title">
@@ -214,14 +214,14 @@
          </property>
          <property name="minimumSize">
           <size>
-          <width>90</width>
-          <height>13</height>
+           <width>90</width>
+           <height>13</height>
           </size>
          </property>
          <property name="maximumSize">
           <size>
-          <width>90</width>
-          <height>13</height>
+           <width>90</width>
+           <height>13</height>
           </size>
          </property>
          <property name="alignment">
@@ -286,20 +286,20 @@
           <rect>
            <x>68</x>
            <y>30</y>
-           <width>46</width>
-           <height>72</height>
+           <width>48</width>
+           <height>76</height>
           </rect>
          </property>
          <property name="minimumSize">
           <size>
-           <width>46</width>
-           <height>72</height>
+           <width>48</width>
+           <height>76</height>
           </size>
          </property>
          <property name="maximumSize">
           <size>
-           <width>46</width>
-           <height>72</height>
+           <width>48</width>
+           <height>76</height>
           </size>
          </property>
          <property name="scaledContents">
@@ -311,20 +311,20 @@
           <rect>
            <x>90</x>
            <y>30</y>
-           <width>46</width>
-           <height>72</height>
+           <width>48</width>
+           <height>76</height>
           </rect>
          </property>
          <property name="minimumSize">
           <size>
-           <width>46</width>
-           <height>72</height>
+           <width>48</width>
+           <height>76</height>
           </size>
          </property>
          <property name="maximumSize">
           <size>
-           <width>46</width>
-           <height>72</height>
+           <width>48</width>
+           <height>76</height>
           </size>
          </property>
          <property name="scaledContents">
@@ -485,14 +485,14 @@ p, li { white-space: pre-wrap; }
        <widget class="QGroupBox" name="groupBox2">
         <property name="minimumSize">
          <size>
-          <width>150</width>
-          <height>120</height>
+          <width>155</width>
+          <height>130</height>
          </size>
         </property>
         <property name="maximumSize">
          <size>
-          <width>150</width>
-          <height>120</height>
+          <width>155</width>
+          <height>130</height>
          </size>
         </property>
         <property name="title">
@@ -587,14 +587,14 @@ p, li { white-space: pre-wrap; }
          </property>
          <property name="minimumSize">
           <size>
-          <width>90</width>
-          <height>13</height>
+           <width>90</width>
+           <height>13</height>
           </size>
          </property>
          <property name="maximumSize">
           <size>
-          <width>90</width>
-          <height>13</height>
+           <width>90</width>
+           <height>13</height>
           </size>
          </property>
          <property name="alignment">
@@ -634,20 +634,20 @@ p, li { white-space: pre-wrap; }
           <rect>
            <x>68</x>
            <y>19</y>
-           <width>46</width>
-           <height>72</height>
+           <width>48</width>
+           <height>76</height>
           </rect>
          </property>
          <property name="minimumSize">
           <size>
-           <width>46</width>
-           <height>72</height>
+           <width>48</width>
+           <height>76</height>
           </size>
          </property>
          <property name="maximumSize">
           <size>
-           <width>46</width>
-           <height>72</height>
+           <width>48</width>
+           <height>76</height>
           </size>
          </property>
          <property name="scaledContents">
@@ -659,20 +659,20 @@ p, li { white-space: pre-wrap; }
           <rect>
            <x>90</x>
            <y>19</y>
-           <width>46</width>
-           <height>72</height>
+           <width>48</width>
+           <height>76</height>
           </rect>
          </property>
          <property name="minimumSize">
           <size>
-           <width>46</width>
-           <height>72</height>
+           <width>48</width>
+           <height>76</height>
           </size>
          </property>
          <property name="maximumSize">
           <size>
-           <width>46</width>
-           <height>72</height>
+           <width>48</width>
+           <height>76</height>
           </size>
          </property>
          <property name="scaledContents">
@@ -840,14 +840,14 @@ p, li { white-space: pre-wrap; }
        <widget class="QGroupBox" name="groupBox4">
         <property name="minimumSize">
          <size>
-          <width>150</width>
-          <height>120</height>
+          <width>155</width>
+          <height>130</height>
          </size>
         </property>
         <property name="maximumSize">
          <size>
-          <width>150</width>
-          <height>120</height>
+          <width>155</width>
+          <height>130</height>
          </size>
         </property>
         <property name="title">
@@ -920,14 +920,14 @@ p, li { white-space: pre-wrap; }
          </property>
          <property name="minimumSize">
           <size>
-          <width>90</width>
-          <height>13</height>
+           <width>90</width>
+           <height>13</height>
           </size>
          </property>
          <property name="maximumSize">
           <size>
-          <width>90</width>
-          <height>13</height>
+           <width>90</width>
+           <height>13</height>
           </size>
          </property>
          <property name="alignment">
@@ -945,14 +945,14 @@ p, li { white-space: pre-wrap; }
          </property>
          <property name="minimumSize">
           <size>
-          <width>90</width>
-          <height>13</height>
+           <width>90</width>
+           <height>13</height>
           </size>
          </property>
          <property name="maximumSize">
           <size>
-          <width>90</width>
-          <height>13</height>
+           <width>90</width>
+           <height>13</height>
           </size>
          </property>
          <property name="alignment">
@@ -992,20 +992,20 @@ p, li { white-space: pre-wrap; }
           <rect>
            <x>68</x>
            <y>30</y>
-           <width>46</width>
-           <height>72</height>
+           <width>48</width>
+           <height>76</height>
           </rect>
          </property>
          <property name="minimumSize">
           <size>
-           <width>46</width>
-           <height>72</height>
+           <width>48</width>
+           <height>76</height>
           </size>
          </property>
          <property name="maximumSize">
           <size>
-           <width>46</width>
-           <height>72</height>
+           <width>48</width>
+           <height>76</height>
           </size>
          </property>
          <property name="scaledContents">
@@ -1017,20 +1017,20 @@ p, li { white-space: pre-wrap; }
           <rect>
            <x>90</x>
            <y>30</y>
-           <width>46</width>
-           <height>72</height>
+           <width>48</width>
+           <height>76</height>
           </rect>
          </property>
          <property name="minimumSize">
           <size>
-           <width>46</width>
-           <height>72</height>
+           <width>48</width>
+           <height>76</height>
           </size>
          </property>
          <property name="maximumSize">
           <size>
-           <width>46</width>
-           <height>72</height>
+           <width>48</width>
+           <height>76</height>
           </size>
          </property>
          <property name="scaledContents">
@@ -1178,14 +1178,14 @@ p, li { white-space: pre-wrap; }
        <widget class="QGroupBox" name="groupBox5">
         <property name="minimumSize">
          <size>
-          <width>150</width>
-          <height>120</height>
+          <width>155</width>
+          <height>130</height>
          </size>
         </property>
         <property name="maximumSize">
          <size>
-          <width>150</width>
-          <height>120</height>
+          <width>155</width>
+          <height>130</height>
          </size>
         </property>
         <property name="title">
@@ -1255,14 +1255,14 @@ p, li { white-space: pre-wrap; }
          </property>
          <property name="minimumSize">
           <size>
-          <width>90</width>
-          <height>13</height>
+           <width>90</width>
+           <height>13</height>
           </size>
          </property>
          <property name="maximumSize">
           <size>
-          <width>90</width>
-          <height>13</height>
+           <width>90</width>
+           <height>13</height>
           </size>
          </property>
          <property name="alignment">
@@ -1280,14 +1280,14 @@ p, li { white-space: pre-wrap; }
          </property>
          <property name="minimumSize">
           <size>
-          <width>90</width>
-          <height>13</height>
+           <width>90</width>
+           <height>13</height>
           </size>
          </property>
          <property name="maximumSize">
           <size>
-          <width>90</width>
-          <height>13</height>
+           <width>90</width>
+           <height>13</height>
           </size>
          </property>
          <property name="alignment">
@@ -1327,20 +1327,20 @@ p, li { white-space: pre-wrap; }
           <rect>
            <x>68</x>
            <y>30</y>
-           <width>46</width>
-           <height>72</height>
+           <width>48</width>
+           <height>76</height>
           </rect>
          </property>
          <property name="minimumSize">
           <size>
-           <width>46</width>
-           <height>72</height>
+           <width>48</width>
+           <height>76</height>
           </size>
          </property>
          <property name="maximumSize">
           <size>
-           <width>46</width>
-           <height>72</height>
+           <width>48</width>
+           <height>76</height>
           </size>
          </property>
          <property name="scaledContents">
@@ -1352,20 +1352,20 @@ p, li { white-space: pre-wrap; }
           <rect>
            <x>90</x>
            <y>30</y>
-           <width>46</width>
-           <height>72</height>
+           <width>48</width>
+           <height>76</height>
           </rect>
          </property>
          <property name="minimumSize">
           <size>
-           <width>46</width>
-           <height>72</height>
+           <width>48</width>
+           <height>76</height>
           </size>
          </property>
          <property name="maximumSize">
           <size>
-           <width>46</width>
-           <height>72</height>
+           <width>48</width>
+           <height>76</height>
           </size>
          </property>
          <property name="scaledContents">
@@ -1513,14 +1513,14 @@ p, li { white-space: pre-wrap; }
        <widget class="QGroupBox" name="groupBox6">
         <property name="minimumSize">
          <size>
-          <width>150</width>
-          <height>120</height>
+          <width>155</width>
+          <height>130</height>
          </size>
         </property>
         <property name="maximumSize">
          <size>
-          <width>150</width>
-          <height>120</height>
+          <width>155</width>
+          <height>130</height>
          </size>
         </property>
         <property name="title">
@@ -1590,14 +1590,14 @@ p, li { white-space: pre-wrap; }
          </property>
          <property name="minimumSize">
           <size>
-          <width>90</width>
-          <height>13</height>
+           <width>90</width>
+           <height>13</height>
           </size>
          </property>
          <property name="maximumSize">
           <size>
-          <width>90</width>
-          <height>13</height>
+           <width>90</width>
+           <height>13</height>
           </size>
          </property>
          <property name="alignment">
@@ -1615,14 +1615,14 @@ p, li { white-space: pre-wrap; }
          </property>
          <property name="minimumSize">
           <size>
-          <width>90</width>
-          <height>13</height>
+           <width>90</width>
+           <height>13</height>
           </size>
          </property>
          <property name="maximumSize">
           <size>
-          <width>90</width>
-          <height>13</height>
+           <width>90</width>
+           <height>13</height>
           </size>
          </property>
          <property name="alignment">
@@ -1662,20 +1662,20 @@ p, li { white-space: pre-wrap; }
           <rect>
            <x>68</x>
            <y>30</y>
-           <width>46</width>
-           <height>72</height>
+           <width>48</width>
+           <height>76</height>
           </rect>
          </property>
          <property name="minimumSize">
           <size>
-           <width>46</width>
-           <height>72</height>
+           <width>48</width>
+           <height>76</height>
           </size>
          </property>
          <property name="maximumSize">
           <size>
-           <width>46</width>
-           <height>72</height>
+           <width>48</width>
+           <height>76</height>
           </size>
          </property>
          <property name="scaledContents">
@@ -1687,20 +1687,20 @@ p, li { white-space: pre-wrap; }
           <rect>
            <x>90</x>
            <y>30</y>
-           <width>46</width>
-           <height>72</height>
+           <width>48</width>
+           <height>76</height>
           </rect>
          </property>
          <property name="minimumSize">
           <size>
-           <width>46</width>
-           <height>72</height>
+           <width>48</width>
+           <height>76</height>
           </size>
          </property>
          <property name="maximumSize">
           <size>
-           <width>46</width>
-           <height>72</height>
+           <width>48</width>
+           <height>76</height>
           </size>
          </property>
          <property name="scaledContents">
@@ -1932,14 +1932,14 @@ p, li { white-space: pre-wrap; }
        <widget class="QGroupBox" name="groupBox7">
         <property name="minimumSize">
          <size>
-          <width>150</width>
-          <height>120</height>
+          <width>155</width>
+          <height>130</height>
          </size>
         </property>
         <property name="maximumSize">
          <size>
-          <width>150</width>
-          <height>120</height>
+          <width>155</width>
+          <height>130</height>
          </size>
         </property>
         <property name="title">
@@ -2009,14 +2009,14 @@ p, li { white-space: pre-wrap; }
          </property>
          <property name="minimumSize">
           <size>
-          <width>90</width>
-          <height>13</height>
+           <width>90</width>
+           <height>13</height>
           </size>
          </property>
          <property name="maximumSize">
           <size>
-          <width>90</width>
-          <height>13</height>
+           <width>90</width>
+           <height>13</height>
           </size>
          </property>
          <property name="alignment">
@@ -2034,14 +2034,14 @@ p, li { white-space: pre-wrap; }
          </property>
          <property name="minimumSize">
           <size>
-          <width>90</width>
-          <height>13</height>
+           <width>90</width>
+           <height>13</height>
           </size>
          </property>
          <property name="maximumSize">
           <size>
-          <width>90</width>
-          <height>13</height>
+           <width>90</width>
+           <height>13</height>
           </size>
          </property>
          <property name="alignment">
@@ -2081,20 +2081,20 @@ p, li { white-space: pre-wrap; }
           <rect>
            <x>68</x>
            <y>30</y>
-           <width>46</width>
-           <height>72</height>
+           <width>48</width>
+           <height>76</height>
           </rect>
          </property>
          <property name="minimumSize">
           <size>
-           <width>46</width>
-           <height>72</height>
+           <width>48</width>
+           <height>76</height>
           </size>
          </property>
          <property name="maximumSize">
           <size>
-           <width>46</width>
-           <height>72</height>
+           <width>48</width>
+           <height>76</height>
           </size>
          </property>
          <property name="scaledContents">
@@ -2106,20 +2106,20 @@ p, li { white-space: pre-wrap; }
           <rect>
            <x>90</x>
            <y>30</y>
-           <width>46</width>
-           <height>72</height>
+           <width>48</width>
+           <height>76</height>
           </rect>
          </property>
          <property name="minimumSize">
           <size>
-           <width>46</width>
-           <height>72</height>
+           <width>48</width>
+           <height>76</height>
           </size>
          </property>
          <property name="maximumSize">
           <size>
-           <width>46</width>
-           <height>72</height>
+           <width>48</width>
+           <height>76</height>
           </size>
          </property>
          <property name="scaledContents">
@@ -2280,14 +2280,14 @@ p, li { white-space: pre-wrap; }
        <widget class="QGroupBox" name="groupBox8">
         <property name="minimumSize">
          <size>
-          <width>150</width>
-          <height>120</height>
+          <width>155</width>
+          <height>130</height>
          </size>
         </property>
         <property name="maximumSize">
          <size>
-          <width>150</width>
-          <height>120</height>
+          <width>155</width>
+          <height>130</height>
          </size>
         </property>
         <property name="title">
@@ -2357,14 +2357,14 @@ p, li { white-space: pre-wrap; }
          </property>
          <property name="minimumSize">
           <size>
-          <width>90</width>
-          <height>13</height>
+           <width>90</width>
+           <height>13</height>
           </size>
          </property>
          <property name="maximumSize">
           <size>
-          <width>90</width>
-          <height>13</height>
+           <width>90</width>
+           <height>13</height>
           </size>
          </property>
          <property name="alignment">
@@ -2382,14 +2382,14 @@ p, li { white-space: pre-wrap; }
          </property>
          <property name="minimumSize">
           <size>
-          <width>90</width>
-          <height>13</height>
+           <width>90</width>
+           <height>13</height>
           </size>
          </property>
          <property name="maximumSize">
           <size>
-          <width>90</width>
-          <height>13</height>
+           <width>90</width>
+           <height>13</height>
           </size>
          </property>
          <property name="alignment">
@@ -2429,20 +2429,20 @@ p, li { white-space: pre-wrap; }
           <rect>
            <x>68</x>
            <y>19</y>
-           <width>46</width>
-           <height>72</height>
+           <width>48</width>
+           <height>76</height>
           </rect>
          </property>
          <property name="minimumSize">
           <size>
-           <width>46</width>
-           <height>72</height>
+           <width>48</width>
+           <height>76</height>
           </size>
          </property>
          <property name="maximumSize">
           <size>
-           <width>46</width>
-           <height>72</height>
+           <width>48</width>
+           <height>76</height>
           </size>
          </property>
          <property name="scaledContents">
@@ -2454,20 +2454,20 @@ p, li { white-space: pre-wrap; }
           <rect>
            <x>90</x>
            <y>19</y>
-           <width>46</width>
-           <height>72</height>
+           <width>48</width>
+           <height>76</height>
           </rect>
          </property>
          <property name="minimumSize">
           <size>
-           <width>46</width>
-           <height>72</height>
+           <width>48</width>
+           <height>76</height>
           </size>
          </property>
          <property name="maximumSize">
           <size>
-           <width>46</width>
-           <height>72</height>
+           <width>48</width>
+           <height>76</height>
           </size>
          </property>
          <property name="scaledContents">
@@ -2655,13 +2655,13 @@ p, li { white-space: pre-wrap; }
         <property name="minimumSize">
          <size>
           <width>390</width>
-          <height>100</height>
+          <height>73</height>
          </size>
         </property>
         <property name="maximumSize">
          <size>
           <width>390</width>
-          <height>100</height>
+          <height>73</height>
          </size>
         </property>
         <property name="styleSheet">
@@ -2679,13 +2679,13 @@ p, li { white-space: pre-wrap; }
            <property name="minimumSize">
             <size>
              <width>390</width>
-             <height>100</height>
+             <height>73</height>
             </size>
            </property>
            <property name="maximumSize">
             <size>
              <width>390</width>
-             <height>100</height>
+             <height>73</height>
             </size>
            </property>
            <widget class="MyCardsPixmapLabel" name="pixmapLabel_cardBoard4">
@@ -2693,20 +2693,20 @@ p, li { white-space: pre-wrap; }
              <rect>
               <x>326</x>
               <y>1</y>
-              <width>62</width>
-              <height>98</height>
+              <width>48</width>
+              <height>76</height>
              </rect>
             </property>
             <property name="minimumSize">
              <size>
-              <width>62</width>
-              <height>98</height>
+              <width>48</width>
+              <height>76</height>
              </size>
             </property>
             <property name="maximumSize">
              <size>
-              <width>62</width>
-              <height>98</height>
+              <width>48</width>
+              <height>76</height>
              </size>
             </property>
             <property name="scaledContents">
@@ -2718,20 +2718,20 @@ p, li { white-space: pre-wrap; }
              <rect>
               <x>83</x>
               <y>1</y>
-              <width>62</width>
-              <height>98</height>
+              <width>48</width>
+              <height>76</height>
              </rect>
             </property>
             <property name="minimumSize">
              <size>
-              <width>62</width>
-              <height>98</height>
+              <width>48</width>
+              <height>76</height>
              </size>
             </property>
             <property name="maximumSize">
              <size>
-              <width>62</width>
-              <height>98</height>
+              <width>48</width>
+              <height>76</height>
              </size>
             </property>
             <property name="scaledContents">
@@ -2743,20 +2743,20 @@ p, li { white-space: pre-wrap; }
              <rect>
               <x>81</x>
               <y>0</y>
-              <width>66</width>
-              <height>100</height>
+              <width>48</width>
+              <height>76</height>
              </rect>
             </property>
             <property name="minimumSize">
              <size>
-              <width>66</width>
-              <height>100</height>
+              <width>48</width>
+              <height>76</height>
              </size>
             </property>
             <property name="maximumSize">
              <size>
-              <width>66</width>
-              <height>100</height>
+              <width>48</width>
+              <height>76</height>
              </size>
             </property>
             <property name="scaledContents">
@@ -2768,20 +2768,20 @@ p, li { white-space: pre-wrap; }
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>66</width>
-              <height>100</height>
+              <width>48</width>
+              <height>76</height>
              </rect>
             </property>
             <property name="minimumSize">
              <size>
-              <width>66</width>
-              <height>100</height>
+              <width>48</width>
+              <height>76</height>
              </size>
             </property>
             <property name="maximumSize">
              <size>
-              <width>66</width>
-              <height>100</height>
+              <width>48</width>
+              <height>76</height>
              </size>
             </property>
             <property name="scaledContents">
@@ -2793,20 +2793,20 @@ p, li { white-space: pre-wrap; }
              <rect>
               <x>2</x>
               <y>1</y>
-              <width>62</width>
-              <height>98</height>
+              <width>48</width>
+              <height>76</height>
              </rect>
             </property>
             <property name="minimumSize">
              <size>
-              <width>62</width>
-              <height>98</height>
+              <width>48</width>
+              <height>76</height>
              </size>
             </property>
             <property name="maximumSize">
              <size>
-              <width>62</width>
-              <height>98</height>
+              <width>48</width>
+              <height>76</height>
              </size>
             </property>
             <property name="scaledContents">
@@ -2818,20 +2818,20 @@ p, li { white-space: pre-wrap; }
              <rect>
               <x>324</x>
               <y>0</y>
-              <width>66</width>
-              <height>100</height>
+              <width>48</width>
+              <height>76</height>
              </rect>
             </property>
             <property name="minimumSize">
              <size>
-              <width>66</width>
-              <height>100</height>
+              <width>48</width>
+              <height>76</height>
              </size>
             </property>
             <property name="maximumSize">
              <size>
-              <width>66</width>
-              <height>100</height>
+              <width>48</width>
+              <height>76</height>
              </size>
             </property>
             <property name="scaledContents">
@@ -2843,20 +2843,20 @@ p, li { white-space: pre-wrap; }
              <rect>
               <x>162</x>
               <y>0</y>
-              <width>66</width>
-              <height>100</height>
+              <width>48</width>
+              <height>76</height>
              </rect>
             </property>
             <property name="minimumSize">
              <size>
-              <width>66</width>
-              <height>100</height>
+              <width>48</width>
+              <height>76</height>
              </size>
             </property>
             <property name="maximumSize">
              <size>
-              <width>66</width>
-              <height>100</height>
+              <width>48</width>
+              <height>76</height>
              </size>
             </property>
             <property name="scaledContents">
@@ -2868,20 +2868,20 @@ p, li { white-space: pre-wrap; }
              <rect>
               <x>164</x>
               <y>1</y>
-              <width>62</width>
-              <height>98</height>
+              <width>48</width>
+              <height>76</height>
              </rect>
             </property>
             <property name="minimumSize">
              <size>
-              <width>62</width>
-              <height>98</height>
+              <width>48</width>
+              <height>76</height>
              </size>
             </property>
             <property name="maximumSize">
              <size>
-              <width>62</width>
-              <height>98</height>
+              <width>48</width>
+              <height>76</height>
              </size>
             </property>
             <property name="scaledContents">
@@ -2893,20 +2893,20 @@ p, li { white-space: pre-wrap; }
              <rect>
               <x>243</x>
               <y>0</y>
-              <width>66</width>
-              <height>100</height>
+              <width>48</width>
+              <height>76</height>
              </rect>
             </property>
             <property name="minimumSize">
              <size>
-              <width>66</width>
-              <height>100</height>
+              <width>48</width>
+              <height>76</height>
              </size>
             </property>
             <property name="maximumSize">
              <size>
-              <width>66</width>
-              <height>100</height>
+              <width>48</width>
+              <height>76</height>
              </size>
             </property>
             <property name="scaledContents">
@@ -2918,20 +2918,20 @@ p, li { white-space: pre-wrap; }
              <rect>
               <x>245</x>
               <y>1</y>
-              <width>62</width>
-              <height>98</height>
+              <width>48</width>
+              <height>76</height>
              </rect>
             </property>
             <property name="minimumSize">
              <size>
-              <width>62</width>
-              <height>98</height>
+              <width>48</width>
+              <height>76</height>
              </size>
             </property>
             <property name="maximumSize">
              <size>
-              <width>62</width>
-              <height>98</height>
+              <width>48</width>
+              <height>76</height>
              </size>
             </property>
             <property name="scaledContents">
@@ -3121,14 +3121,14 @@ p, li { white-space: pre-wrap; }
        <widget class="QGroupBox" name="groupBox1">
         <property name="minimumSize">
          <size>
-          <width>150</width>
-          <height>120</height>
+          <width>155</width>
+          <height>130</height>
          </size>
         </property>
         <property name="maximumSize">
          <size>
-          <width>150</width>
-          <height>120</height>
+          <width>155</width>
+          <height>130</height>
          </size>
         </property>
         <property name="title">
@@ -3198,14 +3198,14 @@ p, li { white-space: pre-wrap; }
          </property>
          <property name="minimumSize">
           <size>
-          <width>90</width>
-          <height>13</height>
+           <width>90</width>
+           <height>13</height>
           </size>
          </property>
          <property name="maximumSize">
           <size>
-          <width>90</width>
-          <height>13</height>
+           <width>90</width>
+           <height>13</height>
           </size>
          </property>
          <property name="alignment">
@@ -3223,14 +3223,14 @@ p, li { white-space: pre-wrap; }
          </property>
          <property name="minimumSize">
           <size>
-          <width>90</width>
-          <height>13</height>
+           <width>90</width>
+           <height>13</height>
           </size>
          </property>
          <property name="maximumSize">
           <size>
-          <width>90</width>
-          <height>13</height>
+           <width>90</width>
+           <height>13</height>
           </size>
          </property>
          <property name="alignment">
@@ -3270,20 +3270,20 @@ p, li { white-space: pre-wrap; }
           <rect>
            <x>68</x>
            <y>19</y>
-           <width>46</width>
-           <height>72</height>
+           <width>48</width>
+           <height>76</height>
           </rect>
          </property>
          <property name="minimumSize">
           <size>
-           <width>46</width>
-           <height>72</height>
+           <width>48</width>
+           <height>76</height>
           </size>
          </property>
          <property name="maximumSize">
           <size>
-           <width>46</width>
-           <height>72</height>
+           <width>48</width>
+           <height>76</height>
           </size>
          </property>
          <property name="scaledContents">
@@ -3295,20 +3295,20 @@ p, li { white-space: pre-wrap; }
           <rect>
            <x>90</x>
            <y>19</y>
-           <width>46</width>
-           <height>72</height>
+           <width>48</width>
+           <height>76</height>
           </rect>
          </property>
          <property name="minimumSize">
           <size>
-           <width>46</width>
-           <height>72</height>
+           <width>48</width>
+           <height>76</height>
           </size>
          </property>
          <property name="maximumSize">
           <size>
-           <width>46</width>
-           <height>72</height>
+           <width>48</width>
+           <height>76</height>
           </size>
          </property>
          <property name="scaledContents">
@@ -3456,14 +3456,14 @@ p, li { white-space: pre-wrap; }
        <widget class="QGroupBox" name="groupBox0">
         <property name="minimumSize">
          <size>
-          <width>150</width>
-          <height>120</height>
+          <width>155</width>
+          <height>130</height>
          </size>
         </property>
         <property name="maximumSize">
          <size>
-          <width>150</width>
-          <height>120</height>
+          <width>155</width>
+          <height>130</height>
          </size>
         </property>
         <property name="title">
@@ -3533,14 +3533,14 @@ p, li { white-space: pre-wrap; }
          </property>
          <property name="minimumSize">
           <size>
-          <width>90</width>
-          <height>13</height>
+           <width>90</width>
+           <height>13</height>
           </size>
          </property>
          <property name="maximumSize">
           <size>
-          <width>90</width>
-          <height>13</height>
+           <width>90</width>
+           <height>13</height>
           </size>
          </property>
          <property name="alignment">
@@ -3558,14 +3558,14 @@ p, li { white-space: pre-wrap; }
          </property>
          <property name="minimumSize">
           <size>
-          <width>90</width>
-          <height>13</height>
+           <width>90</width>
+           <height>13</height>
           </size>
          </property>
          <property name="maximumSize">
           <size>
-          <width>90</width>
-          <height>13</height>
+           <width>90</width>
+           <height>13</height>
           </size>
          </property>
          <property name="layoutDirection">
@@ -3608,20 +3608,20 @@ p, li { white-space: pre-wrap; }
           <rect>
            <x>68</x>
            <y>19</y>
-           <width>46</width>
-           <height>72</height>
+           <width>48</width>
+           <height>76</height>
           </rect>
          </property>
          <property name="minimumSize">
           <size>
-           <width>46</width>
-           <height>72</height>
+           <width>48</width>
+           <height>76</height>
           </size>
          </property>
          <property name="maximumSize">
           <size>
-           <width>46</width>
-           <height>72</height>
+           <width>48</width>
+           <height>76</height>
           </size>
          </property>
          <property name="scaledContents">
@@ -3633,20 +3633,20 @@ p, li { white-space: pre-wrap; }
           <rect>
            <x>90</x>
            <y>19</y>
-           <width>46</width>
-           <height>72</height>
+           <width>48</width>
+           <height>76</height>
           </rect>
          </property>
          <property name="minimumSize">
           <size>
-           <width>46</width>
-           <height>72</height>
+           <width>48</width>
+           <height>76</height>
           </size>
          </property>
          <property name="maximumSize">
           <size>
-           <width>46</width>
-           <height>72</height>
+           <width>48</width>
+           <height>76</height>
           </size>
          </property>
          <property name="scaledContents">
@@ -3819,14 +3819,14 @@ p, li { white-space: pre-wrap; }
        <widget class="QGroupBox" name="groupBox9">
         <property name="minimumSize">
          <size>
-          <width>150</width>
-          <height>120</height>
+          <width>155</width>
+          <height>130</height>
          </size>
         </property>
         <property name="maximumSize">
          <size>
-          <width>150</width>
-          <height>120</height>
+          <width>155</width>
+          <height>130</height>
          </size>
         </property>
         <property name="title">
@@ -3896,14 +3896,14 @@ p, li { white-space: pre-wrap; }
          </property>
          <property name="minimumSize">
           <size>
-          <width>90</width>
-          <height>13</height>
+           <width>90</width>
+           <height>13</height>
           </size>
          </property>
          <property name="maximumSize">
           <size>
-          <width>90</width>
-          <height>13</height>
+           <width>90</width>
+           <height>13</height>
           </size>
          </property>
          <property name="alignment">
@@ -3921,14 +3921,14 @@ p, li { white-space: pre-wrap; }
          </property>
          <property name="minimumSize">
           <size>
-          <width>90</width>
-          <height>13</height>
+           <width>90</width>
+           <height>13</height>
           </size>
          </property>
          <property name="maximumSize">
           <size>
-          <width>90</width>
-          <height>13</height>
+           <width>90</width>
+           <height>13</height>
           </size>
          </property>
          <property name="alignment">
@@ -3968,20 +3968,20 @@ p, li { white-space: pre-wrap; }
           <rect>
            <x>68</x>
            <y>19</y>
-           <width>46</width>
-           <height>72</height>
+           <width>48</width>
+           <height>76</height>
           </rect>
          </property>
          <property name="minimumSize">
           <size>
-           <width>46</width>
-           <height>72</height>
+           <width>48</width>
+           <height>76</height>
           </size>
          </property>
          <property name="maximumSize">
           <size>
-           <width>46</width>
-           <height>72</height>
+           <width>48</width>
+           <height>76</height>
           </size>
          </property>
          <property name="scaledContents">
@@ -3993,20 +3993,20 @@ p, li { white-space: pre-wrap; }
           <rect>
            <x>90</x>
            <y>19</y>
-           <width>46</width>
-           <height>72</height>
+           <width>48</width>
+           <height>76</height>
           </rect>
          </property>
          <property name="minimumSize">
           <size>
-           <width>46</width>
-           <height>72</height>
+           <width>48</width>
+           <height>76</height>
           </size>
          </property>
          <property name="maximumSize">
           <size>
-           <width>46</width>
-           <height>72</height>
+           <width>48</width>
+           <height>76</height>
           </size>
          </property>
          <property name="scaledContents">
