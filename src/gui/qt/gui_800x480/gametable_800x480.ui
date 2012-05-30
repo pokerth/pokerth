@@ -7,13 +7,13 @@
     <x>0</x>
     <y>0</y>
     <width>800</width>
-    <height>424</height>
+    <height>480</height>
    </rect>
   </property>
   <property name="minimumSize">
    <size>
     <width>800</width>
-    <height>424</height>
+    <height>480</height>
    </size>
   </property>
   <property name="maximumSize">
@@ -2655,13 +2655,13 @@ p, li { white-space: pre-wrap; }
         <property name="minimumSize">
          <size>
           <width>390</width>
-          <height>73</height>
+          <height>80</height>
          </size>
         </property>
         <property name="maximumSize">
          <size>
           <width>390</width>
-          <height>73</height>
+          <height>80</height>
          </size>
         </property>
         <property name="styleSheet">
@@ -2679,20 +2679,20 @@ p, li { white-space: pre-wrap; }
            <property name="minimumSize">
             <size>
              <width>390</width>
-             <height>73</height>
+             <height>80</height>
             </size>
            </property>
            <property name="maximumSize">
             <size>
              <width>390</width>
-             <height>73</height>
+             <height>80</height>
             </size>
            </property>
            <widget class="MyCardsPixmapLabel" name="pixmapLabel_cardBoard4">
             <property name="geometry">
              <rect>
               <x>326</x>
-              <y>1</y>
+              <y>2</y>
               <width>48</width>
               <height>76</height>
              </rect>
@@ -2717,7 +2717,7 @@ p, li { white-space: pre-wrap; }
             <property name="geometry">
              <rect>
               <x>83</x>
-              <y>1</y>
+              <y>2</y>
               <width>48</width>
               <height>76</height>
              </rect>
@@ -2743,20 +2743,20 @@ p, li { white-space: pre-wrap; }
              <rect>
               <x>81</x>
               <y>0</y>
-              <width>48</width>
-              <height>76</height>
+              <width>52</width>
+              <height>80</height>
              </rect>
             </property>
             <property name="minimumSize">
              <size>
-              <width>48</width>
-              <height>76</height>
+              <width>52</width>
+              <height>80</height>
              </size>
             </property>
             <property name="maximumSize">
              <size>
-              <width>48</width>
-              <height>76</height>
+              <width>52</width>
+              <height>80</height>
              </size>
             </property>
             <property name="scaledContents">
@@ -2768,20 +2768,20 @@ p, li { white-space: pre-wrap; }
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>48</width>
-              <height>76</height>
+              <width>52</width>
+              <height>80</height>
              </rect>
             </property>
             <property name="minimumSize">
              <size>
-              <width>48</width>
-              <height>76</height>
+              <width>52</width>
+              <height>80</height>
              </size>
             </property>
             <property name="maximumSize">
              <size>
-              <width>48</width>
-              <height>76</height>
+              <width>52</width>
+              <height>80</height>
              </size>
             </property>
             <property name="scaledContents">
@@ -2792,7 +2792,7 @@ p, li { white-space: pre-wrap; }
             <property name="geometry">
              <rect>
               <x>2</x>
-              <y>1</y>
+              <y>2</y>
               <width>48</width>
               <height>76</height>
              </rect>
@@ -2818,20 +2818,20 @@ p, li { white-space: pre-wrap; }
              <rect>
               <x>324</x>
               <y>0</y>
-              <width>48</width>
-              <height>76</height>
+              <width>52</width>
+              <height>80</height>
              </rect>
             </property>
             <property name="minimumSize">
              <size>
-              <width>48</width>
-              <height>76</height>
+              <width>52</width>
+              <height>80</height>
              </size>
             </property>
             <property name="maximumSize">
              <size>
-              <width>48</width>
-              <height>76</height>
+              <width>52</width>
+              <height>80</height>
              </size>
             </property>
             <property name="scaledContents">
@@ -2843,20 +2843,20 @@ p, li { white-space: pre-wrap; }
              <rect>
               <x>162</x>
               <y>0</y>
-              <width>48</width>
-              <height>76</height>
+              <width>52</width>
+              <height>80</height>
              </rect>
             </property>
             <property name="minimumSize">
              <size>
-              <width>48</width>
-              <height>76</height>
+              <width>52</width>
+              <height>80</height>
              </size>
             </property>
             <property name="maximumSize">
              <size>
-              <width>48</width>
-              <height>76</height>
+              <width>52</width>
+              <height>80</height>
              </size>
             </property>
             <property name="scaledContents">
@@ -2867,7 +2867,7 @@ p, li { white-space: pre-wrap; }
             <property name="geometry">
              <rect>
               <x>164</x>
-              <y>1</y>
+              <y>2</y>
               <width>48</width>
               <height>76</height>
              </rect>
@@ -2893,20 +2893,20 @@ p, li { white-space: pre-wrap; }
              <rect>
               <x>243</x>
               <y>0</y>
-              <width>48</width>
-              <height>76</height>
+              <width>52</width>
+              <height>80</height>
              </rect>
             </property>
             <property name="minimumSize">
              <size>
-              <width>48</width>
-              <height>76</height>
+              <width>52</width>
+              <height>80</height>
              </size>
             </property>
             <property name="maximumSize">
              <size>
-              <width>48</width>
-              <height>76</height>
+              <width>52</width>
+              <height>80</height>
              </size>
             </property>
             <property name="scaledContents">
@@ -2917,7 +2917,7 @@ p, li { white-space: pre-wrap; }
             <property name="geometry">
              <rect>
               <x>245</x>
-              <y>1</y>
+              <y>2</y>
               <width>48</width>
               <height>76</height>
              </rect>
