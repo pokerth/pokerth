@@ -938,13 +938,15 @@ ServerLobbyThread::HandlePacket(boost::shared_ptr<SessionData> session, boost::s
 					HandleNetPacketJoinGame(session, joinRequest->autoLeave, joinRequest->joinGameAction.choice.joinExistingGame);
 				else if (joinRequest->joinGameAction.present == joinGameAction_PR_rejoinExistingGame)
 					HandleNetPacketRejoinGame(session, joinRequest->autoLeave, joinRequest->joinGameAction.choice.rejoinExistingGame);
-			} else if (packet->GetMsg()->present == PokerTHMessage_PR_chatRequestMessage)
+			} else if (packet->GetMsg()->present == PokerTHMessage_PR_chatRequestMessage) {
 				HandleNetPacketChatRequest(session, packet->GetMsg()->choice.chatRequestMessage);
-			else if (packet->GetMsg()->present == PokerTHMessage_PR_rejectGameInvitationMessage)
+			} else if (packet->GetMsg()->present == PokerTHMessage_PR_rejectGameInvitationMessage) {
 				HandleNetPacketRejectGameInvitation(session, packet->GetMsg()->choice.rejectGameInvitationMessage);
-			else if (packet->GetMsg()->present == PokerTHMessage_PR_reportGameMessage)
+			} else if (packet->GetMsg()->present == PokerTHMessage_PR_reportGameMessage) {
 				HandleNetPacketReportGame(session, packet->GetMsg()->choice.reportGameMessage);
-			else
+			} else if (packet->GetMsg()->present == PokerTHMessage_PR_leaveGameRequestMessage) {
+				// Ignore "leave game" in this state.
+			} else
 				SessionError(session, ERR_SOCK_INVALID_STATE);
 		}
 	}
