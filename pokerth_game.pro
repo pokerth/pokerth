@@ -616,5 +616,6 @@ android{
 	INCLUDEPATH += src/third_party/sqlite3
 }
 
-
-
+maemo{
+    DEFINES += MAEMO
+}

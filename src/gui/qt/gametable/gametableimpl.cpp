@@ -127,6 +127,8 @@ gameTableImpl::gameTableImpl(ConfigFile *c, QMainWindow *parent)
 		tabWidget_Right->removeTab(2);
 		tabWidget_Right->setCurrentIndex(0);
 	}
+
+    textLabel_handLabel->hide();
 #endif
 
 	// userWidgetsArray init
@@ -856,15 +858,15 @@ void gameTableImpl::initGui(int speed)
 #ifndef GUI_800x480
 	label_Pot->setText(PotString);
 #endif
-	label_Total->setText(TotalString+":");
-	label_Sets->setText(BetsString+":");
+    label_Sets->setText(BetsString+":");
 	label_handNumber->setText(HandString+":");
 	label_gameNumber->setText(GameString+":");
-
 #ifdef GUI_800x480
+    label_Total->setText(":"+TotalString);
 	tabs.groupBox_RightToolBox->setDisabled(FALSE);
 	tabs.groupBox_LeftToolBox->setDisabled(FALSE);
 #else
+    label_Total->setText(TotalString+":");
 	groupBox_RightToolBox->setDisabled(FALSE);
 	groupBox_LeftToolBox->setDisabled(FALSE);
 #endif
@@ -4058,9 +4060,9 @@ void gameTableImpl::refreshGameTableStyle()
 		myGameTableStyle->setPlayerNameLabelStyle(playerNameLabelArray[i]);
 	}
 
-	myGameTableStyle->setSmallFontBoardStyle(label_Sets);
-	myGameTableStyle->setSmallFontBoardStyle(label_Total);
 #ifdef GUI_800x480
+    myGameTableStyle->setBigFontBoardStyle(label_Sets);
+    myGameTableStyle->setBigFontBoardStyle(label_Total);
 	myGameTableStyle->setBigFontBoardStyle(textLabel_Sets);
 	myGameTableStyle->setBigFontBoardStyle(textLabel_Pot);
 	myGameTableStyle->setBigFontBoardStyle(label_handNumber);
@@ -4069,6 +4071,8 @@ void gameTableImpl::refreshGameTableStyle()
 	myGameTableStyle->setBigFontBoardStyle(label_gameNumberValue);
 	myGameTableStyle->setBigFontBoardStyle(textLabel_handLabel);
 #else
+    myGameTableStyle->setSmallFontBoardStyle(label_Sets);
+    myGameTableStyle->setSmallFontBoardStyle(label_Total);
 	myGameTableStyle->setSmallFontBoardStyle(textLabel_Sets);
 	myGameTableStyle->setSmallFontBoardStyle(textLabel_Pot);
 	myGameTableStyle->setSmallFontBoardStyle(label_handNumber);
