@@ -46,10 +46,10 @@
      <RadioButtonCheckedHover value="radiobutton_checked_hover.png" /> <!-- optimal size width:height in px [13:13] -->
      <RadioButtonUnchecked value="radiobutton_unchecked.png" /> <!-- optimal size width:height in px [13:13] -->
      <RadioButtonUncheckedHover value="radiobutton_unchecked_hover.png" /> <!-- optimal size width:height in px [13:13] -->
-     <PlayerTopSeatInactive value="playerSeatInactive.png" />  <!-- optimal size width:height in px [190:142] -->
-     <PlayerTopSeatActive value="playerSeatActive.png" />  <!-- optimal size width:height in px [190:142] -->
-     <PlayerBottomSeatInactive value="playerSeatInactive.png" />  <!-- optimal size width:height in px [190:142] -->
-     <PlayerBottomSeatActive value="playerSeatActive.png" />  <!-- optimal size width:height in px [190:142] -->
+     <PlayerTopSeatInactive value="playerSeatInactiveTop.png" />  <!-- optimal size width:height in px [190:142] -->
+     <PlayerTopSeatActive value="playerSeatActiveTop.png" />  <!-- optimal size width:height in px [190:142] -->
+     <PlayerBottomSeatInactive value="playerSeatInactiveBottom.png" />  <!-- optimal size width:height in px [190:142] -->
+     <PlayerBottomSeatActive value="playerSeatActiveBottom.png" />  <!-- optimal size width:height in px [190:142] -->
      <Table value="table.png" /> <!-- minimal size width:height in px [1024:600] -->
      <ToolBoxBackground value="NULL" />  <!-- minimal size width:height in px [260:188] -->
      <HandRanking value="handranking.png" />  <!-- minimal size width:height in px [240:153] -->

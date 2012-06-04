@@ -138,13 +138,13 @@
         <property name="minimumSize">
          <size>
           <width>155</width>
-          <height>130</height>
+          <height>138</height>
          </size>
         </property>
         <property name="maximumSize">
          <size>
           <width>155</width>
-          <height>130</height>
+          <height>138</height>
          </size>
         </property>
         <property name="title">
@@ -486,13 +486,13 @@ p, li { white-space: pre-wrap; }
         <property name="minimumSize">
          <size>
           <width>155</width>
-          <height>130</height>
+          <height>138</height>
          </size>
         </property>
         <property name="maximumSize">
          <size>
           <width>155</width>
-          <height>130</height>
+          <height>138</height>
          </size>
         </property>
         <property name="title">
@@ -502,7 +502,7 @@ p, li { white-space: pre-wrap; }
          <property name="geometry">
           <rect>
            <x>12</x>
-           <y>46</y>
+           <y>64</y>
            <width>50</width>
            <height>50</height>
           </rect>
@@ -526,8 +526,8 @@ p, li { white-space: pre-wrap; }
         <widget class="MyNameLabel" name="label_PlayerName2">
          <property name="geometry">
           <rect>
-           <x>12</x>
-           <y>100</y>
+           <x>11</x>
+           <y>116</y>
            <width>136</width>
            <height>15</height>
           </rect>
@@ -554,22 +554,22 @@ p, li { white-space: pre-wrap; }
         <widget class="MySetLabel" name="textLabel_Set2">
          <property name="geometry">
           <rect>
-           <x>56</x>
-           <y>10</y>
-           <width>90</width>
-           <height>13</height>
+           <x>0</x>
+           <y>0</y>
+           <width>155</width>
+           <height>15</height>
           </rect>
          </property>
          <property name="minimumSize">
           <size>
-           <width>90</width>
-           <height>13</height>
+           <width>155</width>
+           <height>15</height>
           </size>
          </property>
          <property name="maximumSize">
           <size>
-           <width>90</width>
-           <height>13</height>
+           <width>155</width>
+           <height>15</height>
           </size>
          </property>
          <property name="alignment">
@@ -579,22 +579,22 @@ p, li { white-space: pre-wrap; }
         <widget class="MyCashLabel" name="textLabel_Cash2">
          <property name="geometry">
           <rect>
-           <x>50</x>
-           <y>92</y>
+           <x>56</x>
+           <y>101</y>
            <width>90</width>
-           <height>13</height>
+           <height>15</height>
           </rect>
          </property>
          <property name="minimumSize">
           <size>
            <width>90</width>
-           <height>13</height>
+           <height>15</height>
           </size>
          </property>
          <property name="maximumSize">
           <size>
            <width>90</width>
-           <height>13</height>
+           <height>15</height>
           </size>
          </property>
          <property name="alignment">
@@ -604,8 +604,8 @@ p, li { white-space: pre-wrap; }
         <widget class="QLabel" name="textLabel_Button2">
          <property name="geometry">
           <rect>
-           <x>21</x>
-           <y>7</y>
+           <x>23</x>
+           <y>25</y>
            <width>28</width>
            <height>28</height>
           </rect>
@@ -632,8 +632,8 @@ p, li { white-space: pre-wrap; }
         <widget class="MyCardsPixmapLabel" name="pixmapLabel_card2a">
          <property name="geometry">
           <rect>
-           <x>68</x>
-           <y>19</y>
+           <x>71</x>
+           <y>24</y>
            <width>48</width>
            <height>76</height>
           </rect>
@@ -657,8 +657,8 @@ p, li { white-space: pre-wrap; }
         <widget class="MyCardsPixmapLabel" name="pixmapLabel_card2b">
          <property name="geometry">
           <rect>
-           <x>90</x>
-           <y>19</y>
+           <x>95</x>
+           <y>25</y>
            <width>48</width>
            <height>76</height>
           </rect>
@@ -682,8 +682,8 @@ p, li { white-space: pre-wrap; }
         <widget class="MyStatusLabel" name="textLabel_Status2">
          <property name="geometry">
           <rect>
-           <x>52</x>
-           <y>35</y>
+           <x>57</x>
+           <y>56</y>
            <width>100</width>
            <height>40</height>
           </rect>
@@ -711,7 +711,7 @@ p, li { white-space: pre-wrap; }
          <property name="geometry">
           <rect>
            <x>12</x>
-           <y>37</y>
+           <y>55</y>
            <width>50</width>
            <height>7</height>
           </rect>
@@ -841,13 +841,13 @@ p, li { white-space: pre-wrap; }
         <property name="minimumSize">
          <size>
           <width>155</width>
-          <height>130</height>
+          <height>138</height>
          </size>
         </property>
         <property name="maximumSize">
          <size>
           <width>155</width>
-          <height>130</height>
+          <height>138</height>
          </size>
         </property>
         <property name="title">
@@ -1179,13 +1179,13 @@ p, li { white-space: pre-wrap; }
         <property name="minimumSize">
          <size>
           <width>155</width>
-          <height>130</height>
+          <height>138</height>
          </size>
         </property>
         <property name="maximumSize">
          <size>
           <width>155</width>
-          <height>130</height>
+          <height>138</height>
          </size>
         </property>
         <property name="title">
@@ -1514,13 +1514,13 @@ p, li { white-space: pre-wrap; }
         <property name="minimumSize">
          <size>
           <width>155</width>
-          <height>130</height>
+          <height>138</height>
          </size>
         </property>
         <property name="maximumSize">
          <size>
           <width>155</width>
-          <height>130</height>
+          <height>138</height>
          </size>
         </property>
         <property name="title">
@@ -1933,13 +1933,13 @@ p, li { white-space: pre-wrap; }
         <property name="minimumSize">
          <size>
           <width>155</width>
-          <height>130</height>
+          <height>138</height>
          </size>
         </property>
         <property name="maximumSize">
          <size>
           <width>155</width>
-          <height>130</height>
+          <height>138</height>
          </size>
         </property>
         <property name="title">
@@ -2281,13 +2281,13 @@ p, li { white-space: pre-wrap; }
         <property name="minimumSize">
          <size>
           <width>155</width>
-          <height>130</height>
+          <height>138</height>
          </size>
         </property>
         <property name="maximumSize">
          <size>
           <width>155</width>
-          <height>130</height>
+          <height>138</height>
          </size>
         </property>
         <property name="title">
@@ -2297,7 +2297,7 @@ p, li { white-space: pre-wrap; }
          <property name="geometry">
           <rect>
            <x>12</x>
-           <y>46</y>
+           <y>64</y>
            <width>50</width>
            <height>50</height>
           </rect>
@@ -2321,8 +2321,8 @@ p, li { white-space: pre-wrap; }
         <widget class="MyNameLabel" name="label_PlayerName8">
          <property name="geometry">
           <rect>
-           <x>12</x>
-           <y>100</y>
+           <x>11</x>
+           <y>116</y>
            <width>136</width>
            <height>15</height>
           </rect>
@@ -2349,22 +2349,22 @@ p, li { white-space: pre-wrap; }
         <widget class="MySetLabel" name="textLabel_Set8">
          <property name="geometry">
           <rect>
-           <x>56</x>
-           <y>10</y>
-           <width>90</width>
-           <height>13</height>
+           <x>0</x>
+           <y>0</y>
+           <width>155</width>
+           <height>15</height>
           </rect>
          </property>
          <property name="minimumSize">
           <size>
-           <width>90</width>
-           <height>13</height>
+           <width>155</width>
+           <height>15</height>
           </size>
          </property>
          <property name="maximumSize">
           <size>
-           <width>90</width>
-           <height>13</height>
+           <width>155</width>
+           <height>15</height>
           </size>
          </property>
          <property name="alignment">
@@ -2374,22 +2374,22 @@ p, li { white-space: pre-wrap; }
         <widget class="MyCashLabel" name="textLabel_Cash8">
          <property name="geometry">
           <rect>
-           <x>50</x>
-           <y>92</y>
+           <x>56</x>
+           <y>101</y>
            <width>90</width>
-           <height>13</height>
+           <height>15</height>
           </rect>
          </property>
          <property name="minimumSize">
           <size>
            <width>90</width>
-           <height>13</height>
+           <height>15</height>
           </size>
          </property>
          <property name="maximumSize">
           <size>
            <width>90</width>
-           <height>13</height>
+           <height>15</height>
           </size>
          </property>
          <property name="alignment">
@@ -2399,8 +2399,8 @@ p, li { white-space: pre-wrap; }
         <widget class="QLabel" name="textLabel_Button8">
          <property name="geometry">
           <rect>
-           <x>21</x>
-           <y>7</y>
+           <x>23</x>
+           <y>25</y>
            <width>28</width>
            <height>28</height>
           </rect>
@@ -2427,8 +2427,8 @@ p, li { white-space: pre-wrap; }
         <widget class="MyCardsPixmapLabel" name="pixmapLabel_card8a">
          <property name="geometry">
           <rect>
-           <x>68</x>
-           <y>19</y>
+           <x>71</x>
+           <y>24</y>
            <width>48</width>
            <height>76</height>
           </rect>
@@ -2452,8 +2452,8 @@ p, li { white-space: pre-wrap; }
         <widget class="MyCardsPixmapLabel" name="pixmapLabel_card8b">
          <property name="geometry">
           <rect>
-           <x>90</x>
-           <y>19</y>
+           <x>95</x>
+           <y>25</y>
            <width>48</width>
            <height>76</height>
           </rect>
@@ -2477,8 +2477,8 @@ p, li { white-space: pre-wrap; }
         <widget class="MyStatusLabel" name="textLabel_Status8">
          <property name="geometry">
           <rect>
-           <x>52</x>
-           <y>35</y>
+           <x>57</x>
+           <y>56</y>
            <width>100</width>
            <height>40</height>
           </rect>
@@ -2506,7 +2506,7 @@ p, li { white-space: pre-wrap; }
          <property name="geometry">
           <rect>
            <x>12</x>
-           <y>37</y>
+           <y>55</y>
            <width>50</width>
            <height>7</height>
           </rect>
@@ -3128,13 +3128,13 @@ p, li { white-space: pre-wrap; }
         <property name="minimumSize">
          <size>
           <width>155</width>
-          <height>130</height>
+          <height>138</height>
          </size>
         </property>
         <property name="maximumSize">
          <size>
           <width>155</width>
-          <height>130</height>
+          <height>138</height>
          </size>
         </property>
         <property name="title">
@@ -3144,7 +3144,7 @@ p, li { white-space: pre-wrap; }
          <property name="geometry">
           <rect>
            <x>12</x>
-           <y>46</y>
+           <y>64</y>
            <width>50</width>
            <height>50</height>
           </rect>
@@ -3168,8 +3168,8 @@ p, li { white-space: pre-wrap; }
         <widget class="MyNameLabel" name="label_PlayerName1">
          <property name="geometry">
           <rect>
-           <x>12</x>
-           <y>100</y>
+           <x>11</x>
+           <y>116</y>
            <width>136</width>
            <height>15</height>
           </rect>
@@ -3196,22 +3196,22 @@ p, li { white-space: pre-wrap; }
         <widget class="MySetLabel" name="textLabel_Set1">
          <property name="geometry">
           <rect>
-           <x>56</x>
-           <y>10</y>
-           <width>90</width>
-           <height>13</height>
+           <x>0</x>
+           <y>0</y>
+           <width>155</width>
+           <height>15</height>
           </rect>
          </property>
          <property name="minimumSize">
           <size>
-           <width>90</width>
-           <height>13</height>
+           <width>155</width>
+           <height>15</height>
           </size>
          </property>
          <property name="maximumSize">
           <size>
-           <width>90</width>
-           <height>13</height>
+           <width>155</width>
+           <height>15</height>
           </size>
          </property>
          <property name="alignment">
@@ -3221,22 +3221,22 @@ p, li { white-space: pre-wrap; }
         <widget class="MyCashLabel" name="textLabel_Cash1">
          <property name="geometry">
           <rect>
-           <x>50</x>
-           <y>92</y>
+           <x>56</x>
+           <y>101</y>
            <width>90</width>
-           <height>13</height>
+           <height>15</height>
           </rect>
          </property>
          <property name="minimumSize">
           <size>
            <width>90</width>
-           <height>13</height>
+           <height>15</height>
           </size>
          </property>
          <property name="maximumSize">
           <size>
            <width>90</width>
-           <height>13</height>
+           <height>15</height>
           </size>
          </property>
          <property name="alignment">
@@ -3246,8 +3246,8 @@ p, li { white-space: pre-wrap; }
         <widget class="QLabel" name="textLabel_Button1">
          <property name="geometry">
           <rect>
-           <x>21</x>
-           <y>7</y>
+           <x>23</x>
+           <y>25</y>
            <width>28</width>
            <height>28</height>
           </rect>
@@ -3274,8 +3274,8 @@ p, li { white-space: pre-wrap; }
         <widget class="MyCardsPixmapLabel" name="pixmapLabel_card1a">
          <property name="geometry">
           <rect>
-           <x>68</x>
-           <y>19</y>
+           <x>71</x>
+           <y>24</y>
            <width>48</width>
            <height>76</height>
           </rect>
@@ -3299,8 +3299,8 @@ p, li { white-space: pre-wrap; }
         <widget class="MyCardsPixmapLabel" name="pixmapLabel_card1b">
          <property name="geometry">
           <rect>
-           <x>90</x>
-           <y>19</y>
+           <x>95</x>
+           <y>25</y>
            <width>48</width>
            <height>76</height>
           </rect>
@@ -3324,8 +3324,8 @@ p, li { white-space: pre-wrap; }
         <widget class="MyStatusLabel" name="textLabel_Status1">
          <property name="geometry">
           <rect>
-           <x>52</x>
-           <y>35</y>
+           <x>57</x>
+           <y>56</y>
            <width>100</width>
            <height>40</height>
           </rect>
@@ -3353,7 +3353,7 @@ p, li { white-space: pre-wrap; }
          <property name="geometry">
           <rect>
            <x>12</x>
-           <y>37</y>
+           <y>55</y>
            <width>50</width>
            <height>7</height>
           </rect>
@@ -3463,13 +3463,13 @@ p, li { white-space: pre-wrap; }
         <property name="minimumSize">
          <size>
           <width>155</width>
-          <height>130</height>
+          <height>138</height>
          </size>
         </property>
         <property name="maximumSize">
          <size>
           <width>155</width>
-          <height>130</height>
+          <height>138</height>
          </size>
         </property>
         <property name="title">
@@ -3479,7 +3479,7 @@ p, li { white-space: pre-wrap; }
          <property name="geometry">
           <rect>
            <x>12</x>
-           <y>48</y>
+           <y>64</y>
            <width>50</width>
            <height>50</height>
           </rect>
@@ -3503,8 +3503,8 @@ p, li { white-space: pre-wrap; }
         <widget class="MyNameLabel" name="label_PlayerName0">
          <property name="geometry">
           <rect>
-           <x>12</x>
-           <y>107</y>
+           <x>11</x>
+           <y>116</y>
            <width>136</width>
            <height>15</height>
           </rect>
@@ -3531,47 +3531,47 @@ p, li { white-space: pre-wrap; }
         <widget class="MySetLabel" name="textLabel_Set0">
          <property name="geometry">
           <rect>
-           <x>58</x>
-           <y>8</y>
-           <width>90</width>
-           <height>13</height>
+           <x>0</x>
+           <y>0</y>
+           <width>155</width>
+           <height>15</height>
           </rect>
          </property>
          <property name="minimumSize">
           <size>
-           <width>90</width>
-           <height>13</height>
+           <width>155</width>
+           <height>15</height>
           </size>
          </property>
          <property name="maximumSize">
           <size>
-           <width>90</width>
-           <height>13</height>
+           <width>155</width>
+           <height>15</height>
           </size>
          </property>
          <property name="alignment">
-          <set>Qt::AlignCenter</set>
+          <set>Qt::AlignHCenter|Qt::AlignTop</set>
          </property>
         </widget>
         <widget class="MyCashLabel" name="textLabel_Cash0">
          <property name="geometry">
           <rect>
-           <x>48</x>
-           <y>96</y>
+           <x>56</x>
+           <y>101</y>
            <width>90</width>
-           <height>13</height>
+           <height>15</height>
           </rect>
          </property>
          <property name="minimumSize">
           <size>
            <width>90</width>
-           <height>13</height>
+           <height>15</height>
           </size>
          </property>
          <property name="maximumSize">
           <size>
            <width>90</width>
-           <height>13</height>
+           <height>15</height>
           </size>
          </property>
          <property name="layoutDirection">
@@ -3584,8 +3584,8 @@ p, li { white-space: pre-wrap; }
         <widget class="QLabel" name="textLabel_Button0">
          <property name="geometry">
           <rect>
-           <x>21</x>
-           <y>12</y>
+           <x>23</x>
+           <y>25</y>
            <width>28</width>
            <height>28</height>
           </rect>
@@ -3612,8 +3612,8 @@ p, li { white-space: pre-wrap; }
         <widget class="MyCardsPixmapLabel" name="pixmapLabel_card0a">
          <property name="geometry">
           <rect>
-           <x>68</x>
-           <y>21</y>
+           <x>71</x>
+           <y>24</y>
            <width>48</width>
            <height>76</height>
           </rect>
@@ -3637,8 +3637,8 @@ p, li { white-space: pre-wrap; }
         <widget class="MyCardsPixmapLabel" name="pixmapLabel_card0b">
          <property name="geometry">
           <rect>
-           <x>90</x>
-           <y>21</y>
+           <x>95</x>
+           <y>25</y>
            <width>48</width>
            <height>76</height>
           </rect>
@@ -3662,8 +3662,8 @@ p, li { white-space: pre-wrap; }
         <widget class="MyStatusLabel" name="textLabel_Status0">
          <property name="geometry">
           <rect>
-           <x>52</x>
-           <y>35</y>
+           <x>57</x>
+           <y>56</y>
            <width>100</width>
            <height>40</height>
           </rect>
@@ -3680,9 +3680,6 @@ p, li { white-space: pre-wrap; }
            <height>40</height>
           </size>
          </property>
-         <property name="text">
-          <string/>
-         </property>
          <property name="alignment">
           <set>Qt::AlignCenter</set>
          </property>
@@ -3691,7 +3688,7 @@ p, li { white-space: pre-wrap; }
          <property name="geometry">
           <rect>
            <x>12</x>
-           <y>37</y>
+           <y>55</y>
            <width>50</width>
            <height>7</height>
           </rect>
@@ -3715,8 +3712,8 @@ p, li { white-space: pre-wrap; }
         <widget class="MyActionButton" name="pushButton_showMyCards">
          <property name="geometry">
           <rect>
-           <x>61</x>
-           <y>42</y>
+           <x>68</x>
+           <y>64</y>
            <width>80</width>
            <height>25</height>
           </rect>
@@ -3826,13 +3823,13 @@ p, li { white-space: pre-wrap; }
         <property name="minimumSize">
          <size>
           <width>155</width>
-          <height>130</height>
+          <height>138</height>
          </size>
         </property>
         <property name="maximumSize">
          <size>
           <width>155</width>
-          <height>130</height>
+          <height>138</height>
          </size>
         </property>
         <property name="title">
@@ -3842,7 +3839,7 @@ p, li { white-space: pre-wrap; }
          <property name="geometry">
           <rect>
            <x>12</x>
-           <y>46</y>
+           <y>64</y>
            <width>50</width>
            <height>50</height>
           </rect>
@@ -3866,8 +3863,8 @@ p, li { white-space: pre-wrap; }
         <widget class="MyNameLabel" name="label_PlayerName9">
          <property name="geometry">
           <rect>
-           <x>12</x>
-           <y>100</y>
+           <x>11</x>
+           <y>116</y>
            <width>136</width>
            <height>15</height>
           </rect>
@@ -3894,21 +3891,21 @@ p, li { white-space: pre-wrap; }
         <widget class="MySetLabel" name="textLabel_Set9">
          <property name="geometry">
           <rect>
-           <x>56</x>
-           <y>10</y>
-           <width>90</width>
-           <height>13</height>
+           <x>0</x>
+           <y>0</y>
+           <width>155</width>
+           <height>15</height>
           </rect>
          </property>
          <property name="minimumSize">
           <size>
-           <width>90</width>
-           <height>13</height>
+           <width>155</width>
+           <height>15</height>
           </size>
          </property>
          <property name="maximumSize">
           <size>
-           <width>90</width>
+           <width>155</width>
            <height>13</height>
           </size>
          </property>
@@ -3919,22 +3916,22 @@ p, li { white-space: pre-wrap; }
         <widget class="MyCashLabel" name="textLabel_Cash9">
          <property name="geometry">
           <rect>
-           <x>50</x>
-           <y>92</y>
+           <x>56</x>
+           <y>101</y>
            <width>90</width>
-           <height>13</height>
+           <height>15</height>
           </rect>
          </property>
          <property name="minimumSize">
           <size>
            <width>90</width>
-           <height>13</height>
+           <height>15</height>
           </size>
          </property>
          <property name="maximumSize">
           <size>
            <width>90</width>
-           <height>13</height>
+           <height>15</height>
           </size>
          </property>
          <property name="alignment">
@@ -3944,8 +3941,8 @@ p, li { white-space: pre-wrap; }
         <widget class="QLabel" name="textLabel_Button9">
          <property name="geometry">
           <rect>
-           <x>21</x>
-           <y>7</y>
+           <x>23</x>
+           <y>25</y>
            <width>28</width>
            <height>28</height>
           </rect>
@@ -3972,8 +3969,8 @@ p, li { white-space: pre-wrap; }
         <widget class="MyCardsPixmapLabel" name="pixmapLabel_card9a">
          <property name="geometry">
           <rect>
-           <x>68</x>
-           <y>19</y>
+           <x>71</x>
+           <y>24</y>
            <width>48</width>
            <height>76</height>
           </rect>
@@ -3997,8 +3994,8 @@ p, li { white-space: pre-wrap; }
         <widget class="MyCardsPixmapLabel" name="pixmapLabel_card9b">
          <property name="geometry">
           <rect>
-           <x>90</x>
-           <y>19</y>
+           <x>95</x>
+           <y>25</y>
            <width>48</width>
            <height>76</height>
           </rect>
@@ -4022,8 +4019,8 @@ p, li { white-space: pre-wrap; }
         <widget class="MyStatusLabel" name="textLabel_Status9">
          <property name="geometry">
           <rect>
-           <x>52</x>
-           <y>35</y>
+           <x>57</x>
+           <y>56</y>
            <width>100</width>
            <height>40</height>
           </rect>
@@ -4051,7 +4048,7 @@ p, li { white-space: pre-wrap; }
          <property name="geometry">
           <rect>
            <x>12</x>
-           <y>37</y>
+           <y>55</y>
            <width>50</width>
            <height>7</height>
           </rect>

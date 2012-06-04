@@ -400,8 +400,6 @@
         <file>android-data/gfx/gui/table/default_800x480/playeraction_red_checked.png</file>
         <file>android-data/gfx/gui/table/default_800x480/playeraction_red_hover.png</file>
         <file>android-data/gfx/gui/table/default_800x480/playeraction_red.png</file>
-        <file>android-data/gfx/gui/table/default_800x480/playerSeatActive.png</file>
-        <file>android-data/gfx/gui/table/default_800x480/playerSeatInactive.png</file>
         <file>android-data/gfx/gui/table/default_800x480/preview.png</file>
         <file>android-data/gfx/gui/table/default_800x480/radiobutton_checked_hover.png</file>
         <file>android-data/gfx/gui/table/default_800x480/radiobutton_checked.png</file>
@@ -539,5 +537,9 @@
         <file>android-data/misc/agpl.html</file>
         <file>android-data/gfx/gui/table/default_800x480/android_tablestyle_800x480.xml</file>
         <file>android-data/gfx/gui/table/default_800x480/table_dark.png</file>
+        <file>android-data/gfx/gui/table/default_800x480/playerSeatInactiveBottom.png</file>
+        <file>android-data/gfx/gui/table/default_800x480/playerSeatInactiveTop.png</file>
+        <file>android-data/gfx/gui/table/default_800x480/playerSeatActiveBottom.png</file>
+        <file>android-data/gfx/gui/table/default_800x480/playerSeatActiveTop.png</file>
     </qresource>
 </RCC>
