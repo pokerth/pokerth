@@ -95,8 +95,8 @@ gameTableImpl::gameTableImpl(ConfigFile *c, QMainWindow *parent)
 #ifdef GUI_800x480
 	tabsDiag = new QDialog(this);
     tabs.setupUi(tabsDiag);
+	textLabel_handLabel->hide();
 #ifdef ANDROID
-        textLabel_handLabel->hide();
         tabsDiag->setStyleSheet("QObject { font: 26px; } QDialog { background-image: url(:/android/android-data/gfx/gui/table/default_800x480/table_dark.png); background-position: bottom center; background-origin: content;  background-repeat: no-repeat;}");
 #endif
 	tabs.label_chance->setMyStyle(myGameTableStyle);

@@ -56,8 +56,8 @@ GameTableStyleReader::GameTableStyleReader(ConfigFile *c, QWidget *w)
     tabBarPaddingTop = "0";
     tabBarPaddingSide = "9";
     textBrowserFontsize= "10";
-    cashFontSize = "10";
-    setLabelFontSize = "10";
+	cashFontSize = "12";
+	setLabelFontSize = "13";
     playerNameLabelFontSize = "11";
     smallBoardFontSize = "13";
     bigBoardFontSize = "17";

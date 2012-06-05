@@ -57,6 +57,19 @@
        <number>0</number>
       </property>
       <item>
+       <spacer name="verticalSpacer_11">
+        <property name="orientation">
+         <enum>Qt::Vertical</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>20</width>
+          <height>13</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item>
        <layout class="QHBoxLayout" name="horizontalLayout_10">
         <property name="spacing">
          <number>5</number>
@@ -71,7 +84,7 @@
          <number>5</number>
         </property>
         <item>
-         <widget class="QLabel" name="label_handNumber">
+         <widget class="QLabel" name="label_gameNumber">
           <property name="minimumSize">
            <size>
             <width>60</width>
@@ -79,7 +92,7 @@
            </size>
           </property>
           <property name="styleSheet">
-           <string notr="true">QObject {font: bold 20px}</string>
+           <string notr="true">QLabel {font: bold 20px}</string>
           </property>
           <property name="alignment">
            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -87,7 +100,7 @@
          </widget>
         </item>
         <item>
-         <widget class="QLabel" name="label_handNumberValue">
+         <widget class="QLabel" name="label_gameNumberValue">
           <property name="minimumSize">
            <size>
             <width>60</width>
@@ -95,7 +108,7 @@
            </size>
           </property>
           <property name="styleSheet">
-           <string notr="true">QObject {font: bold 20px}</string>
+           <string notr="true">QLabel {font: bold 20px}</string>
           </property>
           <property name="text">
            <string/>
@@ -115,7 +128,7 @@
         <property name="sizeHint" stdset="0">
          <size>
           <width>20</width>
-          <height>17</height>
+          <height>13</height>
          </size>
         </property>
        </spacer>
@@ -804,6 +817,42 @@ p, li { white-space: pre-wrap; }
        </widget>
       </item>
       <item>
+       <spacer name="verticalSpacer_9">
+        <property name="orientation">
+         <enum>Qt::Vertical</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>20</width>
+          <height>13</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout">
+        <item>
+         <widget class="QLabel" name="label_spacer_left">
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+            <height>19</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>16777215</width>
+            <height>19</height>
+           </size>
+          </property>
+          <property name="text">
+           <string/>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item>
        <spacer name="verticalSpacer_4">
         <property name="orientation">
          <enum>Qt::Vertical</enum>
@@ -811,7 +860,7 @@ p, li { white-space: pre-wrap; }
         <property name="sizeHint" stdset="0">
          <size>
           <width>20</width>
-          <height>18</height>
+          <height>13</height>
          </size>
         </property>
        </spacer>
@@ -1839,6 +1888,19 @@ p, li { white-space: pre-wrap; }
        <number>0</number>
       </property>
       <item>
+       <spacer name="verticalSpacer_13">
+        <property name="orientation">
+         <enum>Qt::Vertical</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>20</width>
+          <height>13</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item>
        <layout class="QHBoxLayout" name="horizontalLayout_11">
         <property name="spacing">
          <number>5</number>
@@ -1853,7 +1915,7 @@ p, li { white-space: pre-wrap; }
          <number>5</number>
         </property>
         <item>
-         <widget class="QLabel" name="label_gameNumber">
+         <widget class="QLabel" name="label_handNumber">
           <property name="minimumSize">
            <size>
             <width>60</width>
@@ -1861,7 +1923,7 @@ p, li { white-space: pre-wrap; }
            </size>
           </property>
           <property name="styleSheet">
-           <string notr="true">QLabel {font: bold 20px}</string>
+           <string notr="true">QObject {font: bold 20px}</string>
           </property>
           <property name="alignment">
            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -1869,7 +1931,7 @@ p, li { white-space: pre-wrap; }
          </widget>
         </item>
         <item>
-         <widget class="QLabel" name="label_gameNumberValue">
+         <widget class="QLabel" name="label_handNumberValue">
           <property name="minimumSize">
            <size>
             <width>60</width>
@@ -1877,7 +1939,7 @@ p, li { white-space: pre-wrap; }
            </size>
           </property>
           <property name="styleSheet">
-           <string notr="true">QLabel {font: bold 20px}</string>
+           <string notr="true">QObject {font: bold 20px}</string>
           </property>
           <property name="text">
            <string/>
@@ -2245,7 +2307,7 @@ p, li { white-space: pre-wrap; }
         <property name="sizeHint" stdset="0">
          <size>
           <width>20</width>
-          <height>28</height>
+          <height>13</height>
          </size>
         </property>
        </spacer>
@@ -2586,6 +2648,42 @@ p, li { white-space: pre-wrap; }
        </widget>
       </item>
       <item>
+       <spacer name="verticalSpacer_12">
+        <property name="orientation">
+         <enum>Qt::Vertical</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>20</width>
+          <height>13</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout_2">
+        <item>
+         <widget class="QLabel" name="label_spacer_right">
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+            <height>19</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>16777215</width>
+            <height>19</height>
+           </size>
+          </property>
+          <property name="text">
+           <string/>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item>
        <spacer name="verticalSpacer_7">
         <property name="orientation">
          <enum>Qt::Vertical</enum>
@@ -2593,7 +2691,7 @@ p, li { white-space: pre-wrap; }
         <property name="sizeHint" stdset="0">
          <size>
           <width>20</width>
-          <height>18</height>
+          <height>13</height>
          </size>
         </property>
        </spacer>
@@ -4517,7 +4615,7 @@ p, li { white-space: pre-wrap; }
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>26</height>
+     <height>21</height>
     </rect>
    </property>
    <property name="minimumSize">
