@@ -96,6 +96,7 @@ gameTableImpl::gameTableImpl(ConfigFile *c, QMainWindow *parent)
 	tabsDiag = new QDialog(this);
     tabs.setupUi(tabsDiag);
 #ifdef ANDROID
+        textLabel_handLabel->hide();
         tabsDiag->setStyleSheet("QObject { font: 26px; } QDialog { background-image: url(:/android/android-data/gfx/gui/table/default_800x480/table_dark.png); background-position: bottom center; background-origin: content;  background-repeat: no-repeat;}");
 #endif
 	tabs.label_chance->setMyStyle(myGameTableStyle);
@@ -127,8 +128,6 @@ gameTableImpl::gameTableImpl(ConfigFile *c, QMainWindow *parent)
 		tabWidget_Right->removeTab(2);
 		tabWidget_Right->setCurrentIndex(0);
 	}
-
-    textLabel_handLabel->hide();
 #endif
 
 	// userWidgetsArray init
@@ -858,15 +857,17 @@ void gameTableImpl::initGui(int speed)
 #ifndef GUI_800x480
 	label_Pot->setText(PotString);
 #endif
-    label_Sets->setText(BetsString+":");
+
 	label_handNumber->setText(HandString+":");
 	label_gameNumber->setText(GameString+":");
 #ifdef GUI_800x480
-    label_Total->setText(":"+TotalString);
+    label_Sets->setText(BetsString);
+    label_Total->setText(TotalString);
 	tabs.groupBox_RightToolBox->setDisabled(FALSE);
 	tabs.groupBox_LeftToolBox->setDisabled(FALSE);
 #else
     label_Total->setText(TotalString+":");
+    label_Sets->setText(BetsString+":");
 	groupBox_RightToolBox->setDisabled(FALSE);
 	groupBox_LeftToolBox->setDisabled(FALSE);
 #endif

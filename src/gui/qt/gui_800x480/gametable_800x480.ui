@@ -2922,10 +2922,16 @@ p, li { white-space: pre-wrap; }
     <item row="4" column="1">
      <layout class="QHBoxLayout" name="horizontalLayout_12">
       <property name="spacing">
-       <number>-1</number>
+       <number>10</number>
+      </property>
+      <property name="leftMargin">
+       <number>10</number>
+      </property>
+      <property name="rightMargin">
+       <number>10</number>
       </property>
       <item>
-       <spacer name="horizontalSpacer_8">
+       <spacer name="horizontalSpacer_7">
         <property name="orientation">
          <enum>Qt::Horizontal</enum>
         </property>
@@ -2939,11 +2945,11 @@ p, li { white-space: pre-wrap; }
       </item>
       <item>
        <widget class="QLabel" name="label_Sets">
-        <property name="minimumSize">
-         <size>
-          <width>50</width>
-          <height>14</height>
-         </size>
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
         </property>
         <property name="alignment">
          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -2960,21 +2966,12 @@ p, li { white-space: pre-wrap; }
         </property>
         <property name="minimumSize">
          <size>
-          <width>100</width>
-          <height>21</height>
-         </size>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>100</width>
+          <width>120</width>
           <height>21</height>
          </size>
         </property>
         <property name="alignment">
          <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
-        </property>
-        <property name="indent">
-         <number>4</number>
         </property>
        </widget>
       </item>
@@ -2983,9 +2980,12 @@ p, li { white-space: pre-wrap; }
         <property name="orientation">
          <enum>Qt::Horizontal</enum>
         </property>
+        <property name="sizeType">
+         <enum>QSizePolicy::Fixed</enum>
+        </property>
         <property name="sizeHint" stdset="0">
          <size>
-          <width>40</width>
+          <width>5</width>
           <height>20</height>
          </size>
         </property>
@@ -2995,14 +2995,8 @@ p, li { white-space: pre-wrap; }
        <widget class="QLabel" name="textLabel_handLabel">
         <property name="minimumSize">
          <size>
-          <width>120</width>
-          <height>21</height>
-         </size>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>120</width>
-          <height>21</height>
+          <width>30</width>
+          <height>0</height>
          </size>
         </property>
         <property name="alignment">
@@ -3015,9 +3009,12 @@ p, li { white-space: pre-wrap; }
         <property name="orientation">
          <enum>Qt::Horizontal</enum>
         </property>
+        <property name="sizeType">
+         <enum>QSizePolicy::Fixed</enum>
+        </property>
         <property name="sizeHint" stdset="0">
          <size>
-          <width>40</width>
+          <width>5</width>
           <height>20</height>
          </size>
         </property>
@@ -3033,13 +3030,7 @@ p, li { white-space: pre-wrap; }
         </property>
         <property name="minimumSize">
          <size>
-          <width>100</width>
-          <height>21</height>
-         </size>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>100</width>
+          <width>120</width>
           <height>21</height>
          </size>
         </property>
@@ -3050,22 +3041,19 @@ p, li { white-space: pre-wrap; }
       </item>
       <item>
        <widget class="QLabel" name="label_Total">
-        <property name="minimumSize">
-         <size>
-          <width>50</width>
-          <height>14</height>
-         </size>
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
         </property>
         <property name="alignment">
-         <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
-        </property>
-        <property name="indent">
-         <number>4</number>
+         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
         </property>
        </widget>
       </item>
       <item>
-       <spacer name="horizontalSpacer_7">
+       <spacer name="horizontalSpacer_8">
         <property name="orientation">
          <enum>Qt::Horizontal</enum>
         </property>
