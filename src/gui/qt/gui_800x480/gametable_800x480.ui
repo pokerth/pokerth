@@ -4360,13 +4360,13 @@ p, li { white-space: pre-wrap; }
            <property name="minimumSize">
             <size>
              <width>120</width>
-             <height>43</height>
+             <height>60</height>
             </size>
            </property>
            <property name="maximumSize">
             <size>
              <width>120</width>
-             <height>43</height>
+             <height>60</height>
             </size>
            </property>
            <property name="focusPolicy">
@@ -4385,13 +4385,13 @@ p, li { white-space: pre-wrap; }
            <property name="minimumSize">
             <size>
              <width>120</width>
-             <height>43</height>
+             <height>60</height>
             </size>
            </property>
            <property name="maximumSize">
             <size>
              <width>120</width>
-             <height>43</height>
+             <height>60</height>
             </size>
            </property>
            <property name="focusPolicy">
@@ -4462,13 +4462,13 @@ p, li { white-space: pre-wrap; }
            <property name="minimumSize">
             <size>
              <width>120</width>
-             <height>43</height>
+             <height>60</height>
             </size>
            </property>
            <property name="maximumSize">
             <size>
              <width>120</width>
-             <height>43</height>
+             <height>60</height>
             </size>
            </property>
            <property name="focusPolicy">
@@ -4550,7 +4550,7 @@ p, li { white-space: pre-wrap; }
            <property name="maximumSize">
             <size>
              <width>220</width>
-             <height>16777215</height>
+             <height>60</height>
             </size>
            </property>
            <property name="focusPolicy">
@@ -4615,7 +4615,7 @@ p, li { white-space: pre-wrap; }
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>21</height>
+     <height>26</height>
     </rect>
    </property>
    <property name="minimumSize">
