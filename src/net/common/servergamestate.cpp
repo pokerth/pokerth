@@ -361,6 +361,8 @@ AbstractServerGameStateReceiving::ProcessPacket(boost::shared_ptr<ServerGame> se
 	} else if (packet->GetMsg()->present == PokerTHMessage_PR_reportGameMessage) {
 		// Delegate to Lobby.
 		server->GetLobbyThread().HandleGameReportGame(session, packet->GetMsg()->choice.reportGameMessage);
+	} else if (packet->GetMsg()->present == PokerTHMessage_PR_joinGameRequestMessage) {
+		// Ignore join game requests in this state (may be multiple clicks from the lobby).
 	} else {
 		// Packet processing in subclass.
 		InternalProcessPacket(server, session, packet);
