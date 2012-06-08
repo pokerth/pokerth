@@ -1448,8 +1448,10 @@ ServerLobbyThread::HandleNetPacketRejectGameInvitation(boost::shared_ptr<Session
 		ServerGame &game = *pos->second;
 		unsigned tmpPlayerId = session->GetPlayerData()->GetUniqueId();
 		if (game.IsPlayerInvited(tmpPlayerId)) {
-			// If he rejects, he is no longer invited.
-			game.RemovePlayerInvitation(tmpPlayerId);
+			// If he actively rejects, he is no longer invited.
+			if (reject.myRejectReason == RejectGameInvReason_no) {
+				game.RemovePlayerInvitation(tmpPlayerId);
+			}
 			// Send reject notification.
 			boost::shared_ptr<NetPacket> packet(new NetPacket(NetPacket::Alloc));
 			packet->GetMsg()->present = PokerTHMessage_PR_rejectInvNotifyMessage;
