@@ -207,7 +207,7 @@
          <property name="geometry">
           <rect>
            <x>57</x>
-           <y>123</y>
+           <y>122</y>
            <width>100</width>
            <height>15</height>
           </rect>
@@ -555,7 +555,7 @@ p, li { white-space: pre-wrap; }
          <property name="geometry">
           <rect>
            <x>57</x>
-           <y>0</y>
+           <y>1</y>
            <width>100</width>
            <height>15</height>
           </rect>
@@ -949,7 +949,7 @@ p, li { white-space: pre-wrap; }
          <property name="geometry">
           <rect>
            <x>57</x>
-           <y>123</y>
+           <y>122</y>
            <width>100</width>
            <height>15</height>
           </rect>
@@ -1284,7 +1284,7 @@ p, li { white-space: pre-wrap; }
          <property name="geometry">
           <rect>
            <x>57</x>
-           <y>123</y>
+           <y>122</y>
            <width>100</width>
            <height>15</height>
           </rect>
@@ -1619,7 +1619,7 @@ p, li { white-space: pre-wrap; }
          <property name="geometry">
           <rect>
            <x>57</x>
-           <y>123</y>
+           <y>122</y>
            <width>100</width>
            <height>15</height>
           </rect>
@@ -2038,7 +2038,7 @@ p, li { white-space: pre-wrap; }
          <property name="geometry">
           <rect>
            <x>57</x>
-           <y>123</y>
+           <y>122</y>
            <width>100</width>
            <height>15</height>
           </rect>
@@ -2386,7 +2386,7 @@ p, li { white-space: pre-wrap; }
          <property name="geometry">
           <rect>
            <x>57</x>
-           <y>0</y>
+           <y>1</y>
            <width>100</width>
            <height>15</height>
           </rect>
@@ -3257,7 +3257,7 @@ p, li { white-space: pre-wrap; }
          <property name="geometry">
           <rect>
            <x>57</x>
-           <y>0</y>
+           <y>1</y>
            <width>100</width>
            <height>15</height>
           </rect>
@@ -3592,7 +3592,7 @@ p, li { white-space: pre-wrap; }
          <property name="geometry">
           <rect>
            <x>57</x>
-           <y>0</y>
+           <y>1</y>
            <width>100</width>
            <height>15</height>
           </rect>
@@ -3772,23 +3772,26 @@ p, li { white-space: pre-wrap; }
         <widget class="MyActionButton" name="pushButton_showMyCards">
          <property name="geometry">
           <rect>
-           <x>68</x>
-           <y>64</y>
-           <width>80</width>
-           <height>25</height>
+           <x>58</x>
+           <y>47</y>
+           <width>100</width>
+           <height>60</height>
           </rect>
          </property>
          <property name="minimumSize">
           <size>
-           <width>80</width>
-           <height>25</height>
+           <width>100</width>
+           <height>60</height>
           </size>
          </property>
          <property name="maximumSize">
           <size>
-           <width>80</width>
-           <height>25</height>
+           <width>100</width>
+           <height>60</height>
           </size>
+         </property>
+         <property name="focusPolicy">
+          <enum>Qt::NoFocus</enum>
          </property>
          <property name="text">
           <string notr="true">Show!</string>
@@ -3952,7 +3955,7 @@ p, li { white-space: pre-wrap; }
          <property name="geometry">
           <rect>
            <x>57</x>
-           <y>0</y>
+           <y>1</y>
            <width>100</width>
            <height>15</height>
           </rect>

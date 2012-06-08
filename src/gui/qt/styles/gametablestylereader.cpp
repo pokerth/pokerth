@@ -1567,7 +1567,7 @@ void GameTableStyleReader::setShowMyCardsButtonStyle( MyActionButton *sc)
     sc->setMyStyle(this);
 
     //Show My Cards Button has same look and feel all the time
-    sc->setStyleSheet("QPushButton { border:none; background-image: url(\""+ShowMyCardsButtonDefault+"\"); "+ font2String +" font-size: "+humanPlayerButtonFontSize+"px; font-weight: bold; color: #"+ShowMyCardsButtonTextColor+";} QPushButton:unchecked { background-image: url(\""+ShowMyCardsButtonDefault+"\"); } QPushButton:checked { background-image: url(\""+BetRaiseButtonDefault+"\");} QPushButton:hover { background-image: url(\""+ShowMyCardsButtonHover+"\"); } QPushButton:checked:hover { background-image: url(\""+ShowMyCardsButtonHover+"\");}");
+    sc->setStyleSheet("QPushButton { border:none; background-repeat: no-repeat; background-position: center center; background-image: url(\""+ShowMyCardsButtonDefault+"\"); "+ font2String +" font-size: "+humanPlayerButtonFontSize+"px; font-weight: bold; color: #"+ShowMyCardsButtonTextColor+";} QPushButton:unchecked { background-repeat: no-repeat; background-position: center center; background-image: url(\""+ShowMyCardsButtonDefault+"\"); } QPushButton:checked { background-repeat: no-repeat; background-position: center center; background-image: url(\""+BetRaiseButtonDefault+"\");} QPushButton:hover { background-repeat: no-repeat; background-position: center center; background-image: url(\""+ShowMyCardsButtonHover+"\"); } QPushButton:checked:hover { background-repeat: no-repeat; background-position: center center; background-image: url(\""+ShowMyCardsButtonHover+"\");}");
 
 }
 
