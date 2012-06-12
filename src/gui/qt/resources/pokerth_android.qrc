@@ -317,59 +317,6 @@
         <file>android-data/gfx/gui/misc/actionpics/action_fold.png</file>
         <file>android-data/gfx/gui/misc/actionpics/action_raise.png</file>
         <file>android-data/gfx/gui/misc/actionpics/action_winner.png</file>
-        <file>android-data/gfx/cards/default/0.png</file>
-        <file>android-data/gfx/cards/default/1.png</file>
-        <file>android-data/gfx/cards/default/2.png</file>
-        <file>android-data/gfx/cards/default/3.png</file>
-        <file>android-data/gfx/cards/default/4.png</file>
-        <file>android-data/gfx/cards/default/5.png</file>
-        <file>android-data/gfx/cards/default/6.png</file>
-        <file>android-data/gfx/cards/default/7.png</file>
-        <file>android-data/gfx/cards/default/8.png</file>
-        <file>android-data/gfx/cards/default/9.png</file>
-        <file>android-data/gfx/cards/default/10.png</file>
-        <file>android-data/gfx/cards/default/11.png</file>
-        <file>android-data/gfx/cards/default/12.png</file>
-        <file>android-data/gfx/cards/default/13.png</file>
-        <file>android-data/gfx/cards/default/14.png</file>
-        <file>android-data/gfx/cards/default/15.png</file>
-        <file>android-data/gfx/cards/default/16.png</file>
-        <file>android-data/gfx/cards/default/17.png</file>
-        <file>android-data/gfx/cards/default/18.png</file>
-        <file>android-data/gfx/cards/default/19.png</file>
-        <file>android-data/gfx/cards/default/20.png</file>
-        <file>android-data/gfx/cards/default/21.png</file>
-        <file>android-data/gfx/cards/default/22.png</file>
-        <file>android-data/gfx/cards/default/23.png</file>
-        <file>android-data/gfx/cards/default/24.png</file>
-        <file>android-data/gfx/cards/default/25.png</file>
-        <file>android-data/gfx/cards/default/26.png</file>
-        <file>android-data/gfx/cards/default/27.png</file>
-        <file>android-data/gfx/cards/default/28.png</file>
-        <file>android-data/gfx/cards/default/29.png</file>
-        <file>android-data/gfx/cards/default/30.png</file>
-        <file>android-data/gfx/cards/default/31.png</file>
-        <file>android-data/gfx/cards/default/32.png</file>
-        <file>android-data/gfx/cards/default/33.png</file>
-        <file>android-data/gfx/cards/default/34.png</file>
-        <file>android-data/gfx/cards/default/35.png</file>
-        <file>android-data/gfx/cards/default/36.png</file>
-        <file>android-data/gfx/cards/default/37.png</file>
-        <file>android-data/gfx/cards/default/38.png</file>
-        <file>android-data/gfx/cards/default/39.png</file>
-        <file>android-data/gfx/cards/default/40.png</file>
-        <file>android-data/gfx/cards/default/41.png</file>
-        <file>android-data/gfx/cards/default/42.png</file>
-        <file>android-data/gfx/cards/default/43.png</file>
-        <file>android-data/gfx/cards/default/44.png</file>
-        <file>android-data/gfx/cards/default/45.png</file>
-        <file>android-data/gfx/cards/default/46.png</file>
-        <file>android-data/gfx/cards/default/47.png</file>
-        <file>android-data/gfx/cards/default/48.png</file>
-        <file>android-data/gfx/cards/default/49.png</file>
-        <file>android-data/gfx/cards/default/50.png</file>
-        <file>android-data/gfx/cards/default/51.png</file>
-        <file>android-data/gfx/cards/default/defaultdeckstyle.xml</file>
         <file>android-data/gfx/cards/default/flipside_tux.png</file>
         <file>android-data/gfx/cards/default/flipside.png</file>
         <file>android-data/gfx/cards/default/preview.png</file>
@@ -541,5 +488,59 @@
         <file>android-data/gfx/gui/table/default_800x480/playerSeatInactiveTop.png</file>
         <file>android-data/gfx/gui/table/default_800x480/playerSeatActiveBottom.png</file>
         <file>android-data/gfx/gui/table/default_800x480/playerSeatActiveTop.png</file>
+        <file>android-data/gfx/cards/default_800x480/0.png</file>
+        <file>android-data/gfx/cards/default_800x480/1.png</file>
+        <file>android-data/gfx/cards/default_800x480/2.png</file>
+        <file>android-data/gfx/cards/default_800x480/3.png</file>
+        <file>android-data/gfx/cards/default_800x480/4.png</file>
+        <file>android-data/gfx/cards/default_800x480/5.png</file>
+        <file>android-data/gfx/cards/default_800x480/6.png</file>
+        <file>android-data/gfx/cards/default_800x480/7.png</file>
+        <file>android-data/gfx/cards/default_800x480/8.png</file>
+        <file>android-data/gfx/cards/default_800x480/9.png</file>
+        <file>android-data/gfx/cards/default_800x480/10.png</file>
+        <file>android-data/gfx/cards/default_800x480/11.png</file>
+        <file>android-data/gfx/cards/default_800x480/12.png</file>
+        <file>android-data/gfx/cards/default_800x480/13.png</file>
+        <file>android-data/gfx/cards/default_800x480/14.png</file>
+        <file>android-data/gfx/cards/default_800x480/15.png</file>
+        <file>android-data/gfx/cards/default_800x480/16.png</file>
+        <file>android-data/gfx/cards/default_800x480/17.png</file>
+        <file>android-data/gfx/cards/default_800x480/18.png</file>
+        <file>android-data/gfx/cards/default_800x480/19.png</file>
+        <file>android-data/gfx/cards/default_800x480/20.png</file>
+        <file>android-data/gfx/cards/default_800x480/21.png</file>
+        <file>android-data/gfx/cards/default_800x480/22.png</file>
+        <file>android-data/gfx/cards/default_800x480/23.png</file>
+        <file>android-data/gfx/cards/default_800x480/24.png</file>
+        <file>android-data/gfx/cards/default_800x480/25.png</file>
+        <file>android-data/gfx/cards/default_800x480/26.png</file>
+        <file>android-data/gfx/cards/default_800x480/27.png</file>
+        <file>android-data/gfx/cards/default_800x480/28.png</file>
+        <file>android-data/gfx/cards/default_800x480/29.png</file>
+        <file>android-data/gfx/cards/default_800x480/30.png</file>
+        <file>android-data/gfx/cards/default_800x480/31.png</file>
+        <file>android-data/gfx/cards/default_800x480/32.png</file>
+        <file>android-data/gfx/cards/default_800x480/33.png</file>
+        <file>android-data/gfx/cards/default_800x480/34.png</file>
+        <file>android-data/gfx/cards/default_800x480/35.png</file>
+        <file>android-data/gfx/cards/default_800x480/36.png</file>
+        <file>android-data/gfx/cards/default_800x480/37.png</file>
+        <file>android-data/gfx/cards/default_800x480/38.png</file>
+        <file>android-data/gfx/cards/default_800x480/39.png</file>
+        <file>android-data/gfx/cards/default_800x480/40.png</file>
+        <file>android-data/gfx/cards/default_800x480/41.png</file>
+        <file>android-data/gfx/cards/default_800x480/42.png</file>
+        <file>android-data/gfx/cards/default_800x480/43.png</file>
+        <file>android-data/gfx/cards/default_800x480/44.png</file>
+        <file>android-data/gfx/cards/default_800x480/45.png</file>
+        <file>android-data/gfx/cards/default_800x480/46.png</file>
+        <file>android-data/gfx/cards/default_800x480/47.png</file>
+        <file>android-data/gfx/cards/default_800x480/48.png</file>
+        <file>android-data/gfx/cards/default_800x480/49.png</file>
+        <file>android-data/gfx/cards/default_800x480/50.png</file>
+        <file>android-data/gfx/cards/default_800x480/51.png</file>
+        <file>android-data/gfx/cards/default_800x480/flipside.png</file>
+        <file>android-data/gfx/cards/default_800x480/defaultdeckstyle_800x480.xml</file>
     </qresource>
 </RCC>

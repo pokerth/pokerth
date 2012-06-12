@@ -391,6 +391,20 @@ void settingsDialogImpl::prepareDialog()
 	showCurrentGameTableStylePreview();
 
 	//CARDS
+#ifdef GUI_800x480
+    // 	define PokerTH default GameTableStyle for Maemo
+    treeWidget_cardDeckStyles->clear();
+    CardDeckStyleReader defaultCardStyle(myConfig, this);
+    defaultCardStyle.readStyleFile(QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str())+"gfx/cards/default_800x480/defaultdeckstyle_800x480.xml");
+    if(defaultCardStyle.getLoadedSuccessfull()) {
+        QStringList tempStringList1;
+        tempStringList1 << defaultCardStyle.getStyleDescription() << defaultCardStyle.getStyleMaintainerName();
+        MyStyleListItem *defaultCardItem = new MyStyleListItem(tempStringList1, treeWidget_cardDeckStyles);
+        defaultCardItem->setData(0, 15, QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str())+"gfx/cards/default_800x480/defaultdeckstyle_800x480.xml");
+        defaultCardItem->setData(0, 16, POKERTH_DISTRIBUTED_STYLE);
+        defaultCardItem->setData(0, Qt::ToolTipRole, QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str())+"gfx/cards/default_800x480/defaultdeckstyle_800x480.xml");
+    }
+#else
 	//define PokerTH default CardDeck
 	treeWidget_cardDeckStyles->clear();
 	CardDeckStyleReader defaultCardStyle(myConfig, this);
@@ -414,7 +428,7 @@ void settingsDialogImpl::prepareDialog()
 		default4cCardItem->setData(0, 16, POKERTH_DISTRIBUTED_STYLE);
 		default4cCardItem->setData(0, Qt::ToolTipRole, QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str())+"gfx/cards/default4c/default4cdeckstyle.xml");
 	}
-
+#endif
 	//load secondary card styles into list (if fallback no entry)
 	myCardDeckStylesList = myConfig->readConfigStringList("CardDeckStylesList");
 	list<std::string>::iterator it2;
