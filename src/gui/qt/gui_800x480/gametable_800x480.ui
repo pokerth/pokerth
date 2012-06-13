@@ -257,7 +257,7 @@
          <property name="geometry">
           <rect>
            <x>23</x>
-           <y>86</y>
+           <y>108</y>
            <width>28</width>
            <height>28</height>
           </rect>
@@ -334,8 +334,8 @@
         <widget class="MyStatusLabel" name="textLabel_Status3">
          <property name="geometry">
           <rect>
-           <x>57</x>
-           <y>78</y>
+           <x>-10</x>
+           <y>73</y>
            <width>100</width>
            <height>40</height>
           </rect>
@@ -605,7 +605,7 @@ p, li { white-space: pre-wrap; }
          <property name="geometry">
           <rect>
            <x>23</x>
-           <y>25</y>
+           <y>2</y>
            <width>28</width>
            <height>28</height>
           </rect>
@@ -682,8 +682,8 @@ p, li { white-space: pre-wrap; }
         <widget class="MyStatusLabel" name="textLabel_Status2">
          <property name="geometry">
           <rect>
-           <x>57</x>
-           <y>66</y>
+           <x>-10</x>
+           <y>22</y>
            <width>100</width>
            <height>40</height>
           </rect>
@@ -999,7 +999,7 @@ p, li { white-space: pre-wrap; }
          <property name="geometry">
           <rect>
            <x>23</x>
-           <y>86</y>
+           <y>108</y>
            <width>28</width>
            <height>28</height>
           </rect>
@@ -1076,8 +1076,8 @@ p, li { white-space: pre-wrap; }
         <widget class="MyStatusLabel" name="textLabel_Status4">
          <property name="geometry">
           <rect>
-           <x>57</x>
-           <y>78</y>
+           <x>-10</x>
+           <y>73</y>
            <width>100</width>
            <height>40</height>
           </rect>
@@ -1334,7 +1334,7 @@ p, li { white-space: pre-wrap; }
          <property name="geometry">
           <rect>
            <x>23</x>
-           <y>86</y>
+           <y>108</y>
            <width>28</width>
            <height>28</height>
           </rect>
@@ -1411,8 +1411,8 @@ p, li { white-space: pre-wrap; }
         <widget class="MyStatusLabel" name="textLabel_Status5">
          <property name="geometry">
           <rect>
-           <x>57</x>
-           <y>78</y>
+           <x>-10</x>
+           <y>73</y>
            <width>100</width>
            <height>40</height>
           </rect>
@@ -1669,7 +1669,7 @@ p, li { white-space: pre-wrap; }
          <property name="geometry">
           <rect>
            <x>23</x>
-           <y>86</y>
+           <y>108</y>
            <width>28</width>
            <height>28</height>
           </rect>
@@ -1746,8 +1746,8 @@ p, li { white-space: pre-wrap; }
         <widget class="MyStatusLabel" name="textLabel_Status6">
          <property name="geometry">
           <rect>
-           <x>57</x>
-           <y>78</y>
+           <x>-10</x>
+           <y>73</y>
            <width>100</width>
            <height>40</height>
           </rect>
@@ -2088,7 +2088,7 @@ p, li { white-space: pre-wrap; }
          <property name="geometry">
           <rect>
            <x>23</x>
-           <y>86</y>
+           <y>108</y>
            <width>28</width>
            <height>28</height>
           </rect>
@@ -2165,8 +2165,8 @@ p, li { white-space: pre-wrap; }
         <widget class="MyStatusLabel" name="textLabel_Status7">
          <property name="geometry">
           <rect>
-           <x>57</x>
-           <y>78</y>
+           <x>-10</x>
+           <y>73</y>
            <width>100</width>
            <height>40</height>
           </rect>
@@ -2436,7 +2436,7 @@ p, li { white-space: pre-wrap; }
          <property name="geometry">
           <rect>
            <x>23</x>
-           <y>25</y>
+           <y>2</y>
            <width>28</width>
            <height>28</height>
           </rect>
@@ -2513,8 +2513,8 @@ p, li { white-space: pre-wrap; }
         <widget class="MyStatusLabel" name="textLabel_Status8">
          <property name="geometry">
           <rect>
-           <x>57</x>
-           <y>66</y>
+           <x>-10</x>
+           <y>22</y>
            <width>100</width>
            <height>40</height>
           </rect>
@@ -3307,7 +3307,7 @@ p, li { white-space: pre-wrap; }
          <property name="geometry">
           <rect>
            <x>23</x>
-           <y>25</y>
+           <y>2</y>
            <width>28</width>
            <height>28</height>
           </rect>
@@ -3384,8 +3384,8 @@ p, li { white-space: pre-wrap; }
         <widget class="MyStatusLabel" name="textLabel_Status1">
          <property name="geometry">
           <rect>
-           <x>57</x>
-           <y>66</y>
+           <x>-10</x>
+           <y>22</y>
            <width>100</width>
            <height>40</height>
           </rect>
@@ -3645,7 +3645,7 @@ p, li { white-space: pre-wrap; }
          <property name="geometry">
           <rect>
            <x>23</x>
-           <y>25</y>
+           <y>2</y>
            <width>28</width>
            <height>28</height>
           </rect>
@@ -3722,8 +3722,8 @@ p, li { white-space: pre-wrap; }
         <widget class="MyStatusLabel" name="textLabel_Status0">
          <property name="geometry">
           <rect>
-           <x>57</x>
-           <y>66</y>
+           <x>-10</x>
+           <y>22</y>
            <width>100</width>
            <height>40</height>
           </rect>
@@ -3773,7 +3773,7 @@ p, li { white-space: pre-wrap; }
          <property name="geometry">
           <rect>
            <x>58</x>
-           <y>73</y>
+           <y>60</y>
            <width>100</width>
            <height>60</height>
           </rect>
@@ -4005,7 +4005,7 @@ p, li { white-space: pre-wrap; }
          <property name="geometry">
           <rect>
            <x>23</x>
-           <y>25</y>
+           <y>2</y>
            <width>28</width>
            <height>28</height>
           </rect>
@@ -4082,8 +4082,8 @@ p, li { white-space: pre-wrap; }
         <widget class="MyStatusLabel" name="textLabel_Status9">
          <property name="geometry">
           <rect>
-           <x>57</x>
-           <y>66</y>
+           <x>-10</x>
+           <y>22</y>
            <width>100</width>
            <height>40</height>
           </rect>
