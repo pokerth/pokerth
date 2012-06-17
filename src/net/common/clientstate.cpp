@@ -174,6 +174,9 @@ void
 ClientStateStartServerListDownload::Enter(boost::shared_ptr<ClientThread> client)
 {
 	path tmpServerListPath(client->GetCacheServerListFileName());
+	if (tmpServerListPath.empty())
+		throw ClientException(__FILE__, __LINE__, ERR_SOCK_INVALID_SERVERLIST_URL, 0);
+
 	if (exists(tmpServerListPath)) {
 		// Download the current server list once a day.
 		// If the previous file is older than one day, delete it.

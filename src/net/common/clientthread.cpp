@@ -936,15 +936,16 @@ ClientThread::GetContext()
 string
 ClientThread::GetCacheServerListFileName()
 {
+	string fileName;
 	path tmpServerListPath(GetContext().GetCacheDir());
 	string serverListUrl(GetContext().GetServerListUrl());
 	// Retrieve the file name from the URL.
 	size_t pos = serverListUrl.find_last_of('/');
-	if (GetContext().GetCacheDir().empty() || serverListUrl.empty() || pos == string::npos || ++pos >= serverListUrl.length()) {
-		throw ClientException(__FILE__, __LINE__, ERR_SOCK_INVALID_SERVERLIST_URL, 0);
+	if (!GetContext().GetCacheDir().empty() && !serverListUrl.empty() && pos != string::npos && ++pos < serverListUrl.length()) {
+		tmpServerListPath /= serverListUrl.substr(pos);
+		fileName = tmpServerListPath.directory_string();
 	}
-	tmpServerListPath /= serverListUrl.substr(pos);
-	return tmpServerListPath.directory_string();
+	return fileName;
 }
 
 void
