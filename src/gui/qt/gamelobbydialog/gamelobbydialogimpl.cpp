@@ -123,6 +123,14 @@ gameLobbyDialogImpl::gameLobbyDialogImpl(startWindowImpl *parent, ConfigFile *c)
 
     treeView_GameList->setStyleSheet("QTreeView {background-color: white; background-image: url(\""+myAppDataPath +"gfx/gui/misc/background_gamelist.png\"); background-attachment: fixed; background-position: top center ; background-repeat: no-repeat; color:rgb(0, 0, 0); font: 22px}");
     treeView_GameList->header()->setStyleSheet("QObject {font: bold 18px}");
+
+    //make the scrollbars touchable for mobile guis
+    this->setStyleSheet("QScrollBar:vertical { border: 1px solid grey; background: #f0f0f0; width: 55px; margin: 1px -1px 0px 0px; } QScrollBar::handle:vertical { border-radius: 4px; border: 3px solid grey; background: LightGrey ; min-height: 60px; } QScrollBar::add-line:vertical { background: none; } QScrollBar::sub-line:vertical { background: none; } QScrollBar:up-arrow:vertical, QScrollBar::down-arrow:vertical { background: none; } QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical { background: none; }");
+
+    //remove game type in game description field to save space
+    label_gameType->hide();
+    label_typeIcon->hide();
+    label_typeText->hide();
 #else
     treeView_GameList->setColumnWidth(0,190);
     treeView_GameList->setColumnWidth(1,65);
@@ -1355,7 +1363,9 @@ void gameLobbyDialogImpl::showGameDescription(bool show)
 {
 
 	if(show) {
+#ifndef GUI_800x480
 		label_gameType->show();
+#endif
 		label_gameDesc2->show();
 		label_gameDesc3->show();
 		label_gameDesc4->show();

@@ -4338,6 +4338,7 @@ void gameTableImpl::hide()
 	//clear log
 #ifdef GUI_800x480
 	tabs.textBrowser_Log->clear();
+    tabsDiag->hide();
 #else
 	textBrowser_Log->clear();
 #endif

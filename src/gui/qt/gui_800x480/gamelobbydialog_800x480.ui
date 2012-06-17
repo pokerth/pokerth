@@ -474,7 +474,7 @@
             <item>
              <widget class="QTreeWidget" name="treeWidget_connectedPlayers">
               <property name="sizePolicy">
-               <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+               <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
                 <horstretch>0</horstretch>
                 <verstretch>0</verstretch>
                </sizepolicy>
@@ -482,7 +482,7 @@
               <property name="minimumSize">
                <size>
                 <width>221</width>
-                <height>0</height>
+                <height>100</height>
                </size>
               </property>
               <property name="contextMenuPolicy">
@@ -513,7 +513,7 @@
             <item>
              <widget class="QScrollArea" name="scrollArea_gameInfos">
               <property name="sizePolicy">
-               <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+               <sizepolicy hsizetype="Expanding" vsizetype="MinimumExpanding">
                 <horstretch>0</horstretch>
                 <verstretch>0</verstretch>
                </sizepolicy>
@@ -521,7 +521,7 @@
               <property name="minimumSize">
                <size>
                 <width>252</width>
-                <height>208</height>
+                <height>201</height>
                </size>
               </property>
               <property name="styleSheet">
@@ -536,7 +536,7 @@
                  <x>0</x>
                  <y>0</y>
                  <width>292</width>
-                 <height>204</height>
+                 <height>197</height>
                 </rect>
                </property>
                <layout class="QGridLayout" name="gridLayout">
@@ -781,6 +781,19 @@
                   </property>
                  </widget>
                 </item>
+                <item row="7" column="0" colspan="2">
+                 <spacer name="verticalSpacer">
+                  <property name="orientation">
+                   <enum>Qt::Vertical</enum>
+                  </property>
+                  <property name="sizeHint" stdset="0">
+                   <size>
+                    <width>20</width>
+                    <height>0</height>
+                   </size>
+                  </property>
+                 </spacer>
+                </item>
                </layout>
               </widget>
              </widget>
@@ -852,7 +865,7 @@
               </size>
              </property>
              <property name="styleSheet">
-              <string notr="true">QObject {font: 22px}</string>
+              <string notr="true">QObject {font: 26px}</string>
              </property>
              <property name="text">
               <string>search for player ...</string>
@@ -997,7 +1010,7 @@ p, li { white-space: pre-wrap; }
             <item row="1" column="0">
              <widget class="QLineEdit" name="lineEdit_ChatInput">
               <property name="styleSheet">
-               <string notr="true">QObject {font: 22px;}</string>
+               <string notr="true">QObject {font: 26px;}</string>
               </property>
              </widget>
             </item>

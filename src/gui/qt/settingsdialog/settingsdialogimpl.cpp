@@ -147,6 +147,11 @@ settingsDialogImpl::settingsDialogImpl(QWidget *parent, ConfigFile *c, selectAva
 	connect( pushButton_saveLogAs, SIGNAL(clicked()), this, SLOT (saveLogFileAs()));
 	connect( treeWidget_logFiles, SIGNAL(currentItemChanged(QTreeWidgetItem*, QTreeWidgetItem*)), this, SLOT(showLogFilePreview()));
 
+#ifdef GUI_800x480
+    //make the scrollbar touchable for mobile guis
+    comboBox_switchLanguage->setStyleSheet("QObject {font: 30px} QScrollBar:vertical { border: 1px solid grey; background: white; width: 60px; margin: 0px -1px 0px 0px; } QScrollBar::handle:vertical { border-radius: 3px; border: 2px solid grey; background: LightGrey ; min-height: 60px; } QScrollBar::add-line:vertical { background: none; } QScrollBar::sub-line:vertical { background: none; } QScrollBar:up-arrow:vertical, QScrollBar::down-arrow:vertical { background: none; } QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical { background: none; }");
+#endif
+
 }
 
 settingsDialogImpl::~settingsDialogImpl()
@@ -425,7 +430,7 @@ void settingsDialogImpl::prepareDialog()
 		tempStringList1 << default4cCardStyle.getStyleDescription() << default4cCardStyle.getStyleMaintainerName();
 		MyStyleListItem *default4cCardItem = new MyStyleListItem(tempStringList1, treeWidget_cardDeckStyles);
 		default4cCardItem->setData(0, 15, QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str())+"gfx/cards/default4c/default4cdeckstyle.xml");
-		default4cCardItem->setData(0, 16, POKERTH_DISTRIBUTED_STYLE);
+        default4cCardItem->setData(0, 16, POKERTH_DISTRIBUTED_STYLE);
 		default4cCardItem->setData(0, Qt::ToolTipRole, QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str())+"gfx/cards/default4c/default4cdeckstyle.xml");
 	}
 #endif
