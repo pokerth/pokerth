@@ -38,6 +38,8 @@ gameLobbyDialogImpl::gameLobbyDialogImpl(startWindowImpl *parent, ConfigFile *c)
 #ifdef __APPLE__
 	setWindowModality(Qt::ApplicationModal);
 	setWindowFlags(Qt::WindowSystemMenuHint | Qt::CustomizeWindowHint | Qt::Dialog);
+#elif _WIN32
+	setWindowFlags(Qt::WindowMinimizeButtonHint | Qt::Dialog);
 #endif
 	setupUi(this);
 
