@@ -1,3 +1,10 @@
+2012-06-21 version 0.9.5
+- First experimental Android release (#80)
+- Add a minimize button to the Lobby window (#59)
+- Fixed crash when trying to connect to non existing network game (#138)
+- Ignore additional join game messages if the player already joined a game (#134)
+- Double game invite no longer leads to kick (#135)
+
 2012-04-09 version 0.9.4
 - New report bad-game-name system (right-click on a game in the lobby) (#129)
 - Raise-blind sound is now optional (#127)
