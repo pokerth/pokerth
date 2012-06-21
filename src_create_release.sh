@@ -8,14 +8,13 @@ if [[ -n "$1" && -n "$2"  ]] ; then
 	
 	# CHECKOUT PokerTH SOURCECODE
 	if [[ -n "$3" ]] ; then
-	  svn co http://pokerth.svn.sourceforge.net/svnroot/pokerth/trunk/pokerth . -r $3
+	  git clone https://github.com/pokerth/pokerth.git . -r $3
 	else
-	  svn co http://pokerth.svn.sourceforge.net/svnroot/pokerth/trunk/pokerth .
+	  git clone https://github.com/pokerth/pokerth.git .
 	fi
 
 	# CLEAN SOURCES
-	svn cleanup
-	find . -type d -name .svn -exec rm -rf {} \;
+	find . -type d -name .git -exec rm -rf {} \;
 	find . -type f -name .directory -exec rm -rf {} \;
 	find . -type f -name *~ -exec rm -rf {} \;
 	rm -rf debug
@@ -37,5 +36,5 @@ if [[ -n "$1" && -n "$2"  ]] ; then
 	rm -r PokerTH-$1-src
 
 else
-echo "Please use 'linux-create-release.sh version sf-dir-version (svn-rev)'"
+echo "Please use 'linux-create-release.sh version sf-dir-version (git-rev)'"
 fi
