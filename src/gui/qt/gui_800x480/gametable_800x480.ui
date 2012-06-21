@@ -4496,14 +4496,14 @@ p, li { white-space: pre-wrap; }
           <widget class="QSpinBox" name="spinBox_betValue">
            <property name="minimumSize">
             <size>
-             <width>100</width>
-             <height>43</height>
+             <width>85</width>
+             <height>53</height>
             </size>
            </property>
            <property name="maximumSize">
             <size>
-             <width>100</width>
-             <height>43</height>
+             <width>85</width>
+             <height>53</height>
             </size>
            </property>
            <property name="buttonSymbols">
@@ -4546,13 +4546,13 @@ p, li { white-space: pre-wrap; }
            </property>
            <property name="minimumSize">
             <size>
-             <width>192</width>
+             <width>211</width>
              <height>60</height>
             </size>
            </property>
            <property name="maximumSize">
             <size>
-             <width>220</width>
+             <width>235</width>
              <height>60</height>
             </size>
            </property>

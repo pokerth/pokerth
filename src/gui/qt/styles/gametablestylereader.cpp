@@ -75,7 +75,7 @@ GameTableStyleReader::GameTableStyleReader(ConfigFile *c, QWidget *w)
     smallBoardFontSize = "13";
     bigBoardFontSize = "17";
     humanPlayerButtonFontSize = "12";
-    betValueFontSize = "10";
+    betValueFontSize = "15";
 #else //Linux
     font1String = "font-family: \"Nimbus Sans L\";";
     font2String = "font-family: \"DejaVu Sans\";";
