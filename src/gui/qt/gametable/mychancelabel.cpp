@@ -180,7 +180,7 @@ void MyChanceLabel::paintEvent(QPaintEvent * /*event*/)
 	} else {
 		painter.setPen(possible);
 	}
-	painter.drawText(QRectF(QPointF(2,start_y+7*height), QPointF(text_width,start_y+8*height)),Qt::AlignRight,"Two Pairs");
+	painter.drawText(QRectF(QPointF(2,start_y+7*height), QPointF(text_width,start_y+8*height)),Qt::AlignRight,"Two Pair");
 	painter.drawText(QRectF(QPointF(percent_start,start_y+7*height), QPointF(percent_start+percent_width,start_y+8*height)),Qt::AlignRight,QString("%1%").arg(TPChance[0]));
 	if(OPChance[1] == 0 || myFoldState) {
 		painter.setPen(impossible);
