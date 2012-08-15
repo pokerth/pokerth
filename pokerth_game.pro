@@ -363,6 +363,7 @@ win32 {
 		LIBS += -lboost_regex-mt
 		LIBS += -lboost_iostreams-mt
 		LIBS += -lboost_random-mt
+		LIBS += -lboost_chrono-mt
 		LIBS += -lboost_system-mt
 
 	LIBS += \
