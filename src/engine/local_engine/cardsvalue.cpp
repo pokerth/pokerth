@@ -954,7 +954,7 @@ std::string CardsValue::determineHandName(int myCardsValueInt, PlayerList active
 		}
 	}
 	break;
-	// Two Pairs
+	// Two Pair
 	case 2: {
 
 		handName = *cardStringIt_c;
@@ -1775,9 +1775,9 @@ std::list<std::string> CardsValue::translateCardsValueCode(int cardsValueCode)
 		}
 	}
 	break;
-	// Two Pairs
+	// Two Pair
 	case 2: {
-		cardString.push_back("Two Pairs, ");
+		cardString.push_back("Two Pair, ");
 		// erster Pair
 		switch(secondPart) {
 		case 12:
