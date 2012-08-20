@@ -47,7 +47,6 @@ public:
 
 	void initAudio();
 	void playSound(std::string, int playerID);
-	void audioDone();
 	void closeAudio();
 
 private:

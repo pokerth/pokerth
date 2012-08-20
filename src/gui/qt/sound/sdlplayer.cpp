@@ -32,12 +32,7 @@ SDLPlayer::SDLPlayer(ConfigFile *c)
 	: soundData(NULL), currentChannel(0) , audioEnabled(0), myConfig(c)
 #endif
 {
-#ifndef ANDROID
-	SDL_Init(SDL_INIT_AUDIO);
-	initAudio();
-
 	myAppDataPath = QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str());
-#endif
 }
 
 
@@ -45,13 +40,13 @@ SDLPlayer::~SDLPlayer()
 {
 #ifndef ANDROID
 	closeAudio();
-	SDL_Quit();
 #endif
 }
 
 void SDLPlayer::initAudio()
 {
 #ifndef ANDROID
+	SDL_Init(SDL_INIT_AUDIO);
 	if (!audioEnabled && myConfig->readConfigInt("PlaySoundEffects")) {
 		int		audio_rate = 44100;
 		Uint16	audio_format = AUDIO_S16; /* 16-bit stereo */
@@ -59,9 +54,12 @@ void SDLPlayer::initAudio()
 		int		audio_buffers = 4096;
 		sound = NULL;
 
-		if(Mix_OpenAudio(audio_rate, audio_format, audio_channels, audio_buffers) == 0) {
+		if( Mix_OpenAudio(audio_rate, audio_format, audio_channels, audio_buffers) == 0) {
 			Mix_QuerySpec(&audio_rate, &audio_format, &audio_channels);
 			audioEnabled = 1;
+		}
+		else {
+			qDebug() << "Mix_OpenAudio() was not successfull, no sound possible :(";
 		}
 	}
 #endif
@@ -70,6 +68,7 @@ void SDLPlayer::initAudio()
 void SDLPlayer::playSound(string audioString, int playerID)
 {
 #ifndef ANDROID
+	initAudio();
 	if(audioEnabled && myConfig->readConfigInt("PlaySoundEffects")) {
 
 		QFile myFile(myAppDataPath + "sounds/default/" + QString::fromStdString(audioString)+".wav");
@@ -124,14 +123,10 @@ void SDLPlayer::playSound(string audioString, int playerID)
 			break;
 			}
 
-//			audioDone();
-
 			QDataStream in(&myFile);
 			soundData = new Uint8[(int)myFile.size()];
 			in.readRawData( (char*)soundData, (int)myFile.size() );
-
 			sound = Mix_QuickLoad_WAV(soundData);
-
 
 			// set channel 0 to settings volume
 			Mix_Volume(-1,myConfig->readConfigInt("SoundVolume")*10);
@@ -143,26 +138,11 @@ void SDLPlayer::playSound(string audioString, int playerID)
 			}
 			currentChannel = Mix_PlayChannel(-1, sound,0);
 		}
-		// 	else cout << "could not load " << audioString << ".wav" << endl;
 
-		//test
-		//	audioDone();
-		//	sound = Mix_LoadWAV( QString(QString::fromStdString(audioString)+QString(".wav")).toStdString().c_str() );
-		//	currentChannel = Mix_PlayChannel(-1, sound,0);
-
-	}
-#endif
-}
-
-void SDLPlayer::audioDone()
-{
-#ifndef ANDROID
-	if(audioEnabled) {
-		Mix_HaltChannel(currentChannel);
-		Mix_FreeChunk(sound);
-		sound = NULL;
-		delete[] soundData;
-		soundData = NULL;
+		//TESTING: release audio after every sound when there is no other sound currently played
+		if(SDL_GetAudioStatus() != SDL_AUDIO_PLAYING) {
+			closeAudio();
+		}
 	}
 #endif
 }
@@ -171,9 +151,15 @@ void SDLPlayer::closeAudio()
 {
 #ifndef ANDROID
 	if(audioEnabled) {
-		audioDone();
+		Mix_HaltChannel(currentChannel);
+		Mix_FreeChunk(sound);
+		sound = NULL;
+		delete[] soundData;
+		soundData = NULL;
 		Mix_CloseAudio();
 		audioEnabled = false;
 	}
+
+	SDL_Quit();
 #endif
 }
