@@ -68,6 +68,7 @@ INCLUDEPATH += . \
 	src/gui/qt/mymessagedialog \
 	src/gui/qt/gamelobbydialog \
         src/gui/qt/timeoutmsgbox \
+        src/gui/qt/logfiledialog \
         src/gui/qt/mymessagebox
 
 DEPENDPATH += . \
@@ -108,6 +109,7 @@ DEPENDPATH += . \
 	src/gui/qt/mymessagedialog \
 	src/gui/qt/gamelobbydialog \
         src/gui/qt/timeoutmsgbox \
+        src/gui/qt/logfiledialog \
         src/gui/qt/mymessagebox
 
 # Input
