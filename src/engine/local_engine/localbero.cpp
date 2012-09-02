@@ -159,7 +159,6 @@ void LocalBeRo::run()
 
 		bool allHighestSet = true;
 
-		PlayerListIterator it;
 		PlayerListIterator it_c;
 
 

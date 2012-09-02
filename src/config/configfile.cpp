@@ -697,7 +697,6 @@ list<int> ConfigFile::readConfigIntList(string varName) const
 	}
 
 	istringstream isst;
-	string tempString;
 	int tempInt;
 	list<string>::iterator it;
 	for(it = tempStringList.begin(); it != tempStringList.end(); ++it) {
@@ -734,7 +733,6 @@ void ConfigFile::writeConfigInt(string varName, int varCont)
 	boost::recursive_mutex::scoped_lock lock(m_configMutex);
 
 	size_t i;
-	string tempString;
 	ostringstream intToString;
 
 	for (i=0; i<configBufferList.size(); i++) {
@@ -757,7 +755,6 @@ void ConfigFile::writeConfigIntList(string varName, list<int> varCont)
 	for (i=0; i<configBufferList.size(); i++) {
 
 		if (configBufferList[i].name == varName) {
-			string tempString;
 			list<int>::iterator it;
 			for(it = varCont.begin(); it != varCont.end(); ++it) {
 

@@ -102,8 +102,6 @@ CleanerConfig::CleanerConfig()
 
 #endif
 
-	string userDir = configFileName.c_str();
-
 	ostringstream tempIntToString;
 	tempIntToString << configRev;
 
@@ -507,7 +505,6 @@ list<int> CleanerConfig::readConfigIntList(string varName) const
 	}
 
 	istringstream isst;
-	string tempString;
 	int tempInt;
 	list<string>::iterator it;
 	for(it = tempStringList.begin(); it != tempStringList.end(); ++it) {
@@ -527,7 +524,6 @@ void CleanerConfig::writeConfigInt(string varName, int varCont)
 {
 
 	size_t i;
-	string tempString;
 	ostringstream intToString;
 
 	for (i=0; i<configBufferList.size(); i++) {
@@ -550,7 +546,6 @@ void CleanerConfig::writeConfigIntList(string varName, list<int> varCont)
 	for (i=0; i<configBufferList.size(); i++) {
 
 		if (configBufferList[i].name == varName) {
-			string tempString;
 			list<int>::iterator it;
 			for(it = varCont.begin(); it != varCont.end(); ++it) {
 
@@ -569,7 +564,6 @@ void CleanerConfig::writeConfigStringList(string varName, list<string> varCont)
 {
 
 	size_t i;
-	list<string> stringList;
 
 	for (i=0; i<configBufferList.size(); i++) {
 

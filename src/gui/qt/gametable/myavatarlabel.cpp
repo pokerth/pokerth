@@ -129,7 +129,6 @@ void MyAvatarLabel::setPlayerRating(QString playerInfo)
 	int found=0;
 	QStringList playerInfoList=playerInfo.split("\"", QString::KeepEmptyParts, Qt::CaseSensitive), tipInfo;
 	boost::shared_ptr<Game> currentGame = myW->myStartWindow->getSession()->getCurrentGame();
-	PlayerListConstIterator it_c;
 	PlayerList seatsList = currentGame->getSeatsList();
 	std::list<std::string> tipsList = myW->getMyConfig()->readConfigStringList("PlayerTooltips");
 	std::list<std::string> result;
