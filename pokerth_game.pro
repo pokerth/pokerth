@@ -625,5 +625,9 @@ maemo{
     DEFINES += MAEMO
 }
 
+android_test{
+	DEFINES += ANDROID
+}
+
 FORMS += \
     src/gui/qt/logfiledialog.ui

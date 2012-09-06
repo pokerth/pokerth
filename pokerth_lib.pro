@@ -255,3 +255,7 @@ android{
 	INCLUDEPATH += src/third_party/sqlite3
 	SOURCES += src/third_party/sqlite3/sqlite3.c
 }
+
+android_test{
+	DEFINES += ANDROID
+}
