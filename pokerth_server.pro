@@ -320,3 +320,7 @@ official_server {
 	LIBS += -lpokerth_closed -lmysqlpp
 	DEFINES += POKERTH_OFFICIAL_SERVER
 }
+
+android_test{
+	DEFINES += ANDROID
+}

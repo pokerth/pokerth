@@ -405,7 +405,6 @@ void LocalHand::assignButtons()
 
 	size_t i;
 	PlayerListIterator it;
-	PlayerListConstIterator it_c;
 
 	// delete all buttons
 	for (it=seatsList->begin(); it!=seatsList->end(); ++it) {

@@ -29,7 +29,7 @@ using namespace std;
 
 SDLPlayer::SDLPlayer(ConfigFile *c)
 #ifndef ANDROID
-: soundData(NULL), currentChannel(0) , audioEnabled(0), myConfig(c), sound(NULL)
+: sound(NULL), soundData(NULL), currentChannel(0) , audioEnabled(0), myConfig(c)
 #endif
 {
 #ifndef ANDROID

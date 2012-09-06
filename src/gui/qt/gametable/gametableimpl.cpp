@@ -1876,13 +1876,13 @@ void gameTableImpl::meInAction()
 	myActionIsRaise = 0;
 	myActionIsBet = 0;
 
-	if(myConfig->readConfigInt("ShowStatusbarMessages")) {
+/*	if(myConfig->readConfigInt("ShowStatusbarMessages")) {
 		if ( myConfig->readConfigInt("AlternateFKeysUserActionMode") == 0 ) {
 			// // 			statusBar()->showMessage(tr("F1 - Fold | F2 - Check/Call | F3 - Bet/Raise | F4 - All-In"), 15000);
 		} else {
 			// 			statusBar()->showMessage(tr("F1 - All-In | F2 - Bet/Raise | F3 - Check/Call | F4 - Fold"), 15000);
 		}
-	}
+	}*/
 
 	QString lastPushButtonFoldString = pushButton_Fold->text();
 

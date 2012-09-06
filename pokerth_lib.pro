@@ -204,10 +204,10 @@ SOURCES += \
 		src/net/common/sendbuffer.cpp \
 		src/net/common/receivebuffer.cpp
 
-!android{
+!android:!android_test{
 	SOURCES += src/engine/local_engine/tools.cpp
 }
-android{
+android|android_test{
 	SOURCES += src/engine/local_engine/tools_android.cpp
 }
 
@@ -254,4 +254,8 @@ android{
 	# sqlite3 is included directly.
 	INCLUDEPATH += src/third_party/sqlite3
 	SOURCES += src/third_party/sqlite3/sqlite3.c
+}
+
+android_test{
+	DEFINES += ANDROID
 }

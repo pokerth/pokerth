@@ -253,11 +253,11 @@ ServerLobbyThread::AddConnection(boost::shared_ptr<tcp::socket> sock)
 	sessionData->StartTimerGlobalTimeout(SERVER_SESSION_FORCED_TIMEOUT_SEC);
 	sessionData->StartTimerActivityTimeout(SERVER_SESSION_ACTIVITY_TIMEOUT_SEC, SERVER_TIMEOUT_WARNING_REMAINING_SEC);
 
-	bool hasClientIp = false;
 	unsigned numLobbySessions = m_sessionManager.GetRawSessionCount();
 	unsigned numGameSessions = m_gameSessionManager.GetRawSessionCount();
 	if (numLobbySessions <= SERVER_MAX_NUM_LOBBY_SESSIONS
 			&& numLobbySessions + numGameSessions <= SERVER_MAX_NUM_TOTAL_SESSIONS) {
+		bool hasClientIp = false;
 		boost::system::error_code errCode;
 		tcp::endpoint clientEndpoint = sock->remote_endpoint(errCode);
 		if (!errCode) {
