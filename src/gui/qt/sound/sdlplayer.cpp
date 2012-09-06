@@ -32,7 +32,9 @@ SDLPlayer::SDLPlayer(ConfigFile *c)
 : soundData(NULL), currentChannel(0) , audioEnabled(0), myConfig(c), sound(NULL)
 #endif
 {
+#ifndef ANDROID
 	myAppDataPath = QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str());
+#endif
 }
 
 
