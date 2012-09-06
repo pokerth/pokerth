@@ -204,10 +204,10 @@ SOURCES += \
 		src/net/common/sendbuffer.cpp \
 		src/net/common/receivebuffer.cpp
 
-!android{
+!android:!android_test{
 	SOURCES += src/engine/local_engine/tools.cpp
 }
-android{
+android|android_test{
 	SOURCES += src/engine/local_engine/tools_android.cpp
 }
 
