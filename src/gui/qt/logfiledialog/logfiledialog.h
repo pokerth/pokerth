@@ -21,19 +21,38 @@
 
 #include <QDialog>
 
+
 namespace Ui {
 	class LogFileDialog;
 }
+
+
+class guiLog;
+class ConfigFile;
 
 class LogFileDialog : public QDialog
 {
 	Q_OBJECT
 	
 public:
-	explicit LogFileDialog(QWidget *parent = 0);
+	explicit LogFileDialog(QWidget *parent = 0, ConfigFile *c = 0);
 	~LogFileDialog();
+
+	void setGuiLog(guiLog *g) { myGuiLog = g; }
+	void exec();
+
+public slots:
+	void refreshLogFileList();
+	void deleteLogFile();
+	void exportLogToHtml();
+	void exportLogToTxt();
+	void saveLogFileAs();
+	void showLogFilePreview();
+	void keyPressEvent ( QKeyEvent * event );
 	
 private:
+	ConfigFile *myConfig;
+	guiLog *myGuiLog;
 	Ui::LogFileDialog *ui;
 };
 

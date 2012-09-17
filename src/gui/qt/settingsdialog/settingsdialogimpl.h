@@ -112,14 +112,7 @@ public slots:
 	void addCardDeckStyle();
 	void removeCardDeckStyle();
 	void removePlayerFromIgnoredPlayersList();
-	void refreshLogFileList();
-	void deleteLogFile();
-	void exportLogToHtml();
-	void exportLogToTxt();
-	void saveLogFileAs();
-	void showLogFilePreview();
 	void resetSettings();
-	void keyPressEvent ( QKeyEvent * event );
 
 private:
 
@@ -140,7 +133,6 @@ private:
 	std::list<std::string> myCardDeckStylesList;
 
 	ConfigFile* myConfig;
-	guiLog* myGuiLog;
 	selectAvatarDialogImpl *mySelectAvatarDialogImpl;
 	manualBlindsOrderDialogImpl *myManualBlindsOrderDialog;
 
@@ -149,6 +141,7 @@ private:
 	bool languageIsChanged;
 	bool calledIngame;
 	int changedLanguageIndex;
+	guiLog *myGuiLog;
 };
 
 #endif

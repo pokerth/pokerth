@@ -43,6 +43,7 @@
 #include "chattools.h"
 #include "serverlistdialogimpl.h"
 #include "internetgamelogindialogimpl.h"
+#include "logfiledialog.h"
 #include "guilog.h"
 
 using namespace std;
@@ -119,10 +120,12 @@ startWindowImpl::startWindowImpl(ConfigFile *c, Log *l)
 	myCreateNetworkGameDialog = new createNetworkGameDialogImpl(this, myConfig);
 	myAboutPokerthDialog = new aboutPokerthImpl(this, myConfig);
 	myGameLobbyDialog = new gameLobbyDialogImpl(this, myConfig);
+	myLogFileDialog = new LogFileDialog(this, myConfig);
 
 	myStartNetworkGameDialog->setMyW(myGuiInterface->getMyW());
 	myGameLobbyDialog->setMyW(myGuiInterface->getMyW());
 	mySettingsDialog->setGuiLog(myGuiLog);
+	myLogFileDialog->setGuiLog(myGuiLog);
 
 	myTimeoutDialog = new timeoutMsgBoxImpl(this);
 	myServerListDialog = new serverListDialogImpl(this, this, myConfig);
@@ -135,7 +138,8 @@ startWindowImpl::startWindowImpl(ConfigFile *c, Log *l)
 	connect( actionCreate_Network_Game, SIGNAL( triggered() ), this, SLOT( callCreateNetworkGameDialog() ) );
 	connect( pushButton_Create_Network_Game, SIGNAL( clicked() ), this, SLOT( callCreateNetworkGameDialog() ) );
 	connect( actionJoin_Network_Game, SIGNAL( triggered() ), this, SLOT( callJoinNetworkGameDialog() ) );
-        connect( pushButton_Join_Network_Game, SIGNAL( clicked() ), this, SLOT( callJoinNetworkGameDialog() ) );
+	connect( pushButton_Join_Network_Game, SIGNAL( clicked() ), this, SLOT( callJoinNetworkGameDialog() ) );
+	connect( actionLogs, SIGNAL( triggered() ), this, SLOT( callLogFileDialog() ) );
 
 	connect(this, SIGNAL(signalShowClientDialog()), this, SLOT(showClientDialog()));
 
@@ -623,6 +627,11 @@ void startWindowImpl::callSettingsDialog(bool ingame)
 	if (mySettingsDialog->result() == QDialog::Accepted && mySettingsDialog->getSettingsCorrect()) {
 		myGuiInterface->getMyW()->applySettings(mySettingsDialog);
 	}
+}
+
+void startWindowImpl::callLogFileDialog()
+{
+	myLogFileDialog->exec();
 }
 
 void startWindowImpl::showTimeoutDialog(int msgID, unsigned duration)

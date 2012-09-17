@@ -53,6 +53,7 @@ class serverListDialogImpl;
 class internetGameLoginDialogImpl;
 class guiLog;
 class Log;
+class LogFileDialog;
 
 class startWindowImpl: public QMainWindow, public Ui::startWindow
 {
@@ -139,6 +140,7 @@ public slots:
 	void joinGameLobby();
 	void showClientDialog();
 	void showNetworkStartDialog();
+	void callLogFileDialog();
 
 	void startNewLocalGame(newGameDialogImpl* =0);
 
@@ -178,8 +180,9 @@ private:
 	startWindowImpl *myStartWindow;
 	serverListDialogImpl *myServerListDialog;
 	internetGameLoginDialogImpl *myInternetGameLoginDialog;
+	LogFileDialog *myLogFileDialog;
 
-        MyMessageBox msgBoxOutdatedVersion;
+	MyMessageBox msgBoxOutdatedVersion;
 	bool msgBoxOutdatedVersionActive;
 
 	friend class GuiWrapper;

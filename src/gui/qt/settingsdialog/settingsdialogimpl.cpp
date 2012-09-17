@@ -22,7 +22,6 @@
 #include "carddeckstylereader.h"
 
 #include "configfile.h"
-#include "guilog.h"
 #include <net/socket_startup.h>
 #include <QSet>
 
@@ -45,14 +44,6 @@ settingsDialogImpl::settingsDialogImpl(QWidget *parent, ConfigFile *c, selectAva
     listWidget->takeItem(1);
     listWidget->takeItem(1);
 #endif
-
-	if(!SQLITE_LOG) {//temporarely remove sql log features
-		pushButton_deleteLog->hide();
-		pushButton_saveLogAs->hide();
-		pushButton_exportLogTxt->hide();
-		pushButton_exportLogHtml->hide();
-		treeWidget_logFiles->hide();
-	}
 
 	myManualBlindsOrderDialog = new manualBlindsOrderDialogImpl;
 
@@ -140,12 +131,6 @@ settingsDialogImpl::settingsDialogImpl(QWidget *parent, ConfigFile *c, selectAva
 	connect( pushButton_addCardDeckStyle, SIGNAL( clicked() ), this, SLOT( addCardDeckStyle()) );
 	connect( pushButton_removeCardDeckStyle, SIGNAL( clicked() ), this, SLOT( removeCardDeckStyle()) );
 	connect( pushButton_internetGameRemoveIgnoredPlayer, SIGNAL( clicked()), this, SLOT( removePlayerFromIgnoredPlayersList()));
-
-	connect( pushButton_deleteLog, SIGNAL(clicked()), this, SLOT (deleteLogFile()));
-	connect( pushButton_exportLogHtml, SIGNAL(clicked()), this, SLOT (exportLogToHtml()));
-	connect( pushButton_exportLogTxt, SIGNAL(clicked()), this, SLOT (exportLogToTxt()));
-	connect( pushButton_saveLogAs, SIGNAL(clicked()), this, SLOT (saveLogFileAs()));
-	connect( treeWidget_logFiles, SIGNAL(currentItemChanged(QTreeWidgetItem*, QTreeWidgetItem*)), this, SLOT(showLogFilePreview()));
 
 #ifdef GUI_800x480
     //make the scrollbar touchable for mobile guis
@@ -516,8 +501,6 @@ void settingsDialogImpl::prepareDialog()
 	lineEdit_logDir->setText(QString::fromUtf8(myConfig->readConfigString("LogDir").c_str()));
 	spinBox_logStoreDuration->setValue(myConfig->readConfigInt("LogStoreDuration"));
 	comboBox_logInterval->setCurrentIndex(myConfig->readConfigInt("LogInterval"));
-
-	refreshLogFileList();
 
 	bool tmpHasIpv6 = socket_has_ipv6();
 	bool tmpHasSctp = socket_has_sctp();
@@ -955,7 +938,6 @@ void settingsDialogImpl::setLogDir()
 		QDir logDir(dir);
 		if(logDir.exists()) {
 			lineEdit_logDir->setText(dir);
-			refreshLogFileList();
 			MyMessageBox::information(this, tr("Settings Information"),
 									 tr("You have changed the log file directory.\n"
 										"Please restart PokerTH to use the new directory for the log files!"),
@@ -1371,118 +1353,6 @@ void settingsDialogImpl::removePlayerFromIgnoredPlayersList()
 	}
 }
 
-void settingsDialogImpl::refreshLogFileList()
-{
-	QDir logFileDir;
-	logFileDir.setPath(lineEdit_logDir->text());
-	QStringList filters;
-	filters << "*.pdb";
-	QFileInfoList dbFilesList = logFileDir.entryInfoList(filters, QDir::Files, QDir::Time);
-
-	QFileInfo currentSqliteLogFile(QString::fromStdString(myGuiLog->getMySqliteLogFileName()));
-
-	treeWidget_logFiles->clear();
-	int i;
-	for (i=0; i < dbFilesList.size(); i++) {
-
-		QTreeWidgetItem *item = new QTreeWidgetItem;
-		item->setText(0, dbFilesList.at(i).fileName());
-		item->setData(0, Qt::UserRole, dbFilesList.at(i).absoluteFilePath());
-		if(currentSqliteLogFile.fileName() == dbFilesList.at(i).fileName()) {
-			item->setData(0, Qt::BackgroundColorRole, QColor(Qt::red));
-			item->setData(0, Qt::TextColorRole, QColor(Qt::white));
-			item->setData(0, Qt::UserRole+1, "current");
-		}
-		treeWidget_logFiles->addTopLevelItem(item);
-	}
-	treeWidget_logFiles->sortItems(0, Qt::DescendingOrder);
-}
-
-void settingsDialogImpl::deleteLogFile()
-{
-	QList<QTreeWidgetItem*> selectedItemsList = treeWidget_logFiles->selectedItems();
-
-	if(!selectedItemsList.isEmpty() && !( selectedItemsList.size() == 1 && selectedItemsList.front()->data(0, Qt::UserRole+1).toString() == "current" )) {
-
-		int ret = MyMessageBox::warning(this, tr("PokerTH - Delete log files"),
-									   tr("Do you really want to delete the selected log files?"),
-									   QMessageBox::Yes | QMessageBox::No);
-
-		if(ret == QMessageBox::Yes) {
-			for (int i = 0; i < selectedItemsList.size(); ++i) {
-				if(selectedItemsList.at(i)->data(0, Qt::UserRole+1).toString() != "current") {
-
-					if(!QFile::remove(selectedItemsList.at(i)->data(0, Qt::UserRole).toString())) {
-						MyMessageBox::warning(this, "Remove log file", "PokerTH cannot remove this log file, please verify that you have write access to this file!", QMessageBox::Close );
-					}
-				}
-			}
-			refreshLogFileList();
-		}
-	}
-}
-
-void settingsDialogImpl::exportLogToHtml()
-{
-	QTreeWidgetItem* selectedItem = treeWidget_logFiles->currentItem();
-
-	if(selectedItem) {
-		QFileInfo fi(selectedItem->text(0));
-		QString fileName = QFileDialog::getSaveFileName(this, tr("Export PokerTH log file to HTML"),
-						   QDir::homePath()+"/"+fi.baseName()+".html",
-						   tr("PokerTH HTML log (*.html)"));
-
-		if(!fileName.isEmpty()) {
-			myGuiLog->exportLogPdbToHtml(selectedItem->data(0, Qt::UserRole).toString(),fileName);
-		}
-	}
-}
-
-void settingsDialogImpl::exportLogToTxt()
-{
-	QTreeWidgetItem* selectedItem = treeWidget_logFiles->currentItem();
-
-	if(selectedItem) {
-		QFileInfo fi(selectedItem->text(0));
-		QString fileName = QFileDialog::getSaveFileName(this, tr("Export PokerTH log file to plain text"),
-						   QDir::homePath()+"/"+fi.baseName()+".txt",
-						   tr("PokerTH plain text log (*.txt)"));
-
-		if(!fileName.isEmpty()) {
-			myGuiLog->exportLogPdbToTxt(selectedItem->data(0, Qt::UserRole).toString(),fileName);
-		}
-	}
-}
-
-void settingsDialogImpl::saveLogFileAs()
-{
-	QTreeWidgetItem* selectedItem = treeWidget_logFiles->currentItem();
-
-	if(selectedItem) {
-		QFileInfo fi(selectedItem->text(0));
-		QString fileName = QFileDialog::getSaveFileName(this, tr("Save PokerTH log file"),
-						   QDir::homePath()+"/"+fi.baseName()+".pdb",
-						   tr("PokerTH SQL log (*.pdb)"));
-
-		if(!fileName.isEmpty()) {
-			QFile::copy(selectedItem->data(0, Qt::UserRole).toString(), fileName);
-		}
-	}
-}
-
-void settingsDialogImpl::showLogFilePreview()
-{
-	QTreeWidgetItem* selectedItem = treeWidget_logFiles->currentItem();
-
-	if(selectedItem) {
-		myGuiLog->showLog(selectedItem->data(0, Qt::UserRole).toString(), textBrowser_logPreview);
-	}
-
-	QTextCursor cursor(textBrowser_logPreview->textCursor());
-	cursor.movePosition(QTextCursor::Start);
-	textBrowser_logPreview->setTextCursor(cursor);
-}
-
 void settingsDialogImpl::resetSettings()
 {
 	int ret = MyMessageBox::warning(this, tr("PokerTH - Settings"),
@@ -1496,11 +1366,3 @@ void settingsDialogImpl::resetSettings()
 
 }
 
-void settingsDialogImpl::keyPressEvent ( QKeyEvent * event )
-{
-	if (event->key() == Qt::Key_Delete ) { /*Delete*/
-		if(treeWidget_logFiles->hasFocus()) {
-			pushButton_deleteLog->click();
-		}
-	}
-}
