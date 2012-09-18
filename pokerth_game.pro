@@ -357,7 +357,8 @@ win32 {
 		-lgpg-error \
 		-lgsasl \
 		-lidn \
-		-lintl
+		-lintl \
+		-lprotobuf
 	debug:LIBPATH += debug/lib
 	release:LIBPATH += release/lib
 		LIBS += -lsqlite3
@@ -485,7 +486,8 @@ unix:!mac {
 		BSD = $$find(UNAME, "BSD")
 		kFreeBSD = $$find(UNAME, "kFreeBSD")
 		LIBS += -lsqlite3 \
-				-ltinyxml
+				-ltinyxml \
+				-lprotobuf
 		LIBS += $$BOOST_LIBS
 		LIBS += -lSDL \
 				-lSDL_mixer \
