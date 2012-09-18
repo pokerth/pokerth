@@ -25,6 +25,7 @@ make libgsasl
 make sdl_mixer
 make tinyxml
 make libircclient
+make protobuf
 (this takes quite some time)
 
 5. As the user you would like to use to compile PokerTH for Windows,
