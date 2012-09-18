@@ -1,6 +1,6 @@
 /*****************************************************************************
  * PokerTH - The open source texas holdem engine                             *
- * Copyright (C) 2006-2011 Felix Hammer, Florian Thauer, Lothar May          *
+ * Copyright (C) 2006-2012 Felix Hammer, Florian Thauer, Lothar May          *
  *                                                                           *
  * This program is free software: you can redistribute it and/or modify      *
  * it under the terms of the GNU Affero General Public License as            *
@@ -23,11 +23,13 @@
 #include <string>
 #include <list>
 
-#include <third_party/asn1/PokerTHMessage.h>
+#include <third_party/protobuf/pokerth.pb.h>
 #include <gamedata.h>
 
 #define NET_VERSION_MAJOR			5
 #define NET_VERSION_MINOR			1
+
+#define NET_HEADER_SIZE				4
 
 #define MAX_FILE_DATA_SIZE			256
 #define MAX_PACKET_SIZE				384
@@ -40,22 +42,20 @@
 #define MAX_NUM_PLAYER_RESULTS		MAX_NUMBER_OF_PLAYERS
 #define MAX_NUM_PLAYER_CARDS		MAX_NUMBER_OF_PLAYERS*/
 
-#define STL_STRING_FROM_OCTET_STRING(_a) (string((const char *)(_a).buf, (_a).size))
-
-// This is just a wrapper class for the ASN.1 structure.
+// This is just a wrapper class for the protocol buffer.
 class NetPacket
 {
 public:
-	enum MemAllocType { NoAlloc = 0, Alloc };
-	NetPacket(MemAllocType alloc = NoAlloc);
+	NetPacket();
+	NetPacket(PokerTHMessage *msg);
 	~NetPacket();
 
-	static boost::shared_ptr<NetPacket> Create(char *data, size_t &dataSize);
+	static boost::shared_ptr<NetPacket> Create(char *data, size_t dataSize);
 
-	const PokerTHMessage_t *GetMsg() const {
+	const PokerTHMessage *GetMsg() const {
 		return m_msg;
 	}
-	PokerTHMessage_t *GetMsg() {
+	PokerTHMessage *GetMsg() {
 		return m_msg;
 	}
 
@@ -63,14 +63,14 @@ public:
 
 	std::string ToString() const;
 
-	static void SetGameData(const GameData &inData, NetGameInfo_t *outData);
-	static void GetGameData(const NetGameInfo_t *inData, GameData &outData);
+	static void SetGameData(const GameData &inData, NetGameInfo &outData);
+	static void GetGameData(const NetGameInfo &inData, GameData &outData);
 
-	static int NetErrorToGameError(long netErrorReason);
-	static long GameErrorToNetError(int gameErrorReason);
+	static int NetErrorToGameError(ErrorMessage::ErrorReason netErrorReason);
+	static ErrorMessage::ErrorReason GameErrorToNetError(int gameErrorReason);
 
 private:
-	PokerTHMessage_t *m_msg;
+	PokerTHMessage *m_msg;
 };
 
 typedef std::list<boost::shared_ptr<NetPacket> > NetPacketList;

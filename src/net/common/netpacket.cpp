@@ -1,6 +1,6 @@
 /*****************************************************************************
  * PokerTH - The open source texas holdem engine                             *
- * Copyright (C) 2006-2011 Felix Hammer, Florian Thauer, Lothar May          *
+ * Copyright (C) 2006-2012 Felix Hammer, Florian Thauer, Lothar May          *
  *                                                                           *
  * This program is free software: you can redistribute it and/or modify      *
  * it under the terms of the GNU Affero General Public License as            *
@@ -19,42 +19,37 @@
 #include <net/netpacket.h>
 #include <net/socket_msg.h>
 
+#include <boost/foreach.hpp>
+
 using namespace std;
 
-NetPacket::NetPacket(MemAllocType alloc)
-	: m_msg(NULL)
+NetPacket::NetPacket()
 {
-	if (alloc != NoAlloc)
-		m_msg = (PokerTHMessage_t *)calloc(1, sizeof(PokerTHMessage_t));
+	m_msg = PokerTHMessage::default_instance().New();
+}
+
+NetPacket::NetPacket(PokerTHMessage *msg)
+	: m_msg(msg)
+{
 }
 
 NetPacket::~NetPacket()
 {
-	ASN_STRUCT_FREE(asn_DEF_PokerTHMessage, m_msg);
+	delete m_msg;
 }
 
 boost::shared_ptr<NetPacket>
-NetPacket::Create(char *data, size_t &dataSize)
+NetPacket::Create(char *data, size_t dataSize)
 {
 	boost::shared_ptr<NetPacket> tmpPacket;
 
 	// Check minimum requirements.
 	if (data && dataSize > 0) {
-		PokerTHMessage_t *msg = NULL;
-		asn_dec_rval_t retVal = ber_decode(0, &asn_DEF_PokerTHMessage, (void **)&msg, data, dataSize);
-		if(retVal.code == RC_OK) {
-			// ASN.1 BER decoding was successful.
-			tmpPacket.reset(new NetPacket(NoAlloc));
-			tmpPacket->m_msg = msg;
-			// Consume the bytes.
-			if (retVal.consumed < dataSize) {
-				dataSize -= retVal.consumed;
-				memmove(data, data + retVal.consumed, dataSize);
-			} else
-				dataSize = 0;
+		PokerTHMessage *msg = PokerTHMessage::default_instance().New();
+		if (msg->ParseFromArray(data, static_cast<int>(dataSize))) {
+			tmpPacket.reset(new NetPacket(msg));
 		} else {
-			// Free the partially decoded message (if applicable).
-			ASN_STRUCT_FREE(asn_DEF_PokerTHMessage, msg);
+			delete msg;
 		}
 	}
 	return tmpPacket;
@@ -65,151 +60,123 @@ NetPacket::IsClientActivity() const
 {
 	bool retVal = false;
 	if (m_msg &&
-			(m_msg->present == PokerTHMessage_PR_initMessage
-			 || m_msg->present == PokerTHMessage_PR_joinGameRequestMessage
-			 || m_msg->present == PokerTHMessage_PR_kickPlayerRequestMessage
-			 || m_msg->present == PokerTHMessage_PR_leaveGameRequestMessage
-			 || m_msg->present == PokerTHMessage_PR_startEventMessage
-			 || m_msg->present == PokerTHMessage_PR_myActionRequestMessage
-			 || m_msg->present == PokerTHMessage_PR_resetTimeoutMessage
-			 || m_msg->present == PokerTHMessage_PR_chatRequestMessage)) {
+			(m_msg->messagetype() == PokerTHMessage::Type_InitMessage
+			 || m_msg->messagetype() == PokerTHMessage::Type_JoinNewGameMessage
+			 || m_msg->messagetype() == PokerTHMessage::Type_JoinExistingGameMessage
+			 || m_msg->messagetype() == PokerTHMessage::Type_RejoinExistingGameMessage
+			 || m_msg->messagetype() == PokerTHMessage::Type_KickPlayerRequestMessage
+			 || m_msg->messagetype() == PokerTHMessage::Type_LeaveGameRequestMessage
+			 || m_msg->messagetype() == PokerTHMessage::Type_StartEventMessage
+			 || m_msg->messagetype() == PokerTHMessage::Type_MyActionRequestMessage
+			 || m_msg->messagetype() == PokerTHMessage::Type_ResetTimeoutMessage
+			 || m_msg->messagetype() == PokerTHMessage::Type_ChatRequestMessage)) {
 		retVal = true;
 	}
 	return retVal;
 }
 
-static int
-net_packet_print_to_string(const void *buffer, size_t size, void *packetStr)
-{
-	string *tmpString = (string *)packetStr;
-	*tmpString += string((const char *)buffer, size);
-	return 0;
-}
-
 string
 NetPacket::ToString() const
 {
-	string packetString;
-	xer_encode(&asn_DEF_PokerTHMessage, m_msg, XER_F_BASIC, &net_packet_print_to_string, &packetString);
-	return packetString;
+	return m_msg ? m_msg->SerializeAsString() : "NULL";
 }
 
 void
-NetPacket::SetGameData(const GameData &inData, NetGameInfo_t *outData)
+NetPacket::SetGameData(const GameData &inData, NetGameInfo &outData)
 {
-	assert(outData);
-
-	int numManualBlinds = (int)inData.manualBlindsList.size();
-
-	outData->netGameType				= inData.gameType;
-	outData->maxNumPlayers				= inData.maxNumberOfPlayers;
-	outData->raiseIntervalMode.present	= static_cast<raiseIntervalMode_PR>(inData.raiseIntervalMode);
+	outData.set_netgametype(static_cast<NetGameInfo::NetGameType>(inData.gameType));
+	outData.set_maxnumplayers(inData.maxNumberOfPlayers);
+	outData.set_raiseintervalmode(static_cast<NetGameInfo::RaiseIntervalMode>(inData.raiseIntervalMode));
 	if (inData.raiseIntervalMode == RAISE_ON_HANDNUMBER) {
-		outData->raiseIntervalMode.present = raiseIntervalMode_PR_raiseEveryHands;
-		outData->raiseIntervalMode.choice.raiseEveryHands = inData.raiseSmallBlindEveryHandsValue;
+		outData.set_raiseeveryhands(inData.raiseSmallBlindEveryHandsValue);
 	} else {
-		outData->raiseIntervalMode.present = raiseIntervalMode_PR_raiseEveryMinutes;
-		outData->raiseIntervalMode.choice.raiseEveryMinutes = inData.raiseSmallBlindEveryMinutesValue;
+		outData.set_raiseeveryminutes(inData.raiseSmallBlindEveryMinutesValue);
 	}
-	outData->endRaiseMode				= inData.afterManualBlindsMode;
-	outData->proposedGuiSpeed			= inData.guiSpeed;
-	outData->delayBetweenHands			= inData.delayBetweenHandsSec;
-	outData->playerActionTimeout		= inData.playerActionTimeoutSec;
-	outData->endRaiseSmallBlindValue	= inData.afterMBAlwaysRaiseValue;
-	outData->firstSmallBlind			= inData.firstSmallBlind;
-	outData->startMoney					= inData.startMoney;
+	outData.set_endraisemode(static_cast<NetGameInfo::EndRaiseMode>(inData.afterManualBlindsMode));
+	outData.set_proposedguispeed(inData.guiSpeed);
+	outData.set_delaybetweenhands(inData.delayBetweenHandsSec);
+	outData.set_playeractiontimeout(inData.playerActionTimeoutSec);
+	outData.set_endraisesmallblindvalue(inData.afterMBAlwaysRaiseValue);
+	outData.set_firstsmallblind(inData.firstSmallBlind);
+	outData.set_startmoney(inData.startMoney);
 
-	if (numManualBlinds) {
-		list<int>::const_iterator i = inData.manualBlindsList.begin();
-		list<int>::const_iterator end = inData.manualBlindsList.end();
-		while (i != end) {
-			long *manualBlind = (long *)calloc(1, sizeof(long));
-			*manualBlind = *i;
-			ASN_SEQUENCE_ADD(&outData->manualBlinds.list, manualBlind);
-			++i;
-		}
+	BOOST_FOREACH(int manualBlind, inData.manualBlindsList) {
+		outData.add_manualblinds(manualBlind);
 	}
 }
 
 void
-NetPacket::GetGameData(const NetGameInfo_t *inData, GameData &outData)
+NetPacket::GetGameData(const NetGameInfo &inData, GameData &outData)
 {
-	assert(inData);
+	int numManualBlinds					= inData.manualblinds_size();
 
-	int numManualBlinds = (int)inData->manualBlinds.list.count;
-
-	outData.gameType					= static_cast<GameType>(inData->netGameType);
-	outData.maxNumberOfPlayers			= inData->maxNumPlayers;
-	outData.raiseIntervalMode			= static_cast<RaiseIntervalMode>(inData->raiseIntervalMode.present);
+	outData.gameType					= static_cast<GameType>(inData.netgametype());
+	outData.maxNumberOfPlayers			= inData.maxnumplayers();
+	outData.raiseIntervalMode			= static_cast<RaiseIntervalMode>(inData.raiseintervalmode());
 	outData.raiseSmallBlindEveryHandsValue = outData.raiseSmallBlindEveryMinutesValue = 0;
-	if (inData->raiseIntervalMode.present == raiseIntervalMode_PR_raiseEveryHands)
-		outData.raiseSmallBlindEveryHandsValue = inData->raiseIntervalMode.choice.raiseEveryHands;
+	if (outData.raiseIntervalMode == RAISE_ON_HANDNUMBER)
+		outData.raiseSmallBlindEveryHandsValue = inData.raiseeveryhands();
 	else
-		outData.raiseSmallBlindEveryMinutesValue = inData->raiseIntervalMode.choice.raiseEveryMinutes;
+		outData.raiseSmallBlindEveryMinutesValue = inData.raiseeveryminutes();
 	outData.raiseMode					= numManualBlinds > 0 ? MANUAL_BLINDS_ORDER : DOUBLE_BLINDS;
-	outData.afterManualBlindsMode		= static_cast<AfterManualBlindsMode>(inData->endRaiseMode);
-	outData.guiSpeed					= inData->proposedGuiSpeed;
-	outData.delayBetweenHandsSec		= inData->delayBetweenHands;
-	outData.playerActionTimeoutSec		= inData->playerActionTimeout;
-	outData.firstSmallBlind				= inData->firstSmallBlind;
-	outData.afterMBAlwaysRaiseValue		= inData->endRaiseSmallBlindValue;
-	outData.startMoney					= inData->startMoney;
+	outData.afterManualBlindsMode		= static_cast<AfterManualBlindsMode>(inData.endraisemode());
+	outData.guiSpeed					= inData.proposedguispeed();
+	outData.delayBetweenHandsSec		= inData.delaybetweenhands();
+	outData.playerActionTimeoutSec		= inData.playeractiontimeout();
+	outData.firstSmallBlind				= inData.firstsmallblind();
+	outData.afterMBAlwaysRaiseValue		= inData.endraisesmallblindvalue();
+	outData.startMoney					= inData.startmoney();
 
-	if (numManualBlinds) {
-		long **manualBlindsPtr = inData->manualBlinds.list.array;
-		int counter = 0;
-		for (int i = 0; i < numManualBlinds; i++) {
-			outData.manualBlindsList.push_back((int)*manualBlindsPtr[i]);
-			counter++;
-		}
+	for (int i = 0; i < numManualBlinds; i++) {
+		outData.manualBlindsList.push_back(static_cast<int>(inData.manualblinds(i)));
 	}
 }
 
 int
-NetPacket::NetErrorToGameError(long netErrorReason)
+NetPacket::NetErrorToGameError(ErrorMessage::ErrorReason netErrorReason)
 {
 	int retVal;
 	switch(netErrorReason) {
-	case errorReason_errorInitVersionNotSupported :
+	case ErrorMessage::initVersionNotSupported :
 		retVal = ERR_NET_VERSION_NOT_SUPPORTED;
 		break;
-	case errorReason_errorInitServerFull :
+	case ErrorMessage::initServerFull :
 		retVal = ERR_NET_SERVER_FULL;
 		break;
-	case errorReason_errorInitAuthFailure :
+	case ErrorMessage::initAuthFailure :
 		retVal = ERR_NET_INVALID_PASSWORD;
 		break;
-	case errorReason_errorInitPlayerNameInUse :
+	case ErrorMessage::initPlayerNameInUse :
 		retVal = ERR_NET_PLAYER_NAME_IN_USE;
 		break;
-	case errorReason_errorInitInvalidPlayerName :
+	case ErrorMessage::initInvalidPlayerName :
 		retVal = ERR_NET_INVALID_PLAYER_NAME;
 		break;
-	case errorReason_errorInitServerMaintenance :
+	case ErrorMessage::initServerMaintenance :
 		retVal = ERR_NET_SERVER_MAINTENANCE;
 		break;
-	case errorReason_errorInitBlocked :
+	case ErrorMessage::initBlocked :
 		retVal = ERR_NET_INIT_BLOCKED;
 		break;
-	case errorReason_errorAvatarTooLarge :
+	case ErrorMessage::avatarTooLarge :
 		retVal = ERR_NET_AVATAR_TOO_LARGE;
 		break;
-	case errorReason_errorInvalidPacket :
+	case ErrorMessage::invalidPacket :
 		retVal = ERR_SOCK_INVALID_PACKET;
 		break;
-	case errorReason_errorInvalidState :
+	case ErrorMessage::invalidState :
 		retVal = ERR_SOCK_INVALID_STATE;
 		break;
-	case errorReason_errorKickedFromServer :
+	case ErrorMessage::kickedFromServer :
 		retVal = ERR_NET_PLAYER_KICKED;
 		break;
-	case errorReason_errorBannedFromServer :
+	case ErrorMessage::bannedFromServer :
 		retVal = ERR_NET_PLAYER_BANNED;
 		break;
-	case errorReason_errorBlockedByServer :
+	case ErrorMessage::blockedByServer :
 		retVal = ERR_NET_PLAYER_BLOCKED;
 		break;
-	case errorReason_errorSessionTimeout :
+	case ErrorMessage::sessionTimeout :
 		retVal = ERR_NET_SESSION_TIMED_OUT;
 		break;
 	default :
@@ -219,55 +186,55 @@ NetPacket::NetErrorToGameError(long netErrorReason)
 	return retVal;
 }
 
-long
+ErrorMessage::ErrorReason
 NetPacket::GameErrorToNetError(int gameErrorReason)
 {
-	int retVal;
+	ErrorMessage::ErrorReason retVal;
 	switch(gameErrorReason) {
 	case ERR_NET_VERSION_NOT_SUPPORTED :
-		retVal = errorReason_errorInitVersionNotSupported;
+		retVal = ErrorMessage::initVersionNotSupported;
 		break;
 	case ERR_NET_SERVER_FULL :
-		retVal = errorReason_errorInitServerFull;
+		retVal = ErrorMessage::initServerFull;
 		break;
 	case ERR_NET_INVALID_PASSWORD :
-		retVal = errorReason_errorInitAuthFailure;
+		retVal = ErrorMessage::initAuthFailure;
 		break;
 	case ERR_NET_PLAYER_NAME_IN_USE :
-		retVal = errorReason_errorInitPlayerNameInUse;
+		retVal = ErrorMessage::initPlayerNameInUse;
 		break;
 	case ERR_NET_INVALID_PLAYER_NAME :
-		retVal = errorReason_errorInitInvalidPlayerName;
+		retVal = ErrorMessage::initInvalidPlayerName;
 		break;
 	case ERR_NET_SERVER_MAINTENANCE :
-		retVal = errorReason_errorInitServerMaintenance;
+		retVal = ErrorMessage::initServerMaintenance;
 		break;
 	case ERR_NET_INIT_BLOCKED :
-		retVal = errorReason_errorInitBlocked;
+		retVal = ErrorMessage::initBlocked;
 		break;
 	case ERR_NET_AVATAR_TOO_LARGE :
-		retVal = errorReason_errorAvatarTooLarge;
+		retVal = ErrorMessage::avatarTooLarge;
 		break;
 	case ERR_SOCK_INVALID_PACKET :
-		retVal = errorReason_errorInvalidPacket;
+		retVal = ErrorMessage::invalidPacket;
 		break;
 	case ERR_SOCK_INVALID_STATE :
-		retVal = errorReason_errorInvalidState;
+		retVal = ErrorMessage::invalidState;
 		break;
 	case ERR_NET_PLAYER_KICKED :
-		retVal = errorReason_errorKickedFromServer;
+		retVal = ErrorMessage::kickedFromServer;
 		break;
 	case ERR_NET_PLAYER_BLOCKED :
-		retVal = errorReason_errorBlockedByServer;
+		retVal = ErrorMessage::blockedByServer;
 		break;
 	case ERR_NET_PLAYER_BANNED :
-		retVal = errorReason_errorBannedFromServer;
+		retVal = ErrorMessage::bannedFromServer;
 		break;
 	case ERR_NET_SESSION_TIMED_OUT :
-		retVal = errorReason_errorSessionTimeout;
+		retVal = ErrorMessage::sessionTimeout;
 		break;
 	default :
-		retVal = errorReason_errorReserved;
+		retVal = ErrorMessage::reserved;
 		break;
 	}
 	return retVal;

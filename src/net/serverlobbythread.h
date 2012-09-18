@@ -71,10 +71,10 @@ public:
 	void NotifyReopeningGame(unsigned gameId);
 
 	void DispatchPacket(boost::shared_ptr<SessionData> session, boost::shared_ptr<NetPacket> packet);
-	void HandleGameRetrievePlayerInfo(boost::shared_ptr<SessionData> session, const PlayerInfoRequestMessage_t &playerInfoRequest);
-	void HandleGameRetrieveAvatar(boost::shared_ptr<SessionData> session, const AvatarRequestMessage_t &retrieveAvatar);
-	void HandleGameReportGame(boost::shared_ptr<SessionData> session, const ReportGameMessage_t &reportGame);
-	void HandleChatRequest(boost::shared_ptr<SessionData> session, const ChatRequestMessage_t &chatRequest);
+	void HandleGameRetrievePlayerInfo(boost::shared_ptr<SessionData> session, const PlayerInfoRequestMessage &playerInfoRequest);
+	void HandleGameRetrieveAvatar(boost::shared_ptr<SessionData> session, const AvatarRequestMessage &retrieveAvatar);
+	void HandleGameReportGame(boost::shared_ptr<SessionData> session, const ReportGameMessage &reportGame);
+	void HandleChatRequest(boost::shared_ptr<SessionData> session, const ChatRequestMessage &chatRequest);
 
 	bool KickPlayerByName(const std::string &playerName);
 	bool RemoveGameByPlayerName(const std::string &playerName);
@@ -129,20 +129,20 @@ protected:
 	void InitChatCleaner();
 
 	void HandlePacket(boost::shared_ptr<SessionData> session, boost::shared_ptr<NetPacket> packet);
-	void HandleNetPacketInit(boost::shared_ptr<SessionData> session, const InitMessage_t &initMessage);
-	void HandleNetPacketAuthClientResponse(boost::shared_ptr<SessionData> session, const AuthClientResponse_t &clientResponse);
-	void HandleNetPacketAvatarHeader(boost::shared_ptr<SessionData> session, unsigned requestId, const AvatarHeader_t &avatarHeader);
-	void HandleNetPacketUnknownAvatar(boost::shared_ptr<SessionData> session, unsigned requestId, const UnknownAvatar_t &unknownAvatar);
-	void HandleNetPacketAvatarFile(boost::shared_ptr<SessionData> session, unsigned requestId, const AvatarData_t &avatarData);
-	void HandleNetPacketAvatarEnd(boost::shared_ptr<SessionData> session, unsigned requestId, const AvatarEnd_t &avatarEnd);
-	void HandleNetPacketRetrievePlayerInfo(boost::shared_ptr<SessionData> session, const PlayerInfoRequestMessage_t &playerInfoRequest);
-	void HandleNetPacketRetrieveAvatar(boost::shared_ptr<SessionData> session, const AvatarRequestMessage_t &retrieveAvatar);
-	void HandleNetPacketCreateGame(boost::shared_ptr<SessionData> session, bool autoLeave, const JoinNewGame_t &newGame);
-	void HandleNetPacketJoinGame(boost::shared_ptr<SessionData> session, bool autoLeave, const JoinExistingGame_t &joinGame);
-	void HandleNetPacketRejoinGame(boost::shared_ptr<SessionData> session, bool autoLeave, const RejoinExistingGame_t &rejoinGame);
-	void HandleNetPacketChatRequest(boost::shared_ptr<SessionData> session, const ChatRequestMessage_t &chatRequest);
-	void HandleNetPacketRejectGameInvitation(boost::shared_ptr<SessionData> session, const RejectGameInvitationMessage_t &reject);
-	void HandleNetPacketReportGame(boost::shared_ptr<SessionData> session, const ReportGameMessage_t &report);
+	void HandleNetPacketInit(boost::shared_ptr<SessionData> session, const InitMessage &initMessage);
+	void HandleNetPacketAuthClientResponse(boost::shared_ptr<SessionData> session, const AuthClientResponseMessage &clientResponse);
+	void HandleNetPacketAvatarHeader(boost::shared_ptr<SessionData> session, const AvatarHeaderMessage &avatarHeader);
+	void HandleNetPacketUnknownAvatar(boost::shared_ptr<SessionData> session, const UnknownAvatarMessage &unknownAvatar);
+	void HandleNetPacketAvatarFile(boost::shared_ptr<SessionData> session, const AvatarDataMessage &avatarData);
+	void HandleNetPacketAvatarEnd(boost::shared_ptr<SessionData> session, const AvatarEndMessage &avatarEnd);
+	void HandleNetPacketRetrievePlayerInfo(boost::shared_ptr<SessionData> session, const PlayerInfoRequestMessage &playerInfoRequest);
+	void HandleNetPacketRetrieveAvatar(boost::shared_ptr<SessionData> session, const AvatarRequestMessage &retrieveAvatar);
+	void HandleNetPacketCreateGame(boost::shared_ptr<SessionData> session, const JoinNewGameMessage &newGame);
+	void HandleNetPacketJoinGame(boost::shared_ptr<SessionData> session, const JoinExistingGameMessage &joinGame);
+	void HandleNetPacketRejoinGame(boost::shared_ptr<SessionData> session, const RejoinExistingGameMessage &rejoinGame);
+	void HandleNetPacketChatRequest(boost::shared_ptr<SessionData> session, const ChatRequestMessage &chatRequest);
+	void HandleNetPacketRejectGameInvitation(boost::shared_ptr<SessionData> session, const RejectGameInvitationMessage &reject);
+	void HandleNetPacketReportGame(boost::shared_ptr<SessionData> session, const ReportGameMessage &report);
 	// TODO would be better to use state pattern here.
 	void AuthChallenge(boost::shared_ptr<SessionData> session, const std::string &secret);
 	void CheckAvatarBlacklist(boost::shared_ptr<SessionData> session);

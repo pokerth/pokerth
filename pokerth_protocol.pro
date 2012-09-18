@@ -343,6 +343,7 @@ SOURCES += src/third_party/asn1/ChatCleanerMessage.c \
     src/third_party/asn1/CleanerChatType.c \
     src/third_party/asn1/ChatTypePrivate.c \
     src/third_party/asn1/ChatRejectMessage.c
+SOURCES += src/third_party/protobuf/pokerth.pb.cc
 win32 { 
 	DEFINES += CURL_STATICLIB
 	DEFINES += _WIN32_WINNT=0x0501

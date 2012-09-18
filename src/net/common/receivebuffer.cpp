@@ -80,23 +80,29 @@ ReceiveBuffer::ScanPackets()
 		// This is necessary, because we use TCP.
 		// Packets may be received in multiple chunks or
 		// several packets may be received at once.
-		if (recvBufUsed) {
-			try {
-				// This call will also handle the memmove stuff, i.e.
-				// buffering for partial packets.
-				tmpPacket = NetPacket::Create(recvBuf, recvBufUsed);
-			} catch (const exception &e) {
-				// Reset buffer on error.
-				recvBufUsed = 0;
-				LOG_ERROR(e.what());
+		if (recvBufUsed >= NET_HEADER_SIZE) {
+			// Read the size of the packet (first 4 bytes in network byte order).
+			size_t packetSize = ntohl(*((uint32_t *)recvBuf));
+			if (recvBufUsed >= packetSize + NET_HEADER_SIZE)
+			{
+				try {
+					tmpPacket = NetPacket::Create(&recvBuf[NET_HEADER_SIZE], packetSize);
+					if (tmpPacket) {
+						recvBufUsed -= (packetSize + NET_HEADER_SIZE);
+						if (recvBufUsed) {
+							memmove(recvBuf, recvBuf + packetSize + NET_HEADER_SIZE, recvBufUsed);
+						}
+					}
+				} catch (const exception &e) {
+					// Reset buffer on error.
+					recvBufUsed = 0;
+					LOG_ERROR(e.what());
+				}
 			}
 		}
 		if (tmpPacket) {
-			//cerr << "IN:" << endl << tmpPacket->ToString() << endl;
-			if (asn_check_constraints(&asn_DEF_PokerTHMessage, tmpPacket->GetMsg(), NULL, NULL) == 0)
-				receivedPackets.push_back(tmpPacket);
-			else
-				LOG_ERROR("Invalid packet: " << endl << tmpPacket->ToString());
+			// TODO check constraints.
+			receivedPackets.push_back(tmpPacket);
 		} else
 			dataAvailable = false;
 	} while(dataAvailable);

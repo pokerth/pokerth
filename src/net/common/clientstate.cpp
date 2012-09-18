@@ -527,21 +527,22 @@ AbstractClientStateReceiving::~AbstractClientStateReceiving()
 void
 AbstractClientStateReceiving::HandlePacket(boost::shared_ptr<ClientThread> client, boost::shared_ptr<NetPacket> tmpPacket)
 {
-	if (tmpPacket->GetMsg()->present == PokerTHMessage_PR_playerInfoReplyMessage) {
-		unsigned playerId = tmpPacket->GetMsg()->choice.playerInfoReplyMessage.playerId;
-		if (tmpPacket->GetMsg()->choice.playerInfoReplyMessage.playerInfoResult.present == playerInfoResult_PR_playerInfoData) {
+	if (tmpPacket->GetMsg()->messagetype() == PokerTHMessage::Type_PlayerInfoReplyMessage) {
+		const PlayerInfoReplyMessage &infoReply = tmpPacket->GetMsg()->playerinforeplymessage();
+		unsigned playerId = infoReply.playerid();
+		if (infoReply.has_playerinfodata()) {
 			PlayerInfo tmpInfo;
-			PlayerInfoData_t *netInfo = &tmpPacket->GetMsg()->choice.playerInfoReplyMessage.playerInfoResult.choice.playerInfoData;
-			tmpInfo.playerName = STL_STRING_FROM_OCTET_STRING(netInfo->playerName);
-			tmpInfo.ptype = netInfo->isHuman ? PLAYER_TYPE_HUMAN : PLAYER_TYPE_COMPUTER;
-			tmpInfo.isGuest = netInfo->playerRights == PlayerInfoRights_playerRightsGuest;
-			if (netInfo->countryCode) {
-				tmpInfo.countryCode = STL_STRING_FROM_OCTET_STRING(*netInfo->countryCode);
+			const PlayerInfoReplyMessage::PlayerInfoData &netInfo = infoReply.playerinfodata();
+			tmpInfo.playerName = netInfo.playername();
+			tmpInfo.ptype = netInfo.ishuman() ? PLAYER_TYPE_HUMAN : PLAYER_TYPE_COMPUTER;
+			tmpInfo.isGuest = netInfo.playerrights() == playerRightsGuest;
+			if (netInfo.has_countrycode()) {
+				tmpInfo.countryCode = netInfo.countrycode();
 			}
-			if (netInfo->avatarData) {
+			if (netInfo.has_avatardata()) {
 				tmpInfo.hasAvatar = true;
-				memcpy(tmpInfo.avatar.GetData(), netInfo->avatarData->avatar.buf, MD5_DATA_SIZE);
-				tmpInfo.avatarType = (AvatarFileType)netInfo->avatarData->avatarType;
+				memcpy(tmpInfo.avatar.GetData(), netInfo.avatardata().avatarhash().data(), MD5_DATA_SIZE);
+				tmpInfo.avatarType = static_cast<AvatarFileType>(netInfo.avatardata().avatartype());
 			}
 			client->SetPlayerInfo(
 				playerId,
@@ -549,218 +550,206 @@ AbstractClientStateReceiving::HandlePacket(boost::shared_ptr<ClientThread> clien
 		} else {
 			client->SetUnknownPlayer(playerId);
 		}
-	} else if (tmpPacket->GetMsg()->present == PokerTHMessage_PR_gamePlayerMessage) {
-		GamePlayerMessage_t *netGamePlayer = &tmpPacket->GetMsg()->choice.gamePlayerMessage;
-//		unsigned gameId = netGamePlayer->gameId;
-		if (netGamePlayer->gamePlayerNotification.present == gamePlayerNotification_PR_removedFromGame) {
-			RemovedFromGame_t *netRemoved = &netGamePlayer->gamePlayerNotification.choice.removedFromGame;
+	} else if (tmpPacket->GetMsg()->messagetype() == PokerTHMessage::Type_RemovedFromGameMessage) {
+		const RemovedFromGameMessage &netRemoved = tmpPacket->GetMsg()->removedfromgamemessage();
 
-			client->ClearPlayerDataList();
-			// Resubscribe Lobby messages.
-			client->ResubscribeLobbyMsg();
-			// Show Lobby.
-			client->GetCallback().SignalNetClientWaitDialog();
-			int removeReason;
-			switch (netRemoved->removedFromGameReason) {
-			case removedFromGameReason_kickedFromGame :
+		client->ClearPlayerDataList();
+		// Resubscribe Lobby messages.
+		client->ResubscribeLobbyMsg();
+		// Show Lobby.
+		client->GetCallback().SignalNetClientWaitDialog();
+		int removeReason;
+		switch (netRemoved.removedfromgamereason()) {
+			case RemovedFromGameMessage::kickedFromGame :
 				removeReason = NTF_NET_REMOVED_KICKED;
 				break;
-			case removedFromGameReason_gameIsFull :
+			case RemovedFromGameMessage::gameIsFull :
 				removeReason = NTF_NET_REMOVED_GAME_FULL;
 				break;
-			case removedFromGameReason_gameIsRunning :
+			case RemovedFromGameMessage::gameIsRunning :
 				removeReason = NTF_NET_REMOVED_ALREADY_RUNNING;
 				break;
-			case removedFromGameReason_gameTimeout :
+			case RemovedFromGameMessage::gameTimeout :
 				removeReason = NTF_NET_REMOVED_TIMEOUT;
 				break;
-			case removedFromGameReason_removedStartFailed :
+			case RemovedFromGameMessage::removedStartFailed :
 				removeReason = NTF_NET_REMOVED_START_FAILED;
 				break;
 			default :
 				removeReason = NTF_NET_REMOVED_ON_REQUEST;
 				break;
-			}
-			client->GetCallback().SignalNetClientRemovedFromGame(removeReason);
-			client->SetState(ClientStateWaitJoin::Instance());
-		} else if (netGamePlayer->gamePlayerNotification.present == gamePlayerNotification_PR_gamePlayerLeft) {
-			// A player left the game.
-			GamePlayerLeft_t *netLeft = &netGamePlayer->gamePlayerNotification.choice.gamePlayerLeft;
-
-			if (client->GetGame()) {
-				boost::shared_ptr<PlayerInterface> tmpPlayer = client->GetGame()->getPlayerByUniqueId(netLeft->playerId);
-				if (tmpPlayer) {
-					tmpPlayer->setIsKicked(netLeft->gamePlayerLeftReason == gamePlayerLeftReason_leftKicked);
-				}
-			}
-			// Signal to GUI and remove from data list.
-			int removeReason;
-			switch (netLeft->gamePlayerLeftReason) {
-			case gamePlayerLeftReason_leftKicked :
-				removeReason = NTF_NET_REMOVED_KICKED;
-				break;
-			default :
-				removeReason = NTF_NET_REMOVED_ON_REQUEST;
-				break;
-			}
-			client->RemovePlayerData(netLeft->playerId, removeReason);
-		} else if (netGamePlayer->gamePlayerNotification.present == gamePlayerNotification_PR_gameAdminChanged) {
-			// New admin for the game.
-			GameAdminChanged_t *netChanged = &netGamePlayer->gamePlayerNotification.choice.gameAdminChanged;
-
-			// Set new game admin and signal to GUI.
-			client->SetNewGameAdmin(netChanged->newAdminPlayerId);
-		} else if (netGamePlayer->gamePlayerNotification.present == gamePlayerNotification_PR_gamePlayerJoined) {
-			// Another player joined the network game.
-			GamePlayerJoined_t *netPlayerJoined = &netGamePlayer->gamePlayerNotification.choice.gamePlayerJoined;
-
-			boost::shared_ptr<PlayerData> playerData = client->CreatePlayerData(netPlayerJoined->playerId, netPlayerJoined->isGameAdmin != 0);
-			client->AddPlayerData(playerData);
 		}
-	} else if (tmpPacket->GetMsg()->present == PokerTHMessage_PR_timeoutWarningMessage) {
-		TimeoutWarningMessage_t *tmpTimeout = &tmpPacket->GetMsg()->choice.timeoutWarningMessage;
-		client->GetCallback().SignalNetClientShowTimeoutDialog((NetTimeoutReason)tmpTimeout->timeoutReason, tmpTimeout->remainingSeconds);
-	} else if (tmpPacket->GetMsg()->present == PokerTHMessage_PR_chatMessage) {
+		client->GetCallback().SignalNetClientRemovedFromGame(removeReason);
+		client->SetState(ClientStateWaitJoin::Instance());
+	} else if (tmpPacket->GetMsg()->messagetype() == PokerTHMessage::Type_GamePlayerLeftMessage) {
+		// A player left the game.
+		const GamePlayerLeftMessage &netLeft = tmpPacket->GetMsg()->gameplayerleftmessage();
+
+		if (client->GetGame()) {
+			boost::shared_ptr<PlayerInterface> tmpPlayer = client->GetGame()->getPlayerByUniqueId(netLeft.playerid());
+			if (tmpPlayer) {
+				tmpPlayer->setIsKicked(netLeft.gameplayerleftreason() == GamePlayerLeftMessage::leftKicked);
+			}
+		}
+		// Signal to GUI and remove from data list.
+		int removeReason;
+		switch (netLeft.gameplayerleftreason()) {
+		case GamePlayerLeftMessage::leftKicked :
+			removeReason = NTF_NET_REMOVED_KICKED;
+			break;
+		default :
+			removeReason = NTF_NET_REMOVED_ON_REQUEST;
+			break;
+		}
+		client->RemovePlayerData(netLeft.playerid(), removeReason);
+	} else if (tmpPacket->GetMsg()->messagetype() == PokerTHMessage::Type_GameAdminChangedMessage) {
+		// New admin for the game.
+		const GameAdminChangedMessage &netChanged = tmpPacket->GetMsg()->gameadminchangedmessage();
+
+		// Set new game admin and signal to GUI.
+		client->SetNewGameAdmin(netChanged.newadminplayerid());
+	} else if (tmpPacket->GetMsg()->messagetype() == PokerTHMessage::Type_GamePlayerJoinedMessage) {
+		// Another player joined the network game.
+		const GamePlayerJoinedMessage &netPlayerJoined = tmpPacket->GetMsg()->gameplayerjoinedmessage();
+
+		boost::shared_ptr<PlayerData> playerData = client->CreatePlayerData(netPlayerJoined.playerid(), netPlayerJoined.isgameadmin());
+		client->AddPlayerData(playerData);
+	} else if (tmpPacket->GetMsg()->messagetype() == PokerTHMessage::Type_TimeoutWarningMessage) {
+		const TimeoutWarningMessage &tmpTimeout = tmpPacket->GetMsg()->timeoutwarningmessage();
+		client->GetCallback().SignalNetClientShowTimeoutDialog((NetTimeoutReason)tmpTimeout.timeoutreason(), tmpTimeout.remainingseconds());
+	} else if (tmpPacket->GetMsg()->messagetype() == PokerTHMessage::Type_ChatMessage) {
 		// Chat message - display it in the GUI.
-		ChatMessage_t *netMessage = &tmpPacket->GetMsg()->choice.chatMessage;
+		const ChatMessage &netMessage = tmpPacket->GetMsg()->chatmessage();
 
 		string playerName;
-		if (netMessage->chatType.present == chatType_PR_chatTypeBroadcast) {
-			client->GetCallback().SignalNetClientGameChatMsg("(global notice)", STL_STRING_FROM_OCTET_STRING(netMessage->chatText));
-			client->GetCallback().SignalNetClientLobbyChatMsg("(global notice)", STL_STRING_FROM_OCTET_STRING(netMessage->chatText));
-		} else if (netMessage->chatType.present == chatType_PR_chatTypeBot) {
-			client->GetCallback().SignalNetClientGameChatMsg("(chat bot)", STL_STRING_FROM_OCTET_STRING(netMessage->chatText));
-			client->GetCallback().SignalNetClientLobbyChatMsg("(chat bot)", STL_STRING_FROM_OCTET_STRING(netMessage->chatText));
-		} else if (netMessage->chatType.present == chatType_PR_chatTypeGame) {
-			unsigned playerId = netMessage->chatType.choice.chatTypeGame.playerId;
+		if (netMessage.chattype() == ChatMessage::chatTypeBroadcast) {
+			client->GetCallback().SignalNetClientGameChatMsg("(global notice)", netMessage.chattext());
+			client->GetCallback().SignalNetClientLobbyChatMsg("(global notice)", netMessage.chattext());
+		} else if (netMessage.chattype() == ChatMessage::chatTypeBot) {
+			client->GetCallback().SignalNetClientGameChatMsg("(chat bot)", netMessage.chattext());
+			client->GetCallback().SignalNetClientLobbyChatMsg("(chat bot)", netMessage.chattext());
+		} else if (netMessage.chattype() == ChatMessage::chatTypeGame) {
+			unsigned playerId = netMessage.playerid();
 			boost::shared_ptr<PlayerData> tmpPlayer = client->GetPlayerDataByUniqueId(playerId);
 			if (tmpPlayer.get())
 				playerName = tmpPlayer->GetName();
 			if (!playerName.empty())
-				client->GetCallback().SignalNetClientGameChatMsg(playerName, STL_STRING_FROM_OCTET_STRING(netMessage->chatText));
-		} else if (netMessage->chatType.present == chatType_PR_chatTypeLobby) {
-			unsigned playerId = netMessage->chatType.choice.chatTypeLobby.playerId;
+				client->GetCallback().SignalNetClientGameChatMsg(playerName, netMessage.chattext());
+		} else if (netMessage.chattype() == ChatMessage::chatTypeLobby) {
+			unsigned playerId = netMessage.playerid();
 			PlayerInfo info;
 			if (client->GetCachedPlayerInfo(playerId, info))
-				client->GetCallback().SignalNetClientLobbyChatMsg(info.playerName, STL_STRING_FROM_OCTET_STRING(netMessage->chatText));
-		} else if (netMessage->chatType.present == chatType_PR_chatTypePrivate) {
-			unsigned playerId = netMessage->chatType.choice.chatTypeLobby.playerId;
+				client->GetCallback().SignalNetClientLobbyChatMsg(info.playerName, netMessage.chattext());
+		} else if (netMessage.chattype() == ChatMessage::chatTypePrivate) {
+			unsigned playerId = netMessage.playerid();
 			PlayerInfo info;
 			if (client->GetCachedPlayerInfo(playerId, info))
-				client->GetCallback().SignalNetClientPrivateChatMsg(info.playerName, STL_STRING_FROM_OCTET_STRING(netMessage->chatText));
+				client->GetCallback().SignalNetClientPrivateChatMsg(info.playerName, netMessage.chattext());
 		}
-	} else if (tmpPacket->GetMsg()->present == PokerTHMessage_PR_chatRejectMessage) {
-		ChatRejectMessage_t *netMessage = &tmpPacket->GetMsg()->choice.chatRejectMessage;
-		client->GetCallback().SignalNetClientGameChatMsg("(notice)", "Chat rejected: " + STL_STRING_FROM_OCTET_STRING(netMessage->chatText));
-		client->GetCallback().SignalNetClientLobbyChatMsg("(notice)", "Chat rejected: " + STL_STRING_FROM_OCTET_STRING(netMessage->chatText));
-	} else if (tmpPacket->GetMsg()->present == PokerTHMessage_PR_dialogMessage) {
+	} else if (tmpPacket->GetMsg()->messagetype() == PokerTHMessage::Type_ChatRejectMessage) {
+		const ChatRejectMessage &netMessage = tmpPacket->GetMsg()->chatrejectmessage();
+		client->GetCallback().SignalNetClientGameChatMsg("(notice)", "Chat rejected: " + netMessage.chattext());
+		client->GetCallback().SignalNetClientLobbyChatMsg("(notice)", "Chat rejected: " + netMessage.chattext());
+	} else if (tmpPacket->GetMsg()->messagetype() == PokerTHMessage::Type_DialogMessage) {
 		// Message box - display it in the GUI.
-		DialogMessage_t *netDialog = &tmpPacket->GetMsg()->choice.dialogMessage;
-		client->GetCallback().SignalNetClientMsgBox(STL_STRING_FROM_OCTET_STRING(netDialog->notificationText));
-	} else if (tmpPacket->GetMsg()->present == PokerTHMessage_PR_playerListMessage) {
-		PlayerListMessage_t *netPlayerList = &tmpPacket->GetMsg()->choice.playerListMessage;
+		const DialogMessage &netDialog = tmpPacket->GetMsg()->dialogmessage();
+		client->GetCallback().SignalNetClientMsgBox(netDialog.notificationtext());
+	} else if (tmpPacket->GetMsg()->messagetype() == PokerTHMessage::Type_PlayerListMessage) {
+		const PlayerListMessage &netPlayerList = tmpPacket->GetMsg()->playerlistmessage();
 
-		if (netPlayerList->playerListNotification == playerListNotification_playerListNew) {
+		if (netPlayerList.playerlistnotification() == PlayerListMessage::playerListNew) {
 			PlayerInfo info;
-			if (!client->GetCachedPlayerInfo(netPlayerList->playerId, info)) {
+			if (!client->GetCachedPlayerInfo(netPlayerList.playerid(), info)) {
 				// Request player info.
 				ostringstream name;
-				name << "#" << netPlayerList->playerId;
+				name << "#" << netPlayerList.playerid();
 				info.playerName = name.str();
-				client->RequestPlayerInfo(netPlayerList->playerId);
+				client->RequestPlayerInfo(netPlayerList.playerid());
 			}
-			client->GetCallback().SignalLobbyPlayerJoined(netPlayerList->playerId, info.playerName);
-		} else if (netPlayerList->playerListNotification == playerListNotification_playerListLeft) {
-			client->GetCallback().SignalLobbyPlayerLeft(netPlayerList->playerId);
+			client->GetCallback().SignalLobbyPlayerJoined(netPlayerList.playerid(), info.playerName);
+		} else if (netPlayerList.playerlistnotification() == PlayerListMessage::playerListLeft) {
+			client->GetCallback().SignalLobbyPlayerLeft(netPlayerList.playerid());
 		}
-	} else if (tmpPacket->GetMsg()->present == PokerTHMessage_PR_gameListMessage) {
-		GameListMessage_t *netGameList = &tmpPacket->GetMsg()->choice.gameListMessage;
-		unsigned gameId = netGameList->gameId;
+	} else if (tmpPacket->GetMsg()->messagetype() == PokerTHMessage::Type_GameListNewMessage) {
+		// A new game was created on the server.
+		const GameListNewMessage &netListNew = tmpPacket->GetMsg()->gamelistnewmessage();
 
-		if (netGameList->gameListNotification.present == gameListNotification_PR_gameListNew) {
-			// A new game was created on the server.
-			GameListNew_t *netListNew = &netGameList->gameListNotification.choice.gameListNew;
-
-			NonZeroId_t **playerIds = netListNew->playerIds.list.array;
-			unsigned numPlayers = netListNew->playerIds.list.count;
-			// Request player info for players if needed.
-			GameInfo tmpInfo;
-			for (unsigned i = 0; i < numPlayers; i++) {
-				PlayerInfo info;
-				unsigned playerId = *playerIds[i];
-				if (!client->GetCachedPlayerInfo(playerId, info)) {
-					// Request player info.
-					client->RequestPlayerInfo(playerId);
-				}
-				tmpInfo.players.push_back(playerId);
-			}
-			tmpInfo.adminPlayerId = netListNew->adminPlayerId;
-			tmpInfo.isPasswordProtected = netListNew->isPrivate ? true : false;
-			tmpInfo.mode = static_cast<GameMode>(netListNew->gameMode);
-			tmpInfo.name = STL_STRING_FROM_OCTET_STRING(netListNew->gameInfo.gameName);
-			NetPacket::GetGameData(&netListNew->gameInfo, tmpInfo.data);
-
-			client->AddGameInfo(gameId, tmpInfo);
-		} else if (netGameList->gameListNotification.present == gameListNotification_PR_gameListUpdate) {
-			// An existing game was updated on the server.
-			GameListUpdate_t *netListUpdate = &netGameList->gameListNotification.choice.gameListUpdate;
-			if (netListUpdate->gameMode == NetGameMode_gameClosed)
-				client->RemoveGameInfo(gameId);
-			else
-				client->UpdateGameInfoMode(gameId, static_cast<GameMode>(netListUpdate->gameMode));
-		} else if (netGameList->gameListNotification.present == gameListNotification_PR_gameListPlayerJoined) {
-			GameListPlayerJoined_t *netListJoined = &netGameList->gameListNotification.choice.gameListPlayerJoined;
-
-			client->ModifyGameInfoAddPlayer(gameId, netListJoined->playerId);
-			// Request player info if needed.
+		unsigned numPlayers = netListNew.playerids_size();
+		// Request player info for players if needed.
+		GameInfo tmpInfo;
+		for (unsigned i = 0; i < numPlayers; i++) {
 			PlayerInfo info;
-			if (!client->GetCachedPlayerInfo(netListJoined->playerId, info)) {
-				client->RequestPlayerInfo(netListJoined->playerId);
+			unsigned playerId = netListNew.playerids(i);
+			if (!client->GetCachedPlayerInfo(playerId, info)) {
+				// Request player info.
+				client->RequestPlayerInfo(playerId);
 			}
-		} else if (netGameList->gameListNotification.present == gameListNotification_PR_gameListPlayerLeft) {
-			GameListPlayerLeft_t *netListLeft = &netGameList->gameListNotification.choice.gameListPlayerLeft;
-
-			client->ModifyGameInfoRemovePlayer(gameId, netListLeft->playerId);
-		} else if (netGameList->gameListNotification.present == gameListNotification_PR_gameListAdminChanged) {
-			GameListAdminChanged_t *netListAdmin = &netGameList->gameListNotification.choice.gameListAdminChanged;
-
-			client->UpdateGameInfoAdmin(gameId, netListAdmin->newAdminPlayerId);
+			tmpInfo.players.push_back(playerId);
 		}
-	} else if (tmpPacket->GetMsg()->present == PokerTHMessage_PR_startKickPetitionMessage) {
-		StartKickPetitionMessage_t *netStartPetition = &tmpPacket->GetMsg()->choice.startKickPetitionMessage;
-		client->StartPetition(netStartPetition->petitionId, netStartPetition->proposingPlayerId,
-							  netStartPetition->kickPlayerId, netStartPetition->kickTimeoutSec, netStartPetition->numVotesNeededToKick);
-	} else if (tmpPacket->GetMsg()->present == PokerTHMessage_PR_kickPetitionUpdateMessage) {
-		KickPetitionUpdateMessage_t *netPetitionUpdate = &tmpPacket->GetMsg()->choice.kickPetitionUpdateMessage;
-		client->UpdatePetition(netPetitionUpdate->petitionId, netPetitionUpdate->numVotesAgainstKicking,
-							   netPetitionUpdate->numVotesInFavourOfKicking, netPetitionUpdate->numVotesNeededToKick);
-	} else if (tmpPacket->GetMsg()->present == PokerTHMessage_PR_endKickPetitionMessage) {
-		EndKickPetitionMessage_t *netEndPetition = &tmpPacket->GetMsg()->choice.endKickPetitionMessage;
-		client->EndPetition(netEndPetition->petitionId);
-	} else if (tmpPacket->GetMsg()->present == PokerTHMessage_PR_avatarReplyMessage) {
-		AvatarReplyMessage_t *netAvatarReply = &tmpPacket->GetMsg()->choice.avatarReplyMessage;
-		unsigned requestId = netAvatarReply->requestId;
-		if (netAvatarReply->avatarResult.present == avatarResult_PR_avatarHeader) {
-			AvatarHeader_t *netAvatarHeader = &netAvatarReply->avatarResult.choice.avatarHeader;
-			client->AddTempAvatarFile(requestId, netAvatarHeader->avatarSize, static_cast<AvatarFileType>(netAvatarHeader->avatarType));
-		} else if (netAvatarReply->avatarResult.present == avatarResult_PR_avatarData) {
-			AvatarData_t *netAvatarData = &netAvatarReply->avatarResult.choice.avatarData;
-			vector<unsigned char> fileData(netAvatarData->avatarBlock.size);
-			memcpy(&fileData[0], netAvatarData->avatarBlock.buf, netAvatarData->avatarBlock.size);
-			client->StoreInTempAvatarFile(requestId, fileData);
-		} else if (netAvatarReply->avatarResult.present == avatarResult_PR_avatarEnd) {
-			client->CompleteTempAvatarFile(requestId);
-		} else if (netAvatarReply->avatarResult.present == avatarResult_PR_unknownAvatar) {
-			client->SetUnknownAvatar(requestId);
+		tmpInfo.adminPlayerId = netListNew.adminplayerid();
+		tmpInfo.isPasswordProtected = netListNew.isprivate();
+		tmpInfo.mode = static_cast<GameMode>(netListNew.gamemode());
+		tmpInfo.name = netListNew.gameinfo().gamename();
+		NetPacket::GetGameData(netListNew.gameinfo(), tmpInfo.data);
+
+		client->AddGameInfo(netListNew.gameid(), tmpInfo);
+	} else if (tmpPacket->GetMsg()->messagetype() == PokerTHMessage::Type_GameListUpdateMessage) {
+		// An existing game was updated on the server.
+		const GameListUpdateMessage &netListUpdate = tmpPacket->GetMsg()->gamelistupdatemessage();
+		if (netListUpdate.gamemode() == gameClosed)
+			client->RemoveGameInfo(netListUpdate.gameid());
+		else
+			client->UpdateGameInfoMode(netListUpdate.gameid(), static_cast<GameMode>(netListUpdate.gamemode()));
+	} else if (tmpPacket->GetMsg()->messagetype() == PokerTHMessage::Type_GameListPlayerJoinedMessage) {
+		const GameListPlayerJoinedMessage &netListJoined = tmpPacket->GetMsg()->gamelistplayerjoinedmessage();
+
+		client->ModifyGameInfoAddPlayer(netListJoined.gameid(), netListJoined.playerid());
+		// Request player info if needed.
+		PlayerInfo info;
+		if (!client->GetCachedPlayerInfo(netListJoined.playerid(), info)) {
+			client->RequestPlayerInfo(netListJoined.playerid());
 		}
-	} else if (tmpPacket->GetMsg()->present == PokerTHMessage_PR_reportAvatarAckMessage) {
-		ReportAvatarAckMessage_t *netReportAck = &tmpPacket->GetMsg()->choice.reportAvatarAckMessage;
+	} else if (tmpPacket->GetMsg()->messagetype() == PokerTHMessage::Type_GameListPlayerLeftMessage) {
+		const GameListPlayerLeftMessage &netListLeft = tmpPacket->GetMsg()->gamelistplayerleftmessage();
+
+		client->ModifyGameInfoRemovePlayer(netListLeft.gameid(), netListLeft.playerid());
+	} else if (tmpPacket->GetMsg()->messagetype() == PokerTHMessage::Type_GameListAdminChangedMessage) {
+		const GameListAdminChangedMessage &netListAdmin = tmpPacket->GetMsg()->gamelistadminchangedmessage();
+
+		client->UpdateGameInfoAdmin(netListAdmin.gameid(), netListAdmin.newadminplayerid());
+	} else if (tmpPacket->GetMsg()->messagetype() == PokerTHMessage::Type_StartKickPetitionMessage) {
+		const StartKickPetitionMessage &netStartPetition = tmpPacket->GetMsg()->startkickpetitionmessage();
+		client->StartPetition(netStartPetition.petitionid(), netStartPetition.proposingplayerid(),
+							  netStartPetition.kickplayerid(), netStartPetition.kicktimeoutsec(), netStartPetition.numvotesneededtokick());
+	} else if (tmpPacket->GetMsg()->messagetype() == PokerTHMessage::Type_KickPetitionUpdateMessage) {
+		const KickPetitionUpdateMessage &netPetitionUpdate = tmpPacket->GetMsg()->kickpetitionupdatemessage();
+		client->UpdatePetition(netPetitionUpdate.petitionid(), netPetitionUpdate.numvotesagainstkicking(),
+							   netPetitionUpdate.numvotesinfavourofkicking(), netPetitionUpdate.numvotesneededtokick());
+	} else if (tmpPacket->GetMsg()->messagetype() == PokerTHMessage::Type_EndKickPetitionMessage) {
+		const EndKickPetitionMessage &netEndPetition = tmpPacket->GetMsg()->endkickpetitionmessage();
+		client->EndPetition(netEndPetition.petitionid());
+	} else if (tmpPacket->GetMsg()->messagetype() == PokerTHMessage::Type_AvatarHeaderMessage) {
+		const AvatarHeaderMessage &netAvatarHeader = tmpPacket->GetMsg()->avatarheadermessage();
+		client->AddTempAvatarFile(netAvatarHeader.requestid(), netAvatarHeader.avatarsize(), static_cast<AvatarFileType>(netAvatarHeader.avatartype()));
+	} else if (tmpPacket->GetMsg()->messagetype() == PokerTHMessage::Type_AvatarDataMessage) {
+		const AvatarDataMessage &netAvatarData = tmpPacket->GetMsg()->avatardatamessage();
+		vector<unsigned char> fileData(netAvatarData.avatarblock().size());
+		memcpy(&fileData[0], netAvatarData.avatarblock().data(), netAvatarData.avatarblock().size());
+		client->StoreInTempAvatarFile(netAvatarData.requestid(), fileData);
+	} else if (tmpPacket->GetMsg()->messagetype() == PokerTHMessage::Type_AvatarEndMessage) {
+		const AvatarEndMessage &netAvatarEnd = tmpPacket->GetMsg()->avatarendmessage();
+		client->CompleteTempAvatarFile(netAvatarEnd.requestid());
+	} else if (tmpPacket->GetMsg()->messagetype() == PokerTHMessage::Type_UnknownAvatarMessage) {
+		const UnknownAvatarMessage &netUnknownAvatar = tmpPacket->GetMsg()->unknownavatarmessage();
+		client->SetUnknownAvatar(netUnknownAvatar.requestid());
+	} else if (tmpPacket->GetMsg()->messagetype() == PokerTHMessage::Type_ReportAvatarAckMessage) {
+		const ReportAvatarAckMessage &netReportAck = tmpPacket->GetMsg()->reportavatarackmessage();
 		unsigned msgCode;
-		switch (netReportAck->reportAvatarResult) {
-		case reportAvatarResult_avatarReportAccepted:
+		switch (netReportAck.reportavatarresult()) {
+		case ReportAvatarAckMessage::avatarReportAccepted:
 			msgCode = MSG_NET_AVATAR_REPORT_ACCEPTED;
 			break;
-		case reportAvatarResult_avatarReportDuplicate:
+		case ReportAvatarAckMessage::avatarReportDuplicate:
 			msgCode = MSG_NET_AVATAR_REPORT_DUP;
 			break;
 		default:
@@ -768,14 +757,14 @@ AbstractClientStateReceiving::HandlePacket(boost::shared_ptr<ClientThread> clien
 			break;
 		}
 		client->GetCallback().SignalNetClientMsgBox(msgCode);
-	} else if (tmpPacket->GetMsg()->present == PokerTHMessage_PR_reportGameAckMessage) {
-		ReportGameAckMessage_t *netReportAck = &tmpPacket->GetMsg()->choice.reportGameAckMessage;
+	} else if (tmpPacket->GetMsg()->messagetype() == PokerTHMessage::Type_ReportGameAckMessage) {
+		const ReportGameAckMessage &netReportAck = tmpPacket->GetMsg()->reportgameackmessage();
 		unsigned msgCode;
-		switch (netReportAck->reportGameResult) {
-		case reportGameResult_gameReportAccepted:
+		switch (netReportAck.reportgameresult()) {
+		case ReportGameAckMessage::gameReportAccepted:
 			msgCode = MSG_NET_GAMENAME_REPORT_ACCEPTED;
 			break;
-		case reportGameResult_gameReportDuplicate:
+		case ReportGameAckMessage::gameReportDuplicate:
 			msgCode = MSG_NET_GAMENAME_REPORT_DUP;
 			break;
 		default:
@@ -783,25 +772,24 @@ AbstractClientStateReceiving::HandlePacket(boost::shared_ptr<ClientThread> clien
 			break;
 		}
 		client->GetCallback().SignalNetClientMsgBox(msgCode);
-	} else if (tmpPacket->GetMsg()->present == PokerTHMessage_PR_statisticsMessage) {
-		StatisticsMessage_t *netStatistics = &tmpPacket->GetMsg()->choice.statisticsMessage;
+	} else if (tmpPacket->GetMsg()->messagetype() == PokerTHMessage::Type_StatisticsMessage) {
+		const StatisticsMessage &netStatistics = tmpPacket->GetMsg()->statisticsmessage();
 
-		StatisticsData **statData = netStatistics->statisticsData.list.array;
-		unsigned numStats = netStatistics->statisticsData.list.count;
+		unsigned numStats = netStatistics.statisticsdata_size();
 		// Request player info for players if needed.
-		if (numStats && statData && *statData) {
+		if (numStats) {
 			ServerStats tmpStats;
 			for (unsigned i = 0; i < numStats; i++) {
-				if (statData[i]->statisticsType == statisticsType_statNumberOfPlayers)
-					tmpStats.numberOfPlayersOnServer = statData[i]->statisticsValue;
+				if (netStatistics.statisticsdata(i).statisticstype() == StatisticsMessage::StatisticsData::statNumberOfPlayers)
+					tmpStats.numberOfPlayersOnServer = netStatistics.statisticsdata(i).statisticsvalue();
 			}
 			client->UpdateStatData(tmpStats);
 		}
-	} else if (tmpPacket->GetMsg()->present == PokerTHMessage_PR_errorMessage) {
+	} else if (tmpPacket->GetMsg()->messagetype() == PokerTHMessage::Type_ErrorMessage) {
 		// Server reported an error.
-		ErrorMessage_t *netError = &tmpPacket->GetMsg()->choice.errorMessage;
+		const ErrorMessage &netError = tmpPacket->GetMsg()->errormessage();
 		// Show the error.
-		throw ClientException(__FILE__, __LINE__, NetPacket::NetErrorToGameError(netError->errorReason), 0);
+		throw ClientException(__FILE__, __LINE__, NetPacket::NetErrorToGameError(netError.errorreason()), 0);
 	}
 
 	InternalHandlePacket(client, tmpPacket);
@@ -839,60 +827,46 @@ ClientStateStartSession::Exit(boost::shared_ptr<ClientThread> /*client*/)
 void
 ClientStateStartSession::InternalHandlePacket(boost::shared_ptr<ClientThread> client, boost::shared_ptr<NetPacket> tmpPacket)
 {
-	if (tmpPacket->GetMsg()->present == PokerTHMessage_PR_announceMessage) {
+	if (tmpPacket->GetMsg()->messagetype() == PokerTHMessage::Type_AnnounceMessage) {
 		// Server has send announcement - check data.
-		AnnounceMessage_t *netAnnounce = &tmpPacket->GetMsg()->choice.announceMessage;
+		const AnnounceMessage &netAnnounce = tmpPacket->GetMsg()->announcemessage();
 		// Check current game version.
-		if (netAnnounce->latestGameVersion.major != POKERTH_VERSION_MAJOR
-				|| netAnnounce->latestGameVersion.minor != POKERTH_VERSION_MINOR) {
+		if (netAnnounce.latestgameversion().major() != POKERTH_VERSION_MAJOR
+				|| netAnnounce.latestgameversion().minor() != POKERTH_VERSION_MINOR) {
 			client->GetCallback().SignalNetClientNotification(NTF_NET_NEW_RELEASE_AVAILABLE);
-		} else if (POKERTH_BETA_REVISION && netAnnounce->latestBetaRevision != POKERTH_BETA_REVISION) {
+		} else if (POKERTH_BETA_REVISION && netAnnounce.latestbetarevision() != POKERTH_BETA_REVISION) {
 			client->GetCallback().SignalNetClientNotification(NTF_NET_OUTDATED_BETA);
 		}
 		ClientContext &context = client->GetContext();
 
 		// CASE 1: Authenticated login (username, challenge/response for password).
-		if (netAnnounce->serverType == serverType_serverTypeInternetAuth) {
+		if (netAnnounce.servertype() == AnnounceMessage::serverTypeInternetAuth) {
 			client->GetCallback().SignalNetClientLoginShow();
 			client->SetState(ClientStateWaitEnterLogin::Instance());
 		}
 		// CASE 2: Unauthenticated login (network game or dedicated server without auth backend).
-		else if (netAnnounce->serverType == serverType_serverTypeInternetNoAuth
-				 || netAnnounce->serverType == serverType_serverTypeLAN) {
-			boost::shared_ptr<NetPacket> init(new NetPacket(NetPacket::Alloc));
-			init->GetMsg()->present = PokerTHMessage_PR_initMessage;
-			InitMessage_t *netInit = &init->GetMsg()->choice.initMessage;
-			netInit->requestedVersion.major = NET_VERSION_MAJOR;
-			netInit->requestedVersion.minor = NET_VERSION_MINOR;
+		else if (netAnnounce.servertype() == AnnounceMessage::serverTypeInternetNoAuth
+				 || netAnnounce.servertype() == AnnounceMessage::serverTypeLAN) {
+			boost::shared_ptr<NetPacket> init(new NetPacket);
+			init->GetMsg()->set_messagetype(PokerTHMessage::Type_InitMessage);
+			InitMessage *netInit = init->GetMsg()->mutable_initmessage();
+			netInit->mutable_requestedversion()->set_major(NET_VERSION_MAJOR);
+			netInit->mutable_requestedversion()->set_minor(NET_VERSION_MINOR);
+			netInit->set_buildid(0);
 			if (!context.GetSessionGuid().empty()) {
-				netInit->myLastSessionId =
-					OCTET_STRING_new_fromBuf(
-						&asn_DEF_OCTET_STRING,
-						context.GetSessionGuid().c_str(),
-						(int)context.GetSessionGuid().length());
+				netInit->set_mylastsessionid(context.GetSessionGuid());
 			}
 			if (!context.GetServerPassword().empty()) {
-				netInit->authServerPassword =
-					OCTET_STRING_new_fromBuf(
-						&asn_DEF_OCTET_STRING,
-						context.GetServerPassword().c_str(),
-						context.GetServerPassword().length());
+				netInit->set_authserverpassword(context.GetServerPassword());
 			}
-			netInit->login.present = login_PR_unauthenticatedLogin;
-			UnauthenticatedLogin_t *noauthLogin = &netInit->login.choice.unauthenticatedLogin;
-			OCTET_STRING_fromBuf(&noauthLogin->nickName,
-								 context.GetPlayerName().c_str(),
-								 (int)context.GetPlayerName().length());
+			netInit->set_login(InitMessage::unauthenticatedLogin);
+			netInit->set_nickname(context.GetPlayerName());
 			string avatarFile = client->GetQtToolsInterface().stringFromUtf8(context.GetAvatarFile());
 			if (!avatarFile.empty()) {
 				MD5Buf tmpMD5;
 				if (client->GetAvatarManager().GetHashForAvatar(avatarFile, tmpMD5)) {
 					// Send MD5 hash of avatar.
-					noauthLogin->avatar =
-						OCTET_STRING_new_fromBuf(
-							&asn_DEF_OCTET_STRING,
-							(const char *)tmpMD5.GetData(),
-							MD5_DATA_SIZE);
+					netInit->set_avatarhash(tmpMD5.GetData(), MD5_DATA_SIZE);
 				}
 			}
 			client->GetSender().Send(context.GetSessionData(), init);
@@ -937,11 +911,11 @@ ClientStateWaitEnterLogin::Exit(boost::shared_ptr<ClientThread> client)
 void
 ClientStateWaitEnterLogin::HandlePacket(boost::shared_ptr<ClientThread> /*client*/, boost::shared_ptr<NetPacket> tmpPacket)
 {
-	if (tmpPacket->GetMsg()->present == PokerTHMessage_PR_errorMessage) {
+	if (tmpPacket->GetMsg()->messagetype() == PokerTHMessage::Type_ErrorMessage) {
 		// Server reported an error.
-		ErrorMessage_t *netError = &tmpPacket->GetMsg()->choice.errorMessage;
+		const ErrorMessage &netError = tmpPacket->GetMsg()->errormessage();
 		// Show the error.
-		throw ClientException(__FILE__, __LINE__, NetPacket::NetErrorToGameError(netError->errorReason), 0);
+		throw ClientException(__FILE__, __LINE__, NetPacket::NetErrorToGameError(netError.errorreason()), 0);
 	}
 }
 
@@ -952,24 +926,17 @@ ClientStateWaitEnterLogin::TimerLoop(const boost::system::error_code& ec, boost:
 		ClientThread::LoginData loginData;
 		if (client->GetLoginData(loginData)) {
 			ClientContext &context = client->GetContext();
-			boost::shared_ptr<NetPacket> init(new NetPacket(NetPacket::Alloc));
-			init->GetMsg()->present = PokerTHMessage_PR_initMessage;
-			InitMessage_t *netInit = &init->GetMsg()->choice.initMessage;
-			netInit->requestedVersion.major = NET_VERSION_MAJOR;
-			netInit->requestedVersion.minor = NET_VERSION_MINOR;
+			boost::shared_ptr<NetPacket> init(new NetPacket);
+			init->GetMsg()->set_messagetype(PokerTHMessage::Type_InitMessage);
+			InitMessage *netInit = init->GetMsg()->mutable_initmessage();
+			netInit->mutable_requestedversion()->set_major(NET_VERSION_MAJOR);
+			netInit->mutable_requestedversion()->set_minor(NET_VERSION_MINOR);
+			netInit->set_buildid(0);
 			if (!context.GetSessionGuid().empty()) {
-				netInit->myLastSessionId =
-					OCTET_STRING_new_fromBuf(
-						&asn_DEF_OCTET_STRING,
-						context.GetSessionGuid().c_str(),
-						(int)context.GetSessionGuid().length());
+				netInit->set_mylastsessionid(context.GetSessionGuid());
 			}
 			if (!context.GetServerPassword().empty()) {
-				netInit->authServerPassword =
-					OCTET_STRING_new_fromBuf(
-						&asn_DEF_OCTET_STRING,
-						context.GetServerPassword().c_str(),
-						context.GetServerPassword().length());
+				netInit->set_authserverpassword(context.GetServerPassword());
 			}
 
 			context.SetPlayerName(loginData.userName);
@@ -978,11 +945,8 @@ ClientStateWaitEnterLogin::TimerLoop(const boost::system::error_code& ec, boost:
 			if (loginData.isGuest) {
 				context.SetPassword("");
 				context.SetPlayerRights(PLAYER_RIGHTS_GUEST);
-				netInit->login.present = login_PR_guestLogin;
-				GuestLogin_t *guestLogin = &netInit->login.choice.guestLogin;
-				OCTET_STRING_fromBuf(&guestLogin->nickName,
-									 context.GetPlayerName().c_str(),
-									 (int)context.GetPlayerName().length());
+				netInit->set_login(InitMessage::guestLogin);
+				netInit->set_nickname(context.GetPlayerName());
 
 				client->GetSender().Send(context.GetSessionData(), init);
 				client->SetState(ClientStateWaitSession::Instance());
@@ -990,27 +954,20 @@ ClientStateWaitEnterLogin::TimerLoop(const boost::system::error_code& ec, boost:
 			// If the player is not a guest, authenticate.
 			else {
 				context.SetPassword(loginData.password);
-				netInit->login.present = login_PR_authenticatedLogin;
-				AuthenticatedLogin_t *authLogin = &netInit->login.choice.authenticatedLogin;
+				netInit->set_login(InitMessage::authenticatedLogin);
 				// Send authentication user data for challenge/response in init.
 				boost::shared_ptr<SessionData> tmpSession = context.GetSessionData();
 				tmpSession->CreateClientAuthSession(client->GetAuthContext(), context.GetPlayerName(), context.GetPassword());
 				if (!tmpSession->AuthStep(1, ""))
 					throw ClientException(__FILE__, __LINE__, ERR_NET_INVALID_PASSWORD, 0);
 				string outUserData(tmpSession->AuthGetNextOutMsg());
-				OCTET_STRING_fromBuf(&authLogin->clientUserData,
-									 outUserData.c_str(),
-									 (int)outUserData.length());
+				netInit->set_clientuserdata(outUserData);
 				string avatarFile = client->GetQtToolsInterface().stringFromUtf8(context.GetAvatarFile());
 				if (!avatarFile.empty()) {
 					MD5Buf tmpMD5;
 					if (client->GetAvatarManager().GetHashForAvatar(avatarFile, tmpMD5)) {
 						// TODO: use sha1.
-						authLogin->avatar =
-							OCTET_STRING_new_fromBuf(
-								&asn_DEF_OCTET_STRING,
-								(const char *)tmpMD5.GetData(),
-								MD5_DATA_SIZE);
+						netInit->set_avatarhash(tmpMD5.GetData(), MD5_DATA_SIZE);
 					}
 				}
 				client->GetSender().Send(context.GetSessionData(), init);
@@ -1056,31 +1013,20 @@ ClientStateWaitAuthChallenge::Exit(boost::shared_ptr<ClientThread> /*client*/)
 void
 ClientStateWaitAuthChallenge::InternalHandlePacket(boost::shared_ptr<ClientThread> client, boost::shared_ptr<NetPacket> tmpPacket)
 {
-	if (tmpPacket->GetMsg()->present == PokerTHMessage_PR_authMessage) {
-		// Check subtype.
-		AuthMessage_t *netAuth = &tmpPacket->GetMsg()->choice.authMessage;
-		if (netAuth->present == AuthMessage_PR_authServerChallenge) {
-			AuthServerChallenge_t *netChallenge = &netAuth->choice.authServerChallenge;
-			string challengeStr = STL_STRING_FROM_OCTET_STRING(netChallenge->serverChallenge);
-			boost::shared_ptr<SessionData> tmpSession = client->GetContext().GetSessionData();
-			if (!tmpSession->AuthStep(2, challengeStr.c_str()))
-				throw ClientException(__FILE__, __LINE__, ERR_NET_INVALID_PASSWORD, 0);
-			string outUserData(tmpSession->AuthGetNextOutMsg());
-
-
-			boost::shared_ptr<NetPacket> packet(new NetPacket(NetPacket::Alloc));
-			packet->GetMsg()->present = PokerTHMessage_PR_authMessage;
-			AuthMessage_t *outAuth = &packet->GetMsg()->choice.authMessage;
-			outAuth->present = AuthMessage_PR_authClientResponse;
-			AuthClientResponse_t *outResponse = &outAuth->choice.authClientResponse;
-
-			OCTET_STRING_fromBuf(&outResponse->clientResponse,
-								 outUserData.c_str(),
-								 (int)outUserData.length());
-			client->GetSender().Send(tmpSession, packet);
-			client->SetState(ClientStateWaitAuthVerify::Instance());
-		} else
+	if (tmpPacket->GetMsg()->messagetype() == PokerTHMessage::Type_AuthServerChallengeMessage) {
+		const AuthServerChallengeMessage &netAuth = tmpPacket->GetMsg()->authserverchallengemessage();
+		string challengeStr(netAuth.serverchallenge());
+		boost::shared_ptr<SessionData> tmpSession = client->GetContext().GetSessionData();
+		if (!tmpSession->AuthStep(2, challengeStr.c_str()))
 			throw ClientException(__FILE__, __LINE__, ERR_NET_INVALID_PASSWORD, 0);
+		string outUserData(tmpSession->AuthGetNextOutMsg());
+
+		boost::shared_ptr<NetPacket> packet(new NetPacket);
+		packet->GetMsg()->set_messagetype(PokerTHMessage::Type_AuthClientResponseMessage);
+		AuthClientResponseMessage *outAuth = packet->GetMsg()->mutable_authclientresponsemessage();
+		outAuth->set_clientresponse(outUserData);
+		client->GetSender().Send(tmpSession, packet);
+		client->SetState(ClientStateWaitAuthVerify::Instance());
 	}
 }
 
@@ -1114,19 +1060,15 @@ ClientStateWaitAuthVerify::Exit(boost::shared_ptr<ClientThread> /*client*/)
 void
 ClientStateWaitAuthVerify::InternalHandlePacket(boost::shared_ptr<ClientThread> client, boost::shared_ptr<NetPacket> tmpPacket)
 {
-	if (tmpPacket->GetMsg()->present == PokerTHMessage_PR_authMessage) {
+	if (tmpPacket->GetMsg()->messagetype() == PokerTHMessage::Type_AuthServerVerificationMessage) {
 		// Check subtype.
-		AuthMessage_t *netAuth = &tmpPacket->GetMsg()->choice.authMessage;
-		if (netAuth->present == AuthMessage_PR_authServerVerification) {
-			AuthServerVerification_t *netVerification = &netAuth->choice.authServerVerification;
-			string verificationStr = STL_STRING_FROM_OCTET_STRING(netVerification->serverVerification);
-			boost::shared_ptr<SessionData> tmpSession = client->GetContext().GetSessionData();
-			if (!tmpSession->AuthStep(3, verificationStr.c_str()))
-				throw ClientException(__FILE__, __LINE__, ERR_NET_INVALID_PASSWORD, 0);
-
-			client->SetState(ClientStateWaitSession::Instance());
-		} else
+		const AuthServerVerificationMessage &netAuth = tmpPacket->GetMsg()->authserververificationmessage();
+		string verificationStr(netAuth.serververification());
+		boost::shared_ptr<SessionData> tmpSession = client->GetContext().GetSessionData();
+		if (!tmpSession->AuthStep(3, verificationStr.c_str()))
 			throw ClientException(__FILE__, __LINE__, ERR_NET_INVALID_PASSWORD, 0);
+
+		client->SetState(ClientStateWaitSession::Instance());
 	}
 }
 
@@ -1160,26 +1102,26 @@ ClientStateWaitSession::Exit(boost::shared_ptr<ClientThread> /*client*/)
 void
 ClientStateWaitSession::InternalHandlePacket(boost::shared_ptr<ClientThread> client, boost::shared_ptr<NetPacket> tmpPacket)
 {
-	if (tmpPacket->GetMsg()->present == PokerTHMessage_PR_initAckMessage) {
+	if (tmpPacket->GetMsg()->messagetype() == PokerTHMessage::Type_InitAckMessage) {
 		// Everything is fine - we are in the lobby.
-		InitAckMessage_t *netInitAck = &tmpPacket->GetMsg()->choice.initAckMessage;
-		client->SetGuiPlayerId(netInitAck->yourPlayerId);
+		const InitAckMessage &netInitAck = tmpPacket->GetMsg()->initackmessage();
+		client->SetGuiPlayerId(netInitAck.yourplayerid());
 
-		client->GetContext().SetSessionGuid(STL_STRING_FROM_OCTET_STRING(netInitAck->yourSessionId));
+		client->GetContext().SetSessionGuid(netInitAck.yoursessionid());
 		client->SetSessionEstablished(true);
 		client->GetCallback().SignalNetClientConnect(MSG_SOCK_SESSION_DONE);
-		if (netInitAck->rejoinGameId)
-			client->GetCallback().SignalNetClientRejoinPossible(*netInitAck->rejoinGameId);
+		if (netInitAck.has_rejoingameid())
+			client->GetCallback().SignalNetClientRejoinPossible(netInitAck.rejoingameid());
 		client->SetState(ClientStateWaitJoin::Instance());
-	} else if (tmpPacket->GetMsg()->present == PokerTHMessage_PR_avatarRequestMessage) {
+	} else if (tmpPacket->GetMsg()->messagetype() == PokerTHMessage::Type_AvatarRequestMessage) {
 		// Before letting us join the lobby, the server requests our avatar.
-		AvatarRequestMessage_t *netAvatarRequest = &tmpPacket->GetMsg()->choice.avatarRequestMessage;
+		const AvatarRequestMessage &netAvatarRequest = tmpPacket->GetMsg()->avatarrequestmessage();
 
 		// TODO compare SHA1.
 		NetPacketList tmpList;
 		int avatarError = client->GetAvatarManager().AvatarFileToNetPackets(
 							  client->GetQtToolsInterface().stringFromUtf8(client->GetContext().GetAvatarFile()),
-							  netAvatarRequest->requestId,
+							  netAvatarRequest.requestid(),
 							  tmpList);
 
 		if (!avatarError)
@@ -1221,77 +1163,73 @@ ClientStateWaitJoin::InternalHandlePacket(boost::shared_ptr<ClientThread> client
 {
 	ClientContext &context = client->GetContext();
 
-	if (tmpPacket->GetMsg()->present == PokerTHMessage_PR_joinGameReplyMessage) {
-		JoinGameReplyMessage_t *netJoinReply = &tmpPacket->GetMsg()->choice.joinGameReplyMessage;
-		unsigned gameId = netJoinReply->gameId;
-		if (netJoinReply->joinGameResult.present == joinGameResult_PR_joinGameAck) {
-			// Successfully joined a game.
-			JoinGameAck_t *netJoinAck = &netJoinReply->joinGameResult.choice.joinGameAck;
-			client->SetGameId(gameId);
-			GameData tmpData;
-			NetPacket::GetGameData(&netJoinAck->gameInfo, tmpData);
-			client->SetGameData(tmpData);
+	if (tmpPacket->GetMsg()->messagetype() == PokerTHMessage::Type_JoinGameAckMessage) {
+		const JoinGameAckMessage &netJoinAck = tmpPacket->GetMsg()->joingameackmessage();
+		// Successfully joined a game.
+		client->SetGameId(netJoinAck.gameid());
+		GameData tmpData;
+		NetPacket::GetGameData(netJoinAck.gameinfo(), tmpData);
+		client->SetGameData(tmpData);
 
-			// Player number is 0 on init. Will be set when the game starts.
-			boost::shared_ptr<PlayerData> playerData(
-				new PlayerData(client->GetGuiPlayerId(), 0, PLAYER_TYPE_HUMAN,
-							   context.GetPlayerRights(), netJoinAck->areYouGameAdmin));
-			playerData->SetName(context.GetPlayerName());
-			playerData->SetAvatarFile(context.GetAvatarFile());
-			client->AddPlayerData(playerData);
+		// Player number is 0 on init. Will be set when the game starts.
+		boost::shared_ptr<PlayerData> playerData(
+			new PlayerData(client->GetGuiPlayerId(), 0, PLAYER_TYPE_HUMAN,
+							context.GetPlayerRights(), netJoinAck.areyougameadmin()));
+		playerData->SetName(context.GetPlayerName());
+		playerData->SetAvatarFile(context.GetAvatarFile());
+		client->AddPlayerData(playerData);
 
-			client->GetCallback().SignalNetClientGameInfo(MSG_NET_GAME_CLIENT_JOIN);
-			client->SetState(ClientStateWaitGame::Instance());
-		} else if (netJoinReply->joinGameResult.present == joinGameResult_PR_joinGameFailed) {
-			// Failed to join a game.
-			JoinGameFailed_t *netJoinFailed = &netJoinReply->joinGameResult.choice.joinGameFailed;
+		client->GetCallback().SignalNetClientGameInfo(MSG_NET_GAME_CLIENT_JOIN);
+		client->SetState(ClientStateWaitGame::Instance());
+	} else if (tmpPacket->GetMsg()->messagetype() == PokerTHMessage::Type_JoinGameFailedMessage) {
+		// Failed to join a game.
+		const JoinGameFailedMessage &netJoinFailed = tmpPacket->GetMsg()->joingamefailedmessage();
 
-			int failureCode;
-			switch (netJoinFailed->joinGameFailureReason) {
-			case joinGameFailureReason_invalidGame :
-				failureCode = NTF_NET_JOIN_GAME_INVALID;
-				break;
-			case joinGameFailureReason_gameIsFull :
-				failureCode = NTF_NET_JOIN_GAME_FULL;
-				break;
-			case joinGameFailureReason_gameIsRunning :
-				failureCode = NTF_NET_JOIN_ALREADY_RUNNING;
-				break;
-			case joinGameFailureReason_invalidPassword :
-				failureCode = NTF_NET_JOIN_INVALID_PASSWORD;
-				break;
-			case joinGameFailureReason_notAllowedAsGuest :
-				failureCode = NTF_NET_JOIN_GUEST_FORBIDDEN;
-				break;
-			case joinGameFailureReason_notInvited :
-				failureCode = NTF_NET_JOIN_NOT_INVITED;
-				break;
-			case joinGameFailureReason_gameNameInUse :
-				failureCode = NTF_NET_JOIN_GAME_NAME_IN_USE;
-				break;
-			case joinGameFailureReason_badGameName :
-				failureCode = NTF_NET_JOIN_GAME_BAD_NAME;
-				break;
-			case joinGameFailureReason_invalidSettings :
-				failureCode = NTF_NET_JOIN_INVALID_SETTINGS;
-				break;
-			case joinGameFailureReason_ipAddressBlocked :
-				failureCode = NTF_NET_JOIN_IP_BLOCKED;
-				break;
-			case joinGameFailureReason_rejoinFailed :
-				failureCode = NTF_NET_JOIN_REJOIN_FAILED;
-				break;
-			default :
-				failureCode = NTF_NET_INTERNAL;
-				break;
-			}
-
-			client->GetCallback().SignalNetClientNotification(failureCode);
+		int failureCode;
+		switch (netJoinFailed.joingamefailurereason()) {
+		case JoinGameFailedMessage::invalidGame :
+			failureCode = NTF_NET_JOIN_GAME_INVALID;
+			break;
+		case JoinGameFailedMessage::gameIsFull :
+			failureCode = NTF_NET_JOIN_GAME_FULL;
+			break;
+		case JoinGameFailedMessage::gameIsRunning :
+			failureCode = NTF_NET_JOIN_ALREADY_RUNNING;
+			break;
+		case JoinGameFailedMessage::invalidPassword :
+			failureCode = NTF_NET_JOIN_INVALID_PASSWORD;
+			break;
+		case JoinGameFailedMessage::notAllowedAsGuest :
+			failureCode = NTF_NET_JOIN_GUEST_FORBIDDEN;
+			break;
+		case JoinGameFailedMessage::notInvited :
+			failureCode = NTF_NET_JOIN_NOT_INVITED;
+			break;
+		case JoinGameFailedMessage::gameNameInUse :
+			failureCode = NTF_NET_JOIN_GAME_NAME_IN_USE;
+			break;
+		case JoinGameFailedMessage::badGameName :
+			failureCode = NTF_NET_JOIN_GAME_BAD_NAME;
+			break;
+		case JoinGameFailedMessage::invalidSettings :
+			failureCode = NTF_NET_JOIN_INVALID_SETTINGS;
+			break;
+		case JoinGameFailedMessage::ipAddressBlocked :
+			failureCode = NTF_NET_JOIN_IP_BLOCKED;
+			break;
+		case JoinGameFailedMessage::rejoinFailed :
+			failureCode = NTF_NET_JOIN_REJOIN_FAILED;
+			break;
+		default :
+			failureCode = NTF_NET_INTERNAL;
+			break;
 		}
-	} else if (tmpPacket->GetMsg()->present == PokerTHMessage_PR_inviteNotifyMessage) {
-		InviteNotifyMessage_t *netInvNotify = &tmpPacket->GetMsg()->choice.inviteNotifyMessage;
-		if (netInvNotify->playerIdWho == client->GetGuiPlayerId()) {
-			client->GetCallback().SignalSelfGameInvitation(netInvNotify->gameId, netInvNotify->playerIdByWhom);
+
+		client->GetCallback().SignalNetClientNotification(failureCode);
+	} else if (tmpPacket->GetMsg()->messagetype() == PokerTHMessage::Type_InviteNotifyMessage) {
+		const InviteNotifyMessage &netInvNotify = tmpPacket->GetMsg()->invitenotifymessage();
+		if (netInvNotify.playeridwho() == client->GetGuiPlayerId()) {
+			client->GetCallback().SignalSelfGameInvitation(netInvNotify.gameid(), netInvNotify.playeridbywhom());
 		}
 	}
 }
@@ -1326,26 +1264,26 @@ ClientStateWaitGame::Exit(boost::shared_ptr<ClientThread> /*client*/)
 void
 ClientStateWaitGame::InternalHandlePacket(boost::shared_ptr<ClientThread> client, boost::shared_ptr<NetPacket> tmpPacket)
 {
-	if (tmpPacket->GetMsg()->present == PokerTHMessage_PR_startEventMessage) {
-		StartEventMessage_t *netStartEvent = &tmpPacket->GetMsg()->choice.startEventMessage;
-		if (netStartEvent->startEventType.present == startEventType_PR_rejoinEvent) {
+	if (tmpPacket->GetMsg()->messagetype() == PokerTHMessage::Type_StartEventMessage) {
+		const StartEventMessage &netStartEvent = tmpPacket->GetMsg()->starteventmessage();
+		if (netStartEvent.starteventtype() == StartEventMessage::rejoinEvent) {
 			client->GetCallback().SignalNetClientGameInfo(MSG_NET_GAME_CLIENT_SYNCREJOIN);
 		} else {
 			client->GetCallback().SignalNetClientGameInfo(MSG_NET_GAME_CLIENT_SYNCSTART);
 		}
 		client->SetState(ClientStateSynchronizeStart::Instance());
-	} else if (tmpPacket->GetMsg()->present == PokerTHMessage_PR_inviteNotifyMessage) {
-		InviteNotifyMessage_t *netInvNotify = &tmpPacket->GetMsg()->choice.inviteNotifyMessage;
+	} else if (tmpPacket->GetMsg()->messagetype() == PokerTHMessage::Type_InviteNotifyMessage) {
+		const InviteNotifyMessage &netInvNotify = tmpPacket->GetMsg()->invitenotifymessage();
 		client->GetCallback().SignalPlayerGameInvitation(
-			netInvNotify->gameId,
-			netInvNotify->playerIdWho,
-			netInvNotify->playerIdByWhom);
-	} else if (tmpPacket->GetMsg()->present == PokerTHMessage_PR_rejectInvNotifyMessage) {
-		RejectInvNotifyMessage_t *netRejNotify = &tmpPacket->GetMsg()->choice.rejectInvNotifyMessage;
+			netInvNotify.gameid(),
+			netInvNotify.playeridwho(),
+			netInvNotify.playeridbywhom());
+	} else if (tmpPacket->GetMsg()->messagetype() == PokerTHMessage::Type_RejectInvNotifyMessage) {
+		const RejectInvNotifyMessage &netRejNotify = tmpPacket->GetMsg()->rejectinvnotifymessage();
 		client->GetCallback().SignalRejectedGameInvitation(
-			netRejNotify->gameId,
-			netRejNotify->playerId,
-			static_cast<DenyGameInvitationReason>(netRejNotify->playerRejectReason));
+			netRejNotify.gameid(),
+			netRejNotify.playerid(),
+			static_cast<DenyGameInvitationReason>(netRejNotify.playerrejectreason()));
 	}
 }
 
@@ -1388,10 +1326,10 @@ ClientStateSynchronizeStart::TimerLoop(const boost::system::error_code& ec, boos
 	if (!ec && &client->GetState() == this) {
 		if (client->IsSynchronized()) {
 			// Acknowledge start.
-			boost::shared_ptr<NetPacket> startAck(new NetPacket(NetPacket::Alloc));
-			startAck->GetMsg()->present = PokerTHMessage_PR_startEventAckMessage;
-			StartEventAckMessage_t *netStartAck = &startAck->GetMsg()->choice.startEventAckMessage;
-			netStartAck->gameId = client->GetGameId();
+			boost::shared_ptr<NetPacket> startAck(new NetPacket);
+			startAck->GetMsg()->set_messagetype(PokerTHMessage::Type_StartEventAckMessage);
+			StartEventAckMessage *netStartAck = startAck->GetMsg()->mutable_starteventackmessage();
+			netStartAck->set_gameid(client->GetGameId());
 
 			client->GetSender().Send(client->GetContext().GetSessionData(), startAck);
 			// Unsubscribe lobby messages.
@@ -1411,7 +1349,7 @@ ClientStateSynchronizeStart::TimerLoop(const boost::system::error_code& ec, boos
 void
 ClientStateSynchronizeStart::InternalHandlePacket(boost::shared_ptr<ClientThread> client, boost::shared_ptr<NetPacket> tmpPacket)
 {
-	if (tmpPacket->GetMsg()->present == PokerTHMessage_PR_gameStartMessage) {
+	if (tmpPacket->GetMsg()->messagetype() == PokerTHMessage::Type_GameStartInitialMessage) {
 		// Try to start anyway. Terminating here is very bad because rejoin is not possible then.
 		// Unsubscribe lobby messages.
 		client->UnsubscribeLobbyMsg();
@@ -1451,61 +1389,63 @@ ClientStateWaitStart::Exit(boost::shared_ptr<ClientThread> /*client*/)
 void
 ClientStateWaitStart::InternalHandlePacket(boost::shared_ptr<ClientThread> client, boost::shared_ptr<NetPacket> tmpPacket)
 {
-	if (tmpPacket->GetMsg()->present == PokerTHMessage_PR_gameStartMessage) {
-		// Start the network game as client.
-		GameStartMessage_t *netGameStart = &tmpPacket->GetMsg()->choice.gameStartMessage;
+	if (tmpPacket->GetMsg()->messagetype() == PokerTHMessage::Type_GameStartInitialMessage
+		|| tmpPacket->GetMsg()->messagetype() == PokerTHMessage::Type_GameStartRejoinMessage)
+	{
+		PlayerIdList tmpPlayerList;
 		unsigned tmpHandId = 0;
 
-		StartData startData;
-		PlayerIdList tmpPlayerList;
-		startData.startDealerPlayerId = netGameStart->startDealerPlayerId;
-		if (netGameStart->gameStartMode.present == gameStartMode_PR_gameStartModeInitial) {
-			GameStartModeInitial_t *netStartModeInitial = &netGameStart->gameStartMode.choice.gameStartModeInitial;
-			startData.numberOfPlayers = netStartModeInitial->playerSeats.list.count;
+		if (tmpPacket->GetMsg()->messagetype() == PokerTHMessage::Type_GameStartInitialMessage) {
+			// Start the network game as client.
+			const GameStartInitialMessage &netStartModeInitial = tmpPacket->GetMsg()->gamestartinitialmessage();
+
+			StartData startData;
+			startData.startDealerPlayerId = netStartModeInitial.startdealerplayerid();
+			startData.numberOfPlayers = netStartModeInitial.playerseats_size();
 			client->SetStartData(startData);
 
 			// Set player numbers using the game start data slots.
-			NonZeroId_t **playerIds = netStartModeInitial->playerSeats.list.array;
-			unsigned numPlayers = netStartModeInitial->playerSeats.list.count;
+			unsigned numPlayers = netStartModeInitial.playerseats_size();
 			// Request player info for players if needed.
-			if (numPlayers && playerIds && *playerIds) {
+			if (numPlayers) {
 				for (unsigned i = 0; i < numPlayers; i++) {
-					unsigned playerId = *playerIds[i];
+					unsigned playerId = netStartModeInitial.playerseats(i);
 					boost::shared_ptr<PlayerData> tmpPlayer = client->GetPlayerDataByUniqueId(playerId);
 					if (!tmpPlayer)
 						throw ClientException(__FILE__, __LINE__, ERR_NET_UNKNOWN_PLAYER_ID, 0);
 					tmpPlayer->SetNumber(i);
 				}
-			} else
+			} else {
 				throw ClientException(__FILE__, __LINE__, ERR_NET_INVALID_PLAYER_COUNT, 0);
-		} else if (netGameStart->gameStartMode.present == gameStartMode_PR_gameStartModeRejoin) {
-			GameStartModeRejoin_t *netStartModeRejoin = &netGameStart->gameStartMode.choice.gameStartModeRejoin;
-			startData.numberOfPlayers = netStartModeRejoin->rejoinPlayerData.list.count;
+			}
+		} else if (tmpPacket->GetMsg()->messagetype() == PokerTHMessage::Type_GameStartRejoinMessage) {
+			const GameStartRejoinMessage &netStartModeRejoin = tmpPacket->GetMsg()->gamestartrejoinmessage();
+
+			StartData startData;
+			startData.startDealerPlayerId = netStartModeRejoin.startdealerplayerid();
+			startData.numberOfPlayers = netStartModeRejoin.rejoinplayerdata_size();
 			client->SetStartData(startData);
+			tmpHandId = netStartModeRejoin.handnum();
 
 			// Set player numbers using the game start data slots.
-			RejoinPlayerData_t **playerInfos = netStartModeRejoin->rejoinPlayerData.list.array;
-			unsigned numPlayers = netStartModeRejoin->rejoinPlayerData.list.count;
-			tmpHandId = netStartModeRejoin->handNum;
+			unsigned numPlayers = netStartModeRejoin.rejoinplayerdata_size();
 			// Request player info for players if needed.
-			if (numPlayers && playerInfos && *playerInfos) {
+			if (numPlayers) {
 				for (unsigned i = 0; i < numPlayers; i++) {
-					RejoinPlayerData_t *playerData = playerInfos[i];
-					boost::shared_ptr<PlayerData> tmpPlayer = client->GetPlayerDataByUniqueId(playerData->playerId);
+					const GameStartRejoinMessage::RejoinPlayerData &playerData = netStartModeRejoin.rejoinplayerdata(i);
+					boost::shared_ptr<PlayerData> tmpPlayer = client->GetPlayerDataByUniqueId(playerData.playerid());
 					if (!tmpPlayer) {
 						// If the player is not found: The corresponding session left. We need to create a generic player object.
 						// In order to have a complete seat list, we need all players, even those who left.
-						tmpPlayer = client->CreatePlayerData(playerData->playerId, false);
+						tmpPlayer = client->CreatePlayerData(playerData.playerid(), false);
 						client->AddPlayerData(tmpPlayer);
-						tmpPlayerList.push_back(playerData->playerId);
+						tmpPlayerList.push_back(playerData.playerid());
 					}
 					tmpPlayer->SetNumber(i);
-					tmpPlayer->SetStartCash(playerData->playerMoney);
+					tmpPlayer->SetStartCash(playerData.playermoney());
 				}
 			} else
 				throw ClientException(__FILE__, __LINE__, ERR_NET_INVALID_PLAYER_COUNT, 0);
-		} else {
-			throw ClientException(__FILE__, __LINE__, ERR_NET_INTERNAL_GAME_ERROR, 0);
 		}
 		client->InitGame();
 		client->GetGame()->setCurrentHandID(tmpHandId);
@@ -1548,25 +1488,23 @@ ClientStateWaitHand::Exit(boost::shared_ptr<ClientThread> /*client*/)
 void
 ClientStateWaitHand::InternalHandlePacket(boost::shared_ptr<ClientThread> client, boost::shared_ptr<NetPacket> tmpPacket)
 {
-	if (tmpPacket->GetMsg()->present == PokerTHMessage_PR_handStartMessage) {
+	if (tmpPacket->GetMsg()->messagetype() == PokerTHMessage::Type_HandStartMessage) {
 		// Hand was started.
 		// These are the cards. Good luck.
-		HandStartMessage_t *netHandStart = &tmpPacket->GetMsg()->choice.handStartMessage;
+		const HandStartMessage &netHandStart = tmpPacket->GetMsg()->handstartmessage();
 		int myCards[2];
 		string userPassword(client->GetContext().GetPassword());
-		if (netHandStart->yourCards.present == yourCards_PR_plainCards
-				&& userPassword.empty()) {
-			PlainCards_t *plainCards = &netHandStart->yourCards.choice.plainCards;
-			myCards[0] = (int)plainCards->plainCard1;
-			myCards[1] = (int)plainCards->plainCard2;
-		} else if (netHandStart->yourCards.present == yourCards_PR_encryptedCards
-				   && !userPassword.empty()) {
-			EncryptedCards_t *encryptedCards = &netHandStart->yourCards.choice.encryptedCards;
+		if (netHandStart.has_plaincards() && userPassword.empty()) {
+			const HandStartMessage::PlainCards &plainCards = netHandStart.plaincards();
+			myCards[0] = (int)plainCards.plaincard1();
+			myCards[1] = (int)plainCards.plaincard2();
+		} else if (netHandStart.has_encryptedcards() && !userPassword.empty()) {
+			const string &encryptedCards = netHandStart.encryptedcards();
 			string plainCards;
 			if (!CryptHelper::AES128Decrypt((const unsigned char *)userPassword.c_str(),
 											(unsigned)userPassword.size(),
-											encryptedCards->cardData.buf,
-											encryptedCards->cardData.size,
+											(const unsigned char *)encryptedCards.data(),
+											(unsigned)encryptedCards.size(),
 											plainCards)) {
 				throw ClientException(__FILE__, __LINE__, ERR_NET_UNKNOWN_PLAYER_ID, 0);
 			}
@@ -1585,27 +1523,24 @@ ClientStateWaitHand::InternalHandlePacket(boost::shared_ptr<ClientThread> client
 			cardDataStream >> myCards[1];
 		}
 		// Retrieve state for each seat (not based on player id).
-		NetPlayerState_t **seatStates = netHandStart->seatStates.list.array;
-		unsigned numPlayers = netHandStart->seatStates.list.count;
+		unsigned numPlayers = netHandStart.seatstates_size();
 		// Request player info for players if needed.
-		if (numPlayers && seatStates && *seatStates) {
-			for (int i = 0; i < (int)numPlayers; i++) {
-				NetPlayerState_t *seatState = seatStates[i];
-				int numberDiff = client->GetStartData().numberOfPlayers - client->GetOrigGuiPlayerNum();
-				boost::shared_ptr<PlayerInterface> tmpPlayer = client->GetGame()->getPlayerByNumber((i + numberDiff) % client->GetStartData().numberOfPlayers);
-				if (!tmpPlayer)
-					throw ClientException(__FILE__, __LINE__, ERR_NET_UNKNOWN_PLAYER_ID, 0);
-				switch (*seatState) {
-				case NetPlayerState_playerStateNormal :
-					tmpPlayer->setIsSessionActive(true);
-					break;
-				case NetPlayerState_playerStateSessionInactive :
-					tmpPlayer->setIsSessionActive(false);
-					break;
-				case NetPlayerState_playerStateNoMoney :
-					tmpPlayer->setMyCash(0);
-					break;
-				}
+		for (int i = 0; i < (int)numPlayers; i++) {
+			NetPlayerState seatState = netHandStart.seatstates(i);
+			int numberDiff = client->GetStartData().numberOfPlayers - client->GetOrigGuiPlayerNum();
+			boost::shared_ptr<PlayerInterface> tmpPlayer = client->GetGame()->getPlayerByNumber((i + numberDiff) % client->GetStartData().numberOfPlayers);
+			if (!tmpPlayer)
+				throw ClientException(__FILE__, __LINE__, ERR_NET_UNKNOWN_PLAYER_ID, 0);
+			switch (seatState) {
+			case playerStateNormal :
+				tmpPlayer->setIsSessionActive(true);
+				break;
+			case playerStateSessionInactive :
+				tmpPlayer->setIsSessionActive(false);
+				break;
+			case playerStateNoMoney :
+				tmpPlayer->setMyCash(0);
+				break;
 			}
 		}
 
@@ -1614,8 +1549,8 @@ ClientStateWaitHand::InternalHandlePacket(boost::shared_ptr<ClientThread> client
 		// Start new hand.
 		client->GetGame()->getSeatsList()->front()->setMyCards(myCards);
 		client->GetGame()->initHand();
-		client->GetGame()->getCurrentHand()->setSmallBlind(netHandStart->smallBlind);
-		client->GetGame()->getCurrentHand()->getCurrentBeRo()->setMinimumRaise(2 * netHandStart->smallBlind);
+		client->GetGame()->getCurrentHand()->setSmallBlind(netHandStart.smallblind());
+		client->GetGame()->getCurrentHand()->getCurrentBeRo()->setMinimumRaise(2 * netHandStart.smallblind());
 		client->GetGame()->startHand();
 		client->GetGui().dealHoleCards();
 		client->GetGui().refreshGameLabels(GAME_STATE_PREFLOP);
@@ -1624,12 +1559,12 @@ ClientStateWaitHand::InternalHandlePacket(boost::shared_ptr<ClientThread> client
 
 		client->GetCallback().SignalNetClientGameInfo(MSG_NET_GAME_CLIENT_HAND_START);
 		client->SetState(ClientStateRunHand::Instance());
-	} else if (tmpPacket->GetMsg()->present == PokerTHMessage_PR_endOfGameMessage) {
+	} else if (tmpPacket->GetMsg()->messagetype() == PokerTHMessage::Type_EndOfGameMessage) {
 		boost::shared_ptr<Game> curGame = client->GetGame();
 		if (curGame) {
-			EndOfGameMessage_t *netEndOfGame = &tmpPacket->GetMsg()->choice.endOfGameMessage;
+			const EndOfGameMessage &netEndOfGame = tmpPacket->GetMsg()->endofgamemessage();
 
-			boost::shared_ptr<PlayerInterface> tmpPlayer = curGame->getPlayerByUniqueId(netEndOfGame->winnerPlayerId);
+			boost::shared_ptr<PlayerInterface> tmpPlayer = curGame->getPlayerByUniqueId(netEndOfGame.winnerplayerid());
 			if (!tmpPlayer)
 				throw ClientException(__FILE__, __LINE__, ERR_NET_UNKNOWN_PLAYER_ID, 0);
 			client->GetGui().logPlayerWinGame(tmpPlayer->getMyName(), curGame->getMyGameID());
@@ -1640,46 +1575,47 @@ ClientStateWaitHand::InternalHandlePacket(boost::shared_ptr<ClientThread> client
 			client->GetCallback().SignalNetClientGameInfo(MSG_NET_GAME_CLIENT_END);
 			client->SetState(ClientStateWaitGame::Instance());
 		}
-	} else if (tmpPacket->GetMsg()->present == PokerTHMessage_PR_afterHandShowCardsMessage) {
-		AfterHandShowCardsMessage_t *showCards = &tmpPacket->GetMsg()->choice.afterHandShowCardsMessage;
-		PlayerResult_t *r = &showCards->playerResult;
+	} else if (tmpPacket->GetMsg()->messagetype() == PokerTHMessage::Type_AfterHandShowCardsMessage) {
+		const AfterHandShowCardsMessage &showCards = tmpPacket->GetMsg()->afterhandshowcardsmessage();
+		const PlayerResult &r = showCards.playerresult();
 
-		boost::shared_ptr<PlayerInterface> tmpPlayer = client->GetGame()->getPlayerByUniqueId(r->playerId);
+		boost::shared_ptr<PlayerInterface> tmpPlayer = client->GetGame()->getPlayerByUniqueId(r.playerid());
 		if (!tmpPlayer)
 			throw ClientException(__FILE__, __LINE__, ERR_NET_UNKNOWN_PLAYER_ID, 0);
 
 		int tmpCards[2];
 		int bestHandPos[5];
-		tmpCards[0] = static_cast<int>(r->resultCard1);
-		tmpCards[1] = static_cast<int>(r->resultCard2);
+		tmpCards[0] = static_cast<int>(r.resultcard1());
+		tmpCards[1] = static_cast<int>(r.resultcard2());
 		tmpPlayer->setMyCards(tmpCards);
-		for (int num = 0; num < 5; num++)
-			bestHandPos[num] = *r->bestHandPosition.list.array[num];
-		if (r->cardsValue) {
-			tmpPlayer->setMyCardsValueInt(*r->cardsValue);
+		for (int num = 0; num < 5; num++) {
+			bestHandPos[num] = r.besthandposition(num);
+		}
+		if (r.cardsvalue()) {
+			tmpPlayer->setMyCardsValueInt(r.cardsvalue());
 		}
 		tmpPlayer->setMyBestHandPosition(bestHandPos);
-		tmpPlayer->setMyCash(r->playerMoney);
-		tmpPlayer->setLastMoneyWon(r->moneyWon);
+		tmpPlayer->setMyCash(r.playermoney());
+		tmpPlayer->setLastMoneyWon(r.moneywon());
 
-		client->GetCallback().SignalNetClientPostRiverShowCards(r->playerId);
+		client->GetCallback().SignalNetClientPostRiverShowCards(r.playerid());
 		client->GetClientLog()->logHoleCardsHandName(client->GetGame()->getActivePlayerList(), tmpPlayer, true);
-	} else if (tmpPacket->GetMsg()->present == PokerTHMessage_PR_playerIdChangedMessage) {
+	} else if (tmpPacket->GetMsg()->messagetype() == PokerTHMessage::Type_PlayerIdChangedMessage) {
 		boost::shared_ptr<Game> curGame = client->GetGame();
 		if (curGame) {
 			// Perform Id change.
-			PlayerIdChangedMessage_t *idChanged = &tmpPacket->GetMsg()->choice.playerIdChangedMessage;
-			boost::shared_ptr<PlayerInterface> tmpPlayer = curGame->getPlayerByUniqueId(idChanged->oldPlayerId);
+			const PlayerIdChangedMessage &idChanged = tmpPacket->GetMsg()->playeridchangedmessage();
+			boost::shared_ptr<PlayerInterface> tmpPlayer = curGame->getPlayerByUniqueId(idChanged.oldplayerid());
 			if (!tmpPlayer)
 				throw ClientException(__FILE__, __LINE__, ERR_NET_UNKNOWN_PLAYER_ID, 0);
-			tmpPlayer->setMyUniqueID(idChanged->newPlayerId);
+			tmpPlayer->setMyUniqueID(idChanged.newplayerid());
 			// This player is now active again.
 			tmpPlayer->setMyStayOnTableStatus(true);
 			// Also update the dealer, if necessary.
-			curGame->replaceDealer(idChanged->oldPlayerId, idChanged->newPlayerId);
+			curGame->replaceDealer(idChanged.oldplayerid(), idChanged.newplayerid());
 			// Update the player name, if necessary.
 			PlayerInfo info;
-			if (client->GetCachedPlayerInfo(idChanged->newPlayerId, info)) {
+			if (client->GetCachedPlayerInfo(idChanged.newplayerid(), info)) {
 				tmpPlayer->setMyName(info.playerName);
 			}
 		}
@@ -1717,44 +1653,44 @@ void
 ClientStateRunHand::InternalHandlePacket(boost::shared_ptr<ClientThread> client, boost::shared_ptr<NetPacket> tmpPacket)
 {
 	boost::shared_ptr<Game> curGame = client->GetGame();
-	if (tmpPacket->GetMsg()->present == PokerTHMessage_PR_playersActionDoneMessage) {
-		PlayersActionDoneMessage_t *netActionDone = &tmpPacket->GetMsg()->choice.playersActionDoneMessage;
+	if (tmpPacket->GetMsg()->messagetype() == PokerTHMessage::Type_PlayersActionDoneMessage) {
+		const PlayersActionDoneMessage &netActionDone = tmpPacket->GetMsg()->playersactiondonemessage();
 
-		boost::shared_ptr<PlayerInterface> tmpPlayer = curGame->getPlayerByUniqueId(netActionDone->playerId);
+		boost::shared_ptr<PlayerInterface> tmpPlayer = curGame->getPlayerByUniqueId(netActionDone.playerid());
 		if (!tmpPlayer)
 			throw ClientException(__FILE__, __LINE__, ERR_NET_UNKNOWN_PLAYER_ID, 0);
 
 		bool isBigBlind = false;
 
-		if (netActionDone->gameState == NetGameState_statePreflopSmallBlind) {
+		if (netActionDone.gamestate() == statePreflopSmallBlind) {
 			curGame->getCurrentHand()->getCurrentBeRo()->setSmallBlindPositionId(tmpPlayer->getMyUniqueID());
 			tmpPlayer->setMyButton(BUTTON_SMALL_BLIND);
-		} else if (netActionDone->gameState == NetGameState_statePreflopBigBlind) {
+		} else if (netActionDone.gamestate() == statePreflopBigBlind) {
 			curGame->getCurrentHand()->getCurrentBeRo()->setBigBlindPositionId(tmpPlayer->getMyUniqueID());
 			tmpPlayer->setMyButton(BUTTON_BIG_BLIND);
 			isBigBlind = true;
 		} else { // no blind -> log
-			if (netActionDone->playerAction) {
-				assert(netActionDone->totalPlayerBet >= (long)tmpPlayer->getMySet());
+			if (netActionDone.playeraction()) {
+				assert(netActionDone.totalplayerbet() >= tmpPlayer->getMySet());
 				client->GetGui().logPlayerActionMsg(
 					tmpPlayer->getMyName(),
-					netActionDone->playerAction,
-					netActionDone->totalPlayerBet - tmpPlayer->getMySet());
+					netActionDone.playeraction(),
+					netActionDone.totalplayerbet() - tmpPlayer->getMySet());
 				client->GetClientLog()->logPlayerAction(
 					tmpPlayer->getMyName(),
-					client->GetClientLog()->transformPlayerActionLog(PlayerAction(netActionDone->playerAction)),
-					netActionDone->totalPlayerBet - tmpPlayer->getMySet()
+					client->GetClientLog()->transformPlayerActionLog(PlayerAction(netActionDone.playeraction())),
+					netActionDone.totalplayerbet() - tmpPlayer->getMySet()
 				);
 			}
 			// Update last players turn only after the blinds.
 			curGame->getCurrentHand()->setPreviousPlayerID(tmpPlayer->getMyID());
 		}
 
-		tmpPlayer->setMyAction(PlayerAction(netActionDone->playerAction));
-		tmpPlayer->setMySetAbsolute(netActionDone->totalPlayerBet);
-		tmpPlayer->setMyCash(netActionDone->playerMoney);
-		curGame->getCurrentHand()->getCurrentBeRo()->setHighestSet(netActionDone->highestSet);
-		curGame->getCurrentHand()->getCurrentBeRo()->setMinimumRaise(netActionDone->minimumRaise);
+		tmpPlayer->setMyAction(PlayerAction(netActionDone.playeraction()));
+		tmpPlayer->setMySetAbsolute(netActionDone.totalplayerbet());
+		tmpPlayer->setMyCash(netActionDone.playermoney());
+		curGame->getCurrentHand()->getCurrentBeRo()->setHighestSet(netActionDone.highestset());
+		curGame->getCurrentHand()->getCurrentBeRo()->setMinimumRaise(netActionDone.minimumraise());
 		curGame->getCurrentHand()->getBoard()->collectSets();
 		curGame->getCurrentHand()->switchRounds();
 
@@ -1792,18 +1728,18 @@ ClientStateRunHand::InternalHandlePacket(boost::shared_ptr<ClientThread> client,
 		client->GetGui().refreshCash();
 		client->GetGui().refreshButton();
 		client->GetGui().updateMyButtonsState();
-	} else if (tmpPacket->GetMsg()->present == PokerTHMessage_PR_playersTurnMessage) {
-		PlayersTurnMessage_t *netPlayersTurn = &tmpPacket->GetMsg()->choice.playersTurnMessage;
+	} else if (tmpPacket->GetMsg()->messagetype() == PokerTHMessage::Type_PlayersTurnMessage) {
+		const PlayersTurnMessage &netPlayersTurn = tmpPacket->GetMsg()->playersturnmessage();
 
-		boost::shared_ptr<PlayerInterface> tmpPlayer = curGame->getPlayerByUniqueId(netPlayersTurn->playerId);
+		boost::shared_ptr<PlayerInterface> tmpPlayer = curGame->getPlayerByUniqueId(netPlayersTurn.playerid());
 		if (!tmpPlayer)
 			throw ClientException(__FILE__, __LINE__, ERR_NET_UNKNOWN_PLAYER_ID, 0);
 
 		// Set round.
-		if (curGame->getCurrentHand()->getCurrentRound() != netPlayersTurn->gameState) {
+		if (curGame->getCurrentHand()->getCurrentRound() != netPlayersTurn.gamestate()) {
 			ResetPlayerActions(*curGame);
-			curGame->getCurrentHand()->setCurrentRound(GameState(netPlayersTurn->gameState));
-			client->GetClientLog()->setCurrentRound(GameState(netPlayersTurn->gameState));
+			curGame->getCurrentHand()->setCurrentRound(static_cast<GameState>(netPlayersTurn.gamestate()));
+			client->GetClientLog()->setCurrentRound(static_cast<GameState>(netPlayersTurn.gamestate()));
 			// Refresh actions.
 			client->GetGui().refreshSet();
 			client->GetGui().refreshAction();
@@ -1826,13 +1762,13 @@ ClientStateRunHand::InternalHandlePacket(boost::shared_ptr<ClientThread> client,
 
 		if (tmpPlayer->getMyID() == 0) // Is this the GUI player?
 			client->GetGui().meInAction();
-	} else if (tmpPacket->GetMsg()->present == PokerTHMessage_PR_dealFlopCardsMessage) {
-		DealFlopCardsMessage_t *netDealFlop = &tmpPacket->GetMsg()->choice.dealFlopCardsMessage;
+	} else if (tmpPacket->GetMsg()->messagetype() == PokerTHMessage::Type_DealFlopCardsMessage) {
+		const DealFlopCardsMessage &netDealFlop = tmpPacket->GetMsg()->dealflopcardsmessage();
 
 		int tmpCards[5];
-		tmpCards[0] = static_cast<int>(netDealFlop->flopCard1);
-		tmpCards[1] = static_cast<int>(netDealFlop->flopCard2);
-		tmpCards[2] = static_cast<int>(netDealFlop->flopCard3);
+		tmpCards[0] = static_cast<int>(netDealFlop.flopcard1());
+		tmpCards[1] = static_cast<int>(netDealFlop.flopcard2());
+		tmpCards[2] = static_cast<int>(netDealFlop.flopcard3());
 		tmpCards[3] = tmpCards[4] = 0;
 		curGame->getCurrentHand()->getBoard()->setMyCards(tmpCards);
 		curGame->getCurrentHand()->getBoard()->collectPot();
@@ -1845,12 +1781,12 @@ ClientStateRunHand::InternalHandlePacket(boost::shared_ptr<ClientThread> client,
 		client->GetGui().refreshPot();
 		client->GetGui().refreshSet();
 		client->GetGui().dealBeRoCards(1);
-	} else if (tmpPacket->GetMsg()->present == PokerTHMessage_PR_dealTurnCardMessage) {
-		DealTurnCardMessage_t *netDealTurn = &tmpPacket->GetMsg()->choice.dealTurnCardMessage;
+	} else if (tmpPacket->GetMsg()->messagetype() == PokerTHMessage::Type_DealTurnCardMessage) {
+		const DealTurnCardMessage &netDealTurn = tmpPacket->GetMsg()->dealturncardmessage();
 
 		int tmpCards[5];
 		curGame->getCurrentHand()->getBoard()->getMyCards(tmpCards);
-		tmpCards[3] = static_cast<int>(netDealTurn->turnCard);
+		tmpCards[3] = static_cast<int>(netDealTurn.turncard());
 		curGame->getCurrentHand()->getBoard()->setMyCards(tmpCards);
 		curGame->getCurrentHand()->getBoard()->collectPot();
 		curGame->getCurrentHand()->setPreviousPlayerID(-1);
@@ -1862,12 +1798,12 @@ ClientStateRunHand::InternalHandlePacket(boost::shared_ptr<ClientThread> client,
 		client->GetGui().refreshPot();
 		client->GetGui().refreshSet();
 		client->GetGui().dealBeRoCards(2);
-	} else if (tmpPacket->GetMsg()->present == PokerTHMessage_PR_dealRiverCardMessage) {
-		DealRiverCardMessage_t *netDealRiver = &tmpPacket->GetMsg()->choice.dealRiverCardMessage;
+	} else if (tmpPacket->GetMsg()->messagetype() == PokerTHMessage::Type_DealRiverCardMessage) {
+		const DealRiverCardMessage &netDealRiver = tmpPacket->GetMsg()->dealrivercardmessage();
 
 		int tmpCards[5];
 		curGame->getCurrentHand()->getBoard()->getMyCards(tmpCards);
-		tmpCards[4] = static_cast<int>(netDealRiver->riverCard);
+		tmpCards[4] = static_cast<int>(netDealRiver.rivercard());
 		curGame->getCurrentHand()->getBoard()->setMyCards(tmpCards);
 		curGame->getCurrentHand()->getBoard()->collectPot();
 		curGame->getCurrentHand()->setPreviousPlayerID(-1);
@@ -1879,25 +1815,24 @@ ClientStateRunHand::InternalHandlePacket(boost::shared_ptr<ClientThread> client,
 		client->GetGui().refreshPot();
 		client->GetGui().refreshSet();
 		client->GetGui().dealBeRoCards(3);
-	} else if (tmpPacket->GetMsg()->present == PokerTHMessage_PR_allInShowCardsMessage) {
-		AllInShowCardsMessage_t *netAllInShow = &tmpPacket->GetMsg()->choice.allInShowCardsMessage;
+	} else if (tmpPacket->GetMsg()->messagetype() == PokerTHMessage::Type_AllInShowCardsMessage) {
+		const AllInShowCardsMessage &netAllInShow = tmpPacket->GetMsg()->allinshowcardsmessage();
 
 		curGame->getCurrentHand()->setAllInCondition(true);
 
 		// Set player numbers using the game start data slots.
-		PlayerAllIn_t **allInPlayers = netAllInShow->playersAllIn.list.array;
-		unsigned numPlayers = netAllInShow->playersAllIn.list.count;
+		unsigned numPlayers = netAllInShow.playersallin_size();
 		// Request player info for players if needed.
 		for (unsigned i = 0; i < numPlayers; i++) {
-			PlayerAllIn_t *p = allInPlayers[i];
+			const AllInShowCardsMessage::PlayerAllIn &p = netAllInShow.playersallin(i);
 
-			boost::shared_ptr<PlayerInterface> tmpPlayer = curGame->getPlayerByUniqueId(p->playerId);
+			boost::shared_ptr<PlayerInterface> tmpPlayer = curGame->getPlayerByUniqueId(p.playerid());
 			if (!tmpPlayer)
 				throw ClientException(__FILE__, __LINE__, ERR_NET_UNKNOWN_PLAYER_ID, 0);
 
 			int tmpCards[2];
-			tmpCards[0] = static_cast<int>(p->allInCard1);
-			tmpCards[1] = static_cast<int>(p->allInCard2);
+			tmpCards[0] = static_cast<int>(p.allincard1());
+			tmpCards[1] = static_cast<int>(p.allincard2());
 			tmpPlayer->setMyCards(tmpCards);
 		}
 		client->GetGui().flipHolecardsAllIn();
@@ -1906,109 +1841,110 @@ ClientStateRunHand::InternalHandlePacket(boost::shared_ptr<ClientThread> client,
 				curGame->getActivePlayerList()
 			);
 		}
-	} else if (tmpPacket->GetMsg()->present == PokerTHMessage_PR_endOfHandMessage) {
-		EndOfHandMessage_t *netEndHand = &tmpPacket->GetMsg()->choice.endOfHandMessage;
+	} else if (tmpPacket->GetMsg()->messagetype() == PokerTHMessage::Type_EndOfHandHideCardsMessage) {
+		const EndOfHandHideCardsMessage &hideCards = tmpPacket->GetMsg()->endofhandhidecardsmessage();
+		curGame->getCurrentHand()->getBoard()->collectPot();
+		// Reset player sets
+		ResetPlayerSets(*curGame);
+		client->GetGui().refreshPot();
+		client->GetGui().refreshSet();
+		// Synchronize with GUI.
+		client->GetGui().waitForGuiUpdateDone();
 
-		if (netEndHand->endOfHandType.present == endOfHandType_PR_endOfHandHideCards) {
-			EndOfHandHideCards_t *hideCards = &netEndHand->endOfHandType.choice.endOfHandHideCards;
-			curGame->getCurrentHand()->getBoard()->collectPot();
-			// Reset player sets
-			ResetPlayerSets(*curGame);
-			client->GetGui().refreshPot();
-			client->GetGui().refreshSet();
-			// Synchronize with GUI.
-			client->GetGui().waitForGuiUpdateDone();
+		// End of Hand, but keep cards hidden.
+		boost::shared_ptr<PlayerInterface> tmpPlayer = curGame->getPlayerByUniqueId(hideCards.playerid());
+		if (!tmpPlayer)
+			throw ClientException(__FILE__, __LINE__, ERR_NET_UNKNOWN_PLAYER_ID, 0);
 
-			// End of Hand, but keep cards hidden.
-			boost::shared_ptr<PlayerInterface> tmpPlayer = curGame->getPlayerByUniqueId(hideCards->playerId);
-			if (!tmpPlayer)
-				throw ClientException(__FILE__, __LINE__, ERR_NET_UNKNOWN_PLAYER_ID, 0);
+		tmpPlayer->setMyCash(hideCards.playermoney());
+		tmpPlayer->setLastMoneyWon(hideCards.moneywon());
+		list<unsigned> winnerList;
+		winnerList.push_back(tmpPlayer->getMyUniqueID());
 
-			tmpPlayer->setMyCash(hideCards->playerMoney);
-			tmpPlayer->setLastMoneyWon(hideCards->moneyWon);
-			list<unsigned> winnerList;
-			winnerList.push_back(tmpPlayer->getMyUniqueID());
+		curGame->getCurrentHand()->getBoard()->setPot(0);
+		curGame->getCurrentHand()->getBoard()->setWinners(winnerList);
 
-			curGame->getCurrentHand()->getBoard()->setPot(0);
-			curGame->getCurrentHand()->getBoard()->setWinners(winnerList);
+		// logging
+		client->GetClientLog()->logHandWinner(curGame->getActivePlayerList(), tmpPlayer->getMyCardsValueInt(), winnerList);
 
-			// logging
-			client->GetClientLog()->logHandWinner(curGame->getActivePlayerList(), tmpPlayer->getMyCardsValueInt(), winnerList);
+		client->GetGui().postRiverRunAnimation1();
 
-			client->GetGui().postRiverRunAnimation1();
-
-			// Wait for next Hand.
-			client->GetCallback().SignalNetClientGameInfo(MSG_NET_GAME_SERVER_HAND_END);
-			client->SetState(ClientStateWaitHand::Instance());
-		} else if (netEndHand->endOfHandType.present == endOfHandType_PR_endOfHandShowCards) {
-			EndOfHandShowCards_t *showCards = &netEndHand->endOfHandType.choice.endOfHandShowCards;
-
-			curGame->getCurrentHand()->getBoard()->collectPot();
-			// Reset player sets
-			ResetPlayerSets(*curGame);
-			client->GetGui().refreshPot();
-			client->GetGui().refreshSet();
-			// Synchronize with GUI.
-			client->GetGui().waitForGuiUpdateDone();
-
-			// End of Hand, show cards.
-			list<unsigned> winnerList;
-			list<unsigned> showList;
-			int highestValueOfCards = 0;
-			PlayerResult_t **playerResults = showCards->playerResults.list.array;
-			unsigned numResults = showCards->playerResults.list.count;
-			// Request player info for players if needed.
-			for (unsigned i = 0; i < numResults; i++) {
-				PlayerResult_t *r = playerResults[i];
-
-				boost::shared_ptr<PlayerInterface> tmpPlayer = curGame->getPlayerByUniqueId(r->playerId);
-				if (!tmpPlayer)
-					throw ClientException(__FILE__, __LINE__, ERR_NET_UNKNOWN_PLAYER_ID, 0);
-
-				int tmpCards[2];
-				int bestHandPos[5];
-				tmpCards[0] = static_cast<int>(r->resultCard1);
-				tmpCards[1] = static_cast<int>(r->resultCard2);
-				tmpPlayer->setMyCards(tmpCards);
-				for (int num = 0; num < 5; num++)
-					bestHandPos[num] = *r->bestHandPosition.list.array[num];
-				if (r->cardsValue) {
-					tmpPlayer->setMyCardsValueInt(*r->cardsValue);
-				}
-				tmpPlayer->setMyBestHandPosition(bestHandPos);
-				if (tmpPlayer->getMyCardsValueInt() > highestValueOfCards)
-					highestValueOfCards = tmpPlayer->getMyCardsValueInt();
-				tmpPlayer->setMyCash(r->playerMoney);
-				tmpPlayer->setLastMoneyWon(r->moneyWon);
-				if (r->moneyWon)
-					winnerList.push_back(r->playerId);
-				showList.push_back(r->playerId);
-			}
-
-			curGame->getCurrentHand()->setCurrentRound(GAME_STATE_POST_RIVER);
-			client->GetClientLog()->setCurrentRound(GAME_STATE_POST_RIVER);
-			curGame->getCurrentHand()->getCurrentBeRo()->setHighestCardsValue(highestValueOfCards);
-			curGame->getCurrentHand()->getBoard()->setPot(0);
-			curGame->getCurrentHand()->getBoard()->setWinners(winnerList);
-			curGame->getCurrentHand()->getBoard()->setPlayerNeedToShowCards(showList);
-
-			// logging
-			client->GetClientLog()->logHoleCardsHandName(curGame->getActivePlayerList());
-			client->GetClientLog()->logHandWinner(curGame->getActivePlayerList(), highestValueOfCards, winnerList);
-
-			client->GetGui().postRiverRunAnimation1();
-
-			// Wait for next Hand.
-			client->GetCallback().SignalNetClientGameInfo(MSG_NET_GAME_CLIENT_HAND_END);
-			client->SetState(ClientStateWaitHand::Instance());
-		}
+		// Wait for next Hand.
+		client->GetCallback().SignalNetClientGameInfo(MSG_NET_GAME_SERVER_HAND_END);
+		client->SetState(ClientStateWaitHand::Instance());
 
 		// logging
 		client->GetClientLog()->logPlayerSitsOut(curGame->getActivePlayerList());
 		client->GetClientLog()->logGameWinner(curGame->getActivePlayerList());
 		client->GetClientLog()->logAfterHand();
+	} else if (tmpPacket->GetMsg()->messagetype() == PokerTHMessage::Type_EndOfHandShowCardsMessage) {
+		const EndOfHandShowCardsMessage &showCards = tmpPacket->GetMsg()->endofhandshowcardsmessage();
 
+		curGame->getCurrentHand()->getBoard()->collectPot();
+		// Reset player sets
+		ResetPlayerSets(*curGame);
+		client->GetGui().refreshPot();
+		client->GetGui().refreshSet();
+		// Synchronize with GUI.
+		client->GetGui().waitForGuiUpdateDone();
+
+		// End of Hand, show cards.
+		list<unsigned> winnerList;
+		list<unsigned> showList;
+		int highestValueOfCards = 0;
+		unsigned numResults = showCards.playerresults_size();
+		// Request player info for players if needed.
+		for (unsigned i = 0; i < numResults; i++) {
+			const PlayerResult &r = showCards.playerresults(i);
+
+			boost::shared_ptr<PlayerInterface> tmpPlayer = curGame->getPlayerByUniqueId(r.playerid());
+			if (!tmpPlayer)
+				throw ClientException(__FILE__, __LINE__, ERR_NET_UNKNOWN_PLAYER_ID, 0);
+
+			int tmpCards[2];
+			int bestHandPos[5];
+			tmpCards[0] = static_cast<int>(r.resultcard1());
+			tmpCards[1] = static_cast<int>(r.resultcard2());
+			tmpPlayer->setMyCards(tmpCards);
+			for (int num = 0; num < 5; num++) {
+				bestHandPos[num] = r.besthandposition(num);
+			}
+			if (r.has_cardsvalue()) {
+				tmpPlayer->setMyCardsValueInt(r.cardsvalue());
+			}
+			tmpPlayer->setMyBestHandPosition(bestHandPos);
+			if (tmpPlayer->getMyCardsValueInt() > highestValueOfCards)
+				highestValueOfCards = tmpPlayer->getMyCardsValueInt();
+			tmpPlayer->setMyCash(r.playermoney());
+			tmpPlayer->setLastMoneyWon(r.moneywon());
+			if (r.moneywon())
+				winnerList.push_back(r.playerid());
+			showList.push_back(r.playerid());
+		}
+
+		curGame->getCurrentHand()->setCurrentRound(GAME_STATE_POST_RIVER);
+		client->GetClientLog()->setCurrentRound(GAME_STATE_POST_RIVER);
+		curGame->getCurrentHand()->getCurrentBeRo()->setHighestCardsValue(highestValueOfCards);
+		curGame->getCurrentHand()->getBoard()->setPot(0);
+		curGame->getCurrentHand()->getBoard()->setWinners(winnerList);
+		curGame->getCurrentHand()->getBoard()->setPlayerNeedToShowCards(showList);
+
+		// logging
+		client->GetClientLog()->logHoleCardsHandName(curGame->getActivePlayerList());
+		client->GetClientLog()->logHandWinner(curGame->getActivePlayerList(), highestValueOfCards, winnerList);
+
+		client->GetGui().postRiverRunAnimation1();
+
+		// Wait for next Hand.
+		client->GetCallback().SignalNetClientGameInfo(MSG_NET_GAME_CLIENT_HAND_END);
+		client->SetState(ClientStateWaitHand::Instance());
+
+		// logging
+		client->GetClientLog()->logPlayerSitsOut(curGame->getActivePlayerList());
+		client->GetClientLog()->logGameWinner(curGame->getActivePlayerList());
+		client->GetClientLog()->logAfterHand();
 	}
+
 	// Synchronize with GUI.
 	client->GetGui().waitForGuiUpdateDone();
 }

@@ -21,15 +21,12 @@
 
 #ifdef _WIN32
 
-#ifdef __GNUC__ /* mingw provides stdint.h */
 #include <stdint.h>
 typedef uint16_t					u_int16_t;
 typedef uint32_t					u_int32_t;
-#else
-typedef unsigned __int16			u_int16_t;
-typedef unsigned __int32			u_int32_t;
-typedef __int16						int16_t;
-typedef __int32						int32_t;
+#ifndef __GNUC__ /* ssize_t not defined in MSVC */
+typedef _W64 int					ssize_t;
+#define _SSIZE_T_
 #endif
 
 typedef unsigned char					u_char;

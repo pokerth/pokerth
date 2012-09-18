@@ -83,9 +83,10 @@ SenderHelper::SetCloseAfterSend(boost::shared_ptr<SessionData> session)
 void
 SenderHelper::InternalStorePacket(SendBuffer &tmpBuffer, boost::shared_ptr<NetPacket> packet)
 {
-	asn_enc_rval_t e = der_encode(&asn_DEF_PokerTHMessage, packet->GetMsg(), &SendBuffer::EncodeToBuf, &tmpBuffer);
-	//cerr << "OUT:" << endl << packet->ToString() << endl;
-	if (e.encoded == -1)
-		LOG_ERROR("Failed to encode NetPacket: " << packet->GetMsg()->present);
+	uint32_t packetSize = packet->GetMsg()->ByteSize();
+	char *buf = new char[packetSize + NET_HEADER_SIZE];
+	*((uint32_t *)buf) = htonl(packetSize);
+	packet->GetMsg()->SerializeToArray(&buf[NET_HEADER_SIZE], packetSize);
+	SendBuffer::EncodeToBuf(buf, packetSize + NET_HEADER_SIZE, &tmpBuffer);
 }
 
