@@ -341,6 +341,7 @@
      <string>&amp;PokerTH</string>
     </property>
     <addaction name="actionAbout_PokerTH"/>
+    <addaction name="actionLogs"/>
    </widget>
    <widget class="QMenu" name="menuSettings">
     <property name="title">
@@ -420,6 +421,14 @@
    </property>
    <property name="text">
     <string>Create Network Game ...</string>
+   </property>
+  </action>
+  <action name="actionLogs">
+   <property name="text">
+    <string>Logs</string>
+   </property>
+   <property name="visible">
+    <bool>false</bool>
    </property>
   </action>
  </widget>
