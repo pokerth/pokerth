@@ -16,6 +16,9 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.     *
  *****************************************************************************/
 
+option java_package = "de.pokerth.protocol";
+option java_outer_classname = "ProtoBuf";
+
 // Enumerations used by several messages.
 
 enum NetGameMode {
