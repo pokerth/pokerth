@@ -1671,7 +1671,7 @@ ClientStateRunHand::InternalHandlePacket(boost::shared_ptr<ClientThread> client,
 			isBigBlind = true;
 		} else { // no blind -> log
 			if (netActionDone.playeraction()) {
-				assert(netActionDone.totalplayerbet() >= tmpPlayer->getMySet());
+				assert((int)netActionDone.totalplayerbet() >= tmpPlayer->getMySet());
 				client->GetGui().logPlayerActionMsg(
 					tmpPlayer->getMyName(),
 					netActionDone.playeraction(),
@@ -1736,7 +1736,7 @@ ClientStateRunHand::InternalHandlePacket(boost::shared_ptr<ClientThread> client,
 			throw ClientException(__FILE__, __LINE__, ERR_NET_UNKNOWN_PLAYER_ID, 0);
 
 		// Set round.
-		if (curGame->getCurrentHand()->getCurrentRound() != netPlayersTurn.gamestate()) {
+		if (curGame->getCurrentHand()->getCurrentRound() != static_cast<GameState>(netPlayersTurn.gamestate())) {
 			ResetPlayerActions(*curGame);
 			curGame->getCurrentHand()->setCurrentRound(static_cast<GameState>(netPlayersTurn.gamestate()));
 			client->GetClientLog()->setCurrentRound(static_cast<GameState>(netPlayersTurn.gamestate()));

@@ -1420,7 +1420,7 @@ ServerGameStateWaitPlayerAction::InternalProcessPacket(boost::shared_ptr<ServerG
 
 		// Check whether this is the correct round.
 		PlayerActionCode code = ACTION_CODE_VALID;
-		if (curGame.getCurrentHand()->getCurrentRound() != netMyAction->gamestate())
+		if (curGame.getCurrentHand()->getCurrentRound() != static_cast<GameState>(netMyAction->gamestate()))
 			code = ACTION_CODE_INVALID_STATE;
 
 		// Check whether this is the correct player.
@@ -1431,13 +1431,13 @@ ServerGameStateWaitPlayerAction::InternalProcessPacket(boost::shared_ptr<ServerG
 		}
 
 		// If the client omitted some values, fill them in.
-		if (netMyAction->myaction() == PLAYER_ACTION_CALL && netMyAction->myrelativebet() == 0) {
+		if (netMyAction->myaction() == actionCall && netMyAction->myrelativebet() == 0) {
 			if (curGame.getCurrentHand()->getCurrentBeRo()->getHighestSet() >= tmpPlayer->getMySet() + tmpPlayer->getMyCash())
 				netMyAction->set_myaction(actionAllIn);
 			else
 				netMyAction->set_myrelativebet(curGame.getCurrentHand()->getCurrentBeRo()->getHighestSet() - tmpPlayer->getMySet());
 		}
-		if (netMyAction->myaction() == PLAYER_ACTION_ALLIN && netMyAction->myrelativebet() == 0)
+		if (netMyAction->myaction() == actionAllIn && netMyAction->myrelativebet() == 0)
 			netMyAction->set_myrelativebet(tmpPlayer->getMyCash());
 
 		// Check whether the action is valid.
