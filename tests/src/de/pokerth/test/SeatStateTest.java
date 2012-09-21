@@ -28,6 +28,11 @@ import java.util.Iterator;
 
 import org.junit.Test;
 
+import de.pokerth.protocol.ProtoBuf.NetGameInfo;
+import de.pokerth.protocol.ProtoBuf.NetGameInfo.EndRaiseMode;
+import de.pokerth.protocol.ProtoBuf.NetGameInfo.NetGameType;
+import de.pokerth.protocol.ProtoBuf.PokerTHMessage;
+
 
 public class SeatStateTest extends TestBase {
 
@@ -35,14 +40,11 @@ public class SeatStateTest extends TestBase {
 	public void testSeatState() throws Exception {
 		long firstPlayerId = userInit();
 
-		Collection<InitialNonZeroAmountOfMoney> l = new ArrayList<InitialNonZeroAmountOfMoney>();
+		Collection<Integer> l = new ArrayList<Integer>();
 		String gameName = AuthUser + " run normal game for seatState";
-		NetGameInfo gameInfo = createGameInfo(5, EndRaiseModeEnumType.EnumType.doubleBlinds, 0, 200, gameName, l, 10, 0, 2, 10000);
+		NetGameInfo gameInfo = createGameInfo(NetGameType.normalGame, 5, 7, 5, EndRaiseMode.doubleBlinds, 0, 200, gameName, l, 10, 0, 2, 10000);
 		sendMessage(createGameRequestMsg(
 				gameInfo,
-				NetGameTypeEnumType.EnumType.normalGame,
-				5,
-				7,
 				"",
 				false));
 

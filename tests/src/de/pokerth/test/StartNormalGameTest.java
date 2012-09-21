@@ -24,66 +24,80 @@ import java.util.Collection;
 
 import org.junit.Test;
 
+import de.pokerth.protocol.ProtoBuf.NetGameInfo;
+import de.pokerth.protocol.ProtoBuf.NetGameInfo.EndRaiseMode;
+import de.pokerth.protocol.ProtoBuf.NetGameInfo.NetGameType;
+import de.pokerth.protocol.ProtoBuf.PokerTHMessage.PokerTHMessageType;
+import de.pokerth.protocol.ProtoBuf.PokerTHMessage;
+import de.pokerth.protocol.ProtoBuf.StartEventAckMessage;
+import de.pokerth.protocol.ProtoBuf.StartEventMessage;
+import de.pokerth.protocol.ProtoBuf.StartEventMessage.StartEventType;
+
 public class StartNormalGameTest extends TestBase {
 
 	@Test
 	public void testGameStartMessage() throws Exception {
 		guestInit();
 
-		Collection<InitialNonZeroAmountOfMoney> l = new ArrayList<InitialNonZeroAmountOfMoney>();
-		NetGameInfo gameInfo = createGameInfo(10, EndRaiseModeEnumType.EnumType.doubleBlinds, 0, 100, GuestUser + " start normal game", l, 10, 0, 11, 20000);
+		Collection<Integer> l = new ArrayList<Integer>();
+		NetGameInfo gameInfo = createGameInfo(NetGameType.normalGame, 10, 7, 10, EndRaiseMode.doubleBlinds, 0, 100, GuestUser + " start normal game", l, 10, 0, 11, 20000);
 		sendMessage(createGameRequestMsg(
 				gameInfo,
-				NetGameTypeEnumType.EnumType.normalGame,
-				10,
-				7,
 				"",
 				false));
 
 		PokerTHMessage msg;
 		// Waiting for player list update.
 		msg = receiveMessage();
-		if (!msg.isPlayerListMessageSelected()) {
+		if (!msg.hasPlayerListMessage()) {
 			failOnErrorMessage(msg);
 			fail("Invalid message.");
 		}
 
 		msg = receiveMessage();
-		if (!msg.isGameListMessageSelected()) {
+		if (!msg.hasGameListNewMessage()) {
 			failOnErrorMessage(msg);
 			fail("Invalid message.");
 		}
 
 		msg = receiveMessage();
-		if (msg.isJoinGameReplyMessageSelected()) {
-			if (!msg.getJoinGameReplyMessage().getValue().getJoinGameResult().isJoinGameAckSelected()) {
-				fail("Could not create game!");
-			}
-		}
-		else {
+		if (!msg.hasJoinGameAckMessage()) {
 			failOnErrorMessage(msg);
-			fail("Invalid message.");
+			fail("Could not create game!");
 		}
-		long gameId = msg.getJoinGameReplyMessage().getValue().getGameId().getValue();
+		int gameId = msg.getJoinGameAckMessage().getGameId();
 
-		StartEvent startEvent = new StartEvent();
-		startEvent.setFillWithComputerPlayers(true);
-		StartEventTypeChoiceType eventType = new StartEventTypeChoiceType();
-		eventType.selectStartEvent(startEvent);
-		StartEventMessageSequenceType gameStartType = new StartEventMessageSequenceType();
-		gameStartType.setGameId(new NonZeroId(gameId));
-		gameStartType.setStartEventType(eventType);
-		StartEventMessage startMsg = new StartEventMessage();
-		startMsg.setValue(gameStartType);
-		msg = new PokerTHMessage();
-		msg.selectStartEventMessage(startMsg);
+		StartEventMessage startMsg = StartEventMessage.newBuilder()
+			.setGameId(gameId)
+			.setFillWithComputerPlayers(true)
+			.setStartEventType(StartEventType.startEvent)
+			.build();
+		msg = PokerTHMessage.newBuilder()
+			.setMessageType(PokerTHMessageType.Type_StartEventMessage)
+			.setStartEventMessage(startMsg)
+			.build();
 		sendMessage(msg);
 
 		do {
 			msg = receiveMessage();
-		} while (msg.isGameListMessageSelected());
+		} while (msg.hasGameListPlayerJoinedMessage() || msg.hasGamePlayerJoinedMessage());
 
-		if (msg.isGameStartMessageSelected()) {
+		assertTrue(msg.hasStartEventMessage() && msg.getMessageType() == PokerTHMessageType.Type_StartEventMessage);
+
+		StartEventAckMessage startAck = StartEventAckMessage.newBuilder()
+			.setGameId(gameId)
+			.build();
+		msg = PokerTHMessage.newBuilder()
+			.setMessageType(PokerTHMessageType.Type_StartEventAckMessage)
+			.setStartEventAckMessage(startAck)
+			.build();
+		sendMessage(msg);
+
+		do {
+			msg = receiveMessage();
+		} while (msg.hasGameListUpdateMessage());
+
+		if (!msg.hasGameStartInitialMessage()) {
 			failOnErrorMessage(msg);
 			fail("Invalid message.");
 		}
