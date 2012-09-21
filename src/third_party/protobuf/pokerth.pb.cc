@@ -2598,8 +2598,8 @@ void protobuf_AddDesc_pokerth_2eproto() {
     "*X\n\020PlayerInfoRights\022\025\n\021playerRightsGues"
     "t\020\001\022\026\n\022playerRightsNormal\020\002\022\025\n\021playerRig"
     "htsAdmin\020\003*K\n\rNetAvatarType\022\022\n\016avatarIma"
-    "gePng\020\000\022\022\n\016avatarImageJpg\020\001\022\022\n\016avatarIma"
-    "geGif\020\002", 17727);
+    "gePng\020\001\022\022\n\016avatarImageJpg\020\002\022\022\n\016avatarIma"
+    "geGif\020\003B\037\n\023de.pokerth.protocolB\010ProtoBuf", 17760);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "pokerth.proto", &protobuf_RegisterTypes);
   NetGameInfo::default_instance_ = new NetGameInfo();
@@ -2866,9 +2866,9 @@ const ::google::protobuf::EnumDescriptor* NetAvatarType_descriptor() {
 }
 bool NetAvatarType_IsValid(int value) {
   switch(value) {
-    case 0:
     case 1:
     case 2:
+    case 3:
       return true;
     default:
       return false;
@@ -6727,7 +6727,7 @@ AvatarHeaderMessage::AvatarHeaderMessage(const AvatarHeaderMessage& from)
 void AvatarHeaderMessage::SharedCtor() {
   _cached_size_ = 0;
   requestid_ = 0u;
-  avatartype_ = 0;
+  avatartype_ = 1;
   avatarsize_ = 0u;
   ::memset(_has_bits_, 0, sizeof(_has_bits_));
 }
@@ -6764,7 +6764,7 @@ AvatarHeaderMessage* AvatarHeaderMessage::New() const {
 void AvatarHeaderMessage::Clear() {
   if (_has_bits_[0 / 32] & (0xffu << (0 % 32))) {
     requestid_ = 0u;
-    avatartype_ = 0;
+    avatartype_ = 1;
     avatarsize_ = 0u;
   }
   ::memset(_has_bits_, 0, sizeof(_has_bits_));
@@ -9616,7 +9616,7 @@ PlayerInfoReplyMessage_PlayerInfoData_AvatarData::PlayerInfoReplyMessage_PlayerI
 
 void PlayerInfoReplyMessage_PlayerInfoData_AvatarData::SharedCtor() {
   _cached_size_ = 0;
-  avatartype_ = 0;
+  avatartype_ = 1;
   avatarhash_ = const_cast< ::std::string*>(&::google::protobuf::internal::kEmptyString);
   ::memset(_has_bits_, 0, sizeof(_has_bits_));
 }
@@ -9655,7 +9655,7 @@ PlayerInfoReplyMessage_PlayerInfoData_AvatarData* PlayerInfoReplyMessage_PlayerI
 
 void PlayerInfoReplyMessage_PlayerInfoData_AvatarData::Clear() {
   if (_has_bits_[0 / 32] & (0xffu << (0 % 32))) {
-    avatartype_ = 0;
+    avatartype_ = 1;
     if (has_avatarhash()) {
       if (avatarhash_ != &::google::protobuf::internal::kEmptyString) {
         avatarhash_->clear();

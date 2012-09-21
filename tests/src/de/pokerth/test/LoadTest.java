@@ -26,6 +26,14 @@ import java.util.Collection;
 
 import org.junit.Test;
 
+import de.pokerth.protocol.ProtoBuf.NetGameInfo;
+import de.pokerth.protocol.ProtoBuf.NetGameInfo.EndRaiseMode;
+import de.pokerth.protocol.ProtoBuf.NetGameInfo.NetGameType;
+import de.pokerth.protocol.ProtoBuf.PokerTHMessage.PokerTHMessageType;
+import de.pokerth.protocol.ProtoBuf.MyActionRequestMessage;
+import de.pokerth.protocol.ProtoBuf.NetPlayerAction;
+import de.pokerth.protocol.ProtoBuf.PokerTHMessage;
+
 
 public class LoadTest extends TestBase {
 
@@ -39,8 +47,8 @@ public class LoadTest extends TestBase {
 
 		// We need a lot of sockets and player ids.
 		Socket s[] = new Socket[NumGames * 10];
-		long playerId[] = new long[NumGames * 10];
-		long gameId[] = new long[NumGames];
+		int playerId[] = new int[NumGames * 10];
+		int gameId[] = new int[NumGames];
 
 		PokerTHMessage msg;
 		// First players are game admins.
@@ -53,20 +61,17 @@ public class LoadTest extends TestBase {
 
 			do {
 				msg = receiveMessage(s[i * 10]);
-			} while (msg.isGameListMessageSelected() || msg.isGamePlayerMessageSelected());
-			if (!msg.isPlayerListMessageSelected()) {
+			} while (msg.hasGameListNewMessage() || msg.hasGameListPlayerJoinedMessage() || msg.hasGamePlayerJoinedMessage());
+			if (!msg.hasPlayerListMessage()) {
 				failOnErrorMessage(msg);
 				fail("Invalid message.");
 			}
 
-			Collection<InitialNonZeroAmountOfMoney> l = new ArrayList<InitialNonZeroAmountOfMoney>();
+			Collection<Integer> l = new ArrayList<Integer>();
 			String gameName = AuthUser + " load game " + i;
-			NetGameInfo gameInfo = createGameInfo(5, EndRaiseModeEnumType.EnumType.doubleBlinds, 0, 200, gameName, l, 10, 0, 1, 10000);
+			NetGameInfo gameInfo = createGameInfo(NetGameType.normalGame, 5, 7, 5, EndRaiseMode.doubleBlinds, 0, 200, gameName, l, 10, 0, 1, 10000);
 			sendMessage(createGameRequestMsg(
 					gameInfo,
-					NetGameTypeEnumType.EnumType.normalGame,
-					5,
-					7,
 					"",
 					false),
 					s[i * 10]);
@@ -75,19 +80,14 @@ public class LoadTest extends TestBase {
 			do {
 				msg = receiveMessage(s[i * 10]);
 				failOnErrorMessage(msg);
-			} while (msg.isGameListMessageSelected() || msg.isPlayerListMessageSelected());
+			} while (msg.hasGameListNewMessage() || msg.hasGameListPlayerJoinedMessage() || msg.hasPlayerListMessage());
 
 			// Join game ack.
-			if (msg.isJoinGameReplyMessageSelected()) {
-				if (!msg.getJoinGameReplyMessage().getValue().getJoinGameResult().isJoinGameAckSelected()) {
-					fail("Could not create game!");
-				}
-			}
-			else {
+			if (!msg.hasJoinGameAckMessage()) {
 				failOnErrorMessage(msg);
-				fail("Invalid message.");
+				fail("Could not create game!");
 			}
-			gameId[i] = msg.getJoinGameReplyMessage().getValue().getGameId().getValue();
+			gameId[i] = msg.getJoinGameAckMessage().getGameId();
 		}
 
 
@@ -103,8 +103,8 @@ public class LoadTest extends TestBase {
 			// Waiting for player list update.
 			do {
 				msg = receiveMessage(s[i]);
-			} while (msg.isGameListMessageSelected() || msg.isGamePlayerMessageSelected());
-			if (!msg.isPlayerListMessageSelected()) {
+			} while (msg.hasGameListPlayerJoinedMessage() || msg.hasGamePlayerJoinedMessage());
+			if (!msg.hasPlayerListMessage()) {
 				failOnErrorMessage(msg);
 				fail("Invalid message.");
 			}
@@ -112,40 +112,39 @@ public class LoadTest extends TestBase {
 			do {
 				msg = receiveMessage(s[i]);
 				failOnErrorMessage(msg);
-			} while (!msg.isJoinGameReplyMessageSelected());
-			if (!msg.getJoinGameReplyMessage().getValue().getJoinGameResult().isJoinGameAckSelected()) {
-				fail("User " + username + " could not join ranking game.");
+			} while (!msg.hasJoinGameAckMessage() && !msg.hasJoinGameFailedMessage());
+			if (!msg.hasJoinGameAckMessage()) {
+				fail("User " + username + " could not join normal game.");
 			}
 		}
 
 		boolean abort = false;
-		long handNum = 0;
+		int handNum[] = new int[NumGames];
 		do {
 			for (int i = 0; i < NumGames * 10; i++) {
 				while (s[i].getInputStream().available() > 0) {
 					msg = receiveMessage(s[i]);
 					failOnErrorMessage(msg);
-					if (msg.isHandStartMessageSelected()) {
-						handNum++;
+					if (msg.hasHandStartMessage()) {
+						handNum[i / 10]++;
 					}
-					else if (msg.isPlayersTurnMessageSelected()) {
-						if (msg.getPlayersTurnMessage().getValue().getPlayerId().getValue() == playerId[i / 10]) {
-							NetPlayerAction action = new NetPlayerAction();
-							action.setValue(NetPlayerAction.EnumType.actionAllIn);
-							MyActionRequestMessageSequenceType myRequest = new MyActionRequestMessageSequenceType();
-							myRequest.setGameId(new NonZeroId(gameId[i / 10]));
-							myRequest.setGameState(msg.getPlayersTurnMessage().getValue().getGameState());
-							myRequest.setHandNum(new NonZeroId(handNum));
-							myRequest.setMyAction(action);
-							myRequest.setMyRelativeBet(new AmountOfMoney(0));
-							MyActionRequestMessage myAction = new MyActionRequestMessage();
-							myAction.setValue(myRequest);
-							PokerTHMessage outMsg = new PokerTHMessage();
-							outMsg.selectMyActionRequestMessage(myAction);
+					else if (msg.hasPlayersTurnMessage()) {
+						if (msg.getPlayersTurnMessage().getPlayerId() == playerId[i / 10]) {
+							MyActionRequestMessage myRequest = MyActionRequestMessage.newBuilder()
+								.setGameId(gameId[i / 10])
+								.setGameState(msg.getPlayersTurnMessage().getGameState())
+								.setHandNum(handNum[i / 10])
+								.setMyAction(NetPlayerAction.actionAllIn)
+								.setMyRelativeBet(0)
+								.build();
+							PokerTHMessage outMsg = PokerTHMessage.newBuilder()
+									.setMessageType(PokerTHMessageType.Type_MyActionRequestMessage)
+									.setMyActionRequestMessage(myRequest)
+									.build();
 							sendMessage(outMsg, s[i]);
 						}
 					}
-					else if (msg.isEndOfGameMessageSelected()) {
+					else if (msg.hasEndOfGameMessage()) {
 						abort = true;
 					}
 				}

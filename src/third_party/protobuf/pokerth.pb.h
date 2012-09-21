@@ -774,9 +774,9 @@ inline bool PlayerInfoRights_Parse(
     PlayerInfoRights_descriptor(), name, value);
 }
 enum NetAvatarType {
-  avatarImagePng = 0,
-  avatarImageJpg = 1,
-  avatarImageGif = 2
+  avatarImagePng = 1,
+  avatarImageJpg = 2,
+  avatarImageGif = 3
 };
 bool NetAvatarType_IsValid(int value);
 const NetAvatarType NetAvatarType_MIN = avatarImagePng;
@@ -12232,7 +12232,7 @@ inline void AvatarHeaderMessage::clear_has_avatartype() {
   _has_bits_[0] &= ~0x00000002u;
 }
 inline void AvatarHeaderMessage::clear_avatartype() {
-  avatartype_ = 0;
+  avatartype_ = 1;
   clear_has_avatartype();
 }
 inline NetAvatarType AvatarHeaderMessage::avatartype() const {
@@ -12832,7 +12832,7 @@ inline void PlayerInfoReplyMessage_PlayerInfoData_AvatarData::clear_has_avatarty
   _has_bits_[0] &= ~0x00000001u;
 }
 inline void PlayerInfoReplyMessage_PlayerInfoData_AvatarData::clear_avatartype() {
-  avatartype_ = 0;
+  avatartype_ = 1;
   clear_has_avatartype();
 }
 inline NetAvatarType PlayerInfoReplyMessage_PlayerInfoData_AvatarData::avatartype() const {

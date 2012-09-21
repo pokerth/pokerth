@@ -59,9 +59,9 @@ enum PlayerInfoRights {
 }
 
 enum NetAvatarType {
-	avatarImagePng = 0;
-	avatarImageJpg = 1;
-	avatarImageGif = 2;
+	avatarImagePng = 1;
+	avatarImageJpg = 2;
+	avatarImageGif = 3;
 }
 
 // Message part containing game information.

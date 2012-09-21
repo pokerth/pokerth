@@ -24,23 +24,27 @@ import java.net.Socket;
 
 import org.junit.Test;
 
+import de.pokerth.protocol.ProtoBuf.PlayerListMessage;
+import de.pokerth.protocol.ProtoBuf.PlayerListMessage.PlayerListNotification;
+import de.pokerth.protocol.ProtoBuf.PokerTHMessage;
+
 
 public class PlayerListTest extends TestBase {
 
 	@Test
 	public void testPlayerList() throws Exception {
 
-		long myId = guestInit();
+		int myId = guestInit();
 
 		// Waiting for player list update.
 		PokerTHMessage msg;
 		msg = receiveMessage();
-		assertTrue(msg.isPlayerListMessageSelected());
+		assertTrue(msg.hasPlayerListMessage());
 
 		// This should be a "player list new" notification with correct player id.
 		PlayerListMessage listMsg = msg.getPlayerListMessage();
-		assertEquals(myId, listMsg.getValue().getPlayerId().getValue().longValue());
-		assertEquals(PlayerListNotificationEnumType.EnumType.playerListNew, listMsg.getValue().getPlayerListNotification().getValue());
+		assertEquals(myId, listMsg.getPlayerId());
+		assertEquals(PlayerListNotification.playerListNew, listMsg.getPlayerListNotification());
 
 		Socket s[] = new Socket[9];
 		long playerId[] = new long[9];
@@ -51,22 +55,22 @@ public class PlayerListTest extends TestBase {
 			playerId[i] = userInit(s[i], username, password);
 
 			msg = receiveMessage();
-			assertTrue(msg.isPlayerListMessageSelected());
+			assertTrue(msg.hasPlayerListMessage());
 			listMsg = msg.getPlayerListMessage();
 			// Id should be different from first id.
 			assertTrue(myId != playerId[i]);
 			// This should be a "player list new" notification with correct player id.
-			assertEquals(playerId[i], listMsg.getValue().getPlayerId().getValue().longValue());
-			assertEquals(PlayerListNotificationEnumType.EnumType.playerListNew, listMsg.getValue().getPlayerListNotification().getValue());
+			assertEquals(playerId[i], listMsg.getPlayerId());
+			assertEquals(PlayerListNotification.playerListNew, listMsg.getPlayerListNotification());
 
 			s[i].close();
 
 			// After the connection is closed, a "player list left" notification should be received.
 			msg = receiveMessage();
-			assertTrue(msg.isPlayerListMessageSelected());
+			assertTrue(msg.hasPlayerListMessage());
 			listMsg = msg.getPlayerListMessage();
-			assertEquals(playerId[i], listMsg.getValue().getPlayerId().getValue().longValue());
-			assertEquals(PlayerListNotificationEnumType.EnumType.playerListLeft, listMsg.getValue().getPlayerListNotification().getValue());
+			assertEquals(playerId[i], listMsg.getPlayerId());
+			assertEquals(PlayerListNotification.playerListLeft, listMsg.getPlayerListNotification());
 		}
 	}
 }

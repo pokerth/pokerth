@@ -391,23 +391,23 @@ public final class ProtoBuf {
   
   public enum NetAvatarType
       implements com.google.protobuf.ProtocolMessageEnum {
-    avatarImagePng(0, 0),
-    avatarImageJpg(1, 1),
-    avatarImageGif(2, 2),
+    avatarImagePng(0, 1),
+    avatarImageJpg(1, 2),
+    avatarImageGif(2, 3),
     ;
     
-    public static final int avatarImagePng_VALUE = 0;
-    public static final int avatarImageJpg_VALUE = 1;
-    public static final int avatarImageGif_VALUE = 2;
+    public static final int avatarImagePng_VALUE = 1;
+    public static final int avatarImageJpg_VALUE = 2;
+    public static final int avatarImageGif_VALUE = 3;
     
     
     public final int getNumber() { return value; }
     
     public static NetAvatarType valueOf(int value) {
       switch (value) {
-        case 0: return avatarImagePng;
-        case 1: return avatarImageJpg;
-        case 2: return avatarImageGif;
+        case 1: return avatarImagePng;
+        case 2: return avatarImageJpg;
+        case 3: return avatarImageGif;
         default: return null;
       }
     }
@@ -55550,8 +55550,8 @@ public final class ProtoBuf {
       "*X\n\020PlayerInfoRights\022\025\n\021playerRightsGues",
       "t\020\001\022\026\n\022playerRightsNormal\020\002\022\025\n\021playerRig" +
       "htsAdmin\020\003*K\n\rNetAvatarType\022\022\n\016avatarIma" +
-      "gePng\020\000\022\022\n\016avatarImageJpg\020\001\022\022\n\016avatarIma" +
-      "geGif\020\002B\037\n\023de.pokerth.protocolB\010ProtoBuf"
+      "gePng\020\001\022\022\n\016avatarImageJpg\020\002\022\022\n\016avatarIma" +
+      "geGif\020\003B\037\n\023de.pokerth.protocolB\010ProtoBuf"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {

@@ -25,22 +25,31 @@ import java.util.Arrays;
 
 import org.junit.Test;
 
+import de.pokerth.protocol.ProtoBuf.NetAvatarType;
+import de.pokerth.protocol.ProtoBuf.PlayerInfoReplyMessage;
+import de.pokerth.protocol.ProtoBuf.PlayerInfoReplyMessage.PlayerInfoData;
+import de.pokerth.protocol.ProtoBuf.PlayerInfoRequestMessage;
+import de.pokerth.protocol.ProtoBuf.PlayerInfoRights;
+import de.pokerth.protocol.ProtoBuf.PokerTHMessage;
+import de.pokerth.protocol.ProtoBuf.PokerTHMessage.PokerTHMessageType;
+
 public class PlayerInfoTest extends TestBase {
 
-	protected void sendPlayerInfoRequest(Socket s, long playerId) throws Exception {
-		PlayerInfoRequestMessageSequenceType type = new PlayerInfoRequestMessageSequenceType();
-		type.setPlayerId(new NonZeroId(playerId));
-		PlayerInfoRequestMessage request = new PlayerInfoRequestMessage();
-		request.setValue(type);
-		PokerTHMessage msg = new PokerTHMessage();
-		msg.selectPlayerInfoRequestMessage(request);
+	protected void sendPlayerInfoRequest(Socket s, int playerId) throws Exception {
+		PlayerInfoRequestMessage request = PlayerInfoRequestMessage.newBuilder()
+			.setPlayerId(playerId)
+			.build();
+		PokerTHMessage msg = PokerTHMessage.newBuilder()
+				.setMessageType(PokerTHMessageType.Type_PlayerInfoRequestMessage)
+				.setPlayerInfoRequestMessage(request)
+				.build();
 		sendMessage(msg, s);
 	}
 
 	@Test
 	public void testPlayerInfoRequest() throws Exception {
 
-		long firstPlayerId = guestInit();
+		int firstPlayerId = guestInit();
 		byte[] avatarHash =
 		{
 				// one of the builtin avatars.
@@ -52,8 +61,8 @@ public class PlayerInfoTest extends TestBase {
 
 		// Let 9 additional clients join.
 		Socket s[] = new Socket[9];
-		long playerId[] = new long[9];
-		long maxPlayerId = 0;
+		int playerId[] = new int[9];
+		int maxPlayerId = 0;
 		for (int i = 0; i < 9; i++) {
 			s[i] = new Socket("localhost", 7234);
 			String username = "test" + (i+1);
@@ -75,48 +84,49 @@ public class PlayerInfoTest extends TestBase {
 			sendPlayerInfoRequest(s[i], firstPlayerId);
 			do {
 				msg = receiveMessage(s[i]);
-			} while (msg.isPlayerListMessageSelected());
-			assertTrue(msg.isPlayerInfoReplyMessageSelected());
+			} while (msg.hasPlayerListMessage());
+			assertTrue(msg.hasPlayerInfoReplyMessage() && msg.getMessageType() == PokerTHMessageType.Type_PlayerInfoReplyMessage);
 			PlayerInfoReplyMessage reply = msg.getPlayerInfoReplyMessage();
-			assertTrue(reply.getValue().getPlayerId().getValue() == firstPlayerId);
-			assertTrue(reply.getValue().getPlayerInfoResult().isPlayerInfoDataSelected());
-			PlayerInfoData info = reply.getValue().getPlayerInfoResult().getPlayerInfoData();
+			assertTrue(reply.getPlayerId() == firstPlayerId);
+			assertTrue(reply.hasPlayerInfoData());
+			PlayerInfoData info = reply.getPlayerInfoData();
 			assertEquals(GuestUser, info.getPlayerName());
-			assertEquals(null, info.getCountryCode());
+			assertFalse(info.hasCountryCode());
 			assertTrue(info.getIsHuman());
-			assertEquals(PlayerInfoRights.EnumType.playerRightsGuest, info.getPlayerRights().getValue());
-			assertEquals(null, info.getAvatarData());
+			assertEquals(PlayerInfoRights.playerRightsGuest, info.getPlayerRights());
+			assertFalse(info.hasAvatarData());
 		}
 		// Request other players' info.
 		for (int i = 0; i < 9; i++) {
 			sendPlayerInfoRequest(sock, playerId[i]);
 			do {
 				msg = receiveMessage();
-			} while (msg.isPlayerListMessageSelected());
-			assertTrue(msg.isPlayerInfoReplyMessageSelected());
+			} while (msg.hasPlayerListMessage());
+			assertTrue(msg.hasPlayerInfoReplyMessage() && msg.getMessageType() == PokerTHMessageType.Type_PlayerInfoReplyMessage);
 			PlayerInfoReplyMessage reply = msg.getPlayerInfoReplyMessage();
-			assertTrue(reply.getValue().getPlayerId().getValue() == playerId[i]);
-			assertTrue(reply.getValue().getPlayerInfoResult().isPlayerInfoDataSelected());
-			PlayerInfoData info = reply.getValue().getPlayerInfoResult().getPlayerInfoData();
+			assertTrue(reply.getPlayerId() == playerId[i]);
+			assertTrue(reply.hasPlayerInfoData());
+			PlayerInfoData info = reply.getPlayerInfoData();
 			assertEquals("test" + (i+1), info.getPlayerName());
-			assertEquals(null, info.getCountryCode());
+			assertFalse(info.hasCountryCode());
 			assertTrue(info.getIsHuman());
-			assertEquals(PlayerInfoRights.EnumType.playerRightsNormal, info.getPlayerRights().getValue());
+			assertEquals(PlayerInfoRights.playerRightsNormal, info.getPlayerRights());
 			// Every second player has an avatar, see above.
 			if (i % 2 == 0) {
-				assertEquals(null, info.getAvatarData());
+				assertFalse(info.hasAvatarData());
 			} else {
-				assertTrue(Arrays.equals(info.getAvatarData().getAvatar().getValue(), avatarHash));
-				assertEquals(NetAvatarType.EnumType.avatarImagePng, info.getAvatarData().getAvatarType().getValue());
+				assertTrue(info.hasAvatarData());
+				assertTrue(Arrays.equals(info.getAvatarData().getAvatarHash().toByteArray(), avatarHash));
+				assertEquals(NetAvatarType.avatarImagePng, info.getAvatarData().getAvatarType());
 			}
 		}
 		// Request invalid player info.
 		sendPlayerInfoRequest(sock, maxPlayerId + 1);
 		msg = receiveMessage();
-		assertTrue(msg.isPlayerInfoReplyMessageSelected());
+		assertTrue(msg.hasPlayerInfoReplyMessage() && msg.getMessageType() == PokerTHMessageType.Type_PlayerInfoReplyMessage);
 		PlayerInfoReplyMessage reply = msg.getPlayerInfoReplyMessage();
-		assertTrue(reply.getValue().getPlayerId().getValue() == maxPlayerId + 1);
-		assertTrue(reply.getValue().getPlayerInfoResult().isUnknownPlayerInfoSelected());
+		assertTrue(reply.getPlayerId() == maxPlayerId + 1);
+		assertFalse(reply.hasPlayerInfoData());
 
 		for (int i = 0; i < 9; i++) {
 			s[i].close();

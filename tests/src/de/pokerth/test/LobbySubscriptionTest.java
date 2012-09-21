@@ -26,6 +26,14 @@ import java.util.Collection;
 
 import org.junit.Test;
 
+import de.pokerth.protocol.ProtoBuf.NetGameInfo;
+import de.pokerth.protocol.ProtoBuf.NetGameInfo.EndRaiseMode;
+import de.pokerth.protocol.ProtoBuf.PokerTHMessage;
+import de.pokerth.protocol.ProtoBuf.SubscriptionRequestMessage;
+import de.pokerth.protocol.ProtoBuf.NetGameInfo.NetGameType;
+import de.pokerth.protocol.ProtoBuf.PokerTHMessage.PokerTHMessageType;
+import de.pokerth.protocol.ProtoBuf.SubscriptionRequestMessage.SubscriptionAction;
+
 
 public class LobbySubscriptionTest extends TestBase {
 
@@ -35,38 +43,33 @@ public class LobbySubscriptionTest extends TestBase {
 
 		PokerTHMessage msg;
 		msg = receiveMessage();
-		if (!msg.isPlayerListMessageSelected()) {
+		if (!msg.hasPlayerListMessage()) {
 			failOnErrorMessage(msg);
 			fail("Invalid message.");
 		}
 
-		SubscriptionRequestMessageSequenceType subscriptionType = new SubscriptionRequestMessageSequenceType();
-		SubscriptionActionEnumType action = new SubscriptionActionEnumType();
-		action.setValue(SubscriptionActionEnumType.EnumType.unsubscribeGameList);
-		subscriptionType.setSubscriptionAction(action);
-		SubscriptionRequestMessage subscriptionRequest = new SubscriptionRequestMessage();
-		subscriptionRequest.setValue(subscriptionType);
-		msg = new PokerTHMessage();
-		msg.selectSubscriptionRequestMessage(subscriptionRequest);
+		SubscriptionRequestMessage subscriptionRequest = SubscriptionRequestMessage.newBuilder()
+			.setSubscriptionAction(SubscriptionAction.unsubscribeGameList)
+			.build();
+		msg = PokerTHMessage.newBuilder()
+				.setMessageType(PokerTHMessageType.Type_SubscriptionRequestMessage)
+				.setSubscriptionRequestMessage(subscriptionRequest)
+				.build();
 		sendMessage(msg);
 
 		// Create a new game.
-		Collection<InitialNonZeroAmountOfMoney> l = new ArrayList<InitialNonZeroAmountOfMoney>();
-		NetGameInfo gameInfo = createGameInfo(5, EndRaiseModeEnumType.EnumType.doubleBlinds, 0, 100, GuestUser + " game list normal game", l, 10, 0, 2, 2000);
+		Collection<Integer> l = new ArrayList<Integer>();
+		NetGameInfo gameInfo = createGameInfo(NetGameType.normalGame, 10, 5, 5, EndRaiseMode.doubleBlinds, 0, 100, GuestUser + " game list normal game", l, 10, 0, 2, 2000);
 		sendMessage(createGameRequestMsg(
 				gameInfo,
-				NetGameTypeEnumType.EnumType.normalGame,
-				10,
-				5,
 				"",
 				false));
 
 		// No game list message should be sent by the server.
 		// Next message is join game ack.
 		msg = receiveMessage();
-		assertTrue(msg.isJoinGameReplyMessageSelected());
-		assertTrue(msg.getJoinGameReplyMessage().getValue().getJoinGameResult().isJoinGameAckSelected());
-		long gameId = msg.getJoinGameReplyMessage().getValue().getGameId().getValue().longValue();
+		assertTrue(msg.hasJoinGameAckMessage());
+		int gameId = msg.getJoinGameAckMessage().getGameId();
 
 		Socket s[] = new Socket[9];
 		for (int i = 0; i < 9; i++) {
@@ -80,30 +83,29 @@ public class LobbySubscriptionTest extends TestBase {
 		// No game list message should be received.
 		do {
 			msg = receiveMessage();
-			if (msg.isGameListMessageSelected() || msg.isPlayerListMessageSelected()) {
+			if (msg.hasGameListNewMessage() || msg.hasPlayerListMessage()) {
 				fail("Game/player list messages are switched off!");
 			}
-		} while (!msg.isStartEventMessageSelected());
+		} while (!msg.hasStartEventMessage());
 
 		// Resubscribe game list
-		subscriptionType = new SubscriptionRequestMessageSequenceType();
-		action = new SubscriptionActionEnumType();
-		action.setValue(SubscriptionActionEnumType.EnumType.resubscribeGameList);
-		subscriptionType.setSubscriptionAction(action);
-		subscriptionRequest = new SubscriptionRequestMessage();
-		subscriptionRequest.setValue(subscriptionType);
-		msg = new PokerTHMessage();
-		msg.selectSubscriptionRequestMessage(subscriptionRequest);
+		subscriptionRequest = SubscriptionRequestMessage.newBuilder()
+				.setSubscriptionAction(SubscriptionAction.resubscribeGameList)
+				.build();
+		msg = PokerTHMessage.newBuilder()
+				.setMessageType(PokerTHMessageType.Type_SubscriptionRequestMessage)
+				.setSubscriptionRequestMessage(subscriptionRequest)
+				.build();
 		sendMessage(msg);
 
 		// Next messages should player list messages for all 10 players.
 		for (int i = 0; i < 10; i++) {
 			msg = receiveMessage();
-			assertTrue(msg.isPlayerListMessageSelected());
+			assertTrue(msg.hasPlayerListMessage());
 		}
 		// Now there should be one game list message.
 		msg = receiveMessage();
-		assertTrue(msg.isGameListMessageSelected());
+		assertTrue(msg.hasGameListNewMessage());
 
 		for (int i = 0; i < 9; i++) {
 			s[i].close();
