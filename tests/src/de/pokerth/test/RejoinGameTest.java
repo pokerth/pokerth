@@ -26,6 +26,15 @@ import java.util.Collection;
 
 import org.junit.Test;
 
+import de.pokerth.protocol.ProtoBuf.NetGameInfo;
+import de.pokerth.protocol.ProtoBuf.PlayerListMessage.PlayerListNotification;
+import de.pokerth.protocol.ProtoBuf.StartEventAckMessage;
+import de.pokerth.protocol.ProtoBuf.NetGameInfo.EndRaiseMode;
+import de.pokerth.protocol.ProtoBuf.NetGameInfo.NetGameType;
+import de.pokerth.protocol.ProtoBuf.PokerTHMessage.PokerTHMessageType;
+import de.pokerth.protocol.ProtoBuf.PokerTHMessage;
+import de.pokerth.protocol.ProtoBuf.StartEventMessage.StartEventType;
+
 
 public class RejoinGameTest extends TestBase {
 
@@ -33,57 +42,49 @@ public class RejoinGameTest extends TestBase {
 	public void testRejoinGame() throws Exception {
 
 		Guid firstPlayerSession = new Guid();
-		long firstPlayerId = userInit(sock, AuthUser, AuthPassword, null, firstPlayerSession);
+		int firstPlayerId = userInit(sock, AuthUser, AuthPassword, null, firstPlayerSession);
 
 		// Waiting for player list update.
 		PokerTHMessage msg;
 		msg = receiveMessage();
-		if (!msg.isPlayerListMessageSelected()) {
+		if (!msg.hasPlayerListMessage()) {
 			failOnErrorMessage(msg);
 			fail("Invalid message.");
 		}
 
-		Collection<InitialNonZeroAmountOfMoney> l = new ArrayList<InitialNonZeroAmountOfMoney>();
+		Collection<Integer> l = new ArrayList<Integer>();
 		String gameName = AuthUser + " rejoin game";
-		NetGameInfo gameInfo = createGameInfo(5, EndRaiseModeEnumType.EnumType.doubleBlinds, 0, 50, gameName, l, 10, 0, 11, 10000);
+		NetGameInfo gameInfo = createGameInfo(NetGameType.normalGame, 5, 7, 5, EndRaiseMode.doubleBlinds, 0, 50, gameName, l, 10, 0, 11, 10000);
 		sendMessage(createGameRequestMsg(
 				gameInfo,
-				NetGameTypeEnumType.EnumType.normalGame,
-				5,
-				7,
 				"",
 				false));
 
 		// Game list update (new game)
 		msg = receiveMessage();
-		if (!msg.isGameListMessageSelected()) {
+		if (!msg.hasGameListNewMessage()) {
 			failOnErrorMessage(msg);
 			fail("Invalid message.");
 		}
 
 		// Join game ack.
 		msg = receiveMessage();
-		if (msg.isJoinGameReplyMessageSelected()) {
-			if (!msg.getJoinGameReplyMessage().getValue().getJoinGameResult().isJoinGameAckSelected()) {
-				fail("Could not create game!");
-			}
-		}
-		else {
+		if (!msg.hasJoinGameAckMessage()) {
 			failOnErrorMessage(msg);
-			fail("Invalid message.");
+			fail("Could not create game!");
 		}
-		long gameId = msg.getJoinGameReplyMessage().getValue().getGameId().getValue();
+		int gameId = msg.getJoinGameAckMessage().getGameId();
 
 		// Game list update (player joined).
 		msg = receiveMessage();
-		if (!msg.isGameListMessageSelected()) {
+		if (!msg.hasGameListPlayerJoinedMessage()) {
 			failOnErrorMessage(msg);
 			fail("Invalid message.");
 		}
 
 		// Let 9 additional clients join.
 		Socket s[] = new Socket[9];
-		long playerId[] = new long[9];
+		int playerId[] = new int[9];
 		for (int i = 0; i < 9; i++) {
 			s[i] = new Socket("localhost", 7234);
 			String username = "test" + (i+1);
@@ -92,8 +93,8 @@ public class RejoinGameTest extends TestBase {
 			// Waiting for player list update.
 			do {
 				msg = receiveMessage(s[i]);
-			} while (msg.isGameListMessageSelected() || msg.isGamePlayerMessageSelected());
-			if (!msg.isPlayerListMessageSelected()) {
+			} while (msg.hasGameListNewMessage() || msg.hasGameListPlayerJoinedMessage() || msg.hasGamePlayerJoinedMessage());
+			if (!msg.hasPlayerListMessage()) {
 				failOnErrorMessage(msg);
 				fail("Invalid message.");
 			}
@@ -101,24 +102,24 @@ public class RejoinGameTest extends TestBase {
 			do {
 				msg = receiveMessage(s[i]);
 				failOnErrorMessage(msg);
-			} while (!msg.isJoinGameReplyMessageSelected());
-			if (!msg.getJoinGameReplyMessage().getValue().getJoinGameResult().isJoinGameAckSelected()) {
+			} while (!msg.hasJoinGameAckMessage() && !msg.hasJoinGameFailedMessage());
+			if (!msg.hasJoinGameAckMessage()) {
 				fail("User " + username + " could not join ranking game.");
 			}
 
 			// The player should have joined the game.
 			msg = receiveMessage();
-			if (!msg.isPlayerListMessageSelected()) {
+			if (!msg.hasPlayerListMessage()) {
 				failOnErrorMessage(msg);
 				fail("Invalid message.");
 			}
 			msg = receiveMessage();
-			if (!msg.isGamePlayerMessageSelected()) {
+			if (!msg.hasGamePlayerJoinedMessage()) {
 				failOnErrorMessage(msg);
 				fail("Invalid message.");
 			}
 			msg = receiveMessage();
-			if (!msg.isGameListMessageSelected()) {
+			if (!msg.hasGameListPlayerJoinedMessage()) {
 				failOnErrorMessage(msg);
 				fail("Invalid message.");
 			}
@@ -126,7 +127,7 @@ public class RejoinGameTest extends TestBase {
 
 		// Server should automatically send start event.
 		msg = receiveMessage();
-		if (!msg.isStartEventMessageSelected()) {
+		if (!msg.hasStartEventMessage()) {
 			failOnErrorMessage(msg);
 			fail("Invalid message.");
 		}
@@ -134,15 +135,16 @@ public class RejoinGameTest extends TestBase {
 			do {
 				msg = receiveMessage(s[i]);
 				failOnErrorMessage(msg);
-			} while (!msg.isStartEventMessageSelected());
+			} while (!msg.hasStartEventMessage());
 		}
 		// Acknowledge start event.
-		StartEventAckMessageSequenceType startType = new StartEventAckMessageSequenceType();
-		startType.setGameId(new NonZeroId(gameId));
-		StartEventAckMessage startAck = new StartEventAckMessage();
-		startAck.setValue(startType);
-		msg = new PokerTHMessage();
-		msg.selectStartEventAckMessage(startAck);
+		StartEventAckMessage startAck = StartEventAckMessage.newBuilder()
+			.setGameId(gameId)
+			.build();
+		msg = PokerTHMessage.newBuilder()
+			.setMessageType(PokerTHMessageType.Type_StartEventAckMessage)
+			.setStartEventAckMessage(startAck)
+			.build();
 		sendMessage(msg);
 		for (int i = 0; i < 9; i++) {
 			sendMessage(msg, s[i]);
@@ -150,13 +152,13 @@ public class RejoinGameTest extends TestBase {
 
 		// Game list update (game now running).
 		msg = receiveMessage();
-		if (!msg.isGameListMessageSelected()) {
+		if (!msg.hasGameListUpdateMessage()) {
 			failOnErrorMessage(msg);
 			fail("Invalid message.");
 		}
 
 		msg = receiveMessage();
-		if (!msg.isGameStartMessageSelected()) {
+		if (!msg.hasGameStartInitialMessage()) {
 			failOnErrorMessage(msg);
 			fail("Invalid message.");
 		}
@@ -171,7 +173,7 @@ public class RejoinGameTest extends TestBase {
 					failOnErrorMessage(inMsg);
 				}
 			}
-		} while (!msg.isHandStartMessageSelected());
+		} while (!msg.hasHandStartMessage());
 
 		// Leave the game by closing the socket.
 		sock.close();
@@ -183,20 +185,20 @@ public class RejoinGameTest extends TestBase {
 			do {
 				msg = receiveMessage(s[i]);
 				failOnErrorMessage(msg);
-			} while (!msg.isPlayerListMessageSelected());
-			assertEquals(firstPlayerId, msg.getPlayerListMessage().getValue().getPlayerId().getValue().longValue());
-			assertEquals(PlayerListNotificationEnumType.EnumType.playerListLeft, msg.getPlayerListMessage().getValue().getPlayerListNotification().getValue());
+			} while (!msg.hasPlayerListMessage());
+			assertEquals(firstPlayerId, msg.getPlayerListMessage().getPlayerId());
+			assertEquals(PlayerListNotification.playerListLeft, msg.getPlayerListMessage().getPlayerListNotification());
 		}
 
 		sock = new Socket("localhost", 7234);
 		// Reconnect to the server.
-		long firstPlayerIdAfterRejoin = userInit(sock, AuthUser, AuthPassword, null, firstPlayerSession);
+		int firstPlayerIdAfterRejoin = userInit(sock, AuthUser, AuthPassword, null, firstPlayerSession);
 		assertEquals(gameId, lastRejoinGameId);
 		// Waiting for player list update.
 		do {
 			msg = receiveMessage();
-		} while (msg.isGameListMessageSelected() || msg.isGamePlayerMessageSelected());
-		if (!msg.isPlayerListMessageSelected()) {
+		} while (msg.hasGameListNewMessage() || msg.hasGameListPlayerJoinedMessage() || msg.hasGamePlayerJoinedMessage());
+		if (!msg.hasPlayerListMessage()) {
 			failOnErrorMessage(msg);
 			fail("Invalid message.");
 		}
@@ -205,9 +207,9 @@ public class RejoinGameTest extends TestBase {
 		do {
 			msg = receiveMessage();
 			failOnErrorMessage(msg);
-		} while (!msg.isJoinGameReplyMessageSelected());
-		if (!msg.getJoinGameReplyMessage().getValue().getJoinGameResult().isJoinGameAckSelected()) {
-			fail("User " + AuthUser + " could not rejoin ranking game.");
+		} while (!msg.hasJoinGameAckMessage() && !msg.hasJoinGameFailedMessage());
+		if (!msg.hasJoinGameAckMessage()) {
+			fail("User " + AuthUser + " could not rejoin normal game.");
 		}
 
 		// All other players should have received "player joined".
@@ -215,64 +217,63 @@ public class RejoinGameTest extends TestBase {
 			do {
 				msg = receiveMessage(s[i]);
 				failOnErrorMessage(msg);
-			} while (!msg.isPlayerListMessageSelected());
-			assertEquals(firstPlayerIdAfterRejoin, msg.getPlayerListMessage().getValue().getPlayerId().getValue().longValue());
-			assertEquals(PlayerListNotificationEnumType.EnumType.playerListNew, msg.getPlayerListMessage().getValue().getPlayerListNotification().getValue());
+			} while (!msg.hasPlayerListMessage());
+			assertEquals(firstPlayerIdAfterRejoin, msg.getPlayerListMessage().getPlayerId());
+			assertEquals(PlayerListNotification.playerListNew, msg.getPlayerListMessage().getPlayerListNotification());
 		}
 
 		// Wait for start event.
 		do {
 			msg = receiveMessage();
 			failOnErrorMessage(msg);
-		} while (!msg.isStartEventMessageSelected());
+		} while (!msg.hasStartEventMessage());
 
-		assertEquals(gameId, msg.getStartEventMessage().getValue().getGameId().getValue().longValue());
-		assertTrue(msg.getStartEventMessage().getValue().getStartEventType().isRejoinEventSelected());
+		assertEquals(gameId, msg.getStartEventMessage().getGameId());
+		assertEquals(StartEventType.rejoinEvent, msg.getStartEventMessage().getStartEventType());
 
 		// Acknowledge start event.
-		startType = new StartEventAckMessageSequenceType();
-		startType.setGameId(new NonZeroId(gameId));
-		startAck = new StartEventAckMessage();
-		startAck.setValue(startType);
-		msg = new PokerTHMessage();
-		msg.selectStartEventAckMessage(startAck);
+		startAck = StartEventAckMessage.newBuilder()
+			.setGameId(gameId)
+			.build();
+		msg = PokerTHMessage.newBuilder()
+			.setMessageType(PokerTHMessageType.Type_StartEventAckMessage)
+			.setStartEventAckMessage(startAck)
+			.build();
 		sendMessage(msg);
 
 		// Wait for game start. This may take a while, because rejoin is performed at the beginning of the next hand.
 		do {
 			msg = receiveMessage();
 			failOnErrorMessage(msg);
-		} while (!msg.isGameStartMessageSelected());
+		} while (!msg.hasGameStartRejoinMessage());
 
 		// Check whether we got all necessary data to rejoin.
-		assertEquals(gameId, msg.getGameStartMessage().getValue().getGameId().getValue().longValue());
-		assertTrue(msg.getGameStartMessage().getValue().getGameStartMode().isGameStartModeRejoinSelected());
-		GameStartModeRejoin rejoinData = msg.getGameStartMessage().getValue().getGameStartMode().getGameStartModeRejoin();
+		assertEquals(gameId, msg.getGameStartRejoinMessage().getGameId());
 		// We left at the first hand.
-		assertEquals(1, rejoinData.getHandNum().getValue().longValue());
+		assertEquals(1, msg.getGameStartRejoinMessage().getHandNum());
 		// 10 Players should now be active again.
-		assertEquals(10, rejoinData.getRejoinPlayerData().size());
+		assertEquals(10, msg.getGameStartRejoinMessage().getRejoinPlayerDataCount());
 
 		// All other players should have received "player id changed".
 		for (int i = 0; i < 9; i++) {
 			do {
 				msg = receiveMessage(s[i]);
 				failOnErrorMessage(msg);
-			} while (!msg.isPlayerIdChangedMessageSelected());
-			assertEquals(firstPlayerId, msg.getPlayerIdChangedMessage().getValue().getOldPlayerId().getValue().longValue());
-			assertEquals(firstPlayerIdAfterRejoin, msg.getPlayerIdChangedMessage().getValue().getNewPlayerId().getValue().longValue());
+			} while (!msg.hasPlayerIdChangedMessage());
+			assertEquals(firstPlayerId, msg.getPlayerIdChangedMessage().getOldPlayerId());
+			assertEquals(firstPlayerIdAfterRejoin, msg.getPlayerIdChangedMessage().getNewPlayerId());
 		}
 
 		// Everyone should receive a "hand start message" now.
 		do {
 			msg = receiveMessage();
 			failOnErrorMessage(msg);
-		} while (!msg.isHandStartMessageSelected());
+		} while (!msg.hasHandStartMessage());
 		for (int i = 0; i < 9; i++) {
 			do {
 				msg = receiveMessage(s[i]);
 				failOnErrorMessage(msg);
-			} while (!msg.isHandStartMessageSelected());
+			} while (!msg.hasHandStartMessage());
 		}
 
 		for (int i = 0; i < 9; i++) {

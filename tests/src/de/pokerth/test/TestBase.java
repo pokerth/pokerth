@@ -50,6 +50,7 @@ import de.pokerth.protocol.ProtoBuf.JoinNewGameMessage;
 import de.pokerth.protocol.ProtoBuf.NetGameInfo;
 import de.pokerth.protocol.ProtoBuf.PokerTHMessage;
 import de.pokerth.protocol.ProtoBuf.PokerTHMessage.PokerTHMessageType;
+import de.pokerth.protocol.ProtoBuf.RejoinExistingGameMessage;
 
 public abstract class TestBase {
 
@@ -192,7 +193,11 @@ public abstract class TestBase {
 		return userInit(s, user, password, null, null);
 	}
 
-	public int userInit(Socket s, String user, String password, byte[] avatarData, byte[] lastSessionId) throws Exception {
+	public class Guid {
+		public byte[] value;
+	}
+
+	public int userInit(Socket s, String user, String password, byte[] avatarData, Guid lastSessionId) throws Exception {
 		int playerId = 0;
 		PokerTHMessage msg = receiveMessage(s);
 		AnnounceMessage announce = msg.getAnnounceMessage();
@@ -214,8 +219,8 @@ public abstract class TestBase {
 		if (avatarData != null) {
 			initBuilder.setAvatarHash(ByteString.copyFrom(avatarData));
 		}
-		if (lastSessionId != null) {
-			initBuilder.setMyLastSessionId(ByteString.copyFrom(lastSessionId));
+		if (lastSessionId != null && lastSessionId.value != null) {
+			initBuilder.setMyLastSessionId(ByteString.copyFrom(lastSessionId.value));
 		}
 		InitMessage init = initBuilder.build();
 		msg = PokerTHMessage.newBuilder()
@@ -251,7 +256,7 @@ public abstract class TestBase {
 			assertTrue(!initAck.hasYourAvatarHash());
 			playerId = initAck.getYourPlayerId();
 			if (lastSessionId != null) {
-				lastSessionId = initAck.getYourSessionId().toByteArray();
+				lastSessionId.value = initAck.getYourSessionId().toByteArray();
 			}
 			if (initAck.hasRejoinGameId()) {
 				lastRejoinGameId = initAck.getRejoinGameId();
@@ -299,22 +304,18 @@ public abstract class TestBase {
 		return msg;
 	}
 
-/*	public PokerTHMessage rejoinGameRequestMsg(long gameId, boolean autoLeave) {
-		RejoinExistingGame rejoinExisting = new RejoinExistingGame();
-		rejoinExisting.setGameId(new NonZeroId(gameId));
-		JoinGameActionChoiceType joinAction = new JoinGameActionChoiceType();
-		joinAction.selectRejoinExistingGame(rejoinExisting);
-		JoinGameRequestMessageSequenceType joinType = new JoinGameRequestMessageSequenceType();
-		joinType.setJoinGameAction(joinAction);
-		joinType.setAutoLeave(autoLeave);
+	public PokerTHMessage rejoinGameRequestMsg(int gameId, boolean autoLeave) {
+		RejoinExistingGameMessage rejoinRequest = RejoinExistingGameMessage.newBuilder()
+			.setGameId(gameId)
+			.setAutoLeave(autoLeave)
+			.build();
 
-		JoinGameRequestMessage joinRequest = new JoinGameRequestMessage();
-		joinRequest.setValue(joinType);
-
-		PokerTHMessage msg = new PokerTHMessage();
-		msg.selectJoinGameRequestMessage(joinRequest);
+		PokerTHMessage msg = PokerTHMessage.newBuilder()
+				.setMessageType(PokerTHMessageType.Type_RejoinExistingGameMessage)
+				.setRejoinExistingGameMessage(rejoinRequest)
+				.build();
 		return msg;
-	}*/
+	}
 
 	public NetGameInfo createGameInfo(NetGameInfo.NetGameType gameType, int playerActionTimeout, int proposedGuiSpeed, int delayBetweenHands, NetGameInfo.EndRaiseMode endMode, int endRaiseValue, int sb,
 			String gameName, Collection<Integer> manualBlinds, int maxNumPlayers, int raiseEveryMinutes, int raiseEveryHands, int startMoney) {

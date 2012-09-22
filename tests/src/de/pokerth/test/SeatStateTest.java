@@ -31,7 +31,10 @@ import org.junit.Test;
 import de.pokerth.protocol.ProtoBuf.NetGameInfo;
 import de.pokerth.protocol.ProtoBuf.NetGameInfo.EndRaiseMode;
 import de.pokerth.protocol.ProtoBuf.NetGameInfo.NetGameType;
+import de.pokerth.protocol.ProtoBuf.NetPlayerState;
+import de.pokerth.protocol.ProtoBuf.PokerTHMessage.PokerTHMessageType;
 import de.pokerth.protocol.ProtoBuf.PokerTHMessage;
+import de.pokerth.protocol.ProtoBuf.StartEventAckMessage;
 
 
 public class SeatStateTest extends TestBase {
@@ -53,15 +56,15 @@ public class SeatStateTest extends TestBase {
 		do {
 			msg = receiveMessage();
 			failOnErrorMessage(msg);
-		} while (!msg.isJoinGameReplyMessageSelected());
-		if (!msg.getJoinGameReplyMessage().getValue().getJoinGameResult().isJoinGameAckSelected()) {
+		} while (!msg.hasJoinGameAckMessage() && !msg.hasJoinGameFailedMessage());
+		if (!msg.hasJoinGameAckMessage()) {
 			fail("Could not create game!");
 		}
-		long gameId = msg.getJoinGameReplyMessage().getValue().getGameId().getValue();
+		int gameId = msg.getJoinGameAckMessage().getGameId();
 
 		// Let 9 additional clients join.
 		Socket s[] = new Socket[9];
-		long playerId[] = new long[9];
+		int playerId[] = new int[9];
 		for (int i = 0; i < 9; i++) {
 			s[i] = new Socket("localhost", 7234);
 			String username = "test" + (i+1);
@@ -71,8 +74,8 @@ public class SeatStateTest extends TestBase {
 			do {
 				msg = receiveMessage(s[i]);
 				failOnErrorMessage(msg);
-			} while (!msg.isJoinGameReplyMessageSelected());
-			if (!msg.getJoinGameReplyMessage().getValue().getJoinGameResult().isJoinGameAckSelected()) {
+			} while (!msg.hasJoinGameAckMessage() && !msg.hasJoinGameFailedMessage());
+			if (!msg.hasJoinGameAckMessage()) {
 				fail("Could not join game!");
 			}
 		}
@@ -81,20 +84,21 @@ public class SeatStateTest extends TestBase {
 		do {
 			msg = receiveMessage();
 			failOnErrorMessage(msg);
-		} while (!msg.isStartEventMessageSelected());
+		} while (!msg.hasStartEventMessage());
 		for (int i = 0; i < 9; i++) {
 			do {
 				msg = receiveMessage(s[i]);
 				failOnErrorMessage(msg);
-			} while (!msg.isStartEventMessageSelected());
+			} while (!msg.hasStartEventMessage());
 		}
 		// Acknowledge start event.
-		StartEventAckMessageSequenceType startType = new StartEventAckMessageSequenceType();
-		startType.setGameId(new NonZeroId(gameId));
-		StartEventAckMessage startAck = new StartEventAckMessage();
-		startAck.setValue(startType);
-		msg = new PokerTHMessage();
-		msg.selectStartEventAckMessage(startAck);
+		StartEventAckMessage startAck = StartEventAckMessage.newBuilder()
+				.setGameId(gameId)
+				.build();
+		msg = PokerTHMessage.newBuilder()
+				.setMessageType(PokerTHMessageType.Type_StartEventAckMessage)
+				.setStartEventAckMessage(startAck)
+				.build();
 		sendMessage(msg);
 		for (int i = 0; i < 9; i++) {
 			sendMessage(msg, s[i]);
@@ -104,15 +108,14 @@ public class SeatStateTest extends TestBase {
 		do {
 			msg = receiveMessage();
 			failOnErrorMessage(msg);
-		} while (!msg.isGameStartMessageSelected());
-		assertEquals(gameId, msg.getGameStartMessage().getValue().getGameId().getValue().longValue());
-		assertTrue(msg.getGameStartMessage().getValue().getGameStartMode().isGameStartModeInitialSelected());
-		Collection<NonZeroId> seats = msg.getGameStartMessage().getValue().getGameStartMode().getGameStartModeInitial().getPlayerSeats();
+		} while (!msg.hasGameStartInitialMessage());
+		assertEquals(gameId, msg.getGameStartInitialMessage().getGameId());
+		Collection<Integer> seats = msg.getGameStartInitialMessage().getPlayerSeatsList();
 		assertEquals(10, seats.size());
 		int firstPlayerPos = 0;
-		for (Iterator<NonZeroId> it = seats.iterator(); it.hasNext(); ) {
-			NonZeroId seat = it.next();
-			if (seat.getValue().longValue() == firstPlayerId)
+		for (Iterator<Integer> it = seats.iterator(); it.hasNext(); ) {
+			int seat = it.next();
+			if (seat == firstPlayerId)
 				break;
 			firstPlayerPos++;
 		}
@@ -121,14 +124,14 @@ public class SeatStateTest extends TestBase {
 		do {
 			msg = receiveMessage();
 			failOnErrorMessage(msg);
-		} while (!msg.isHandStartMessageSelected());
-		Collection<NetPlayerState> seatStates = msg.getHandStartMessage().getValue().getSeatStates();
+		} while (!msg.hasHandStartMessage());
+		Collection<NetPlayerState> seatStates = msg.getHandStartMessage().getSeatStatesList();
 
 		// Check whether the correct default seat states are sent.
 		assertEquals(10, seatStates.size());
 		for (Iterator<NetPlayerState> it = seatStates.iterator(); it.hasNext(); ) {
 			NetPlayerState state = it.next();
-			assertEquals(NetPlayerState.EnumType.playerStateNormal, state.getValue());
+			assertEquals(NetPlayerState.playerStateNormal, state);
 		}
 		// All other players leave (and are in autofold state then).
 		for (int i = 0; i < 9; i++) {
@@ -138,9 +141,9 @@ public class SeatStateTest extends TestBase {
 		do {
 			msg = receiveMessage();
 			failOnErrorMessage(msg);
-			assertTrue(!msg.isEndOfGameMessageSelected());
-		} while (!msg.isHandStartMessageSelected());
-		seatStates = msg.getHandStartMessage().getValue().getSeatStates();
+			assertTrue(!msg.hasEndOfGameMessage());
+		} while (!msg.hasHandStartMessage());
+		seatStates = msg.getHandStartMessage().getSeatStatesList();
 
 		// Check whether the correct seat states are sent.
 		assertEquals(10, seatStates.size());
@@ -149,12 +152,12 @@ public class SeatStateTest extends TestBase {
 		int seatPos = 0;
 		for (Iterator<NetPlayerState> it = seatStates.iterator(); it.hasNext(); ) {
 			NetPlayerState state = it.next();
-			assertTrue(NetPlayerState.EnumType.playerStateNoMoney != state.getValue());
-			if (NetPlayerState.EnumType.playerStateNormal == state.getValue()) {
+			assertTrue(NetPlayerState.playerStateNoMoney != state);
+			if (NetPlayerState.playerStateNormal == state) {
 				assertEquals(firstPlayerPos, seatPos);
 				stateNormalCounter++;
 			}
-			if (NetPlayerState.EnumType.playerStateSessionInactive == state.getValue()) {
+			if (NetPlayerState.playerStateSessionInactive == state) {
 				stateInactiveCounter++;
 			}
 			seatPos++;
