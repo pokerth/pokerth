@@ -16,6 +16,9 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.     *
  *****************************************************************************/
 
+ /* This file is now deprecated! google protocol buffers are used instead.
+  * Please refer to pokerth.proto. */
+ 
 POKERTH-PROTOCOL DEFINITIONS
 IMPLICIT TAGS
 EXTENSIBILITY IMPLIED ::=
