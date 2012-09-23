@@ -134,7 +134,7 @@ public class LoadTest extends TestBase {
 								.setGameId(gameId[i / 10])
 								.setGameState(msg.getPlayersTurnMessage().getGameState())
 								.setHandNum(handNum[i / 10])
-								.setMyAction(NetPlayerAction.actionAllIn)
+								.setMyAction(NetPlayerAction.netActionAllIn)
 								.setMyRelativeBet(0)
 								.build();
 							PokerTHMessage outMsg = PokerTHMessage.newBuilder()

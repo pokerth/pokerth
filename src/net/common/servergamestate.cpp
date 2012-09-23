@@ -1176,11 +1176,11 @@ ServerGameStateHand::StartNewHand(boost::shared_ptr<ServerGame> server)
 			while (player_i != player_end && playerCounter < server->GetStartData().numberOfPlayers) {
 				NetPlayerState seatState;
 				if (!(*player_i)->getMyActiveStatus()) {
-					seatState = playerStateNoMoney;
+					seatState = netPlayerStateNoMoney;
 				} else if (!(*player_i)->isSessionActive()) {
-					seatState = playerStateSessionInactive;
+					seatState = netPlayerStateSessionInactive;
 				} else {
-					seatState = playerStateNormal;
+					seatState = netPlayerStateNormal;
 				}
 				netHandStart->add_seatstates(seatState);
 				++player_i;
@@ -1209,7 +1209,7 @@ ServerGameStateHand::StartNewHand(boost::shared_ptr<ServerGame> server)
 			notifySmallBlind->GetMsg()->set_messagetype(PokerTHMessage::Type_PlayersActionDoneMessage);
 			PlayersActionDoneMessage *netSmallBlind = notifySmallBlind->GetMsg()->mutable_playersactiondonemessage();
 			netSmallBlind->set_gameid(server->GetId());
-			netSmallBlind->set_gamestate(statePreflopSmallBlind);
+			netSmallBlind->set_gamestate(netStatePreflopSmallBlind);
 			netSmallBlind->set_playerid(tmpPlayer->getMyUniqueID());
 			netSmallBlind->set_playeraction(static_cast<NetPlayerAction>(tmpPlayer->getMyAction()));
 			netSmallBlind->set_totalplayerbet(tmpPlayer->getMySet());
@@ -1231,7 +1231,7 @@ ServerGameStateHand::StartNewHand(boost::shared_ptr<ServerGame> server)
 			notifyBigBlind->GetMsg()->set_messagetype(PokerTHMessage::Type_PlayersActionDoneMessage);
 			PlayersActionDoneMessage *netBigBlind = notifyBigBlind->GetMsg()->mutable_playersactiondonemessage();
 			netBigBlind->set_gameid(server->GetId());
-			netBigBlind->set_gamestate(statePreflopBigBlind);
+			netBigBlind->set_gamestate(netStatePreflopBigBlind);
 			netBigBlind->set_playerid(tmpPlayer->getMyUniqueID());
 			netBigBlind->set_playeraction(static_cast<NetPlayerAction>(tmpPlayer->getMyAction()));
 			netBigBlind->set_totalplayerbet(tmpPlayer->getMySet());
@@ -1431,13 +1431,13 @@ ServerGameStateWaitPlayerAction::InternalProcessPacket(boost::shared_ptr<ServerG
 		}
 
 		// If the client omitted some values, fill them in.
-		if (netMyAction->myaction() == actionCall && netMyAction->myrelativebet() == 0) {
+		if (netMyAction->myaction() == netActionCall && netMyAction->myrelativebet() == 0) {
 			if (curGame.getCurrentHand()->getCurrentBeRo()->getHighestSet() >= tmpPlayer->getMySet() + tmpPlayer->getMyCash())
-				netMyAction->set_myaction(actionAllIn);
+				netMyAction->set_myaction(netActionAllIn);
 			else
 				netMyAction->set_myrelativebet(curGame.getCurrentHand()->getCurrentBeRo()->getHighestSet() - tmpPlayer->getMySet());
 		}
-		if (netMyAction->myaction() == actionAllIn && netMyAction->myrelativebet() == 0)
+		if (netMyAction->myaction() == netActionAllIn && netMyAction->myrelativebet() == 0)
 			netMyAction->set_myrelativebet(tmpPlayer->getMyCash());
 
 		// Check whether the action is valid.

@@ -207,7 +207,7 @@ public class RunRankingGameTest extends TestBase {
 						.setGameId(gameId)
 						.setGameState(msg.getPlayersTurnMessage().getGameState())
 						.setHandNum(handNum)
-						.setMyAction(NetPlayerAction.actionAllIn)
+						.setMyAction(NetPlayerAction.netActionAllIn)
 						.setMyRelativeBet(0)
 						.build();
 					PokerTHMessage outMsg = PokerTHMessage.newBuilder()
@@ -228,7 +228,7 @@ public class RunRankingGameTest extends TestBase {
 								.setGameId(gameId)
 								.setGameState(inMsg.getPlayersTurnMessage().getGameState())
 								.setHandNum(handNum)
-								.setMyAction(NetPlayerAction.actionFold)
+								.setMyAction(NetPlayerAction.netActionFold)
 								.setMyRelativeBet(0)
 								.build();
 							PokerTHMessage outMsg = PokerTHMessage.newBuilder()

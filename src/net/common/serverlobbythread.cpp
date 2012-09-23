@@ -1172,7 +1172,7 @@ ServerLobbyThread::HandleNetPacketRetrievePlayerInfo(boost::shared_ptr<SessionDa
 
 		data->set_playername(tmpPlayer->GetName());
 		data->set_ishuman(tmpPlayer->GetType() == PLAYER_TYPE_HUMAN);
-		data->set_playerrights(static_cast<PlayerInfoRights>(tmpPlayer->GetRights()));
+		data->set_playerrights(static_cast<NetPlayerInfoRights>(tmpPlayer->GetRights()));
 		if (!tmpPlayer->GetCountry().empty()) {
 			data->set_countrycode(tmpPlayer->GetCountry());
 		}
@@ -2119,7 +2119,7 @@ ServerLobbyThread::CreateNetPacketGameListNew(const ServerGame &game)
 	GameListNewMessage *netGameList = packet->GetMsg()->mutable_gamelistnewmessage();
 	netGameList->set_gameid(game.GetId());
 	netGameList->set_adminplayerid(game.GetAdminPlayerId());
-	netGameList->set_gamemode(game.IsRunning() ? gameStarted : gameCreated);
+	netGameList->set_gamemode(game.IsRunning() ? netGameStarted : netGameCreated);
 	NetPacket::SetGameData(game.GetGameData(), *netGameList->mutable_gameinfo());
 	netGameList->mutable_gameinfo()->set_gamename(game.GetName());
 	netGameList->set_isprivate(game.IsPasswordProtected());

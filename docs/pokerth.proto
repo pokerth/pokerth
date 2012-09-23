@@ -22,46 +22,46 @@ option java_outer_classname = "ProtoBuf";
 // Enumerations used by several messages.
 
 enum NetGameMode {
-	gameCreated = 1;
-	gameStarted = 2;
-	gameClosed = 3;
+	netGameCreated = 1;
+	netGameStarted = 2;
+	netGameClosed = 3;
 }
 
 enum NetGameState {
-	statePreflop = 0;
-	stateFlop = 1;
-	stateTurn = 2;
-	stateRiver = 3;
-	statePreflopSmallBlind = 4;
-	statePreflopBigBlind = 5;
+	netStatePreflop = 0;
+	netStateFlop = 1;
+	netStateTurn = 2;
+	netStateRiver = 3;
+	netStatePreflopSmallBlind = 4;
+	netStatePreflopBigBlind = 5;
 }
 
 enum NetPlayerAction {
-	actionNone = 0;
-	actionFold = 1;
-	actionCheck = 2;
-	actionCall = 3;
-	actionBet = 4;
-	actionRaise = 5;
-	actionAllIn = 6;
+	netActionNone = 0;
+	netActionFold = 1;
+	netActionCheck = 2;
+	netActionCall = 3;
+	netActionBet = 4;
+	netActionRaise = 5;
+	netActionAllIn = 6;
 }
 
 enum NetPlayerState {
-	playerStateNormal = 0;
-	playerStateSessionInactive = 1;
-	playerStateNoMoney = 2;
+	netPlayerStateNormal = 0;
+	netPlayerStateSessionInactive = 1;
+	netPlayerStateNoMoney = 2;
 }
 
-enum PlayerInfoRights {
-	playerRightsGuest = 1;
-	playerRightsNormal = 2;
-	playerRightsAdmin = 3;
+enum NetPlayerInfoRights {
+	netPlayerRightsGuest = 1;
+	netPlayerRightsNormal = 2;
+	netPlayerRightsAdmin = 3;
 }
 
 enum NetAvatarType {
-	avatarImagePng = 1;
-	avatarImageJpg = 2;
-	avatarImageGif = 3;
+	netAvatarImagePng = 1;
+	netAvatarImageJpg = 2;
+	netAvatarImageGif = 3;
 }
 
 // Message part containing game information.
@@ -240,7 +240,7 @@ message PlayerInfoReplyMessage {
 	message PlayerInfoData {
 		required	string			playerName = 1;
 		required	bool			isHuman = 2;
-		required	PlayerInfoRights	playerRights = 3;
+		required	NetPlayerInfoRights	playerRights = 3;
 		optional	string			countryCode = 4;
 		message AvatarData {
 			required	NetAvatarType	avatarType = 1;

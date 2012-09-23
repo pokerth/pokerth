@@ -26,10 +26,10 @@ import java.util.Arrays;
 import org.junit.Test;
 
 import de.pokerth.protocol.ProtoBuf.NetAvatarType;
+import de.pokerth.protocol.ProtoBuf.NetPlayerInfoRights;
 import de.pokerth.protocol.ProtoBuf.PlayerInfoReplyMessage;
 import de.pokerth.protocol.ProtoBuf.PlayerInfoReplyMessage.PlayerInfoData;
 import de.pokerth.protocol.ProtoBuf.PlayerInfoRequestMessage;
-import de.pokerth.protocol.ProtoBuf.PlayerInfoRights;
 import de.pokerth.protocol.ProtoBuf.PokerTHMessage;
 import de.pokerth.protocol.ProtoBuf.PokerTHMessage.PokerTHMessageType;
 
@@ -93,7 +93,7 @@ public class PlayerInfoTest extends TestBase {
 			assertEquals(GuestUser, info.getPlayerName());
 			assertFalse(info.hasCountryCode());
 			assertTrue(info.getIsHuman());
-			assertEquals(PlayerInfoRights.playerRightsGuest, info.getPlayerRights());
+			assertEquals(NetPlayerInfoRights.netPlayerRightsGuest, info.getPlayerRights());
 			assertFalse(info.hasAvatarData());
 		}
 		// Request other players' info.
@@ -110,14 +110,14 @@ public class PlayerInfoTest extends TestBase {
 			assertEquals("test" + (i+1), info.getPlayerName());
 			assertFalse(info.hasCountryCode());
 			assertTrue(info.getIsHuman());
-			assertEquals(PlayerInfoRights.playerRightsNormal, info.getPlayerRights());
+			assertEquals(NetPlayerInfoRights.netPlayerRightsNormal, info.getPlayerRights());
 			// Every second player has an avatar, see above.
 			if (i % 2 == 0) {
 				assertFalse(info.hasAvatarData());
 			} else {
 				assertTrue(info.hasAvatarData());
 				assertTrue(Arrays.equals(info.getAvatarData().getAvatarHash().toByteArray(), avatarHash));
-				assertEquals(NetAvatarType.avatarImagePng, info.getAvatarData().getAvatarType());
+				assertEquals(NetAvatarType.netAvatarImagePng, info.getAvatarData().getAvatarType());
 			}
 		}
 		// Request invalid player info.

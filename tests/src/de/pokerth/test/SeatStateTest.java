@@ -131,7 +131,7 @@ public class SeatStateTest extends TestBase {
 		assertEquals(10, seatStates.size());
 		for (Iterator<NetPlayerState> it = seatStates.iterator(); it.hasNext(); ) {
 			NetPlayerState state = it.next();
-			assertEquals(NetPlayerState.playerStateNormal, state);
+			assertEquals(NetPlayerState.netPlayerStateNormal, state);
 		}
 		// All other players leave (and are in autofold state then).
 		for (int i = 0; i < 9; i++) {
@@ -152,12 +152,12 @@ public class SeatStateTest extends TestBase {
 		int seatPos = 0;
 		for (Iterator<NetPlayerState> it = seatStates.iterator(); it.hasNext(); ) {
 			NetPlayerState state = it.next();
-			assertTrue(NetPlayerState.playerStateNoMoney != state);
-			if (NetPlayerState.playerStateNormal == state) {
+			assertTrue(NetPlayerState.netPlayerStateNoMoney != state);
+			if (NetPlayerState.netPlayerStateNormal == state) {
 				assertEquals(firstPlayerPos, seatPos);
 				stateNormalCounter++;
 			}
-			if (NetPlayerState.playerStateSessionInactive == state) {
+			if (NetPlayerState.netPlayerStateSessionInactive == state) {
 				stateInactiveCounter++;
 			}
 			seatPos++;

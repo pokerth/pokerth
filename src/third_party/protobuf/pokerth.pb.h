@@ -667,13 +667,13 @@ inline bool PokerTHMessage_PokerTHMessageType_Parse(
     PokerTHMessage_PokerTHMessageType_descriptor(), name, value);
 }
 enum NetGameMode {
-  gameCreated = 1,
-  gameStarted = 2,
-  gameClosed = 3
+  netGameCreated = 1,
+  netGameStarted = 2,
+  netGameClosed = 3
 };
 bool NetGameMode_IsValid(int value);
-const NetGameMode NetGameMode_MIN = gameCreated;
-const NetGameMode NetGameMode_MAX = gameClosed;
+const NetGameMode NetGameMode_MIN = netGameCreated;
+const NetGameMode NetGameMode_MAX = netGameClosed;
 const int NetGameMode_ARRAYSIZE = NetGameMode_MAX + 1;
 
 const ::google::protobuf::EnumDescriptor* NetGameMode_descriptor();
@@ -687,16 +687,16 @@ inline bool NetGameMode_Parse(
     NetGameMode_descriptor(), name, value);
 }
 enum NetGameState {
-  statePreflop = 0,
-  stateFlop = 1,
-  stateTurn = 2,
-  stateRiver = 3,
-  statePreflopSmallBlind = 4,
-  statePreflopBigBlind = 5
+  netStatePreflop = 0,
+  netStateFlop = 1,
+  netStateTurn = 2,
+  netStateRiver = 3,
+  netStatePreflopSmallBlind = 4,
+  netStatePreflopBigBlind = 5
 };
 bool NetGameState_IsValid(int value);
-const NetGameState NetGameState_MIN = statePreflop;
-const NetGameState NetGameState_MAX = statePreflopBigBlind;
+const NetGameState NetGameState_MIN = netStatePreflop;
+const NetGameState NetGameState_MAX = netStatePreflopBigBlind;
 const int NetGameState_ARRAYSIZE = NetGameState_MAX + 1;
 
 const ::google::protobuf::EnumDescriptor* NetGameState_descriptor();
@@ -710,17 +710,17 @@ inline bool NetGameState_Parse(
     NetGameState_descriptor(), name, value);
 }
 enum NetPlayerAction {
-  actionNone = 0,
-  actionFold = 1,
-  actionCheck = 2,
-  actionCall = 3,
-  actionBet = 4,
-  actionRaise = 5,
-  actionAllIn = 6
+  netActionNone = 0,
+  netActionFold = 1,
+  netActionCheck = 2,
+  netActionCall = 3,
+  netActionBet = 4,
+  netActionRaise = 5,
+  netActionAllIn = 6
 };
 bool NetPlayerAction_IsValid(int value);
-const NetPlayerAction NetPlayerAction_MIN = actionNone;
-const NetPlayerAction NetPlayerAction_MAX = actionAllIn;
+const NetPlayerAction NetPlayerAction_MIN = netActionNone;
+const NetPlayerAction NetPlayerAction_MAX = netActionAllIn;
 const int NetPlayerAction_ARRAYSIZE = NetPlayerAction_MAX + 1;
 
 const ::google::protobuf::EnumDescriptor* NetPlayerAction_descriptor();
@@ -734,13 +734,13 @@ inline bool NetPlayerAction_Parse(
     NetPlayerAction_descriptor(), name, value);
 }
 enum NetPlayerState {
-  playerStateNormal = 0,
-  playerStateSessionInactive = 1,
-  playerStateNoMoney = 2
+  netPlayerStateNormal = 0,
+  netPlayerStateSessionInactive = 1,
+  netPlayerStateNoMoney = 2
 };
 bool NetPlayerState_IsValid(int value);
-const NetPlayerState NetPlayerState_MIN = playerStateNormal;
-const NetPlayerState NetPlayerState_MAX = playerStateNoMoney;
+const NetPlayerState NetPlayerState_MIN = netPlayerStateNormal;
+const NetPlayerState NetPlayerState_MAX = netPlayerStateNoMoney;
 const int NetPlayerState_ARRAYSIZE = NetPlayerState_MAX + 1;
 
 const ::google::protobuf::EnumDescriptor* NetPlayerState_descriptor();
@@ -753,34 +753,34 @@ inline bool NetPlayerState_Parse(
   return ::google::protobuf::internal::ParseNamedEnum<NetPlayerState>(
     NetPlayerState_descriptor(), name, value);
 }
-enum PlayerInfoRights {
-  playerRightsGuest = 1,
-  playerRightsNormal = 2,
-  playerRightsAdmin = 3
+enum NetPlayerInfoRights {
+  netPlayerRightsGuest = 1,
+  netPlayerRightsNormal = 2,
+  netPlayerRightsAdmin = 3
 };
-bool PlayerInfoRights_IsValid(int value);
-const PlayerInfoRights PlayerInfoRights_MIN = playerRightsGuest;
-const PlayerInfoRights PlayerInfoRights_MAX = playerRightsAdmin;
-const int PlayerInfoRights_ARRAYSIZE = PlayerInfoRights_MAX + 1;
+bool NetPlayerInfoRights_IsValid(int value);
+const NetPlayerInfoRights NetPlayerInfoRights_MIN = netPlayerRightsGuest;
+const NetPlayerInfoRights NetPlayerInfoRights_MAX = netPlayerRightsAdmin;
+const int NetPlayerInfoRights_ARRAYSIZE = NetPlayerInfoRights_MAX + 1;
 
-const ::google::protobuf::EnumDescriptor* PlayerInfoRights_descriptor();
-inline const ::std::string& PlayerInfoRights_Name(PlayerInfoRights value) {
+const ::google::protobuf::EnumDescriptor* NetPlayerInfoRights_descriptor();
+inline const ::std::string& NetPlayerInfoRights_Name(NetPlayerInfoRights value) {
   return ::google::protobuf::internal::NameOfEnum(
-    PlayerInfoRights_descriptor(), value);
+    NetPlayerInfoRights_descriptor(), value);
 }
-inline bool PlayerInfoRights_Parse(
-    const ::std::string& name, PlayerInfoRights* value) {
-  return ::google::protobuf::internal::ParseNamedEnum<PlayerInfoRights>(
-    PlayerInfoRights_descriptor(), name, value);
+inline bool NetPlayerInfoRights_Parse(
+    const ::std::string& name, NetPlayerInfoRights* value) {
+  return ::google::protobuf::internal::ParseNamedEnum<NetPlayerInfoRights>(
+    NetPlayerInfoRights_descriptor(), name, value);
 }
 enum NetAvatarType {
-  avatarImagePng = 1,
-  avatarImageJpg = 2,
-  avatarImageGif = 3
+  netAvatarImagePng = 1,
+  netAvatarImageJpg = 2,
+  netAvatarImageGif = 3
 };
 bool NetAvatarType_IsValid(int value);
-const NetAvatarType NetAvatarType_MIN = avatarImagePng;
-const NetAvatarType NetAvatarType_MAX = avatarImageGif;
+const NetAvatarType NetAvatarType_MIN = netAvatarImagePng;
+const NetAvatarType NetAvatarType_MAX = netAvatarImageGif;
 const int NetAvatarType_ARRAYSIZE = NetAvatarType_MAX + 1;
 
 const ::google::protobuf::EnumDescriptor* NetAvatarType_descriptor();
@@ -3386,12 +3386,12 @@ class PlayerInfoReplyMessage_PlayerInfoData : public ::google::protobuf::Message
   inline bool ishuman() const;
   inline void set_ishuman(bool value);
   
-  // required .PlayerInfoRights playerRights = 3;
+  // required .NetPlayerInfoRights playerRights = 3;
   inline bool has_playerrights() const;
   inline void clear_playerrights();
   static const int kPlayerRightsFieldNumber = 3;
-  inline PlayerInfoRights playerrights() const;
-  inline void set_playerrights(PlayerInfoRights value);
+  inline NetPlayerInfoRights playerrights() const;
+  inline void set_playerrights(NetPlayerInfoRights value);
   
   // optional string countryCode = 4;
   inline bool has_countrycode() const;
@@ -12986,7 +12986,7 @@ inline void PlayerInfoReplyMessage_PlayerInfoData::set_ishuman(bool value) {
   ishuman_ = value;
 }
 
-// required .PlayerInfoRights playerRights = 3;
+// required .NetPlayerInfoRights playerRights = 3;
 inline bool PlayerInfoReplyMessage_PlayerInfoData::has_playerrights() const {
   return (_has_bits_[0] & 0x00000004u) != 0;
 }
@@ -13000,11 +13000,11 @@ inline void PlayerInfoReplyMessage_PlayerInfoData::clear_playerrights() {
   playerrights_ = 1;
   clear_has_playerrights();
 }
-inline PlayerInfoRights PlayerInfoReplyMessage_PlayerInfoData::playerrights() const {
-  return static_cast< PlayerInfoRights >(playerrights_);
+inline NetPlayerInfoRights PlayerInfoReplyMessage_PlayerInfoData::playerrights() const {
+  return static_cast< NetPlayerInfoRights >(playerrights_);
 }
-inline void PlayerInfoReplyMessage_PlayerInfoData::set_playerrights(PlayerInfoRights value) {
-  GOOGLE_DCHECK(PlayerInfoRights_IsValid(value));
+inline void PlayerInfoReplyMessage_PlayerInfoData::set_playerrights(NetPlayerInfoRights value) {
+  GOOGLE_DCHECK(NetPlayerInfoRights_IsValid(value));
   set_has_playerrights();
   playerrights_ = value;
 }
@@ -19347,8 +19347,8 @@ inline const EnumDescriptor* GetEnumDescriptor< NetPlayerState>() {
   return NetPlayerState_descriptor();
 }
 template <>
-inline const EnumDescriptor* GetEnumDescriptor< PlayerInfoRights>() {
-  return PlayerInfoRights_descriptor();
+inline const EnumDescriptor* GetEnumDescriptor< NetPlayerInfoRights>() {
+  return NetPlayerInfoRights_descriptor();
 }
 template <>
 inline const EnumDescriptor* GetEnumDescriptor< NetAvatarType>() {

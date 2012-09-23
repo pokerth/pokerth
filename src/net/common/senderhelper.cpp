@@ -84,9 +84,10 @@ void
 SenderHelper::InternalStorePacket(SendBuffer &tmpBuffer, boost::shared_ptr<NetPacket> packet)
 {
 	uint32_t packetSize = packet->GetMsg()->ByteSize();
-	char *buf = new char[packetSize + NET_HEADER_SIZE];
+	google::protobuf::uint8 *buf = new google::protobuf::uint8[packetSize + NET_HEADER_SIZE];
 	*((uint32_t *)buf) = htonl(packetSize);
-	packet->GetMsg()->SerializeToArray(&buf[NET_HEADER_SIZE], packetSize);
+	packet->GetMsg()->SerializeWithCachedSizesToArray(&buf[NET_HEADER_SIZE]);
 	SendBuffer::EncodeToBuf(buf, packetSize + NET_HEADER_SIZE, &tmpBuffer);
+	delete[] buf;
 }
 

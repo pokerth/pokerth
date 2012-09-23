@@ -535,7 +535,7 @@ AbstractClientStateReceiving::HandlePacket(boost::shared_ptr<ClientThread> clien
 			const PlayerInfoReplyMessage::PlayerInfoData &netInfo = infoReply.playerinfodata();
 			tmpInfo.playerName = netInfo.playername();
 			tmpInfo.ptype = netInfo.ishuman() ? PLAYER_TYPE_HUMAN : PLAYER_TYPE_COMPUTER;
-			tmpInfo.isGuest = netInfo.playerrights() == playerRightsGuest;
+			tmpInfo.isGuest = netInfo.playerrights() == netPlayerRightsGuest;
 			if (netInfo.has_countrycode()) {
 				tmpInfo.countryCode = netInfo.countrycode();
 			}
@@ -696,7 +696,7 @@ AbstractClientStateReceiving::HandlePacket(boost::shared_ptr<ClientThread> clien
 	} else if (tmpPacket->GetMsg()->messagetype() == PokerTHMessage::Type_GameListUpdateMessage) {
 		// An existing game was updated on the server.
 		const GameListUpdateMessage &netListUpdate = tmpPacket->GetMsg()->gamelistupdatemessage();
-		if (netListUpdate.gamemode() == gameClosed)
+		if (netListUpdate.gamemode() == netGameClosed)
 			client->RemoveGameInfo(netListUpdate.gameid());
 		else
 			client->UpdateGameInfoMode(netListUpdate.gameid(), static_cast<GameMode>(netListUpdate.gamemode()));
@@ -1532,13 +1532,13 @@ ClientStateWaitHand::InternalHandlePacket(boost::shared_ptr<ClientThread> client
 			if (!tmpPlayer)
 				throw ClientException(__FILE__, __LINE__, ERR_NET_UNKNOWN_PLAYER_ID, 0);
 			switch (seatState) {
-			case playerStateNormal :
+			case netPlayerStateNormal :
 				tmpPlayer->setIsSessionActive(true);
 				break;
-			case playerStateSessionInactive :
+			case netPlayerStateSessionInactive :
 				tmpPlayer->setIsSessionActive(false);
 				break;
-			case playerStateNoMoney :
+			case netPlayerStateNoMoney :
 				tmpPlayer->setMyCash(0);
 				break;
 			}
@@ -1662,10 +1662,10 @@ ClientStateRunHand::InternalHandlePacket(boost::shared_ptr<ClientThread> client,
 
 		bool isBigBlind = false;
 
-		if (netActionDone.gamestate() == statePreflopSmallBlind) {
+		if (netActionDone.gamestate() == netStatePreflopSmallBlind) {
 			curGame->getCurrentHand()->getCurrentBeRo()->setSmallBlindPositionId(tmpPlayer->getMyUniqueID());
 			tmpPlayer->setMyButton(BUTTON_SMALL_BLIND);
-		} else if (netActionDone.gamestate() == statePreflopBigBlind) {
+		} else if (netActionDone.gamestate() == netStatePreflopBigBlind) {
 			curGame->getCurrentHand()->getCurrentBeRo()->setBigBlindPositionId(tmpPlayer->getMyUniqueID());
 			tmpPlayer->setMyButton(BUTTON_BIG_BLIND);
 			isBigBlind = true;

@@ -41,7 +41,7 @@ import de.pokerth.protocol.ProtoBuf.PokerTHMessage;
 public class GameListTest extends TestBase {
 
 	protected void checkGameListNewMsg(int myId, GameListNewMessage gameListNew, NetGameMode mode, NetGameInfo gameInfo) {
-		assertEquals(NetGameMode.gameCreated, gameListNew.getGameMode());
+		assertEquals(NetGameMode.netGameCreated, gameListNew.getGameMode());
 		assertTrue(!gameListNew.getIsPrivate());
 		assertEquals(myId, gameListNew.getAdminPlayerId());
 		NetGameInfo receivedGameInfo = gameListNew.getGameInfo();
@@ -86,7 +86,7 @@ public class GameListTest extends TestBase {
 		checkGameListNewMsg(
 				myId,
 				gameListNewMsg,
-				NetGameMode.gameCreated,
+				NetGameMode.netGameCreated,
 				gameInfo);
 		assertTrue(gameListNewMsg.getPlayerIdsCount() == 0);
 
@@ -124,7 +124,7 @@ public class GameListTest extends TestBase {
 			checkGameListNewMsg(
 					myId,
 					gameListNewMsg,
-					NetGameMode.gameCreated,
+					NetGameMode.netGameCreated,
 					gameInfo);
 			assertEquals(1, gameListNewMsg.getPlayerIdsCount());
 			assertEquals(myId, gameListNewMsg.getPlayerIds(0));
@@ -165,7 +165,7 @@ public class GameListTest extends TestBase {
 			failOnErrorMessage(msg);
 		} while (!(msg.hasGameListUpdateMessage()));
 
-		assertEquals(NetGameMode.gameStarted, msg.getGameListUpdateMessage().getGameMode());
+		assertEquals(NetGameMode.netGameStarted, msg.getGameListUpdateMessage().getGameMode());
 
 		// Wait for player left messages.
 		for (int i = 0; i < 9; i++) {
@@ -185,6 +185,6 @@ public class GameListTest extends TestBase {
 			failOnErrorMessage(msg);
 		} while (!(msg.hasGameListUpdateMessage()));
 
-		assertEquals(NetGameMode.gameClosed, msg.getGameListUpdateMessage().getGameMode());
+		assertEquals(NetGameMode.netGameClosed, msg.getGameListUpdateMessage().getGameMode());
 	}
 }
