@@ -3188,21 +3188,25 @@ class PlayerInfoRequestMessage : public ::google::protobuf::Message {
   
   // accessors -------------------------------------------------------
   
-  // required uint32 playerId = 1;
-  inline bool has_playerid() const;
+  // repeated uint32 playerId = 1 [packed = true];
+  inline int playerid_size() const;
   inline void clear_playerid();
   static const int kPlayerIdFieldNumber = 1;
-  inline ::google::protobuf::uint32 playerid() const;
-  inline void set_playerid(::google::protobuf::uint32 value);
+  inline ::google::protobuf::uint32 playerid(int index) const;
+  inline void set_playerid(int index, ::google::protobuf::uint32 value);
+  inline void add_playerid(::google::protobuf::uint32 value);
+  inline const ::google::protobuf::RepeatedField< ::google::protobuf::uint32 >&
+      playerid() const;
+  inline ::google::protobuf::RepeatedField< ::google::protobuf::uint32 >*
+      mutable_playerid();
   
   // @@protoc_insertion_point(class_scope:PlayerInfoRequestMessage)
  private:
-  inline void set_has_playerid();
-  inline void clear_has_playerid();
   
   ::google::protobuf::UnknownFieldSet _unknown_fields_;
   
-  ::google::protobuf::uint32 playerid_;
+  ::google::protobuf::RepeatedField< ::google::protobuf::uint32 > playerid_;
+  mutable int _playerid_cached_byte_size_;
   
   mutable int _cached_size_;
   ::google::protobuf::uint32 _has_bits_[(1 + 31) / 32];
@@ -12795,26 +12799,29 @@ inline void GameListAdminChangedMessage::set_newadminplayerid(::google::protobuf
 
 // PlayerInfoRequestMessage
 
-// required uint32 playerId = 1;
-inline bool PlayerInfoRequestMessage::has_playerid() const {
-  return (_has_bits_[0] & 0x00000001u) != 0;
-}
-inline void PlayerInfoRequestMessage::set_has_playerid() {
-  _has_bits_[0] |= 0x00000001u;
-}
-inline void PlayerInfoRequestMessage::clear_has_playerid() {
-  _has_bits_[0] &= ~0x00000001u;
+// repeated uint32 playerId = 1 [packed = true];
+inline int PlayerInfoRequestMessage::playerid_size() const {
+  return playerid_.size();
 }
 inline void PlayerInfoRequestMessage::clear_playerid() {
-  playerid_ = 0u;
-  clear_has_playerid();
+  playerid_.Clear();
 }
-inline ::google::protobuf::uint32 PlayerInfoRequestMessage::playerid() const {
+inline ::google::protobuf::uint32 PlayerInfoRequestMessage::playerid(int index) const {
+  return playerid_.Get(index);
+}
+inline void PlayerInfoRequestMessage::set_playerid(int index, ::google::protobuf::uint32 value) {
+  playerid_.Set(index, value);
+}
+inline void PlayerInfoRequestMessage::add_playerid(::google::protobuf::uint32 value) {
+  playerid_.Add(value);
+}
+inline const ::google::protobuf::RepeatedField< ::google::protobuf::uint32 >&
+PlayerInfoRequestMessage::playerid() const {
   return playerid_;
 }
-inline void PlayerInfoRequestMessage::set_playerid(::google::protobuf::uint32 value) {
-  set_has_playerid();
-  playerid_ = value;
+inline ::google::protobuf::RepeatedField< ::google::protobuf::uint32 >*
+PlayerInfoRequestMessage::mutable_playerid() {
+  return &playerid_;
 }
 
 // -------------------------------------------------------------------

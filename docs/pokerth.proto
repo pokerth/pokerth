@@ -232,7 +232,7 @@ message GameListAdminChangedMessage {
 }
 
 message PlayerInfoRequestMessage {
-	required	uint32			playerId = 1;
+	repeated	uint32			playerId = 1 [packed = true];
 }
 
 message PlayerInfoReplyMessage {

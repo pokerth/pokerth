@@ -21,7 +21,9 @@ import java.net.Socket;
 
 import static org.junit.Assert.*;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 
 import org.junit.Test;
 
@@ -36,8 +38,14 @@ import de.pokerth.protocol.ProtoBuf.PokerTHMessage.PokerTHMessageType;
 public class PlayerInfoTest extends TestBase {
 
 	protected void sendPlayerInfoRequest(Socket s, int playerId) throws Exception {
+		Collection<Integer> tmpList = new ArrayList<Integer>();
+		tmpList.add(playerId);
+		sendPlayerInfoRequest(s, tmpList);
+	}
+
+	protected void sendPlayerInfoRequest(Socket s, Collection<Integer> playerIds) throws Exception {
 		PlayerInfoRequestMessage request = PlayerInfoRequestMessage.newBuilder()
-			.setPlayerId(playerId)
+			.addAllPlayerId(playerIds)
 			.build();
 		PokerTHMessage msg = PokerTHMessage.newBuilder()
 				.setMessageType(PokerTHMessageType.Type_PlayerInfoRequestMessage)
@@ -96,9 +104,12 @@ public class PlayerInfoTest extends TestBase {
 			assertEquals(NetPlayerInfoRights.netPlayerRightsGuest, info.getPlayerRights());
 			assertFalse(info.hasAvatarData());
 		}
-		// Request other players' info.
+		// Request other players' info (one request containing 9 queries).
+		Collection<Integer> tmpList = new ArrayList<Integer>();
+		for (Integer id : playerId) { tmpList.add(id); }
+		sendPlayerInfoRequest(sock, tmpList);
+
 		for (int i = 0; i < 9; i++) {
-			sendPlayerInfoRequest(sock, playerId[i]);
 			do {
 				msg = receiveMessage();
 			} while (msg.hasPlayerListMessage());

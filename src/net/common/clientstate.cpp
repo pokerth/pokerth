@@ -677,15 +677,18 @@ AbstractClientStateReceiving::HandlePacket(boost::shared_ptr<ClientThread> clien
 		unsigned numPlayers = netListNew.playerids_size();
 		// Request player info for players if needed.
 		GameInfo tmpInfo;
+		list<unsigned> requestList;
 		for (unsigned i = 0; i < numPlayers; i++) {
 			PlayerInfo info;
 			unsigned playerId = netListNew.playerids(i);
 			if (!client->GetCachedPlayerInfo(playerId, info)) {
-				// Request player info.
-				client->RequestPlayerInfo(playerId);
+				requestList.push_back(playerId);
 			}
 			tmpInfo.players.push_back(playerId);
 		}
+		// Send request for multiple players (will only act if list is non-empty).
+		client->RequestPlayerInfo(requestList);
+
 		tmpInfo.adminPlayerId = netListNew.adminplayerid();
 		tmpInfo.isPasswordProtected = netListNew.isprivate();
 		tmpInfo.mode = static_cast<GameMode>(netListNew.gamemode());

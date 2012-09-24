@@ -1144,47 +1144,49 @@ ServerLobbyThread::HandleNetPacketAvatarEnd(boost::shared_ptr<SessionData> sessi
 void
 ServerLobbyThread::HandleNetPacketRetrievePlayerInfo(boost::shared_ptr<SessionData> session, const PlayerInfoRequestMessage &playerInfoRequest)
 {
-	// Find player in lobby or in a game.
-	boost::shared_ptr<SessionData> tmpSession = m_sessionManager.GetSessionByUniquePlayerId(playerInfoRequest.playerid());
-	if (!tmpSession) {
-		tmpSession = m_gameSessionManager.GetSessionByUniquePlayerId(playerInfoRequest.playerid());
-	}
-	boost::shared_ptr<PlayerData> tmpPlayer;
-	if (tmpSession) {
-		tmpPlayer = tmpSession->GetPlayerData();
-	}
-
-	if (!tmpPlayer) {
-		boost::mutex::scoped_lock lock(m_computerPlayersMutex);
-		PlayerDataMap::const_iterator pos = m_computerPlayers.find(playerInfoRequest.playerid());
-		if (pos != m_computerPlayers.end())
-			tmpPlayer = pos->second;
-	}
-
-	boost::shared_ptr<NetPacket> packet(new NetPacket);
-	packet->GetMsg()->set_messagetype(PokerTHMessage::Type_PlayerInfoReplyMessage);
-	PlayerInfoReplyMessage *netPlayerInfoReply = packet->GetMsg()->mutable_playerinforeplymessage();
-	netPlayerInfoReply->set_playerid(playerInfoRequest.playerid());
-
-	if (tmpPlayer) {
-		// Send player info to client.
-		PlayerInfoReplyMessage::PlayerInfoData *data = netPlayerInfoReply->mutable_playerinfodata();
-
-		data->set_playername(tmpPlayer->GetName());
-		data->set_ishuman(tmpPlayer->GetType() == PLAYER_TYPE_HUMAN);
-		data->set_playerrights(static_cast<NetPlayerInfoRights>(tmpPlayer->GetRights()));
-		if (!tmpPlayer->GetCountry().empty()) {
-			data->set_countrycode(tmpPlayer->GetCountry());
+	BOOST_FOREACH(unsigned playerId, playerInfoRequest.playerid()) {
+		// Find player in lobby or in a game.
+		boost::shared_ptr<SessionData> tmpSession = m_sessionManager.GetSessionByUniquePlayerId(playerId);
+		if (!tmpSession) {
+			tmpSession = m_gameSessionManager.GetSessionByUniquePlayerId(playerId);
 		}
-		if (!tmpPlayer->GetAvatarMD5().IsZero()) {
-			PlayerInfoReplyMessage::PlayerInfoData::AvatarData *avatarData = data->mutable_avatardata();
-			avatarData->set_avatartype(static_cast<NetAvatarType>(AvatarManager::GetAvatarFileType(tmpPlayer->GetAvatarFile())));
-			avatarData->set_avatarhash(tmpPlayer->GetAvatarMD5().GetData(), MD5_DATA_SIZE);
+		boost::shared_ptr<PlayerData> tmpPlayer;
+		if (tmpSession) {
+			tmpPlayer = tmpSession->GetPlayerData();
 		}
-	} else {
-		// Unknown player id - do not set any data.
+
+		if (!tmpPlayer) {
+			boost::mutex::scoped_lock lock(m_computerPlayersMutex);
+			PlayerDataMap::const_iterator pos = m_computerPlayers.find(playerId);
+			if (pos != m_computerPlayers.end())
+				tmpPlayer = pos->second;
+		}
+
+		boost::shared_ptr<NetPacket> packet(new NetPacket);
+		packet->GetMsg()->set_messagetype(PokerTHMessage::Type_PlayerInfoReplyMessage);
+		PlayerInfoReplyMessage *netPlayerInfoReply = packet->GetMsg()->mutable_playerinforeplymessage();
+		netPlayerInfoReply->set_playerid(playerId);
+
+		if (tmpPlayer) {
+			// Send player info to client.
+			PlayerInfoReplyMessage::PlayerInfoData *data = netPlayerInfoReply->mutable_playerinfodata();
+
+			data->set_playername(tmpPlayer->GetName());
+			data->set_ishuman(tmpPlayer->GetType() == PLAYER_TYPE_HUMAN);
+			data->set_playerrights(static_cast<NetPlayerInfoRights>(tmpPlayer->GetRights()));
+			if (!tmpPlayer->GetCountry().empty()) {
+				data->set_countrycode(tmpPlayer->GetCountry());
+			}
+			if (!tmpPlayer->GetAvatarMD5().IsZero()) {
+				PlayerInfoReplyMessage::PlayerInfoData::AvatarData *avatarData = data->mutable_avatardata();
+				avatarData->set_avatartype(static_cast<NetAvatarType>(AvatarManager::GetAvatarFileType(tmpPlayer->GetAvatarFile())));
+				avatarData->set_avatarhash(tmpPlayer->GetAvatarMD5().GetData(), MD5_DATA_SIZE);
+			}
+		} else {
+			// Unknown player id - do not set any data.
+		}
+		GetSender().Send(session, packet);
 	}
-	GetSender().Send(session, packet);
 }
 
 void

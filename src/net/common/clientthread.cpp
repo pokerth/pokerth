@@ -34,6 +34,7 @@
 #include <qttoolsinterface.h>
 
 #include <boost/lambda/lambda.hpp>
+#include <boost/foreach.hpp>
 #include <boost/filesystem.hpp>
 #include <sstream>
 #include <fstream>
@@ -644,19 +645,29 @@ ClientThread::GetCachedPlayerInfo(unsigned id, PlayerInfo &info) const
 void
 ClientThread::RequestPlayerInfo(unsigned id, bool requestAvatar)
 {
-	if (find(m_playerInfoRequestList.begin(), m_playerInfoRequestList.end(), id) == m_playerInfoRequestList.end()) {
-		boost::shared_ptr<NetPacket> packet(new NetPacket);
-		packet->GetMsg()->set_messagetype(PokerTHMessage::Type_PlayerInfoRequestMessage);
-		PlayerInfoRequestMessage *netPlayerInfo = packet->GetMsg()->mutable_playerinforequestmessage();
-		netPlayerInfo->set_playerid(id);
-		GetSender().Send(GetContext().GetSessionData(), packet);
+	list<unsigned> idList;
+	idList.push_back(id);
+	RequestPlayerInfo(idList, requestAvatar);
+}
 
-		m_playerInfoRequestList.push_back(id);
-
+void
+ClientThread::RequestPlayerInfo(const list<unsigned> &idList, bool requestAvatar)
+{
+	boost::shared_ptr<NetPacket> packet(new NetPacket);
+	packet->GetMsg()->set_messagetype(PokerTHMessage::Type_PlayerInfoRequestMessage);
+	PlayerInfoRequestMessage *netPlayerInfo = packet->GetMsg()->mutable_playerinforequestmessage();
+	BOOST_FOREACH(unsigned playerId, idList) {
+		if (find(m_playerInfoRequestList.begin(), m_playerInfoRequestList.end(), playerId) == m_playerInfoRequestList.end()) {
+			netPlayerInfo->add_playerid(playerId);
+			m_playerInfoRequestList.push_back(playerId);
+		}
+		// Remember that we have to request an avatar.
+		if (requestAvatar) {
+			m_avatarShouldRequestList.push_back(playerId);
+		}
 	}
-	// Remember that we have to request an avatar.
-	if (requestAvatar) {
-		m_avatarShouldRequestList.push_back(id);
+	if (netPlayerInfo->playerid_size() > 0) {
+		GetSender().Send(GetContext().GetSessionData(), packet);
 	}
 }
 
