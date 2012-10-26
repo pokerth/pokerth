@@ -105,6 +105,10 @@ win32 {
 	DEFINES += CURL_STATICLIB
 	DEFINES += _WIN32_WINNT=0x0501
 }
+unix : !mac {
+	system(protoc pokerth.proto --cpp_out=src\third_party\protobuf)
+	system(protoc pokerth.proto --java_out=tests\src)
+}
 mac { 
         # make it x86_64 only
         CONFIG += x86_64
