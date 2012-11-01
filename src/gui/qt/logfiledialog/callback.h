@@ -1,14 +1,15 @@
-#ifndef LOGUPLOADCALLBACK_H
-#define LOGUPLOADCALLBACK_H
+#ifndef CALLBACK_H
+#define CALLBACK_H
 
 #include <iostream>
 
-class LogUploadCallback
+class Callback
 {
 public:
-	LogUploadCallback();
+	Callback();
 
 	size_t writeCallback(char* buf, size_t size, size_t nmemb, void* up);
+
 	std::string getData() { return data; }
 
 private:
@@ -17,4 +18,4 @@ private:
 
 };
 
-#endif // LOGUPLOADCALLBACK_H
+#endif // CALLBACK_H
