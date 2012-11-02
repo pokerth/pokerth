@@ -72,8 +72,9 @@ int main( int argc, char **argv )
 
 	/////// can be removed for non-qt-guis ////////////
 	QtSingleApplication a( argc, argv );
+    Q_INIT_RESOURCE(pokerth);
 
-	if (a.sendMessage("Wake up!")) {
+    if (a.sendMessage("Wake up!")) {
 		return 0;
 	}
 
