@@ -17,7 +17,12 @@
  *****************************************************************************/
 
 #include "logfiledialog.h"
+#ifdef GUI_800x480
+#include "ui_logfiledialog_800x480.h"
+#else
 #include "ui_logfiledialog.h"
+#endif
+
 #include <QtCore>
 #include "guilog.h"
 #include "configfile.h"

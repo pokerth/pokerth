@@ -106,6 +106,7 @@ win32 {
 	DEFINES += _WIN32_WINNT=0x0501
 }
 unix : !mac {
+        INCLUDEPATH += $${PREFIX}/include
 	system(protoc pokerth.proto --cpp_out=src/third_party/protobuf)
 	system(protoc pokerth.proto --java_out=tests/src)
 }
