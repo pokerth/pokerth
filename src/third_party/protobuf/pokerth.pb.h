@@ -22,7 +22,6 @@
 #include <google/protobuf/generated_message_util.h>
 #include <google/protobuf/repeated_field.h>
 #include <google/protobuf/extension_set.h>
-#include <google/protobuf/generated_message_reflection.h>
 // @@protoc_insertion_point(includes)
 
 // Internal implementation detail -- do not call these.
@@ -125,16 +124,6 @@ const NetGameInfo_NetGameType NetGameInfo_NetGameType_NetGameType_MIN = NetGameI
 const NetGameInfo_NetGameType NetGameInfo_NetGameType_NetGameType_MAX = NetGameInfo_NetGameType_rankingGame;
 const int NetGameInfo_NetGameType_NetGameType_ARRAYSIZE = NetGameInfo_NetGameType_NetGameType_MAX + 1;
 
-const ::google::protobuf::EnumDescriptor* NetGameInfo_NetGameType_descriptor();
-inline const ::std::string& NetGameInfo_NetGameType_Name(NetGameInfo_NetGameType value) {
-  return ::google::protobuf::internal::NameOfEnum(
-    NetGameInfo_NetGameType_descriptor(), value);
-}
-inline bool NetGameInfo_NetGameType_Parse(
-    const ::std::string& name, NetGameInfo_NetGameType* value) {
-  return ::google::protobuf::internal::ParseNamedEnum<NetGameInfo_NetGameType>(
-    NetGameInfo_NetGameType_descriptor(), name, value);
-}
 enum NetGameInfo_RaiseIntervalMode {
   NetGameInfo_RaiseIntervalMode_raiseOnHandNum = 1,
   NetGameInfo_RaiseIntervalMode_raiseOnMinutes = 2
@@ -144,16 +133,6 @@ const NetGameInfo_RaiseIntervalMode NetGameInfo_RaiseIntervalMode_RaiseIntervalM
 const NetGameInfo_RaiseIntervalMode NetGameInfo_RaiseIntervalMode_RaiseIntervalMode_MAX = NetGameInfo_RaiseIntervalMode_raiseOnMinutes;
 const int NetGameInfo_RaiseIntervalMode_RaiseIntervalMode_ARRAYSIZE = NetGameInfo_RaiseIntervalMode_RaiseIntervalMode_MAX + 1;
 
-const ::google::protobuf::EnumDescriptor* NetGameInfo_RaiseIntervalMode_descriptor();
-inline const ::std::string& NetGameInfo_RaiseIntervalMode_Name(NetGameInfo_RaiseIntervalMode value) {
-  return ::google::protobuf::internal::NameOfEnum(
-    NetGameInfo_RaiseIntervalMode_descriptor(), value);
-}
-inline bool NetGameInfo_RaiseIntervalMode_Parse(
-    const ::std::string& name, NetGameInfo_RaiseIntervalMode* value) {
-  return ::google::protobuf::internal::ParseNamedEnum<NetGameInfo_RaiseIntervalMode>(
-    NetGameInfo_RaiseIntervalMode_descriptor(), name, value);
-}
 enum NetGameInfo_EndRaiseMode {
   NetGameInfo_EndRaiseMode_doubleBlinds = 1,
   NetGameInfo_EndRaiseMode_raiseByEndValue = 2,
@@ -164,16 +143,6 @@ const NetGameInfo_EndRaiseMode NetGameInfo_EndRaiseMode_EndRaiseMode_MIN = NetGa
 const NetGameInfo_EndRaiseMode NetGameInfo_EndRaiseMode_EndRaiseMode_MAX = NetGameInfo_EndRaiseMode_keepLastBlind;
 const int NetGameInfo_EndRaiseMode_EndRaiseMode_ARRAYSIZE = NetGameInfo_EndRaiseMode_EndRaiseMode_MAX + 1;
 
-const ::google::protobuf::EnumDescriptor* NetGameInfo_EndRaiseMode_descriptor();
-inline const ::std::string& NetGameInfo_EndRaiseMode_Name(NetGameInfo_EndRaiseMode value) {
-  return ::google::protobuf::internal::NameOfEnum(
-    NetGameInfo_EndRaiseMode_descriptor(), value);
-}
-inline bool NetGameInfo_EndRaiseMode_Parse(
-    const ::std::string& name, NetGameInfo_EndRaiseMode* value) {
-  return ::google::protobuf::internal::ParseNamedEnum<NetGameInfo_EndRaiseMode>(
-    NetGameInfo_EndRaiseMode_descriptor(), name, value);
-}
 enum AnnounceMessage_ServerType {
   AnnounceMessage_ServerType_serverTypeLAN = 0,
   AnnounceMessage_ServerType_serverTypeInternetNoAuth = 1,
@@ -184,16 +153,6 @@ const AnnounceMessage_ServerType AnnounceMessage_ServerType_ServerType_MIN = Ann
 const AnnounceMessage_ServerType AnnounceMessage_ServerType_ServerType_MAX = AnnounceMessage_ServerType_serverTypeInternetAuth;
 const int AnnounceMessage_ServerType_ServerType_ARRAYSIZE = AnnounceMessage_ServerType_ServerType_MAX + 1;
 
-const ::google::protobuf::EnumDescriptor* AnnounceMessage_ServerType_descriptor();
-inline const ::std::string& AnnounceMessage_ServerType_Name(AnnounceMessage_ServerType value) {
-  return ::google::protobuf::internal::NameOfEnum(
-    AnnounceMessage_ServerType_descriptor(), value);
-}
-inline bool AnnounceMessage_ServerType_Parse(
-    const ::std::string& name, AnnounceMessage_ServerType* value) {
-  return ::google::protobuf::internal::ParseNamedEnum<AnnounceMessage_ServerType>(
-    AnnounceMessage_ServerType_descriptor(), name, value);
-}
 enum InitMessage_LoginType {
   InitMessage_LoginType_guestLogin = 0,
   InitMessage_LoginType_authenticatedLogin = 1,
@@ -204,16 +163,6 @@ const InitMessage_LoginType InitMessage_LoginType_LoginType_MIN = InitMessage_Lo
 const InitMessage_LoginType InitMessage_LoginType_LoginType_MAX = InitMessage_LoginType_unauthenticatedLogin;
 const int InitMessage_LoginType_LoginType_ARRAYSIZE = InitMessage_LoginType_LoginType_MAX + 1;
 
-const ::google::protobuf::EnumDescriptor* InitMessage_LoginType_descriptor();
-inline const ::std::string& InitMessage_LoginType_Name(InitMessage_LoginType value) {
-  return ::google::protobuf::internal::NameOfEnum(
-    InitMessage_LoginType_descriptor(), value);
-}
-inline bool InitMessage_LoginType_Parse(
-    const ::std::string& name, InitMessage_LoginType* value) {
-  return ::google::protobuf::internal::ParseNamedEnum<InitMessage_LoginType>(
-    InitMessage_LoginType_descriptor(), name, value);
-}
 enum PlayerListMessage_PlayerListNotification {
   PlayerListMessage_PlayerListNotification_playerListNew = 0,
   PlayerListMessage_PlayerListNotification_playerListLeft = 1
@@ -223,16 +172,6 @@ const PlayerListMessage_PlayerListNotification PlayerListMessage_PlayerListNotif
 const PlayerListMessage_PlayerListNotification PlayerListMessage_PlayerListNotification_PlayerListNotification_MAX = PlayerListMessage_PlayerListNotification_playerListLeft;
 const int PlayerListMessage_PlayerListNotification_PlayerListNotification_ARRAYSIZE = PlayerListMessage_PlayerListNotification_PlayerListNotification_MAX + 1;
 
-const ::google::protobuf::EnumDescriptor* PlayerListMessage_PlayerListNotification_descriptor();
-inline const ::std::string& PlayerListMessage_PlayerListNotification_Name(PlayerListMessage_PlayerListNotification value) {
-  return ::google::protobuf::internal::NameOfEnum(
-    PlayerListMessage_PlayerListNotification_descriptor(), value);
-}
-inline bool PlayerListMessage_PlayerListNotification_Parse(
-    const ::std::string& name, PlayerListMessage_PlayerListNotification* value) {
-  return ::google::protobuf::internal::ParseNamedEnum<PlayerListMessage_PlayerListNotification>(
-    PlayerListMessage_PlayerListNotification_descriptor(), name, value);
-}
 enum SubscriptionRequestMessage_SubscriptionAction {
   SubscriptionRequestMessage_SubscriptionAction_unsubscribeGameList = 1,
   SubscriptionRequestMessage_SubscriptionAction_resubscribeGameList = 2
@@ -242,16 +181,6 @@ const SubscriptionRequestMessage_SubscriptionAction SubscriptionRequestMessage_S
 const SubscriptionRequestMessage_SubscriptionAction SubscriptionRequestMessage_SubscriptionAction_SubscriptionAction_MAX = SubscriptionRequestMessage_SubscriptionAction_resubscribeGameList;
 const int SubscriptionRequestMessage_SubscriptionAction_SubscriptionAction_ARRAYSIZE = SubscriptionRequestMessage_SubscriptionAction_SubscriptionAction_MAX + 1;
 
-const ::google::protobuf::EnumDescriptor* SubscriptionRequestMessage_SubscriptionAction_descriptor();
-inline const ::std::string& SubscriptionRequestMessage_SubscriptionAction_Name(SubscriptionRequestMessage_SubscriptionAction value) {
-  return ::google::protobuf::internal::NameOfEnum(
-    SubscriptionRequestMessage_SubscriptionAction_descriptor(), value);
-}
-inline bool SubscriptionRequestMessage_SubscriptionAction_Parse(
-    const ::std::string& name, SubscriptionRequestMessage_SubscriptionAction* value) {
-  return ::google::protobuf::internal::ParseNamedEnum<SubscriptionRequestMessage_SubscriptionAction>(
-    SubscriptionRequestMessage_SubscriptionAction_descriptor(), name, value);
-}
 enum JoinGameFailedMessage_JoinGameFailureReason {
   JoinGameFailedMessage_JoinGameFailureReason_invalidGame = 1,
   JoinGameFailedMessage_JoinGameFailureReason_gameIsFull = 2,
@@ -270,16 +199,6 @@ const JoinGameFailedMessage_JoinGameFailureReason JoinGameFailedMessage_JoinGame
 const JoinGameFailedMessage_JoinGameFailureReason JoinGameFailedMessage_JoinGameFailureReason_JoinGameFailureReason_MAX = JoinGameFailedMessage_JoinGameFailureReason_rejoinFailed;
 const int JoinGameFailedMessage_JoinGameFailureReason_JoinGameFailureReason_ARRAYSIZE = JoinGameFailedMessage_JoinGameFailureReason_JoinGameFailureReason_MAX + 1;
 
-const ::google::protobuf::EnumDescriptor* JoinGameFailedMessage_JoinGameFailureReason_descriptor();
-inline const ::std::string& JoinGameFailedMessage_JoinGameFailureReason_Name(JoinGameFailedMessage_JoinGameFailureReason value) {
-  return ::google::protobuf::internal::NameOfEnum(
-    JoinGameFailedMessage_JoinGameFailureReason_descriptor(), value);
-}
-inline bool JoinGameFailedMessage_JoinGameFailureReason_Parse(
-    const ::std::string& name, JoinGameFailedMessage_JoinGameFailureReason* value) {
-  return ::google::protobuf::internal::ParseNamedEnum<JoinGameFailedMessage_JoinGameFailureReason>(
-    JoinGameFailedMessage_JoinGameFailureReason_descriptor(), name, value);
-}
 enum GamePlayerLeftMessage_GamePlayerLeftReason {
   GamePlayerLeftMessage_GamePlayerLeftReason_leftOnRequest = 0,
   GamePlayerLeftMessage_GamePlayerLeftReason_leftKicked = 1,
@@ -290,16 +209,6 @@ const GamePlayerLeftMessage_GamePlayerLeftReason GamePlayerLeftMessage_GamePlaye
 const GamePlayerLeftMessage_GamePlayerLeftReason GamePlayerLeftMessage_GamePlayerLeftReason_GamePlayerLeftReason_MAX = GamePlayerLeftMessage_GamePlayerLeftReason_leftError;
 const int GamePlayerLeftMessage_GamePlayerLeftReason_GamePlayerLeftReason_ARRAYSIZE = GamePlayerLeftMessage_GamePlayerLeftReason_GamePlayerLeftReason_MAX + 1;
 
-const ::google::protobuf::EnumDescriptor* GamePlayerLeftMessage_GamePlayerLeftReason_descriptor();
-inline const ::std::string& GamePlayerLeftMessage_GamePlayerLeftReason_Name(GamePlayerLeftMessage_GamePlayerLeftReason value) {
-  return ::google::protobuf::internal::NameOfEnum(
-    GamePlayerLeftMessage_GamePlayerLeftReason_descriptor(), value);
-}
-inline bool GamePlayerLeftMessage_GamePlayerLeftReason_Parse(
-    const ::std::string& name, GamePlayerLeftMessage_GamePlayerLeftReason* value) {
-  return ::google::protobuf::internal::ParseNamedEnum<GamePlayerLeftMessage_GamePlayerLeftReason>(
-    GamePlayerLeftMessage_GamePlayerLeftReason_descriptor(), name, value);
-}
 enum RemovedFromGameMessage_RemovedFromGameReason {
   RemovedFromGameMessage_RemovedFromGameReason_removedOnRequest = 0,
   RemovedFromGameMessage_RemovedFromGameReason_kickedFromGame = 1,
@@ -313,16 +222,6 @@ const RemovedFromGameMessage_RemovedFromGameReason RemovedFromGameMessage_Remove
 const RemovedFromGameMessage_RemovedFromGameReason RemovedFromGameMessage_RemovedFromGameReason_RemovedFromGameReason_MAX = RemovedFromGameMessage_RemovedFromGameReason_removedStartFailed;
 const int RemovedFromGameMessage_RemovedFromGameReason_RemovedFromGameReason_ARRAYSIZE = RemovedFromGameMessage_RemovedFromGameReason_RemovedFromGameReason_MAX + 1;
 
-const ::google::protobuf::EnumDescriptor* RemovedFromGameMessage_RemovedFromGameReason_descriptor();
-inline const ::std::string& RemovedFromGameMessage_RemovedFromGameReason_Name(RemovedFromGameMessage_RemovedFromGameReason value) {
-  return ::google::protobuf::internal::NameOfEnum(
-    RemovedFromGameMessage_RemovedFromGameReason_descriptor(), value);
-}
-inline bool RemovedFromGameMessage_RemovedFromGameReason_Parse(
-    const ::std::string& name, RemovedFromGameMessage_RemovedFromGameReason* value) {
-  return ::google::protobuf::internal::ParseNamedEnum<RemovedFromGameMessage_RemovedFromGameReason>(
-    RemovedFromGameMessage_RemovedFromGameReason_descriptor(), name, value);
-}
 enum RejectGameInvitationMessage_RejectGameInvReason {
   RejectGameInvitationMessage_RejectGameInvReason_rejectReasonNo = 0,
   RejectGameInvitationMessage_RejectGameInvReason_rejectReasonBusy = 1
@@ -332,16 +231,6 @@ const RejectGameInvitationMessage_RejectGameInvReason RejectGameInvitationMessag
 const RejectGameInvitationMessage_RejectGameInvReason RejectGameInvitationMessage_RejectGameInvReason_RejectGameInvReason_MAX = RejectGameInvitationMessage_RejectGameInvReason_rejectReasonBusy;
 const int RejectGameInvitationMessage_RejectGameInvReason_RejectGameInvReason_ARRAYSIZE = RejectGameInvitationMessage_RejectGameInvReason_RejectGameInvReason_MAX + 1;
 
-const ::google::protobuf::EnumDescriptor* RejectGameInvitationMessage_RejectGameInvReason_descriptor();
-inline const ::std::string& RejectGameInvitationMessage_RejectGameInvReason_Name(RejectGameInvitationMessage_RejectGameInvReason value) {
-  return ::google::protobuf::internal::NameOfEnum(
-    RejectGameInvitationMessage_RejectGameInvReason_descriptor(), value);
-}
-inline bool RejectGameInvitationMessage_RejectGameInvReason_Parse(
-    const ::std::string& name, RejectGameInvitationMessage_RejectGameInvReason* value) {
-  return ::google::protobuf::internal::ParseNamedEnum<RejectGameInvitationMessage_RejectGameInvReason>(
-    RejectGameInvitationMessage_RejectGameInvReason_descriptor(), name, value);
-}
 enum StartEventMessage_StartEventType {
   StartEventMessage_StartEventType_startEvent = 0,
   StartEventMessage_StartEventType_rejoinEvent = 1
@@ -351,16 +240,6 @@ const StartEventMessage_StartEventType StartEventMessage_StartEventType_StartEve
 const StartEventMessage_StartEventType StartEventMessage_StartEventType_StartEventType_MAX = StartEventMessage_StartEventType_rejoinEvent;
 const int StartEventMessage_StartEventType_StartEventType_ARRAYSIZE = StartEventMessage_StartEventType_StartEventType_MAX + 1;
 
-const ::google::protobuf::EnumDescriptor* StartEventMessage_StartEventType_descriptor();
-inline const ::std::string& StartEventMessage_StartEventType_Name(StartEventMessage_StartEventType value) {
-  return ::google::protobuf::internal::NameOfEnum(
-    StartEventMessage_StartEventType_descriptor(), value);
-}
-inline bool StartEventMessage_StartEventType_Parse(
-    const ::std::string& name, StartEventMessage_StartEventType* value) {
-  return ::google::protobuf::internal::ParseNamedEnum<StartEventMessage_StartEventType>(
-    StartEventMessage_StartEventType_descriptor(), name, value);
-}
 enum YourActionRejectedMessage_RejectionReason {
   YourActionRejectedMessage_RejectionReason_rejectedInvalidGameState = 1,
   YourActionRejectedMessage_RejectionReason_rejectedNotYourTurn = 2,
@@ -371,16 +250,6 @@ const YourActionRejectedMessage_RejectionReason YourActionRejectedMessage_Reject
 const YourActionRejectedMessage_RejectionReason YourActionRejectedMessage_RejectionReason_RejectionReason_MAX = YourActionRejectedMessage_RejectionReason_rejectedActionNotAllowed;
 const int YourActionRejectedMessage_RejectionReason_RejectionReason_ARRAYSIZE = YourActionRejectedMessage_RejectionReason_RejectionReason_MAX + 1;
 
-const ::google::protobuf::EnumDescriptor* YourActionRejectedMessage_RejectionReason_descriptor();
-inline const ::std::string& YourActionRejectedMessage_RejectionReason_Name(YourActionRejectedMessage_RejectionReason value) {
-  return ::google::protobuf::internal::NameOfEnum(
-    YourActionRejectedMessage_RejectionReason_descriptor(), value);
-}
-inline bool YourActionRejectedMessage_RejectionReason_Parse(
-    const ::std::string& name, YourActionRejectedMessage_RejectionReason* value) {
-  return ::google::protobuf::internal::ParseNamedEnum<YourActionRejectedMessage_RejectionReason>(
-    YourActionRejectedMessage_RejectionReason_descriptor(), name, value);
-}
 enum AskKickDeniedMessage_KickDeniedReason {
   AskKickDeniedMessage_KickDeniedReason_kickDeniedInvalidGameState = 0,
   AskKickDeniedMessage_KickDeniedReason_kickDeniedNotPossible = 1,
@@ -393,16 +262,6 @@ const AskKickDeniedMessage_KickDeniedReason AskKickDeniedMessage_KickDeniedReaso
 const AskKickDeniedMessage_KickDeniedReason AskKickDeniedMessage_KickDeniedReason_KickDeniedReason_MAX = AskKickDeniedMessage_KickDeniedReason_kickDeniedInvalidPlayerId;
 const int AskKickDeniedMessage_KickDeniedReason_KickDeniedReason_ARRAYSIZE = AskKickDeniedMessage_KickDeniedReason_KickDeniedReason_MAX + 1;
 
-const ::google::protobuf::EnumDescriptor* AskKickDeniedMessage_KickDeniedReason_descriptor();
-inline const ::std::string& AskKickDeniedMessage_KickDeniedReason_Name(AskKickDeniedMessage_KickDeniedReason value) {
-  return ::google::protobuf::internal::NameOfEnum(
-    AskKickDeniedMessage_KickDeniedReason_descriptor(), value);
-}
-inline bool AskKickDeniedMessage_KickDeniedReason_Parse(
-    const ::std::string& name, AskKickDeniedMessage_KickDeniedReason* value) {
-  return ::google::protobuf::internal::ParseNamedEnum<AskKickDeniedMessage_KickDeniedReason>(
-    AskKickDeniedMessage_KickDeniedReason_descriptor(), name, value);
-}
 enum VoteKickReplyMessage_VoteKickReplyType {
   VoteKickReplyMessage_VoteKickReplyType_voteKickAck = 0,
   VoteKickReplyMessage_VoteKickReplyType_voteKickDeniedInvalid = 1,
@@ -413,16 +272,6 @@ const VoteKickReplyMessage_VoteKickReplyType VoteKickReplyMessage_VoteKickReplyT
 const VoteKickReplyMessage_VoteKickReplyType VoteKickReplyMessage_VoteKickReplyType_VoteKickReplyType_MAX = VoteKickReplyMessage_VoteKickReplyType_voteKickDeniedAlreadyVoted;
 const int VoteKickReplyMessage_VoteKickReplyType_VoteKickReplyType_ARRAYSIZE = VoteKickReplyMessage_VoteKickReplyType_VoteKickReplyType_MAX + 1;
 
-const ::google::protobuf::EnumDescriptor* VoteKickReplyMessage_VoteKickReplyType_descriptor();
-inline const ::std::string& VoteKickReplyMessage_VoteKickReplyType_Name(VoteKickReplyMessage_VoteKickReplyType value) {
-  return ::google::protobuf::internal::NameOfEnum(
-    VoteKickReplyMessage_VoteKickReplyType_descriptor(), value);
-}
-inline bool VoteKickReplyMessage_VoteKickReplyType_Parse(
-    const ::std::string& name, VoteKickReplyMessage_VoteKickReplyType* value) {
-  return ::google::protobuf::internal::ParseNamedEnum<VoteKickReplyMessage_VoteKickReplyType>(
-    VoteKickReplyMessage_VoteKickReplyType_descriptor(), name, value);
-}
 enum EndKickPetitionMessage_PetitionEndReason {
   EndKickPetitionMessage_PetitionEndReason_petitionEndEnoughVotes = 0,
   EndKickPetitionMessage_PetitionEndReason_petitionEndTooFewPlayers = 1,
@@ -434,16 +283,6 @@ const EndKickPetitionMessage_PetitionEndReason EndKickPetitionMessage_PetitionEn
 const EndKickPetitionMessage_PetitionEndReason EndKickPetitionMessage_PetitionEndReason_PetitionEndReason_MAX = EndKickPetitionMessage_PetitionEndReason_petitionEndTimeout;
 const int EndKickPetitionMessage_PetitionEndReason_PetitionEndReason_ARRAYSIZE = EndKickPetitionMessage_PetitionEndReason_PetitionEndReason_MAX + 1;
 
-const ::google::protobuf::EnumDescriptor* EndKickPetitionMessage_PetitionEndReason_descriptor();
-inline const ::std::string& EndKickPetitionMessage_PetitionEndReason_Name(EndKickPetitionMessage_PetitionEndReason value) {
-  return ::google::protobuf::internal::NameOfEnum(
-    EndKickPetitionMessage_PetitionEndReason_descriptor(), value);
-}
-inline bool EndKickPetitionMessage_PetitionEndReason_Parse(
-    const ::std::string& name, EndKickPetitionMessage_PetitionEndReason* value) {
-  return ::google::protobuf::internal::ParseNamedEnum<EndKickPetitionMessage_PetitionEndReason>(
-    EndKickPetitionMessage_PetitionEndReason_descriptor(), name, value);
-}
 enum StatisticsMessage_StatisticsData_StatisticsType {
   StatisticsMessage_StatisticsData_StatisticsType_statNumberOfPlayers = 1
 };
@@ -452,16 +291,6 @@ const StatisticsMessage_StatisticsData_StatisticsType StatisticsMessage_Statisti
 const StatisticsMessage_StatisticsData_StatisticsType StatisticsMessage_StatisticsData_StatisticsType_StatisticsType_MAX = StatisticsMessage_StatisticsData_StatisticsType_statNumberOfPlayers;
 const int StatisticsMessage_StatisticsData_StatisticsType_StatisticsType_ARRAYSIZE = StatisticsMessage_StatisticsData_StatisticsType_StatisticsType_MAX + 1;
 
-const ::google::protobuf::EnumDescriptor* StatisticsMessage_StatisticsData_StatisticsType_descriptor();
-inline const ::std::string& StatisticsMessage_StatisticsData_StatisticsType_Name(StatisticsMessage_StatisticsData_StatisticsType value) {
-  return ::google::protobuf::internal::NameOfEnum(
-    StatisticsMessage_StatisticsData_StatisticsType_descriptor(), value);
-}
-inline bool StatisticsMessage_StatisticsData_StatisticsType_Parse(
-    const ::std::string& name, StatisticsMessage_StatisticsData_StatisticsType* value) {
-  return ::google::protobuf::internal::ParseNamedEnum<StatisticsMessage_StatisticsData_StatisticsType>(
-    StatisticsMessage_StatisticsData_StatisticsType_descriptor(), name, value);
-}
 enum ChatMessage_ChatType {
   ChatMessage_ChatType_chatTypeLobby = 0,
   ChatMessage_ChatType_chatTypeGame = 1,
@@ -474,16 +303,6 @@ const ChatMessage_ChatType ChatMessage_ChatType_ChatType_MIN = ChatMessage_ChatT
 const ChatMessage_ChatType ChatMessage_ChatType_ChatType_MAX = ChatMessage_ChatType_chatTypePrivate;
 const int ChatMessage_ChatType_ChatType_ARRAYSIZE = ChatMessage_ChatType_ChatType_MAX + 1;
 
-const ::google::protobuf::EnumDescriptor* ChatMessage_ChatType_descriptor();
-inline const ::std::string& ChatMessage_ChatType_Name(ChatMessage_ChatType value) {
-  return ::google::protobuf::internal::NameOfEnum(
-    ChatMessage_ChatType_descriptor(), value);
-}
-inline bool ChatMessage_ChatType_Parse(
-    const ::std::string& name, ChatMessage_ChatType* value) {
-  return ::google::protobuf::internal::ParseNamedEnum<ChatMessage_ChatType>(
-    ChatMessage_ChatType_descriptor(), name, value);
-}
 enum TimeoutWarningMessage_TimeoutReason {
   TimeoutWarningMessage_TimeoutReason_timeoutNoDataReceived = 0,
   TimeoutWarningMessage_TimeoutReason_timeoutInactiveGame = 1,
@@ -494,16 +313,6 @@ const TimeoutWarningMessage_TimeoutReason TimeoutWarningMessage_TimeoutReason_Ti
 const TimeoutWarningMessage_TimeoutReason TimeoutWarningMessage_TimeoutReason_TimeoutReason_MAX = TimeoutWarningMessage_TimeoutReason_timeoutKickAfterAutofold;
 const int TimeoutWarningMessage_TimeoutReason_TimeoutReason_ARRAYSIZE = TimeoutWarningMessage_TimeoutReason_TimeoutReason_MAX + 1;
 
-const ::google::protobuf::EnumDescriptor* TimeoutWarningMessage_TimeoutReason_descriptor();
-inline const ::std::string& TimeoutWarningMessage_TimeoutReason_Name(TimeoutWarningMessage_TimeoutReason value) {
-  return ::google::protobuf::internal::NameOfEnum(
-    TimeoutWarningMessage_TimeoutReason_descriptor(), value);
-}
-inline bool TimeoutWarningMessage_TimeoutReason_Parse(
-    const ::std::string& name, TimeoutWarningMessage_TimeoutReason* value) {
-  return ::google::protobuf::internal::ParseNamedEnum<TimeoutWarningMessage_TimeoutReason>(
-    TimeoutWarningMessage_TimeoutReason_descriptor(), name, value);
-}
 enum ReportAvatarAckMessage_ReportAvatarResult {
   ReportAvatarAckMessage_ReportAvatarResult_avatarReportAccepted = 0,
   ReportAvatarAckMessage_ReportAvatarResult_avatarReportDuplicate = 1,
@@ -514,16 +323,6 @@ const ReportAvatarAckMessage_ReportAvatarResult ReportAvatarAckMessage_ReportAva
 const ReportAvatarAckMessage_ReportAvatarResult ReportAvatarAckMessage_ReportAvatarResult_ReportAvatarResult_MAX = ReportAvatarAckMessage_ReportAvatarResult_avatarReportInvalid;
 const int ReportAvatarAckMessage_ReportAvatarResult_ReportAvatarResult_ARRAYSIZE = ReportAvatarAckMessage_ReportAvatarResult_ReportAvatarResult_MAX + 1;
 
-const ::google::protobuf::EnumDescriptor* ReportAvatarAckMessage_ReportAvatarResult_descriptor();
-inline const ::std::string& ReportAvatarAckMessage_ReportAvatarResult_Name(ReportAvatarAckMessage_ReportAvatarResult value) {
-  return ::google::protobuf::internal::NameOfEnum(
-    ReportAvatarAckMessage_ReportAvatarResult_descriptor(), value);
-}
-inline bool ReportAvatarAckMessage_ReportAvatarResult_Parse(
-    const ::std::string& name, ReportAvatarAckMessage_ReportAvatarResult* value) {
-  return ::google::protobuf::internal::ParseNamedEnum<ReportAvatarAckMessage_ReportAvatarResult>(
-    ReportAvatarAckMessage_ReportAvatarResult_descriptor(), name, value);
-}
 enum ReportGameAckMessage_ReportGameResult {
   ReportGameAckMessage_ReportGameResult_gameReportAccepted = 0,
   ReportGameAckMessage_ReportGameResult_gameReportDuplicate = 1,
@@ -534,16 +333,6 @@ const ReportGameAckMessage_ReportGameResult ReportGameAckMessage_ReportGameResul
 const ReportGameAckMessage_ReportGameResult ReportGameAckMessage_ReportGameResult_ReportGameResult_MAX = ReportGameAckMessage_ReportGameResult_gameReportInvalid;
 const int ReportGameAckMessage_ReportGameResult_ReportGameResult_ARRAYSIZE = ReportGameAckMessage_ReportGameResult_ReportGameResult_MAX + 1;
 
-const ::google::protobuf::EnumDescriptor* ReportGameAckMessage_ReportGameResult_descriptor();
-inline const ::std::string& ReportGameAckMessage_ReportGameResult_Name(ReportGameAckMessage_ReportGameResult value) {
-  return ::google::protobuf::internal::NameOfEnum(
-    ReportGameAckMessage_ReportGameResult_descriptor(), value);
-}
-inline bool ReportGameAckMessage_ReportGameResult_Parse(
-    const ::std::string& name, ReportGameAckMessage_ReportGameResult* value) {
-  return ::google::protobuf::internal::ParseNamedEnum<ReportGameAckMessage_ReportGameResult>(
-    ReportGameAckMessage_ReportGameResult_descriptor(), name, value);
-}
 enum ErrorMessage_ErrorReason {
   ErrorMessage_ErrorReason_reserved = 0,
   ErrorMessage_ErrorReason_initVersionNotSupported = 1,
@@ -566,16 +355,6 @@ const ErrorMessage_ErrorReason ErrorMessage_ErrorReason_ErrorReason_MIN = ErrorM
 const ErrorMessage_ErrorReason ErrorMessage_ErrorReason_ErrorReason_MAX = ErrorMessage_ErrorReason_sessionTimeout;
 const int ErrorMessage_ErrorReason_ErrorReason_ARRAYSIZE = ErrorMessage_ErrorReason_ErrorReason_MAX + 1;
 
-const ::google::protobuf::EnumDescriptor* ErrorMessage_ErrorReason_descriptor();
-inline const ::std::string& ErrorMessage_ErrorReason_Name(ErrorMessage_ErrorReason value) {
-  return ::google::protobuf::internal::NameOfEnum(
-    ErrorMessage_ErrorReason_descriptor(), value);
-}
-inline bool ErrorMessage_ErrorReason_Parse(
-    const ::std::string& name, ErrorMessage_ErrorReason* value) {
-  return ::google::protobuf::internal::ParseNamedEnum<ErrorMessage_ErrorReason>(
-    ErrorMessage_ErrorReason_descriptor(), name, value);
-}
 enum PokerTHMessage_PokerTHMessageType {
   PokerTHMessage_PokerTHMessageType_Type_AnnounceMessage = 1,
   PokerTHMessage_PokerTHMessageType_Type_InitMessage = 2,
@@ -656,16 +435,6 @@ const PokerTHMessage_PokerTHMessageType PokerTHMessage_PokerTHMessageType_PokerT
 const PokerTHMessage_PokerTHMessageType PokerTHMessage_PokerTHMessageType_PokerTHMessageType_MAX = PokerTHMessage_PokerTHMessageType_Type_ErrorMessage;
 const int PokerTHMessage_PokerTHMessageType_PokerTHMessageType_ARRAYSIZE = PokerTHMessage_PokerTHMessageType_PokerTHMessageType_MAX + 1;
 
-const ::google::protobuf::EnumDescriptor* PokerTHMessage_PokerTHMessageType_descriptor();
-inline const ::std::string& PokerTHMessage_PokerTHMessageType_Name(PokerTHMessage_PokerTHMessageType value) {
-  return ::google::protobuf::internal::NameOfEnum(
-    PokerTHMessage_PokerTHMessageType_descriptor(), value);
-}
-inline bool PokerTHMessage_PokerTHMessageType_Parse(
-    const ::std::string& name, PokerTHMessage_PokerTHMessageType* value) {
-  return ::google::protobuf::internal::ParseNamedEnum<PokerTHMessage_PokerTHMessageType>(
-    PokerTHMessage_PokerTHMessageType_descriptor(), name, value);
-}
 enum NetGameMode {
   netGameCreated = 1,
   netGameStarted = 2,
@@ -676,16 +445,6 @@ const NetGameMode NetGameMode_MIN = netGameCreated;
 const NetGameMode NetGameMode_MAX = netGameClosed;
 const int NetGameMode_ARRAYSIZE = NetGameMode_MAX + 1;
 
-const ::google::protobuf::EnumDescriptor* NetGameMode_descriptor();
-inline const ::std::string& NetGameMode_Name(NetGameMode value) {
-  return ::google::protobuf::internal::NameOfEnum(
-    NetGameMode_descriptor(), value);
-}
-inline bool NetGameMode_Parse(
-    const ::std::string& name, NetGameMode* value) {
-  return ::google::protobuf::internal::ParseNamedEnum<NetGameMode>(
-    NetGameMode_descriptor(), name, value);
-}
 enum NetGameState {
   netStatePreflop = 0,
   netStateFlop = 1,
@@ -699,16 +458,6 @@ const NetGameState NetGameState_MIN = netStatePreflop;
 const NetGameState NetGameState_MAX = netStatePreflopBigBlind;
 const int NetGameState_ARRAYSIZE = NetGameState_MAX + 1;
 
-const ::google::protobuf::EnumDescriptor* NetGameState_descriptor();
-inline const ::std::string& NetGameState_Name(NetGameState value) {
-  return ::google::protobuf::internal::NameOfEnum(
-    NetGameState_descriptor(), value);
-}
-inline bool NetGameState_Parse(
-    const ::std::string& name, NetGameState* value) {
-  return ::google::protobuf::internal::ParseNamedEnum<NetGameState>(
-    NetGameState_descriptor(), name, value);
-}
 enum NetPlayerAction {
   netActionNone = 0,
   netActionFold = 1,
@@ -723,16 +472,6 @@ const NetPlayerAction NetPlayerAction_MIN = netActionNone;
 const NetPlayerAction NetPlayerAction_MAX = netActionAllIn;
 const int NetPlayerAction_ARRAYSIZE = NetPlayerAction_MAX + 1;
 
-const ::google::protobuf::EnumDescriptor* NetPlayerAction_descriptor();
-inline const ::std::string& NetPlayerAction_Name(NetPlayerAction value) {
-  return ::google::protobuf::internal::NameOfEnum(
-    NetPlayerAction_descriptor(), value);
-}
-inline bool NetPlayerAction_Parse(
-    const ::std::string& name, NetPlayerAction* value) {
-  return ::google::protobuf::internal::ParseNamedEnum<NetPlayerAction>(
-    NetPlayerAction_descriptor(), name, value);
-}
 enum NetPlayerState {
   netPlayerStateNormal = 0,
   netPlayerStateSessionInactive = 1,
@@ -743,16 +482,6 @@ const NetPlayerState NetPlayerState_MIN = netPlayerStateNormal;
 const NetPlayerState NetPlayerState_MAX = netPlayerStateNoMoney;
 const int NetPlayerState_ARRAYSIZE = NetPlayerState_MAX + 1;
 
-const ::google::protobuf::EnumDescriptor* NetPlayerState_descriptor();
-inline const ::std::string& NetPlayerState_Name(NetPlayerState value) {
-  return ::google::protobuf::internal::NameOfEnum(
-    NetPlayerState_descriptor(), value);
-}
-inline bool NetPlayerState_Parse(
-    const ::std::string& name, NetPlayerState* value) {
-  return ::google::protobuf::internal::ParseNamedEnum<NetPlayerState>(
-    NetPlayerState_descriptor(), name, value);
-}
 enum NetPlayerInfoRights {
   netPlayerRightsGuest = 1,
   netPlayerRightsNormal = 2,
@@ -763,16 +492,6 @@ const NetPlayerInfoRights NetPlayerInfoRights_MIN = netPlayerRightsGuest;
 const NetPlayerInfoRights NetPlayerInfoRights_MAX = netPlayerRightsAdmin;
 const int NetPlayerInfoRights_ARRAYSIZE = NetPlayerInfoRights_MAX + 1;
 
-const ::google::protobuf::EnumDescriptor* NetPlayerInfoRights_descriptor();
-inline const ::std::string& NetPlayerInfoRights_Name(NetPlayerInfoRights value) {
-  return ::google::protobuf::internal::NameOfEnum(
-    NetPlayerInfoRights_descriptor(), value);
-}
-inline bool NetPlayerInfoRights_Parse(
-    const ::std::string& name, NetPlayerInfoRights* value) {
-  return ::google::protobuf::internal::ParseNamedEnum<NetPlayerInfoRights>(
-    NetPlayerInfoRights_descriptor(), name, value);
-}
 enum NetAvatarType {
   netAvatarImagePng = 1,
   netAvatarImageJpg = 2,
@@ -783,19 +502,9 @@ const NetAvatarType NetAvatarType_MIN = netAvatarImagePng;
 const NetAvatarType NetAvatarType_MAX = netAvatarImageGif;
 const int NetAvatarType_ARRAYSIZE = NetAvatarType_MAX + 1;
 
-const ::google::protobuf::EnumDescriptor* NetAvatarType_descriptor();
-inline const ::std::string& NetAvatarType_Name(NetAvatarType value) {
-  return ::google::protobuf::internal::NameOfEnum(
-    NetAvatarType_descriptor(), value);
-}
-inline bool NetAvatarType_Parse(
-    const ::std::string& name, NetAvatarType* value) {
-  return ::google::protobuf::internal::ParseNamedEnum<NetAvatarType>(
-    NetAvatarType_descriptor(), name, value);
-}
 // ===================================================================
 
-class NetGameInfo : public ::google::protobuf::Message {
+class NetGameInfo : public ::google::protobuf::MessageLite {
  public:
   NetGameInfo();
   virtual ~NetGameInfo();
@@ -807,15 +516,6 @@ class NetGameInfo : public ::google::protobuf::Message {
     return *this;
   }
   
-  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
-    return _unknown_fields_;
-  }
-  
-  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
-    return &_unknown_fields_;
-  }
-  
-  static const ::google::protobuf::Descriptor* descriptor();
   static const NetGameInfo& default_instance();
   
   void Swap(NetGameInfo* other);
@@ -823,8 +523,7 @@ class NetGameInfo : public ::google::protobuf::Message {
   // implements Message ----------------------------------------------
   
   NetGameInfo* New() const;
-  void CopyFrom(const ::google::protobuf::Message& from);
-  void MergeFrom(const ::google::protobuf::Message& from);
+  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from);
   void CopyFrom(const NetGameInfo& from);
   void MergeFrom(const NetGameInfo& from);
   void Clear();
@@ -835,7 +534,6 @@ class NetGameInfo : public ::google::protobuf::Message {
       ::google::protobuf::io::CodedInputStream* input);
   void SerializeWithCachedSizes(
       ::google::protobuf::io::CodedOutputStream* output) const;
-  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const;
   int GetCachedSize() const { return _cached_size_; }
   private:
   void SharedCtor();
@@ -843,7 +541,7 @@ class NetGameInfo : public ::google::protobuf::Message {
   void SetCachedSize(int size) const;
   public:
   
-  ::google::protobuf::Metadata GetMetadata() const;
+  ::std::string GetTypeName() const;
   
   // nested types ----------------------------------------------------
   
@@ -861,17 +559,6 @@ class NetGameInfo : public ::google::protobuf::Message {
     NetGameInfo_NetGameType_NetGameType_MAX;
   static const int NetGameType_ARRAYSIZE =
     NetGameInfo_NetGameType_NetGameType_ARRAYSIZE;
-  static inline const ::google::protobuf::EnumDescriptor*
-  NetGameType_descriptor() {
-    return NetGameInfo_NetGameType_descriptor();
-  }
-  static inline const ::std::string& NetGameType_Name(NetGameType value) {
-    return NetGameInfo_NetGameType_Name(value);
-  }
-  static inline bool NetGameType_Parse(const ::std::string& name,
-      NetGameType* value) {
-    return NetGameInfo_NetGameType_Parse(name, value);
-  }
   
   typedef NetGameInfo_RaiseIntervalMode RaiseIntervalMode;
   static const RaiseIntervalMode raiseOnHandNum = NetGameInfo_RaiseIntervalMode_raiseOnHandNum;
@@ -885,17 +572,6 @@ class NetGameInfo : public ::google::protobuf::Message {
     NetGameInfo_RaiseIntervalMode_RaiseIntervalMode_MAX;
   static const int RaiseIntervalMode_ARRAYSIZE =
     NetGameInfo_RaiseIntervalMode_RaiseIntervalMode_ARRAYSIZE;
-  static inline const ::google::protobuf::EnumDescriptor*
-  RaiseIntervalMode_descriptor() {
-    return NetGameInfo_RaiseIntervalMode_descriptor();
-  }
-  static inline const ::std::string& RaiseIntervalMode_Name(RaiseIntervalMode value) {
-    return NetGameInfo_RaiseIntervalMode_Name(value);
-  }
-  static inline bool RaiseIntervalMode_Parse(const ::std::string& name,
-      RaiseIntervalMode* value) {
-    return NetGameInfo_RaiseIntervalMode_Parse(name, value);
-  }
   
   typedef NetGameInfo_EndRaiseMode EndRaiseMode;
   static const EndRaiseMode doubleBlinds = NetGameInfo_EndRaiseMode_doubleBlinds;
@@ -910,17 +586,6 @@ class NetGameInfo : public ::google::protobuf::Message {
     NetGameInfo_EndRaiseMode_EndRaiseMode_MAX;
   static const int EndRaiseMode_ARRAYSIZE =
     NetGameInfo_EndRaiseMode_EndRaiseMode_ARRAYSIZE;
-  static inline const ::google::protobuf::EnumDescriptor*
-  EndRaiseMode_descriptor() {
-    return NetGameInfo_EndRaiseMode_descriptor();
-  }
-  static inline const ::std::string& EndRaiseMode_Name(EndRaiseMode value) {
-    return NetGameInfo_EndRaiseMode_Name(value);
-  }
-  static inline bool EndRaiseMode_Parse(const ::std::string& name,
-      EndRaiseMode* value) {
-    return NetGameInfo_EndRaiseMode_Parse(name, value);
-  }
   
   // accessors -------------------------------------------------------
   
@@ -1060,8 +725,6 @@ class NetGameInfo : public ::google::protobuf::Message {
   inline void set_has_startmoney();
   inline void clear_has_startmoney();
   
-  ::google::protobuf::UnknownFieldSet _unknown_fields_;
-  
   ::std::string* gamename_;
   int netgametype_;
   ::google::protobuf::uint32 maxnumplayers_;
@@ -1090,7 +753,7 @@ class NetGameInfo : public ::google::protobuf::Message {
 };
 // -------------------------------------------------------------------
 
-class PlayerResult : public ::google::protobuf::Message {
+class PlayerResult : public ::google::protobuf::MessageLite {
  public:
   PlayerResult();
   virtual ~PlayerResult();
@@ -1102,15 +765,6 @@ class PlayerResult : public ::google::protobuf::Message {
     return *this;
   }
   
-  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
-    return _unknown_fields_;
-  }
-  
-  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
-    return &_unknown_fields_;
-  }
-  
-  static const ::google::protobuf::Descriptor* descriptor();
   static const PlayerResult& default_instance();
   
   void Swap(PlayerResult* other);
@@ -1118,8 +772,7 @@ class PlayerResult : public ::google::protobuf::Message {
   // implements Message ----------------------------------------------
   
   PlayerResult* New() const;
-  void CopyFrom(const ::google::protobuf::Message& from);
-  void MergeFrom(const ::google::protobuf::Message& from);
+  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from);
   void CopyFrom(const PlayerResult& from);
   void MergeFrom(const PlayerResult& from);
   void Clear();
@@ -1130,7 +783,6 @@ class PlayerResult : public ::google::protobuf::Message {
       ::google::protobuf::io::CodedInputStream* input);
   void SerializeWithCachedSizes(
       ::google::protobuf::io::CodedOutputStream* output) const;
-  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const;
   int GetCachedSize() const { return _cached_size_; }
   private:
   void SharedCtor();
@@ -1138,7 +790,7 @@ class PlayerResult : public ::google::protobuf::Message {
   void SetCachedSize(int size) const;
   public:
   
-  ::google::protobuf::Metadata GetMetadata() const;
+  ::std::string GetTypeName() const;
   
   // nested types ----------------------------------------------------
   
@@ -1213,8 +865,6 @@ class PlayerResult : public ::google::protobuf::Message {
   inline void set_has_cardsvalue();
   inline void clear_has_cardsvalue();
   
-  ::google::protobuf::UnknownFieldSet _unknown_fields_;
-  
   ::google::protobuf::uint32 playerid_;
   ::google::protobuf::uint32 resultcard1_;
   ::google::protobuf::RepeatedField< ::google::protobuf::uint32 > besthandposition_;
@@ -1236,7 +886,7 @@ class PlayerResult : public ::google::protobuf::Message {
 };
 // -------------------------------------------------------------------
 
-class AnnounceMessage_Version : public ::google::protobuf::Message {
+class AnnounceMessage_Version : public ::google::protobuf::MessageLite {
  public:
   AnnounceMessage_Version();
   virtual ~AnnounceMessage_Version();
@@ -1248,15 +898,6 @@ class AnnounceMessage_Version : public ::google::protobuf::Message {
     return *this;
   }
   
-  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
-    return _unknown_fields_;
-  }
-  
-  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
-    return &_unknown_fields_;
-  }
-  
-  static const ::google::protobuf::Descriptor* descriptor();
   static const AnnounceMessage_Version& default_instance();
   
   void Swap(AnnounceMessage_Version* other);
@@ -1264,8 +905,7 @@ class AnnounceMessage_Version : public ::google::protobuf::Message {
   // implements Message ----------------------------------------------
   
   AnnounceMessage_Version* New() const;
-  void CopyFrom(const ::google::protobuf::Message& from);
-  void MergeFrom(const ::google::protobuf::Message& from);
+  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from);
   void CopyFrom(const AnnounceMessage_Version& from);
   void MergeFrom(const AnnounceMessage_Version& from);
   void Clear();
@@ -1276,7 +916,6 @@ class AnnounceMessage_Version : public ::google::protobuf::Message {
       ::google::protobuf::io::CodedInputStream* input);
   void SerializeWithCachedSizes(
       ::google::protobuf::io::CodedOutputStream* output) const;
-  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const;
   int GetCachedSize() const { return _cached_size_; }
   private:
   void SharedCtor();
@@ -1284,7 +923,7 @@ class AnnounceMessage_Version : public ::google::protobuf::Message {
   void SetCachedSize(int size) const;
   public:
   
-  ::google::protobuf::Metadata GetMetadata() const;
+  ::std::string GetTypeName() const;
   
   // nested types ----------------------------------------------------
   
@@ -1311,8 +950,6 @@ class AnnounceMessage_Version : public ::google::protobuf::Message {
   inline void set_has_minor();
   inline void clear_has_minor();
   
-  ::google::protobuf::UnknownFieldSet _unknown_fields_;
-  
   ::google::protobuf::uint32 major_;
   ::google::protobuf::uint32 minor_;
   
@@ -1328,7 +965,7 @@ class AnnounceMessage_Version : public ::google::protobuf::Message {
 };
 // -------------------------------------------------------------------
 
-class AnnounceMessage : public ::google::protobuf::Message {
+class AnnounceMessage : public ::google::protobuf::MessageLite {
  public:
   AnnounceMessage();
   virtual ~AnnounceMessage();
@@ -1340,15 +977,6 @@ class AnnounceMessage : public ::google::protobuf::Message {
     return *this;
   }
   
-  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
-    return _unknown_fields_;
-  }
-  
-  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
-    return &_unknown_fields_;
-  }
-  
-  static const ::google::protobuf::Descriptor* descriptor();
   static const AnnounceMessage& default_instance();
   
   void Swap(AnnounceMessage* other);
@@ -1356,8 +984,7 @@ class AnnounceMessage : public ::google::protobuf::Message {
   // implements Message ----------------------------------------------
   
   AnnounceMessage* New() const;
-  void CopyFrom(const ::google::protobuf::Message& from);
-  void MergeFrom(const ::google::protobuf::Message& from);
+  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from);
   void CopyFrom(const AnnounceMessage& from);
   void MergeFrom(const AnnounceMessage& from);
   void Clear();
@@ -1368,7 +995,6 @@ class AnnounceMessage : public ::google::protobuf::Message {
       ::google::protobuf::io::CodedInputStream* input);
   void SerializeWithCachedSizes(
       ::google::protobuf::io::CodedOutputStream* output) const;
-  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const;
   int GetCachedSize() const { return _cached_size_; }
   private:
   void SharedCtor();
@@ -1376,7 +1002,7 @@ class AnnounceMessage : public ::google::protobuf::Message {
   void SetCachedSize(int size) const;
   public:
   
-  ::google::protobuf::Metadata GetMetadata() const;
+  ::std::string GetTypeName() const;
   
   // nested types ----------------------------------------------------
   
@@ -1395,17 +1021,6 @@ class AnnounceMessage : public ::google::protobuf::Message {
     AnnounceMessage_ServerType_ServerType_MAX;
   static const int ServerType_ARRAYSIZE =
     AnnounceMessage_ServerType_ServerType_ARRAYSIZE;
-  static inline const ::google::protobuf::EnumDescriptor*
-  ServerType_descriptor() {
-    return AnnounceMessage_ServerType_descriptor();
-  }
-  static inline const ::std::string& ServerType_Name(ServerType value) {
-    return AnnounceMessage_ServerType_Name(value);
-  }
-  static inline bool ServerType_Parse(const ::std::string& name,
-      ServerType* value) {
-    return AnnounceMessage_ServerType_Parse(name, value);
-  }
   
   // accessors -------------------------------------------------------
   
@@ -1459,8 +1074,6 @@ class AnnounceMessage : public ::google::protobuf::Message {
   inline void set_has_numplayersonserver();
   inline void clear_has_numplayersonserver();
   
-  ::google::protobuf::UnknownFieldSet _unknown_fields_;
-  
   ::AnnounceMessage_Version* protocolversion_;
   ::AnnounceMessage_Version* latestgameversion_;
   ::google::protobuf::uint32 latestbetarevision_;
@@ -1479,7 +1092,7 @@ class AnnounceMessage : public ::google::protobuf::Message {
 };
 // -------------------------------------------------------------------
 
-class InitMessage : public ::google::protobuf::Message {
+class InitMessage : public ::google::protobuf::MessageLite {
  public:
   InitMessage();
   virtual ~InitMessage();
@@ -1491,15 +1104,6 @@ class InitMessage : public ::google::protobuf::Message {
     return *this;
   }
   
-  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
-    return _unknown_fields_;
-  }
-  
-  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
-    return &_unknown_fields_;
-  }
-  
-  static const ::google::protobuf::Descriptor* descriptor();
   static const InitMessage& default_instance();
   
   void Swap(InitMessage* other);
@@ -1507,8 +1111,7 @@ class InitMessage : public ::google::protobuf::Message {
   // implements Message ----------------------------------------------
   
   InitMessage* New() const;
-  void CopyFrom(const ::google::protobuf::Message& from);
-  void MergeFrom(const ::google::protobuf::Message& from);
+  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from);
   void CopyFrom(const InitMessage& from);
   void MergeFrom(const InitMessage& from);
   void Clear();
@@ -1519,7 +1122,6 @@ class InitMessage : public ::google::protobuf::Message {
       ::google::protobuf::io::CodedInputStream* input);
   void SerializeWithCachedSizes(
       ::google::protobuf::io::CodedOutputStream* output) const;
-  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const;
   int GetCachedSize() const { return _cached_size_; }
   private:
   void SharedCtor();
@@ -1527,7 +1129,7 @@ class InitMessage : public ::google::protobuf::Message {
   void SetCachedSize(int size) const;
   public:
   
-  ::google::protobuf::Metadata GetMetadata() const;
+  ::std::string GetTypeName() const;
   
   // nested types ----------------------------------------------------
   
@@ -1544,17 +1146,6 @@ class InitMessage : public ::google::protobuf::Message {
     InitMessage_LoginType_LoginType_MAX;
   static const int LoginType_ARRAYSIZE =
     InitMessage_LoginType_LoginType_ARRAYSIZE;
-  static inline const ::google::protobuf::EnumDescriptor*
-  LoginType_descriptor() {
-    return InitMessage_LoginType_descriptor();
-  }
-  static inline const ::std::string& LoginType_Name(LoginType value) {
-    return InitMessage_LoginType_Name(value);
-  }
-  static inline bool LoginType_Parse(const ::std::string& name,
-      LoginType* value) {
-    return InitMessage_LoginType_Parse(name, value);
-  }
   
   // accessors -------------------------------------------------------
   
@@ -1654,8 +1245,6 @@ class InitMessage : public ::google::protobuf::Message {
   inline void set_has_avatarhash();
   inline void clear_has_avatarhash();
   
-  ::google::protobuf::UnknownFieldSet _unknown_fields_;
-  
   ::AnnounceMessage_Version* requestedversion_;
   ::std::string* mylastsessionid_;
   ::google::protobuf::uint32 buildid_;
@@ -1677,7 +1266,7 @@ class InitMessage : public ::google::protobuf::Message {
 };
 // -------------------------------------------------------------------
 
-class AuthServerChallengeMessage : public ::google::protobuf::Message {
+class AuthServerChallengeMessage : public ::google::protobuf::MessageLite {
  public:
   AuthServerChallengeMessage();
   virtual ~AuthServerChallengeMessage();
@@ -1689,15 +1278,6 @@ class AuthServerChallengeMessage : public ::google::protobuf::Message {
     return *this;
   }
   
-  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
-    return _unknown_fields_;
-  }
-  
-  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
-    return &_unknown_fields_;
-  }
-  
-  static const ::google::protobuf::Descriptor* descriptor();
   static const AuthServerChallengeMessage& default_instance();
   
   void Swap(AuthServerChallengeMessage* other);
@@ -1705,8 +1285,7 @@ class AuthServerChallengeMessage : public ::google::protobuf::Message {
   // implements Message ----------------------------------------------
   
   AuthServerChallengeMessage* New() const;
-  void CopyFrom(const ::google::protobuf::Message& from);
-  void MergeFrom(const ::google::protobuf::Message& from);
+  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from);
   void CopyFrom(const AuthServerChallengeMessage& from);
   void MergeFrom(const AuthServerChallengeMessage& from);
   void Clear();
@@ -1717,7 +1296,6 @@ class AuthServerChallengeMessage : public ::google::protobuf::Message {
       ::google::protobuf::io::CodedInputStream* input);
   void SerializeWithCachedSizes(
       ::google::protobuf::io::CodedOutputStream* output) const;
-  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const;
   int GetCachedSize() const { return _cached_size_; }
   private:
   void SharedCtor();
@@ -1725,7 +1303,7 @@ class AuthServerChallengeMessage : public ::google::protobuf::Message {
   void SetCachedSize(int size) const;
   public:
   
-  ::google::protobuf::Metadata GetMetadata() const;
+  ::std::string GetTypeName() const;
   
   // nested types ----------------------------------------------------
   
@@ -1747,8 +1325,6 @@ class AuthServerChallengeMessage : public ::google::protobuf::Message {
   inline void set_has_serverchallenge();
   inline void clear_has_serverchallenge();
   
-  ::google::protobuf::UnknownFieldSet _unknown_fields_;
-  
   ::std::string* serverchallenge_;
   
   mutable int _cached_size_;
@@ -1763,7 +1339,7 @@ class AuthServerChallengeMessage : public ::google::protobuf::Message {
 };
 // -------------------------------------------------------------------
 
-class AuthClientResponseMessage : public ::google::protobuf::Message {
+class AuthClientResponseMessage : public ::google::protobuf::MessageLite {
  public:
   AuthClientResponseMessage();
   virtual ~AuthClientResponseMessage();
@@ -1775,15 +1351,6 @@ class AuthClientResponseMessage : public ::google::protobuf::Message {
     return *this;
   }
   
-  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
-    return _unknown_fields_;
-  }
-  
-  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
-    return &_unknown_fields_;
-  }
-  
-  static const ::google::protobuf::Descriptor* descriptor();
   static const AuthClientResponseMessage& default_instance();
   
   void Swap(AuthClientResponseMessage* other);
@@ -1791,8 +1358,7 @@ class AuthClientResponseMessage : public ::google::protobuf::Message {
   // implements Message ----------------------------------------------
   
   AuthClientResponseMessage* New() const;
-  void CopyFrom(const ::google::protobuf::Message& from);
-  void MergeFrom(const ::google::protobuf::Message& from);
+  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from);
   void CopyFrom(const AuthClientResponseMessage& from);
   void MergeFrom(const AuthClientResponseMessage& from);
   void Clear();
@@ -1803,7 +1369,6 @@ class AuthClientResponseMessage : public ::google::protobuf::Message {
       ::google::protobuf::io::CodedInputStream* input);
   void SerializeWithCachedSizes(
       ::google::protobuf::io::CodedOutputStream* output) const;
-  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const;
   int GetCachedSize() const { return _cached_size_; }
   private:
   void SharedCtor();
@@ -1811,7 +1376,7 @@ class AuthClientResponseMessage : public ::google::protobuf::Message {
   void SetCachedSize(int size) const;
   public:
   
-  ::google::protobuf::Metadata GetMetadata() const;
+  ::std::string GetTypeName() const;
   
   // nested types ----------------------------------------------------
   
@@ -1833,8 +1398,6 @@ class AuthClientResponseMessage : public ::google::protobuf::Message {
   inline void set_has_clientresponse();
   inline void clear_has_clientresponse();
   
-  ::google::protobuf::UnknownFieldSet _unknown_fields_;
-  
   ::std::string* clientresponse_;
   
   mutable int _cached_size_;
@@ -1849,7 +1412,7 @@ class AuthClientResponseMessage : public ::google::protobuf::Message {
 };
 // -------------------------------------------------------------------
 
-class AuthServerVerificationMessage : public ::google::protobuf::Message {
+class AuthServerVerificationMessage : public ::google::protobuf::MessageLite {
  public:
   AuthServerVerificationMessage();
   virtual ~AuthServerVerificationMessage();
@@ -1861,15 +1424,6 @@ class AuthServerVerificationMessage : public ::google::protobuf::Message {
     return *this;
   }
   
-  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
-    return _unknown_fields_;
-  }
-  
-  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
-    return &_unknown_fields_;
-  }
-  
-  static const ::google::protobuf::Descriptor* descriptor();
   static const AuthServerVerificationMessage& default_instance();
   
   void Swap(AuthServerVerificationMessage* other);
@@ -1877,8 +1431,7 @@ class AuthServerVerificationMessage : public ::google::protobuf::Message {
   // implements Message ----------------------------------------------
   
   AuthServerVerificationMessage* New() const;
-  void CopyFrom(const ::google::protobuf::Message& from);
-  void MergeFrom(const ::google::protobuf::Message& from);
+  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from);
   void CopyFrom(const AuthServerVerificationMessage& from);
   void MergeFrom(const AuthServerVerificationMessage& from);
   void Clear();
@@ -1889,7 +1442,6 @@ class AuthServerVerificationMessage : public ::google::protobuf::Message {
       ::google::protobuf::io::CodedInputStream* input);
   void SerializeWithCachedSizes(
       ::google::protobuf::io::CodedOutputStream* output) const;
-  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const;
   int GetCachedSize() const { return _cached_size_; }
   private:
   void SharedCtor();
@@ -1897,7 +1449,7 @@ class AuthServerVerificationMessage : public ::google::protobuf::Message {
   void SetCachedSize(int size) const;
   public:
   
-  ::google::protobuf::Metadata GetMetadata() const;
+  ::std::string GetTypeName() const;
   
   // nested types ----------------------------------------------------
   
@@ -1919,8 +1471,6 @@ class AuthServerVerificationMessage : public ::google::protobuf::Message {
   inline void set_has_serververification();
   inline void clear_has_serververification();
   
-  ::google::protobuf::UnknownFieldSet _unknown_fields_;
-  
   ::std::string* serververification_;
   
   mutable int _cached_size_;
@@ -1935,7 +1485,7 @@ class AuthServerVerificationMessage : public ::google::protobuf::Message {
 };
 // -------------------------------------------------------------------
 
-class InitAckMessage : public ::google::protobuf::Message {
+class InitAckMessage : public ::google::protobuf::MessageLite {
  public:
   InitAckMessage();
   virtual ~InitAckMessage();
@@ -1947,15 +1497,6 @@ class InitAckMessage : public ::google::protobuf::Message {
     return *this;
   }
   
-  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
-    return _unknown_fields_;
-  }
-  
-  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
-    return &_unknown_fields_;
-  }
-  
-  static const ::google::protobuf::Descriptor* descriptor();
   static const InitAckMessage& default_instance();
   
   void Swap(InitAckMessage* other);
@@ -1963,8 +1504,7 @@ class InitAckMessage : public ::google::protobuf::Message {
   // implements Message ----------------------------------------------
   
   InitAckMessage* New() const;
-  void CopyFrom(const ::google::protobuf::Message& from);
-  void MergeFrom(const ::google::protobuf::Message& from);
+  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from);
   void CopyFrom(const InitAckMessage& from);
   void MergeFrom(const InitAckMessage& from);
   void Clear();
@@ -1975,7 +1515,6 @@ class InitAckMessage : public ::google::protobuf::Message {
       ::google::protobuf::io::CodedInputStream* input);
   void SerializeWithCachedSizes(
       ::google::protobuf::io::CodedOutputStream* output) const;
-  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const;
   int GetCachedSize() const { return _cached_size_; }
   private:
   void SharedCtor();
@@ -1983,7 +1522,7 @@ class InitAckMessage : public ::google::protobuf::Message {
   void SetCachedSize(int size) const;
   public:
   
-  ::google::protobuf::Metadata GetMetadata() const;
+  ::std::string GetTypeName() const;
   
   // nested types ----------------------------------------------------
   
@@ -2036,8 +1575,6 @@ class InitAckMessage : public ::google::protobuf::Message {
   inline void set_has_rejoingameid();
   inline void clear_has_rejoingameid();
   
-  ::google::protobuf::UnknownFieldSet _unknown_fields_;
-  
   ::std::string* yoursessionid_;
   ::std::string* youravatarhash_;
   ::google::protobuf::uint32 yourplayerid_;
@@ -2055,7 +1592,7 @@ class InitAckMessage : public ::google::protobuf::Message {
 };
 // -------------------------------------------------------------------
 
-class AvatarRequestMessage : public ::google::protobuf::Message {
+class AvatarRequestMessage : public ::google::protobuf::MessageLite {
  public:
   AvatarRequestMessage();
   virtual ~AvatarRequestMessage();
@@ -2067,15 +1604,6 @@ class AvatarRequestMessage : public ::google::protobuf::Message {
     return *this;
   }
   
-  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
-    return _unknown_fields_;
-  }
-  
-  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
-    return &_unknown_fields_;
-  }
-  
-  static const ::google::protobuf::Descriptor* descriptor();
   static const AvatarRequestMessage& default_instance();
   
   void Swap(AvatarRequestMessage* other);
@@ -2083,8 +1611,7 @@ class AvatarRequestMessage : public ::google::protobuf::Message {
   // implements Message ----------------------------------------------
   
   AvatarRequestMessage* New() const;
-  void CopyFrom(const ::google::protobuf::Message& from);
-  void MergeFrom(const ::google::protobuf::Message& from);
+  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from);
   void CopyFrom(const AvatarRequestMessage& from);
   void MergeFrom(const AvatarRequestMessage& from);
   void Clear();
@@ -2095,7 +1622,6 @@ class AvatarRequestMessage : public ::google::protobuf::Message {
       ::google::protobuf::io::CodedInputStream* input);
   void SerializeWithCachedSizes(
       ::google::protobuf::io::CodedOutputStream* output) const;
-  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const;
   int GetCachedSize() const { return _cached_size_; }
   private:
   void SharedCtor();
@@ -2103,7 +1629,7 @@ class AvatarRequestMessage : public ::google::protobuf::Message {
   void SetCachedSize(int size) const;
   public:
   
-  ::google::protobuf::Metadata GetMetadata() const;
+  ::std::string GetTypeName() const;
   
   // nested types ----------------------------------------------------
   
@@ -2134,8 +1660,6 @@ class AvatarRequestMessage : public ::google::protobuf::Message {
   inline void set_has_avatarhash();
   inline void clear_has_avatarhash();
   
-  ::google::protobuf::UnknownFieldSet _unknown_fields_;
-  
   ::std::string* avatarhash_;
   ::google::protobuf::uint32 requestid_;
   
@@ -2151,7 +1675,7 @@ class AvatarRequestMessage : public ::google::protobuf::Message {
 };
 // -------------------------------------------------------------------
 
-class AvatarHeaderMessage : public ::google::protobuf::Message {
+class AvatarHeaderMessage : public ::google::protobuf::MessageLite {
  public:
   AvatarHeaderMessage();
   virtual ~AvatarHeaderMessage();
@@ -2163,15 +1687,6 @@ class AvatarHeaderMessage : public ::google::protobuf::Message {
     return *this;
   }
   
-  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
-    return _unknown_fields_;
-  }
-  
-  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
-    return &_unknown_fields_;
-  }
-  
-  static const ::google::protobuf::Descriptor* descriptor();
   static const AvatarHeaderMessage& default_instance();
   
   void Swap(AvatarHeaderMessage* other);
@@ -2179,8 +1694,7 @@ class AvatarHeaderMessage : public ::google::protobuf::Message {
   // implements Message ----------------------------------------------
   
   AvatarHeaderMessage* New() const;
-  void CopyFrom(const ::google::protobuf::Message& from);
-  void MergeFrom(const ::google::protobuf::Message& from);
+  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from);
   void CopyFrom(const AvatarHeaderMessage& from);
   void MergeFrom(const AvatarHeaderMessage& from);
   void Clear();
@@ -2191,7 +1705,6 @@ class AvatarHeaderMessage : public ::google::protobuf::Message {
       ::google::protobuf::io::CodedInputStream* input);
   void SerializeWithCachedSizes(
       ::google::protobuf::io::CodedOutputStream* output) const;
-  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const;
   int GetCachedSize() const { return _cached_size_; }
   private:
   void SharedCtor();
@@ -2199,7 +1712,7 @@ class AvatarHeaderMessage : public ::google::protobuf::Message {
   void SetCachedSize(int size) const;
   public:
   
-  ::google::protobuf::Metadata GetMetadata() const;
+  ::std::string GetTypeName() const;
   
   // nested types ----------------------------------------------------
   
@@ -2235,8 +1748,6 @@ class AvatarHeaderMessage : public ::google::protobuf::Message {
   inline void set_has_avatarsize();
   inline void clear_has_avatarsize();
   
-  ::google::protobuf::UnknownFieldSet _unknown_fields_;
-  
   ::google::protobuf::uint32 requestid_;
   int avatartype_;
   ::google::protobuf::uint32 avatarsize_;
@@ -2253,7 +1764,7 @@ class AvatarHeaderMessage : public ::google::protobuf::Message {
 };
 // -------------------------------------------------------------------
 
-class AvatarDataMessage : public ::google::protobuf::Message {
+class AvatarDataMessage : public ::google::protobuf::MessageLite {
  public:
   AvatarDataMessage();
   virtual ~AvatarDataMessage();
@@ -2265,15 +1776,6 @@ class AvatarDataMessage : public ::google::protobuf::Message {
     return *this;
   }
   
-  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
-    return _unknown_fields_;
-  }
-  
-  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
-    return &_unknown_fields_;
-  }
-  
-  static const ::google::protobuf::Descriptor* descriptor();
   static const AvatarDataMessage& default_instance();
   
   void Swap(AvatarDataMessage* other);
@@ -2281,8 +1783,7 @@ class AvatarDataMessage : public ::google::protobuf::Message {
   // implements Message ----------------------------------------------
   
   AvatarDataMessage* New() const;
-  void CopyFrom(const ::google::protobuf::Message& from);
-  void MergeFrom(const ::google::protobuf::Message& from);
+  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from);
   void CopyFrom(const AvatarDataMessage& from);
   void MergeFrom(const AvatarDataMessage& from);
   void Clear();
@@ -2293,7 +1794,6 @@ class AvatarDataMessage : public ::google::protobuf::Message {
       ::google::protobuf::io::CodedInputStream* input);
   void SerializeWithCachedSizes(
       ::google::protobuf::io::CodedOutputStream* output) const;
-  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const;
   int GetCachedSize() const { return _cached_size_; }
   private:
   void SharedCtor();
@@ -2301,7 +1801,7 @@ class AvatarDataMessage : public ::google::protobuf::Message {
   void SetCachedSize(int size) const;
   public:
   
-  ::google::protobuf::Metadata GetMetadata() const;
+  ::std::string GetTypeName() const;
   
   // nested types ----------------------------------------------------
   
@@ -2332,8 +1832,6 @@ class AvatarDataMessage : public ::google::protobuf::Message {
   inline void set_has_avatarblock();
   inline void clear_has_avatarblock();
   
-  ::google::protobuf::UnknownFieldSet _unknown_fields_;
-  
   ::std::string* avatarblock_;
   ::google::protobuf::uint32 requestid_;
   
@@ -2349,7 +1847,7 @@ class AvatarDataMessage : public ::google::protobuf::Message {
 };
 // -------------------------------------------------------------------
 
-class AvatarEndMessage : public ::google::protobuf::Message {
+class AvatarEndMessage : public ::google::protobuf::MessageLite {
  public:
   AvatarEndMessage();
   virtual ~AvatarEndMessage();
@@ -2361,15 +1859,6 @@ class AvatarEndMessage : public ::google::protobuf::Message {
     return *this;
   }
   
-  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
-    return _unknown_fields_;
-  }
-  
-  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
-    return &_unknown_fields_;
-  }
-  
-  static const ::google::protobuf::Descriptor* descriptor();
   static const AvatarEndMessage& default_instance();
   
   void Swap(AvatarEndMessage* other);
@@ -2377,8 +1866,7 @@ class AvatarEndMessage : public ::google::protobuf::Message {
   // implements Message ----------------------------------------------
   
   AvatarEndMessage* New() const;
-  void CopyFrom(const ::google::protobuf::Message& from);
-  void MergeFrom(const ::google::protobuf::Message& from);
+  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from);
   void CopyFrom(const AvatarEndMessage& from);
   void MergeFrom(const AvatarEndMessage& from);
   void Clear();
@@ -2389,7 +1877,6 @@ class AvatarEndMessage : public ::google::protobuf::Message {
       ::google::protobuf::io::CodedInputStream* input);
   void SerializeWithCachedSizes(
       ::google::protobuf::io::CodedOutputStream* output) const;
-  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const;
   int GetCachedSize() const { return _cached_size_; }
   private:
   void SharedCtor();
@@ -2397,7 +1884,7 @@ class AvatarEndMessage : public ::google::protobuf::Message {
   void SetCachedSize(int size) const;
   public:
   
-  ::google::protobuf::Metadata GetMetadata() const;
+  ::std::string GetTypeName() const;
   
   // nested types ----------------------------------------------------
   
@@ -2415,8 +1902,6 @@ class AvatarEndMessage : public ::google::protobuf::Message {
   inline void set_has_requestid();
   inline void clear_has_requestid();
   
-  ::google::protobuf::UnknownFieldSet _unknown_fields_;
-  
   ::google::protobuf::uint32 requestid_;
   
   mutable int _cached_size_;
@@ -2431,7 +1916,7 @@ class AvatarEndMessage : public ::google::protobuf::Message {
 };
 // -------------------------------------------------------------------
 
-class UnknownAvatarMessage : public ::google::protobuf::Message {
+class UnknownAvatarMessage : public ::google::protobuf::MessageLite {
  public:
   UnknownAvatarMessage();
   virtual ~UnknownAvatarMessage();
@@ -2443,15 +1928,6 @@ class UnknownAvatarMessage : public ::google::protobuf::Message {
     return *this;
   }
   
-  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
-    return _unknown_fields_;
-  }
-  
-  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
-    return &_unknown_fields_;
-  }
-  
-  static const ::google::protobuf::Descriptor* descriptor();
   static const UnknownAvatarMessage& default_instance();
   
   void Swap(UnknownAvatarMessage* other);
@@ -2459,8 +1935,7 @@ class UnknownAvatarMessage : public ::google::protobuf::Message {
   // implements Message ----------------------------------------------
   
   UnknownAvatarMessage* New() const;
-  void CopyFrom(const ::google::protobuf::Message& from);
-  void MergeFrom(const ::google::protobuf::Message& from);
+  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from);
   void CopyFrom(const UnknownAvatarMessage& from);
   void MergeFrom(const UnknownAvatarMessage& from);
   void Clear();
@@ -2471,7 +1946,6 @@ class UnknownAvatarMessage : public ::google::protobuf::Message {
       ::google::protobuf::io::CodedInputStream* input);
   void SerializeWithCachedSizes(
       ::google::protobuf::io::CodedOutputStream* output) const;
-  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const;
   int GetCachedSize() const { return _cached_size_; }
   private:
   void SharedCtor();
@@ -2479,7 +1953,7 @@ class UnknownAvatarMessage : public ::google::protobuf::Message {
   void SetCachedSize(int size) const;
   public:
   
-  ::google::protobuf::Metadata GetMetadata() const;
+  ::std::string GetTypeName() const;
   
   // nested types ----------------------------------------------------
   
@@ -2497,8 +1971,6 @@ class UnknownAvatarMessage : public ::google::protobuf::Message {
   inline void set_has_requestid();
   inline void clear_has_requestid();
   
-  ::google::protobuf::UnknownFieldSet _unknown_fields_;
-  
   ::google::protobuf::uint32 requestid_;
   
   mutable int _cached_size_;
@@ -2513,7 +1985,7 @@ class UnknownAvatarMessage : public ::google::protobuf::Message {
 };
 // -------------------------------------------------------------------
 
-class PlayerListMessage : public ::google::protobuf::Message {
+class PlayerListMessage : public ::google::protobuf::MessageLite {
  public:
   PlayerListMessage();
   virtual ~PlayerListMessage();
@@ -2525,15 +1997,6 @@ class PlayerListMessage : public ::google::protobuf::Message {
     return *this;
   }
   
-  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
-    return _unknown_fields_;
-  }
-  
-  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
-    return &_unknown_fields_;
-  }
-  
-  static const ::google::protobuf::Descriptor* descriptor();
   static const PlayerListMessage& default_instance();
   
   void Swap(PlayerListMessage* other);
@@ -2541,8 +2004,7 @@ class PlayerListMessage : public ::google::protobuf::Message {
   // implements Message ----------------------------------------------
   
   PlayerListMessage* New() const;
-  void CopyFrom(const ::google::protobuf::Message& from);
-  void MergeFrom(const ::google::protobuf::Message& from);
+  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from);
   void CopyFrom(const PlayerListMessage& from);
   void MergeFrom(const PlayerListMessage& from);
   void Clear();
@@ -2553,7 +2015,6 @@ class PlayerListMessage : public ::google::protobuf::Message {
       ::google::protobuf::io::CodedInputStream* input);
   void SerializeWithCachedSizes(
       ::google::protobuf::io::CodedOutputStream* output) const;
-  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const;
   int GetCachedSize() const { return _cached_size_; }
   private:
   void SharedCtor();
@@ -2561,7 +2022,7 @@ class PlayerListMessage : public ::google::protobuf::Message {
   void SetCachedSize(int size) const;
   public:
   
-  ::google::protobuf::Metadata GetMetadata() const;
+  ::std::string GetTypeName() const;
   
   // nested types ----------------------------------------------------
   
@@ -2577,17 +2038,6 @@ class PlayerListMessage : public ::google::protobuf::Message {
     PlayerListMessage_PlayerListNotification_PlayerListNotification_MAX;
   static const int PlayerListNotification_ARRAYSIZE =
     PlayerListMessage_PlayerListNotification_PlayerListNotification_ARRAYSIZE;
-  static inline const ::google::protobuf::EnumDescriptor*
-  PlayerListNotification_descriptor() {
-    return PlayerListMessage_PlayerListNotification_descriptor();
-  }
-  static inline const ::std::string& PlayerListNotification_Name(PlayerListNotification value) {
-    return PlayerListMessage_PlayerListNotification_Name(value);
-  }
-  static inline bool PlayerListNotification_Parse(const ::std::string& name,
-      PlayerListNotification* value) {
-    return PlayerListMessage_PlayerListNotification_Parse(name, value);
-  }
   
   // accessors -------------------------------------------------------
   
@@ -2612,8 +2062,6 @@ class PlayerListMessage : public ::google::protobuf::Message {
   inline void set_has_playerlistnotification();
   inline void clear_has_playerlistnotification();
   
-  ::google::protobuf::UnknownFieldSet _unknown_fields_;
-  
   ::google::protobuf::uint32 playerid_;
   int playerlistnotification_;
   
@@ -2629,7 +2077,7 @@ class PlayerListMessage : public ::google::protobuf::Message {
 };
 // -------------------------------------------------------------------
 
-class GameListNewMessage : public ::google::protobuf::Message {
+class GameListNewMessage : public ::google::protobuf::MessageLite {
  public:
   GameListNewMessage();
   virtual ~GameListNewMessage();
@@ -2641,15 +2089,6 @@ class GameListNewMessage : public ::google::protobuf::Message {
     return *this;
   }
   
-  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
-    return _unknown_fields_;
-  }
-  
-  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
-    return &_unknown_fields_;
-  }
-  
-  static const ::google::protobuf::Descriptor* descriptor();
   static const GameListNewMessage& default_instance();
   
   void Swap(GameListNewMessage* other);
@@ -2657,8 +2096,7 @@ class GameListNewMessage : public ::google::protobuf::Message {
   // implements Message ----------------------------------------------
   
   GameListNewMessage* New() const;
-  void CopyFrom(const ::google::protobuf::Message& from);
-  void MergeFrom(const ::google::protobuf::Message& from);
+  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from);
   void CopyFrom(const GameListNewMessage& from);
   void MergeFrom(const GameListNewMessage& from);
   void Clear();
@@ -2669,7 +2107,6 @@ class GameListNewMessage : public ::google::protobuf::Message {
       ::google::protobuf::io::CodedInputStream* input);
   void SerializeWithCachedSizes(
       ::google::protobuf::io::CodedOutputStream* output) const;
-  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const;
   int GetCachedSize() const { return _cached_size_; }
   private:
   void SharedCtor();
@@ -2677,7 +2114,7 @@ class GameListNewMessage : public ::google::protobuf::Message {
   void SetCachedSize(int size) const;
   public:
   
-  ::google::protobuf::Metadata GetMetadata() const;
+  ::std::string GetTypeName() const;
   
   // nested types ----------------------------------------------------
   
@@ -2744,8 +2181,6 @@ class GameListNewMessage : public ::google::protobuf::Message {
   inline void set_has_gameinfo();
   inline void clear_has_gameinfo();
   
-  ::google::protobuf::UnknownFieldSet _unknown_fields_;
-  
   ::google::protobuf::uint32 gameid_;
   int gamemode_;
   ::google::protobuf::RepeatedField< ::google::protobuf::uint32 > playerids_;
@@ -2766,7 +2201,7 @@ class GameListNewMessage : public ::google::protobuf::Message {
 };
 // -------------------------------------------------------------------
 
-class GameListUpdateMessage : public ::google::protobuf::Message {
+class GameListUpdateMessage : public ::google::protobuf::MessageLite {
  public:
   GameListUpdateMessage();
   virtual ~GameListUpdateMessage();
@@ -2778,15 +2213,6 @@ class GameListUpdateMessage : public ::google::protobuf::Message {
     return *this;
   }
   
-  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
-    return _unknown_fields_;
-  }
-  
-  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
-    return &_unknown_fields_;
-  }
-  
-  static const ::google::protobuf::Descriptor* descriptor();
   static const GameListUpdateMessage& default_instance();
   
   void Swap(GameListUpdateMessage* other);
@@ -2794,8 +2220,7 @@ class GameListUpdateMessage : public ::google::protobuf::Message {
   // implements Message ----------------------------------------------
   
   GameListUpdateMessage* New() const;
-  void CopyFrom(const ::google::protobuf::Message& from);
-  void MergeFrom(const ::google::protobuf::Message& from);
+  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from);
   void CopyFrom(const GameListUpdateMessage& from);
   void MergeFrom(const GameListUpdateMessage& from);
   void Clear();
@@ -2806,7 +2231,6 @@ class GameListUpdateMessage : public ::google::protobuf::Message {
       ::google::protobuf::io::CodedInputStream* input);
   void SerializeWithCachedSizes(
       ::google::protobuf::io::CodedOutputStream* output) const;
-  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const;
   int GetCachedSize() const { return _cached_size_; }
   private:
   void SharedCtor();
@@ -2814,7 +2238,7 @@ class GameListUpdateMessage : public ::google::protobuf::Message {
   void SetCachedSize(int size) const;
   public:
   
-  ::google::protobuf::Metadata GetMetadata() const;
+  ::std::string GetTypeName() const;
   
   // nested types ----------------------------------------------------
   
@@ -2841,8 +2265,6 @@ class GameListUpdateMessage : public ::google::protobuf::Message {
   inline void set_has_gamemode();
   inline void clear_has_gamemode();
   
-  ::google::protobuf::UnknownFieldSet _unknown_fields_;
-  
   ::google::protobuf::uint32 gameid_;
   int gamemode_;
   
@@ -2858,7 +2280,7 @@ class GameListUpdateMessage : public ::google::protobuf::Message {
 };
 // -------------------------------------------------------------------
 
-class GameListPlayerJoinedMessage : public ::google::protobuf::Message {
+class GameListPlayerJoinedMessage : public ::google::protobuf::MessageLite {
  public:
   GameListPlayerJoinedMessage();
   virtual ~GameListPlayerJoinedMessage();
@@ -2870,15 +2292,6 @@ class GameListPlayerJoinedMessage : public ::google::protobuf::Message {
     return *this;
   }
   
-  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
-    return _unknown_fields_;
-  }
-  
-  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
-    return &_unknown_fields_;
-  }
-  
-  static const ::google::protobuf::Descriptor* descriptor();
   static const GameListPlayerJoinedMessage& default_instance();
   
   void Swap(GameListPlayerJoinedMessage* other);
@@ -2886,8 +2299,7 @@ class GameListPlayerJoinedMessage : public ::google::protobuf::Message {
   // implements Message ----------------------------------------------
   
   GameListPlayerJoinedMessage* New() const;
-  void CopyFrom(const ::google::protobuf::Message& from);
-  void MergeFrom(const ::google::protobuf::Message& from);
+  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from);
   void CopyFrom(const GameListPlayerJoinedMessage& from);
   void MergeFrom(const GameListPlayerJoinedMessage& from);
   void Clear();
@@ -2898,7 +2310,6 @@ class GameListPlayerJoinedMessage : public ::google::protobuf::Message {
       ::google::protobuf::io::CodedInputStream* input);
   void SerializeWithCachedSizes(
       ::google::protobuf::io::CodedOutputStream* output) const;
-  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const;
   int GetCachedSize() const { return _cached_size_; }
   private:
   void SharedCtor();
@@ -2906,7 +2317,7 @@ class GameListPlayerJoinedMessage : public ::google::protobuf::Message {
   void SetCachedSize(int size) const;
   public:
   
-  ::google::protobuf::Metadata GetMetadata() const;
+  ::std::string GetTypeName() const;
   
   // nested types ----------------------------------------------------
   
@@ -2933,8 +2344,6 @@ class GameListPlayerJoinedMessage : public ::google::protobuf::Message {
   inline void set_has_playerid();
   inline void clear_has_playerid();
   
-  ::google::protobuf::UnknownFieldSet _unknown_fields_;
-  
   ::google::protobuf::uint32 gameid_;
   ::google::protobuf::uint32 playerid_;
   
@@ -2950,7 +2359,7 @@ class GameListPlayerJoinedMessage : public ::google::protobuf::Message {
 };
 // -------------------------------------------------------------------
 
-class GameListPlayerLeftMessage : public ::google::protobuf::Message {
+class GameListPlayerLeftMessage : public ::google::protobuf::MessageLite {
  public:
   GameListPlayerLeftMessage();
   virtual ~GameListPlayerLeftMessage();
@@ -2962,15 +2371,6 @@ class GameListPlayerLeftMessage : public ::google::protobuf::Message {
     return *this;
   }
   
-  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
-    return _unknown_fields_;
-  }
-  
-  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
-    return &_unknown_fields_;
-  }
-  
-  static const ::google::protobuf::Descriptor* descriptor();
   static const GameListPlayerLeftMessage& default_instance();
   
   void Swap(GameListPlayerLeftMessage* other);
@@ -2978,8 +2378,7 @@ class GameListPlayerLeftMessage : public ::google::protobuf::Message {
   // implements Message ----------------------------------------------
   
   GameListPlayerLeftMessage* New() const;
-  void CopyFrom(const ::google::protobuf::Message& from);
-  void MergeFrom(const ::google::protobuf::Message& from);
+  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from);
   void CopyFrom(const GameListPlayerLeftMessage& from);
   void MergeFrom(const GameListPlayerLeftMessage& from);
   void Clear();
@@ -2990,7 +2389,6 @@ class GameListPlayerLeftMessage : public ::google::protobuf::Message {
       ::google::protobuf::io::CodedInputStream* input);
   void SerializeWithCachedSizes(
       ::google::protobuf::io::CodedOutputStream* output) const;
-  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const;
   int GetCachedSize() const { return _cached_size_; }
   private:
   void SharedCtor();
@@ -2998,7 +2396,7 @@ class GameListPlayerLeftMessage : public ::google::protobuf::Message {
   void SetCachedSize(int size) const;
   public:
   
-  ::google::protobuf::Metadata GetMetadata() const;
+  ::std::string GetTypeName() const;
   
   // nested types ----------------------------------------------------
   
@@ -3025,8 +2423,6 @@ class GameListPlayerLeftMessage : public ::google::protobuf::Message {
   inline void set_has_playerid();
   inline void clear_has_playerid();
   
-  ::google::protobuf::UnknownFieldSet _unknown_fields_;
-  
   ::google::protobuf::uint32 gameid_;
   ::google::protobuf::uint32 playerid_;
   
@@ -3042,7 +2438,7 @@ class GameListPlayerLeftMessage : public ::google::protobuf::Message {
 };
 // -------------------------------------------------------------------
 
-class GameListAdminChangedMessage : public ::google::protobuf::Message {
+class GameListAdminChangedMessage : public ::google::protobuf::MessageLite {
  public:
   GameListAdminChangedMessage();
   virtual ~GameListAdminChangedMessage();
@@ -3054,15 +2450,6 @@ class GameListAdminChangedMessage : public ::google::protobuf::Message {
     return *this;
   }
   
-  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
-    return _unknown_fields_;
-  }
-  
-  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
-    return &_unknown_fields_;
-  }
-  
-  static const ::google::protobuf::Descriptor* descriptor();
   static const GameListAdminChangedMessage& default_instance();
   
   void Swap(GameListAdminChangedMessage* other);
@@ -3070,8 +2457,7 @@ class GameListAdminChangedMessage : public ::google::protobuf::Message {
   // implements Message ----------------------------------------------
   
   GameListAdminChangedMessage* New() const;
-  void CopyFrom(const ::google::protobuf::Message& from);
-  void MergeFrom(const ::google::protobuf::Message& from);
+  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from);
   void CopyFrom(const GameListAdminChangedMessage& from);
   void MergeFrom(const GameListAdminChangedMessage& from);
   void Clear();
@@ -3082,7 +2468,6 @@ class GameListAdminChangedMessage : public ::google::protobuf::Message {
       ::google::protobuf::io::CodedInputStream* input);
   void SerializeWithCachedSizes(
       ::google::protobuf::io::CodedOutputStream* output) const;
-  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const;
   int GetCachedSize() const { return _cached_size_; }
   private:
   void SharedCtor();
@@ -3090,7 +2475,7 @@ class GameListAdminChangedMessage : public ::google::protobuf::Message {
   void SetCachedSize(int size) const;
   public:
   
-  ::google::protobuf::Metadata GetMetadata() const;
+  ::std::string GetTypeName() const;
   
   // nested types ----------------------------------------------------
   
@@ -3117,8 +2502,6 @@ class GameListAdminChangedMessage : public ::google::protobuf::Message {
   inline void set_has_newadminplayerid();
   inline void clear_has_newadminplayerid();
   
-  ::google::protobuf::UnknownFieldSet _unknown_fields_;
-  
   ::google::protobuf::uint32 gameid_;
   ::google::protobuf::uint32 newadminplayerid_;
   
@@ -3134,7 +2517,7 @@ class GameListAdminChangedMessage : public ::google::protobuf::Message {
 };
 // -------------------------------------------------------------------
 
-class PlayerInfoRequestMessage : public ::google::protobuf::Message {
+class PlayerInfoRequestMessage : public ::google::protobuf::MessageLite {
  public:
   PlayerInfoRequestMessage();
   virtual ~PlayerInfoRequestMessage();
@@ -3146,15 +2529,6 @@ class PlayerInfoRequestMessage : public ::google::protobuf::Message {
     return *this;
   }
   
-  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
-    return _unknown_fields_;
-  }
-  
-  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
-    return &_unknown_fields_;
-  }
-  
-  static const ::google::protobuf::Descriptor* descriptor();
   static const PlayerInfoRequestMessage& default_instance();
   
   void Swap(PlayerInfoRequestMessage* other);
@@ -3162,8 +2536,7 @@ class PlayerInfoRequestMessage : public ::google::protobuf::Message {
   // implements Message ----------------------------------------------
   
   PlayerInfoRequestMessage* New() const;
-  void CopyFrom(const ::google::protobuf::Message& from);
-  void MergeFrom(const ::google::protobuf::Message& from);
+  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from);
   void CopyFrom(const PlayerInfoRequestMessage& from);
   void MergeFrom(const PlayerInfoRequestMessage& from);
   void Clear();
@@ -3174,7 +2547,6 @@ class PlayerInfoRequestMessage : public ::google::protobuf::Message {
       ::google::protobuf::io::CodedInputStream* input);
   void SerializeWithCachedSizes(
       ::google::protobuf::io::CodedOutputStream* output) const;
-  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const;
   int GetCachedSize() const { return _cached_size_; }
   private:
   void SharedCtor();
@@ -3182,7 +2554,7 @@ class PlayerInfoRequestMessage : public ::google::protobuf::Message {
   void SetCachedSize(int size) const;
   public:
   
-  ::google::protobuf::Metadata GetMetadata() const;
+  ::std::string GetTypeName() const;
   
   // nested types ----------------------------------------------------
   
@@ -3203,8 +2575,6 @@ class PlayerInfoRequestMessage : public ::google::protobuf::Message {
   // @@protoc_insertion_point(class_scope:PlayerInfoRequestMessage)
  private:
   
-  ::google::protobuf::UnknownFieldSet _unknown_fields_;
-  
   ::google::protobuf::RepeatedField< ::google::protobuf::uint32 > playerid_;
   mutable int _playerid_cached_byte_size_;
   
@@ -3220,7 +2590,7 @@ class PlayerInfoRequestMessage : public ::google::protobuf::Message {
 };
 // -------------------------------------------------------------------
 
-class PlayerInfoReplyMessage_PlayerInfoData_AvatarData : public ::google::protobuf::Message {
+class PlayerInfoReplyMessage_PlayerInfoData_AvatarData : public ::google::protobuf::MessageLite {
  public:
   PlayerInfoReplyMessage_PlayerInfoData_AvatarData();
   virtual ~PlayerInfoReplyMessage_PlayerInfoData_AvatarData();
@@ -3232,15 +2602,6 @@ class PlayerInfoReplyMessage_PlayerInfoData_AvatarData : public ::google::protob
     return *this;
   }
   
-  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
-    return _unknown_fields_;
-  }
-  
-  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
-    return &_unknown_fields_;
-  }
-  
-  static const ::google::protobuf::Descriptor* descriptor();
   static const PlayerInfoReplyMessage_PlayerInfoData_AvatarData& default_instance();
   
   void Swap(PlayerInfoReplyMessage_PlayerInfoData_AvatarData* other);
@@ -3248,8 +2609,7 @@ class PlayerInfoReplyMessage_PlayerInfoData_AvatarData : public ::google::protob
   // implements Message ----------------------------------------------
   
   PlayerInfoReplyMessage_PlayerInfoData_AvatarData* New() const;
-  void CopyFrom(const ::google::protobuf::Message& from);
-  void MergeFrom(const ::google::protobuf::Message& from);
+  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from);
   void CopyFrom(const PlayerInfoReplyMessage_PlayerInfoData_AvatarData& from);
   void MergeFrom(const PlayerInfoReplyMessage_PlayerInfoData_AvatarData& from);
   void Clear();
@@ -3260,7 +2620,6 @@ class PlayerInfoReplyMessage_PlayerInfoData_AvatarData : public ::google::protob
       ::google::protobuf::io::CodedInputStream* input);
   void SerializeWithCachedSizes(
       ::google::protobuf::io::CodedOutputStream* output) const;
-  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const;
   int GetCachedSize() const { return _cached_size_; }
   private:
   void SharedCtor();
@@ -3268,7 +2627,7 @@ class PlayerInfoReplyMessage_PlayerInfoData_AvatarData : public ::google::protob
   void SetCachedSize(int size) const;
   public:
   
-  ::google::protobuf::Metadata GetMetadata() const;
+  ::std::string GetTypeName() const;
   
   // nested types ----------------------------------------------------
   
@@ -3299,8 +2658,6 @@ class PlayerInfoReplyMessage_PlayerInfoData_AvatarData : public ::google::protob
   inline void set_has_avatarhash();
   inline void clear_has_avatarhash();
   
-  ::google::protobuf::UnknownFieldSet _unknown_fields_;
-  
   ::std::string* avatarhash_;
   int avatartype_;
   
@@ -3316,7 +2673,7 @@ class PlayerInfoReplyMessage_PlayerInfoData_AvatarData : public ::google::protob
 };
 // -------------------------------------------------------------------
 
-class PlayerInfoReplyMessage_PlayerInfoData : public ::google::protobuf::Message {
+class PlayerInfoReplyMessage_PlayerInfoData : public ::google::protobuf::MessageLite {
  public:
   PlayerInfoReplyMessage_PlayerInfoData();
   virtual ~PlayerInfoReplyMessage_PlayerInfoData();
@@ -3328,15 +2685,6 @@ class PlayerInfoReplyMessage_PlayerInfoData : public ::google::protobuf::Message
     return *this;
   }
   
-  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
-    return _unknown_fields_;
-  }
-  
-  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
-    return &_unknown_fields_;
-  }
-  
-  static const ::google::protobuf::Descriptor* descriptor();
   static const PlayerInfoReplyMessage_PlayerInfoData& default_instance();
   
   void Swap(PlayerInfoReplyMessage_PlayerInfoData* other);
@@ -3344,8 +2692,7 @@ class PlayerInfoReplyMessage_PlayerInfoData : public ::google::protobuf::Message
   // implements Message ----------------------------------------------
   
   PlayerInfoReplyMessage_PlayerInfoData* New() const;
-  void CopyFrom(const ::google::protobuf::Message& from);
-  void MergeFrom(const ::google::protobuf::Message& from);
+  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from);
   void CopyFrom(const PlayerInfoReplyMessage_PlayerInfoData& from);
   void MergeFrom(const PlayerInfoReplyMessage_PlayerInfoData& from);
   void Clear();
@@ -3356,7 +2703,6 @@ class PlayerInfoReplyMessage_PlayerInfoData : public ::google::protobuf::Message
       ::google::protobuf::io::CodedInputStream* input);
   void SerializeWithCachedSizes(
       ::google::protobuf::io::CodedOutputStream* output) const;
-  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const;
   int GetCachedSize() const { return _cached_size_; }
   private:
   void SharedCtor();
@@ -3364,7 +2710,7 @@ class PlayerInfoReplyMessage_PlayerInfoData : public ::google::protobuf::Message
   void SetCachedSize(int size) const;
   public:
   
-  ::google::protobuf::Metadata GetMetadata() const;
+  ::std::string GetTypeName() const;
   
   // nested types ----------------------------------------------------
   
@@ -3429,8 +2775,6 @@ class PlayerInfoReplyMessage_PlayerInfoData : public ::google::protobuf::Message
   inline void set_has_avatardata();
   inline void clear_has_avatardata();
   
-  ::google::protobuf::UnknownFieldSet _unknown_fields_;
-  
   ::std::string* playername_;
   bool ishuman_;
   int playerrights_;
@@ -3449,7 +2793,7 @@ class PlayerInfoReplyMessage_PlayerInfoData : public ::google::protobuf::Message
 };
 // -------------------------------------------------------------------
 
-class PlayerInfoReplyMessage : public ::google::protobuf::Message {
+class PlayerInfoReplyMessage : public ::google::protobuf::MessageLite {
  public:
   PlayerInfoReplyMessage();
   virtual ~PlayerInfoReplyMessage();
@@ -3461,15 +2805,6 @@ class PlayerInfoReplyMessage : public ::google::protobuf::Message {
     return *this;
   }
   
-  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
-    return _unknown_fields_;
-  }
-  
-  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
-    return &_unknown_fields_;
-  }
-  
-  static const ::google::protobuf::Descriptor* descriptor();
   static const PlayerInfoReplyMessage& default_instance();
   
   void Swap(PlayerInfoReplyMessage* other);
@@ -3477,8 +2812,7 @@ class PlayerInfoReplyMessage : public ::google::protobuf::Message {
   // implements Message ----------------------------------------------
   
   PlayerInfoReplyMessage* New() const;
-  void CopyFrom(const ::google::protobuf::Message& from);
-  void MergeFrom(const ::google::protobuf::Message& from);
+  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from);
   void CopyFrom(const PlayerInfoReplyMessage& from);
   void MergeFrom(const PlayerInfoReplyMessage& from);
   void Clear();
@@ -3489,7 +2823,6 @@ class PlayerInfoReplyMessage : public ::google::protobuf::Message {
       ::google::protobuf::io::CodedInputStream* input);
   void SerializeWithCachedSizes(
       ::google::protobuf::io::CodedOutputStream* output) const;
-  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const;
   int GetCachedSize() const { return _cached_size_; }
   private:
   void SharedCtor();
@@ -3497,7 +2830,7 @@ class PlayerInfoReplyMessage : public ::google::protobuf::Message {
   void SetCachedSize(int size) const;
   public:
   
-  ::google::protobuf::Metadata GetMetadata() const;
+  ::std::string GetTypeName() const;
   
   // nested types ----------------------------------------------------
   
@@ -3527,8 +2860,6 @@ class PlayerInfoReplyMessage : public ::google::protobuf::Message {
   inline void set_has_playerinfodata();
   inline void clear_has_playerinfodata();
   
-  ::google::protobuf::UnknownFieldSet _unknown_fields_;
-  
   ::PlayerInfoReplyMessage_PlayerInfoData* playerinfodata_;
   ::google::protobuf::uint32 playerid_;
   
@@ -3544,7 +2875,7 @@ class PlayerInfoReplyMessage : public ::google::protobuf::Message {
 };
 // -------------------------------------------------------------------
 
-class SubscriptionRequestMessage : public ::google::protobuf::Message {
+class SubscriptionRequestMessage : public ::google::protobuf::MessageLite {
  public:
   SubscriptionRequestMessage();
   virtual ~SubscriptionRequestMessage();
@@ -3556,15 +2887,6 @@ class SubscriptionRequestMessage : public ::google::protobuf::Message {
     return *this;
   }
   
-  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
-    return _unknown_fields_;
-  }
-  
-  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
-    return &_unknown_fields_;
-  }
-  
-  static const ::google::protobuf::Descriptor* descriptor();
   static const SubscriptionRequestMessage& default_instance();
   
   void Swap(SubscriptionRequestMessage* other);
@@ -3572,8 +2894,7 @@ class SubscriptionRequestMessage : public ::google::protobuf::Message {
   // implements Message ----------------------------------------------
   
   SubscriptionRequestMessage* New() const;
-  void CopyFrom(const ::google::protobuf::Message& from);
-  void MergeFrom(const ::google::protobuf::Message& from);
+  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from);
   void CopyFrom(const SubscriptionRequestMessage& from);
   void MergeFrom(const SubscriptionRequestMessage& from);
   void Clear();
@@ -3584,7 +2905,6 @@ class SubscriptionRequestMessage : public ::google::protobuf::Message {
       ::google::protobuf::io::CodedInputStream* input);
   void SerializeWithCachedSizes(
       ::google::protobuf::io::CodedOutputStream* output) const;
-  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const;
   int GetCachedSize() const { return _cached_size_; }
   private:
   void SharedCtor();
@@ -3592,7 +2912,7 @@ class SubscriptionRequestMessage : public ::google::protobuf::Message {
   void SetCachedSize(int size) const;
   public:
   
-  ::google::protobuf::Metadata GetMetadata() const;
+  ::std::string GetTypeName() const;
   
   // nested types ----------------------------------------------------
   
@@ -3608,17 +2928,6 @@ class SubscriptionRequestMessage : public ::google::protobuf::Message {
     SubscriptionRequestMessage_SubscriptionAction_SubscriptionAction_MAX;
   static const int SubscriptionAction_ARRAYSIZE =
     SubscriptionRequestMessage_SubscriptionAction_SubscriptionAction_ARRAYSIZE;
-  static inline const ::google::protobuf::EnumDescriptor*
-  SubscriptionAction_descriptor() {
-    return SubscriptionRequestMessage_SubscriptionAction_descriptor();
-  }
-  static inline const ::std::string& SubscriptionAction_Name(SubscriptionAction value) {
-    return SubscriptionRequestMessage_SubscriptionAction_Name(value);
-  }
-  static inline bool SubscriptionAction_Parse(const ::std::string& name,
-      SubscriptionAction* value) {
-    return SubscriptionRequestMessage_SubscriptionAction_Parse(name, value);
-  }
   
   // accessors -------------------------------------------------------
   
@@ -3634,8 +2943,6 @@ class SubscriptionRequestMessage : public ::google::protobuf::Message {
   inline void set_has_subscriptionaction();
   inline void clear_has_subscriptionaction();
   
-  ::google::protobuf::UnknownFieldSet _unknown_fields_;
-  
   int subscriptionaction_;
   
   mutable int _cached_size_;
@@ -3650,7 +2957,7 @@ class SubscriptionRequestMessage : public ::google::protobuf::Message {
 };
 // -------------------------------------------------------------------
 
-class JoinExistingGameMessage : public ::google::protobuf::Message {
+class JoinExistingGameMessage : public ::google::protobuf::MessageLite {
  public:
   JoinExistingGameMessage();
   virtual ~JoinExistingGameMessage();
@@ -3662,15 +2969,6 @@ class JoinExistingGameMessage : public ::google::protobuf::Message {
     return *this;
   }
   
-  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
-    return _unknown_fields_;
-  }
-  
-  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
-    return &_unknown_fields_;
-  }
-  
-  static const ::google::protobuf::Descriptor* descriptor();
   static const JoinExistingGameMessage& default_instance();
   
   void Swap(JoinExistingGameMessage* other);
@@ -3678,8 +2976,7 @@ class JoinExistingGameMessage : public ::google::protobuf::Message {
   // implements Message ----------------------------------------------
   
   JoinExistingGameMessage* New() const;
-  void CopyFrom(const ::google::protobuf::Message& from);
-  void MergeFrom(const ::google::protobuf::Message& from);
+  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from);
   void CopyFrom(const JoinExistingGameMessage& from);
   void MergeFrom(const JoinExistingGameMessage& from);
   void Clear();
@@ -3690,7 +2987,6 @@ class JoinExistingGameMessage : public ::google::protobuf::Message {
       ::google::protobuf::io::CodedInputStream* input);
   void SerializeWithCachedSizes(
       ::google::protobuf::io::CodedOutputStream* output) const;
-  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const;
   int GetCachedSize() const { return _cached_size_; }
   private:
   void SharedCtor();
@@ -3698,7 +2994,7 @@ class JoinExistingGameMessage : public ::google::protobuf::Message {
   void SetCachedSize(int size) const;
   public:
   
-  ::google::protobuf::Metadata GetMetadata() const;
+  ::std::string GetTypeName() const;
   
   // nested types ----------------------------------------------------
   
@@ -3738,8 +3034,6 @@ class JoinExistingGameMessage : public ::google::protobuf::Message {
   inline void set_has_autoleave();
   inline void clear_has_autoleave();
   
-  ::google::protobuf::UnknownFieldSet _unknown_fields_;
-  
   ::std::string* password_;
   ::google::protobuf::uint32 gameid_;
   bool autoleave_;
@@ -3756,7 +3050,7 @@ class JoinExistingGameMessage : public ::google::protobuf::Message {
 };
 // -------------------------------------------------------------------
 
-class JoinNewGameMessage : public ::google::protobuf::Message {
+class JoinNewGameMessage : public ::google::protobuf::MessageLite {
  public:
   JoinNewGameMessage();
   virtual ~JoinNewGameMessage();
@@ -3768,15 +3062,6 @@ class JoinNewGameMessage : public ::google::protobuf::Message {
     return *this;
   }
   
-  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
-    return _unknown_fields_;
-  }
-  
-  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
-    return &_unknown_fields_;
-  }
-  
-  static const ::google::protobuf::Descriptor* descriptor();
   static const JoinNewGameMessage& default_instance();
   
   void Swap(JoinNewGameMessage* other);
@@ -3784,8 +3069,7 @@ class JoinNewGameMessage : public ::google::protobuf::Message {
   // implements Message ----------------------------------------------
   
   JoinNewGameMessage* New() const;
-  void CopyFrom(const ::google::protobuf::Message& from);
-  void MergeFrom(const ::google::protobuf::Message& from);
+  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from);
   void CopyFrom(const JoinNewGameMessage& from);
   void MergeFrom(const JoinNewGameMessage& from);
   void Clear();
@@ -3796,7 +3080,6 @@ class JoinNewGameMessage : public ::google::protobuf::Message {
       ::google::protobuf::io::CodedInputStream* input);
   void SerializeWithCachedSizes(
       ::google::protobuf::io::CodedOutputStream* output) const;
-  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const;
   int GetCachedSize() const { return _cached_size_; }
   private:
   void SharedCtor();
@@ -3804,7 +3087,7 @@ class JoinNewGameMessage : public ::google::protobuf::Message {
   void SetCachedSize(int size) const;
   public:
   
-  ::google::protobuf::Metadata GetMetadata() const;
+  ::std::string GetTypeName() const;
   
   // nested types ----------------------------------------------------
   
@@ -3845,8 +3128,6 @@ class JoinNewGameMessage : public ::google::protobuf::Message {
   inline void set_has_autoleave();
   inline void clear_has_autoleave();
   
-  ::google::protobuf::UnknownFieldSet _unknown_fields_;
-  
   ::NetGameInfo* gameinfo_;
   ::std::string* password_;
   bool autoleave_;
@@ -3863,7 +3144,7 @@ class JoinNewGameMessage : public ::google::protobuf::Message {
 };
 // -------------------------------------------------------------------
 
-class RejoinExistingGameMessage : public ::google::protobuf::Message {
+class RejoinExistingGameMessage : public ::google::protobuf::MessageLite {
  public:
   RejoinExistingGameMessage();
   virtual ~RejoinExistingGameMessage();
@@ -3875,15 +3156,6 @@ class RejoinExistingGameMessage : public ::google::protobuf::Message {
     return *this;
   }
   
-  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
-    return _unknown_fields_;
-  }
-  
-  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
-    return &_unknown_fields_;
-  }
-  
-  static const ::google::protobuf::Descriptor* descriptor();
   static const RejoinExistingGameMessage& default_instance();
   
   void Swap(RejoinExistingGameMessage* other);
@@ -3891,8 +3163,7 @@ class RejoinExistingGameMessage : public ::google::protobuf::Message {
   // implements Message ----------------------------------------------
   
   RejoinExistingGameMessage* New() const;
-  void CopyFrom(const ::google::protobuf::Message& from);
-  void MergeFrom(const ::google::protobuf::Message& from);
+  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from);
   void CopyFrom(const RejoinExistingGameMessage& from);
   void MergeFrom(const RejoinExistingGameMessage& from);
   void Clear();
@@ -3903,7 +3174,6 @@ class RejoinExistingGameMessage : public ::google::protobuf::Message {
       ::google::protobuf::io::CodedInputStream* input);
   void SerializeWithCachedSizes(
       ::google::protobuf::io::CodedOutputStream* output) const;
-  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const;
   int GetCachedSize() const { return _cached_size_; }
   private:
   void SharedCtor();
@@ -3911,7 +3181,7 @@ class RejoinExistingGameMessage : public ::google::protobuf::Message {
   void SetCachedSize(int size) const;
   public:
   
-  ::google::protobuf::Metadata GetMetadata() const;
+  ::std::string GetTypeName() const;
   
   // nested types ----------------------------------------------------
   
@@ -3938,8 +3208,6 @@ class RejoinExistingGameMessage : public ::google::protobuf::Message {
   inline void set_has_autoleave();
   inline void clear_has_autoleave();
   
-  ::google::protobuf::UnknownFieldSet _unknown_fields_;
-  
   ::google::protobuf::uint32 gameid_;
   bool autoleave_;
   
@@ -3955,7 +3223,7 @@ class RejoinExistingGameMessage : public ::google::protobuf::Message {
 };
 // -------------------------------------------------------------------
 
-class JoinGameAckMessage : public ::google::protobuf::Message {
+class JoinGameAckMessage : public ::google::protobuf::MessageLite {
  public:
   JoinGameAckMessage();
   virtual ~JoinGameAckMessage();
@@ -3967,15 +3235,6 @@ class JoinGameAckMessage : public ::google::protobuf::Message {
     return *this;
   }
   
-  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
-    return _unknown_fields_;
-  }
-  
-  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
-    return &_unknown_fields_;
-  }
-  
-  static const ::google::protobuf::Descriptor* descriptor();
   static const JoinGameAckMessage& default_instance();
   
   void Swap(JoinGameAckMessage* other);
@@ -3983,8 +3242,7 @@ class JoinGameAckMessage : public ::google::protobuf::Message {
   // implements Message ----------------------------------------------
   
   JoinGameAckMessage* New() const;
-  void CopyFrom(const ::google::protobuf::Message& from);
-  void MergeFrom(const ::google::protobuf::Message& from);
+  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from);
   void CopyFrom(const JoinGameAckMessage& from);
   void MergeFrom(const JoinGameAckMessage& from);
   void Clear();
@@ -3995,7 +3253,6 @@ class JoinGameAckMessage : public ::google::protobuf::Message {
       ::google::protobuf::io::CodedInputStream* input);
   void SerializeWithCachedSizes(
       ::google::protobuf::io::CodedOutputStream* output) const;
-  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const;
   int GetCachedSize() const { return _cached_size_; }
   private:
   void SharedCtor();
@@ -4003,7 +3260,7 @@ class JoinGameAckMessage : public ::google::protobuf::Message {
   void SetCachedSize(int size) const;
   public:
   
-  ::google::protobuf::Metadata GetMetadata() const;
+  ::std::string GetTypeName() const;
   
   // nested types ----------------------------------------------------
   
@@ -4040,8 +3297,6 @@ class JoinGameAckMessage : public ::google::protobuf::Message {
   inline void set_has_gameinfo();
   inline void clear_has_gameinfo();
   
-  ::google::protobuf::UnknownFieldSet _unknown_fields_;
-  
   ::google::protobuf::uint32 gameid_;
   bool areyougameadmin_;
   ::NetGameInfo* gameinfo_;
@@ -4058,7 +3313,7 @@ class JoinGameAckMessage : public ::google::protobuf::Message {
 };
 // -------------------------------------------------------------------
 
-class JoinGameFailedMessage : public ::google::protobuf::Message {
+class JoinGameFailedMessage : public ::google::protobuf::MessageLite {
  public:
   JoinGameFailedMessage();
   virtual ~JoinGameFailedMessage();
@@ -4070,15 +3325,6 @@ class JoinGameFailedMessage : public ::google::protobuf::Message {
     return *this;
   }
   
-  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
-    return _unknown_fields_;
-  }
-  
-  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
-    return &_unknown_fields_;
-  }
-  
-  static const ::google::protobuf::Descriptor* descriptor();
   static const JoinGameFailedMessage& default_instance();
   
   void Swap(JoinGameFailedMessage* other);
@@ -4086,8 +3332,7 @@ class JoinGameFailedMessage : public ::google::protobuf::Message {
   // implements Message ----------------------------------------------
   
   JoinGameFailedMessage* New() const;
-  void CopyFrom(const ::google::protobuf::Message& from);
-  void MergeFrom(const ::google::protobuf::Message& from);
+  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from);
   void CopyFrom(const JoinGameFailedMessage& from);
   void MergeFrom(const JoinGameFailedMessage& from);
   void Clear();
@@ -4098,7 +3343,6 @@ class JoinGameFailedMessage : public ::google::protobuf::Message {
       ::google::protobuf::io::CodedInputStream* input);
   void SerializeWithCachedSizes(
       ::google::protobuf::io::CodedOutputStream* output) const;
-  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const;
   int GetCachedSize() const { return _cached_size_; }
   private:
   void SharedCtor();
@@ -4106,7 +3350,7 @@ class JoinGameFailedMessage : public ::google::protobuf::Message {
   void SetCachedSize(int size) const;
   public:
   
-  ::google::protobuf::Metadata GetMetadata() const;
+  ::std::string GetTypeName() const;
   
   // nested types ----------------------------------------------------
   
@@ -4131,17 +3375,6 @@ class JoinGameFailedMessage : public ::google::protobuf::Message {
     JoinGameFailedMessage_JoinGameFailureReason_JoinGameFailureReason_MAX;
   static const int JoinGameFailureReason_ARRAYSIZE =
     JoinGameFailedMessage_JoinGameFailureReason_JoinGameFailureReason_ARRAYSIZE;
-  static inline const ::google::protobuf::EnumDescriptor*
-  JoinGameFailureReason_descriptor() {
-    return JoinGameFailedMessage_JoinGameFailureReason_descriptor();
-  }
-  static inline const ::std::string& JoinGameFailureReason_Name(JoinGameFailureReason value) {
-    return JoinGameFailedMessage_JoinGameFailureReason_Name(value);
-  }
-  static inline bool JoinGameFailureReason_Parse(const ::std::string& name,
-      JoinGameFailureReason* value) {
-    return JoinGameFailedMessage_JoinGameFailureReason_Parse(name, value);
-  }
   
   // accessors -------------------------------------------------------
   
@@ -4166,8 +3399,6 @@ class JoinGameFailedMessage : public ::google::protobuf::Message {
   inline void set_has_joingamefailurereason();
   inline void clear_has_joingamefailurereason();
   
-  ::google::protobuf::UnknownFieldSet _unknown_fields_;
-  
   ::google::protobuf::uint32 gameid_;
   int joingamefailurereason_;
   
@@ -4183,7 +3414,7 @@ class JoinGameFailedMessage : public ::google::protobuf::Message {
 };
 // -------------------------------------------------------------------
 
-class GamePlayerJoinedMessage : public ::google::protobuf::Message {
+class GamePlayerJoinedMessage : public ::google::protobuf::MessageLite {
  public:
   GamePlayerJoinedMessage();
   virtual ~GamePlayerJoinedMessage();
@@ -4195,15 +3426,6 @@ class GamePlayerJoinedMessage : public ::google::protobuf::Message {
     return *this;
   }
   
-  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
-    return _unknown_fields_;
-  }
-  
-  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
-    return &_unknown_fields_;
-  }
-  
-  static const ::google::protobuf::Descriptor* descriptor();
   static const GamePlayerJoinedMessage& default_instance();
   
   void Swap(GamePlayerJoinedMessage* other);
@@ -4211,8 +3433,7 @@ class GamePlayerJoinedMessage : public ::google::protobuf::Message {
   // implements Message ----------------------------------------------
   
   GamePlayerJoinedMessage* New() const;
-  void CopyFrom(const ::google::protobuf::Message& from);
-  void MergeFrom(const ::google::protobuf::Message& from);
+  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from);
   void CopyFrom(const GamePlayerJoinedMessage& from);
   void MergeFrom(const GamePlayerJoinedMessage& from);
   void Clear();
@@ -4223,7 +3444,6 @@ class GamePlayerJoinedMessage : public ::google::protobuf::Message {
       ::google::protobuf::io::CodedInputStream* input);
   void SerializeWithCachedSizes(
       ::google::protobuf::io::CodedOutputStream* output) const;
-  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const;
   int GetCachedSize() const { return _cached_size_; }
   private:
   void SharedCtor();
@@ -4231,7 +3451,7 @@ class GamePlayerJoinedMessage : public ::google::protobuf::Message {
   void SetCachedSize(int size) const;
   public:
   
-  ::google::protobuf::Metadata GetMetadata() const;
+  ::std::string GetTypeName() const;
   
   // nested types ----------------------------------------------------
   
@@ -4267,8 +3487,6 @@ class GamePlayerJoinedMessage : public ::google::protobuf::Message {
   inline void set_has_isgameadmin();
   inline void clear_has_isgameadmin();
   
-  ::google::protobuf::UnknownFieldSet _unknown_fields_;
-  
   ::google::protobuf::uint32 gameid_;
   ::google::protobuf::uint32 playerid_;
   bool isgameadmin_;
@@ -4285,7 +3503,7 @@ class GamePlayerJoinedMessage : public ::google::protobuf::Message {
 };
 // -------------------------------------------------------------------
 
-class GamePlayerLeftMessage : public ::google::protobuf::Message {
+class GamePlayerLeftMessage : public ::google::protobuf::MessageLite {
  public:
   GamePlayerLeftMessage();
   virtual ~GamePlayerLeftMessage();
@@ -4297,15 +3515,6 @@ class GamePlayerLeftMessage : public ::google::protobuf::Message {
     return *this;
   }
   
-  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
-    return _unknown_fields_;
-  }
-  
-  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
-    return &_unknown_fields_;
-  }
-  
-  static const ::google::protobuf::Descriptor* descriptor();
   static const GamePlayerLeftMessage& default_instance();
   
   void Swap(GamePlayerLeftMessage* other);
@@ -4313,8 +3522,7 @@ class GamePlayerLeftMessage : public ::google::protobuf::Message {
   // implements Message ----------------------------------------------
   
   GamePlayerLeftMessage* New() const;
-  void CopyFrom(const ::google::protobuf::Message& from);
-  void MergeFrom(const ::google::protobuf::Message& from);
+  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from);
   void CopyFrom(const GamePlayerLeftMessage& from);
   void MergeFrom(const GamePlayerLeftMessage& from);
   void Clear();
@@ -4325,7 +3533,6 @@ class GamePlayerLeftMessage : public ::google::protobuf::Message {
       ::google::protobuf::io::CodedInputStream* input);
   void SerializeWithCachedSizes(
       ::google::protobuf::io::CodedOutputStream* output) const;
-  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const;
   int GetCachedSize() const { return _cached_size_; }
   private:
   void SharedCtor();
@@ -4333,7 +3540,7 @@ class GamePlayerLeftMessage : public ::google::protobuf::Message {
   void SetCachedSize(int size) const;
   public:
   
-  ::google::protobuf::Metadata GetMetadata() const;
+  ::std::string GetTypeName() const;
   
   // nested types ----------------------------------------------------
   
@@ -4350,17 +3557,6 @@ class GamePlayerLeftMessage : public ::google::protobuf::Message {
     GamePlayerLeftMessage_GamePlayerLeftReason_GamePlayerLeftReason_MAX;
   static const int GamePlayerLeftReason_ARRAYSIZE =
     GamePlayerLeftMessage_GamePlayerLeftReason_GamePlayerLeftReason_ARRAYSIZE;
-  static inline const ::google::protobuf::EnumDescriptor*
-  GamePlayerLeftReason_descriptor() {
-    return GamePlayerLeftMessage_GamePlayerLeftReason_descriptor();
-  }
-  static inline const ::std::string& GamePlayerLeftReason_Name(GamePlayerLeftReason value) {
-    return GamePlayerLeftMessage_GamePlayerLeftReason_Name(value);
-  }
-  static inline bool GamePlayerLeftReason_Parse(const ::std::string& name,
-      GamePlayerLeftReason* value) {
-    return GamePlayerLeftMessage_GamePlayerLeftReason_Parse(name, value);
-  }
   
   // accessors -------------------------------------------------------
   
@@ -4394,8 +3590,6 @@ class GamePlayerLeftMessage : public ::google::protobuf::Message {
   inline void set_has_gameplayerleftreason();
   inline void clear_has_gameplayerleftreason();
   
-  ::google::protobuf::UnknownFieldSet _unknown_fields_;
-  
   ::google::protobuf::uint32 gameid_;
   ::google::protobuf::uint32 playerid_;
   int gameplayerleftreason_;
@@ -4412,7 +3606,7 @@ class GamePlayerLeftMessage : public ::google::protobuf::Message {
 };
 // -------------------------------------------------------------------
 
-class GameAdminChangedMessage : public ::google::protobuf::Message {
+class GameAdminChangedMessage : public ::google::protobuf::MessageLite {
  public:
   GameAdminChangedMessage();
   virtual ~GameAdminChangedMessage();
@@ -4424,15 +3618,6 @@ class GameAdminChangedMessage : public ::google::protobuf::Message {
     return *this;
   }
   
-  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
-    return _unknown_fields_;
-  }
-  
-  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
-    return &_unknown_fields_;
-  }
-  
-  static const ::google::protobuf::Descriptor* descriptor();
   static const GameAdminChangedMessage& default_instance();
   
   void Swap(GameAdminChangedMessage* other);
@@ -4440,8 +3625,7 @@ class GameAdminChangedMessage : public ::google::protobuf::Message {
   // implements Message ----------------------------------------------
   
   GameAdminChangedMessage* New() const;
-  void CopyFrom(const ::google::protobuf::Message& from);
-  void MergeFrom(const ::google::protobuf::Message& from);
+  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from);
   void CopyFrom(const GameAdminChangedMessage& from);
   void MergeFrom(const GameAdminChangedMessage& from);
   void Clear();
@@ -4452,7 +3636,6 @@ class GameAdminChangedMessage : public ::google::protobuf::Message {
       ::google::protobuf::io::CodedInputStream* input);
   void SerializeWithCachedSizes(
       ::google::protobuf::io::CodedOutputStream* output) const;
-  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const;
   int GetCachedSize() const { return _cached_size_; }
   private:
   void SharedCtor();
@@ -4460,7 +3643,7 @@ class GameAdminChangedMessage : public ::google::protobuf::Message {
   void SetCachedSize(int size) const;
   public:
   
-  ::google::protobuf::Metadata GetMetadata() const;
+  ::std::string GetTypeName() const;
   
   // nested types ----------------------------------------------------
   
@@ -4487,8 +3670,6 @@ class GameAdminChangedMessage : public ::google::protobuf::Message {
   inline void set_has_newadminplayerid();
   inline void clear_has_newadminplayerid();
   
-  ::google::protobuf::UnknownFieldSet _unknown_fields_;
-  
   ::google::protobuf::uint32 gameid_;
   ::google::protobuf::uint32 newadminplayerid_;
   
@@ -4504,7 +3685,7 @@ class GameAdminChangedMessage : public ::google::protobuf::Message {
 };
 // -------------------------------------------------------------------
 
-class RemovedFromGameMessage : public ::google::protobuf::Message {
+class RemovedFromGameMessage : public ::google::protobuf::MessageLite {
  public:
   RemovedFromGameMessage();
   virtual ~RemovedFromGameMessage();
@@ -4516,15 +3697,6 @@ class RemovedFromGameMessage : public ::google::protobuf::Message {
     return *this;
   }
   
-  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
-    return _unknown_fields_;
-  }
-  
-  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
-    return &_unknown_fields_;
-  }
-  
-  static const ::google::protobuf::Descriptor* descriptor();
   static const RemovedFromGameMessage& default_instance();
   
   void Swap(RemovedFromGameMessage* other);
@@ -4532,8 +3704,7 @@ class RemovedFromGameMessage : public ::google::protobuf::Message {
   // implements Message ----------------------------------------------
   
   RemovedFromGameMessage* New() const;
-  void CopyFrom(const ::google::protobuf::Message& from);
-  void MergeFrom(const ::google::protobuf::Message& from);
+  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from);
   void CopyFrom(const RemovedFromGameMessage& from);
   void MergeFrom(const RemovedFromGameMessage& from);
   void Clear();
@@ -4544,7 +3715,6 @@ class RemovedFromGameMessage : public ::google::protobuf::Message {
       ::google::protobuf::io::CodedInputStream* input);
   void SerializeWithCachedSizes(
       ::google::protobuf::io::CodedOutputStream* output) const;
-  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const;
   int GetCachedSize() const { return _cached_size_; }
   private:
   void SharedCtor();
@@ -4552,7 +3722,7 @@ class RemovedFromGameMessage : public ::google::protobuf::Message {
   void SetCachedSize(int size) const;
   public:
   
-  ::google::protobuf::Metadata GetMetadata() const;
+  ::std::string GetTypeName() const;
   
   // nested types ----------------------------------------------------
   
@@ -4572,17 +3742,6 @@ class RemovedFromGameMessage : public ::google::protobuf::Message {
     RemovedFromGameMessage_RemovedFromGameReason_RemovedFromGameReason_MAX;
   static const int RemovedFromGameReason_ARRAYSIZE =
     RemovedFromGameMessage_RemovedFromGameReason_RemovedFromGameReason_ARRAYSIZE;
-  static inline const ::google::protobuf::EnumDescriptor*
-  RemovedFromGameReason_descriptor() {
-    return RemovedFromGameMessage_RemovedFromGameReason_descriptor();
-  }
-  static inline const ::std::string& RemovedFromGameReason_Name(RemovedFromGameReason value) {
-    return RemovedFromGameMessage_RemovedFromGameReason_Name(value);
-  }
-  static inline bool RemovedFromGameReason_Parse(const ::std::string& name,
-      RemovedFromGameReason* value) {
-    return RemovedFromGameMessage_RemovedFromGameReason_Parse(name, value);
-  }
   
   // accessors -------------------------------------------------------
   
@@ -4607,8 +3766,6 @@ class RemovedFromGameMessage : public ::google::protobuf::Message {
   inline void set_has_removedfromgamereason();
   inline void clear_has_removedfromgamereason();
   
-  ::google::protobuf::UnknownFieldSet _unknown_fields_;
-  
   ::google::protobuf::uint32 gameid_;
   int removedfromgamereason_;
   
@@ -4624,7 +3781,7 @@ class RemovedFromGameMessage : public ::google::protobuf::Message {
 };
 // -------------------------------------------------------------------
 
-class KickPlayerRequestMessage : public ::google::protobuf::Message {
+class KickPlayerRequestMessage : public ::google::protobuf::MessageLite {
  public:
   KickPlayerRequestMessage();
   virtual ~KickPlayerRequestMessage();
@@ -4636,15 +3793,6 @@ class KickPlayerRequestMessage : public ::google::protobuf::Message {
     return *this;
   }
   
-  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
-    return _unknown_fields_;
-  }
-  
-  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
-    return &_unknown_fields_;
-  }
-  
-  static const ::google::protobuf::Descriptor* descriptor();
   static const KickPlayerRequestMessage& default_instance();
   
   void Swap(KickPlayerRequestMessage* other);
@@ -4652,8 +3800,7 @@ class KickPlayerRequestMessage : public ::google::protobuf::Message {
   // implements Message ----------------------------------------------
   
   KickPlayerRequestMessage* New() const;
-  void CopyFrom(const ::google::protobuf::Message& from);
-  void MergeFrom(const ::google::protobuf::Message& from);
+  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from);
   void CopyFrom(const KickPlayerRequestMessage& from);
   void MergeFrom(const KickPlayerRequestMessage& from);
   void Clear();
@@ -4664,7 +3811,6 @@ class KickPlayerRequestMessage : public ::google::protobuf::Message {
       ::google::protobuf::io::CodedInputStream* input);
   void SerializeWithCachedSizes(
       ::google::protobuf::io::CodedOutputStream* output) const;
-  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const;
   int GetCachedSize() const { return _cached_size_; }
   private:
   void SharedCtor();
@@ -4672,7 +3818,7 @@ class KickPlayerRequestMessage : public ::google::protobuf::Message {
   void SetCachedSize(int size) const;
   public:
   
-  ::google::protobuf::Metadata GetMetadata() const;
+  ::std::string GetTypeName() const;
   
   // nested types ----------------------------------------------------
   
@@ -4699,8 +3845,6 @@ class KickPlayerRequestMessage : public ::google::protobuf::Message {
   inline void set_has_playerid();
   inline void clear_has_playerid();
   
-  ::google::protobuf::UnknownFieldSet _unknown_fields_;
-  
   ::google::protobuf::uint32 gameid_;
   ::google::protobuf::uint32 playerid_;
   
@@ -4716,7 +3860,7 @@ class KickPlayerRequestMessage : public ::google::protobuf::Message {
 };
 // -------------------------------------------------------------------
 
-class LeaveGameRequestMessage : public ::google::protobuf::Message {
+class LeaveGameRequestMessage : public ::google::protobuf::MessageLite {
  public:
   LeaveGameRequestMessage();
   virtual ~LeaveGameRequestMessage();
@@ -4728,15 +3872,6 @@ class LeaveGameRequestMessage : public ::google::protobuf::Message {
     return *this;
   }
   
-  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
-    return _unknown_fields_;
-  }
-  
-  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
-    return &_unknown_fields_;
-  }
-  
-  static const ::google::protobuf::Descriptor* descriptor();
   static const LeaveGameRequestMessage& default_instance();
   
   void Swap(LeaveGameRequestMessage* other);
@@ -4744,8 +3879,7 @@ class LeaveGameRequestMessage : public ::google::protobuf::Message {
   // implements Message ----------------------------------------------
   
   LeaveGameRequestMessage* New() const;
-  void CopyFrom(const ::google::protobuf::Message& from);
-  void MergeFrom(const ::google::protobuf::Message& from);
+  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from);
   void CopyFrom(const LeaveGameRequestMessage& from);
   void MergeFrom(const LeaveGameRequestMessage& from);
   void Clear();
@@ -4756,7 +3890,6 @@ class LeaveGameRequestMessage : public ::google::protobuf::Message {
       ::google::protobuf::io::CodedInputStream* input);
   void SerializeWithCachedSizes(
       ::google::protobuf::io::CodedOutputStream* output) const;
-  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const;
   int GetCachedSize() const { return _cached_size_; }
   private:
   void SharedCtor();
@@ -4764,7 +3897,7 @@ class LeaveGameRequestMessage : public ::google::protobuf::Message {
   void SetCachedSize(int size) const;
   public:
   
-  ::google::protobuf::Metadata GetMetadata() const;
+  ::std::string GetTypeName() const;
   
   // nested types ----------------------------------------------------
   
@@ -4782,8 +3915,6 @@ class LeaveGameRequestMessage : public ::google::protobuf::Message {
   inline void set_has_gameid();
   inline void clear_has_gameid();
   
-  ::google::protobuf::UnknownFieldSet _unknown_fields_;
-  
   ::google::protobuf::uint32 gameid_;
   
   mutable int _cached_size_;
@@ -4798,7 +3929,7 @@ class LeaveGameRequestMessage : public ::google::protobuf::Message {
 };
 // -------------------------------------------------------------------
 
-class InvitePlayerToGameMessage : public ::google::protobuf::Message {
+class InvitePlayerToGameMessage : public ::google::protobuf::MessageLite {
  public:
   InvitePlayerToGameMessage();
   virtual ~InvitePlayerToGameMessage();
@@ -4810,15 +3941,6 @@ class InvitePlayerToGameMessage : public ::google::protobuf::Message {
     return *this;
   }
   
-  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
-    return _unknown_fields_;
-  }
-  
-  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
-    return &_unknown_fields_;
-  }
-  
-  static const ::google::protobuf::Descriptor* descriptor();
   static const InvitePlayerToGameMessage& default_instance();
   
   void Swap(InvitePlayerToGameMessage* other);
@@ -4826,8 +3948,7 @@ class InvitePlayerToGameMessage : public ::google::protobuf::Message {
   // implements Message ----------------------------------------------
   
   InvitePlayerToGameMessage* New() const;
-  void CopyFrom(const ::google::protobuf::Message& from);
-  void MergeFrom(const ::google::protobuf::Message& from);
+  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from);
   void CopyFrom(const InvitePlayerToGameMessage& from);
   void MergeFrom(const InvitePlayerToGameMessage& from);
   void Clear();
@@ -4838,7 +3959,6 @@ class InvitePlayerToGameMessage : public ::google::protobuf::Message {
       ::google::protobuf::io::CodedInputStream* input);
   void SerializeWithCachedSizes(
       ::google::protobuf::io::CodedOutputStream* output) const;
-  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const;
   int GetCachedSize() const { return _cached_size_; }
   private:
   void SharedCtor();
@@ -4846,7 +3966,7 @@ class InvitePlayerToGameMessage : public ::google::protobuf::Message {
   void SetCachedSize(int size) const;
   public:
   
-  ::google::protobuf::Metadata GetMetadata() const;
+  ::std::string GetTypeName() const;
   
   // nested types ----------------------------------------------------
   
@@ -4873,8 +3993,6 @@ class InvitePlayerToGameMessage : public ::google::protobuf::Message {
   inline void set_has_playerid();
   inline void clear_has_playerid();
   
-  ::google::protobuf::UnknownFieldSet _unknown_fields_;
-  
   ::google::protobuf::uint32 gameid_;
   ::google::protobuf::uint32 playerid_;
   
@@ -4890,7 +4008,7 @@ class InvitePlayerToGameMessage : public ::google::protobuf::Message {
 };
 // -------------------------------------------------------------------
 
-class InviteNotifyMessage : public ::google::protobuf::Message {
+class InviteNotifyMessage : public ::google::protobuf::MessageLite {
  public:
   InviteNotifyMessage();
   virtual ~InviteNotifyMessage();
@@ -4902,15 +4020,6 @@ class InviteNotifyMessage : public ::google::protobuf::Message {
     return *this;
   }
   
-  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
-    return _unknown_fields_;
-  }
-  
-  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
-    return &_unknown_fields_;
-  }
-  
-  static const ::google::protobuf::Descriptor* descriptor();
   static const InviteNotifyMessage& default_instance();
   
   void Swap(InviteNotifyMessage* other);
@@ -4918,8 +4027,7 @@ class InviteNotifyMessage : public ::google::protobuf::Message {
   // implements Message ----------------------------------------------
   
   InviteNotifyMessage* New() const;
-  void CopyFrom(const ::google::protobuf::Message& from);
-  void MergeFrom(const ::google::protobuf::Message& from);
+  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from);
   void CopyFrom(const InviteNotifyMessage& from);
   void MergeFrom(const InviteNotifyMessage& from);
   void Clear();
@@ -4930,7 +4038,6 @@ class InviteNotifyMessage : public ::google::protobuf::Message {
       ::google::protobuf::io::CodedInputStream* input);
   void SerializeWithCachedSizes(
       ::google::protobuf::io::CodedOutputStream* output) const;
-  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const;
   int GetCachedSize() const { return _cached_size_; }
   private:
   void SharedCtor();
@@ -4938,7 +4045,7 @@ class InviteNotifyMessage : public ::google::protobuf::Message {
   void SetCachedSize(int size) const;
   public:
   
-  ::google::protobuf::Metadata GetMetadata() const;
+  ::std::string GetTypeName() const;
   
   // nested types ----------------------------------------------------
   
@@ -4974,8 +4081,6 @@ class InviteNotifyMessage : public ::google::protobuf::Message {
   inline void set_has_playeridbywhom();
   inline void clear_has_playeridbywhom();
   
-  ::google::protobuf::UnknownFieldSet _unknown_fields_;
-  
   ::google::protobuf::uint32 gameid_;
   ::google::protobuf::uint32 playeridwho_;
   ::google::protobuf::uint32 playeridbywhom_;
@@ -4992,7 +4097,7 @@ class InviteNotifyMessage : public ::google::protobuf::Message {
 };
 // -------------------------------------------------------------------
 
-class RejectGameInvitationMessage : public ::google::protobuf::Message {
+class RejectGameInvitationMessage : public ::google::protobuf::MessageLite {
  public:
   RejectGameInvitationMessage();
   virtual ~RejectGameInvitationMessage();
@@ -5004,15 +4109,6 @@ class RejectGameInvitationMessage : public ::google::protobuf::Message {
     return *this;
   }
   
-  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
-    return _unknown_fields_;
-  }
-  
-  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
-    return &_unknown_fields_;
-  }
-  
-  static const ::google::protobuf::Descriptor* descriptor();
   static const RejectGameInvitationMessage& default_instance();
   
   void Swap(RejectGameInvitationMessage* other);
@@ -5020,8 +4116,7 @@ class RejectGameInvitationMessage : public ::google::protobuf::Message {
   // implements Message ----------------------------------------------
   
   RejectGameInvitationMessage* New() const;
-  void CopyFrom(const ::google::protobuf::Message& from);
-  void MergeFrom(const ::google::protobuf::Message& from);
+  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from);
   void CopyFrom(const RejectGameInvitationMessage& from);
   void MergeFrom(const RejectGameInvitationMessage& from);
   void Clear();
@@ -5032,7 +4127,6 @@ class RejectGameInvitationMessage : public ::google::protobuf::Message {
       ::google::protobuf::io::CodedInputStream* input);
   void SerializeWithCachedSizes(
       ::google::protobuf::io::CodedOutputStream* output) const;
-  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const;
   int GetCachedSize() const { return _cached_size_; }
   private:
   void SharedCtor();
@@ -5040,7 +4134,7 @@ class RejectGameInvitationMessage : public ::google::protobuf::Message {
   void SetCachedSize(int size) const;
   public:
   
-  ::google::protobuf::Metadata GetMetadata() const;
+  ::std::string GetTypeName() const;
   
   // nested types ----------------------------------------------------
   
@@ -5056,17 +4150,6 @@ class RejectGameInvitationMessage : public ::google::protobuf::Message {
     RejectGameInvitationMessage_RejectGameInvReason_RejectGameInvReason_MAX;
   static const int RejectGameInvReason_ARRAYSIZE =
     RejectGameInvitationMessage_RejectGameInvReason_RejectGameInvReason_ARRAYSIZE;
-  static inline const ::google::protobuf::EnumDescriptor*
-  RejectGameInvReason_descriptor() {
-    return RejectGameInvitationMessage_RejectGameInvReason_descriptor();
-  }
-  static inline const ::std::string& RejectGameInvReason_Name(RejectGameInvReason value) {
-    return RejectGameInvitationMessage_RejectGameInvReason_Name(value);
-  }
-  static inline bool RejectGameInvReason_Parse(const ::std::string& name,
-      RejectGameInvReason* value) {
-    return RejectGameInvitationMessage_RejectGameInvReason_Parse(name, value);
-  }
   
   // accessors -------------------------------------------------------
   
@@ -5091,8 +4174,6 @@ class RejectGameInvitationMessage : public ::google::protobuf::Message {
   inline void set_has_myrejectreason();
   inline void clear_has_myrejectreason();
   
-  ::google::protobuf::UnknownFieldSet _unknown_fields_;
-  
   ::google::protobuf::uint32 gameid_;
   int myrejectreason_;
   
@@ -5108,7 +4189,7 @@ class RejectGameInvitationMessage : public ::google::protobuf::Message {
 };
 // -------------------------------------------------------------------
 
-class RejectInvNotifyMessage : public ::google::protobuf::Message {
+class RejectInvNotifyMessage : public ::google::protobuf::MessageLite {
  public:
   RejectInvNotifyMessage();
   virtual ~RejectInvNotifyMessage();
@@ -5120,15 +4201,6 @@ class RejectInvNotifyMessage : public ::google::protobuf::Message {
     return *this;
   }
   
-  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
-    return _unknown_fields_;
-  }
-  
-  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
-    return &_unknown_fields_;
-  }
-  
-  static const ::google::protobuf::Descriptor* descriptor();
   static const RejectInvNotifyMessage& default_instance();
   
   void Swap(RejectInvNotifyMessage* other);
@@ -5136,8 +4208,7 @@ class RejectInvNotifyMessage : public ::google::protobuf::Message {
   // implements Message ----------------------------------------------
   
   RejectInvNotifyMessage* New() const;
-  void CopyFrom(const ::google::protobuf::Message& from);
-  void MergeFrom(const ::google::protobuf::Message& from);
+  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from);
   void CopyFrom(const RejectInvNotifyMessage& from);
   void MergeFrom(const RejectInvNotifyMessage& from);
   void Clear();
@@ -5148,7 +4219,6 @@ class RejectInvNotifyMessage : public ::google::protobuf::Message {
       ::google::protobuf::io::CodedInputStream* input);
   void SerializeWithCachedSizes(
       ::google::protobuf::io::CodedOutputStream* output) const;
-  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const;
   int GetCachedSize() const { return _cached_size_; }
   private:
   void SharedCtor();
@@ -5156,7 +4226,7 @@ class RejectInvNotifyMessage : public ::google::protobuf::Message {
   void SetCachedSize(int size) const;
   public:
   
-  ::google::protobuf::Metadata GetMetadata() const;
+  ::std::string GetTypeName() const;
   
   // nested types ----------------------------------------------------
   
@@ -5192,8 +4262,6 @@ class RejectInvNotifyMessage : public ::google::protobuf::Message {
   inline void set_has_playerrejectreason();
   inline void clear_has_playerrejectreason();
   
-  ::google::protobuf::UnknownFieldSet _unknown_fields_;
-  
   ::google::protobuf::uint32 gameid_;
   ::google::protobuf::uint32 playerid_;
   int playerrejectreason_;
@@ -5210,7 +4278,7 @@ class RejectInvNotifyMessage : public ::google::protobuf::Message {
 };
 // -------------------------------------------------------------------
 
-class StartEventMessage : public ::google::protobuf::Message {
+class StartEventMessage : public ::google::protobuf::MessageLite {
  public:
   StartEventMessage();
   virtual ~StartEventMessage();
@@ -5222,15 +4290,6 @@ class StartEventMessage : public ::google::protobuf::Message {
     return *this;
   }
   
-  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
-    return _unknown_fields_;
-  }
-  
-  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
-    return &_unknown_fields_;
-  }
-  
-  static const ::google::protobuf::Descriptor* descriptor();
   static const StartEventMessage& default_instance();
   
   void Swap(StartEventMessage* other);
@@ -5238,8 +4297,7 @@ class StartEventMessage : public ::google::protobuf::Message {
   // implements Message ----------------------------------------------
   
   StartEventMessage* New() const;
-  void CopyFrom(const ::google::protobuf::Message& from);
-  void MergeFrom(const ::google::protobuf::Message& from);
+  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from);
   void CopyFrom(const StartEventMessage& from);
   void MergeFrom(const StartEventMessage& from);
   void Clear();
@@ -5250,7 +4308,6 @@ class StartEventMessage : public ::google::protobuf::Message {
       ::google::protobuf::io::CodedInputStream* input);
   void SerializeWithCachedSizes(
       ::google::protobuf::io::CodedOutputStream* output) const;
-  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const;
   int GetCachedSize() const { return _cached_size_; }
   private:
   void SharedCtor();
@@ -5258,7 +4315,7 @@ class StartEventMessage : public ::google::protobuf::Message {
   void SetCachedSize(int size) const;
   public:
   
-  ::google::protobuf::Metadata GetMetadata() const;
+  ::std::string GetTypeName() const;
   
   // nested types ----------------------------------------------------
   
@@ -5274,17 +4331,6 @@ class StartEventMessage : public ::google::protobuf::Message {
     StartEventMessage_StartEventType_StartEventType_MAX;
   static const int StartEventType_ARRAYSIZE =
     StartEventMessage_StartEventType_StartEventType_ARRAYSIZE;
-  static inline const ::google::protobuf::EnumDescriptor*
-  StartEventType_descriptor() {
-    return StartEventMessage_StartEventType_descriptor();
-  }
-  static inline const ::std::string& StartEventType_Name(StartEventType value) {
-    return StartEventMessage_StartEventType_Name(value);
-  }
-  static inline bool StartEventType_Parse(const ::std::string& name,
-      StartEventType* value) {
-    return StartEventMessage_StartEventType_Parse(name, value);
-  }
   
   // accessors -------------------------------------------------------
   
@@ -5318,8 +4364,6 @@ class StartEventMessage : public ::google::protobuf::Message {
   inline void set_has_fillwithcomputerplayers();
   inline void clear_has_fillwithcomputerplayers();
   
-  ::google::protobuf::UnknownFieldSet _unknown_fields_;
-  
   ::google::protobuf::uint32 gameid_;
   int starteventtype_;
   bool fillwithcomputerplayers_;
@@ -5336,7 +4380,7 @@ class StartEventMessage : public ::google::protobuf::Message {
 };
 // -------------------------------------------------------------------
 
-class StartEventAckMessage : public ::google::protobuf::Message {
+class StartEventAckMessage : public ::google::protobuf::MessageLite {
  public:
   StartEventAckMessage();
   virtual ~StartEventAckMessage();
@@ -5348,15 +4392,6 @@ class StartEventAckMessage : public ::google::protobuf::Message {
     return *this;
   }
   
-  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
-    return _unknown_fields_;
-  }
-  
-  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
-    return &_unknown_fields_;
-  }
-  
-  static const ::google::protobuf::Descriptor* descriptor();
   static const StartEventAckMessage& default_instance();
   
   void Swap(StartEventAckMessage* other);
@@ -5364,8 +4399,7 @@ class StartEventAckMessage : public ::google::protobuf::Message {
   // implements Message ----------------------------------------------
   
   StartEventAckMessage* New() const;
-  void CopyFrom(const ::google::protobuf::Message& from);
-  void MergeFrom(const ::google::protobuf::Message& from);
+  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from);
   void CopyFrom(const StartEventAckMessage& from);
   void MergeFrom(const StartEventAckMessage& from);
   void Clear();
@@ -5376,7 +4410,6 @@ class StartEventAckMessage : public ::google::protobuf::Message {
       ::google::protobuf::io::CodedInputStream* input);
   void SerializeWithCachedSizes(
       ::google::protobuf::io::CodedOutputStream* output) const;
-  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const;
   int GetCachedSize() const { return _cached_size_; }
   private:
   void SharedCtor();
@@ -5384,7 +4417,7 @@ class StartEventAckMessage : public ::google::protobuf::Message {
   void SetCachedSize(int size) const;
   public:
   
-  ::google::protobuf::Metadata GetMetadata() const;
+  ::std::string GetTypeName() const;
   
   // nested types ----------------------------------------------------
   
@@ -5402,8 +4435,6 @@ class StartEventAckMessage : public ::google::protobuf::Message {
   inline void set_has_gameid();
   inline void clear_has_gameid();
   
-  ::google::protobuf::UnknownFieldSet _unknown_fields_;
-  
   ::google::protobuf::uint32 gameid_;
   
   mutable int _cached_size_;
@@ -5418,7 +4449,7 @@ class StartEventAckMessage : public ::google::protobuf::Message {
 };
 // -------------------------------------------------------------------
 
-class GameStartInitialMessage : public ::google::protobuf::Message {
+class GameStartInitialMessage : public ::google::protobuf::MessageLite {
  public:
   GameStartInitialMessage();
   virtual ~GameStartInitialMessage();
@@ -5430,15 +4461,6 @@ class GameStartInitialMessage : public ::google::protobuf::Message {
     return *this;
   }
   
-  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
-    return _unknown_fields_;
-  }
-  
-  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
-    return &_unknown_fields_;
-  }
-  
-  static const ::google::protobuf::Descriptor* descriptor();
   static const GameStartInitialMessage& default_instance();
   
   void Swap(GameStartInitialMessage* other);
@@ -5446,8 +4468,7 @@ class GameStartInitialMessage : public ::google::protobuf::Message {
   // implements Message ----------------------------------------------
   
   GameStartInitialMessage* New() const;
-  void CopyFrom(const ::google::protobuf::Message& from);
-  void MergeFrom(const ::google::protobuf::Message& from);
+  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from);
   void CopyFrom(const GameStartInitialMessage& from);
   void MergeFrom(const GameStartInitialMessage& from);
   void Clear();
@@ -5458,7 +4479,6 @@ class GameStartInitialMessage : public ::google::protobuf::Message {
       ::google::protobuf::io::CodedInputStream* input);
   void SerializeWithCachedSizes(
       ::google::protobuf::io::CodedOutputStream* output) const;
-  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const;
   int GetCachedSize() const { return _cached_size_; }
   private:
   void SharedCtor();
@@ -5466,7 +4486,7 @@ class GameStartInitialMessage : public ::google::protobuf::Message {
   void SetCachedSize(int size) const;
   public:
   
-  ::google::protobuf::Metadata GetMetadata() const;
+  ::std::string GetTypeName() const;
   
   // nested types ----------------------------------------------------
   
@@ -5505,8 +4525,6 @@ class GameStartInitialMessage : public ::google::protobuf::Message {
   inline void set_has_startdealerplayerid();
   inline void clear_has_startdealerplayerid();
   
-  ::google::protobuf::UnknownFieldSet _unknown_fields_;
-  
   ::google::protobuf::uint32 gameid_;
   ::google::protobuf::uint32 startdealerplayerid_;
   ::google::protobuf::RepeatedField< ::google::protobuf::uint32 > playerseats_;
@@ -5524,7 +4542,7 @@ class GameStartInitialMessage : public ::google::protobuf::Message {
 };
 // -------------------------------------------------------------------
 
-class GameStartRejoinMessage_RejoinPlayerData : public ::google::protobuf::Message {
+class GameStartRejoinMessage_RejoinPlayerData : public ::google::protobuf::MessageLite {
  public:
   GameStartRejoinMessage_RejoinPlayerData();
   virtual ~GameStartRejoinMessage_RejoinPlayerData();
@@ -5536,15 +4554,6 @@ class GameStartRejoinMessage_RejoinPlayerData : public ::google::protobuf::Messa
     return *this;
   }
   
-  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
-    return _unknown_fields_;
-  }
-  
-  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
-    return &_unknown_fields_;
-  }
-  
-  static const ::google::protobuf::Descriptor* descriptor();
   static const GameStartRejoinMessage_RejoinPlayerData& default_instance();
   
   void Swap(GameStartRejoinMessage_RejoinPlayerData* other);
@@ -5552,8 +4561,7 @@ class GameStartRejoinMessage_RejoinPlayerData : public ::google::protobuf::Messa
   // implements Message ----------------------------------------------
   
   GameStartRejoinMessage_RejoinPlayerData* New() const;
-  void CopyFrom(const ::google::protobuf::Message& from);
-  void MergeFrom(const ::google::protobuf::Message& from);
+  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from);
   void CopyFrom(const GameStartRejoinMessage_RejoinPlayerData& from);
   void MergeFrom(const GameStartRejoinMessage_RejoinPlayerData& from);
   void Clear();
@@ -5564,7 +4572,6 @@ class GameStartRejoinMessage_RejoinPlayerData : public ::google::protobuf::Messa
       ::google::protobuf::io::CodedInputStream* input);
   void SerializeWithCachedSizes(
       ::google::protobuf::io::CodedOutputStream* output) const;
-  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const;
   int GetCachedSize() const { return _cached_size_; }
   private:
   void SharedCtor();
@@ -5572,7 +4579,7 @@ class GameStartRejoinMessage_RejoinPlayerData : public ::google::protobuf::Messa
   void SetCachedSize(int size) const;
   public:
   
-  ::google::protobuf::Metadata GetMetadata() const;
+  ::std::string GetTypeName() const;
   
   // nested types ----------------------------------------------------
   
@@ -5599,8 +4606,6 @@ class GameStartRejoinMessage_RejoinPlayerData : public ::google::protobuf::Messa
   inline void set_has_playermoney();
   inline void clear_has_playermoney();
   
-  ::google::protobuf::UnknownFieldSet _unknown_fields_;
-  
   ::google::protobuf::uint32 playerid_;
   ::google::protobuf::uint32 playermoney_;
   
@@ -5616,7 +4621,7 @@ class GameStartRejoinMessage_RejoinPlayerData : public ::google::protobuf::Messa
 };
 // -------------------------------------------------------------------
 
-class GameStartRejoinMessage : public ::google::protobuf::Message {
+class GameStartRejoinMessage : public ::google::protobuf::MessageLite {
  public:
   GameStartRejoinMessage();
   virtual ~GameStartRejoinMessage();
@@ -5628,15 +4633,6 @@ class GameStartRejoinMessage : public ::google::protobuf::Message {
     return *this;
   }
   
-  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
-    return _unknown_fields_;
-  }
-  
-  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
-    return &_unknown_fields_;
-  }
-  
-  static const ::google::protobuf::Descriptor* descriptor();
   static const GameStartRejoinMessage& default_instance();
   
   void Swap(GameStartRejoinMessage* other);
@@ -5644,8 +4640,7 @@ class GameStartRejoinMessage : public ::google::protobuf::Message {
   // implements Message ----------------------------------------------
   
   GameStartRejoinMessage* New() const;
-  void CopyFrom(const ::google::protobuf::Message& from);
-  void MergeFrom(const ::google::protobuf::Message& from);
+  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from);
   void CopyFrom(const GameStartRejoinMessage& from);
   void MergeFrom(const GameStartRejoinMessage& from);
   void Clear();
@@ -5656,7 +4651,6 @@ class GameStartRejoinMessage : public ::google::protobuf::Message {
       ::google::protobuf::io::CodedInputStream* input);
   void SerializeWithCachedSizes(
       ::google::protobuf::io::CodedOutputStream* output) const;
-  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const;
   int GetCachedSize() const { return _cached_size_; }
   private:
   void SharedCtor();
@@ -5664,7 +4658,7 @@ class GameStartRejoinMessage : public ::google::protobuf::Message {
   void SetCachedSize(int size) const;
   public:
   
-  ::google::protobuf::Metadata GetMetadata() const;
+  ::std::string GetTypeName() const;
   
   // nested types ----------------------------------------------------
   
@@ -5714,8 +4708,6 @@ class GameStartRejoinMessage : public ::google::protobuf::Message {
   inline void set_has_handnum();
   inline void clear_has_handnum();
   
-  ::google::protobuf::UnknownFieldSet _unknown_fields_;
-  
   ::google::protobuf::uint32 gameid_;
   ::google::protobuf::uint32 startdealerplayerid_;
   ::google::protobuf::RepeatedPtrField< ::GameStartRejoinMessage_RejoinPlayerData > rejoinplayerdata_;
@@ -5733,7 +4725,7 @@ class GameStartRejoinMessage : public ::google::protobuf::Message {
 };
 // -------------------------------------------------------------------
 
-class HandStartMessage_PlainCards : public ::google::protobuf::Message {
+class HandStartMessage_PlainCards : public ::google::protobuf::MessageLite {
  public:
   HandStartMessage_PlainCards();
   virtual ~HandStartMessage_PlainCards();
@@ -5745,15 +4737,6 @@ class HandStartMessage_PlainCards : public ::google::protobuf::Message {
     return *this;
   }
   
-  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
-    return _unknown_fields_;
-  }
-  
-  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
-    return &_unknown_fields_;
-  }
-  
-  static const ::google::protobuf::Descriptor* descriptor();
   static const HandStartMessage_PlainCards& default_instance();
   
   void Swap(HandStartMessage_PlainCards* other);
@@ -5761,8 +4744,7 @@ class HandStartMessage_PlainCards : public ::google::protobuf::Message {
   // implements Message ----------------------------------------------
   
   HandStartMessage_PlainCards* New() const;
-  void CopyFrom(const ::google::protobuf::Message& from);
-  void MergeFrom(const ::google::protobuf::Message& from);
+  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from);
   void CopyFrom(const HandStartMessage_PlainCards& from);
   void MergeFrom(const HandStartMessage_PlainCards& from);
   void Clear();
@@ -5773,7 +4755,6 @@ class HandStartMessage_PlainCards : public ::google::protobuf::Message {
       ::google::protobuf::io::CodedInputStream* input);
   void SerializeWithCachedSizes(
       ::google::protobuf::io::CodedOutputStream* output) const;
-  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const;
   int GetCachedSize() const { return _cached_size_; }
   private:
   void SharedCtor();
@@ -5781,7 +4762,7 @@ class HandStartMessage_PlainCards : public ::google::protobuf::Message {
   void SetCachedSize(int size) const;
   public:
   
-  ::google::protobuf::Metadata GetMetadata() const;
+  ::std::string GetTypeName() const;
   
   // nested types ----------------------------------------------------
   
@@ -5808,8 +4789,6 @@ class HandStartMessage_PlainCards : public ::google::protobuf::Message {
   inline void set_has_plaincard2();
   inline void clear_has_plaincard2();
   
-  ::google::protobuf::UnknownFieldSet _unknown_fields_;
-  
   ::google::protobuf::uint32 plaincard1_;
   ::google::protobuf::uint32 plaincard2_;
   
@@ -5825,7 +4804,7 @@ class HandStartMessage_PlainCards : public ::google::protobuf::Message {
 };
 // -------------------------------------------------------------------
 
-class HandStartMessage : public ::google::protobuf::Message {
+class HandStartMessage : public ::google::protobuf::MessageLite {
  public:
   HandStartMessage();
   virtual ~HandStartMessage();
@@ -5837,15 +4816,6 @@ class HandStartMessage : public ::google::protobuf::Message {
     return *this;
   }
   
-  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
-    return _unknown_fields_;
-  }
-  
-  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
-    return &_unknown_fields_;
-  }
-  
-  static const ::google::protobuf::Descriptor* descriptor();
   static const HandStartMessage& default_instance();
   
   void Swap(HandStartMessage* other);
@@ -5853,8 +4823,7 @@ class HandStartMessage : public ::google::protobuf::Message {
   // implements Message ----------------------------------------------
   
   HandStartMessage* New() const;
-  void CopyFrom(const ::google::protobuf::Message& from);
-  void MergeFrom(const ::google::protobuf::Message& from);
+  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from);
   void CopyFrom(const HandStartMessage& from);
   void MergeFrom(const HandStartMessage& from);
   void Clear();
@@ -5865,7 +4834,6 @@ class HandStartMessage : public ::google::protobuf::Message {
       ::google::protobuf::io::CodedInputStream* input);
   void SerializeWithCachedSizes(
       ::google::protobuf::io::CodedOutputStream* output) const;
-  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const;
   int GetCachedSize() const { return _cached_size_; }
   private:
   void SharedCtor();
@@ -5873,7 +4841,7 @@ class HandStartMessage : public ::google::protobuf::Message {
   void SetCachedSize(int size) const;
   public:
   
-  ::google::protobuf::Metadata GetMetadata() const;
+  ::std::string GetTypeName() const;
   
   // nested types ----------------------------------------------------
   
@@ -5935,8 +4903,6 @@ class HandStartMessage : public ::google::protobuf::Message {
   inline void set_has_smallblind();
   inline void clear_has_smallblind();
   
-  ::google::protobuf::UnknownFieldSet _unknown_fields_;
-  
   ::HandStartMessage_PlainCards* plaincards_;
   ::google::protobuf::uint32 gameid_;
   ::google::protobuf::uint32 smallblind_;
@@ -5955,7 +4921,7 @@ class HandStartMessage : public ::google::protobuf::Message {
 };
 // -------------------------------------------------------------------
 
-class PlayersTurnMessage : public ::google::protobuf::Message {
+class PlayersTurnMessage : public ::google::protobuf::MessageLite {
  public:
   PlayersTurnMessage();
   virtual ~PlayersTurnMessage();
@@ -5967,15 +4933,6 @@ class PlayersTurnMessage : public ::google::protobuf::Message {
     return *this;
   }
   
-  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
-    return _unknown_fields_;
-  }
-  
-  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
-    return &_unknown_fields_;
-  }
-  
-  static const ::google::protobuf::Descriptor* descriptor();
   static const PlayersTurnMessage& default_instance();
   
   void Swap(PlayersTurnMessage* other);
@@ -5983,8 +4940,7 @@ class PlayersTurnMessage : public ::google::protobuf::Message {
   // implements Message ----------------------------------------------
   
   PlayersTurnMessage* New() const;
-  void CopyFrom(const ::google::protobuf::Message& from);
-  void MergeFrom(const ::google::protobuf::Message& from);
+  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from);
   void CopyFrom(const PlayersTurnMessage& from);
   void MergeFrom(const PlayersTurnMessage& from);
   void Clear();
@@ -5995,7 +4951,6 @@ class PlayersTurnMessage : public ::google::protobuf::Message {
       ::google::protobuf::io::CodedInputStream* input);
   void SerializeWithCachedSizes(
       ::google::protobuf::io::CodedOutputStream* output) const;
-  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const;
   int GetCachedSize() const { return _cached_size_; }
   private:
   void SharedCtor();
@@ -6003,7 +4958,7 @@ class PlayersTurnMessage : public ::google::protobuf::Message {
   void SetCachedSize(int size) const;
   public:
   
-  ::google::protobuf::Metadata GetMetadata() const;
+  ::std::string GetTypeName() const;
   
   // nested types ----------------------------------------------------
   
@@ -6039,8 +4994,6 @@ class PlayersTurnMessage : public ::google::protobuf::Message {
   inline void set_has_gamestate();
   inline void clear_has_gamestate();
   
-  ::google::protobuf::UnknownFieldSet _unknown_fields_;
-  
   ::google::protobuf::uint32 gameid_;
   ::google::protobuf::uint32 playerid_;
   int gamestate_;
@@ -6057,7 +5010,7 @@ class PlayersTurnMessage : public ::google::protobuf::Message {
 };
 // -------------------------------------------------------------------
 
-class MyActionRequestMessage : public ::google::protobuf::Message {
+class MyActionRequestMessage : public ::google::protobuf::MessageLite {
  public:
   MyActionRequestMessage();
   virtual ~MyActionRequestMessage();
@@ -6069,15 +5022,6 @@ class MyActionRequestMessage : public ::google::protobuf::Message {
     return *this;
   }
   
-  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
-    return _unknown_fields_;
-  }
-  
-  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
-    return &_unknown_fields_;
-  }
-  
-  static const ::google::protobuf::Descriptor* descriptor();
   static const MyActionRequestMessage& default_instance();
   
   void Swap(MyActionRequestMessage* other);
@@ -6085,8 +5029,7 @@ class MyActionRequestMessage : public ::google::protobuf::Message {
   // implements Message ----------------------------------------------
   
   MyActionRequestMessage* New() const;
-  void CopyFrom(const ::google::protobuf::Message& from);
-  void MergeFrom(const ::google::protobuf::Message& from);
+  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from);
   void CopyFrom(const MyActionRequestMessage& from);
   void MergeFrom(const MyActionRequestMessage& from);
   void Clear();
@@ -6097,7 +5040,6 @@ class MyActionRequestMessage : public ::google::protobuf::Message {
       ::google::protobuf::io::CodedInputStream* input);
   void SerializeWithCachedSizes(
       ::google::protobuf::io::CodedOutputStream* output) const;
-  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const;
   int GetCachedSize() const { return _cached_size_; }
   private:
   void SharedCtor();
@@ -6105,7 +5047,7 @@ class MyActionRequestMessage : public ::google::protobuf::Message {
   void SetCachedSize(int size) const;
   public:
   
-  ::google::protobuf::Metadata GetMetadata() const;
+  ::std::string GetTypeName() const;
   
   // nested types ----------------------------------------------------
   
@@ -6159,8 +5101,6 @@ class MyActionRequestMessage : public ::google::protobuf::Message {
   inline void set_has_myrelativebet();
   inline void clear_has_myrelativebet();
   
-  ::google::protobuf::UnknownFieldSet _unknown_fields_;
-  
   ::google::protobuf::uint32 gameid_;
   ::google::protobuf::uint32 handnum_;
   int gamestate_;
@@ -6179,7 +5119,7 @@ class MyActionRequestMessage : public ::google::protobuf::Message {
 };
 // -------------------------------------------------------------------
 
-class YourActionRejectedMessage : public ::google::protobuf::Message {
+class YourActionRejectedMessage : public ::google::protobuf::MessageLite {
  public:
   YourActionRejectedMessage();
   virtual ~YourActionRejectedMessage();
@@ -6191,15 +5131,6 @@ class YourActionRejectedMessage : public ::google::protobuf::Message {
     return *this;
   }
   
-  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
-    return _unknown_fields_;
-  }
-  
-  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
-    return &_unknown_fields_;
-  }
-  
-  static const ::google::protobuf::Descriptor* descriptor();
   static const YourActionRejectedMessage& default_instance();
   
   void Swap(YourActionRejectedMessage* other);
@@ -6207,8 +5138,7 @@ class YourActionRejectedMessage : public ::google::protobuf::Message {
   // implements Message ----------------------------------------------
   
   YourActionRejectedMessage* New() const;
-  void CopyFrom(const ::google::protobuf::Message& from);
-  void MergeFrom(const ::google::protobuf::Message& from);
+  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from);
   void CopyFrom(const YourActionRejectedMessage& from);
   void MergeFrom(const YourActionRejectedMessage& from);
   void Clear();
@@ -6219,7 +5149,6 @@ class YourActionRejectedMessage : public ::google::protobuf::Message {
       ::google::protobuf::io::CodedInputStream* input);
   void SerializeWithCachedSizes(
       ::google::protobuf::io::CodedOutputStream* output) const;
-  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const;
   int GetCachedSize() const { return _cached_size_; }
   private:
   void SharedCtor();
@@ -6227,7 +5156,7 @@ class YourActionRejectedMessage : public ::google::protobuf::Message {
   void SetCachedSize(int size) const;
   public:
   
-  ::google::protobuf::Metadata GetMetadata() const;
+  ::std::string GetTypeName() const;
   
   // nested types ----------------------------------------------------
   
@@ -6244,17 +5173,6 @@ class YourActionRejectedMessage : public ::google::protobuf::Message {
     YourActionRejectedMessage_RejectionReason_RejectionReason_MAX;
   static const int RejectionReason_ARRAYSIZE =
     YourActionRejectedMessage_RejectionReason_RejectionReason_ARRAYSIZE;
-  static inline const ::google::protobuf::EnumDescriptor*
-  RejectionReason_descriptor() {
-    return YourActionRejectedMessage_RejectionReason_descriptor();
-  }
-  static inline const ::std::string& RejectionReason_Name(RejectionReason value) {
-    return YourActionRejectedMessage_RejectionReason_Name(value);
-  }
-  static inline bool RejectionReason_Parse(const ::std::string& name,
-      RejectionReason* value) {
-    return YourActionRejectedMessage_RejectionReason_Parse(name, value);
-  }
   
   // accessors -------------------------------------------------------
   
@@ -6306,8 +5224,6 @@ class YourActionRejectedMessage : public ::google::protobuf::Message {
   inline void set_has_rejectionreason();
   inline void clear_has_rejectionreason();
   
-  ::google::protobuf::UnknownFieldSet _unknown_fields_;
-  
   ::google::protobuf::uint32 gameid_;
   int gamestate_;
   int youraction_;
@@ -6326,7 +5242,7 @@ class YourActionRejectedMessage : public ::google::protobuf::Message {
 };
 // -------------------------------------------------------------------
 
-class PlayersActionDoneMessage : public ::google::protobuf::Message {
+class PlayersActionDoneMessage : public ::google::protobuf::MessageLite {
  public:
   PlayersActionDoneMessage();
   virtual ~PlayersActionDoneMessage();
@@ -6338,15 +5254,6 @@ class PlayersActionDoneMessage : public ::google::protobuf::Message {
     return *this;
   }
   
-  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
-    return _unknown_fields_;
-  }
-  
-  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
-    return &_unknown_fields_;
-  }
-  
-  static const ::google::protobuf::Descriptor* descriptor();
   static const PlayersActionDoneMessage& default_instance();
   
   void Swap(PlayersActionDoneMessage* other);
@@ -6354,8 +5261,7 @@ class PlayersActionDoneMessage : public ::google::protobuf::Message {
   // implements Message ----------------------------------------------
   
   PlayersActionDoneMessage* New() const;
-  void CopyFrom(const ::google::protobuf::Message& from);
-  void MergeFrom(const ::google::protobuf::Message& from);
+  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from);
   void CopyFrom(const PlayersActionDoneMessage& from);
   void MergeFrom(const PlayersActionDoneMessage& from);
   void Clear();
@@ -6366,7 +5272,6 @@ class PlayersActionDoneMessage : public ::google::protobuf::Message {
       ::google::protobuf::io::CodedInputStream* input);
   void SerializeWithCachedSizes(
       ::google::protobuf::io::CodedOutputStream* output) const;
-  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const;
   int GetCachedSize() const { return _cached_size_; }
   private:
   void SharedCtor();
@@ -6374,7 +5279,7 @@ class PlayersActionDoneMessage : public ::google::protobuf::Message {
   void SetCachedSize(int size) const;
   public:
   
-  ::google::protobuf::Metadata GetMetadata() const;
+  ::std::string GetTypeName() const;
   
   // nested types ----------------------------------------------------
   
@@ -6455,8 +5360,6 @@ class PlayersActionDoneMessage : public ::google::protobuf::Message {
   inline void set_has_minimumraise();
   inline void clear_has_minimumraise();
   
-  ::google::protobuf::UnknownFieldSet _unknown_fields_;
-  
   ::google::protobuf::uint32 gameid_;
   ::google::protobuf::uint32 playerid_;
   int gamestate_;
@@ -6478,7 +5381,7 @@ class PlayersActionDoneMessage : public ::google::protobuf::Message {
 };
 // -------------------------------------------------------------------
 
-class DealFlopCardsMessage : public ::google::protobuf::Message {
+class DealFlopCardsMessage : public ::google::protobuf::MessageLite {
  public:
   DealFlopCardsMessage();
   virtual ~DealFlopCardsMessage();
@@ -6490,15 +5393,6 @@ class DealFlopCardsMessage : public ::google::protobuf::Message {
     return *this;
   }
   
-  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
-    return _unknown_fields_;
-  }
-  
-  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
-    return &_unknown_fields_;
-  }
-  
-  static const ::google::protobuf::Descriptor* descriptor();
   static const DealFlopCardsMessage& default_instance();
   
   void Swap(DealFlopCardsMessage* other);
@@ -6506,8 +5400,7 @@ class DealFlopCardsMessage : public ::google::protobuf::Message {
   // implements Message ----------------------------------------------
   
   DealFlopCardsMessage* New() const;
-  void CopyFrom(const ::google::protobuf::Message& from);
-  void MergeFrom(const ::google::protobuf::Message& from);
+  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from);
   void CopyFrom(const DealFlopCardsMessage& from);
   void MergeFrom(const DealFlopCardsMessage& from);
   void Clear();
@@ -6518,7 +5411,6 @@ class DealFlopCardsMessage : public ::google::protobuf::Message {
       ::google::protobuf::io::CodedInputStream* input);
   void SerializeWithCachedSizes(
       ::google::protobuf::io::CodedOutputStream* output) const;
-  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const;
   int GetCachedSize() const { return _cached_size_; }
   private:
   void SharedCtor();
@@ -6526,7 +5418,7 @@ class DealFlopCardsMessage : public ::google::protobuf::Message {
   void SetCachedSize(int size) const;
   public:
   
-  ::google::protobuf::Metadata GetMetadata() const;
+  ::std::string GetTypeName() const;
   
   // nested types ----------------------------------------------------
   
@@ -6571,8 +5463,6 @@ class DealFlopCardsMessage : public ::google::protobuf::Message {
   inline void set_has_flopcard3();
   inline void clear_has_flopcard3();
   
-  ::google::protobuf::UnknownFieldSet _unknown_fields_;
-  
   ::google::protobuf::uint32 gameid_;
   ::google::protobuf::uint32 flopcard1_;
   ::google::protobuf::uint32 flopcard2_;
@@ -6590,7 +5480,7 @@ class DealFlopCardsMessage : public ::google::protobuf::Message {
 };
 // -------------------------------------------------------------------
 
-class DealTurnCardMessage : public ::google::protobuf::Message {
+class DealTurnCardMessage : public ::google::protobuf::MessageLite {
  public:
   DealTurnCardMessage();
   virtual ~DealTurnCardMessage();
@@ -6602,15 +5492,6 @@ class DealTurnCardMessage : public ::google::protobuf::Message {
     return *this;
   }
   
-  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
-    return _unknown_fields_;
-  }
-  
-  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
-    return &_unknown_fields_;
-  }
-  
-  static const ::google::protobuf::Descriptor* descriptor();
   static const DealTurnCardMessage& default_instance();
   
   void Swap(DealTurnCardMessage* other);
@@ -6618,8 +5499,7 @@ class DealTurnCardMessage : public ::google::protobuf::Message {
   // implements Message ----------------------------------------------
   
   DealTurnCardMessage* New() const;
-  void CopyFrom(const ::google::protobuf::Message& from);
-  void MergeFrom(const ::google::protobuf::Message& from);
+  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from);
   void CopyFrom(const DealTurnCardMessage& from);
   void MergeFrom(const DealTurnCardMessage& from);
   void Clear();
@@ -6630,7 +5510,6 @@ class DealTurnCardMessage : public ::google::protobuf::Message {
       ::google::protobuf::io::CodedInputStream* input);
   void SerializeWithCachedSizes(
       ::google::protobuf::io::CodedOutputStream* output) const;
-  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const;
   int GetCachedSize() const { return _cached_size_; }
   private:
   void SharedCtor();
@@ -6638,7 +5517,7 @@ class DealTurnCardMessage : public ::google::protobuf::Message {
   void SetCachedSize(int size) const;
   public:
   
-  ::google::protobuf::Metadata GetMetadata() const;
+  ::std::string GetTypeName() const;
   
   // nested types ----------------------------------------------------
   
@@ -6665,8 +5544,6 @@ class DealTurnCardMessage : public ::google::protobuf::Message {
   inline void set_has_turncard();
   inline void clear_has_turncard();
   
-  ::google::protobuf::UnknownFieldSet _unknown_fields_;
-  
   ::google::protobuf::uint32 gameid_;
   ::google::protobuf::uint32 turncard_;
   
@@ -6682,7 +5559,7 @@ class DealTurnCardMessage : public ::google::protobuf::Message {
 };
 // -------------------------------------------------------------------
 
-class DealRiverCardMessage : public ::google::protobuf::Message {
+class DealRiverCardMessage : public ::google::protobuf::MessageLite {
  public:
   DealRiverCardMessage();
   virtual ~DealRiverCardMessage();
@@ -6694,15 +5571,6 @@ class DealRiverCardMessage : public ::google::protobuf::Message {
     return *this;
   }
   
-  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
-    return _unknown_fields_;
-  }
-  
-  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
-    return &_unknown_fields_;
-  }
-  
-  static const ::google::protobuf::Descriptor* descriptor();
   static const DealRiverCardMessage& default_instance();
   
   void Swap(DealRiverCardMessage* other);
@@ -6710,8 +5578,7 @@ class DealRiverCardMessage : public ::google::protobuf::Message {
   // implements Message ----------------------------------------------
   
   DealRiverCardMessage* New() const;
-  void CopyFrom(const ::google::protobuf::Message& from);
-  void MergeFrom(const ::google::protobuf::Message& from);
+  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from);
   void CopyFrom(const DealRiverCardMessage& from);
   void MergeFrom(const DealRiverCardMessage& from);
   void Clear();
@@ -6722,7 +5589,6 @@ class DealRiverCardMessage : public ::google::protobuf::Message {
       ::google::protobuf::io::CodedInputStream* input);
   void SerializeWithCachedSizes(
       ::google::protobuf::io::CodedOutputStream* output) const;
-  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const;
   int GetCachedSize() const { return _cached_size_; }
   private:
   void SharedCtor();
@@ -6730,7 +5596,7 @@ class DealRiverCardMessage : public ::google::protobuf::Message {
   void SetCachedSize(int size) const;
   public:
   
-  ::google::protobuf::Metadata GetMetadata() const;
+  ::std::string GetTypeName() const;
   
   // nested types ----------------------------------------------------
   
@@ -6757,8 +5623,6 @@ class DealRiverCardMessage : public ::google::protobuf::Message {
   inline void set_has_rivercard();
   inline void clear_has_rivercard();
   
-  ::google::protobuf::UnknownFieldSet _unknown_fields_;
-  
   ::google::protobuf::uint32 gameid_;
   ::google::protobuf::uint32 rivercard_;
   
@@ -6774,7 +5638,7 @@ class DealRiverCardMessage : public ::google::protobuf::Message {
 };
 // -------------------------------------------------------------------
 
-class AllInShowCardsMessage_PlayerAllIn : public ::google::protobuf::Message {
+class AllInShowCardsMessage_PlayerAllIn : public ::google::protobuf::MessageLite {
  public:
   AllInShowCardsMessage_PlayerAllIn();
   virtual ~AllInShowCardsMessage_PlayerAllIn();
@@ -6786,15 +5650,6 @@ class AllInShowCardsMessage_PlayerAllIn : public ::google::protobuf::Message {
     return *this;
   }
   
-  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
-    return _unknown_fields_;
-  }
-  
-  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
-    return &_unknown_fields_;
-  }
-  
-  static const ::google::protobuf::Descriptor* descriptor();
   static const AllInShowCardsMessage_PlayerAllIn& default_instance();
   
   void Swap(AllInShowCardsMessage_PlayerAllIn* other);
@@ -6802,8 +5657,7 @@ class AllInShowCardsMessage_PlayerAllIn : public ::google::protobuf::Message {
   // implements Message ----------------------------------------------
   
   AllInShowCardsMessage_PlayerAllIn* New() const;
-  void CopyFrom(const ::google::protobuf::Message& from);
-  void MergeFrom(const ::google::protobuf::Message& from);
+  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from);
   void CopyFrom(const AllInShowCardsMessage_PlayerAllIn& from);
   void MergeFrom(const AllInShowCardsMessage_PlayerAllIn& from);
   void Clear();
@@ -6814,7 +5668,6 @@ class AllInShowCardsMessage_PlayerAllIn : public ::google::protobuf::Message {
       ::google::protobuf::io::CodedInputStream* input);
   void SerializeWithCachedSizes(
       ::google::protobuf::io::CodedOutputStream* output) const;
-  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const;
   int GetCachedSize() const { return _cached_size_; }
   private:
   void SharedCtor();
@@ -6822,7 +5675,7 @@ class AllInShowCardsMessage_PlayerAllIn : public ::google::protobuf::Message {
   void SetCachedSize(int size) const;
   public:
   
-  ::google::protobuf::Metadata GetMetadata() const;
+  ::std::string GetTypeName() const;
   
   // nested types ----------------------------------------------------
   
@@ -6858,8 +5711,6 @@ class AllInShowCardsMessage_PlayerAllIn : public ::google::protobuf::Message {
   inline void set_has_allincard2();
   inline void clear_has_allincard2();
   
-  ::google::protobuf::UnknownFieldSet _unknown_fields_;
-  
   ::google::protobuf::uint32 playerid_;
   ::google::protobuf::uint32 allincard1_;
   ::google::protobuf::uint32 allincard2_;
@@ -6876,7 +5727,7 @@ class AllInShowCardsMessage_PlayerAllIn : public ::google::protobuf::Message {
 };
 // -------------------------------------------------------------------
 
-class AllInShowCardsMessage : public ::google::protobuf::Message {
+class AllInShowCardsMessage : public ::google::protobuf::MessageLite {
  public:
   AllInShowCardsMessage();
   virtual ~AllInShowCardsMessage();
@@ -6888,15 +5739,6 @@ class AllInShowCardsMessage : public ::google::protobuf::Message {
     return *this;
   }
   
-  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
-    return _unknown_fields_;
-  }
-  
-  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
-    return &_unknown_fields_;
-  }
-  
-  static const ::google::protobuf::Descriptor* descriptor();
   static const AllInShowCardsMessage& default_instance();
   
   void Swap(AllInShowCardsMessage* other);
@@ -6904,8 +5746,7 @@ class AllInShowCardsMessage : public ::google::protobuf::Message {
   // implements Message ----------------------------------------------
   
   AllInShowCardsMessage* New() const;
-  void CopyFrom(const ::google::protobuf::Message& from);
-  void MergeFrom(const ::google::protobuf::Message& from);
+  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from);
   void CopyFrom(const AllInShowCardsMessage& from);
   void MergeFrom(const AllInShowCardsMessage& from);
   void Clear();
@@ -6916,7 +5757,6 @@ class AllInShowCardsMessage : public ::google::protobuf::Message {
       ::google::protobuf::io::CodedInputStream* input);
   void SerializeWithCachedSizes(
       ::google::protobuf::io::CodedOutputStream* output) const;
-  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const;
   int GetCachedSize() const { return _cached_size_; }
   private:
   void SharedCtor();
@@ -6924,7 +5764,7 @@ class AllInShowCardsMessage : public ::google::protobuf::Message {
   void SetCachedSize(int size) const;
   public:
   
-  ::google::protobuf::Metadata GetMetadata() const;
+  ::std::string GetTypeName() const;
   
   // nested types ----------------------------------------------------
   
@@ -6956,8 +5796,6 @@ class AllInShowCardsMessage : public ::google::protobuf::Message {
   inline void set_has_gameid();
   inline void clear_has_gameid();
   
-  ::google::protobuf::UnknownFieldSet _unknown_fields_;
-  
   ::google::protobuf::RepeatedPtrField< ::AllInShowCardsMessage_PlayerAllIn > playersallin_;
   ::google::protobuf::uint32 gameid_;
   
@@ -6973,7 +5811,7 @@ class AllInShowCardsMessage : public ::google::protobuf::Message {
 };
 // -------------------------------------------------------------------
 
-class EndOfHandShowCardsMessage : public ::google::protobuf::Message {
+class EndOfHandShowCardsMessage : public ::google::protobuf::MessageLite {
  public:
   EndOfHandShowCardsMessage();
   virtual ~EndOfHandShowCardsMessage();
@@ -6985,15 +5823,6 @@ class EndOfHandShowCardsMessage : public ::google::protobuf::Message {
     return *this;
   }
   
-  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
-    return _unknown_fields_;
-  }
-  
-  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
-    return &_unknown_fields_;
-  }
-  
-  static const ::google::protobuf::Descriptor* descriptor();
   static const EndOfHandShowCardsMessage& default_instance();
   
   void Swap(EndOfHandShowCardsMessage* other);
@@ -7001,8 +5830,7 @@ class EndOfHandShowCardsMessage : public ::google::protobuf::Message {
   // implements Message ----------------------------------------------
   
   EndOfHandShowCardsMessage* New() const;
-  void CopyFrom(const ::google::protobuf::Message& from);
-  void MergeFrom(const ::google::protobuf::Message& from);
+  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from);
   void CopyFrom(const EndOfHandShowCardsMessage& from);
   void MergeFrom(const EndOfHandShowCardsMessage& from);
   void Clear();
@@ -7013,7 +5841,6 @@ class EndOfHandShowCardsMessage : public ::google::protobuf::Message {
       ::google::protobuf::io::CodedInputStream* input);
   void SerializeWithCachedSizes(
       ::google::protobuf::io::CodedOutputStream* output) const;
-  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const;
   int GetCachedSize() const { return _cached_size_; }
   private:
   void SharedCtor();
@@ -7021,7 +5848,7 @@ class EndOfHandShowCardsMessage : public ::google::protobuf::Message {
   void SetCachedSize(int size) const;
   public:
   
-  ::google::protobuf::Metadata GetMetadata() const;
+  ::std::string GetTypeName() const;
   
   // nested types ----------------------------------------------------
   
@@ -7051,8 +5878,6 @@ class EndOfHandShowCardsMessage : public ::google::protobuf::Message {
   inline void set_has_gameid();
   inline void clear_has_gameid();
   
-  ::google::protobuf::UnknownFieldSet _unknown_fields_;
-  
   ::google::protobuf::RepeatedPtrField< ::PlayerResult > playerresults_;
   ::google::protobuf::uint32 gameid_;
   
@@ -7068,7 +5893,7 @@ class EndOfHandShowCardsMessage : public ::google::protobuf::Message {
 };
 // -------------------------------------------------------------------
 
-class EndOfHandHideCardsMessage : public ::google::protobuf::Message {
+class EndOfHandHideCardsMessage : public ::google::protobuf::MessageLite {
  public:
   EndOfHandHideCardsMessage();
   virtual ~EndOfHandHideCardsMessage();
@@ -7080,15 +5905,6 @@ class EndOfHandHideCardsMessage : public ::google::protobuf::Message {
     return *this;
   }
   
-  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
-    return _unknown_fields_;
-  }
-  
-  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
-    return &_unknown_fields_;
-  }
-  
-  static const ::google::protobuf::Descriptor* descriptor();
   static const EndOfHandHideCardsMessage& default_instance();
   
   void Swap(EndOfHandHideCardsMessage* other);
@@ -7096,8 +5912,7 @@ class EndOfHandHideCardsMessage : public ::google::protobuf::Message {
   // implements Message ----------------------------------------------
   
   EndOfHandHideCardsMessage* New() const;
-  void CopyFrom(const ::google::protobuf::Message& from);
-  void MergeFrom(const ::google::protobuf::Message& from);
+  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from);
   void CopyFrom(const EndOfHandHideCardsMessage& from);
   void MergeFrom(const EndOfHandHideCardsMessage& from);
   void Clear();
@@ -7108,7 +5923,6 @@ class EndOfHandHideCardsMessage : public ::google::protobuf::Message {
       ::google::protobuf::io::CodedInputStream* input);
   void SerializeWithCachedSizes(
       ::google::protobuf::io::CodedOutputStream* output) const;
-  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const;
   int GetCachedSize() const { return _cached_size_; }
   private:
   void SharedCtor();
@@ -7116,7 +5930,7 @@ class EndOfHandHideCardsMessage : public ::google::protobuf::Message {
   void SetCachedSize(int size) const;
   public:
   
-  ::google::protobuf::Metadata GetMetadata() const;
+  ::std::string GetTypeName() const;
   
   // nested types ----------------------------------------------------
   
@@ -7161,8 +5975,6 @@ class EndOfHandHideCardsMessage : public ::google::protobuf::Message {
   inline void set_has_playermoney();
   inline void clear_has_playermoney();
   
-  ::google::protobuf::UnknownFieldSet _unknown_fields_;
-  
   ::google::protobuf::uint32 gameid_;
   ::google::protobuf::uint32 playerid_;
   ::google::protobuf::uint32 moneywon_;
@@ -7180,7 +5992,7 @@ class EndOfHandHideCardsMessage : public ::google::protobuf::Message {
 };
 // -------------------------------------------------------------------
 
-class ShowMyCardsRequestMessage : public ::google::protobuf::Message {
+class ShowMyCardsRequestMessage : public ::google::protobuf::MessageLite {
  public:
   ShowMyCardsRequestMessage();
   virtual ~ShowMyCardsRequestMessage();
@@ -7192,15 +6004,6 @@ class ShowMyCardsRequestMessage : public ::google::protobuf::Message {
     return *this;
   }
   
-  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
-    return _unknown_fields_;
-  }
-  
-  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
-    return &_unknown_fields_;
-  }
-  
-  static const ::google::protobuf::Descriptor* descriptor();
   static const ShowMyCardsRequestMessage& default_instance();
   
   void Swap(ShowMyCardsRequestMessage* other);
@@ -7208,8 +6011,7 @@ class ShowMyCardsRequestMessage : public ::google::protobuf::Message {
   // implements Message ----------------------------------------------
   
   ShowMyCardsRequestMessage* New() const;
-  void CopyFrom(const ::google::protobuf::Message& from);
-  void MergeFrom(const ::google::protobuf::Message& from);
+  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from);
   void CopyFrom(const ShowMyCardsRequestMessage& from);
   void MergeFrom(const ShowMyCardsRequestMessage& from);
   void Clear();
@@ -7220,7 +6022,6 @@ class ShowMyCardsRequestMessage : public ::google::protobuf::Message {
       ::google::protobuf::io::CodedInputStream* input);
   void SerializeWithCachedSizes(
       ::google::protobuf::io::CodedOutputStream* output) const;
-  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const;
   int GetCachedSize() const { return _cached_size_; }
   private:
   void SharedCtor();
@@ -7228,7 +6029,7 @@ class ShowMyCardsRequestMessage : public ::google::protobuf::Message {
   void SetCachedSize(int size) const;
   public:
   
-  ::google::protobuf::Metadata GetMetadata() const;
+  ::std::string GetTypeName() const;
   
   // nested types ----------------------------------------------------
   
@@ -7236,8 +6037,6 @@ class ShowMyCardsRequestMessage : public ::google::protobuf::Message {
   
   // @@protoc_insertion_point(class_scope:ShowMyCardsRequestMessage)
  private:
-  
-  ::google::protobuf::UnknownFieldSet _unknown_fields_;
   
   
   mutable int _cached_size_;
@@ -7252,7 +6051,7 @@ class ShowMyCardsRequestMessage : public ::google::protobuf::Message {
 };
 // -------------------------------------------------------------------
 
-class AfterHandShowCardsMessage : public ::google::protobuf::Message {
+class AfterHandShowCardsMessage : public ::google::protobuf::MessageLite {
  public:
   AfterHandShowCardsMessage();
   virtual ~AfterHandShowCardsMessage();
@@ -7264,15 +6063,6 @@ class AfterHandShowCardsMessage : public ::google::protobuf::Message {
     return *this;
   }
   
-  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
-    return _unknown_fields_;
-  }
-  
-  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
-    return &_unknown_fields_;
-  }
-  
-  static const ::google::protobuf::Descriptor* descriptor();
   static const AfterHandShowCardsMessage& default_instance();
   
   void Swap(AfterHandShowCardsMessage* other);
@@ -7280,8 +6070,7 @@ class AfterHandShowCardsMessage : public ::google::protobuf::Message {
   // implements Message ----------------------------------------------
   
   AfterHandShowCardsMessage* New() const;
-  void CopyFrom(const ::google::protobuf::Message& from);
-  void MergeFrom(const ::google::protobuf::Message& from);
+  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from);
   void CopyFrom(const AfterHandShowCardsMessage& from);
   void MergeFrom(const AfterHandShowCardsMessage& from);
   void Clear();
@@ -7292,7 +6081,6 @@ class AfterHandShowCardsMessage : public ::google::protobuf::Message {
       ::google::protobuf::io::CodedInputStream* input);
   void SerializeWithCachedSizes(
       ::google::protobuf::io::CodedOutputStream* output) const;
-  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const;
   int GetCachedSize() const { return _cached_size_; }
   private:
   void SharedCtor();
@@ -7300,7 +6088,7 @@ class AfterHandShowCardsMessage : public ::google::protobuf::Message {
   void SetCachedSize(int size) const;
   public:
   
-  ::google::protobuf::Metadata GetMetadata() const;
+  ::std::string GetTypeName() const;
   
   // nested types ----------------------------------------------------
   
@@ -7319,8 +6107,6 @@ class AfterHandShowCardsMessage : public ::google::protobuf::Message {
   inline void set_has_playerresult();
   inline void clear_has_playerresult();
   
-  ::google::protobuf::UnknownFieldSet _unknown_fields_;
-  
   ::PlayerResult* playerresult_;
   
   mutable int _cached_size_;
@@ -7335,7 +6121,7 @@ class AfterHandShowCardsMessage : public ::google::protobuf::Message {
 };
 // -------------------------------------------------------------------
 
-class EndOfGameMessage : public ::google::protobuf::Message {
+class EndOfGameMessage : public ::google::protobuf::MessageLite {
  public:
   EndOfGameMessage();
   virtual ~EndOfGameMessage();
@@ -7347,15 +6133,6 @@ class EndOfGameMessage : public ::google::protobuf::Message {
     return *this;
   }
   
-  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
-    return _unknown_fields_;
-  }
-  
-  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
-    return &_unknown_fields_;
-  }
-  
-  static const ::google::protobuf::Descriptor* descriptor();
   static const EndOfGameMessage& default_instance();
   
   void Swap(EndOfGameMessage* other);
@@ -7363,8 +6140,7 @@ class EndOfGameMessage : public ::google::protobuf::Message {
   // implements Message ----------------------------------------------
   
   EndOfGameMessage* New() const;
-  void CopyFrom(const ::google::protobuf::Message& from);
-  void MergeFrom(const ::google::protobuf::Message& from);
+  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from);
   void CopyFrom(const EndOfGameMessage& from);
   void MergeFrom(const EndOfGameMessage& from);
   void Clear();
@@ -7375,7 +6151,6 @@ class EndOfGameMessage : public ::google::protobuf::Message {
       ::google::protobuf::io::CodedInputStream* input);
   void SerializeWithCachedSizes(
       ::google::protobuf::io::CodedOutputStream* output) const;
-  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const;
   int GetCachedSize() const { return _cached_size_; }
   private:
   void SharedCtor();
@@ -7383,7 +6158,7 @@ class EndOfGameMessage : public ::google::protobuf::Message {
   void SetCachedSize(int size) const;
   public:
   
-  ::google::protobuf::Metadata GetMetadata() const;
+  ::std::string GetTypeName() const;
   
   // nested types ----------------------------------------------------
   
@@ -7410,8 +6185,6 @@ class EndOfGameMessage : public ::google::protobuf::Message {
   inline void set_has_winnerplayerid();
   inline void clear_has_winnerplayerid();
   
-  ::google::protobuf::UnknownFieldSet _unknown_fields_;
-  
   ::google::protobuf::uint32 gameid_;
   ::google::protobuf::uint32 winnerplayerid_;
   
@@ -7427,7 +6200,7 @@ class EndOfGameMessage : public ::google::protobuf::Message {
 };
 // -------------------------------------------------------------------
 
-class PlayerIdChangedMessage : public ::google::protobuf::Message {
+class PlayerIdChangedMessage : public ::google::protobuf::MessageLite {
  public:
   PlayerIdChangedMessage();
   virtual ~PlayerIdChangedMessage();
@@ -7439,15 +6212,6 @@ class PlayerIdChangedMessage : public ::google::protobuf::Message {
     return *this;
   }
   
-  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
-    return _unknown_fields_;
-  }
-  
-  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
-    return &_unknown_fields_;
-  }
-  
-  static const ::google::protobuf::Descriptor* descriptor();
   static const PlayerIdChangedMessage& default_instance();
   
   void Swap(PlayerIdChangedMessage* other);
@@ -7455,8 +6219,7 @@ class PlayerIdChangedMessage : public ::google::protobuf::Message {
   // implements Message ----------------------------------------------
   
   PlayerIdChangedMessage* New() const;
-  void CopyFrom(const ::google::protobuf::Message& from);
-  void MergeFrom(const ::google::protobuf::Message& from);
+  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from);
   void CopyFrom(const PlayerIdChangedMessage& from);
   void MergeFrom(const PlayerIdChangedMessage& from);
   void Clear();
@@ -7467,7 +6230,6 @@ class PlayerIdChangedMessage : public ::google::protobuf::Message {
       ::google::protobuf::io::CodedInputStream* input);
   void SerializeWithCachedSizes(
       ::google::protobuf::io::CodedOutputStream* output) const;
-  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const;
   int GetCachedSize() const { return _cached_size_; }
   private:
   void SharedCtor();
@@ -7475,7 +6237,7 @@ class PlayerIdChangedMessage : public ::google::protobuf::Message {
   void SetCachedSize(int size) const;
   public:
   
-  ::google::protobuf::Metadata GetMetadata() const;
+  ::std::string GetTypeName() const;
   
   // nested types ----------------------------------------------------
   
@@ -7502,8 +6264,6 @@ class PlayerIdChangedMessage : public ::google::protobuf::Message {
   inline void set_has_newplayerid();
   inline void clear_has_newplayerid();
   
-  ::google::protobuf::UnknownFieldSet _unknown_fields_;
-  
   ::google::protobuf::uint32 oldplayerid_;
   ::google::protobuf::uint32 newplayerid_;
   
@@ -7519,7 +6279,7 @@ class PlayerIdChangedMessage : public ::google::protobuf::Message {
 };
 // -------------------------------------------------------------------
 
-class AskKickPlayerMessage : public ::google::protobuf::Message {
+class AskKickPlayerMessage : public ::google::protobuf::MessageLite {
  public:
   AskKickPlayerMessage();
   virtual ~AskKickPlayerMessage();
@@ -7531,15 +6291,6 @@ class AskKickPlayerMessage : public ::google::protobuf::Message {
     return *this;
   }
   
-  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
-    return _unknown_fields_;
-  }
-  
-  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
-    return &_unknown_fields_;
-  }
-  
-  static const ::google::protobuf::Descriptor* descriptor();
   static const AskKickPlayerMessage& default_instance();
   
   void Swap(AskKickPlayerMessage* other);
@@ -7547,8 +6298,7 @@ class AskKickPlayerMessage : public ::google::protobuf::Message {
   // implements Message ----------------------------------------------
   
   AskKickPlayerMessage* New() const;
-  void CopyFrom(const ::google::protobuf::Message& from);
-  void MergeFrom(const ::google::protobuf::Message& from);
+  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from);
   void CopyFrom(const AskKickPlayerMessage& from);
   void MergeFrom(const AskKickPlayerMessage& from);
   void Clear();
@@ -7559,7 +6309,6 @@ class AskKickPlayerMessage : public ::google::protobuf::Message {
       ::google::protobuf::io::CodedInputStream* input);
   void SerializeWithCachedSizes(
       ::google::protobuf::io::CodedOutputStream* output) const;
-  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const;
   int GetCachedSize() const { return _cached_size_; }
   private:
   void SharedCtor();
@@ -7567,7 +6316,7 @@ class AskKickPlayerMessage : public ::google::protobuf::Message {
   void SetCachedSize(int size) const;
   public:
   
-  ::google::protobuf::Metadata GetMetadata() const;
+  ::std::string GetTypeName() const;
   
   // nested types ----------------------------------------------------
   
@@ -7594,8 +6343,6 @@ class AskKickPlayerMessage : public ::google::protobuf::Message {
   inline void set_has_playerid();
   inline void clear_has_playerid();
   
-  ::google::protobuf::UnknownFieldSet _unknown_fields_;
-  
   ::google::protobuf::uint32 gameid_;
   ::google::protobuf::uint32 playerid_;
   
@@ -7611,7 +6358,7 @@ class AskKickPlayerMessage : public ::google::protobuf::Message {
 };
 // -------------------------------------------------------------------
 
-class AskKickDeniedMessage : public ::google::protobuf::Message {
+class AskKickDeniedMessage : public ::google::protobuf::MessageLite {
  public:
   AskKickDeniedMessage();
   virtual ~AskKickDeniedMessage();
@@ -7623,15 +6370,6 @@ class AskKickDeniedMessage : public ::google::protobuf::Message {
     return *this;
   }
   
-  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
-    return _unknown_fields_;
-  }
-  
-  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
-    return &_unknown_fields_;
-  }
-  
-  static const ::google::protobuf::Descriptor* descriptor();
   static const AskKickDeniedMessage& default_instance();
   
   void Swap(AskKickDeniedMessage* other);
@@ -7639,8 +6377,7 @@ class AskKickDeniedMessage : public ::google::protobuf::Message {
   // implements Message ----------------------------------------------
   
   AskKickDeniedMessage* New() const;
-  void CopyFrom(const ::google::protobuf::Message& from);
-  void MergeFrom(const ::google::protobuf::Message& from);
+  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from);
   void CopyFrom(const AskKickDeniedMessage& from);
   void MergeFrom(const AskKickDeniedMessage& from);
   void Clear();
@@ -7651,7 +6388,6 @@ class AskKickDeniedMessage : public ::google::protobuf::Message {
       ::google::protobuf::io::CodedInputStream* input);
   void SerializeWithCachedSizes(
       ::google::protobuf::io::CodedOutputStream* output) const;
-  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const;
   int GetCachedSize() const { return _cached_size_; }
   private:
   void SharedCtor();
@@ -7659,7 +6395,7 @@ class AskKickDeniedMessage : public ::google::protobuf::Message {
   void SetCachedSize(int size) const;
   public:
   
-  ::google::protobuf::Metadata GetMetadata() const;
+  ::std::string GetTypeName() const;
   
   // nested types ----------------------------------------------------
   
@@ -7678,17 +6414,6 @@ class AskKickDeniedMessage : public ::google::protobuf::Message {
     AskKickDeniedMessage_KickDeniedReason_KickDeniedReason_MAX;
   static const int KickDeniedReason_ARRAYSIZE =
     AskKickDeniedMessage_KickDeniedReason_KickDeniedReason_ARRAYSIZE;
-  static inline const ::google::protobuf::EnumDescriptor*
-  KickDeniedReason_descriptor() {
-    return AskKickDeniedMessage_KickDeniedReason_descriptor();
-  }
-  static inline const ::std::string& KickDeniedReason_Name(KickDeniedReason value) {
-    return AskKickDeniedMessage_KickDeniedReason_Name(value);
-  }
-  static inline bool KickDeniedReason_Parse(const ::std::string& name,
-      KickDeniedReason* value) {
-    return AskKickDeniedMessage_KickDeniedReason_Parse(name, value);
-  }
   
   // accessors -------------------------------------------------------
   
@@ -7722,8 +6447,6 @@ class AskKickDeniedMessage : public ::google::protobuf::Message {
   inline void set_has_kickdeniedreason();
   inline void clear_has_kickdeniedreason();
   
-  ::google::protobuf::UnknownFieldSet _unknown_fields_;
-  
   ::google::protobuf::uint32 gameid_;
   ::google::protobuf::uint32 playerid_;
   int kickdeniedreason_;
@@ -7740,7 +6463,7 @@ class AskKickDeniedMessage : public ::google::protobuf::Message {
 };
 // -------------------------------------------------------------------
 
-class StartKickPetitionMessage : public ::google::protobuf::Message {
+class StartKickPetitionMessage : public ::google::protobuf::MessageLite {
  public:
   StartKickPetitionMessage();
   virtual ~StartKickPetitionMessage();
@@ -7752,15 +6475,6 @@ class StartKickPetitionMessage : public ::google::protobuf::Message {
     return *this;
   }
   
-  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
-    return _unknown_fields_;
-  }
-  
-  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
-    return &_unknown_fields_;
-  }
-  
-  static const ::google::protobuf::Descriptor* descriptor();
   static const StartKickPetitionMessage& default_instance();
   
   void Swap(StartKickPetitionMessage* other);
@@ -7768,8 +6482,7 @@ class StartKickPetitionMessage : public ::google::protobuf::Message {
   // implements Message ----------------------------------------------
   
   StartKickPetitionMessage* New() const;
-  void CopyFrom(const ::google::protobuf::Message& from);
-  void MergeFrom(const ::google::protobuf::Message& from);
+  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from);
   void CopyFrom(const StartKickPetitionMessage& from);
   void MergeFrom(const StartKickPetitionMessage& from);
   void Clear();
@@ -7780,7 +6493,6 @@ class StartKickPetitionMessage : public ::google::protobuf::Message {
       ::google::protobuf::io::CodedInputStream* input);
   void SerializeWithCachedSizes(
       ::google::protobuf::io::CodedOutputStream* output) const;
-  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const;
   int GetCachedSize() const { return _cached_size_; }
   private:
   void SharedCtor();
@@ -7788,7 +6500,7 @@ class StartKickPetitionMessage : public ::google::protobuf::Message {
   void SetCachedSize(int size) const;
   public:
   
-  ::google::protobuf::Metadata GetMetadata() const;
+  ::std::string GetTypeName() const;
   
   // nested types ----------------------------------------------------
   
@@ -7851,8 +6563,6 @@ class StartKickPetitionMessage : public ::google::protobuf::Message {
   inline void set_has_numvotesneededtokick();
   inline void clear_has_numvotesneededtokick();
   
-  ::google::protobuf::UnknownFieldSet _unknown_fields_;
-  
   ::google::protobuf::uint32 gameid_;
   ::google::protobuf::uint32 petitionid_;
   ::google::protobuf::uint32 proposingplayerid_;
@@ -7872,7 +6582,7 @@ class StartKickPetitionMessage : public ::google::protobuf::Message {
 };
 // -------------------------------------------------------------------
 
-class VoteKickRequestMessage : public ::google::protobuf::Message {
+class VoteKickRequestMessage : public ::google::protobuf::MessageLite {
  public:
   VoteKickRequestMessage();
   virtual ~VoteKickRequestMessage();
@@ -7884,15 +6594,6 @@ class VoteKickRequestMessage : public ::google::protobuf::Message {
     return *this;
   }
   
-  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
-    return _unknown_fields_;
-  }
-  
-  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
-    return &_unknown_fields_;
-  }
-  
-  static const ::google::protobuf::Descriptor* descriptor();
   static const VoteKickRequestMessage& default_instance();
   
   void Swap(VoteKickRequestMessage* other);
@@ -7900,8 +6601,7 @@ class VoteKickRequestMessage : public ::google::protobuf::Message {
   // implements Message ----------------------------------------------
   
   VoteKickRequestMessage* New() const;
-  void CopyFrom(const ::google::protobuf::Message& from);
-  void MergeFrom(const ::google::protobuf::Message& from);
+  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from);
   void CopyFrom(const VoteKickRequestMessage& from);
   void MergeFrom(const VoteKickRequestMessage& from);
   void Clear();
@@ -7912,7 +6612,6 @@ class VoteKickRequestMessage : public ::google::protobuf::Message {
       ::google::protobuf::io::CodedInputStream* input);
   void SerializeWithCachedSizes(
       ::google::protobuf::io::CodedOutputStream* output) const;
-  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const;
   int GetCachedSize() const { return _cached_size_; }
   private:
   void SharedCtor();
@@ -7920,7 +6619,7 @@ class VoteKickRequestMessage : public ::google::protobuf::Message {
   void SetCachedSize(int size) const;
   public:
   
-  ::google::protobuf::Metadata GetMetadata() const;
+  ::std::string GetTypeName() const;
   
   // nested types ----------------------------------------------------
   
@@ -7956,8 +6655,6 @@ class VoteKickRequestMessage : public ::google::protobuf::Message {
   inline void set_has_votekick();
   inline void clear_has_votekick();
   
-  ::google::protobuf::UnknownFieldSet _unknown_fields_;
-  
   ::google::protobuf::uint32 gameid_;
   ::google::protobuf::uint32 petitionid_;
   bool votekick_;
@@ -7974,7 +6671,7 @@ class VoteKickRequestMessage : public ::google::protobuf::Message {
 };
 // -------------------------------------------------------------------
 
-class VoteKickReplyMessage : public ::google::protobuf::Message {
+class VoteKickReplyMessage : public ::google::protobuf::MessageLite {
  public:
   VoteKickReplyMessage();
   virtual ~VoteKickReplyMessage();
@@ -7986,15 +6683,6 @@ class VoteKickReplyMessage : public ::google::protobuf::Message {
     return *this;
   }
   
-  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
-    return _unknown_fields_;
-  }
-  
-  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
-    return &_unknown_fields_;
-  }
-  
-  static const ::google::protobuf::Descriptor* descriptor();
   static const VoteKickReplyMessage& default_instance();
   
   void Swap(VoteKickReplyMessage* other);
@@ -8002,8 +6690,7 @@ class VoteKickReplyMessage : public ::google::protobuf::Message {
   // implements Message ----------------------------------------------
   
   VoteKickReplyMessage* New() const;
-  void CopyFrom(const ::google::protobuf::Message& from);
-  void MergeFrom(const ::google::protobuf::Message& from);
+  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from);
   void CopyFrom(const VoteKickReplyMessage& from);
   void MergeFrom(const VoteKickReplyMessage& from);
   void Clear();
@@ -8014,7 +6701,6 @@ class VoteKickReplyMessage : public ::google::protobuf::Message {
       ::google::protobuf::io::CodedInputStream* input);
   void SerializeWithCachedSizes(
       ::google::protobuf::io::CodedOutputStream* output) const;
-  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const;
   int GetCachedSize() const { return _cached_size_; }
   private:
   void SharedCtor();
@@ -8022,7 +6708,7 @@ class VoteKickReplyMessage : public ::google::protobuf::Message {
   void SetCachedSize(int size) const;
   public:
   
-  ::google::protobuf::Metadata GetMetadata() const;
+  ::std::string GetTypeName() const;
   
   // nested types ----------------------------------------------------
   
@@ -8039,17 +6725,6 @@ class VoteKickReplyMessage : public ::google::protobuf::Message {
     VoteKickReplyMessage_VoteKickReplyType_VoteKickReplyType_MAX;
   static const int VoteKickReplyType_ARRAYSIZE =
     VoteKickReplyMessage_VoteKickReplyType_VoteKickReplyType_ARRAYSIZE;
-  static inline const ::google::protobuf::EnumDescriptor*
-  VoteKickReplyType_descriptor() {
-    return VoteKickReplyMessage_VoteKickReplyType_descriptor();
-  }
-  static inline const ::std::string& VoteKickReplyType_Name(VoteKickReplyType value) {
-    return VoteKickReplyMessage_VoteKickReplyType_Name(value);
-  }
-  static inline bool VoteKickReplyType_Parse(const ::std::string& name,
-      VoteKickReplyType* value) {
-    return VoteKickReplyMessage_VoteKickReplyType_Parse(name, value);
-  }
   
   // accessors -------------------------------------------------------
   
@@ -8083,8 +6758,6 @@ class VoteKickReplyMessage : public ::google::protobuf::Message {
   inline void set_has_votekickreplytype();
   inline void clear_has_votekickreplytype();
   
-  ::google::protobuf::UnknownFieldSet _unknown_fields_;
-  
   ::google::protobuf::uint32 gameid_;
   ::google::protobuf::uint32 petitionid_;
   int votekickreplytype_;
@@ -8101,7 +6774,7 @@ class VoteKickReplyMessage : public ::google::protobuf::Message {
 };
 // -------------------------------------------------------------------
 
-class KickPetitionUpdateMessage : public ::google::protobuf::Message {
+class KickPetitionUpdateMessage : public ::google::protobuf::MessageLite {
  public:
   KickPetitionUpdateMessage();
   virtual ~KickPetitionUpdateMessage();
@@ -8113,15 +6786,6 @@ class KickPetitionUpdateMessage : public ::google::protobuf::Message {
     return *this;
   }
   
-  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
-    return _unknown_fields_;
-  }
-  
-  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
-    return &_unknown_fields_;
-  }
-  
-  static const ::google::protobuf::Descriptor* descriptor();
   static const KickPetitionUpdateMessage& default_instance();
   
   void Swap(KickPetitionUpdateMessage* other);
@@ -8129,8 +6793,7 @@ class KickPetitionUpdateMessage : public ::google::protobuf::Message {
   // implements Message ----------------------------------------------
   
   KickPetitionUpdateMessage* New() const;
-  void CopyFrom(const ::google::protobuf::Message& from);
-  void MergeFrom(const ::google::protobuf::Message& from);
+  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from);
   void CopyFrom(const KickPetitionUpdateMessage& from);
   void MergeFrom(const KickPetitionUpdateMessage& from);
   void Clear();
@@ -8141,7 +6804,6 @@ class KickPetitionUpdateMessage : public ::google::protobuf::Message {
       ::google::protobuf::io::CodedInputStream* input);
   void SerializeWithCachedSizes(
       ::google::protobuf::io::CodedOutputStream* output) const;
-  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const;
   int GetCachedSize() const { return _cached_size_; }
   private:
   void SharedCtor();
@@ -8149,7 +6811,7 @@ class KickPetitionUpdateMessage : public ::google::protobuf::Message {
   void SetCachedSize(int size) const;
   public:
   
-  ::google::protobuf::Metadata GetMetadata() const;
+  ::std::string GetTypeName() const;
   
   // nested types ----------------------------------------------------
   
@@ -8203,8 +6865,6 @@ class KickPetitionUpdateMessage : public ::google::protobuf::Message {
   inline void set_has_numvotesneededtokick();
   inline void clear_has_numvotesneededtokick();
   
-  ::google::protobuf::UnknownFieldSet _unknown_fields_;
-  
   ::google::protobuf::uint32 gameid_;
   ::google::protobuf::uint32 petitionid_;
   ::google::protobuf::uint32 numvotesagainstkicking_;
@@ -8223,7 +6883,7 @@ class KickPetitionUpdateMessage : public ::google::protobuf::Message {
 };
 // -------------------------------------------------------------------
 
-class EndKickPetitionMessage : public ::google::protobuf::Message {
+class EndKickPetitionMessage : public ::google::protobuf::MessageLite {
  public:
   EndKickPetitionMessage();
   virtual ~EndKickPetitionMessage();
@@ -8235,15 +6895,6 @@ class EndKickPetitionMessage : public ::google::protobuf::Message {
     return *this;
   }
   
-  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
-    return _unknown_fields_;
-  }
-  
-  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
-    return &_unknown_fields_;
-  }
-  
-  static const ::google::protobuf::Descriptor* descriptor();
   static const EndKickPetitionMessage& default_instance();
   
   void Swap(EndKickPetitionMessage* other);
@@ -8251,8 +6902,7 @@ class EndKickPetitionMessage : public ::google::protobuf::Message {
   // implements Message ----------------------------------------------
   
   EndKickPetitionMessage* New() const;
-  void CopyFrom(const ::google::protobuf::Message& from);
-  void MergeFrom(const ::google::protobuf::Message& from);
+  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from);
   void CopyFrom(const EndKickPetitionMessage& from);
   void MergeFrom(const EndKickPetitionMessage& from);
   void Clear();
@@ -8263,7 +6913,6 @@ class EndKickPetitionMessage : public ::google::protobuf::Message {
       ::google::protobuf::io::CodedInputStream* input);
   void SerializeWithCachedSizes(
       ::google::protobuf::io::CodedOutputStream* output) const;
-  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const;
   int GetCachedSize() const { return _cached_size_; }
   private:
   void SharedCtor();
@@ -8271,7 +6920,7 @@ class EndKickPetitionMessage : public ::google::protobuf::Message {
   void SetCachedSize(int size) const;
   public:
   
-  ::google::protobuf::Metadata GetMetadata() const;
+  ::std::string GetTypeName() const;
   
   // nested types ----------------------------------------------------
   
@@ -8289,17 +6938,6 @@ class EndKickPetitionMessage : public ::google::protobuf::Message {
     EndKickPetitionMessage_PetitionEndReason_PetitionEndReason_MAX;
   static const int PetitionEndReason_ARRAYSIZE =
     EndKickPetitionMessage_PetitionEndReason_PetitionEndReason_ARRAYSIZE;
-  static inline const ::google::protobuf::EnumDescriptor*
-  PetitionEndReason_descriptor() {
-    return EndKickPetitionMessage_PetitionEndReason_descriptor();
-  }
-  static inline const ::std::string& PetitionEndReason_Name(PetitionEndReason value) {
-    return EndKickPetitionMessage_PetitionEndReason_Name(value);
-  }
-  static inline bool PetitionEndReason_Parse(const ::std::string& name,
-      PetitionEndReason* value) {
-    return EndKickPetitionMessage_PetitionEndReason_Parse(name, value);
-  }
   
   // accessors -------------------------------------------------------
   
@@ -8360,8 +6998,6 @@ class EndKickPetitionMessage : public ::google::protobuf::Message {
   inline void set_has_petitionendreason();
   inline void clear_has_petitionendreason();
   
-  ::google::protobuf::UnknownFieldSet _unknown_fields_;
-  
   ::google::protobuf::uint32 gameid_;
   ::google::protobuf::uint32 petitionid_;
   ::google::protobuf::uint32 numvotesagainstkicking_;
@@ -8381,7 +7017,7 @@ class EndKickPetitionMessage : public ::google::protobuf::Message {
 };
 // -------------------------------------------------------------------
 
-class StatisticsMessage_StatisticsData : public ::google::protobuf::Message {
+class StatisticsMessage_StatisticsData : public ::google::protobuf::MessageLite {
  public:
   StatisticsMessage_StatisticsData();
   virtual ~StatisticsMessage_StatisticsData();
@@ -8393,15 +7029,6 @@ class StatisticsMessage_StatisticsData : public ::google::protobuf::Message {
     return *this;
   }
   
-  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
-    return _unknown_fields_;
-  }
-  
-  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
-    return &_unknown_fields_;
-  }
-  
-  static const ::google::protobuf::Descriptor* descriptor();
   static const StatisticsMessage_StatisticsData& default_instance();
   
   void Swap(StatisticsMessage_StatisticsData* other);
@@ -8409,8 +7036,7 @@ class StatisticsMessage_StatisticsData : public ::google::protobuf::Message {
   // implements Message ----------------------------------------------
   
   StatisticsMessage_StatisticsData* New() const;
-  void CopyFrom(const ::google::protobuf::Message& from);
-  void MergeFrom(const ::google::protobuf::Message& from);
+  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from);
   void CopyFrom(const StatisticsMessage_StatisticsData& from);
   void MergeFrom(const StatisticsMessage_StatisticsData& from);
   void Clear();
@@ -8421,7 +7047,6 @@ class StatisticsMessage_StatisticsData : public ::google::protobuf::Message {
       ::google::protobuf::io::CodedInputStream* input);
   void SerializeWithCachedSizes(
       ::google::protobuf::io::CodedOutputStream* output) const;
-  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const;
   int GetCachedSize() const { return _cached_size_; }
   private:
   void SharedCtor();
@@ -8429,7 +7054,7 @@ class StatisticsMessage_StatisticsData : public ::google::protobuf::Message {
   void SetCachedSize(int size) const;
   public:
   
-  ::google::protobuf::Metadata GetMetadata() const;
+  ::std::string GetTypeName() const;
   
   // nested types ----------------------------------------------------
   
@@ -8444,17 +7069,6 @@ class StatisticsMessage_StatisticsData : public ::google::protobuf::Message {
     StatisticsMessage_StatisticsData_StatisticsType_StatisticsType_MAX;
   static const int StatisticsType_ARRAYSIZE =
     StatisticsMessage_StatisticsData_StatisticsType_StatisticsType_ARRAYSIZE;
-  static inline const ::google::protobuf::EnumDescriptor*
-  StatisticsType_descriptor() {
-    return StatisticsMessage_StatisticsData_StatisticsType_descriptor();
-  }
-  static inline const ::std::string& StatisticsType_Name(StatisticsType value) {
-    return StatisticsMessage_StatisticsData_StatisticsType_Name(value);
-  }
-  static inline bool StatisticsType_Parse(const ::std::string& name,
-      StatisticsType* value) {
-    return StatisticsMessage_StatisticsData_StatisticsType_Parse(name, value);
-  }
   
   // accessors -------------------------------------------------------
   
@@ -8479,8 +7093,6 @@ class StatisticsMessage_StatisticsData : public ::google::protobuf::Message {
   inline void set_has_statisticsvalue();
   inline void clear_has_statisticsvalue();
   
-  ::google::protobuf::UnknownFieldSet _unknown_fields_;
-  
   int statisticstype_;
   ::google::protobuf::uint32 statisticsvalue_;
   
@@ -8496,7 +7108,7 @@ class StatisticsMessage_StatisticsData : public ::google::protobuf::Message {
 };
 // -------------------------------------------------------------------
 
-class StatisticsMessage : public ::google::protobuf::Message {
+class StatisticsMessage : public ::google::protobuf::MessageLite {
  public:
   StatisticsMessage();
   virtual ~StatisticsMessage();
@@ -8508,15 +7120,6 @@ class StatisticsMessage : public ::google::protobuf::Message {
     return *this;
   }
   
-  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
-    return _unknown_fields_;
-  }
-  
-  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
-    return &_unknown_fields_;
-  }
-  
-  static const ::google::protobuf::Descriptor* descriptor();
   static const StatisticsMessage& default_instance();
   
   void Swap(StatisticsMessage* other);
@@ -8524,8 +7127,7 @@ class StatisticsMessage : public ::google::protobuf::Message {
   // implements Message ----------------------------------------------
   
   StatisticsMessage* New() const;
-  void CopyFrom(const ::google::protobuf::Message& from);
-  void MergeFrom(const ::google::protobuf::Message& from);
+  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from);
   void CopyFrom(const StatisticsMessage& from);
   void MergeFrom(const StatisticsMessage& from);
   void Clear();
@@ -8536,7 +7138,6 @@ class StatisticsMessage : public ::google::protobuf::Message {
       ::google::protobuf::io::CodedInputStream* input);
   void SerializeWithCachedSizes(
       ::google::protobuf::io::CodedOutputStream* output) const;
-  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const;
   int GetCachedSize() const { return _cached_size_; }
   private:
   void SharedCtor();
@@ -8544,7 +7145,7 @@ class StatisticsMessage : public ::google::protobuf::Message {
   void SetCachedSize(int size) const;
   public:
   
-  ::google::protobuf::Metadata GetMetadata() const;
+  ::std::string GetTypeName() const;
   
   // nested types ----------------------------------------------------
   
@@ -8567,8 +7168,6 @@ class StatisticsMessage : public ::google::protobuf::Message {
   // @@protoc_insertion_point(class_scope:StatisticsMessage)
  private:
   
-  ::google::protobuf::UnknownFieldSet _unknown_fields_;
-  
   ::google::protobuf::RepeatedPtrField< ::StatisticsMessage_StatisticsData > statisticsdata_;
   
   mutable int _cached_size_;
@@ -8583,7 +7182,7 @@ class StatisticsMessage : public ::google::protobuf::Message {
 };
 // -------------------------------------------------------------------
 
-class ChatRequestMessage : public ::google::protobuf::Message {
+class ChatRequestMessage : public ::google::protobuf::MessageLite {
  public:
   ChatRequestMessage();
   virtual ~ChatRequestMessage();
@@ -8595,15 +7194,6 @@ class ChatRequestMessage : public ::google::protobuf::Message {
     return *this;
   }
   
-  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
-    return _unknown_fields_;
-  }
-  
-  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
-    return &_unknown_fields_;
-  }
-  
-  static const ::google::protobuf::Descriptor* descriptor();
   static const ChatRequestMessage& default_instance();
   
   void Swap(ChatRequestMessage* other);
@@ -8611,8 +7201,7 @@ class ChatRequestMessage : public ::google::protobuf::Message {
   // implements Message ----------------------------------------------
   
   ChatRequestMessage* New() const;
-  void CopyFrom(const ::google::protobuf::Message& from);
-  void MergeFrom(const ::google::protobuf::Message& from);
+  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from);
   void CopyFrom(const ChatRequestMessage& from);
   void MergeFrom(const ChatRequestMessage& from);
   void Clear();
@@ -8623,7 +7212,6 @@ class ChatRequestMessage : public ::google::protobuf::Message {
       ::google::protobuf::io::CodedInputStream* input);
   void SerializeWithCachedSizes(
       ::google::protobuf::io::CodedOutputStream* output) const;
-  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const;
   int GetCachedSize() const { return _cached_size_; }
   private:
   void SharedCtor();
@@ -8631,7 +7219,7 @@ class ChatRequestMessage : public ::google::protobuf::Message {
   void SetCachedSize(int size) const;
   public:
   
-  ::google::protobuf::Metadata GetMetadata() const;
+  ::std::string GetTypeName() const;
   
   // nested types ----------------------------------------------------
   
@@ -8671,8 +7259,6 @@ class ChatRequestMessage : public ::google::protobuf::Message {
   inline void set_has_chattext();
   inline void clear_has_chattext();
   
-  ::google::protobuf::UnknownFieldSet _unknown_fields_;
-  
   ::google::protobuf::uint32 targetgameid_;
   ::google::protobuf::uint32 targetplayerid_;
   ::std::string* chattext_;
@@ -8689,7 +7275,7 @@ class ChatRequestMessage : public ::google::protobuf::Message {
 };
 // -------------------------------------------------------------------
 
-class ChatMessage : public ::google::protobuf::Message {
+class ChatMessage : public ::google::protobuf::MessageLite {
  public:
   ChatMessage();
   virtual ~ChatMessage();
@@ -8701,15 +7287,6 @@ class ChatMessage : public ::google::protobuf::Message {
     return *this;
   }
   
-  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
-    return _unknown_fields_;
-  }
-  
-  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
-    return &_unknown_fields_;
-  }
-  
-  static const ::google::protobuf::Descriptor* descriptor();
   static const ChatMessage& default_instance();
   
   void Swap(ChatMessage* other);
@@ -8717,8 +7294,7 @@ class ChatMessage : public ::google::protobuf::Message {
   // implements Message ----------------------------------------------
   
   ChatMessage* New() const;
-  void CopyFrom(const ::google::protobuf::Message& from);
-  void MergeFrom(const ::google::protobuf::Message& from);
+  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from);
   void CopyFrom(const ChatMessage& from);
   void MergeFrom(const ChatMessage& from);
   void Clear();
@@ -8729,7 +7305,6 @@ class ChatMessage : public ::google::protobuf::Message {
       ::google::protobuf::io::CodedInputStream* input);
   void SerializeWithCachedSizes(
       ::google::protobuf::io::CodedOutputStream* output) const;
-  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const;
   int GetCachedSize() const { return _cached_size_; }
   private:
   void SharedCtor();
@@ -8737,7 +7312,7 @@ class ChatMessage : public ::google::protobuf::Message {
   void SetCachedSize(int size) const;
   public:
   
-  ::google::protobuf::Metadata GetMetadata() const;
+  ::std::string GetTypeName() const;
   
   // nested types ----------------------------------------------------
   
@@ -8756,17 +7331,6 @@ class ChatMessage : public ::google::protobuf::Message {
     ChatMessage_ChatType_ChatType_MAX;
   static const int ChatType_ARRAYSIZE =
     ChatMessage_ChatType_ChatType_ARRAYSIZE;
-  static inline const ::google::protobuf::EnumDescriptor*
-  ChatType_descriptor() {
-    return ChatMessage_ChatType_descriptor();
-  }
-  static inline const ::std::string& ChatType_Name(ChatType value) {
-    return ChatMessage_ChatType_Name(value);
-  }
-  static inline bool ChatType_Parse(const ::std::string& name,
-      ChatType* value) {
-    return ChatMessage_ChatType_Parse(name, value);
-  }
   
   // accessors -------------------------------------------------------
   
@@ -8813,8 +7377,6 @@ class ChatMessage : public ::google::protobuf::Message {
   inline void set_has_chattext();
   inline void clear_has_chattext();
   
-  ::google::protobuf::UnknownFieldSet _unknown_fields_;
-  
   ::google::protobuf::uint32 gameid_;
   ::google::protobuf::uint32 playerid_;
   ::std::string* chattext_;
@@ -8832,7 +7394,7 @@ class ChatMessage : public ::google::protobuf::Message {
 };
 // -------------------------------------------------------------------
 
-class ChatRejectMessage : public ::google::protobuf::Message {
+class ChatRejectMessage : public ::google::protobuf::MessageLite {
  public:
   ChatRejectMessage();
   virtual ~ChatRejectMessage();
@@ -8844,15 +7406,6 @@ class ChatRejectMessage : public ::google::protobuf::Message {
     return *this;
   }
   
-  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
-    return _unknown_fields_;
-  }
-  
-  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
-    return &_unknown_fields_;
-  }
-  
-  static const ::google::protobuf::Descriptor* descriptor();
   static const ChatRejectMessage& default_instance();
   
   void Swap(ChatRejectMessage* other);
@@ -8860,8 +7413,7 @@ class ChatRejectMessage : public ::google::protobuf::Message {
   // implements Message ----------------------------------------------
   
   ChatRejectMessage* New() const;
-  void CopyFrom(const ::google::protobuf::Message& from);
-  void MergeFrom(const ::google::protobuf::Message& from);
+  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from);
   void CopyFrom(const ChatRejectMessage& from);
   void MergeFrom(const ChatRejectMessage& from);
   void Clear();
@@ -8872,7 +7424,6 @@ class ChatRejectMessage : public ::google::protobuf::Message {
       ::google::protobuf::io::CodedInputStream* input);
   void SerializeWithCachedSizes(
       ::google::protobuf::io::CodedOutputStream* output) const;
-  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const;
   int GetCachedSize() const { return _cached_size_; }
   private:
   void SharedCtor();
@@ -8880,7 +7431,7 @@ class ChatRejectMessage : public ::google::protobuf::Message {
   void SetCachedSize(int size) const;
   public:
   
-  ::google::protobuf::Metadata GetMetadata() const;
+  ::std::string GetTypeName() const;
   
   // nested types ----------------------------------------------------
   
@@ -8902,8 +7453,6 @@ class ChatRejectMessage : public ::google::protobuf::Message {
   inline void set_has_chattext();
   inline void clear_has_chattext();
   
-  ::google::protobuf::UnknownFieldSet _unknown_fields_;
-  
   ::std::string* chattext_;
   
   mutable int _cached_size_;
@@ -8918,7 +7467,7 @@ class ChatRejectMessage : public ::google::protobuf::Message {
 };
 // -------------------------------------------------------------------
 
-class DialogMessage : public ::google::protobuf::Message {
+class DialogMessage : public ::google::protobuf::MessageLite {
  public:
   DialogMessage();
   virtual ~DialogMessage();
@@ -8930,15 +7479,6 @@ class DialogMessage : public ::google::protobuf::Message {
     return *this;
   }
   
-  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
-    return _unknown_fields_;
-  }
-  
-  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
-    return &_unknown_fields_;
-  }
-  
-  static const ::google::protobuf::Descriptor* descriptor();
   static const DialogMessage& default_instance();
   
   void Swap(DialogMessage* other);
@@ -8946,8 +7486,7 @@ class DialogMessage : public ::google::protobuf::Message {
   // implements Message ----------------------------------------------
   
   DialogMessage* New() const;
-  void CopyFrom(const ::google::protobuf::Message& from);
-  void MergeFrom(const ::google::protobuf::Message& from);
+  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from);
   void CopyFrom(const DialogMessage& from);
   void MergeFrom(const DialogMessage& from);
   void Clear();
@@ -8958,7 +7497,6 @@ class DialogMessage : public ::google::protobuf::Message {
       ::google::protobuf::io::CodedInputStream* input);
   void SerializeWithCachedSizes(
       ::google::protobuf::io::CodedOutputStream* output) const;
-  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const;
   int GetCachedSize() const { return _cached_size_; }
   private:
   void SharedCtor();
@@ -8966,7 +7504,7 @@ class DialogMessage : public ::google::protobuf::Message {
   void SetCachedSize(int size) const;
   public:
   
-  ::google::protobuf::Metadata GetMetadata() const;
+  ::std::string GetTypeName() const;
   
   // nested types ----------------------------------------------------
   
@@ -8988,8 +7526,6 @@ class DialogMessage : public ::google::protobuf::Message {
   inline void set_has_notificationtext();
   inline void clear_has_notificationtext();
   
-  ::google::protobuf::UnknownFieldSet _unknown_fields_;
-  
   ::std::string* notificationtext_;
   
   mutable int _cached_size_;
@@ -9004,7 +7540,7 @@ class DialogMessage : public ::google::protobuf::Message {
 };
 // -------------------------------------------------------------------
 
-class TimeoutWarningMessage : public ::google::protobuf::Message {
+class TimeoutWarningMessage : public ::google::protobuf::MessageLite {
  public:
   TimeoutWarningMessage();
   virtual ~TimeoutWarningMessage();
@@ -9016,15 +7552,6 @@ class TimeoutWarningMessage : public ::google::protobuf::Message {
     return *this;
   }
   
-  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
-    return _unknown_fields_;
-  }
-  
-  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
-    return &_unknown_fields_;
-  }
-  
-  static const ::google::protobuf::Descriptor* descriptor();
   static const TimeoutWarningMessage& default_instance();
   
   void Swap(TimeoutWarningMessage* other);
@@ -9032,8 +7559,7 @@ class TimeoutWarningMessage : public ::google::protobuf::Message {
   // implements Message ----------------------------------------------
   
   TimeoutWarningMessage* New() const;
-  void CopyFrom(const ::google::protobuf::Message& from);
-  void MergeFrom(const ::google::protobuf::Message& from);
+  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from);
   void CopyFrom(const TimeoutWarningMessage& from);
   void MergeFrom(const TimeoutWarningMessage& from);
   void Clear();
@@ -9044,7 +7570,6 @@ class TimeoutWarningMessage : public ::google::protobuf::Message {
       ::google::protobuf::io::CodedInputStream* input);
   void SerializeWithCachedSizes(
       ::google::protobuf::io::CodedOutputStream* output) const;
-  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const;
   int GetCachedSize() const { return _cached_size_; }
   private:
   void SharedCtor();
@@ -9052,7 +7577,7 @@ class TimeoutWarningMessage : public ::google::protobuf::Message {
   void SetCachedSize(int size) const;
   public:
   
-  ::google::protobuf::Metadata GetMetadata() const;
+  ::std::string GetTypeName() const;
   
   // nested types ----------------------------------------------------
   
@@ -9069,17 +7594,6 @@ class TimeoutWarningMessage : public ::google::protobuf::Message {
     TimeoutWarningMessage_TimeoutReason_TimeoutReason_MAX;
   static const int TimeoutReason_ARRAYSIZE =
     TimeoutWarningMessage_TimeoutReason_TimeoutReason_ARRAYSIZE;
-  static inline const ::google::protobuf::EnumDescriptor*
-  TimeoutReason_descriptor() {
-    return TimeoutWarningMessage_TimeoutReason_descriptor();
-  }
-  static inline const ::std::string& TimeoutReason_Name(TimeoutReason value) {
-    return TimeoutWarningMessage_TimeoutReason_Name(value);
-  }
-  static inline bool TimeoutReason_Parse(const ::std::string& name,
-      TimeoutReason* value) {
-    return TimeoutWarningMessage_TimeoutReason_Parse(name, value);
-  }
   
   // accessors -------------------------------------------------------
   
@@ -9104,8 +7618,6 @@ class TimeoutWarningMessage : public ::google::protobuf::Message {
   inline void set_has_remainingseconds();
   inline void clear_has_remainingseconds();
   
-  ::google::protobuf::UnknownFieldSet _unknown_fields_;
-  
   int timeoutreason_;
   ::google::protobuf::uint32 remainingseconds_;
   
@@ -9121,7 +7633,7 @@ class TimeoutWarningMessage : public ::google::protobuf::Message {
 };
 // -------------------------------------------------------------------
 
-class ResetTimeoutMessage : public ::google::protobuf::Message {
+class ResetTimeoutMessage : public ::google::protobuf::MessageLite {
  public:
   ResetTimeoutMessage();
   virtual ~ResetTimeoutMessage();
@@ -9133,15 +7645,6 @@ class ResetTimeoutMessage : public ::google::protobuf::Message {
     return *this;
   }
   
-  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
-    return _unknown_fields_;
-  }
-  
-  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
-    return &_unknown_fields_;
-  }
-  
-  static const ::google::protobuf::Descriptor* descriptor();
   static const ResetTimeoutMessage& default_instance();
   
   void Swap(ResetTimeoutMessage* other);
@@ -9149,8 +7652,7 @@ class ResetTimeoutMessage : public ::google::protobuf::Message {
   // implements Message ----------------------------------------------
   
   ResetTimeoutMessage* New() const;
-  void CopyFrom(const ::google::protobuf::Message& from);
-  void MergeFrom(const ::google::protobuf::Message& from);
+  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from);
   void CopyFrom(const ResetTimeoutMessage& from);
   void MergeFrom(const ResetTimeoutMessage& from);
   void Clear();
@@ -9161,7 +7663,6 @@ class ResetTimeoutMessage : public ::google::protobuf::Message {
       ::google::protobuf::io::CodedInputStream* input);
   void SerializeWithCachedSizes(
       ::google::protobuf::io::CodedOutputStream* output) const;
-  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const;
   int GetCachedSize() const { return _cached_size_; }
   private:
   void SharedCtor();
@@ -9169,7 +7670,7 @@ class ResetTimeoutMessage : public ::google::protobuf::Message {
   void SetCachedSize(int size) const;
   public:
   
-  ::google::protobuf::Metadata GetMetadata() const;
+  ::std::string GetTypeName() const;
   
   // nested types ----------------------------------------------------
   
@@ -9177,8 +7678,6 @@ class ResetTimeoutMessage : public ::google::protobuf::Message {
   
   // @@protoc_insertion_point(class_scope:ResetTimeoutMessage)
  private:
-  
-  ::google::protobuf::UnknownFieldSet _unknown_fields_;
   
   
   mutable int _cached_size_;
@@ -9193,7 +7692,7 @@ class ResetTimeoutMessage : public ::google::protobuf::Message {
 };
 // -------------------------------------------------------------------
 
-class ReportAvatarMessage : public ::google::protobuf::Message {
+class ReportAvatarMessage : public ::google::protobuf::MessageLite {
  public:
   ReportAvatarMessage();
   virtual ~ReportAvatarMessage();
@@ -9205,15 +7704,6 @@ class ReportAvatarMessage : public ::google::protobuf::Message {
     return *this;
   }
   
-  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
-    return _unknown_fields_;
-  }
-  
-  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
-    return &_unknown_fields_;
-  }
-  
-  static const ::google::protobuf::Descriptor* descriptor();
   static const ReportAvatarMessage& default_instance();
   
   void Swap(ReportAvatarMessage* other);
@@ -9221,8 +7711,7 @@ class ReportAvatarMessage : public ::google::protobuf::Message {
   // implements Message ----------------------------------------------
   
   ReportAvatarMessage* New() const;
-  void CopyFrom(const ::google::protobuf::Message& from);
-  void MergeFrom(const ::google::protobuf::Message& from);
+  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from);
   void CopyFrom(const ReportAvatarMessage& from);
   void MergeFrom(const ReportAvatarMessage& from);
   void Clear();
@@ -9233,7 +7722,6 @@ class ReportAvatarMessage : public ::google::protobuf::Message {
       ::google::protobuf::io::CodedInputStream* input);
   void SerializeWithCachedSizes(
       ::google::protobuf::io::CodedOutputStream* output) const;
-  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const;
   int GetCachedSize() const { return _cached_size_; }
   private:
   void SharedCtor();
@@ -9241,7 +7729,7 @@ class ReportAvatarMessage : public ::google::protobuf::Message {
   void SetCachedSize(int size) const;
   public:
   
-  ::google::protobuf::Metadata GetMetadata() const;
+  ::std::string GetTypeName() const;
   
   // nested types ----------------------------------------------------
   
@@ -9272,8 +7760,6 @@ class ReportAvatarMessage : public ::google::protobuf::Message {
   inline void set_has_reportedavatarhash();
   inline void clear_has_reportedavatarhash();
   
-  ::google::protobuf::UnknownFieldSet _unknown_fields_;
-  
   ::std::string* reportedavatarhash_;
   ::google::protobuf::uint32 reportedplayerid_;
   
@@ -9289,7 +7775,7 @@ class ReportAvatarMessage : public ::google::protobuf::Message {
 };
 // -------------------------------------------------------------------
 
-class ReportAvatarAckMessage : public ::google::protobuf::Message {
+class ReportAvatarAckMessage : public ::google::protobuf::MessageLite {
  public:
   ReportAvatarAckMessage();
   virtual ~ReportAvatarAckMessage();
@@ -9301,15 +7787,6 @@ class ReportAvatarAckMessage : public ::google::protobuf::Message {
     return *this;
   }
   
-  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
-    return _unknown_fields_;
-  }
-  
-  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
-    return &_unknown_fields_;
-  }
-  
-  static const ::google::protobuf::Descriptor* descriptor();
   static const ReportAvatarAckMessage& default_instance();
   
   void Swap(ReportAvatarAckMessage* other);
@@ -9317,8 +7794,7 @@ class ReportAvatarAckMessage : public ::google::protobuf::Message {
   // implements Message ----------------------------------------------
   
   ReportAvatarAckMessage* New() const;
-  void CopyFrom(const ::google::protobuf::Message& from);
-  void MergeFrom(const ::google::protobuf::Message& from);
+  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from);
   void CopyFrom(const ReportAvatarAckMessage& from);
   void MergeFrom(const ReportAvatarAckMessage& from);
   void Clear();
@@ -9329,7 +7805,6 @@ class ReportAvatarAckMessage : public ::google::protobuf::Message {
       ::google::protobuf::io::CodedInputStream* input);
   void SerializeWithCachedSizes(
       ::google::protobuf::io::CodedOutputStream* output) const;
-  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const;
   int GetCachedSize() const { return _cached_size_; }
   private:
   void SharedCtor();
@@ -9337,7 +7812,7 @@ class ReportAvatarAckMessage : public ::google::protobuf::Message {
   void SetCachedSize(int size) const;
   public:
   
-  ::google::protobuf::Metadata GetMetadata() const;
+  ::std::string GetTypeName() const;
   
   // nested types ----------------------------------------------------
   
@@ -9354,17 +7829,6 @@ class ReportAvatarAckMessage : public ::google::protobuf::Message {
     ReportAvatarAckMessage_ReportAvatarResult_ReportAvatarResult_MAX;
   static const int ReportAvatarResult_ARRAYSIZE =
     ReportAvatarAckMessage_ReportAvatarResult_ReportAvatarResult_ARRAYSIZE;
-  static inline const ::google::protobuf::EnumDescriptor*
-  ReportAvatarResult_descriptor() {
-    return ReportAvatarAckMessage_ReportAvatarResult_descriptor();
-  }
-  static inline const ::std::string& ReportAvatarResult_Name(ReportAvatarResult value) {
-    return ReportAvatarAckMessage_ReportAvatarResult_Name(value);
-  }
-  static inline bool ReportAvatarResult_Parse(const ::std::string& name,
-      ReportAvatarResult* value) {
-    return ReportAvatarAckMessage_ReportAvatarResult_Parse(name, value);
-  }
   
   // accessors -------------------------------------------------------
   
@@ -9389,8 +7853,6 @@ class ReportAvatarAckMessage : public ::google::protobuf::Message {
   inline void set_has_reportavatarresult();
   inline void clear_has_reportavatarresult();
   
-  ::google::protobuf::UnknownFieldSet _unknown_fields_;
-  
   ::google::protobuf::uint32 reportedplayerid_;
   int reportavatarresult_;
   
@@ -9406,7 +7868,7 @@ class ReportAvatarAckMessage : public ::google::protobuf::Message {
 };
 // -------------------------------------------------------------------
 
-class ReportGameMessage : public ::google::protobuf::Message {
+class ReportGameMessage : public ::google::protobuf::MessageLite {
  public:
   ReportGameMessage();
   virtual ~ReportGameMessage();
@@ -9418,15 +7880,6 @@ class ReportGameMessage : public ::google::protobuf::Message {
     return *this;
   }
   
-  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
-    return _unknown_fields_;
-  }
-  
-  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
-    return &_unknown_fields_;
-  }
-  
-  static const ::google::protobuf::Descriptor* descriptor();
   static const ReportGameMessage& default_instance();
   
   void Swap(ReportGameMessage* other);
@@ -9434,8 +7887,7 @@ class ReportGameMessage : public ::google::protobuf::Message {
   // implements Message ----------------------------------------------
   
   ReportGameMessage* New() const;
-  void CopyFrom(const ::google::protobuf::Message& from);
-  void MergeFrom(const ::google::protobuf::Message& from);
+  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from);
   void CopyFrom(const ReportGameMessage& from);
   void MergeFrom(const ReportGameMessage& from);
   void Clear();
@@ -9446,7 +7898,6 @@ class ReportGameMessage : public ::google::protobuf::Message {
       ::google::protobuf::io::CodedInputStream* input);
   void SerializeWithCachedSizes(
       ::google::protobuf::io::CodedOutputStream* output) const;
-  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const;
   int GetCachedSize() const { return _cached_size_; }
   private:
   void SharedCtor();
@@ -9454,7 +7905,7 @@ class ReportGameMessage : public ::google::protobuf::Message {
   void SetCachedSize(int size) const;
   public:
   
-  ::google::protobuf::Metadata GetMetadata() const;
+  ::std::string GetTypeName() const;
   
   // nested types ----------------------------------------------------
   
@@ -9472,8 +7923,6 @@ class ReportGameMessage : public ::google::protobuf::Message {
   inline void set_has_reportedgameid();
   inline void clear_has_reportedgameid();
   
-  ::google::protobuf::UnknownFieldSet _unknown_fields_;
-  
   ::google::protobuf::uint32 reportedgameid_;
   
   mutable int _cached_size_;
@@ -9488,7 +7937,7 @@ class ReportGameMessage : public ::google::protobuf::Message {
 };
 // -------------------------------------------------------------------
 
-class ReportGameAckMessage : public ::google::protobuf::Message {
+class ReportGameAckMessage : public ::google::protobuf::MessageLite {
  public:
   ReportGameAckMessage();
   virtual ~ReportGameAckMessage();
@@ -9500,15 +7949,6 @@ class ReportGameAckMessage : public ::google::protobuf::Message {
     return *this;
   }
   
-  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
-    return _unknown_fields_;
-  }
-  
-  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
-    return &_unknown_fields_;
-  }
-  
-  static const ::google::protobuf::Descriptor* descriptor();
   static const ReportGameAckMessage& default_instance();
   
   void Swap(ReportGameAckMessage* other);
@@ -9516,8 +7956,7 @@ class ReportGameAckMessage : public ::google::protobuf::Message {
   // implements Message ----------------------------------------------
   
   ReportGameAckMessage* New() const;
-  void CopyFrom(const ::google::protobuf::Message& from);
-  void MergeFrom(const ::google::protobuf::Message& from);
+  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from);
   void CopyFrom(const ReportGameAckMessage& from);
   void MergeFrom(const ReportGameAckMessage& from);
   void Clear();
@@ -9528,7 +7967,6 @@ class ReportGameAckMessage : public ::google::protobuf::Message {
       ::google::protobuf::io::CodedInputStream* input);
   void SerializeWithCachedSizes(
       ::google::protobuf::io::CodedOutputStream* output) const;
-  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const;
   int GetCachedSize() const { return _cached_size_; }
   private:
   void SharedCtor();
@@ -9536,7 +7974,7 @@ class ReportGameAckMessage : public ::google::protobuf::Message {
   void SetCachedSize(int size) const;
   public:
   
-  ::google::protobuf::Metadata GetMetadata() const;
+  ::std::string GetTypeName() const;
   
   // nested types ----------------------------------------------------
   
@@ -9553,17 +7991,6 @@ class ReportGameAckMessage : public ::google::protobuf::Message {
     ReportGameAckMessage_ReportGameResult_ReportGameResult_MAX;
   static const int ReportGameResult_ARRAYSIZE =
     ReportGameAckMessage_ReportGameResult_ReportGameResult_ARRAYSIZE;
-  static inline const ::google::protobuf::EnumDescriptor*
-  ReportGameResult_descriptor() {
-    return ReportGameAckMessage_ReportGameResult_descriptor();
-  }
-  static inline const ::std::string& ReportGameResult_Name(ReportGameResult value) {
-    return ReportGameAckMessage_ReportGameResult_Name(value);
-  }
-  static inline bool ReportGameResult_Parse(const ::std::string& name,
-      ReportGameResult* value) {
-    return ReportGameAckMessage_ReportGameResult_Parse(name, value);
-  }
   
   // accessors -------------------------------------------------------
   
@@ -9588,8 +8015,6 @@ class ReportGameAckMessage : public ::google::protobuf::Message {
   inline void set_has_reportgameresult();
   inline void clear_has_reportgameresult();
   
-  ::google::protobuf::UnknownFieldSet _unknown_fields_;
-  
   ::google::protobuf::uint32 reportedgameid_;
   int reportgameresult_;
   
@@ -9605,7 +8030,7 @@ class ReportGameAckMessage : public ::google::protobuf::Message {
 };
 // -------------------------------------------------------------------
 
-class ErrorMessage : public ::google::protobuf::Message {
+class ErrorMessage : public ::google::protobuf::MessageLite {
  public:
   ErrorMessage();
   virtual ~ErrorMessage();
@@ -9617,15 +8042,6 @@ class ErrorMessage : public ::google::protobuf::Message {
     return *this;
   }
   
-  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
-    return _unknown_fields_;
-  }
-  
-  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
-    return &_unknown_fields_;
-  }
-  
-  static const ::google::protobuf::Descriptor* descriptor();
   static const ErrorMessage& default_instance();
   
   void Swap(ErrorMessage* other);
@@ -9633,8 +8049,7 @@ class ErrorMessage : public ::google::protobuf::Message {
   // implements Message ----------------------------------------------
   
   ErrorMessage* New() const;
-  void CopyFrom(const ::google::protobuf::Message& from);
-  void MergeFrom(const ::google::protobuf::Message& from);
+  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from);
   void CopyFrom(const ErrorMessage& from);
   void MergeFrom(const ErrorMessage& from);
   void Clear();
@@ -9645,7 +8060,6 @@ class ErrorMessage : public ::google::protobuf::Message {
       ::google::protobuf::io::CodedInputStream* input);
   void SerializeWithCachedSizes(
       ::google::protobuf::io::CodedOutputStream* output) const;
-  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const;
   int GetCachedSize() const { return _cached_size_; }
   private:
   void SharedCtor();
@@ -9653,7 +8067,7 @@ class ErrorMessage : public ::google::protobuf::Message {
   void SetCachedSize(int size) const;
   public:
   
-  ::google::protobuf::Metadata GetMetadata() const;
+  ::std::string GetTypeName() const;
   
   // nested types ----------------------------------------------------
   
@@ -9682,17 +8096,6 @@ class ErrorMessage : public ::google::protobuf::Message {
     ErrorMessage_ErrorReason_ErrorReason_MAX;
   static const int ErrorReason_ARRAYSIZE =
     ErrorMessage_ErrorReason_ErrorReason_ARRAYSIZE;
-  static inline const ::google::protobuf::EnumDescriptor*
-  ErrorReason_descriptor() {
-    return ErrorMessage_ErrorReason_descriptor();
-  }
-  static inline const ::std::string& ErrorReason_Name(ErrorReason value) {
-    return ErrorMessage_ErrorReason_Name(value);
-  }
-  static inline bool ErrorReason_Parse(const ::std::string& name,
-      ErrorReason* value) {
-    return ErrorMessage_ErrorReason_Parse(name, value);
-  }
   
   // accessors -------------------------------------------------------
   
@@ -9708,8 +8111,6 @@ class ErrorMessage : public ::google::protobuf::Message {
   inline void set_has_errorreason();
   inline void clear_has_errorreason();
   
-  ::google::protobuf::UnknownFieldSet _unknown_fields_;
-  
   int errorreason_;
   
   mutable int _cached_size_;
@@ -9724,7 +8125,7 @@ class ErrorMessage : public ::google::protobuf::Message {
 };
 // -------------------------------------------------------------------
 
-class PokerTHMessage : public ::google::protobuf::Message {
+class PokerTHMessage : public ::google::protobuf::MessageLite {
  public:
   PokerTHMessage();
   virtual ~PokerTHMessage();
@@ -9736,15 +8137,6 @@ class PokerTHMessage : public ::google::protobuf::Message {
     return *this;
   }
   
-  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
-    return _unknown_fields_;
-  }
-  
-  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
-    return &_unknown_fields_;
-  }
-  
-  static const ::google::protobuf::Descriptor* descriptor();
   static const PokerTHMessage& default_instance();
   
   void Swap(PokerTHMessage* other);
@@ -9752,8 +8144,7 @@ class PokerTHMessage : public ::google::protobuf::Message {
   // implements Message ----------------------------------------------
   
   PokerTHMessage* New() const;
-  void CopyFrom(const ::google::protobuf::Message& from);
-  void MergeFrom(const ::google::protobuf::Message& from);
+  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from);
   void CopyFrom(const PokerTHMessage& from);
   void MergeFrom(const PokerTHMessage& from);
   void Clear();
@@ -9764,7 +8155,6 @@ class PokerTHMessage : public ::google::protobuf::Message {
       ::google::protobuf::io::CodedInputStream* input);
   void SerializeWithCachedSizes(
       ::google::protobuf::io::CodedOutputStream* output) const;
-  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const;
   int GetCachedSize() const { return _cached_size_; }
   private:
   void SharedCtor();
@@ -9772,7 +8162,7 @@ class PokerTHMessage : public ::google::protobuf::Message {
   void SetCachedSize(int size) const;
   public:
   
-  ::google::protobuf::Metadata GetMetadata() const;
+  ::std::string GetTypeName() const;
   
   // nested types ----------------------------------------------------
   
@@ -9859,17 +8249,6 @@ class PokerTHMessage : public ::google::protobuf::Message {
     PokerTHMessage_PokerTHMessageType_PokerTHMessageType_MAX;
   static const int PokerTHMessageType_ARRAYSIZE =
     PokerTHMessage_PokerTHMessageType_PokerTHMessageType_ARRAYSIZE;
-  static inline const ::google::protobuf::EnumDescriptor*
-  PokerTHMessageType_descriptor() {
-    return PokerTHMessage_PokerTHMessageType_descriptor();
-  }
-  static inline const ::std::string& PokerTHMessageType_Name(PokerTHMessageType value) {
-    return PokerTHMessage_PokerTHMessageType_Name(value);
-  }
-  static inline bool PokerTHMessageType_Parse(const ::std::string& name,
-      PokerTHMessageType* value) {
-    return PokerTHMessage_PokerTHMessageType_Parse(name, value);
-  }
   
   // accessors -------------------------------------------------------
   
@@ -10614,8 +8993,6 @@ class PokerTHMessage : public ::google::protobuf::Message {
   inline void clear_has_reportgameackmessage();
   inline void set_has_errormessage();
   inline void clear_has_errormessage();
-  
-  ::google::protobuf::UnknownFieldSet _unknown_fields_;
   
   ::AnnounceMessage* announcemessage_;
   ::InitMessage* initmessage_;
@@ -19240,131 +17617,6 @@ inline ::ErrorMessage* PokerTHMessage::release_errormessage() {
 
 
 // @@protoc_insertion_point(namespace_scope)
-
-#ifndef SWIG
-namespace google {
-namespace protobuf {
-
-template <>
-inline const EnumDescriptor* GetEnumDescriptor< ::NetGameInfo_NetGameType>() {
-  return ::NetGameInfo_NetGameType_descriptor();
-}
-template <>
-inline const EnumDescriptor* GetEnumDescriptor< ::NetGameInfo_RaiseIntervalMode>() {
-  return ::NetGameInfo_RaiseIntervalMode_descriptor();
-}
-template <>
-inline const EnumDescriptor* GetEnumDescriptor< ::NetGameInfo_EndRaiseMode>() {
-  return ::NetGameInfo_EndRaiseMode_descriptor();
-}
-template <>
-inline const EnumDescriptor* GetEnumDescriptor< ::AnnounceMessage_ServerType>() {
-  return ::AnnounceMessage_ServerType_descriptor();
-}
-template <>
-inline const EnumDescriptor* GetEnumDescriptor< ::InitMessage_LoginType>() {
-  return ::InitMessage_LoginType_descriptor();
-}
-template <>
-inline const EnumDescriptor* GetEnumDescriptor< ::PlayerListMessage_PlayerListNotification>() {
-  return ::PlayerListMessage_PlayerListNotification_descriptor();
-}
-template <>
-inline const EnumDescriptor* GetEnumDescriptor< ::SubscriptionRequestMessage_SubscriptionAction>() {
-  return ::SubscriptionRequestMessage_SubscriptionAction_descriptor();
-}
-template <>
-inline const EnumDescriptor* GetEnumDescriptor< ::JoinGameFailedMessage_JoinGameFailureReason>() {
-  return ::JoinGameFailedMessage_JoinGameFailureReason_descriptor();
-}
-template <>
-inline const EnumDescriptor* GetEnumDescriptor< ::GamePlayerLeftMessage_GamePlayerLeftReason>() {
-  return ::GamePlayerLeftMessage_GamePlayerLeftReason_descriptor();
-}
-template <>
-inline const EnumDescriptor* GetEnumDescriptor< ::RemovedFromGameMessage_RemovedFromGameReason>() {
-  return ::RemovedFromGameMessage_RemovedFromGameReason_descriptor();
-}
-template <>
-inline const EnumDescriptor* GetEnumDescriptor< ::RejectGameInvitationMessage_RejectGameInvReason>() {
-  return ::RejectGameInvitationMessage_RejectGameInvReason_descriptor();
-}
-template <>
-inline const EnumDescriptor* GetEnumDescriptor< ::StartEventMessage_StartEventType>() {
-  return ::StartEventMessage_StartEventType_descriptor();
-}
-template <>
-inline const EnumDescriptor* GetEnumDescriptor< ::YourActionRejectedMessage_RejectionReason>() {
-  return ::YourActionRejectedMessage_RejectionReason_descriptor();
-}
-template <>
-inline const EnumDescriptor* GetEnumDescriptor< ::AskKickDeniedMessage_KickDeniedReason>() {
-  return ::AskKickDeniedMessage_KickDeniedReason_descriptor();
-}
-template <>
-inline const EnumDescriptor* GetEnumDescriptor< ::VoteKickReplyMessage_VoteKickReplyType>() {
-  return ::VoteKickReplyMessage_VoteKickReplyType_descriptor();
-}
-template <>
-inline const EnumDescriptor* GetEnumDescriptor< ::EndKickPetitionMessage_PetitionEndReason>() {
-  return ::EndKickPetitionMessage_PetitionEndReason_descriptor();
-}
-template <>
-inline const EnumDescriptor* GetEnumDescriptor< ::StatisticsMessage_StatisticsData_StatisticsType>() {
-  return ::StatisticsMessage_StatisticsData_StatisticsType_descriptor();
-}
-template <>
-inline const EnumDescriptor* GetEnumDescriptor< ::ChatMessage_ChatType>() {
-  return ::ChatMessage_ChatType_descriptor();
-}
-template <>
-inline const EnumDescriptor* GetEnumDescriptor< ::TimeoutWarningMessage_TimeoutReason>() {
-  return ::TimeoutWarningMessage_TimeoutReason_descriptor();
-}
-template <>
-inline const EnumDescriptor* GetEnumDescriptor< ::ReportAvatarAckMessage_ReportAvatarResult>() {
-  return ::ReportAvatarAckMessage_ReportAvatarResult_descriptor();
-}
-template <>
-inline const EnumDescriptor* GetEnumDescriptor< ::ReportGameAckMessage_ReportGameResult>() {
-  return ::ReportGameAckMessage_ReportGameResult_descriptor();
-}
-template <>
-inline const EnumDescriptor* GetEnumDescriptor< ::ErrorMessage_ErrorReason>() {
-  return ::ErrorMessage_ErrorReason_descriptor();
-}
-template <>
-inline const EnumDescriptor* GetEnumDescriptor< ::PokerTHMessage_PokerTHMessageType>() {
-  return ::PokerTHMessage_PokerTHMessageType_descriptor();
-}
-template <>
-inline const EnumDescriptor* GetEnumDescriptor< NetGameMode>() {
-  return NetGameMode_descriptor();
-}
-template <>
-inline const EnumDescriptor* GetEnumDescriptor< NetGameState>() {
-  return NetGameState_descriptor();
-}
-template <>
-inline const EnumDescriptor* GetEnumDescriptor< NetPlayerAction>() {
-  return NetPlayerAction_descriptor();
-}
-template <>
-inline const EnumDescriptor* GetEnumDescriptor< NetPlayerState>() {
-  return NetPlayerState_descriptor();
-}
-template <>
-inline const EnumDescriptor* GetEnumDescriptor< NetPlayerInfoRights>() {
-  return NetPlayerInfoRights_descriptor();
-}
-template <>
-inline const EnumDescriptor* GetEnumDescriptor< NetAvatarType>() {
-  return NetAvatarType_descriptor();
-}
-
-}  // namespace google
-}  // namespace protobuf
-#endif  // SWIG
 
 // @@protoc_insertion_point(global_scope)
 
