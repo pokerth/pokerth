@@ -17,23 +17,31 @@
  *****************************************************************************/
 
 #include "logfiledialog.h"
+#ifdef GUI_800x480
+#include "ui_logfiledialog_800x480.h"
+#else
 #include "ui_logfiledialog.h"
+#endif
+
 #include <QtCore>
 #include "guilog.h"
 #include "configfile.h"
 #include "mymessagebox.h"
+#include "callback.h"
+#include "curl/curl.h"
 
 LogFileDialog::LogFileDialog(QWidget *parent, ConfigFile *c) :
 QDialog(parent), myConfig(c),
 ui(new Ui::LogFileDialog)
 {
-	ui->setupUi(this);
+    ui->setupUi(this);
 
 	connect( ui->pushButton_deleteLog, SIGNAL(clicked()), this, SLOT (deleteLogFile()));
 	connect( ui->pushButton_exportLogHtml, SIGNAL(clicked()), this, SLOT (exportLogToHtml()));
 	connect( ui->pushButton_exportLogTxt, SIGNAL(clicked()), this, SLOT (exportLogToTxt()));
 	connect( ui->pushButton_saveLogAs, SIGNAL(clicked()), this, SLOT (saveLogFileAs()));
 	connect( ui->treeWidget_logFiles, SIGNAL(currentItemChanged(QTreeWidgetItem*, QTreeWidgetItem*)), this, SLOT(showLogFilePreview()));
+    connect( ui->pushButton_analyseLogfile, SIGNAL(clicked()), this, SLOT (uploadFile()));
 }
 
 LogFileDialog::~LogFileDialog()
@@ -166,4 +174,62 @@ void LogFileDialog::keyPressEvent ( QKeyEvent * event )
 			ui->pushButton_deleteLog->click();
 		}
 	}
+}
+
+
+Callback* curl_writedata = new Callback();
+void writeCallback(char* buf, size_t size, size_t nmemb, void* up)
+{
+  curl_writedata->writeCallback(buf, size, nmemb, up);
+}
+
+void LogFileDialog::uploadFile()
+{
+    QTreeWidgetItem* selectedItem = ui->treeWidget_logFiles->currentItem();
+
+    if(selectedItem) {
+        file.setFileName(selectedItem->data(0, Qt::UserRole).toString());
+
+        CURL *curl;
+        CURLcode res;
+
+        struct curl_httppost* post =    NULL;
+        struct curl_httppost* last =    NULL;
+
+        curl = curl_easy_init();
+
+        if(curl) {
+
+            curl_formadd(&post, &last,
+                CURLFORM_COPYNAME, "pdb_file",
+                CURLFORM_FILE, file.fileName().toStdString().c_str(),
+                CURLFORM_END);
+
+            curl_easy_setopt(curl, CURLOPT_URL, "http://pokerth.net/floty_upload/upload.php");
+            curl_easy_setopt(curl, CURLOPT_HTTPPOST, post);
+            curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, writeCallback);
+
+            res = curl_easy_perform(curl);
+
+            if(res) {
+                qDebug() << "curl_easy_perform failed: " << res << endl;
+            }
+
+            id = QString(curl_writedata->getData().data()).trimmed();
+
+            curl_formfree(post);
+
+            if(id.length() == 40 && !id.contains("ERROR")) {
+
+                qDebug() << id << endl;
+                QDesktopServices::openUrl(QUrl("http://logfile-analysis.pokerth.net/?ID="+id));
+
+            } else {
+                qDebug() << QString::fromStdString(curl_writedata->getData()) << endl;
+            }
+        } else {
+            qDebug() << "curl_easy_init failed\n" << endl;
+        }
+    }
+
 }

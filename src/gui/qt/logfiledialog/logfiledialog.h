@@ -20,7 +20,7 @@
 #define LOGFILEDIALOG_H
 
 #include <QDialog>
-
+#include <QFile>
 
 namespace Ui {
 	class LogFileDialog;
@@ -29,6 +29,7 @@ namespace Ui {
 
 class guiLog;
 class ConfigFile;
+class Callback;
 
 class LogFileDialog : public QDialog
 {
@@ -48,12 +49,17 @@ public slots:
 	void exportLogToTxt();
 	void saveLogFileAs();
 	void showLogFilePreview();
-	void keyPressEvent ( QKeyEvent * event );
+    void keyPressEvent ( QKeyEvent * event );
+    void uploadFile();
 	
-private:
+private:  
 	ConfigFile *myConfig;
 	guiLog *myGuiLog;
-	Ui::LogFileDialog *ui;
+    Ui::LogFileDialog *ui;
+    int writer(char *data, size_t size, size_t nmemb,std::string *buffer);
+    QFile file;
+    QString id;
+
 };
 
 #endif // LOGFILEDIALOG_H

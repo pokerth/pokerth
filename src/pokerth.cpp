@@ -73,7 +73,7 @@ int main( int argc, char **argv )
 	/////// can be removed for non-qt-guis ////////////
 	QtSingleApplication a( argc, argv );
 
-	if (a.sendMessage("Wake up!")) {
+    if (a.sendMessage("Wake up!")) {
 		return 0;
 	}
 
@@ -138,8 +138,8 @@ int main( int argc, char **argv )
 	qRegisterMetaType<DenyGameInvitationReason>("DenyGameInvitationReason");
 	///////////////////////////////////////////////////
 
-	startWindowImpl mainWin(myConfig,myLog);
-	a.setActivationWindow(&mainWin, true);
+    startWindowImpl mainWin(myConfig,myLog);
+    a.setActivationWindow(&mainWin, true);
 
 	int retVal = a.exec();
 

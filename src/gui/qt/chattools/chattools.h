@@ -74,6 +74,7 @@ public slots:
 		myStyle = theValue;
 	}
 	void refreshIgnoreList();
+    QString checkForEmotes(QString);
 
 protected:
 

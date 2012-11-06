@@ -210,7 +210,8 @@ HEADERS += src/engine/game.h \
     src/gui/qt/gametable/mycashlabel.h \
     src/gui/qt/sound/soundevents.h \
     src/gui/qt/mymessagebox/mymessagebox.h \
-    src/gui/qt/logfiledialog/logfiledialog.h
+    src/gui/qt/logfiledialog/logfiledialog.h \
+    src/gui/qt/logfiledialog/callback.h
 
 !gui_800x480 {
     FORMS += src/gui/qt/gametable.ui \
@@ -230,6 +231,7 @@ HEADERS += src/engine/game.h \
 	src/gui/qt/manualblindsorderdialog.ui \
 	src/gui/qt/serverlistdialog.ui \
 	src/gui/qt/internetgamelogindialog.ui \
+        src/gui/qt/logfiledialog.ui \
 	src/gui/qt/changecontentdialog.ui
 }
 
@@ -287,7 +289,8 @@ SOURCES += src/pokerth.cpp \
     src/gui/qt/gametable/mycashlabel.cpp \
     src/gui/qt/sound/soundevents.cpp \
     src/gui/qt/mymessagebox/mymessagebox.cpp \
-    src/gui/qt/logfiledialog/logfiledialog.cpp
+    src/gui/qt/logfiledialog/logfiledialog.cpp \
+    src/gui/qt/logfiledialog/callback.cpp
 TRANSLATIONS = ts/pokerth_af.ts \
 	ts/pokerth_bg.ts \
 	ts/pokerth_zhcn.ts \
@@ -505,7 +508,7 @@ unix:!mac {
 		LIBS += -ltinyxml
 		LIBS += $$BOOST_LIBS
 		LIBS += -lgsasl -lidn
-		LIBS += -lssl -lcrypto -lgcrypt -lgpg-error
+                LIBS += -lssl -lcrypto -lgcrypt -lgpg-error -lprotobuf
 	}
 	TARGETDEPS += ./lib/libpokerth_lib.a \
 		./lib/libpokerth_db.a \
@@ -613,6 +616,7 @@ gui_800x480 {
 		src/gui/qt/gui_800x480/serverlistdialog_800x480.ui \
 		src/gui/qt/gui_800x480/internetgamelogindialog_800x480.ui \
 		src/gui/qt/gui_800x480/changecontentdialog_800x480.ui \
+                src/gui/qt/gui_800x480/logfiledialog_800x480.ui \
 		src/gui/qt/gui_800x480/tabs_800x480.ui
 }
 
@@ -630,6 +634,3 @@ maemo{
 android_test{
 	DEFINES += ANDROID
 }
-
-FORMS += \
-    src/gui/qt/logfiledialog.ui

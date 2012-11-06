@@ -1,4 +1,4 @@
-<RCC>
+<!DOCTYPE RCC><RCC version="1.0">
     <qresource prefix="/gfx">
         <file>view-fullscreen.png</file>
         <file>swbuttoninternetgame.png</file>
@@ -308,5 +308,32 @@
         <file>cflags/ch.png</file>
         <file>cflags/np.png</file>
         <file>cflags/undefined.png</file>
+    </qresource>
+    <qresource prefix="/emotes">
+        <file>emotes/face-angel.png</file>
+        <file>emotes/face-angry.png</file>
+        <file>emotes/face-confused.png</file>
+        <file>emotes/face-cool.png</file>
+        <file>emotes/face-crying.png</file>
+        <file>emotes/face-devilish.png</file>
+        <file>emotes/face-embarrassed.png</file>
+        <file>emotes/face-in-love.png</file>
+        <file>emotes/face-kiss.png</file>
+        <file>emotes/face-laugh.png</file>
+        <file>emotes/face-plain.png</file>
+        <file>emotes/face-quiet.png</file>
+        <file>emotes/face-raspberry.png</file>
+        <file>emotes/face-sad.png</file>
+        <file>emotes/face-sick.png</file>
+        <file>emotes/face-sleep.png</file>
+        <file>emotes/face-smile-big.png</file>
+        <file>emotes/face-smile-grin.png</file>
+        <file>emotes/face-smile.png</file>
+        <file>emotes/face-smirk.png</file>
+        <file>emotes/face-surprise.png</file>
+        <file>emotes/face-uncertain.png</file>
+        <file>emotes/face-wink.png</file>
+        <file>emotes/face-worried.png</file>
+        <file>emotes/face-yawn.png</file>
     </qresource>
 </RCC>
