@@ -508,7 +508,7 @@ unix:!mac {
 		LIBS += -ltinyxml
 		LIBS += $$BOOST_LIBS
 		LIBS += -lgsasl -lidn
-                LIBS += -lssl -lcrypto -lgcrypt -lgpg-error -lprotobuf
+                LIBS += -lssl -lcrypto -lgcrypt -lgpg-error -lprotobuf-lite
 	}
 	TARGETDEPS += ./lib/libpokerth_lib.a \
 		./lib/libpokerth_db.a \
