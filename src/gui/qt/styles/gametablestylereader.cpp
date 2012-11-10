@@ -127,7 +127,6 @@ void GameTableStyleReader::readStyleFile(QString file)
 
     if(doc.RootElement()) {
         TiXmlHandle docHandle( &doc );
-
         TiXmlElement *CardDeckElement = docHandle.FirstChild( "PokerTH" ).FirstChild( "CardDeck" ).ToElement();
         if(CardDeckElement) {
             MyMessageBox::warning(myW, tr("Game Table Style Error"),
@@ -1254,7 +1253,8 @@ void GameTableStyleReader::readStyleFile(QString file)
             }
             loadedSuccessfull = 1;
         }
-    } else {
+    }
+    else {
         loadedSuccessfull = 0;
         MyMessageBox::warning(myW, tr("Game Table Style Error"),
                               tr("Cannot load game table style file: %1 \n\nPlease check the style file or choose another style!").arg(currentFileName),
@@ -1287,8 +1287,8 @@ void GameTableStyleReader::showLeftItemsErrorMessage()
 
     myMessageDialogImpl dialog(myConfig, myW);
 
-    if(dialog.checkIfMesssageWillBeDisplayed(5)) {
-        dialog.exec(5, tr("Selected game table style \"%1\" seems to be incomplete or defective. \n\nThe value(s) of: \n%2 \nis/are missing. \n\nAnyway you can play with this style, because the missing content will be filled up by PokerTH default style. \n\nPlease contact the game table style builder via \"%3\".").arg(StyleDescription).arg(items).arg(EMail), tr("Game Table Style Error - Fields content missing"), QPixmap(":/gfx/emblem-important-64.png"), QDialogButtonBox::Ok, true);
+    if(dialog.checkIfMesssageWillBeDisplayed(GT_VALUES_MISSING)) {
+        dialog.exec(GT_VALUES_MISSING, tr("Selected game table style \"%1\" seems to be incomplete or defective. \n\nThe value(s) of: \n%2 \nis/are missing. \n\nAnyway you can play with this style, because the missing content will be filled up by PokerTH default style. \n\nPlease contact the game table style builder via \"%3\".").arg(StyleDescription).arg(items).arg(EMail), tr("Game Table Style Error - Fields content missing"), QPixmap(":/gfx/emblem-important-64.png"), QDialogButtonBox::Ok, true);
     }
 
 }
@@ -1301,8 +1301,8 @@ void GameTableStyleReader::showItemPicsLeftErrorMessage()
 
     myMessageDialogImpl dialog(myConfig, myW);
 
-    if(dialog.checkIfMesssageWillBeDisplayed(6)) {
-        dialog.exec(6, tr("One or more pictures from current game table style \"%1\" were not found: \n\n%2 \n\nAnyway you can play with this style, because the missing content will be filled up by PokerTH default style. \n\nPlease contact the game table style builder via \"%3\".").arg(StyleDescription).arg(pics).arg(EMail), tr("Game Table Style Error - Pictures missing"), QPixmap(":/gfx/emblem-important-64.png"), QDialogButtonBox::Ok, true);
+    if(dialog.checkIfMesssageWillBeDisplayed(GT_PICS_MISSING)) {
+        dialog.exec(GT_PICS_MISSING, tr("One or more pictures from current game table style \"%1\" were not found: \n\n%2 \n\nAnyway you can play with this style, because the missing content will be filled up by PokerTH default style. \n\nPlease contact the game table style builder via \"%3\".").arg(StyleDescription).arg(pics).arg(EMail), tr("Game Table Style Error - Pictures missing"), QPixmap(":/gfx/emblem-important-64.png"), QDialogButtonBox::Ok, true);
     }
 }
 
@@ -1313,8 +1313,8 @@ void GameTableStyleReader::showOutdatedErrorMessage()
 
     myMessageDialogImpl dialog(myConfig, myW);
 
-    if(dialog.checkIfMesssageWillBeDisplayed(7)) {
-        dialog.exec(7, tr("Selected game table style \"%1\" seems to be outdated. \nThe current PokerTH game table style version is \"%2\", but this style has version \"%3\" set. \n\nAnyway you can play with this style, because the missing content will be filled up by PokerTH default style. \n\nPlease contact the game table style builder  via \"%4\".").arg(StyleDescription).arg(POKERTH_GT_STYLE_FILE_VERSION).arg(PokerTHStyleFileVersion).arg(EMail), tr("Game Table Style Error - Outdated"), QPixmap(":/gfx/emblem-important-64.png"), QDialogButtonBox::Ok, true);
+    if(dialog.checkIfMesssageWillBeDisplayed(GT_OUTDATED)) {
+        dialog.exec(GT_OUTDATED, tr("Selected game table style \"%1\" seems to be outdated. \nThe current PokerTH game table style version is \"%2\", but this style has version \"%3\" set. \n\nAnyway you can play with this style, because the missing content will be filled up by PokerTH default style. \n\nPlease contact the game table style builder  via \"%4\".").arg(StyleDescription).arg(POKERTH_GT_STYLE_FILE_VERSION).arg(PokerTHStyleFileVersion).arg(EMail), tr("Game Table Style Error - Outdated"), QPixmap(":/gfx/emblem-important-64.png"), QDialogButtonBox::Ok, true);
     }
 }
 
@@ -1693,27 +1693,18 @@ QString GameTableStyleReader::getFallBackFieldContent(QString field, int type)
 
     if(doc.RootElement()) {
         TiXmlHandle docHandle( &doc );
-
-        TiXmlElement *CardDeckElement = docHandle.FirstChild( "PokerTH" ).FirstChild( "CardDeck" ).ToElement();
-        if(CardDeckElement) {
-            MyMessageBox::warning(myW, tr("Game Table Style Error"),
-                                  tr("A card deck style was selected instead of a game table style.\nPlease select a game table style and try again!"),
-                                  QMessageBox::Ok);
-        } else {
-            TiXmlElement* itemsList = docHandle.FirstChild( "PokerTH" ).FirstChild( "TableStyle" ).FirstChild().ToElement();
-            for( ; itemsList; itemsList=itemsList->NextSiblingElement()) {
-                const char *tmpStr1 = itemsList->Attribute("value");
-                if (tmpStr1) {
-                    tempString1 = tmpStr1;
-                    if(itemsList->ValueStr() == field.toStdString()) {
-                        if(type == 1) return QString(QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str())+"gfx/gui/table/default/"+QString::fromUtf8(tempString1.c_str()));
-                        else return QString::fromUtf8(tempString1.c_str());
-                    }
+        TiXmlElement* itemsList = docHandle.FirstChild( "PokerTH" ).FirstChild( "TableStyle" ).FirstChild().ToElement();
+        for( ; itemsList; itemsList=itemsList->NextSiblingElement()) {
+            const char *tmpStr1 = itemsList->Attribute("value");
+            if (tmpStr1) {
+                tempString1 = tmpStr1;
+                if(itemsList->ValueStr() == field.toStdString()) {
+                    if(type == 1) return QString(QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str())+"gfx/gui/table/default/"+QString::fromUtf8(tempString1.c_str()));
+                    else return QString::fromUtf8(tempString1.c_str());
                 }
             }
         }
     }
-
     return QString("");
 }
 

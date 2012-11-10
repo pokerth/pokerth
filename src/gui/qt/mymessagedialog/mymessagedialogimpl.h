@@ -24,6 +24,22 @@
 #include "ui_mymessagedialog.h"
 #endif
 
+enum MESSAGE_CONTENT {
+    NONE=0,                           //0: not set ;)
+    BACKTO_LOBBY_QUESTION,          //1: leave lobby during online game: Question(Do you really wanna leave?)
+    INFO_AFTER_JOIN_INVITE_GAME,    //2: join invite only game: Info(You can invite people with right click ...)
+    JOIN_INVITE_GAME_QUESTION,      //3: reciev invite to game: Question(You've been invited to the game <b>%1</b> by <b>%2</b>.<br>Do you want to join this game?)
+    INGNORE_PLAYER_QUESTION,        //4: click ignore player: Question(Do you really want to put this player on ignore List?)
+    GT_VALUES_MISSING,              //5: Selected game table style \"%1\" seems to be incomplete or defective. \n\nThe value(s) of: \n%2 \nis/are missing.
+    CLOSE_GAMETABLE_QUESTION,       //6: close gametable: Do you really wanna quit?
+    GT_PICS_MISSING,                //7: One or more pictures from current game table style \"%1\" were not found:
+    GT_OUTDATED,                    //8: Selected game table style \"%1\" seems to be outdated. \nThe current PokerTH game table style version is
+    CD_VALUES_MISSING,              //9:
+    CD_PICS_MISSING,                //10:
+    CD_OUTDATED                     //11:
+
+};
+
 class ConfigFile;
 
 class myMessageDialogImpl: public QDialog, public Ui::myMessageDialog
@@ -52,10 +68,3 @@ private:
 
 #endif
 
-// messages --> id: content
-//1: leave lobby during online game: Question(Do you really wanna leave?)
-//2: join invite only game: Info(You can invite people with right click ...)
-//3: reciev invite to game: Question(You've been invited to the game <b>%1</b> by <b>%2</b>.<br>Do you want to join this game?)
-//4: click ignore player: Question(Do you really want to put this player on ignore List?)
-//5: add a broken (fields missing) game table style: Info(Selected game table style \"%1\" seems to be incomplete or defective. \n\nThe value(s) of \"%2\" is/are missing. \n\nPlease contact the game table style builder %3.)
-//6: close gametable: Do you really wanna quit?

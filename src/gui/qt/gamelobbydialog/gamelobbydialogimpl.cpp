@@ -1653,7 +1653,7 @@ void gameLobbyDialogImpl::showInfoMsgBox()
 	switch(infoMsgToShowId) {
 	case 2: {
 		inviteOnlyInfoMsgBox->setModal(false);
-		inviteOnlyInfoMsgBox->show(2, tr("You have entered a game with type \"invite-only\".\nFeel free to invite other players by right-clicking on their nick in the available players list."), tr("PokerTH - Info Message"), QPixmap(":/gfx/ktip.png"), QDialogButtonBox::Ok, true);
+        inviteOnlyInfoMsgBox->show(INFO_AFTER_JOIN_INVITE_GAME, tr("You have entered a game with type \"invite-only\".\nFeel free to invite other players by right-clicking on their nick in the available players list."), tr("PokerTH - Info Message"), QPixmap(":/gfx/ktip.png"), QDialogButtonBox::Ok, true);
 	}
 	break;
 	default:
@@ -1672,7 +1672,7 @@ void gameLobbyDialogImpl::showInvitationDialog(unsigned gameId, unsigned playerI
 		inviteDialogIsCurrentlyShown = true;
 
 		myMessageDialogImpl dialog(myConfig, this);
-		if(dialog.exec(3, tr("You have been invited to the game <b>%1</b> by <b>%2</b>.<br>Would you like to join this game?").arg(QString::fromUtf8(mySession->getClientGameInfo(gameId).name.c_str())).arg(QString::fromUtf8(mySession->getClientPlayerInfo(playerIdFrom).playerName.c_str())), tr("PokerTH - Info Message"), QPixmap(":/gfx/list_add_user_64.png"), QDialogButtonBox::Yes|QDialogButtonBox::No, false)) {
+        if(dialog.exec(JOIN_INVITE_GAME_QUESTION, tr("You have been invited to the game <b>%1</b> by <b>%2</b>.<br>Would you like to join this game?").arg(QString::fromUtf8(mySession->getClientGameInfo(gameId).name.c_str())).arg(QString::fromUtf8(mySession->getClientPlayerInfo(playerIdFrom).playerName.c_str())), tr("PokerTH - Info Message"), QPixmap(":/gfx/list_add_user_64.png"), QDialogButtonBox::Yes|QDialogButtonBox::No, false)) {
 
 			mySession->acceptGameInvitation(gameId);
 			inviteDialogIsCurrentlyShown = false;
@@ -1726,7 +1726,7 @@ void gameLobbyDialogImpl::putPlayerOnIgnoreList()
 		if(!playerIsOnIgnoreList(playerId)) {
 
 			myMessageDialogImpl dialog(myConfig, this);
-			if(dialog.exec(4, tr("You will no longer receive chat messages or game invitations from this user.<br>Do you really want to put player <b>%1</b> on your ignore list?").arg(QString::fromUtf8(mySession->getClientPlayerInfo(playerId).playerName.c_str())), tr("PokerTH - Question"), QPixmap(":/gfx/im-ban-user_64.png"), QDialogButtonBox::Yes|QDialogButtonBox::No, false ) == QDialog::Accepted) {
+            if(dialog.exec(INGNORE_PLAYER_QUESTION, tr("You will no longer receive chat messages or game invitations from this user.<br>Do you really want to put player <b>%1</b> on your ignore list?").arg(QString::fromUtf8(mySession->getClientPlayerInfo(playerId).playerName.c_str())), tr("PokerTH - Question"), QPixmap(":/gfx/im-ban-user_64.png"), QDialogButtonBox::Yes|QDialogButtonBox::No, false ) == QDialog::Accepted) {
 
 				list<std::string> playerIgnoreList = myConfig->readConfigStringList("PlayerIgnoreList");
 				playerIgnoreList.push_back(QString("%1").arg(QString::fromUtf8(mySession->getClientPlayerInfo(playerId).playerName.c_str())).toUtf8().constData());

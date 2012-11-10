@@ -24,13 +24,14 @@
 #include <QtCore>
 #include <QtGui>
 
-#define POKERTH_CD_STYLE_FILE_VERSION	1
+#define POKERTH_CD_STYLE_FILE_VERSION	2
 
 enum CdStyleState {
 	CD_STYLE_OK = 0,
 	CD_STYLE_OUTDATED,
 	CD_STYLE_FIELDS_EMPTY,
 	CD_STYLE_PICTURES_MISSING,
+    CD_STYLE_UNDEFINED
 };
 
 class CardDeckStyleReader : public QObject
@@ -66,15 +67,26 @@ public:
 		return Preview;
 	}
 
+    QString getBigIndexesActionBottom() const {
+        return BigIndexesActionBottom;
+    }
+
 	bool getFallBack() const {
 		return fallBack;
 	}
 	bool getLoadedSuccessfull() const {
 		return loadedSuccessfull;
-	}
+    }
 
-	void showLeftItemsErrorMessage(QString, QStringList, QString);
-	void showCardsLeftErrorMessage(QString, QStringList, QString);
+    CdStyleState getState() const {
+        return myState;
+    }
+
+    QString getMyStateToolTipInfo();
+    void showErrorMessage();
+    void showLeftItemsErrorMessage();
+    void showCardsLeftErrorMessage();
+    void showOutdatedErrorMessage();
 
 private:
 
@@ -84,6 +96,7 @@ private:
 	QString StyleCreateDate;
 	QString PokerTHStyleFileVersion;
 	QString Preview;
+    QString BigIndexesActionBottom;
 
 	QString currentFileName;
 	QString currentDir;
@@ -96,7 +109,9 @@ private:
 	QWidget *myW;
 
 	bool fallBack;
-	bool loadedSuccessfull;
+    bool loadedSuccessfull;
+
+    CdStyleState myState;
 };
 
 #endif

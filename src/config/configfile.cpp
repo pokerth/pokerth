@@ -50,7 +50,7 @@ ConfigFile::ConfigFile(char *argv0, bool readonly) : noWriteAccess(readonly)
 	myConfigState = OK;
 
 	// !!!! Revisionsnummer der Configdefaults !!!!!
-	configRev = 97;
+    configRev = 98;
 
 	//standard defaults
 	logOnOffDefault = "1";
@@ -555,12 +555,19 @@ void ConfigFile::updateConfig(ConfigState myConfigState)
 			///////// VERSION HACK SECTION ///////////////////////
 			//this is the right place for special version depending config hacks:
 			//0.9.1 - log interval needs to be set to 1 instead of 0
-			if (configRev == 95 || configRev == 96) { // this means 0.9.1 or 0.9.2
+            if (configRev > 94 || configRev < 99) { // this means 0.9.1 or 0.9.2 or 1.0
 				TiXmlElement * confElement2 = new TiXmlElement( "LogInterval" );
 				config->LinkEndChild( confElement2 );
 				confElement2->SetAttribute("value", 1);
 				noUpdateElemtsList.push_back("LogInterval");
 			}
+
+            if (configRev == 98) { // this means 1.0
+                TiXmlElement * confElement3 = new TiXmlElement( "CurrentCardDeckStyle" );
+                config->LinkEndChild( confElement3 );
+                confElement3->SetAttribute("value", "");
+                noUpdateElemtsList.push_back("CurrentCardDeckStyle");
+            }
 			///////// VERSION HACK SECTION ///////////////////////
 
 			TiXmlHandle oldDocHandle( &oldDoc );

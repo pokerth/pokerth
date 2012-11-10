@@ -391,6 +391,10 @@ gameTableImpl::gameTableImpl(ConfigFile *c, QMainWindow *parent)
 
 	textLabel_Status0->setMyW(this);
 
+    //check position depending on card deck type
+    checkActionLabelPosition();
+
+
 	// GroupBoxArray init
 	groupBoxArray[0] = groupBox0;
 	groupBoxArray[1] = groupBox1;
@@ -689,9 +693,9 @@ void gameTableImpl::callSettingsDialog()
 
 void gameTableImpl::applySettings(settingsDialogImpl* mySettingsDialog)
 {
-
-	//apply card deck style
+    //apply card deck style
 	myCardDeckStyle->readStyleFile(QString::fromUtf8(myConfig->readConfigString("CurrentCardDeckStyle").c_str()));
+    checkActionLabelPosition();
 	//apply game table style
 	myGameTableStyle->readStyleFile(QString::fromUtf8(myConfig->readConfigString("CurrentGameTableStyle").c_str()));
 
@@ -3723,8 +3727,8 @@ void gameTableImpl::closeGameTable()
 
 		bool close = true;
 
-		if(myUniversalMessageDialog->checkIfMesssageWillBeDisplayed(6) && (myStartWindow->getSession()->getGameType() == Session::GAME_TYPE_INTERNET || myStartWindow->getSession()->getGameType() == Session::GAME_TYPE_NETWORK ) && this->isVisible()) {
-			if (myUniversalMessageDialog->exec(6, tr("Really want to exit?"), tr("PokerTH - Close Table?"), QPixmap(":/gfx/logoChip3D.png"), QDialogButtonBox::Yes|QDialogButtonBox::No, true) == QDialog::Rejected) {
+        if(myUniversalMessageDialog->checkIfMesssageWillBeDisplayed(CLOSE_GAMETABLE_QUESTION ) && (myStartWindow->getSession()->getGameType() == Session::GAME_TYPE_INTERNET || myStartWindow->getSession()->getGameType() == Session::GAME_TYPE_NETWORK ) && this->isVisible()) {
+            if (myUniversalMessageDialog->exec(CLOSE_GAMETABLE_QUESTION , tr("Really want to exit?"), tr("PokerTH - Close Table?"), QPixmap(":/gfx/logoChip3D.png"), QDialogButtonBox::Yes|QDialogButtonBox::No, true) == QDialog::Rejected) {
 				close = false;
 			}
 		}
@@ -3804,12 +3808,12 @@ void gameTableImpl::leaveCurrentNetworkGame()
 
 	if (myStartWindow->getSession()->isNetworkClientRunning()) {
 
-		if(!myUniversalMessageDialog->checkIfMesssageWillBeDisplayed(1)) {
+        if(!myUniversalMessageDialog->checkIfMesssageWillBeDisplayed(BACKTO_LOBBY_QUESTION)) {
 
 			assert(myStartWindow->getSession());
 			myStartWindow->getSession()->sendLeaveCurrentGame();
 		} else {
-			if (myUniversalMessageDialog->exec(1, tr("Attention! Do you really want to leave the current game\nand go back to the lobby?"), tr("PokerTH - Internet Game Message"), QPixmap(":/gfx/logoChip3D.png"), QDialogButtonBox::Yes|QDialogButtonBox::No, true) == QDialog::Accepted) {
+            if (myUniversalMessageDialog->exec(BACKTO_LOBBY_QUESTION, tr("Attention! Do you really want to leave the current game\nand go back to the lobby?"), tr("PokerTH - Internet Game Message"), QPixmap(":/gfx/logoChip3D.png"), QDialogButtonBox::Yes|QDialogButtonBox::No, true) == QDialog::Accepted) {
 				assert(myStartWindow->getSession());
 				myStartWindow->getSession()->sendLeaveCurrentGame();
 			}
@@ -4389,3 +4393,38 @@ void gameTableImpl::tabsButtonClose()
 	tabsDiag->close();
 }
 #endif
+
+
+void gameTableImpl::checkActionLabelPosition() {
+#ifndef GUI_800x480
+    int i;
+    if(myCardDeckStyle->getBigIndexesActionBottom() == "1") {
+        for (i=0; i<MAX_NUMBER_OF_PLAYERS; i++) {
+            if(i>=3 && i<=7) {
+                if(actionLabelArray[i]->y() == 56) {
+                    actionLabelArray[i]->move(actionLabelArray[i]->x(), 80);
+                }
+            }
+            else {
+                if(actionLabelArray[i]->y() == 43) {
+                    actionLabelArray[i]->move(actionLabelArray[i]->x(), 67);
+                }
+            }
+        }
+    }
+    else {
+        for (i=0; i<MAX_NUMBER_OF_PLAYERS; i++) {
+            if(i>=3 && i<=7) {
+                if(actionLabelArray[i]->y() == 80) {
+                    actionLabelArray[i]->move(actionLabelArray[i]->x(), 56);
+                }
+            }
+            else {
+                if(actionLabelArray[i]->y() == 67) {
+                    actionLabelArray[i]->move(actionLabelArray[i]->x(), 43);
+                }
+            }
+        }
+    }
+#endif
+}

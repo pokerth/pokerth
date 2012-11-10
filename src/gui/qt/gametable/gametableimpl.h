@@ -346,9 +346,10 @@ public slots:
 	void sendShowMyCardsSignal();
 
 	void closeMessageBoxes();
-        void hide();
+    void hide();
 	void soundEvent_blindsWereSet(int);
-	void enableCallCheckPushButton();
+	void enableCallCheckPushButton();    
+    void checkActionLabelPosition();
 
 #ifdef GUI_800x480
 	void tabsButtonClicked();
