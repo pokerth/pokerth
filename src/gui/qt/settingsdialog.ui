@@ -1561,8 +1561,8 @@ p, li { white-space: pre-wrap; }
         </layout>
        </widget>
        <widget class="QWidget" name="page_7">
-        <layout class="QGridLayout" name="gridLayout_6">
-         <item row="0" column="0">
+        <layout class="QVBoxLayout" name="verticalLayout_4">
+         <item>
           <widget class="QLabel" name="label_30">
            <property name="styleSheet">
             <string notr="true">QLabel { font-weight: bold;  }</string>
@@ -1572,14 +1572,14 @@ p, li { white-space: pre-wrap; }
            </property>
           </widget>
          </item>
-         <item row="1" column="0" colspan="2">
+         <item>
           <widget class="Line" name="line_9">
            <property name="orientation">
             <enum>Qt::Horizontal</enum>
            </property>
           </widget>
          </item>
-         <item row="2" column="0" colspan="2">
+         <item>
           <widget class="QTabWidget" name="tabWidget_2">
            <property name="currentIndex">
             <number>0</number>
@@ -1588,8 +1588,8 @@ p, li { white-space: pre-wrap; }
             <attribute name="title">
              <string>Server</string>
             </attribute>
-            <layout class="QGridLayout" name="gridLayout_18">
-             <item row="0" column="0">
+            <layout class="QVBoxLayout" name="verticalLayout_3">
+             <item>
               <widget class="QGroupBox" name="groupBox_automaticServerConfig">
                <property name="title">
                 <string>Automatic Server Configuration URL</string>
@@ -1597,28 +1597,25 @@ p, li { white-space: pre-wrap; }
                <property name="checkable">
                 <bool>true</bool>
                </property>
-               <layout class="QGridLayout" name="gridLayout_3">
-                <item row="0" column="0">
+               <layout class="QHBoxLayout" name="horizontalLayout_9">
+                <property name="bottomMargin">
+                 <number>4</number>
+                </property>
+                <item>
                  <widget class="QLabel" name="label_18">
                   <property name="text">
                    <string>Serverlist Address:</string>
                   </property>
                  </widget>
                 </item>
-                <item row="0" column="1">
+                <item>
                  <widget class="QLineEdit" name="lineEdit_InternetServerListAddress"/>
                 </item>
                </layout>
               </widget>
              </item>
-             <item row="1" column="0">
+             <item>
               <widget class="QGroupBox" name="groupBox_manualServerConfig">
-               <property name="minimumSize">
-                <size>
-                 <width>0</width>
-                 <height>116</height>
-                </size>
-               </property>
                <property name="title">
                 <string>Manual Server Configuration</string>
                </property>
@@ -1678,70 +1675,6 @@ p, li { white-space: pre-wrap; }
                 </item>
                 <item row="2" column="1">
                  <widget class="QLineEdit" name="lineEdit_avatarServerAddress"/>
-                </item>
-                <item row="3" column="0" colspan="2">
-                 <layout class="QHBoxLayout" name="horizontalLayout_7">
-                  <item>
-                   <widget class="QCheckBox" name="checkBox_InternetServerUseIpv6">
-                    <property name="text">
-                     <string>Use IPv6</string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item>
-                   <widget class="QLabel" name="label_32">
-                    <property name="text">
-                     <string>&lt;a href=&quot;http://en.wikipedia.org/wiki/Ipv6&quot;&gt;What is this?&lt;/a&gt;</string>
-                    </property>
-                    <property name="openExternalLinks">
-                     <bool>true</bool>
-                    </property>
-                   </widget>
-                  </item>
-                  <item>
-                   <spacer name="horizontalSpacer">
-                    <property name="orientation">
-                     <enum>Qt::Horizontal</enum>
-                    </property>
-                    <property name="sizeHint" stdset="0">
-                     <size>
-                      <width>40</width>
-                      <height>20</height>
-                     </size>
-                    </property>
-                   </spacer>
-                  </item>
-                  <item>
-                   <widget class="QCheckBox" name="checkBox_InternetServerUseSctp">
-                    <property name="text">
-                     <string>Use SCTP</string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item>
-                   <widget class="QLabel" name="label_42">
-                    <property name="text">
-                     <string>&lt;a href=&quot;http://en.wikipedia.org/wiki/Stream_Control_Transmission_Protocol&quot;&gt;What is this?&lt;/a&gt;</string>
-                    </property>
-                    <property name="openExternalLinks">
-                     <bool>true</bool>
-                    </property>
-                   </widget>
-                  </item>
-                  <item>
-                   <spacer name="horizontalSpacer_8">
-                    <property name="orientation">
-                     <enum>Qt::Horizontal</enum>
-                    </property>
-                    <property name="sizeHint" stdset="0">
-                     <size>
-                      <width>40</width>
-                      <height>20</height>
-                     </size>
-                    </property>
-                   </spacer>
-                  </item>
-                 </layout>
                 </item>
                </layout>
               </widget>
@@ -1935,10 +1868,77 @@ p, li { white-space: pre-wrap; }
            </widget>
           </widget>
          </item>
-         <item row="3" column="1">
+         <item>
+          <layout class="QHBoxLayout" name="horizontalLayout_7">
+           <item>
+            <widget class="QCheckBox" name="checkBox_InternetServerUseIpv6">
+             <property name="text">
+              <string>Use IPv6</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="label_32">
+             <property name="text">
+              <string>&lt;a href=&quot;http://en.wikipedia.org/wiki/Ipv6&quot;&gt;What is this?&lt;/a&gt;</string>
+             </property>
+             <property name="openExternalLinks">
+              <bool>true</bool>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <spacer name="horizontalSpacer">
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>40</width>
+               <height>20</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+           <item>
+            <widget class="QCheckBox" name="checkBox_InternetServerUseSctp">
+             <property name="text">
+              <string>Use SCTP</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="label_whatIsSctp">
+             <property name="text">
+              <string>&lt;a href=&quot;http://en.wikipedia.org/wiki/Stream_Control_Transmission_Protocol&quot;&gt;What is this?&lt;/a&gt;</string>
+             </property>
+             <property name="openExternalLinks">
+              <bool>true</bool>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <spacer name="horizontalSpacer_8">
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>40</width>
+               <height>20</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+          </layout>
+         </item>
+         <item>
           <spacer name="verticalSpacer">
            <property name="orientation">
             <enum>Qt::Vertical</enum>
+           </property>
+           <property name="sizeType">
+            <enum>QSizePolicy::Expanding</enum>
            </property>
            <property name="sizeHint" stdset="0">
             <size>

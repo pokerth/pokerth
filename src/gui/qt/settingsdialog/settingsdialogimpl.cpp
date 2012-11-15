@@ -213,12 +213,11 @@ void settingsDialogImpl::prepareDialog()
 	checkBox_useIpv6->setChecked(myConfig->readConfigInt("ServerUseIpv6"));
 	checkBox_useSctp->setChecked(myConfig->readConfigInt("ServerUseSctp"));
 
-	//Internet Game Settings
-	if(myConfig->readConfigInt("InternetServerConfigMode")) {
-		groupBox_manualServerConfig->setChecked(TRUE);
-	} else {
-		groupBox_automaticServerConfig->setChecked(TRUE);
-	}
+    //Internet Game Settings
+
+    checkBox_InternetServerUseSctp->hide(); //temporarely disabled until sctp support is back
+    label_whatIsSctp->hide();
+
 	lineEdit_InternetServerListAddress->setText(QString::fromUtf8(myConfig->readConfigString("InternetServerListAddress").c_str()));
 	lineEdit_InternetServerAddress->setText(QString::fromUtf8(myConfig->readConfigString("InternetServerAddress").c_str()));
 	spinBox_InternetServerPort->setValue(myConfig->readConfigInt("InternetServerPort"));
@@ -240,6 +239,11 @@ void settingsDialogImpl::prepareDialog()
 	checkBox_InetGane_AutoLeaveTheTableAfterGameFinished->setChecked(myConfig->readConfigInt("NetAutoLeaveGameAfterFinish"));
 	comboBox_internetGameType->setCurrentIndex(myConfig->readConfigInt("InternetGameType"));
 	lineEdit_internetGameName->setText(QString::fromUtf8(myConfig->readConfigString("InternetGameName").c_str()));
+    if(myConfig->readConfigInt("InternetServerConfigMode")) {
+        groupBox_manualServerConfig->setChecked(TRUE);
+    } else {
+        groupBox_automaticServerConfig->setChecked(TRUE);
+    }
 
 	std::list<std::string> playerIgnoreList = myConfig->readConfigStringList("PlayerIgnoreList");
 	std::list<std::string>::iterator it5;
