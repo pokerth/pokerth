@@ -154,7 +154,7 @@
      <item row="0" column="1">
       <widget class="QStackedWidget" name="stackedWidget">
        <property name="currentIndex">
-        <number>9</number>
+        <number>0</number>
        </property>
        <widget class="QWidget" name="page">
         <layout class="QGridLayout" name="gridLayout_8">
@@ -1864,74 +1864,10 @@ p, li { white-space: pre-wrap; }
                   </property>
                  </widget>
                 </item>
-                <item row="3" column="0" colspan="2">
-                 <layout class="QHBoxLayout" name="horizontalLayout_7">
-                  <item>
-                   <widget class="QCheckBox" name="checkBox_InternetServerUseIpv6">
-                    <property name="text">
-                     <string>Use IPv6</string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item>
-                   <widget class="QLabel" name="label_32">
-                    <property name="text">
-                     <string>&lt;a href=&quot;http://en.wikipedia.org/wiki/Ipv6&quot;&gt;What is this?&lt;/a&gt;</string>
-                    </property>
-                    <property name="openExternalLinks">
-                     <bool>true</bool>
-                    </property>
-                   </widget>
-                  </item>
-                  <item>
-                   <spacer name="horizontalSpacer">
-                    <property name="orientation">
-                     <enum>Qt::Horizontal</enum>
-                    </property>
-                    <property name="sizeHint" stdset="0">
-                     <size>
-                      <width>40</width>
-                      <height>20</height>
-                     </size>
-                    </property>
-                   </spacer>
-                  </item>
-                  <item>
-                   <widget class="QCheckBox" name="checkBox_InternetServerUseSctp">
-                    <property name="text">
-                     <string>Use SCTP</string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item>
-                   <widget class="QLabel" name="label_42">
-                    <property name="text">
-                     <string>&lt;a href=&quot;http://en.wikipedia.org/wiki/Stream_Control_Transmission_Protocol&quot;&gt;What is this?&lt;/a&gt;</string>
-                    </property>
-                    <property name="openExternalLinks">
-                     <bool>true</bool>
-                    </property>
-                   </widget>
-                  </item>
-                  <item>
-                   <spacer name="horizontalSpacer_8">
-                    <property name="orientation">
-                     <enum>Qt::Horizontal</enum>
-                    </property>
-                    <property name="sizeHint" stdset="0">
-                     <size>
-                      <width>40</width>
-                      <height>20</height>
-                     </size>
-                    </property>
-                   </spacer>
-                  </item>
-                 </layout>
-                </item>
                </layout>
               </widget>
              </item>
-             <item row="2" column="0">
+             <item row="3" column="0">
               <spacer name="verticalSpacer_15">
                <property name="orientation">
                 <enum>Qt::Vertical</enum>
@@ -1943,6 +1879,70 @@ p, li { white-space: pre-wrap; }
                 </size>
                </property>
               </spacer>
+             </item>
+             <item row="2" column="0">
+              <layout class="QHBoxLayout" name="horizontalLayout_7">
+               <item>
+                <widget class="QCheckBox" name="checkBox_InternetServerUseIpv6">
+                 <property name="text">
+                  <string>Use IPv6</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QLabel" name="label_32">
+                 <property name="text">
+                  <string>&lt;a href=&quot;http://en.wikipedia.org/wiki/Ipv6&quot;&gt;What is this?&lt;/a&gt;</string>
+                 </property>
+                 <property name="openExternalLinks">
+                  <bool>true</bool>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <spacer name="horizontalSpacer">
+                 <property name="orientation">
+                  <enum>Qt::Horizontal</enum>
+                 </property>
+                 <property name="sizeHint" stdset="0">
+                  <size>
+                   <width>40</width>
+                   <height>20</height>
+                  </size>
+                 </property>
+                </spacer>
+               </item>
+               <item>
+                <widget class="QCheckBox" name="checkBox_InternetServerUseSctp">
+                 <property name="text">
+                  <string>Use SCTP</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QLabel" name="label_whatIsSctp">
+                 <property name="text">
+                  <string>&lt;a href=&quot;http://en.wikipedia.org/wiki/Stream_Control_Transmission_Protocol&quot;&gt;What is this?&lt;/a&gt;</string>
+                 </property>
+                 <property name="openExternalLinks">
+                  <bool>true</bool>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <spacer name="horizontalSpacer_8">
+                 <property name="orientation">
+                  <enum>Qt::Horizontal</enum>
+                 </property>
+                 <property name="sizeHint" stdset="0">
+                  <size>
+                   <width>40</width>
+                   <height>20</height>
+                  </size>
+                 </property>
+                </spacer>
+               </item>
+              </layout>
              </item>
             </layout>
            </widget>
@@ -3905,7 +3905,7 @@ p, li { white-space: pre-wrap; }
               <string>CheckBox</string>
              </property>
             </widget>
-            <widget class="QWidget" name="">
+            <widget class="QWidget" name="layoutWidget">
              <property name="geometry">
               <rect>
                <x>20</x>
