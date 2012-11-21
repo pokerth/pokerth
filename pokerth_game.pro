@@ -346,9 +346,9 @@ win32 {
 		../SDL_mixer/lib \
 		../mysql/lib \
 		../zlib
-	LIBS += -lSDL_mixer \
-		-lSDL \
-		-lSDLmain \
+        LIBS += #-lSDL_mixer \
+                #-lSDL \
+                #-lSDLmain \
 		-ltinyxml \
 		-lz \
 		-lssh2 \
@@ -365,7 +365,7 @@ win32 {
 	debug:LIBPATH += debug/lib
 	release:LIBPATH += release/lib
 		LIBS += -lsqlite3
-		LIBS += -lntlm -lmodplug -lddraw -ldxguid -lsmpeg -lvorbisfile -lvorbis -logg
+                LIBS += -lntlm -lmodplug -lddraw -ldxguid #-lsmpeg -lvorbisfile -lvorbis -logg
 		LIBS += -lboost_thread_win32-mt
 		LIBS += -lboost_filesystem-mt
 		LIBS += -lboost_regex-mt
