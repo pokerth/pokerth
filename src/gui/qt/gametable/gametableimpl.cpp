@@ -508,14 +508,6 @@ gameTableImpl::gameTableImpl(ConfigFile *c, QMainWindow *parent)
 
 	this->installEventFilter(this);
 
-	//set WindowTitle dynamically
-#ifdef GUI_800x480
-	tabsDiag->setWindowTitle("Tabs");
-	this->setWindowTitle(QString(tr("PokerTH %1").arg(POKERTH_BETA_RELEASE_STRING)));
-#else
-	this->setWindowTitle(QString(tr("PokerTH %1 - The Open-Source Texas Holdem Engine").arg(POKERTH_BETA_RELEASE_STRING)));
-#endif
-
 	// create universal messageDialgo
 	myUniversalMessageDialog = new myMessageDialogImpl(myConfig, this);
 	myUniversalMessageDialog->setParent(this);
@@ -854,63 +846,74 @@ void gameTableImpl::applySettings(settingsDialogImpl* mySettingsDialog)
 }
 
 void gameTableImpl::initGui(int speed)
-{
-	//kill running Singleshots!!!
-	stopTimer();
+{    
+    //kill running Singleshots!!!
+    stopTimer();
 
-#ifndef GUI_800x480
-	label_Pot->setText(PotString);
-#endif
+    label_handNumber->setText(HandString+":");
+    label_gameNumber->setText(GameString+":");
 
-	label_handNumber->setText(HandString+":");
-	label_gameNumber->setText(GameString+":");
+    //set WindowTitle dynamically
+    QString titleString = "";
+    assert(myStartWindow->getSession());
+    if(myStartWindow->getSession()->getGameType() == Session::GAME_TYPE_INTERNET || myStartWindow->getSession()->getGameType() == Session::GAME_TYPE_NETWORK) {
+        GameInfo info(myStartWindow->getSession()->getClientGameInfo(myStartWindow->getSession()->getCurrentGame()->getMyGameID()));
+        titleString = QString::fromUtf8(info.name.c_str())+" - ";
+    }
+
+    //show human player buttons
+    for(int i=0; i<6; i++) {
+        userWidgetsArray[i]->show();
+    }
+
+    //set speeds for local game and for first network game
+    if( !myStartWindow->getSession()->isNetworkClientRunning() || (myStartWindow->getSession()->isNetworkClientRunning() && !myStartWindow->getSession()->getCurrentGame()) ) {
+        guiGameSpeed = speed;
+        setSpeeds();
+    }
+
+    //set session for chat
+    myChat->setSession(this->getSession());
+
 #ifdef GUI_800x480
+    tabsDiag->setWindowTitle("Tabs");
+    this->setWindowTitle(QString(titleString + tr("PokerTH %1").arg(POKERTH_BETA_RELEASE_STRING)));
+
     label_Sets->setText(BetsString);
     label_Total->setText(TotalString);
-	tabs.groupBox_RightToolBox->setDisabled(FALSE);
-	tabs.groupBox_LeftToolBox->setDisabled(FALSE);
+    tabs.groupBox_RightToolBox->setDisabled(FALSE);
+    tabs.groupBox_LeftToolBox->setDisabled(FALSE);
+
+    //set minimum gui speed to prevent gui lags on fast inet games
+    if( myStartWindow->getSession()->isNetworkClientRunning() ) {
+        tabs.horizontalSlider_speed->setMinimum(speed);
+    } else {
+        tabs.horizontalSlider_speed->setMinimum(1);
+    }
+
+    //positioning Slider
+    tabs.horizontalSlider_speed->setValue(guiGameSpeed);
+
 #else
+    this->setWindowTitle(QString(titleString + tr("PokerTH %1 - The Open-Source Texas Holdem Engine").arg(POKERTH_BETA_RELEASE_STRING)));
+
+    label_Pot->setText(PotString);
     label_Total->setText(TotalString+":");
     label_Sets->setText(BetsString+":");
-	groupBox_RightToolBox->setDisabled(FALSE);
-	groupBox_LeftToolBox->setDisabled(FALSE);
+    groupBox_RightToolBox->setDisabled(FALSE);
+    groupBox_LeftToolBox->setDisabled(FALSE);
+
+    //set minimum gui speed to prevent gui lags on fast inet games
+    if( myStartWindow->getSession()->isNetworkClientRunning() ) {
+        horizontalSlider_speed->setMinimum(speed);
+    } else {
+        horizontalSlider_speed->setMinimum(1);
+    }
+
+    horizontalSlider_speed->setValue(guiGameSpeed);
+
 #endif
 
-	//show human player buttons
-	for(int i=0; i<6; i++) {
-		userWidgetsArray[i]->show();
-	}
-
-	//set minimum gui speed to prevent gui lags on fast inet games
-#ifdef GUI_800x480
-	if( myStartWindow->getSession()->isNetworkClientRunning() ) {
-		tabs.horizontalSlider_speed->setMinimum(speed);
-	} else {
-		tabs.horizontalSlider_speed->setMinimum(1);
-	}
-#else
-	if( myStartWindow->getSession()->isNetworkClientRunning() ) {
-		horizontalSlider_speed->setMinimum(speed);
-	} else {
-		horizontalSlider_speed->setMinimum(1);
-	}
-#endif
-
-	//set speeds for local game and for first network game
-	if( !myStartWindow->getSession()->isNetworkClientRunning() || (myStartWindow->getSession()->isNetworkClientRunning() && !myStartWindow->getSession()->getCurrentGame()) ) {
-
-		guiGameSpeed = speed;
-		//positioning Slider
-#ifdef GUI_800x480
-		tabs.horizontalSlider_speed->setValue(guiGameSpeed);
-#else
-		horizontalSlider_speed->setValue(guiGameSpeed);
-#endif
-		setSpeeds();
-	}
-
-	//set session for chat
-	myChat->setSession(this->getSession());
 }
 
 boost::shared_ptr<Session> gameTableImpl::getSession()
