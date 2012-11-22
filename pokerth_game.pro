@@ -346,34 +346,33 @@ win32 {
 		../SDL_mixer/lib \
 		../mysql/lib \
 		../zlib
-
         LIBS += -lSDL_mixer \
                 -lSDL \
                 -lSDLmain \
                 -ltinyxml \
-		-lz \
-		-lssh2 \
-		-lgnutls \
-		-lnettle \
-		-lhogweed \
-		-lgmp \
-		-lgcrypt \
-		-lgpg-error \
-		-lgsasl \
-		-lidn \
-		-lintl \
-		-lprotobuf
-	debug:LIBPATH += debug/lib
-	release:LIBPATH += release/lib
-		LIBS += -lsqlite3
+                -lz \
+                -lssh2 \
+                -lgnutls \
+                -lnettle \
+                -lhogweed \
+                -lgmp \
+                -lgcrypt \
+                -lgpg-error \
+                -lgsasl \
+                -lidn \
+                -lintl \
+                -lprotobuf
+        debug:LIBPATH += debug/lib
+        release:LIBPATH += release/lib
+                LIBS += -lsqlite3
                 LIBS += -lntlm -lmodplug -lddraw -ldxguid -lsmpeg -lvorbisfile -lvorbis -logg
-		LIBS += -lboost_thread_win32-mt
-		LIBS += -lboost_filesystem-mt
-		LIBS += -lboost_regex-mt
-		LIBS += -lboost_iostreams-mt
-		LIBS += -lboost_random-mt
-		LIBS += -lboost_chrono-mt
-		LIBS += -lboost_system-mt
+                LIBS += -lboost_thread_win32-mt
+                LIBS += -lboost_filesystem-mt
+                LIBS += -lboost_regex-mt
+                LIBS += -lboost_iostreams-mt
+                LIBS += -lboost_random-mt
+                LIBS += -lboost_chrono-mt
+                LIBS += -lboost_system-mt
 
 	LIBS += \
 		-lgdi32 \
