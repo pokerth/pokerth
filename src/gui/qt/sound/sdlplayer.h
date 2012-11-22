@@ -25,9 +25,9 @@
 
 #ifndef ANDROID
 #ifdef __APPLE__
-//#include <SDL_mixer.h>
+#include <SDL_mixer.h>
 #else
-//#include <SDL/SDL_mixer.h>
+#include <SDL/SDL_mixer.h>
 #endif
 #endif
 

@@ -19,9 +19,9 @@
 
 #ifndef ANDROID
 #if (defined __APPLE__)
-//#include <SDL.h>
+#include <SDL.h>
 #else
-//#include <SDL/SDL.h>
+#include <SDL/SDL.h>
 #endif
 #endif
 
