@@ -841,8 +841,8 @@ void gameTableImpl::applySettings(settingsDialogImpl* mySettingsDialog)
 	}
 
 	// Re-init audio.
-	mySDLPlayer->closeAudio();
-	mySDLPlayer->initAudio();
+    mySDLPlayer->initAudio();
+    mySDLPlayer->closeAudio();
 }
 
 void gameTableImpl::initGui(int speed)
