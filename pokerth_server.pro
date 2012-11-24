@@ -157,7 +157,8 @@ win32 {
 			-lmswsock \
 			-lws2_32 \
 			-ladvapi32 \
-			-lwldap32
+			-lwldap32 \
+			-lcrypt32
 }
 
 !win32 {
