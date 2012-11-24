@@ -316,12 +316,14 @@ unsigned ChatTools::parsePrivateMessageTarget(QString &chatText)
 
 QString ChatTools::checkForEmotes(QString msg) {
 
+    qDebug() << msg;
+
     msg.replace("0:-)", "<img src=\":emotes/emotes/face-angel.png\" />");
     msg.replace("X-(", "<img src=\":emotes/emotes/face-angry.png\" />");
     msg.replace("B-)", "<img src=\":emotes/emotes/face-cool.png\" />");
     msg.replace("8-)", "<img src=\":emotes/emotes/face-cool.png\" />");
     msg.replace(":'(", "<img src=\":emotes/emotes/face-crying.png\" />");
-    msg.replace(">:-)", "<img src=\":emotes/emotes/face-devilish.png\" />");
+    msg.replace("&gt;:-)", "<img src=\":emotes/emotes/face-devilish.png\" />");
     msg.replace(":-[", "<img src=\":emotes/emotes/face-embarrassed.png\" />");
     msg.replace(":-*", "<img src=\":emotes/emotes/face-kiss.png\" />");
     msg.replace(":-))", "<img src=\":emotes/emotes/face-laugh.png\" />");
