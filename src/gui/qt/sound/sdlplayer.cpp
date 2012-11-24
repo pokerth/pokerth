@@ -41,14 +41,15 @@ SDLPlayer::SDLPlayer(ConfigFile *c)
 SDLPlayer::~SDLPlayer()
 {
 #ifndef ANDROID
-//	closeAudio();
+    closeAudio();
 #endif
 }
 
 void SDLPlayer::initAudio()
 {
 #ifndef ANDROID
-//	SDL_Init(SDL_INIT_AUDIO);
+    SDL_Init(SDL_INIT_AUDIO);
+    qDebug() << "SDL_Init()";
 //	if (!audioEnabled && myConfig->readConfigInt("PlaySoundEffects")) {
 //		int		audio_rate = 44100;
 //		Uint16	audio_format = AUDIO_S16; /* 16-bit stereo */
@@ -70,7 +71,7 @@ void SDLPlayer::initAudio()
 void SDLPlayer::playSound(string audioString, int playerID)
 {
 #ifndef ANDROID
-//	initAudio();
+    initAudio();
 //	if(audioEnabled && myConfig->readConfigInt("PlaySoundEffects")) {
 
 //		QFile myFile(myAppDataPath + "sounds/default/" + QString::fromStdString(audioString)+".wav");
@@ -142,9 +143,9 @@ void SDLPlayer::playSound(string audioString, int playerID)
 //		}
 
 //		//TESTING: release audio after every sound when there is no other sound currently played
-//		if(SDL_GetAudioStatus() != SDL_AUDIO_PLAYING) {
-//			closeAudio();
-//		}
+        if(SDL_GetAudioStatus() != SDL_AUDIO_PLAYING) {
+            closeAudio();
+        }
 //	}
 #endif
 }
@@ -162,6 +163,7 @@ void SDLPlayer::closeAudio()
 //		audioEnabled = false;
 //	}
 
-//	SDL_Quit();
+    SDL_Quit();
+    qDebug() << "SDL_Quit()";
 #endif
 }
