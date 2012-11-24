@@ -857,7 +857,7 @@ void gameTableImpl::initGui(int speed)
     QString titleString = "";
     assert(myStartWindow->getSession());
     if(myStartWindow->getSession()->getGameType() == Session::GAME_TYPE_INTERNET || myStartWindow->getSession()->getGameType() == Session::GAME_TYPE_NETWORK) {
-        GameInfo info(myStartWindow->getSession()->getClientGameInfo(myStartWindow->getSession()->getCurrentGame()->getMyGameID()));
+        GameInfo info(myStartWindow->getSession()->getClientGameInfo(myStartWindow->getSession()->getClientCurrentGameId()));
         titleString = QString::fromUtf8(info.name.c_str())+" - ";
     }
 
