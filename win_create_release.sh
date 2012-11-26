@@ -9,9 +9,9 @@ if [[ -n "$1" && -n "$2" ]] ; then
         find ./PokerTH-$1/ -name ".svn" | xargs rm -Rf
         zip -r PokerTH-$1-windows.zip ./PokerTH-$1
 
-        ~/bitrock-installbuilder/installbuilder-7.2.5/bin/builder build ~/slave/pokerth-release-win32/build/pokerth_bitrock_windows.xml windows
+        ~/bitrock-installbuilder/bin/builder build ~/slave/pokerth-release-win32/build/pokerth_bitrock_windows.xml windows
 
-        mv ~/bitrock-installbuilder/installbuilder-7.2.5/output/PokerTH-$1-windows-installer.exe .
+        mv ~/bitrock-installbuilder/output/PokerTH-$1-windows-installer.exe .
         scp PokerTH-$1-windows-installer.exe PokerTH-$1-windows.zip lotodore,pokerth@frs.sourceforge.net:/home/frs/project/p/po/pokerth/pokerth/$2/
         md5sum PokerTH-$1-windows-installer.exe
         rm PokerTH-$1-windows-installer.exe

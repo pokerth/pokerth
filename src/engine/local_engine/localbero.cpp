@@ -96,9 +96,10 @@ void LocalBeRo::run()
 
 				PlayerListIterator it_1, it_2;
 
-				// running player before smallBlind
-				bool formerRunningPlayerFound = false;
 				if(myHand->getActivePlayerList()->size() > 2) {
+
+					// running player before smallBlind
+					bool formerRunningPlayerFound = false;
 
 					it_1 = myHand->getActivePlayerIt(smallBlindPositionId);
 					if(it_1 == myHand->getActivePlayerList()->end()) {

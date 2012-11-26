@@ -15,6 +15,11 @@ public:
 	void newGameStarts();
     void playSound(std::string audioString, int playerID);
 
+protected:
+	// Prevent copy construction.
+	// This is only a declaration.
+	SoundEvents(const SoundEvents &);
+
 private:
 	SDLPlayer *mySDLPlayer;
 	ConfigFile *myConfig;
