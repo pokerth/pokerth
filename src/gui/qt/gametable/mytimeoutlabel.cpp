@@ -17,6 +17,7 @@
  *****************************************************************************/
 #include "mytimeoutlabel.h"
 #include "gametableimpl.h"
+#include "soundevents.h"
 
 using namespace std;
 
@@ -95,7 +96,7 @@ void MyTimeoutLabel::nextTimeOutAnimationFrame()
 		if(timeOutFrame > waitFrames) {
 			//play beep after waitFrames one time
 			if(isBeep && !isBeepPlayed) {
-				myW->getMySDLPlayer()->playSound("yourturn",0);
+                myW->getMySoundEventHandler()->playSound("yourturn",0);
 				isBeepPlayed = TRUE;
 			}
 			//save gfx ressources and never play more the 10 pps

@@ -53,8 +53,6 @@ class myMessageDialogImpl;
 
 class GameTableStyleReader;
 class CardDeckStyleReader;
-
-class SDLPlayer;
 class SoundEvents;
 
 enum SeatState { SEAT_UNDEFINED, SEAT_ACTIVE, SEAT_AUTOFOLD, SEAT_STAYONTABLE, SEAT_CLEAR };
@@ -70,9 +68,6 @@ public:
 
 	boost::shared_ptr<Session> getSession();
 
-	SDLPlayer* getMySDLPlayer() const {
-		return mySDLPlayer;
-	}
 	SoundEvents* getMySoundEventHandler() const {
 		return mySoundEventHandler;
 	}
@@ -427,7 +422,6 @@ private:
 	myMessageDialogImpl *myUniversalMessageDialog;
 
 	//Sound
-	SDLPlayer *mySDLPlayer;
 	SoundEvents *mySoundEventHandler;
 	QString myAppDataPath;
 

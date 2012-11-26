@@ -20,6 +20,7 @@
 #include "configfile.h"
 #include "gametablestylereader.h"
 #include "gamelobbydialogimpl.h"
+#include "soundevents.h"
 #include <iostream>
 
 
@@ -82,7 +83,7 @@ void ChatTools::receiveMessage(QString playerName, QString message, bool pm)
 			tempMsg = QString("<span style=\"font-weight:bold; color:red;\">"+message+"</span>");
 			//play beep sound only in INET-lobby-chat
 			if(myLobby->isVisible() && myConfig->readConfigInt("PlayLobbyChatNotification")) {
-				myLobby->getMyW()->getMySDLPlayer()->playSound("lobbychatnotify",0);
+                myLobby->getMyW()->getMySoundEventHandler()->playSound("lobbychatnotify",0);
 			}
 		} else if(message.contains(myNick, Qt::CaseInsensitive)) {
 
@@ -92,7 +93,7 @@ void ChatTools::receiveMessage(QString playerName, QString message, bool pm)
 				//play beep sound only in INET-lobby-chat
 				//						TODO dont play when message is from yourself
 				if(myLobby->isVisible() && myConfig->readConfigInt("PlayLobbyChatNotification")) {
-					myLobby->getMyW()->getMySDLPlayer()->playSound("lobbychatnotify",0);
+                    myLobby->getMyW()->getMySoundEventHandler()->playSound("lobbychatnotify",0);
 				}
 			}
 			break;

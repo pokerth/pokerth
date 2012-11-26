@@ -26,7 +26,6 @@
 
 #include <QtGui>
 #include <QtCore>
-#include "sdlplayer.h"
 #include "gametableimpl.h"
 
 class Session;

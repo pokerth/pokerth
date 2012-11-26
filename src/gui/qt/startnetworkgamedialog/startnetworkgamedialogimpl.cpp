@@ -20,6 +20,7 @@
 #include "session.h"
 #include "configfile.h"
 #include "chattools.h"
+#include "soundevents.h"
 #include <net/socket_msg.h>
 
 startNetworkGameDialogImpl::startNetworkGameDialogImpl(startWindowImpl *parent, ConfigFile *config)
@@ -93,9 +94,9 @@ void startNetworkGameDialogImpl::addConnectedPlayer(unsigned playerId, QString p
 
 	if(this->isVisible() && myConfig->readConfigInt("PlayNetworkGameNotification")) {
 		if(treeWidget->topLevelItemCount() < info.data.maxNumberOfPlayers) {
-			myW->getMySDLPlayer()->playSound("playerconnected", 0);
+            myW->getMySoundEventHandler()->playSound("playerconnected", 0);
 		} else {
-			myW->getMySDLPlayer()->playSound("onlinegameready", 0);
+            myW->getMySoundEventHandler()->playSound("onlinegameready", 0);
 		}
 	}
 

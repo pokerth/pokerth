@@ -27,6 +27,7 @@
 #include "game_defs.h"
 #include <net/socket_msg.h>
 #include "mymessagedialogimpl.h"
+#include "soundevents.h"
 
 using namespace std;
 
@@ -969,9 +970,9 @@ void gameLobbyDialogImpl::addConnectedPlayer(unsigned playerId, QString playerNa
 
 	if(this->isVisible() && inGame && myConfig->readConfigInt("PlayNetworkGameNotification")) {
 		if(treeWidget_connectedPlayers->topLevelItemCount() < treeWidget_connectedPlayers->headerItem()->data(0, Qt::UserRole).toInt()) {
-			myW->getMySDLPlayer()->playSound("playerconnected", 0);
+            myW->getMySoundEventHandler()->playSound("playerconnected", 0);
 		} else {
-			myW->getMySDLPlayer()->playSound("onlinegameready", 0);
+            myW->getMySoundEventHandler()->playSound("onlinegameready", 0);
 			showAutoStartTimer();
 		}
 	}

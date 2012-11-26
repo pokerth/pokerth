@@ -29,7 +29,6 @@
 
 #include <gamedata.h>
 #include "createinternetgamedialogimpl.h"
-#include "sdlplayer.h"
 #include "gametableimpl.h"
 #include <map>
 

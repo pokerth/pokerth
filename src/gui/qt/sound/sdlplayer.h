@@ -31,7 +31,7 @@
 #endif
 #endif
 
-// struct Mix_Chunk;
+ struct Mix_Chunk;
 
 /**
 	@author FThauer FHammer <webmaster@pokerth.net>
@@ -52,14 +52,13 @@ public:
 private:
 
 #ifndef ANDROID
-//	Mix_Chunk *sound;
+    Mix_Chunk *sound;
 	unsigned char *soundData;
 	int currentChannel;
-
-	bool audioEnabled;
-
+    bool audioEnabled;
 	ConfigFile *myConfig;
 	QString myAppDataPath;
+
 #endif
 };
 

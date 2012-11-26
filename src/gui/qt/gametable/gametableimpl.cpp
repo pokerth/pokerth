@@ -75,8 +75,7 @@ gameTableImpl::gameTableImpl(ConfigFile *c, QMainWindow *parent)
 
 	setupUi(this);
 
-	//Sound
-	mySDLPlayer = new SDLPlayer(myConfig);
+    //Sound
 	mySoundEventHandler = new SoundEvents(myConfig);
 
 	// 	Init game table style
@@ -839,10 +838,6 @@ void gameTableImpl::applySettings(settingsDialogImpl* mySettingsDialog)
 		refreshGroupbox();
 		provideMyActions();
 	}
-
-	// Re-init audio.
-    mySDLPlayer->initAudio();
-    mySDLPlayer->closeAudio();
 }
 
 void gameTableImpl::initGui(int speed)
@@ -1169,7 +1164,7 @@ void gameTableImpl::refreshAction(int playerID, int playerAction)
 
 			//play sounds if exist
 			if(myConfig->readConfigInt("PlayGameActions"))
-				mySDLPlayer->playSound(actionArray[playerAction].toStdString(), playerID);
+                mySoundEventHandler->playSound(actionArray[playerAction].toStdString(), playerID);
 		}
 
 		if (playerAction == 1) { // FOLD

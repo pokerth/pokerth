@@ -1,6 +1,8 @@
 #ifndef SOUNDEVENTS_H
 #define SOUNDEVENTS_H
 
+#include <string>
+
 class SDLPlayer;
 class ConfigFile;
 class SoundEvents
@@ -11,6 +13,7 @@ public:
 
 	void blindsWereSet(int sB);
 	void newGameStarts();
+    void playSound(std::string audioString, int playerID);
 
 private:
 	SDLPlayer *mySDLPlayer;

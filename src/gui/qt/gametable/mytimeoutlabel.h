@@ -23,7 +23,6 @@
 #include <QtGui>
 #include <QtCore>
 #include <third_party/boost/timers.hpp>
-#include "sdlplayer.h"
 
 class gameTableImpl;
 

@@ -45,3 +45,9 @@ void SoundEvents::newGameStarts()
 {
 	newGameNow = true;
 }
+
+//HACK until playSound is done by events
+void SoundEvents::playSound(std::string audioString, int playerID)
+{
+    mySDLPlayer->playSound(audioString, playerID);
+}
