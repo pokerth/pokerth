@@ -12,6 +12,11 @@ public:
 	void blindsWereSet(int sB);
 	void newGameStarts();
 
+protected:
+	// Prevent copy construction.
+	// This is only a declaration.
+	SoundEvents(const SoundEvents &);
+
 private:
 	SDLPlayer *mySDLPlayer;
 	ConfigFile *myConfig;

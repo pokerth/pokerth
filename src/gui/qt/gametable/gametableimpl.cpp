@@ -2028,11 +2028,9 @@ void gameTableImpl::myCheck()
 int gameTableImpl::getMyCallAmount()
 {
 
-	int tempHighestSet = 0;
-
 	boost::shared_ptr<HandInterface> currentHand = myStartWindow->getSession()->getCurrentGame()->getCurrentHand();
 	boost::shared_ptr<PlayerInterface> humanPlayer = currentHand->getSeatsList()->front();
-	tempHighestSet = currentHand->getCurrentBeRo()->getHighestSet();
+	int tempHighestSet = currentHand->getCurrentBeRo()->getHighestSet();
 
 	if (humanPlayer->getMyCash() + humanPlayer->getMySet() <= tempHighestSet) {
 
@@ -2070,11 +2068,10 @@ int gameTableImpl::getMyBetAmount()
 void gameTableImpl::myCall()
 {
 
-	int tempHighestSet = 0;
 	boost::shared_ptr<HandInterface> currentHand = myStartWindow->getSession()->getCurrentGame()->getCurrentHand();
 	boost::shared_ptr<PlayerInterface> humanPlayer = currentHand->getSeatsList()->front();
 
-	tempHighestSet = currentHand->getCurrentBeRo()->getHighestSet();
+	int tempHighestSet = currentHand->getCurrentBeRo()->getHighestSet();
 
 	if (humanPlayer->getMyCash() + humanPlayer->getMySet() <= tempHighestSet) {
 
