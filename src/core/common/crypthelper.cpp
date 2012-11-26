@@ -271,8 +271,7 @@ CryptHelper::AES128Encrypt(const unsigned char *keyData, unsigned keySize, const
 		BytesToKey(keyData, keySize, key, iv);
 		// Add padding to plain data.
 		unsigned paddedPlainSize = ADD_PADDING(plainSize);
-		unsigned char *paddedPlainStr = new unsigned char[ADD_PADDING(plainSize)];
-		memset(paddedPlainStr, 0, paddedPlainSize);
+		unsigned char *paddedPlainStr = (unsigned char *)calloc(paddedPlainSize, 1);
 		memcpy(paddedPlainStr, plainStr.c_str(), plainSize);
 		// Perform the encryption.
 		int cipherSize = paddedPlainSize;
@@ -311,7 +310,7 @@ CryptHelper::AES128Encrypt(const unsigned char *keyData, unsigned keySize, const
 
 		gcry_cipher_close(hd);
 #endif
-		delete[] paddedPlainStr;
+		free(paddedPlainStr);
 	}
 	return retVal;
 }
