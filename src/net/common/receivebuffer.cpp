@@ -82,8 +82,9 @@ ReceiveBuffer::ScanPackets()
 		// several packets may be received at once.
 		if (recvBufUsed >= NET_HEADER_SIZE) {
 			// Read the size of the packet (first 4 bytes in network byte order).
-			const char *recvBufStart = &recvBuf[0];
-			size_t packetSize = ntohl(*((const uint32_t *)&recvBufStart));
+			uint32_t nativeVal;
+			memcpy(&nativeVal, &recvBuf[0], sizeof(uint32_t));
+			size_t packetSize = ntohl(nativeVal);
 			if (recvBufUsed >= packetSize + NET_HEADER_SIZE)
 			{
 				try {
