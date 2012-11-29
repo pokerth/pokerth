@@ -735,15 +735,15 @@ void guiLog::exportLogPdbToTxt(QString fileStringPdb, QString exportFileString)
 
 }
 
-void guiLog::showLog(QString fileStringPdb, QTextBrowser *tb_tmp)
+void guiLog::showLog(QString fileStringPdb, QTextBrowser *tb_tmp, int uniqueGameID)
 {
 	tb = tb_tmp;
 	tb->clear();
-	exportLog(fileStringPdb,3);
+	exportLog(fileStringPdb,3,uniqueGameID);
 
 }
 
-int guiLog::exportLog(QString fileStringPdb,int modus)
+int guiLog::exportLog(QString fileStringPdb,int modus,int uniqueGameID_req)
 {
 	bool neu = false;
 
@@ -857,7 +857,11 @@ int guiLog::exportLog(QString fileStringPdb,int modus)
 		log_string = "";
 
 		// read game
-		sql = "SELECT * FROM Game";
+		if(uniqueGameID_req > 0) {
+			sql = "SELECT * FROM Game WHERE UniqueGameID=" + boost::lexical_cast<std::string>(uniqueGameID_req);
+		} else {
+			sql = "SELECT * FROM Game";
+		}
 		if(sqlite3_get_table(mySqliteLogDb,sql.c_str(),&results.result_Game,&nRow_Game,&nCol_Game,&errmsg) != SQLITE_OK) {
 			cout << "Error in statement: " << sql.c_str() << "[" << errmsg << "]." << endl;
 			cleanUp(results, mySqliteLogDb);
@@ -1489,6 +1493,50 @@ int guiLog::exportLog(QString fileStringPdb,int modus)
 	cleanUp(results, mySqliteLogDb);
 
 	return 0;
+
+}
+
+QList<int> guiLog::getGameList(QString fileStringPdb)
+{
+
+	result_struct results;
+	results.result_Session = 0;
+	results.result_Game = 0;
+	results.result_Player = 0;
+	results.result_Hand = 0;
+	results.result_Hand_ID = 0;
+	results.result_Action = 0;
+
+	int nRow_Game=0;
+	int nCol_Game=0;
+	char *errmsg = 0;
+	int game_ctr = 0;
+	int i = 0;
+
+	QList<int> gameList;
+
+	// open sqlite log-db
+	sqlite3 *mySqliteLogDb;
+	sqlite3_open(fileStringPdb.toStdString().c_str(), &mySqliteLogDb);
+	if( mySqliteLogDb != 0 ) {
+
+		string sql = "SELECT * FROM Game";
+		if(sqlite3_get_table(mySqliteLogDb,sql.c_str(),&results.result_Game,&nRow_Game,&nCol_Game,&errmsg) != SQLITE_OK) {
+			cout << "Error in statement: " << sql.c_str() << "[" << errmsg << "]." << endl;
+		} else {
+			for(game_ctr=1; game_ctr<=nRow_Game; game_ctr++) {
+				for(i=0; i<nCol_Game; i++) {
+					if(boost::lexical_cast<std::string>(results.result_Game[i]) == "UniqueGameID") {
+						gameList.append(boost::lexical_cast<int>(results.result_Game[i+nCol_Game*game_ctr]));
+					}
+				}
+			}
+		}
+	}
+
+	cleanUp(results, mySqliteLogDb);
+
+	return gameList;
 
 }
 

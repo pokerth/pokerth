@@ -67,8 +67,9 @@ public slots:
 	void flushLogAtHand();
 	void exportLogPdbToHtml(QString fileStringPdb, QString exportFileString);
 	void exportLogPdbToTxt(QString fileStringPdb, QString exportFileString);
-	void showLog(QString fileStringPdb, QTextBrowser *tb);
-	int exportLog(QString fileStringPdb, int modus);
+	void showLog(QString fileStringPdb, QTextBrowser *tb, int uniqueGameID = 0);
+	int exportLog(QString fileStringPdb, int modus, int uniqueGameID = 0);
+	QList<int> getGameList(QString fileStringPdb);
 
 public:
 	QStringList translateCardCode(int cardCode);
