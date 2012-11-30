@@ -26,6 +26,7 @@ namespace Ui {
 	class LogFileDialog;
 }
 
+enum ShowLogMode { INIT_VIEW, SELECTED_GAME };
 
 class guiLog;
 class ConfigFile;
@@ -48,7 +49,9 @@ public slots:
 	void exportLogToHtml();
 	void exportLogToTxt();
 	void saveLogFileAs();
-	void showLogFilePreview();
+    void showLogFilePreviewInit() {showLogFilePreview(INIT_VIEW); }
+    void showLogFilePreviewSelected() {showLogFilePreview(SELECTED_GAME); }
+    void showLogFilePreview(ShowLogMode);
     void keyPressEvent ( QKeyEvent * event );
     void uploadFile();
 	

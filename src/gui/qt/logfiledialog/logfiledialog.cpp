@@ -40,8 +40,10 @@ ui(new Ui::LogFileDialog)
 	connect( ui->pushButton_exportLogHtml, SIGNAL(clicked()), this, SLOT (exportLogToHtml()));
 	connect( ui->pushButton_exportLogTxt, SIGNAL(clicked()), this, SLOT (exportLogToTxt()));
 	connect( ui->pushButton_saveLogAs, SIGNAL(clicked()), this, SLOT (saveLogFileAs()));
-	connect( ui->treeWidget_logFiles, SIGNAL(currentItemChanged(QTreeWidgetItem*, QTreeWidgetItem*)), this, SLOT(showLogFilePreview()));
+    connect( ui->treeWidget_logFiles, SIGNAL(currentItemChanged(QTreeWidgetItem*, QTreeWidgetItem*)), this, SLOT(showLogFilePreviewInit()));
     connect( ui->pushButton_analyseLogfile, SIGNAL(clicked()), this, SLOT (uploadFile()));
+    connect( ui->comboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(showLogFilePreviewSelected()));
+
 }
 
 LogFileDialog::~LogFileDialog()
@@ -154,12 +156,23 @@ void LogFileDialog::saveLogFileAs()
 	}
 }
 
-void LogFileDialog::showLogFilePreview()
+void LogFileDialog::showLogFilePreview(ShowLogMode mode)
 {
 	QTreeWidgetItem* selectedItem = ui->treeWidget_logFiles->currentItem();
 
+    if(mode == INIT_VIEW) {
+        ui->comboBox->blockSignals(TRUE);
+        ui->comboBox->clear();
+        QList<int> gameIds = myGuiLog->getGameList(selectedItem->data(0, Qt::UserRole).toString());
+        QList<int>::const_iterator it;
+        for (it = gameIds.constBegin(); it != gameIds.constEnd(); ++it) {
+            ui->comboBox->addItem(QString::number(*it));
+        }
+        ui->comboBox->blockSignals(FALSE);
+    }
+
 	if(selectedItem) {
-		myGuiLog->showLog(selectedItem->data(0, Qt::UserRole).toString(), ui->textBrowser_logPreview);
+        myGuiLog->showLog(selectedItem->data(0, Qt::UserRole).toString(), ui->textBrowser_logPreview, ui->comboBox->itemText(ui->comboBox->currentIndex()).toInt());
 	}
 
 	QTextCursor cursor(ui->textBrowser_logPreview->textCursor());

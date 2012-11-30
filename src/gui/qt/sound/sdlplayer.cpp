@@ -61,7 +61,6 @@ void SDLPlayer::initAudio()
         if( Mix_OpenAudio(audio_rate, audio_format, audio_channels, audio_buffers) == 0) {
             Mix_QuerySpec(&audio_rate, &audio_format, &audio_channels);
             audioEnabled = 1;
-            qDebug() << "Mix_OpenAudio()";
         }
         else {
             qDebug() << "Mix_OpenAudio() was not successfull, no sound possible :(";
@@ -73,76 +72,76 @@ void SDLPlayer::initAudio()
 void SDLPlayer::playSound(string audioString, int playerID)
 {
 #ifndef ANDROID
-    if(audioEnabled && myConfig->readConfigInt("PlaySoundEffects")) {
+//    if(audioEnabled && myConfig->readConfigInt("PlaySoundEffects")) {
 
-        QFile myFile(myAppDataPath + "sounds/default/" + QString::fromStdString(audioString)+".wav");
+//        QFile myFile(myAppDataPath + "sounds/default/" + QString::fromStdString(audioString)+".wav");
 
-        if(myFile.open(QIODevice::ReadOnly)) {
+//        if(myFile.open(QIODevice::ReadOnly)) {
 
-            //set 3d position for player
-            int position = 0;
-            int distance = 0;
+//            //set 3d position for player
+//            int position = 0;
+//            int distance = 0;
 
-            switch (playerID) {
+//            switch (playerID) {
 
-            case 0: {
-                position = 180;
-                distance = 10;
-            }
-            break;
-            case 1: {
-                position = 281;
-                distance = 50;
-            }
-            break;
-            case 2: {
-                position = 315;
-                distance = 120;
-            }
-            break;
-            case 3: {
-                position = 338;
-                distance = 160;
-            }
-            break;
-            case 4: {
-                position = 23;
-                distance = 160;
-            }
-            break;
-            case 5: {
-                position = 45;
-                distance = 120;
-            }
-            break;
-            case 6: {
-                position = 79;
-                distance = 50;
-            }
-            break;
-            default: {
-                position = 0;
-                distance = 0;
-            }
-            break;
-            }
+//            case 0: {
+//                position = 180;
+//                distance = 10;
+//            }
+//            break;
+//            case 1: {
+//                position = 281;
+//                distance = 50;
+//            }
+//            break;
+//            case 2: {
+//                position = 315;
+//                distance = 120;
+//            }
+//            break;
+//            case 3: {
+//                position = 338;
+//                distance = 160;
+//            }
+//            break;
+//            case 4: {
+//                position = 23;
+//                distance = 160;
+//            }
+//            break;
+//            case 5: {
+//                position = 45;
+//                distance = 120;
+//            }
+//            break;
+//            case 6: {
+//                position = 79;
+//                distance = 50;
+//            }
+//            break;
+//            default: {
+//                position = 0;
+//                distance = 0;
+//            }
+//            break;
+//            }
 
-            QDataStream in(&myFile);
-            soundData = new Uint8[(int)myFile.size()];
-            in.readRawData( (char*)soundData, (int)myFile.size() );
-            sound = Mix_QuickLoad_WAV(soundData);
+//            QDataStream in(&myFile);
+//            soundData = new Uint8[(int)myFile.size()];
+//            in.readRawData( (char*)soundData, (int)myFile.size() );
+//            sound = Mix_QuickLoad_WAV(soundData);
 
-            // set channel 0 to settings volume
-            Mix_Volume(-1,myConfig->readConfigInt("SoundVolume")*10);
+//            // set channel 0 to settings volume
+//            Mix_Volume(-1,myConfig->readConfigInt("SoundVolume")*10);
 
-            // set 3d effect
-            if(!Mix_SetPosition(0, position, distance)) {
-                printf("Mix_SetPosition: %s\n", Mix_GetError());
-                // no position effect, is it ok?
-            }
-            currentChannel = Mix_PlayChannel(-1, sound,0);
-        }
-    }
+//            // set 3d effect
+//            if(!Mix_SetPosition(0, position, distance)) {
+//                printf("Mix_SetPosition: %s\n", Mix_GetError());
+//                // no position effect, is it ok?
+//            }
+//            currentChannel = Mix_PlayChannel(-1, sound,0);
+//        }
+//    }
 #endif
 }
 
