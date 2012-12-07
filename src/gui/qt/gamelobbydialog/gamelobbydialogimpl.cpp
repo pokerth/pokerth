@@ -421,7 +421,7 @@ void gameLobbyDialogImpl::refresh(int actionID)
 		myNickListSelectionModel->clearSelection();;
 
 		QStringList headerList;
-		headerList << tr("Game") << tr("Players") << tr("State") << tr("T") << tr("P");
+        headerList << tr("Game") << tr("Players") << tr("State") << tr("T") << tr("P") << tr("Time");;
 		myGameListModel->setHorizontalHeaderLabels(headerList);
 
 #ifdef GUI_800x480
@@ -652,7 +652,7 @@ void gameLobbyDialogImpl::updateGameMode(unsigned gameId, int /*newMode*/)
 	while (myGameListModel->item(it)) {
 		if (myGameListModel->item(it, 0)->data(Qt::UserRole) == gameId) {
 			QList <QStandardItem*> itemList;
-            itemList << myGameListModel->item(it, 0) << myGameListModel->item(it, 1) << myGameListModel->item(it, 2) << myGameListModel->item(it, 3) << myGameListModel->item(it, 4) << myGameListModel->item(it, 5);;
+            itemList << myGameListModel->item(it, 0) << myGameListModel->item(it, 1) << myGameListModel->item(it, 2) << myGameListModel->item(it, 3) << myGameListModel->item(it, 4) << myGameListModel->item(it, 5);
 			updateGameItem(itemList, gameId);
 			break;
 		}
@@ -730,7 +730,7 @@ void gameLobbyDialogImpl::gameAddPlayer(unsigned gameId, unsigned playerId)
 	while (myGameListModel->item(it)) {
 		if (myGameListModel->item(it, 0)->data(Qt::UserRole) == gameId) {
 			QList <QStandardItem*> itemList;
-			itemList << myGameListModel->item(it, 0) << myGameListModel->item(it, 1) << myGameListModel->item(it, 2) << myGameListModel->item(it, 3) << myGameListModel->item(it, 4);
+            itemList << myGameListModel->item(it, 0) << myGameListModel->item(it, 1) << myGameListModel->item(it, 2) << myGameListModel->item(it, 3) << myGameListModel->item(it, 4)  << myGameListModel->item(it, 5);
 
 			updateGameItem(itemList, gameId);
 			break;
@@ -766,7 +766,7 @@ void gameLobbyDialogImpl::gameRemovePlayer(unsigned gameId, unsigned playerId)
 	while (myGameListModel->item(it)) {
 		if (myGameListModel->item(it, 0)->data(Qt::UserRole) == gameId) {
 			QList <QStandardItem*> itemList;
-			itemList << myGameListModel->item(it, 0) << myGameListModel->item(it, 1) << myGameListModel->item(it, 2) << myGameListModel->item(it, 3) << myGameListModel->item(it, 4);
+            itemList << myGameListModel->item(it, 0) << myGameListModel->item(it, 1) << myGameListModel->item(it, 2) << myGameListModel->item(it, 3) << myGameListModel->item(it, 4) << myGameListModel->item(it, 5);
 
 			updateGameItem(itemList, gameId);
 			break;
@@ -829,21 +829,23 @@ void gameLobbyDialogImpl::clearDialog()
 	pushButton_joinAnyGame->setEnabled(false);
 
 	QStringList headerList;
-	headerList << tr("Game") << tr("Players") << tr("State") << tr("T") << tr("P");
+    headerList << tr("Game") << tr("Players") << tr("State") << tr("T") << tr("P") << tr("Time");
 	myGameListModel->setHorizontalHeaderLabels(headerList);
 
 #ifdef GUI_800x480
     treeView_GameList->setColumnWidth(0,220);
-    treeView_GameList->setColumnWidth(1,65);
+    treeView_GameList->setColumnWidth(1,55);
     treeView_GameList->setColumnWidth(2,90);
-    treeView_GameList->setColumnWidth(3,30);
-    treeView_GameList->setColumnWidth(4,30);
+    treeView_GameList->setColumnWidth(3,20);
+    treeView_GameList->setColumnWidth(4,20);
+    treeView_GameList->setColumnWidth(5,20);
 #else
     treeView_GameList->setColumnWidth(0,190);
-	treeView_GameList->setColumnWidth(1,65);
-	treeView_GameList->setColumnWidth(2,65);
-	treeView_GameList->setColumnWidth(3,40);
-	treeView_GameList->setColumnWidth(4,40);
+    treeView_GameList->setColumnWidth(1,55);
+    treeView_GameList->setColumnWidth(2,65);
+    treeView_GameList->setColumnWidth(3,30);
+    treeView_GameList->setColumnWidth(4,30);
+    treeView_GameList->setColumnWidth(5,20);
 #endif
 
 	pushButton_CreateGame->clearFocus();
