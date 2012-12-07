@@ -114,15 +114,16 @@ gameLobbyDialogImpl::gameLobbyDialogImpl(startWindowImpl *parent, ConfigFile *c)
 	myGameListSelectionModel = treeView_GameList->selectionModel();
 
 	QStringList headerList;
-	headerList << tr("Game") << tr("Players") << tr("State") << tr("T") << tr("P");
+    headerList << tr("Game") << tr("Players") << tr("State") << tr("T") << tr("P") << tr("Time");
 	myGameListModel->setHorizontalHeaderLabels(headerList);
 
 #ifdef GUI_800x480
     treeView_GameList->setColumnWidth(0,220);
-    treeView_GameList->setColumnWidth(1,65);
+    treeView_GameList->setColumnWidth(1,55);
     treeView_GameList->setColumnWidth(2,90);
-    treeView_GameList->setColumnWidth(3,30);
-    treeView_GameList->setColumnWidth(4,30);
+    treeView_GameList->setColumnWidth(3,20);
+    treeView_GameList->setColumnWidth(4,20);
+    treeView_GameList->setColumnWidth(5,20);
 
     treeView_GameList->setStyleSheet("QTreeView {background-color: white; background-image: url(\""+myAppDataPath +"gfx/gui/misc/background_gamelist.png\"); background-attachment: fixed; background-position: top center ; background-repeat: no-repeat; color:rgb(0, 0, 0); font: 22px}");
     treeView_GameList->header()->setStyleSheet("QObject {font: bold 18px}");
@@ -136,10 +137,11 @@ gameLobbyDialogImpl::gameLobbyDialogImpl(startWindowImpl *parent, ConfigFile *c)
     label_typeText->hide();
 #else
     treeView_GameList->setColumnWidth(0,190);
-    treeView_GameList->setColumnWidth(1,65);
+    treeView_GameList->setColumnWidth(1,55);
     treeView_GameList->setColumnWidth(2,65);
-    treeView_GameList->setColumnWidth(3,40);
-    treeView_GameList->setColumnWidth(4,40);
+    treeView_GameList->setColumnWidth(3,30);
+    treeView_GameList->setColumnWidth(4,30);
+    treeView_GameList->setColumnWidth(5,20);
 
     treeView_GameList->setStyleSheet("QTreeView {background-color: white; background-image: url(\""+myAppDataPath +"gfx/gui/misc/background_gamelist.png\"); background-attachment: fixed; background-position: top center ; background-repeat: no-repeat;}");
 #endif
@@ -553,6 +555,7 @@ void gameLobbyDialogImpl::updateGameItem(QList <QStandardItem*> itemList, unsign
 			itemList.at(2)->setBackground(QBrush(QColor(0, 255, 0, 127)));
 			itemList.at(3)->setBackground(QBrush(QColor(0, 255, 0, 127)));
 			itemList.at(4)->setBackground(QBrush(QColor(0, 255, 0, 127)));
+            itemList.at(5)->setBackground(QBrush(QColor(0, 255, 0, 127)));
 			break;
 		} else {
 			itemList.at(0)->setData( "", 16);
@@ -561,6 +564,7 @@ void gameLobbyDialogImpl::updateGameItem(QList <QStandardItem*> itemList, unsign
 			itemList.at(2)->setBackground(QBrush());
 			itemList.at(3)->setBackground(QBrush());
 			itemList.at(4)->setBackground(QBrush());
+            itemList.at(5)->setBackground(QBrush());
 		}
 		++i;
 	}
@@ -598,7 +602,7 @@ void gameLobbyDialogImpl::updateGameItem(QList <QStandardItem*> itemList, unsign
 	case GAME_TYPE_INVITE_ONLY: {
 		itemList.at(3)->setIcon(QIcon(":/gfx/list_add_user.png"));
 		itemList.at(3)->setData("  ", Qt::DisplayRole);
-		itemList.at(3)->setData("invited", 16);
+        itemList.at(3)->setData("invited", 16);
 	}
 	break;
 	case GAME_TYPE_RANKING: {
@@ -618,6 +622,9 @@ void gameLobbyDialogImpl::updateGameItem(QList <QStandardItem*> itemList, unsign
 		itemList.at(4)->setData("nonpriv", 16);
 	}
 
+    itemList.at(5)->setData(QString::number(info.data.playerActionTimeoutSec)+"s/"+QString::number(info.data.delayBetweenHandsSec)+"s", Qt::DisplayRole);
+    itemList.at(5)->setData(QString::number(info.data.playerActionTimeoutSec), 16);
+
 	//	treeView_GameList->sortByColumn(myConfig->readConfigInt("DlgGameLobbyGameListSortingSection"), (Qt::SortOrder)myConfig->readConfigInt("DlgGameLobbyGameListSortingOrder") );
 	refreshGameStats();
 }
@@ -630,7 +637,8 @@ void gameLobbyDialogImpl::addGame(unsigned gameId)
 	QStandardItem *item3 = new QStandardItem();
 	QStandardItem *item4 = new QStandardItem();
 	QStandardItem *item5 = new QStandardItem();
-	itemList << item1 << item2 << item3 << item4 << item5;
+    QStandardItem *item6 = new QStandardItem();
+    itemList << item1 << item2 << item3 << item4 << item5 << item6;
 
 	myGameListModel->appendRow(itemList);
 
@@ -644,7 +652,7 @@ void gameLobbyDialogImpl::updateGameMode(unsigned gameId, int /*newMode*/)
 	while (myGameListModel->item(it)) {
 		if (myGameListModel->item(it, 0)->data(Qt::UserRole) == gameId) {
 			QList <QStandardItem*> itemList;
-			itemList << myGameListModel->item(it, 0) << myGameListModel->item(it, 1) << myGameListModel->item(it, 2) << myGameListModel->item(it, 3) << myGameListModel->item(it, 4);
+            itemList << myGameListModel->item(it, 0) << myGameListModel->item(it, 1) << myGameListModel->item(it, 2) << myGameListModel->item(it, 3) << myGameListModel->item(it, 4) << myGameListModel->item(it, 5);;
 			updateGameItem(itemList, gameId);
 			break;
 		}
@@ -1490,6 +1498,7 @@ void gameLobbyDialogImpl::changeGameListFilter(int index)
 		myGameListSortFilterProxyModel->setColumn2RegExp(QRegExp());
 		myGameListSortFilterProxyModel->setColumn3RegExp(QRegExp());
 		myGameListSortFilterProxyModel->setColumn4RegExp(QRegExp());
+        myGameListSortFilterProxyModel->setColumn5RegExp(QRegExp());
 	}
 	break;
 	case 1: {
@@ -1497,6 +1506,7 @@ void gameLobbyDialogImpl::changeGameListFilter(int index)
 		myGameListSortFilterProxyModel->setColumn2RegExp(QRegExp("open", Qt::CaseInsensitive, QRegExp::FixedString));
 		myGameListSortFilterProxyModel->setColumn3RegExp(QRegExp());
 		myGameListSortFilterProxyModel->setColumn4RegExp(QRegExp());
+        myGameListSortFilterProxyModel->setColumn5RegExp(QRegExp());
 	}
 	break;
 	case 2: {
@@ -1504,6 +1514,7 @@ void gameLobbyDialogImpl::changeGameListFilter(int index)
 		myGameListSortFilterProxyModel->setColumn2RegExp(QRegExp("open", Qt::CaseInsensitive, QRegExp::FixedString));
 		myGameListSortFilterProxyModel->setColumn3RegExp(QRegExp());
 		myGameListSortFilterProxyModel->setColumn4RegExp(QRegExp());
+        myGameListSortFilterProxyModel->setColumn5RegExp(QRegExp());
 	}
 	break;
 	case 3: {
@@ -1511,6 +1522,7 @@ void gameLobbyDialogImpl::changeGameListFilter(int index)
 		myGameListSortFilterProxyModel->setColumn2RegExp(QRegExp("open", Qt::CaseInsensitive, QRegExp::FixedString));
 		myGameListSortFilterProxyModel->setColumn3RegExp(QRegExp());
 		myGameListSortFilterProxyModel->setColumn4RegExp(QRegExp("nonpriv", Qt::CaseInsensitive, QRegExp::FixedString));
+        myGameListSortFilterProxyModel->setColumn5RegExp(QRegExp());
 	}
 	break;
 	case 4: {
@@ -1518,6 +1530,7 @@ void gameLobbyDialogImpl::changeGameListFilter(int index)
 		myGameListSortFilterProxyModel->setColumn2RegExp(QRegExp("open", Qt::CaseInsensitive, QRegExp::FixedString));
 		myGameListSortFilterProxyModel->setColumn3RegExp(QRegExp());
 		myGameListSortFilterProxyModel->setColumn4RegExp(QRegExp("private", Qt::CaseInsensitive, QRegExp::FixedString));
+        myGameListSortFilterProxyModel->setColumn5RegExp(QRegExp());
 	}
 	break;
 	case 5: {
@@ -1525,6 +1538,7 @@ void gameLobbyDialogImpl::changeGameListFilter(int index)
 		myGameListSortFilterProxyModel->setColumn2RegExp(QRegExp("open", Qt::CaseInsensitive, QRegExp::FixedString));
 		myGameListSortFilterProxyModel->setColumn3RegExp(QRegExp("ranking", Qt::CaseInsensitive, QRegExp::FixedString));
 		myGameListSortFilterProxyModel->setColumn4RegExp(QRegExp());
+        myGameListSortFilterProxyModel->setColumn5RegExp(QRegExp());
 	}
 	break;
 	default:

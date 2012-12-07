@@ -32,10 +32,12 @@ bool MyGameListSortFilterProxyModel::filterAcceptsRow(int sourceRow, const QMode
 	QModelIndex index2 = sourceModel()->index(sourceRow, 2, sourceParent);
 	QModelIndex index3 = sourceModel()->index(sourceRow, 3, sourceParent);
 	QModelIndex index4 = sourceModel()->index(sourceRow, 4, sourceParent);
+    QModelIndex index5 = sourceModel()->index(sourceRow, 5, sourceParent);
 
 	return ((sourceModel()->data(index1, 16).toString().contains(column1RegExp)
 			 && sourceModel()->data(index2, 16).toString().contains(column2RegExp)
 			 && sourceModel()->data(index3, 16).toString().contains(column3RegExp)
-			 && sourceModel()->data(index4, 16).toString().contains(column4RegExp)) || sourceModel()->data(index0, 16) == "MeInThisGame");
+             && sourceModel()->data(index4, 16).toString().contains(column4RegExp)
+             && sourceModel()->data(index5, 16).toString().contains(column5RegExp)) || sourceModel()->data(index0, 16) == "MeInThisGame");
 }
 
