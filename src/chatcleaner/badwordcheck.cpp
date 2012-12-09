@@ -20,7 +20,7 @@ bool BadWordCheck::run(QString msg)
             //exception check
             QStringListIterator it2(badWordsException);
             while (it2.hasNext()) {
-                QString bwe=it2.hasNext();
+                QString bwe=it2.next();
                 if(bwe.contains(bw) && msg.contains(bwe)) {
                     badMessage=false;
                 }
