@@ -95,6 +95,8 @@ void LocalBoard::distributePot()
 	// temp var
 	int highestCardsValue;
 	size_t winnerCount;
+	bool finalPot;
+	int potCarryOver = 0;
 	size_t mod;
 	bool winnerHit;
 
@@ -111,7 +113,7 @@ void LocalBoard::distributePot()
 			potLevel.push_back(playerSetsSort[i]);
 
 			// level sum
-			potLevel.push_back((playerSetsSort.size()-i)*potLevel[0]);
+			potLevel.push_back((playerSetsSort.size()-i)*potLevel[0] + potCarryOver);
 
 			// determine level highestCardsValue
 			for(it_c=seatsList->begin(), j=0; it_c!=seatsList->end(); ++it_c,j++) {
@@ -133,71 +135,93 @@ void LocalBoard::distributePot()
 				throw LocalException(__FILE__, __LINE__, ERR_NO_WINNER);
 			}
 
-			// distribute the pot level sum to level winners
-			mod = (potLevel[1])%winnerCount;
-			// pot level sum divisible by winnerCount
-			if(mod == 0) {
+			// check if this is the final pot level for at least one winner
+			finalPot = false;
+			for(j=2; j<potLevel.size(); j++) {
+				// find seat with potLevel[j]-ID
+				for(it=seatsList->begin(), k=0; it!=seatsList->end(); ++it, k++) {
+					if((*it)->getMyUniqueID() == potLevel[j] && potLevel[0] == playerSets[k]) {
+						finalPot = true;
+						break;
+					}
+				}
+				if(finalPot) break;
+			}
 
-				for(j=2; j<potLevel.size(); j++) {
-					// find seat with potLevel[j]-ID
+			if(finalPot) {
+				// distribute the pot level sum to level winners
+				mod = (potLevel[1])%winnerCount;
+				// pot level sum divisible by winnerCount
+				if(mod == 0) {
+
+					for(j=2; j<potLevel.size(); j++) {
+						// find seat with potLevel[j]-ID
+						for(it=seatsList->begin(); it!=seatsList->end(); ++it) {
+							if((*it)->getMyUniqueID() == potLevel[j]) {
+								break;
+							}
+						}
+						if(it == seatsList->end()) {
+							throw LocalException(__FILE__, __LINE__, ERR_SEAT_NOT_FOUND);
+						}
+						(*it)->setMyCash( (*it)->getMyCash() + ((potLevel[1])/winnerCount));
+
+						// filling winners vector
+						winners.push_back((*it)->getMyUniqueID());
+						(*it)->setLastMoneyWon( (*it)->getLastMoneyWon() + (potLevel[1])/winnerCount );
+					}
+
+				}
+				// pot level sum not divisible by winnerCount
+				// --> distribution after smallBlind
+				else {
+
+					// find Seat with dealerPosition
 					for(it=seatsList->begin(); it!=seatsList->end(); ++it) {
-						if((*it)->getMyUniqueID() == potLevel[j]) {
+						if((*it)->getMyUniqueID() == dealerPosition) {
 							break;
 						}
 					}
 					if(it == seatsList->end()) {
 						throw LocalException(__FILE__, __LINE__, ERR_SEAT_NOT_FOUND);
 					}
-					(*it)->setMyCash( (*it)->getMyCash() + ((potLevel[1])/winnerCount));
 
-					// filling winners vector
-					winners.push_back((*it)->getMyUniqueID());
-					(*it)->setLastMoneyWon( (*it)->getLastMoneyWon() + (potLevel[1])/winnerCount );
-				}
+					for(j=0; j<winnerCount; j++) {
 
-			}
-			// pot level sum not divisible by winnerCount
-			// --> distribution after smallBlind
-			else {
+						winnerHit = false;
 
-				// find Seat with dealerPosition
-				for(it=seatsList->begin(); it!=seatsList->end(); ++it) {
-					if((*it)->getMyUniqueID() == dealerPosition) {
-						break;
-					}
-				}
-				if(it == seatsList->end()) {
-					throw LocalException(__FILE__, __LINE__, ERR_SEAT_NOT_FOUND);
-				}
+						for(k=0; k<MAX_NUMBER_OF_PLAYERS && !winnerHit; k++) {
 
-				for(j=0; j<winnerCount; j++) {
+							++it;
+							if(it == seatsList->end())
+								it = seatsList->begin();
 
-					winnerHit = false;
+							for(l=2; l<potLevel.size(); l++) {
+								if((*it)->getMyUniqueID() == potLevel[l]) winnerHit = true;
+							}
 
-					for(k=0; k<MAX_NUMBER_OF_PLAYERS && !winnerHit; k++) {
-
-						++it;
-						if(it == seatsList->end())
-							it = seatsList->begin();
-
-						for(l=2; l<potLevel.size(); l++) {
-							if((*it)->getMyUniqueID() == potLevel[l]) winnerHit = true;
 						}
 
-					}
-
-					if(j<mod) {
-						(*it)->setMyCash( (*it)->getMyCash() + (int)((potLevel[1])/winnerCount) + 1);
-						// filling winners vector
-						winners.push_back((*it)->getMyUniqueID());
-						(*it)->setLastMoneyWon( (*it)->getLastMoneyWon() + ((potLevel[1])/winnerCount) + 1 );
-					} else {
-						(*it)->setMyCash( (*it)->getMyCash() + (int)((potLevel[1])/winnerCount));
-						// filling winners vector
-						winners.push_back((*it)->getMyUniqueID());
-						(*it)->setLastMoneyWon( (*it)->getLastMoneyWon() + (potLevel[1])/winnerCount );
+						if(j<mod) {
+							(*it)->setMyCash( (*it)->getMyCash() + (int)((potLevel[1])/winnerCount) + 1);
+							// filling winners vector
+							winners.push_back((*it)->getMyUniqueID());
+							(*it)->setLastMoneyWon( (*it)->getLastMoneyWon() + ((potLevel[1])/winnerCount) + 1 );
+						} else {
+							(*it)->setMyCash( (*it)->getMyCash() + (int)((potLevel[1])/winnerCount));
+							// filling winners vector
+							winners.push_back((*it)->getMyUniqueID());
+							(*it)->setLastMoneyWon( (*it)->getLastMoneyWon() + (potLevel[1])/winnerCount );
+						}
 					}
 				}
+				potCarryOver = 0;
+
+				// pot refresh
+				pot -= potLevel[1];
+
+			} else {
+				potCarryOver = potLevel[1];
 			}
 
 			// reevaluate the player sets
@@ -210,9 +234,6 @@ void LocalBoard::distributePot()
 			// sort player sets asc
 			playerSetsSort = playerSets;
 			sort(playerSetsSort.begin(), playerSetsSort.end());
-
-			// pot refresh
-			pot -= potLevel[1];
 
 			// clear potLevel
 			potLevel.clear();
