@@ -185,6 +185,14 @@ void MessageFilter::refreshConfig()
 	}
 	myBadWordCheck->setBadWords(bwList);
 
+    std::list<std::string> badWordsExceptionList = config->readConfigStringList("BadWordsList");
+    std::list<std::string>::iterator it1;
+    QStringList bweList;
+    for(it1= badWordsExceptionList.begin(); it1 != badWordsExceptionList.end(); ++it1) {
+        bweList << QString::fromUtf8(it1->c_str());
+    }
+    myBadWordCheck->setBadWordsException(bweList);
+
 	std::list<std::string> urlStringsList = config->readConfigStringList("UrlStringsList");
 	std::list<std::string>::iterator it2;
 	QStringList urlList;
