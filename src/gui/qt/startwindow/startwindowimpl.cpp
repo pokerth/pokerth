@@ -80,17 +80,18 @@ startWindowImpl::startWindowImpl(ConfigFile *c, Log *l)
         this->menubar->hide();
         centralwidget->setStyleSheet(".QWidget { background-image: url(:/android/android-data/gfx/gui/misc/startwindowbg_800x480.png); background-position: bottom center; background-origin: content; background-repeat: no-repeat;}");
         this->showFullScreen();
+        this->setStyle(new QPlastiqueStyle);
     #else
 //        this->menubar->setStyleSheet("QMenuBar { background-color: #4B4B4B; font-size:20px; border-width: 0px;} QMenuBar::item { color: #F0F0F0; }");
         this->menubar->hide();
         centralwidget->setStyleSheet(".QWidget { background-image: url(\""+myAppDataPath+"gfx/gui/misc/startwindowbg_800x480.png\"); background-position: bottom center; background-origin: content; background-repeat: no-repeat;}");
     #endif
-        pushButtonStart_Local_Game->setStyleSheet("QPushButton { text-align:left; font-weight:bold; padding-left: 3px; padding-bottom: 3px; padding-top: 3px; padding-right: 3px; background-color: #4B4B4B; color: #F0F0F0; font-size:22px; border-width: 0px;}");
-        pushButtonInternet_Game->setStyleSheet("QPushButton { text-align:left; font-weight:bold; padding-left: 3px; padding-bottom: 3px; padding-top: 3px; padding-right: 3px; background-color: #4B4B4B; color: #F0F0F0; font-size:22px; border-width: 0px;}");
-        pushButton_Create_Network_Game->setStyleSheet("QPushButton { text-align:left; font-weight:bold; padding-left: 3px; padding-bottom: 3px; padding-top: 3px; padding-right: 3px; background-color: #4B4B4B; color: #F0F0F0; font-size:22px; border-width: 0px;}");
-        pushButton_Join_Network_Game->setStyleSheet("QPushButton { text-align:left; font-weight:bold; padding-left: 3px; padding-bottom: 3px; padding-top: 3px; padding-right: 3px; background-color: #4B4B4B; color: #F0F0F0; font-size:22px; border-width: 0px;}");
-        pushButton_about->setStyleSheet("QPushButton { text-align:left; font-weight:bold; padding-left: 3px; padding-bottom: 3px; padding-top: 3px; padding-right: 3px; background-color: #4B4B4B; color: #F0F0F0; font-size:22px; border-width: 0px;}");
-        pushButton_configure->setStyleSheet("QPushButton { text-align:left; font-weight:bold; padding-left: 3px; padding-bottom: 3px; padding-top: 3px; padding-right: 3px; background-color: #4B4B4B; color: #F0F0F0; font-size:22px; border-width: 0px;}");
+//        pushButtonStart_Local_Game->setStyleSheet("QPushButton { text-align:left; font-weight:bold; padding-left: 3px; padding-bottom: 3px; padding-top: 3px; padding-right: 3px; background-color: #4B4B4B; color: #F0F0F0; font-size:22px; border-width: 0px;}");
+//        pushButtonInternet_Game->setStyleSheet("QPushButton { text-align:left; font-weight:bold; padding-left: 3px; padding-bottom: 3px; padding-top: 3px; padding-right: 3px; background-color: #4B4B4B; color: #F0F0F0; font-size:22px; border-width: 0px;}");
+//        pushButton_Create_Network_Game->setStyleSheet("QPushButton { text-align:left; font-weight:bold; padding-left: 3px; padding-bottom: 3px; padding-top: 3px; padding-right: 3px; background-color: #4B4B4B; color: #F0F0F0; font-size:22px; border-width: 0px;}");
+//        pushButton_Join_Network_Game->setStyleSheet("QPushButton { text-align:left; font-weight:bold; padding-left: 3px; padding-bottom: 3px; padding-top: 3px; padding-right: 3px; background-color: #4B4B4B; color: #F0F0F0; font-size:22px; border-width: 0px;}");
+//        pushButton_about->setStyleSheet("QPushButton { text-align:left; font-weight:bold; padding-left: 3px; padding-bottom: 3px; padding-top: 3px; padding-right: 3px; background-color: #4B4B4B; color: #F0F0F0; font-size:22px; border-width: 0px;}");
+//        pushButton_configure->setStyleSheet("QPushButton { text-align:left; font-weight:bold; padding-left: 3px; padding-bottom: 3px; padding-top: 3px; padding-right: 3px; background-color: #4B4B4B; color: #F0F0F0; font-size:22px; border-width: 0px;}");
 
         connect( pushButton_about, SIGNAL( clicked() ), this, SLOT( callAboutPokerthDialog() ) );
         connect( pushButton_configure, SIGNAL( clicked() ), this, SLOT( callSettingsDialogFromStartwindow() ) );
