@@ -72,7 +72,11 @@ void LogFileDialog::refreshLogFileList()
 	for (i=0; i < dbFilesList.size(); i++) {
 
 		QTreeWidgetItem *item = new QTreeWidgetItem;
-		item->setText(0, dbFilesList.at(i).fileName());
+#ifdef GUI_800x480
+        item->setText(0, dbFilesList.at(i).fileName().remove("pokerth-log-"));
+#else
+        item->setText(0, dbFilesList.at(i).fileName());
+#endif
 		item->setData(0, Qt::UserRole, dbFilesList.at(i).absoluteFilePath());
 		if(currentSqliteLogFile.fileName() == dbFilesList.at(i).fileName()) {
 			item->setData(0, Qt::BackgroundColorRole, QColor(Qt::red));
@@ -113,7 +117,7 @@ void LogFileDialog::exportLogToHtml()
 	QTreeWidgetItem* selectedItem = ui->treeWidget_logFiles->currentItem();
 
 	if(selectedItem) {
-		QFileInfo fi(selectedItem->text(0));
+        QFileInfo fi(selectedItem->data(0, Qt::UserRole).toString());
 		QString fileName = QFileDialog::getSaveFileName(this, tr("Export PokerTH log file to HTML"),
 						   QDir::homePath()+"/"+fi.baseName()+".html",
 						   tr("PokerTH HTML log (*.html)"));
@@ -129,7 +133,7 @@ void LogFileDialog::exportLogToTxt()
 	QTreeWidgetItem* selectedItem = ui->treeWidget_logFiles->currentItem();
 
 	if(selectedItem) {
-		QFileInfo fi(selectedItem->text(0));
+        QFileInfo fi(selectedItem->data(0, Qt::UserRole).toString());
 		QString fileName = QFileDialog::getSaveFileName(this, tr("Export PokerTH log file to plain text"),
 						   QDir::homePath()+"/"+fi.baseName()+".txt",
 						   tr("PokerTH plain text log (*.txt)"));
@@ -145,7 +149,7 @@ void LogFileDialog::saveLogFileAs()
 	QTreeWidgetItem* selectedItem = ui->treeWidget_logFiles->currentItem();
 
 	if(selectedItem) {
-		QFileInfo fi(selectedItem->text(0));
+        QFileInfo fi(selectedItem->data(0, Qt::UserRole).toString());
 		QString fileName = QFileDialog::getSaveFileName(this, tr("Save PokerTH log file"),
 						   QDir::homePath()+"/"+fi.baseName()+".pdb",
 						   tr("PokerTH SQL log (*.pdb)"));

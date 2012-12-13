@@ -20,11 +20,9 @@
 #include "mystylelistitem.h"
 #include "gametablestylereader.h"
 #include "carddeckstylereader.h"
-
 #include "configfile.h"
 #include <net/socket_startup.h>
 #include <QSet>
-
 enum StyleType { POKERTH_DISTRIBUTED_STYLE, ADDITIONAL_STYLE };
 
 using namespace std;

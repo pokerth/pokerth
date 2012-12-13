@@ -68,7 +68,7 @@
          <string>Interface</string>
         </property>
         <property name="icon">
-         <iconset resource="../resources/pokerth.qrc">
+         <iconset resource="../resources/pokerth_android.qrc">
           <normaloff>:/gfx/preferences-desktop.png</normaloff>:/gfx/preferences-desktop.png</iconset>
         </property>
        </item>
@@ -77,7 +77,7 @@
          <string>Style</string>
         </property>
         <property name="icon">
-         <iconset resource="../resources/pokerth.qrc">
+         <iconset resource="../resources/pokerth_android.qrc">
           <normaloff>:/gfx/fill-color.png</normaloff>:/gfx/fill-color.png</iconset>
         </property>
        </item>
@@ -86,7 +86,7 @@
          <string>Sound</string>
         </property>
         <property name="icon">
-         <iconset resource="../resources/pokerth.qrc">
+         <iconset resource="../resources/pokerth_android.qrc">
           <normaloff>:/gfx/speaker.png</normaloff>:/gfx/speaker.png</iconset>
         </property>
        </item>
@@ -95,7 +95,7 @@
          <string>Local Game</string>
         </property>
         <property name="icon">
-         <iconset resource="../resources/pokerth.qrc">
+         <iconset resource="../resources/pokerth_android.qrc">
           <normaloff>:/gfx/swbuttonlocalgame.png</normaloff>:/gfx/swbuttonlocalgame.png</iconset>
         </property>
        </item>
@@ -104,7 +104,7 @@
          <string>Network Game</string>
         </property>
         <property name="icon">
-         <iconset resource="../resources/pokerth.qrc">
+         <iconset resource="../resources/pokerth_android.qrc">
           <normaloff>:/gfx/swbuttonjoinnetworkgame.png</normaloff>:/gfx/swbuttonjoinnetworkgame.png</iconset>
         </property>
        </item>
@@ -113,7 +113,7 @@
          <string>Internet Game</string>
         </property>
         <property name="icon">
-         <iconset resource="../resources/pokerth.qrc">
+         <iconset resource="../resources/pokerth_android.qrc">
           <normaloff>:/gfx/swbuttoninternetgame.png</normaloff>:/gfx/swbuttoninternetgame.png</iconset>
         </property>
        </item>
@@ -122,7 +122,7 @@
          <string>Nicks/Avatars</string>
         </property>
         <property name="icon">
-         <iconset resource="../resources/pokerth.qrc">
+         <iconset resource="../resources/pokerth_android.qrc">
           <normaloff>:/gfx/system_users.png</normaloff>:/gfx/system_users.png</iconset>
         </property>
        </item>
@@ -131,7 +131,7 @@
          <string>Log Messages</string>
         </property>
         <property name="icon">
-         <iconset resource="../resources/pokerth.qrc">
+         <iconset resource="../resources/pokerth_android.qrc">
           <normaloff>:/gfx/utilities-log-viewer.png</normaloff>:/gfx/utilities-log-viewer.png</iconset>
         </property>
        </item>
@@ -140,13 +140,8 @@
          <string>Factory Settings</string>
         </property>
         <property name="icon">
-         <iconset resource="../resources/pokerth.qrc">
+         <iconset resource="../resources/pokerth_android.qrc">
           <normaloff>:/gfx/document-revert.png</normaloff>:/gfx/document-revert.png</iconset>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>New Item</string>
         </property>
        </item>
       </widget>
@@ -755,7 +750,7 @@ p, li { white-space: pre-wrap; }
                     </size>
                    </property>
                    <property name="icon">
-                    <iconset resource="../resources/pokerth.qrc">
+                    <iconset resource="../resources/pokerth_android.qrc">
                      <normaloff>:/gfx/document-open-folder.png</normaloff>:/gfx/document-open-folder.png</iconset>
                    </property>
                   </widget>
@@ -2004,7 +1999,7 @@ p, li { white-space: pre-wrap; }
                    <string>Standard</string>
                   </property>
                   <property name="icon">
-                   <iconset resource="../resources/pokerth.qrc">
+                   <iconset resource="../resources/pokerth_android.qrc">
                     <normaloff>:/gfx/player_play.png</normaloff>:/gfx/player_play.png</iconset>
                   </property>
                  </item>
@@ -2013,7 +2008,7 @@ p, li { white-space: pre-wrap; }
                    <string>Registered players only</string>
                   </property>
                   <property name="icon">
-                   <iconset resource="../resources/pokerth.qrc">
+                   <iconset resource="../resources/pokerth_android.qrc">
                     <normaloff>:/gfx/registered.png</normaloff>:/gfx/registered.png</iconset>
                   </property>
                  </item>
@@ -2022,7 +2017,7 @@ p, li { white-space: pre-wrap; }
                    <string>Invited players only</string>
                   </property>
                   <property name="icon">
-                   <iconset resource="../resources/pokerth.qrc">
+                   <iconset resource="../resources/pokerth_android.qrc">
                     <normaloff>:/gfx/list_add_user.png</normaloff>:/gfx/list_add_user.png</iconset>
                   </property>
                  </item>
@@ -2031,7 +2026,7 @@ p, li { white-space: pre-wrap; }
                    <string>Ranking game</string>
                   </property>
                   <property name="icon">
-                   <iconset resource="../resources/pokerth.qrc">
+                   <iconset resource="../resources/pokerth_android.qrc">
                     <normaloff>:/gfx/cup.png</normaloff>:/gfx/cup.png</iconset>
                   </property>
                  </item>
@@ -2050,7 +2045,7 @@ p, li { white-space: pre-wrap; }
                   <string>Use password for private game:</string>
                  </property>
                  <property name="icon">
-                  <iconset resource="../resources/pokerth.qrc">
+                  <iconset resource="../resources/pokerth_android.qrc">
                    <normaloff>:/gfx/lock.png</normaloff>:/gfx/lock.png</iconset>
                  </property>
                 </widget>
@@ -2115,7 +2110,7 @@ p, li { white-space: pre-wrap; }
                 <string>Remove Player</string>
                </property>
                <property name="icon">
-                <iconset resource="../resources/pokerth.qrc">
+                <iconset resource="../resources/pokerth_android.qrc">
                  <normaloff>:/gfx/list-remove.png</normaloff>:/gfx/list-remove.png</iconset>
                </property>
               </widget>
@@ -3625,7 +3620,7 @@ p, li { white-space: pre-wrap; }
                  </size>
                 </property>
                 <property name="icon">
-                 <iconset resource="../resources/pokerth.qrc">
+                 <iconset resource="../resources/pokerth_android.qrc">
                   <normaloff>:/gfx/document-open-folder.png</normaloff>:/gfx/document-open-folder.png</iconset>
                 </property>
                </widget>
@@ -3717,7 +3712,7 @@ p, li { white-space: pre-wrap; }
               <string>Export as HTML</string>
              </property>
              <property name="icon">
-              <iconset resource="../resources/pokerth.qrc">
+              <iconset resource="../resources/pokerth_android.qrc">
                <normaloff>:/gfx/text-html.png</normaloff>:/gfx/text-html.png</iconset>
              </property>
             </widget>
@@ -3728,7 +3723,7 @@ p, li { white-space: pre-wrap; }
               <string>Export as txt</string>
              </property>
              <property name="icon">
-              <iconset resource="../resources/pokerth.qrc">
+              <iconset resource="../resources/pokerth_android.qrc">
                <normaloff>:/gfx/text-plain.png</normaloff>:/gfx/text-plain.png</iconset>
              </property>
             </widget>
@@ -3739,7 +3734,7 @@ p, li { white-space: pre-wrap; }
               <string>Save as ...</string>
              </property>
              <property name="icon">
-              <iconset resource="../resources/pokerth.qrc">
+              <iconset resource="../resources/pokerth_android.qrc">
                <normaloff>:/gfx/filesave.png</normaloff>:/gfx/filesave.png</iconset>
              </property>
             </widget>
@@ -3750,7 +3745,7 @@ p, li { white-space: pre-wrap; }
               <string>Delete</string>
              </property>
              <property name="icon">
-              <iconset resource="../resources/pokerth.qrc">
+              <iconset resource="../resources/pokerth_android.qrc">
                <normaloff>:/gfx/editdelete.png</normaloff>:/gfx/editdelete.png</iconset>
              </property>
             </widget>
@@ -3872,276 +3867,6 @@ p, li { white-space: pre-wrap; }
            <property name="text">
             <string>Note: You can not reset all settings to default during a running game!</string>
            </property>
-          </widget>
-         </item>
-        </layout>
-       </widget>
-       <widget class="QWidget" name="page_6">
-        <layout class="QGridLayout" name="gridLayout_23">
-         <item row="0" column="0">
-          <widget class="QScrollArea" name="scrollArea">
-           <property name="widgetResizable">
-            <bool>true</bool>
-           </property>
-           <widget class="QWidget" name="scrollAreaWidgetContents">
-            <property name="geometry">
-             <rect>
-              <x>0</x>
-              <y>0</y>
-              <width>580</width>
-              <height>371</height>
-             </rect>
-            </property>
-            <widget class="QCheckBox" name="checkBox_2">
-             <property name="geometry">
-              <rect>
-               <x>80</x>
-               <y>20</y>
-               <width>82</width>
-               <height>21</height>
-              </rect>
-             </property>
-             <property name="text">
-              <string>CheckBox</string>
-             </property>
-            </widget>
-            <widget class="QWidget" name="layoutWidget">
-             <property name="geometry">
-              <rect>
-               <x>20</x>
-               <y>10</y>
-               <width>829</width>
-               <height>798</height>
-              </rect>
-             </property>
-             <layout class="QVBoxLayout" name="verticalLayout_5">
-              <item>
-               <widget class="QCheckBox" name="checkBox">
-                <property name="text">
-                 <string>CheckBox</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QCheckBox" name="checkBox_3">
-                <property name="text">
-                 <string>CheckBox</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QCheckBox" name="checkBox_4">
-                <property name="text">
-                 <string>CheckBox</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QCheckBox" name="checkBox_5">
-                <property name="text">
-                 <string>CheckBox</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QCheckBox" name="checkBox_6">
-                <property name="text">
-                 <string>CheckBox</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QCheckBox" name="checkBox_11">
-                <property name="text">
-                 <string>aasdasd asdasdj asklasjda lkjasdl asd asd asd asd</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QCheckBox" name="checkBox_7">
-                <property name="text">
-                 <string>CheckBox</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QCheckBox" name="checkBox_9">
-                <property name="text">
-                 <string>CheckBox</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QCheckBox" name="checkBox_12">
-                <property name="text">
-                 <string>CheckBox</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QCheckBox" name="checkBox_10">
-                <property name="text">
-                 <string>CheckBox</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QCheckBox" name="checkBox_8">
-                <property name="text">
-                 <string>CheckBox</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QCheckBox" name="checkBox_13">
-                <property name="text">
-                 <string>asd asd asdasdakdja sasljf asd ajsdklja askljd asdjlka sdjasdj alskjd asdjasd jaslkdj asld as da a sd a</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QCheckBox" name="checkBox_14">
-                <property name="text">
-                 <string>CheckBox</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QCheckBox" name="checkBox_15">
-                <property name="text">
-                 <string>CheckBox</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QCheckBox" name="checkBox_16">
-                <property name="text">
-                 <string>CheckBox</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QCheckBox" name="checkBox_17">
-                <property name="text">
-                 <string>CheckBox</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QCheckBox" name="checkBox_18">
-                <property name="text">
-                 <string>CheckBox</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QCheckBox" name="checkBox_19">
-                <property name="text">
-                 <string>CheckBox</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QCheckBox" name="checkBox_20">
-                <property name="text">
-                 <string>CheckBox</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QCheckBox" name="checkBox_21">
-                <property name="text">
-                 <string>CheckBox</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QCheckBox" name="checkBox_22">
-                <property name="text">
-                 <string>CheckBox</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QCheckBox" name="checkBox_23">
-                <property name="text">
-                 <string>CheckBox</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QCheckBox" name="checkBox_24">
-                <property name="text">
-                 <string>CheckBox</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QCheckBox" name="checkBox_25">
-                <property name="text">
-                 <string>CheckBox</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QCheckBox" name="checkBox_26">
-                <property name="text">
-                 <string>CheckBox</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QCheckBox" name="checkBox_27">
-                <property name="text">
-                 <string>CheckBox</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QCheckBox" name="checkBox_28">
-                <property name="text">
-                 <string>CheckBox</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QCheckBox" name="checkBox_29">
-                <property name="text">
-                 <string>CheckBox</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QCheckBox" name="checkBox_30">
-                <property name="text">
-                 <string>CheckBox</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QCheckBox" name="checkBox_31">
-                <property name="text">
-                 <string>CheckBox</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QCheckBox" name="checkBox_32">
-                <property name="text">
-                 <string>CheckBox</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QCheckBox" name="checkBox_33">
-                <property name="text">
-                 <string>CheckBox</string>
-                </property>
-               </widget>
-              </item>
-             </layout>
-            </widget>
-           </widget>
           </widget>
          </item>
         </layout>
@@ -4315,7 +4040,7 @@ p, li { white-space: pre-wrap; }
   <tabstop>buttonBox</tabstop>
  </tabstops>
  <resources>
-  <include location="../resources/pokerth.qrc"/>
+  <include location="../resources/pokerth_android.qrc"/>
  </resources>
  <connections>
   <connection>

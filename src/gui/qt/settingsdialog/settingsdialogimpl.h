@@ -38,6 +38,7 @@ class selectAvatarDialogImpl;
 class manualBlindsOrderDialogImpl;
 class MyStyleListItem;
 class guiLog;
+class FlickCharm;
 
 class settingsDialogImpl: public QDialog, public Ui::settingsDialog
 {
@@ -142,6 +143,7 @@ private:
 	bool calledIngame;
 	int changedLanguageIndex;
 	guiLog *myGuiLog;
+    FlickCharm *fc;
 };
 
 #endif

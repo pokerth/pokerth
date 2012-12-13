@@ -18,15 +18,12 @@
   </property>
   <property name="maximumSize">
    <size>
-    <width>1024</width>
-    <height>600</height>
+    <width>1980</width>
+    <height>1200</height>
    </size>
   </property>
   <property name="mouseTracking">
    <bool>false</bool>
-  </property>
-  <property name="windowTitle">
-   <string>PokerTH 0.6-beta - The Open-Source Texas Holdem Engine</string>
   </property>
   <property name="styleSheet">
    <string notr="true">QStatusbar { height:0px; }</string>
@@ -40,8 +37,8 @@
    </property>
    <property name="maximumSize">
     <size>
-     <width>1024</width>
-     <height>600</height>
+     <width>1980</width>
+     <height>1200</height>
     </size>
    </property>
    <layout class="QGridLayout" name="gridLayout_4">
@@ -4441,7 +4438,7 @@ p, li { white-space: pre-wrap; }
               <string/>
              </property>
              <property name="icon">
-              <iconset resource="../resources/pokerth.qrc">
+              <iconset resource="../resources/pokerth_android.qrc">
                <normaloff>:/gfx/view-fullscreen_50x50.png</normaloff>:/gfx/view-fullscreen_50x50.png</iconset>
              </property>
              <property name="iconSize">
@@ -4618,7 +4615,7 @@ p, li { white-space: pre-wrap; }
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>26</height>
+     <height>20</height>
     </rect>
    </property>
    <property name="minimumSize">
@@ -4685,7 +4682,7 @@ p, li { white-space: pre-wrap; }
   </action>
   <action name="actionFullScreen">
    <property name="icon">
-    <iconset resource="../resources/pokerth.qrc">
+    <iconset resource="../resources/pokerth_android.qrc">
      <normaloff>:/gfx/view-fullscreen.png</normaloff>:/gfx/view-fullscreen.png</iconset>
    </property>
    <property name="text">
@@ -4743,7 +4740,7 @@ p, li { white-space: pre-wrap; }
   </action>
   <action name="actionConfigure_PokerTH">
    <property name="icon">
-    <iconset resource="../resources/pokerth.qrc">
+    <iconset resource="../resources/pokerth_android.qrc">
      <normaloff>:/gfx/systemsettings.png</normaloff>:/gfx/systemsettings.png</iconset>
    </property>
    <property name="text">
@@ -4752,7 +4749,7 @@ p, li { white-space: pre-wrap; }
   </action>
   <action name="actionClose">
    <property name="icon">
-    <iconset resource="../resources/pokerth.qrc">
+    <iconset resource="../resources/pokerth_android.qrc">
      <normaloff>:/gfx/application_exit.png</normaloff>:/gfx/application_exit.png</iconset>
    </property>
    <property name="text">
@@ -4824,7 +4821,7 @@ p, li { white-space: pre-wrap; }
   </customwidget>
  </customwidgets>
  <resources>
-  <include location="../resources/pokerth.qrc"/>
+  <include location="../resources/pokerth_android.qrc"/>
  </resources>
  <connections/>
 </ui>

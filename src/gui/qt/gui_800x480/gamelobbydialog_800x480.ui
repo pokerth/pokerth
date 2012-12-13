@@ -134,7 +134,7 @@
                 <string>&amp;Leave Game</string>
                </property>
                <property name="icon">
-                <iconset resource="../resources/pokerth.qrc">
+                <iconset resource="../resources/pokerth_android.qrc">
                  <normaloff>:/gfx/go-previous-view.png</normaloff>:/gfx/go-previous-view.png</iconset>
                </property>
               </widget>
@@ -196,7 +196,7 @@
                 <string>&amp;Start Game</string>
                </property>
                <property name="icon">
-                <iconset resource="../resources/pokerth.qrc">
+                <iconset resource="../resources/pokerth_android.qrc">
                  <normaloff>:/gfx/dialog_ok_apply.png</normaloff>:/gfx/dialog_ok_apply.png</iconset>
                </property>
               </widget>
@@ -232,7 +232,7 @@
                 <string>&amp;Kick Player</string>
                </property>
                <property name="icon">
-                <iconset resource="../resources/pokerth.qrc">
+                <iconset resource="../resources/pokerth_android.qrc">
                  <normaloff>:/gfx/list-remove.png</normaloff>:/gfx/list-remove.png</iconset>
                </property>
               </widget>
@@ -330,7 +330,7 @@
                 <string>Join &amp;any game</string>
                </property>
                <property name="icon">
-                <iconset resource="../resources/pokerth.qrc">
+                <iconset resource="../resources/pokerth_android.qrc">
                  <normaloff>:/gfx/transform-rotate.png</normaloff>:/gfx/transform-rotate.png</iconset>
                </property>
               </widget>
@@ -369,7 +369,7 @@
                 <string>&amp;Create Game</string>
                </property>
                <property name="icon">
-                <iconset resource="../resources/pokerth.qrc">
+                <iconset resource="../resources/pokerth_android.qrc">
                  <normaloff>:/gfx/list_add.png</normaloff>:/gfx/list_add.png</iconset>
                </property>
               </widget>
@@ -395,7 +395,7 @@
                 <string>&amp;Join Game</string>
                </property>
                <property name="icon">
-                <iconset resource="../resources/pokerth.qrc">
+                <iconset resource="../resources/pokerth_android.qrc">
                  <normaloff>:/gfx/go-next-view.png</normaloff>:/gfx/go-next-view.png</iconset>
                </property>
               </widget>
@@ -535,8 +535,8 @@
                 <rect>
                  <x>0</x>
                  <y>0</y>
-                 <width>292</width>
-                 <height>197</height>
+                 <width>288</width>
+                 <height>195</height>
                 </rect>
                </property>
                <layout class="QGridLayout" name="gridLayout">
@@ -619,9 +619,6 @@
                 </item>
                 <item row="1" column="1">
                  <widget class="QLabel" name="label_StartCash">
-                  <property name="styleSheet">
-                   <string notr="true">QLabel { color:rgb(0, 0, 255); }</string>
-                  </property>
                   <property name="alignment">
                    <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
                   </property>
@@ -648,9 +645,6 @@
                 </item>
                 <item row="2" column="1">
                  <widget class="QLabel" name="label_SmallBlind">
-                  <property name="styleSheet">
-                   <string notr="true">QLabel { color:rgb(0, 0, 255); }</string>
-                  </property>
                   <property name="alignment">
                    <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
                   </property>
@@ -677,9 +671,6 @@
                 </item>
                 <item row="3" column="1">
                  <widget class="QLabel" name="label_blindsRaiseIntervall">
-                  <property name="styleSheet">
-                   <string notr="true">QLabel { color:rgb(0, 0, 255); }</string>
-                  </property>
                   <property name="alignment">
                    <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
                   </property>
@@ -706,9 +697,6 @@
                 </item>
                 <item row="4" column="1">
                  <widget class="QLabel" name="label_blindsRaiseMode">
-                  <property name="styleSheet">
-                   <string notr="true">QLabel { color:rgb(0, 0, 255); }</string>
-                  </property>
                   <property name="text">
                    <string/>
                   </property>
@@ -738,9 +726,6 @@
                 </item>
                 <item row="5" column="1">
                  <widget class="QLabel" name="label_blindsList">
-                  <property name="styleSheet">
-                   <string notr="true">QLabel { color:rgb(0, 0, 255); }</string>
-                  </property>
                   <property name="text">
                    <string/>
                   </property>
@@ -770,9 +755,6 @@
                 </item>
                 <item row="6" column="1">
                  <widget class="QLabel" name="label_GameTiming">
-                  <property name="styleSheet">
-                   <string notr="true">QLabel { color:rgb(0, 0, 255); }</string>
-                  </property>
                   <property name="alignment">
                    <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
                   </property>
@@ -815,7 +797,7 @@
                  <string>Fill up with computer opponents</string>
                 </property>
                 <property name="icon">
-                 <iconset resource="../resources/pokerth.qrc">
+                 <iconset resource="../resources/pokerth_android.qrc">
                   <normaloff>:/gfx/swbuttonlocalgame.png</normaloff>:/gfx/swbuttonlocalgame.png</iconset>
                 </property>
                </widget>
@@ -1002,8 +984,8 @@
                <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Nimbus Sans L'; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Liberation Sans'; font-size:18px; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:'Nimbus Sans L';&quot;&gt;&lt;br /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
               </property>
              </widget>
             </item>
@@ -1098,19 +1080,9 @@ p, li { white-space: pre-wrap; }
       </spacer>
      </item>
      <item>
-      <widget class="QLabel" name="label">
+      <widget class="QLabel" name="label_rankings">
        <property name="styleSheet">
         <string notr="true">QObject {font: 14px}</string>
-       </property>
-       <property name="text">
-        <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
-&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
-p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body&gt;
-&lt;table border=&quot;0&quot; style=&quot;-qt-table-type: root; margin-top:4px; margin-bottom:4px; margin-left:4px; margin-right:4px;&quot;&gt;
-&lt;tr&gt;
-&lt;td style=&quot;border: none;&quot;&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://online-ranking.pokerth.net&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Click here to view the online rankings&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/body&gt;&lt;/html&gt;</string>
        </property>
        <property name="openExternalLinks">
         <bool>true</bool>
@@ -1135,13 +1107,6 @@ p, li { white-space: pre-wrap; }
        <property name="styleSheet">
         <string notr="true">QObject {font: 14px}</string>
        </property>
-       <property name="text">
-        <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
-&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
-p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://www.pokerth.net&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;http://www.pokerth.net&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-       </property>
        <property name="openExternalLinks">
         <bool>true</bool>
        </property>
@@ -1164,7 +1129,7 @@ p, li { white-space: pre-wrap; }
   <tabstop>pushButton_Leave</tabstop>
  </tabstops>
  <resources>
-  <include location="../resources/pokerth.qrc"/>
+  <include location="../resources/pokerth_android.qrc"/>
  </resources>
  <connections/>
 </ui>

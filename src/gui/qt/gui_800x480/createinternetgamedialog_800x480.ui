@@ -150,7 +150,7 @@
             <string>Standard</string>
            </property>
            <property name="icon">
-            <iconset resource="../resources/pokerth.qrc">
+            <iconset resource="../resources/pokerth_android.qrc">
              <normaloff>:/gfx/player_play.png</normaloff>:/gfx/player_play.png</iconset>
            </property>
           </item>
@@ -204,9 +204,11 @@
           <property name="text">
            <string>Password:</string>
           </property>
-          <property name="icon">
-           <iconset resource="../resources/pokerth.qrc">
-            <normaloff>:/gfx/lock.png</normaloff>:/gfx/lock.png</iconset>
+          <property name="iconSize">
+           <size>
+            <width>32</width>
+            <height>32</height>
+           </size>
           </property>
          </widget>
         </item>

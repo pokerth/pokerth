@@ -25,6 +25,11 @@ internetGameLoginDialogImpl::internetGameLoginDialogImpl(QWidget *parent, Config
 {
 	setupUi(this);
 
+    //html stuff
+    QString createAccount(QString("<a href='http://create-gaming-account.pokerth.net'>%1</a>").arg(tr("Create new user account")));
+    label_createAnAccount->setText(createAccount);
+
+
 	connect(groupBox_reguser, SIGNAL(toggled(bool)), this, SLOT(regUserToggled(bool)));
 	connect(checkBox_guest, SIGNAL(toggled(bool)), this, SLOT(guestUserToggled(bool)));
 	connect(lineEdit_password, SIGNAL(textEdited(QString)), this, SLOT(okButtonCheck()));

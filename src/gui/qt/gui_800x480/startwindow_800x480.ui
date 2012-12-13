@@ -16,12 +16,6 @@
     <height>480</height>
    </size>
   </property>
-  <property name="maximumSize">
-   <size>
-    <width>1024</width>
-    <height>600</height>
-   </size>
-  </property>
   <property name="windowTitle">
    <string>PokerTH - The Open-Source Texas Holdem Engine</string>
   </property>
@@ -30,12 +24,6 @@
     <size>
      <width>800</width>
      <height>424</height>
-    </size>
-   </property>
-   <property name="maximumSize">
-    <size>
-     <width>1024</width>
-     <height>600</height>
     </size>
    </property>
    <layout class="QGridLayout" name="gridLayout_2">
@@ -52,7 +40,7 @@
       </property>
      </spacer>
     </item>
-    <item row="1" column="0">
+    <item row="1" column="0" rowspan="2">
      <spacer>
       <property name="orientation">
        <enum>Qt::Horizontal</enum>
@@ -67,6 +55,70 @@
     </item>
     <item row="1" column="1">
      <layout class="QGridLayout" name="gridLayout">
+      <item row="0" column="1">
+       <widget class="QPushButton" name="pushButton_Create_Network_Game">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="MinimumExpanding" vsizetype="Expanding">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="minimumSize">
+         <size>
+          <width>350</width>
+          <height>80</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>350</width>
+          <height>80</height>
+         </size>
+        </property>
+        <property name="focusPolicy">
+         <enum>Qt::NoFocus</enum>
+        </property>
+        <property name="text">
+         <string>&amp;3 Create Network Game</string>
+        </property>
+        <property name="icon">
+         <iconset resource="../resources/pokerth.qrc">
+          <normaloff>:/gfx/swbuttoncreatenetworkgame.png</normaloff>:/gfx/swbuttoncreatenetworkgame.png</iconset>
+        </property>
+        <property name="iconSize">
+         <size>
+          <width>48</width>
+          <height>48</height>
+         </size>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="1">
+       <widget class="QPushButton" name="pushButton_Join_Network_Game">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="MinimumExpanding" vsizetype="Expanding">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="focusPolicy">
+         <enum>Qt::NoFocus</enum>
+        </property>
+        <property name="text">
+         <string>&amp;4 Join Network Game</string>
+        </property>
+        <property name="icon">
+         <iconset resource="../resources/pokerth.qrc">
+          <normaloff>:/gfx/swbuttonjoinnetworkgame.png</normaloff>:/gfx/swbuttonjoinnetworkgame.png</iconset>
+        </property>
+        <property name="iconSize">
+         <size>
+          <width>48</width>
+          <height>48</height>
+         </size>
+        </property>
+       </widget>
+      </item>
       <item row="0" column="0">
        <widget class="QPushButton" name="pushButtonStart_Local_Game">
         <property name="sizePolicy">
@@ -98,12 +150,6 @@
         <property name="focusPolicy">
          <enum>Qt::NoFocus</enum>
         </property>
-        <property name="autoFillBackground">
-         <bool>false</bool>
-        </property>
-        <property name="styleSheet">
-         <string notr="true"/>
-        </property>
         <property name="text">
          <string>&amp;1 Start Local Game</string>
         </property>
@@ -113,110 +159,8 @@
         </property>
         <property name="iconSize">
          <size>
-          <width>37</width>
-          <height>32</height>
-         </size>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="1">
-       <widget class="QPushButton" name="pushButton_Create_Network_Game">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="MinimumExpanding" vsizetype="Expanding">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="minimumSize">
-         <size>
-          <width>350</width>
-          <height>80</height>
-         </size>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>350</width>
-          <height>80</height>
-         </size>
-        </property>
-        <property name="focusPolicy">
-         <enum>Qt::NoFocus</enum>
-        </property>
-        <property name="styleSheet">
-         <string notr="true"/>
-        </property>
-        <property name="text">
-         <string>&amp;3 Create Network Game</string>
-        </property>
-        <property name="icon">
-         <iconset resource="../resources/pokerth.qrc">
-          <normaloff>:/gfx/swbuttoncreatenetworkgame.png</normaloff>:/gfx/swbuttoncreatenetworkgame.png</iconset>
-        </property>
-        <property name="iconSize">
-         <size>
-          <width>37</width>
-          <height>32</height>
-         </size>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="0">
-       <widget class="QPushButton" name="pushButtonInternet_Game">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="MinimumExpanding" vsizetype="Expanding">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="minimumSize">
-         <size>
-          <width>350</width>
-          <height>80</height>
-         </size>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>350</width>
-          <height>80</height>
-         </size>
-        </property>
-        <property name="focusPolicy">
-         <enum>Qt::NoFocus</enum>
-        </property>
-        <property name="styleSheet">
-         <string notr="true"/>
-        </property>
-        <property name="text">
-         <string>&amp;2 Internet Game</string>
-        </property>
-        <property name="icon">
-         <iconset resource="../resources/pokerth.qrc">
-          <normaloff>:/gfx/swbuttoninternetgame.png</normaloff>:/gfx/swbuttoninternetgame.png</iconset>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="1">
-       <widget class="QPushButton" name="pushButton_Join_Network_Game">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="MinimumExpanding" vsizetype="Expanding">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="focusPolicy">
-         <enum>Qt::NoFocus</enum>
-        </property>
-        <property name="text">
-         <string>&amp;4 Join Network Game</string>
-        </property>
-        <property name="icon">
-         <iconset resource="../resources/pokerth.qrc">
-          <normaloff>:/gfx/swbuttonjoinnetworkgame.png</normaloff>:/gfx/swbuttonjoinnetworkgame.png</iconset>
-        </property>
-        <property name="iconSize">
-         <size>
-          <width>37</width>
-          <height>32</height>
+          <width>48</width>
+          <height>48</height>
          </size>
         </property>
        </widget>
@@ -247,8 +191,49 @@
         </property>
         <property name="iconSize">
          <size>
-          <width>37</width>
-          <height>32</height>
+          <width>48</width>
+          <height>48</height>
+         </size>
+        </property>
+        <property name="shortcut">
+         <string>Return</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0">
+       <widget class="QPushButton" name="pushButtonInternet_Game">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="MinimumExpanding" vsizetype="Expanding">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="minimumSize">
+         <size>
+          <width>350</width>
+          <height>80</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>350</width>
+          <height>80</height>
+         </size>
+        </property>
+        <property name="focusPolicy">
+         <enum>Qt::NoFocus</enum>
+        </property>
+        <property name="text">
+         <string>&amp;2 Internet Game</string>
+        </property>
+        <property name="icon">
+         <iconset resource="../resources/pokerth.qrc">
+          <normaloff>:/gfx/swbuttoninternetgame.png</normaloff>:/gfx/swbuttoninternetgame.png</iconset>
+        </property>
+        <property name="iconSize">
+         <size>
+          <width>48</width>
+          <height>48</height>
          </size>
         </property>
        </widget>
@@ -273,15 +258,15 @@
         </property>
         <property name="iconSize">
          <size>
-          <width>37</width>
-          <height>32</height>
+          <width>48</width>
+          <height>48</height>
          </size>
         </property>
        </widget>
       </item>
      </layout>
     </item>
-    <item row="1" column="2">
+    <item row="1" column="2" rowspan="3">
      <spacer>
       <property name="orientation">
        <enum>Qt::Horizontal</enum>
@@ -295,6 +280,65 @@
      </spacer>
     </item>
     <item row="2" column="1">
+     <layout class="QHBoxLayout" name="horizontalLayout">
+      <property name="spacing">
+       <number>0</number>
+      </property>
+      <item>
+       <spacer name="horizontalSpacer">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>40</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item>
+       <widget class="QPushButton" name="pushButton_Logs">
+        <property name="minimumSize">
+         <size>
+          <width>350</width>
+          <height>80</height>
+         </size>
+        </property>
+        <property name="focusPolicy">
+         <enum>Qt::NoFocus</enum>
+        </property>
+        <property name="text">
+         <string>Logs</string>
+        </property>
+        <property name="icon">
+         <iconset resource="../resources/pokerth_android.qrc">
+          <normaloff>:/gfx/text-x-log.png</normaloff>:/gfx/text-x-log.png</iconset>
+        </property>
+        <property name="iconSize">
+         <size>
+          <width>48</width>
+          <height>48</height>
+         </size>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <spacer name="horizontalSpacer_2">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>40</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+     </layout>
+    </item>
+    <item row="3" column="1">
      <spacer>
       <property name="orientation">
        <enum>Qt::Vertical</enum>
@@ -428,6 +472,7 @@
  </widget>
  <resources>
   <include location="../resources/pokerth.qrc"/>
+  <include location="../resources/pokerth_android.qrc"/>
  </resources>
  <connections>
   <connection>

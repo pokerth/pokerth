@@ -61,7 +61,7 @@
        <item row="0" column="1" rowspan="2">
         <widget class="QLabel" name="label_logo">
          <property name="pixmap">
-          <pixmap resource="../resources/pokerth.qrc">:/gfx/logoChip3D.png</pixmap>
+          <pixmap resource="../resources/pokerth_android.qrc">:/gfx/logoChip3D.png</pixmap>
          </property>
         </widget>
        </item>
@@ -274,7 +274,7 @@ p, li { white-space: pre-wrap; }
   </layout>
  </widget>
  <resources>
-  <include location="../resources/pokerth.qrc"/>
+  <include location="../resources/pokerth_android.qrc"/>
  </resources>
  <connections>
   <connection>

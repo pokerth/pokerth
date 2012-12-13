@@ -98,7 +98,7 @@
          </size>
         </property>
         <property name="icon">
-         <iconset resource="../resources/pokerth.qrc">
+         <iconset resource="../resources/pokerth_android.qrc">
           <normaloff>:/gfx/document-open-folder.png</normaloff>:/gfx/document-open-folder.png</iconset>
         </property>
         <property name="iconSize">
@@ -136,7 +136,7 @@
   <tabstop>buttonBox</tabstop>
  </tabstops>
  <resources>
-  <include location="../resources/pokerth.qrc"/>
+  <include location="../resources/pokerth_android.qrc"/>
  </resources>
  <connections>
   <connection>
