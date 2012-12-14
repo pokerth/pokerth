@@ -10,6 +10,12 @@
     <height>480</height>
    </rect>
   </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
+  </property>
   <property name="minimumSize">
    <size>
     <width>800</width>
@@ -29,6 +35,12 @@
    <string notr="true">QStatusbar { height:0px; }</string>
   </property>
   <widget class="QWidget" name="centralwidget">
+   <property name="sizePolicy">
+    <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
+     <horstretch>0</horstretch>
+     <verstretch>0</verstretch>
+    </sizepolicy>
+   </property>
    <property name="minimumSize">
     <size>
      <width>800</width>
@@ -4239,7 +4251,7 @@ p, li { white-space: pre-wrap; }
         </property>
         <property name="maximumSize">
          <size>
-          <width>1024</width>
+          <width>1980</width>
           <height>60</height>
          </size>
         </property>
@@ -4438,7 +4450,7 @@ p, li { white-space: pre-wrap; }
               <string/>
              </property>
              <property name="icon">
-              <iconset resource="../resources/pokerth_android.qrc">
+              <iconset resource="../resources/pokerth.qrc">
                <normaloff>:/gfx/view-fullscreen_50x50.png</normaloff>:/gfx/view-fullscreen_50x50.png</iconset>
              </property>
              <property name="iconSize">
@@ -4682,7 +4694,7 @@ p, li { white-space: pre-wrap; }
   </action>
   <action name="actionFullScreen">
    <property name="icon">
-    <iconset resource="../resources/pokerth_android.qrc">
+    <iconset resource="../resources/pokerth.qrc">
      <normaloff>:/gfx/view-fullscreen.png</normaloff>:/gfx/view-fullscreen.png</iconset>
    </property>
    <property name="text">
@@ -4740,7 +4752,7 @@ p, li { white-space: pre-wrap; }
   </action>
   <action name="actionConfigure_PokerTH">
    <property name="icon">
-    <iconset resource="../resources/pokerth_android.qrc">
+    <iconset resource="../resources/pokerth.qrc">
      <normaloff>:/gfx/systemsettings.png</normaloff>:/gfx/systemsettings.png</iconset>
    </property>
    <property name="text">
@@ -4749,7 +4761,7 @@ p, li { white-space: pre-wrap; }
   </action>
   <action name="actionClose">
    <property name="icon">
-    <iconset resource="../resources/pokerth_android.qrc">
+    <iconset resource="../resources/pokerth.qrc">
      <normaloff>:/gfx/application_exit.png</normaloff>:/gfx/application_exit.png</iconset>
    </property>
    <property name="text">
@@ -4821,7 +4833,7 @@ p, li { white-space: pre-wrap; }
   </customwidget>
  </customwidgets>
  <resources>
-  <include location="../resources/pokerth_android.qrc"/>
+  <include location="../resources/pokerth.qrc"/>
  </resources>
  <connections/>
 </ui>
