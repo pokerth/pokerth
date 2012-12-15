@@ -70,7 +70,7 @@ startWindowImpl::startWindowImpl(ConfigFile *c, Log *l)
 	this->installEventFilter(this);
 
 	//Widgets Grafiken per Stylesheets setzen
-	QString myAppDataPath = QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str());
+    QString myAppDataPath = QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str());
 	this->setWindowIcon(QIcon(myAppDataPath+"gfx/gui/misc/windowicon.png"));
 
 	this->setStatusBar(0);
@@ -78,7 +78,28 @@ startWindowImpl::startWindowImpl(ConfigFile *c, Log *l)
 #ifdef GUI_800x480
     #ifdef ANDROID
         this->menubar->hide();
-        centralwidget->setStyleSheet(".QWidget { background-image: url(:/android/android-data/gfx/gui/misc/startwindowbg_800x480.png); background-position: bottom center; background-origin: content; background-repeat: no-repeat;}");
+
+        //check if custom background picture for the resolution is there. Otherwise create it!
+        QString UserDataDir = QString::fromUtf8(myConfig->readConfigString("UserDataDir").c_str());
+        QDesktopWidget dw;
+        int screenWidth = dw.screenGeometry().width();
+        int screenHeight = dw.screenGeometry().height();
+        QString customStartWindowBgFileString(UserDataDir+"/startwindowbg_"+QString::number(screenWidth)+"x"+QString::number(screenHeight)+".png");
+        QFile customStartWindowBgFile(customStartWindowBgFileString);
+        if(customStartWindowBgFile.exists()) {
+            centralwidget->setStyleSheet(".QWidget { background-image: url("+QFileInfo(customStartWindowBgFile).absoluteFilePath()+"); background-position: bottom center; background-origin: content; background-repeat: no-repeat;}");
+        }
+        else {
+            QPixmap pix(":/android/android-data/gfx/gui/misc/startwindowbg_800x480.png");
+            pix = pix.scaled(screenWidth, screenHeight, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
+            if(pix.save(customStartWindowBgFileString)) {
+                centralwidget->setStyleSheet(".QWidget { background-image: url("+QFileInfo(customStartWindowBgFile).absoluteFilePath()+"); background-position: bottom center; background-origin: content; background-repeat: no-repeat;}");
+            }
+            else {
+                centralwidget->setStyleSheet(".QWidget { background-image: url(:/android/android-data/gfx/gui/misc/startwindowbg_800x480.png); background-position: bottom center; background-origin: content; background-repeat: no-repeat;}");
+            }
+
+        }
         this->showFullScreen();
     #else
 //        this->menubar->setStyleSheet("QMenuBar { background-color: #4B4B4B; font-size:20px; border-width: 0px;} QMenuBar::item { color: #F0F0F0; }");
