@@ -242,6 +242,9 @@ void startWindowImpl::callNewGameDialog()
 	//wenn Dialogfenster gezeigt werden soll
 	if(myConfig->readConfigInt("ShowGameSettingsDialogOnNewGame")) {
 
+#ifdef ANDROID
+        myGuiInterface->getMyW()->hide();
+#endif
 		myNewGameDialog->exec();
 		if (myNewGameDialog->result() == QDialog::Accepted ) {
 			startNewLocalGame(myNewGameDialog);
