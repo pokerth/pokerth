@@ -202,7 +202,11 @@ void writeCallback(char* buf, size_t size, size_t nmemb, void* up)
 
 void LogFileDialog::uploadFile()
 {
-    QTreeWidgetItem* selectedItem = ui->treeWidget_logFiles->currentItem();
+	const QString buttonText(tr("Upload in progress"));
+	const QString errorMessage(tr("Upload failed. Please check your internet connection!\nUploading log files may fail if you are using an http proxy."));
+	const QString processMessage(tr("Processing of the log file on the web server failed.\nPlease verify that you are uploading a valid PokerTH log file."));
+	const QString reasonMessage(tr("Failure reason: "));
+	QTreeWidgetItem* selectedItem = ui->treeWidget_logFiles->currentItem();
 
     if(selectedItem) {
         file.setFileName(selectedItem->data(0, Qt::UserRole).toString());
