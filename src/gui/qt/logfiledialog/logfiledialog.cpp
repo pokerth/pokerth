@@ -67,6 +67,7 @@ void LogFileDialog::refreshLogFileList()
 
 	QFileInfo currentSqliteLogFile(QString::fromStdString(myGuiLog->getMySqliteLogFileName()));
 
+    ui->treeWidget_logFiles->blockSignals(TRUE);
 	ui->treeWidget_logFiles->clear();
 	int i;
 	for (i=0; i < dbFilesList.size(); i++) {
@@ -86,6 +87,8 @@ void LogFileDialog::refreshLogFileList()
 		ui->treeWidget_logFiles->addTopLevelItem(item);
 	}
 	ui->treeWidget_logFiles->sortItems(0, Qt::DescendingOrder);
+    ui->treeWidget_logFiles->blockSignals(FALSE);
+    ui->treeWidget_logFiles->setCurrentItem(ui->treeWidget_logFiles->topLevelItem(0));
 }
 
 void LogFileDialog::deleteLogFile()
