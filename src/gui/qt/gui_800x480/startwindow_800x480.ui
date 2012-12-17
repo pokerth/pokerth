@@ -79,7 +79,7 @@
          <enum>Qt::NoFocus</enum>
         </property>
         <property name="text">
-         <string>&amp;3 Create Network Game</string>
+         <string>Create Network Game</string>
         </property>
         <property name="icon">
          <iconset resource="../resources/pokerth.qrc">
@@ -105,7 +105,7 @@
          <enum>Qt::NoFocus</enum>
         </property>
         <property name="text">
-         <string>&amp;4 Join Network Game</string>
+         <string>Join Network Game</string>
         </property>
         <property name="icon">
          <iconset resource="../resources/pokerth.qrc">
@@ -151,7 +151,7 @@
          <enum>Qt::NoFocus</enum>
         </property>
         <property name="text">
-         <string>&amp;1 Start Local Game</string>
+         <string>Start Local Game</string>
         </property>
         <property name="icon">
          <iconset resource="../resources/pokerth.qrc">
@@ -183,7 +183,7 @@
          <enum>Qt::NoFocus</enum>
         </property>
         <property name="text">
-         <string>Configure PokerTH ...</string>
+         <string>Configure PokerTH</string>
         </property>
         <property name="icon">
          <iconset resource="../resources/pokerth.qrc">
@@ -224,7 +224,7 @@
          <enum>Qt::NoFocus</enum>
         </property>
         <property name="text">
-         <string>&amp;2 Internet Game</string>
+         <string>Internet Game</string>
         </property>
         <property name="icon">
          <iconset resource="../resources/pokerth.qrc">
@@ -281,9 +281,6 @@
     </item>
     <item row="2" column="1">
      <layout class="QHBoxLayout" name="horizontalLayout">
-      <property name="spacing">
-       <number>0</number>
-      </property>
       <item>
        <spacer name="horizontalSpacer">
         <property name="orientation">
@@ -374,21 +371,6 @@
      <height>56</height>
     </size>
    </property>
-   <widget class="QMenu" name="menuPokerTH">
-    <property name="title">
-     <string>&amp;PokerTH</string>
-    </property>
-    <addaction name="actionAbout_PokerTH"/>
-    <addaction name="actionLogs"/>
-   </widget>
-   <widget class="QMenu" name="menuSettings">
-    <property name="title">
-     <string>&amp;Settings</string>
-    </property>
-    <addaction name="actionConfigure_PokerTH"/>
-   </widget>
-   <addaction name="menuPokerTH"/>
-   <addaction name="menuSettings"/>
   </widget>
   <action name="actionStart_Local_Game">
    <property name="icon">

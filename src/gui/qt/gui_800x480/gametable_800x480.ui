@@ -4644,7 +4644,7 @@ p, li { white-space: pre-wrap; }
    </property>
    <widget class="QMenu" name="menuSettings">
     <property name="title">
-     <string>&amp;Settings</string>
+     <string>Settings</string>
     </property>
     <addaction name="actionConfigure_PokerTH"/>
    </widget>
@@ -4756,7 +4756,7 @@ p, li { white-space: pre-wrap; }
      <normaloff>:/gfx/systemsettings.png</normaloff>:/gfx/systemsettings.png</iconset>
    </property>
    <property name="text">
-    <string>Configure PokerTH ...</string>
+    <string>Configure PokerTH</string>
    </property>
   </action>
   <action name="actionClose">
