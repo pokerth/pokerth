@@ -542,6 +542,20 @@
         <file>android-data/gfx/cards/default_800x480/51.png</file>
         <file>android-data/gfx/cards/default_800x480/defaultdeckstyle_800x480.xml</file>
         <file>android-data/gfx/cards/default_800x480/flipside.png</file>
+        <file>android-data/sounds/default/allin.wav</file>
+        <file>android-data/sounds/default/bet.wav</file>
+        <file>android-data/sounds/default/blinds_raises_level1.wav</file>
+        <file>android-data/sounds/default/blinds_raises_level2.wav</file>
+        <file>android-data/sounds/default/blinds_raises_level3.wav</file>
+        <file>android-data/sounds/default/call.wav</file>
+        <file>android-data/sounds/default/check.wav</file>
+        <file>android-data/sounds/default/dealtwocards.wav</file>
+        <file>android-data/sounds/default/fold.wav</file>
+        <file>android-data/sounds/default/lobbychatnotify.wav</file>
+        <file>android-data/sounds/default/onlinegameready.wav</file>
+        <file>android-data/sounds/default/playerconnected.wav</file>
+        <file>android-data/sounds/default/raise.wav</file>
+        <file>android-data/sounds/default/yourturn.wav</file>
     </qresource>
     <qresource prefix="/emotes">
         <file>emotes/face-angel.png</file>

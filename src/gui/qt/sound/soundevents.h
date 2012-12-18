@@ -3,7 +3,14 @@
 
 #include <string>
 
-class SDLPlayer;
+
+#ifdef ANDROID
+    class AndroidAudio;
+#else
+    class SDLPlayer;
+#endif
+
+
 class ConfigFile;
 class SoundEvents
 {
@@ -21,9 +28,13 @@ protected:
 	SoundEvents(const SoundEvents &);
 
 private:
-	SDLPlayer *mySDLPlayer;
-	ConfigFile *myConfig;
 
+#ifdef ANDROID
+    AndroidAudio *myPlayer;
+#else
+    SDLPlayer *myPlayer;
+#endif
+	ConfigFile *myConfig;
 	int lastSBValue;
 	unsigned int lastSBLevel;
 	bool newGameNow;

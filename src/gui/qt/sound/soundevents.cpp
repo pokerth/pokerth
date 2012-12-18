@@ -1,17 +1,33 @@
-#include "sdlplayer.h"
+#include "soundevents.h"
+
+#ifdef ANDROID
+    #include "androidaudio.h"
+#else
+    #include "sdlplayer.h"
+#endif
+
+
 #include "configfile.h"
 #include "session.h"
 #include "game.h"
-#include "soundevents.h"
+
+#include <QtCore>
+#include <QtGui>
 
 SoundEvents::SoundEvents(ConfigFile *c): myConfig(c), lastSBValue(0), lastSBLevel(0), newGameNow(false)
 {
-	mySDLPlayer = new SDLPlayer(myConfig);
+
+#ifdef ANDROID
+    myPlayer = new AndroidAudio();
+#else
+    myPlayer = new SDLPlayer(myConfig);
+#endif
+
 }
 
 SoundEvents::~SoundEvents()
 {
-	mySDLPlayer->deleteLater();
+    myPlayer->deleteLater();
 }
 
 void SoundEvents::blindsWereSet(int sB)
@@ -29,13 +45,13 @@ void SoundEvents::blindsWereSet(int sB)
 
 		if(myConfig->readConfigInt("PlayBlindRaiseNotification")) {
 			if(lastSBLevel == 1 || lastSBLevel == 2) {
-				mySDLPlayer->playSound("blinds_raises_level1", 0);
+                myPlayer->playSound("blinds_raises_level1", 0);
 			}
 			if(lastSBLevel == 3 || lastSBLevel == 4) {
-				mySDLPlayer->playSound("blinds_raises_level2", 0);
+                myPlayer->playSound("blinds_raises_level2", 0);
 			}
 			if(lastSBLevel >= 5) {
-				mySDLPlayer->playSound("blinds_raises_level3", 0);
+                myPlayer->playSound("blinds_raises_level3", 0);
 			}
 		}
 	}
@@ -49,5 +65,5 @@ void SoundEvents::newGameStarts()
 //HACK until playSound is done by events
 void SoundEvents::playSound(std::string audioString, int playerID)
 {
-    mySDLPlayer->playSound(audioString, playerID);
+    myPlayer->playSound(audioString, playerID);
 }

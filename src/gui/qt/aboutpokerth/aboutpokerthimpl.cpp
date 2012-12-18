@@ -20,6 +20,10 @@
 #include "game_defs.h"
 #include <QtCore>
 
+#ifdef ANDROID
+    #include <QPlatformNativeInterface>
+    #include <jni.h>
+#endif
 
 aboutPokerthImpl::aboutPokerthImpl(QWidget *parent, ConfigFile *c)
 	: QDialog(parent), myConfig(c)
@@ -64,11 +68,29 @@ aboutPokerthImpl::aboutPokerthImpl(QWidget *parent, ConfigFile *c)
 	label_logo->setPixmap(QPixmap(":/gfx/logoChip3D.png"));
 
 #ifdef GUI_800x480
-        label_pokerthVersion->setStyleSheet("QLabel { font-size: 30px; font-weight: bold;}");
+    label_pokerthVersion->setStyleSheet("QLabel { font-size: 30px; font-weight: bold;}");
 #else
 	label_pokerthVersion->setStyleSheet("QLabel { font-size: 16px; font-weight: bold;}");
 #endif
-	label_pokerthVersion->setText(QString(tr("PokerTH %1").arg(POKERTH_BETA_RELEASE_STRING)));
+
+#ifdef ANDROID
+    JavaVM *currVM = (JavaVM *)QApplication::platformNativeInterface()->nativeResourceForWidget("JavaVM", 0);
+    JNIEnv* env;
+    int api = -2;
+    if (currVM->AttachCurrentThread(&env, NULL)<0) {
+        qCritical()<<"AttachCurrentThread failed";
+    }
+    else {
+        jclass jclassApplicationClass = env->FindClass("android/os/Build$VERSION");
+        if (jclassApplicationClass) {
+            api = env->GetStaticIntField(jclassApplicationClass, env->GetStaticFieldID(jclassApplicationClass,"SDK_INT", "I"));
+        }
+        currVM->DetachCurrentThread();
+    }
+    label_pokerthVersion->setText(QString(tr("PokerTH %1 for Android (API%2)").arg(POKERTH_BETA_RELEASE_STRING).arg(api)));
+#else
+    label_pokerthVersion->setText(QString(tr("PokerTH %1").arg(POKERTH_BETA_RELEASE_STRING)));
+#endif
 	this->setWindowTitle(QString(tr("About PokerTH %1").arg(POKERTH_BETA_RELEASE_STRING)));
 
         //add text to lables and textbrowsers
@@ -93,7 +115,8 @@ aboutPokerthImpl::aboutPokerthImpl(QWidget *parent, ConfigFile *c)
         infoText.append(tr("- Changeable gui with online style gallery")+"\n");
         infoText.append(tr("- Online ranking website with result tables")+"\n");
         infoText.append("\n");
-        infoText.append("(c)2006-2012, Felix Hammer, Florian Thauer, Lothar May");
+        QString thisYear = QDate::currentDate().toString("yyyy");
+        infoText.append("(c)2006-"+thisYear+", Felix Hammer, Florian Thauer, Lothar May");
         label_infotext->setText(infoText);
 
         QString projectText;

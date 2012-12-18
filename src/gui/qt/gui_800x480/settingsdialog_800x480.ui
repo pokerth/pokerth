@@ -68,7 +68,7 @@
          <string>Interface</string>
         </property>
         <property name="icon">
-         <iconset resource="../resources/pokerth_android.qrc">
+         <iconset resource="../resources/pokerth.qrc">
           <normaloff>:/gfx/preferences-desktop.png</normaloff>:/gfx/preferences-desktop.png</iconset>
         </property>
        </item>
@@ -77,7 +77,7 @@
          <string>Style</string>
         </property>
         <property name="icon">
-         <iconset resource="../resources/pokerth_android.qrc">
+         <iconset resource="../resources/pokerth.qrc">
           <normaloff>:/gfx/fill-color.png</normaloff>:/gfx/fill-color.png</iconset>
         </property>
        </item>
@@ -86,7 +86,7 @@
          <string>Sound</string>
         </property>
         <property name="icon">
-         <iconset resource="../resources/pokerth_android.qrc">
+         <iconset resource="../resources/pokerth.qrc">
           <normaloff>:/gfx/speaker.png</normaloff>:/gfx/speaker.png</iconset>
         </property>
        </item>
@@ -95,7 +95,7 @@
          <string>Local Game</string>
         </property>
         <property name="icon">
-         <iconset resource="../resources/pokerth_android.qrc">
+         <iconset resource="../resources/pokerth.qrc">
           <normaloff>:/gfx/swbuttonlocalgame.png</normaloff>:/gfx/swbuttonlocalgame.png</iconset>
         </property>
        </item>
@@ -104,7 +104,7 @@
          <string>Network Game</string>
         </property>
         <property name="icon">
-         <iconset resource="../resources/pokerth_android.qrc">
+         <iconset resource="../resources/pokerth.qrc">
           <normaloff>:/gfx/swbuttonjoinnetworkgame.png</normaloff>:/gfx/swbuttonjoinnetworkgame.png</iconset>
         </property>
        </item>
@@ -113,7 +113,7 @@
          <string>Internet Game</string>
         </property>
         <property name="icon">
-         <iconset resource="../resources/pokerth_android.qrc">
+         <iconset resource="../resources/pokerth.qrc">
           <normaloff>:/gfx/swbuttoninternetgame.png</normaloff>:/gfx/swbuttoninternetgame.png</iconset>
         </property>
        </item>
@@ -122,7 +122,7 @@
          <string>Nicks/Avatars</string>
         </property>
         <property name="icon">
-         <iconset resource="../resources/pokerth_android.qrc">
+         <iconset resource="../resources/pokerth.qrc">
           <normaloff>:/gfx/system_users.png</normaloff>:/gfx/system_users.png</iconset>
         </property>
        </item>
@@ -131,7 +131,7 @@
          <string>Log Messages</string>
         </property>
         <property name="icon">
-         <iconset resource="../resources/pokerth_android.qrc">
+         <iconset resource="../resources/pokerth.qrc">
           <normaloff>:/gfx/utilities-log-viewer.png</normaloff>:/gfx/utilities-log-viewer.png</iconset>
         </property>
        </item>
@@ -140,7 +140,7 @@
          <string>Factory Settings</string>
         </property>
         <property name="icon">
-         <iconset resource="../resources/pokerth_android.qrc">
+         <iconset resource="../resources/pokerth.qrc">
           <normaloff>:/gfx/document-revert.png</normaloff>:/gfx/document-revert.png</iconset>
         </property>
        </item>
@@ -250,19 +250,6 @@
              </property>
             </widget>
            </item>
-           <item row="7" column="0">
-            <spacer name="verticalSpacer_2">
-             <property name="orientation">
-              <enum>Qt::Vertical</enum>
-             </property>
-             <property name="sizeHint" stdset="0">
-              <size>
-               <width>20</width>
-               <height>40</height>
-              </size>
-             </property>
-            </spacer>
-           </item>
           </layout>
          </item>
          <item row="2" column="0">
@@ -312,6 +299,19 @@
             </item>
            </layout>
           </widget>
+         </item>
+         <item row="3" column="0">
+          <spacer name="verticalSpacer_2">
+           <property name="orientation">
+            <enum>Qt::Vertical</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>20</width>
+             <height>40</height>
+            </size>
+           </property>
+          </spacer>
          </item>
         </layout>
        </widget>
@@ -750,7 +750,7 @@ p, li { white-space: pre-wrap; }
                     </size>
                    </property>
                    <property name="icon">
-                    <iconset resource="../resources/pokerth_android.qrc">
+                    <iconset resource="../resources/pokerth.qrc">
                      <normaloff>:/gfx/document-open-folder.png</normaloff>:/gfx/document-open-folder.png</iconset>
                    </property>
                   </widget>
@@ -836,7 +836,7 @@ p, li { white-space: pre-wrap; }
                <number>0</number>
               </property>
               <item>
-               <widget class="QLabel" name="label_25">
+               <widget class="QLabel" name="label_soundvol">
                 <property name="text">
                  <string>Sound Volume:</string>
                 </property>
@@ -1999,7 +1999,7 @@ p, li { white-space: pre-wrap; }
                    <string>Standard</string>
                   </property>
                   <property name="icon">
-                   <iconset resource="../resources/pokerth_android.qrc">
+                   <iconset resource="../resources/pokerth.qrc">
                     <normaloff>:/gfx/player_play.png</normaloff>:/gfx/player_play.png</iconset>
                   </property>
                  </item>
@@ -2008,7 +2008,7 @@ p, li { white-space: pre-wrap; }
                    <string>Registered players only</string>
                   </property>
                   <property name="icon">
-                   <iconset resource="../resources/pokerth_android.qrc">
+                   <iconset resource="../resources/pokerth.qrc">
                     <normaloff>:/gfx/registered.png</normaloff>:/gfx/registered.png</iconset>
                   </property>
                  </item>
@@ -2017,7 +2017,7 @@ p, li { white-space: pre-wrap; }
                    <string>Invited players only</string>
                   </property>
                   <property name="icon">
-                   <iconset resource="../resources/pokerth_android.qrc">
+                   <iconset resource="../resources/pokerth.qrc">
                     <normaloff>:/gfx/list_add_user.png</normaloff>:/gfx/list_add_user.png</iconset>
                   </property>
                  </item>
@@ -2026,7 +2026,7 @@ p, li { white-space: pre-wrap; }
                    <string>Ranking game</string>
                   </property>
                   <property name="icon">
-                   <iconset resource="../resources/pokerth_android.qrc">
+                   <iconset resource="../resources/pokerth.qrc">
                     <normaloff>:/gfx/cup.png</normaloff>:/gfx/cup.png</iconset>
                   </property>
                  </item>
@@ -2045,7 +2045,7 @@ p, li { white-space: pre-wrap; }
                   <string>Use password for private game:</string>
                  </property>
                  <property name="icon">
-                  <iconset resource="../resources/pokerth_android.qrc">
+                  <iconset resource="../resources/pokerth.qrc">
                    <normaloff>:/gfx/lock.png</normaloff>:/gfx/lock.png</iconset>
                  </property>
                 </widget>
@@ -2110,7 +2110,7 @@ p, li { white-space: pre-wrap; }
                 <string>Remove Player</string>
                </property>
                <property name="icon">
-                <iconset resource="../resources/pokerth_android.qrc">
+                <iconset resource="../resources/pokerth.qrc">
                  <normaloff>:/gfx/list-remove.png</normaloff>:/gfx/list-remove.png</iconset>
                </property>
               </widget>
@@ -3620,7 +3620,7 @@ p, li { white-space: pre-wrap; }
                  </size>
                 </property>
                 <property name="icon">
-                 <iconset resource="../resources/pokerth_android.qrc">
+                 <iconset resource="../resources/pokerth.qrc">
                   <normaloff>:/gfx/document-open-folder.png</normaloff>:/gfx/document-open-folder.png</iconset>
                 </property>
                </widget>
@@ -3712,7 +3712,7 @@ p, li { white-space: pre-wrap; }
               <string>Export as HTML</string>
              </property>
              <property name="icon">
-              <iconset resource="../resources/pokerth_android.qrc">
+              <iconset resource="../resources/pokerth.qrc">
                <normaloff>:/gfx/text-html.png</normaloff>:/gfx/text-html.png</iconset>
              </property>
             </widget>
@@ -3723,7 +3723,7 @@ p, li { white-space: pre-wrap; }
               <string>Export as txt</string>
              </property>
              <property name="icon">
-              <iconset resource="../resources/pokerth_android.qrc">
+              <iconset resource="../resources/pokerth.qrc">
                <normaloff>:/gfx/text-plain.png</normaloff>:/gfx/text-plain.png</iconset>
              </property>
             </widget>
@@ -3734,7 +3734,7 @@ p, li { white-space: pre-wrap; }
               <string>Save as ...</string>
              </property>
              <property name="icon">
-              <iconset resource="../resources/pokerth_android.qrc">
+              <iconset resource="../resources/pokerth.qrc">
                <normaloff>:/gfx/filesave.png</normaloff>:/gfx/filesave.png</iconset>
              </property>
             </widget>
@@ -3745,7 +3745,7 @@ p, li { white-space: pre-wrap; }
               <string>Delete</string>
              </property>
              <property name="icon">
-              <iconset resource="../resources/pokerth_android.qrc">
+              <iconset resource="../resources/pokerth.qrc">
                <normaloff>:/gfx/editdelete.png</normaloff>:/gfx/editdelete.png</iconset>
              </property>
             </widget>
@@ -4040,7 +4040,7 @@ p, li { white-space: pre-wrap; }
   <tabstop>buttonBox</tabstop>
  </tabstops>
  <resources>
-  <include location="../resources/pokerth_android.qrc"/>
+  <include location="../resources/pokerth.qrc"/>
  </resources>
  <connections>
   <connection>

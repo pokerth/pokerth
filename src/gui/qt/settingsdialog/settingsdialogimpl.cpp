@@ -38,9 +38,10 @@ settingsDialogImpl::settingsDialogImpl(QWidget *parent, ConfigFile *c, selectAva
 
 #ifdef ANDROID
     stackedWidget->removeWidget(page_styles);
-    stackedWidget->removeWidget(page_sound);
     listWidget->takeItem(1);
-    listWidget->takeItem(1);
+    label_soundvol->hide();
+    label_soundVolume->hide();
+    horizontalSlider_soundVolume->hide();
 #endif
 
 	myManualBlindsOrderDialog = new manualBlindsOrderDialogImpl;
