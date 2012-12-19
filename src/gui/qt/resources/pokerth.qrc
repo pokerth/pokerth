@@ -1,4 +1,4 @@
-<!DOCTYPE RCC><RCC version="1.0">
+<RCC>
     <qresource prefix="/gfx">
         <file>view-fullscreen.png</file>
         <file>swbuttoninternetgame.png</file>
@@ -58,6 +58,7 @@
         <file>preferences-desktop_50x50.png</file>
         <file>tab-close.png</file>
         <file>tab-new-background.png</file>
+        <file>loader.gif</file>
     </qresource>
     <qresource prefix="/cflags">
         <file>cflags/ad.png</file>

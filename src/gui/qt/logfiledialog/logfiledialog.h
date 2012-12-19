@@ -54,7 +54,9 @@ public slots:
     void showLogFilePreview(ShowLogMode);
     void keyPressEvent ( QKeyEvent * event );
     void uploadFile();
-	
+    void uploadInProgressAnimationStart();
+    void uploadInProgressAnimationStop();
+
 private:  
 	ConfigFile *myConfig;
 	guiLog *myGuiLog;

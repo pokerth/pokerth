@@ -36,6 +36,9 @@ ui(new Ui::LogFileDialog)
 {
     ui->setupUi(this);
 
+    ui->label_animation->setMaximumWidth(0);
+    ui->horizontalLayout_animation->setSpacing(0);
+
 	connect( ui->pushButton_deleteLog, SIGNAL(clicked()), this, SLOT (deleteLogFile()));
 	connect( ui->pushButton_exportLogHtml, SIGNAL(clicked()), this, SLOT (exportLogToHtml()));
 	connect( ui->pushButton_exportLogTxt, SIGNAL(clicked()), this, SLOT (exportLogToTxt()));
@@ -191,9 +194,15 @@ void LogFileDialog::keyPressEvent ( QKeyEvent * event )
 {
 	if (event->key() == Qt::Key_Delete ) { /*Delete*/
 		if(ui->treeWidget_logFiles->hasFocus()) {
-			ui->pushButton_deleteLog->click();
+            ui->pushButton_deleteLog->click();
 		}
 	}
+    else if (event->key() == Qt::Key_N ){
+        uploadInProgressAnimationStart();
+    }
+    else if (event->key() == Qt::Key_M ){
+        uploadInProgressAnimationStop();
+    }
 }
 
 
@@ -256,4 +265,25 @@ void LogFileDialog::uploadFile()
         }
     }
 
+}
+
+void LogFileDialog::uploadInProgressAnimationStart()
+{
+    ui->pushButton_analyseLogfile->setDisabled(TRUE);
+
+    QMovie *movie = new QMovie(":/gfx/loader.gif");
+    ui->label_animation->setMovie(movie);
+    ui->label_animation->setMaximumWidth(32);
+    ui->horizontalLayout_animation->setSpacing(-1);
+    ui->label_animation->setGeometry(0,0,32,32);
+    movie->start();
+}
+
+void LogFileDialog::uploadInProgressAnimationStop()
+{
+    ui->pushButton_analyseLogfile->setDisabled(FALSE);
+
+    ui->label_animation->setMaximumWidth(0);
+    ui->horizontalLayout_animation->setSpacing(0);
+    ui->label_animation->setGeometry(0,0,0,0);
 }
