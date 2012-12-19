@@ -196,12 +196,6 @@ void LogFileDialog::keyPressEvent ( QKeyEvent * event )
 		if(ui->treeWidget_logFiles->hasFocus()) {
             ui->pushButton_deleteLog->click();
 		}
-	}
-    else if (event->key() == Qt::Key_N ){
-        uploadInProgressAnimationStart();
-    }
-    else if (event->key() == Qt::Key_M ){
-        uploadInProgressAnimationStop();
     }
 }
 
