@@ -20,24 +20,40 @@
 #include <QtCore>
 
 MyGameListSortFilterProxyModel::MyGameListSortFilterProxyModel(QObject *parent)
-	: QSortFilterProxyModel(parent)
+    : QSortFilterProxyModel(parent)
 {
 }
 
 bool MyGameListSortFilterProxyModel::filterAcceptsRow(int sourceRow, const QModelIndex &sourceParent) const
 {
 
-	QModelIndex index0 = sourceModel()->index(sourceRow, 0, sourceParent);
-	QModelIndex index1 = sourceModel()->index(sourceRow, 1, sourceParent);
-	QModelIndex index2 = sourceModel()->index(sourceRow, 2, sourceParent);
-	QModelIndex index3 = sourceModel()->index(sourceRow, 3, sourceParent);
-	QModelIndex index4 = sourceModel()->index(sourceRow, 4, sourceParent);
+    QModelIndex index0 = sourceModel()->index(sourceRow, 0, sourceParent);
+    QModelIndex index1 = sourceModel()->index(sourceRow, 1, sourceParent);
+    QModelIndex index2 = sourceModel()->index(sourceRow, 2, sourceParent);
+    QModelIndex index3 = sourceModel()->index(sourceRow, 3, sourceParent);
+    QModelIndex index4 = sourceModel()->index(sourceRow, 4, sourceParent);
     QModelIndex index5 = sourceModel()->index(sourceRow, 5, sourceParent);
 
-	return ((sourceModel()->data(index1, 16).toString().contains(column1RegExp)
-			 && sourceModel()->data(index2, 16).toString().contains(column2RegExp)
-			 && sourceModel()->data(index3, 16).toString().contains(column3RegExp)
+    return ((sourceModel()->data(index1, 16).toString().contains(column1RegExp)
+             && sourceModel()->data(index2, 16).toString().contains(column2RegExp)
+             && sourceModel()->data(index3, 16).toString().contains(column3RegExp)
              && sourceModel()->data(index4, 16).toString().contains(column4RegExp)
              && sourceModel()->data(index5, 16).toString().contains(column5RegExp)) || sourceModel()->data(index0, 16) == "MeInThisGame");
 }
 
+bool MyGameListSortFilterProxyModel::lessThan(const QModelIndex &left, const QModelIndex &right) const
+{
+    switch(sortColumn()) {
+
+    case 5: {
+        return sourceModel()->data(left, 16).toString() < sourceModel()->data(right, 16).toString();
+    }
+        break;
+    default: {
+        return QSortFilterProxyModel::lessThan(left, right);
+    }
+        break;
+    }
+
+    return false;
+}

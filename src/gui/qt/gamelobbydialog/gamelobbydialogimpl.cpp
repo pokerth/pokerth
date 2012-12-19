@@ -155,9 +155,9 @@ gameLobbyDialogImpl::gameLobbyDialogImpl(startWindowImpl *parent, ConfigFile *c)
     treeView_GameList->setColumnWidth(0,190);
     treeView_GameList->setColumnWidth(1,55);
     treeView_GameList->setColumnWidth(2,65);
-    treeView_GameList->setColumnWidth(3,30);
-    treeView_GameList->setColumnWidth(4,30);
-    treeView_GameList->setColumnWidth(5,20);
+    treeView_GameList->setColumnWidth(3,25);
+    treeView_GameList->setColumnWidth(4,25);
+    treeView_GameList->setColumnWidth(5,30);
 
     treeView_GameList->setStyleSheet("QTreeView {background-color: white; background-image: url(\""+myAppDataPath +"gfx/gui/misc/background_gamelist.png\"); background-attachment: fixed; background-position: top center ; background-repeat: no-repeat;}");
 #endif
@@ -448,10 +448,12 @@ void gameLobbyDialogImpl::refresh(int actionID)
         treeView_GameList->setColumnWidth(4,30);
 #else
         treeView_GameList->setColumnWidth(0,190);
-        treeView_GameList->setColumnWidth(1,65);
+        treeView_GameList->setColumnWidth(1,55);
         treeView_GameList->setColumnWidth(2,65);
-        treeView_GameList->setColumnWidth(3,40);
-        treeView_GameList->setColumnWidth(4,40);
+        treeView_GameList->setColumnWidth(3,25);
+        treeView_GameList->setColumnWidth(4,25);
+        treeView_GameList->setColumnWidth(5,30);
+
 #endif
 
         QStringList headerList2;
@@ -639,9 +641,13 @@ void gameLobbyDialogImpl::updateGameItem(QList <QStandardItem*> itemList, unsign
     }
 
     itemList.at(5)->setData(QString::number(info.data.playerActionTimeoutSec)+"s/"+QString::number(info.data.delayBetweenHandsSec)+"s", Qt::DisplayRole);
-    itemList.at(5)->setData(QString::number(info.data.playerActionTimeoutSec), 16);
+    QString actionTimeOutString = QString::number(info.data.playerActionTimeoutSec);
+    if(info.data.playerActionTimeoutSec < 10) {
+        actionTimeOutString = "0"+actionTimeOutString;
+    }
+    itemList.at(5)->setData(actionTimeOutString, 16);
 
-    //	treeView_GameList->sortByColumn(myConfig->readConfigInt("DlgGameLobbyGameListSortingSection"), (Qt::SortOrder)myConfig->readConfigInt("DlgGameLobbyGameListSortingOrder") );
+    treeView_GameList->sortByColumn(myConfig->readConfigInt("DlgGameLobbyGameListSortingSection"), (Qt::SortOrder)myConfig->readConfigInt("DlgGameLobbyGameListSortingOrder") );
     refreshGameStats();
 }
 
@@ -859,9 +865,9 @@ void gameLobbyDialogImpl::clearDialog()
     treeView_GameList->setColumnWidth(0,190);
     treeView_GameList->setColumnWidth(1,55);
     treeView_GameList->setColumnWidth(2,65);
-    treeView_GameList->setColumnWidth(3,30);
-    treeView_GameList->setColumnWidth(4,30);
-    treeView_GameList->setColumnWidth(5,20);
+    treeView_GameList->setColumnWidth(3,25);
+    treeView_GameList->setColumnWidth(4,25);
+    treeView_GameList->setColumnWidth(5,30);
 #endif
 
     pushButton_CreateGame->clearFocus();
