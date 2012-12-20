@@ -98,7 +98,7 @@
          </size>
         </property>
         <property name="icon">
-         <iconset resource="../resources/pokerth_android.qrc">
+         <iconset resource="../resources/pokerth.qrc">
           <normaloff>:/gfx/document-open-folder.png</normaloff>:/gfx/document-open-folder.png</iconset>
         </property>
         <property name="iconSize">
@@ -115,7 +115,7 @@
    <item row="2" column="0">
     <widget class="QDialogButtonBox" name="buttonBox">
      <property name="styleSheet">
-      <string notr="true">QObject {font: bold 26px}</string>
+      <string notr="true">QObject {font:36px}</string>
      </property>
      <property name="orientation">
       <enum>Qt::Horizontal</enum>
@@ -136,7 +136,7 @@
   <tabstop>buttonBox</tabstop>
  </tabstops>
  <resources>
-  <include location="../resources/pokerth_android.qrc"/>
+  <include location="../resources/pokerth.qrc"/>
  </resources>
  <connections>
   <connection>

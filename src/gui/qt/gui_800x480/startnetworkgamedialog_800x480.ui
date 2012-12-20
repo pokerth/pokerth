@@ -134,10 +134,23 @@
      <item>
       <widget class="QPushButton" name="pushButton_Kick">
        <property name="styleSheet">
-        <string notr="true">QObject {font: 26px}</string>
+        <string notr="true">QObject {font: 36px}</string>
        </property>
        <property name="text">
         <string>Kick Player</string>
+       </property>
+       <property name="icon">
+        <iconset resource="../resources/pokerth.qrc">
+         <normaloff>:/gfx/editdelete.png</normaloff>:/gfx/editdelete.png</iconset>
+       </property>
+       <property name="iconSize">
+        <size>
+         <width>32</width>
+         <height>32</height>
+        </size>
+       </property>
+       <property name="autoDefault">
+        <bool>false</bool>
        </property>
       </widget>
      </item>
@@ -157,10 +170,23 @@
      <item>
       <widget class="QPushButton" name="pushButton_startGame">
        <property name="styleSheet">
-        <string notr="true">QObject {font: bold 30px}</string>
+        <string notr="true">QObject {font: 36px}</string>
        </property>
        <property name="text">
         <string>Start Game</string>
+       </property>
+       <property name="icon">
+        <iconset resource="../resources/pokerth.qrc">
+         <normaloff>:/gfx/dialog_ok_apply.png</normaloff>:/gfx/dialog_ok_apply.png</iconset>
+       </property>
+       <property name="iconSize">
+        <size>
+         <width>32</width>
+         <height>32</height>
+        </size>
+       </property>
+       <property name="autoDefault">
+        <bool>false</bool>
        </property>
       </widget>
      </item>
@@ -176,7 +202,9 @@
   <tabstop>lineEdit_ChatInput</tabstop>
   <tabstop>pushButton_startGame</tabstop>
  </tabstops>
- <resources/>
+ <resources>
+  <include location="../resources/pokerth.qrc"/>
+ </resources>
  <connections>
   <connection>
    <sender>pushButton_startGame</sender>

@@ -114,7 +114,9 @@ int main( int argc, char **argv )
     p.setColor(QPalette::ButtonText, QColor::fromRgb(255,255,255));
     p.setColor(QPalette::Disabled, QPalette::ButtonText, QColor::fromRgb(100,100,100));
     p.setColor(QPalette::WindowText, QColor::fromRgb(255,255,255));
+    p.setColor(QPalette::Disabled, QPalette::WindowText, QColor::fromRgb(100,100,100));
     p.setColor(QPalette::Text, QColor::fromRgb(255,255,255));
+    p.setColor(QPalette::Disabled, QPalette::Text, QColor::fromRgb(100,100,100));
     p.setColor(QPalette::Link, QColor::fromRgb(192,192,255));
     p.setColor(QPalette::LinkVisited, QColor::fromRgb(192,192,255));
     a.setPalette(p);

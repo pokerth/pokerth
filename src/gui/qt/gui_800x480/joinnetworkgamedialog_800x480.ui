@@ -62,10 +62,23 @@
         </size>
        </property>
        <property name="styleSheet">
-        <string notr="true">QObject {font: bold 26px}</string>
+        <string notr="true">QObject {font: 36px}</string>
        </property>
        <property name="text">
         <string>Connect</string>
+       </property>
+       <property name="icon">
+        <iconset resource="../resources/pokerth.qrc">
+         <normaloff>:/gfx/dialog_ok_apply.png</normaloff>:/gfx/dialog_ok_apply.png</iconset>
+       </property>
+       <property name="iconSize">
+        <size>
+         <width>32</width>
+         <height>32</height>
+        </size>
+       </property>
+       <property name="autoDefault">
+        <bool>false</bool>
        </property>
       </widget>
      </item>
@@ -358,7 +371,9 @@ p, li { white-space: pre-wrap; }
   <tabstop>pushButton_delete</tabstop>
   <tabstop>pushButton_connect</tabstop>
  </tabstops>
- <resources/>
+ <resources>
+  <include location="../resources/pokerth.qrc"/>
+ </resources>
  <connections>
   <connection>
    <sender>pushButton_connect</sender>

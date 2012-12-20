@@ -131,6 +131,9 @@
      </item>
      <item>
       <widget class="QPushButton" name="pushButton_login">
+       <property name="styleSheet">
+        <string notr="true">QObject{font: 36px, }</string>
+       </property>
        <property name="text">
         <string>Login</string>
        </property>
@@ -140,8 +143,8 @@
        </property>
        <property name="iconSize">
         <size>
-         <width>24</width>
-         <height>24</height>
+         <width>32</width>
+         <height>32</height>
         </size>
        </property>
        <property name="autoDefault">

@@ -3495,44 +3495,6 @@ p, li { white-space: pre-wrap; }
             <property name="bottomMargin">
              <number>0</number>
             </property>
-            <item row="0" column="0">
-             <widget class="QLabel" name="label_27">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
-              </property>
-              <property name="text">
-               <string>Store log files for:</string>
-              </property>
-              <property name="buddy">
-               <cstring>spinBox_logStoreDuration</cstring>
-              </property>
-             </widget>
-            </item>
-            <item row="0" column="1">
-             <widget class="QSpinBox" name="spinBox_logStoreDuration">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
-              </property>
-              <property name="suffix">
-               <string> Day(s)</string>
-              </property>
-              <property name="minimum">
-               <number>1</number>
-              </property>
-              <property name="maximum">
-               <number>3650</number>
-              </property>
-              <property name="value">
-               <number>2</number>
-              </property>
-             </widget>
-            </item>
             <item row="1" column="0">
              <widget class="QLabel" name="label_39">
               <property name="sizePolicy">
@@ -3627,130 +3589,59 @@ p, li { white-space: pre-wrap; }
               </item>
              </layout>
             </item>
+            <item row="0" column="0">
+             <widget class="QLabel" name="label_27">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="text">
+               <string>Store log files for:</string>
+              </property>
+              <property name="buddy">
+               <cstring>spinBox_logStoreDuration</cstring>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="1">
+             <widget class="QSpinBox" name="spinBox_logStoreDuration">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="suffix">
+               <string> Day(s)</string>
+              </property>
+              <property name="minimum">
+               <number>1</number>
+              </property>
+              <property name="maximum">
+               <number>3650</number>
+              </property>
+              <property name="value">
+               <number>2</number>
+              </property>
+             </widget>
+            </item>
+            <item row="3" column="0" colspan="2">
+             <spacer name="verticalSpacer">
+              <property name="orientation">
+               <enum>Qt::Vertical</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>20</width>
+                <height>40</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
            </layout>
           </widget>
-         </item>
-         <item row="1" column="0">
-          <layout class="QHBoxLayout" name="horizontalLayout_11">
-           <property name="spacing">
-            <number>0</number>
-           </property>
-           <item>
-            <widget class="QTreeWidget" name="treeWidget_logFiles">
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
-               <horstretch>0</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
-             </property>
-             <property name="alternatingRowColors">
-              <bool>true</bool>
-             </property>
-             <property name="selectionMode">
-              <enum>QAbstractItemView::ExtendedSelection</enum>
-             </property>
-             <property name="indentation">
-              <number>5</number>
-             </property>
-             <property name="rootIsDecorated">
-              <bool>false</bool>
-             </property>
-             <property name="allColumnsShowFocus">
-              <bool>true</bool>
-             </property>
-             <column>
-              <property name="text">
-               <string>Log File</string>
-              </property>
-             </column>
-            </widget>
-           </item>
-           <item>
-            <layout class="QVBoxLayout" name="verticalLayout_4">
-             <property name="spacing">
-              <number>0</number>
-             </property>
-             <item>
-              <widget class="QLabel" name="label_37">
-               <property name="text">
-                <string>Preview:</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QTextBrowser" name="textBrowser_logPreview">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="MinimumExpanding" vsizetype="Expanding">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="styleSheet">
-                <string notr="true"/>
-               </property>
-               <property name="html">
-                <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
-&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
-p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Liberation Sans'; font-size:18px; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:'Nimbus Sans L';&quot;&gt;&lt;br /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-               </property>
-              </widget>
-             </item>
-            </layout>
-           </item>
-          </layout>
-         </item>
-         <item row="2" column="0">
-          <layout class="QHBoxLayout" name="horizontalLayout_9">
-           <property name="spacing">
-            <number>0</number>
-           </property>
-           <item>
-            <widget class="QPushButton" name="pushButton_exportLogHtml">
-             <property name="text">
-              <string>Export as HTML</string>
-             </property>
-             <property name="icon">
-              <iconset resource="../resources/pokerth.qrc">
-               <normaloff>:/gfx/text-html.png</normaloff>:/gfx/text-html.png</iconset>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QPushButton" name="pushButton_exportLogTxt">
-             <property name="text">
-              <string>Export as txt</string>
-             </property>
-             <property name="icon">
-              <iconset resource="../resources/pokerth.qrc">
-               <normaloff>:/gfx/text-plain.png</normaloff>:/gfx/text-plain.png</iconset>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QPushButton" name="pushButton_saveLogAs">
-             <property name="text">
-              <string>Save as ...</string>
-             </property>
-             <property name="icon">
-              <iconset resource="../resources/pokerth.qrc">
-               <normaloff>:/gfx/filesave.png</normaloff>:/gfx/filesave.png</iconset>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QPushButton" name="pushButton_deleteLog">
-             <property name="text">
-              <string>Delete</string>
-             </property>
-             <property name="icon">
-              <iconset resource="../resources/pokerth.qrc">
-               <normaloff>:/gfx/editdelete.png</normaloff>:/gfx/editdelete.png</iconset>
-             </property>
-            </widget>
-           </item>
-          </layout>
          </item>
         </layout>
        </widget>
@@ -3894,15 +3785,25 @@ p, li { white-space: pre-wrap; }
       </spacer>
      </item>
      <item>
-      <widget class="QDialogButtonBox" name="buttonBox">
+      <widget class="QPushButton" name="pushButton">
        <property name="styleSheet">
-        <string notr="true">QObject {font: bold 20px}</string>
+        <string notr="true">QObject{font: 32px;}</string>
        </property>
-       <property name="orientation">
-        <enum>Qt::Horizontal</enum>
+       <property name="text">
+        <string> OK </string>
        </property>
-       <property name="standardButtons">
-        <set>QDialogButtonBox::Ok</set>
+       <property name="icon">
+        <iconset resource="../resources/pokerth.qrc">
+         <normaloff>:/gfx/dialog_ok_apply.png</normaloff>:/gfx/dialog_ok_apply.png</iconset>
+       </property>
+       <property name="iconSize">
+        <size>
+         <width>32</width>
+         <height>32</height>
+        </size>
+       </property>
+       <property name="autoDefault">
+        <bool>false</bool>
        </property>
       </widget>
      </item>
@@ -4033,11 +3934,6 @@ p, li { white-space: pre-wrap; }
   <tabstop>comboBox_logInterval</tabstop>
   <tabstop>lineEdit_logDir</tabstop>
   <tabstop>pushButton_openLogDir</tabstop>
-  <tabstop>pushButton_exportLogHtml</tabstop>
-  <tabstop>pushButton_exportLogTxt</tabstop>
-  <tabstop>pushButton_saveLogAs</tabstop>
-  <tabstop>pushButton_deleteLog</tabstop>
-  <tabstop>buttonBox</tabstop>
  </tabstops>
  <resources>
   <include location="../resources/pokerth.qrc"/>
@@ -4060,34 +3956,18 @@ p, li { white-space: pre-wrap; }
    </hints>
   </connection>
   <connection>
-   <sender>buttonBox</sender>
-   <signal>rejected()</signal>
-   <receiver>settingsDialog</receiver>
-   <slot>reject()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>595</x>
-     <y>520</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>599</x>
-     <y>497</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
    <sender>horizontalSlider_soundVolume</sender>
    <signal>valueChanged(int)</signal>
    <receiver>label_soundVolume</receiver>
    <slot>setNum(int)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>765</x>
-     <y>92</y>
+     <x>786</x>
+     <y>63</y>
     </hint>
     <hint type="destinationlabel">
-     <x>322</x>
-     <y>92</y>
+     <x>362</x>
+     <y>63</y>
     </hint>
    </hints>
   </connection>
@@ -4098,12 +3978,12 @@ p, li { white-space: pre-wrap; }
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>765</x>
-     <y>212</y>
+     <x>786</x>
+     <y>184</y>
     </hint>
     <hint type="destinationlabel">
-     <x>765</x>
-     <y>242</y>
+     <x>786</x>
+     <y>217</y>
     </hint>
    </hints>
   </connection>
@@ -4114,12 +3994,12 @@ p, li { white-space: pre-wrap; }
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>763</x>
-     <y>212</y>
+     <x>784</x>
+     <y>168</y>
     </hint>
     <hint type="destinationlabel">
-     <x>763</x>
-     <y>236</y>
+     <x>784</x>
+     <y>188</y>
     </hint>
    </hints>
   </connection>
@@ -4130,12 +4010,12 @@ p, li { white-space: pre-wrap; }
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>296</x>
-     <y>109</y>
+     <x>249</x>
+     <y>53</y>
     </hint>
     <hint type="destinationlabel">
-     <x>381</x>
-     <y>110</y>
+     <x>277</x>
+     <y>53</y>
     </hint>
    </hints>
   </connection>
@@ -4146,12 +4026,12 @@ p, li { white-space: pre-wrap; }
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>309</x>
-     <y>108</y>
+     <x>249</x>
+     <y>53</y>
     </hint>
     <hint type="destinationlabel">
-     <x>747</x>
-     <y>103</y>
+     <x>306</x>
+     <y>79</y>
     </hint>
    </hints>
   </connection>
@@ -4162,12 +4042,28 @@ p, li { white-space: pre-wrap; }
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>283</x>
-     <y>283</y>
+     <x>362</x>
+     <y>235</y>
     </hint>
     <hint type="destinationlabel">
-     <x>566</x>
-     <y>283</y>
+     <x>779</x>
+     <y>239</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton</sender>
+   <signal>clicked()</signal>
+   <receiver>settingsDialog</receiver>
+   <slot>accept()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>685</x>
+     <y>390</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>578</x>
+     <y>396</y>
     </hint>
    </hints>
   </connection>

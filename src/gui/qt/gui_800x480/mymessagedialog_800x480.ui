@@ -92,7 +92,7 @@
      <item row="3" column="0">
       <widget class="QDialogButtonBox" name="buttonBox">
        <property name="styleSheet">
-        <string notr="true">QObject {font: 30px}</string>
+        <string notr="true">QObject {font: 36px}</string>
        </property>
        <property name="orientation">
         <enum>Qt::Horizontal</enum>

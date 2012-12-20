@@ -4561,7 +4561,7 @@ p, li { white-space: pre-wrap; }
            </property>
            <property name="maximumSize">
             <size>
-             <width>235</width>
+             <width>300</width>
              <height>60</height>
             </size>
            </property>
