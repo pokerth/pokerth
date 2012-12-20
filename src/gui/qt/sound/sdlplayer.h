@@ -46,7 +46,7 @@ public:
 	void initAudio();
 	void playSound(std::string, int playerID);
 	void closeAudio();
-    void reInitAudio();
+    void reInit();
 
 private:
     Mix_Chunk *sound;

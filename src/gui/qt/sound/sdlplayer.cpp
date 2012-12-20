@@ -146,7 +146,7 @@ void SDLPlayer::closeAudio()
     }
 }
 
-void SDLPlayer::reInitAudio()
+void SDLPlayer::reInit()
 {
     closeAudio();
     initAudio();
