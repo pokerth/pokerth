@@ -1,23 +1,45 @@
 #include "androidaudio.h"
 #include "androidsoundeffect.h"
+#include "configfile.h"
 
 #include <QDebug>
 
-AndroidAudio::AndroidAudio(QObject *parent) :
-    QObject(parent), mEngineObject(NULL), mEngineEngine(NULL), mOutputMixObject(NULL), mSounds(), mSoundCount(0), mPlayerObject(NULL)
+AndroidAudio::AndroidAudio(ConfigFile *c, QObject *parent) :
+    QObject(parent), mEngineObject(NULL), mEngineEngine(NULL), mOutputMixObject(NULL), mSounds(), mSoundCount(0), mPlayerObject(NULL), myConfig(c), audioEnabled(FALSE)
 {
-    createEngine();
-    startSoundPlayer();
+    initAudio();
 }
 
 AndroidAudio::~AndroidAudio()
 {
-    destroyEngine();
+    closeAudio();
+}
 
-    for (int32_t i = 0; i < mSoundCount; ++i) {
-        qDeleteAll(mSounds);
-
+void AndroidAudio::initAudio()
+{
+    if (!audioEnabled && myConfig->readConfigInt("PlaySoundEffects")) {
+        createEngine();
+        startSoundPlayer();
+        audioEnabled = TRUE;
     }
+}
+
+void AndroidAudio::closeAudio()
+{
+
+    if(audioEnabled) {
+        destroyEngine();
+
+        for (int32_t i = 0; i < mSoundCount; ++i) {
+            qDeleteAll(mSounds);
+        }
+        audioEnabled = FALSE;
+    }
+}
+
+void AndroidAudio::reInit()
+{
+    initAudio();
 }
 
 // create the engine and output mix objects
@@ -73,19 +95,19 @@ void AndroidAudio::destroyEngine()
 
 void AndroidAudio::registerSound(const QString& path, const QString& name)
 {
-    qDebug() << "registerSound:" << path << name;
+//    qDebug() << "registerSound:" << path << name;
     AndroidSoundEffect *lSound = new AndroidSoundEffect(path, this);
-    qDebug() << "registerSound:created";
+//    qDebug() << "registerSound:created";
     mSounds[name] = lSound;
 
-    qDebug() << "registerSound:loading";
+//    qDebug() << "registerSound:loading";
     lSound->load();
-    qDebug() << "registerSound:loaded";
+//    qDebug() << "registerSound:loaded";
 }
 
 void AndroidAudio::startSoundPlayer()
 {
-    qDebug() << "Starting Sound Player";
+//    qDebug() << "Starting Sound Player";
 
     SLresult lRes;
 
@@ -121,12 +143,12 @@ void AndroidAudio::startSoundPlayer()
     const SLInterfaceID lSoundPlayerIIDs[] = { SL_IID_PLAY, SL_IID_BUFFERQUEUE };
     const SLboolean lSoundPlayerReqs[] = { SL_BOOLEAN_TRUE, SL_BOOLEAN_TRUE };
 
-    qDebug() << "Configured Sound Player";
+//    qDebug() << "Configured Sound Player";
 
     lRes = (*mEngineEngine)->CreateAudioPlayer(mEngineEngine, &mPlayerObject, &lDataSource, &lDataSink, lSoundPlayerIIDCount, lSoundPlayerIIDs, lSoundPlayerReqs);
     Q_ASSERT(SL_RESULT_SUCCESS == lRes);
 
-    qDebug() << "Created Sound Player";
+//    qDebug() << "Created Sound Player";
 
     lRes = (*mPlayerObject)->Realize(mPlayerObject, SL_BOOLEAN_FALSE);
     Q_ASSERT(SL_RESULT_SUCCESS == lRes);
@@ -141,13 +163,16 @@ void AndroidAudio::startSoundPlayer()
     lRes = (*mPlayerPlay)->SetPlayState(mPlayerPlay, SL_PLAYSTATE_PLAYING);
     Q_ASSERT(SL_RESULT_SUCCESS == lRes);
 
-    qDebug() << "Created Buffer Player";
+//    qDebug() << "Created Buffer Player";
 }
 
 void AndroidAudio::playSound(const std::string& name, int i) {
 
-    this->registerSound(QString(":/android/android-data/sounds/default/"+QString::fromStdString(name)+".wav"), QString::fromStdString(name));
-    this->reallyPlaySound(QString::fromStdString(name));
+    if(audioEnabled && myConfig->readConfigInt("PlaySoundEffects")) {
+
+        this->registerSound(QString(":/android/android-data/sounds/default/"+QString::fromStdString(name)+".wav"), QString::fromStdString(name));
+        this->reallyPlaySound(QString::fromStdString(name));
+    }
 }
 
 void AndroidAudio::reallyPlaySound(const QString& name)

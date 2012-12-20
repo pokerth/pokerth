@@ -35,11 +35,13 @@ public:
 
 	void exec();
 	void accept();
+    bool eventFilter(QObject *obj, QEvent *event);
 
 public slots:
 	void regUserToggled(bool);
 	void guestUserToggled(bool);
 	void okButtonCheck();
+    void clickLoginButton() { pushButton_login->click(); }
 
 private:
 

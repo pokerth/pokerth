@@ -157,8 +157,7 @@ HEADERS += src/engine/game.h \
 	src/engine/network_engine/clienthand.h \
 	src/engine/network_engine/clientplayer.h \
 	src/engine/network_engine/clientbero.h \
-	src/gui/qt/chattools/chattools.h \
-	src/gui/qt/sound/sdlplayer.h \
+    src/gui/qt/chattools/chattools.h \
 	src/gui/qt/gametable/gametableimpl.h \
 	src/gui/qt/gametable/mycardspixmaplabel.h \
 	src/gui/qt/gametable/mysetlabel.h \
@@ -236,8 +235,7 @@ HEADERS += src/engine/game.h \
 }
 
 SOURCES += src/pokerth.cpp \
-	src/gui/qt/chattools/chattools.cpp \
-	src/gui/qt/sound/sdlplayer.cpp \
+    src/gui/qt/chattools/chattools.cpp \
 	src/gui/qt/guiwrapper.cpp \
 	src/gui/qt/qttools/qttoolswrapper.cpp \
 	src/gui/qt/qttools/qthelper/qthelper.cpp \
@@ -634,6 +632,11 @@ android{
 
     SOURCES += src/gui/qt/sound/androidaudio.cpp \
     src/gui/qt/sound/androidsoundeffect.cpp
+}
+
+!android{
+    HEADERS += src/gui/qt/sound/sdlplayer.h
+    SOURCES += src/gui/qt/sound/sdlplayer.cpp
 }
 
 maemo{

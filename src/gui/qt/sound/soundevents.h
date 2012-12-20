@@ -21,6 +21,7 @@ public:
 	void blindsWereSet(int sB);
 	void newGameStarts();
     void playSound(std::string audioString, int playerID);
+    void reInitSoundEngine();
 
 protected:
 	// Prevent copy construction.

@@ -42,7 +42,6 @@
 #include "cardsvalue.h"
 
 #include "configfile.h"
-#include "sdlplayer.h"
 #include "soundevents.h"
 #include "gametablestylereader.h"
 #include "carddeckstylereader.h"
@@ -690,7 +689,6 @@ void gameTableImpl::applySettings(settingsDialogImpl* mySettingsDialog)
 	//apply game table style
 	myGameTableStyle->readStyleFile(QString::fromUtf8(myConfig->readConfigString("CurrentGameTableStyle").c_str()));
 
-
 #ifdef GUI_800x480
 	//cardschancemonitor show/hide
 	if (!myConfig->readConfigInt("ShowCardsChanceMonitor")) {
@@ -838,6 +836,8 @@ void gameTableImpl::applySettings(settingsDialogImpl* mySettingsDialog)
 		refreshGroupbox();
 		provideMyActions();
 	}
+
+    mySoundEventHandler->reInitSoundEngine();
 }
 
 void gameTableImpl::initGui(int speed)

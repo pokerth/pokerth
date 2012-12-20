@@ -23,12 +23,10 @@
 #include "configfile.h"
 #include <string>
 
-#ifndef ANDROID
 #ifdef __APPLE__
 #include <SDL_mixer.h>
 #else
 #include <SDL/SDL_mixer.h>
-#endif
 #endif
 
  struct Mix_Chunk;
@@ -48,18 +46,15 @@ public:
 	void initAudio();
 	void playSound(std::string, int playerID);
 	void closeAudio();
+    void reInitAudio();
 
 private:
-
-#ifndef ANDROID
     Mix_Chunk *sound;
 	unsigned char *soundData;
 	int currentChannel;
     bool audioEnabled;
 	ConfigFile *myConfig;
 	QString myAppDataPath;
-
-#endif
 };
 
 #endif

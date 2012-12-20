@@ -18,7 +18,7 @@ SoundEvents::SoundEvents(ConfigFile *c): myConfig(c), lastSBValue(0), lastSBLeve
 {
 
 #ifdef ANDROID
-    myPlayer = new AndroidAudio();
+    myPlayer = new AndroidAudio(myConfig);
 #else
     myPlayer = new SDLPlayer(myConfig);
 #endif
@@ -28,6 +28,11 @@ SoundEvents::SoundEvents(ConfigFile *c): myConfig(c), lastSBValue(0), lastSBLeve
 SoundEvents::~SoundEvents()
 {
     myPlayer->deleteLater();
+}
+
+void SoundEvents::reInitSoundEngine()
+{
+    myPlayer->reInit();
 }
 
 void SoundEvents::blindsWereSet(int sB)

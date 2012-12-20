@@ -185,7 +185,7 @@
     </layout>
    </item>
    <item row="2" column="0" rowspan="2" colspan="2">
-    <layout class="QHBoxLayout" name="horizontalLayout_2">
+    <layout class="QHBoxLayout" name="horizontalLayout_animation">
      <item>
       <widget class="QLabel" name="label_animation">
        <property name="text">

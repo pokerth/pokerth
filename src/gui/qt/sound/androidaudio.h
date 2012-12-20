@@ -13,11 +13,13 @@
 #include <android/asset_manager.h>
 #include <android/asset_manager_jni.h>
 
+class ConfigFile;
+
 class AndroidAudio : public QObject
 {
     Q_OBJECT
 public:
-    explicit AndroidAudio(QObject *parent = 0);
+    explicit AndroidAudio(ConfigFile *c, QObject *parent = 0);
     ~AndroidAudio();
 
 signals:
@@ -27,6 +29,9 @@ public slots:
     void registerSound(const QString& path, const QString &name);
     void reallyPlaySound(const QString& name);
     void playSound(const std::string& name, int i);
+    void initAudio();
+    void closeAudio();
+    void reInit();
 
 private:
     void createEngine();
@@ -48,6 +53,8 @@ private:
     QMap<QString, AndroidSoundEffect*> mSounds;
     int32_t mSoundCount;
 
+    ConfigFile *myConfig;
+    bool audioEnabled;
 };
 
 #endif // ANDROIDAUDIO_H

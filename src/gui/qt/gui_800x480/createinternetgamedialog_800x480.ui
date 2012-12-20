@@ -50,7 +50,7 @@
      <item>
       <widget class="QPushButton" name="pushButton_createGame">
        <property name="styleSheet">
-        <string notr="true">QObject {font: bold 20px}</string>
+        <string notr="true">QObject {font: bold 30px}</string>
        </property>
        <property name="text">
         <string>Create Game</string>
@@ -159,7 +159,7 @@
             <string>Registered players only</string>
            </property>
            <property name="icon">
-            <iconset resource="../resources/pokerth.qrc">
+            <iconset resource="../resources/pokerth_android.qrc">
              <normaloff>:/gfx/registered.png</normaloff>:/gfx/registered.png</iconset>
            </property>
           </item>
@@ -168,7 +168,7 @@
             <string>Invited players only</string>
            </property>
            <property name="icon">
-            <iconset resource="../resources/pokerth.qrc">
+            <iconset resource="../resources/pokerth_android.qrc">
              <normaloff>:/gfx/list_add_user.png</normaloff>:/gfx/list_add_user.png</iconset>
            </property>
           </item>
@@ -177,7 +177,7 @@
             <string>Ranking game</string>
            </property>
            <property name="icon">
-            <iconset resource="../resources/pokerth.qrc">
+            <iconset resource="../resources/pokerth_android.qrc">
              <normaloff>:/gfx/cup.png</normaloff>:/gfx/cup.png</iconset>
            </property>
           </item>
@@ -441,7 +441,7 @@
   <tabstop>pushButton_createGame</tabstop>
  </tabstops>
  <resources>
-  <include location="../resources/pokerth.qrc"/>
+  <include location="../resources/pokerth_android.qrc"/>
  </resources>
  <connections>
   <connection>
