@@ -34,6 +34,14 @@ readFunction(char *bufptr, size_t size, size_t nitems, void *userp)
 	return fread(bufptr, size, nitems, (FILE *)userp);
 }
 
+size_t
+writeFunction(char *bufptr, size_t size, size_t nitems, void *userp)
+{
+	string msgPart(bufptr, size * nitems);
+	((string *)userp)->append(msgPart);
+	return size * nitems;
+}
+
 UploadHelper::UploadHelper()
 {
 }
@@ -43,22 +51,35 @@ UploadHelper::~UploadHelper()
 }
 
 void
-UploadHelper::InternalInit(const string &/*url*/, const string &targetFileName, const string &user, const string &password, size_t filesize)
+UploadHelper::InternalInit(const string &/*url*/, const string &targetFileName, const string &user, const string &password, size_t filesize, const string &httpPost)
 {
-	// Open target file for reading.
-	GetData()->targetFile = fopen(targetFileName.c_str(), "rb");
-	if (!GetData()->targetFile)
-		throw NetException(__FILE__, __LINE__, ERR_SOCK_TRANSFER_OPEN_FAILED, 0);
-
-	GetData()->userCredentials = user + ":" + password;
-	// Assume that the following calls never fail.
-	curl_easy_setopt(GetData()->curlHandle, CURLOPT_READFUNCTION, readFunction);
-	curl_easy_setopt(GetData()->curlHandle, CURLOPT_READDATA, GetData()->targetFile);
-	curl_easy_setopt(GetData()->curlHandle, CURLOPT_INFILESIZE, filesize);
-	curl_easy_setopt(GetData()->curlHandle, CURLOPT_USERPWD, GetData()->userCredentials.c_str());
-	curl_easy_setopt(GetData()->curlHandle, CURLOPT_UPLOAD, 1L);
-	curl_easy_setopt(GetData()->curlHandle, CURLOPT_PUT, 1L);
 	curl_easy_setopt(GetData()->curlHandle, CURLOPT_SSL_VERIFYPEER, 0L);
 	curl_easy_setopt(GetData()->curlHandle, CURLOPT_SSL_VERIFYHOST, 0L);
+
+	if (!user.empty() || !password.empty()) {
+		GetData()->userCredentials = user + ":" + password;
+		curl_easy_setopt(GetData()->curlHandle, CURLOPT_USERPWD, GetData()->userCredentials.c_str());
+	}
+	if (httpPost.empty()) {
+		// Open target file for reading.
+		GetData()->targetFile = fopen(targetFileName.c_str(), "rb");
+		if (!GetData()->targetFile)
+			throw NetException(__FILE__, __LINE__, ERR_SOCK_TRANSFER_OPEN_FAILED, 0);
+		curl_easy_setopt(GetData()->curlHandle, CURLOPT_READFUNCTION, readFunction);
+		curl_easy_setopt(GetData()->curlHandle, CURLOPT_READDATA, GetData()->targetFile);
+		curl_easy_setopt(GetData()->curlHandle, CURLOPT_PUT, 1L);
+		curl_easy_setopt(GetData()->curlHandle, CURLOPT_UPLOAD, 1L);
+		curl_easy_setopt(GetData()->curlHandle, CURLOPT_INFILESIZE, filesize);
+	} else {
+		// Curl will handle file I/O.
+		struct curl_httppost *last = NULL;
+		curl_formadd(&GetData()->post, &last,
+			CURLFORM_COPYNAME, httpPost.c_str(),
+			CURLFORM_FILE, targetFileName.c_str(),
+			CURLFORM_END);
+		curl_easy_setopt(GetData()->curlHandle, CURLOPT_HTTPPOST, GetData()->post);
+		curl_easy_setopt(GetData()->curlHandle, CURLOPT_WRITEFUNCTION, writeFunction);
+		curl_easy_setopt(GetData()->curlHandle, CURLOPT_WRITEDATA, &GetData()->returnMessage);
+	}
 }
 

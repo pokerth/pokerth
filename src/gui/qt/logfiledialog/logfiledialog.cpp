@@ -27,8 +27,7 @@
 #include "guilog.h"
 #include "configfile.h"
 #include "mymessagebox.h"
-#include "callback.h"
-#include "curl/curl.h"
+#include <net/uploaderthread.h>
 
 LogFileDialog::LogFileDialog(QWidget *parent, ConfigFile *c) :
 QDialog(parent), myConfig(c),
@@ -46,7 +45,10 @@ ui(new Ui::LogFileDialog)
     connect( ui->treeWidget_logFiles, SIGNAL(currentItemChanged(QTreeWidgetItem*, QTreeWidgetItem*)), this, SLOT(showLogFilePreviewInit()));
     connect( ui->pushButton_analyseLogfile, SIGNAL(clicked()), this, SLOT (uploadFile()));
     connect( ui->comboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(showLogFilePreviewSelected()));
+	connect( this, SIGNAL(signalUploadCompleted(QString,QString)), this, SLOT(showLogAnalysis(QString,QString)));
+	connect( this, SIGNAL(signalUploadError(QString,QString)), this, SLOT(showUploadError(QString,QString)));
 
+	uploader.reset(new UploaderThread(this));
 }
 
 LogFileDialog::~LogFileDialog()
@@ -56,8 +58,21 @@ LogFileDialog::~LogFileDialog()
 
 void LogFileDialog::exec()
 {
+	uploader->Run();
 	refreshLogFileList();
 	QDialog::exec();
+	uploader->SignalTermination();
+	uploader->Join(THREAD_WAIT_INFINITE);
+}
+
+void LogFileDialog::UploadCompleted(const std::string &filename, const std::string &returnMessage)
+{
+	signalUploadCompleted(QString::fromStdString(filename), QString::fromStdString(returnMessage));
+}
+
+void LogFileDialog::UploadError(const std::string &filename, const std::string &errorMessage)
+{
+	signalUploadError(QString::fromStdString(filename), QString::fromStdString(errorMessage));
 }
 
 void LogFileDialog::refreshLogFileList()
@@ -109,7 +124,7 @@ void LogFileDialog::deleteLogFile()
 				if(selectedItemsList.at(i)->data(0, Qt::UserRole+1).toString() != "current") {
 
 					if(!QFile::remove(selectedItemsList.at(i)->data(0, Qt::UserRole).toString())) {
-						MyMessageBox::warning(this, "Remove log file", "PokerTH cannot remove this log file, please verify that you have write access to this file!", QMessageBox::Close );
+						MyMessageBox::warning(this, tr("Remove log file"), tr("PokerTH cannot remove this log file, please verify that you have write access to this file!"), QMessageBox::Close );
 					}
 				}
 			}
@@ -199,71 +214,28 @@ void LogFileDialog::keyPressEvent ( QKeyEvent * event )
     }
 }
 
-
-Callback* curl_writedata = new Callback();
-void writeCallback(char* buf, size_t size, size_t nmemb, void* up)
-{
-  curl_writedata->writeCallback(buf, size, nmemb, up);
-}
-
 void LogFileDialog::uploadFile()
 {
-	const QString buttonText(tr("Upload in progress"));
-	const QString errorMessage(tr("Upload failed. Please check your internet connection!\nUploading log files may fail if you are using an http proxy."));
-	const QString processMessage(tr("Processing of the log file on the web server failed.\nPlease verify that you are uploading a valid PokerTH log file."));
-	const QString reasonMessage(tr("Failure reason: "));
 	QTreeWidgetItem* selectedItem = ui->treeWidget_logFiles->currentItem();
 
-    if(selectedItem) {
-        file.setFileName(selectedItem->data(0, Qt::UserRole).toString());
+	if(selectedItem) {
+		file.setFileName(selectedItem->data(0, Qt::UserRole).toString());
 
-        CURL *curl;
-        CURLcode res;
-
-        struct curl_httppost* post =    NULL;
-        struct curl_httppost* last =    NULL;
-
-        curl = curl_easy_init();
-
-        if(curl) {
-
-            curl_formadd(&post, &last,
-                CURLFORM_COPYNAME, "pdb_file",
-                CURLFORM_FILE, file.fileName().toStdString().c_str(),
-                CURLFORM_END);
-
-            curl_easy_setopt(curl, CURLOPT_URL, "http://pokerth.net/floty_upload/upload.php");
-            curl_easy_setopt(curl, CURLOPT_HTTPPOST, post);
-            curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, writeCallback);
-
-            res = curl_easy_perform(curl);
-
-            if(res) {
-                qDebug() << "curl_easy_perform failed: " << res << endl;
-            }
-
-            id = QString(curl_writedata->getData().data()).trimmed();
-
-            curl_formfree(post);
-
-            if(id.length() == 40 && !id.contains("ERROR")) {
-
-                qDebug() << id << endl;
-                QDesktopServices::openUrl(QUrl("http://logfile-analysis.pokerth.net/?ID="+id));
-
-            } else {
-                qDebug() << QString::fromStdString(curl_writedata->getData()) << endl;
-            }
-        } else {
-            qDebug() << "curl_easy_init failed\n" << endl;
-        }
-    }
-
+		uploadInProgressAnimationStart();
+		uploader->QueueUpload(
+			"http://pokerth.nett/floty_upload/upload.php",
+			"",
+			"",
+			file.fileName().toStdString(),
+			file.size(),
+			"pdb_file");
+	}
 }
 
 void LogFileDialog::uploadInProgressAnimationStart()
 {
-    ui->pushButton_analyseLogfile->setDisabled(TRUE);
+	//const QString buttonText(tr("Upload in progress"));
+	ui->pushButton_analyseLogfile->setDisabled(TRUE);
 
     QMovie *movie = new QMovie(":/gfx/loader.gif");
     ui->label_animation->setMovie(movie);
@@ -281,3 +253,36 @@ void LogFileDialog::uploadInProgressAnimationStop()
     ui->horizontalLayout_animation->setSpacing(0);
     ui->label_animation->setGeometry(0,0,0,0);
 }
+
+void LogFileDialog::showLogAnalysis(QString /*filename*/, QString returnMessage)
+{
+	uploadInProgressAnimationStop();
+
+	QString id = returnMessage.trimmed();
+
+	if(id.length() == 40 && !id.contains("ERROR")) {
+
+		qDebug() << id << endl;
+		QDesktopServices::openUrl(QUrl("http://logfile-analysis.pokerth.net/?ID="+id));
+	} else {
+		qDebug() << returnMessage << endl;
+		QString serverMsg(tr("Processing of the log file on the web server failed.\nPlease verify that you are uploading a valid PokerTH log file."));
+		// if there is a readable message, display it.
+		if (!returnMessage.isEmpty() && returnMessage.size() < 128) {
+			serverMsg += "\n" + tr("Failure reason: ") + returnMessage;
+		}
+		MyMessageBox::warning(
+			this, tr("Uploading log file"), serverMsg, QMessageBox::Close );
+	}
+}
+
+void LogFileDialog::showUploadError(QString /*filename*/, QString errorMessage)
+{
+	uploadInProgressAnimationStop();
+
+	QString uploadMsg(tr("Upload failed. Please check your internet connection!\nUploading log files may fail if you are using an http proxy."));
+	uploadMsg += "\n" + tr("Failure reason: ") + errorMessage;
+	MyMessageBox::warning(
+		this, tr("Uploading log file"), uploadMsg, QMessageBox::Close );
+}
+

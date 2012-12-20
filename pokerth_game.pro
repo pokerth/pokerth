@@ -209,8 +209,7 @@ HEADERS += src/engine/game.h \
     src/gui/qt/gametable/mycashlabel.h \
     src/gui/qt/sound/soundevents.h \
     src/gui/qt/mymessagebox/mymessagebox.h \
-    src/gui/qt/logfiledialog/logfiledialog.h \
-    src/gui/qt/logfiledialog/callback.h
+    src/gui/qt/logfiledialog/logfiledialog.h
 
 !gui_800x480 {
     FORMS += src/gui/qt/gametable.ui \
@@ -287,8 +286,7 @@ SOURCES += src/pokerth.cpp \
     src/gui/qt/gametable/mycashlabel.cpp \
     src/gui/qt/sound/soundevents.cpp \
     src/gui/qt/mymessagebox/mymessagebox.cpp \
-    src/gui/qt/logfiledialog/logfiledialog.cpp \
-    src/gui/qt/logfiledialog/callback.cpp
+    src/gui/qt/logfiledialog/logfiledialog.cpp
 
 TRANSLATIONS = ts/pokerth_af.ts \
 	ts/pokerth_bg.ts \

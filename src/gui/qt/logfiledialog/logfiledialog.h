@@ -21,6 +21,10 @@
 
 #include <QDialog>
 #include <QFile>
+#include <net/uploadcallback.h>
+#include <boost/shared_ptr.hpp>
+
+class UploaderThread;
 
 namespace Ui {
 	class LogFileDialog;
@@ -32,7 +36,7 @@ class guiLog;
 class ConfigFile;
 class Callback;
 
-class LogFileDialog : public QDialog
+class LogFileDialog : public QDialog, public UploadCallback
 {
 	Q_OBJECT
 	
@@ -42,6 +46,13 @@ public:
 
 	void setGuiLog(guiLog *g) { myGuiLog = g; }
 	void exec();
+
+	virtual void UploadCompleted(const std::string &filename, const std::string &returnMessage);
+	virtual void UploadError(const std::string &filename, const std::string &errorMessage);
+
+signals:
+	void signalUploadCompleted(QString filename, QString returnMessage);
+	void signalUploadError(QString filename, QString errorMessage);
 
 public slots:
 	void refreshLogFileList();
@@ -57,6 +68,9 @@ public slots:
     void uploadInProgressAnimationStart();
     void uploadInProgressAnimationStop();
 
+	void showLogAnalysis(QString filename, QString returnMessage);
+	void showUploadError(QString filename, QString errorMessage);
+
 private:  
 	ConfigFile *myConfig;
 	guiLog *myGuiLog;
@@ -64,7 +78,7 @@ private:
     int writer(char *data, size_t size, size_t nmemb,std::string *buffer);
     QFile file;
     QString id;
-
+    boost::shared_ptr<UploaderThread> uploader;
 };
 
 #endif // LOGFILEDIALOG_H

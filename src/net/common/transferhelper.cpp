@@ -31,9 +31,6 @@ using namespace std;
 TransferHelper::TransferHelper()
 {
 	m_data.reset(new TransferData);
-	m_data->curlHandle = NULL;
-	m_data->curlMultiHandle = NULL;
-	m_data->targetFile = NULL;
 }
 
 TransferHelper::~TransferHelper()
@@ -42,8 +39,11 @@ TransferHelper::~TransferHelper()
 }
 
 void
-TransferHelper::Init(const string &url, const string &targetFileName, const string &user, const string &password, size_t filesize)
+TransferHelper::Init(const string &url, const string &targetFileName, const string &user, const string &password, size_t filesize, const string &httpPost)
 {
+	// Cleanup data.
+	Cleanup();
+	m_data->returnMessage.clear();
 	// Initialise curl.
 	m_data->curlHandle = curl_easy_init();
 	if (!m_data->curlHandle)
@@ -57,7 +57,7 @@ TransferHelper::Init(const string &url, const string &targetFileName, const stri
 	if (curl_easy_setopt(m_data->curlHandle, CURLOPT_URL, m_data->curlUrl.c_str()) != CURLE_OK)
 		throw NetException(__FILE__, __LINE__, ERR_SOCK_TRANSFER_INVALID_URL, 0);
 
-	InternalInit(url, targetFileName, user, password, filesize);
+	InternalInit(url, targetFileName, user, password, filesize, httpPost);
 
 	// Use the multi interface for better abort handling.
 	if (curl_multi_add_handle(m_data->curlMultiHandle, m_data->curlHandle) != CURLM_OK)
@@ -128,6 +128,10 @@ TransferHelper::Process()
 void
 TransferHelper::Cleanup()
 {
+	if (m_data->post) {
+		curl_formfree(m_data->post);
+		m_data->post = NULL;
+	}
 	if (m_data->curlMultiHandle) {
 		curl_multi_cleanup(m_data->curlMultiHandle);
 		m_data->curlMultiHandle = NULL;
@@ -141,6 +145,14 @@ TransferHelper::Cleanup()
 		fclose(m_data->targetFile);
 		m_data->targetFile = NULL;
 	}
+}
+
+string
+TransferHelper::ResetLastMessage()
+{
+	string retVal(m_data->returnMessage);
+	m_data->returnMessage.clear();
+	return retVal;
 }
 
 boost::shared_ptr<TransferData>
