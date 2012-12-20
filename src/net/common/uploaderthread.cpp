@@ -18,6 +18,7 @@
 
 #include <net/uploaderthread.h>
 #include <net/uploadhelper.h>
+#include <net/uploadcallback.h>
 #include <net/netexception.h>
 #include <boost/filesystem.hpp>
 #include <core/loghelper.h>
@@ -28,8 +29,8 @@ using namespace std;
 using namespace boost::filesystem;
 
 
-UploaderThread::UploaderThread()
-	: m_uploadInProgress(false)
+UploaderThread::UploaderThread(UploadCallback *callback)
+	: m_uploadInProgress(false), m_callback(callback)
 {
 	m_uploadHelper.reset(new UploadHelper());
 }
@@ -39,15 +40,16 @@ UploaderThread::~UploaderThread()
 }
 
 void
-UploaderThread::QueueUpload(const string &url, const string &user, const string &pwd, const string &filename, size_t filesize)
+UploaderThread::QueueUpload(const string &url, const string &user, const string &pwd, const string &filename, size_t filesize, const string &httpPost)
 {
 	boost::mutex::scoped_lock lock(m_uploadQueueMutex);
-	m_uploadQueue.push(UploadData(url, user, pwd, filename, filesize));
+	m_uploadQueue.push(UploadData(url, user, pwd, filename, filesize, httpPost));
 }
 
 void
 UploaderThread::Main()
 {
+	string lastfile;
 	while (!ShouldTerminate()) {
 		try {
 			if (m_uploadInProgress) {
@@ -55,29 +57,40 @@ UploaderThread::Main()
 			}
 
 			if (!m_uploadInProgress) {
+				string lastMsg(m_uploadHelper->ResetLastMessage());
+				if (!lastMsg.empty() && m_callback) {
+					m_callback->UploadCompleted(lastfile, lastMsg);
+				}
 				Msleep(UPLOAD_DELAY_MSEC);
-				// The upload needs only local state, as no value needs to be returned.
 				UploadData data;
 				{
 					boost::mutex::scoped_lock lock(m_uploadQueueMutex);
 					if (!m_uploadQueue.empty()) {
 						data = m_uploadQueue.front();
+						lastfile = data.filename;
 						m_uploadQueue.pop();
 					}
 				}
 				if (!data.filename.empty() && data.filesize > 0) {
 					path filepath(data.filename);
+					string url(data.address);
+					if (data.httpPost.empty()) {
 #if BOOST_FILESYSTEM_VERSION != 3
-					m_uploadHelper->Init(data.address + filepath.leaf(), filepath.file_string(), data.user, data.pwd, data.filesize);
+						url += filepath.leaf();
 #else
-					m_uploadHelper->Init(data.address + filepath.filename().string(), filepath.file_string(), data.user, data.pwd, data.filesize);
+						url += filepath.filename().string();
 #endif
+					}
+					m_uploadHelper->Init(url, filepath.file_string(), data.user, data.pwd, data.filesize, data.httpPost);
 					m_uploadInProgress = true;
 				}
 			}
 		} catch (const NetException &e) {
 			LOG_ERROR("Upload failed: " << e.what());
 			m_uploadInProgress = false;
+			if (m_callback) {
+				m_callback->UploadError(lastfile, e.what());
+			}
 		}
 	}
 }

@@ -1,6 +1,6 @@
 /*****************************************************************************
  * PokerTH - The open source texas holdem engine                             *
- * Copyright (C) 2006-2011 Felix Hammer, Florian Thauer, Lothar May          *
+ * Copyright (C) 2006-2012 Felix Hammer, Florian Thauer, Lothar May          *
  *                                                                           *
  * This program is free software: you can redistribute it and/or modify      *
  * it under the terms of the GNU Affero General Public License as            *
@@ -15,50 +15,20 @@
  * You should have received a copy of the GNU Affero General Public License  *
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.     *
  *****************************************************************************/
-/* libcurl transfer helper. */
+/* Network file upload callback. */
 
-#ifndef _TRANSFERHELPER_H_
-#define _TRANSFERHELPER_H_
+#ifndef _UPLOADCALLBACK_H_
+#define _UPLOADCALLBACK_H_
 
-#include <boost/shared_ptr.hpp>
 #include <string>
 
-struct TransferData;
-
-
-class TransferHelper
+class UploadCallback
 {
 public:
-	TransferHelper();
-	virtual ~TransferHelper();
+	virtual ~UploadCallback();
 
-	// Set the parameters. Does not do any error checking.
-	// Throws an exception on failure.
-	void Init(const std::string &url, const std::string &targetFileName,
-			  const std::string &user = "", const std::string &password = "",
-			  size_t filesize = 0, const std::string &httpPost = "");
-
-	// Returns true when done, false should call again.
-	// Throws an exception on error.
-	bool Process();
-
-	// Close all handles.
-	void Cleanup();
-
-	// Get and reset the last (error) message.
-	std::string ResetLastMessage();
-
-protected:
-	boost::shared_ptr<TransferData> GetData();
-
-	virtual void InternalInit(const std::string &url, const std::string &targetFileName,
-							  const std::string &user, const std::string &password,
-							  size_t filesize, const std::string &httpPost) = 0;
-
-private:
-
-	boost::shared_ptr<TransferData> m_data;
+	virtual void UploadCompleted(const std::string &filename, const std::string &returnMessage) = 0;
+	virtual void UploadError(const std::string &filename, const std::string &errorMessage) = 0;
 };
 
-#endif
-
+#endif // _UPLOADCALLBACK_H_

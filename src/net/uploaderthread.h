@@ -27,27 +27,29 @@
 
 #define UPLOADER_THREAD_TERMINATE_TIMEOUT		THREAD_WAIT_INFINITE
 class UploadHelper;
+class UploadCallback;
 
 class UploaderThread : public Thread
 {
 public:
 
-	UploaderThread();
+	UploaderThread(UploadCallback *callback = NULL);
 	virtual ~UploaderThread();
 
-	void QueueUpload(const std::string &url, const std::string &user, const std::string &pwd, const std::string &filename, size_t filesize);
+	void QueueUpload(const std::string &url, const std::string &user, const std::string &pwd, const std::string &filename, size_t filesize, const std::string &httpPost = "");
 
 protected:
 	struct UploadData {
 		UploadData() : filesize(0) {}
-		UploadData(const std::string &a, const std::string &u, const std::string &p, const std::string &f, size_t s)
-			: address(a), user(u), pwd(p), filename(f), filesize(s) {}
+		UploadData(const std::string &a, const std::string &u, const std::string &p, const std::string &f, size_t s, const std::string &h)
+			: address(a), user(u), pwd(p), filename(f), filesize(s), httpPost(h) {}
 
 		std::string address;
 		std::string user;
 		std::string pwd;
 		std::string filename;
 		size_t filesize;
+		std::string httpPost;
 	};
 
 	typedef std::queue<UploadData> UploadDataQueue;
@@ -62,6 +64,7 @@ private:
 
 	boost::shared_ptr<UploadHelper> m_uploadHelper;
 	bool m_uploadInProgress;
+	UploadCallback *m_callback;
 };
 
 #endif

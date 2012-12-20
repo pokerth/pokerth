@@ -25,11 +25,14 @@
 
 
 struct TransferData {
+	TransferData() : curlHandle(NULL), curlMultiHandle(NULL), targetFile(NULL), post(NULL) {}
 	CURL *curlHandle;
 	CURLM *curlMultiHandle;
 	FILE *targetFile;
 	std::string curlUrl;
 	std::string userCredentials;
+	struct curl_httppost *post;
+	std::string returnMessage;
 };
 
 #endif

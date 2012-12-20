@@ -129,7 +129,8 @@ HEADERS += \
 		src/gui/generic/serverguiwrapper.h \
 		src/net/receivebuffer.h \
     src/net/sendbuffer.h \
-    src/net/servermanagerfactory.h
+    src/net/servermanagerfactory.h \
+    src/net/uploadcallback.h
 
 SOURCES += \
 		src/engine/game.cpp \
@@ -202,7 +203,8 @@ SOURCES += \
 		src/gui/generic/serverguiwrapper.cpp \
 		src/gui/qttoolsinterface.cpp \
 		src/net/common/sendbuffer.cpp \
-		src/net/common/receivebuffer.cpp
+		src/net/common/receivebuffer.cpp \
+    src/net/common/uploadcallback.cpp
 
 !android:!android_test{
 	SOURCES += src/engine/local_engine/tools.cpp
