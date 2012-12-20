@@ -197,7 +197,8 @@ void LocalBoard::distributePot()
 								it = seatsList->begin();
 
 							for(l=2; l<potLevel.size(); l++) {
-								if((*it)->getMyUniqueID() == potLevel[l]) winnerHit = true;
+								if((*it)->getMyActiveStatus() && (*it)->getMyUniqueID() == potLevel[l])
+									winnerHit = true;
 							}
 
 						}
