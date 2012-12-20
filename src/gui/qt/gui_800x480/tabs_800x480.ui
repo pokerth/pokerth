@@ -29,17 +29,8 @@
    <bool>true</bool>
   </property>
   <layout class="QGridLayout" name="gridLayout_3">
-   <property name="leftMargin">
+   <property name="margin">
     <number>0</number>
-   </property>
-   <property name="topMargin">
-    <number>10</number>
-   </property>
-   <property name="rightMargin">
-    <number>0</number>
-   </property>
-   <property name="bottomMargin">
-    <number>20</number>
    </property>
    <property name="spacing">
     <number>0</number>

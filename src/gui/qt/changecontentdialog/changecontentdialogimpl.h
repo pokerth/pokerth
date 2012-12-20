@@ -24,8 +24,6 @@
 #include "ui_changecontentdialog.h"
 #endif
 
-#include <QtCore>
-
 enum DialogType { CHANGE_HUMAN_PLAYER_NAME=0, CHANGE_NICK_ALREADY_IN_USE, CHANGE_NICK_INVALID, CHANGE_INET_BAD_GAME_NAME, CHANGE_INET_GAME_NAME_IN_USE };
 
 class ConfigFile;

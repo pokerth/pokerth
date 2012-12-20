@@ -18,6 +18,8 @@
 #include "changecontentdialogimpl.h"
 // #include "session.h"
 #include "configfile.h"
+#include <QtGui>
+#include <QtCore>
 
 changeContentDialogImpl::changeContentDialogImpl(QWidget *parent, ConfigFile *config, DialogType t)
 	: QDialog(parent), myConfig(config), myType(t)
