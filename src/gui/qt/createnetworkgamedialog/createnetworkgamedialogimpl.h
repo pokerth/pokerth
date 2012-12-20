@@ -42,6 +42,7 @@ public:
 	changeCompleteBlindsDialogImpl* getChangeCompleteBlindsDialog() {
 		return myChangeCompleteBlindsDialog;
 	}
+	bool eventFilter(QObject *obj, QEvent *event);
 
 public slots:
 

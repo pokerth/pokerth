@@ -28,6 +28,7 @@ createNetworkGameDialogImpl::createNetworkGameDialogImpl(QWidget *parent, Config
 	setWindowFlags(Qt::WindowSystemMenuHint | Qt::CustomizeWindowHint | Qt::Dialog);
 #endif
 	setupUi(this);
+	this->installEventFilter(this);
 
 	myChangeCompleteBlindsDialog = new changeCompleteBlindsDialogImpl;
 
@@ -127,4 +128,39 @@ void createNetworkGameDialogImpl::callChangeBlindsDialog(bool show)
 		}
 
 	}
+}
+
+bool createNetworkGameDialogImpl::eventFilter(QObject *obj, QEvent *event)
+{
+	QKeyEvent *keyEvent = static_cast<QKeyEvent*>(event);
+
+#ifdef ANDROID
+	//androi changes for return key behavior (hopefully useless from necessitas beta2)
+	if (event->type() == QEvent::KeyPress && keyEvent->key() == Qt::Key_Return) {
+		if(spinBox_startCash ->hasFocus()) {
+			spinBox_startCash->clearFocus();
+		}
+		if(spinBox_quantityPlayers->hasFocus()) {
+			spinBox_quantityPlayers->clearFocus();
+		}
+		if(spinBox_netTimeOutPlayerAction->hasFocus()) {
+			spinBox_netTimeOutPlayerAction->clearFocus();
+		}
+		if(spinBox_netDelayBetweenHands->hasFocus()) {
+			spinBox_netDelayBetweenHands->clearFocus();
+		}
+		event->ignore();
+		return false;
+	}
+	else if (event->type() == QEvent::KeyPress && keyEvent->key() == Qt::Key_Back) {
+		this->reject();
+		return true;
+	}
+	else {
+		// pass the event on to the parent class
+		return QDialog::eventFilter(obj, event);
+	}
+#else
+	return QDialog::eventFilter(obj, event);
+#endif
 }

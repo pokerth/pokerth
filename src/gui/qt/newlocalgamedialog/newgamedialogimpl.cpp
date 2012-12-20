@@ -87,7 +87,7 @@ bool newGameDialogImpl::eventFilter(QObject *obj, QEvent *event)
 	QKeyEvent *keyEvent = static_cast<QKeyEvent*>(event);
 
 #ifdef ANDROID
-	//androi hack for crash bug (hopefully useless from necessitas beta2)
+	//androi changes for return key behavior (hopefully useless from necessitas beta2)
 	if (event->type() == QEvent::KeyPress && keyEvent->key() == Qt::Key_Return) {
 		if(spinBox_gameSpeed->hasFocus()) {
 			spinBox_gameSpeed->clearFocus();

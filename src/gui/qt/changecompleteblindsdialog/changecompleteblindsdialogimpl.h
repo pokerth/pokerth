@@ -36,6 +36,7 @@ public:
 	changeCompleteBlindsDialogImpl(QWidget *parent = 0, ConfigFile *c = 0);
 
     void exec();
+	bool eventFilter(QObject *obj, QEvent *event);
 
 public slots:
 	bool getSettingsCorrect() const	{

@@ -29,6 +29,7 @@ changeCompleteBlindsDialogImpl::changeCompleteBlindsDialogImpl(QWidget *parent, 
 	setWindowFlags(Qt::WindowSystemMenuHint | Qt::CustomizeWindowHint | Qt::Dialog);
 #endif
     setupUi(this);
+	this->installEventFilter(this);
 
 	connect( pushButton_add, SIGNAL( clicked() ), this, SLOT( addBlindValueToList() ) );
 	connect( pushButton_delete, SIGNAL( clicked() ), this, SLOT( removeBlindFromList() ) );
@@ -91,4 +92,43 @@ void changeCompleteBlindsDialogImpl::sortBlindsList()
 //
 	listWidget_blinds->clear();
 	listWidget_blinds->addItems(tempStringList);
+}
+
+
+bool changeCompleteBlindsDialogImpl::eventFilter(QObject *obj, QEvent *event)
+{
+	QKeyEvent *keyEvent = static_cast<QKeyEvent*>(event);
+
+#ifdef ANDROID
+	//androi changes for return key behavior (hopefully useless from necessitas beta2)
+	if (event->type() == QEvent::KeyPress && keyEvent->key() == Qt::Key_Return) {
+		if(spinBox_afterThisAlwaysRaiseValue->hasFocus()) {
+			spinBox_afterThisAlwaysRaiseValue->clearFocus();
+		}
+		if(spinBox_firstSmallBlind->hasFocus()) {
+			spinBox_firstSmallBlind->clearFocus();
+		}
+		if(spinBox_input->hasFocus()) {
+			spinBox_input->clearFocus();
+		}
+		if(spinBox_raiseSmallBlindEveryHands->hasFocus()) {
+			spinBox_raiseSmallBlindEveryHands->clearFocus();
+		}
+		if(spinBox_raiseSmallBlindEveryMinutes->hasFocus()) {
+			spinBox_raiseSmallBlindEveryMinutes->clearFocus();
+		}
+		event->ignore();
+		return false;
+	}
+	else if (event->type() == QEvent::KeyPress && keyEvent->key() == Qt::Key_Back) {
+		this->reject();
+		return true;
+	}
+	else {
+		// pass the event on to the parent class
+		return QDialog::eventFilter(obj, event);
+	}
+#else
+	return QDialog::eventFilter(obj, event);
+#endif
 }
