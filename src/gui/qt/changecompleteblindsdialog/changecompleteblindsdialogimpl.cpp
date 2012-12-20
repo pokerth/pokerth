@@ -28,7 +28,7 @@ changeCompleteBlindsDialogImpl::changeCompleteBlindsDialogImpl(QWidget *parent, 
 	setWindowModality(Qt::ApplicationModal);
 	setWindowFlags(Qt::WindowSystemMenuHint | Qt::CustomizeWindowHint | Qt::Dialog);
 #endif
-	setupUi(this);
+    setupUi(this);
 
 	connect( pushButton_add, SIGNAL( clicked() ), this, SLOT( addBlindValueToList() ) );
 	connect( pushButton_delete, SIGNAL( clicked() ), this, SLOT( removeBlindFromList() ) );

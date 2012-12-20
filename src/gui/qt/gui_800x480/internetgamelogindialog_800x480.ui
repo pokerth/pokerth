@@ -131,11 +131,18 @@
      </item>
      <item>
       <widget class="QPushButton" name="pushButton_login">
-       <property name="styleSheet">
-        <string notr="true">QObject {font: bold 30px}</string>
-       </property>
        <property name="text">
         <string>Login</string>
+       </property>
+       <property name="icon">
+        <iconset resource="../resources/pokerth.qrc">
+         <normaloff>:/gfx/dialog_ok_apply.png</normaloff>:/gfx/dialog_ok_apply.png</iconset>
+       </property>
+       <property name="iconSize">
+        <size>
+         <width>24</width>
+         <height>24</height>
+        </size>
        </property>
        <property name="autoDefault">
         <bool>false</bool>
@@ -206,7 +213,9 @@
   <tabstop>checkBox_guest</tabstop>
   <tabstop>pushButton_login</tabstop>
  </tabstops>
- <resources/>
+ <resources>
+  <include location="../resources/pokerth.qrc"/>
+ </resources>
  <connections>
   <connection>
    <sender>pushButton_login</sender>

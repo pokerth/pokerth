@@ -509,7 +509,12 @@ unix:!mac {
 		LIBS += -ltinyxml
 		LIBS += $$BOOST_LIBS
 		LIBS += -lgsasl -lidn
-        LIBS += -lssl -lcrypto -lgcrypt -lgpg-error -lprotobuf-lite -lOpenSLES
+		LIBS += -lssl -lcrypto -lgcrypt -lgpg-error -lprotobuf-lite
+
+		!android_api8 {
+			#android sound lib for api9 and higher
+			LIBS += -lOpenSLES
+		}
 	}
 	TARGETDEPS += ./lib/libpokerth_lib.a \
 		./lib/libpokerth_db.a \
@@ -627,11 +632,19 @@ android{
 	# sqlite3 is included directly.
 	INCLUDEPATH += src/third_party/sqlite3
 
-    HEADERS += src/gui/qt/sound/androidaudio.h \
-    src/gui/qt/sound/androidsoundeffect.h
+	# sound system switches
+	!android_api8 {
+		HEADERS += src/gui/qt/sound/androidaudio.h \
+		src/gui/qt/sound/androidsoundeffect.h
 
-    SOURCES += src/gui/qt/sound/androidaudio.cpp \
-    src/gui/qt/sound/androidsoundeffect.cpp
+		SOURCES += src/gui/qt/sound/androidaudio.cpp \
+		src/gui/qt/sound/androidsoundeffect.cpp
+	}
+	android_api8 {
+		DEFINES += ANDROID_API8
+		HEADERS += src/gui/qt/sound/androidapi8dummy.h
+		SOURCES += src/gui/qt/sound/androidapi8dummy.cpp
+	}
 }
 
 !android{

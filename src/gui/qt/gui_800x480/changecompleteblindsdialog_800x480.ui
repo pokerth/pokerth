@@ -28,10 +28,7 @@
   <property name="styleSheet">
    <string notr="true">QObject {font: 24px}</string>
   </property>
-  <layout class="QGridLayout">
-   <property name="verticalSpacing">
-    <number>8</number>
-   </property>
+  <layout class="QGridLayout" name="gridLayout">
    <item row="0" column="0">
     <layout class="QHBoxLayout">
      <item>
@@ -171,19 +168,6 @@
      </layout>
     </widget>
    </item>
-   <item row="3" column="0" colspan="2">
-    <widget class="QDialogButtonBox" name="buttonBox">
-     <property name="styleSheet">
-      <string notr="true">QObject {font: bold 20px}</string>
-     </property>
-     <property name="orientation">
-      <enum>Qt::Horizontal</enum>
-     </property>
-     <property name="standardButtons">
-      <set>QDialogButtonBox::Ok</set>
-     </property>
-    </widget>
-   </item>
    <item row="2" column="0" colspan="2">
     <widget class="QGroupBox" name="groupBox_2">
      <property name="enabled">
@@ -196,50 +180,6 @@
       <property name="topMargin">
        <number>0</number>
       </property>
-      <item row="0" column="0">
-       <layout class="QGridLayout">
-        <property name="horizontalSpacing">
-         <number>4</number>
-        </property>
-        <item row="1" column="0" rowspan="2">
-         <widget class="QListWidget" name="listWidget_blinds"/>
-        </item>
-        <item row="2" column="1">
-         <widget class="QPushButton" name="pushButton_delete">
-          <property name="text">
-           <string>Delete</string>
-          </property>
-         </widget>
-        </item>
-        <item row="1" column="1">
-         <spacer>
-          <property name="orientation">
-           <enum>Qt::Vertical</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>20</width>
-            <height>121</height>
-           </size>
-          </property>
-         </spacer>
-        </item>
-        <item row="0" column="0">
-         <widget class="QSpinBox" name="spinBox_input">
-          <property name="maximum">
-           <number>20000</number>
-          </property>
-         </widget>
-        </item>
-        <item row="0" column="1">
-         <widget class="QPushButton" name="pushButton_add">
-          <property name="text">
-           <string>Add</string>
-          </property>
-         </widget>
-        </item>
-       </layout>
-      </item>
       <item row="0" column="1">
        <widget class="QGroupBox" name="groupBox">
         <property name="title">
@@ -300,8 +240,105 @@
         </layout>
        </widget>
       </item>
+      <item row="0" column="0">
+       <layout class="QGridLayout">
+        <property name="horizontalSpacing">
+         <number>4</number>
+        </property>
+        <item row="1" column="0" rowspan="2">
+         <widget class="QListWidget" name="listWidget_blinds"/>
+        </item>
+        <item row="2" column="1">
+         <widget class="QPushButton" name="pushButton_delete">
+          <property name="text">
+           <string>Delete</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="1">
+         <spacer>
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>20</width>
+            <height>121</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item row="0" column="0">
+         <widget class="QSpinBox" name="spinBox_input">
+          <property name="maximum">
+           <number>20000</number>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="1">
+         <widget class="QPushButton" name="pushButton_add">
+          <property name="text">
+           <string>Add</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
      </layout>
     </widget>
+   </item>
+   <item row="3" column="0" colspan="2">
+    <layout class="QHBoxLayout" name="horizontalLayout">
+     <item>
+      <spacer name="horizontalSpacer">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QPushButton" name="pushButton">
+       <property name="text">
+        <string> OK </string>
+       </property>
+       <property name="icon">
+        <iconset resource="../resources/pokerth.qrc">
+         <normaloff>:/gfx/dialog_ok_apply.png</normaloff>:/gfx/dialog_ok_apply.png</iconset>
+       </property>
+       <property name="iconSize">
+        <size>
+         <width>24</width>
+         <height>24</height>
+        </size>
+       </property>
+       <property name="autoDefault">
+        <bool>false</bool>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <spacer name="horizontalSpacer_2">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeType">
+        <enum>QSizePolicy::Fixed</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>20</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+    </layout>
    </item>
   </layout>
  </widget>
@@ -318,42 +355,11 @@
   <tabstop>radioButton_afterThisAlwaysRaiseAbout</tabstop>
   <tabstop>spinBox_afterThisAlwaysRaiseValue</tabstop>
   <tabstop>radioButton_afterThisStayAtLastBlind</tabstop>
-  <tabstop>buttonBox</tabstop>
  </tabstops>
- <resources/>
+ <resources>
+  <include location="../resources/pokerth.qrc"/>
+ </resources>
  <connections>
-  <connection>
-   <sender>buttonBox</sender>
-   <signal>accepted()</signal>
-   <receiver>changeCompleteBlindsDialog</receiver>
-   <slot>accept()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>237</x>
-     <y>387</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>157</x>
-     <y>274</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>buttonBox</sender>
-   <signal>rejected()</signal>
-   <receiver>changeCompleteBlindsDialog</receiver>
-   <slot>reject()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>279</x>
-     <y>387</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>286</x>
-     <y>274</y>
-    </hint>
-   </hints>
-  </connection>
   <connection>
    <sender>radioButton_afterThisAlwaysRaiseAbout</sender>
    <signal>toggled(bool)</signal>
@@ -361,12 +367,12 @@
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>327</x>
-     <y>302</y>
+     <x>663</x>
+     <y>349</y>
     </hint>
     <hint type="destinationlabel">
-     <x>389</x>
-     <y>304</y>
+     <x>763</x>
+     <y>353</y>
     </hint>
    </hints>
   </connection>
@@ -377,12 +383,28 @@
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>297</x>
-     <y>116</y>
+     <x>706</x>
+     <y>154</y>
     </hint>
     <hint type="destinationlabel">
-     <x>306</x>
-     <y>164</y>
+     <x>310</x>
+     <y>337</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton</sender>
+   <signal>clicked()</signal>
+   <receiver>changeCompleteBlindsDialog</receiver>
+   <slot>accept()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>716</x>
+     <y>465</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>628</x>
+     <y>467</y>
     </hint>
    </hints>
   </connection>

@@ -3,9 +3,12 @@
 
 #include <string>
 
-
 #ifdef ANDROID
-    class AndroidAudio;
+    #ifdef ANDROID_API8
+        class AndroidApi8Dummy;
+    #else
+        class AndroidAudio;
+    #endif
 #else
     class SDLPlayer;
 #endif
@@ -31,7 +34,11 @@ protected:
 private:
 
 #ifdef ANDROID
-    AndroidAudio *myPlayer;
+    #ifdef ANDROID_API8
+        AndroidApi8Dummy *myPlayer;
+    #else
+        AndroidAudio *myPlayer;
+    #endif
 #else
     SDLPlayer *myPlayer;
 #endif
