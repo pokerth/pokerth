@@ -1,3 +1,18 @@
+2012-12-22 version 1.0-beta1
+- Support for bigger android screen resolutions enhancement(#160)
+- Android sound support enhancement (#156)
+- game name in window title enhancement (#155)
+- new card deck version for bottom action label possibility enhancement (#154)
+- Emoticons for the chat enhancement (#153)
+- IPv6 setting grayed out bug (#148)
+- Show only one game in log preview enhancement (#145)
+- Extra column in lobby game list for timeouts enhancement (#140)
+- Update flags enhancement (#137)
+- Enable Activate the "accidentally call after big raise" blocker by default enhancement (#131)
+- BUGFIX: Rich AI players raise although opponents are all-in bug (#4)
+- BUGFIX: In rare case, winner doesn't win, money disappears (#3)
+- BUGFIX: Chip Miscalculation bug (#152)
+
 2012-06-21 version 0.9.5
 - First experimental Android release (#80)
 - Add a minimize button to the Lobby window (#59)
