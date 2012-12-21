@@ -656,4 +656,5 @@ maemo{
 
 android_test{
 	DEFINES += ANDROID
+	DEFINES += ANDROID_TEST
 }
