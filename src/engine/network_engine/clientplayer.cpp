@@ -195,7 +195,7 @@ ClientPlayer::getMyLastRelativeSet() const
 }
 
 void
-ClientPlayer::setMyAction(PlayerAction theValue, bool /*blind*/)
+ClientPlayer::setMyAction(PlayerAction theValue, bool /*human*/)
 {
 	boost::recursive_mutex::scoped_lock lock(m_syncMutex);
 	myAction = theValue;
