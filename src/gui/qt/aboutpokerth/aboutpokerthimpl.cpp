@@ -74,18 +74,20 @@ aboutPokerthImpl::aboutPokerthImpl(QWidget *parent, ConfigFile *c)
 #endif
 
 #ifdef ANDROID
-	JavaVM *currVM = (JavaVM *)QApplication::platformNativeInterface()->nativeResourceForWidget("JavaVM", 0);
-	JNIEnv* env;
 	int api = -2;
-	if (currVM->AttachCurrentThread(&env, NULL)<0) {
-		qCritical()<<"AttachCurrentThread failed";
-	} else {
-		jclass jclassApplicationClass = env->FindClass("android/os/Build$VERSION");
-		if (jclassApplicationClass) {
-			api = env->GetStaticIntField(jclassApplicationClass, env->GetStaticFieldID(jclassApplicationClass,"SDK_INT", "I"));
+	#ifndef ANDROID_TEST
+		JavaVM *currVM = (JavaVM *)QApplication::platformNativeInterface()->nativeResourceForWidget("JavaVM", 0);
+		JNIEnv* env;
+		if (currVM->AttachCurrentThread(&env, NULL)<0) {
+			qCritical()<<"AttachCurrentThread failed";
+		} else {
+			jclass jclassApplicationClass = env->FindClass("android/os/Build$VERSION");
+			if (jclassApplicationClass) {
+				api = env->GetStaticIntField(jclassApplicationClass, env->GetStaticFieldID(jclassApplicationClass,"SDK_INT", "I"));
+			}
+			currVM->DetachCurrentThread();
 		}
-		currVM->DetachCurrentThread();
-	}
+	#endif
 	label_pokerthVersion->setText(QString(tr("PokerTH %1 for Android (API%2)").arg(POKERTH_BETA_RELEASE_STRING).arg(api)));
 #else
 	label_pokerthVersion->setText(QString(tr("PokerTH %1").arg(POKERTH_BETA_RELEASE_STRING)));
