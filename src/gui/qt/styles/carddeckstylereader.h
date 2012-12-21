@@ -31,7 +31,7 @@ enum CdStyleState {
 	CD_STYLE_OUTDATED,
 	CD_STYLE_FIELDS_EMPTY,
 	CD_STYLE_PICTURES_MISSING,
-    CD_STYLE_UNDEFINED
+	CD_STYLE_UNDEFINED
 };
 
 class CardDeckStyleReader : public QObject
@@ -67,26 +67,26 @@ public:
 		return Preview;
 	}
 
-    QString getBigIndexesActionBottom() const {
-        return BigIndexesActionBottom;
-    }
+	QString getBigIndexesActionBottom() const {
+		return BigIndexesActionBottom;
+	}
 
 	bool getFallBack() const {
 		return fallBack;
 	}
 	bool getLoadedSuccessfull() const {
 		return loadedSuccessfull;
-    }
+	}
 
-    CdStyleState getState() const {
-        return myState;
-    }
+	CdStyleState getState() const {
+		return myState;
+	}
 
-    QString getMyStateToolTipInfo();
-    void showErrorMessage();
-    void showLeftItemsErrorMessage();
-    void showCardsLeftErrorMessage();
-    void showOutdatedErrorMessage();
+	QString getMyStateToolTipInfo();
+	void showErrorMessage();
+	void showLeftItemsErrorMessage();
+	void showCardsLeftErrorMessage();
+	void showOutdatedErrorMessage();
 
 private:
 
@@ -96,7 +96,7 @@ private:
 	QString StyleCreateDate;
 	QString PokerTHStyleFileVersion;
 	QString Preview;
-    QString BigIndexesActionBottom;
+	QString BigIndexesActionBottom;
 
 	QString currentFileName;
 	QString currentDir;
@@ -109,9 +109,9 @@ private:
 	QWidget *myW;
 
 	bool fallBack;
-    bool loadedSuccessfull;
+	bool loadedSuccessfull;
 
-    CdStyleState myState;
+	CdStyleState myState;
 };
 
 #endif

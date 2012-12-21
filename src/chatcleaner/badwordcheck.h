@@ -13,16 +13,16 @@ public:
 		badWords = bw;
 	}
 
-    void setBadWordsException(QStringList bwe) {
-        badWordsException = bwe;
-    }
+	void setBadWordsException(QStringList bwe) {
+		badWordsException = bwe;
+	}
 
 	bool run(QString);
 
 private:
 
 	QStringList badWords;
-    QStringList badWordsException;
+	QStringList badWordsException;
 };
 
 #endif // BADWORDCHECK_H

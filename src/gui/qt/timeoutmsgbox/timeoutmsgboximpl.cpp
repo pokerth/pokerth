@@ -27,9 +27,9 @@ timeoutMsgBoxImpl::timeoutMsgBoxImpl(QMainWindow *parent)
 	this->setIcon(QMessageBox::Warning);
 	this->setInformativeText(tr("Please click \"OK\" to stop the countdown!"));
 #ifdef ANDROID
-        this->setWindowModality(Qt::WindowModal);
-        this->setWindowFlags(Qt::ToolTip);
-        this->setStyleSheet("QDialog{ border: 1px solid black; border-style: solid; border-radius: 4px; }");
+	this->setWindowModality(Qt::WindowModal);
+	this->setWindowFlags(Qt::ToolTip);
+	this->setStyleSheet("QDialog{ border: 1px solid black; border-style: solid; border-radius: 4px; }");
 #endif
 	timeOutTimer = new QTimer;
 

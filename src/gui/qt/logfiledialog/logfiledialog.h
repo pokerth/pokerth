@@ -26,8 +26,9 @@
 
 class UploaderThread;
 
-namespace Ui {
-	class LogFileDialog;
+namespace Ui
+{
+class LogFileDialog;
 }
 
 enum ShowLogMode { INIT_VIEW, SELECTED_GAME };
@@ -39,12 +40,14 @@ class Callback;
 class LogFileDialog : public QDialog, public UploadCallback
 {
 	Q_OBJECT
-	
+
 public:
 	explicit LogFileDialog(QWidget *parent = 0, ConfigFile *c = 0);
 	~LogFileDialog();
 
-	void setGuiLog(guiLog *g) { myGuiLog = g; }
+	void setGuiLog(guiLog *g) {
+		myGuiLog = g;
+	}
 	void exec();
 
 	virtual void UploadCompleted(const std::string &filename, const std::string &returnMessage);
@@ -60,25 +63,29 @@ public slots:
 	void exportLogToHtml();
 	void exportLogToTxt();
 	void saveLogFileAs();
-    void showLogFilePreviewInit() {showLogFilePreview(INIT_VIEW); }
-    void showLogFilePreviewSelected() {showLogFilePreview(SELECTED_GAME); }
-    void showLogFilePreview(ShowLogMode);
-    void keyPressEvent ( QKeyEvent * event );
-    void uploadFile();
-    void uploadInProgressAnimationStart();
-    void uploadInProgressAnimationStop();
+	void showLogFilePreviewInit() {
+		showLogFilePreview(INIT_VIEW);
+	}
+	void showLogFilePreviewSelected() {
+		showLogFilePreview(SELECTED_GAME);
+	}
+	void showLogFilePreview(ShowLogMode);
+	void keyPressEvent ( QKeyEvent * event );
+	void uploadFile();
+	void uploadInProgressAnimationStart();
+	void uploadInProgressAnimationStop();
 
 	void showLogAnalysis(QString filename, QString returnMessage);
 	void showUploadError(QString filename, QString errorMessage);
 
-private:  
+private:
 	ConfigFile *myConfig;
 	guiLog *myGuiLog;
-    Ui::LogFileDialog *ui;
-    int writer(char *data, size_t size, size_t nmemb,std::string *buffer);
-    QFile file;
-    QString id;
-    boost::shared_ptr<UploaderThread> uploader;
+	Ui::LogFileDialog *ui;
+	int writer(char *data, size_t size, size_t nmemb,std::string *buffer);
+	QFile file;
+	QString id;
+	boost::shared_ptr<UploaderThread> uploader;
 };
 
 #endif // LOGFILEDIALOG_H

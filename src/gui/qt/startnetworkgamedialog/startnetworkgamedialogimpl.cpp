@@ -94,9 +94,9 @@ void startNetworkGameDialogImpl::addConnectedPlayer(unsigned playerId, QString p
 
 	if(this->isVisible() && myConfig->readConfigInt("PlayNetworkGameNotification")) {
 		if(treeWidget->topLevelItemCount() < info.data.maxNumberOfPlayers) {
-            myW->getMySoundEventHandler()->playSound("playerconnected", 0);
+			myW->getMySoundEventHandler()->playSound("playerconnected", 0);
 		} else {
-            myW->getMySoundEventHandler()->playSound("onlinegameready", 0);
+			myW->getMySoundEventHandler()->playSound("onlinegameready", 0);
 		}
 	}
 
@@ -161,8 +161,8 @@ void startNetworkGameDialogImpl::kickPlayer()
 		if(playerName == QString::fromUtf8(myConfig->readConfigString("MyName").c_str())) {
 			{
 				MyMessageBox::warning(this, tr("Server Error"),
-									 tr("You should not kick yourself from this game!"),
-									 QMessageBox::Close);
+									  tr("You should not kick yourself from this game!"),
+									  QMessageBox::Close);
 			}
 		} else {
 			assert(mySession);

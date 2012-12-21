@@ -81,7 +81,7 @@ public slots:
 	void mousePressEvent ( QMouseEvent *);
 	void mouseReleaseEvent ( QMouseEvent *);
 
-        void setFront ( const QPixmap& theValue );
+	void setFront ( const QPixmap& theValue );
 
 
 private:

@@ -30,7 +30,7 @@ using namespace std;
 ChatTools::ChatTools(QLineEdit* l, ConfigFile *c, ChatType ct, QTextBrowser *b, QStandardItemModel *m, gameLobbyDialogImpl *lo) : nickAutoCompletitionCounter(0), myLineEdit(l), myNickListModel(m), myNickStringList(NULL), myTextBrowser(b), myChatType(ct), myConfig(c), myNick(""), myLobby(lo)
 {
 	myNick = QString::fromUtf8(myConfig->readConfigString("MyName").c_str());
-    ignoreList = myConfig->readConfigStringList("PlayerIgnoreList");
+	ignoreList = myConfig->readConfigStringList("PlayerIgnoreList");
 }
 
 ChatTools::~ChatTools()
@@ -83,7 +83,7 @@ void ChatTools::receiveMessage(QString playerName, QString message, bool pm)
 			tempMsg = QString("<span style=\"font-weight:bold; color:red;\">"+message+"</span>");
 			//play beep sound only in INET-lobby-chat
 			if(myLobby->isVisible() && myConfig->readConfigInt("PlayLobbyChatNotification")) {
-                myLobby->getMyW()->getMySoundEventHandler()->playSound("lobbychatnotify",0);
+				myLobby->getMyW()->getMySoundEventHandler()->playSound("lobbychatnotify",0);
 			}
 		} else if(message.contains(myNick, Qt::CaseInsensitive)) {
 
@@ -93,7 +93,7 @@ void ChatTools::receiveMessage(QString playerName, QString message, bool pm)
 				//play beep sound only in INET-lobby-chat
 				//						TODO dont play when message is from yourself
 				if(myLobby->isVisible() && myConfig->readConfigInt("PlayLobbyChatNotification")) {
-                    myLobby->getMyW()->getMySoundEventHandler()->playSound("lobbychatnotify",0);
+					myLobby->getMyW()->getMySoundEventHandler()->playSound("lobbychatnotify",0);
 				}
 			}
 			break;
@@ -154,14 +154,14 @@ void ChatTools::receiveMessage(QString playerName, QString message, bool pm)
 
 		if(!nickFoundOnIgnoreList) {
 
-            tempMsg = checkForEmotes(tempMsg);
+			tempMsg = checkForEmotes(tempMsg);
 
 			if(message.indexOf(QString("/me "))==0) {
 				myTextBrowser->append(tempMsg.replace("/me ","<i>*"+playerName+" ")+"</i>");
 			} else if(pm == true) {
 				myTextBrowser->append("<i>"+playerName+"(pm): " + tempMsg+"</i>");
 			} else {
-                myTextBrowser->append(playerName + ": " + tempMsg);
+				myTextBrowser->append(playerName + ": " + tempMsg);
 			}
 		}
 	}
@@ -315,39 +315,40 @@ unsigned ChatTools::parsePrivateMessageTarget(QString &chatText)
 	return playerId;
 }
 
-QString ChatTools::checkForEmotes(QString msg) {
+QString ChatTools::checkForEmotes(QString msg)
+{
 
-    msg.replace("0:-)", "<img src=\":emotes/emotes/face-angel.png\" />");
-    msg.replace("X-(", "<img src=\":emotes/emotes/face-angry.png\" />");
-    msg.replace("B-)", "<img src=\":emotes/emotes/face-cool.png\" />");
-    msg.replace("8-)", "<img src=\":emotes/emotes/face-cool.png\" />");
-    msg.replace(":'(", "<img src=\":emotes/emotes/face-crying.png\" />");
-    msg.replace("&gt;:-)", "<img src=\":emotes/emotes/face-devilish.png\" />");
-    msg.replace(":-[", "<img src=\":emotes/emotes/face-embarrassed.png\" />");
-    msg.replace(":-*", "<img src=\":emotes/emotes/face-kiss.png\" />");
-    msg.replace(":-))", "<img src=\":emotes/emotes/face-laugh.png\" />");
-    msg.replace(":))", "<img src=\":emotes/emotes/face-laugh.png\" />");
-    msg.replace(":-|", "<img src=\":emotes/emotes/face-plain.png\" />");
-    msg.replace(":-P", "<img src=\":emotes/emotes/face-raspberry.png\" />");
-    msg.replace(":-p", "<img src=\":emotes/emotes/face-raspberry.png\" />");
-    msg.replace(":-(", "<img src=\":emotes/emotes/face-sad.png\" />");
-    msg.replace(":(", "<img src=\":emotes/emotes/face-sad.png\" />");
-    msg.replace(":-&", "<img src=\":emotes/emotes/face-sick.png\" />");
-    msg.replace(":-D", "<img src=\":emotes/emotes/face-smile-big.png\" />");
-    msg.replace(":D", "<img src=\":emotes/emotes/face-smile-big.png\" />");
-    msg.replace(":-!", "<img src=\":emotes/emotes/face-smirk.png\" />");
-    msg.replace(":-0", "<img src=\":emotes/emotes/face-surprise.png\" />");
-    msg.replace(":-O", "<img src=\":emotes/emotes/face-surprise.png\" />");
-    msg.replace(":-o", "<img src=\":emotes/emotes/face-surprise.png\" />");
-    msg.replace(":-/", "<img src=\":emotes/emotes/face-uncertain.png\" />");
-    msg.replace(":/", "<img src=\":emotes/emotes/face-uncertain.png\" />");
-    msg.replace(";-)", "<img src=\":emotes/emotes/face-wink.png\" />");
-    msg.replace(";)", "<img src=\":emotes/emotes/face-wink.png\" />");
-    msg.replace(":-S", "<img src=\":emotes/emotes/face-worried.png\" />");
-    msg.replace(":-s", "<img src=\":emotes/emotes/face-worried.png\" />");
-    msg.replace(":-)", "<img src=\":emotes/emotes/face-smile.png\" />");
-    msg.replace(":)", "<img src=\":emotes/emotes/face-smile.png\" />");
+	msg.replace("0:-)", "<img src=\":emotes/emotes/face-angel.png\" />");
+	msg.replace("X-(", "<img src=\":emotes/emotes/face-angry.png\" />");
+	msg.replace("B-)", "<img src=\":emotes/emotes/face-cool.png\" />");
+	msg.replace("8-)", "<img src=\":emotes/emotes/face-cool.png\" />");
+	msg.replace(":'(", "<img src=\":emotes/emotes/face-crying.png\" />");
+	msg.replace("&gt;:-)", "<img src=\":emotes/emotes/face-devilish.png\" />");
+	msg.replace(":-[", "<img src=\":emotes/emotes/face-embarrassed.png\" />");
+	msg.replace(":-*", "<img src=\":emotes/emotes/face-kiss.png\" />");
+	msg.replace(":-))", "<img src=\":emotes/emotes/face-laugh.png\" />");
+	msg.replace(":))", "<img src=\":emotes/emotes/face-laugh.png\" />");
+	msg.replace(":-|", "<img src=\":emotes/emotes/face-plain.png\" />");
+	msg.replace(":-P", "<img src=\":emotes/emotes/face-raspberry.png\" />");
+	msg.replace(":-p", "<img src=\":emotes/emotes/face-raspberry.png\" />");
+	msg.replace(":-(", "<img src=\":emotes/emotes/face-sad.png\" />");
+	msg.replace(":(", "<img src=\":emotes/emotes/face-sad.png\" />");
+	msg.replace(":-&", "<img src=\":emotes/emotes/face-sick.png\" />");
+	msg.replace(":-D", "<img src=\":emotes/emotes/face-smile-big.png\" />");
+	msg.replace(":D", "<img src=\":emotes/emotes/face-smile-big.png\" />");
+	msg.replace(":-!", "<img src=\":emotes/emotes/face-smirk.png\" />");
+	msg.replace(":-0", "<img src=\":emotes/emotes/face-surprise.png\" />");
+	msg.replace(":-O", "<img src=\":emotes/emotes/face-surprise.png\" />");
+	msg.replace(":-o", "<img src=\":emotes/emotes/face-surprise.png\" />");
+	msg.replace(":-/", "<img src=\":emotes/emotes/face-uncertain.png\" />");
+	msg.replace(":/", "<img src=\":emotes/emotes/face-uncertain.png\" />");
+	msg.replace(";-)", "<img src=\":emotes/emotes/face-wink.png\" />");
+	msg.replace(";)", "<img src=\":emotes/emotes/face-wink.png\" />");
+	msg.replace(":-S", "<img src=\":emotes/emotes/face-worried.png\" />");
+	msg.replace(":-s", "<img src=\":emotes/emotes/face-worried.png\" />");
+	msg.replace(":-)", "<img src=\":emotes/emotes/face-smile.png\" />");
+	msg.replace(":)", "<img src=\":emotes/emotes/face-smile.png\" />");
 
-    return msg;
+	return msg;
 }
 

@@ -29,7 +29,7 @@
 #include <SDL/SDL_mixer.h>
 #endif
 
- struct Mix_Chunk;
+struct Mix_Chunk;
 
 /**
 	@author FThauer FHammer <webmaster@pokerth.net>
@@ -46,13 +46,13 @@ public:
 	void initAudio();
 	void playSound(std::string, int playerID);
 	void closeAudio();
-    void reInit();
+	void reInit();
 
 private:
-    Mix_Chunk *sound;
+	Mix_Chunk *sound;
 	unsigned char *soundData;
 	int currentChannel;
-    bool audioEnabled;
+	bool audioEnabled;
 	ConfigFile *myConfig;
 	QString myAppDataPath;
 };

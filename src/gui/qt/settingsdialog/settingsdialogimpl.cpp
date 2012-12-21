@@ -37,11 +37,11 @@ settingsDialogImpl::settingsDialogImpl(QWidget *parent, ConfigFile *c, selectAva
 	setupUi(this);
 
 #ifdef ANDROID
-    stackedWidget->removeWidget(page_styles);
-    listWidget->takeItem(1);
-    label_soundvol->hide();
-    label_soundVolume->hide();
-    horizontalSlider_soundVolume->hide();
+	stackedWidget->removeWidget(page_styles);
+	listWidget->takeItem(1);
+	label_soundvol->hide();
+	label_soundVolume->hide();
+	horizontalSlider_soundVolume->hide();
 #endif
 
 	myManualBlindsOrderDialog = new manualBlindsOrderDialogImpl;
@@ -131,8 +131,8 @@ settingsDialogImpl::settingsDialogImpl(QWidget *parent, ConfigFile *c, selectAva
 	connect( pushButton_internetGameRemoveIgnoredPlayer, SIGNAL( clicked()), this, SLOT( removePlayerFromIgnoredPlayersList()));
 
 #ifdef GUI_800x480
-    //make the scrollbar touchable for mobile guis
-    comboBox_switchLanguage->setStyleSheet("QObject {font: 30px} QScrollBar:vertical { border: 1px solid grey; background: white; width: 60px; margin: 0px -1px 0px 0px; } QScrollBar::handle:vertical { border-radius: 3px; border: 2px solid grey; background: LightGrey ; min-height: 60px; } QScrollBar::add-line:vertical { background: none; } QScrollBar::sub-line:vertical { background: none; } QScrollBar:up-arrow:vertical, QScrollBar::down-arrow:vertical { background: none; } QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical { background: none; }");
+	//make the scrollbar touchable for mobile guis
+	comboBox_switchLanguage->setStyleSheet("QObject {font: 30px} QScrollBar:vertical { border: 1px solid grey; background: white; width: 60px; margin: 0px -1px 0px 0px; } QScrollBar::handle:vertical { border-radius: 3px; border: 2px solid grey; background: LightGrey ; min-height: 60px; } QScrollBar::add-line:vertical { background: none; } QScrollBar::sub-line:vertical { background: none; } QScrollBar:up-arrow:vertical, QScrollBar::down-arrow:vertical { background: none; } QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical { background: none; }");
 #endif
 
 }
@@ -211,10 +211,10 @@ void settingsDialogImpl::prepareDialog()
 	checkBox_useIpv6->setChecked(myConfig->readConfigInt("ServerUseIpv6"));
 	checkBox_useSctp->setChecked(myConfig->readConfigInt("ServerUseSctp"));
 
-    //Internet Game Settings
+	//Internet Game Settings
 
-    checkBox_InternetServerUseSctp->hide(); //temporarely disabled until sctp support is back
-    label_whatIsSctp->hide();
+	checkBox_InternetServerUseSctp->hide(); //temporarely disabled until sctp support is back
+	label_whatIsSctp->hide();
 
 	lineEdit_InternetServerListAddress->setText(QString::fromUtf8(myConfig->readConfigString("InternetServerListAddress").c_str()));
 	lineEdit_InternetServerAddress->setText(QString::fromUtf8(myConfig->readConfigString("InternetServerAddress").c_str()));
@@ -237,11 +237,11 @@ void settingsDialogImpl::prepareDialog()
 	checkBox_InetGane_AutoLeaveTheTableAfterGameFinished->setChecked(myConfig->readConfigInt("NetAutoLeaveGameAfterFinish"));
 	comboBox_internetGameType->setCurrentIndex(myConfig->readConfigInt("InternetGameType"));
 	lineEdit_internetGameName->setText(QString::fromUtf8(myConfig->readConfigString("InternetGameName").c_str()));
-    if(myConfig->readConfigInt("InternetServerConfigMode")) {
-        groupBox_manualServerConfig->setChecked(TRUE);
-    } else {
-        groupBox_automaticServerConfig->setChecked(TRUE);
-    }
+	if(myConfig->readConfigInt("InternetServerConfigMode")) {
+		groupBox_manualServerConfig->setChecked(TRUE);
+	} else {
+		groupBox_automaticServerConfig->setChecked(TRUE);
+	}
 
 	std::list<std::string> playerIgnoreList = myConfig->readConfigStringList("PlayerIgnoreList");
 	std::list<std::string>::iterator it5;
@@ -275,21 +275,21 @@ void settingsDialogImpl::prepareDialog()
 #ifdef GUI_800x480
 	// 	define PokerTH default GameTableStyle for Maemo
 	treeWidget_gameTableStyles->clear();
-        QString filename;
+	QString filename;
 #ifdef MAEMO
-        filename = "defaulttablestyle_800x480.xml";
+	filename = "defaulttablestyle_800x480.xml";
 #elif ANDROID
-        filename = "android_tablestyle_800x480.xml";
+	filename = "android_tablestyle_800x480.xml";
 #endif
 	GameTableStyleReader defaultTableStyle(myConfig, this);
-        defaultTableStyle.readStyleFile(QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str())+"gfx/gui/table/default_800x480/"+filename);
+	defaultTableStyle.readStyleFile(QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str())+"gfx/gui/table/default_800x480/"+filename);
 	if(defaultTableStyle.getLoadedSuccessfull()) {
 		QStringList tempStringList1;
 		tempStringList1 << defaultTableStyle.getStyleDescription() << defaultTableStyle.getStyleMaintainerName();
 		MyStyleListItem *defaultTableItem = new MyStyleListItem(tempStringList1, treeWidget_gameTableStyles);
-                defaultTableItem->setData(0, 15, QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str())+"gfx/gui/table/default_800x480/"+filename);
+		defaultTableItem->setData(0, 15, QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str())+"gfx/gui/table/default_800x480/"+filename);
 		defaultTableItem->setData(0, 16, POKERTH_DISTRIBUTED_STYLE);
-                defaultTableItem->setData(0, Qt::ToolTipRole, QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str())+"gfx/gui/table/default_800x480/"+filename);
+		defaultTableItem->setData(0, Qt::ToolTipRole, QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str())+"gfx/gui/table/default_800x480/"+filename);
 		defaultTableItem->setData(2, Qt::ToolTipRole, defaultTableStyle.getMyStateToolTipInfo());
 		if(defaultTableStyle.getState()) defaultTableItem->setIcon(2, QIcon(":/gfx/emblem-important.png"));
 		else defaultTableItem->setIcon(2, QIcon(":/gfx/dialog_ok_apply.png"));
@@ -383,23 +383,23 @@ void settingsDialogImpl::prepareDialog()
 	showCurrentGameTableStylePreview();
 
 	//CARDS
-    // 	define PokerTH 1.0 default carddeck
-    treeWidget_cardDeckStyles->clear();
-    CardDeckStyleReader defaultCardStyle10(myConfig, this);
-    defaultCardStyle10.readStyleFile(QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str())+"gfx/cards/default_800x480/defaultdeckstyle_800x480.xml");
-    if(defaultCardStyle10.getLoadedSuccessfull()) {
-        QStringList tempStringList1;
-        tempStringList1 << defaultCardStyle10.getStyleDescription() << defaultCardStyle10.getStyleMaintainerName();
-        MyStyleListItem *defaultCardItem = new MyStyleListItem(tempStringList1, treeWidget_cardDeckStyles);
-        defaultCardItem->setData(0, 15, QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str())+"gfx/cards/default_800x480/defaultdeckstyle_800x480.xml");
-        defaultCardItem->setData(0, 16, POKERTH_DISTRIBUTED_STYLE);
-        defaultCardItem->setData(0, Qt::ToolTipRole, QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str())+"gfx/cards/default_800x480/defaultdeckstyle_800x480.xml");
-        defaultCardItem->setData(2, Qt::ToolTipRole, defaultCardStyle10.getMyStateToolTipInfo());
-        if(defaultCardStyle10.getState()) defaultCardItem->setIcon(2, QIcon(":/gfx/emblem-important.png"));
-        else defaultCardItem->setIcon(2, QIcon(":/gfx/dialog_ok_apply.png"));
-    }
+	// 	define PokerTH 1.0 default carddeck
+	treeWidget_cardDeckStyles->clear();
+	CardDeckStyleReader defaultCardStyle10(myConfig, this);
+	defaultCardStyle10.readStyleFile(QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str())+"gfx/cards/default_800x480/defaultdeckstyle_800x480.xml");
+	if(defaultCardStyle10.getLoadedSuccessfull()) {
+		QStringList tempStringList1;
+		tempStringList1 << defaultCardStyle10.getStyleDescription() << defaultCardStyle10.getStyleMaintainerName();
+		MyStyleListItem *defaultCardItem = new MyStyleListItem(tempStringList1, treeWidget_cardDeckStyles);
+		defaultCardItem->setData(0, 15, QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str())+"gfx/cards/default_800x480/defaultdeckstyle_800x480.xml");
+		defaultCardItem->setData(0, 16, POKERTH_DISTRIBUTED_STYLE);
+		defaultCardItem->setData(0, Qt::ToolTipRole, QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str())+"gfx/cards/default_800x480/defaultdeckstyle_800x480.xml");
+		defaultCardItem->setData(2, Qt::ToolTipRole, defaultCardStyle10.getMyStateToolTipInfo());
+		if(defaultCardStyle10.getState()) defaultCardItem->setIcon(2, QIcon(":/gfx/emblem-important.png"));
+		else defaultCardItem->setIcon(2, QIcon(":/gfx/dialog_ok_apply.png"));
+	}
 #ifndef GUI_800x480
-    //define PokerTH old default CardDeck
+	//define PokerTH old default CardDeck
 	CardDeckStyleReader defaultCardStyle(myConfig, this);
 	defaultCardStyle.readStyleFile(QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str())+"gfx/cards/default/defaultdeckstyle.xml");
 	if(defaultCardStyle.getLoadedSuccessfull()) {
@@ -409,11 +409,11 @@ void settingsDialogImpl::prepareDialog()
 		defaultCardItem->setData(0, 15, QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str())+"gfx/cards/default/defaultdeckstyle.xml");
 		defaultCardItem->setData(0, 16, POKERTH_DISTRIBUTED_STYLE);
 		defaultCardItem->setData(0, Qt::ToolTipRole, QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str())+"gfx/cards/default/defaultdeckstyle.xml");
-        defaultCardItem->setData(2, Qt::ToolTipRole, defaultCardStyle.getMyStateToolTipInfo());
-        if(defaultCardStyle.getState()) defaultCardItem->setIcon(2, QIcon(":/gfx/emblem-important.png"));
-        else defaultCardItem->setIcon(2, QIcon(":/gfx/dialog_ok_apply.png"));
+		defaultCardItem->setData(2, Qt::ToolTipRole, defaultCardStyle.getMyStateToolTipInfo());
+		if(defaultCardStyle.getState()) defaultCardItem->setIcon(2, QIcon(":/gfx/emblem-important.png"));
+		else defaultCardItem->setIcon(2, QIcon(":/gfx/dialog_ok_apply.png"));
 	}
-    //define PokerTH old default CardDeck4c
+	//define PokerTH old default CardDeck4c
 	CardDeckStyleReader default4cCardStyle(myConfig, this);
 	default4cCardStyle.readStyleFile(QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str())+"gfx/cards/default4c/default4cdeckstyle.xml");
 	if(default4cCardStyle.getLoadedSuccessfull()) {
@@ -421,11 +421,11 @@ void settingsDialogImpl::prepareDialog()
 		tempStringList1 << default4cCardStyle.getStyleDescription() << default4cCardStyle.getStyleMaintainerName();
 		MyStyleListItem *default4cCardItem = new MyStyleListItem(tempStringList1, treeWidget_cardDeckStyles);
 		default4cCardItem->setData(0, 15, QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str())+"gfx/cards/default4c/default4cdeckstyle.xml");
-        default4cCardItem->setData(0, 16, POKERTH_DISTRIBUTED_STYLE);
+		default4cCardItem->setData(0, 16, POKERTH_DISTRIBUTED_STYLE);
 		default4cCardItem->setData(0, Qt::ToolTipRole, QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str())+"gfx/cards/default4c/default4cdeckstyle.xml");
-        default4cCardItem->setData(2, Qt::ToolTipRole, default4cCardStyle.getMyStateToolTipInfo());
-        if(default4cCardStyle.getState()) default4cCardItem->setIcon(2, QIcon(":/gfx/emblem-important.png"));
-        else default4cCardItem->setIcon(2, QIcon(":/gfx/dialog_ok_apply.png"));
+		default4cCardItem->setData(2, Qt::ToolTipRole, default4cCardStyle.getMyStateToolTipInfo());
+		if(default4cCardStyle.getState()) default4cCardItem->setIcon(2, QIcon(":/gfx/emblem-important.png"));
+		else default4cCardItem->setIcon(2, QIcon(":/gfx/dialog_ok_apply.png"));
 	}
 #endif
 	//load secondary card styles into list (if fallback no entry)
@@ -441,9 +441,9 @@ void settingsDialogImpl::prepareDialog()
 			nextItem->setData(0, 15,QString::fromUtf8(it2->c_str()));
 			nextItem->setData(0, 16, ADDITIONAL_STYLE);
 			nextItem->setData(0, Qt::ToolTipRole,QString::fromUtf8(it2->c_str()));
-            nextItem->setData(2, Qt::ToolTipRole, nextStyle.getMyStateToolTipInfo());
-            if(nextStyle.getState()) nextItem->setIcon(2, QIcon(":/gfx/emblem-important.png"));
-            else nextItem->setIcon(2, QIcon(":/gfx/dialog_ok_apply.png"));
+			nextItem->setData(2, Qt::ToolTipRole, nextStyle.getMyStateToolTipInfo());
+			if(nextStyle.getState()) nextItem->setIcon(2, QIcon(":/gfx/emblem-important.png"));
+			else nextItem->setIcon(2, QIcon(":/gfx/dialog_ok_apply.png"));
 			treeWidget_cardDeckStyles->addTopLevelItem(nextItem);
 		}
 	}
@@ -579,9 +579,9 @@ void settingsDialogImpl::isAccepted()
 
 	if(checkSetPlayerNicks.count() != 10) {
 		MyMessageBox::warning(this, tr("Settings Error"),
-							 tr("The opponent names are not unique.\n"
-								"Please choose different names for each Opponent!"),
-							 QMessageBox::Ok);
+							  tr("The opponent names are not unique.\n"
+								 "Please choose different names for each Opponent!"),
+							  QMessageBox::Ok);
 		settingsCorrect = FALSE;
 	} else {
 		//save nicks and avatars
@@ -660,9 +660,9 @@ void settingsDialogImpl::isAccepted()
 			myConfig->writeConfigString("InternetServerListAddress", lineEdit_InternetServerListAddress->text().toUtf8().constData());
 		} else {
 			MyMessageBox::warning(this, tr("Settings Error"),
-								 tr("The entered server list address is not a valid URL.\n"
-									"Please enter a valid server list address!"),
-								 QMessageBox::Ok);
+								  tr("The entered server list address is not a valid URL.\n"
+									 "Please enter a valid server list address!"),
+								  QMessageBox::Ok);
 			settingsCorrect = FALSE;
 		}
 	}
@@ -722,9 +722,9 @@ void settingsDialogImpl::isAccepted()
 			myConfig->writeConfigString("FlipsideOwnFile", lineEdit_OwnFlipsideFilename->text().toUtf8().constData());
 		} else {
 			MyMessageBox::warning(this, tr("Settings Error"),
-								 tr("The entered flipside picture doesn't exist.\n"
-									"Please enter an valid picture!"),
-								 QMessageBox::Ok);
+								  tr("The entered flipside picture doesn't exist.\n"
+									 "Please enter an valid picture!"),
+								  QMessageBox::Ok);
 			settingsCorrect = FALSE;
 		}
 	}
@@ -782,9 +782,9 @@ void settingsDialogImpl::isAccepted()
 			myConfig->writeConfigString("LogDir", lineEdit_logDir->text().toUtf8().constData());
 		} else {
 			MyMessageBox::warning(this, tr("Settings Error"),
-								 tr("The log file directory doesn't exist.\n"
-									"Please select an valid directory!"),
-								 QMessageBox::Ok);
+								  tr("The log file directory doesn't exist.\n"
+									 "Please select an valid directory!"),
+								  QMessageBox::Ok);
 			settingsCorrect = FALSE;
 		}
 
@@ -812,8 +812,8 @@ void settingsDialogImpl::isAccepted()
 
 	if(languageIsChanged) {
 		MyMessageBox::information(this, tr("Language Changed"),
-								 tr("You have changed application language to %1.\nPlease restart PokerTH to load new language!").arg(comboBox_switchLanguage->itemText(changedLanguageIndex)),
-								 QMessageBox::Ok);
+								  tr("You have changed application language to %1.\nPlease restart PokerTH to load new language!").arg(comboBox_switchLanguage->itemText(changedLanguageIndex)),
+								  QMessageBox::Ok);
 	}
 
 	//Wenn alles richtig eingegeben wurde --> Dialog schließen
@@ -951,14 +951,14 @@ void settingsDialogImpl::setLogDir()
 		if(logDir.exists()) {
 			lineEdit_logDir->setText(dir);
 			MyMessageBox::information(this, tr("Settings Information"),
-									 tr("You have changed the log file directory.\n"
-										"Please restart PokerTH to use the new directory for the log files!"),
-									 QMessageBox::Ok);
+									  tr("You have changed the log file directory.\n"
+										 "Please restart PokerTH to use the new directory for the log files!"),
+									  QMessageBox::Ok);
 		} else {
 			MyMessageBox::warning(this, tr("Settings Error"),
-								 tr("The log file directory doesn't exist.\n"
-									"Please select an valid directory!"),
-								 QMessageBox::Ok);
+								  tr("The log file directory doesn't exist.\n"
+									 "Please select an valid directory!"),
+								  QMessageBox::Ok);
 		}
 	}
 }
@@ -1059,8 +1059,8 @@ void settingsDialogImpl::setFirstSmallBlindMargin()
 	if(radioButton_manualBlindsOrder->isChecked() && !myManualBlindsList.empty()) {
 		if(spinBox_firstSmallBlind->value() > myManualBlindsList.front()) {
 			MyMessageBox::warning(this, tr("Blinds Error"),
-								 tr("The first element in your manual-blinds-list \nis smaller than current first-small-blind!\nThis first-small-blind-value will be set to maximum allowed value."),
-								 QMessageBox::Close);
+								  tr("The first element in your manual-blinds-list \nis smaller than current first-small-blind!\nThis first-small-blind-value will be set to maximum allowed value."),
+								  QMessageBox::Close);
 		}
 		spinBox_firstSmallBlind->setMaximum(myManualBlindsList.front());
 	} else {
@@ -1069,8 +1069,8 @@ void settingsDialogImpl::setFirstSmallBlindMargin()
 	if(radioButton_netManualBlindsOrder->isChecked() && !myNetManualBlindsList.empty()) {
 		if(spinBox_netFirstSmallBlind->value() > myNetManualBlindsList.front()) {
 			MyMessageBox::warning(this, tr("Blinds Error"),
-								 tr("The first element in your manual-blinds-list \nis smaller than current first-small-blind!\nThis first-small-blind-value will be set to maximum allowed value."),
-								 QMessageBox::Close);
+								  tr("The first element in your manual-blinds-list \nis smaller than current first-small-blind!\nThis first-small-blind-value will be set to maximum allowed value."),
+								  QMessageBox::Close);
 		}
 		spinBox_netFirstSmallBlind->setMaximum(myNetManualBlindsList.front());
 	} else {
@@ -1187,8 +1187,8 @@ void settingsDialogImpl::addGameTableStyle()
 
 		if(fileNameAlreadyFound) {
 			MyMessageBox::warning(this, tr("Game Table Style Error"),
-								 tr("Selected game table style file is already in the list. \nPlease select another one to add!"),
-								 QMessageBox::Ok);
+								  tr("Selected game table style file is already in the list. \nPlease select another one to add!"),
+								  QMessageBox::Ok);
 		} else {
 			GameTableStyleReader newStyle(myConfig, this);
 			newStyle.readStyleFile(fileName);
@@ -1210,8 +1210,8 @@ void settingsDialogImpl::addGameTableStyle()
 				if(newStyle.getState() != GT_STYLE_OK) newStyle.showErrorMessage();
 			} else {
 				MyMessageBox::warning(this, tr("Game Table Style File Error"),
-									 tr("Could not load game table style file correctly. \nStyle will not be placed into list!"),
-									 QMessageBox::Ok);
+									  tr("Could not load game table style file correctly. \nStyle will not be placed into list!"),
+									  QMessageBox::Ok);
 			}
 		}
 		//save current filepath
@@ -1313,8 +1313,8 @@ void settingsDialogImpl::addCardDeckStyle()
 
 		if(fileNameAlreadyFound) {
 			MyMessageBox::warning(this, tr("Card Deck Style Error"),
-								 tr("Selected card deck style file is already in the list. \nPlease select another one to add!"),
-								 QMessageBox::Ok);
+								  tr("Selected card deck style file is already in the list. \nPlease select another one to add!"),
+								  QMessageBox::Ok);
 		} else {
 			CardDeckStyleReader newStyle(myConfig, this);
 			newStyle.readStyleFile(fileName);
@@ -1325,21 +1325,21 @@ void settingsDialogImpl::addCardDeckStyle()
 				newItem->setData(0, 15,fileName);
 				newItem->setData(0, 16, ADDITIONAL_STYLE);
 				newItem->setData(0, Qt::ToolTipRole,fileName);
-                newItem->setData(2, Qt::ToolTipRole, newStyle.getMyStateToolTipInfo());
-                if(newStyle.getState() != CD_STYLE_OK) newItem->setIcon(2, QIcon(":/gfx/emblem-important.png"));
-                else newItem->setIcon(2, QIcon(":/gfx/dialog-ok-apply.png"));
+				newItem->setData(2, Qt::ToolTipRole, newStyle.getMyStateToolTipInfo());
+				if(newStyle.getState() != CD_STYLE_OK) newItem->setIcon(2, QIcon(":/gfx/emblem-important.png"));
+				else newItem->setIcon(2, QIcon(":/gfx/dialog-ok-apply.png"));
 
-                qDebug() << "settings: " << newStyle.getStyleDescription() << newStyle.getState();
-                if(newStyle.getState() != CD_STYLE_OK) newStyle.showErrorMessage();
+				qDebug() << "settings: " << newStyle.getStyleDescription() << newStyle.getState();
+				if(newStyle.getState() != CD_STYLE_OK) newStyle.showErrorMessage();
 
-                treeWidget_cardDeckStyles->addTopLevelItem(newItem);
+				treeWidget_cardDeckStyles->addTopLevelItem(newItem);
 				treeWidget_cardDeckStyles->setCurrentItem(newItem);
 				treeWidget_cardDeckStyles->sortItems(0, Qt::AscendingOrder);
 
 			} else {
 				MyMessageBox::warning(this, tr("Card Deck Style File Error"),
-									 tr("Could not load card deck style file correctly. \nStyle will not be placed into list!"),
-									 QMessageBox::Ok);
+									  tr("Could not load card deck style file correctly. \nStyle will not be placed into list!"),
+									  QMessageBox::Ok);
 			}
 		}
 		//save current filepath
@@ -1376,9 +1376,9 @@ void settingsDialogImpl::removePlayerFromIgnoredPlayersList()
 void settingsDialogImpl::resetSettings()
 {
 	int ret = MyMessageBox::warning(this, tr("PokerTH - Settings"),
-								   tr("Attention: this will delete all your personal settings and close PokerTH!\n"
-									  "Do you really want to reset factory settings?"),
-								   QMessageBox::Yes | QMessageBox::No);
+									tr("Attention: this will delete all your personal settings and close PokerTH!\n"
+									   "Do you really want to reset factory settings?"),
+									QMessageBox::Yes | QMessageBox::No);
 	if(ret == QMessageBox::Yes) {
 		myConfig->deleteConfigFile();
 		exit(0);

@@ -38,20 +38,20 @@ public:
 	void setColumn4RegExp(QRegExp column4) {
 		column4RegExp = column4;
 	}
-    void setColumn5RegExp(QRegExp column5) {
-        column5RegExp = column5;
-    }
+	void setColumn5RegExp(QRegExp column5) {
+		column5RegExp = column5;
+	}
 
 protected:
 	bool filterAcceptsRow(int sourceRow, const QModelIndex &sourceParent) const;
-    bool lessThan(const QModelIndex &left, const QModelIndex &right) const;
+	bool lessThan(const QModelIndex &left, const QModelIndex &right) const;
 
 private:
 	QRegExp column1RegExp;
 	QRegExp column2RegExp;
 	QRegExp column3RegExp;
 	QRegExp column4RegExp;
-    QRegExp column5RegExp;
+	QRegExp column5RegExp;
 
 };
 

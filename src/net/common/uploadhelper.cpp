@@ -74,9 +74,9 @@ UploadHelper::InternalInit(const string &/*url*/, const string &targetFileName, 
 		// Curl will handle file I/O.
 		struct curl_httppost *last = NULL;
 		curl_formadd(&GetData()->post, &last,
-			CURLFORM_COPYNAME, httpPost.c_str(),
-			CURLFORM_FILE, targetFileName.c_str(),
-			CURLFORM_END);
+					 CURLFORM_COPYNAME, httpPost.c_str(),
+					 CURLFORM_FILE, targetFileName.c_str(),
+					 CURLFORM_END);
 		curl_easy_setopt(GetData()->curlHandle, CURLOPT_HTTPPOST, GetData()->post);
 		curl_easy_setopt(GetData()->curlHandle, CURLOPT_WRITEFUNCTION, writeFunction);
 		curl_easy_setopt(GetData()->curlHandle, CURLOPT_WRITEDATA, &GetData()->returnMessage);

@@ -30,21 +30,21 @@
 #include <net/uploaderthread.h>
 
 LogFileDialog::LogFileDialog(QWidget *parent, ConfigFile *c) :
-QDialog(parent), myConfig(c),
-ui(new Ui::LogFileDialog)
+	QDialog(parent), myConfig(c),
+	ui(new Ui::LogFileDialog)
 {
-    ui->setupUi(this);
+	ui->setupUi(this);
 
-    ui->label_animation->setMaximumWidth(0);
-    ui->horizontalLayout_animation->setSpacing(0);
+	ui->label_animation->setMaximumWidth(0);
+	ui->horizontalLayout_animation->setSpacing(0);
 
 	connect( ui->pushButton_deleteLog, SIGNAL(clicked()), this, SLOT (deleteLogFile()));
 	connect( ui->pushButton_exportLogHtml, SIGNAL(clicked()), this, SLOT (exportLogToHtml()));
 	connect( ui->pushButton_exportLogTxt, SIGNAL(clicked()), this, SLOT (exportLogToTxt()));
 	connect( ui->pushButton_saveLogAs, SIGNAL(clicked()), this, SLOT (saveLogFileAs()));
-    connect( ui->treeWidget_logFiles, SIGNAL(currentItemChanged(QTreeWidgetItem*, QTreeWidgetItem*)), this, SLOT(showLogFilePreviewInit()));
-    connect( ui->pushButton_analyseLogfile, SIGNAL(clicked()), this, SLOT (uploadFile()));
-    connect( ui->comboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(showLogFilePreviewSelected()));
+	connect( ui->treeWidget_logFiles, SIGNAL(currentItemChanged(QTreeWidgetItem*, QTreeWidgetItem*)), this, SLOT(showLogFilePreviewInit()));
+	connect( ui->pushButton_analyseLogfile, SIGNAL(clicked()), this, SLOT (uploadFile()));
+	connect( ui->comboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(showLogFilePreviewSelected()));
 	connect( this, SIGNAL(signalUploadCompleted(QString,QString)), this, SLOT(showLogAnalysis(QString,QString)));
 	connect( this, SIGNAL(signalUploadError(QString,QString)), this, SLOT(showUploadError(QString,QString)));
 
@@ -85,16 +85,16 @@ void LogFileDialog::refreshLogFileList()
 
 	QFileInfo currentSqliteLogFile(QString::fromStdString(myGuiLog->getMySqliteLogFileName()));
 
-    ui->treeWidget_logFiles->blockSignals(TRUE);
+	ui->treeWidget_logFiles->blockSignals(TRUE);
 	ui->treeWidget_logFiles->clear();
 	int i;
 	for (i=0; i < dbFilesList.size(); i++) {
 
 		QTreeWidgetItem *item = new QTreeWidgetItem;
 #ifdef GUI_800x480
-        item->setText(0, dbFilesList.at(i).fileName().remove("pokerth-log-"));
+		item->setText(0, dbFilesList.at(i).fileName().remove("pokerth-log-"));
 #else
-        item->setText(0, dbFilesList.at(i).fileName());
+		item->setText(0, dbFilesList.at(i).fileName());
 #endif
 		item->setData(0, Qt::UserRole, dbFilesList.at(i).absoluteFilePath());
 		if(currentSqliteLogFile.fileName() == dbFilesList.at(i).fileName()) {
@@ -105,8 +105,8 @@ void LogFileDialog::refreshLogFileList()
 		ui->treeWidget_logFiles->addTopLevelItem(item);
 	}
 	ui->treeWidget_logFiles->sortItems(0, Qt::DescendingOrder);
-    ui->treeWidget_logFiles->blockSignals(FALSE);
-    ui->treeWidget_logFiles->setCurrentItem(ui->treeWidget_logFiles->topLevelItem(0));
+	ui->treeWidget_logFiles->blockSignals(FALSE);
+	ui->treeWidget_logFiles->setCurrentItem(ui->treeWidget_logFiles->topLevelItem(0));
 }
 
 void LogFileDialog::deleteLogFile()
@@ -116,8 +116,8 @@ void LogFileDialog::deleteLogFile()
 	if(!selectedItemsList.isEmpty() && !( selectedItemsList.size() == 1 && selectedItemsList.front()->data(0, Qt::UserRole+1).toString() == "current" )) {
 
 		int ret = MyMessageBox::warning(this, tr("PokerTH - Delete log files"),
-									   tr("Do you really want to delete the selected log files?"),
-									   QMessageBox::Yes | QMessageBox::No);
+										tr("Do you really want to delete the selected log files?"),
+										QMessageBox::Yes | QMessageBox::No);
 
 		if(ret == QMessageBox::Yes) {
 			for (int i = 0; i < selectedItemsList.size(); ++i) {
@@ -138,7 +138,7 @@ void LogFileDialog::exportLogToHtml()
 	QTreeWidgetItem* selectedItem = ui->treeWidget_logFiles->currentItem();
 
 	if(selectedItem) {
-        QFileInfo fi(selectedItem->data(0, Qt::UserRole).toString());
+		QFileInfo fi(selectedItem->data(0, Qt::UserRole).toString());
 		QString fileName = QFileDialog::getSaveFileName(this, tr("Export PokerTH log file to HTML"),
 						   QDir::homePath()+"/"+fi.baseName()+".html",
 						   tr("PokerTH HTML log (*.html)"));
@@ -154,7 +154,7 @@ void LogFileDialog::exportLogToTxt()
 	QTreeWidgetItem* selectedItem = ui->treeWidget_logFiles->currentItem();
 
 	if(selectedItem) {
-        QFileInfo fi(selectedItem->data(0, Qt::UserRole).toString());
+		QFileInfo fi(selectedItem->data(0, Qt::UserRole).toString());
 		QString fileName = QFileDialog::getSaveFileName(this, tr("Export PokerTH log file to plain text"),
 						   QDir::homePath()+"/"+fi.baseName()+".txt",
 						   tr("PokerTH plain text log (*.txt)"));
@@ -170,7 +170,7 @@ void LogFileDialog::saveLogFileAs()
 	QTreeWidgetItem* selectedItem = ui->treeWidget_logFiles->currentItem();
 
 	if(selectedItem) {
-        QFileInfo fi(selectedItem->data(0, Qt::UserRole).toString());
+		QFileInfo fi(selectedItem->data(0, Qt::UserRole).toString());
 		QString fileName = QFileDialog::getSaveFileName(this, tr("Save PokerTH log file"),
 						   QDir::homePath()+"/"+fi.baseName()+".pdb",
 						   tr("PokerTH SQL log (*.pdb)"));
@@ -185,19 +185,19 @@ void LogFileDialog::showLogFilePreview(ShowLogMode mode)
 {
 	QTreeWidgetItem* selectedItem = ui->treeWidget_logFiles->currentItem();
 
-    if(mode == INIT_VIEW) {
-        ui->comboBox->blockSignals(TRUE);
-        ui->comboBox->clear();
-        QList<int> gameIds = myGuiLog->getGameList(selectedItem->data(0, Qt::UserRole).toString());
-        QList<int>::const_iterator it;
-        for (it = gameIds.constBegin(); it != gameIds.constEnd(); ++it) {
-            ui->comboBox->addItem(QString::number(*it));
-        }
-        ui->comboBox->blockSignals(FALSE);
-    }
+	if(mode == INIT_VIEW) {
+		ui->comboBox->blockSignals(TRUE);
+		ui->comboBox->clear();
+		QList<int> gameIds = myGuiLog->getGameList(selectedItem->data(0, Qt::UserRole).toString());
+		QList<int>::const_iterator it;
+		for (it = gameIds.constBegin(); it != gameIds.constEnd(); ++it) {
+			ui->comboBox->addItem(QString::number(*it));
+		}
+		ui->comboBox->blockSignals(FALSE);
+	}
 
 	if(selectedItem) {
-        myGuiLog->showLog(selectedItem->data(0, Qt::UserRole).toString(), ui->textBrowser_logPreview, ui->comboBox->itemText(ui->comboBox->currentIndex()).toInt());
+		myGuiLog->showLog(selectedItem->data(0, Qt::UserRole).toString(), ui->textBrowser_logPreview, ui->comboBox->itemText(ui->comboBox->currentIndex()).toInt());
 	}
 
 	QTextCursor cursor(ui->textBrowser_logPreview->textCursor());
@@ -209,9 +209,9 @@ void LogFileDialog::keyPressEvent ( QKeyEvent * event )
 {
 	if (event->key() == Qt::Key_Delete ) { /*Delete*/
 		if(ui->treeWidget_logFiles->hasFocus()) {
-            ui->pushButton_deleteLog->click();
+			ui->pushButton_deleteLog->click();
 		}
-    }
+	}
 }
 
 void LogFileDialog::uploadFile()
@@ -237,21 +237,21 @@ void LogFileDialog::uploadInProgressAnimationStart()
 	//const QString buttonText(tr("Upload in progress"));
 	ui->pushButton_analyseLogfile->setDisabled(TRUE);
 
-    QMovie *movie = new QMovie(":/gfx/loader.gif");
-    ui->label_animation->setMovie(movie);
-    ui->label_animation->setMaximumWidth(32);
-    ui->horizontalLayout_animation->setSpacing(-1);
-    ui->label_animation->setGeometry(0,0,32,32);
-    movie->start();
+	QMovie *movie = new QMovie(":/gfx/loader.gif");
+	ui->label_animation->setMovie(movie);
+	ui->label_animation->setMaximumWidth(32);
+	ui->horizontalLayout_animation->setSpacing(-1);
+	ui->label_animation->setGeometry(0,0,32,32);
+	movie->start();
 }
 
 void LogFileDialog::uploadInProgressAnimationStop()
 {
-    ui->pushButton_analyseLogfile->setDisabled(FALSE);
+	ui->pushButton_analyseLogfile->setDisabled(FALSE);
 
-    ui->label_animation->setMaximumWidth(0);
-    ui->horizontalLayout_animation->setSpacing(0);
-    ui->label_animation->setGeometry(0,0,0,0);
+	ui->label_animation->setMaximumWidth(0);
+	ui->horizontalLayout_animation->setSpacing(0);
+	ui->label_animation->setGeometry(0,0,0,0);
 }
 
 void LogFileDialog::showLogAnalysis(QString /*filename*/, QString returnMessage)

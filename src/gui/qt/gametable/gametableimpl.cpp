@@ -74,7 +74,7 @@ gameTableImpl::gameTableImpl(ConfigFile *c, QMainWindow *parent)
 
 	setupUi(this);
 
-    //Sound
+	//Sound
 	mySoundEventHandler = new SoundEvents(myConfig);
 
 	// 	Init game table style
@@ -92,10 +92,10 @@ gameTableImpl::gameTableImpl(ConfigFile *c, QMainWindow *parent)
 	//set myStyle to widgets wich needs it
 #ifdef GUI_800x480
 	tabsDiag = new QDialog(this);
-    tabs.setupUi(tabsDiag);
+	tabs.setupUi(tabsDiag);
 	textLabel_handLabel->hide();
 #ifdef ANDROID
-        tabsDiag->setStyleSheet("QObject { font: 26px; } QDialog { background-image: url(:/android/android-data/gfx/gui/table/default_800x480/table_dark.png); background-position: bottom center; background-origin: content;  background-repeat: no-repeat;}");
+	tabsDiag->setStyleSheet("QObject { font: 26px; } QDialog { background-image: url(:/android/android-data/gfx/gui/table/default_800x480/table_dark.png); background-position: bottom center; background-origin: content;  background-repeat: no-repeat;}");
 #endif
 	tabs.label_chance->setMyStyle(myGameTableStyle);
 #else
@@ -303,13 +303,13 @@ gameTableImpl::gameTableImpl(ConfigFile *c, QMainWindow *parent)
 	playerTipLabelArray[9] = label_playerTip9;
 
 #ifdef GUI_800x480
-    int j;
-    for (i=0; i<MAX_NUMBER_OF_PLAYERS; ++i) {
-        for (j=1; j<=5; ++j) {
-            playerStarsArray[j][i]->hide();
-        }
-        playerTipLabelArray[i]->hide();
-    }
+	int j;
+	for (i=0; i<MAX_NUMBER_OF_PLAYERS; ++i) {
+		for (j=1; j<=5; ++j) {
+			playerStarsArray[j][i]->hide();
+		}
+		playerTipLabelArray[i]->hide();
+	}
 
 #endif
 
@@ -389,8 +389,8 @@ gameTableImpl::gameTableImpl(ConfigFile *c, QMainWindow *parent)
 
 	textLabel_Status0->setMyW(this);
 
-    //check position depending on card deck type
-    checkActionLabelPosition();
+	//check position depending on card deck type
+	checkActionLabelPosition();
 
 
 	// GroupBoxArray init
@@ -496,12 +496,12 @@ gameTableImpl::gameTableImpl(ConfigFile *c, QMainWindow *parent)
 	// 	Dialogs
 #ifdef GUI_800x480
 	myChat = new ChatTools(tabs.lineEdit_ChatInput, myConfig, INGAME_CHAT, tabs.textBrowser_Chat);
-        myChat->setMyStyle(myGameTableStyle);
-        tabs.lineEdit_ChatInput->installEventFilter(this);
+	myChat->setMyStyle(myGameTableStyle);
+	tabs.lineEdit_ChatInput->installEventFilter(this);
 #else
 	myChat = new ChatTools(lineEdit_ChatInput, myConfig, INGAME_CHAT, textBrowser_Chat);
-        myChat->setMyStyle(myGameTableStyle);
-        lineEdit_ChatInput->installEventFilter(this);
+	myChat->setMyStyle(myGameTableStyle);
+	lineEdit_ChatInput->installEventFilter(this);
 #endif
 
 	this->installEventFilter(this);
@@ -510,10 +510,10 @@ gameTableImpl::gameTableImpl(ConfigFile *c, QMainWindow *parent)
 	myUniversalMessageDialog = new myMessageDialogImpl(myConfig, this);
 	myUniversalMessageDialog->setParent(this);
 
-        //hide left and right icon and menubar from maemo gui for ANDROID
+	//hide left and right icon and menubar from maemo gui for ANDROID
 #ifdef ANDROID
-        fullscreenButton->hide();
-        menubar->hide();        
+	fullscreenButton->hide();
+	menubar->hide();
 //        tabsButton->hide();
 #endif
 
@@ -683,9 +683,9 @@ void gameTableImpl::callSettingsDialog()
 
 void gameTableImpl::applySettings(settingsDialogImpl* mySettingsDialog)
 {
-    //apply card deck style
+	//apply card deck style
 	myCardDeckStyle->readStyleFile(QString::fromUtf8(myConfig->readConfigString("CurrentCardDeckStyle").c_str()));
-    checkActionLabelPosition();
+	checkActionLabelPosition();
 	//apply game table style
 	myGameTableStyle->readStyleFile(QString::fromUtf8(myConfig->readConfigString("CurrentGameTableStyle").c_str()));
 
@@ -837,75 +837,75 @@ void gameTableImpl::applySettings(settingsDialogImpl* mySettingsDialog)
 		provideMyActions();
 	}
 
-    mySoundEventHandler->reInitSoundEngine();
+	mySoundEventHandler->reInitSoundEngine();
 }
 
 void gameTableImpl::initGui(int speed)
-{    
-    //kill running Singleshots!!!
-    stopTimer();
+{
+	//kill running Singleshots!!!
+	stopTimer();
 
-    label_handNumber->setText(HandString+":");
-    label_gameNumber->setText(GameString+":");
+	label_handNumber->setText(HandString+":");
+	label_gameNumber->setText(GameString+":");
 
-    //set WindowTitle dynamically
-    QString titleString = "";
-    assert(myStartWindow->getSession());
-    if(myStartWindow->getSession()->getGameType() == Session::GAME_TYPE_INTERNET || myStartWindow->getSession()->getGameType() == Session::GAME_TYPE_NETWORK) {
-        GameInfo info(myStartWindow->getSession()->getClientGameInfo(myStartWindow->getSession()->getClientCurrentGameId()));
-        titleString = QString::fromUtf8(info.name.c_str())+" - ";
-    }
+	//set WindowTitle dynamically
+	QString titleString = "";
+	assert(myStartWindow->getSession());
+	if(myStartWindow->getSession()->getGameType() == Session::GAME_TYPE_INTERNET || myStartWindow->getSession()->getGameType() == Session::GAME_TYPE_NETWORK) {
+		GameInfo info(myStartWindow->getSession()->getClientGameInfo(myStartWindow->getSession()->getClientCurrentGameId()));
+		titleString = QString::fromUtf8(info.name.c_str())+" - ";
+	}
 
-    //show human player buttons
-    for(int i=0; i<6; i++) {
-        userWidgetsArray[i]->show();
-    }
+	//show human player buttons
+	for(int i=0; i<6; i++) {
+		userWidgetsArray[i]->show();
+	}
 
-    //set speeds for local game and for first network game
-    if( !myStartWindow->getSession()->isNetworkClientRunning() || (myStartWindow->getSession()->isNetworkClientRunning() && !myStartWindow->getSession()->getCurrentGame()) ) {
-        guiGameSpeed = speed;
-        setSpeeds();
-    }
+	//set speeds for local game and for first network game
+	if( !myStartWindow->getSession()->isNetworkClientRunning() || (myStartWindow->getSession()->isNetworkClientRunning() && !myStartWindow->getSession()->getCurrentGame()) ) {
+		guiGameSpeed = speed;
+		setSpeeds();
+	}
 
-    //set session for chat
-    myChat->setSession(this->getSession());
+	//set session for chat
+	myChat->setSession(this->getSession());
 
 #ifdef GUI_800x480
-    tabsDiag->setWindowTitle("Tabs");
-    this->setWindowTitle(QString(titleString + tr("PokerTH %1").arg(POKERTH_BETA_RELEASE_STRING)));
+	tabsDiag->setWindowTitle("Tabs");
+	this->setWindowTitle(QString(titleString + tr("PokerTH %1").arg(POKERTH_BETA_RELEASE_STRING)));
 
-    label_Sets->setText(BetsString);
-    label_Total->setText(TotalString);
-    tabs.groupBox_RightToolBox->setDisabled(FALSE);
-    tabs.groupBox_LeftToolBox->setDisabled(FALSE);
+	label_Sets->setText(BetsString);
+	label_Total->setText(TotalString);
+	tabs.groupBox_RightToolBox->setDisabled(FALSE);
+	tabs.groupBox_LeftToolBox->setDisabled(FALSE);
 
-    //set minimum gui speed to prevent gui lags on fast inet games
-    if( myStartWindow->getSession()->isNetworkClientRunning() ) {
-        tabs.horizontalSlider_speed->setMinimum(speed);
-    } else {
-        tabs.horizontalSlider_speed->setMinimum(1);
-    }
+	//set minimum gui speed to prevent gui lags on fast inet games
+	if( myStartWindow->getSession()->isNetworkClientRunning() ) {
+		tabs.horizontalSlider_speed->setMinimum(speed);
+	} else {
+		tabs.horizontalSlider_speed->setMinimum(1);
+	}
 
-    //positioning Slider
-    tabs.horizontalSlider_speed->setValue(guiGameSpeed);
+	//positioning Slider
+	tabs.horizontalSlider_speed->setValue(guiGameSpeed);
 
 #else
-    this->setWindowTitle(QString(titleString + tr("PokerTH %1 - The Open-Source Texas Holdem Engine").arg(POKERTH_BETA_RELEASE_STRING)));
+	this->setWindowTitle(QString(titleString + tr("PokerTH %1 - The Open-Source Texas Holdem Engine").arg(POKERTH_BETA_RELEASE_STRING)));
 
-    label_Pot->setText(PotString);
-    label_Total->setText(TotalString+":");
-    label_Sets->setText(BetsString+":");
-    groupBox_RightToolBox->setDisabled(FALSE);
-    groupBox_LeftToolBox->setDisabled(FALSE);
+	label_Pot->setText(PotString);
+	label_Total->setText(TotalString+":");
+	label_Sets->setText(BetsString+":");
+	groupBox_RightToolBox->setDisabled(FALSE);
+	groupBox_LeftToolBox->setDisabled(FALSE);
 
-    //set minimum gui speed to prevent gui lags on fast inet games
-    if( myStartWindow->getSession()->isNetworkClientRunning() ) {
-        horizontalSlider_speed->setMinimum(speed);
-    } else {
-        horizontalSlider_speed->setMinimum(1);
-    }
+	//set minimum gui speed to prevent gui lags on fast inet games
+	if( myStartWindow->getSession()->isNetworkClientRunning() ) {
+		horizontalSlider_speed->setMinimum(speed);
+	} else {
+		horizontalSlider_speed->setMinimum(1);
+	}
 
-    horizontalSlider_speed->setValue(guiGameSpeed);
+	horizontalSlider_speed->setValue(guiGameSpeed);
 
 #endif
 
@@ -1164,7 +1164,7 @@ void gameTableImpl::refreshAction(int playerID, int playerAction)
 
 			//play sounds if exist
 			if(myConfig->readConfigInt("PlayGameActions"))
-                mySoundEventHandler->playSound(actionArray[playerAction].toStdString(), playerID);
+				mySoundEventHandler->playSound(actionArray[playerAction].toStdString(), playerID);
 		}
 
 		if (playerAction == 1) { // FOLD
@@ -1878,13 +1878,13 @@ void gameTableImpl::meInAction()
 	myActionIsRaise = 0;
 	myActionIsBet = 0;
 
-/*	if(myConfig->readConfigInt("ShowStatusbarMessages")) {
-		if ( myConfig->readConfigInt("AlternateFKeysUserActionMode") == 0 ) {
-			// // 			statusBar()->showMessage(tr("F1 - Fold | F2 - Check/Call | F3 - Bet/Raise | F4 - All-In"), 15000);
-		} else {
-			// 			statusBar()->showMessage(tr("F1 - All-In | F2 - Bet/Raise | F3 - Check/Call | F4 - Fold"), 15000);
-		}
-	}*/
+	/*	if(myConfig->readConfigInt("ShowStatusbarMessages")) {
+			if ( myConfig->readConfigInt("AlternateFKeysUserActionMode") == 0 ) {
+				// // 			statusBar()->showMessage(tr("F1 - Fold | F2 - Check/Call | F3 - Bet/Raise | F4 - All-In"), 15000);
+			} else {
+				// 			statusBar()->showMessage(tr("F1 - All-In | F2 - Bet/Raise | F3 - Check/Call | F4 - Fold"), 15000);
+			}
+		}*/
 
 	QString lastPushButtonFoldString = pushButton_Fold->text();
 
@@ -3232,11 +3232,11 @@ bool gameTableImpl::eventFilter(QObject *obj, QEvent *event)
 	if (/*obj == lineEdit_ChatInput && lineEdit_ChatInput->text() != "" && */event->type() == QEvent::KeyPress && keyEvent->key() == Qt::Key_Tab) {
 		myChat->nickAutoCompletition();
 		return true;
-    } else if (event->type() == QEvent::KeyPress && keyEvent->key() == Qt::Key_Back) {
-        event->ignore();
-        closeGameTable();
-        return true;
-    } else if (event->type() == QEvent::Close) {
+	} else if (event->type() == QEvent::KeyPress && keyEvent->key() == Qt::Key_Back) {
+		event->ignore();
+		closeGameTable();
+		return true;
+	} else if (event->type() == QEvent::Close) {
 		event->ignore();
 		closeGameTable();
 		return true;
@@ -3707,8 +3707,8 @@ void gameTableImpl::closeGameTable()
 
 	if (myStartWindow->getMyServerGuiInterface() && myStartWindow->getMyServerGuiInterface()->getSession()->isNetworkServerRunning()) {
 
-                MyMessageBox msgBox(QMessageBox::Warning, tr("Closing PokerTH during network game"),
-						   tr("You are the hosting server. Do you want to close PokerTH anyway?"), QMessageBox::Yes | QMessageBox::No, this);
+		MyMessageBox msgBox(QMessageBox::Warning, tr("Closing PokerTH during network game"),
+							tr("You are the hosting server. Do you want to close PokerTH anyway?"), QMessageBox::Yes | QMessageBox::No, this);
 
 		if (msgBox.exec() == QMessageBox::Yes ) {
 			myStartWindow->getSession()->terminateNetworkClient();
@@ -3722,8 +3722,8 @@ void gameTableImpl::closeGameTable()
 
 		bool close = true;
 
-        if(myUniversalMessageDialog->checkIfMesssageWillBeDisplayed(CLOSE_GAMETABLE_QUESTION ) && (myStartWindow->getSession()->getGameType() == Session::GAME_TYPE_INTERNET || myStartWindow->getSession()->getGameType() == Session::GAME_TYPE_NETWORK ) && this->isVisible()) {
-            if (myUniversalMessageDialog->exec(CLOSE_GAMETABLE_QUESTION , tr("Really want to exit?"), tr("PokerTH - Close Table?"), QPixmap(":/gfx/logoChip3D.png"), QDialogButtonBox::Yes|QDialogButtonBox::No, true) == QDialog::Rejected) {
+		if(myUniversalMessageDialog->checkIfMesssageWillBeDisplayed(CLOSE_GAMETABLE_QUESTION ) && (myStartWindow->getSession()->getGameType() == Session::GAME_TYPE_INTERNET || myStartWindow->getSession()->getGameType() == Session::GAME_TYPE_NETWORK ) && this->isVisible()) {
+			if (myUniversalMessageDialog->exec(CLOSE_GAMETABLE_QUESTION , tr("Really want to exit?"), tr("PokerTH - Close Table?"), QPixmap(":/gfx/logoChip3D.png"), QDialogButtonBox::Yes|QDialogButtonBox::No, true) == QDialog::Rejected) {
 				close = false;
 			}
 		}
@@ -3741,61 +3741,59 @@ void gameTableImpl::closeGameTable()
 
 void gameTableImpl::changeSpinBoxBetValue(int value)
 {
-        if(betSliderChangedByInput) {
-                //prevent interval cutting of spinBox_betValue input from code below
-                betSliderChangedByInput = FALSE;
-        }
-        else {
+	if(betSliderChangedByInput) {
+		//prevent interval cutting of spinBox_betValue input from code below
+		betSliderChangedByInput = FALSE;
+	} else {
 
-            if(horizontalSlider_bet->value() == horizontalSlider_bet->maximum()) {
+		if(horizontalSlider_bet->value() == horizontalSlider_bet->maximum()) {
 
-                spinBox_betValue->setValue(horizontalSlider_bet->value());
-            }
-            else {
+			spinBox_betValue->setValue(horizontalSlider_bet->value());
+		} else {
 
-                int temp;
-                if(horizontalSlider_bet->maximum() <= 1000 ) {
-                        temp = (int)((value/10)*10);
-                } else if(horizontalSlider_bet->maximum() > 1000 && horizontalSlider_bet->maximum() <= 10000) {
-                        temp = (int)((value/50)*50);
-                } else if(horizontalSlider_bet->maximum() > 10000 && horizontalSlider_bet->maximum() <= 100000) {
-                        temp = (int)((value/500)*500);
-                } else {
-                        temp = (int)((value/5000)*5000);
-                }
+			int temp;
+			if(horizontalSlider_bet->maximum() <= 1000 ) {
+				temp = (int)((value/10)*10);
+			} else if(horizontalSlider_bet->maximum() > 1000 && horizontalSlider_bet->maximum() <= 10000) {
+				temp = (int)((value/50)*50);
+			} else if(horizontalSlider_bet->maximum() > 10000 && horizontalSlider_bet->maximum() <= 100000) {
+				temp = (int)((value/500)*500);
+			} else {
+				temp = (int)((value/5000)*5000);
+			}
 
-                if(temp < horizontalSlider_bet->minimum())
-                        spinBox_betValue->setValue(horizontalSlider_bet->minimum());
-                else
-                        spinBox_betValue->setValue(temp);
-            }
-        }
+			if(temp < horizontalSlider_bet->minimum())
+				spinBox_betValue->setValue(horizontalSlider_bet->minimum());
+			else
+				spinBox_betValue->setValue(temp);
+		}
+	}
 }
 
 void gameTableImpl::spinBoxBetValueChanged(int value)
 {
 
-    if(horizontalSlider_bet->isEnabled()) {
+	if(horizontalSlider_bet->isEnabled()) {
 
-        QString betRaise = pushButton_BetRaise->text().section("\n",0 ,0);
+		QString betRaise = pushButton_BetRaise->text().section("\n",0 ,0);
 
-        if(value >= horizontalSlider_bet->minimum()) {
+		if(value >= horizontalSlider_bet->minimum()) {
 
-            if(value > horizontalSlider_bet->maximum()) { // print the maximum
-                pushButton_BetRaise->setText(betRaise + "\n$" + QString("%L1").arg(horizontalSlider_bet->maximum()));
-                betSliderChangedByInput = TRUE;
-                horizontalSlider_bet->setValue(horizontalSlider_bet->maximum());
-            } else { // really print the value
-                pushButton_BetRaise->setText(betRaise + "\n$" + QString("%L1").arg(value));
-                betSliderChangedByInput = TRUE;
-                horizontalSlider_bet->setValue(value);
-            }
-        } else { // print the minimum
-            pushButton_BetRaise->setText(betRaise + "\n$" + QString("%L1").arg(horizontalSlider_bet->minimum()));
-            betSliderChangedByInput = TRUE;
-            horizontalSlider_bet->setValue(horizontalSlider_bet->minimum());
-        }
-    }
+			if(value > horizontalSlider_bet->maximum()) { // print the maximum
+				pushButton_BetRaise->setText(betRaise + "\n$" + QString("%L1").arg(horizontalSlider_bet->maximum()));
+				betSliderChangedByInput = TRUE;
+				horizontalSlider_bet->setValue(horizontalSlider_bet->maximum());
+			} else { // really print the value
+				pushButton_BetRaise->setText(betRaise + "\n$" + QString("%L1").arg(value));
+				betSliderChangedByInput = TRUE;
+				horizontalSlider_bet->setValue(value);
+			}
+		} else { // print the minimum
+			pushButton_BetRaise->setText(betRaise + "\n$" + QString("%L1").arg(horizontalSlider_bet->minimum()));
+			betSliderChangedByInput = TRUE;
+			horizontalSlider_bet->setValue(horizontalSlider_bet->minimum());
+		}
+	}
 }
 
 void gameTableImpl::leaveCurrentNetworkGame()
@@ -3803,12 +3801,12 @@ void gameTableImpl::leaveCurrentNetworkGame()
 
 	if (myStartWindow->getSession()->isNetworkClientRunning()) {
 
-        if(!myUniversalMessageDialog->checkIfMesssageWillBeDisplayed(BACKTO_LOBBY_QUESTION)) {
+		if(!myUniversalMessageDialog->checkIfMesssageWillBeDisplayed(BACKTO_LOBBY_QUESTION)) {
 
 			assert(myStartWindow->getSession());
 			myStartWindow->getSession()->sendLeaveCurrentGame();
 		} else {
-            if (myUniversalMessageDialog->exec(BACKTO_LOBBY_QUESTION, tr("Attention! Do you really want to leave the current game\nand go back to the lobby?"), tr("PokerTH - Internet Game Message"), QPixmap(":/gfx/logoChip3D.png"), QDialogButtonBox::Yes|QDialogButtonBox::No, true) == QDialog::Accepted) {
+			if (myUniversalMessageDialog->exec(BACKTO_LOBBY_QUESTION, tr("Attention! Do you really want to leave the current game\nand go back to the lobby?"), tr("PokerTH - Internet Game Message"), QPixmap(":/gfx/logoChip3D.png"), QDialogButtonBox::Yes|QDialogButtonBox::No, true) == QDialog::Accepted) {
 				assert(myStartWindow->getSession());
 				myStartWindow->getSession()->sendLeaveCurrentGame();
 			}
@@ -4040,7 +4038,7 @@ void gameTableImpl::refreshGameTableStyle()
 	myGameTableStyle->setWindowsGeometry(this);
 #ifdef GUI_800x480
 #ifdef ANDROID
-        myGameTableStyle->setChatLogStyle(tabs.textBrowser_Log);
+	myGameTableStyle->setChatLogStyle(tabs.textBrowser_Log);
 #endif
 	myGameTableStyle->setChatLogStyle(tabs.textBrowser_Chat);
 	myGameTableStyle->setChatLogStyle(tabs.textEdit_tipInput);
@@ -4061,8 +4059,8 @@ void gameTableImpl::refreshGameTableStyle()
 	}
 
 #ifdef GUI_800x480
-    myGameTableStyle->setBigFontBoardStyle(label_Sets);
-    myGameTableStyle->setBigFontBoardStyle(label_Total);
+	myGameTableStyle->setBigFontBoardStyle(label_Sets);
+	myGameTableStyle->setBigFontBoardStyle(label_Total);
 	myGameTableStyle->setBigFontBoardStyle(textLabel_Sets);
 	myGameTableStyle->setBigFontBoardStyle(textLabel_Pot);
 	myGameTableStyle->setBigFontBoardStyle(label_handNumber);
@@ -4071,8 +4069,8 @@ void gameTableImpl::refreshGameTableStyle()
 	myGameTableStyle->setBigFontBoardStyle(label_gameNumberValue);
 	myGameTableStyle->setBigFontBoardStyle(textLabel_handLabel);
 #else
-    myGameTableStyle->setSmallFontBoardStyle(label_Sets);
-    myGameTableStyle->setSmallFontBoardStyle(label_Total);
+	myGameTableStyle->setSmallFontBoardStyle(label_Sets);
+	myGameTableStyle->setSmallFontBoardStyle(label_Total);
 	myGameTableStyle->setSmallFontBoardStyle(textLabel_Sets);
 	myGameTableStyle->setSmallFontBoardStyle(textLabel_Pot);
 	myGameTableStyle->setSmallFontBoardStyle(label_handNumber);
@@ -4261,12 +4259,12 @@ void gameTableImpl::saveGameTableGeometry()
 void gameTableImpl::restoreGameTableGeometry()
 {
 #ifdef ANDROID
-    this->showFullScreen();
+	this->showFullScreen();
 #else
 	if(myConfig->readConfigInt("GameTableFullScreenSave")) {
-    #ifndef GUI_800x480
+#ifndef GUI_800x480
 		if(actionFullScreen->isEnabled()) this->showFullScreen();
-    #endif
+#endif
 	} else {
 		//resize only if style size allow this and if NOT fixed windows size
 		if(!myGameTableStyle->getIfFixedWindowSize().toInt() && myConfig->readConfigInt("GameTableHeightSave") <= myGameTableStyle->getMaximumWindowHeight().toInt() && myConfig->readConfigInt("GameTableHeightSave") >= myGameTableStyle->getMinimumWindowHeight().toInt() && myConfig->readConfigInt("GameTableWidthSave") <= myGameTableStyle->getMaximumWindowWidth().toInt() && myConfig->readConfigInt("GameTableWidthSave") >= myGameTableStyle->getMinimumWindowWidth().toInt()) {
@@ -4337,7 +4335,7 @@ void gameTableImpl::hide()
 	//clear log
 #ifdef GUI_800x480
 	tabs.textBrowser_Log->clear();
-    tabsDiag->hide();
+	tabsDiag->hide();
 #else
 	textBrowser_Log->clear();
 #endif
@@ -4377,7 +4375,7 @@ void gameTableImpl::enableCallCheckPushButton()
 void gameTableImpl::tabsButtonClicked()
 {
 	tabsDiag->setParent(this, Qt::Dialog);
-    tabsDiag->showFullScreen();
+	tabsDiag->showFullScreen();
 	tabsDiag->show();
 	tabsDiag->raise();
 	tabsDiag->activateWindow();
@@ -4390,36 +4388,34 @@ void gameTableImpl::tabsButtonClose()
 #endif
 
 
-void gameTableImpl::checkActionLabelPosition() {
+void gameTableImpl::checkActionLabelPosition()
+{
 #ifndef GUI_800x480
-    int i;
-    if(myCardDeckStyle->getBigIndexesActionBottom() == "1") {
-        for (i=0; i<MAX_NUMBER_OF_PLAYERS; i++) {
-            if(i>=3 && i<=7) {
-                if(actionLabelArray[i]->y() == 56) {
-                    actionLabelArray[i]->move(actionLabelArray[i]->x(), 80);
-                }
-            }
-            else {
-                if(actionLabelArray[i]->y() == 43) {
-                    actionLabelArray[i]->move(actionLabelArray[i]->x(), 67);
-                }
-            }
-        }
-    }
-    else {
-        for (i=0; i<MAX_NUMBER_OF_PLAYERS; i++) {
-            if(i>=3 && i<=7) {
-                if(actionLabelArray[i]->y() == 80) {
-                    actionLabelArray[i]->move(actionLabelArray[i]->x(), 56);
-                }
-            }
-            else {
-                if(actionLabelArray[i]->y() == 67) {
-                    actionLabelArray[i]->move(actionLabelArray[i]->x(), 43);
-                }
-            }
-        }
-    }
+	int i;
+	if(myCardDeckStyle->getBigIndexesActionBottom() == "1") {
+		for (i=0; i<MAX_NUMBER_OF_PLAYERS; i++) {
+			if(i>=3 && i<=7) {
+				if(actionLabelArray[i]->y() == 56) {
+					actionLabelArray[i]->move(actionLabelArray[i]->x(), 80);
+				}
+			} else {
+				if(actionLabelArray[i]->y() == 43) {
+					actionLabelArray[i]->move(actionLabelArray[i]->x(), 67);
+				}
+			}
+		}
+	} else {
+		for (i=0; i<MAX_NUMBER_OF_PLAYERS; i++) {
+			if(i>=3 && i<=7) {
+				if(actionLabelArray[i]->y() == 80) {
+					actionLabelArray[i]->move(actionLabelArray[i]->x(), 56);
+				}
+			} else {
+				if(actionLabelArray[i]->y() == 67) {
+					actionLabelArray[i]->move(actionLabelArray[i]->x(), 43);
+				}
+			}
+		}
+	}
 #endif
 }

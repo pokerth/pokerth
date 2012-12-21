@@ -178,20 +178,20 @@ void MessageFilter::refreshConfig()
 	// special check settings
 	//Bad Words
 	std::list<std::string> badWordsList = config->readConfigStringList("BadWordsList");
-    std::list<std::string>::iterator it0;
+	std::list<std::string>::iterator it0;
 	QStringList bwList;
-    for(it0= badWordsList.begin(); it0 != badWordsList.end(); ++it0) {
-        bwList << QString::fromUtf8(it0->c_str());
+	for(it0= badWordsList.begin(); it0 != badWordsList.end(); ++it0) {
+		bwList << QString::fromUtf8(it0->c_str());
 	}
 	myBadWordCheck->setBadWords(bwList);
 
-    std::list<std::string> badWordsExceptionList = config->readConfigStringList("BadWordsList");
-    std::list<std::string>::iterator it1;
-    QStringList bweList;
-    for(it1= badWordsExceptionList.begin(); it1 != badWordsExceptionList.end(); ++it1) {
-        bweList << QString::fromUtf8(it1->c_str());
-    }
-    myBadWordCheck->setBadWordsException(bweList);
+	std::list<std::string> badWordsExceptionList = config->readConfigStringList("BadWordsList");
+	std::list<std::string>::iterator it1;
+	QStringList bweList;
+	for(it1= badWordsExceptionList.begin(); it1 != badWordsExceptionList.end(); ++it1) {
+		bweList << QString::fromUtf8(it1->c_str());
+	}
+	myBadWordCheck->setBadWordsException(bweList);
 
 	std::list<std::string> urlStringsList = config->readConfigStringList("UrlStringsList");
 	std::list<std::string>::iterator it2;

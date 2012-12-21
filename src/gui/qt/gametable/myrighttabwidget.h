@@ -25,7 +25,7 @@ class MyRightTabWidget : public QTabWidget
 {
 	Q_OBJECT
 public:
-    MyRightTabWidget(QGroupBox*);
+	MyRightTabWidget(QGroupBox*);
 
 	~MyRightTabWidget();
 

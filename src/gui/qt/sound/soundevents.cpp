@@ -1,13 +1,13 @@
 #include "soundevents.h"
 
 #ifdef ANDROID
-    #ifdef ANDROID_API8
-        #include "androidapi8dummy.h"
-    #else
-        #include "androidaudio.h"
-    #endif
+#ifdef ANDROID_API8
+#include "androidapi8dummy.h"
 #else
-    #include "sdlplayer.h"
+#include "androidaudio.h"
+#endif
+#else
+#include "sdlplayer.h"
 #endif
 
 
@@ -22,25 +22,25 @@ SoundEvents::SoundEvents(ConfigFile *c): myConfig(c), lastSBValue(0), lastSBLeve
 {
 
 #ifdef ANDROID
-    #ifdef ANDROID_API8
-        myPlayer = new AndroidApi8Dummy(myConfig);
-    #else
-        myPlayer = new AndroidAudio(myConfig);
-    #endif
+#ifdef ANDROID_API8
+	myPlayer = new AndroidApi8Dummy(myConfig);
 #else
-    myPlayer = new SDLPlayer(myConfig);
+	myPlayer = new AndroidAudio(myConfig);
+#endif
+#else
+	myPlayer = new SDLPlayer(myConfig);
 #endif
 
 }
 
 SoundEvents::~SoundEvents()
 {
-    myPlayer->deleteLater();
+	myPlayer->deleteLater();
 }
 
 void SoundEvents::reInitSoundEngine()
 {
-    myPlayer->reInit();
+	myPlayer->reInit();
 }
 
 void SoundEvents::blindsWereSet(int sB)
@@ -58,13 +58,13 @@ void SoundEvents::blindsWereSet(int sB)
 
 		if(myConfig->readConfigInt("PlayBlindRaiseNotification")) {
 			if(lastSBLevel == 1 || lastSBLevel == 2) {
-                myPlayer->playSound("blinds_raises_level1", 0);
+				myPlayer->playSound("blinds_raises_level1", 0);
 			}
 			if(lastSBLevel == 3 || lastSBLevel == 4) {
-                myPlayer->playSound("blinds_raises_level2", 0);
+				myPlayer->playSound("blinds_raises_level2", 0);
 			}
 			if(lastSBLevel >= 5) {
-                myPlayer->playSound("blinds_raises_level3", 0);
+				myPlayer->playSound("blinds_raises_level3", 0);
 			}
 		}
 	}
@@ -78,5 +78,5 @@ void SoundEvents::newGameStarts()
 //HACK until playSound is done by events
 void SoundEvents::playSound(std::string audioString, int playerID)
 {
-    myPlayer->playSound(audioString, playerID);
+	myPlayer->playSound(audioString, playerID);
 }

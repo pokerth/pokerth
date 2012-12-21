@@ -4,13 +4,13 @@
 #include <string>
 
 #ifdef ANDROID
-    #ifdef ANDROID_API8
-        class AndroidApi8Dummy;
-    #else
-        class AndroidAudio;
-    #endif
+#ifdef ANDROID_API8
+class AndroidApi8Dummy;
 #else
-    class SDLPlayer;
+class AndroidAudio;
+#endif
+#else
+class SDLPlayer;
 #endif
 
 
@@ -23,8 +23,8 @@ public:
 
 	void blindsWereSet(int sB);
 	void newGameStarts();
-    void playSound(std::string audioString, int playerID);
-    void reInitSoundEngine();
+	void playSound(std::string audioString, int playerID);
+	void reInitSoundEngine();
 
 protected:
 	// Prevent copy construction.
@@ -34,13 +34,13 @@ protected:
 private:
 
 #ifdef ANDROID
-    #ifdef ANDROID_API8
-        AndroidApi8Dummy *myPlayer;
-    #else
-        AndroidAudio *myPlayer;
-    #endif
+#ifdef ANDROID_API8
+	AndroidApi8Dummy *myPlayer;
 #else
-    SDLPlayer *myPlayer;
+	AndroidAudio *myPlayer;
+#endif
+#else
+	SDLPlayer *myPlayer;
 #endif
 	ConfigFile *myConfig;
 	int lastSBValue;

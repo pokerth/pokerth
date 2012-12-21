@@ -17,44 +17,44 @@ class ConfigFile;
 
 class AndroidAudio : public QObject
 {
-    Q_OBJECT
+	Q_OBJECT
 public:
-    explicit AndroidAudio(ConfigFile *c, QObject *parent = 0);
-    ~AndroidAudio();
+	explicit AndroidAudio(ConfigFile *c, QObject *parent = 0);
+	~AndroidAudio();
 
 signals:
 
 public slots:
 
-    void registerSound(const QString& path, const QString &name);
-    void reallyPlaySound(const QString& name);
-    void playSound(const std::string& name, int i);
-    void initAudio();
-    void closeAudio();
-    void reInit();
+	void registerSound(const QString& path, const QString &name);
+	void reallyPlaySound(const QString& name);
+	void playSound(const std::string& name, int i);
+	void initAudio();
+	void closeAudio();
+	void reInit();
 
 private:
-    void createEngine();
-    void destroyEngine();
-    void startSoundPlayer();
+	void createEngine();
+	void destroyEngine();
+	void startSoundPlayer();
 
-    // engine interfaces
-    SLObjectItf mEngineObject;
-    SLEngineItf mEngineEngine;
+	// engine interfaces
+	SLObjectItf mEngineObject;
+	SLEngineItf mEngineEngine;
 
-    // output mix interfaces
-    SLObjectItf mOutputMixObject;
+	// output mix interfaces
+	SLObjectItf mOutputMixObject;
 
-    // buffer queue player interfaces - Effects
-    SLObjectItf mPlayerObject;
-    SLPlayItf mPlayerPlay;
-    SLBufferQueueItf mPlayerQueue;
+	// buffer queue player interfaces - Effects
+	SLObjectItf mPlayerObject;
+	SLPlayItf mPlayerPlay;
+	SLBufferQueueItf mPlayerQueue;
 
-    QMap<QString, AndroidSoundEffect*> mSounds;
-    int32_t mSoundCount;
+	QMap<QString, AndroidSoundEffect*> mSounds;
+	int32_t mSoundCount;
 
-    ConfigFile *myConfig;
-    bool audioEnabled;
+	ConfigFile *myConfig;
+	bool audioEnabled;
 };
 
 #endif // ANDROIDAUDIO_H

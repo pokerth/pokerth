@@ -239,8 +239,8 @@ void selectAvatarDialogImpl::isAccepted()
 	if(groupBox->isChecked()) {
 		if(myItemList.size() == 0) {
 			MyMessageBox::warning(this, tr("Avatar File Error"),
-								 tr("Please select an avatar from the list!"),
-								 QMessageBox::Ok);
+								  tr("Please select an avatar from the list!"),
+								  QMessageBox::Ok);
 			settingsCorrect = FALSE;
 		} else settingsCorrect = TRUE;;
 	}
@@ -254,18 +254,18 @@ void selectAvatarDialogImpl::isAccepted()
 				settingsCorrect = TRUE;
 			} else {
 				MyMessageBox::warning(this, tr("Avatar File Error"),
-									 tr("The file size of the chosen picture is too big. (max. 30KB)\n"
-										"Please choose a smaller picture!"),
-									 QMessageBox::Ok);
+									  tr("The file size of the chosen picture is too big. (max. 30KB)\n"
+										 "Please choose a smaller picture!"),
+									  QMessageBox::Ok);
 				settingsCorrect = FALSE;
 				externalAvatar = "";
 
 			}
 		} else {
 			MyMessageBox::warning(this, tr("Avatar File Error"),
-								 tr("The entered avatar picture doesn't exist.\n"
-									"Please enter an valid picture!"),
-								 QMessageBox::Ok);
+								  tr("The entered avatar picture doesn't exist.\n"
+									 "Please enter an valid picture!"),
+								  QMessageBox::Ok);
 			settingsCorrect = FALSE;
 			externalAvatar = "";
 		}

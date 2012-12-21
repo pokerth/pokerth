@@ -91,7 +91,7 @@ void Session::startLocalGame(const GameData &gameData, const StartData &startDat
 
 	currentGame.reset();
 
-    currentGameNum++;
+	currentGameNum++;
 
 	myGui->initGui(gameData.guiSpeed);
 
@@ -177,10 +177,10 @@ void Session::startInternetClient()
 	myNetClient->Init(
 		myConfig->readConfigString("InternetServerAddress"),
 //		myConfig->readConfigString("InternetServerListAddress"),
-        "pokerth.net/serverlist_testing.xml.z",
+		"pokerth.net/serverlist_testing.xml.z",
 		myConfig->readConfigString("ServerPassword"),
 //		myConfig->readConfigInt("InternetServerConfigMode") == 0,
-        true,
+		true,
 		myConfig->readConfigInt("InternetServerPort"),
 		myConfig->readConfigInt("InternetServerUseIpv6") == 1,
 		myConfig->readConfigInt("InternetServerUseSctp") == 1,

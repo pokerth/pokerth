@@ -143,7 +143,7 @@ private:
 	bool calledIngame;
 	int changedLanguageIndex;
 	guiLog *myGuiLog;
-    FlickCharm *fc;
+	FlickCharm *fc;
 };
 
 #endif

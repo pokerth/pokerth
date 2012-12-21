@@ -70,53 +70,51 @@ startWindowImpl::startWindowImpl(ConfigFile *c, Log *l)
 	this->installEventFilter(this);
 
 	//Widgets Grafiken per Stylesheets setzen
-    QString myAppDataPath = QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str());
+	QString myAppDataPath = QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str());
 	this->setWindowIcon(QIcon(myAppDataPath+"gfx/gui/misc/windowicon.png"));
 
 	this->setStatusBar(0);
 
 #ifdef GUI_800x480
-    #ifdef ANDROID
-        this->menubar->hide();
+#ifdef ANDROID
+	this->menubar->hide();
 
-        //check if custom background picture for the resolution is there. Otherwise create it!
-        QString UserDataDir = QString::fromUtf8(myConfig->readConfigString("UserDataDir").c_str());
-        QDesktopWidget dw;
-        int screenWidth = dw.screenGeometry().width();
-        int screenHeight = dw.screenGeometry().height();
-        QString customStartWindowBgFileString(UserDataDir+"/startwindowbg_"+QString::number(screenWidth)+"x"+QString::number(screenHeight)+".png");
-        QFile customStartWindowBgFile(customStartWindowBgFileString);
-        if(customStartWindowBgFile.exists()) {
-            centralwidget->setStyleSheet(".QWidget { background-image: url("+QFileInfo(customStartWindowBgFile).absoluteFilePath()+"); background-position: bottom center; background-origin: content; background-repeat: no-repeat;}");
-        }
-        else {
-            QPixmap pix(":/android/android-data/gfx/gui/misc/startwindowbg_800x480.png");
-            pix = pix.scaled(screenWidth, screenHeight, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
-            if(pix.save(customStartWindowBgFileString)) {
-                centralwidget->setStyleSheet(".QWidget { background-image: url("+QFileInfo(customStartWindowBgFile).absoluteFilePath()+"); background-position: bottom center; background-origin: content; background-repeat: no-repeat;}");
-            }
-            else {
-                centralwidget->setStyleSheet(".QWidget { background-image: url(:/android/android-data/gfx/gui/misc/startwindowbg_800x480.png); background-position: bottom center; background-origin: content; background-repeat: no-repeat;}");
-            }
+	//check if custom background picture for the resolution is there. Otherwise create it!
+	QString UserDataDir = QString::fromUtf8(myConfig->readConfigString("UserDataDir").c_str());
+	QDesktopWidget dw;
+	int screenWidth = dw.screenGeometry().width();
+	int screenHeight = dw.screenGeometry().height();
+	QString customStartWindowBgFileString(UserDataDir+"/startwindowbg_"+QString::number(screenWidth)+"x"+QString::number(screenHeight)+".png");
+	QFile customStartWindowBgFile(customStartWindowBgFileString);
+	if(customStartWindowBgFile.exists()) {
+		centralwidget->setStyleSheet(".QWidget { background-image: url("+QFileInfo(customStartWindowBgFile).absoluteFilePath()+"); background-position: bottom center; background-origin: content; background-repeat: no-repeat;}");
+	} else {
+		QPixmap pix(":/android/android-data/gfx/gui/misc/startwindowbg_800x480.png");
+		pix = pix.scaled(screenWidth, screenHeight, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
+		if(pix.save(customStartWindowBgFileString)) {
+			centralwidget->setStyleSheet(".QWidget { background-image: url("+QFileInfo(customStartWindowBgFile).absoluteFilePath()+"); background-position: bottom center; background-origin: content; background-repeat: no-repeat;}");
+		} else {
+			centralwidget->setStyleSheet(".QWidget { background-image: url(:/android/android-data/gfx/gui/misc/startwindowbg_800x480.png); background-position: bottom center; background-origin: content; background-repeat: no-repeat;}");
+		}
 
-        }
-        this->showFullScreen();
-    #else
+	}
+	this->showFullScreen();
+#else
 //        this->menubar->setStyleSheet("QMenuBar { background-color: #4B4B4B; font-size:20px; border-width: 0px;} QMenuBar::item { color: #F0F0F0; }");
-        this->menubar->hide();
-        centralwidget->setStyleSheet(".QWidget { background-image: url(\""+myAppDataPath+"gfx/gui/misc/startwindowbg_800x480.png\"); background-position: bottom center; background-origin: content; background-repeat: no-repeat;}");
-    #endif
-        pushButtonStart_Local_Game->setStyleSheet("QPushButton { text-align:left; font-weight:bold; padding-left: 3px; padding-bottom: 3px; padding-top: 3px; padding-right: 3px; background-color: #4B4B4B; color: #F0F0F0; font-size:22px; border-width: 0px;}");
-        pushButtonInternet_Game->setStyleSheet("QPushButton { text-align:left; font-weight:bold; padding-left: 3px; padding-bottom: 3px; padding-top: 3px; padding-right: 3px; background-color: #4B4B4B; color: #F0F0F0; font-size:22px; border-width: 0px;}");
-        pushButton_Create_Network_Game->setStyleSheet("QPushButton { text-align:left; font-weight:bold; padding-left: 3px; padding-bottom: 3px; padding-top: 3px; padding-right: 3px; background-color: #4B4B4B; color: #F0F0F0; font-size:22px; border-width: 0px;}");
-        pushButton_Join_Network_Game->setStyleSheet("QPushButton { text-align:left; font-weight:bold; padding-left: 3px; padding-bottom: 3px; padding-top: 3px; padding-right: 3px; background-color: #4B4B4B; color: #F0F0F0; font-size:22px; border-width: 0px;}");
-        pushButton_about->setStyleSheet("QPushButton { text-align:left; font-weight:bold; padding-left: 3px; padding-bottom: 3px; padding-top: 3px; padding-right: 3px; background-color: #4B4B4B; color: #F0F0F0; font-size:22px; border-width: 0px;}");
-        pushButton_configure->setStyleSheet("QPushButton { text-align:left; font-weight:bold; padding-left: 3px; padding-bottom: 3px; padding-top: 3px; padding-right: 3px; background-color: #4B4B4B; color: #F0F0F0; font-size:22px; border-width: 0px;}");
-        pushButton_Logs->setStyleSheet("QPushButton { text-align:left; font-weight:bold; padding-left: 3px; padding-bottom: 3px; padding-top: 3px; padding-right: 3px; background-color: #4B4B4B; color: #F0F0F0; font-size:22px; border-width: 0px;}");
+	this->menubar->hide();
+	centralwidget->setStyleSheet(".QWidget { background-image: url(\""+myAppDataPath+"gfx/gui/misc/startwindowbg_800x480.png\"); background-position: bottom center; background-origin: content; background-repeat: no-repeat;}");
+#endif
+	pushButtonStart_Local_Game->setStyleSheet("QPushButton { text-align:left; font-weight:bold; padding-left: 3px; padding-bottom: 3px; padding-top: 3px; padding-right: 3px; background-color: #4B4B4B; color: #F0F0F0; font-size:22px; border-width: 0px;}");
+	pushButtonInternet_Game->setStyleSheet("QPushButton { text-align:left; font-weight:bold; padding-left: 3px; padding-bottom: 3px; padding-top: 3px; padding-right: 3px; background-color: #4B4B4B; color: #F0F0F0; font-size:22px; border-width: 0px;}");
+	pushButton_Create_Network_Game->setStyleSheet("QPushButton { text-align:left; font-weight:bold; padding-left: 3px; padding-bottom: 3px; padding-top: 3px; padding-right: 3px; background-color: #4B4B4B; color: #F0F0F0; font-size:22px; border-width: 0px;}");
+	pushButton_Join_Network_Game->setStyleSheet("QPushButton { text-align:left; font-weight:bold; padding-left: 3px; padding-bottom: 3px; padding-top: 3px; padding-right: 3px; background-color: #4B4B4B; color: #F0F0F0; font-size:22px; border-width: 0px;}");
+	pushButton_about->setStyleSheet("QPushButton { text-align:left; font-weight:bold; padding-left: 3px; padding-bottom: 3px; padding-top: 3px; padding-right: 3px; background-color: #4B4B4B; color: #F0F0F0; font-size:22px; border-width: 0px;}");
+	pushButton_configure->setStyleSheet("QPushButton { text-align:left; font-weight:bold; padding-left: 3px; padding-bottom: 3px; padding-top: 3px; padding-right: 3px; background-color: #4B4B4B; color: #F0F0F0; font-size:22px; border-width: 0px;}");
+	pushButton_Logs->setStyleSheet("QPushButton { text-align:left; font-weight:bold; padding-left: 3px; padding-bottom: 3px; padding-top: 3px; padding-right: 3px; background-color: #4B4B4B; color: #F0F0F0; font-size:22px; border-width: 0px;}");
 
-        connect( pushButton_about, SIGNAL( clicked() ), this, SLOT( callAboutPokerthDialog() ) );
-        connect( pushButton_configure, SIGNAL( clicked() ), this, SLOT( callSettingsDialogFromStartwindow() ) );
-        connect( pushButton_Logs, SIGNAL( clicked() ), this, SLOT( callLogFileDialog() ) );
+	connect( pushButton_about, SIGNAL( clicked() ), this, SLOT( callAboutPokerthDialog() ) );
+	connect( pushButton_configure, SIGNAL( clicked() ), this, SLOT( callSettingsDialogFromStartwindow() ) );
+	connect( pushButton_Logs, SIGNAL( clicked() ), this, SLOT( callLogFileDialog() ) );
 #else
 	this->menubar->setStyleSheet("QMenuBar { background-color: #4B4B4B; font-size:12px; border-width: 0px;} QMenuBar::item { color: #F0F0F0; }");
 
@@ -127,8 +125,8 @@ startWindowImpl::startWindowImpl(ConfigFile *c, Log *l)
 	pushButton_Create_Network_Game->setStyleSheet("QPushButton { text-align:left; font-weight:bold; padding-left: 1px; padding-bottom: 3px; padding-top: 3px; padding-right: 3px; background-color: #4B4B4B; color: #F0F0F0; font-size:12px; border-width: 0px;}");
 	pushButton_Join_Network_Game->setStyleSheet("QPushButton { text-align:left; font-weight:bold; padding-left: 1px; padding-bottom: 3px; padding-top: 3px; padding-right: 3px; background-color: #4B4B4B; color: #F0F0F0; font-size:12px; border-width: 0px;}");
 
-        connect( actionAbout_PokerTH, SIGNAL( triggered() ), this, SLOT( callAboutPokerthDialog() ) );
-        connect( actionConfigure_PokerTH, SIGNAL( triggered() ), this, SLOT( callSettingsDialogFromStartwindow() ) );
+	connect( actionAbout_PokerTH, SIGNAL( triggered() ), this, SLOT( callAboutPokerthDialog() ) );
+	connect( actionConfigure_PokerTH, SIGNAL( triggered() ), this, SLOT( callSettingsDialogFromStartwindow() ) );
 
 #endif
 
@@ -243,7 +241,7 @@ void startWindowImpl::callNewGameDialog()
 	if(myConfig->readConfigInt("ShowGameSettingsDialogOnNewGame")) {
 
 #ifdef ANDROID
-        myGuiInterface->getMyW()->hide();
+		myGuiInterface->getMyW()->hide();
 #endif
 		myNewGameDialog->exec();
 		if (myNewGameDialog->result() == QDialog::Accepted ) {
@@ -440,7 +438,7 @@ void startWindowImpl::callRejoinPossibleDialog(unsigned gameId)
 	assert(mySession);
 	GameInfo info(mySession->getClientGameInfo(gameId));*/
 
-        MyMessageBox msgBox;
+	MyMessageBox msgBox;
 	msgBox.setIcon(QMessageBox::Question);
 	msgBox.setWindowTitle("Rejoin possible!");
 //	msgBox.setText(QString("There is an existing session with the game: %1").arg(QString::fromUtf8(info.name.c_str())));
@@ -684,165 +682,165 @@ void startWindowImpl::networkError(int errorID, int /*osErrorID*/)
 	hideTimeoutDialog();
 	switch (errorID) {
 	case ERR_SOCK_SERVERADDR_NOT_SET: {
-                MyMessageBox::warning(this, tr("Network Error"),
-							 tr("Server address was not set."),
-							 QMessageBox::Close);
+		MyMessageBox::warning(this, tr("Network Error"),
+							  tr("Server address was not set."),
+							  QMessageBox::Close);
 	}
 	break;
 	case ERR_SOCK_INVALID_PORT: {
-                MyMessageBox::warning(this, tr("Network Error"),
-							 tr("An invalid port was set (ports 0-1023 are not allowed)."),
-							 QMessageBox::Close);
+		MyMessageBox::warning(this, tr("Network Error"),
+							  tr("An invalid port was set (ports 0-1023 are not allowed)."),
+							  QMessageBox::Close);
 	}
 	break;
 	case ERR_SOCK_CREATION_FAILED: {
-                MyMessageBox::warning(this, tr("Network Error"),
-							 tr("Could not create a socket for TCP communication."),
-							 QMessageBox::Close);
+		MyMessageBox::warning(this, tr("Network Error"),
+							  tr("Could not create a socket for TCP communication."),
+							  QMessageBox::Close);
 	}
 	break;
 	case ERR_SOCK_SET_ADDR_FAILED: {
-                MyMessageBox::warning(this, tr("Network Error"),
-							 tr("Could not set the IP address."),
-							 QMessageBox::Close);
+		MyMessageBox::warning(this, tr("Network Error"),
+							  tr("Could not set the IP address."),
+							  QMessageBox::Close);
 	}
 	break;
 	case ERR_SOCK_SET_PORT_FAILED: {
-                MyMessageBox::warning(this, tr("Network Error"),
-							 tr("Could not set the port for this type of address."),
-							 QMessageBox::Close);
+		MyMessageBox::warning(this, tr("Network Error"),
+							  tr("Could not set the port for this type of address."),
+							  QMessageBox::Close);
 	}
 	break;
 	case ERR_SOCK_RESOLVE_FAILED: {
-                MyMessageBox::warning(this, tr("Network Error"),
-                                                         tr("The server name could not be resolved."),
-                                                         QMessageBox::Close);
+		MyMessageBox::warning(this, tr("Network Error"),
+							  tr("The server name could not be resolved."),
+							  QMessageBox::Close);
 	}
 	break;
 	case ERR_SOCK_BIND_FAILED: {
-                MyMessageBox::warning(this, tr("Network Error"),
-							 tr("Bind failed - please choose a different port."),
-							 QMessageBox::Close);
+		MyMessageBox::warning(this, tr("Network Error"),
+							  tr("Bind failed - please choose a different port."),
+							  QMessageBox::Close);
 	}
 	break;
 	case ERR_SOCK_LISTEN_FAILED: {
-                MyMessageBox::warning(this, tr("Network Error"),
-							 tr("Internal network error: \"listen\" failed."),
-							 QMessageBox::Close);
+		MyMessageBox::warning(this, tr("Network Error"),
+							  tr("Internal network error: \"listen\" failed."),
+							  QMessageBox::Close);
 	}
 	break;
 	case ERR_SOCK_ACCEPT_FAILED: {
-                MyMessageBox::warning(this, tr("Network Error"),
-							 tr("Server execution was terminated."),
-							 QMessageBox::Close);
+		MyMessageBox::warning(this, tr("Network Error"),
+							  tr("Server execution was terminated."),
+							  QMessageBox::Close);
 	}
 	break;
 	case ERR_SOCK_CONNECT_FAILED: {
-                MyMessageBox::warning(this, tr("Network Error"),
-                                                         tr("Could not connect to the server."),
-                                                         QMessageBox::Close);
+		MyMessageBox::warning(this, tr("Network Error"),
+							  tr("Could not connect to the server."),
+							  QMessageBox::Close);
 	}
 	break;
 	case ERR_SOCK_CONNECT_TIMEOUT: {
-                MyMessageBox::warning(this, tr("Network Error"),
-							 tr("Connection timed out.\nPlease check the server address.\n\nIf the server is behind a NAT-Router, make sure port forwarding has been set up on server side."),
-							 QMessageBox::Close);
+		MyMessageBox::warning(this, tr("Network Error"),
+							  tr("Connection timed out.\nPlease check the server address.\n\nIf the server is behind a NAT-Router, make sure port forwarding has been set up on server side."),
+							  QMessageBox::Close);
 	}
 	break;
 	case ERR_SOCK_SELECT_FAILED: {
-                MyMessageBox::warning(this, tr("Network Error"),
-							 tr("Internal network error: \"select\" failed."),
-							 QMessageBox::Close);
+		MyMessageBox::warning(this, tr("Network Error"),
+							  tr("Internal network error: \"select\" failed."),
+							  QMessageBox::Close);
 	}
 	break;
 	case ERR_SOCK_SEND_FAILED: {
-                MyMessageBox::warning(this, tr("Network Error"),
-							 tr("Internal network error: \"send\" failed."),
-							 QMessageBox::Close);
+		MyMessageBox::warning(this, tr("Network Error"),
+							  tr("Internal network error: \"send\" failed."),
+							  QMessageBox::Close);
 	}
 	break;
 	case ERR_SOCK_RECV_FAILED: // Sometimes windows reports recv failed on close.
 	case ERR_SOCK_CONN_RESET: {
-                MyMessageBox::warning(this, tr("Network Error"),
-							 tr("The connection to the server was lost."),
-							 QMessageBox::Close);
+		MyMessageBox::warning(this, tr("Network Error"),
+							  tr("The connection to the server was lost."),
+							  QMessageBox::Close);
 	}
 	break;
 	case ERR_SOCK_CONN_EXISTS: {
-                MyMessageBox::warning(this, tr("Network Error"),
-							 tr("Internal network error: Duplicate TCP connection."),
-							 QMessageBox::Close);
+		MyMessageBox::warning(this, tr("Network Error"),
+							  tr("Internal network error: Duplicate TCP connection."),
+							  QMessageBox::Close);
 	}
 	break;
 	case ERR_SOCK_INVALID_PACKET: {
-                MyMessageBox::warning(this, tr("Network Error"),
-							 tr("An invalid network packet was received.\nPlease make sure that all players use the same version of PokerTH."),
-							 QMessageBox::Close);
+		MyMessageBox::warning(this, tr("Network Error"),
+							  tr("An invalid network packet was received.\nPlease make sure that all players use the same version of PokerTH."),
+							  QMessageBox::Close);
 	}
 	break;
 	case ERR_SOCK_INVALID_STATE: {
-                MyMessageBox::warning(this, tr("Network Error"),
-							 tr("Internal state error.\nPlease make sure that all players use the same version of PokerTH."),
-							 QMessageBox::Close);
+		MyMessageBox::warning(this, tr("Network Error"),
+							  tr("Internal state error.\nPlease make sure that all players use the same version of PokerTH."),
+							  QMessageBox::Close);
 	}
 	break;
 	case ERR_SOCK_INVALID_SERVERLIST_URL:
 	case ERR_SOCK_TRANSFER_INVALID_URL: {
-                MyMessageBox::warning(this, tr("Network Error"),
-							 tr("Invalid server list URL.\nPlease correct the address in the settings."),
-							 QMessageBox::Close);
+		MyMessageBox::warning(this, tr("Network Error"),
+							  tr("Invalid server list URL.\nPlease correct the address in the settings."),
+							  QMessageBox::Close);
 	}
 	break;
 	case ERR_SOCK_INVALID_SERVERLIST_XML: {
-                MyMessageBox::warning(this, tr("Network Error"),
-							 tr("The PokerTH internet server list contains invalid data.\nIf you use a custom server list, please make sure its format is correct."),
-							 QMessageBox::Close);
+		MyMessageBox::warning(this, tr("Network Error"),
+							  tr("The PokerTH internet server list contains invalid data.\nIf you use a custom server list, please make sure its format is correct."),
+							  QMessageBox::Close);
 	}
 	break;
 	case ERR_SOCK_UNZIP_FAILED: {
-                MyMessageBox::warning(this, tr("Network Error"),
-							 tr("Could not unzip the PokerTH internet server list."),
-							 QMessageBox::Close);
+		MyMessageBox::warning(this, tr("Network Error"),
+							  tr("Could not unzip the PokerTH internet server list."),
+							  QMessageBox::Close);
 	}
 	break;
 	case ERR_SOCK_TRANSFER_INIT_FAILED:
 	case ERR_SOCK_TRANSFER_SELECT_FAILED:
 	case ERR_SOCK_TRANSFER_FAILED: {
-                MyMessageBox::warning(this, tr("Network Error"),
-							 tr("Could not download the PokerTH internet server list.\nPlease make sure you are directly connected to the internet."),
-							 QMessageBox::Close);
+		MyMessageBox::warning(this, tr("Network Error"),
+							  tr("Could not download the PokerTH internet server list.\nPlease make sure you are directly connected to the internet."),
+							  QMessageBox::Close);
 	}
 	break;
 	case ERR_SOCK_TRANSFER_OPEN_FAILED: {
-                MyMessageBox::warning(this, tr("Network Error"),
-							 tr("Could not open the target file when downloading the server list."),
-							 QMessageBox::Close);
+		MyMessageBox::warning(this, tr("Network Error"),
+							  tr("Could not open the target file when downloading the server list."),
+							  QMessageBox::Close);
 	}
 	break;
 	case ERR_NET_VERSION_NOT_SUPPORTED: {
-                MyMessageBox msgBox(QMessageBox::Warning, tr("Network Error"),
-						   tr("The PokerTH server does not support this version of the game.<br>Please go to <a href=\"http://www.pokerth.net/\" target=\"_blank\">http://www.pokerth.net</a> and download the latest version."),
-						   QMessageBox::Close, this);
+		MyMessageBox msgBox(QMessageBox::Warning, tr("Network Error"),
+							tr("The PokerTH server does not support this version of the game.<br>Please go to <a href=\"http://www.pokerth.net/\" target=\"_blank\">http://www.pokerth.net</a> and download the latest version."),
+							QMessageBox::Close, this);
 		msgBox.setTextFormat(Qt::RichText);
 		msgBox.exec();
 	}
 	break;
 	case ERR_NET_SERVER_FULL: {
-                MyMessageBox::warning(this, tr("Network Error"),
-							 tr("Sorry, this server is already full."),
-							 QMessageBox::Close);
+		MyMessageBox::warning(this, tr("Network Error"),
+							  tr("Sorry, this server is already full."),
+							  QMessageBox::Close);
 	}
 	break;
 	case ERR_NET_INVALID_PASSWORD: {
-                MyMessageBox::warning(this, tr("Network Error"),
-							 tr("Invalid login.\nPlease check your username and password."),
-							 QMessageBox::Close);
+		MyMessageBox::warning(this, tr("Network Error"),
+							  tr("Invalid login.\nPlease check your username and password."),
+							  QMessageBox::Close);
 	}
 	break;
 	case ERR_NET_INVALID_PASSWORD_STR: {
-                MyMessageBox::warning(this, tr("Network Error"),
-							 tr("The password is too long. Please choose another one."),
-							 QMessageBox::Close);
+		MyMessageBox::warning(this, tr("Network Error"),
+							  tr("The password is too long. Please choose another one."),
+							  QMessageBox::Close);
 	}
 	break;
 	case ERR_NET_PLAYER_NAME_IN_USE: {
@@ -856,122 +854,122 @@ void startWindowImpl::networkError(int errorID, int /*osErrorID*/)
 	}
 	break;
 	case ERR_NET_INVALID_GAME_NAME: {
-                MyMessageBox::warning(this, tr("Network Error"),
-							 tr("The game name is either too short or too long. Please choose another one."),
-							 QMessageBox::Close);
+		MyMessageBox::warning(this, tr("Network Error"),
+							  tr("The game name is either too short or too long. Please choose another one."),
+							  QMessageBox::Close);
 	}
 	break;
 	case ERR_NET_UNKNOWN_GAME: {
-                MyMessageBox::warning(this, tr("Network Error"),
-							 tr("The game could not be found."),
-							 QMessageBox::Close);
+		MyMessageBox::warning(this, tr("Network Error"),
+							  tr("The game could not be found."),
+							  QMessageBox::Close);
 	}
 	break;
 	case ERR_NET_INVALID_CHAT_TEXT: {
-                MyMessageBox::warning(this, tr("Network Error"),
-							 tr("The chat text is invalid."),
-							 QMessageBox::Close);
+		MyMessageBox::warning(this, tr("Network Error"),
+							  tr("The chat text is invalid."),
+							  QMessageBox::Close);
 	}
 	break;
 	case ERR_NET_UNKNOWN_PLAYER_ID: {
-                MyMessageBox::warning(this, tr("Network Error"),
-							 tr("The server referred to an unknown player. Aborting."),
-							 QMessageBox::Close);
+		MyMessageBox::warning(this, tr("Network Error"),
+							  tr("The server referred to an unknown player. Aborting."),
+							  QMessageBox::Close);
 	}
 	break;
 	case ERR_NET_NO_CURRENT_PLAYER: {
-                MyMessageBox::warning(this, tr("Network Error"),
-							 tr("Internal error: The current player could not be found."),
-							 QMessageBox::Close);
+		MyMessageBox::warning(this, tr("Network Error"),
+							  tr("Internal error: The current player could not be found."),
+							  QMessageBox::Close);
 	}
 	break;
 	case ERR_NET_PLAYER_NOT_ACTIVE: {
-                MyMessageBox::warning(this, tr("Network Error"),
-							 tr("Internal error: The current player is not active."),
-							 QMessageBox::Close);
+		MyMessageBox::warning(this, tr("Network Error"),
+							  tr("Internal error: The current player is not active."),
+							  QMessageBox::Close);
 	}
 	break;
 	case ERR_NET_PLAYER_KICKED: {
 		mySession->terminateNetworkClient();
-                MyMessageBox::warning(this, tr("Network Error"),
-							 tr("You were kicked from the server."),
-							 QMessageBox::Close);
+		MyMessageBox::warning(this, tr("Network Error"),
+							  tr("You were kicked from the server."),
+							  QMessageBox::Close);
 	}
 	break;
 	case ERR_NET_PLAYER_BANNED: {
 		mySession->terminateNetworkClient();
-                MyMessageBox::warning(this, tr("Network Error"),
-							 tr("You were temporarily banned from the server."),
-							 QMessageBox::Close);
+		MyMessageBox::warning(this, tr("Network Error"),
+							  tr("You were temporarily banned from the server."),
+							  QMessageBox::Close);
 	}
 	break;
 	case ERR_NET_PLAYER_BLOCKED: {
 		mySession->terminateNetworkClient();
-                MyMessageBox::warning(this, tr("Network Error"),
-							 tr("Your account is blocked indefinitely."),
-							 QMessageBox::Close);
+		MyMessageBox::warning(this, tr("Network Error"),
+							  tr("Your account is blocked indefinitely."),
+							  QMessageBox::Close);
 	}
 	break;
 	case ERR_NET_SESSION_TIMED_OUT: {
 		mySession->terminateNetworkClient();
-                MyMessageBox::warning(this, tr("Network Error"),
-							 tr("Your server connection timed out due to inactivity. You are very welcome to reconnect!"),
-							 QMessageBox::Close);
+		MyMessageBox::warning(this, tr("Network Error"),
+							  tr("Your server connection timed out due to inactivity. You are very welcome to reconnect!"),
+							  QMessageBox::Close);
 	}
 	break;
 	case ERR_NET_INVALID_PLAYER_COUNT: {
-                MyMessageBox::warning(this, tr("Network Error"),
-							 tr("The client player count is invalid."),
-							 QMessageBox::Close);
+		MyMessageBox::warning(this, tr("Network Error"),
+							  tr("The client player count is invalid."),
+							  QMessageBox::Close);
 	}
 	break;
 	case ERR_NET_TOO_MANY_MANUAL_BLINDS: {
-                MyMessageBox::warning(this, tr("Network Error"),
-							 tr("Too many manual blinds were set. Please reconfigure the manual blinds."),
-							 QMessageBox::Close);
+		MyMessageBox::warning(this, tr("Network Error"),
+							  tr("Too many manual blinds were set. Please reconfigure the manual blinds."),
+							  QMessageBox::Close);
 	}
 	break;
 	case ERR_NET_INVALID_AVATAR_FILE:
 	case ERR_NET_WRONG_AVATAR_SIZE: {
-                MyMessageBox::warning(this, tr("Network Error"),
-							 tr("An invalid avatar file was configured. Please choose a different avatar."),
-							 QMessageBox::Close);
+		MyMessageBox::warning(this, tr("Network Error"),
+							  tr("An invalid avatar file was configured. Please choose a different avatar."),
+							  QMessageBox::Close);
 	}
 	break;
 	case ERR_NET_AVATAR_TOO_LARGE: {
-                MyMessageBox::warning(this, tr("Network Error"),
-							 tr("The selected avatar file is too large. Please choose a different avatar."),
-							 QMessageBox::Close);
+		MyMessageBox::warning(this, tr("Network Error"),
+							  tr("The selected avatar file is too large. Please choose a different avatar."),
+							  QMessageBox::Close);
 	}
 	break;
 	case ERR_NET_INIT_BLOCKED: {
-                MyMessageBox::warning(this, tr("Network Error"),
-							 tr("You cannot login at this time. Please try again in a few seconds."),
-							 QMessageBox::Close);
+		MyMessageBox::warning(this, tr("Network Error"),
+							  tr("You cannot login at this time. Please try again in a few seconds."),
+							  QMessageBox::Close);
 	}
 	break;
 	case ERR_NET_INVALID_REQUEST_ID: {
-                MyMessageBox::warning(this, tr("Network Error"),
-							 tr("An internal avatar error occured. Please report this to an admin in the lobby chat."),
-							 QMessageBox::Close);
+		MyMessageBox::warning(this, tr("Network Error"),
+							  tr("An internal avatar error occured. Please report this to an admin in the lobby chat."),
+							  QMessageBox::Close);
 	}
 	break;
 	case ERR_NET_START_TIMEOUT: {
-                MyMessageBox::warning(this, tr("Network Error"),
-							 tr("Could not start game: Synchronization failed."),
-							 QMessageBox::Close);
+		MyMessageBox::warning(this, tr("Network Error"),
+							  tr("Could not start game: Synchronization failed."),
+							  QMessageBox::Close);
 	}
 	break;
 	case ERR_NET_SERVER_MAINTENANCE: {
-                MyMessageBox::warning(this, tr("Network Error"),
-							 tr("The server is down for maintenance. Please try again later."),
-							 QMessageBox::Close);
+		MyMessageBox::warning(this, tr("Network Error"),
+							  tr("The server is down for maintenance. Please try again later."),
+							  QMessageBox::Close);
 	}
 	break;
 	default:  {
-                MyMessageBox::warning(this, tr("Network Error"),
-							 tr("An internal error occured."),
-							 QMessageBox::Close);
+		MyMessageBox::warning(this, tr("Network Error"),
+							  tr("An internal error occured."),
+							  QMessageBox::Close);
 	}
 	}
 	// close dialogs
@@ -988,44 +986,44 @@ void startWindowImpl::networkNotification(int notificationId)
 	hideTimeoutDialog();
 	switch (notificationId) {
 	case NTF_NET_JOIN_IP_BLOCKED: {
-                MyMessageBox::warning(this, tr("Network Notification"),
-							 tr("You cannot join this game, because another player in that game has your network address."),
-							 QMessageBox::Close);
+		MyMessageBox::warning(this, tr("Network Notification"),
+							  tr("You cannot join this game, because another player in that game has your network address."),
+							  QMessageBox::Close);
 	}
 	break;
 	case NTF_NET_REMOVED_START_FAILED: {
 		myGameLobbyDialog->stopWaitStartGameMsgBoxTimer();
-                if(MyMessageBox::warning(this, tr("Network Notification"),
-								tr("Your connection to the server is very slow, the game had to start without you."),
-								QMessageBox::Close) == QMessageBox::Close) {
+		if(MyMessageBox::warning(this, tr("Network Notification"),
+								 tr("Your connection to the server is very slow, the game had to start without you."),
+								 QMessageBox::Close) == QMessageBox::Close) {
 			myGameLobbyDialog->hideWaitStartGameMsgBox();
 		}
 	}
 	break;
 	case NTF_NET_REMOVED_KICKED: {
-                MyMessageBox::warning(this, tr("Network Notification"),
-							 tr("You were kicked from the game."),
-							 QMessageBox::Close);
+		MyMessageBox::warning(this, tr("Network Notification"),
+							  tr("You were kicked from the game."),
+							  QMessageBox::Close);
 	}
 	break;
 	case NTF_NET_REMOVED_GAME_FULL:
 	case NTF_NET_JOIN_GAME_FULL: {
-                MyMessageBox::warning(this, tr("Network Notification"),
-							 tr("Sorry, this game is already full."),
-							 QMessageBox::Close);
+		MyMessageBox::warning(this, tr("Network Notification"),
+							  tr("Sorry, this game is already full."),
+							  QMessageBox::Close);
 	}
 	break;
 	case NTF_NET_REMOVED_ALREADY_RUNNING:
 	case NTF_NET_JOIN_ALREADY_RUNNING: {
-                MyMessageBox::warning(this, tr("Network Notification"),
-							 tr("Unable to join - the server has already started the game."),
-							 QMessageBox::Close);
+		MyMessageBox::warning(this, tr("Network Notification"),
+							  tr("Unable to join - the server has already started the game."),
+							  QMessageBox::Close);
 	}
 	break;
 	case NTF_NET_JOIN_NOT_INVITED: {
-                MyMessageBox::warning(this, tr("Network Notification"),
-							 tr("This game is of type invite-only. You cannot join this game without being invited."),
-							 QMessageBox::Close);
+		MyMessageBox::warning(this, tr("Network Notification"),
+							  tr("This game is of type invite-only. You cannot join this game without being invited."),
+							  QMessageBox::Close);
 	}
 	break;
 	case NTF_NET_JOIN_GAME_NAME_IN_USE: {
@@ -1045,27 +1043,27 @@ void startWindowImpl::networkNotification(int notificationId)
 	}
 	break;
 	case NTF_NET_REMOVED_TIMEOUT: {
-                MyMessageBox::warning(this, tr("Network Notification"),
-							 tr("Your admin state timed out due to inactivity. Feel free to create a new game!"),
-							 QMessageBox::Close);
+		MyMessageBox::warning(this, tr("Network Notification"),
+							  tr("Your admin state timed out due to inactivity. Feel free to create a new game!"),
+							  QMessageBox::Close);
 	}
 	break;
 	case NTF_NET_JOIN_INVALID_PASSWORD: {
-                MyMessageBox::warning(this, tr("Network Notification"),
-							 tr("Invalid password when joining the game.\nPlease reenter the password and try again."),
-							 QMessageBox::Close);
+		MyMessageBox::warning(this, tr("Network Notification"),
+							  tr("Invalid password when joining the game.\nPlease reenter the password and try again."),
+							  QMessageBox::Close);
 	}
 	break;
 	case NTF_NET_JOIN_GUEST_FORBIDDEN: {
-                MyMessageBox::warning(this, tr("Network Notification"),
-							 tr("You cannot join this type of game as guest."),
-							 QMessageBox::Close);
+		MyMessageBox::warning(this, tr("Network Notification"),
+							  tr("You cannot join this type of game as guest."),
+							  QMessageBox::Close);
 	}
 	break;
 	case NTF_NET_JOIN_INVALID_SETTINGS: {
-                MyMessageBox::warning(this, tr("Network Notification"),
-							 tr("The settings are invalid for this type of game."),
-							 QMessageBox::Close);
+		MyMessageBox::warning(this, tr("Network Notification"),
+							  tr("The settings are invalid for this type of game."),
+							  QMessageBox::Close);
 	}
 	break;
 	case NTF_NET_NEW_RELEASE_AVAILABLE: {
@@ -1095,8 +1093,8 @@ void startWindowImpl::networkNotification(int notificationId)
 
 void startWindowImpl::networkMessage(QString msg)
 {
-        MyMessageBox msgBox(QMessageBox::Information, tr("Server Message"),
-					   msg, QMessageBox::Close, this);
+	MyMessageBox msgBox(QMessageBox::Information, tr("Server Message"),
+						msg, QMessageBox::Close, this);
 	msgBox.setTextFormat(Qt::RichText);
 	msgBox.exec();
 }
@@ -1136,8 +1134,8 @@ void startWindowImpl::networkMessage(unsigned msgId)
 		break;
 	}
 
-    MyMessageBox msgBox(QMessageBox::Information, tr("Server Message"),
-					   msgText, QMessageBox::Close, this);
+	MyMessageBox msgBox(QMessageBox::Information, tr("Server Message"),
+						msgText, QMessageBox::Close, this);
 	//    msgBox.setTextFormat(Qt::RichText);
 	msgBox.exec();
 }

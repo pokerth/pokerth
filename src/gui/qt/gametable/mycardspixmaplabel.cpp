@@ -108,7 +108,7 @@ void MyCardsPixmapLabel::startFlipCards(int speed, const QPixmap &frontPix, cons
 	QLabel::setPixmap(frontPix);
 
 	frameFlipCardsAction1Size = 1.0;
-        frameFlipCardsAction2Size = 0.0;
+	frameFlipCardsAction2Size = 0.0;
 
 	front = frontPix.scaled(width(), height(), Qt::IgnoreAspectRatio, Qt::SmoothTransformation);;
 	flipside = flipsidePix.scaled(width(), height(), Qt::IgnoreAspectRatio, Qt::SmoothTransformation);;
@@ -124,7 +124,7 @@ void MyCardsPixmapLabel::startFlipCards(int speed, const QPixmap &frontPix, cons
 	}
 	if(speed > 8 && speed <= 10) {
 		flipCardsScaleIntervall = 0.5;
-        }
+	}
 
 	if(speed != 11) {
 		flipCardsAction1 = TRUE;
@@ -146,7 +146,7 @@ void MyCardsPixmapLabel::stopFlipCardsAnimation()
 void MyCardsPixmapLabel::nextFlipCardsFrame()
 {
 
-        if (frameFlipCardsAction1Size > 0.1 ) {
+	if (frameFlipCardsAction1Size > 0.1 ) {
 		//erst flipside verkleinern
 		frameFlipCardsAction1Size -= flipCardsScaleIntervall;
 		update();
@@ -156,9 +156,9 @@ void MyCardsPixmapLabel::nextFlipCardsFrame()
 			flipCardsAction2 = TRUE;
 		} else {
 			//dann front vergrößern
-                        if (frameFlipCardsAction2Size < 0.95 ) {
+			if (frameFlipCardsAction2Size < 0.95 ) {
 				frameFlipCardsAction2Size += flipCardsScaleIntervall;
-                                update();
+				update();
 			} else {
 				flipCardsAction2 = FALSE;
 				flipCardsTimer->stop();
@@ -264,8 +264,8 @@ void MyCardsPixmapLabel::mouseReleaseEvent(QMouseEvent * event)
 void MyCardsPixmapLabel::setFront ( const QPixmap& theValue )
 {
 #ifdef GUI_800x480
-        front = theValue.scaled(width(), height(), Qt::IgnoreAspectRatio, Qt::SmoothTransformation);;
+	front = theValue.scaled(width(), height(), Qt::IgnoreAspectRatio, Qt::SmoothTransformation);;
 #else
-        front = theValue;
+	front = theValue;
 #endif
 }

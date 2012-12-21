@@ -25,11 +25,11 @@ internetGameLoginDialogImpl::internetGameLoginDialogImpl(QWidget *parent, Config
 	QDialog(parent), myConfig(c)
 {
 	setupUi(this);
-    this->installEventFilter(this);
+	this->installEventFilter(this);
 
-    //html stuff
-    QString createAccount(QString("<a href='http://create-gaming-account.pokerth.net'>%1</a>").arg(tr("Create new user account")));
-    label_createAnAccount->setText(createAccount);
+	//html stuff
+	QString createAccount(QString("<a href='http://create-gaming-account.pokerth.net'>%1</a>").arg(tr("Create new user account")));
+	label_createAnAccount->setText(createAccount);
 
 
 	connect(groupBox_reguser, SIGNAL(toggled(bool)), this, SLOT(regUserToggled(bool)));
@@ -152,24 +152,24 @@ void internetGameLoginDialogImpl::okButtonCheck()
 
 bool internetGameLoginDialogImpl::eventFilter(QObject *obj, QEvent *event)
 {
-    QKeyEvent *keyEvent = static_cast<QKeyEvent*>(event);
+	QKeyEvent *keyEvent = static_cast<QKeyEvent*>(event);
 
 #ifdef ANDROID
 	//androi changes for return key behavior (hopefully useless from necessitas beta2)
-    if (event->type() == QEvent::KeyPress && keyEvent->key() == Qt::Key_Return) {
-        if(lineEdit_username->hasFocus()) {
-            lineEdit_password->setFocus();
-        }
-        if(lineEdit_password->hasFocus()) {
-            QTimer::singleShot(1000, this, SLOT(clickLoginButton()));
-        }
-        event->ignore();
-        return false;
-    } else {
-        // pass the event on to the parent class
-        return QDialog::eventFilter(obj, event);
-    }
+	if (event->type() == QEvent::KeyPress && keyEvent->key() == Qt::Key_Return) {
+		if(lineEdit_username->hasFocus()) {
+			lineEdit_password->setFocus();
+		}
+		if(lineEdit_password->hasFocus()) {
+			QTimer::singleShot(1000, this, SLOT(clickLoginButton()));
+		}
+		event->ignore();
+		return false;
+	} else {
+		// pass the event on to the parent class
+		return QDialog::eventFilter(obj, event);
+	}
 #else
-    return QDialog::eventFilter(obj, event);
+	return QDialog::eventFilter(obj, event);
 #endif
 }

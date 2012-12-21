@@ -50,7 +50,7 @@ ConfigFile::ConfigFile(char *argv0, bool readonly) : noWriteAccess(readonly)
 	myConfigState = OK;
 
 	// !!!! Revisionsnummer der Configdefaults !!!!!
-    configRev = 98;
+	configRev = 98;
 
 	//standard defaults
 	logOnOffDefault = "1";
@@ -131,7 +131,7 @@ ConfigFile::ConfigFile(char *argv0, bool readonly) : noWriteAccess(readonly)
 	tempIntToString << configRev;
 	configList.push_back(ConfigInfo("ConfigRevision", CONFIG_TYPE_INT, tempIntToString.str()));
 #ifdef ANDROID
-        configList.push_back(ConfigInfo("AppDataDir", CONFIG_TYPE_STRING, ":/android/android-data/"));
+	configList.push_back(ConfigInfo("AppDataDir", CONFIG_TYPE_STRING, ":/android/android-data/"));
 #else
 	configList.push_back(ConfigInfo("AppDataDir", CONFIG_TYPE_STRING, myQtToolsInterface->getDataPathStdString(myArgv0)));
 #endif
@@ -320,8 +320,8 @@ ConfigFile::ConfigFile(char *argv0, bool readonly) : noWriteAccess(readonly)
 				if (tmpStr) tempAppDataPath = tmpStr;
 				//if appdatapath changes directly update it here not in UpdateConfig()
 #ifdef ANDROID
-                                if(tempAppDataPath != ":/android/android-data/") {
-                                        confAppDataPath->SetAttribute("value", ":/android/android-data/");
+				if(tempAppDataPath != ":/android/android-data/") {
+					confAppDataPath->SetAttribute("value", ":/android/android-data/");
 #else
 				if(tempAppDataPath != myQtToolsInterface->getDataPathStdString(myArgv0)) {
 					confAppDataPath->SetAttribute("value", myQtToolsInterface->stringToUtf8(myQtToolsInterface->getDataPathStdString(myArgv0)));
@@ -555,19 +555,19 @@ void ConfigFile::updateConfig(ConfigState myConfigState)
 			///////// VERSION HACK SECTION ///////////////////////
 			//this is the right place for special version depending config hacks:
 			//0.9.1 - log interval needs to be set to 1 instead of 0
-            if (configRev >= 95 && configRev <= 98) { // this means 0.9.1 or 0.9.2 or 1.0
+			if (configRev >= 95 && configRev <= 98) { // this means 0.9.1 or 0.9.2 or 1.0
 				TiXmlElement * confElement2 = new TiXmlElement( "LogInterval" );
 				config->LinkEndChild( confElement2 );
 				confElement2->SetAttribute("value", 1);
 				noUpdateElemtsList.push_back("LogInterval");
 			}
 
-            if (configRev == 98) { // this means 1.0
-                TiXmlElement * confElement3 = new TiXmlElement( "CurrentCardDeckStyle" );
-                config->LinkEndChild( confElement3 );
-                confElement3->SetAttribute("value", "");
-                noUpdateElemtsList.push_back("CurrentCardDeckStyle");
-            }
+			if (configRev == 98) { // this means 1.0
+				TiXmlElement * confElement3 = new TiXmlElement( "CurrentCardDeckStyle" );
+				config->LinkEndChild( confElement3 );
+				confElement3->SetAttribute("value", "");
+				noUpdateElemtsList.push_back("CurrentCardDeckStyle");
+			}
 			///////// VERSION HACK SECTION ///////////////////////
 
 			TiXmlHandle oldDocHandle( &oldDoc );

@@ -560,24 +560,24 @@ AbstractClientStateReceiving::HandlePacket(boost::shared_ptr<ClientThread> clien
 		client->GetCallback().SignalNetClientWaitDialog();
 		int removeReason;
 		switch (netRemoved.removedfromgamereason()) {
-			case RemovedFromGameMessage::kickedFromGame :
-				removeReason = NTF_NET_REMOVED_KICKED;
-				break;
-			case RemovedFromGameMessage::gameIsFull :
-				removeReason = NTF_NET_REMOVED_GAME_FULL;
-				break;
-			case RemovedFromGameMessage::gameIsRunning :
-				removeReason = NTF_NET_REMOVED_ALREADY_RUNNING;
-				break;
-			case RemovedFromGameMessage::gameTimeout :
-				removeReason = NTF_NET_REMOVED_TIMEOUT;
-				break;
-			case RemovedFromGameMessage::removedStartFailed :
-				removeReason = NTF_NET_REMOVED_START_FAILED;
-				break;
-			default :
-				removeReason = NTF_NET_REMOVED_ON_REQUEST;
-				break;
+		case RemovedFromGameMessage::kickedFromGame :
+			removeReason = NTF_NET_REMOVED_KICKED;
+			break;
+		case RemovedFromGameMessage::gameIsFull :
+			removeReason = NTF_NET_REMOVED_GAME_FULL;
+			break;
+		case RemovedFromGameMessage::gameIsRunning :
+			removeReason = NTF_NET_REMOVED_ALREADY_RUNNING;
+			break;
+		case RemovedFromGameMessage::gameTimeout :
+			removeReason = NTF_NET_REMOVED_TIMEOUT;
+			break;
+		case RemovedFromGameMessage::removedStartFailed :
+			removeReason = NTF_NET_REMOVED_START_FAILED;
+			break;
+		default :
+			removeReason = NTF_NET_REMOVED_ON_REQUEST;
+			break;
 		}
 		client->GetCallback().SignalNetClientRemovedFromGame(removeReason);
 		client->SetState(ClientStateWaitJoin::Instance());
@@ -1177,7 +1177,7 @@ ClientStateWaitJoin::InternalHandlePacket(boost::shared_ptr<ClientThread> client
 		// Player number is 0 on init. Will be set when the game starts.
 		boost::shared_ptr<PlayerData> playerData(
 			new PlayerData(client->GetGuiPlayerId(), 0, PLAYER_TYPE_HUMAN,
-							context.GetPlayerRights(), netJoinAck.areyougameadmin()));
+						   context.GetPlayerRights(), netJoinAck.areyougameadmin()));
 		playerData->SetName(context.GetPlayerName());
 		playerData->SetAvatarFile(context.GetAvatarFile());
 		client->AddPlayerData(playerData);
@@ -1393,8 +1393,7 @@ void
 ClientStateWaitStart::InternalHandlePacket(boost::shared_ptr<ClientThread> client, boost::shared_ptr<NetPacket> tmpPacket)
 {
 	if (tmpPacket->GetMsg()->messagetype() == PokerTHMessage::Type_GameStartInitialMessage
-		|| tmpPacket->GetMsg()->messagetype() == PokerTHMessage::Type_GameStartRejoinMessage)
-	{
+			|| tmpPacket->GetMsg()->messagetype() == PokerTHMessage::Type_GameStartRejoinMessage) {
 		PlayerIdList tmpPlayerList;
 		unsigned tmpHandId = 0;
 

@@ -12,26 +12,26 @@
 
 class AndroidSoundEffect : public QObject
 {
-    Q_OBJECT
+	Q_OBJECT
 public:
-    explicit AndroidSoundEffect(const QString& pPath, QObject *parent = 0);
-    ~AndroidSoundEffect();
+	explicit AndroidSoundEffect(const QString& pPath, QObject *parent = 0);
+	~AndroidSoundEffect();
 
-    const char* getPath();
-    bool load();
-    bool unload();
+	const char* getPath();
+	bool load();
+	bool unload();
 
 signals:
 
 public slots:
 
 private:
-    char* mBuffer;
-    off_t mLength;
+	char* mBuffer;
+	off_t mLength;
 
-    QString mPath;
+	QString mPath;
 
-    friend class AndroidAudio;
+	friend class AndroidAudio;
 };
 
 #endif // ANDROIDSOUNDEFFECT_H

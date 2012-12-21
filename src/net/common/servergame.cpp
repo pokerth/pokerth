@@ -549,12 +549,12 @@ ServerGame::InternalDenyVoteKick(boost::shared_ptr<SessionData> byWhom, unsigned
 	netVoteReply->set_gameid(GetId());
 	netVoteReply->set_petitionid(petitionId);
 	switch(reason) {
-		case VOTE_DENIED_ALREADY_VOTED :
-			netVoteReply->set_votekickreplytype(VoteKickReplyMessage::voteKickDeniedAlreadyVoted);
-			break;
-		default:
-			netVoteReply->set_votekickreplytype(VoteKickReplyMessage::voteKickDeniedInvalid);
-			break;
+	case VOTE_DENIED_ALREADY_VOTED :
+		netVoteReply->set_votekickreplytype(VoteKickReplyMessage::voteKickDeniedAlreadyVoted);
+		break;
+	default:
+		netVoteReply->set_votekickreplytype(VoteKickReplyMessage::voteKickDeniedInvalid);
+		break;
 	}
 	GetLobbyThread().GetSender().Send(byWhom, packet);
 }

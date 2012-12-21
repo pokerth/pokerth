@@ -85,8 +85,7 @@ ReceiveBuffer::ScanPackets()
 			uint32_t nativeVal;
 			memcpy(&nativeVal, &recvBuf[0], sizeof(uint32_t));
 			size_t packetSize = ntohl(nativeVal);
-			if (recvBufUsed >= packetSize + NET_HEADER_SIZE)
-			{
+			if (recvBufUsed >= packetSize + NET_HEADER_SIZE) {
 				try {
 					tmpPacket = NetPacket::Create(&recvBuf[NET_HEADER_SIZE], packetSize);
 					if (tmpPacket) {

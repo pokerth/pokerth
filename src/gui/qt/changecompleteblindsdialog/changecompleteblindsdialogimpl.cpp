@@ -28,7 +28,7 @@ changeCompleteBlindsDialogImpl::changeCompleteBlindsDialogImpl(QWidget *parent, 
 	setWindowModality(Qt::ApplicationModal);
 	setWindowFlags(Qt::WindowSystemMenuHint | Qt::CustomizeWindowHint | Qt::Dialog);
 #endif
-    setupUi(this);
+	setupUi(this);
 	this->installEventFilter(this);
 
 	connect( pushButton_add, SIGNAL( clicked() ), this, SLOT( addBlindValueToList() ) );
@@ -54,8 +54,8 @@ void changeCompleteBlindsDialogImpl::addBlindValueToList()
 
 	if(listWidget_blinds->count() == 30) {
 		MyMessageBox::warning(this, tr("Manual Blinds Order"),
-							 tr("You cannot set more than 30 manual blinds."),
-							 QMessageBox::Close);
+							  tr("You cannot set more than 30 manual blinds."),
+							  QMessageBox::Close);
 	} else {
 		listWidget_blinds->addItem(QString::number(spinBox_input->value(),10));
 		sortBlindsList();
@@ -119,12 +119,10 @@ bool changeCompleteBlindsDialogImpl::eventFilter(QObject *obj, QEvent *event)
 		}
 		event->ignore();
 		return false;
-	}
-	else if (event->type() == QEvent::KeyPress && keyEvent->key() == Qt::Key_Back) {
+	} else if (event->type() == QEvent::KeyPress && keyEvent->key() == Qt::Key_Back) {
 		this->reject();
 		return true;
-	}
-	else {
+	} else {
 		// pass the event on to the parent class
 		return QDialog::eventFilter(obj, event);
 	}

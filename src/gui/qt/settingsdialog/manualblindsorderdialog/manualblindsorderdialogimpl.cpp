@@ -48,8 +48,8 @@ void manualBlindsOrderDialogImpl::addBlindValueToList()
 
 	if(listWidget_blinds->count() == 30) {
 		MyMessageBox::warning(this, tr("Manual Blinds Order"),
-							 tr("You cannot set more than 30 manual blinds."),
-							 QMessageBox::Close);
+							  tr("You cannot set more than 30 manual blinds."),
+							  QMessageBox::Close);
 	} else {
 		listWidget_blinds->addItem(QString::number(spinBox_input->value(),10));
 		sortBlindsList();

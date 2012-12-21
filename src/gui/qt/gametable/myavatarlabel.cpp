@@ -412,7 +412,7 @@ void MyAvatarLabel::putPlayerOnIgnoreList()
 	if(!playerIsOnIgnoreList(list.at(myId))) {
 
 		myMessageDialogImpl dialog(myW->getMyConfig(), this);
-        if(dialog.exec(INGNORE_PLAYER_QUESTION, tr("You will no longer receive chat messages or game invitations from this user.<br>Do you really want to put player <b>%1</b> on ignore list?").arg(list.at(myId)), tr("PokerTH - Question"), QPixmap(":/gfx/im-ban-user_64.png"), QDialogButtonBox::Yes|QDialogButtonBox::No, false ) == QDialog::Accepted) {
+		if(dialog.exec(INGNORE_PLAYER_QUESTION, tr("You will no longer receive chat messages or game invitations from this user.<br>Do you really want to put player <b>%1</b> on ignore list?").arg(list.at(myId)), tr("PokerTH - Question"), QPixmap(":/gfx/im-ban-user_64.png"), QDialogButtonBox::Yes|QDialogButtonBox::No, false ) == QDialog::Accepted) {
 
 			std::list<std::string> playerIgnoreList = myW->getMyConfig()->readConfigStringList("PlayerIgnoreList");
 			playerIgnoreList.push_back(list.at(myId).toUtf8().constData());
@@ -440,7 +440,7 @@ void MyAvatarLabel::reportBadAvatar()
 
 				QString nick = QString::fromUtf8((*it_c)->getMyName().c_str());
 				int ret = MyMessageBox::question(this, tr("PokerTH - Question"),
-												tr("Are you sure you want to report the avatar of \"%1\" as inappropriate?").arg(nick), QMessageBox::Yes | QMessageBox::No);
+												 tr("Are you sure you want to report the avatar of \"%1\" as inappropriate?").arg(nick), QMessageBox::Yes | QMessageBox::No);
 
 				if(ret == QMessageBox::Yes) {
 					QFileInfo fi(avatar);

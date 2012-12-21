@@ -100,12 +100,10 @@ bool newGameDialogImpl::eventFilter(QObject *obj, QEvent *event)
 		}
 		event->ignore();
 		return false;
-	}
-	else if (event->type() == QEvent::KeyPress && keyEvent->key() == Qt::Key_Back) {
+	} else if (event->type() == QEvent::KeyPress && keyEvent->key() == Qt::Key_Back) {
 		this->reject();
 		return true;
-	}
-	else {
+	} else {
 		// pass the event on to the parent class
 		return QDialog::eventFilter(obj, event);
 	}

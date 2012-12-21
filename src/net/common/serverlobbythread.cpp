@@ -904,7 +904,7 @@ ServerLobbyThread::HandlePacket(boost::shared_ptr<SessionData> session, boost::s
 			} else if (packet->GetMsg()->messagetype() == PokerTHMessage::Type_JoinExistingGameMessage) {
 				HandleNetPacketJoinGame(session, packet->GetMsg()->joinexistinggamemessage());
 			} else if (packet->GetMsg()->messagetype() == PokerTHMessage::Type_RejoinExistingGameMessage) {
-					HandleNetPacketRejoinGame(session, packet->GetMsg()->rejoinexistinggamemessage());
+				HandleNetPacketRejoinGame(session, packet->GetMsg()->rejoinexistinggamemessage());
 			} else if (packet->GetMsg()->messagetype() == PokerTHMessage::Type_ChatRequestMessage) {
 				HandleNetPacketChatRequest(session, packet->GetMsg()->chatrequestmessage());
 			} else if (packet->GetMsg()->messagetype() == PokerTHMessage::Type_RejectGameInvitationMessage) {
