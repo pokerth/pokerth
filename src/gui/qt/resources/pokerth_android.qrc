@@ -1,6 +1,7 @@
 <RCC>
     <qresource prefix="/gfx">
         <file>view-fullscreen.png</file>
+		<file>loader.gif</file>
         <file>swbuttoninternetgame.png</file>
         <file>swbuttoncreatenetworkgame.png</file>
         <file>swbuttonjoinnetworkgame.png</file>
