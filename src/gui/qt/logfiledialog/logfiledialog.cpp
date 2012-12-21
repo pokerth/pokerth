@@ -223,7 +223,7 @@ void LogFileDialog::uploadFile()
 
 		uploadInProgressAnimationStart();
 		uploader->QueueUpload(
-			"http://pokerth.nett/floty_upload/upload.php",
+			"http://pokerth.net/floty_upload/upload.php",
 			"",
 			"",
 			file.fileName().toStdString(),
