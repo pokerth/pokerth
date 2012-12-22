@@ -578,6 +578,7 @@ mac {
 		-lssl \
 		-lsqlite3 \
 		-ltinyxml \
+		-lprotobuf \
 		-lz \
 		-framework \
 		Carbon
