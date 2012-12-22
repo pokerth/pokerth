@@ -103,7 +103,6 @@ enum PlayerActionLog {
 	LOG_ACTION_JOIN			// has joined the game
 };
 
-#define LOG_UPLOAD_ERROR_PREFIX	"ERROR"
 #define LOG_UPLOAD_ID_SIZE		40
 
 enum LogUploadErrorCode {

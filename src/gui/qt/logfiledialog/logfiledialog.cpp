@@ -261,19 +261,17 @@ void LogFileDialog::showLogAnalysis(QString /*filename*/, QString returnMessage)
 
 	QString id = returnMessage.trimmed();
 
-	if(id.length() == LOG_UPLOAD_ID_SIZE && !id.contains(LOG_UPLOAD_ERROR_PREFIX)) {
+	if(id.length() == LOG_UPLOAD_ID_SIZE && id.at(0) != '<') {
 
 		qDebug() << id << endl;
 		QDesktopServices::openUrl(QUrl("http://logfile-analysis.pokerth.net/?ID="+id));
 	} else {
 		qDebug() << returnMessage << endl;
 		QString serverMsg(tr("Processing of the log file on the web server failed.\nPlease verify that you are uploading a valid PokerTH log file."));
-		// if there is a readable message, display it.
-		if (returnMessage.startsWith(LOG_UPLOAD_ERROR_PREFIX)) {
+		// if there is an error code, display a corresponding message.
+		if (returnMessage.at(0).isDigit()) {
 			serverMsg += "\n" + tr("Failure reason: ");
-			QString errorCodeStr = returnMessage.mid(sizeof(LOG_UPLOAD_ERROR_PREFIX)).trimmed();
-			int errorCode = errorCodeStr.toInt();
-			switch (errorCode)
+			switch (returnMessage.toInt())
 			{
 				case LOG_UPLOAD_ERROR_NO_FILE :
 					serverMsg += tr("No file received.");
@@ -296,7 +294,7 @@ void LogFileDialog::showLogAnalysis(QString /*filename*/, QString returnMessage)
 				case LOG_UPLOAD_ERROR_FILE_MOVE :
 				case LOG_UPLOAD_ERROR_INSERT_DB :
 				default :
-					serverMsg += tr("Internal error. Please try again later. ID: ") + errorCodeStr;
+					serverMsg += tr("Internal error. Please try again later. ID: ") + returnMessage;
 					break;
 			}
 		}
