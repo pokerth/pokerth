@@ -490,7 +490,7 @@ void LocalHand::setBlinds()
 
 				(*it_c)->setMySet((*it_c)->getMyCash());
 				// 1 to do not log this
-				(*it_c)->setMyAction(PLAYER_ACTION_ALLIN,1);
+				(*it_c)->setMyAction(PLAYER_ACTION_ALLIN);
 
 			} else {
 				(*it_c)->setMySet(smallBlind);
@@ -510,7 +510,7 @@ void LocalHand::setBlinds()
 
 				(*it_c)->setMySet((*it_c)->getMyCash());
 				// 1 to do not log this
-				(*it_c)->setMyAction(PLAYER_ACTION_ALLIN,1);
+				(*it_c)->setMyAction(PLAYER_ACTION_ALLIN);
 
 			} else {
 				(*it_c)->setMySet(2*smallBlind);
@@ -526,7 +526,7 @@ void LocalHand::switchRounds()
 	// logging last player action
 	PlayerListConstIterator previousPlayerIt = getRunningPlayerIt(previousPlayerID);
 	if(previousPlayerIt != runningPlayerList->end()) {
-		if(myLog) myLog->logPlayerAction((*previousPlayerIt)->getMyName(),myLog->transformPlayerActionLog((*previousPlayerIt)->getMyAction()),(*previousPlayerIt)->getMySet());
+		if(myLog) myLog->logPlayerAction((*previousPlayerIt)->getMyName(),myLog->transformPlayerActionLog((*previousPlayerIt)->getMyAction()),(*previousPlayerIt)->getMyLastRelativeSet());
 	}
 
 	PlayerListIterator it, it_1;

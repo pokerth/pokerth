@@ -113,10 +113,10 @@ public:
 		return myLastRelativeSet;
 	}
 
-	void setMyAction(PlayerAction theValue, bool blind = 0) {
+	void setMyAction(PlayerAction theValue, bool human = 0) {
 		myAction = theValue;
-		// logging for human player
-		if(myAction && !blind) currentHand->getGuiInterface()->logPlayerActionMsg(myName, myAction, mySet);
+		// logging for seat 0
+		if(myAction && human) currentHand->getGuiInterface()->logPlayerActionMsg(myName, myAction, myLastRelativeSet);
 	}
 	PlayerAction getMyAction() const	{
 		return myAction;

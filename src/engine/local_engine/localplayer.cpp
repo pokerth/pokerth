@@ -1068,7 +1068,7 @@ void LocalPlayer::action()
 	//set that i was the last active player. need this for unhighlighting groupbox
 	currentHand->setPreviousPlayerID(myID);
 
-	currentHand->getGuiInterface()->logPlayerActionMsg(myName, myAction, mySet);
+	currentHand->getGuiInterface()->logPlayerActionMsg(myName, myAction, myLastRelativeSet);
 	currentHand->getGuiInterface()->nextPlayerAnimation();
 
 	// 	cout << "playerID in action(): " << (*(currentHand->getCurrentBeRo()->getCurrentPlayersTurnIt()))->getMyID() << endl;
@@ -3230,14 +3230,12 @@ void LocalPlayer::evaluation(int bet, int raise)
 	case 3: {
 		// all in
 		if(highestSet >= myCash + mySet) {
-			mySet += myCash;
-			myCash = 0;
+			setMySet(myCash);
 			myAction = PLAYER_ACTION_ALLIN;
 		}
 		// sonst
 		else {
-			myCash = myCash - highestSet + mySet;
-			mySet = highestSet;
+			setMySet(highestSet-mySet);
 		}
 	}
 	break;
@@ -3250,16 +3248,14 @@ void LocalPlayer::evaluation(int bet, int raise)
 				currentHand->getCurrentBeRo()->setFullBetRule(true);
 			}
 			currentHand->getCurrentBeRo()->setMinimumRaise(myCash);
-			mySet = myCash;
-			myCash = 0;
+			setMySet(myCash);
 			myAction = PLAYER_ACTION_ALLIN;
 			highestSet = mySet;
 		}
 		// sonst
 		else {
 			currentHand->getCurrentBeRo()->setMinimumRaise(bet);
-			myCash = myCash - bet;
-			mySet = bet;
+			setMySet(bet);
 			highestSet = mySet;
 
 		}
@@ -3272,14 +3268,12 @@ void LocalPlayer::evaluation(int bet, int raise)
 		if(currentHand->getCurrentBeRo()->getFullBetRule()) { // full bet rule -> only call possible
 			// all in
 			if(highestSet >= myCash + mySet) {
-				mySet += myCash;
-				myCash = 0;
+				setMySet(myCash);
 				myAction = PLAYER_ACTION_ALLIN;
 			}
 			// sonst
 			else {
-				myCash = myCash - highestSet + mySet;
-				mySet = highestSet;
+				setMySet(highestSet-mySet);
 				myAction = PLAYER_ACTION_CALL;
 			}
 		} else {
@@ -3292,8 +3286,7 @@ void LocalPlayer::evaluation(int bet, int raise)
 					// perhaps full bet rule
 					if(highestSet >= myCash + mySet) {
 						// only call all-in
-						mySet += myCash;
-						myCash = 0;
+						setMySet(myCash);
 						myAction = PLAYER_ACTION_ALLIN;
 					} else {
 						// raise, but not enough --> full bet rule
@@ -3301,9 +3294,8 @@ void LocalPlayer::evaluation(int bet, int raise)
 						// lastPlayerAction für Karten umblättern reihenfolge setzrn
 						currentHand->setLastActionPlayerID(myUniqueID);
 
-						mySet += myCash;
+						setMySet(myCash);
 						currentHand->getCurrentBeRo()->setMinimumRaise(mySet-highestSet);
-						myCash = 0;
 						myAction = PLAYER_ACTION_ALLIN;
 						highestSet = mySet;
 					}
@@ -3311,9 +3303,8 @@ void LocalPlayer::evaluation(int bet, int raise)
 					// lastPlayerAction für Karten umblättern reihenfolge setzrn
 					currentHand->setLastActionPlayerID(myUniqueID);
 
-					mySet += myCash;
+					setMySet(myCash);
 					currentHand->getCurrentBeRo()->setMinimumRaise(mySet-highestSet);
-					myCash = 0;
 					myAction = PLAYER_ACTION_ALLIN;
 					highestSet = mySet;
 				}
@@ -3321,8 +3312,7 @@ void LocalPlayer::evaluation(int bet, int raise)
 			// sonst
 			else {
 				currentHand->getCurrentBeRo()->setMinimumRaise(raise);
-				myCash = myCash + mySet - highestSet - raise;
-				mySet = highestSet + raise;
+				setMySet(highestSet+raise-mySet);
 				highestSet = mySet;
 				// lastPlayerAction für Karten umblättern reihenfolge setzrn
 				currentHand->setLastActionPlayerID(myUniqueID);

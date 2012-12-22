@@ -21,9 +21,9 @@
 #include <fstream>
 #include <iostream>
 #include <sstream>
+#include <sqlite3.h>
 
 #include "configfile.h"
-#include <sqlite3.h>
 
 #include <QtCore>
 #include <QtGui>
