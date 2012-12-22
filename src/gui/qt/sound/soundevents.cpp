@@ -1,13 +1,13 @@
 #include "soundevents.h"
 
 #ifdef ANDROID
-#ifdef ANDROID_API8
-#include "androidapi8dummy.h"
+	#ifdef ANDROID_API8
+		#include "androidapi8dummy.h"
+	#else
+		#include "androidaudio.h"
+	#endif
 #else
-#include "androidaudio.h"
-#endif
-#else
-#include "sdlplayer.h"
+	#include "sdlplayer.h"
 #endif
 
 
@@ -22,11 +22,11 @@ SoundEvents::SoundEvents(ConfigFile *c): myConfig(c), lastSBValue(0), lastSBLeve
 {
 
 #ifdef ANDROID
-#ifdef ANDROID_API8
-	myPlayer = new AndroidApi8Dummy(myConfig);
-#else
-	myPlayer = new AndroidAudio(myConfig);
-#endif
+	#ifdef ANDROID_API8
+		myPlayer = new AndroidApi8Dummy(myConfig);
+	#else
+		myPlayer = new AndroidAudio(myConfig);
+	#endif
 #else
 	myPlayer = new SDLPlayer(myConfig);
 #endif

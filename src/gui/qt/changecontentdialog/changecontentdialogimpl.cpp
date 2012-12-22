@@ -113,9 +113,9 @@ void changeContentDialogImpl::saveContent()
 
 bool changeContentDialogImpl::eventFilter(QObject *obj, QEvent *event)
 {
+#ifdef ANDROID
 	QKeyEvent *keyEvent = static_cast<QKeyEvent*>(event);
 
-#ifdef ANDROID
 	//androi changes for return key behavior (hopefully useless from necessitas beta2)
 	if (event->type() == QEvent::KeyPress && keyEvent->key() == Qt::Key_Return) {
 		if(lineEdit->hasFocus()) {

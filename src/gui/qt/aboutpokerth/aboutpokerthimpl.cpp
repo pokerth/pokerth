@@ -21,8 +21,10 @@
 #include <QtCore>
 
 #ifdef ANDROID
-#include <QPlatformNativeInterface>
-#include <jni.h>
+	#ifndef ANDROID_TEST
+		#include <QPlatformNativeInterface>
+		#include <jni.h>
+	#endif
 #endif
 
 aboutPokerthImpl::aboutPokerthImpl(QWidget *parent, ConfigFile *c)

@@ -1990,7 +1990,7 @@ void gameTableImpl::myFold()
 
 		boost::shared_ptr<HandInterface> currentHand = myStartWindow->getSession()->getCurrentGame()->getCurrentHand();
 		boost::shared_ptr<PlayerInterface> humanPlayer = currentHand->getSeatsList()->front();
-		humanPlayer->setMyAction(PLAYER_ACTION_FOLD);
+		humanPlayer->setMyAction(PLAYER_ACTION_FOLD,true);
 		humanPlayer->setMyTurn(0);
 
 		//set that i was the last active player. need this for unhighlighting groupbox
@@ -2009,7 +2009,7 @@ void gameTableImpl::myCheck()
 	boost::shared_ptr<HandInterface> currentHand = myStartWindow->getSession()->getCurrentGame()->getCurrentHand();
 	boost::shared_ptr<PlayerInterface> humanPlayer = currentHand->getSeatsList()->front();
 	humanPlayer->setMyTurn(0);
-	humanPlayer->setMyAction(PLAYER_ACTION_CHECK);
+	humanPlayer->setMyAction(PLAYER_ACTION_CHECK,true);
 
 	//set that i was the last active player. need this for unhighlighting groupbox
 	currentHand->setPreviousPlayerID(0);
@@ -2072,10 +2072,10 @@ void gameTableImpl::myCall()
 
 		humanPlayer->setMySet(humanPlayer->getMyCash());
 		humanPlayer->setMyCash(0);
-		humanPlayer->setMyAction(PLAYER_ACTION_ALLIN);
+		humanPlayer->setMyAction(PLAYER_ACTION_ALLIN,true);
 	} else {
 		humanPlayer->setMySet(tempHighestSet - humanPlayer->getMySet());
-		humanPlayer->setMyAction(PLAYER_ACTION_CALL);
+		humanPlayer->setMyAction(PLAYER_ACTION_CALL,true);
 	}
 	humanPlayer->setMyTurn(0);
 
@@ -2108,7 +2108,7 @@ void gameTableImpl::mySet()
 
 			humanPlayer->setMySet(humanPlayer->getMyCash());
 			humanPlayer->setMyCash(0);
-			humanPlayer->setMyAction(PLAYER_ACTION_ALLIN);
+			humanPlayer->setMyAction(PLAYER_ACTION_ALLIN,true);
 
 			// full bet rule
 			if(currentHand->getCurrentBeRo()->getHighestSet() + currentHand->getCurrentBeRo()->getMinimumRaise() > humanPlayer->getMySet()) {
@@ -2119,7 +2119,7 @@ void gameTableImpl::mySet()
 		if(myActionIsRaise) {
 			//do not if allIn
 			if(humanPlayer->getMyAction() != 6) {
-				humanPlayer->setMyAction(PLAYER_ACTION_RAISE);
+				humanPlayer->setMyAction(PLAYER_ACTION_RAISE,true);
 			}
 			myActionIsRaise = 0;
 
@@ -2129,7 +2129,7 @@ void gameTableImpl::mySet()
 		if(myActionIsBet) {
 			//do not if allIn
 			if(humanPlayer->getMyAction() != 6) {
-				humanPlayer->setMyAction(PLAYER_ACTION_BET);
+				humanPlayer->setMyAction(PLAYER_ACTION_BET,true);
 			}
 			myActionIsBet = 0;
 
@@ -2166,7 +2166,7 @@ void gameTableImpl::myAllIn()
 
 		humanPlayer->setMySet(humanPlayer->getMyCash());
 		humanPlayer->setMyCash(0);
-		humanPlayer->setMyAction(PLAYER_ACTION_ALLIN);
+		humanPlayer->setMyAction(PLAYER_ACTION_ALLIN,true);
 
 		// full bet rule
 		if(currentHand->getCurrentBeRo()->getHighestSet() + currentHand->getCurrentBeRo()->getMinimumRaise() > humanPlayer->getMySet()) {

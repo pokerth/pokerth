@@ -46,6 +46,13 @@
 #include "logfiledialog.h"
 #include "guilog.h"
 
+#ifdef ANDROID
+	#ifndef ANDROID_TEST
+		#include <QPlatformNativeInterface>
+		#include <jni.h>
+	#endif
+#endif
+
 using namespace std;
 
 startWindowImpl::startWindowImpl(ConfigFile *c, Log *l)
@@ -99,6 +106,21 @@ startWindowImpl::startWindowImpl(ConfigFile *c, Log *l)
 
 	}
 	this->showFullScreen();
+
+	//TODO HACK Missing QSystemScreenSaver::setScreenSaverInhibited(TRUE)
+	#ifndef ANDROID_TEST
+		JavaVM *currVM = (JavaVM *)QApplication::platformNativeInterface()->nativeResourceForWidget("JavaVM", 0);
+		JNIEnv* env;
+		if (currVM->AttachCurrentThread(&env, NULL)<0) {
+			qCritical()<<"AttachCurrentThread failed";
+		} else {
+//			jclass jclassApplicationClass = env->FindClass("android/view/View");
+//			if (jclassApplicationClass) {
+//				env->SetStaticIntField(jclassApplicationClass, env->GetStaticFieldID(jclassApplicationClass,"KEEP_SCREEN_ON", "I"), 1);
+//			}
+			currVM->DetachCurrentThread();
+		}
+	#endif
 #else
 //        this->menubar->setStyleSheet("QMenuBar { background-color: #4B4B4B; font-size:20px; border-width: 0px;} QMenuBar::item { color: #F0F0F0; }");
 	this->menubar->hide();

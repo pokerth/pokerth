@@ -64,7 +64,7 @@ public:
 	int getMySet() const;
 	int getMyLastRelativeSet() const;
 
-	void setMyAction(PlayerAction theValue, bool blind);
+	void setMyAction(PlayerAction theValue, bool human);
 	PlayerAction getMyAction() const;
 
 	void setMyButton(int theValue);

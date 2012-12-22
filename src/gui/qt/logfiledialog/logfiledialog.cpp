@@ -27,6 +27,7 @@
 #include "guilog.h"
 #include "configfile.h"
 #include "mymessagebox.h"
+#include <game_defs.h>
 #include <net/uploaderthread.h>
 
 LogFileDialog::LogFileDialog(QWidget *parent, ConfigFile *c) :
@@ -223,7 +224,7 @@ void LogFileDialog::uploadFile()
 
 		uploadInProgressAnimationStart();
 		uploader->QueueUpload(
-            "http://pokerth.net/log_file_analysis/upload.php",
+			"http://pokerth.net/log_file_analysis/upload.php",
 			"",
 			"",
 			file.fileName().toStdString(),
@@ -260,16 +261,42 @@ void LogFileDialog::showLogAnalysis(QString /*filename*/, QString returnMessage)
 
 	QString id = returnMessage.trimmed();
 
-	if(id.length() == 40 && !id.contains("ERROR")) {
+	if(id.length() == LOG_UPLOAD_ID_SIZE && id.at(0) != '<') {
 
 		qDebug() << id << endl;
 		QDesktopServices::openUrl(QUrl("http://logfile-analysis.pokerth.net/?ID="+id));
 	} else {
 		qDebug() << returnMessage << endl;
 		QString serverMsg(tr("Processing of the log file on the web server failed.\nPlease verify that you are uploading a valid PokerTH log file."));
-		// if there is a readable message, display it.
-		if (!returnMessage.isEmpty() && returnMessage.size() < 128) {
-			serverMsg += "\n" + tr("Failure reason: ") + returnMessage;
+		// if there is an error code, display a corresponding message.
+		if (returnMessage.at(0).isDigit()) {
+			serverMsg += "\n" + tr("Failure reason: ");
+			switch (returnMessage.toInt())
+			{
+				case LOG_UPLOAD_ERROR_NO_FILE :
+					serverMsg += tr("No file received.");
+					break;
+				case LOG_UPLOAD_ERROR_MAX_NUM_TOTAL :
+					serverMsg += tr("File rejected because of too many uploads.");
+					break;
+				case LOG_UPLOAD_ERROR_MAX_NUM_IP :
+					serverMsg += tr("File rejected because of too many recent uploads. Please try again later.");
+					break;
+				case LOG_UPLOAD_ERROR_FILE_SIZE :
+					serverMsg += tr("The file is too large.");
+					break;
+				case LOG_UPLOAD_ERROR_FILE_EXT :
+				case LOG_UPLOAD_ERROR_FILE_HEAD :
+					serverMsg += tr("This file is not a valid and current PokerTH log file.");
+					break;
+				case LOG_UPLOAD_ERROR_OPEN_DB :
+				case LOG_UPLOAD_ERROR_ID :
+				case LOG_UPLOAD_ERROR_FILE_MOVE :
+				case LOG_UPLOAD_ERROR_INSERT_DB :
+				default :
+					serverMsg += tr("Internal error. Please try again later. ID: ") + returnMessage;
+					break;
+			}
 		}
 		MyMessageBox::warning(
 			this, tr("Uploading log file"), serverMsg, QMessageBox::Close );

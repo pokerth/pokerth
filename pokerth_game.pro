@@ -578,6 +578,7 @@ mac {
 		-lssl \
 		-lsqlite3 \
 		-ltinyxml \
+		-lprotobuf \
 		-lz \
 		-framework \
 		Carbon
@@ -657,4 +658,7 @@ maemo{
 android_test{
 	DEFINES += ANDROID
 	DEFINES += ANDROID_TEST
+	DEFINES += ANDROID_API8
+	HEADERS += src/gui/qt/sound/androidapi8dummy.h
+	SOURCES += src/gui/qt/sound/androidapi8dummy.cpp
 }
