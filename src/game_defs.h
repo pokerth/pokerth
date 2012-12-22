@@ -104,6 +104,8 @@ enum PlayerActionLog {
 };
 
 #define LOG_UPLOAD_ID_SIZE		40
+#define LOG_UPLOAD_OK_STR		"OK"
+#define LOG_UPLOAD_ERROR_STR	"ERROR"
 
 enum LogUploadErrorCode {
 	LOG_UPLOAD_ERROR_NO_FILE = 1,

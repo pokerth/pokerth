@@ -259,19 +259,21 @@ void LogFileDialog::showLogAnalysis(QString /*filename*/, QString returnMessage)
 {
 	uploadInProgressAnimationStop();
 
-	QString id = returnMessage.trimmed();
+	returnMessage = returnMessage.trimmed();
+	QString retStr(returnMessage.mid(0, returnMessage.indexOf(' ')));
 
-	if(id.length() == LOG_UPLOAD_ID_SIZE && id.at(0) != '<') {
-
-		qDebug() << id << endl;
-		QDesktopServices::openUrl(QUrl("http://logfile-analysis.pokerth.net/?ID="+id));
+	if (retStr == LOG_UPLOAD_OK_STR) {
+		QString hash(returnMessage.mid(retStr.size()).trimmed());
+		qDebug() << hash << endl;
+		QDesktopServices::openUrl(QUrl("http://logfile-analysis.pokerth.net/?ID=" + hash));
 	} else {
 		qDebug() << returnMessage << endl;
 		QString serverMsg(tr("Processing of the log file on the web server failed.\nPlease verify that you are uploading a valid PokerTH log file."));
 		// if there is an error code, display a corresponding message.
-		if (returnMessage.at(0).isDigit()) {
+		if (retStr == LOG_UPLOAD_ERROR_STR) {
+			QString errorId(returnMessage.mid(retStr.size()).trimmed());
 			serverMsg += "\n" + tr("Failure reason: ");
-			switch (returnMessage.toInt())
+			switch (errorId.toInt())
 			{
 				case LOG_UPLOAD_ERROR_NO_FILE :
 					serverMsg += tr("No file received.");
