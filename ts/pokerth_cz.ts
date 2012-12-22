@@ -56,19 +56,19 @@ Vyberte styl karet a zkuste to znovu!</translation>
     </message>
     <message>
         <source>Everything OK!</source>
-        <translation type="unfinished">Vše v pořádku!</translation>
+        <translation>Vše v pořádku!</translation>
     </message>
     <message>
         <source>Some cards pictures are missing, please contact style maintainer for this issue.</source>
-        <translation type="unfinished"></translation>
+        <translation>Některé obrázky chybí. Kontaktujte, prosím, výrobce stylu balíčku karet.</translation>
     </message>
     <message>
         <source>Some style fields are missing, please contact style maintainer for this issue.</source>
-        <translation type="unfinished">Některá pole stylů chybí. Kontaktujte, prosím, výrobce stylu herního stolu.</translation>
+        <translation>Některá pole stylů chybí. Kontaktujte, prosím, výrobce stylu balíčku karet.</translation>
     </message>
     <message>
         <source>This style is outdated, please contact style maintainer for this issue.</source>
-        <translation type="unfinished">Tento styl je zastaralý. Kontaktujte, prosím, výrobce stylu herního stolu.</translation>
+        <translation>Tento styl je zastaralý. Kontaktujte, prosím, výrobce stylu balíčku karet.</translation>
     </message>
     <message>
         <source>Selected card deck style &quot;%1&quot; seems to be incomplete or defective. 
@@ -80,11 +80,19 @@ is/are missing.
 Anyway you can play with this deck, because the missing content will be filled up by PokerTH default card deck. 
 
 Please contact the card deck style builder via &quot;%3&quot;.</source>
-        <translation type="unfinished"></translation>
+        <translation>Vybraný styl balíčku karet &quot;%1&quot; je zřejmě nekompletní, nebo porušený. 
+
+Hodnota/y: 
+%2 
+chybí. 
+
+Nicméně i s tímto stylem můžete hrát, protože chybějící obsah bude nahrazen výchozím stylem PokerTH. 
+
+Kontaktujte výrobce stylu balíčku karet na &quot;%3&quot;.</translation>
     </message>
     <message>
         <source>Card Deck Style Error - Fields content missing</source>
-        <translation type="unfinished"></translation>
+        <translation>Chyba stylu balíčku karet - Chybí obsah polí</translation>
     </message>
     <message>
         <source>One or more pictures from current card deck style &quot;%1&quot; were not found: 
@@ -92,11 +100,15 @@ Please contact the card deck style builder via &quot;%3&quot;.</source>
 %2 
 
 Please contact the card deck style builder via &quot;%3&quot;.</source>
-        <translation type="unfinished"></translation>
+        <translation>Jeden nebo více obrázků ze současného stylu balíčku karet &quot;%1&quot; nebylo nalezeno: 
+
+%2 
+
+Kontaktujte výrobce stylu balíčku karet na &quot;%3&quot;.</translation>
     </message>
     <message>
         <source>Card Deck Style Error - Pictures missing</source>
-        <translation type="unfinished"></translation>
+        <translation>Chyba stylu balíčku karet - Chybí obrázky</translation>
     </message>
     <message>
         <source>Selected card deck style &quot;%1&quot; seems to be outdated. 
@@ -105,11 +117,16 @@ The current PokerTH card deck style version is &quot;%2&quot;, but this deck has
 Anyway you can play with this deck, because the missing content will be filled up by PokerTH default card deck. 
 
 Please contact the card deck style builder via &quot;%4&quot;.</source>
-        <translation type="unfinished"></translation>
+        <translation>Vybraný styl balíčku karet &quot;%1&quot; je zřejmě zastaralý. 
+Současný styl PokerTH je verze &quot;%2&quot;, ale tento balíček je verze &quot;%3&quot;. 
+
+Nicméně i s tímto stylem můžete hrát, protože chybějící obsah bude nahrazen výchozím stylem PokerTH. 
+
+Kontaktujte výrobce stylu balíčku karet na &quot;%4&quot;.</translation>
     </message>
     <message>
         <source>Card Deck Style Error - Outdated</source>
-        <translation type="unfinished"></translation>
+        <translation>Chyba stylu balíčku karet - Zastaralé</translation>
     </message>
 </context>
 <context>
@@ -310,89 +327,91 @@ Kontaktujte, prosím, výrobce stylu herního stolu na &quot;%4&quot;.</translat
     <name>LogFileDialog</name>
     <message>
         <source>Dialog</source>
-        <translation type="unfinished">Dialog</translation>
+        <translation>Dialog</translation>
     </message>
     <message>
         <source>Export as HTML</source>
-        <translation type="unfinished">Exportovat jako HTML</translation>
+        <translation>Exportovat jako HTML</translation>
     </message>
     <message>
         <source>Export as txt</source>
-        <translation type="unfinished">Exportovat jako txt</translation>
+        <translation>Exportovat jako txt</translation>
     </message>
     <message>
         <source>Save as ...</source>
-        <translation type="unfinished">Uložit jako ...</translation>
+        <translation>Uložit jako ...</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation type="unfinished">Smazat</translation>
+        <translation>Smazat</translation>
     </message>
     <message>
         <source>Preview:</source>
-        <translation type="unfinished">Náhled:</translation>
+        <translation>Náhled:</translation>
     </message>
     <message>
         <source>Game:</source>
-        <translation type="unfinished"></translation>
+        <translation>Hra:</translation>
     </message>
     <message>
         <source>Log File</source>
-        <translation type="unfinished">Soubor záznamu</translation>
+        <translation>Soubor záznamu</translation>
     </message>
     <message>
         <source>Analyse Logfile ...</source>
-        <translation type="unfinished"></translation>
+        <translation>Analyzovat soubor záznamu ...</translation>
     </message>
     <message>
         <source>PokerTH - Delete log files</source>
-        <translation type="unfinished">PokerTH - Smazání záznamů</translation>
+        <translation>PokerTH - Smazání záznamů</translation>
     </message>
     <message>
         <source>Do you really want to delete the selected log files?</source>
-        <translation type="unfinished">Opravdu chcete smazat zvolený soubor záznamů?</translation>
+        <translation>Opravdu chcete smazat zvolený soubor záznamů?</translation>
     </message>
     <message>
         <source>Export PokerTH log file to HTML</source>
-        <translation type="unfinished">Exportovat soubory záznamu do HTML</translation>
+        <translation>Exportovat soubory záznamu do HTML</translation>
     </message>
     <message>
         <source>PokerTH HTML log (*.html)</source>
-        <translation type="unfinished">PokerTH HTML záznam (*.html)</translation>
+        <translation>PokerTH HTML záznam (*.html)</translation>
     </message>
     <message>
         <source>Export PokerTH log file to plain text</source>
-        <translation type="unfinished">Exportovat soubory záznamu do textové formy</translation>
+        <translation>Exportovat soubory záznamu do textové formy</translation>
     </message>
     <message>
         <source>PokerTH plain text log (*.txt)</source>
-        <translation type="unfinished">PokerTH textový záznam (*.txt)</translation>
+        <translation>PokerTH textový záznam (*.txt)</translation>
     </message>
     <message>
         <source>Save PokerTH log file</source>
-        <translation type="unfinished">Uložit soubor záznamu PokerTH</translation>
+        <translation>Uložit soubor záznamu PokerTH</translation>
     </message>
     <message>
         <source>PokerTH SQL log (*.pdb)</source>
-        <translation type="unfinished">PokerTH SQL záznam (*.pdb)</translation>
+        <translation>PokerTH SQL záznam (*.pdb)</translation>
     </message>
     <message>
         <source>Upload in progress</source>
-        <translation type="unfinished"></translation>
+        <translation>Probíhá nahrávání</translation>
     </message>
     <message>
         <source>Upload failed. Please check your internet connection!
 Uploading log files may fail if you are using an http proxy.</source>
-        <translation type="unfinished"></translation>
+        <translation>Nahrávání selhalo. Zkontrolujte své připojení k internetu!
+Nahrávání záznamů může sehnat, pokud jste za http proxy.</translation>
     </message>
     <message>
         <source>Processing of the log file on the web server failed.
 Please verify that you are uploading a valid PokerTH log file.</source>
-        <translation type="unfinished"></translation>
+        <translation>Zpracovávání souboru záznamů na serveru selhalo.
+Zkontrolujte, že jste nahrávali platný PokerTH soubor záznamů.</translation>
     </message>
     <message>
         <source>Failure reason: </source>
-        <translation type="unfinished"></translation>
+        <translation>Důvod chyby: </translation>
     </message>
 </context>
 <context>
@@ -1273,7 +1292,11 @@ p, li { white-space: pre-wrap; }
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-weight:400; font-style:normal;&quot;&gt;
 &lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
@@ -1299,7 +1322,29 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Sans Serif&apos;;&quot;&gt;&lt;br /&gt;&lt;/span&gt;&lt;/p&gt;
 &lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;Sans Serif&apos;;&quot;&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Sans Serif&apos;;&quot;&gt;&lt;br /&gt;&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-weight:400; font-style:normal;&quot;&gt;
+&lt;table border=&quot;0&quot; style=&quot;-qt-table-type: root; margin-top:4px; margin-bottom:4px; margin-left:4px; margin-right:4px;&quot;&gt;
+&lt;tr&gt;
+&lt;td style=&quot;border: none;&quot;&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;Sans Serif&apos;;&quot;&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Sans Serif&apos;;&quot;&gt;&lt;br /&gt;&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;Sans Serif&apos;;&quot;&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Sans Serif&apos;;&quot;&gt;&lt;br /&gt;&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;Sans Serif&apos;;&quot;&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Sans Serif&apos;;&quot;&gt;&lt;br /&gt;&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
 </context>
 <context>
@@ -1354,51 +1399,51 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>- Poker engine for the popular Texas Hold&apos;em Poker</source>
-        <translation type="unfinished"></translation>
+        <translation>- Pokerový engine pro populární Texas Hold&apos;em Poker</translation>
     </message>
     <message>
         <source>- Singleplayer games with up to 9 computer-opponents</source>
-        <translation type="unfinished"></translation>
+        <translation>- Singleplayerové hry až s devíti počítačovými oponenty</translation>
     </message>
     <message>
         <source>- Multiplayer network games</source>
-        <translation type="unfinished"></translation>
+        <translation>- Multiplayerové síťové hry</translation>
     </message>
     <message>
         <source>- Internet online games</source>
-        <translation type="unfinished"></translation>
+        <translation>- Hry online po internetu</translation>
     </message>
     <message>
         <source>- Changeable gui with online style gallery</source>
-        <translation type="unfinished"></translation>
+        <translation>- Volitelný vzhled s online galerií stylů</translation>
     </message>
     <message>
         <source>- Online ranking website with result tables</source>
-        <translation type="unfinished"></translation>
+        <translation>- Online stránka s tabulkou výsledků</translation>
     </message>
     <message>
         <source>Project page:</source>
-        <translation type="unfinished"></translation>
+        <translation>Stránka projektu:</translation>
     </message>
     <message>
         <source>Authors:</source>
-        <translation type="unfinished"></translation>
+        <translation>Autoři:</translation>
     </message>
     <message>
         <source>initial idea, basic architecture, gui implementation, gui graphics editing, linux package</source>
-        <translation type="unfinished"></translation>
+        <translation>počáteční myšlenka, základní architektura, implementace a editace GUI, balíčky pro Linux</translation>
     </message>
     <message>
         <source>initial idea, basic architecture, engine development</source>
-        <translation type="unfinished"></translation>
+        <translation>počáteční myšlenka, základní architektura, tvorba enginu</translation>
     </message>
     <message>
         <source>basic architecture, network development, windows package, MacOS package</source>
-        <translation type="unfinished"></translation>
+        <translation>základní architektura, síťové rozhraní, balíčky pro Windows, balíčky pro MacOS</translation>
     </message>
     <message>
         <source>initial gui graphics design</source>
-        <translation type="unfinished"></translation>
+        <translation>počáteční grafický návrh</translation>
     </message>
 </context>
 <context>
@@ -1946,7 +1991,11 @@ p, li { white-space: pre-wrap; }
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Liberation Sans&apos;; font-size:18px; font-weight:400; font-style:normal;&quot;&gt;
 &lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;Nimbus Sans L&apos;;&quot;&gt;&lt;br /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Liberation Sans&apos;; font-size:18px; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;Nimbus Sans L&apos;;&quot;&gt;&lt;br /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
 </context>
 <context>
@@ -3203,11 +3252,11 @@ Další hráče můžete pozvat pravým kliknutím na jejich přezdívku v sezna
     </message>
     <message>
         <source>Click here to view the online rankings</source>
-        <translation type="unfinished"></translation>
+        <translation>Pro zobrazení online hodnocení, klikněte zde</translation>
     </message>
     <message>
         <source>Time</source>
-        <translation type="unfinished"></translation>
+        <translation>Čas</translation>
     </message>
 </context>
 <context>
@@ -3418,11 +3467,11 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Settings</source>
-        <translation type="unfinished">Nastavení</translation>
+        <translation>Nastavení</translation>
     </message>
     <message>
         <source>Configure PokerTH</source>
-        <translation type="unfinished"></translation>
+        <translation>Nastavit PokerTH</translation>
     </message>
 </context>
 <context>
@@ -3597,7 +3646,7 @@ p, li { white-space: pre-wrap; }
     <name>internetGameLoginDialogImpl</name>
     <message>
         <source>Create new user account</source>
-        <translation type="unfinished"></translation>
+        <translation>Vytvořit nový uživatelský účet</translation>
     </message>
 </context>
 <context>
@@ -4194,7 +4243,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Human Player:</source>
-        <translation type="unfinished">Lidský hráč:</translation>
+        <translation>Lidský hráč:</translation>
     </message>
     <message>
         <source>Enable/Disable Logging</source>
@@ -4546,19 +4595,19 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Note: Best quality with image ratio like width=48, height=76.</source>
-        <translation type="unfinished"></translation>
+        <translation>Poznámka: Nejlepší kvality obrázku dosáhnete s poměrem stran šířky=76, výšky=48.</translation>
     </message>
     <message>
         <source>Note: Default Game Settings like &quot;Maximum number of players&quot;, &quot;Start Cash&quot; and &quot;Small Blind&quot; will be used from Network Game Settings.</source>
-        <translation type="unfinished"></translation>
+        <translation>Poznámka: Výchozí herní nastavení jako&quot;Maximální počet hráčů&quot;, &quot;Počáteční suma&quot; a &quot;Malý blind&quot; bude použito ze síťového nastavení hry.</translation>
     </message>
     <message>
         <source>(This nick will also be used for the online game login)</source>
-        <translation type="unfinished"></translation>
+        <translation>(Tato přezdívka bude použita také pro online hraní)</translation>
     </message>
     <message>
         <source>Note: Best avatar quality with image ratio like width=50, height=50.</source>
-        <translation type="unfinished"></translation>
+        <translation>Poznámka: Nejlepší kvality obrázku avataru dosáhnete velikostí šířka=50, výška=50.</translation>
     </message>
     <message>
         <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
@@ -4566,7 +4615,11 @@ p, li { white-space: pre-wrap; }
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Liberation Sans&apos;; font-size:18px; font-weight:400; font-style:normal;&quot;&gt;
 &lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;Nimbus Sans L&apos;;&quot;&gt;&lt;br /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Liberation Sans&apos;; font-size:18px; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;Nimbus Sans L&apos;;&quot;&gt;&lt;br /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
 </context>
 <context>
@@ -5039,35 +5092,35 @@ Opravdu se chcete vrátit do továrního nastavení?</translation>
     </message>
     <message>
         <source>Create Network Game</source>
-        <translation type="unfinished">Vytvořit síťovou hru</translation>
+        <translation>Vytvořit síťovou hru</translation>
     </message>
     <message>
         <source>Join Network Game</source>
-        <translation type="unfinished">Připojit k síťové hře</translation>
+        <translation>Připojit k síťové hře</translation>
     </message>
     <message>
         <source>Start Local Game</source>
-        <translation type="unfinished">Začít místní hru</translation>
+        <translation>Začít místní hru</translation>
     </message>
     <message>
         <source>Configure PokerTH</source>
-        <translation type="unfinished"></translation>
+        <translation>Nastavit PokerTH</translation>
     </message>
     <message>
         <source>Return</source>
-        <translation type="unfinished"></translation>
+        <translation>Zpět</translation>
     </message>
     <message>
         <source>Internet Game</source>
-        <translation type="unfinished">Internetová hra</translation>
+        <translation>Internetová hra</translation>
     </message>
     <message>
         <source>Logs</source>
-        <translation type="unfinished"></translation>
+        <translation>Záznamy</translation>
     </message>
     <message>
         <source>Logs ...</source>
-        <translation type="unfinished"></translation>
+        <translation>Záznamy ...</translation>
     </message>
 </context>
 <context>

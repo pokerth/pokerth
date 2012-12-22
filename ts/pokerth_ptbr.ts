@@ -60,19 +60,19 @@ Por favor selecione o estilo das cartas e tente denovo!</translation>
     </message>
     <message>
         <source>Everything OK!</source>
-        <translation type="unfinished">Está tudo OK!</translation>
+        <translation>Está tudo OK!</translation>
     </message>
     <message>
         <source>Some cards pictures are missing, please contact style maintainer for this issue.</source>
-        <translation type="unfinished"></translation>
+        <translation>Algumas fotos das cartas estão faltando, por favor contate o mantenedor dos estilos sobre este problema.</translation>
     </message>
     <message>
         <source>Some style fields are missing, please contact style maintainer for this issue.</source>
-        <translation type="unfinished">Alguns estilos de campos estão faltando. por favor contate o mantenedor do estilo.</translation>
+        <translation>Alguns estilos de campos estão faltando. por favor contate o mantenedor do estilo.</translation>
     </message>
     <message>
         <source>This style is outdated, please contact style maintainer for this issue.</source>
-        <translation type="unfinished">O estilo está desatualizado. por favor contate o mentenedor do estilo.</translation>
+        <translation>O estilo está desatualizado. por favor contate o mentenedor do estilo.</translation>
     </message>
     <message>
         <source>Selected card deck style &quot;%1&quot; seems to be incomplete or defective. 
@@ -84,11 +84,19 @@ is/are missing.
 Anyway you can play with this deck, because the missing content will be filled up by PokerTH default card deck. 
 
 Please contact the card deck style builder via &quot;%3&quot;.</source>
-        <translation type="unfinished"></translation>
+        <translation>Tipo de Carta Selecionado &quot;%1&quot;parece estar incompleto ou com defeito. 
+
+O(s) Valor(es) :são 
+%2 
+são/estão faltando. 
+
+De qualquer forma você pode jogar com este baralho, porque as cartas com problemas, serão substituidas pelo baralho padrão do PokerTH. 
+
+Contate o construtor do estilo de cartas via &quot;%3&quot;.</translation>
     </message>
     <message>
         <source>Card Deck Style Error - Fields content missing</source>
-        <translation type="unfinished"></translation>
+        <translation>Erro no Estilo de Baralho - Campo de conteúdo faltando</translation>
     </message>
     <message>
         <source>One or more pictures from current card deck style &quot;%1&quot; were not found: 
@@ -96,11 +104,15 @@ Please contact the card deck style builder via &quot;%3&quot;.</source>
 %2 
 
 Please contact the card deck style builder via &quot;%3&quot;.</source>
-        <translation type="unfinished"></translation>
+        <translation>Uma ou mais imagens do seu baralho &quot;%1&quot; não foi encontrado:
+
+%2 
+
+Por favor contate o desenvolvedor do estilo do baralho via &quot;%3&quot;.</translation>
     </message>
     <message>
         <source>Card Deck Style Error - Pictures missing</source>
-        <translation type="unfinished"></translation>
+        <translation>Erro no estilo de baralho - Imagens faltando</translation>
     </message>
     <message>
         <source>Selected card deck style &quot;%1&quot; seems to be outdated. 
@@ -109,11 +121,16 @@ The current PokerTH card deck style version is &quot;%2&quot;, but this deck has
 Anyway you can play with this deck, because the missing content will be filled up by PokerTH default card deck. 
 
 Please contact the card deck style builder via &quot;%4&quot;.</source>
-        <translation type="unfinished"></translation>
+        <translation>O estilo de baralho selecionado &quot;%1&quot; parece estar desatualizado. 
+A versão atual do estilo de baralho do PokerTH é &quot;%2&quot;, este baralho tem a versão &quot;%3&quot; selecionada. 
+
+De qualquer forma você pode jogar com este estilo, porque o conteúdo faltante será preenchido com o baralho padrão do PokerTH. 
+
+Por favor contate o criado do estilo via &quot;%4&quot;.</translation>
     </message>
     <message>
         <source>Card Deck Style Error - Outdated</source>
-        <translation type="unfinished"></translation>
+        <translation>Erro no estilo de Baralho - Desatualizado</translation>
     </message>
 </context>
 <context>
@@ -314,89 +331,91 @@ Por favor contate o desenvolvedor de estilos %3.</translation>
     <name>LogFileDialog</name>
     <message>
         <source>Dialog</source>
-        <translation type="unfinished">Diálogo</translation>
+        <translation>Diálogo</translation>
     </message>
     <message>
         <source>Export as HTML</source>
-        <translation type="unfinished">Exportar como HTML</translation>
+        <translation>Exportar como HTML</translation>
     </message>
     <message>
         <source>Export as txt</source>
-        <translation type="unfinished">Exportar como txt</translation>
+        <translation>Exportar como txt</translation>
     </message>
     <message>
         <source>Save as ...</source>
-        <translation type="unfinished">Salvar como ...</translation>
+        <translation>Salvar como ...</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation type="unfinished">Apagar</translation>
+        <translation>Apagar</translation>
     </message>
     <message>
         <source>Preview:</source>
-        <translation type="unfinished">Pré-Visualizar:</translation>
+        <translation>Pré-Visualizar:</translation>
     </message>
     <message>
         <source>Game:</source>
-        <translation type="unfinished"></translation>
+        <translation>Jogo:</translation>
     </message>
     <message>
         <source>Log File</source>
-        <translation type="unfinished">Arquivo Log</translation>
+        <translation>Arquivo Log</translation>
     </message>
     <message>
         <source>Analyse Logfile ...</source>
-        <translation type="unfinished"></translation>
+        <translation>Analisar Arquivo de log ...</translation>
     </message>
     <message>
         <source>PokerTH - Delete log files</source>
-        <translation type="unfinished">PokerTH - Delete log files</translation>
+        <translation>PokerTH - Arquivos de log apagado</translation>
     </message>
     <message>
         <source>Do you really want to delete the selected log files?</source>
-        <translation type="unfinished">Você realmente quer apagar o arquivo de logs selecionado?</translation>
+        <translation>Você realmente quer apagar os arquivos de logs selecionado?</translation>
     </message>
     <message>
         <source>Export PokerTH log file to HTML</source>
-        <translation type="unfinished">Exportar arquivo log em HTML do PokerTH</translation>
+        <translation>Exportar arquivo log em HTML do PokerTH</translation>
     </message>
     <message>
         <source>PokerTH HTML log (*.html)</source>
-        <translation type="unfinished">Log PokerTH HTML(*.html)</translation>
+        <translation>Log PokerTH HTML(*.html)</translation>
     </message>
     <message>
         <source>Export PokerTH log file to plain text</source>
-        <translation type="unfinished">Exportar arquivo log do PokerTH em formato texto</translation>
+        <translation>Exportar arquivo log do PokerTH em formato texto</translation>
     </message>
     <message>
         <source>PokerTH plain text log (*.txt)</source>
-        <translation type="unfinished">Log PokerTH texto(*.txt)</translation>
+        <translation>Log PokerTH texto(*.txt)</translation>
     </message>
     <message>
         <source>Save PokerTH log file</source>
-        <translation type="unfinished">Salvar arquivo log PokerTH </translation>
+        <translation>Salvar arquivo log PokerTH </translation>
     </message>
     <message>
         <source>PokerTH SQL log (*.pdb)</source>
-        <translation type="unfinished">PokerTH log SQL &quot;*.pdb)</translation>
+        <translation>PokerTH log SQL &quot;*.pdb)</translation>
     </message>
     <message>
         <source>Upload in progress</source>
-        <translation type="unfinished"></translation>
+        <translation>Enviando em progresso</translation>
     </message>
     <message>
         <source>Upload failed. Please check your internet connection!
 Uploading log files may fail if you are using an http proxy.</source>
-        <translation type="unfinished"></translation>
+        <translation>Envio falhou. Por favor verificar sua conexão com internet!
+Enviar arquivos de log pode gerar problemas ao usar http proxy.</translation>
     </message>
     <message>
         <source>Processing of the log file on the web server failed.
 Please verify that you are uploading a valid PokerTH log file.</source>
-        <translation type="unfinished"></translation>
+        <translation>Processando o arquivo de log na falha do servidor web.
+Por Favor, verifique se você está enviando o arquivo de log valido do PokerTH.</translation>
     </message>
     <message>
         <source>Failure reason: </source>
-        <translation type="unfinished"></translation>
+        <translation>Razão da Falha: </translation>
     </message>
 </context>
 <context>
@@ -1913,7 +1932,11 @@ p, li { white-space: pre-wrap; }
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-weight:400; font-style:normal;&quot;&gt;
 &lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
@@ -1939,7 +1962,29 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Sans Serif&apos;;&quot;&gt;&lt;br /&gt;&lt;/span&gt;&lt;/p&gt;
 &lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;Sans Serif&apos;;&quot;&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Sans Serif&apos;;&quot;&gt;&lt;br /&gt;&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-weight:400; font-style:normal;&quot;&gt;
+&lt;table border=&quot;0&quot; style=&quot;-qt-table-type: root; margin-top:4px; margin-bottom:4px; margin-left:4px; margin-right:4px;&quot;&gt;
+&lt;tr&gt;
+&lt;td style=&quot;border: none;&quot;&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;Sans Serif&apos;;&quot;&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Sans Serif&apos;;&quot;&gt;&lt;br /&gt;&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;Sans Serif&apos;;&quot;&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Sans Serif&apos;;&quot;&gt;&lt;br /&gt;&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;Sans Serif&apos;;&quot;&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Sans Serif&apos;;&quot;&gt;&lt;br /&gt;&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
 </context>
 <context>
@@ -1994,51 +2039,51 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>- Poker engine for the popular Texas Hold&apos;em Poker</source>
-        <translation type="unfinished"></translation>
+        <translation>Motor de Poker para o popular Texas Hold&apos;em Poker</translation>
     </message>
     <message>
         <source>- Singleplayer games with up to 9 computer-opponents</source>
-        <translation type="unfinished"></translation>
+        <translation>Jogo simples com 9 oponentes computador.</translation>
     </message>
     <message>
         <source>- Multiplayer network games</source>
-        <translation type="unfinished"></translation>
+        <translation>Jogo Multijogadores</translation>
     </message>
     <message>
         <source>- Internet online games</source>
-        <translation type="unfinished"></translation>
+        <translation>Jogos online via internet</translation>
     </message>
     <message>
         <source>- Changeable gui with online style gallery</source>
-        <translation type="unfinished"></translation>
+        <translation>Guia alteravel com galeria de estilos online</translation>
     </message>
     <message>
         <source>- Online ranking website with result tables</source>
-        <translation type="unfinished"></translation>
+        <translation>Ranking online de resultados de mesas</translation>
     </message>
     <message>
         <source>Project page:</source>
-        <translation type="unfinished"></translation>
+        <translation>Pagina do projeto:</translation>
     </message>
     <message>
         <source>Authors:</source>
-        <translation type="unfinished"></translation>
+        <translation>Autores:</translation>
     </message>
     <message>
         <source>initial idea, basic architecture, gui implementation, gui graphics editing, linux package</source>
-        <translation type="unfinished"></translation>
+        <translation>Ideia inicial, arquitetura basica, guia de implementação, guia graficos de edicação, pacote linux</translation>
     </message>
     <message>
         <source>initial idea, basic architecture, engine development</source>
-        <translation type="unfinished"></translation>
+        <translation>ideia inicial, estrutura basica, develviemento de motor</translation>
     </message>
     <message>
         <source>basic architecture, network development, windows package, MacOS package</source>
-        <translation type="unfinished"></translation>
+        <translation>arquitetura basica, desenvolvimento de rede, pacote windows, pacote MacOs</translation>
     </message>
     <message>
         <source>initial gui graphics design</source>
-        <translation type="unfinished"></translation>
+        <translation>Design inicial de guia graficos</translation>
     </message>
 </context>
 <context>
@@ -2665,7 +2710,11 @@ p, li { white-space: pre-wrap; }
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Liberation Sans&apos;; font-size:18px; font-weight:400; font-style:normal;&quot;&gt;
 &lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;Nimbus Sans L&apos;;&quot;&gt;&lt;br /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Liberation Sans&apos;; font-size:18px; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;Nimbus Sans L&apos;;&quot;&gt;&lt;br /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
 </context>
 <context>
@@ -3891,11 +3940,11 @@ Sinta se avontade para convidar outro jogador clicando no apelido na lista de jo
     </message>
     <message>
         <source>Click here to view the online rankings</source>
-        <translation type="unfinished"></translation>
+        <translation>Clique aqui para ver os rankings online</translation>
     </message>
     <message>
         <source>Time</source>
-        <translation type="unfinished"></translation>
+        <translation>Tempo</translation>
     </message>
 </context>
 <context>
@@ -4086,7 +4135,7 @@ Sinta se avontade para convidar outro jogador clicando no apelido na lista de jo
     </message>
     <message>
         <source>Settings</source>
-        <translation type="unfinished">Configurações</translation>
+        <translation>Configurações</translation>
     </message>
     <message>
         <source>Configure PokerTH ...</source>
@@ -4150,7 +4199,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Configure PokerTH</source>
-        <translation type="unfinished"></translation>
+        <translation>Configurar PokerTH</translation>
     </message>
 </context>
 <context>
@@ -4647,7 +4696,7 @@ p, li { white-space: pre-wrap; }(new line)
     <name>internetGameLoginDialogImpl</name>
     <message>
         <source>Create new user account</source>
-        <translation type="unfinished"></translation>
+        <translation>Criar nova conta de usuário</translation>
     </message>
 </context>
 <context>
@@ -5087,7 +5136,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Human Player:</source>
-        <translation type="unfinished">Jogador Humano:</translation>
+        <translation>Jogador Humano:</translation>
     </message>
     <message>
         <source>Interface</source>
@@ -5770,19 +5819,19 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Note: Best quality with image ratio like width=48, height=76.</source>
-        <translation type="unfinished"></translation>
+        <translation>Nota: Melhor qualidade com tamanho tipo width=48, height=76.</translation>
     </message>
     <message>
         <source>Note: Default Game Settings like &quot;Maximum number of players&quot;, &quot;Start Cash&quot; and &quot;Small Blind&quot; will be used from Network Game Settings.</source>
-        <translation type="unfinished"></translation>
+        <translation>Nota: Configurações padrão de jogo como &quot;Numero maximo de jogadores&quot;, &quot;Dinheiro Inicial&quot; e &quot;Small Blind&quot; serão usados para configurações de jogo em rede.</translation>
     </message>
     <message>
         <source>(This nick will also be used for the online game login)</source>
-        <translation type="unfinished"></translation>
+        <translation>(Este apelido será usado para jogos online)</translation>
     </message>
     <message>
         <source>Note: Best avatar quality with image ratio like width=50, height=50.</source>
-        <translation type="unfinished"></translation>
+        <translation>Nota: Para uma melhor qualidade de avatar recomenda imagens tipo width=50, height=50.</translation>
     </message>
     <message>
         <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
@@ -5790,7 +5839,11 @@ p, li { white-space: pre-wrap; }
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Liberation Sans&apos;; font-size:18px; font-weight:400; font-style:normal;&quot;&gt;
 &lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;Nimbus Sans L&apos;;&quot;&gt;&lt;br /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Liberation Sans&apos;; font-size:18px; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;Nimbus Sans L&apos;;&quot;&gt;&lt;br /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
 </context>
 <context>
@@ -6304,35 +6357,35 @@ Voce tem certeza que deseja resetar para as configurações padrão?</translatio
     </message>
     <message>
         <source>Create Network Game</source>
-        <translation type="unfinished">Criar Jogo em Rede</translation>
+        <translation>Criar Jogo em Rede</translation>
     </message>
     <message>
         <source>Join Network Game</source>
-        <translation type="unfinished">Entrar Jogo em Rede</translation>
+        <translation>Entrar Jogo em Rede</translation>
     </message>
     <message>
         <source>Start Local Game</source>
-        <translation type="unfinished">Iniciar Jogo Local</translation>
+        <translation>Iniciar Jogo Local</translation>
     </message>
     <message>
         <source>Configure PokerTH</source>
-        <translation type="unfinished"></translation>
+        <translation>Configurar PokerTH</translation>
     </message>
     <message>
         <source>Return</source>
-        <translation type="unfinished"></translation>
+        <translation>Retornar</translation>
     </message>
     <message>
         <source>Internet Game</source>
-        <translation type="unfinished">Jogo Internet</translation>
+        <translation>Jogo Internet</translation>
     </message>
     <message>
         <source>Logs</source>
-        <translation type="unfinished"></translation>
+        <translation>Logs</translation>
     </message>
     <message>
         <source>Logs ...</source>
-        <translation type="unfinished"></translation>
+        <translation>Logs ...</translation>
     </message>
 </context>
 <context>
