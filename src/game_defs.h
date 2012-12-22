@@ -103,6 +103,19 @@ enum PlayerActionLog {
 	LOG_ACTION_JOIN			// has joined the game
 };
 
+enum LogUploadErrorCode {
+	ERROR_NO_FILE = 1,
+	ERROR_OPEN_DB = 2,
+	ERROR_MAX_NUM_TOTAL = 3,
+	ERROR_MAX_NUM_IP = 4,
+	ERROR_FILE_SIZE = 5,
+	ERROR_FILE_EXT = 6,
+	ERROR_FILE_HEAD = 7,
+	ERROR_ID = 8,
+	ERROR_FILE_MOVE = 9,
+	ERROR_INSERT_DB = 10
+};
+
 enum DenyKickPlayerReason {
 	KICK_DENIED_INVALID_STATE = 0,
 	KICK_DENIED_TOO_FEW_PLAYERS,
