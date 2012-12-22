@@ -655,8 +655,9 @@ maemo{
 }
 
 android_test{
-	#switch of android audio
-	CONFIG += android_api8
 	DEFINES += ANDROID
 	DEFINES += ANDROID_TEST
+	DEFINES += ANDROID_API8
+	HEADERS += src/gui/qt/sound/androidapi8dummy.h
+	SOURCES += src/gui/qt/sound/androidapi8dummy.cpp
 }
