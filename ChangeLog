@@ -1,21 +1,21 @@
 2012-12-22 version 1.0-beta1
 - Support for higher android screen resolutions (enhancement #160)
 - Android sound support (enhancement #156)
-- Online log file analysis tool (enhancement #146)
 - Game name in window title (enhancement #155)
 - New card deck version which supports changes of the action label position (enhancement #154)
 - Emoticons for the chat (enhancement #153)
+- Online log file analysis tool (enhancement #146)
 - Show only one game in the log preview (enhancement #145)
 - Extra column in lobby game list for timeouts (enhancement #140)
 - Updated country flags (enhancement #137)
 - Enable activating the "accidentally call after big raise" blocker by default (enhancement #131)
 - Server refactoring using google protocol buffers which basically enables use of html5 clients
 - Chatbot whitelist for poker expressions
-- BUGFIX: Rich AI players raise although opponents are all-in (bug #4)
-- BUGFIX: In rare case, winner doesn't win, money disappears (bug #3)
 - BUGFIX: Chip Miscalculation fixed (bug #152)
 - BUGFIX: IPv6 settings are now correctly grayed out (bug #148)
 - BUGFIX: Fixing rejoin after synchronization error (bug #147)
+- BUGFIX: Rich AI players raise although opponents are all-in (bug #4)
+- BUGFIX: In rare case, winner doesn't win, money disappears (bug #3)
 
 2012-06-21 version 0.9.5
 - First experimental Android release (#80)
