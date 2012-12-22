@@ -655,6 +655,8 @@ maemo{
 }
 
 android_test{
+	#switch of android audio
+	CONFIG += android_api8
 	DEFINES += ANDROID
 	DEFINES += ANDROID_TEST
 }
