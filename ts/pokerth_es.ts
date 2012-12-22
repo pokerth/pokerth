@@ -13,22 +13,22 @@
     <message>
         <location filename="../src/gui/qt/styles/carddeckstylereader.cpp" line="187"/>
         <source>Everything OK!</source>
-        <translation type="unfinished">Todo correcto.</translation>
+        <translation>Todo correcto.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/styles/carddeckstylereader.cpp" line="190"/>
         <source>Some cards pictures are missing, please contact style maintainer for this issue.</source>
-        <translation type="unfinished"></translation>
+        <translation>Faltan algunas imágenes de las cartas. Por favor, informe al autor del estilo sobre este problema.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/styles/carddeckstylereader.cpp" line="193"/>
         <source>Some style fields are missing, please contact style maintainer for this issue.</source>
-        <translation type="unfinished">Faltan algunos campos del estilo. Por favor, informe al autor del estilo sobre este problema.</translation>
+        <translation>Faltan algunos campos del estilo. Por favor, informe al autor del estilo sobre este problema.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/styles/carddeckstylereader.cpp" line="196"/>
         <source>This style is outdated, please contact style maintainer for this issue.</source>
-        <translation type="unfinished">Este estilo es obsoleto. Por favor, informe al autor del estilo sobre este problema.</translation>
+        <translation>Este estilo es obsoleto. Por favor, informe al autor del estilo sobre este problema.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/styles/carddeckstylereader.cpp" line="213"/>
@@ -41,12 +41,19 @@ is/are missing.
 Anyway you can play with this deck, because the missing content will be filled up by PokerTH default card deck. 
 
 Please contact the card deck style builder via &quot;%3&quot;.</source>
-        <translation type="unfinished"></translation>
+        <translation>El estilo de baraja &quot;%1&quot; seleccionado parece estar incompleto o defectuoso. 
+
+Faltan los valores de:
+%2
+
+Puede seguir utilizándolo, pero el contenido que falta será sustituido por el predeterminado. 
+
+Por favor, póngase en contacto con el autor del estilo en &quot;%3&quot;.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/styles/carddeckstylereader.cpp" line="213"/>
         <source>Card Deck Style Error - Fields content missing</source>
-        <translation type="unfinished"></translation>
+        <translation>Error en el estilo de baraja - Falta contenido en los campos</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/styles/carddeckstylereader.cpp" line="227"/>
@@ -55,12 +62,16 @@ Please contact the card deck style builder via &quot;%3&quot;.</source>
 %2 
 
 Please contact the card deck style builder via &quot;%3&quot;.</source>
-        <translation type="unfinished"></translation>
+        <translation>No se ha encontrado una o varias imágenes del estilo de baraja &quot;%1&quot;:
+
+%2 
+
+Por favor, póngase en contacto con el autor del estilo en &quot;%3&quot;.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/styles/carddeckstylereader.cpp" line="227"/>
         <source>Card Deck Style Error - Pictures missing</source>
-        <translation type="unfinished"></translation>
+        <translation>Error en el estilo de baraja - Faltan imágenes</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/styles/carddeckstylereader.cpp" line="239"/>
@@ -70,12 +81,17 @@ The current PokerTH card deck style version is &quot;%2&quot;, but this deck has
 Anyway you can play with this deck, because the missing content will be filled up by PokerTH default card deck. 
 
 Please contact the card deck style builder via &quot;%4&quot;.</source>
-        <translation type="unfinished"></translation>
+        <translation>El estilo de baraja &quot;%1&quot; seleccionado está obsoleto. 
+La versión requerida actualmente por PokerTH es &quot;%2&quot;, pero este estilo pertenece a la &quot;%3&quot;. 
+
+Puede seguir utilizando este estilo, pero el contenido que falta será sustituido por el predeterminado. 
+
+Por favor, póngase en contacto con el autor del estilo en &quot;%4&quot;.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/styles/carddeckstylereader.cpp" line="239"/>
         <source>Card Deck Style Error - Outdated</source>
-        <translation type="unfinished"></translation>
+        <translation>Error en el estilo de baraja - Obsoleto</translation>
     </message>
     <message>
         <source>Selected card deck style &quot;%1&quot; seems to be outdated. 
@@ -370,117 +386,119 @@ Póngase en contacto con el autor del estilo %3.</translation>
         <location filename="../src/gui/qt/gui_800x480/logfiledialog_800x480.ui" line="20"/>
         <location filename="../src/gui/qt/logfiledialog.ui" line="14"/>
         <source>Dialog</source>
-        <translation type="unfinished">Diálogo</translation>
+        <translation>Diálogo</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gui_800x480/logfiledialog_800x480.ui" line="28"/>
         <location filename="../src/gui/qt/logfiledialog.ui" line="22"/>
         <source>Export as HTML</source>
-        <translation type="unfinished">Exportar como HTML</translation>
+        <translation>Exportar como HTML</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gui_800x480/logfiledialog_800x480.ui" line="45"/>
         <location filename="../src/gui/qt/logfiledialog.ui" line="33"/>
         <source>Export as txt</source>
-        <translation type="unfinished">Exportar como txt</translation>
+        <translation>Exportar como txt</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gui_800x480/logfiledialog_800x480.ui" line="62"/>
         <location filename="../src/gui/qt/logfiledialog.ui" line="44"/>
         <source>Save as ...</source>
-        <translation type="unfinished">Guardar como...</translation>
+        <translation>Guardar como...</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gui_800x480/logfiledialog_800x480.ui" line="79"/>
         <location filename="../src/gui/qt/logfiledialog.ui" line="55"/>
         <source>Delete</source>
-        <translation type="unfinished">Eliminar</translation>
+        <translation>Eliminar</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gui_800x480/logfiledialog_800x480.ui" line="100"/>
         <location filename="../src/gui/qt/logfiledialog.ui" line="70"/>
         <source>Preview:</source>
-        <translation type="unfinished">Previsualizar:</translation>
+        <translation>Previsualizar:</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gui_800x480/logfiledialog_800x480.ui" line="145"/>
         <location filename="../src/gui/qt/logfiledialog.ui" line="109"/>
         <source>Game:</source>
-        <translation type="unfinished"></translation>
+        <translation>Partida:</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gui_800x480/logfiledialog_800x480.ui" line="192"/>
         <location filename="../src/gui/qt/logfiledialog.ui" line="156"/>
         <source>Log File</source>
-        <translation type="unfinished">Archivo de registro</translation>
+        <translation>Archivo de registro</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gui_800x480/logfiledialog_800x480.ui" line="209"/>
         <location filename="../src/gui/qt/logfiledialog.ui" line="173"/>
         <source>Analyse Logfile ...</source>
-        <translation type="unfinished"></translation>
+        <translation>Analizar archivo de registro...</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/logfiledialog/logfiledialog.cpp" line="97"/>
         <source>PokerTH - Delete log files</source>
-        <translation type="unfinished">PokerTH - Eliminar archivos de registro</translation>
+        <translation>PokerTH - Eliminar archivos de registro</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/logfiledialog/logfiledialog.cpp" line="98"/>
         <source>Do you really want to delete the selected log files?</source>
-        <translation type="unfinished">¿Seguro que desea eliminar los archivos de registro seleccionados?</translation>
+        <translation>¿Seguro que desea eliminar los archivos de registro seleccionados?</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/logfiledialog/logfiledialog.cpp" line="121"/>
         <source>Export PokerTH log file to HTML</source>
-        <translation type="unfinished">Exportar registro de PokerTH a HTML</translation>
+        <translation>Exportar registro de PokerTH a HTML</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/logfiledialog/logfiledialog.cpp" line="123"/>
         <source>PokerTH HTML log (*.html)</source>
-        <translation type="unfinished">Registro HTML de PokerTH (*.html)</translation>
+        <translation>Registro HTML de PokerTH (*.html)</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/logfiledialog/logfiledialog.cpp" line="137"/>
         <source>Export PokerTH log file to plain text</source>
-        <translation type="unfinished">Exportar registro de PokerTH a texto plano</translation>
+        <translation>Exportar registro de PokerTH a texto plano</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/logfiledialog/logfiledialog.cpp" line="139"/>
         <source>PokerTH plain text log (*.txt)</source>
-        <translation type="unfinished">Registro de texto plano de PokerTH (*.txt)</translation>
+        <translation>Registro de texto plano de PokerTH (*.txt)</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/logfiledialog/logfiledialog.cpp" line="153"/>
         <source>Save PokerTH log file</source>
-        <translation type="unfinished">Guardar archivo de registro de PokerTH</translation>
+        <translation>Guardar archivo de registro de PokerTH</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/logfiledialog/logfiledialog.cpp" line="155"/>
         <source>PokerTH SQL log (*.pdb)</source>
-        <translation type="unfinished">Registro SQL de PokerTH (*.pdb)</translation>
+        <translation>Registro SQL de PokerTH (*.pdb)</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/logfiledialog/logfiledialog.cpp" line="205"/>
         <source>Upload in progress</source>
-        <translation type="unfinished"></translation>
+        <translation>Subida en progreso</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/logfiledialog/logfiledialog.cpp" line="206"/>
         <source>Upload failed. Please check your internet connection!
 Uploading log files may fail if you are using an http proxy.</source>
-        <translation type="unfinished"></translation>
+        <translation>Error en la subido. Compruebe su conexión a Internet.
+La subida de archivos de registro puede fallar si utiliza un proxy.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/logfiledialog/logfiledialog.cpp" line="207"/>
         <source>Processing of the log file on the web server failed.
 Please verify that you are uploading a valid PokerTH log file.</source>
-        <translation type="unfinished"></translation>
+        <translation>Error al procesar el archivo de registro en el servidor web.
+Compruebe que está subiendo un archivo de registro válido.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/logfiledialog/logfiledialog.cpp" line="208"/>
         <source>Failure reason: </source>
-        <translation type="unfinished"></translation>
+        <translation>Motivo del fallo:</translation>
     </message>
 </context>
 <context>
@@ -2457,7 +2475,11 @@ p, li { white-space: pre-wrap; }
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-weight:400; font-style:normal;&quot;&gt;
 &lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gui_800x480/aboutpokerth_800x480.ui" line="181"/>
@@ -2484,7 +2506,29 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Sans Serif&apos;;&quot;&gt;&lt;br /&gt;&lt;/span&gt;&lt;/p&gt;
 &lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;Sans Serif&apos;;&quot;&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Sans Serif&apos;;&quot;&gt;&lt;br /&gt;&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-weight:400; font-style:normal;&quot;&gt;
+&lt;table border=&quot;0&quot; style=&quot;-qt-table-type: root; margin-top:4px; margin-bottom:4px; margin-left:4px; margin-right:4px;&quot;&gt;
+&lt;tr&gt;
+&lt;td style=&quot;border: none;&quot;&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;Sans Serif&apos;;&quot;&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Sans Serif&apos;;&quot;&gt;&lt;br /&gt;&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;Sans Serif&apos;;&quot;&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Sans Serif&apos;;&quot;&gt;&lt;br /&gt;&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;Sans Serif&apos;;&quot;&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Sans Serif&apos;;&quot;&gt;&lt;br /&gt;&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
 </context>
 <context>
@@ -2552,62 +2596,62 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/gui/qt/aboutpokerth/aboutpokerthimpl.cpp" line="89"/>
         <source>- Poker engine for the popular Texas Hold&apos;em Poker</source>
-        <translation type="unfinished"></translation>
+        <translation>- Motor de juego del popular Póker Texas Hold&apos;em</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/aboutpokerth/aboutpokerthimpl.cpp" line="90"/>
         <source>- Singleplayer games with up to 9 computer-opponents</source>
-        <translation type="unfinished"></translation>
+        <translation>- Partidas individuales con hasta 9 oponentes virtuales</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/aboutpokerth/aboutpokerthimpl.cpp" line="91"/>
         <source>- Multiplayer network games</source>
-        <translation type="unfinished"></translation>
+        <translation>- Partidas multijugador en red</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/aboutpokerth/aboutpokerthimpl.cpp" line="92"/>
         <source>- Internet online games</source>
-        <translation type="unfinished"></translation>
+        <translation>- Partidas en Internet</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/aboutpokerth/aboutpokerthimpl.cpp" line="93"/>
         <source>- Changeable gui with online style gallery</source>
-        <translation type="unfinished"></translation>
+        <translation>- Interfaz personalizable con galería de estilos en línea</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/aboutpokerth/aboutpokerthimpl.cpp" line="94"/>
         <source>- Online ranking website with result tables</source>
-        <translation type="unfinished"></translation>
+        <translation>- Página web con clasificación y tablas de resultados</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/aboutpokerth/aboutpokerthimpl.cpp" line="100"/>
         <source>Project page:</source>
-        <translation type="unfinished"></translation>
+        <translation>Página del proyecto:</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/aboutpokerth/aboutpokerthimpl.cpp" line="104"/>
         <source>Authors:</source>
-        <translation type="unfinished"></translation>
+        <translation>Autores:</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/aboutpokerth/aboutpokerthimpl.cpp" line="106"/>
         <source>initial idea, basic architecture, gui implementation, gui graphics editing, linux package</source>
-        <translation type="unfinished"></translation>
+        <translation>idea inicial, arquitectura básica, implementación gráfica, edición de gráficos, paquete para linux</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/aboutpokerth/aboutpokerthimpl.cpp" line="108"/>
         <source>initial idea, basic architecture, engine development</source>
-        <translation type="unfinished"></translation>
+        <translation>idea incial, arquitectura básica, desarrollo del motor</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/aboutpokerth/aboutpokerthimpl.cpp" line="110"/>
         <source>basic architecture, network development, windows package, MacOS package</source>
-        <translation type="unfinished"></translation>
+        <translation>arquitectura básica, desarrollo para redes, paquetes para Windows y MacOS</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/aboutpokerth/aboutpokerthimpl.cpp" line="112"/>
         <source>initial gui graphics design</source>
-        <translation type="unfinished"></translation>
+        <translation>diseño gráfico inicial</translation>
     </message>
 </context>
 <context>
@@ -3223,7 +3267,11 @@ Elija otro nombre.</translation>
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Liberation Sans&apos;; font-size:18px; font-weight:400; font-style:normal;&quot;&gt;
 &lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;Nimbus Sans L&apos;;&quot;&gt;&lt;br /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Liberation Sans&apos;; font-size:18px; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;Nimbus Sans L&apos;;&quot;&gt;&lt;br /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <source>Timeout for player action (sec):</source>
@@ -4830,14 +4878,14 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="75"/>
         <source>Click here to view the online rankings</source>
-        <translation type="unfinished"></translation>
+        <translation>Pulse aquí para ver la clasificación en línea</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="122"/>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="440"/>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="848"/>
         <source>Time</source>
-        <translation type="unfinished"></translation>
+        <translation>Tiempo</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="369"/>
@@ -5262,12 +5310,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/gui/qt/gui_800x480/gametable_800x480.ui" line="4647"/>
         <source>Settings</source>
-        <translation type="unfinished">Preferencias</translation>
+        <translation>Preferencias</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gui_800x480/gametable_800x480.ui" line="4759"/>
         <source>Configure PokerTH</source>
-        <translation type="unfinished"></translation>
+        <translation>Configurar PokerTH</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gametable.ui" line="4596"/>
@@ -5853,7 +5901,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/gui/qt/internetgamelogindialog/internetgamelogindialogimpl.cpp" line="29"/>
         <source>Create new user account</source>
-        <translation type="unfinished"></translation>
+        <translation>Crear nueva cuenta de usuario</translation>
     </message>
 </context>
 <context>
@@ -6443,7 +6491,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="2142"/>
         <source>Human Player:</source>
-        <translation type="unfinished">Jugador humano:</translation>
+        <translation>Jugador humano:</translation>
     </message>
     <message>
         <source>Player Nicks</source>
@@ -7158,7 +7206,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="3454"/>
         <source>Note: Best avatar quality with image ratio like width=50, height=50.</source>
-        <translation type="unfinished"></translation>
+        <translation>Nota: la mejor calidad de avatar se obtiene con una imagen con ancho=alto=50.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="1999"/>
@@ -7197,7 +7245,11 @@ p, li { white-space: pre-wrap; }
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Liberation Sans&apos;; font-size:18px; font-weight:400; font-style:normal;&quot;&gt;
 &lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;Nimbus Sans L&apos;;&quot;&gt;&lt;br /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Liberation Sans&apos;; font-size:18px; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;Nimbus Sans L&apos;;&quot;&gt;&lt;br /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="3712"/>
@@ -7368,17 +7420,17 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="766"/>
         <source>Note: Best quality with image ratio like width=48, height=76.</source>
-        <translation type="unfinished"></translation>
+        <translation>Nota: la mejor calidad se obtiene con una imagen de ancho=48 y alto=76.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="1952"/>
         <source>Note: Default Game Settings like &quot;Maximum number of players&quot;, &quot;Start Cash&quot; and &quot;Small Blind&quot; will be used from Network Game Settings.</source>
-        <translation type="unfinished"></translation>
+        <translation>Nota: las preferencias predeterminadas, como el número máximo de jugadores, el dinero inicial y la ciega pequeña se obtendrá de la configuración de partidas en red.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="2198"/>
         <source>(This nick will also be used for the online game login)</source>
-        <translation type="unfinished"></translation>
+        <translation>(Este apodo también se utilizará en las partidas de Internet)</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="3165"/>
@@ -7935,7 +7987,7 @@ Do you really want to reset factory settings?</source>
     <message>
         <location filename="../src/gui/qt/startwindow.ui" line="306"/>
         <source>Logs ...</source>
-        <translation type="unfinished"></translation>
+        <translation>Registros...</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow.ui" line="70"/>
@@ -7993,38 +8045,38 @@ Do you really want to reset factory settings?</source>
     <message>
         <location filename="../src/gui/qt/gui_800x480/startwindow_800x480.ui" line="82"/>
         <source>Create Network Game</source>
-        <translation type="unfinished">Crear partida en red</translation>
+        <translation>Crear partida en red</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gui_800x480/startwindow_800x480.ui" line="108"/>
         <source>Join Network Game</source>
-        <translation type="unfinished">Unirse a partida en red</translation>
+        <translation>Unirse a partida en red</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gui_800x480/startwindow_800x480.ui" line="154"/>
         <source>Start Local Game</source>
-        <translation type="unfinished">Iniciar partida local</translation>
+        <translation>Iniciar partida local</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gui_800x480/startwindow_800x480.ui" line="186"/>
         <source>Configure PokerTH</source>
-        <translation type="unfinished"></translation>
+        <translation>Configurar PokerTH</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gui_800x480/startwindow_800x480.ui" line="199"/>
         <source>Return</source>
-        <translation type="unfinished"></translation>
+        <translation>Volver</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gui_800x480/startwindow_800x480.ui" line="227"/>
         <source>Internet Game</source>
-        <translation type="unfinished">Partida en Internet</translation>
+        <translation>Partida en Internet</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gui_800x480/startwindow_800x480.ui" line="309"/>
         <location filename="../src/gui/qt/gui_800x480/startwindow_800x480.ui" line="448"/>
         <source>Logs</source>
-        <translation type="unfinished"></translation>
+        <translation>Registros</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gui_800x480/startwindow_800x480.ui" line="410"/>
