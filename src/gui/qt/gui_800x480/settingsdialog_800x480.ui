@@ -3785,7 +3785,7 @@ p, li { white-space: pre-wrap; }
       </spacer>
      </item>
      <item>
-      <widget class="QPushButton" name="pushButton">
+      <widget class="QPushButton" name="pushButton_ok">
        <property name="styleSheet">
         <string notr="true">QObject{font: 32px;}</string>
        </property>
@@ -3962,12 +3962,12 @@ p, li { white-space: pre-wrap; }
    <slot>setNum(int)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>786</x>
-     <y>63</y>
+     <x>292</x>
+     <y>40</y>
     </hint>
     <hint type="destinationlabel">
-     <x>362</x>
-     <y>63</y>
+     <x>265</x>
+     <y>40</y>
     </hint>
    </hints>
   </connection>
@@ -3978,12 +3978,12 @@ p, li { white-space: pre-wrap; }
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>786</x>
-     <y>184</y>
+     <x>292</x>
+     <y>41</y>
     </hint>
     <hint type="destinationlabel">
-     <x>786</x>
-     <y>217</y>
+     <x>292</x>
+     <y>33</y>
     </hint>
    </hints>
   </connection>
@@ -3994,12 +3994,12 @@ p, li { white-space: pre-wrap; }
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>784</x>
-     <y>168</y>
+     <x>290</x>
+     <y>36</y>
     </hint>
     <hint type="destinationlabel">
-     <x>784</x>
-     <y>188</y>
+     <x>290</x>
+     <y>27</y>
     </hint>
    </hints>
   </connection>
@@ -4010,12 +4010,12 @@ p, li { white-space: pre-wrap; }
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>249</x>
-     <y>53</y>
+     <x>245</x>
+     <y>23</y>
     </hint>
     <hint type="destinationlabel">
-     <x>277</x>
-     <y>53</y>
+     <x>273</x>
+     <y>23</y>
     </hint>
    </hints>
   </connection>
@@ -4026,12 +4026,12 @@ p, li { white-space: pre-wrap; }
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>249</x>
-     <y>53</y>
+     <x>245</x>
+     <y>23</y>
     </hint>
     <hint type="destinationlabel">
-     <x>306</x>
-     <y>79</y>
+     <x>302</x>
+     <y>49</y>
     </hint>
    </hints>
   </connection>
@@ -4042,28 +4042,12 @@ p, li { white-space: pre-wrap; }
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>362</x>
-     <y>235</y>
+     <x>256</x>
+     <y>124</y>
     </hint>
     <hint type="destinationlabel">
-     <x>779</x>
-     <y>239</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>pushButton</sender>
-   <signal>clicked()</signal>
-   <receiver>settingsDialog</receiver>
-   <slot>accept()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>685</x>
-     <y>390</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>578</x>
-     <y>396</y>
+     <x>297</x>
+     <y>125</y>
     </hint>
    </hints>
   </connection>
