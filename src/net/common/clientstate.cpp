@@ -323,10 +323,11 @@ ClientStateReadingServerList::Enter(boost::shared_ptr<ClientThread> client)
 			const TiXmlNode *addr4Node = nextServer->FirstChild("IPv4Address");
 			const TiXmlNode *addr6Node = nextServer->FirstChild("IPv6Address");
 			const TiXmlNode *sctpNode = nextServer->FirstChild("SCTP");
-			const TiXmlNode *portNode = nextServer->FirstChild("Port");
+			const TiXmlNode *portNode = nextServer->FirstChild("ProtobufPort");
 
 			// IPv6 support for avatar servers depends on this address and on libcurl.
-			const TiXmlNode *avatarNode = nextServer->FirstChild("AvatarServerAddress");
+			// 1.0 beta1 temporary change!
+			const TiXmlNode *avatarNode = NULL;//nextServer->FirstChild("AvatarServerAddress");
 
 			if (!nameNode || !nameNode->ToElement() || !addr4Node || !addr4Node->ToElement()
 					|| !addr6Node || !addr6Node->ToElement() || !portNode || !portNode->ToElement())
