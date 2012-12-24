@@ -164,11 +164,20 @@
       </item>
       <item row="4" column="0">
        <widget class="QPushButton" name="pushButton_Logs">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="focusPolicy">
+         <enum>Qt::NoFocus</enum>
+        </property>
         <property name="text">
          <string>&amp;5 Logs</string>
         </property>
         <property name="icon">
-         <iconset resource="resources/pokerth_android.qrc">
+		 <iconset resource="resources/pokerth.qrc">
           <normaloff>:/gfx/text-x-log.png</normaloff>:/gfx/text-x-log.png</iconset>
         </property>
         <property name="iconSize">
@@ -325,7 +334,6 @@
  </widget>
  <resources>
   <include location="resources/pokerth.qrc"/>
-  <include location="resources/pokerth_android.qrc"/>
  </resources>
  <connections>
   <connection>

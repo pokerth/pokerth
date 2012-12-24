@@ -59,6 +59,7 @@
         <file>tab-close.png</file>
         <file>tab-new-background.png</file>
         <file>loader.gif</file>
+        <file>text-x-log.png</file>
     </qresource>
     <qresource prefix="/cflags">
         <file>cflags/ad.png</file>
