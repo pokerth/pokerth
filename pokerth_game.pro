@@ -67,9 +67,9 @@ INCLUDEPATH += . \
 	src/gui/qt/internetgamelogindialog \
 	src/gui/qt/mymessagedialog \
 	src/gui/qt/gamelobbydialog \
-        src/gui/qt/timeoutmsgbox \
-        src/gui/qt/logfiledialog \
-        src/gui/qt/mymessagebox
+	src/gui/qt/timeoutmsgbox \
+	src/gui/qt/logfiledialog \
+	src/gui/qt/mymessagebox
 
 DEPENDPATH += . \
 	src \
@@ -108,9 +108,9 @@ DEPENDPATH += . \
 	src/gui/qt/changecompleteblindsdialog \
 	src/gui/qt/mymessagedialog \
 	src/gui/qt/gamelobbydialog \
-        src/gui/qt/timeoutmsgbox \
-        src/gui/qt/logfiledialog \
-        src/gui/qt/mymessagebox
+	src/gui/qt/timeoutmsgbox \
+	src/gui/qt/logfiledialog \
+	src/gui/qt/mymessagebox
 
 # Input
 HEADERS += src/engine/game.h \
@@ -157,7 +157,7 @@ HEADERS += src/engine/game.h \
 	src/engine/network_engine/clienthand.h \
 	src/engine/network_engine/clientplayer.h \
 	src/engine/network_engine/clientbero.h \
-    src/gui/qt/chattools/chattools.h \
+	src/gui/qt/chattools/chattools.h \
 	src/gui/qt/gametable/gametableimpl.h \
 	src/gui/qt/gametable/mycardspixmaplabel.h \
 	src/gui/qt/gametable/mysetlabel.h \
@@ -167,7 +167,7 @@ HEADERS += src/engine/game.h \
 	src/gui/qt/gametable/myrighttabwidget.h \
 	src/gui/qt/gametable/mylefttabwidget.h \
 	src/gui/qt/gametable/startsplash/startsplash.h \
-    src/gui/qt/gametable/log/guilog.h \
+	src/gui/qt/gametable/log/guilog.h \
 	src/gui/qt/guiwrapper.h \
 	src/gui/qt/aboutpokerth/aboutpokerthimpl.h \
 	src/gui/qt/connecttoserverdialog/connecttoserverdialogimpl.h \
@@ -206,13 +206,13 @@ HEADERS += src/engine/game.h \
 	src/engine/local_engine/replay.h \
 	src/gui/qt/gamelobbydialog/mynicklistsortfilterproxymodel.h \
 	src/gui/qt/gametable/myslider.h \
-    src/gui/qt/gametable/mycashlabel.h \
-    src/gui/qt/sound/soundevents.h \
-    src/gui/qt/mymessagebox/mymessagebox.h \
-    src/gui/qt/logfiledialog/logfiledialog.h
+	src/gui/qt/gametable/mycashlabel.h \
+	src/gui/qt/sound/soundevents.h \
+	src/gui/qt/mymessagebox/mymessagebox.h \
+	src/gui/qt/logfiledialog/logfiledialog.h
 
 !gui_800x480 {
-    FORMS += src/gui/qt/gametable.ui \
+	FORMS += src/gui/qt/gametable.ui \
 	src/gui/qt/aboutpokerth.ui \
 	src/gui/qt/connecttoserverdialog.ui \
 	src/gui/qt/createnetworkgamedialog.ui \
@@ -229,12 +229,12 @@ HEADERS += src/engine/game.h \
 	src/gui/qt/manualblindsorderdialog.ui \
 	src/gui/qt/serverlistdialog.ui \
 	src/gui/qt/internetgamelogindialog.ui \
-        src/gui/qt/logfiledialog.ui \
+	src/gui/qt/logfiledialog.ui \
 	src/gui/qt/changecontentdialog.ui
 }
 
 SOURCES += src/pokerth.cpp \
-    src/gui/qt/chattools/chattools.cpp \
+	src/gui/qt/chattools/chattools.cpp \
 	src/gui/qt/guiwrapper.cpp \
 	src/gui/qt/qttools/qttoolswrapper.cpp \
 	src/gui/qt/qttools/qthelper/qthelper.cpp \
@@ -282,11 +282,11 @@ SOURCES += src/pokerth.cpp \
 	src/gui/qt/internetgamelogindialog/internetgamelogindialogimpl.cpp \
 	src/engine/local_engine/replay.cpp \
 	src/gui/qt/gamelobbydialog/mynicklistsortfilterproxymodel.cpp \
-    src/net/common/servermanagerfactoryclient.cpp \
-    src/gui/qt/gametable/mycashlabel.cpp \
-    src/gui/qt/sound/soundevents.cpp \
-    src/gui/qt/mymessagebox/mymessagebox.cpp \
-    src/gui/qt/logfiledialog/logfiledialog.cpp
+	src/net/common/servermanagerfactoryclient.cpp \
+	src/gui/qt/gametable/mycashlabel.cpp \
+	src/gui/qt/sound/soundevents.cpp \
+	src/gui/qt/mymessagebox/mymessagebox.cpp \
+	src/gui/qt/logfiledialog/logfiledialog.cpp
 
 TRANSLATIONS = ts/pokerth_af.ts \
 	ts/pokerth_bg.ts \
@@ -323,19 +323,19 @@ LIBS += -lpokerth_lib \
 win32 { 
 	DEFINES += CURL_STATICLIB
 	DEFINES += _WIN32_WINNT=0x0501
+	DEFINES += HAVE_OPENSSL
 	DEPENDPATH += src/net/win32/ \
 		src/core/win32
 	INCLUDEPATH += ../boost/ \
 		../SDL/include \
 		../SDL/include/SDL \
 		../SDL_mixer/include \
-		../GnuTLS/include \
+		../openssl/include \
 		../gsasl/include \
 		../curl/include \
 		../sqlite \
 		../zlib
 	LIBPATH += ../boost/stage/lib \
-		../GnuTLS/lib \
 		../openssl/lib \
 		../gsasl/lib \
 		../curl/lib \
@@ -343,34 +343,36 @@ win32 {
 		../SDL_mixer/lib \
 		../mysql/lib \
 		../zlib
-        LIBS += -lSDL_mixer \
-                -lsmpeg \
-                -lSDL \
-                -lSDLmain \
-                -ltinyxml \
-                -lz \
-                -lssh2 \
-                -lgnutls \
-                -lnettle \
-                -lhogweed \
-                -lgmp \
-                -lgcrypt \
-                -lgpg-error \
-                -lgsasl \
-                -lidn \
-                -lintl \
-                -lprotobuf
-        debug:LIBPATH += debug/lib
-        release:LIBPATH += release/lib
-                LIBS += -lsqlite3
-                LIBS += -lntlm -lmodplug -lddraw -ldxguid -lvorbisfile -lvorbis -logg
-                LIBS += -lboost_thread_win32-mt
-                LIBS += -lboost_filesystem-mt
-                LIBS += -lboost_regex-mt
-                LIBS += -lboost_iostreams-mt
-                LIBS += -lboost_random-mt
-                LIBS += -lboost_chrono-mt
-                LIBS += -lboost_system-mt
+	LIBS += -lSDL_mixer \
+			-lsmpeg \
+			-lSDL \
+			-lSDLmain \
+			-ltinyxml \
+			-lz \
+			-lssl \
+			-lcrypto \
+			-lssh2 \
+			-lgnutls \
+			-lnettle \
+			-lhogweed \
+			-lgmp \
+			-lgcrypt \
+			-lgpg-error \
+			-lgsasl \
+			-lidn \
+			-lintl \
+			-lprotobuf
+	debug:LIBPATH += debug/lib
+	release:LIBPATH += release/lib
+			LIBS += -lsqlite3
+			LIBS += -lntlm -lmodplug -lddraw -ldxguid -lvorbisfile -lvorbis -logg
+			LIBS += -lboost_thread_win32-mt
+			LIBS += -lboost_filesystem-mt
+			LIBS += -lboost_regex-mt
+			LIBS += -lboost_iostreams-mt
+			LIBS += -lboost_random-mt
+			LIBS += -lboost_chrono-mt
+			LIBS += -lboost_system-mt
 
 	LIBS += \
 		-lgdi32 \
@@ -537,11 +539,11 @@ unix:!mac {
 	}
 }
 mac { 
-        # make it x86_64 only
-        CONFIG += x86_64
-        CONFIG -= x86
-        CONFIG -= ppc
-        QMAKE_MACOSX_DEPLOYMENT_TARGET = 10.6
+	# make it x86_64 only
+	CONFIG += x86_64
+	CONFIG -= x86
+	CONFIG -= ppc
+	QMAKE_MACOSX_DEPLOYMENT_TARGET = 10.6
 	QMAKE_CXXFLAGS -= -std=gnu++0x
 
 	# workaround for problems with boost_filesystem exceptions
@@ -564,7 +566,7 @@ mac {
 	LIBS += -framework \
 		SDL_mixer
 
-        # make sure you have an x86_64 version of boost
+	# make sure you have an x86_64 version of boost
 	LIBS += /usr/local/lib/libboost_thread.a
 	LIBS += /usr/local/lib/libboost_filesystem.a
 	LIBS += /usr/local/lib/libboost_regex.a
@@ -585,8 +587,8 @@ mac {
 
 	# set the application icon
 	RC_FILE = pokerth.icns
-        LIBPATH += /Developer/SDKs/MacOSX10.6.sdk/usr/lib
-        INCLUDEPATH += /Developer/SDKs/MacOSX10.6.sdk/usr/include/
+	LIBPATH += /Developer/SDKs/MacOSX10.6.sdk/usr/lib
+	INCLUDEPATH += /Developer/SDKs/MacOSX10.6.sdk/usr/include/
 	INCLUDEPATH += /Library/Frameworks/SDL.framework/Headers
 	INCLUDEPATH += /Library/Frameworks/SDL_mixer.framework/Headers
 }
@@ -600,9 +602,9 @@ official_server {
 
 gui_800x480 {
 
-    DEFINES += GUI_800x480
-    INCLUDEPATH +=  src/gui/qt/gui_800x480/
-    DEPENDPATH += src/gui/qt/gui_800x480/
+	DEFINES += GUI_800x480
+	INCLUDEPATH +=  src/gui/qt/gui_800x480/
+	DEPENDPATH += src/gui/qt/gui_800x480/
 	FORMS +=  src/gui/qt/gui_800x480/startwindow_800x480.ui \
 		src/gui/qt/gui_800x480/gametable_800x480.ui \
 		src/gui/qt/gui_800x480/aboutpokerth_800x480.ui \
@@ -621,7 +623,7 @@ gui_800x480 {
 		src/gui/qt/gui_800x480/serverlistdialog_800x480.ui \
 		src/gui/qt/gui_800x480/internetgamelogindialog_800x480.ui \
 		src/gui/qt/gui_800x480/changecontentdialog_800x480.ui \
-                src/gui/qt/gui_800x480/logfiledialog_800x480.ui \
+		src/gui/qt/gui_800x480/logfiledialog_800x480.ui \
 		src/gui/qt/gui_800x480/tabs_800x480.ui
 }
 
@@ -647,12 +649,12 @@ android{
 }
 
 !android{
-    HEADERS += src/gui/qt/sound/sdlplayer.h
-    SOURCES += src/gui/qt/sound/sdlplayer.cpp
+	HEADERS += src/gui/qt/sound/sdlplayer.h
+	SOURCES += src/gui/qt/sound/sdlplayer.cpp
 }
 
 maemo{
-    DEFINES += MAEMO
+	DEFINES += MAEMO
 }
 
 android_test{

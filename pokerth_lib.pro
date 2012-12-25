@@ -128,9 +128,9 @@ HEADERS += \
 		src/gui/qttoolsinterface.h \
 		src/gui/generic/serverguiwrapper.h \
 		src/net/receivebuffer.h \
-    src/net/sendbuffer.h \
-    src/net/servermanagerfactory.h \
-    src/net/uploadcallback.h
+		src/net/sendbuffer.h \
+		src/net/servermanagerfactory.h \
+		src/net/uploadcallback.h
 
 SOURCES += \
 		src/engine/game.cpp \
@@ -160,7 +160,7 @@ SOURCES += \
 		src/engine/local_engine/localbero.cpp \
 		src/engine/local_engine/localexception.cpp \
 		src/engine/local_engine/arraydata.cpp \
-        src/engine/log.cpp \
+		src/engine/log.cpp \
 		src/engine/network_engine/clientboard.cpp \
 		src/engine/network_engine/clientenginefactory.cpp \
 		src/engine/network_engine/clienthand.cpp \
@@ -204,7 +204,7 @@ SOURCES += \
 		src/gui/qttoolsinterface.cpp \
 		src/net/common/sendbuffer.cpp \
 		src/net/common/receivebuffer.cpp \
-    src/net/common/uploadcallback.cpp
+		src/net/common/uploadcallback.cpp
 
 !android:!android_test{
 	SOURCES += src/engine/local_engine/tools.cpp
@@ -221,6 +221,7 @@ official_server{
 win32{
 	DEFINES += CURL_STATICLIB
 	DEFINES += _WIN32_WINNT=0x0501
+	DEFINES += HAVE_OPENSSL
 	DEPENDPATH += src/net/win32/ src/core/win32
 	win32-g++ {
 		INCLUDEPATH += ../boost/ ../GnuTLS/include ../gsasl/include ../curl/include ../zlib ../sqlite ../openssl/include

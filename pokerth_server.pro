@@ -99,7 +99,7 @@ HEADERS += \
 		src/gui/qt/qttools/nonqttoolswrapper.h \
 		src/gui/qt/qttools/nonqthelper/nonqthelper.h \
 		src/gui/generic/serverguiwrapper.h \
-    src/net/servermanagerirc.h
+		src/net/servermanagerirc.h
 
 SOURCES += \
 		src/pokerth_server.cpp \
@@ -107,9 +107,9 @@ SOURCES += \
 		src/gui/qt/qttools/nonqthelper/nonqthelper.cpp \
 		src/net/common/net_helper_server.cpp \
 		src/core/common/loghelper_server.cpp \
-    src/net/common/ircthread.cpp \
-    src/net/common/servermanagerirc.cpp \
-    src/net/common/servermanagerfactoryserver.cpp
+		src/net/common/ircthread.cpp \
+		src/net/common/servermanagerirc.cpp \
+		src/net/common/servermanagerfactoryserver.cpp
 
 LIBS += -lpokerth_lib \
 	-lpokerth_db \
@@ -120,17 +120,18 @@ LIBS += -lpokerth_lib \
 win32 {
 	DEFINES += CURL_STATICLIB
 	DEFINES += _WIN32_WINNT=0x0501
+	DEFINES += HAVE_OPENSSL
 	DEPENDPATH += src/net/win32/ src/core/win32
-	INCLUDEPATH += ../sqlite ../boost/ ../GnuTLS/include ../gsasl/include
+	INCLUDEPATH += ../sqlite ../boost/ ../openssl/include ../gsasl/include
 
 	SOURCES += src/core/win32/convhelper.cpp
 
-	LIBPATH += ../boost/stage/lib ../GnuTLS/lib ../openssl/lib ../gsasl/lib ../curl/lib ../mysql/lib ../zlib
+	LIBPATH += ../boost/stage/lib ../openssl/lib ../gsasl/lib ../curl/lib ../mysql/lib ../zlib
 
 	debug:LIBPATH += debug/lib
 	release:LIBPATH += release/lib
 
-	LIBS += -lssh2 -lgnutls -lnettle -lhogweed -lgmp -lgcrypt -lgpg-error -lgsasl -lidn -lintl -lprotobuf -ltinyxml -lsqlite3 -lntlm
+	LIBS += -lssl -lcrypto -lssh2 -lgnutls -lnettle -lhogweed -lgmp -lgcrypt -lgpg-error -lgsasl -lidn -lintl -lprotobuf -ltinyxml -lsqlite3 -lntlm
 	LIBS += -lboost_thread_win32-mt
 	LIBS += -lboost_filesystem-mt
 	LIBS += -lboost_regex-mt
@@ -282,11 +283,11 @@ unix : !mac {
 }
 
 mac {
-        # make it x86_64 only
-        CONFIG += x86_64
-        CONFIG -= x86
+	# make it x86_64 only
+	CONFIG += x86_64
+	CONFIG -= x86
 	CONFIG -= ppc
-        QMAKE_MACOSX_DEPLOYMENT_TARGET = 10.6
+	QMAKE_MACOSX_DEPLOYMENT_TARGET = 10.6
 	QMAKE_CXXFLAGS -= -std=gnu++0x
 
 	# workaround for problems with boost_filesystem exceptions
@@ -297,8 +298,8 @@ mac {
 	#       QMAKE_MAC_SDK=/Developer/SDKs/MacOSX10.4u.sdk/
 
 	LIBPATH += lib
-        # make sure you have an x86_64 version of boost
-        LIBS += /usr/local/lib/libboost_thread.a
+	# make sure you have an x86_64 version of boost
+	LIBS += /usr/local/lib/libboost_thread.a
 	LIBS += /usr/local/lib/libboost_filesystem.a
 	LIBS += /usr/local/lib/libboost_regex.a
 	LIBS += /usr/local/lib/libboost_random.a
@@ -313,8 +314,8 @@ mac {
 	LIBS += -lcrypto -lssl -lz -liconv
 	# set the application icon
 	RC_FILE = pokerth.icns
-        LIBPATH += /Developer/SDKs/MacOSX10.6.sdk/usr/lib
-        INCLUDEPATH += /Developer/SDKs/MacOSX10.6.sdk/usr/include/
+	LIBPATH += /Developer/SDKs/MacOSX10.6.sdk/usr/lib
+	INCLUDEPATH += /Developer/SDKs/MacOSX10.6.sdk/usr/include/
 }
 
 official_server {
