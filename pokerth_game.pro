@@ -351,6 +351,13 @@ win32 {
 			-lz \
 			-lcrypto \
 			-lssl \
+			-lssh2 \
+			-lgnutls \
+			-lnettle \
+			-lhogweed \
+			-lgmp \
+			-lgcrypt \
+			-lgpg-error \
 			-lgsasl \
 			-lidn \
 			-lintl \
