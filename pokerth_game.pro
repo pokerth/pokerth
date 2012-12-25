@@ -349,9 +349,8 @@ win32 {
 			-lSDLmain \
 			-ltinyxml \
 			-lz \
-			-lcrypto \
 			-lssl \
-			-lcrypt32 \
+			-lcrypto \
 			-lssh2 \
 			-lgnutls \
 			-lnettle \
