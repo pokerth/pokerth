@@ -462,10 +462,9 @@ void startWindowImpl::callRejoinPossibleDialog(unsigned gameId)
 
 	MyMessageBox msgBox;
 	msgBox.setIcon(QMessageBox::Question);
-	msgBox.setWindowTitle("Rejoin possible!");
-//	msgBox.setText(QString("There is an existing session with the game: %1").arg(QString::fromUtf8(info.name.c_str())));
-	msgBox.setText("There is an existing session with a previous game.");
-	msgBox.setInformativeText("Do you want to rejoin this game?");
+	msgBox.setWindowTitle(tr("Rejoin possible!"));
+	msgBox.setText(tr("There is an existing session with a previous game."));
+	msgBox.setInformativeText(tr("Do you want to rejoin this game?"));
 	msgBox.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
 	msgBox.setDefaultButton(QMessageBox::Yes);
 	int ret = msgBox.exec();
@@ -557,7 +556,7 @@ void startWindowImpl::callCreateNetworkGameDialog()
 
 		myStartNetworkGameDialog->setMaxPlayerNumber(gameData.maxNumberOfPlayers);
 
-		myStartNetworkGameDialog->setWindowTitle("Start Network Game");
+		myStartNetworkGameDialog->setWindowTitle(tr("Start Network Game"));
 
 		showNetworkStartDialog();
 	}
@@ -598,7 +597,7 @@ void startWindowImpl::callJoinNetworkGameDialog()
 		} else {
 			//needed for join and ready sounds - TODO
 			//myStartNetworkGameDialog->setMaxPlayerNumber(gameData.maxNumberOfPlayers);
-			myStartNetworkGameDialog->setWindowTitle("Start Network Game");
+			myStartNetworkGameDialog->setWindowTitle(tr("Start Network Game"));
 
 			showNetworkStartDialog();
 		}
