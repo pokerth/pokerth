@@ -214,7 +214,7 @@ void MessageFilter::refreshConfig()
 	}
 	myBadWordCheck->setBadWords(bwList);
 
-	std::list<std::string> badWordsExceptionList = config->readConfigStringList("BadWordsList");
+	std::list<std::string> badWordsExceptionList = config->readConfigStringList("BadWordsException");
 	std::list<std::string>::iterator it1;
 	QStringList bweList;
 	for(it1= badWordsExceptionList.begin(); it1 != badWordsExceptionList.end(); ++it1) {

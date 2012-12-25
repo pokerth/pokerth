@@ -54,7 +54,7 @@ using namespace std;
 CleanerConfig::CleanerConfig()
 {
 	// !!!! Revisionsnummer der Configdefaults !!!!!
-	configRev = 9;
+	configRev = 10;
 
 	// Pfad und Dateinamen setzen
 #ifdef _WIN32
@@ -149,6 +149,7 @@ CleanerConfig::CleanerConfig()
 	badWordsList.push_back("gay");
 	badWordsList.push_back("horny");
 	badWordsList.push_back("hure");
+	badWordsList.push_back("idiot");
 	badWordsList.push_back("mistgeburt");
 	badWordsList.push_back("missgeburt");
 	badWordsList.push_back("motherfucker");
@@ -171,6 +172,10 @@ CleanerConfig::CleanerConfig()
 
 	list<string> badWordsExceptionList;
 	badWordsExceptionList.push_back("idiots end");
+	badWordsExceptionList.push_back("all-in-idiot");
+	badWordsExceptionList.push_back("all-in idiot");
+	badWordsExceptionList.push_back("allin idiot");
+	badWordsExceptionList.push_back("all in idiot");
 	configList.push_back(ConfigInfo("BadWordsException", CONFIG_TYPE_STRING_LIST, "BadWordsException", badWordsExceptionList));
 
 

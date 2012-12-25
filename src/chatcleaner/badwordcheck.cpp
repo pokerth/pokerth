@@ -46,7 +46,6 @@ bool BadWordCheck::run(QString msg)
 		QString bw=it.next();
 		if(msg.contains(bw)) {
 			badMessage=true;
-
 			//exception check
 			QStringListIterator it2(badWordsException);
 			while (it2.hasNext()) {
@@ -60,5 +59,4 @@ bool BadWordCheck::run(QString msg)
 
 	if(badMessage) return true;
 	else return false;
-
 }
