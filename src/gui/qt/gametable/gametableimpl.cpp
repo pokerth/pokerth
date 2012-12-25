@@ -683,11 +683,13 @@ void gameTableImpl::callSettingsDialog()
 
 void gameTableImpl::applySettings(settingsDialogImpl* mySettingsDialog)
 {
+#ifndef GUI_800x480 //currently not for mobile guis because we just use the default style here
 	//apply card deck style
 	myCardDeckStyle->readStyleFile(QString::fromUtf8(myConfig->readConfigString("CurrentCardDeckStyle").c_str()));
 	checkActionLabelPosition();
 	//apply game table style
 	myGameTableStyle->readStyleFile(QString::fromUtf8(myConfig->readConfigString("CurrentGameTableStyle").c_str()));
+#endif
 
 #ifdef GUI_800x480
 	//cardschancemonitor show/hide
@@ -825,9 +827,10 @@ void gameTableImpl::applySettings(settingsDialogImpl* mySettingsDialog)
 			}
 		}
 	}
-
+#ifndef GUI_800x480 //currently not for mobile guis because we just use the default style here
 	refreshGameTableStyle();
-	//    qDebug() << "table: " << myGameTableStyle->getStyleDescription() << myGameTableStyle->getState();
+#endif
+	//qDebug() << "table: " << myGameTableStyle->getStyleDescription() << myGameTableStyle->getState();
 	if(this->isVisible() && myGameTableStyle->getState() != GT_STYLE_OK) myGameTableStyle->showErrorMessage();
 
 	//blind buttons refresh
