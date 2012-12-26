@@ -354,7 +354,12 @@ QString ChatTools::checkForEmotes(QString msg)
 	msg.replace(":-O", "<img src=\":emotes/emotes/face-surprise.png\" />");
 	msg.replace(":-o", "<img src=\":emotes/emotes/face-surprise.png\" />");
 	msg.replace(":-/", "<img src=\":emotes/emotes/face-uncertain.png\" />");
-	msg.replace(":/", "<img src=\":emotes/emotes/face-uncertain.png\" />");
+
+	//prevent links from beeing broken by :/ emoticon
+	if(!msg.contains("http://") && !msg.contains("https://")) {
+		msg.replace(":/", "<img src=\":emotes/emotes/face-uncertain.png\" />");
+	}
+
 	msg.replace(";-)", "<img src=\":emotes/emotes/face-wink.png\" />");
 	msg.replace(";)", "<img src=\":emotes/emotes/face-wink.png\" />");
 	msg.replace(":-S", "<img src=\":emotes/emotes/face-worried.png\" />");
