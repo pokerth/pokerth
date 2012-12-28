@@ -929,29 +929,29 @@ class AnnounceMessage_Version : public ::google::protobuf::MessageLite {
   
   // accessors -------------------------------------------------------
   
-  // required uint32 major = 1;
-  inline bool has_major() const;
-  inline void clear_major();
-  static const int kMajorFieldNumber = 1;
-  inline ::google::protobuf::uint32 major() const;
-  inline void set_major(::google::protobuf::uint32 value);
+  // required uint32 majorVersion = 1;
+  inline bool has_majorversion() const;
+  inline void clear_majorversion();
+  static const int kMajorVersionFieldNumber = 1;
+  inline ::google::protobuf::uint32 majorversion() const;
+  inline void set_majorversion(::google::protobuf::uint32 value);
   
-  // required uint32 minor = 2;
-  inline bool has_minor() const;
-  inline void clear_minor();
-  static const int kMinorFieldNumber = 2;
-  inline ::google::protobuf::uint32 minor() const;
-  inline void set_minor(::google::protobuf::uint32 value);
+  // required uint32 minorVersion = 2;
+  inline bool has_minorversion() const;
+  inline void clear_minorversion();
+  static const int kMinorVersionFieldNumber = 2;
+  inline ::google::protobuf::uint32 minorversion() const;
+  inline void set_minorversion(::google::protobuf::uint32 value);
   
   // @@protoc_insertion_point(class_scope:AnnounceMessage.Version)
  private:
-  inline void set_has_major();
-  inline void clear_has_major();
-  inline void set_has_minor();
-  inline void clear_has_minor();
+  inline void set_has_majorversion();
+  inline void clear_has_majorversion();
+  inline void set_has_minorversion();
+  inline void clear_has_minorversion();
   
-  ::google::protobuf::uint32 major_;
-  ::google::protobuf::uint32 minor_;
+  ::google::protobuf::uint32 majorversion_;
+  ::google::protobuf::uint32 minorversion_;
   
   mutable int _cached_size_;
   ::google::protobuf::uint32 _has_bits_[(2 + 31) / 32];
@@ -9601,48 +9601,48 @@ inline void PlayerResult::set_cardsvalue(::google::protobuf::uint32 value) {
 
 // AnnounceMessage_Version
 
-// required uint32 major = 1;
-inline bool AnnounceMessage_Version::has_major() const {
+// required uint32 majorVersion = 1;
+inline bool AnnounceMessage_Version::has_majorversion() const {
   return (_has_bits_[0] & 0x00000001u) != 0;
 }
-inline void AnnounceMessage_Version::set_has_major() {
+inline void AnnounceMessage_Version::set_has_majorversion() {
   _has_bits_[0] |= 0x00000001u;
 }
-inline void AnnounceMessage_Version::clear_has_major() {
+inline void AnnounceMessage_Version::clear_has_majorversion() {
   _has_bits_[0] &= ~0x00000001u;
 }
-inline void AnnounceMessage_Version::clear_major() {
-  major_ = 0u;
-  clear_has_major();
+inline void AnnounceMessage_Version::clear_majorversion() {
+  majorversion_ = 0u;
+  clear_has_majorversion();
 }
-inline ::google::protobuf::uint32 AnnounceMessage_Version::major() const {
-  return major_;
+inline ::google::protobuf::uint32 AnnounceMessage_Version::majorversion() const {
+  return majorversion_;
 }
-inline void AnnounceMessage_Version::set_major(::google::protobuf::uint32 value) {
-  set_has_major();
-  major_ = value;
+inline void AnnounceMessage_Version::set_majorversion(::google::protobuf::uint32 value) {
+  set_has_majorversion();
+  majorversion_ = value;
 }
 
-// required uint32 minor = 2;
-inline bool AnnounceMessage_Version::has_minor() const {
+// required uint32 minorVersion = 2;
+inline bool AnnounceMessage_Version::has_minorversion() const {
   return (_has_bits_[0] & 0x00000002u) != 0;
 }
-inline void AnnounceMessage_Version::set_has_minor() {
+inline void AnnounceMessage_Version::set_has_minorversion() {
   _has_bits_[0] |= 0x00000002u;
 }
-inline void AnnounceMessage_Version::clear_has_minor() {
+inline void AnnounceMessage_Version::clear_has_minorversion() {
   _has_bits_[0] &= ~0x00000002u;
 }
-inline void AnnounceMessage_Version::clear_minor() {
-  minor_ = 0u;
-  clear_has_minor();
+inline void AnnounceMessage_Version::clear_minorversion() {
+  minorversion_ = 0u;
+  clear_has_minorversion();
 }
-inline ::google::protobuf::uint32 AnnounceMessage_Version::minor() const {
-  return minor_;
+inline ::google::protobuf::uint32 AnnounceMessage_Version::minorversion() const {
+  return minorversion_;
 }
-inline void AnnounceMessage_Version::set_minor(::google::protobuf::uint32 value) {
-  set_has_minor();
-  minor_ = value;
+inline void AnnounceMessage_Version::set_minorversion(::google::protobuf::uint32 value) {
+  set_has_minorversion();
+  minorversion_ = value;
 }
 
 // -------------------------------------------------------------------

@@ -848,8 +848,8 @@ ClientStateStartSession::InternalHandlePacket(boost::shared_ptr<ClientThread> cl
 		// Server has send announcement - check data.
 		const AnnounceMessage &netAnnounce = tmpPacket->GetMsg()->announcemessage();
 		// Check current game version.
-		if (netAnnounce.latestgameversion().major() != POKERTH_VERSION_MAJOR
-				|| netAnnounce.latestgameversion().minor() != POKERTH_VERSION_MINOR) {
+		if (netAnnounce.latestgameversion().majorversion() != POKERTH_VERSION_MAJOR
+				|| netAnnounce.latestgameversion().minorversion() != POKERTH_VERSION_MINOR) {
 			client->GetCallback().SignalNetClientNotification(NTF_NET_NEW_RELEASE_AVAILABLE);
 		} else if (POKERTH_BETA_REVISION && netAnnounce.latestbetarevision() != POKERTH_BETA_REVISION) {
 			client->GetCallback().SignalNetClientNotification(NTF_NET_OUTDATED_BETA);
@@ -867,8 +867,8 @@ ClientStateStartSession::InternalHandlePacket(boost::shared_ptr<ClientThread> cl
 			boost::shared_ptr<NetPacket> init(new NetPacket);
 			init->GetMsg()->set_messagetype(PokerTHMessage::Type_InitMessage);
 			InitMessage *netInit = init->GetMsg()->mutable_initmessage();
-			netInit->mutable_requestedversion()->set_major(NET_VERSION_MAJOR);
-			netInit->mutable_requestedversion()->set_minor(NET_VERSION_MINOR);
+			netInit->mutable_requestedversion()->set_majorversion(NET_VERSION_MAJOR);
+			netInit->mutable_requestedversion()->set_minorversion(NET_VERSION_MINOR);
 			netInit->set_buildid(0);
 			if (!context.GetSessionGuid().empty()) {
 				netInit->set_mylastsessionid(context.GetSessionGuid());
@@ -946,8 +946,8 @@ ClientStateWaitEnterLogin::TimerLoop(const boost::system::error_code& ec, boost:
 			boost::shared_ptr<NetPacket> init(new NetPacket);
 			init->GetMsg()->set_messagetype(PokerTHMessage::Type_InitMessage);
 			InitMessage *netInit = init->GetMsg()->mutable_initmessage();
-			netInit->mutable_requestedversion()->set_major(NET_VERSION_MAJOR);
-			netInit->mutable_requestedversion()->set_minor(NET_VERSION_MINOR);
+			netInit->mutable_requestedversion()->set_majorversion(NET_VERSION_MAJOR);
+			netInit->mutable_requestedversion()->set_minorversion(NET_VERSION_MINOR);
 			netInit->set_buildid(0);
 			if (!context.GetSessionGuid().empty()) {
 				netInit->set_mylastsessionid(context.GetSessionGuid());

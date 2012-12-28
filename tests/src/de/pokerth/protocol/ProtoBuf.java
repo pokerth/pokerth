@@ -2462,13 +2462,13 @@ public final class ProtoBuf {
     public interface VersionOrBuilder
         extends com.google.protobuf.MessageLiteOrBuilder {
       
-      // required uint32 major = 1;
-      boolean hasMajor();
-      int getMajor();
+      // required uint32 majorVersion = 1;
+      boolean hasMajorVersion();
+      int getMajorVersion();
       
-      // required uint32 minor = 2;
-      boolean hasMinor();
-      int getMinor();
+      // required uint32 minorVersion = 2;
+      boolean hasMinorVersion();
+      int getMinorVersion();
     }
     public static final class Version extends
         com.google.protobuf.GeneratedMessageLite
@@ -2489,40 +2489,40 @@ public final class ProtoBuf {
       }
       
       private int bitField0_;
-      // required uint32 major = 1;
-      public static final int MAJOR_FIELD_NUMBER = 1;
-      private int major_;
-      public boolean hasMajor() {
+      // required uint32 majorVersion = 1;
+      public static final int MAJORVERSION_FIELD_NUMBER = 1;
+      private int majorVersion_;
+      public boolean hasMajorVersion() {
         return ((bitField0_ & 0x00000001) == 0x00000001);
       }
-      public int getMajor() {
-        return major_;
+      public int getMajorVersion() {
+        return majorVersion_;
       }
       
-      // required uint32 minor = 2;
-      public static final int MINOR_FIELD_NUMBER = 2;
-      private int minor_;
-      public boolean hasMinor() {
+      // required uint32 minorVersion = 2;
+      public static final int MINORVERSION_FIELD_NUMBER = 2;
+      private int minorVersion_;
+      public boolean hasMinorVersion() {
         return ((bitField0_ & 0x00000002) == 0x00000002);
       }
-      public int getMinor() {
-        return minor_;
+      public int getMinorVersion() {
+        return minorVersion_;
       }
       
       private void initFields() {
-        major_ = 0;
-        minor_ = 0;
+        majorVersion_ = 0;
+        minorVersion_ = 0;
       }
       private byte memoizedIsInitialized = -1;
       public final boolean isInitialized() {
         byte isInitialized = memoizedIsInitialized;
         if (isInitialized != -1) return isInitialized == 1;
         
-        if (!hasMajor()) {
+        if (!hasMajorVersion()) {
           memoizedIsInitialized = 0;
           return false;
         }
-        if (!hasMinor()) {
+        if (!hasMinorVersion()) {
           memoizedIsInitialized = 0;
           return false;
         }
@@ -2534,10 +2534,10 @@ public final class ProtoBuf {
                           throws java.io.IOException {
         getSerializedSize();
         if (((bitField0_ & 0x00000001) == 0x00000001)) {
-          output.writeUInt32(1, major_);
+          output.writeUInt32(1, majorVersion_);
         }
         if (((bitField0_ & 0x00000002) == 0x00000002)) {
-          output.writeUInt32(2, minor_);
+          output.writeUInt32(2, minorVersion_);
         }
       }
       
@@ -2549,11 +2549,11 @@ public final class ProtoBuf {
         size = 0;
         if (((bitField0_ & 0x00000001) == 0x00000001)) {
           size += com.google.protobuf.CodedOutputStream
-            .computeUInt32Size(1, major_);
+            .computeUInt32Size(1, majorVersion_);
         }
         if (((bitField0_ & 0x00000002) == 0x00000002)) {
           size += com.google.protobuf.CodedOutputStream
-            .computeUInt32Size(2, minor_);
+            .computeUInt32Size(2, minorVersion_);
         }
         memoizedSerializedSize = size;
         return size;
@@ -2657,9 +2657,9 @@ public final class ProtoBuf {
         
         public Builder clear() {
           super.clear();
-          major_ = 0;
+          majorVersion_ = 0;
           bitField0_ = (bitField0_ & ~0x00000001);
-          minor_ = 0;
+          minorVersion_ = 0;
           bitField0_ = (bitField0_ & ~0x00000002);
           return this;
         }
@@ -2697,32 +2697,32 @@ public final class ProtoBuf {
           if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
             to_bitField0_ |= 0x00000001;
           }
-          result.major_ = major_;
+          result.majorVersion_ = majorVersion_;
           if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
             to_bitField0_ |= 0x00000002;
           }
-          result.minor_ = minor_;
+          result.minorVersion_ = minorVersion_;
           result.bitField0_ = to_bitField0_;
           return result;
         }
         
         public Builder mergeFrom(de.pokerth.protocol.ProtoBuf.AnnounceMessage.Version other) {
           if (other == de.pokerth.protocol.ProtoBuf.AnnounceMessage.Version.getDefaultInstance()) return this;
-          if (other.hasMajor()) {
-            setMajor(other.getMajor());
+          if (other.hasMajorVersion()) {
+            setMajorVersion(other.getMajorVersion());
           }
-          if (other.hasMinor()) {
-            setMinor(other.getMinor());
+          if (other.hasMinorVersion()) {
+            setMinorVersion(other.getMinorVersion());
           }
           return this;
         }
         
         public final boolean isInitialized() {
-          if (!hasMajor()) {
+          if (!hasMajorVersion()) {
             
             return false;
           }
-          if (!hasMinor()) {
+          if (!hasMinorVersion()) {
             
             return false;
           }
@@ -2748,12 +2748,12 @@ public final class ProtoBuf {
               }
               case 8: {
                 bitField0_ |= 0x00000001;
-                major_ = input.readUInt32();
+                majorVersion_ = input.readUInt32();
                 break;
               }
               case 16: {
                 bitField0_ |= 0x00000002;
-                minor_ = input.readUInt32();
+                minorVersion_ = input.readUInt32();
                 break;
               }
             }
@@ -2762,44 +2762,44 @@ public final class ProtoBuf {
         
         private int bitField0_;
         
-        // required uint32 major = 1;
-        private int major_ ;
-        public boolean hasMajor() {
+        // required uint32 majorVersion = 1;
+        private int majorVersion_ ;
+        public boolean hasMajorVersion() {
           return ((bitField0_ & 0x00000001) == 0x00000001);
         }
-        public int getMajor() {
-          return major_;
+        public int getMajorVersion() {
+          return majorVersion_;
         }
-        public Builder setMajor(int value) {
+        public Builder setMajorVersion(int value) {
           bitField0_ |= 0x00000001;
-          major_ = value;
+          majorVersion_ = value;
           
           return this;
         }
-        public Builder clearMajor() {
+        public Builder clearMajorVersion() {
           bitField0_ = (bitField0_ & ~0x00000001);
-          major_ = 0;
+          majorVersion_ = 0;
           
           return this;
         }
         
-        // required uint32 minor = 2;
-        private int minor_ ;
-        public boolean hasMinor() {
+        // required uint32 minorVersion = 2;
+        private int minorVersion_ ;
+        public boolean hasMinorVersion() {
           return ((bitField0_ & 0x00000002) == 0x00000002);
         }
-        public int getMinor() {
-          return minor_;
+        public int getMinorVersion() {
+          return minorVersion_;
         }
-        public Builder setMinor(int value) {
+        public Builder setMinorVersion(int value) {
           bitField0_ |= 0x00000002;
-          minor_ = value;
+          minorVersion_ = value;
           
           return this;
         }
-        public Builder clearMinor() {
+        public Builder clearMinorVersion() {
           bitField0_ = (bitField0_ & ~0x00000002);
-          minor_ = 0;
+          minorVersion_ = 0;
           
           return this;
         }
