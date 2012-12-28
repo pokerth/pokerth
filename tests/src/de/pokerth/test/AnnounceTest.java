@@ -33,8 +33,8 @@ import de.pokerth.protocol.ProtoBuf.PokerTHMessage.PokerTHMessageType;
 public class AnnounceTest extends TestBase {
 
 	protected void TestAnnounceMsg(AnnounceMessage announce, int numPlayersOnServer) {
-		assertEquals(PROTOCOL_VERSION_MAJOR, announce.getProtocolVersion().getMajor());
-		assertEquals(PROTOCOL_VERSION_MINOR, announce.getProtocolVersion().getMinor());
+		assertEquals(PROTOCOL_VERSION_MAJOR, announce.getProtocolVersion().getMajorVersion());
+		assertEquals(PROTOCOL_VERSION_MINOR, announce.getProtocolVersion().getMinorVersion());
 		assertEquals(ServerType.serverTypeInternetAuth, announce.getServerType());
 		assertEquals(numPlayersOnServer, announce.getNumPlayersOnServer());
 	}

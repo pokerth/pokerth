@@ -46,8 +46,8 @@ public class BlockedPlayerTest extends TestBase {
 
 		// Send challenge.
 		AnnounceMessage.Version requestedVersion = AnnounceMessage.Version.newBuilder()
-				.setMajor(PROTOCOL_VERSION_MAJOR)
-				.setMinor(PROTOCOL_VERSION_MINOR)
+				.setMajorVersion(PROTOCOL_VERSION_MAJOR)
+				.setMinorVersion(PROTOCOL_VERSION_MINOR)
 				.build();
 		InitMessage init = InitMessage.newBuilder()
 				.setBuildId(0)

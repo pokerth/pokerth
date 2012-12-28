@@ -156,8 +156,8 @@ public abstract class TestBase {
 		assertTrue(msg.hasAnnounceMessage());
 
 		AnnounceMessage.Version requestedVersion = AnnounceMessage.Version.newBuilder()
-			.setMajor(PROTOCOL_VERSION_MAJOR)
-			.setMinor(PROTOCOL_VERSION_MINOR)
+			.setMajorVersion(PROTOCOL_VERSION_MAJOR)
+			.setMinorVersion(PROTOCOL_VERSION_MINOR)
 			.build();
 		InitMessage init = InitMessage.newBuilder()
 			.setBuildId(0)
@@ -207,8 +207,8 @@ public abstract class TestBase {
 
 		// Send challenge.
 		AnnounceMessage.Version requestedVersion = AnnounceMessage.Version.newBuilder()
-				.setMajor(PROTOCOL_VERSION_MAJOR)
-				.setMinor(PROTOCOL_VERSION_MINOR)
+				.setMajorVersion(PROTOCOL_VERSION_MAJOR)
+				.setMinorVersion(PROTOCOL_VERSION_MINOR)
 				.build();
 		InitMessage.Builder initBuilder = InitMessage.newBuilder();
 		initBuilder
