@@ -138,10 +138,12 @@ int main( int argc, char **argv )
 #endif
 	a.setStyleSheet(font1String + " QDialogButtonBox, QMessageBox { dialogbuttonbox-buttons-have-icons: 1; dialog-ok-icon: url(:/gfx/dialog_ok_apply.png); dialog-cancel-icon: url(:/gfx/dialog_close.png); dialog-close-icon: url(:/gfx/dialog_close.png); dialog-yes-icon: url(:/gfx/dialog_ok_apply.png); dialog-no-icon: url(:/gfx/dialog_close.png) }");
 
-	QPixmap pixmap(myAppDataPath + "gfx/gui/misc/welcomepokerth.png");
 #ifdef ANDROID
 	QDesktopWidget dw;
-	pixmap = pixmap.scaled(dw.screenGeometry().width(), dw.screenGeometry().height(), Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
+	QPixmap pixmap(myAppDataPath + "gfx/gui/misc/welcomepokerth_mobile.png");
+	pixmap = pixmap.scaled(dw.screenGeometry().width(), dw.screenGeometry().height(), Qt::KeepAspectRatio, Qt::SmoothTransformation);
+#else
+	QPixmap pixmap(myAppDataPath + "gfx/gui/misc/welcomepokerth_desktop.png");
 #endif
 	StartSplash splash(pixmap);
 	if(!myConfig->readConfigInt("DisableSplashScreenOnStartup")) {
