@@ -136,12 +136,12 @@ gameLobbyDialogImpl::gameLobbyDialogImpl(startWindowImpl *parent, ConfigFile *c)
 	myGameListModel->setHorizontalHeaderLabels(headerList);
 
 #ifdef GUI_800x480
-	treeView_GameList->setColumnWidth(0,220);
-	treeView_GameList->setColumnWidth(1,55);
-	treeView_GameList->setColumnWidth(2,90);
+	treeView_GameList->setColumnWidth(0,200); //484px alltogether
+	treeView_GameList->setColumnWidth(1,65);
+	treeView_GameList->setColumnWidth(2,100);
 	treeView_GameList->setColumnWidth(3,20);
 	treeView_GameList->setColumnWidth(4,20);
-	treeView_GameList->setColumnWidth(5,20);
+	treeView_GameList->setColumnWidth(5,75);
 
 	treeView_GameList->setStyleSheet("QTreeView {background-color: white; background-image: url(\""+myAppDataPath +"gfx/gui/misc/background_gamelist.png\"); background-attachment: fixed; background-position: top center ; background-repeat: no-repeat; color:rgb(0, 0, 0); font: 22px}");
 	treeView_GameList->header()->setStyleSheet("QObject {font: bold 18px}");
@@ -454,11 +454,12 @@ void gameLobbyDialogImpl::refresh(int actionID)
 		myGameListModel->setHorizontalHeaderLabels(headerList);
 
 #ifdef GUI_800x480
-		treeView_GameList->setColumnWidth(0,220);
+		treeView_GameList->setColumnWidth(0,200); //484px alltogether
 		treeView_GameList->setColumnWidth(1,65);
-		treeView_GameList->setColumnWidth(2,90);
-		treeView_GameList->setColumnWidth(3,30);
-		treeView_GameList->setColumnWidth(4,30);
+		treeView_GameList->setColumnWidth(2,100);
+		treeView_GameList->setColumnWidth(3,20);
+		treeView_GameList->setColumnWidth(4,20);
+		treeView_GameList->setColumnWidth(5,75);
 #else
 		treeView_GameList->setColumnWidth(0,190);
 		treeView_GameList->setColumnWidth(1,55);
@@ -868,12 +869,12 @@ void gameLobbyDialogImpl::clearDialog()
 	myGameListModel->setHorizontalHeaderLabels(headerList);
 
 #ifdef GUI_800x480
-	treeView_GameList->setColumnWidth(0,220);
-	treeView_GameList->setColumnWidth(1,55);
-	treeView_GameList->setColumnWidth(2,90);
+	treeView_GameList->setColumnWidth(0,200); //484px alltogether
+	treeView_GameList->setColumnWidth(1,65);
+	treeView_GameList->setColumnWidth(2,100);
 	treeView_GameList->setColumnWidth(3,20);
 	treeView_GameList->setColumnWidth(4,20);
-	treeView_GameList->setColumnWidth(5,20);
+	treeView_GameList->setColumnWidth(5,75);
 #else
 	treeView_GameList->setColumnWidth(0,190);
 	treeView_GameList->setColumnWidth(1,55);
