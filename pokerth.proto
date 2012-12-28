@@ -129,8 +129,8 @@ message PlayerResult {
 
 message AnnounceMessage {
 	message Version {
-		required	uint32		major = 1;
-		required	uint32		minor = 2;
+		required	uint32		majorVersion = 1;
+		required	uint32		minorVersion = 2;
 	}
 	required	Version			protocolVersion = 1;
 	required	Version			latestGameVersion = 2;

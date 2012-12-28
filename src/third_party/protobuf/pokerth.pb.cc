@@ -1465,8 +1465,8 @@ const AnnounceMessage_ServerType AnnounceMessage::ServerType_MAX;
 const int AnnounceMessage::ServerType_ARRAYSIZE;
 #endif  // _MSC_VER
 #ifndef _MSC_VER
-const int AnnounceMessage_Version::kMajorFieldNumber;
-const int AnnounceMessage_Version::kMinorFieldNumber;
+const int AnnounceMessage_Version::kMajorVersionFieldNumber;
+const int AnnounceMessage_Version::kMinorVersionFieldNumber;
 #endif  // !_MSC_VER
 
 AnnounceMessage_Version::AnnounceMessage_Version()
@@ -1485,8 +1485,8 @@ AnnounceMessage_Version::AnnounceMessage_Version(const AnnounceMessage_Version& 
 
 void AnnounceMessage_Version::SharedCtor() {
   _cached_size_ = 0;
-  major_ = 0u;
-  minor_ = 0u;
+  majorversion_ = 0u;
+  minorversion_ = 0u;
   ::memset(_has_bits_, 0, sizeof(_has_bits_));
 }
 
@@ -1516,8 +1516,8 @@ AnnounceMessage_Version* AnnounceMessage_Version::New() const {
 
 void AnnounceMessage_Version::Clear() {
   if (_has_bits_[0 / 32] & (0xffu << (0 % 32))) {
-    major_ = 0u;
-    minor_ = 0u;
+    majorversion_ = 0u;
+    minorversion_ = 0u;
   }
   ::memset(_has_bits_, 0, sizeof(_has_bits_));
 }
@@ -1528,30 +1528,30 @@ bool AnnounceMessage_Version::MergePartialFromCodedStream(
   ::google::protobuf::uint32 tag;
   while ((tag = input->ReadTag()) != 0) {
     switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
-      // required uint32 major = 1;
+      // required uint32 majorVersion = 1;
       case 1: {
         if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
             ::google::protobuf::internal::WireFormatLite::WIRETYPE_VARINT) {
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
-                 input, &major_)));
-          set_has_major();
+                 input, &majorversion_)));
+          set_has_majorversion();
         } else {
           goto handle_uninterpreted;
         }
-        if (input->ExpectTag(16)) goto parse_minor;
+        if (input->ExpectTag(16)) goto parse_minorVersion;
         break;
       }
       
-      // required uint32 minor = 2;
+      // required uint32 minorVersion = 2;
       case 2: {
         if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
             ::google::protobuf::internal::WireFormatLite::WIRETYPE_VARINT) {
-         parse_minor:
+         parse_minorVersion:
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
-                 input, &minor_)));
-          set_has_minor();
+                 input, &minorversion_)));
+          set_has_minorversion();
         } else {
           goto handle_uninterpreted;
         }
@@ -1576,14 +1576,14 @@ bool AnnounceMessage_Version::MergePartialFromCodedStream(
 
 void AnnounceMessage_Version::SerializeWithCachedSizes(
     ::google::protobuf::io::CodedOutputStream* output) const {
-  // required uint32 major = 1;
-  if (has_major()) {
-    ::google::protobuf::internal::WireFormatLite::WriteUInt32(1, this->major(), output);
+  // required uint32 majorVersion = 1;
+  if (has_majorversion()) {
+    ::google::protobuf::internal::WireFormatLite::WriteUInt32(1, this->majorversion(), output);
   }
   
-  // required uint32 minor = 2;
-  if (has_minor()) {
-    ::google::protobuf::internal::WireFormatLite::WriteUInt32(2, this->minor(), output);
+  // required uint32 minorVersion = 2;
+  if (has_minorversion()) {
+    ::google::protobuf::internal::WireFormatLite::WriteUInt32(2, this->minorversion(), output);
   }
   
 }
@@ -1592,18 +1592,18 @@ int AnnounceMessage_Version::ByteSize() const {
   int total_size = 0;
   
   if (_has_bits_[0 / 32] & (0xffu << (0 % 32))) {
-    // required uint32 major = 1;
-    if (has_major()) {
+    // required uint32 majorVersion = 1;
+    if (has_majorversion()) {
       total_size += 1 +
         ::google::protobuf::internal::WireFormatLite::UInt32Size(
-          this->major());
+          this->majorversion());
     }
     
-    // required uint32 minor = 2;
-    if (has_minor()) {
+    // required uint32 minorVersion = 2;
+    if (has_minorversion()) {
       total_size += 1 +
         ::google::protobuf::internal::WireFormatLite::UInt32Size(
-          this->minor());
+          this->minorversion());
     }
     
   }
@@ -1621,11 +1621,11 @@ void AnnounceMessage_Version::CheckTypeAndMergeFrom(
 void AnnounceMessage_Version::MergeFrom(const AnnounceMessage_Version& from) {
   GOOGLE_CHECK_NE(&from, this);
   if (from._has_bits_[0 / 32] & (0xffu << (0 % 32))) {
-    if (from.has_major()) {
-      set_major(from.major());
+    if (from.has_majorversion()) {
+      set_majorversion(from.majorversion());
     }
-    if (from.has_minor()) {
-      set_minor(from.minor());
+    if (from.has_minorversion()) {
+      set_minorversion(from.minorversion());
     }
   }
 }
@@ -1644,8 +1644,8 @@ bool AnnounceMessage_Version::IsInitialized() const {
 
 void AnnounceMessage_Version::Swap(AnnounceMessage_Version* other) {
   if (other != this) {
-    std::swap(major_, other->major_);
-    std::swap(minor_, other->minor_);
+    std::swap(majorversion_, other->majorversion_);
+    std::swap(minorversion_, other->minorversion_);
     std::swap(_has_bits_[0], other->_has_bits_[0]);
     std::swap(_cached_size_, other->_cached_size_);
   }
