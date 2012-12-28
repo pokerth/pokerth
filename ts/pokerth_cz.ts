@@ -395,7 +395,7 @@ Kontaktujte, prosím, výrobce stylu herního stolu na &quot;%4&quot;.</translat
     </message>
     <message>
         <source>Upload in progress</source>
-        <translation>Probíhá nahrávání</translation>
+        <translation type="obsolete">Probíhá nahrávání</translation>
     </message>
     <message>
         <source>Upload failed. Please check your internet connection!
@@ -412,6 +412,42 @@ Zkontrolujte, že jste nahrávali platný PokerTH soubor záznamů.</translation
     <message>
         <source>Failure reason: </source>
         <translation>Důvod chyby: </translation>
+    </message>
+    <message>
+        <source>Remove log file</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>PokerTH cannot remove this log file, please verify that you have write access to this file!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>No file received.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>File rejected because of too many uploads.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>File rejected because of too many recent uploads. Please try again later.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The file is too large.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>This file is not a valid and current PokerTH log file.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Internal error. Please try again later. ID: </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Uploading log file</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1445,6 +1481,10 @@ p, li { white-space: pre-wrap; }
         <source>initial gui graphics design</source>
         <translation>počáteční grafický návrh</translation>
     </message>
+    <message>
+        <source>PokerTH %1 for Android (API%2)</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>changeCompleteBlindsDialog</name>
@@ -1508,6 +1548,14 @@ p, li { white-space: pre-wrap; }
         <source>Keep last blind</source>
         <translation>Zachovat poslední blind</translation>
     </message>
+    <message>
+        <source> OK </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Ctrl+S</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>changeCompleteBlindsDialogImpl</name>
@@ -1534,6 +1582,10 @@ p, li { white-space: pre-wrap; }
     <message>
         <source>Save in configuration</source>
         <translation>Uložit do nastavení</translation>
+    </message>
+    <message>
+        <source> OK </source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -3823,6 +3875,10 @@ Chcete jej přepsat?</translation>
         <source>Keep last blind</source>
         <translation>Zachovat poslední blind</translation>
     </message>
+    <message>
+        <source> OK </source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>manualBlindsOrderDialogImpl</name>
@@ -3891,6 +3947,10 @@ Chcete jej přepsat?</translation>
     <message>
         <source>Game Speed:</source>
         <translation>Rychlost hry:</translation>
+    </message>
+    <message>
+        <source> OK </source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -4497,19 +4557,19 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Export as txt</source>
-        <translation>Exportovat jako txt</translation>
+        <translation type="obsolete">Exportovat jako txt</translation>
     </message>
     <message>
         <source>Save as ...</source>
-        <translation>Uložit jako ...</translation>
+        <translation type="obsolete">Uložit jako ...</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation>Smazat</translation>
+        <translation type="obsolete">Smazat</translation>
     </message>
     <message>
         <source>Log File</source>
-        <translation>Soubor záznamu</translation>
+        <translation type="obsolete">Soubor záznamu</translation>
     </message>
     <message>
         <source>Show country flag in the corner of avatar</source>
@@ -4525,11 +4585,11 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Preview:</source>
-        <translation>Náhled:</translation>
+        <translation type="obsolete">Náhled:</translation>
     </message>
     <message>
         <source>Export as HTML</source>
-        <translation>Exportovat jako HTML</translation>
+        <translation type="obsolete">Exportovat jako HTML</translation>
     </message>
     <message>
         <source>Factory Settings</source>
@@ -4615,11 +4675,15 @@ p, li { white-space: pre-wrap; }
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Liberation Sans&apos;; font-size:18px; font-weight:400; font-style:normal;&quot;&gt;
 &lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;Nimbus Sans L&apos;;&quot;&gt;&lt;br /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+        <translation type="obsolete">&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Liberation Sans&apos;; font-size:18px; font-weight:400; font-style:normal;&quot;&gt;
 &lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;Nimbus Sans L&apos;;&quot;&gt;&lt;br /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+    </message>
+    <message>
+        <source> OK </source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -5122,6 +5186,10 @@ Opravdu se chcete vrátit do továrního nastavení?</translation>
         <source>Logs ...</source>
         <translation>Záznamy ...</translation>
     </message>
+    <message>
+        <source>&amp;5 Logs</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>startWindowImpl</name>
@@ -5448,6 +5516,22 @@ Prosím, zkontrolujte své uživatelské jméno a heslo.</translation>
     <message>
         <source>An error occurred while reporting the game name.</source>
         <translation>Při nahlašování názvu hry se vyskytla chyba.</translation>
+    </message>
+    <message>
+        <source>Rejoin possible!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>There is an existing session with a previous game.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Do you want to rejoin this game?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Start Network Game</source>
+        <translation type="unfinished">Začít síťovou hru</translation>
     </message>
 </context>
 <context>

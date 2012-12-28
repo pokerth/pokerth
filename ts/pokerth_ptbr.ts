@@ -399,7 +399,7 @@ Por favor contate o desenvolvedor de estilos %3.</translation>
     </message>
     <message>
         <source>Upload in progress</source>
-        <translation>Enviando em progresso</translation>
+        <translation type="obsolete">Enviando em progresso</translation>
     </message>
     <message>
         <source>Upload failed. Please check your internet connection!
@@ -416,6 +416,42 @@ Por Favor, verifique se você está enviando o arquivo de log valido do PokerTH.
     <message>
         <source>Failure reason: </source>
         <translation>Razão da Falha: </translation>
+    </message>
+    <message>
+        <source>Remove log file</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>PokerTH cannot remove this log file, please verify that you have write access to this file!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>No file received.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>File rejected because of too many uploads.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>File rejected because of too many recent uploads. Please try again later.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The file is too large.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>This file is not a valid and current PokerTH log file.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Internal error. Please try again later. ID: </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Uploading log file</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -2085,6 +2121,10 @@ p, li { white-space: pre-wrap; }
         <source>initial gui graphics design</source>
         <translation>Design inicial de guia graficos</translation>
     </message>
+    <message>
+        <source>PokerTH %1 for Android (API%2)</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>changeCompleteBlindsDialog</name>
@@ -2160,6 +2200,14 @@ p, li { white-space: pre-wrap; }
         <source>Keep last blind</source>
         <translation>Manter último blind</translation>
     </message>
+    <message>
+        <source> OK </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Ctrl+S</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>changeCompleteBlindsDialogImpl</name>
@@ -2185,6 +2233,10 @@ p, li { white-space: pre-wrap; }
     <message>
         <source>Save in configuration</source>
         <translation>Salvo em configurações</translation>
+    </message>
+    <message>
+        <source> OK </source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -4903,6 +4955,10 @@ Você gostaria de substituir ?</translation>
         <source>Keep last blind</source>
         <translation>Manter último blind</translation>
     </message>
+    <message>
+        <source> OK </source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>manualBlindsOrderDialogImpl</name>
@@ -4979,6 +5035,10 @@ Você gostaria de substituir ?</translation>
     <message>
         <source>$</source>
         <translation>R$</translation>
+    </message>
+    <message>
+        <source> OK </source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -5298,19 +5358,19 @@ p, li { white-space: pre-wrap; }(new line)
     </message>
     <message>
         <source>Export as txt</source>
-        <translation>Exportar como txt</translation>
+        <translation type="obsolete">Exportar como txt</translation>
     </message>
     <message>
         <source>Save as ...</source>
-        <translation>Salvar como ...</translation>
+        <translation type="obsolete">Salvar como ...</translation>
     </message>
     <message>
         <source>Delete</source>
-        <translation>Apagar</translation>
+        <translation type="obsolete">Apagar</translation>
     </message>
     <message>
         <source>Log File</source>
-        <translation>Arquivo Log</translation>
+        <translation type="obsolete">Arquivo Log</translation>
     </message>
     <message>
         <source>Own flipside picture:</source>
@@ -5749,11 +5809,11 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Preview:</source>
-        <translation>Pré-Visualizar:</translation>
+        <translation type="obsolete">Pré-Visualizar:</translation>
     </message>
     <message>
         <source>Export as HTML</source>
-        <translation>Exportar como HTML</translation>
+        <translation type="obsolete">Exportar como HTML</translation>
     </message>
     <message>
         <source>Factory Settings</source>
@@ -5839,11 +5899,15 @@ p, li { white-space: pre-wrap; }
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Liberation Sans&apos;; font-size:18px; font-weight:400; font-style:normal;&quot;&gt;
 &lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;Nimbus Sans L&apos;;&quot;&gt;&lt;br /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+        <translation type="obsolete">&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Liberation Sans&apos;; font-size:18px; font-weight:400; font-style:normal;&quot;&gt;
 &lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;Nimbus Sans L&apos;;&quot;&gt;&lt;br /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+    </message>
+    <message>
+        <source> OK </source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -6387,6 +6451,10 @@ Voce tem certeza que deseja resetar para as configurações padrão?</translatio
         <source>Logs ...</source>
         <translation>Logs ...</translation>
     </message>
+    <message>
+        <source>&amp;5 Logs</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>startWindowImpl</name>
@@ -6717,6 +6785,22 @@ Por favor escolha um nome diferente.</translation>
     <message>
         <source>An error occurred while reporting the game name.</source>
         <translation>Um erro foi encontrado durante o reporte do nome do jogo.</translation>
+    </message>
+    <message>
+        <source>Rejoin possible!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>There is an existing session with a previous game.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Do you want to rejoin this game?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Start Network Game</source>
+        <translation type="unfinished">Iniciar Jogo em rede</translation>
     </message>
 </context>
 <context>
