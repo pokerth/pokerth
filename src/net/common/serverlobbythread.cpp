@@ -282,10 +282,10 @@ ServerLobbyThread::AddConnection(boost::shared_ptr<tcp::socket> sock)
 				boost::shared_ptr<NetPacket> packet(new NetPacket);
 				packet->GetMsg()->set_messagetype(PokerTHMessage::Type_AnnounceMessage);
 				AnnounceMessage *netAnnounce = packet->GetMsg()->mutable_announcemessage();
-				netAnnounce->mutable_protocolversion()->set_major(NET_VERSION_MAJOR);
-				netAnnounce->mutable_protocolversion()->set_minor(NET_VERSION_MINOR);
-				netAnnounce->mutable_latestgameversion()->set_major(POKERTH_VERSION_MAJOR);
-				netAnnounce->mutable_latestgameversion()->set_minor(POKERTH_VERSION_MINOR);
+				netAnnounce->mutable_protocolversion()->set_majorversion(NET_VERSION_MAJOR);
+				netAnnounce->mutable_protocolversion()->set_minorversion(NET_VERSION_MINOR);
+				netAnnounce->mutable_latestgameversion()->set_majorversion(POKERTH_VERSION_MAJOR);
+				netAnnounce->mutable_latestgameversion()->set_minorversion(POKERTH_VERSION_MINOR);
 				netAnnounce->set_latestbetarevision(POKERTH_BETA_REVISION);
 				switch (GetServerMode()) {
 				case SERVER_MODE_LAN:
@@ -957,7 +957,7 @@ ServerLobbyThread::HandleNetPacketInit(boost::shared_ptr<SessionData> session, c
 	}
 
 	// Check the protocol version.
-	if (initMessage.requestedversion().major() != NET_VERSION_MAJOR
+	if (initMessage.requestedversion().majorversion() != NET_VERSION_MAJOR
 			|| session->GetPlayerData()) { // Has this session already sent an init?
 		SessionError(session, ERR_NET_VERSION_NOT_SUPPORTED);
 		return;
