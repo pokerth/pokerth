@@ -361,8 +361,8 @@
         <file>android-data/gfx/gui/misc/background_gamelist.png</file>
         <file>android-data/gfx/gui/misc/fileopen16.png</file>
         <file>android-data/gfx/gui/misc/rating.png</file>
-		<file>android-data/gfx/gui/misc/startwindowbg_mobile.png</file>
-		<file>android-data/gfx/gui/misc/welcomepokerth_mobile.png</file>
+		<file>android-data/gfx/gui/misc/startwindowbg10_mobile.png</file>
+		<file>android-data/gfx/gui/misc/welcomepokerth10_mobile.png</file>
         <file>android-data/gfx/gui/misc/windowicon.png</file>
         <file>android-data/fonts/DejaVuSans-Bold.ttf</file>
         <file>android-data/fonts/n019003l.pfb</file>

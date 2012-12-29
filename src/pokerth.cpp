@@ -154,11 +154,65 @@ int main( int argc, char **argv )
 	a.setStyleSheet(font1String + " QDialogButtonBox, QMessageBox { dialogbuttonbox-buttons-have-icons: 1; dialog-ok-icon: url(:/gfx/dialog_ok_apply.png); dialog-cancel-icon: url(:/gfx/dialog_close.png); dialog-close-icon: url(:/gfx/dialog_close.png); dialog-yes-icon: url(:/gfx/dialog_ok_apply.png); dialog-no-icon: url(:/gfx/dialog_close.png) }");
 
 #ifdef ANDROID
+	//check if custom background pictures for the resolution are there. Otherwise create them!
+	QString UserDataDir = QString::fromUtf8(myConfig->readConfigString("UserDataDir").c_str());
 	QDesktopWidget dw;
-	QPixmap pixmap(myAppDataPath + "gfx/gui/misc/welcomepokerth_mobile.png");
-	pixmap = pixmap.scaled(dw.screenGeometry().width(), dw.screenGeometry().height(), Qt::KeepAspectRatio, Qt::SmoothTransformation);
+	int screenWidth = dw.screenGeometry().width();
+	int screenHeight = dw.screenGeometry().height();
+	QString customStartWindowBgFileString(UserDataDir+"/startwindowbg10_"+QString::number(screenWidth)+"x"+QString::number(screenHeight)+".png");
+	QString customWelcomePokerTHFileString(UserDataDir+"/welcomepokerth10_"+QString::number(screenWidth)+"x"+QString::number(screenHeight)+".png");
+	QFile customStartWindowBgFile(customStartWindowBgFileString);
+	QFile customWelcomePokerTHFile(customWelcomePokerTHFileString);
+
+	QSplashScreen preSplashFirstRun;
+	if(!customStartWindowBgFile.exists()) {
+
+		//load preSplashPix to show that PokerTH is already running during first time pics calculation
+		QPixmap prePixBase(":/gfx/logoChip3D.png");
+		QPixmap prePix(300, 200);
+		prePix.fill(Qt::transparent); // force alpha channel
+		{
+			QPainter painter(&prePix);
+			painter.drawPixmap(0, 0, prePixBase);
+			painter.setPen(Qt::white);
+			painter.drawText(10, 160, "loading ...");
+		}
+		preSplashFirstRun.setPixmap(prePix);
+		preSplashFirstRun.show();
+
+		QPixmap pix(":/android/android-data/gfx/gui/misc/startwindowbg10_mobile.png");
+		pix = pix.scaled(screenWidth, screenHeight, Qt::KeepAspectRatioByExpanding, Qt::SmoothTransformation);
+		pix.save(customStartWindowBgFileString);
+	}
+
+	if(!customWelcomePokerTHFile.exists()) {
+		QPixmap base(customStartWindowBgFileString);
+		//scale overlay "have a lot of fun" at first
+		QPixmap overlay(":/android/android-data/gfx/gui/misc/welcomepokerth10_mobile.png");
+		overlay = overlay.scaled(screenWidth, screenHeight, Qt::KeepAspectRatioByExpanding, Qt::SmoothTransformation);
+		QPixmap result(base.width(), base.height());
+		result.fill(Qt::transparent); // force alpha channel
+		{
+			QPainter painter(&result);
+			painter.drawPixmap(0, 0, base);
+			painter.drawPixmap(0, 0, overlay);
+		}
+		result.save(customWelcomePokerTHFileString);
+		preSplashFirstRun.hide();
+	}
+
+	QPixmap pixmap;
+	if(customWelcomePokerTHFile.exists()) {
+		pixmap.load(QFileInfo(customWelcomePokerTHFile).absoluteFilePath());
+	}
+	else {
+		//if custom welcome pic could not be saved locally we need to scale it on the fly
+		pixmap.load(":/android/android-data/gfx/gui/misc/welcomepokerth10_mobile.png");
+		pixmap = pixmap.scaled(screenWidth, screenHeight, Qt::KeepAspectRatioByExpanding, Qt::SmoothTransformation);
+	}
+
 #else
-	QPixmap pixmap(myAppDataPath + "gfx/gui/misc/welcomepokerth_desktop.png");
+	QPixmap pixmap(myAppDataPath + "gfx/gui/misc/welcomepokerth10_desktop.png");
 #endif
 	StartSplash splash(pixmap);
 	if(!myConfig->readConfigInt("DisableSplashScreenOnStartup")) {
