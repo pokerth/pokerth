@@ -51,24 +51,6 @@ aboutPokerthImpl::aboutPokerthImpl(QWidget *parent, ConfigFile *c)
 
 	myAppDataPath = QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str());
 
-	QPalette myPalette = textBrowser_licence->palette();
-#ifdef GUI_800x480
-#ifdef ANDROID
-	myPalette.setColor(QPalette::Base, QColor(255,255,255,255));
-	myPalette.setColor(QPalette::Text, QColor(0,0,0,255));
-#else
-	myPalette.setColor(QPalette::Base, QColor(0,0,0,255));
-	myPalette.setColor(QPalette::Text, QColor(255,255,255,255));
-#endif
-#else
-	QColor myColor = myPalette.color(QPalette::Window);
-	myPalette.setColor(QPalette::Base, myColor);
-#endif
-	textBrowser_licence->setPalette(myPalette);
-	textBrowser_2->setPalette(myPalette);
-	textBrowser_3->setPalette(myPalette);
-	textBrowser_4->setPalette(myPalette);
-
 	QFile gplFile(QDir::toNativeSeparators(myAppDataPath+"misc/agpl.html"));
 	QString gplString;
 	if(gplFile.exists()) {
@@ -78,7 +60,6 @@ aboutPokerthImpl::aboutPokerthImpl(QWidget *parent, ConfigFile *c)
 			textBrowser_licence->setHtml(gplString);
 		}
 	}
-
 
 	label_logo->setPixmap(QPixmap(":/gfx/logoChip3D.png"));
 
