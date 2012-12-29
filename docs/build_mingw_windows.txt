@@ -10,13 +10,7 @@ on your Linux system.
 2. Download the latest release of MXE and extract it to /opt/mingw
 (if this does not work, as some packages might be broken, try the latest development release)
 
-3. Patch OpenSSL dependencies out of Qt build file (OpenSSL license is not compatible with the GPL)
-For your convenience, a patch file is included to remove at least one OpenSSL dependency. This patch
-is without warranty, you need to make sure for yourself that you do not link to OpenSSL.
-Within /opt/mingw, run
-patch -p1 < /path/to/pokerth/docs/win32_rm_openssl.diff
-
-4. Within /opt/mingw, run
+3. Within /opt/mingw, run
 make gcc
 make qt
 make boost
@@ -28,17 +22,17 @@ make libircclient
 make protobuf
 (this takes quite some time)
 
-5. As the user you would like to use to compile PokerTH for Windows,
+4. As the user you would like to use to compile PokerTH for Windows,
 add the cross compiler to your path; e.g.:
 PATH="/opt/mingw/usr/bin:$PATH"
 (in .profile)
 Alternatively, run
 export PATH="/opt/mingw/usr/bin:$PATH"
 
-6. Download and extract whichever source version of PokerTH you wish to compile.
+5. Download and extract whichever source version of PokerTH you wish to compile.
 http://pokerth.net/download.html
 
-7. Within the pokerth directory, run
+6. Within the pokerth directory, run
 i686-pc-mingw32-qmake DEFINES+=BOOST_THREAD_USE_LIB pokerth.pro
 make release
 
@@ -46,4 +40,4 @@ PokerTH can also be built using MinGW or Visual Studio on Windows,
 but neither method is supported, because it takes too much time to keep
 several methods updated.
 
-2011 by Lothar May
+2012 by Lothar May
