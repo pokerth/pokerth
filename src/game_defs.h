@@ -110,8 +110,8 @@ enum PlayerActionLog {
 	LOG_ACTION_WIN_SIDE_POT,// wins (side pot)
 	LOG_ACTION_SIT_OUT,     // sits out
 	LOG_ACTION_WIN_GAME,    // wins game
-	LOG_ACTION_LEFT,		// left the game
-	LOG_ACTION_KICKED,		// was kicked from
+	LOG_ACTION_LEFT,		// has left the game
+	LOG_ACTION_KICKED,		// was kicked from the game
 	LOG_ACTION_ADMIN,		// is game admin now
 	LOG_ACTION_JOIN			// has joined the game
 };

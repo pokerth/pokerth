@@ -133,6 +133,21 @@ int main( int argc, char **argv )
 	p.setColor(QPalette::Link, QColor::fromRgb(192,192,255));
 	p.setColor(QPalette::LinkVisited, QColor::fromRgb(192,192,255));
 	a.setPalette(p);
+#elif MAEMO
+	QString font1String("QApplication, QWidget, QDialog { font-family: \"Nimbus Sans L\"; font-size: 22px; }");
+	QPalette p = a.palette();
+	p.setColor(QPalette::Button, QColor::fromRgb(80,80,80));
+	p.setColor(QPalette::Base, QColor::fromRgb(80,80,80));
+	p.setColor(QPalette::Window, QColor::fromRgb(50,50,50));
+	p.setColor(QPalette::ButtonText, QColor::fromRgb(255,255,255));
+	p.setColor(QPalette::Disabled, QPalette::ButtonText, QColor::fromRgb(100,100,100));
+	p.setColor(QPalette::WindowText, QColor::fromRgb(255,255,255));
+	p.setColor(QPalette::Disabled, QPalette::WindowText, QColor::fromRgb(100,100,100));
+	p.setColor(QPalette::Text, QColor::fromRgb(255,255,255));
+	p.setColor(QPalette::Disabled, QPalette::Text, QColor::fromRgb(100,100,100));
+	p.setColor(QPalette::Link, QColor::fromRgb(192,192,255));
+	p.setColor(QPalette::LinkVisited, QColor::fromRgb(192,192,255));
+	a.setPalette(p);
 #else
 	QString font1String("QApplication, QWidget, QDialog { font-family: \"Nimbus Sans L\"; font-size: 12px; }");
 #endif

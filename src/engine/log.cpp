@@ -75,7 +75,7 @@ Log::init()
 				char curTime[9];
 				time_t now = time(NULL);
 				tm *z = localtime(&now);
-				strftime(curDateTime,20,"%Y-%m-%d_%H.%M.%S",z);
+				strftime(curDateTime,20,"%Y-%m-%d_%H%M%S",z);
 				strftime(curDate,11,"%Y-%m-%d",z);
 				strftime(curTime,9,"%H:%M:%S",z);
 
