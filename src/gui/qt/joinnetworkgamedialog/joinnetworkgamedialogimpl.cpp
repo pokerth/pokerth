@@ -308,10 +308,11 @@ void joinNetworkGameDialogImpl::deleteServerProfile()
 void joinNetworkGameDialogImpl::keyPressEvent ( QKeyEvent * event )
 {
 
-// 	std::cout << "key" << event->key();
+#ifndef ANDROID
 	if (event->key() == 16777220) {
 		pushButton_connect->click();    //ENTER
 	}
+#endif
 }
 
 void joinNetworkGameDialogImpl::checkIp()

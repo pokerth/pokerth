@@ -44,6 +44,8 @@ createInternetGameDialogImpl::createInternetGameDialogImpl(QWidget *parent, Conf
 #endif
 	setupUi(this);
 	this->installEventFilter(this);
+	spinBox_netDelayBetweenHands->installEventFilter(this);
+	spinBox_netTimeOutPlayerAction->installEventFilter(this);
 
 	comboBox_gameType->setItemData(0, GAME_TYPE_NORMAL, Qt::UserRole);
 	comboBox_gameType->setItemData(1, GAME_TYPE_REGISTERED_ONLY, Qt::UserRole);
@@ -119,12 +121,11 @@ void createInternetGameDialogImpl::fillFormular(bool guestMode, QString playerNa
 
 void createInternetGameDialogImpl::keyPressEvent ( QKeyEvent * event )
 {
-
-
+#ifndef ANDROID
 	if (event->key() == 16777220) {
 		pushButton_createGame->click();    //ENTER
 	}
-
+#endif
 }
 
 void createInternetGameDialogImpl::clearGamePassword(bool clear)
@@ -253,6 +254,7 @@ bool createInternetGameDialogImpl::eventFilter(QObject *obj, QEvent *event)
 
 	//androi changes for return key behavior (hopefully useless from necessitas beta2)
 	if (event->type() == QEvent::KeyPress && keyEvent->key() == Qt::Key_Return) {
+
 		if(spinBox_startCash->hasFocus()) {
 			spinBox_startCash->clearFocus();
 		}
@@ -271,8 +273,10 @@ bool createInternetGameDialogImpl::eventFilter(QObject *obj, QEvent *event)
 		if(lineEdit_Password->hasFocus()) {
 			lineEdit_Password->clearFocus();
 		}
+
 		event->ignore();
 		return false;
+
 	} else if (event->type() == QEvent::KeyPress && keyEvent->key() == Qt::Key_Back) {
 		this->reject();
 		return true;

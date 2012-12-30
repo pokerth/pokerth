@@ -122,11 +122,11 @@ void createNetworkGameDialogImpl::showDialog()
 
 void createNetworkGameDialogImpl::keyPressEvent ( QKeyEvent * event )
 {
-
-
+#ifndef ANDROID
 	if (event->key() == 16777220) {
 		pushButton_createGame->click();    //ENTER
 	}
+#endif
 
 }
 
