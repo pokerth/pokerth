@@ -122,7 +122,7 @@ ReceiveBuffer::ScanPackets(boost::shared_ptr<SessionData> session)
 			if (validator.IsValidPacket(*tmpPacket)) {
 				receivedPackets.push_back(tmpPacket);
 			} else {
-				LOG_ERROR("Session " << session->GetId() << " - Invalid packet!");
+				LOG_ERROR("Session " << session->GetId() << " - Invalid packet: " << tmpPacket->GetMsg()->messagetype());
 			}
 		} else {
 			dataAvailable = false;
