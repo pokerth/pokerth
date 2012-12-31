@@ -121,7 +121,6 @@ NetPacketValidator::IsValidPacket(const NetPacket &packet) const
 	// Default: Invalid packet.
 	bool retVal = false;
 	ValidateFunctorMap::const_iterator pos = m_validationMap.find(packet.GetMsg()->messagetype());
-	packet.GetMsg()->afterhandshowcardsmessage();
 	if (pos != m_validationMap.end()) {
 		// Call validation functor.
 		retVal = pos->second(packet);
