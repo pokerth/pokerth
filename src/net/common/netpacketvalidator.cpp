@@ -36,7 +36,8 @@ using namespace std;
 
 #define VALIDATE_IS_UINT16(__val) ((__val) <= 65535)
 #define VALIDATE_STRING_SIZE(__str, __minsize, __maxsize) ((__str).size() >= (__minsize) && (__str).size() <= (__maxsize))
-#define VALIDATE_INT_RANGE(__val, __minval, __maxval) ((__val) >= (__minval) && (__val) <= (__maxval))
+#define VALIDATE_UINT_RANGE(__val, __minval, __maxval) ((__val) >= (__minval) && (__val) <= (__maxval))
+#define VALIDATE_UINT_UPPER(__val, __maxval) ((__val) <= (__maxval))
 #define VALIDATE_LIST_SIZE(__l, __minsize, __maxsize) ((__l).size() >= (__minsize) && (__l).size() <= (__maxsize))
 
 static bool
@@ -44,7 +45,7 @@ ValidateListIntRange(const ::google::protobuf::RepeatedField< ::google::protobuf
 {
 	bool retVal = true;
 	for (int i = 0; i < l.size(); i++) {
-		if (!VALIDATE_INT_RANGE(l.Get(i), minval, maxval)) {
+		if (!VALIDATE_UINT_RANGE(l.Get(i), minval, maxval)) {
 			retVal = false;
 			break;
 		}
@@ -259,7 +260,7 @@ NetPacketValidator::ValidateAvatarHeaderMessage(const NetPacket &packet)
 	if (packet.GetMsg()->has_avatarheadermessage()) {
 		const AvatarHeaderMessage &msg = packet.GetMsg()->avatarheadermessage();
 		if (msg.requestid() != 0
-			&& VALIDATE_INT_RANGE(msg.avatarsize(), 32, 30720)) {
+			&& VALIDATE_UINT_RANGE(msg.avatarsize(), 32, 30720)) {
 
 			retVal = true;
 		}
@@ -693,7 +694,7 @@ NetPacketValidator::ValidateHandStartMessage(const NetPacket &packet)
 	if (packet.GetMsg()->has_handstartmessage()) {
 		const HandStartMessage &msg = packet.GetMsg()->handstartmessage();
 		if (msg.gameid() != 0
-			&& VALIDATE_INT_RANGE(msg.smallblind(), 1, 100000000)
+			&& VALIDATE_UINT_RANGE(msg.smallblind(), 1, 100000000)
 			&& VALIDATE_LIST_SIZE(msg.seatstates(), 2, 10)) {
 
 			retVal = true;
@@ -723,7 +724,7 @@ NetPacketValidator::ValidateMyActionRequestMessage(const NetPacket &packet)
 		const MyActionRequestMessage &msg = packet.GetMsg()->myactionrequestmessage();
 		if (msg.gameid() != 0
 			&& msg.handnum() != 0
-			&& VALIDATE_INT_RANGE(msg.myrelativebet(), 0, 10000000)) {
+			&& VALIDATE_UINT_UPPER(msg.myrelativebet(), 10000000)) {
 
 			retVal = true;
 		}
@@ -764,9 +765,9 @@ NetPacketValidator::ValidateDealFlopCardsMessage(const NetPacket &packet)
 	if (packet.GetMsg()->has_dealflopcardsmessage()) {
 		const DealFlopCardsMessage &msg = packet.GetMsg()->dealflopcardsmessage();
 		if (msg.gameid() != 0
-			&& VALIDATE_INT_RANGE(msg.flopcard1(), 0, 51)
-			&& VALIDATE_INT_RANGE(msg.flopcard2(), 0, 51)
-			&& VALIDATE_INT_RANGE(msg.flopcard3(), 0, 51)) {
+			&& VALIDATE_UINT_UPPER(msg.flopcard1(), 51)
+			&& VALIDATE_UINT_UPPER(msg.flopcard2(), 51)
+			&& VALIDATE_UINT_UPPER(msg.flopcard3(), 51)) {
 
 			retVal = true;
 		}
@@ -781,7 +782,7 @@ NetPacketValidator::ValidateDealTurnCardMessage(const NetPacket &packet)
 	if (packet.GetMsg()->has_dealturncardmessage()) {
 		const DealTurnCardMessage &msg = packet.GetMsg()->dealturncardmessage();
 		if (msg.gameid() != 0
-			&& VALIDATE_INT_RANGE(msg.turncard(), 0, 51)) {
+			&& VALIDATE_UINT_UPPER(msg.turncard(), 51)) {
 
 			retVal = true;
 		}
@@ -796,7 +797,7 @@ NetPacketValidator::ValidateDealRiverCardMessage(const NetPacket &packet)
 	if (packet.GetMsg()->has_dealrivercardmessage()) {
 		const DealRiverCardMessage &msg = packet.GetMsg()->dealrivercardmessage();
 		if (msg.gameid() != 0
-			&& VALIDATE_INT_RANGE(msg.rivercard(), 0, 51)) {
+			&& VALIDATE_UINT_UPPER(msg.rivercard(), 51)) {
 
 			retVal = true;
 		}
@@ -1147,15 +1148,15 @@ NetPacketValidator::ValidateGameInfo(const NetGameInfo &gameInfo)
 {
 	bool retVal = false;
 	if (VALIDATE_STRING_SIZE(gameInfo.gamename(), 1, 64)
-		&& VALIDATE_INT_RANGE(gameInfo.maxnumplayers(), 2, 10)
-		&& (!gameInfo.has_raiseeveryhands() || VALIDATE_INT_RANGE(gameInfo.raiseeveryhands(), 1, 1000))
-		&& (!gameInfo.has_raiseeveryminutes() || VALIDATE_INT_RANGE(gameInfo.raiseeveryminutes(), 1, 1000))
-		&& (!gameInfo.has_endraisesmallblindvalue() || VALIDATE_INT_RANGE(gameInfo.endraisesmallblindvalue(), 0, 1000000))
-		&& VALIDATE_INT_RANGE(gameInfo.proposedguispeed(), 1, 11)
-		&& VALIDATE_INT_RANGE(gameInfo.delaybetweenhands(), 5, 20)
-		&& VALIDATE_INT_RANGE(gameInfo.playeractiontimeout(), 0, 60)
-		&& VALIDATE_INT_RANGE(gameInfo.firstsmallblind(), 1, 20000)
-		&& VALIDATE_INT_RANGE(gameInfo.startmoney(), 1, 1000000)
+		&& VALIDATE_UINT_RANGE(gameInfo.maxnumplayers(), 2, 10)
+		&& (!gameInfo.has_raiseeveryhands() || VALIDATE_UINT_RANGE(gameInfo.raiseeveryhands(), 1, 1000))
+		&& (!gameInfo.has_raiseeveryminutes() || VALIDATE_UINT_RANGE(gameInfo.raiseeveryminutes(), 1, 1000))
+		&& (!gameInfo.has_endraisesmallblindvalue() || VALIDATE_UINT_RANGE(gameInfo.endraisesmallblindvalue(), 0, 1000000))
+		&& VALIDATE_UINT_RANGE(gameInfo.proposedguispeed(), 1, 11)
+		&& VALIDATE_UINT_RANGE(gameInfo.delaybetweenhands(), 5, 20)
+		&& VALIDATE_UINT_UPPER(gameInfo.playeractiontimeout(), 60)
+		&& VALIDATE_UINT_RANGE(gameInfo.firstsmallblind(), 1, 20000)
+		&& VALIDATE_UINT_RANGE(gameInfo.startmoney(), 1, 1000000)
 		&& VALIDATE_LIST_SIZE(gameInfo.manualblinds(), 0, 30)
 		&& ValidateListIntRange(gameInfo.manualblinds(), 1, 1000000)) {
 
