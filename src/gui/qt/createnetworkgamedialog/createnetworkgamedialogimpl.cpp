@@ -53,17 +53,11 @@ createNetworkGameDialogImpl::createNetworkGameDialogImpl(QWidget *parent, Config
 #endif
 	connect( pushButton_createGame, SIGNAL( clicked() ), this, SLOT( createGame() ) );
 
-	//temporarely unused until ai is enabled in network
-// 	label_5->hide();
-// 	spinBox_gameSpeed->hide();
-
-
 }
 
 
 void createNetworkGameDialogImpl::exec()
 {
-
 	fillFormular();
 	QDialog::exec();
 }
@@ -165,8 +159,9 @@ bool createNetworkGameDialogImpl::eventFilter(QObject *obj, QEvent *event)
 		event->ignore();
 		return false;
 	} else if (event->type() == QEvent::KeyPress && keyEvent->key() == Qt::Key_Back) {
+		event->ignore();
 		this->reject();
-		return true;
+		return false;
 	} else {
 		// pass the event on to the parent class
 		return QDialog::eventFilter(obj, event);

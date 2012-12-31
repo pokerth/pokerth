@@ -243,6 +243,7 @@ gameLobbyDialogImpl::gameLobbyDialogImpl(startWindowImpl *parent, ConfigFile *c)
 
 	lineEdit_searchForPlayers->installEventFilter(this);
 	lineEdit_ChatInput->installEventFilter(this);
+	this->installEventFilter(this);
 
 	clearDialog();
 
@@ -384,6 +385,9 @@ void gameLobbyDialogImpl::createGame()
 		mySession->clientCreateGame(gameData, currentGameName.toUtf8().constData(), myCreateInternetGameDialog->lineEdit_Password->text().toUtf8().constData());
 
 	}
+#ifdef ANDROID
+	this->setFocus();
+#endif
 }
 
 void gameLobbyDialogImpl::joinGame()
@@ -1396,6 +1400,10 @@ bool gameLobbyDialogImpl::eventFilter(QObject *obj, QEvent *event)
 	} else if (obj == lineEdit_searchForPlayers && focusEvent->gotFocus() && lineEdit_searchForPlayers->text() == tr("search for player ...")) {
 		lineEdit_searchForPlayers->clear();
 		return QDialog::eventFilter(obj, event);
+	} else if (event->type() == QEvent::KeyPress && keyEvent->key() == Qt::Key_Back) {
+		event->ignore();
+		this->reject();
+		return false;
 	} else {
 		// pass the event on to the parent class
 		return QDialog::eventFilter(obj, event);

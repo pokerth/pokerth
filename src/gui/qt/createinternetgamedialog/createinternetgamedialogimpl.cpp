@@ -278,8 +278,9 @@ bool createInternetGameDialogImpl::eventFilter(QObject *obj, QEvent *event)
 		return false;
 
 	} else if (event->type() == QEvent::KeyPress && keyEvent->key() == Qt::Key_Back) {
+		event->ignore();
 		this->reject();
-		return true;
+		return false;
 	} else {
 		// pass the event on to the parent class
 		return QDialog::eventFilter(obj, event);
