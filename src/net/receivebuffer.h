@@ -35,6 +35,7 @@
 
 #include <boost/enable_shared_from_this.hpp>
 #include <net/netpacket.h>
+#include <net/netpacketvalidator.h>
 
 // MUST be larger than MAX_PACKET_SIZE
 #define RECV_BUF_SIZE		5 * MAX_PACKET_SIZE
@@ -51,7 +52,7 @@ public:
 protected:
 	void HandleRead(boost::shared_ptr<SessionData> session, const boost::system::error_code &error, size_t bytesRead);
 
-	void ScanPackets();
+	void ScanPackets(boost::shared_ptr<SessionData> session);
 	void ProcessPackets(boost::shared_ptr<SessionData> session);
 
 
@@ -59,6 +60,7 @@ private:
 	NetPacketList					receivedPackets;
 	char							recvBuf[RECV_BUF_SIZE];
 	size_t							recvBufUsed;
+	static NetPacketValidator		validator;
 };
 
 #endif

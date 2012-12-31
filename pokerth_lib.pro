@@ -71,6 +71,7 @@ HEADERS += \
 		src/net/clientthread.h \
 		src/net/genericsocket.h \
 		src/net/netpacket.h \
+		src/net/netpacketvalidator.h \
 		src/net/senderhelper.h \
 		src/net/sendercallback.h \
 		src/net/serverexception.h \
@@ -175,6 +176,7 @@ SOURCES += \
 		src/net/common/downloadhelper.cpp \
 		src/net/common/downloaderthread.cpp \
 		src/net/common/netpacket.cpp \
+		src/net/common/netpacketvalidator.cpp \
 		src/net/common/senderhelper.cpp \
 		src/net/common/sendercallback.cpp \
 		src/net/common/serverexception.cpp \

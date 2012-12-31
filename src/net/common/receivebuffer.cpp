@@ -39,6 +39,7 @@
 
 using namespace std;
 
+NetPacketValidator ReceiveBuffer::validator;
 
 ReceiveBuffer::ReceiveBuffer()
 	: recvBufUsed(0)
@@ -66,7 +67,7 @@ ReceiveBuffer::HandleRead(boost::shared_ptr<SessionData> session, const boost::s
 		try {
 			if (!error) {
 				recvBufUsed += bytesRead;
-				ScanPackets();
+				ScanPackets(session);
 				ProcessPackets(session);
 				StartAsyncRead(session);
 			} else if (error == boost::asio::error::interrupted || error == boost::asio::error::try_again) {
@@ -85,7 +86,7 @@ ReceiveBuffer::HandleRead(boost::shared_ptr<SessionData> session, const boost::s
 }
 
 void
-ReceiveBuffer::ScanPackets()
+ReceiveBuffer::ScanPackets(boost::shared_ptr<SessionData> session)
 {
 	bool dataAvailable = true;
 	do {
@@ -98,7 +99,10 @@ ReceiveBuffer::ScanPackets()
 			uint32_t nativeVal;
 			memcpy(&nativeVal, &recvBuf[0], sizeof(uint32_t));
 			size_t packetSize = ntohl(nativeVal);
-			if (recvBufUsed >= packetSize + NET_HEADER_SIZE) {
+			if (packetSize > MAX_PACKET_SIZE) {
+				recvBufUsed = 0;
+				LOG_ERROR("Session " << session->GetId() << " - Invalid packet size: " << packetSize);
+			} else if (recvBufUsed >= packetSize + NET_HEADER_SIZE) {
 				try {
 					tmpPacket = NetPacket::Create(&recvBuf[NET_HEADER_SIZE], packetSize);
 					if (tmpPacket) {
@@ -110,15 +114,19 @@ ReceiveBuffer::ScanPackets()
 				} catch (const exception &e) {
 					// Reset buffer on error.
 					recvBufUsed = 0;
-					LOG_ERROR(e.what());
+					LOG_ERROR("Session " << session->GetId() << " - " << e.what());
 				}
 			}
 		}
 		if (tmpPacket) {
-			// TODO check constraints.
-			receivedPackets.push_back(tmpPacket);
-		} else
+			if (validator.IsValidPacket(*tmpPacket)) {
+				receivedPackets.push_back(tmpPacket);
+			} else {
+				LOG_ERROR("Session " << session->GetId() << " - Invalid packet!");
+			}
+		} else {
 			dataAvailable = false;
+		}
 	} while(dataAvailable);
 }
 
