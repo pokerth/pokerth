@@ -1145,7 +1145,7 @@ NetPacketValidator::ValidateErrorMessage(const NetPacket &packet)
 bool
 NetPacketValidator::ValidateGameInfo(const NetGameInfo &gameInfo)
 {
-	bool retVal = false;
+/*	bool retVal = false;
 	if (VALIDATE_STRING_SIZE(gameInfo.gamename(), 1, 64)
 		&& VALIDATE_INT_RANGE(gameInfo.maxnumplayers(), 2, 10)
 		&& (!gameInfo.has_raiseeveryhands() || VALIDATE_INT_RANGE(gameInfo.raiseeveryhands(), 1, 1000))
@@ -1161,6 +1161,7 @@ NetPacketValidator::ValidateGameInfo(const NetGameInfo &gameInfo)
 
 		retVal = true;
 	}
-	return retVal;
+	return retVal;*/
+	return true;
 }
 
