@@ -320,15 +320,8 @@ public abstract class TestBase {
 	public NetGameInfo createGameInfo(NetGameInfo.NetGameType gameType, int playerActionTimeout, int proposedGuiSpeed, int delayBetweenHands, NetGameInfo.EndRaiseMode endMode, int endRaiseValue, int sb,
 			String gameName, Collection<Integer> manualBlinds, int maxNumPlayers, int raiseEveryMinutes, int raiseEveryHands, int startMoney) {
 
-		NetGameInfo.RaiseIntervalMode raiseInterval;
-		if (raiseEveryMinutes > 0) {
-			raiseInterval = NetGameInfo.RaiseIntervalMode.raiseOnMinutes;
-		}
-		else {
-			raiseInterval = NetGameInfo.RaiseIntervalMode.raiseOnHandNum;
-		}
-
-		NetGameInfo gameInfo = NetGameInfo.newBuilder()
+		NetGameInfo.Builder infoBuilder = NetGameInfo.newBuilder();
+		infoBuilder
 			.setNetGameType(gameType)
 			.setPlayerActionTimeout(playerActionTimeout)
 			.setProposedGuiSpeed(proposedGuiSpeed)
@@ -339,13 +332,20 @@ public abstract class TestBase {
 			.setGameName(gameName)
 			.setMaxNumPlayers(maxNumPlayers)
 			.addAllManualBlinds(manualBlinds)
-			.setRaiseIntervalMode(raiseInterval)
-			.setRaiseEveryMinutes(raiseEveryMinutes)
-			.setRaiseEveryHands(raiseEveryHands)
-			.setStartMoney(startMoney)
-			.build();
+			.setStartMoney(startMoney);
 
-		return gameInfo;
+		if (raiseEveryMinutes > 0) {
+			infoBuilder
+				.setRaiseIntervalMode(NetGameInfo.RaiseIntervalMode.raiseOnMinutes)
+				.setRaiseEveryMinutes(raiseEveryMinutes);
+		}
+		else {
+			infoBuilder
+				.setRaiseIntervalMode(NetGameInfo.RaiseIntervalMode.raiseOnHandNum)
+				.setRaiseEveryHands(raiseEveryHands);
+		}
+
+		return infoBuilder.build();
 	}
 
 	void failOnErrorMessage(PokerTHMessage msg) {
