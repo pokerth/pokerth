@@ -36,6 +36,7 @@
 #include <map>
 
 class NetPacket;
+class NetGameInfo;
 
 class NetPacketValidator
 {
@@ -118,6 +119,8 @@ protected:
 	static bool ValidateReportGameMessage(const NetPacket &packet);
 	static bool ValidateReportGameAckMessage(const NetPacket &packet);
 	static bool ValidateErrorMessage(const NetPacket &packet);
+
+	static bool ValidateGameInfo(const NetGameInfo &gameInfo);
 
 	typedef bool (*ValidateFunctor)(const NetPacket &);
 	typedef std::map<int, ValidateFunctor> ValidateFunctorMap;
