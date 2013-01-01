@@ -452,12 +452,12 @@ Bitte kontaktieren Sie den Ersteller des Spieltisch-Stils %3.</translation>
     <message>
         <location filename="../src/gui/qt/logfiledialog/logfiledialog.cpp" line="141"/>
         <source>Remove log file</source>
-        <translation type="unfinished"></translation>
+        <translation>Logdatei löschen</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/logfiledialog/logfiledialog.cpp" line="141"/>
         <source>PokerTH cannot remove this log file, please verify that you have write access to this file!</source>
-        <translation type="unfinished"></translation>
+        <translation>PokerTH kann diese Logdatei nicht löschen. Bitte stellen Sie sicher, dass Sie Schreibberechtigung auf diese Datei haben! </translation>
     </message>
     <message>
         <location filename="../src/gui/qt/logfiledialog/logfiledialog.cpp" line="156"/>
@@ -492,38 +492,38 @@ Bitte kontaktieren Sie den Ersteller des Spieltisch-Stils %3.</translation>
     <message>
         <location filename="../src/gui/qt/logfiledialog/logfiledialog.cpp" line="292"/>
         <source>No file received.</source>
-        <translation type="unfinished"></translation>
+        <translation>Keine Datei empfangen.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/logfiledialog/logfiledialog.cpp" line="295"/>
         <source>File rejected because of too many uploads.</source>
-        <translation type="unfinished"></translation>
+        <translation>Datei wurde wegen zu vielen Uploads abgelehnt.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/logfiledialog/logfiledialog.cpp" line="298"/>
         <source>File rejected because of too many recent uploads. Please try again later.</source>
-        <translation type="unfinished"></translation>
+        <translation>Datei wurde wegen zu vielen kürzlich durchgeführten Uploads abgelehnt. Bitte versuchen Sie es später nochmals.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/logfiledialog/logfiledialog.cpp" line="301"/>
         <source>The file is too large.</source>
-        <translation type="unfinished"></translation>
+        <translation>Die Datei ist zu groß.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/logfiledialog/logfiledialog.cpp" line="305"/>
         <source>This file is not a valid and current PokerTH log file.</source>
-        <translation type="unfinished"></translation>
+        <translation>Diese Datei ist keine gültige und keine aktuelle PokerTH-Logdatei.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/logfiledialog/logfiledialog.cpp" line="312"/>
         <source>Internal error. Please try again later. ID: </source>
-        <translation type="unfinished"></translation>
+        <translation>Interner Fehler. Bitte versuchen Sie es später wieder. ID:</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/logfiledialog/logfiledialog.cpp" line="317"/>
         <location filename="../src/gui/qt/logfiledialog/logfiledialog.cpp" line="328"/>
         <source>Uploading log file</source>
-        <translation type="unfinished"></translation>
+        <translation>Hochladen der Logdatei</translation>
     </message>
     <message>
         <source>Upload in progress</source>
@@ -2142,7 +2142,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/gui/qt/aboutpokerth/aboutpokerthimpl.cpp" line="106"/>
         <source>PokerTH %1 for Android (API%2)</source>
-        <translation type="unfinished"></translation>
+        <translation>PokerTH %1 für Android (API%2)</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/aboutpokerth/aboutpokerthimpl.cpp" line="108"/>
@@ -2378,12 +2378,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/gui/qt/gui_800x480/changecompleteblindsdialog_800x480.ui" line="311"/>
         <source> OK </source>
-        <translation type="unfinished"></translation>
+        <translation> OK </translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gui_800x480/changecompleteblindsdialog_800x480.ui" line="324"/>
         <source>Ctrl+S</source>
-        <translation type="unfinished"></translation>
+        <translation>Strg+S</translation>
     </message>
 </context>
 <context>
@@ -2422,7 +2422,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/gui/qt/gui_800x480/changecontentdialog_800x480.ui" line="65"/>
         <source> OK </source>
-        <translation type="unfinished"></translation>
+        <translation> OK </translation>
     </message>
 </context>
 <context>
@@ -5794,7 +5794,7 @@ Möchten Sie es überschreiben?</translation>
     <message>
         <location filename="../src/gui/qt/gui_800x480/manualblindsorderdialog_800x480.ui" line="187"/>
         <source> OK </source>
-        <translation type="unfinished"></translation>
+        <translation> OK </translation>
     </message>
     <message>
         <source>After this:</source>
@@ -5933,7 +5933,7 @@ Möchten Sie es überschreiben?</translation>
     <message>
         <location filename="../src/gui/qt/gui_800x480/newgamedialog_800x480.ui" line="282"/>
         <source> OK </source>
-        <translation type="unfinished"></translation>
+        <translation> OK </translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gui_800x480/newgamedialog_800x480.ui" line="186"/>
@@ -6846,7 +6846,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="3793"/>
         <source> OK </source>
-        <translation type="unfinished"></translation>
+        <translation> OK </translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="1999"/>
@@ -7688,7 +7688,7 @@ Möchten Sie wirklich alle Einstellungen zurücksetzen?</translation>
     <message>
         <location filename="../src/gui/qt/startwindow.ui" line="177"/>
         <source>&amp;5 Logs</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;5 Logs</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow.ui" line="331"/>
@@ -8012,23 +8012,23 @@ Bitte stellen Sie sicher, dass die URL zu den Serverlisten korrekt ist.</transla
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="478"/>
         <source>Rejoin possible!</source>
-        <translation type="unfinished"></translation>
+        <translation>Erneuter Beitritt möglich!</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="479"/>
         <source>There is an existing session with a previous game.</source>
-        <translation type="unfinished"></translation>
+        <translation>Es gibt eine existierende Verbindung mit einem früheren Spiel.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="480"/>
         <source>Do you want to rejoin this game?</source>
-        <translation type="unfinished"></translation>
+        <translation>Wollen Sie dem Spiel erneut beitreten?</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="572"/>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="613"/>
         <source>Start Network Game</source>
-        <translation type="unfinished">Starte Netzwerkspiel</translation>
+        <translation>Starte Netzwerkspiel</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="830"/>
