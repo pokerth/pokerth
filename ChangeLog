@@ -2,7 +2,7 @@
 - Online log file analysis tool
 - Support for higher Android screen resolutions
 - Sound support for Android
-- Support for Windows 8
+- Support for Windows 8 (desktop mode)
 - License change: OpenSSL exception (for Windows 8 support, because gcrypt currently crashes on Windows 8)
 - Server refactoring using google protocol buffers which basically enables use of html5 clients
 - Emoticons for the chat
@@ -14,10 +14,7 @@
 - Chatbot whitelist for poker expressions
 - new startwindow gfx for 1.0 final (thx to danuxi)
 - translation updates
-- BUGFIX: Logfilename is cut off when try to save (#165)
-- BUGFIX: Regression: Chatbot doesnt react on bad words (#164)
-- BUGFIX: Emoticons breaks URLs in the chat (#163)
-- several other bugfixes
+- several bugfixes
 
 2012-12-25 version 1.0-beta2
 - Support for Windows 8
