@@ -290,6 +290,7 @@ ClientThread::SendResetTimeout()
 {
 	boost::shared_ptr<NetPacket> packet(new NetPacket);
 	packet->GetMsg()->set_messagetype(PokerTHMessage::Type_ResetTimeoutMessage);
+	packet->GetMsg()->mutable_resettimeoutmessage();
 	m_ioService->post(boost::bind(&ClientThread::SendSessionPacket, shared_from_this(), packet));
 }
 
@@ -324,6 +325,7 @@ ClientThread::SendShowMyCards()
 {
 	boost::shared_ptr<NetPacket> packet(new NetPacket);
 	packet->GetMsg()->set_messagetype(PokerTHMessage::Type_ShowMyCardsRequestMessage);
+	packet->GetMsg()->mutable_showmycardsrequestmessage();
 	m_ioService->post(boost::bind(&ClientThread::SendSessionPacket, shared_from_this(), packet));
 }
 
