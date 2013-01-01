@@ -849,14 +849,15 @@ NetPacketValidator::ValidateEndOfHandHideCardsMessage(const NetPacket &packet)
 }
 
 bool
-NetPacketValidator::ValidateShowMyCardsRequestMessage(const NetPacket &packet)
+NetPacketValidator::ValidateShowMyCardsRequestMessage(const NetPacket &/*packet*/)
 {
-	bool retVal = false;
-	if (packet.GetMsg()->has_showmycardsrequestmessage()) {
-		//const ShowMyCardsRequestMessage &msg = packet.GetMsg()->showmycardsrequestmessage();
-		retVal = true;
-	}
-	return retVal;
+	//bool retVal = false;
+	//if (packet.GetMsg()->has_showmycardsrequestmessage()) {
+	//	const ShowMyCardsRequestMessage &msg = packet.GetMsg()->showmycardsrequestmessage();
+	//	retVal = true;
+	//}
+	//return retVal;
+	return true; // Empty packet, always valid.
 }
 
 bool
@@ -1068,14 +1069,15 @@ NetPacketValidator::ValidateTimeoutWarningMessage(const NetPacket &packet)
 }
 
 bool
-NetPacketValidator::ValidateResetTimeoutMessage(const NetPacket &packet)
+NetPacketValidator::ValidateResetTimeoutMessage(const NetPacket &/*packet*/)
 {
-	bool retVal = false;
-	if (packet.GetMsg()->has_resettimeoutmessage()) {
-		//const ResetTimeoutMessage &msg = packet.GetMsg()->resettimeoutmessage();
-		retVal = true;
-	}
-	return retVal;
+	//bool retVal = false;
+	//if (packet.GetMsg()->has_resettimeoutmessage()) {
+	//	const ResetTimeoutMessage &msg = packet.GetMsg()->resettimeoutmessage();
+	//	retVal = true;
+	//}
+	//return retVal;
+	return true; // Empty packet, always valid.
 }
 
 bool
