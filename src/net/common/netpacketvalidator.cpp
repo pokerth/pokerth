@@ -34,9 +34,24 @@
 
 using namespace std;
 
-#define VALIDATE_IS_UINT16(__val) ((__val) >= 0 && (__val) <= 65535)
+#define VALIDATE_IS_UINT16(__val) ((__val) <= 65535)
 #define VALIDATE_STRING_SIZE(__str, __minsize, __maxsize) ((__str).size() >= (__minsize) && (__str).size() <= (__maxsize))
-#define VALIDATE_INT_RANGE(__val, __minval, __maxval) ((__val) >= (__minval) && (__val) <= (__maxval))
+#define VALIDATE_UINT_RANGE(__val, __minval, __maxval) ((__val) >= (__minval) && (__val) <= (__maxval))
+#define VALIDATE_UINT_UPPER(__val, __maxval) ((__val) <= (__maxval))
+#define VALIDATE_LIST_SIZE(__l, __minsize, __maxsize) ((__l).size() >= (__minsize) && (__l).size() <= (__maxsize))
+
+static bool
+ValidateListIntRange(const ::google::protobuf::RepeatedField< ::google::protobuf::uint32 > &l, ::google::protobuf::uint32 minval, ::google::protobuf::uint32 maxval)
+{
+	bool retVal = true;
+	for (int i = 0; i < l.size(); i++) {
+		if (!VALIDATE_UINT_RANGE(l.Get(i), minval, maxval)) {
+			retVal = false;
+			break;
+		}
+	}
+	return retVal;
+}
 
 NetPacketValidator::NetPacketValidator()
 {
@@ -156,7 +171,10 @@ NetPacketValidator::ValidateInitMessage(const NetPacket &packet)
 		if (VALIDATE_IS_UINT16(msg.requestedversion().majorversion())
 			&& VALIDATE_IS_UINT16(msg.requestedversion().minorversion())
 			&& (!msg.has_mylastsessionid() || msg.mylastsessionid().size() == 16)
-			&& (!msg.has_authserverpassword() || VALIDATE_STRING_SIZE(msg.authserverpassword(), 1, 64))) {
+			&& (!msg.has_authserverpassword() || VALIDATE_STRING_SIZE(msg.authserverpassword(), 1, 64))
+			&& (!msg.has_nickname() || VALIDATE_STRING_SIZE(msg.nickname(), 1, 64))
+			&& (!msg.has_clientuserdata() || VALIDATE_STRING_SIZE(msg.clientuserdata(), 1, 256))
+			&& (!msg.has_avatarhash() || msg.avatarhash().size() == 16)) {
 
 			retVal = true;
 		}
@@ -242,7 +260,7 @@ NetPacketValidator::ValidateAvatarHeaderMessage(const NetPacket &packet)
 	if (packet.GetMsg()->has_avatarheadermessage()) {
 		const AvatarHeaderMessage &msg = packet.GetMsg()->avatarheadermessage();
 		if (msg.requestid() != 0
-			&& (VALIDATE_INT_RANGE(msg.avatarsize(), 32, 30720))) {
+			&& VALIDATE_UINT_RANGE(msg.avatarsize(), 32, 30720)) {
 
 			retVal = true;
 		}
@@ -297,7 +315,9 @@ NetPacketValidator::ValidatePlayerListMessage(const NetPacket &packet)
 	bool retVal = false;
 	if (packet.GetMsg()->has_playerlistmessage()) {
 		const PlayerListMessage &msg = packet.GetMsg()->playerlistmessage();
-		retVal = true;
+		if (msg.playerid() != 0) {
+			retVal = true;
+		}
 	}
 	return retVal;
 }
@@ -308,7 +328,13 @@ NetPacketValidator::ValidateGameListNewMessage(const NetPacket &packet)
 	bool retVal = false;
 	if (packet.GetMsg()->has_gamelistnewmessage()) {
 		const GameListNewMessage &msg = packet.GetMsg()->gamelistnewmessage();
-		retVal = true;
+		if (msg.gameid() != 0
+			&& VALIDATE_LIST_SIZE(msg.playerids(), 0, 10)
+			&& msg.adminplayerid() != 0
+			&& ValidateGameInfo(msg.gameinfo())) {
+
+			retVal = true;
+		}
 	}
 	return retVal;
 }
@@ -319,7 +345,9 @@ NetPacketValidator::ValidateGameListUpdateMessage(const NetPacket &packet)
 	bool retVal = false;
 	if (packet.GetMsg()->has_gamelistupdatemessage()) {
 		const GameListUpdateMessage &msg = packet.GetMsg()->gamelistupdatemessage();
-		retVal = true;
+		if (msg.gameid() != 0) {
+			retVal = true;
+		}
 	}
 	return retVal;
 }
@@ -330,7 +358,9 @@ NetPacketValidator::ValidateGameListPlayerJoinedMessage(const NetPacket &packet)
 	bool retVal = false;
 	if (packet.GetMsg()->has_gamelistplayerjoinedmessage()) {
 		const GameListPlayerJoinedMessage &msg = packet.GetMsg()->gamelistplayerjoinedmessage();
-		retVal = true;
+		if (msg.gameid() != 0 && msg.playerid() != 0) {
+			retVal = true;
+		}
 	}
 	return retVal;
 }
@@ -341,7 +371,9 @@ NetPacketValidator::ValidateGameListPlayerLeftMessage(const NetPacket &packet)
 	bool retVal = false;
 	if (packet.GetMsg()->has_gamelistplayerleftmessage()) {
 		const GameListPlayerLeftMessage &msg = packet.GetMsg()->gamelistplayerleftmessage();
-		retVal = true;
+		if (msg.gameid() != 0 && msg.playerid() != 0) {
+			retVal = true;
+		}
 	}
 	return retVal;
 }
@@ -352,7 +384,9 @@ NetPacketValidator::ValidateGameListAdminChangedMessage(const NetPacket &packet)
 	bool retVal = false;
 	if (packet.GetMsg()->has_gamelistadminchangedmessage()) {
 		const GameListAdminChangedMessage &msg = packet.GetMsg()->gamelistadminchangedmessage();
-		retVal = true;
+		if (msg.gameid() != 0 && msg.newadminplayerid() != 0) {
+			retVal = true;
+		}
 	}
 	return retVal;
 }
@@ -363,7 +397,9 @@ NetPacketValidator::ValidatePlayerInfoRequestMessage(const NetPacket &packet)
 	bool retVal = false;
 	if (packet.GetMsg()->has_playerinforequestmessage()) {
 		const PlayerInfoRequestMessage &msg = packet.GetMsg()->playerinforequestmessage();
-		retVal = true;
+		if (VALIDATE_LIST_SIZE(msg.playerid(), 1, 10)) {
+			retVal = true;
+		}
 	}
 	return retVal;
 }
@@ -374,7 +410,10 @@ NetPacketValidator::ValidatePlayerInfoReplyMessage(const NetPacket &packet)
 	bool retVal = false;
 	if (packet.GetMsg()->has_playerinforeplymessage()) {
 		const PlayerInfoReplyMessage &msg = packet.GetMsg()->playerinforeplymessage();
-		retVal = true;
+		if (msg.playerid() != 0) {
+			// TODO maybe additional checks.
+			retVal = true;
+		}
 	}
 	return retVal;
 }
@@ -384,7 +423,7 @@ NetPacketValidator::ValidateSubscriptionRequestMessage(const NetPacket &packet)
 {
 	bool retVal = false;
 	if (packet.GetMsg()->has_subscriptionrequestmessage()) {
-		const SubscriptionRequestMessage &msg = packet.GetMsg()->subscriptionrequestmessage();
+		//const SubscriptionRequestMessage &msg = packet.GetMsg()->subscriptionrequestmessage();
 		retVal = true;
 	}
 	return retVal;
@@ -396,7 +435,11 @@ NetPacketValidator::ValidateJoinExistingGameMessage(const NetPacket &packet)
 	bool retVal = false;
 	if (packet.GetMsg()->has_joinexistinggamemessage()) {
 		const JoinExistingGameMessage &msg = packet.GetMsg()->joinexistinggamemessage();
-		retVal = true;
+		if (msg.gameid() != 0
+			&& (!msg.has_password() || VALIDATE_STRING_SIZE(msg.password(), 1, 64))) {
+
+			retVal = true;
+		}
 	}
 	return retVal;
 }
@@ -407,7 +450,11 @@ NetPacketValidator::ValidateJoinNewGameMessage(const NetPacket &packet)
 	bool retVal = false;
 	if (packet.GetMsg()->has_joinnewgamemessage()) {
 		const JoinNewGameMessage &msg = packet.GetMsg()->joinnewgamemessage();
-		retVal = true;
+		if (ValidateGameInfo(msg.gameinfo())
+			&& (!msg.has_password() || VALIDATE_STRING_SIZE(msg.password(), 1, 64))) {
+
+			retVal = true;
+		}
 	}
 	return retVal;
 }
@@ -418,7 +465,9 @@ NetPacketValidator::ValidateRejoinExistingGameMessage(const NetPacket &packet)
 	bool retVal = false;
 	if (packet.GetMsg()->has_rejoinexistinggamemessage()) {
 		const RejoinExistingGameMessage &msg = packet.GetMsg()->rejoinexistinggamemessage();
-		retVal = true;
+		if (msg.gameid() != 0) {
+			retVal = true;
+		}
 	}
 	return retVal;
 }
@@ -429,7 +478,9 @@ NetPacketValidator::ValidateJoinGameAckMessage(const NetPacket &packet)
 	bool retVal = false;
 	if (packet.GetMsg()->has_joingameackmessage()) {
 		const JoinGameAckMessage &msg = packet.GetMsg()->joingameackmessage();
-		retVal = true;
+		if (msg.gameid() != 0 && ValidateGameInfo(msg.gameinfo())) {
+			retVal = true;
+		}
 	}
 	return retVal;
 }
@@ -440,7 +491,9 @@ NetPacketValidator::ValidateJoinGameFailedMessage(const NetPacket &packet)
 	bool retVal = false;
 	if (packet.GetMsg()->has_joingamefailedmessage()) {
 		const JoinGameFailedMessage &msg = packet.GetMsg()->joingamefailedmessage();
-		retVal = true;
+		if (msg.gameid() != 0) {
+			retVal = true;
+		}
 	}
 	return retVal;
 }
@@ -451,7 +504,9 @@ NetPacketValidator::ValidateGamePlayerJoinedMessage(const NetPacket &packet)
 	bool retVal = false;
 	if (packet.GetMsg()->has_gameplayerjoinedmessage()) {
 		const GamePlayerJoinedMessage &msg = packet.GetMsg()->gameplayerjoinedmessage();
-		retVal = true;
+		if (msg.gameid() != 0 && msg.playerid() != 0) {
+			retVal = true;
+		}
 	}
 	return retVal;
 }
@@ -462,7 +517,9 @@ NetPacketValidator::ValidateGamePlayerLeftMessage(const NetPacket &packet)
 	bool retVal = false;
 	if (packet.GetMsg()->has_gameplayerleftmessage()) {
 		const GamePlayerLeftMessage &msg = packet.GetMsg()->gameplayerleftmessage();
-		retVal = true;
+		if (msg.gameid() != 0 && msg.playerid() != 0) {
+			retVal = true;
+		}
 	}
 	return retVal;
 }
@@ -473,7 +530,9 @@ NetPacketValidator::ValidateGameAdminChangedMessage(const NetPacket &packet)
 	bool retVal = false;
 	if (packet.GetMsg()->has_gameadminchangedmessage()) {
 		const GameAdminChangedMessage &msg = packet.GetMsg()->gameadminchangedmessage();
-		retVal = true;
+		if (msg.gameid() != 0 && msg.newadminplayerid() != 0) {
+			retVal = true;
+		}
 	}
 	return retVal;
 }
@@ -484,7 +543,9 @@ NetPacketValidator::ValidateRemovedFromGameMessage(const NetPacket &packet)
 	bool retVal = false;
 	if (packet.GetMsg()->has_removedfromgamemessage()) {
 		const RemovedFromGameMessage &msg = packet.GetMsg()->removedfromgamemessage();
-		retVal = true;
+		if (msg.gameid() != 0) {
+			retVal = true;
+		}
 	}
 	return retVal;
 }
@@ -495,7 +556,9 @@ NetPacketValidator::ValidateKickPlayerRequestMessage(const NetPacket &packet)
 	bool retVal = false;
 	if (packet.GetMsg()->has_kickplayerrequestmessage()) {
 		const KickPlayerRequestMessage &msg = packet.GetMsg()->kickplayerrequestmessage();
-		retVal = true;
+		if (msg.gameid() != 0 && msg.playerid() != 0) {
+			retVal = true;
+		}
 	}
 	return retVal;
 }
@@ -506,7 +569,9 @@ NetPacketValidator::ValidateLeaveGameRequestMessage(const NetPacket &packet)
 	bool retVal = false;
 	if (packet.GetMsg()->has_leavegamerequestmessage()) {
 		const LeaveGameRequestMessage &msg = packet.GetMsg()->leavegamerequestmessage();
-		retVal = true;
+		if (msg.gameid() != 0) {
+			retVal = true;
+		}
 	}
 	return retVal;
 }
@@ -517,7 +582,9 @@ NetPacketValidator::ValidateInvitePlayerToGameMessage(const NetPacket &packet)
 	bool retVal = false;
 	if (packet.GetMsg()->has_inviteplayertogamemessage()) {
 		const InvitePlayerToGameMessage &msg = packet.GetMsg()->inviteplayertogamemessage();
-		retVal = true;
+		if (msg.gameid() != 0 && msg.playerid() != 0) {
+			retVal = true;
+		}
 	}
 	return retVal;
 }
@@ -528,7 +595,9 @@ NetPacketValidator::ValidateInviteNotifyMessage(const NetPacket &packet)
 	bool retVal = false;
 	if (packet.GetMsg()->has_invitenotifymessage()) {
 		const InviteNotifyMessage &msg = packet.GetMsg()->invitenotifymessage();
-		retVal = true;
+		if (msg.gameid() != 0 && msg.playeridwho() != 0 && msg.playeridbywhom() != 0) {
+			retVal = true;
+		}
 	}
 	return retVal;
 }
@@ -539,7 +608,9 @@ NetPacketValidator::ValidateRejectGameInvitationMessage(const NetPacket &packet)
 	bool retVal = false;
 	if (packet.GetMsg()->has_rejectgameinvitationmessage()) {
 		const RejectGameInvitationMessage &msg = packet.GetMsg()->rejectgameinvitationmessage();
-		retVal = true;
+		if (msg.gameid() != 0) {
+			retVal = true;
+		}
 	}
 	return retVal;
 }
@@ -550,7 +621,9 @@ NetPacketValidator::ValidateRejectInvNotifyMessage(const NetPacket &packet)
 	bool retVal = false;
 	if (packet.GetMsg()->has_rejectinvnotifymessage()) {
 		const RejectInvNotifyMessage &msg = packet.GetMsg()->rejectinvnotifymessage();
-		retVal = true;
+		if (msg.gameid() != 0 && msg.playerid() != 0) {
+			retVal = true;
+		}
 	}
 	return retVal;
 }
@@ -561,7 +634,9 @@ NetPacketValidator::ValidateStartEventMessage(const NetPacket &packet)
 	bool retVal = false;
 	if (packet.GetMsg()->has_starteventmessage()) {
 		const StartEventMessage &msg = packet.GetMsg()->starteventmessage();
-		retVal = true;
+		if (msg.gameid() != 0) {
+			retVal = true;
+		}
 	}
 	return retVal;
 }
@@ -572,7 +647,9 @@ NetPacketValidator::ValidateStartEventAckMessage(const NetPacket &packet)
 	bool retVal = false;
 	if (packet.GetMsg()->has_starteventackmessage()) {
 		const StartEventAckMessage &msg = packet.GetMsg()->starteventackmessage();
-		retVal = true;
+		if (msg.gameid() != 0) {
+			retVal = true;
+		}
 	}
 	return retVal;
 }
@@ -583,7 +660,12 @@ NetPacketValidator::ValidateGameStartInitialMessage(const NetPacket &packet)
 	bool retVal = false;
 	if (packet.GetMsg()->has_gamestartinitialmessage()) {
 		const GameStartInitialMessage &msg = packet.GetMsg()->gamestartinitialmessage();
-		retVal = true;
+		if (msg.gameid() != 0
+			&& msg.startdealerplayerid() != 0
+			&& VALIDATE_LIST_SIZE(msg.playerseats(), 2, 10)) {
+
+			retVal = true;
+		}
 	}
 	return retVal;
 }
@@ -594,7 +676,13 @@ NetPacketValidator::ValidateGameStartRejoinMessage(const NetPacket &packet)
 	bool retVal = false;
 	if (packet.GetMsg()->has_gamestartrejoinmessage()) {
 		const GameStartRejoinMessage &msg = packet.GetMsg()->gamestartrejoinmessage();
-		retVal = true;
+		if (msg.gameid() != 0
+			&& msg.startdealerplayerid() != 0
+			&& msg.handnum() != 0
+			&& VALIDATE_LIST_SIZE(msg.rejoinplayerdata(), 2, 10)) {
+
+			retVal = true;
+		}
 	}
 	return retVal;
 }
@@ -605,7 +693,12 @@ NetPacketValidator::ValidateHandStartMessage(const NetPacket &packet)
 	bool retVal = false;
 	if (packet.GetMsg()->has_handstartmessage()) {
 		const HandStartMessage &msg = packet.GetMsg()->handstartmessage();
-		retVal = true;
+		if (msg.gameid() != 0
+			&& VALIDATE_UINT_RANGE(msg.smallblind(), 1, 100000000)
+			&& VALIDATE_LIST_SIZE(msg.seatstates(), 2, 10)) {
+
+			retVal = true;
+		}
 	}
 	return retVal;
 }
@@ -616,7 +709,9 @@ NetPacketValidator::ValidatePlayersTurnMessage(const NetPacket &packet)
 	bool retVal = false;
 	if (packet.GetMsg()->has_playersturnmessage()) {
 		const PlayersTurnMessage &msg = packet.GetMsg()->playersturnmessage();
-		retVal = true;
+		if (msg.gameid() != 0 && msg.playerid() != 0 ) {
+			retVal = true;
+		}
 	}
 	return retVal;
 }
@@ -627,7 +722,12 @@ NetPacketValidator::ValidateMyActionRequestMessage(const NetPacket &packet)
 	bool retVal = false;
 	if (packet.GetMsg()->has_myactionrequestmessage()) {
 		const MyActionRequestMessage &msg = packet.GetMsg()->myactionrequestmessage();
-		retVal = true;
+		if (msg.gameid() != 0
+			&& msg.handnum() != 0
+			&& VALIDATE_UINT_UPPER(msg.myrelativebet(), 10000000)) {
+
+			retVal = true;
+		}
 	}
 	return retVal;
 }
@@ -638,7 +738,9 @@ NetPacketValidator::ValidateYourActionRejectedMessage(const NetPacket &packet)
 	bool retVal = false;
 	if (packet.GetMsg()->has_youractionrejectedmessage()) {
 		const YourActionRejectedMessage &msg = packet.GetMsg()->youractionrejectedmessage();
-		retVal = true;
+		if (msg.gameid() != 0) {
+			retVal = true;
+		}
 	}
 	return retVal;
 }
@@ -649,7 +751,9 @@ NetPacketValidator::ValidatePlayersActionDoneMessage(const NetPacket &packet)
 	bool retVal = false;
 	if (packet.GetMsg()->has_playersactiondonemessage()) {
 		const PlayersActionDoneMessage &msg = packet.GetMsg()->playersactiondonemessage();
-		retVal = true;
+		if (msg.gameid() != 0 && msg.playerid() != 0) {
+			retVal = true;
+		}
 	}
 	return retVal;
 }
@@ -660,7 +764,13 @@ NetPacketValidator::ValidateDealFlopCardsMessage(const NetPacket &packet)
 	bool retVal = false;
 	if (packet.GetMsg()->has_dealflopcardsmessage()) {
 		const DealFlopCardsMessage &msg = packet.GetMsg()->dealflopcardsmessage();
-		retVal = true;
+		if (msg.gameid() != 0
+			&& VALIDATE_UINT_UPPER(msg.flopcard1(), 51)
+			&& VALIDATE_UINT_UPPER(msg.flopcard2(), 51)
+			&& VALIDATE_UINT_UPPER(msg.flopcard3(), 51)) {
+
+			retVal = true;
+		}
 	}
 	return retVal;
 }
@@ -671,7 +781,11 @@ NetPacketValidator::ValidateDealTurnCardMessage(const NetPacket &packet)
 	bool retVal = false;
 	if (packet.GetMsg()->has_dealturncardmessage()) {
 		const DealTurnCardMessage &msg = packet.GetMsg()->dealturncardmessage();
-		retVal = true;
+		if (msg.gameid() != 0
+			&& VALIDATE_UINT_UPPER(msg.turncard(), 51)) {
+
+			retVal = true;
+		}
 	}
 	return retVal;
 }
@@ -682,7 +796,11 @@ NetPacketValidator::ValidateDealRiverCardMessage(const NetPacket &packet)
 	bool retVal = false;
 	if (packet.GetMsg()->has_dealrivercardmessage()) {
 		const DealRiverCardMessage &msg = packet.GetMsg()->dealrivercardmessage();
-		retVal = true;
+		if (msg.gameid() != 0
+			&& VALIDATE_UINT_UPPER(msg.rivercard(), 51)) {
+
+			retVal = true;
+		}
 	}
 	return retVal;
 }
@@ -693,7 +811,11 @@ NetPacketValidator::ValidateAllInShowCardsMessage(const NetPacket &packet)
 	bool retVal = false;
 	if (packet.GetMsg()->has_allinshowcardsmessage()) {
 		const AllInShowCardsMessage &msg = packet.GetMsg()->allinshowcardsmessage();
-		retVal = true;
+		if (msg.gameid() != 0
+			&& VALIDATE_LIST_SIZE(msg.playersallin(), 1, 10)) {
+
+			retVal = true;
+		}
 	}
 	return retVal;
 }
@@ -704,7 +826,11 @@ NetPacketValidator::ValidateEndOfHandShowCardsMessage(const NetPacket &packet)
 	bool retVal = false;
 	if (packet.GetMsg()->has_endofhandshowcardsmessage()) {
 		const EndOfHandShowCardsMessage &msg = packet.GetMsg()->endofhandshowcardsmessage();
-		retVal = true;
+		if (msg.gameid() != 0
+			&& VALIDATE_LIST_SIZE(msg.playerresults(), 1, 10)) {
+
+			retVal = true;
+		}
 	}
 	return retVal;
 }
@@ -715,7 +841,9 @@ NetPacketValidator::ValidateEndOfHandHideCardsMessage(const NetPacket &packet)
 	bool retVal = false;
 	if (packet.GetMsg()->has_endofhandhidecardsmessage()) {
 		const EndOfHandHideCardsMessage &msg = packet.GetMsg()->endofhandhidecardsmessage();
-		retVal = true;
+		if (msg.gameid() != 0 && msg.playerid() != 0) {
+			retVal = true;
+		}
 	}
 	return retVal;
 }
@@ -725,7 +853,7 @@ NetPacketValidator::ValidateShowMyCardsRequestMessage(const NetPacket &packet)
 {
 	bool retVal = false;
 	if (packet.GetMsg()->has_showmycardsrequestmessage()) {
-		const ShowMyCardsRequestMessage &msg = packet.GetMsg()->showmycardsrequestmessage();
+		//const ShowMyCardsRequestMessage &msg = packet.GetMsg()->showmycardsrequestmessage();
 		retVal = true;
 	}
 	return retVal;
@@ -736,7 +864,7 @@ NetPacketValidator::ValidateAfterHandShowCardsMessage(const NetPacket &packet)
 {
 	bool retVal = false;
 	if (packet.GetMsg()->has_afterhandshowcardsmessage()) {
-		const AfterHandShowCardsMessage &msg = packet.GetMsg()->afterhandshowcardsmessage();
+		//const AfterHandShowCardsMessage &msg = packet.GetMsg()->afterhandshowcardsmessage();
 		retVal = true;
 	}
 	return retVal;
@@ -748,7 +876,9 @@ NetPacketValidator::ValidateEndOfGameMessage(const NetPacket &packet)
 	bool retVal = false;
 	if (packet.GetMsg()->has_endofgamemessage()) {
 		const EndOfGameMessage &msg = packet.GetMsg()->endofgamemessage();
-		retVal = true;
+		if (msg.gameid() != 0 && msg.winnerplayerid() != 0) {
+			retVal = true;
+		}
 	}
 	return retVal;
 }
@@ -759,7 +889,9 @@ NetPacketValidator::ValidatePlayerIdChangedMessage(const NetPacket &packet)
 	bool retVal = false;
 	if (packet.GetMsg()->has_playeridchangedmessage()) {
 		const PlayerIdChangedMessage &msg = packet.GetMsg()->playeridchangedmessage();
-		retVal = true;
+		if (msg.oldplayerid() != 0 && msg.newplayerid() != 0) {
+			retVal = true;
+		}
 	}
 	return retVal;
 }
@@ -770,7 +902,9 @@ NetPacketValidator::ValidateAskKickPlayerMessage(const NetPacket &packet)
 	bool retVal = false;
 	if (packet.GetMsg()->has_askkickplayermessage()) {
 		const AskKickPlayerMessage &msg = packet.GetMsg()->askkickplayermessage();
-		retVal = true;
+		if (msg.gameid() != 0 && msg.playerid() != 0) {
+			retVal = true;
+		}
 	}
 	return retVal;
 }
@@ -781,7 +915,9 @@ NetPacketValidator::ValidateAskKickDeniedMessage(const NetPacket &packet)
 	bool retVal = false;
 	if (packet.GetMsg()->has_askkickdeniedmessage()) {
 		const AskKickDeniedMessage &msg = packet.GetMsg()->askkickdeniedmessage();
-		retVal = true;
+		if (msg.gameid() != 0 && msg.playerid() != 0) {
+			retVal = true;
+		}
 	}
 	return retVal;
 }
@@ -792,7 +928,15 @@ NetPacketValidator::ValidateStartKickPetitionMessage(const NetPacket &packet)
 	bool retVal = false;
 	if (packet.GetMsg()->has_startkickpetitionmessage()) {
 		const StartKickPetitionMessage &msg = packet.GetMsg()->startkickpetitionmessage();
-		retVal = true;
+		if (msg.gameid() != 0
+			&& msg.petitionid() != 0
+			&& msg.proposingplayerid() != 0
+			&& msg.kickplayerid() != 0
+			&& msg.kicktimeoutsec() > 0
+			&& msg.numvotesneededtokick() > 0) {
+
+			retVal = true;
+		}
 	}
 	return retVal;
 }
@@ -803,7 +947,9 @@ NetPacketValidator::ValidateVoteKickRequestMessage(const NetPacket &packet)
 	bool retVal = false;
 	if (packet.GetMsg()->has_votekickrequestmessage()) {
 		const VoteKickRequestMessage &msg = packet.GetMsg()->votekickrequestmessage();
-		retVal = true;
+		if (msg.gameid() != 0 && msg.petitionid() != 0) {
+			retVal = true;
+		}
 	}
 	return retVal;
 }
@@ -814,7 +960,9 @@ NetPacketValidator::ValidateVoteKickReplyMessage(const NetPacket &packet)
 	bool retVal = false;
 	if (packet.GetMsg()->has_votekickreplymessage()) {
 		const VoteKickReplyMessage &msg = packet.GetMsg()->votekickreplymessage();
-		retVal = true;
+		if (msg.gameid() != 0 && msg.petitionid() != 0) {
+			retVal = true;
+		}
 	}
 	return retVal;
 }
@@ -825,7 +973,9 @@ NetPacketValidator::ValidateKickPetitionUpdateMessage(const NetPacket &packet)
 	bool retVal = false;
 	if (packet.GetMsg()->has_kickpetitionupdatemessage()) {
 		const KickPetitionUpdateMessage &msg = packet.GetMsg()->kickpetitionupdatemessage();
-		retVal = true;
+		if (msg.gameid() != 0 && msg.petitionid() != 0) {
+			retVal = true;
+		}
 	}
 	return retVal;
 }
@@ -836,7 +986,9 @@ NetPacketValidator::ValidateEndKickPetitionMessage(const NetPacket &packet)
 	bool retVal = false;
 	if (packet.GetMsg()->has_endkickpetitionmessage()) {
 		const EndKickPetitionMessage &msg = packet.GetMsg()->endkickpetitionmessage();
-		retVal = true;
+		if (msg.gameid() != 0 && msg.petitionid() != 0) {
+			retVal = true;
+		}
 	}
 	return retVal;
 }
@@ -846,7 +998,7 @@ NetPacketValidator::ValidateStatisticsMessage(const NetPacket &packet)
 {
 	bool retVal = false;
 	if (packet.GetMsg()->has_statisticsmessage()) {
-		const StatisticsMessage &msg = packet.GetMsg()->statisticsmessage();
+		//const StatisticsMessage &msg = packet.GetMsg()->statisticsmessage();
 		retVal = true;
 	}
 	return retVal;
@@ -858,7 +1010,9 @@ NetPacketValidator::ValidateChatRequestMessage(const NetPacket &packet)
 	bool retVal = false;
 	if (packet.GetMsg()->has_chatrequestmessage()) {
 		const ChatRequestMessage &msg = packet.GetMsg()->chatrequestmessage();
-		retVal = true;
+		if (VALIDATE_STRING_SIZE(msg.chattext(), 1, 128)) {
+			retVal = true;
+		}
 	}
 	return retVal;
 }
@@ -869,7 +1023,9 @@ NetPacketValidator::ValidateChatMessage(const NetPacket &packet)
 	bool retVal = false;
 	if (packet.GetMsg()->has_chatmessage()) {
 		const ChatMessage &msg = packet.GetMsg()->chatmessage();
-		retVal = true;
+		if (VALIDATE_STRING_SIZE(msg.chattext(), 1, 128)) {
+			retVal = true;
+		}
 	}
 	return retVal;
 }
@@ -880,7 +1036,9 @@ NetPacketValidator::ValidateChatRejectMessage(const NetPacket &packet)
 	bool retVal = false;
 	if (packet.GetMsg()->has_chatrejectmessage()) {
 		const ChatRejectMessage &msg = packet.GetMsg()->chatrejectmessage();
-		retVal = true;
+		if (VALIDATE_STRING_SIZE(msg.chattext(), 1, 128)) {
+			retVal = true;
+		}
 	}
 	return retVal;
 }
@@ -891,7 +1049,9 @@ NetPacketValidator::ValidateDialogMessage(const NetPacket &packet)
 	bool retVal = false;
 	if (packet.GetMsg()->has_dialogmessage()) {
 		const DialogMessage &msg = packet.GetMsg()->dialogmessage();
-		retVal = true;
+		if (VALIDATE_STRING_SIZE(msg.notificationtext(), 1, 128)) {
+			retVal = true;
+		}
 	}
 	return retVal;
 }
@@ -901,7 +1061,7 @@ NetPacketValidator::ValidateTimeoutWarningMessage(const NetPacket &packet)
 {
 	bool retVal = false;
 	if (packet.GetMsg()->has_timeoutwarningmessage()) {
-		const TimeoutWarningMessage &msg = packet.GetMsg()->timeoutwarningmessage();
+		//const TimeoutWarningMessage &msg = packet.GetMsg()->timeoutwarningmessage();
 		retVal = true;
 	}
 	return retVal;
@@ -912,7 +1072,7 @@ NetPacketValidator::ValidateResetTimeoutMessage(const NetPacket &packet)
 {
 	bool retVal = false;
 	if (packet.GetMsg()->has_resettimeoutmessage()) {
-		const ResetTimeoutMessage &msg = packet.GetMsg()->resettimeoutmessage();
+		//const ResetTimeoutMessage &msg = packet.GetMsg()->resettimeoutmessage();
 		retVal = true;
 	}
 	return retVal;
@@ -924,7 +1084,11 @@ NetPacketValidator::ValidateReportAvatarMessage(const NetPacket &packet)
 	bool retVal = false;
 	if (packet.GetMsg()->has_reportavatarmessage()) {
 		const ReportAvatarMessage &msg = packet.GetMsg()->reportavatarmessage();
-		retVal = true;
+		if (msg.reportedplayerid() != 0
+			&& msg.reportedavatarhash().size() == 16) {
+
+			retVal = true;
+		}
 	}
 	return retVal;
 }
@@ -935,7 +1099,9 @@ NetPacketValidator::ValidateReportAvatarAckMessage(const NetPacket &packet)
 	bool retVal = false;
 	if (packet.GetMsg()->has_reportavatarackmessage()) {
 		const ReportAvatarAckMessage &msg = packet.GetMsg()->reportavatarackmessage();
-		retVal = true;
+		if (msg.reportedplayerid() != 0) {
+			retVal = true;
+		}
 	}
 	return retVal;
 }
@@ -946,7 +1112,9 @@ NetPacketValidator::ValidateReportGameMessage(const NetPacket &packet)
 	bool retVal = false;
 	if (packet.GetMsg()->has_reportgamemessage()) {
 		const ReportGameMessage &msg = packet.GetMsg()->reportgamemessage();
-		retVal = true;
+		if (msg.reportedgameid() != 0) {
+			retVal = true;
+		}
 	}
 	return retVal;
 }
@@ -957,7 +1125,9 @@ NetPacketValidator::ValidateReportGameAckMessage(const NetPacket &packet)
 	bool retVal = false;
 	if (packet.GetMsg()->has_reportgameackmessage()) {
 		const ReportGameAckMessage &msg = packet.GetMsg()->reportgameackmessage();
-		retVal = true;
+		if (msg.reportedgameid() != 0) {
+			retVal = true;
+		}
 	}
 	return retVal;
 }
@@ -967,7 +1137,29 @@ NetPacketValidator::ValidateErrorMessage(const NetPacket &packet)
 {
 	bool retVal = false;
 	if (packet.GetMsg()->has_errormessage()) {
-		const ErrorMessage &msg = packet.GetMsg()->errormessage();
+		//const ErrorMessage &msg = packet.GetMsg()->errormessage();
+		retVal = true;
+	}
+	return retVal;
+}
+
+bool
+NetPacketValidator::ValidateGameInfo(const NetGameInfo &gameInfo)
+{
+	bool retVal = false;
+	if (VALIDATE_STRING_SIZE(gameInfo.gamename(), 1, 64)
+		&& VALIDATE_UINT_RANGE(gameInfo.maxnumplayers(), 2, 10)
+		&& (!gameInfo.has_raiseeveryhands() || VALIDATE_UINT_RANGE(gameInfo.raiseeveryhands(), 1, 1000))
+		&& (!gameInfo.has_raiseeveryminutes() || VALIDATE_UINT_RANGE(gameInfo.raiseeveryminutes(), 1, 1000))
+		&& (!gameInfo.has_endraisesmallblindvalue() || VALIDATE_UINT_UPPER(gameInfo.endraisesmallblindvalue(), 1000000))
+		&& VALIDATE_UINT_RANGE(gameInfo.proposedguispeed(), 1, 11)
+		&& VALIDATE_UINT_RANGE(gameInfo.delaybetweenhands(), 5, 20)
+		&& VALIDATE_UINT_UPPER(gameInfo.playeractiontimeout(), 60)
+		&& VALIDATE_UINT_RANGE(gameInfo.firstsmallblind(), 1, 20000)
+		&& VALIDATE_UINT_RANGE(gameInfo.startmoney(), 1, 1000000)
+		&& VALIDATE_LIST_SIZE(gameInfo.manualblinds(), 0, 30)
+		&& ValidateListIntRange(gameInfo.manualblinds(), 1, 1000000)) {
+
 		retVal = true;
 	}
 	return retVal;
