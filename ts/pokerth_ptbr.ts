@@ -419,39 +419,39 @@ Por Favor, verifique se você está enviando o arquivo de log valido do PokerTH.
     </message>
     <message>
         <source>Remove log file</source>
-        <translation type="unfinished"></translation>
+        <translation>Remover o Arquivo de Log</translation>
     </message>
     <message>
         <source>PokerTH cannot remove this log file, please verify that you have write access to this file!</source>
-        <translation type="unfinished"></translation>
+        <translation>PokerTH não pode remover este arquivo de log, por favor verifique se você tem acesso de escrita ao arquivo!</translation>
     </message>
     <message>
         <source>No file received.</source>
-        <translation type="unfinished"></translation>
+        <translation>Nenhuma arquivo recebido.</translation>
     </message>
     <message>
         <source>File rejected because of too many uploads.</source>
-        <translation type="unfinished"></translation>
+        <translation>Arquivo rejeitado por ter muitas tentativas de envio.</translation>
     </message>
     <message>
         <source>File rejected because of too many recent uploads. Please try again later.</source>
-        <translation type="unfinished"></translation>
+        <translation>Arquivo rejeitado por ter muitas envios recentemente. Por favor tente novamente mais tarde.</translation>
     </message>
     <message>
         <source>The file is too large.</source>
-        <translation type="unfinished"></translation>
+        <translation>Este arquivo é muito grande.</translation>
     </message>
     <message>
         <source>This file is not a valid and current PokerTH log file.</source>
-        <translation type="unfinished"></translation>
+        <translation>Este arquivo não é valido ou corrente do log do PokerTH</translation>
     </message>
     <message>
         <source>Internal error. Please try again later. ID: </source>
-        <translation type="unfinished"></translation>
+        <translation>Erro Interno. Por favor Tente novamente mais tarde. ID: </translation>
     </message>
     <message>
         <source>Uploading log file</source>
-        <translation type="unfinished"></translation>
+        <translation>Enviando o Arquivo de Log</translation>
     </message>
 </context>
 <context>
@@ -2123,7 +2123,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>PokerTH %1 for Android (API%2)</source>
-        <translation type="unfinished"></translation>
+        <translation>PokerTH %1 para Android (API%2)</translation>
     </message>
 </context>
 <context>
@@ -2202,11 +2202,11 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source> OK </source>
-        <translation type="unfinished"></translation>
+        <translation>OK</translation>
     </message>
     <message>
         <source>Ctrl+S</source>
-        <translation type="unfinished"></translation>
+        <translation>Ctrl+S</translation>
     </message>
 </context>
 <context>
@@ -2236,7 +2236,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source> OK </source>
-        <translation type="unfinished"></translation>
+        <translation>OK</translation>
     </message>
 </context>
 <context>
@@ -4957,7 +4957,7 @@ Você gostaria de substituir ?</translation>
     </message>
     <message>
         <source> OK </source>
-        <translation type="unfinished"></translation>
+        <translation>OK</translation>
     </message>
 </context>
 <context>
@@ -5038,7 +5038,7 @@ Você gostaria de substituir ?</translation>
     </message>
     <message>
         <source> OK </source>
-        <translation type="unfinished"></translation>
+        <translation>OK </translation>
     </message>
 </context>
 <context>
@@ -5907,7 +5907,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source> OK </source>
-        <translation type="unfinished"></translation>
+        <translation>OK </translation>
     </message>
 </context>
 <context>
@@ -6453,7 +6453,7 @@ Voce tem certeza que deseja resetar para as configurações padrão?</translatio
     </message>
     <message>
         <source>&amp;5 Logs</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;5 Logs</translation>
     </message>
 </context>
 <context>
@@ -6788,19 +6788,19 @@ Por favor escolha um nome diferente.</translation>
     </message>
     <message>
         <source>Rejoin possible!</source>
-        <translation type="unfinished"></translation>
+        <translation>Possivel reentrada!</translation>
     </message>
     <message>
         <source>There is an existing session with a previous game.</source>
-        <translation type="unfinished"></translation>
+        <translation>Existe uma sessão com o jogo anterior.</translation>
     </message>
     <message>
         <source>Do you want to rejoin this game?</source>
-        <translation type="unfinished"></translation>
+        <translation>Voce deseja reentrar neste jogo?</translation>
     </message>
     <message>
         <source>Start Network Game</source>
-        <translation type="unfinished">Iniciar Jogo em rede</translation>
+        <translation>Iniciar Jogo em rede</translation>
     </message>
 </context>
 <context>
