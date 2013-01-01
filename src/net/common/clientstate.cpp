@@ -339,8 +339,7 @@ ClientStateReadingServerList::Enter(boost::shared_ptr<ClientThread> client)
 			const TiXmlNode *portNode = nextServer->FirstChild("ProtobufPort");
 
 			// IPv6 support for avatar servers depends on this address and on libcurl.
-			// 1.0 beta1 temporary change!
-			const TiXmlNode *avatarNode = NULL;//nextServer->FirstChild("AvatarServerAddress");
+			const TiXmlNode *avatarNode = nextServer->FirstChild("AvatarServerAddress");
 
 			if (!nameNode || !nameNode->ToElement() || !addr4Node || !addr4Node->ToElement()
 					|| !addr6Node || !addr6Node->ToElement() || !portNode || !portNode->ToElement())
