@@ -18,21 +18,20 @@ QT -= core gui
 #PRECOMPILED_HEADER = src/pch_lib.h
 
 INCLUDEPATH += . \
-		src \
-		src/third_party/asn1
-
+		src
 DEPENDPATH += . \
-		src \
-		src/third_party/asn1
+		src
 
 # Input
 HEADERS += \
-		src/game_defs.h
+		src/game_defs.h \
+		src/net/netpacket.h \
+		src/third_party/protobuf/pokerth.pb.h
 
 SOURCES += \
-		src/connectivity.cpp
-
-LIBS += -lpokerth_protocol
+		src/connectivity.cpp \
+		src/net/common/netpacket.cpp \
+		src/third_party/protobuf/pokerth.pb.cc
 
 unix : !mac {
 
@@ -82,9 +81,7 @@ unix : !mac {
 	kFreeBSD = $$find(UNAME, "kFreeBSD")
 
 	LIBS += $$BOOST_LIBS
-	LIBS += -lgsasl -lgcrypt -lidn
-
-	POST_TARGETDEPS += ./lib/libpokerth_protocol.a
+	LIBS += -lprotobuf -lgsasl -lgcrypt -lidn
 
 	#### INSTALL ####
 
