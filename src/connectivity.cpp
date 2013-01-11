@@ -31,21 +31,19 @@
 
 // Connectivity test program for PokerTH
 
-#include <third_party/asn1/PokerTHMessage.h>
-#include <boost/program_options.hpp>
 #include <boost/asio.hpp>
+#include <third_party/protobuf/pokerth.pb.h>
+#include <net/netpacket.h>
+#include <boost/program_options.hpp>
 #include <boost/array.hpp>
 #include <third_party/boost/timers.hpp>
 #include <gsasl.h>
 
 #include <iostream>
 
-#define STL_STRING_FROM_OCTET_STRING(_a) (string((const char *)(_a).buf, (_a).size))
-
 using namespace std;
 using boost::asio::ip::tcp;
 namespace po = boost::program_options;
-
 
 #define BUF_SIZE 1024
 // Global receive buffer
@@ -61,44 +59,65 @@ net_packet_print_to_string(const void *buffer, size_t size, void *packetStr)
 	return 0;
 }
 
-/*string packetString;
-xer_encode(&asn_DEF_PokerTHMessage, msg, XER_F_BASIC, &net_packet_print_to_string, &packetString);
-cout << packetString << endl;*/
-
-PokerTHMessage_t *
+boost::shared_ptr<NetPacket>
 receiveMessage(tcp::socket &socket)
 {
-	PokerTHMessage_t *msg = NULL;
+	boost::shared_ptr<NetPacket> tmpPacket;
+
 	do {
-		asn_dec_rval_t retVal = ber_decode(0, &asn_DEF_PokerTHMessage, (void **)&msg, recBuf.data(), recBufPos);
-		if(retVal.code == RC_OK && msg != NULL) {
-			if (retVal.consumed < recBufPos) {
-				recBufPos -= retVal.consumed;
-				memmove(recBuf.c_array(), recBuf.c_array() + retVal.consumed, recBufPos);
-			} else {
+		// This is necessary, because we use TCP.
+		// Packets may be received in multiple chunks or
+		// several packets may be received at once.
+		if (recBufPos >= NET_HEADER_SIZE) {
+			// Read the size of the packet (first 4 bytes in network byte order).
+			uint32_t nativeVal;
+			memcpy(&nativeVal, recBuf.c_array(), sizeof(uint32_t));
+			size_t packetSize = ntohl(nativeVal);
+			if (packetSize > MAX_PACKET_SIZE) {
 				recBufPos = 0;
+				cout << "Packet too large" << endl;
+				return boost::shared_ptr<NetPacket>();
+			} else if (recBufPos >= packetSize + NET_HEADER_SIZE) {
+				try {
+					tmpPacket = NetPacket::Create(&recBuf.c_array()[NET_HEADER_SIZE], packetSize);
+					if (tmpPacket) {
+						recBufPos -= (packetSize + NET_HEADER_SIZE);
+						if (recBufPos) {
+							memmove(recBuf.c_array(), recBuf.c_array() + packetSize + NET_HEADER_SIZE, recBufPos);
+						}
+					}
+				} catch (const exception &) {
+					// Reset buffer on error.
+					recBufPos = 0;
+					cout << "Packet creation failed" << endl;
+					return boost::shared_ptr<NetPacket>();
+				}
 			}
-		} else {
-			// Free the partially decoded message (if applicable).
-			ASN_STRUCT_FREE(asn_DEF_PokerTHMessage, msg);
-			msg = NULL;
-			recBufPos += socket.receive(boost::asio::buffer(recBuf.c_array() + recBufPos, BUF_SIZE - recBufPos));
 		}
-	} while (msg == NULL);
-	return msg;
+
+		if (!tmpPacket) {
+			recBufPos += socket.receive(boost::asio::buffer(recBuf.c_array() + recBufPos, BUF_SIZE - recBufPos));
+			if (recBufPos == 0) {
+				cout << "Receive failed" << endl;
+				return boost::shared_ptr<NetPacket>();
+			}
+		}
+	} while (!tmpPacket);
+
+	return tmpPacket;
 }
 
 bool
-sendMessage(tcp::socket &socket, PokerTHMessage_t *msg)
+sendMessage(tcp::socket &socket, boost::shared_ptr<NetPacket> packet)
 {
 	bool retVal = false;
-	if (msg) {
-		asn_enc_rval_t e = der_encode_to_buffer(&asn_DEF_PokerTHMessage, msg, sendBuf.data(), BUF_SIZE);
-		if (e.encoded != -1) {
-			socket.send(boost::asio::buffer(sendBuf.data(), e.encoded));
-			retVal = true;
-		}
-		ASN_STRUCT_FREE(asn_DEF_PokerTHMessage, msg);
+	if (packet) {
+		uint32_t packetSize = packet->GetMsg()->ByteSize();
+		google::protobuf::uint8 *buf = new google::protobuf::uint8[packetSize + NET_HEADER_SIZE];
+		*((uint32_t *)buf) = htonl(packetSize);
+		packet->GetMsg()->SerializeWithCachedSizesToArray(&buf[NET_HEADER_SIZE]);
+		retVal = socket.send(boost::asio::buffer(buf, packetSize + NET_HEADER_SIZE)) != 0;
+		delete[] buf;
 	}
 	return retVal;
 }
@@ -177,25 +196,22 @@ main(int argc, char *argv[])
 		perfTimer.restart();
 
 		// Receive server information
-		PokerTHMessage_t *msg = receiveMessage(socket);
-		if (!msg || msg->present != PokerTHMessage_PR_announceMessage) {
+		boost::shared_ptr<NetPacket> msg = receiveMessage(socket);
+		if (!msg || msg->GetMsg()->messagetype() != PokerTHMessage_PokerTHMessageType_Type_AnnounceMessage) {
 			cout << "Announce failed" << endl;
 			return 1;
 		}
-		ASN_STRUCT_FREE(asn_DEF_PokerTHMessage, msg);
 
 		// Send init
-		msg = (PokerTHMessage_t *)calloc(1, sizeof(PokerTHMessage_t));
-		msg->present = PokerTHMessage_PR_initMessage;
-		InitMessage_t *netInit = &msg->choice.initMessage;
-		netInit->requestedVersion.major = 5;
-		netInit->requestedVersion.minor = 0;
+		msg.reset(new NetPacket);
+		msg->GetMsg()->set_messagetype(PokerTHMessage_PokerTHMessageType_Type_InitMessage);
+		InitMessage *netInit = msg->GetMsg()->mutable_initmessage();
+		netInit->mutable_requestedversion()->set_majorversion(NET_VERSION_MAJOR);
+		netInit->mutable_requestedversion()->set_minorversion(NET_VERSION_MINOR);
+		netInit->set_buildid(0);
 		if (password.empty()) {
-			netInit->login.present = login_PR_guestLogin;
-			GuestLogin_t *guestLogin = &netInit->login.choice.guestLogin;
-			OCTET_STRING_fromBuf(&guestLogin->nickName,
-								 username.c_str(),
-								 username.length());
+			netInit->set_login(InitMessage_LoginType_guestLogin);
+			netInit->set_nickname(username);
 			if (!sendMessage(socket, msg)) {
 				cout << "Init guest failed" << endl;
 				return 1;
@@ -206,8 +222,7 @@ main(int argc, char *argv[])
 				gsasl_property_set(authSession, GSASL_AUTHID, username.c_str());
 				gsasl_property_set(authSession, GSASL_PASSWORD, password.c_str());
 
-				netInit->login.present = login_PR_authenticatedLogin;
-				AuthenticatedLogin_t *authLogin = &netInit->login.choice.authenticatedLogin;
+				netInit->set_login(InitMessage_LoginType_authenticatedLogin);
 
 				char *tmpOut;
 				size_t tmpOutSize;
@@ -221,23 +236,20 @@ main(int argc, char *argv[])
 				}
 				gsasl_free(tmpOut);
 
-				OCTET_STRING_fromBuf(&authLogin->clientUserData,
-									 nextGsaslMsg.c_str(),
-									 nextGsaslMsg.length());
+				netInit->set_clientuserdata(nextGsaslMsg);
 				if (!sendMessage(socket, msg)) {
 					cout << "Init auth request failed" << endl;
 					return 1;
 				}
 
 				msg = receiveMessage(socket);
-				if (!msg || msg->present != PokerTHMessage_PR_authMessage) {
+				if (!msg || msg->GetMsg()->messagetype() != PokerTHMessage_PokerTHMessageType_Type_AuthServerChallengeMessage) {
 					cout << "Auth request failed" << endl;
 					return 1;
 				}
 
-				AuthMessage_t *netAuth = &msg->choice.authMessage;
-				AuthServerChallenge_t *netChallenge = &netAuth->choice.authServerChallenge;
-				string challengeStr = STL_STRING_FROM_OCTET_STRING(netChallenge->serverChallenge);
+				const AuthServerChallengeMessage &netAuth = msg->GetMsg()->authserverchallengemessage();
+				string challengeStr(netAuth.serverchallenge());
 				errorCode = gsasl_step(authSession, challengeStr.c_str(), challengeStr.size(), &tmpOut, &tmpOutSize);
 				if (errorCode == GSASL_NEEDS_MORE) {
 					nextGsaslMsg = string(tmpOut, tmpOutSize);
@@ -246,22 +258,16 @@ main(int argc, char *argv[])
 					return 1;
 				}
 				gsasl_free(tmpOut);
-				ASN_STRUCT_FREE(asn_DEF_PokerTHMessage, msg);
-				msg = (PokerTHMessage_t *)calloc(1, sizeof(PokerTHMessage_t));
-				msg->present = PokerTHMessage_PR_authMessage;
-				AuthMessage_t *outAuth = &msg->choice.authMessage;
-				outAuth->present = AuthMessage_PR_authClientResponse;
-				AuthClientResponse_t *outResponse = &outAuth->choice.authClientResponse;
-
-				OCTET_STRING_fromBuf(&outResponse->clientResponse,
-									 nextGsaslMsg.c_str(),
-									 nextGsaslMsg.length());
+				msg.reset(new NetPacket);
+				msg->GetMsg()->set_messagetype(PokerTHMessage_PokerTHMessageType_Type_AuthClientResponseMessage);
+				AuthClientResponseMessage *outAuth = msg->GetMsg()->mutable_authclientresponsemessage();
+				outAuth->set_clientresponse(nextGsaslMsg);
 				if (!sendMessage(socket, msg)) {
 					cout << "Init auth response failed" << endl;
 					return 1;
 				}
 				msg = receiveMessage(socket);
-				if (!msg || msg->present != PokerTHMessage_PR_authMessage) {
+				if (!msg || msg->GetMsg()->messagetype() != PokerTHMessage_PokerTHMessageType_Type_AuthServerVerificationMessage) {
 					cout << "Auth response failed" << endl;
 					return 1;
 				}
@@ -270,11 +276,10 @@ main(int argc, char *argv[])
 
 		// Receive init ack
 		msg = receiveMessage(socket);
-		if (!msg || msg->present != PokerTHMessage_PR_initAckMessage) {
+		if (!msg || msg->GetMsg()->messagetype() != PokerTHMessage_PokerTHMessageType_Type_InitAckMessage) {
 			cout << "Init ack failed" << endl;
 			return 1;
 		}
-		ASN_STRUCT_FREE(asn_DEF_PokerTHMessage, msg);
 
 		if (mode == 1) {
 			cout << "Init.value " << perfTimer.elapsed().total_milliseconds() << endl;
@@ -282,55 +287,45 @@ main(int argc, char *argv[])
 		perfTimer.restart();
 
 		// Send create game
-		msg = (PokerTHMessage_t *)calloc(1, sizeof(PokerTHMessage_t));
-		msg->present = PokerTHMessage_PR_joinGameRequestMessage;
-		JoinGameRequestMessage_t *netJoinGame = &msg->choice.joinGameRequestMessage;
-		netJoinGame->autoLeave = 0;
-		netJoinGame->joinGameAction.present = joinGameAction_PR_joinNewGame;
-		JoinNewGame_t *joinNew = &netJoinGame->joinGameAction.choice.joinNewGame;
+		msg.reset(new NetPacket);
+		msg->GetMsg()->set_messagetype(PokerTHMessage_PokerTHMessageType_Type_JoinNewGameMessage);
+		JoinNewGameMessage *joinNew = msg->GetMsg()->mutable_joinnewgamemessage();
+		joinNew->set_autoleave(false);
+		NetGameInfo *tmpGameInfo = joinNew->mutable_gameinfo();
 		string tmpGameName("_perftest_do_not_join_" + username);
-		joinNew->gameInfo.netGameType		= netGameType_normalGame;
-		joinNew->gameInfo.maxNumPlayers		= 10;
-		joinNew->gameInfo.raiseIntervalMode.present	= raiseIntervalMode_PR_raiseEveryHands;
-		joinNew->gameInfo.raiseIntervalMode.choice.raiseEveryHands = 5;
-		joinNew->gameInfo.endRaiseMode		= endRaiseMode_keepLastBlind;
-		joinNew->gameInfo.proposedGuiSpeed			= 5;
-		joinNew->gameInfo.delayBetweenHands			= 6;
-		joinNew->gameInfo.playerActionTimeout		= 10;
-		joinNew->gameInfo.endRaiseSmallBlindValue	= 0;
-		joinNew->gameInfo.firstSmallBlind			= 50;
-		joinNew->gameInfo.startMoney				= 2000;
-		OCTET_STRING_fromBuf(&joinNew->gameInfo.gameName,
-							 tmpGameName.c_str(),
-							 tmpGameName.length());
+		tmpGameInfo->set_netgametype(NetGameInfo_NetGameType_normalGame);
+		tmpGameInfo->set_maxnumplayers(10);
+		tmpGameInfo->set_raiseintervalmode(NetGameInfo_RaiseIntervalMode_raiseOnHandNum);
+		tmpGameInfo->set_raiseeveryhands(5);
+		tmpGameInfo->set_endraisemode(NetGameInfo_EndRaiseMode_keepLastBlind);
+		tmpGameInfo->set_proposedguispeed(5);
+		tmpGameInfo->set_delaybetweenhands(6);
+		tmpGameInfo->set_playeractiontimeout(10);
+		tmpGameInfo->set_endraisesmallblindvalue(0);
+		tmpGameInfo->set_firstsmallblind(50);
+		tmpGameInfo->set_startmoney(2000);
+		tmpGameInfo->set_gamename(tmpGameName);
 		string tmpGamePassword("blah123");
-		joinNew->password = OCTET_STRING_new_fromBuf(
-								&asn_DEF_UTF8String,
-								tmpGamePassword.c_str(),
-								tmpGamePassword.length());
+		joinNew->set_password(tmpGamePassword);
 		if (!sendMessage(socket, msg)) {
 			cout << "Create game failed" << endl;
 			return 1;
 		}
-		msg = NULL;
 		// Receive join game ack
 		do {
-			ASN_STRUCT_FREE(asn_DEF_PokerTHMessage, msg);
 			msg = receiveMessage(socket);
 			if (!msg) {
 				cout << "Receive in lobby failed" << endl;
 				return 1;
 			}
-			if (msg->present == PokerTHMessage_PR_errorMessage) {
+			if (msg->GetMsg()->messagetype() == PokerTHMessage_PokerTHMessageType_Type_ErrorMessage) {
 				cout << "Received error" << endl;
 				return 1;
+			} else if (msg->GetMsg()->messagetype() == PokerTHMessage_PokerTHMessageType_Type_JoinGameFailedMessage) {
+				cout << "Join game ack failed" << endl;
+				return 1;
 			}
-		} while (msg->present != PokerTHMessage_PR_joinGameReplyMessage);
-		if (msg->choice.joinGameReplyMessage.joinGameResult.present != joinGameResult_PR_joinGameAck) {
-			cout << "Join game ack failed" << endl;
-			return 1;
-		}
-		ASN_STRUCT_FREE(asn_DEF_PokerTHMessage, msg);
+		} while (msg->GetMsg()->messagetype() != PokerTHMessage_PokerTHMessageType_Type_JoinGameAckMessage);
 
 		if (mode == 1) {
 			cout << "CreateGame.value " << perfTimer.elapsed().total_milliseconds() << endl;
