@@ -415,39 +415,39 @@ Zkontrolujte, že jste nahrávali platný PokerTH soubor záznamů.</translation
     </message>
     <message>
         <source>Remove log file</source>
-        <translation type="unfinished"></translation>
+        <translation>Odstranit soubor záznamu</translation>
     </message>
     <message>
         <source>PokerTH cannot remove this log file, please verify that you have write access to this file!</source>
-        <translation type="unfinished"></translation>
+        <translation>PokerTH nemůže odstranit tento soubor záznamu, ověřte, zda k němu máte právo zápisu!</translation>
     </message>
     <message>
         <source>No file received.</source>
-        <translation type="unfinished"></translation>
+        <translation>Nebyl přijat žádný soubor.</translation>
     </message>
     <message>
         <source>File rejected because of too many uploads.</source>
-        <translation type="unfinished"></translation>
+        <translation>Soubor odmítnut - příliš mnoho nahrávání.</translation>
     </message>
     <message>
         <source>File rejected because of too many recent uploads. Please try again later.</source>
-        <translation type="unfinished"></translation>
+        <translation>Soubor odmítnut - příliš mnoho nedávných nahrávání. Zkuste to později.</translation>
     </message>
     <message>
         <source>The file is too large.</source>
-        <translation type="unfinished"></translation>
+        <translation>Soubor je příliš velký.</translation>
     </message>
     <message>
         <source>This file is not a valid and current PokerTH log file.</source>
-        <translation type="unfinished"></translation>
+        <translation>Tento soubor není platný a aktuální soubor záznamu PokerTH.</translation>
     </message>
     <message>
         <source>Internal error. Please try again later. ID: </source>
-        <translation type="unfinished"></translation>
+        <translation>Vnitřní chyba. Zkuste to později. ID: </translation>
     </message>
     <message>
         <source>Uploading log file</source>
-        <translation type="unfinished"></translation>
+        <translation>Nahrává se soubor záznamu</translation>
     </message>
 </context>
 <context>
@@ -1328,7 +1328,7 @@ p, li { white-space: pre-wrap; }
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-weight:400; font-style:normal;&quot;&gt;
 &lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+        <translation type="obsolete">&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-weight:400; font-style:normal;&quot;&gt;
@@ -1358,7 +1358,7 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Sans Serif&apos;;&quot;&gt;&lt;br /&gt;&lt;/span&gt;&lt;/p&gt;
 &lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;Sans Serif&apos;;&quot;&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Sans Serif&apos;;&quot;&gt;&lt;br /&gt;&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+        <translation type="obsolete">&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-weight:400; font-style:normal;&quot;&gt;
@@ -1381,6 +1381,29 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Sans Serif&apos;;&quot;&gt;&lt;br /&gt;&lt;/span&gt;&lt;/p&gt;
 &lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;Sans Serif&apos;;&quot;&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Sans Serif&apos;;&quot;&gt;&lt;br /&gt;&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+    </message>
+    <message>
+        <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Liberation Sans&apos;; font-size:26px; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;Nimbus Sans L&apos;;&quot;&gt;&lt;br /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <translation type="unfinished">&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Liberation Sans&apos;; font-size:18px; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;Nimbus Sans L&apos;;&quot;&gt;&lt;br /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt; {3C?} {4.0/?} {3.?} {40/?} {1&quot;?} {26p?} {400;?} {0p?} {0p?} {0p?} {0p?} {0;?} {0p?}</translation>
+    </message>
+    <message>
+        <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Liberation Sans&apos;; font-size:26px; font-weight:400; font-style:normal;&quot;&gt;
+&lt;table border=&quot;0&quot; style=&quot;-qt-table-type: root; margin-top:4px; margin-bottom:4px; margin-left:4px; margin-right:4px;&quot;&gt;
+&lt;tr&gt;
+&lt;td style=&quot;border: none;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:8pt;&quot;&gt;translator name - mail address&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1483,7 +1506,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>PokerTH %1 for Android (API%2)</source>
-        <translation type="unfinished"></translation>
+        <translation>PokerTH %1 pro Android (API%2)</translation>
     </message>
 </context>
 <context>
@@ -1550,11 +1573,11 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source> OK </source>
-        <translation type="unfinished"></translation>
+        <translation> OK </translation>
     </message>
     <message>
         <source>Ctrl+S</source>
-        <translation type="unfinished"></translation>
+        <translation>Ctrl+S</translation>
     </message>
 </context>
 <context>
@@ -1585,7 +1608,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source> OK </source>
-        <translation type="unfinished"></translation>
+        <translation> OK </translation>
     </message>
 </context>
 <context>
@@ -3877,7 +3900,7 @@ Chcete jej přepsat?</translation>
     </message>
     <message>
         <source> OK </source>
-        <translation type="unfinished"></translation>
+        <translation> OK </translation>
     </message>
 </context>
 <context>
@@ -3950,7 +3973,7 @@ Chcete jej přepsat?</translation>
     </message>
     <message>
         <source> OK </source>
-        <translation type="unfinished"></translation>
+        <translation> OK </translation>
     </message>
 </context>
 <context>
@@ -4683,7 +4706,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source> OK </source>
-        <translation type="unfinished"></translation>
+        <translation> OK </translation>
     </message>
 </context>
 <context>
@@ -5021,6 +5044,10 @@ Opravdu se chcete vrátit do továrního nastavení?</translation>
         <source>Do you really want to delete the selected log files?</source>
         <translation type="obsolete">Opravdu chcete smazat zvolený soubor záznamů?</translation>
     </message>
+    <message>
+        <source>Scottish Gaelic</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>startNetworkGameDialog</name>
@@ -5188,7 +5215,7 @@ Opravdu se chcete vrátit do továrního nastavení?</translation>
     </message>
     <message>
         <source>&amp;5 Logs</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;5 Záznamy</translation>
     </message>
 </context>
 <context>
@@ -5519,19 +5546,19 @@ Prosím, zkontrolujte své uživatelské jméno a heslo.</translation>
     </message>
     <message>
         <source>Rejoin possible!</source>
-        <translation type="unfinished"></translation>
+        <translation>Lze se znovu připojit!</translation>
     </message>
     <message>
         <source>There is an existing session with a previous game.</source>
-        <translation type="unfinished"></translation>
+        <translation>K předchozí hře existuje sezení.</translation>
     </message>
     <message>
         <source>Do you want to rejoin this game?</source>
-        <translation type="unfinished"></translation>
+        <translation>Chcete se k této hře připojit?</translation>
     </message>
     <message>
         <source>Start Network Game</source>
-        <translation type="unfinished">Začít síťovou hru</translation>
+        <translation>Začít síťovou hru</translation>
     </message>
 </context>
 <context>

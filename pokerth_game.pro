@@ -298,6 +298,7 @@ TRANSLATIONS = ts/pokerth_af.ts \
 	ts/pokerth_fr.ts \
 	ts/pokerth_fi.ts \
 	ts/pokerth_de.ts \
+	ts/pokerth_gd.ts \
 	ts/pokerth_gr.ts \
 	ts/pokerth_hu.ts \
 	ts/pokerth_it.ts \

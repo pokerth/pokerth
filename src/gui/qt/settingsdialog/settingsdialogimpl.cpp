@@ -89,6 +89,7 @@ settingsDialogImpl::settingsDialogImpl(QWidget *parent, ConfigFile *c, selectAva
 	comboBox_switchLanguage->addItem(QString(tr("Portuguese-Brazilian")+" "+QString::fromUtf8("(português brasileiro)")),"ptbr");
 	comboBox_switchLanguage->addItem(QString(tr("Portuguese-Portuguese")+" "+QString::fromUtf8("(português português)")),"ptpt");
 	comboBox_switchLanguage->addItem(QString(tr("Russian")+" "+QString::fromUtf8("(Pyccĸий)")),"ru");
+	comboBox_switchLanguage->addItem(QString(tr("Scottish Gaelic")+" "+QString::fromUtf8("(Gàidhlig)")),"gd");
 	comboBox_switchLanguage->addItem(QString(tr("Slovak")+" "+QString::fromUtf8("(Slovenčina)")),"sk");
 	comboBox_switchLanguage->addItem(QString(tr("Spanish")+" "+QString::fromUtf8("(Español)")),"es");
 	comboBox_switchLanguage->addItem(QString(tr("Swedish")+" "+QString::fromUtf8("(svenska)")),"sv");
