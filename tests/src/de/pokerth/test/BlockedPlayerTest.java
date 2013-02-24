@@ -53,7 +53,7 @@ public class BlockedPlayerTest extends TestBase {
 				.setBuildId(0)
 				.setLogin(InitMessage.LoginType.authenticatedLogin)
 				.setRequestedVersion(requestedVersion)
-				.setClientUserData(ByteString.copyFromUtf8(scramAuth.executeStep1("test1")))
+				.setClientUserData(ByteString.copyFromUtf8(scramAuth.executeStep1("test9999")))
 				.build();
 
 		msg = PokerTHMessage.newBuilder()
@@ -71,48 +71,48 @@ public class BlockedPlayerTest extends TestBase {
 	public void testRunRankingGame() throws Exception {
 
 		Statement dbStatement = dbConn.createStatement();
-		dbStatement.executeUpdate("UPDATE player_login SET valid = 0 WHERE username = 'test1'");
+		dbStatement.executeUpdate("UPDATE player_login SET valid = 0 WHERE username = 'test9999'");
 		verifyLoginBlocked();
-		dbStatement.executeUpdate("UPDATE player_login SET valid = 1 WHERE username = 'test1'");
+		dbStatement.executeUpdate("UPDATE player_login SET valid = 1 WHERE username = 'test9999'");
 
 		sock.close();
 		sock = new Socket("localhost", 7234);
 
-		dbStatement.executeUpdate("UPDATE player_login SET valid = 2 WHERE username = 'test1'");
+		dbStatement.executeUpdate("UPDATE player_login SET valid = 2 WHERE username = 'test9999'");
 		verifyLoginBlocked();
-		dbStatement.executeUpdate("UPDATE player_login SET valid = 1 WHERE username = 'test1'");
+		dbStatement.executeUpdate("UPDATE player_login SET valid = 1 WHERE username = 'test9999'");
 
 		sock.close();
 		sock = new Socket("localhost", 7234);
 
-		dbStatement.executeUpdate("UPDATE player_login SET valid = 4 WHERE username = 'test1'");
+		dbStatement.executeUpdate("UPDATE player_login SET valid = 4 WHERE username = 'test9999'");
 		verifyLoginBlocked();
-		dbStatement.executeUpdate("UPDATE player_login SET valid = 1 WHERE username = 'test1'");
+		dbStatement.executeUpdate("UPDATE player_login SET valid = 1 WHERE username = 'test9999'");
 
 		sock.close();
 		sock = new Socket("localhost", 7234);
 
-		dbStatement.executeUpdate("UPDATE player_login SET aktivator = 0 WHERE username = 'test1'");
+		dbStatement.executeUpdate("UPDATE player_login SET aktivator = 0 WHERE username = 'test9999'");
 		verifyLoginBlocked();
-		dbStatement.executeUpdate("UPDATE player_login SET aktivator = 1 WHERE username = 'test1'");
+		dbStatement.executeUpdate("UPDATE player_login SET aktivator = 1 WHERE username = 'test9999'");
 
 		sock.close();
 		sock = new Socket("localhost", 7234);
 
-		dbStatement.executeUpdate("UPDATE player_login SET aktivator = 2 WHERE username = 'test1'");
+		dbStatement.executeUpdate("UPDATE player_login SET aktivator = 2 WHERE username = 'test9999'");
 		verifyLoginBlocked();
-		dbStatement.executeUpdate("UPDATE player_login SET aktivator = 1 WHERE username = 'test1'");
+		dbStatement.executeUpdate("UPDATE player_login SET aktivator = 1 WHERE username = 'test9999'");
 
 		sock.close();
 		sock = new Socket("localhost", 7234);
 
-		dbStatement.executeUpdate("UPDATE player_login SET aktivator = 4 WHERE username = 'test1'");
+		dbStatement.executeUpdate("UPDATE player_login SET aktivator = 4 WHERE username = 'test9999'");
 		verifyLoginBlocked();
-		dbStatement.executeUpdate("UPDATE player_login SET aktivator = 1 WHERE username = 'test1'");
+		dbStatement.executeUpdate("UPDATE player_login SET aktivator = 1 WHERE username = 'test9999'");
 
 		sock.close();
 		sock = new Socket("localhost", 7234);
 
-		userInit(sock, "test1", "test1");
+		userInit(sock, "test9999", "test9999");
 	}
 }
