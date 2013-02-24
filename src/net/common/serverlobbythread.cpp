@@ -931,6 +931,10 @@ ServerLobbyThread::HandlePacket(boost::shared_ptr<SessionData> session, boost::s
 				HandleNetPacketReportGame(session, packet->GetMsg()->reportgamemessage());
 			} else if (packet->GetMsg()->messagetype() == PokerTHMessage::Type_LeaveGameRequestMessage) {
 				// Ignore "leave game" in this state.
+			} else if (packet->GetMsg()->messagetype() == PokerTHMessage::Type_AdminRemoveGameMessage) {
+				HandleNetPacketAdminRemoveGame(session, packet->GetMsg()->adminremovegamemessage());
+			} else if (packet->GetMsg()->messagetype() == PokerTHMessage::Type_AdminBanPlayerMessage) {
+				HandleNetPacketAdminBanPlayer(session, packet->GetMsg()->adminbanplayermessage());
 			} else {
 				SessionError(session, ERR_SOCK_INVALID_STATE);
 			}
@@ -1467,6 +1471,21 @@ ServerLobbyThread::HandleNetPacketReportGame(boost::shared_ptr<SessionData> sess
 		netReportAck->set_reportgameresult(ReportGameAckMessage::gameReportInvalid);
 		GetSender().Send(session, packet);
 	}
+}
+
+void
+ServerLobbyThread::HandleNetPacketAdminRemoveGame(boost::shared_ptr<SessionData> session, const AdminRemoveGameMessage &removeGame)
+{
+	GameMap::iterator pos = m_gameMap.find(removeGame.removegameid());
+
+	if (pos != m_gameMap.end() && session->GetPlayerData() && GetBanManager().IsAdminPlayer(session->GetPlayerData()->GetDBId())) {
+		InternalRemoveGame(pos->second);
+	}
+}
+
+void
+ServerLobbyThread::HandleNetPacketAdminBanPlayer(boost::shared_ptr<SessionData> session, const AdminBanPlayerMessage &banPlayer)
+{
 }
 
 void

@@ -692,6 +692,14 @@ message ErrorMessage {
 	required	ErrorReason		errorReason = 1;
 }
 
+message AdminRemoveGameMessage {
+	required	uint32			removeGameId = 1;
+}
+
+message AdminBanPlayerMessage {
+	required	uint32			banPlayerId = 1;
+}
+
 // The main message type (it is prefixed by 4 bytes length of the message).
 
 message PokerTHMessage {
@@ -769,6 +777,8 @@ message PokerTHMessage {
 		Type_ReportGameMessage = 71;
 		Type_ReportGameAckMessage = 72;
 		Type_ErrorMessage = 73;
+		Type_AdminRemoveGameMessage = 74;
+		Type_AdminBanPlayerMessage = 75;
 	}
 	required	PokerTHMessageType				messageType = 1;
 
@@ -845,4 +855,6 @@ message PokerTHMessage {
 	optional	ReportGameMessage				reportGameMessage = 72;
 	optional	ReportGameAckMessage			reportGameAckMessage = 73;
 	optional	ErrorMessage					errorMessage = 74;
+	optional	AdminRemoveGameMessage			adminRemoveGameMessage = 75;
+	optional	AdminBanPlayerMessage			adminBanPlayerMessage = 76;
 }

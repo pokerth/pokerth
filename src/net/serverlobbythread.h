@@ -156,6 +156,8 @@ protected:
 	void HandleNetPacketChatRequest(boost::shared_ptr<SessionData> session, const ChatRequestMessage &chatRequest);
 	void HandleNetPacketRejectGameInvitation(boost::shared_ptr<SessionData> session, const RejectGameInvitationMessage &reject);
 	void HandleNetPacketReportGame(boost::shared_ptr<SessionData> session, const ReportGameMessage &report);
+	void HandleNetPacketAdminRemoveGame(boost::shared_ptr<SessionData> session, const AdminRemoveGameMessage &removeGame);
+	void HandleNetPacketAdminBanPlayer(boost::shared_ptr<SessionData> session, const AdminBanPlayerMessage &banPlayer);
 	// TODO would be better to use state pattern here.
 	void AuthChallenge(boost::shared_ptr<SessionData> session, const std::string &secret);
 	void CheckAvatarBlacklist(boost::shared_ptr<SessionData> session);
