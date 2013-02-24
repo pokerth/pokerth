@@ -1694,12 +1694,9 @@ void gameLobbyDialogImpl::showNickListContextMenu(QPoint p)
 		nickListPlayerInGameInfo->setText(playerInGameInfoString);
 
 
-//		check for admin	and add admin actions
-		if(mySession->getClientPlayerInfo(mySession->getClientUniquePlayerId()).isAdmin) {
-			nickListAdminSubMenu->show();
-		}
-		else {
-			nickListAdminSubMenu->hide();
+//		check for admin	and remove admin actions for non-admins
+		if(!mySession->getClientPlayerInfo(mySession->getClientUniquePlayerId()).isAdmin) {
+			nickListContextMenu->removeAction(nickListAdminSubMenu->menuAction());
 		}
 
 		//popup a little more to the right to avaoid double click action
@@ -1713,12 +1710,9 @@ void gameLobbyDialogImpl::showGameListContextMenu(QPoint p)
 {
 	if(myGameListModel->rowCount() && myGameListSelectionModel->currentIndex().isValid()) {
 
-	//		check for admin	and add admin actions
-		if(mySession->getClientPlayerInfo(mySession->getClientUniquePlayerId()).isAdmin) {
-			gameListAdminSubMenu->show();
-		}
-		else {
-			gameListAdminSubMenu->hide();
+	//		check for admin	and remove admin actions for non-admins
+		if(!mySession->getClientPlayerInfo(mySession->getClientUniquePlayerId()).isAdmin) {
+			gameListContextMenu->removeAction(gameListAdminSubMenu->menuAction());
 		}
 
 		//popup a little more to the right to avaoid double click action
@@ -2218,7 +2212,7 @@ void gameLobbyDialogImpl::adminActionTotalKickBan()
 {
 	assert(mySession);
 	if (myNickListSelectionModel->hasSelection()) {
-		unsigned playerId = myGameListSelectionModel->selectedRows().first().data(Qt::UserRole).toUInt();
+		unsigned playerId = myNickListSelectionModel->selectedRows().first().data(Qt::UserRole).toUInt();
 		PlayerInfo info(mySession->getClientPlayerInfo(playerId));
 
 		int ret = MyMessageBox::question(this, tr("PokerTH - Question"),
