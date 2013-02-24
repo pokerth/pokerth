@@ -202,17 +202,21 @@ gameLobbyDialogImpl::gameLobbyDialogImpl(startWindowImpl *parent, ConfigFile *c)
 	nickListPlayerInfoSubMenu->addAction(nickListPlayerInGameInfo);
 	nickListOpenPlayerStats1 = new QAction(QIcon(":/gfx/view-statistics.png"), tr("Show player stats"), nickListContextMenu);
 	nickListContextMenu->addAction(nickListOpenPlayerStats1);
+	nickListAdminSubMenu = nickListContextMenu->addMenu(tr("Admin action ..."));
+	nickListAdminTotalKickBan = new QAction(tr("Total kickban"), nickListAdminSubMenu);
+	nickListAdminSubMenu->addAction(nickListAdminTotalKickBan);
 
 	connectedPlayersListPlayerInfoSubMenu = new QMenu();
 	nickListOpenPlayerStats2 = new QAction(QIcon(":/gfx/view-statistics.png"), tr("Show player stats"), nickListContextMenu);
 	connectedPlayersListPlayerInfoSubMenu->addAction(nickListOpenPlayerStats2);
 	connectedPlayersListPlayerInfoSubMenu = new QMenu();
 
-
 	gameListContextMenu = new QMenu();
 	gameListReportBadGameNameAction = new QAction(QIcon(":/gfx/emblem-important.png"), tr("Report inappropriate game name"), gameListContextMenu);
 	gameListContextMenu->addAction(gameListReportBadGameNameAction);
-
+	gameListAdminSubMenu = gameListContextMenu->addMenu(tr("Admin action ..."));
+	gameListAdminCloseGame = new QAction(tr("Close game"), gameListAdminSubMenu);
+	gameListAdminSubMenu->addAction(gameListAdminCloseGame);
 
 	connect( pushButton_CreateGame, SIGNAL( clicked() ), this, SLOT( createGame() ) );
 	connect( pushButton_JoinGame, SIGNAL( clicked() ), this, SLOT( joinGame() ) );
@@ -1692,9 +1696,10 @@ void gameLobbyDialogImpl::showNickListContextMenu(QPoint p)
 
 //		check for admin	and add admin actions
 		if(mySession->getClientPlayerInfo(mySession->getClientUniquePlayerId()).isAdmin) {
-			nickListAdminSubMenu = nickListContextMenu->addMenu(tr("Admin action ..."));
-			nickListAdminTotalKickBan = new QAction(tr("Total kickban"), nickListAdminSubMenu);
-			nickListAdminSubMenu->addAction(nickListAdminTotalKickBan);
+			nickListAdminSubMenu->show();
+		}
+		else {
+			nickListAdminSubMenu->hide();
 		}
 
 		//popup a little more to the right to avaoid double click action
@@ -1710,9 +1715,10 @@ void gameLobbyDialogImpl::showGameListContextMenu(QPoint p)
 
 	//		check for admin	and add admin actions
 		if(mySession->getClientPlayerInfo(mySession->getClientUniquePlayerId()).isAdmin) {
-			gameListAdminSubMenu = gameListContextMenu->addMenu(tr("Admin action ..."));
-			gameListAdminCloseGame = new QAction(tr("Close game"), gameListAdminSubMenu);
-			gameListAdminSubMenu->addAction(gameListAdminCloseGame);
+			gameListAdminSubMenu->show();
+		}
+		else {
+			gameListAdminSubMenu->hide();
 		}
 
 		//popup a little more to the right to avaoid double click action
