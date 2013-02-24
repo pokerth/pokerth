@@ -128,6 +128,8 @@ NetPacketValidator::NetPacketValidator()
 	m_validationMap.insert(make_pair(PokerTHMessage_PokerTHMessageType_Type_ReportGameMessage, ValidateReportGameMessage));
 	m_validationMap.insert(make_pair(PokerTHMessage_PokerTHMessageType_Type_ReportGameAckMessage, ValidateReportGameAckMessage));
 	m_validationMap.insert(make_pair(PokerTHMessage_PokerTHMessageType_Type_ErrorMessage, ValidateErrorMessage));
+	m_validationMap.insert(make_pair(PokerTHMessage_PokerTHMessageType_Type_AdminRemoveGameMessage, ValidateAdminRemoveGameMessage));
+	m_validationMap.insert(make_pair(PokerTHMessage_PokerTHMessageType_Type_AdminBanPlayerMessage, ValidateAdminBanPlayerMessage));
 }
 
 bool
@@ -1141,6 +1143,32 @@ NetPacketValidator::ValidateErrorMessage(const NetPacket &packet)
 	if (packet.GetMsg()->has_errormessage()) {
 		//const ErrorMessage &msg = packet.GetMsg()->errormessage();
 		retVal = true;
+	}
+	return retVal;
+}
+
+bool
+NetPacketValidator::ValidateAdminRemoveGameMessage(const NetPacket &packet)
+{
+	bool retVal = false;
+	if (packet.GetMsg()->has_adminremovegamemessage()) {
+		const AdminRemoveGameMessage &msg = packet.GetMsg()->adminremovegamemessage();
+		if (msg.removegameid() != 0) {
+			retVal = true;
+		}
+	}
+	return retVal;
+}
+
+bool
+NetPacketValidator::ValidateAdminBanPlayerMessage(const NetPacket &packet)
+{
+	bool retVal = false;
+	if (packet.GetMsg()->has_adminbanplayermessage()) {
+		const AdminBanPlayerMessage &msg = packet.GetMsg()->adminbanplayermessage();
+		if (msg.banplayerid() != 0) {
+			retVal = true;
+		}
 	}
 	return retVal;
 }

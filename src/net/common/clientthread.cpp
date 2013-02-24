@@ -377,6 +377,16 @@ ClientThread::SendReportGameName(unsigned reportedGameId)
 }
 
 void
+ClientThread::SendAdminRemoveGame(unsigned removeGameId)
+{
+	boost::shared_ptr<NetPacket> packet(new NetPacket);
+	packet->GetMsg()->set_messagetype(PokerTHMessage::Type_AdminRemoveGameMessage);
+	AdminRemoveGameMessage *netRemove = packet->GetMsg()->mutable_adminremovegamemessage();
+	netRemove->set_removegameid(removeGameId);
+	m_ioService->post(boost::bind(&ClientThread::SendSessionPacket, shared_from_this(), packet));
+}
+
+void
 ClientThread::StartAsyncRead()
 {
 	GetContext().GetSessionData()->GetReceiveBuffer().StartAsyncRead(GetContext().GetSessionData());

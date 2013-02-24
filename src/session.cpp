@@ -420,6 +420,13 @@ void Session::resetNetworkTimeout()
 	myNetClient->SendResetTimeout();
 }
 
+void Session::adminActionCloseGame(unsigned gameId)
+{
+	if (!myNetClient)
+		return; // only act if client is running.
+	myNetClient->SendAdminRemoveGame(gameId);
+}
+
 void Session::kickPlayer(const string &playerName)
 {
 	if (!myNetClient)

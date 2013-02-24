@@ -98,6 +98,7 @@ public:
 	void SendRejectGameInvitation(unsigned gameId, DenyGameInvitationReason reason);
 	void SendReportAvatar(unsigned reportedPlayerId, const std::string &avatarHash);
 	void SendReportGameName(unsigned reportedGameId);
+	void SendAdminRemoveGame(unsigned removeGameId);
 
 	void StartAsyncRead();
 	virtual void CloseSession(boost::shared_ptr<SessionData> session);

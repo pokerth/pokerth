@@ -119,6 +119,8 @@ protected:
 	static bool ValidateReportGameMessage(const NetPacket &packet);
 	static bool ValidateReportGameAckMessage(const NetPacket &packet);
 	static bool ValidateErrorMessage(const NetPacket &packet);
+	static bool ValidateAdminRemoveGameMessage(const NetPacket &packet);
+	static bool ValidateAdminBanPlayerMessage(const NetPacket &packet);
 
 	static bool ValidateGameInfo(const NetGameInfo &gameInfo);
 

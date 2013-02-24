@@ -45,7 +45,7 @@ ServerBanManager::~ServerBanManager()
 }
 
 void
-ServerBanManager::SetAdminPlayerIds(const std::list<DB_id> adminList)
+ServerBanManager::SetAdminPlayerIds(const std::list<DB_id> &adminList)
 {
 	boost::mutex::scoped_lock lock(m_banMutex);
 	m_adminPlayers.resize(adminList.size());

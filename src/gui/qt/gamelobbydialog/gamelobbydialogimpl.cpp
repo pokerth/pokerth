@@ -2202,8 +2202,8 @@ void gameLobbyDialogImpl::adminActionCloseGame()
 		int ret = MyMessageBox::question(this, tr("PokerTH - Question"),
 										 tr("Are you sure you want to close the game:\n\"%1\"?").arg(QString::fromUtf8(info.name.c_str())), QMessageBox::Yes | QMessageBox::No);
 
-		if(ret == QMessageBox::Yes) {
-			//TODO mySession->adminActionCloseGame(gameId);
+		if (ret == QMessageBox::Yes) {
+			mySession->adminActionCloseGame(gameId);
 		}
 	}
 }

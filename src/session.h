@@ -116,6 +116,8 @@ public:
 
 	void resetNetworkTimeout();
 
+	void adminActionCloseGame(unsigned gameId);
+
 	bool isNetworkClientRunning() const; // TODO hack
 	bool isNetworkServerRunning() const; // TODO hack
 

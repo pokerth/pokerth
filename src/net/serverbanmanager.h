@@ -48,7 +48,7 @@ public:
 	ServerBanManager(boost::shared_ptr<boost::asio::io_service> ioService);
 	virtual ~ServerBanManager();
 
-	void SetAdminPlayerIds(const std::list<DB_id> adminList);
+	void SetAdminPlayerIds(const std::list<DB_id> &adminList);
 
 	void BanPlayerName(const std::string &playerName, unsigned durationHours = 0);
 	void BanPlayerRegex(const std::string &playerRegex, unsigned durationHours = 0);
