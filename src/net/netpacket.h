@@ -63,7 +63,7 @@ public:
 	NetPacket(PokerTHMessage *msg);
 	~NetPacket();
 
-	static boost::shared_ptr<NetPacket> Create(char *data, size_t dataSize);
+	static boost::shared_ptr<NetPacket> Create(const char *data, size_t dataSize);
 
 	const PokerTHMessage *GetMsg() const {
 		return m_msg;

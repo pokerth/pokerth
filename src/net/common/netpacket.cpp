@@ -52,7 +52,7 @@ NetPacket::~NetPacket()
 }
 
 boost::shared_ptr<NetPacket>
-NetPacket::Create(char *data, size_t dataSize)
+NetPacket::Create(const char *data, size_t dataSize)
 {
 	boost::shared_ptr<NetPacket> tmpPacket;
 

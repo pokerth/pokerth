@@ -35,6 +35,8 @@
 
 #include <db/dbdefs.h>
 #include <string>
+#include <list>
+#include <boost/shared_ptr.hpp>
 
 // Callback operations are posted using the io service,
 // and will therefore be executed in the io service thread.
@@ -44,11 +46,11 @@ public:
 	virtual ~ServerDBCallback();
 
 	virtual void ConnectSuccess() = 0;
-	virtual void ConnectFailed(const std::string &error) = 0;
+	virtual void ConnectFailed(std::string error) = 0;
 
-	virtual void QueryError(const std::string &error) = 0;
+	virtual void QueryError(std::string error) = 0;
 
-	virtual void PlayerLoginSuccess(unsigned requestId, const DBPlayerData &dbPlayerData) = 0;
+	virtual void PlayerLoginSuccess(unsigned requestId, boost::shared_ptr<DBPlayerData> dbPlayerData) = 0;
 	virtual void PlayerLoginFailed(unsigned requestId) = 0;
 	virtual void PlayerLoginBlocked(unsigned requestId) = 0;
 
@@ -63,6 +65,8 @@ public:
 
 	virtual void ReportGameSuccess(unsigned requestId, unsigned replyId) = 0;
 	virtual void ReportGameFailed(unsigned requestId, unsigned replyId) = 0;
+
+	virtual void PlayerAdminList(unsigned requestId, std::list<DB_id> adminList) = 0;
 };
 
 #endif

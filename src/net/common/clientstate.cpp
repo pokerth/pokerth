@@ -549,6 +549,7 @@ AbstractClientStateReceiving::HandlePacket(boost::shared_ptr<ClientThread> clien
 			tmpInfo.playerName = netInfo.playername();
 			tmpInfo.ptype = netInfo.ishuman() ? PLAYER_TYPE_HUMAN : PLAYER_TYPE_COMPUTER;
 			tmpInfo.isGuest = netInfo.playerrights() == netPlayerRightsGuest;
+			tmpInfo.isAdmin = netInfo.playerrights() == netPlayerRightsAdmin;
 			if (netInfo.has_countrycode()) {
 				tmpInfo.countryCode = netInfo.countrycode();
 			}
