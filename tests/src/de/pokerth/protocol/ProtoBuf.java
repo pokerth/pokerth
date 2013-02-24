@@ -36324,6 +36324,588 @@ public final class ProtoBuf {
     // @@protoc_insertion_point(class_scope:ErrorMessage)
   }
   
+  public interface AdminRemoveGameMessageOrBuilder
+      extends com.google.protobuf.MessageLiteOrBuilder {
+    
+    // required uint32 removeGameId = 1;
+    boolean hasRemoveGameId();
+    int getRemoveGameId();
+  }
+  public static final class AdminRemoveGameMessage extends
+      com.google.protobuf.GeneratedMessageLite
+      implements AdminRemoveGameMessageOrBuilder {
+    // Use AdminRemoveGameMessage.newBuilder() to construct.
+    private AdminRemoveGameMessage(Builder builder) {
+      super(builder);
+    }
+    private AdminRemoveGameMessage(boolean noInit) {}
+    
+    private static final AdminRemoveGameMessage defaultInstance;
+    public static AdminRemoveGameMessage getDefaultInstance() {
+      return defaultInstance;
+    }
+    
+    public AdminRemoveGameMessage getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+    
+    private int bitField0_;
+    // required uint32 removeGameId = 1;
+    public static final int REMOVEGAMEID_FIELD_NUMBER = 1;
+    private int removeGameId_;
+    public boolean hasRemoveGameId() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    public int getRemoveGameId() {
+      return removeGameId_;
+    }
+    
+    private void initFields() {
+      removeGameId_ = 0;
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+      
+      if (!hasRemoveGameId()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+    
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeUInt32(1, removeGameId_);
+      }
+    }
+    
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+    
+      size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeUInt32Size(1, removeGameId_);
+      }
+      memoizedSerializedSize = size;
+      return size;
+    }
+    
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+    
+    public static de.pokerth.protocol.ProtoBuf.AdminRemoveGameMessage parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return newBuilder().mergeFrom(data).buildParsed();
+    }
+    public static de.pokerth.protocol.ProtoBuf.AdminRemoveGameMessage parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return newBuilder().mergeFrom(data, extensionRegistry)
+               .buildParsed();
+    }
+    public static de.pokerth.protocol.ProtoBuf.AdminRemoveGameMessage parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return newBuilder().mergeFrom(data).buildParsed();
+    }
+    public static de.pokerth.protocol.ProtoBuf.AdminRemoveGameMessage parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return newBuilder().mergeFrom(data, extensionRegistry)
+               .buildParsed();
+    }
+    public static de.pokerth.protocol.ProtoBuf.AdminRemoveGameMessage parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return newBuilder().mergeFrom(input).buildParsed();
+    }
+    public static de.pokerth.protocol.ProtoBuf.AdminRemoveGameMessage parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return newBuilder().mergeFrom(input, extensionRegistry)
+               .buildParsed();
+    }
+    public static de.pokerth.protocol.ProtoBuf.AdminRemoveGameMessage parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      Builder builder = newBuilder();
+      if (builder.mergeDelimitedFrom(input)) {
+        return builder.buildParsed();
+      } else {
+        return null;
+      }
+    }
+    public static de.pokerth.protocol.ProtoBuf.AdminRemoveGameMessage parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      Builder builder = newBuilder();
+      if (builder.mergeDelimitedFrom(input, extensionRegistry)) {
+        return builder.buildParsed();
+      } else {
+        return null;
+      }
+    }
+    public static de.pokerth.protocol.ProtoBuf.AdminRemoveGameMessage parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return newBuilder().mergeFrom(input).buildParsed();
+    }
+    public static de.pokerth.protocol.ProtoBuf.AdminRemoveGameMessage parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return newBuilder().mergeFrom(input, extensionRegistry)
+               .buildParsed();
+    }
+    
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(de.pokerth.protocol.ProtoBuf.AdminRemoveGameMessage prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+    
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageLite.Builder<
+          de.pokerth.protocol.ProtoBuf.AdminRemoveGameMessage, Builder>
+        implements de.pokerth.protocol.ProtoBuf.AdminRemoveGameMessageOrBuilder {
+      // Construct using de.pokerth.protocol.ProtoBuf.AdminRemoveGameMessage.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+      
+      private void maybeForceBuilderInitialization() {
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+      
+      public Builder clear() {
+        super.clear();
+        removeGameId_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000001);
+        return this;
+      }
+      
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+      
+      public de.pokerth.protocol.ProtoBuf.AdminRemoveGameMessage getDefaultInstanceForType() {
+        return de.pokerth.protocol.ProtoBuf.AdminRemoveGameMessage.getDefaultInstance();
+      }
+      
+      public de.pokerth.protocol.ProtoBuf.AdminRemoveGameMessage build() {
+        de.pokerth.protocol.ProtoBuf.AdminRemoveGameMessage result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+      
+      private de.pokerth.protocol.ProtoBuf.AdminRemoveGameMessage buildParsed()
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        de.pokerth.protocol.ProtoBuf.AdminRemoveGameMessage result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(
+            result).asInvalidProtocolBufferException();
+        }
+        return result;
+      }
+      
+      public de.pokerth.protocol.ProtoBuf.AdminRemoveGameMessage buildPartial() {
+        de.pokerth.protocol.ProtoBuf.AdminRemoveGameMessage result = new de.pokerth.protocol.ProtoBuf.AdminRemoveGameMessage(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.removeGameId_ = removeGameId_;
+        result.bitField0_ = to_bitField0_;
+        return result;
+      }
+      
+      public Builder mergeFrom(de.pokerth.protocol.ProtoBuf.AdminRemoveGameMessage other) {
+        if (other == de.pokerth.protocol.ProtoBuf.AdminRemoveGameMessage.getDefaultInstance()) return this;
+        if (other.hasRemoveGameId()) {
+          setRemoveGameId(other.getRemoveGameId());
+        }
+        return this;
+      }
+      
+      public final boolean isInitialized() {
+        if (!hasRemoveGameId()) {
+          
+          return false;
+        }
+        return true;
+      }
+      
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        while (true) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              
+              return this;
+            default: {
+              if (!parseUnknownField(input, extensionRegistry, tag)) {
+                
+                return this;
+              }
+              break;
+            }
+            case 8: {
+              bitField0_ |= 0x00000001;
+              removeGameId_ = input.readUInt32();
+              break;
+            }
+          }
+        }
+      }
+      
+      private int bitField0_;
+      
+      // required uint32 removeGameId = 1;
+      private int removeGameId_ ;
+      public boolean hasRemoveGameId() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      public int getRemoveGameId() {
+        return removeGameId_;
+      }
+      public Builder setRemoveGameId(int value) {
+        bitField0_ |= 0x00000001;
+        removeGameId_ = value;
+        
+        return this;
+      }
+      public Builder clearRemoveGameId() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        removeGameId_ = 0;
+        
+        return this;
+      }
+      
+      // @@protoc_insertion_point(builder_scope:AdminRemoveGameMessage)
+    }
+    
+    static {
+      defaultInstance = new AdminRemoveGameMessage(true);
+      defaultInstance.initFields();
+    }
+    
+    // @@protoc_insertion_point(class_scope:AdminRemoveGameMessage)
+  }
+  
+  public interface AdminBanPlayerMessageOrBuilder
+      extends com.google.protobuf.MessageLiteOrBuilder {
+    
+    // required uint32 banPlayerId = 1;
+    boolean hasBanPlayerId();
+    int getBanPlayerId();
+  }
+  public static final class AdminBanPlayerMessage extends
+      com.google.protobuf.GeneratedMessageLite
+      implements AdminBanPlayerMessageOrBuilder {
+    // Use AdminBanPlayerMessage.newBuilder() to construct.
+    private AdminBanPlayerMessage(Builder builder) {
+      super(builder);
+    }
+    private AdminBanPlayerMessage(boolean noInit) {}
+    
+    private static final AdminBanPlayerMessage defaultInstance;
+    public static AdminBanPlayerMessage getDefaultInstance() {
+      return defaultInstance;
+    }
+    
+    public AdminBanPlayerMessage getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+    
+    private int bitField0_;
+    // required uint32 banPlayerId = 1;
+    public static final int BANPLAYERID_FIELD_NUMBER = 1;
+    private int banPlayerId_;
+    public boolean hasBanPlayerId() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    public int getBanPlayerId() {
+      return banPlayerId_;
+    }
+    
+    private void initFields() {
+      banPlayerId_ = 0;
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+      
+      if (!hasBanPlayerId()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+    
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeUInt32(1, banPlayerId_);
+      }
+    }
+    
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+    
+      size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeUInt32Size(1, banPlayerId_);
+      }
+      memoizedSerializedSize = size;
+      return size;
+    }
+    
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+    
+    public static de.pokerth.protocol.ProtoBuf.AdminBanPlayerMessage parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return newBuilder().mergeFrom(data).buildParsed();
+    }
+    public static de.pokerth.protocol.ProtoBuf.AdminBanPlayerMessage parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return newBuilder().mergeFrom(data, extensionRegistry)
+               .buildParsed();
+    }
+    public static de.pokerth.protocol.ProtoBuf.AdminBanPlayerMessage parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return newBuilder().mergeFrom(data).buildParsed();
+    }
+    public static de.pokerth.protocol.ProtoBuf.AdminBanPlayerMessage parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return newBuilder().mergeFrom(data, extensionRegistry)
+               .buildParsed();
+    }
+    public static de.pokerth.protocol.ProtoBuf.AdminBanPlayerMessage parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return newBuilder().mergeFrom(input).buildParsed();
+    }
+    public static de.pokerth.protocol.ProtoBuf.AdminBanPlayerMessage parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return newBuilder().mergeFrom(input, extensionRegistry)
+               .buildParsed();
+    }
+    public static de.pokerth.protocol.ProtoBuf.AdminBanPlayerMessage parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      Builder builder = newBuilder();
+      if (builder.mergeDelimitedFrom(input)) {
+        return builder.buildParsed();
+      } else {
+        return null;
+      }
+    }
+    public static de.pokerth.protocol.ProtoBuf.AdminBanPlayerMessage parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      Builder builder = newBuilder();
+      if (builder.mergeDelimitedFrom(input, extensionRegistry)) {
+        return builder.buildParsed();
+      } else {
+        return null;
+      }
+    }
+    public static de.pokerth.protocol.ProtoBuf.AdminBanPlayerMessage parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return newBuilder().mergeFrom(input).buildParsed();
+    }
+    public static de.pokerth.protocol.ProtoBuf.AdminBanPlayerMessage parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return newBuilder().mergeFrom(input, extensionRegistry)
+               .buildParsed();
+    }
+    
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(de.pokerth.protocol.ProtoBuf.AdminBanPlayerMessage prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+    
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageLite.Builder<
+          de.pokerth.protocol.ProtoBuf.AdminBanPlayerMessage, Builder>
+        implements de.pokerth.protocol.ProtoBuf.AdminBanPlayerMessageOrBuilder {
+      // Construct using de.pokerth.protocol.ProtoBuf.AdminBanPlayerMessage.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+      
+      private void maybeForceBuilderInitialization() {
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+      
+      public Builder clear() {
+        super.clear();
+        banPlayerId_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000001);
+        return this;
+      }
+      
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+      
+      public de.pokerth.protocol.ProtoBuf.AdminBanPlayerMessage getDefaultInstanceForType() {
+        return de.pokerth.protocol.ProtoBuf.AdminBanPlayerMessage.getDefaultInstance();
+      }
+      
+      public de.pokerth.protocol.ProtoBuf.AdminBanPlayerMessage build() {
+        de.pokerth.protocol.ProtoBuf.AdminBanPlayerMessage result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+      
+      private de.pokerth.protocol.ProtoBuf.AdminBanPlayerMessage buildParsed()
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        de.pokerth.protocol.ProtoBuf.AdminBanPlayerMessage result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(
+            result).asInvalidProtocolBufferException();
+        }
+        return result;
+      }
+      
+      public de.pokerth.protocol.ProtoBuf.AdminBanPlayerMessage buildPartial() {
+        de.pokerth.protocol.ProtoBuf.AdminBanPlayerMessage result = new de.pokerth.protocol.ProtoBuf.AdminBanPlayerMessage(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.banPlayerId_ = banPlayerId_;
+        result.bitField0_ = to_bitField0_;
+        return result;
+      }
+      
+      public Builder mergeFrom(de.pokerth.protocol.ProtoBuf.AdminBanPlayerMessage other) {
+        if (other == de.pokerth.protocol.ProtoBuf.AdminBanPlayerMessage.getDefaultInstance()) return this;
+        if (other.hasBanPlayerId()) {
+          setBanPlayerId(other.getBanPlayerId());
+        }
+        return this;
+      }
+      
+      public final boolean isInitialized() {
+        if (!hasBanPlayerId()) {
+          
+          return false;
+        }
+        return true;
+      }
+      
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        while (true) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              
+              return this;
+            default: {
+              if (!parseUnknownField(input, extensionRegistry, tag)) {
+                
+                return this;
+              }
+              break;
+            }
+            case 8: {
+              bitField0_ |= 0x00000001;
+              banPlayerId_ = input.readUInt32();
+              break;
+            }
+          }
+        }
+      }
+      
+      private int bitField0_;
+      
+      // required uint32 banPlayerId = 1;
+      private int banPlayerId_ ;
+      public boolean hasBanPlayerId() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      public int getBanPlayerId() {
+        return banPlayerId_;
+      }
+      public Builder setBanPlayerId(int value) {
+        bitField0_ |= 0x00000001;
+        banPlayerId_ = value;
+        
+        return this;
+      }
+      public Builder clearBanPlayerId() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        banPlayerId_ = 0;
+        
+        return this;
+      }
+      
+      // @@protoc_insertion_point(builder_scope:AdminBanPlayerMessage)
+    }
+    
+    static {
+      defaultInstance = new AdminBanPlayerMessage(true);
+      defaultInstance.initFields();
+    }
+    
+    // @@protoc_insertion_point(class_scope:AdminBanPlayerMessage)
+  }
+  
   public interface PokerTHMessageOrBuilder
       extends com.google.protobuf.MessageLiteOrBuilder {
     
@@ -36622,6 +37204,14 @@ public final class ProtoBuf {
     // optional .ErrorMessage errorMessage = 74;
     boolean hasErrorMessage();
     de.pokerth.protocol.ProtoBuf.ErrorMessage getErrorMessage();
+    
+    // optional .AdminRemoveGameMessage adminRemoveGameMessage = 75;
+    boolean hasAdminRemoveGameMessage();
+    de.pokerth.protocol.ProtoBuf.AdminRemoveGameMessage getAdminRemoveGameMessage();
+    
+    // optional .AdminBanPlayerMessage adminBanPlayerMessage = 76;
+    boolean hasAdminBanPlayerMessage();
+    de.pokerth.protocol.ProtoBuf.AdminBanPlayerMessage getAdminBanPlayerMessage();
   }
   public static final class PokerTHMessage extends
       com.google.protobuf.GeneratedMessageLite
@@ -36716,6 +37306,8 @@ public final class ProtoBuf {
       Type_ReportGameMessage(70, 71),
       Type_ReportGameAckMessage(71, 72),
       Type_ErrorMessage(72, 73),
+      Type_AdminRemoveGameMessage(73, 74),
+      Type_AdminBanPlayerMessage(74, 75),
       ;
       
       public static final int Type_AnnounceMessage_VALUE = 1;
@@ -36791,6 +37383,8 @@ public final class ProtoBuf {
       public static final int Type_ReportGameMessage_VALUE = 71;
       public static final int Type_ReportGameAckMessage_VALUE = 72;
       public static final int Type_ErrorMessage_VALUE = 73;
+      public static final int Type_AdminRemoveGameMessage_VALUE = 74;
+      public static final int Type_AdminBanPlayerMessage_VALUE = 75;
       
       
       public final int getNumber() { return value; }
@@ -36870,6 +37464,8 @@ public final class ProtoBuf {
           case 71: return Type_ReportGameMessage;
           case 72: return Type_ReportGameAckMessage;
           case 73: return Type_ErrorMessage;
+          case 74: return Type_AdminRemoveGameMessage;
+          case 75: return Type_AdminBanPlayerMessage;
           default: return null;
         }
       }
@@ -37638,6 +38234,26 @@ public final class ProtoBuf {
       return errorMessage_;
     }
     
+    // optional .AdminRemoveGameMessage adminRemoveGameMessage = 75;
+    public static final int ADMINREMOVEGAMEMESSAGE_FIELD_NUMBER = 75;
+    private de.pokerth.protocol.ProtoBuf.AdminRemoveGameMessage adminRemoveGameMessage_;
+    public boolean hasAdminRemoveGameMessage() {
+      return ((bitField2_ & 0x00000400) == 0x00000400);
+    }
+    public de.pokerth.protocol.ProtoBuf.AdminRemoveGameMessage getAdminRemoveGameMessage() {
+      return adminRemoveGameMessage_;
+    }
+    
+    // optional .AdminBanPlayerMessage adminBanPlayerMessage = 76;
+    public static final int ADMINBANPLAYERMESSAGE_FIELD_NUMBER = 76;
+    private de.pokerth.protocol.ProtoBuf.AdminBanPlayerMessage adminBanPlayerMessage_;
+    public boolean hasAdminBanPlayerMessage() {
+      return ((bitField2_ & 0x00000800) == 0x00000800);
+    }
+    public de.pokerth.protocol.ProtoBuf.AdminBanPlayerMessage getAdminBanPlayerMessage() {
+      return adminBanPlayerMessage_;
+    }
+    
     private void initFields() {
       messageType_ = de.pokerth.protocol.ProtoBuf.PokerTHMessage.PokerTHMessageType.Type_AnnounceMessage;
       announceMessage_ = de.pokerth.protocol.ProtoBuf.AnnounceMessage.getDefaultInstance();
@@ -37713,6 +38329,8 @@ public final class ProtoBuf {
       reportGameMessage_ = de.pokerth.protocol.ProtoBuf.ReportGameMessage.getDefaultInstance();
       reportGameAckMessage_ = de.pokerth.protocol.ProtoBuf.ReportGameAckMessage.getDefaultInstance();
       errorMessage_ = de.pokerth.protocol.ProtoBuf.ErrorMessage.getDefaultInstance();
+      adminRemoveGameMessage_ = de.pokerth.protocol.ProtoBuf.AdminRemoveGameMessage.getDefaultInstance();
+      adminBanPlayerMessage_ = de.pokerth.protocol.ProtoBuf.AdminBanPlayerMessage.getDefaultInstance();
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -38143,6 +38761,18 @@ public final class ProtoBuf {
           return false;
         }
       }
+      if (hasAdminRemoveGameMessage()) {
+        if (!getAdminRemoveGameMessage().isInitialized()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
+      }
+      if (hasAdminBanPlayerMessage()) {
+        if (!getAdminBanPlayerMessage().isInitialized()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
+      }
       memoizedIsInitialized = 1;
       return true;
     }
@@ -38371,6 +39001,12 @@ public final class ProtoBuf {
       }
       if (((bitField2_ & 0x00000200) == 0x00000200)) {
         output.writeMessage(74, errorMessage_);
+      }
+      if (((bitField2_ & 0x00000400) == 0x00000400)) {
+        output.writeMessage(75, adminRemoveGameMessage_);
+      }
+      if (((bitField2_ & 0x00000800) == 0x00000800)) {
+        output.writeMessage(76, adminBanPlayerMessage_);
       }
     }
     
@@ -38676,6 +39312,14 @@ public final class ProtoBuf {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(74, errorMessage_);
       }
+      if (((bitField2_ & 0x00000400) == 0x00000400)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(75, adminRemoveGameMessage_);
+      }
+      if (((bitField2_ & 0x00000800) == 0x00000800)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(76, adminBanPlayerMessage_);
+      }
       memoizedSerializedSize = size;
       return size;
     }
@@ -38926,6 +39570,10 @@ public final class ProtoBuf {
         bitField2_ = (bitField2_ & ~0x00000100);
         errorMessage_ = de.pokerth.protocol.ProtoBuf.ErrorMessage.getDefaultInstance();
         bitField2_ = (bitField2_ & ~0x00000200);
+        adminRemoveGameMessage_ = de.pokerth.protocol.ProtoBuf.AdminRemoveGameMessage.getDefaultInstance();
+        bitField2_ = (bitField2_ & ~0x00000400);
+        adminBanPlayerMessage_ = de.pokerth.protocol.ProtoBuf.AdminBanPlayerMessage.getDefaultInstance();
+        bitField2_ = (bitField2_ & ~0x00000800);
         return this;
       }
       
@@ -39259,6 +39907,14 @@ public final class ProtoBuf {
           to_bitField2_ |= 0x00000200;
         }
         result.errorMessage_ = errorMessage_;
+        if (((from_bitField2_ & 0x00000400) == 0x00000400)) {
+          to_bitField2_ |= 0x00000400;
+        }
+        result.adminRemoveGameMessage_ = adminRemoveGameMessage_;
+        if (((from_bitField2_ & 0x00000800) == 0x00000800)) {
+          to_bitField2_ |= 0x00000800;
+        }
+        result.adminBanPlayerMessage_ = adminBanPlayerMessage_;
         result.bitField0_ = to_bitField0_;
         result.bitField1_ = to_bitField1_;
         result.bitField2_ = to_bitField2_;
@@ -39488,6 +40144,12 @@ public final class ProtoBuf {
         }
         if (other.hasErrorMessage()) {
           mergeErrorMessage(other.getErrorMessage());
+        }
+        if (other.hasAdminRemoveGameMessage()) {
+          mergeAdminRemoveGameMessage(other.getAdminRemoveGameMessage());
+        }
+        if (other.hasAdminBanPlayerMessage()) {
+          mergeAdminBanPlayerMessage(other.getAdminBanPlayerMessage());
         }
         return this;
       }
@@ -39913,6 +40575,18 @@ public final class ProtoBuf {
         }
         if (hasErrorMessage()) {
           if (!getErrorMessage().isInitialized()) {
+            
+            return false;
+          }
+        }
+        if (hasAdminRemoveGameMessage()) {
+          if (!getAdminRemoveGameMessage().isInitialized()) {
+            
+            return false;
+          }
+        }
+        if (hasAdminBanPlayerMessage()) {
+          if (!getAdminBanPlayerMessage().isInitialized()) {
             
             return false;
           }
@@ -40601,6 +41275,24 @@ public final class ProtoBuf {
               }
               input.readMessage(subBuilder, extensionRegistry);
               setErrorMessage(subBuilder.buildPartial());
+              break;
+            }
+            case 602: {
+              de.pokerth.protocol.ProtoBuf.AdminRemoveGameMessage.Builder subBuilder = de.pokerth.protocol.ProtoBuf.AdminRemoveGameMessage.newBuilder();
+              if (hasAdminRemoveGameMessage()) {
+                subBuilder.mergeFrom(getAdminRemoveGameMessage());
+              }
+              input.readMessage(subBuilder, extensionRegistry);
+              setAdminRemoveGameMessage(subBuilder.buildPartial());
+              break;
+            }
+            case 610: {
+              de.pokerth.protocol.ProtoBuf.AdminBanPlayerMessage.Builder subBuilder = de.pokerth.protocol.ProtoBuf.AdminBanPlayerMessage.newBuilder();
+              if (hasAdminBanPlayerMessage()) {
+                subBuilder.mergeFrom(getAdminBanPlayerMessage());
+              }
+              input.readMessage(subBuilder, extensionRegistry);
+              setAdminBanPlayerMessage(subBuilder.buildPartial());
               break;
             }
           }
@@ -43771,6 +44463,92 @@ public final class ProtoBuf {
         errorMessage_ = de.pokerth.protocol.ProtoBuf.ErrorMessage.getDefaultInstance();
         
         bitField2_ = (bitField2_ & ~0x00000200);
+        return this;
+      }
+      
+      // optional .AdminRemoveGameMessage adminRemoveGameMessage = 75;
+      private de.pokerth.protocol.ProtoBuf.AdminRemoveGameMessage adminRemoveGameMessage_ = de.pokerth.protocol.ProtoBuf.AdminRemoveGameMessage.getDefaultInstance();
+      public boolean hasAdminRemoveGameMessage() {
+        return ((bitField2_ & 0x00000400) == 0x00000400);
+      }
+      public de.pokerth.protocol.ProtoBuf.AdminRemoveGameMessage getAdminRemoveGameMessage() {
+        return adminRemoveGameMessage_;
+      }
+      public Builder setAdminRemoveGameMessage(de.pokerth.protocol.ProtoBuf.AdminRemoveGameMessage value) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        adminRemoveGameMessage_ = value;
+        
+        bitField2_ |= 0x00000400;
+        return this;
+      }
+      public Builder setAdminRemoveGameMessage(
+          de.pokerth.protocol.ProtoBuf.AdminRemoveGameMessage.Builder builderForValue) {
+        adminRemoveGameMessage_ = builderForValue.build();
+        
+        bitField2_ |= 0x00000400;
+        return this;
+      }
+      public Builder mergeAdminRemoveGameMessage(de.pokerth.protocol.ProtoBuf.AdminRemoveGameMessage value) {
+        if (((bitField2_ & 0x00000400) == 0x00000400) &&
+            adminRemoveGameMessage_ != de.pokerth.protocol.ProtoBuf.AdminRemoveGameMessage.getDefaultInstance()) {
+          adminRemoveGameMessage_ =
+            de.pokerth.protocol.ProtoBuf.AdminRemoveGameMessage.newBuilder(adminRemoveGameMessage_).mergeFrom(value).buildPartial();
+        } else {
+          adminRemoveGameMessage_ = value;
+        }
+        
+        bitField2_ |= 0x00000400;
+        return this;
+      }
+      public Builder clearAdminRemoveGameMessage() {
+        adminRemoveGameMessage_ = de.pokerth.protocol.ProtoBuf.AdminRemoveGameMessage.getDefaultInstance();
+        
+        bitField2_ = (bitField2_ & ~0x00000400);
+        return this;
+      }
+      
+      // optional .AdminBanPlayerMessage adminBanPlayerMessage = 76;
+      private de.pokerth.protocol.ProtoBuf.AdminBanPlayerMessage adminBanPlayerMessage_ = de.pokerth.protocol.ProtoBuf.AdminBanPlayerMessage.getDefaultInstance();
+      public boolean hasAdminBanPlayerMessage() {
+        return ((bitField2_ & 0x00000800) == 0x00000800);
+      }
+      public de.pokerth.protocol.ProtoBuf.AdminBanPlayerMessage getAdminBanPlayerMessage() {
+        return adminBanPlayerMessage_;
+      }
+      public Builder setAdminBanPlayerMessage(de.pokerth.protocol.ProtoBuf.AdminBanPlayerMessage value) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        adminBanPlayerMessage_ = value;
+        
+        bitField2_ |= 0x00000800;
+        return this;
+      }
+      public Builder setAdminBanPlayerMessage(
+          de.pokerth.protocol.ProtoBuf.AdminBanPlayerMessage.Builder builderForValue) {
+        adminBanPlayerMessage_ = builderForValue.build();
+        
+        bitField2_ |= 0x00000800;
+        return this;
+      }
+      public Builder mergeAdminBanPlayerMessage(de.pokerth.protocol.ProtoBuf.AdminBanPlayerMessage value) {
+        if (((bitField2_ & 0x00000800) == 0x00000800) &&
+            adminBanPlayerMessage_ != de.pokerth.protocol.ProtoBuf.AdminBanPlayerMessage.getDefaultInstance()) {
+          adminBanPlayerMessage_ =
+            de.pokerth.protocol.ProtoBuf.AdminBanPlayerMessage.newBuilder(adminBanPlayerMessage_).mergeFrom(value).buildPartial();
+        } else {
+          adminBanPlayerMessage_ = value;
+        }
+        
+        bitField2_ |= 0x00000800;
+        return this;
+      }
+      public Builder clearAdminBanPlayerMessage() {
+        adminBanPlayerMessage_ = de.pokerth.protocol.ProtoBuf.AdminBanPlayerMessage.getDefaultInstance();
+        
+        bitField2_ = (bitField2_ & ~0x00000800);
         return this;
       }
       

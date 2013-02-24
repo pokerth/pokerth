@@ -33,6 +33,7 @@
 #ifndef _SERVERBANMANAGER_H_
 #define _SERVERBANMANAGER_H_
 
+#include <db/dbdefs.h>
 #include <boost/asio.hpp>
 #include <boost/regex.hpp>
 #include <boost/thread.hpp>
@@ -47,6 +48,8 @@ public:
 	ServerBanManager(boost::shared_ptr<boost::asio::io_service> ioService);
 	virtual ~ServerBanManager();
 
+	void SetAdminPlayerIds(const std::list<DB_id> adminList);
+
 	void BanPlayerName(const std::string &playerName, unsigned durationHours = 0);
 	void BanPlayerRegex(const std::string &playerRegex, unsigned durationHours = 0);
 	void BanIPAddress(const std::string &ipAddress, unsigned durationHours);
@@ -54,6 +57,7 @@ public:
 	void GetBanList(std::list<std::string> &list) const;
 	void ClearBanList();
 
+	bool IsAdminPlayer(DB_id playerId) const;
 	bool IsPlayerBanned(const std::string &name) const;
 	bool IsIPAddressBanned(const std::string &ipAddress) const;
 
@@ -75,6 +79,7 @@ protected:
 	typedef std::map<unsigned, TimedPlayerBan> RegexMap;
 	typedef std::map<unsigned, TimedIPBan> IPAddressMap;
 	typedef std::list<boost::regex> RegexList;
+	typedef std::vector<DB_id> DBPlayerIdList;
 
 	boost::shared_ptr<boost::asio::deadline_timer> InternalRegisterTimedBan(unsigned timerId, unsigned durationHours);
 	void TimerRemoveBan(const boost::system::error_code &ec, unsigned banId, boost::shared_ptr<boost::asio::deadline_timer> timer);
@@ -87,6 +92,7 @@ private:
 	RegexMap m_banPlayerNameMap;
 	RegexList m_gameNameBadWordFilter;
 	IPAddressMap m_banIPAddressMap;
+	DBPlayerIdList m_adminPlayers;
 	unsigned m_curBanId;
 	mutable boost::mutex m_banMutex;
 };

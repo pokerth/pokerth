@@ -111,6 +111,8 @@ class ReportAvatarAckMessage;
 class ReportGameMessage;
 class ReportGameAckMessage;
 class ErrorMessage;
+class AdminRemoveGameMessage;
+class AdminBanPlayerMessage;
 class PokerTHMessage;
 
 enum NetGameInfo_NetGameType {
@@ -428,11 +430,13 @@ enum PokerTHMessage_PokerTHMessageType {
   PokerTHMessage_PokerTHMessageType_Type_ReportAvatarAckMessage = 70,
   PokerTHMessage_PokerTHMessageType_Type_ReportGameMessage = 71,
   PokerTHMessage_PokerTHMessageType_Type_ReportGameAckMessage = 72,
-  PokerTHMessage_PokerTHMessageType_Type_ErrorMessage = 73
+  PokerTHMessage_PokerTHMessageType_Type_ErrorMessage = 73,
+  PokerTHMessage_PokerTHMessageType_Type_AdminRemoveGameMessage = 74,
+  PokerTHMessage_PokerTHMessageType_Type_AdminBanPlayerMessage = 75
 };
 bool PokerTHMessage_PokerTHMessageType_IsValid(int value);
 const PokerTHMessage_PokerTHMessageType PokerTHMessage_PokerTHMessageType_PokerTHMessageType_MIN = PokerTHMessage_PokerTHMessageType_Type_AnnounceMessage;
-const PokerTHMessage_PokerTHMessageType PokerTHMessage_PokerTHMessageType_PokerTHMessageType_MAX = PokerTHMessage_PokerTHMessageType_Type_ErrorMessage;
+const PokerTHMessage_PokerTHMessageType PokerTHMessage_PokerTHMessageType_PokerTHMessageType_MAX = PokerTHMessage_PokerTHMessageType_Type_AdminBanPlayerMessage;
 const int PokerTHMessage_PokerTHMessageType_PokerTHMessageType_ARRAYSIZE = PokerTHMessage_PokerTHMessageType_PokerTHMessageType_MAX + 1;
 
 enum NetGameMode {
@@ -8125,6 +8129,144 @@ class ErrorMessage : public ::google::protobuf::MessageLite {
 };
 // -------------------------------------------------------------------
 
+class AdminRemoveGameMessage : public ::google::protobuf::MessageLite {
+ public:
+  AdminRemoveGameMessage();
+  virtual ~AdminRemoveGameMessage();
+  
+  AdminRemoveGameMessage(const AdminRemoveGameMessage& from);
+  
+  inline AdminRemoveGameMessage& operator=(const AdminRemoveGameMessage& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  
+  static const AdminRemoveGameMessage& default_instance();
+  
+  void Swap(AdminRemoveGameMessage* other);
+  
+  // implements Message ----------------------------------------------
+  
+  AdminRemoveGameMessage* New() const;
+  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from);
+  void CopyFrom(const AdminRemoveGameMessage& from);
+  void MergeFrom(const AdminRemoveGameMessage& from);
+  void Clear();
+  bool IsInitialized() const;
+  
+  int ByteSize() const;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input);
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const;
+  int GetCachedSize() const { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const;
+  public:
+  
+  ::std::string GetTypeName() const;
+  
+  // nested types ----------------------------------------------------
+  
+  // accessors -------------------------------------------------------
+  
+  // required uint32 removeGameId = 1;
+  inline bool has_removegameid() const;
+  inline void clear_removegameid();
+  static const int kRemoveGameIdFieldNumber = 1;
+  inline ::google::protobuf::uint32 removegameid() const;
+  inline void set_removegameid(::google::protobuf::uint32 value);
+  
+  // @@protoc_insertion_point(class_scope:AdminRemoveGameMessage)
+ private:
+  inline void set_has_removegameid();
+  inline void clear_has_removegameid();
+  
+  ::google::protobuf::uint32 removegameid_;
+  
+  mutable int _cached_size_;
+  ::google::protobuf::uint32 _has_bits_[(1 + 31) / 32];
+  
+  friend void  protobuf_AddDesc_pokerth_2eproto();
+  friend void protobuf_AssignDesc_pokerth_2eproto();
+  friend void protobuf_ShutdownFile_pokerth_2eproto();
+  
+  void InitAsDefaultInstance();
+  static AdminRemoveGameMessage* default_instance_;
+};
+// -------------------------------------------------------------------
+
+class AdminBanPlayerMessage : public ::google::protobuf::MessageLite {
+ public:
+  AdminBanPlayerMessage();
+  virtual ~AdminBanPlayerMessage();
+  
+  AdminBanPlayerMessage(const AdminBanPlayerMessage& from);
+  
+  inline AdminBanPlayerMessage& operator=(const AdminBanPlayerMessage& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  
+  static const AdminBanPlayerMessage& default_instance();
+  
+  void Swap(AdminBanPlayerMessage* other);
+  
+  // implements Message ----------------------------------------------
+  
+  AdminBanPlayerMessage* New() const;
+  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from);
+  void CopyFrom(const AdminBanPlayerMessage& from);
+  void MergeFrom(const AdminBanPlayerMessage& from);
+  void Clear();
+  bool IsInitialized() const;
+  
+  int ByteSize() const;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input);
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const;
+  int GetCachedSize() const { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const;
+  public:
+  
+  ::std::string GetTypeName() const;
+  
+  // nested types ----------------------------------------------------
+  
+  // accessors -------------------------------------------------------
+  
+  // required uint32 banPlayerId = 1;
+  inline bool has_banplayerid() const;
+  inline void clear_banplayerid();
+  static const int kBanPlayerIdFieldNumber = 1;
+  inline ::google::protobuf::uint32 banplayerid() const;
+  inline void set_banplayerid(::google::protobuf::uint32 value);
+  
+  // @@protoc_insertion_point(class_scope:AdminBanPlayerMessage)
+ private:
+  inline void set_has_banplayerid();
+  inline void clear_has_banplayerid();
+  
+  ::google::protobuf::uint32 banplayerid_;
+  
+  mutable int _cached_size_;
+  ::google::protobuf::uint32 _has_bits_[(1 + 31) / 32];
+  
+  friend void  protobuf_AddDesc_pokerth_2eproto();
+  friend void protobuf_AssignDesc_pokerth_2eproto();
+  friend void protobuf_ShutdownFile_pokerth_2eproto();
+  
+  void InitAsDefaultInstance();
+  static AdminBanPlayerMessage* default_instance_;
+};
+// -------------------------------------------------------------------
+
 class PokerTHMessage : public ::google::protobuf::MessageLite {
  public:
   PokerTHMessage();
@@ -8240,6 +8382,8 @@ class PokerTHMessage : public ::google::protobuf::MessageLite {
   static const PokerTHMessageType Type_ReportGameMessage = PokerTHMessage_PokerTHMessageType_Type_ReportGameMessage;
   static const PokerTHMessageType Type_ReportGameAckMessage = PokerTHMessage_PokerTHMessageType_Type_ReportGameAckMessage;
   static const PokerTHMessageType Type_ErrorMessage = PokerTHMessage_PokerTHMessageType_Type_ErrorMessage;
+  static const PokerTHMessageType Type_AdminRemoveGameMessage = PokerTHMessage_PokerTHMessageType_Type_AdminRemoveGameMessage;
+  static const PokerTHMessageType Type_AdminBanPlayerMessage = PokerTHMessage_PokerTHMessageType_Type_AdminBanPlayerMessage;
   static inline bool PokerTHMessageType_IsValid(int value) {
     return PokerTHMessage_PokerTHMessageType_IsValid(value);
   }
@@ -8843,6 +8987,22 @@ class PokerTHMessage : public ::google::protobuf::MessageLite {
   inline ::ErrorMessage* mutable_errormessage();
   inline ::ErrorMessage* release_errormessage();
   
+  // optional .AdminRemoveGameMessage adminRemoveGameMessage = 75;
+  inline bool has_adminremovegamemessage() const;
+  inline void clear_adminremovegamemessage();
+  static const int kAdminRemoveGameMessageFieldNumber = 75;
+  inline const ::AdminRemoveGameMessage& adminremovegamemessage() const;
+  inline ::AdminRemoveGameMessage* mutable_adminremovegamemessage();
+  inline ::AdminRemoveGameMessage* release_adminremovegamemessage();
+  
+  // optional .AdminBanPlayerMessage adminBanPlayerMessage = 76;
+  inline bool has_adminbanplayermessage() const;
+  inline void clear_adminbanplayermessage();
+  static const int kAdminBanPlayerMessageFieldNumber = 76;
+  inline const ::AdminBanPlayerMessage& adminbanplayermessage() const;
+  inline ::AdminBanPlayerMessage* mutable_adminbanplayermessage();
+  inline ::AdminBanPlayerMessage* release_adminbanplayermessage();
+  
   // @@protoc_insertion_point(class_scope:PokerTHMessage)
  private:
   inline void set_has_messagetype();
@@ -8993,6 +9153,10 @@ class PokerTHMessage : public ::google::protobuf::MessageLite {
   inline void clear_has_reportgameackmessage();
   inline void set_has_errormessage();
   inline void clear_has_errormessage();
+  inline void set_has_adminremovegamemessage();
+  inline void clear_has_adminremovegamemessage();
+  inline void set_has_adminbanplayermessage();
+  inline void clear_has_adminbanplayermessage();
   
   ::AnnounceMessage* announcemessage_;
   ::InitMessage* initmessage_;
@@ -9067,10 +9231,12 @@ class PokerTHMessage : public ::google::protobuf::MessageLite {
   ::ReportGameMessage* reportgamemessage_;
   ::ReportGameAckMessage* reportgameackmessage_;
   ::ErrorMessage* errormessage_;
+  ::AdminRemoveGameMessage* adminremovegamemessage_;
+  ::AdminBanPlayerMessage* adminbanplayermessage_;
   int messagetype_;
   
   mutable int _cached_size_;
-  ::google::protobuf::uint32 _has_bits_[(74 + 31) / 32];
+  ::google::protobuf::uint32 _has_bits_[(76 + 31) / 32];
   
   friend void  protobuf_AddDesc_pokerth_2eproto();
   friend void protobuf_AssignDesc_pokerth_2eproto();
@@ -15473,6 +15639,58 @@ inline void ErrorMessage::set_errorreason(::ErrorMessage_ErrorReason value) {
 
 // -------------------------------------------------------------------
 
+// AdminRemoveGameMessage
+
+// required uint32 removeGameId = 1;
+inline bool AdminRemoveGameMessage::has_removegameid() const {
+  return (_has_bits_[0] & 0x00000001u) != 0;
+}
+inline void AdminRemoveGameMessage::set_has_removegameid() {
+  _has_bits_[0] |= 0x00000001u;
+}
+inline void AdminRemoveGameMessage::clear_has_removegameid() {
+  _has_bits_[0] &= ~0x00000001u;
+}
+inline void AdminRemoveGameMessage::clear_removegameid() {
+  removegameid_ = 0u;
+  clear_has_removegameid();
+}
+inline ::google::protobuf::uint32 AdminRemoveGameMessage::removegameid() const {
+  return removegameid_;
+}
+inline void AdminRemoveGameMessage::set_removegameid(::google::protobuf::uint32 value) {
+  set_has_removegameid();
+  removegameid_ = value;
+}
+
+// -------------------------------------------------------------------
+
+// AdminBanPlayerMessage
+
+// required uint32 banPlayerId = 1;
+inline bool AdminBanPlayerMessage::has_banplayerid() const {
+  return (_has_bits_[0] & 0x00000001u) != 0;
+}
+inline void AdminBanPlayerMessage::set_has_banplayerid() {
+  _has_bits_[0] |= 0x00000001u;
+}
+inline void AdminBanPlayerMessage::clear_has_banplayerid() {
+  _has_bits_[0] &= ~0x00000001u;
+}
+inline void AdminBanPlayerMessage::clear_banplayerid() {
+  banplayerid_ = 0u;
+  clear_has_banplayerid();
+}
+inline ::google::protobuf::uint32 AdminBanPlayerMessage::banplayerid() const {
+  return banplayerid_;
+}
+inline void AdminBanPlayerMessage::set_banplayerid(::google::protobuf::uint32 value) {
+  set_has_banplayerid();
+  banplayerid_ = value;
+}
+
+// -------------------------------------------------------------------
+
 // PokerTHMessage
 
 // required .PokerTHMessage.PokerTHMessageType messageType = 1;
@@ -17612,6 +17830,64 @@ inline ::ErrorMessage* PokerTHMessage::release_errormessage() {
   clear_has_errormessage();
   ::ErrorMessage* temp = errormessage_;
   errormessage_ = NULL;
+  return temp;
+}
+
+// optional .AdminRemoveGameMessage adminRemoveGameMessage = 75;
+inline bool PokerTHMessage::has_adminremovegamemessage() const {
+  return (_has_bits_[2] & 0x00000400u) != 0;
+}
+inline void PokerTHMessage::set_has_adminremovegamemessage() {
+  _has_bits_[2] |= 0x00000400u;
+}
+inline void PokerTHMessage::clear_has_adminremovegamemessage() {
+  _has_bits_[2] &= ~0x00000400u;
+}
+inline void PokerTHMessage::clear_adminremovegamemessage() {
+  if (adminremovegamemessage_ != NULL) adminremovegamemessage_->::AdminRemoveGameMessage::Clear();
+  clear_has_adminremovegamemessage();
+}
+inline const ::AdminRemoveGameMessage& PokerTHMessage::adminremovegamemessage() const {
+  return adminremovegamemessage_ != NULL ? *adminremovegamemessage_ : *default_instance_->adminremovegamemessage_;
+}
+inline ::AdminRemoveGameMessage* PokerTHMessage::mutable_adminremovegamemessage() {
+  set_has_adminremovegamemessage();
+  if (adminremovegamemessage_ == NULL) adminremovegamemessage_ = new ::AdminRemoveGameMessage;
+  return adminremovegamemessage_;
+}
+inline ::AdminRemoveGameMessage* PokerTHMessage::release_adminremovegamemessage() {
+  clear_has_adminremovegamemessage();
+  ::AdminRemoveGameMessage* temp = adminremovegamemessage_;
+  adminremovegamemessage_ = NULL;
+  return temp;
+}
+
+// optional .AdminBanPlayerMessage adminBanPlayerMessage = 76;
+inline bool PokerTHMessage::has_adminbanplayermessage() const {
+  return (_has_bits_[2] & 0x00000800u) != 0;
+}
+inline void PokerTHMessage::set_has_adminbanplayermessage() {
+  _has_bits_[2] |= 0x00000800u;
+}
+inline void PokerTHMessage::clear_has_adminbanplayermessage() {
+  _has_bits_[2] &= ~0x00000800u;
+}
+inline void PokerTHMessage::clear_adminbanplayermessage() {
+  if (adminbanplayermessage_ != NULL) adminbanplayermessage_->::AdminBanPlayerMessage::Clear();
+  clear_has_adminbanplayermessage();
+}
+inline const ::AdminBanPlayerMessage& PokerTHMessage::adminbanplayermessage() const {
+  return adminbanplayermessage_ != NULL ? *adminbanplayermessage_ : *default_instance_->adminbanplayermessage_;
+}
+inline ::AdminBanPlayerMessage* PokerTHMessage::mutable_adminbanplayermessage() {
+  set_has_adminbanplayermessage();
+  if (adminbanplayermessage_ == NULL) adminbanplayermessage_ = new ::AdminBanPlayerMessage;
+  return adminbanplayermessage_;
+}
+inline ::AdminBanPlayerMessage* PokerTHMessage::release_adminbanplayermessage() {
+  clear_has_adminbanplayermessage();
+  ::AdminBanPlayerMessage* temp = adminbanplayermessage_;
+  adminbanplayermessage_ = NULL;
   return temp;
 }
 

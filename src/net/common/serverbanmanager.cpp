@@ -30,6 +30,7 @@
  *****************************************************************************/
 
 #include <net/serverbanmanager.h>
+#include <algorithm>
 
 using namespace std;
 
@@ -41,6 +42,15 @@ ServerBanManager::ServerBanManager(boost::shared_ptr<boost::asio::io_service> io
 
 ServerBanManager::~ServerBanManager()
 {
+}
+
+void
+ServerBanManager::SetAdminPlayerIds(const std::list<DB_id> adminList)
+{
+	boost::mutex::scoped_lock lock(m_banMutex);
+	m_adminPlayers.resize(adminList.size());
+	copy(adminList.begin(), adminList.end(), m_adminPlayers.begin());
+	sort(m_adminPlayers.begin(), m_adminPlayers.end());
 }
 
 void
@@ -138,6 +148,20 @@ ServerBanManager::ClearBanList()
 	boost::mutex::scoped_lock lock(m_banMutex);
 	m_banPlayerNameMap.clear();
 	m_banIPAddressMap.clear();
+}
+
+bool
+ServerBanManager::IsAdminPlayer(DB_id playerId) const
+{
+	bool retVal = false;
+	if (playerId != DB_ID_INVALID) {
+		boost::mutex::scoped_lock lock(m_banMutex);
+
+		if (binary_search(m_adminPlayers.begin(), m_adminPlayers.end(), playerId)) {
+			retVal = true;
+		}
+	}
+	return retVal;
 }
 
 bool

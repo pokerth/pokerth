@@ -137,6 +137,13 @@ PlayerData::GetRights() const
 	return m_rights;
 }
 
+void
+PlayerData::SetRights(PlayerRights rights)
+{
+	boost::mutex::scoped_lock lock(m_dataMutex);
+	m_rights = rights;
+}
+
 bool
 PlayerData::IsGameAdmin() const
 {

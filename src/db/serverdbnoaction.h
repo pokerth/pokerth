@@ -59,6 +59,9 @@ public:
 
 	virtual void AsyncReportAvatar(unsigned /*requestId*/, unsigned /*replyId*/, DB_id /*reportedPlayerId*/, const std::string &/*avatarHash*/, const std::string &/*avatarType*/, DB_id * /*byPlayerId*/) {}
 	virtual void AsyncReportGame(unsigned /*requestId*/, unsigned /*replyId*/, DB_id * /*creatorPlayerId*/, unsigned /*gameId*/, const std::string &/*gameName*/, DB_id * /*byPlayerId*/) {}
+
+	virtual void AsyncQueryAdminPlayers(unsigned /*requestId*/) {}
+	virtual void AsyncBlockPlayer(unsigned /*requestId*/, DB_id /*playerId*/, int /*valid*/, int /*active*/) {}
 };
 
 #endif // _SERVERDBNOACTION_H_

@@ -2185,7 +2185,7 @@ void gameLobbyDialogImpl::reportBadGameName()
 {
 	assert(mySession);
 	if (myGameListSelectionModel->hasSelection()) {
-		unsigned gameId = selection->selectedRows().first().data(Qt::UserRole).toUInt();
+		unsigned gameId = myGameListSelectionModel->selectedRows().first().data(Qt::UserRole).toUInt();
 		GameInfo info(mySession->getClientGameInfo(gameId));
 
 		int ret = MyMessageBox::question(this, tr("PokerTH - Question"),
@@ -2202,14 +2202,14 @@ void gameLobbyDialogImpl::adminActionCloseGame()
 {
 	assert(mySession);
 	if (myGameListSelectionModel->hasSelection()) {
-		unsigned gameId = selection->selectedRows().first().data(Qt::UserRole).toUInt();
+		unsigned gameId = myGameListSelectionModel->selectedRows().first().data(Qt::UserRole).toUInt();
 		GameInfo info(mySession->getClientGameInfo(gameId));
 
 		int ret = MyMessageBox::question(this, tr("PokerTH - Question"),
 										 tr("Are you sure you want to close the game:\n\"%1\"?").arg(QString::fromUtf8(info.name.c_str())), QMessageBox::Yes | QMessageBox::No);
 
 		if(ret == QMessageBox::Yes) {
-			mySession->adminActionCloseGame(gameId);
+			//TODO mySession->adminActionCloseGame(gameId);
 		}
 	}
 }
@@ -2218,14 +2218,14 @@ void gameLobbyDialogImpl::adminActionTotalKickBan()
 {
 	assert(mySession);
 	if (myNickListSelectionModel->hasSelection()) {
-		unsigned playerId = selection->selectedRows().first().data(Qt::UserRole).toUInt();
+		unsigned playerId = myGameListSelectionModel->selectedRows().first().data(Qt::UserRole).toUInt();
 		PlayerInfo info(mySession->getClientPlayerInfo(playerId));
 
 		int ret = MyMessageBox::question(this, tr("PokerTH - Question"),
 										 tr("Are you sure you want to total kickban the player: \"%1\"?").arg(QString::fromUtf8(info.playerName.c_str())), QMessageBox::Yes | QMessageBox::No);
 
 		if(ret == QMessageBox::Yes) {
-			mySession->adminActionTotalKickBan(playerId);
+			// TODO mySession->adminActionTotalKickBan(playerId);
 		}
 	}
 }

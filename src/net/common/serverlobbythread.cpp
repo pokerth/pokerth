@@ -146,16 +146,16 @@ public:
 		LOG_MSG("Successfully connected to database.");
 	}
 
-	virtual void ConnectFailed(const string &error) {
+	virtual void ConnectFailed(string error) {
 		LOG_ERROR("DB connect error: " << error);
 	}
 
-	virtual void QueryError(const std::string &error) {
+	virtual void QueryError(string error) {
 		LOG_ERROR("DB query error: " << error);
 	}
 
-	virtual void PlayerLoginSuccess(unsigned requestId, const DBPlayerData &dbPlayerData) {
-		m_server.UserValid(requestId, dbPlayerData);
+	virtual void PlayerLoginSuccess(unsigned requestId, boost::shared_ptr<DBPlayerData> dbPlayerData) {
+		m_server.UserValid(requestId, *dbPlayerData);
 	}
 
 	virtual void PlayerLoginFailed(unsigned requestId) {
@@ -197,6 +197,10 @@ public:
 
 	virtual void ReportGameFailed(unsigned requestId, unsigned replyId) {
 		m_server.SendReportGameResult(requestId, replyId, false);
+	}
+
+	virtual void PlayerAdminList(unsigned requestId, std::list<DB_id> adminList) {
+		m_server.GetBanManager().SetAdminPlayerIds(adminList);
 	}
 
 private:
@@ -242,6 +246,7 @@ ServerLobbyThread::Init(const string &logDir)
 		m_serverConfig.readConfigString("DBServerPassword"),
 		m_serverConfig.readConfigString("DBServerDatabaseName"),
 		m_serverConfig.readConfigString("DBServerEncryptionKey"));
+	m_database->AsyncQueryAdminPlayers(0);
 
 	GetBanManager().InitGameNameBadWordList(m_serverConfig.readConfigStringList("GameNameBadWordList"));
 }
@@ -926,6 +931,10 @@ ServerLobbyThread::HandlePacket(boost::shared_ptr<SessionData> session, boost::s
 				HandleNetPacketReportGame(session, packet->GetMsg()->reportgamemessage());
 			} else if (packet->GetMsg()->messagetype() == PokerTHMessage::Type_LeaveGameRequestMessage) {
 				// Ignore "leave game" in this state.
+			} else if (packet->GetMsg()->messagetype() == PokerTHMessage::Type_AdminRemoveGameMessage) {
+				HandleNetPacketAdminRemoveGame(session, packet->GetMsg()->adminremovegamemessage());
+			} else if (packet->GetMsg()->messagetype() == PokerTHMessage::Type_AdminBanPlayerMessage) {
+				HandleNetPacketAdminBanPlayer(session, packet->GetMsg()->adminbanplayermessage());
 			} else {
 				SessionError(session, ERR_SOCK_INVALID_STATE);
 			}
@@ -1074,6 +1083,10 @@ ServerLobbyThread::HandleNetPacketAuthClientResponse(boost::shared_ptr<SessionDa
 			GetSender().Send(session, packet);
 			// The last message is only for server verification.
 			// We are done now, the user has logged in.
+			boost::shared_ptr<PlayerData> tmpPlayerData = session->GetPlayerData();
+			if (GetBanManager().IsAdminPlayer(tmpPlayerData->GetDBId())) {
+				session->GetPlayerData()->SetRights(PLAYER_RIGHTS_ADMIN);
+			}
 			CheckAvatarBlacklist(session);
 		} else
 			SessionError(session, ERR_NET_INVALID_PASSWORD);
@@ -1458,6 +1471,21 @@ ServerLobbyThread::HandleNetPacketReportGame(boost::shared_ptr<SessionData> sess
 		netReportAck->set_reportgameresult(ReportGameAckMessage::gameReportInvalid);
 		GetSender().Send(session, packet);
 	}
+}
+
+void
+ServerLobbyThread::HandleNetPacketAdminRemoveGame(boost::shared_ptr<SessionData> session, const AdminRemoveGameMessage &removeGame)
+{
+	GameMap::iterator pos = m_gameMap.find(removeGame.removegameid());
+
+	if (pos != m_gameMap.end() && session->GetPlayerData() && GetBanManager().IsAdminPlayer(session->GetPlayerData()->GetDBId())) {
+		InternalRemoveGame(pos->second);
+	}
+}
+
+void
+ServerLobbyThread::HandleNetPacketAdminBanPlayer(boost::shared_ptr<SessionData> session, const AdminBanPlayerMessage &banPlayer)
+{
 }
 
 void

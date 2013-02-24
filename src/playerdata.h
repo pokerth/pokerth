@@ -70,10 +70,11 @@ struct AvatarFile {
 };
 
 struct PlayerInfo {
-	PlayerInfo() : ptype(PLAYER_TYPE_HUMAN), isGuest(false), hasAvatar(false), avatarType(AVATAR_FILE_TYPE_UNKNOWN) {}
+	PlayerInfo() : ptype(PLAYER_TYPE_HUMAN), isGuest(false), isAdmin(false), hasAvatar(false), avatarType(AVATAR_FILE_TYPE_UNKNOWN) {}
 	std::string		playerName;
 	PlayerType		ptype;
 	bool			isGuest;
+	bool			isAdmin;
 	std::string		countryCode;
 	bool			hasAvatar;
 	MD5Buf			avatar;
@@ -100,6 +101,7 @@ public:
 	PlayerType GetType() const;
 	void SetType(PlayerType type);
 	PlayerRights GetRights() const;
+	void SetRights(PlayerRights rights);
 	bool IsGameAdmin() const;
 	void SetGameAdmin(bool isAdmin);
 	unsigned GetUniqueId() const;

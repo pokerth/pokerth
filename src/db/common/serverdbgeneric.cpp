@@ -109,3 +109,14 @@ ServerDBGeneric::AsyncReportGame(unsigned requestId, unsigned replyId, DB_id * /
 {
 	m_ioService->post(boost::bind(&ServerDBCallback::ReportGameFailed, &m_callback, requestId, replyId));
 }
+
+void
+ServerDBGeneric::AsyncQueryAdminPlayers(unsigned /*requestId*/)
+{
+}
+
+void
+ServerDBGeneric::AsyncBlockPlayer(unsigned /*requestId*/, DB_id /*playerId*/, int /*valid*/, int /*active*/)
+{
+}
+
