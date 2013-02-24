@@ -160,6 +160,8 @@ public slots:
 	QString getFullCountryString(QString);
 	void closeAllChildDialogs();
 	void reportBadGameName();
+	void adminActionCloseGame();
+	void adminActionTotalKickBan();
 
 private:
 
@@ -196,11 +198,16 @@ private:
 	MyGameListSortFilterProxyModel *myGameListSortFilterProxyModel;
 	QMenu *gameListContextMenu;
 	QAction *gameListReportBadGameNameAction;
+	QMenu *gameListAdminSubMenu;
+	QAction *gameListAdminCloseGame;
 	QMenu *nickListContextMenu;
 	QAction *nickListInviteAction;
 	QAction *nickListIgnorePlayerAction;
 	QMenu *nickListPlayerInfoSubMenu;
+	QMenu *nickListAdminSubMenu;
+	QAction *nickListAdminTotalKickBan;
 	QMenu *connectedPlayersListPlayerInfoSubMenu;
+
 	QAction *nickListPlayerInGameInfo;
 	QAction *nickListOpenPlayerStats1;
 	QAction *nickListOpenPlayerStats2;

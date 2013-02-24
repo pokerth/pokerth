@@ -206,6 +206,8 @@ gameLobbyDialogImpl::gameLobbyDialogImpl(startWindowImpl *parent, ConfigFile *c)
 	connectedPlayersListPlayerInfoSubMenu = new QMenu();
 	nickListOpenPlayerStats2 = new QAction(QIcon(":/gfx/view-statistics.png"), tr("Show player stats"), nickListContextMenu);
 	connectedPlayersListPlayerInfoSubMenu->addAction(nickListOpenPlayerStats2);
+	connectedPlayersListPlayerInfoSubMenu = new QMenu();
+
 
 	gameListContextMenu = new QMenu();
 	gameListReportBadGameNameAction = new QAction(QIcon(":/gfx/emblem-important.png"), tr("Report inappropriate game name"), gameListContextMenu);
@@ -240,6 +242,8 @@ gameLobbyDialogImpl::gameLobbyDialogImpl(startWindowImpl *parent, ConfigFile *c)
 	connect( nickListOpenPlayerStats2, SIGNAL(triggered()), this, SLOT( openPlayerStats2() ));
 	connect( lineEdit_searchForPlayers, SIGNAL(textChanged(QString)),this, SLOT(searchForPlayerRegExpChanged()));
 	connect( gameListReportBadGameNameAction, SIGNAL(triggered()), this, SLOT( reportBadGameName()));
+	connect( gameListAdminCloseGame, SIGNAL(triggered()), this, SLOT( adminActionCloseGame() ));
+	connect( nickListAdminTotalKickBan, SIGNAL(triggered()), this, SLOT( adminActionTotalKickBan() ));
 
 	lineEdit_searchForPlayers->installEventFilter(this);
 	lineEdit_ChatInput->installEventFilter(this);
@@ -1685,6 +1689,14 @@ void gameLobbyDialogImpl::showNickListContextMenu(QPoint p)
 		}
 		nickListPlayerInGameInfo->setText(playerInGameInfoString);
 
+
+//		check for admin	and add admin actions
+		if(mySession->getClientPlayerInfo(mySession->getClientUniquePlayerId()).isAdmin) {
+			nickListAdminSubMenu = nickListContextMenu->addMenu(tr("Admin action ..."));
+			nickListAdminTotalKickBan = new QAction(tr("Total kickban"), nickListAdminSubMenu);
+			nickListAdminSubMenu->addAction(nickListAdminTotalKickBan);
+		}
+
 		//popup a little more to the right to avaoid double click action
 		QPoint tempPoint = p;
 		tempPoint.setX(p.x()+5);
@@ -1695,6 +1707,14 @@ void gameLobbyDialogImpl::showNickListContextMenu(QPoint p)
 void gameLobbyDialogImpl::showGameListContextMenu(QPoint p)
 {
 	if(myGameListModel->rowCount() && myGameListSelectionModel->currentIndex().isValid()) {
+
+	//		check for admin	and add admin actions
+		if(mySession->getClientPlayerInfo(mySession->getClientUniquePlayerId()).isAdmin) {
+			gameListAdminSubMenu = gameListContextMenu->addMenu(tr("Admin action ..."));
+			gameListAdminCloseGame = new QAction(tr("Close game"), gameListAdminSubMenu);
+			gameListAdminSubMenu->addAction(gameListAdminCloseGame);
+		}
+
 		//popup a little more to the right to avaoid double click action
 		QPoint tempPoint = p;
 		tempPoint.setX(p.x()+5);
@@ -2158,8 +2178,7 @@ void gameLobbyDialogImpl::closeAllChildDialogs()
 void gameLobbyDialogImpl::reportBadGameName()
 {
 	assert(mySession);
-	QItemSelectionModel *selection = treeView_GameList->selectionModel();
-	if (selection->hasSelection()) {
+	if (myGameListSelectionModel->hasSelection()) {
 		unsigned gameId = selection->selectedRows().first().data(Qt::UserRole).toUInt();
 		GameInfo info(mySession->getClientGameInfo(gameId));
 
@@ -2168,6 +2187,39 @@ void gameLobbyDialogImpl::reportBadGameName()
 
 		if(ret == QMessageBox::Yes) {
 			mySession->reportBadGameName(gameId);
+		}
+	}
+}
+
+
+void gameLobbyDialogImpl::adminActionCloseGame()
+{
+	assert(mySession);
+	if (myGameListSelectionModel->hasSelection()) {
+		unsigned gameId = selection->selectedRows().first().data(Qt::UserRole).toUInt();
+		GameInfo info(mySession->getClientGameInfo(gameId));
+
+		int ret = MyMessageBox::question(this, tr("PokerTH - Question"),
+										 tr("Are you sure you want to close the game:\n\"%1\"?").arg(QString::fromUtf8(info.name.c_str())), QMessageBox::Yes | QMessageBox::No);
+
+		if(ret == QMessageBox::Yes) {
+			mySession->adminActionCloseGame(gameId);
+		}
+	}
+}
+
+void gameLobbyDialogImpl::adminActionTotalKickBan()
+{
+	assert(mySession);
+	if (myNickListSelectionModel->hasSelection()) {
+		unsigned playerId = selection->selectedRows().first().data(Qt::UserRole).toUInt();
+		PlayerInfo info(mySession->getClientPlayerInfo(playerId));
+
+		int ret = MyMessageBox::question(this, tr("PokerTH - Question"),
+										 tr("Are you sure you want to total kickban the player: \"%1\"?").arg(QString::fromUtf8(info.playerName.c_str())), QMessageBox::Yes | QMessageBox::No);
+
+		if(ret == QMessageBox::Yes) {
+			mySession->adminActionTotalKickBan(playerId);
 		}
 	}
 }
