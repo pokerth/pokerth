@@ -1683,7 +1683,6 @@ void gameLobbyDialogImpl::showNickListContextMenu(QPoint p)
 			nickListIgnorePlayerAction->setText(tr("Ignore player ..."));
 		}
 
-
 		unsigned gameIdOfPlayer = mySession->getGameIdOfPlayer(playerUid);
 		QString playerInGameInfoString;
 		if(gameIdOfPlayer) {
@@ -1693,6 +1692,9 @@ void gameLobbyDialogImpl::showNickListContextMenu(QPoint p)
 		}
 		nickListPlayerInGameInfo->setText(playerInGameInfoString);
 
+		//prevent admin to total kickban himself
+		if(playerUid == mySession->getClientUniquePlayerId()) {	nickListAdminTotalKickBan->setDisabled(true); }
+		else { nickListAdminTotalKickBan->setEnabled(true);	}
 
 //		check for admin	and remove admin actions for non-admins
 		if(!mySession->getClientPlayerInfo(mySession->getClientUniquePlayerId()).isAdmin) {
@@ -1710,7 +1712,12 @@ void gameLobbyDialogImpl::showGameListContextMenu(QPoint p)
 {
 	if(myGameListModel->rowCount() && myGameListSelectionModel->currentIndex().isValid()) {
 
-	//		check for admin	and remove admin actions for non-admins
+		assert(mySession);
+		unsigned selectedGameId = myGameListSelectionModel->selectedRows().first().data(Qt::UserRole).toUInt();
+		if(selectedGameId == mySession->getClientCurrentGameId()) { gameListAdminCloseGame->setDisabled(true); }
+		else { gameListAdminCloseGame->setEnabled(true); }
+
+//		check for admin	and remove admin actions for non-admins
 		if(!mySession->getClientPlayerInfo(mySession->getClientUniquePlayerId()).isAdmin) {
 			gameListContextMenu->removeAction(gameListAdminSubMenu->menuAction());
 		}
