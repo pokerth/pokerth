@@ -94,7 +94,9 @@ void protobuf_ShutdownFile_pokerth_2eproto() {
   delete ReportGameAckMessage::default_instance_;
   delete ErrorMessage::default_instance_;
   delete AdminRemoveGameMessage::default_instance_;
+  delete AdminRemoveGameAckMessage::default_instance_;
   delete AdminBanPlayerMessage::default_instance_;
+  delete AdminBanPlayerAckMessage::default_instance_;
   delete PokerTHMessage::default_instance_;
 }
 
@@ -187,7 +189,9 @@ void protobuf_AddDesc_pokerth_2eproto() {
   ReportGameAckMessage::default_instance_ = new ReportGameAckMessage();
   ErrorMessage::default_instance_ = new ErrorMessage();
   AdminRemoveGameMessage::default_instance_ = new AdminRemoveGameMessage();
+  AdminRemoveGameAckMessage::default_instance_ = new AdminRemoveGameAckMessage();
   AdminBanPlayerMessage::default_instance_ = new AdminBanPlayerMessage();
+  AdminBanPlayerAckMessage::default_instance_ = new AdminBanPlayerAckMessage();
   PokerTHMessage::default_instance_ = new PokerTHMessage();
   NetGameInfo::default_instance_->InitAsDefaultInstance();
   PlayerResult::default_instance_->InitAsDefaultInstance();
@@ -272,7 +276,9 @@ void protobuf_AddDesc_pokerth_2eproto() {
   ReportGameAckMessage::default_instance_->InitAsDefaultInstance();
   ErrorMessage::default_instance_->InitAsDefaultInstance();
   AdminRemoveGameMessage::default_instance_->InitAsDefaultInstance();
+  AdminRemoveGameAckMessage::default_instance_->InitAsDefaultInstance();
   AdminBanPlayerMessage::default_instance_->InitAsDefaultInstance();
+  AdminBanPlayerAckMessage::default_instance_->InitAsDefaultInstance();
   PokerTHMessage::default_instance_->InitAsDefaultInstance();
   ::google::protobuf::internal::OnShutdown(&protobuf_ShutdownFile_pokerth_2eproto);
 }
@@ -19548,6 +19554,220 @@ void AdminRemoveGameMessage::Swap(AdminRemoveGameMessage* other) {
 
 // ===================================================================
 
+bool AdminRemoveGameAckMessage_AdminRemoveGameResult_IsValid(int value) {
+  switch(value) {
+    case 0:
+    case 1:
+      return true;
+    default:
+      return false;
+  }
+}
+
+#ifndef _MSC_VER
+const AdminRemoveGameAckMessage_AdminRemoveGameResult AdminRemoveGameAckMessage::gameRemoveAccepted;
+const AdminRemoveGameAckMessage_AdminRemoveGameResult AdminRemoveGameAckMessage::gameRemoveInvalid;
+const AdminRemoveGameAckMessage_AdminRemoveGameResult AdminRemoveGameAckMessage::AdminRemoveGameResult_MIN;
+const AdminRemoveGameAckMessage_AdminRemoveGameResult AdminRemoveGameAckMessage::AdminRemoveGameResult_MAX;
+const int AdminRemoveGameAckMessage::AdminRemoveGameResult_ARRAYSIZE;
+#endif  // _MSC_VER
+#ifndef _MSC_VER
+const int AdminRemoveGameAckMessage::kRemoveGameIdFieldNumber;
+const int AdminRemoveGameAckMessage::kRemoveGameResultFieldNumber;
+#endif  // !_MSC_VER
+
+AdminRemoveGameAckMessage::AdminRemoveGameAckMessage()
+  : ::google::protobuf::MessageLite() {
+  SharedCtor();
+}
+
+void AdminRemoveGameAckMessage::InitAsDefaultInstance() {
+}
+
+AdminRemoveGameAckMessage::AdminRemoveGameAckMessage(const AdminRemoveGameAckMessage& from)
+  : ::google::protobuf::MessageLite() {
+  SharedCtor();
+  MergeFrom(from);
+}
+
+void AdminRemoveGameAckMessage::SharedCtor() {
+  _cached_size_ = 0;
+  removegameid_ = 0u;
+  removegameresult_ = 0;
+  ::memset(_has_bits_, 0, sizeof(_has_bits_));
+}
+
+AdminRemoveGameAckMessage::~AdminRemoveGameAckMessage() {
+  SharedDtor();
+}
+
+void AdminRemoveGameAckMessage::SharedDtor() {
+  if (this != default_instance_) {
+  }
+}
+
+void AdminRemoveGameAckMessage::SetCachedSize(int size) const {
+  GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
+  _cached_size_ = size;
+  GOOGLE_SAFE_CONCURRENT_WRITES_END();
+}
+const AdminRemoveGameAckMessage& AdminRemoveGameAckMessage::default_instance() {
+  if (default_instance_ == NULL) protobuf_AddDesc_pokerth_2eproto();  return *default_instance_;
+}
+
+AdminRemoveGameAckMessage* AdminRemoveGameAckMessage::default_instance_ = NULL;
+
+AdminRemoveGameAckMessage* AdminRemoveGameAckMessage::New() const {
+  return new AdminRemoveGameAckMessage;
+}
+
+void AdminRemoveGameAckMessage::Clear() {
+  if (_has_bits_[0 / 32] & (0xffu << (0 % 32))) {
+    removegameid_ = 0u;
+    removegameresult_ = 0;
+  }
+  ::memset(_has_bits_, 0, sizeof(_has_bits_));
+}
+
+bool AdminRemoveGameAckMessage::MergePartialFromCodedStream(
+    ::google::protobuf::io::CodedInputStream* input) {
+#define DO_(EXPRESSION) if (!(EXPRESSION)) return false
+  ::google::protobuf::uint32 tag;
+  while ((tag = input->ReadTag()) != 0) {
+    switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
+      // required uint32 removeGameId = 1;
+      case 1: {
+        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+            ::google::protobuf::internal::WireFormatLite::WIRETYPE_VARINT) {
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
+                 input, &removegameid_)));
+          set_has_removegameid();
+        } else {
+          goto handle_uninterpreted;
+        }
+        if (input->ExpectTag(16)) goto parse_removeGameResult;
+        break;
+      }
+      
+      // required .AdminRemoveGameAckMessage.AdminRemoveGameResult removeGameResult = 2;
+      case 2: {
+        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+            ::google::protobuf::internal::WireFormatLite::WIRETYPE_VARINT) {
+         parse_removeGameResult:
+          int value;
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   int, ::google::protobuf::internal::WireFormatLite::TYPE_ENUM>(
+                 input, &value)));
+          if (::AdminRemoveGameAckMessage_AdminRemoveGameResult_IsValid(value)) {
+            set_removegameresult(static_cast< ::AdminRemoveGameAckMessage_AdminRemoveGameResult >(value));
+          }
+        } else {
+          goto handle_uninterpreted;
+        }
+        if (input->ExpectAtEnd()) return true;
+        break;
+      }
+      
+      default: {
+      handle_uninterpreted:
+        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+            ::google::protobuf::internal::WireFormatLite::WIRETYPE_END_GROUP) {
+          return true;
+        }
+        DO_(::google::protobuf::internal::WireFormatLite::SkipField(input, tag));
+        break;
+      }
+    }
+  }
+  return true;
+#undef DO_
+}
+
+void AdminRemoveGameAckMessage::SerializeWithCachedSizes(
+    ::google::protobuf::io::CodedOutputStream* output) const {
+  // required uint32 removeGameId = 1;
+  if (has_removegameid()) {
+    ::google::protobuf::internal::WireFormatLite::WriteUInt32(1, this->removegameid(), output);
+  }
+  
+  // required .AdminRemoveGameAckMessage.AdminRemoveGameResult removeGameResult = 2;
+  if (has_removegameresult()) {
+    ::google::protobuf::internal::WireFormatLite::WriteEnum(
+      2, this->removegameresult(), output);
+  }
+  
+}
+
+int AdminRemoveGameAckMessage::ByteSize() const {
+  int total_size = 0;
+  
+  if (_has_bits_[0 / 32] & (0xffu << (0 % 32))) {
+    // required uint32 removeGameId = 1;
+    if (has_removegameid()) {
+      total_size += 1 +
+        ::google::protobuf::internal::WireFormatLite::UInt32Size(
+          this->removegameid());
+    }
+    
+    // required .AdminRemoveGameAckMessage.AdminRemoveGameResult removeGameResult = 2;
+    if (has_removegameresult()) {
+      total_size += 1 +
+        ::google::protobuf::internal::WireFormatLite::EnumSize(this->removegameresult());
+    }
+    
+  }
+  GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
+  _cached_size_ = total_size;
+  GOOGLE_SAFE_CONCURRENT_WRITES_END();
+  return total_size;
+}
+
+void AdminRemoveGameAckMessage::CheckTypeAndMergeFrom(
+    const ::google::protobuf::MessageLite& from) {
+  MergeFrom(*::google::protobuf::down_cast<const AdminRemoveGameAckMessage*>(&from));
+}
+
+void AdminRemoveGameAckMessage::MergeFrom(const AdminRemoveGameAckMessage& from) {
+  GOOGLE_CHECK_NE(&from, this);
+  if (from._has_bits_[0 / 32] & (0xffu << (0 % 32))) {
+    if (from.has_removegameid()) {
+      set_removegameid(from.removegameid());
+    }
+    if (from.has_removegameresult()) {
+      set_removegameresult(from.removegameresult());
+    }
+  }
+}
+
+void AdminRemoveGameAckMessage::CopyFrom(const AdminRemoveGameAckMessage& from) {
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool AdminRemoveGameAckMessage::IsInitialized() const {
+  if ((_has_bits_[0] & 0x00000003) != 0x00000003) return false;
+  
+  return true;
+}
+
+void AdminRemoveGameAckMessage::Swap(AdminRemoveGameAckMessage* other) {
+  if (other != this) {
+    std::swap(removegameid_, other->removegameid_);
+    std::swap(removegameresult_, other->removegameresult_);
+    std::swap(_has_bits_[0], other->_has_bits_[0]);
+    std::swap(_cached_size_, other->_cached_size_);
+  }
+}
+
+::std::string AdminRemoveGameAckMessage::GetTypeName() const {
+  return "AdminRemoveGameAckMessage";
+}
+
+
+// ===================================================================
+
 #ifndef _MSC_VER
 const int AdminBanPlayerMessage::kBanPlayerIdFieldNumber;
 #endif  // !_MSC_VER
@@ -19707,6 +19927,224 @@ void AdminBanPlayerMessage::Swap(AdminBanPlayerMessage* other) {
 
 // ===================================================================
 
+bool AdminBanPlayerAckMessage_AdminBanPlayerResult_IsValid(int value) {
+  switch(value) {
+    case 0:
+    case 1:
+    case 2:
+    case 3:
+      return true;
+    default:
+      return false;
+  }
+}
+
+#ifndef _MSC_VER
+const AdminBanPlayerAckMessage_AdminBanPlayerResult AdminBanPlayerAckMessage::banPlayerAccepted;
+const AdminBanPlayerAckMessage_AdminBanPlayerResult AdminBanPlayerAckMessage::banPlayerInvalid;
+const AdminBanPlayerAckMessage_AdminBanPlayerResult AdminBanPlayerAckMessage::banPlayerNoDB;
+const AdminBanPlayerAckMessage_AdminBanPlayerResult AdminBanPlayerAckMessage::banPlayerDBError;
+const AdminBanPlayerAckMessage_AdminBanPlayerResult AdminBanPlayerAckMessage::AdminBanPlayerResult_MIN;
+const AdminBanPlayerAckMessage_AdminBanPlayerResult AdminBanPlayerAckMessage::AdminBanPlayerResult_MAX;
+const int AdminBanPlayerAckMessage::AdminBanPlayerResult_ARRAYSIZE;
+#endif  // _MSC_VER
+#ifndef _MSC_VER
+const int AdminBanPlayerAckMessage::kBanPlayerIdFieldNumber;
+const int AdminBanPlayerAckMessage::kBanPlayerResultFieldNumber;
+#endif  // !_MSC_VER
+
+AdminBanPlayerAckMessage::AdminBanPlayerAckMessage()
+  : ::google::protobuf::MessageLite() {
+  SharedCtor();
+}
+
+void AdminBanPlayerAckMessage::InitAsDefaultInstance() {
+}
+
+AdminBanPlayerAckMessage::AdminBanPlayerAckMessage(const AdminBanPlayerAckMessage& from)
+  : ::google::protobuf::MessageLite() {
+  SharedCtor();
+  MergeFrom(from);
+}
+
+void AdminBanPlayerAckMessage::SharedCtor() {
+  _cached_size_ = 0;
+  banplayerid_ = 0u;
+  banplayerresult_ = 0;
+  ::memset(_has_bits_, 0, sizeof(_has_bits_));
+}
+
+AdminBanPlayerAckMessage::~AdminBanPlayerAckMessage() {
+  SharedDtor();
+}
+
+void AdminBanPlayerAckMessage::SharedDtor() {
+  if (this != default_instance_) {
+  }
+}
+
+void AdminBanPlayerAckMessage::SetCachedSize(int size) const {
+  GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
+  _cached_size_ = size;
+  GOOGLE_SAFE_CONCURRENT_WRITES_END();
+}
+const AdminBanPlayerAckMessage& AdminBanPlayerAckMessage::default_instance() {
+  if (default_instance_ == NULL) protobuf_AddDesc_pokerth_2eproto();  return *default_instance_;
+}
+
+AdminBanPlayerAckMessage* AdminBanPlayerAckMessage::default_instance_ = NULL;
+
+AdminBanPlayerAckMessage* AdminBanPlayerAckMessage::New() const {
+  return new AdminBanPlayerAckMessage;
+}
+
+void AdminBanPlayerAckMessage::Clear() {
+  if (_has_bits_[0 / 32] & (0xffu << (0 % 32))) {
+    banplayerid_ = 0u;
+    banplayerresult_ = 0;
+  }
+  ::memset(_has_bits_, 0, sizeof(_has_bits_));
+}
+
+bool AdminBanPlayerAckMessage::MergePartialFromCodedStream(
+    ::google::protobuf::io::CodedInputStream* input) {
+#define DO_(EXPRESSION) if (!(EXPRESSION)) return false
+  ::google::protobuf::uint32 tag;
+  while ((tag = input->ReadTag()) != 0) {
+    switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
+      // required uint32 banPlayerId = 1;
+      case 1: {
+        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+            ::google::protobuf::internal::WireFormatLite::WIRETYPE_VARINT) {
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
+                 input, &banplayerid_)));
+          set_has_banplayerid();
+        } else {
+          goto handle_uninterpreted;
+        }
+        if (input->ExpectTag(16)) goto parse_banPlayerResult;
+        break;
+      }
+      
+      // required .AdminBanPlayerAckMessage.AdminBanPlayerResult banPlayerResult = 2;
+      case 2: {
+        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+            ::google::protobuf::internal::WireFormatLite::WIRETYPE_VARINT) {
+         parse_banPlayerResult:
+          int value;
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   int, ::google::protobuf::internal::WireFormatLite::TYPE_ENUM>(
+                 input, &value)));
+          if (::AdminBanPlayerAckMessage_AdminBanPlayerResult_IsValid(value)) {
+            set_banplayerresult(static_cast< ::AdminBanPlayerAckMessage_AdminBanPlayerResult >(value));
+          }
+        } else {
+          goto handle_uninterpreted;
+        }
+        if (input->ExpectAtEnd()) return true;
+        break;
+      }
+      
+      default: {
+      handle_uninterpreted:
+        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+            ::google::protobuf::internal::WireFormatLite::WIRETYPE_END_GROUP) {
+          return true;
+        }
+        DO_(::google::protobuf::internal::WireFormatLite::SkipField(input, tag));
+        break;
+      }
+    }
+  }
+  return true;
+#undef DO_
+}
+
+void AdminBanPlayerAckMessage::SerializeWithCachedSizes(
+    ::google::protobuf::io::CodedOutputStream* output) const {
+  // required uint32 banPlayerId = 1;
+  if (has_banplayerid()) {
+    ::google::protobuf::internal::WireFormatLite::WriteUInt32(1, this->banplayerid(), output);
+  }
+  
+  // required .AdminBanPlayerAckMessage.AdminBanPlayerResult banPlayerResult = 2;
+  if (has_banplayerresult()) {
+    ::google::protobuf::internal::WireFormatLite::WriteEnum(
+      2, this->banplayerresult(), output);
+  }
+  
+}
+
+int AdminBanPlayerAckMessage::ByteSize() const {
+  int total_size = 0;
+  
+  if (_has_bits_[0 / 32] & (0xffu << (0 % 32))) {
+    // required uint32 banPlayerId = 1;
+    if (has_banplayerid()) {
+      total_size += 1 +
+        ::google::protobuf::internal::WireFormatLite::UInt32Size(
+          this->banplayerid());
+    }
+    
+    // required .AdminBanPlayerAckMessage.AdminBanPlayerResult banPlayerResult = 2;
+    if (has_banplayerresult()) {
+      total_size += 1 +
+        ::google::protobuf::internal::WireFormatLite::EnumSize(this->banplayerresult());
+    }
+    
+  }
+  GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
+  _cached_size_ = total_size;
+  GOOGLE_SAFE_CONCURRENT_WRITES_END();
+  return total_size;
+}
+
+void AdminBanPlayerAckMessage::CheckTypeAndMergeFrom(
+    const ::google::protobuf::MessageLite& from) {
+  MergeFrom(*::google::protobuf::down_cast<const AdminBanPlayerAckMessage*>(&from));
+}
+
+void AdminBanPlayerAckMessage::MergeFrom(const AdminBanPlayerAckMessage& from) {
+  GOOGLE_CHECK_NE(&from, this);
+  if (from._has_bits_[0 / 32] & (0xffu << (0 % 32))) {
+    if (from.has_banplayerid()) {
+      set_banplayerid(from.banplayerid());
+    }
+    if (from.has_banplayerresult()) {
+      set_banplayerresult(from.banplayerresult());
+    }
+  }
+}
+
+void AdminBanPlayerAckMessage::CopyFrom(const AdminBanPlayerAckMessage& from) {
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool AdminBanPlayerAckMessage::IsInitialized() const {
+  if ((_has_bits_[0] & 0x00000003) != 0x00000003) return false;
+  
+  return true;
+}
+
+void AdminBanPlayerAckMessage::Swap(AdminBanPlayerAckMessage* other) {
+  if (other != this) {
+    std::swap(banplayerid_, other->banplayerid_);
+    std::swap(banplayerresult_, other->banplayerresult_);
+    std::swap(_has_bits_[0], other->_has_bits_[0]);
+    std::swap(_cached_size_, other->_cached_size_);
+  }
+}
+
+::std::string AdminBanPlayerAckMessage::GetTypeName() const {
+  return "AdminBanPlayerAckMessage";
+}
+
+
+// ===================================================================
+
 bool PokerTHMessage_PokerTHMessageType_IsValid(int value) {
   switch(value) {
     case 1:
@@ -19784,6 +20222,8 @@ bool PokerTHMessage_PokerTHMessageType_IsValid(int value) {
     case 73:
     case 74:
     case 75:
+    case 76:
+    case 77:
       return true;
     default:
       return false;
@@ -19865,7 +20305,9 @@ const PokerTHMessage_PokerTHMessageType PokerTHMessage::Type_ReportGameMessage;
 const PokerTHMessage_PokerTHMessageType PokerTHMessage::Type_ReportGameAckMessage;
 const PokerTHMessage_PokerTHMessageType PokerTHMessage::Type_ErrorMessage;
 const PokerTHMessage_PokerTHMessageType PokerTHMessage::Type_AdminRemoveGameMessage;
+const PokerTHMessage_PokerTHMessageType PokerTHMessage::Type_AdminRemoveGameAckMessage;
 const PokerTHMessage_PokerTHMessageType PokerTHMessage::Type_AdminBanPlayerMessage;
+const PokerTHMessage_PokerTHMessageType PokerTHMessage::Type_AdminBanPlayerAckMessage;
 const PokerTHMessage_PokerTHMessageType PokerTHMessage::PokerTHMessageType_MIN;
 const PokerTHMessage_PokerTHMessageType PokerTHMessage::PokerTHMessageType_MAX;
 const int PokerTHMessage::PokerTHMessageType_ARRAYSIZE;
@@ -19946,7 +20388,9 @@ const int PokerTHMessage::kReportGameMessageFieldNumber;
 const int PokerTHMessage::kReportGameAckMessageFieldNumber;
 const int PokerTHMessage::kErrorMessageFieldNumber;
 const int PokerTHMessage::kAdminRemoveGameMessageFieldNumber;
+const int PokerTHMessage::kAdminRemoveGameAckMessageFieldNumber;
 const int PokerTHMessage::kAdminBanPlayerMessageFieldNumber;
+const int PokerTHMessage::kAdminBanPlayerAckMessageFieldNumber;
 #endif  // !_MSC_VER
 
 PokerTHMessage::PokerTHMessage()
@@ -20029,7 +20473,9 @@ void PokerTHMessage::InitAsDefaultInstance() {
   reportgameackmessage_ = const_cast< ::ReportGameAckMessage*>(&::ReportGameAckMessage::default_instance());
   errormessage_ = const_cast< ::ErrorMessage*>(&::ErrorMessage::default_instance());
   adminremovegamemessage_ = const_cast< ::AdminRemoveGameMessage*>(&::AdminRemoveGameMessage::default_instance());
+  adminremovegameackmessage_ = const_cast< ::AdminRemoveGameAckMessage*>(&::AdminRemoveGameAckMessage::default_instance());
   adminbanplayermessage_ = const_cast< ::AdminBanPlayerMessage*>(&::AdminBanPlayerMessage::default_instance());
+  adminbanplayerackmessage_ = const_cast< ::AdminBanPlayerAckMessage*>(&::AdminBanPlayerAckMessage::default_instance());
 }
 
 PokerTHMessage::PokerTHMessage(const PokerTHMessage& from)
@@ -20115,7 +20561,9 @@ void PokerTHMessage::SharedCtor() {
   reportgameackmessage_ = NULL;
   errormessage_ = NULL;
   adminremovegamemessage_ = NULL;
+  adminremovegameackmessage_ = NULL;
   adminbanplayermessage_ = NULL;
+  adminbanplayerackmessage_ = NULL;
   ::memset(_has_bits_, 0, sizeof(_has_bits_));
 }
 
@@ -20199,7 +20647,9 @@ void PokerTHMessage::SharedDtor() {
     delete reportgameackmessage_;
     delete errormessage_;
     delete adminremovegamemessage_;
+    delete adminremovegameackmessage_;
     delete adminbanplayermessage_;
+    delete adminbanplayerackmessage_;
   }
 }
 
@@ -20461,8 +20911,14 @@ void PokerTHMessage::Clear() {
     if (has_adminremovegamemessage()) {
       if (adminremovegamemessage_ != NULL) adminremovegamemessage_->::AdminRemoveGameMessage::Clear();
     }
+    if (has_adminremovegameackmessage()) {
+      if (adminremovegameackmessage_ != NULL) adminremovegameackmessage_->::AdminRemoveGameAckMessage::Clear();
+    }
     if (has_adminbanplayermessage()) {
       if (adminbanplayermessage_ != NULL) adminbanplayermessage_->::AdminBanPlayerMessage::Clear();
+    }
+    if (has_adminbanplayerackmessage()) {
+      if (adminbanplayerackmessage_ != NULL) adminbanplayerackmessage_->::AdminBanPlayerAckMessage::Clear();
     }
   }
   ::memset(_has_bits_, 0, sizeof(_has_bits_));
@@ -21524,17 +21980,45 @@ bool PokerTHMessage::MergePartialFromCodedStream(
         } else {
           goto handle_uninterpreted;
         }
-        if (input->ExpectTag(610)) goto parse_adminBanPlayerMessage;
+        if (input->ExpectTag(610)) goto parse_adminRemoveGameAckMessage;
         break;
       }
       
-      // optional .AdminBanPlayerMessage adminBanPlayerMessage = 76;
+      // optional .AdminRemoveGameAckMessage adminRemoveGameAckMessage = 76;
       case 76: {
+        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+            ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
+         parse_adminRemoveGameAckMessage:
+          DO_(::google::protobuf::internal::WireFormatLite::ReadMessageNoVirtual(
+               input, mutable_adminremovegameackmessage()));
+        } else {
+          goto handle_uninterpreted;
+        }
+        if (input->ExpectTag(618)) goto parse_adminBanPlayerMessage;
+        break;
+      }
+      
+      // optional .AdminBanPlayerMessage adminBanPlayerMessage = 77;
+      case 77: {
         if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
             ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
          parse_adminBanPlayerMessage:
           DO_(::google::protobuf::internal::WireFormatLite::ReadMessageNoVirtual(
                input, mutable_adminbanplayermessage()));
+        } else {
+          goto handle_uninterpreted;
+        }
+        if (input->ExpectTag(626)) goto parse_adminBanPlayerAckMessage;
+        break;
+      }
+      
+      // optional .AdminBanPlayerAckMessage adminBanPlayerAckMessage = 78;
+      case 78: {
+        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+            ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
+         parse_adminBanPlayerAckMessage:
+          DO_(::google::protobuf::internal::WireFormatLite::ReadMessageNoVirtual(
+               input, mutable_adminbanplayerackmessage()));
         } else {
           goto handle_uninterpreted;
         }
@@ -22009,10 +22493,22 @@ void PokerTHMessage::SerializeWithCachedSizes(
       75, this->adminremovegamemessage(), output);
   }
   
-  // optional .AdminBanPlayerMessage adminBanPlayerMessage = 76;
+  // optional .AdminRemoveGameAckMessage adminRemoveGameAckMessage = 76;
+  if (has_adminremovegameackmessage()) {
+    ::google::protobuf::internal::WireFormatLite::WriteMessage(
+      76, this->adminremovegameackmessage(), output);
+  }
+  
+  // optional .AdminBanPlayerMessage adminBanPlayerMessage = 77;
   if (has_adminbanplayermessage()) {
     ::google::protobuf::internal::WireFormatLite::WriteMessage(
-      76, this->adminbanplayermessage(), output);
+      77, this->adminbanplayermessage(), output);
+  }
+  
+  // optional .AdminBanPlayerAckMessage adminBanPlayerAckMessage = 78;
+  if (has_adminbanplayerackmessage()) {
+    ::google::protobuf::internal::WireFormatLite::WriteMessage(
+      78, this->adminbanplayerackmessage(), output);
   }
   
 }
@@ -22563,11 +23059,25 @@ int PokerTHMessage::ByteSize() const {
           this->adminremovegamemessage());
     }
     
-    // optional .AdminBanPlayerMessage adminBanPlayerMessage = 76;
+    // optional .AdminRemoveGameAckMessage adminRemoveGameAckMessage = 76;
+    if (has_adminremovegameackmessage()) {
+      total_size += 2 +
+        ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
+          this->adminremovegameackmessage());
+    }
+    
+    // optional .AdminBanPlayerMessage adminBanPlayerMessage = 77;
     if (has_adminbanplayermessage()) {
       total_size += 2 +
         ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
           this->adminbanplayermessage());
+    }
+    
+    // optional .AdminBanPlayerAckMessage adminBanPlayerAckMessage = 78;
+    if (has_adminbanplayerackmessage()) {
+      total_size += 2 +
+        ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
+          this->adminbanplayerackmessage());
     }
     
   }
@@ -22828,8 +23338,14 @@ void PokerTHMessage::MergeFrom(const PokerTHMessage& from) {
     if (from.has_adminremovegamemessage()) {
       mutable_adminremovegamemessage()->::AdminRemoveGameMessage::MergeFrom(from.adminremovegamemessage());
     }
+    if (from.has_adminremovegameackmessage()) {
+      mutable_adminremovegameackmessage()->::AdminRemoveGameAckMessage::MergeFrom(from.adminremovegameackmessage());
+    }
     if (from.has_adminbanplayermessage()) {
       mutable_adminbanplayermessage()->::AdminBanPlayerMessage::MergeFrom(from.adminbanplayermessage());
+    }
+    if (from.has_adminbanplayerackmessage()) {
+      mutable_adminbanplayerackmessage()->::AdminBanPlayerAckMessage::MergeFrom(from.adminbanplayerackmessage());
     }
   }
 }
@@ -23056,8 +23572,14 @@ bool PokerTHMessage::IsInitialized() const {
   if (has_adminremovegamemessage()) {
     if (!this->adminremovegamemessage().IsInitialized()) return false;
   }
+  if (has_adminremovegameackmessage()) {
+    if (!this->adminremovegameackmessage().IsInitialized()) return false;
+  }
   if (has_adminbanplayermessage()) {
     if (!this->adminbanplayermessage().IsInitialized()) return false;
+  }
+  if (has_adminbanplayerackmessage()) {
+    if (!this->adminbanplayerackmessage().IsInitialized()) return false;
   }
   return true;
 }
@@ -23139,7 +23661,9 @@ void PokerTHMessage::Swap(PokerTHMessage* other) {
     std::swap(reportgameackmessage_, other->reportgameackmessage_);
     std::swap(errormessage_, other->errormessage_);
     std::swap(adminremovegamemessage_, other->adminremovegamemessage_);
+    std::swap(adminremovegameackmessage_, other->adminremovegameackmessage_);
     std::swap(adminbanplayermessage_, other->adminbanplayermessage_);
+    std::swap(adminbanplayerackmessage_, other->adminbanplayerackmessage_);
     std::swap(_has_bits_[0], other->_has_bits_[0]);
     std::swap(_has_bits_[1], other->_has_bits_[1]);
     std::swap(_has_bits_[2], other->_has_bits_[2]);

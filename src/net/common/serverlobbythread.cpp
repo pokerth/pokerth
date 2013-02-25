@@ -516,6 +516,20 @@ ServerLobbyThread::HandleChatRequest(boost::shared_ptr<SessionData> session, con
 	HandleNetPacketChatRequest(session, chatRequest);
 }
 
+void
+ServerLobbyThread::HandleAdminRemoveGame(boost::shared_ptr<SessionData> session, const AdminRemoveGameMessage &removeGame)
+{
+	// An admin within a game sent a remove game message.
+	HandleNetPacketAdminRemoveGame(session, removeGame);
+}
+
+void
+ServerLobbyThread::HandleAdminBanPlayer(boost::shared_ptr<SessionData> session, const AdminBanPlayerMessage &banPlayer)
+{
+	// An admin within a game sent a ban player message.
+	HandleNetPacketAdminBanPlayer(session, banPlayer);
+}
+
 bool
 ServerLobbyThread::KickPlayerByName(const std::string &playerName)
 {
@@ -1478,9 +1492,20 @@ ServerLobbyThread::HandleNetPacketAdminRemoveGame(boost::shared_ptr<SessionData>
 {
 	GameMap::iterator pos = m_gameMap.find(removeGame.removegameid());
 
+	// Create Ack-Packet.
+	boost::shared_ptr<NetPacket> packet(new NetPacket);
+	packet->GetMsg()->set_messagetype(PokerTHMessage::Type_AdminRemoveGameAckMessage);
+	AdminRemoveGameAckMessage *netRemoveAck = packet->GetMsg()->mutable_adminremovegameackmessage();
+	netRemoveAck->set_removegameid(removeGame.removegameid());
+
+	// Check whether game id is valid and whether the player is an admin.
 	if (pos != m_gameMap.end() && session->GetPlayerData() && GetBanManager().IsAdminPlayer(session->GetPlayerData()->GetDBId())) {
 		InternalRemoveGame(pos->second);
+		netRemoveAck->set_removegameresult(AdminRemoveGameAckMessage::gameRemoveAccepted);
+	} else {
+		netRemoveAck->set_removegameresult(AdminRemoveGameAckMessage::gameRemoveInvalid);
 	}
+	GetSender().Send(session, packet);
 }
 
 void

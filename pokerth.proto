@@ -696,8 +696,28 @@ message AdminRemoveGameMessage {
 	required	uint32			removeGameId = 1;
 }
 
+message AdminRemoveGameAckMessage {
+	required	uint32			removeGameId = 1;
+	enum AdminRemoveGameResult {
+		gameRemoveAccepted = 0;
+		gameRemoveInvalid = 1;
+	}
+	required	AdminRemoveGameResult	removeGameResult = 2;
+}
+
 message AdminBanPlayerMessage {
 	required	uint32			banPlayerId = 1;
+}
+
+message AdminBanPlayerAckMessage {
+	required	uint32			banPlayerId = 1;
+	enum AdminBanPlayerResult {
+		banPlayerAccepted = 0;
+		banPlayerInvalid = 1;
+		banPlayerNoDB = 2;
+		banPlayerDBError = 3;
+	}
+	required	AdminBanPlayerResult	banPlayerResult = 2;
 }
 
 // The main message type (it is prefixed by 4 bytes length of the message).
@@ -778,7 +798,9 @@ message PokerTHMessage {
 		Type_ReportGameAckMessage = 72;
 		Type_ErrorMessage = 73;
 		Type_AdminRemoveGameMessage = 74;
-		Type_AdminBanPlayerMessage = 75;
+		Type_AdminRemoveGameAckMessage = 75;
+		Type_AdminBanPlayerMessage = 76;
+		Type_AdminBanPlayerAckMessage = 77;
 	}
 	required	PokerTHMessageType				messageType = 1;
 
@@ -856,5 +878,7 @@ message PokerTHMessage {
 	optional	ReportGameAckMessage			reportGameAckMessage = 73;
 	optional	ErrorMessage					errorMessage = 74;
 	optional	AdminRemoveGameMessage			adminRemoveGameMessage = 75;
-	optional	AdminBanPlayerMessage			adminBanPlayerMessage = 76;
+	optional	AdminRemoveGameAckMessage		adminRemoveGameAckMessage = 76;
+	optional	AdminBanPlayerMessage			adminBanPlayerMessage = 77;
+	optional	AdminBanPlayerAckMessage		adminBanPlayerAckMessage = 78;
 }

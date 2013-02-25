@@ -88,6 +88,8 @@ public:
 	void HandleGameRetrieveAvatar(boost::shared_ptr<SessionData> session, const AvatarRequestMessage &retrieveAvatar);
 	void HandleGameReportGame(boost::shared_ptr<SessionData> session, const ReportGameMessage &reportGame);
 	void HandleChatRequest(boost::shared_ptr<SessionData> session, const ChatRequestMessage &chatRequest);
+	void HandleAdminRemoveGame(boost::shared_ptr<SessionData> session, const AdminRemoveGameMessage &removeGame);
+	void HandleAdminBanPlayer(boost::shared_ptr<SessionData> session, const AdminBanPlayerMessage &banPlayer);
 
 	bool KickPlayerByName(const std::string &playerName);
 	bool RemoveGameByPlayerName(const std::string &playerName);

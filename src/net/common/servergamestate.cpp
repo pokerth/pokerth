@@ -657,6 +657,10 @@ ServerGameStateInit::InternalProcessPacket(boost::shared_ptr<ServerGame> server,
 		if (session->GetPlayerData()->IsGameAdmin()) {
 			RegisterAdminTimer(server);
 		}
+	} else if (packet->GetMsg()->messagetype() == PokerTHMessage::Type_AdminRemoveGameMessage) {
+		server->GetLobbyThread().HandleAdminRemoveGame(session, packet->GetMsg()->adminremovegamemessage());
+	} else if (packet->GetMsg()->messagetype() == PokerTHMessage::Type_AdminBanPlayerMessage) {
+		server->GetLobbyThread().HandleAdminBanPlayer(session, packet->GetMsg()->adminbanplayermessage());
 	} else {
 		server->SessionError(session, ERR_SOCK_INVALID_PACKET);
 	}
