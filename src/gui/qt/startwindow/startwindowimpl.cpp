@@ -1130,6 +1130,7 @@ void startWindowImpl::networkMessage(QString msg)
 void startWindowImpl::networkMessage(unsigned msgId)
 {
 	QString msgText;
+	bool showMsgBox = true;
 
 	switch(msgId) {
 
@@ -1181,15 +1182,17 @@ void startWindowImpl::networkMessage(unsigned msgId)
 		msgText = tr("The player could not be kicked and banned.");
 	}
 	break;
-	default:
-		;
-		break;
+	default: showMsgBox = false;
+	break;
 	}
 
-	MyMessageBox msgBox(QMessageBox::Information, tr("Server Message"),
-						msgText, QMessageBox::Close, this);
-	//    msgBox.setTextFormat(Qt::RichText);
-	msgBox.exec();
+	if(showMsgBox) {
+		MyMessageBox msgBox(QMessageBox::Information, tr("Server Message"),
+							msgText, QMessageBox::Close, this);
+		//    msgBox.setTextFormat(Qt::RichText);
+		msgBox.exec();
+	}
+
 }
 
 
