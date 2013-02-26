@@ -1159,7 +1159,7 @@ void startWindowImpl::networkMessage(unsigned msgId)
 	}
 	break;
 	case MSG_NET_ADMIN_REMOVE_GAME_ACCEPTED: {
-		msgText = tr("The game has been closed correctly.");
+		msgText = tr("The game was closed.");
 	}
 	break;
 	case MSG_NET_ADMIN_REMOVE_GAME_REJECTED: {
@@ -1167,19 +1167,19 @@ void startWindowImpl::networkMessage(unsigned msgId)
 	}
 	break;
 	case MSG_NET_ADMIN_BAN_PLAYER_ACCEPTED: {
-		msgText = tr("The player has been kicked and banned.");
+		msgText = tr("The player was kicked and banned permanently.");
 	}
 	break;
 	case MSG_NET_ADMIN_BAN_PLAYER_NODB: {
-		msgText = tr("The player has been kicked, but could not be banned,\nbecause the nick wasn't found in the database.");
+		msgText = tr("The player was kicked, but could not be banned because it was a guest player.");
 	}
 	break;
 	case MSG_NET_ADMIN_BAN_PLAYER_DBERROR: {
-		msgText = tr("The player has been kicked, but could not be banned due to a database error.");
+		msgText = tr("The player was kicked, but could not be banned, \nbecause the nick could not be found in the database");
 	}
 	break;
 	case MSG_NET_ADMIN_BAN_PLAYER_REJECTED: {
-		msgText = tr("The player could not be kicked and banned.");
+		msgText = tr("The player could not be found.");
 	}
 	break;
 	default: showMsgBox = false;
