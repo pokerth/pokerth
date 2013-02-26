@@ -174,6 +174,7 @@ protected:
 
 	void SendReportAvatarResult(unsigned byPlayerId, unsigned reportedPlayerId, bool success);
 	void SendReportGameResult(unsigned byPlayerId, unsigned reportedGameId, bool success);
+	void SendAdminBanPlayerResult(unsigned byPlayerId, unsigned reportedPlayerId, bool success);
 	void RequestPlayerAvatar(boost::shared_ptr<SessionData> session);
 	void TimerRemoveGame(const boost::system::error_code &ec);
 	void TimerRemovePlayer(const boost::system::error_code &ec);

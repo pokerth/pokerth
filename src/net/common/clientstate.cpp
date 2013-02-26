@@ -789,6 +789,39 @@ AbstractClientStateReceiving::HandlePacket(boost::shared_ptr<ClientThread> clien
 			break;
 		}
 		client->GetCallback().SignalNetClientMsgBox(msgCode);
+	} else if (tmpPacket->GetMsg()->messagetype() == PokerTHMessage::Type_AdminRemoveGameAckMessage) {
+		const AdminRemoveGameAckMessage &netRemoveAck = tmpPacket->GetMsg()->adminremovegameackmessage();
+		unsigned msgCode;
+		switch (netRemoveAck.removegameresult()) {
+		case AdminRemoveGameAckMessage::gameRemoveAccepted:
+			msgCode = MSG_NET_ADMIN_REMOVE_GAME_ACCEPTED;
+			break;
+		default:
+			msgCode = MSG_NET_ADMIN_REMOVE_GAME_REJECTED;
+			break;
+		}
+		client->GetCallback().SignalNetClientMsgBox(msgCode);
+	} else if (tmpPacket->GetMsg()->messagetype() == PokerTHMessage::Type_AdminBanPlayerAckMessage) {
+		const AdminBanPlayerAckMessage &netBanAck = tmpPacket->GetMsg()->adminbanplayerackmessage();
+		unsigned msgCode;
+		switch (netBanAck.banplayerresult()) {
+		case AdminBanPlayerAckMessage::banPlayerAccepted:
+			msgCode = MSG_NET_ADMIN_BAN_PLAYER_ACCEPTED;
+			break;
+		case AdminBanPlayerAckMessage::banPlayerPending:
+			msgCode = MSG_NET_ADMIN_BAN_PLAYER_PENDING;
+			break;
+		case AdminBanPlayerAckMessage::banPlayerNoDB:
+			msgCode = MSG_NET_ADMIN_BAN_PLAYER_NODB;
+			break;
+		case AdminBanPlayerAckMessage::banPlayerDBError:
+			msgCode = MSG_NET_ADMIN_BAN_PLAYER_DBERROR;
+			break;
+		default:
+			msgCode = MSG_NET_ADMIN_BAN_PLAYER_REJECTED;
+			break;
+		}
+		client->GetCallback().SignalNetClientMsgBox(msgCode);
 	} else if (tmpPacket->GetMsg()->messagetype() == PokerTHMessage::Type_StatisticsMessage) {
 		const StatisticsMessage &netStatistics = tmpPacket->GetMsg()->statisticsmessage();
 

@@ -199,8 +199,16 @@ public:
 		m_server.SendReportGameResult(requestId, replyId, false);
 	}
 
-	virtual void PlayerAdminList(unsigned requestId, std::list<DB_id> adminList) {
+	virtual void PlayerAdminList(unsigned /*requestId*/, std::list<DB_id> adminList) {
 		m_server.GetBanManager().SetAdminPlayerIds(adminList);
+	}
+
+	virtual void BlockPlayerSuccess(unsigned requestId, unsigned replyId) {
+		m_server.SendAdminBanPlayerResult(requestId, replyId, true);
+	}
+
+	virtual void BlockPlayerFailed(unsigned requestId, unsigned replyId) {
+		m_server.SendAdminBanPlayerResult(requestId, replyId, false);
 	}
 
 private:
@@ -1511,6 +1519,41 @@ ServerLobbyThread::HandleNetPacketAdminRemoveGame(boost::shared_ptr<SessionData>
 void
 ServerLobbyThread::HandleNetPacketAdminBanPlayer(boost::shared_ptr<SessionData> session, const AdminBanPlayerMessage &banPlayer)
 {
+	// Create Ack-Packet.
+	boost::shared_ptr<NetPacket> packet(new NetPacket);
+	packet->GetMsg()->set_messagetype(PokerTHMessage::Type_AdminBanPlayerAckMessage);
+	AdminBanPlayerAckMessage *netBanAck = packet->GetMsg()->mutable_adminbanplayerackmessage();
+	netBanAck->set_banplayerid(banPlayer.banplayerid());
+
+	if (session && session->GetPlayerData() && GetBanManager().IsAdminPlayer(session->GetPlayerData()->GetDBId())) {
+
+		boost::shared_ptr<SessionData> tmpSession = m_sessionManager.GetSessionByUniquePlayerId(banPlayer.banplayerid());
+		if (!tmpSession) {
+			tmpSession = m_gameSessionManager.GetSessionByUniquePlayerId(banPlayer.banplayerid());
+		}
+		boost::shared_ptr<PlayerData> tmpPlayer;
+		if (tmpSession) {
+			tmpPlayer = tmpSession->GetPlayerData();
+		}
+		if (tmpPlayer && !GetBanManager().IsAdminPlayer(tmpPlayer->GetDBId())) {
+			// Ban the player's IP address for 24 hours.
+			GetBanManager().BanIPAddress(tmpSession->GetClientAddr(), 24);
+			// Kick the player.
+			RemovePlayer(tmpPlayer->GetUniqueId(), ERR_NET_PLAYER_KICKED);
+			// Permanently ban the player in the database.
+			if (tmpPlayer->GetDBId() != DB_ID_INVALID) {
+				GetDatabase()->AsyncBlockPlayer(session->GetPlayerData()->GetUniqueId(), tmpPlayer->GetUniqueId(), tmpPlayer->GetDBId(), 0, 4);
+				netBanAck->set_banplayerresult(AdminBanPlayerAckMessage::banPlayerPending);
+			} else {
+				netBanAck->set_banplayerresult(AdminBanPlayerAckMessage::banPlayerNoDB);
+			}
+		} else {
+			netBanAck->set_banplayerresult(AdminBanPlayerAckMessage::banPlayerInvalid);
+		}
+	} else {
+		netBanAck->set_banplayerresult(AdminBanPlayerAckMessage::banPlayerInvalid);
+	}
+	GetSender().Send(session, packet);
 }
 
 void
@@ -1698,6 +1741,22 @@ ServerLobbyThread::SendReportGameResult(unsigned byPlayerId, unsigned reportedGa
 		ReportGameAckMessage *netReportAck = packet->GetMsg()->mutable_reportgameackmessage();
 		netReportAck->set_reportedgameid(reportedGameId);
 		netReportAck->set_reportgameresult(success ? ReportGameAckMessage::gameReportAccepted : ReportGameAckMessage::gameReportInvalid);
+		GetSender().Send(session, packet);
+	}
+}
+
+void
+ServerLobbyThread::SendAdminBanPlayerResult(unsigned byPlayerId, unsigned reportedPlayerId, bool success)
+{
+	boost::shared_ptr<SessionData> session = m_sessionManager.GetSessionByUniquePlayerId(byPlayerId);
+	if (!session)
+		session = m_gameSessionManager.GetSessionByUniquePlayerId(byPlayerId);
+	if (session) {
+		boost::shared_ptr<NetPacket> packet(new NetPacket);
+		packet->GetMsg()->set_messagetype(PokerTHMessage::Type_AdminBanPlayerAckMessage);
+		AdminBanPlayerAckMessage *netBanAck = packet->GetMsg()->mutable_adminbanplayerackmessage();
+		netBanAck->set_banplayerid(reportedPlayerId);
+		netBanAck->set_banplayerresult(success ? AdminBanPlayerAckMessage::banPlayerAccepted : AdminBanPlayerAckMessage::banPlayerDBError);
 		GetSender().Send(session, packet);
 	}
 }

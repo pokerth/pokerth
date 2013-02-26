@@ -67,6 +67,9 @@ public:
 	virtual void ReportGameFailed(unsigned requestId, unsigned replyId) = 0;
 
 	virtual void PlayerAdminList(unsigned requestId, std::list<DB_id> adminList) = 0;
+
+	virtual void BlockPlayerSuccess(unsigned requestId, unsigned replyId) = 0;
+	virtual void BlockPlayerFailed(unsigned requestId, unsigned replyId) = 0;
 };
 
 #endif

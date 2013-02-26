@@ -116,7 +116,7 @@ ServerDBGeneric::AsyncQueryAdminPlayers(unsigned /*requestId*/)
 }
 
 void
-ServerDBGeneric::AsyncBlockPlayer(unsigned /*requestId*/, DB_id /*playerId*/, int /*valid*/, int /*active*/)
+ServerDBGeneric::AsyncBlockPlayer(unsigned /*requestId*/, unsigned /*replyId*/, DB_id /*playerId*/, int /*valid*/, int /*active*/)
 {
 }
 

@@ -19933,6 +19933,7 @@ bool AdminBanPlayerAckMessage_AdminBanPlayerResult_IsValid(int value) {
     case 1:
     case 2:
     case 3:
+    case 4:
       return true;
     default:
       return false;
@@ -19941,9 +19942,10 @@ bool AdminBanPlayerAckMessage_AdminBanPlayerResult_IsValid(int value) {
 
 #ifndef _MSC_VER
 const AdminBanPlayerAckMessage_AdminBanPlayerResult AdminBanPlayerAckMessage::banPlayerAccepted;
-const AdminBanPlayerAckMessage_AdminBanPlayerResult AdminBanPlayerAckMessage::banPlayerInvalid;
+const AdminBanPlayerAckMessage_AdminBanPlayerResult AdminBanPlayerAckMessage::banPlayerPending;
 const AdminBanPlayerAckMessage_AdminBanPlayerResult AdminBanPlayerAckMessage::banPlayerNoDB;
 const AdminBanPlayerAckMessage_AdminBanPlayerResult AdminBanPlayerAckMessage::banPlayerDBError;
+const AdminBanPlayerAckMessage_AdminBanPlayerResult AdminBanPlayerAckMessage::banPlayerInvalid;
 const AdminBanPlayerAckMessage_AdminBanPlayerResult AdminBanPlayerAckMessage::AdminBanPlayerResult_MIN;
 const AdminBanPlayerAckMessage_AdminBanPlayerResult AdminBanPlayerAckMessage::AdminBanPlayerResult_MAX;
 const int AdminBanPlayerAckMessage::AdminBanPlayerResult_ARRAYSIZE;

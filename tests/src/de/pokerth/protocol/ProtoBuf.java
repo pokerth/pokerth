@@ -37342,15 +37342,17 @@ public final class ProtoBuf {
     public enum AdminBanPlayerResult
         implements com.google.protobuf.Internal.EnumLite {
       banPlayerAccepted(0, 0),
-      banPlayerInvalid(1, 1),
+      banPlayerPending(1, 1),
       banPlayerNoDB(2, 2),
       banPlayerDBError(3, 3),
+      banPlayerInvalid(4, 4),
       ;
       
       public static final int banPlayerAccepted_VALUE = 0;
-      public static final int banPlayerInvalid_VALUE = 1;
+      public static final int banPlayerPending_VALUE = 1;
       public static final int banPlayerNoDB_VALUE = 2;
       public static final int banPlayerDBError_VALUE = 3;
+      public static final int banPlayerInvalid_VALUE = 4;
       
       
       public final int getNumber() { return value; }
@@ -37358,9 +37360,10 @@ public final class ProtoBuf {
       public static AdminBanPlayerResult valueOf(int value) {
         switch (value) {
           case 0: return banPlayerAccepted;
-          case 1: return banPlayerInvalid;
+          case 1: return banPlayerPending;
           case 2: return banPlayerNoDB;
           case 3: return banPlayerDBError;
+          case 4: return banPlayerInvalid;
           default: return null;
         }
       }

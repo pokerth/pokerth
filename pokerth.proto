@@ -713,9 +713,10 @@ message AdminBanPlayerAckMessage {
 	required	uint32			banPlayerId = 1;
 	enum AdminBanPlayerResult {
 		banPlayerAccepted = 0;
-		banPlayerInvalid = 1;
+		banPlayerPending = 1;
 		banPlayerNoDB = 2;
 		banPlayerDBError = 3;
+		banPlayerInvalid = 4;
 	}
 	required	AdminBanPlayerResult	banPlayerResult = 2;
 }

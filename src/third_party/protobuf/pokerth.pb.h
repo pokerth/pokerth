@@ -370,13 +370,14 @@ const int AdminRemoveGameAckMessage_AdminRemoveGameResult_AdminRemoveGameResult_
 
 enum AdminBanPlayerAckMessage_AdminBanPlayerResult {
   AdminBanPlayerAckMessage_AdminBanPlayerResult_banPlayerAccepted = 0,
-  AdminBanPlayerAckMessage_AdminBanPlayerResult_banPlayerInvalid = 1,
+  AdminBanPlayerAckMessage_AdminBanPlayerResult_banPlayerPending = 1,
   AdminBanPlayerAckMessage_AdminBanPlayerResult_banPlayerNoDB = 2,
-  AdminBanPlayerAckMessage_AdminBanPlayerResult_banPlayerDBError = 3
+  AdminBanPlayerAckMessage_AdminBanPlayerResult_banPlayerDBError = 3,
+  AdminBanPlayerAckMessage_AdminBanPlayerResult_banPlayerInvalid = 4
 };
 bool AdminBanPlayerAckMessage_AdminBanPlayerResult_IsValid(int value);
 const AdminBanPlayerAckMessage_AdminBanPlayerResult AdminBanPlayerAckMessage_AdminBanPlayerResult_AdminBanPlayerResult_MIN = AdminBanPlayerAckMessage_AdminBanPlayerResult_banPlayerAccepted;
-const AdminBanPlayerAckMessage_AdminBanPlayerResult AdminBanPlayerAckMessage_AdminBanPlayerResult_AdminBanPlayerResult_MAX = AdminBanPlayerAckMessage_AdminBanPlayerResult_banPlayerDBError;
+const AdminBanPlayerAckMessage_AdminBanPlayerResult AdminBanPlayerAckMessage_AdminBanPlayerResult_AdminBanPlayerResult_MAX = AdminBanPlayerAckMessage_AdminBanPlayerResult_banPlayerInvalid;
 const int AdminBanPlayerAckMessage_AdminBanPlayerResult_AdminBanPlayerResult_ARRAYSIZE = AdminBanPlayerAckMessage_AdminBanPlayerResult_AdminBanPlayerResult_MAX + 1;
 
 enum PokerTHMessage_PokerTHMessageType {
@@ -8426,9 +8427,10 @@ class AdminBanPlayerAckMessage : public ::google::protobuf::MessageLite {
   
   typedef AdminBanPlayerAckMessage_AdminBanPlayerResult AdminBanPlayerResult;
   static const AdminBanPlayerResult banPlayerAccepted = AdminBanPlayerAckMessage_AdminBanPlayerResult_banPlayerAccepted;
-  static const AdminBanPlayerResult banPlayerInvalid = AdminBanPlayerAckMessage_AdminBanPlayerResult_banPlayerInvalid;
+  static const AdminBanPlayerResult banPlayerPending = AdminBanPlayerAckMessage_AdminBanPlayerResult_banPlayerPending;
   static const AdminBanPlayerResult banPlayerNoDB = AdminBanPlayerAckMessage_AdminBanPlayerResult_banPlayerNoDB;
   static const AdminBanPlayerResult banPlayerDBError = AdminBanPlayerAckMessage_AdminBanPlayerResult_banPlayerDBError;
+  static const AdminBanPlayerResult banPlayerInvalid = AdminBanPlayerAckMessage_AdminBanPlayerResult_banPlayerInvalid;
   static inline bool AdminBanPlayerResult_IsValid(int value) {
     return AdminBanPlayerAckMessage_AdminBanPlayerResult_IsValid(value);
   }
