@@ -1157,6 +1157,30 @@ void startWindowImpl::networkMessage(unsigned msgId)
 		msgText = tr("An error occurred while reporting the game name.");
 	}
 	break;
+	case MSG_NET_ADMIN_REMOVE_GAME_ACCEPTED: {
+		msgText = tr("The game has been closed correctly.");
+	}
+	break;
+	case MSG_NET_ADMIN_REMOVE_GAME_REJECTED: {
+		msgText = tr("The game could not be closed.");
+	}
+	break;
+	case MSG_NET_ADMIN_BAN_PLAYER_ACCEPTED: {
+		msgText = tr("The player has been kicked and banned.");
+	}
+	break;
+	case MSG_NET_ADMIN_BAN_PLAYER_NODB: {
+		msgText = tr("The player has been kicked, but could not be banned,\nbecause the nick wasn't found in the database.");
+	}
+	break;
+	case MSG_NET_ADMIN_BAN_PLAYER_DBERROR: {
+		msgText = tr("The player has been kicked, but could not be banned due to a database error.");
+	}
+	break;
+	case MSG_NET_ADMIN_BAN_PLAYER_REJECTED: {
+		msgText = tr("The player could not be kicked and banned.");
+	}
+	break;
 	default:
 		;
 		break;
