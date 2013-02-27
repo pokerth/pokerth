@@ -1508,6 +1508,7 @@ ServerLobbyThread::HandleNetPacketAdminRemoveGame(boost::shared_ptr<SessionData>
 
 	// Check whether game id is valid and whether the player is an admin.
 	if (pos != m_gameMap.end() && session->GetPlayerData() && GetBanManager().IsAdminPlayer(session->GetPlayerData()->GetDBId())) {
+		LOG_ERROR("Player " << session->GetPlayerData()->GetName() << "(" << session->GetPlayerData()->GetDBId() << ") removes game '" << pos->second->GetName() << "'");
 		InternalRemoveGame(pos->second);
 		netRemoveAck->set_removegameresult(AdminRemoveGameAckMessage::gameRemoveAccepted);
 	} else {
@@ -1542,6 +1543,7 @@ ServerLobbyThread::HandleNetPacketAdminBanPlayer(boost::shared_ptr<SessionData> 
 			RemovePlayer(tmpPlayer->GetUniqueId(), ERR_NET_PLAYER_KICKED);
 			// Permanently ban the player in the database.
 			if (tmpPlayer->GetDBId() != DB_ID_INVALID) {
+				LOG_ERROR("Player " << session->GetPlayerData()->GetName() << "(" << session->GetPlayerData()->GetDBId() << ") bans player " << tmpPlayer->GetName() << "(" << tmpPlayer->GetDBId() << ")");
 				GetDatabase()->AsyncBlockPlayer(session->GetPlayerData()->GetUniqueId(), tmpPlayer->GetUniqueId(), tmpPlayer->GetDBId(), 0, 4);
 				netBanAck->set_banplayerresult(AdminBanPlayerAckMessage::banPlayerPending);
 			} else {
