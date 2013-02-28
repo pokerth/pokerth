@@ -260,7 +260,7 @@ public class RunRankingGameTest extends TestBase {
 		for (int i = 0; i < 9; i++) {
 			s[i].close();
 		}
-		Thread.sleep(2000);
+		Thread.sleep(4000);
 
 		// Last player money should be sum of all money.
 		assertEquals(10000 * 10, lastPlayerMoney);
