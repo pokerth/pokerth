@@ -99,6 +99,7 @@ public:
 	void SendReportAvatar(unsigned reportedPlayerId, const std::string &avatarHash);
 	void SendReportGameName(unsigned reportedGameId);
 	void SendAdminRemoveGame(unsigned removeGameId);
+	void SendAdminBanPlayer(unsigned playerId);
 
 	void StartAsyncRead();
 	virtual void CloseSession(boost::shared_ptr<SessionData> session);

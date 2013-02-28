@@ -2226,7 +2226,7 @@ void gameLobbyDialogImpl::adminActionTotalKickBan()
 										 tr("Are you sure you want to total kickban the player: \"%1\"?").arg(QString::fromUtf8(info.playerName.c_str())), QMessageBox::Yes | QMessageBox::No);
 
 		if(ret == QMessageBox::Yes) {
-			// TODO mySession->adminActionTotalKickBan(playerId);
+			mySession->adminActionBanPlayer(playerId);
 		}
 	}
 }

@@ -113,6 +113,7 @@ public:
 
 	void reportBadAvatar(unsigned reportedPlayerId, const std::string &avatarHash);
 	void reportBadGameName(unsigned gameId);
+	void adminActionBanPlayer(unsigned playerId);
 
 	void resetNetworkTimeout();
 

@@ -427,6 +427,13 @@ void Session::adminActionCloseGame(unsigned gameId)
 	myNetClient->SendAdminRemoveGame(gameId);
 }
 
+void Session::adminActionBanPlayer(unsigned playerId)
+{
+	if (!myNetClient)
+		return; // only act if client is running.
+	myNetClient->SendAdminBanPlayer(playerId);
+}
+
 void Session::kickPlayer(const string &playerName)
 {
 	if (!myNetClient)

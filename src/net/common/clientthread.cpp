@@ -387,6 +387,16 @@ ClientThread::SendAdminRemoveGame(unsigned removeGameId)
 }
 
 void
+ClientThread::SendAdminBanPlayer(unsigned playerId)
+{
+	boost::shared_ptr<NetPacket> packet(new NetPacket);
+	packet->GetMsg()->set_messagetype(PokerTHMessage::Type_AdminBanPlayerMessage);
+	AdminBanPlayerMessage *netBan = packet->GetMsg()->mutable_adminbanplayermessage();
+	netBan->set_banplayerid(playerId);
+	m_ioService->post(boost::bind(&ClientThread::SendSessionPacket, shared_from_this(), packet));
+}
+
+void
 ClientThread::StartAsyncRead()
 {
 	GetContext().GetSessionData()->GetReceiveBuffer().StartAsyncRead(GetContext().GetSessionData());
