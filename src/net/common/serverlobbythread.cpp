@@ -1543,7 +1543,9 @@ ServerLobbyThread::HandleNetPacketAdminBanPlayer(boost::shared_ptr<SessionData> 
 			RemovePlayer(tmpPlayer->GetUniqueId(), ERR_NET_PLAYER_KICKED);
 			// Permanently ban the player in the database.
 			if (tmpPlayer->GetDBId() != DB_ID_INVALID) {
-				LOG_ERROR("Player " << session->GetPlayerData()->GetName() << "(" << session->GetPlayerData()->GetDBId() << ") bans player " << tmpPlayer->GetName() << "(" << tmpPlayer->GetDBId() << ")");
+				LOG_ERROR("Player " << session->GetPlayerData()->GetName() << "(" << session->GetPlayerData()->GetDBId() 
+					<< ") bans player " << tmpPlayer->GetName() << "(" << tmpPlayer->GetDBId() 
+					<< ") who has IP " << tmpSession->GetClientAddr());
 				GetDatabase()->AsyncBlockPlayer(session->GetPlayerData()->GetUniqueId(), tmpPlayer->GetUniqueId(), tmpPlayer->GetDBId(), 0, 4);
 				netBanAck->set_banplayerresult(AdminBanPlayerAckMessage::banPlayerPending);
 			} else {
