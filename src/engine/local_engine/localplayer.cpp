@@ -3452,7 +3452,7 @@ int LocalPlayer::flopCardsValue(int* cards)
 					return (71000 + temp*100 + array[j1][1]);
 				} else {
 					// Test auf Straight-Flush-Ausnahme 5-4-3-2-A
-					if(array[j1][1] == 12 && (array[j1+1][1]<=3 || (array[j1+2][1]<=3 && array[j1][0]==array[j1+4][0]))) {
+                    if(array[j1][1] == 12 && (array[j1+1][1]<=3 || (j1==0 && array[j1+2][1]<=3 && array[j1][0]==array[j1+4][0]))) {
 						//                              		cout << "Straight-Flush-Draw Ass unten";
 						for(j2=0; j2<4; j2++) {
 							if(array[j1+j2][2] <= 1) temp++;
