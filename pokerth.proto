@@ -1,6 +1,6 @@
 /*****************************************************************************
  * PokerTH - The open source texas holdem engine                             *
- * Copyright (C) 2006-2012 Felix Hammer, Florian Thauer, Lothar May          *
+ * Copyright (C) 2006-2013 Felix Hammer, Florian Thauer, Lothar May          *
  *                                                                           *
  * This program is free software: you can redistribute it and/or modify      *
  * it under the terms of the GNU Affero General Public License as            *
@@ -240,6 +240,16 @@ message GameListPlayerLeftMessage {
 	required	uint32			playerId = 2;
 }
 
+message GameListSpectatorJoinedMessage {
+	required	uint32			gameId = 1;
+	required	uint32			playerId = 2;
+}
+
+message GameListSpectatorLeftMessage {
+	required	uint32			gameId = 1;
+	required	uint32			playerId = 2;
+}
+
 message GameListAdminChangedMessage {
 	required	uint32			gameId = 1;
 	required	uint32			newAdminPlayerId = 2;
@@ -279,6 +289,7 @@ message JoinExistingGameMessage {
 	required	uint32			gameId = 1;
 	optional	string			password = 2;
 	optional	bool			autoLeave = 3;
+	optional	bool			spectateOnly = 4;
 }
 
 message JoinNewGameMessage {
@@ -331,6 +342,17 @@ message GamePlayerLeftMessage {
 		leftError = 2;
 	}
 	required	GamePlayerLeftReason	gamePlayerLeftReason = 3;
+}
+
+message GameSpectatorJoinedMessage {
+	required	uint32			gameId = 1;
+	required	uint32			playerId = 2;
+}
+
+message GameSpectatorLeftMessage {
+	required	uint32			gameId = 1;
+	required	uint32			playerId = 2;
+	required	GamePlayerLeftMessage.GamePlayerLeftReason	gameSpectatorLeftReason = 3;
 }
 
 message GameAdminChangedMessage {
@@ -802,6 +824,10 @@ message PokerTHMessage {
 		Type_AdminRemoveGameAckMessage = 75;
 		Type_AdminBanPlayerMessage = 76;
 		Type_AdminBanPlayerAckMessage = 77;
+		Type_GameListSpectatorJoinedMessage = 78;
+		Type_GameListSpectatorLeftMessage = 79;
+		Type_GameSpectatorJoinedMessage = 80;
+		Type_GameSpectatorLeftMessage = 81;
 	}
 	required	PokerTHMessageType				messageType = 1;
 
@@ -882,4 +908,8 @@ message PokerTHMessage {
 	optional	AdminRemoveGameAckMessage		adminRemoveGameAckMessage = 76;
 	optional	AdminBanPlayerMessage			adminBanPlayerMessage = 77;
 	optional	AdminBanPlayerAckMessage		adminBanPlayerAckMessage = 78;
+	optional	GameListSpectatorJoinedMessage	gameListSpectatorJoinedMessage = 79;
+	optional	GameListSpectatorLeftMessage	gameListSpectatorLeftMessage = 80;
+	optional	GameSpectatorJoinedMessage		gameSpectatorJoinedMessage = 81;
+	optional	GameSpectatorLeftMessage		gameSpectatorLeftMessage = 82;
 }

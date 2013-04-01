@@ -30,6 +30,8 @@ void protobuf_ShutdownFile_pokerth_2eproto() {
   delete GameListUpdateMessage::default_instance_;
   delete GameListPlayerJoinedMessage::default_instance_;
   delete GameListPlayerLeftMessage::default_instance_;
+  delete GameListSpectatorJoinedMessage::default_instance_;
+  delete GameListSpectatorLeftMessage::default_instance_;
   delete GameListAdminChangedMessage::default_instance_;
   delete PlayerInfoRequestMessage::default_instance_;
   delete PlayerInfoReplyMessage::default_instance_;
@@ -43,6 +45,8 @@ void protobuf_ShutdownFile_pokerth_2eproto() {
   delete JoinGameFailedMessage::default_instance_;
   delete GamePlayerJoinedMessage::default_instance_;
   delete GamePlayerLeftMessage::default_instance_;
+  delete GameSpectatorJoinedMessage::default_instance_;
+  delete GameSpectatorLeftMessage::default_instance_;
   delete GameAdminChangedMessage::default_instance_;
   delete RemovedFromGameMessage::default_instance_;
   delete KickPlayerRequestMessage::default_instance_;
@@ -125,6 +129,8 @@ void protobuf_AddDesc_pokerth_2eproto() {
   GameListUpdateMessage::default_instance_ = new GameListUpdateMessage();
   GameListPlayerJoinedMessage::default_instance_ = new GameListPlayerJoinedMessage();
   GameListPlayerLeftMessage::default_instance_ = new GameListPlayerLeftMessage();
+  GameListSpectatorJoinedMessage::default_instance_ = new GameListSpectatorJoinedMessage();
+  GameListSpectatorLeftMessage::default_instance_ = new GameListSpectatorLeftMessage();
   GameListAdminChangedMessage::default_instance_ = new GameListAdminChangedMessage();
   PlayerInfoRequestMessage::default_instance_ = new PlayerInfoRequestMessage();
   PlayerInfoReplyMessage::default_instance_ = new PlayerInfoReplyMessage();
@@ -138,6 +144,8 @@ void protobuf_AddDesc_pokerth_2eproto() {
   JoinGameFailedMessage::default_instance_ = new JoinGameFailedMessage();
   GamePlayerJoinedMessage::default_instance_ = new GamePlayerJoinedMessage();
   GamePlayerLeftMessage::default_instance_ = new GamePlayerLeftMessage();
+  GameSpectatorJoinedMessage::default_instance_ = new GameSpectatorJoinedMessage();
+  GameSpectatorLeftMessage::default_instance_ = new GameSpectatorLeftMessage();
   GameAdminChangedMessage::default_instance_ = new GameAdminChangedMessage();
   RemovedFromGameMessage::default_instance_ = new RemovedFromGameMessage();
   KickPlayerRequestMessage::default_instance_ = new KickPlayerRequestMessage();
@@ -212,6 +220,8 @@ void protobuf_AddDesc_pokerth_2eproto() {
   GameListUpdateMessage::default_instance_->InitAsDefaultInstance();
   GameListPlayerJoinedMessage::default_instance_->InitAsDefaultInstance();
   GameListPlayerLeftMessage::default_instance_->InitAsDefaultInstance();
+  GameListSpectatorJoinedMessage::default_instance_->InitAsDefaultInstance();
+  GameListSpectatorLeftMessage::default_instance_->InitAsDefaultInstance();
   GameListAdminChangedMessage::default_instance_->InitAsDefaultInstance();
   PlayerInfoRequestMessage::default_instance_->InitAsDefaultInstance();
   PlayerInfoReplyMessage::default_instance_->InitAsDefaultInstance();
@@ -225,6 +235,8 @@ void protobuf_AddDesc_pokerth_2eproto() {
   JoinGameFailedMessage::default_instance_->InitAsDefaultInstance();
   GamePlayerJoinedMessage::default_instance_->InitAsDefaultInstance();
   GamePlayerLeftMessage::default_instance_->InitAsDefaultInstance();
+  GameSpectatorJoinedMessage::default_instance_->InitAsDefaultInstance();
+  GameSpectatorLeftMessage::default_instance_->InitAsDefaultInstance();
   GameAdminChangedMessage::default_instance_->InitAsDefaultInstance();
   RemovedFromGameMessage::default_instance_->InitAsDefaultInstance();
   KickPlayerRequestMessage::default_instance_->InitAsDefaultInstance();
@@ -5323,6 +5335,394 @@ void GameListPlayerLeftMessage::Swap(GameListPlayerLeftMessage* other) {
 // ===================================================================
 
 #ifndef _MSC_VER
+const int GameListSpectatorJoinedMessage::kGameIdFieldNumber;
+const int GameListSpectatorJoinedMessage::kPlayerIdFieldNumber;
+#endif  // !_MSC_VER
+
+GameListSpectatorJoinedMessage::GameListSpectatorJoinedMessage()
+  : ::google::protobuf::MessageLite() {
+  SharedCtor();
+}
+
+void GameListSpectatorJoinedMessage::InitAsDefaultInstance() {
+}
+
+GameListSpectatorJoinedMessage::GameListSpectatorJoinedMessage(const GameListSpectatorJoinedMessage& from)
+  : ::google::protobuf::MessageLite() {
+  SharedCtor();
+  MergeFrom(from);
+}
+
+void GameListSpectatorJoinedMessage::SharedCtor() {
+  _cached_size_ = 0;
+  gameid_ = 0u;
+  playerid_ = 0u;
+  ::memset(_has_bits_, 0, sizeof(_has_bits_));
+}
+
+GameListSpectatorJoinedMessage::~GameListSpectatorJoinedMessage() {
+  SharedDtor();
+}
+
+void GameListSpectatorJoinedMessage::SharedDtor() {
+  if (this != default_instance_) {
+  }
+}
+
+void GameListSpectatorJoinedMessage::SetCachedSize(int size) const {
+  GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
+  _cached_size_ = size;
+  GOOGLE_SAFE_CONCURRENT_WRITES_END();
+}
+const GameListSpectatorJoinedMessage& GameListSpectatorJoinedMessage::default_instance() {
+  if (default_instance_ == NULL) protobuf_AddDesc_pokerth_2eproto();  return *default_instance_;
+}
+
+GameListSpectatorJoinedMessage* GameListSpectatorJoinedMessage::default_instance_ = NULL;
+
+GameListSpectatorJoinedMessage* GameListSpectatorJoinedMessage::New() const {
+  return new GameListSpectatorJoinedMessage;
+}
+
+void GameListSpectatorJoinedMessage::Clear() {
+  if (_has_bits_[0 / 32] & (0xffu << (0 % 32))) {
+    gameid_ = 0u;
+    playerid_ = 0u;
+  }
+  ::memset(_has_bits_, 0, sizeof(_has_bits_));
+}
+
+bool GameListSpectatorJoinedMessage::MergePartialFromCodedStream(
+    ::google::protobuf::io::CodedInputStream* input) {
+#define DO_(EXPRESSION) if (!(EXPRESSION)) return false
+  ::google::protobuf::uint32 tag;
+  while ((tag = input->ReadTag()) != 0) {
+    switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
+      // required uint32 gameId = 1;
+      case 1: {
+        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+            ::google::protobuf::internal::WireFormatLite::WIRETYPE_VARINT) {
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
+                 input, &gameid_)));
+          set_has_gameid();
+        } else {
+          goto handle_uninterpreted;
+        }
+        if (input->ExpectTag(16)) goto parse_playerId;
+        break;
+      }
+      
+      // required uint32 playerId = 2;
+      case 2: {
+        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+            ::google::protobuf::internal::WireFormatLite::WIRETYPE_VARINT) {
+         parse_playerId:
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
+                 input, &playerid_)));
+          set_has_playerid();
+        } else {
+          goto handle_uninterpreted;
+        }
+        if (input->ExpectAtEnd()) return true;
+        break;
+      }
+      
+      default: {
+      handle_uninterpreted:
+        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+            ::google::protobuf::internal::WireFormatLite::WIRETYPE_END_GROUP) {
+          return true;
+        }
+        DO_(::google::protobuf::internal::WireFormatLite::SkipField(input, tag));
+        break;
+      }
+    }
+  }
+  return true;
+#undef DO_
+}
+
+void GameListSpectatorJoinedMessage::SerializeWithCachedSizes(
+    ::google::protobuf::io::CodedOutputStream* output) const {
+  // required uint32 gameId = 1;
+  if (has_gameid()) {
+    ::google::protobuf::internal::WireFormatLite::WriteUInt32(1, this->gameid(), output);
+  }
+  
+  // required uint32 playerId = 2;
+  if (has_playerid()) {
+    ::google::protobuf::internal::WireFormatLite::WriteUInt32(2, this->playerid(), output);
+  }
+  
+}
+
+int GameListSpectatorJoinedMessage::ByteSize() const {
+  int total_size = 0;
+  
+  if (_has_bits_[0 / 32] & (0xffu << (0 % 32))) {
+    // required uint32 gameId = 1;
+    if (has_gameid()) {
+      total_size += 1 +
+        ::google::protobuf::internal::WireFormatLite::UInt32Size(
+          this->gameid());
+    }
+    
+    // required uint32 playerId = 2;
+    if (has_playerid()) {
+      total_size += 1 +
+        ::google::protobuf::internal::WireFormatLite::UInt32Size(
+          this->playerid());
+    }
+    
+  }
+  GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
+  _cached_size_ = total_size;
+  GOOGLE_SAFE_CONCURRENT_WRITES_END();
+  return total_size;
+}
+
+void GameListSpectatorJoinedMessage::CheckTypeAndMergeFrom(
+    const ::google::protobuf::MessageLite& from) {
+  MergeFrom(*::google::protobuf::down_cast<const GameListSpectatorJoinedMessage*>(&from));
+}
+
+void GameListSpectatorJoinedMessage::MergeFrom(const GameListSpectatorJoinedMessage& from) {
+  GOOGLE_CHECK_NE(&from, this);
+  if (from._has_bits_[0 / 32] & (0xffu << (0 % 32))) {
+    if (from.has_gameid()) {
+      set_gameid(from.gameid());
+    }
+    if (from.has_playerid()) {
+      set_playerid(from.playerid());
+    }
+  }
+}
+
+void GameListSpectatorJoinedMessage::CopyFrom(const GameListSpectatorJoinedMessage& from) {
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool GameListSpectatorJoinedMessage::IsInitialized() const {
+  if ((_has_bits_[0] & 0x00000003) != 0x00000003) return false;
+  
+  return true;
+}
+
+void GameListSpectatorJoinedMessage::Swap(GameListSpectatorJoinedMessage* other) {
+  if (other != this) {
+    std::swap(gameid_, other->gameid_);
+    std::swap(playerid_, other->playerid_);
+    std::swap(_has_bits_[0], other->_has_bits_[0]);
+    std::swap(_cached_size_, other->_cached_size_);
+  }
+}
+
+::std::string GameListSpectatorJoinedMessage::GetTypeName() const {
+  return "GameListSpectatorJoinedMessage";
+}
+
+
+// ===================================================================
+
+#ifndef _MSC_VER
+const int GameListSpectatorLeftMessage::kGameIdFieldNumber;
+const int GameListSpectatorLeftMessage::kPlayerIdFieldNumber;
+#endif  // !_MSC_VER
+
+GameListSpectatorLeftMessage::GameListSpectatorLeftMessage()
+  : ::google::protobuf::MessageLite() {
+  SharedCtor();
+}
+
+void GameListSpectatorLeftMessage::InitAsDefaultInstance() {
+}
+
+GameListSpectatorLeftMessage::GameListSpectatorLeftMessage(const GameListSpectatorLeftMessage& from)
+  : ::google::protobuf::MessageLite() {
+  SharedCtor();
+  MergeFrom(from);
+}
+
+void GameListSpectatorLeftMessage::SharedCtor() {
+  _cached_size_ = 0;
+  gameid_ = 0u;
+  playerid_ = 0u;
+  ::memset(_has_bits_, 0, sizeof(_has_bits_));
+}
+
+GameListSpectatorLeftMessage::~GameListSpectatorLeftMessage() {
+  SharedDtor();
+}
+
+void GameListSpectatorLeftMessage::SharedDtor() {
+  if (this != default_instance_) {
+  }
+}
+
+void GameListSpectatorLeftMessage::SetCachedSize(int size) const {
+  GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
+  _cached_size_ = size;
+  GOOGLE_SAFE_CONCURRENT_WRITES_END();
+}
+const GameListSpectatorLeftMessage& GameListSpectatorLeftMessage::default_instance() {
+  if (default_instance_ == NULL) protobuf_AddDesc_pokerth_2eproto();  return *default_instance_;
+}
+
+GameListSpectatorLeftMessage* GameListSpectatorLeftMessage::default_instance_ = NULL;
+
+GameListSpectatorLeftMessage* GameListSpectatorLeftMessage::New() const {
+  return new GameListSpectatorLeftMessage;
+}
+
+void GameListSpectatorLeftMessage::Clear() {
+  if (_has_bits_[0 / 32] & (0xffu << (0 % 32))) {
+    gameid_ = 0u;
+    playerid_ = 0u;
+  }
+  ::memset(_has_bits_, 0, sizeof(_has_bits_));
+}
+
+bool GameListSpectatorLeftMessage::MergePartialFromCodedStream(
+    ::google::protobuf::io::CodedInputStream* input) {
+#define DO_(EXPRESSION) if (!(EXPRESSION)) return false
+  ::google::protobuf::uint32 tag;
+  while ((tag = input->ReadTag()) != 0) {
+    switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
+      // required uint32 gameId = 1;
+      case 1: {
+        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+            ::google::protobuf::internal::WireFormatLite::WIRETYPE_VARINT) {
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
+                 input, &gameid_)));
+          set_has_gameid();
+        } else {
+          goto handle_uninterpreted;
+        }
+        if (input->ExpectTag(16)) goto parse_playerId;
+        break;
+      }
+      
+      // required uint32 playerId = 2;
+      case 2: {
+        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+            ::google::protobuf::internal::WireFormatLite::WIRETYPE_VARINT) {
+         parse_playerId:
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
+                 input, &playerid_)));
+          set_has_playerid();
+        } else {
+          goto handle_uninterpreted;
+        }
+        if (input->ExpectAtEnd()) return true;
+        break;
+      }
+      
+      default: {
+      handle_uninterpreted:
+        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+            ::google::protobuf::internal::WireFormatLite::WIRETYPE_END_GROUP) {
+          return true;
+        }
+        DO_(::google::protobuf::internal::WireFormatLite::SkipField(input, tag));
+        break;
+      }
+    }
+  }
+  return true;
+#undef DO_
+}
+
+void GameListSpectatorLeftMessage::SerializeWithCachedSizes(
+    ::google::protobuf::io::CodedOutputStream* output) const {
+  // required uint32 gameId = 1;
+  if (has_gameid()) {
+    ::google::protobuf::internal::WireFormatLite::WriteUInt32(1, this->gameid(), output);
+  }
+  
+  // required uint32 playerId = 2;
+  if (has_playerid()) {
+    ::google::protobuf::internal::WireFormatLite::WriteUInt32(2, this->playerid(), output);
+  }
+  
+}
+
+int GameListSpectatorLeftMessage::ByteSize() const {
+  int total_size = 0;
+  
+  if (_has_bits_[0 / 32] & (0xffu << (0 % 32))) {
+    // required uint32 gameId = 1;
+    if (has_gameid()) {
+      total_size += 1 +
+        ::google::protobuf::internal::WireFormatLite::UInt32Size(
+          this->gameid());
+    }
+    
+    // required uint32 playerId = 2;
+    if (has_playerid()) {
+      total_size += 1 +
+        ::google::protobuf::internal::WireFormatLite::UInt32Size(
+          this->playerid());
+    }
+    
+  }
+  GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
+  _cached_size_ = total_size;
+  GOOGLE_SAFE_CONCURRENT_WRITES_END();
+  return total_size;
+}
+
+void GameListSpectatorLeftMessage::CheckTypeAndMergeFrom(
+    const ::google::protobuf::MessageLite& from) {
+  MergeFrom(*::google::protobuf::down_cast<const GameListSpectatorLeftMessage*>(&from));
+}
+
+void GameListSpectatorLeftMessage::MergeFrom(const GameListSpectatorLeftMessage& from) {
+  GOOGLE_CHECK_NE(&from, this);
+  if (from._has_bits_[0 / 32] & (0xffu << (0 % 32))) {
+    if (from.has_gameid()) {
+      set_gameid(from.gameid());
+    }
+    if (from.has_playerid()) {
+      set_playerid(from.playerid());
+    }
+  }
+}
+
+void GameListSpectatorLeftMessage::CopyFrom(const GameListSpectatorLeftMessage& from) {
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool GameListSpectatorLeftMessage::IsInitialized() const {
+  if ((_has_bits_[0] & 0x00000003) != 0x00000003) return false;
+  
+  return true;
+}
+
+void GameListSpectatorLeftMessage::Swap(GameListSpectatorLeftMessage* other) {
+  if (other != this) {
+    std::swap(gameid_, other->gameid_);
+    std::swap(playerid_, other->playerid_);
+    std::swap(_has_bits_[0], other->_has_bits_[0]);
+    std::swap(_cached_size_, other->_cached_size_);
+  }
+}
+
+::std::string GameListSpectatorLeftMessage::GetTypeName() const {
+  return "GameListSpectatorLeftMessage";
+}
+
+
+// ===================================================================
+
+#ifndef _MSC_VER
 const int GameListAdminChangedMessage::kGameIdFieldNumber;
 const int GameListAdminChangedMessage::kNewAdminPlayerIdFieldNumber;
 #endif  // !_MSC_VER
@@ -6587,6 +6987,7 @@ void SubscriptionRequestMessage::Swap(SubscriptionRequestMessage* other) {
 const int JoinExistingGameMessage::kGameIdFieldNumber;
 const int JoinExistingGameMessage::kPasswordFieldNumber;
 const int JoinExistingGameMessage::kAutoLeaveFieldNumber;
+const int JoinExistingGameMessage::kSpectateOnlyFieldNumber;
 #endif  // !_MSC_VER
 
 JoinExistingGameMessage::JoinExistingGameMessage()
@@ -6608,6 +7009,7 @@ void JoinExistingGameMessage::SharedCtor() {
   gameid_ = 0u;
   password_ = const_cast< ::std::string*>(&::google::protobuf::internal::kEmptyString);
   autoleave_ = false;
+  spectateonly_ = false;
   ::memset(_has_bits_, 0, sizeof(_has_bits_));
 }
 
@@ -6647,6 +7049,7 @@ void JoinExistingGameMessage::Clear() {
       }
     }
     autoleave_ = false;
+    spectateonly_ = false;
   }
   ::memset(_has_bits_, 0, sizeof(_has_bits_));
 }
@@ -6698,6 +7101,22 @@ bool JoinExistingGameMessage::MergePartialFromCodedStream(
         } else {
           goto handle_uninterpreted;
         }
+        if (input->ExpectTag(32)) goto parse_spectateOnly;
+        break;
+      }
+      
+      // optional bool spectateOnly = 4;
+      case 4: {
+        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+            ::google::protobuf::internal::WireFormatLite::WIRETYPE_VARINT) {
+         parse_spectateOnly:
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   bool, ::google::protobuf::internal::WireFormatLite::TYPE_BOOL>(
+                 input, &spectateonly_)));
+          set_has_spectateonly();
+        } else {
+          goto handle_uninterpreted;
+        }
         if (input->ExpectAtEnd()) return true;
         break;
       }
@@ -6735,6 +7154,11 @@ void JoinExistingGameMessage::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormatLite::WriteBool(3, this->autoleave(), output);
   }
   
+  // optional bool spectateOnly = 4;
+  if (has_spectateonly()) {
+    ::google::protobuf::internal::WireFormatLite::WriteBool(4, this->spectateonly(), output);
+  }
+  
 }
 
 int JoinExistingGameMessage::ByteSize() const {
@@ -6757,6 +7181,11 @@ int JoinExistingGameMessage::ByteSize() const {
     
     // optional bool autoLeave = 3;
     if (has_autoleave()) {
+      total_size += 1 + 1;
+    }
+    
+    // optional bool spectateOnly = 4;
+    if (has_spectateonly()) {
       total_size += 1 + 1;
     }
     
@@ -6784,6 +7213,9 @@ void JoinExistingGameMessage::MergeFrom(const JoinExistingGameMessage& from) {
     if (from.has_autoleave()) {
       set_autoleave(from.autoleave());
     }
+    if (from.has_spectateonly()) {
+      set_spectateonly(from.spectateonly());
+    }
   }
 }
 
@@ -6804,6 +7236,7 @@ void JoinExistingGameMessage::Swap(JoinExistingGameMessage* other) {
     std::swap(gameid_, other->gameid_);
     std::swap(password_, other->password_);
     std::swap(autoleave_, other->autoleave_);
+    std::swap(spectateonly_, other->spectateonly_);
     std::swap(_has_bits_[0], other->_has_bits_[0]);
     std::swap(_cached_size_, other->_cached_size_);
   }
@@ -8185,6 +8618,432 @@ void GamePlayerLeftMessage::Swap(GamePlayerLeftMessage* other) {
 
 ::std::string GamePlayerLeftMessage::GetTypeName() const {
   return "GamePlayerLeftMessage";
+}
+
+
+// ===================================================================
+
+#ifndef _MSC_VER
+const int GameSpectatorJoinedMessage::kGameIdFieldNumber;
+const int GameSpectatorJoinedMessage::kPlayerIdFieldNumber;
+#endif  // !_MSC_VER
+
+GameSpectatorJoinedMessage::GameSpectatorJoinedMessage()
+  : ::google::protobuf::MessageLite() {
+  SharedCtor();
+}
+
+void GameSpectatorJoinedMessage::InitAsDefaultInstance() {
+}
+
+GameSpectatorJoinedMessage::GameSpectatorJoinedMessage(const GameSpectatorJoinedMessage& from)
+  : ::google::protobuf::MessageLite() {
+  SharedCtor();
+  MergeFrom(from);
+}
+
+void GameSpectatorJoinedMessage::SharedCtor() {
+  _cached_size_ = 0;
+  gameid_ = 0u;
+  playerid_ = 0u;
+  ::memset(_has_bits_, 0, sizeof(_has_bits_));
+}
+
+GameSpectatorJoinedMessage::~GameSpectatorJoinedMessage() {
+  SharedDtor();
+}
+
+void GameSpectatorJoinedMessage::SharedDtor() {
+  if (this != default_instance_) {
+  }
+}
+
+void GameSpectatorJoinedMessage::SetCachedSize(int size) const {
+  GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
+  _cached_size_ = size;
+  GOOGLE_SAFE_CONCURRENT_WRITES_END();
+}
+const GameSpectatorJoinedMessage& GameSpectatorJoinedMessage::default_instance() {
+  if (default_instance_ == NULL) protobuf_AddDesc_pokerth_2eproto();  return *default_instance_;
+}
+
+GameSpectatorJoinedMessage* GameSpectatorJoinedMessage::default_instance_ = NULL;
+
+GameSpectatorJoinedMessage* GameSpectatorJoinedMessage::New() const {
+  return new GameSpectatorJoinedMessage;
+}
+
+void GameSpectatorJoinedMessage::Clear() {
+  if (_has_bits_[0 / 32] & (0xffu << (0 % 32))) {
+    gameid_ = 0u;
+    playerid_ = 0u;
+  }
+  ::memset(_has_bits_, 0, sizeof(_has_bits_));
+}
+
+bool GameSpectatorJoinedMessage::MergePartialFromCodedStream(
+    ::google::protobuf::io::CodedInputStream* input) {
+#define DO_(EXPRESSION) if (!(EXPRESSION)) return false
+  ::google::protobuf::uint32 tag;
+  while ((tag = input->ReadTag()) != 0) {
+    switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
+      // required uint32 gameId = 1;
+      case 1: {
+        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+            ::google::protobuf::internal::WireFormatLite::WIRETYPE_VARINT) {
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
+                 input, &gameid_)));
+          set_has_gameid();
+        } else {
+          goto handle_uninterpreted;
+        }
+        if (input->ExpectTag(16)) goto parse_playerId;
+        break;
+      }
+      
+      // required uint32 playerId = 2;
+      case 2: {
+        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+            ::google::protobuf::internal::WireFormatLite::WIRETYPE_VARINT) {
+         parse_playerId:
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
+                 input, &playerid_)));
+          set_has_playerid();
+        } else {
+          goto handle_uninterpreted;
+        }
+        if (input->ExpectAtEnd()) return true;
+        break;
+      }
+      
+      default: {
+      handle_uninterpreted:
+        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+            ::google::protobuf::internal::WireFormatLite::WIRETYPE_END_GROUP) {
+          return true;
+        }
+        DO_(::google::protobuf::internal::WireFormatLite::SkipField(input, tag));
+        break;
+      }
+    }
+  }
+  return true;
+#undef DO_
+}
+
+void GameSpectatorJoinedMessage::SerializeWithCachedSizes(
+    ::google::protobuf::io::CodedOutputStream* output) const {
+  // required uint32 gameId = 1;
+  if (has_gameid()) {
+    ::google::protobuf::internal::WireFormatLite::WriteUInt32(1, this->gameid(), output);
+  }
+  
+  // required uint32 playerId = 2;
+  if (has_playerid()) {
+    ::google::protobuf::internal::WireFormatLite::WriteUInt32(2, this->playerid(), output);
+  }
+  
+}
+
+int GameSpectatorJoinedMessage::ByteSize() const {
+  int total_size = 0;
+  
+  if (_has_bits_[0 / 32] & (0xffu << (0 % 32))) {
+    // required uint32 gameId = 1;
+    if (has_gameid()) {
+      total_size += 1 +
+        ::google::protobuf::internal::WireFormatLite::UInt32Size(
+          this->gameid());
+    }
+    
+    // required uint32 playerId = 2;
+    if (has_playerid()) {
+      total_size += 1 +
+        ::google::protobuf::internal::WireFormatLite::UInt32Size(
+          this->playerid());
+    }
+    
+  }
+  GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
+  _cached_size_ = total_size;
+  GOOGLE_SAFE_CONCURRENT_WRITES_END();
+  return total_size;
+}
+
+void GameSpectatorJoinedMessage::CheckTypeAndMergeFrom(
+    const ::google::protobuf::MessageLite& from) {
+  MergeFrom(*::google::protobuf::down_cast<const GameSpectatorJoinedMessage*>(&from));
+}
+
+void GameSpectatorJoinedMessage::MergeFrom(const GameSpectatorJoinedMessage& from) {
+  GOOGLE_CHECK_NE(&from, this);
+  if (from._has_bits_[0 / 32] & (0xffu << (0 % 32))) {
+    if (from.has_gameid()) {
+      set_gameid(from.gameid());
+    }
+    if (from.has_playerid()) {
+      set_playerid(from.playerid());
+    }
+  }
+}
+
+void GameSpectatorJoinedMessage::CopyFrom(const GameSpectatorJoinedMessage& from) {
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool GameSpectatorJoinedMessage::IsInitialized() const {
+  if ((_has_bits_[0] & 0x00000003) != 0x00000003) return false;
+  
+  return true;
+}
+
+void GameSpectatorJoinedMessage::Swap(GameSpectatorJoinedMessage* other) {
+  if (other != this) {
+    std::swap(gameid_, other->gameid_);
+    std::swap(playerid_, other->playerid_);
+    std::swap(_has_bits_[0], other->_has_bits_[0]);
+    std::swap(_cached_size_, other->_cached_size_);
+  }
+}
+
+::std::string GameSpectatorJoinedMessage::GetTypeName() const {
+  return "GameSpectatorJoinedMessage";
+}
+
+
+// ===================================================================
+
+#ifndef _MSC_VER
+const int GameSpectatorLeftMessage::kGameIdFieldNumber;
+const int GameSpectatorLeftMessage::kPlayerIdFieldNumber;
+const int GameSpectatorLeftMessage::kGameSpectatorLeftReasonFieldNumber;
+#endif  // !_MSC_VER
+
+GameSpectatorLeftMessage::GameSpectatorLeftMessage()
+  : ::google::protobuf::MessageLite() {
+  SharedCtor();
+}
+
+void GameSpectatorLeftMessage::InitAsDefaultInstance() {
+}
+
+GameSpectatorLeftMessage::GameSpectatorLeftMessage(const GameSpectatorLeftMessage& from)
+  : ::google::protobuf::MessageLite() {
+  SharedCtor();
+  MergeFrom(from);
+}
+
+void GameSpectatorLeftMessage::SharedCtor() {
+  _cached_size_ = 0;
+  gameid_ = 0u;
+  playerid_ = 0u;
+  gamespectatorleftreason_ = 0;
+  ::memset(_has_bits_, 0, sizeof(_has_bits_));
+}
+
+GameSpectatorLeftMessage::~GameSpectatorLeftMessage() {
+  SharedDtor();
+}
+
+void GameSpectatorLeftMessage::SharedDtor() {
+  if (this != default_instance_) {
+  }
+}
+
+void GameSpectatorLeftMessage::SetCachedSize(int size) const {
+  GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
+  _cached_size_ = size;
+  GOOGLE_SAFE_CONCURRENT_WRITES_END();
+}
+const GameSpectatorLeftMessage& GameSpectatorLeftMessage::default_instance() {
+  if (default_instance_ == NULL) protobuf_AddDesc_pokerth_2eproto();  return *default_instance_;
+}
+
+GameSpectatorLeftMessage* GameSpectatorLeftMessage::default_instance_ = NULL;
+
+GameSpectatorLeftMessage* GameSpectatorLeftMessage::New() const {
+  return new GameSpectatorLeftMessage;
+}
+
+void GameSpectatorLeftMessage::Clear() {
+  if (_has_bits_[0 / 32] & (0xffu << (0 % 32))) {
+    gameid_ = 0u;
+    playerid_ = 0u;
+    gamespectatorleftreason_ = 0;
+  }
+  ::memset(_has_bits_, 0, sizeof(_has_bits_));
+}
+
+bool GameSpectatorLeftMessage::MergePartialFromCodedStream(
+    ::google::protobuf::io::CodedInputStream* input) {
+#define DO_(EXPRESSION) if (!(EXPRESSION)) return false
+  ::google::protobuf::uint32 tag;
+  while ((tag = input->ReadTag()) != 0) {
+    switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
+      // required uint32 gameId = 1;
+      case 1: {
+        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+            ::google::protobuf::internal::WireFormatLite::WIRETYPE_VARINT) {
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
+                 input, &gameid_)));
+          set_has_gameid();
+        } else {
+          goto handle_uninterpreted;
+        }
+        if (input->ExpectTag(16)) goto parse_playerId;
+        break;
+      }
+      
+      // required uint32 playerId = 2;
+      case 2: {
+        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+            ::google::protobuf::internal::WireFormatLite::WIRETYPE_VARINT) {
+         parse_playerId:
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
+                 input, &playerid_)));
+          set_has_playerid();
+        } else {
+          goto handle_uninterpreted;
+        }
+        if (input->ExpectTag(24)) goto parse_gameSpectatorLeftReason;
+        break;
+      }
+      
+      // required .GamePlayerLeftMessage.GamePlayerLeftReason gameSpectatorLeftReason = 3;
+      case 3: {
+        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+            ::google::protobuf::internal::WireFormatLite::WIRETYPE_VARINT) {
+         parse_gameSpectatorLeftReason:
+          int value;
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   int, ::google::protobuf::internal::WireFormatLite::TYPE_ENUM>(
+                 input, &value)));
+          if (::GamePlayerLeftMessage_GamePlayerLeftReason_IsValid(value)) {
+            set_gamespectatorleftreason(static_cast< ::GamePlayerLeftMessage_GamePlayerLeftReason >(value));
+          }
+        } else {
+          goto handle_uninterpreted;
+        }
+        if (input->ExpectAtEnd()) return true;
+        break;
+      }
+      
+      default: {
+      handle_uninterpreted:
+        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+            ::google::protobuf::internal::WireFormatLite::WIRETYPE_END_GROUP) {
+          return true;
+        }
+        DO_(::google::protobuf::internal::WireFormatLite::SkipField(input, tag));
+        break;
+      }
+    }
+  }
+  return true;
+#undef DO_
+}
+
+void GameSpectatorLeftMessage::SerializeWithCachedSizes(
+    ::google::protobuf::io::CodedOutputStream* output) const {
+  // required uint32 gameId = 1;
+  if (has_gameid()) {
+    ::google::protobuf::internal::WireFormatLite::WriteUInt32(1, this->gameid(), output);
+  }
+  
+  // required uint32 playerId = 2;
+  if (has_playerid()) {
+    ::google::protobuf::internal::WireFormatLite::WriteUInt32(2, this->playerid(), output);
+  }
+  
+  // required .GamePlayerLeftMessage.GamePlayerLeftReason gameSpectatorLeftReason = 3;
+  if (has_gamespectatorleftreason()) {
+    ::google::protobuf::internal::WireFormatLite::WriteEnum(
+      3, this->gamespectatorleftreason(), output);
+  }
+  
+}
+
+int GameSpectatorLeftMessage::ByteSize() const {
+  int total_size = 0;
+  
+  if (_has_bits_[0 / 32] & (0xffu << (0 % 32))) {
+    // required uint32 gameId = 1;
+    if (has_gameid()) {
+      total_size += 1 +
+        ::google::protobuf::internal::WireFormatLite::UInt32Size(
+          this->gameid());
+    }
+    
+    // required uint32 playerId = 2;
+    if (has_playerid()) {
+      total_size += 1 +
+        ::google::protobuf::internal::WireFormatLite::UInt32Size(
+          this->playerid());
+    }
+    
+    // required .GamePlayerLeftMessage.GamePlayerLeftReason gameSpectatorLeftReason = 3;
+    if (has_gamespectatorleftreason()) {
+      total_size += 1 +
+        ::google::protobuf::internal::WireFormatLite::EnumSize(this->gamespectatorleftreason());
+    }
+    
+  }
+  GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
+  _cached_size_ = total_size;
+  GOOGLE_SAFE_CONCURRENT_WRITES_END();
+  return total_size;
+}
+
+void GameSpectatorLeftMessage::CheckTypeAndMergeFrom(
+    const ::google::protobuf::MessageLite& from) {
+  MergeFrom(*::google::protobuf::down_cast<const GameSpectatorLeftMessage*>(&from));
+}
+
+void GameSpectatorLeftMessage::MergeFrom(const GameSpectatorLeftMessage& from) {
+  GOOGLE_CHECK_NE(&from, this);
+  if (from._has_bits_[0 / 32] & (0xffu << (0 % 32))) {
+    if (from.has_gameid()) {
+      set_gameid(from.gameid());
+    }
+    if (from.has_playerid()) {
+      set_playerid(from.playerid());
+    }
+    if (from.has_gamespectatorleftreason()) {
+      set_gamespectatorleftreason(from.gamespectatorleftreason());
+    }
+  }
+}
+
+void GameSpectatorLeftMessage::CopyFrom(const GameSpectatorLeftMessage& from) {
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool GameSpectatorLeftMessage::IsInitialized() const {
+  if ((_has_bits_[0] & 0x00000007) != 0x00000007) return false;
+  
+  return true;
+}
+
+void GameSpectatorLeftMessage::Swap(GameSpectatorLeftMessage* other) {
+  if (other != this) {
+    std::swap(gameid_, other->gameid_);
+    std::swap(playerid_, other->playerid_);
+    std::swap(gamespectatorleftreason_, other->gamespectatorleftreason_);
+    std::swap(_has_bits_[0], other->_has_bits_[0]);
+    std::swap(_cached_size_, other->_cached_size_);
+  }
+}
+
+::std::string GameSpectatorLeftMessage::GetTypeName() const {
+  return "GameSpectatorLeftMessage";
 }
 
 
@@ -20226,6 +21085,10 @@ bool PokerTHMessage_PokerTHMessageType_IsValid(int value) {
     case 75:
     case 76:
     case 77:
+    case 78:
+    case 79:
+    case 80:
+    case 81:
       return true;
     default:
       return false;
@@ -20310,6 +21173,10 @@ const PokerTHMessage_PokerTHMessageType PokerTHMessage::Type_AdminRemoveGameMess
 const PokerTHMessage_PokerTHMessageType PokerTHMessage::Type_AdminRemoveGameAckMessage;
 const PokerTHMessage_PokerTHMessageType PokerTHMessage::Type_AdminBanPlayerMessage;
 const PokerTHMessage_PokerTHMessageType PokerTHMessage::Type_AdminBanPlayerAckMessage;
+const PokerTHMessage_PokerTHMessageType PokerTHMessage::Type_GameListSpectatorJoinedMessage;
+const PokerTHMessage_PokerTHMessageType PokerTHMessage::Type_GameListSpectatorLeftMessage;
+const PokerTHMessage_PokerTHMessageType PokerTHMessage::Type_GameSpectatorJoinedMessage;
+const PokerTHMessage_PokerTHMessageType PokerTHMessage::Type_GameSpectatorLeftMessage;
 const PokerTHMessage_PokerTHMessageType PokerTHMessage::PokerTHMessageType_MIN;
 const PokerTHMessage_PokerTHMessageType PokerTHMessage::PokerTHMessageType_MAX;
 const int PokerTHMessage::PokerTHMessageType_ARRAYSIZE;
@@ -20393,6 +21260,10 @@ const int PokerTHMessage::kAdminRemoveGameMessageFieldNumber;
 const int PokerTHMessage::kAdminRemoveGameAckMessageFieldNumber;
 const int PokerTHMessage::kAdminBanPlayerMessageFieldNumber;
 const int PokerTHMessage::kAdminBanPlayerAckMessageFieldNumber;
+const int PokerTHMessage::kGameListSpectatorJoinedMessageFieldNumber;
+const int PokerTHMessage::kGameListSpectatorLeftMessageFieldNumber;
+const int PokerTHMessage::kGameSpectatorJoinedMessageFieldNumber;
+const int PokerTHMessage::kGameSpectatorLeftMessageFieldNumber;
 #endif  // !_MSC_VER
 
 PokerTHMessage::PokerTHMessage()
@@ -20478,6 +21349,10 @@ void PokerTHMessage::InitAsDefaultInstance() {
   adminremovegameackmessage_ = const_cast< ::AdminRemoveGameAckMessage*>(&::AdminRemoveGameAckMessage::default_instance());
   adminbanplayermessage_ = const_cast< ::AdminBanPlayerMessage*>(&::AdminBanPlayerMessage::default_instance());
   adminbanplayerackmessage_ = const_cast< ::AdminBanPlayerAckMessage*>(&::AdminBanPlayerAckMessage::default_instance());
+  gamelistspectatorjoinedmessage_ = const_cast< ::GameListSpectatorJoinedMessage*>(&::GameListSpectatorJoinedMessage::default_instance());
+  gamelistspectatorleftmessage_ = const_cast< ::GameListSpectatorLeftMessage*>(&::GameListSpectatorLeftMessage::default_instance());
+  gamespectatorjoinedmessage_ = const_cast< ::GameSpectatorJoinedMessage*>(&::GameSpectatorJoinedMessage::default_instance());
+  gamespectatorleftmessage_ = const_cast< ::GameSpectatorLeftMessage*>(&::GameSpectatorLeftMessage::default_instance());
 }
 
 PokerTHMessage::PokerTHMessage(const PokerTHMessage& from)
@@ -20566,6 +21441,10 @@ void PokerTHMessage::SharedCtor() {
   adminremovegameackmessage_ = NULL;
   adminbanplayermessage_ = NULL;
   adminbanplayerackmessage_ = NULL;
+  gamelistspectatorjoinedmessage_ = NULL;
+  gamelistspectatorleftmessage_ = NULL;
+  gamespectatorjoinedmessage_ = NULL;
+  gamespectatorleftmessage_ = NULL;
   ::memset(_has_bits_, 0, sizeof(_has_bits_));
 }
 
@@ -20652,6 +21531,10 @@ void PokerTHMessage::SharedDtor() {
     delete adminremovegameackmessage_;
     delete adminbanplayermessage_;
     delete adminbanplayerackmessage_;
+    delete gamelistspectatorjoinedmessage_;
+    delete gamelistspectatorleftmessage_;
+    delete gamespectatorjoinedmessage_;
+    delete gamespectatorleftmessage_;
   }
 }
 
@@ -20921,6 +21804,20 @@ void PokerTHMessage::Clear() {
     }
     if (has_adminbanplayerackmessage()) {
       if (adminbanplayerackmessage_ != NULL) adminbanplayerackmessage_->::AdminBanPlayerAckMessage::Clear();
+    }
+    if (has_gamelistspectatorjoinedmessage()) {
+      if (gamelistspectatorjoinedmessage_ != NULL) gamelistspectatorjoinedmessage_->::GameListSpectatorJoinedMessage::Clear();
+    }
+    if (has_gamelistspectatorleftmessage()) {
+      if (gamelistspectatorleftmessage_ != NULL) gamelistspectatorleftmessage_->::GameListSpectatorLeftMessage::Clear();
+    }
+  }
+  if (_has_bits_[80 / 32] & (0xffu << (80 % 32))) {
+    if (has_gamespectatorjoinedmessage()) {
+      if (gamespectatorjoinedmessage_ != NULL) gamespectatorjoinedmessage_->::GameSpectatorJoinedMessage::Clear();
+    }
+    if (has_gamespectatorleftmessage()) {
+      if (gamespectatorleftmessage_ != NULL) gamespectatorleftmessage_->::GameSpectatorLeftMessage::Clear();
     }
   }
   ::memset(_has_bits_, 0, sizeof(_has_bits_));
@@ -22024,6 +22921,62 @@ bool PokerTHMessage::MergePartialFromCodedStream(
         } else {
           goto handle_uninterpreted;
         }
+        if (input->ExpectTag(634)) goto parse_gameListSpectatorJoinedMessage;
+        break;
+      }
+      
+      // optional .GameListSpectatorJoinedMessage gameListSpectatorJoinedMessage = 79;
+      case 79: {
+        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+            ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
+         parse_gameListSpectatorJoinedMessage:
+          DO_(::google::protobuf::internal::WireFormatLite::ReadMessageNoVirtual(
+               input, mutable_gamelistspectatorjoinedmessage()));
+        } else {
+          goto handle_uninterpreted;
+        }
+        if (input->ExpectTag(642)) goto parse_gameListSpectatorLeftMessage;
+        break;
+      }
+      
+      // optional .GameListSpectatorLeftMessage gameListSpectatorLeftMessage = 80;
+      case 80: {
+        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+            ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
+         parse_gameListSpectatorLeftMessage:
+          DO_(::google::protobuf::internal::WireFormatLite::ReadMessageNoVirtual(
+               input, mutable_gamelistspectatorleftmessage()));
+        } else {
+          goto handle_uninterpreted;
+        }
+        if (input->ExpectTag(650)) goto parse_gameSpectatorJoinedMessage;
+        break;
+      }
+      
+      // optional .GameSpectatorJoinedMessage gameSpectatorJoinedMessage = 81;
+      case 81: {
+        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+            ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
+         parse_gameSpectatorJoinedMessage:
+          DO_(::google::protobuf::internal::WireFormatLite::ReadMessageNoVirtual(
+               input, mutable_gamespectatorjoinedmessage()));
+        } else {
+          goto handle_uninterpreted;
+        }
+        if (input->ExpectTag(658)) goto parse_gameSpectatorLeftMessage;
+        break;
+      }
+      
+      // optional .GameSpectatorLeftMessage gameSpectatorLeftMessage = 82;
+      case 82: {
+        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+            ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
+         parse_gameSpectatorLeftMessage:
+          DO_(::google::protobuf::internal::WireFormatLite::ReadMessageNoVirtual(
+               input, mutable_gamespectatorleftmessage()));
+        } else {
+          goto handle_uninterpreted;
+        }
         if (input->ExpectAtEnd()) return true;
         break;
       }
@@ -22511,6 +23464,30 @@ void PokerTHMessage::SerializeWithCachedSizes(
   if (has_adminbanplayerackmessage()) {
     ::google::protobuf::internal::WireFormatLite::WriteMessage(
       78, this->adminbanplayerackmessage(), output);
+  }
+  
+  // optional .GameListSpectatorJoinedMessage gameListSpectatorJoinedMessage = 79;
+  if (has_gamelistspectatorjoinedmessage()) {
+    ::google::protobuf::internal::WireFormatLite::WriteMessage(
+      79, this->gamelistspectatorjoinedmessage(), output);
+  }
+  
+  // optional .GameListSpectatorLeftMessage gameListSpectatorLeftMessage = 80;
+  if (has_gamelistspectatorleftmessage()) {
+    ::google::protobuf::internal::WireFormatLite::WriteMessage(
+      80, this->gamelistspectatorleftmessage(), output);
+  }
+  
+  // optional .GameSpectatorJoinedMessage gameSpectatorJoinedMessage = 81;
+  if (has_gamespectatorjoinedmessage()) {
+    ::google::protobuf::internal::WireFormatLite::WriteMessage(
+      81, this->gamespectatorjoinedmessage(), output);
+  }
+  
+  // optional .GameSpectatorLeftMessage gameSpectatorLeftMessage = 82;
+  if (has_gamespectatorleftmessage()) {
+    ::google::protobuf::internal::WireFormatLite::WriteMessage(
+      82, this->gamespectatorleftmessage(), output);
   }
   
 }
@@ -23082,6 +24059,36 @@ int PokerTHMessage::ByteSize() const {
           this->adminbanplayerackmessage());
     }
     
+    // optional .GameListSpectatorJoinedMessage gameListSpectatorJoinedMessage = 79;
+    if (has_gamelistspectatorjoinedmessage()) {
+      total_size += 2 +
+        ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
+          this->gamelistspectatorjoinedmessage());
+    }
+    
+    // optional .GameListSpectatorLeftMessage gameListSpectatorLeftMessage = 80;
+    if (has_gamelistspectatorleftmessage()) {
+      total_size += 2 +
+        ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
+          this->gamelistspectatorleftmessage());
+    }
+    
+  }
+  if (_has_bits_[80 / 32] & (0xffu << (80 % 32))) {
+    // optional .GameSpectatorJoinedMessage gameSpectatorJoinedMessage = 81;
+    if (has_gamespectatorjoinedmessage()) {
+      total_size += 2 +
+        ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
+          this->gamespectatorjoinedmessage());
+    }
+    
+    // optional .GameSpectatorLeftMessage gameSpectatorLeftMessage = 82;
+    if (has_gamespectatorleftmessage()) {
+      total_size += 2 +
+        ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
+          this->gamespectatorleftmessage());
+    }
+    
   }
   GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
   _cached_size_ = total_size;
@@ -23349,6 +24356,20 @@ void PokerTHMessage::MergeFrom(const PokerTHMessage& from) {
     if (from.has_adminbanplayerackmessage()) {
       mutable_adminbanplayerackmessage()->::AdminBanPlayerAckMessage::MergeFrom(from.adminbanplayerackmessage());
     }
+    if (from.has_gamelistspectatorjoinedmessage()) {
+      mutable_gamelistspectatorjoinedmessage()->::GameListSpectatorJoinedMessage::MergeFrom(from.gamelistspectatorjoinedmessage());
+    }
+    if (from.has_gamelistspectatorleftmessage()) {
+      mutable_gamelistspectatorleftmessage()->::GameListSpectatorLeftMessage::MergeFrom(from.gamelistspectatorleftmessage());
+    }
+  }
+  if (from._has_bits_[80 / 32] & (0xffu << (80 % 32))) {
+    if (from.has_gamespectatorjoinedmessage()) {
+      mutable_gamespectatorjoinedmessage()->::GameSpectatorJoinedMessage::MergeFrom(from.gamespectatorjoinedmessage());
+    }
+    if (from.has_gamespectatorleftmessage()) {
+      mutable_gamespectatorleftmessage()->::GameSpectatorLeftMessage::MergeFrom(from.gamespectatorleftmessage());
+    }
   }
 }
 
@@ -23583,6 +24604,18 @@ bool PokerTHMessage::IsInitialized() const {
   if (has_adminbanplayerackmessage()) {
     if (!this->adminbanplayerackmessage().IsInitialized()) return false;
   }
+  if (has_gamelistspectatorjoinedmessage()) {
+    if (!this->gamelistspectatorjoinedmessage().IsInitialized()) return false;
+  }
+  if (has_gamelistspectatorleftmessage()) {
+    if (!this->gamelistspectatorleftmessage().IsInitialized()) return false;
+  }
+  if (has_gamespectatorjoinedmessage()) {
+    if (!this->gamespectatorjoinedmessage().IsInitialized()) return false;
+  }
+  if (has_gamespectatorleftmessage()) {
+    if (!this->gamespectatorleftmessage().IsInitialized()) return false;
+  }
   return true;
 }
 
@@ -23666,6 +24699,10 @@ void PokerTHMessage::Swap(PokerTHMessage* other) {
     std::swap(adminremovegameackmessage_, other->adminremovegameackmessage_);
     std::swap(adminbanplayermessage_, other->adminbanplayermessage_);
     std::swap(adminbanplayerackmessage_, other->adminbanplayerackmessage_);
+    std::swap(gamelistspectatorjoinedmessage_, other->gamelistspectatorjoinedmessage_);
+    std::swap(gamelistspectatorleftmessage_, other->gamelistspectatorleftmessage_);
+    std::swap(gamespectatorjoinedmessage_, other->gamespectatorjoinedmessage_);
+    std::swap(gamespectatorleftmessage_, other->gamespectatorleftmessage_);
     std::swap(_has_bits_[0], other->_has_bits_[0]);
     std::swap(_has_bits_[1], other->_has_bits_[1]);
     std::swap(_has_bits_[2], other->_has_bits_[2]);

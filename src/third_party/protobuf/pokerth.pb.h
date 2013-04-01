@@ -48,6 +48,8 @@ class GameListNewMessage;
 class GameListUpdateMessage;
 class GameListPlayerJoinedMessage;
 class GameListPlayerLeftMessage;
+class GameListSpectatorJoinedMessage;
+class GameListSpectatorLeftMessage;
 class GameListAdminChangedMessage;
 class PlayerInfoRequestMessage;
 class PlayerInfoReplyMessage;
@@ -61,6 +63,8 @@ class JoinGameAckMessage;
 class JoinGameFailedMessage;
 class GamePlayerJoinedMessage;
 class GamePlayerLeftMessage;
+class GameSpectatorJoinedMessage;
+class GameSpectatorLeftMessage;
 class GameAdminChangedMessage;
 class RemovedFromGameMessage;
 class KickPlayerRequestMessage;
@@ -457,11 +461,15 @@ enum PokerTHMessage_PokerTHMessageType {
   PokerTHMessage_PokerTHMessageType_Type_AdminRemoveGameMessage = 74,
   PokerTHMessage_PokerTHMessageType_Type_AdminRemoveGameAckMessage = 75,
   PokerTHMessage_PokerTHMessageType_Type_AdminBanPlayerMessage = 76,
-  PokerTHMessage_PokerTHMessageType_Type_AdminBanPlayerAckMessage = 77
+  PokerTHMessage_PokerTHMessageType_Type_AdminBanPlayerAckMessage = 77,
+  PokerTHMessage_PokerTHMessageType_Type_GameListSpectatorJoinedMessage = 78,
+  PokerTHMessage_PokerTHMessageType_Type_GameListSpectatorLeftMessage = 79,
+  PokerTHMessage_PokerTHMessageType_Type_GameSpectatorJoinedMessage = 80,
+  PokerTHMessage_PokerTHMessageType_Type_GameSpectatorLeftMessage = 81
 };
 bool PokerTHMessage_PokerTHMessageType_IsValid(int value);
 const PokerTHMessage_PokerTHMessageType PokerTHMessage_PokerTHMessageType_PokerTHMessageType_MIN = PokerTHMessage_PokerTHMessageType_Type_AnnounceMessage;
-const PokerTHMessage_PokerTHMessageType PokerTHMessage_PokerTHMessageType_PokerTHMessageType_MAX = PokerTHMessage_PokerTHMessageType_Type_AdminBanPlayerAckMessage;
+const PokerTHMessage_PokerTHMessageType PokerTHMessage_PokerTHMessageType_PokerTHMessageType_MAX = PokerTHMessage_PokerTHMessageType_Type_GameSpectatorLeftMessage;
 const int PokerTHMessage_PokerTHMessageType_PokerTHMessageType_ARRAYSIZE = PokerTHMessage_PokerTHMessageType_PokerTHMessageType_MAX + 1;
 
 enum NetGameMode {
@@ -2467,6 +2475,164 @@ class GameListPlayerLeftMessage : public ::google::protobuf::MessageLite {
 };
 // -------------------------------------------------------------------
 
+class GameListSpectatorJoinedMessage : public ::google::protobuf::MessageLite {
+ public:
+  GameListSpectatorJoinedMessage();
+  virtual ~GameListSpectatorJoinedMessage();
+  
+  GameListSpectatorJoinedMessage(const GameListSpectatorJoinedMessage& from);
+  
+  inline GameListSpectatorJoinedMessage& operator=(const GameListSpectatorJoinedMessage& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  
+  static const GameListSpectatorJoinedMessage& default_instance();
+  
+  void Swap(GameListSpectatorJoinedMessage* other);
+  
+  // implements Message ----------------------------------------------
+  
+  GameListSpectatorJoinedMessage* New() const;
+  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from);
+  void CopyFrom(const GameListSpectatorJoinedMessage& from);
+  void MergeFrom(const GameListSpectatorJoinedMessage& from);
+  void Clear();
+  bool IsInitialized() const;
+  
+  int ByteSize() const;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input);
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const;
+  int GetCachedSize() const { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const;
+  public:
+  
+  ::std::string GetTypeName() const;
+  
+  // nested types ----------------------------------------------------
+  
+  // accessors -------------------------------------------------------
+  
+  // required uint32 gameId = 1;
+  inline bool has_gameid() const;
+  inline void clear_gameid();
+  static const int kGameIdFieldNumber = 1;
+  inline ::google::protobuf::uint32 gameid() const;
+  inline void set_gameid(::google::protobuf::uint32 value);
+  
+  // required uint32 playerId = 2;
+  inline bool has_playerid() const;
+  inline void clear_playerid();
+  static const int kPlayerIdFieldNumber = 2;
+  inline ::google::protobuf::uint32 playerid() const;
+  inline void set_playerid(::google::protobuf::uint32 value);
+  
+  // @@protoc_insertion_point(class_scope:GameListSpectatorJoinedMessage)
+ private:
+  inline void set_has_gameid();
+  inline void clear_has_gameid();
+  inline void set_has_playerid();
+  inline void clear_has_playerid();
+  
+  ::google::protobuf::uint32 gameid_;
+  ::google::protobuf::uint32 playerid_;
+  
+  mutable int _cached_size_;
+  ::google::protobuf::uint32 _has_bits_[(2 + 31) / 32];
+  
+  friend void  protobuf_AddDesc_pokerth_2eproto();
+  friend void protobuf_AssignDesc_pokerth_2eproto();
+  friend void protobuf_ShutdownFile_pokerth_2eproto();
+  
+  void InitAsDefaultInstance();
+  static GameListSpectatorJoinedMessage* default_instance_;
+};
+// -------------------------------------------------------------------
+
+class GameListSpectatorLeftMessage : public ::google::protobuf::MessageLite {
+ public:
+  GameListSpectatorLeftMessage();
+  virtual ~GameListSpectatorLeftMessage();
+  
+  GameListSpectatorLeftMessage(const GameListSpectatorLeftMessage& from);
+  
+  inline GameListSpectatorLeftMessage& operator=(const GameListSpectatorLeftMessage& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  
+  static const GameListSpectatorLeftMessage& default_instance();
+  
+  void Swap(GameListSpectatorLeftMessage* other);
+  
+  // implements Message ----------------------------------------------
+  
+  GameListSpectatorLeftMessage* New() const;
+  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from);
+  void CopyFrom(const GameListSpectatorLeftMessage& from);
+  void MergeFrom(const GameListSpectatorLeftMessage& from);
+  void Clear();
+  bool IsInitialized() const;
+  
+  int ByteSize() const;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input);
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const;
+  int GetCachedSize() const { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const;
+  public:
+  
+  ::std::string GetTypeName() const;
+  
+  // nested types ----------------------------------------------------
+  
+  // accessors -------------------------------------------------------
+  
+  // required uint32 gameId = 1;
+  inline bool has_gameid() const;
+  inline void clear_gameid();
+  static const int kGameIdFieldNumber = 1;
+  inline ::google::protobuf::uint32 gameid() const;
+  inline void set_gameid(::google::protobuf::uint32 value);
+  
+  // required uint32 playerId = 2;
+  inline bool has_playerid() const;
+  inline void clear_playerid();
+  static const int kPlayerIdFieldNumber = 2;
+  inline ::google::protobuf::uint32 playerid() const;
+  inline void set_playerid(::google::protobuf::uint32 value);
+  
+  // @@protoc_insertion_point(class_scope:GameListSpectatorLeftMessage)
+ private:
+  inline void set_has_gameid();
+  inline void clear_has_gameid();
+  inline void set_has_playerid();
+  inline void clear_has_playerid();
+  
+  ::google::protobuf::uint32 gameid_;
+  ::google::protobuf::uint32 playerid_;
+  
+  mutable int _cached_size_;
+  ::google::protobuf::uint32 _has_bits_[(2 + 31) / 32];
+  
+  friend void  protobuf_AddDesc_pokerth_2eproto();
+  friend void protobuf_AssignDesc_pokerth_2eproto();
+  friend void protobuf_ShutdownFile_pokerth_2eproto();
+  
+  void InitAsDefaultInstance();
+  static GameListSpectatorLeftMessage* default_instance_;
+};
+// -------------------------------------------------------------------
+
 class GameListAdminChangedMessage : public ::google::protobuf::MessageLite {
  public:
   GameListAdminChangedMessage();
@@ -3054,6 +3220,13 @@ class JoinExistingGameMessage : public ::google::protobuf::MessageLite {
   inline bool autoleave() const;
   inline void set_autoleave(bool value);
   
+  // optional bool spectateOnly = 4;
+  inline bool has_spectateonly() const;
+  inline void clear_spectateonly();
+  static const int kSpectateOnlyFieldNumber = 4;
+  inline bool spectateonly() const;
+  inline void set_spectateonly(bool value);
+  
   // @@protoc_insertion_point(class_scope:JoinExistingGameMessage)
  private:
   inline void set_has_gameid();
@@ -3062,13 +3235,16 @@ class JoinExistingGameMessage : public ::google::protobuf::MessageLite {
   inline void clear_has_password();
   inline void set_has_autoleave();
   inline void clear_has_autoleave();
+  inline void set_has_spectateonly();
+  inline void clear_has_spectateonly();
   
   ::std::string* password_;
   ::google::protobuf::uint32 gameid_;
   bool autoleave_;
+  bool spectateonly_;
   
   mutable int _cached_size_;
-  ::google::protobuf::uint32 _has_bits_[(3 + 31) / 32];
+  ::google::protobuf::uint32 _has_bits_[(4 + 31) / 32];
   
   friend void  protobuf_AddDesc_pokerth_2eproto();
   friend void protobuf_AssignDesc_pokerth_2eproto();
@@ -3632,6 +3808,174 @@ class GamePlayerLeftMessage : public ::google::protobuf::MessageLite {
   
   void InitAsDefaultInstance();
   static GamePlayerLeftMessage* default_instance_;
+};
+// -------------------------------------------------------------------
+
+class GameSpectatorJoinedMessage : public ::google::protobuf::MessageLite {
+ public:
+  GameSpectatorJoinedMessage();
+  virtual ~GameSpectatorJoinedMessage();
+  
+  GameSpectatorJoinedMessage(const GameSpectatorJoinedMessage& from);
+  
+  inline GameSpectatorJoinedMessage& operator=(const GameSpectatorJoinedMessage& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  
+  static const GameSpectatorJoinedMessage& default_instance();
+  
+  void Swap(GameSpectatorJoinedMessage* other);
+  
+  // implements Message ----------------------------------------------
+  
+  GameSpectatorJoinedMessage* New() const;
+  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from);
+  void CopyFrom(const GameSpectatorJoinedMessage& from);
+  void MergeFrom(const GameSpectatorJoinedMessage& from);
+  void Clear();
+  bool IsInitialized() const;
+  
+  int ByteSize() const;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input);
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const;
+  int GetCachedSize() const { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const;
+  public:
+  
+  ::std::string GetTypeName() const;
+  
+  // nested types ----------------------------------------------------
+  
+  // accessors -------------------------------------------------------
+  
+  // required uint32 gameId = 1;
+  inline bool has_gameid() const;
+  inline void clear_gameid();
+  static const int kGameIdFieldNumber = 1;
+  inline ::google::protobuf::uint32 gameid() const;
+  inline void set_gameid(::google::protobuf::uint32 value);
+  
+  // required uint32 playerId = 2;
+  inline bool has_playerid() const;
+  inline void clear_playerid();
+  static const int kPlayerIdFieldNumber = 2;
+  inline ::google::protobuf::uint32 playerid() const;
+  inline void set_playerid(::google::protobuf::uint32 value);
+  
+  // @@protoc_insertion_point(class_scope:GameSpectatorJoinedMessage)
+ private:
+  inline void set_has_gameid();
+  inline void clear_has_gameid();
+  inline void set_has_playerid();
+  inline void clear_has_playerid();
+  
+  ::google::protobuf::uint32 gameid_;
+  ::google::protobuf::uint32 playerid_;
+  
+  mutable int _cached_size_;
+  ::google::protobuf::uint32 _has_bits_[(2 + 31) / 32];
+  
+  friend void  protobuf_AddDesc_pokerth_2eproto();
+  friend void protobuf_AssignDesc_pokerth_2eproto();
+  friend void protobuf_ShutdownFile_pokerth_2eproto();
+  
+  void InitAsDefaultInstance();
+  static GameSpectatorJoinedMessage* default_instance_;
+};
+// -------------------------------------------------------------------
+
+class GameSpectatorLeftMessage : public ::google::protobuf::MessageLite {
+ public:
+  GameSpectatorLeftMessage();
+  virtual ~GameSpectatorLeftMessage();
+  
+  GameSpectatorLeftMessage(const GameSpectatorLeftMessage& from);
+  
+  inline GameSpectatorLeftMessage& operator=(const GameSpectatorLeftMessage& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  
+  static const GameSpectatorLeftMessage& default_instance();
+  
+  void Swap(GameSpectatorLeftMessage* other);
+  
+  // implements Message ----------------------------------------------
+  
+  GameSpectatorLeftMessage* New() const;
+  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from);
+  void CopyFrom(const GameSpectatorLeftMessage& from);
+  void MergeFrom(const GameSpectatorLeftMessage& from);
+  void Clear();
+  bool IsInitialized() const;
+  
+  int ByteSize() const;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input);
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const;
+  int GetCachedSize() const { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const;
+  public:
+  
+  ::std::string GetTypeName() const;
+  
+  // nested types ----------------------------------------------------
+  
+  // accessors -------------------------------------------------------
+  
+  // required uint32 gameId = 1;
+  inline bool has_gameid() const;
+  inline void clear_gameid();
+  static const int kGameIdFieldNumber = 1;
+  inline ::google::protobuf::uint32 gameid() const;
+  inline void set_gameid(::google::protobuf::uint32 value);
+  
+  // required uint32 playerId = 2;
+  inline bool has_playerid() const;
+  inline void clear_playerid();
+  static const int kPlayerIdFieldNumber = 2;
+  inline ::google::protobuf::uint32 playerid() const;
+  inline void set_playerid(::google::protobuf::uint32 value);
+  
+  // required .GamePlayerLeftMessage.GamePlayerLeftReason gameSpectatorLeftReason = 3;
+  inline bool has_gamespectatorleftreason() const;
+  inline void clear_gamespectatorleftreason();
+  static const int kGameSpectatorLeftReasonFieldNumber = 3;
+  inline ::GamePlayerLeftMessage_GamePlayerLeftReason gamespectatorleftreason() const;
+  inline void set_gamespectatorleftreason(::GamePlayerLeftMessage_GamePlayerLeftReason value);
+  
+  // @@protoc_insertion_point(class_scope:GameSpectatorLeftMessage)
+ private:
+  inline void set_has_gameid();
+  inline void clear_has_gameid();
+  inline void set_has_playerid();
+  inline void clear_has_playerid();
+  inline void set_has_gamespectatorleftreason();
+  inline void clear_has_gamespectatorleftreason();
+  
+  ::google::protobuf::uint32 gameid_;
+  ::google::protobuf::uint32 playerid_;
+  int gamespectatorleftreason_;
+  
+  mutable int _cached_size_;
+  ::google::protobuf::uint32 _has_bits_[(3 + 31) / 32];
+  
+  friend void  protobuf_AddDesc_pokerth_2eproto();
+  friend void protobuf_AssignDesc_pokerth_2eproto();
+  friend void protobuf_ShutdownFile_pokerth_2eproto();
+  
+  void InitAsDefaultInstance();
+  static GameSpectatorLeftMessage* default_instance_;
 };
 // -------------------------------------------------------------------
 
@@ -8598,6 +8942,10 @@ class PokerTHMessage : public ::google::protobuf::MessageLite {
   static const PokerTHMessageType Type_AdminRemoveGameAckMessage = PokerTHMessage_PokerTHMessageType_Type_AdminRemoveGameAckMessage;
   static const PokerTHMessageType Type_AdminBanPlayerMessage = PokerTHMessage_PokerTHMessageType_Type_AdminBanPlayerMessage;
   static const PokerTHMessageType Type_AdminBanPlayerAckMessage = PokerTHMessage_PokerTHMessageType_Type_AdminBanPlayerAckMessage;
+  static const PokerTHMessageType Type_GameListSpectatorJoinedMessage = PokerTHMessage_PokerTHMessageType_Type_GameListSpectatorJoinedMessage;
+  static const PokerTHMessageType Type_GameListSpectatorLeftMessage = PokerTHMessage_PokerTHMessageType_Type_GameListSpectatorLeftMessage;
+  static const PokerTHMessageType Type_GameSpectatorJoinedMessage = PokerTHMessage_PokerTHMessageType_Type_GameSpectatorJoinedMessage;
+  static const PokerTHMessageType Type_GameSpectatorLeftMessage = PokerTHMessage_PokerTHMessageType_Type_GameSpectatorLeftMessage;
   static inline bool PokerTHMessageType_IsValid(int value) {
     return PokerTHMessage_PokerTHMessageType_IsValid(value);
   }
@@ -9233,6 +9581,38 @@ class PokerTHMessage : public ::google::protobuf::MessageLite {
   inline ::AdminBanPlayerAckMessage* mutable_adminbanplayerackmessage();
   inline ::AdminBanPlayerAckMessage* release_adminbanplayerackmessage();
   
+  // optional .GameListSpectatorJoinedMessage gameListSpectatorJoinedMessage = 79;
+  inline bool has_gamelistspectatorjoinedmessage() const;
+  inline void clear_gamelistspectatorjoinedmessage();
+  static const int kGameListSpectatorJoinedMessageFieldNumber = 79;
+  inline const ::GameListSpectatorJoinedMessage& gamelistspectatorjoinedmessage() const;
+  inline ::GameListSpectatorJoinedMessage* mutable_gamelistspectatorjoinedmessage();
+  inline ::GameListSpectatorJoinedMessage* release_gamelistspectatorjoinedmessage();
+  
+  // optional .GameListSpectatorLeftMessage gameListSpectatorLeftMessage = 80;
+  inline bool has_gamelistspectatorleftmessage() const;
+  inline void clear_gamelistspectatorleftmessage();
+  static const int kGameListSpectatorLeftMessageFieldNumber = 80;
+  inline const ::GameListSpectatorLeftMessage& gamelistspectatorleftmessage() const;
+  inline ::GameListSpectatorLeftMessage* mutable_gamelistspectatorleftmessage();
+  inline ::GameListSpectatorLeftMessage* release_gamelistspectatorleftmessage();
+  
+  // optional .GameSpectatorJoinedMessage gameSpectatorJoinedMessage = 81;
+  inline bool has_gamespectatorjoinedmessage() const;
+  inline void clear_gamespectatorjoinedmessage();
+  static const int kGameSpectatorJoinedMessageFieldNumber = 81;
+  inline const ::GameSpectatorJoinedMessage& gamespectatorjoinedmessage() const;
+  inline ::GameSpectatorJoinedMessage* mutable_gamespectatorjoinedmessage();
+  inline ::GameSpectatorJoinedMessage* release_gamespectatorjoinedmessage();
+  
+  // optional .GameSpectatorLeftMessage gameSpectatorLeftMessage = 82;
+  inline bool has_gamespectatorleftmessage() const;
+  inline void clear_gamespectatorleftmessage();
+  static const int kGameSpectatorLeftMessageFieldNumber = 82;
+  inline const ::GameSpectatorLeftMessage& gamespectatorleftmessage() const;
+  inline ::GameSpectatorLeftMessage* mutable_gamespectatorleftmessage();
+  inline ::GameSpectatorLeftMessage* release_gamespectatorleftmessage();
+  
   // @@protoc_insertion_point(class_scope:PokerTHMessage)
  private:
   inline void set_has_messagetype();
@@ -9391,6 +9771,14 @@ class PokerTHMessage : public ::google::protobuf::MessageLite {
   inline void clear_has_adminbanplayermessage();
   inline void set_has_adminbanplayerackmessage();
   inline void clear_has_adminbanplayerackmessage();
+  inline void set_has_gamelistspectatorjoinedmessage();
+  inline void clear_has_gamelistspectatorjoinedmessage();
+  inline void set_has_gamelistspectatorleftmessage();
+  inline void clear_has_gamelistspectatorleftmessage();
+  inline void set_has_gamespectatorjoinedmessage();
+  inline void clear_has_gamespectatorjoinedmessage();
+  inline void set_has_gamespectatorleftmessage();
+  inline void clear_has_gamespectatorleftmessage();
   
   ::AnnounceMessage* announcemessage_;
   ::InitMessage* initmessage_;
@@ -9469,10 +9857,14 @@ class PokerTHMessage : public ::google::protobuf::MessageLite {
   ::AdminRemoveGameAckMessage* adminremovegameackmessage_;
   ::AdminBanPlayerMessage* adminbanplayermessage_;
   ::AdminBanPlayerAckMessage* adminbanplayerackmessage_;
+  ::GameListSpectatorJoinedMessage* gamelistspectatorjoinedmessage_;
+  ::GameListSpectatorLeftMessage* gamelistspectatorleftmessage_;
+  ::GameSpectatorJoinedMessage* gamespectatorjoinedmessage_;
+  ::GameSpectatorLeftMessage* gamespectatorleftmessage_;
   int messagetype_;
   
   mutable int _cached_size_;
-  ::google::protobuf::uint32 _has_bits_[(78 + 31) / 32];
+  ::google::protobuf::uint32 _has_bits_[(82 + 31) / 32];
   
   friend void  protobuf_AddDesc_pokerth_2eproto();
   friend void protobuf_AssignDesc_pokerth_2eproto();
@@ -11528,6 +11920,102 @@ inline void GameListPlayerLeftMessage::set_playerid(::google::protobuf::uint32 v
 
 // -------------------------------------------------------------------
 
+// GameListSpectatorJoinedMessage
+
+// required uint32 gameId = 1;
+inline bool GameListSpectatorJoinedMessage::has_gameid() const {
+  return (_has_bits_[0] & 0x00000001u) != 0;
+}
+inline void GameListSpectatorJoinedMessage::set_has_gameid() {
+  _has_bits_[0] |= 0x00000001u;
+}
+inline void GameListSpectatorJoinedMessage::clear_has_gameid() {
+  _has_bits_[0] &= ~0x00000001u;
+}
+inline void GameListSpectatorJoinedMessage::clear_gameid() {
+  gameid_ = 0u;
+  clear_has_gameid();
+}
+inline ::google::protobuf::uint32 GameListSpectatorJoinedMessage::gameid() const {
+  return gameid_;
+}
+inline void GameListSpectatorJoinedMessage::set_gameid(::google::protobuf::uint32 value) {
+  set_has_gameid();
+  gameid_ = value;
+}
+
+// required uint32 playerId = 2;
+inline bool GameListSpectatorJoinedMessage::has_playerid() const {
+  return (_has_bits_[0] & 0x00000002u) != 0;
+}
+inline void GameListSpectatorJoinedMessage::set_has_playerid() {
+  _has_bits_[0] |= 0x00000002u;
+}
+inline void GameListSpectatorJoinedMessage::clear_has_playerid() {
+  _has_bits_[0] &= ~0x00000002u;
+}
+inline void GameListSpectatorJoinedMessage::clear_playerid() {
+  playerid_ = 0u;
+  clear_has_playerid();
+}
+inline ::google::protobuf::uint32 GameListSpectatorJoinedMessage::playerid() const {
+  return playerid_;
+}
+inline void GameListSpectatorJoinedMessage::set_playerid(::google::protobuf::uint32 value) {
+  set_has_playerid();
+  playerid_ = value;
+}
+
+// -------------------------------------------------------------------
+
+// GameListSpectatorLeftMessage
+
+// required uint32 gameId = 1;
+inline bool GameListSpectatorLeftMessage::has_gameid() const {
+  return (_has_bits_[0] & 0x00000001u) != 0;
+}
+inline void GameListSpectatorLeftMessage::set_has_gameid() {
+  _has_bits_[0] |= 0x00000001u;
+}
+inline void GameListSpectatorLeftMessage::clear_has_gameid() {
+  _has_bits_[0] &= ~0x00000001u;
+}
+inline void GameListSpectatorLeftMessage::clear_gameid() {
+  gameid_ = 0u;
+  clear_has_gameid();
+}
+inline ::google::protobuf::uint32 GameListSpectatorLeftMessage::gameid() const {
+  return gameid_;
+}
+inline void GameListSpectatorLeftMessage::set_gameid(::google::protobuf::uint32 value) {
+  set_has_gameid();
+  gameid_ = value;
+}
+
+// required uint32 playerId = 2;
+inline bool GameListSpectatorLeftMessage::has_playerid() const {
+  return (_has_bits_[0] & 0x00000002u) != 0;
+}
+inline void GameListSpectatorLeftMessage::set_has_playerid() {
+  _has_bits_[0] |= 0x00000002u;
+}
+inline void GameListSpectatorLeftMessage::clear_has_playerid() {
+  _has_bits_[0] &= ~0x00000002u;
+}
+inline void GameListSpectatorLeftMessage::clear_playerid() {
+  playerid_ = 0u;
+  clear_has_playerid();
+}
+inline ::google::protobuf::uint32 GameListSpectatorLeftMessage::playerid() const {
+  return playerid_;
+}
+inline void GameListSpectatorLeftMessage::set_playerid(::google::protobuf::uint32 value) {
+  set_has_playerid();
+  playerid_ = value;
+}
+
+// -------------------------------------------------------------------
+
 // GameListAdminChangedMessage
 
 // required uint32 gameId = 1;
@@ -12070,6 +12558,28 @@ inline void JoinExistingGameMessage::set_autoleave(bool value) {
   autoleave_ = value;
 }
 
+// optional bool spectateOnly = 4;
+inline bool JoinExistingGameMessage::has_spectateonly() const {
+  return (_has_bits_[0] & 0x00000008u) != 0;
+}
+inline void JoinExistingGameMessage::set_has_spectateonly() {
+  _has_bits_[0] |= 0x00000008u;
+}
+inline void JoinExistingGameMessage::clear_has_spectateonly() {
+  _has_bits_[0] &= ~0x00000008u;
+}
+inline void JoinExistingGameMessage::clear_spectateonly() {
+  spectateonly_ = false;
+  clear_has_spectateonly();
+}
+inline bool JoinExistingGameMessage::spectateonly() const {
+  return spectateonly_;
+}
+inline void JoinExistingGameMessage::set_spectateonly(bool value) {
+  set_has_spectateonly();
+  spectateonly_ = value;
+}
+
 // -------------------------------------------------------------------
 
 // JoinNewGameMessage
@@ -12496,6 +13006,125 @@ inline void GamePlayerLeftMessage::set_gameplayerleftreason(::GamePlayerLeftMess
   GOOGLE_DCHECK(::GamePlayerLeftMessage_GamePlayerLeftReason_IsValid(value));
   set_has_gameplayerleftreason();
   gameplayerleftreason_ = value;
+}
+
+// -------------------------------------------------------------------
+
+// GameSpectatorJoinedMessage
+
+// required uint32 gameId = 1;
+inline bool GameSpectatorJoinedMessage::has_gameid() const {
+  return (_has_bits_[0] & 0x00000001u) != 0;
+}
+inline void GameSpectatorJoinedMessage::set_has_gameid() {
+  _has_bits_[0] |= 0x00000001u;
+}
+inline void GameSpectatorJoinedMessage::clear_has_gameid() {
+  _has_bits_[0] &= ~0x00000001u;
+}
+inline void GameSpectatorJoinedMessage::clear_gameid() {
+  gameid_ = 0u;
+  clear_has_gameid();
+}
+inline ::google::protobuf::uint32 GameSpectatorJoinedMessage::gameid() const {
+  return gameid_;
+}
+inline void GameSpectatorJoinedMessage::set_gameid(::google::protobuf::uint32 value) {
+  set_has_gameid();
+  gameid_ = value;
+}
+
+// required uint32 playerId = 2;
+inline bool GameSpectatorJoinedMessage::has_playerid() const {
+  return (_has_bits_[0] & 0x00000002u) != 0;
+}
+inline void GameSpectatorJoinedMessage::set_has_playerid() {
+  _has_bits_[0] |= 0x00000002u;
+}
+inline void GameSpectatorJoinedMessage::clear_has_playerid() {
+  _has_bits_[0] &= ~0x00000002u;
+}
+inline void GameSpectatorJoinedMessage::clear_playerid() {
+  playerid_ = 0u;
+  clear_has_playerid();
+}
+inline ::google::protobuf::uint32 GameSpectatorJoinedMessage::playerid() const {
+  return playerid_;
+}
+inline void GameSpectatorJoinedMessage::set_playerid(::google::protobuf::uint32 value) {
+  set_has_playerid();
+  playerid_ = value;
+}
+
+// -------------------------------------------------------------------
+
+// GameSpectatorLeftMessage
+
+// required uint32 gameId = 1;
+inline bool GameSpectatorLeftMessage::has_gameid() const {
+  return (_has_bits_[0] & 0x00000001u) != 0;
+}
+inline void GameSpectatorLeftMessage::set_has_gameid() {
+  _has_bits_[0] |= 0x00000001u;
+}
+inline void GameSpectatorLeftMessage::clear_has_gameid() {
+  _has_bits_[0] &= ~0x00000001u;
+}
+inline void GameSpectatorLeftMessage::clear_gameid() {
+  gameid_ = 0u;
+  clear_has_gameid();
+}
+inline ::google::protobuf::uint32 GameSpectatorLeftMessage::gameid() const {
+  return gameid_;
+}
+inline void GameSpectatorLeftMessage::set_gameid(::google::protobuf::uint32 value) {
+  set_has_gameid();
+  gameid_ = value;
+}
+
+// required uint32 playerId = 2;
+inline bool GameSpectatorLeftMessage::has_playerid() const {
+  return (_has_bits_[0] & 0x00000002u) != 0;
+}
+inline void GameSpectatorLeftMessage::set_has_playerid() {
+  _has_bits_[0] |= 0x00000002u;
+}
+inline void GameSpectatorLeftMessage::clear_has_playerid() {
+  _has_bits_[0] &= ~0x00000002u;
+}
+inline void GameSpectatorLeftMessage::clear_playerid() {
+  playerid_ = 0u;
+  clear_has_playerid();
+}
+inline ::google::protobuf::uint32 GameSpectatorLeftMessage::playerid() const {
+  return playerid_;
+}
+inline void GameSpectatorLeftMessage::set_playerid(::google::protobuf::uint32 value) {
+  set_has_playerid();
+  playerid_ = value;
+}
+
+// required .GamePlayerLeftMessage.GamePlayerLeftReason gameSpectatorLeftReason = 3;
+inline bool GameSpectatorLeftMessage::has_gamespectatorleftreason() const {
+  return (_has_bits_[0] & 0x00000004u) != 0;
+}
+inline void GameSpectatorLeftMessage::set_has_gamespectatorleftreason() {
+  _has_bits_[0] |= 0x00000004u;
+}
+inline void GameSpectatorLeftMessage::clear_has_gamespectatorleftreason() {
+  _has_bits_[0] &= ~0x00000004u;
+}
+inline void GameSpectatorLeftMessage::clear_gamespectatorleftreason() {
+  gamespectatorleftreason_ = 0;
+  clear_has_gamespectatorleftreason();
+}
+inline ::GamePlayerLeftMessage_GamePlayerLeftReason GameSpectatorLeftMessage::gamespectatorleftreason() const {
+  return static_cast< ::GamePlayerLeftMessage_GamePlayerLeftReason >(gamespectatorleftreason_);
+}
+inline void GameSpectatorLeftMessage::set_gamespectatorleftreason(::GamePlayerLeftMessage_GamePlayerLeftReason value) {
+  GOOGLE_DCHECK(::GamePlayerLeftMessage_GamePlayerLeftReason_IsValid(value));
+  set_has_gamespectatorleftreason();
+  gamespectatorleftreason_ = value;
 }
 
 // -------------------------------------------------------------------
@@ -18280,6 +18909,122 @@ inline ::AdminBanPlayerAckMessage* PokerTHMessage::release_adminbanplayerackmess
   clear_has_adminbanplayerackmessage();
   ::AdminBanPlayerAckMessage* temp = adminbanplayerackmessage_;
   adminbanplayerackmessage_ = NULL;
+  return temp;
+}
+
+// optional .GameListSpectatorJoinedMessage gameListSpectatorJoinedMessage = 79;
+inline bool PokerTHMessage::has_gamelistspectatorjoinedmessage() const {
+  return (_has_bits_[2] & 0x00004000u) != 0;
+}
+inline void PokerTHMessage::set_has_gamelistspectatorjoinedmessage() {
+  _has_bits_[2] |= 0x00004000u;
+}
+inline void PokerTHMessage::clear_has_gamelistspectatorjoinedmessage() {
+  _has_bits_[2] &= ~0x00004000u;
+}
+inline void PokerTHMessage::clear_gamelistspectatorjoinedmessage() {
+  if (gamelistspectatorjoinedmessage_ != NULL) gamelistspectatorjoinedmessage_->::GameListSpectatorJoinedMessage::Clear();
+  clear_has_gamelistspectatorjoinedmessage();
+}
+inline const ::GameListSpectatorJoinedMessage& PokerTHMessage::gamelistspectatorjoinedmessage() const {
+  return gamelistspectatorjoinedmessage_ != NULL ? *gamelistspectatorjoinedmessage_ : *default_instance_->gamelistspectatorjoinedmessage_;
+}
+inline ::GameListSpectatorJoinedMessage* PokerTHMessage::mutable_gamelistspectatorjoinedmessage() {
+  set_has_gamelistspectatorjoinedmessage();
+  if (gamelistspectatorjoinedmessage_ == NULL) gamelistspectatorjoinedmessage_ = new ::GameListSpectatorJoinedMessage;
+  return gamelistspectatorjoinedmessage_;
+}
+inline ::GameListSpectatorJoinedMessage* PokerTHMessage::release_gamelistspectatorjoinedmessage() {
+  clear_has_gamelistspectatorjoinedmessage();
+  ::GameListSpectatorJoinedMessage* temp = gamelistspectatorjoinedmessage_;
+  gamelistspectatorjoinedmessage_ = NULL;
+  return temp;
+}
+
+// optional .GameListSpectatorLeftMessage gameListSpectatorLeftMessage = 80;
+inline bool PokerTHMessage::has_gamelistspectatorleftmessage() const {
+  return (_has_bits_[2] & 0x00008000u) != 0;
+}
+inline void PokerTHMessage::set_has_gamelistspectatorleftmessage() {
+  _has_bits_[2] |= 0x00008000u;
+}
+inline void PokerTHMessage::clear_has_gamelistspectatorleftmessage() {
+  _has_bits_[2] &= ~0x00008000u;
+}
+inline void PokerTHMessage::clear_gamelistspectatorleftmessage() {
+  if (gamelistspectatorleftmessage_ != NULL) gamelistspectatorleftmessage_->::GameListSpectatorLeftMessage::Clear();
+  clear_has_gamelistspectatorleftmessage();
+}
+inline const ::GameListSpectatorLeftMessage& PokerTHMessage::gamelistspectatorleftmessage() const {
+  return gamelistspectatorleftmessage_ != NULL ? *gamelistspectatorleftmessage_ : *default_instance_->gamelistspectatorleftmessage_;
+}
+inline ::GameListSpectatorLeftMessage* PokerTHMessage::mutable_gamelistspectatorleftmessage() {
+  set_has_gamelistspectatorleftmessage();
+  if (gamelistspectatorleftmessage_ == NULL) gamelistspectatorleftmessage_ = new ::GameListSpectatorLeftMessage;
+  return gamelistspectatorleftmessage_;
+}
+inline ::GameListSpectatorLeftMessage* PokerTHMessage::release_gamelistspectatorleftmessage() {
+  clear_has_gamelistspectatorleftmessage();
+  ::GameListSpectatorLeftMessage* temp = gamelistspectatorleftmessage_;
+  gamelistspectatorleftmessage_ = NULL;
+  return temp;
+}
+
+// optional .GameSpectatorJoinedMessage gameSpectatorJoinedMessage = 81;
+inline bool PokerTHMessage::has_gamespectatorjoinedmessage() const {
+  return (_has_bits_[2] & 0x00010000u) != 0;
+}
+inline void PokerTHMessage::set_has_gamespectatorjoinedmessage() {
+  _has_bits_[2] |= 0x00010000u;
+}
+inline void PokerTHMessage::clear_has_gamespectatorjoinedmessage() {
+  _has_bits_[2] &= ~0x00010000u;
+}
+inline void PokerTHMessage::clear_gamespectatorjoinedmessage() {
+  if (gamespectatorjoinedmessage_ != NULL) gamespectatorjoinedmessage_->::GameSpectatorJoinedMessage::Clear();
+  clear_has_gamespectatorjoinedmessage();
+}
+inline const ::GameSpectatorJoinedMessage& PokerTHMessage::gamespectatorjoinedmessage() const {
+  return gamespectatorjoinedmessage_ != NULL ? *gamespectatorjoinedmessage_ : *default_instance_->gamespectatorjoinedmessage_;
+}
+inline ::GameSpectatorJoinedMessage* PokerTHMessage::mutable_gamespectatorjoinedmessage() {
+  set_has_gamespectatorjoinedmessage();
+  if (gamespectatorjoinedmessage_ == NULL) gamespectatorjoinedmessage_ = new ::GameSpectatorJoinedMessage;
+  return gamespectatorjoinedmessage_;
+}
+inline ::GameSpectatorJoinedMessage* PokerTHMessage::release_gamespectatorjoinedmessage() {
+  clear_has_gamespectatorjoinedmessage();
+  ::GameSpectatorJoinedMessage* temp = gamespectatorjoinedmessage_;
+  gamespectatorjoinedmessage_ = NULL;
+  return temp;
+}
+
+// optional .GameSpectatorLeftMessage gameSpectatorLeftMessage = 82;
+inline bool PokerTHMessage::has_gamespectatorleftmessage() const {
+  return (_has_bits_[2] & 0x00020000u) != 0;
+}
+inline void PokerTHMessage::set_has_gamespectatorleftmessage() {
+  _has_bits_[2] |= 0x00020000u;
+}
+inline void PokerTHMessage::clear_has_gamespectatorleftmessage() {
+  _has_bits_[2] &= ~0x00020000u;
+}
+inline void PokerTHMessage::clear_gamespectatorleftmessage() {
+  if (gamespectatorleftmessage_ != NULL) gamespectatorleftmessage_->::GameSpectatorLeftMessage::Clear();
+  clear_has_gamespectatorleftmessage();
+}
+inline const ::GameSpectatorLeftMessage& PokerTHMessage::gamespectatorleftmessage() const {
+  return gamespectatorleftmessage_ != NULL ? *gamespectatorleftmessage_ : *default_instance_->gamespectatorleftmessage_;
+}
+inline ::GameSpectatorLeftMessage* PokerTHMessage::mutable_gamespectatorleftmessage() {
+  set_has_gamespectatorleftmessage();
+  if (gamespectatorleftmessage_ == NULL) gamespectatorleftmessage_ = new ::GameSpectatorLeftMessage;
+  return gamespectatorleftmessage_;
+}
+inline ::GameSpectatorLeftMessage* PokerTHMessage::release_gamespectatorleftmessage() {
+  clear_has_gamespectatorleftmessage();
+  ::GameSpectatorLeftMessage* temp = gamespectatorleftmessage_;
+  gamespectatorleftmessage_ = NULL;
   return temp;
 }
 

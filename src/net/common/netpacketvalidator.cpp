@@ -132,6 +132,10 @@ NetPacketValidator::NetPacketValidator()
 	m_validationMap.insert(make_pair(PokerTHMessage_PokerTHMessageType_Type_AdminRemoveGameAckMessage, ValidateAdminRemoveGameAckMessage));
 	m_validationMap.insert(make_pair(PokerTHMessage_PokerTHMessageType_Type_AdminBanPlayerMessage, ValidateAdminBanPlayerMessage));
 	m_validationMap.insert(make_pair(PokerTHMessage_PokerTHMessageType_Type_AdminBanPlayerAckMessage, ValidateAdminBanPlayerAckMessage));
+	m_validationMap.insert(make_pair(PokerTHMessage_PokerTHMessageType_Type_GameListSpectatorJoinedMessage, ValidateGameListSpectatorJoinedMessage));
+	m_validationMap.insert(make_pair(PokerTHMessage_PokerTHMessageType_Type_GameListSpectatorLeftMessage, ValidateGameListSpectatorLeftMessage));
+	m_validationMap.insert(make_pair(PokerTHMessage_PokerTHMessageType_Type_GameSpectatorJoinedMessage, ValidateGameSpectatorJoinedMessage));
+	m_validationMap.insert(make_pair(PokerTHMessage_PokerTHMessageType_Type_GameSpectatorLeftMessage, ValidateGameSpectatorLeftMessage));
 }
 
 bool
@@ -1219,6 +1223,58 @@ NetPacketValidator::ValidateGameInfo(const NetGameInfo &gameInfo)
 		&& ValidateListIntRange(gameInfo.manualblinds(), 1, 1000000)) {
 
 		retVal = true;
+	}
+	return retVal;
+}
+
+bool
+NetPacketValidator::ValidateGameListSpectatorJoinedMessage(const NetPacket &packet)
+{
+	bool retVal = false;
+	if (packet.GetMsg()->has_gamelistspectatorjoinedmessage()) {
+		const GameListSpectatorJoinedMessage &msg = packet.GetMsg()->gamelistspectatorjoinedmessage();
+		if (msg.gameid() != 0 && msg.playerid() != 0) {
+			retVal = true;
+		}
+	}
+	return retVal;
+}
+
+bool
+NetPacketValidator::ValidateGameListSpectatorLeftMessage(const NetPacket &packet)
+{
+	bool retVal = false;
+	if (packet.GetMsg()->has_gamelistspectatorleftmessage()) {
+		const GameListSpectatorLeftMessage &msg = packet.GetMsg()->gamelistspectatorleftmessage();
+		if (msg.gameid() != 0 && msg.playerid() != 0) {
+			retVal = true;
+		}
+	}
+	return retVal;
+}
+
+bool
+NetPacketValidator::ValidateGameSpectatorJoinedMessage(const NetPacket &packet)
+{
+	bool retVal = false;
+	if (packet.GetMsg()->has_gamespectatorjoinedmessage()) {
+		const GameSpectatorJoinedMessage &msg = packet.GetMsg()->gamespectatorjoinedmessage();
+		if (msg.gameid() != 0 && msg.playerid() != 0) {
+			retVal = true;
+		}
+	}
+	return retVal;
+}
+
+bool
+NetPacketValidator::ValidateGameSpectatorLeftMessage(const NetPacket &packet)
+{
+	bool retVal = false;
+	if (packet.GetMsg()->has_gamespectatorleftmessage()) {
+		const GameSpectatorLeftMessage &msg = packet.GetMsg()->gamespectatorleftmessage();
+		if (msg.gameid() != 0 && msg.playerid() != 0) {
+			retVal = true;
+		}
 	}
 	return retVal;
 }

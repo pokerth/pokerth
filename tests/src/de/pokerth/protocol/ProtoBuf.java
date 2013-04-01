@@ -9549,6 +9549,718 @@ public final class ProtoBuf {
     // @@protoc_insertion_point(class_scope:GameListPlayerLeftMessage)
   }
   
+  public interface GameListSpectatorJoinedMessageOrBuilder
+      extends com.google.protobuf.MessageLiteOrBuilder {
+    
+    // required uint32 gameId = 1;
+    boolean hasGameId();
+    int getGameId();
+    
+    // required uint32 playerId = 2;
+    boolean hasPlayerId();
+    int getPlayerId();
+  }
+  public static final class GameListSpectatorJoinedMessage extends
+      com.google.protobuf.GeneratedMessageLite
+      implements GameListSpectatorJoinedMessageOrBuilder {
+    // Use GameListSpectatorJoinedMessage.newBuilder() to construct.
+    private GameListSpectatorJoinedMessage(Builder builder) {
+      super(builder);
+    }
+    private GameListSpectatorJoinedMessage(boolean noInit) {}
+    
+    private static final GameListSpectatorJoinedMessage defaultInstance;
+    public static GameListSpectatorJoinedMessage getDefaultInstance() {
+      return defaultInstance;
+    }
+    
+    public GameListSpectatorJoinedMessage getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+    
+    private int bitField0_;
+    // required uint32 gameId = 1;
+    public static final int GAMEID_FIELD_NUMBER = 1;
+    private int gameId_;
+    public boolean hasGameId() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    public int getGameId() {
+      return gameId_;
+    }
+    
+    // required uint32 playerId = 2;
+    public static final int PLAYERID_FIELD_NUMBER = 2;
+    private int playerId_;
+    public boolean hasPlayerId() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    public int getPlayerId() {
+      return playerId_;
+    }
+    
+    private void initFields() {
+      gameId_ = 0;
+      playerId_ = 0;
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+      
+      if (!hasGameId()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasPlayerId()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+    
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeUInt32(1, gameId_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        output.writeUInt32(2, playerId_);
+      }
+    }
+    
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+    
+      size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeUInt32Size(1, gameId_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeUInt32Size(2, playerId_);
+      }
+      memoizedSerializedSize = size;
+      return size;
+    }
+    
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+    
+    public static de.pokerth.protocol.ProtoBuf.GameListSpectatorJoinedMessage parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return newBuilder().mergeFrom(data).buildParsed();
+    }
+    public static de.pokerth.protocol.ProtoBuf.GameListSpectatorJoinedMessage parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return newBuilder().mergeFrom(data, extensionRegistry)
+               .buildParsed();
+    }
+    public static de.pokerth.protocol.ProtoBuf.GameListSpectatorJoinedMessage parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return newBuilder().mergeFrom(data).buildParsed();
+    }
+    public static de.pokerth.protocol.ProtoBuf.GameListSpectatorJoinedMessage parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return newBuilder().mergeFrom(data, extensionRegistry)
+               .buildParsed();
+    }
+    public static de.pokerth.protocol.ProtoBuf.GameListSpectatorJoinedMessage parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return newBuilder().mergeFrom(input).buildParsed();
+    }
+    public static de.pokerth.protocol.ProtoBuf.GameListSpectatorJoinedMessage parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return newBuilder().mergeFrom(input, extensionRegistry)
+               .buildParsed();
+    }
+    public static de.pokerth.protocol.ProtoBuf.GameListSpectatorJoinedMessage parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      Builder builder = newBuilder();
+      if (builder.mergeDelimitedFrom(input)) {
+        return builder.buildParsed();
+      } else {
+        return null;
+      }
+    }
+    public static de.pokerth.protocol.ProtoBuf.GameListSpectatorJoinedMessage parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      Builder builder = newBuilder();
+      if (builder.mergeDelimitedFrom(input, extensionRegistry)) {
+        return builder.buildParsed();
+      } else {
+        return null;
+      }
+    }
+    public static de.pokerth.protocol.ProtoBuf.GameListSpectatorJoinedMessage parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return newBuilder().mergeFrom(input).buildParsed();
+    }
+    public static de.pokerth.protocol.ProtoBuf.GameListSpectatorJoinedMessage parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return newBuilder().mergeFrom(input, extensionRegistry)
+               .buildParsed();
+    }
+    
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(de.pokerth.protocol.ProtoBuf.GameListSpectatorJoinedMessage prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+    
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageLite.Builder<
+          de.pokerth.protocol.ProtoBuf.GameListSpectatorJoinedMessage, Builder>
+        implements de.pokerth.protocol.ProtoBuf.GameListSpectatorJoinedMessageOrBuilder {
+      // Construct using de.pokerth.protocol.ProtoBuf.GameListSpectatorJoinedMessage.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+      
+      private void maybeForceBuilderInitialization() {
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+      
+      public Builder clear() {
+        super.clear();
+        gameId_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000001);
+        playerId_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000002);
+        return this;
+      }
+      
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+      
+      public de.pokerth.protocol.ProtoBuf.GameListSpectatorJoinedMessage getDefaultInstanceForType() {
+        return de.pokerth.protocol.ProtoBuf.GameListSpectatorJoinedMessage.getDefaultInstance();
+      }
+      
+      public de.pokerth.protocol.ProtoBuf.GameListSpectatorJoinedMessage build() {
+        de.pokerth.protocol.ProtoBuf.GameListSpectatorJoinedMessage result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+      
+      private de.pokerth.protocol.ProtoBuf.GameListSpectatorJoinedMessage buildParsed()
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        de.pokerth.protocol.ProtoBuf.GameListSpectatorJoinedMessage result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(
+            result).asInvalidProtocolBufferException();
+        }
+        return result;
+      }
+      
+      public de.pokerth.protocol.ProtoBuf.GameListSpectatorJoinedMessage buildPartial() {
+        de.pokerth.protocol.ProtoBuf.GameListSpectatorJoinedMessage result = new de.pokerth.protocol.ProtoBuf.GameListSpectatorJoinedMessage(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.gameId_ = gameId_;
+        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+          to_bitField0_ |= 0x00000002;
+        }
+        result.playerId_ = playerId_;
+        result.bitField0_ = to_bitField0_;
+        return result;
+      }
+      
+      public Builder mergeFrom(de.pokerth.protocol.ProtoBuf.GameListSpectatorJoinedMessage other) {
+        if (other == de.pokerth.protocol.ProtoBuf.GameListSpectatorJoinedMessage.getDefaultInstance()) return this;
+        if (other.hasGameId()) {
+          setGameId(other.getGameId());
+        }
+        if (other.hasPlayerId()) {
+          setPlayerId(other.getPlayerId());
+        }
+        return this;
+      }
+      
+      public final boolean isInitialized() {
+        if (!hasGameId()) {
+          
+          return false;
+        }
+        if (!hasPlayerId()) {
+          
+          return false;
+        }
+        return true;
+      }
+      
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        while (true) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              
+              return this;
+            default: {
+              if (!parseUnknownField(input, extensionRegistry, tag)) {
+                
+                return this;
+              }
+              break;
+            }
+            case 8: {
+              bitField0_ |= 0x00000001;
+              gameId_ = input.readUInt32();
+              break;
+            }
+            case 16: {
+              bitField0_ |= 0x00000002;
+              playerId_ = input.readUInt32();
+              break;
+            }
+          }
+        }
+      }
+      
+      private int bitField0_;
+      
+      // required uint32 gameId = 1;
+      private int gameId_ ;
+      public boolean hasGameId() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      public int getGameId() {
+        return gameId_;
+      }
+      public Builder setGameId(int value) {
+        bitField0_ |= 0x00000001;
+        gameId_ = value;
+        
+        return this;
+      }
+      public Builder clearGameId() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        gameId_ = 0;
+        
+        return this;
+      }
+      
+      // required uint32 playerId = 2;
+      private int playerId_ ;
+      public boolean hasPlayerId() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      public int getPlayerId() {
+        return playerId_;
+      }
+      public Builder setPlayerId(int value) {
+        bitField0_ |= 0x00000002;
+        playerId_ = value;
+        
+        return this;
+      }
+      public Builder clearPlayerId() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        playerId_ = 0;
+        
+        return this;
+      }
+      
+      // @@protoc_insertion_point(builder_scope:GameListSpectatorJoinedMessage)
+    }
+    
+    static {
+      defaultInstance = new GameListSpectatorJoinedMessage(true);
+      defaultInstance.initFields();
+    }
+    
+    // @@protoc_insertion_point(class_scope:GameListSpectatorJoinedMessage)
+  }
+  
+  public interface GameListSpectatorLeftMessageOrBuilder
+      extends com.google.protobuf.MessageLiteOrBuilder {
+    
+    // required uint32 gameId = 1;
+    boolean hasGameId();
+    int getGameId();
+    
+    // required uint32 playerId = 2;
+    boolean hasPlayerId();
+    int getPlayerId();
+  }
+  public static final class GameListSpectatorLeftMessage extends
+      com.google.protobuf.GeneratedMessageLite
+      implements GameListSpectatorLeftMessageOrBuilder {
+    // Use GameListSpectatorLeftMessage.newBuilder() to construct.
+    private GameListSpectatorLeftMessage(Builder builder) {
+      super(builder);
+    }
+    private GameListSpectatorLeftMessage(boolean noInit) {}
+    
+    private static final GameListSpectatorLeftMessage defaultInstance;
+    public static GameListSpectatorLeftMessage getDefaultInstance() {
+      return defaultInstance;
+    }
+    
+    public GameListSpectatorLeftMessage getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+    
+    private int bitField0_;
+    // required uint32 gameId = 1;
+    public static final int GAMEID_FIELD_NUMBER = 1;
+    private int gameId_;
+    public boolean hasGameId() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    public int getGameId() {
+      return gameId_;
+    }
+    
+    // required uint32 playerId = 2;
+    public static final int PLAYERID_FIELD_NUMBER = 2;
+    private int playerId_;
+    public boolean hasPlayerId() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    public int getPlayerId() {
+      return playerId_;
+    }
+    
+    private void initFields() {
+      gameId_ = 0;
+      playerId_ = 0;
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+      
+      if (!hasGameId()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasPlayerId()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+    
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeUInt32(1, gameId_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        output.writeUInt32(2, playerId_);
+      }
+    }
+    
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+    
+      size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeUInt32Size(1, gameId_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeUInt32Size(2, playerId_);
+      }
+      memoizedSerializedSize = size;
+      return size;
+    }
+    
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+    
+    public static de.pokerth.protocol.ProtoBuf.GameListSpectatorLeftMessage parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return newBuilder().mergeFrom(data).buildParsed();
+    }
+    public static de.pokerth.protocol.ProtoBuf.GameListSpectatorLeftMessage parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return newBuilder().mergeFrom(data, extensionRegistry)
+               .buildParsed();
+    }
+    public static de.pokerth.protocol.ProtoBuf.GameListSpectatorLeftMessage parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return newBuilder().mergeFrom(data).buildParsed();
+    }
+    public static de.pokerth.protocol.ProtoBuf.GameListSpectatorLeftMessage parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return newBuilder().mergeFrom(data, extensionRegistry)
+               .buildParsed();
+    }
+    public static de.pokerth.protocol.ProtoBuf.GameListSpectatorLeftMessage parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return newBuilder().mergeFrom(input).buildParsed();
+    }
+    public static de.pokerth.protocol.ProtoBuf.GameListSpectatorLeftMessage parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return newBuilder().mergeFrom(input, extensionRegistry)
+               .buildParsed();
+    }
+    public static de.pokerth.protocol.ProtoBuf.GameListSpectatorLeftMessage parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      Builder builder = newBuilder();
+      if (builder.mergeDelimitedFrom(input)) {
+        return builder.buildParsed();
+      } else {
+        return null;
+      }
+    }
+    public static de.pokerth.protocol.ProtoBuf.GameListSpectatorLeftMessage parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      Builder builder = newBuilder();
+      if (builder.mergeDelimitedFrom(input, extensionRegistry)) {
+        return builder.buildParsed();
+      } else {
+        return null;
+      }
+    }
+    public static de.pokerth.protocol.ProtoBuf.GameListSpectatorLeftMessage parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return newBuilder().mergeFrom(input).buildParsed();
+    }
+    public static de.pokerth.protocol.ProtoBuf.GameListSpectatorLeftMessage parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return newBuilder().mergeFrom(input, extensionRegistry)
+               .buildParsed();
+    }
+    
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(de.pokerth.protocol.ProtoBuf.GameListSpectatorLeftMessage prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+    
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageLite.Builder<
+          de.pokerth.protocol.ProtoBuf.GameListSpectatorLeftMessage, Builder>
+        implements de.pokerth.protocol.ProtoBuf.GameListSpectatorLeftMessageOrBuilder {
+      // Construct using de.pokerth.protocol.ProtoBuf.GameListSpectatorLeftMessage.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+      
+      private void maybeForceBuilderInitialization() {
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+      
+      public Builder clear() {
+        super.clear();
+        gameId_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000001);
+        playerId_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000002);
+        return this;
+      }
+      
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+      
+      public de.pokerth.protocol.ProtoBuf.GameListSpectatorLeftMessage getDefaultInstanceForType() {
+        return de.pokerth.protocol.ProtoBuf.GameListSpectatorLeftMessage.getDefaultInstance();
+      }
+      
+      public de.pokerth.protocol.ProtoBuf.GameListSpectatorLeftMessage build() {
+        de.pokerth.protocol.ProtoBuf.GameListSpectatorLeftMessage result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+      
+      private de.pokerth.protocol.ProtoBuf.GameListSpectatorLeftMessage buildParsed()
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        de.pokerth.protocol.ProtoBuf.GameListSpectatorLeftMessage result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(
+            result).asInvalidProtocolBufferException();
+        }
+        return result;
+      }
+      
+      public de.pokerth.protocol.ProtoBuf.GameListSpectatorLeftMessage buildPartial() {
+        de.pokerth.protocol.ProtoBuf.GameListSpectatorLeftMessage result = new de.pokerth.protocol.ProtoBuf.GameListSpectatorLeftMessage(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.gameId_ = gameId_;
+        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+          to_bitField0_ |= 0x00000002;
+        }
+        result.playerId_ = playerId_;
+        result.bitField0_ = to_bitField0_;
+        return result;
+      }
+      
+      public Builder mergeFrom(de.pokerth.protocol.ProtoBuf.GameListSpectatorLeftMessage other) {
+        if (other == de.pokerth.protocol.ProtoBuf.GameListSpectatorLeftMessage.getDefaultInstance()) return this;
+        if (other.hasGameId()) {
+          setGameId(other.getGameId());
+        }
+        if (other.hasPlayerId()) {
+          setPlayerId(other.getPlayerId());
+        }
+        return this;
+      }
+      
+      public final boolean isInitialized() {
+        if (!hasGameId()) {
+          
+          return false;
+        }
+        if (!hasPlayerId()) {
+          
+          return false;
+        }
+        return true;
+      }
+      
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        while (true) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              
+              return this;
+            default: {
+              if (!parseUnknownField(input, extensionRegistry, tag)) {
+                
+                return this;
+              }
+              break;
+            }
+            case 8: {
+              bitField0_ |= 0x00000001;
+              gameId_ = input.readUInt32();
+              break;
+            }
+            case 16: {
+              bitField0_ |= 0x00000002;
+              playerId_ = input.readUInt32();
+              break;
+            }
+          }
+        }
+      }
+      
+      private int bitField0_;
+      
+      // required uint32 gameId = 1;
+      private int gameId_ ;
+      public boolean hasGameId() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      public int getGameId() {
+        return gameId_;
+      }
+      public Builder setGameId(int value) {
+        bitField0_ |= 0x00000001;
+        gameId_ = value;
+        
+        return this;
+      }
+      public Builder clearGameId() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        gameId_ = 0;
+        
+        return this;
+      }
+      
+      // required uint32 playerId = 2;
+      private int playerId_ ;
+      public boolean hasPlayerId() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      public int getPlayerId() {
+        return playerId_;
+      }
+      public Builder setPlayerId(int value) {
+        bitField0_ |= 0x00000002;
+        playerId_ = value;
+        
+        return this;
+      }
+      public Builder clearPlayerId() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        playerId_ = 0;
+        
+        return this;
+      }
+      
+      // @@protoc_insertion_point(builder_scope:GameListSpectatorLeftMessage)
+    }
+    
+    static {
+      defaultInstance = new GameListSpectatorLeftMessage(true);
+      defaultInstance.initFields();
+    }
+    
+    // @@protoc_insertion_point(class_scope:GameListSpectatorLeftMessage)
+  }
+  
   public interface GameListAdminChangedMessageOrBuilder
       extends com.google.protobuf.MessageLiteOrBuilder {
     
@@ -12005,6 +12717,10 @@ public final class ProtoBuf {
     // optional bool autoLeave = 3;
     boolean hasAutoLeave();
     boolean getAutoLeave();
+    
+    // optional bool spectateOnly = 4;
+    boolean hasSpectateOnly();
+    boolean getSpectateOnly();
   }
   public static final class JoinExistingGameMessage extends
       com.google.protobuf.GeneratedMessageLite
@@ -12077,10 +12793,21 @@ public final class ProtoBuf {
       return autoLeave_;
     }
     
+    // optional bool spectateOnly = 4;
+    public static final int SPECTATEONLY_FIELD_NUMBER = 4;
+    private boolean spectateOnly_;
+    public boolean hasSpectateOnly() {
+      return ((bitField0_ & 0x00000008) == 0x00000008);
+    }
+    public boolean getSpectateOnly() {
+      return spectateOnly_;
+    }
+    
     private void initFields() {
       gameId_ = 0;
       password_ = "";
       autoLeave_ = false;
+      spectateOnly_ = false;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -12107,6 +12834,9 @@ public final class ProtoBuf {
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
         output.writeBool(3, autoLeave_);
       }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        output.writeBool(4, spectateOnly_);
+      }
     }
     
     private int memoizedSerializedSize = -1;
@@ -12126,6 +12856,10 @@ public final class ProtoBuf {
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
         size += com.google.protobuf.CodedOutputStream
           .computeBoolSize(3, autoLeave_);
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBoolSize(4, spectateOnly_);
       }
       memoizedSerializedSize = size;
       return size;
@@ -12235,6 +12969,8 @@ public final class ProtoBuf {
         bitField0_ = (bitField0_ & ~0x00000002);
         autoLeave_ = false;
         bitField0_ = (bitField0_ & ~0x00000004);
+        spectateOnly_ = false;
+        bitField0_ = (bitField0_ & ~0x00000008);
         return this;
       }
       
@@ -12280,6 +13016,10 @@ public final class ProtoBuf {
           to_bitField0_ |= 0x00000004;
         }
         result.autoLeave_ = autoLeave_;
+        if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
+          to_bitField0_ |= 0x00000008;
+        }
+        result.spectateOnly_ = spectateOnly_;
         result.bitField0_ = to_bitField0_;
         return result;
       }
@@ -12294,6 +13034,9 @@ public final class ProtoBuf {
         }
         if (other.hasAutoLeave()) {
           setAutoLeave(other.getAutoLeave());
+        }
+        if (other.hasSpectateOnly()) {
+          setSpectateOnly(other.getSpectateOnly());
         }
         return this;
       }
@@ -12336,6 +13079,11 @@ public final class ProtoBuf {
             case 24: {
               bitField0_ |= 0x00000004;
               autoLeave_ = input.readBool();
+              break;
+            }
+            case 32: {
+              bitField0_ |= 0x00000008;
+              spectateOnly_ = input.readBool();
               break;
             }
           }
@@ -12418,6 +13166,27 @@ public final class ProtoBuf {
       public Builder clearAutoLeave() {
         bitField0_ = (bitField0_ & ~0x00000004);
         autoLeave_ = false;
+        
+        return this;
+      }
+      
+      // optional bool spectateOnly = 4;
+      private boolean spectateOnly_ ;
+      public boolean hasSpectateOnly() {
+        return ((bitField0_ & 0x00000008) == 0x00000008);
+      }
+      public boolean getSpectateOnly() {
+        return spectateOnly_;
+      }
+      public Builder setSpectateOnly(boolean value) {
+        bitField0_ |= 0x00000008;
+        spectateOnly_ = value;
+        
+        return this;
+      }
+      public Builder clearSpectateOnly() {
+        bitField0_ = (bitField0_ & ~0x00000008);
+        spectateOnly_ = false;
         
         return this;
       }
@@ -15034,6 +15803,790 @@ public final class ProtoBuf {
     }
     
     // @@protoc_insertion_point(class_scope:GamePlayerLeftMessage)
+  }
+  
+  public interface GameSpectatorJoinedMessageOrBuilder
+      extends com.google.protobuf.MessageLiteOrBuilder {
+    
+    // required uint32 gameId = 1;
+    boolean hasGameId();
+    int getGameId();
+    
+    // required uint32 playerId = 2;
+    boolean hasPlayerId();
+    int getPlayerId();
+  }
+  public static final class GameSpectatorJoinedMessage extends
+      com.google.protobuf.GeneratedMessageLite
+      implements GameSpectatorJoinedMessageOrBuilder {
+    // Use GameSpectatorJoinedMessage.newBuilder() to construct.
+    private GameSpectatorJoinedMessage(Builder builder) {
+      super(builder);
+    }
+    private GameSpectatorJoinedMessage(boolean noInit) {}
+    
+    private static final GameSpectatorJoinedMessage defaultInstance;
+    public static GameSpectatorJoinedMessage getDefaultInstance() {
+      return defaultInstance;
+    }
+    
+    public GameSpectatorJoinedMessage getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+    
+    private int bitField0_;
+    // required uint32 gameId = 1;
+    public static final int GAMEID_FIELD_NUMBER = 1;
+    private int gameId_;
+    public boolean hasGameId() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    public int getGameId() {
+      return gameId_;
+    }
+    
+    // required uint32 playerId = 2;
+    public static final int PLAYERID_FIELD_NUMBER = 2;
+    private int playerId_;
+    public boolean hasPlayerId() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    public int getPlayerId() {
+      return playerId_;
+    }
+    
+    private void initFields() {
+      gameId_ = 0;
+      playerId_ = 0;
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+      
+      if (!hasGameId()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasPlayerId()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+    
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeUInt32(1, gameId_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        output.writeUInt32(2, playerId_);
+      }
+    }
+    
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+    
+      size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeUInt32Size(1, gameId_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeUInt32Size(2, playerId_);
+      }
+      memoizedSerializedSize = size;
+      return size;
+    }
+    
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+    
+    public static de.pokerth.protocol.ProtoBuf.GameSpectatorJoinedMessage parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return newBuilder().mergeFrom(data).buildParsed();
+    }
+    public static de.pokerth.protocol.ProtoBuf.GameSpectatorJoinedMessage parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return newBuilder().mergeFrom(data, extensionRegistry)
+               .buildParsed();
+    }
+    public static de.pokerth.protocol.ProtoBuf.GameSpectatorJoinedMessage parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return newBuilder().mergeFrom(data).buildParsed();
+    }
+    public static de.pokerth.protocol.ProtoBuf.GameSpectatorJoinedMessage parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return newBuilder().mergeFrom(data, extensionRegistry)
+               .buildParsed();
+    }
+    public static de.pokerth.protocol.ProtoBuf.GameSpectatorJoinedMessage parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return newBuilder().mergeFrom(input).buildParsed();
+    }
+    public static de.pokerth.protocol.ProtoBuf.GameSpectatorJoinedMessage parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return newBuilder().mergeFrom(input, extensionRegistry)
+               .buildParsed();
+    }
+    public static de.pokerth.protocol.ProtoBuf.GameSpectatorJoinedMessage parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      Builder builder = newBuilder();
+      if (builder.mergeDelimitedFrom(input)) {
+        return builder.buildParsed();
+      } else {
+        return null;
+      }
+    }
+    public static de.pokerth.protocol.ProtoBuf.GameSpectatorJoinedMessage parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      Builder builder = newBuilder();
+      if (builder.mergeDelimitedFrom(input, extensionRegistry)) {
+        return builder.buildParsed();
+      } else {
+        return null;
+      }
+    }
+    public static de.pokerth.protocol.ProtoBuf.GameSpectatorJoinedMessage parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return newBuilder().mergeFrom(input).buildParsed();
+    }
+    public static de.pokerth.protocol.ProtoBuf.GameSpectatorJoinedMessage parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return newBuilder().mergeFrom(input, extensionRegistry)
+               .buildParsed();
+    }
+    
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(de.pokerth.protocol.ProtoBuf.GameSpectatorJoinedMessage prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+    
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageLite.Builder<
+          de.pokerth.protocol.ProtoBuf.GameSpectatorJoinedMessage, Builder>
+        implements de.pokerth.protocol.ProtoBuf.GameSpectatorJoinedMessageOrBuilder {
+      // Construct using de.pokerth.protocol.ProtoBuf.GameSpectatorJoinedMessage.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+      
+      private void maybeForceBuilderInitialization() {
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+      
+      public Builder clear() {
+        super.clear();
+        gameId_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000001);
+        playerId_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000002);
+        return this;
+      }
+      
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+      
+      public de.pokerth.protocol.ProtoBuf.GameSpectatorJoinedMessage getDefaultInstanceForType() {
+        return de.pokerth.protocol.ProtoBuf.GameSpectatorJoinedMessage.getDefaultInstance();
+      }
+      
+      public de.pokerth.protocol.ProtoBuf.GameSpectatorJoinedMessage build() {
+        de.pokerth.protocol.ProtoBuf.GameSpectatorJoinedMessage result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+      
+      private de.pokerth.protocol.ProtoBuf.GameSpectatorJoinedMessage buildParsed()
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        de.pokerth.protocol.ProtoBuf.GameSpectatorJoinedMessage result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(
+            result).asInvalidProtocolBufferException();
+        }
+        return result;
+      }
+      
+      public de.pokerth.protocol.ProtoBuf.GameSpectatorJoinedMessage buildPartial() {
+        de.pokerth.protocol.ProtoBuf.GameSpectatorJoinedMessage result = new de.pokerth.protocol.ProtoBuf.GameSpectatorJoinedMessage(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.gameId_ = gameId_;
+        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+          to_bitField0_ |= 0x00000002;
+        }
+        result.playerId_ = playerId_;
+        result.bitField0_ = to_bitField0_;
+        return result;
+      }
+      
+      public Builder mergeFrom(de.pokerth.protocol.ProtoBuf.GameSpectatorJoinedMessage other) {
+        if (other == de.pokerth.protocol.ProtoBuf.GameSpectatorJoinedMessage.getDefaultInstance()) return this;
+        if (other.hasGameId()) {
+          setGameId(other.getGameId());
+        }
+        if (other.hasPlayerId()) {
+          setPlayerId(other.getPlayerId());
+        }
+        return this;
+      }
+      
+      public final boolean isInitialized() {
+        if (!hasGameId()) {
+          
+          return false;
+        }
+        if (!hasPlayerId()) {
+          
+          return false;
+        }
+        return true;
+      }
+      
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        while (true) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              
+              return this;
+            default: {
+              if (!parseUnknownField(input, extensionRegistry, tag)) {
+                
+                return this;
+              }
+              break;
+            }
+            case 8: {
+              bitField0_ |= 0x00000001;
+              gameId_ = input.readUInt32();
+              break;
+            }
+            case 16: {
+              bitField0_ |= 0x00000002;
+              playerId_ = input.readUInt32();
+              break;
+            }
+          }
+        }
+      }
+      
+      private int bitField0_;
+      
+      // required uint32 gameId = 1;
+      private int gameId_ ;
+      public boolean hasGameId() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      public int getGameId() {
+        return gameId_;
+      }
+      public Builder setGameId(int value) {
+        bitField0_ |= 0x00000001;
+        gameId_ = value;
+        
+        return this;
+      }
+      public Builder clearGameId() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        gameId_ = 0;
+        
+        return this;
+      }
+      
+      // required uint32 playerId = 2;
+      private int playerId_ ;
+      public boolean hasPlayerId() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      public int getPlayerId() {
+        return playerId_;
+      }
+      public Builder setPlayerId(int value) {
+        bitField0_ |= 0x00000002;
+        playerId_ = value;
+        
+        return this;
+      }
+      public Builder clearPlayerId() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        playerId_ = 0;
+        
+        return this;
+      }
+      
+      // @@protoc_insertion_point(builder_scope:GameSpectatorJoinedMessage)
+    }
+    
+    static {
+      defaultInstance = new GameSpectatorJoinedMessage(true);
+      defaultInstance.initFields();
+    }
+    
+    // @@protoc_insertion_point(class_scope:GameSpectatorJoinedMessage)
+  }
+  
+  public interface GameSpectatorLeftMessageOrBuilder
+      extends com.google.protobuf.MessageLiteOrBuilder {
+    
+    // required uint32 gameId = 1;
+    boolean hasGameId();
+    int getGameId();
+    
+    // required uint32 playerId = 2;
+    boolean hasPlayerId();
+    int getPlayerId();
+    
+    // required .GamePlayerLeftMessage.GamePlayerLeftReason gameSpectatorLeftReason = 3;
+    boolean hasGameSpectatorLeftReason();
+    de.pokerth.protocol.ProtoBuf.GamePlayerLeftMessage.GamePlayerLeftReason getGameSpectatorLeftReason();
+  }
+  public static final class GameSpectatorLeftMessage extends
+      com.google.protobuf.GeneratedMessageLite
+      implements GameSpectatorLeftMessageOrBuilder {
+    // Use GameSpectatorLeftMessage.newBuilder() to construct.
+    private GameSpectatorLeftMessage(Builder builder) {
+      super(builder);
+    }
+    private GameSpectatorLeftMessage(boolean noInit) {}
+    
+    private static final GameSpectatorLeftMessage defaultInstance;
+    public static GameSpectatorLeftMessage getDefaultInstance() {
+      return defaultInstance;
+    }
+    
+    public GameSpectatorLeftMessage getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+    
+    private int bitField0_;
+    // required uint32 gameId = 1;
+    public static final int GAMEID_FIELD_NUMBER = 1;
+    private int gameId_;
+    public boolean hasGameId() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    public int getGameId() {
+      return gameId_;
+    }
+    
+    // required uint32 playerId = 2;
+    public static final int PLAYERID_FIELD_NUMBER = 2;
+    private int playerId_;
+    public boolean hasPlayerId() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    public int getPlayerId() {
+      return playerId_;
+    }
+    
+    // required .GamePlayerLeftMessage.GamePlayerLeftReason gameSpectatorLeftReason = 3;
+    public static final int GAMESPECTATORLEFTREASON_FIELD_NUMBER = 3;
+    private de.pokerth.protocol.ProtoBuf.GamePlayerLeftMessage.GamePlayerLeftReason gameSpectatorLeftReason_;
+    public boolean hasGameSpectatorLeftReason() {
+      return ((bitField0_ & 0x00000004) == 0x00000004);
+    }
+    public de.pokerth.protocol.ProtoBuf.GamePlayerLeftMessage.GamePlayerLeftReason getGameSpectatorLeftReason() {
+      return gameSpectatorLeftReason_;
+    }
+    
+    private void initFields() {
+      gameId_ = 0;
+      playerId_ = 0;
+      gameSpectatorLeftReason_ = de.pokerth.protocol.ProtoBuf.GamePlayerLeftMessage.GamePlayerLeftReason.leftOnRequest;
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+      
+      if (!hasGameId()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasPlayerId()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasGameSpectatorLeftReason()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+    
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeUInt32(1, gameId_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        output.writeUInt32(2, playerId_);
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        output.writeEnum(3, gameSpectatorLeftReason_.getNumber());
+      }
+    }
+    
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+    
+      size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeUInt32Size(1, gameId_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeUInt32Size(2, playerId_);
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeEnumSize(3, gameSpectatorLeftReason_.getNumber());
+      }
+      memoizedSerializedSize = size;
+      return size;
+    }
+    
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+    
+    public static de.pokerth.protocol.ProtoBuf.GameSpectatorLeftMessage parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return newBuilder().mergeFrom(data).buildParsed();
+    }
+    public static de.pokerth.protocol.ProtoBuf.GameSpectatorLeftMessage parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return newBuilder().mergeFrom(data, extensionRegistry)
+               .buildParsed();
+    }
+    public static de.pokerth.protocol.ProtoBuf.GameSpectatorLeftMessage parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return newBuilder().mergeFrom(data).buildParsed();
+    }
+    public static de.pokerth.protocol.ProtoBuf.GameSpectatorLeftMessage parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return newBuilder().mergeFrom(data, extensionRegistry)
+               .buildParsed();
+    }
+    public static de.pokerth.protocol.ProtoBuf.GameSpectatorLeftMessage parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return newBuilder().mergeFrom(input).buildParsed();
+    }
+    public static de.pokerth.protocol.ProtoBuf.GameSpectatorLeftMessage parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return newBuilder().mergeFrom(input, extensionRegistry)
+               .buildParsed();
+    }
+    public static de.pokerth.protocol.ProtoBuf.GameSpectatorLeftMessage parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      Builder builder = newBuilder();
+      if (builder.mergeDelimitedFrom(input)) {
+        return builder.buildParsed();
+      } else {
+        return null;
+      }
+    }
+    public static de.pokerth.protocol.ProtoBuf.GameSpectatorLeftMessage parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      Builder builder = newBuilder();
+      if (builder.mergeDelimitedFrom(input, extensionRegistry)) {
+        return builder.buildParsed();
+      } else {
+        return null;
+      }
+    }
+    public static de.pokerth.protocol.ProtoBuf.GameSpectatorLeftMessage parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return newBuilder().mergeFrom(input).buildParsed();
+    }
+    public static de.pokerth.protocol.ProtoBuf.GameSpectatorLeftMessage parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return newBuilder().mergeFrom(input, extensionRegistry)
+               .buildParsed();
+    }
+    
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(de.pokerth.protocol.ProtoBuf.GameSpectatorLeftMessage prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+    
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageLite.Builder<
+          de.pokerth.protocol.ProtoBuf.GameSpectatorLeftMessage, Builder>
+        implements de.pokerth.protocol.ProtoBuf.GameSpectatorLeftMessageOrBuilder {
+      // Construct using de.pokerth.protocol.ProtoBuf.GameSpectatorLeftMessage.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+      
+      private void maybeForceBuilderInitialization() {
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+      
+      public Builder clear() {
+        super.clear();
+        gameId_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000001);
+        playerId_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000002);
+        gameSpectatorLeftReason_ = de.pokerth.protocol.ProtoBuf.GamePlayerLeftMessage.GamePlayerLeftReason.leftOnRequest;
+        bitField0_ = (bitField0_ & ~0x00000004);
+        return this;
+      }
+      
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+      
+      public de.pokerth.protocol.ProtoBuf.GameSpectatorLeftMessage getDefaultInstanceForType() {
+        return de.pokerth.protocol.ProtoBuf.GameSpectatorLeftMessage.getDefaultInstance();
+      }
+      
+      public de.pokerth.protocol.ProtoBuf.GameSpectatorLeftMessage build() {
+        de.pokerth.protocol.ProtoBuf.GameSpectatorLeftMessage result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+      
+      private de.pokerth.protocol.ProtoBuf.GameSpectatorLeftMessage buildParsed()
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        de.pokerth.protocol.ProtoBuf.GameSpectatorLeftMessage result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(
+            result).asInvalidProtocolBufferException();
+        }
+        return result;
+      }
+      
+      public de.pokerth.protocol.ProtoBuf.GameSpectatorLeftMessage buildPartial() {
+        de.pokerth.protocol.ProtoBuf.GameSpectatorLeftMessage result = new de.pokerth.protocol.ProtoBuf.GameSpectatorLeftMessage(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.gameId_ = gameId_;
+        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+          to_bitField0_ |= 0x00000002;
+        }
+        result.playerId_ = playerId_;
+        if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
+          to_bitField0_ |= 0x00000004;
+        }
+        result.gameSpectatorLeftReason_ = gameSpectatorLeftReason_;
+        result.bitField0_ = to_bitField0_;
+        return result;
+      }
+      
+      public Builder mergeFrom(de.pokerth.protocol.ProtoBuf.GameSpectatorLeftMessage other) {
+        if (other == de.pokerth.protocol.ProtoBuf.GameSpectatorLeftMessage.getDefaultInstance()) return this;
+        if (other.hasGameId()) {
+          setGameId(other.getGameId());
+        }
+        if (other.hasPlayerId()) {
+          setPlayerId(other.getPlayerId());
+        }
+        if (other.hasGameSpectatorLeftReason()) {
+          setGameSpectatorLeftReason(other.getGameSpectatorLeftReason());
+        }
+        return this;
+      }
+      
+      public final boolean isInitialized() {
+        if (!hasGameId()) {
+          
+          return false;
+        }
+        if (!hasPlayerId()) {
+          
+          return false;
+        }
+        if (!hasGameSpectatorLeftReason()) {
+          
+          return false;
+        }
+        return true;
+      }
+      
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        while (true) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              
+              return this;
+            default: {
+              if (!parseUnknownField(input, extensionRegistry, tag)) {
+                
+                return this;
+              }
+              break;
+            }
+            case 8: {
+              bitField0_ |= 0x00000001;
+              gameId_ = input.readUInt32();
+              break;
+            }
+            case 16: {
+              bitField0_ |= 0x00000002;
+              playerId_ = input.readUInt32();
+              break;
+            }
+            case 24: {
+              int rawValue = input.readEnum();
+              de.pokerth.protocol.ProtoBuf.GamePlayerLeftMessage.GamePlayerLeftReason value = de.pokerth.protocol.ProtoBuf.GamePlayerLeftMessage.GamePlayerLeftReason.valueOf(rawValue);
+              if (value != null) {
+                bitField0_ |= 0x00000004;
+                gameSpectatorLeftReason_ = value;
+              }
+              break;
+            }
+          }
+        }
+      }
+      
+      private int bitField0_;
+      
+      // required uint32 gameId = 1;
+      private int gameId_ ;
+      public boolean hasGameId() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      public int getGameId() {
+        return gameId_;
+      }
+      public Builder setGameId(int value) {
+        bitField0_ |= 0x00000001;
+        gameId_ = value;
+        
+        return this;
+      }
+      public Builder clearGameId() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        gameId_ = 0;
+        
+        return this;
+      }
+      
+      // required uint32 playerId = 2;
+      private int playerId_ ;
+      public boolean hasPlayerId() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      public int getPlayerId() {
+        return playerId_;
+      }
+      public Builder setPlayerId(int value) {
+        bitField0_ |= 0x00000002;
+        playerId_ = value;
+        
+        return this;
+      }
+      public Builder clearPlayerId() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        playerId_ = 0;
+        
+        return this;
+      }
+      
+      // required .GamePlayerLeftMessage.GamePlayerLeftReason gameSpectatorLeftReason = 3;
+      private de.pokerth.protocol.ProtoBuf.GamePlayerLeftMessage.GamePlayerLeftReason gameSpectatorLeftReason_ = de.pokerth.protocol.ProtoBuf.GamePlayerLeftMessage.GamePlayerLeftReason.leftOnRequest;
+      public boolean hasGameSpectatorLeftReason() {
+        return ((bitField0_ & 0x00000004) == 0x00000004);
+      }
+      public de.pokerth.protocol.ProtoBuf.GamePlayerLeftMessage.GamePlayerLeftReason getGameSpectatorLeftReason() {
+        return gameSpectatorLeftReason_;
+      }
+      public Builder setGameSpectatorLeftReason(de.pokerth.protocol.ProtoBuf.GamePlayerLeftMessage.GamePlayerLeftReason value) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        bitField0_ |= 0x00000004;
+        gameSpectatorLeftReason_ = value;
+        
+        return this;
+      }
+      public Builder clearGameSpectatorLeftReason() {
+        bitField0_ = (bitField0_ & ~0x00000004);
+        gameSpectatorLeftReason_ = de.pokerth.protocol.ProtoBuf.GamePlayerLeftMessage.GamePlayerLeftReason.leftOnRequest;
+        
+        return this;
+      }
+      
+      // @@protoc_insertion_point(builder_scope:GameSpectatorLeftMessage)
+    }
+    
+    static {
+      defaultInstance = new GameSpectatorLeftMessage(true);
+      defaultInstance.initFields();
+    }
+    
+    // @@protoc_insertion_point(class_scope:GameSpectatorLeftMessage)
   }
   
   public interface GameAdminChangedMessageOrBuilder
@@ -38037,6 +39590,22 @@ public final class ProtoBuf {
     // optional .AdminBanPlayerAckMessage adminBanPlayerAckMessage = 78;
     boolean hasAdminBanPlayerAckMessage();
     de.pokerth.protocol.ProtoBuf.AdminBanPlayerAckMessage getAdminBanPlayerAckMessage();
+    
+    // optional .GameListSpectatorJoinedMessage gameListSpectatorJoinedMessage = 79;
+    boolean hasGameListSpectatorJoinedMessage();
+    de.pokerth.protocol.ProtoBuf.GameListSpectatorJoinedMessage getGameListSpectatorJoinedMessage();
+    
+    // optional .GameListSpectatorLeftMessage gameListSpectatorLeftMessage = 80;
+    boolean hasGameListSpectatorLeftMessage();
+    de.pokerth.protocol.ProtoBuf.GameListSpectatorLeftMessage getGameListSpectatorLeftMessage();
+    
+    // optional .GameSpectatorJoinedMessage gameSpectatorJoinedMessage = 81;
+    boolean hasGameSpectatorJoinedMessage();
+    de.pokerth.protocol.ProtoBuf.GameSpectatorJoinedMessage getGameSpectatorJoinedMessage();
+    
+    // optional .GameSpectatorLeftMessage gameSpectatorLeftMessage = 82;
+    boolean hasGameSpectatorLeftMessage();
+    de.pokerth.protocol.ProtoBuf.GameSpectatorLeftMessage getGameSpectatorLeftMessage();
   }
   public static final class PokerTHMessage extends
       com.google.protobuf.GeneratedMessageLite
@@ -38135,6 +39704,10 @@ public final class ProtoBuf {
       Type_AdminRemoveGameAckMessage(74, 75),
       Type_AdminBanPlayerMessage(75, 76),
       Type_AdminBanPlayerAckMessage(76, 77),
+      Type_GameListSpectatorJoinedMessage(77, 78),
+      Type_GameListSpectatorLeftMessage(78, 79),
+      Type_GameSpectatorJoinedMessage(79, 80),
+      Type_GameSpectatorLeftMessage(80, 81),
       ;
       
       public static final int Type_AnnounceMessage_VALUE = 1;
@@ -38214,6 +39787,10 @@ public final class ProtoBuf {
       public static final int Type_AdminRemoveGameAckMessage_VALUE = 75;
       public static final int Type_AdminBanPlayerMessage_VALUE = 76;
       public static final int Type_AdminBanPlayerAckMessage_VALUE = 77;
+      public static final int Type_GameListSpectatorJoinedMessage_VALUE = 78;
+      public static final int Type_GameListSpectatorLeftMessage_VALUE = 79;
+      public static final int Type_GameSpectatorJoinedMessage_VALUE = 80;
+      public static final int Type_GameSpectatorLeftMessage_VALUE = 81;
       
       
       public final int getNumber() { return value; }
@@ -38297,6 +39874,10 @@ public final class ProtoBuf {
           case 75: return Type_AdminRemoveGameAckMessage;
           case 76: return Type_AdminBanPlayerMessage;
           case 77: return Type_AdminBanPlayerAckMessage;
+          case 78: return Type_GameListSpectatorJoinedMessage;
+          case 79: return Type_GameListSpectatorLeftMessage;
+          case 80: return Type_GameSpectatorJoinedMessage;
+          case 81: return Type_GameSpectatorLeftMessage;
           default: return null;
         }
       }
@@ -39105,6 +40686,46 @@ public final class ProtoBuf {
       return adminBanPlayerAckMessage_;
     }
     
+    // optional .GameListSpectatorJoinedMessage gameListSpectatorJoinedMessage = 79;
+    public static final int GAMELISTSPECTATORJOINEDMESSAGE_FIELD_NUMBER = 79;
+    private de.pokerth.protocol.ProtoBuf.GameListSpectatorJoinedMessage gameListSpectatorJoinedMessage_;
+    public boolean hasGameListSpectatorJoinedMessage() {
+      return ((bitField2_ & 0x00004000) == 0x00004000);
+    }
+    public de.pokerth.protocol.ProtoBuf.GameListSpectatorJoinedMessage getGameListSpectatorJoinedMessage() {
+      return gameListSpectatorJoinedMessage_;
+    }
+    
+    // optional .GameListSpectatorLeftMessage gameListSpectatorLeftMessage = 80;
+    public static final int GAMELISTSPECTATORLEFTMESSAGE_FIELD_NUMBER = 80;
+    private de.pokerth.protocol.ProtoBuf.GameListSpectatorLeftMessage gameListSpectatorLeftMessage_;
+    public boolean hasGameListSpectatorLeftMessage() {
+      return ((bitField2_ & 0x00008000) == 0x00008000);
+    }
+    public de.pokerth.protocol.ProtoBuf.GameListSpectatorLeftMessage getGameListSpectatorLeftMessage() {
+      return gameListSpectatorLeftMessage_;
+    }
+    
+    // optional .GameSpectatorJoinedMessage gameSpectatorJoinedMessage = 81;
+    public static final int GAMESPECTATORJOINEDMESSAGE_FIELD_NUMBER = 81;
+    private de.pokerth.protocol.ProtoBuf.GameSpectatorJoinedMessage gameSpectatorJoinedMessage_;
+    public boolean hasGameSpectatorJoinedMessage() {
+      return ((bitField2_ & 0x00010000) == 0x00010000);
+    }
+    public de.pokerth.protocol.ProtoBuf.GameSpectatorJoinedMessage getGameSpectatorJoinedMessage() {
+      return gameSpectatorJoinedMessage_;
+    }
+    
+    // optional .GameSpectatorLeftMessage gameSpectatorLeftMessage = 82;
+    public static final int GAMESPECTATORLEFTMESSAGE_FIELD_NUMBER = 82;
+    private de.pokerth.protocol.ProtoBuf.GameSpectatorLeftMessage gameSpectatorLeftMessage_;
+    public boolean hasGameSpectatorLeftMessage() {
+      return ((bitField2_ & 0x00020000) == 0x00020000);
+    }
+    public de.pokerth.protocol.ProtoBuf.GameSpectatorLeftMessage getGameSpectatorLeftMessage() {
+      return gameSpectatorLeftMessage_;
+    }
+    
     private void initFields() {
       messageType_ = de.pokerth.protocol.ProtoBuf.PokerTHMessage.PokerTHMessageType.Type_AnnounceMessage;
       announceMessage_ = de.pokerth.protocol.ProtoBuf.AnnounceMessage.getDefaultInstance();
@@ -39184,6 +40805,10 @@ public final class ProtoBuf {
       adminRemoveGameAckMessage_ = de.pokerth.protocol.ProtoBuf.AdminRemoveGameAckMessage.getDefaultInstance();
       adminBanPlayerMessage_ = de.pokerth.protocol.ProtoBuf.AdminBanPlayerMessage.getDefaultInstance();
       adminBanPlayerAckMessage_ = de.pokerth.protocol.ProtoBuf.AdminBanPlayerAckMessage.getDefaultInstance();
+      gameListSpectatorJoinedMessage_ = de.pokerth.protocol.ProtoBuf.GameListSpectatorJoinedMessage.getDefaultInstance();
+      gameListSpectatorLeftMessage_ = de.pokerth.protocol.ProtoBuf.GameListSpectatorLeftMessage.getDefaultInstance();
+      gameSpectatorJoinedMessage_ = de.pokerth.protocol.ProtoBuf.GameSpectatorJoinedMessage.getDefaultInstance();
+      gameSpectatorLeftMessage_ = de.pokerth.protocol.ProtoBuf.GameSpectatorLeftMessage.getDefaultInstance();
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -39638,6 +41263,30 @@ public final class ProtoBuf {
           return false;
         }
       }
+      if (hasGameListSpectatorJoinedMessage()) {
+        if (!getGameListSpectatorJoinedMessage().isInitialized()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
+      }
+      if (hasGameListSpectatorLeftMessage()) {
+        if (!getGameListSpectatorLeftMessage().isInitialized()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
+      }
+      if (hasGameSpectatorJoinedMessage()) {
+        if (!getGameSpectatorJoinedMessage().isInitialized()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
+      }
+      if (hasGameSpectatorLeftMessage()) {
+        if (!getGameSpectatorLeftMessage().isInitialized()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
+      }
       memoizedIsInitialized = 1;
       return true;
     }
@@ -39878,6 +41527,18 @@ public final class ProtoBuf {
       }
       if (((bitField2_ & 0x00002000) == 0x00002000)) {
         output.writeMessage(78, adminBanPlayerAckMessage_);
+      }
+      if (((bitField2_ & 0x00004000) == 0x00004000)) {
+        output.writeMessage(79, gameListSpectatorJoinedMessage_);
+      }
+      if (((bitField2_ & 0x00008000) == 0x00008000)) {
+        output.writeMessage(80, gameListSpectatorLeftMessage_);
+      }
+      if (((bitField2_ & 0x00010000) == 0x00010000)) {
+        output.writeMessage(81, gameSpectatorJoinedMessage_);
+      }
+      if (((bitField2_ & 0x00020000) == 0x00020000)) {
+        output.writeMessage(82, gameSpectatorLeftMessage_);
       }
     }
     
@@ -40199,6 +41860,22 @@ public final class ProtoBuf {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(78, adminBanPlayerAckMessage_);
       }
+      if (((bitField2_ & 0x00004000) == 0x00004000)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(79, gameListSpectatorJoinedMessage_);
+      }
+      if (((bitField2_ & 0x00008000) == 0x00008000)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(80, gameListSpectatorLeftMessage_);
+      }
+      if (((bitField2_ & 0x00010000) == 0x00010000)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(81, gameSpectatorJoinedMessage_);
+      }
+      if (((bitField2_ & 0x00020000) == 0x00020000)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(82, gameSpectatorLeftMessage_);
+      }
       memoizedSerializedSize = size;
       return size;
     }
@@ -40457,6 +42134,14 @@ public final class ProtoBuf {
         bitField2_ = (bitField2_ & ~0x00001000);
         adminBanPlayerAckMessage_ = de.pokerth.protocol.ProtoBuf.AdminBanPlayerAckMessage.getDefaultInstance();
         bitField2_ = (bitField2_ & ~0x00002000);
+        gameListSpectatorJoinedMessage_ = de.pokerth.protocol.ProtoBuf.GameListSpectatorJoinedMessage.getDefaultInstance();
+        bitField2_ = (bitField2_ & ~0x00004000);
+        gameListSpectatorLeftMessage_ = de.pokerth.protocol.ProtoBuf.GameListSpectatorLeftMessage.getDefaultInstance();
+        bitField2_ = (bitField2_ & ~0x00008000);
+        gameSpectatorJoinedMessage_ = de.pokerth.protocol.ProtoBuf.GameSpectatorJoinedMessage.getDefaultInstance();
+        bitField2_ = (bitField2_ & ~0x00010000);
+        gameSpectatorLeftMessage_ = de.pokerth.protocol.ProtoBuf.GameSpectatorLeftMessage.getDefaultInstance();
+        bitField2_ = (bitField2_ & ~0x00020000);
         return this;
       }
       
@@ -40806,6 +42491,22 @@ public final class ProtoBuf {
           to_bitField2_ |= 0x00002000;
         }
         result.adminBanPlayerAckMessage_ = adminBanPlayerAckMessage_;
+        if (((from_bitField2_ & 0x00004000) == 0x00004000)) {
+          to_bitField2_ |= 0x00004000;
+        }
+        result.gameListSpectatorJoinedMessage_ = gameListSpectatorJoinedMessage_;
+        if (((from_bitField2_ & 0x00008000) == 0x00008000)) {
+          to_bitField2_ |= 0x00008000;
+        }
+        result.gameListSpectatorLeftMessage_ = gameListSpectatorLeftMessage_;
+        if (((from_bitField2_ & 0x00010000) == 0x00010000)) {
+          to_bitField2_ |= 0x00010000;
+        }
+        result.gameSpectatorJoinedMessage_ = gameSpectatorJoinedMessage_;
+        if (((from_bitField2_ & 0x00020000) == 0x00020000)) {
+          to_bitField2_ |= 0x00020000;
+        }
+        result.gameSpectatorLeftMessage_ = gameSpectatorLeftMessage_;
         result.bitField0_ = to_bitField0_;
         result.bitField1_ = to_bitField1_;
         result.bitField2_ = to_bitField2_;
@@ -41047,6 +42748,18 @@ public final class ProtoBuf {
         }
         if (other.hasAdminBanPlayerAckMessage()) {
           mergeAdminBanPlayerAckMessage(other.getAdminBanPlayerAckMessage());
+        }
+        if (other.hasGameListSpectatorJoinedMessage()) {
+          mergeGameListSpectatorJoinedMessage(other.getGameListSpectatorJoinedMessage());
+        }
+        if (other.hasGameListSpectatorLeftMessage()) {
+          mergeGameListSpectatorLeftMessage(other.getGameListSpectatorLeftMessage());
+        }
+        if (other.hasGameSpectatorJoinedMessage()) {
+          mergeGameSpectatorJoinedMessage(other.getGameSpectatorJoinedMessage());
+        }
+        if (other.hasGameSpectatorLeftMessage()) {
+          mergeGameSpectatorLeftMessage(other.getGameSpectatorLeftMessage());
         }
         return this;
       }
@@ -41496,6 +43209,30 @@ public final class ProtoBuf {
         }
         if (hasAdminBanPlayerAckMessage()) {
           if (!getAdminBanPlayerAckMessage().isInitialized()) {
+            
+            return false;
+          }
+        }
+        if (hasGameListSpectatorJoinedMessage()) {
+          if (!getGameListSpectatorJoinedMessage().isInitialized()) {
+            
+            return false;
+          }
+        }
+        if (hasGameListSpectatorLeftMessage()) {
+          if (!getGameListSpectatorLeftMessage().isInitialized()) {
+            
+            return false;
+          }
+        }
+        if (hasGameSpectatorJoinedMessage()) {
+          if (!getGameSpectatorJoinedMessage().isInitialized()) {
+            
+            return false;
+          }
+        }
+        if (hasGameSpectatorLeftMessage()) {
+          if (!getGameSpectatorLeftMessage().isInitialized()) {
             
             return false;
           }
@@ -42220,6 +43957,42 @@ public final class ProtoBuf {
               }
               input.readMessage(subBuilder, extensionRegistry);
               setAdminBanPlayerAckMessage(subBuilder.buildPartial());
+              break;
+            }
+            case 634: {
+              de.pokerth.protocol.ProtoBuf.GameListSpectatorJoinedMessage.Builder subBuilder = de.pokerth.protocol.ProtoBuf.GameListSpectatorJoinedMessage.newBuilder();
+              if (hasGameListSpectatorJoinedMessage()) {
+                subBuilder.mergeFrom(getGameListSpectatorJoinedMessage());
+              }
+              input.readMessage(subBuilder, extensionRegistry);
+              setGameListSpectatorJoinedMessage(subBuilder.buildPartial());
+              break;
+            }
+            case 642: {
+              de.pokerth.protocol.ProtoBuf.GameListSpectatorLeftMessage.Builder subBuilder = de.pokerth.protocol.ProtoBuf.GameListSpectatorLeftMessage.newBuilder();
+              if (hasGameListSpectatorLeftMessage()) {
+                subBuilder.mergeFrom(getGameListSpectatorLeftMessage());
+              }
+              input.readMessage(subBuilder, extensionRegistry);
+              setGameListSpectatorLeftMessage(subBuilder.buildPartial());
+              break;
+            }
+            case 650: {
+              de.pokerth.protocol.ProtoBuf.GameSpectatorJoinedMessage.Builder subBuilder = de.pokerth.protocol.ProtoBuf.GameSpectatorJoinedMessage.newBuilder();
+              if (hasGameSpectatorJoinedMessage()) {
+                subBuilder.mergeFrom(getGameSpectatorJoinedMessage());
+              }
+              input.readMessage(subBuilder, extensionRegistry);
+              setGameSpectatorJoinedMessage(subBuilder.buildPartial());
+              break;
+            }
+            case 658: {
+              de.pokerth.protocol.ProtoBuf.GameSpectatorLeftMessage.Builder subBuilder = de.pokerth.protocol.ProtoBuf.GameSpectatorLeftMessage.newBuilder();
+              if (hasGameSpectatorLeftMessage()) {
+                subBuilder.mergeFrom(getGameSpectatorLeftMessage());
+              }
+              input.readMessage(subBuilder, extensionRegistry);
+              setGameSpectatorLeftMessage(subBuilder.buildPartial());
               break;
             }
           }
@@ -45562,6 +47335,178 @@ public final class ProtoBuf {
         adminBanPlayerAckMessage_ = de.pokerth.protocol.ProtoBuf.AdminBanPlayerAckMessage.getDefaultInstance();
         
         bitField2_ = (bitField2_ & ~0x00002000);
+        return this;
+      }
+      
+      // optional .GameListSpectatorJoinedMessage gameListSpectatorJoinedMessage = 79;
+      private de.pokerth.protocol.ProtoBuf.GameListSpectatorJoinedMessage gameListSpectatorJoinedMessage_ = de.pokerth.protocol.ProtoBuf.GameListSpectatorJoinedMessage.getDefaultInstance();
+      public boolean hasGameListSpectatorJoinedMessage() {
+        return ((bitField2_ & 0x00004000) == 0x00004000);
+      }
+      public de.pokerth.protocol.ProtoBuf.GameListSpectatorJoinedMessage getGameListSpectatorJoinedMessage() {
+        return gameListSpectatorJoinedMessage_;
+      }
+      public Builder setGameListSpectatorJoinedMessage(de.pokerth.protocol.ProtoBuf.GameListSpectatorJoinedMessage value) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        gameListSpectatorJoinedMessage_ = value;
+        
+        bitField2_ |= 0x00004000;
+        return this;
+      }
+      public Builder setGameListSpectatorJoinedMessage(
+          de.pokerth.protocol.ProtoBuf.GameListSpectatorJoinedMessage.Builder builderForValue) {
+        gameListSpectatorJoinedMessage_ = builderForValue.build();
+        
+        bitField2_ |= 0x00004000;
+        return this;
+      }
+      public Builder mergeGameListSpectatorJoinedMessage(de.pokerth.protocol.ProtoBuf.GameListSpectatorJoinedMessage value) {
+        if (((bitField2_ & 0x00004000) == 0x00004000) &&
+            gameListSpectatorJoinedMessage_ != de.pokerth.protocol.ProtoBuf.GameListSpectatorJoinedMessage.getDefaultInstance()) {
+          gameListSpectatorJoinedMessage_ =
+            de.pokerth.protocol.ProtoBuf.GameListSpectatorJoinedMessage.newBuilder(gameListSpectatorJoinedMessage_).mergeFrom(value).buildPartial();
+        } else {
+          gameListSpectatorJoinedMessage_ = value;
+        }
+        
+        bitField2_ |= 0x00004000;
+        return this;
+      }
+      public Builder clearGameListSpectatorJoinedMessage() {
+        gameListSpectatorJoinedMessage_ = de.pokerth.protocol.ProtoBuf.GameListSpectatorJoinedMessage.getDefaultInstance();
+        
+        bitField2_ = (bitField2_ & ~0x00004000);
+        return this;
+      }
+      
+      // optional .GameListSpectatorLeftMessage gameListSpectatorLeftMessage = 80;
+      private de.pokerth.protocol.ProtoBuf.GameListSpectatorLeftMessage gameListSpectatorLeftMessage_ = de.pokerth.protocol.ProtoBuf.GameListSpectatorLeftMessage.getDefaultInstance();
+      public boolean hasGameListSpectatorLeftMessage() {
+        return ((bitField2_ & 0x00008000) == 0x00008000);
+      }
+      public de.pokerth.protocol.ProtoBuf.GameListSpectatorLeftMessage getGameListSpectatorLeftMessage() {
+        return gameListSpectatorLeftMessage_;
+      }
+      public Builder setGameListSpectatorLeftMessage(de.pokerth.protocol.ProtoBuf.GameListSpectatorLeftMessage value) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        gameListSpectatorLeftMessage_ = value;
+        
+        bitField2_ |= 0x00008000;
+        return this;
+      }
+      public Builder setGameListSpectatorLeftMessage(
+          de.pokerth.protocol.ProtoBuf.GameListSpectatorLeftMessage.Builder builderForValue) {
+        gameListSpectatorLeftMessage_ = builderForValue.build();
+        
+        bitField2_ |= 0x00008000;
+        return this;
+      }
+      public Builder mergeGameListSpectatorLeftMessage(de.pokerth.protocol.ProtoBuf.GameListSpectatorLeftMessage value) {
+        if (((bitField2_ & 0x00008000) == 0x00008000) &&
+            gameListSpectatorLeftMessage_ != de.pokerth.protocol.ProtoBuf.GameListSpectatorLeftMessage.getDefaultInstance()) {
+          gameListSpectatorLeftMessage_ =
+            de.pokerth.protocol.ProtoBuf.GameListSpectatorLeftMessage.newBuilder(gameListSpectatorLeftMessage_).mergeFrom(value).buildPartial();
+        } else {
+          gameListSpectatorLeftMessage_ = value;
+        }
+        
+        bitField2_ |= 0x00008000;
+        return this;
+      }
+      public Builder clearGameListSpectatorLeftMessage() {
+        gameListSpectatorLeftMessage_ = de.pokerth.protocol.ProtoBuf.GameListSpectatorLeftMessage.getDefaultInstance();
+        
+        bitField2_ = (bitField2_ & ~0x00008000);
+        return this;
+      }
+      
+      // optional .GameSpectatorJoinedMessage gameSpectatorJoinedMessage = 81;
+      private de.pokerth.protocol.ProtoBuf.GameSpectatorJoinedMessage gameSpectatorJoinedMessage_ = de.pokerth.protocol.ProtoBuf.GameSpectatorJoinedMessage.getDefaultInstance();
+      public boolean hasGameSpectatorJoinedMessage() {
+        return ((bitField2_ & 0x00010000) == 0x00010000);
+      }
+      public de.pokerth.protocol.ProtoBuf.GameSpectatorJoinedMessage getGameSpectatorJoinedMessage() {
+        return gameSpectatorJoinedMessage_;
+      }
+      public Builder setGameSpectatorJoinedMessage(de.pokerth.protocol.ProtoBuf.GameSpectatorJoinedMessage value) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        gameSpectatorJoinedMessage_ = value;
+        
+        bitField2_ |= 0x00010000;
+        return this;
+      }
+      public Builder setGameSpectatorJoinedMessage(
+          de.pokerth.protocol.ProtoBuf.GameSpectatorJoinedMessage.Builder builderForValue) {
+        gameSpectatorJoinedMessage_ = builderForValue.build();
+        
+        bitField2_ |= 0x00010000;
+        return this;
+      }
+      public Builder mergeGameSpectatorJoinedMessage(de.pokerth.protocol.ProtoBuf.GameSpectatorJoinedMessage value) {
+        if (((bitField2_ & 0x00010000) == 0x00010000) &&
+            gameSpectatorJoinedMessage_ != de.pokerth.protocol.ProtoBuf.GameSpectatorJoinedMessage.getDefaultInstance()) {
+          gameSpectatorJoinedMessage_ =
+            de.pokerth.protocol.ProtoBuf.GameSpectatorJoinedMessage.newBuilder(gameSpectatorJoinedMessage_).mergeFrom(value).buildPartial();
+        } else {
+          gameSpectatorJoinedMessage_ = value;
+        }
+        
+        bitField2_ |= 0x00010000;
+        return this;
+      }
+      public Builder clearGameSpectatorJoinedMessage() {
+        gameSpectatorJoinedMessage_ = de.pokerth.protocol.ProtoBuf.GameSpectatorJoinedMessage.getDefaultInstance();
+        
+        bitField2_ = (bitField2_ & ~0x00010000);
+        return this;
+      }
+      
+      // optional .GameSpectatorLeftMessage gameSpectatorLeftMessage = 82;
+      private de.pokerth.protocol.ProtoBuf.GameSpectatorLeftMessage gameSpectatorLeftMessage_ = de.pokerth.protocol.ProtoBuf.GameSpectatorLeftMessage.getDefaultInstance();
+      public boolean hasGameSpectatorLeftMessage() {
+        return ((bitField2_ & 0x00020000) == 0x00020000);
+      }
+      public de.pokerth.protocol.ProtoBuf.GameSpectatorLeftMessage getGameSpectatorLeftMessage() {
+        return gameSpectatorLeftMessage_;
+      }
+      public Builder setGameSpectatorLeftMessage(de.pokerth.protocol.ProtoBuf.GameSpectatorLeftMessage value) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        gameSpectatorLeftMessage_ = value;
+        
+        bitField2_ |= 0x00020000;
+        return this;
+      }
+      public Builder setGameSpectatorLeftMessage(
+          de.pokerth.protocol.ProtoBuf.GameSpectatorLeftMessage.Builder builderForValue) {
+        gameSpectatorLeftMessage_ = builderForValue.build();
+        
+        bitField2_ |= 0x00020000;
+        return this;
+      }
+      public Builder mergeGameSpectatorLeftMessage(de.pokerth.protocol.ProtoBuf.GameSpectatorLeftMessage value) {
+        if (((bitField2_ & 0x00020000) == 0x00020000) &&
+            gameSpectatorLeftMessage_ != de.pokerth.protocol.ProtoBuf.GameSpectatorLeftMessage.getDefaultInstance()) {
+          gameSpectatorLeftMessage_ =
+            de.pokerth.protocol.ProtoBuf.GameSpectatorLeftMessage.newBuilder(gameSpectatorLeftMessage_).mergeFrom(value).buildPartial();
+        } else {
+          gameSpectatorLeftMessage_ = value;
+        }
+        
+        bitField2_ |= 0x00020000;
+        return this;
+      }
+      public Builder clearGameSpectatorLeftMessage() {
+        gameSpectatorLeftMessage_ = de.pokerth.protocol.ProtoBuf.GameSpectatorLeftMessage.getDefaultInstance();
+        
+        bitField2_ = (bitField2_ & ~0x00020000);
         return this;
       }
       
