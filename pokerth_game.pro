@@ -1,5 +1,8 @@
 # QMake pro-file for PokerTH game
 
+# Hack around https://bugreports.qt-project.org/browse/QTBUG-22829
+QMAKE_MOC = $$QMAKE_MOC -DBOOST_NO_TEMPLATE_PARTIAL_SPECIALIZATION
+
 isEmpty( PREFIX ){
 	PREFIX =/usr
 }
