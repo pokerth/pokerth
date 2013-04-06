@@ -1626,6 +1626,13 @@ p, li { white-space: pre-wrap; }
                 <bool>false</bool>
                </property>
                <layout class="QGridLayout" name="gridLayout_4">
+                <item row="2" column="0">
+                 <widget class="QLabel" name="label_37">
+                  <property name="text">
+                   <string>Server Password:</string>
+                  </property>
+                 </widget>
+                </item>
                 <item row="0" column="0">
                  <widget class="QLabel" name="label_41">
                   <property name="text">
@@ -1636,10 +1643,17 @@ p, li { white-space: pre-wrap; }
                   </property>
                  </widget>
                 </item>
-                <item row="0" column="1">
+                <item row="0" column="2">
                  <widget class="QLineEdit" name="lineEdit_InternetServerAddress">
                   <property name="maxLength">
                    <number>60</number>
+                  </property>
+                 </widget>
+                </item>
+                <item row="3" column="0">
+                 <widget class="QCheckBox" name="checkBox_useAvatarServer">
+                  <property name="text">
+                   <string>Avatar Server:</string>
                   </property>
                  </widget>
                 </item>
@@ -1653,7 +1667,7 @@ p, li { white-space: pre-wrap; }
                   </property>
                  </widget>
                 </item>
-                <item row="1" column="1">
+                <item row="1" column="2">
                  <widget class="QSpinBox" name="spinBox_InternetServerPort">
                   <property name="minimum">
                    <number>80</number>
@@ -1666,15 +1680,15 @@ p, li { white-space: pre-wrap; }
                   </property>
                  </widget>
                 </item>
-                <item row="2" column="0">
-                 <widget class="QCheckBox" name="checkBox_useAvatarServer">
-                  <property name="text">
-                   <string>Avatar Server:</string>
+                <item row="3" column="2">
+                 <widget class="QLineEdit" name="lineEdit_avatarServerAddress"/>
+                </item>
+                <item row="2" column="2">
+                 <widget class="QLineEdit" name="lineEdit_InternetServerPassword">
+                  <property name="echoMode">
+                   <enum>QLineEdit::Password</enum>
                   </property>
                  </widget>
-                </item>
-                <item row="2" column="1">
-                 <widget class="QLineEdit" name="lineEdit_avatarServerAddress"/>
                 </item>
                </layout>
               </widget>
