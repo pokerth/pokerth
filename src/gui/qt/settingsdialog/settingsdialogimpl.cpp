@@ -239,7 +239,7 @@ void settingsDialogImpl::prepareDialog()
 
 	lineEdit_InternetServerListAddress->setText(QString::fromUtf8(myConfig->readConfigString("InternetServerListAddress").c_str()));
 	lineEdit_InternetServerAddress->setText(QString::fromUtf8(myConfig->readConfigString("InternetServerAddress").c_str()));
-	lineEdit_InternetServerPassword->setText(QString::fromUtf8(QByteArray::fromBase64(myConfig->readConfigString("ServerPassword").c_str())));
+	lineEdit_InternetServerPassword->setText(QString::fromUtf8(myConfig->readConfigString("ServerPassword").c_str()));
 	spinBox_InternetServerPort->setValue(myConfig->readConfigInt("InternetServerPort"));
 	checkBox_InternetServerUseIpv6->setChecked(myConfig->readConfigInt("InternetServerUseIpv6"));
 	checkBox_InternetServerUseSctp->setChecked(myConfig->readConfigInt("InternetServerUseSctp"));
@@ -692,7 +692,7 @@ void settingsDialogImpl::isAccepted()
 
 		myConfig->writeConfigInt("InternetServerConfigMode", 1);
 		myConfig->writeConfigString("InternetServerAddress", lineEdit_InternetServerAddress->text().toUtf8().constData());
-		myConfig->writeConfigString("ServerPassword", lineEdit_InternetServerPassword->text().toUtf8().toBase64().constData());
+		myConfig->writeConfigString("ServerPassword", lineEdit_InternetServerPassword->text().toUtf8().constData());
 		myConfig->writeConfigInt("InternetServerPort", spinBox_InternetServerPort->value());
 	}
 	if(checkBox_useAvatarServer->isChecked()) {
