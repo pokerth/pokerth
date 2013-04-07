@@ -1,3 +1,9 @@
+2013-04-07 version 1.0.1
+- New Galician (gl) translation
+- Client settings dialog option for connecting to a private, password protected server (#178)
+- Fix in cards value for a special case in straight flush (#177)
+- Workaround for Qt moc problems with boost 1.53 (#180)
+
 2013-01-01 version 1.0
 - Online log file analysis tool
 - Support for higher Android screen resolutions
