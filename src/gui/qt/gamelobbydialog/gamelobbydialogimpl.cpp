@@ -207,9 +207,8 @@ gameLobbyDialogImpl::gameLobbyDialogImpl(startWindowImpl *parent, ConfigFile *c)
 	nickListAdminSubMenu->addAction(nickListAdminTotalKickBan);
 
 	connectedPlayersListPlayerInfoSubMenu = new QMenu();
-	nickListOpenPlayerStats2 = new QAction(QIcon(":/gfx/view-statistics.png"), tr("Show player stats"), nickListContextMenu);
-	connectedPlayersListPlayerInfoSubMenu->addAction(nickListOpenPlayerStats2);
-	connectedPlayersListPlayerInfoSubMenu = new QMenu();
+	connectedPlayersListOpenPlayerStats = new QAction(QIcon(":/gfx/view-statistics.png"), tr("Show player stats"), connectedPlayersListPlayerInfoSubMenu);
+	connectedPlayersListPlayerInfoSubMenu->addAction(connectedPlayersListOpenPlayerStats);
 
 	gameListContextMenu = new QMenu();
 	gameListReportBadGameNameAction = new QAction(QIcon(":/gfx/emblem-important.png"), tr("Report inappropriate game name"), gameListContextMenu);
@@ -243,7 +242,7 @@ gameLobbyDialogImpl::gameLobbyDialogImpl(startWindowImpl *parent, ConfigFile *c)
 	connect( nickListInviteAction, SIGNAL(triggered()), this, SLOT( invitePlayerToCurrentGame() ));
 	connect( nickListIgnorePlayerAction, SIGNAL(triggered()), this, SLOT( putPlayerOnIgnoreList() ));
 	connect( nickListOpenPlayerStats1, SIGNAL(triggered()), this, SLOT( openPlayerStats1() ));
-	connect( nickListOpenPlayerStats2, SIGNAL(triggered()), this, SLOT( openPlayerStats2() ));
+	connect( connectedPlayersListOpenPlayerStats, SIGNAL(triggered()), this, SLOT( openPlayerStats2() ));
 	connect( lineEdit_searchForPlayers, SIGNAL(textChanged(QString)),this, SLOT(searchForPlayerRegExpChanged()));
 	connect( gameListReportBadGameNameAction, SIGNAL(triggered()), this, SLOT( reportBadGameName()));
 	connect( gameListAdminCloseGame, SIGNAL(triggered()), this, SLOT( adminActionCloseGame() ));

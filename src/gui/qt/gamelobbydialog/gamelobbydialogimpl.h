@@ -210,7 +210,7 @@ private:
 
 	QAction *nickListPlayerInGameInfo;
 	QAction *nickListOpenPlayerStats1;
-	QAction *nickListOpenPlayerStats2;
+	QAction *connectedPlayersListOpenPlayerStats;
 	int infoMsgToShowId;
 	int currentInvitationGameId;
 	bool inviteDialogIsCurrentlyShown;
