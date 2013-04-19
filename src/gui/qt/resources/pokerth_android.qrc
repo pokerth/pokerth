@@ -361,8 +361,8 @@
         <file>android-data/gfx/gui/misc/background_gamelist.png</file>
         <file>android-data/gfx/gui/misc/fileopen16.png</file>
         <file>android-data/gfx/gui/misc/rating.png</file>
-		<file>android-data/gfx/gui/misc/startwindowbg10_mobile.png</file>
-		<file>android-data/gfx/gui/misc/welcomepokerth10_mobile.png</file>
+        <file>android-data/gfx/gui/misc/startwindowbg10_mobile.png</file>
+        <file>android-data/gfx/gui/misc/welcomepokerth10_mobile.png</file>
         <file>android-data/gfx/gui/misc/windowicon.png</file>
         <file>android-data/fonts/DejaVuSans-Bold.ttf</file>
         <file>android-data/fonts/n019003l.pfb</file>
@@ -454,31 +454,6 @@
         <file>android-data/gfx/avatars/default/people/e3e1ae15f7d808fce16c26c049e2cbe9.png</file>
         <file>android-data/gfx/avatars/default/people/e54e67ebd5265cf549362a2cda5a999c.png</file>
         <file>android-data/gfx/avatars/default/people/ef0975f38a367a45cb8042b438957304.png</file>
-        <file>android-data/translations/pokerth_af.qm</file>
-        <file>android-data/translations/pokerth_bg.qm</file>
-        <file>android-data/translations/pokerth_ca.qm</file>
-        <file>android-data/translations/pokerth_cz.qm</file>
-        <file>android-data/translations/pokerth_de.qm</file>
-        <file>android-data/translations/pokerth_dk.qm</file>
-        <file>android-data/translations/pokerth_es.qm</file>
-        <file>android-data/translations/pokerth_fi.qm</file>
-        <file>android-data/translations/pokerth_fr.qm</file>
-        <file>android-data/translations/pokerth_gr.qm</file>
-        <file>android-data/translations/pokerth_hu.qm</file>
-        <file>android-data/translations/pokerth_it.qm</file>
-        <file>android-data/translations/pokerth_jp.qm</file>
-        <file>android-data/translations/pokerth_lt.qm</file>
-        <file>android-data/translations/pokerth_nl.qm</file>
-        <file>android-data/translations/pokerth_no.qm</file>
-        <file>android-data/translations/pokerth_pl.qm</file>
-        <file>android-data/translations/pokerth_ptbr.qm</file>
-        <file>android-data/translations/pokerth_ptpt.qm</file>
-        <file>android-data/translations/pokerth_ru.qm</file>
-        <file>android-data/translations/pokerth_sk.qm</file>
-        <file>android-data/translations/pokerth_sv.qm</file>
-        <file>android-data/translations/pokerth_ta.qm</file>
-        <file>android-data/translations/pokerth_tr.qm</file>
-        <file>android-data/translations/pokerth_zhcn.qm</file>
         <file>android-data/misc/agpl.html</file>
         <file>android-data/gfx/gui/table/default_800x480/android_tablestyle_800x480.xml</file>
         <file>android-data/gfx/gui/table/default_800x480/table_dark.png</file>
@@ -554,6 +529,33 @@
         <file>android-data/sounds/default/playerconnected.wav</file>
         <file>android-data/sounds/default/raise.wav</file>
         <file>android-data/sounds/default/yourturn.wav</file>
+        <file>android-data/translations/pokerth_af.qm</file>
+        <file>android-data/translations/pokerth_bg.qm</file>
+        <file>android-data/translations/pokerth_ca.qm</file>
+        <file>android-data/translations/pokerth_cz.qm</file>
+        <file>android-data/translations/pokerth_de.qm</file>
+        <file>android-data/translations/pokerth_dk.qm</file>
+        <file>android-data/translations/pokerth_es.qm</file>
+        <file>android-data/translations/pokerth_fi.qm</file>
+        <file>android-data/translations/pokerth_fr.qm</file>
+        <file>android-data/translations/pokerth_gd.qm</file>
+        <file>android-data/translations/pokerth_gl.qm</file>
+        <file>android-data/translations/pokerth_gr.qm</file>
+        <file>android-data/translations/pokerth_hu.qm</file>
+        <file>android-data/translations/pokerth_it.qm</file>
+        <file>android-data/translations/pokerth_jp.qm</file>
+        <file>android-data/translations/pokerth_lt.qm</file>
+        <file>android-data/translations/pokerth_nl.qm</file>
+        <file>android-data/translations/pokerth_no.qm</file>
+        <file>android-data/translations/pokerth_pl.qm</file>
+        <file>android-data/translations/pokerth_ptbr.qm</file>
+        <file>android-data/translations/pokerth_ptpt.qm</file>
+        <file>android-data/translations/pokerth_ru.qm</file>
+        <file>android-data/translations/pokerth_sk.qm</file>
+        <file>android-data/translations/pokerth_sv.qm</file>
+        <file>android-data/translations/pokerth_ta.qm</file>
+        <file>android-data/translations/pokerth_tr.qm</file>
+        <file>android-data/translations/pokerth_zhcn.qm</file>
     </qresource>
     <qresource prefix="/emotes">
         <file>emotes/face-angel.png</file>
