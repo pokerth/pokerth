@@ -358,12 +358,12 @@ win32 {
 			-lcrypto \
 			-lssh2 \
 			-lgnutls \
-			-lnettle \
 			-lhogweed \
 			-lgmp \
 			-lgcrypt \
 			-lgpg-error \
 			-lgsasl \
+			-lnettle \
 			-lidn \
 			-lintl \
 			-lprotobuf
