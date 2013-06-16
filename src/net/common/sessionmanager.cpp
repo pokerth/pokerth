@@ -179,7 +179,7 @@ SessionManager::GetPlayerIdList(int state) const
 
 	while (session_i != session_end) {
 		// Get all players in the game.
-		if (session_i->second->GetState() & state != 0) {
+		if ((session_i->second->GetState() & state) != 0) {
 			playerList.push_back(session_i->second->GetPlayerData()->GetUniqueId());
 		}
 		++session_i;
@@ -331,7 +331,7 @@ SessionManager::SendToAllSessions(SenderHelper &sender, boost::shared_ptr<NetPac
 			throw ServerException(__FILE__, __LINE__, ERR_NET_INVALID_SESSION, 0);
 
 		// Send each client (with a certain state) a copy of the packet.
-		if (i->second->GetState() & state != 0)
+		if ((i->second->GetState() & state) != 0)
 			sender.Send(i->second, packet);
 		++i;
 	}
@@ -350,7 +350,7 @@ SessionManager::SendLobbyMsgToAllSessions(SenderHelper &sender, boost::shared_pt
 			throw ServerException(__FILE__, __LINE__, ERR_NET_INVALID_SESSION, 0);
 
 		// Send each client (with a certain state) a copy of the packet.
-		if (i->second->GetState() & state != 0 && i->second->WantsLobbyMsg())
+		if ((i->second->GetState() & state) != 0 && i->second->WantsLobbyMsg())
 			sender.Send(i->second, packet);
 		++i;
 	}
@@ -366,7 +366,7 @@ SessionManager::SendToAllButOneSessions(SenderHelper &sender, boost::shared_ptr<
 
 	while (i != end) {
 		// Send each fully connected client but one a copy of the packet.
-		if (i->second->GetState() & state != 0)
+		if ((i->second->GetState() & state) != 0)
 			if (i->first != except)
 				sender.Send(i->second, packet);
 		++i;
