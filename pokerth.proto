@@ -307,6 +307,7 @@ message JoinGameAckMessage {
 	required	uint32			gameId = 1;
 	required	bool			areYouGameAdmin = 2;
 	required	NetGameInfo		gameInfo = 3;
+	optional	bool			spectateOnly = 4;
 }
 
 message JoinGameFailedMessage {

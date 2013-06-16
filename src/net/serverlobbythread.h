@@ -72,13 +72,15 @@ public:
 
 	void AddConnection(boost::shared_ptr<boost::asio::ip::tcp::socket> sock);
 	void ReAddSession(boost::shared_ptr<SessionData> session, int reason, unsigned gameId);
-	void MoveSessionToGame(boost::shared_ptr<ServerGame> game, boost::shared_ptr<SessionData> session, bool autoLeave);
+	void MoveSessionToGame(boost::shared_ptr<ServerGame> game, boost::shared_ptr<SessionData> session, bool autoLeave, bool spectateOnly);
 	void SessionError(boost::shared_ptr<SessionData> session, int errorCode);
 	void ResubscribeLobbyMsg(boost::shared_ptr<SessionData> session);
 	void NotifyPlayerJoinedLobby(unsigned playerId);
 	void NotifyPlayerLeftLobby(unsigned playerId);
 	void NotifyPlayerJoinedGame(unsigned gameId, unsigned playerId);
 	void NotifyPlayerLeftGame(unsigned gameId, unsigned playerId);
+	void NotifySpectatorJoinedGame(unsigned gameId, unsigned playerId);
+	void NotifySpectatorLeftGame(unsigned gameId, unsigned playerId);
 	void NotifyGameAdminChanged(unsigned gameId, unsigned newAdminPlayerId);
 	void NotifyStartingGame(unsigned gameId);
 	void NotifyReopeningGame(unsigned gameId);

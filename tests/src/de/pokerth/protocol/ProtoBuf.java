@@ -17979,6 +17979,16 @@ public final class ProtoBuf {
      * <code>required .NetGameInfo gameInfo = 3;</code>
      */
     de.pokerth.protocol.ProtoBuf.NetGameInfo getGameInfo();
+
+    // optional bool spectateOnly = 4;
+    /**
+     * <code>optional bool spectateOnly = 4;</code>
+     */
+    boolean hasSpectateOnly();
+    /**
+     * <code>optional bool spectateOnly = 4;</code>
+     */
+    boolean getSpectateOnly();
   }
   /**
    * Protobuf type {@code JoinGameAckMessage}
@@ -18044,6 +18054,11 @@ public final class ProtoBuf {
                 gameInfo_ = subBuilder.buildPartial();
               }
               bitField0_ |= 0x00000004;
+              break;
+            }
+            case 32: {
+              bitField0_ |= 0x00000008;
+              spectateOnly_ = input.readBool();
               break;
             }
           }
@@ -18121,10 +18136,27 @@ public final class ProtoBuf {
       return gameInfo_;
     }
 
+    // optional bool spectateOnly = 4;
+    public static final int SPECTATEONLY_FIELD_NUMBER = 4;
+    private boolean spectateOnly_;
+    /**
+     * <code>optional bool spectateOnly = 4;</code>
+     */
+    public boolean hasSpectateOnly() {
+      return ((bitField0_ & 0x00000008) == 0x00000008);
+    }
+    /**
+     * <code>optional bool spectateOnly = 4;</code>
+     */
+    public boolean getSpectateOnly() {
+      return spectateOnly_;
+    }
+
     private void initFields() {
       gameId_ = 0;
       areYouGameAdmin_ = false;
       gameInfo_ = de.pokerth.protocol.ProtoBuf.NetGameInfo.getDefaultInstance();
+      spectateOnly_ = false;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -18163,6 +18195,9 @@ public final class ProtoBuf {
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
         output.writeMessage(3, gameInfo_);
       }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        output.writeBool(4, spectateOnly_);
+      }
     }
 
     private int memoizedSerializedSize = -1;
@@ -18182,6 +18217,10 @@ public final class ProtoBuf {
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(3, gameInfo_);
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBoolSize(4, spectateOnly_);
       }
       memoizedSerializedSize = size;
       return size;
@@ -18280,6 +18319,8 @@ public final class ProtoBuf {
         bitField0_ = (bitField0_ & ~0x00000002);
         gameInfo_ = de.pokerth.protocol.ProtoBuf.NetGameInfo.getDefaultInstance();
         bitField0_ = (bitField0_ & ~0x00000004);
+        spectateOnly_ = false;
+        bitField0_ = (bitField0_ & ~0x00000008);
         return this;
       }
 
@@ -18315,6 +18356,10 @@ public final class ProtoBuf {
           to_bitField0_ |= 0x00000004;
         }
         result.gameInfo_ = gameInfo_;
+        if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
+          to_bitField0_ |= 0x00000008;
+        }
+        result.spectateOnly_ = spectateOnly_;
         result.bitField0_ = to_bitField0_;
         return result;
       }
@@ -18329,6 +18374,9 @@ public final class ProtoBuf {
         }
         if (other.hasGameInfo()) {
           mergeGameInfo(other.getGameInfo());
+        }
+        if (other.hasSpectateOnly()) {
+          setSpectateOnly(other.getSpectateOnly());
         }
         return this;
       }
@@ -18496,6 +18544,39 @@ public final class ProtoBuf {
         gameInfo_ = de.pokerth.protocol.ProtoBuf.NetGameInfo.getDefaultInstance();
 
         bitField0_ = (bitField0_ & ~0x00000004);
+        return this;
+      }
+
+      // optional bool spectateOnly = 4;
+      private boolean spectateOnly_ ;
+      /**
+       * <code>optional bool spectateOnly = 4;</code>
+       */
+      public boolean hasSpectateOnly() {
+        return ((bitField0_ & 0x00000008) == 0x00000008);
+      }
+      /**
+       * <code>optional bool spectateOnly = 4;</code>
+       */
+      public boolean getSpectateOnly() {
+        return spectateOnly_;
+      }
+      /**
+       * <code>optional bool spectateOnly = 4;</code>
+       */
+      public Builder setSpectateOnly(boolean value) {
+        bitField0_ |= 0x00000008;
+        spectateOnly_ = value;
+        
+        return this;
+      }
+      /**
+       * <code>optional bool spectateOnly = 4;</code>
+       */
+      public Builder clearSpectateOnly() {
+        bitField0_ = (bitField0_ & ~0x00000008);
+        spectateOnly_ = false;
+        
         return this;
       }
 

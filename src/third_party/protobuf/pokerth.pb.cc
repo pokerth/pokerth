@@ -8012,6 +8012,7 @@ void RejoinExistingGameMessage::Swap(RejoinExistingGameMessage* other) {
 const int JoinGameAckMessage::kGameIdFieldNumber;
 const int JoinGameAckMessage::kAreYouGameAdminFieldNumber;
 const int JoinGameAckMessage::kGameInfoFieldNumber;
+const int JoinGameAckMessage::kSpectateOnlyFieldNumber;
 #endif  // !_MSC_VER
 
 JoinGameAckMessage::JoinGameAckMessage()
@@ -8039,6 +8040,7 @@ void JoinGameAckMessage::SharedCtor() {
   gameid_ = 0u;
   areyougameadmin_ = false;
   gameinfo_ = NULL;
+  spectateonly_ = false;
   ::memset(_has_bits_, 0, sizeof(_has_bits_));
 }
 
@@ -8083,6 +8085,7 @@ void JoinGameAckMessage::Clear() {
     if (has_gameinfo()) {
       if (gameinfo_ != NULL) gameinfo_->::NetGameInfo::Clear();
     }
+    spectateonly_ = false;
   }
   ::memset(_has_bits_, 0, sizeof(_has_bits_));
 }
@@ -8134,6 +8137,22 @@ bool JoinGameAckMessage::MergePartialFromCodedStream(
         } else {
           goto handle_uninterpreted;
         }
+        if (input->ExpectTag(32)) goto parse_spectateOnly;
+        break;
+      }
+
+      // optional bool spectateOnly = 4;
+      case 4: {
+        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+            ::google::protobuf::internal::WireFormatLite::WIRETYPE_VARINT) {
+         parse_spectateOnly:
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   bool, ::google::protobuf::internal::WireFormatLite::TYPE_BOOL>(
+                 input, &spectateonly_)));
+          set_has_spectateonly();
+        } else {
+          goto handle_uninterpreted;
+        }
         if (input->ExpectAtEnd()) return true;
         break;
       }
@@ -8171,6 +8190,11 @@ void JoinGameAckMessage::SerializeWithCachedSizes(
       3, this->gameinfo(), output);
   }
 
+  // optional bool spectateOnly = 4;
+  if (has_spectateonly()) {
+    ::google::protobuf::internal::WireFormatLite::WriteBool(4, this->spectateonly(), output);
+  }
+
 }
 
 int JoinGameAckMessage::ByteSize() const {
@@ -8194,6 +8218,11 @@ int JoinGameAckMessage::ByteSize() const {
       total_size += 1 +
         ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
           this->gameinfo());
+    }
+
+    // optional bool spectateOnly = 4;
+    if (has_spectateonly()) {
+      total_size += 1 + 1;
     }
 
   }
@@ -8220,6 +8249,9 @@ void JoinGameAckMessage::MergeFrom(const JoinGameAckMessage& from) {
     if (from.has_gameinfo()) {
       mutable_gameinfo()->::NetGameInfo::MergeFrom(from.gameinfo());
     }
+    if (from.has_spectateonly()) {
+      set_spectateonly(from.spectateonly());
+    }
   }
 }
 
@@ -8243,6 +8275,7 @@ void JoinGameAckMessage::Swap(JoinGameAckMessage* other) {
     std::swap(gameid_, other->gameid_);
     std::swap(areyougameadmin_, other->areyougameadmin_);
     std::swap(gameinfo_, other->gameinfo_);
+    std::swap(spectateonly_, other->spectateonly_);
     std::swap(_has_bits_[0], other->_has_bits_[0]);
     std::swap(_cached_size_, other->_cached_size_);
   }

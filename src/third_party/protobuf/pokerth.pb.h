@@ -3950,6 +3950,13 @@ class JoinGameAckMessage : public ::google::protobuf::MessageLite {
   inline ::NetGameInfo* release_gameinfo();
   inline void set_allocated_gameinfo(::NetGameInfo* gameinfo);
 
+  // optional bool spectateOnly = 4;
+  inline bool has_spectateonly() const;
+  inline void clear_spectateonly();
+  static const int kSpectateOnlyFieldNumber = 4;
+  inline bool spectateonly() const;
+  inline void set_spectateonly(bool value);
+
   // @@protoc_insertion_point(class_scope:JoinGameAckMessage)
  private:
   inline void set_has_gameid();
@@ -3958,13 +3965,16 @@ class JoinGameAckMessage : public ::google::protobuf::MessageLite {
   inline void clear_has_areyougameadmin();
   inline void set_has_gameinfo();
   inline void clear_has_gameinfo();
+  inline void set_has_spectateonly();
+  inline void clear_has_spectateonly();
 
   ::google::protobuf::uint32 gameid_;
   bool areyougameadmin_;
+  bool spectateonly_;
   ::NetGameInfo* gameinfo_;
 
   mutable int _cached_size_;
-  ::google::protobuf::uint32 _has_bits_[(3 + 31) / 32];
+  ::google::protobuf::uint32 _has_bits_[(4 + 31) / 32];
 
   #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
   friend void  protobuf_AddDesc_pokerth_2eproto_impl();
@@ -14526,6 +14536,28 @@ inline void JoinGameAckMessage::set_allocated_gameinfo(::NetGameInfo* gameinfo) 
   } else {
     clear_has_gameinfo();
   }
+}
+
+// optional bool spectateOnly = 4;
+inline bool JoinGameAckMessage::has_spectateonly() const {
+  return (_has_bits_[0] & 0x00000008u) != 0;
+}
+inline void JoinGameAckMessage::set_has_spectateonly() {
+  _has_bits_[0] |= 0x00000008u;
+}
+inline void JoinGameAckMessage::clear_has_spectateonly() {
+  _has_bits_[0] &= ~0x00000008u;
+}
+inline void JoinGameAckMessage::clear_spectateonly() {
+  spectateonly_ = false;
+  clear_has_spectateonly();
+}
+inline bool JoinGameAckMessage::spectateonly() const {
+  return spectateonly_;
+}
+inline void JoinGameAckMessage::set_spectateonly(bool value) {
+  set_has_spectateonly();
+  spectateonly_ = value;
 }
 
 // -------------------------------------------------------------------
