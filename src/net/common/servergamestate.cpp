@@ -384,13 +384,25 @@ AbstractServerGameStateReceiving::CreateNetPacketPlayerJoined(unsigned gameId, c
 }
 
 boost::shared_ptr<NetPacket>
-AbstractServerGameStateReceiving::CreateNetPacketJoinGameAck(const ServerGame &server, const PlayerData &playerData)
+AbstractServerGameStateReceiving::CreateNetPacketSpectatorJoined(unsigned gameId, const PlayerData &playerData)
+{
+	boost::shared_ptr<NetPacket> packet(new NetPacket);
+	packet->GetMsg()->set_messagetype(PokerTHMessage::Type_GameSpectatorJoinedMessage);
+	GameSpectatorJoinedMessage *netGameSpectator = packet->GetMsg()->mutable_gamespectatorjoinedmessage();
+	netGameSpectator->set_gameid(gameId);
+	netGameSpectator->set_playerid(playerData.GetUniqueId());
+	return packet;
+}
+
+boost::shared_ptr<NetPacket>
+AbstractServerGameStateReceiving::CreateNetPacketJoinGameAck(const ServerGame &server, const PlayerData &playerData, bool spectateOnly)
 {
 	boost::shared_ptr<NetPacket> packet(new NetPacket);
 	packet->GetMsg()->set_messagetype(PokerTHMessage::Type_JoinGameAckMessage);
 	JoinGameAckMessage *netJoinReply = packet->GetMsg()->mutable_joingameackmessage();
 	netJoinReply->set_gameid(server.GetId());
 	netJoinReply->set_areyougameadmin(playerData.IsGameAdmin());
+	netJoinReply->set_spectateonly(spectateOnly);
 
 	NetGameInfo *gameInfo = netJoinReply->mutable_gameinfo();
 	NetPacket::SetGameData(server.GetGameData(), *gameInfo);
@@ -399,13 +411,13 @@ AbstractServerGameStateReceiving::CreateNetPacketJoinGameAck(const ServerGame &s
 }
 
 void
-AbstractServerGameStateReceiving::AcceptNewSession(boost::shared_ptr<ServerGame> server, boost::shared_ptr<SessionData> session)
+AbstractServerGameStateReceiving::AcceptNewSession(boost::shared_ptr<ServerGame> server, boost::shared_ptr<SessionData> session, bool spectateOnly)
 {
 	// Set game admin, if applicable.
 	session->GetPlayerData()->SetGameAdmin(session->GetPlayerData()->GetUniqueId() == server->GetAdminPlayerId());
 
 	// Send ack to client.
-	server->GetLobbyThread().GetSender().Send(session, CreateNetPacketJoinGameAck(*server, *session->GetPlayerData()));
+	server->GetLobbyThread().GetSender().Send(session, CreateNetPacketJoinGameAck(*server, *session->GetPlayerData(), spectateOnly));
 
 	// Send notifications for connected players to client.
 	PlayerDataList tmpPlayerList(server->GetFullPlayerDataList());
@@ -416,14 +428,22 @@ AbstractServerGameStateReceiving::AcceptNewSession(boost::shared_ptr<ServerGame>
 		++player_i;
 	}
 
-	// Send "Player Joined" to other fully connected clients.
-	server->SendToAllPlayers(CreateNetPacketPlayerJoined(server->GetId(), *session->GetPlayerData()), SessionData::Game);
+	// Send "Player Joined"/"Spectator Joined" to other fully connected clients.
+	if (spectateOnly) {
+		server->SendToAllPlayers(CreateNetPacketSpectatorJoined(server->GetId(), *session->GetPlayerData()), SessionData::Game);
+	} else {
+		server->SendToAllPlayers(CreateNetPacketPlayerJoined(server->GetId(), *session->GetPlayerData()), SessionData::Game);
+	}
 
 	// Accept session.
 	server->GetSessionManager().AddSession(session);
 
 	// Notify lobby.
-	server->GetLobbyThread().NotifyPlayerJoinedGame(server->GetId(), session->GetPlayerData()->GetUniqueId());
+	if (spectateOnly) {
+		server->GetLobbyThread().NotifySpectatorJoinedGame(server->GetId(), session->GetPlayerData()->GetUniqueId());
+	} else {
+		server->GetLobbyThread().NotifyPlayerJoinedGame(server->GetId(), session->GetPlayerData()->GetUniqueId());
+	}
 }
 
 //-----------------------------------------------------------------------------
@@ -471,7 +491,7 @@ ServerGameStateInit::NotifySessionRemoved(boost::shared_ptr<ServerGame> server)
 }
 
 void
-ServerGameStateInit::HandleNewSession(boost::shared_ptr<ServerGame> server, boost::shared_ptr<SessionData> session)
+ServerGameStateInit::HandleNewPlayer(boost::shared_ptr<ServerGame> server, boost::shared_ptr<SessionData> session)
 {
 	if (session && session->GetPlayerData()) {
 		const GameData &tmpGameData = server->GetGameData();
@@ -480,7 +500,7 @@ ServerGameStateInit::HandleNewSession(boost::shared_ptr<ServerGame> server, boos
 			server->MoveSessionToLobby(session, NTF_NET_REMOVED_GAME_FULL);
 		} else {
 
-			AcceptNewSession(server, session);
+			AcceptNewSession(server, session, false);
 
 			if (server->GetCurNumberOfPlayers() == tmpGameData.maxNumberOfPlayers) {
 				// Automatically start the game if it is full.
@@ -488,6 +508,11 @@ ServerGameStateInit::HandleNewSession(boost::shared_ptr<ServerGame> server, boos
 			}
 		}
 	}
+}
+
+void
+ServerGameStateInit::HandleNewSpectator(boost::shared_ptr<ServerGame> server, boost::shared_ptr<SessionData> session)
+{
 }
 
 void
@@ -701,10 +726,15 @@ ServerGameStateStartGame::Exit(boost::shared_ptr<ServerGame> server)
 }
 
 void
-ServerGameStateStartGame::HandleNewSession(boost::shared_ptr<ServerGame> server, boost::shared_ptr<SessionData> session)
+ServerGameStateStartGame::HandleNewPlayer(boost::shared_ptr<ServerGame> server, boost::shared_ptr<SessionData> session)
 {
 	// Do not accept new sessions in this state.
 	server->MoveSessionToLobby(session, NTF_NET_REMOVED_ALREADY_RUNNING);
+}
+
+void
+ServerGameStateStartGame::HandleNewSpectator(boost::shared_ptr<ServerGame> server, boost::shared_ptr<SessionData> session)
+{
 }
 
 void
@@ -774,7 +804,7 @@ AbstractServerGameStateRunning::~AbstractServerGameStateRunning()
 }
 
 void
-AbstractServerGameStateRunning::HandleNewSession(boost::shared_ptr<ServerGame> server, boost::shared_ptr<SessionData> session)
+AbstractServerGameStateRunning::HandleNewPlayer(boost::shared_ptr<ServerGame> server, boost::shared_ptr<SessionData> session)
 {
 
 	// Verify that the user is allowed to rejoin.
@@ -782,7 +812,7 @@ AbstractServerGameStateRunning::HandleNewSession(boost::shared_ptr<ServerGame> s
 		boost::shared_ptr<PlayerInterface> tmpPlayer = server->GetPlayerInterfaceFromGame(session->GetPlayerData()->GetName());
 		if (tmpPlayer && tmpPlayer->getMyGuid() == session->GetPlayerData()->GetOldGuid()) {
 			// The player wants to rejoin.
-			AcceptNewSession(server, session);
+			AcceptNewSession(server, session, false);
 			// Remember: We need to initiate a rejoin when starting the next hand.
 			server->AddRejoinPlayer(session->GetPlayerData()->GetUniqueId());
 
@@ -800,6 +830,11 @@ AbstractServerGameStateRunning::HandleNewSession(boost::shared_ptr<ServerGame> s
 			server->MoveSessionToLobby(session, NTF_NET_REMOVED_ALREADY_RUNNING);
 		}
 	}
+}
+
+void
+AbstractServerGameStateRunning::HandleNewSpectator(boost::shared_ptr<ServerGame> server, boost::shared_ptr<SessionData> session)
+{
 }
 
 void

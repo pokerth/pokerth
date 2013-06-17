@@ -169,7 +169,7 @@ SessionManager::GetPlayerDataList() const
 }
 
 PlayerIdList
-SessionManager::GetPlayerIdList(SessionData::State state) const
+SessionManager::GetPlayerIdList(int state) const
 {
 	PlayerIdList playerList;
 	boost::recursive_mutex::scoped_lock lock(m_sessionMapMutex);
@@ -179,7 +179,7 @@ SessionManager::GetPlayerIdList(SessionData::State state) const
 
 	while (session_i != session_end) {
 		// Get all players in the game.
-		if (session_i->second->GetState() == state) {
+		if ((session_i->second->GetState() & state) != 0) {
 			playerList.push_back(session_i->second->GetPlayerData()->GetUniqueId());
 		}
 		++session_i;
@@ -319,7 +319,7 @@ SessionManager::GetEstablishedSessionCount()
 }
 
 void
-SessionManager::SendToAllSessions(SenderHelper &sender, boost::shared_ptr<NetPacket> packet, SessionData::State state)
+SessionManager::SendToAllSessions(SenderHelper &sender, boost::shared_ptr<NetPacket> packet, int state)
 {
 	boost::recursive_mutex::scoped_lock lock(m_sessionMapMutex);
 
@@ -331,14 +331,14 @@ SessionManager::SendToAllSessions(SenderHelper &sender, boost::shared_ptr<NetPac
 			throw ServerException(__FILE__, __LINE__, ERR_NET_INVALID_SESSION, 0);
 
 		// Send each client (with a certain state) a copy of the packet.
-		if (i->second->GetState() == state)
+		if ((i->second->GetState() & state) != 0)
 			sender.Send(i->second, packet);
 		++i;
 	}
 }
 
 void
-SessionManager::SendLobbyMsgToAllSessions(SenderHelper &sender, boost::shared_ptr<NetPacket> packet, SessionData::State state)
+SessionManager::SendLobbyMsgToAllSessions(SenderHelper &sender, boost::shared_ptr<NetPacket> packet, int state)
 {
 	boost::recursive_mutex::scoped_lock lock(m_sessionMapMutex);
 
@@ -350,14 +350,14 @@ SessionManager::SendLobbyMsgToAllSessions(SenderHelper &sender, boost::shared_pt
 			throw ServerException(__FILE__, __LINE__, ERR_NET_INVALID_SESSION, 0);
 
 		// Send each client (with a certain state) a copy of the packet.
-		if (i->second->GetState() == state && i->second->WantsLobbyMsg())
+		if ((i->second->GetState() & state) != 0 && i->second->WantsLobbyMsg())
 			sender.Send(i->second, packet);
 		++i;
 	}
 }
 
 void
-SessionManager::SendToAllButOneSessions(SenderHelper &sender, boost::shared_ptr<NetPacket> packet, SessionId except, SessionData::State state)
+SessionManager::SendToAllButOneSessions(SenderHelper &sender, boost::shared_ptr<NetPacket> packet, SessionId except, int state)
 {
 	boost::recursive_mutex::scoped_lock lock(m_sessionMapMutex);
 
@@ -366,7 +366,7 @@ SessionManager::SendToAllButOneSessions(SenderHelper &sender, boost::shared_ptr<
 
 	while (i != end) {
 		// Send each fully connected client but one a copy of the packet.
-		if (i->second->GetState() == state)
+		if ((i->second->GetState() & state) != 0)
 			if (i->first != except)
 				sender.Send(i->second, packet);
 		++i;

@@ -367,18 +367,18 @@ ServerLobbyThread::ReAddSession(boost::shared_ptr<SessionData> session, int reas
 }
 
 void
-ServerLobbyThread::MoveSessionToGame(boost::shared_ptr<ServerGame> game, boost::shared_ptr<SessionData> session, bool autoLeave)
+ServerLobbyThread::MoveSessionToGame(boost::shared_ptr<ServerGame> game, boost::shared_ptr<SessionData> session, bool autoLeave, bool spectateOnly)
 {
 	// Remove session from the lobby.
 	m_sessionManager.RemoveSession(session->GetId());
 	// Session is now in game state.
-	session->SetState(SessionData::Game);
+	session->SetState(spectateOnly ? SessionData::Spectating: SessionData::Game);
 	// Store it in the list of game sessions.
 	m_gameSessionManager.AddSession(session);
 	// Set the game id of the session.
 	session->SetGame(game);
 	// Add session to the game.
-	game->AddSession(session);
+	game->AddSession(session, spectateOnly);
 	// Optionally enable auto leave after game finish.
 	if (autoLeave)
 		game->SetPlayerAutoLeaveOnFinish(session->GetPlayerData()->GetUniqueId());
@@ -458,6 +458,34 @@ ServerLobbyThread::NotifyPlayerLeftGame(unsigned gameId, unsigned playerId)
 	boost::shared_ptr<NetPacket> packet(new NetPacket);
 	packet->GetMsg()->set_messagetype(PokerTHMessage::Type_GameListPlayerLeftMessage);
 	GameListPlayerLeftMessage *netListMsg = packet->GetMsg()->mutable_gamelistplayerleftmessage();
+	netListMsg->set_gameid(gameId);
+	netListMsg->set_playerid(playerId);
+
+	m_sessionManager.SendLobbyMsgToAllSessions(GetSender(), packet, SessionData::Established);
+	m_gameSessionManager.SendLobbyMsgToAllSessions(GetSender(), packet, SessionData::Game);
+}
+
+void
+ServerLobbyThread::NotifySpectatorJoinedGame(unsigned gameId, unsigned playerId)
+{
+	// Send notification to players in lobby.
+	boost::shared_ptr<NetPacket> packet(new NetPacket);
+	packet->GetMsg()->set_messagetype(PokerTHMessage::Type_GameListSpectatorJoinedMessage);
+	GameListSpectatorJoinedMessage *netListMsg = packet->GetMsg()->mutable_gamelistspectatorjoinedmessage();
+	netListMsg->set_gameid(gameId);
+	netListMsg->set_playerid(playerId);
+
+	m_sessionManager.SendLobbyMsgToAllSessions(GetSender(), packet, SessionData::Established);
+	m_gameSessionManager.SendLobbyMsgToAllSessions(GetSender(), packet, SessionData::Game);
+}
+
+void
+ServerLobbyThread::NotifySpectatorLeftGame(unsigned gameId, unsigned playerId)
+{
+	// Send notification to players in lobby.
+	boost::shared_ptr<NetPacket> packet(new NetPacket);
+	packet->GetMsg()->set_messagetype(PokerTHMessage::Type_GameListSpectatorLeftMessage);
+	GameListSpectatorLeftMessage *netListMsg = packet->GetMsg()->mutable_gamelistspectatorleftmessage();
 	netListMsg->set_gameid(gameId);
 	netListMsg->set_playerid(playerId);
 
@@ -1315,7 +1343,7 @@ ServerLobbyThread::HandleNetPacketCreateGame(boost::shared_ptr<SessionData> sess
 		// Add game to list of games.
 		InternalAddGame(game);
 
-		MoveSessionToGame(game, session, newGame.autoleave());
+		MoveSessionToGame(game, session, newGame.autoleave(), false);
 	}
 }
 
@@ -1332,8 +1360,9 @@ ServerLobbyThread::HandleNetPacketJoinGame(boost::shared_ptr<SessionData> sessio
 	if (pos != m_gameMap.end()) {
 		boost::shared_ptr<ServerGame> game = pos->second;
 		const GameData &tmpData = game->GetGameData();
+		// As guest, you are only allowed to join normal games or to join as spectator.
 		if (session->GetPlayerData()->GetRights() == PLAYER_RIGHTS_GUEST
-				&& tmpData.gameType != GAME_TYPE_NORMAL) {
+			&& tmpData.gameType != GAME_TYPE_NORMAL && !joinGame.spectateonly()) {
 			SendJoinGameFailed(session, joinGame.gameid(), NTF_NET_JOIN_GUEST_FORBIDDEN);
 		} else if (tmpData.gameType == GAME_TYPE_INVITE_ONLY
 				   && !game->IsPlayerInvited(session->GetPlayerData()->GetUniqueId())) {
@@ -1341,13 +1370,14 @@ ServerLobbyThread::HandleNetPacketJoinGame(boost::shared_ptr<SessionData> sessio
 		} else if (!game->CheckPassword(password)) {
 			SendJoinGameFailed(session, joinGame.gameid(), NTF_NET_JOIN_INVALID_PASSWORD);
 		} else if (tmpData.gameType == GAME_TYPE_RANKING
+				   && !joinGame.spectateonly()
 				   && session->GetClientAddr() != SERVER_ADDRESS_LOCALHOST_STR
 				   && session->GetClientAddr() != SERVER_ADDRESS_LOCALHOST_STR_V4V6
 				   && session->GetClientAddr() != SERVER_ADDRESS_LOCALHOST_STR_V4
 				   && game->IsClientAddressConnected(session->GetClientAddr())) {
 			SendJoinGameFailed(session, joinGame.gameid(), NTF_NET_JOIN_IP_BLOCKED);
 		} else {
-			MoveSessionToGame(game, session, joinGame.autoleave());
+			MoveSessionToGame(game, session, joinGame.autoleave(), joinGame.spectateonly());
 		}
 	} else {
 		SendJoinGameFailed(session, joinGame.gameid(), NTF_NET_JOIN_GAME_INVALID);
@@ -1362,7 +1392,7 @@ ServerLobbyThread::HandleNetPacketRejoinGame(boost::shared_ptr<SessionData> sess
 
 	if (pos != m_gameMap.end()) {
 		boost::shared_ptr<ServerGame> game = pos->second;
-		MoveSessionToGame(game, session, rejoinGame.autoleave());
+		MoveSessionToGame(game, session, rejoinGame.autoleave(), false);
 	} else {
 		SendJoinGameFailed(session, rejoinGame.gameid(), NTF_NET_JOIN_GAME_INVALID);
 	}

@@ -42,8 +42,6 @@
 #include <SDL/SDL_mixer.h>
 #endif
 
-struct Mix_Chunk;
-
 /**
 	@author FThauer FHammer <webmaster@pokerth.net>
 */

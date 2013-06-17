@@ -66,7 +66,7 @@ public:
 	const std::string &GetName() const;
 	unsigned GetCreatorDBId() const;
 
-	void AddSession(boost::shared_ptr<SessionData> session);
+	void AddSession(boost::shared_ptr<SessionData> session, bool spectateOnly);
 	void RemovePlayer(unsigned playerId, unsigned errorCode);
 	void MutePlayer(unsigned playerId, bool mute);
 	void MarkPlayerAsInactive(unsigned playerId);

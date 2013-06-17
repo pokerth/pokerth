@@ -108,10 +108,15 @@ ServerGame::GetCreatorDBId() const
 }
 
 void
-ServerGame::AddSession(boost::shared_ptr<SessionData> session)
+ServerGame::AddSession(boost::shared_ptr<SessionData> session, bool spectateOnly)
 {
-	if (session)
-		GetState().HandleNewSession(shared_from_this(), session);
+	if (session) {
+		if (spectateOnly) {
+			GetState().HandleNewSpectator(shared_from_this(), session);
+		} else {
+			GetState().HandleNewPlayer(shared_from_this(), session);
+		}
+	}
 }
 
 void
