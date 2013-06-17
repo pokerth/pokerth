@@ -96,6 +96,7 @@ settingsDialogImpl::settingsDialogImpl(QWidget *parent, ConfigFile *c, selectAva
 	comboBox_switchLanguage->addItem(QString(tr("Swedish")+" "+QString::fromUtf8("(svenska)")),"sv");
 	comboBox_switchLanguage->addItem(QString(tr("Tamil")+" "+QString::fromUtf8("(தமிழ்)")),"ta");
 	comboBox_switchLanguage->addItem(QString(tr("Turkish")+" "+QString::fromUtf8("(Tϋrkçe)")),"tr");
+	comboBox_switchLanguage->addItem(QString(tr("Vietnamese")+" "+QString::fromUtf8("(Tiếng Việt)")),"vi");
 
 #ifdef GUI_800x480
 	connect( pushButton_ok, SIGNAL( clicked() ), this, SLOT( isAccepted() ) );

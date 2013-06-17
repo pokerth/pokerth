@@ -318,6 +318,7 @@ TRANSLATIONS = ts/pokerth_af.ts \
 	ts/pokerth_sv.ts \
 	ts/pokerth_ta.ts \
 	ts/pokerth_tr.ts \
+	ts/pokerth_vi.ts \
 	ts/pokerth_START_HERE.ts
 
 LIBS += -lpokerth_lib \
@@ -404,7 +405,7 @@ unix:!mac {
 	# QMAKE_CXXFLAGS += -ffunction-sections -fdata-sections
 	# QMAKE_LFLAGS += -Wl,--gc-sections
 	INCLUDEPATH += $${PREFIX}/include
-	LIBPATH += lib
+	QMAKE_LIBDIR += lib
 	!android{
 		LIBPATH += $${PREFIX}/lib /opt/gsasl/lib
 		LIB_DIRS = $${PREFIX}/lib \
