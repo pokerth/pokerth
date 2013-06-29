@@ -3333,6 +3333,27 @@ Další hráče můžete pozvat pravým kliknutím na jejich přezdívku v sezna
         <source>Time</source>
         <translation>Čas</translation>
     </message>
+    <message>
+        <source>Admin action ...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Total kickban</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Close game</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Are you sure you want to close the game:
+&quot;%1&quot;?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Are you sure you want to total kickban the player: &quot;%1&quot;?</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>gameTable</name>
@@ -4230,7 +4251,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Server Password:</source>
-        <translation type="obsolete">Heslo serveru:</translation>
+        <translation type="unfinished">Heslo serveru:</translation>
     </message>
     <message>
         <source>Server Port:</source>
@@ -5048,6 +5069,14 @@ Opravdu se chcete vrátit do továrního nastavení?</translation>
         <source>Scottish Gaelic</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Galician</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Vietnamese</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>startNetworkGameDialog</name>
@@ -5559,6 +5588,31 @@ Prosím, zkontrolujte své uživatelské jméno a heslo.</translation>
     <message>
         <source>Start Network Game</source>
         <translation>Začít síťovou hru</translation>
+    </message>
+    <message>
+        <source>The game was closed.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The game could not be closed.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The player was kicked and banned permanently.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The player was kicked, but could not be banned because it was a guest player.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The player was kicked, but could not be banned, 
+because the nick could not be found in the database</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The player could not be found.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
