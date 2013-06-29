@@ -223,6 +223,7 @@ message GameListNewMessage {
 	repeated	uint32			playerIds = 4 [packed = true];
 	required	uint32			adminPlayerId = 5;
 	required	NetGameInfo		gameInfo = 6;
+	repeated	uint32			spectatorIds = 7 [packed = true];
 }
 
 message GameListUpdateMessage {
@@ -288,8 +289,8 @@ message SubscriptionRequestMessage {
 message JoinExistingGameMessage {
 	required	uint32			gameId = 1;
 	optional	string			password = 2;
-	optional	bool			autoLeave = 3;
-	optional	bool			spectateOnly = 4;
+	optional	bool			autoLeave = 3 [default = false];
+	optional	bool			spectateOnly = 4 [default = false];
 }
 
 message JoinNewGameMessage {

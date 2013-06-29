@@ -2443,6 +2443,18 @@ class GameListNewMessage : public ::google::protobuf::MessageLite {
   inline ::NetGameInfo* release_gameinfo();
   inline void set_allocated_gameinfo(::NetGameInfo* gameinfo);
 
+  // repeated uint32 spectatorIds = 7 [packed = true];
+  inline int spectatorids_size() const;
+  inline void clear_spectatorids();
+  static const int kSpectatorIdsFieldNumber = 7;
+  inline ::google::protobuf::uint32 spectatorids(int index) const;
+  inline void set_spectatorids(int index, ::google::protobuf::uint32 value);
+  inline void add_spectatorids(::google::protobuf::uint32 value);
+  inline const ::google::protobuf::RepeatedField< ::google::protobuf::uint32 >&
+      spectatorids() const;
+  inline ::google::protobuf::RepeatedField< ::google::protobuf::uint32 >*
+      mutable_spectatorids();
+
   // @@protoc_insertion_point(class_scope:GameListNewMessage)
  private:
   inline void set_has_gameid();
@@ -2463,9 +2475,11 @@ class GameListNewMessage : public ::google::protobuf::MessageLite {
   bool isprivate_;
   ::google::protobuf::uint32 adminplayerid_;
   ::NetGameInfo* gameinfo_;
+  ::google::protobuf::RepeatedField< ::google::protobuf::uint32 > spectatorids_;
+  mutable int _spectatorids_cached_byte_size_;
 
   mutable int _cached_size_;
-  ::google::protobuf::uint32 _has_bits_[(6 + 31) / 32];
+  ::google::protobuf::uint32 _has_bits_[(7 + 31) / 32];
 
   #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
   friend void  protobuf_AddDesc_pokerth_2eproto_impl();
@@ -3625,14 +3639,14 @@ class JoinExistingGameMessage : public ::google::protobuf::MessageLite {
   inline ::std::string* release_password();
   inline void set_allocated_password(::std::string* password);
 
-  // optional bool autoLeave = 3;
+  // optional bool autoLeave = 3 [default = false];
   inline bool has_autoleave() const;
   inline void clear_autoleave();
   static const int kAutoLeaveFieldNumber = 3;
   inline bool autoleave() const;
   inline void set_autoleave(bool value);
 
-  // optional bool spectateOnly = 4;
+  // optional bool spectateOnly = 4 [default = false];
   inline bool has_spectateonly() const;
   inline void clear_spectateonly();
   static const int kSpectateOnlyFieldNumber = 4;
@@ -13381,6 +13395,31 @@ inline void GameListNewMessage::set_allocated_gameinfo(::NetGameInfo* gameinfo) 
   }
 }
 
+// repeated uint32 spectatorIds = 7 [packed = true];
+inline int GameListNewMessage::spectatorids_size() const {
+  return spectatorids_.size();
+}
+inline void GameListNewMessage::clear_spectatorids() {
+  spectatorids_.Clear();
+}
+inline ::google::protobuf::uint32 GameListNewMessage::spectatorids(int index) const {
+  return spectatorids_.Get(index);
+}
+inline void GameListNewMessage::set_spectatorids(int index, ::google::protobuf::uint32 value) {
+  spectatorids_.Set(index, value);
+}
+inline void GameListNewMessage::add_spectatorids(::google::protobuf::uint32 value) {
+  spectatorids_.Add(value);
+}
+inline const ::google::protobuf::RepeatedField< ::google::protobuf::uint32 >&
+GameListNewMessage::spectatorids() const {
+  return spectatorids_;
+}
+inline ::google::protobuf::RepeatedField< ::google::protobuf::uint32 >*
+GameListNewMessage::mutable_spectatorids() {
+  return &spectatorids_;
+}
+
 // -------------------------------------------------------------------
 
 // GameListUpdateMessage
@@ -14218,7 +14257,7 @@ inline void JoinExistingGameMessage::set_allocated_password(::std::string* passw
   }
 }
 
-// optional bool autoLeave = 3;
+// optional bool autoLeave = 3 [default = false];
 inline bool JoinExistingGameMessage::has_autoleave() const {
   return (_has_bits_[0] & 0x00000004u) != 0;
 }
@@ -14240,7 +14279,7 @@ inline void JoinExistingGameMessage::set_autoleave(bool value) {
   autoleave_ = value;
 }
 
-// optional bool spectateOnly = 4;
+// optional bool spectateOnly = 4 [default = false];
 inline bool JoinExistingGameMessage::has_spectateonly() const {
   return (_has_bits_[0] & 0x00000008u) != 0;
 }

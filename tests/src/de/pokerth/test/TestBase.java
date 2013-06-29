@@ -289,9 +289,14 @@ public abstract class TestBase {
 	}
 
 	public PokerTHMessage joinGameRequestMsg(int gameId, String password, boolean autoLeave) {
+		return joinGameRequestMsg(gameId, password, autoLeave, false);
+	}
+
+	public PokerTHMessage joinGameRequestMsg(int gameId, String password, boolean autoLeave, boolean spectateOnly) {
 		JoinExistingGameMessage.Builder joinBuilder = JoinExistingGameMessage.newBuilder();
 		joinBuilder.setGameId(gameId);
 		joinBuilder.setAutoLeave(autoLeave);
+		joinBuilder.setSpectateOnly(spectateOnly);
 		if (!password.isEmpty()) {
 			joinBuilder.setPassword(password);
 		}

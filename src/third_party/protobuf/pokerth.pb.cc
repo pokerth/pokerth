@@ -4569,6 +4569,7 @@ const int GameListNewMessage::kIsPrivateFieldNumber;
 const int GameListNewMessage::kPlayerIdsFieldNumber;
 const int GameListNewMessage::kAdminPlayerIdFieldNumber;
 const int GameListNewMessage::kGameInfoFieldNumber;
+const int GameListNewMessage::kSpectatorIdsFieldNumber;
 #endif  // !_MSC_VER
 
 GameListNewMessage::GameListNewMessage()
@@ -4646,6 +4647,7 @@ void GameListNewMessage::Clear() {
     }
   }
   playerids_.Clear();
+  spectatorids_.Clear();
   ::memset(_has_bits_, 0, sizeof(_has_bits_));
 }
 
@@ -4752,6 +4754,27 @@ bool GameListNewMessage::MergePartialFromCodedStream(
         } else {
           goto handle_uninterpreted;
         }
+        if (input->ExpectTag(58)) goto parse_spectatorIds;
+        break;
+      }
+
+      // repeated uint32 spectatorIds = 7 [packed = true];
+      case 7: {
+        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+            ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
+         parse_spectatorIds:
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPackedPrimitive<
+                   ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
+                 input, this->mutable_spectatorids())));
+        } else if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag)
+                   == ::google::protobuf::internal::WireFormatLite::
+                      WIRETYPE_VARINT) {
+          DO_((::google::protobuf::internal::WireFormatLite::ReadRepeatedPrimitiveNoInline<
+                   ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
+                 1, 58, input, this->mutable_spectatorids())));
+        } else {
+          goto handle_uninterpreted;
+        }
         if (input->ExpectAtEnd()) return true;
         break;
       }
@@ -4810,6 +4833,16 @@ void GameListNewMessage::SerializeWithCachedSizes(
       6, this->gameinfo(), output);
   }
 
+  // repeated uint32 spectatorIds = 7 [packed = true];
+  if (this->spectatorids_size() > 0) {
+    ::google::protobuf::internal::WireFormatLite::WriteTag(7, ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED, output);
+    output->WriteVarint32(_spectatorids_cached_byte_size_);
+  }
+  for (int i = 0; i < this->spectatorids_size(); i++) {
+    ::google::protobuf::internal::WireFormatLite::WriteUInt32NoTag(
+      this->spectatorids(i), output);
+  }
+
 }
 
 int GameListNewMessage::ByteSize() const {
@@ -4866,6 +4899,23 @@ int GameListNewMessage::ByteSize() const {
     total_size += data_size;
   }
 
+  // repeated uint32 spectatorIds = 7 [packed = true];
+  {
+    int data_size = 0;
+    for (int i = 0; i < this->spectatorids_size(); i++) {
+      data_size += ::google::protobuf::internal::WireFormatLite::
+        UInt32Size(this->spectatorids(i));
+    }
+    if (data_size > 0) {
+      total_size += 1 +
+        ::google::protobuf::internal::WireFormatLite::Int32Size(data_size);
+    }
+    GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
+    _spectatorids_cached_byte_size_ = data_size;
+    GOOGLE_SAFE_CONCURRENT_WRITES_END();
+    total_size += data_size;
+  }
+
   GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
   _cached_size_ = total_size;
   GOOGLE_SAFE_CONCURRENT_WRITES_END();
@@ -4880,6 +4930,7 @@ void GameListNewMessage::CheckTypeAndMergeFrom(
 void GameListNewMessage::MergeFrom(const GameListNewMessage& from) {
   GOOGLE_CHECK_NE(&from, this);
   playerids_.MergeFrom(from.playerids_);
+  spectatorids_.MergeFrom(from.spectatorids_);
   if (from._has_bits_[0 / 32] & (0xffu << (0 % 32))) {
     if (from.has_gameid()) {
       set_gameid(from.gameid());
@@ -4922,6 +4973,7 @@ void GameListNewMessage::Swap(GameListNewMessage* other) {
     playerids_.Swap(&other->playerids_);
     std::swap(adminplayerid_, other->adminplayerid_);
     std::swap(gameinfo_, other->gameinfo_);
+    spectatorids_.Swap(&other->spectatorids_);
     std::swap(_has_bits_[0], other->_has_bits_[0]);
     std::swap(_cached_size_, other->_cached_size_);
   }
@@ -7394,7 +7446,7 @@ bool JoinExistingGameMessage::MergePartialFromCodedStream(
         break;
       }
 
-      // optional bool autoLeave = 3;
+      // optional bool autoLeave = 3 [default = false];
       case 3: {
         if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
             ::google::protobuf::internal::WireFormatLite::WIRETYPE_VARINT) {
@@ -7410,7 +7462,7 @@ bool JoinExistingGameMessage::MergePartialFromCodedStream(
         break;
       }
 
-      // optional bool spectateOnly = 4;
+      // optional bool spectateOnly = 4 [default = false];
       case 4: {
         if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
             ::google::protobuf::internal::WireFormatLite::WIRETYPE_VARINT) {
@@ -7454,12 +7506,12 @@ void JoinExistingGameMessage::SerializeWithCachedSizes(
       2, this->password(), output);
   }
 
-  // optional bool autoLeave = 3;
+  // optional bool autoLeave = 3 [default = false];
   if (has_autoleave()) {
     ::google::protobuf::internal::WireFormatLite::WriteBool(3, this->autoleave(), output);
   }
 
-  // optional bool spectateOnly = 4;
+  // optional bool spectateOnly = 4 [default = false];
   if (has_spectateonly()) {
     ::google::protobuf::internal::WireFormatLite::WriteBool(4, this->spectateonly(), output);
   }
@@ -7484,12 +7536,12 @@ int JoinExistingGameMessage::ByteSize() const {
           this->password());
     }
 
-    // optional bool autoLeave = 3;
+    // optional bool autoLeave = 3 [default = false];
     if (has_autoleave()) {
       total_size += 1 + 1;
     }
 
-    // optional bool spectateOnly = 4;
+    // optional bool spectateOnly = 4 [default = false];
     if (has_spectateonly()) {
       total_size += 1 + 1;
     }

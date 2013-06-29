@@ -40,7 +40,8 @@ import org.junit.runners.Suite;
 	RunRankingGameTest.class,
 	RejoinGameTest.class,
 	RejoinMultiGameTest.class,
-	SeatStateTest.class
+	SeatStateTest.class,
+	SpectatorJoinTest.class
 })
 public class AllTests {
 	public static void main(String[] args)

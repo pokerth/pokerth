@@ -77,8 +77,8 @@ public:
 	ServerCallback &GetCallback();
 	GameState GetCurRound() const;
 
-	void SendToAllPlayers(boost::shared_ptr<NetPacket> packet, SessionData::State state);
-	void SendToAllButOnePlayers(boost::shared_ptr<NetPacket> packet, SessionId except, SessionData::State state);
+	void SendToAllPlayers(boost::shared_ptr<NetPacket> packet, int state);
+	void SendToAllButOnePlayers(boost::shared_ptr<NetPacket> packet, SessionId except, int state);
 	void RemoveAllSessions();
 
 	bool IsPasswordProtected() const;
@@ -88,6 +88,7 @@ public:
 
 	boost::shared_ptr<PlayerData> GetPlayerDataByUniqueId(unsigned playerId) const;
 	PlayerIdList GetPlayerIdList() const;
+	PlayerIdList GetSpectatorIdList() const;
 	bool IsPlayerConnected(const std::string &name) const;
 	bool IsPlayerConnected(unsigned playerId) const;
 	bool IsClientAddressConnected(const std::string &clientAddress) const;
@@ -110,6 +111,9 @@ public:
 
 	void AddReactivatePlayer(unsigned playerId);
 	PlayerIdList GetAndResetReactivatePlayers();
+
+	void AddNewSpectator(unsigned playerId);
+	PlayerIdList GetAndResetNewSpectators();
 
 	void SetNameReported();
 	bool IsNameReported() const;
@@ -204,6 +208,9 @@ private:
 
 	PlayerIdList m_reactivatePlayerList;
 	mutable boost::mutex m_reactivatePlayerListMutex;
+
+	PlayerIdList m_newSpectatorList;
+	mutable boost::mutex m_newSpectatorListMutex;
 
 	PlayerIdList m_reportedAvatarList;
 

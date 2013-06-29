@@ -178,13 +178,13 @@ ServerGame::GetCurRound() const
 }
 
 void
-ServerGame::SendToAllPlayers(boost::shared_ptr<NetPacket> packet, SessionData::State state)
+ServerGame::SendToAllPlayers(boost::shared_ptr<NetPacket> packet, int state)
 {
 	GetSessionManager().SendToAllSessions(GetLobbyThread().GetSender(), packet, state);
 }
 
 void
-ServerGame::SendToAllButOnePlayers(boost::shared_ptr<NetPacket> packet, SessionId except, SessionData::State state)
+ServerGame::SendToAllButOnePlayers(boost::shared_ptr<NetPacket> packet, SessionId except, int state)
 {
 	GetSessionManager().SendToAllButOneSessions(GetLobbyThread().GetSender(), packet, except, state);
 }
@@ -625,6 +625,12 @@ ServerGame::GetPlayerIdList() const
 	return idList;
 }
 
+PlayerIdList
+ServerGame::GetSpectatorIdList() const
+{
+	return GetSessionManager().GetPlayerIdList(SessionData::Spectating);
+}
+
 bool
 ServerGame::IsPlayerConnected(const std::string &name) const
 {
@@ -744,6 +750,22 @@ ServerGame::GetAndResetReactivatePlayers()
 	boost::mutex::scoped_lock lock(m_reactivatePlayerListMutex);
 	PlayerIdList tmpList(m_reactivatePlayerList);
 	m_reactivatePlayerList.clear();
+	return tmpList;
+}
+
+void
+ServerGame::AddNewSpectator(unsigned playerId)
+{
+	boost::mutex::scoped_lock lock(m_newSpectatorListMutex);
+	m_newSpectatorList.push_back(playerId);
+}
+
+PlayerIdList
+ServerGame::GetAndResetNewSpectators()
+{
+	boost::mutex::scoped_lock lock(m_newSpectatorListMutex);
+	PlayerIdList tmpList(m_newSpectatorList);
+	m_newSpectatorList.clear();
 	return tmpList;
 }
 

@@ -82,6 +82,7 @@ public:
 	static boost::shared_ptr<NetPacket> CreateNetPacketPlayerJoined(unsigned gameId, const PlayerData &playerData);
 	static boost::shared_ptr<NetPacket> CreateNetPacketSpectatorJoined(unsigned gameId, const PlayerData &playerData);
 	static boost::shared_ptr<NetPacket> CreateNetPacketJoinGameAck(const ServerGame &server, const PlayerData &playerData, bool spectateOnly);
+	static boost::shared_ptr<NetPacket> CreateNetPacketHandStart(const ServerGame &server);
 
 	static void AcceptNewSession(boost::shared_ptr<ServerGame> server, boost::shared_ptr<SessionData> session, bool spectateOnly);
 
@@ -190,7 +191,9 @@ protected:
 	static void CheckPlayerTimeouts(boost::shared_ptr<ServerGame> server);
 	static void ReactivatePlayers(boost::shared_ptr<ServerGame> server);
 	static void InitRejoiningPlayers(boost::shared_ptr<ServerGame> server);
+	static void InitNewSpectators(boost::shared_ptr<ServerGame> server);
 	static void PerformRejoin(boost::shared_ptr<ServerGame> server, boost::shared_ptr<SessionData> session);
+	static void SendGameData(boost::shared_ptr<ServerGame> server, boost::shared_ptr<SessionData> session);
 
 private:
 	static ServerGameStateHand s_state;
