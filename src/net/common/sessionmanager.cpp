@@ -302,7 +302,7 @@ SessionManager::GetRawSessionCount()
 }
 
 unsigned
-SessionManager::GetEstablishedSessionCount()
+SessionManager::GetSessionCountWithState(int state)
 {
 	unsigned counter = 0;
 	boost::recursive_mutex::scoped_lock lock(m_sessionMapMutex);
@@ -311,7 +311,7 @@ SessionManager::GetEstablishedSessionCount()
 	SessionMap::const_iterator end = m_sessionMap.end();
 
 	while (i != end) {
-		if ((*i).second->GetState() >= SessionData::Established)
+		if ((i->second->GetState() & state) != 0)
 			++counter;
 		++i;
 	}

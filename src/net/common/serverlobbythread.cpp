@@ -2125,7 +2125,7 @@ ServerLobbyThread::UpdateStatisticsNumberOfPlayers()
 {
 	ServerStats stats;
 	// Get all logged-in sessions and all sessions within a game.
-	unsigned curNumberOfPlayersOnServer = m_sessionManager.GetEstablishedSessionCount() + m_gameSessionManager.GetRawSessionCount();
+	unsigned curNumberOfPlayersOnServer = m_sessionManager.GetSessionCountWithState(SessionData::Established) + m_gameSessionManager.GetRawSessionCount();
 	{
 		boost::mutex::scoped_lock lock(m_statMutex);
 		if (curNumberOfPlayersOnServer != m_statData.numberOfPlayersOnServer) {

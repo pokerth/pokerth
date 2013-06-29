@@ -779,7 +779,7 @@ ServerGameStateStartGame::InternalProcessPacket(boost::shared_ptr<ServerGame> se
 {
 	if (packet->GetMsg()->messagetype() == PokerTHMessage::Type_StartEventAckMessage) {
 		session->SetReadyFlag();
-		if (server->GetSessionManager().CountReadySessions() == server->GetSessionManager().GetRawSessionCount()) {
+		if (server->GetSessionManager().CountReadySessions() == server->GetSessionManager().GetSessionCountWithState(SessionData::Game)) {
 			// Everyone is ready.
 			server->GetSessionManager().ResetAllReadyFlags();
 			DoStart(server);
