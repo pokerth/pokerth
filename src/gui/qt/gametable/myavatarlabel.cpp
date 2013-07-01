@@ -394,7 +394,23 @@ void MyAvatarLabel::paintEvent(QPaintEvent*)
 	else
 		painter.setOpacity(1.0);
 
-	painter.drawPixmap(0,0,myPixmap);
+	//hide avatar if player is on ignore list
+	boost::shared_ptr<Game> currentGame = myW->myStartWindow->getSession()->getCurrentGame();
+	PlayerListConstIterator it_c;
+	int seatPlace;
+	PlayerList seatsList = currentGame->getSeatsList();
+	for (seatPlace=0,it_c=seatsList->begin(); it_c!=seatsList->end(); ++it_c, seatPlace++) {
+		if(seatPlace == myId) {
+			if(!playerIsOnIgnoreList(QString::fromUtf8((*it_c)->getMyName().c_str()))) {
+				painter.drawPixmap(0,0,myPixmap);
+				return;
+			}
+			else if(myW->getMyConfig()->readConfigInt("DontHideAvatarsOfIgnored")) {
+				painter.drawPixmap(0,0,myPixmap);
+				return;
+			}
+		}
+	}
 }
 
 bool MyAvatarLabel::playerIsOnIgnoreList(QString playerName)
