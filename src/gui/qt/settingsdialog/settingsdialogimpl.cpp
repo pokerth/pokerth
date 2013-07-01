@@ -292,6 +292,7 @@ void settingsDialogImpl::prepareDialog()
 	checkBox_disableSplashscreen->setChecked(myConfig->readConfigInt("DisableSplashScreenOnStartup"));
 	checkBox_enableAccidentallyCallBlocker->setChecked(myConfig->readConfigInt("AccidentallyCallBlocker"));
 	checkBox_dontHideAvatarsOfIgnored->setChecked(myConfig->readConfigInt("DontHideAvatarsOfIgnored"));
+	checkBox_disableChatEmoticons->setChecked(myConfig->readConfigInt("DisableChatEmoticons"));
 
 
 	//S t y l e
@@ -740,6 +741,8 @@ void settingsDialogImpl::isAccepted()
 	myConfig->writeConfigInt("EnableBetInputFocusSwitch", checkBox_enableBetInputFocusSwitch->isChecked());
 	myConfig->writeConfigInt("AccidentallyCallBlocker", checkBox_enableAccidentallyCallBlocker->isChecked());
 	myConfig->writeConfigInt("DontHideAvatarsOfIgnored", checkBox_dontHideAvatarsOfIgnored->isChecked());
+	myConfig->writeConfigInt("DisableChatEmoticons", checkBox_disableChatEmoticons->isChecked());
+
 	myConfig->writeConfigInt("FlipsideTux", radioButton_flipsideTux->isChecked());
 	myConfig->writeConfigInt("FlipsideOwn", radioButton_flipsideOwn->isChecked());
 

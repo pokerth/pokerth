@@ -167,7 +167,9 @@ void ChatTools::receiveMessage(QString playerName, QString message, bool pm)
 
 		if(!nickFoundOnIgnoreList) {
 
-			tempMsg = checkForEmotes(tempMsg);
+			if(!myConfig->readConfigInt("DisableChatEmoticons")) {
+				tempMsg = checkForEmotes(tempMsg);
+			}
 
 			if(message.indexOf(QString("/me "))==0) {
 				myTextBrowser->append(tempMsg.replace("/me ","<i>*"+playerName+" ")+"</i>");
