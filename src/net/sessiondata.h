@@ -58,7 +58,7 @@ class ServerGame;
 class SessionData : public boost::enable_shared_from_this<SessionData>
 {
 public:
-	enum State { Init = 1, ReceivingAvatar = 2, Established = 4, Game = 8, Spectating = 16, Closed = 32 };
+	enum State { Init = 1, ReceivingAvatar = 2, Established = 4, Game = 8, Spectating = 16, Waiting = 32, Closed = 64 };
 
 	SessionData(boost::shared_ptr<boost::asio::ip::tcp::socket> sock, SessionId id, SessionDataCallback &cb, boost::asio::io_service &ioService);
 	~SessionData();
