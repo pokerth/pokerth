@@ -837,7 +837,7 @@ ServerGame::ResetComputerPlayerList()
 
 	while (i != end) {
 		GetLobbyThread().RemoveComputerPlayer(*i);
-		RemovePlayerData(*i, NTF_NET_REMOVED_ON_REQUEST);
+		RemovePlayerData(*i, NTF_NET_REMOVED_ON_REQUEST, false);
 		++i;
 	}
 
@@ -853,13 +853,13 @@ ServerGame::RemoveSession(boost::shared_ptr<SessionData> session, int reason)
 	if (GetSessionManager().RemoveSession(session->GetId())) {
 		boost::shared_ptr<PlayerData> tmpPlayerData = session->GetPlayerData();
 		if (tmpPlayerData && !tmpPlayerData->GetName().empty()) {
-			RemovePlayerData(tmpPlayerData, reason);
+			RemovePlayerData(tmpPlayerData, reason, session->GetState() == SessionData::Spectating || session->GetState() == SessionData::SpectatorWaiting);
 		}
 	}
 }
 
 void
-ServerGame::RemovePlayerData(boost::shared_ptr<PlayerData> player, int reason)
+ServerGame::RemovePlayerData(boost::shared_ptr<PlayerData> player, int reason, bool spectateOnly)
 {
 	if (player->IsGameAdmin()) {
 		// Find new admin for the game
@@ -886,25 +886,37 @@ ServerGame::RemovePlayerData(boost::shared_ptr<PlayerData> player, int reason)
 
 	// Send "Player Left" to clients.
 	boost::shared_ptr<NetPacket> thisPlayerLeft(new NetPacket);
-	thisPlayerLeft->GetMsg()->set_messagetype(PokerTHMessage::Type_GamePlayerLeftMessage);
-	GamePlayerLeftMessage *netPlayerLeft = thisPlayerLeft->GetMsg()->mutable_gameplayerleftmessage();
-	netPlayerLeft->set_gameid(GetId());
-	netPlayerLeft->set_playerid(player->GetUniqueId());
+	GamePlayerLeftMessage::GamePlayerLeftReason netReason = GamePlayerLeftMessage::leftError;
 	switch (reason) {
 	case NTF_NET_REMOVED_ON_REQUEST :
-		netPlayerLeft->set_gameplayerleftreason(GamePlayerLeftMessage::leftOnRequest);
+		netReason = GamePlayerLeftMessage::leftOnRequest;
 		break;
 	case NTF_NET_REMOVED_KICKED :
-		netPlayerLeft->set_gameplayerleftreason(GamePlayerLeftMessage::leftKicked);
+		netReason = GamePlayerLeftMessage::leftKicked;
 		break;
-	default :
-		netPlayerLeft->set_gameplayerleftreason(GamePlayerLeftMessage::leftError);
-		break;
+	}
+
+	if (spectateOnly) {
+		thisPlayerLeft->GetMsg()->set_messagetype(PokerTHMessage::Type_GameSpectatorLeftMessage);
+		GameSpectatorLeftMessage *netPlayerLeft = thisPlayerLeft->GetMsg()->mutable_gamespectatorleftmessage();
+		netPlayerLeft->set_gameid(GetId());
+		netPlayerLeft->set_playerid(player->GetUniqueId());
+		netPlayerLeft->set_gamespectatorleftreason(netReason);
+	} else {
+		thisPlayerLeft->GetMsg()->set_messagetype(PokerTHMessage::Type_GamePlayerLeftMessage);
+		GamePlayerLeftMessage *netPlayerLeft = thisPlayerLeft->GetMsg()->mutable_gameplayerleftmessage();
+		netPlayerLeft->set_gameid(GetId());
+		netPlayerLeft->set_playerid(player->GetUniqueId());
+		netPlayerLeft->set_gameplayerleftreason(netReason);
 	}
 	GetSessionManager().SendToAllSessions(GetLobbyThread().GetSender(), thisPlayerLeft, SessionData::Game);
 
 	GetState().NotifySessionRemoved(shared_from_this());
-	GetLobbyThread().NotifyPlayerLeftGame(GetId(), player->GetUniqueId());
+	if (spectateOnly) {
+		GetLobbyThread().NotifySpectatorLeftGame(GetId(), player->GetUniqueId());
+	} else {
+		GetLobbyThread().NotifyPlayerLeftGame(GetId(), player->GetUniqueId());
+	}
 }
 
 void

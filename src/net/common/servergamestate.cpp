@@ -874,7 +874,7 @@ AbstractServerGameStateRunning::HandleNewSpectator(boost::shared_ptr<ServerGame>
 {
 	if (session && session->GetPlayerData()) {
 		AcceptNewSession(server, session, true);
-		session->SetState(SessionData::Waiting);
+		session->SetState(SessionData::SpectatorWaiting);
 		server->AddNewSpectator(session->GetPlayerData()->GetUniqueId());
 	}
 }
