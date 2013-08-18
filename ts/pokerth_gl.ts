@@ -1588,17 +1588,17 @@ Para convidar a outros xogadores, prema co botón secundario a súa entrada na l
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="205"/>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="216"/>
         <source>Admin action ...</source>
-        <translation type="unfinished"></translation>
+        <translation>Acción de administrador…</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="206"/>
         <source>Total kickban</source>
-        <translation type="unfinished"></translation>
+        <translation>Expulsión total</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="217"/>
         <source>Close game</source>
-        <translation type="unfinished"></translation>
+        <translation>Pechar a partida</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="847"/>
@@ -2905,12 +2905,13 @@ Para convidar a outros xogadores, prema co botón secundario a súa entrada na l
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2209"/>
         <source>Are you sure you want to close the game:
 &quot;%1&quot;?</source>
-        <translation type="unfinished"></translation>
+        <translation>Estás seguro de que queres pechar a partida:
+«%1»?</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2225"/>
         <source>Are you sure you want to total kickban the player: &quot;%1&quot;?</source>
-        <translation type="unfinished"></translation>
+        <translation>Estás seguro de que queres expulsar completamente o xogador «%1»?</translation>
     </message>
 </context>
 <context>
@@ -3997,7 +3998,7 @@ Please enter an valid picture!</source>
         <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="1865"/>
         <location filename="../src/gui/qt/settingsdialog.ui" line="1632"/>
         <source>Server Password:</source>
-        <translation type="unfinished"></translation>
+        <translation>Contrasinal do servidor:</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="3807"/>
@@ -4771,7 +4772,7 @@ Please enter a valid server list address!</source>
     <message>
         <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="81"/>
         <source>Galician</source>
-        <translation type="unfinished"></translation>
+        <translation>Galego</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="82"/>
@@ -4861,7 +4862,7 @@ Please enter a valid server list address!</source>
     <message>
         <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="99"/>
         <source>Vietnamese</source>
-        <translation type="unfinished"></translation>
+        <translation>Vietnamita</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="605"/>
@@ -5483,33 +5484,33 @@ Please reenter the password and try again.</source>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1162"/>
         <source>The game was closed.</source>
-        <translation type="unfinished"></translation>
+        <translation>Pechouse a partida.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1166"/>
         <source>The game could not be closed.</source>
-        <translation type="unfinished"></translation>
+        <translation>Non foi posíbel pechar a partida.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1170"/>
         <source>The player was kicked and banned permanently.</source>
-        <translation type="unfinished"></translation>
+        <translation>O xogador foi expulsado de maneira permanente.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1174"/>
         <source>The player was kicked, but could not be banned because it was a guest player.</source>
-        <translation type="unfinished"></translation>
+        <translation>Botouse fóra ao xogador, pero ao seren un invitado non foi posíbel expulsalo permanentemente.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1178"/>
         <source>The player was kicked, but could not be banned, 
 because the nick could not be found in the database</source>
-        <translation type="unfinished"></translation>
+        <translation>Botouse fóra ao xogador, pero non foi posíbel expulsalo permanentemente porque non se atopou o seu alcume na base de datos.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1182"/>
         <source>The player could not be found.</source>
-        <translation type="unfinished"></translation>
+        <translation>Non foi posíbel atopar ao xogador.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="870"/>
