@@ -100,6 +100,7 @@ struct GameInfo {
 	GameMode mode;
 	unsigned adminPlayerId;
 	PlayerIdList players;
+	PlayerIdList spectators;
 	bool isPasswordProtected;
 };
 

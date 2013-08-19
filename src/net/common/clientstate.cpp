@@ -628,6 +628,24 @@ AbstractClientStateReceiving::HandlePacket(boost::shared_ptr<ClientThread> clien
 
 		boost::shared_ptr<PlayerData> playerData = client->CreatePlayerData(netPlayerJoined.playerid(), netPlayerJoined.isgameadmin());
 		client->AddPlayerData(playerData);
+	} else if (tmpPacket->GetMsg()->messagetype() == PokerTHMessage::Type_GameSpectatorJoinedMessage) {
+		// Another spectator joined the network game.
+		const GameSpectatorJoinedMessage &netSpectatorJoined = tmpPacket->GetMsg()->gamespectatorjoinedmessage();
+		client->GetCallback().SignalNetClientSpectatorJoined(netSpectatorJoined.playerid(), client->GetPlayerName(netSpectatorJoined.playerid()));
+	} else if (tmpPacket->GetMsg()->messagetype() == PokerTHMessage::Type_GameSpectatorLeftMessage) {
+		// A spectator left the network game.
+		const GameSpectatorLeftMessage &netSpectatorLeft = tmpPacket->GetMsg()->gamespectatorleftmessage();
+		// Signal to GUI and remove from data list.
+		int removeReason;
+		switch (netSpectatorLeft.gamespectatorleftreason()) {
+		case GamePlayerLeftMessage::leftKicked :
+			removeReason = NTF_NET_REMOVED_KICKED;
+			break;
+		default :
+			removeReason = NTF_NET_REMOVED_ON_REQUEST;
+			break;
+		}
+		client->GetCallback().SignalNetClientSpectatorLeft(netSpectatorLeft.playerid(), client->GetPlayerName(netSpectatorLeft.playerid()), removeReason);
 	} else if (tmpPacket->GetMsg()->messagetype() == PokerTHMessage::Type_TimeoutWarningMessage) {
 		const TimeoutWarningMessage &tmpTimeout = tmpPacket->GetMsg()->timeoutwarningmessage();
 		client->GetCallback().SignalNetClientShowTimeoutDialog((NetTimeoutReason)tmpTimeout.timeoutreason(), tmpTimeout.remainingseconds());
@@ -672,15 +690,7 @@ AbstractClientStateReceiving::HandlePacket(boost::shared_ptr<ClientThread> clien
 		const PlayerListMessage &netPlayerList = tmpPacket->GetMsg()->playerlistmessage();
 
 		if (netPlayerList.playerlistnotification() == PlayerListMessage::playerListNew) {
-			PlayerInfo info;
-			if (!client->GetCachedPlayerInfo(netPlayerList.playerid(), info)) {
-				// Request player info.
-				ostringstream name;
-				name << "#" << netPlayerList.playerid();
-				info.playerName = name.str();
-				client->RequestPlayerInfo(netPlayerList.playerid());
-			}
-			client->GetCallback().SignalLobbyPlayerJoined(netPlayerList.playerid(), info.playerName);
+			client->GetCallback().SignalLobbyPlayerJoined(netPlayerList.playerid(), client->GetPlayerName(netPlayerList.playerid()));
 		} else if (netPlayerList.playerlistnotification() == PlayerListMessage::playerListLeft) {
 			client->GetCallback().SignalLobbyPlayerLeft(netPlayerList.playerid());
 		}
@@ -688,17 +698,26 @@ AbstractClientStateReceiving::HandlePacket(boost::shared_ptr<ClientThread> clien
 		// A new game was created on the server.
 		const GameListNewMessage &netListNew = tmpPacket->GetMsg()->gamelistnewmessage();
 
-		unsigned numPlayers = netListNew.playerids_size();
 		// Request player info for players if needed.
 		GameInfo tmpInfo;
 		list<unsigned> requestList;
-		for (unsigned i = 0; i < numPlayers; i++) {
+		// All players.
+		for (int i = 0; i < netListNew.playerids_size(); i++) {
 			PlayerInfo info;
 			unsigned playerId = netListNew.playerids(i);
 			if (!client->GetCachedPlayerInfo(playerId, info)) {
 				requestList.push_back(playerId);
 			}
 			tmpInfo.players.push_back(playerId);
+		}
+		// All spectators.
+		for (int i = 0; i < netListNew.spectatorids_size(); i++) {
+			PlayerInfo info;
+			unsigned playerId = netListNew.spectatorids(i);
+			if (!client->GetCachedPlayerInfo(playerId, info)) {
+				requestList.push_back(playerId);
+			}
+			tmpInfo.spectators.push_back(playerId);
 		}
 		// Send request for multiple players (will only act if list is non-empty).
 		client->RequestPlayerInfo(requestList);
@@ -730,6 +749,19 @@ AbstractClientStateReceiving::HandlePacket(boost::shared_ptr<ClientThread> clien
 		const GameListPlayerLeftMessage &netListLeft = tmpPacket->GetMsg()->gamelistplayerleftmessage();
 
 		client->ModifyGameInfoRemovePlayer(netListLeft.gameid(), netListLeft.playerid());
+	} else if (tmpPacket->GetMsg()->messagetype() == PokerTHMessage::Type_GameListSpectatorJoinedMessage) {
+		const GameListSpectatorJoinedMessage &netListJoined = tmpPacket->GetMsg()->gamelistspectatorjoinedmessage();
+
+		client->ModifyGameInfoAddSpectator(netListJoined.gameid(), netListJoined.playerid());
+		// Request player info if needed.
+		PlayerInfo info;
+		if (!client->GetCachedPlayerInfo(netListJoined.playerid(), info)) {
+			client->RequestPlayerInfo(netListJoined.playerid());
+		}
+	} else if (tmpPacket->GetMsg()->messagetype() == PokerTHMessage::Type_GameListSpectatorLeftMessage) {
+		const GameListSpectatorLeftMessage &netListLeft = tmpPacket->GetMsg()->gamelistspectatorleftmessage();
+
+		client->ModifyGameInfoRemoveSpectator(netListLeft.gameid(), netListLeft.playerid());
 	} else if (tmpPacket->GetMsg()->messagetype() == PokerTHMessage::Type_GameListAdminChangedMessage) {
 		const GameListAdminChangedMessage &netListAdmin = tmpPacket->GetMsg()->gamelistadminchangedmessage();
 

@@ -75,6 +75,8 @@ public slots:
 	void logPlayerLeftMsg(QString playerName, int wasKicked);
 	void logPlayerJoinedMsg(QString playerName);
 	void logNewGameAdminMsg(QString playerName);
+	void logSpectatorLeftMsg(QString playerName, int wasKicked);
+	void logSpectatorJoinedMsg(QString playerName);
 	void logPlayerWinGame(QString playerName, int gameID);
 	void flushLogAtGame(int gameID);
 	void flushLogAtHand();
@@ -106,6 +108,8 @@ signals:
 	void signalLogFlipHoleCardsMsg(QString playerName, int card1, int card2, int cardsValueInt = -1, QString showHas = "shows");
 	void signalLogPlayerLeftMsg(QString playerName, int wasKicked);
 	void signalLogPlayerJoinedMsg(QString playerName);
+	void signalLogSpectatorLeftMsg(QString playerName, int wasKicked);
+	void signalLogSpectatorJoinedMsg(QString playerName);
 	void signalLogNewGameAdminMsg(QString playerName);
 	void signalLogPlayerWinGame(QString playerName, int gameID);
 	void signalFlushLogAtGame(int gameID);

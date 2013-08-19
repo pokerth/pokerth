@@ -676,6 +676,7 @@ gameTableImpl::gameTableImpl(ConfigFile *c, QMainWindow *parent)
 	connect(this, SIGNAL(signalEndVoteOnKick()), this, SLOT(endVoteOnKick()));
 
 	connect(this, SIGNAL(signalNetClientPlayerLeft(unsigned)), this, SLOT(netClientPlayerLeft(unsigned)));
+	connect(this, SIGNAL(signalNetClientSpectatorLeft(unsigned)), this, SLOT(netClientSpectatorLeft(unsigned)));
 
 #ifdef GUI_800x480
 	connect( tabsButton, SIGNAL( clicked() ), this, SLOT( tabsButtonClicked() ) );
@@ -4297,6 +4298,11 @@ void gameTableImpl::netClientPlayerLeft(unsigned /*playerId*/)
 		refreshPlayerAvatar();
 		refreshPlayerName();
 	}
+}
+
+void gameTableImpl::netClientSpectatorLeft(unsigned /*playerId*/)
+{
+	// TODO
 }
 
 void gameTableImpl::registeredUserMode()

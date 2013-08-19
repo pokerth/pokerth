@@ -166,6 +166,7 @@ signals:
 	void signalChangeVoteOnKickButtonsState(bool showHide);
 	void signalEndVoteOnKick();
 	void signalNetClientPlayerLeft(unsigned playerId);
+	void signalNetClientSpectatorLeft(unsigned playerId);
 
 public slots:
 
@@ -347,6 +348,7 @@ public slots:
 	void restoreGameTableGeometry();
 
 	void netClientPlayerLeft(unsigned playerId);
+	void netClientSpectatorLeft(unsigned playerId);
 	void registeredUserMode();
 	void guestUserMode();
 

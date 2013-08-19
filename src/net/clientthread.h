@@ -159,6 +159,7 @@ protected:
 	void SetUnknownPlayer(unsigned id);
 	void SetNewGameAdmin(unsigned id);
 	void RetrieveAvatarIfNeeded(unsigned id, const PlayerInfo &info);
+	std::string GetPlayerName(unsigned id);
 
 	void AddTempAvatarFile(unsigned playerId, unsigned avatarSize, AvatarFileType type);
 	void StoreInTempAvatarFile(unsigned playerId, const std::vector<unsigned char> &data);
@@ -215,6 +216,8 @@ protected:
 	void RemoveGameInfo(unsigned gameId);
 	void ModifyGameInfoAddPlayer(unsigned gameId, unsigned playerId);
 	void ModifyGameInfoRemovePlayer(unsigned gameId, unsigned playerId);
+	void ModifyGameInfoAddSpectator(unsigned gameId, unsigned playerId);
+	void ModifyGameInfoRemoveSpectator(unsigned gameId, unsigned playerId);
 	void ClearGameInfoMap();
 
 	void StartPetition(unsigned petitionId, unsigned proposingPlayerId, unsigned kickPlayerId, int timeoutSec, int numVotesToKick);

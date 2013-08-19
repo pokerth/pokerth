@@ -58,6 +58,8 @@ guiLog::guiLog(gameTableImpl* w, ConfigFile *c) : myW(w), myConfig(c), myLogDir(
 	connect(this, SIGNAL(signalLogPlayerLeftMsg(QString, int)), this, SLOT(logPlayerLeftMsg(QString, int)));
 	connect(this, SIGNAL(signalLogPlayerJoinedMsg(QString)), this, SLOT(logPlayerJoinedMsg(QString)));
 	connect(this, SIGNAL(signalLogNewGameAdminMsg(QString)), this, SLOT(logNewGameAdminMsg(QString)));
+	connect(this, SIGNAL(signalLogSpectatorLeftMsg(QString, int)), this, SLOT(logSpectatorLeftMsg(QString, int)));
+	connect(this, SIGNAL(signalLogSpectatorJoinedMsg(QString)), this, SLOT(logSpectatorJoinedMsg(QString)));
 	connect(this, SIGNAL(signalLogPlayerWinGame(QString, int)), this, SLOT(logPlayerWinGame(QString, int)));
 	connect(this, SIGNAL(signalFlushLogAtGame(int)), this, SLOT(flushLogAtGame(int)));
 	connect(this, SIGNAL(signalFlushLogAtHand()), this, SLOT(flushLogAtHand()));
@@ -537,6 +539,15 @@ void guiLog::logPlayerJoinedMsg(QString playerName)
 #endif
 }
 
+void guiLog::logSpectatorLeftMsg(QString playerName, int wasKicked)
+{
+	// TODO
+}
+
+void guiLog::logSpectatorJoinedMsg(QString playerName)
+{
+	// TODO
+}
 
 void guiLog::logPlayerWinGame(QString playerName, int gameID)
 {

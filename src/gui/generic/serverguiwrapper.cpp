@@ -200,6 +200,14 @@ void ServerGuiWrapper::SignalNetClientPlayerLeft(unsigned playerId, const string
 {
 	if (myClientcb) myClientcb->SignalNetClientPlayerLeft(playerId, playerName, removeReason);
 }
+void ServerGuiWrapper::SignalNetClientSpectatorJoined(unsigned playerId, const string &playerName)
+{
+	if (myClientcb) myClientcb->SignalNetClientSpectatorJoined(playerId, playerName);
+}
+void ServerGuiWrapper::SignalNetClientSpectatorLeft(unsigned playerId, const string &playerName, int removeReason)
+{
+	if (myClientcb) myClientcb->SignalNetClientSpectatorLeft(playerId, playerName, removeReason);
+}
 void ServerGuiWrapper::SignalNetClientNewGameAdmin(unsigned playerId, const string &playerName)
 {
 	if (myClientcb) myClientcb->SignalNetClientNewGameAdmin(playerId, playerName);
@@ -227,6 +235,14 @@ void ServerGuiWrapper::SignalNetClientGameListPlayerJoined(unsigned gameId, unsi
 void ServerGuiWrapper::SignalNetClientGameListPlayerLeft(unsigned gameId, unsigned playerId)
 {
 	if (myClientcb) myClientcb->SignalNetClientGameListPlayerLeft(gameId, playerId);
+}
+void ServerGuiWrapper::SignalNetClientGameListSpectatorJoined(unsigned gameId, unsigned playerId)
+{
+	if (myClientcb) myClientcb->SignalNetClientGameListSpectatorJoined(gameId, playerId);
+}
+void ServerGuiWrapper::SignalNetClientGameListSpectatorLeft(unsigned gameId, unsigned playerId)
+{
+	if (myClientcb) myClientcb->SignalNetClientGameListSpectatorLeft(gameId, playerId);
 }
 void ServerGuiWrapper::SignalNetClientGameStart(boost::shared_ptr<Game> game)
 {

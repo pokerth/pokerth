@@ -811,6 +811,20 @@ ClientThread::RetrieveAvatarIfNeeded(unsigned id, const PlayerInfo &info)
 	}
 }
 
+std::string
+ClientThread::GetPlayerName(unsigned id)
+{
+	PlayerInfo info;
+	if (!GetCachedPlayerInfo(id, info)) {
+		// Request player info.
+		ostringstream name;
+		name << "#" << id;
+		info.playerName = name.str();
+		RequestPlayerInfo(id);
+	}
+	return info.playerName;
+}
+
 void
 ClientThread::AddTempAvatarFile(unsigned playerId, unsigned avatarSize, AvatarFileType type)
 {
@@ -1405,6 +1419,38 @@ ClientThread::ModifyGameInfoRemovePlayer(unsigned gameId, unsigned playerId)
 	}
 	if (playerRemoved)
 		GetCallback().SignalNetClientGameListPlayerLeft(gameId, playerId);
+}
+
+void
+ClientThread::ModifyGameInfoAddSpectator(unsigned gameId, unsigned playerId)
+{
+	bool playerAdded = false;
+	{
+		boost::mutex::scoped_lock lock(m_gameInfoMapMutex);
+		GameInfoMap::iterator pos = m_gameInfoMap.find(gameId);
+		if (pos != m_gameInfoMap.end()) {
+			pos->second.spectators.push_back(playerId);
+			playerAdded = true;
+		}
+	}
+	if (playerAdded)
+		GetCallback().SignalNetClientGameListSpectatorJoined(gameId, playerId);
+}
+
+void
+ClientThread::ModifyGameInfoRemoveSpectator(unsigned gameId, unsigned playerId)
+{
+	bool playerRemoved = false;
+	{
+		boost::mutex::scoped_lock lock(m_gameInfoMapMutex);
+		GameInfoMap::iterator pos = m_gameInfoMap.find(gameId);
+		if (pos != m_gameInfoMap.end()) {
+			pos->second.spectators.remove(playerId);
+			playerRemoved = true;
+		}
+	}
+	if (playerRemoved)
+		GetCallback().SignalNetClientGameListSpectatorLeft(gameId, playerId);
 }
 
 void
