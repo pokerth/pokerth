@@ -19,23 +19,23 @@ DEPENDPATH += src/ \
 	src/chatcleaner/ \
 	src/third_party/asn1/ \
 	src/net/
-SOURCES += chatcleaner.cpp \
-	cleanerserver.cpp \
-	messagefilter.cpp \
-	badwordcheck.cpp \
-	textfloodcheck.cpp \
-	cleanerconfig.cpp \
-	capsfloodcheck.cpp \
-	letterrepeatingcheck.cpp \
-	urlcheck.cpp
-HEADERS += cleanerserver.h \
-	messagefilter.h \
-	badwordcheck.h \
-	textfloodcheck.h \
-	cleanerconfig.h \
-	capsfloodcheck.h \
-	letterrepeatingcheck.h \
-	urlcheck.h
+SOURCES += src/chatcleaner/chatcleaner.cpp \
+	src/chatcleaner/cleanerserver.cpp \
+	src/chatcleaner/messagefilter.cpp \
+	src/chatcleaner/badwordcheck.cpp \
+	src/chatcleaner/textfloodcheck.cpp \
+	src/chatcleaner/cleanerconfig.cpp \
+	src/chatcleaner/capsfloodcheck.cpp \
+	src/chatcleaner/letterrepeatingcheck.cpp \
+	src/chatcleaner/urlcheck.cpp
+HEADERS += src/chatcleaner/cleanerserver.h \
+	src/chatcleaner/messagefilter.h \
+	src/chatcleaner/badwordcheck.h \
+	src/chatcleaner/textfloodcheck.h \
+	src/chatcleaner/cleanerconfig.h \
+	src/chatcleaner/capsfloodcheck.h \
+	src/chatcleaner/letterrepeatingcheck.h \
+	src/chatcleaner/urlcheck.h
 LIBPATH += lib
 LIBS += -lpokerth_lib \
 	-lpokerth_protocol \
