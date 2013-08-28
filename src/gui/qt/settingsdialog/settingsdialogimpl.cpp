@@ -65,7 +65,7 @@ settingsDialogImpl::settingsDialogImpl(QWidget *parent, ConfigFile *c, selectAva
 	pushButton_openLogDir->setIcon(QIcon(QPixmap(myAppDataPath+"gfx/gui/misc/fileopen16.png")));
 
 	if (myConfig->readConfigInt("CLA_NoWriteAccess")) {
-		groupBox_logOnOff->setDisabled(TRUE);
+		groupBox_logOnOff->setDisabled(true);
 	}
 
 	comboBox_switchLanguage->addItem(QString(tr("Afrikaans")+" "+QString::fromUtf8("(Afrikaans)")),"af");
@@ -165,7 +165,7 @@ settingsDialogImpl::~settingsDialogImpl()
 
 void settingsDialogImpl::prepareDialog()
 {
-	playerNickIsChanged = FALSE;
+	playerNickIsChanged = false;
 
 	//Player Nicks
 	lineEdit_HumanPlayerName->setText(QString::fromUtf8(myConfig->readConfigString("MyName").c_str()));
@@ -247,10 +247,10 @@ void settingsDialogImpl::prepareDialog()
 	if(myConfig->readConfigInt("UseAvatarServer")) {
 		lineEdit_avatarServerAddress->setText(QString::fromUtf8(myConfig->readConfigString("AvatarServerAddress").c_str()));
 		checkBox_useAvatarServer->setCheckState(Qt::Checked);
-		lineEdit_avatarServerAddress->setEnabled(TRUE);
+		lineEdit_avatarServerAddress->setEnabled(true);
 	} else {
 		checkBox_useAvatarServer->setCheckState(Qt::Unchecked);
-		lineEdit_avatarServerAddress->setEnabled(FALSE);
+		lineEdit_avatarServerAddress->setEnabled(false);
 	}
 	checkBox_UseInternetGamePassword->setChecked(myConfig->readConfigInt("UseInternetGamePassword"));
 	if(myConfig->readConfigInt("UseInternetGamePassword")) {
@@ -261,9 +261,9 @@ void settingsDialogImpl::prepareDialog()
 	comboBox_internetGameType->setCurrentIndex(myConfig->readConfigInt("InternetGameType"));
 	lineEdit_internetGameName->setText(QString::fromUtf8(myConfig->readConfigString("InternetGameName").c_str()));
 	if(myConfig->readConfigInt("InternetServerConfigMode")) {
-		groupBox_manualServerConfig->setChecked(TRUE);
+		groupBox_manualServerConfig->setChecked(true);
 	} else {
-		groupBox_automaticServerConfig->setChecked(TRUE);
+		groupBox_automaticServerConfig->setChecked(true);
 	}
 
 	std::list<std::string> playerIgnoreList = myConfig->readConfigStringList("PlayerIgnoreList");
@@ -379,13 +379,13 @@ void settingsDialogImpl::prepareDialog()
 	currentGameTableStyle.readStyleFile(QString::fromUtf8(myConfig->readConfigString("CurrentGameTableStyle").c_str()));
 	if(currentGameTableStyle.getLoadedSuccessfull()) {
 		int i;
-		bool currentGameTableFound(FALSE);
+		bool currentGameTableFound(false);
 		for(i=0; i < treeWidget_gameTableStyles->topLevelItemCount(); i++) {
 			QTreeWidgetItem *item = treeWidget_gameTableStyles->topLevelItem(i);
 			if(item->data(0, 15) == currentGameTableStyle.getCurrentFileName()) {
 				item->setIcon(0, QIcon(QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str())+"/gfx/gui/misc/rating.png"));
 				treeWidget_gameTableStyles->setCurrentItem(item);
-				currentGameTableFound=TRUE;
+				currentGameTableFound=true;
 			} else item->setIcon(0, QIcon());
 		}
 		if(!currentGameTableFound) {
@@ -480,13 +480,13 @@ void settingsDialogImpl::prepareDialog()
 	currentCardDeckStyle.readStyleFile(QString::fromUtf8(myConfig->readConfigString("CurrentCardDeckStyle").c_str()));
 	if(currentCardDeckStyle.getLoadedSuccessfull()) {
 		int j;
-		bool currentCardDeckFound(FALSE);
+		bool currentCardDeckFound(false);
 		for(j=0; j < treeWidget_cardDeckStyles->topLevelItemCount(); j++) {
 			QTreeWidgetItem *item = treeWidget_cardDeckStyles->topLevelItem(j);
 			if(item->data(0, 15) == currentCardDeckStyle.getCurrentFileName()) {
 				item->setIcon(0, QIcon(QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str())+"/gfx/gui/misc/rating.png"));
 				treeWidget_cardDeckStyles->setCurrentItem(item);
-				currentCardDeckFound=TRUE;
+				currentCardDeckFound=true;
 			} else item->setIcon(0, QIcon());
 		}
 		if(!currentCardDeckFound) {
@@ -521,8 +521,8 @@ void settingsDialogImpl::prepareDialog()
 	radioButton_flipsideTux->setChecked(myConfig->readConfigInt("FlipsideTux"));
 	radioButton_flipsideOwn->setChecked(myConfig->readConfigInt("FlipsideOwn"));
 	if(radioButton_flipsideOwn->isChecked()) {
-		lineEdit_OwnFlipsideFilename->setEnabled(TRUE);
-		pushButton_openFlipsidePicture->setEnabled(TRUE);
+		lineEdit_OwnFlipsideFilename->setEnabled(true);
+		pushButton_openFlipsidePicture->setEnabled(true);
 	}
 	lineEdit_OwnFlipsideFilename->setText(QString::fromUtf8(myConfig->readConfigString("FlipsideOwnFile").c_str()));
 
@@ -564,7 +564,7 @@ void settingsDialogImpl::prepareDialog()
 	setFirstSmallBlindMargin();
 
 	//set this AFTER switch combobox like config-settings. This IS a currentIndexChanged() ;-)
-	languageIsChanged = FALSE;
+	languageIsChanged = false;
 
 	//disable reset config button when dialog is called from ingame
 	if(calledIngame) {
@@ -587,7 +587,7 @@ void settingsDialogImpl::exec(bool in_game)
 void settingsDialogImpl::isAccepted()
 {
 
-	settingsCorrect = TRUE;
+	settingsCorrect = true;
 
 	// 	Player Nicks
 	//check if all player nicks are unique --> otherwise dont save
@@ -608,7 +608,7 @@ void settingsDialogImpl::isAccepted()
 							  tr("The opponent names are not unique.\n"
 								 "Please choose different names for each Opponent!"),
 							  QMessageBox::Ok);
-		settingsCorrect = FALSE;
+		settingsCorrect = false;
 	} else {
 		//save nicks and avatars
 		myConfig->writeConfigString("MyName", lineEdit_HumanPlayerName->text().trimmed().toUtf8().constData());
@@ -689,7 +689,7 @@ void settingsDialogImpl::isAccepted()
 								  tr("The entered server list address is not a valid URL.\n"
 									 "Please enter a valid server list address!"),
 								  QMessageBox::Ok);
-			settingsCorrect = FALSE;
+			settingsCorrect = false;
 		}
 	}
 	if(groupBox_manualServerConfig->isChecked()) {
@@ -755,7 +755,7 @@ void settingsDialogImpl::isAccepted()
 								  tr("The entered flipside picture doesn't exist.\n"
 									 "Please enter an valid picture!"),
 								  QMessageBox::Ok);
-			settingsCorrect = FALSE;
+			settingsCorrect = false;
 		}
 	}
 
@@ -815,7 +815,7 @@ void settingsDialogImpl::isAccepted()
 								  tr("The log file directory doesn't exist.\n"
 									 "Please select an valid directory!"),
 								  QMessageBox::Ok);
-			settingsCorrect = FALSE;
+			settingsCorrect = false;
 		}
 
 		myConfig->writeConfigInt("LogStoreDuration", spinBox_logStoreDuration->value());
@@ -1021,7 +1021,7 @@ void settingsDialogImpl::callManualBlindsOrderDialog()
 	myManualBlindsOrderDialog->exec();
 	if(myManualBlindsOrderDialog->result() == QDialog::Accepted) {
 
-		bool ok = TRUE;
+		bool ok = true;
 		int i;
 		myManualBlindsList.clear();
 		for(i=0; i<myManualBlindsOrderDialog->listWidget_blinds->count(); i++) {
@@ -1057,7 +1057,7 @@ void settingsDialogImpl::callNetManualBlindsOrderDialog()
 	myManualBlindsOrderDialog->exec();
 	if(myManualBlindsOrderDialog->result() == QDialog::Accepted) {
 
-		bool ok = TRUE;
+		bool ok = true;
 		int i;
 		myNetManualBlindsList.clear();
 		for(i=0; i<myManualBlindsOrderDialog->listWidget_blinds->count(); i++) {
@@ -1113,21 +1113,21 @@ void settingsDialogImpl::setFirstSmallBlindMargin()
 void settingsDialogImpl::setLanguageChanged(int index)
 {
 
-	languageIsChanged = TRUE;
+	languageIsChanged = true;
 	changedLanguageIndex = index;
 
 }
 
 void settingsDialogImpl::toggleGroupBoxAutomaticServerConfig(bool toggleState)
 {
-	if(toggleState) groupBox_manualServerConfig->setChecked(FALSE);
-	else groupBox_manualServerConfig->setChecked(TRUE);
+	if(toggleState) groupBox_manualServerConfig->setChecked(false);
+	else groupBox_manualServerConfig->setChecked(true);
 }
 
 void settingsDialogImpl::toggleGroupBoxManualServerConfig(bool toggleState)
 {
-	if(toggleState) groupBox_automaticServerConfig->setChecked(FALSE);
-	else groupBox_automaticServerConfig->setChecked(TRUE);
+	if(toggleState) groupBox_automaticServerConfig->setChecked(false);
+	else groupBox_automaticServerConfig->setChecked(true);
 }
 
 void settingsDialogImpl::showCurrentGameTableStylePreview()
@@ -1163,7 +1163,7 @@ void settingsDialogImpl::showCurrentGameTableStylePreview()
 			maintainerEMailString = "<b>"+MaintainerEMail+":</b> "+style.getStyleMaintainerEMail()+"<br>";
 		}
 
-		label_gameTableStyleInfo->setWordWrap(TRUE);
+		label_gameTableStyleInfo->setWordWrap(true);
 		label_gameTableStyleInfo->setText("<b>"+MaintainerName+":</b> "+style.getStyleMaintainerName()+"<br>"+maintainerEMailString+"<b>"+CreateDate+":</b> "+style.getStyleCreateDate()+"<br>"+windowsSubString+"<br><b>"+State+": </b>"+style.getMyStateToolTipInfo());
 
 		//active the current selected item directly
@@ -1171,9 +1171,9 @@ void settingsDialogImpl::showCurrentGameTableStylePreview()
 
 		//disable remove button for distributed styles
 		if(item->data(0, 16).toInt() == POKERTH_DISTRIBUTED_STYLE) {
-			pushButton_removeGameTableStyle->setDisabled(TRUE);
+			pushButton_removeGameTableStyle->setDisabled(true);
 		} else {
-			pushButton_removeGameTableStyle->setDisabled(FALSE);
+			pushButton_removeGameTableStyle->setDisabled(false);
 		}
 
 	}
@@ -1208,11 +1208,11 @@ void settingsDialogImpl::addGameTableStyle()
 	if (!fileName.isEmpty()) {
 
 		int i;
-		bool fileNameAlreadyFound(FALSE);
+		bool fileNameAlreadyFound(false);
 		for(i=0; i < treeWidget_gameTableStyles->topLevelItemCount(); i++) {
 			QTreeWidgetItem *item = treeWidget_gameTableStyles->topLevelItem(i);
 			if(item->data(0, 15).toString() == fileName)
-				fileNameAlreadyFound = TRUE;
+				fileNameAlreadyFound = true;
 		}
 
 		if(fileNameAlreadyFound) {
@@ -1290,7 +1290,7 @@ void settingsDialogImpl::showCurrentCardDeckStylePreview()
 		}
 
 #ifdef GUI_800x480
-		label_cardDeckStyleInfo->setWordWrap(TRUE);
+		label_cardDeckStyleInfo->setWordWrap(true);
 #endif
 		label_cardDeckStyleInfo->setText("<b>"+MaintainerName+":</b> "+style.getStyleMaintainerName()+"<br>"+maintainerEMailString+"<b>"+CreateDate+":</b> "+style.getStyleCreateDate()+"");
 		//active the current selected item directly
@@ -1298,9 +1298,9 @@ void settingsDialogImpl::showCurrentCardDeckStylePreview()
 
 		//disable remove button for distributed styles
 		if(item->data(0, 16).toInt() == POKERTH_DISTRIBUTED_STYLE) {
-			pushButton_removeCardDeckStyle->setDisabled(TRUE);
+			pushButton_removeCardDeckStyle->setDisabled(true);
 		} else {
-			pushButton_removeCardDeckStyle->setDisabled(FALSE);
+			pushButton_removeCardDeckStyle->setDisabled(false);
 		}
 	}
 }
@@ -1334,11 +1334,11 @@ void settingsDialogImpl::addCardDeckStyle()
 	if (!fileName.isEmpty()) {
 
 		int i;
-		bool fileNameAlreadyFound(FALSE);
+		bool fileNameAlreadyFound(false);
 		for(i=0; i < treeWidget_cardDeckStyles->topLevelItemCount(); i++) {
 			QTreeWidgetItem *item = treeWidget_cardDeckStyles->topLevelItem(i);
 			if(item->data(0, 15).toString() == fileName)
-				fileNameAlreadyFound = TRUE;
+				fileNameAlreadyFound = true;
 		}
 
 		if(fileNameAlreadyFound) {

@@ -39,7 +39,9 @@
 
 #include <QtGui>
 #include <QtCore>
-
+#if QT_VERSION >= 0x050000
+	#include <QtWidgets>
+#endif
 
 class ConfigFile;
 class changeCompleteBlindsDialogImpl;
@@ -50,7 +52,7 @@ class newGameDialogImpl: public QDialog, public Ui::newGameDialog
 public:
 	newGameDialogImpl(QMainWindow *parent = 0, ConfigFile* = 0);
 
-	void exec();
+	int exec();
 	changeCompleteBlindsDialogImpl* getChangeCompleteBlindsDialog() {
 		return myChangeCompleteBlindsDialog;
 	}

@@ -46,7 +46,7 @@ class internetGameLoginDialogImpl : public QDialog, public Ui::internetGameLogin
 public:
 	internetGameLoginDialogImpl(QWidget *parent = 0, ConfigFile *c =0);
 
-	void exec();
+	int exec();
 	void accept();
 	bool eventFilter(QObject *obj, QEvent *event);
 

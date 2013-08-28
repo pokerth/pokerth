@@ -35,7 +35,7 @@
 #include <QDebug>
 
 AndroidAudio::AndroidAudio(ConfigFile *c, QObject *parent) :
-	QObject(parent), mEngineObject(NULL), mEngineEngine(NULL), mOutputMixObject(NULL), mSounds(), mSoundCount(0), mPlayerObject(NULL), myConfig(c), audioEnabled(FALSE)
+	QObject(parent), mEngineObject(NULL), mEngineEngine(NULL), mOutputMixObject(NULL), mSounds(), mSoundCount(0), mPlayerObject(NULL), myConfig(c), audioEnabled(false)
 {
 	initAudio();
 }
@@ -50,7 +50,7 @@ void AndroidAudio::initAudio()
 	if (!audioEnabled && myConfig->readConfigInt("PlaySoundEffects")) {
 		createEngine();
 		startSoundPlayer();
-		audioEnabled = TRUE;
+		audioEnabled = true;
 	}
 }
 
@@ -63,7 +63,7 @@ void AndroidAudio::closeAudio()
 		for (int32_t i = 0; i < mSoundCount; ++i) {
 			qDeleteAll(mSounds);
 		}
-		audioEnabled = FALSE;
+		audioEnabled = false;
 	}
 }
 
@@ -82,7 +82,7 @@ void AndroidAudio::createEngine()
 	Q_ASSERT(SL_RESULT_SUCCESS == result);
 
 	// realize the engine
-	result = (*mEngineObject)->Realize(mEngineObject, SL_BOOLEAN_FALSE);
+	result = (*mEngineObject)->Realize(mEngineObject, SL_BOOLEAN_false);
 	Q_ASSERT(SL_RESULT_SUCCESS == result);
 
 	// get the engine interface, which is needed in order to create other objects
@@ -96,7 +96,7 @@ void AndroidAudio::createEngine()
 	Q_ASSERT(SL_RESULT_SUCCESS == result);
 
 	// realize the output mix
-	result = (*mOutputMixObject)->Realize(mOutputMixObject, SL_BOOLEAN_FALSE);
+	result = (*mOutputMixObject)->Realize(mOutputMixObject, SL_BOOLEAN_false);
 	Q_ASSERT(SL_RESULT_SUCCESS == result);
 
 	qDebug() << "Created Android Audio Engine";
@@ -171,7 +171,7 @@ void AndroidAudio::startSoundPlayer()
 	//Create the sound player
 	const SLuint32 lSoundPlayerIIDCount = 2;
 	const SLInterfaceID lSoundPlayerIIDs[] = { SL_IID_PLAY, SL_IID_BUFFERQUEUE };
-	const SLboolean lSoundPlayerReqs[] = { SL_BOOLEAN_TRUE, SL_BOOLEAN_TRUE };
+	const SLboolean lSoundPlayerReqs[] = { SL_BOOLEAN_true, SL_BOOLEAN_true };
 
 //    qDebug() << "Configured Sound Player";
 
@@ -180,7 +180,7 @@ void AndroidAudio::startSoundPlayer()
 
 //    qDebug() << "Created Sound Player";
 
-	lRes = (*mPlayerObject)->Realize(mPlayerObject, SL_BOOLEAN_FALSE);
+	lRes = (*mPlayerObject)->Realize(mPlayerObject, SL_BOOLEAN_false);
 	Q_ASSERT(SL_RESULT_SUCCESS == lRes);
 
 	qDebug() << "Realised Sound Player";

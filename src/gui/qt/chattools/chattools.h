@@ -33,6 +33,7 @@
 
 #include <string>
 #include <QtCore>
+#include <QtWidgets>
 #include <QtGui>
 #include <boost/shared_ptr.hpp>
 

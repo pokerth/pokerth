@@ -56,10 +56,10 @@ createNetworkGameDialogImpl::createNetworkGameDialogImpl(QWidget *parent, Config
 }
 
 
-void createNetworkGameDialogImpl::exec()
+int createNetworkGameDialogImpl::exec()
 {
 	fillFormular();
-	QDialog::exec();
+	return QDialog::exec();
 }
 
 void createNetworkGameDialogImpl::createGame()
@@ -131,7 +131,7 @@ void createNetworkGameDialogImpl::callChangeBlindsDialog(bool show)
 		myChangeCompleteBlindsDialog->exec();
 		if(myChangeCompleteBlindsDialog->result() == QDialog::Accepted ) {}
 		else {
-			radioButton_useSavedBlindsSettings->setChecked(TRUE);
+			radioButton_useSavedBlindsSettings->setChecked(true);
 		}
 
 	}

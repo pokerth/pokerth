@@ -36,7 +36,7 @@
 
 
 selectAvatarDialogImpl::selectAvatarDialogImpl(QWidget *parent, ConfigFile *c)
-	: QDialog(parent), myConfig(c), settingsCorrect(TRUE), avatarDir("")
+	: QDialog(parent), myConfig(c), settingsCorrect(true), avatarDir("")
 {
 #ifdef __APPLE__
 	setWindowModality(Qt::ApplicationModal);
@@ -56,7 +56,7 @@ selectAvatarDialogImpl::selectAvatarDialogImpl(QWidget *parent, ConfigFile *c)
 //     	listWidget->setFlow(QListView::TopToBottom);
 //       	listWidget->setWrapping(true);
 	listWidget->setSpacing(20);
-	listWidget->setDragEnabled(FALSE);
+	listWidget->setDragEnabled(false);
 	listWidget->setResizeMode(QListView::Adjust);
 
 
@@ -174,14 +174,12 @@ selectAvatarDialogImpl::selectAvatarDialogImpl(QWidget *parent, ConfigFile *c)
 
 }
 
-void selectAvatarDialogImpl::exec()
+int selectAvatarDialogImpl::exec()
 {
-
 	//clear
 	lineEdit->setText("");
 	refreshAvatarView();
-
-	QDialog::exec();
+	return QDialog::exec();
 }
 
 void selectAvatarDialogImpl::refreshAvatarView()
@@ -217,12 +215,12 @@ void selectAvatarDialogImpl::refreshAvatarView()
 
 void selectAvatarDialogImpl::toggleGroupBox1(bool /*toggleState*/)
 {
-	if(groupBox->isChecked()) groupBox_2->setChecked(FALSE);
+	if(groupBox->isChecked()) groupBox_2->setChecked(false);
 }
 
 void selectAvatarDialogImpl::toggleGroupBox2(bool /*toggleState*/)
 {
-	if(groupBox_2->isChecked()) groupBox->setChecked(FALSE);
+	if(groupBox_2->isChecked()) groupBox->setChecked(false);
 }
 
 QString selectAvatarDialogImpl::getAvatarLink()
@@ -247,15 +245,15 @@ void selectAvatarDialogImpl::isAccepted()
 
 	QList<QListWidgetItem *> myItemList = listWidget->selectedItems();
 
-	settingsCorrect = TRUE;
+	settingsCorrect = true;
 
 	if(groupBox->isChecked()) {
 		if(myItemList.size() == 0) {
 			MyMessageBox::warning(this, tr("Avatar File Error"),
 								  tr("Please select an avatar from the list!"),
 								  QMessageBox::Ok);
-			settingsCorrect = FALSE;
-		} else settingsCorrect = TRUE;;
+			settingsCorrect = false;
+		} else settingsCorrect = true;;
 	}
 
 	if(groupBox_2->isChecked()) {
@@ -264,13 +262,13 @@ void selectAvatarDialogImpl::isAccepted()
 
 			if(lineEditFile.size() <= 30720 ) {
 				externalAvatar = lineEdit->text();
-				settingsCorrect = TRUE;
+				settingsCorrect = true;
 			} else {
 				MyMessageBox::warning(this, tr("Avatar File Error"),
 									  tr("The file size of the chosen picture is too big. (max. 30KB)\n"
 										 "Please choose a smaller picture!"),
 									  QMessageBox::Ok);
-				settingsCorrect = FALSE;
+				settingsCorrect = false;
 				externalAvatar = "";
 
 			}
@@ -279,7 +277,7 @@ void selectAvatarDialogImpl::isAccepted()
 								  tr("The entered avatar picture doesn't exist.\n"
 									 "Please enter an valid picture!"),
 								  QMessageBox::Ok);
-			settingsCorrect = FALSE;
+			settingsCorrect = false;
 			externalAvatar = "";
 		}
 	}
@@ -292,7 +290,7 @@ void selectAvatarDialogImpl::isAccepted()
 
 void selectAvatarDialogImpl::isRejected()
 {
-	settingsCorrect = FALSE;
+	settingsCorrect = false;
 }
 
 void selectAvatarDialogImpl::setExternalAvatar()

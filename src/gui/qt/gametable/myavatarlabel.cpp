@@ -42,7 +42,7 @@
 using namespace std;
 
 MyAvatarLabel::MyAvatarLabel(QGroupBox* parent)
-	: QLabel(parent), voteRunning(FALSE), transparent(FALSE)
+	: QLabel(parent), voteRunning(false), transparent(false)
 {
 
 	myContextMenu = new QMenu;
@@ -86,9 +86,9 @@ void MyAvatarLabel::contextMenuEvent ( QContextMenuEvent *event )
 			GameInfo info(myW->getSession()->getClientGameInfo(myW->getSession()->getClientCurrentGameId()));
 
 			if(activePlayerCounter > 2 && !voteRunning && info.data.gameType != GAME_TYPE_RANKING && !myW->getGuestMode()) {
-				setVoteOnKickContextMenuEnabled(TRUE);
+				setVoteOnKickContextMenuEnabled(true);
 			} else {
-				setVoteOnKickContextMenuEnabled(FALSE);
+				setVoteOnKickContextMenuEnabled(false);
 			}
 
 			action_IgnorePlayer->setEnabled(true);
@@ -110,9 +110,9 @@ void MyAvatarLabel::contextMenuEvent ( QContextMenuEvent *event )
 					}
 
 					if(myW->getSession()->getGameType() == Session::GAME_TYPE_INTERNET && !((*it_c)->getMyAvatar().empty()) ) {
-						action_ReportBadAvatar->setVisible(TRUE);
+						action_ReportBadAvatar->setVisible(true);
 					} else {
-						action_ReportBadAvatar->setVisible(FALSE);
+						action_ReportBadAvatar->setVisible(false);
 					}
 				}
 				j++;
@@ -214,7 +214,7 @@ void MyAvatarLabel::refreshStars()
 	for (seatPlace=0,it_c=seatsList->begin(); it_c!=seatsList->end(); ++it_c, seatPlace++) {
 		for(int i=1; i<=5; i++)myW->playerStarsArray[i][seatPlace]->setText("");
 		if(myW->myStartWindow->getSession()->getGameType() == Session::GAME_TYPE_INTERNET && !myW->getSession()->getClientPlayerInfo((*it_c)->getMyUniqueID()).isGuest && (*it_c)->getMyType() != PLAYER_TYPE_COMPUTER) {
-			if((*it_c)->getMyStayOnTableStatus() == TRUE && (*it_c)->getMyName()!="" && seatPlace!=0) {
+			if((*it_c)->getMyStayOnTableStatus() == true && (*it_c)->getMyName()!="" && seatPlace!=0) {
 				int playerStars=getPlayerRating(QString::fromUtf8((*it_c)->getMyName().c_str()));
 				for(int i=1; i<=5; i++) {
 					myW->playerStarsArray[i][seatPlace]->setText("<a style='color: #"+myW->getMyGameTableStyle()->getRatingStarsColor()+"; "+fontFamily+" font-size: "+fontSize+"px; text-decoration: none;' href='"+QString::fromUtf8((*it_c)->getMyName().c_str())+"\""+QString::number(i)+"'>&#9734;</a>");
@@ -234,7 +234,7 @@ void MyAvatarLabel::refreshTooltips()
 	int seatPlace;
 	PlayerList seatsList = currentGame->getSeatsList();
 	for (seatPlace=0,it_c=seatsList->begin(); it_c!=seatsList->end(); ++it_c, seatPlace++) {
-		if((*it_c)->getMyStayOnTableStatus() == TRUE || (*it_c)->getMyActiveStatus()) {
+		if((*it_c)->getMyStayOnTableStatus() == true || (*it_c)->getMyActiveStatus()) {
 			bool computerPlayer = false;
 			if((*it_c)->getMyType() == PLAYER_TYPE_COMPUTER) {
 				computerPlayer = true;

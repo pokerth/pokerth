@@ -47,7 +47,7 @@ newGameDialogImpl::newGameDialogImpl(QMainWindow *parent, ConfigFile *c)
 
 }
 
-void newGameDialogImpl::exec()
+int newGameDialogImpl::exec()
 {
 
 	spinBox_quantityPlayers->setValue(myConfig->readConfigInt("NumberOfPlayers"));
@@ -79,7 +79,7 @@ void newGameDialogImpl::exec()
 	myChangeCompleteBlindsDialog->spinBox_afterThisAlwaysRaiseValue->setValue(myConfig->readConfigInt("AfterMBAlwaysRaiseValue"));
 	myChangeCompleteBlindsDialog->radioButton_afterThisStayAtLastBlind->setChecked(myConfig->readConfigInt("AfterMBStayAtLastBlind"));
 
-	QDialog::exec();
+	return QDialog::exec();
 }
 
 void newGameDialogImpl::callChangeBlindsDialog(bool show)
@@ -89,7 +89,7 @@ void newGameDialogImpl::callChangeBlindsDialog(bool show)
 		myChangeCompleteBlindsDialog->exec();
 		if(myChangeCompleteBlindsDialog->result() == QDialog::Accepted ) {}
 		else {
-			radioButton_useSavedBlindsSettings->setChecked(TRUE);
+			radioButton_useSavedBlindsSettings->setChecked(true);
 		}
 
 	}

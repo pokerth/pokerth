@@ -54,7 +54,7 @@ public:
 	ConfigFile *myConfig;
 	std::string myServerProfilesFile;
 
-	void exec();
+	int exec();
 
 public slots:
 

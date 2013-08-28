@@ -64,7 +64,7 @@ public:
 
 	~gameLobbyDialogImpl();
 
-	void exec();
+	int exec();
 
 	ChatTools *getMyChat() {
 		return myChat;
@@ -162,6 +162,10 @@ public slots:
 	void reportBadGameName();
 	void adminActionCloseGame();
 	void adminActionTotalKickBan();
+	void addConnectedSpectator(unsigned spectatorId, QString spectatorName);
+	void removeSpectator(unsigned spectatorId, QString);
+	void gameAddSpectator(unsigned, unsigned);
+	void gameRemoveSpectator(unsigned, unsigned);
 
 private:
 

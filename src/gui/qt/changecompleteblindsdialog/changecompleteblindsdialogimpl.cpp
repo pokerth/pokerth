@@ -35,7 +35,7 @@
 
 
 changeCompleteBlindsDialogImpl::changeCompleteBlindsDialogImpl(QWidget *parent, ConfigFile *c)
-	: QDialog(parent), myConfig(c), settingsCorrect(TRUE)
+	: QDialog(parent), myConfig(c), settingsCorrect(true)
 {
 #ifdef __APPLE__
 	setWindowModality(Qt::ApplicationModal);
@@ -50,11 +50,9 @@ changeCompleteBlindsDialogImpl::changeCompleteBlindsDialogImpl(QWidget *parent, 
 
 }
 
-void changeCompleteBlindsDialogImpl::exec()
+int changeCompleteBlindsDialogImpl::exec()
 {
-
-
-	QDialog::exec();
+	return QDialog::exec();
 }
 
 void changeCompleteBlindsDialogImpl::updateSpinBoxInputMinimum(int value)
@@ -88,7 +86,7 @@ void changeCompleteBlindsDialogImpl::sortBlindsList()
 	int i;
 	QList<int> tempIntList;
 	QStringList tempStringList;
-	bool ok = TRUE;
+	bool ok = true;
 
 	for(i=0; i<listWidget_blinds->count(); i++) {
 // 		std::cout << listWidget_blinds->item(i)->text().toInt(&ok,10) << "\n";

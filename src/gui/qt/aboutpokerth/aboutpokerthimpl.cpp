@@ -35,7 +35,7 @@
 
 #ifdef ANDROID
 	#ifndef ANDROID_TEST
-		#include <QPlatformNativeInterface>
+		#include "QtGui/5.1.0/QtGui/qpa/qplatformnativeinterface.h"
 		#include <jni.h>
 	#endif
 #endif
@@ -72,7 +72,7 @@ aboutPokerthImpl::aboutPokerthImpl(QWidget *parent, ConfigFile *c)
 #ifdef ANDROID
 	int api = -2;
 	#ifndef ANDROID_TEST
-		JavaVM *currVM = (JavaVM *)QApplication::platformNativeInterface()->nativeResourceForWidget("JavaVM", 0);
+		JavaVM *currVM = (JavaVM *)QApplication::platformNativeInterface()->nativeResourceForIntegration("JavaVM");
 		JNIEnv* env;
 		if (currVM->AttachCurrentThread(&env, NULL)<0) {
 			qCritical()<<"AttachCurrentThread failed";

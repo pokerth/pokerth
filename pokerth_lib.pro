@@ -255,7 +255,7 @@ mac{
 
 android{
 	# Use old boost::filesystem, because the new version requires std::wstring.
-	DEFINES += BOOST_FILESYSTEM_VERSION=2
+	DEFINES += BOOST_FILESYSTEM_VERSION=3
 	# sqlite3 is included directly.
 	INCLUDEPATH += src/third_party/sqlite3
 	SOURCES += src/third_party/sqlite3/sqlite3.c

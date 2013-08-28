@@ -94,7 +94,7 @@ void internetGameLoginDialogImpl::guestUserToggled(bool b)
 	okButtonCheck();
 }
 
-void internetGameLoginDialogImpl::exec()
+int internetGameLoginDialogImpl::exec()
 {
 
 	if(myConfig->readConfigInt("InternetLoginMode") == 0) {
@@ -117,7 +117,7 @@ void internetGameLoginDialogImpl::exec()
 		lineEdit_password->setFocus();
 	}
 
-	QDialog::exec();
+	return QDialog::exec();
 }
 
 void internetGameLoginDialogImpl::accept()

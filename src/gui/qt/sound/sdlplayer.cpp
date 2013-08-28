@@ -39,7 +39,7 @@
 using namespace std;
 
 SDLPlayer::SDLPlayer(ConfigFile *c)
-	: sound(NULL), soundData(NULL), currentChannel(0), audioEnabled(FALSE), myConfig(c)
+	: sound(NULL), soundData(NULL), currentChannel(0), audioEnabled(false), myConfig(c)
 {
 	myAppDataPath = QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str());
 	SDL_Init(SDL_INIT_AUDIO);

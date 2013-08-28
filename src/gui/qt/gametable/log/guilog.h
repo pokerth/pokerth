@@ -41,6 +41,9 @@
 #include <QtCore>
 #include <QtGui>
 #include <QtSql>
+#if QT_VERSION >= 0x050000
+	#include <QtWidgets>
+#endif
 
 struct result_struct {
 	char **result_Session;

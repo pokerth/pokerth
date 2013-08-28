@@ -27,33 +27,51 @@
 **
 ****************************************************************************/
 
-#include <QCoreApplication>
+#ifndef QTLOCKEDFILE_H
+#define QTLOCKEDFILE_H
+
+#include <QFile>
+
+#if defined(Q_OS_WIN)
+#  if !defined(QT_QTLOCKEDFILE_EXPORT) && !defined(QT_QTLOCKEDFILE_IMPORT)
+#    define QT_QTLOCKEDFILE_EXPORT
+#  elif defined(QT_QTLOCKEDFILE_IMPORT)
+#    if defined(QT_QTLOCKEDFILE_EXPORT)
+#      undef QT_QTLOCKEDFILE_EXPORT
+#    endif
+#    define QT_QTLOCKEDFILE_EXPORT __declspec(dllimport)
+#  elif defined(QT_QTLOCKEDFILE_EXPORT)
+#    undef QT_QTLOCKEDFILE_EXPORT
+#    define QT_QTLOCKEDFILE_EXPORT __declspec(dllexport)
+#  endif
+#else
+#  define QT_QTLOCKEDFILE_EXPORT
+#endif
 
 namespace SharedTools {
 
-class QtLocalPeer;
-
-class QtSingleCoreApplication : public QCoreApplication
+class QT_QTLOCKEDFILE_EXPORT QtLockedFile : public QFile
 {
-    Q_OBJECT
-
 public:
-    QtSingleCoreApplication(int &argc, char **argv);
-    QtSingleCoreApplication(const QString &id, int &argc, char **argv);
+    enum LockMode { NoLock = 0, ReadLock, WriteLock };
 
-    bool isRunning();
-    QString id() const;
+    QtLockedFile();
+    QtLockedFile(const QString &name);
+    ~QtLockedFile();
 
-public Q_SLOTS:
-    bool sendMessage(const QString &message, int timeout = 5000);
-
-
-Q_SIGNALS:
-    void messageReceived(const QString &message);
-
+    bool lock(LockMode mode, bool block = true);
+    bool unlock();
+    bool isLocked() const;
+    LockMode lockMode() const;
 
 private:
-    QtLocalPeer* peer;
+#ifdef Q_OS_WIN
+    Qt::HANDLE m_semaphore_hnd;
+    Qt::HANDLE m_mutex_hnd;
+#endif
+    LockMode m_lock_mode;
 };
 
 } // namespace SharedTools
+
+#endif // QTLOCKEDFILE_H

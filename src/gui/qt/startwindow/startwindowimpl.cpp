@@ -61,7 +61,7 @@
 
 #ifdef ANDROID
 	#ifndef ANDROID_TEST
-		#include <QPlatformNativeInterface>
+		#include "QtGui/5.1.0/QtGui/qpa/qplatformnativeinterface.h"
 		#include <jni.h>
 	#endif
 #endif
@@ -114,7 +114,7 @@ startWindowImpl::startWindowImpl(ConfigFile *c, Log *l)
 		}
 		this->showFullScreen();
 
-		//TODO HACK Missing QSystemScreenSaver::setScreenSaverInhibited(TRUE)
+		//TODO HACK Missing QSystemScreenSaver::setScreenSaverInhibited(true)
 //		#ifndef ANDROID_TEST
 //			JavaVM *currVM = (JavaVM *)QApplication::platformNativeInterface()->nativeResourceForWidget("JavaVM", 0);
 //			JNIEnv* env;
@@ -215,8 +215,8 @@ startWindowImpl::startWindowImpl(ConfigFile *c, Log *l)
 	connect(this, SIGNAL(signalNetClientPlayerJoined(unsigned, QString, bool)), myGameLobbyDialog, SLOT(addConnectedPlayer(unsigned, QString, bool)));
 	connect(this, SIGNAL(signalNetClientPlayerChanged(unsigned, QString)), myGameLobbyDialog, SLOT(updatePlayer(unsigned, QString)));
 	connect(this, SIGNAL(signalNetClientPlayerLeft(unsigned, QString)), myGameLobbyDialog, SLOT(removePlayer(unsigned, QString)));
-	// TODO connect(this, SIGNAL(signalNetClientSpectatorJoined(unsigned, QString)), myGameLobbyDialog, SLOT(addConnectedSpectator(unsigned, QString)));
-	// TODO connect(this, SIGNAL(signalNetClientSpectatorLeft(unsigned, QString)), myGameLobbyDialog, SLOT(removeSpectator(unsigned, QString)));
+	connect(this, SIGNAL(signalNetClientSpectatorJoined(unsigned, QString)), myGameLobbyDialog, SLOT(addConnectedSpectator(unsigned, QString)));
+	connect(this, SIGNAL(signalNetClientSpectatorLeft(unsigned, QString)), myGameLobbyDialog, SLOT(removeSpectator(unsigned, QString)));
 	connect(this, SIGNAL(signalNetClientNewGameAdmin(unsigned, QString)), myGameLobbyDialog, SLOT(newGameAdmin(unsigned, QString)));
 
 	connect(this, SIGNAL(signalNetClientGameListNew(unsigned)), myGameLobbyDialog, SLOT(addGame(unsigned)));
@@ -225,8 +225,8 @@ startWindowImpl::startWindowImpl(ConfigFile *c, Log *l)
 	connect(this, SIGNAL(signalNetClientGameListUpdateAdmin(unsigned, unsigned)), myGameLobbyDialog, SLOT(updateGameAdmin(unsigned, unsigned)));
 	connect(this, SIGNAL(signalNetClientGameListPlayerJoined(unsigned, unsigned)), myGameLobbyDialog, SLOT(gameAddPlayer(unsigned, unsigned)));
 	connect(this, SIGNAL(signalNetClientGameListPlayerLeft(unsigned, unsigned)), myGameLobbyDialog, SLOT(gameRemovePlayer(unsigned, unsigned)));
-	// TODO connect(this, SIGNAL(signalNetClientGameListSpectatorJoined(unsigned, unsigned)), myGameLobbyDialog, SLOT(gameAddSpectator(unsigned, unsigned)));
-	// TODO connect(this, SIGNAL(signalNetClientGameListSpectatorLeft(unsigned, unsigned)), myGameLobbyDialog, SLOT(gameRemoveSpectator(unsigned, unsigned)));
+	connect(this, SIGNAL(signalNetClientGameListSpectatorJoined(unsigned, unsigned)), myGameLobbyDialog, SLOT(gameAddSpectator(unsigned, unsigned)));
+	connect(this, SIGNAL(signalNetClientGameListSpectatorLeft(unsigned, unsigned)), myGameLobbyDialog, SLOT(gameRemoveSpectator(unsigned, unsigned)));
 	connect(this, SIGNAL(signalNetClientRemovedFromGame(int)), myGameLobbyDialog, SLOT(removedFromGame(int)));
 	connect(this, SIGNAL(signalNetClientStatsUpdate(ServerStats)), myGameLobbyDialog, SLOT(updateStats(ServerStats)));
 
@@ -320,7 +320,7 @@ void startWindowImpl::startNewLocalGame(newGameDialogImpl *v)
 			gameData.raiseMode = MANUAL_BLINDS_ORDER;
 			list<int> tempBlindList;
 			int i;
-			bool ok = TRUE;
+			bool ok = true;
 			for(i=0; i<v->getChangeCompleteBlindsDialog()->listWidget_blinds->count(); i++) {
 				tempBlindList.push_back(v->getChangeCompleteBlindsDialog()->listWidget_blinds->item(i)->text().toInt(&ok,10));
 			}
@@ -534,7 +534,7 @@ void startWindowImpl::callCreateNetworkGameDialog()
 			gameData.raiseMode = MANUAL_BLINDS_ORDER;
 			std::list<int> tempBlindList;
 			int i;
-			bool ok = TRUE;
+			bool ok = true;
 			for(i=0; i<myCreateNetworkGameDialog->getChangeCompleteBlindsDialog()->listWidget_blinds->count(); i++) {
 				tempBlindList.push_back(myCreateNetworkGameDialog->getChangeCompleteBlindsDialog()->listWidget_blinds->item(i)->text().toInt(&ok,10));
 			}

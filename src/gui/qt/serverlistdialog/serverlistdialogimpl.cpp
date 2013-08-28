@@ -50,10 +50,9 @@ serverListDialogImpl::serverListDialogImpl(startWindowImpl *sw, QMainWindow *par
 	connect( this, SIGNAL( rejected() ), this, SLOT( closeNetworkClient() ));
 }
 
-void serverListDialogImpl::exec()
+int serverListDialogImpl::exec()
 {
-
-	QDialog::exec();
+	return QDialog::exec();
 }
 
 void serverListDialogImpl::clearList()

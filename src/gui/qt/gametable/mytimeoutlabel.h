@@ -36,6 +36,9 @@
 #include <QtGui>
 #include <QtCore>
 #include <third_party/boost/timers.hpp>
+#if QT_VERSION >= 0x050000
+	#include <QtWidgets>
+#endif
 
 class gameTableImpl;
 

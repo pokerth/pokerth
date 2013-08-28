@@ -18,6 +18,7 @@ CONFIG += qt \
 	warn_on
 include(src/third_party/qtsingleapplication/qtsingleapplication.pri)
 QT += sql
+greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 UI_DIR = uics
 MOC_DIR = mocs
 OBJECTS_DIR = obj
@@ -412,8 +413,8 @@ unix:!mac {
 			$${PREFIX}/lib64
 	}
 	android{
-		LIBPATH += $${PREFIX}/lib/armv5
-		LIB_DIRS = $${PREFIX}/lib/armv5
+		LIBPATH += $${PREFIX}/lib/armv7
+		LIB_DIRS = $${PREFIX}/lib/armv7
 	}
 	BOOST_FS = boost_filesystem \
 		boost_filesystem-mt
@@ -635,7 +636,7 @@ gui_800x480 {
 
 android{
 	# Use old boost::filesystem, because the new version requires std::wstring.
-	DEFINES += BOOST_FILESYSTEM_VERSION=2
+	DEFINES += BOOST_FILESYSTEM_VERSION=3
 	# sqlite3 is included directly.
 	INCLUDEPATH += src/third_party/sqlite3
 

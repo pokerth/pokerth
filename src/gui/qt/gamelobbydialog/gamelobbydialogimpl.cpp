@@ -90,13 +90,13 @@ gameLobbyDialogImpl::gameLobbyDialogImpl(startWindowImpl *parent, ConfigFile *c)
 	label_rankings->setText(clickToRanking);
 
 	waitStartGameMsgBoxTimer = new QTimer(this);
-	waitStartGameMsgBoxTimer->setSingleShot(TRUE);
+	waitStartGameMsgBoxTimer->setSingleShot(true);
 	blinkingButtonAnimationTimer = new QTimer(this);
 	blinkingButtonAnimationTimer->setInterval(1000);
 	autoStartTimer = new QTimer(this);
 	autoStartTimer->setInterval(1000);
 	showInfoMsgBoxTimer = new QTimer(this);
-	showInfoMsgBoxTimer->setSingleShot(TRUE);
+	showInfoMsgBoxTimer->setSingleShot(true);
 
 	//fetch button colors for blinking
 	groupBox_GameInfo->setEnabled(true);
@@ -111,12 +111,12 @@ gameLobbyDialogImpl::gameLobbyDialogImpl(startWindowImpl *parent, ConfigFile *c)
 	//prepare overlay
 	autoStartTimerOverlay = new QLabel(scrollArea_gameInfos);
 	autoStartTimerOverlay->hide();
-	autoStartTimerOverlay->setWordWrap(TRUE);
+	autoStartTimerOverlay->setWordWrap(true);
 	autoStartTimerOverlay->setMaximumWidth(190);
 	autoStartTimerOverlay->setMinimumWidth(190);
 	autoStartTimerOverlay->setTextFormat(Qt::RichText);
 	autoStartTimerOverlay->setAlignment(Qt::AlignCenter);
-	autoStartTimerOverlay->setAutoFillBackground(TRUE);
+	autoStartTimerOverlay->setAutoFillBackground(true);
 	autoStartTimerOverlay->setFrameStyle(QFrame::StyledPanel);
 	QPalette p;
 	p.setColor(QPalette::Background, QColor(255, 255, 255, 210));
@@ -126,7 +126,7 @@ gameLobbyDialogImpl::gameLobbyDialogImpl(startWindowImpl *parent, ConfigFile *c)
 	myGameListModel = new QStandardItemModel(this);
 	myGameListSortFilterProxyModel = new MyGameListSortFilterProxyModel(this);
 	myGameListSortFilterProxyModel->setSourceModel(myGameListModel);
-	myGameListSortFilterProxyModel->setDynamicSortFilter(TRUE);
+	myGameListSortFilterProxyModel->setDynamicSortFilter(true);
 	treeView_GameList->setModel(myGameListSortFilterProxyModel);
 
 	myGameListSelectionModel = treeView_GameList->selectionModel();
@@ -174,12 +174,12 @@ gameLobbyDialogImpl::gameLobbyDialogImpl(startWindowImpl *parent, ConfigFile *c)
 
 	treeView_GameList->setStyleSheet("QTreeView {background-color: white; background-image: url(\""+myAppDataPath +"gfx/gui/misc/background_gamelist.png\"); background-attachment: fixed; background-position: top center ; background-repeat: no-repeat;}");
 #endif
-	treeView_GameList->setAutoFillBackground(TRUE);
+	treeView_GameList->setAutoFillBackground(true);
 
 	myNickListModel = new QStandardItemModel(this);
 	myNickListSortFilterProxyModel = new MyNickListSortFilterProxyModel(this);
 	myNickListSortFilterProxyModel->setSourceModel(myNickListModel);
-	myNickListSortFilterProxyModel->setDynamicSortFilter(TRUE);
+	myNickListSortFilterProxyModel->setDynamicSortFilter(true);
 	myNickListSortFilterProxyModel->setSortCaseSensitivity(Qt::CaseInsensitive);
 
 	treeView_NickList->setModel(myNickListSortFilterProxyModel);
@@ -256,7 +256,7 @@ gameLobbyDialogImpl::gameLobbyDialogImpl(startWindowImpl *parent, ConfigFile *c)
 
 }
 
-void gameLobbyDialogImpl::exec()
+int gameLobbyDialogImpl::exec()
 {
 
 	if(myConfig->readConfigInt("UseLobbyChat"))  {
@@ -276,10 +276,11 @@ void gameLobbyDialogImpl::exec()
 #ifdef ANDROID
 	this->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
 #endif
-	QDialog::exec();
-
+	int ret = QDialog::exec();
 	waitStartGameMsgBoxTimer->stop();
 	closeAllChildDialogs();
+
+	return ret;
 }
 
 
@@ -328,7 +329,7 @@ void gameLobbyDialogImpl::createGame()
 			gameData.raiseMode = MANUAL_BLINDS_ORDER;
 			std::list<int> tempBlindList;
 			int i;
-			bool ok = TRUE;
+			bool ok = true;
 			for(i=0; i<myCreateInternetGameDialog->getChangeCompleteBlindsDialog()->listWidget_blinds->count(); i++) {
 				tempBlindList.push_back(myCreateInternetGameDialog->getChangeCompleteBlindsDialog()->listWidget_blinds->item(i)->text().toInt(&ok,10));
 			}
@@ -376,14 +377,10 @@ void gameLobbyDialogImpl::createGame()
 		break;
 		}
 
-		showGameDescription(TRUE);
+		showGameDescription(true);
 
 		label_SmallBlind->setText(QString("%L1").arg(gameData.firstSmallBlind));
 		label_StartCash->setText(QString("%L1").arg(gameData.startMoney));
-
-		QTreeWidgetItem *header = treeWidget_connectedPlayers->headerItem();
-		header->setText(0, tr("Connected players - max. %1").arg(gameData.maxNumberOfPlayers));
-		header->setData(0, Qt::UserRole, gameData.maxNumberOfPlayers);
 
 		updateDialogBlinds(gameData);
 
@@ -422,7 +419,7 @@ void gameLobbyDialogImpl::joinAnyGame()
 
 	if(comboBox_gameListFilter->currentIndex() != 3 && comboBox_gameListFilter->currentIndex() != 0 && comboBox_gameListFilter->currentIndex() != 5) comboBox_gameListFilter->setCurrentIndex(0);
 
-	bool found = FALSE;
+	bool found = false;
 
 	int it = 0;
 	int gameToJoinId = 0;
@@ -437,7 +434,7 @@ void gameLobbyDialogImpl::joinAnyGame()
 				mostConnectedPlayers = players;
 				gameToJoinId = it;
 			}
-			found = TRUE;
+			found = true;
 		}
 		it++;
 	}
@@ -550,7 +547,7 @@ void gameLobbyDialogImpl::gameSelected(const QModelIndex &index)
 		break;
 		}
 
-		showGameDescription(TRUE);
+		showGameDescription(true);
 		label_SmallBlind->setText(QString("%L1").arg(info.data.firstSmallBlind));
 		label_StartCash->setText(QString("%L1").arg(info.data.startMoney));
 		//		label_MaximumNumberOfPlayers->setText(QString::number(info.data.maxNumberOfPlayers));s
@@ -568,9 +565,6 @@ void gameLobbyDialogImpl::gameSelected(const QModelIndex &index)
 			++i;
 		}
 
-		QTreeWidgetItem *header = treeWidget_connectedPlayers->headerItem();
-		header->setText(0, tr("Connected players - Max. %1").arg(info.data.maxNumberOfPlayers));
-		header->setData(0, Qt::UserRole, info.data.maxNumberOfPlayers);
 #ifdef __APPLE__
 		// Dirty workaround for a Qt redraw bug on Mac OS.
 		treeWidget_connectedPlayers->setFocus();
@@ -743,8 +737,8 @@ void gameLobbyDialogImpl::refreshGameStats()
 		++it;
 	}
 
-	label_openGamesCounter->setText("| "+tr("running games: %1").arg(runningGamesCounter));
-	label_runningGamesCounter->setText("| "+tr("open games: %1").arg(openGamesCounter));
+	label_openGamesCounter->setText(" | "+tr("running games: %1").arg(runningGamesCounter));
+	label_runningGamesCounter->setText(" | "+tr("open games: %1").arg(openGamesCounter));
 
 	//refresh joinAnyGameButton state
 	joinAnyGameButtonRefresh();
@@ -796,6 +790,11 @@ void gameLobbyDialogImpl::gameAddPlayer(unsigned gameId, unsigned playerId)
 	}
 }
 
+void gameLobbyDialogImpl::gameAddSpectator(unsigned, unsigned)
+{
+	qDebug("jojo GameADDSpecator");
+}
+
 void gameLobbyDialogImpl::gameRemovePlayer(unsigned gameId, unsigned playerId)
 {
 	if (!inGame) {
@@ -832,6 +831,11 @@ void gameLobbyDialogImpl::gameRemovePlayer(unsigned gameId, unsigned playerId)
 	}
 }
 
+void gameLobbyDialogImpl::gameRemoveSpectator(unsigned, unsigned)
+{
+	qDebug("jojo GameRemoveSpecator");
+}
+
 void gameLobbyDialogImpl::updateStats(ServerStats /*stats*/)
 {
 	refreshPlayerStats();
@@ -843,11 +847,7 @@ void gameLobbyDialogImpl::clearDialog()
 	groupBox_GameInfo->setEnabled(false);
 	currentGameName = "";
 
-	QTreeWidgetItem *header = treeWidget_connectedPlayers->headerItem();
-	header->setText(0, tr("Connected players"));
-	header->setData(0, Qt::UserRole, 0);
-
-	showGameDescription(FALSE);
+	showGameDescription(false);
 	label_typeIcon->setText(" ");
 	label_typeText->setText(" ");
 	label_SmallBlind->setText("");
@@ -911,17 +911,18 @@ void gameLobbyDialogImpl::clearDialog()
 	isGameAdministrator = false;
 	myPlayerId = 0;
 
-	showGameDescription(FALSE);
+	showGameDescription(false);
 
 	label_connectedPlayersCounter->setText(tr("connected players: %1").arg(0));
-	label_openGamesCounter->setText("| "+tr("running games: %1").arg(0));
-	label_runningGamesCounter->setText("| "+tr("open games: %1").arg(0));
+	label_openGamesCounter->setText(" | "+tr("running games: %1").arg(0));
+	label_runningGamesCounter->setText(" | "+tr("open games: %1").arg(0));
 
 	readDialogSettings();
 }
 
 void gameLobbyDialogImpl::checkPlayerQuantity()
 {
+	tabWidget_playerSpectators->setTabText(0, tr("Players (%1)").arg(treeWidget_connectedPlayers->topLevelItemCount()));
 
 	assert(mySession);
 	GameInfo info(mySession->getClientGameInfo(mySession->getClientCurrentGameId()));
@@ -935,7 +936,7 @@ void gameLobbyDialogImpl::checkPlayerQuantity()
 		if (treeWidget_connectedPlayers->topLevelItemCount() >= 2) {
 			pushButton_StartGame->setEnabled(true);
 
-			if(treeWidget_connectedPlayers->topLevelItemCount() == treeWidget_connectedPlayers->headerItem()->data(0, Qt::UserRole).toInt()) {
+			if(treeWidget_connectedPlayers->topLevelItemCount() == info.data.maxNumberOfPlayers) {
 				blinkingButtonAnimationTimer->start();
 			} else {
 				blinkingButtonAnimationTimer->stop();
@@ -951,7 +952,7 @@ void gameLobbyDialogImpl::checkPlayerQuantity()
 	}
 
 	//general actions
-	if(treeWidget_connectedPlayers->topLevelItemCount() < treeWidget_connectedPlayers->headerItem()->data(0, Qt::UserRole).toInt()) {
+	if(treeWidget_connectedPlayers->topLevelItemCount() < info.data.maxNumberOfPlayers) {
 		autoStartTimerOverlay->hide();
 		autoStartTimer->stop();
 	}
@@ -1040,6 +1041,17 @@ void gameLobbyDialogImpl::addConnectedPlayer(unsigned playerId, QString playerNa
 		refreshConnectedPlayerAvatars();
 }
 
+void gameLobbyDialogImpl::addConnectedSpectator(unsigned spectatorId, QString spectatorName) {
+
+	qDebug("JOJO add spect");
+	QTreeWidgetItem *item = new QTreeWidgetItem(treeWidget_connectedSpectators, 0);
+	item->setData(0, Qt::UserRole, spectatorId);
+	item->setData(0, Qt::DisplayRole, spectatorName);
+	tabWidget_playerSpectators->setTabText(1, tr("Spectators (%1)").arg(treeWidget_connectedSpectators->topLevelItemCount()));
+//	if (inGame)
+//		refreshConnectedSpecatatorAvatars();
+}
+
 void gameLobbyDialogImpl::updatePlayer(unsigned playerId, QString newPlayerName)
 {
 
@@ -1095,7 +1107,7 @@ void gameLobbyDialogImpl::updatePlayer(unsigned playerId, QString newPlayerName)
 
 void gameLobbyDialogImpl::removePlayer(unsigned playerId, QString)
 {
-
+	qDebug("JOJO remove player");
 	QTreeWidgetItemIterator it(treeWidget_connectedPlayers);
 	while (*it) {
 		if ((*it)->data(0, Qt::UserRole) == playerId) {
@@ -1104,9 +1116,22 @@ void gameLobbyDialogImpl::removePlayer(unsigned playerId, QString)
 		}
 		++it;
 	}
-
 	checkPlayerQuantity();
+}
 
+
+void gameLobbyDialogImpl::removeSpectator(unsigned spectatorId, QString)
+{
+	qDebug("JOJO remove spect");
+	QTreeWidgetItemIterator it(treeWidget_connectedSpectators);
+	while (*it) {
+		if ((*it)->data(0, Qt::UserRole) == spectatorId) {
+			treeWidget_connectedSpectators->takeTopLevelItem(treeWidget_connectedSpectators->indexOfTopLevelItem(*it));
+			break;
+		}
+		++it;
+	}
+	tabWidget_playerSpectators->setTabText(1, tr("Spectators (%1)").arg(treeWidget_connectedSpectators->topLevelItemCount()));
 }
 
 void gameLobbyDialogImpl::playerLeftLobby(unsigned playerId)
@@ -1237,15 +1262,12 @@ void gameLobbyDialogImpl::joinedGameDialogUpdate()
 	break;
 	}
 
-	showGameDescription(TRUE);
+	showGameDescription(true);
 	label_SmallBlind->setText(QString("%L1").arg(info.data.firstSmallBlind));
 	label_StartCash->setText(QString("%L1").arg(info.data.startMoney));
 	updateDialogBlinds(info.data);
 	label_GameTiming->setText(QString::number(info.data.playerActionTimeoutSec)+" "+tr("sec (action)")+"\n"+QString::number(info.data.delayBetweenHandsSec)+" "+tr("sec (hand delay)"));
 
-	QTreeWidgetItem *header = treeWidget_connectedPlayers->headerItem();
-	header->setText(0, tr("Connected players - Max. %1").arg(info.data.maxNumberOfPlayers));
-	header->setData(0, Qt::UserRole, info.data.maxNumberOfPlayers);
 }
 
 void gameLobbyDialogImpl::leftGameDialogUpdate()
@@ -1258,11 +1280,7 @@ void gameLobbyDialogImpl::leftGameDialogUpdate()
 	groupBox_GameInfo->setEnabled(false);
 	currentGameName = "";
 
-	QTreeWidgetItem *header = treeWidget_connectedPlayers->headerItem();
-	header->setText(0, tr("Connected players"));
-	header->setData(0, Qt::UserRole, 0);
-
-	showGameDescription(FALSE);
+	showGameDescription(false);
 	label_typeIcon->setText(" ");
 	label_typeText->setText(" ");
 	label_SmallBlind->setText("");
@@ -1436,6 +1454,7 @@ void gameLobbyDialogImpl::showGameDescription(bool show)
 		label_gameDesc5->show();
 		label_gameDesc6->show();
 		label_gameDesc7->show();
+		checkPlayerQuantity();
 	} else {
 		label_gameType->hide();
 		label_gameDesc2->hide();
@@ -1444,6 +1463,9 @@ void gameLobbyDialogImpl::showGameDescription(bool show)
 		label_gameDesc5->hide();
 		label_gameDesc6->hide();
 		label_gameDesc7->hide();
+		tabWidget_playerSpectators->setTabText(0, tr("Players (%1)").arg(0));
+		tabWidget_playerSpectators->setTabText(1, tr("Spectators (%1)").arg(0));
+
 	}
 }
 
@@ -1480,8 +1502,8 @@ void gameLobbyDialogImpl::joinAnyGameButtonRefresh()
 		++it;
 	}
 
-	if(openNonPrivateNonFullGamesCounter) pushButton_joinAnyGame->setEnabled(TRUE);
-	else pushButton_joinAnyGame->setEnabled(FALSE);
+	if(openNonPrivateNonFullGamesCounter) pushButton_joinAnyGame->setEnabled(true);
+	else pushButton_joinAnyGame->setEnabled(false);
 }
 
 void gameLobbyDialogImpl::reject()

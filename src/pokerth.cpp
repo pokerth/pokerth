@@ -33,6 +33,8 @@
 #include <cstdlib>
 #include <ctime>
 #include <qapplication.h>
+
+#include <QtWidgets>
 #include <QtGui>
 #include <QtCore>
 
@@ -84,7 +86,7 @@ int main( int argc, char **argv )
 	curl_global_init(CURL_GLOBAL_NOTHING);
 
 	/////// can be removed for non-qt-guis ////////////
-	QtSingleApplication a( argc, argv );
+	SharedTools::QtSingleApplication a( "PokerTH", argc, argv );
 
 	if (a.sendMessage("Wake up!")) {
 		return 0;
@@ -103,7 +105,9 @@ int main( int argc, char **argv )
 	Log *myLog = new Log(myConfig);
 
 	// set PlastiqueStyle even for mac-version to prevent artefacts on styled widgets
+#if QT_VERSION < 0x050000
 	a.setStyle(new QPlastiqueStyle);
+#endif
 
 	QString	myAppDataPath = QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str());
 	//set QApplication default font

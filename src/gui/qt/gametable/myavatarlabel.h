@@ -35,6 +35,9 @@
 #include "startwindowimpl.h"
 #include <QtGui>
 #include <QtCore>
+#if QT_VERSION >= 0x050000
+	#include <QtWidgets>
+#endif
 
 class gameTableImpl;
 class startWindowImpl;
@@ -65,8 +68,8 @@ public slots:
 	void setVoteRunning ( bool theValue ) {
 		voteRunning = theValue;
 	}
-	void setPixmap ( const QPixmap &, const bool = FALSE);
-	void setPixmapAndCountry ( const QPixmap &, QString country, int seatPlace, const bool = FALSE);
+	void setPixmap ( const QPixmap &, const bool = false);
+	void setPixmapAndCountry ( const QPixmap &, QString country, int seatPlace, const bool = false);
 	void setPixmapPath ( const QString theValue) {
 		myPath = theValue;
 	}

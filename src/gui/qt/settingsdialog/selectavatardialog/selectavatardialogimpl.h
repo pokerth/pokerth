@@ -36,7 +36,9 @@
 #else
 #include "ui_selectavatardialog.h"
 #endif
-
+#if QT_VERSION >= 0x050000
+	#include <QtWidgets>
+#endif
 #include <QtCore>
 #include <QtGui>
 
@@ -49,7 +51,7 @@ class selectAvatarDialogImpl: public QDialog, public Ui::selectAvatarDialog
 public:
 	selectAvatarDialogImpl(QWidget *parent = 0, ConfigFile *c = 0);
 
-	void exec();
+	int exec();
 
 
 public slots:

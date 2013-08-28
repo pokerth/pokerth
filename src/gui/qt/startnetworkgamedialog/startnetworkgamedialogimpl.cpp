@@ -62,10 +62,9 @@ startNetworkGameDialogImpl::startNetworkGameDialogImpl(startWindowImpl *parent, 
 	clearDialog();
 }
 
-void startNetworkGameDialogImpl::exec()
+int startNetworkGameDialogImpl::exec()
 {
-
-	QDialog::exec();
+	return QDialog::exec();
 }
 
 void startNetworkGameDialogImpl::startGame()

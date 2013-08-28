@@ -41,12 +41,12 @@ connectToServerDialogImpl::connectToServerDialogImpl(QWidget *parent)
 	setupUi(this);
 }
 
-void connectToServerDialogImpl::exec()
+int connectToServerDialogImpl::exec()
 {
 	label_actionMessage->setText("");
 	progressBar->setValue(0);
 
-	QDialog::exec();
+	return QDialog::exec();
 }
 
 void connectToServerDialogImpl::refresh(int actionID)

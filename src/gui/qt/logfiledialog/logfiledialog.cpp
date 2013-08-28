@@ -70,13 +70,14 @@ LogFileDialog::~LogFileDialog()
 	delete ui;
 }
 
-void LogFileDialog::exec()
+int LogFileDialog::exec()
 {
 	uploader->Run();
 	refreshLogFileList();
-	QDialog::exec();
+	int ret	= QDialog::exec();
 	uploader->SignalTermination();
 	uploader->Join(THREAD_WAIT_INFINITE);
+	return ret;
 }
 
 void LogFileDialog::UploadCompleted(const std::string &filename, const std::string &returnMessage)
@@ -99,7 +100,7 @@ void LogFileDialog::refreshLogFileList()
 
 	QFileInfo currentSqliteLogFile(QString::fromStdString(myGuiLog->getMySqliteLogFileName()));
 
-	ui->treeWidget_logFiles->blockSignals(TRUE);
+	ui->treeWidget_logFiles->blockSignals(true);
 	ui->treeWidget_logFiles->clear();
 	int i;
 	for (i=0; i < dbFilesList.size(); i++) {
@@ -119,7 +120,7 @@ void LogFileDialog::refreshLogFileList()
 		ui->treeWidget_logFiles->addTopLevelItem(item);
 	}
 	ui->treeWidget_logFiles->sortItems(0, Qt::DescendingOrder);
-	ui->treeWidget_logFiles->blockSignals(FALSE);
+	ui->treeWidget_logFiles->blockSignals(false);
 	ui->treeWidget_logFiles->setCurrentItem(ui->treeWidget_logFiles->topLevelItem(0));
 }
 
@@ -200,14 +201,14 @@ void LogFileDialog::showLogFilePreview(ShowLogMode mode)
 	QTreeWidgetItem* selectedItem = ui->treeWidget_logFiles->currentItem();
 
 	if(mode == INIT_VIEW) {
-		ui->comboBox->blockSignals(TRUE);
+		ui->comboBox->blockSignals(true);
 		ui->comboBox->clear();
 		QList<int> gameIds = myGuiLog->getGameList(selectedItem->data(0, Qt::UserRole).toString());
 		QList<int>::const_iterator it;
 		for (it = gameIds.constBegin(); it != gameIds.constEnd(); ++it) {
 			ui->comboBox->addItem(QString::number(*it));
 		}
-		ui->comboBox->blockSignals(FALSE);
+		ui->comboBox->blockSignals(false);
 	}
 
 	if(selectedItem) {
@@ -249,7 +250,7 @@ void LogFileDialog::uploadFile()
 void LogFileDialog::uploadInProgressAnimationStart()
 {
 	//const QString buttonText(tr("Upload in progress"));
-	ui->pushButton_analyseLogfile->setDisabled(TRUE);
+	ui->pushButton_analyseLogfile->setDisabled(true);
 
 	QMovie *movie = new QMovie(":/gfx/loader.gif");
 	ui->label_animation->setMovie(movie);
@@ -261,7 +262,7 @@ void LogFileDialog::uploadInProgressAnimationStart()
 
 void LogFileDialog::uploadInProgressAnimationStop()
 {
-	ui->pushButton_analyseLogfile->setDisabled(FALSE);
+	ui->pushButton_analyseLogfile->setDisabled(false);
 
 	ui->label_animation->setMaximumWidth(0);
 	ui->horizontalLayout_animation->setSpacing(0);

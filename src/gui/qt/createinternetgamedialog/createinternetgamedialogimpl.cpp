@@ -143,7 +143,7 @@ void createInternetGameDialogImpl::callChangeBlindsDialog(bool show)
 		myChangeCompleteBlindsDialog->exec();
 		if(myChangeCompleteBlindsDialog->result() == QDialog::Accepted ) {}
 		else {
-			radioButton_useSavedBlindsSettings->setChecked(TRUE);
+			radioButton_useSavedBlindsSettings->setChecked(true);
 		}
 
 	}
@@ -155,9 +155,9 @@ void createInternetGameDialogImpl::gameTypeChanged()
 	switch (comboBox_gameType->currentIndex()) {
 
 	case GAME_TYPE_NORMAL-1: {
-		checkBox_Password->setDisabled(FALSE);
-		spinBox_startCash->setDisabled(FALSE);
-		spinBox_quantityPlayers->setDisabled(FALSE);
+		checkBox_Password->setDisabled(false);
+		spinBox_startCash->setDisabled(false);
+		spinBox_quantityPlayers->setDisabled(false);
 		spinBox_quantityPlayers->setValue(myConfig->readConfigInt("NetNumberOfPlayers"));
 		spinBox_startCash->setValue(myConfig->readConfigInt("NetStartCash"));
 		radioButton_useSavedBlindsSettings->show();
@@ -168,9 +168,9 @@ void createInternetGameDialogImpl::gameTypeChanged()
 
 	break;
 	case GAME_TYPE_REGISTERED_ONLY-1: {
-		checkBox_Password->setDisabled(FALSE);
-		spinBox_startCash->setDisabled(FALSE);
-		spinBox_quantityPlayers->setDisabled(FALSE);
+		checkBox_Password->setDisabled(false);
+		spinBox_startCash->setDisabled(false);
+		spinBox_quantityPlayers->setDisabled(false);
 		spinBox_quantityPlayers->setValue(myConfig->readConfigInt("NetNumberOfPlayers"));
 		spinBox_startCash->setValue(myConfig->readConfigInt("NetStartCash"));
 		radioButton_useSavedBlindsSettings->show();
@@ -180,10 +180,10 @@ void createInternetGameDialogImpl::gameTypeChanged()
 	}
 	break;
 	case GAME_TYPE_INVITE_ONLY-1: {
-		checkBox_Password->setChecked(FALSE);
-		checkBox_Password->setDisabled(TRUE);
-		spinBox_startCash->setDisabled(FALSE);
-		spinBox_quantityPlayers->setDisabled(FALSE);
+		checkBox_Password->setChecked(false);
+		checkBox_Password->setDisabled(true);
+		spinBox_startCash->setDisabled(false);
+		spinBox_quantityPlayers->setDisabled(false);
 		spinBox_quantityPlayers->setValue(myConfig->readConfigInt("NetNumberOfPlayers"));
 		spinBox_startCash->setValue(myConfig->readConfigInt("NetStartCash"));
 		radioButton_useSavedBlindsSettings->show();
@@ -194,13 +194,13 @@ void createInternetGameDialogImpl::gameTypeChanged()
 	}
 	break;
 	case GAME_TYPE_RANKING-1: {
-		checkBox_Password->setChecked(FALSE);
-		checkBox_Password->setDisabled(TRUE);
+		checkBox_Password->setChecked(false);
+		checkBox_Password->setDisabled(true);
 
 		spinBox_startCash->setValue(RANKING_GAME_START_CASH);
-		spinBox_startCash->setDisabled(TRUE);
+		spinBox_startCash->setDisabled(true);
 		spinBox_quantityPlayers->setValue(RANKING_GAME_NUMBER_OF_PLAYERS);
-		spinBox_quantityPlayers->setDisabled(TRUE);
+		spinBox_quantityPlayers->setDisabled(true);
 		radioButton_useSavedBlindsSettings->hide();
 		radioButton_changeBlindsSettings->hide();
 		startBlind->show();
@@ -213,11 +213,11 @@ void createInternetGameDialogImpl::gameTypeChanged()
 	if(comboBox_gameType->currentIndex() == GAME_TYPE_RANKING-1) {
 		//set static values
 		myChangeCompleteBlindsDialog->spinBox_firstSmallBlind->setValue(RANKING_GAME_START_SBLIND);
-		myChangeCompleteBlindsDialog->radioButton_raiseBlindsAtHands->setChecked(TRUE);
-		myChangeCompleteBlindsDialog->radioButton_raiseBlindsAtMinutes->setChecked(FALSE);
+		myChangeCompleteBlindsDialog->radioButton_raiseBlindsAtHands->setChecked(true);
+		myChangeCompleteBlindsDialog->radioButton_raiseBlindsAtMinutes->setChecked(false);
 		myChangeCompleteBlindsDialog->spinBox_raiseSmallBlindEveryHands->setValue(11);
-		myChangeCompleteBlindsDialog->radioButton_alwaysDoubleBlinds->setChecked(TRUE);
-		myChangeCompleteBlindsDialog->radioButton_manualBlindsOrder->setChecked(FALSE);
+		myChangeCompleteBlindsDialog->radioButton_alwaysDoubleBlinds->setChecked(true);
+		myChangeCompleteBlindsDialog->radioButton_manualBlindsOrder->setChecked(false);
 		myChangeCompleteBlindsDialog->listWidget_blinds->clear();
 	} else {
 		//read config values

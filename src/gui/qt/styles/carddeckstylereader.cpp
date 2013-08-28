@@ -148,7 +148,7 @@ void CardDeckStyleReader::readStyleFile(QString file)
 				cardsLeft << "flipside.png";
 			}
 
-			// set loadedSuccessfull TRUE if everything works
+			// set loadedSuccessfull true if everything works
 			if(leftItems.isEmpty() && cardsLeft.isEmpty() && PokerTHStyleFileVersion != "" && PokerTHStyleFileVersion.toInt() == POKERTH_CD_STYLE_FILE_VERSION) {
 				myState = CD_STYLE_OK;
 			} else {

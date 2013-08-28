@@ -1245,7 +1245,7 @@ void GameTableStyleReader::readStyleFile(QString file)
 				leftItems << "ChatLogTextSize";
 			}
 
-			//set loadedSuccessfull TRUE if everything works
+			//set loadedSuccessfull true if everything works
 			//            qDebug() << "leftitem is empty: " << leftItems.isEmpty() << "pics left is empty: " << itemPicsLeft.isEmpty() << "stylefileversion is: " << PokerTHStyleFileVersion;
 			if(leftItems.isEmpty() && itemPicsLeft.isEmpty() && PokerTHStyleFileVersion != "" && PokerTHStyleFileVersion.toInt() == POKERTH_GT_STYLE_FILE_VERSION) {
 				myState = GT_STYLE_OK;
@@ -1637,9 +1637,9 @@ void GameTableStyleReader::setWindowsGeometry(gameTableImpl *gt)
 		int availableWidth = dw.screenGeometry().width();
 		int availableHeight = dw.screenGeometry().height();
 		if(availableWidth == FixedWindowWidth.toInt() && availableHeight == FixedWindowHeight.toInt()) {
-			gt->actionFullScreen->setEnabled(TRUE);
+			gt->actionFullScreen->setEnabled(true);
 		} else {
-			gt->actionFullScreen->setDisabled(TRUE);
+			gt->actionFullScreen->setDisabled(true);
 			if(gt->isFullScreen()) {
 				gt->showNormal();
 				gt->move(50,50);
@@ -1656,9 +1656,9 @@ void GameTableStyleReader::setWindowsGeometry(gameTableImpl *gt)
 		int availableWidth = dw.screenGeometry().width();
 		int availableHeight = dw.screenGeometry().height();
 		if(availableWidth <= MaximumWindowWidth.toInt() && availableHeight <= MaximumWindowHeight.toInt()) {
-			gt->actionFullScreen->setEnabled(TRUE);
+			gt->actionFullScreen->setEnabled(true);
 		} else {
-			gt->actionFullScreen->setDisabled(TRUE);
+			gt->actionFullScreen->setDisabled(true);
 			if(gt->isFullScreen()) {
 				gt->showNormal();
 				gt->move(50,50);
