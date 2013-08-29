@@ -43,7 +43,6 @@ INCLUDEPATH += . \
 	src/engine/local_engine \
 	src/engine/network_engine \
 	src/config \
-	src/third_party/asn1 \
 	src/gui/qt \
 	src/gui/qt/connecttoserverdialog \
 	src/core \

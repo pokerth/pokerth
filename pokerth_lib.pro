@@ -27,7 +27,6 @@ INCLUDEPATH += . \
 		src/engine/local_engine \
 		src/engine/network_engine \
 		src/config \
-		src/third_party/asn1 \
 		src/core
 
 DEPENDPATH += . \
@@ -100,7 +99,6 @@ HEADERS += \
 		src/net/uploadhelper.h \
 		src/net/downloaderthread.h \
 		src/net/downloadhelper.h \
-		src/net/internalchatcleanerpacket.h \
 		src/engine/local_engine/cardsvalue.h \
 		src/engine/local_engine/localboard.h \
 		src/engine/local_engine/localenginefactory.h \
@@ -201,7 +199,6 @@ SOURCES += \
 		src/net/common/transferhelper.cpp \
 		src/net/common/uploaderthread.cpp \
 		src/net/common/uploadhelper.cpp \
-		src/net/common/internalchatcleanerpacket.cpp \
 		src/gui/generic/serverguiwrapper.cpp \
 		src/gui/qttoolsinterface.cpp \
 		src/net/common/sendbuffer.cpp \

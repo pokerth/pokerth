@@ -13,11 +13,9 @@ OBJECTS_DIR = obj
 TEMPLATE = app
 INCLUDEPATH += src/ \
 	src/chatcleaner/ \
-	src/third_party/asn1/ \
 	src/net/
 DEPENDPATH += src/ \
 	src/chatcleaner/ \
-	src/third_party/asn1/ \
 	src/net/
 SOURCES += src/chatcleaner/chatcleaner.cpp \
 	src/chatcleaner/cleanerserver.cpp \
