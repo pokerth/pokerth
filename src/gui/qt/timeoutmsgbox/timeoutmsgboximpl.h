@@ -37,7 +37,9 @@
 #if QT_VERSION >= 0x050000
 	#include <QtWidgets>
 #endif
+#ifndef Q_MOC_RUN
 #include <third_party/boost/timers.hpp>
+#endif
 #include "game_defs.h"
 
 /**
