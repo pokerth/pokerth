@@ -32,10 +32,10 @@
 
 #include <QtNetwork>
 #include <QtCore>
+#include <QtEndian>
 #include <cstdlib>
 #include <string>
 #include <third_party/protobuf/chatcleaner.pb.h>
-
 
 #include "messagefilter.h"
 #include "cleanerconfig.h"
@@ -101,7 +101,7 @@ void CleanerServer::onRead()
 				// Read the size of the packet (first 4 bytes in network byte order).
 				uint32_t nativeVal;
 				memcpy(&nativeVal, &m_recvBuf[0], sizeof(uint32_t));
-				size_t packetSize = ntohl(nativeVal);
+				size_t packetSize = qFromBigEndian(nativeVal);
 				if (packetSize > MAX_CLEANER_PACKET_SIZE) {
 					m_recvBufUsed = 0;
 					qDebug() << "Invalid packet size: " << packetSize;
@@ -227,7 +227,7 @@ void CleanerServer::sendMessageToClient(ChatCleanerMessage &msg)
 {
 	uint32_t packetSize = msg.ByteSize();
 	google::protobuf::uint8 *buf = new google::protobuf::uint8[packetSize + CLEANER_NET_HEADER_SIZE];
-	*((uint32_t *)buf) = htonl(packetSize);
+	*((uint32_t *)buf) = qToBigEndian(packetSize);
 	msg.SerializeWithCachedSizesToArray(&buf[CLEANER_NET_HEADER_SIZE]);
 	tcpSocket->write((const char *)buf, packetSize + CLEANER_NET_HEADER_SIZE);
 	delete[] buf;
