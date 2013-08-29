@@ -37,6 +37,7 @@ HEADERS += src/chatcleaner/cleanerserver.h \
 LIBPATH += lib
 LIBS += -lpokerth_lib \
 	-lpokerth_protocol \
+	-lprotobuf \
 	-ltinyxml
 
 win32 {
