@@ -33,7 +33,9 @@
 
 #include <QtCore>
 #include <stdlib.h>
+#ifndef Q_MOC_RUN
 #include <third_party/boost/timers.hpp>
+#endif
 
 class BadWordCheck;
 class TextFloodCheck;

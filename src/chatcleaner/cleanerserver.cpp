@@ -77,7 +77,9 @@ CleanerServer::~CleanerServer()
 
 void CleanerServer::newCon()
 {
-	if(!blockConnection) {
+	if(blockConnection) {
+		tcpServer->nextPendingConnection()->close();
+	} else {
 		tcpSocket = tcpServer->nextPendingConnection();
 		connect(tcpSocket, SIGNAL(readyRead()), this, SLOT(onRead()));
 		connect(tcpSocket, SIGNAL(stateChanged(QAbstractSocket::SocketState)), this, SLOT(socketStateChanged(QAbstractSocket::SocketState)));
@@ -113,6 +115,7 @@ void CleanerServer::onRead()
 	if (error) {
 		qDebug() << "Error handling packets from client.";
 		tcpSocket->close();
+		blockConnection = false;
 	}
 
 	/*	char buf[1024];
