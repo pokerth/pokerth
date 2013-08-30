@@ -204,7 +204,7 @@ bool CleanerServer::handleMessage(ChatCleanerMessage &msg)
 
 void CleanerServer::socketStateChanged(QAbstractSocket::SocketState state)
 {
-	qDebug() << "Socket state changed to: " << QAbstractSocket::UnconnectedState;
+	qDebug() << "Socket state changed to: " << state;
 	if (state == QAbstractSocket::UnconnectedState) {
 		blockConnection = false;
 		tcpServer->resumeAccepting();
