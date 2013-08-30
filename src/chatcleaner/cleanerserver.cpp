@@ -78,13 +78,12 @@ CleanerServer::~CleanerServer()
 
 void CleanerServer::newCon()
 {
-	if(blockConnection) {
-		tcpServer->nextPendingConnection()->close();
-	} else {
+	if(!blockConnection) {
 		tcpSocket = tcpServer->nextPendingConnection();
 		connect(tcpSocket, SIGNAL(readyRead()), this, SLOT(onRead()));
 		connect(tcpSocket, SIGNAL(stateChanged(QAbstractSocket::SocketState)), this, SLOT(socketStateChanged(QAbstractSocket::SocketState)));
 		blockConnection = true;
+		tcpServer->pauseAccepting();
 	}
 }
 
@@ -131,7 +130,6 @@ void CleanerServer::onRead()
 	if (error) {
 		qDebug() << "Error handling packets from client.";
 		tcpSocket->close();
-		blockConnection = false;
 	}
 
 	/*	char buf[1024];
@@ -206,9 +204,11 @@ bool CleanerServer::handleMessage(ChatCleanerMessage &msg)
 
 void CleanerServer::socketStateChanged(QAbstractSocket::SocketState state)
 {
-
 	qDebug() << "Socket state changed to: " << QAbstractSocket::UnconnectedState;
-	if(state == QAbstractSocket::UnconnectedState) blockConnection = false;
+	if (state == QAbstractSocket::UnconnectedState) {
+		blockConnection = false;
+		tcpServer->resumeAccepting();
+	}
 }
 
 void CleanerServer::refreshConfig()
