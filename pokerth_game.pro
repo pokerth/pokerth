@@ -597,6 +597,7 @@ mac {
 	INCLUDEPATH += /Developer/SDKs/MacOSX10.6.sdk/usr/include/
 	INCLUDEPATH += /Library/Frameworks/SDL.framework/Headers
 	INCLUDEPATH += /Library/Frameworks/SDL_mixer.framework/Headers
+	INCLUDEPATH += /usr/local/include
 }
 OTHER_FILES += docs/infomessage-id-desc.txt
 official_server { 

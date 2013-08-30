@@ -39,7 +39,9 @@
 #include <QtCore>
 
 #ifdef __APPLE__
+#if QT_VERSION < 0x050000
 #include <QMacStyle>
+#endif
 #endif
 
 #include <curl/curl.h>
