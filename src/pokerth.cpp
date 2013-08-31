@@ -87,13 +87,6 @@ int main( int argc, char **argv )
 	socket_startup();
 	curl_global_init(CURL_GLOBAL_NOTHING);
 
-	/////// can be removed for non-qt-guis ////////////
-	SharedTools::QtSingleApplication a( "PokerTH", argc, argv );
-
-	if (a.sendMessage("Wake up!")) {
-		return 0;
-	}
-
 #ifdef __APPLE__
 	// The following needs to be done directly after the application is created.
 	QDir dir(QApplication::applicationDirPath());
@@ -101,6 +94,13 @@ int main( int argc, char **argv )
 	dir.cd("plugins");
 	QApplication::setLibraryPaths(QStringList(dir.absolutePath()));
 #endif
+
+	/////// can be removed for non-qt-guis ////////////
+	SharedTools::QtSingleApplication a( "PokerTH", argc, argv );
+
+	if (a.sendMessage("Wake up!")) {
+		return 0;
+	}
 
 	//create defaultconfig
 	ConfigFile *myConfig = new ConfigFile(argv[0], false);
