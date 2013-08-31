@@ -55,6 +55,9 @@ public:
 	void setMyId ( int theValue ) {
 		myId = theValue;
 	}
+	void setMyUniqueId ( int theValue ) {
+		myUniqueId = theValue;
+	}
 	void contextMenuEvent ( QContextMenuEvent * event );
 	QString getPlayerTip(QString);
 	int getPlayerRating(QString);
@@ -95,10 +98,12 @@ private:
 	QPixmap myPixmap;
 	QString myPath;
 
-	int myId;
 	bool myContextMenuEnabled;
 	bool voteRunning;
 	bool transparent;
+	int myId;
+	int myUniqueId;
 };
 
 #endif
+
