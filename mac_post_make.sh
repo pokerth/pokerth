@@ -27,6 +27,7 @@ mkdir $BINARY_FW_PATH
 BINARY_PLUGIN_PATH="$APPLICATION/Contents/plugins"
 mkdir -p $BINARY_PLUGIN_PATH/imageformats
 mkdir -p $BINARY_PLUGIN_PATH/sqldrivers
+mkdir -p $BINARY_PLUGIN_PATH/platforms
 
 # integrate SDL-frameworks into binary
 cp -R $SDL_FW_PATH/SDL.framework $BINARY_FW_PATH
@@ -38,6 +39,7 @@ if [ "$1" != "--without-qt" ] ; then
         cp $QT_PLUGIN_PATH/imageformats/libqgif.dylib $BINARY_PLUGIN_PATH/imageformats
         cp $QT_PLUGIN_PATH/imageformats/libqjpeg.dylib $BINARY_PLUGIN_PATH/imageformats
         cp $QT_PLUGIN_PATH/sqldrivers/libqsqlite.dylib $BINARY_PLUGIN_PATH/sqldrivers
+        cp $QT_PLUGIN_PATH/platforms/libqcocoa.dylib $BINARY_PLUGIN_PATH/platforms
         cp -R $QT_FW_PATH/QtCore.framework $BINARY_FW_PATH
         cp -R $QT_FW_PATH/QtGui.framework $BINARY_FW_PATH
         cp -R $QT_FW_PATH/QtWidgets.framework $BINARY_FW_PATH
@@ -89,6 +91,9 @@ if [ "$1" != "--without-qt" ] ; then
         install_name_tool -change $QTWIDGETS_LINK @executable_path/../Frameworks/$QTWIDGETS $BINARY_PLUGIN_PATH/imageformats/libqjpeg.dylib
         install_name_tool -change $QTCORE_LINK @executable_path/../Frameworks/$QTCORE $BINARY_PLUGIN_PATH/sqldrivers/libqsqlite.dylib
         install_name_tool -change $QTSQL_LINK @executable_path/../Frameworks/$QTSQL $BINARY_PLUGIN_PATH/sqldrivers/libqsqlite.dylib
+        install_name_tool -change $QTCORE_LINK @executable_path/../Frameworks/$QTCORE $BINARY_PLUGIN_PATH/platforms/libqcocoa.dylib
+        install_name_tool -change $QTGUI_LINK @executable_path/../Frameworks/$QTGUI $BINARY_PLUGIN_PATH/platforms/libqcocoa.dylib
+        install_name_tool -change $QTWIDGETS_LINK @executable_path/../Frameworks/$QTWIDGETS $BINARY_PLUGIN_PATH/platforms/libqcocoa.dylib
 
         QTCORE_LINK=$(otool -L $BINARY_FW_PATH/$QTGUI | grep QtCore | head -1 | cut -d"(" -f1 | cut -f2)
         install_name_tool -change $QTCORE_LINK @executable_path/../Frameworks/$QTCORE $BINARY_FW_PATH/$QTGUI
@@ -96,6 +101,6 @@ if [ "$1" != "--without-qt" ] ; then
         install_name_tool -change $QTCORE_LINK @executable_path/../Frameworks/$QTCORE $BINARY_FW_PATH/$QTSQL
         install_name_tool -change $QTCORE_LINK @executable_path/../Frameworks/$QTCORE $BINARY_FW_PATH/$QTNETWORK
 		
-        install_name_tool -change $QTWIDGETS_LINK @executable_path/../Frameworks/$QTWIDGETS $BINARY_FW_PATH/$QTGUI
+        install_name_tool -change $QTGUI_LINK @executable_path/../Frameworks/$QTGUI $BINARY_FW_PATH/$QTWIDGETS
 
 fi
