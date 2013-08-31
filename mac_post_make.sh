@@ -84,7 +84,7 @@ if [ "$1" != "--without-qt" ] ; then
         QTWIDGETS_LINK=$(otool -L $BINARY | grep QtWidgets | cut -d"(" -f1 | cut -f2)
         QTSQL_LINK=$(otool -L $BINARY | grep QtSql | cut -d"(" -f1 | cut -f2)
         QTNETWORK_LINK=$(otool -L $BINARY | grep QtNetwork | cut -d"(" -f1 | cut -f2)
-        QTPRINT_LINK=$(otool -L $BINARY | grep QtPrintSupport | cut -d"(" -f1 | cut -f2)
+        QTPRINT_LINK=$(otool -L $BINARY_PLUGIN_PATH/platforms/libqcocoa.dylib | grep QtPrintSupport | cut -d"(" -f1 | cut -f2)
         install_name_tool -change $QTCORE_LINK @executable_path/../Frameworks/$QTCORE $BINARY
         install_name_tool -change $QTGUI_LINK @executable_path/../Frameworks/$QTGUI $BINARY
         install_name_tool -change $QTWIDGETS_LINK @executable_path/../Frameworks/$QTWIDGETS $BINARY

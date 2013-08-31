@@ -89,7 +89,8 @@ int main( int argc, char **argv )
 
 #ifdef __APPLE__
 	// The following needs to be done directly after the application is created.
-	QDir dir(QApplication::applicationDirPath());
+	QDir dir(argv[0]);
+	dir.cdUp();
 	dir.cdUp();
 	dir.cd("plugins");
 	QApplication::setLibraryPaths(QStringList(dir.absolutePath()));
