@@ -83,7 +83,9 @@ void CleanerServer::newCon()
 		connect(tcpSocket, SIGNAL(readyRead()), this, SLOT(onRead()));
 		connect(tcpSocket, SIGNAL(stateChanged(QAbstractSocket::SocketState)), this, SLOT(socketStateChanged(QAbstractSocket::SocketState)));
 		blockConnection = true;
+#if QT_VERSION >= 0x050100
 		tcpServer->pauseAccepting();
+#endif
 	}
 }
 
@@ -207,7 +209,9 @@ void CleanerServer::socketStateChanged(QAbstractSocket::SocketState state)
 	qDebug() << "Socket state changed to: " << state;
 	if (state == QAbstractSocket::UnconnectedState) {
 		blockConnection = false;
+#if QT_VERSION >= 0x050100
 		tcpServer->resumeAccepting();
+#endif
 	}
 }
 
