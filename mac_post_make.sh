@@ -38,8 +38,9 @@ if [ "$1" != "--without-qt" ] ; then
         cp $QT_PLUGIN_PATH/imageformats/libqgif.dylib $BINARY_PLUGIN_PATH/imageformats
         cp $QT_PLUGIN_PATH/imageformats/libqjpeg.dylib $BINARY_PLUGIN_PATH/imageformats
         cp $QT_PLUGIN_PATH/sqldrivers/libqsqlite.dylib $BINARY_PLUGIN_PATH/sqldrivers
-	cp -R $QT_FW_PATH/QtCore.framework $BINARY_FW_PATH
+        cp -R $QT_FW_PATH/QtCore.framework $BINARY_FW_PATH
         cp -R $QT_FW_PATH/QtGui.framework $BINARY_FW_PATH
+        cp -R $QT_FW_PATH/QtWidgets.framework $BINARY_FW_PATH
         cp -R $QT_FW_PATH/QtSql.framework $BINARY_FW_PATH
         cp -R $QT_FW_PATH/QtNetwork.framework $BINARY_FW_PATH
         # remove debug versions
@@ -49,6 +50,9 @@ if [ "$1" != "--without-qt" ] ; then
         rm -f $APPLICATION/Contents/Frameworks/QtGui.framework/QtGui_debug
         rm -f $APPLICATION/Contents/Frameworks/QtGui.framework/QtGui_debug.prl
         rm -f $APPLICATION/Contents/Frameworks/QtGui.framework/Versions/5/QtGui_debug
+        rm -f $APPLICATION/Contents/Frameworks/QtWidgets.framework/QtWidgets_debug
+        rm -f $APPLICATION/Contents/Frameworks/QtWidgets.framework/QtWidgets_debug.prl
+        rm -f $APPLICATION/Contents/Frameworks/QtWidgets.framework/Versions/5/QtWidgets_debug
         rm -f $APPLICATION/Contents/Frameworks/QtSql.framework/QtSql_debug
         rm -f $APPLICATION/Contents/Frameworks/QtSql.framework/QtSql_debug.prl
         rm -f $APPLICATION/Contents/Frameworks/QtSql.framework/Versions/5/QtSql_debug
@@ -59,29 +63,36 @@ if [ "$1" != "--without-qt" ] ; then
 	# redirect binary to use integrated frameworks
         QTCORE="QtCore.framework/Versions/5/QtCore"
         QTGUI="QtGui.framework/Versions/5/QtGui"
+        QTWIDGETS="QtWidgets.framework/Versions/5/QtWidgets"
         QTSQL="QtSql.framework/Versions/5/QtSql"
         QTNETWORK="QtNetwork.framework/Versions/5/QtNetwork"
         install_name_tool -id @executable_path/../Frameworks/$QTCORE $BINARY_FW_PATH/$QTCORE
         install_name_tool -id @executable_path/../Frameworks/$QTGUI $BINARY_FW_PATH/$QTGUI
+        install_name_tool -id @executable_path/../Frameworks/$QTWIDGETS $BINARY_FW_PATH/$QTWIDGETS
         install_name_tool -id @executable_path/../Frameworks/$QTSQL $BINARY_FW_PATH/$QTSQL
-        install_name_tool -id @executable_path/../Frameworks/$QTSQL $BINARY_FW_PATH/$QTNETWORK
+        install_name_tool -id @executable_path/../Frameworks/$QTNETWORK $BINARY_FW_PATH/$QTNETWORK
         QTCORE_LINK=$(otool -L $BINARY | grep QtCore | cut -d"(" -f1 | cut -f2)
         QTGUI_LINK=$(otool -L $BINARY | grep QtGui | cut -d"(" -f1 | cut -f2)
+        QTWIDGETS_LINK=$(otool -L $BINARY | grep QtWidgets | cut -d"(" -f1 | cut -f2)
         QTSQL_LINK=$(otool -L $BINARY | grep QtSql | cut -d"(" -f1 | cut -f2)
         QTNETWORK_LINK=$(otool -L $BINARY | grep QtNetwork | cut -d"(" -f1 | cut -f2)
         install_name_tool -change $QTCORE_LINK @executable_path/../Frameworks/$QTCORE $BINARY
         install_name_tool -change $QTGUI_LINK @executable_path/../Frameworks/$QTGUI $BINARY
+        install_name_tool -change $QTWIDGETS_LINK @executable_path/../Frameworks/$QTWIDGETS $BINARY
         install_name_tool -change $QTSQL_LINK @executable_path/../Frameworks/$QTSQL $BINARY
         install_name_tool -change $QTNETWORK_LINK @executable_path/../Frameworks/$QTNETWORK $BINARY
         install_name_tool -change $QTCORE_LINK @executable_path/../Frameworks/$QTCORE $BINARY_PLUGIN_PATH/imageformats/libqgif.dylib
         install_name_tool -change $QTGUI_LINK @executable_path/../Frameworks/$QTGUI $BINARY_PLUGIN_PATH/imageformats/libqgif.dylib
+        install_name_tool -change $QTWIDGETS_LINK @executable_path/../Frameworks/$QTWIDGETS $BINARY_PLUGIN_PATH/imageformats/libqgif.dylib
         install_name_tool -change $QTCORE_LINK @executable_path/../Frameworks/$QTCORE $BINARY_PLUGIN_PATH/imageformats/libqjpeg.dylib
         install_name_tool -change $QTGUI_LINK @executable_path/../Frameworks/$QTGUI $BINARY_PLUGIN_PATH/imageformats/libqjpeg.dylib
+        install_name_tool -change $QTWIDGETS_LINK @executable_path/../Frameworks/$QTWIDGETS $BINARY_PLUGIN_PATH/imageformats/libqjpeg.dylib
         install_name_tool -change $QTCORE_LINK @executable_path/../Frameworks/$QTCORE $BINARY_PLUGIN_PATH/sqldrivers/libqsqlite.dylib
         install_name_tool -change $QTSQL_LINK @executable_path/../Frameworks/$QTSQL $BINARY_PLUGIN_PATH/sqldrivers/libqsqlite.dylib
 
         QTCORE_LINK=$(otool -L $BINARY_FW_PATH/$QTGUI | grep QtCore | head -1 | cut -d"(" -f1 | cut -f2)
         install_name_tool -change $QTCORE_LINK @executable_path/../Frameworks/$QTCORE $BINARY_FW_PATH/$QTGUI
+        install_name_tool -change $QTCORE_LINK @executable_path/../Frameworks/$QTCORE $BINARY_FW_PATH/$QTWIDGETS
         install_name_tool -change $QTCORE_LINK @executable_path/../Frameworks/$QTCORE $BINARY_FW_PATH/$QTSQL
         install_name_tool -change $QTCORE_LINK @executable_path/../Frameworks/$QTCORE $BINARY_FW_PATH/$QTNETWORK
 
