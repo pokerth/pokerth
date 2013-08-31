@@ -1074,6 +1074,9 @@ void gameTableImpl::refreshPlayerAvatar()
 		PlayerList seatsList = currentGame->getSeatsList();
 		for (it_c=seatsList->begin(), seatPlace=0; it_c!=seatsList->end(); ++it_c, seatPlace++) {
 
+			//set uniqueID
+			playerAvatarLabelArray[(*it_c)->getMyID()]->setMyUniqueId((*it_c)->getMyUniqueID());
+
 			//get CountryString
 			QString countryString(QString(myStartWindow->getSession()->getClientPlayerInfo((*it_c)->getMyUniqueID()).countryCode.c_str()).toLower());
 			countryString = QString(":/cflags/cflags/%1.png").arg(countryString);

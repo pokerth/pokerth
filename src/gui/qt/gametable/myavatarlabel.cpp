@@ -42,7 +42,7 @@
 using namespace std;
 
 MyAvatarLabel::MyAvatarLabel(QGroupBox* parent)
-	: QLabel(parent), voteRunning(false), transparent(false)
+	: QLabel(parent), voteRunning(false), transparent(false), myUniqueId(0)
 {
 
 	myContextMenu = new QMenu;
@@ -395,21 +395,14 @@ void MyAvatarLabel::paintEvent(QPaintEvent*)
 		painter.setOpacity(1.0);
 
 	//hide avatar if player is on ignore list
-	boost::shared_ptr<Game> currentGame = myW->myStartWindow->getSession()->getCurrentGame();
-	PlayerListConstIterator it_c;
-	int seatPlace;
-	PlayerList seatsList = currentGame->getSeatsList();
-	for (seatPlace=0,it_c=seatsList->begin(); it_c!=seatsList->end(); ++it_c, seatPlace++) {
-		if(seatPlace == myId) {
-			if(!playerIsOnIgnoreList(QString::fromUtf8((*it_c)->getMyName().c_str()))) {
-				painter.drawPixmap(0,0,myPixmap);
-				return;
-			}
-			else if(myW->getMyConfig()->readConfigInt("DontHideAvatarsOfIgnored")) {
-				painter.drawPixmap(0,0,myPixmap);
-				return;
-			}
-		}
+	boost::shared_ptr<Session> mySession = myW->myStartWindow->getSession();
+	if(!playerIsOnIgnoreList(QString::fromUtf8(mySession->getClientPlayerInfo(myUniqueId).playerName.c_str()))) {
+			painter.drawPixmap(0,0,myPixmap);
+			return;
+	}
+	else if(myW->getMyConfig()->readConfigInt("DontHideAvatarsOfIgnored")) {
+		painter.drawPixmap(0,0,myPixmap);
+		return;
 	}
 }
 

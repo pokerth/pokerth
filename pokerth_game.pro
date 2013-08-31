@@ -637,6 +637,7 @@ gui_800x480 {
 android{
 	# Use old boost::filesystem, because the new version requires std::wstring.
 	DEFINES += BOOST_FILESYSTEM_VERSION=3
+	DEFINES += TIXML_USE_STL
 	# sqlite3 is included directly.
 	INCLUDEPATH += src/third_party/sqlite3
 
