@@ -72,7 +72,7 @@ if [ "$1" != "--without-qt" ] ; then
         QTWIDGETS="QtWidgets.framework/Versions/5/QtWidgets"
         QTSQL="QtSql.framework/Versions/5/QtSql"
         QTNETWORK="QtNetwork.framework/Versions/5/QtNetwork"
-		QTPRINT="QtPrintSupport.framework/Versions/5/QtPrintSupport"
+        QTPRINT="QtPrintSupport.framework/Versions/5/QtPrintSupport"
         install_name_tool -id @executable_path/../Frameworks/$QTCORE $BINARY_FW_PATH/$QTCORE
         install_name_tool -id @executable_path/../Frameworks/$QTGUI $BINARY_FW_PATH/$QTGUI
         install_name_tool -id @executable_path/../Frameworks/$QTWIDGETS $BINARY_FW_PATH/$QTWIDGETS
@@ -110,8 +110,10 @@ if [ "$1" != "--without-qt" ] ; then
         install_name_tool -change $QTCORE_LINK @executable_path/../Frameworks/$QTCORE $BINARY_FW_PATH/$QTNETWORK
         install_name_tool -change $QTCORE_LINK @executable_path/../Frameworks/$QTCORE $BINARY_FW_PATH/$QTPRINT
 
+        QTGUI_LINK=$(otool -L $BINARY_FW_PATH/$QTWIDGETS | grep QtGui | cut -d"(" -f1 | cut -f2)
         install_name_tool -change $QTGUI_LINK @executable_path/../Frameworks/$QTGUI $BINARY_FW_PATH/$QTWIDGETS
         install_name_tool -change $QTGUI_LINK @executable_path/../Frameworks/$QTGUI $BINARY_FW_PATH/$QTPRINT
 
-        install_name_tool -change $QTWIDGETS_LINK @executable_path/../Frameworks/$QTGUI $BINARY_FW_PATH/$QTPRINT
+        QTWIDGETS_LINK=$(otool -L $BINARY_FW_PATH/$QTPRINT | grep QtWidgets | cut -d"(" -f1 | cut -f2)
+        install_name_tool -change $QTWIDGETS_LINK @executable_path/../Frameworks/$QTWIDGETS $BINARY_FW_PATH/$QTPRINT
 fi
