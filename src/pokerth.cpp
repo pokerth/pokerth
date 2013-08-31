@@ -88,7 +88,7 @@ int main( int argc, char **argv )
 	curl_global_init(CURL_GLOBAL_NOTHING);
 
 #ifdef __APPLE__
-	// The following needs to be done directly after the application is created.
+	// The following needs to be done before the application is created, otherwise loading platforms plugin fails.
 	QDir dir(argv[0]);
 	dir.cdUp();
 	dir.cdUp();
