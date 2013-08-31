@@ -45,6 +45,7 @@ if [ "$1" != "--without-qt" ] ; then
         cp -R $QT_FW_PATH/QtWidgets.framework $BINARY_FW_PATH
         cp -R $QT_FW_PATH/QtSql.framework $BINARY_FW_PATH
         cp -R $QT_FW_PATH/QtNetwork.framework $BINARY_FW_PATH
+        cp -R $QT_FW_PATH/QtPrintSupport.framework $BINARY_FW_PATH
         # remove debug versions
         rm -f $APPLICATION/Contents/Frameworks/QtCore.framework/QtCore_debug
         rm -f $APPLICATION/Contents/Frameworks/QtCore.framework/QtCore_debug.prl
@@ -61,23 +62,29 @@ if [ "$1" != "--without-qt" ] ; then
         rm -f $APPLICATION/Contents/Frameworks/QtNetwork.framework/QtNetwork_debug
         rm -f $APPLICATION/Contents/Frameworks/QtNetwork.framework/QtNetwork_debug.prl
         rm -f $APPLICATION/Contents/Frameworks/QtNetwork.framework/Versions/5/QtNetwork_debug
+        rm -f $APPLICATION/Contents/Frameworks/QtPrintSupport.framework/QtPrintSupport_debug
+        rm -f $APPLICATION/Contents/Frameworks/QtPrintSupport.framework/QtPrintSupport_debug.prl
+        rm -f $APPLICATION/Contents/Frameworks/QtPrintSupport.framework/Versions/5/QtPrintSupport_debug
 
-	# redirect binary to use integrated frameworks
+        # redirect binary to use integrated frameworks
         QTCORE="QtCore.framework/Versions/5/QtCore"
         QTGUI="QtGui.framework/Versions/5/QtGui"
         QTWIDGETS="QtWidgets.framework/Versions/5/QtWidgets"
         QTSQL="QtSql.framework/Versions/5/QtSql"
         QTNETWORK="QtNetwork.framework/Versions/5/QtNetwork"
+		QTPRINT="QtPrintSupport.framework/Versions/5/QtPrintSupport"
         install_name_tool -id @executable_path/../Frameworks/$QTCORE $BINARY_FW_PATH/$QTCORE
         install_name_tool -id @executable_path/../Frameworks/$QTGUI $BINARY_FW_PATH/$QTGUI
         install_name_tool -id @executable_path/../Frameworks/$QTWIDGETS $BINARY_FW_PATH/$QTWIDGETS
         install_name_tool -id @executable_path/../Frameworks/$QTSQL $BINARY_FW_PATH/$QTSQL
         install_name_tool -id @executable_path/../Frameworks/$QTNETWORK $BINARY_FW_PATH/$QTNETWORK
+        install_name_tool -id @executable_path/../Frameworks/$QTPRINT $BINARY_FW_PATH/$QTPRINT
         QTCORE_LINK=$(otool -L $BINARY | grep QtCore | cut -d"(" -f1 | cut -f2)
         QTGUI_LINK=$(otool -L $BINARY | grep QtGui | cut -d"(" -f1 | cut -f2)
         QTWIDGETS_LINK=$(otool -L $BINARY | grep QtWidgets | cut -d"(" -f1 | cut -f2)
         QTSQL_LINK=$(otool -L $BINARY | grep QtSql | cut -d"(" -f1 | cut -f2)
         QTNETWORK_LINK=$(otool -L $BINARY | grep QtNetwork | cut -d"(" -f1 | cut -f2)
+        QTPRINT_LINK=$(otool -L $BINARY | grep QtPrintSupport | cut -d"(" -f1 | cut -f2)
         install_name_tool -change $QTCORE_LINK @executable_path/../Frameworks/$QTCORE $BINARY
         install_name_tool -change $QTGUI_LINK @executable_path/../Frameworks/$QTGUI $BINARY
         install_name_tool -change $QTWIDGETS_LINK @executable_path/../Frameworks/$QTWIDGETS $BINARY
@@ -94,13 +101,17 @@ if [ "$1" != "--without-qt" ] ; then
         install_name_tool -change $QTCORE_LINK @executable_path/../Frameworks/$QTCORE $BINARY_PLUGIN_PATH/platforms/libqcocoa.dylib
         install_name_tool -change $QTGUI_LINK @executable_path/../Frameworks/$QTGUI $BINARY_PLUGIN_PATH/platforms/libqcocoa.dylib
         install_name_tool -change $QTWIDGETS_LINK @executable_path/../Frameworks/$QTWIDGETS $BINARY_PLUGIN_PATH/platforms/libqcocoa.dylib
+        install_name_tool -change $QTPRINT_LINK @executable_path/../Frameworks/$QTPRINT $BINARY_PLUGIN_PATH/platforms/libqcocoa.dylib
 
         QTCORE_LINK=$(otool -L $BINARY_FW_PATH/$QTGUI | grep QtCore | head -1 | cut -d"(" -f1 | cut -f2)
         install_name_tool -change $QTCORE_LINK @executable_path/../Frameworks/$QTCORE $BINARY_FW_PATH/$QTGUI
         install_name_tool -change $QTCORE_LINK @executable_path/../Frameworks/$QTCORE $BINARY_FW_PATH/$QTWIDGETS
         install_name_tool -change $QTCORE_LINK @executable_path/../Frameworks/$QTCORE $BINARY_FW_PATH/$QTSQL
         install_name_tool -change $QTCORE_LINK @executable_path/../Frameworks/$QTCORE $BINARY_FW_PATH/$QTNETWORK
-		
-        install_name_tool -change $QTGUI_LINK @executable_path/../Frameworks/$QTGUI $BINARY_FW_PATH/$QTWIDGETS
+        install_name_tool -change $QTCORE_LINK @executable_path/../Frameworks/$QTCORE $BINARY_FW_PATH/$QTPRINT
 
+        install_name_tool -change $QTGUI_LINK @executable_path/../Frameworks/$QTGUI $BINARY_FW_PATH/$QTWIDGETS
+        install_name_tool -change $QTGUI_LINK @executable_path/../Frameworks/$QTGUI $BINARY_FW_PATH/$QTPRINT
+
+        install_name_tool -change $QTWIDGETS_LINK @executable_path/../Frameworks/$QTGUI $BINARY_FW_PATH/$QTPRINT
 fi
