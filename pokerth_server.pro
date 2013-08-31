@@ -30,7 +30,6 @@ INCLUDEPATH += . \
 		src/engine/local_engine \
 		src/engine/network_engine \
 		src/config \
-		src/third_party/asn1 \
 		src/core \
 
 DEPENDPATH += . \
@@ -316,6 +315,7 @@ mac {
 	RC_FILE = pokerth.icns
 	LIBPATH += /Developer/SDKs/MacOSX10.6.sdk/usr/lib
 	INCLUDEPATH += /Developer/SDKs/MacOSX10.6.sdk/usr/include/
+	INCLUDEPATH += /usr/local/include
 }
 
 official_server {

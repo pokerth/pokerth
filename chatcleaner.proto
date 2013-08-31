@@ -1,6 +1,6 @@
 /*****************************************************************************
  * PokerTH - The open source texas holdem engine                             *
- * Copyright (C) 2006-2012 Felix Hammer, Florian Thauer, Lothar May          *
+ * Copyright (C) 2006-2013 Felix Hammer, Florian Thauer, Lothar May          *
  *                                                                           *
  * This program is free software: you can redistribute it and/or modify      *
  * it under the terms of the GNU Affero General Public License as            *
@@ -28,35 +28,64 @@
  * shall include the source code for the parts of OpenSSL used as well       *
  * as that of the covered work.                                              *
  *****************************************************************************/
-/* PokerTH chat cleaner packet. */
 
-#ifndef _INTERNALCHATCLEANERPACKET_H_
-#define _INTERNALCHATCLEANERPACKET_H_
+option java_package = "de.chatcleaner.protocol";
+option java_outer_classname = "ProtoBuf";
+option optimize_for = LITE_RUNTIME;
 
-#define CLEANER_PROTOCOL_VERSION		2
-#define MAX_CLEANER_PACKET_SIZE			384
+message CleanerInitMessage {
+	required	uint32			requestedVersion = 1;
+	required	string			clientSecret = 2;
+}
 
-typedef struct ChatCleanerMessage ChatCleanerMessage_t;
+message CleanerInitAckMessage {
+	required	uint32			serverVersion = 1;
+	required	string			serverSecret = 2;
+}
 
-class InternalChatCleanerPacket
-{
-public:
-	InternalChatCleanerPacket();
+enum CleanerChatType {
+	cleanerChatTypeLobby = 0;
+	cleanerChatTypeGame = 1;
+}
 
-	InternalChatCleanerPacket(ChatCleanerMessage_t *msg)
-		: m_msg(msg) {
+message CleanerChatRequestMessage {
+	required	uint32			requestId = 1;
+	required	CleanerChatType	cleanerChatType = 2;
+	optional	uint32			gameId = 3 [default = 0];
+	required	uint32			playerId = 4;
+	required	string			playerName = 5;
+	required	string			chatMessage = 6;
+}
+
+message CleanerChatReplyMessage {
+	required	uint32			requestId = 1;
+	required	CleanerChatType	cleanerChatType = 2;
+	optional	uint32			gameId = 3 [default = 0];
+	required	uint32			playerId = 4;
+	enum CleanerActionType {
+		cleanerActionNone = 0;
+		cleanerActionWarning = 1;
+		cleanerActionKick = 2;
+		cleanerActionBan = 3;
+		cleanerActionMute = 4;
 	}
-	~InternalChatCleanerPacket();
-	ChatCleanerMessage_t *GetMsg() {
-		return m_msg;
+	required	CleanerActionType	cleanerActionType = 5;
+	optional	string			cleanerText = 6 [default = ""];
+}
+
+// The main message type (it is prefixed by 4 bytes length of the message).
+
+message ChatCleanerMessage {
+	enum ChatCleanerMessageType {
+		Type_CleanerInitMessage = 1;
+		Type_CleanerInitAckMessage = 2;
+		Type_CleanerChatRequestMessage = 3;
+		Type_CleanerChatReplyMessage = 4;
 	}
-	ChatCleanerMessage_t **GetMsgPtr() {
-		return &m_msg;
-	}
+	required	ChatCleanerMessageType			messageType = 1;
 
-private:
-	ChatCleanerMessage_t *m_msg;
-};
-
-#endif
-
+	optional	CleanerInitMessage				cleanerInitMessage = 2;
+	optional	CleanerInitAckMessage			cleanerInitAckMessage = 3;
+	optional	CleanerChatRequestMessage		cleanerChatRequestMessage = 4;
+	optional	CleanerChatReplyMessage			cleanerChatReplyMessage = 5;
+}

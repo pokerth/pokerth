@@ -13,11 +13,9 @@ OBJECTS_DIR = obj
 TEMPLATE = app
 INCLUDEPATH += src/ \
 	src/chatcleaner/ \
-	src/third_party/asn1/ \
 	src/net/
 DEPENDPATH += src/ \
 	src/chatcleaner/ \
-	src/third_party/asn1/ \
 	src/net/
 SOURCES += src/chatcleaner/chatcleaner.cpp \
 	src/chatcleaner/cleanerserver.cpp \
@@ -39,6 +37,7 @@ HEADERS += src/chatcleaner/cleanerserver.h \
 LIBPATH += lib
 LIBS += -lpokerth_lib \
 	-lpokerth_protocol \
+	-lprotobuf \
 	-ltinyxml
 
 win32 {
@@ -53,12 +52,13 @@ win32 {
 	INCLUDEPATH += $${PREFIX}/include
 }
 mac {
-        # make it x86_64 only
-        CONFIG += x86_64
-        CONFIG -= x86
-        CONFIG -= ppc
-        QMAKE_MACOSX_DEPLOYMENT_TARGET = 10.6
-        QMAKE_CXXFLAGS -= -std=gnu++0x
+	# make it x86_64 only
+	CONFIG += x86_64
+	CONFIG -= x86
+	CONFIG -= ppc
+	QMAKE_MACOSX_DEPLOYMENT_TARGET = 10.6
+	QMAKE_CXXFLAGS -= -std=gnu++0x
 	LIBPATH += /Developer/SDKs/MacOSX10.5.sdk/usr/lib
-        INCLUDEPATH += /Developer/SDKs/MacOSX10.6.sdk/usr/include/
+	INCLUDEPATH += /Developer/SDKs/MacOSX10.6.sdk/usr/include/
+	INCLUDEPATH += /usr/local/include
 }

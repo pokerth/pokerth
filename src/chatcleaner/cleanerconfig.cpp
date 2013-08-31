@@ -29,6 +29,8 @@
  * as that of the covered work.                                              *
  *****************************************************************************/
 #include "cleanerconfig.h"
+#include <QtCore>
+
 #include <tinyxml.h>
 
 #define MODUS 0711
@@ -45,8 +47,6 @@
 
 #include <sys/types.h>
 #include <sys/stat.h>
-
-#include <QtCore>
 
 using namespace std;
 

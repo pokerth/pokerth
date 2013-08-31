@@ -35,7 +35,9 @@
 #include <vector>
 #include <string>
 
+#ifndef Q_MOC_RUN
 #include <boost/thread.hpp>
+#endif
 
 enum ConfigState { NONEXISTING, OLD, OK };
 enum ConfigType { CONFIG_TYPE_INT, CONFIG_TYPE_STRING, CONFIG_TYPE_INT_LIST, CONFIG_TYPE_STRING_LIST };

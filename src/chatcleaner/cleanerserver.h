@@ -33,10 +33,14 @@
 
 #include <QtCore>
 #include <QtNetwork>
-#include <net/internalchatcleanerpacket.h>
+
+#define CLEANER_NET_HEADER_SIZE		4
+#define MAX_CLEANER_PACKET_SIZE		512
+#define CLEANER_PROTOCOL_VERSION	2
 
 class MessageFilter;
 class CleanerConfig;
+class ChatCleanerMessage;
 
 class CleanerServer: public QObject
 {
@@ -49,10 +53,10 @@ public:
 private slots:
 	void newCon();
 	void onRead();
-	bool handleMessage(InternalChatCleanerPacket &msg);
+	bool handleMessage(ChatCleanerMessage &msg);
 	void socketStateChanged(QAbstractSocket::SocketState);
 	void refreshConfig();
-	void sendMessageToClient(InternalChatCleanerPacket &msg);
+	void sendMessageToClient(ChatCleanerMessage &msg);
 
 private:
 	QTcpServer *tcpServer;
@@ -66,7 +70,7 @@ private:
 	QString serverSecret;
 
 	unsigned char m_recvBuf[2*MAX_CLEANER_PACKET_SIZE];
-	unsigned m_recvBufUsed;
+	size_t m_recvBufUsed;
 
 	int secondsSinceLastConfigChange;
 };

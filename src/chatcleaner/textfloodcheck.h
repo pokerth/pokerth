@@ -32,7 +32,9 @@
 #define TEXTFLOODCHECK_H
 
 #include <QtCore>
+#ifndef Q_MOC_RUN
 #include <third_party/boost/timers.hpp>
+#endif
 #include <stdlib.h>
 
 

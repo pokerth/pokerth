@@ -35,8 +35,9 @@
 
 #include <list>
 #include <string>
+#ifndef Q_MOC_RUN
 #include <third_party/boost/timers.hpp>
-
+#endif
 
 typedef std::list<unsigned> PlayerIdList;
 
