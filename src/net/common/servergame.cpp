@@ -628,7 +628,7 @@ ServerGame::GetPlayerIdList() const
 PlayerIdList
 ServerGame::GetSpectatorIdList() const
 {
-	return GetSessionManager().GetPlayerIdList(SessionData::Spectating);
+	return GetSessionManager().GetPlayerIdList(SessionData::Spectating | SessionData::SpectatorWaiting);
 }
 
 bool
@@ -909,7 +909,7 @@ ServerGame::RemovePlayerData(boost::shared_ptr<PlayerData> player, int reason, b
 		netPlayerLeft->set_playerid(player->GetUniqueId());
 		netPlayerLeft->set_gameplayerleftreason(netReason);
 	}
-	GetSessionManager().SendToAllSessions(GetLobbyThread().GetSender(), thisPlayerLeft, SessionData::Game);
+	GetSessionManager().SendToAllSessions(GetLobbyThread().GetSender(), thisPlayerLeft, SessionData::Game | SessionData::Spectating | SessionData::SpectatorWaiting);
 
 	GetState().NotifySessionRemoved(shared_from_this());
 	if (spectateOnly) {

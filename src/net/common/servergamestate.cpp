@@ -286,7 +286,7 @@ AbstractServerGameStateReceiving::ProcessPacket(boost::shared_ptr<ServerGame> se
 					netChat->set_playerid(session->GetPlayerData()->GetUniqueId());
 					netChat->set_chattype(ChatMessage::chatTypeGame);
 					netChat->set_chattext(netChatRequest.chattext());
-					server->SendToAllPlayers(packet, SessionData::Game | SessionData::Spectating);
+					server->SendToAllPlayers(packet, SessionData::Game | SessionData::Spectating | SessionData::SpectatorWaiting);
 					chatSent = true;
 
 					// Send the message to the chat cleaner bot for ranking games.
@@ -461,9 +461,9 @@ AbstractServerGameStateReceiving::AcceptNewSession(boost::shared_ptr<ServerGame>
 
 	// Send "Player Joined"/"Spectator Joined" to other fully connected clients.
 	if (spectateOnly) {
-		server->SendToAllPlayers(CreateNetPacketSpectatorJoined(server->GetId(), *session->GetPlayerData()), SessionData::Game | SessionData::Spectating);
+		server->SendToAllPlayers(CreateNetPacketSpectatorJoined(server->GetId(), *session->GetPlayerData()), SessionData::Game | SessionData::Spectating | SessionData::SpectatorWaiting);
 	} else {
-		server->SendToAllPlayers(CreateNetPacketPlayerJoined(server->GetId(), *session->GetPlayerData()), SessionData::Game | SessionData::Spectating);
+		server->SendToAllPlayers(CreateNetPacketPlayerJoined(server->GetId(), *session->GetPlayerData()), SessionData::Game | SessionData::Spectating | SessionData::SpectatorWaiting);
 	}
 
 	// Accept session.
@@ -647,7 +647,7 @@ ServerGameStateInit::SendStartEvent(ServerGame &server, bool fillWithComputerPla
 			server.AddComputerPlayer(tmpPlayerData);
 
 			// Send "Player Joined" to other fully connected clients.
-			server.SendToAllPlayers(CreateNetPacketPlayerJoined(server.GetId(), *tmpPlayerData), SessionData::Game | SessionData::Spectating);
+			server.SendToAllPlayers(CreateNetPacketPlayerJoined(server.GetId(), *tmpPlayerData), SessionData::Game | SessionData::Spectating | SessionData::SpectatorWaiting);
 
 			// Notify lobby.
 			server.GetLobbyThread().NotifyPlayerJoinedGame(server.GetId(), tmpPlayerData->GetUniqueId());
@@ -1420,7 +1420,7 @@ ServerGameStateHand::PerformRejoin(boost::shared_ptr<ServerGame> server, boost::
 		PlayerIdChangedMessage *netIdChanged = packet->GetMsg()->mutable_playeridchangedmessage();
 		netIdChanged->set_oldplayerid(rejoinPlayer->getMyUniqueID());
 		netIdChanged->set_newplayerid(session->GetPlayerData()->GetUniqueId());
-		server->SendToAllButOnePlayers(packet, session->GetId(), SessionData::Game | SessionData::Spectating);
+		server->SendToAllButOnePlayers(packet, session->GetId(), SessionData::Game | SessionData::Spectating | SessionData::SpectatorWaiting);
 
 		// Update the dealer, if necessary.
 		curGame.replaceDealer(rejoinPlayer->getMyUniqueID(), session->GetPlayerData()->GetUniqueId());
