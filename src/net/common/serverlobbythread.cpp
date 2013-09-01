@@ -390,12 +390,12 @@ ServerLobbyThread::CloseSession(boost::shared_ptr<SessionData> session)
 	if (session && session->GetState() != SessionData::Closed) { // Make this call reentrant.
 		LOG_VERBOSE("Closing session #" << session->GetId() << ".");
 
-		session->SetState(SessionData::Closed);
-
 		boost::shared_ptr<ServerGame> tmpGame = session->GetGame();
 		if (tmpGame) {
 			tmpGame->RemoveSession(session, NTF_NET_INTERNAL);
 		}
+		session->SetGame(boost::shared_ptr<ServerGame>());
+		session->SetState(SessionData::Closed);
 
 		m_sessionManager.RemoveSession(session->GetId());
 		m_gameSessionManager.RemoveSession(session->GetId());
@@ -404,7 +404,7 @@ ServerLobbyThread::CloseSession(boost::shared_ptr<SessionData> session)
 			NotifyPlayerLeftLobby(session->GetPlayerData()->GetUniqueId());
 		// Update stats (if needed).
 		UpdateStatisticsNumberOfPlayers();
-		session->SetGame(boost::shared_ptr<ServerGame>());
+
 		// Ignore error when shutting down the socket.
 		boost::system::error_code ec;
 		session->GetAsioSocket()->shutdown(boost::asio::ip::tcp::socket::shutdown_receive, ec);
