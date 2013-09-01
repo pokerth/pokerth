@@ -1827,7 +1827,7 @@ ServerLobbyThread::TimerRemoveGame(const boost::system::error_code &ec)
 			GameMap::iterator next = i;
 			++next;
 			boost::shared_ptr<ServerGame> tmpGame = i->second;
-			if (!tmpGame->GetSessionManager().HasSessions())
+			if (!tmpGame->GetSessionManager().HasSessionWithState(SessionData::Game))
 				InternalRemoveGame(tmpGame); // This will delete the game.
 			i = next;
 		}
