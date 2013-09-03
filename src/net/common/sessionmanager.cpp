@@ -46,13 +46,6 @@ SessionManager::~SessionManager()
 	Clear();
 }
 
-bool
-SessionManager::HasSessions() const
-{
-	boost::recursive_mutex::scoped_lock lock(m_sessionMapMutex);
-	return !m_sessionMap.empty();
-}
-
 void
 SessionManager::AddSession(boost::shared_ptr<SessionData> session)
 {
@@ -295,14 +288,14 @@ SessionManager::Clear()
 }
 
 unsigned
-SessionManager::GetRawSessionCount()
+SessionManager::GetRawSessionCount() const
 {
 	boost::recursive_mutex::scoped_lock lock(m_sessionMapMutex);
 	return (unsigned)m_sessionMap.size();
 }
 
 unsigned
-SessionManager::GetSessionCountWithState(int state)
+SessionManager::GetSessionCountWithState(int state) const
 {
 	unsigned counter = 0;
 	boost::recursive_mutex::scoped_lock lock(m_sessionMapMutex);
@@ -316,6 +309,25 @@ SessionManager::GetSessionCountWithState(int state)
 		++i;
 	}
 	return counter;
+}
+
+bool
+SessionManager::HasSessionWithState(int state) const
+{
+	bool retVal = false;
+	boost::recursive_mutex::scoped_lock lock(m_sessionMapMutex);
+
+	SessionMap::const_iterator i = m_sessionMap.begin();
+	SessionMap::const_iterator end = m_sessionMap.end();
+
+	while (i != end) {
+		if ((i->second->GetState() & state) != 0) {
+			retVal = true;
+			break;
+		}
+		++i;
+	}
+	return retVal;
 }
 
 void
