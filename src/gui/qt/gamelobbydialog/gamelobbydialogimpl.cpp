@@ -565,6 +565,15 @@ void gameLobbyDialogImpl::gameSelected(const QModelIndex &index)
 			++i;
 		}
 
+		treeWidget_connectedSpectators->clear();
+		PlayerIdList::const_iterator s = info.spectators.begin();
+		PlayerIdList::const_iterator s_end = info.spectators.end();
+		while (s != s_end) {
+			PlayerInfo playerInfo(mySession->getClientPlayerInfo(*s));
+			addConnectedSpectator(*s, QString::fromUtf8(playerInfo.playerName.c_str()));
+			++s;
+		}
+
 #ifdef __APPLE__
 		// Dirty workaround for a Qt redraw bug on Mac OS.
 		treeWidget_connectedPlayers->setFocus();
@@ -792,7 +801,7 @@ void gameLobbyDialogImpl::gameAddPlayer(unsigned gameId, unsigned playerId)
 
 void gameLobbyDialogImpl::gameAddSpectator(unsigned, unsigned)
 {
-	qDebug("jojo GameADDSpecator");
+
 }
 
 void gameLobbyDialogImpl::gameRemovePlayer(unsigned gameId, unsigned playerId)
@@ -833,7 +842,7 @@ void gameLobbyDialogImpl::gameRemovePlayer(unsigned gameId, unsigned playerId)
 
 void gameLobbyDialogImpl::gameRemoveSpectator(unsigned, unsigned)
 {
-	qDebug("jojo GameRemoveSpecator");
+
 }
 
 void gameLobbyDialogImpl::updateStats(ServerStats /*stats*/)
@@ -863,6 +872,7 @@ void gameLobbyDialogImpl::clearDialog()
 	myGameListSortFilterProxyModel->clear();
 	treeView_GameList->show();
 	treeWidget_connectedPlayers->clear();
+	treeWidget_connectedSpectators->clear();
 
 	pushButton_Leave->hide();
 	pushButton_Kick->hide();
@@ -987,12 +997,9 @@ void gameLobbyDialogImpl::blinkingStartButtonAnimation()
 
 void gameLobbyDialogImpl::joinedNetworkGame(unsigned playerId, QString playerName, bool isGameAdmin)
 {
-
 	// Update dialog
 	inGame = true;
 	joinedGameDialogUpdate();
-
-
 	myPlayerId = playerId;
 	isGameAdministrator = isGameAdmin;
 	addConnectedPlayer(playerId, playerName, isGameAdmin);
@@ -1043,7 +1050,6 @@ void gameLobbyDialogImpl::addConnectedPlayer(unsigned playerId, QString playerNa
 
 void gameLobbyDialogImpl::addConnectedSpectator(unsigned spectatorId, QString spectatorName) {
 
-	qDebug("JOJO add spect");
 	QTreeWidgetItem *item = new QTreeWidgetItem(treeWidget_connectedSpectators, 0);
 	item->setData(0, Qt::UserRole, spectatorId);
 	item->setData(0, Qt::DisplayRole, spectatorName);
@@ -1107,7 +1113,6 @@ void gameLobbyDialogImpl::updatePlayer(unsigned playerId, QString newPlayerName)
 
 void gameLobbyDialogImpl::removePlayer(unsigned playerId, QString)
 {
-	qDebug("JOJO remove player");
 	QTreeWidgetItemIterator it(treeWidget_connectedPlayers);
 	while (*it) {
 		if ((*it)->data(0, Qt::UserRole) == playerId) {
@@ -1122,7 +1127,6 @@ void gameLobbyDialogImpl::removePlayer(unsigned playerId, QString)
 
 void gameLobbyDialogImpl::removeSpectator(unsigned spectatorId, QString)
 {
-	qDebug("JOJO remove spect");
 	QTreeWidgetItemIterator it(treeWidget_connectedSpectators);
 	while (*it) {
 		if ((*it)->data(0, Qt::UserRole) == spectatorId) {
@@ -1267,7 +1271,6 @@ void gameLobbyDialogImpl::joinedGameDialogUpdate()
 	label_StartCash->setText(QString("%L1").arg(info.data.startMoney));
 	updateDialogBlinds(info.data);
 	label_GameTiming->setText(QString::number(info.data.playerActionTimeoutSec)+" "+tr("sec (action)")+"\n"+QString::number(info.data.delayBetweenHandsSec)+" "+tr("sec (hand delay)"));
-
 }
 
 void gameLobbyDialogImpl::leftGameDialogUpdate()
@@ -1291,6 +1294,7 @@ void gameLobbyDialogImpl::leftGameDialogUpdate()
 	label_GameTiming->setText("");
 
 	treeWidget_connectedPlayers->clear();
+	treeWidget_connectedSpectators->clear();
 	pushButton_StartGame->hide();
 	pushButton_Leave->hide();
 	pushButton_Kick->hide();
