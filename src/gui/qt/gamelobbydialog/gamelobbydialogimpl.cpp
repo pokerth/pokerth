@@ -475,7 +475,6 @@ void gameLobbyDialogImpl::refresh(int actionID)
 		treeView_GameList->setColumnWidth(3,25);
 		treeView_GameList->setColumnWidth(4,25);
 		treeView_GameList->setColumnWidth(5,30);
-
 #endif
 
 		QStringList headerList2;
@@ -594,6 +593,16 @@ void gameLobbyDialogImpl::updateGameItem(QList <QStandardItem*> itemList, unsign
 	PlayerIdList::const_iterator end = info.players.end();
 
 	while (i != end) {
+		//mark players as active
+		int it1 = 0;
+		while (myNickListModel->item(it1)) {
+			if (myNickListModel->item(it1, 0)->data(Qt::UserRole) == *i) {
+				myNickListModel->item(it1, 0)->setData("active", 34);
+				break;
+			}
+			++it1;
+		}
+
 		if(myPlayerId == *i) {
 			itemList.at(0)->setData( "MeInThisGame", 16);
 			itemList.at(0)->setBackground(QBrush(QColor(0, 255, 0, 127)));
@@ -677,6 +686,21 @@ void gameLobbyDialogImpl::updateGameItem(QList <QStandardItem*> itemList, unsign
 
 	treeView_GameList->sortByColumn(myConfig->readConfigInt("DlgGameLobbyGameListSortingSection"), (Qt::SortOrder)myConfig->readConfigInt("DlgGameLobbyGameListSortingOrder") );
 	refreshGameStats();
+
+	//mark spactators as active
+	PlayerIdList::const_iterator s = info.spectators.begin();
+	PlayerIdList::const_iterator s_end = info.spectators.end();
+
+	while (s != s_end) {
+		int it2 = 0;
+		while (myNickListModel->item(it2)) {
+			if (myNickListModel->item(it2, 0)->data(Qt::UserRole) == *s) {
+				myNickListModel->item(it2, 0)->setData("active", 34);
+				break;
+			}
+			++it2;
+		}
+	}
 }
 
 void gameLobbyDialogImpl::addGame(unsigned gameId)
@@ -693,7 +717,6 @@ void gameLobbyDialogImpl::addGame(unsigned gameId)
 	myGameListModel->appendRow(itemList);
 
 	updateGameItem(itemList, gameId);
-
 }
 
 void gameLobbyDialogImpl::updateGameMode(unsigned gameId, int /*newMode*/)
@@ -781,14 +804,15 @@ void gameLobbyDialogImpl::gameAddPlayer(unsigned gameId, unsigned playerId)
 		if (myGameListModel->item(it, 0)->data(Qt::UserRole) == gameId) {
 			QList <QStandardItem*> itemList;
 			itemList << myGameListModel->item(it, 0) << myGameListModel->item(it, 1) << myGameListModel->item(it, 2) << myGameListModel->item(it, 3) << myGameListModel->item(it, 4)  << myGameListModel->item(it, 5);
-
 			updateGameItem(itemList, gameId);
 			break;
 		}
 		it++;
 	}
+}
 
-	//mark player as active
+void gameLobbyDialogImpl::gameAddSpectator(unsigned /*gameId*/, unsigned playerId)
+{
 	int it1 = 0;
 	while (myNickListModel->item(it1)) {
 		if (myNickListModel->item(it1, 0)->data(Qt::UserRole) == playerId) {
@@ -797,11 +821,6 @@ void gameLobbyDialogImpl::gameAddPlayer(unsigned gameId, unsigned playerId)
 		}
 		++it1;
 	}
-}
-
-void gameLobbyDialogImpl::gameAddSpectator(unsigned, unsigned)
-{
-
 }
 
 void gameLobbyDialogImpl::gameRemovePlayer(unsigned gameId, unsigned playerId)
@@ -840,9 +859,17 @@ void gameLobbyDialogImpl::gameRemovePlayer(unsigned gameId, unsigned playerId)
 	}
 }
 
-void gameLobbyDialogImpl::gameRemoveSpectator(unsigned, unsigned)
+void gameLobbyDialogImpl::gameRemoveSpectator(unsigned, unsigned playerId)
 {
-
+	//mark spectator as idle again
+	int it1 = 0;
+	while (myNickListModel->item(it1)) {
+		if (myNickListModel->item(it1, 0)->data(Qt::UserRole) == playerId) {
+			myNickListModel->item(it1, 0)->setData("idle", 34);
+			break;
+		}
+		++it1;
+	}
 }
 
 void gameLobbyDialogImpl::updateStats(ServerStats /*stats*/)
@@ -1093,12 +1120,13 @@ void gameLobbyDialogImpl::updatePlayer(unsigned playerId, QString newPlayerName)
 				myNickListModel->item(it1, 0)->setToolTip(getFullCountryString(countryString.toUpper()));
 			}
 
-			unsigned gameIdOfPlayer = mySession->getGameIdOfPlayer(playerId);
-			if(gameIdOfPlayer) {
-				myNickListModel->item(it1, 0)->setData("active", 34);
-			} else {
-				myNickListModel->item(it1, 0)->setData("idle", 34);
-			}
+//			unsigned gameIdOfPlayer = mySession->getGameIdOfPlayer(playerId);
+//			if(gameIdOfPlayer) {
+//				myNickListModel->item(it1, 0)->setData("active", 34);
+//			} else {
+//				qDebug("updateplayer idle");
+//				myNickListModel->item(it1, 0)->setData("idle", 34);
+//			}
 
 			break;
 		}
@@ -1167,15 +1195,7 @@ void gameLobbyDialogImpl::playerJoinedLobby(unsigned playerId, QString /*playerN
 		item->setIcon(QIcon(QString(":/cflags/cflags/%1.png").arg(countryString)));
 		item->setToolTip(getFullCountryString(countryString.toUpper()));
 	}
-
-	unsigned gameIdOfPlayer = mySession->getGameIdOfPlayer(playerId);
-	if(gameIdOfPlayer) {
-		item->setData("active", 34);
-	} else {
-		item->setData("idle", 34);
-	}
-
-
+	item->setData("idle", 34);
 	myNickListModel->appendRow(item);
 
 	refreshPlayerStats();
