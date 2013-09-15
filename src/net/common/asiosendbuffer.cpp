@@ -105,12 +105,12 @@ AsioSendBuffer::InternalStorePacket(boost::shared_ptr<SessionData> session, boos
 	google::protobuf::uint8 *buf = new google::protobuf::uint8[packetSize + NET_HEADER_SIZE];
 	*((uint32_t *)buf) = htonl(packetSize);
 	packet->GetMsg()->SerializeWithCachedSizesToArray(&buf[NET_HEADER_SIZE]);
-	EncodeToBuf(session, buf, packetSize + NET_HEADER_SIZE);
+	EncodeToBuf(buf, packetSize + NET_HEADER_SIZE);
 	delete[] buf;
 }
 
 int
-AsioSendBuffer::EncodeToBuf(boost::shared_ptr<SessionData> /*session*/, const void *data, size_t size)
+AsioSendBuffer::EncodeToBuf(const void *data, size_t size)
 {
 	// Realloc buffer if necessary.
 	while (GetSendBufLeft() < size) {
