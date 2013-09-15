@@ -267,10 +267,9 @@ ServerLobbyThread::SignalTermination()
 }
 
 void
-ServerLobbyThread::AddConnection(boost::shared_ptr<tcp::socket> sock)
+ServerLobbyThread::AddConnection(boost::shared_ptr<SessionData> sessionData)
 {
 	// Create a new session.
-	boost::shared_ptr<SessionData> sessionData(new SessionData(sock, m_curSessionId++, *m_internalServerCallback, GetIOService()));
 	m_sessionManager.AddSession(sessionData);
 
 	LOG_VERBOSE("Accepted connection - session #" << sessionData->GetId() << ".");
@@ -284,42 +283,37 @@ ServerLobbyThread::AddConnection(boost::shared_ptr<tcp::socket> sock)
 	if (numLobbySessions <= SERVER_MAX_NUM_LOBBY_SESSIONS
 			&& numLobbySessions + numGameSessions <= SERVER_MAX_NUM_TOTAL_SESSIONS) {
 		bool hasClientIp = false;
-		boost::system::error_code errCode;
-		tcp::endpoint clientEndpoint = sock->remote_endpoint(errCode);
-		if (!errCode) {
-			string ipAddress = clientEndpoint.address().to_string(errCode);
-			if (!errCode && !ipAddress.empty()) {
-				sessionData->SetClientAddr(ipAddress);
-				hasClientIp = true;
+		string ipAddress = sessionData->GetRemoteIPAddressFromSocket();
+		if (!ipAddress.empty()) {
+			sessionData->SetClientAddr(ipAddress);
+			hasClientIp = true;
 
-				boost::shared_ptr<NetPacket> packet(new NetPacket);
-				packet->GetMsg()->set_messagetype(PokerTHMessage::Type_AnnounceMessage);
-				AnnounceMessage *netAnnounce = packet->GetMsg()->mutable_announcemessage();
-				netAnnounce->mutable_protocolversion()->set_majorversion(NET_VERSION_MAJOR);
-				netAnnounce->mutable_protocolversion()->set_minorversion(NET_VERSION_MINOR);
-				netAnnounce->mutable_latestgameversion()->set_majorversion(POKERTH_VERSION_MAJOR);
-				netAnnounce->mutable_latestgameversion()->set_minorversion(POKERTH_VERSION_MINOR);
-				netAnnounce->set_latestbetarevision(POKERTH_BETA_REVISION);
-				switch (GetServerMode()) {
-				case SERVER_MODE_LAN:
-					netAnnounce->set_servertype(AnnounceMessage::serverTypeLAN);
-					break;
-				case SERVER_MODE_INTERNET_NOAUTH:
-					netAnnounce->set_servertype(AnnounceMessage::serverTypeInternetNoAuth);
-					break;
-				case SERVER_MODE_INTERNET_AUTH:
-					netAnnounce->set_servertype(AnnounceMessage::serverTypeInternetAuth);
-					break;
-				}
-				{
-					boost::mutex::scoped_lock lock(m_statMutex);
-					netAnnounce->set_numplayersonserver(m_statData.numberOfPlayersOnServer);
-				}
-				GetSender().Send(sessionData, packet);
-				sessionData->GetReceiveBuffer().StartAsyncRead(sessionData);
+			boost::shared_ptr<NetPacket> packet(new NetPacket);
+			packet->GetMsg()->set_messagetype(PokerTHMessage::Type_AnnounceMessage);
+			AnnounceMessage *netAnnounce = packet->GetMsg()->mutable_announcemessage();
+			netAnnounce->mutable_protocolversion()->set_majorversion(NET_VERSION_MAJOR);
+			netAnnounce->mutable_protocolversion()->set_minorversion(NET_VERSION_MINOR);
+			netAnnounce->mutable_latestgameversion()->set_majorversion(POKERTH_VERSION_MAJOR);
+			netAnnounce->mutable_latestgameversion()->set_minorversion(POKERTH_VERSION_MINOR);
+			netAnnounce->set_latestbetarevision(POKERTH_BETA_REVISION);
+			switch (GetServerMode()) {
+			case SERVER_MODE_LAN:
+				netAnnounce->set_servertype(AnnounceMessage::serverTypeLAN);
+				break;
+			case SERVER_MODE_INTERNET_NOAUTH:
+				netAnnounce->set_servertype(AnnounceMessage::serverTypeInternetNoAuth);
+				break;
+			case SERVER_MODE_INTERNET_AUTH:
+				netAnnounce->set_servertype(AnnounceMessage::serverTypeInternetAuth);
+				break;
 			}
-		}
-		if (!hasClientIp) {
+			{
+				boost::mutex::scoped_lock lock(m_statMutex);
+				netAnnounce->set_numplayersonserver(m_statData.numberOfPlayersOnServer);
+			}
+			GetSender().Send(sessionData, packet);
+			sessionData->GetReceiveBuffer().StartAsyncRead(sessionData);
+		} else {
 			// We do not accept sessions if we cannot
 			// retrieve the client address.
 			SessionError(sessionData, ERR_NET_INVALID_SESSION);
@@ -406,8 +400,11 @@ ServerLobbyThread::CloseSession(boost::shared_ptr<SessionData> session)
 		UpdateStatisticsNumberOfPlayers();
 
 		// Ignore error when shutting down the socket.
-		boost::system::error_code ec;
-		session->GetAsioSocket()->shutdown(boost::asio::ip::tcp::socket::shutdown_receive, ec);
+		boost::shared_ptr<boost::asio::ip::tcp::socket> sock = session->GetAsioSocket();
+		if (sock) {
+			boost::system::error_code ec;
+			session->GetAsioSocket()->shutdown(boost::asio::ip::tcp::socket::shutdown_receive, ec);
+		}
 		// Close this session after send.
 		GetSender().SetCloseAfterSend(session);
 		// Cancel all timers of the session.
@@ -787,6 +784,18 @@ ServerLobbyThread::GetBanManager()
 {
 	assert(m_banManager);
 	return *m_banManager;
+}
+
+SessionDataCallback &
+ServerLobbyThread::GetSessionDataCallback()
+{
+	return *m_internalServerCallback;
+}
+
+u_int32_t
+ServerLobbyThread::GetNextSessionId()
+{
+	return m_curSessionId++;
 }
 
 u_int32_t

@@ -74,7 +74,9 @@ HEADERS += \
 		src/net/senderhelper.h \
 		src/net/sendercallback.h \
 		src/net/serverexception.h \
+		src/net/serveracceptinterface.h \
 		src/net/serveraccepthelper.h \
+		src/net/serveracceptwebhelper.h \
 		src/net/servergame.h \
 		src/net/servergamestate.h \
 		src/net/serverlobbythread.h \
@@ -127,9 +129,15 @@ HEADERS += \
 		src/gui/qttoolsinterface.h \
 		src/gui/generic/serverguiwrapper.h \
 		src/net/receivebuffer.h \
+		src/net/asioreceivebuffer.h \
+		src/net/webreceivebuffer.h \
 		src/net/sendbuffer.h \
+		src/net/asiosendbuffer.h \
+		src/net/websendbuffer.h \
 		src/net/servermanagerfactory.h \
-		src/net/uploadcallback.h
+		src/net/uploadcallback.h \
+		src/net/websocket_defs.h \
+		src/net/websocketdata.h
 
 SOURCES += \
 		src/engine/game.cpp \
@@ -178,7 +186,8 @@ SOURCES += \
 		src/net/common/senderhelper.cpp \
 		src/net/common/sendercallback.cpp \
 		src/net/common/serverexception.cpp \
-		src/net/common/serveraccepthelper.cpp \
+		src/net/common/serveraccepinterface.cpp \
+		src/net/common/serveracceptwebhelper.cpp \
 		src/net/common/servergame.cpp \
 		src/net/common/servergamestate.cpp \
 		src/net/common/serverlobbythread.cpp \
@@ -202,7 +211,11 @@ SOURCES += \
 		src/gui/generic/serverguiwrapper.cpp \
 		src/gui/qttoolsinterface.cpp \
 		src/net/common/sendbuffer.cpp \
+		src/net/common/asiosendbuffer.cpp \
+		src/net/common/websendbuffer.cpp \
 		src/net/common/receivebuffer.cpp \
+		src/net/common/asioreceivebuffer.cpp \
+		src/net/common/webreceivebuffer.cpp \
 		src/net/common/uploadcallback.cpp
 
 !android:!android_test{

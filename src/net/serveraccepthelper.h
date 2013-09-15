@@ -36,23 +36,13 @@
 #include <boost/asio.hpp>
 #include <string>
 
+#include <net/serveracceptinterface.h>
 #include <net/serverlobbythread.h>
 #include <net/serverexception.h>
 #include <net/socket_msg.h>
 #include <core/loghelper.h>
 #include <game_defs.h>
 #include <gui/guiinterface.h>
-
-class ServerAcceptInterface
-{
-public:
-	virtual ~ServerAcceptInterface();
-
-	virtual void Listen(unsigned serverPort, bool ipv6, const std::string &logDir,
-						boost::shared_ptr<ServerLobbyThread> lobbyThread) = 0;
-
-	virtual void Close() = 0;
-};
 
 template <typename P>
 class ServerAcceptHelper : public ServerAcceptInterface
@@ -130,7 +120,8 @@ protected:
 			acceptedSocket->io_control(command);
 			acceptedSocket->set_option(typename P::no_delay(true));
 			acceptedSocket->set_option(boost::asio::socket_base::keep_alive(true));
-			GetLobbyThread().AddConnection(acceptedSocket);
+			boost::shared_ptr<SessionData> sessionData(new SessionData(acceptedSocket, m_lobbyThread->GetNextSessionId(), m_lobbyThread->GetSessionDataCallback(), *m_ioService));
+			GetLobbyThread().AddConnection(sessionData);
 
 			boost::shared_ptr<typename P::socket> newSocket(new typename P::socket(*m_ioService));
 			m_acceptor->async_accept(

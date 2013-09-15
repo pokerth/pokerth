@@ -1,6 +1,6 @@
 /*****************************************************************************
  * PokerTH - The open source texas holdem engine                             *
- * Copyright (C) 2006-2012 Felix Hammer, Florian Thauer, Lothar May          *
+ * Copyright (C) 2006-2013 Felix Hammer, Florian Thauer, Lothar May          *
  *                                                                           *
  * This program is free software: you can redistribute it and/or modify      *
  * it under the terms of the GNU Affero General Public License as            *
@@ -28,77 +28,31 @@
  * shall include the source code for the parts of OpenSSL used as well       *
  * as that of the covered work.                                              *
  *****************************************************************************/
-/* Buffer for sending network data. */
+/* Buffer interface for sending network data. */
 
 #ifndef _SENDBUFFER_H_
 #define _SENDBUFFER_H_
 
-#include <boost/asio.hpp>
-#include <boost/thread.hpp>
+#include <net/websocket_defs.h>
 #include <boost/enable_shared_from_this.hpp>
-#include <cstdlib>
+#include <boost/thread.hpp>
 
-
-#define SEND_BUF_FIRST_ALLOC_CHUNKSIZE		4096
-#define MAX_SEND_BUF_SIZE					SEND_BUF_FIRST_ALLOC_CHUNKSIZE * 256
-
+class SessionData;
+class NetPacket;
 
 class SendBuffer : public boost::enable_shared_from_this<SendBuffer>
 {
 public:
-	SendBuffer();
-	~SendBuffer();
+	virtual ~SendBuffer();
 
-	inline size_t GetSendBufLeft() const {
-		int bytesLeft = (int)(sendBufAllocated - sendBufUsed);
-		return bytesLeft < 0 ? (size_t)0 : (size_t)bytesLeft;
-	}
+	virtual void SetCloseAfterSend() = 0;
 
-	inline size_t GetAllocated() const {
-		return sendBufAllocated;
-	}
+	virtual void AsyncSendNextPacket(boost::shared_ptr<SessionData> session) = 0;
+	virtual void InternalStorePacket(boost::shared_ptr<SessionData> session, boost::shared_ptr<NetPacket> packet) = 0;
 
-	inline bool ReallocSendBuf() {
-		bool retVal = false;
-		size_t allocAmount = sendBufAllocated * 2;
-		if (0 == allocAmount) {
-			allocAmount = (size_t)SEND_BUF_FIRST_ALLOC_CHUNKSIZE;
-		}
-		if (allocAmount <= MAX_SEND_BUF_SIZE) {
-			char *tempBuf = (char *)std::realloc(sendBuf, allocAmount);
-			if (tempBuf) {
-				sendBuf = tempBuf;
-				sendBufAllocated = allocAmount;
-				retVal = true;
-			}
-		}
-		return retVal;
-	}
-
-	inline void AppendToSendBufWithoutCheck(const char *data, size_t size) {
-		std::memcpy(sendBuf + sendBufUsed, data, size);
-		sendBufUsed += size;
-	}
-
-	inline void SetCloseAfterSend() {
-		closeAfterSend = true;
-	}
-
-	void HandleWrite(boost::shared_ptr<boost::asio::ip::tcp::socket> socket, const boost::system::error_code &error);
-	void AsyncSendNextPacket(boost::shared_ptr<boost::asio::ip::tcp::socket> socket);
-
-	static int EncodeToBuf(const void *data, size_t size, void *arg);
+	virtual void HandleWrite(boost::shared_ptr<boost::asio::ip::tcp::socket> socket, const boost::system::error_code &error) = 0;
 
 	mutable boost::mutex dataMutex;
-
-private:
-	char *sendBuf;
-	char *curWriteBuf;
-	size_t sendBufAllocated;
-	size_t sendBufUsed;
-	size_t curWriteBufAllocated;
-	size_t curWriteBufUsed;
-	bool closeAfterSend;
 };
 
 #endif

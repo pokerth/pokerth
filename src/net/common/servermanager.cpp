@@ -34,6 +34,7 @@
 #include <net/socket_helper.h>
 #include <net/serverlobbythread.h>
 #include <net/serveraccepthelper.h>
+#include <net/serveracceptwebhelper.h>
 #include <net/serverexception.h>
 #include <net/socket_msg.h>
 #include <net/socket_startup.h>
@@ -92,6 +93,11 @@ ServerManager::Init(unsigned serverPort, bool ipv6, ServerTransportProtocol prot
 			sctpAcceptHelper->Listen(serverPort, ipv6, logDir, m_lobbyThread);
 			m_acceptHelperPool.push_back(sctpAcceptHelper);
 		}*/
+	{
+		boost::shared_ptr<ServerAcceptInterface> webAcceptHelper(new ServerAcceptWebHelper(GetGui(), m_ioService));
+		webAcceptHelper->Listen(7233, true, logDir, m_lobbyThread);
+		m_acceptHelperPool.push_back(webAcceptHelper);
+	}
 }
 
 void

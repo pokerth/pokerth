@@ -70,7 +70,7 @@ public:
 	void Init(const std::string &logDir);
 	virtual void SignalTermination();
 
-	void AddConnection(boost::shared_ptr<boost::asio::ip::tcp::socket> sock);
+	void AddConnection(boost::shared_ptr<SessionData> sessionData);
 	void ReAddSession(boost::shared_ptr<SessionData> session, int reason, unsigned gameId);
 	void MoveSessionToGame(boost::shared_ptr<ServerGame> game, boost::shared_ptr<SessionData> session, bool autoLeave, bool spectateOnly);
 	void SessionError(boost::shared_ptr<SessionData> session, int errorCode);
@@ -111,6 +111,7 @@ public:
 
 	bool SendToLobbyPlayer(unsigned playerId, boost::shared_ptr<NetPacket> packet);
 
+	u_int32_t GetNextSessionId();
 	u_int32_t GetNextUniquePlayerId();
 	u_int32_t GetNextGameId();
 	ServerCallback &GetCallback();
@@ -126,6 +127,8 @@ public:
 	boost::asio::io_service &GetIOService();
 	boost::shared_ptr<ServerDBInterface> GetDatabase();
 	ServerBanManager &GetBanManager();
+
+	SessionDataCallback &GetSessionDataCallback();
 
 protected:
 
