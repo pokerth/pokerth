@@ -186,7 +186,7 @@ SOURCES += \
 		src/net/common/senderhelper.cpp \
 		src/net/common/sendercallback.cpp \
 		src/net/common/serverexception.cpp \
-		src/net/common/serveraccepinterface.cpp \
+		src/net/common/serveracceptinterface.cpp \
 		src/net/common/serveracceptwebhelper.cpp \
 		src/net/common/servergame.cpp \
 		src/net/common/servergamestate.cpp \
