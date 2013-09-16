@@ -41,7 +41,7 @@ WebReceiveBuffer::WebReceiveBuffer()
 }
 
 void
-WebReceiveBuffer::StartAsyncRead(boost::shared_ptr<SessionData> session)
+WebReceiveBuffer::StartAsyncRead(boost::shared_ptr<SessionData> /*session*/)
 {
 	// Nothing to do. This is handled internally by websocketpp.
 }

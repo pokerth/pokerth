@@ -50,13 +50,13 @@ SessionData::SessionData(boost::shared_ptr<boost::asio::ip::tcp::socket> sock, S
 	m_sendBuffer.reset(new AsioSendBuffer);
 }
 
-SessionData::SessionData(boost::shared_ptr<WebSocketData> webData, SessionId id, SessionDataCallback &cb, boost::asio::io_service &ioService, int filler)
+SessionData::SessionData(boost::shared_ptr<WebSocketData> webData, SessionId id, SessionDataCallback &cb, boost::asio::io_service &ioService, int /*filler*/)
 	: m_webData(webData), m_id(id), m_state(SessionData::Init), m_readyFlag(false), m_wantsLobbyMsg(true),
 	  m_activityTimeoutSec(0), m_activityWarningRemainingSec(0), m_initTimeoutTimer(ioService), m_globalTimeoutTimer(ioService),
 	  m_activityTimeoutTimer(ioService), m_callback(cb), m_authSession(NULL), m_curAuthStep(0)
 {
 	m_receiveBuffer.reset(new WebReceiveBuffer);
-	m_sendBuffer.reset(new WebSendBuffer(webData));
+	m_sendBuffer.reset(new WebSendBuffer);
 }
 
 SessionData::~SessionData()
@@ -105,6 +105,12 @@ boost::shared_ptr<boost::asio::ip::tcp::socket>
 SessionData::GetAsioSocket()
 {
 	return m_socket;
+}
+
+boost::shared_ptr<WebSocketData>
+SessionData::GetWebData()
+{
+	return m_webData;
 }
 
 bool

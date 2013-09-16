@@ -37,7 +37,7 @@
 using namespace std;
 
 ServerAcceptWebHelper::ServerAcceptWebHelper(ServerCallback &serverCallback, boost::shared_ptr<boost::asio::io_service> ioService)
-	: m_serverCallback(serverCallback), m_ioService(ioService)
+	: m_ioService(ioService), m_serverCallback(serverCallback)
 {
 	m_webSocketServer.reset(new server);
 }
@@ -71,7 +71,7 @@ ServerAcceptWebHelper::Close()
 }
 
 bool
-ServerAcceptWebHelper::validate(websocketpp::connection_hdl hdl)
+ServerAcceptWebHelper::validate(websocketpp::connection_hdl /*hdl*/)
 {
 	return true;
 }

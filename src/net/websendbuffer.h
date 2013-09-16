@@ -36,12 +36,10 @@
 #include <net/sendbuffer.h>
 #include <cstdlib>
 
-struct WebSocketData;
-
 class WebSendBuffer : public SendBuffer
 {
 public:
-	WebSendBuffer(boost::shared_ptr<WebSocketData> webData);
+	WebSendBuffer();
 
 	virtual void SetCloseAfterSend();
 
@@ -52,7 +50,6 @@ public:
 
 private:
 	bool closeAfterSend;
-	boost::shared_ptr<WebSocketData> m_webData;
 };
 
 #endif

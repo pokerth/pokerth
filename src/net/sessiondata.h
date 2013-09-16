@@ -74,6 +74,7 @@ public:
 	void SetState(State state);
 
 	boost::shared_ptr<boost::asio::ip::tcp::socket> GetAsioSocket();
+	boost::shared_ptr<WebSocketData> GetWebData();
 
 	bool CreateServerAuthSession(Gsasl *context);
 	bool CreateClientAuthSession(Gsasl *context, const std::string &userName, const std::string &password);
