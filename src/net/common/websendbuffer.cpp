@@ -68,7 +68,11 @@ WebSendBuffer::InternalStorePacket(boost::shared_ptr<SessionData> session, boost
 	google::protobuf::uint8 *buf = new google::protobuf::uint8[packetSize];
 	packet->GetMsg()->SerializeWithCachedSizesToArray(buf);
 
-	m_webData->webSocketServer->send(m_webData->webHandle, string((const char *)buf, packetSize), websocketpp::frame::opcode::BINARY);
+	boost::system::error_code ec;
+	m_webData->webSocketServer->send(m_webData->webHandle, string((const char *)buf, packetSize), websocketpp::frame::opcode::BINARY, ec);
+	if (ec) {
+		SetCloseAfterSend();
+	}
 
 	delete[] buf;
 }
