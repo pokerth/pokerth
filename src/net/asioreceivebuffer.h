@@ -28,13 +28,35 @@
  * shall include the source code for the parts of OpenSSL used as well       *
  * as that of the covered work.                                              *
  *****************************************************************************/
+/* ASIO standard socket receive buffer. */
 
-#include <net/sendbuffer.h>
+#ifndef _ASIORECEIVEBUFFER_H_
+#define _ASIORECEIVEBUFFER_H_
 
-using namespace std;
+#include <net/receivebuffer.h>
 
+// MUST be larger than MAX_PACKET_SIZE
+#define RECV_BUF_SIZE		5 * MAX_PACKET_SIZE
 
-SendBuffer::~SendBuffer()
+class AsioReceiveBuffer : public ReceiveBuffer
 {
-}
+public:
+	AsioReceiveBuffer();
 
+	virtual void StartAsyncRead(boost::shared_ptr<SessionData> session);
+	virtual void HandleRead(boost::shared_ptr<SessionData> session, const boost::system::error_code &error, size_t bytesRead);
+	virtual void HandleMessage(boost::shared_ptr<SessionData> session, const std::string &msg);
+
+protected:
+
+	void ScanPackets(boost::shared_ptr<SessionData> session);
+	void ProcessPackets(boost::shared_ptr<SessionData> session);
+
+
+private:
+	NetPacketList					receivedPackets;
+	char							recvBuf[RECV_BUF_SIZE];
+	size_t							recvBufUsed;
+};
+
+#endif

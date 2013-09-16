@@ -42,7 +42,7 @@
 #define MAX_CLEANER_PACKET_SIZE		512
 #define CLEANER_PROTOCOL_VERSION	2
 
-class SendBuffer;
+class AsioSendBuffer;
 class ChatCleanerMessage;
 
 class ChatCleanerManager : public boost::enable_shared_from_this<ChatCleanerManager>
@@ -73,7 +73,7 @@ private:
 	boost::shared_ptr<boost::asio::io_service> m_ioService;
 	boost::shared_ptr<boost::asio::ip::tcp::resolver> m_resolver;
 	boost::shared_ptr<boost::asio::ip::tcp::socket> m_socket;
-	boost::shared_ptr<SendBuffer> m_sendManager;
+	boost::shared_ptr<AsioSendBuffer> m_sendManager;
 
 	bool m_connected;
 	unsigned m_curRequestId;

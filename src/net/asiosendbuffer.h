@@ -28,13 +28,74 @@
  * shall include the source code for the parts of OpenSSL used as well       *
  * as that of the covered work.                                              *
  *****************************************************************************/
+/* Buffer for sending network data. */
+
+#ifndef _ASIOSENDBUFFER_H_
+#define _ASIOSENDBUFFER_H_
 
 #include <net/sendbuffer.h>
+#include <cstdlib>
 
-using namespace std;
+
+#define SEND_BUF_FIRST_ALLOC_CHUNKSIZE		4096
+#define MAX_SEND_BUF_SIZE					SEND_BUF_FIRST_ALLOC_CHUNKSIZE * 256
 
 
-SendBuffer::~SendBuffer()
+class AsioSendBuffer : public SendBuffer
 {
-}
+public:
+	AsioSendBuffer();
+	virtual ~AsioSendBuffer();
+
+	inline size_t GetSendBufLeft() const {
+		int bytesLeft = (int)(sendBufAllocated - sendBufUsed);
+		return bytesLeft < 0 ? (size_t)0 : (size_t)bytesLeft;
+	}
+
+	inline size_t GetAllocated() const {
+		return sendBufAllocated;
+	}
+
+	inline bool ReallocSendBuf() {
+		bool retVal = false;
+		size_t allocAmount = sendBufAllocated * 2;
+		if (0 == allocAmount) {
+			allocAmount = (size_t)SEND_BUF_FIRST_ALLOC_CHUNKSIZE;
+		}
+		if (allocAmount <= MAX_SEND_BUF_SIZE) {
+			char *tempBuf = (char *)std::realloc(sendBuf, allocAmount);
+			if (tempBuf) {
+				sendBuf = tempBuf;
+				sendBufAllocated = allocAmount;
+				retVal = true;
+			}
+		}
+		return retVal;
+	}
+
+	inline void AppendToSendBufWithoutCheck(const char *data, size_t size) {
+		std::memcpy(sendBuf + sendBufUsed, data, size);
+		sendBufUsed += size;
+	}
+
+	virtual void SetCloseAfterSend();
+
+	virtual void AsyncSendNextPacket(boost::shared_ptr<SessionData> session);
+	void AsyncSendNextPacket(boost::shared_ptr<boost::asio::ip::tcp::socket> socket);
+	virtual void InternalStorePacket(boost::shared_ptr<SessionData> session, boost::shared_ptr<NetPacket> packet);
+	int EncodeToBuf(const void *data, size_t size);
+
+	virtual void HandleWrite(boost::shared_ptr<boost::asio::ip::tcp::socket> socket, const boost::system::error_code &error);
+
+private:
+	char *sendBuf;
+	char *curWriteBuf;
+	size_t sendBufAllocated;
+	size_t sendBufUsed;
+	size_t curWriteBufAllocated;
+	size_t curWriteBufUsed;
+	bool closeAfterSend;
+};
+
+#endif
 

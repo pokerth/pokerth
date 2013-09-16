@@ -1,6 +1,6 @@
 /*****************************************************************************
  * PokerTH - The open source texas holdem engine                             *
- * Copyright (C) 2006-2012 Felix Hammer, Florian Thauer, Lothar May          *
+ * Copyright (C) 2006-2013 Felix Hammer, Florian Thauer, Lothar May          *
  *                                                                           *
  * This program is free software: you can redistribute it and/or modify      *
  * it under the terms of the GNU Affero General Public License as            *
@@ -28,12 +28,18 @@
  * shall include the source code for the parts of OpenSSL used as well       *
  * as that of the covered work.                                              *
  *****************************************************************************/
+/* Structure for web socket data for a session. */
 
-#include <net/serveraccepthelper.h>
+#ifndef _WEBSOCKETDATA_H_
+#define _WEBSOCKETDATA_H_
+
+#include <net/websocket_defs.h>
 
 
-ServerAcceptInterface::~ServerAcceptInterface()
+struct WebSocketData
 {
-}
+	boost::shared_ptr<server> webSocketServer;
+	websocketpp::connection_hdl webHandle;
+};
 
-
+#endif

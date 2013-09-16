@@ -29,12 +29,11 @@
  * as that of the covered work.                                              *
  *****************************************************************************/
 
-#include <net/sendbuffer.h>
-
-using namespace std;
+#include <net/serveracceptinterface.h>
 
 
-SendBuffer::~SendBuffer()
+ServerAcceptInterface::~ServerAcceptInterface()
 {
 }
+
 

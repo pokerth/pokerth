@@ -29,12 +29,44 @@
  * as that of the covered work.                                              *
  *****************************************************************************/
 
-#include <net/sendbuffer.h>
+#include <net/sessiondata.h>
+#include <net/webreceivebuffer.h>
+#include <core/loghelper.h>
 
 using namespace std;
 
 
-SendBuffer::~SendBuffer()
+WebReceiveBuffer::WebReceiveBuffer()
 {
+}
+
+void
+WebReceiveBuffer::StartAsyncRead(boost::shared_ptr<SessionData> session)
+{
+	// Nothing to do. This is handled internally by websocketpp.
+}
+
+void
+WebReceiveBuffer::HandleRead(boost::shared_ptr<SessionData> /*session*/, const boost::system::error_code &/*error*/, size_t /*bytesRead*/)
+{
+	LOG_ERROR("WebReceiveBuffer::HandleRead should never be called because Websocket I/O is message based.");
+}
+
+void
+WebReceiveBuffer::HandleMessage(boost::shared_ptr<SessionData> session, const string &msg)
+{
+	boost::shared_ptr<NetPacket> tmpPacket;
+	try {
+		tmpPacket = NetPacket::Create(msg.c_str(), msg.size());
+		if (!validator.IsValidPacket(*tmpPacket)) {
+			LOG_ERROR("Session " << session->GetId() << " - Invalid packet: " << tmpPacket->GetMsg()->messagetype());
+			tmpPacket.reset();
+		}
+	} catch (const exception &e) {
+		LOG_ERROR("Session " << session->GetId() << " - " << e.what());
+	}
+	if (tmpPacket) {
+		session->HandlePacket(tmpPacket);
+	}
 }
 

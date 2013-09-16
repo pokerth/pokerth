@@ -30,25 +30,40 @@
  *****************************************************************************/
 
 #include <net/sessiondata.h>
-#include <net/receivebuffer.h>
-#include <net/sendbuffer.h>
+#include <net/asioreceivebuffer.h>
+#include <net/webreceivebuffer.h>
+#include <net/asiosendbuffer.h>
+#include <net/websendbuffer.h>
 #include <net/socket_msg.h>
+#include <net/websocketdata.h>
 #include <gsasl.h>
 
 using namespace std;
+using boost::asio::ip::tcp;
 
 SessionData::SessionData(boost::shared_ptr<boost::asio::ip::tcp::socket> sock, SessionId id, SessionDataCallback &cb, boost::asio::io_service &ioService)
 	: m_socket(sock), m_id(id), m_state(SessionData::Init), m_readyFlag(false), m_wantsLobbyMsg(true),
 	  m_activityTimeoutSec(0), m_activityWarningRemainingSec(0), m_initTimeoutTimer(ioService), m_globalTimeoutTimer(ioService),
 	  m_activityTimeoutTimer(ioService), m_callback(cb), m_authSession(NULL), m_curAuthStep(0)
 {
-	m_receiveBuffer.reset(new ReceiveBuffer);
-	m_sendBuffer.reset(new SendBuffer);
+	m_receiveBuffer.reset(new AsioReceiveBuffer);
+	m_sendBuffer.reset(new AsioSendBuffer);
+}
+
+SessionData::SessionData(boost::shared_ptr<WebSocketData> webData, SessionId id, SessionDataCallback &cb, boost::asio::io_service &ioService, int filler)
+	: m_webData(webData), m_id(id), m_state(SessionData::Init), m_readyFlag(false), m_wantsLobbyMsg(true),
+	  m_activityTimeoutSec(0), m_activityWarningRemainingSec(0), m_initTimeoutTimer(ioService), m_globalTimeoutTimer(ioService),
+	  m_activityTimeoutTimer(ioService), m_callback(cb), m_authSession(NULL), m_curAuthStep(0)
+{
+	m_receiveBuffer.reset(new WebReceiveBuffer);
+	m_sendBuffer.reset(new WebSendBuffer(webData));
 }
 
 SessionData::~SessionData()
 {
 	InternalClearAuthSession();
+	// Web Socket handle needs to be manually closed, asio socket is closed automatically.
+	CloseWebSocketHandle();
 }
 
 SessionId
@@ -279,6 +294,24 @@ SessionData::SetClientAddr(const std::string &addr)
 }
 
 void
+SessionData::CloseSocketHandle()
+{
+	if (m_socket) {
+		boost::system::error_code ec;
+		m_socket->close(ec);
+	}
+}
+
+void
+SessionData::CloseWebSocketHandle()
+{
+	if (m_webData) {
+		boost::system::error_code ec;
+		m_webData->webSocketServer->close(m_webData->webHandle, websocketpp::close::status::normal, "PokerTH server closed the connection.", ec);
+	}
+}
+
+void
 SessionData::ResetActivityTimer()
 {
 	boost::mutex::scoped_lock lock(m_dataMutex);
@@ -346,5 +379,22 @@ SessionData::GetPlayerData()
 {
 	boost::mutex::scoped_lock lock(m_dataMutex);
 	return m_playerData;
+}
+
+string
+SessionData::GetRemoteIPAddressFromSocket() const
+{
+	string ipAddress;
+	if (m_socket) {
+		boost::system::error_code errCode;
+		tcp::endpoint clientEndpoint = m_socket->remote_endpoint(errCode);
+		if (!errCode) {
+			ipAddress = clientEndpoint.address().to_string(errCode);
+		}
+	} else {
+		server::connection_ptr con = m_webData->webSocketServer->get_con_from_hdl(m_webData->webHandle);
+		ipAddress = con->get_remote_endpoint();
+	}
+	return ipAddress;
 }
 

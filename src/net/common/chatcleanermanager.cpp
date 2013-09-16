@@ -1,6 +1,6 @@
 /*****************************************************************************
  * PokerTH - The open source texas holdem engine                             *
- * Copyright (C) 2006-2012 Felix Hammer, Florian Thauer, Lothar May          *
+ * Copyright (C) 2006-2013 Felix Hammer, Florian Thauer, Lothar May          *
  *                                                                           *
  * This program is free software: you can redistribute it and/or modify      *
  * it under the terms of the GNU Affero General Public License as            *
@@ -30,7 +30,7 @@
  *****************************************************************************/
 
 #include <net/chatcleanermanager.h>
-#include <net/sendbuffer.h>
+#include <net/asiosendbuffer.h>
 #include <boost/bind.hpp>
 #include <core/loghelper.h>
 #include <third_party/protobuf/chatcleaner.pb.h>
@@ -49,7 +49,7 @@ ChatCleanerManager::ChatCleanerManager(ChatCleanerCallback &cb, boost::shared_pt
 	m_resolver.reset(
 		new boost::asio::ip::tcp::resolver(*m_ioService));
 	m_sendManager.reset(
-		new SendBuffer);
+		new AsioSendBuffer);
 }
 
 ChatCleanerManager::~ChatCleanerManager()
@@ -273,7 +273,7 @@ ChatCleanerManager::SendMessageToServer(ChatCleanerMessage &msg)
 	google::protobuf::uint8 *buf = new google::protobuf::uint8[packetSize + CLEANER_NET_HEADER_SIZE];
 	*((uint32_t *)buf) = htonl(packetSize);
 	msg.SerializeWithCachedSizesToArray(&buf[CLEANER_NET_HEADER_SIZE]);
-	SendBuffer::EncodeToBuf(buf, packetSize + CLEANER_NET_HEADER_SIZE, m_sendManager.get());
+	m_sendManager->EncodeToBuf(buf, packetSize + CLEANER_NET_HEADER_SIZE);
 	delete[] buf;
 
 	m_sendManager->AsyncSendNextPacket(m_socket);

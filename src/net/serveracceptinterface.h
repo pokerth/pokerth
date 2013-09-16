@@ -28,13 +28,26 @@
  * shall include the source code for the parts of OpenSSL used as well       *
  * as that of the covered work.                                              *
  *****************************************************************************/
+/* Network server helper interface to accept connections. */
 
-#include <net/sendbuffer.h>
+#ifndef _SERVERACCEPINTERFACE_H_
+#define _SERVERACCEPINTERFACE_H_
 
-using namespace std;
+#include <string>
+#include <boost/shared_ptr.hpp>
 
+class ServerLobbyThread;
 
-SendBuffer::~SendBuffer()
+class ServerAcceptInterface
 {
-}
+public:
+	virtual ~ServerAcceptInterface();
 
+	virtual void Listen(unsigned serverPort, bool ipv6, const std::string &logDir,
+						boost::shared_ptr<ServerLobbyThread> lobbyThread) = 0;
+
+	virtual void Close() = 0;
+};
+
+
+#endif

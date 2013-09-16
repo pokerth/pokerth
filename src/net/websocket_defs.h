@@ -28,13 +28,14 @@
  * shall include the source code for the parts of OpenSSL used as well       *
  * as that of the covered work.                                              *
  *****************************************************************************/
+/* Definitions and includes for websocketpp. */
 
-#include <net/sendbuffer.h>
+#ifndef _WEBSOCKET_DEFS_H_
+#define _WEBSOCKET_DEFS_H_
 
-using namespace std;
+#include <websocketpp/config/asio_no_tls.hpp>
+#include <websocketpp/server.hpp>
 
+typedef websocketpp::server<websocketpp::config::asio> server;
 
-SendBuffer::~SendBuffer()
-{
-}
-
+#endif

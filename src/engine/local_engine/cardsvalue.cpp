@@ -1142,11 +1142,9 @@ std::string CardsValue::determineHandName(int myCardsValueInt, PlayerList active
 					// 4.there are still same hands
 					if(equal) {
 						different = false;
-						equal = false;
 						// third kicker?
 						for(it = sameHandCardsValueInt.begin(); it != sameHandCardsValueInt.end(); ) {
 							if((*it) == myCardsValueInt) {
-								equal = true;
 								++it;
 							} else {
 								different = true;

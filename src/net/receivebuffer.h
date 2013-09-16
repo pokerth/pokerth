@@ -1,6 +1,6 @@
 /*****************************************************************************
  * PokerTH - The open source texas holdem engine                             *
- * Copyright (C) 2006-2012 Felix Hammer, Florian Thauer, Lothar May          *
+ * Copyright (C) 2006-2013 Felix Hammer, Florian Thauer, Lothar May          *
  *                                                                           *
  * This program is free software: you can redistribute it and/or modify      *
  * it under the terms of the GNU Affero General Public License as            *
@@ -28,39 +28,31 @@
  * shall include the source code for the parts of OpenSSL used as well       *
  * as that of the covered work.                                              *
  *****************************************************************************/
-/* Buffer for ReceiveHelper. */
+/* Interface for receive buffers. */
 
 #ifndef _RECEIVEBUFFER_H_
 #define _RECEIVEBUFFER_H_
 
 #include <boost/enable_shared_from_this.hpp>
+#include <boost/system/error_code.hpp>
 #include <net/netpacket.h>
 #include <net/netpacketvalidator.h>
-
-// MUST be larger than MAX_PACKET_SIZE
-#define RECV_BUF_SIZE		5 * MAX_PACKET_SIZE
 
 class SessionData;
 
 class ReceiveBuffer : public boost::enable_shared_from_this<ReceiveBuffer>
 {
 public:
-	ReceiveBuffer();
+	virtual ~ReceiveBuffer();
 
-	void StartAsyncRead(boost::shared_ptr<SessionData> session);
+	virtual void StartAsyncRead(boost::shared_ptr<SessionData> session) = 0;
+	virtual void HandleRead(boost::shared_ptr<SessionData> session, const boost::system::error_code &error, size_t bytesRead) = 0;
+	virtual void HandleMessage(boost::shared_ptr<SessionData> session, const std::string &msg) = 0;
 
 protected:
-	void HandleRead(boost::shared_ptr<SessionData> session, const boost::system::error_code &error, size_t bytesRead);
 
-	void ScanPackets(boost::shared_ptr<SessionData> session);
-	void ProcessPackets(boost::shared_ptr<SessionData> session);
-
-
-private:
-	NetPacketList					receivedPackets;
-	char							recvBuf[RECV_BUF_SIZE];
-	size_t							recvBufUsed;
 	static NetPacketValidator		validator;
+
 };
 
 #endif

@@ -28,13 +28,32 @@
  * shall include the source code for the parts of OpenSSL used as well       *
  * as that of the covered work.                                              *
  *****************************************************************************/
+/* Buffer for sending network data through a websocket. */
+
+#ifndef _WEBSENDBUFFER_H_
+#define _WEBSENDBUFFER_H_
 
 #include <net/sendbuffer.h>
+#include <cstdlib>
 
-using namespace std;
+struct WebSocketData;
 
-
-SendBuffer::~SendBuffer()
+class WebSendBuffer : public SendBuffer
 {
-}
+public:
+	WebSendBuffer(boost::shared_ptr<WebSocketData> webData);
+
+	virtual void SetCloseAfterSend();
+
+	virtual void AsyncSendNextPacket(boost::shared_ptr<SessionData> session);
+	virtual void InternalStorePacket(boost::shared_ptr<SessionData> session, boost::shared_ptr<NetPacket> packet);
+
+	virtual void HandleWrite(boost::shared_ptr<boost::asio::ip::tcp::socket> socket, const boost::system::error_code &error);
+
+private:
+	bool closeAfterSend;
+	boost::shared_ptr<WebSocketData> m_webData;
+};
+
+#endif
 

@@ -49,6 +49,7 @@ typedef unsigned SessionId;
 
 struct Gsasl;
 struct Gsasl_session;
+struct WebSocketData;
 class ReceiveBuffer;
 class SendBuffer;
 class NetPacket;
@@ -61,6 +62,7 @@ public:
 	enum State { Init = 1, ReceivingAvatar = 2, Established = 4, Game = 8, Spectating = 16, SpectatorWaiting = 32, Closed = 128 };
 
 	SessionData(boost::shared_ptr<boost::asio::ip::tcp::socket> sock, SessionId id, SessionDataCallback &cb, boost::asio::io_service &ioService);
+	SessionData(boost::shared_ptr<WebSocketData> webData, SessionId id, SessionDataCallback &cb, boost::asio::io_service &ioService, int filler);
 	~SessionData();
 
 	SessionId GetId() const;
@@ -102,6 +104,8 @@ public:
 	void Close() {
 		m_callback.CloseSession(shared_from_this());
 	}
+	void CloseSocketHandle();
+	void CloseWebSocketHandle();
 	void HandlePacket(boost::shared_ptr<NetPacket> packet) {
 		m_callback.HandlePacket(shared_from_this(), packet);
 	}
@@ -116,6 +120,8 @@ public:
 	void SetPlayerData(boost::shared_ptr<PlayerData> player);
 	boost::shared_ptr<PlayerData> GetPlayerData();
 
+	std::string GetRemoteIPAddressFromSocket() const;
+
 protected:
 	SessionData(const SessionData &other);
 	SessionData &operator=(const SessionData &other);
@@ -125,7 +131,8 @@ protected:
 	void TimerActivityWarning(const boost::system::error_code &ec);
 
 private:
-	boost::shared_ptr<boost::asio::ip::tcp::socket> m_socket;
+	boost::shared_ptr<boost::asio::ip::tcp::socket>	m_socket;
+	boost::shared_ptr<WebSocketData>	m_webData;
 	const SessionId					m_id;
 	boost::weak_ptr<ServerGame>		m_game;
 	State							m_state;

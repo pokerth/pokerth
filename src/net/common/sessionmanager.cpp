@@ -281,7 +281,9 @@ SessionManager::Clear()
 
 	boost::system::error_code ec;
 	while (i != end) {
-		i->second->GetAsioSocket()->close(ec);
+		// Close all raw handles.
+		i->second->CloseSocketHandle();
+		i->second->CloseWebSocketHandle();
 		++i;
 	}
 	m_sessionMap.clear();

@@ -1,6 +1,6 @@
 /*****************************************************************************
  * PokerTH - The open source texas holdem engine                             *
- * Copyright (C) 2006-2013 Felix Hammer, Florian Thauer, Lothar May          *
+ * Copyright (C) 2006-2012 Felix Hammer, Florian Thauer, Lothar May          *
  *                                                                           *
  * This program is free software: you can redistribute it and/or modify      *
  * it under the terms of the GNU Affero General Public License as            *
@@ -29,12 +29,47 @@
  * as that of the covered work.                                              *
  *****************************************************************************/
 
-#include <net/sendbuffer.h>
+#include <net/websendbuffer.h>
+#include <net/websocketdata.h>
+#include <net/netpacket.h>
 
 using namespace std;
 
 
-SendBuffer::~SendBuffer()
+WebSendBuffer::WebSendBuffer(boost::shared_ptr<WebSocketData> webData)
+	: closeAfterSend(false), m_webData(webData)
 {
+}
+
+void
+WebSendBuffer::SetCloseAfterSend()
+{
+	closeAfterSend = true;
+}
+
+void
+WebSendBuffer::HandleWrite(boost::shared_ptr<boost::asio::ip::tcp::socket> /*socket*/, const boost::system::error_code &/*error*/)
+{
+}
+
+void
+WebSendBuffer::AsyncSendNextPacket(boost::shared_ptr<SessionData> session)
+{
+	if (closeAfterSend) {
+		boost::system::error_code ec;
+		m_webData->webSocketServer->close(m_webData->webHandle, websocketpp::close::status::normal, "PokerTH server closed the connection.", ec);
+	}
+}
+
+void
+WebSendBuffer::InternalStorePacket(boost::shared_ptr<SessionData> session, boost::shared_ptr<NetPacket> packet)
+{
+	uint32_t packetSize = packet->GetMsg()->ByteSize();
+	google::protobuf::uint8 *buf = new google::protobuf::uint8[packetSize];
+	packet->GetMsg()->SerializeWithCachedSizesToArray(buf);
+
+	m_webData->webSocketServer->send(m_webData->webHandle, string((const char *)buf, packetSize), websocketpp::frame::opcode::BINARY);
+
+	delete[] buf;
 }
 

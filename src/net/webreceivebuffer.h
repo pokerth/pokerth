@@ -28,13 +28,21 @@
  * shall include the source code for the parts of OpenSSL used as well       *
  * as that of the covered work.                                              *
  *****************************************************************************/
+/* Websocket receive buffer. */
 
-#include <net/sendbuffer.h>
+#ifndef _WEBRECEIVEBUFFER_H_
+#define _WEBRECEIVEBUFFER_H_
 
-using namespace std;
+#include <net/receivebuffer.h>
 
-
-SendBuffer::~SendBuffer()
+class WebReceiveBuffer : public ReceiveBuffer
 {
-}
+public:
+	WebReceiveBuffer();
 
+	virtual void StartAsyncRead(boost::shared_ptr<SessionData> session);
+	virtual void HandleRead(boost::shared_ptr<SessionData> session, const boost::system::error_code &error, size_t bytesRead);
+	virtual void HandleMessage(boost::shared_ptr<SessionData> session, const std::string &msg);
+};
+
+#endif

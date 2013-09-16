@@ -28,13 +28,41 @@
  * shall include the source code for the parts of OpenSSL used as well       *
  * as that of the covered work.                                              *
  *****************************************************************************/
+/* Network server helper to accept websocket connections. */
 
-#include <net/sendbuffer.h>
+#ifndef _SERVERACCEPTWEBHELPER_H_
+#define _SERVERACCEPTWEBHELPER_H_
 
-using namespace std;
+#include <net/websocket_defs.h>
+#include <net/serveracceptinterface.h>
+#include <net/serverlobbythread.h>
 
-
-SendBuffer::~SendBuffer()
+class ServerAcceptWebHelper : public ServerAcceptInterface
 {
-}
+public:
+	ServerAcceptWebHelper(ServerCallback &serverCallback, boost::shared_ptr<boost::asio::io_service> ioService);
 
+	virtual void Listen(unsigned serverPort, bool ipv6, const std::string &logDir,
+						boost::shared_ptr<ServerLobbyThread> lobbyThread);
+
+	virtual void Close();
+
+protected:
+
+	typedef std::map<websocketpp::connection_hdl, boost::weak_ptr<SessionData> > SessionMap;
+
+	bool validate(websocketpp::connection_hdl hdl); 
+	void on_open(websocketpp::connection_hdl hdl);
+	void on_close(websocketpp::connection_hdl hdl);
+	void on_message(websocketpp::connection_hdl hdl, server::message_ptr msg);
+
+private:
+	boost::shared_ptr<boost::asio::io_service> m_ioService;
+	ServerCallback &m_serverCallback;
+	boost::shared_ptr<server> m_webSocketServer;
+	SessionMap m_sessionMap;
+
+	boost::shared_ptr<ServerLobbyThread> m_lobbyThread;
+};
+
+#endif
