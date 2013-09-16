@@ -700,6 +700,7 @@ void gameLobbyDialogImpl::updateGameItem(QList <QStandardItem*> itemList, unsign
 			}
 			++it2;
 		}
+		++s;
 	}
 }
 
