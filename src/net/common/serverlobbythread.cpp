@@ -282,11 +282,9 @@ ServerLobbyThread::AddConnection(boost::shared_ptr<SessionData> sessionData)
 	unsigned numGameSessions = m_gameSessionManager.GetRawSessionCount();
 	if (numLobbySessions <= SERVER_MAX_NUM_LOBBY_SESSIONS
 			&& numLobbySessions + numGameSessions <= SERVER_MAX_NUM_TOTAL_SESSIONS) {
-		bool hasClientIp = false;
 		string ipAddress = sessionData->GetRemoteIPAddressFromSocket();
 		if (!ipAddress.empty()) {
 			sessionData->SetClientAddr(ipAddress);
-			hasClientIp = true;
 
 			boost::shared_ptr<NetPacket> packet(new NetPacket);
 			packet->GetMsg()->set_messagetype(PokerTHMessage::Type_AnnounceMessage);

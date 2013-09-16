@@ -392,8 +392,12 @@ SessionData::GetRemoteIPAddressFromSocket() const
 			ipAddress = clientEndpoint.address().to_string(errCode);
 		}
 	} else {
+		boost::system::error_code errCode;
 		server::connection_ptr con = m_webData->webSocketServer->get_con_from_hdl(m_webData->webHandle);
-		ipAddress = con->get_remote_endpoint();
+		tcp::endpoint webClientEndpoint = con->get_raw_socket().remote_endpoint(errCode);
+		if (!errCode) {
+			ipAddress = webClientEndpoint.address().to_string(errCode);
+		}
 	}
 	return ipAddress;
 }
