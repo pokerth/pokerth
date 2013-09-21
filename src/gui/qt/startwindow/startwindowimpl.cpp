@@ -146,7 +146,7 @@ startWindowImpl::startWindowImpl(ConfigFile *c, Log *l)
 	connect( pushButton_configure, SIGNAL( clicked() ), this, SLOT( callSettingsDialogFromStartwindow() ) );
 #else
 	//Desktop
-	this->menubar->setStyleSheet("QMenuBar { background-color: #505050; font-size:12px; border-width: 0px;} QMenuBar::item { background-color: #505050; color: #FDC942; }");
+	this->menubar->setStyleSheet("QMenuBar { background-color: #505050; font-size:12px; border-width: 0px;} QMenuBar::item { background: transparent; color: #FDC942; } QMenuBar::item:selected { background: #787878; color: #FDC942; } QMenuBar::item:pressed { background: #FDC942; color: #505050; }");
 	centralwidget->setStyleSheet(".QWidget { background-image: url(\""+myAppDataPath+"gfx/gui/misc/startwindowbg10_desktop.png\"); background-position: bottom center; background-origin: content; background-repeat: no-repeat;}");
 
 	pushButtonStart_Local_Game->setStyleSheet("QPushButton { text-align:left; font-weight:bold; padding-left: 1px; padding-bottom: 3px; padding-top: 3px; padding-right: 3px; background-color: #505050; color: #FDC942; font-size:12px; border-width: 0px;}");
