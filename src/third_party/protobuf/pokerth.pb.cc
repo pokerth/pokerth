@@ -12596,6 +12596,7 @@ const int HandStartMessage::kPlainCardsFieldNumber;
 const int HandStartMessage::kEncryptedCardsFieldNumber;
 const int HandStartMessage::kSmallBlindFieldNumber;
 const int HandStartMessage::kSeatStatesFieldNumber;
+const int HandStartMessage::kDealerPlayerIdFieldNumber;
 #endif  // !_MSC_VER
 
 HandStartMessage::HandStartMessage()
@@ -12624,6 +12625,7 @@ void HandStartMessage::SharedCtor() {
   plaincards_ = NULL;
   encryptedcards_ = const_cast< ::std::string*>(&::google::protobuf::internal::kEmptyString);
   smallblind_ = 0u;
+  dealerplayerid_ = 0u;
   ::memset(_has_bits_, 0, sizeof(_has_bits_));
 }
 
@@ -12676,6 +12678,7 @@ void HandStartMessage::Clear() {
       }
     }
     smallblind_ = 0u;
+    dealerplayerid_ = 0u;
   }
   seatstates_.Clear();
   ::memset(_has_bits_, 0, sizeof(_has_bits_));
@@ -12769,6 +12772,22 @@ bool HandStartMessage::MergePartialFromCodedStream(
           goto handle_uninterpreted;
         }
         if (input->ExpectTag(40)) goto parse_seatStates;
+        if (input->ExpectTag(48)) goto parse_dealerPlayerId;
+        break;
+      }
+
+      // optional uint32 dealerPlayerId = 6;
+      case 6: {
+        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+            ::google::protobuf::internal::WireFormatLite::WIRETYPE_VARINT) {
+         parse_dealerPlayerId:
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
+                 input, &dealerplayerid_)));
+          set_has_dealerplayerid();
+        } else {
+          goto handle_uninterpreted;
+        }
         if (input->ExpectAtEnd()) return true;
         break;
       }
@@ -12818,6 +12837,11 @@ void HandStartMessage::SerializeWithCachedSizes(
       5, this->seatstates(i), output);
   }
 
+  // optional uint32 dealerPlayerId = 6;
+  if (has_dealerplayerid()) {
+    ::google::protobuf::internal::WireFormatLite::WriteUInt32(6, this->dealerplayerid(), output);
+  }
+
 }
 
 int HandStartMessage::ByteSize() const {
@@ -12850,6 +12874,13 @@ int HandStartMessage::ByteSize() const {
       total_size += 1 +
         ::google::protobuf::internal::WireFormatLite::UInt32Size(
           this->smallblind());
+    }
+
+    // optional uint32 dealerPlayerId = 6;
+    if (has_dealerplayerid()) {
+      total_size += 1 +
+        ::google::protobuf::internal::WireFormatLite::UInt32Size(
+          this->dealerplayerid());
     }
 
   }
@@ -12890,6 +12921,9 @@ void HandStartMessage::MergeFrom(const HandStartMessage& from) {
     if (from.has_smallblind()) {
       set_smallblind(from.smallblind());
     }
+    if (from.has_dealerplayerid()) {
+      set_dealerplayerid(from.dealerplayerid());
+    }
   }
 }
 
@@ -12915,6 +12949,7 @@ void HandStartMessage::Swap(HandStartMessage* other) {
     std::swap(encryptedcards_, other->encryptedcards_);
     std::swap(smallblind_, other->smallblind_);
     seatstates_.Swap(&other->seatstates_);
+    std::swap(dealerplayerid_, other->dealerplayerid_);
     std::swap(_has_bits_[0], other->_has_bits_[0]);
     std::swap(_cached_size_, other->_cached_size_);
   }

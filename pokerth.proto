@@ -451,6 +451,7 @@ message HandStartMessage {
 	optional	bytes			encryptedCards = 3;
 	required	uint32			smallBlind = 4;
 	repeated	NetPlayerState	seatStates = 5;
+	optional	uint32			dealerPlayerId = 6;
 }
 
 message PlayersTurnMessage {

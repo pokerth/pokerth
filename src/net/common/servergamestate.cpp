@@ -438,6 +438,7 @@ AbstractServerGameStateReceiving::CreateNetPacketHandStart(const ServerGame &ser
 	}
 
 	netHandStart->set_smallblind(curGame.getCurrentHand()->getSmallBlind());
+	netHandStart->set_dealerplayerid(curGame.getCurrentHand()->getDealerPosition());
 	return notifyCards;
 }
 
