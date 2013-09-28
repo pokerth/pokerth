@@ -161,6 +161,28 @@ SessionManager::GetPlayerDataList() const
 	return playerList;
 }
 
+PlayerDataList
+SessionManager::GetSpectatorDataList() const
+{
+	PlayerDataList spectatorList;
+	boost::recursive_mutex::scoped_lock lock(m_sessionMapMutex);
+
+	SessionMap::const_iterator session_i = m_sessionMap.begin();
+	SessionMap::const_iterator session_end = m_sessionMap.end();
+
+	while (session_i != session_end) {
+		// Get all spectators of the game.
+		if (session_i->second->GetState() == SessionData::Spectating || session_i->second->GetState() == SessionData::SpectatorWaiting) {
+			boost::shared_ptr<PlayerData> tmpPlayer(session_i->second->GetPlayerData());
+			if (!tmpPlayer.get() || tmpPlayer->GetName().empty())
+				throw ServerException(__FILE__, __LINE__, ERR_NET_INVALID_SESSION, 0);
+			spectatorList.push_back(tmpPlayer);
+		}
+		++session_i;
+	}
+	return spectatorList;
+}
+
 PlayerIdList
 SessionManager::GetPlayerIdList(int state) const
 {

@@ -59,6 +59,7 @@ public:
 	boost::shared_ptr<SessionData> GetSessionByUniquePlayerId(unsigned uniqueId, bool initSessions = false) const;
 
 	PlayerDataList GetPlayerDataList() const;
+	PlayerDataList GetSpectatorDataList() const;
 	PlayerIdList GetPlayerIdList(int state) const;
 	bool IsPlayerConnected(const std::string &playerName) const;
 	bool IsPlayerConnected(unsigned uniqueId) const;
