@@ -6028,6 +6028,13 @@ class HandStartMessage : public ::google::protobuf::MessageLite {
   inline const ::google::protobuf::RepeatedField<int>& seatstates() const;
   inline ::google::protobuf::RepeatedField<int>* mutable_seatstates();
 
+  // optional uint32 dealerPlayerId = 6;
+  inline bool has_dealerplayerid() const;
+  inline void clear_dealerplayerid();
+  static const int kDealerPlayerIdFieldNumber = 6;
+  inline ::google::protobuf::uint32 dealerplayerid() const;
+  inline void set_dealerplayerid(::google::protobuf::uint32 value);
+
   // @@protoc_insertion_point(class_scope:HandStartMessage)
  private:
   inline void set_has_gameid();
@@ -6038,15 +6045,18 @@ class HandStartMessage : public ::google::protobuf::MessageLite {
   inline void clear_has_encryptedcards();
   inline void set_has_smallblind();
   inline void clear_has_smallblind();
+  inline void set_has_dealerplayerid();
+  inline void clear_has_dealerplayerid();
 
   ::HandStartMessage_PlainCards* plaincards_;
   ::google::protobuf::uint32 gameid_;
   ::google::protobuf::uint32 smallblind_;
   ::std::string* encryptedcards_;
   ::google::protobuf::RepeatedField<int> seatstates_;
+  ::google::protobuf::uint32 dealerplayerid_;
 
   mutable int _cached_size_;
-  ::google::protobuf::uint32 _has_bits_[(5 + 31) / 32];
+  ::google::protobuf::uint32 _has_bits_[(6 + 31) / 32];
 
   #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
   friend void  protobuf_AddDesc_pokerth_2eproto_impl();
@@ -15863,6 +15873,28 @@ HandStartMessage::seatstates() const {
 inline ::google::protobuf::RepeatedField<int>*
 HandStartMessage::mutable_seatstates() {
   return &seatstates_;
+}
+
+// optional uint32 dealerPlayerId = 6;
+inline bool HandStartMessage::has_dealerplayerid() const {
+  return (_has_bits_[0] & 0x00000020u) != 0;
+}
+inline void HandStartMessage::set_has_dealerplayerid() {
+  _has_bits_[0] |= 0x00000020u;
+}
+inline void HandStartMessage::clear_has_dealerplayerid() {
+  _has_bits_[0] &= ~0x00000020u;
+}
+inline void HandStartMessage::clear_dealerplayerid() {
+  dealerplayerid_ = 0u;
+  clear_has_dealerplayerid();
+}
+inline ::google::protobuf::uint32 HandStartMessage::dealerplayerid() const {
+  return dealerplayerid_;
+}
+inline void HandStartMessage::set_dealerplayerid(::google::protobuf::uint32 value) {
+  set_has_dealerplayerid();
+  dealerplayerid_ = value;
 }
 
 // -------------------------------------------------------------------

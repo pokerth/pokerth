@@ -218,6 +218,9 @@ protected:
 	void ModifyGameInfoRemovePlayer(unsigned gameId, unsigned playerId);
 	void ModifyGameInfoAddSpectator(unsigned gameId, unsigned playerId);
 	void ModifyGameInfoRemoveSpectator(unsigned gameId, unsigned playerId);
+	void ModifyGameInfoClearSpectatorsDuringGame();
+	void ModifyGameInfoAddSpectatorDuringGame(unsigned playerId);
+	void ModifyGameInfoRemoveSpectatorDuringGame(unsigned playerId, int removeReason);
 	void ClearGameInfoMap();
 
 	void StartPetition(unsigned petitionId, unsigned proposingPlayerId, unsigned kickPlayerId, int timeoutSec, int numVotesToKick);

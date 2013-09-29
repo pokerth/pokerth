@@ -27845,6 +27845,16 @@ public final class ProtoBuf {
      * <code>repeated .NetPlayerState seatStates = 5;</code>
      */
     de.pokerth.protocol.ProtoBuf.NetPlayerState getSeatStates(int index);
+
+    // optional uint32 dealerPlayerId = 6;
+    /**
+     * <code>optional uint32 dealerPlayerId = 6;</code>
+     */
+    boolean hasDealerPlayerId();
+    /**
+     * <code>optional uint32 dealerPlayerId = 6;</code>
+     */
+    int getDealerPlayerId();
   }
   /**
    * Protobuf type {@code HandStartMessage}
@@ -27944,6 +27954,11 @@ public final class ProtoBuf {
                 }
               }
               input.popLimit(oldLimit);
+              break;
+            }
+            case 48: {
+              bitField0_ |= 0x00000010;
+              dealerPlayerId_ = input.readUInt32();
               break;
             }
           }
@@ -28492,12 +28507,29 @@ public final class ProtoBuf {
       return seatStates_.get(index);
     }
 
+    // optional uint32 dealerPlayerId = 6;
+    public static final int DEALERPLAYERID_FIELD_NUMBER = 6;
+    private int dealerPlayerId_;
+    /**
+     * <code>optional uint32 dealerPlayerId = 6;</code>
+     */
+    public boolean hasDealerPlayerId() {
+      return ((bitField0_ & 0x00000010) == 0x00000010);
+    }
+    /**
+     * <code>optional uint32 dealerPlayerId = 6;</code>
+     */
+    public int getDealerPlayerId() {
+      return dealerPlayerId_;
+    }
+
     private void initFields() {
       gameId_ = 0;
       plainCards_ = de.pokerth.protocol.ProtoBuf.HandStartMessage.PlainCards.getDefaultInstance();
       encryptedCards_ = com.google.protobuf.ByteString.EMPTY;
       smallBlind_ = 0;
       seatStates_ = java.util.Collections.emptyList();
+      dealerPlayerId_ = 0;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -28540,6 +28572,9 @@ public final class ProtoBuf {
       for (int i = 0; i < seatStates_.size(); i++) {
         output.writeEnum(5, seatStates_.get(i).getNumber());
       }
+      if (((bitField0_ & 0x00000010) == 0x00000010)) {
+        output.writeUInt32(6, dealerPlayerId_);
+      }
     }
 
     private int memoizedSerializedSize = -1;
@@ -28572,6 +28607,10 @@ public final class ProtoBuf {
         }
         size += dataSize;
         size += 1 * seatStates_.size();
+      }
+      if (((bitField0_ & 0x00000010) == 0x00000010)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeUInt32Size(6, dealerPlayerId_);
       }
       memoizedSerializedSize = size;
       return size;
@@ -28674,6 +28713,8 @@ public final class ProtoBuf {
         bitField0_ = (bitField0_ & ~0x00000008);
         seatStates_ = java.util.Collections.emptyList();
         bitField0_ = (bitField0_ & ~0x00000010);
+        dealerPlayerId_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000020);
         return this;
       }
 
@@ -28718,6 +28759,10 @@ public final class ProtoBuf {
           bitField0_ = (bitField0_ & ~0x00000010);
         }
         result.seatStates_ = seatStates_;
+        if (((from_bitField0_ & 0x00000020) == 0x00000020)) {
+          to_bitField0_ |= 0x00000010;
+        }
+        result.dealerPlayerId_ = dealerPlayerId_;
         result.bitField0_ = to_bitField0_;
         return result;
       }
@@ -28745,6 +28790,9 @@ public final class ProtoBuf {
             seatStates_.addAll(other.seatStates_);
           }
           
+        }
+        if (other.hasDealerPlayerId()) {
+          setDealerPlayerId(other.getDealerPlayerId());
         }
         return this;
       }
@@ -29017,6 +29065,39 @@ public final class ProtoBuf {
       public Builder clearSeatStates() {
         seatStates_ = java.util.Collections.emptyList();
         bitField0_ = (bitField0_ & ~0x00000010);
+        
+        return this;
+      }
+
+      // optional uint32 dealerPlayerId = 6;
+      private int dealerPlayerId_ ;
+      /**
+       * <code>optional uint32 dealerPlayerId = 6;</code>
+       */
+      public boolean hasDealerPlayerId() {
+        return ((bitField0_ & 0x00000020) == 0x00000020);
+      }
+      /**
+       * <code>optional uint32 dealerPlayerId = 6;</code>
+       */
+      public int getDealerPlayerId() {
+        return dealerPlayerId_;
+      }
+      /**
+       * <code>optional uint32 dealerPlayerId = 6;</code>
+       */
+      public Builder setDealerPlayerId(int value) {
+        bitField0_ |= 0x00000020;
+        dealerPlayerId_ = value;
+        
+        return this;
+      }
+      /**
+       * <code>optional uint32 dealerPlayerId = 6;</code>
+       */
+      public Builder clearDealerPlayerId() {
+        bitField0_ = (bitField0_ & ~0x00000020);
+        dealerPlayerId_ = 0;
         
         return this;
       }

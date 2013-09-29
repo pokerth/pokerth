@@ -438,6 +438,7 @@ AbstractServerGameStateReceiving::CreateNetPacketHandStart(const ServerGame &ser
 	}
 
 	netHandStart->set_smallblind(curGame.getCurrentHand()->getSmallBlind());
+	netHandStart->set_dealerplayerid(curGame.getCurrentHand()->getDealerPosition());
 	return notifyCards;
 }
 
@@ -457,6 +458,15 @@ AbstractServerGameStateReceiving::AcceptNewSession(boost::shared_ptr<ServerGame>
 	while (player_i != player_end) {
 		server->GetLobbyThread().GetSender().Send(session, CreateNetPacketPlayerJoined(server->GetId(), *(*player_i)));
 		++player_i;
+	}
+
+	// Send notifications for connected spectators to client.
+	PlayerDataList tmpSpectatorList(server->GetSessionManager().GetSpectatorDataList());
+	PlayerDataList::iterator spectator_i = tmpSpectatorList.begin();
+	PlayerDataList::iterator spectator_end = tmpSpectatorList.end();
+	while (spectator_i != spectator_end) {
+		server->GetLobbyThread().GetSender().Send(session, CreateNetPacketSpectatorJoined(server->GetId(), *(*spectator_i)));
+		++spectator_i;
 	}
 
 	// Send "Player Joined"/"Spectator Joined" to other fully connected clients.
