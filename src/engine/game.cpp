@@ -220,8 +220,9 @@ void Game::startHand()
 boost::shared_ptr<PlayerInterface> Game::getPlayerByUniqueId(unsigned id)
 {
 	boost::shared_ptr<PlayerInterface> tmpPlayer;
-	PlayerListIterator i = getSeatsList()->begin();
-	PlayerListIterator end = getSeatsList()->end();
+	PlayerList tmpList = getSeatsList();
+	PlayerListIterator i = tmpList->begin();
+	PlayerListIterator end = tmpList->end();
 	while (i != end) {
 		if ((*i)->getMyUniqueID() == id) {
 			tmpPlayer = *i;
@@ -235,8 +236,9 @@ boost::shared_ptr<PlayerInterface> Game::getPlayerByUniqueId(unsigned id)
 boost::shared_ptr<PlayerInterface> Game::getPlayerByNumber(int number)
 {
 	boost::shared_ptr<PlayerInterface> tmpPlayer;
-	PlayerListIterator i = getSeatsList()->begin();
-	PlayerListIterator end = getSeatsList()->end();
+	PlayerList tmpList = getSeatsList();
+	PlayerListIterator i = tmpList->begin();
+	PlayerListIterator end = tmpList->end();
 	while (i != end) {
 		if ((*i)->getMyID() == number) {
 			tmpPlayer = *i;
@@ -258,8 +260,9 @@ boost::shared_ptr<PlayerInterface> Game::getCurrentPlayer()
 boost::shared_ptr<PlayerInterface> Game::getPlayerByName(const std::string &name)
 {
 	boost::shared_ptr<PlayerInterface> tmpPlayer;
-	PlayerListIterator i = getSeatsList()->begin();
-	PlayerListIterator end = getSeatsList()->end();
+	PlayerList tmpList = getSeatsList();
+	PlayerListIterator i = tmpList->begin();
+	PlayerListIterator end = tmpList->end();
 	while (i != end) {
 		if ((*i)->getMyName() == name) {
 			tmpPlayer = *i;

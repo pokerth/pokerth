@@ -631,7 +631,12 @@ AbstractClientStateReceiving::HandlePacket(boost::shared_ptr<ClientThread> clien
 	} else if (tmpPacket->GetMsg()->messagetype() == PokerTHMessage::Type_GameSpectatorJoinedMessage) {
 		// Another spectator joined the network game.
 		const GameSpectatorJoinedMessage &netSpectatorJoined = tmpPacket->GetMsg()->gamespectatorjoinedmessage();
-		client->GetCallback().SignalNetClientSpectatorJoined(netSpectatorJoined.playerid(), client->GetPlayerName(netSpectatorJoined.playerid()));
+		// Request player info if needed.
+		PlayerInfo info;
+		if (!client->GetCachedPlayerInfo(netSpectatorJoined.playerid(), info)) {
+			client->RequestPlayerInfo(netSpectatorJoined.playerid());
+		}
+		client->ModifyGameInfoAddSpectatorDuringGame(netSpectatorJoined.playerid());
 	} else if (tmpPacket->GetMsg()->messagetype() == PokerTHMessage::Type_GameSpectatorLeftMessage) {
 		// A spectator left the network game.
 		const GameSpectatorLeftMessage &netSpectatorLeft = tmpPacket->GetMsg()->gamespectatorleftmessage();
@@ -645,7 +650,7 @@ AbstractClientStateReceiving::HandlePacket(boost::shared_ptr<ClientThread> clien
 			removeReason = NTF_NET_REMOVED_ON_REQUEST;
 			break;
 		}
-		client->GetCallback().SignalNetClientSpectatorLeft(netSpectatorLeft.playerid(), client->GetPlayerName(netSpectatorLeft.playerid()), removeReason);
+		client->ModifyGameInfoRemoveSpectatorDuringGame(netSpectatorLeft.playerid(), removeReason);
 	} else if (tmpPacket->GetMsg()->messagetype() == PokerTHMessage::Type_TimeoutWarningMessage) {
 		const TimeoutWarningMessage &tmpTimeout = tmpPacket->GetMsg()->timeoutwarningmessage();
 		client->GetCallback().SignalNetClientShowTimeoutDialog((NetTimeoutReason)tmpTimeout.timeoutreason(), tmpTimeout.remainingseconds());
@@ -1252,6 +1257,7 @@ ClientStateWaitJoin::InternalHandlePacket(boost::shared_ptr<ClientThread> client
 		GameData tmpData;
 		NetPacket::GetGameData(netJoinAck.gameinfo(), tmpData);
 		client->SetGameData(tmpData);
+		client->ModifyGameInfoClearSpectatorsDuringGame();
 
 		// Player number is 0 on init. Will be set when the game starts.
 		boost::shared_ptr<PlayerData> playerData(
