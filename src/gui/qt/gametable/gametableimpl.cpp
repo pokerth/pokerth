@@ -449,6 +449,8 @@ gameTableImpl::gameTableImpl(ConfigFile *c, QMainWindow *parent)
 
 	pushButton_showMyCards->hide();
 
+	spectatorIcon = new QLabel(this);
+
 	//style Game Table
 	refreshGameTableStyle();
 
@@ -674,9 +676,9 @@ gameTableImpl::gameTableImpl(ConfigFile *c, QMainWindow *parent)
 	connect(this, SIGNAL(signalStartVoteOnKick(unsigned, unsigned, int, int)), this, SLOT(startVoteOnKick(unsigned, unsigned, int, int)));
 	connect(this, SIGNAL(signalChangeVoteOnKickButtonsState(bool)), this, SLOT(changeVoteOnKickButtonsState(bool)));
 	connect(this, SIGNAL(signalEndVoteOnKick()), this, SLOT(endVoteOnKick()));
-
 	connect(this, SIGNAL(signalNetClientPlayerLeft(unsigned)), this, SLOT(netClientPlayerLeft(unsigned)));
 	connect(this, SIGNAL(signalNetClientSpectatorLeft(unsigned)), this, SLOT(netClientSpectatorLeft(unsigned)));
+	connect(this, SIGNAL(signalNetClientSpectatorJoined(unsigned)), this, SLOT(netClientSpectatorJoined(unsigned)));
 
 #ifdef GUI_800x480
 	connect( tabsButton, SIGNAL( clicked() ), this, SLOT( tabsButtonClicked() ) );
@@ -3260,6 +3262,9 @@ bool gameTableImpl::eventFilter(QObject *obj, QEvent *event)
 		event->ignore();
 		closeGameTable();
 		return true;
+	} else if (event->type() == QEvent::Resize) {
+		refreshSpectatorsDisplay();
+		return true;
 	} else {
 		// pass the event on to the parent class
 		return QMainWindow::eventFilter(obj, event);
@@ -3586,6 +3591,8 @@ void gameTableImpl::networkGameModification()
 		myGameTableStyle->setBreakButtonStyle(pushButton_break,0);
 #endif
 		blinkingStartButtonAnimationTimer->stop();
+
+		refreshSpectatorsDisplay();
 	}
 	if(myStartWindow->getSession()->getGameType() == Session::GAME_TYPE_NETWORK) {
 #ifdef GUI_800x480
@@ -3619,6 +3626,8 @@ void gameTableImpl::networkGameModification()
 
 	//let the SoundEventHandler know that there is a new game
 	mySoundEventHandler->newGameStarts();
+
+	//check if there are spectators
 }
 
 void gameTableImpl::mouseOverFlipCards(bool front)
@@ -4303,9 +4312,14 @@ void gameTableImpl::netClientPlayerLeft(unsigned /*playerId*/)
 	}
 }
 
+void gameTableImpl::netClientSpectatorJoined(unsigned /*playerId*/)
+{
+	refreshSpectatorsDisplay();
+}
+
 void gameTableImpl::netClientSpectatorLeft(unsigned /*playerId*/)
 {
-	// TODO
+	refreshSpectatorsDisplay();
 }
 
 void gameTableImpl::registeredUserMode()
@@ -4444,3 +4458,32 @@ void gameTableImpl::checkActionLabelPosition()
 	}
 #endif
 }
+
+void gameTableImpl::refreshSpectatorsDisplay()
+{
+	assert(myStartWindow->getSession());
+	GameInfo info(myStartWindow->getSession()->getClientGameInfo(myStartWindow->getSession()->getClientCurrentGameId()));
+	if(info.spectatorsDuringGame.size()) {
+		QPixmap spectatorPix(":/gfx/spectator.png");
+		int iconX = this->centralWidget()->geometry().width() - spectatorPix.width() - 1;
+		int iconY = 2;
+		spectatorIcon->move(iconX,iconY);
+		spectatorIcon->setPixmap(spectatorPix);
+
+		QString spectatorList = QString("<b>"+tr("Spectators")+":</b><br>");
+		PlayerIdList::const_iterator i = info.spectatorsDuringGame.begin();
+		PlayerIdList::const_iterator end = info.spectatorsDuringGame.end();
+		while (i != end) {
+			PlayerInfo playerInfo(myStartWindow->getSession()->getClientPlayerInfo(*i));
+			spectatorList.append(QString::fromUtf8(playerInfo.playerName.c_str())+"<br>");
+			++i;
+		}
+		spectatorList.remove(spectatorList.size()-4,4);
+		spectatorIcon->setToolTip(spectatorList);
+	}
+	else {
+		spectatorIcon->setToolTip("");
+		spectatorIcon->clear();
+	}
+}
+

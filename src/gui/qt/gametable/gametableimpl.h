@@ -173,6 +173,7 @@ signals:
 	void signalEndVoteOnKick();
 	void signalNetClientPlayerLeft(unsigned playerId);
 	void signalNetClientSpectatorLeft(unsigned playerId);
+	void signalNetClientSpectatorJoined(unsigned playerId);
 
 public slots:
 
@@ -355,6 +356,7 @@ public slots:
 
 	void netClientPlayerLeft(unsigned playerId);
 	void netClientSpectatorLeft(unsigned playerId);
+	void netClientSpectatorJoined(unsigned playerId);
 	void registeredUserMode();
 	void guestUserMode();
 
@@ -371,6 +373,7 @@ public slots:
 	void tabsButtonClicked();
 	void tabsButtonClose();
 #endif
+	void refreshSpectatorsDisplay();
 
 private:
 
@@ -437,6 +440,7 @@ private:
 
 	QLabel *playerTipLabelArray[MAX_NUMBER_OF_PLAYERS];
 	QPixmap flipside;
+	QLabel *spectatorIcon;
 
 	// 	Dialogs
 	startWindowImpl *myStartWindow;

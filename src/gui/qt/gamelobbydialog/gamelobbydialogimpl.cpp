@@ -1120,15 +1120,6 @@ void gameLobbyDialogImpl::updatePlayer(unsigned playerId, QString newPlayerName)
 				myNickListModel->item(it1, 0)->setIcon(QIcon(QString(":/cflags/cflags/%1.png").arg(countryString)));
 				myNickListModel->item(it1, 0)->setToolTip(getFullCountryString(countryString.toUpper()));
 			}
-
-//			unsigned gameIdOfPlayer = mySession->getGameIdOfPlayer(playerId);
-//			if(gameIdOfPlayer) {
-//				myNickListModel->item(it1, 0)->setData("active", 34);
-//			} else {
-//				qDebug("updateplayer idle");
-//				myNickListModel->item(it1, 0)->setData("idle", 34);
-//			}
-
 			break;
 		}
 
