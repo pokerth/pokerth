@@ -82,6 +82,7 @@ using namespace std;
 #define SERVER_GAME_FORCED_TIMEOUT_FACTOR			60
 #define SERVER_VOTE_KICK_TIMEOUT_SEC				30
 #define SERVER_LOOP_DELAY_MSEC						50
+#define SERVER_MAX_NUM_SPECTATORS_PER_GAME			100
 
 // Helper functions
 
@@ -555,7 +556,11 @@ void
 ServerGameStateInit::HandleNewSpectator(boost::shared_ptr<ServerGame> server, boost::shared_ptr<SessionData> session)
 {
 	if (session && session->GetPlayerData()) {
-		AcceptNewSession(server, session, true);
+		if (server->GetSpectatorIdList().size() >= SERVER_MAX_NUM_SPECTATORS_PER_GAME) {
+			server->MoveSessionToLobby(session, NTF_NET_REMOVED_GAME_FULL);
+		} else {
+			AcceptNewSession(server, session, true);
+		}
 	}
 }
 
