@@ -4463,7 +4463,7 @@ void gameTableImpl::refreshSpectatorsDisplay()
 {
 	assert(myStartWindow->getSession());
 	GameInfo info(myStartWindow->getSession()->getClientGameInfo(myStartWindow->getSession()->getClientCurrentGameId()));
-	if(info.spectatorsDuringGame.size()) {
+	if(!info.spectatorsDuringGame.empty()) {
 		QPixmap spectatorPix(":/gfx/spectator.png");
 		int iconX = this->centralWidget()->geometry().width() - spectatorPix.width() - 1;
 		int iconY = 2;
