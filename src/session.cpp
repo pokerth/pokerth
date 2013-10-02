@@ -330,10 +330,18 @@ void Session::startNetworkServer(bool dedicated)
 
 	myNetServer = ServerManagerFactory::CreateServerManager(*myConfig, *myGui, mode, *myAvatarManager);
 
+	int protocol = TRANSPORT_PROTOCOL_TCP;
+	if (dedicated && myConfig->readConfigInt("ServerUseWebSocket") == 1) {
+		protocol |= TRANSPORT_PROTOCOL_WEBSOCKET;
+	}
+	if (myConfig->readConfigInt("ServerUseSctp") == 1) {
+		protocol |= TRANSPORT_PROTOCOL_SCTP;
+	}
 	myNetServer->Init(
 		myConfig->readConfigInt("ServerPort"),
+		myConfig->readConfigInt("ServerWebSocketPort"),
 		myConfig->readConfigInt("ServerUseIpv6") == 1,
-		myConfig->readConfigInt("ServerUseSctp") == 1 ? TRANSPORT_PROTOCOL_TCP_SCTP : TRANSPORT_PROTOCOL_TCP,
+		protocol,
 		myQtToolsInterface->stringFromUtf8(myConfig->readConfigString("LogDir"))
 	);
 

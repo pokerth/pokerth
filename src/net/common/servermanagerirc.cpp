@@ -52,7 +52,7 @@ ServerManagerIrc::~ServerManagerIrc()
 }
 
 void
-ServerManagerIrc::Init(unsigned serverPort, bool ipv6, ServerTransportProtocol proto, const string &logDir)
+ServerManagerIrc::Init(unsigned serverPort, unsigned websocketPort, bool ipv6, int proto, const string &logDir)
 {
 	boost::shared_ptr<IrcThread> tmpIrcAdminThread;
 	boost::shared_ptr<IrcThread> tmpIrcLobbyThread;
@@ -83,7 +83,7 @@ ServerManagerIrc::Init(unsigned serverPort, bool ipv6, ServerTransportProtocol p
 
 	m_adminBot->Init(m_lobbyThread, tmpIrcAdminThread, myConfig.readConfigString("CacheDir"));
 	m_lobbyBot->Init(m_lobbyThread, tmpIrcLobbyThread);
-	ServerManager::Init(serverPort, ipv6, proto, logDir);
+	ServerManager::Init(serverPort, websocketPort, ipv6, proto, logDir);
 }
 
 void

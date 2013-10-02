@@ -78,7 +78,7 @@ ServerManager::~ServerManager()
 }
 
 void
-ServerManager::Init(unsigned serverPort, bool ipv6, ServerTransportProtocol proto, const string &logDir)
+ServerManager::Init(unsigned serverPort, unsigned websocketPort, bool ipv6, int proto, const string &logDir)
 {
 	GetLobbyThread().Init(logDir);
 
@@ -93,9 +93,10 @@ ServerManager::Init(unsigned serverPort, bool ipv6, ServerTransportProtocol prot
 			sctpAcceptHelper->Listen(serverPort, ipv6, logDir, m_lobbyThread);
 			m_acceptHelperPool.push_back(sctpAcceptHelper);
 		}*/
+	if (proto & TRANSPORT_PROTOCOL_WEBSOCKET)
 	{
 		boost::shared_ptr<ServerAcceptInterface> webAcceptHelper(new ServerAcceptWebHelper(GetGui(), m_ioService));
-		webAcceptHelper->Listen(7233, true, logDir, m_lobbyThread);
+		webAcceptHelper->Listen(websocketPort, ipv6, logDir, m_lobbyThread);
 		m_acceptHelperPool.push_back(webAcceptHelper);
 	}
 }
