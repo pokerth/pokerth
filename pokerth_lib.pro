@@ -27,7 +27,8 @@ INCLUDEPATH += . \
 		src/engine/local_engine \
 		src/engine/network_engine \
 		src/config \
-		src/core
+		src/core \
+		src/third_party/websocketpp
 
 DEPENDPATH += . \
 		src \
@@ -41,7 +42,7 @@ DEPENDPATH += . \
 		src/core/common \
 		src/engine/local_engine \
 		src/engine/network_engine \
-		src/net/common \
+		src/net/common
 
 # Input
 HEADERS += \
