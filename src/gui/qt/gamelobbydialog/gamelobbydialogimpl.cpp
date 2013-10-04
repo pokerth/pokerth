@@ -86,8 +86,10 @@ gameLobbyDialogImpl::gameLobbyDialogImpl(startWindowImpl *parent, ConfigFile *c)
 	//HTML stuff
 	QString pokerthDotNet("<a href='http://www.pokerth.net'>http://www.pokerth.net</a>");
 	QString clickToRanking(QString("<a href='http://online-ranking.pokerth.net'>%1</a>").arg(tr("Click here to view the online rankings")));
+	QString clickToSpectate(QString("<a href='http://pokerth-live.pokerth.net'><b>%1</b></a>").arg(tr("Spectate")));
 	label_pokerthDotNet->setText(pokerthDotNet);
 	label_rankings->setText(clickToRanking);
+	label_spectate->setText(clickToSpectate);
 
 	waitStartGameMsgBoxTimer = new QTimer(this);
 	waitStartGameMsgBoxTimer->setSingleShot(true);
@@ -219,7 +221,6 @@ gameLobbyDialogImpl::gameLobbyDialogImpl(startWindowImpl *parent, ConfigFile *c)
 
 	connect( pushButton_CreateGame, SIGNAL( clicked() ), this, SLOT( createGame() ) );
 	connect( pushButton_JoinGame, SIGNAL( clicked() ), this, SLOT( joinGame() ) );
-	connect( pushButton_joinAnyGame, SIGNAL( clicked() ), this, SLOT( joinAnyGame() ) );
 	connect( pushButton_StartGame, SIGNAL( clicked() ), this, SLOT( startGame() ) );
 	connect( pushButton_Kick, SIGNAL( clicked() ), this, SLOT( kickPlayer() ) );
 	connect( pushButton_Leave, SIGNAL( clicked() ), this, SLOT( leaveGame() ) );
@@ -411,37 +412,6 @@ void gameLobbyDialogImpl::joinGame()
 
 		if (ok)
 			mySession->clientJoinGame(gameId, password.toUtf8().constData());
-	}
-}
-
-void gameLobbyDialogImpl::joinAnyGame()
-{
-
-	if(comboBox_gameListFilter->currentIndex() != 3 && comboBox_gameListFilter->currentIndex() != 0 && comboBox_gameListFilter->currentIndex() != 5) comboBox_gameListFilter->setCurrentIndex(0);
-
-	bool found = false;
-
-	int it = 0;
-	int gameToJoinId = 0;
-	int mostConnectedPlayers = 0;
-
-	while (myGameListModel->item(it)) {
-
-		int players = myGameListModel->item(it, 1)->data(Qt::DisplayRole).toString().section("/",0,0).toInt();
-		int maxPlayers = myGameListModel->item(it, 1)->data(Qt::DisplayRole).toString().section("/",1,1).toInt();
-		if (myGameListModel->item(it, 2)->data(16) == "open" && myGameListModel->item(it, 4)->data(16) == "nonpriv" && players < maxPlayers) {
-			if(players > mostConnectedPlayers) {
-				mostConnectedPlayers = players;
-				gameToJoinId = it;
-			}
-			found = true;
-		}
-		it++;
-	}
-
-	if(found) {
-		treeView_GameList->setCurrentIndex(myGameListSortFilterProxyModel->mapFromSource(myGameListModel->item(gameToJoinId)->index()));
-		joinGame();
 	}
 }
 
@@ -773,9 +743,6 @@ void gameLobbyDialogImpl::refreshGameStats()
 	label_openGamesCounter->setText(" | "+tr("running games: %1").arg(runningGamesCounter));
 	label_runningGamesCounter->setText(" | "+tr("open games: %1").arg(openGamesCounter));
 
-	//refresh joinAnyGameButton state
-	joinAnyGameButtonRefresh();
-
 }
 
 void gameLobbyDialogImpl::refreshPlayerStats()
@@ -910,8 +877,6 @@ void gameLobbyDialogImpl::clearDialog()
 	pushButton_CreateGame->show();
 	pushButton_JoinGame->show();
 	pushButton_JoinGame->setEnabled(false);
-	pushButton_joinAnyGame->show();
-	pushButton_joinAnyGame->setEnabled(false);
 
 	QStringList headerList;
 	headerList << tr("Game") << tr("Players") << tr("State") << tr("T") << tr("P") << tr("Time");
@@ -1245,7 +1210,6 @@ void gameLobbyDialogImpl::joinedGameDialogUpdate()
 	treeWidget_connectedPlayers->clear();
 	pushButton_CreateGame->hide();
 	pushButton_JoinGame->hide();
-	pushButton_joinAnyGame->hide();
 	pushButton_Leave->show();
 	pushButton_Leave->setEnabled(true);
 
@@ -1315,8 +1279,6 @@ void gameLobbyDialogImpl::leftGameDialogUpdate()
 	pushButton_CreateGame->show();
 	pushButton_JoinGame->show();
 	pushButton_JoinGame->setEnabled(false);
-	pushButton_joinAnyGame->show();
-	joinAnyGameButtonRefresh();
 
 	lineEdit_ChatInput->setFocus();
 }
@@ -1500,26 +1462,6 @@ void gameLobbyDialogImpl::hideWaitStartGameMsgBox()
 {
 	waitStartGameMsgBox->hide();
 	waitRejoinStartGameMsgBox->hide();
-}
-
-void gameLobbyDialogImpl::joinAnyGameButtonRefresh()
-{
-
-	int openNonPrivateNonFullGamesCounter = 0;
-
-	int it = 0;
-	while (myGameListModel->item(it)) {
-
-		int players = myGameListModel->item(it, 1)->data(Qt::DisplayRole).toString().section("/",0,0).toInt();
-		int maxPlayers = myGameListModel->item(it, 1)->data(Qt::DisplayRole).toString().section("/",1,1).toInt();
-		if (myGameListModel->item(it, 2)->data(16) == "open" && myGameListModel->item(it, 4)->data(16) == "nonpriv" && players < maxPlayers) {
-			openNonPrivateNonFullGamesCounter++;
-		}
-		++it;
-	}
-
-	if(openNonPrivateNonFullGamesCounter) pushButton_joinAnyGame->setEnabled(true);
-	else pushButton_joinAnyGame->setEnabled(false);
 }
 
 void gameLobbyDialogImpl::reject()

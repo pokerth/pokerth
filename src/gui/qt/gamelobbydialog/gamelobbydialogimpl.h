@@ -84,7 +84,6 @@ public slots:
 
 	void createGame();
 	void joinGame();
-	void joinAnyGame();
 	void gameSelected(const QModelIndex &);
 	void updateGameItem(QList <QStandardItem*>, unsigned gameId);
 	void addGame(unsigned gameId);
@@ -131,7 +130,6 @@ public slots:
 	void showWaitStartGameMsgBox();
 	void hideWaitStartGameMsgBox();
 	void stopWaitStartGameMsgBoxTimer();
-	void joinAnyGameButtonRefresh();
 	void reject();
 	void closeEvent(QCloseEvent *event);
 	void accept();

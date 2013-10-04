@@ -223,13 +223,20 @@
       <number>0</number>
      </property>
      <item>
-      <widget class="QPushButton" name="pushButton_joinAnyGame">
+      <widget class="QPushButton" name="pushButton_JoinGame">
        <property name="text">
-        <string>Join &amp;any game</string>
+        <string>&amp;Join Game</string>
        </property>
        <property name="icon">
         <iconset resource="resources/pokerth.qrc">
-         <normaloff>:/gfx/transform-rotate.png</normaloff>:/gfx/transform-rotate.png</iconset>
+         <normaloff>:/gfx/go-next-view.png</normaloff>:/gfx/go-next-view.png</iconset>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLabel" name="label_spectate">
+       <property name="openExternalLinks">
+        <bool>true</bool>
        </property>
       </widget>
      </item>
@@ -257,17 +264,6 @@
        <property name="icon">
         <iconset resource="resources/pokerth.qrc">
          <normaloff>:/gfx/list_add.png</normaloff>:/gfx/list_add.png</iconset>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QPushButton" name="pushButton_JoinGame">
-       <property name="text">
-        <string>&amp;Join Game</string>
-       </property>
-       <property name="icon">
-        <iconset resource="resources/pokerth.qrc">
-         <normaloff>:/gfx/go-next-view.png</normaloff>:/gfx/go-next-view.png</iconset>
        </property>
       </widget>
      </item>
@@ -533,7 +529,7 @@
            <height>200</height>
           </rect>
          </property>
-		 <layout class="QGridLayout" name="gridLayout1">
+         <layout class="QGridLayout" name="gridLayout1">
           <property name="leftMargin">
            <number>4</number>
           </property>
@@ -957,9 +953,7 @@
   <tabstop>comboBox_nickListFilter</tabstop>
   <tabstop>comboBox_gameListFilter</tabstop>
   <tabstop>treeView_GameList</tabstop>
-  <tabstop>pushButton_joinAnyGame</tabstop>
   <tabstop>pushButton_CreateGame</tabstop>
-  <tabstop>pushButton_JoinGame</tabstop>
   <tabstop>textBrowser_ChatDisplay</tabstop>
   <tabstop>lineEdit_ChatInput</tabstop>
   <tabstop>treeWidget_connectedPlayers</tabstop>

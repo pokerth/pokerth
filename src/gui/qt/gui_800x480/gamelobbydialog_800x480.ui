@@ -63,7 +63,16 @@
        <string>Games</string>
       </attribute>
       <layout class="QGridLayout" name="gridLayout_5">
-       <property name="margin">
+       <property name="leftMargin">
+        <number>0</number>
+       </property>
+       <property name="topMargin">
+        <number>0</number>
+       </property>
+       <property name="rightMargin">
+        <number>0</number>
+       </property>
+       <property name="bottomMargin">
         <number>0</number>
        </property>
        <property name="spacing">
@@ -306,11 +315,20 @@
              <property name="spacing">
               <number>6</number>
              </property>
-             <property name="margin">
+             <property name="leftMargin">
+              <number>0</number>
+             </property>
+             <property name="topMargin">
+              <number>0</number>
+             </property>
+             <property name="rightMargin">
+              <number>0</number>
+             </property>
+             <property name="bottomMargin">
               <number>0</number>
              </property>
              <item>
-              <widget class="QPushButton" name="pushButton_joinAnyGame">
+              <widget class="QPushButton" name="pushButton_JoinGame">
                <property name="minimumSize">
                 <size>
                  <width>0</width>
@@ -327,11 +345,18 @@
                 <string notr="true">QObject {font: bold 20px}</string>
                </property>
                <property name="text">
-                <string>Join &amp;any game</string>
+                <string>&amp;Join Game</string>
                </property>
                <property name="icon">
                 <iconset resource="../resources/pokerth.qrc">
-                 <normaloff>:/gfx/transform-rotate.png</normaloff>:/gfx/transform-rotate.png</iconset>
+                 <normaloff>:/gfx/go-next-view.png</normaloff>:/gfx/go-next-view.png</iconset>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QLabel" name="label">
+               <property name="openExternalLinks">
+                <bool>true</bool>
                </property>
               </widget>
              </item>
@@ -371,32 +396,6 @@
                <property name="icon">
                 <iconset resource="../resources/pokerth.qrc">
                  <normaloff>:/gfx/list_add.png</normaloff>:/gfx/list_add.png</iconset>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QPushButton" name="pushButton_JoinGame">
-               <property name="minimumSize">
-                <size>
-                 <width>0</width>
-                 <height>0</height>
-                </size>
-               </property>
-               <property name="maximumSize">
-                <size>
-                 <width>16777215</width>
-                 <height>16777215</height>
-                </size>
-               </property>
-               <property name="styleSheet">
-                <string notr="true">QObject {font: bold 20px}</string>
-               </property>
-               <property name="text">
-                <string>&amp;Join Game</string>
-               </property>
-               <property name="icon">
-                <iconset resource="../resources/pokerth.qrc">
-                 <normaloff>:/gfx/go-next-view.png</normaloff>:/gfx/go-next-view.png</iconset>
                </property>
               </widget>
              </item>
@@ -465,10 +464,19 @@
             <string>Game Info</string>
            </property>
            <layout class="QGridLayout" name="gridLayout_7">
-            <property name="verticalSpacing">
+            <property name="leftMargin">
              <number>0</number>
             </property>
-            <property name="margin">
+            <property name="topMargin">
+             <number>0</number>
+            </property>
+            <property name="rightMargin">
+             <number>0</number>
+            </property>
+            <property name="bottomMargin">
+             <number>0</number>
+            </property>
+            <property name="verticalSpacing">
              <number>0</number>
             </property>
             <item row="0" column="0">
@@ -481,7 +489,16 @@
                 <string>Players</string>
                </attribute>
                <layout class="QGridLayout" name="gridLayout_2">
-                <property name="margin">
+                <property name="leftMargin">
+                 <number>0</number>
+                </property>
+                <property name="topMargin">
+                 <number>0</number>
+                </property>
+                <property name="rightMargin">
+                 <number>0</number>
+                </property>
+                <property name="bottomMargin">
                  <number>0</number>
                 </property>
                 <item row="0" column="0">
@@ -533,7 +550,16 @@
                 <string>Spectators</string>
                </attribute>
                <layout class="QGridLayout" name="gridLayout_6">
-                <property name="margin">
+                <property name="leftMargin">
+                 <number>0</number>
+                </property>
+                <property name="topMargin">
+                 <number>0</number>
+                </property>
+                <property name="rightMargin">
+                 <number>0</number>
+                </property>
+                <property name="bottomMargin">
                  <number>0</number>
                 </property>
                 <item row="0" column="0">
@@ -577,19 +603,28 @@
                 <rect>
                  <x>0</x>
                  <y>0</y>
-                 <width>288</width>
-                 <height>195</height>
+                 <width>292</width>
+                 <height>199</height>
                 </rect>
                </property>
                <layout class="QGridLayout" name="gridLayout">
+                <property name="leftMargin">
+                 <number>4</number>
+                </property>
+                <property name="topMargin">
+                 <number>4</number>
+                </property>
+                <property name="rightMargin">
+                 <number>4</number>
+                </property>
+                <property name="bottomMargin">
+                 <number>4</number>
+                </property>
                 <property name="horizontalSpacing">
-                 <number>-1</number>
+                 <number>6</number>
                 </property>
                 <property name="verticalSpacing">
                  <number>2</number>
-                </property>
-                <property name="margin">
-                 <number>4</number>
                 </property>
                 <item row="0" column="0">
                  <widget class="QLabel" name="label_gameType">
@@ -858,7 +893,16 @@
        <string>Lobby-Chat</string>
       </attribute>
       <layout class="QGridLayout" name="gridLayout_4">
-       <property name="margin">
+       <property name="leftMargin">
+        <number>0</number>
+       </property>
+       <property name="topMargin">
+        <number>0</number>
+       </property>
+       <property name="rightMargin">
+        <number>0</number>
+       </property>
+       <property name="bottomMargin">
         <number>0</number>
        </property>
        <property name="spacing">
@@ -1159,9 +1203,7 @@ p, li { white-space: pre-wrap; }
   </layout>
  </widget>
  <tabstops>
-  <tabstop>pushButton_joinAnyGame</tabstop>
   <tabstop>pushButton_CreateGame</tabstop>
-  <tabstop>pushButton_JoinGame</tabstop>
   <tabstop>textBrowser_ChatDisplay</tabstop>
   <tabstop>lineEdit_ChatInput</tabstop>
   <tabstop>treeWidget_connectedPlayers</tabstop>
