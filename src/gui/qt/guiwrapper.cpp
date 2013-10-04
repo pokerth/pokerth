@@ -364,7 +364,7 @@ void GuiWrapper::SignalNetClientPlayerJoined(unsigned playerId, const string &pl
 void GuiWrapper::SignalNetClientPlayerChanged(unsigned playerId, const string &newPlayerName)
 {
 	myStartWindow->signalNetClientPlayerChanged(playerId, QString::fromUtf8(newPlayerName.c_str()));
-	myW->refreshSpectatorsDisplay();
+	myW->signalRefreshSpectatorsDisplay();
 }
 void GuiWrapper::SignalNetClientPlayerLeft(unsigned playerId, const string &playerName, int removeReason)
 {

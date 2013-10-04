@@ -133,6 +133,7 @@ signals:
 	void signalRefreshPlayerName();
 	void signalRefreshButton();
 	void signalRefreshGameLabels(int);
+	void signalRefreshSpectatorsDisplay();
 
 	void signalSetPlayerAvatar(int, QString);
 	void signalGuiUpdateDone();
