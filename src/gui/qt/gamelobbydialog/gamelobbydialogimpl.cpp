@@ -86,7 +86,7 @@ gameLobbyDialogImpl::gameLobbyDialogImpl(startWindowImpl *parent, ConfigFile *c)
 	//HTML stuff
 	QString pokerthDotNet("<a href='http://www.pokerth.net'>http://www.pokerth.net</a>");
 	QString clickToRanking(QString("<a href='http://online-ranking.pokerth.net'>%1</a>").arg(tr("Click here to view the online rankings")));
-	QString clickToSpectate(QString("<a href='http://pokerth-live.pokerth.net'><b>%1</b></a>").arg(tr("Spectate")));
+	QString clickToSpectate(QString("<a href='http://pokerth.net/live'><b>%1</b></a>").arg(tr("Spectate")));
 	label_pokerthDotNet->setText(pokerthDotNet);
 	label_rankings->setText(clickToRanking);
 	label_spectate->setText(clickToSpectate);

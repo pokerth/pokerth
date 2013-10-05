@@ -131,4 +131,14 @@ aboutPokerthImpl::aboutPokerthImpl(QWidget *parent, ConfigFile *c)
 	projectText.append("&nbsp;&nbsp;&nbsp;&nbsp;Oskar Lindqvist (<a href=mailto:tranberry@pokerth.net>tranberry@pokerth.net</a>)<br>");
 	projectText.append("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- "+tr("initial gui graphics design")+"<br>");
 	textBrowser_2->setHtml(projectText);
+
+	QFile file(QDir::toNativeSeparators(myAppDataPath+"misc/third_party_libs.txt"));
+	QString string;
+	if(file.exists()) {
+		if (file.open( QIODevice::ReadOnly)) {
+			QTextStream stream( &file );
+			string = stream.readAll();
+			textBrowser_thirdPartyLicenceText->setPlainText(string);
+		}
+	}
 }
