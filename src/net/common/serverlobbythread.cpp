@@ -348,6 +348,9 @@ ServerLobbyThread::ReAddSession(boost::shared_ptr<SessionData> session, int reas
 		case NTF_NET_REMOVED_START_FAILED :
 			removed->set_removedfromgamereason(RemovedFromGameMessage::removedStartFailed);
 			break;
+		case NTF_NET_REMOVED_GAME_CLOSED :
+			removed->set_removedfromgamereason(RemovedFromGameMessage::gameClosed);
+			break;
 		default :
 			removed->set_removedfromgamereason(RemovedFromGameMessage::removedOnRequest);
 			break;
@@ -1835,8 +1838,10 @@ ServerLobbyThread::TimerRemoveGame(const boost::system::error_code &ec)
 			++next;
 			boost::shared_ptr<ServerGame> tmpGame = i->second;
 			if (!tmpGame->GetSessionManager().HasSessionWithState(SessionData::Game))
+			{
 				tmpGame->MoveSpectatorsToLobby();
 				InternalRemoveGame(tmpGame); // This will delete the game.
+			}
 			i = next;
 		}
 		// Restart timer

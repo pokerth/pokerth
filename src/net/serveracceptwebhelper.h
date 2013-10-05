@@ -40,7 +40,8 @@
 class ServerAcceptWebHelper : public ServerAcceptInterface
 {
 public:
-	ServerAcceptWebHelper(ServerCallback &serverCallback, boost::shared_ptr<boost::asio::io_service> ioService);
+	ServerAcceptWebHelper(ServerCallback &serverCallback, boost::shared_ptr<boost::asio::io_service> ioService,
+						  const std::string &webSocketResource, const std::string &webSocketOrigin);
 
 	virtual void Listen(unsigned serverPort, bool ipv6, const std::string &logDir,
 						boost::shared_ptr<ServerLobbyThread> lobbyThread);
@@ -61,6 +62,8 @@ private:
 	ServerCallback &m_serverCallback;
 	boost::shared_ptr<server> m_webSocketServer;
 	SessionMap m_sessionMap;
+	std::string m_webSocketResource;
+	std::string m_webSocketOrigin;
 
 	boost::shared_ptr<ServerLobbyThread> m_lobbyThread;
 };
