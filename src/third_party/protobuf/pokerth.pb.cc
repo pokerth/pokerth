@@ -9732,6 +9732,7 @@ bool RemovedFromGameMessage_RemovedFromGameReason_IsValid(int value) {
     case 3:
     case 4:
     case 5:
+    case 6:
       return true;
     default:
       return false;
@@ -9745,6 +9746,7 @@ const RemovedFromGameMessage_RemovedFromGameReason RemovedFromGameMessage::gameI
 const RemovedFromGameMessage_RemovedFromGameReason RemovedFromGameMessage::gameIsRunning;
 const RemovedFromGameMessage_RemovedFromGameReason RemovedFromGameMessage::gameTimeout;
 const RemovedFromGameMessage_RemovedFromGameReason RemovedFromGameMessage::removedStartFailed;
+const RemovedFromGameMessage_RemovedFromGameReason RemovedFromGameMessage::gameClosed;
 const RemovedFromGameMessage_RemovedFromGameReason RemovedFromGameMessage::RemovedFromGameReason_MIN;
 const RemovedFromGameMessage_RemovedFromGameReason RemovedFromGameMessage::RemovedFromGameReason_MAX;
 const int RemovedFromGameMessage::RemovedFromGameReason_ARRAYSIZE;

@@ -199,6 +199,21 @@ ServerGame::RemoveAllSessions()
 }
 
 void
+ServerGame::MoveSpectatorsToLobby()
+{
+	PlayerIdList spectatorList = GetSpectatorIdList();
+	PlayerIdList::const_iterator i = spectatorList.begin();
+	PlayerIdList::const_iterator end = spectatorList.end();
+	while (i != end) {
+		boost::shared_ptr<SessionData> tmpSession = GetSessionManager().GetSessionByUniquePlayerId(*i);
+		// Only remove if the spectator was found.
+		if (tmpSession)
+			MoveSessionToLobby(tmpSession, NTF_NET_REMOVED_GAME_CLOSED);
+		++i;
+	}
+}
+
+void
 ServerGame::TimerVoteKick(const boost::system::error_code &ec)
 {
 	if (!ec && m_curState != &ServerGameStateFinal::Instance()) {

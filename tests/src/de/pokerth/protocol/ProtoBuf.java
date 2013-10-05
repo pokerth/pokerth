@@ -21967,6 +21967,10 @@ public final class ProtoBuf {
        * <code>removedStartFailed = 5;</code>
        */
       removedStartFailed(5, 5),
+      /**
+       * <code>gameClosed = 6;</code>
+       */
+      gameClosed(6, 6),
       ;
 
       /**
@@ -21997,6 +22001,10 @@ public final class ProtoBuf {
        * <code>removedStartFailed = 5;</code>
        */
       public static final int removedStartFailed_VALUE = 5;
+      /**
+       * <code>gameClosed = 6;</code>
+       */
+      public static final int gameClosed_VALUE = 6;
 
 
       public final int getNumber() { return value; }
@@ -22009,6 +22017,7 @@ public final class ProtoBuf {
           case 3: return gameIsRunning;
           case 4: return gameTimeout;
           case 5: return removedStartFailed;
+          case 6: return gameClosed;
           default: return null;
         }
       }

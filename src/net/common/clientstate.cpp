@@ -589,6 +589,9 @@ AbstractClientStateReceiving::HandlePacket(boost::shared_ptr<ClientThread> clien
 		case RemovedFromGameMessage::removedStartFailed :
 			removeReason = NTF_NET_REMOVED_START_FAILED;
 			break;
+		case RemovedFromGameMessage::gameClosed :
+			removeReason = NTF_NET_REMOVED_GAME_CLOSED;
+			break;
 		default :
 			removeReason = NTF_NET_REMOVED_ON_REQUEST;
 			break;

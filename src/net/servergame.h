@@ -80,6 +80,7 @@ public:
 	void SendToAllPlayers(boost::shared_ptr<NetPacket> packet, int state);
 	void SendToAllButOnePlayers(boost::shared_ptr<NetPacket> packet, SessionId except, int state);
 	void RemoveAllSessions();
+	void MoveSpectatorsToLobby();
 
 	bool IsPasswordProtected() const;
 	bool CheckPassword(const std::string &password) const;

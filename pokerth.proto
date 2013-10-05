@@ -371,6 +371,7 @@ message RemovedFromGameMessage {
 		gameIsRunning = 3;
 		gameTimeout = 4;
 		removedStartFailed = 5;
+		gameClosed = 6;
 	}
 	required	RemovedFromGameReason	removedFromGameReason = 2;
 }

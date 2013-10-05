@@ -224,11 +224,12 @@ enum RemovedFromGameMessage_RemovedFromGameReason {
   RemovedFromGameMessage_RemovedFromGameReason_gameIsFull = 2,
   RemovedFromGameMessage_RemovedFromGameReason_gameIsRunning = 3,
   RemovedFromGameMessage_RemovedFromGameReason_gameTimeout = 4,
-  RemovedFromGameMessage_RemovedFromGameReason_removedStartFailed = 5
+  RemovedFromGameMessage_RemovedFromGameReason_removedStartFailed = 5,
+  RemovedFromGameMessage_RemovedFromGameReason_gameClosed = 6
 };
 bool RemovedFromGameMessage_RemovedFromGameReason_IsValid(int value);
 const RemovedFromGameMessage_RemovedFromGameReason RemovedFromGameMessage_RemovedFromGameReason_RemovedFromGameReason_MIN = RemovedFromGameMessage_RemovedFromGameReason_removedOnRequest;
-const RemovedFromGameMessage_RemovedFromGameReason RemovedFromGameMessage_RemovedFromGameReason_RemovedFromGameReason_MAX = RemovedFromGameMessage_RemovedFromGameReason_removedStartFailed;
+const RemovedFromGameMessage_RemovedFromGameReason RemovedFromGameMessage_RemovedFromGameReason_RemovedFromGameReason_MAX = RemovedFromGameMessage_RemovedFromGameReason_gameClosed;
 const int RemovedFromGameMessage_RemovedFromGameReason_RemovedFromGameReason_ARRAYSIZE = RemovedFromGameMessage_RemovedFromGameReason_RemovedFromGameReason_MAX + 1;
 
 enum RejectGameInvitationMessage_RejectGameInvReason {
@@ -4685,6 +4686,7 @@ class RemovedFromGameMessage : public ::google::protobuf::MessageLite {
   static const RemovedFromGameReason gameIsRunning = RemovedFromGameMessage_RemovedFromGameReason_gameIsRunning;
   static const RemovedFromGameReason gameTimeout = RemovedFromGameMessage_RemovedFromGameReason_gameTimeout;
   static const RemovedFromGameReason removedStartFailed = RemovedFromGameMessage_RemovedFromGameReason_removedStartFailed;
+  static const RemovedFromGameReason gameClosed = RemovedFromGameMessage_RemovedFromGameReason_gameClosed;
   static inline bool RemovedFromGameReason_IsValid(int value) {
     return RemovedFromGameMessage_RemovedFromGameReason_IsValid(value);
   }
