@@ -342,7 +342,9 @@ void Session::startNetworkServer(bool dedicated)
 		myConfig->readConfigInt("ServerWebSocketPort"),
 		myConfig->readConfigInt("ServerUseIpv6") == 1,
 		protocol,
-		myQtToolsInterface->stringFromUtf8(myConfig->readConfigString("LogDir"))
+		myQtToolsInterface->stringFromUtf8(myConfig->readConfigString("LogDir")),
+		myQtToolsInterface->stringFromUtf8(myConfig->readConfigString("ServerWebSocketResource")),
+		myQtToolsInterface->stringFromUtf8(myConfig->readConfigString("ServerWebSocketOrigin"))
 	);
 
 	myNetServer->RunAll();
