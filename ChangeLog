@@ -1,3 +1,13 @@
+2013-10-06 version 1.1 beta1
+- New web-based spectator mode on http://www.pokerth.net/live (#37)
+- Show list of spectators in the lobby and on the game table (#196)
+- Support for WebSocket connections was integrated in the server
+- Added option to disable emoticons in the chat (#172)
+- Avatars are no longer displayed for players which are on the ignore list (#187)
+- BUGFIX: context menu in connected player list was fixed (#183)
+- BUGFIX: "display idle players" in the lobby was fixed (#136)
+- translation updates
+
 2013-04-07 version 1.0.1
 - New Galician (gl) translation
 - Client settings dialog option for connecting to a private, password protected server (#178)
