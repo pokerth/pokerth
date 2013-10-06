@@ -36,8 +36,7 @@
 #include <net/websocket_defs.h>
 
 
-struct WebSocketData
-{
+struct WebSocketData {
 	boost::shared_ptr<server> webSocketServer;
 	websocketpp::connection_hdl webHandle;
 };

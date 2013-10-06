@@ -60,10 +60,10 @@
 #include "guilog.h"
 
 #ifdef ANDROID
-	#ifndef ANDROID_TEST
-		#include "QtGui/5.1.1/QtGui/qpa/qplatformnativeinterface.h"
-		#include <jni.h>
-	#endif
+#ifndef ANDROID_TEST
+#include "QtGui/5.1.1/QtGui/qpa/qplatformnativeinterface.h"
+#include <jni.h>
+#endif
 #endif
 
 using namespace std;
@@ -96,25 +96,25 @@ startWindowImpl::startWindowImpl(ConfigFile *c, Log *l)
 	this->setStatusBar(0);
 
 #ifdef GUI_800x480
-	#ifdef ANDROID
-		this->menubar->hide();
+#ifdef ANDROID
+	this->menubar->hide();
 
-		//check if custom background picture for the resolution is there. Otherwise create it!
-		QString UserDataDir = QString::fromUtf8(myConfig->readConfigString("UserDataDir").c_str());
-		QDesktopWidget dw;
-		int screenWidth = dw.screenGeometry().width();
-		int screenHeight = dw.screenGeometry().height();
-		QString customStartWindowBgFileString(UserDataDir+"/startwindowbg10_"+QString::number(screenWidth)+"x"+QString::number(screenHeight)+".png");
-		QFile customStartWindowBgFile(customStartWindowBgFileString);
-		if(customStartWindowBgFile.exists()) {
-			centralwidget->setStyleSheet(".QWidget { background-image: url("+QFileInfo(customStartWindowBgFile).absoluteFilePath()+"); background-position: top center; background-origin: content; background-repeat: no-repeat;}");
-		} else {
-			//if custom bg file could not be found load the big origin file
-			centralwidget->setStyleSheet(".QWidget { background-image: url(:/android/android-data/gfx/gui/misc/startwindowbg10_mobile.png); background-position: top center; background-origin: content; background-repeat: no-repeat;}");
-		}
-		this->showFullScreen();
+	//check if custom background picture for the resolution is there. Otherwise create it!
+	QString UserDataDir = QString::fromUtf8(myConfig->readConfigString("UserDataDir").c_str());
+	QDesktopWidget dw;
+	int screenWidth = dw.screenGeometry().width();
+	int screenHeight = dw.screenGeometry().height();
+	QString customStartWindowBgFileString(UserDataDir+"/startwindowbg10_"+QString::number(screenWidth)+"x"+QString::number(screenHeight)+".png");
+	QFile customStartWindowBgFile(customStartWindowBgFileString);
+	if(customStartWindowBgFile.exists()) {
+		centralwidget->setStyleSheet(".QWidget { background-image: url("+QFileInfo(customStartWindowBgFile).absoluteFilePath()+"); background-position: top center; background-origin: content; background-repeat: no-repeat;}");
+	} else {
+		//if custom bg file could not be found load the big origin file
+		centralwidget->setStyleSheet(".QWidget { background-image: url(:/android/android-data/gfx/gui/misc/startwindowbg10_mobile.png); background-position: top center; background-origin: content; background-repeat: no-repeat;}");
+	}
+	this->showFullScreen();
 
-		//TODO HACK Missing QSystemScreenSaver::setScreenSaverInhibited(true)
+	//TODO HACK Missing QSystemScreenSaver::setScreenSaverInhibited(true)
 //		#ifndef ANDROID_TEST
 //			JavaVM *currVM = (JavaVM *)QApplication::platformNativeInterface()->nativeResourceForWidget("JavaVM", 0);
 //			JNIEnv* env;
@@ -128,11 +128,11 @@ startWindowImpl::startWindowImpl(ConfigFile *c, Log *l)
 //				currVM->DetachCurrentThread();
 //			}
 //		#endif
-	#else
+#else
 //		Maemo
-		this->menubar->hide();
-		centralwidget->setStyleSheet(".QWidget { background-image: url(\""+myAppDataPath+"gfx/gui/misc/startwindowbg10_desktop.png\"); background-position: bottom center; background-origin: content; background-repeat: no-repeat;}");
-	#endif
+	this->menubar->hide();
+	centralwidget->setStyleSheet(".QWidget { background-image: url(\""+myAppDataPath+"gfx/gui/misc/startwindowbg10_desktop.png\"); background-position: bottom center; background-origin: content; background-repeat: no-repeat;}");
+#endif
 	// All mobile GUI's
 	pushButtonStart_Local_Game->setStyleSheet("QPushButton { text-align:left; font-weight:bold; padding-left: 3px; padding-bottom: 3px; padding-top: 3px; padding-right: 3px; background-color: #505050; color: #FDC942; font-size:22px; border-width: 0px;}");
 	pushButtonInternet_Game->setStyleSheet("QPushButton { text-align:left; font-weight:bold; padding-left: 3px; padding-bottom: 3px; padding-top: 3px; padding-right: 3px; background-color: #505050; color: #FDC942; font-size:22px; border-width: 0px;}");
@@ -1186,8 +1186,9 @@ void startWindowImpl::networkMessage(unsigned msgId)
 		msgText = tr("The player could not be found.");
 	}
 	break;
-	default: showMsgBox = false;
-	break;
+	default:
+		showMsgBox = false;
+		break;
 	}
 
 	if(showMsgBox) {

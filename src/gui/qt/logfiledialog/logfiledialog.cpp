@@ -287,31 +287,30 @@ void LogFileDialog::showLogAnalysis(QString /*filename*/, QString returnMessage)
 		if (retStr == LOG_UPLOAD_ERROR_STR) {
 			QString errorId(returnMessage.mid(retStr.size()).trimmed());
 			serverMsg += "\n" + tr("Failure reason: ");
-			switch (errorId.toInt())
-			{
-				case LOG_UPLOAD_ERROR_NO_FILE :
-					serverMsg += tr("No file received.");
-					break;
-				case LOG_UPLOAD_ERROR_MAX_NUM_TOTAL :
-					serverMsg += tr("File rejected because of too many uploads.");
-					break;
-				case LOG_UPLOAD_ERROR_MAX_NUM_IP :
-					serverMsg += tr("File rejected because of too many recent uploads. Please try again later.");
-					break;
-				case LOG_UPLOAD_ERROR_FILE_SIZE :
-					serverMsg += tr("The file is too large.");
-					break;
-				case LOG_UPLOAD_ERROR_FILE_EXT :
-				case LOG_UPLOAD_ERROR_FILE_HEAD :
-					serverMsg += tr("This file is not a valid and current PokerTH log file.");
-					break;
-				case LOG_UPLOAD_ERROR_OPEN_DB :
-				case LOG_UPLOAD_ERROR_ID :
-				case LOG_UPLOAD_ERROR_FILE_MOVE :
-				case LOG_UPLOAD_ERROR_INSERT_DB :
-				default :
-					serverMsg += tr("Internal error. Please try again later. ID: ") + returnMessage;
-					break;
+			switch (errorId.toInt()) {
+			case LOG_UPLOAD_ERROR_NO_FILE :
+				serverMsg += tr("No file received.");
+				break;
+			case LOG_UPLOAD_ERROR_MAX_NUM_TOTAL :
+				serverMsg += tr("File rejected because of too many uploads.");
+				break;
+			case LOG_UPLOAD_ERROR_MAX_NUM_IP :
+				serverMsg += tr("File rejected because of too many recent uploads. Please try again later.");
+				break;
+			case LOG_UPLOAD_ERROR_FILE_SIZE :
+				serverMsg += tr("The file is too large.");
+				break;
+			case LOG_UPLOAD_ERROR_FILE_EXT :
+			case LOG_UPLOAD_ERROR_FILE_HEAD :
+				serverMsg += tr("This file is not a valid and current PokerTH log file.");
+				break;
+			case LOG_UPLOAD_ERROR_OPEN_DB :
+			case LOG_UPLOAD_ERROR_ID :
+			case LOG_UPLOAD_ERROR_FILE_MOVE :
+			case LOG_UPLOAD_ERROR_INSERT_DB :
+			default :
+				serverMsg += tr("Internal error. Please try again later. ID: ") + returnMessage;
+				break;
 			}
 		}
 		MyMessageBox::warning(

@@ -46,7 +46,7 @@ public:
 
 	// Set the parameters.
 	virtual void Init(unsigned serverPort, unsigned websocketPort, bool ipv6, int proto, const std::string &logDir,
-		const std::string &webSocketResource, const std::string &webSocketOrigin);
+					  const std::string &webSocketResource, const std::string &webSocketOrigin);
 
 	// Main start function.
 	virtual void RunAll();

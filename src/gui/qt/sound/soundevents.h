@@ -34,13 +34,13 @@
 #include <string>
 
 #ifdef ANDROID
-	#ifdef ANDROID_API8
-		class AndroidApi8Dummy;
-	#else
-		class AndroidAudio;
-	#endif
+#ifdef ANDROID_API8
+class AndroidApi8Dummy;
 #else
-	class SDLPlayer;
+class AndroidAudio;
+#endif
+#else
+class SDLPlayer;
 #endif
 
 
@@ -64,11 +64,11 @@ protected:
 private:
 
 #ifdef ANDROID
-	#ifdef ANDROID_API8
-		AndroidApi8Dummy *myPlayer;
-	#else
-		AndroidAudio *myPlayer;
-	#endif
+#ifdef ANDROID_API8
+	AndroidApi8Dummy *myPlayer;
+#else
+	AndroidAudio *myPlayer;
+#endif
 #else
 	SDLPlayer *myPlayer;
 #endif

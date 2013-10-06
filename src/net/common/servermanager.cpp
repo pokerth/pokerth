@@ -94,8 +94,7 @@ ServerManager::Init(unsigned serverPort, unsigned websocketPort, bool ipv6, int 
 			sctpAcceptHelper->Listen(serverPort, ipv6, logDir, m_lobbyThread);
 			m_acceptHelperPool.push_back(sctpAcceptHelper);
 		}*/
-	if (proto & TRANSPORT_PROTOCOL_WEBSOCKET)
-	{
+	if (proto & TRANSPORT_PROTOCOL_WEBSOCKET) {
 		boost::shared_ptr<ServerAcceptInterface> webAcceptHelper(
 			new ServerAcceptWebHelper(GetGui(), m_ioService, webSocketResource, webSocketOrigin));
 		webAcceptHelper->Listen(websocketPort, ipv6, logDir, m_lobbyThread);

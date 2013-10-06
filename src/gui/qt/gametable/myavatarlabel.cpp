@@ -397,10 +397,9 @@ void MyAvatarLabel::paintEvent(QPaintEvent*)
 	//hide avatar if player is on ignore list
 	boost::shared_ptr<Session> mySession = myW->myStartWindow->getSession();
 	if(!playerIsOnIgnoreList(QString::fromUtf8(mySession->getClientPlayerInfo(myUniqueId).playerName.c_str()))) {
-			painter.drawPixmap(0,0,myPixmap);
-			return;
-	}
-	else if(myW->getMyConfig()->readConfigInt("DontHideAvatarsOfIgnored")) {
+		painter.drawPixmap(0,0,myPixmap);
+		return;
+	} else if(myW->getMyConfig()->readConfigInt("DontHideAvatarsOfIgnored")) {
 		painter.drawPixmap(0,0,myPixmap);
 		return;
 	}

@@ -52,7 +52,7 @@ protected:
 
 	typedef std::map<websocketpp::connection_hdl, boost::weak_ptr<SessionData> > SessionMap;
 
-	bool validate(websocketpp::connection_hdl hdl); 
+	bool validate(websocketpp::connection_hdl hdl);
 	void on_open(websocketpp::connection_hdl hdl);
 	void on_close(websocketpp::connection_hdl hdl);
 	void on_message(websocketpp::connection_hdl hdl, server::message_ptr msg);

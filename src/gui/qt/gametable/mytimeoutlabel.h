@@ -39,7 +39,7 @@
 #include <third_party/boost/timers.hpp>
 #endif
 #if QT_VERSION >= 0x050000
-	#include <QtWidgets>
+#include <QtWidgets>
 #endif
 
 class gameTableImpl;

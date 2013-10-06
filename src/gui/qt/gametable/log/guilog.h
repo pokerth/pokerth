@@ -42,7 +42,7 @@
 #include <QtGui>
 #include <QtSql>
 #if QT_VERSION >= 0x050000
-	#include <QtWidgets>
+#include <QtWidgets>
 #endif
 
 struct result_struct {

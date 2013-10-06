@@ -37,7 +37,7 @@
 using namespace std;
 
 ServerAcceptWebHelper::ServerAcceptWebHelper(ServerCallback &serverCallback, boost::shared_ptr<boost::asio::io_service> ioService,
-											 const string &webSocketResource, const string &webSocketOrigin)
+		const string &webSocketResource, const string &webSocketOrigin)
 	: m_ioService(ioService), m_serverCallback(serverCallback),
 	  m_webSocketResource(webSocketResource), m_webSocketOrigin(webSocketOrigin)
 {
@@ -78,7 +78,7 @@ ServerAcceptWebHelper::validate(websocketpp::connection_hdl hdl)
 	bool retVal = false;
 	server::connection_ptr con = m_webSocketServer->get_con_from_hdl(hdl);
 	if ((m_webSocketResource.empty() || con->get_resource() == m_webSocketResource)
-		&& (m_webSocketOrigin.empty() || (con->get_origin() != "null" && con->get_origin() == m_webSocketOrigin))) {
+			&& (m_webSocketOrigin.empty() || (con->get_origin() != "null" && con->get_origin() == m_webSocketOrigin))) {
 		retVal = true;
 	}
 	return retVal;

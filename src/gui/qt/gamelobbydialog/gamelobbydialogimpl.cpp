@@ -1041,7 +1041,8 @@ void gameLobbyDialogImpl::addConnectedPlayer(unsigned playerId, QString playerNa
 		refreshConnectedPlayerAvatars();
 }
 
-void gameLobbyDialogImpl::addConnectedSpectator(unsigned spectatorId, QString spectatorName) {
+void gameLobbyDialogImpl::addConnectedSpectator(unsigned spectatorId, QString spectatorName)
+{
 
 	QTreeWidgetItem *item = new QTreeWidgetItem(treeWidget_connectedSpectators, 0);
 	item->setData(0, Qt::UserRole, spectatorId);
@@ -1672,8 +1673,11 @@ void gameLobbyDialogImpl::showNickListContextMenu(QPoint p)
 		nickListPlayerInGameInfo->setText(playerInGameInfoString);
 
 		//prevent admin to total kickban himself
-		if(playerUid == mySession->getClientUniquePlayerId()) {	nickListAdminTotalKickBan->setDisabled(true); }
-		else { nickListAdminTotalKickBan->setEnabled(true);	}
+		if(playerUid == mySession->getClientUniquePlayerId()) {
+			nickListAdminTotalKickBan->setDisabled(true);
+		} else {
+			nickListAdminTotalKickBan->setEnabled(true);
+		}
 
 //		check for admin	and remove admin actions for non-admins
 		if(!mySession->getClientPlayerInfo(mySession->getClientUniquePlayerId()).isAdmin) {
@@ -1693,8 +1697,11 @@ void gameLobbyDialogImpl::showGameListContextMenu(QPoint p)
 
 		assert(mySession);
 		unsigned selectedGameId = myGameListSelectionModel->selectedRows().first().data(Qt::UserRole).toUInt();
-		if(selectedGameId == mySession->getClientCurrentGameId()) { gameListAdminCloseGame->setDisabled(true); }
-		else { gameListAdminCloseGame->setEnabled(true); }
+		if(selectedGameId == mySession->getClientCurrentGameId()) {
+			gameListAdminCloseGame->setDisabled(true);
+		} else {
+			gameListAdminCloseGame->setEnabled(true);
+		}
 
 //		check for admin	and remove admin actions for non-admins
 		if(!mySession->getClientPlayerInfo(mySession->getClientUniquePlayerId()).isAdmin) {

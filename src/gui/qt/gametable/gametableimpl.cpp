@@ -4482,8 +4482,7 @@ void gameTableImpl::refreshSpectatorsDisplay()
 		}
 		spectatorList.remove(spectatorList.size()-4,4);
 		spectatorIcon->setToolTip(spectatorList);
-	}
-	else {
+	} else {
 		spectatorIcon->setToolTip("");
 		spectatorIcon->clear();
 	}

@@ -211,8 +211,7 @@ int main( int argc, char **argv )
 	QPixmap pixmap;
 	if(customWelcomePokerTHFile.exists()) {
 		pixmap.load(QFileInfo(customWelcomePokerTHFile).absoluteFilePath());
-	}
-	else {
+	} else {
 		//if custom welcome pic could not be saved locally we need to scale it on the fly
 		pixmap.load(":/android/android-data/gfx/gui/misc/welcomepokerth10_mobile.png");
 		pixmap = pixmap.scaled(screenWidth, screenHeight, Qt::KeepAspectRatioByExpanding, Qt::SmoothTransformation);

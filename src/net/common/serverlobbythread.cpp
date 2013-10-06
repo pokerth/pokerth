@@ -1372,7 +1372,7 @@ ServerLobbyThread::HandleNetPacketJoinGame(boost::shared_ptr<SessionData> sessio
 		const GameData &tmpData = game->GetGameData();
 		// As guest, you are only allowed to join normal games or to join as spectator.
 		if (session->GetPlayerData()->GetRights() == PLAYER_RIGHTS_GUEST
-			&& tmpData.gameType != GAME_TYPE_NORMAL && !joinGame.spectateonly()) {
+				&& tmpData.gameType != GAME_TYPE_NORMAL && !joinGame.spectateonly()) {
 			SendJoinGameFailed(session, joinGame.gameid(), NTF_NET_JOIN_GUEST_FORBIDDEN);
 		} else if (tmpData.gameType == GAME_TYPE_INVITE_ONLY
 				   && !game->IsPlayerInvited(session->GetPlayerData()->GetUniqueId())) {
@@ -1583,9 +1583,9 @@ ServerLobbyThread::HandleNetPacketAdminBanPlayer(boost::shared_ptr<SessionData> 
 			RemovePlayer(tmpPlayer->GetUniqueId(), ERR_NET_PLAYER_KICKED);
 			// Permanently ban the player in the database.
 			if (tmpPlayer->GetDBId() != DB_ID_INVALID) {
-				LOG_ERROR("Player " << session->GetPlayerData()->GetName() << "(" << session->GetPlayerData()->GetDBId() 
-					<< ") bans player " << tmpPlayer->GetName() << "(" << tmpPlayer->GetDBId() 
-					<< ") who has IP " << tmpSession->GetClientAddr());
+				LOG_ERROR("Player " << session->GetPlayerData()->GetName() << "(" << session->GetPlayerData()->GetDBId()
+						  << ") bans player " << tmpPlayer->GetName() << "(" << tmpPlayer->GetDBId()
+						  << ") who has IP " << tmpSession->GetClientAddr());
 				GetDatabase()->AsyncBlockPlayer(session->GetPlayerData()->GetUniqueId(), tmpPlayer->GetUniqueId(), tmpPlayer->GetDBId(), 0, 4);
 				netBanAck->set_banplayerresult(AdminBanPlayerAckMessage::banPlayerPending);
 			} else {
@@ -1837,8 +1837,7 @@ ServerLobbyThread::TimerRemoveGame(const boost::system::error_code &ec)
 			GameMap::iterator next = i;
 			++next;
 			boost::shared_ptr<ServerGame> tmpGame = i->second;
-			if (!tmpGame->GetSessionManager().HasSessionWithState(SessionData::Game))
-			{
+			if (!tmpGame->GetSessionManager().HasSessionWithState(SessionData::Game)) {
 				tmpGame->MoveSpectatorsToLobby();
 				InternalRemoveGame(tmpGame); // This will delete the game.
 			}
