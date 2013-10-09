@@ -563,16 +563,6 @@ void gameLobbyDialogImpl::updateGameItem(QList <QStandardItem*> itemList, unsign
 	PlayerIdList::const_iterator end = info.players.end();
 
 	while (i != end) {
-		//mark players as active
-		int it1 = 0;
-		while (myNickListModel->item(it1)) {
-			if (myNickListModel->item(it1, 0)->data(Qt::UserRole) == *i) {
-				myNickListModel->item(it1, 0)->setData("active", 34);
-				break;
-			}
-			++it1;
-		}
-
 		if(myPlayerId == *i) {
 			itemList.at(0)->setData( "MeInThisGame", 16);
 			itemList.at(0)->setBackground(QBrush(QColor(0, 255, 0, 127)));
@@ -590,6 +580,22 @@ void gameLobbyDialogImpl::updateGameItem(QList <QStandardItem*> itemList, unsign
 			itemList.at(3)->setBackground(QBrush());
 			itemList.at(4)->setBackground(QBrush());
 			itemList.at(5)->setBackground(QBrush());
+		}
+		++i;
+	}
+
+	//reset players iterator
+	i = info.players.begin();
+	end = info.players.end();
+	while (i != end) {
+		//mark players as active
+		int it1 = 0;
+		while (myNickListModel->item(it1)) {
+			if (myNickListModel->item(it1, 0)->data(Qt::UserRole) == *i) {
+				myNickListModel->item(it1, 0)->setData("active", 34);
+				break;
+			}
+			++it1;
 		}
 		++i;
 	}
