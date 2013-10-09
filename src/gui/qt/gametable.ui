@@ -4583,7 +4583,7 @@ p, li { white-space: pre-wrap; }
     </item>
    </layout>
   </widget>
-  <widget class="MyMenuBar" name="menubar">
+  <widget class="QMenuBar" name="menubar">
    <property name="geometry">
     <rect>
      <x>0</x>
@@ -4785,11 +4785,6 @@ p, li { white-space: pre-wrap; }
    <class>MyActionButton</class>
    <extends>QPushButton</extends>
    <header>myactionbutton.h</header>
-  </customwidget>
-  <customwidget>
-   <class>MyMenuBar</class>
-   <extends>QMenuBar</extends>
-   <header>mymenubar.h</header>
   </customwidget>
   <customwidget>
    <class>MyTimeoutLabel</class>
