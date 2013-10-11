@@ -81,8 +81,15 @@ public:
 
     /// Type of a pointer to the ASIO io_service being used
     typedef boost::asio::io_service* io_service_ptr;
+    /// Type of a pointer to the ASIO io_service::strand being used
+    typedef lib::shared_ptr<boost::asio::io_service::strand> strand_ptr;
     /// Type of a pointer to the ASIO timer class
     typedef lib::shared_ptr<boost::asio::deadline_timer> timer_ptr;
+
+    // connection is friends with its associated endpoint to allow the endpoint
+    // to call private/protected utility methods that we don't want to expose
+    // to the public api.
+    friend class endpoint<config>;
 
     // generate and manage our own io_service
     explicit connection(bool is_server, alog_type& alog, elog_type& elog)
@@ -102,29 +109,13 @@ public:
         return socket_con_type::is_secure();
     }
 
-    /// Finish constructing the transport
+    /// Sets the tcp init handler
     /**
-     * init_asio is called once immediately after construction to initialize
-     * boost::asio components to the io_service
+     * The tcp init handler is called after the tcp connection has been
+     * established.
      *
-     * TODO: this method is not protected because the endpoint needs to call it.
-     * need to figure out if there is a way to friend the endpoint safely across
-     * different compilers.
-     *
-     * @param io_service A pointer to the io_service to register with this
-     * connection
-     *
-     * @return Status code for the success or failure of the initialization
+     * @param h The handler to call on tcp init.
      */
-    lib::error_code init_asio (io_service_ptr io_service) {
-        // do we need to store or use the io_service at this level?
-        m_io_service = io_service;
-
-        //m_strand.reset(new boost::asio::strand(*io_service));
-
-        return socket_con_type::init_asio(io_service, m_is_server);
-    }
-
     void set_tcp_init_handler(tcp_init_handler h) {
         m_tcp_init_handler = h;
     }
@@ -251,26 +242,6 @@ public:
         return m_connection_hdl;
     }
 
-    /// initialize the proxy buffers and http parsers
-    /**
-     *
-     * @param authority The address of the server we want the proxy to tunnel to
-     * in the format of a URI authority (host:port)
-     */
-    lib::error_code proxy_init(const std::string & authority) {
-        if (!m_proxy_data) {
-            return websocketpp::error::make_error_code(
-                websocketpp::error::invalid_state);
-        }
-        m_proxy_data->req.set_version("HTTP/1.1");
-        m_proxy_data->req.set_method("CONNECT");
-
-        m_proxy_data->req.set_uri(authority);
-        m_proxy_data->req.replace_header("Host",authority);
-
-        return lib::error_code();
-    }
-
     /// Call back a function after a period of time.
     /**
      * Sets a timer that calls back a function after the specified period of
@@ -294,13 +265,13 @@ public:
         );
 
         new_timer->async_wait(
-            lib::bind(
+            m_strand->wrap(lib::bind(
                 &type::handle_timer,
                 get_shared(),
                 new_timer,
                 callback,
                 lib::placeholders::_1
-            )
+            ))
         );
 
         return new_timer;
@@ -311,10 +282,10 @@ public:
      * The timer pointer is included to ensure the timer isn't destroyed until
      * after it has expired.
      *
+     * TODO: candidate for protected status
+     *
      * @param t Pointer to the timer in question
-     *
      * @param callback The function to call back
-     *
      * @param ec The status code
      */
     void handle_timer(timer_ptr t, timer_handler callback, const
@@ -332,6 +303,11 @@ public:
         }
     }
 protected:
+    /// Get a pointer to this connection's strand
+    strand_ptr get_strand() {
+        return m_strand;
+    }
+
     /// Initialize transport for reading
     /**
      * init_asio is called once immediately after construction to initialize
@@ -365,6 +341,47 @@ protected:
                 lib::placeholders::_1
             )
         );
+    }
+
+    /// initialize the proxy buffers and http parsers
+    /**
+     *
+     * @param authority The address of the server we want the proxy to tunnel to
+     * in the format of a URI authority (host:port)
+     *
+     * @return Status code indicating what errors occurred, if any
+     */
+    lib::error_code proxy_init(std::string const & authority) {
+        if (!m_proxy_data) {
+            return websocketpp::error::make_error_code(
+                websocketpp::error::invalid_state);
+        }
+        m_proxy_data->req.set_version("HTTP/1.1");
+        m_proxy_data->req.set_method("CONNECT");
+
+        m_proxy_data->req.set_uri(authority);
+        m_proxy_data->req.replace_header("Host",authority);
+
+        return lib::error_code();
+    }
+
+    /// Finish constructing the transport
+    /**
+     * init_asio is called once immediately after construction to initialize
+     * boost::asio components to the io_service
+     *
+     * @param io_service A pointer to the io_service to register with this
+     * connection
+     *
+     * @return Status code for the success or failure of the initialization
+     */
+    lib::error_code init_asio (io_service_ptr io_service) {
+        // do we need to store or use the io_service at this level?
+        m_io_service = io_service;
+
+        m_strand.reset(new boost::asio::strand(*io_service));
+
+        return socket_con_type::init_asio(io_service, m_strand, m_is_server);
     }
 
     void handle_pre_init(init_handler callback, const lib::error_code& ec) {
@@ -497,12 +514,12 @@ protected:
         boost::asio::async_write(
             socket_con_type::get_next_layer(),
             m_bufs,
-            lib::bind(
+            m_strand->wrap(lib::bind(
                 &type::handle_proxy_write,
                 get_shared(),
                 callback,
                 lib::placeholders::_1
-            )
+            ))
         );
     }
 
@@ -568,13 +585,13 @@ protected:
             socket_con_type::get_next_layer(),
             m_proxy_data->read_buf,
             "\r\n\r\n",
-            lib::bind(
+            m_strand->wrap(lib::bind(
                 &type::handle_proxy_read,
                 get_shared(),
                 callback,
                 lib::placeholders::_1,
                 lib::placeholders::_2
-            )
+            ))
         );
     }
 
@@ -680,13 +697,13 @@ protected:
             socket_con_type::get_socket(),
             boost::asio::buffer(buf,len),
             boost::asio::transfer_at_least(num_bytes),
-            lib::bind(
+            m_strand->wrap(lib::bind(
                 &type::handle_async_read,
                 get_shared(),
                 handler,
                 lib::placeholders::_1,
                 lib::placeholders::_2
-            )
+            ))
         );
     }
 
@@ -718,12 +735,12 @@ protected:
         boost::asio::async_write(
             socket_con_type::get_socket(),
             m_bufs,
-            lib::bind(
+            m_strand->wrap(lib::bind(
                 &type::handle_async_write,
                 get_shared(),
                 handler,
                 lib::placeholders::_1
-            )
+            ))
         );
     }
 
@@ -737,12 +754,12 @@ protected:
         boost::asio::async_write(
             socket_con_type::get_socket(),
             m_bufs,
-            lib::bind(
+            m_strand->wrap(lib::bind(
                 &type::handle_async_write,
                 get_shared(),
                 handler,
                 lib::placeholders::_1
-            )
+            ))
         );
     }
 
@@ -773,16 +790,14 @@ protected:
     /// Trigger the on_interrupt handler
     /**
      * This needs to be thread safe
-     *
-     * Might need a strand at some point?
      */
     lib::error_code interrupt(interrupt_handler handler) {
-        m_io_service->post(handler);
+        m_io_service->post(m_strand->wrap(handler));
         return lib::error_code();
     }
 
     lib::error_code dispatch(dispatch_handler handler) {
-        m_io_service->post(handler);
+        m_io_service->post(m_strand->wrap(handler));
         return lib::error_code();
     }
 
@@ -904,8 +919,10 @@ private:
     lib::shared_ptr<proxy_data> m_proxy_data;
 
     // transport resources
-    io_service_ptr      m_io_service;
-    connection_hdl      m_connection_hdl;
+    io_service_ptr  m_io_service;
+    strand_ptr      m_strand;
+    connection_hdl  m_connection_hdl;
+
     std::vector<boost::asio::const_buffer> m_bufs;
 
     // Handlers

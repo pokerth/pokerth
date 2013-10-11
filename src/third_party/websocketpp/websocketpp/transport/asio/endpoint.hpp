@@ -574,13 +574,12 @@ public:
 
         m_acceptor->async_accept(
             tcon->get_raw_socket(),
-            lib::bind(
+            tcon->get_strand()->wrap(lib::bind(
                 &type::handle_accept,
                 this,
-                tcon->get_handle(),
                 callback,
                 lib::placeholders::_1
-            )
+            ))
         );
     }
 
@@ -612,18 +611,19 @@ protected:
         m_elog = e;
     }
 
-    void handle_accept(connection_hdl hdl, accept_handler callback,
-        const boost::system::error_code& error)
+    void handle_accept(accept_handler callback, boost::system::error_code const
+        & boost_ec)
     {
-        if (error) {
-            //con->terminate();
-            // TODO: Better translation of errors at this point
-            callback(hdl,make_error_code(error::pass_through));
-            return;
+        lib::error_code ret_ec;
+
+        m_alog->write(log::alevel::devel, "asio::handle_accept");
+
+        if (boost_ec) {
+            log_err(log::elevel::devel,"asio handle_accept",boost_ec);
+            ret_ec = make_error_code(error::pass_through);
         }
 
-        //con->start();
-        callback(hdl,lib::error_code());
+        callback(ret_ec);
     }
 
     /// Initiate a new connection
@@ -649,13 +649,13 @@ protected:
             uri_ptr pu(new uri(proxy));
 
             if (!pu->get_valid()) {
-                cb(tcon->get_handle(),make_error_code(error::proxy_invalid));
+                cb(make_error_code(error::proxy_invalid));
                 return;
             }
 
             ec = tcon->proxy_init(u->get_authority());
             if (ec) {
-                cb(tcon->get_handle(),ec);
+                cb(ec);
                 return;
             }
 
@@ -672,12 +672,11 @@ protected:
 
         timer_ptr dns_timer;
 
-        dns_timer = set_timer(
+        dns_timer = tcon->set_timer(
             config::timeout_dns_resolve,
             lib::bind(
                 &type::handle_resolve_timeout,
                 this,
-                tcon,
                 dns_timer,
                 cb,
                 lib::placeholders::_1
@@ -686,7 +685,7 @@ protected:
 
         m_resolver->async_resolve(
             query,
-            lib::bind(
+            tcon->get_strand()->wrap(lib::bind(
                 &type::handle_resolve,
                 this,
                 tcon,
@@ -694,12 +693,12 @@ protected:
                 cb,
                 lib::placeholders::_1,
                 lib::placeholders::_2
-            )
+            ))
         );
     }
 
-    void handle_resolve_timeout(transport_con_ptr tcon, timer_ptr dns_timer,
-        connect_handler callback, const lib::error_code & ec)
+    void handle_resolve_timeout(timer_ptr dns_timer, connect_handler callback,
+        lib::error_code const & ec)
     {
         lib::error_code ret_ec;
 
@@ -718,11 +717,11 @@ protected:
 
         m_alog->write(log::alevel::devel,"DNS resolution timed out");
         m_resolver->cancel();
-        callback(tcon->get_handle(),ret_ec);
+        callback(ret_ec);
     }
 
     void handle_resolve(transport_con_ptr tcon, timer_ptr dns_timer,
-        connect_handler callback, const boost::system::error_code& ec,
+        connect_handler callback, boost::system::error_code const & ec,
         boost::asio::ip::tcp::resolver::iterator iterator)
     {
         if (ec == boost::asio::error::operation_aborted ||
@@ -736,7 +735,7 @@ protected:
 
         if (ec) {
             log_err(log::elevel::info,"asio async_resolve",ec);
-            callback(tcon->get_handle(),make_error_code(error::pass_through));
+            callback(make_error_code(error::pass_through));
             return;
         }
 
@@ -756,10 +755,10 @@ protected:
 
         timer_ptr con_timer;
 
-        con_timer = set_timer(
+        con_timer = tcon->set_timer(
             config::timeout_connect,
             lib::bind(
-                &type::handle_resolve_timeout,
+                &type::handle_connect_timeout,
                 this,
                 tcon,
                 con_timer,
@@ -771,19 +770,19 @@ protected:
         boost::asio::async_connect(
             tcon->get_raw_socket(),
             iterator,
-            lib::bind(
+            tcon->get_strand()->wrap(lib::bind(
                 &type::handle_connect,
                 this,
                 tcon,
                 con_timer,
                 callback,
                 lib::placeholders::_1
-            )
+            ))
         );
     }
 
     void handle_connect_timeout(transport_con_ptr tcon, timer_ptr con_timer,
-        connect_handler callback, const lib::error_code & ec)
+        connect_handler callback, lib::error_code const & ec)
     {
         lib::error_code ret_ec;
 
@@ -802,11 +801,11 @@ protected:
 
         m_alog->write(log::alevel::devel,"TCP connect timed out");
         tcon->cancel_socket();
-        callback(tcon->get_handle(),ret_ec);
+        callback(ret_ec);
     }
 
     void handle_connect(transport_con_ptr tcon, timer_ptr con_timer,
-        connect_handler callback, const boost::system::error_code& ec)
+        connect_handler callback, boost::system::error_code const & ec)
     {
         if (ec == boost::asio::error::operation_aborted ||
             con_timer->expires_from_now().is_negative())
@@ -819,7 +818,7 @@ protected:
 
         if (ec) {
             log_err(log::elevel::info,"asio async_connect",ec);
-            callback(tcon->get_handle(),make_error_code(error::pass_through));
+            callback(make_error_code(error::pass_through));
             return;
         }
 
@@ -828,7 +827,7 @@ protected:
                 "Async connect to "+tcon->get_remote_endpoint()+" successful.");
         }
 
-        callback(tcon->get_handle(),lib::error_code());
+        callback(lib::error_code());
     }
 
     bool is_listening() const {

@@ -229,30 +229,37 @@ public:
         m_close_handler = h;
     }
     void set_fail_handler(fail_handler h) {
+        m_alog.write(log::alevel::devel,"set_fail_handler");
         scoped_lock_type guard(m_mutex);
         m_fail_handler = h;
     }
     void set_ping_handler(ping_handler h) {
+        m_alog.write(log::alevel::devel,"set_ping_handler");
         scoped_lock_type guard(m_mutex);
         m_ping_handler = h;
     }
     void set_pong_handler(pong_handler h) {
+        m_alog.write(log::alevel::devel,"set_pong_handler");
         scoped_lock_type guard(m_mutex);
         m_pong_handler = h;
     }
     void set_pong_timeout_handler(pong_timeout_handler h) {
+        m_alog.write(log::alevel::devel,"set_pong_timeout_handler");
         scoped_lock_type guard(m_mutex);
         m_pong_timeout_handler = h;
     }
     void set_interrupt_handler(interrupt_handler h) {
+        m_alog.write(log::alevel::devel,"set_interrupt_handler");
         scoped_lock_type guard(m_mutex);
         m_interrupt_handler = h;
     }
     void set_http_handler(http_handler h) {
+        m_alog.write(log::alevel::devel,"set_http_handler");
         scoped_lock_type guard(m_mutex);
         m_http_handler = h;
     }
     void set_validate_handler(validate_handler h) {
+        m_alog.write(log::alevel::devel,"set_validate_handler");
         scoped_lock_type guard(m_mutex);
         m_validate_handler = h;
     }
@@ -390,7 +397,6 @@ public:
     }
 protected:
     connection_ptr create_connection();
-    void remove_connection(connection_ptr con);
 
     alog_type m_alog;
     elog_type m_elog;
@@ -410,9 +416,6 @@ private:
     message_handler             m_message_handler;
 
     rng_type m_rng;
-
-    // endpoint resources
-    std::set<connection_ptr>    m_connections;
 
     // static settings
     bool const                  m_is_server;

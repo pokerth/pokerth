@@ -1177,25 +1177,25 @@ void connection<config>::handle_send_http_response(
 
     this->log_open_result();
 
+    if (m_handshake_timer) {
+        m_handshake_timer->cancel();
+        m_handshake_timer.reset();
+    }
+
     if (m_response.get_status_code() != http::status_code::switching_protocols)
     {
         if (m_processor) {
-            // if this was not a websocket connection, we have written
-            // the expected response and the connection can be closed.
-        } else {
             // this was a websocket connection that ended in an error
             std::stringstream s;
             s << "Handshake ended with HTTP error: "
               << m_response.get_status_code();
             m_elog.write(log::elevel::rerror,s.str());
+        } else {
+            // if this was not a websocket connection, we have written
+            // the expected response and the connection can be closed.
         }
         this->terminate(make_error_code(error::http_connection_ended));
         return;
-    }
-
-    if (m_handshake_timer) {
-        m_handshake_timer->cancel();
-        m_handshake_timer.reset();
     }
 
     this->atomic_state_change(
@@ -1339,6 +1339,11 @@ void connection<config>::handle_read_http_response(const lib::error_code& ec,
     m_alog.write(log::alevel::devel,std::string("Raw response: ")+m_response.raw());
 
     if (m_response.headers_ready()) {
+        if (m_handshake_timer) {
+            m_handshake_timer->cancel();
+            m_handshake_timer.reset();
+        }
+
         lib::error_code ec = m_processor->validate_server_handshake_response(
             m_request,
             m_response
@@ -1360,11 +1365,6 @@ void connection<config>::handle_read_http_response(const lib::error_code& ec,
             session::state::open,
             "handle_read_http_response must be called from READ_HTTP_RESPONSE state"
         );
-
-        if (m_handshake_timer) {
-            m_handshake_timer->cancel();
-            m_handshake_timer.reset();
-        }
 
         this->log_open_result();
 
