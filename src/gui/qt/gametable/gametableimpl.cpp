@@ -3543,6 +3543,7 @@ void gameTableImpl::localGameModification()
 
 	//let the SoundEventHandler know that there is a new game
 	mySoundEventHandler->newGameStarts();
+	spectatorIcon->hide();
 }
 
 void gameTableImpl::networkGameModification()
@@ -3592,7 +3593,7 @@ void gameTableImpl::networkGameModification()
 		myGameTableStyle->setBreakButtonStyle(pushButton_break,0);
 #endif
 		blinkingStartButtonAnimationTimer->stop();
-
+		spectatorIcon->show();
 		refreshSpectatorsDisplay();
 	}
 	if(myStartWindow->getSession()->getGameType() == Session::GAME_TYPE_NETWORK) {
@@ -3601,6 +3602,7 @@ void gameTableImpl::networkGameModification()
 #else
 		pushButton_break->hide();
 #endif
+		spectatorIcon->hide();
 	}
 	//Set the playing mode to "manual"
 #ifdef GUI_800x480
@@ -3627,8 +3629,6 @@ void gameTableImpl::networkGameModification()
 
 	//let the SoundEventHandler know that there is a new game
 	mySoundEventHandler->newGameStarts();
-
-	//check if there are spectators
 }
 
 void gameTableImpl::mouseOverFlipCards(bool front)
