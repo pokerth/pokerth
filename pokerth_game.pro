@@ -200,7 +200,6 @@ HEADERS += src/engine/game.h \
 	src/gui/generic/serverguiwrapper.h \
 	src/gui/qt/gametable/mychancelabel.h \
 	src/gui/qt/serverlistdialog/serverlistdialogimpl.h \
-	src/gui/qt/gametable/mymenubar.h \
 	src/gui/qt/gametable/mytimeoutlabel.h \
 	src/gui/qt/gametable/mynamelabel.h \
 	src/gui/qt/settingsdialog/mystylelistitem.h \
@@ -277,7 +276,6 @@ SOURCES += src/pokerth.cpp \
 	src/core/common/loghelper_client.cpp \
 	src/gui/qt/gametable/mychancelabel.cpp \
 	src/gui/qt/serverlistdialog/serverlistdialogimpl.cpp \
-	src/gui/qt/gametable/mymenubar.cpp \
 	src/gui/qt/gametable/mytimeoutlabel.cpp \
 	src/gui/qt/gametable/mynamelabel.cpp \
 	src/gui/qt/settingsdialog/mystylelistitem.cpp \
