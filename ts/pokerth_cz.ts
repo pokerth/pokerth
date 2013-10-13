@@ -465,7 +465,7 @@ Zkontrolujte, že jste nahrávali platný PokerTH soubor záznamů.</translation
         <translation>Ignorovat hráče</translation>
     </message>
     <message>
-        <source>You will no longer recieve chat messages or game invitations from this user.&lt;br&gt;Do you really want to put player &lt;b&gt;%1&lt;/b&gt; on ignore list?</source>
+        <source>You will no longer receive chat messages or game invitations from this user.&lt;br&gt;Do you really want to put player &lt;b&gt;%1&lt;/b&gt; on ignore list?</source>
         <translation type="obsolete">Od toho hráče již nebudete dostávat zprávy, ani pozvánky do hry.&lt;br&gt;Opravdu chcete přidat hráče &lt;b&gt;%1&lt;/b&gt; do ignore listu?</translation>
     </message>
     <message>
@@ -2250,7 +2250,7 @@ Ostatní hráče můžete pozvat kliknutím pravým tlačítkem na jejich přezd
         <translation type="obsolete">&lt;span style=&apos;color:red;&apos;&gt;Hráč %1 se nemůže připojit do hry %2, protože je zaneprázdněn.&lt;/span&gt;</translation>
     </message>
     <message>
-        <source>You will no longer recieve chat messages or game invitations from this user.&lt;br&gt;Do you really want to put player &lt;b&gt;%1&lt;/b&gt; on ignore list?</source>
+        <source>You will no longer receive chat messages or game invitations from this user.&lt;br&gt;Do you really want to put player &lt;b&gt;%1&lt;/b&gt; on ignore list?</source>
         <translation type="obsolete">Od tohoto uživatele již nebudete přijímat žádné zprávy, ani pozvánky do her.&lt;br&gt;Opravdu chcete přidat uživatele &lt;b&gt;%1&lt;/b&gt; do ignore listu?</translation>
     </message>
     <message>
