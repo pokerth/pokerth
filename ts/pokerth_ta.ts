@@ -456,7 +456,7 @@ Please verify that you are uploading a valid PokerTH log file.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>You will no longer recieve chat messages or game invitations from this user.&lt;br&gt;Do you really want to put player &lt;b&gt;%1&lt;/b&gt; on ignore list?</source>
+        <source>You will no longer receive chat messages or game invitations from this user.&lt;br&gt;Do you really want to put player &lt;b&gt;%1&lt;/b&gt; on ignore list?</source>
         <translation type="obsolete">இந்த நபரிடமிருந்து இனி பேச்சு தகவலோ விளையாடுவதற்கு அழைப்பிதலோ பெற முடியாது.&lt;br&gt;இருந்தும் இந்த விளையாட்டு வீரரை &lt;b&gt;%1&lt;/b&gt; புறக்கணிப்பு பட்டியலில் போட விரும்புகிறீர்களா?</translation>
     </message>
     <message>
@@ -3110,7 +3110,7 @@ You can invite other players with right-click on their nick in the left availabl
         <translation type="obsolete">&lt;span style=&apos;color:red;&apos;&gt;விளையாட்டு வீரர் %1 %2 விளையாட்டில் ஏனெனில் அவர் வேறொரு வேலையில் மும்முரமாக.&lt;/span&gt;</translation>
     </message>
     <message>
-        <source>You will no longer recieve chat messages or game invitations from this user.&lt;br&gt;Do you really want to put player &lt;b&gt;%1&lt;/b&gt; on ignore list?</source>
+        <source>You will no longer receive chat messages or game invitations from this user.&lt;br&gt;Do you really want to put player &lt;b&gt;%1&lt;/b&gt; on ignore list?</source>
         <translation type="obsolete">இனிமேல் இந்த நபரிடமிருந்து உரையாடல் செய்தியோ விளையாட்டு அழைப்பிதலோ பெற முடியாது.&lt;br&gt;நீங்கள் இந்த விளையாட்டு வீரரை  &lt;b&gt;%1&lt;/b&gt; புறக்கணிப்பு பட்டியலில் போட விரும்புகிறீர்களா?</translation>
     </message>
     <message>

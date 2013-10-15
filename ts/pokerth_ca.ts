@@ -473,7 +473,7 @@ Please verify that you are uploading a valid PokerTH log file.</source>
         <translation>Esteu segur que voleu denunciar l&apos;avatar de &quot;%1&quot; com a offensiu?</translation>
     </message>
     <message>
-        <source>You will no longer recieve chat messages or game invitations from this user.&lt;br&gt;Do you really want to put player &lt;b&gt;%1&lt;/b&gt; on ignore list?</source>
+        <source>You will no longer receive chat messages or game invitations from this user.&lt;br&gt;Do you really want to put player &lt;b&gt;%1&lt;/b&gt; on ignore list?</source>
         <translation type="obsolete">No rebreu més missatges del xat o invitacions de partides d&apos;aquest usuari.&lt;br&gt;Realment voleu posar el jugador &lt;b&gt;%1&lt;/b&gt; a la llista per ignorar?</translation>
     </message>
     <message>
@@ -3457,7 +3457,7 @@ Podeu invitar més jugadors fent clic dret al seus noms d&apos;usuari a la llist
         <translation type="obsolete">&lt;span style=&apos;color:red;&apos;&gt;El jugador %1 no pot unir-se a %2 perquè està ocupat.&lt;/span&gt;</translation>
     </message>
     <message>
-        <source>You will no longer recieve chat messages or game invitations from this user.&lt;br&gt;Do you really want to put player &lt;b&gt;%1&lt;/b&gt; on ignore list?</source>
+        <source>You will no longer receive chat messages or game invitations from this user.&lt;br&gt;Do you really want to put player &lt;b&gt;%1&lt;/b&gt; on ignore list?</source>
         <translation type="obsolete">No rebreu més missatges del xat o invitacions de partides d&apos;aquest usuari.&lt;br&gt;Realment voleu posar el jugador &lt;b&gt;%1&lt;/b&gt; a la llista per ignorar?</translation>
     </message>
     <message>
