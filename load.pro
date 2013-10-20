@@ -42,14 +42,14 @@ unix : !mac {
 
 	QMAKE_LIBDIR += lib $${PREFIX}/lib /opt/gsasl/lib
 	INCLUDEPATH += $${PREFIX}/include
-	LIB_DIRS = $${PREFIX}/lib $${PREFIX}/lib64
+	LIB_DIRS = $${PREFIX}/lib $${PREFIX}/lib/$$system(gcc -print-multiarch)
 	BOOST_THREAD = boost_thread boost_thread-mt
 	BOOST_PROGRAM_OPTIONS = boost_program_options boost_program_options-mt
 	BOOST_SYS = boost_system boost_system-mt
 
 
 	#
-	# searching in $PREFIX/lib and $PREFIX/lib64
+	# searching in $PREFIX/lib and $PREFIX/lib/$$system(gcc -print-multiarch)
 	# to override the default '/usr' pass PREFIX
 	# variable to qmake.
 	#
