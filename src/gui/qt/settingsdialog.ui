@@ -1899,7 +1899,7 @@ p, li { white-space: pre-wrap; }
               </spacer>
              </item>
              <item row="4" column="0">
-              <widget class="QCheckBox" name="checkBox_InetGane_AutoLeaveTheTableAfterGameFinished">
+              <widget class="QCheckBox" name="checkBox_InetGame_AutoLeaveTheTableAfterGameFinished">
                <property name="text">
                 <string>Automatically leave the table after the game finished</string>
                </property>
