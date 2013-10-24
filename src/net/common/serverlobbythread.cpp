@@ -1375,7 +1375,8 @@ ServerLobbyThread::HandleNetPacketJoinGame(boost::shared_ptr<SessionData> sessio
 				&& tmpData.gameType != GAME_TYPE_NORMAL && !joinGame.spectateonly()) {
 			SendJoinGameFailed(session, joinGame.gameid(), NTF_NET_JOIN_GUEST_FORBIDDEN);
 		} else if (tmpData.gameType == GAME_TYPE_INVITE_ONLY
-				   && !game->IsPlayerInvited(session->GetPlayerData()->GetUniqueId())) {
+				   && !game->IsPlayerInvited(session->GetPlayerData()->GetUniqueId())
+				   && !joinGame.spectateonly()) {
 			SendJoinGameFailed(session, joinGame.gameid(), NTF_NET_JOIN_NOT_INVITED);
 		} else if (!game->CheckPassword(password)) {
 			SendJoinGameFailed(session, joinGame.gameid(), NTF_NET_JOIN_INVALID_PASSWORD);
