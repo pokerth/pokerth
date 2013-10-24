@@ -1835,7 +1835,7 @@ p, li { white-space: pre-wrap; }
          <item row="0" column="0" colspan="2">
           <widget class="QTabWidget" name="tabWidget_2">
            <property name="currentIndex">
-            <number>1</number>
+            <number>0</number>
            </property>
            <widget class="QWidget" name="tab_2">
             <attribute name="title">
@@ -2075,6 +2075,20 @@ p, li { white-space: pre-wrap; }
                </item>
               </layout>
              </item>
+             <item row="5" column="0">
+              <widget class="QCheckBox" name="checkBox_UseLobbyChat">
+               <property name="text">
+                <string>Show lobby chat</string>
+               </property>
+              </widget>
+             </item>
+             <item row="6" column="0">
+              <widget class="QCheckBox" name="checkBox_InetGane_AutoLeaveTheTableAfterGameFinished">
+               <property name="text">
+                <string>Automatically leave the table after the game finished</string>
+               </property>
+              </widget>
+             </item>
              <item row="2" column="0">
               <layout class="QHBoxLayout" name="horizontalLayout_6">
                <item>
@@ -2161,16 +2175,9 @@ p, li { white-space: pre-wrap; }
               </layout>
              </item>
              <item row="4" column="0">
-              <widget class="QCheckBox" name="checkBox_UseLobbyChat">
+              <widget class="QCheckBox" name="checkBox_allowSpectators">
                <property name="text">
-                <string>Show lobby chat</string>
-               </property>
-              </widget>
-             </item>
-             <item row="5" column="0">
-              <widget class="QCheckBox" name="checkBox_InetGane_AutoLeaveTheTableAfterGameFinished">
-               <property name="text">
-                <string>Automatically leave the table after the game finished</string>
+                <string>Allow spectators to watch the game</string>
                </property>
               </widget>
              </item>

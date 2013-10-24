@@ -382,10 +382,9 @@ void gameLobbyDialogImpl::createGame()
 
 		label_SmallBlind->setText(QString("%L1").arg(gameData.firstSmallBlind));
 		label_StartCash->setText(QString("%L1").arg(gameData.startMoney));
-
 		updateDialogBlinds(gameData);
-
 		label_GameTiming->setText(QString::number(gameData.playerActionTimeoutSec)+" "+tr("sec (action)")+"\n"+QString::number(gameData.delayBetweenHandsSec)+" "+tr("sec (hand delay)"));
+//		TODO gameData.allowSpectators = myCreateInternetGameDialog->checkBox_allowSpectators->isChecked();
 
 		mySession->clientCreateGame(gameData, currentGameName.toUtf8().constData(), myCreateInternetGameDialog->lineEdit_Password->text().toUtf8().constData());
 

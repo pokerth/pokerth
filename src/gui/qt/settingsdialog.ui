@@ -1885,7 +1885,7 @@ p, li { white-space: pre-wrap; }
                </item>
               </layout>
              </item>
-             <item row="5" column="0">
+             <item row="6" column="0">
               <spacer name="spacer">
                <property name="orientation">
                 <enum>Qt::Vertical</enum>
@@ -1902,6 +1902,13 @@ p, li { white-space: pre-wrap; }
               <widget class="QCheckBox" name="checkBox_InetGane_AutoLeaveTheTableAfterGameFinished">
                <property name="text">
                 <string>Automatically leave the table after the game finished</string>
+               </property>
+              </widget>
+             </item>
+             <item row="5" column="0">
+              <widget class="QCheckBox" name="checkBox_allowSpectators">
+               <property name="text">
+                <string>Allow spectators to watch the game</string>
                </property>
               </widget>
              </item>

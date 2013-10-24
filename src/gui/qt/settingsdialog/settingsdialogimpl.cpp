@@ -273,6 +273,7 @@ void settingsDialogImpl::prepareDialog()
 		QTreeWidgetItem *item = new QTreeWidgetItem(treeWidget_internetGameIgnoredPlayers);
 		item->setText(0, QString::fromUtf8(it5->c_str()));
 	}
+	checkBox_allowSpectators->setChecked(myConfig->readConfigInt("InternetGameAllowSpectators"));
 
 	//Interface
 	comboBox_switchLanguage->setCurrentIndex(comboBox_switchLanguage->findData(QString::fromUtf8(myConfig->readConfigString("Language").c_str()).section('_', 0, 0)));
@@ -721,7 +722,7 @@ void settingsDialogImpl::isAccepted()
 		playerIgnoreList.push_back(QString("%1").arg(treeWidget_internetGameIgnoredPlayers->topLevelItem(k)->text(0)).toUtf8().constData());
 	}
 	myConfig->writeConfigStringList("PlayerIgnoreList", playerIgnoreList);
-
+	myConfig->writeConfigInt("InternetGameAllowSpectators", checkBox_allowSpectators->isChecked());
 
 	// 	Interface
 	myConfig->writeConfigString("Language", comboBox_switchLanguage->itemData(comboBox_switchLanguage->currentIndex()).toString().toUtf8().constData());

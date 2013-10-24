@@ -64,7 +64,7 @@ ConfigFile::ConfigFile(char *argv0, bool readonly) : noWriteAccess(readonly)
 	myConfigState = OK;
 
 	// !!!! Revisionsnummer der Configdefaults !!!!!
-	configRev = 102;
+	configRev = 103;
 
 	//standard defaults
 	logOnOffDefault = "1";
@@ -242,6 +242,7 @@ ConfigFile::ConfigFile(char *argv0, bool readonly) : noWriteAccess(readonly)
 	configList.push_back(ConfigInfo("InternetGamePassword", CONFIG_TYPE_STRING, ""));
 	configList.push_back(ConfigInfo("InternetGameType", CONFIG_TYPE_INT, "0"));
 	configList.push_back(ConfigInfo("InternetGameName", CONFIG_TYPE_STRING, "My Online Game"));
+	configList.push_back(ConfigInfo("InternetGameAllowSpectators", CONFIG_TYPE_INT, "1"));
 	configList.push_back(ConfigInfo("UseLobbyChat", CONFIG_TYPE_INT, "1"));
 	configList.push_back(ConfigInfo("UseAdminIRC", CONFIG_TYPE_INT, "0"));
 	configList.push_back(ConfigInfo("AdminIRCServerAddress", CONFIG_TYPE_STRING, "chat.freenode.net"));
