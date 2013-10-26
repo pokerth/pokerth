@@ -465,6 +465,7 @@ const int NetGameInfo::kPlayerActionTimeoutFieldNumber;
 const int NetGameInfo::kFirstSmallBlindFieldNumber;
 const int NetGameInfo::kStartMoneyFieldNumber;
 const int NetGameInfo::kManualBlindsFieldNumber;
+const int NetGameInfo::kAllowSpectatorsFieldNumber;
 #endif  // !_MSC_VER
 
 NetGameInfo::NetGameInfo()
@@ -496,6 +497,7 @@ void NetGameInfo::SharedCtor() {
   playeractiontimeout_ = 0u;
   firstsmallblind_ = 0u;
   startmoney_ = 0u;
+  allowspectators_ = true;
   ::memset(_has_bits_, 0, sizeof(_has_bits_));
 }
 
@@ -556,6 +558,7 @@ void NetGameInfo::Clear() {
     playeractiontimeout_ = 0u;
     firstsmallblind_ = 0u;
     startmoney_ = 0u;
+    allowspectators_ = true;
   }
   manualblinds_.Clear();
   ::memset(_has_bits_, 0, sizeof(_has_bits_));
@@ -798,6 +801,22 @@ bool NetGameInfo::MergePartialFromCodedStream(
         } else {
           goto handle_uninterpreted;
         }
+        if (input->ExpectTag(120)) goto parse_allowSpectators;
+        break;
+      }
+
+      // optional bool allowSpectators = 15 [default = true];
+      case 15: {
+        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+            ::google::protobuf::internal::WireFormatLite::WIRETYPE_VARINT) {
+         parse_allowSpectators:
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   bool, ::google::protobuf::internal::WireFormatLite::TYPE_BOOL>(
+                 input, &allowspectators_)));
+          set_has_allowspectators();
+        } else {
+          goto handle_uninterpreted;
+        }
         if (input->ExpectAtEnd()) return true;
         break;
       }
@@ -898,6 +917,11 @@ void NetGameInfo::SerializeWithCachedSizes(
       this->manualblinds(i), output);
   }
 
+  // optional bool allowSpectators = 15 [default = true];
+  if (has_allowspectators()) {
+    ::google::protobuf::internal::WireFormatLite::WriteBool(15, this->allowspectators(), output);
+  }
+
 }
 
 int NetGameInfo::ByteSize() const {
@@ -994,6 +1018,11 @@ int NetGameInfo::ByteSize() const {
           this->startmoney());
     }
 
+    // optional bool allowSpectators = 15 [default = true];
+    if (has_allowspectators()) {
+      total_size += 1 + 1;
+    }
+
   }
   // repeated uint32 manualBlinds = 14 [packed = true];
   {
@@ -1068,6 +1097,9 @@ void NetGameInfo::MergeFrom(const NetGameInfo& from) {
     if (from.has_startmoney()) {
       set_startmoney(from.startmoney());
     }
+    if (from.has_allowspectators()) {
+      set_allowspectators(from.allowspectators());
+    }
   }
 }
 
@@ -1099,6 +1131,7 @@ void NetGameInfo::Swap(NetGameInfo* other) {
     std::swap(firstsmallblind_, other->firstsmallblind_);
     std::swap(startmoney_, other->startmoney_);
     manualblinds_.Swap(&other->manualblinds_);
+    std::swap(allowspectators_, other->allowspectators_);
     std::swap(_has_bits_[0], other->_has_bits_[0]);
     std::swap(_cached_size_, other->_cached_size_);
   }

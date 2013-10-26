@@ -352,6 +352,7 @@ void gameLobbyDialogImpl::createGame()
 		gameData.delayBetweenHandsSec = myCreateInternetGameDialog->spinBox_netDelayBetweenHands->value();
 		gameData.playerActionTimeoutSec = myCreateInternetGameDialog->spinBox_netTimeOutPlayerAction->value();
 		gameData.gameType = GameType(myCreateInternetGameDialog->comboBox_gameType->itemData(myCreateInternetGameDialog->comboBox_gameType->currentIndex(), Qt::UserRole).toInt());
+		gameData.allowSpectators = myCreateInternetGameDialog->checkBox_allowSpectators->isChecked();
 
 		currentGameName = myCreateInternetGameDialog->lineEdit_gameName->text().simplified();
 
@@ -384,7 +385,6 @@ void gameLobbyDialogImpl::createGame()
 		label_StartCash->setText(QString("%L1").arg(gameData.startMoney));
 		updateDialogBlinds(gameData);
 		label_GameTiming->setText(QString::number(gameData.playerActionTimeoutSec)+" "+tr("sec (action)")+"\n"+QString::number(gameData.delayBetweenHandsSec)+" "+tr("sec (hand delay)"));
-//		TODO gameData.allowSpectators = myCreateInternetGameDialog->checkBox_allowSpectators->isChecked();
 
 		mySession->clientCreateGame(gameData, currentGameName.toUtf8().constData(), myCreateInternetGameDialog->lineEdit_Password->text().toUtf8().constData());
 

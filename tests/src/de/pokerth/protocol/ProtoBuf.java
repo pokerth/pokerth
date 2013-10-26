@@ -628,6 +628,16 @@ public final class ProtoBuf {
      * <code>repeated uint32 manualBlinds = 14 [packed = true];</code>
      */
     int getManualBlinds(int index);
+
+    // optional bool allowSpectators = 15 [default = true];
+    /**
+     * <code>optional bool allowSpectators = 15 [default = true];</code>
+     */
+    boolean hasAllowSpectators();
+    /**
+     * <code>optional bool allowSpectators = 15 [default = true];</code>
+     */
+    boolean getAllowSpectators();
   }
   /**
    * Protobuf type {@code NetGameInfo}
@@ -768,6 +778,11 @@ public final class ProtoBuf {
                 manualBlinds_.add(input.readUInt32());
               }
               input.popLimit(limit);
+              break;
+            }
+            case 120: {
+              bitField0_ |= 0x00002000;
+              allowSpectators_ = input.readBool();
               break;
             }
           }
@@ -1270,6 +1285,22 @@ public final class ProtoBuf {
     }
     private int manualBlindsMemoizedSerializedSize = -1;
 
+    // optional bool allowSpectators = 15 [default = true];
+    public static final int ALLOWSPECTATORS_FIELD_NUMBER = 15;
+    private boolean allowSpectators_;
+    /**
+     * <code>optional bool allowSpectators = 15 [default = true];</code>
+     */
+    public boolean hasAllowSpectators() {
+      return ((bitField0_ & 0x00002000) == 0x00002000);
+    }
+    /**
+     * <code>optional bool allowSpectators = 15 [default = true];</code>
+     */
+    public boolean getAllowSpectators() {
+      return allowSpectators_;
+    }
+
     private void initFields() {
       gameName_ = "";
       netGameType_ = de.pokerth.protocol.ProtoBuf.NetGameInfo.NetGameType.normalGame;
@@ -1285,6 +1316,7 @@ public final class ProtoBuf {
       firstSmallBlind_ = 0;
       startMoney_ = 0;
       manualBlinds_ = java.util.Collections.emptyList();
+      allowSpectators_ = true;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -1384,6 +1416,9 @@ public final class ProtoBuf {
       for (int i = 0; i < manualBlinds_.size(); i++) {
         output.writeUInt32NoTag(manualBlinds_.get(i));
       }
+      if (((bitField0_ & 0x00002000) == 0x00002000)) {
+        output.writeBool(15, allowSpectators_);
+      }
     }
 
     private int memoizedSerializedSize = -1;
@@ -1457,6 +1492,10 @@ public final class ProtoBuf {
               .computeInt32SizeNoTag(dataSize);
         }
         manualBlindsMemoizedSerializedSize = dataSize;
+      }
+      if (((bitField0_ & 0x00002000) == 0x00002000)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBoolSize(15, allowSpectators_);
       }
       memoizedSerializedSize = size;
       return size;
@@ -1577,6 +1616,8 @@ public final class ProtoBuf {
         bitField0_ = (bitField0_ & ~0x00001000);
         manualBlinds_ = java.util.Collections.emptyList();
         bitField0_ = (bitField0_ & ~0x00002000);
+        allowSpectators_ = true;
+        bitField0_ = (bitField0_ & ~0x00004000);
         return this;
       }
 
@@ -1657,6 +1698,10 @@ public final class ProtoBuf {
           bitField0_ = (bitField0_ & ~0x00002000);
         }
         result.manualBlinds_ = manualBlinds_;
+        if (((from_bitField0_ & 0x00004000) == 0x00004000)) {
+          to_bitField0_ |= 0x00002000;
+        }
+        result.allowSpectators_ = allowSpectators_;
         result.bitField0_ = to_bitField0_;
         return result;
       }
@@ -1713,6 +1758,9 @@ public final class ProtoBuf {
             manualBlinds_.addAll(other.manualBlinds_);
           }
           
+        }
+        if (other.hasAllowSpectators()) {
+          setAllowSpectators(other.getAllowSpectators());
         }
         return this;
       }
@@ -2353,6 +2401,39 @@ public final class ProtoBuf {
       public Builder clearManualBlinds() {
         manualBlinds_ = java.util.Collections.emptyList();
         bitField0_ = (bitField0_ & ~0x00002000);
+        
+        return this;
+      }
+
+      // optional bool allowSpectators = 15 [default = true];
+      private boolean allowSpectators_ = true;
+      /**
+       * <code>optional bool allowSpectators = 15 [default = true];</code>
+       */
+      public boolean hasAllowSpectators() {
+        return ((bitField0_ & 0x00004000) == 0x00004000);
+      }
+      /**
+       * <code>optional bool allowSpectators = 15 [default = true];</code>
+       */
+      public boolean getAllowSpectators() {
+        return allowSpectators_;
+      }
+      /**
+       * <code>optional bool allowSpectators = 15 [default = true];</code>
+       */
+      public Builder setAllowSpectators(boolean value) {
+        bitField0_ |= 0x00004000;
+        allowSpectators_ = value;
+        
+        return this;
+      }
+      /**
+       * <code>optional bool allowSpectators = 15 [default = true];</code>
+       */
+      public Builder clearAllowSpectators() {
+        bitField0_ = (bitField0_ & ~0x00004000);
+        allowSpectators_ = true;
         
         return this;
       }

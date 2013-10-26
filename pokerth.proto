@@ -110,6 +110,7 @@ message NetGameInfo {
 	required	uint32			firstSmallBlind = 12;
 	required	uint32			startMoney = 13;
 	repeated	uint32			manualBlinds = 14 [packed = true];
+	optional	bool			allowSpectators = 15 [default = true];
 }
 
 // Message Part containing player result.

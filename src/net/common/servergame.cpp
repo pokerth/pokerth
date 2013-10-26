@@ -1144,7 +1144,8 @@ ServerGame::CheckSettings(const GameData &data, const string &password, ServerMo
 				|| (data.raiseIntervalMode != RAISE_ON_HANDNUMBER)
 				|| (data.raiseMode != DOUBLE_BLINDS)
 				|| (data.raiseSmallBlindEveryHandsValue != RANKING_GAME_RAISE_EVERY_HAND)
-				|| (!password.empty())) {
+				|| (!password.empty())
+				|| (!data.allowSpectators)) {
 			retVal = false;
 		}
 	}

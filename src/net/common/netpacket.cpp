@@ -98,6 +98,7 @@ void
 NetPacket::SetGameData(const GameData &inData, NetGameInfo &outData)
 {
 	outData.set_netgametype(static_cast<NetGameInfo::NetGameType>(inData.gameType));
+	outData.set_allowspectators(inData.allowSpectators);
 	outData.set_maxnumplayers(inData.maxNumberOfPlayers);
 	outData.set_raiseintervalmode(static_cast<NetGameInfo::RaiseIntervalMode>(inData.raiseIntervalMode));
 	if (inData.raiseIntervalMode == RAISE_ON_HANDNUMBER) {
@@ -124,6 +125,7 @@ NetPacket::GetGameData(const NetGameInfo &inData, GameData &outData)
 	int numManualBlinds					= inData.manualblinds_size();
 
 	outData.gameType					= static_cast<GameType>(inData.netgametype());
+	outData.allowSpectators				= inData.allowspectators();
 	outData.maxNumberOfPlayers			= inData.maxnumplayers();
 	outData.raiseIntervalMode			= static_cast<RaiseIntervalMode>(inData.raiseintervalmode());
 	outData.raiseSmallBlindEveryHandsValue = outData.raiseSmallBlindEveryMinutesValue = 0;

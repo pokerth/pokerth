@@ -746,6 +746,13 @@ class NetGameInfo : public ::google::protobuf::MessageLite {
   inline ::google::protobuf::RepeatedField< ::google::protobuf::uint32 >*
       mutable_manualblinds();
 
+  // optional bool allowSpectators = 15 [default = true];
+  inline bool has_allowspectators() const;
+  inline void clear_allowspectators();
+  static const int kAllowSpectatorsFieldNumber = 15;
+  inline bool allowspectators() const;
+  inline void set_allowspectators(bool value);
+
   // @@protoc_insertion_point(class_scope:NetGameInfo)
  private:
   inline void set_has_gamename();
@@ -774,6 +781,8 @@ class NetGameInfo : public ::google::protobuf::MessageLite {
   inline void clear_has_firstsmallblind();
   inline void set_has_startmoney();
   inline void clear_has_startmoney();
+  inline void set_has_allowspectators();
+  inline void clear_has_allowspectators();
 
   ::std::string* gamename_;
   int netgametype_;
@@ -790,9 +799,10 @@ class NetGameInfo : public ::google::protobuf::MessageLite {
   ::google::protobuf::uint32 startmoney_;
   ::google::protobuf::RepeatedField< ::google::protobuf::uint32 > manualblinds_;
   mutable int _manualblinds_cached_byte_size_;
+  bool allowspectators_;
 
   mutable int _cached_size_;
-  ::google::protobuf::uint32 _has_bits_[(14 + 31) / 32];
+  ::google::protobuf::uint32 _has_bits_[(15 + 31) / 32];
 
   #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
   friend void  protobuf_AddDesc_pokerth_2eproto_impl();
@@ -11666,6 +11676,28 @@ NetGameInfo::manualblinds() const {
 inline ::google::protobuf::RepeatedField< ::google::protobuf::uint32 >*
 NetGameInfo::mutable_manualblinds() {
   return &manualblinds_;
+}
+
+// optional bool allowSpectators = 15 [default = true];
+inline bool NetGameInfo::has_allowspectators() const {
+  return (_has_bits_[0] & 0x00004000u) != 0;
+}
+inline void NetGameInfo::set_has_allowspectators() {
+  _has_bits_[0] |= 0x00004000u;
+}
+inline void NetGameInfo::clear_has_allowspectators() {
+  _has_bits_[0] &= ~0x00004000u;
+}
+inline void NetGameInfo::clear_allowspectators() {
+  allowspectators_ = true;
+  clear_has_allowspectators();
+}
+inline bool NetGameInfo::allowspectators() const {
+  return allowspectators_;
+}
+inline void NetGameInfo::set_allowspectators(bool value) {
+  set_has_allowspectators();
+  allowspectators_ = value;
 }
 
 // -------------------------------------------------------------------
