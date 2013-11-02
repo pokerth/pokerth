@@ -1370,25 +1370,32 @@ ServerLobbyThread::HandleNetPacketJoinGame(boost::shared_ptr<SessionData> sessio
 	if (pos != m_gameMap.end()) {
 		boost::shared_ptr<ServerGame> game = pos->second;
 		const GameData &tmpData = game->GetGameData();
-		// As guest, you are only allowed to join normal games or to join as spectator.
-		if (session->GetPlayerData()->GetRights() == PLAYER_RIGHTS_GUEST
-				&& tmpData.gameType != GAME_TYPE_NORMAL && !joinGame.spectateonly()) {
-			SendJoinGameFailed(session, joinGame.gameid(), NTF_NET_JOIN_GUEST_FORBIDDEN);
-		} else if (tmpData.gameType == GAME_TYPE_INVITE_ONLY
-				   && !game->IsPlayerInvited(session->GetPlayerData()->GetUniqueId())
-				   && !joinGame.spectateonly()) {
-			SendJoinGameFailed(session, joinGame.gameid(), NTF_NET_JOIN_NOT_INVITED);
-		} else if (!game->CheckPassword(password)) {
-			SendJoinGameFailed(session, joinGame.gameid(), NTF_NET_JOIN_INVALID_PASSWORD);
-		} else if (tmpData.gameType == GAME_TYPE_RANKING
-				   && !joinGame.spectateonly()
-				   && session->GetClientAddr() != SERVER_ADDRESS_LOCALHOST_STR
-				   && session->GetClientAddr() != SERVER_ADDRESS_LOCALHOST_STR_V4V6
-				   && session->GetClientAddr() != SERVER_ADDRESS_LOCALHOST_STR_V4
-				   && game->IsClientAddressConnected(session->GetClientAddr())) {
-			SendJoinGameFailed(session, joinGame.gameid(), NTF_NET_JOIN_IP_BLOCKED);
+		if (joinGame.spectateonly()) {
+			if (!tmpData.allowSpectators) {
+				SendJoinGameFailed(session, joinGame.gameid(), NTF_NET_JOIN_NO_SPECTATORS);
+			} else {
+				MoveSessionToGame(game, session, joinGame.autoleave(), true);
+			}
 		} else {
-			MoveSessionToGame(game, session, joinGame.autoleave(), joinGame.spectateonly());
+			// As guest, you are only allowed to join normal games.
+			if (session->GetPlayerData()->GetRights() == PLAYER_RIGHTS_GUEST
+					&& tmpData.gameType != GAME_TYPE_NORMAL) {
+				SendJoinGameFailed(session, joinGame.gameid(), NTF_NET_JOIN_GUEST_FORBIDDEN);
+			} else if (tmpData.gameType == GAME_TYPE_INVITE_ONLY
+					   && !game->IsPlayerInvited(session->GetPlayerData()->GetUniqueId())) {
+				SendJoinGameFailed(session, joinGame.gameid(), NTF_NET_JOIN_NOT_INVITED);
+			} else if (!game->CheckPassword(password)) {
+				SendJoinGameFailed(session, joinGame.gameid(), NTF_NET_JOIN_INVALID_PASSWORD);
+			} else if (tmpData.gameType == GAME_TYPE_RANKING
+					   && !joinGame.spectateonly()
+					   && session->GetClientAddr() != SERVER_ADDRESS_LOCALHOST_STR
+					   && session->GetClientAddr() != SERVER_ADDRESS_LOCALHOST_STR_V4V6
+					   && session->GetClientAddr() != SERVER_ADDRESS_LOCALHOST_STR_V4
+					   && game->IsClientAddressConnected(session->GetClientAddr())) {
+				SendJoinGameFailed(session, joinGame.gameid(), NTF_NET_JOIN_IP_BLOCKED);
+			} else {
+				MoveSessionToGame(game, session, joinGame.autoleave(), false);
+			}
 		}
 	} else {
 		SendJoinGameFailed(session, joinGame.gameid(), NTF_NET_JOIN_GAME_INVALID);
@@ -2098,6 +2105,9 @@ ServerLobbyThread::SendJoinGameFailed(boost::shared_ptr<SessionData> s, unsigned
 		break;
 	case NTF_NET_JOIN_REJOIN_FAILED :
 		netJoinFailed->set_joingamefailurereason(JoinGameFailedMessage::rejoinFailed);
+		break;
+	case NTF_NET_JOIN_NO_SPECTATORS :
+		netJoinFailed->set_joingamefailurereason(JoinGameFailedMessage::noSpectatorsAllowed);
 		break;
 	default :
 		netJoinFailed->set_joingamefailurereason(JoinGameFailedMessage::invalidGame);

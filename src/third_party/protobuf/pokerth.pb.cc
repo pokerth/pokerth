@@ -8386,6 +8386,7 @@ bool JoinGameFailedMessage_JoinGameFailureReason_IsValid(int value) {
     case 9:
     case 10:
     case 11:
+    case 12:
       return true;
     default:
       return false;
@@ -8404,6 +8405,7 @@ const JoinGameFailedMessage_JoinGameFailureReason JoinGameFailedMessage::badGame
 const JoinGameFailedMessage_JoinGameFailureReason JoinGameFailedMessage::invalidSettings;
 const JoinGameFailedMessage_JoinGameFailureReason JoinGameFailedMessage::ipAddressBlocked;
 const JoinGameFailedMessage_JoinGameFailureReason JoinGameFailedMessage::rejoinFailed;
+const JoinGameFailedMessage_JoinGameFailureReason JoinGameFailedMessage::noSpectatorsAllowed;
 const JoinGameFailedMessage_JoinGameFailureReason JoinGameFailedMessage::JoinGameFailureReason_MIN;
 const JoinGameFailedMessage_JoinGameFailureReason JoinGameFailedMessage::JoinGameFailureReason_MAX;
 const int JoinGameFailedMessage::JoinGameFailureReason_ARRAYSIZE;

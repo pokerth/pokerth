@@ -130,10 +130,11 @@
 #define NTF_NET_JOIN_INVALID_SETTINGS	218
 #define NTF_NET_JOIN_IP_BLOCKED			219
 #define NTF_NET_JOIN_REJOIN_FAILED		220
+#define NTF_NET_JOIN_NO_SPECTATORS		221
 
 // Notifications - version
-#define NTF_NET_NEW_RELEASE_AVAILABLE	221
-#define NTF_NET_OUTDATED_BETA			222
+#define NTF_NET_NEW_RELEASE_AVAILABLE	231
+#define NTF_NET_OUTDATED_BETA			232
 
 // This is an internal message which is not reported.
 #define MSG_SOCK_INTERNAL_PENDING		0

@@ -201,11 +201,12 @@ enum JoinGameFailedMessage_JoinGameFailureReason {
   JoinGameFailedMessage_JoinGameFailureReason_badGameName = 8,
   JoinGameFailedMessage_JoinGameFailureReason_invalidSettings = 9,
   JoinGameFailedMessage_JoinGameFailureReason_ipAddressBlocked = 10,
-  JoinGameFailedMessage_JoinGameFailureReason_rejoinFailed = 11
+  JoinGameFailedMessage_JoinGameFailureReason_rejoinFailed = 11,
+  JoinGameFailedMessage_JoinGameFailureReason_noSpectatorsAllowed = 12
 };
 bool JoinGameFailedMessage_JoinGameFailureReason_IsValid(int value);
 const JoinGameFailedMessage_JoinGameFailureReason JoinGameFailedMessage_JoinGameFailureReason_JoinGameFailureReason_MIN = JoinGameFailedMessage_JoinGameFailureReason_invalidGame;
-const JoinGameFailedMessage_JoinGameFailureReason JoinGameFailedMessage_JoinGameFailureReason_JoinGameFailureReason_MAX = JoinGameFailedMessage_JoinGameFailureReason_rejoinFailed;
+const JoinGameFailedMessage_JoinGameFailureReason JoinGameFailedMessage_JoinGameFailureReason_JoinGameFailureReason_MAX = JoinGameFailedMessage_JoinGameFailureReason_noSpectatorsAllowed;
 const int JoinGameFailedMessage_JoinGameFailureReason_JoinGameFailureReason_ARRAYSIZE = JoinGameFailedMessage_JoinGameFailureReason_JoinGameFailureReason_MAX + 1;
 
 enum GamePlayerLeftMessage_GamePlayerLeftReason {
@@ -4077,6 +4078,7 @@ class JoinGameFailedMessage : public ::google::protobuf::MessageLite {
   static const JoinGameFailureReason invalidSettings = JoinGameFailedMessage_JoinGameFailureReason_invalidSettings;
   static const JoinGameFailureReason ipAddressBlocked = JoinGameFailedMessage_JoinGameFailureReason_ipAddressBlocked;
   static const JoinGameFailureReason rejoinFailed = JoinGameFailedMessage_JoinGameFailureReason_rejoinFailed;
+  static const JoinGameFailureReason noSpectatorsAllowed = JoinGameFailedMessage_JoinGameFailureReason_noSpectatorsAllowed;
   static inline bool JoinGameFailureReason_IsValid(int value) {
     return JoinGameFailedMessage_JoinGameFailureReason_IsValid(value);
   }

@@ -326,6 +326,7 @@ message JoinGameFailedMessage {
 		invalidSettings = 9;
 		ipAddressBlocked = 10;
 		rejoinFailed = 11;
+		noSpectatorsAllowed = 12;
 	}
 	required	JoinGameFailureReason	joinGameFailureReason = 2;
 }

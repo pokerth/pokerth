@@ -18994,6 +18994,10 @@ public final class ProtoBuf {
        * <code>rejoinFailed = 11;</code>
        */
       rejoinFailed(10, 11),
+      /**
+       * <code>noSpectatorsAllowed = 12;</code>
+       */
+      noSpectatorsAllowed(11, 12),
       ;
 
       /**
@@ -19040,6 +19044,10 @@ public final class ProtoBuf {
        * <code>rejoinFailed = 11;</code>
        */
       public static final int rejoinFailed_VALUE = 11;
+      /**
+       * <code>noSpectatorsAllowed = 12;</code>
+       */
+      public static final int noSpectatorsAllowed_VALUE = 12;
 
 
       public final int getNumber() { return value; }
@@ -19057,6 +19065,7 @@ public final class ProtoBuf {
           case 9: return invalidSettings;
           case 10: return ipAddressBlocked;
           case 11: return rejoinFailed;
+          case 12: return noSpectatorsAllowed;
           default: return null;
         }
       }
