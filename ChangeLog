@@ -1,3 +1,6 @@
+2013-11-02 version 1.1 beta3
+- New option to allow/disallow spectators when creating a game (#215)
+
 2013-10-12 version 1.1 beta2
 - BUGFIX: Now you are able to click the menu buttons during a local game again (#203)
 - BUGFIX: Idle players are shown correctly if they join YOUR game (#198)
