@@ -407,7 +407,8 @@ unix:!mac {
 	!android{
 		LIBPATH += $${PREFIX}/lib /opt/gsasl/lib
 		LIB_DIRS = $${PREFIX}/lib \
-			$${PREFIX}/lib64
+			$${PREFIX}/lib64 \
+			$$system(qmake -query QT_INSTALL_LIBS)
 	}
 	android{
 		LIBPATH += $${PREFIX}/lib/armv7
@@ -426,7 +427,7 @@ unix:!mac {
 	BOOST_RANDOM = boost_random \
 		boost_random-mt
 
-	# searching in $PREFIX/lib and $PREFIX/lib64
+	# searching in $PREFIX/lib, $PREFIX/lib64 and $$system(qmake -query QT_INSTALL_LIBS)
 	# to override the default '/usr' pass PREFIX
 	# variable to qmake.
 	for(dir, LIB_DIRS):exists($$dir) {
