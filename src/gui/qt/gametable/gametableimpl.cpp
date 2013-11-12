@@ -449,6 +449,7 @@ gameTableImpl::gameTableImpl(ConfigFile *c, QMainWindow *parent)
 	pushButton_showMyCards->hide();
 
 	spectatorIcon = new QLabel(this);
+	spectatorNumberLabel = new QLabel(this);
 
 	//style Game Table
 	refreshGameTableStyle();
@@ -3594,6 +3595,7 @@ void gameTableImpl::networkGameModification()
 #endif
 		blinkingStartButtonAnimationTimer->stop();
 		spectatorIcon->show();
+		spectatorNumberLabel->show();
 		refreshSpectatorsDisplay();
 	}
 	if(myStartWindow->getSession()->getGameType() == Session::GAME_TYPE_NETWORK) {
@@ -3603,6 +3605,7 @@ void gameTableImpl::networkGameModification()
 		pushButton_break->hide();
 #endif
 		spectatorIcon->hide();
+		spectatorNumberLabel->hide();
 	}
 	//Set the playing mode to "manual"
 #ifdef GUI_800x480
@@ -4272,6 +4275,7 @@ void gameTableImpl::refreshGameTableStyle()
 	label_handNumber->setText(HandString+":");
 	label_gameNumber->setText(GameString+":");
 
+	myGameTableStyle->setSpectatorNumberLabelStyle(spectatorNumberLabel);
 }
 
 void gameTableImpl::saveGameTableGeometry()
@@ -4470,6 +4474,10 @@ void gameTableImpl::refreshSpectatorsDisplay()
 		int iconY = 2;
 		spectatorIcon->move(iconX,iconY);
 		spectatorIcon->setPixmap(spectatorPix);
+		int labelX = this->centralWidget()->geometry().width() - spectatorPix.width() - 1;
+		int labelY = spectatorPix.height()+2;
+		spectatorNumberLabel->setGeometry(labelX, labelY, 32, 14);
+		spectatorNumberLabel->setText(QString("%1").arg(info.spectatorsDuringGame.size()));
 
 		QString spectatorList = QString("<b>"+tr("Spectators")+":</b><br>");
 		PlayerIdList::const_iterator i = info.spectatorsDuringGame.begin();
@@ -4481,9 +4489,12 @@ void gameTableImpl::refreshSpectatorsDisplay()
 		}
 		spectatorList.remove(spectatorList.size()-4,4);
 		spectatorIcon->setToolTip(spectatorList);
+		spectatorNumberLabel->setToolTip(spectatorList);
 	} else {
 		spectatorIcon->setToolTip("");
 		spectatorIcon->clear();
+		spectatorNumberLabel->setToolTip("");
+		spectatorNumberLabel->clear();
 	}
 }
 
