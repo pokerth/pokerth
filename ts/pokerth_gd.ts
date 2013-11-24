@@ -887,7 +887,7 @@ Dh&apos;fhaoidte gum fàillig le luchdadh suas aig faidhlichean loga ma tha thu 
         <location filename="../src/gui/qt/aboutpokerth.ui" line="31"/>
         <location filename="../src/gui/qt/gui_800x480/aboutpokerth_800x480.ui" line="55"/>
         <source>About</source>
-        <translation>Mu dheidhinn</translation>
+        <translation>Mu dhèidhinn</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/aboutpokerth.ui" line="88"/>
@@ -944,7 +944,7 @@ p, li { white-space: pre-wrap; }
         <location filename="../src/gui/qt/aboutpokerth.ui" line="162"/>
         <location filename="../src/gui/qt/gui_800x480/aboutpokerth_800x480.ui" line="199"/>
         <source>Thanks to</source>
-        <translation>Taing do</translation>
+        <translation>Taing</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/aboutpokerth.ui" line="195"/>
@@ -1718,7 +1718,7 @@ p, li { white-space: pre-wrap; }
         <location filename="../src/gui/qt/gamelobbydialog.ui" line="632"/>
         <location filename="../src/gui/qt/gui_800x480/gamelobbydialog_800x480.ui" line="330"/>
         <source>Join &amp;any game</source>
-        <translation type="unfinished">Gabh an ge&amp;ama s bith</translation>
+        <translation>Gabh an ge&amp;ama sam bith</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog.ui" line="659"/>
@@ -1929,7 +1929,7 @@ p, li { white-space: pre-wrap; }
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="739"/>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="910"/>
         <source>running games: %1</source>
-        <translation>geamannan gan ruith: %1</translation>
+        <translation>geamannan &apos;gan ruith: %1</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="740"/>
@@ -3914,7 +3914,7 @@ p, li { white-space: pre-wrap; }
         <location filename="../src/gui/qt/gui_800x480/joinnetworkgamedialog_800x480.ui" line="111"/>
         <location filename="../src/gui/qt/joinnetworkgamedialog.ui" line="87"/>
         <source>myServerProfile1</source>
-        <translation>pròifilFrithealaicheAgam1</translation>
+        <translation>Frithealaiche1</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gui_800x480/joinnetworkgamedialog_800x480.ui" line="68"/>
@@ -3962,7 +3962,7 @@ A bheil thu airson sgrìobhadh thairis air?</translation>
     <message>
         <location filename="../src/gui/qt/joinnetworkgamedialog/joinnetworkgamedialogimpl.cpp" line="264"/>
         <source>Read Server-Profile List Error</source>
-        <translation>A&apos; leughadh liosta pròifil nam  frithealaiche-Mearachd fhaidhle</translation>
+        <translation>A&apos; leughadh liosta pròifil nam frithealaiche-Mearachd fhaidhle</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/joinnetworkgamedialog/joinnetworkgamedialogimpl.cpp" line="265"/>
@@ -4133,7 +4133,7 @@ A bheil thu airson sgrìobhadh thairis air?</translation>
         <location filename="../src/gui/qt/gui_800x480/newgamedialog_800x480.ui" line="202"/>
         <location filename="../src/gui/qt/newgamedialog.ui" line="107"/>
         <source>Game Speed:</source>
-        <translation>Astar a&apos; gheama:</translation>
+        <translation>Luaths a&apos; gheama:</translation>
     </message>
 </context>
 <context>
@@ -4508,7 +4508,7 @@ Feuch an cuir thu a-steach dealbh dligheach!</translation>
         <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="1284"/>
         <location filename="../src/gui/qt/settingsdialog.ui" line="1088"/>
         <source>Game Speed:</source>
-        <translation>Astar a&apos; gheama:</translation>
+        <translation>Luaths a&apos; gheama:</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="1309"/>
@@ -5119,7 +5119,7 @@ Thèid luach a&apos; chiad small blind seo a shuidheachadh air an luach ceadaich
         <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="683"/>
         <source>The entered server list address is not a valid URL.
 Please enter a valid server list address!</source>
-        <translation>Chan eil an seòladh aig liosta nam frithealaichean a chuir thu a-steach na URL dligheach.
+        <translation>Chan eil an seòladh aig liosta nam frithealaichean a chuir thu a-steach &apos;na URL dligheach.
 Feuch an cuir thu a-steach seòladh aig liosta nam frithealaichean dligheach!</translation>
     </message>
     <message>
@@ -5545,7 +5545,7 @@ A bheil thu cinnteach gu bheil thu airson roghainnean an fhactaraidh ath-shuidhe
         <location filename="../src/gui/qt/gui_800x480/startwindow_800x480.ui" line="401"/>
         <location filename="../src/gui/qt/startwindow.ui" line="283"/>
         <source>About PokerTH</source>
-        <translation>Mu dheidhinn PokerTH</translation>
+        <translation>Mu PokerTH</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gui_800x480/startwindow_800x480.ui" line="82"/>
@@ -6135,7 +6135,7 @@ Cuir am facal-faire a-steach turas eile is feuch ris a-rithist.</translation>
     <message>
         <location filename="../src/gui/qt/gui_800x480/tabs_800x480.ui" line="433"/>
         <source>Auto-Check / Auto-Fold</source>
-        <translation type="unfinished">Fèin&quot;-check&quot; / Fèin-phaisg (&quot;fold&quot;)</translation>
+        <translation>Fèin-&quot;check&quot; / Fèin-phaisg (&quot;fold&quot;)</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gui_800x480/tabs_800x480.ui" line="443"/>
