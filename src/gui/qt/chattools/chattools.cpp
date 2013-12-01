@@ -92,22 +92,11 @@ void ChatTools::receiveMessage(QString playerName, QString message, bool pm)
 		QString tempMsg;
 
 		if(myChatType == INET_LOBBY_CHAT && playerName == "(chat bot)" && message.startsWith(myNick)) {
-
 			tempMsg = QString("<span style=\"font-weight:bold; color:red;\">"+message+"</span>");
-			//play beep sound only in INET-lobby-chat
-			if(myLobby->isVisible() && myConfig->readConfigInt("PlayLobbyChatNotification")) {
-				myLobby->getMyW()->getMySoundEventHandler()->playSound("lobbychatnotify",0);
-			}
 		} else if(message.contains(myNick, Qt::CaseInsensitive)) {
-
 			switch (myChatType) {
 			case INET_LOBBY_CHAT: {
 				tempMsg = QString("<span style=\"font-weight:bold; color:"+myLobby->palette().link().color().name()+";\">"+message+"</span>");
-				//play beep sound only in INET-lobby-chat
-				//						TODO dont play when message is from yourself
-				if(myLobby->isVisible() && myConfig->readConfigInt("PlayLobbyChatNotification")) {
-					myLobby->getMyW()->getMySoundEventHandler()->playSound("lobbychatnotify",0);
-				}
 			}
 			break;
 			case LAN_LOBBY_CHAT:
@@ -157,15 +146,24 @@ void ChatTools::receiveMessage(QString playerName, QString message, bool pm)
 		}
 
 		bool nickFoundOnIgnoreList = false;
+		bool chatBotWarnNickFoundOnIgnoreList = false;
 		list<std::string>::iterator it1;
 		for(it1=ignoreList.begin(); it1 != ignoreList.end(); ++it1) {
-
 			if(playerName == QString::fromUtf8(it1->c_str())) {
 				nickFoundOnIgnoreList = true;
 			}
+			if(myChatType == INET_LOBBY_CHAT && playerName == "(chat bot)" && message.startsWith(QString::fromUtf8(it1->c_str()))) {
+				chatBotWarnNickFoundOnIgnoreList = true;
+			}
 		}
 
-		if(!nickFoundOnIgnoreList) {
+		if(!nickFoundOnIgnoreList && !chatBotWarnNickFoundOnIgnoreList) {
+			//play beep sound as notification
+			if(myChatType == INET_LOBBY_CHAT && message.contains(myNick, Qt::CaseInsensitive) && playerName != myNick) {
+				if(myLobby->isVisible() && myConfig->readConfigInt("PlayLobbyChatNotification")) {
+					myLobby->getMyW()->getMySoundEventHandler()->playSound("lobbychatnotify",0);
+				}
+			}
 
 			if(!myConfig->readConfigInt("DisableChatEmoticons")) {
 				tempMsg = checkForEmotes(tempMsg);

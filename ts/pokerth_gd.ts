@@ -3,407 +3,6 @@
 <TS version="2.0" language="gd_GB" sourcelanguage="en">
 <defaultcodec>UTF-8</defaultcodec>
 <context>
-    <name></name>
-    <message>
-        <source>Selected card deck style &quot;%1&quot; seems to be outdated. 
- The current PokerTH card deck style version is &quot;%2&quot;, but this style has version &quot;%3&quot; set. 
-
-Please contact the card deck style builder %4.</source>
-        <translation type="obsolete">Tha stoidhle a&apos; phaca chairt &quot;%1&quot; a thagh thu ro shean a rèir coltais. 
- Is &quot;%2&quot; an tionndadh làithreach aig an stoidhle paca aig PokerTH, ach tha tionndadh &quot;%3&quot; suidhichte airson an stoidhle seo. 
-
-Feuch an cuir thu fios dha neach-togail %4 stoidhle a&apos; phaca.</translation>
-    </message>
-    <message>
-        <source>Selected card deck style &quot;%1&quot; seems to be incomplete or defective. 
-
-The value(s) of &quot;%2&quot; is/are missing. 
-
-Please contact the card deck style builder %3.</source>
-        <translation type="obsolete">Tha stoidhle a&apos; phaca chairt &quot;%1&quot; a thagh thu neo-iomlan no briste. 
-
-Tha an luach/na luachan aig &quot;%2&quot; a dhìth. 
-
-Feuch an cuir thu fios dha neach-togail %3 stoidhle a&apos; phaca.</translation>
-    </message>
-    <message>
-        <source>Selected card deck style &quot;%1&quot; seems to be incomplete or defective. 
-The card picture(s) &quot;%2&quot; is/are not available. 
-
-Please contact the card deck style builder %3.</source>
-        <translation type="obsolete">Tha stoidhle a&apos; phaca chairt &quot;%1&quot; a thagh thu neo-iomlan no briste. 
-Tha dealbh(an) na cairte &quot;%2&quot; a dhìth. 
-
-Feuch an cuir thu fios dha neach-togail %3 stoidhle a&apos; phaca.</translation>
-    </message>
-    <message>
-        <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
-&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
-p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;table border=&quot;0&quot; style=&quot;-qt-table-type: root; margin-top:4px; margin-bottom:4px; margin-left:4px; margin-right:4px;&quot;&gt;
-&lt;tr&gt;
-&lt;td style=&quot;border: none;&quot;&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;- Poker engine for the popular &amp;quot;Texas Hold&apos;em&amp;quot; Poker&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;- Singleplayer games with up to 9 computer-opponents&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;- Multiplayer network games&lt;br /&gt;- Internet online games&lt;br /&gt;- Changeable gui with online style gallery&lt;br /&gt;- &lt;/span&gt;&lt;a href=&quot;http://online-ranking.pokerth.net&quot;&gt;&lt;span style=&quot; font-size:8pt; text-decoration: underline; color:#0057ae;&quot;&gt;Online ranking website&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt; with result tables&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:8pt;&quot;&gt;&lt;/p&gt;
-&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:8pt;&quot;&gt;&lt;/p&gt;
-&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:8pt;&quot;&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;© 2006-2011, Felix Hammer, Florian Thauer, Lothar May&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="obsolete">&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
-&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
-p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;table border=&quot;0&quot; style=&quot;-qt-table-type: root; margin-top:4px; margin-bottom:4px; margin-left:4px; margin-right:4px;&quot;&gt;
-&lt;tr&gt;
-&lt;td style=&quot;border: none;&quot;&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;- Einnsean poker airson &amp;quot;Texas Hold&apos;em&amp;quot; Poker mòr-chòrdte&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;- Geamannan aon-chluicheadair le suas gu 9 co-fharpaisichean coimpiutair&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;- Geamannan lìonraidh ioma-chluicheadair&lt;br /&gt;- Geamannan air an eadar-lìon&lt;br /&gt;- Eadar-aghaidh a ghabhas atharrachadh le gailearaidh dhe stoidhlichean air loidhne&lt;br /&gt;- &lt;/span&gt;&lt;a href=&quot;http://online-ranking.pokerth.net&quot;&gt;&lt;span style=&quot; font-size:8pt; text-decoration: underline; color:#0057ae;&quot;&gt;Làrach-lìn rangachaidh&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt; le clàraichean nan toraidhean&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:8pt;&quot;&gt;&lt;/p&gt;
-&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:8pt;&quot;&gt;&lt;/p&gt;
-&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:8pt;&quot;&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;© 2006-2011, Felix Hammer, Florian Thauer, Lothar May&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/body&gt;&lt;/html&gt;</translation>
-    </message>
-    <message>
-        <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
-&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
-p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;table border=&quot;0&quot; style=&quot;-qt-table-type: root; margin-top:4px; margin-bottom:4px; margin-left:4px; margin-right:4px;&quot;&gt;
-&lt;tr&gt;
-&lt;td style=&quot;border: none;&quot;&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt; font-weight:600;&quot;&gt;Project page: &lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;     &lt;/span&gt;&lt;a href=&quot;http://www.pokerth.net&quot;&gt;&lt;span style=&quot; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;http://www.pokerth.net&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
-&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:8pt;&quot;&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt; font-weight:600;&quot;&gt;IRC: &lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;     #pokerth (irc.freenode.net)&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:8pt;&quot;&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt; font-weight:600;&quot;&gt;Authors: &lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;     Felix Hammer (&lt;/span&gt;&lt;a href=&quot;mailto:doitux@pokerth.net&quot;&gt;&lt;span style=&quot; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;doitux@pokerth.net&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;)&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;          - initial idea, basic architecture, gui implementation, gui graphics editing, linux package&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;     Florian Thauer (&lt;/span&gt;&lt;a href=&quot;mailto:floty@pokerth.net&quot;&gt;&lt;span style=&quot; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;floty@pokerth.net&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;)&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;          - initial idea, basic architecture, engine development&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;     Lothar May (&lt;/span&gt;&lt;a href=&quot;mailto:lotodore@pokerth.net&quot;&gt;&lt;span style=&quot; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;lotodore@pokerth.net&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;)&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;          - basic architecture, network development, windows package, MacOS package&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;     Oskar Lindqvist (&lt;/span&gt;&lt;a href=&quot;mailto:tranberry@pokerth.net&quot;&gt;&lt;span style=&quot; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;tranberry@pokerth.net&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;)&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;          - initial gui graphics design&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="obsolete">&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
-&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
-p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;table border=&quot;0&quot; style=&quot;-qt-table-type: root; margin-top:4px; margin-bottom:4px; margin-left:4px; margin-right:4px;&quot;&gt;
-&lt;tr&gt;
-&lt;td style=&quot;border: none;&quot;&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt; font-weight:600;&quot;&gt;Duilleag a&apos; phròiseict: &lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;     &lt;/span&gt;&lt;a href=&quot;http://www.pokerth.net&quot;&gt;&lt;span style=&quot; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;http://www.pokerth.net&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
-&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:8pt;&quot;&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt; font-weight:600;&quot;&gt;IRC: &lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;     #pokerth (irc.freenode.net)&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:8pt;&quot;&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt; font-weight:600;&quot;&gt;Ùghdaran: &lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;     Felix Hammer (&lt;/span&gt;&lt;a href=&quot;mailto:doitux@pokerth.net&quot;&gt;&lt;span style=&quot; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;doitux@pokerth.net&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;)&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;          - beachd tòiseachaidh, dealbhadh bunasach, prògramachadh na h-eadar-aghaidh, deasachadh grafaigeachd na h-eadar-aghaidh, pacaid linux&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;     Florian Thauer (&lt;/span&gt;&lt;a href=&quot;mailto:floty@pokerth.net&quot;&gt;&lt;span style=&quot; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;floty@pokerth.net&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;)&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;          - beachd tòiseachaidh, dealbhadh bunasach, leasachadh an einnsein&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;     Lothar May (&lt;/span&gt;&lt;a href=&quot;mailto:lotodore@pokerth.net&quot;&gt;&lt;span style=&quot; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;lotodore@pokerth.net&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;)&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;          - dealbhadh bunasach, leasachadh lìonraidh, pacaid windows, pacaid MacOS&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;     Oskar Lindqvist (&lt;/span&gt;&lt;a href=&quot;mailto:tranberry@pokerth.net&quot;&gt;&lt;span style=&quot; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;tranberry@pokerth.net&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;)&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;          - a&apos; chiad dealbhachadh grafaigeachd na h-eadar-aghaidh&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/body&gt;&lt;/html&gt;</translation>
-    </message>
-    <message>
-        <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
-&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
-p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Sans Serif&apos;; font-weight:400; font-style:normal;&quot;&gt;
-&lt;table border=&quot;0&quot; style=&quot;-qt-table-type: root; margin-top:4px; margin-bottom:4px; margin-left:4px; margin-right:4px;&quot;&gt;
-&lt;tr&gt;
-&lt;td style=&quot;border: none;&quot;&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:14pt;&quot;&gt;- Poker engine for the popular &amp;quot;Texas Hold&apos;em&amp;quot; Poker&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:14pt;&quot;&gt;- Singleplayer games with up to 9 computer-opponents&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:14pt;&quot;&gt;- Multiplayer network games&lt;br /&gt;- Internet online games&lt;br /&gt;- Changeable gui with online style gallery&lt;br /&gt;- &lt;/span&gt;&lt;a href=&quot;http://online-ranking.pokerth.net&quot;&gt;&lt;span style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:14pt; text-decoration: underline; color:#0057ae;&quot;&gt;Online ranking website&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:14pt;&quot;&gt; with result tables&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;Nimbus Sans L&apos;; font-size:14pt;&quot;&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:14pt;&quot;&gt;© 2006-2011, Felix Hammer, Florian Thauer, Lothar May&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="obsolete">&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
-&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
-p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Sans Serif&apos;; font-weight:400; font-style:normal;&quot;&gt;
-&lt;table border=&quot;0&quot; style=&quot;-qt-table-type: root; margin-top:4px; margin-bottom:4px; margin-left:4px; margin-right:4px;&quot;&gt;
-&lt;tr&gt;
-&lt;td style=&quot;border: none;&quot;&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:14pt;&quot;&gt;- Einnsean poker airson &amp;quot;Texas Hold&apos;em&amp;quot; Poker mòr-chòrdte&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:14pt;&quot;&gt;- Geamannan aon-chluicheadair le suas gu 9 co-fharpaisichean coimpiutair&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:14pt;&quot;&gt;- Geamannan lìonraidh ioma-chluicheadair&lt;br /&gt;- Geamannan air an eadar-lìon&lt;br /&gt;- Eadar-aghaidh a ghabhas atharrachadh le gailearaidh dhe stoidhlichean air loidhne&lt;br /&gt;- &lt;/span&gt;&lt;a href=&quot;http://online-ranking.pokerth.net&quot;&gt;&lt;span style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:14pt; text-decoration: underline; color:#0057ae;&quot;&gt;Làrach-lìn rangachaidh&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:14pt;&quot;&gt; le clàraichean nan toraidhean&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;Nimbus Sans L&apos;; font-size:14pt;&quot;&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:14pt;&quot;&gt;© 2006-2011, Felix Hammer, Florian Thauer, Lothar May&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/body&gt;&lt;/html&gt;</translation>
-    </message>
-    <message>
-        <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
-&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
-p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Sans Serif&apos;; font-weight:400; font-style:normal;&quot;&gt;
-&lt;table border=&quot;0&quot; style=&quot;-qt-table-type: root; margin-top:4px; margin-bottom:4px; margin-left:4px; margin-right:4px;&quot;&gt;
-&lt;tr&gt;
-&lt;td style=&quot;border: none;&quot;&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:14pt; font-weight:600;&quot;&gt;Project page: &lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:14pt;&quot;&gt;     &lt;/span&gt;&lt;a href=&quot;http://www.pokerth.net&quot;&gt;&lt;span style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:14pt; text-decoration: underline; color:#0000ff;&quot;&gt;http://www.pokerth.net&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:14pt; font-weight:600;&quot;&gt;IRC: &lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:14pt;&quot;&gt;     #pokerth (irc.freenode.net)&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:14pt; font-weight:600;&quot;&gt;Authors: &lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:14pt;&quot;&gt;     Felix Hammer (&lt;/span&gt;&lt;a href=&quot;mailto:doitux@pokerth.net&quot;&gt;&lt;span style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:14pt; text-decoration: underline; color:#0000ff;&quot;&gt;doitux@pokerth.net&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:14pt;&quot;&gt;)&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:14pt;&quot;&gt;          - initial idea, basic architecture, gui implementation, gui graphics editing, linux package&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:14pt;&quot;&gt;     Florian Thauer (&lt;/span&gt;&lt;a href=&quot;mailto:floty@pokerth.net&quot;&gt;&lt;span style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:14pt; text-decoration: underline; color:#0000ff;&quot;&gt;floty@pokerth.net&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:14pt;&quot;&gt;)&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:14pt;&quot;&gt;          - initial idea, basic architecture, engine development&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:14pt;&quot;&gt;     Lothar May (&lt;/span&gt;&lt;a href=&quot;mailto:lotodore@pokerth.net&quot;&gt;&lt;span style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:14pt; text-decoration: underline; color:#0000ff;&quot;&gt;lotodore@pokerth.net&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:14pt;&quot;&gt;)&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:14pt;&quot;&gt;          - basic architecture, network development, windows package, MacOS package&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:14pt;&quot;&gt;     Oskar Lindqvist (&lt;/span&gt;&lt;a href=&quot;mailto:tranberry@pokerth.net&quot;&gt;&lt;span style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:14pt; text-decoration: underline; color:#0000ff;&quot;&gt;tranberry@pokerth.net&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:14pt;&quot;&gt;)&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:14pt;&quot;&gt;          - initial gui graphics design&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="obsolete">&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
-&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
-p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Sans Serif&apos;; font-weight:400; font-style:normal;&quot;&gt;
-&lt;table border=&quot;0&quot; style=&quot;-qt-table-type: root; margin-top:4px; margin-bottom:4px; margin-left:4px; margin-right:4px;&quot;&gt;
-&lt;tr&gt;
-&lt;td style=&quot;border: none;&quot;&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:14pt; font-weight:600;&quot;&gt;Project page: &lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:14pt;&quot;&gt;     &lt;/span&gt;&lt;a href=&quot;http://www.pokerth.net&quot;&gt;&lt;span style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:14pt; text-decoration: underline; color:#0000ff;&quot;&gt;http://www.pokerth.net&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:14pt; font-weight:600;&quot;&gt;IRC: &lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:14pt;&quot;&gt;     #pokerth (irc.freenode.net)&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:14pt; font-weight:600;&quot;&gt;Ùghdaran: &lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:14pt;&quot;&gt;     Felix Hammer (&lt;/span&gt;&lt;a href=&quot;mailto:doitux@pokerth.net&quot;&gt;&lt;span style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:14pt; text-decoration: underline; color:#0000ff;&quot;&gt;doitux@pokerth.net&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:14pt;&quot;&gt;)&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:14pt;&quot;&gt;          - beachd tòiseachaidh, dealbhadh bunasach, prògramachadh na h-eadar-aghaidh, deasachadh grafaigeachd na h-eadar-aghaidh, pacaid linux&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:14pt;&quot;&gt;     Florian Thauer (&lt;/span&gt;&lt;a href=&quot;mailto:floty@pokerth.net&quot;&gt;&lt;span style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:14pt; text-decoration: underline; color:#0000ff;&quot;&gt;floty@pokerth.net&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:14pt;&quot;&gt;)&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:14pt;&quot;&gt;          - beachd tòiseachaidh, dealbhadh bunasach, leasachadh an einnsein&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:14pt;&quot;&gt;     Lothar May (&lt;/span&gt;&lt;a href=&quot;mailto:lotodore@pokerth.net&quot;&gt;&lt;span style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:14pt; text-decoration: underline; color:#0000ff;&quot;&gt;lotodore@pokerth.net&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:14pt;&quot;&gt;)&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:14pt;&quot;&gt;          - - dealbhadh bunasach, leasachadh lìonraidh, pacaid windows, pacaid MacOS&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:14pt;&quot;&gt;     Oskar Lindqvist (&lt;/span&gt;&lt;a href=&quot;mailto:tranberry@pokerth.net&quot;&gt;&lt;span style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:14pt; text-decoration: underline; color:#0000ff;&quot;&gt;tranberry@pokerth.net&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:14pt;&quot;&gt;)&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:14pt;&quot;&gt;          - a&apos; chiad dealbhachadh grafaigeachd na h-eadar-aghaidh&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/body&gt;&lt;/html&gt;</translation>
-    </message>
-    <message>
-        <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
-&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
-p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Sans Serif&apos;; font-weight:400; font-style:normal;&quot;&gt;
-&lt;table border=&quot;0&quot; style=&quot;-qt-table-type: root; margin-top:4px; margin-bottom:4px; margin-left:4px; margin-right:4px;&quot;&gt;
-&lt;tr&gt;
-&lt;td style=&quot;border: none;&quot;&gt;
-&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;
-&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="obsolete">&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
-&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
-p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Sans Serif&apos;; font-weight:400; font-style:normal;&quot;&gt;
-&lt;table border=&quot;0&quot; style=&quot;-qt-table-type: root; margin-top:4px; margin-bottom:4px; margin-left:4px; margin-right:4px;&quot;&gt;
-&lt;tr&gt;
-&lt;td style=&quot;border: none;&quot;&gt;
-&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;
-&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/body&gt;&lt;/html&gt;</translation>
-    </message>
-    <message>
-        <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
-&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
-p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Sans Serif&apos;; font-weight:400; font-style:normal;&quot;&gt;
-&lt;table border=&quot;0&quot; style=&quot;-qt-table-type: root; margin-top:4px; margin-bottom:4px; margin-left:4px; margin-right:4px;&quot;&gt;
-&lt;tr&gt;
-&lt;td style=&quot;border: none;&quot;&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://commons.wikimedia.org/wiki/Main_Page&quot;&gt;&lt;span style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:14pt; font-weight:600; text-decoration: underline; color:#0000ff;&quot;&gt;Wikimedia Commons&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:14pt; font-weight:600;&quot;&gt;     - &lt;/span&gt;&lt;span style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:14pt;&quot;&gt;for different popular avatar picture resources&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:14pt; font-weight:600;&quot;&gt;Benedikt, Erhard, Felix, Florian, Linus, Lothar, Steffi, Caro&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:14pt;&quot;&gt;     - for people avatar pictures&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:14pt; font-weight:600;&quot;&gt;ZeiZei&lt;/span&gt;&lt;span style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:14pt;&quot;&gt; &lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:14pt;&quot;&gt;    - for &amp;quot;misc&amp;quot; avatar pictures&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://kde-look.org/&quot;&gt;&lt;span style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:14pt; font-weight:600; text-decoration: underline; color:#0000ff;&quot;&gt;http://kde-look.org/&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:14pt;&quot;&gt;     - for different gpl licensed sounds&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:14pt; font-weight:600;&quot;&gt;doc_dos&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:14pt;&quot;&gt;     - for self recorded chip sounds&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:14pt; font-weight:600;&quot;&gt;thiger, dunkanx, BerndA, coldz&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:14pt;&quot;&gt;     - for different patches&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:14pt; font-weight:600;&quot;&gt;kraut&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:14pt;&quot;&gt;     - for internet-game-server hosting and administration&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:14pt; font-weight:600;&quot;&gt;danuxi&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:14pt;&quot;&gt;    - for startwindow background gfx and danuxi1 table background&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:14pt; font-weight:600;&quot;&gt;heyn&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:14pt;&quot;&gt;    - for moderating forum and organise bugtracker and feature requests&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:14pt; font-weight:600;&quot;&gt;texas_outlaw&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:14pt;&quot;&gt;    - for new table sounds&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="obsolete">&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
-&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
-p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Sans Serif&apos;; font-weight:400; font-style:normal;&quot;&gt;
-&lt;table border=&quot;0&quot; style=&quot;-qt-table-type: root; margin-top:4px; margin-bottom:4px; margin-left:4px; margin-right:4px;&quot;&gt;
-&lt;tr&gt;
-&lt;td style=&quot;border: none;&quot;&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://commons.wikimedia.org/wiki/Main_Page&quot;&gt;&lt;span style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:14pt; font-weight:600; text-decoration: underline; color:#0000ff;&quot;&gt;Wikimedia Commons&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:14pt; font-weight:600;&quot;&gt;     - &lt;/span&gt;&lt;span style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:14pt;&quot;&gt;airson caochladh ghoireasan dealbhan avatar mòr-chòrdte&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:14pt; font-weight:600;&quot;&gt;Benedikt, Erhard, Felix, Florian, Linus, Lothar, Steffi, Caro&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:14pt;&quot;&gt;     - airson dealbhan avatar dhaoine&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:14pt; font-weight:600;&quot;&gt;ZeiZei&lt;/span&gt;&lt;span style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:14pt;&quot;&gt; &lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:14pt;&quot;&gt;    - airson dealbhan avatar &amp;quot;measgaichte&amp;quot;&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://kde-look.org/&quot;&gt;&lt;span style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:14pt; font-weight:600; text-decoration: underline; color:#0000ff;&quot;&gt;http://kde-look.org/&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:14pt;&quot;&gt;     - airson caochladh fuaime fon cheadachas gpl&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:14pt; font-weight:600;&quot;&gt;doc_dos&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:14pt;&quot;&gt;     - airson fuaimean nam bonn a chlàraich e fhèin&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:14pt; font-weight:600;&quot;&gt;thiger, dunkanx, BerndA, coldz&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:14pt;&quot;&gt;     - airson caochladh patch&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:14pt; font-weight:600;&quot;&gt;kraut&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:14pt;&quot;&gt;     - airson òstadh is rianachd frithealaichean nan geamannan eadar-lìn&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:14pt; font-weight:600;&quot;&gt;danuxi&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:14pt;&quot;&gt;    - airson èifeachd grafaigeach an sgrìn-tòiseachaidh is cùlaibh a&apos; bhùird danuxi1&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:14pt; font-weight:600;&quot;&gt;heyn&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:14pt;&quot;&gt;    - airson obair-mhaoir air a&apos; bhòrd-bhrath is rianachd a&apos; bugtracker is iarrtasan nam feart&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:14pt; font-weight:600;&quot;&gt;texas_outlaw&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:14pt;&quot;&gt;    - airson fuaimean a&apos; bhùird ùra&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/body&gt;&lt;/html&gt;</translation>
-    </message>
-    <message>
-        <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
-&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
-p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body&gt;
-&lt;table border=&quot;0&quot; style=&quot;-qt-table-type: root; margin-top:4px; margin-bottom:4px; margin-left:4px; margin-right:4px;&quot;&gt;
-&lt;tr&gt;
-&lt;td style=&quot;border: none;&quot;&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://online-ranking.pokerth.net&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Click here to view the online rankings&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="obsolete">&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
-&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
-p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body&gt;
-&lt;table border=&quot;0&quot; style=&quot;-qt-table-type: root; margin-top:4px; margin-bottom:4px; margin-left:4px; margin-right:4px;&quot;&gt;
-&lt;tr&gt;
-&lt;td style=&quot;border: none;&quot;&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://online-ranking.pokerth.net&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Briog an-seo gus an rangachadh air loidhne fhaicinn&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/body&gt;&lt;/html&gt;</translation>
-    </message>
-    <message>
-        <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
-&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
-p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://www.pokerth.net&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;http://www.pokerth.net&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="obsolete">&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
-&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
-p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://www.pokerth.net&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;http://www.pokerth.net&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
-    </message>
-    <message>
-        <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
-&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
-p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body&gt;
-&lt;table style=&quot;-qt-table-type: root; margin-top:4px; margin-bottom:4px; margin-left:4px; margin-right:4px;&quot;&gt;
-&lt;tr&gt;
-&lt;td style=&quot;border: none;&quot;&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://create-gaming-account.pokerth.net&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Create new user account&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="obsolete">&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
-&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
-p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body&gt;
-&lt;table style=&quot;-qt-table-type: root; margin-top:4px; margin-bottom:4px; margin-left:4px; margin-right:4px;&quot;&gt;
-&lt;tr&gt;
-&lt;td style=&quot;border: none;&quot;&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://create-gaming-account.pokerth.net&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Cruthaich cunntas a&apos; chleachdaiche ùr&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/body&gt;&lt;/html&gt;</translation>
-    </message>
-    <message>
-        <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
-&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
-p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Sans Serif&apos;; font-weight:400; font-style:normal;&quot;&gt;
-&lt;table border=&quot;0&quot; style=&quot;-qt-table-type: root; margin-top:4px; margin-bottom:4px; margin-left:4px; margin-right:4px;&quot;&gt;
-&lt;tr&gt;
-&lt;td style=&quot;border: none;&quot;&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:10pt; font-style:italic;&quot;&gt;Note: Best quality with image ratio like &lt;/span&gt;&lt;span style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:10pt; font-weight:600; font-style:italic;&quot;&gt;width=48, height=76.&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="obsolete">&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
-&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
-p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Sans Serif&apos;; font-weight:400; font-style:normal;&quot;&gt;
-&lt;table border=&quot;0&quot; style=&quot;-qt-table-type: root; margin-top:4px; margin-bottom:4px; margin-left:4px; margin-right:4px;&quot;&gt;
-&lt;tr&gt;
-&lt;td style=&quot;border: none;&quot;&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:10pt; font-style:italic;&quot;&gt;An aire: gheibh thu an càileachd as fhearr le co-mheas deilbh mar &lt;/span&gt;&lt;span style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:10pt; font-weight:600; font-style:italic;&quot;&gt;leud=48, àirde=76.&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/body&gt;&lt;/html&gt;</translation>
-    </message>
-    <message>
-        <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
-&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
-p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Sans Serif&apos;; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:12pt; font-style:italic;&quot;&gt;Note: Default &lt;/span&gt;&lt;span style=&quot; font-size:12pt; font-weight:600; font-style:italic;&quot;&gt;Game Settings&lt;/span&gt;&lt;span style=&quot; font-size:12pt; font-style:italic;&quot;&gt; like &amp;quot;Maximum number of players&amp;quot;, &amp;quot;Start Cash&amp;quot; and &amp;quot;Small Blind&amp;quot; will be used &lt;/span&gt;&lt;span style=&quot; font-size:12pt; font-weight:600; font-style:italic;&quot;&gt;from Network Game Settings.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="obsolete">&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
-&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
-p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Sans Serif&apos;; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:12pt; font-style:italic;&quot;&gt;An aire: thèid  &lt;/span&gt;&lt;span style=&quot; font-size:12pt; font-weight:600; font-style:italic;&quot;&gt;Roghainnean a&apos; gheama&lt;/span&gt;&lt;span style=&quot; font-size:12pt; font-style:italic;&quot;&gt; bunaiteach mar &amp;quot;An àireamh as motha dhe chluicheadairean&amp;quot;, &amp;quot;Airgead tòiseachaidh&amp;quot; is &amp;quot;Small Blind&amp;quot; a chleachdadh &lt;/span&gt;&lt;span style=&quot; font-size:12pt; font-weight:600; font-style:italic;&quot;&gt;bho Roghainnean a&apos; gheama lìonraidh.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
-    </message>
-    <message>
-        <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
-&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
-p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Sans Serif&apos;; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Human Player:&lt;br /&gt;&lt;span style=&quot; font-size:11pt; font-style:italic;&quot;&gt;(This nick will also be used for the online game login)&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="obsolete">&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
-&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
-p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Sans Serif&apos;; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Human Player:&lt;br /&gt;&lt;span style=&quot; font-size:11pt; font-style:italic;&quot;&gt;(Thèid am far-ainm seo a chleachdadh airson an logadh a-steach dha gheamannan air loidhne cuideachd)&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
-    </message>
-    <message>
-        <source>Preview:</source>
-        <translation type="obsolete">Ro-shealladh:</translation>
-    </message>
-    <message>
-        <source>Export as HTML</source>
-        <translation type="obsolete">Às-phortaich mar HTML</translation>
-    </message>
-    <message>
-        <source>Export as txt</source>
-        <translation type="obsolete">Às-phortaich mar txt</translation>
-    </message>
-    <message>
-        <source>Save as ...</source>
-        <translation type="obsolete">Sàbhail mar ...</translation>
-    </message>
-    <message>
-        <source>Delete</source>
-        <translation type="obsolete">Sguab às</translation>
-    </message>
-    <message>
-        <source>Log File</source>
-        <translation type="obsolete">Faidhle loga</translation>
-    </message>
-    <message>
-        <source>PokerTH - Delete log files</source>
-        <translation type="obsolete">PokerTH - Sguab às dha dh&apos;fhaidhlichean loga</translation>
-    </message>
-    <message>
-        <source>Do you really want to delete the selected log files?</source>
-        <translation type="obsolete">A bheil thu cinnteach gu bheil thu airson na faidhlichean loga a thagh thu a sguabadh às?</translation>
-    </message>
-    <message>
-        <source>Export PokerTH log file to HTML</source>
-        <translation type="obsolete">Às-phortaich faidhle loga PokerTH gu HTML</translation>
-    </message>
-    <message>
-        <source>PokerTH HTML log (*.html)</source>
-        <translation type="obsolete">Loga HTML aig PokerTH (*.html)</translation>
-    </message>
-    <message>
-        <source>Export PokerTH log file to plain text</source>
-        <translation type="obsolete">Às-phortaich faidhle loga PokerTH gu teacsa lom</translation>
-    </message>
-    <message>
-        <source>PokerTH plain text log (*.txt)</source>
-        <translation type="obsolete">Loga teacsa lom aig PokerTH (*.txt)</translation>
-    </message>
-    <message>
-        <source>Save PokerTH log file</source>
-        <translation type="obsolete">Sàbhail faidhle loga PokerTH</translation>
-    </message>
-    <message>
-        <source>PokerTH SQL log (*.pdb)</source>
-        <translation type="obsolete">Loga SQL aig PokerTH (*.pdb)</translation>
-    </message>
-</context>
-<context>
     <name>CardDeckStyleReader</name>
     <message>
         <location filename="../src/gui/qt/styles/carddeckstylereader.cpp" line="86"/>
@@ -508,6 +107,436 @@ Thoir sùil air faidhle a&apos; phaca no tagh stoidhle eile!</translation>
 Please select a card deck style and try again!</source>
         <translation>Chaidh stoidhle bùird a thaghadh an àite stoidhle a&apos; phaca chairt.
 Tagh stoidhle airson paca chairt is feuch ris a-rithist!</translation>
+    </message>
+</context>
+<context>
+    <name></name>
+    <message>
+        <location filename="Obsolete_PO_entries"/>
+        <source>Selected card deck style &quot;%1&quot; seems to be outdated. 
+ The current PokerTH card deck style version is &quot;%2&quot;, but this style has version &quot;%3&quot; set. 
+
+Please contact the card deck style builder %4.</source>
+        <translation type="obsolete">Tha stoidhle a&apos; phaca chairt &quot;%1&quot; a thagh thu ro shean a rèir coltais. 
+ Is &quot;%2&quot; an tionndadh làithreach aig an stoidhle paca aig PokerTH, ach tha tionndadh &quot;%3&quot; suidhichte airson an stoidhle seo. 
+
+Feuch an cuir thu fios dha neach-togail %4 stoidhle a&apos; phaca.</translation>
+    </message>
+    <message>
+        <location filename="Obsolete_PO_entries"/>
+        <source>Selected card deck style &quot;%1&quot; seems to be incomplete or defective. 
+
+The value(s) of &quot;%2&quot; is/are missing. 
+
+Please contact the card deck style builder %3.</source>
+        <translation type="obsolete">Tha stoidhle a&apos; phaca chairt &quot;%1&quot; a thagh thu neo-iomlan no briste. 
+
+Tha an luach/na luachan aig &quot;%2&quot; a dhìth. 
+
+Feuch an cuir thu fios dha neach-togail %3 stoidhle a&apos; phaca.</translation>
+    </message>
+    <message>
+        <location filename="Obsolete_PO_entries"/>
+        <source>Selected card deck style &quot;%1&quot; seems to be incomplete or defective. 
+The card picture(s) &quot;%2&quot; is/are not available. 
+
+Please contact the card deck style builder %3.</source>
+        <translation type="obsolete">Tha stoidhle a&apos; phaca chairt &quot;%1&quot; a thagh thu neo-iomlan no briste. 
+Tha dealbh(an) na cairte &quot;%2&quot; a dhìth. 
+
+Feuch an cuir thu fios dha neach-togail %3 stoidhle a&apos; phaca.</translation>
+    </message>
+    <message>
+        <location filename="Obsolete_PO_entries"/>
+        <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;table border=&quot;0&quot; style=&quot;-qt-table-type: root; margin-top:4px; margin-bottom:4px; margin-left:4px; margin-right:4px;&quot;&gt;
+&lt;tr&gt;
+&lt;td style=&quot;border: none;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;- Poker engine for the popular &amp;quot;Texas Hold&apos;em&amp;quot; Poker&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;- Singleplayer games with up to 9 computer-opponents&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;- Multiplayer network games&lt;br /&gt;- Internet online games&lt;br /&gt;- Changeable gui with online style gallery&lt;br /&gt;- &lt;/span&gt;&lt;a href=&quot;http://online-ranking.pokerth.net&quot;&gt;&lt;span style=&quot; font-size:8pt; text-decoration: underline; color:#0057ae;&quot;&gt;Online ranking website&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt; with result tables&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:8pt;&quot;&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:8pt;&quot;&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:8pt;&quot;&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;© 2006-2011, Felix Hammer, Florian Thauer, Lothar May&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <translation type="obsolete">&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;table border=&quot;0&quot; style=&quot;-qt-table-type: root; margin-top:4px; margin-bottom:4px; margin-left:4px; margin-right:4px;&quot;&gt;
+&lt;tr&gt;
+&lt;td style=&quot;border: none;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;- Einnsean poker airson &amp;quot;Texas Hold&apos;em&amp;quot; Poker mòr-chòrdte&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;- Geamannan aon-chluicheadair le suas gu 9 co-fharpaisichean coimpiutair&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;- Geamannan lìonraidh ioma-chluicheadair&lt;br /&gt;- Geamannan air an eadar-lìon&lt;br /&gt;- Eadar-aghaidh a ghabhas atharrachadh le gailearaidh dhe stoidhlichean air loidhne&lt;br /&gt;- &lt;/span&gt;&lt;a href=&quot;http://online-ranking.pokerth.net&quot;&gt;&lt;span style=&quot; font-size:8pt; text-decoration: underline; color:#0057ae;&quot;&gt;Làrach-lìn rangachaidh&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt; le clàraichean nan toraidhean&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:8pt;&quot;&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:8pt;&quot;&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:8pt;&quot;&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;© 2006-2011, Felix Hammer, Florian Thauer, Lothar May&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+    </message>
+    <message>
+        <location filename="Obsolete_PO_entries"/>
+        <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;table border=&quot;0&quot; style=&quot;-qt-table-type: root; margin-top:4px; margin-bottom:4px; margin-left:4px; margin-right:4px;&quot;&gt;
+&lt;tr&gt;
+&lt;td style=&quot;border: none;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt; font-weight:600;&quot;&gt;Project page: &lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;     &lt;/span&gt;&lt;a href=&quot;http://www.pokerth.net&quot;&gt;&lt;span style=&quot; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;http://www.pokerth.net&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:8pt;&quot;&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt; font-weight:600;&quot;&gt;IRC: &lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;     #pokerth (irc.freenode.net)&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:8pt;&quot;&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt; font-weight:600;&quot;&gt;Authors: &lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;     Felix Hammer (&lt;/span&gt;&lt;a href=&quot;mailto:doitux@pokerth.net&quot;&gt;&lt;span style=&quot; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;doitux@pokerth.net&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;)&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;          - initial idea, basic architecture, gui implementation, gui graphics editing, linux package&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;     Florian Thauer (&lt;/span&gt;&lt;a href=&quot;mailto:floty@pokerth.net&quot;&gt;&lt;span style=&quot; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;floty@pokerth.net&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;)&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;          - initial idea, basic architecture, engine development&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;     Lothar May (&lt;/span&gt;&lt;a href=&quot;mailto:lotodore@pokerth.net&quot;&gt;&lt;span style=&quot; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;lotodore@pokerth.net&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;)&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;          - basic architecture, network development, windows package, MacOS package&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;     Oskar Lindqvist (&lt;/span&gt;&lt;a href=&quot;mailto:tranberry@pokerth.net&quot;&gt;&lt;span style=&quot; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;tranberry@pokerth.net&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;)&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;          - initial gui graphics design&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <translation type="obsolete">&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;table border=&quot;0&quot; style=&quot;-qt-table-type: root; margin-top:4px; margin-bottom:4px; margin-left:4px; margin-right:4px;&quot;&gt;
+&lt;tr&gt;
+&lt;td style=&quot;border: none;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt; font-weight:600;&quot;&gt;Duilleag a&apos; phròiseict: &lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;     &lt;/span&gt;&lt;a href=&quot;http://www.pokerth.net&quot;&gt;&lt;span style=&quot; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;http://www.pokerth.net&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:8pt;&quot;&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt; font-weight:600;&quot;&gt;IRC: &lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;     #pokerth (irc.freenode.net)&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:8pt;&quot;&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt; font-weight:600;&quot;&gt;Ùghdaran: &lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;     Felix Hammer (&lt;/span&gt;&lt;a href=&quot;mailto:doitux@pokerth.net&quot;&gt;&lt;span style=&quot; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;doitux@pokerth.net&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;)&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;          - beachd tòiseachaidh, dealbhadh bunasach, prògramachadh na h-eadar-aghaidh, deasachadh grafaigeachd na h-eadar-aghaidh, pacaid linux&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;     Florian Thauer (&lt;/span&gt;&lt;a href=&quot;mailto:floty@pokerth.net&quot;&gt;&lt;span style=&quot; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;floty@pokerth.net&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;)&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;          - beachd tòiseachaidh, dealbhadh bunasach, leasachadh an einnsein&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;     Lothar May (&lt;/span&gt;&lt;a href=&quot;mailto:lotodore@pokerth.net&quot;&gt;&lt;span style=&quot; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;lotodore@pokerth.net&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;)&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;          - dealbhadh bunasach, leasachadh lìonraidh, pacaid windows, pacaid MacOS&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;     Oskar Lindqvist (&lt;/span&gt;&lt;a href=&quot;mailto:tranberry@pokerth.net&quot;&gt;&lt;span style=&quot; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;tranberry@pokerth.net&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;)&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;          - a&apos; chiad dealbhachadh grafaigeachd na h-eadar-aghaidh&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+    </message>
+    <message>
+        <location filename="Obsolete_PO_entries"/>
+        <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Sans Serif&apos;; font-weight:400; font-style:normal;&quot;&gt;
+&lt;table border=&quot;0&quot; style=&quot;-qt-table-type: root; margin-top:4px; margin-bottom:4px; margin-left:4px; margin-right:4px;&quot;&gt;
+&lt;tr&gt;
+&lt;td style=&quot;border: none;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:14pt;&quot;&gt;- Poker engine for the popular &amp;quot;Texas Hold&apos;em&amp;quot; Poker&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:14pt;&quot;&gt;- Singleplayer games with up to 9 computer-opponents&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:14pt;&quot;&gt;- Multiplayer network games&lt;br /&gt;- Internet online games&lt;br /&gt;- Changeable gui with online style gallery&lt;br /&gt;- &lt;/span&gt;&lt;a href=&quot;http://online-ranking.pokerth.net&quot;&gt;&lt;span style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:14pt; text-decoration: underline; color:#0057ae;&quot;&gt;Online ranking website&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:14pt;&quot;&gt; with result tables&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;Nimbus Sans L&apos;; font-size:14pt;&quot;&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:14pt;&quot;&gt;© 2006-2011, Felix Hammer, Florian Thauer, Lothar May&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <translation type="obsolete">&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Sans Serif&apos;; font-weight:400; font-style:normal;&quot;&gt;
+&lt;table border=&quot;0&quot; style=&quot;-qt-table-type: root; margin-top:4px; margin-bottom:4px; margin-left:4px; margin-right:4px;&quot;&gt;
+&lt;tr&gt;
+&lt;td style=&quot;border: none;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:14pt;&quot;&gt;- Einnsean poker airson &amp;quot;Texas Hold&apos;em&amp;quot; Poker mòr-chòrdte&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:14pt;&quot;&gt;- Geamannan aon-chluicheadair le suas gu 9 co-fharpaisichean coimpiutair&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:14pt;&quot;&gt;- Geamannan lìonraidh ioma-chluicheadair&lt;br /&gt;- Geamannan air an eadar-lìon&lt;br /&gt;- Eadar-aghaidh a ghabhas atharrachadh le gailearaidh dhe stoidhlichean air loidhne&lt;br /&gt;- &lt;/span&gt;&lt;a href=&quot;http://online-ranking.pokerth.net&quot;&gt;&lt;span style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:14pt; text-decoration: underline; color:#0057ae;&quot;&gt;Làrach-lìn rangachaidh&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:14pt;&quot;&gt; le clàraichean nan toraidhean&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;Nimbus Sans L&apos;; font-size:14pt;&quot;&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:14pt;&quot;&gt;© 2006-2011, Felix Hammer, Florian Thauer, Lothar May&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+    </message>
+    <message>
+        <location filename="Obsolete_PO_entries"/>
+        <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Sans Serif&apos;; font-weight:400; font-style:normal;&quot;&gt;
+&lt;table border=&quot;0&quot; style=&quot;-qt-table-type: root; margin-top:4px; margin-bottom:4px; margin-left:4px; margin-right:4px;&quot;&gt;
+&lt;tr&gt;
+&lt;td style=&quot;border: none;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:14pt; font-weight:600;&quot;&gt;Project page: &lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:14pt;&quot;&gt;     &lt;/span&gt;&lt;a href=&quot;http://www.pokerth.net&quot;&gt;&lt;span style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:14pt; text-decoration: underline; color:#0000ff;&quot;&gt;http://www.pokerth.net&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:14pt; font-weight:600;&quot;&gt;IRC: &lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:14pt;&quot;&gt;     #pokerth (irc.freenode.net)&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:14pt; font-weight:600;&quot;&gt;Authors: &lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:14pt;&quot;&gt;     Felix Hammer (&lt;/span&gt;&lt;a href=&quot;mailto:doitux@pokerth.net&quot;&gt;&lt;span style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:14pt; text-decoration: underline; color:#0000ff;&quot;&gt;doitux@pokerth.net&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:14pt;&quot;&gt;)&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:14pt;&quot;&gt;          - initial idea, basic architecture, gui implementation, gui graphics editing, linux package&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:14pt;&quot;&gt;     Florian Thauer (&lt;/span&gt;&lt;a href=&quot;mailto:floty@pokerth.net&quot;&gt;&lt;span style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:14pt; text-decoration: underline; color:#0000ff;&quot;&gt;floty@pokerth.net&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:14pt;&quot;&gt;)&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:14pt;&quot;&gt;          - initial idea, basic architecture, engine development&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:14pt;&quot;&gt;     Lothar May (&lt;/span&gt;&lt;a href=&quot;mailto:lotodore@pokerth.net&quot;&gt;&lt;span style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:14pt; text-decoration: underline; color:#0000ff;&quot;&gt;lotodore@pokerth.net&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:14pt;&quot;&gt;)&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:14pt;&quot;&gt;          - basic architecture, network development, windows package, MacOS package&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:14pt;&quot;&gt;     Oskar Lindqvist (&lt;/span&gt;&lt;a href=&quot;mailto:tranberry@pokerth.net&quot;&gt;&lt;span style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:14pt; text-decoration: underline; color:#0000ff;&quot;&gt;tranberry@pokerth.net&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:14pt;&quot;&gt;)&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:14pt;&quot;&gt;          - initial gui graphics design&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <translation type="obsolete">&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Sans Serif&apos;; font-weight:400; font-style:normal;&quot;&gt;
+&lt;table border=&quot;0&quot; style=&quot;-qt-table-type: root; margin-top:4px; margin-bottom:4px; margin-left:4px; margin-right:4px;&quot;&gt;
+&lt;tr&gt;
+&lt;td style=&quot;border: none;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:14pt; font-weight:600;&quot;&gt;Project page: &lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:14pt;&quot;&gt;     &lt;/span&gt;&lt;a href=&quot;http://www.pokerth.net&quot;&gt;&lt;span style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:14pt; text-decoration: underline; color:#0000ff;&quot;&gt;http://www.pokerth.net&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:14pt; font-weight:600;&quot;&gt;IRC: &lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:14pt;&quot;&gt;     #pokerth (irc.freenode.net)&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:14pt; font-weight:600;&quot;&gt;Ùghdaran: &lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:14pt;&quot;&gt;     Felix Hammer (&lt;/span&gt;&lt;a href=&quot;mailto:doitux@pokerth.net&quot;&gt;&lt;span style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:14pt; text-decoration: underline; color:#0000ff;&quot;&gt;doitux@pokerth.net&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:14pt;&quot;&gt;)&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:14pt;&quot;&gt;          - beachd tòiseachaidh, dealbhadh bunasach, prògramachadh na h-eadar-aghaidh, deasachadh grafaigeachd na h-eadar-aghaidh, pacaid linux&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:14pt;&quot;&gt;     Florian Thauer (&lt;/span&gt;&lt;a href=&quot;mailto:floty@pokerth.net&quot;&gt;&lt;span style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:14pt; text-decoration: underline; color:#0000ff;&quot;&gt;floty@pokerth.net&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:14pt;&quot;&gt;)&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:14pt;&quot;&gt;          - beachd tòiseachaidh, dealbhadh bunasach, leasachadh an einnsein&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:14pt;&quot;&gt;     Lothar May (&lt;/span&gt;&lt;a href=&quot;mailto:lotodore@pokerth.net&quot;&gt;&lt;span style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:14pt; text-decoration: underline; color:#0000ff;&quot;&gt;lotodore@pokerth.net&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:14pt;&quot;&gt;)&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:14pt;&quot;&gt;          - - dealbhadh bunasach, leasachadh lìonraidh, pacaid windows, pacaid MacOS&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:14pt;&quot;&gt;     Oskar Lindqvist (&lt;/span&gt;&lt;a href=&quot;mailto:tranberry@pokerth.net&quot;&gt;&lt;span style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:14pt; text-decoration: underline; color:#0000ff;&quot;&gt;tranberry@pokerth.net&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:14pt;&quot;&gt;)&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:14pt;&quot;&gt;          - a&apos; chiad dealbhachadh grafaigeachd na h-eadar-aghaidh&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+    </message>
+    <message>
+        <location filename="Obsolete_PO_entries"/>
+        <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Sans Serif&apos;; font-weight:400; font-style:normal;&quot;&gt;
+&lt;table border=&quot;0&quot; style=&quot;-qt-table-type: root; margin-top:4px; margin-bottom:4px; margin-left:4px; margin-right:4px;&quot;&gt;
+&lt;tr&gt;
+&lt;td style=&quot;border: none;&quot;&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <translation type="obsolete">&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Sans Serif&apos;; font-weight:400; font-style:normal;&quot;&gt;
+&lt;table border=&quot;0&quot; style=&quot;-qt-table-type: root; margin-top:4px; margin-bottom:4px; margin-left:4px; margin-right:4px;&quot;&gt;
+&lt;tr&gt;
+&lt;td style=&quot;border: none;&quot;&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+    </message>
+    <message>
+        <location filename="Obsolete_PO_entries"/>
+        <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Sans Serif&apos;; font-weight:400; font-style:normal;&quot;&gt;
+&lt;table border=&quot;0&quot; style=&quot;-qt-table-type: root; margin-top:4px; margin-bottom:4px; margin-left:4px; margin-right:4px;&quot;&gt;
+&lt;tr&gt;
+&lt;td style=&quot;border: none;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://commons.wikimedia.org/wiki/Main_Page&quot;&gt;&lt;span style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:14pt; font-weight:600; text-decoration: underline; color:#0000ff;&quot;&gt;Wikimedia Commons&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:14pt; font-weight:600;&quot;&gt;     - &lt;/span&gt;&lt;span style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:14pt;&quot;&gt;for different popular avatar picture resources&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:14pt; font-weight:600;&quot;&gt;Benedikt, Erhard, Felix, Florian, Linus, Lothar, Steffi, Caro&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:14pt;&quot;&gt;     - for people avatar pictures&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:14pt; font-weight:600;&quot;&gt;ZeiZei&lt;/span&gt;&lt;span style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:14pt;&quot;&gt; &lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:14pt;&quot;&gt;    - for &amp;quot;misc&amp;quot; avatar pictures&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://kde-look.org/&quot;&gt;&lt;span style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:14pt; font-weight:600; text-decoration: underline; color:#0000ff;&quot;&gt;http://kde-look.org/&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:14pt;&quot;&gt;     - for different gpl licensed sounds&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:14pt; font-weight:600;&quot;&gt;doc_dos&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:14pt;&quot;&gt;     - for self recorded chip sounds&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:14pt; font-weight:600;&quot;&gt;thiger, dunkanx, BerndA, coldz&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:14pt;&quot;&gt;     - for different patches&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:14pt; font-weight:600;&quot;&gt;kraut&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:14pt;&quot;&gt;     - for internet-game-server hosting and administration&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:14pt; font-weight:600;&quot;&gt;danuxi&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:14pt;&quot;&gt;    - for startwindow background gfx and danuxi1 table background&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:14pt; font-weight:600;&quot;&gt;heyn&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:14pt;&quot;&gt;    - for moderating forum and organise bugtracker and feature requests&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:14pt; font-weight:600;&quot;&gt;texas_outlaw&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:14pt;&quot;&gt;    - for new table sounds&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <translation type="obsolete">&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Sans Serif&apos;; font-weight:400; font-style:normal;&quot;&gt;
+&lt;table border=&quot;0&quot; style=&quot;-qt-table-type: root; margin-top:4px; margin-bottom:4px; margin-left:4px; margin-right:4px;&quot;&gt;
+&lt;tr&gt;
+&lt;td style=&quot;border: none;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://commons.wikimedia.org/wiki/Main_Page&quot;&gt;&lt;span style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:14pt; font-weight:600; text-decoration: underline; color:#0000ff;&quot;&gt;Wikimedia Commons&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:14pt; font-weight:600;&quot;&gt;     - &lt;/span&gt;&lt;span style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:14pt;&quot;&gt;airson caochladh ghoireasan dealbhan avatar mòr-chòrdte&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:14pt; font-weight:600;&quot;&gt;Benedikt, Erhard, Felix, Florian, Linus, Lothar, Steffi, Caro&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:14pt;&quot;&gt;     - airson dealbhan avatar dhaoine&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:14pt; font-weight:600;&quot;&gt;ZeiZei&lt;/span&gt;&lt;span style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:14pt;&quot;&gt; &lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:14pt;&quot;&gt;    - airson dealbhan avatar &amp;quot;measgaichte&amp;quot;&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://kde-look.org/&quot;&gt;&lt;span style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:14pt; font-weight:600; text-decoration: underline; color:#0000ff;&quot;&gt;http://kde-look.org/&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:14pt;&quot;&gt;     - airson caochladh fuaime fon cheadachas gpl&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:14pt; font-weight:600;&quot;&gt;doc_dos&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:14pt;&quot;&gt;     - airson fuaimean nam bonn a chlàraich e fhèin&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:14pt; font-weight:600;&quot;&gt;thiger, dunkanx, BerndA, coldz&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:14pt;&quot;&gt;     - airson caochladh patch&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:14pt; font-weight:600;&quot;&gt;kraut&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:14pt;&quot;&gt;     - airson òstadh is rianachd frithealaichean nan geamannan eadar-lìn&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:14pt; font-weight:600;&quot;&gt;danuxi&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:14pt;&quot;&gt;    - airson èifeachd grafaigeach an sgrìn-tòiseachaidh is cùlaibh a&apos; bhùird danuxi1&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:14pt; font-weight:600;&quot;&gt;heyn&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:14pt;&quot;&gt;    - airson obair-mhaoir air a&apos; bhòrd-bhrath is rianachd a&apos; bugtracker is iarrtasan nam feart&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:14pt; font-weight:600;&quot;&gt;texas_outlaw&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:14pt;&quot;&gt;    - airson fuaimean a&apos; bhùird ùra&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+    </message>
+    <message>
+        <location filename="Obsolete_PO_entries"/>
+        <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body&gt;
+&lt;table border=&quot;0&quot; style=&quot;-qt-table-type: root; margin-top:4px; margin-bottom:4px; margin-left:4px; margin-right:4px;&quot;&gt;
+&lt;tr&gt;
+&lt;td style=&quot;border: none;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://online-ranking.pokerth.net&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Click here to view the online rankings&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <translation type="obsolete">&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body&gt;
+&lt;table border=&quot;0&quot; style=&quot;-qt-table-type: root; margin-top:4px; margin-bottom:4px; margin-left:4px; margin-right:4px;&quot;&gt;
+&lt;tr&gt;
+&lt;td style=&quot;border: none;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://online-ranking.pokerth.net&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Briog an-seo gus an rangachadh air loidhne fhaicinn&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+    </message>
+    <message>
+        <location filename="Obsolete_PO_entries"/>
+        <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://www.pokerth.net&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;http://www.pokerth.net&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <translation type="obsolete">&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://www.pokerth.net&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;http://www.pokerth.net&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+    </message>
+    <message>
+        <location filename="Obsolete_PO_entries"/>
+        <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body&gt;
+&lt;table style=&quot;-qt-table-type: root; margin-top:4px; margin-bottom:4px; margin-left:4px; margin-right:4px;&quot;&gt;
+&lt;tr&gt;
+&lt;td style=&quot;border: none;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://create-gaming-account.pokerth.net&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Create new user account&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <translation type="obsolete">&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body&gt;
+&lt;table style=&quot;-qt-table-type: root; margin-top:4px; margin-bottom:4px; margin-left:4px; margin-right:4px;&quot;&gt;
+&lt;tr&gt;
+&lt;td style=&quot;border: none;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://create-gaming-account.pokerth.net&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Cruthaich cunntas a&apos; chleachdaiche ùr&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+    </message>
+    <message>
+        <location filename="Obsolete_PO_entries"/>
+        <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Sans Serif&apos;; font-weight:400; font-style:normal;&quot;&gt;
+&lt;table border=&quot;0&quot; style=&quot;-qt-table-type: root; margin-top:4px; margin-bottom:4px; margin-left:4px; margin-right:4px;&quot;&gt;
+&lt;tr&gt;
+&lt;td style=&quot;border: none;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:10pt; font-style:italic;&quot;&gt;Note: Best quality with image ratio like &lt;/span&gt;&lt;span style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:10pt; font-weight:600; font-style:italic;&quot;&gt;width=48, height=76.&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <translation type="obsolete">&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Sans Serif&apos;; font-weight:400; font-style:normal;&quot;&gt;
+&lt;table border=&quot;0&quot; style=&quot;-qt-table-type: root; margin-top:4px; margin-bottom:4px; margin-left:4px; margin-right:4px;&quot;&gt;
+&lt;tr&gt;
+&lt;td style=&quot;border: none;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:10pt; font-style:italic;&quot;&gt;An aire: gheibh thu an càileachd as fhearr le co-mheas deilbh mar &lt;/span&gt;&lt;span style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:10pt; font-weight:600; font-style:italic;&quot;&gt;leud=48, àirde=76.&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+    </message>
+    <message>
+        <location filename="Obsolete_PO_entries"/>
+        <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Sans Serif&apos;; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:12pt; font-style:italic;&quot;&gt;Note: Default &lt;/span&gt;&lt;span style=&quot; font-size:12pt; font-weight:600; font-style:italic;&quot;&gt;Game Settings&lt;/span&gt;&lt;span style=&quot; font-size:12pt; font-style:italic;&quot;&gt; like &amp;quot;Maximum number of players&amp;quot;, &amp;quot;Start Cash&amp;quot; and &amp;quot;Small Blind&amp;quot; will be used &lt;/span&gt;&lt;span style=&quot; font-size:12pt; font-weight:600; font-style:italic;&quot;&gt;from Network Game Settings.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <translation type="obsolete">&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Sans Serif&apos;; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:12pt; font-style:italic;&quot;&gt;An aire: thèid  &lt;/span&gt;&lt;span style=&quot; font-size:12pt; font-weight:600; font-style:italic;&quot;&gt;Roghainnean a&apos; gheama&lt;/span&gt;&lt;span style=&quot; font-size:12pt; font-style:italic;&quot;&gt; bunaiteach mar &amp;quot;An àireamh as motha dhe chluicheadairean&amp;quot;, &amp;quot;Airgead tòiseachaidh&amp;quot; is &amp;quot;Small Blind&amp;quot; a chleachdadh &lt;/span&gt;&lt;span style=&quot; font-size:12pt; font-weight:600; font-style:italic;&quot;&gt;bho Roghainnean a&apos; gheama lìonraidh.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+    </message>
+    <message>
+        <location filename="Obsolete_PO_entries"/>
+        <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Sans Serif&apos;; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Human Player:&lt;br /&gt;&lt;span style=&quot; font-size:11pt; font-style:italic;&quot;&gt;(This nick will also be used for the online game login)&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <translation type="obsolete">&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Sans Serif&apos;; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Human Player:&lt;br /&gt;&lt;span style=&quot; font-size:11pt; font-style:italic;&quot;&gt;(Thèid am far-ainm seo a chleachdadh airson an logadh a-steach dha gheamannan air loidhne cuideachd)&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+    </message>
+    <message>
+        <location filename="Obsolete_PO_entries"/>
+        <source>Preview:</source>
+        <translation type="obsolete">Ro-shealladh:</translation>
+    </message>
+    <message>
+        <location filename="Obsolete_PO_entries"/>
+        <source>Export as HTML</source>
+        <translation type="obsolete">Às-phortaich mar HTML</translation>
+    </message>
+    <message>
+        <location filename="Obsolete_PO_entries"/>
+        <source>Export as txt</source>
+        <translation type="obsolete">Às-phortaich mar txt</translation>
+    </message>
+    <message>
+        <location filename="Obsolete_PO_entries"/>
+        <source>Save as ...</source>
+        <translation type="obsolete">Sàbhail mar ...</translation>
+    </message>
+    <message>
+        <location filename="Obsolete_PO_entries"/>
+        <source>Delete</source>
+        <translation type="obsolete">Sguab às</translation>
+    </message>
+    <message>
+        <location filename="Obsolete_PO_entries"/>
+        <source>Log File</source>
+        <translation type="obsolete">Faidhle loga</translation>
+    </message>
+    <message>
+        <location filename="Obsolete_PO_entries"/>
+        <source>PokerTH - Delete log files</source>
+        <translation type="obsolete">PokerTH - Sguab às dha dh&apos;fhaidhlichean loga</translation>
+    </message>
+    <message>
+        <location filename="Obsolete_PO_entries"/>
+        <source>Do you really want to delete the selected log files?</source>
+        <translation type="obsolete">A bheil thu cinnteach gu bheil thu airson na faidhlichean loga a thagh thu a sguabadh às?</translation>
+    </message>
+    <message>
+        <location filename="Obsolete_PO_entries"/>
+        <source>Export PokerTH log file to HTML</source>
+        <translation type="obsolete">Às-phortaich faidhle loga PokerTH gu HTML</translation>
+    </message>
+    <message>
+        <location filename="Obsolete_PO_entries"/>
+        <source>PokerTH HTML log (*.html)</source>
+        <translation type="obsolete">Loga HTML aig PokerTH (*.html)</translation>
+    </message>
+    <message>
+        <location filename="Obsolete_PO_entries"/>
+        <source>Export PokerTH log file to plain text</source>
+        <translation type="obsolete">Às-phortaich faidhle loga PokerTH gu teacsa lom</translation>
+    </message>
+    <message>
+        <location filename="Obsolete_PO_entries"/>
+        <source>PokerTH plain text log (*.txt)</source>
+        <translation type="obsolete">Loga teacsa lom aig PokerTH (*.txt)</translation>
+    </message>
+    <message>
+        <location filename="Obsolete_PO_entries"/>
+        <source>Save PokerTH log file</source>
+        <translation type="obsolete">Sàbhail faidhle loga PokerTH</translation>
+    </message>
+    <message>
+        <location filename="Obsolete_PO_entries"/>
+        <source>PokerTH SQL log (*.pdb)</source>
+        <translation type="obsolete">Loga SQL aig PokerTH (*.pdb)</translation>
     </message>
 </context>
 <context>
@@ -858,7 +887,7 @@ Dh&apos;fhaoidte gum fàillig le luchdadh suas aig faidhlichean loga ma tha thu 
         <location filename="../src/gui/qt/aboutpokerth.ui" line="31"/>
         <location filename="../src/gui/qt/gui_800x480/aboutpokerth_800x480.ui" line="55"/>
         <source>About</source>
-        <translation>Mu dheidhinn</translation>
+        <translation>Mu dhèidhinn</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/aboutpokerth.ui" line="88"/>
@@ -915,7 +944,7 @@ p, li { white-space: pre-wrap; }
         <location filename="../src/gui/qt/aboutpokerth.ui" line="162"/>
         <location filename="../src/gui/qt/gui_800x480/aboutpokerth_800x480.ui" line="199"/>
         <source>Thanks to</source>
-        <translation>Taing do</translation>
+        <translation>Taing</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/aboutpokerth.ui" line="195"/>
@@ -1689,7 +1718,7 @@ p, li { white-space: pre-wrap; }
         <location filename="../src/gui/qt/gamelobbydialog.ui" line="632"/>
         <location filename="../src/gui/qt/gui_800x480/gamelobbydialog_800x480.ui" line="330"/>
         <source>Join &amp;any game</source>
-        <translation type="unfinished">Gabh an ge&amp;ama s bith</translation>
+        <translation>Gabh an ge&amp;ama sam bith</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog.ui" line="659"/>
@@ -1754,60 +1783,60 @@ p, li { white-space: pre-wrap; }
         <translation>A&apos; tòiseachadh air geama. Fuirich greis ...</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="411"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="404"/>
         <source>Joining a private Game</source>
         <translation>A&apos; gabhail ann an geama prìobhaideach</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="412"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="405"/>
         <source>You are about to join a private game. Please enter the password!</source>
         <translation>Tha thu an impis gabhail ann an geama prìobhaideach. An cuir thu a-steach am facal-faire?</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="628"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="621"/>
         <source>open</source>
         <translation>fosgailte</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="525"/>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="842"/>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1215"/>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1257"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="518"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="835"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1208"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1250"/>
         <source>Game Info</source>
         <translation>Fiosrachadh a&apos; gheama</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="135"/>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="464"/>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="879"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="457"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="872"/>
         <source>Game</source>
         <translation>Geama</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="135"/>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="464"/>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="879"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="457"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="872"/>
         <source>Players</source>
         <translation>Cluicheadairean</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="135"/>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="464"/>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="879"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="457"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="872"/>
         <source>State</source>
         <translation>Staid</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="135"/>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="464"/>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="879"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="457"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="872"/>
         <source>P</source>
         <translation>P</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="189"/>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="485"/>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="906"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="478"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="899"/>
         <source>Available Players</source>
         <translation>Cluicheadairean ri làimh</translation>
     </message>
@@ -1827,138 +1856,138 @@ p, li { white-space: pre-wrap; }
         <translation>Fiosrachadh a&apos; chluicheadair ...</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="214"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="211"/>
         <source>Report inappropriate game name</source>
         <translation>Aithris ainm cluicheadair mì-iomchaidh</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="359"/>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="533"/>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1220"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="352"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="526"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1213"/>
         <source>Standard</source>
         <translation>Àbhaisteach</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="364"/>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="538"/>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1225"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="357"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="531"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1218"/>
         <source>Registered players only</source>
         <translation>Cluicheadairean a chlàraich a-mhàin</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="369"/>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="543"/>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1230"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="362"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="536"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1223"/>
         <source>Invited players only</source>
         <translation>Cluicheadairean a fhuair cuireadh a-mhàin</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="374"/>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="548"/>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1235"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="367"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="541"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1228"/>
         <source>Ranking game</source>
         <translation>Geama rangachaidh</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="385"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="378"/>
         <source>Connected players - max. %1</source>
         <translation>Cluicheadairean ceangailte - %1 air a char as motha</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="135"/>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="464"/>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="879"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="457"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="872"/>
         <source>T</source>
         <translation>S</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="390"/>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="559"/>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1244"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="383"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="552"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1237"/>
         <source>sec (action)</source>
         <translation>diog (gnìomhachd)</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="390"/>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="559"/>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1244"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="383"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="552"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1237"/>
         <source>sec (hand delay)</source>
         <translation>diog (dàil na làimhe)</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="572"/>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1247"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="565"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1240"/>
         <source>Connected players - Max. %1</source>
         <translation>Cluicheadairean ceangailte - %1 air a char as motha</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="625"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="618"/>
         <source>running</source>
         <translation>ga ruith</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="746"/>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="917"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="739"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="910"/>
         <source>running games: %1</source>
-        <translation>geamannan gan ruith: %1</translation>
+        <translation>geamannan &apos;gan ruith: %1</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="747"/>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="918"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="740"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="911"/>
         <source>open games: %1</source>
         <translation>geamannan fosgailte: %1</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1668"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1661"/>
         <source>Invite %1</source>
         <translation>Thoir cuireadh dha %1</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1678"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1671"/>
         <source>Ignore %1</source>
         <translation>Leig seachad %1</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1776"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1750"/>
         <source>&lt;span style=&apos;color:blue;&apos;&gt;%1 has been invited to %2 by %3.&lt;/span&gt;</source>
         <translation>&lt;span style=&apos;color:blue;&apos;&gt;Thug %3 cuireadh dha %1 airson %2.&lt;/span&gt;</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1783"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1757"/>
         <source>&lt;span style=&apos;color:red;&apos;&gt;%1 has rejected the invitation to %2.&lt;/span&gt;</source>
         <translation>&lt;span style=&apos;color:red;&apos;&gt;dhiùlt %1 an cuireadh airson %2.&lt;/span&gt;</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1785"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1759"/>
         <source>&lt;span style=&apos;color:red;&apos;&gt;%1 cannot join %2 because he is busy.&lt;/span&gt;</source>
         <translation>&lt;span style=&apos;color:red;&apos;&gt;Chan urrainn dha %1 gabhail ann an %2 oir tha e trang.&lt;/span&gt;</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1841"/>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1858"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1815"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1832"/>
         <source>The game will start in&lt;br&gt;&lt;b&gt;%1&lt;/b&gt; seconds.</source>
         <translation>Tòisichidh a&apos; gheama ann an&lt;br&gt;&lt;b&gt;%1&lt;/b&gt; diog.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1743"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1717"/>
         <source>You have entered a game with type &quot;invite-only&quot;.
 Feel free to invite other players by right-clicking on their nick in the available players list.</source>
         <translation>Ghabh thu ann an geama dhen t-seòrsa &quot;le cuireadh a-mhàin&quot;.
 Faodaidh tu cuireadh a thoirt dha chluicheadair eile le briogadh deas air fhar-ainm air liosta nan cluicheadairean ri làimh.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1762"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1736"/>
         <source>You have been invited to the game &lt;b&gt;%1&lt;/b&gt; by &lt;b&gt;%2&lt;/b&gt;.&lt;br&gt;Would you like to join this game?</source>
         <translation>Fhuair thu cuireadh dhan gheama &lt;b&gt;%1&lt;/b&gt; le &lt;b&gt;%2&lt;/b&gt;.&lt;br&gt;A bheil thu airson gabhail sa gheama seo?</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1816"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1790"/>
         <source>You will no longer receive chat messages or game invitations from this user.&lt;br&gt;Do you really want to put player &lt;b&gt;%1&lt;/b&gt; on your ignore list?</source>
         <translation>Chan fhaigh thu teachdaireachdan cabadaich no cuiridhean bhon chleachdaiche seo tuilleadh.&lt;br&gt;A bheil thu cinnteach gu bheil thu airson an cluicheadair &lt;b&gt;%1&lt;/b&gt; a chur air an liosta neo-shuime agad?</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="757"/>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="916"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="750"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="909"/>
         <source>connected players: %1</source>
         <translation>cluicheadairean ceangailte: %1</translation>
     </message>
@@ -1974,1345 +2003,1316 @@ Faodaidh tu cuireadh a thoirt dha chluicheadair eile le briogadh deas air fhar-a
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="135"/>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="464"/>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="879"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="457"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="872"/>
         <source>Time</source>
         <translation>Ùine</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="203"/>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="210"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="207"/>
         <source>Show player stats</source>
         <translation>Seall stadastaireachd a&apos; chluicheadair</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="205"/>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="216"/>
-        <source>Admin action ...</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="206"/>
-        <source>Total kickban</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="217"/>
-        <source>Close game</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="847"/>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1262"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="840"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1255"/>
         <source>Connected players</source>
         <translation>Cluicheadairean ceangailte</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1294"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1287"/>
         <source>hands</source>
         <translation>làmhan</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1296"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1289"/>
         <source>minutes</source>
         <translation>mionaidean</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1299"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1292"/>
         <source>double blinds</source>
         <translation>blinds dùbailte</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1303"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1296"/>
         <source>manual blinds order</source>
         <translation>òrdugh nam blinds a làimh</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1355"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1348"/>
         <source>Server Error</source>
         <translation>Mearachd an fhrithealaiche</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1356"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1349"/>
         <source>You should not kick yourself from this game!</source>
         <translation>Cha bu chòir dhut a&apos; bhròg a thoirt dhut fhèin!</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1407"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1400"/>
         <source>search for player ...</source>
         <translation>a&apos; lorg cluicheadair ...</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1653"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1646"/>
         <source>Chat is only available to registered players.</source>
         <translation>Chan eil a&apos; chabadaich ri làimh ach airson chluicheadairean a&apos; chlàraich.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1671"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1664"/>
         <source>Invite player ...</source>
         <translation>Thoir cuireadh dha chluicheadair ...</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1682"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1675"/>
         <source>Ignore player ...</source>
         <translation>Leig seachad an cluicheadair ...</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1688"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1682"/>
         <source>%1 is playing in &quot;%2&quot;.</source>
         <translation>Tha %1 a&apos; cluiche ann an &quot;%2&quot;.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1690"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1684"/>
         <source>%1 is not playing at the moment.</source>
         <translation>Chan eil %1 a&apos; cluiche an-dràsta.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1743"/>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1762"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1717"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1736"/>
         <source>PokerTH - Info Message</source>
         <translation>PokerTH - Brath fiosrachaidh</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1816"/>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2191"/>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2208"/>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2224"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1790"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2166"/>
         <source>PokerTH - Question</source>
         <translation>PokerTH - Ceist</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1917"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1891"/>
         <source>Afghanistan</source>
         <translation>Afghanastàn</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1918"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1892"/>
         <source>ALand Islands</source>
         <translation>Na h-Eileanan Àland</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1919"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1893"/>
         <source>Albania</source>
         <translation>Albàinia</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1920"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1894"/>
         <source>Algeria</source>
         <translation>Aildiria</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1921"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1895"/>
         <source>American Samoa</source>
         <translation>Samotha na h-Aimeireaga</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1922"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1896"/>
         <source>Andorra</source>
         <translation>Andorra</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1923"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1897"/>
         <source>Angola</source>
         <translation>Angòla</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1924"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1898"/>
         <source>Anguilla</source>
         <translation>Anguilia</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1925"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1899"/>
         <source>Antarctica</source>
         <translation>An Antartaig</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1926"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1900"/>
         <source>Antigua And Barbuda</source>
         <translation>Aintìoga agus Barbuda</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1927"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1901"/>
         <source>Argentina</source>
         <translation>An Argantain</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1928"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1902"/>
         <source>Armenia</source>
         <translation>Airmeinia</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1929"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1903"/>
         <source>Aruba</source>
         <translation>Arùba</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1930"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1904"/>
         <source>Australia</source>
         <translation>Astràilia</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1931"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1905"/>
         <source>Austria</source>
         <translation>An Ostair</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1932"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1906"/>
         <source>Azerbaijan</source>
         <translation>Asarbaideàn</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1933"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1907"/>
         <source>Bahamas</source>
         <translation>Na h-Eileanan Bhathama</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1934"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1908"/>
         <source>Bahrain</source>
         <translation>Bachrain</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1935"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1909"/>
         <source>Bangladesh</source>
         <translation>Bangladais</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1936"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1910"/>
         <source>Barbados</source>
         <translation>Barbados</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1937"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1911"/>
         <source>Belarus</source>
         <translation>A&apos; Bhealaruis</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1938"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1912"/>
         <source>Belgium</source>
         <translation>A&apos; Bheilg</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1939"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1913"/>
         <source>Belize</source>
         <translation>A&apos; Bheilìs</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1940"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1914"/>
         <source>Benin</source>
         <translation>Beinin</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1941"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1915"/>
         <source>Bermuda</source>
         <translation>Bearmùda</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1942"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1916"/>
         <source>Bhutan</source>
         <translation>Butàn</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1943"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1917"/>
         <source>Bolivia</source>
         <translation>Boilibhia</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1944"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1918"/>
         <source>Bosnia And Herzegovina</source>
         <translation>Bosna is Hearsagobhana</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1945"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1919"/>
         <source>Botswana</source>
         <translation>Botsuana</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1946"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1920"/>
         <source>Bouvet Island</source>
         <translation>Eilean Bouvet</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1947"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1921"/>
         <source>Brazil</source>
         <translation>Braisil</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1948"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1922"/>
         <source>British Indian Ocean Territory</source>
         <translation>Ranntair Breatannach Cuan nan Innseachan</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1949"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1923"/>
         <source>Brunei Darussalam</source>
         <translation>Brùnaigh Dàr as-Salàm</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1950"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1924"/>
         <source>Bulgaria</source>
         <translation>A&apos; Bhulgair</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1951"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1925"/>
         <source>Burkina Faso</source>
         <translation>Buirciona Faso</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1952"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1926"/>
         <source>Burundi</source>
         <translation>Burundaidh</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1953"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1927"/>
         <source>Cambodia</source>
         <translation>Cambuidea</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1954"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1928"/>
         <source>Cameroon</source>
         <translation>Camarun</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1955"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1929"/>
         <source>Canada</source>
         <translation>Canada</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1956"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1930"/>
         <source>Cape Verde</source>
         <translation>An Ceap Uaine</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1957"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1931"/>
         <source>Cayman Islands</source>
         <translation>Na h-Eileanan Caimean</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1958"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1932"/>
         <source>Central African Republic</source>
         <translation>Poblachd Meadhan Afraga</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1959"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1933"/>
         <source>Chad</source>
         <translation>An t-Seàd</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1960"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1934"/>
         <source>Chile</source>
         <translation>An t-Sile</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1961"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1935"/>
         <source>China</source>
         <translation>An t-Sìn</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1962"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1936"/>
         <source>Christmas Island</source>
         <translation>Eilean na Nollaig</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1963"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1937"/>
         <source>Cocos (Keeling) Islands</source>
         <translation>Na h-Eileanan Cocos (Keeling)</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1964"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1938"/>
         <source>Colombia</source>
         <translation>Coloimbia</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1965"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1939"/>
         <source>Comoros</source>
         <translation>Comoros</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1966"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1940"/>
         <source>Congo</source>
         <translation>Congo</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1967"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1941"/>
         <source>Congo, The Democratic Republic Of The</source>
         <translation>Congo, Poblachd Dheamocratach</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1968"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1942"/>
         <source>Cook Islands</source>
         <translation>Eileanan Cook</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1969"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1943"/>
         <source>Costa Rica</source>
         <translation>Costa Rìcea</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1970"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1944"/>
         <source>Cote D&apos;Ivoire</source>
         <translation>Côte d&apos;Ivoire</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1971"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1945"/>
         <source>Croatia</source>
         <translation>A&apos; Chròthais</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1972"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1946"/>
         <source>Cuba</source>
         <translation>Cùba</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1973"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1947"/>
         <source>Cyprus</source>
         <translation>Cìopras</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1974"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1948"/>
         <source>Czech Republic</source>
         <translation>Poblachd na Seice</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1975"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1949"/>
         <source>Denmark</source>
         <translation>An Danmhairg</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1976"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1950"/>
         <source>Djibouti</source>
         <translation>Diobùtaidh</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1977"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1951"/>
         <source>Dominica</source>
         <translation>Doiminicea</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1978"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1952"/>
         <source>Dominican Republic</source>
         <translation>A&apos; Phoblachd Dhoiminiceach</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1979"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1953"/>
         <source>Ecuador</source>
         <translation>Eacuador</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1980"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1954"/>
         <source>Egypt</source>
         <translation>An Èiphit</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1981"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1955"/>
         <source>El Salvador</source>
         <translation>An Salbhador</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1982"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1956"/>
         <source>Equatorial Guinea</source>
         <translation>Gini Mheadhan-Chriosach</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1983"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1957"/>
         <source>Eritrea</source>
         <translation>Eartra</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1984"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1958"/>
         <source>Estonia</source>
         <translation>An Eastoin</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1985"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1959"/>
         <source>Ethiopia</source>
         <translation>An Itiop</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1986"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1960"/>
         <source>Falkland Islands (Malvinas)</source>
         <translation>Na h-Eileanan Fàclannach (Malvinas)</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1987"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1961"/>
         <source>Faroe Islands</source>
         <translation>Na h-Eileanan Fàro</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1988"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1962"/>
         <source>Fiji</source>
         <translation>Fìdi</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1989"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1963"/>
         <source>Finland</source>
         <translation>An Fhionnlann</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1990"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1964"/>
         <source>France</source>
         <translation>An Fhraing</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1991"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1965"/>
         <source>French Guiana</source>
         <translation>Guidheàna na Frainge</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1992"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1966"/>
         <source>French Polynesia</source>
         <translation>Poilinèis na Frainge</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1993"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1967"/>
         <source>French Southern Territories</source>
         <translation>Ranntairean a Deas na Frainge</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1994"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1968"/>
         <source>Gabon</source>
         <translation>Gabon</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1995"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1969"/>
         <source>Gambia</source>
         <translation>A&apos; Ghaimbia</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1996"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1970"/>
         <source>Georgia</source>
         <translation>A&apos; Chairtbheil</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1997"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1971"/>
         <source>Germany</source>
         <translation>A&apos; Ghearmailt</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1998"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1972"/>
         <source>Ghana</source>
         <translation>Gàna</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1999"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1973"/>
         <source>Gibraltar</source>
         <translation>Diobraltar</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2000"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1974"/>
         <source>Greece</source>
         <translation>A&apos; Ghreug</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2001"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1975"/>
         <source>Greenland</source>
         <translation>A&apos; Ghraonlann</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2002"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1976"/>
         <source>Grenada</source>
         <translation>Greanàda</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2003"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1977"/>
         <source>Guadeloupe</source>
         <translation>Guadalup</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2004"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1978"/>
         <source>Guam</source>
         <translation>Guam</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2005"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1979"/>
         <source>Guatemala</source>
         <translation>Guatamala</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2006"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1980"/>
         <source>Guernsey</source>
         <translation>Geàrnsaidh</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2007"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1981"/>
         <source>Guinea</source>
         <translation>Gini</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2008"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1982"/>
         <source>Guinea-Bissau</source>
         <translation>Gini-Bioso</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2009"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1983"/>
         <source>Guyana</source>
         <translation>Guidheàna</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2010"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1984"/>
         <source>Haiti</source>
         <translation>Haidhti</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2011"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1985"/>
         <source>Heard Island And Mcdonald Islands</source>
         <translation>Eilean Heard is MhicDhòmhnaill</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2012"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1986"/>
         <source>Holy See (Vatican City State)</source>
         <translation>A&apos; Chathair Naomh (Stàit Cathair na Bhatacain)</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2013"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1987"/>
         <source>Honduras</source>
         <translation>Hondùras</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2014"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1988"/>
         <source>Hong Kong</source>
         <translation>Hong Kong</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2015"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1989"/>
         <source>Hungary</source>
         <translation>An Ungair</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2016"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1990"/>
         <source>Iceland</source>
         <translation>Innis Tìle</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2017"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1991"/>
         <source>India</source>
         <translation>Na h-Innseachan</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2018"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1992"/>
         <source>Indonesia</source>
         <translation>Na h-Innd Innse</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2019"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1993"/>
         <source>Iran, Islamic Republic Of</source>
         <translation>Ioràn, Poblachd Ioslamach</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2020"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1994"/>
         <source>Iraq</source>
         <translation>Ioràc</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2021"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1995"/>
         <source>Ireland</source>
         <translation>Èirinn</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2022"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1996"/>
         <source>Isle Of Man</source>
         <translation>Eilean Mhanainn</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2023"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1997"/>
         <source>Israel</source>
         <translation>Iosrael</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2024"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1998"/>
         <source>Italy</source>
         <translation>An Eadailt</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2025"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1999"/>
         <source>Jamaica</source>
         <translation>Diameuga</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2026"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2000"/>
         <source>Japan</source>
         <translation>An t-Seapan</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2027"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2001"/>
         <source>Jersey</source>
         <translation>Deàrsaidh</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2028"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2002"/>
         <source>Jordan</source>
         <translation>Iòrdan</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2029"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2003"/>
         <source>Kazakhstan</source>
         <translation>Casachstàn</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2030"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2004"/>
         <source>Kenya</source>
         <translation>Ceinia</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2031"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2005"/>
         <source>Kiribati</source>
         <translation>Ciribeas</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2032"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2006"/>
         <source>Korea, Democratic People&apos;S Republic Of</source>
         <translation>Coirèa, Sluagh-phoblachd Dheamocratach</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2033"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2007"/>
         <source>Korea, Republic Of</source>
         <translation>Choirèa, Poblachd</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2034"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2008"/>
         <source>Kuwait</source>
         <translation>Cuibhèit</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2035"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2009"/>
         <source>Kyrgyzstan</source>
         <translation>Cìorgastan</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2036"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2010"/>
         <source>Lao People&apos;S Democratic Republic</source>
         <translation>Làtho, Sluagh-phoblachd Dheamocratach</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2037"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2011"/>
         <source>Latvia</source>
         <translation>An Laitbhe</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2038"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2012"/>
         <source>Lebanon</source>
         <translation>Leabanon</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2039"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2013"/>
         <source>Lesotho</source>
         <translation>Leasoto</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2040"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2014"/>
         <source>Liberia</source>
         <translation>Libèir</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2041"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2015"/>
         <source>Libyan Arab Jamahiriya</source>
         <translation>Libia, Sluagh-phoblachd Mhòr Shòisealach Arabach</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2042"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2016"/>
         <source>Liechtenstein</source>
         <translation>Lichtenstein</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2043"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2017"/>
         <source>Lithuania</source>
         <translation>An Liotuain</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2044"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2018"/>
         <source>Luxembourg</source>
         <translation>Lugsamburg</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2045"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2019"/>
         <source>Macao</source>
         <translation>Macàthu</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2046"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2020"/>
         <source>Macedonia, The Former Yugoslav Republic Of</source>
         <translation>A&apos; Mhasadon, Seann-Phoblachd Iùgoslabhach</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2047"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2021"/>
         <source>Madagascar</source>
         <translation>Madagasgar</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2048"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2022"/>
         <source>Malawi</source>
         <translation>Malabhaidh</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2049"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2023"/>
         <source>Malaysia</source>
         <translation>Malaidhsea</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2050"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2024"/>
         <source>Maldives</source>
         <translation>Na h-Eileanan Maladaibh</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2051"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2025"/>
         <source>Mali</source>
         <translation>Màili</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2052"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2026"/>
         <source>Malta</source>
         <translation>Malta</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2053"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2027"/>
         <source>Marshall Islands</source>
         <translation>Eileanan Mharshall</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2054"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2028"/>
         <source>Martinique</source>
         <translation>Mairtinic</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2055"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2029"/>
         <source>Mauritania</source>
         <translation>Moratàinea</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2056"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2030"/>
         <source>Mauritius</source>
         <translation>Na h-Eileanan Mhoiriseas</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2057"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2031"/>
         <source>Mayotte</source>
         <translation>Mayotte</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2058"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2032"/>
         <source>Mexico</source>
         <translation>Meagsago</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2059"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2033"/>
         <source>Micronesia, Federated States Of</source>
         <translation>Na Meanbh-Eileanan, Stàitean Feadarail</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2060"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2034"/>
         <source>Moldova, Republic Of</source>
         <translation>A&apos; Mholdobha, Poblachd</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2061"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2035"/>
         <source>Monaco</source>
         <translation>Monaco</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2062"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2036"/>
         <source>Mongolia</source>
         <translation>Dùthaich nam Mongol</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2063"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2037"/>
         <source>Montserrat</source>
         <translation>Montsarat</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2064"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2038"/>
         <source>Morocco</source>
         <translation>Moroco</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2065"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2039"/>
         <source>Mozambique</source>
         <translation>Mòsaimbic</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2066"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2040"/>
         <source>Myanmar</source>
         <translation>Miànmar</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2067"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2041"/>
         <source>Namibia</source>
         <translation>An Namaib</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2068"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2042"/>
         <source>Nauru</source>
         <translation>Nauru</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2069"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2043"/>
         <source>Nepal</source>
         <translation>Neapàl</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2070"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2044"/>
         <source>Netherlands</source>
         <translation>Na Tìrean Ìsle</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2071"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2045"/>
         <source>Netherlands Antilles</source>
         <translation>Eileanan Aintilia nan Tìrean Ìsle</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2072"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2046"/>
         <source>New Caledonia</source>
         <translation>Cailleann Nuadh</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2073"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2047"/>
         <source>New Zealand</source>
         <translation>Sealainn Nuadh</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2074"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2048"/>
         <source>Nicaragua</source>
         <translation>Niocaragua</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2075"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2049"/>
         <source>Niger</source>
         <translation>Nìgeir</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2076"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2050"/>
         <source>Nigeria</source>
         <translation>Nigèiria</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2077"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2051"/>
         <source>Niue</source>
         <translation>Niue</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2078"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2052"/>
         <source>Norfolk Island</source>
         <translation>Eilean Norfolk</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2079"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2053"/>
         <source>Northern Mariana Islands</source>
         <translation>Na h-Eileanan Mairianach a Tuath</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2080"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2054"/>
         <source>Norway</source>
         <translation>An Nirribhidh</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2081"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2055"/>
         <source>Oman</source>
         <translation>Omàn</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2082"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2056"/>
         <source>Pakistan</source>
         <translation>Pagastàn</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2083"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2057"/>
         <source>Palau</source>
         <translation>Palabh</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2084"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2058"/>
         <source>Palestinian Territory, Occupied</source>
         <translation>A&apos; phalastain, Ranntair fo fhor-ghlacadh</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2085"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2059"/>
         <source>Panama</source>
         <translation>Panama</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2086"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2060"/>
         <source>Papua New Guinea</source>
         <translation>Gini Nuadh Phaputhach</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2087"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2061"/>
         <source>Paraguay</source>
         <translation>Paraguaidh</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2088"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2062"/>
         <source>Peru</source>
         <translation>Pearù</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2089"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2063"/>
         <source>Philippines</source>
         <translation>Na h-Eileanan Filipineach</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2090"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2064"/>
         <source>Pitcairn</source>
         <translation>Peit a&apos; Chàirn</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2091"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2065"/>
         <source>Poland</source>
         <translation>A&apos; Phòlainn</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2092"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2066"/>
         <source>Portugal</source>
         <translation>A&apos; Phortagail</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2093"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2067"/>
         <source>Puerto Rico</source>
         <translation>Porto Rìceo</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2094"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2068"/>
         <source>Qatar</source>
         <translation>Catar</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2095"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2069"/>
         <source>Reunion</source>
         <translation>Réunion</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2096"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2070"/>
         <source>Romania</source>
         <translation>Romàinia</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2097"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2071"/>
         <source>Russian Federation</source>
         <translation>An Co-nasgadh Ruiseach</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2098"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2072"/>
         <source>Rwanda</source>
         <translation>Rubhanda</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2099"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2073"/>
         <source>Saint Helena</source>
         <translation>Eilean Naomh Eilidh</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2100"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2074"/>
         <source>Saint Kitts And Nevis</source>
         <translation>Naomh Crìstean is Nibheis</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2101"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2075"/>
         <source>Saint Lucia</source>
         <translation>Naomh Lùisea</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2102"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2076"/>
         <source>Saint Pierre And Miquelon</source>
         <translation>Saint Pierre is Miquelon</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2103"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2077"/>
         <source>Saint Vincent And The Grenadines</source>
         <translation>Naomh Bhionsant agus Eileanan Greanadach</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2104"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2078"/>
         <source>Samoa</source>
         <translation>Samotha</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2105"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2079"/>
         <source>San Marino</source>
         <translation>San Marino</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2106"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2080"/>
         <source>Sao Tome And Principe</source>
         <translation>São Tomé is Príncipe</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2107"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2081"/>
         <source>Saudi Arabia</source>
         <translation>Aràibia nan Sabhd</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2108"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2082"/>
         <source>Senegal</source>
         <translation>Seanagal</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2109"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2083"/>
         <source>Serbia And Montenegro</source>
         <translation>An t-Sèirb is am Monadh Negrach</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2110"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2084"/>
         <source>Seychelles</source>
         <translation>Na h-Eileanan Sheiseall</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2111"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2085"/>
         <source>Sierra Leone</source>
         <translation>Siarra Leòmhann</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2112"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2086"/>
         <source>Singapore</source>
         <translation>Singeapòr</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2113"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2087"/>
         <source>Slovakia</source>
         <translation>An t-Slòbhac</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2114"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2088"/>
         <source>Slovenia</source>
         <translation>An t-Slòbhain</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2115"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2089"/>
         <source>Solomon Islands</source>
         <translation>Eileanan Sholaimh</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2116"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2090"/>
         <source>Somalia</source>
         <translation>Somàilia</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2117"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2091"/>
         <source>South Africa</source>
         <translation>Afraga a Deas</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2118"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2092"/>
         <source>South Georgia And The South Sandwich Islands</source>
         <translation>Seòrsea a Deas is na h-Eileanan Sandwich a Deas</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2119"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2093"/>
         <source>Spain</source>
         <translation>An Spàinn</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2120"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2094"/>
         <source>Sri Lanka</source>
         <translation>Sri Lanca</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2121"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2095"/>
         <source>Sudan</source>
         <translation>Sudàn</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2122"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2096"/>
         <source>Suriname</source>
         <translation>Suranam</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2123"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2097"/>
         <source>Svalbard And Jan Mayen</source>
         <translation>Svalbard is Jan Mayen</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2124"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2098"/>
         <source>Swaziland</source>
         <translation>Dùthaich nan Suasaidh</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2125"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2099"/>
         <source>Sweden</source>
         <translation>An t-Suain</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2126"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2100"/>
         <source>Switzerland</source>
         <translation>An Eilbheis</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2127"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2101"/>
         <source>Syrian Arab Republic</source>
         <translation>Siridhea, Poblachd Arabach</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2128"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2102"/>
         <source>Taiwan, Province Of China</source>
         <translation>Taidh-Bhàn, Mòr-roinn na Sìne</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2129"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2103"/>
         <source>Tajikistan</source>
         <translation>Taidigeastàn</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2130"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2104"/>
         <source>Tanzania, United Republic Of</source>
         <translation>An Tansan, Poblachd Aonaichte</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2131"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2105"/>
         <source>Thailand</source>
         <translation>Dùthaich nan Tàidh</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2132"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2106"/>
         <source>Timor-Leste</source>
         <translation>Tìomor an Ear</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2133"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2107"/>
         <source>Togo</source>
         <translation>Togo</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2134"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2108"/>
         <source>Tokelau</source>
         <translation>Tokelau</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2135"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2109"/>
         <source>Tonga</source>
         <translation>Tonga</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2136"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2110"/>
         <source>Trinidad And Tobago</source>
         <translation>Trianaid is Tobago</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2137"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2111"/>
         <source>Tunisia</source>
         <translation>Tuinisea</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2138"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2112"/>
         <source>Turkey</source>
         <translation>An Tuirc</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2139"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2113"/>
         <source>Turkmenistan</source>
         <translation>Turcmanastàn</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2140"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2114"/>
         <source>Turks And Caicos Islands</source>
         <translation>Na h-Eileanan Turcach is Caiceo</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2141"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2115"/>
         <source>Tuvalu</source>
         <translation>Tubhalu</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2142"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2116"/>
         <source>Uganda</source>
         <translation>Uganda</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2143"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2117"/>
         <source>Ukraine</source>
         <translation>An Ucràin</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2144"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2118"/>
         <source>United Arab Emirates</source>
         <translation>Na h-Iomaratan Arabach Aonaichte</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2145"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2119"/>
         <source>United Kingdom</source>
         <translation>An Rìoghachd Aonaichte</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2146"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2120"/>
         <source>United States</source>
         <translation>Na Stàitean Aonaichte</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2147"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2121"/>
         <source>United States Minor Outlying Islands</source>
         <translation>Meanbh-Eileanan Iomallach nan Stàitean Aonaichte</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2148"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2122"/>
         <source>Uruguay</source>
         <translation>Uruguaidh</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2149"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2123"/>
         <source>Uzbekistan</source>
         <translation>Usbagastan</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2150"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2124"/>
         <source>Vanuatu</source>
         <translation>Vanuatu</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2151"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2125"/>
         <source>Venezuela</source>
         <translation>A&apos; Bheiniseala</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2152"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2126"/>
         <source>Viet Nam</source>
         <translation>Bhiet-Nam</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2153"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2127"/>
         <source>Virgin Islands, British</source>
         <translation>Eileanan Breatannach na Maighdinn</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2154"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2128"/>
         <source>Virgin Islands, U.S.</source>
         <translation>Eileanan na Maighdinn aig na Stàitean Aonaichte</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2155"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2129"/>
         <source>Wallis And Futuna</source>
         <translation>Uallas agus Futuna</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2156"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2130"/>
         <source>Western Sahara</source>
         <translation>Sathara an Iar</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2157"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2131"/>
         <source>Yemen</source>
         <translation>An Eaman</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2158"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2132"/>
         <source>Zambia</source>
         <translation>Sàimbia</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2159"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2133"/>
         <source>Zimbabwe</source>
         <translation>An t-Sìombab</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2192"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2167"/>
         <source>Are you sure you want to report the game name:
 &quot;%1&quot; as inappropriate?</source>
         <translation>A bheil thu cinnteach gu bheil thu airson ainm a&apos; gheama:
 &quot;%1&quot; aithris mar mhì-iomchaidh?</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2209"/>
-        <source>Are you sure you want to close the game:
-&quot;%1&quot;?</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2225"/>
-        <source>Are you sure you want to total kickban the player: &quot;%1&quot;?</source>
-        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -3914,7 +3914,7 @@ p, li { white-space: pre-wrap; }
         <location filename="../src/gui/qt/gui_800x480/joinnetworkgamedialog_800x480.ui" line="111"/>
         <location filename="../src/gui/qt/joinnetworkgamedialog.ui" line="87"/>
         <source>myServerProfile1</source>
-        <translation>pròifilFrithealaicheAgam1</translation>
+        <translation>Frithealaiche1</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gui_800x480/joinnetworkgamedialog_800x480.ui" line="68"/>
@@ -3962,7 +3962,7 @@ A bheil thu airson sgrìobhadh thairis air?</translation>
     <message>
         <location filename="../src/gui/qt/joinnetworkgamedialog/joinnetworkgamedialogimpl.cpp" line="264"/>
         <source>Read Server-Profile List Error</source>
-        <translation>A&apos; leughadh liosta pròifil nam  frithealaiche-Mearachd fhaidhle</translation>
+        <translation>A&apos; leughadh liosta pròifil nam frithealaiche-Mearachd fhaidhle</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/joinnetworkgamedialog/joinnetworkgamedialogimpl.cpp" line="265"/>
@@ -4133,7 +4133,7 @@ A bheil thu airson sgrìobhadh thairis air?</translation>
         <location filename="../src/gui/qt/gui_800x480/newgamedialog_800x480.ui" line="202"/>
         <location filename="../src/gui/qt/newgamedialog.ui" line="107"/>
         <source>Game Speed:</source>
-        <translation>Astar a&apos; gheama:</translation>
+        <translation>Luaths a&apos; gheama:</translation>
     </message>
 </context>
 <context>
@@ -4280,7 +4280,7 @@ Feuch an cuir thu a-steach dealbh dligheach!</translation>
     <message>
         <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="140"/>
         <location filename="../src/gui/qt/settingsdialog.ui" line="125"/>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="3581"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="3567"/>
         <source>Factory Settings</source>
         <translation>Roghainnean an fhactaraidh</translation>
     </message>
@@ -4508,7 +4508,7 @@ Feuch an cuir thu a-steach dealbh dligheach!</translation>
         <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="1284"/>
         <location filename="../src/gui/qt/settingsdialog.ui" line="1088"/>
         <source>Game Speed:</source>
-        <translation>Astar a&apos; gheama:</translation>
+        <translation>Luaths a&apos; gheama:</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="1309"/>
@@ -4523,13 +4523,7 @@ Feuch an cuir thu a-steach dealbh dligheach!</translation>
         <translation>Seall còmhradh airson roghainnean a&apos; gheama le toiseach gach geama ùir</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="1865"/>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="1632"/>
-        <source>Server Password:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="3807"/>
+        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="3793"/>
         <source> OK </source>
         <translation>Ceart ma-thà</translation>
     </message>
@@ -4551,14 +4545,14 @@ Feuch an cuir thu a-steach dealbh dligheach!</translation>
         <translation>Crìochan ùine airson gnìomhachd a&apos; chluicheadair:</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="3730"/>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="3631"/>
+        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="3716"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="3617"/>
         <source>Reset all settings to default ...</source>
         <translation>Ath-shuidhich na h-uile roghainn dhan bhun-roghainn ...</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="3773"/>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="3678"/>
+        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="3759"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="3664"/>
         <source>Note: You can not reset all settings to default during a running game!</source>
         <translation>An aire: chan urrainn dhut na h-uile roghainn ath-shuidheachadh dhan bhun-roghainn nuair a bhios geama a&apos; ruith!</translation>
     </message>
@@ -4578,41 +4572,41 @@ Feuch an cuir thu a-steach dealbh dligheach!</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="1676"/>
-        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="1808"/>
+        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="1828"/>
         <location filename="../src/gui/qt/settingsdialog.ui" line="1483"/>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="1663"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="1649"/>
         <source>Server Port:</source>
         <translation>Port an fhrithealaiche:</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="1724"/>
-        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="1927"/>
+        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="1913"/>
         <location filename="../src/gui/qt/settingsdialog.ui" line="1531"/>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="1920"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="1906"/>
         <source>Use SCTP</source>
         <translation>Cleachd SCTP</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="1707"/>
-        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="1897"/>
+        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="1883"/>
         <location filename="../src/gui/qt/settingsdialog.ui" line="1514"/>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="1890"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="1876"/>
         <source>Use IPv6</source>
         <translation>Cleachd IPv6</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="1714"/>
-        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="1904"/>
+        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="1890"/>
         <location filename="../src/gui/qt/settingsdialog.ui" line="1521"/>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="1897"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="1883"/>
         <source>&lt;a href=&quot;http://en.wikipedia.org/wiki/Ipv6&quot;&gt;What is this?&lt;/a&gt;</source>
         <translation>&lt;a href=&quot;http://en.wikipedia.org/wiki/Ipv6&quot;&gt;Dè th&apos; ann?&lt;/a&gt;</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="1731"/>
-        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="1934"/>
+        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="1920"/>
         <location filename="../src/gui/qt/settingsdialog.ui" line="1538"/>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="1927"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="1913"/>
         <source>&lt;a href=&quot;http://en.wikipedia.org/wiki/Stream_Control_Transmission_Protocol&quot;&gt;What is this?&lt;/a&gt;</source>
         <translation>&lt;a href=&quot;http://en.wikipedia.org/wiki/Stream_Control_Transmission_Protocol&quot;&gt;Dè th&apos; ann?&lt;/a&gt;</translation>
     </message>
@@ -4622,7 +4616,7 @@ Feuch an cuir thu a-steach dealbh dligheach!</translation>
         <translation>Roghainnean a&apos; gheama eadar-lìn</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="1706"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="1692"/>
         <source>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot;font-weight:400; font-style:normal;&quot;&gt;
@@ -4633,61 +4627,61 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-style:italic;&quot;&gt;An aire: thèid &lt;/span&gt;&lt;span style=&quot; font-weight:600; font-style:italic;&quot;&gt;Roghainnean a&apos; gheama&lt;/span&gt;&lt;span style=&quot; font-style:italic;&quot;&gt; bunaiteach mar &quot;An àireamh as motha dhe chluicheadairean&quot;, &quot;Airgead tòiseachaidh&quot; is &quot;Small Blind&quot; a chleachdadh &lt;/span&gt;&lt;span style=&quot; font-weight:600; font-style:italic;&quot;&gt;bho Roghainnean a&apos; gheama lìonraidh.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="1845"/>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="1639"/>
+        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="1808"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="1632"/>
         <source>Server Address:</source>
         <translation>Seòladh an fhrithealaiche:</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="2059"/>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="1795"/>
+        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="2045"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="1781"/>
         <source>Use password for private game:</source>
         <translation>Cleachd facal-faire airson geama phrìobhaideach:</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="2221"/>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="2148"/>
+        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="2207"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="2134"/>
         <source>Computer Engine</source>
         <translation>Einnsean coimpiutair</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="3043"/>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="2952"/>
+        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="3029"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="2938"/>
         <source>Opponent 6:</source>
         <translation>Co-fharpaisiche 6:</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="2805"/>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="2720"/>
+        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="2791"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="2706"/>
         <source>Opponent 5:</source>
         <translation>Co-fharpaisiche 5:</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="2697"/>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="2612"/>
+        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="2683"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="2598"/>
         <source>Opponent 4:</source>
         <translation>Co-fharpaisiche 4:</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="2533"/>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="2454"/>
+        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="2519"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="2440"/>
         <source>Opponent 3:</source>
         <translation>Co-fharpaisiche 3:</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="2425"/>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="2346"/>
+        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="2411"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="2332"/>
         <source>Opponent 2:</source>
         <translation>Co-fharpaisiche 2:</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="2289"/>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="2213"/>
+        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="2275"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="2199"/>
         <source>Opponent 1:</source>
         <translation>Co-fharpaisiche 1:</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="3368"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="3354"/>
         <source>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot;font-weight:400; font-style:normal; text-decoration:none;&quot;&gt;
@@ -4698,50 +4692,50 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-style:italic;&quot;&gt;An aire: gheibh thu an càileachd as fhearr aig an avatar le co-mheas deilbh mar &lt;/span&gt;&lt;span style=&quot; font-weight:600; font-style:italic;&quot;&gt;leud=50, àirde=50.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="3491"/>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="3415"/>
+        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="3477"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="3401"/>
         <source>Enable/Disable Logging</source>
         <translation>Cuir logadh an comas/à comas</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="3565"/>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="3515"/>
+        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="3551"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="3501"/>
         <source>Log File Directory: </source>
         <translation>Pasgan aig an fhaidhle logaidh: </translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="3521"/>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="3471"/>
+        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="3507"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="3457"/>
         <source>Write log after every: </source>
         <translation>Sgrìobh loga an dèidh gach: </translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="3541"/>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="3491"/>
+        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="3527"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="3477"/>
         <source>action (high frequent disc access)</source>
         <translation>gnìomhachd (inntrigeadh dhan diosga gu tric)</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="3546"/>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="3496"/>
+        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="3532"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="3482"/>
         <source>hand (medium disc access)</source>
         <translation>làmh (inntrigeadh dhan diosga meadhanach)</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="3551"/>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="3501"/>
+        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="3537"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="3487"/>
         <source>game (low disc access)</source>
         <translation>geama (inntrigeadh dhan diosga ainneamh)</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="131"/>
         <location filename="../src/gui/qt/settingsdialog.ui" line="116"/>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="3401"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="3387"/>
         <source>Log Messages</source>
         <translation>Logaich teachdaireachdan</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="1981"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="1967"/>
         <source>Player Nicks/Avatars</source>
         <translation>Far-ainmean/avataran nan cluicheadairean</translation>
     </message>
@@ -4780,29 +4774,29 @@ p, li { white-space: pre-wrap; }
         <translation>Rèiteachaidh an fhrithealaiche a làimh</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="2156"/>
+        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="2142"/>
         <source>Human Player:</source>
         <translation>Cluicheadair daonna:</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="2212"/>
+        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="2198"/>
         <source>(This nick will also be used for the online game login)</source>
         <translation>(Logaidh tu a-steach leis an fhar-ainm seo dha gheamannan air loidhne cuideachd)</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="3468"/>
+        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="3454"/>
         <source>Note: Best avatar quality with image ratio like width=50, height=50.</source>
         <translation>An aire: gheibh thu an càileachd as fhearr aig an avatar le co-mheas deilbh mar leud=50, àirde=50.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="3615"/>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="3433"/>
+        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="3601"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="3419"/>
         <source>Store log files for:</source>
         <translation>Sàbhail faidhlichean logaidh fad:</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="3631"/>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="3449"/>
+        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="3617"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="3435"/>
         <source> Day(s)</source>
         <translation> Là(ithean)</translation>
     </message>
@@ -4842,8 +4836,8 @@ p, li { white-space: pre-wrap; }
         <translation>An aire: gheibh thu an càileachd as fhearr le co-mheas deilbh mar leud=48, àirde=76.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="1831"/>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="1656"/>
+        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="1851"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="1672"/>
         <source>Avatar Server:</source>
         <translation>Frithealaiche an avatar:</translation>
     </message>
@@ -4944,84 +4938,84 @@ p, li { white-space: pre-wrap; }
         <translation>Frithealaiche</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="1960"/>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="1700"/>
+        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="1946"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="1686"/>
         <source>Game</source>
         <translation>Geama</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="1966"/>
+        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="1952"/>
         <source>Note: Default Game Settings like &quot;Maximum number of players&quot;, &quot;Start Cash&quot; and &quot;Small Blind&quot; will be used from Network Game Settings.</source>
         <translation>An aire: Thèid roghainnean bunaiteach a&apos; gheama mar &quot;An àireamh as motha dhe chluicheadairean&quot;, &quot;Airgead tòiseachaidh&quot; is &quot;Small Blind&quot; a chleachdadh bho &quot;Roghainnean a&apos; gheama lìonraidh&quot;.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="1981"/>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="1721"/>
+        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="1967"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="1707"/>
         <source>Default game name:</source>
         <translation>Ainm bunaiteach a&apos; gheama:</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="1999"/>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="1735"/>
+        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="1985"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="1721"/>
         <source>Default game type:</source>
         <translation>Seòrsa bunaiteach a&apos; gheama:</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="2013"/>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="1749"/>
+        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="1999"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="1735"/>
         <source>Standard</source>
         <translation>Àbhaisteach</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="2022"/>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="1758"/>
+        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="2008"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="1744"/>
         <source>Registered players only</source>
         <translation>Cluicheadairean a chlàraich a-mhàin</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="2031"/>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="1767"/>
+        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="2017"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="1753"/>
         <source>Invited players only</source>
         <translation>Cluicheadairean a fhuair cuireadh a-mhàin</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="2040"/>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="1776"/>
+        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="2026"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="1762"/>
         <source>Ranking game</source>
         <translation>Geama rangachaidh</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="2082"/>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="1818"/>
+        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="2068"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="1804"/>
         <source>Show lobby chat</source>
         <translation>Seall cabadaich an lobaidh</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="2089"/>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="1838"/>
+        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="2075"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="1824"/>
         <source>Automatically leave the table after the game finished</source>
         <translation>Fàg am bòrd gu fèin-obrachail nuair a thig crìoch air a&apos; gheama</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="2097"/>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="1846"/>
+        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="2083"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="1832"/>
         <source>Ignored Players</source>
         <translation>Cluicheadairean air an liosta neo-shuime</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="2116"/>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="1865"/>
+        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="2102"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="1851"/>
         <source>Player</source>
         <translation>Cluicheadair</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="2124"/>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="1873"/>
+        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="2110"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="1859"/>
         <source>Remove Player</source>
         <translation>Thoir an cluicheadair air falbh</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="2013"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="1999"/>
         <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
@@ -5034,20 +5028,20 @@ p, li { white-space: pre-wrap; }
 &lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Cluicheadair daonna:&lt;br /&gt;&lt;span style=&quot; font-style:italic;&quot;&gt;(Logaidh tu a-steach leis an fhar-ainm seo dha gheamannan air loidhne cuideachd)&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="3179"/>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="3085"/>
+        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="3165"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="3071"/>
         <source>Opponent 7:</source>
         <translation>Co-fharpaisiche 7:</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="3315"/>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="3218"/>
+        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="3301"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="3204"/>
         <source>Opponent 8:</source>
         <translation>Co-fharpaisiche 8:</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="3451"/>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="3351"/>
+        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="3437"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="3337"/>
         <source>Opponent 9:</source>
         <translation>Co-fharpaisiche 9:</translation>
     </message>
@@ -5055,65 +5049,65 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>settingsDialogImpl</name>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="604"/>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="685"/>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="748"/>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="808"/>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="982"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="601"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="682"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="744"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="804"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="978"/>
         <source>Settings Error</source>
         <translation>Mearachd leis na roghainnean</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="749"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="745"/>
         <source>The entered flipside picture doesn&apos;t exist.
 Please enter an valid picture!</source>
         <translation>Chan eil an dealbh cùlaibh a chuir thu a-steach ann.
 Feuch an cuir thu a-steach dealbh dligheach!</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="809"/>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="983"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="805"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="979"/>
         <source>The log file directory doesn&apos;t exist.
 Please select an valid directory!</source>
         <translation>Chan eil am pasgan airson an fhaidhle loga ann.
 Feuch an tagh thu pasgan dligheach!</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="838"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="834"/>
         <source>Language Changed</source>
         <translation>Cànan air atharrachadh</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="839"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="835"/>
         <source>You have changed application language to %1.
 Please restart PokerTH to load new language!</source>
         <translation>Dh&apos;atharraich thu cànan an aplacaid gu %1.
 Feuch an ath-thòisich thu PokerTH gus an cànan ùr a luchdadh!</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="857"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="853"/>
         <source>Select your flipside picture</source>
         <translation>Tagh an dealbh cùlaibh agad</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="859"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="855"/>
         <source>Images (*.png *.jpg *.gif)</source>
         <translation>Dealbhan (*.png *.jpg *.gif)</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="967"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="963"/>
         <source>Open Directory</source>
         <translation>Fosgail pasgan</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="1085"/>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="1095"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="1081"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="1091"/>
         <source>Blinds Error</source>
         <translation>Mearachd le blinds</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="1086"/>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="1096"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="1082"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="1092"/>
         <source>The first element in your manual-blinds-list 
 is smaller than current first-small-blind!
 This first-small-blind-value will be set to maximum allowed value.</source>
@@ -5122,10 +5116,10 @@ nas lugha na a&apos; chiad small blind!
 Thèid luach a&apos; chiad small blind seo a shuidheachadh air an luach ceadaichte as motha.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="686"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="683"/>
         <source>The entered server list address is not a valid URL.
 Please enter a valid server list address!</source>
-        <translation>Chan eil an seòladh aig liosta nam frithealaichean a chuir thu a-steach na URL dligheach.
+        <translation>Chan eil an seòladh aig liosta nam frithealaichean a chuir thu a-steach &apos;na URL dligheach.
 Feuch an cuir thu a-steach seòladh aig liosta nam frithealaichean dligheach!</translation>
     </message>
     <message>
@@ -5180,246 +5174,236 @@ Feuch an cuir thu a-steach seòladh aig liosta nam frithealaichean dligheach!</t
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="81"/>
-        <source>Galician</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="82"/>
         <source>German</source>
         <translation>Gearmailtis</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="83"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="82"/>
         <source>Greek</source>
         <translation>Greugais</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="84"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="83"/>
         <source>Hungarian</source>
         <translation>Ungairis</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="85"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="84"/>
         <source>Italian</source>
         <translation>Eadailtis</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="86"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="85"/>
         <source>Japanese</source>
         <translation>Seapanais</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="87"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="86"/>
         <source>Lithuania</source>
         <translation>Liotuainis</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="88"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="87"/>
         <source>Norwegian</source>
         <translation>Nirribhis</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="89"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="88"/>
         <source>Polish</source>
         <translation>Pòlainnis</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="90"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="89"/>
         <source>Portuguese-Brazilian</source>
         <translation>Portagailis Bhraisileach</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="91"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="90"/>
         <source>Portuguese-Portuguese</source>
         <translation>Portagailis na Portagaile</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="92"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="91"/>
         <source>Russian</source>
         <translation>Ruisis</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="93"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="92"/>
         <source>Scottish Gaelic</source>
         <translation>Gàidhlig na h-Alba</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="94"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="93"/>
         <source>Slovak</source>
         <translation>Slòbhacais</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="95"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="94"/>
         <source>Spanish</source>
         <translation>Spàinntis</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="96"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="95"/>
         <source>Swedish</source>
         <translation>Suainis</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="97"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="96"/>
         <source>Tamil</source>
         <translation>Taimilis</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="98"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="97"/>
         <source>Turkish</source>
         <translation>Turcais</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="99"/>
-        <source>Vietnamese</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="605"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="602"/>
         <source>The opponent names are not unique.
 Please choose different names for each Opponent!</source>
         <translation>Chan eil ainm fa leth aig gach co-fharpaisiche.
 Feuch an tagh thu ainm eadar-dhealaichte airson gach co-fharpaisiche!</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="977"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="973"/>
         <source>Settings Information</source>
         <translation>Fiosrachadh nan roghainnean</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="978"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="974"/>
         <source>You have changed the log file directory.
 Please restart PokerTH to use the new directory for the log files!</source>
         <translation>Ah&apos;dhatharraich thu pasgan am faidhle loga.
 Feuch an ath-thòisich thu PokerTH gus am pasgan ùr airson nam faidhlichean loga a chleachdadh!</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="1137"/>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="1277"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="1133"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="1273"/>
         <source>Maintainer Name</source>
         <translation>Ainm an neach-glèidhidh</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="1138"/>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="1278"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="1134"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="1274"/>
         <source>Maintainer EMail</source>
         <translation>Post-d an neach-glèidhidh</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="1139"/>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="1279"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="1135"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="1275"/>
         <source>Create Date</source>
         <translation>Ceann-latha a&apos; chruthachaidh</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="1140"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="1136"/>
         <source>Windows Behaviour</source>
         <translation>Giùlan Windows</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="1141"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="1137"/>
         <source>scaleable</source>
         <translation>gabhaidh e sgèileadh</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="1142"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="1138"/>
         <source>fixed</source>
         <translation>suidhichte</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="1143"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="1139"/>
         <source>Minimum Size</source>
         <translation>Meud as lugha</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="1144"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="1140"/>
         <source>Maximum Size</source>
         <translation>Meud as motha</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="1145"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="1141"/>
         <source>Fixed Size</source>
         <translation>Meud suidhichte</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="1146"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="1142"/>
         <source>State</source>
         <translation>Staid</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="1198"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="1194"/>
         <source>Please select your game table style</source>
         <translation>Tagh stoidhle aig bòrd a&apos; gheama</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="1200"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="1196"/>
         <source>PokerTH game table styles (*.xml)</source>
         <translation>Stoidhlean bòrd a&apos; gheama aig PokerTH (*.xml)</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="1213"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="1209"/>
         <source>Game Table Style Error</source>
         <translation>Mearachd le stoidhle bòrd a&apos; gheama</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="1214"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="1210"/>
         <source>Selected game table style file is already in the list. 
 Please select another one to add!</source>
         <translation>Tha an stoidhle bùird a thagh thu air an liosta mu thràth. 
 Feuch an tagh thu tè eile airson cur ris!</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="1236"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="1232"/>
         <source>Game Table Style File Error</source>
         <translation>Mearachd le faidhle airson stoidhle bòrd a&apos; gheama</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="1237"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="1233"/>
         <source>Could not load game table style file correctly. 
 Style will not be placed into list!</source>
         <translation>Cha b&apos; urrainn dhuinn am faidhle airson stoidhle bòrd a&apos; gheama a luchdadh mar bu chòir. 
 Cha tèid an stoidhle a cur ris an liosta!</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="1324"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="1320"/>
         <source>Please select your card deck style</source>
         <translation>Tagh an stoidhle airson a&apos; phaca cairt agad</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="1326"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="1322"/>
         <source>PokerTH card deck styles (*.xml)</source>
         <translation>Stoidhle paca chairt aig PokerTH (*.xml)</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="1339"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="1335"/>
         <source>Card Deck Style Error</source>
         <translation>Mearachd le stoidhle airson paca chairt</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="1340"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="1336"/>
         <source>Selected card deck style file is already in the list. 
 Please select another one to add!</source>
         <translation>Tha am faidhle airson stoidhle paca chairt air an liosta mu thràth. 
 Feuch an tagh thu fear eile airson cur ris!</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="1364"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="1360"/>
         <source>Card Deck Style File Error</source>
         <translation>Mearachd le faidhle airson stoidhle paca chairt</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="1365"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="1361"/>
         <source>Could not load card deck style file correctly. 
 Style will not be placed into list!</source>
         <translation>Cha b&apos; urrainn dhuinn am faidhle airson stoidhle paca chairt a luchdadh mar bu chòir. 
 Cha tèid an stoidhle a chur ris an liosta!</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="1402"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="1398"/>
         <source>PokerTH - Settings</source>
         <translation>PokerTH - Roghainnean</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="1403"/>
+        <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="1399"/>
         <source>Attention: this will delete all your personal settings and close PokerTH!
 Do you really want to reset factory settings?</source>
         <translation>An aire: sguabaidh seo às dha na roghainnean pearsanta agad uile is dùinidh e PokerTH!
@@ -5561,7 +5545,7 @@ A bheil thu cinnteach gu bheil thu airson roghainnean an fhactaraidh ath-shuidhe
         <location filename="../src/gui/qt/gui_800x480/startwindow_800x480.ui" line="401"/>
         <location filename="../src/gui/qt/startwindow.ui" line="283"/>
         <source>About PokerTH</source>
-        <translation>Mu dheidhinn PokerTH</translation>
+        <translation>Mu PokerTH</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gui_800x480/startwindow_800x480.ui" line="82"/>
@@ -5868,65 +5852,34 @@ Please reenter the password and try again.</source>
 Cuir am facal-faire a-steach turas eile is feuch ris a-rithist.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1138"/>
+        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1137"/>
         <source>The avatar report was accepted by the server. Thank you.</source>
         <translation>Ghabh am frithealaiche ris an aithris air avatar. Mòran taing.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1142"/>
+        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1141"/>
         <source>This avatar was already reported by another player.</source>
         <translation>Chaidh an t-avatar seo aithris le cluicheadair eile mu thràth.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1146"/>
+        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1145"/>
         <source>An error occurred while reporting the avatar.</source>
         <translation>Thachair mearachd le aithris air an avatar.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1150"/>
+        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1149"/>
         <source>The game name report was accepted by the server. Thank you.</source>
         <translation>Ghabh am frithealaiche ris an aithris air ainm a&apos; gheama. Mòran taing.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1154"/>
+        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1153"/>
         <source>This game name was already reported by another player.</source>
         <translation>Chaidh ainm a&apos; gheama seo aithris le cluicheadair eile mu thràth.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1158"/>
+        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1157"/>
         <source>An error occurred while reporting the game name.</source>
         <translation>Thachair mearachd le aithris air ainm a&apos; gheama.</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1162"/>
-        <source>The game was closed.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1166"/>
-        <source>The game could not be closed.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1170"/>
-        <source>The player was kicked and banned permanently.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1174"/>
-        <source>The player was kicked, but could not be banned because it was a guest player.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1178"/>
-        <source>The player was kicked, but could not be banned, 
-because the nick could not be found in the database</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1182"/>
-        <source>The player could not be found.</source>
-        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="870"/>
@@ -6102,7 +6055,7 @@ because the nick could not be found in the database</source>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1124"/>
-        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1190"/>
+        <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1165"/>
         <source>Server Message</source>
         <translation>Brath an fhrithealaiche</translation>
     </message>
@@ -6182,7 +6135,7 @@ because the nick could not be found in the database</source>
     <message>
         <location filename="../src/gui/qt/gui_800x480/tabs_800x480.ui" line="433"/>
         <source>Auto-Check / Auto-Fold</source>
-        <translation type="unfinished">Fèin&quot;-check&quot; / Fèin-phaisg (&quot;fold&quot;)</translation>
+        <translation>Fèin-&quot;check&quot; / Fèin-phaisg (&quot;fold&quot;)</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gui_800x480/tabs_800x480.ui" line="443"/>

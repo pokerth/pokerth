@@ -1024,7 +1024,7 @@ void gameLobbyDialogImpl::joinedNetworkGame(unsigned playerId, QString playerNam
 
 void gameLobbyDialogImpl::addConnectedPlayer(unsigned playerId, QString playerName, bool isGameAdmin)
 {
-
+	GameInfo info(mySession->getClientGameInfo(mySession->getClientCurrentGameId()));
 	QTreeWidgetItem *item = new QTreeWidgetItem(treeWidget_connectedPlayers, 0);
 	item->setData(0, Qt::UserRole, playerId);
 	item->setData(0, Qt::DisplayRole, playerName);
@@ -1032,7 +1032,7 @@ void gameLobbyDialogImpl::addConnectedPlayer(unsigned playerId, QString playerNa
 	if(isGameAdmin) item->setBackground(0, QBrush(QColor(0, 255, 0, 127)));
 
 	if(this->isVisible() && inGame && myConfig->readConfigInt("PlayNetworkGameNotification")) {
-		if(treeWidget_connectedPlayers->topLevelItemCount() < treeWidget_connectedPlayers->headerItem()->data(0, Qt::UserRole).toInt()) {
+		if(treeWidget_connectedPlayers->topLevelItemCount() < info.data.maxNumberOfPlayers) {
 			myW->getMySoundEventHandler()->playSound("playerconnected", 0);
 		} else {
 			myW->getMySoundEventHandler()->playSound("onlinegameready", 0);
@@ -1449,7 +1449,6 @@ void gameLobbyDialogImpl::showGameDescription(bool show)
 		label_gameDesc7->hide();
 		tabWidget_playerSpectators->setTabText(0, tr("Players (%1)").arg(0));
 		tabWidget_playerSpectators->setTabText(1, tr("Spectators (%1)").arg(0));
-
 	}
 }
 

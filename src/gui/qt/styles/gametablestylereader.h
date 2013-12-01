@@ -222,10 +222,9 @@ public:
 	void setVoteStringsStyle(QLabel*);
 	void setBetValueInputStyle(QSpinBox*);
 	void setSliderStyle(QSlider*);
-
 	void setTabWidgetStyle(QTabWidget*, QTabBar*);
-
 	void setWindowsGeometry(gameTableImpl*);
+	void setSpectatorNumberLabelStyle(QLabel*);
 
 	//set pics and fonts and colors
 	void setButtonsStyle(MyActionButton*, MyActionButton*, MyActionButton*, MyActionButton*, int);

@@ -1372,6 +1372,12 @@ void GameTableStyleReader::setCashLabelStyle(QLabel *cl)
 	cl->setStyleSheet("QLabel { "+ font2String +" font-size: "+cashFontSize+"px; font-weight: bold; color: #"+PlayerCashTextColor+"; }");
 }
 
+void GameTableStyleReader::setSpectatorNumberLabelStyle(QLabel *snl)
+{
+	snl->setStyleSheet("QLabel { "+ font2String +" font-size: 12px; font-weight: bold; color: #"+MenuTextColor+"; }");
+	snl->setAlignment(Qt::AlignHCenter);
+}
+
 void GameTableStyleReader::setSetLabelStyle(QLabel *sl)
 {
 	sl->setStyleSheet("QLabel { "+ font2String +" font-size: "+setLabelFontSize+"px; font-weight: bold; color: #"+PlayerBetTextColor+"; }");
