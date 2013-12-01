@@ -1,3 +1,10 @@
+2013-12-01 version 1.1 beta4
+- Updated several translations
+- New icon for spectator list on table (#217)
+- Display the number of spectators next to the spectator icon (#206)
+- BUGFIX: Correct sound is now played when joining a game (#230)
+- BUGFIX: No longer beep if ignored player uses nickname in chat (#221)
+
 2013-11-02 version 1.1 beta3
 - New option to allow/disallow spectators when creating a game (#215)
 
