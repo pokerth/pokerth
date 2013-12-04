@@ -212,22 +212,22 @@ Please contact the game table style builder  via &quot;%4&quot;.</source>
         <translation>赌桌款式出错 - 已过期</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/styles/gametablestylereader.cpp" line="1728"/>
+        <location filename="../src/gui/qt/styles/gametablestylereader.cpp" line="1734"/>
         <source>Everything OK!</source>
         <translation>没问题!</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/styles/gametablestylereader.cpp" line="1731"/>
+        <location filename="../src/gui/qt/styles/gametablestylereader.cpp" line="1737"/>
         <source>Some pictures are missing, please contact style maintainer for this issue.</source>
         <translation>一些图片缺失了. 请联系赌桌款式维护人员以解决此问题.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/styles/gametablestylereader.cpp" line="1734"/>
+        <location filename="../src/gui/qt/styles/gametablestylereader.cpp" line="1740"/>
         <source>Some style fields are missing, please contact style maintainer for this issue.</source>
         <translation>一些款式字段缺失了. 请联系赌桌款式维护人员以解决此问题.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/styles/gametablestylereader.cpp" line="1737"/>
+        <location filename="../src/gui/qt/styles/gametablestylereader.cpp" line="1743"/>
         <source>This style is outdated, please contact style maintainer for this issue.</source>
         <translation>这个赌桌款式过期了. 请联系赌桌款式维护人员以解决此问题.</translation>
     </message>
@@ -1705,50 +1705,50 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1654"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1653"/>
         <source>Invite %1</source>
         <translation>邀请 %1</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1664"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1663"/>
         <source>Ignore %1</source>
         <translation>无视 %1</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1768"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1767"/>
         <source>&lt;span style=&apos;color:blue;&apos;&gt;%1 has been invited to %2 by %3.&lt;/span&gt;</source>
         <translation>&lt;span style=&apos;color:blue;&apos;&gt;%3 邀请 %1 加入 %2.&lt;/span&gt;</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1775"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1774"/>
         <source>&lt;span style=&apos;color:red;&apos;&gt;%1 has rejected the invitation to %2.&lt;/span&gt;</source>
         <translation>&lt;span style=&apos;color:red;&apos;&gt;%1 拒绝了加入 %2 的邀请.&lt;/span&gt;</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1777"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1776"/>
         <source>&lt;span style=&apos;color:red;&apos;&gt;%1 cannot join %2 because he is busy.&lt;/span&gt;</source>
         <translation>&lt;span style=&apos;color:red;&apos;&gt;%1 正忙, 无法加入 %2.&lt;/span&gt;</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1833"/>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1850"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1832"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1849"/>
         <source>The game will start in&lt;br&gt;&lt;b&gt;%1&lt;/b&gt; seconds.</source>
         <translation>游戏将于 &lt;br&gt;&lt;b&gt;%1&lt;/b&gt; 秒钟后开局.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1735"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1734"/>
         <source>You have entered a game with type &quot;invite-only&quot;.
 Feel free to invite other players by right-clicking on their nick in the available players list.</source>
         <translation>你已加入了一个 &quot;仅限受邀者&quot; 类型的游戏.
 你可以按自己的意愿, 右击在线玩家列表中的玩家名以邀请其他玩家.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1754"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1753"/>
         <source>You have been invited to the game &lt;b&gt;%1&lt;/b&gt; by &lt;b&gt;%2&lt;/b&gt;.&lt;br&gt;Would you like to join this game?</source>
         <translation>&lt;b&gt;%2&lt;/b&gt; 向你发出了加入游戏 &lt;b&gt;%1&lt;/b&gt; 的邀请. 你想加入这个游戏吗?</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1808"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1807"/>
         <source>You will no longer receive chat messages or game invitations from this user.&lt;br&gt;Do you really want to put player &lt;b&gt;%1&lt;/b&gt; on your ignore list?</source>
         <translation>你将不会再收到来自这名玩家的消息及游戏邀请.&lt;br&gt;你确定要将玩家 &lt;b&gt;%1&lt;/b&gt; 置于无视名单之中吗?</translation>
     </message>
@@ -1837,1273 +1837,1273 @@ Feel free to invite other players by right-clicking on their nick in the availab
         <translation>查找玩家...</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1639"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1638"/>
         <source>Chat is only available to registered players.</source>
         <translation>聊天功能仅供已注册玩家使用.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1657"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1656"/>
         <source>Invite player ...</source>
         <translation>邀请玩家...</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1668"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1667"/>
         <source>Ignore player ...</source>
         <translation>无视玩家...</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1674"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1673"/>
         <source>%1 is playing in &quot;%2&quot;.</source>
         <translation>%1 正在游戏 &quot;%2&quot; 中玩着.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1676"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1675"/>
         <source>%1 is not playing at the moment.</source>
         <translation>%1 目前没在玩.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1735"/>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1754"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1734"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1753"/>
         <source>PokerTH - Info Message</source>
         <translation>PokerTH - 信息提示</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1808"/>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2183"/>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2200"/>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2216"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1807"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2182"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2199"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2215"/>
         <source>PokerTH - Question</source>
         <translation>PokerTH - 问题</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1909"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1908"/>
         <source>Afghanistan</source>
         <translation>阿富汗</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1910"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1909"/>
         <source>ALand Islands</source>
         <translation>奥兰群岛</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1911"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1910"/>
         <source>Albania</source>
         <translation>阿尔巴尼亚</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1912"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1911"/>
         <source>Algeria</source>
         <translation>阿尔及利亚</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1913"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1912"/>
         <source>American Samoa</source>
         <translation>美属萨摩亚</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1914"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1913"/>
         <source>Andorra</source>
         <translation>安道尔</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1915"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1914"/>
         <source>Angola</source>
         <translation>安哥拉</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1916"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1915"/>
         <source>Anguilla</source>
         <translation>安圭拉</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1917"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1916"/>
         <source>Antarctica</source>
         <translation>南极洲</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1918"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1917"/>
         <source>Antigua And Barbuda</source>
         <translation>安提瓜和巴布达</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1919"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1918"/>
         <source>Argentina</source>
         <translation>阿根廷</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1920"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1919"/>
         <source>Armenia</source>
         <translation>亚美尼亚</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1921"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1920"/>
         <source>Aruba</source>
         <translation>阿鲁巴</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1922"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1921"/>
         <source>Australia</source>
         <translation>澳大利亚</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1923"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1922"/>
         <source>Austria</source>
         <translation>奥地利</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1924"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1923"/>
         <source>Azerbaijan</source>
         <translation>阿塞拜疆</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1925"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1924"/>
         <source>Bahamas</source>
         <translation>巴哈马</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1926"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1925"/>
         <source>Bahrain</source>
         <translation>巴林</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1927"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1926"/>
         <source>Bangladesh</source>
         <translation>孟加拉国</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1928"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1927"/>
         <source>Barbados</source>
         <translation>巴巴多斯</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1929"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1928"/>
         <source>Belarus</source>
         <translation>白俄罗斯</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1930"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1929"/>
         <source>Belgium</source>
         <translation>比利时</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1931"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1930"/>
         <source>Belize</source>
         <translation>伯利兹</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1932"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1931"/>
         <source>Benin</source>
         <translation>贝宁</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1933"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1932"/>
         <source>Bermuda</source>
         <translation>百慕大</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1934"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1933"/>
         <source>Bhutan</source>
         <translation>不丹</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1935"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1934"/>
         <source>Bolivia</source>
         <translation>玻利维亚</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1936"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1935"/>
         <source>Bosnia And Herzegovina</source>
         <translation>波斯尼亚 - 黑塞哥维那</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1937"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1936"/>
         <source>Botswana</source>
         <translation>博茨瓦纳</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1938"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1937"/>
         <source>Bouvet Island</source>
         <translation>布维岛</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1939"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1938"/>
         <source>Brazil</source>
         <translation>巴西</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1940"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1939"/>
         <source>British Indian Ocean Territory</source>
         <translation>英属印度洋领地</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1941"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1940"/>
         <source>Brunei Darussalam</source>
         <translation>文莱达鲁萨兰国</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1942"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1941"/>
         <source>Bulgaria</source>
         <translation>保加利亚</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1943"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1942"/>
         <source>Burkina Faso</source>
         <translation>布基纳法索</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1944"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1943"/>
         <source>Burundi</source>
         <translation>布隆迪</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1945"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1944"/>
         <source>Cambodia</source>
         <translation>柬埔寨</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1946"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1945"/>
         <source>Cameroon</source>
         <translation>喀麦隆</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1947"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1946"/>
         <source>Canada</source>
         <translation>加拿大</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1948"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1947"/>
         <source>Cape Verde</source>
         <translation>佛得角</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1949"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1948"/>
         <source>Cayman Islands</source>
         <translation>开曼群岛</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1950"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1949"/>
         <source>Central African Republic</source>
         <translation>中非共和国</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1951"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1950"/>
         <source>Chad</source>
         <translation>乍得</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1952"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1951"/>
         <source>Chile</source>
         <translation>智利</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1953"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1952"/>
         <source>China</source>
         <translation>中国</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1954"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1953"/>
         <source>Christmas Island</source>
         <translation>圣诞岛</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1955"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1954"/>
         <source>Cocos (Keeling) Islands</source>
         <translation>科科斯 (基林) 群岛</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1956"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1955"/>
         <source>Colombia</source>
         <translation>哥伦比亚</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1957"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1956"/>
         <source>Comoros</source>
         <translation>科摩罗</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1958"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1957"/>
         <source>Congo</source>
         <translation>刚果</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1959"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1958"/>
         <source>Congo, The Democratic Republic Of The</source>
         <translation>刚果民主共和国</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1960"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1959"/>
         <source>Cook Islands</source>
         <translation>库克群岛</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1961"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1960"/>
         <source>Costa Rica</source>
         <translation>哥斯达黎加</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1962"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1961"/>
         <source>Cote D&apos;Ivoire</source>
         <translation>科特迪瓦</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1963"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1962"/>
         <source>Croatia</source>
         <translation>克罗地亚</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1964"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1963"/>
         <source>Cuba</source>
         <translation>古巴</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1965"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1964"/>
         <source>Cyprus</source>
         <translation>塞浦路斯</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1966"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1965"/>
         <source>Czech Republic</source>
         <translation>捷克共和国</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1967"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1966"/>
         <source>Denmark</source>
         <translation>丹麦</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1968"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1967"/>
         <source>Djibouti</source>
         <translation>吉布提</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1969"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1968"/>
         <source>Dominica</source>
         <translation>多米尼加</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1970"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1969"/>
         <source>Dominican Republic</source>
         <translation>多米尼加共和国</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1971"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1970"/>
         <source>Ecuador</source>
         <translation>厄瓜多尔</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1972"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1971"/>
         <source>Egypt</source>
         <translation>埃及</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1973"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1972"/>
         <source>El Salvador</source>
         <translation>萨尔瓦多</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1974"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1973"/>
         <source>Equatorial Guinea</source>
         <translation>赤道几内亚</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1975"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1974"/>
         <source>Eritrea</source>
         <translation>厄立特里亚</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1976"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1975"/>
         <source>Estonia</source>
         <translation>爱沙尼亚</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1977"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1976"/>
         <source>Ethiopia</source>
         <translation>埃塞俄比亚</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1978"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1977"/>
         <source>Falkland Islands (Malvinas)</source>
         <translation>福克兰群岛 (马尔维纳斯)</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1979"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1978"/>
         <source>Faroe Islands</source>
         <translation>法罗群岛</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1980"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1979"/>
         <source>Fiji</source>
         <translation>斐济</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1981"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1980"/>
         <source>Finland</source>
         <translation>芬兰</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1982"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1981"/>
         <source>France</source>
         <translation>法国</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1983"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1982"/>
         <source>French Guiana</source>
         <translation>法属圭亚那</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1984"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1983"/>
         <source>French Polynesia</source>
         <translation>法属波利尼西亚</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1985"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1984"/>
         <source>French Southern Territories</source>
         <translation>法属南半球和南极领地</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1986"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1985"/>
         <source>Gabon</source>
         <translation>加蓬</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1987"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1986"/>
         <source>Gambia</source>
         <translation>冈比亚</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1988"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1987"/>
         <source>Georgia</source>
         <translation>格鲁吉亚</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1989"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1988"/>
         <source>Germany</source>
         <translation>德国</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1990"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1989"/>
         <source>Ghana</source>
         <translation>加纳</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1991"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1990"/>
         <source>Gibraltar</source>
         <translation>直布罗陀</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1992"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1991"/>
         <source>Greece</source>
         <translation>希腊</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1993"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1992"/>
         <source>Greenland</source>
         <translation>格陵兰</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1994"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1993"/>
         <source>Grenada</source>
         <translation>格林纳达</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1995"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1994"/>
         <source>Guadeloupe</source>
         <translation>瓜德罗普</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1996"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1995"/>
         <source>Guam</source>
         <translation>关岛</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1997"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1996"/>
         <source>Guatemala</source>
         <translation>危地马拉</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1998"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1997"/>
         <source>Guernsey</source>
         <translation>根西岛</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1999"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1998"/>
         <source>Guinea</source>
         <translation>几内亚</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2000"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1999"/>
         <source>Guinea-Bissau</source>
         <translation>几内亚比绍</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2001"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2000"/>
         <source>Guyana</source>
         <translation>圭亚那</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2002"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2001"/>
         <source>Haiti</source>
         <translation>海地</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2003"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2002"/>
         <source>Heard Island And Mcdonald Islands</source>
         <translation>赫德岛和麦克唐纳岛</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2004"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2003"/>
         <source>Holy See (Vatican City State)</source>
         <translation>梵蒂冈</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2005"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2004"/>
         <source>Honduras</source>
         <translation>洪都拉斯</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2006"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2005"/>
         <source>Hong Kong</source>
         <translation>香港</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2007"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2006"/>
         <source>Hungary</source>
         <translation>匈牙利</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2008"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2007"/>
         <source>Iceland</source>
         <translation>冰岛</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2009"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2008"/>
         <source>India</source>
         <translation>印度</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2010"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2009"/>
         <source>Indonesia</source>
         <translation>印度尼西亚</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2011"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2010"/>
         <source>Iran, Islamic Republic Of</source>
         <translation>伊朗伊斯兰共和国</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2012"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2011"/>
         <source>Iraq</source>
         <translation>伊拉克</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2013"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2012"/>
         <source>Ireland</source>
         <translation>爱尔兰</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2014"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2013"/>
         <source>Isle Of Man</source>
         <translation>马恩岛</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2015"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2014"/>
         <source>Israel</source>
         <translation>以色列</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2016"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2015"/>
         <source>Italy</source>
         <translation>意大利</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2017"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2016"/>
         <source>Jamaica</source>
         <translation>牙买加</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2018"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2017"/>
         <source>Japan</source>
         <translation>日本</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2019"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2018"/>
         <source>Jersey</source>
         <translation>泽西岛</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2020"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2019"/>
         <source>Jordan</source>
         <translation>约旦</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2021"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2020"/>
         <source>Kazakhstan</source>
         <translation>哈萨克斯坦</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2022"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2021"/>
         <source>Kenya</source>
         <translation>肯尼亚</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2023"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2022"/>
         <source>Kiribati</source>
         <translation>基里巴斯</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2024"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2023"/>
         <source>Korea, Democratic People&apos;S Republic Of</source>
         <translation>朝鲜民主主义人民共和国</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2025"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2024"/>
         <source>Korea, Republic Of</source>
         <translation>大韩民国</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2026"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2025"/>
         <source>Kuwait</source>
         <translation>科威特</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2027"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2026"/>
         <source>Kyrgyzstan</source>
         <translation>吉尔吉斯斯坦</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2028"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2027"/>
         <source>Lao People&apos;S Democratic Republic</source>
         <translation>老挝人民民主共和国</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2029"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2028"/>
         <source>Latvia</source>
         <translation>拉脱维亚</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2030"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2029"/>
         <source>Lebanon</source>
         <translation>黎巴嫩</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2031"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2030"/>
         <source>Lesotho</source>
         <translation>莱索托</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2032"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2031"/>
         <source>Liberia</source>
         <translation>利比里亚</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2033"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2032"/>
         <source>Libyan Arab Jamahiriya</source>
         <translation>阿拉伯利比亚民众国</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2034"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2033"/>
         <source>Liechtenstein</source>
         <translation>列支敦士登</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2035"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2034"/>
         <source>Lithuania</source>
         <translation>立陶宛</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2036"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2035"/>
         <source>Luxembourg</source>
         <translation>卢森堡</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2037"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2036"/>
         <source>Macao</source>
         <translation>澳门</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2038"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2037"/>
         <source>Macedonia, The Former Yugoslav Republic Of</source>
         <translation>前南斯拉夫的马其顿共和国</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2039"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2038"/>
         <source>Madagascar</source>
         <translation>马达加斯加</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2040"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2039"/>
         <source>Malawi</source>
         <translation>马拉维</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2041"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2040"/>
         <source>Malaysia</source>
         <translation>马来西亚</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2042"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2041"/>
         <source>Maldives</source>
         <translation>马尔代夫</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2043"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2042"/>
         <source>Mali</source>
         <translation>马里</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2044"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2043"/>
         <source>Malta</source>
         <translation>马耳他</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2045"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2044"/>
         <source>Marshall Islands</source>
         <translation>马绍尔群岛</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2046"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2045"/>
         <source>Martinique</source>
         <translation>马提尼克</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2047"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2046"/>
         <source>Mauritania</source>
         <translation>毛里塔尼亚</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2048"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2047"/>
         <source>Mauritius</source>
         <translation>毛里求斯</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2049"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2048"/>
         <source>Mayotte</source>
         <translation>马约特</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2050"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2049"/>
         <source>Mexico</source>
         <translation>墨西哥</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2051"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2050"/>
         <source>Micronesia, Federated States Of</source>
         <translation>密克罗尼西亚联邦</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2052"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2051"/>
         <source>Moldova, Republic Of</source>
         <translation>摩尔多瓦共和国</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2053"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2052"/>
         <source>Monaco</source>
         <translation>摩纳哥</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2054"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2053"/>
         <source>Mongolia</source>
         <translation>蒙古</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2055"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2054"/>
         <source>Montserrat</source>
         <translation>蒙特塞拉特</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2056"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2055"/>
         <source>Morocco</source>
         <translation>摩洛哥</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2057"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2056"/>
         <source>Mozambique</source>
         <translation>莫桑比克</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2058"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2057"/>
         <source>Myanmar</source>
         <translation>缅甸</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2059"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2058"/>
         <source>Namibia</source>
         <translation>纳米比亚</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2060"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2059"/>
         <source>Nauru</source>
         <translation>瑙鲁</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2061"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2060"/>
         <source>Nepal</source>
         <translation>尼泊尔</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2062"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2061"/>
         <source>Netherlands</source>
         <translation>荷兰</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2063"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2062"/>
         <source>Netherlands Antilles</source>
         <translation>荷属安的列斯</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2064"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2063"/>
         <source>New Caledonia</source>
         <translation>新喀里多尼亚</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2065"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2064"/>
         <source>New Zealand</source>
         <translation>新西兰</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2066"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2065"/>
         <source>Nicaragua</source>
         <translation>尼加拉瓜</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2067"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2066"/>
         <source>Niger</source>
         <translation>尼日尔</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2068"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2067"/>
         <source>Nigeria</source>
         <translation>尼日利亚</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2069"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2068"/>
         <source>Niue</source>
         <translation>纽埃</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2070"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2069"/>
         <source>Norfolk Island</source>
         <translation>诺福克岛</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2071"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2070"/>
         <source>Northern Mariana Islands</source>
         <translation>北马里亚纳</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2072"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2071"/>
         <source>Norway</source>
         <translation>挪威</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2073"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2072"/>
         <source>Oman</source>
         <translation>阿曼</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2074"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2073"/>
         <source>Pakistan</source>
         <translation>巴基斯坦</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2075"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2074"/>
         <source>Palau</source>
         <translation>帕劳</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2076"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2075"/>
         <source>Palestinian Territory, Occupied</source>
         <translation>巴勒斯坦国</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2077"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2076"/>
         <source>Panama</source>
         <translation>巴拿马</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2078"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2077"/>
         <source>Papua New Guinea</source>
         <translation>巴布亚新几内亚</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2079"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2078"/>
         <source>Paraguay</source>
         <translation>巴拉圭</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2080"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2079"/>
         <source>Peru</source>
         <translation>秘鲁</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2081"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2080"/>
         <source>Philippines</source>
         <translation>菲律宾</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2082"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2081"/>
         <source>Pitcairn</source>
         <translation>皮特凯恩群岛</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2083"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2082"/>
         <source>Poland</source>
         <translation>波兰</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2084"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2083"/>
         <source>Portugal</source>
         <translation>葡萄牙</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2085"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2084"/>
         <source>Puerto Rico</source>
         <translation>波多黎各</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2086"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2085"/>
         <source>Qatar</source>
         <translation>卡塔尔</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2087"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2086"/>
         <source>Reunion</source>
         <translation>留尼旺</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2088"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2087"/>
         <source>Romania</source>
         <translation>罗马尼亚</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2089"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2088"/>
         <source>Russian Federation</source>
         <translation>俄罗斯联邦</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2090"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2089"/>
         <source>Rwanda</source>
         <translation>卢旺达</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2091"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2090"/>
         <source>Saint Helena</source>
         <translation>圣赫勒拿</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2092"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2091"/>
         <source>Saint Kitts And Nevis</source>
         <translation>圣基茨和尼维斯</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2093"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2092"/>
         <source>Saint Lucia</source>
         <translation>圣卢西亚</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2094"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2093"/>
         <source>Saint Pierre And Miquelon</source>
         <translation>圣皮埃尔和密克隆</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2095"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2094"/>
         <source>Saint Vincent And The Grenadines</source>
         <translation>圣文森特和格林纳丁斯</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2096"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2095"/>
         <source>Samoa</source>
         <translation>萨摩亚</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2097"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2096"/>
         <source>San Marino</source>
         <translation>圣马力诺</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2098"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2097"/>
         <source>Sao Tome And Principe</source>
         <translation>圣多美和普林西比</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2099"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2098"/>
         <source>Saudi Arabia</source>
         <translation>沙特阿拉伯</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2100"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2099"/>
         <source>Senegal</source>
         <translation>塞内加尔</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2101"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2100"/>
         <source>Serbia And Montenegro</source>
         <translation>塞尔维亚和黑山</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2102"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2101"/>
         <source>Seychelles</source>
         <translation>塞舌尔</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2103"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2102"/>
         <source>Sierra Leone</source>
         <translation>塞拉利昂</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2104"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2103"/>
         <source>Singapore</source>
         <translation>新加坡</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2105"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2104"/>
         <source>Slovakia</source>
         <translation>斯洛伐克</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2106"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2105"/>
         <source>Slovenia</source>
         <translation>斯洛文尼亚</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2107"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2106"/>
         <source>Solomon Islands</source>
         <translation>所罗门群岛</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2108"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2107"/>
         <source>Somalia</source>
         <translation>索马里</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2109"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2108"/>
         <source>South Africa</source>
         <translation>南非</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2110"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2109"/>
         <source>South Georgia And The South Sandwich Islands</source>
         <translation>南乔治亚岛和南桑德韦奇岛</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2111"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2110"/>
         <source>Spain</source>
         <translation>西班牙</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2112"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2111"/>
         <source>Sri Lanka</source>
         <translation>斯里兰卡</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2113"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2112"/>
         <source>Sudan</source>
         <translation>苏丹</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2114"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2113"/>
         <source>Suriname</source>
         <translation>苏里南</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2115"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2114"/>
         <source>Svalbard And Jan Mayen</source>
         <translation>斯瓦尔巴岛和扬马延岛</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2116"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2115"/>
         <source>Swaziland</source>
         <translation>斯威士兰</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2117"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2116"/>
         <source>Sweden</source>
         <translation>瑞典</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2118"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2117"/>
         <source>Switzerland</source>
         <translation>瑞士</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2119"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2118"/>
         <source>Syrian Arab Republic</source>
         <translation>阿拉伯叙利亚共和国</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2120"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2119"/>
         <source>Taiwan, Province Of China</source>
         <translation>台湾</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2121"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2120"/>
         <source>Tajikistan</source>
         <translation>塔吉克斯坦</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2122"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2121"/>
         <source>Tanzania, United Republic Of</source>
         <translation>坦桑尼亚联合共和国</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2123"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2122"/>
         <source>Thailand</source>
         <translation>泰国</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2124"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2123"/>
         <source>Timor-Leste</source>
         <translation>东帝汶</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2125"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2124"/>
         <source>Togo</source>
         <translation>多哥</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2126"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2125"/>
         <source>Tokelau</source>
         <translation>托克劳</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2127"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2126"/>
         <source>Tonga</source>
         <translation>汤加</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2128"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2127"/>
         <source>Trinidad And Tobago</source>
         <translation>特立尼达和多巴哥</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2129"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2128"/>
         <source>Tunisia</source>
         <translation>突尼斯</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2130"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2129"/>
         <source>Turkey</source>
         <translation>土耳其</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2131"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2130"/>
         <source>Turkmenistan</source>
         <translation>土库曼斯坦</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2132"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2131"/>
         <source>Turks And Caicos Islands</source>
         <translation>特克斯和凯科斯群岛</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2133"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2132"/>
         <source>Tuvalu</source>
         <translation>图瓦卢</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2134"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2133"/>
         <source>Uganda</source>
         <translation>乌干达</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2135"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2134"/>
         <source>Ukraine</source>
         <translation>乌克兰</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2136"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2135"/>
         <source>United Arab Emirates</source>
         <translation>阿拉伯联合酋长国</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2137"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2136"/>
         <source>United Kingdom</source>
         <translation>大不列颠及北爱尔兰联合王国</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2138"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2137"/>
         <source>United States</source>
         <translation>美利坚合众国</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2139"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2138"/>
         <source>United States Minor Outlying Islands</source>
         <translation>美国本土外小岛屿</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2140"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2139"/>
         <source>Uruguay</source>
         <translation>乌拉圭</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2141"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2140"/>
         <source>Uzbekistan</source>
         <translation>乌兹别克斯坦</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2142"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2141"/>
         <source>Vanuatu</source>
         <translation>瓦努阿图</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2143"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2142"/>
         <source>Venezuela</source>
         <translation>委内瑞拉</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2144"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2143"/>
         <source>Viet Nam</source>
         <translation>越南</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2145"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2144"/>
         <source>Virgin Islands, British</source>
         <translation>英属维尔京群岛</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2146"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2145"/>
         <source>Virgin Islands, U.S.</source>
         <translation>美属维尔京群岛</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2147"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2146"/>
         <source>Wallis And Futuna</source>
         <translation>瓦利斯和富图纳</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2148"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2147"/>
         <source>Western Sahara</source>
         <translation>西撒哈拉</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2149"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2148"/>
         <source>Yemen</source>
         <translation>也门</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2150"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2149"/>
         <source>Zambia</source>
         <translation>赞比亚</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2151"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2150"/>
         <source>Zimbabwe</source>
         <translation>津巴布韦</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2184"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2183"/>
         <source>Are you sure you want to report the game name:
 &quot;%1&quot; as inappropriate?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2201"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2200"/>
         <source>Are you sure you want to close the game:
 &quot;%1&quot;?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2217"/>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2216"/>
         <source>Are you sure you want to total kickban the player: &quot;%1&quot;?</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3394,99 +3394,99 @@ Feel free to invite other players by right-clicking on their nick in the availab
 <context>
     <name>gameTableImpl</name>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="480"/>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="2993"/>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="2996"/>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="2999"/>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3075"/>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3087"/>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3090"/>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3092"/>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3103"/>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3106"/>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3523"/>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3525"/>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3528"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="481"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="2994"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="2997"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3000"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3076"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3088"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3091"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3093"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3104"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3107"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3524"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3526"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3529"/>
         <source>Stop</source>
         <translation>停止</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="895"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="896"/>
         <source>PokerTH %1</source>
         <translation type="unfinished">PokerTH %1</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="913"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="914"/>
         <source>PokerTH %1 - The Open-Source Texas Holdem Engine</source>
         <translation>PokerTH %1 - 开源德州扑克引擎</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="2814"/>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="2817"/>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="2820"/>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="2913"/>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="2916"/>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="2919"/>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3081"/>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3097"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="2815"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="2818"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="2821"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="2914"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="2917"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="2920"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3082"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3098"/>
         <source>Start</source>
         <translation>开始</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3078"/>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3095"/>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3585"/>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3587"/>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3591"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3079"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3096"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3586"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3588"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3592"/>
         <source>Lobby</source>
         <translation>大厅</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3554"/>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3562"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3555"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3563"/>
         <source>Chat</source>
         <translation>聊天</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3740"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3743"/>
         <source>Closing PokerTH during network game</source>
         <translation>在网络游戏过程中关闭 PokerTH</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3741"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3744"/>
         <source>You are the hosting server. Do you want to close PokerTH anyway?</source>
         <translation>你现在是主机. 你还是希望关闭 PokerTH 么?</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3756"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3759"/>
         <source>Really want to exit?</source>
         <translation>真的想退出吗?</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3756"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3759"/>
         <source>PokerTH - Close Table?</source>
         <translation>PokerTH - 关闭赌桌?</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3839"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3842"/>
         <source>PokerTH - Internet Game Message</source>
         <translation>PokerTH - 因特网游戏消息</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3839"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3842"/>
         <source>Attention! Do you really want to leave the current game
 and go back to the lobby?</source>
         <translation>注意! 你真的想离开当前的游戏
 并返回大厅吗?</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="4342"/>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="4345"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="4346"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="4349"/>
         <source>Chat is only available to registered players.</source>
         <translation>聊天功能仅供已注册玩家使用.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="4474"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="4482"/>
         <source>Spectators</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3505,51 +3505,51 @@ If you are temporarily away, you can use the &quot;away&quot; tools in the tool 
 如果你只是暂时离开, 可以使用右下角工具框提供的 &quot;离开&quot; 工具.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="718"/>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="740"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="719"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="741"/>
         <source>Chance</source>
         <translation>几率</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3864"/>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3873"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3867"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3876"/>
         <source>Kick</source>
         <translation>踢出</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3908"/>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3912"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3911"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3915"/>
         <source>Do you want to kick &lt;b&gt;%1&lt;/b&gt;&lt;br&gt;from this game?</source>
         <translation>你希望把 &lt;b&gt;%1&lt;/b&gt; 踢出这场游戏吗?</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3973"/>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3975"/>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3979"/>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3981"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3976"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3978"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3982"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3984"/>
         <source>&lt;b&gt;%1&lt;/b&gt; secs left</source>
         <translation>&lt;b&gt;%1&lt;/b&gt; 秒剩余</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3988"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3991"/>
         <source>vote</source>
         <translation>投票</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3989"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3992"/>
         <source>votes</source>
         <translation>投票</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3994"/>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3996"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3997"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3999"/>
         <source>Player &lt;b&gt;%1&lt;/b&gt; has &lt;b&gt;%2&lt;/b&gt; %3&lt;br&gt;against him. &lt;b&gt;%4&lt;/b&gt; vote(s) needed to kick.</source>
         <translatorcomment>&quot;%3&quot; = ( vote == 1 ) ? vote : votes;</translatorcomment>
         <translation>已有 %2 票反对玩家 %1, 将其踢出游戏还需要 %4 票.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="4000"/>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="4002"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="4003"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="4005"/>
         <source>You have &lt;b&gt;%1&lt;/b&gt; %2 against you.&lt;br&gt;&lt;b&gt;%3&lt;/b&gt; vote(s) needed to kick.</source>
         <translatorcomment>&quot;%2&quot; = ( vote == 1 ) ? vote : votes;</translatorcomment>
         <translation>已有 %1 票反对你, 再有 %3 人投出反对票的话你就要被踢出游戏了.</translation>
@@ -3936,48 +3936,48 @@ Would you like to overwrite ?</source>
         <translation>本地游戏设置</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gui_800x480/newgamedialog_800x480.ui" line="101"/>
+        <location filename="../src/gui/qt/gui_800x480/newgamedialog_800x480.ui" line="110"/>
         <location filename="../src/gui/qt/newgamedialog.ui" line="26"/>
         <source>Number of players:</source>
         <translation>玩家数:</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gui_800x480/newgamedialog_800x480.ui" line="128"/>
+        <location filename="../src/gui/qt/gui_800x480/newgamedialog_800x480.ui" line="137"/>
         <location filename="../src/gui/qt/newgamedialog.ui" line="49"/>
         <source>Start Cash:</source>
         <translation>入场金额:</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gui_800x480/newgamedialog_800x480.ui" line="141"/>
+        <location filename="../src/gui/qt/gui_800x480/newgamedialog_800x480.ui" line="150"/>
         <location filename="../src/gui/qt/newgamedialog.ui" line="59"/>
         <source>$</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gui_800x480/newgamedialog_800x480.ui" line="162"/>
+        <location filename="../src/gui/qt/gui_800x480/newgamedialog_800x480.ui" line="171"/>
         <location filename="../src/gui/qt/newgamedialog.ui" line="78"/>
         <source>Blinds</source>
         <translation>盲注</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gui_800x480/newgamedialog_800x480.ui" line="187"/>
+        <location filename="../src/gui/qt/gui_800x480/newgamedialog_800x480.ui" line="196"/>
         <location filename="../src/gui/qt/newgamedialog.ui" line="84"/>
         <source>Use saved blinds settings</source>
         <translation>使用已保存的盲注设置</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gui_800x480/newgamedialog_800x480.ui" line="279"/>
+        <location filename="../src/gui/qt/gui_800x480/newgamedialog_800x480.ui" line="288"/>
         <source> OK </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gui_800x480/newgamedialog_800x480.ui" line="180"/>
+        <location filename="../src/gui/qt/gui_800x480/newgamedialog_800x480.ui" line="189"/>
         <location filename="../src/gui/qt/newgamedialog.ui" line="94"/>
         <source>Change blinds settings ...</source>
         <translation>更改盲注设置...</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gui_800x480/newgamedialog_800x480.ui" line="202"/>
+        <location filename="../src/gui/qt/gui_800x480/newgamedialog_800x480.ui" line="211"/>
         <location filename="../src/gui/qt/newgamedialog.ui" line="104"/>
         <source>Game Speed:</source>
         <translation>游戏速度:</translation>
