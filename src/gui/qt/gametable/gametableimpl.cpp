@@ -3545,6 +3545,7 @@ void gameTableImpl::localGameModification()
 	//let the SoundEventHandler know that there is a new game
 	mySoundEventHandler->newGameStarts();
 	spectatorIcon->hide();
+	spectatorNumberLabel->hide();
 }
 
 void gameTableImpl::networkGameModification()
