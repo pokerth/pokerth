@@ -3475,58 +3475,58 @@ You can invite other players with right-click on their nick in the left availabl
     <message>
         <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3079"/>
         <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3096"/>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3586"/>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3588"/>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3592"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3587"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3589"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3593"/>
         <source>Lobby</source>
         <translation>வரவேற்ப்பறை</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3555"/>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3563"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3556"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3564"/>
         <source>Chat</source>
         <translation>உரையாடல்</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3743"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3744"/>
         <source>Closing PokerTH during network game</source>
         <translation>விளையாட்டு வலையில் போகர்டேஹோ வை மூடும் பொழுது</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3744"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3745"/>
         <source>You are the hosting server. Do you want to close PokerTH anyway?</source>
         <translation>நீங்கள்தான் இந்த விளையாட்டை ஆரம்பித்தீர்கள். நீங்கள் போகர்டேஹோ வை நிச்சயம் மூட வேண்டுமா?</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3759"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3760"/>
         <source>Really want to exit?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3759"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3760"/>
         <source>PokerTH - Close Table?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3842"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3843"/>
         <source>PokerTH - Internet Game Message</source>
         <translation>போகர்டேஹோ - இணையதள விளையாட்டு செய்தி</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3842"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3843"/>
         <source>Attention! Do you really want to leave the current game
 and go back to the lobby?</source>
         <translation>கவனிக்க! தற்சமயம் விளையாடும் விளையாட்டிலிருந்து நிச்சயம் நீங்கள் விலகி
 வரவேர்ப்பரைக்கு திரும்பி செல்ல விரும்புகிறீர்களா?</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="4346"/>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="4349"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="4347"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="4350"/>
         <source>Chat is only available to registered players.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="4482"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="4483"/>
         <source>Spectators</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3537,44 +3537,44 @@ and go back to the lobby?</source>
         <translation>ஜெயிக்கும் வாய்ப்பு</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3867"/>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3876"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3868"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3877"/>
         <source>Kick</source>
         <translation>துரத்து</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3911"/>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3915"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3912"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3916"/>
         <source>Do you want to kick &lt;b&gt;%1&lt;/b&gt;&lt;br&gt;from this game?</source>
         <translation>நீங்கள் &lt;b&gt;%1&lt;/b&gt;என்பவரை &lt;br&gt;விளையாட்டிலிருந்து துரத்த விரும்புகிறீர்களா?</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3976"/>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3978"/>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3982"/>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3984"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3977"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3979"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3983"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3985"/>
         <source>&lt;b&gt;%1&lt;/b&gt; secs left</source>
         <translation>&lt;b&gt;%1&lt;/b&gt; நொடிகள் மீதமுள்ளது</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3991"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3992"/>
         <source>vote</source>
         <translation>ஒட்டு</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3992"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3993"/>
         <source>votes</source>
         <translation>ஒட்டுகள்</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3997"/>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3999"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3998"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="4000"/>
         <source>Player &lt;b&gt;%1&lt;/b&gt; has &lt;b&gt;%2&lt;/b&gt; %3&lt;br&gt;against him. &lt;b&gt;%4&lt;/b&gt; vote(s) needed to kick.</source>
         <translation>விளையாட்டு வீரர் &lt;b&gt;%1&lt;/b&gt; என்பவருக்கு எதிராக &lt;b&gt;%2&lt;/b&gt; %3&lt;br&gt;உள்ளது. அவரை துரத்த &lt;b&gt;%4&lt;/b&gt; ஓட்டுகள் தேவை.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="4003"/>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="4005"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="4004"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="4006"/>
         <source>You have &lt;b&gt;%1&lt;/b&gt; %2 against you.&lt;br&gt;&lt;b&gt;%3&lt;/b&gt; vote(s) needed to kick.</source>
         <translation>உங்களுக்கு எதிராக &lt;b&gt;%1&lt;/b&gt; %2 உள்ளது.&lt;br&gt;உங்களை வெளியேற்ற &lt;b&gt;%3&lt;/b&gt; ஓட்டுகள் தேவை.</translation>
     </message>
@@ -3958,48 +3958,48 @@ Would you like to overwrite ?</source>
         <translation>உள்ளக கணினி விளையாட்டின் அமைப்பு</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gui_800x480/newgamedialog_800x480.ui" line="110"/>
+        <location filename="../src/gui/qt/gui_800x480/newgamedialog_800x480.ui" line="101"/>
         <location filename="../src/gui/qt/newgamedialog.ui" line="26"/>
         <source>Number of players:</source>
         <translation>விளையாட்டு வீரர்களின் எண்ணிக்கை:</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gui_800x480/newgamedialog_800x480.ui" line="137"/>
+        <location filename="../src/gui/qt/gui_800x480/newgamedialog_800x480.ui" line="128"/>
         <location filename="../src/gui/qt/newgamedialog.ui" line="49"/>
         <source>Start Cash:</source>
         <translation>பணம் செலுத்த ஆரம்பி:</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gui_800x480/newgamedialog_800x480.ui" line="150"/>
+        <location filename="../src/gui/qt/gui_800x480/newgamedialog_800x480.ui" line="141"/>
         <location filename="../src/gui/qt/newgamedialog.ui" line="59"/>
         <source>$</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gui_800x480/newgamedialog_800x480.ui" line="171"/>
+        <location filename="../src/gui/qt/gui_800x480/newgamedialog_800x480.ui" line="162"/>
         <location filename="../src/gui/qt/newgamedialog.ui" line="78"/>
         <source>Blinds</source>
         <translation>பந்தயத்தொகை</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gui_800x480/newgamedialog_800x480.ui" line="196"/>
+        <location filename="../src/gui/qt/gui_800x480/newgamedialog_800x480.ui" line="187"/>
         <location filename="../src/gui/qt/newgamedialog.ui" line="84"/>
         <source>Use saved blinds settings</source>
         <translation>முன்பு பயன்படுத்திய பந்தயத்தொகை அமைப்பை உபயோகி</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gui_800x480/newgamedialog_800x480.ui" line="288"/>
+        <location filename="../src/gui/qt/gui_800x480/newgamedialog_800x480.ui" line="279"/>
         <source> OK </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gui_800x480/newgamedialog_800x480.ui" line="189"/>
+        <location filename="../src/gui/qt/gui_800x480/newgamedialog_800x480.ui" line="180"/>
         <location filename="../src/gui/qt/newgamedialog.ui" line="94"/>
         <source>Change blinds settings ...</source>
         <translation>பந்தயத்தொகை அமைப்பை மாற்றுக ...</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gui_800x480/newgamedialog_800x480.ui" line="211"/>
+        <location filename="../src/gui/qt/gui_800x480/newgamedialog_800x480.ui" line="202"/>
         <location filename="../src/gui/qt/newgamedialog.ui" line="104"/>
         <source>Game Speed:</source>
         <translation>விளையாட்டின் வேகம்:</translation>

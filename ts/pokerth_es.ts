@@ -5753,8 +5753,8 @@ Si el servidor está detrás de un enrutador NAT, asegúrese de que el puerto de
         <translation type="obsolete">Esta partida está llena.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3555"/>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3563"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3556"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3564"/>
         <source>Chat</source>
         <translation>Charla</translation>
     </message>
@@ -5817,12 +5817,12 @@ Seleccione otro.</translation>
         <translation type="obsolete">El servidor está desconectado por mantenimiento. Inténtelo de nuevo más tarde.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3743"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3744"/>
         <source>Closing PokerTH during network game</source>
         <translation>Cerrando PokerTH durante una partida en red</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3744"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3745"/>
         <source>You are the hosting server. Do you want to close PokerTH anyway?</source>
         <translation>Usted está alojando la partida. ¿Seguro que desea cerrar PokerTH?</translation>
     </message>
@@ -5846,9 +5846,9 @@ Seleccione otro.</translation>
     <message>
         <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3079"/>
         <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3096"/>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3586"/>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3588"/>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3592"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3587"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3589"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3593"/>
         <source>Lobby</source>
         <translation>Sala</translation>
     </message>
@@ -5857,12 +5857,12 @@ Seleccione otro.</translation>
         <translation type="obsolete">Ha ocurrido un error interno. Informe al administrador en la sala de charla.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3842"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3843"/>
         <source>PokerTH - Internet Game Message</source>
         <translation>PokerTH - Mensaje de partida en Internet</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3842"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3843"/>
         <source>Attention! Do you really want to leave the current game
 and go back to the lobby?</source>
         <translation>¿Seguro que desea abandonar la partida actual
@@ -5934,53 +5934,53 @@ Asegúrese de que está conectado a Internet.</translation>
         <translation>Probabilidad</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3759"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3760"/>
         <source>Really want to exit?</source>
         <translation>¿Seguro que desea salir?</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3759"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3760"/>
         <source>PokerTH - Close Table?</source>
         <translation>PokerTH - ¿Cerrar mesa?</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3867"/>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3876"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3868"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3877"/>
         <source>Kick</source>
         <translation>Expulsar</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3911"/>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3915"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3912"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3916"/>
         <source>Do you want to kick &lt;b&gt;%1&lt;/b&gt;&lt;br&gt;from this game?</source>
         <translation>¿Desea expulsar a &lt;b&gt;%1&lt;/b&gt;&lt;br&gt;de esta partida?</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3976"/>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3978"/>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3982"/>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3984"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3977"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3979"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3983"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3985"/>
         <source>&lt;b&gt;%1&lt;/b&gt; secs left</source>
         <translation>quedan &lt;b&gt;%1&lt;/b&gt; segundos</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3991"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3992"/>
         <source>vote</source>
         <translation>voto</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3992"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3993"/>
         <source>votes</source>
         <translation>votos</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="4346"/>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="4349"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="4347"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="4350"/>
         <source>Chat is only available to registered players.</source>
         <translation>La charla sólo está disponible para usuarios registrados.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="4482"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="4483"/>
         <source>Spectators</source>
         <translation>Espectadores</translation>
     </message>
@@ -6007,14 +6007,14 @@ Si está ausente temporalmente, puede utilizar el modo &quot;ausente&quot; en el
         <translation type="obsolete">Usted tiene &lt;b&gt;%1&lt;/b&gt; %2 en contra.&lt;br&gt;Son necesarios &lt;b&gt;%3&lt;/b&gt; para expulsarle.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3997"/>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3999"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3998"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="4000"/>
         <source>Player &lt;b&gt;%1&lt;/b&gt; has &lt;b&gt;%2&lt;/b&gt; %3&lt;br&gt;against him. &lt;b&gt;%4&lt;/b&gt; vote(s) needed to kick.</source>
         <translation>El jugador &lt;b&gt;%1&lt;/b&gt; tiene &lt;b&gt;%2&lt;/b&gt; %3&lt;br&gt;en contra. Son necesarios &lt;b&gt;%4&lt;/b&gt; votos para la expulsión.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="4003"/>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="4005"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="4004"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="4006"/>
         <source>You have &lt;b&gt;%1&lt;/b&gt; %2 against you.&lt;br&gt;&lt;b&gt;%3&lt;/b&gt; vote(s) needed to kick.</source>
         <translation>Tiene &lt;b&gt;%1&lt;/b&gt; %2 en contra.&lt;br&gt;Son necesarios &lt;b&gt;%3&lt;/b&gt; votos para la expulsión.</translation>
     </message>
@@ -6435,13 +6435,13 @@ Would you like to overwrite ?</source>
         <translation>Opciones de la partida local</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gui_800x480/newgamedialog_800x480.ui" line="211"/>
+        <location filename="../src/gui/qt/gui_800x480/newgamedialog_800x480.ui" line="202"/>
         <location filename="../src/gui/qt/newgamedialog.ui" line="104"/>
         <source>Game Speed:</source>
         <translation>Velocidad del juego:</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gui_800x480/newgamedialog_800x480.ui" line="137"/>
+        <location filename="../src/gui/qt/gui_800x480/newgamedialog_800x480.ui" line="128"/>
         <location filename="../src/gui/qt/newgamedialog.ui" line="49"/>
         <source>Start Cash:</source>
         <translation>Dinero inicial:</translation>
@@ -6451,7 +6451,7 @@ Would you like to overwrite ?</source>
         <translation type="obsolete">Postura mínima:</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gui_800x480/newgamedialog_800x480.ui" line="110"/>
+        <location filename="../src/gui/qt/gui_800x480/newgamedialog_800x480.ui" line="101"/>
         <location filename="../src/gui/qt/newgamedialog.ui" line="26"/>
         <source>Number of players:</source>
         <translation>Número de jugadores:</translation>
@@ -6461,30 +6461,30 @@ Would you like to overwrite ?</source>
         <translation type="obsolete">Manos antes de subir la postura mínima:</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gui_800x480/newgamedialog_800x480.ui" line="171"/>
+        <location filename="../src/gui/qt/gui_800x480/newgamedialog_800x480.ui" line="162"/>
         <location filename="../src/gui/qt/newgamedialog.ui" line="78"/>
         <source>Blinds</source>
         <translation>Ciegas</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gui_800x480/newgamedialog_800x480.ui" line="196"/>
+        <location filename="../src/gui/qt/gui_800x480/newgamedialog_800x480.ui" line="187"/>
         <location filename="../src/gui/qt/newgamedialog.ui" line="84"/>
         <source>Use saved blinds settings</source>
         <translation>Utilizar configuración guardada de ciegas</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gui_800x480/newgamedialog_800x480.ui" line="288"/>
+        <location filename="../src/gui/qt/gui_800x480/newgamedialog_800x480.ui" line="279"/>
         <source> OK </source>
         <translation> Aceptar </translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gui_800x480/newgamedialog_800x480.ui" line="189"/>
+        <location filename="../src/gui/qt/gui_800x480/newgamedialog_800x480.ui" line="180"/>
         <location filename="../src/gui/qt/newgamedialog.ui" line="94"/>
         <source>Change blinds settings ...</source>
         <translation>Cambiar configuración de ciegas...</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gui_800x480/newgamedialog_800x480.ui" line="150"/>
+        <location filename="../src/gui/qt/gui_800x480/newgamedialog_800x480.ui" line="141"/>
         <location filename="../src/gui/qt/newgamedialog.ui" line="59"/>
         <source>$</source>
         <translation>$</translation>

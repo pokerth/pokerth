@@ -909,7 +909,11 @@ p, li { white-space: pre-wrap; }
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Liberation Sans&apos;; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
 &lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;Nimbus Sans L&apos;;&quot;&gt;&lt;br /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Liberation Sans&apos;; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;Nimbus Sans L&apos;;&quot;&gt;&lt;br /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/aboutpokerth.ui" line="150"/>
@@ -927,7 +931,14 @@ p, li { white-space: pre-wrap; }
 &lt;tr&gt;
 &lt;td style=&quot;border: none;&quot;&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:8pt;&quot;&gt;translator name - mail address&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Liberation Sans&apos;; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;table border=&quot;0&quot; style=&quot;-qt-table-type: root; margin-top:4px; margin-bottom:4px; margin-left:4px; margin-right:4px;&quot;&gt;
+&lt;tr&gt;
+&lt;td style=&quot;border: none;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:8pt;&quot;&gt;GunChleoc – fios@foramnagaidhlig.net&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/aboutpokerth.ui" line="189"/>
@@ -945,7 +956,7 @@ p, li { white-space: pre-wrap; }
         <location filename="../src/gui/qt/aboutpokerth.ui" line="263"/>
         <location filename="../src/gui/qt/gui_800x480/aboutpokerth_800x480.ui" line="294"/>
         <source>Third party libs</source>
-        <translation type="unfinished"></translation>
+        <translation>Tasglannan</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/aboutpokerth.ui" line="306"/>
@@ -1474,7 +1485,7 @@ Feuch an tagh thu fear eile!</translation>
         <location filename="../src/gui/qt/createinternetgamedialog.ui" line="296"/>
         <location filename="../src/gui/qt/gui_800x480/createinternetgamedialog_800x480.ui" line="451"/>
         <source>Allow spectators to watch the game</source>
-        <translation type="unfinished"></translation>
+        <translation>Ceadaich amhairc</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/createinternetgamedialog.ui" line="336"/>
@@ -1629,13 +1640,13 @@ Feuch an tagh thu fear eile!</translation>
         <location filename="../src/gui/qt/gamelobbydialog.ui" line="423"/>
         <location filename="../src/gui/qt/gui_800x480/gamelobbydialog_800x480.ui" line="489"/>
         <source>Players</source>
-        <translation type="unfinished">Cluicheadairean</translation>
+        <translation>Cluicheadairean</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog.ui" line="478"/>
         <location filename="../src/gui/qt/gui_800x480/gamelobbydialog_800x480.ui" line="550"/>
         <source>Spectators</source>
-        <translation type="unfinished"></translation>
+        <translation>Amhairc</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog.ui" line="603"/>
@@ -1819,7 +1830,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="89"/>
         <source>Spectate</source>
-        <translation type="unfinished"></translation>
+        <translation>Amhairc</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="137"/>
@@ -1875,12 +1886,12 @@ p, li { white-space: pre-wrap; }
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="207"/>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="218"/>
         <source>Admin action ...</source>
-        <translation type="unfinished"></translation>
+        <translation>Gnìomh rianachd ...</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="208"/>
         <source>Total kickban</source>
-        <translation type="unfinished"></translation>
+        <translation>Toirmeasg slàn</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="216"/>
@@ -1890,7 +1901,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="219"/>
         <source>Close game</source>
-        <translation type="unfinished"></translation>
+        <translation>Dùin an geama</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="362"/>
@@ -1970,14 +1981,14 @@ p, li { white-space: pre-wrap; }
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="933"/>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1450"/>
         <source>Players (%1)</source>
-        <translation type="unfinished"></translation>
+        <translation>Cluicheadairean (%1)</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1055"/>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1129"/>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1451"/>
         <source>Spectators (%1)</source>
-        <translation type="unfinished"></translation>
+        <translation>Amhairc (%1)</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1653"/>
@@ -3360,12 +3371,13 @@ Faodaidh tu cuireadh a thoirt dha chluicheadair eile le briogadh deas air fhar-a
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2200"/>
         <source>Are you sure you want to close the game:
 &quot;%1&quot;?</source>
-        <translation type="unfinished"></translation>
+        <translation>A bheil thu cinnteach gu bheil thu airson an geama:
+&quot;%1&quot; a dhùnadh?</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2216"/>
         <source>Are you sure you want to total kickban the player: &quot;%1&quot;?</source>
-        <translation type="unfinished"></translation>
+        <translation>A bheil thu cinnteach gu bheil thu airson an cluicheadair: &quot;%1&quot; a thoirmeasg?</translation>
     </message>
 </context>
 <context>
@@ -3691,60 +3703,60 @@ Faodaidh tu cuireadh a thoirt dha chluicheadair eile le briogadh deas air fhar-a
     <message>
         <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3079"/>
         <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3096"/>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3586"/>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3588"/>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3592"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3587"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3589"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3593"/>
         <source>Lobby</source>
         <translation>Lobaidh</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3555"/>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3563"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3556"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3564"/>
         <source>Chat</source>
         <translation>Cabadaich</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3743"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3744"/>
         <source>Closing PokerTH during network game</source>
         <translation>A&apos; dùnadh PokerTH rè geama lìonraidh</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3744"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3745"/>
         <source>You are the hosting server. Do you want to close PokerTH anyway?</source>
         <translation>&apos;S e an t-òstair a th&apos; annad. A bheil thu airson PokerTH a dhùnadh co-dhiù?</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3759"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3760"/>
         <source>Really want to exit?</source>
         <translation>A bheil thu cinnteach gu bheil thu airson fàgail?</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3759"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3760"/>
         <source>PokerTH - Close Table?</source>
         <translation>PokerTH - A bheil thu airson am bòrd a dhùnadh?</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3842"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3843"/>
         <source>PokerTH - Internet Game Message</source>
         <translation>PokerTH - Brath a&apos; gheama eadar-lìn</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3842"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3843"/>
         <source>Attention! Do you really want to leave the current game
 and go back to the lobby?</source>
         <translation>An aire! A bheil thu cinnteach gu bheil thu airson an geama seo fhàgail
 is tilleadh dhan lobaidh?</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="4346"/>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="4349"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="4347"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="4350"/>
         <source>Chat is only available to registered players.</source>
         <translation>Chan eil a&apos; chabadaich ri làimh ach airson chluicheadairean a&apos; chlàraich.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="4482"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="4483"/>
         <source>Spectators</source>
-        <translation type="unfinished"></translation>
+        <translation>Amhairc</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="719"/>
@@ -3753,44 +3765,44 @@ is tilleadh dhan lobaidh?</translation>
         <translation>Seans</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3867"/>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3876"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3868"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3877"/>
         <source>Kick</source>
         <translation>Thoir a&apos; bhròg</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3911"/>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3915"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3912"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3916"/>
         <source>Do you want to kick &lt;b&gt;%1&lt;/b&gt;&lt;br&gt;from this game?</source>
         <translation>A bheil thu airson a&apos; bhròg a thoirt dha &lt;b&gt;%1&lt;/b&gt;&lt;br&gt;on gheama seo?</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3976"/>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3978"/>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3982"/>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3984"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3977"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3979"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3983"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3985"/>
         <source>&lt;b&gt;%1&lt;/b&gt; secs left</source>
         <translation>&lt;b&gt;%1&lt;/b&gt; diog air fhàgail</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3991"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3992"/>
         <source>vote</source>
         <translation>bhòta</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3992"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3993"/>
         <source>votes</source>
         <translation>bhòtaichean</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3997"/>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3999"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3998"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="4000"/>
         <source>Player &lt;b&gt;%1&lt;/b&gt; has &lt;b&gt;%2&lt;/b&gt; %3&lt;br&gt;against him. &lt;b&gt;%4&lt;/b&gt; vote(s) needed to kick.</source>
         <translation>Tha &lt;b&gt;%2&lt;/b&gt; %3 an aghaidh cluicheadair &lt;b&gt;%1&lt;/b&gt;.&lt;br&gt;Tha &lt;b&gt;%4&lt;/b&gt; bhòta(ichean) a dhìth gus a&apos; bhròg a thoirt dha.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="4003"/>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="4005"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="4004"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="4006"/>
         <source>You have &lt;b&gt;%1&lt;/b&gt; %2 against you.&lt;br&gt;&lt;b&gt;%3&lt;/b&gt; vote(s) needed to kick.</source>
         <translation>Tha &lt;b&gt;%1&lt;/b&gt; %2 nad aghaidh.&lt;br&gt;Tha &lt;b&gt;%3&lt;/b&gt; bhòta(ichean) a dhìth gus am faigh thu a&apos; bhròg.</translation>
     </message>
@@ -4008,7 +4020,8 @@ p, li { white-space: pre-wrap; }
         <location filename="../src/gui/qt/joinnetworkgamedialog/joinnetworkgamedialogimpl.cpp" line="282"/>
         <source>Could not load server-profiles-file:
 %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Cha b&apos; urrainn dhuinn am faidhle airson pròifilean nam frithealaichean a luchdadh:
+%1</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/joinnetworkgamedialog/joinnetworkgamedialogimpl.cpp" line="224"/>
@@ -4043,7 +4056,8 @@ A bheil thu airson sgrìobhadh thairis air?</translation>
         <location filename="../src/gui/qt/joinnetworkgamedialog/joinnetworkgamedialogimpl.cpp" line="295"/>
         <source>Could not save server-profiles-file:
 %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Cha b&apos; urrainn dhuinn am faidhle airson pròifilean nam frithealaichean a shàbhaladh:
+%1</translation>
     </message>
     <message>
         <source>Could not save server-profiles-file:
@@ -4157,48 +4171,48 @@ A bheil thu airson sgrìobhadh thairis air?</translation>
         <translation>Roghainnean a&apos; gheama ionadail</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gui_800x480/newgamedialog_800x480.ui" line="110"/>
+        <location filename="../src/gui/qt/gui_800x480/newgamedialog_800x480.ui" line="101"/>
         <location filename="../src/gui/qt/newgamedialog.ui" line="26"/>
         <source>Number of players:</source>
         <translation>Àireamh dhe chluicheadairean:</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gui_800x480/newgamedialog_800x480.ui" line="137"/>
+        <location filename="../src/gui/qt/gui_800x480/newgamedialog_800x480.ui" line="128"/>
         <location filename="../src/gui/qt/newgamedialog.ui" line="49"/>
         <source>Start Cash:</source>
         <translation>Airgead tòiseachaidh:</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gui_800x480/newgamedialog_800x480.ui" line="150"/>
+        <location filename="../src/gui/qt/gui_800x480/newgamedialog_800x480.ui" line="141"/>
         <location filename="../src/gui/qt/newgamedialog.ui" line="59"/>
         <source>$</source>
         <translation>£</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gui_800x480/newgamedialog_800x480.ui" line="171"/>
+        <location filename="../src/gui/qt/gui_800x480/newgamedialog_800x480.ui" line="162"/>
         <location filename="../src/gui/qt/newgamedialog.ui" line="78"/>
         <source>Blinds</source>
         <translation>Blinds</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gui_800x480/newgamedialog_800x480.ui" line="196"/>
+        <location filename="../src/gui/qt/gui_800x480/newgamedialog_800x480.ui" line="187"/>
         <location filename="../src/gui/qt/newgamedialog.ui" line="84"/>
         <source>Use saved blinds settings</source>
         <translation>Cleachd roghainnean nam blinds air an sàbhaladh</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gui_800x480/newgamedialog_800x480.ui" line="288"/>
+        <location filename="../src/gui/qt/gui_800x480/newgamedialog_800x480.ui" line="279"/>
         <source> OK </source>
         <translation>Ceart ma-thà</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gui_800x480/newgamedialog_800x480.ui" line="189"/>
+        <location filename="../src/gui/qt/gui_800x480/newgamedialog_800x480.ui" line="180"/>
         <location filename="../src/gui/qt/newgamedialog.ui" line="94"/>
         <source>Change blinds settings ...</source>
         <translation>Atharraich roghainnean nam blinds ...</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gui_800x480/newgamedialog_800x480.ui" line="211"/>
+        <location filename="../src/gui/qt/gui_800x480/newgamedialog_800x480.ui" line="202"/>
         <location filename="../src/gui/qt/newgamedialog.ui" line="104"/>
         <source>Game Speed:</source>
         <translation>Luaths a&apos; gheama:</translation>
@@ -4356,7 +4370,7 @@ Feuch an cuir thu a-steach dealbh dligheach!</translation>
         <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="178"/>
         <location filename="../src/gui/qt/settingsdialog.ui" line="165"/>
         <source>Common</source>
-        <translation type="unfinished"></translation>
+        <translation>Coitcheann</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="261"/>
@@ -4380,13 +4394,13 @@ Feuch an cuir thu a-steach dealbh dligheach!</translation>
         <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="318"/>
         <location filename="../src/gui/qt/settingsdialog.ui" line="336"/>
         <source>Do not hide avatars of players which are on the ignore list</source>
-        <translation type="unfinished"></translation>
+        <translation>Na falaich avataran nan cluicheadairean a tha air an liosta neo-shuime</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="325"/>
         <location filename="../src/gui/qt/settingsdialog.ui" line="343"/>
         <source>Disable emoticons in the chat</source>
-        <translation type="unfinished"></translation>
+        <translation>Cuir samhlaidhean-gnùis à comas sa chabadaich</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="375"/>
@@ -4612,13 +4626,13 @@ Feuch an cuir thu a-steach dealbh dligheach!</translation>
         <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="1949"/>
         <location filename="../src/gui/qt/settingsdialog.ui" line="1705"/>
         <source>Server Password:</source>
-        <translation type="unfinished"></translation>
+        <translation>Facal-faire an fhrithealaiche:</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="2180"/>
         <location filename="../src/gui/qt/settingsdialog.ui" line="1911"/>
         <source>Allow spectators to watch the game</source>
-        <translation type="unfinished"></translation>
+        <translation>Ceadaich dha amhairc coimhead air a&apos; gheama</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="4087"/>
@@ -5273,7 +5287,7 @@ Feuch an cuir thu a-steach seòladh aig liosta nam frithealaichean dligheach!</t
     <message>
         <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="81"/>
         <source>Galician</source>
-        <translation type="unfinished"></translation>
+        <translation>Gailìsis</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="82"/>
@@ -5363,7 +5377,7 @@ Feuch an cuir thu a-steach seòladh aig liosta nam frithealaichean dligheach!</t
     <message>
         <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="99"/>
         <source>Vietnamese</source>
-        <translation type="unfinished"></translation>
+        <translation>Bhiet-Namais</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog/settingsdialogimpl.cpp" line="609"/>
@@ -5992,33 +6006,34 @@ Cuir am facal-faire a-steach turas eile is feuch ris a-rithist.</translation>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1166"/>
         <source>The game was closed.</source>
-        <translation type="unfinished"></translation>
+        <translation>Chaidh an geama a dhùnadh.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1170"/>
         <source>The game could not be closed.</source>
-        <translation type="unfinished"></translation>
+        <translation>Cha b&apos; urrainn dhuinn an geama a dhùnadh.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1174"/>
         <source>The player was kicked and banned permanently.</source>
-        <translation type="unfinished"></translation>
+        <translation>Chaidh a&apos; bhròig a thoirt dhan chluidheadair is a thoirmeasg gu buan.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1178"/>
         <source>The player was kicked, but could not be banned because it was a guest player.</source>
-        <translation type="unfinished"></translation>
+        <translation>Chaidh a&apos; bhròg a thoirt dhan chluicheadair ach dha b&apos; urrainn dhuinn a thoirmeasg oir &apos;s e aoigh a bh&apos; ann.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1182"/>
         <source>The player was kicked, but could not be banned, 
 because the nick could not be found in the database</source>
-        <translation type="unfinished"></translation>
+        <translation>Chaidh a&apos; bhròg a thoirt dhan chluicheadair ach dha b&apos; urrainn dhuinn a thoirmeasg 
+on nach deach am far-ainm a lorg san stòr-dàta</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="1186"/>
         <source>The player could not be found.</source>
-        <translation type="unfinished"></translation>
+        <translation>Cha deach an cluicheadair a lorg.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="874"/>

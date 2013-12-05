@@ -3695,58 +3695,58 @@ Nesivaržykite pakviesti kitus žaidėjus spragtelėdami dešinį mygtuką ant j
     <message>
         <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3079"/>
         <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3096"/>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3586"/>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3588"/>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3592"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3587"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3589"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3593"/>
         <source>Lobby</source>
         <translation>Fojė</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3555"/>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3563"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3556"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3564"/>
         <source>Chat</source>
         <translation>Pokalbis</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3743"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3744"/>
         <source>Closing PokerTH during network game</source>
         <translation>Uždaromas PokerTH per tinklo žaidimą</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3744"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3745"/>
         <source>You are the hosting server. Do you want to close PokerTH anyway?</source>
         <translation>Jūs esate prieglobos serveris. Ar norite vistiek uždaryti PokerTH?</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3759"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3760"/>
         <source>Really want to exit?</source>
         <translation>Ar tikrai norite išeiti?</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3759"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3760"/>
         <source>PokerTH - Close Table?</source>
         <translation>PokerTH - užverti lentelę?</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3842"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3843"/>
         <source>PokerTH - Internet Game Message</source>
         <translation>PokerTH - žaidimo internetu žinutė</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3842"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3843"/>
         <source>Attention! Do you really want to leave the current game
 and go back to the lobby?</source>
         <translation>Dėmesio! Ar tikrai norite palikti esamą žaidimą
 ir grįžti į fojė?</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="4346"/>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="4349"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="4347"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="4350"/>
         <source>Chat is only available to registered players.</source>
         <translation>Pokalbis yra prieinamas tik užsiregistravusiems žaidėjams.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="4482"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="4483"/>
         <source>Spectators</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3771,44 +3771,44 @@ Jei esate laikinai atsitraukęs, galite panaudoti &quot;išėjęs&quot; priemon�
         <translation>Keisti</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3867"/>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3876"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3868"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3877"/>
         <source>Kick</source>
         <translation>Pašalinti</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3911"/>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3915"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3912"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3916"/>
         <source>Do you want to kick &lt;b&gt;%1&lt;/b&gt;&lt;br&gt;from this game?</source>
         <translation>Ar norite pašalinti &lt;b&gt;%1&lt;/b&gt;&lt;br&gt;iš šio žaidimo?</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3976"/>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3978"/>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3982"/>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3984"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3977"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3979"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3983"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3985"/>
         <source>&lt;b&gt;%1&lt;/b&gt; secs left</source>
         <translation>&lt;b&gt;%1&lt;/b&gt; sek. liko</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3991"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3992"/>
         <source>vote</source>
         <translation>balsavimas</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3992"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3993"/>
         <source>votes</source>
         <translation>balsai</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3997"/>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3999"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3998"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="4000"/>
         <source>Player &lt;b&gt;%1&lt;/b&gt; has &lt;b&gt;%2&lt;/b&gt; %3&lt;br&gt;against him. &lt;b&gt;%4&lt;/b&gt; vote(s) needed to kick.</source>
         <translation>Žaidėjas &lt;b&gt;%1&lt;/b&gt; yra &lt;b&gt;%2&lt;/b&gt; %3&lt;br&gt;prieš jį. &lt;b&gt;%4&lt;/b&gt; balso ar balsų reikia pašalinimui.</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="4003"/>
-        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="4005"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="4004"/>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="4006"/>
         <source>You have &lt;b&gt;%1&lt;/b&gt; %2 against you.&lt;br&gt;&lt;b&gt;%3&lt;/b&gt; vote(s) needed to kick.</source>
         <translation>Jūs turite &lt;b&gt;%1&lt;/b&gt; %2 prieš tave.&lt;br&gt;&lt;b&gt;%3&lt;/b&gt; balso ar balsų reikia pašalinimui.</translation>
     </message>
@@ -4195,48 +4195,48 @@ Galbūt norėtumėte pakeisti ?</translation>
         <translation>Vietinio žaidimo nuostatos</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gui_800x480/newgamedialog_800x480.ui" line="110"/>
+        <location filename="../src/gui/qt/gui_800x480/newgamedialog_800x480.ui" line="101"/>
         <location filename="../src/gui/qt/newgamedialog.ui" line="26"/>
         <source>Number of players:</source>
         <translation>Žaidėjų skaičius:</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gui_800x480/newgamedialog_800x480.ui" line="137"/>
+        <location filename="../src/gui/qt/gui_800x480/newgamedialog_800x480.ui" line="128"/>
         <location filename="../src/gui/qt/newgamedialog.ui" line="49"/>
         <source>Start Cash:</source>
         <translation>Pradiniai pinigai:</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gui_800x480/newgamedialog_800x480.ui" line="150"/>
+        <location filename="../src/gui/qt/gui_800x480/newgamedialog_800x480.ui" line="141"/>
         <location filename="../src/gui/qt/newgamedialog.ui" line="59"/>
         <source>$</source>
         <translation>$</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gui_800x480/newgamedialog_800x480.ui" line="171"/>
+        <location filename="../src/gui/qt/gui_800x480/newgamedialog_800x480.ui" line="162"/>
         <location filename="../src/gui/qt/newgamedialog.ui" line="78"/>
         <source>Blinds</source>
         <translation>Statymai</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gui_800x480/newgamedialog_800x480.ui" line="196"/>
+        <location filename="../src/gui/qt/gui_800x480/newgamedialog_800x480.ui" line="187"/>
         <location filename="../src/gui/qt/newgamedialog.ui" line="84"/>
         <source>Use saved blinds settings</source>
         <translation>Naudoti įrašytas statymų nuostatas</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gui_800x480/newgamedialog_800x480.ui" line="288"/>
+        <location filename="../src/gui/qt/gui_800x480/newgamedialog_800x480.ui" line="279"/>
         <source> OK </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gui_800x480/newgamedialog_800x480.ui" line="189"/>
+        <location filename="../src/gui/qt/gui_800x480/newgamedialog_800x480.ui" line="180"/>
         <location filename="../src/gui/qt/newgamedialog.ui" line="94"/>
         <source>Change blinds settings ...</source>
         <translation>Keisti statymų nuostatas ...</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gui_800x480/newgamedialog_800x480.ui" line="211"/>
+        <location filename="../src/gui/qt/gui_800x480/newgamedialog_800x480.ui" line="202"/>
         <location filename="../src/gui/qt/newgamedialog.ui" line="104"/>
         <source>Game Speed:</source>
         <translation>Žaidimo greitis:</translation>
