@@ -55,10 +55,11 @@ gameLobbyDialogImpl::gameLobbyDialogImpl(startWindowImpl *parent, ConfigFile *c)
 #elif _WIN32
 //	setWindowFlags(Qt::Dialog | Qt::WindowMinimizeButtonHint);
 #endif
-
 	setupUi(this);
 	myAppDataPath = QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str());
-
+#ifdef ANDROID
+	this->setWindowState(Qt::WindowFullScreen);
+#endif
 	//wait start game message
 	waitStartGameMsgBox = new MyMessageBox(this);
 	waitStartGameMsgBox->setText(tr("Starting game. Please wait ..."));
@@ -130,7 +131,6 @@ gameLobbyDialogImpl::gameLobbyDialogImpl(startWindowImpl *parent, ConfigFile *c)
 	myGameListSortFilterProxyModel->setSourceModel(myGameListModel);
 	myGameListSortFilterProxyModel->setDynamicSortFilter(true);
 	treeView_GameList->setModel(myGameListSortFilterProxyModel);
-
 	myGameListSelectionModel = treeView_GameList->selectionModel();
 
 	QStringList headerList;
@@ -252,9 +252,7 @@ gameLobbyDialogImpl::gameLobbyDialogImpl(startWindowImpl *parent, ConfigFile *c)
 	lineEdit_searchForPlayers->installEventFilter(this);
 	lineEdit_ChatInput->installEventFilter(this);
 	this->installEventFilter(this);
-
 	clearDialog();
-
 }
 
 int gameLobbyDialogImpl::exec()

@@ -45,7 +45,9 @@ joinNetworkGameDialogImpl::joinNetworkGameDialogImpl(QWidget *parent, ConfigFile
 	setWindowFlags(Qt::WindowSystemMenuHint | Qt::CustomizeWindowHint | Qt::Dialog);
 #endif
 	setupUi(this);
-
+#ifdef ANDROID
+	this->setWindowState(Qt::WindowFullScreen);
+#endif
 // 	QShortcut *connectKey = new QShortcut(QKeySequence(Qt::Key_Enter), this);
 // 	connect( connectKey, SIGNAL(activated() ), pushButton_connect, SLOT( click() ) );
 
@@ -305,12 +307,14 @@ void joinNetworkGameDialogImpl::deleteServerProfile()
 
 void joinNetworkGameDialogImpl::keyPressEvent ( QKeyEvent * event )
 {
-
 #ifndef ANDROID
 	if (event->key() == 16777220) {
 		pushButton_connect->click();    //ENTER
 	}
+#else
+	QDialog::keyPressEvent(event);
 #endif
+
 }
 
 void joinNetworkGameDialogImpl::checkIp()

@@ -43,11 +43,13 @@ changeCompleteBlindsDialogImpl::changeCompleteBlindsDialogImpl(QWidget *parent, 
 #endif
 	setupUi(this);
 	this->installEventFilter(this);
+#ifdef ANDROID
+	this->setWindowState(Qt::WindowFullScreen);
+#endif
 
 	connect( pushButton_add, SIGNAL( clicked() ), this, SLOT( addBlindValueToList() ) );
 	connect( pushButton_delete, SIGNAL( clicked() ), this, SLOT( removeBlindFromList() ) );
 	connect( spinBox_firstSmallBlind, SIGNAL( valueChanged(int) ), this, SLOT( updateSpinBoxInputMinimum(int) ) );
-
 }
 
 int changeCompleteBlindsDialogImpl::exec()

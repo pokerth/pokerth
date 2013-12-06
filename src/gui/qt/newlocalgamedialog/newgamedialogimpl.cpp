@@ -79,6 +79,9 @@ int newGameDialogImpl::exec()
 	myChangeCompleteBlindsDialog->spinBox_afterThisAlwaysRaiseValue->setValue(myConfig->readConfigInt("AfterMBAlwaysRaiseValue"));
 	myChangeCompleteBlindsDialog->radioButton_afterThisStayAtLastBlind->setChecked(myConfig->readConfigInt("AfterMBStayAtLastBlind"));
 
+#ifdef ANDROID
+	this->showFullScreen();
+#endif
 	return QDialog::exec();
 }
 

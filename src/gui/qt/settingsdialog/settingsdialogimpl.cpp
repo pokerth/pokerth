@@ -55,6 +55,7 @@ settingsDialogImpl::settingsDialogImpl(QWidget *parent, ConfigFile *c, selectAva
 	label_soundvol->hide();
 	label_soundVolume->hide();
 	horizontalSlider_soundVolume->hide();
+	this->setWindowState(Qt::WindowFullScreen);
 #endif
 
 	myManualBlindsOrderDialog = new manualBlindsOrderDialogImpl;

@@ -108,6 +108,7 @@ gameTableImpl::gameTableImpl(ConfigFile *c, QMainWindow *parent)
 	textLabel_handLabel->hide();
 #ifdef ANDROID
 	tabsDiag->setStyleSheet("QObject { font: 26px; } QDialog { background-image: url(:/android/android-data/gfx/gui/table/default_800x480/table_dark.png); background-position: bottom center; background-origin: content;  background-repeat: no-repeat;}");
+	this->setWindowState(Qt::WindowFullScreen);
 #endif
 	tabs.label_chance->setMyStyle(myGameTableStyle);
 #else
@@ -4293,9 +4294,6 @@ void gameTableImpl::saveGameTableGeometry()
 
 void gameTableImpl::restoreGameTableGeometry()
 {
-#ifdef ANDROID
-	this->showFullScreen();
-#else
 	if(myConfig->readConfigInt("GameTableFullScreenSave")) {
 #ifndef GUI_800x480
 		if(actionFullScreen->isEnabled()) this->showFullScreen();
@@ -4307,7 +4305,6 @@ void gameTableImpl::restoreGameTableGeometry()
 			this->resize(myConfig->readConfigInt("GameTableWidthSave"), myConfig->readConfigInt("GameTableHeightSave"));
 		}
 	}
-#endif
 }
 
 void gameTableImpl::netClientPlayerLeft(unsigned /*playerId*/)

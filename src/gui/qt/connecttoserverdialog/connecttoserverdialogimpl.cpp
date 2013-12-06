@@ -39,6 +39,9 @@ connectToServerDialogImpl::connectToServerDialogImpl(QWidget *parent)
 	setWindowFlags(Qt::WindowSystemMenuHint | Qt::CustomizeWindowHint | Qt::Dialog);
 #endif
 	setupUi(this);
+#ifdef ANDROID
+	this->setWindowState(Qt::WindowFullScreen);
+#endif
 }
 
 int connectToServerDialogImpl::exec()

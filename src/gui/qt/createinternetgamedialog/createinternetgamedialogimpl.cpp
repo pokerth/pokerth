@@ -44,16 +44,16 @@ createInternetGameDialogImpl::createInternetGameDialogImpl(QWidget *parent, Conf
 #endif
 	setupUi(this);
 	this->installEventFilter(this);
+#ifdef ANDROID
+	this->setWindowState(Qt::WindowFullScreen);
+#endif
 	spinBox_netDelayBetweenHands->installEventFilter(this);
 	spinBox_netTimeOutPlayerAction->installEventFilter(this);
-
 	comboBox_gameType->setItemData(0, GAME_TYPE_NORMAL, Qt::UserRole);
 	comboBox_gameType->setItemData(1, GAME_TYPE_REGISTERED_ONLY, Qt::UserRole);
 	comboBox_gameType->setItemData(2, GAME_TYPE_INVITE_ONLY, Qt::UserRole);
 	comboBox_gameType->setItemData(3, GAME_TYPE_RANKING, Qt::UserRole);
-
 	myChangeCompleteBlindsDialog = new changeCompleteBlindsDialogImpl;
-
 	startBlind = new QLabel(tr("<i>First small blind: $%1</i>").arg(RANKING_GAME_START_SBLIND));
 	raiseMode = new QLabel(tr("<i>Double blinds every %1'th hand</i>").arg(RANKING_GAME_RAISE_EVERY_HAND));
 	startBlind->hide();
@@ -68,7 +68,6 @@ createInternetGameDialogImpl::createInternetGameDialogImpl(QWidget *parent, Conf
 	connect( pushButton_createGame, SIGNAL( clicked() ), this, SLOT( createGame() ) );
 	connect( checkBox_Password, SIGNAL( toggled(bool) ), this, SLOT( clearGamePassword(bool)) );
 	connect( comboBox_gameType, SIGNAL(currentIndexChanged(int)), this, SLOT( gameTypeChanged() ) );
-
 }
 
 

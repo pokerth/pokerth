@@ -43,6 +43,9 @@ changeContentDialogImpl::changeContentDialogImpl(QWidget *parent, ConfigFile *co
 #endif
 	setupUi(this);
 	this->installEventFilter(this);
+#ifdef ANDROID
+	this->setWindowState(Qt::WindowFullScreen);
+#endif
 
 	switch (myType) {
 	case CHANGE_HUMAN_PLAYER_NAME: {
@@ -86,7 +89,6 @@ changeContentDialogImpl::changeContentDialogImpl(QWidget *parent, ConfigFile *co
 	}
 
 	connect(this, SIGNAL(accepted ()), this, SLOT(saveContent()));
-
 }
 
 void changeContentDialogImpl::saveContent()

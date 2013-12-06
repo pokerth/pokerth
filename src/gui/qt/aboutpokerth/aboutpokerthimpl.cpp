@@ -71,6 +71,7 @@ aboutPokerthImpl::aboutPokerthImpl(QWidget *parent, ConfigFile *c)
 
 #ifdef ANDROID
 	int api = -2;
+	this->setWindowState(Qt::WindowFullScreen);
 #ifndef ANDROID_TEST
 	JavaVM *currVM = (JavaVM *)QApplication::platformNativeInterface()->nativeResourceForIntegration("JavaVM");
 	JNIEnv* env;

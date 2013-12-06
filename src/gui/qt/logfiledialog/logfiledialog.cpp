@@ -48,10 +48,11 @@ LogFileDialog::LogFileDialog(QWidget *parent, ConfigFile *c) :
 	ui(new Ui::LogFileDialog)
 {
 	ui->setupUi(this);
-
 	ui->label_animation->setMaximumWidth(0);
 	ui->horizontalLayout_animation->setSpacing(0);
-
+#ifdef ANDROID
+	this->setWindowState(Qt::WindowFullScreen);
+#endif
 	connect( ui->pushButton_deleteLog, SIGNAL(clicked()), this, SLOT (deleteLogFile()));
 	connect( ui->pushButton_exportLogHtml, SIGNAL(clicked()), this, SLOT (exportLogToHtml()));
 	connect( ui->pushButton_exportLogTxt, SIGNAL(clicked()), this, SLOT (exportLogToTxt()));

@@ -43,7 +43,9 @@ serverListDialogImpl::serverListDialogImpl(startWindowImpl *sw, QMainWindow *par
 	setWindowFlags(Qt::WindowSystemMenuHint | Qt::CustomizeWindowHint | Qt::Dialog);
 #endif
 	setupUi(this);
-
+#ifdef ANDROID
+	this->setWindowState(Qt::WindowFullScreen);
+#endif
 	connect( treeWidget_serverList, SIGNAL( itemDoubleClicked ( QTreeWidgetItem*, int) ), this, SLOT( connectToServer() ));
 	connect( buttonBox, SIGNAL( accepted() ), this, SLOT( connectToServer() ));
 	connect( buttonBox, SIGNAL( rejected() ), this, SLOT( closeNetworkClient() ));
