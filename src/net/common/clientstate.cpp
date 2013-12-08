@@ -1771,6 +1771,10 @@ ClientStateRunHand::InternalHandlePacket(boost::shared_ptr<ClientThread> client,
 					client->GetClientLog()->transformPlayerActionLog(PlayerAction(netActionDone.playeraction())),
 					netActionDone.totalplayerbet() - tmpPlayer->getMySet()
 				);
+				if (tmpPlayer->getMyID() == 0)
+				{
+					client->EndPing();
+				}
 			}
 			// Update last players turn only after the blinds.
 			curGame->getCurrentHand()->setPreviousPlayerID(tmpPlayer->getMyID());

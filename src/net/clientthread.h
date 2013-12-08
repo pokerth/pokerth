@@ -37,6 +37,8 @@
 #include <boost/asio.hpp>
 #include <boost/enable_shared_from_this.hpp>
 #include <string>
+#include <algorithm>
+#include <numeric>
 
 #include <core/thread.h>
 #include <net/sessiondatacallback.h>
@@ -55,6 +57,33 @@ class AvatarManager;
 class Log;
 class QtToolsInterface;
 struct Gsasl;
+
+#define SIZE_PING_BACKLOG		20
+
+class PingData
+{
+public:
+	PingData() : pingTimer(boost::posix_time::time_duration(0, 0, 0), boost::timers::portable::microsec_timer::manual_start) {}
+
+	unsigned MinPing() {return *std::min_element(pingValues.begin(), pingValues.end());}
+	unsigned MaxPing() {return *std::max_element(pingValues.begin(), pingValues.end());}
+	unsigned AveragePing() {return std::accumulate(pingValues.begin(), pingValues.end(), 0) / (unsigned)pingValues.size();}
+	void StartPing() {pingTimer.start();}
+	void EndPing()
+	{
+		if (pingTimer.is_running()) {
+			pingValues.push_back((unsigned)pingTimer.elapsed().total_milliseconds());
+			if (pingValues.size() > SIZE_PING_BACKLOG) {
+				pingValues.pop_front();
+			}
+			pingTimer.reset();
+		}
+	}
+
+private:
+	std::list<unsigned> pingValues;
+	boost::timers::portable::microsec_timer pingTimer;
+};
 
 class ClientThread : public Thread, public boost::enable_shared_from_this<ClientThread>, public SessionDataCallback
 {
@@ -228,6 +257,7 @@ protected:
 	void EndPetition(unsigned petitionId);
 
 	void UpdateStatData(const ServerStats &stats);
+	void EndPing();
 
 	bool IsSessionEstablished() const;
 	void SetSessionEstablished(bool flag);
@@ -297,6 +327,9 @@ private:
 
 	mutable boost::mutex m_curStatsMutex;
 	ServerStats m_curStats;
+
+	mutable boost::mutex m_pingDataMutex;
+	PingData m_pingData;
 
 	boost::asio::deadline_timer m_stateTimer;
 	boost::asio::deadline_timer m_avatarTimer;

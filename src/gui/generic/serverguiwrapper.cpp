@@ -156,6 +156,10 @@ void ServerGuiWrapper::SignalNetClientStatsUpdate(const ServerStats &stats)
 {
 	if (myClientcb) myClientcb->SignalNetClientStatsUpdate(stats);
 }
+void ServerGuiWrapper::SignalNetClientPingUpdate(unsigned minPing, unsigned avgPing, unsigned maxPing)
+{
+	if (myClientcb) myClientcb->SignalNetClientPingUpdate(minPing, avgPing, maxPing);
+}
 void ServerGuiWrapper::SignalNetClientShowTimeoutDialog(NetTimeoutReason reason, unsigned remainingSec)
 {
 	if (myClientcb) myClientcb->SignalNetClientShowTimeoutDialog(reason, remainingSec);

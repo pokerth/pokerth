@@ -179,16 +179,4 @@ enum NetTimeoutReason {
 	NETWORK_TIMEOUT_KICK_AFTER_AUTOFOLD
 };
 
-struct ServerStats {
-	ServerStats()
-		: numberOfPlayersOnServer(0), numberOfGamesOpen(0), totalPlayersEverLoggedIn(0),
-		  totalGamesEverCreated(0), maxGamesOpen(0), maxPlayersLoggedIn(0) {}
-	unsigned numberOfPlayersOnServer;
-	unsigned numberOfGamesOpen;
-	unsigned totalPlayersEverLoggedIn;
-	unsigned totalGamesEverCreated;
-	unsigned maxGamesOpen;
-	unsigned maxPlayersLoggedIn;
-};
-
 #endif

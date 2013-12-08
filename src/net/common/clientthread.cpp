@@ -158,6 +158,10 @@ ClientThread::SendPlayerAction()
 {
 	// Warning: This function is called in the context of the GUI thread.
 	// Create a network packet containing the current player action.
+	{
+		boost::mutex::scoped_lock lock(m_pingDataMutex);
+		m_pingData.StartPing();
+	}
 	boost::shared_ptr<NetPacket> packet(new NetPacket);
 	packet->GetMsg()->set_messagetype(PokerTHMessage::Type_MyActionRequestMessage);
 	MyActionRequestMessage *netMyAction = packet->GetMsg()->mutable_myactionrequestmessage();
@@ -1556,6 +1560,14 @@ ClientThread::UpdateStatData(const ServerStats &stats)
 		m_curStats.totalGamesEverCreated = stats.totalGamesEverCreated;
 
 	GetCallback().SignalNetClientStatsUpdate(m_curStats);
+}
+
+void
+ClientThread::EndPing()
+{
+	boost::mutex::scoped_lock lock(m_pingDataMutex);
+	m_pingData.EndPing();
+	GetCallback().SignalNetClientPingUpdate(m_pingData.MinPing(), m_pingData.AveragePing(), m_pingData.MaxPing());
 }
 
 ServerStats
