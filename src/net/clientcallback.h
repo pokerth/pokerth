@@ -38,6 +38,7 @@
 
 #include <game_defs.h>
 #include <gamedata.h>
+#include <serverdata.h>
 
 class Game;
 
@@ -51,6 +52,7 @@ public:
 	virtual void SignalNetClientError(int errorID, int osErrorID) = 0;
 	virtual void SignalNetClientNotification(int notificationId) = 0;
 	virtual void SignalNetClientStatsUpdate(const ServerStats &stats) = 0;
+	virtual void SignalNetClientPingUpdate(unsigned minPing, unsigned avgPing, unsigned maxPing) = 0;
 	virtual void SignalNetClientShowTimeoutDialog(NetTimeoutReason reason, unsigned remainingSec) = 0;
 	virtual void SignalNetClientRemovedFromGame(int notificationId) = 0;
 

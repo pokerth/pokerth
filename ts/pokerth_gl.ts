@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.1" language="gl" sourcelanguage="en_US">
+<TS version="2.0" language="gl" sourcelanguage="en_US">
 <context>
     <name>CardDeckStyleReader</name>
     <message>
@@ -481,7 +481,7 @@ p, li { white-space: pre-wrap; }
 &lt;tr&gt;
 &lt;td style=&quot;border: none;&quot;&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;translator name - mail address&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="vanished">&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+        <translation>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
@@ -496,7 +496,7 @@ p, li { white-space: pre-wrap; }
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
 &lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="vanished">&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+        <translation>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
@@ -510,7 +510,11 @@ p, li { white-space: pre-wrap; }
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Liberation Sans&apos;; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
 &lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;Nimbus Sans L&apos;;&quot;&gt;&lt;br /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Liberation Sans&apos;; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;Nimbus Sans L&apos;;&quot;&gt;&lt;br /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/aboutpokerth.ui" line="150"/>
@@ -528,7 +532,14 @@ p, li { white-space: pre-wrap; }
 &lt;tr&gt;
 &lt;td style=&quot;border: none;&quot;&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:8pt;&quot;&gt;translator name - mail address&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Liberation Sans&apos;; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;table border=&quot;0&quot; style=&quot;-qt-table-type: root; margin-top:4px; margin-bottom:4px; margin-left:4px; margin-right:4px;&quot;&gt;
+&lt;tr&gt;
+&lt;td style=&quot;border: none;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:8pt;&quot;&gt;Adrián Chaves Fernández - adriyetichaves@gmail.com&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/aboutpokerth.ui" line="189"/>
@@ -546,7 +557,7 @@ p, li { white-space: pre-wrap; }
         <location filename="../src/gui/qt/aboutpokerth.ui" line="263"/>
         <location filename="../src/gui/qt/gui_800x480/aboutpokerth_800x480.ui" line="294"/>
         <source>Third party libs</source>
-        <translation type="unfinished"></translation>
+        <translation>Bibliotecas de terceiros</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/aboutpokerth.ui" line="306"/>
@@ -1071,7 +1082,7 @@ Please choose another one!</source>
         <location filename="../src/gui/qt/createinternetgamedialog.ui" line="296"/>
         <location filename="../src/gui/qt/gui_800x480/createinternetgamedialog_800x480.ui" line="451"/>
         <source>Allow spectators to watch the game</source>
-        <translation type="unfinished"></translation>
+        <translation>Permitier espectadores na partida.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/createinternetgamedialog.ui" line="336"/>
@@ -1226,13 +1237,13 @@ Please choose another one!</source>
         <location filename="../src/gui/qt/gamelobbydialog.ui" line="423"/>
         <location filename="../src/gui/qt/gui_800x480/gamelobbydialog_800x480.ui" line="489"/>
         <source>Players</source>
-        <translation type="unfinished">Xogadores</translation>
+        <translation>Xogadores</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog.ui" line="478"/>
         <location filename="../src/gui/qt/gui_800x480/gamelobbydialog_800x480.ui" line="550"/>
         <source>Spectators</source>
-        <translation type="unfinished"></translation>
+        <translation>Espectadores</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog.ui" line="603"/>
@@ -1326,7 +1337,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Join &amp;any game</source>
-        <translation type="vanished">Unirse a unha partida cal&amp;quera</translation>
+        <translation>Unirse a unha partida cal&amp;quera</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog.ui" line="251"/>
@@ -1416,7 +1427,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="89"/>
         <source>Spectate</source>
-        <translation type="unfinished"></translation>
+        <translation>Espectar</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="137"/>
@@ -1504,7 +1515,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Connected players - max. %1</source>
-        <translation type="vanished">Xogadores conectados (límite: %1)</translation>
+        <translation>Xogadores conectados (límite: %1)</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="137"/>
@@ -1530,7 +1541,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Connected players - Max. %1</source>
-        <translation type="vanished">Xogadores conectados (límite: %1)</translation>
+        <translation>Xogadores conectados (límite: %1)</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="612"/>
@@ -1553,14 +1564,14 @@ p, li { white-space: pre-wrap; }
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="933"/>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1450"/>
         <source>Players (%1)</source>
-        <translation type="unfinished"></translation>
+        <translation>Xogadores (%1)</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1055"/>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1129"/>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1451"/>
         <source>Spectators (%1)</source>
-        <translation type="unfinished"></translation>
+        <translation>Espectadores (%1)</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1653"/>
@@ -1657,7 +1668,7 @@ Para convidar a outros xogadores, prema co botón secundario a súa entrada na l
     </message>
     <message>
         <source>Connected players</source>
-        <translation type="vanished">Xogadores conectados</translation>
+        <translation>Xogadores conectados</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1296"/>
@@ -3342,7 +3353,7 @@ and go back to the lobby?</source>
     <message>
         <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="4483"/>
         <source>Spectators</source>
-        <translation type="unfinished"></translation>
+        <translation>Espectadores</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="719"/>
@@ -3597,7 +3608,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <source>Could not load server-profiles-file:
 </source>
-        <translation type="vanished">Non foi posíbel cargar o ficheiro do perfil de servidor:
+        <translation>Non foi posíbel cargar o ficheiro do perfil de servidor:
 </translation>
     </message>
     <message>
@@ -3607,7 +3618,8 @@ p, li { white-space: pre-wrap; }
         <location filename="../src/gui/qt/joinnetworkgamedialog/joinnetworkgamedialogimpl.cpp" line="282"/>
         <source>Could not load server-profiles-file:
 %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Non foi posíbel cargar o ficheiro de perfís de servidores:
+%1</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/joinnetworkgamedialog/joinnetworkgamedialogimpl.cpp" line="224"/>
@@ -3641,12 +3653,13 @@ Would you like to overwrite ?</source>
         <location filename="../src/gui/qt/joinnetworkgamedialog/joinnetworkgamedialogimpl.cpp" line="295"/>
         <source>Could not save server-profiles-file:
 %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Non foi posíbel cargar o ficheiro de perfís de servidores:
+%1</translation>
     </message>
     <message>
         <source>Could not save server-profiles-file:
 </source>
-        <translation type="vanished">Non foi posíbel gardar o ficheiro do perfil de servidor:
+        <translation>Non foi posíbel gardar o ficheiro do perfil de servidor:
 </translation>
     </message>
 </context>
@@ -3953,7 +3966,7 @@ Please enter an valid picture!</source>
         <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="178"/>
         <location filename="../src/gui/qt/settingsdialog.ui" line="165"/>
         <source>Common</source>
-        <translation type="unfinished"></translation>
+        <translation>Común</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="261"/>
@@ -3977,13 +3990,13 @@ Please enter an valid picture!</source>
         <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="318"/>
         <location filename="../src/gui/qt/settingsdialog.ui" line="336"/>
         <source>Do not hide avatars of players which are on the ignore list</source>
-        <translation type="unfinished"></translation>
+        <translation>Non ocultar os avatares dos xogadores da lista de ignorados.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="325"/>
         <location filename="../src/gui/qt/settingsdialog.ui" line="343"/>
         <source>Disable emoticons in the chat</source>
-        <translation type="unfinished"></translation>
+        <translation>Desactivar as emoticonas nas conversas.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="375"/>
@@ -4090,7 +4103,7 @@ Please enter an valid picture!</source>
         <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="2180"/>
         <location filename="../src/gui/qt/settingsdialog.ui" line="1911"/>
         <source>Allow spectators to watch the game</source>
-        <translation type="unfinished"></translation>
+        <translation>Permitirlle observar a partida aos espectadores.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="4087"/>

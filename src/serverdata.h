@@ -35,7 +35,6 @@
 
 #include <string>
 
-
 struct ServerInfo {
 	ServerInfo() : id(0), supportsSctp(false), port(0) {}
 	unsigned id;
@@ -48,6 +47,19 @@ struct ServerInfo {
 	int port;
 	std::string avatarServerAddr;
 };
+
+struct ServerStats {
+	ServerStats()
+		: numberOfPlayersOnServer(0), numberOfGamesOpen(0), totalPlayersEverLoggedIn(0),
+		  totalGamesEverCreated(0), maxGamesOpen(0), maxPlayersLoggedIn(0) {}
+	unsigned numberOfPlayersOnServer;
+	unsigned numberOfGamesOpen;
+	unsigned totalPlayersEverLoggedIn;
+	unsigned totalGamesEverCreated;
+	unsigned maxGamesOpen;
+	unsigned maxPlayersLoggedIn;
+};
+
 
 #endif
 

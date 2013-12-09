@@ -341,6 +341,10 @@ void GuiWrapper::SignalNetClientStatsUpdate(const ServerStats &stats)
 {
 	myStartWindow->signalNetClientStatsUpdate(stats);
 }
+void GuiWrapper::SignalNetClientPingUpdate(unsigned minPing, unsigned avgPing, unsigned maxPing)
+{
+	// TODO
+}
 void GuiWrapper::SignalNetClientShowTimeoutDialog(NetTimeoutReason reason, unsigned remainingSec)
 {
 	myStartWindow->signalNetClientShowTimeoutDialog(reason, remainingSec);

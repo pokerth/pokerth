@@ -40,7 +40,8 @@
 #include "ui_startwindow.h"
 #endif
 
-#include "game_defs.h"
+#include <game_defs.h>
+#include <serverdata.h>
 #include <QMessageBox>
 #include "mymessagebox.h"
 
