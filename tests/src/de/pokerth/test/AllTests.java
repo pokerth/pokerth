@@ -39,7 +39,7 @@ import org.junit.runners.Suite;
 	BlockedPlayerTest.class,
 	RunRankingGameTest.class,
 	RejoinGameTest.class,
-	RejoinMultiGameTest.class,
+//	RejoinMultiGameTest.class,
 	SeatStateTest.class,
 	SpectatorJoinTest.class
 })
