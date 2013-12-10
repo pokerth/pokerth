@@ -40,7 +40,7 @@ GameTableStyleReader::GameTableStyleReader(ConfigFile *c, QWidget *w)
 	//set fonts and font sizes
 #ifdef _WIN32
 	font1String = "font-family: \"Arial\";";
-	font2String = "font-family: \"Nimbus Sans L\";";
+	font2String = "font-family: \"Arial\";";
 	cashFontSize = "11";
 	setLabelFontSize = "11";
 	playerNameLabelFontSize = "11";
