@@ -149,6 +149,7 @@ public slots:
 	void chatInfoPlayerInvitation(unsigned gameId, unsigned playerIdWho, unsigned playerIdFrom);
 	void chatInfoPlayerRejectedInvitation(unsigned gameId, unsigned playerIdWho, DenyGameInvitationReason reason);
 	void putPlayerOnIgnoreList();
+	void removePlayerFromIgnoreList();
 	bool playerIsOnIgnoreList(unsigned playerid);
 	void searchForPlayerRegExpChanged();
 	void showAutoStartTimer();
@@ -205,6 +206,7 @@ private:
 	QMenu *nickListContextMenu;
 	QAction *nickListInviteAction;
 	QAction *nickListIgnorePlayerAction;
+	QAction *nickListUnignorePlayerAction;
 	QMenu *nickListPlayerInfoSubMenu;
 	QMenu *nickListAdminSubMenu;
 	QAction *nickListAdminTotalKickBan;

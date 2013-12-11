@@ -199,6 +199,8 @@ gameLobbyDialogImpl::gameLobbyDialogImpl(startWindowImpl *parent, ConfigFile *c)
 	nickListContextMenu->addAction(nickListInviteAction);
 	nickListIgnorePlayerAction = new QAction(QIcon(":/gfx/im-ban-user.png"), tr("Ignore player"), nickListContextMenu);
 	nickListContextMenu->addAction(nickListIgnorePlayerAction);
+	nickListUnignorePlayerAction = new QAction(QIcon(":/gfx/dialog_ok_apply.png"), tr("Unignore player"), nickListContextMenu);
+	nickListContextMenu->addAction(nickListUnignorePlayerAction);
 	nickListPlayerInfoSubMenu = nickListContextMenu->addMenu(QIcon(":/gfx/dialog-information.png"), tr("Player infos ..."));
 	nickListPlayerInGameInfo = new QAction(nickListContextMenu);
 	nickListPlayerInfoSubMenu->addAction(nickListPlayerInGameInfo);
@@ -242,6 +244,7 @@ gameLobbyDialogImpl::gameLobbyDialogImpl(startWindowImpl *parent, ConfigFile *c)
 	connect( treeView_GameList, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT( showGameListContextMenu(QPoint) ) );
 	connect( nickListInviteAction, SIGNAL(triggered()), this, SLOT( invitePlayerToCurrentGame() ));
 	connect( nickListIgnorePlayerAction, SIGNAL(triggered()), this, SLOT( putPlayerOnIgnoreList() ));
+	connect( nickListUnignorePlayerAction, SIGNAL(triggered()), this, SLOT( removePlayerFromIgnoreList() ));
 	connect( nickListOpenPlayerStats1, SIGNAL(triggered()), this, SLOT( openPlayerStats1() ));
 	connect( connectedPlayersListOpenPlayerStats, SIGNAL(triggered()), this, SLOT( openPlayerStats2() ));
 	connect( lineEdit_searchForPlayers, SIGNAL(textChanged(QString)),this, SLOT(searchForPlayerRegExpChanged()));
@@ -1646,7 +1649,6 @@ void gameLobbyDialogImpl::showNickListContextMenu(QPoint p)
 		unsigned playerUid = myNickListSelectionModel->currentIndex().data(Qt::UserRole).toUInt();
 
 		if(inGame && mySession->getClientGameInfo(mySession->getClientCurrentGameId()).data.gameType == GAME_TYPE_INVITE_ONLY && playerUid != mySession->getClientUniquePlayerId() && !mySession->getClientPlayerInfo(playerUid).isGuest) {
-
 			nickListInviteAction->setEnabled(true);
 			nickListInviteAction->setText(tr("Invite %1").arg(QString::fromUtf8(mySession->getClientPlayerInfo(playerUid).playerName.c_str())));
 
@@ -1655,14 +1657,20 @@ void gameLobbyDialogImpl::showNickListContextMenu(QPoint p)
 			nickListInviteAction->setEnabled(false);
 		}
 
-		if(playerUid != mySession->getClientUniquePlayerId() && !mySession->getClientPlayerInfo(playerUid).isGuest) {
-
+		if(playerUid != mySession->getClientUniquePlayerId() && !mySession->getClientPlayerInfo(playerUid).isGuest && !playerIsOnIgnoreList(playerUid)) {
 			nickListIgnorePlayerAction->setEnabled(true);
 			nickListIgnorePlayerAction->setText(tr("Ignore %1").arg(QString::fromUtf8(mySession->getClientPlayerInfo(playerUid).playerName.c_str())));
 		} else {
-
 			nickListIgnorePlayerAction->setEnabled(false);
 			nickListIgnorePlayerAction->setText(tr("Ignore player ..."));
+		}
+
+		if(playerUid != mySession->getClientUniquePlayerId() && !mySession->getClientPlayerInfo(playerUid).isGuest && playerIsOnIgnoreList(playerUid)) {
+			nickListUnignorePlayerAction->setEnabled(true);
+			nickListUnignorePlayerAction->setText(tr("Unignore %1").arg(QString::fromUtf8(mySession->getClientPlayerInfo(playerUid).playerName.c_str())));
+		} else {
+			nickListUnignorePlayerAction->setEnabled(false);
+			nickListUnignorePlayerAction->setText(tr("Unignore player ..."));
 		}
 
 		unsigned gameIdOfPlayer = mySession->getGameIdOfPlayer(playerUid);
@@ -1794,21 +1802,32 @@ bool gameLobbyDialogImpl::playerIsOnIgnoreList(unsigned playerId)
 
 void gameLobbyDialogImpl::putPlayerOnIgnoreList()
 {
-
 	if(myNickListSelectionModel->currentIndex().isValid()) {
-
 		unsigned playerId = myNickListSelectionModel->currentIndex().data(Qt::UserRole).toUInt();
-
 		if(!playerIsOnIgnoreList(playerId)) {
-
 			myMessageDialogImpl dialog(myConfig, this);
-			if(dialog.exec(INGNORE_PLAYER_QUESTION, tr("You will no longer receive chat messages or game invitations from this user.<br>Do you really want to put player <b>%1</b> on your ignore list?").arg(QString::fromUtf8(mySession->getClientPlayerInfo(playerId).playerName.c_str())), tr("PokerTH - Question"), QPixmap(":/gfx/im-ban-user_64.png"), QDialogButtonBox::Yes|QDialogButtonBox::No, false ) == QDialog::Accepted) {
-
+			if(dialog.exec(IGNORE_PLAYER_QUESTION, tr("You will no longer receive chat messages or game invitations from this user.<br>Do you really want to put player <b>%1</b> on your ignore list?").arg(QString::fromUtf8(mySession->getClientPlayerInfo(playerId).playerName.c_str())), tr("PokerTH - Question"), QPixmap(":/gfx/im-ban-user_64.png"), QDialogButtonBox::Yes|QDialogButtonBox::No, false ) == QDialog::Accepted) {
 				list<std::string> playerIgnoreList = myConfig->readConfigStringList("PlayerIgnoreList");
 				playerIgnoreList.push_back(QString("%1").arg(QString::fromUtf8(mySession->getClientPlayerInfo(playerId).playerName.c_str())).toUtf8().constData());
 				myConfig->writeConfigStringList("PlayerIgnoreList", playerIgnoreList);
 				myConfig->writeBuffer();
+				myChat->refreshIgnoreList();
+			}
+		}
+	}
+}
 
+void gameLobbyDialogImpl::removePlayerFromIgnoreList()
+{
+	if(myNickListSelectionModel->currentIndex().isValid()) {
+		unsigned playerId = myNickListSelectionModel->currentIndex().data(Qt::UserRole).toUInt();
+		if(playerIsOnIgnoreList(playerId)) {
+			myMessageDialogImpl dialog(myConfig, this);
+			if(dialog.exec(UNIGNORE_PLAYER_QUESTION, tr("You will receive chat messages and game invitations from this user again!<br>Do you really want to remove player <b>%1</b> from your ignore list?").arg(QString::fromUtf8(mySession->getClientPlayerInfo(playerId).playerName.c_str())), tr("PokerTH - Question"), QPixmap(":/gfx/dialog_ok_apply.png"), QDialogButtonBox::Yes|QDialogButtonBox::No, false ) == QDialog::Accepted) {
+				list<std::string> playerIgnoreList = myConfig->readConfigStringList("PlayerIgnoreList");
+				playerIgnoreList.remove(QString("%1").arg(QString::fromUtf8(mySession->getClientPlayerInfo(playerId).playerName.c_str())).toUtf8().constData());
+				myConfig->writeConfigStringList("PlayerIgnoreList", playerIgnoreList);
+				myConfig->writeBuffer();
 				myChat->refreshIgnoreList();
 			}
 		}

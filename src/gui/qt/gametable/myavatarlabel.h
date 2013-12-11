@@ -78,6 +78,7 @@ public slots:
 	}
 	void paintEvent(QPaintEvent*);
 	void putPlayerOnIgnoreList();
+	void removePlayerFromIgnoreList();
 	bool playerIsOnIgnoreList(QString playerName);
 	void reportBadAvatar();
 	void startEditTip();
@@ -94,6 +95,7 @@ private:
 	QMenu *myContextMenu;
 	QAction *action_VoteForKick;
 	QAction *action_IgnorePlayer;
+	QAction *action_UnignorePlayer;
 	QAction *action_ReportBadAvatar;
 	QAction *action_EditTip;
 

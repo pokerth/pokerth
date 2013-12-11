@@ -52,11 +52,14 @@ MyAvatarLabel::MyAvatarLabel(QGroupBox* parent)
 	myContextMenu->addAction(action_VoteForKick);
 	action_IgnorePlayer = new QAction(QIcon(":/gfx/im-ban-user.png"), tr("Ignore Player"), myContextMenu);
 	myContextMenu->addAction(action_IgnorePlayer);
+	action_UnignorePlayer = new QAction(QIcon(":/gfx/dialog_ok_apply.png"), tr("Unignore Player"), myContextMenu);
+	myContextMenu->addAction(action_UnignorePlayer);
 	action_ReportBadAvatar = new QAction(QIcon(":/gfx/emblem-important.png"), tr("Report inappropriate avatar"), myContextMenu);
 	myContextMenu->addAction(action_ReportBadAvatar);
 
 	connect( action_VoteForKick, SIGNAL ( triggered() ), this, SLOT ( sendTriggerVoteOnKickSignal() ) );
 	connect( action_IgnorePlayer, SIGNAL ( triggered() ), this, SLOT ( putPlayerOnIgnoreList() ) );
+	connect( action_UnignorePlayer, SIGNAL ( triggered() ), this, SLOT ( removePlayerFromIgnoreList() ) );
 	connect( action_ReportBadAvatar, SIGNAL ( triggered() ), this, SLOT ( reportBadAvatar() ) );
 	connect( action_EditTip, SIGNAL( triggered() ), this, SLOT ( startEditTip() ) );
 }
@@ -92,6 +95,7 @@ void MyAvatarLabel::contextMenuEvent ( QContextMenuEvent *event )
 			}
 
 			action_IgnorePlayer->setEnabled(true);
+			action_UnignorePlayer->setDisabled(true);
 			action_EditTip->setEnabled(true);
 			int j=0;
 			for (it_c=seatList->begin(); it_c!=seatList->end(); ++it_c) {
@@ -113,6 +117,11 @@ void MyAvatarLabel::contextMenuEvent ( QContextMenuEvent *event )
 						action_ReportBadAvatar->setVisible(true);
 					} else {
 						action_ReportBadAvatar->setVisible(false);
+					}
+
+					if(playerIsOnIgnoreList(QString::fromUtf8((*it_c)->getMyName().c_str()))) {
+						action_UnignorePlayer->setEnabled(true);
+						action_IgnorePlayer->setDisabled(true);
 					}
 				}
 				j++;
@@ -466,7 +475,6 @@ bool MyAvatarLabel::playerIsOnIgnoreList(QString playerName)
 
 void MyAvatarLabel::putPlayerOnIgnoreList()
 {
-
 	QStringList list;
 	PlayerListConstIterator it_c;
 	PlayerList seatList = myW->getSession()->getCurrentGame()->getSeatsList();
@@ -475,15 +483,34 @@ void MyAvatarLabel::putPlayerOnIgnoreList()
 	}
 
 	if(!playerIsOnIgnoreList(list.at(myId))) {
-
 		myMessageDialogImpl dialog(myW->getMyConfig(), this);
-		if(dialog.exec(INGNORE_PLAYER_QUESTION, tr("You will no longer receive chat messages or game invitations from this user.<br>Do you really want to put player <b>%1</b> on ignore list?").arg(list.at(myId)), tr("PokerTH - Question"), QPixmap(":/gfx/im-ban-user_64.png"), QDialogButtonBox::Yes|QDialogButtonBox::No, false ) == QDialog::Accepted) {
-
+		if(dialog.exec(IGNORE_PLAYER_QUESTION, tr("You will no longer receive chat messages or game invitations from this user.<br>Do you really want to put player <b>%1</b> on ignore list?").arg(list.at(myId)), tr("PokerTH - Question"), QPixmap(":/gfx/im-ban-user_64.png"), QDialogButtonBox::Yes|QDialogButtonBox::No, false ) == QDialog::Accepted) {
 			std::list<std::string> playerIgnoreList = myW->getMyConfig()->readConfigStringList("PlayerIgnoreList");
 			playerIgnoreList.push_back(list.at(myId).toUtf8().constData());
 			myW->getMyConfig()->writeConfigStringList("PlayerIgnoreList", playerIgnoreList);
 			myW->getMyConfig()->writeBuffer();
+			myW->getMyChat()->refreshIgnoreList();
+		}
+	}
+}
 
+
+void MyAvatarLabel::removePlayerFromIgnoreList()
+{
+	QStringList list;
+	PlayerListConstIterator it_c;
+	PlayerList seatList = myW->getSession()->getCurrentGame()->getSeatsList();
+	for (it_c=seatList->begin(); it_c!=seatList->end(); ++it_c) {
+		list << QString::fromUtf8((*it_c)->getMyName().c_str());
+	}
+
+	if(playerIsOnIgnoreList(list.at(myId))) {
+		myMessageDialogImpl dialog(myW->getMyConfig(), this);
+		if(dialog.exec(UNIGNORE_PLAYER_QUESTION, tr("You will receive chat messages and game invitations from this user again!<br>Do you really want to remove player <b>%1</b> from your ignore list?").arg(list.at(myId)), tr("PokerTH - Question"), QPixmap(":/gfx/dialog_ok_apply.png"), QDialogButtonBox::Yes|QDialogButtonBox::No, false ) == QDialog::Accepted) {
+			std::list<std::string> playerIgnoreList = myW->getMyConfig()->readConfigStringList("PlayerIgnoreList");
+			playerIgnoreList.remove(list.at(myId).toUtf8().constData());
+			myW->getMyConfig()->writeConfigStringList("PlayerIgnoreList", playerIgnoreList);
+			myW->getMyConfig()->writeBuffer();
 			myW->getMyChat()->refreshIgnoreList();
 		}
 	}
