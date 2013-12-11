@@ -42,7 +42,7 @@
 using namespace std;
 
 MyAvatarLabel::MyAvatarLabel(QGroupBox* parent)
-	: QLabel(parent), voteRunning(false), transparent(false), myUniqueId(0)
+	: QLabel(parent), voteRunning(false), transparent(false), myUniqueId(0), myPingState(0), myAvgPing(0), myMinPing(0), myMaxPing(0)
 {
 
 	myContextMenu = new QMenu;
@@ -398,10 +398,54 @@ void MyAvatarLabel::paintEvent(QPaintEvent*)
 	boost::shared_ptr<Session> mySession = myW->myStartWindow->getSession();
 	if(!playerIsOnIgnoreList(QString::fromUtf8(mySession->getClientPlayerInfo(myUniqueId).playerName.c_str()))) {
 		painter.drawPixmap(0,0,myPixmap);
-		return;
 	} else if(myW->getMyConfig()->readConfigInt("DontHideAvatarsOfIgnored")) {
 		painter.drawPixmap(0,0,myPixmap);
-		return;
+	}
+
+	if(myW->getMyConfig()->readConfigInt("ShowPingStateInAvatar")) {
+		//paint ping state color for network clients
+		if(mySession->isNetworkClientRunning() && myId == 0) {
+			QColor pingColor;
+			if(myAvgPing > 0 && myAvgPing <= 1000) {
+				pingColor.setNamedColor("green");
+			}
+			else if(myAvgPing > 1000 && myAvgPing <= 2000 ) {
+				pingColor.setNamedColor("yellow");
+			}
+			else if(myAvgPing > 2000) {
+				pingColor.setNamedColor("red");
+			}
+			else {
+				pingColor.setNamedColor("white");
+			}
+			QColor pen = pingColor.darker(200);
+	//		pen.setAlpha(130);
+			painter.setPen(pen);
+			QColor brush = pingColor;
+	//		brush.setAlpha(130);
+			painter.setBrush(brush);
+			painter.setRenderHint(QPainter::Antialiasing);
+			painter.drawEllipse(1, 1, 10, 10);
+		}
+	}
+}
+
+void MyAvatarLabel::refreshPing(unsigned minPing, unsigned avgPing, unsigned maxPing)
+{
+	myMinPing = minPing;
+	myAvgPing = avgPing;
+	myMaxPing = maxPing;
+	this->update();
+
+	if(myW->getMyConfig()->readConfigInt("ShowPingStateInAvatar")) {
+		QString toolTip = "<b>"+tr("Server response times")+"</b>";
+		toolTip.append("<br>"+tr("Average: ")+QString("%1").arg(myAvgPing)+tr("ms"));
+		toolTip.append("<br>"+tr("Minimum: ")+QString("%1").arg(myMinPing)+tr("ms"));
+		toolTip.append("<br>"+tr("Maximum: ")+QString("%1").arg(myMaxPing)+tr("ms"));
+		this->setToolTip(toolTip);
+	}
+	else {
+		this->setToolTip("");
 	}
 }
 

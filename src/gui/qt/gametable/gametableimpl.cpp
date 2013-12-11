@@ -681,7 +681,7 @@ gameTableImpl::gameTableImpl(ConfigFile *c, QMainWindow *parent)
 	connect(this, SIGNAL(signalNetClientPlayerLeft(unsigned)), this, SLOT(netClientPlayerLeft(unsigned)));
 	connect(this, SIGNAL(signalNetClientSpectatorLeft(unsigned)), this, SLOT(netClientSpectatorLeft(unsigned)));
 	connect(this, SIGNAL(signalNetClientSpectatorJoined(unsigned)), this, SLOT(netClientSpectatorJoined(unsigned)));
-
+	connect(this, SIGNAL(signalNetClientPingUpdate(unsigned, unsigned, unsigned)), this, SLOT(pingUpdate(unsigned, unsigned, unsigned)));
 
 #ifdef GUI_800x480
 	connect( tabsButton, SIGNAL( clicked() ), this, SLOT( tabsButtonClicked() ) );
@@ -4494,5 +4494,10 @@ void gameTableImpl::refreshSpectatorsDisplay()
 		spectatorNumberLabel->setToolTip("");
 		spectatorNumberLabel->clear();
 	}
+}
+
+void gameTableImpl::pingUpdate(unsigned minPing, unsigned avgPing, unsigned maxPing)
+{
+	label_Avatar0->refreshPing(minPing, avgPing, maxPing);
 }
 

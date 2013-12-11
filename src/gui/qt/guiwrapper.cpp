@@ -343,7 +343,7 @@ void GuiWrapper::SignalNetClientStatsUpdate(const ServerStats &stats)
 }
 void GuiWrapper::SignalNetClientPingUpdate(unsigned minPing, unsigned avgPing, unsigned maxPing)
 {
-	// TODO
+	myW->signalNetClientPingUpdate(minPing, avgPing, maxPing);
 }
 void GuiWrapper::SignalNetClientShowTimeoutDialog(NetTimeoutReason reason, unsigned remainingSec)
 {
@@ -533,3 +533,4 @@ void GuiWrapper::SignalRejectedGameInvitation(unsigned gameId, unsigned playerId
 {
 	myStartWindow->signalRejectedGameInvitation(gameId, playerIdWho, reason);
 }
+

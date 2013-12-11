@@ -175,6 +175,7 @@ signals:
 	void signalNetClientPlayerLeft(unsigned playerId);
 	void signalNetClientSpectatorLeft(unsigned playerId);
 	void signalNetClientSpectatorJoined(unsigned playerId);
+	void signalNetClientPingUpdate(unsigned minPing, unsigned avgPing, unsigned maxPing);
 
 public slots:
 
@@ -375,6 +376,7 @@ public slots:
 	void tabsButtonClose();
 #endif
 	void refreshSpectatorsDisplay();
+	void pingUpdate(unsigned, unsigned, unsigned);
 
 private:
 

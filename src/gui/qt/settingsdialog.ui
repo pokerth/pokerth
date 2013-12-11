@@ -289,7 +289,7 @@
              <string>Network / Internet Game</string>
             </attribute>
             <layout class="QGridLayout" name="gridLayout_3">
-             <item row="6" column="1">
+             <item row="7" column="1">
               <spacer name="verticalSpacer_9">
                <property name="orientation">
                 <enum>Qt::Vertical</enum>
@@ -309,38 +309,45 @@
                </property>
               </widget>
              </item>
-             <item row="4" column="0" colspan="2">
+             <item row="5" column="0" colspan="2">
               <widget class="QCheckBox" name="checkBox_UseLobbyChat">
                <property name="text">
                 <string>Show lobby chat</string>
                </property>
               </widget>
              </item>
-             <item row="1" column="0" colspan="2">
+             <item row="2" column="0" colspan="2">
               <widget class="QCheckBox" name="checkBox_enableBetInputFocusSwitch">
                <property name="text">
                 <string>Switch keyboard focus to bet-input-field if it's your turn</string>
                </property>
               </widget>
              </item>
-             <item row="2" column="0" colspan="2">
+             <item row="3" column="0" colspan="2">
               <widget class="QCheckBox" name="checkBox_enableAccidentallyCallBlocker">
                <property name="text">
                 <string>Activate the &quot;accidentally call after big raise&quot; blocker</string>
                </property>
               </widget>
              </item>
-             <item row="3" column="0" colspan="2">
+             <item row="4" column="0" colspan="2">
               <widget class="QCheckBox" name="checkBox_dontHideAvatarsOfIgnored">
                <property name="text">
                 <string>Do not hide avatars of players which are on the ignore list</string>
                </property>
               </widget>
              </item>
-             <item row="5" column="0">
+             <item row="6" column="0">
               <widget class="QCheckBox" name="checkBox_disableChatEmoticons">
                <property name="text">
                 <string>Disable emoticons in the chat</string>
+               </property>
+              </widget>
+             </item>
+             <item row="1" column="0">
+              <widget class="QCheckBox" name="checkBox_showPingStateInAvatar">
+               <property name="text">
+                <string>Show multicolor network state display in the corner of the avatar</string>
                </property>
               </widget>
              </item>

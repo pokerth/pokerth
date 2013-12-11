@@ -291,42 +291,14 @@
              <string>Network / Internet Game</string>
             </attribute>
             <layout class="QGridLayout" name="gridLayout_24">
-             <item row="0" column="0">
-              <widget class="QCheckBox" name="checkBox_showCountryFlagInAvatar">
-               <property name="text">
-                <string>Show country flag in the corner of avatar</string>
-               </property>
-              </widget>
-             </item>
-             <item row="1" column="0">
-              <widget class="QCheckBox" name="checkBox_enableBetInputFocusSwitch">
-               <property name="text">
-                <string>Switch keyboard focus to bet-input-field if it's your turn</string>
-               </property>
-              </widget>
-             </item>
-             <item row="2" column="0">
-              <widget class="QCheckBox" name="checkBox_enableAccidentallyCallBlocker">
-               <property name="text">
-                <string>Activate the &quot;accidentally call after big raise&quot; blocker</string>
-               </property>
-              </widget>
-             </item>
-             <item row="3" column="0">
+             <item row="4" column="0">
               <widget class="QCheckBox" name="checkBox_dontHideAvatarsOfIgnored">
                <property name="text">
                 <string>Do not hide avatars of players which are on the ignore list</string>
                </property>
               </widget>
              </item>
-             <item row="4" column="0">
-              <widget class="QCheckBox" name="checkBox_disableChatEmoticons">
-               <property name="text">
-                <string>Disable emoticons in the chat</string>
-               </property>
-              </widget>
-             </item>
-             <item row="5" column="0">
+             <item row="6" column="0">
               <spacer name="verticalSpacer_7">
                <property name="orientation">
                 <enum>Qt::Vertical</enum>
@@ -338,6 +310,41 @@
                 </size>
                </property>
               </spacer>
+             </item>
+             <item row="5" column="0">
+              <widget class="QCheckBox" name="checkBox_disableChatEmoticons">
+               <property name="text">
+                <string>Disable emoticons in the chat</string>
+               </property>
+              </widget>
+             </item>
+             <item row="2" column="0">
+              <widget class="QCheckBox" name="checkBox_enableBetInputFocusSwitch">
+               <property name="text">
+                <string>Switch keyboard focus to bet-input-field if it's your turn</string>
+               </property>
+              </widget>
+             </item>
+             <item row="3" column="0">
+              <widget class="QCheckBox" name="checkBox_enableAccidentallyCallBlocker">
+               <property name="text">
+                <string>Activate the &quot;accidentally call after big raise&quot; blocker</string>
+               </property>
+              </widget>
+             </item>
+             <item row="0" column="0">
+              <widget class="QCheckBox" name="checkBox_showCountryFlagInAvatar">
+               <property name="text">
+                <string>Show country flag in the corner of avatar</string>
+               </property>
+              </widget>
+             </item>
+             <item row="1" column="0">
+              <widget class="QCheckBox" name="checkBox_showPingStateInAvatar">
+               <property name="text">
+                <string>Show multicolor network state display in the avatar</string>
+               </property>
+              </widget>
              </item>
             </layout>
            </widget>

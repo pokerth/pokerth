@@ -86,6 +86,8 @@ public slots:
 	void setPlayerRating(QString);
 	void refreshTooltips();
 	void refreshStars();
+	void refreshPing(unsigned, unsigned, unsigned);
+
 private:
 
 	gameTableImpl *myW;
@@ -103,6 +105,10 @@ private:
 	bool transparent;
 	int myId;
 	int myUniqueId;
+	unsigned myPingState;
+	unsigned myAvgPing;
+	unsigned myMinPing;
+	unsigned myMaxPing;
 };
 
 #endif
