@@ -84,10 +84,13 @@ public:
     typedef lib::shared_ptr<boost::asio::ip::tcp::resolver> resolver_ptr;
     /// Type of timer handle
     typedef lib::shared_ptr<boost::asio::deadline_timer> timer_ptr;
+    /// Type of a shared pointer to an io_service work object
+    typedef lib::shared_ptr<boost::asio::io_service::work> work_ptr;
 
     // generate and manage our own io_service
     explicit endpoint()
       : m_external_io_service(false)
+      , m_listen_backlog(0)
       , m_state(UNINITIALIZED)
     {
         //std::cout << "transport::asio::endpoint constructor" << std::endl;
@@ -119,6 +122,7 @@ public:
       : m_io_service(src.m_io_service)
       , m_external_io_service(src.m_external_io_service)
       , m_acceptor(src.m_acceptor)
+      , m_listen_backlog(0)
       , m_state(src.m_state)
     {
         src.m_io_service = NULL;
@@ -132,11 +136,13 @@ public:
             m_io_service = rhs.m_io_service;
             m_external_io_service = rhs.m_external_io_service;
             m_acceptor = rhs.m_acceptor;
+            m_listen_backlog = rhs.m_listen_backlog
             m_state = rhs.m_state;
 
             rhs.m_io_service = NULL;
             rhs.m_external_io_service = false;
             rhs.m_acceptor = NULL;
+            rhs.m_listen_backlog = 0;
             rhs.m_state = UNINITIALIZED;
         }
         return *this;
@@ -216,6 +222,72 @@ public:
         m_external_io_service = false;
     }
 
+    /// Sets the tcp pre init handler
+    /**
+     * The tcp pre init handler is called after the raw tcp connection has been
+     * established but before any additional wrappers (proxy connects, TLS
+     * handshakes, etc) have been performed.
+     *
+     * @since 0.4.0-alpha1
+     *
+     * @param h The handler to call on tcp pre init.
+     */
+    void set_tcp_pre_init_handler(tcp_init_handler h) {
+        m_tcp_pre_init_handler = h;
+    }
+
+    /// Sets the tcp pre init handler (deprecated)
+    /**
+     * The tcp pre init handler is called after the raw tcp connection has been
+     * established but before any additional wrappers (proxy connects, TLS
+     * handshakes, etc) have been performed.
+     *
+     * @deprecated Use set_tcp_pre_init_handler instead
+     *
+     * @param h The handler to call on tcp pre init.
+     */
+    void set_tcp_init_handler(tcp_init_handler h) {
+        set_tcp_pre_init_handler(h);
+    }
+
+    /// Sets the tcp post init handler
+    /**
+     * The tcp post init handler is called after the tcp connection has been
+     * established and all additional wrappers (proxy connects, TLS handshakes,
+     * etc have been performed. This is fired before any bytes are read or any
+     * WebSocket specific handshake logic has been performed.
+     *
+     * @since 0.4.0-alpha1
+     *
+     * @param h The handler to call on tcp post init.
+     */
+    void set_tcp_post_init_handler(tcp_init_handler h) {
+        m_tcp_post_init_handler = h;
+    }
+
+    /// Sets the maximum length of the queue of pending connections.
+    /**
+     * Sets the maximum length of the queue of pending connections. Increasing
+     * this will allow WebSocket++ to queue additional incoming connections.
+     * Setting it higher may prevent failed connections at high connection rates
+     * but may cause additional latency.
+     *
+     * For this value to take effect you may need to adjust operating system
+     * settings.
+     *
+     * New values affect future calls to listen only.
+     *
+     * A value of zero will use the operating system default. This is the
+     * default value.
+     *
+     * @since 0.4.0-alpha1
+     *
+     * @param backlog The maximum length of the queue of pending connections
+     */
+    void set_listen_backlog(int backlog) {
+        m_listen_backlog = backlog;
+    }
+
     /// Retrieve a reference to the endpoint's io_service
     /**
      * The io_service may be an internal or external one. This may be used to
@@ -229,20 +301,6 @@ public:
      */
     boost::asio::io_service & get_io_service() {
         return *m_io_service;
-    }
-
-    /// Sets the tcp init handler
-    /**
-     * The tcp init handler is called after the tcp connection has been
-     * established.
-     *
-     * @see WebSocket++ handler documentation for more information about
-     * handlers.
-     *
-     * @param h The handler to call on tcp init.
-     */
-    void set_tcp_init_handler(tcp_init_handler h) {
-        m_tcp_init_handler = h;
     }
 
     /// Set up endpoint for listening manually (exception free)
@@ -268,7 +326,11 @@ public:
         m_acceptor->open(ep.protocol());
         m_acceptor->set_option(boost::asio::socket_base::reuse_address(true));
         m_acceptor->bind(ep);
-        m_acceptor->listen();
+        if (m_listen_backlog == 0) {
+            m_acceptor->listen();
+        } else {
+            m_acceptor->listen(m_listen_backlog);
+        }
         m_state = LISTENING;
         ec = lib::error_code();
     }
@@ -494,6 +556,34 @@ public:
         return m_io_service->stopped();
     }
 
+    /// Marks the endpoint as perpetual, stopping it from exiting when empty
+    /**
+     * Marks the endpoint as perpetual. Perpetual endpoints will not
+     * automatically exit when they run out of connections to process. To stop
+     * a perpetual endpoint call `end_perpetual`.
+     *
+     * An endpoint may be marked perpetual at any time by any thread. It must be
+     * called either before the endpoint has run out of work or before it was
+     * started
+     *
+     * @since 0.4.0-alpha1
+     */
+    void start_perpetual() {
+        m_work.reset(new boost::asio::io_service::work(*m_io_service));
+    }
+
+    /// Clears the endpoint's perpetual flag, allowing it to exit when empty
+    /**
+     * Clears the endpoint's perpetual flag. This will cause the endpoint's run
+     * method to exit normally when it runs out of connections. If there are
+     * currently active connections it will not end until they are complete.
+     *
+     * @since 0.4.0-alpha1
+     */
+    void stop_perpetual() {
+        m_work.reset();
+    }
+
     /// Call back a function after a period of time.
     /**
      * Sets a timer that calls back a function after the specified period of
@@ -572,15 +662,27 @@ public:
 
         m_alog->write(log::alevel::devel, "asio::async_accept");
 
-        m_acceptor->async_accept(
-            tcon->get_raw_socket(),
-            tcon->get_strand()->wrap(lib::bind(
-                &type::handle_accept,
-                this,
-                callback,
-                lib::placeholders::_1
-            ))
-        );
+        if (config::enable_multithreading) {
+            m_acceptor->async_accept(
+                tcon->get_raw_socket(),
+                tcon->get_strand()->wrap(lib::bind(
+                    &type::handle_accept,
+                    this,
+                    callback,
+                    lib::placeholders::_1
+                ))
+            );
+        } else {
+            m_acceptor->async_accept(
+                tcon->get_raw_socket(),
+                lib::bind(
+                    &type::handle_accept,
+                    this,
+                    callback,
+                    lib::placeholders::_1
+                )
+            );
+        }
     }
 
     /// Accept the next connection attempt and assign it to con.
@@ -683,18 +785,33 @@ protected:
             )
         );
 
-        m_resolver->async_resolve(
-            query,
-            tcon->get_strand()->wrap(lib::bind(
-                &type::handle_resolve,
-                this,
-                tcon,
-                dns_timer,
-                cb,
-                lib::placeholders::_1,
-                lib::placeholders::_2
-            ))
-        );
+        if (config::enable_multithreading) {
+            m_resolver->async_resolve(
+                query,
+                tcon->get_strand()->wrap(lib::bind(
+                    &type::handle_resolve,
+                    this,
+                    tcon,
+                    dns_timer,
+                    cb,
+                    lib::placeholders::_1,
+                    lib::placeholders::_2
+                ))
+            );
+        } else {
+            m_resolver->async_resolve(
+                query,
+                lib::bind(
+                    &type::handle_resolve,
+                    this,
+                    tcon,
+                    dns_timer,
+                    cb,
+                    lib::placeholders::_1,
+                    lib::placeholders::_2
+                )
+            );
+        }
     }
 
     void handle_resolve_timeout(timer_ptr dns_timer, connect_handler callback,
@@ -767,18 +884,33 @@ protected:
             )
         );
 
-        boost::asio::async_connect(
-            tcon->get_raw_socket(),
-            iterator,
-            tcon->get_strand()->wrap(lib::bind(
-                &type::handle_connect,
-                this,
-                tcon,
-                con_timer,
-                callback,
-                lib::placeholders::_1
-            ))
-        );
+        if (config::enable_multithreading) {
+            boost::asio::async_connect(
+                tcon->get_raw_socket(),
+                iterator,
+                tcon->get_strand()->wrap(lib::bind(
+                    &type::handle_connect,
+                    this,
+                    tcon,
+                    con_timer,
+                    callback,
+                    lib::placeholders::_1
+                ))
+            );
+        } else {
+            boost::asio::async_connect(
+                tcon->get_raw_socket(),
+                iterator,
+                lib::bind(
+                    &type::handle_connect,
+                    this,
+                    tcon,
+                    con_timer,
+                    callback,
+                    lib::placeholders::_1
+                )
+            );
+        }
     }
 
     void handle_connect_timeout(transport_con_ptr tcon, timer_ptr con_timer,
@@ -857,7 +989,8 @@ protected:
         ec = tcon->init_asio(m_io_service);
         if (ec) {return ec;}
 
-        tcon->set_tcp_init_handler(m_tcp_init_handler);
+        tcon->set_tcp_pre_init_handler(m_tcp_pre_init_handler);
+        tcon->set_tcp_post_init_handler(m_tcp_post_init_handler);
 
         return lib::error_code();
     }
@@ -877,13 +1010,18 @@ private:
     };
 
     // Handlers
-    tcp_init_handler    m_tcp_init_handler;
+    tcp_init_handler    m_tcp_pre_init_handler;
+    tcp_init_handler    m_tcp_post_init_handler;
 
     // Network Resources
     io_service_ptr      m_io_service;
     bool                m_external_io_service;
     acceptor_ptr        m_acceptor;
     resolver_ptr        m_resolver;
+    work_ptr            m_work;
+
+    // Network constants
+    int                 m_listen_backlog;
 
     elog_type* m_elog;
     alog_type* m_alog;

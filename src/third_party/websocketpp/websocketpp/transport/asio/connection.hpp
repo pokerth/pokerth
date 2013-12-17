@@ -109,15 +109,47 @@ public:
         return socket_con_type::is_secure();
     }
 
-    /// Sets the tcp init handler
+    /// Sets the tcp pre init handler
     /**
-     * The tcp init handler is called after the tcp connection has been
-     * established.
+     * The tcp pre init handler is called after the raw tcp connection has been
+     * established but before any additional wrappers (proxy connects, TLS
+     * handshakes, etc) have been performed.
      *
-     * @param h The handler to call on tcp init.
+     * @since 0.4.0-alpha1
+     *
+     * @param h The handler to call on tcp pre init.
+     */
+    void set_tcp_pre_init_handler(tcp_init_handler h) {
+        m_tcp_pre_init_handler = h;
+    }
+
+    /// Sets the tcp pre init handler (deprecated)
+    /**
+     * The tcp pre init handler is called after the raw tcp connection has been
+     * established but before any additional wrappers (proxy connects, TLS
+     * handshakes, etc) have been performed.
+     *
+     * @deprecated Use set_tcp_pre_init_handler instead
+     *
+     * @param h The handler to call on tcp pre init.
      */
     void set_tcp_init_handler(tcp_init_handler h) {
-        m_tcp_init_handler = h;
+        set_tcp_pre_init_handler(h);
+    }
+
+    /// Sets the tcp post init handler
+    /**
+     * The tcp post init handler is called after the tcp connection has been
+     * established and all additional wrappers (proxy connects, TLS handshakes,
+     * etc have been performed. This is fired before any bytes are read or any
+     * WebSocket specific handshake logic has been performed.
+     *
+     * @since 0.4.0-alpha1
+     *
+     * @param h The handler to call on tcp post init.
+     */
+    void set_tcp_post_init_handler(tcp_init_handler h) {
+        m_tcp_post_init_handler = h;
     }
 
     /// Set the proxy to connect through (exception free)
@@ -264,15 +296,21 @@ public:
             )
         );
 
-        new_timer->async_wait(
-            m_strand->wrap(lib::bind(
-                &type::handle_timer,
-                get_shared(),
+        if (config::enable_multithreading) {
+            new_timer->async_wait(m_strand->wrap(lib::bind(
+                &type::handle_timer, get_shared(),
                 new_timer,
                 callback,
                 lib::placeholders::_1
-            ))
-        );
+            )));
+        } else {
+            new_timer->async_wait(lib::bind(
+                &type::handle_timer, get_shared(),
+                new_timer,
+                callback,
+                lib::placeholders::_1
+            ));
+        }
 
         return new_timer;
     }
@@ -288,8 +326,8 @@ public:
      * @param callback The function to call back
      * @param ec The status code
      */
-    void handle_timer(timer_ptr t, timer_handler callback, const
-        boost::system::error_code& ec)
+    void handle_timer(timer_ptr t, timer_handler callback,
+        boost::system::error_code const & ec)
     {
         if (ec) {
             if (ec == boost::asio::error::operation_aborted) {
@@ -333,11 +371,12 @@ protected:
         // TODO: pre-init timeout. Right now no implemented socket policies
         // actually have an asyncronous pre-init
 
+        m_init_handler = callback;
+
         socket_con_type::pre_init(
             lib::bind(
                 &type::handle_pre_init,
                 get_shared(),
-                callback,
                 lib::placeholders::_1
             )
         );
@@ -379,34 +418,57 @@ protected:
         // do we need to store or use the io_service at this level?
         m_io_service = io_service;
 
-        m_strand.reset(new boost::asio::strand(*io_service));
+        if (config::enable_multithreading) {
+            m_strand.reset(new boost::asio::strand(*io_service));
+
+            m_async_read_handler = m_strand->wrap(lib::bind(
+                &type::handle_async_read, get_shared(),
+                lib::placeholders::_1, lib::placeholders::_2
+            ));
+
+            m_async_write_handler = m_strand->wrap(lib::bind(
+                &type::handle_async_write, get_shared(),
+                lib::placeholders::_1, lib::placeholders::_2
+            ));
+        } else {
+            // TODO: goal: not have this line here
+            //m_strand.reset(new boost::asio::strand(*io_service));
+
+            m_async_read_handler = lib::bind(
+                &type::handle_async_read, get_shared(),
+                lib::placeholders::_1, lib::placeholders::_2
+            );
+
+            m_async_write_handler = lib::bind(&type::handle_async_write,
+                get_shared(), lib::placeholders::_1, lib::placeholders::_2);
+        }
 
         return socket_con_type::init_asio(io_service, m_strand, m_is_server);
     }
 
-    void handle_pre_init(init_handler callback, const lib::error_code& ec) {
+    void handle_pre_init(lib::error_code const & ec) {
         if (m_alog.static_test(log::alevel::devel)) {
             m_alog.write(log::alevel::devel,"asio connection handle pre_init");
         }
 
-        if (m_tcp_init_handler) {
-            m_tcp_init_handler(m_connection_hdl);
+        if (m_tcp_pre_init_handler) {
+            m_tcp_pre_init_handler(m_connection_hdl);
         }
 
         if (ec) {
-            callback(ec);
+            m_init_handler(ec);
         }
 
         // If we have a proxy set issue a proxy connect, otherwise skip to
         // post_init
         if (!m_proxy.empty()) {
-            proxy_write(callback);
+            proxy_write();
         } else {
-            post_init(callback);
+            post_init();
         }
     }
 
-    void post_init(init_handler callback) {
+    void post_init() {
         if (m_alog.static_test(log::alevel::devel)) {
             m_alog.write(log::alevel::devel,"asio connection post_init");
         }
@@ -418,7 +480,7 @@ protected:
                 &type::handle_post_init_timeout,
                 get_shared(),
                 post_timer,
-                callback,
+                m_init_handler,
                 lib::placeholders::_1
             )
         );
@@ -428,7 +490,7 @@ protected:
                 &type::handle_post_init,
                 get_shared(),
                 post_timer,
-                callback,
+                m_init_handler,
                 lib::placeholders::_1
             )
         );
@@ -477,10 +539,14 @@ protected:
             m_alog.write(log::alevel::devel,"asio connection handle_post_init");
         }
 
+		if (m_tcp_post_init_handler) {
+            m_tcp_post_init_handler(m_connection_hdl);
+        }
+
         callback(ec);
     }
 
-    void proxy_write(init_handler callback) {
+    void proxy_write() {
         if (m_alog.static_test(log::alevel::devel)) {
             m_alog.write(log::alevel::devel,"asio connection proxy_write");
         }
@@ -488,7 +554,7 @@ protected:
         if (!m_proxy_data) {
             m_elog.write(log::elevel::library,
                 "assertion failed: !m_proxy_data in asio::connection::proxy_write");
-            callback(make_error_code(error::general));
+            m_init_handler(make_error_code(error::general));
             return;
         }
 
@@ -505,25 +571,37 @@ protected:
             lib::bind(
                 &type::handle_proxy_timeout,
                 get_shared(),
-                callback,
+                m_init_handler,
                 lib::placeholders::_1
             )
         );
 
         // Send proxy request
-        boost::asio::async_write(
-            socket_con_type::get_next_layer(),
-            m_bufs,
-            m_strand->wrap(lib::bind(
-                &type::handle_proxy_write,
-                get_shared(),
-                callback,
-                lib::placeholders::_1
-            ))
-        );
+        if (config::enable_multithreading) {
+            boost::asio::async_write(
+                socket_con_type::get_next_layer(),
+                m_bufs,
+                m_strand->wrap(lib::bind(
+                    &type::handle_proxy_write, get_shared(),
+                    m_init_handler,
+                    lib::placeholders::_1
+                ))
+            );
+        } else {
+            boost::asio::async_write(
+                socket_con_type::get_next_layer(),
+                m_bufs,
+                lib::bind(
+                    &type::handle_proxy_write, get_shared(),
+                    m_init_handler,
+                    lib::placeholders::_1
+                )
+            );
+        }
     }
 
-    void handle_proxy_timeout(init_handler callback, const lib::error_code & ec) {
+    void handle_proxy_timeout(init_handler callback, lib::error_code const & ec)
+    {
         if (ec == transport::error::operation_aborted) {
             m_alog.write(log::alevel::devel,
                 "asio handle_proxy_write timer cancelled");
@@ -539,11 +617,12 @@ protected:
         }
     }
 
-    void handle_proxy_write(init_handler callback, const
-        boost::system::error_code& ec)
+    void handle_proxy_write(init_handler callback,
+        boost::system::error_code const & ec)
     {
         if (m_alog.static_test(log::alevel::devel)) {
-            m_alog.write(log::alevel::devel,"asio connection handle_proxy_write");
+            m_alog.write(log::alevel::devel,
+                "asio connection handle_proxy_write");
         }
 
         m_bufs.clear();
@@ -581,25 +660,37 @@ protected:
             return;
         }
 
-        boost::asio::async_read_until(
-            socket_con_type::get_next_layer(),
-            m_proxy_data->read_buf,
-            "\r\n\r\n",
-            m_strand->wrap(lib::bind(
-                &type::handle_proxy_read,
-                get_shared(),
-                callback,
-                lib::placeholders::_1,
-                lib::placeholders::_2
-            ))
-        );
+        if (config::enable_multithreading) {
+            boost::asio::async_read_until(
+                socket_con_type::get_next_layer(),
+                m_proxy_data->read_buf,
+                "\r\n\r\n",
+                m_strand->wrap(lib::bind(
+                    &type::handle_proxy_read, get_shared(),
+                    callback,
+                    lib::placeholders::_1, lib::placeholders::_2
+                ))
+            );
+        } else {
+            boost::asio::async_read_until(
+                socket_con_type::get_next_layer(),
+                m_proxy_data->read_buf,
+                "\r\n\r\n",
+                lib::bind(
+                    &type::handle_proxy_read, get_shared(),
+                    callback,
+                    lib::placeholders::_1, lib::placeholders::_2
+                )
+            );
+        }
     }
 
-    void handle_proxy_read(init_handler callback, const
-        boost::system::error_code& ec, size_t bytes_transferred)
+    void handle_proxy_read(init_handler callback,
+        boost::system::error_code const & ec, size_t bytes_transferred)
     {
         if (m_alog.static_test(log::alevel::devel)) {
-            m_alog.write(log::alevel::devel,"asio connection handle_proxy_read");
+            m_alog.write(log::alevel::devel,
+                "asio connection handle_proxy_read");
         }
 
         // Timer expired or the operation was aborted for some reason.
@@ -667,7 +758,7 @@ protected:
             m_proxy_data.reset();
 
             // Continue with post proxy initialization
-            post_init(callback);
+            post_init();
         }
     }
 
@@ -685,93 +776,114 @@ protected:
             m_alog.write(log::alevel::devel,s.str());
         }
 
-        if (num_bytes > len) {
+        if (!m_async_read_handler) {
+            m_alog.write(log::alevel::devel,
+                "async_read_at_least called after async_shutdown");
+            handler(make_error_code(transport::error::action_after_shutdown), 0);
+            return;
+        }
+
+        // TODO: safety vs speed ?
+        // maybe move into an if devel block
+        /*if (num_bytes > len) {
             m_elog.write(log::elevel::devel,
                 "asio async_read_at_least error::invalid_num_bytes");
             handler(make_error_code(transport::error::invalid_num_bytes),
                 size_t(0));
             return;
-        }
+        }*/
+
+        m_read_handler = handler;
 
         boost::asio::async_read(
             socket_con_type::get_socket(),
             boost::asio::buffer(buf,len),
             boost::asio::transfer_at_least(num_bytes),
-            m_strand->wrap(lib::bind(
-                &type::handle_async_read,
-                get_shared(),
-                handler,
-                lib::placeholders::_1,
-                lib::placeholders::_2
-            ))
+            make_custom_alloc_handler(
+            	m_read_handler_allocator,
+            	m_async_read_handler
+            )
         );
     }
 
-    void handle_async_read(read_handler handler, const
-        boost::system::error_code& ec, size_t bytes_transferred)
+    void handle_async_read(const boost::system::error_code& ec,
+        size_t bytes_transferred)
     {
         if (!ec) {
-            handler(lib::error_code(), bytes_transferred);
+            m_read_handler(lib::error_code(), bytes_transferred);
             return;
         }
 
         // translate boost error codes into more lib::error_codes
         if (ec == boost::asio::error::eof) {
-            handler(make_error_code(transport::error::eof),
+            m_read_handler(make_error_code(transport::error::eof),
             bytes_transferred);
         } else if (ec.value() == 335544539) {
-            handler(make_error_code(transport::error::tls_short_read),
+            m_read_handler(make_error_code(transport::error::tls_short_read),
             bytes_transferred);
         } else {
             log_err(log::elevel::info,"asio async_read_at_least",ec);
-            handler(make_error_code(transport::error::pass_through),
+            m_read_handler(make_error_code(transport::error::pass_through),
                 bytes_transferred);
         }
     }
 
     void async_write(const char* buf, size_t len, write_handler handler) {
-        m_bufs.push_back(boost::asio::buffer(buf,len));
+        if (!m_async_write_handler) {
+            m_alog.write(log::alevel::devel,
+                "async_write (single) called after async_shutdown");
+            handler(make_error_code(transport::error::action_after_shutdown));
+            return;
+        }
+
+		m_bufs.push_back(boost::asio::buffer(buf,len));
+
+        m_write_handler = handler;
 
         boost::asio::async_write(
             socket_con_type::get_socket(),
             m_bufs,
-            m_strand->wrap(lib::bind(
-                &type::handle_async_write,
-                get_shared(),
-                handler,
-                lib::placeholders::_1
-            ))
+            make_custom_alloc_handler(
+            	m_write_handler_allocator,
+            	m_async_write_handler
+            )
         );
     }
 
     void async_write(const std::vector<buffer>& bufs, write_handler handler) {
+        if (!m_async_write_handler) {
+            m_alog.write(log::alevel::devel,
+                "async_write (vector) called after async_shutdown");
+            handler(make_error_code(transport::error::action_after_shutdown));
+            return;
+        }
         std::vector<buffer>::const_iterator it;
 
         for (it = bufs.begin(); it != bufs.end(); ++it) {
             m_bufs.push_back(boost::asio::buffer((*it).buf,(*it).len));
         }
 
+        m_write_handler = handler;
+
         boost::asio::async_write(
             socket_con_type::get_socket(),
             m_bufs,
-            m_strand->wrap(lib::bind(
-                &type::handle_async_write,
-                get_shared(),
-                handler,
-                lib::placeholders::_1
-            ))
+            make_custom_alloc_handler(
+            	m_write_handler_allocator,
+            	m_async_write_handler
+            )
         );
     }
 
-    void handle_async_write(write_handler handler, const
-        boost::system::error_code& ec)
+    void handle_async_write(boost::system::error_code const & ec,
+        size_t bytes_transferred)
     {
         m_bufs.clear();
         if (ec) {
             log_err(log::elevel::info,"asio async_write",ec);
-            handler(make_error_code(transport::error::pass_through));
+            m_write_handler(make_error_code(transport::error::pass_through));
         } else {
-            handler(lib::error_code());
+            m_write_handler(lib::error_code());
         }
     }
 
@@ -792,12 +904,20 @@ protected:
      * This needs to be thread safe
      */
     lib::error_code interrupt(interrupt_handler handler) {
-        m_io_service->post(m_strand->wrap(handler));
+        if (config::enable_multithreading) {
+            m_io_service->post(m_strand->wrap(handler));
+        } else {
+            m_io_service->post(handler);
+        }
         return lib::error_code();
     }
 
     lib::error_code dispatch(dispatch_handler handler) {
-        m_io_service->post(m_strand->wrap(handler));
+        if (config::enable_multithreading) {
+            m_io_service->post(m_strand->wrap(handler));
+        } else {
+            m_io_service->post(handler);
+        }
         return lib::error_code();
     }
 
@@ -810,6 +930,13 @@ protected:
         if (m_alog.static_test(log::alevel::devel)) {
             m_alog.write(log::alevel::devel,"asio connection async_shutdown");
         }
+
+		// Reset cached handlers now that we won't be reading or writing anymore
+		// These cached handlers store shared pointers to this connection and will leak
+		// the connection if not destroyed.
+		m_async_read_handler = 0;
+		m_async_write_handler = 0;
+		m_init_handler = 0;
 
         timer_ptr shutdown_timer;
         shutdown_timer = set_timer(
@@ -926,7 +1053,18 @@ private:
     std::vector<boost::asio::const_buffer> m_bufs;
 
     // Handlers
-    tcp_init_handler    m_tcp_init_handler;
+    tcp_init_handler    m_tcp_pre_init_handler;
+    tcp_init_handler    m_tcp_post_init_handler;
+
+    handler_allocator   m_read_handler_allocator;
+    handler_allocator   m_write_handler_allocator;
+
+    read_handler        m_read_handler;
+    write_handler       m_write_handler;
+    init_handler        m_init_handler;
+
+    async_read_handler  m_async_read_handler;
+    async_write_handler m_async_write_handler;
 };
 
 
