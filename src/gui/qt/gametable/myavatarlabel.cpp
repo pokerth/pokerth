@@ -434,7 +434,7 @@ void MyAvatarLabel::paintEvent(QPaintEvent*)
 	//		brush.setAlpha(130);
 			painter.setBrush(brush);
 			painter.setRenderHint(QPainter::Antialiasing);
-			painter.drawEllipse(1, 1, 10, 10);
+			painter.drawEllipse(1, 39, 10, 10);
 		}
 	}
 }
