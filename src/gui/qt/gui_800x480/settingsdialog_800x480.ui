@@ -342,7 +342,7 @@
              <item row="1" column="0">
               <widget class="QCheckBox" name="checkBox_showPingStateInAvatar">
                <property name="text">
-                <string>Show multicolor network state display in the avatar</string>
+                <string>Show network state color on the avatar</string>
                </property>
               </widget>
              </item>
