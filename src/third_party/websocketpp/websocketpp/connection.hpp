@@ -149,6 +149,10 @@ typedef lib::function<bool(connection_hdl)> validate_handler;
  */
 typedef lib::function<void(connection_hdl)> http_handler;
 
+//
+typedef lib::function<void(lib::error_code const & ec, size_t bytes_transferred)> read_handler;
+typedef lib::function<void(lib::error_code const & ec)> write_frame_handler;
+
 // constants related to the default WebSocket protocol versions available
 #ifdef _WEBSOCKETPP_INITIALIZER_LISTS_ // simplified C++11 version
     /// Container that stores the list of protocol versions supported
@@ -278,7 +282,21 @@ public:
     explicit connection(bool is_server, std::string const & ua, alog_type& alog,
         elog_type& elog, rng_type & rng)
       : transport_con_type(is_server,alog,elog)
+      , m_handle_read_frame(lib::bind(
+            &type::handle_read_frame,
+            this,
+            lib::placeholders::_1,
+            lib::placeholders::_2
+        ))
+      , m_write_frame_handler(lib::bind(
+            &type::handle_write_frame,
+            this,
+            lib::placeholders::_1
+        ))
       , m_user_agent(ua)
+      , m_open_handshake_timeout_dur(config::timeout_open_handshake)
+      , m_close_handshake_timeout_dur(config::timeout_close_handshake)
+      , m_pong_timeout_dur(config::timeout_pong)
       , m_state(session::state::connecting)
       , m_internal_state(session::internal_state::USER_INIT)
       , m_msg_manager(new con_msg_manager_type())
@@ -435,6 +453,79 @@ public:
      */
     void set_message_handler(message_handler h) {
         m_message_handler = h;
+    }
+
+    /////////////////////////
+    // Connection timeouts //
+    /////////////////////////
+
+    /// Set open handshake timeout
+    /**
+     * Sets the length of time the library will wait after an opening handshake
+     * has been initiated before cancelling it. This can be used to prevent
+     * excessive wait times for outgoing clients or excessive resource usage
+     * from broken clients or DoS attacks on servers.
+     *
+     * Connections that time out will have their fail handlers called with the
+     * open_handshake_timeout error code.
+     *
+     * The default value is specified via the compile time config value
+     * 'timeout_open_handshake'. The default value in the core config
+     * is 5000ms. A value of 0 will disable the timer entirely.
+     *
+     * To be effective, the transport you are using must support timers. See
+     * the documentation for your transport policy for details about its
+     * timer support.
+     *
+     * @param dur The length of the open handshake timeout in ms
+     */
+    void set_open_handshake_timeout(long dur) {
+        m_open_handshake_timeout_dur = dur;
+    }
+
+    /// Set close handshake timeout
+    /**
+     * Sets the length of time the library will wait after a closing handshake
+     * has been initiated before cancelling it. This can be used to prevent
+     * excessive wait times for outgoing clients or excessive resource usage
+     * from broken clients or DoS attacks on servers.
+     *
+     * Connections that time out will have their close handlers called with the
+     * close_handshake_timeout error code.
+     *
+     * The default value is specified via the compile time config value
+     * 'timeout_close_handshake'. The default value in the core config
+     * is 5000ms. A value of 0 will disable the timer entirely.
+     *
+     * To be effective, the transport you are using must support timers. See
+     * the documentation for your transport policy for details about its
+     * timer support.
+     *
+     * @param dur The length of the close handshake timeout in ms
+     */
+    void set_close_handshake_timeout(long dur) {
+        m_close_handshake_timeout_dur = dur;
+    }
+
+    /// Set pong timeout
+    /**
+     * Sets the length of time the library will wait for a pong response to a
+     * ping. This can be used as a keepalive or to detect broken  connections.
+     *
+     * Pong responses that time out will have the pong timeout handler called.
+     *
+     * The default value is specified via the compile time config value
+     * 'timeout_pong'. The default value in the core config
+     * is 5000ms. A value of 0 will disable the timer entirely.
+     *
+     * To be effective, the transport you are using must support timers. See
+     * the documentation for your transport policy for details about its
+     * timer support.
+     *
+     * @param dur The length of the pong timeout in ms
+     */
+    void set_pong_timeout(long dur) {
+        m_pong_timeout_dur = dur;
     }
 
     //////////////////////////////////
@@ -1034,7 +1125,7 @@ public:
      * @param ec A status code from the transport layer, zero on success,
      * non-zero otherwise.
      */
-    void handle_write_frame(bool terminate, lib::error_code const & ec);
+    void handle_write_frame(lib::error_code const & ec);
 protected:
     void handle_transport_init(lib::error_code const & ec);
 
@@ -1190,8 +1281,12 @@ private:
      */
     void log_fail_result();
 
+    // internal handler functions
+    read_handler            m_handle_read_frame;
+    write_frame_handler     m_write_frame_handler;
+
     // static settings
-    const std::string       m_user_agent;
+    std::string const       m_user_agent;
 
     /// Pointer to the connection handle
     connection_hdl          m_connection_hdl;
@@ -1207,6 +1302,11 @@ private:
     http_handler            m_http_handler;
     validate_handler        m_validate_handler;
     message_handler         m_message_handler;
+
+    /// constant values
+    long                    m_open_handshake_timeout_dur;
+    long                    m_close_handshake_timeout_dur;
+    long                    m_pong_timeout_dur;
 
     /// External connection state
     /**

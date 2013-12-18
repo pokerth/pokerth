@@ -40,6 +40,7 @@ endpoint<connection,config>::create_connection() {
         return connection_ptr();
     }*/
 
+    //scoped_lock_type guard(m_mutex);
     // Create a connection on the heap and manage it using a shared pointer
     connection_ptr con(new connection_type(m_is_server,m_user_agent,m_alog,
         m_elog, m_rng));
@@ -63,6 +64,16 @@ endpoint<connection,config>::create_connection() {
     con->set_http_handler(m_http_handler);
     con->set_validate_handler(m_validate_handler);
     con->set_message_handler(m_message_handler);
+    
+    if (m_open_handshake_timeout_dur == config::timeout_open_handshake) {
+        con->set_open_handshake_timeout(m_open_handshake_timeout_dur);
+    }
+    if (m_close_handshake_timeout_dur == config::timeout_close_handshake) {
+        con->set_close_handshake_timeout(m_close_handshake_timeout_dur);
+    }
+    if (m_pong_timeout_dur == config::timeout_pong) {
+        con->set_pong_timeout(m_pong_timeout_dur);
+    }
 
     lib::error_code ec;
 

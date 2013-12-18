@@ -163,15 +163,17 @@ void connection<config>::ping(const std::string& payload, lib::error_code& ec) {
             m_ping_timer->cancel();
         }
 
-        m_ping_timer = transport_con_type::set_timer(
-            config::timeout_pong,
-            lib::bind(
-                &type::handle_pong_timeout,
-                type::get_shared(),
-                payload,
-                lib::placeholders::_1
-            )
-        );
+        if (m_pong_timeout_dur > 0) {
+            m_ping_timer = transport_con_type::set_timer(
+                m_pong_timeout_dur,
+                lib::bind(
+                    &type::handle_pong_timeout,
+                    type::get_shared(),
+                    payload,
+                    lib::placeholders::_1
+                )
+            );
+        }
 
         if (!m_ping_timer) {
             // Our transport doesn't support timers
@@ -270,8 +272,8 @@ void connection<config>::pong(const std::string& payload) {
 }
 
 template <typename config>
-void connection<config>::close(const close::status::value code,
-    const std::string & reason, lib::error_code & ec)
+void connection<config>::close(close::status::value const code,
+    std::string const & reason, lib::error_code & ec)
 {
     m_alog.write(log::alevel::devel,"connection close");
 
@@ -288,8 +290,8 @@ void connection<config>::close(const close::status::value code,
 }
 
 template<typename config>
-void connection<config>::close(const close::status::value code,
-    const std::string & reason)
+void connection<config>::close(close::status::value const code,
+    std::string const & reason)
 {
     lib::error_code ec;
     close(code,reason,ec);
@@ -850,11 +852,11 @@ void connection<config>::handle_read_frame(const lib::error_code& ec,
     }
 
     // Boundaries checking. TODO: How much of this should be done?
-    if (bytes_transferred > config::connection_read_buffer_size) {
+    /*if (bytes_transferred > config::connection_read_buffer_size) {
         m_elog.write(log::elevel::fatal,"Fatal boundaries checking error");
         this->terminate(make_error_code(error::general));
         return;
-    }
+    }*/
 
     size_t p = 0;
 
@@ -942,12 +944,13 @@ void connection<config>::handle_read_frame(const lib::error_code& ec,
         1,
         m_buf,
         config::connection_read_buffer_size,
-        lib::bind(
+        /*lib::bind(
             &type::handle_read_frame,
             type::get_shared(),
             lib::placeholders::_1,
             lib::placeholders::_2
-        )
+        )*/
+        m_handle_read_frame
     );
 }
 
@@ -1253,14 +1256,16 @@ void connection<config>::send_http_request() {
             "Raw Handshake request:\n"+m_handshake_buffer);
     }
 
-    m_handshake_timer = transport_con_type::set_timer(
-        config::timeout_open_handshake,
-        lib::bind(
-            &type::handle_open_handshake_timeout,
-            type::get_shared(),
-            lib::placeholders::_1
-        )
-    );
+    if (m_open_handshake_timeout_dur > 0) {
+        m_handshake_timer = transport_con_type::set_timer(
+            m_open_handshake_timeout_dur,
+            lib::bind(
+                &type::handle_open_handshake_timeout,
+                type::get_shared(),
+                lib::placeholders::_1
+            )
+        );
+    }
 
     transport_con_type::async_write(
         m_handshake_buffer.data(),
@@ -1429,7 +1434,7 @@ void connection<config>::handle_close_handshake_timeout(
 }
 
 template <typename config>
-void connection<config>::terminate(const lib::error_code & ec) {
+void connection<config>::terminate(lib::error_code const & ec) {
     if (m_alog.static_test(log::alevel::devel)) {
         m_alog.write(log::alevel::devel,"connection terminate");
     }
@@ -1459,6 +1464,8 @@ void connection<config>::terminate(const lib::error_code & ec) {
         return;
     }
 
+    // TODO: choose between shutdown and close based on error code sent
+
     transport_con_type::async_shutdown(
         lib::bind(
             &type::handle_terminate,
@@ -1471,7 +1478,7 @@ void connection<config>::terminate(const lib::error_code & ec) {
 
 template <typename config>
 void connection<config>::handle_terminate(terminate_status tstat,
-    const lib::error_code& ec)
+    lib::error_code const & ec)
 {
     if (m_alog.static_test(log::alevel::devel)) {
         m_alog.write(log::alevel::devel,"connection handle_terminate");
@@ -1540,8 +1547,8 @@ void connection<config>::write_frame() {
         m_write_flag = true;
     }
 
-    const std::string& header = m_current_msg->get_header();
-    const std::string& payload = m_current_msg->get_payload();
+    std::string const & header = m_current_msg->get_header();
+    std::string const & payload = m_current_msg->get_payload();
 
     m_send_buffer.push_back(transport::buffer(header.c_str(),header.size()));
     m_send_buffer.push_back(transport::buffer(payload.c_str(),payload.size()));
@@ -1563,24 +1570,27 @@ void connection<config>::write_frame() {
     }
     }
 
+
     transport_con_type::async_write(
         m_send_buffer,
-        lib::bind(
+        /*lib::bind(
             &type::handle_write_frame,
             type::get_shared(),
             m_current_msg->get_terminal(),
             lib::placeholders::_1
-        )
+        )*/
+        m_write_frame_handler
     );
 }
 
 template <typename config>
-void connection<config>::handle_write_frame(bool terminate,
-    const lib::error_code& ec)
+void connection<config>::handle_write_frame(lib::error_code const & ec)
 {
     if (m_alog.static_test(log::alevel::devel)) {
         m_alog.write(log::alevel::devel,"connection handle_write_frame");
     }
+
+    bool terminate = m_current_msg->get_terminal();
 
     m_send_buffer.clear();
     m_current_msg.reset();
@@ -1791,16 +1801,19 @@ void connection<config>::process_control_frame(typename
 
 template <typename config>
 lib::error_code connection<config>::send_close_ack(close::status::value code,
-    const std::string &reason)
+    std::string const & reason)
 {
     return send_close_frame(code,reason,true,m_is_server);
 }
 
 template <typename config>
 lib::error_code connection<config>::send_close_frame(close::status::value code,
-    const std::string &reason, bool ack, bool terminal)
+    std::string const & reason, bool ack, bool terminal)
 {
     m_alog.write(log::alevel::devel,"send_close_frame");
+
+    // check for special codes
+
     // If silent close is set, respect it and blank out close information
     // Otherwise use whatever has been specified in the parameters. If
     // parameters specifies close::status::blank then determine what to do
@@ -1861,14 +1874,16 @@ lib::error_code connection<config>::send_close_frame(close::status::value code,
 
     // Start a timer so we don't wait forever for the acknowledgement close
     // frame
-    m_handshake_timer = transport_con_type::set_timer(
-        config::timeout_close_handshake,
-        lib::bind(
-            &type::handle_close_handshake_timeout,
-            type::get_shared(),
-            lib::placeholders::_1
-        )
-    );
+    if (m_close_handshake_timeout_dur > 0) {
+        m_handshake_timer = transport_con_type::set_timer(
+            m_close_handshake_timeout_dur,
+            lib::bind(
+                &type::handle_close_handshake_timeout,
+                type::get_shared(),
+                lib::placeholders::_1
+            )
+        );
+    }
 
     bool needs_writing = false;
     {
