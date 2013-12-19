@@ -79,8 +79,8 @@ ServerAcceptWebHelper::validate(websocketpp::connection_hdl hdl)
 	server::connection_ptr con = m_webSocketServer->get_con_from_hdl(hdl);
 	if ((m_webSocketResource.empty() || con->get_resource() == m_webSocketResource)
 			&& (m_webSocketOrigin.empty() ||
-			(con->get_origin() != "null" &&
-				(con->get_origin() == "http://" + m_webSocketOrigin || con->get_origin() == "http://www." + m_webSocketOrigin)))) {
+				(con->get_origin() != "null" &&
+				 (con->get_origin() == "http://" + m_webSocketOrigin || con->get_origin() == "http://www." + m_webSocketOrigin)))) {
 		retVal = true;
 	}
 	return retVal;

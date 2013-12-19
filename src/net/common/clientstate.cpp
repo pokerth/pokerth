@@ -1771,8 +1771,7 @@ ClientStateRunHand::InternalHandlePacket(boost::shared_ptr<ClientThread> client,
 					client->GetClientLog()->transformPlayerActionLog(PlayerAction(netActionDone.playeraction())),
 					netActionDone.totalplayerbet() - tmpPlayer->getMySet()
 				);
-				if (tmpPlayer->getMyID() == 0)
-				{
+				if (tmpPlayer->getMyID() == 0) {
 					client->EndPing();
 				}
 			}

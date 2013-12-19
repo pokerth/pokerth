@@ -417,21 +417,18 @@ void MyAvatarLabel::paintEvent(QPaintEvent*)
 			QColor pingColor;
 			if(myAvgPing > 0 && myAvgPing <= 1000) {
 				pingColor.setNamedColor("green");
-			}
-			else if(myAvgPing > 1000 && myAvgPing <= 2000 ) {
+			} else if(myAvgPing > 1000 && myAvgPing <= 2000 ) {
 				pingColor.setNamedColor("yellow");
-			}
-			else if(myAvgPing > 2000) {
+			} else if(myAvgPing > 2000) {
 				pingColor.setNamedColor("red");
-			}
-			else {
+			} else {
 				pingColor.setNamedColor("white");
 			}
 			QColor pen = pingColor.darker(200);
-	//		pen.setAlpha(130);
+			//		pen.setAlpha(130);
 			painter.setPen(pen);
 			QColor brush = pingColor;
-	//		brush.setAlpha(130);
+			//		brush.setAlpha(130);
 			painter.setBrush(brush);
 			painter.setRenderHint(QPainter::Antialiasing);
 			painter.drawEllipse(1, 39, 10, 10);
@@ -452,8 +449,7 @@ void MyAvatarLabel::refreshPing(unsigned minPing, unsigned avgPing, unsigned max
 		toolTip.append("<br>"+tr("Minimum: ")+QString("%1").arg(myMinPing)+tr("ms"));
 		toolTip.append("<br>"+tr("Maximum: ")+QString("%1").arg(myMaxPing)+tr("ms"));
 		this->setToolTip(toolTip);
-	}
-	else {
+	} else {
 		this->setToolTip("");
 	}
 }
