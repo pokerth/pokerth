@@ -29,12 +29,48 @@
  * as that of the covered work.                                              *
  *****************************************************************************/
 
+#include <boost/asio.hpp>
+#include <boost/thread.hpp>
+
 #include <net/socket_startup.h>
 #include <core/openssl_wrapper.h>
 
 #ifndef HAVE_OPENSSL
-GCRY_THREAD_OPTION_PTHREAD_IMPL;
-#endif
+
+extern "C" {
+
+	int gcry_bthread_init()
+	{
+		return 0;
+	}
+	int gcry_bmutex_init(void **obj)
+	{
+		*obj = (void*)(new boost::mutex);
+		return 0;
+	}
+	int gcry_bmutex_destroy(void **obj)
+	{
+		delete (boost::mutex *)(*obj);
+		return 0;
+	}
+	int gcry_bmutex_lock(void **obj)
+	{
+		((boost::mutex *)(*obj))->lock();
+		return 0;
+	}
+	int gcry_bmutex_unlock(void **obj)
+	{
+		((boost::mutex *)(*obj))->unlock();
+		return 0;
+	}
+
+	struct gcry_thread_cbs gcry_threads_boost = {
+		GCRY_THREAD_OPTION_USER, gcry_bthread_init, gcry_bmutex_init,
+		gcry_bmutex_destroy, gcry_bmutex_lock, gcry_bmutex_unlock,
+		NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL
+	};
+}
+#endif // not HAVE_OPENSSL
 
 bool
 socket_startup()
@@ -42,8 +78,8 @@ socket_startup()
 #ifdef HAVE_OPENSSL
 	return SSL_library_init() == 1;
 #else
-	gcry_control(GCRYCTL_SET_THREAD_CBS, &gcry_threads_pthread);
 	gcry_check_version(NULL);
+	gcry_control(GCRYCTL_SET_THREAD_CBS, &gcry_threads_boost);
 	gcry_control(GCRYCTL_ENABLE_QUICK_RANDOM, 0);
 	gcry_control(GCRYCTL_INITIALIZATION_FINISHED, 0);
 	return true;
