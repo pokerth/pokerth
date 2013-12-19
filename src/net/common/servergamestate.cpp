@@ -82,6 +82,7 @@ using namespace std;
 #define SERVER_GAME_FORCED_TIMEOUT_FACTOR			60
 #define SERVER_VOTE_KICK_TIMEOUT_SEC				30
 #define SERVER_LOOP_DELAY_MSEC						50
+#define SERVER_MAX_NUM_SPECTATORS_PER_GAME			100
 
 // Helper functions
 
@@ -102,7 +103,7 @@ static void SendPlayerAction(ServerGame &server, boost::shared_ptr<PlayerInterfa
 	netActionDone->set_playerid(player->getMyUniqueID());
 	netActionDone->set_playermoney(player->getMyCash());
 	netActionDone->set_totalplayerbet(player->getMySet());
-	server.SendToAllPlayers(packet, SessionData::Game);
+	server.SendToAllPlayers(packet, SessionData::Game | SessionData::Spectating);
 }
 
 static void SendNewRoundCards(ServerGame &server, Game &curGame, int state)
@@ -122,7 +123,7 @@ static void SendNewRoundCards(ServerGame &server, Game &curGame, int state)
 		netDealFlop->set_flopcard1(cards[0]);
 		netDealFlop->set_flopcard2(cards[1]);
 		netDealFlop->set_flopcard3(cards[2]);
-		server.SendToAllPlayers(packet, SessionData::Game);
+		server.SendToAllPlayers(packet, SessionData::Game | SessionData::Spectating);
 	}
 	break;
 	case GAME_STATE_TURN: {
@@ -132,7 +133,7 @@ static void SendNewRoundCards(ServerGame &server, Game &curGame, int state)
 		DealTurnCardMessage *netDealTurn = packet->GetMsg()->mutable_dealturncardmessage();
 		netDealTurn->set_gameid(server.GetId());
 		netDealTurn->set_turncard(cards[3]);
-		server.SendToAllPlayers(packet, SessionData::Game);
+		server.SendToAllPlayers(packet, SessionData::Game | SessionData::Spectating);
 	}
 	break;
 	case GAME_STATE_RIVER: {
@@ -142,7 +143,7 @@ static void SendNewRoundCards(ServerGame &server, Game &curGame, int state)
 		DealRiverCardMessage *netDealRiver = packet->GetMsg()->mutable_dealrivercardmessage();
 		netDealRiver->set_gameid(server.GetId());
 		netDealRiver->set_rivercard(cards[4]);
-		server.SendToAllPlayers(packet, SessionData::Game);
+		server.SendToAllPlayers(packet, SessionData::Game | SessionData::Spectating);
 	}
 	break;
 	default: {
@@ -286,7 +287,7 @@ AbstractServerGameStateReceiving::ProcessPacket(boost::shared_ptr<ServerGame> se
 					netChat->set_playerid(session->GetPlayerData()->GetUniqueId());
 					netChat->set_chattype(ChatMessage::chatTypeGame);
 					netChat->set_chattext(netChatRequest.chattext());
-					server->SendToAllPlayers(packet, SessionData::Game);
+					server->SendToAllPlayers(packet, SessionData::Game | SessionData::Spectating | SessionData::SpectatorWaiting);
 					chatSent = true;
 
 					// Send the message to the chat cleaner bot for ranking games.
@@ -384,13 +385,25 @@ AbstractServerGameStateReceiving::CreateNetPacketPlayerJoined(unsigned gameId, c
 }
 
 boost::shared_ptr<NetPacket>
-AbstractServerGameStateReceiving::CreateNetPacketJoinGameAck(const ServerGame &server, const PlayerData &playerData)
+AbstractServerGameStateReceiving::CreateNetPacketSpectatorJoined(unsigned gameId, const PlayerData &playerData)
+{
+	boost::shared_ptr<NetPacket> packet(new NetPacket);
+	packet->GetMsg()->set_messagetype(PokerTHMessage::Type_GameSpectatorJoinedMessage);
+	GameSpectatorJoinedMessage *netGameSpectator = packet->GetMsg()->mutable_gamespectatorjoinedmessage();
+	netGameSpectator->set_gameid(gameId);
+	netGameSpectator->set_playerid(playerData.GetUniqueId());
+	return packet;
+}
+
+boost::shared_ptr<NetPacket>
+AbstractServerGameStateReceiving::CreateNetPacketJoinGameAck(const ServerGame &server, const PlayerData &playerData, bool spectateOnly)
 {
 	boost::shared_ptr<NetPacket> packet(new NetPacket);
 	packet->GetMsg()->set_messagetype(PokerTHMessage::Type_JoinGameAckMessage);
 	JoinGameAckMessage *netJoinReply = packet->GetMsg()->mutable_joingameackmessage();
 	netJoinReply->set_gameid(server.GetId());
 	netJoinReply->set_areyougameadmin(playerData.IsGameAdmin());
+	netJoinReply->set_spectateonly(spectateOnly);
 
 	NetGameInfo *gameInfo = netJoinReply->mutable_gameinfo();
 	NetPacket::SetGameData(server.GetGameData(), *gameInfo);
@@ -398,14 +411,46 @@ AbstractServerGameStateReceiving::CreateNetPacketJoinGameAck(const ServerGame &s
 	return packet;
 }
 
+boost::shared_ptr<NetPacket>
+AbstractServerGameStateReceiving::CreateNetPacketHandStart(const ServerGame &server)
+{
+	const Game &curGame = server.GetGame();
+
+	boost::shared_ptr<NetPacket> notifyCards(new NetPacket);
+	notifyCards->GetMsg()->set_messagetype(PokerTHMessage::Type_HandStartMessage);
+	HandStartMessage *netHandStart = notifyCards->GetMsg()->mutable_handstartmessage();
+	netHandStart->set_gameid(server.GetId());
+
+	PlayerListIterator player_i = curGame.getSeatsList()->begin();
+	PlayerListIterator player_end = curGame.getSeatsList()->end();
+	int playerCounter = 0;
+	while (player_i != player_end && playerCounter < server.GetStartData().numberOfPlayers) {
+		NetPlayerState seatState;
+		if (!(*player_i)->getMyActiveStatus()) {
+			seatState = netPlayerStateNoMoney;
+		} else if (!(*player_i)->isSessionActive()) {
+			seatState = netPlayerStateSessionInactive;
+		} else {
+			seatState = netPlayerStateNormal;
+		}
+		netHandStart->add_seatstates(seatState);
+		++player_i;
+		++playerCounter;
+	}
+
+	netHandStart->set_smallblind(curGame.getCurrentHand()->getSmallBlind());
+	netHandStart->set_dealerplayerid(curGame.getCurrentHand()->getDealerPosition());
+	return notifyCards;
+}
+
 void
-AbstractServerGameStateReceiving::AcceptNewSession(boost::shared_ptr<ServerGame> server, boost::shared_ptr<SessionData> session)
+AbstractServerGameStateReceiving::AcceptNewSession(boost::shared_ptr<ServerGame> server, boost::shared_ptr<SessionData> session, bool spectateOnly)
 {
 	// Set game admin, if applicable.
 	session->GetPlayerData()->SetGameAdmin(session->GetPlayerData()->GetUniqueId() == server->GetAdminPlayerId());
 
 	// Send ack to client.
-	server->GetLobbyThread().GetSender().Send(session, CreateNetPacketJoinGameAck(*server, *session->GetPlayerData()));
+	server->GetLobbyThread().GetSender().Send(session, CreateNetPacketJoinGameAck(*server, *session->GetPlayerData(), spectateOnly));
 
 	// Send notifications for connected players to client.
 	PlayerDataList tmpPlayerList(server->GetFullPlayerDataList());
@@ -416,14 +461,31 @@ AbstractServerGameStateReceiving::AcceptNewSession(boost::shared_ptr<ServerGame>
 		++player_i;
 	}
 
-	// Send "Player Joined" to other fully connected clients.
-	server->SendToAllPlayers(CreateNetPacketPlayerJoined(server->GetId(), *session->GetPlayerData()), SessionData::Game);
+	// Send notifications for connected spectators to client.
+	PlayerDataList tmpSpectatorList(server->GetSessionManager().GetSpectatorDataList());
+	PlayerDataList::iterator spectator_i = tmpSpectatorList.begin();
+	PlayerDataList::iterator spectator_end = tmpSpectatorList.end();
+	while (spectator_i != spectator_end) {
+		server->GetLobbyThread().GetSender().Send(session, CreateNetPacketSpectatorJoined(server->GetId(), *(*spectator_i)));
+		++spectator_i;
+	}
+
+	// Send "Player Joined"/"Spectator Joined" to other fully connected clients.
+	if (spectateOnly) {
+		server->SendToAllPlayers(CreateNetPacketSpectatorJoined(server->GetId(), *session->GetPlayerData()), SessionData::Game | SessionData::Spectating | SessionData::SpectatorWaiting);
+	} else {
+		server->SendToAllPlayers(CreateNetPacketPlayerJoined(server->GetId(), *session->GetPlayerData()), SessionData::Game | SessionData::Spectating | SessionData::SpectatorWaiting);
+	}
 
 	// Accept session.
 	server->GetSessionManager().AddSession(session);
 
 	// Notify lobby.
-	server->GetLobbyThread().NotifyPlayerJoinedGame(server->GetId(), session->GetPlayerData()->GetUniqueId());
+	if (spectateOnly) {
+		server->GetLobbyThread().NotifySpectatorJoinedGame(server->GetId(), session->GetPlayerData()->GetUniqueId());
+	} else {
+		server->GetLobbyThread().NotifyPlayerJoinedGame(server->GetId(), session->GetPlayerData()->GetUniqueId());
+	}
 }
 
 //-----------------------------------------------------------------------------
@@ -471,7 +533,7 @@ ServerGameStateInit::NotifySessionRemoved(boost::shared_ptr<ServerGame> server)
 }
 
 void
-ServerGameStateInit::HandleNewSession(boost::shared_ptr<ServerGame> server, boost::shared_ptr<SessionData> session)
+ServerGameStateInit::HandleNewPlayer(boost::shared_ptr<ServerGame> server, boost::shared_ptr<SessionData> session)
 {
 	if (session && session->GetPlayerData()) {
 		const GameData &tmpGameData = server->GetGameData();
@@ -480,12 +542,24 @@ ServerGameStateInit::HandleNewSession(boost::shared_ptr<ServerGame> server, boos
 			server->MoveSessionToLobby(session, NTF_NET_REMOVED_GAME_FULL);
 		} else {
 
-			AcceptNewSession(server, session);
+			AcceptNewSession(server, session, false);
 
 			if (server->GetCurNumberOfPlayers() == tmpGameData.maxNumberOfPlayers) {
 				// Automatically start the game if it is full.
 				RegisterAutoStartTimer(server);
 			}
+		}
+	}
+}
+
+void
+ServerGameStateInit::HandleNewSpectator(boost::shared_ptr<ServerGame> server, boost::shared_ptr<SessionData> session)
+{
+	if (session && session->GetPlayerData()) {
+		if (server->GetSpectatorIdList().size() >= SERVER_MAX_NUM_SPECTATORS_PER_GAME) {
+			server->MoveSessionToLobby(session, NTF_NET_REMOVED_GAME_FULL);
+		} else {
+			AcceptNewSession(server, session, true);
 		}
 	}
 }
@@ -588,7 +662,7 @@ ServerGameStateInit::SendStartEvent(ServerGame &server, bool fillWithComputerPla
 			server.AddComputerPlayer(tmpPlayerData);
 
 			// Send "Player Joined" to other fully connected clients.
-			server.SendToAllPlayers(CreateNetPacketPlayerJoined(server.GetId(), *tmpPlayerData), SessionData::Game);
+			server.SendToAllPlayers(CreateNetPacketPlayerJoined(server.GetId(), *tmpPlayerData), SessionData::Game | SessionData::Spectating | SessionData::SpectatorWaiting);
 
 			// Notify lobby.
 			server.GetLobbyThread().NotifyPlayerJoinedGame(server.GetId(), tmpPlayerData->GetUniqueId());
@@ -701,10 +775,18 @@ ServerGameStateStartGame::Exit(boost::shared_ptr<ServerGame> server)
 }
 
 void
-ServerGameStateStartGame::HandleNewSession(boost::shared_ptr<ServerGame> server, boost::shared_ptr<SessionData> session)
+ServerGameStateStartGame::HandleNewPlayer(boost::shared_ptr<ServerGame> server, boost::shared_ptr<SessionData> session)
 {
 	// Do not accept new sessions in this state.
 	server->MoveSessionToLobby(session, NTF_NET_REMOVED_ALREADY_RUNNING);
+}
+
+void
+ServerGameStateStartGame::HandleNewSpectator(boost::shared_ptr<ServerGame> server, boost::shared_ptr<SessionData> session)
+{
+	if (session && session->GetPlayerData()) {
+		AcceptNewSession(server, session, true);
+	}
 }
 
 void
@@ -712,7 +794,7 @@ ServerGameStateStartGame::InternalProcessPacket(boost::shared_ptr<ServerGame> se
 {
 	if (packet->GetMsg()->messagetype() == PokerTHMessage::Type_StartEventAckMessage) {
 		session->SetReadyFlag();
-		if (server->GetSessionManager().CountReadySessions() == server->GetSessionManager().GetRawSessionCount()) {
+		if (server->GetSessionManager().CountReadySessions() == server->GetSessionManager().GetSessionCountWithState(SessionData::Game)) {
 			// Everyone is ready.
 			server->GetSessionManager().ResetAllReadyFlags();
 			DoStart(server);
@@ -759,7 +841,7 @@ ServerGameStateStartGame::DoStart(boost::shared_ptr<ServerGame> server)
 			++player_i;
 		}
 
-		server->SendToAllPlayers(packet, SessionData::Game);
+		server->SendToAllPlayers(packet, SessionData::Game | SessionData::Spectating);
 
 		// Start the first hand.
 		ServerGameStateHand::StartNewHand(server);
@@ -774,7 +856,7 @@ AbstractServerGameStateRunning::~AbstractServerGameStateRunning()
 }
 
 void
-AbstractServerGameStateRunning::HandleNewSession(boost::shared_ptr<ServerGame> server, boost::shared_ptr<SessionData> session)
+AbstractServerGameStateRunning::HandleNewPlayer(boost::shared_ptr<ServerGame> server, boost::shared_ptr<SessionData> session)
 {
 
 	// Verify that the user is allowed to rejoin.
@@ -782,7 +864,7 @@ AbstractServerGameStateRunning::HandleNewSession(boost::shared_ptr<ServerGame> s
 		boost::shared_ptr<PlayerInterface> tmpPlayer = server->GetPlayerInterfaceFromGame(session->GetPlayerData()->GetName());
 		if (tmpPlayer && tmpPlayer->getMyGuid() == session->GetPlayerData()->GetOldGuid()) {
 			// The player wants to rejoin.
-			AcceptNewSession(server, session);
+			AcceptNewSession(server, session, false);
 			// Remember: We need to initiate a rejoin when starting the next hand.
 			server->AddRejoinPlayer(session->GetPlayerData()->GetUniqueId());
 
@@ -799,6 +881,16 @@ AbstractServerGameStateRunning::HandleNewSession(boost::shared_ptr<ServerGame> s
 			// Do not accept "new" sessions in this state, only rejoin is allowed.
 			server->MoveSessionToLobby(session, NTF_NET_REMOVED_ALREADY_RUNNING);
 		}
+	}
+}
+
+void
+AbstractServerGameStateRunning::HandleNewSpectator(boost::shared_ptr<ServerGame> server, boost::shared_ptr<SessionData> session)
+{
+	if (session && session->GetPlayerData()) {
+		AcceptNewSession(server, session, true);
+		session->SetState(SessionData::SpectatorWaiting);
+		server->AddNewSpectator(session->GetPlayerData()->GetUniqueId());
 	}
 }
 
@@ -906,7 +998,7 @@ ServerGameStateHand::EngineLoop(boost::shared_ptr<ServerGame> server)
 				playerAllIn->set_allincard2(tmpCards[1]);
 				++i;
 			}
-			server->SendToAllPlayers(allIn, SessionData::Game);
+			server->SendToAllPlayers(allIn, SessionData::Game | SessionData::Spectating);
 			curGame.getCurrentHand()->setCardsShown(true);
 
 			server->GetStateTimer1().expires_from_now(
@@ -941,7 +1033,7 @@ ServerGameStateHand::EngineLoop(boost::shared_ptr<ServerGame> server)
 			netPlayersTurn->set_gameid(server->GetId());
 			netPlayersTurn->set_gamestate(static_cast<NetGameState>(curGame.getCurrentHand()->getCurrentRound()));
 			netPlayersTurn->set_playerid(curPlayer->getMyUniqueID());
-			server->SendToAllPlayers(notification, SessionData::Game);
+			server->SendToAllPlayers(notification, SessionData::Game | SessionData::Spectating);
 
 			// If the player is computer controlled, let the engine act.
 			if (curPlayer->getMyType() == PLAYER_TYPE_COMPUTER) {
@@ -983,7 +1075,7 @@ ServerGameStateHand::EngineLoop(boost::shared_ptr<ServerGame> server)
 				netEndHand->set_playerid(player->getMyUniqueID());
 				netEndHand->set_moneywon(player->getLastMoneyWon());
 				netEndHand->set_playermoney(player->getMyCash());
-				server->SendToAllPlayers(endHand, SessionData::Game);
+				server->SendToAllPlayers(endHand, SessionData::Game | SessionData::Spectating);
 			} else {
 				// End of Hand - show cards.
 				const PlayerIdList showList(curGame.getCurrentHand()->getBoard()->getPlayerNeedToShowCards());
@@ -1003,7 +1095,7 @@ ServerGameStateHand::EngineLoop(boost::shared_ptr<ServerGame> server)
 					}
 					++i;
 				}
-				server->SendToAllPlayers(endHand, SessionData::Game);
+				server->SendToAllPlayers(endHand, SessionData::Game | SessionData::Spectating);
 			}
 
 			// Remove disconnected players. This is the one and only place to do this.
@@ -1088,7 +1180,7 @@ ServerGameStateHand::TimerNextGame(const boost::system::error_code &ec, boost::s
 		EndOfGameMessage *netEndGame = endGame->GetMsg()->mutable_endofgamemessage();
 		netEndGame->set_gameid(server->GetId());
 		netEndGame->set_winnerplayerid(winnerPlayerId);
-		server->SendToAllPlayers(endGame, SessionData::Game);
+		server->SendToAllPlayers(endGame, SessionData::Game | SessionData::Spectating);
 
 		// Wait for the start of a new game.
 		server->RemoveAutoLeavePlayers();
@@ -1133,6 +1225,9 @@ ServerGameStateHand::StartNewHand(boost::shared_ptr<ServerGame> server)
 	// This has to be done before initialising the new hand, because there are side effects.
 	InitRejoiningPlayers(server);
 
+	// Initialize new spectators.
+	InitNewSpectators(server);
+
 	// Kick inactive players.
 	CheckPlayerTimeouts(server);
 
@@ -1158,10 +1253,8 @@ ServerGameStateHand::StartNewHand(boost::shared_ptr<ServerGame> server)
 			bool errorFlag = false;
 			tmpPlayer->getMyCards(cards);
 
-			boost::shared_ptr<NetPacket> notifyCards(new NetPacket);
-			notifyCards->GetMsg()->set_messagetype(PokerTHMessage::Type_HandStartMessage);
+			boost::shared_ptr<NetPacket> notifyCards = CreateNetPacketHandStart(*server);
 			HandStartMessage *netHandStart = notifyCards->GetMsg()->mutable_handstartmessage();
-			netHandStart->set_gameid(server->GetId());
 			string tmpPassword(tmpSession->AuthGetPassword());
 			if (tmpPassword.empty()) { // encrypt only if password is present
 				HandStartMessage::PlainCards *plainCards = netHandStart->mutable_plaincards();
@@ -1187,30 +1280,14 @@ ServerGameStateHand::StartNewHand(boost::shared_ptr<ServerGame> server)
 					errorFlag = true;
 				}
 			}
-			PlayerListIterator player_i = curGame.getSeatsList()->begin();
-			PlayerListIterator player_end = curGame.getSeatsList()->end();
-			int playerCounter = 0;
-			while (player_i != player_end && playerCounter < server->GetStartData().numberOfPlayers) {
-				NetPlayerState seatState;
-				if (!(*player_i)->getMyActiveStatus()) {
-					seatState = netPlayerStateNoMoney;
-				} else if (!(*player_i)->isSessionActive()) {
-					seatState = netPlayerStateSessionInactive;
-				} else {
-					seatState = netPlayerStateNormal;
-				}
-				netHandStart->add_seatstates(seatState);
-				++player_i;
-				++playerCounter;
-			}
 
 			if (!errorFlag) {
-				netHandStart->set_smallblind(curGame.getCurrentHand()->getSmallBlind());
 				server->GetLobbyThread().GetSender().Send(tmpSession, notifyCards);
 			}
 		}
 		++i;
 	}
+	server->SendToAllPlayers(CreateNetPacketHandStart(*server), SessionData::Spectating);
 
 	// Start hand.
 	curGame.startHand();
@@ -1233,7 +1310,7 @@ ServerGameStateHand::StartNewHand(boost::shared_ptr<ServerGame> server)
 			netSmallBlind->set_playermoney(tmpPlayer->getMyCash());
 			netSmallBlind->set_highestset(server->GetGame().getCurrentHand()->getCurrentBeRo()->getHighestSet());
 			netSmallBlind->set_minimumraise(server->GetGame().getCurrentHand()->getCurrentBeRo()->getMinimumRaise());
-			server->SendToAllPlayers(notifySmallBlind, SessionData::Game);
+			server->SendToAllPlayers(notifySmallBlind, SessionData::Game | SessionData::Spectating);
 			break;
 		}
 		++i;
@@ -1255,7 +1332,7 @@ ServerGameStateHand::StartNewHand(boost::shared_ptr<ServerGame> server)
 			netBigBlind->set_playermoney(tmpPlayer->getMyCash());
 			netBigBlind->set_highestset(server->GetGame().getCurrentHand()->getCurrentBeRo()->getHighestSet());
 			netBigBlind->set_minimumraise(server->GetGame().getCurrentHand()->getCurrentBeRo()->getMinimumRaise());
-			server->SendToAllPlayers(notifyBigBlind, SessionData::Game);
+			server->SendToAllPlayers(notifyBigBlind, SessionData::Game | SessionData::Spectating);
 			break;
 		}
 		++i;
@@ -1330,6 +1407,22 @@ ServerGameStateHand::InitRejoiningPlayers(boost::shared_ptr<ServerGame> server)
 }
 
 void
+ServerGameStateHand::InitNewSpectators(boost::shared_ptr<ServerGame> server)
+{
+	PlayerIdList spectatorIdList(server->GetAndResetNewSpectators());
+	PlayerIdList::iterator i = spectatorIdList.begin();
+	PlayerIdList::iterator end = spectatorIdList.end();
+	while (i != end) {
+		boost::shared_ptr<SessionData> session(server->GetSessionManager().GetSessionByUniquePlayerId(*i));
+		if (session && session->GetPlayerData()) {
+			session->SetState(SessionData::Spectating);
+			SendGameData(server, session);
+		}
+		++i;
+	}
+}
+
+void
 ServerGameStateHand::PerformRejoin(boost::shared_ptr<ServerGame> server, boost::shared_ptr<SessionData> session)
 {
 	Game &curGame = server->GetGame();
@@ -1342,7 +1435,7 @@ ServerGameStateHand::PerformRejoin(boost::shared_ptr<ServerGame> server, boost::
 		PlayerIdChangedMessage *netIdChanged = packet->GetMsg()->mutable_playeridchangedmessage();
 		netIdChanged->set_oldplayerid(rejoinPlayer->getMyUniqueID());
 		netIdChanged->set_newplayerid(session->GetPlayerData()->GetUniqueId());
-		server->SendToAllButOnePlayers(packet, session->GetId(), SessionData::Game);
+		server->SendToAllButOnePlayers(packet, session->GetId(), SessionData::Game | SessionData::Spectating | SessionData::SpectatorWaiting);
 
 		// Update the dealer, if necessary.
 		curGame.replaceDealer(rejoinPlayer->getMyUniqueID(), session->GetPlayerData()->GetUniqueId());
@@ -1353,30 +1446,36 @@ ServerGameStateHand::PerformRejoin(boost::shared_ptr<ServerGame> server, boost::
 		rejoinPlayer->setMyGuid(session->GetPlayerData()->GetGuid());
 		rejoinPlayer->markRemoteAction();
 		rejoinPlayer->setIsSessionActive(true);
-
-		// Send game start notification to rejoining client.
-		packet.reset(new NetPacket);
-		packet->GetMsg()->set_messagetype(PokerTHMessage::Type_GameStartRejoinMessage);
-		GameStartRejoinMessage *netGameStart = packet->GetMsg()->mutable_gamestartrejoinmessage();
-		netGameStart->set_gameid(server->GetId());
-		netGameStart->set_startdealerplayerid(curGame.getDealerPosition());
-		netGameStart->set_handnum(curGame.getCurrentHandID());
-		PlayerListIterator player_i = curGame.getSeatsList()->begin();
-		PlayerListIterator player_end = curGame.getSeatsList()->end();
-		int player_count = 0;
-		while (player_i != player_end && player_count < server->GetStartData().numberOfPlayers) {
-			boost::shared_ptr<PlayerInterface> tmpPlayer = *player_i;
-			GameStartRejoinMessage::RejoinPlayerData *playerSlot = netGameStart->add_rejoinplayerdata();
-			playerSlot->set_playerid(tmpPlayer->getMyUniqueID());
-			playerSlot->set_playermoney(tmpPlayer->getMyCash());
-			++player_i;
-			++player_count;
-		}
-
-		server->GetLobbyThread().GetSender().Send(session, packet);
+		SendGameData(server, session);
 	} else {
 		server->SessionError(session, ERR_SOCK_INVALID_STATE);
 	}
+}
+
+void
+ServerGameStateHand::SendGameData(boost::shared_ptr<ServerGame> server, boost::shared_ptr<SessionData> session)
+{
+	Game &curGame = server->GetGame();
+	// Send game start notification to rejoining client.
+	boost::shared_ptr<NetPacket> packet(new NetPacket);
+	packet->GetMsg()->set_messagetype(PokerTHMessage::Type_GameStartRejoinMessage);
+	GameStartRejoinMessage *netGameStart = packet->GetMsg()->mutable_gamestartrejoinmessage();
+	netGameStart->set_gameid(server->GetId());
+	netGameStart->set_startdealerplayerid(curGame.getDealerPosition());
+	netGameStart->set_handnum(curGame.getCurrentHandID());
+	PlayerListIterator player_i = curGame.getSeatsList()->begin();
+	PlayerListIterator player_end = curGame.getSeatsList()->end();
+	int player_count = 0;
+	while (player_i != player_end && player_count < server->GetStartData().numberOfPlayers) {
+		boost::shared_ptr<PlayerInterface> tmpPlayer = *player_i;
+		GameStartRejoinMessage::RejoinPlayerData *playerSlot = netGameStart->add_rejoinplayerdata();
+		playerSlot->set_playerid(tmpPlayer->getMyUniqueID());
+		playerSlot->set_playermoney(tmpPlayer->getMyCash());
+		++player_i;
+		++player_count;
+	}
+
+	server->GetLobbyThread().GetSender().Send(session, packet);
 }
 
 //-----------------------------------------------------------------------------
@@ -1569,7 +1668,7 @@ ServerGameStateWaitNextHand::InternalProcessPacket(boost::shared_ptr<ServerGame>
 		boost::shared_ptr<PlayerInterface> tmpPlayer(curGame.getPlayerByUniqueId(session->GetPlayerData()->GetUniqueId()));
 		if (tmpPlayer) {
 			SetPlayerResult(*netShowCards->mutable_playerresult(), tmpPlayer, curGame.getCurrentHand()->getRoundBeforePostRiver());
-			server->SendToAllPlayers(show, SessionData::Game);
+			server->SendToAllPlayers(show, SessionData::Game | SessionData::Spectating);
 		}
 	}
 }

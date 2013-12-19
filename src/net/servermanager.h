@@ -54,7 +54,8 @@ public:
 	virtual ~ServerManager();
 
 	// Set the parameters.
-	virtual void Init(unsigned serverPort, bool ipv6, ServerTransportProtocol proto, const std::string &logDir);
+	virtual void Init(unsigned serverPort, unsigned websocketPort, bool ipv6, int proto, const std::string &logDir,
+					  const std::string &webSocketResource, const std::string &webSocketOrigin);
 
 	// Main start function.
 	virtual void RunAll();

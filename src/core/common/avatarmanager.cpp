@@ -435,7 +435,6 @@ AvatarManager::RemoveOldAvatarCacheEntries()
 			// Count files and record age.
 			AvatarList removeList;
 			TimeAvatarMap timeMap;
-			unsigned fileCount = 0;
 			{
 				AvatarMap::const_iterator i = m_cachedAvatars.begin();
 				AvatarMap::const_iterator end = m_cachedAvatars.end();
@@ -448,7 +447,6 @@ AvatarManager::RemoveOldAvatarCacheEntries()
 						// Only consider files with MD5 as file name.
 						MD5Buf tmpBuf;
 						if (exists(filePath) && tmpBuf.FromString(basename(filePath))) {
-							++fileCount;
 							timeMap.insert(TimeAvatarMap::value_type(last_write_time(filePath), i->first));
 							keepFile = true;
 						}

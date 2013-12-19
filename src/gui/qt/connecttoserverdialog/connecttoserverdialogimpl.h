@@ -47,7 +47,7 @@ class connectToServerDialogImpl: public QDialog, public Ui::connectToServerDialo
 public:
 	connectToServerDialogImpl(QWidget *parent = 0);
 
-	void exec();
+	int exec();
 
 public slots:
 

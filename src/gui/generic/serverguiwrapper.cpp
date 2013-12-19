@@ -58,70 +58,50 @@ void ServerGuiWrapper::setSession(boost::shared_ptr<Session> session)
 }
 
 void ServerGuiWrapper::refreshSet() const {}
-
 void ServerGuiWrapper::refreshCash() const {}
-
 void ServerGuiWrapper::refreshAction(int /*playerID*/, int /*playerAction*/) const {}
-
 void ServerGuiWrapper::refreshChangePlayer() const {}
-
 void ServerGuiWrapper::refreshAll() const {}
-
 void ServerGuiWrapper::refreshPot() const {}
 void ServerGuiWrapper::refreshGroupbox(int /*playerID*/, int /*status*/) const {}
 void ServerGuiWrapper::refreshPlayerName() const {}
 void ServerGuiWrapper::refreshButton() const {}
 void ServerGuiWrapper::refreshGameLabels(GameState /*state*/) const {}
-
 void ServerGuiWrapper::setPlayerAvatar(int /*myUniqueID*/, const std::string &/*myAvatar*/) const {};
-
 void ServerGuiWrapper::waitForGuiUpdateDone() const {}
-
 void ServerGuiWrapper::dealBeRoCards(int /*myBeRoID*/) {}
 void ServerGuiWrapper::dealHoleCards() {}
 void ServerGuiWrapper::dealFlopCards() {}
 void ServerGuiWrapper::dealTurnCard() {}
 void ServerGuiWrapper::dealRiverCard() {}
-
 void ServerGuiWrapper::nextPlayerAnimation() {}
-
 void ServerGuiWrapper::beRoAnimation2(int /*myBeRoID*/) {}
-
 void ServerGuiWrapper::preflopAnimation1() {}
 void ServerGuiWrapper::preflopAnimation2() {}
-
 void ServerGuiWrapper::flopAnimation1() {}
 void ServerGuiWrapper::flopAnimation2() {}
-
 void ServerGuiWrapper::turnAnimation1() {}
 void ServerGuiWrapper::turnAnimation2() {}
-
 void ServerGuiWrapper::riverAnimation1() {}
 void ServerGuiWrapper::riverAnimation2() {}
-
 void ServerGuiWrapper::postRiverAnimation1() {}
 void ServerGuiWrapper::postRiverRunAnimation1() {}
 void ServerGuiWrapper::flipHolecardsAllIn() {}
-
 void ServerGuiWrapper::nextRoundCleanGui() {}
-
 void ServerGuiWrapper::meInAction() {}
 void ServerGuiWrapper::disableMyButtons() {}
 void ServerGuiWrapper::updateMyButtonsState() {}
 void ServerGuiWrapper::startTimeoutAnimation(int /*playerNum*/, int /*timeoutSec*/) {}
 void ServerGuiWrapper::stopTimeoutAnimation(int /*playerNum*/) {}
-
 void ServerGuiWrapper::startVoteOnKick(unsigned /*playerId*/, unsigned /*voteStarterPlayerId*/, int /*timeoutSec*/, int /*numVotesNeededToKick*/) {}
 void ServerGuiWrapper::changeVoteOnKickButtonsState(bool /*showHide*/) {}
 void ServerGuiWrapper::refreshVotesMonitor(int /*currentVotes*/, int /*numVotesNeededToKick*/) {}
 void ServerGuiWrapper::endVoteOnKick() {}
-
 void ServerGuiWrapper::logPlayerActionMsg(string /*playerName*/, int /*action*/, int /*setValue*/) {}
 void ServerGuiWrapper::logNewGameHandMsg(int /*gameID*/, int /*handID*/) {}
 void ServerGuiWrapper::logPlayerWinsMsg(std::string /*playerName*/, int /*pot*/, bool /*main*/) {}
 void ServerGuiWrapper::logPlayerSitsOut(std::string /*playerName*/) {}
 void ServerGuiWrapper::logNewBlindsSetsMsg(int /*sbSet*/, int /*bbSet*/, std::string /*sbName*/, std::string /*bbName*/) {}
-
 void ServerGuiWrapper::logDealBoardCardsMsg(int /*roundID*/, int /*card1*/, int /*card2*/, int /*card3*/, int /*card4*/, int /*card5*/) {}
 void ServerGuiWrapper::logFlipHoleCardsMsg(std::string /*playerName*/, int /*card1*/, int /*card2*/, int /*cardsValueInt*/, std::string /*showHas*/) {}
 void ServerGuiWrapper::logPlayerWinGame(std::string /*playerName*/, int /*gameID*/) {}
@@ -176,6 +156,10 @@ void ServerGuiWrapper::SignalNetClientStatsUpdate(const ServerStats &stats)
 {
 	if (myClientcb) myClientcb->SignalNetClientStatsUpdate(stats);
 }
+void ServerGuiWrapper::SignalNetClientPingUpdate(unsigned minPing, unsigned avgPing, unsigned maxPing)
+{
+	if (myClientcb) myClientcb->SignalNetClientPingUpdate(minPing, avgPing, maxPing);
+}
 void ServerGuiWrapper::SignalNetClientShowTimeoutDialog(NetTimeoutReason reason, unsigned remainingSec)
 {
 	if (myClientcb) myClientcb->SignalNetClientShowTimeoutDialog(reason, remainingSec);
@@ -199,6 +183,14 @@ void ServerGuiWrapper::SignalNetClientPlayerChanged(unsigned playerId, const str
 void ServerGuiWrapper::SignalNetClientPlayerLeft(unsigned playerId, const string &playerName, int removeReason)
 {
 	if (myClientcb) myClientcb->SignalNetClientPlayerLeft(playerId, playerName, removeReason);
+}
+void ServerGuiWrapper::SignalNetClientSpectatorJoined(unsigned playerId, const string &playerName)
+{
+	if (myClientcb) myClientcb->SignalNetClientSpectatorJoined(playerId, playerName);
+}
+void ServerGuiWrapper::SignalNetClientSpectatorLeft(unsigned playerId, const string &playerName, int removeReason)
+{
+	if (myClientcb) myClientcb->SignalNetClientSpectatorLeft(playerId, playerName, removeReason);
 }
 void ServerGuiWrapper::SignalNetClientNewGameAdmin(unsigned playerId, const string &playerName)
 {
@@ -227,6 +219,14 @@ void ServerGuiWrapper::SignalNetClientGameListPlayerJoined(unsigned gameId, unsi
 void ServerGuiWrapper::SignalNetClientGameListPlayerLeft(unsigned gameId, unsigned playerId)
 {
 	if (myClientcb) myClientcb->SignalNetClientGameListPlayerLeft(gameId, playerId);
+}
+void ServerGuiWrapper::SignalNetClientGameListSpectatorJoined(unsigned gameId, unsigned playerId)
+{
+	if (myClientcb) myClientcb->SignalNetClientGameListSpectatorJoined(gameId, playerId);
+}
+void ServerGuiWrapper::SignalNetClientGameListSpectatorLeft(unsigned gameId, unsigned playerId)
+{
+	if (myClientcb) myClientcb->SignalNetClientGameListSpectatorLeft(gameId, playerId);
 }
 void ServerGuiWrapper::SignalNetClientGameStart(boost::shared_ptr<Game> game)
 {

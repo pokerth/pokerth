@@ -66,7 +66,7 @@ public:
 	const std::string &GetName() const;
 	unsigned GetCreatorDBId() const;
 
-	void AddSession(boost::shared_ptr<SessionData> session);
+	void AddSession(boost::shared_ptr<SessionData> session, bool spectateOnly);
 	void RemovePlayer(unsigned playerId, unsigned errorCode);
 	void MutePlayer(unsigned playerId, bool mute);
 	void MarkPlayerAsInactive(unsigned playerId);
@@ -77,9 +77,10 @@ public:
 	ServerCallback &GetCallback();
 	GameState GetCurRound() const;
 
-	void SendToAllPlayers(boost::shared_ptr<NetPacket> packet, SessionData::State state);
-	void SendToAllButOnePlayers(boost::shared_ptr<NetPacket> packet, SessionId except, SessionData::State state);
+	void SendToAllPlayers(boost::shared_ptr<NetPacket> packet, int state);
+	void SendToAllButOnePlayers(boost::shared_ptr<NetPacket> packet, SessionId except, int state);
 	void RemoveAllSessions();
+	void MoveSpectatorsToLobby();
 
 	bool IsPasswordProtected() const;
 	bool CheckPassword(const std::string &password) const;
@@ -88,6 +89,7 @@ public:
 
 	boost::shared_ptr<PlayerData> GetPlayerDataByUniqueId(unsigned playerId) const;
 	PlayerIdList GetPlayerIdList() const;
+	PlayerIdList GetSpectatorIdList() const;
 	bool IsPlayerConnected(const std::string &name) const;
 	bool IsPlayerConnected(unsigned playerId) const;
 	bool IsClientAddressConnected(const std::string &clientAddress) const;
@@ -110,6 +112,9 @@ public:
 
 	void AddReactivatePlayer(unsigned playerId);
 	PlayerIdList GetAndResetReactivatePlayers();
+
+	void AddNewSpectator(unsigned playerId);
+	PlayerIdList GetAndResetNewSpectators();
 
 	void SetNameReported();
 	bool IsNameReported() const;
@@ -155,7 +160,7 @@ protected:
 	void ResetComputerPlayerList();
 
 	void RemoveSession(boost::shared_ptr<SessionData> session, int reason);
-	void RemovePlayerData(boost::shared_ptr<PlayerData> player, int reason);
+	void RemovePlayerData(boost::shared_ptr<PlayerData> player, int reason, bool spectateOnly);
 	void SessionError(boost::shared_ptr<SessionData> session, int errorCode);
 	void MoveSessionToLobby(boost::shared_ptr<SessionData> session, int reason);
 
@@ -204,6 +209,9 @@ private:
 
 	PlayerIdList m_reactivatePlayerList;
 	mutable boost::mutex m_reactivatePlayerListMutex;
+
+	PlayerIdList m_newSpectatorList;
+	mutable boost::mutex m_newSpectatorListMutex;
 
 	PlayerIdList m_reportedAvatarList;
 

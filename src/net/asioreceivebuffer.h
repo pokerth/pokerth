@@ -1,0 +1,62 @@
+/*****************************************************************************
+ * PokerTH - The open source texas holdem engine                             *
+ * Copyright (C) 2006-2013 Felix Hammer, Florian Thauer, Lothar May          *
+ *                                                                           *
+ * This program is free software: you can redistribute it and/or modify      *
+ * it under the terms of the GNU Affero General Public License as            *
+ * published by the Free Software Foundation, either version 3 of the        *
+ * License, or (at your option) any later version.                           *
+ *                                                                           *
+ * This program is distributed in the hope that it will be useful,           *
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of            *
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             *
+ * GNU Affero General Public License for more details.                       *
+ *                                                                           *
+ * You should have received a copy of the GNU Affero General Public License  *
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.     *
+ *                                                                           *
+ *                                                                           *
+ * Additional permission under GNU AGPL version 3 section 7                  *
+ *                                                                           *
+ * If you modify this program, or any covered work, by linking or            *
+ * combining it with the OpenSSL project's OpenSSL library (or a             *
+ * modified version of that library), containing parts covered by the        *
+ * terms of the OpenSSL or SSLeay licenses, the authors of PokerTH           *
+ * (Felix Hammer, Florian Thauer, Lothar May) grant you additional           *
+ * permission to convey the resulting work.                                  *
+ * Corresponding Source for a non-source form of such a combination          *
+ * shall include the source code for the parts of OpenSSL used as well       *
+ * as that of the covered work.                                              *
+ *****************************************************************************/
+/* ASIO standard socket receive buffer. */
+
+#ifndef _ASIORECEIVEBUFFER_H_
+#define _ASIORECEIVEBUFFER_H_
+
+#include <net/receivebuffer.h>
+
+// MUST be larger than MAX_PACKET_SIZE
+#define RECV_BUF_SIZE		5 * MAX_PACKET_SIZE
+
+class AsioReceiveBuffer : public ReceiveBuffer
+{
+public:
+	AsioReceiveBuffer();
+
+	virtual void StartAsyncRead(boost::shared_ptr<SessionData> session);
+	virtual void HandleRead(boost::shared_ptr<SessionData> session, const boost::system::error_code &error, size_t bytesRead);
+	virtual void HandleMessage(boost::shared_ptr<SessionData> session, const std::string &msg);
+
+protected:
+
+	void ScanPackets(boost::shared_ptr<SessionData> session);
+	void ProcessPackets(boost::shared_ptr<SessionData> session);
+
+
+private:
+	NetPacketList					receivedPackets;
+	char							recvBuf[RECV_BUF_SIZE];
+	size_t							recvBufUsed;
+};
+
+#endif

@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.0" language="cs_CZ">
-<defaultcodec>UTF-8</defaultcodec>
+<TS version="2.1" language="cs_CZ">
 <context>
     <name>CardDeckStyleReader</name>
     <message>
@@ -465,16 +464,12 @@ Zkontrolujte, že jste nahrávali platný PokerTH soubor záznamů.</translation
         <translation>Ignorovat hráče</translation>
     </message>
     <message>
-        <source>You will no longer recieve chat messages or game invitations from this user.&lt;br&gt;Do you really want to put player &lt;b&gt;%1&lt;/b&gt; on ignore list?</source>
-        <translation type="obsolete">Od toho hráče již nebudete dostávat zprávy, ani pozvánky do hry.&lt;br&gt;Opravdu chcete přidat hráče &lt;b&gt;%1&lt;/b&gt; do ignore listu?</translation>
+        <source>You will no longer receive chat messages or game invitations from this user.&lt;br&gt;Do you really want to put player &lt;b&gt;%1&lt;/b&gt; on ignore list?</source>
+        <translation>Od toho hráče již nebudete dostávat zprávy, ani pozvánky do hry.&lt;br&gt;Opravdu chcete přidat hráče &lt;b&gt;%1&lt;/b&gt; do ignore listu?</translation>
     </message>
     <message>
         <source>PokerTH - Question</source>
         <translation>PokerTH - Dotaz</translation>
-    </message>
-    <message>
-        <source>You will no longer receive chat messages or game invitations from this user.&lt;br&gt;Do you really want to put player &lt;b&gt;%1&lt;/b&gt; on ignore list?</source>
-        <translation>Od tohoto uživatele již nebudete přijímat žádné zprávy, ani pozvánky do her.&lt;br&gt;Opravdu chcete přidat hráče &lt;b&gt;%1&lt;/b&gt; na seznam ignorovaných?</translation>
     </message>
     <message>
         <source>Report inappropriate avatar</source>
@@ -487,6 +482,34 @@ Zkontrolujte, že jste nahrávali platný PokerTH soubor záznamů.</translation
     <message>
         <source>Add/Edit/Remove tooltip</source>
         <translation>Přidat/Upravit/Odstranit text</translation>
+    </message>
+    <message>
+        <source>Unignore Player</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Server response times</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Average: </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>ms</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Minimum: </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Maximum: </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>You will receive chat messages and game invitations from this user again!&lt;br&gt;Do you really want to remove player &lt;b&gt;%1&lt;/b&gt; from your ignore list?</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1101,7 +1124,7 @@ p, li { white-space: pre-wrap; }
 &lt;tr&gt;
 &lt;td style=&quot;border: none;&quot;&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;translator name - mail address&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+        <translation type="vanished">&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
@@ -1172,7 +1195,7 @@ p, li { white-space: pre-wrap; }
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
 &lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+        <translation type="vanished">&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
@@ -1388,11 +1411,11 @@ p, li { white-space: pre-wrap; }
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Liberation Sans&apos;; font-size:26px; font-weight:400; font-style:normal;&quot;&gt;
 &lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;Nimbus Sans L&apos;;&quot;&gt;&lt;br /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished">&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+        <translation>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Liberation Sans&apos;; font-size:18px; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;Nimbus Sans L&apos;;&quot;&gt;&lt;br /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt; {3C?} {4.0/?} {3.?} {40/?} {1&quot;?} {26p?} {400;?} {0p?} {0p?} {0p?} {0p?} {0;?} {0p?}</translation>
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;Nimbus Sans L&apos;;&quot;&gt;&lt;br /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
@@ -1403,7 +1426,48 @@ p, li { white-space: pre-wrap; }
 &lt;tr&gt;
 &lt;td style=&quot;border: none;&quot;&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:8pt;&quot;&gt;translator name - mail address&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Liberation Sans&apos;; font-size:26px; font-weight:400; font-style:normal;&quot;&gt;
+&lt;table border=&quot;0&quot; style=&quot;-qt-table-type: root; margin-top:4px; margin-bottom:4px; margin-left:4px; margin-right:4px;&quot;&gt;
+&lt;tr&gt;
+&lt;td style=&quot;border: none;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:8pt;&quot;&gt;Martin Lukeš - martin.meridius@gmail.com&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+    </message>
+    <message>
+        <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Liberation Sans&apos;; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;Nimbus Sans L&apos;;&quot;&gt;&lt;br /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <translation>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Liberation Sans&apos;; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;Nimbus Sans L&apos;;&quot;&gt;&lt;br /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+    </message>
+    <message>
+        <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Liberation Sans&apos;; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;table border=&quot;0&quot; style=&quot;-qt-table-type: root; margin-top:4px; margin-bottom:4px; margin-left:4px; margin-right:4px;&quot;&gt;
+&lt;tr&gt;
+&lt;td style=&quot;border: none;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:8pt;&quot;&gt;translator name - mail address&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <translation>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Liberation Sans&apos;; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;table border=&quot;0&quot; style=&quot;-qt-table-type: root; margin-top:4px; margin-bottom:4px; margin-left:4px; margin-right:4px;&quot;&gt;
+&lt;tr&gt;
+&lt;td style=&quot;border: none;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:8pt;&quot;&gt;Martin Lukeš - martin.meridius@gmail.com&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+    </message>
+    <message>
+        <source>Third party libs</source>
+        <translation>Knihovny jiných projektů</translation>
     </message>
 </context>
 <context>
@@ -1797,6 +1861,10 @@ Vyberte, prosím, jiný!</translation>
         <source>Delay between hands:</source>
         <translation>Pauza mezi rozdáními:</translation>
     </message>
+    <message>
+        <source>Allow spectators to watch the game</source>
+        <translation>Povolit přihlíženícím sledovat hru</translation>
+    </message>
 </context>
 <context>
     <name>createInternetGameDialogImpl</name>
@@ -1944,7 +2012,7 @@ Vyberte, prosím, jiný!</translation>
     </message>
     <message>
         <source>Join &amp;any game</source>
-        <translation>Připojit ke &amp;kterékoliv hře</translation>
+        <translation type="vanished">Připojit ke &amp;kterékoliv hře</translation>
     </message>
     <message>
         <source>&amp;Create Game</source>
@@ -2072,6 +2140,14 @@ p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Liberation Sans&apos;; font-size:18px; font-weight:400; font-style:normal;&quot;&gt;
 &lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;Nimbus Sans L&apos;;&quot;&gt;&lt;br /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
+    <message>
+        <source>Players</source>
+        <translation>Hráči</translation>
+    </message>
+    <message>
+        <source>Spectators</source>
+        <translation>Přihlížející</translation>
+    </message>
 </context>
 <context>
     <name>gameLobbyDialogImpl</name>
@@ -2193,7 +2269,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Connected players - max. %1</source>
-        <translation>Připojení hráči - max. %1</translation>
+        <translation type="vanished">Připojení hráči - max. %1</translation>
     </message>
     <message>
         <source>T</source>
@@ -2201,11 +2277,11 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Connected players - Max. %1</source>
-        <translation>Připojení hráči - max. %1</translation>
+        <translation type="vanished">Připojení hráči - max. %1</translation>
     </message>
     <message>
         <source>Connected players</source>
-        <translation>Připojení hráči</translation>
+        <translation type="vanished">Připojení hráči</translation>
     </message>
     <message>
         <source>Invite player %1</source>
@@ -2250,7 +2326,7 @@ Ostatní hráče můžete pozvat kliknutím pravým tlačítkem na jejich přezd
         <translation type="obsolete">&lt;span style=&apos;color:red;&apos;&gt;Hráč %1 se nemůže připojit do hry %2, protože je zaneprázdněn.&lt;/span&gt;</translation>
     </message>
     <message>
-        <source>You will no longer recieve chat messages or game invitations from this user.&lt;br&gt;Do you really want to put player &lt;b&gt;%1&lt;/b&gt; on ignore list?</source>
+        <source>You will no longer receive chat messages or game invitations from this user.&lt;br&gt;Do you really want to put player &lt;b&gt;%1&lt;/b&gt; on ignore list?</source>
         <translation type="obsolete">Od tohoto uživatele již nebudete přijímat žádné zprávy, ani pozvánky do her.&lt;br&gt;Opravdu chcete přidat uživatele &lt;b&gt;%1&lt;/b&gt; do ignore listu?</translation>
     </message>
     <message>
@@ -3333,6 +3409,56 @@ Další hráče můžete pozvat pravým kliknutím na jejich přezdívku v sezna
         <source>Time</source>
         <translation>Čas</translation>
     </message>
+    <message>
+        <source>Admin action ...</source>
+        <translation>Správcovské akce ...</translation>
+    </message>
+    <message>
+        <source>Total kickban</source>
+        <translation>Vyhodit a zabanovat</translation>
+    </message>
+    <message>
+        <source>Close game</source>
+        <translation>Ukončit hru</translation>
+    </message>
+    <message>
+        <source>Are you sure you want to close the game:
+&quot;%1&quot;?</source>
+        <translation>Opravdu chcete ukončit hru:
+&quot;%1&quot;?</translation>
+    </message>
+    <message>
+        <source>Are you sure you want to total kickban the player: &quot;%1&quot;?</source>
+        <translation>Opravdu chcete vyhodit a zabanovat hráče: &quot;%1&quot;?</translation>
+    </message>
+    <message>
+        <source>Spectate</source>
+        <translation>Přihlížet</translation>
+    </message>
+    <message>
+        <source>Players (%1)</source>
+        <translation>Hráči (%1)</translation>
+    </message>
+    <message>
+        <source>Spectators (%1)</source>
+        <translation>Přihlížející (%1)</translation>
+    </message>
+    <message>
+        <source>Unignore player</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Unignore %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Unignore player ...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>You will receive chat messages and game invitations from this user again!&lt;br&gt;Do you really want to remove player &lt;b&gt;%1&lt;/b&gt; from your ignore list?</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>gameTable</name>
@@ -3651,6 +3777,10 @@ Pokud chcete ve hře zůstat, ale potřebujete si odskočit, využijte funkci &q
         <source>PokerTH %1</source>
         <translation>PokerTH %1</translation>
     </message>
+    <message>
+        <source>Spectators</source>
+        <translation>Přihlížející</translation>
+    </message>
 </context>
 <context>
     <name>internetGameLoginDialog</name>
@@ -3832,7 +3962,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <source>Could not load server-profiles-file:
 </source>
-        <translation>Nelze načíst soubor nastavení serveru:
+        <translation type="vanished">Nelze načíst soubor nastavení serveru:
 </translation>
     </message>
     <message>
@@ -3860,8 +3990,20 @@ Chcete jej přepsat?</translation>
     <message>
         <source>Could not save server-profiles-file:
 </source>
-        <translation>Nelze uložit soubor nastavení serveru:
+        <translation type="vanished">Nelze uložit soubor nastavení serveru:
 </translation>
+    </message>
+    <message>
+        <source>Could not load server-profiles-file:
+%1</source>
+        <translation>Nelze načíst soubor nastavení serveru:
+%1</translation>
+    </message>
+    <message>
+        <source>Could not save server-profiles-file:
+%1</source>
+        <translation>Nelze uložit soubor nastavení serveru:
+%1</translation>
     </message>
 </context>
 <context>
@@ -4230,7 +4372,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Server Password:</source>
-        <translation type="obsolete">Heslo serveru:</translation>
+        <translation>Heslo serveru:</translation>
     </message>
     <message>
         <source>Server Port:</source>
@@ -4708,6 +4850,30 @@ p, li { white-space: pre-wrap; }
         <source> OK </source>
         <translation> OK </translation>
     </message>
+    <message>
+        <source>Common</source>
+        <translation>Obecné</translation>
+    </message>
+    <message>
+        <source>Do not hide avatars of players which are on the ignore list</source>
+        <translation>Neskrývat avatary hráčů, kteří jsou na seznamu ignorovaných</translation>
+    </message>
+    <message>
+        <source>Disable emoticons in the chat</source>
+        <translation>Zakázat v chatu emotikony</translation>
+    </message>
+    <message>
+        <source>Allow spectators to watch the game</source>
+        <translation>Povolit přihlíženícím sledovat hru</translation>
+    </message>
+    <message>
+        <source>Show network state color on the avatar</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Show network state color in the corner of the avatar</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>settingsDialogImpl</name>
@@ -5046,7 +5212,15 @@ Opravdu se chcete vrátit do továrního nastavení?</translation>
     </message>
     <message>
         <source>Scottish Gaelic</source>
-        <translation type="unfinished"></translation>
+        <translation>Gàidhlig</translation>
+    </message>
+    <message>
+        <source>Galician</source>
+        <translation>Galego</translation>
+    </message>
+    <message>
+        <source>Vietnamese</source>
+        <translation>Tiếng Việt</translation>
     </message>
 </context>
 <context>
@@ -5559,6 +5733,32 @@ Prosím, zkontrolujte své uživatelské jméno a heslo.</translation>
     <message>
         <source>Start Network Game</source>
         <translation>Začít síťovou hru</translation>
+    </message>
+    <message>
+        <source>The game was closed.</source>
+        <translation>Hra byla ukončena.</translation>
+    </message>
+    <message>
+        <source>The game could not be closed.</source>
+        <translation>Hra nemohla být ukončena.</translation>
+    </message>
+    <message>
+        <source>The player was kicked and banned permanently.</source>
+        <translation>Hráč byl vyhozen a natrvalo zabanován.</translation>
+    </message>
+    <message>
+        <source>The player was kicked, but could not be banned because it was a guest player.</source>
+        <translation>Hráč byl vyhozen, ale nemohl být zabanován protože byl pouze host.</translation>
+    </message>
+    <message>
+        <source>The player was kicked, but could not be banned, 
+because the nick could not be found in the database</source>
+        <translation>Hráč byl vyhozen, ale nemohl být zabanován 
+protože přezdívku v databázi nelze nalézt</translation>
+    </message>
+    <message>
+        <source>The player could not be found.</source>
+        <translation>Hráče nelze nalézt.</translation>
     </message>
 </context>
 <context>

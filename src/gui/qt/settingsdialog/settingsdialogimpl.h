@@ -41,6 +41,9 @@
 
 #include <QtCore>
 #include <QtGui>
+#if QT_VERSION >= 0x050000
+#include <QtWidgets>
+#endif
 
 #include <boost/shared_ptr.hpp>
 #include <vector>
@@ -83,7 +86,7 @@ public slots:
 
 	void isAccepted();
 	void playerNickChanged() {
-		setPlayerNickIsChanged(TRUE);
+		setPlayerNickIsChanged(true);
 	};
 	void setFlipsidePicFileName();
 	void setLogDir();

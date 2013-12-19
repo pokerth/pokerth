@@ -45,15 +45,17 @@ joinNetworkGameDialogImpl::joinNetworkGameDialogImpl(QWidget *parent, ConfigFile
 	setWindowFlags(Qt::WindowSystemMenuHint | Qt::CustomizeWindowHint | Qt::Dialog);
 #endif
 	setupUi(this);
-
+#ifdef ANDROID
+	this->setWindowState(Qt::WindowFullScreen);
+#endif
 // 	QShortcut *connectKey = new QShortcut(QKeySequence(Qt::Key_Enter), this);
 // 	connect( connectKey, SIGNAL(activated() ), pushButton_connect, SLOT( click() ) );
 
 	if (myConfig->readConfigInt("CLA_NoWriteAccess")) {
 
-		pushButton_save->setDisabled(TRUE);
-		pushButton_delete->setDisabled(TRUE);
-		treeWidget->setDisabled(TRUE);
+		pushButton_save->setDisabled(true);
+		pushButton_delete->setDisabled(true);
+		treeWidget->setDisabled(true);
 	}
 
 	connect( lineEdit_ipAddress, SIGNAL( editingFinished()), this, SLOT( checkIp() ) );
@@ -67,7 +69,7 @@ joinNetworkGameDialogImpl::joinNetworkGameDialogImpl(QWidget *parent, ConfigFile
 
 }
 
-void joinNetworkGameDialogImpl::exec()
+int joinNetworkGameDialogImpl::exec()
 {
 
 	bool toIntTrue;
@@ -79,7 +81,7 @@ void joinNetworkGameDialogImpl::exec()
 	QValidator *validator = new QRegExpValidator(rx, this);
 	lineEdit_profileName->setValidator(validator);
 
-	pushButton_delete->setDisabled(TRUE);
+	pushButton_delete->setDisabled(true);
 
 	lineEdit_ipAddress->setFocus();
 
@@ -114,7 +116,7 @@ void joinNetworkGameDialogImpl::exec()
 
 	connectButtonTest();
 
-	QDialog::exec();
+	return QDialog::exec();
 
 }
 
@@ -126,14 +128,12 @@ void joinNetworkGameDialogImpl::startClient()
 
 void joinNetworkGameDialogImpl::fillServerProfileList()
 {
-
-
 	treeWidget->clear();
 
 	TiXmlDocument doc(QString::fromUtf8(myServerProfilesFile.c_str()).toStdString());
 	if(!doc.LoadFile()) {
 		MyMessageBox::warning(this, tr("Load Server-Profile-File Error"),
-							  tr("Could not load server-profiles-file:\n"+QString::fromUtf8(myServerProfilesFile.c_str()).toAscii()),
+							  tr("Could not load server-profiles-file:\n%1").arg(QString::fromUtf8(myServerProfilesFile.c_str())),
 							  QMessageBox::Close);
 	}
 	TiXmlHandle docHandle( &doc );
@@ -184,7 +184,7 @@ void joinNetworkGameDialogImpl::itemFillForm (QTreeWidgetItem* item, int /*colum
 	TiXmlDocument doc(QString::fromUtf8(myServerProfilesFile.c_str()).toStdString());
 	if(!doc.LoadFile()) {
 		MyMessageBox::warning(this, tr("Load Server-Profile-File Error"),
-							  tr("Could not load server-profiles-file:\n"+QString::fromUtf8(myServerProfilesFile.c_str()).toAscii()),
+							  tr("Could not load server-profiles-file:\n%1").arg(QString::fromUtf8(myServerProfilesFile.c_str())),
 							  QMessageBox::Close);
 	}
 	TiXmlHandle docHandle( &doc );
@@ -200,7 +200,7 @@ void joinNetworkGameDialogImpl::itemFillForm (QTreeWidgetItem* item, int /*colum
 
 	}
 
-	pushButton_delete->setEnabled(TRUE);
+	pushButton_delete->setEnabled(true);
 }
 
 void joinNetworkGameDialogImpl::saveServerProfile()
@@ -211,7 +211,7 @@ void joinNetworkGameDialogImpl::saveServerProfile()
 	TiXmlDocument doc(QString::fromUtf8(myServerProfilesFile.c_str()).toStdString());
 	if(!doc.LoadFile()) {
 		MyMessageBox::warning(this, tr("Load Server-Profile-File Error"),
-							  tr("Could not load server-profiles-file:\n"+QString::fromUtf8(myServerProfilesFile.c_str()).toAscii()),
+							  tr("Could not load server-profiles-file:\n%1").arg(QString::fromUtf8(myServerProfilesFile.c_str())),
 							  QMessageBox::Close);
 	}
 	TiXmlHandle docHandle( &doc );
@@ -268,7 +268,7 @@ void joinNetworkGameDialogImpl::saveServerProfile()
 
 	if(!doc.SaveFile()) {
 		MyMessageBox::warning(this, tr("Save Server-Profile-File Error"),
-							  tr("Could not save server-profiles-file:\n"+QString::fromUtf8(myServerProfilesFile.c_str()).toAscii()),
+							  tr("Could not save server-profiles-file:\n%1").arg(QString::fromUtf8(myServerProfilesFile.c_str())),
 							  QMessageBox::Close);
 	}
 
@@ -281,7 +281,7 @@ void joinNetworkGameDialogImpl::deleteServerProfile()
 	TiXmlDocument doc(QString::fromUtf8(myServerProfilesFile.c_str()).toStdString());
 	if(!doc.LoadFile()) {
 		MyMessageBox::warning(this, tr("Load Server-Profile-File Error"),
-							  tr("Could not load server-profiles-file:\n"+QString::fromUtf8(myServerProfilesFile.c_str()).toAscii()),
+							  tr("Could not load server-profiles-file:\n%1").arg(QString::fromUtf8(myServerProfilesFile.c_str())),
 							  QMessageBox::Close);
 	} else {
 		TiXmlHandle docHandle( &doc );
@@ -294,7 +294,7 @@ void joinNetworkGameDialogImpl::deleteServerProfile()
 
 		if(!doc.SaveFile()) {
 			MyMessageBox::warning(this, tr("Save Server-Profile-File Error"),
-								  tr("Could not save server-profiles-file:\n"+QString::fromUtf8(myServerProfilesFile.c_str()).toAscii()),
+								  tr("Could not save server-profiles-file:\n%1").arg(QString::fromUtf8(myServerProfilesFile.c_str())),
 								  QMessageBox::Close);
 		}
 
@@ -302,17 +302,19 @@ void joinNetworkGameDialogImpl::deleteServerProfile()
 		fillServerProfileList();
 	}
 
-	pushButton_delete->setDisabled(TRUE);
+	pushButton_delete->setDisabled(true);
 }
 
 void joinNetworkGameDialogImpl::keyPressEvent ( QKeyEvent * event )
 {
-
 #ifndef ANDROID
 	if (event->key() == 16777220) {
 		pushButton_connect->click();    //ENTER
 	}
+#else
+	QDialog::keyPressEvent(event);
 #endif
+
 }
 
 void joinNetworkGameDialogImpl::checkIp()
@@ -327,8 +329,8 @@ void joinNetworkGameDialogImpl::connectButtonTest()
 {
 
 	if(lineEdit_ipAddress->text().isEmpty()) {
-		pushButton_connect->setDisabled(TRUE);
+		pushButton_connect->setDisabled(true);
 	} else {
-		pushButton_connect->setDisabled(FALSE);
+		pushButton_connect->setDisabled(false);
 	}
 }

@@ -44,7 +44,9 @@ startNetworkGameDialogImpl::startNetworkGameDialogImpl(startWindowImpl *parent, 
 	setWindowFlags(Qt::WindowSystemMenuHint | Qt::CustomizeWindowHint | Qt::Dialog);
 #endif
 	setupUi(this);
-
+#ifdef ANDROID
+	this->setWindowState(Qt::WindowFullScreen);
+#endif
 	myChat = new ChatTools(lineEdit_ChatInput, myConfig, LAN_LOBBY_CHAT, textBrowser_ChatDisplay);
 
 	lineEdit_ChatInput->installEventFilter(this);
@@ -62,10 +64,9 @@ startNetworkGameDialogImpl::startNetworkGameDialogImpl(startWindowImpl *parent, 
 	clearDialog();
 }
 
-void startNetworkGameDialogImpl::exec()
+int startNetworkGameDialogImpl::exec()
 {
-
-	QDialog::exec();
+	return QDialog::exec();
 }
 
 void startNetworkGameDialogImpl::startGame()

@@ -39,6 +39,7 @@
 #include <net/clientexception.h>
 #include <net/socket_msg.h>
 #include <net/net_helper.h>
+#include <net/asioreceivebuffer.h>
 #include <core/avatarmanager.h>
 #include <core/loghelper.h>
 #include <clientenginefactory.h>
@@ -157,6 +158,10 @@ ClientThread::SendPlayerAction()
 {
 	// Warning: This function is called in the context of the GUI thread.
 	// Create a network packet containing the current player action.
+	{
+		boost::mutex::scoped_lock lock(m_pingDataMutex);
+		m_pingData.StartPing();
+	}
 	boost::shared_ptr<NetPacket> packet(new NetPacket);
 	packet->GetMsg()->set_messagetype(PokerTHMessage::Type_MyActionRequestMessage);
 	MyActionRequestMessage *netMyAction = packet->GetMsg()->mutable_myactionrequestmessage();
@@ -811,6 +816,20 @@ ClientThread::RetrieveAvatarIfNeeded(unsigned id, const PlayerInfo &info)
 	}
 }
 
+std::string
+ClientThread::GetPlayerName(unsigned id)
+{
+	PlayerInfo info;
+	if (!GetCachedPlayerInfo(id, info)) {
+		// Request player info.
+		ostringstream name;
+		name << "#" << id;
+		info.playerName = name.str();
+		RequestPlayerInfo(id);
+	}
+	return info.playerName;
+}
+
 void
 ClientThread::AddTempAvatarFile(unsigned playerId, unsigned avatarSize, AvatarFileType type)
 {
@@ -1408,6 +1427,80 @@ ClientThread::ModifyGameInfoRemovePlayer(unsigned gameId, unsigned playerId)
 }
 
 void
+ClientThread::ModifyGameInfoAddSpectator(unsigned gameId, unsigned playerId)
+{
+	bool playerAdded = false;
+	{
+		boost::mutex::scoped_lock lock(m_gameInfoMapMutex);
+		GameInfoMap::iterator pos = m_gameInfoMap.find(gameId);
+		if (pos != m_gameInfoMap.end()) {
+			pos->second.spectators.push_back(playerId);
+			playerAdded = true;
+		}
+	}
+	if (playerAdded)
+		GetCallback().SignalNetClientGameListSpectatorJoined(gameId, playerId);
+}
+
+void
+ClientThread::ModifyGameInfoRemoveSpectator(unsigned gameId, unsigned playerId)
+{
+	bool playerRemoved = false;
+	{
+		boost::mutex::scoped_lock lock(m_gameInfoMapMutex);
+		GameInfoMap::iterator pos = m_gameInfoMap.find(gameId);
+		if (pos != m_gameInfoMap.end()) {
+			pos->second.spectators.remove(playerId);
+			playerRemoved = true;
+		}
+	}
+	if (playerRemoved)
+		GetCallback().SignalNetClientGameListSpectatorLeft(gameId, playerId);
+}
+
+void
+ClientThread::ModifyGameInfoClearSpectatorsDuringGame()
+{
+	boost::mutex::scoped_lock lock(m_gameInfoMapMutex);
+	GameInfoMap::iterator pos = m_gameInfoMap.find(GetGameId());
+	if (pos != m_gameInfoMap.end()) {
+		pos->second.spectatorsDuringGame.clear();
+	}
+}
+
+void
+ClientThread::ModifyGameInfoAddSpectatorDuringGame(unsigned playerId)
+{
+	bool spectatorAdded = false;
+	{
+		boost::mutex::scoped_lock lock(m_gameInfoMapMutex);
+		GameInfoMap::iterator pos = m_gameInfoMap.find(GetGameId());
+		if (pos != m_gameInfoMap.end()) {
+			pos->second.spectatorsDuringGame.push_back(playerId);
+			spectatorAdded = true;
+		}
+	}
+	if (spectatorAdded)
+		GetCallback().SignalNetClientSpectatorJoined(playerId, GetPlayerName(playerId));
+}
+
+void
+ClientThread::ModifyGameInfoRemoveSpectatorDuringGame(unsigned playerId, int removeReason)
+{
+	bool spectatorRemoved = false;
+	{
+		boost::mutex::scoped_lock lock(m_gameInfoMapMutex);
+		GameInfoMap::iterator pos = m_gameInfoMap.find(GetGameId());
+		if (pos != m_gameInfoMap.end()) {
+			pos->second.spectatorsDuringGame.remove(playerId);
+			spectatorRemoved = true;
+		}
+	}
+	if (spectatorRemoved)
+		GetCallback().SignalNetClientSpectatorLeft(playerId, GetPlayerName(playerId), removeReason);
+}
+
+void
 ClientThread::ClearGameInfoMap()
 {
 	boost::mutex::scoped_lock lock(m_gameInfoMapMutex);
@@ -1467,6 +1560,14 @@ ClientThread::UpdateStatData(const ServerStats &stats)
 		m_curStats.totalGamesEverCreated = stats.totalGamesEverCreated;
 
 	GetCallback().SignalNetClientStatsUpdate(m_curStats);
+}
+
+void
+ClientThread::EndPing()
+{
+	boost::mutex::scoped_lock lock(m_pingDataMutex);
+	m_pingData.EndPing();
+	GetCallback().SignalNetClientPingUpdate(m_pingData.MinPing(), m_pingData.AveragePing(), m_pingData.MaxPing());
 }
 
 ServerStats

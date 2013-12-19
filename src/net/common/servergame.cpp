@@ -108,10 +108,15 @@ ServerGame::GetCreatorDBId() const
 }
 
 void
-ServerGame::AddSession(boost::shared_ptr<SessionData> session)
+ServerGame::AddSession(boost::shared_ptr<SessionData> session, bool spectateOnly)
 {
-	if (session)
-		GetState().HandleNewSession(shared_from_this(), session);
+	if (session) {
+		if (spectateOnly) {
+			GetState().HandleNewSpectator(shared_from_this(), session);
+		} else {
+			GetState().HandleNewPlayer(shared_from_this(), session);
+		}
+	}
 }
 
 void
@@ -173,13 +178,13 @@ ServerGame::GetCurRound() const
 }
 
 void
-ServerGame::SendToAllPlayers(boost::shared_ptr<NetPacket> packet, SessionData::State state)
+ServerGame::SendToAllPlayers(boost::shared_ptr<NetPacket> packet, int state)
 {
 	GetSessionManager().SendToAllSessions(GetLobbyThread().GetSender(), packet, state);
 }
 
 void
-ServerGame::SendToAllButOnePlayers(boost::shared_ptr<NetPacket> packet, SessionId except, SessionData::State state)
+ServerGame::SendToAllButOnePlayers(boost::shared_ptr<NetPacket> packet, SessionId except, int state)
 {
 	GetSessionManager().SendToAllButOneSessions(GetLobbyThread().GetSender(), packet, except, state);
 }
@@ -191,6 +196,21 @@ ServerGame::RemoveAllSessions()
 	GetSessionManager().ForEach(&SessionData::Close);
 	GetSessionManager().Clear();
 	SetState(ServerGameStateFinal::Instance());
+}
+
+void
+ServerGame::MoveSpectatorsToLobby()
+{
+	PlayerIdList spectatorList = GetSpectatorIdList();
+	PlayerIdList::const_iterator i = spectatorList.begin();
+	PlayerIdList::const_iterator end = spectatorList.end();
+	while (i != end) {
+		boost::shared_ptr<SessionData> tmpSession = GetSessionManager().GetSessionByUniquePlayerId(*i);
+		// Only remove if the spectator was found.
+		if (tmpSession)
+			MoveSessionToLobby(tmpSession, NTF_NET_REMOVED_GAME_CLOSED);
+		++i;
+	}
 }
 
 void
@@ -620,6 +640,12 @@ ServerGame::GetPlayerIdList() const
 	return idList;
 }
 
+PlayerIdList
+ServerGame::GetSpectatorIdList() const
+{
+	return GetSessionManager().GetPlayerIdList(SessionData::Spectating | SessionData::SpectatorWaiting);
+}
+
 bool
 ServerGame::IsPlayerConnected(const std::string &name) const
 {
@@ -743,6 +769,22 @@ ServerGame::GetAndResetReactivatePlayers()
 }
 
 void
+ServerGame::AddNewSpectator(unsigned playerId)
+{
+	boost::mutex::scoped_lock lock(m_newSpectatorListMutex);
+	m_newSpectatorList.push_back(playerId);
+}
+
+PlayerIdList
+ServerGame::GetAndResetNewSpectators()
+{
+	boost::mutex::scoped_lock lock(m_newSpectatorListMutex);
+	PlayerIdList tmpList(m_newSpectatorList);
+	m_newSpectatorList.clear();
+	return tmpList;
+}
+
+void
 ServerGame::SetNameReported()
 {
 	m_isNameReported = true;
@@ -810,7 +852,7 @@ ServerGame::ResetComputerPlayerList()
 
 	while (i != end) {
 		GetLobbyThread().RemoveComputerPlayer(*i);
-		RemovePlayerData(*i, NTF_NET_REMOVED_ON_REQUEST);
+		RemovePlayerData(*i, NTF_NET_REMOVED_ON_REQUEST, false);
 		++i;
 	}
 
@@ -826,13 +868,13 @@ ServerGame::RemoveSession(boost::shared_ptr<SessionData> session, int reason)
 	if (GetSessionManager().RemoveSession(session->GetId())) {
 		boost::shared_ptr<PlayerData> tmpPlayerData = session->GetPlayerData();
 		if (tmpPlayerData && !tmpPlayerData->GetName().empty()) {
-			RemovePlayerData(tmpPlayerData, reason);
+			RemovePlayerData(tmpPlayerData, reason, session->GetState() == SessionData::Spectating || session->GetState() == SessionData::SpectatorWaiting);
 		}
 	}
 }
 
 void
-ServerGame::RemovePlayerData(boost::shared_ptr<PlayerData> player, int reason)
+ServerGame::RemovePlayerData(boost::shared_ptr<PlayerData> player, int reason, bool spectateOnly)
 {
 	if (player->IsGameAdmin()) {
 		// Find new admin for the game
@@ -859,25 +901,37 @@ ServerGame::RemovePlayerData(boost::shared_ptr<PlayerData> player, int reason)
 
 	// Send "Player Left" to clients.
 	boost::shared_ptr<NetPacket> thisPlayerLeft(new NetPacket);
-	thisPlayerLeft->GetMsg()->set_messagetype(PokerTHMessage::Type_GamePlayerLeftMessage);
-	GamePlayerLeftMessage *netPlayerLeft = thisPlayerLeft->GetMsg()->mutable_gameplayerleftmessage();
-	netPlayerLeft->set_gameid(GetId());
-	netPlayerLeft->set_playerid(player->GetUniqueId());
+	GamePlayerLeftMessage::GamePlayerLeftReason netReason = GamePlayerLeftMessage::leftError;
 	switch (reason) {
 	case NTF_NET_REMOVED_ON_REQUEST :
-		netPlayerLeft->set_gameplayerleftreason(GamePlayerLeftMessage::leftOnRequest);
+		netReason = GamePlayerLeftMessage::leftOnRequest;
 		break;
 	case NTF_NET_REMOVED_KICKED :
-		netPlayerLeft->set_gameplayerleftreason(GamePlayerLeftMessage::leftKicked);
-		break;
-	default :
-		netPlayerLeft->set_gameplayerleftreason(GamePlayerLeftMessage::leftError);
+		netReason = GamePlayerLeftMessage::leftKicked;
 		break;
 	}
-	GetSessionManager().SendToAllSessions(GetLobbyThread().GetSender(), thisPlayerLeft, SessionData::Game);
+
+	if (spectateOnly) {
+		thisPlayerLeft->GetMsg()->set_messagetype(PokerTHMessage::Type_GameSpectatorLeftMessage);
+		GameSpectatorLeftMessage *netPlayerLeft = thisPlayerLeft->GetMsg()->mutable_gamespectatorleftmessage();
+		netPlayerLeft->set_gameid(GetId());
+		netPlayerLeft->set_playerid(player->GetUniqueId());
+		netPlayerLeft->set_gamespectatorleftreason(netReason);
+	} else {
+		thisPlayerLeft->GetMsg()->set_messagetype(PokerTHMessage::Type_GamePlayerLeftMessage);
+		GamePlayerLeftMessage *netPlayerLeft = thisPlayerLeft->GetMsg()->mutable_gameplayerleftmessage();
+		netPlayerLeft->set_gameid(GetId());
+		netPlayerLeft->set_playerid(player->GetUniqueId());
+		netPlayerLeft->set_gameplayerleftreason(netReason);
+	}
+	GetSessionManager().SendToAllSessions(GetLobbyThread().GetSender(), thisPlayerLeft, SessionData::Game | SessionData::Spectating | SessionData::SpectatorWaiting);
 
 	GetState().NotifySessionRemoved(shared_from_this());
-	GetLobbyThread().NotifyPlayerLeftGame(GetId(), player->GetUniqueId());
+	if (spectateOnly) {
+		GetLobbyThread().NotifySpectatorLeftGame(GetId(), player->GetUniqueId());
+	} else {
+		GetLobbyThread().NotifyPlayerLeftGame(GetId(), player->GetUniqueId());
+	}
 }
 
 void
@@ -1090,7 +1144,8 @@ ServerGame::CheckSettings(const GameData &data, const string &password, ServerMo
 				|| (data.raiseIntervalMode != RAISE_ON_HANDNUMBER)
 				|| (data.raiseMode != DOUBLE_BLINDS)
 				|| (data.raiseSmallBlindEveryHandsValue != RANKING_GAME_RAISE_EVERY_HAND)
-				|| (!password.empty())) {
+				|| (!password.empty())
+				|| (!data.allowSpectators)) {
 			retVal = false;
 		}
 	}

@@ -43,7 +43,6 @@
 #include "mynamelabel.h"
 #include "mychancelabel.h"
 #include "mytimeoutlabel.h"
-#include "mymenubar.h"
 #include "guilog.h"
 #include "chattools.h"
 
@@ -71,7 +70,7 @@
 using namespace std;
 
 gameTableImpl::gameTableImpl(ConfigFile *c, QMainWindow *parent)
-	: QMainWindow(parent), myChat(NULL), myConfig(c), gameSpeed(0), myActionIsBet(0), myActionIsRaise(0), pushButtonBetRaiseIsChecked(FALSE), pushButtonCallCheckIsChecked(FALSE), pushButtonFoldIsChecked(FALSE), pushButtonAllInIsChecked(FALSE), myButtonsAreCheckable(FALSE), breakAfterCurrentHand(FALSE), currentGameOver(FALSE), betSliderChangedByInput(FALSE), guestMode(FALSE), myLastPreActionBetValue(0)
+	: QMainWindow(parent), myChat(NULL), myConfig(c), gameSpeed(0), myActionIsBet(0), myActionIsRaise(0), pushButtonBetRaiseIsChecked(false), pushButtonCallCheckIsChecked(false), pushButtonFoldIsChecked(false), pushButtonAllInIsChecked(false), myButtonsAreCheckable(false), breakAfterCurrentHand(false), currentGameOver(false), betSliderChangedByInput(false), guestMode(false), myLastPreActionBetValue(0)
 {
 	int i;
 
@@ -109,6 +108,7 @@ gameTableImpl::gameTableImpl(ConfigFile *c, QMainWindow *parent)
 	textLabel_handLabel->hide();
 #ifdef ANDROID
 	tabsDiag->setStyleSheet("QObject { font: 26px; } QDialog { background-image: url(:/android/android-data/gfx/gui/table/default_800x480/table_dark.png); background-position: bottom center; background-origin: content;  background-repeat: no-repeat;}");
+	this->setWindowState(Qt::WindowFullScreen);
 #endif
 	tabs.label_chance->setMyStyle(myGameTableStyle);
 #else
@@ -123,7 +123,7 @@ gameTableImpl::gameTableImpl(ConfigFile *c, QMainWindow *parent)
 	}
 
 	//Flipside Animation noch nicht erledigt
-	flipHolecardsAllInAlreadyDone = FALSE;
+	flipHolecardsAllInAlreadyDone = false;
 
 #ifndef GUI_800x480
 	//Toolboxen verstecken?
@@ -193,38 +193,38 @@ gameTableImpl::gameTableImpl(ConfigFile *c, QMainWindow *parent)
 	voteOnKickTimeoutTimer = new QTimer(this);
 	enableCallCheckPushButtonTimer = new QTimer(this);
 
-	dealFlopCards0Timer->setSingleShot(TRUE);
-	dealFlopCards1Timer->setSingleShot(TRUE);
-	dealFlopCards2Timer->setSingleShot(TRUE);
-	dealFlopCards3Timer->setSingleShot(TRUE);
-	dealFlopCards4Timer->setSingleShot(TRUE);
-	dealFlopCards5Timer->setSingleShot(TRUE);
-	dealFlopCards6Timer->setSingleShot(TRUE);
-	dealTurnCards0Timer->setSingleShot(TRUE);
-	dealTurnCards1Timer->setSingleShot(TRUE);
-	dealTurnCards2Timer->setSingleShot(TRUE);
-	dealRiverCards0Timer->setSingleShot(TRUE);
-	dealRiverCards1Timer->setSingleShot(TRUE);
-	dealRiverCards2Timer->setSingleShot(TRUE);
+	dealFlopCards0Timer->setSingleShot(true);
+	dealFlopCards1Timer->setSingleShot(true);
+	dealFlopCards2Timer->setSingleShot(true);
+	dealFlopCards3Timer->setSingleShot(true);
+	dealFlopCards4Timer->setSingleShot(true);
+	dealFlopCards5Timer->setSingleShot(true);
+	dealFlopCards6Timer->setSingleShot(true);
+	dealTurnCards0Timer->setSingleShot(true);
+	dealTurnCards1Timer->setSingleShot(true);
+	dealTurnCards2Timer->setSingleShot(true);
+	dealRiverCards0Timer->setSingleShot(true);
+	dealRiverCards1Timer->setSingleShot(true);
+	dealRiverCards2Timer->setSingleShot(true);
 
-	nextPlayerAnimationTimer->setSingleShot(TRUE);
-	preflopAnimation1Timer->setSingleShot(TRUE);
-	preflopAnimation2Timer->setSingleShot(TRUE);
-	flopAnimation1Timer->setSingleShot(TRUE);
-	flopAnimation2Timer->setSingleShot(TRUE);
-	turnAnimation1Timer->setSingleShot(TRUE);
-	turnAnimation2Timer->setSingleShot(TRUE);
-	riverAnimation1Timer->setSingleShot(TRUE);
-	riverAnimation2Timer->setSingleShot(TRUE);
+	nextPlayerAnimationTimer->setSingleShot(true);
+	preflopAnimation1Timer->setSingleShot(true);
+	preflopAnimation2Timer->setSingleShot(true);
+	flopAnimation1Timer->setSingleShot(true);
+	flopAnimation2Timer->setSingleShot(true);
+	turnAnimation1Timer->setSingleShot(true);
+	turnAnimation2Timer->setSingleShot(true);
+	riverAnimation1Timer->setSingleShot(true);
+	riverAnimation2Timer->setSingleShot(true);
 
-	postRiverAnimation1Timer->setSingleShot(TRUE);
-	postRiverRunAnimation1Timer->setSingleShot(TRUE);
-	postRiverRunAnimation2Timer->setSingleShot(TRUE);
-	postRiverRunAnimation3Timer->setSingleShot(TRUE);
-	postRiverRunAnimation5Timer->setSingleShot(TRUE);
-	postRiverRunAnimation6Timer->setSingleShot(TRUE);
+	postRiverAnimation1Timer->setSingleShot(true);
+	postRiverRunAnimation1Timer->setSingleShot(true);
+	postRiverRunAnimation2Timer->setSingleShot(true);
+	postRiverRunAnimation3Timer->setSingleShot(true);
+	postRiverRunAnimation5Timer->setSingleShot(true);
+	postRiverRunAnimation6Timer->setSingleShot(true);
 
-	enableCallCheckPushButtonTimer->setSingleShot(TRUE);
+	enableCallCheckPushButtonTimer->setSingleShot(true);
 
 	playerStarsArray[1][0]=label_Star10;
 	playerStarsArray[2][0]=label_Star20;
@@ -449,6 +449,9 @@ gameTableImpl::gameTableImpl(ConfigFile *c, QMainWindow *parent)
 
 	pushButton_showMyCards->hide();
 
+	spectatorIcon = new QLabel(this);
+	spectatorNumberLabel = new QLabel(this);
+
 	//style Game Table
 	refreshGameTableStyle();
 
@@ -644,6 +647,7 @@ gameTableImpl::gameTableImpl(ConfigFile *c, QMainWindow *parent)
 	connect(this, SIGNAL(signalRefreshPlayerName()), this, SLOT(refreshPlayerName()));
 	connect(this, SIGNAL(signalRefreshButton()), this, SLOT(refreshButton()));
 	connect(this, SIGNAL(signalRefreshGameLabels(int)), this, SLOT(refreshGameLabels(int)));
+	connect(this, SIGNAL(signalRefreshSpectatorsDisplay()), this, SLOT(refreshSpectatorsDisplay()));
 	connect(this, SIGNAL(signalSetPlayerAvatar(int, QString)), this, SLOT(setPlayerAvatar(int, QString)));
 	connect(this, SIGNAL(signalGuiUpdateDone()), this, SLOT(guiUpdateDone()));
 	connect(this, SIGNAL(signalMeInAction()), this, SLOT(meInAction()));
@@ -674,8 +678,10 @@ gameTableImpl::gameTableImpl(ConfigFile *c, QMainWindow *parent)
 	connect(this, SIGNAL(signalStartVoteOnKick(unsigned, unsigned, int, int)), this, SLOT(startVoteOnKick(unsigned, unsigned, int, int)));
 	connect(this, SIGNAL(signalChangeVoteOnKickButtonsState(bool)), this, SLOT(changeVoteOnKickButtonsState(bool)));
 	connect(this, SIGNAL(signalEndVoteOnKick()), this, SLOT(endVoteOnKick()));
-
 	connect(this, SIGNAL(signalNetClientPlayerLeft(unsigned)), this, SLOT(netClientPlayerLeft(unsigned)));
+	connect(this, SIGNAL(signalNetClientSpectatorLeft(unsigned)), this, SLOT(netClientSpectatorLeft(unsigned)));
+	connect(this, SIGNAL(signalNetClientSpectatorJoined(unsigned)), this, SLOT(netClientSpectatorJoined(unsigned)));
+	connect(this, SIGNAL(signalNetClientPingUpdate(unsigned, unsigned, unsigned)), this, SLOT(pingUpdate(unsigned, unsigned, unsigned)));
 
 #ifdef GUI_800x480
 	connect( tabsButton, SIGNAL( clicked() ), this, SLOT( tabsButtonClicked() ) );
@@ -755,7 +761,7 @@ void gameTableImpl::applySettings(settingsDialogImpl* mySettingsDialog)
 		(*(++it))->setMyName(mySettingsDialog->lineEdit_Opponent7Name->text().toUtf8().constData());
 		(*(++it))->setMyName(mySettingsDialog->lineEdit_Opponent8Name->text().toUtf8().constData());
 		(*(++it))->setMyName(mySettingsDialog->lineEdit_Opponent9Name->text().toUtf8().constData());
-		mySettingsDialog->setPlayerNickIsChanged(FALSE);
+		mySettingsDialog->setPlayerNickIsChanged(false);
 
 		refreshPlayerName();
 	}
@@ -788,15 +794,15 @@ void gameTableImpl::applySettings(settingsDialogImpl* mySettingsDialog)
 		if(currentState >= GAME_STATE_FLOP && currentState <= GAME_STATE_POST_RIVER)
 			for(int i=0; i<3; i++) {
 				QPixmap card = QPixmap::fromImage(QImage(myCardDeckStyle->getCurrentDir()+QString::number(tempBoardCardsArray[i], 10)+".png"));
-				boardCardsArray[i]->setPixmap(card, FALSE);
+				boardCardsArray[i]->setPixmap(card, false);
 			}
 		if(currentState >= GAME_STATE_TURN && currentState <= GAME_STATE_POST_RIVER) {
 			QPixmap card = QPixmap::fromImage(QImage(myCardDeckStyle->getCurrentDir()+QString::number(tempBoardCardsArray[3], 10)+".png"));
-			boardCardsArray[3]->setPixmap(card, FALSE);
+			boardCardsArray[3]->setPixmap(card, false);
 		}
 		if(currentState == GAME_STATE_RIVER || currentState == GAME_STATE_POST_RIVER) {
 			QPixmap card = QPixmap::fromImage(QImage(myCardDeckStyle->getCurrentDir()+QString::number(tempBoardCardsArray[4], 10)+".png"));
-			boardCardsArray[4]->setPixmap(card, FALSE);
+			boardCardsArray[4]->setPixmap(card, false);
 		}
 	}
 
@@ -810,7 +816,7 @@ void gameTableImpl::applySettings(settingsDialogImpl* mySettingsDialog)
 	for (j=1; j<MAX_NUMBER_OF_PLAYERS; j++ ) {
 		for ( k=0; k<=1; k++ ) {
 			if (holeCardsArray[j][k]->getIsFlipside()) {
-				holeCardsArray[j][k]->setPixmap(flipside, TRUE);
+				holeCardsArray[j][k]->setPixmap(flipside, true);
 			}
 		}
 	}
@@ -826,17 +832,17 @@ void gameTableImpl::applySettings(settingsDialogImpl* mySettingsDialog)
 
 			humanPlayer->getMyCards(tempCardsIntArray);
 			if(myConfig->readConfigInt("AntiPeekMode")) {
-				holeCardsArray[0][0]->setPixmap(flipside, TRUE);
+				holeCardsArray[0][0]->setPixmap(flipside, true);
 				tempCardsPixmapArray[0] = QPixmap::fromImage(QImage(myCardDeckStyle->getCurrentDir()+QString::number(tempCardsIntArray[0], 10)+".png"));
 				holeCardsArray[0][0]->setHiddenFrontPixmap(tempCardsPixmapArray[0]);
-				holeCardsArray[0][1]->setPixmap(flipside, TRUE);
+				holeCardsArray[0][1]->setPixmap(flipside, true);
 				tempCardsPixmapArray[1]= QPixmap::fromImage(QImage(myCardDeckStyle->getCurrentDir()+QString::number(tempCardsIntArray[1], 10)+".png"));
 				holeCardsArray[0][1]->setHiddenFrontPixmap(tempCardsPixmapArray[1]);
 			} else {
 				tempCardsPixmapArray[0]= QPixmap::fromImage(QImage(myCardDeckStyle->getCurrentDir()+QString::number(tempCardsIntArray[0], 10)+".png"));
-				holeCardsArray[0][0]->setPixmap(tempCardsPixmapArray[0],FALSE);
+				holeCardsArray[0][0]->setPixmap(tempCardsPixmapArray[0],false);
 				tempCardsPixmapArray[1]= QPixmap::fromImage(QImage(myCardDeckStyle->getCurrentDir()+QString::number(tempCardsIntArray[1], 10)+".png"));
-				holeCardsArray[0][1]->setPixmap(tempCardsPixmapArray[1],FALSE);
+				holeCardsArray[0][1]->setPixmap(tempCardsPixmapArray[1],false);
 			}
 		}
 	}
@@ -892,8 +898,8 @@ void gameTableImpl::initGui(int speed)
 
 	label_Sets->setText(BetsString);
 	label_Total->setText(TotalString);
-	tabs.groupBox_RightToolBox->setDisabled(FALSE);
-	tabs.groupBox_LeftToolBox->setDisabled(FALSE);
+	tabs.groupBox_RightToolBox->setDisabled(false);
+	tabs.groupBox_LeftToolBox->setDisabled(false);
 
 	//set minimum gui speed to prevent gui lags on fast inet games
 	if( myStartWindow->getSession()->isNetworkClientRunning() ) {
@@ -911,8 +917,8 @@ void gameTableImpl::initGui(int speed)
 	label_Pot->setText(PotString);
 	label_Total->setText(TotalString+":");
 	label_Sets->setText(BetsString+":");
-	groupBox_RightToolBox->setDisabled(FALSE);
-	groupBox_LeftToolBox->setDisabled(FALSE);
+	groupBox_RightToolBox->setDisabled(false);
+	groupBox_LeftToolBox->setDisabled(false);
 
 	//set minimum gui speed to prevent gui lags on fast inet games
 	if( myStartWindow->getSession()->isNetworkClientRunning() ) {
@@ -1035,15 +1041,15 @@ void gameTableImpl::refreshPlayerName()
 			switch(getCurrentSeatState((*it_c))) {
 
 			case SEAT_ACTIVE: {
-				playerNameLabelArray[(*it_c)->getMyID()]->setText(nick, FALSE, guest, computerPlayer );
+				playerNameLabelArray[(*it_c)->getMyID()]->setText(nick, false, guest, computerPlayer );
 			}
 			break;
 			case SEAT_AUTOFOLD: {
-				playerNameLabelArray[(*it_c)->getMyID()]->setText(nick, TRUE, guest, computerPlayer );
+				playerNameLabelArray[(*it_c)->getMyID()]->setText(nick, true, guest, computerPlayer );
 			}
 			break;
 			case SEAT_STAYONTABLE: {
-				playerNameLabelArray[(*it_c)->getMyID()]->setText(nick, TRUE, guest, computerPlayer );
+				playerNameLabelArray[(*it_c)->getMyID()]->setText(nick, true, guest, computerPlayer );
 			}
 			break;
 			case SEAT_CLEAR: {
@@ -1073,6 +1079,9 @@ void gameTableImpl::refreshPlayerAvatar()
 		PlayerList seatsList = currentGame->getSeatsList();
 		for (it_c=seatsList->begin(), seatPlace=0; it_c!=seatsList->end(); ++it_c, seatPlace++) {
 
+			//set uniqueID
+			playerAvatarLabelArray[(*it_c)->getMyID()]->setMyUniqueId((*it_c)->getMyUniqueID());
+
 			//get CountryString
 			QString countryString(QString(myStartWindow->getSession()->getClientPlayerInfo((*it_c)->getMyUniqueID()).countryCode.c_str()).toLower());
 			countryString = QString(":/cflags/cflags/%1.png").arg(countryString);
@@ -1096,12 +1105,12 @@ void gameTableImpl::refreshPlayerAvatar()
 			break;
 			case SEAT_AUTOFOLD: {
 //				qDebug() << seatPlace << "AVATAR AUTOFOLD";
-				playerAvatarLabelArray[(*it_c)->getMyID()]->setPixmapAndCountry(avatarPic, countryString, seatPlace, TRUE);
+				playerAvatarLabelArray[(*it_c)->getMyID()]->setPixmapAndCountry(avatarPic, countryString, seatPlace, true);
 			}
 			break;
 			case SEAT_STAYONTABLE: {
 //				qDebug() << seatPlace << "AVATAR STAYONTABLE";
-				playerAvatarLabelArray[(*it_c)->getMyID()]->setPixmapAndCountry(avatarPic, countryString, seatPlace, TRUE);
+				playerAvatarLabelArray[(*it_c)->getMyID()]->setPixmapAndCountry(avatarPic, countryString, seatPlace, true);
 			}
 			break;
 			case SEAT_CLEAR: {
@@ -1164,8 +1173,8 @@ void gameTableImpl::refreshAction(int playerID, int playerAction)
 			if ((*it_c)->getMyAction()==1) {
 
 				if((*it_c)->getMyID() != 0) {
-					holeCardsArray[(*it_c)->getMyID()][0]->setPixmap(onePix, FALSE);
-					holeCardsArray[(*it_c)->getMyID()][1]->setPixmap(onePix, FALSE);
+					holeCardsArray[(*it_c)->getMyID()][0]->setPixmap(onePix, false);
+					holeCardsArray[(*it_c)->getMyID()][1]->setPixmap(onePix, false);
 				}
 			}
 		}
@@ -1189,8 +1198,8 @@ void gameTableImpl::refreshAction(int playerID, int playerAction)
 				holeCardsArray[0][0]->startFadeOut(10);
 				holeCardsArray[0][1]->startFadeOut(10);
 			} else {
-				holeCardsArray[playerID][0]->setPixmap(onePix, FALSE);
-				holeCardsArray[playerID][1]->setPixmap(onePix, FALSE);
+				holeCardsArray[playerID][0]->setPixmap(onePix, false);
+				holeCardsArray[playerID][1]->setPixmap(onePix, false);
 			}
 		}
 	}
@@ -1269,8 +1278,8 @@ void gameTableImpl::refreshGroupbox(int playerID, int status)
 							userWidgetsArray[j]->hide();
 						}
 						//disable anti-peek front after player is out
-						holeCardsArray[0][0]->signalFastFlipCards(FALSE);
-						holeCardsArray[0][1]->signalFastFlipCards(FALSE);
+						holeCardsArray[0][0]->signalFastFlipCards(false);
+						holeCardsArray[0][1]->signalFastFlipCards(false);
 					}
 					myGameTableStyle->setPlayerSeatInactiveStyle(groupBoxArray[(*it_c)->getMyID()]);
 				}
@@ -1287,8 +1296,8 @@ void gameTableImpl::refreshGroupbox(int playerID, int status)
 					userWidgetsArray[j]->hide();
 				}
 				//disable anti-peek front after player is out
-				holeCardsArray[0][0]->signalFastFlipCards(FALSE);
-				holeCardsArray[0][1]->signalFastFlipCards(FALSE);
+				holeCardsArray[0][0]->signalFastFlipCards(false);
+				holeCardsArray[0][1]->signalFastFlipCards(false);
 			}
 			myGameTableStyle->setPlayerSeatInactiveStyle(groupBoxArray[playerID]);
 		}
@@ -1411,7 +1420,7 @@ void gameTableImpl::dealHoleCards()
 	int i,k;
 	for (i=0; i<MAX_NUMBER_OF_PLAYERS; i++ ) {
 		for ( k=0; k<=1; k++ ) {
-			holeCardsArray[i][k]->setFadeOutAction(FALSE);
+			holeCardsArray[i][k]->setFadeOutAction(false);
 			holeCardsArray[i][k]->stopFlipCardsAnimation();
 		}
 	}
@@ -1435,26 +1444,26 @@ void gameTableImpl::dealHoleCards()
 				if (( (*it_c)->getMyID() == 0)/* || DEBUG_MODE*/) {
 					tempCardsPixmapArray[j].load(myCardDeckStyle->getCurrentDir()+QString::number(tempCardsIntArray[j], 10)+".png");
 					if(myConfig->readConfigInt("AntiPeekMode")) {
-						holeCardsArray[(*it_c)->getMyID()][j]->setPixmap(flipside, TRUE);
+						holeCardsArray[(*it_c)->getMyID()][j]->setPixmap(flipside, true);
 						holeCardsArray[(*it_c)->getMyID()][j]->setFront(flipside);
 						holeCardsArray[(*it_c)->getMyID()][j]->setHiddenFrontPixmap(tempCardsPixmapArray[j]);
 					} else {
-						holeCardsArray[(*it_c)->getMyID()][j]->setPixmap(tempCardsPixmapArray[j],FALSE);
+						holeCardsArray[(*it_c)->getMyID()][j]->setPixmap(tempCardsPixmapArray[j],false);
 						holeCardsArray[(*it_c)->getMyID()][j]->setFront(tempCardsPixmapArray[j]);
 					}
 				} else {
-					holeCardsArray[(*it_c)->getMyID()][j]->setPixmap(flipside, TRUE);
+					holeCardsArray[(*it_c)->getMyID()][j]->setPixmap(flipside, true);
 					holeCardsArray[(*it_c)->getMyID()][j]->setFlipsidePix(flipside);
 				}
 			} else {
 
-				holeCardsArray[(*it_c)->getMyID()][j]->setPixmap(onePix, FALSE);
+				holeCardsArray[(*it_c)->getMyID()][j]->setPixmap(onePix, false);
 			}
 		}
 	}
 
 	//fix press mouse button during bankrupt with anti-peek-mode
-	this->mouseOverFlipCards(FALSE);
+	this->mouseOverFlipCards(false);
 
 	//refresh CardsChanceMonitor Tool
 	refreshCardsChance(GAME_STATE_PREFLOP);
@@ -1464,12 +1473,12 @@ void gameTableImpl::dealBeRoCards(int myBeRoID)
 {
 
 	uncheckMyButtons();
-	myButtonsCheckable(FALSE);
+	myButtonsCheckable(false);
 	resetMyButtonsCheckStateMemory();
 	clearMyButtons();
 
-	horizontalSlider_bet->setDisabled(TRUE);
-	spinBox_betValue->setDisabled(TRUE);
+	horizontalSlider_bet->setDisabled(true);
+	spinBox_betValue->setDisabled(true);
 
 	switch(myBeRoID) {
 
@@ -1500,21 +1509,21 @@ void gameTableImpl::dealFlopCards0()
 void gameTableImpl::dealFlopCards1()
 {
 
-	boardCardsArray[0]->setPixmap(flipside, TRUE);
+	boardCardsArray[0]->setPixmap(flipside, true);
 	dealFlopCards1Timer->start(dealCardsSpeed);
 }
 
 void gameTableImpl::dealFlopCards2()
 {
 
-	boardCardsArray[1]->setPixmap(flipside, TRUE);
+	boardCardsArray[1]->setPixmap(flipside, true);
 	dealFlopCards2Timer->start(dealCardsSpeed);
 }
 
 void gameTableImpl::dealFlopCards3()
 {
 
-	boardCardsArray[2]->setPixmap(flipside, TRUE);
+	boardCardsArray[2]->setPixmap(flipside, true);
 	dealFlopCards3Timer->start(dealCardsSpeed);
 }
 
@@ -1533,7 +1542,7 @@ void gameTableImpl::dealFlopCards4()
 	} else {
 		//without Eye-Candy
 		boardCardsArray[0]->setFront(card);
-		boardCardsArray[0]->setPixmap(card, FALSE);
+		boardCardsArray[0]->setPixmap(card, false);
 	}
 	dealFlopCards4Timer->start(dealCardsSpeed);
 }
@@ -1552,7 +1561,7 @@ void gameTableImpl::dealFlopCards5()
 	} else {
 		//without Eye-Candy
 		boardCardsArray[1]->setFront(card);
-		boardCardsArray[1]->setPixmap(card, FALSE);
+		boardCardsArray[1]->setPixmap(card, false);
 	}
 	dealFlopCards5Timer->start(dealCardsSpeed);
 }
@@ -1571,7 +1580,7 @@ void gameTableImpl::dealFlopCards6()
 	} else {
 		//without Eye-Candy
 		boardCardsArray[2]->setFront(card);
-		boardCardsArray[2]->setPixmap(card, FALSE);
+		boardCardsArray[2]->setPixmap(card, false);
 	}
 
 	// stable
@@ -1597,7 +1606,7 @@ void gameTableImpl::dealTurnCards0()
 void gameTableImpl::dealTurnCards1()
 {
 
-	boardCardsArray[3]->setPixmap(flipside, TRUE);
+	boardCardsArray[3]->setPixmap(flipside, true);
 	dealTurnCards1Timer->start(dealCardsSpeed);
 }
 
@@ -1615,7 +1624,7 @@ void gameTableImpl::dealTurnCards2()
 	} else {
 		//without Eye-Candy
 		boardCardsArray[3]->setFront(card);
-		boardCardsArray[3]->setPixmap(card, FALSE);
+		boardCardsArray[3]->setPixmap(card, false);
 	}
 
 	// stable
@@ -1640,7 +1649,7 @@ void gameTableImpl::dealRiverCards0()
 void gameTableImpl::dealRiverCards1()
 {
 
-	boardCardsArray[4]->setPixmap(flipside, TRUE);
+	boardCardsArray[4]->setPixmap(flipside, true);
 
 	// 	QTimer::singleShot(dealCardsSpeed, this, SLOT( dealRiverCards2() ));
 	dealRiverCards1Timer->start(dealCardsSpeed);
@@ -1660,7 +1669,7 @@ void gameTableImpl::dealRiverCards2()
 	} else {
 		//without Eye-Candy
 		boardCardsArray[4]->setFront(card);
-		boardCardsArray[4]->setPixmap(card, FALSE);
+		boardCardsArray[4]->setPixmap(card, false);
 	}
 
 	// stable
@@ -1699,15 +1708,15 @@ void gameTableImpl::provideMyActions(int mode)
 		pushButton_Fold->setText("");
 		pushButton_AllIn->setText("");
 
-		horizontalSlider_bet->setDisabled(TRUE);
-		spinBox_betValue->setDisabled(TRUE);
+		horizontalSlider_bet->setDisabled(true);
+		spinBox_betValue->setDisabled(true);
 
-		myButtonsCheckable(FALSE);
+		myButtonsCheckable(false);
 
 		refreshActionButtonFKeyIndicator(1);
 	} else {
-		horizontalSlider_bet->setEnabled(TRUE);
-		spinBox_betValue->setEnabled(TRUE);
+		horizontalSlider_bet->setEnabled(true);
+		spinBox_betValue->setEnabled(true);
 
 		//show available actions on buttons
 		if(currentHand->getCurrentRound() == 0) { // preflop
@@ -1765,10 +1774,10 @@ void gameTableImpl::provideMyActions(int mode)
 				pushButtonCallCheckString = "";
 				pushButtonFoldString = "";
 				pushButtonAllInString = "";
-				horizontalSlider_bet->setDisabled(TRUE);
-				spinBox_betValue->setDisabled(TRUE);
+				horizontalSlider_bet->setDisabled(true);
+				spinBox_betValue->setDisabled(true);
 
-				myButtonsCheckable(FALSE);
+				myButtonsCheckable(false);
 
 			}
 		}
@@ -1791,8 +1800,8 @@ void gameTableImpl::provideMyActions(int mode)
 
 		if(pushButtonBetRaiseString == "") {
 
-			horizontalSlider_bet->setDisabled(TRUE);
-			spinBox_betValue->setDisabled(TRUE);
+			horizontalSlider_bet->setDisabled(true);
+			spinBox_betValue->setDisabled(true);
 		}
 
 		pushButton_Fold->setText(pushButtonFoldString);
@@ -1858,10 +1867,10 @@ void gameTableImpl::provideMyActions(int mode)
 void gameTableImpl::meInAction()
 {
 
-	myButtonsCheckable(FALSE);
+	myButtonsCheckable(false);
 
-	horizontalSlider_bet->setEnabled(TRUE);
-	spinBox_betValue->setEnabled(TRUE);
+	horizontalSlider_bet->setEnabled(true);
+	spinBox_betValue->setEnabled(true);
 
 #ifdef GUI_800x480
 	if((myStartWindow->getSession()->getGameType() == Session::GAME_TYPE_INTERNET || myStartWindow->getSession()->getGameType() == Session::GAME_TYPE_NETWORK) && tabs.lineEdit_ChatInput->text() == "" && myConfig->readConfigInt("EnableBetInputFocusSwitch")) {
@@ -1910,11 +1919,11 @@ void gameTableImpl::meInAction()
 	//do remembered action
 	if( pushButtonBetRaiseIsChecked ) {
 		pushButton_BetRaise->click();
-		pushButtonBetRaiseIsChecked = FALSE;
+		pushButtonBetRaiseIsChecked = false;
 	}
 	if( pushButtonCallCheckIsChecked )  {
 		pushButton_CallCheck->click();
-		pushButtonCallCheckIsChecked = FALSE;
+		pushButtonCallCheckIsChecked = false;
 	}
 	if( pushButtonFoldIsChecked ) {
 		if(lastPushButtonFoldString == CheckString+" /\n"+FoldString && pushButton_CallCheck->text() == CheckString) {
@@ -1922,11 +1931,11 @@ void gameTableImpl::meInAction()
 		} else {
 			pushButton_Fold->click();
 		}
-		pushButtonFoldIsChecked = FALSE;
+		pushButtonFoldIsChecked = false;
 	}
 	if( pushButtonAllInIsChecked ) {
 		pushButton_AllIn->click();
-		pushButtonAllInIsChecked = FALSE;
+		pushButtonAllInIsChecked = false;
 	}
 
 	//automatic mode
@@ -1952,9 +1961,9 @@ void gameTableImpl::startTimeoutAnimation(int playerId, int timeoutSec)
 
 	//beep for player 0
 	if(playerId) {
-		timeoutLabelArray[playerId]->startTimeOutAnimation(timeoutSec, FALSE);
+		timeoutLabelArray[playerId]->startTimeOutAnimation(timeoutSec, false);
 	} else {
-		timeoutLabelArray[playerId]->startTimeOutAnimation(timeoutSec, TRUE);
+		timeoutLabelArray[playerId]->startTimeOutAnimation(timeoutSec, true);
 	}
 }
 
@@ -1972,8 +1981,8 @@ void gameTableImpl::disableMyButtons()
 	clearMyButtons();
 
 	//clear userWidgets
-	horizontalSlider_bet->setDisabled(TRUE);
-	spinBox_betValue->setDisabled(TRUE);
+	horizontalSlider_bet->setDisabled(true);
+	spinBox_betValue->setDisabled(true);
 	horizontalSlider_bet->setMinimum(0);
 	horizontalSlider_bet->setMaximum(humanPlayer->getMyCash());
 	spinBox_betValue->setMinimum(0);
@@ -2218,15 +2227,15 @@ void gameTableImpl::pushButtonBetRaiseClicked(bool checked)
 
 	if (pushButton_BetRaise->isCheckable()) {
 		if(checked) {
-			pushButton_CallCheck->setChecked(FALSE);
-			pushButton_Fold->setChecked(FALSE);
-			pushButton_AllIn->setChecked(FALSE);
+			pushButton_CallCheck->setChecked(false);
+			pushButton_Fold->setChecked(false);
+			pushButton_AllIn->setChecked(false);
 
-			pushButtonCallCheckIsChecked = FALSE;
-			pushButtonFoldIsChecked = FALSE;
-			pushButtonAllInIsChecked = FALSE;
+			pushButtonCallCheckIsChecked = false;
+			pushButtonFoldIsChecked = false;
+			pushButtonAllInIsChecked = false;
 
-			pushButtonBetRaiseIsChecked = TRUE;
+			pushButtonBetRaiseIsChecked = true;
 
 #ifdef GUI_800x480
 			if(!tabs.radioButton_manualAction->isChecked())
@@ -2238,7 +2247,7 @@ void gameTableImpl::pushButtonBetRaiseClicked(bool checked)
 			// 			myLastPreActionBetValue = spinBox_betValue->value();
 
 		} else {
-			pushButtonBetRaiseIsChecked = FALSE;
+			pushButtonBetRaiseIsChecked = false;
 			myLastPreActionBetValue = 0;
 		}
 	} else {
@@ -2251,15 +2260,15 @@ void gameTableImpl::pushButtonCallCheckClicked(bool checked)
 
 	if (pushButton_CallCheck->isCheckable()) {
 		if(checked) {
-			pushButton_Fold->setChecked(FALSE);
-			pushButton_BetRaise->setChecked(FALSE);
-			pushButton_AllIn->setChecked(FALSE);
+			pushButton_Fold->setChecked(false);
+			pushButton_BetRaise->setChecked(false);
+			pushButton_AllIn->setChecked(false);
 
-			pushButtonAllInIsChecked = FALSE;
-			pushButtonFoldIsChecked = FALSE;
-			pushButtonBetRaiseIsChecked = FALSE;
+			pushButtonAllInIsChecked = false;
+			pushButtonFoldIsChecked = false;
+			pushButtonBetRaiseIsChecked = false;
 
-			pushButtonCallCheckIsChecked = TRUE;
+			pushButtonCallCheckIsChecked = true;
 
 #ifdef GUI_800x480
 			if(!tabs.radioButton_manualAction->isChecked())
@@ -2269,7 +2278,7 @@ void gameTableImpl::pushButtonCallCheckClicked(bool checked)
 				radioButton_manualAction->click();
 #endif
 		} else {
-			pushButtonCallCheckIsChecked = FALSE;
+			pushButtonCallCheckIsChecked = false;
 		}
 	} else {
 		myCallCheck();
@@ -2281,15 +2290,15 @@ void gameTableImpl::pushButtonFoldClicked(bool checked)
 
 	if (pushButton_Fold->isCheckable()) {
 		if(checked) {
-			pushButton_CallCheck->setChecked(FALSE);
-			pushButton_BetRaise->setChecked(FALSE);
-			pushButton_AllIn->setChecked(FALSE);
+			pushButton_CallCheck->setChecked(false);
+			pushButton_BetRaise->setChecked(false);
+			pushButton_AllIn->setChecked(false);
 
-			pushButtonAllInIsChecked = FALSE;
-			pushButtonCallCheckIsChecked = FALSE;
-			pushButtonBetRaiseIsChecked = FALSE;
+			pushButtonAllInIsChecked = false;
+			pushButtonCallCheckIsChecked = false;
+			pushButtonBetRaiseIsChecked = false;
 
-			pushButtonFoldIsChecked = TRUE;
+			pushButtonFoldIsChecked = true;
 
 #ifdef GUI_800x480
 			if(!tabs.radioButton_manualAction->isChecked())
@@ -2299,7 +2308,7 @@ void gameTableImpl::pushButtonFoldClicked(bool checked)
 				radioButton_manualAction->click();
 #endif
 		} else {
-			pushButtonFoldIsChecked = FALSE;
+			pushButtonFoldIsChecked = false;
 		}
 	} else {
 		myFold();
@@ -2311,15 +2320,15 @@ void gameTableImpl::pushButtonAllInClicked(bool checked)
 
 	if (pushButton_AllIn->isCheckable()) {
 		if(checked) {
-			pushButton_CallCheck->setChecked(FALSE);
-			pushButton_BetRaise->setChecked(FALSE);
-			pushButton_Fold->setChecked(FALSE);
+			pushButton_CallCheck->setChecked(false);
+			pushButton_BetRaise->setChecked(false);
+			pushButton_Fold->setChecked(false);
 
-			pushButtonFoldIsChecked = FALSE;
-			pushButtonCallCheckIsChecked = FALSE;
-			pushButtonBetRaiseIsChecked = FALSE;
+			pushButtonFoldIsChecked = false;
+			pushButtonCallCheckIsChecked = false;
+			pushButtonBetRaiseIsChecked = false;
 
-			pushButtonAllInIsChecked = TRUE;
+			pushButtonAllInIsChecked = true;
 
 #ifdef GUI_800x480
 			if(!tabs.radioButton_manualAction->isChecked())
@@ -2329,7 +2338,7 @@ void gameTableImpl::pushButtonAllInClicked(bool checked)
 				radioButton_manualAction->click();
 #endif
 		} else {
-			pushButtonAllInIsChecked = FALSE;
+			pushButtonAllInIsChecked = false;
 		}
 	} else {
 		myAllIn();
@@ -2498,12 +2507,12 @@ void gameTableImpl::postRiverRunAnimation2()
 {
 
 	uncheckMyButtons();
-	myButtonsCheckable(FALSE);
+	myButtonsCheckable(false);
 	clearMyButtons();
 	resetMyButtonsCheckStateMemory();
 
-	horizontalSlider_bet->setDisabled(TRUE);
-	spinBox_betValue->setDisabled(TRUE);
+	horizontalSlider_bet->setDisabled(true);
+	spinBox_betValue->setDisabled(true);
 
 	boost::shared_ptr<Game> currentGame = myStartWindow->getSession()->getCurrentGame();
 
@@ -2534,7 +2543,7 @@ void gameTableImpl::postRiverRunAnimation2()
 				}
 			}
 			//Wenn einmal umgedreht dann fertig!!
-			flipHolecardsAllInAlreadyDone = TRUE;
+			flipHolecardsAllInAlreadyDone = true;
 		} else {
 			for (it_c=activePlayerList->begin(); it_c!=activePlayerList->end(); ++it_c) {
 				if((*it_c)->getMyAction() != PLAYER_ACTION_FOLD) {
@@ -2588,70 +2597,70 @@ void gameTableImpl::postRiverRunAnimation3()
 				int bestHandPos[5];
 				(*it_c)->getMyBestHandPosition(bestHandPos);
 
-				bool index0 = TRUE;
+				bool index0 = true;
 				for(j=0; j<5; j++) {
 					if (bestHandPos[j] == 0 ) {
-						index0 = FALSE;
+						index0 = false;
 					}
 				}
 				if (index0) {
 					holeCardsArray[(*it_c)->getMyID()][0]->startFadeOut(guiGameSpeed); /*cout << "Fade Out index0" << endl;*/
 				}
 				//index 1 testen
-				bool index1 = TRUE;
+				bool index1 = true;
 				for(j=0; j<5; j++) {
 					if (bestHandPos[j] == 1 ) {
-						index1 = FALSE;
+						index1 = false;
 					}
 				}
 				if (index1) {
 					holeCardsArray[(*it_c)->getMyID()][1]->startFadeOut(guiGameSpeed); /*cout << "Fade Out index1" << endl;*/
 				}
 				//index 2 testen
-				bool index2 = TRUE;
+				bool index2 = true;
 				for(j=0; j<5; j++) {
 					if (bestHandPos[j] == 2 ) {
-						index2 = FALSE;
+						index2 = false;
 					}
 				}
 				if (index2) {
 					boardCardsArray[0]->startFadeOut(guiGameSpeed); /*cout << "Fade Out index2" << endl;*/
 				}
 				//index 3 testen
-				bool index3 = TRUE;
+				bool index3 = true;
 				for(j=0; j<5; j++) {
 					if (bestHandPos[j] == 3 ) {
-						index3 = FALSE;
+						index3 = false;
 					}
 				}
 				if (index3) {
 					boardCardsArray[1]->startFadeOut(guiGameSpeed); /*cout << "Fade Out index3" << endl;*/
 				}
 				//index 4 testen
-				bool index4 = TRUE;
+				bool index4 = true;
 				for(j=0; j<5; j++) {
 					if (bestHandPos[j] == 4 ) {
-						index4 = FALSE;
+						index4 = false;
 					}
 				}
 				if (index4) {
 					boardCardsArray[2]->startFadeOut(guiGameSpeed); /*cout << "Fade Out index4" << endl;*/
 				}
 				//index 5 testen
-				bool index5 = TRUE;
+				bool index5 = true;
 				for(j=0; j<5; j++) {
 					if (bestHandPos[j] == 5 ) {
-						index5 = FALSE;
+						index5 = false;
 					}
 				}
 				if (index5) {
 					boardCardsArray[3]->startFadeOut(guiGameSpeed); /*cout << "Fade Out index5" << endl;*/
 				}
 				//index 6 testen
-				bool index6 = TRUE;
+				bool index6 = true;
 				for(j=0; j<5; j++) {
 					if (bestHandPos[j] == 6 ) {
-						index6 = FALSE;
+						index6 = false;
 					}
 				}
 				if (index6) {
@@ -2797,11 +2806,11 @@ void gameTableImpl::postRiverRunAnimation6()
 		if( !DEBUG_MODE ) {
 
 			if(myStartWindow->getSession()->getGameType() == Session::GAME_TYPE_LOCAL) {
-				currentGameOver = TRUE;
+				currentGameOver = true;
 #ifdef GUI_800x480
-				tabs.pushButton_break->setDisabled(FALSE);
+				tabs.pushButton_break->setDisabled(false);
 #else
-				pushButton_break->setDisabled(FALSE);
+				pushButton_break->setDisabled(false);
 #endif
 				QFontMetrics tempMetrics = this->fontMetrics();
 				int width = tempMetrics.width(tr("Start"));
@@ -2845,7 +2854,7 @@ void gameTableImpl::showHoleCards(unsigned playerId, bool allIn)
 					holeCardsArray[(*it_c)->getMyID()][j]->startFlipCards(guiGameSpeed, QPixmap::fromImage(QImage(myCardDeckStyle->getCurrentDir()+QString::number(tempCardsIntArray[j], 10)+".png")), flipside);
 				} else { //without Eye-Candy
 					tempCardsPixmapArray[j] = QPixmap::fromImage(QImage(myCardDeckStyle->getCurrentDir()+QString::number(tempCardsIntArray[j], 10)+".png"));
-					holeCardsArray[(*it_c)->getMyID()][j]->setPixmap(tempCardsPixmapArray[j], FALSE);
+					holeCardsArray[(*it_c)->getMyID()][j]->setPixmap(tempCardsPixmapArray[j], false);
 				}
 			}
 			//set Player value (logging)
@@ -2882,7 +2891,7 @@ void gameTableImpl::flipHolecardsAllIn()
 		}
 
 		//Wenn einmal umgedreht dann fertig!!
-		flipHolecardsAllInAlreadyDone = TRUE;
+		flipHolecardsAllInAlreadyDone = true;
 	}
 }
 
@@ -2897,9 +2906,9 @@ void gameTableImpl::startNewHand()
 
 		if(myStartWindow->getSession()->getGameType() == Session::GAME_TYPE_LOCAL) {
 #ifdef GUI_800x480
-			tabs.pushButton_break->setDisabled(FALSE);
+			tabs.pushButton_break->setDisabled(false);
 #else
-			pushButton_break->setDisabled(FALSE);
+			pushButton_break->setDisabled(false);
 #endif
 
 			QFontMetrics tempMetrics = this->fontMetrics();
@@ -2912,7 +2921,7 @@ void gameTableImpl::startNewHand()
 			pushButton_break->setText(tr("Start"));
 #endif
 
-			breakAfterCurrentHand=FALSE;
+			breakAfterCurrentHand=false;
 
 			blinkingStartButtonAnimationTimer->start(500);
 		}
@@ -2932,15 +2941,15 @@ void gameTableImpl::nextRoundCleanGui()
 	// GUI bereinigen - Bilder löschen, Animationen unterbrechen
 	QPixmap onePix = QPixmap::fromImage(QImage(myAppDataPath +"gfx/gui/misc/1px.png"));
 	for (i=0; i<5; i++ ) {
-		boardCardsArray[i]->setPixmap(onePix, FALSE);
-		boardCardsArray[i]->setFadeOutAction(FALSE);
+		boardCardsArray[i]->setPixmap(onePix, false);
+		boardCardsArray[i]->setFadeOutAction(false);
 		boardCardsArray[i]->stopFlipCardsAnimation();
 
 	}
 	for (i=0; i<MAX_NUMBER_OF_PLAYERS; i++ ) {
 		timeoutLabelArray[i]->stopTimeOutAnimation();
 		for ( j=0; j<=1; j++ ) {
-			holeCardsArray[i][j]->setFadeOutAction(FALSE);
+			holeCardsArray[i][j]->setFadeOutAction(false);
 			holeCardsArray[i][j]->stopFlipCardsAnimation();
 		}
 	}
@@ -2954,10 +2963,10 @@ void gameTableImpl::nextRoundCleanGui()
 
 	refreshAll();
 
-	flipHolecardsAllInAlreadyDone = FALSE;
+	flipHolecardsAllInAlreadyDone = false;
 
 	//Wenn Pause zwischen den Hands in der Konfiguration steht den Stop Button drücken!
-	if (myConfig->readConfigInt("PauseBetweenHands") /*&& blinkingStartButtonAnimationTimer->isActive() == FALSE*/ && myStartWindow->getSession()->getGameType() == Session::GAME_TYPE_LOCAL) {
+	if (myConfig->readConfigInt("PauseBetweenHands") /*&& blinkingStartButtonAnimationTimer->isActive() == false*/ && myStartWindow->getSession()->getGameType() == Session::GAME_TYPE_LOCAL) {
 #ifdef GUI_800x480
 		tabs.pushButton_break->click();
 #else
@@ -2966,11 +2975,11 @@ void gameTableImpl::nextRoundCleanGui()
 	} else {
 		//FIX STRG+N Bug
 #ifdef GUI_800x480
-		tabs.pushButton_break->setEnabled(TRUE);
+		tabs.pushButton_break->setEnabled(true);
 #else
-		pushButton_break->setEnabled(TRUE);
+		pushButton_break->setEnabled(true);
 #endif
-		breakAfterCurrentHand=FALSE;
+		breakAfterCurrentHand=false;
 	}
 
 	//Clean breakbutton
@@ -2996,13 +3005,13 @@ void gameTableImpl::nextRoundCleanGui()
 	// 	statusBar()->clearMessage();
 
 	//fix press mouse button during bankrupt with anti-peek-mode
-	this->mouseOverFlipCards(FALSE);
+	this->mouseOverFlipCards(false);
 
-	horizontalSlider_bet->setDisabled(TRUE);
-	spinBox_betValue->setDisabled(TRUE);
+	horizontalSlider_bet->setDisabled(true);
+	spinBox_betValue->setDisabled(true);
 
 	uncheckMyButtons();
-	myButtonsCheckable(FALSE);
+	myButtonsCheckable(false);
 	resetMyButtonsCheckStateMemory();
 	clearMyButtons();
 	pushButton_showMyCards->hide();
@@ -3066,8 +3075,8 @@ void gameTableImpl::breakButtonClicked()
 
 #ifdef GUI_800x480
 	if (tabs.pushButton_break->text() == tr("Stop")) {
-		tabs.pushButton_break->setDisabled(TRUE);
-		breakAfterCurrentHand=TRUE;
+		tabs.pushButton_break->setDisabled(true);
+		breakAfterCurrentHand=true;
 	} else if (tabs.pushButton_break->text() == tr("Lobby")) {
 		tabsButtonClose();
 		leaveCurrentNetworkGame();
@@ -3083,8 +3092,8 @@ void gameTableImpl::breakButtonClicked()
 		tabs.pushButton_break->setText(tr("Stop"));
 #else
 	if (pushButton_break->text() == tr("Stop")) {
-		pushButton_break->setDisabled(TRUE);
-		breakAfterCurrentHand=TRUE;
+		pushButton_break->setDisabled(true);
+		breakAfterCurrentHand=true;
 	} else if (pushButton_break->text() == tr("Lobby")) {
 		leaveCurrentNetworkGame();
 	} else if (pushButton_break->text() == tr("Start")) {
@@ -3103,7 +3112,7 @@ void gameTableImpl::breakButtonClicked()
 			//let the SoundEventHandler know that there is a new game
 			mySoundEventHandler->newGameStarts();
 
-			currentGameOver = FALSE;
+			currentGameOver = false;
 			myStartWindow->callNewGameDialog();
 			//Bei Cancel nichts machen!!!
 		} else {
@@ -3117,7 +3126,7 @@ void gameTableImpl::keyPressEvent ( QKeyEvent * event )
 
 	// 	cout << event->key() << endl;
 
-	//bool ctrlPressed = FALSE;
+	//bool ctrlPressed = false;
 
 	if (event->key() == Qt::Key_Enter || event->key() == Qt::Key_Return ) { /*ENTER*/
 		if(spinBox_betValue->hasFocus()) {
@@ -3170,7 +3179,7 @@ void gameTableImpl::keyPressEvent ( QKeyEvent * event )
 	if (event->key() == Qt::Key_Shift) {
 		if(myStartWindow->getSession()->getGameType() == Session::GAME_TYPE_LOCAL) {
 			pushButton_break->click();
-			//ctrlPressed = TRUE;
+			//ctrlPressed = true;
 		}
 	}
 	//    if (event->key() == Qt::Key_Escape && (myActionIsBet || myActionIsRaise)) {
@@ -3255,6 +3264,9 @@ bool gameTableImpl::eventFilter(QObject *obj, QEvent *event)
 	} else if (event->type() == QEvent::Close) {
 		event->ignore();
 		closeGameTable();
+		return true;
+	} else if (event->type() == QEvent::Resize) {
+		refreshSpectatorsDisplay();
 		return true;
 	} else {
 		// pass the event on to the parent class
@@ -3501,7 +3513,7 @@ void gameTableImpl::localGameModification()
 	int i;
 	for (i=0; i<MAX_NUMBER_OF_PLAYERS; i++ ) {
 		timeoutLabelArray[i]->stopTimeOutAnimation();
-		playerAvatarLabelArray[i]->setEnabledContextMenu(FALSE);
+		playerAvatarLabelArray[i]->setEnabledContextMenu(false);
 	}
 
 #ifdef GUI_800x480
@@ -3533,6 +3545,8 @@ void gameTableImpl::localGameModification()
 
 	//let the SoundEventHandler know that there is a new game
 	mySoundEventHandler->newGameStarts();
+	spectatorIcon->hide();
+	spectatorNumberLabel->hide();
 }
 
 void gameTableImpl::networkGameModification()
@@ -3559,9 +3573,9 @@ void gameTableImpl::networkGameModification()
 
 	int i;
 	for (i=0; i<MAX_NUMBER_OF_PLAYERS; i++ ) {
-		playerAvatarLabelArray[i]->setEnabledContextMenu(TRUE);
-		playerAvatarLabelArray[i]->setVoteOnKickContextMenuEnabled(TRUE);
-		playerAvatarLabelArray[i]->setVoteRunning(FALSE);
+		playerAvatarLabelArray[i]->setEnabledContextMenu(true);
+		playerAvatarLabelArray[i]->setVoteOnKickContextMenuEnabled(true);
+		playerAvatarLabelArray[i]->setVoteRunning(false);
 	}
 
 	if(myStartWindow->getSession()->getGameType() == Session::GAME_TYPE_INTERNET) {
@@ -3582,6 +3596,9 @@ void gameTableImpl::networkGameModification()
 		myGameTableStyle->setBreakButtonStyle(pushButton_break,0);
 #endif
 		blinkingStartButtonAnimationTimer->stop();
+		spectatorIcon->show();
+		spectatorNumberLabel->show();
+		refreshSpectatorsDisplay();
 	}
 	if(myStartWindow->getSession()->getGameType() == Session::GAME_TYPE_NETWORK) {
 #ifdef GUI_800x480
@@ -3589,6 +3606,8 @@ void gameTableImpl::networkGameModification()
 #else
 		pushButton_break->hide();
 #endif
+		spectatorIcon->hide();
+		spectatorNumberLabel->hide();
 	}
 	//Set the playing mode to "manual"
 #ifdef GUI_800x480
@@ -3634,11 +3653,11 @@ void gameTableImpl::updateMyButtonsState(int mode)
 	boost::shared_ptr<HandInterface> currentHand = myStartWindow->getSession()->getCurrentGame()->getCurrentHand();
 
 	if(currentHand->getPreviousPlayerID() == 0) {
-		myButtonsCheckable(FALSE);
+		myButtonsCheckable(false);
 		clearMyButtons();
 	} else {
 		if(currentHand->getSeatsList()->front()->getMyAction() != PLAYER_ACTION_ALLIN) { // dont show pre-actions after flip cards when allin
-			myButtonsCheckable(TRUE);
+			myButtonsCheckable(true);
 			provideMyActions(mode);
 		}
 	}
@@ -3647,20 +3666,20 @@ void gameTableImpl::updateMyButtonsState(int mode)
 void gameTableImpl::uncheckMyButtons()
 {
 
-	pushButton_BetRaise->setChecked(FALSE);
-	pushButton_CallCheck->setChecked(FALSE);
-	pushButton_Fold->setChecked(FALSE);
-	pushButton_AllIn->setChecked(FALSE);
+	pushButton_BetRaise->setChecked(false);
+	pushButton_CallCheck->setChecked(false);
+	pushButton_Fold->setChecked(false);
+	pushButton_AllIn->setChecked(false);
 
 }
 
 void gameTableImpl::resetMyButtonsCheckStateMemory()
 {
 
-	pushButtonCallCheckIsChecked = FALSE;
-	pushButtonFoldIsChecked = FALSE;
-	pushButtonAllInIsChecked = FALSE;
-	pushButtonBetRaiseIsChecked = FALSE;
+	pushButtonCallCheckIsChecked = false;
+	pushButtonFoldIsChecked = false;
+	pushButtonAllInIsChecked = false;
+	pushButtonBetRaiseIsChecked = false;
 }
 
 void gameTableImpl::clearMyButtons()
@@ -3684,23 +3703,23 @@ void gameTableImpl::myButtonsCheckable(bool state)
 
 		// exception: full bet rule
 		if(!currentHand->getCurrentBeRo()->getFullBetRule()) {
-			pushButton_BetRaise->setCheckable(TRUE);
+			pushButton_BetRaise->setCheckable(true);
 		}
-		pushButton_CallCheck->setCheckable(TRUE);
-		pushButton_Fold->setCheckable(TRUE);
-		pushButton_AllIn->setCheckable(TRUE);
+		pushButton_CallCheck->setCheckable(true);
+		pushButton_Fold->setCheckable(true);
+		pushButton_AllIn->setCheckable(true);
 
 		//design
 		myGameTableStyle->setButtonsStyle(pushButton_BetRaise, pushButton_CallCheck, pushButton_Fold, pushButton_AllIn, 2);
 
-		myButtonsAreCheckable = TRUE;
+		myButtonsAreCheckable = true;
 	} else {
 		//not checkable
 
-		pushButton_BetRaise->setCheckable(FALSE);
-		pushButton_CallCheck->setCheckable(FALSE);
-		pushButton_Fold->setCheckable(FALSE);
-		pushButton_AllIn->setCheckable(FALSE);
+		pushButton_BetRaise->setCheckable(false);
+		pushButton_CallCheck->setCheckable(false);
+		pushButton_Fold->setCheckable(false);
+		pushButton_AllIn->setCheckable(false);
 
 		QString hover;
 		if(pushButton_AllIn->text()==AllInString) {
@@ -3709,7 +3728,7 @@ void gameTableImpl::myButtonsCheckable(bool state)
 			myGameTableStyle->setButtonsStyle(pushButton_BetRaise, pushButton_CallCheck, pushButton_Fold, pushButton_AllIn, 1);
 		}
 
-		myButtonsAreCheckable = FALSE;
+		myButtonsAreCheckable = false;
 	}
 }
 
@@ -3759,7 +3778,7 @@ void gameTableImpl::changeSpinBoxBetValue(int value)
 {
 	if(betSliderChangedByInput) {
 		//prevent interval cutting of spinBox_betValue input from code below
-		betSliderChangedByInput = FALSE;
+		betSliderChangedByInput = false;
 	} else {
 
 		if(horizontalSlider_bet->value() == horizontalSlider_bet->maximum()) {
@@ -3797,16 +3816,16 @@ void gameTableImpl::spinBoxBetValueChanged(int value)
 
 			if(value > horizontalSlider_bet->maximum()) { // print the maximum
 				pushButton_BetRaise->setText(betRaise + "\n$" + QString("%L1").arg(horizontalSlider_bet->maximum()));
-				betSliderChangedByInput = TRUE;
+				betSliderChangedByInput = true;
 				horizontalSlider_bet->setValue(horizontalSlider_bet->maximum());
 			} else { // really print the value
 				pushButton_BetRaise->setText(betRaise + "\n$" + QString("%L1").arg(value));
-				betSliderChangedByInput = TRUE;
+				betSliderChangedByInput = true;
 				horizontalSlider_bet->setValue(value);
 			}
 		} else { // print the minimum
 			pushButton_BetRaise->setText(betRaise + "\n$" + QString("%L1").arg(horizontalSlider_bet->minimum()));
-			betSliderChangedByInput = TRUE;
+			betSliderChangedByInput = true;
 			horizontalSlider_bet->setValue(horizontalSlider_bet->minimum());
 		}
 	}
@@ -3881,7 +3900,7 @@ void gameTableImpl::startVoteOnKick(unsigned playerId, unsigned voteStarterPlaye
 
 	int i;
 	for (i=0; i<MAX_NUMBER_OF_PLAYERS; i++ ) {
-		playerAvatarLabelArray[i]->setVoteRunning(TRUE);
+		playerAvatarLabelArray[i]->setVoteRunning(true);
 	}
 }
 
@@ -3923,7 +3942,7 @@ void gameTableImpl::endVoteOnKick()
 
 	int i;
 	for (i=0; i<MAX_NUMBER_OF_PLAYERS; i++ ) {
-		playerAvatarLabelArray[i]->setVoteRunning(FALSE);
+		playerAvatarLabelArray[i]->setVoteRunning(false);
 	}
 }
 
@@ -4258,6 +4277,7 @@ void gameTableImpl::refreshGameTableStyle()
 	label_handNumber->setText(HandString+":");
 	label_gameNumber->setText(GameString+":");
 
+	myGameTableStyle->setSpectatorNumberLabelStyle(spectatorNumberLabel);
 }
 
 void gameTableImpl::saveGameTableGeometry()
@@ -4274,9 +4294,6 @@ void gameTableImpl::saveGameTableGeometry()
 
 void gameTableImpl::restoreGameTableGeometry()
 {
-#ifdef ANDROID
-	this->showFullScreen();
-#else
 	if(myConfig->readConfigInt("GameTableFullScreenSave")) {
 #ifndef GUI_800x480
 		if(actionFullScreen->isEnabled()) this->showFullScreen();
@@ -4288,7 +4305,6 @@ void gameTableImpl::restoreGameTableGeometry()
 			this->resize(myConfig->readConfigInt("GameTableWidthSave"), myConfig->readConfigInt("GameTableHeightSave"));
 		}
 	}
-#endif
 }
 
 void gameTableImpl::netClientPlayerLeft(unsigned /*playerId*/)
@@ -4297,6 +4313,16 @@ void gameTableImpl::netClientPlayerLeft(unsigned /*playerId*/)
 		refreshPlayerAvatar();
 		refreshPlayerName();
 	}
+}
+
+void gameTableImpl::netClientSpectatorJoined(unsigned /*playerId*/)
+{
+	refreshSpectatorsDisplay();
+}
+
+void gameTableImpl::netClientSpectatorLeft(unsigned /*playerId*/)
+{
+	refreshSpectatorsDisplay();
 }
 
 void gameTableImpl::registeredUserMode()
@@ -4435,3 +4461,43 @@ void gameTableImpl::checkActionLabelPosition()
 	}
 #endif
 }
+
+void gameTableImpl::refreshSpectatorsDisplay()
+{
+	assert(myStartWindow->getSession());
+	GameInfo info(myStartWindow->getSession()->getClientGameInfo(myStartWindow->getSession()->getClientCurrentGameId()));
+	if(!info.spectatorsDuringGame.empty()) {
+		QPixmap spectatorPix(":/gfx/spectator.png");
+		int iconX = this->centralWidget()->geometry().width() - spectatorPix.width() - 1;
+		int iconY = 2;
+		spectatorIcon->move(iconX,iconY);
+		spectatorIcon->setPixmap(spectatorPix);
+		int labelX = this->centralWidget()->geometry().width() - spectatorPix.width() - 1;
+		int labelY = spectatorPix.height()+2;
+		spectatorNumberLabel->setGeometry(labelX, labelY, 32, 14);
+		spectatorNumberLabel->setText(QString("%1").arg(info.spectatorsDuringGame.size()));
+
+		QString spectatorList = QString("<b>"+tr("Spectators")+":</b><br>");
+		PlayerIdList::const_iterator i = info.spectatorsDuringGame.begin();
+		PlayerIdList::const_iterator end = info.spectatorsDuringGame.end();
+		while (i != end) {
+			PlayerInfo playerInfo(myStartWindow->getSession()->getClientPlayerInfo(*i));
+			spectatorList.append(QString::fromUtf8(playerInfo.playerName.c_str())+"<br>");
+			++i;
+		}
+		spectatorList.remove(spectatorList.size()-4,4);
+		spectatorIcon->setToolTip(spectatorList);
+		spectatorNumberLabel->setToolTip(spectatorList);
+	} else {
+		spectatorIcon->setToolTip("");
+		spectatorIcon->clear();
+		spectatorNumberLabel->setToolTip("");
+		spectatorNumberLabel->clear();
+	}
+}
+
+void gameTableImpl::pingUpdate(unsigned minPing, unsigned avgPing, unsigned maxPing)
+{
+	label_Avatar0->refreshPing(minPing, avgPing, maxPing);
+}
+

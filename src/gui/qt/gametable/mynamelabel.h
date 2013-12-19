@@ -35,6 +35,9 @@
 
 #include <QtGui>
 #include <QtCore>
+#if QT_VERSION >= 0x050000
+#include <QtWidgets>
+#endif
 
 class gameTableImpl;
 
@@ -51,7 +54,7 @@ public:
 
 public slots:
 
-	void setText ( const QString &, bool = FALSE, bool = FALSE, bool = FALSE);
+	void setText ( const QString &, bool = false, bool = false, bool = false);
 private:
 
 	QString myText;

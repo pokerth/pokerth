@@ -39,14 +39,17 @@ connectToServerDialogImpl::connectToServerDialogImpl(QWidget *parent)
 	setWindowFlags(Qt::WindowSystemMenuHint | Qt::CustomizeWindowHint | Qt::Dialog);
 #endif
 	setupUi(this);
+#ifdef ANDROID
+	this->setWindowState(Qt::WindowFullScreen);
+#endif
 }
 
-void connectToServerDialogImpl::exec()
+int connectToServerDialogImpl::exec()
 {
 	label_actionMessage->setText("");
 	progressBar->setValue(0);
 
-	QDialog::exec();
+	return QDialog::exec();
 }
 
 void connectToServerDialogImpl::refresh(int actionID)

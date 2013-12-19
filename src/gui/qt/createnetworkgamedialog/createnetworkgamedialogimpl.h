@@ -51,7 +51,7 @@ class createNetworkGameDialogImpl: public QDialog, public Ui::createNetworkGameD
 public:
 	createNetworkGameDialogImpl(QWidget *parent = 0, ConfigFile *c = 0);
 
-	void exec();
+	int exec();
 	changeCompleteBlindsDialogImpl* getChangeCompleteBlindsDialog() {
 		return myChangeCompleteBlindsDialog;
 	}

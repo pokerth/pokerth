@@ -39,7 +39,9 @@
 
 #include <QtGui>
 #include <QtCore>
-
+#if QT_VERSION >= 0x050000
+#include <QtWidgets>
+#endif
 
 class ConfigFile;
 class startWindowImpl;
@@ -52,7 +54,7 @@ public:
 
 public slots:
 
-	void exec();
+	int exec();
 	void clearList();
 	void addServerItem(unsigned);
 	void connectToServer();
@@ -66,4 +68,4 @@ private:
 };
 
 #endif
-void exec();
+int exec();

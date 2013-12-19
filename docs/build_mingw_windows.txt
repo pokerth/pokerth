@@ -12,7 +12,7 @@ on your Linux system.
 
 3. Within /opt/mingw, run
 make gcc
-make qt
+make qt5
 make boost
 make curl
 make libgsasl

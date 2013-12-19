@@ -35,7 +35,7 @@
 #include <QDebug>
 
 AndroidAudio::AndroidAudio(ConfigFile *c, QObject *parent) :
-	QObject(parent), mEngineObject(NULL), mEngineEngine(NULL), mOutputMixObject(NULL), mSounds(), mSoundCount(0), mPlayerObject(NULL), myConfig(c), audioEnabled(FALSE)
+	QObject(parent), mEngineObject(NULL), mEngineEngine(NULL), mOutputMixObject(NULL), mSounds(), mSoundCount(0), mPlayerObject(NULL), myConfig(c), audioEnabled(false)
 {
 	initAudio();
 }
@@ -50,7 +50,7 @@ void AndroidAudio::initAudio()
 	if (!audioEnabled && myConfig->readConfigInt("PlaySoundEffects")) {
 		createEngine();
 		startSoundPlayer();
-		audioEnabled = TRUE;
+		audioEnabled = true;
 	}
 }
 
@@ -63,7 +63,7 @@ void AndroidAudio::closeAudio()
 		for (int32_t i = 0; i < mSoundCount; ++i) {
 			qDeleteAll(mSounds);
 		}
-		audioEnabled = FALSE;
+		audioEnabled = false;
 	}
 }
 

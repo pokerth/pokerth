@@ -133,7 +133,7 @@ protected:
 	typedef bool (*ValidateFunctor)(const NetPacket &);
 	typedef std::map<int, ValidateFunctor> ValidateFunctorMap;
 private:
-	
+
 	ValidateFunctorMap m_validationMap;
 };
 

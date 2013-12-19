@@ -39,7 +39,9 @@ internetGameLoginDialogImpl::internetGameLoginDialogImpl(QWidget *parent, Config
 {
 	setupUi(this);
 	this->installEventFilter(this);
-
+#ifdef ANDROID
+	this->setWindowState(Qt::WindowFullScreen);
+#endif
 	//html stuff
 	QString createAccount(QString("<a href='http://create-gaming-account.pokerth.net'>%1</a>").arg(tr("Create new user account")));
 	label_createAnAccount->setText(createAccount);
@@ -94,7 +96,7 @@ void internetGameLoginDialogImpl::guestUserToggled(bool b)
 	okButtonCheck();
 }
 
-void internetGameLoginDialogImpl::exec()
+int internetGameLoginDialogImpl::exec()
 {
 
 	if(myConfig->readConfigInt("InternetLoginMode") == 0) {
@@ -117,7 +119,7 @@ void internetGameLoginDialogImpl::exec()
 		lineEdit_password->setFocus();
 	}
 
-	QDialog::exec();
+	return QDialog::exec();
 }
 
 void internetGameLoginDialogImpl::accept()

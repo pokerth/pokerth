@@ -36,18 +36,18 @@ MyCardsPixmapLabel::MyCardsPixmapLabel(QGroupBox* parent)
 	: QLabel(parent), myW(NULL)
 {
 
-	this->setMouseTracking(TRUE);
+	this->setMouseTracking(true);
 
-	fadeOutAction = FALSE;
-	flipCardsAction1 = FALSE;
-	flipCardsAction2 = FALSE;
+	fadeOutAction = false;
+	flipCardsAction1 = false;
+	flipCardsAction2 = false;
 
-	mousePress = FALSE;
-	fastFlipCardsFront = FALSE;
+	mousePress = false;
+	fastFlipCardsFront = false;
 
 // 	rotationIntervall = 0.03;
 
-	isFlipside = FALSE;
+	isFlipside = false;
 
 	fadeOutTimer = new QTimer;
 	connect(fadeOutTimer, SIGNAL(timeout()), this, SLOT(nextFadeOutFrame()));
@@ -78,7 +78,7 @@ void MyCardsPixmapLabel::startFadeOut(int speed)
 	}
 
 	if(speed != 11) {
-		fadeOutAction = TRUE;
+		fadeOutAction = true;
 		frameOpacity = 1.0;
 		fadeOutTimer->start(40);
 	}
@@ -89,7 +89,7 @@ void MyCardsPixmapLabel::stopFadeOut()
 {
 
 	fadeOutTimer->stop();
-	fadeOutAction = FALSE;
+	fadeOutAction = false;
 	frameOpacity = 1.0;
 	update();
 }
@@ -105,7 +105,7 @@ void MyCardsPixmapLabel::nextFadeOutFrame()
 	} else {
 
 		fadeOutTimer->stop();
-// 		fadeOutAction = FALSE;
+// 		fadeOutAction = false;
 	}
 
 }
@@ -115,8 +115,8 @@ void MyCardsPixmapLabel::startFlipCards(int speed, const QPixmap &frontPix, cons
 
 	stopFadeOut();
 
-	stopFlipCards = FALSE;
-	isFlipside = FALSE;
+	stopFlipCards = false;
+	isFlipside = false;
 
 	QLabel::setPixmap(frontPix);
 
@@ -140,7 +140,7 @@ void MyCardsPixmapLabel::startFlipCards(int speed, const QPixmap &frontPix, cons
 	}
 
 	if(speed != 11) {
-		flipCardsAction1 = TRUE;
+		flipCardsAction1 = true;
 		flipCardsTimer->start(40);
 	}
 
@@ -150,9 +150,9 @@ void MyCardsPixmapLabel::stopFlipCardsAnimation()
 {
 
 	flipCardsTimer->stop();
-	flipCardsAction1 = FALSE;
-	flipCardsAction2 = FALSE;
-	stopFlipCards = TRUE;
+	flipCardsAction1 = false;
+	flipCardsAction2 = false;
+	stopFlipCards = true;
 	update();
 }
 
@@ -165,15 +165,15 @@ void MyCardsPixmapLabel::nextFlipCardsFrame()
 		update();
 	} else {
 		if(flipCardsAction1) {
-			flipCardsAction1 = FALSE;
-			flipCardsAction2 = TRUE;
+			flipCardsAction1 = false;
+			flipCardsAction2 = true;
 		} else {
 			//dann front vergrößern
 			if (frameFlipCardsAction2Size < 0.95 ) {
 				frameFlipCardsAction2Size += flipCardsScaleIntervall;
 				update();
 			} else {
-				flipCardsAction2 = FALSE;
+				flipCardsAction2 = false;
 				flipCardsTimer->stop();
 			}
 
@@ -243,10 +243,10 @@ void MyCardsPixmapLabel::fastFlipCards(bool front)
 {
 
 	if (front) {
-		fastFlipCardsFront = TRUE;
+		fastFlipCardsFront = true;
 		update();
 	} else {
-		fastFlipCardsFront = FALSE;
+		fastFlipCardsFront = false;
 		update();
 	}
 }
@@ -255,8 +255,8 @@ void MyCardsPixmapLabel::mousePressEvent(QMouseEvent * event)
 {
 
 	if (!mousePress && objectName().contains("pixmapLabel_card0")) {
-		mousePress = TRUE;
-		myW->mouseOverFlipCards(TRUE);
+		mousePress = true;
+		myW->mouseOverFlipCards(true);
 
 	}
 
@@ -267,8 +267,8 @@ void MyCardsPixmapLabel::mouseReleaseEvent(QMouseEvent * event)
 {
 
 	if (mousePress && objectName().contains("pixmapLabel_card0")) {
-		mousePress = FALSE;
-		myW->mouseOverFlipCards(FALSE);
+		mousePress = false;
+		myW->mouseOverFlipCards(false);
 	}
 
 	QLabel::mouseReleaseEvent(event);

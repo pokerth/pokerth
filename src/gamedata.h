@@ -35,8 +35,9 @@
 
 #include <list>
 #include <string>
+#ifndef Q_MOC_RUN
 #include <third_party/boost/timers.hpp>
-
+#endif
 
 typedef std::list<unsigned> PlayerIdList;
 
@@ -71,13 +72,14 @@ enum AfterManualBlindsMode {
 
 // For the sake of simplicity, this is a struct.
 struct GameData {
-	GameData() : gameType(GAME_TYPE_NORMAL), maxNumberOfPlayers(0), startMoney(0),
-		firstSmallBlind(0), raiseIntervalMode(RAISE_ON_HANDNUMBER),
-		raiseSmallBlindEveryHandsValue(8), raiseSmallBlindEveryMinutesValue(1),
-		raiseMode(DOUBLE_BLINDS), afterManualBlindsMode(AFTERMB_DOUBLE_BLINDS),
-		afterMBAlwaysRaiseValue(0), guiSpeed(4), delayBetweenHandsSec(6),
-		playerActionTimeoutSec(20) {}
+	GameData() : gameType(GAME_TYPE_NORMAL), allowSpectators(true),
+		maxNumberOfPlayers(0), startMoney(0), firstSmallBlind(0),
+		raiseIntervalMode(RAISE_ON_HANDNUMBER), raiseSmallBlindEveryHandsValue(8),
+		raiseSmallBlindEveryMinutesValue(1), raiseMode(DOUBLE_BLINDS),
+		afterManualBlindsMode(AFTERMB_DOUBLE_BLINDS), afterMBAlwaysRaiseValue(0),
+		guiSpeed(4), delayBetweenHandsSec(6), playerActionTimeoutSec(20) {}
 	GameType gameType;
+	bool allowSpectators;
 	int maxNumberOfPlayers;
 	int startMoney;
 	int firstSmallBlind;
@@ -100,6 +102,8 @@ struct GameInfo {
 	GameMode mode;
 	unsigned adminPlayerId;
 	PlayerIdList players;
+	PlayerIdList spectators;
+	PlayerIdList spectatorsDuringGame;
 	bool isPasswordProtected;
 };
 

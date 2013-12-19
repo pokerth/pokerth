@@ -64,7 +64,7 @@ public:
 
 	~gameLobbyDialogImpl();
 
-	void exec();
+	int exec();
 
 	ChatTools *getMyChat() {
 		return myChat;
@@ -84,7 +84,6 @@ public slots:
 
 	void createGame();
 	void joinGame();
-	void joinAnyGame();
 	void gameSelected(const QModelIndex &);
 	void updateGameItem(QList <QStandardItem*>, unsigned gameId);
 	void addGame(unsigned gameId);
@@ -131,7 +130,6 @@ public slots:
 	void showWaitStartGameMsgBox();
 	void hideWaitStartGameMsgBox();
 	void stopWaitStartGameMsgBoxTimer();
-	void joinAnyGameButtonRefresh();
 	void reject();
 	void closeEvent(QCloseEvent *event);
 	void accept();
@@ -151,6 +149,7 @@ public slots:
 	void chatInfoPlayerInvitation(unsigned gameId, unsigned playerIdWho, unsigned playerIdFrom);
 	void chatInfoPlayerRejectedInvitation(unsigned gameId, unsigned playerIdWho, DenyGameInvitationReason reason);
 	void putPlayerOnIgnoreList();
+	void removePlayerFromIgnoreList();
 	bool playerIsOnIgnoreList(unsigned playerid);
 	void searchForPlayerRegExpChanged();
 	void showAutoStartTimer();
@@ -162,6 +161,10 @@ public slots:
 	void reportBadGameName();
 	void adminActionCloseGame();
 	void adminActionTotalKickBan();
+	void addConnectedSpectator(unsigned spectatorId, QString spectatorName);
+	void removeSpectator(unsigned spectatorId, QString);
+	void gameAddSpectator(unsigned, unsigned);
+	void gameRemoveSpectator(unsigned, unsigned);
 
 private:
 
@@ -203,6 +206,7 @@ private:
 	QMenu *nickListContextMenu;
 	QAction *nickListInviteAction;
 	QAction *nickListIgnorePlayerAction;
+	QAction *nickListUnignorePlayerAction;
 	QMenu *nickListPlayerInfoSubMenu;
 	QMenu *nickListAdminSubMenu;
 	QAction *nickListAdminTotalKickBan;

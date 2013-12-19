@@ -1,6 +1,6 @@
 /*****************************************************************************
  * PokerTH - The open source texas holdem engine                             *
- * Copyright (C) 2006-2012 Felix Hammer, Florian Thauer, Lothar May          *
+ * Copyright (C) 2006-2013 Felix Hammer, Florian Thauer, Lothar May          *
  *                                                                           *
  * This program is free software: you can redistribute it and/or modify      *
  * it under the terms of the GNU Affero General Public License as            *
@@ -56,9 +56,9 @@ SenderHelper::Send(boost::shared_ptr<SessionData> session, boost::shared_ptr<Net
 		SendBuffer &tmpBuffer = session->GetSendBuffer();
 		// Add packet to specific queue.
 		boost::mutex::scoped_lock lock(tmpBuffer.dataMutex);
-		InternalStorePacket(tmpBuffer, packet);
+		tmpBuffer.InternalStorePacket(session, packet);
 		// Activate async send, if needed.
-		tmpBuffer.AsyncSendNextPacket(session->GetAsioSocket());
+		tmpBuffer.AsyncSendNextPacket(session);
 	}
 }
 
@@ -73,11 +73,11 @@ SenderHelper::Send(boost::shared_ptr<SessionData> session, const NetPacketList &
 		NetPacketList::const_iterator end = packetList.end();
 		while (i != end) {
 			if (*i)
-				InternalStorePacket(tmpBuffer, *i);
+				tmpBuffer.InternalStorePacket(session, *i);
 			++i;
 		}
 		// Activate async send, if needed.
-		tmpBuffer.AsyncSendNextPacket(session->GetAsioSocket());
+		tmpBuffer.AsyncSendNextPacket(session);
 	}
 }
 
@@ -90,17 +90,6 @@ SenderHelper::SetCloseAfterSend(boost::shared_ptr<SessionData> session)
 	// Mark that the socket should be closed after the send operation.
 	tmpBuffer.SetCloseAfterSend();
 	// Activate async send, if needed.
-	tmpBuffer.AsyncSendNextPacket(session->GetAsioSocket());
-}
-
-void
-SenderHelper::InternalStorePacket(SendBuffer &tmpBuffer, boost::shared_ptr<NetPacket> packet)
-{
-	uint32_t packetSize = packet->GetMsg()->ByteSize();
-	google::protobuf::uint8 *buf = new google::protobuf::uint8[packetSize + NET_HEADER_SIZE];
-	*((uint32_t *)buf) = htonl(packetSize);
-	packet->GetMsg()->SerializeWithCachedSizesToArray(&buf[NET_HEADER_SIZE]);
-	SendBuffer::EncodeToBuf(buf, packetSize + NET_HEADER_SIZE, &tmpBuffer);
-	delete[] buf;
+	tmpBuffer.AsyncSendNextPacket(session);
 }
 

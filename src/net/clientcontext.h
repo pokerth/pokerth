@@ -35,7 +35,6 @@
 
 #include <boost/shared_ptr.hpp>
 
-#include <net/receivebuffer.h>
 #include <net/sessiondata.h>
 #include <playerdata.h>
 
@@ -135,10 +134,6 @@ public:
 		m_hasSubscribedLobbyMsg = setSubscribe;
 	}
 
-	ReceiveBuffer &GetReceiveBuffer() {
-		return m_receiveBuffer;
-	}
-
 	const std::string &GetSessionGuid() const {
 		return m_sessionGuid;
 	}
@@ -164,7 +159,6 @@ private:
 	std::string			m_avatarFile;
 	std::string			m_cacheDir;
 	bool				m_hasSubscribedLobbyMsg;
-	ReceiveBuffer		m_receiveBuffer;
 	std::string			m_sessionGuid;
 };
 

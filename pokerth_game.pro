@@ -18,6 +18,7 @@ CONFIG += qt \
 	warn_on
 include(src/third_party/qtsingleapplication/qtsingleapplication.pri)
 QT += sql
+greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 UI_DIR = uics
 MOC_DIR = mocs
 OBJECTS_DIR = obj
@@ -42,7 +43,6 @@ INCLUDEPATH += . \
 	src/engine/local_engine \
 	src/engine/network_engine \
 	src/config \
-	src/third_party/asn1 \
 	src/gui/qt \
 	src/gui/qt/connecttoserverdialog \
 	src/core \
@@ -200,7 +200,6 @@ HEADERS += src/engine/game.h \
 	src/gui/generic/serverguiwrapper.h \
 	src/gui/qt/gametable/mychancelabel.h \
 	src/gui/qt/serverlistdialog/serverlistdialogimpl.h \
-	src/gui/qt/gametable/mymenubar.h \
 	src/gui/qt/gametable/mytimeoutlabel.h \
 	src/gui/qt/gametable/mynamelabel.h \
 	src/gui/qt/settingsdialog/mystylelistitem.h \
@@ -277,7 +276,6 @@ SOURCES += src/pokerth.cpp \
 	src/core/common/loghelper_client.cpp \
 	src/gui/qt/gametable/mychancelabel.cpp \
 	src/gui/qt/serverlistdialog/serverlistdialogimpl.cpp \
-	src/gui/qt/gametable/mymenubar.cpp \
 	src/gui/qt/gametable/mytimeoutlabel.cpp \
 	src/gui/qt/gametable/mynamelabel.cpp \
 	src/gui/qt/settingsdialog/mystylelistitem.cpp \
@@ -318,6 +316,7 @@ TRANSLATIONS = ts/pokerth_af.ts \
 	ts/pokerth_sv.ts \
 	ts/pokerth_ta.ts \
 	ts/pokerth_tr.ts \
+	ts/pokerth_vi.ts \
 	ts/pokerth_START_HERE.ts
 
 LIBS += -lpokerth_lib \
@@ -358,12 +357,12 @@ win32 {
 			-lcrypto \
 			-lssh2 \
 			-lgnutls \
-			-lnettle \
 			-lhogweed \
 			-lgmp \
 			-lgcrypt \
 			-lgpg-error \
 			-lgsasl \
+			-lnettle \
 			-lidn \
 			-lintl \
 			-lprotobuf
@@ -404,15 +403,16 @@ unix:!mac {
 	# QMAKE_CXXFLAGS += -ffunction-sections -fdata-sections
 	# QMAKE_LFLAGS += -Wl,--gc-sections
 	INCLUDEPATH += $${PREFIX}/include
-	LIBPATH += lib
+	QMAKE_LIBDIR += lib
 	!android{
 		LIBPATH += $${PREFIX}/lib /opt/gsasl/lib
 		LIB_DIRS = $${PREFIX}/lib \
-			$${PREFIX}/lib64
+			$${PREFIX}/lib64 \
+			$$system(qmake -query QT_INSTALL_LIBS)
 	}
 	android{
-		LIBPATH += $${PREFIX}/lib/armv5
-		LIB_DIRS = $${PREFIX}/lib/armv5
+		LIBPATH += $${PREFIX}/lib/armv7
+		LIB_DIRS = $${PREFIX}/lib/armv7
 	}
 	BOOST_FS = boost_filesystem \
 		boost_filesystem-mt
@@ -427,7 +427,7 @@ unix:!mac {
 	BOOST_RANDOM = boost_random \
 		boost_random-mt
 
-	# searching in $PREFIX/lib and $PREFIX/lib64
+	# searching in $PREFIX/lib, $PREFIX/lib64 and $$system(qmake -query QT_INSTALL_LIBS)
 	# to override the default '/usr' pass PREFIX
 	# variable to qmake.
 	for(dir, LIB_DIRS):exists($$dir) {
@@ -596,6 +596,7 @@ mac {
 	INCLUDEPATH += /Developer/SDKs/MacOSX10.6.sdk/usr/include/
 	INCLUDEPATH += /Library/Frameworks/SDL.framework/Headers
 	INCLUDEPATH += /Library/Frameworks/SDL_mixer.framework/Headers
+	INCLUDEPATH += /usr/local/include
 }
 OTHER_FILES += docs/infomessage-id-desc.txt
 official_server { 
@@ -634,7 +635,8 @@ gui_800x480 {
 
 android{
 	# Use old boost::filesystem, because the new version requires std::wstring.
-	DEFINES += BOOST_FILESYSTEM_VERSION=2
+	DEFINES += BOOST_FILESYSTEM_VERSION=3
+	DEFINES += TIXML_USE_STL
 	# sqlite3 is included directly.
 	INCLUDEPATH += src/third_party/sqlite3
 

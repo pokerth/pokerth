@@ -60,10 +60,10 @@
 #include "guilog.h"
 
 #ifdef ANDROID
-	#ifndef ANDROID_TEST
-		#include <QPlatformNativeInterface>
-		#include <jni.h>
-	#endif
+#ifndef ANDROID_TEST
+#include "QtGui/5.2.0/QtGui/qpa/qplatformnativeinterface.h"
+#include <jni.h>
+#endif
 #endif
 
 using namespace std;
@@ -96,25 +96,25 @@ startWindowImpl::startWindowImpl(ConfigFile *c, Log *l)
 	this->setStatusBar(0);
 
 #ifdef GUI_800x480
-	#ifdef ANDROID
-		this->menubar->hide();
+#ifdef ANDROID
+	this->menubar->hide();
 
-		//check if custom background picture for the resolution is there. Otherwise create it!
-		QString UserDataDir = QString::fromUtf8(myConfig->readConfigString("UserDataDir").c_str());
-		QDesktopWidget dw;
-		int screenWidth = dw.screenGeometry().width();
-		int screenHeight = dw.screenGeometry().height();
-		QString customStartWindowBgFileString(UserDataDir+"/startwindowbg10_"+QString::number(screenWidth)+"x"+QString::number(screenHeight)+".png");
-		QFile customStartWindowBgFile(customStartWindowBgFileString);
-		if(customStartWindowBgFile.exists()) {
-			centralwidget->setStyleSheet(".QWidget { background-image: url("+QFileInfo(customStartWindowBgFile).absoluteFilePath()+"); background-position: top center; background-origin: content; background-repeat: no-repeat;}");
-		} else {
-			//if custom bg file could not be found load the big origin file
-			centralwidget->setStyleSheet(".QWidget { background-image: url(:/android/android-data/gfx/gui/misc/startwindowbg10_mobile.png); background-position: top center; background-origin: content; background-repeat: no-repeat;}");
-		}
-		this->showFullScreen();
+	//check if custom background picture for the resolution is there. Otherwise create it!
+	QString UserDataDir = QString::fromUtf8(myConfig->readConfigString("UserDataDir").c_str());
+	QDesktopWidget dw;
+	int screenWidth = dw.screenGeometry().width();
+	int screenHeight = dw.screenGeometry().height();
+	QString customStartWindowBgFileString(UserDataDir+"/startwindowbg10_"+QString::number(screenWidth)+"x"+QString::number(screenHeight)+".png");
+	QFile customStartWindowBgFile(customStartWindowBgFileString);
+	if(customStartWindowBgFile.exists()) {
+		centralwidget->setStyleSheet(".QWidget { background-image: url("+QFileInfo(customStartWindowBgFile).absoluteFilePath()+"); background-position: top center; background-origin: content; background-repeat: no-repeat;}");
+	} else {
+		//if custom bg file could not be found load the big origin file
+		centralwidget->setStyleSheet(".QWidget { background-image: url(:/android/android-data/gfx/gui/misc/startwindowbg10_mobile.png); background-position: top center; background-origin: content; background-repeat: no-repeat;}");
+	}
+	this->showFullScreen();
 
-		//TODO HACK Missing QSystemScreenSaver::setScreenSaverInhibited(TRUE)
+	//TODO HACK Missing QSystemScreenSaver::setScreenSaverInhibited(true)
 //		#ifndef ANDROID_TEST
 //			JavaVM *currVM = (JavaVM *)QApplication::platformNativeInterface()->nativeResourceForWidget("JavaVM", 0);
 //			JNIEnv* env;
@@ -128,11 +128,11 @@ startWindowImpl::startWindowImpl(ConfigFile *c, Log *l)
 //				currVM->DetachCurrentThread();
 //			}
 //		#endif
-	#else
+#else
 //		Maemo
-		this->menubar->hide();
-		centralwidget->setStyleSheet(".QWidget { background-image: url(\""+myAppDataPath+"gfx/gui/misc/startwindowbg10_desktop.png\"); background-position: bottom center; background-origin: content; background-repeat: no-repeat;}");
-	#endif
+	this->menubar->hide();
+	centralwidget->setStyleSheet(".QWidget { background-image: url(\""+myAppDataPath+"gfx/gui/misc/startwindowbg10_desktop.png\"); background-position: bottom center; background-origin: content; background-repeat: no-repeat;}");
+#endif
 	// All mobile GUI's
 	pushButtonStart_Local_Game->setStyleSheet("QPushButton { text-align:left; font-weight:bold; padding-left: 3px; padding-bottom: 3px; padding-top: 3px; padding-right: 3px; background-color: #505050; color: #FDC942; font-size:22px; border-width: 0px;}");
 	pushButtonInternet_Game->setStyleSheet("QPushButton { text-align:left; font-weight:bold; padding-left: 3px; padding-bottom: 3px; padding-top: 3px; padding-right: 3px; background-color: #505050; color: #FDC942; font-size:22px; border-width: 0px;}");
@@ -146,7 +146,7 @@ startWindowImpl::startWindowImpl(ConfigFile *c, Log *l)
 	connect( pushButton_configure, SIGNAL( clicked() ), this, SLOT( callSettingsDialogFromStartwindow() ) );
 #else
 	//Desktop
-	this->menubar->setStyleSheet("QMenuBar { background-color: #505050; font-size:12px; border-width: 0px;} QMenuBar::item { color: #FDC942; }");
+	this->menubar->setStyleSheet("QMenuBar { background-color: #505050; font-size:12px; border-width: 0px;} QMenuBar::item { background: transparent; color: #FDC942; } QMenuBar::item:selected { background: #787878; color: #FDC942; } QMenuBar::item:pressed { background: #FDC942; color: #505050; }");
 	centralwidget->setStyleSheet(".QWidget { background-image: url(\""+myAppDataPath+"gfx/gui/misc/startwindowbg10_desktop.png\"); background-position: bottom center; background-origin: content; background-repeat: no-repeat;}");
 
 	pushButtonStart_Local_Game->setStyleSheet("QPushButton { text-align:left; font-weight:bold; padding-left: 1px; padding-bottom: 3px; padding-top: 3px; padding-right: 3px; background-color: #505050; color: #FDC942; font-size:12px; border-width: 0px;}");
@@ -215,6 +215,8 @@ startWindowImpl::startWindowImpl(ConfigFile *c, Log *l)
 	connect(this, SIGNAL(signalNetClientPlayerJoined(unsigned, QString, bool)), myGameLobbyDialog, SLOT(addConnectedPlayer(unsigned, QString, bool)));
 	connect(this, SIGNAL(signalNetClientPlayerChanged(unsigned, QString)), myGameLobbyDialog, SLOT(updatePlayer(unsigned, QString)));
 	connect(this, SIGNAL(signalNetClientPlayerLeft(unsigned, QString)), myGameLobbyDialog, SLOT(removePlayer(unsigned, QString)));
+	connect(this, SIGNAL(signalNetClientSpectatorJoined(unsigned, QString)), myGameLobbyDialog, SLOT(addConnectedSpectator(unsigned, QString)));
+	connect(this, SIGNAL(signalNetClientSpectatorLeft(unsigned, QString)), myGameLobbyDialog, SLOT(removeSpectator(unsigned, QString)));
 	connect(this, SIGNAL(signalNetClientNewGameAdmin(unsigned, QString)), myGameLobbyDialog, SLOT(newGameAdmin(unsigned, QString)));
 
 	connect(this, SIGNAL(signalNetClientGameListNew(unsigned)), myGameLobbyDialog, SLOT(addGame(unsigned)));
@@ -223,6 +225,8 @@ startWindowImpl::startWindowImpl(ConfigFile *c, Log *l)
 	connect(this, SIGNAL(signalNetClientGameListUpdateAdmin(unsigned, unsigned)), myGameLobbyDialog, SLOT(updateGameAdmin(unsigned, unsigned)));
 	connect(this, SIGNAL(signalNetClientGameListPlayerJoined(unsigned, unsigned)), myGameLobbyDialog, SLOT(gameAddPlayer(unsigned, unsigned)));
 	connect(this, SIGNAL(signalNetClientGameListPlayerLeft(unsigned, unsigned)), myGameLobbyDialog, SLOT(gameRemovePlayer(unsigned, unsigned)));
+	connect(this, SIGNAL(signalNetClientGameListSpectatorJoined(unsigned, unsigned)), myGameLobbyDialog, SLOT(gameAddSpectator(unsigned, unsigned)));
+	connect(this, SIGNAL(signalNetClientGameListSpectatorLeft(unsigned, unsigned)), myGameLobbyDialog, SLOT(gameRemoveSpectator(unsigned, unsigned)));
 	connect(this, SIGNAL(signalNetClientRemovedFromGame(int)), myGameLobbyDialog, SLOT(removedFromGame(int)));
 	connect(this, SIGNAL(signalNetClientStatsUpdate(ServerStats)), myGameLobbyDialog, SLOT(updateStats(ServerStats)));
 
@@ -316,7 +320,7 @@ void startWindowImpl::startNewLocalGame(newGameDialogImpl *v)
 			gameData.raiseMode = MANUAL_BLINDS_ORDER;
 			list<int> tempBlindList;
 			int i;
-			bool ok = TRUE;
+			bool ok = true;
 			for(i=0; i<v->getChangeCompleteBlindsDialog()->listWidget_blinds->count(); i++) {
 				tempBlindList.push_back(v->getChangeCompleteBlindsDialog()->listWidget_blinds->item(i)->text().toInt(&ok,10));
 			}
@@ -530,7 +534,7 @@ void startWindowImpl::callCreateNetworkGameDialog()
 			gameData.raiseMode = MANUAL_BLINDS_ORDER;
 			std::list<int> tempBlindList;
 			int i;
-			bool ok = TRUE;
+			bool ok = true;
 			for(i=0; i<myCreateNetworkGameDialog->getChangeCompleteBlindsDialog()->listWidget_blinds->count(); i++) {
 				tempBlindList.push_back(myCreateNetworkGameDialog->getChangeCompleteBlindsDialog()->listWidget_blinds->item(i)->text().toInt(&ok,10));
 			}
@@ -1182,8 +1186,9 @@ void startWindowImpl::networkMessage(unsigned msgId)
 		msgText = tr("The player could not be found.");
 	}
 	break;
-	default: showMsgBox = false;
-	break;
+	default:
+		showMsgBox = false;
+		break;
 	}
 
 	if(showMsgBox) {

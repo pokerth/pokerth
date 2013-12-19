@@ -126,12 +126,15 @@ public:
 	void SignalNetClientError(int errorID, int osErrorID);
 	void SignalNetClientNotification(int notificationId);
 	void SignalNetClientStatsUpdate(const ServerStats &stats);
+	void SignalNetClientPingUpdate(unsigned minPing, unsigned avgPing, unsigned maxPing);
 	void SignalNetClientShowTimeoutDialog(NetTimeoutReason reason, unsigned remainingSec);
 	void SignalNetClientRemovedFromGame(int notificationId);
 	void SignalNetClientSelfJoined(unsigned playerId, const std::string &playerName, bool isGameAdmin);
 	void SignalNetClientPlayerJoined(unsigned playerId, const std::string &playerName, bool isGameAdmin);
 	void SignalNetClientPlayerChanged(unsigned playerId, const std::string &newPlayerName);
 	void SignalNetClientPlayerLeft(unsigned playerId, const std::string &playerName, int removeReason);
+	void SignalNetClientSpectatorJoined(unsigned playerId, const std::string &playerName);
+	void SignalNetClientSpectatorLeft(unsigned playerId, const std::string &playerName, int removeReason);
 	void SignalNetClientNewGameAdmin(unsigned playerId, const std::string &playerName);
 	void SignalNetClientGameChatMsg(const std::string &playerName, const std::string &msg);
 	void SignalNetClientLobbyChatMsg(const std::string &playerName, const std::string &msg);
@@ -144,6 +147,8 @@ public:
 	void SignalNetClientGameListUpdateAdmin(unsigned gameId, unsigned adminPlayerId);
 	void SignalNetClientGameListPlayerJoined(unsigned gameId, unsigned playerId);
 	void SignalNetClientGameListPlayerLeft(unsigned gameId, unsigned playerId);
+	void SignalNetClientGameListSpectatorJoined(unsigned gameId, unsigned playerId);
+	void SignalNetClientGameListSpectatorLeft(unsigned gameId, unsigned playerId);
 	void SignalNetClientGameStart(boost::shared_ptr<Game> game);
 
 	void SignalNetClientServerListAdd(unsigned serverId);

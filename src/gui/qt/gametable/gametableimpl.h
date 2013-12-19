@@ -40,10 +40,16 @@
 #include "game_defs.h"
 
 #include <string>
+
+#ifndef Q_MOC_RUN
 #include <boost/shared_ptr.hpp>
+#endif
 
 #include <QtGui>
 #include <QtCore>
+#if QT_VERSION >= 0x050000
+#include <QtWidgets>
+#endif
 
 class guiLog;
 class ChatTools;
@@ -127,6 +133,7 @@ signals:
 	void signalRefreshPlayerName();
 	void signalRefreshButton();
 	void signalRefreshGameLabels(int);
+	void signalRefreshSpectatorsDisplay();
 
 	void signalSetPlayerAvatar(int, QString);
 	void signalGuiUpdateDone();
@@ -166,6 +173,9 @@ signals:
 	void signalChangeVoteOnKickButtonsState(bool showHide);
 	void signalEndVoteOnKick();
 	void signalNetClientPlayerLeft(unsigned playerId);
+	void signalNetClientSpectatorLeft(unsigned playerId);
+	void signalNetClientSpectatorJoined(unsigned playerId);
+	void signalNetClientPingUpdate(unsigned minPing, unsigned avgPing, unsigned maxPing);
 
 public slots:
 
@@ -347,6 +357,8 @@ public slots:
 	void restoreGameTableGeometry();
 
 	void netClientPlayerLeft(unsigned playerId);
+	void netClientSpectatorLeft(unsigned playerId);
+	void netClientSpectatorJoined(unsigned playerId);
 	void registeredUserMode();
 	void guestUserMode();
 
@@ -363,6 +375,8 @@ public slots:
 	void tabsButtonClicked();
 	void tabsButtonClose();
 #endif
+	void refreshSpectatorsDisplay();
+	void pingUpdate(unsigned, unsigned, unsigned);
 
 private:
 
@@ -429,6 +443,8 @@ private:
 
 	QLabel *playerTipLabelArray[MAX_NUMBER_OF_PLAYERS];
 	QPixmap flipside;
+	QLabel *spectatorIcon;
+	QLabel *spectatorNumberLabel;
 
 	// 	Dialogs
 	startWindowImpl *myStartWindow;

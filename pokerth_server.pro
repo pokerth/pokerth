@@ -30,7 +30,6 @@ INCLUDEPATH += . \
 		src/engine/local_engine \
 		src/engine/network_engine \
 		src/config \
-		src/third_party/asn1 \
 		src/core \
 
 DEPENDPATH += . \
@@ -131,7 +130,7 @@ win32 {
 	debug:LIBPATH += debug/lib
 	release:LIBPATH += release/lib
 
-	LIBS += -lssl -lcrypto -lssh2 -lgnutls -lnettle -lhogweed -lgmp -lgcrypt -lgpg-error -lgsasl -lidn -lintl -lprotobuf -ltinyxml -lsqlite3 -lntlm
+	LIBS += -lssl -lcrypto -lssh2 -lgnutls -lhogweed -lgmp -lgcrypt -lgpg-error -lgsasl -lnettle -lidn -lintl -lprotobuf -ltinyxml -lsqlite3 -lntlm
 	LIBS += -lboost_thread_win32-mt
 	LIBS += -lboost_filesystem-mt
 	LIBS += -lboost_regex-mt
@@ -176,7 +175,7 @@ unix : !mac {
 
 	LIBPATH += lib $${PREFIX}/lib /opt/gsasl/lib
 	INCLUDEPATH += $${PREFIX}/include
-	LIB_DIRS = $${PREFIX}/lib $${PREFIX}/lib64
+	LIB_DIRS = $${PREFIX}/lib $${PREFIX}/lib64 $$system(qmake -query QT_INSTALL_LIBS)
 	BOOST_FS = boost_filesystem boost_filesystem-mt
 	BOOST_THREAD = boost_thread boost_thread-mt
 	BOOST_PROGRAM_OPTIONS = boost_program_options boost_program_options-mt
@@ -186,7 +185,7 @@ unix : !mac {
 	BOOST_RANDOM = boost_random boost_random-mt
 
 	#
-	# searching in $PREFIX/lib and $PREFIX/lib64
+	# searching in $PREFIX/lib, $PREFIX/lib64 and $$system(qmake -query QT_INSTALL_LIBS)
 	# to override the default '/usr' pass PREFIX
 	# variable to qmake.
 	#
@@ -316,6 +315,7 @@ mac {
 	RC_FILE = pokerth.icns
 	LIBPATH += /Developer/SDKs/MacOSX10.6.sdk/usr/lib
 	INCLUDEPATH += /Developer/SDKs/MacOSX10.6.sdk/usr/include/
+	INCLUDEPATH += /usr/local/include
 }
 
 official_server {

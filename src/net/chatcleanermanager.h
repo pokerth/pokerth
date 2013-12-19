@@ -37,9 +37,13 @@
 #include <boost/enable_shared_from_this.hpp>
 #include <string>
 #include <net/chatcleanercallback.h>
-#include <net/internalchatcleanerpacket.h>
 
-class SendBuffer;
+#define CLEANER_NET_HEADER_SIZE		4
+#define MAX_CLEANER_PACKET_SIZE		512
+#define CLEANER_PROTOCOL_VERSION	2
+
+class AsioSendBuffer;
+class ChatCleanerMessage;
 
 class ChatCleanerManager : public boost::enable_shared_from_this<ChatCleanerManager>
 {
@@ -58,9 +62,9 @@ protected:
 	void HandleResolve(const boost::system::error_code& ec, boost::asio::ip::tcp::resolver::iterator endpoint_iterator);
 	void HandleConnect(const boost::system::error_code& ec, boost::asio::ip::tcp::resolver::iterator endpoint_iterator);
 	void HandleRead(const boost::system::error_code &ec, size_t bytesRead);
-	bool HandleMessage(InternalChatCleanerPacket &msg);
+	bool HandleMessage(ChatCleanerMessage &msg);
 
-	void SendMessageToServer(InternalChatCleanerPacket &msg);
+	void SendMessageToServer(ChatCleanerMessage &msg);
 	unsigned GetNextRequestId();
 
 private:
@@ -69,7 +73,7 @@ private:
 	boost::shared_ptr<boost::asio::io_service> m_ioService;
 	boost::shared_ptr<boost::asio::ip::tcp::resolver> m_resolver;
 	boost::shared_ptr<boost::asio::ip::tcp::socket> m_socket;
-	boost::shared_ptr<SendBuffer> m_sendManager;
+	boost::shared_ptr<AsioSendBuffer> m_sendManager;
 
 	bool m_connected;
 	unsigned m_curRequestId;

@@ -38,6 +38,7 @@
 
 #include <game_defs.h>
 #include <gamedata.h>
+#include <serverdata.h>
 
 class Game;
 
@@ -51,6 +52,7 @@ public:
 	virtual void SignalNetClientError(int errorID, int osErrorID) = 0;
 	virtual void SignalNetClientNotification(int notificationId) = 0;
 	virtual void SignalNetClientStatsUpdate(const ServerStats &stats) = 0;
+	virtual void SignalNetClientPingUpdate(unsigned minPing, unsigned avgPing, unsigned maxPing) = 0;
 	virtual void SignalNetClientShowTimeoutDialog(NetTimeoutReason reason, unsigned remainingSec) = 0;
 	virtual void SignalNetClientRemovedFromGame(int notificationId) = 0;
 
@@ -60,12 +62,16 @@ public:
 	virtual void SignalNetClientGameListUpdateAdmin(unsigned gameId, unsigned adminPlayerId) = 0;
 	virtual void SignalNetClientGameListPlayerJoined(unsigned gameId, unsigned playerId) = 0;
 	virtual void SignalNetClientGameListPlayerLeft(unsigned gameId, unsigned playerId) = 0;
+	virtual void SignalNetClientGameListSpectatorJoined(unsigned gameId, unsigned playerId) = 0;
+	virtual void SignalNetClientGameListSpectatorLeft(unsigned gameId, unsigned playerId) = 0;
 
 	virtual void SignalNetClientGameStart(boost::shared_ptr<Game> game) = 0;
 	virtual void SignalNetClientSelfJoined(unsigned playerId, const std::string &playerName, bool isGameAdmin) = 0;
 	virtual void SignalNetClientPlayerJoined(unsigned playerId, const std::string &playerName, bool isGameAdmin) = 0;
 	virtual void SignalNetClientPlayerChanged(unsigned playerId, const std::string &newPlayerName) = 0;
 	virtual void SignalNetClientPlayerLeft(unsigned playerId, const std::string &playerName, int removeReason) = 0;
+	virtual void SignalNetClientSpectatorJoined(unsigned playerId, const std::string &playerName) = 0;
+	virtual void SignalNetClientSpectatorLeft(unsigned playerId, const std::string &playerName, int removeReason) = 0;
 	virtual void SignalNetClientNewGameAdmin(unsigned playerId, const std::string &playerName) = 0;
 
 	virtual void SignalNetClientGameChatMsg(const std::string &playerName, const std::string &msg) = 0;

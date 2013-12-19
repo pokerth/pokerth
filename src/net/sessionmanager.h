@@ -50,8 +50,6 @@ public:
 	SessionManager();
 	virtual ~SessionManager();
 
-	bool HasSessions() const;
-
 	void AddSession(boost::shared_ptr<SessionData> sessionData);
 	void SetSessionPlayerData(SessionId session, boost::shared_ptr<PlayerData> playerData);
 	bool RemoveSession(SessionId session);
@@ -61,7 +59,8 @@ public:
 	boost::shared_ptr<SessionData> GetSessionByUniquePlayerId(unsigned uniqueId, bool initSessions = false) const;
 
 	PlayerDataList GetPlayerDataList() const;
-	PlayerIdList GetPlayerIdList(SessionData::State state) const;
+	PlayerDataList GetSpectatorDataList() const;
+	PlayerIdList GetPlayerIdList(int state) const;
 	bool IsPlayerConnected(const std::string &playerName) const;
 	bool IsPlayerConnected(unsigned uniqueId) const;
 	bool IsClientAddressConnected(const std::string &clientAddress) const;
@@ -72,12 +71,13 @@ public:
 	void ResetAllReadyFlags();
 
 	void Clear();
-	unsigned GetRawSessionCount();
-	unsigned GetEstablishedSessionCount();
+	unsigned GetRawSessionCount() const;
+	unsigned GetSessionCountWithState(int state) const;
+	bool HasSessionWithState(int state) const;
 
-	void SendToAllSessions(SenderHelper &sender, boost::shared_ptr<NetPacket> packet, SessionData::State state);
-	void SendLobbyMsgToAllSessions(SenderHelper &sender, boost::shared_ptr<NetPacket> packet, SessionData::State state);
-	void SendToAllButOneSessions(SenderHelper &sender, boost::shared_ptr<NetPacket> packet, SessionId except, SessionData::State state);
+	void SendToAllSessions(SenderHelper &sender, boost::shared_ptr<NetPacket> packet, int state);
+	void SendLobbyMsgToAllSessions(SenderHelper &sender, boost::shared_ptr<NetPacket> packet, int state);
+	void SendToAllButOneSessions(SenderHelper &sender, boost::shared_ptr<NetPacket> packet, SessionId except, int state);
 
 protected:
 

@@ -37,7 +37,7 @@ MyStatusLabel::MyStatusLabel(QGroupBox* parent)
 	: QLabel(parent), myW(NULL), mousePress(false)
 {
 
-	mousePress = FALSE;
+	mousePress = false;
 
 }
 
@@ -49,8 +49,8 @@ void MyStatusLabel::mousePressEvent(QMouseEvent * event)
 {
 
 	if (!mousePress && objectName().contains("textLabel_Status0")) {
-		mousePress = TRUE;
-		myW->mouseOverFlipCards(TRUE);
+		mousePress = true;
+		myW->mouseOverFlipCards(true);
 
 	}
 
@@ -61,8 +61,8 @@ void MyStatusLabel::mouseReleaseEvent(QMouseEvent * event)
 {
 
 	if (mousePress && objectName().contains("textLabel_Status0")) {
-		mousePress = FALSE;
-		myW->mouseOverFlipCards(FALSE);
+		mousePress = false;
+		myW->mouseOverFlipCards(false);
 	}
 
 	QLabel::mouseReleaseEvent(event);

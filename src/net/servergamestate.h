@@ -60,8 +60,10 @@ public:
 	virtual void NotifyGameAdminChanged(boost::shared_ptr<ServerGame> server) = 0;
 	virtual void NotifySessionRemoved(boost::shared_ptr<ServerGame> server) = 0;
 
-	// Handling of a new session.
-	virtual void HandleNewSession(boost::shared_ptr<ServerGame> server, boost::shared_ptr<SessionData> session) = 0;
+	// Handling of a new player session.
+	virtual void HandleNewPlayer(boost::shared_ptr<ServerGame> server, boost::shared_ptr<SessionData> session) = 0;
+	// Handling of a new spectator session.
+	virtual void HandleNewSpectator(boost::shared_ptr<ServerGame> server, boost::shared_ptr<SessionData> session) = 0;
 
 	// Main processing function of the current state.
 	virtual void ProcessPacket(boost::shared_ptr<ServerGame> server, boost::shared_ptr<SessionData> session, boost::shared_ptr<NetPacket> packet) = 0;
@@ -78,9 +80,11 @@ public:
 	virtual void ProcessPacket(boost::shared_ptr<ServerGame> server, boost::shared_ptr<SessionData> session, boost::shared_ptr<NetPacket> packet);
 
 	static boost::shared_ptr<NetPacket> CreateNetPacketPlayerJoined(unsigned gameId, const PlayerData &playerData);
-	static boost::shared_ptr<NetPacket> CreateNetPacketJoinGameAck(const ServerGame &server, const PlayerData &playerData);
+	static boost::shared_ptr<NetPacket> CreateNetPacketSpectatorJoined(unsigned gameId, const PlayerData &playerData);
+	static boost::shared_ptr<NetPacket> CreateNetPacketJoinGameAck(const ServerGame &server, const PlayerData &playerData, bool spectateOnly);
+	static boost::shared_ptr<NetPacket> CreateNetPacketHandStart(const ServerGame &server);
 
-	static void AcceptNewSession(boost::shared_ptr<ServerGame> server, boost::shared_ptr<SessionData> session);
+	static void AcceptNewSession(boost::shared_ptr<ServerGame> server, boost::shared_ptr<SessionData> session, bool spectateOnly);
 
 protected:
 
@@ -100,7 +104,8 @@ public:
 	virtual void NotifyGameAdminChanged(boost::shared_ptr<ServerGame> server);
 	virtual void NotifySessionRemoved(boost::shared_ptr<ServerGame> server);
 
-	virtual void HandleNewSession(boost::shared_ptr<ServerGame> server, boost::shared_ptr<SessionData> session);
+	virtual void HandleNewPlayer(boost::shared_ptr<ServerGame> server, boost::shared_ptr<SessionData> session);
+	virtual void HandleNewSpectator(boost::shared_ptr<ServerGame> server, boost::shared_ptr<SessionData> session);
 
 protected:
 	ServerGameStateInit();
@@ -132,7 +137,8 @@ public:
 
 	virtual void NotifyGameAdminChanged(boost::shared_ptr<ServerGame> /*server*/) {}
 	virtual void NotifySessionRemoved(boost::shared_ptr<ServerGame> /*server*/) {}
-	virtual void HandleNewSession(boost::shared_ptr<ServerGame> server, boost::shared_ptr<SessionData> session);
+	virtual void HandleNewPlayer(boost::shared_ptr<ServerGame> server, boost::shared_ptr<SessionData> session);
+	virtual void HandleNewSpectator(boost::shared_ptr<ServerGame> server, boost::shared_ptr<SessionData> session);
 
 protected:
 	ServerGameStateStartGame();
@@ -150,7 +156,8 @@ class AbstractServerGameStateRunning : public AbstractServerGameStateReceiving
 public:
 	virtual ~AbstractServerGameStateRunning();
 
-	virtual void HandleNewSession(boost::shared_ptr<ServerGame> server, boost::shared_ptr<SessionData> session);
+	virtual void HandleNewPlayer(boost::shared_ptr<ServerGame> server, boost::shared_ptr<SessionData> session);
+	virtual void HandleNewSpectator(boost::shared_ptr<ServerGame> server, boost::shared_ptr<SessionData> session);
 
 protected:
 	virtual void InternalProcessPacket(boost::shared_ptr<ServerGame> server, boost::shared_ptr<SessionData> session, boost::shared_ptr<NetPacket> packet);
@@ -184,7 +191,9 @@ protected:
 	static void CheckPlayerTimeouts(boost::shared_ptr<ServerGame> server);
 	static void ReactivatePlayers(boost::shared_ptr<ServerGame> server);
 	static void InitRejoiningPlayers(boost::shared_ptr<ServerGame> server);
+	static void InitNewSpectators(boost::shared_ptr<ServerGame> server);
 	static void PerformRejoin(boost::shared_ptr<ServerGame> server, boost::shared_ptr<SessionData> session);
+	static void SendGameData(boost::shared_ptr<ServerGame> server, boost::shared_ptr<SessionData> session);
 
 private:
 	static ServerGameStateHand s_state;
@@ -252,7 +261,8 @@ public:
 	virtual void NotifySessionRemoved(boost::shared_ptr<ServerGame> /*server*/) {}
 
 	// Handling of a new session.
-	virtual void HandleNewSession(boost::shared_ptr<ServerGame> /*server*/, boost::shared_ptr<SessionData> /*session*/) {}
+	virtual void HandleNewPlayer(boost::shared_ptr<ServerGame> /*server*/, boost::shared_ptr<SessionData> /*session*/) {}
+	virtual void HandleNewSpectator(boost::shared_ptr<ServerGame> /*server*/, boost::shared_ptr<SessionData> /*session*/) {}
 
 	// Main processing function of the current state.
 	virtual void ProcessPacket(boost::shared_ptr<ServerGame> /*server*/, boost::shared_ptr<SessionData> /*session*/, boost::shared_ptr<NetPacket> /*packet*/) {}

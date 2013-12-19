@@ -110,6 +110,7 @@ message NetGameInfo {
 	required	uint32			firstSmallBlind = 12;
 	required	uint32			startMoney = 13;
 	repeated	uint32			manualBlinds = 14 [packed = true];
+	optional	bool			allowSpectators = 15 [default = true];
 }
 
 // Message Part containing player result.
@@ -223,6 +224,7 @@ message GameListNewMessage {
 	repeated	uint32			playerIds = 4 [packed = true];
 	required	uint32			adminPlayerId = 5;
 	required	NetGameInfo		gameInfo = 6;
+	repeated	uint32			spectatorIds = 7 [packed = true];
 }
 
 message GameListUpdateMessage {
@@ -288,8 +290,8 @@ message SubscriptionRequestMessage {
 message JoinExistingGameMessage {
 	required	uint32			gameId = 1;
 	optional	string			password = 2;
-	optional	bool			autoLeave = 3;
-	optional	bool			spectateOnly = 4;
+	optional	bool			autoLeave = 3 [default = false];
+	optional	bool			spectateOnly = 4 [default = false];
 }
 
 message JoinNewGameMessage {
@@ -307,6 +309,7 @@ message JoinGameAckMessage {
 	required	uint32			gameId = 1;
 	required	bool			areYouGameAdmin = 2;
 	required	NetGameInfo		gameInfo = 3;
+	optional	bool			spectateOnly = 4;
 }
 
 message JoinGameFailedMessage {
@@ -323,6 +326,7 @@ message JoinGameFailedMessage {
 		invalidSettings = 9;
 		ipAddressBlocked = 10;
 		rejoinFailed = 11;
+		noSpectatorsAllowed = 12;
 	}
 	required	JoinGameFailureReason	joinGameFailureReason = 2;
 }
@@ -369,6 +373,7 @@ message RemovedFromGameMessage {
 		gameIsRunning = 3;
 		gameTimeout = 4;
 		removedStartFailed = 5;
+		gameClosed = 6;
 	}
 	required	RemovedFromGameReason	removedFromGameReason = 2;
 }
@@ -449,6 +454,7 @@ message HandStartMessage {
 	optional	bytes			encryptedCards = 3;
 	required	uint32			smallBlind = 4;
 	repeated	NetPlayerState	seatStates = 5;
+	optional	uint32			dealerPlayerId = 6;
 }
 
 message PlayersTurnMessage {

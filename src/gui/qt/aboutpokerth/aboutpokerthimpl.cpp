@@ -34,10 +34,10 @@
 #include <QtCore>
 
 #ifdef ANDROID
-	#ifndef ANDROID_TEST
-		#include <QPlatformNativeInterface>
-		#include <jni.h>
-	#endif
+#ifndef ANDROID_TEST
+#include "QtGui/5.2.0/QtGui/qpa/qplatformnativeinterface.h"
+#include <jni.h>
+#endif
 #endif
 
 aboutPokerthImpl::aboutPokerthImpl(QWidget *parent, ConfigFile *c)
@@ -71,19 +71,20 @@ aboutPokerthImpl::aboutPokerthImpl(QWidget *parent, ConfigFile *c)
 
 #ifdef ANDROID
 	int api = -2;
-	#ifndef ANDROID_TEST
-		JavaVM *currVM = (JavaVM *)QApplication::platformNativeInterface()->nativeResourceForWidget("JavaVM", 0);
-		JNIEnv* env;
-		if (currVM->AttachCurrentThread(&env, NULL)<0) {
-			qCritical()<<"AttachCurrentThread failed";
-		} else {
-			jclass jclassApplicationClass = env->FindClass("android/os/Build$VERSION");
-			if (jclassApplicationClass) {
-				api = env->GetStaticIntField(jclassApplicationClass, env->GetStaticFieldID(jclassApplicationClass,"SDK_INT", "I"));
-			}
-			currVM->DetachCurrentThread();
+	this->setWindowState(Qt::WindowFullScreen);
+#ifndef ANDROID_TEST
+	JavaVM *currVM = (JavaVM *)QApplication::platformNativeInterface()->nativeResourceForIntegration("JavaVM");
+	JNIEnv* env;
+	if (currVM->AttachCurrentThread(&env, NULL)<0) {
+		qCritical()<<"AttachCurrentThread failed";
+	} else {
+		jclass jclassApplicationClass = env->FindClass("android/os/Build$VERSION");
+		if (jclassApplicationClass) {
+			api = env->GetStaticIntField(jclassApplicationClass, env->GetStaticFieldID(jclassApplicationClass,"SDK_INT", "I"));
 		}
-	#endif
+		currVM->DetachCurrentThread();
+	}
+#endif
 	label_pokerthVersion->setText(QString(tr("PokerTH %1 for Android (API%2)").arg(POKERTH_BETA_RELEASE_STRING).arg(api)));
 #else
 	label_pokerthVersion->setText(QString(tr("PokerTH %1").arg(POKERTH_BETA_RELEASE_STRING)));
@@ -131,4 +132,14 @@ aboutPokerthImpl::aboutPokerthImpl(QWidget *parent, ConfigFile *c)
 	projectText.append("&nbsp;&nbsp;&nbsp;&nbsp;Oskar Lindqvist (<a href=mailto:tranberry@pokerth.net>tranberry@pokerth.net</a>)<br>");
 	projectText.append("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- "+tr("initial gui graphics design")+"<br>");
 	textBrowser_2->setHtml(projectText);
+
+	QFile file(QDir::toNativeSeparators(myAppDataPath+"misc/third_party_libs.txt"));
+	QString string;
+	if(file.exists()) {
+		if (file.open( QIODevice::ReadOnly)) {
+			QTextStream stream( &file );
+			string = stream.readAll();
+			textBrowser_thirdPartyLicenceText->setPlainText(string);
+		}
+	}
 }

@@ -43,17 +43,18 @@ serverListDialogImpl::serverListDialogImpl(startWindowImpl *sw, QMainWindow *par
 	setWindowFlags(Qt::WindowSystemMenuHint | Qt::CustomizeWindowHint | Qt::Dialog);
 #endif
 	setupUi(this);
-
+#ifdef ANDROID
+	this->setWindowState(Qt::WindowFullScreen);
+#endif
 	connect( treeWidget_serverList, SIGNAL( itemDoubleClicked ( QTreeWidgetItem*, int) ), this, SLOT( connectToServer() ));
 	connect( buttonBox, SIGNAL( accepted() ), this, SLOT( connectToServer() ));
 	connect( buttonBox, SIGNAL( rejected() ), this, SLOT( closeNetworkClient() ));
 	connect( this, SIGNAL( rejected() ), this, SLOT( closeNetworkClient() ));
 }
 
-void serverListDialogImpl::exec()
+int serverListDialogImpl::exec()
 {
-
-	QDialog::exec();
+	return QDialog::exec();
 }
 
 void serverListDialogImpl::clearList()

@@ -189,11 +189,11 @@ void Session::startInternetClient()
 
 	myNetClient->Init(
 		myConfig->readConfigString("InternetServerAddress"),
-		myConfig->readConfigString("InternetServerListAddress"),
-//		"pokerth.net/serverlist_testing.xml.z",
+//		myConfig->readConfigString("InternetServerListAddress"),
+		"pokerth.net/serverlist_testing.xml.z",
 		myConfig->readConfigString("ServerPassword"),
-		myConfig->readConfigInt("InternetServerConfigMode") == 0,
-//		true,
+//		myConfig->readConfigInt("InternetServerConfigMode") == 0,
+		true,
 		myConfig->readConfigInt("InternetServerPort"),
 		myConfig->readConfigInt("InternetServerUseIpv6") == 1,
 		myConfig->readConfigInt("InternetServerUseSctp") == 1,
@@ -330,11 +330,21 @@ void Session::startNetworkServer(bool dedicated)
 
 	myNetServer = ServerManagerFactory::CreateServerManager(*myConfig, *myGui, mode, *myAvatarManager);
 
+	int protocol = TRANSPORT_PROTOCOL_TCP;
+	if (dedicated && myConfig->readConfigInt("ServerUseWebSocket") == 1) {
+		protocol |= TRANSPORT_PROTOCOL_WEBSOCKET;
+	}
+	if (myConfig->readConfigInt("ServerUseSctp") == 1) {
+		protocol |= TRANSPORT_PROTOCOL_SCTP;
+	}
 	myNetServer->Init(
 		myConfig->readConfigInt("ServerPort"),
+		myConfig->readConfigInt("ServerWebSocketPort"),
 		myConfig->readConfigInt("ServerUseIpv6") == 1,
-		myConfig->readConfigInt("ServerUseSctp") == 1 ? TRANSPORT_PROTOCOL_TCP_SCTP : TRANSPORT_PROTOCOL_TCP,
-		myQtToolsInterface->stringFromUtf8(myConfig->readConfigString("LogDir"))
+		protocol,
+		myQtToolsInterface->stringFromUtf8(myConfig->readConfigString("LogDir")),
+		myQtToolsInterface->stringFromUtf8(myConfig->readConfigString("ServerWebSocketResource")),
+		myQtToolsInterface->stringFromUtf8(myConfig->readConfigString("ServerWebSocketOrigin"))
 	);
 
 	myNetServer->RunAll();

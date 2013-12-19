@@ -40,7 +40,8 @@
 #include "ui_startwindow.h"
 #endif
 
-#include "game_defs.h"
+#include <game_defs.h>
+#include <serverdata.h>
 #include <QMessageBox>
 #include "mymessagebox.h"
 
@@ -116,6 +117,8 @@ signals:
 	void signalNetClientPlayerJoined(unsigned playerId, QString playerName, bool isGameAdmin);
 	void signalNetClientPlayerChanged(unsigned playerId, QString newPlayerName);
 	void signalNetClientPlayerLeft(unsigned playerId, QString playerName);
+	void signalNetClientSpectatorJoined(unsigned playerId, QString playerName);
+	void signalNetClientSpectatorLeft(unsigned playerId, QString playerName);
 	void signalNetClientNewGameAdmin(unsigned playerId, QString playerName);
 	void signalNetClientGameListNew(unsigned gameId);
 	void signalNetClientGameListRemove(unsigned gameId);
@@ -123,6 +126,8 @@ signals:
 	void signalNetClientGameListUpdateAdmin(unsigned gameId, unsigned adminPlayerId);
 	void signalNetClientGameListPlayerJoined(unsigned gameId, unsigned playerId);
 	void signalNetClientGameListPlayerLeft(unsigned gameId, unsigned playerId);
+	void signalNetClientGameListSpectatorJoined(unsigned gameId, unsigned playerId);
+	void signalNetClientGameListSpectatorLeft(unsigned gameId, unsigned playerId);
 	void signalNetClientGameStart(boost::shared_ptr<Game> game);
 	void signalNetClientGameChatMsg(QString nickName, QString msg);
 	void signalNetClientLobbyChatMsg(QString nickName, QString msg);

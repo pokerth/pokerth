@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.0" language="pt_BR">
-<defaultcodec>UTF-8</defaultcodec>
+<TS version="2.1" language="pt_BR">
 <context>
     <name>CardDeckStyleReader</name>
     <message>
@@ -491,6 +490,34 @@ Por Favor, verifique se você está enviando o arquivo de log valido do PokerTH.
     <message>
         <source>Add/Edit/Remove tooltip</source>
         <translation></translation>
+    </message>
+    <message>
+        <source>Unignore Player</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Server response times</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Average: </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>ms</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Minimum: </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Maximum: </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>You will receive chat messages and game invitations from this user again!&lt;br&gt;Do you really want to remove player &lt;b&gt;%1&lt;/b&gt; from your ignore list?</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1741,7 +1768,7 @@ p, li { white-space: pre-wrap; }
 &lt;tr&gt;
 &lt;td style=&quot;border: none;&quot;&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;translator name - mail address&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;(new line)
+        <translation type="vanished">&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;(new line)
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;(new line)
 p, li { white-space: pre-wrap; }(new line)
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:8pt; font-weight:400; font-style:normal;&quot;&gt;(new line)
@@ -1812,7 +1839,7 @@ p, li { white-space: pre-wrap; }
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
 &lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+        <translation type="vanished">&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
@@ -2028,7 +2055,7 @@ p, li { white-space: pre-wrap; }
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Liberation Sans&apos;; font-size:26px; font-weight:400; font-style:normal;&quot;&gt;
 &lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;Nimbus Sans L&apos;;&quot;&gt;&lt;br /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished">&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+        <translation>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Liberation Sans&apos;; font-size:18px; font-weight:400; font-style:normal;&quot;&gt;
@@ -2043,7 +2070,41 @@ p, li { white-space: pre-wrap; }
 &lt;tr&gt;
 &lt;td style=&quot;border: none;&quot;&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:8pt;&quot;&gt;translator name - mail address&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
+    </message>
+    <message>
+        <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Liberation Sans&apos;; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;Nimbus Sans L&apos;;&quot;&gt;&lt;br /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <translation>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Liberation Sans&apos;; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;Nimbus Sans L&apos;;&quot;&gt;&lt;br /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+    </message>
+    <message>
+        <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Liberation Sans&apos;; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;table border=&quot;0&quot; style=&quot;-qt-table-type: root; margin-top:4px; margin-bottom:4px; margin-left:4px; margin-right:4px;&quot;&gt;
+&lt;tr&gt;
+&lt;td style=&quot;border: none;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:8pt;&quot;&gt;translator name - mail address&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <translation>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Liberation Sans&apos;; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;table border=&quot;0&quot; style=&quot;-qt-table-type: root; margin-top:4px; margin-bottom:4px; margin-left:4px; margin-right:4px;&quot;&gt;
+&lt;tr&gt;
+&lt;td style=&quot;border: none;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:8pt;&quot;&gt;Leandro &quot;maxputo&quot; Fregnani - maxputo@gmail.com&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+    </message>
+    <message>
+        <source>Third party libs</source>
+        <translation>Parte da Livraria de Terceiros</translation>
     </message>
 </context>
 <context>
@@ -2456,6 +2517,10 @@ Por favor escolha outro!</translation>
         <source> s</source>
         <translation>s</translation>
     </message>
+    <message>
+        <source>Allow spectators to watch the game</source>
+        <translation>Permitir espectadores assistirem o jogo</translation>
+    </message>
 </context>
 <context>
     <name>createInternetGameDialogImpl</name>
@@ -2631,7 +2696,7 @@ Por favor escolha outro!</translation>
     </message>
     <message>
         <source>Players</source>
-        <translation type="obsolete">Jogadores</translation>
+        <translation>Jogadores</translation>
     </message>
     <message>
         <source>Kick Player</source>
@@ -2675,7 +2740,7 @@ Por favor escolha outro!</translation>
     </message>
     <message>
         <source>Join &amp;any game</source>
-        <translation>Entrar &amp;em qualquer jogo</translation>
+        <translation type="vanished">Entrar &amp;em qualquer jogo</translation>
     </message>
     <message>
         <source>&amp;Create Game</source>
@@ -2791,6 +2856,10 @@ p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Liberation Sans&apos;; font-size:18px; font-weight:400; font-style:normal;&quot;&gt;
 &lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;Nimbus Sans L&apos;;&quot;&gt;&lt;br /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
+    <message>
+        <source>Spectators</source>
+        <translation>Espectadores</translation>
+    </message>
 </context>
 <context>
     <name>gameLobbyDialogImpl</name>
@@ -2844,7 +2913,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Connected players</source>
-        <translation>Jogadores conectados</translation>
+        <translation type="vanished">Jogadores conectados</translation>
     </message>
     <message>
         <source>hands</source>
@@ -2908,7 +2977,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Connected players - max. %1</source>
-        <translation>Jogadores conectados - max. %1</translation>
+        <translation type="vanished">Jogadores conectados - max. %1</translation>
     </message>
     <message>
         <source>T</source>
@@ -2916,7 +2985,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Connected players - Max. %1</source>
-        <translation>Jogadores conectados - Max. %1</translation>
+        <translation type="vanished">Jogadores conectados - Max. %1</translation>
     </message>
     <message>
         <source>running games: %1</source>
@@ -4021,6 +4090,56 @@ Sinta se avontade para convidar outro jogador clicando no apelido na lista de jo
         <source>Time</source>
         <translation>Tempo</translation>
     </message>
+    <message>
+        <source>Admin action ...</source>
+        <translation>Ação de Admin ...</translation>
+    </message>
+    <message>
+        <source>Total kickban</source>
+        <translation>Total de ChutesBan</translation>
+    </message>
+    <message>
+        <source>Close game</source>
+        <translation>Fechar Jogo</translation>
+    </message>
+    <message>
+        <source>Are you sure you want to close the game:
+&quot;%1&quot;?</source>
+        <translation>Você tem certeza que deseja fechar o jogo:
+&quot;%1&quot;?</translation>
+    </message>
+    <message>
+        <source>Are you sure you want to total kickban the player: &quot;%1&quot;?</source>
+        <translation>Você tem certeza que deseja chutarban o total de jogadores: &quot;%1&quot;?</translation>
+    </message>
+    <message>
+        <source>Spectate</source>
+        <translation>Assistir</translation>
+    </message>
+    <message>
+        <source>Players (%1)</source>
+        <translation>Jogadores (%1)</translation>
+    </message>
+    <message>
+        <source>Spectators (%1)</source>
+        <translation>Espectadores (%1)</translation>
+    </message>
+    <message>
+        <source>Unignore player</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Unignore %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Unignore player ...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>You will receive chat messages and game invitations from this user again!&lt;br&gt;Do you really want to remove player &lt;b&gt;%1&lt;/b&gt; from your ignore list?</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>gameTable</name>
@@ -4713,6 +4832,10 @@ Se você está longe temporariamente, você pode usar o &quot;longe&quot; na cai
         <source>PokerTH %1</source>
         <translation>PokerTH %1</translation>
     </message>
+    <message>
+        <source>Spectators</source>
+        <translation>Espectadores</translation>
+    </message>
 </context>
 <context>
     <name>internetGameLoginDialog</name>
@@ -4896,7 +5019,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <source>Could not load server-profiles-file:
 </source>
-        <translation>Não foi possível carregar servidor-perfil-arquivo:
+        <translation type="vanished">Não foi possível carregar servidor-perfil-arquivo:
 </translation>
     </message>
     <message>
@@ -4906,7 +5029,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <source>Could not save server-profiles-file:
 </source>
-        <translation>Não foi possível salvar servidor-perfil-arquivo:
+        <translation type="vanished">Não foi possível salvar servidor-perfil-arquivo:
 </translation>
     </message>
     <message>
@@ -4930,6 +5053,18 @@ p, li { white-space: pre-wrap; }
 Would you like to overwrite ?</source>
         <translation>Um perfil com este nome: %1 já existe.
 Você gostaria de substituir ?</translation>
+    </message>
+    <message>
+        <source>Could not load server-profiles-file:
+%1</source>
+        <translation>Não foi possivel carregar o arquivo de informações do servidor:
+%1</translation>
+    </message>
+    <message>
+        <source>Could not save server-profiles-file:
+%1</source>
+        <translation>Não foi possivel salvar o arquivo de informações:
+%1</translation>
     </message>
 </context>
 <context>
@@ -5413,7 +5548,7 @@ p, li { white-space: pre-wrap; }(new line)
     </message>
     <message>
         <source>Server Password:</source>
-        <translation type="obsolete">Senha do Servidor:</translation>
+        <translation>Senha do Servidor:</translation>
     </message>
     <message>
         <source>Server Port:</source>
@@ -5932,6 +6067,30 @@ p, li { white-space: pre-wrap; }
         <source> OK </source>
         <translation>OK </translation>
     </message>
+    <message>
+        <source>Common</source>
+        <translation>Comum</translation>
+    </message>
+    <message>
+        <source>Do not hide avatars of players which are on the ignore list</source>
+        <translation>Não esconder avatares de jogadores que estão em sua lista de ingnorados</translation>
+    </message>
+    <message>
+        <source>Disable emoticons in the chat</source>
+        <translation>Desativar emoticons no chat</translation>
+    </message>
+    <message>
+        <source>Allow spectators to watch the game</source>
+        <translation>Permitir espectadores a assistirem o jogo</translation>
+    </message>
+    <message>
+        <source>Show network state color on the avatar</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Show network state color in the corner of the avatar</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>settingsDialogImpl</name>
@@ -6291,7 +6450,15 @@ Voce tem certeza que deseja resetar para as configurações padrão?</translatio
     </message>
     <message>
         <source>Scottish Gaelic</source>
-        <translation type="unfinished"></translation>
+        <translation>Escoces Gaelico</translation>
+    </message>
+    <message>
+        <source>Galician</source>
+        <translation>Galego</translation>
+    </message>
+    <message>
+        <source>Vietnamese</source>
+        <translation>Vietnamita</translation>
     </message>
 </context>
 <context>
@@ -6828,6 +6995,32 @@ Por favor escolha um nome diferente.</translation>
     <message>
         <source>Start Network Game</source>
         <translation>Iniciar Jogo em rede</translation>
+    </message>
+    <message>
+        <source>The game was closed.</source>
+        <translation>O jogo foi fechado.</translation>
+    </message>
+    <message>
+        <source>The game could not be closed.</source>
+        <translation>O jogo não pode ser fechado.</translation>
+    </message>
+    <message>
+        <source>The player was kicked and banned permanently.</source>
+        <translation>O jogador foi chutado e banido permanentemente.</translation>
+    </message>
+    <message>
+        <source>The player was kicked, but could not be banned because it was a guest player.</source>
+        <translation>O jogador foi chutado, mas não pode ser banido porque é um jogador convidado.</translation>
+    </message>
+    <message>
+        <source>The player was kicked, but could not be banned, 
+because the nick could not be found in the database</source>
+        <translation>O jogador foi chutado, mas não pode ser banido,
+porque o apelido não pode ser encontrado na data base</translation>
+    </message>
+    <message>
+        <source>The player could not be found.</source>
+        <translation>O jogador não pode ser encontrado.</translation>
     </message>
 </context>
 <context>

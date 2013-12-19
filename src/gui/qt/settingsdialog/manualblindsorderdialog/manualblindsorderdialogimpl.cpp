@@ -35,24 +35,24 @@
 
 
 manualBlindsOrderDialogImpl::manualBlindsOrderDialogImpl(QWidget *parent, ConfigFile *c)
-	: QDialog(parent), myConfig(c), settingsCorrect(TRUE)
+	: QDialog(parent), myConfig(c), settingsCorrect(true)
 {
 #ifdef __APPLE__
 	setWindowModality(Qt::ApplicationModal);
 	setWindowFlags(Qt::WindowSystemMenuHint | Qt::CustomizeWindowHint | Qt::Dialog);
 #endif
 	setupUi(this);
-
+#ifdef ANDROID
+	this->setWindowState(Qt::WindowFullScreen);
+#endif
 	connect( pushButton_add, SIGNAL( clicked() ), this, SLOT( addBlindValueToList() ) );
 	connect( pushButton_delete, SIGNAL( clicked() ), this, SLOT( removeBlindFromList() ) );
 
 }
 
-void manualBlindsOrderDialogImpl::exec()
+int manualBlindsOrderDialogImpl::exec()
 {
-
-
-	QDialog::exec();
+	return QDialog::exec();
 }
 
 
@@ -82,7 +82,7 @@ void manualBlindsOrderDialogImpl::sortBlindsList()
 	int i;
 	QList<int> tempIntList;
 	QStringList tempStringList;
-	bool ok = TRUE;
+	bool ok = true;
 
 	for(i=0; i<listWidget_blinds->count(); i++) {
 // 		std::cout << listWidget_blinds->item(i)->text().toInt(&ok,10) << "\n";

@@ -5,6 +5,10 @@ SOURCES		+= $$PWD/qtsinglecoreapplication.cpp $$PWD/qtlocalpeer.cpp
 
 QT *= network
 
+gotqtlockedfile = $$find(HEADERS, .*qtlockedfile.h)
+isEmpty(gotqtlockedfile):include(../qtlockedfile/qtlockedfile.pri)
+
+
 win32:contains(TEMPLATE, lib):contains(CONFIG, shared) {
     DEFINES += QT_QTSINGLECOREAPPLICATION_EXPORT=__declspec(dllexport)
 }

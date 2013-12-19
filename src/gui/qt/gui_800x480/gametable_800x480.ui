@@ -54,7 +54,16 @@
     </size>
    </property>
    <layout class="QGridLayout" name="gridLayout_4">
-    <property name="margin">
+    <property name="leftMargin">
+     <number>0</number>
+    </property>
+    <property name="topMargin">
+     <number>0</number>
+    </property>
+    <property name="rightMargin">
+     <number>0</number>
+    </property>
+    <property name="bottomMargin">
      <number>0</number>
     </property>
     <property name="spacing">
@@ -2749,7 +2758,16 @@ p, li { white-space: pre-wrap; }
          <string notr="true">QGroupBox {border-style:none;}</string>
         </property>
         <layout class="QGridLayout" name="gridLayout_5">
-         <property name="margin">
+         <property name="leftMargin">
+          <number>0</number>
+         </property>
+         <property name="topMargin">
+          <number>0</number>
+         </property>
+         <property name="rightMargin">
+          <number>0</number>
+         </property>
+         <property name="bottomMargin">
           <number>0</number>
          </property>
          <property name="spacing">
@@ -4262,7 +4280,16 @@ p, li { white-space: pre-wrap; }
          <string/>
         </property>
         <layout class="QGridLayout" name="gridLayout_2">
-         <property name="margin">
+         <property name="leftMargin">
+          <number>0</number>
+         </property>
+         <property name="topMargin">
+          <number>0</number>
+         </property>
+         <property name="rightMargin">
+          <number>0</number>
+         </property>
+         <property name="bottomMargin">
           <number>0</number>
          </property>
          <property name="spacing">
@@ -4621,13 +4648,13 @@ p, li { white-space: pre-wrap; }
     </item>
    </layout>
   </widget>
-  <widget class="MyMenuBar" name="menubar">
+  <widget class="QMenuBar" name="menubar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>20</height>
+     <height>19</height>
     </rect>
    </property>
    <property name="minimumSize">
@@ -4782,11 +4809,6 @@ p, li { white-space: pre-wrap; }
  </widget>
  <customwidgets>
   <customwidget>
-   <class>Slider</class>
-   <extends>QSlider</extends>
-   <header>myslider.h</header>
-  </customwidget>
-  <customwidget>
    <class>MySetLabel</class>
    <extends>QLabel</extends>
    <header>mysetlabel.h</header>
@@ -4812,11 +4834,6 @@ p, li { white-space: pre-wrap; }
    <header>myactionbutton.h</header>
   </customwidget>
   <customwidget>
-   <class>MyMenuBar</class>
-   <extends>QMenuBar</extends>
-   <header>mymenubar.h</header>
-  </customwidget>
-  <customwidget>
    <class>MyTimeoutLabel</class>
    <extends>QLabel</extends>
    <header>mytimeoutlabel.h</header>
@@ -4825,6 +4842,11 @@ p, li { white-space: pre-wrap; }
    <class>MyNameLabel</class>
    <extends>QLabel</extends>
    <header>mynamelabel.h</header>
+  </customwidget>
+  <customwidget>
+   <class>Slider</class>
+   <extends>QSlider</extends>
+   <header>myslider.h</header>
   </customwidget>
   <customwidget>
    <class>MyCashLabel</class>

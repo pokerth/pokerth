@@ -92,7 +92,7 @@ public slots:
 		return maxPlayerNumber;
 	}
 
-	void exec();
+	int exec();
 
 private:
 

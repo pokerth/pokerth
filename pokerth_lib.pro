@@ -27,8 +27,8 @@ INCLUDEPATH += . \
 		src/engine/local_engine \
 		src/engine/network_engine \
 		src/config \
-		src/third_party/asn1 \
-		src/core
+		src/core \
+		src/third_party/websocketpp
 
 DEPENDPATH += . \
 		src \
@@ -42,7 +42,7 @@ DEPENDPATH += . \
 		src/core/common \
 		src/engine/local_engine \
 		src/engine/network_engine \
-		src/net/common \
+		src/net/common
 
 # Input
 HEADERS += \
@@ -75,7 +75,9 @@ HEADERS += \
 		src/net/senderhelper.h \
 		src/net/sendercallback.h \
 		src/net/serverexception.h \
+		src/net/serveracceptinterface.h \
 		src/net/serveraccepthelper.h \
+		src/net/serveracceptwebhelper.h \
 		src/net/servergame.h \
 		src/net/servergamestate.h \
 		src/net/serverlobbythread.h \
@@ -100,7 +102,6 @@ HEADERS += \
 		src/net/uploadhelper.h \
 		src/net/downloaderthread.h \
 		src/net/downloadhelper.h \
-		src/net/internalchatcleanerpacket.h \
 		src/engine/local_engine/cardsvalue.h \
 		src/engine/local_engine/localboard.h \
 		src/engine/local_engine/localenginefactory.h \
@@ -129,9 +130,15 @@ HEADERS += \
 		src/gui/qttoolsinterface.h \
 		src/gui/generic/serverguiwrapper.h \
 		src/net/receivebuffer.h \
+		src/net/asioreceivebuffer.h \
+		src/net/webreceivebuffer.h \
 		src/net/sendbuffer.h \
+		src/net/asiosendbuffer.h \
+		src/net/websendbuffer.h \
 		src/net/servermanagerfactory.h \
-		src/net/uploadcallback.h
+		src/net/uploadcallback.h \
+		src/net/websocket_defs.h \
+		src/net/websocketdata.h
 
 SOURCES += \
 		src/engine/game.cpp \
@@ -180,7 +187,8 @@ SOURCES += \
 		src/net/common/senderhelper.cpp \
 		src/net/common/sendercallback.cpp \
 		src/net/common/serverexception.cpp \
-		src/net/common/serveraccepthelper.cpp \
+		src/net/common/serveracceptinterface.cpp \
+		src/net/common/serveracceptwebhelper.cpp \
 		src/net/common/servergame.cpp \
 		src/net/common/servergamestate.cpp \
 		src/net/common/serverlobbythread.cpp \
@@ -201,11 +209,14 @@ SOURCES += \
 		src/net/common/transferhelper.cpp \
 		src/net/common/uploaderthread.cpp \
 		src/net/common/uploadhelper.cpp \
-		src/net/common/internalchatcleanerpacket.cpp \
 		src/gui/generic/serverguiwrapper.cpp \
 		src/gui/qttoolsinterface.cpp \
 		src/net/common/sendbuffer.cpp \
+		src/net/common/asiosendbuffer.cpp \
+		src/net/common/websendbuffer.cpp \
 		src/net/common/receivebuffer.cpp \
+		src/net/common/asioreceivebuffer.cpp \
+		src/net/common/webreceivebuffer.cpp \
 		src/net/common/uploadcallback.cpp
 
 !android:!android_test{
@@ -250,12 +261,12 @@ mac{
 	INCLUDEPATH += /Developer/SDKs/MacOSX10.6.sdk/usr/include/
 	INCLUDEPATH += /Library/Frameworks/SDL.framework/Headers
 	INCLUDEPATH += /Library/Frameworks/SDL_mixer.framework/Headers
-	INCLUDEPATH += /opt/local/include
+	INCLUDEPATH += /usr/local/include
 }
 
 android{
 	# Use old boost::filesystem, because the new version requires std::wstring.
-	DEFINES += BOOST_FILESYSTEM_VERSION=2
+	DEFINES += BOOST_FILESYSTEM_VERSION=3
 	# sqlite3 is included directly.
 	INCLUDEPATH += src/third_party/sqlite3
 	SOURCES += src/third_party/sqlite3/sqlite3.c

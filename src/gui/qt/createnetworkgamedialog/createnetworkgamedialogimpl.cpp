@@ -42,9 +42,10 @@ createNetworkGameDialogImpl::createNetworkGameDialogImpl(QWidget *parent, Config
 #endif
 	setupUi(this);
 	this->installEventFilter(this);
-
+#ifdef ANDROID
+	this->setWindowState(Qt::WindowFullScreen);
+#endif
 	myChangeCompleteBlindsDialog = new changeCompleteBlindsDialogImpl;
-
 	fillFormular();
 
 	connect( radioButton_changeBlindsSettings, SIGNAL( clicked(bool) ), this, SLOT( callChangeBlindsDialog(bool) ) );
@@ -52,14 +53,13 @@ createNetworkGameDialogImpl::createNetworkGameDialogImpl(QWidget *parent, Config
 	connect( pushButton_cancel, SIGNAL( clicked() ), this, SLOT( cancel() ) );
 #endif
 	connect( pushButton_createGame, SIGNAL( clicked() ), this, SLOT( createGame() ) );
-
 }
 
 
-void createNetworkGameDialogImpl::exec()
+int createNetworkGameDialogImpl::exec()
 {
 	fillFormular();
-	QDialog::exec();
+	return QDialog::exec();
 }
 
 void createNetworkGameDialogImpl::createGame()
@@ -131,7 +131,7 @@ void createNetworkGameDialogImpl::callChangeBlindsDialog(bool show)
 		myChangeCompleteBlindsDialog->exec();
 		if(myChangeCompleteBlindsDialog->result() == QDialog::Accepted ) {}
 		else {
-			radioButton_useSavedBlindsSettings->setChecked(TRUE);
+			radioButton_useSavedBlindsSettings->setChecked(true);
 		}
 
 	}

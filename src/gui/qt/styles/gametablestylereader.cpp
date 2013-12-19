@@ -40,13 +40,13 @@ GameTableStyleReader::GameTableStyleReader(ConfigFile *c, QWidget *w)
 	//set fonts and font sizes
 #ifdef _WIN32
 	font1String = "font-family: \"Arial\";";
-	font2String = "font-family: \"Nimbus Sans L\";";
+	font2String = "font-family: \"DejaVu Sans\";";
 	cashFontSize = "11";
 	setLabelFontSize = "11";
 	playerNameLabelFontSize = "11";
 	smallBoardFontSize = "13";
 	bigBoardFontSize = "18";
-	humanPlayerButtonFontSize = "13";
+	humanPlayerButtonFontSize = "14";
 	betValueFontSize = "11";
 	tabBarPaddingTop = "2";
 	tabBarPaddingSide = "10";
@@ -1245,7 +1245,7 @@ void GameTableStyleReader::readStyleFile(QString file)
 				leftItems << "ChatLogTextSize";
 			}
 
-			//set loadedSuccessfull TRUE if everything works
+			//set loadedSuccessfull true if everything works
 			//            qDebug() << "leftitem is empty: " << leftItems.isEmpty() << "pics left is empty: " << itemPicsLeft.isEmpty() << "stylefileversion is: " << PokerTHStyleFileVersion;
 			if(leftItems.isEmpty() && itemPicsLeft.isEmpty() && PokerTHStyleFileVersion != "" && PokerTHStyleFileVersion.toInt() == POKERTH_GT_STYLE_FILE_VERSION) {
 				myState = GT_STYLE_OK;
@@ -1372,6 +1372,12 @@ void GameTableStyleReader::setCashLabelStyle(QLabel *cl)
 	cl->setStyleSheet("QLabel { "+ font2String +" font-size: "+cashFontSize+"px; font-weight: bold; color: #"+PlayerCashTextColor+"; }");
 }
 
+void GameTableStyleReader::setSpectatorNumberLabelStyle(QLabel *snl)
+{
+	snl->setStyleSheet("QLabel { "+ font2String +" font-size: 12px; font-weight: bold; color: #"+MenuTextColor+"; }");
+	snl->setAlignment(Qt::AlignHCenter);
+}
+
 void GameTableStyleReader::setSetLabelStyle(QLabel *sl)
 {
 	sl->setStyleSheet("QLabel { "+ font2String +" font-size: "+setLabelFontSize+"px; font-weight: bold; color: #"+PlayerBetTextColor+"; }");
@@ -1409,7 +1415,8 @@ void GameTableStyleReader::setCardHolderStyle(QLabel *l, int bero)
 
 void GameTableStyleReader::setMenuBarStyle(QMenuBar *mb)
 {
-	mb->setStyleSheet("QMenuBar { background-color: #"+MenuBgColor+"; font-size:12px; border-width: 0px;} QMenuBar::item { color: #"+MenuTextColor+"; }");
+	mb->setAttribute(Qt::WA_TranslucentBackground);
+	mb->setStyleSheet("QMenuBar { background-color: #"+MenuBgColor+"; font-size:12px; border-width: 0px;} QMenuBar::item { background: transparent; color: #"+MenuTextColor+"; } QMenuBar::item:selected { background: #"+MenuTextColor+"; color: #"+MenuBgColor+"; } QMenuBar::item:pressed { background: #"+MenuTextColor+"; color: #"+MenuBgColor+"; }");
 }
 
 void GameTableStyleReader::setBreakButtonStyle(QPushButton *bb, int state)
@@ -1637,9 +1644,9 @@ void GameTableStyleReader::setWindowsGeometry(gameTableImpl *gt)
 		int availableWidth = dw.screenGeometry().width();
 		int availableHeight = dw.screenGeometry().height();
 		if(availableWidth == FixedWindowWidth.toInt() && availableHeight == FixedWindowHeight.toInt()) {
-			gt->actionFullScreen->setEnabled(TRUE);
+			gt->actionFullScreen->setEnabled(true);
 		} else {
-			gt->actionFullScreen->setDisabled(TRUE);
+			gt->actionFullScreen->setDisabled(true);
 			if(gt->isFullScreen()) {
 				gt->showNormal();
 				gt->move(50,50);
@@ -1656,9 +1663,9 @@ void GameTableStyleReader::setWindowsGeometry(gameTableImpl *gt)
 		int availableWidth = dw.screenGeometry().width();
 		int availableHeight = dw.screenGeometry().height();
 		if(availableWidth <= MaximumWindowWidth.toInt() && availableHeight <= MaximumWindowHeight.toInt()) {
-			gt->actionFullScreen->setEnabled(TRUE);
+			gt->actionFullScreen->setEnabled(true);
 		} else {
-			gt->actionFullScreen->setDisabled(TRUE);
+			gt->actionFullScreen->setDisabled(true);
 			if(gt->isFullScreen()) {
 				gt->showNormal();
 				gt->move(50,50);

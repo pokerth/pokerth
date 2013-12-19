@@ -341,6 +341,10 @@ void GuiWrapper::SignalNetClientStatsUpdate(const ServerStats &stats)
 {
 	myStartWindow->signalNetClientStatsUpdate(stats);
 }
+void GuiWrapper::SignalNetClientPingUpdate(unsigned minPing, unsigned avgPing, unsigned maxPing)
+{
+	myW->signalNetClientPingUpdate(minPing, avgPing, maxPing);
+}
 void GuiWrapper::SignalNetClientShowTimeoutDialog(NetTimeoutReason reason, unsigned remainingSec)
 {
 	myStartWindow->signalNetClientShowTimeoutDialog(reason, remainingSec);
@@ -364,6 +368,7 @@ void GuiWrapper::SignalNetClientPlayerJoined(unsigned playerId, const string &pl
 void GuiWrapper::SignalNetClientPlayerChanged(unsigned playerId, const string &newPlayerName)
 {
 	myStartWindow->signalNetClientPlayerChanged(playerId, QString::fromUtf8(newPlayerName.c_str()));
+	myW->signalRefreshSpectatorsDisplay();
 }
 void GuiWrapper::SignalNetClientPlayerLeft(unsigned playerId, const string &playerName, int removeReason)
 {
@@ -372,6 +377,23 @@ void GuiWrapper::SignalNetClientPlayerLeft(unsigned playerId, const string &play
 	myW->signalNetClientPlayerLeft(playerId);
 	if (!playerName.empty() && playerName[0] != '#' && myW->isVisible())
 		myGuiLog->signalLogPlayerLeftMsg(tmpName, removeReason == NTF_NET_REMOVED_KICKED);
+}
+void GuiWrapper::SignalNetClientSpectatorJoined(unsigned playerId, const string &playerName)
+{
+	myStartWindow->signalNetClientSpectatorJoined(playerId, QString::fromUtf8(playerName.c_str()));
+	myW->signalNetClientSpectatorJoined(playerId);
+	if (!playerName.empty() && playerName[0] != '#' && myW->isVisible()) {
+		QString tmpName(QString::fromUtf8(playerName.c_str()));
+		myGuiLog->signalLogSpectatorJoinedMsg(tmpName);
+	}
+}
+void GuiWrapper::SignalNetClientSpectatorLeft(unsigned playerId, const string &playerName, int removeReason)
+{
+	QString tmpName(QString::fromUtf8(playerName.c_str()));
+	myStartWindow->signalNetClientSpectatorLeft(playerId, tmpName);
+	myW->signalNetClientSpectatorLeft(playerId);
+	if (!playerName.empty() && playerName[0] != '#' && myW->isVisible())
+		myGuiLog->signalLogSpectatorLeftMsg(tmpName, removeReason == NTF_NET_REMOVED_KICKED);
 }
 void GuiWrapper::SignalNetClientNewGameAdmin(unsigned playerId, const string &playerName)
 {
@@ -404,6 +426,14 @@ void GuiWrapper::SignalNetClientGameListPlayerJoined(unsigned gameId, unsigned p
 void GuiWrapper::SignalNetClientGameListPlayerLeft(unsigned gameId, unsigned playerId)
 {
 	myStartWindow->signalNetClientGameListPlayerLeft(gameId, playerId);
+}
+void GuiWrapper::SignalNetClientGameListSpectatorJoined(unsigned gameId, unsigned playerId)
+{
+	myStartWindow->signalNetClientGameListSpectatorJoined(gameId, playerId);
+}
+void GuiWrapper::SignalNetClientGameListSpectatorLeft(unsigned gameId, unsigned playerId)
+{
+	myStartWindow->signalNetClientGameListSpectatorLeft(gameId, playerId);
 }
 void GuiWrapper::SignalNetClientGameStart(boost::shared_ptr<Game> game)
 {
@@ -503,3 +533,4 @@ void GuiWrapper::SignalRejectedGameInvitation(unsigned gameId, unsigned playerId
 {
 	myStartWindow->signalRejectedGameInvitation(gameId, playerIdWho, reason);
 }
+

@@ -63,7 +63,16 @@
        <string>Games</string>
       </attribute>
       <layout class="QGridLayout" name="gridLayout_5">
-       <property name="margin">
+       <property name="leftMargin">
+        <number>0</number>
+       </property>
+       <property name="topMargin">
+        <number>0</number>
+       </property>
+       <property name="rightMargin">
+        <number>0</number>
+       </property>
+       <property name="bottomMargin">
         <number>0</number>
        </property>
        <property name="spacing">
@@ -134,7 +143,7 @@
                 <string>&amp;Leave Game</string>
                </property>
                <property name="icon">
-                <iconset resource="../resources/pokerth_android.qrc">
+                <iconset resource="../resources/pokerth.qrc">
                  <normaloff>:/gfx/go-previous-view.png</normaloff>:/gfx/go-previous-view.png</iconset>
                </property>
               </widget>
@@ -196,7 +205,7 @@
                 <string>&amp;Start Game</string>
                </property>
                <property name="icon">
-                <iconset resource="../resources/pokerth_android.qrc">
+                <iconset resource="../resources/pokerth.qrc">
                  <normaloff>:/gfx/dialog_ok_apply.png</normaloff>:/gfx/dialog_ok_apply.png</iconset>
                </property>
               </widget>
@@ -232,7 +241,7 @@
                 <string>&amp;Kick Player</string>
                </property>
                <property name="icon">
-                <iconset resource="../resources/pokerth_android.qrc">
+                <iconset resource="../resources/pokerth.qrc">
                  <normaloff>:/gfx/list-remove.png</normaloff>:/gfx/list-remove.png</iconset>
                </property>
               </widget>
@@ -306,32 +315,22 @@
              <property name="spacing">
               <number>6</number>
              </property>
-             <property name="margin">
+             <property name="leftMargin">
+              <number>0</number>
+             </property>
+             <property name="topMargin">
+              <number>0</number>
+             </property>
+             <property name="rightMargin">
+              <number>0</number>
+             </property>
+             <property name="bottomMargin">
               <number>0</number>
              </property>
              <item>
-              <widget class="QPushButton" name="pushButton_joinAnyGame">
-               <property name="minimumSize">
-                <size>
-                 <width>0</width>
-                 <height>0</height>
-                </size>
-               </property>
-               <property name="maximumSize">
-                <size>
-                 <width>16777215</width>
-                 <height>16777215</height>
-                </size>
-               </property>
-               <property name="styleSheet">
-                <string notr="true">QObject {font: bold 20px}</string>
-               </property>
-               <property name="text">
-                <string>Join &amp;any game</string>
-               </property>
-               <property name="icon">
-                <iconset resource="../resources/pokerth_android.qrc">
-                 <normaloff>:/gfx/transform-rotate.png</normaloff>:/gfx/transform-rotate.png</iconset>
+              <widget class="QLabel" name="label_spectate">
+               <property name="openExternalLinks">
+                <bool>true</bool>
                </property>
               </widget>
              </item>
@@ -369,7 +368,7 @@
                 <string>&amp;Create Game</string>
                </property>
                <property name="icon">
-                <iconset resource="../resources/pokerth_android.qrc">
+                <iconset resource="../resources/pokerth.qrc">
                  <normaloff>:/gfx/list_add.png</normaloff>:/gfx/list_add.png</iconset>
                </property>
               </widget>
@@ -395,7 +394,7 @@
                 <string>&amp;Join Game</string>
                </property>
                <property name="icon">
-                <iconset resource="../resources/pokerth_android.qrc">
+                <iconset resource="../resources/pokerth.qrc">
                  <normaloff>:/gfx/go-next-view.png</normaloff>:/gfx/go-next-view.png</iconset>
                </property>
               </widget>
@@ -459,58 +458,127 @@
             </size>
            </property>
            <property name="styleSheet">
-            <string notr="true">QObject {font: bold 16px}</string>
+            <string notr="true">QObject {font: bold 14px}</string>
            </property>
            <property name="title">
             <string>Game Info</string>
            </property>
-           <layout class="QVBoxLayout" name="verticalLayout">
-            <property name="spacing">
+           <layout class="QGridLayout" name="gridLayout_7">
+            <property name="leftMargin">
              <number>0</number>
             </property>
-            <property name="margin">
+            <property name="topMargin">
              <number>0</number>
             </property>
-            <item>
-             <widget class="QTreeWidget" name="treeWidget_connectedPlayers">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
+            <property name="rightMargin">
+             <number>0</number>
+            </property>
+            <property name="bottomMargin">
+             <number>0</number>
+            </property>
+            <property name="verticalSpacing">
+             <number>0</number>
+            </property>
+            <item row="0" column="0">
+             <widget class="QTabWidget" name="tabWidget_playerSpectators">
+              <property name="currentIndex">
+               <number>0</number>
               </property>
-              <property name="minimumSize">
-               <size>
-                <width>221</width>
-                <height>100</height>
-               </size>
-              </property>
-              <property name="contextMenuPolicy">
-               <enum>Qt::CustomContextMenu</enum>
-              </property>
-              <property name="styleSheet">
-               <string notr="true">QObject {font: 14px}</string>
-              </property>
-              <property name="midLineWidth">
-               <number>1</number>
-              </property>
-              <property name="iconSize">
-               <size>
-                <width>25</width>
-                <height>26</height>
-               </size>
-              </property>
-              <property name="indentation">
-               <number>15</number>
-              </property>
-              <column>
-               <property name="text">
-                <string>Connected Players</string>
-               </property>
-              </column>
+              <widget class="QWidget" name="tab">
+               <attribute name="title">
+                <string>Players</string>
+               </attribute>
+               <layout class="QGridLayout" name="gridLayout_2">
+                <property name="leftMargin">
+                 <number>0</number>
+                </property>
+                <property name="topMargin">
+                 <number>0</number>
+                </property>
+                <property name="rightMargin">
+                 <number>0</number>
+                </property>
+                <property name="bottomMargin">
+                 <number>0</number>
+                </property>
+                <item row="0" column="0">
+                 <widget class="QTreeWidget" name="treeWidget_connectedPlayers">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
+                  </property>
+                  <property name="minimumSize">
+                   <size>
+                    <width>221</width>
+                    <height>100</height>
+                   </size>
+                  </property>
+                  <property name="contextMenuPolicy">
+                   <enum>Qt::CustomContextMenu</enum>
+                  </property>
+                  <property name="styleSheet">
+                   <string notr="true">QObject {font: 14px}</string>
+                  </property>
+                  <property name="midLineWidth">
+                   <number>1</number>
+                  </property>
+                  <property name="iconSize">
+                   <size>
+                    <width>25</width>
+                    <height>26</height>
+                   </size>
+                  </property>
+                  <property name="indentation">
+                   <number>15</number>
+                  </property>
+                  <property name="headerHidden">
+                   <bool>true</bool>
+                  </property>
+                  <column>
+                   <property name="text">
+                    <string>Connected Players</string>
+                   </property>
+                  </column>
+                 </widget>
+                </item>
+               </layout>
+              </widget>
+              <widget class="QWidget" name="tab_3">
+               <attribute name="title">
+                <string>Spectators</string>
+               </attribute>
+               <layout class="QGridLayout" name="gridLayout_6">
+                <property name="leftMargin">
+                 <number>0</number>
+                </property>
+                <property name="topMargin">
+                 <number>0</number>
+                </property>
+                <property name="rightMargin">
+                 <number>0</number>
+                </property>
+                <property name="bottomMargin">
+                 <number>0</number>
+                </property>
+                <item row="0" column="0">
+                 <widget class="QTreeWidget" name="treeWidget_connectedSpectators">
+                  <property name="headerHidden">
+                   <bool>true</bool>
+                  </property>
+                  <column>
+                   <property name="text">
+                    <string notr="true">1</string>
+                   </property>
+                  </column>
+                 </widget>
+                </item>
+               </layout>
+              </widget>
              </widget>
             </item>
-            <item>
+            <item row="1" column="0">
              <widget class="QScrollArea" name="scrollArea_gameInfos">
               <property name="sizePolicy">
                <sizepolicy hsizetype="Expanding" vsizetype="MinimumExpanding">
@@ -535,19 +603,28 @@
                 <rect>
                  <x>0</x>
                  <y>0</y>
-                 <width>288</width>
-                 <height>195</height>
+                 <width>292</width>
+                 <height>199</height>
                 </rect>
                </property>
                <layout class="QGridLayout" name="gridLayout">
+                <property name="leftMargin">
+                 <number>4</number>
+                </property>
+                <property name="topMargin">
+                 <number>4</number>
+                </property>
+                <property name="rightMargin">
+                 <number>4</number>
+                </property>
+                <property name="bottomMargin">
+                 <number>4</number>
+                </property>
                 <property name="horizontalSpacing">
-                 <number>-1</number>
+                 <number>6</number>
                 </property>
                 <property name="verticalSpacing">
                  <number>2</number>
-                </property>
-                <property name="margin">
-                 <number>4</number>
                 </property>
                 <item row="0" column="0">
                  <widget class="QLabel" name="label_gameType">
@@ -780,7 +857,7 @@
               </widget>
              </widget>
             </item>
-            <item>
+            <item row="2" column="0">
              <layout class="QHBoxLayout" name="horizontalLayout_2">
               <item>
                <widget class="QCheckBox" name="checkBox_fillUpWithComputerOpponents">
@@ -797,7 +874,7 @@
                  <string>Fill up with computer opponents</string>
                 </property>
                 <property name="icon">
-                 <iconset resource="../resources/pokerth_android.qrc">
+                 <iconset resource="../resources/pokerth.qrc">
                   <normaloff>:/gfx/swbuttonlocalgame.png</normaloff>:/gfx/swbuttonlocalgame.png</iconset>
                 </property>
                </widget>
@@ -816,7 +893,16 @@
        <string>Lobby-Chat</string>
       </attribute>
       <layout class="QGridLayout" name="gridLayout_4">
-       <property name="margin">
+       <property name="leftMargin">
+        <number>0</number>
+       </property>
+       <property name="topMargin">
+        <number>0</number>
+       </property>
+       <property name="rightMargin">
+        <number>0</number>
+       </property>
+       <property name="bottomMargin">
         <number>0</number>
        </property>
        <property name="spacing">
@@ -1117,9 +1203,6 @@ p, li { white-space: pre-wrap; }
   </layout>
  </widget>
  <tabstops>
-  <tabstop>pushButton_joinAnyGame</tabstop>
-  <tabstop>pushButton_CreateGame</tabstop>
-  <tabstop>pushButton_JoinGame</tabstop>
   <tabstop>textBrowser_ChatDisplay</tabstop>
   <tabstop>lineEdit_ChatInput</tabstop>
   <tabstop>treeWidget_connectedPlayers</tabstop>
@@ -1129,7 +1212,7 @@ p, li { white-space: pre-wrap; }
   <tabstop>pushButton_Leave</tabstop>
  </tabstops>
  <resources>
-  <include location="../resources/pokerth_android.qrc"/>
+  <include location="../resources/pokerth.qrc"/>
  </resources>
  <connections/>
 </ui>

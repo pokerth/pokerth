@@ -48,7 +48,7 @@ class changeCompleteBlindsDialogImpl: public QDialog, public Ui::changeCompleteB
 public:
 	changeCompleteBlindsDialogImpl(QWidget *parent = 0, ConfigFile *c = 0);
 
-	void exec();
+	int exec();
 	bool eventFilter(QObject *obj, QEvent *event);
 
 public slots:

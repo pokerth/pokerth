@@ -50,9 +50,6 @@ public:
 
 	void SetCloseAfterSend(boost::shared_ptr<SessionData> session);
 
-protected:
-	void InternalStorePacket(SendBuffer &tmpManager, boost::shared_ptr<NetPacket> packet);
-
 private:
 
 	boost::shared_ptr<boost::asio::io_service> m_ioService;

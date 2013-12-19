@@ -1,6 +1,6 @@
 /*****************************************************************************
  * PokerTH - The open source texas holdem engine                             *
- * Copyright (C) 2006-2012 Felix Hammer, Florian Thauer, Lothar May          *
+ * Copyright (C) 2006-2013 Felix Hammer, Florian Thauer, Lothar May          *
  *                                                                           *
  * This program is free software: you can redistribute it and/or modify      *
  * it under the terms of the GNU Affero General Public License as            *
@@ -30,10 +30,10 @@
  *****************************************************************************/
 
 #include <net/chatcleanermanager.h>
-#include <net/sendbuffer.h>
+#include <net/asiosendbuffer.h>
 #include <boost/bind.hpp>
 #include <core/loghelper.h>
-#include <third_party/asn1/ChatCleanerMessage.h>
+#include <third_party/protobuf/chatcleaner.pb.h>
 
 #include <sstream>
 
@@ -49,7 +49,7 @@ ChatCleanerManager::ChatCleanerManager(ChatCleanerCallback &cb, boost::shared_pt
 	m_resolver.reset(
 		new boost::asio::ip::tcp::resolver(*m_ioService));
 	m_sendManager.reset(
-		new SendBuffer);
+		new AsioSendBuffer);
 }
 
 ChatCleanerManager::~ChatCleanerManager()
@@ -98,24 +98,20 @@ void
 ChatCleanerManager::HandleGameChatText(unsigned gameId, unsigned playerId, const std::string &name, const std::string &text)
 {
 	if (m_connected) {
-		InternalChatCleanerPacket tmpChat;
-		tmpChat.GetMsg()->present = ChatCleanerMessage_PR_cleanerChatRequestMessage;
-		CleanerChatRequestMessage_t *netRequest = &tmpChat.GetMsg()->choice.cleanerChatRequestMessage;
-		netRequest->requestId = GetNextRequestId();
+		boost::shared_ptr<ChatCleanerMessage> tmpChat(ChatCleanerMessage::default_instance().New());
+		tmpChat->set_messagetype(ChatCleanerMessage::Type_CleanerChatRequestMessage);
+		CleanerChatRequestMessage *netRequest = tmpChat->mutable_cleanerchatrequestmessage();
+		netRequest->set_requestid(GetNextRequestId());
 		if (gameId) {
-			netRequest->cleanerChatType.present = CleanerChatType_PR_cleanerChatTypeGame;
-			netRequest->cleanerChatType.choice.cleanerChatTypeGame.gameId = gameId;
+			netRequest->set_cleanerchattype(cleanerChatTypeGame);
+			netRequest->set_gameid(gameId);
 		} else {
-			netRequest->cleanerChatType.present = CleanerChatType_PR_cleanerChatTypeLobby;
+			netRequest->set_cleanerchattype(cleanerChatTypeLobby);
 		}
-		netRequest->playerId = playerId;
-		OCTET_STRING_fromBuf(&netRequest->playerName,
-							 name.c_str(),
-							 (int)name.length());
-		OCTET_STRING_fromBuf(&netRequest->chatMessage,
-							 text.c_str(),
-							 (int)text.length());
-		SendMessageToServer(tmpChat);
+		netRequest->set_playerid(playerId);
+		netRequest->set_playername(name);
+		netRequest->set_chatmessage(text);
+		SendMessageToServer(*tmpChat);
 	}
 }
 
@@ -141,14 +137,12 @@ ChatCleanerManager::HandleConnect(const boost::system::error_code& ec,
 								  boost::asio::ip::tcp::resolver::iterator endpoint_iterator)
 {
 	if (!ec) {
-		InternalChatCleanerPacket tmpInit;
-		tmpInit.GetMsg()->present = ChatCleanerMessage_PR_cleanerInitMessage;
-		CleanerInitMessage_t *netInit = &tmpInit.GetMsg()->choice.cleanerInitMessage;
-		netInit->requestedVersion = CLEANER_PROTOCOL_VERSION;
-		OCTET_STRING_fromBuf(&netInit->clientSecret,
-							 m_clientSecret.c_str(),
-							 (int)m_clientSecret.length());
-		SendMessageToServer(tmpInit);
+		boost::shared_ptr<ChatCleanerMessage> tmpInit(ChatCleanerMessage::default_instance().New());
+		tmpInit->set_messagetype(ChatCleanerMessage::Type_CleanerInitMessage);
+		CleanerInitMessage *netInit = tmpInit->mutable_cleanerinitmessage();
+		netInit->set_requestedversion(CLEANER_PROTOCOL_VERSION);
+		netInit->set_clientsecret(m_clientSecret);
+		SendMessageToServer(*tmpInit);
 		m_socket->async_read_some(
 			boost::asio::buffer(m_recvBuf, sizeof(m_recvBuf)),
 			boost::bind(
@@ -180,24 +174,38 @@ ChatCleanerManager::HandleRead(const boost::system::error_code &ec, size_t bytes
 		bool error = false;
 		m_recvBufUsed += bytesRead;
 
-		asn_dec_rval_t retVal;
+		bool valid;
 		do {
-			InternalChatCleanerPacket recvMsg;
-			retVal = ber_decode(0, &asn_DEF_ChatCleanerMessage, (void **)recvMsg.GetMsgPtr(), m_recvBuf, m_recvBufUsed);
-			if(retVal.code == RC_OK) {
-				// Consume the bytes.
-				if (retVal.consumed < m_recvBufUsed) {
-					m_recvBufUsed -= retVal.consumed;
-					memmove(m_recvBuf, m_recvBuf + retVal.consumed, m_recvBufUsed);
-				} else
+			valid = false;
+			if (m_recvBufUsed >= CLEANER_NET_HEADER_SIZE) {
+				// Read the size of the packet (first 4 bytes in network byte order).
+				uint32_t nativeVal;
+				memcpy(&nativeVal, &m_recvBuf[0], sizeof(uint32_t));
+				size_t packetSize = ntohl(nativeVal);
+				if (packetSize > MAX_CLEANER_PACKET_SIZE) {
 					m_recvBufUsed = 0;
-
-				if (asn_check_constraints(&asn_DEF_ChatCleanerMessage, recvMsg.GetMsg(), NULL, NULL) == 0)
-					error = HandleMessage(recvMsg);
-				else
-					LOG_ERROR("Received invalid chat cleaner packet.");
+					LOG_ERROR("Invalid packet size: " << packetSize);
+				} else if (m_recvBufUsed >= packetSize + CLEANER_NET_HEADER_SIZE) {
+					try {
+						// Try to decode the packet.
+						boost::shared_ptr<ChatCleanerMessage> recvMsg(ChatCleanerMessage::default_instance().New());
+						if (recvMsg->ParseFromArray(&m_recvBuf[CLEANER_NET_HEADER_SIZE], static_cast<int>(packetSize))) {
+							m_recvBufUsed -= (packetSize + CLEANER_NET_HEADER_SIZE);
+							if (m_recvBufUsed) {
+								memmove(m_recvBuf, m_recvBuf + packetSize + CLEANER_NET_HEADER_SIZE, m_recvBufUsed);
+							}
+						}
+						// Handle the packet.
+						error = HandleMessage(*recvMsg);
+						valid = true;
+					} catch (const exception &e) {
+						// Reset buffer on error.
+						m_recvBufUsed = 0;
+						LOG_ERROR("Exception while decoding packet: " << e.what());
+					}
+				}
 			}
-		} while (!error && retVal.code == RC_OK);
+		} while (valid && !error);
 
 		if (!error) {
 			m_socket->async_read_some(
@@ -224,14 +232,13 @@ ChatCleanerManager::HandleRead(const boost::system::error_code &ec, size_t bytes
 }
 
 bool
-ChatCleanerManager::HandleMessage(InternalChatCleanerPacket &msg)
+ChatCleanerManager::HandleMessage(ChatCleanerMessage &msg)
 {
 	bool error = true;
-	if (msg.GetMsg()->present == ChatCleanerMessage_PR_cleanerInitAckMessage) {
-		CleanerInitAckMessage_t *netAck = &msg.GetMsg()->choice.cleanerInitAckMessage;
-		if (netAck->serverVersion == CLEANER_PROTOCOL_VERSION) {
-			string tmpSecret((const char *)netAck->serverSecret.buf, netAck->serverSecret.size);
-			if (m_serverSecret == tmpSecret) {
+	if (msg.messagetype() == ChatCleanerMessage::Type_CleanerInitAckMessage) {
+		const CleanerInitAckMessage &netAck = msg.cleanerinitackmessage();
+		if (netAck.serverversion() == CLEANER_PROTOCOL_VERSION) {
+			if (m_serverSecret == netAck.serversecret()) {
 				m_connected = true;
 				error = false;
 				LOG_MSG("Successfully connected to chat cleaner.");
@@ -239,36 +246,37 @@ ChatCleanerManager::HandleMessage(InternalChatCleanerPacket &msg)
 		}
 		if (!m_connected)
 			LOG_ERROR("Chat cleaner handshake failed.");
-	} else if (msg.GetMsg()->present == ChatCleanerMessage_PR_cleanerChatReplyMessage) {
-		CleanerChatReplyMessage_t *netReply = &msg.GetMsg()->choice.cleanerChatReplyMessage;
-		if (netReply->cleanerText) {
-			if (netReply->cleanerChatType.present == CleanerChatType_PR_cleanerChatTypeLobby) {
-				m_callback.SignalChatBotMessage(string((const char *)netReply->cleanerText->buf, netReply->cleanerText->size));
-			} else if (netReply->cleanerChatType.present == CleanerChatType_PR_cleanerChatTypeGame) {
-				m_callback.SignalChatBotMessage(netReply->cleanerChatType.choice.cleanerChatTypeGame.gameId, string((const char *)netReply->cleanerText->buf, netReply->cleanerText->size));
+	} else if (msg.messagetype() == ChatCleanerMessage::Type_CleanerChatReplyMessage) {
+		const CleanerChatReplyMessage &netReply = msg.cleanerchatreplymessage();
+		if (!netReply.cleanertext().empty()) {
+			if (netReply.cleanerchattype() == cleanerChatTypeLobby) {
+				m_callback.SignalChatBotMessage(netReply.cleanertext());
+			} else if (netReply.cleanerchattype() == cleanerChatTypeGame) {
+				m_callback.SignalChatBotMessage(netReply.gameid(), netReply.cleanertext());
 			}
 		}
-		if (netReply->cleanerActionType == cleanerActionType_cleanerActionKick)
-			m_callback.SignalKickPlayer(netReply->playerId);
-		else if (netReply->cleanerActionType == cleanerActionType_cleanerActionBan)
-			m_callback.SignalBanPlayer(netReply->playerId);
-		else if (netReply->cleanerActionType == cleanerActionType_cleanerActionMute)
-			m_callback.SignalMutePlayer(netReply->playerId);
+		if (netReply.cleaneractiontype() == CleanerChatReplyMessage_CleanerActionType_cleanerActionKick)
+			m_callback.SignalKickPlayer(netReply.playerid());
+		else if (netReply.cleaneractiontype() == CleanerChatReplyMessage_CleanerActionType_cleanerActionBan)
+			m_callback.SignalBanPlayer(netReply.playerid());
+		else if (netReply.cleaneractiontype() == CleanerChatReplyMessage_CleanerActionType_cleanerActionMute)
+			m_callback.SignalMutePlayer(netReply.playerid());
 		error = false;
 	}
 	return error;
 }
 
 void
-ChatCleanerManager::SendMessageToServer(InternalChatCleanerPacket &msg)
+ChatCleanerManager::SendMessageToServer(ChatCleanerMessage &msg)
 {
-	asn_enc_rval_t e = der_encode(&asn_DEF_ChatCleanerMessage, msg.GetMsg(), &SendBuffer::EncodeToBuf, m_sendManager.get());
+	uint32_t packetSize = msg.ByteSize();
+	google::protobuf::uint8 *buf = new google::protobuf::uint8[packetSize + CLEANER_NET_HEADER_SIZE];
+	*((uint32_t *)buf) = htonl(packetSize);
+	msg.SerializeWithCachedSizesToArray(&buf[CLEANER_NET_HEADER_SIZE]);
+	m_sendManager->EncodeToBuf(buf, packetSize + CLEANER_NET_HEADER_SIZE);
+	delete[] buf;
 
-	if (e.encoded == -1)
-		LOG_ERROR("Failed to encode chat cleaner packet: " << msg.GetMsg()->present);
-	else {
-		m_sendManager->AsyncSendNextPacket(m_socket);
-	}
+	m_sendManager->AsyncSendNextPacket(m_socket);
 }
 
 unsigned

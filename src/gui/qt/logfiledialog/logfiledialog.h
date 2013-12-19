@@ -61,7 +61,7 @@ public:
 	void setGuiLog(guiLog *g) {
 		myGuiLog = g;
 	}
-	void exec();
+	int exec();
 
 	virtual void UploadCompleted(const std::string &filename, const std::string &returnMessage);
 	virtual void UploadError(const std::string &filename, const std::string &errorMessage);

@@ -35,7 +35,7 @@
 using namespace std;
 
 MyTimeoutLabel::MyTimeoutLabel(QGroupBox* parent)
-	: QLabel(parent), timeOutAnimation(FALSE), timeOutValue(0), timeOutFrame(0), waitFrames(0), timerIntervall(0), isBeep(0), isBeepPlayed(0)
+	: QLabel(parent), timeOutAnimation(false), timeOutValue(0), timeOutFrame(0), waitFrames(0), timerIntervall(0), isBeep(0), isBeepPlayed(0)
 {
 
 	timeOutAnimationTimer = new QTimer;
@@ -52,7 +52,7 @@ void MyTimeoutLabel::startTimeOutAnimation(int secs, bool beep)
 {
 
 	if (secs >= 4) { // smaller timeouts may lead to errors/endless loops below
-		isBeepPlayed = FALSE;
+		isBeepPlayed = false;
 		isBeep = beep;
 
 		timeOutValue = secs;
@@ -80,7 +80,7 @@ void MyTimeoutLabel::startTimeOutAnimation(int secs, bool beep)
 		realTimer.start();
 
 		// 	std::cout << timerIntervall << endl;
-		timeOutAnimation = TRUE;
+		timeOutAnimation = true;
 		timeOutAnimationTimer->start(timerIntervall);
 	}
 }
@@ -88,7 +88,7 @@ void MyTimeoutLabel::startTimeOutAnimation(int secs, bool beep)
 void MyTimeoutLabel::startTimeOutAnimationNow()
 {
 
-	timeOutAnimation = TRUE;
+	timeOutAnimation = true;
 	timeOutAnimationTimer->start(83);
 
 }
@@ -98,7 +98,7 @@ void MyTimeoutLabel::stopTimeOutAnimation()
 
 // 	timeOutAnimationKickOnTimer->stop();
 	timeOutAnimationTimer->stop();
-	timeOutAnimation = FALSE;
+	timeOutAnimation = false;
 	update();
 }
 
@@ -110,7 +110,7 @@ void MyTimeoutLabel::nextTimeOutAnimationFrame()
 			//play beep after waitFrames one time
 			if(isBeep && !isBeepPlayed) {
 				myW->getMySoundEventHandler()->playSound("yourturn",0);
-				isBeepPlayed = TRUE;
+				isBeepPlayed = true;
 			}
 			//save gfx ressources and never play more the 10 pps
 			unsigned int realTimerValue = realTimer.elapsed().total_milliseconds();

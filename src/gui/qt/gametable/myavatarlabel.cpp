@@ -42,7 +42,7 @@
 using namespace std;
 
 MyAvatarLabel::MyAvatarLabel(QGroupBox* parent)
-	: QLabel(parent), voteRunning(FALSE), transparent(FALSE)
+	: QLabel(parent), voteRunning(false), transparent(false), myUniqueId(0), myPingState(0), myAvgPing(0), myMinPing(0), myMaxPing(0)
 {
 
 	myContextMenu = new QMenu;
@@ -52,11 +52,14 @@ MyAvatarLabel::MyAvatarLabel(QGroupBox* parent)
 	myContextMenu->addAction(action_VoteForKick);
 	action_IgnorePlayer = new QAction(QIcon(":/gfx/im-ban-user.png"), tr("Ignore Player"), myContextMenu);
 	myContextMenu->addAction(action_IgnorePlayer);
+	action_UnignorePlayer = new QAction(QIcon(":/gfx/dialog_ok_apply.png"), tr("Unignore Player"), myContextMenu);
+	myContextMenu->addAction(action_UnignorePlayer);
 	action_ReportBadAvatar = new QAction(QIcon(":/gfx/emblem-important.png"), tr("Report inappropriate avatar"), myContextMenu);
 	myContextMenu->addAction(action_ReportBadAvatar);
 
 	connect( action_VoteForKick, SIGNAL ( triggered() ), this, SLOT ( sendTriggerVoteOnKickSignal() ) );
 	connect( action_IgnorePlayer, SIGNAL ( triggered() ), this, SLOT ( putPlayerOnIgnoreList() ) );
+	connect( action_UnignorePlayer, SIGNAL ( triggered() ), this, SLOT ( removePlayerFromIgnoreList() ) );
 	connect( action_ReportBadAvatar, SIGNAL ( triggered() ), this, SLOT ( reportBadAvatar() ) );
 	connect( action_EditTip, SIGNAL( triggered() ), this, SLOT ( startEditTip() ) );
 }
@@ -86,12 +89,13 @@ void MyAvatarLabel::contextMenuEvent ( QContextMenuEvent *event )
 			GameInfo info(myW->getSession()->getClientGameInfo(myW->getSession()->getClientCurrentGameId()));
 
 			if(activePlayerCounter > 2 && !voteRunning && info.data.gameType != GAME_TYPE_RANKING && !myW->getGuestMode()) {
-				setVoteOnKickContextMenuEnabled(TRUE);
+				setVoteOnKickContextMenuEnabled(true);
 			} else {
-				setVoteOnKickContextMenuEnabled(FALSE);
+				setVoteOnKickContextMenuEnabled(false);
 			}
 
 			action_IgnorePlayer->setEnabled(true);
+			action_UnignorePlayer->setDisabled(true);
 			action_EditTip->setEnabled(true);
 			int j=0;
 			for (it_c=seatList->begin(); it_c!=seatList->end(); ++it_c) {
@@ -110,9 +114,14 @@ void MyAvatarLabel::contextMenuEvent ( QContextMenuEvent *event )
 					}
 
 					if(myW->getSession()->getGameType() == Session::GAME_TYPE_INTERNET && !((*it_c)->getMyAvatar().empty()) ) {
-						action_ReportBadAvatar->setVisible(TRUE);
+						action_ReportBadAvatar->setVisible(true);
 					} else {
-						action_ReportBadAvatar->setVisible(FALSE);
+						action_ReportBadAvatar->setVisible(false);
+					}
+
+					if(playerIsOnIgnoreList(QString::fromUtf8((*it_c)->getMyName().c_str()))) {
+						action_UnignorePlayer->setEnabled(true);
+						action_IgnorePlayer->setDisabled(true);
 					}
 				}
 				j++;
@@ -214,7 +223,7 @@ void MyAvatarLabel::refreshStars()
 	for (seatPlace=0,it_c=seatsList->begin(); it_c!=seatsList->end(); ++it_c, seatPlace++) {
 		for(int i=1; i<=5; i++)myW->playerStarsArray[i][seatPlace]->setText("");
 		if(myW->myStartWindow->getSession()->getGameType() == Session::GAME_TYPE_INTERNET && !myW->getSession()->getClientPlayerInfo((*it_c)->getMyUniqueID()).isGuest && (*it_c)->getMyType() != PLAYER_TYPE_COMPUTER) {
-			if((*it_c)->getMyStayOnTableStatus() == TRUE && (*it_c)->getMyName()!="" && seatPlace!=0) {
+			if((*it_c)->getMyStayOnTableStatus() == true && (*it_c)->getMyName()!="" && seatPlace!=0) {
 				int playerStars=getPlayerRating(QString::fromUtf8((*it_c)->getMyName().c_str()));
 				for(int i=1; i<=5; i++) {
 					myW->playerStarsArray[i][seatPlace]->setText("<a style='color: #"+myW->getMyGameTableStyle()->getRatingStarsColor()+"; "+fontFamily+" font-size: "+fontSize+"px; text-decoration: none;' href='"+QString::fromUtf8((*it_c)->getMyName().c_str())+"\""+QString::number(i)+"'>&#9734;</a>");
@@ -234,7 +243,7 @@ void MyAvatarLabel::refreshTooltips()
 	int seatPlace;
 	PlayerList seatsList = currentGame->getSeatsList();
 	for (seatPlace=0,it_c=seatsList->begin(); it_c!=seatsList->end(); ++it_c, seatPlace++) {
-		if((*it_c)->getMyStayOnTableStatus() == TRUE || (*it_c)->getMyActiveStatus()) {
+		if((*it_c)->getMyStayOnTableStatus() == true || (*it_c)->getMyActiveStatus()) {
 			bool computerPlayer = false;
 			if((*it_c)->getMyType() == PLAYER_TYPE_COMPUTER) {
 				computerPlayer = true;
@@ -394,7 +403,59 @@ void MyAvatarLabel::paintEvent(QPaintEvent*)
 	else
 		painter.setOpacity(1.0);
 
-	painter.drawPixmap(0,0,myPixmap);
+	//hide avatar if player is on ignore list
+	boost::shared_ptr<Session> mySession = myW->myStartWindow->getSession();
+	if(!playerIsOnIgnoreList(QString::fromUtf8(mySession->getClientPlayerInfo(myUniqueId).playerName.c_str()))) {
+		painter.drawPixmap(0,0,myPixmap);
+	} else if(myW->getMyConfig()->readConfigInt("DontHideAvatarsOfIgnored")) {
+		painter.drawPixmap(0,0,myPixmap);
+	}
+
+	if(myW->getMyConfig()->readConfigInt("ShowPingStateInAvatar")) {
+		//paint ping state color for network clients
+		if(mySession->isNetworkClientRunning() && myId == 0) {
+			QColor pingColor;
+			if(myAvgPing > 0 && myAvgPing <= 1000) {
+				pingColor.setNamedColor("green");
+			}
+			else if(myAvgPing > 1000 && myAvgPing <= 2000 ) {
+				pingColor.setNamedColor("yellow");
+			}
+			else if(myAvgPing > 2000) {
+				pingColor.setNamedColor("red");
+			}
+			else {
+				pingColor.setNamedColor("white");
+			}
+			QColor pen = pingColor.darker(200);
+	//		pen.setAlpha(130);
+			painter.setPen(pen);
+			QColor brush = pingColor;
+	//		brush.setAlpha(130);
+			painter.setBrush(brush);
+			painter.setRenderHint(QPainter::Antialiasing);
+			painter.drawEllipse(1, 39, 10, 10);
+		}
+	}
+}
+
+void MyAvatarLabel::refreshPing(unsigned minPing, unsigned avgPing, unsigned maxPing)
+{
+	myMinPing = minPing;
+	myAvgPing = avgPing;
+	myMaxPing = maxPing;
+	this->update();
+
+	if(myW->getMyConfig()->readConfigInt("ShowPingStateInAvatar")) {
+		QString toolTip = "<b>"+tr("Server response times")+"</b>";
+		toolTip.append("<br>"+tr("Average: ")+QString("%1").arg(myAvgPing)+tr("ms"));
+		toolTip.append("<br>"+tr("Minimum: ")+QString("%1").arg(myMinPing)+tr("ms"));
+		toolTip.append("<br>"+tr("Maximum: ")+QString("%1").arg(myMaxPing)+tr("ms"));
+		this->setToolTip(toolTip);
+	}
+	else {
+		this->setToolTip("");
+	}
 }
 
 bool MyAvatarLabel::playerIsOnIgnoreList(QString playerName)
@@ -414,7 +475,6 @@ bool MyAvatarLabel::playerIsOnIgnoreList(QString playerName)
 
 void MyAvatarLabel::putPlayerOnIgnoreList()
 {
-
 	QStringList list;
 	PlayerListConstIterator it_c;
 	PlayerList seatList = myW->getSession()->getCurrentGame()->getSeatsList();
@@ -423,15 +483,34 @@ void MyAvatarLabel::putPlayerOnIgnoreList()
 	}
 
 	if(!playerIsOnIgnoreList(list.at(myId))) {
-
 		myMessageDialogImpl dialog(myW->getMyConfig(), this);
-		if(dialog.exec(INGNORE_PLAYER_QUESTION, tr("You will no longer receive chat messages or game invitations from this user.<br>Do you really want to put player <b>%1</b> on ignore list?").arg(list.at(myId)), tr("PokerTH - Question"), QPixmap(":/gfx/im-ban-user_64.png"), QDialogButtonBox::Yes|QDialogButtonBox::No, false ) == QDialog::Accepted) {
-
+		if(dialog.exec(IGNORE_PLAYER_QUESTION, tr("You will no longer receive chat messages or game invitations from this user.<br>Do you really want to put player <b>%1</b> on ignore list?").arg(list.at(myId)), tr("PokerTH - Question"), QPixmap(":/gfx/im-ban-user_64.png"), QDialogButtonBox::Yes|QDialogButtonBox::No, false ) == QDialog::Accepted) {
 			std::list<std::string> playerIgnoreList = myW->getMyConfig()->readConfigStringList("PlayerIgnoreList");
 			playerIgnoreList.push_back(list.at(myId).toUtf8().constData());
 			myW->getMyConfig()->writeConfigStringList("PlayerIgnoreList", playerIgnoreList);
 			myW->getMyConfig()->writeBuffer();
+			myW->getMyChat()->refreshIgnoreList();
+		}
+	}
+}
 
+
+void MyAvatarLabel::removePlayerFromIgnoreList()
+{
+	QStringList list;
+	PlayerListConstIterator it_c;
+	PlayerList seatList = myW->getSession()->getCurrentGame()->getSeatsList();
+	for (it_c=seatList->begin(); it_c!=seatList->end(); ++it_c) {
+		list << QString::fromUtf8((*it_c)->getMyName().c_str());
+	}
+
+	if(playerIsOnIgnoreList(list.at(myId))) {
+		myMessageDialogImpl dialog(myW->getMyConfig(), this);
+		if(dialog.exec(UNIGNORE_PLAYER_QUESTION, tr("You will receive chat messages and game invitations from this user again!<br>Do you really want to remove player <b>%1</b> from your ignore list?").arg(list.at(myId)), tr("PokerTH - Question"), QPixmap(":/gfx/dialog_ok_apply.png"), QDialogButtonBox::Yes|QDialogButtonBox::No, false ) == QDialog::Accepted) {
+			std::list<std::string> playerIgnoreList = myW->getMyConfig()->readConfigStringList("PlayerIgnoreList");
+			playerIgnoreList.remove(list.at(myId).toUtf8().constData());
+			myW->getMyConfig()->writeConfigStringList("PlayerIgnoreList", playerIgnoreList);
+			myW->getMyConfig()->writeBuffer();
 			myW->getMyChat()->refreshIgnoreList();
 		}
 	}
