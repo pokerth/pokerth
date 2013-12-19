@@ -37,6 +37,10 @@
 
 #ifndef HAVE_OPENSSL
 
+// With libgcrypt 1.6.0, it is no longer supported to provide thread callbacks.
+// Use the default thread implementation instead, and cross fingers that it works with boost thread...
+#if GCRYPT_VERSION_NUMBER < 0x010600
+
 extern "C" {
 
 	int gcry_bthread_init()
@@ -64,12 +68,15 @@ extern "C" {
 		return 0;
 	}
 
-	struct gcry_thread_cbs gcry_threads_boost = {
+	static struct gcry_thread_cbs gcry_threads_boost = {
 		GCRY_THREAD_OPTION_USER, gcry_bthread_init, gcry_bmutex_init,
 		gcry_bmutex_destroy, gcry_bmutex_lock, gcry_bmutex_unlock,
 		NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL
 	};
 }
+
+#endif // GCRYPT_VERSION_NUMBER < 0x010600
+
 #endif // not HAVE_OPENSSL
 
 bool
@@ -78,8 +85,10 @@ socket_startup()
 #ifdef HAVE_OPENSSL
 	return SSL_library_init() == 1;
 #else
-	gcry_check_version(NULL);
+#if GCRYPT_VERSION_NUMBER < 0x010600
 	gcry_control(GCRYCTL_SET_THREAD_CBS, &gcry_threads_boost);
+#endif
+	gcry_check_version(NULL);
 	gcry_control(GCRYCTL_ENABLE_QUICK_RANDOM, 0);
 	gcry_control(GCRYCTL_INITIALIZATION_FINISHED, 0);
 	return true;
