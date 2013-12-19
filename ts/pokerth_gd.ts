@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.1" language="gd_GB" sourcelanguage="en">
+<TS version="2.0" language="gd_GB" sourcelanguage="en">
 <context>
     <name></name>
     <message>
@@ -811,7 +811,7 @@ Dh&apos;fhaoidte gum fàillig le luchdadh suas aig faidhlichean loga ma tha thu 
     <message>
         <location filename="../src/gui/qt/gametable/myavatarlabel.cpp" line="55"/>
         <source>Unignore Player</source>
-        <translation type="unfinished"></translation>
+        <translation>Na leig seachad an cluicheadair</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gametable/myavatarlabel.cpp" line="57"/>
@@ -821,29 +821,29 @@ Dh&apos;fhaoidte gum fàillig le luchdadh suas aig faidhlichean loga ma tha thu 
     <message>
         <location filename="../src/gui/qt/gametable/myavatarlabel.cpp" line="450"/>
         <source>Server response times</source>
-        <translation type="unfinished"></translation>
+        <translation>Ùineachan freagairte aig an fhrithealaiche</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gametable/myavatarlabel.cpp" line="451"/>
         <source>Average: </source>
-        <translation type="unfinished"></translation>
+        <translation>Sa chuibheas: </translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gametable/myavatarlabel.cpp" line="451"/>
         <location filename="../src/gui/qt/gametable/myavatarlabel.cpp" line="452"/>
         <location filename="../src/gui/qt/gametable/myavatarlabel.cpp" line="453"/>
         <source>ms</source>
-        <translation type="unfinished"></translation>
+        <translation>ms</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gametable/myavatarlabel.cpp" line="452"/>
         <source>Minimum: </source>
-        <translation type="unfinished"></translation>
+        <translation>Ùine as giorra: </translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gametable/myavatarlabel.cpp" line="453"/>
         <source>Maximum: </source>
-        <translation type="unfinished"></translation>
+        <translation>Ùine as fhaide: </translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gametable/myavatarlabel.cpp" line="487"/>
@@ -860,7 +860,7 @@ Dh&apos;fhaoidte gum fàillig le luchdadh suas aig faidhlichean loga ma tha thu 
     <message>
         <location filename="../src/gui/qt/gametable/myavatarlabel.cpp" line="509"/>
         <source>You will receive chat messages and game invitations from this user again!&lt;br&gt;Do you really want to remove player &lt;b&gt;%1&lt;/b&gt; from your ignore list?</source>
-        <translation type="unfinished"></translation>
+        <translation>Gheibh thu teachdaireachdan còmhraidh &apos;s cuiridhean do gheamaichean leis a&apos; chleachdaiche seo a-rithist!&lt;br&gt;A bheil thu cinnteach gu bheil thu airson an cluicheadair &lt;b&gt;%1&lt;/b&gt; a thoirt air falbh on liosta neo-shuime agad?</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gametable/myavatarlabel.cpp" line="535"/>
@@ -918,7 +918,7 @@ p, li { white-space: pre-wrap; }
 &lt;tr&gt;
 &lt;td style=&quot;border: none;&quot;&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;translator name - mail address&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="vanished">&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+        <translation>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
@@ -933,7 +933,7 @@ p, li { white-space: pre-wrap; }
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
 &lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="vanished">&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+        <translation>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
@@ -1778,7 +1778,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Join &amp;any game</source>
-        <translation type="vanished">Gabh an ge&amp;ama sam bith</translation>
+        <translation>Gabh an ge&amp;ama sam bith</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog.ui" line="251"/>
@@ -1918,7 +1918,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="202"/>
         <source>Unignore player</source>
-        <translation type="unfinished"></translation>
+        <translation>Na leig seachad an cluicheadair</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="204"/>
@@ -1976,7 +1976,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Connected players - max. %1</source>
-        <translation type="vanished">Cluicheadairean ceangailte - %1 air a char as motha</translation>
+        <translation>Cluicheadairean ceangailte - %1 air a char as motha</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="137"/>
@@ -2001,7 +2001,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Connected players - Max. %1</source>
-        <translation type="vanished">Cluicheadairean ceangailte - %1 air a char as motha</translation>
+        <translation>Cluicheadairean ceangailte - %1 air a char as motha</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="613"/>
@@ -2112,7 +2112,7 @@ Faodaidh tu cuireadh a thoirt dha chluicheadair eile le briogadh deas air fhar-a
     </message>
     <message>
         <source>Connected players</source>
-        <translation type="vanished">Cluicheadairean ceangailte</translation>
+        <translation>Cluicheadairean ceangailte</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1297"/>
@@ -2167,12 +2167,12 @@ Faodaidh tu cuireadh a thoirt dha chluicheadair eile le briogadh deas air fhar-a
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1670"/>
         <source>Unignore %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Na leig seachad %1</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1673"/>
         <source>Unignore player ...</source>
-        <translation type="unfinished"></translation>
+        <translation>Na leig seachad an cluicheadair ...</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1679"/>
@@ -2202,7 +2202,7 @@ Faodaidh tu cuireadh a thoirt dha chluicheadair eile le briogadh deas air fhar-a
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1826"/>
         <source>You will receive chat messages and game invitations from this user again!&lt;br&gt;Do you really want to remove player &lt;b&gt;%1&lt;/b&gt; from your ignore list?</source>
-        <translation type="unfinished"></translation>
+        <translation>Gheibh thu teachdaireachdan còmhraidh &apos;s cuiridhean do gheamaichean leis a&apos; chleachdaiche seo a-rithist!&lt;br&gt;A bheil thu cinnteach gu bheil thu airson an cluicheadair &lt;b&gt;%1&lt;/b&gt; a thoirt air falbh on liosta neo-shuime agad?</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1925"/>
@@ -4070,7 +4070,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <source>Could not load server-profiles-file:
 </source>
-        <translation type="vanished">Cha b&apos; urrainn dhuinn am faidhle airson pròifilean nam frithealaichean a luchdadh:</translation>
+        <translation>Cha b&apos; urrainn dhuinn am faidhle airson pròifilean nam frithealaichean a luchdadh:</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/joinnetworkgamedialog/joinnetworkgamedialogimpl.cpp" line="136"/>
@@ -4121,7 +4121,7 @@ A bheil thu airson sgrìobhadh thairis air?</translation>
     <message>
         <source>Could not save server-profiles-file:
 </source>
-        <translation type="vanished">Cha b&apos; urrainn dhuinn am faidhle airson pròifilean nam frithealaichean a shàbhaladh:</translation>
+        <translation>Cha b&apos; urrainn dhuinn am faidhle airson pròifilean nam frithealaichean a shàbhaladh:</translation>
     </message>
 </context>
 <context>
@@ -4464,7 +4464,7 @@ Feuch an cuir thu a-steach dealbh dligheach!</translation>
     <message>
         <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="345"/>
         <source>Show network state color on the avatar</source>
-        <translation type="unfinished"></translation>
+        <translation>Seall dath na staid lìonraidh air an avatar</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="382"/>
@@ -4789,7 +4789,7 @@ Feuch an cuir thu a-steach dealbh dligheach!</translation>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="350"/>
         <source>Show network state color in the corner of the avatar</source>
-        <translation type="unfinished"></translation>
+        <translation>Seall dath na staid lìonraidh ann an oisean an avatar</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="1651"/>
