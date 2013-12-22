@@ -113,10 +113,12 @@ gameTableImpl::gameTableImpl(ConfigFile *c, QMainWindow *parent)
 	tabsDiag = new QDialog(this);
 	tabs.setupUi(tabsDiag);
 	textLabel_handLabel->hide();
-#ifdef ANDROID
-	tabsDiag->setStyleSheet("QObject { font: 26px; } QDialog { background-image: url(:/android/android-data/gfx/gui/table/default_800x480/table_dark.png); background-position: bottom center; background-origin: content;  background-repeat: no-repeat;}");
-	this->setWindowState(Qt::WindowFullScreen);
-#endif
+	#ifdef ANDROID
+		tabsDiag->setStyleSheet("QObject { font: 26px; } QDialog { background-image: url(:/android/android-data/gfx/gui/table/default_800x480/table_dark.png); background-position: bottom center; background-origin: content;  background-repeat: no-repeat;}");
+		this->setWindowState(Qt::WindowFullScreen);
+	#else
+		tabs.pushButton_settings->hide();
+	#endif
 	tabs.label_chance->setMyStyle(myGameTableStyle);
 #else
 	label_chance->setMyStyle(myGameTableStyle);
@@ -527,8 +529,6 @@ gameTableImpl::gameTableImpl(ConfigFile *c, QMainWindow *parent)
 #ifdef ANDROID
 	fullscreenButton->hide();
 	this->setMenuBar(0);
-#else
-	tabs.pushButton_settings->hide();
 #endif
 
 	//Connects

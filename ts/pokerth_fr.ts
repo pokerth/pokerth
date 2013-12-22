@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.1" language="fr">
+<TS version="2.0" language="fr">
 <context>
     <name>CardDeckStyleReader</name>
     <message>
@@ -573,7 +573,7 @@ Veuillez vérifier que vous chargez un fichier de log valide.</translation>
     <message>
         <location filename="../src/gui/qt/gametable/myavatarlabel.cpp" line="55"/>
         <source>Unignore Player</source>
-        <translation type="unfinished"></translation>
+        <translation>Cesser d&apos;ignorer le joueur</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gametable/myavatarlabel.cpp" line="57"/>
@@ -583,29 +583,29 @@ Veuillez vérifier que vous chargez un fichier de log valide.</translation>
     <message>
         <location filename="../src/gui/qt/gametable/myavatarlabel.cpp" line="450"/>
         <source>Server response times</source>
-        <translation type="unfinished"></translation>
+        <translation>Temps de réponse du serveur</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gametable/myavatarlabel.cpp" line="451"/>
         <source>Average: </source>
-        <translation type="unfinished"></translation>
+        <translation>Moyenne : </translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gametable/myavatarlabel.cpp" line="451"/>
         <location filename="../src/gui/qt/gametable/myavatarlabel.cpp" line="452"/>
         <location filename="../src/gui/qt/gametable/myavatarlabel.cpp" line="453"/>
         <source>ms</source>
-        <translation type="unfinished"></translation>
+        <translation>ms</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gametable/myavatarlabel.cpp" line="452"/>
         <source>Minimum: </source>
-        <translation type="unfinished"></translation>
+        <translation>Minimum : </translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gametable/myavatarlabel.cpp" line="453"/>
         <source>Maximum: </source>
-        <translation type="unfinished"></translation>
+        <translation>Maximum : </translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gametable/myavatarlabel.cpp" line="487"/>
@@ -623,7 +623,7 @@ Vous ne pourrez plus discuter ou recevoir d&apos;invitations de jeu avec ce joue
     <message>
         <location filename="../src/gui/qt/gametable/myavatarlabel.cpp" line="509"/>
         <source>You will receive chat messages and game invitations from this user again!&lt;br&gt;Do you really want to remove player &lt;b&gt;%1&lt;/b&gt; from your ignore list?</source>
-        <translation type="unfinished"></translation>
+        <translation>Vous allez à nouveau recevoir des messages et invitations de parties de ce joueur. &lt;br&gt;Voulez-vous vraiment enlever le joueur &lt;b&gt;%1&lt;/br&gt; de la liste des joueurs ignorés ?</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gametable/myavatarlabel.cpp" line="535"/>
@@ -779,7 +779,7 @@ p, li { white-space: pre-wrap; }
 &lt;tr&gt;
 &lt;td style=&quot;border: none;&quot;&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;translator name - mail address&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="vanished">&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+        <translation>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-weight:400; font-style:normal;&quot;&gt;
@@ -797,7 +797,7 @@ Guillaume Delacour - &lt;a href=&quot;mailto: gui@iroqwa.org&quot;&gt;&lt;span s
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
 &lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="vanished">&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+        <translation>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
@@ -3476,7 +3476,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Join &amp;any game</source>
-        <translation type="vanished">Joindre &amp;aléatoirement</translation>
+        <translation>Joindre &amp;aléatoirement</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog.ui" line="251"/>
@@ -3652,7 +3652,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Connected players</source>
-        <translation type="vanished">Joueurs connectés</translation>
+        <translation>Joueurs connectés</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1297"/>
@@ -3710,7 +3710,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="202"/>
         <source>Unignore player</source>
-        <translation type="unfinished"></translation>
+        <translation>Cesser d&apos;ignorer le joueur</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="204"/>
@@ -3758,7 +3758,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Connected players - max. %1</source>
-        <translation type="vanished">Joueurs dans la partie - Max : %1</translation>
+        <translation>Joueurs dans la partie - Max : %1</translation>
     </message>
     <message>
         <source> sec (action)</source>
@@ -5063,7 +5063,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Connected players - Max. %1</source>
-        <translation type="vanished">Joueurs dans la partie - Max : %1</translation>
+        <translation>Joueurs dans la partie - Max : %1</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="749"/>
@@ -5103,12 +5103,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1670"/>
         <source>Unignore %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Cesser d&apos;ignorer %1</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1673"/>
         <source>Unignore player ...</source>
-        <translation type="unfinished"></translation>
+        <translation>Cesser d&apos;ignorer le joueur ...</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1773"/>
@@ -5128,7 +5128,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1826"/>
         <source>You will receive chat messages and game invitations from this user again!&lt;br&gt;Do you really want to remove player &lt;b&gt;%1&lt;/b&gt; from your ignore list?</source>
-        <translation type="unfinished"></translation>
+        <translation>Vous allez recevoir des messages et invitations de parties de ce joueur. &lt;br&gt;Voulez-vous réellement enlever le joueur &lt;b&gt;%1&lt;/b&gt; de la liste des joueurs ignorés ?</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1849"/>
@@ -6285,7 +6285,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <source>Could not load server-profiles-file:
 </source>
-        <translation type="vanished">Impossible de charger le fichier de profil du serveur : 
+        <translation>Impossible de charger le fichier de profil du serveur : 
 </translation>
     </message>
     <message>
@@ -6334,7 +6334,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <source>Could not save server-profiles-file:
 </source>
-        <translation type="vanished">Impossible d&apos;enregistrer les profils du serveur : 
+        <translation>Impossible d&apos;enregistrer les profils du serveur : 
 </translation>
     </message>
     <message>
@@ -6752,7 +6752,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="350"/>
         <source>Show network state color in the corner of the avatar</source>
-        <translation type="unfinished"></translation>
+        <translation>Montrer l&apos;état du réseau dans le coin de l&apos;avatar</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="931"/>
@@ -7436,7 +7436,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="345"/>
         <source>Show network state color on the avatar</source>
-        <translation type="unfinished"></translation>
+        <translation>Montrer la couleur de l&apos;état du réseau sur l&apos;avatar</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="2095"/>

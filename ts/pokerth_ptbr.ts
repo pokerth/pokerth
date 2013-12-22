@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.1" language="pt_BR">
+<TS version="2.0" language="pt_BR">
 <context>
     <name>CardDeckStyleReader</name>
     <message>
@@ -493,31 +493,31 @@ Por Favor, verifique se você está enviando o arquivo de log valido do PokerTH.
     </message>
     <message>
         <source>Unignore Player</source>
-        <translation type="unfinished"></translation>
+        <translation>Jogador aceito</translation>
     </message>
     <message>
         <source>Server response times</source>
-        <translation type="unfinished"></translation>
+        <translation>Tempos de resposta do servidor</translation>
     </message>
     <message>
         <source>Average: </source>
-        <translation type="unfinished"></translation>
+        <translation>Média:</translation>
     </message>
     <message>
         <source>ms</source>
-        <translation type="unfinished"></translation>
+        <translation>ms</translation>
     </message>
     <message>
         <source>Minimum: </source>
-        <translation type="unfinished"></translation>
+        <translation>Minimo:</translation>
     </message>
     <message>
         <source>Maximum: </source>
-        <translation type="unfinished"></translation>
+        <translation>Maximo:</translation>
     </message>
     <message>
         <source>You will receive chat messages and game invitations from this user again!&lt;br&gt;Do you really want to remove player &lt;b&gt;%1&lt;/b&gt; from your ignore list?</source>
-        <translation type="unfinished"></translation>
+        <translation>Você receberá mensagens de chat e convites jogo deste usuário novamente! &lt;br&gt; Você realmente deseja remover este jogador &lt;b&gt;%1&lt;/b&gt; a partir de sua lista de ignorados?</translation>
     </message>
 </context>
 <context>
@@ -1768,7 +1768,7 @@ p, li { white-space: pre-wrap; }
 &lt;tr&gt;
 &lt;td style=&quot;border: none;&quot;&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;translator name - mail address&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="vanished">&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;(new line)
+        <translation>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;(new line)
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;(new line)
 p, li { white-space: pre-wrap; }(new line)
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:8pt; font-weight:400; font-style:normal;&quot;&gt;(new line)
@@ -1839,7 +1839,7 @@ p, li { white-space: pre-wrap; }
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
 &lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="vanished">&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+        <translation>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
@@ -2740,7 +2740,7 @@ Por favor escolha outro!</translation>
     </message>
     <message>
         <source>Join &amp;any game</source>
-        <translation type="vanished">Entrar &amp;em qualquer jogo</translation>
+        <translation>Entrar &amp;em qualquer jogo</translation>
     </message>
     <message>
         <source>&amp;Create Game</source>
@@ -2913,7 +2913,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Connected players</source>
-        <translation type="vanished">Jogadores conectados</translation>
+        <translation>Jogadores conectados</translation>
     </message>
     <message>
         <source>hands</source>
@@ -2977,7 +2977,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Connected players - max. %1</source>
-        <translation type="vanished">Jogadores conectados - max. %1</translation>
+        <translation>Jogadores conectados - max. %1</translation>
     </message>
     <message>
         <source>T</source>
@@ -2985,7 +2985,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Connected players - Max. %1</source>
-        <translation type="vanished">Jogadores conectados - Max. %1</translation>
+        <translation>Jogadores conectados - Max. %1</translation>
     </message>
     <message>
         <source>running games: %1</source>
@@ -4126,19 +4126,19 @@ Sinta se avontade para convidar outro jogador clicando no apelido na lista de jo
     </message>
     <message>
         <source>Unignore player</source>
-        <translation type="unfinished"></translation>
+        <translation>Aceitar jogador</translation>
     </message>
     <message>
         <source>Unignore %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Aceitar %1</translation>
     </message>
     <message>
         <source>Unignore player ...</source>
-        <translation type="unfinished"></translation>
+        <translation>Aceitar Jogador ...</translation>
     </message>
     <message>
         <source>You will receive chat messages and game invitations from this user again!&lt;br&gt;Do you really want to remove player &lt;b&gt;%1&lt;/b&gt; from your ignore list?</source>
-        <translation type="unfinished"></translation>
+        <translation>Você receberá mensagens de chat e convites de jogo deste usuário novamente! &lt;br&gt; Você realmente deseja remover jogador &lt;b&gt;%1&lt;/b&gt; a partir de sua lista de ignorados?</translation>
     </message>
 </context>
 <context>
@@ -5019,7 +5019,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <source>Could not load server-profiles-file:
 </source>
-        <translation type="vanished">Não foi possível carregar servidor-perfil-arquivo:
+        <translation>Não foi possível carregar servidor-perfil-arquivo:
 </translation>
     </message>
     <message>
@@ -5029,7 +5029,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <source>Could not save server-profiles-file:
 </source>
-        <translation type="vanished">Não foi possível salvar servidor-perfil-arquivo:
+        <translation>Não foi possível salvar servidor-perfil-arquivo:
 </translation>
     </message>
     <message>
@@ -6085,11 +6085,11 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Show network state color on the avatar</source>
-        <translation type="unfinished"></translation>
+        <translation>Mostrar estado da rede através da cor no avatar</translation>
     </message>
     <message>
         <source>Show network state color in the corner of the avatar</source>
-        <translation type="unfinished"></translation>
+        <translation>Mostrar estado da rede nos cantos do avatar</translation>
     </message>
 </context>
 <context>
