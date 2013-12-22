@@ -577,7 +577,7 @@ Bitte überprüfen Sie, ob Sie eine gültige PokerTH-Logdatei hochladen.</transl
     <message>
         <location filename="../src/gui/qt/gametable/myavatarlabel.cpp" line="55"/>
         <source>Unignore Player</source>
-        <translation type="unfinished"></translation>
+        <translation>Spieler nicht ignorieren</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gametable/myavatarlabel.cpp" line="57"/>
@@ -587,29 +587,29 @@ Bitte überprüfen Sie, ob Sie eine gültige PokerTH-Logdatei hochladen.</transl
     <message>
         <location filename="../src/gui/qt/gametable/myavatarlabel.cpp" line="450"/>
         <source>Server response times</source>
-        <translation type="unfinished"></translation>
+        <translation>Server-Antwortzeiten</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gametable/myavatarlabel.cpp" line="451"/>
         <source>Average: </source>
-        <translation type="unfinished"></translation>
+        <translation>Durchschnitt: </translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gametable/myavatarlabel.cpp" line="451"/>
         <location filename="../src/gui/qt/gametable/myavatarlabel.cpp" line="452"/>
         <location filename="../src/gui/qt/gametable/myavatarlabel.cpp" line="453"/>
         <source>ms</source>
-        <translation type="unfinished"></translation>
+        <translation>ms</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gametable/myavatarlabel.cpp" line="452"/>
         <source>Minimum: </source>
-        <translation type="unfinished"></translation>
+        <translation>Minimum: </translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gametable/myavatarlabel.cpp" line="453"/>
         <source>Maximum: </source>
-        <translation type="unfinished"></translation>
+        <translation>Maximum: </translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gametable/myavatarlabel.cpp" line="487"/>
@@ -626,7 +626,7 @@ Bitte überprüfen Sie, ob Sie eine gültige PokerTH-Logdatei hochladen.</transl
     <message>
         <location filename="../src/gui/qt/gametable/myavatarlabel.cpp" line="509"/>
         <source>You will receive chat messages and game invitations from this user again!&lt;br&gt;Do you really want to remove player &lt;b&gt;%1&lt;/b&gt; from your ignore list?</source>
-        <translation type="unfinished"></translation>
+        <translation>Sie werden Chat-Nachrichten und Spieleinladungen von diesem Spieler wieder erhalten!&lt;br&gt;Möchten Sie den Spieler &lt;b&gt;%1&lt;/b&gt; wirklich aus Ihrer Ignorier-Liste löschen?</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gametable/myavatarlabel.cpp" line="535"/>
@@ -3355,7 +3355,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="202"/>
         <source>Unignore player</source>
-        <translation type="unfinished"></translation>
+        <translation>Spieler nicht ignorieren</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="204"/>
@@ -4750,7 +4750,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1826"/>
         <source>You will receive chat messages and game invitations from this user again!&lt;br&gt;Do you really want to remove player &lt;b&gt;%1&lt;/b&gt; from your ignore list?</source>
-        <translation type="unfinished"></translation>
+        <translation>Sie werden Chat-Nachrichten und Spieleinladungen von diesem Spieler wieder erhalten!&lt;br&gt;Möchten Sie den Spieler &lt;b&gt;%1&lt;/b&gt; wirklich aus Ihrer Ignorier-Liste löschen?</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1849"/>
@@ -4821,12 +4821,12 @@ Sie können nun Spieler einladen, indem Sie auf deren Nicknamen in der Spielerli
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1670"/>
         <source>Unignore %1</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 nicht ignorieren</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1673"/>
         <source>Unignore player ...</source>
-        <translation type="unfinished"></translation>
+        <translation>Spieler nicht ignorieren...</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1679"/>
@@ -6367,7 +6367,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="350"/>
         <source>Show network state color in the corner of the avatar</source>
-        <translation type="unfinished"></translation>
+        <translation>Netzwerkstatus-Farbe in der Ecke des Avatars anzeigen</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="931"/>
@@ -7183,7 +7183,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="345"/>
         <source>Show network state color on the avatar</source>
-        <translation type="unfinished"></translation>
+        <translation>Netzwerkstatus-Farbe auf dem Avatar anzeigen</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="382"/>
