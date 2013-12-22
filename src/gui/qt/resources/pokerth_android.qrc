@@ -366,7 +366,6 @@
         <file>android-data/gfx/gui/misc/welcomepokerth10_mobile.png</file>
         <file>android-data/gfx/gui/misc/windowicon.png</file>
         <file>android-data/fonts/DejaVuSans-Bold.ttf</file>
-        <file>android-data/fonts/n019003l.pfb</file>
         <file>android-data/gfx/avatars/default/misc/00a0b3d26a67841239b8883183b7a8f0.png</file>
         <file>android-data/gfx/avatars/default/misc/0f2ca195ebaec613ffc8626185415b18.png</file>
         <file>android-data/gfx/avatars/default/misc/2b0fca47b50e2cc4f910eba9ffa858a9.png</file>
@@ -556,7 +555,9 @@
         <file>android-data/translations/pokerth_sv.qm</file>
         <file>android-data/translations/pokerth_ta.qm</file>
         <file>android-data/translations/pokerth_tr.qm</file>
+        <file>android-data/translations/pokerth_vi.qm</file>
         <file>android-data/translations/pokerth_zhcn.qm</file>
+        <file>android-data/misc/third_party_libs.txt</file>
     </qresource>
     <qresource prefix="/emotes">
         <file>emotes/face-angel.png</file>

@@ -29,7 +29,16 @@
    <bool>true</bool>
   </property>
   <layout class="QGridLayout" name="gridLayout_3">
-   <property name="margin">
+   <property name="leftMargin">
+    <number>0</number>
+   </property>
+   <property name="topMargin">
+    <number>0</number>
+   </property>
+   <property name="rightMargin">
+    <number>0</number>
+   </property>
+   <property name="bottomMargin">
     <number>0</number>
    </property>
    <property name="spacing">
@@ -47,7 +56,16 @@
       <enum>QFrame::Plain</enum>
      </property>
      <layout class="QGridLayout" name="gridLayout">
-      <property name="margin">
+      <property name="leftMargin">
+       <number>0</number>
+      </property>
+      <property name="topMargin">
+       <number>0</number>
+      </property>
+      <property name="rightMargin">
+       <number>0</number>
+      </property>
+      <property name="bottomMargin">
        <number>0</number>
       </property>
       <property name="spacing">
@@ -81,7 +99,16 @@
              <bool>true</bool>
             </property>
             <layout class="QGridLayout" name="_2">
-             <property name="margin">
+             <property name="leftMargin">
+              <number>4</number>
+             </property>
+             <property name="topMargin">
+              <number>4</number>
+             </property>
+             <property name="rightMargin">
+              <number>4</number>
+             </property>
+             <property name="bottomMargin">
               <number>4</number>
              </property>
              <item row="0" column="0">
@@ -103,7 +130,16 @@
                  <string>Hands</string>
                 </attribute>
                 <layout class="QGridLayout" name="_3">
-                 <property name="margin">
+                 <property name="leftMargin">
+                  <number>0</number>
+                 </property>
+                 <property name="topMargin">
+                  <number>0</number>
+                 </property>
+                 <property name="rightMargin">
+                  <number>0</number>
+                 </property>
+                 <property name="bottomMargin">
                   <number>0</number>
                  </property>
                  <property name="spacing">
@@ -123,7 +159,16 @@
                  <string>Chat</string>
                 </attribute>
                 <layout class="QGridLayout" name="_4">
-                 <property name="margin">
+                 <property name="leftMargin">
+                  <number>0</number>
+                 </property>
+                 <property name="topMargin">
+                  <number>0</number>
+                 </property>
+                 <property name="rightMargin">
+                  <number>0</number>
+                 </property>
+                 <property name="bottomMargin">
                   <number>0</number>
                  </property>
                  <property name="spacing">
@@ -159,14 +204,23 @@
                  <string>Kick</string>
                 </attribute>
                 <layout class="QGridLayout" name="gridLayout_100">
+                 <property name="leftMargin">
+                  <number>5</number>
+                 </property>
+                 <property name="topMargin">
+                  <number>5</number>
+                 </property>
+                 <property name="rightMargin">
+                  <number>5</number>
+                 </property>
+                 <property name="bottomMargin">
+                  <number>5</number>
+                 </property>
                  <property name="horizontalSpacing">
                   <number>0</number>
                  </property>
                  <property name="verticalSpacing">
                   <number>6</number>
-                 </property>
-                 <property name="margin">
-                  <number>5</number>
                  </property>
                  <item row="1" column="0">
                   <layout class="QVBoxLayout" name="verticalLayout">
@@ -312,11 +366,20 @@
                  <string>Player info</string>
                 </attribute>
                 <layout class="QGridLayout" name="gridLayout4">
+                 <property name="leftMargin">
+                  <number>6</number>
+                 </property>
+                 <property name="topMargin">
+                  <number>6</number>
+                 </property>
+                 <property name="rightMargin">
+                  <number>6</number>
+                 </property>
+                 <property name="bottomMargin">
+                  <number>6</number>
+                 </property>
                  <property name="verticalSpacing">
                   <number>3</number>
-                 </property>
-                 <property name="margin">
-                  <number>6</number>
                  </property>
                  <item row="0" column="0">
                   <widget class="QPlainTextEdit" name="textEdit_tipInput">
@@ -357,14 +420,23 @@
              <bool>true</bool>
             </property>
             <layout class="QGridLayout" name="_5">
+             <property name="leftMargin">
+              <number>4</number>
+             </property>
+             <property name="topMargin">
+              <number>4</number>
+             </property>
+             <property name="rightMargin">
+              <number>4</number>
+             </property>
+             <property name="bottomMargin">
+              <number>4</number>
+             </property>
              <property name="horizontalSpacing">
               <number>1</number>
              </property>
              <property name="verticalSpacing">
               <number>2</number>
-             </property>
-             <property name="margin">
-              <number>4</number>
              </property>
              <item row="0" column="0">
               <widget class="MyRightTabWidget" name="tabWidget_Right">
@@ -385,7 +457,16 @@
                  <string>Log</string>
                 </attribute>
                 <layout class="QGridLayout" name="_6">
-                 <property name="margin">
+                 <property name="leftMargin">
+                  <number>0</number>
+                 </property>
+                 <property name="topMargin">
+                  <number>0</number>
+                 </property>
+                 <property name="rightMargin">
+                  <number>0</number>
+                 </property>
+                 <property name="bottomMargin">
                   <number>0</number>
                  </property>
                  <property name="spacing">
@@ -555,7 +636,16 @@
           <property name="spacing">
            <number>6</number>
           </property>
-          <property name="margin">
+          <property name="leftMargin">
+           <number>0</number>
+          </property>
+          <property name="topMargin">
+           <number>0</number>
+          </property>
+          <property name="rightMargin">
+           <number>0</number>
+          </property>
+          <property name="bottomMargin">
            <number>0</number>
           </property>
           <item>
@@ -577,6 +667,41 @@
             </property>
             <property name="styleSheet">
              <string notr="true">QPushButton { border:none; background-image: url(&quot;:/gfx/tab-close.png&quot;); background-repeat: no-repeat; background-position: center center;}</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <spacer name="horizontalSpacer_3">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeType">
+             <enum>QSizePolicy::Fixed</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>20</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item>
+           <widget class="QPushButton" name="pushButton_settings">
+            <property name="minimumSize">
+             <size>
+              <width>60</width>
+              <height>60</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>60</width>
+              <height>60</height>
+             </size>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">QPushButton { border:none; background-image: url(&quot;:/gfx/systemsettings.png&quot;); background-repeat: no-repeat; background-position: center center;}</string>
             </property>
            </widget>
           </item>
