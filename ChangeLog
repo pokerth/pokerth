@@ -3,8 +3,10 @@
 - New option to allow/disallow spectators when creating a game (#215)
 - Show list of spectators in the lobby and on the game table (#196)
 - Support for WebSocket connections was integrated in the server
+- Show server ping ("application layer ping") in the client (#239)
 - Added option to disable emoticons in the chat (#172)
 - Avatars are no longer displayed for players which are on the ignore list (#187)
+- New option to "unignore" a player in the context menu (#56)
 - BUGFIX: context menu in connected player list was fixed (#183)
 - BUGFIX: "display idle players" in the lobby was fixed (#136)
 - BUGFIX: No longer beep if ignored player uses nickname in chat (#221)
