@@ -67,6 +67,13 @@
 #define FORMATLEFT(X) "<p align='center'>(X)"
 #define FORMATRIGHT(X) "(X)</p>"
 
+#ifdef ANDROID
+#ifndef ANDROID_TEST
+#include "QtGui/5.2.0/QtGui/qpa/qplatformnativeinterface.h"
+#include <jni.h>
+#endif
+#endif
+
 using namespace std;
 
 gameTableImpl::gameTableImpl(ConfigFile *c, QMainWindow *parent)
@@ -499,16 +506,6 @@ gameTableImpl::gameTableImpl(ConfigFile *c, QMainWindow *parent)
 	// 	QString windowIconString();
 	this->setWindowIcon(QIcon(myAppDataPath+"gfx/gui/misc/windowicon.png"));
 
-	//Statusbar
-	if(myConfig->readConfigInt("ShowStatusbarMessages")) {
-
-#ifdef __APPLE__
-		//                 statusBar()->showMessage(tr("Cmd+N to start a new game"));
-#else
-		//                 statusBar()->showMessage(tr("Ctrl+N to start a new game"));
-#endif
-	}
-
 	// 	Dialogs
 #ifdef GUI_800x480
 	myChat = new ChatTools(tabs.lineEdit_ChatInput, myConfig, INGAME_CHAT, tabs.textBrowser_Chat);
@@ -529,8 +526,9 @@ gameTableImpl::gameTableImpl(ConfigFile *c, QMainWindow *parent)
 	//hide left and right icon and menubar from maemo gui for ANDROID
 #ifdef ANDROID
 	fullscreenButton->hide();
-	menubar->hide();
-//        tabsButton->hide();
+	this->setMenuBar(0);
+#else
+	tabs.pushButton_settings->hide();
 #endif
 
 	//Connects
@@ -575,14 +573,20 @@ gameTableImpl::gameTableImpl(ConfigFile *c, QMainWindow *parent)
 	connect(voteOnKickTimeoutTimer, SIGNAL(timeout()), this, SLOT(nextVoteOnKickTimeoutAnimationFrame()));
 	connect(enableCallCheckPushButtonTimer, SIGNAL(timeout()), this, SLOT(enableCallCheckPushButton()));
 
-
+#ifdef ANDROID
+	connect( tabs.pushButton_settings, SIGNAL( clicked() ), this, SLOT( callSettingsDialog() ) );
+#else
 	connect( actionConfigure_PokerTH, SIGNAL( triggered() ), this, SLOT( callSettingsDialog() ) );
+#endif
+
 	connect( actionClose, SIGNAL( triggered() ), this, SLOT( closeGameTable()) );
+
 #ifdef GUI_800x480
 	connect( fullscreenButton, SIGNAL( clicked() ), this, SLOT( switchFullscreen() ) );
 #else
 	connect( actionFullScreen, SIGNAL( triggered() ), this, SLOT( switchFullscreen() ) );
 #endif
+
 	connect( actionShowHideChat, SIGNAL( triggered() ), this, SLOT( switchChatWindow() ) );
 	connect( actionShowHideHelp, SIGNAL( triggered() ), this, SLOT( switchHelpWindow() ) );
 	connect( actionShowHideLog, SIGNAL( triggered() ), this, SLOT( switchLogWindow() ) );
@@ -4305,6 +4309,15 @@ void gameTableImpl::restoreGameTableGeometry()
 			this->resize(myConfig->readConfigInt("GameTableWidthSave"), myConfig->readConfigInt("GameTableHeightSave"));
 		}
 	}
+#ifdef ANDROID
+	if(getAndroidApiVersion() == 10) {
+		QDesktopWidget dw;
+		int availableWidth = dw.screenGeometry().width();
+		int availableHeight = dw.screenGeometry().height();
+		this->showNormal();
+		this->setGeometry(0,0,availableWidth, availableHeight);
+	}
+#endif
 }
 
 void gameTableImpl::netClientPlayerLeft(unsigned /*playerId*/)
@@ -4501,3 +4514,23 @@ void gameTableImpl::pingUpdate(unsigned minPing, unsigned avgPing, unsigned maxP
 	label_Avatar0->refreshPing(minPing, avgPing, maxPing);
 }
 
+int gameTableImpl::getAndroidApiVersion()
+{
+	int api = -1;
+#ifdef ANDROID
+#ifndef ANDROID_TEST
+	JavaVM *currVM = (JavaVM *)QApplication::platformNativeInterface()->nativeResourceForIntegration("JavaVM");
+	JNIEnv* env;
+	if (currVM->AttachCurrentThread(&env, NULL)<0) {
+		qCritical()<<"AttachCurrentThread failed";
+	} else {
+		jclass jclassApplicationClass = env->FindClass("android/os/Build$VERSION");
+		if (jclassApplicationClass) {
+			api = env->GetStaticIntField(jclassApplicationClass, env->GetStaticFieldID(jclassApplicationClass,"SDK_INT", "I"));
+		}
+		currVM->DetachCurrentThread();
+	}
+#endif
+#endif
+	return api;
+}

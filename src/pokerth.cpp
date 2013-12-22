@@ -97,11 +97,15 @@ int main( int argc, char **argv )
 #endif
 
 	/////// can be removed for non-qt-guis ////////////
+#ifdef ANDROID
+	QApplication a(argc, argv);
+	a.setApplicationName("PokerTH");
+#else
 	SharedTools::QtSingleApplication a( "PokerTH", argc, argv );
-
 	if (a.sendMessage("Wake up!")) {
 		return 0;
 	}
+#endif
 
 	//create defaultconfig
 	ConfigFile *myConfig = new ConfigFile(argv[0], false);
@@ -116,8 +120,6 @@ int main( int argc, char **argv )
 	//set QApplication default font
 
 	QFontDatabase::addApplicationFont (myAppDataPath +"fonts/n019003l.pfb");
-	QFontDatabase::addApplicationFont (myAppDataPath +"fonts/VeraBd.ttf");
-	QFontDatabase::addApplicationFont (myAppDataPath +"fonts/c059013l.pfb");
 	QFontDatabase::addApplicationFont (myAppDataPath +"fonts/DejaVuSans-Bold.ttf");
 
 #ifdef _WIN32
@@ -132,7 +134,7 @@ int main( int argc, char **argv )
 	p.setColor(QPalette::Base, QColor::fromRgb(80,80,80));
 	p.setColor(QPalette::Window, QColor::fromRgb(50,50,50));
 	p.setColor(QPalette::ButtonText, QColor::fromRgb(255,255,255));
-	p.setColor(QPalette::Disabled, QPalette::ButtonText, QColor::fromRgb(100,100,100));
+	p.setColor(QPalette::Disabled, QPalette::ButtonText, QColor::fromRgb(130,130,130));
 	p.setColor(QPalette::WindowText, QColor::fromRgb(255,255,255));
 	p.setColor(QPalette::Disabled, QPalette::WindowText, QColor::fromRgb(100,100,100));
 	p.setColor(QPalette::Text, QColor::fromRgb(255,255,255));
@@ -230,7 +232,6 @@ int main( int argc, char **argv )
 	QTranslator qtTranslator;
 	qtTranslator.load(QString(myAppDataPath +"translations/qt_") + QString::fromStdString(myConfig->readConfigString("Language")));
 	a.installTranslator(&qtTranslator);
-
 	QTranslator translator;
 	translator.load(QString(myAppDataPath +"translations/pokerth_") + QString::fromStdString(myConfig->readConfigString("Language")));
 	a.installTranslator(&translator);
@@ -242,14 +243,13 @@ int main( int argc, char **argv )
 	///////////////////////////////////////////////////
 
 	startWindowImpl mainWin(myConfig,myLog);
+#ifdef ANDROID
+	mainWin.show();
+#else
 	a.setActivationWindow(&mainWin, true);
-
+#endif
 	int retVal = a.exec();
-
 	curl_global_cleanup();
 	socket_cleanup();
-
-
 	return retVal;
-
 }

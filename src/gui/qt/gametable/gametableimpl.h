@@ -377,6 +377,7 @@ public slots:
 #endif
 	void refreshSpectatorsDisplay();
 	void pingUpdate(unsigned, unsigned, unsigned);
+	int getAndroidApiVersion();
 
 private:
 
