@@ -72,7 +72,7 @@ public:
 		return *std::max_element(pingValues.begin(), pingValues.end());
 	}
 	unsigned AveragePing() {
-		return std::accumulate(pingValues.begin(), pingValues.end(), 0) / (unsigned)pingValues.size();
+		return pingValues.empty() ? 0 : (std::accumulate(pingValues.begin(), pingValues.end(), 0) / (unsigned)pingValues.size());
 	}
 	void StartPing() {
 		pingTimer.start();
