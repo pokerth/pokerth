@@ -4480,6 +4480,8 @@ void gameTableImpl::refreshSpectatorsDisplay()
 	assert(myStartWindow->getSession());
 	GameInfo info(myStartWindow->getSession()->getClientGameInfo(myStartWindow->getSession()->getClientCurrentGameId()));
 	if(!info.spectatorsDuringGame.empty()) {
+		spectatorIcon->show();
+		spectatorNumberLabel->show();
 		QPixmap spectatorPix(":/gfx/spectator.png");
 		int iconX = this->centralWidget()->geometry().width() - spectatorPix.width() - 1;
 		int iconY = 2;
@@ -4504,8 +4506,10 @@ void gameTableImpl::refreshSpectatorsDisplay()
 	} else {
 		spectatorIcon->setToolTip("");
 		spectatorIcon->clear();
+		spectatorIcon->hide();
 		spectatorNumberLabel->setToolTip("");
 		spectatorNumberLabel->clear();
+		spectatorNumberLabel->hide();
 	}
 }
 
