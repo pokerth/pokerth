@@ -108,9 +108,9 @@ private:
 	int myId;
 	int myUniqueId;
 	unsigned myPingState;
-	unsigned myAvgPing;
-	unsigned myMinPing;
-	unsigned myMaxPing;
+	int myAvgPing;
+	int myMinPing;
+	int myMaxPing;
 };
 
 #endif
