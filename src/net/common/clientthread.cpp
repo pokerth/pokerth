@@ -1566,8 +1566,9 @@ void
 ClientThread::EndPing()
 {
 	boost::mutex::scoped_lock lock(m_pingDataMutex);
-	m_pingData.EndPing();
-	GetCallback().SignalNetClientPingUpdate(m_pingData.MinPing(), m_pingData.AveragePing(), m_pingData.MaxPing());
+	if (m_pingData.EndPing()) {
+		GetCallback().SignalNetClientPingUpdate(m_pingData.MinPing(), m_pingData.AveragePing(), m_pingData.MaxPing());
+	}
 }
 
 ServerStats
