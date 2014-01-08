@@ -42,7 +42,7 @@
 using namespace std;
 
 MyAvatarLabel::MyAvatarLabel(QGroupBox* parent)
-	: QLabel(parent), voteRunning(false), transparent(false), myUniqueId(0), myPingState(0), myAvgPing(0), myMinPing(0), myMaxPing(0)
+	: QLabel(parent), voteRunning(false), transparent(false), myUniqueId(0), myPingState(0), myAvgPing(-1), myMinPing(-1), myMaxPing(-1)
 {
 
 	myContextMenu = new QMenu;
@@ -415,7 +415,7 @@ void MyAvatarLabel::paintEvent(QPaintEvent*)
 		//paint ping state color for network clients
 		if(mySession->isNetworkClientRunning() && myId == 0) {
 			QColor pingColor;
-			if(myAvgPing > 0 && myAvgPing <= 1000) {
+			if(myAvgPing >= 0 && myAvgPing <= 1000) {
 				pingColor.setNamedColor("green");
 			} else if(myAvgPing > 1000 && myAvgPing <= 2000 ) {
 				pingColor.setNamedColor("yellow");
