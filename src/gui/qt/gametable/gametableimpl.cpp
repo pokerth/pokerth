@@ -853,7 +853,6 @@ void gameTableImpl::applySettings(settingsDialogImpl* mySettingsDialog)
 #ifndef GUI_800x480 //currently not for mobile guis because we just use the default style here
 	refreshGameTableStyle();
 #endif
-	//qDebug() << "table: " << myGameTableStyle->getStyleDescription() << myGameTableStyle->getState();
 	if(this->isVisible() && myGameTableStyle->getState() != GT_STYLE_OK) myGameTableStyle->showErrorMessage();
 
 	//blind buttons refresh
@@ -1103,7 +1102,6 @@ void gameTableImpl::refreshPlayerAvatar()
 			switch(getCurrentSeatState((*it_c))) {
 
 			case SEAT_ACTIVE: {
-//				qDebug() << seatPlace << "AVATAR ACTIVE";
 				playerAvatarLabelArray[(*it_c)->getMyID()]->setPixmapAndCountry(avatarPic, countryString, seatPlace);
 			}
 			break;
@@ -4300,7 +4298,9 @@ void gameTableImpl::restoreGameTableGeometry()
 {
 	if(myConfig->readConfigInt("GameTableFullScreenSave")) {
 #ifndef GUI_800x480
-		if(actionFullScreen->isEnabled()) this->showFullScreen();
+		if(actionFullScreen->isEnabled()) {
+			this->showFullScreen();
+		}
 #endif
 	} else {
 		//resize only if style size allow this and if NOT fixed windows size

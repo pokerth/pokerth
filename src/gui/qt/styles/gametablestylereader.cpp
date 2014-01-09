@@ -1635,10 +1635,6 @@ void GameTableStyleReader::setTabWidgetStyle(QTabWidget *tw, QTabBar *tb)
 void GameTableStyleReader::setWindowsGeometry(gameTableImpl *gt)
 {
 	if(IfFixedWindowSize.toInt()) {
-		gt->setMinimumSize(FixedWindowWidth.toInt(), FixedWindowHeight.toInt());
-		gt->setMaximumSize(FixedWindowWidth.toInt(), FixedWindowHeight.toInt());
-		gt->resize(FixedWindowWidth.toInt(), FixedWindowHeight.toInt());
-
 #ifndef GUI_800x480
 		QDesktopWidget dw;
 		int availableWidth = dw.screenGeometry().width();
@@ -1652,12 +1648,11 @@ void GameTableStyleReader::setWindowsGeometry(gameTableImpl *gt)
 				gt->move(50,50);
 			}
 		}
+		gt->setMinimumSize(FixedWindowWidth.toInt(), FixedWindowHeight.toInt());
+		gt->setMaximumSize(FixedWindowWidth.toInt(), FixedWindowHeight.toInt());
+		gt->resize(FixedWindowWidth.toInt(), FixedWindowHeight.toInt());
 #endif
 	} else {
-		gt->setMinimumSize(MinimumWindowWidth.toInt(), MinimumWindowHeight.toInt());
-		gt->setMaximumSize(MaximumWindowWidth.toInt(), MaximumWindowHeight.toInt());
-		gt->resize(MinimumWindowWidth.toInt(), MinimumWindowHeight.toInt());
-
 #ifndef GUI_800x480
 		QDesktopWidget dw;
 		int availableWidth = dw.screenGeometry().width();
@@ -1671,6 +1666,8 @@ void GameTableStyleReader::setWindowsGeometry(gameTableImpl *gt)
 				gt->move(50,50);
 			}
 		}
+		gt->setMinimumSize(MinimumWindowWidth.toInt(), MinimumWindowHeight.toInt());
+		gt->setMaximumSize(MaximumWindowWidth.toInt(), MaximumWindowHeight.toInt());
 #endif
 	}
 
