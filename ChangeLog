@@ -1,3 +1,8 @@
+2014-01-10 version 1.1.1
+- BUGFIX: Fixed crash when the first action in the first game times out (#258)
+- BUGFIX: Properly refresh the game table graphics after changing settings (#253)
+- BUGFIX: The menu on the game table was not clickable sometimes (#242)
+
 2013-12-22 version 1.1
 - New web-based spectator mode on http://www.pokerth.net/live (#37)
 - New option to allow/disallow spectators when creating a game (#215)
