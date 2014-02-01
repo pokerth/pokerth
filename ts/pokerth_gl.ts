@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.1" language="gl" sourcelanguage="en_US">
+<TS version="2.0" language="gl" sourcelanguage="en_US">
 <context>
     <name>CardDeckStyleReader</name>
     <message>
@@ -412,7 +412,7 @@ Asegúrese de que está a enviar un ficheiro de historial de PokerTH válido.</t
     <message>
         <location filename="../src/gui/qt/gametable/myavatarlabel.cpp" line="55"/>
         <source>Unignore Player</source>
-        <translation type="unfinished"></translation>
+        <translation>Deixar de ignorar o xogador</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gametable/myavatarlabel.cpp" line="57"/>
@@ -422,29 +422,29 @@ Asegúrese de que está a enviar un ficheiro de historial de PokerTH válido.</t
     <message>
         <location filename="../src/gui/qt/gametable/myavatarlabel.cpp" line="450"/>
         <source>Server response times</source>
-        <translation type="unfinished"></translation>
+        <translation>Tempos de reposta do servidor</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gametable/myavatarlabel.cpp" line="451"/>
         <source>Average: </source>
-        <translation type="unfinished"></translation>
+        <translation>Media: </translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gametable/myavatarlabel.cpp" line="451"/>
         <location filename="../src/gui/qt/gametable/myavatarlabel.cpp" line="452"/>
         <location filename="../src/gui/qt/gametable/myavatarlabel.cpp" line="453"/>
         <source>ms</source>
-        <translation type="unfinished"></translation>
+        <translation>ms</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gametable/myavatarlabel.cpp" line="452"/>
         <source>Minimum: </source>
-        <translation type="unfinished"></translation>
+        <translation>Mínimo: </translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gametable/myavatarlabel.cpp" line="453"/>
         <source>Maximum: </source>
-        <translation type="unfinished"></translation>
+        <translation>Máximo: </translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gametable/myavatarlabel.cpp" line="487"/>
@@ -461,7 +461,7 @@ Asegúrese de que está a enviar un ficheiro de historial de PokerTH válido.</t
     <message>
         <location filename="../src/gui/qt/gametable/myavatarlabel.cpp" line="509"/>
         <source>You will receive chat messages and game invitations from this user again!&lt;br&gt;Do you really want to remove player &lt;b&gt;%1&lt;/b&gt; from your ignore list?</source>
-        <translation type="unfinished"></translation>
+        <translation>Poderá volver a recibir mensaxes de conversa e invitacións a partidas deste xogador!&lt;br&gt;Está seguro de que quere quitar ao xogador &lt;b&gt;%1&lt;/b&gt; from da súa lista de ignorados?</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gametable/myavatarlabel.cpp" line="535"/>
@@ -519,7 +519,7 @@ p, li { white-space: pre-wrap; }
 &lt;tr&gt;
 &lt;td style=&quot;border: none;&quot;&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;translator name - mail address&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="vanished">&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+        <translation>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
@@ -534,7 +534,7 @@ p, li { white-space: pre-wrap; }
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
 &lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="vanished">&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+        <translation>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
@@ -1375,7 +1375,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Join &amp;any game</source>
-        <translation type="vanished">Unirse a unha partida cal&amp;quera</translation>
+        <translation>Unirse a unha partida cal&amp;quera</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog.ui" line="251"/>
@@ -1516,7 +1516,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="202"/>
         <source>Unignore player</source>
-        <translation type="unfinished"></translation>
+        <translation>Deixar de ignorar ao xogador</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="204"/>
@@ -1558,7 +1558,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Connected players - max. %1</source>
-        <translation type="vanished">Xogadores conectados (límite: %1)</translation>
+        <translation>Xogadores conectados (límite: %1)</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="137"/>
@@ -1584,7 +1584,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Connected players - Max. %1</source>
-        <translation type="vanished">Xogadores conectados (límite: %1)</translation>
+        <translation>Xogadores conectados (límite: %1)</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="613"/>
@@ -1711,7 +1711,7 @@ Para convidar a outros xogadores, prema co botón secundario a súa entrada na l
     </message>
     <message>
         <source>Connected players</source>
-        <translation type="vanished">Xogadores conectados</translation>
+        <translation>Xogadores conectados</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1297"/>
@@ -1766,12 +1766,12 @@ Para convidar a outros xogadores, prema co botón secundario a súa entrada na l
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1670"/>
         <source>Unignore %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Deixar de ignorar a %1</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1673"/>
         <source>Unignore player ...</source>
-        <translation type="unfinished"></translation>
+        <translation>Deixar de ignorar ao xogador…</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1679"/>
@@ -1801,7 +1801,7 @@ Para convidar a outros xogadores, prema co botón secundario a súa entrada na l
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1826"/>
         <source>You will receive chat messages and game invitations from this user again!&lt;br&gt;Do you really want to remove player &lt;b&gt;%1&lt;/b&gt; from your ignore list?</source>
-        <translation type="unfinished"></translation>
+        <translation>Poderá volver a recibir mensaxes de conversa e invitacións a partidas deste xogador!&lt;br&gt;Está seguro de que quere quitar ao xogador &lt;b&gt;%1&lt;/b&gt; from da súa lista de ignorados?</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1925"/>
@@ -3667,7 +3667,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <source>Could not load server-profiles-file:
 </source>
-        <translation type="vanished">Non foi posíbel cargar o ficheiro do perfil de servidor:
+        <translation>Non foi posíbel cargar o ficheiro do perfil de servidor:
 </translation>
     </message>
     <message>
@@ -3718,7 +3718,7 @@ Would you like to overwrite ?</source>
     <message>
         <source>Could not save server-profiles-file:
 </source>
-        <translation type="vanished">Non foi posíbel gardar o ficheiro do perfil de servidor:
+        <translation>Non foi posíbel gardar o ficheiro do perfil de servidor:
 </translation>
     </message>
 </context>
@@ -3970,25 +3970,25 @@ Please enter an valid picture!</source>
         <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="226"/>
         <location filename="../src/gui/qt/settingsdialog.ui" line="210"/>
         <source>Show fade-out animation for non-winning cards</source>
-        <translation>Amosar unha animación de fundido para os naipes perdedores.</translation>
+        <translation>Mostrar unha animación de fundido para os naipes perdedores.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="268"/>
         <location filename="../src/gui/qt/settingsdialog.ui" line="252"/>
         <source>Show flip-card animation</source>
-        <translation>Amosar unha animación de darlle a volta aos naipes.</translation>
+        <translation>Mostrar unha animación de darlle a volta aos naipes.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="233"/>
         <location filename="../src/gui/qt/settingsdialog.ui" line="224"/>
         <source>Show buttons for small blind and big blind</source>
-        <translation>Amosar fichas para as apostas obrigatorias (grande e pequena).</translation>
+        <translation>Mostrar fichas para as apostas obrigatorias (grande e pequena).</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="254"/>
         <location filename="../src/gui/qt/settingsdialog.ui" line="245"/>
         <source>Show own cards only on mouse click</source>
-        <translation>Amosar os naipes propios só ao premelos co botón principal.</translation>
+        <translation>Mostrar os naipes propios só ao premelos co botón principal.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="217"/>
@@ -4037,7 +4037,7 @@ Please enter an valid picture!</source>
         <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="338"/>
         <location filename="../src/gui/qt/settingsdialog.ui" line="308"/>
         <source>Show country flag in the corner of avatar</source>
-        <translation>Amosar a bandeira do país ou rexión na esquina da imaxe de usuario.</translation>
+        <translation>Mostrar a bandeira do país ou rexión na esquina da imaxe de usuario.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="331"/>
@@ -4060,7 +4060,7 @@ Please enter an valid picture!</source>
     <message>
         <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="345"/>
         <source>Show network state color on the avatar</source>
-        <translation type="unfinished"></translation>
+        <translation>Mostrar a cor do estado da rede sobre o avatar.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="382"/>
@@ -4385,7 +4385,7 @@ Please enter an valid picture!</source>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="350"/>
         <source>Show network state color in the corner of the avatar</source>
-        <translation type="unfinished"></translation>
+        <translation>Mostrar a cor do estado da rede sobre o avatar.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="1651"/>
@@ -4519,12 +4519,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="203"/>
         <source>Show right toolbox</source>
-        <translation>Amosar a caixa de ferramentas da dereita.</translation>
+        <translation>Mostrar a caixa de ferramentas da dereita.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="259"/>
         <source>Show left toolbox</source>
-        <translation>Amosar a caixa de ferramentas da esquerda.</translation>
+        <translation>Mostrar a caixa de ferramentas da esquerda.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="1088"/>
@@ -4605,7 +4605,7 @@ p, li { white-space: pre-wrap; }
         <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="247"/>
         <location filename="../src/gui/qt/settingsdialog.ui" line="238"/>
         <source>Show cards chance monitor</source>
-        <translation>Amosar o monitor de probabilidades.</translation>
+        <translation>Mostrar o monitor de probabilidades.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="830"/>
@@ -4765,7 +4765,7 @@ p, li { white-space: pre-wrap; }
         <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="2088"/>
         <location filename="../src/gui/qt/settingsdialog.ui" line="315"/>
         <source>Show lobby chat</source>
-        <translation>Amosar a conversa da sala de espera.</translation>
+        <translation>Mostrar a conversa da sala de espera.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="2095"/>
