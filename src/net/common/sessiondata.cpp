@@ -390,6 +390,7 @@ SessionData::GetPlayerData()
 string
 SessionData::GetRemoteIPAddressFromSocket() const
 {
+	boost::mutex::scoped_lock lock(m_dataMutex);
 	string ipAddress;
 	if (m_socket) {
 		boost::system::error_code errCode;
