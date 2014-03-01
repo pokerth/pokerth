@@ -81,11 +81,8 @@ protected:
 		return myHand;
 	}
 
-	int getDealerPosition() const {
+    unsigned getDealerPosition() const {
 		return dealerPosition;
-	}
-	void setDealerPosition(int theValue) {
-		dealerPosition = theValue;
 	}
 
 	void setCurrentPlayersTurnId(unsigned theValue) {
@@ -137,14 +134,6 @@ protected:
 		return firstRound;
 	}
 
-
-	void setDealerPositionId(unsigned theValue) {
-		dealerPositionId = theValue;
-	}
-	unsigned getDealerPositionId() const {
-		return dealerPositionId;
-	}
-
 	void setSmallBlindPositionId(unsigned theValue) {
 		smallBlindPositionId = theValue;
 	}
@@ -182,10 +171,9 @@ private:
 	HandInterface* myHand;
 
 	const GameState myBeRoID;
-	int dealerPosition;
+    unsigned dealerPosition;
 	int smallBlindPosition;
 
-	unsigned dealerPositionId;
 	unsigned smallBlindPositionId;
 	unsigned bigBlindPositionId;
 

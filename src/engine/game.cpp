@@ -77,7 +77,7 @@ Game::Game(GuiInterface* gui, boost::shared_ptr<EngineFactory> factory,
 		throw LocalException(__FILE__, __LINE__, ERR_DEALER_NOT_FOUND);
 
 	// create board
-	currentBoard = myFactory->createBoard(dealerPosition);
+    currentBoard = myFactory->createBoard();
 
 	// create player lists
 	seatsList.reset(new std::list<boost::shared_ptr<PlayerInterface> >);

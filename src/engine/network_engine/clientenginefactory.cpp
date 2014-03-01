@@ -55,9 +55,9 @@ ClientEngineFactory::createHand(boost::shared_ptr<EngineFactory> f, GuiInterface
 }
 
 boost::shared_ptr<BoardInterface>
-ClientEngineFactory::createBoard(unsigned dp)
+ClientEngineFactory::createBoard()
 {
-	return boost::shared_ptr<BoardInterface>(new ClientBoard(dp));
+    return boost::shared_ptr<BoardInterface>(new ClientBoard());
 }
 
 boost::shared_ptr<PlayerInterface>

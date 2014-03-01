@@ -44,7 +44,7 @@ class HandInterface;
 class ClientBoard : public BoardInterface
 {
 public:
-	ClientBoard(unsigned dealerPosition);
+    ClientBoard();
 	~ClientBoard();
 
 	void setPlayerLists(PlayerList, PlayerList, PlayerList);
@@ -63,7 +63,7 @@ public:
 	void collectSets();
 	void collectPot();
 
-	void distributePot();
+    void distributePot(unsigned);
 	void determinePlayerNeedToShowCards();
 
 	std::list<unsigned> getWinners() const;
@@ -85,7 +85,6 @@ private:
 	int myCards[5];
 	int pot;
 	int sets;
-	unsigned dealerPosition;
 	bool allInCondition;
 	unsigned lastActionPlayerID;
 };

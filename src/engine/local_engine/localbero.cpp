@@ -38,7 +38,7 @@
 using namespace std;
 
 LocalBeRo::LocalBeRo(HandInterface* hi, unsigned dP, int sB, GameState gS)
-	: BeRoInterface(), myHand(hi), myBeRoID(gS), dealerPosition(dP), smallBlindPosition(0), dealerPositionId(dP), smallBlindPositionId(0), bigBlindPositionId(0), smallBlind(sB), highestSet(0), minimumRaise(2*sB), fullBetRule(false), firstRun(true), firstRunGui(true), firstRound(true), firstHeadsUpRound(true), currentPlayersTurnId(0), firstRoundLastPlayersTurnId(0), logBoardCardsDone(false)
+    : BeRoInterface(), myHand(hi), myBeRoID(gS), dealerPosition(dP), smallBlindPosition(0), smallBlindPositionId(0), bigBlindPositionId(0), smallBlind(sB), highestSet(0), minimumRaise(2*sB), fullBetRule(false), firstRun(true), firstRunGui(true), firstRound(true), firstHeadsUpRound(true), currentPlayersTurnId(0), firstRoundLastPlayersTurnId(0), logBoardCardsDone(false)
 {
 	currentPlayersTurnIt = myHand->getRunningPlayerList()->begin();
 	lastPlayersTurnIt = myHand->getRunningPlayerList()->begin();

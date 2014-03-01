@@ -37,7 +37,7 @@
 #include "localexception.h"
 #include "engine_msg.h"
 
-LocalBoard::LocalBoard(unsigned dp) : BoardInterface(), pot(0), sets(0), dealerPosition(dp), allInCondition(false), lastActionPlayerID(0)
+LocalBoard::LocalBoard() : BoardInterface(), pot(0), sets(0), allInCondition(false), lastActionPlayerID(0)
 {
 	myCards[0] = myCards[1] = myCards[2] = myCards[3] = myCards[4] = 0;
 }
@@ -78,7 +78,7 @@ void LocalBoard::collectPot()
 
 }
 
-void LocalBoard::distributePot()
+void LocalBoard::distributePot(unsigned dealerPosition)
 {
 
 	winners.clear();

@@ -36,8 +36,8 @@
 
 using namespace std;
 
-ClientBoard::ClientBoard(unsigned dp)
-	: pot(0), sets(0), dealerPosition(dp), allInCondition(false), lastActionPlayerID(0)
+ClientBoard::ClientBoard()
+    : pot(0), sets(0), allInCondition(false), lastActionPlayerID(0)
 {
 	myCards[0] = myCards[1] = myCards[2] = myCards[3] = myCards[4] = 0;
 }
@@ -134,7 +134,7 @@ ClientBoard::collectPot()
 }
 
 void
-ClientBoard::distributePot()
+ClientBoard::distributePot(unsigned)
 {
 
 }
