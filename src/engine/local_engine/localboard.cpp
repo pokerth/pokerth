@@ -145,7 +145,7 @@ void LocalBoard::distributePot(unsigned dealerPosition)
 			// determine the number of level winners
 			winnerCount = potLevel.size()-2;
 			if (!winnerCount) {
-				throw LocalException(__FILE__, __LINE__, ERR_NO_WINNER);
+                LOG_ERROR(__FILE__ << " (" << __LINE__ << "): distributePot-ERROR: no winner found");
 			}
 
 			// check if this is the final pot level for at least one winner
@@ -161,7 +161,7 @@ void LocalBoard::distributePot(unsigned dealerPosition)
 				if(finalPot) break;
 			}
 
-			if(finalPot) {
+            if(finalPot && winnerCount>0) {
 				// distribute the pot level sum to level winners
 				mod = (potLevel[1])%winnerCount;
 				// pot level sum divisible by winnerCount
@@ -175,13 +175,13 @@ void LocalBoard::distributePot(unsigned dealerPosition)
 							}
 						}
 						if(it == seatsList->end()) {
-							throw LocalException(__FILE__, __LINE__, ERR_SEAT_NOT_FOUND);
-						}
-						(*it)->setMyCash( (*it)->getMyCash() + ((potLevel[1])/winnerCount));
-
-						// filling winners vector
-						winners.push_back((*it)->getMyUniqueID());
-						(*it)->setLastMoneyWon( (*it)->getLastMoneyWon() + (potLevel[1])/winnerCount );
+                            LOG_ERROR(__FILE__ << " (" << __LINE__ << "): distributePot-ERROR: seat not found");
+                        } else {
+                            (*it)->setMyCash( (*it)->getMyCash() + ((potLevel[1])/winnerCount));
+                            // filling winners vector
+                            winners.push_back((*it)->getMyUniqueID());
+                            (*it)->setLastMoneyWon( (*it)->getLastMoneyWon() + (potLevel[1])/winnerCount );
+                        }
 					}
 
 				}
@@ -196,7 +196,8 @@ void LocalBoard::distributePot(unsigned dealerPosition)
 						}
 					}
 					if(it == seatsList->end()) {
-						throw LocalException(__FILE__, __LINE__, ERR_SEAT_NOT_FOUND);
+                        it = seatsList->begin();
+                        LOG_ERROR(__FILE__ << " (" << __LINE__ << "): distributePot-ERROR: dealer position not found");
 					}
 
 					for(j=0; j<winnerCount; j++) {
@@ -216,17 +217,19 @@ void LocalBoard::distributePot(unsigned dealerPosition)
 
 						}
 
-						if(j<mod) {
-							(*it)->setMyCash( (*it)->getMyCash() + (int)((potLevel[1])/winnerCount) + 1);
-							// filling winners vector
-							winners.push_back((*it)->getMyUniqueID());
-							(*it)->setLastMoneyWon( (*it)->getLastMoneyWon() + ((potLevel[1])/winnerCount) + 1 );
-						} else {
-							(*it)->setMyCash( (*it)->getMyCash() + (int)((potLevel[1])/winnerCount));
-							// filling winners vector
-							winners.push_back((*it)->getMyUniqueID());
-							(*it)->setLastMoneyWon( (*it)->getLastMoneyWon() + (potLevel[1])/winnerCount );
-						}
+                        if(winnerHit) {
+                            if(j<mod) {
+                                (*it)->setMyCash( (*it)->getMyCash() + (int)((potLevel[1])/winnerCount) + 1);
+                                // filling winners vector
+                                winners.push_back((*it)->getMyUniqueID());
+                                (*it)->setLastMoneyWon( (*it)->getLastMoneyWon() + ((potLevel[1])/winnerCount) + 1 );
+                            } else {
+                                (*it)->setMyCash( (*it)->getMyCash() + (int)((potLevel[1])/winnerCount));
+                                // filling winners vector
+                                winners.push_back((*it)->getMyUniqueID());
+                                (*it)->setLastMoneyWon( (*it)->getLastMoneyWon() + (potLevel[1])/winnerCount );
+                            }
+                        }
 					}
 				}
 				potCarryOver = 0;
