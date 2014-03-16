@@ -57,9 +57,9 @@ Game::Game(GuiInterface* gui, boost::shared_ptr<EngineFactory> factory,
 	dealerPosition = startData.startDealerPlayerId;
 
 	if(DEBUG_MODE) {
-		startSmallBlind = 10;
+		startSmallBlind = myLog->debugMode_getStartSmallBlind();
 		currentSmallBlind = startSmallBlind;
-		dealerPosition = 4;
+		dealerPosition = myLog->debugMode_getStartDealerPosition();
 	}
 
 	int i;
@@ -77,7 +77,7 @@ Game::Game(GuiInterface* gui, boost::shared_ptr<EngineFactory> factory,
 		throw LocalException(__FILE__, __LINE__, ERR_DEALER_NOT_FOUND);
 
 	// create board
-    currentBoard = myFactory->createBoard();
+	currentBoard = myFactory->createBoard();
 
 	// create player lists
 	seatsList.reset(new std::list<boost::shared_ptr<PlayerInterface> >);
@@ -110,6 +110,7 @@ Game::Game(GuiInterface* gui, boost::shared_ptr<EngineFactory> factory,
 		}
 
 		// create player objects
+		if(DEBUG_MODE) myStartCash = myLog->debugMode_getPlayerStartCash(i);
 		boost::shared_ptr<PlayerInterface> tmpPlayer = myFactory->createPlayer(i, uniqueId, type, myName, myAvatarFile, myStartCash, startQuantityPlayers > i, myStayOnTableStatus, 0);
 		tmpPlayer->setIsSessionActive(true);
 		tmpPlayer->setMyGuid(myGuid);

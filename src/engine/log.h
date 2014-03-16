@@ -66,6 +66,13 @@ public:
 	void logAfterGame();
 //    void closeLogDbAtExit();
 
+	unsigned debugMode_getStartSmallBlind();
+	unsigned debugMode_getStartDealerPosition();
+	void debugMode_getBoardCards(int *tempBoardArray, int handID);
+	void debugMode_getPlayerCards(int *tempPlayerArray, int handID, int seatID);
+	unsigned debugMode_getPlayerStartCash(int seatID);
+	void debugMode_getPlayerAction(GameState gameState, int handID, int seatID, PlayerAction* playerAction, int* bet, int* raise, int mySet);
+
 	void setCurrentRound(GameState theValue) {
 		currentRound = theValue;
 	}
