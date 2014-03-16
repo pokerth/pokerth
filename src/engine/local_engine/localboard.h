@@ -45,7 +45,7 @@ class HandInterface;
 class LocalBoard : public BoardInterface
 {
 public:
-    LocalBoard();
+	LocalBoard();
 	~LocalBoard();
 
 	void setPlayerLists(PlayerList, PlayerList, PlayerList);
@@ -82,7 +82,7 @@ public:
 	void collectSets() ;
 	void collectPot() ;
 
-    void distributePot(unsigned dealerPosition);
+	void distributePot(unsigned dealerPosition);
 	void determinePlayerNeedToShowCards();
 
 	std::list<unsigned> getWinners() const {

@@ -81,7 +81,7 @@ protected:
 		return myHand;
 	}
 
-    unsigned getDealerPosition() const {
+	unsigned getDealerPosition() const {
 		return dealerPosition;
 	}
 
@@ -171,7 +171,7 @@ private:
 	HandInterface* myHand;
 
 	const GameState myBeRoID;
-    unsigned dealerPosition;
+	unsigned dealerPosition;
 	int smallBlindPosition;
 
 	unsigned smallBlindPositionId;

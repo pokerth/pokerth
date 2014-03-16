@@ -1689,8 +1689,7 @@ ServerLobbyThread::EstablishSession(boost::shared_ptr<SessionData> session)
 			if (session->GetWebData()) {
 				SessionError(session, ERR_NET_PLAYER_NAME_IN_USE);
 				return;
-			}
-			else {
+			} else {
 				// If this is not a websocket connection, disconnect the already connected player.
 				InternalRemovePlayer(previousPlayerId, ERR_NET_PLAYER_NAME_IN_USE);
 			}
