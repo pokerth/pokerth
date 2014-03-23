@@ -73,8 +73,13 @@ LocalHand::LocalHand(boost::shared_ptr<EngineFactory> f, GuiInterface *g, boost:
 	int bestHandPos[5];
 	int sBluff;
 
+	// board cards
 	for(i=0; i<5; i++) tempBoardArray[i] = cardsArray[i];
-	if(DEBUG_MODE) myLog->debugMode_getBoardCards(tempBoardArray,myID);
+
+	// debug mode
+	myLog->debugMode_getBoardCards(tempBoardArray,myID);
+
+	// prepare whole player hand
 	for(i=0; i<5; i++) tempPlayerAndBoardArray[i+2] = tempBoardArray[i];
 
 	k = 0;
@@ -83,8 +88,13 @@ LocalHand::LocalHand(boost::shared_ptr<EngineFactory> f, GuiInterface *g, boost:
 
 		(*it)->getMyBestHandPosition(bestHandPos);
 
+		// hole cards
 		for(j=0; j<2; j++) tempPlayerArray[j] = cardsArray[2*k+j+5];
-		if(DEBUG_MODE) myLog->debugMode_getPlayerCards(tempPlayerArray,myID,k);
+
+		// debug mode
+		myLog->debugMode_getPlayerCards(tempPlayerArray,myID,k);
+
+		// complete whole player hand
 		for(j=0; j<2; j++) tempPlayerAndBoardArray[j] = tempPlayerArray[j];
 
 		(*it)->setMyCards(tempPlayerArray);

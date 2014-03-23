@@ -39,17 +39,87 @@
 #include <dirent.h>
 #include <boost/lexical_cast.hpp>
 
+#include <fstream>
+
 using namespace std;
 
-Log::Log(ConfigFile *c) : mySqliteLogDb(0), mySqliteLogFileName(""), myConfig(c), uniqueGameID(0), currentHandID(0), currentRound(GAME_STATE_PREFLOP), sql("")
+unsigned debug_mode_startSmallBlind = 10;
+unsigned debug_mode_dealerPosition = 4;
+unsigned debug_mode_startCash[MAX_NUMBER_OF_PLAYERS] = { 5000, 5000, 5000, 5000, 5000, 5000, 5000, 5000, 5000, 5000};
+unsigned debug_mode_boardCards[][5] = {
+	{  4, 19, 20, 43, 49 },
+	{  4, 19, 20, 43, 49 }
+};
+int debug_mode_playerCards[][MAX_NUMBER_OF_PLAYERS][2] = {
+	{ {18,17}, {-1,-1}, {26,27}, {31,30}, {50,51}, {25,24}, {38,37}, {32,33}, {19,20}, {18,17} },
+	{ {18,17}, {31, 8}, {26,27}, {31,30}, {50,51}, {25,24}, {38,37}, {32,33}, {19,20}, {18,17} }
+};
+const unsigned debug_mode_cntBeRo = 4;
+const unsigned debug_mode_cntActions = 4;
+const unsigned debug_mode_cntValues = 3;
+int playerActionMatrix[][debug_mode_cntBeRo][MAX_NUMBER_OF_PLAYERS][debug_mode_cntActions][debug_mode_cntValues] = {
+	{ /* handID==0 */
+		{ /* preflop */
+			{ {-1,PLAYER_ACTION_NONE ,-1},{-1,PLAYER_ACTION_NONE ,-1},{-1,PLAYER_ACTION_NONE ,-1},{-1,PLAYER_ACTION_NONE ,-1} }, /* player0 */
+			{ {-1,PLAYER_ACTION_CALL ,-1},{-1,PLAYER_ACTION_NONE ,-1},{-1,PLAYER_ACTION_NONE ,-1},{-1,PLAYER_ACTION_NONE ,-1} }, /* player1 */
+			{ {-1,PLAYER_ACTION_CALL ,-1},{-1,PLAYER_ACTION_NONE ,-1},{-1,PLAYER_ACTION_NONE ,-1},{-1,PLAYER_ACTION_NONE ,-1} }, /* player2 */
+			{ {-1,PLAYER_ACTION_CALL ,-1},{-1,PLAYER_ACTION_NONE ,-1},{-1,PLAYER_ACTION_NONE ,-1},{-1,PLAYER_ACTION_NONE ,-1} }, /* player3 */
+			{ {-1,PLAYER_ACTION_CALL ,-1},{-1,PLAYER_ACTION_NONE ,-1},{-1,PLAYER_ACTION_NONE ,-1},{-1,PLAYER_ACTION_NONE ,-1} }, /* player4 */
+			{ {-1,PLAYER_ACTION_CALL ,-1},{-1,PLAYER_ACTION_NONE ,-1},{-1,PLAYER_ACTION_NONE ,-1},{-1,PLAYER_ACTION_NONE ,-1} }, /* player5 */
+			{ {-1,PLAYER_ACTION_RAISE,100},{50,PLAYER_ACTION_CALL ,-1},{-1,PLAYER_ACTION_NONE ,-1},{-1,PLAYER_ACTION_NONE ,-1} }, /* player6 */
+			{ {-1,PLAYER_ACTION_CALL ,-1},{-1,PLAYER_ACTION_NONE ,-1},{-1,PLAYER_ACTION_NONE ,-1},{-1,PLAYER_ACTION_NONE ,-1} }, /* player7 */
+			{ {-1,PLAYER_ACTION_CALL ,-1},{-1,PLAYER_ACTION_NONE ,-1},{-1,PLAYER_ACTION_NONE ,-1},{-1,PLAYER_ACTION_NONE ,-1} }, /* player8 */
+			{ {-1,PLAYER_ACTION_CALL ,-1},{10,PLAYER_ACTION_RAISE ,100},{-1,PLAYER_ACTION_NONE ,-1},{-1,PLAYER_ACTION_NONE ,-1} }  /* player9 */
+		},
+		{ /* flop */
+			{ {-1,PLAYER_ACTION_NONE ,-1},{-1,PLAYER_ACTION_NONE ,-1},{-1,PLAYER_ACTION_NONE ,-1},{-1,PLAYER_ACTION_NONE ,-1} },
+			{ {-1,PLAYER_ACTION_CHECK,-1},{-1,PLAYER_ACTION_NONE ,-1},{-1,PLAYER_ACTION_NONE ,-1},{-1,PLAYER_ACTION_NONE ,-1} },
+			{ {-1,PLAYER_ACTION_CHECK,-1},{-1,PLAYER_ACTION_NONE ,-1},{-1,PLAYER_ACTION_NONE ,-1},{-1,PLAYER_ACTION_NONE ,-1} },
+			{ {-1,PLAYER_ACTION_CHECK,-1},{-1,PLAYER_ACTION_NONE ,-1},{-1,PLAYER_ACTION_NONE ,-1},{-1,PLAYER_ACTION_NONE ,-1} },
+			{ {-1,PLAYER_ACTION_CHECK,-1},{-1,PLAYER_ACTION_NONE ,-1},{-1,PLAYER_ACTION_NONE ,-1},{-1,PLAYER_ACTION_NONE ,-1} },
+			{ {-1,PLAYER_ACTION_CHECK,-1},{-1,PLAYER_ACTION_NONE ,-1},{-1,PLAYER_ACTION_NONE ,-1},{-1,PLAYER_ACTION_NONE ,-1} },
+			{ {-1,PLAYER_ACTION_CHECK,-1},{-1,PLAYER_ACTION_NONE ,-1},{-1,PLAYER_ACTION_NONE ,-1},{-1,PLAYER_ACTION_NONE ,-1} },
+			{ {-1,PLAYER_ACTION_CHECK,-1},{-1,PLAYER_ACTION_NONE ,-1},{-1,PLAYER_ACTION_NONE ,-1},{-1,PLAYER_ACTION_NONE ,-1} },
+			{ {-1,PLAYER_ACTION_CHECK,-1},{-1,PLAYER_ACTION_NONE ,-1},{-1,PLAYER_ACTION_NONE ,-1},{-1,PLAYER_ACTION_NONE ,-1} },
+			{ {-1,PLAYER_ACTION_CHECK,-1},{-1,PLAYER_ACTION_NONE ,-1},{-1,PLAYER_ACTION_NONE ,-1},{-1,PLAYER_ACTION_NONE ,-1} }
+		},
+		{ /* turn */
+			{ {-1,PLAYER_ACTION_NONE ,-1},{-1,PLAYER_ACTION_NONE ,-1},{-1,PLAYER_ACTION_NONE ,-1},{-1,PLAYER_ACTION_NONE ,-1} },
+			{ {-1,PLAYER_ACTION_CHECK,-1},{-1,PLAYER_ACTION_NONE ,-1},{-1,PLAYER_ACTION_NONE ,-1},{-1,PLAYER_ACTION_NONE ,-1} },
+			{ {-1,PLAYER_ACTION_CHECK,-1},{-1,PLAYER_ACTION_NONE ,-1},{-1,PLAYER_ACTION_NONE ,-1},{-1,PLAYER_ACTION_NONE ,-1} },
+			{ {-1,PLAYER_ACTION_CHECK,-1},{-1,PLAYER_ACTION_NONE ,-1},{-1,PLAYER_ACTION_NONE ,-1},{-1,PLAYER_ACTION_NONE ,-1} },
+			{ {-1,PLAYER_ACTION_CHECK,-1},{-1,PLAYER_ACTION_NONE ,-1},{-1,PLAYER_ACTION_NONE ,-1},{-1,PLAYER_ACTION_NONE ,-1} },
+			{ {-1,PLAYER_ACTION_CHECK,-1},{-1,PLAYER_ACTION_NONE ,-1},{-1,PLAYER_ACTION_NONE ,-1},{-1,PLAYER_ACTION_NONE ,-1} },
+			{ {-1,PLAYER_ACTION_CHECK,-1},{-1,PLAYER_ACTION_NONE ,-1},{-1,PLAYER_ACTION_NONE ,-1},{-1,PLAYER_ACTION_NONE ,-1} },
+			{ {-1,PLAYER_ACTION_CHECK,-1},{-1,PLAYER_ACTION_NONE ,-1},{-1,PLAYER_ACTION_NONE ,-1},{-1,PLAYER_ACTION_NONE ,-1} },
+			{ {-1,PLAYER_ACTION_CHECK,-1},{-1,PLAYER_ACTION_NONE ,-1},{-1,PLAYER_ACTION_NONE ,-1},{-1,PLAYER_ACTION_NONE ,-1} },
+			{ {-1,PLAYER_ACTION_CHECK,-1},{-1,PLAYER_ACTION_NONE ,-1},{-1,PLAYER_ACTION_NONE ,-1},{-1,PLAYER_ACTION_NONE ,-1} }
+		},
+		{ /* river */
+			{ {-1,PLAYER_ACTION_NONE ,-1},{-1,PLAYER_ACTION_NONE ,-1},{-1,PLAYER_ACTION_NONE ,-1},{-1,PLAYER_ACTION_NONE ,-1} },
+			{ {-1,PLAYER_ACTION_CHECK,-1},{-1,PLAYER_ACTION_NONE ,-1},{-1,PLAYER_ACTION_NONE ,-1},{-1,PLAYER_ACTION_NONE ,-1} },
+			{ {-1,PLAYER_ACTION_CHECK,-1},{-1,PLAYER_ACTION_NONE ,-1},{-1,PLAYER_ACTION_NONE ,-1},{-1,PLAYER_ACTION_NONE ,-1} },
+			{ {-1,PLAYER_ACTION_CHECK,-1},{-1,PLAYER_ACTION_NONE ,-1},{-1,PLAYER_ACTION_NONE ,-1},{-1,PLAYER_ACTION_NONE ,-1} },
+			{ {-1,PLAYER_ACTION_CHECK,-1},{-1,PLAYER_ACTION_NONE ,-1},{-1,PLAYER_ACTION_NONE ,-1},{-1,PLAYER_ACTION_NONE ,-1} },
+			{ {-1,PLAYER_ACTION_CHECK,-1},{-1,PLAYER_ACTION_NONE ,-1},{-1,PLAYER_ACTION_NONE ,-1},{-1,PLAYER_ACTION_NONE ,-1} },
+			{ {-1,PLAYER_ACTION_CHECK,-1},{-1,PLAYER_ACTION_NONE ,-1},{-1,PLAYER_ACTION_NONE ,-1},{-1,PLAYER_ACTION_NONE ,-1} },
+			{ {-1,PLAYER_ACTION_CHECK,-1},{-1,PLAYER_ACTION_NONE ,-1},{-1,PLAYER_ACTION_NONE ,-1},{-1,PLAYER_ACTION_NONE ,-1} },
+			{ {-1,PLAYER_ACTION_CHECK,-1},{-1,PLAYER_ACTION_NONE ,-1},{-1,PLAYER_ACTION_NONE ,-1},{-1,PLAYER_ACTION_NONE ,-1} },
+			{ {-1,PLAYER_ACTION_CHECK,-1},{-1,PLAYER_ACTION_NONE ,-1},{-1,PLAYER_ACTION_NONE ,-1},{-1,PLAYER_ACTION_NONE ,-1} }
+		}
+	}
+};
+
+Log::Log(ConfigFile *c) : mySqliteLogDb(0), mySqliteLogFileName(""), myConfig(c), uniqueGameID(0), currentHandID(0), currentRound(GAME_STATE_PREFLOP), sql(""), debug_mode(false)
 {
+	// check for debug_mode
+	ifstream debug_mode_test_file("enable_debug_mode");
+	if(debug_mode_test_file) debug_mode = true;
 }
 
 Log::~Log()
 {
-	if(SQLITE_LOG) {
-		sqlite3_close(mySqliteLogDb);
-	}
+	if(SQLITE_LOG) sqlite3_close(mySqliteLogDb);
 }
 
 void
@@ -689,127 +759,71 @@ Log::exec_transaction()
 //    }
 //}
 
-unsigned
-Log::debugMode_getStartSmallBlind()
+void
+Log::debugMode_getStartSmallBlind(int* startSmallBlind, int* currentSmallBlind)
 {
-	return 10;
+	if(debug_mode) {
+		*startSmallBlind = debug_mode_startSmallBlind;
+		*currentSmallBlind = *startSmallBlind;
+	}
 }
 
-unsigned
-Log::debugMode_getStartDealerPosition()
+void
+Log::debugMode_getStartDealerPosition(unsigned* dealerPosition)
 {
-	return 4;
+	if(debug_mode) {
+		*dealerPosition = debug_mode_dealerPosition;
+	}
 }
 
 void
 Log::debugMode_getBoardCards(int *tempBoardArray, int handID)
 {
-	unsigned boardCards[][5] = {
-		{  4, 19, 20, 43, 49 },
-		{  4, 19, 20, 43, 49 }
-	};
-
-	if((unsigned)handID <= sizeof(boardCards)/sizeof(int)/5) {
-		for(int i=0; i<5; i++) tempBoardArray[i] = boardCards[handID-1][i];
+	if(debug_mode) {
+		if((unsigned)handID <= sizeof(debug_mode_boardCards)/sizeof(unsigned)/5) {
+			for(int i=0; i<5; i++) tempBoardArray[i] = debug_mode_boardCards[handID-1][i];
+		}
 	}
 }
 
 void
 Log::debugMode_getPlayerCards(int *tempPlayerArray, int handID, int seatID)
 {
-	int playerCards[][10][2] = {
-		{ {18,17}, {-1,-1}, {26,27}, {31,30}, {50,51}, {25,24}, {38,37}, {32,33}, {19,20}, {18,17} },
-		{ {18,17}, {31, 8}, {26,27}, {31,30}, {50,51}, {25,24}, {38,37}, {32,33}, {19,20}, {18,17} }
-	};
-
-	if((unsigned)handID <= sizeof(playerCards)/sizeof(int)/10/2) {
-		for(int i=0; i<2; i++) {
-			if(playerCards[handID-1][seatID][i]>=0) tempPlayerArray[i] = playerCards[handID-1][seatID][i];
+	if(debug_mode) {
+		if((unsigned)handID <= sizeof(debug_mode_playerCards)/sizeof(int)/MAX_NUMBER_OF_PLAYERS/2) {
+			for(int i=0; i<2; i++) {
+				if(debug_mode_playerCards[handID-1][seatID][i]>=0) tempPlayerArray[i] = debug_mode_playerCards[handID-1][seatID][i];
+			}
 		}
 	}
 }
 
-unsigned
-Log::debugMode_getPlayerStartCash(int seatID)
+void
+Log::debugMode_getPlayerStartCash(int* startCash, int seatID)
 {
-	unsigned startCashVector[] = { 5000, 5000, 5000, 5000, 5000, 5000, 5000, 5000, 5000, 5000 };
-	return startCashVector[seatID];
+	if(debug_mode) {
+		*startCash = debug_mode_startCash[seatID];
+	}
 }
 
 void
-Log::debugMode_getPlayerAction(GameState gameState, int handID, int seatID, PlayerAction *playerAction, int *bet, int *raise, int mySet)
+Log::debugMode_getPlayerAction(PlayerAction *playerAction, int *bet, int *raise, GameState gameState, int handID, int seatID, int mySet)
 {
-	const unsigned cntBeRo = 4;
-	const unsigned cntPlayer = 10;
-	const unsigned cntActions = 4;
-	const unsigned cntValues = 3;
-
-	int playerActionMatrix[][cntBeRo][cntPlayer][cntActions][cntValues] = {
-		{ /* handID==0 */
-			{ /* preflop */
-				{ {-1,PLAYER_ACTION_NONE ,-1},{-1,PLAYER_ACTION_NONE ,-1},{-1,PLAYER_ACTION_NONE ,-1},{-1,PLAYER_ACTION_NONE ,-1} }, /* player0 */
-				{ {-1,PLAYER_ACTION_CALL ,-1},{-1,PLAYER_ACTION_NONE ,-1},{-1,PLAYER_ACTION_NONE ,-1},{-1,PLAYER_ACTION_NONE ,-1} }, /* player1 */
-				{ {-1,PLAYER_ACTION_CALL ,-1},{-1,PLAYER_ACTION_NONE ,-1},{-1,PLAYER_ACTION_NONE ,-1},{-1,PLAYER_ACTION_NONE ,-1} }, /* player2 */
-				{ {-1,PLAYER_ACTION_CALL ,-1},{-1,PLAYER_ACTION_NONE ,-1},{-1,PLAYER_ACTION_NONE ,-1},{-1,PLAYER_ACTION_NONE ,-1} }, /* player3 */
-				{ {-1,PLAYER_ACTION_CALL ,-1},{-1,PLAYER_ACTION_NONE ,-1},{-1,PLAYER_ACTION_NONE ,-1},{-1,PLAYER_ACTION_NONE ,-1} }, /* player4 */
-				{ {-1,PLAYER_ACTION_CALL ,-1},{-1,PLAYER_ACTION_NONE ,-1},{-1,PLAYER_ACTION_NONE ,-1},{-1,PLAYER_ACTION_NONE ,-1} }, /* player5 */
-				{ {-1,PLAYER_ACTION_RAISE,100},{50,PLAYER_ACTION_CALL ,-1},{-1,PLAYER_ACTION_NONE ,-1},{-1,PLAYER_ACTION_NONE ,-1} }, /* player6 */
-				{ {-1,PLAYER_ACTION_CALL ,-1},{-1,PLAYER_ACTION_NONE ,-1},{-1,PLAYER_ACTION_NONE ,-1},{-1,PLAYER_ACTION_NONE ,-1} }, /* player7 */
-				{ {-1,PLAYER_ACTION_CALL ,-1},{-1,PLAYER_ACTION_NONE ,-1},{-1,PLAYER_ACTION_NONE ,-1},{-1,PLAYER_ACTION_NONE ,-1} }, /* player8 */
-				{ {-1,PLAYER_ACTION_CALL ,-1},{10,PLAYER_ACTION_RAISE ,100},{-1,PLAYER_ACTION_NONE ,-1},{-1,PLAYER_ACTION_NONE ,-1} }  /* player9 */
-			},
-			{ /* flop */
-				{ {-1,PLAYER_ACTION_NONE ,-1},{-1,PLAYER_ACTION_NONE ,-1},{-1,PLAYER_ACTION_NONE ,-1},{-1,PLAYER_ACTION_NONE ,-1} },
-				{ {-1,PLAYER_ACTION_CHECK,-1},{-1,PLAYER_ACTION_NONE ,-1},{-1,PLAYER_ACTION_NONE ,-1},{-1,PLAYER_ACTION_NONE ,-1} },
-				{ {-1,PLAYER_ACTION_CHECK,-1},{-1,PLAYER_ACTION_NONE ,-1},{-1,PLAYER_ACTION_NONE ,-1},{-1,PLAYER_ACTION_NONE ,-1} },
-				{ {-1,PLAYER_ACTION_CHECK,-1},{-1,PLAYER_ACTION_NONE ,-1},{-1,PLAYER_ACTION_NONE ,-1},{-1,PLAYER_ACTION_NONE ,-1} },
-				{ {-1,PLAYER_ACTION_CHECK,-1},{-1,PLAYER_ACTION_NONE ,-1},{-1,PLAYER_ACTION_NONE ,-1},{-1,PLAYER_ACTION_NONE ,-1} },
-				{ {-1,PLAYER_ACTION_CHECK,-1},{-1,PLAYER_ACTION_NONE ,-1},{-1,PLAYER_ACTION_NONE ,-1},{-1,PLAYER_ACTION_NONE ,-1} },
-				{ {-1,PLAYER_ACTION_CHECK,-1},{-1,PLAYER_ACTION_NONE ,-1},{-1,PLAYER_ACTION_NONE ,-1},{-1,PLAYER_ACTION_NONE ,-1} },
-				{ {-1,PLAYER_ACTION_CHECK,-1},{-1,PLAYER_ACTION_NONE ,-1},{-1,PLAYER_ACTION_NONE ,-1},{-1,PLAYER_ACTION_NONE ,-1} },
-				{ {-1,PLAYER_ACTION_CHECK,-1},{-1,PLAYER_ACTION_NONE ,-1},{-1,PLAYER_ACTION_NONE ,-1},{-1,PLAYER_ACTION_NONE ,-1} },
-				{ {-1,PLAYER_ACTION_CHECK,-1},{-1,PLAYER_ACTION_NONE ,-1},{-1,PLAYER_ACTION_NONE ,-1},{-1,PLAYER_ACTION_NONE ,-1} }
-			},
-			{ /* turn */
-				{ {-1,PLAYER_ACTION_NONE ,-1},{-1,PLAYER_ACTION_NONE ,-1},{-1,PLAYER_ACTION_NONE ,-1},{-1,PLAYER_ACTION_NONE ,-1} },
-				{ {-1,PLAYER_ACTION_CHECK,-1},{-1,PLAYER_ACTION_NONE ,-1},{-1,PLAYER_ACTION_NONE ,-1},{-1,PLAYER_ACTION_NONE ,-1} },
-				{ {-1,PLAYER_ACTION_CHECK,-1},{-1,PLAYER_ACTION_NONE ,-1},{-1,PLAYER_ACTION_NONE ,-1},{-1,PLAYER_ACTION_NONE ,-1} },
-				{ {-1,PLAYER_ACTION_CHECK,-1},{-1,PLAYER_ACTION_NONE ,-1},{-1,PLAYER_ACTION_NONE ,-1},{-1,PLAYER_ACTION_NONE ,-1} },
-				{ {-1,PLAYER_ACTION_CHECK,-1},{-1,PLAYER_ACTION_NONE ,-1},{-1,PLAYER_ACTION_NONE ,-1},{-1,PLAYER_ACTION_NONE ,-1} },
-				{ {-1,PLAYER_ACTION_CHECK,-1},{-1,PLAYER_ACTION_NONE ,-1},{-1,PLAYER_ACTION_NONE ,-1},{-1,PLAYER_ACTION_NONE ,-1} },
-				{ {-1,PLAYER_ACTION_CHECK,-1},{-1,PLAYER_ACTION_NONE ,-1},{-1,PLAYER_ACTION_NONE ,-1},{-1,PLAYER_ACTION_NONE ,-1} },
-				{ {-1,PLAYER_ACTION_CHECK,-1},{-1,PLAYER_ACTION_NONE ,-1},{-1,PLAYER_ACTION_NONE ,-1},{-1,PLAYER_ACTION_NONE ,-1} },
-				{ {-1,PLAYER_ACTION_CHECK,-1},{-1,PLAYER_ACTION_NONE ,-1},{-1,PLAYER_ACTION_NONE ,-1},{-1,PLAYER_ACTION_NONE ,-1} },
-				{ {-1,PLAYER_ACTION_CHECK,-1},{-1,PLAYER_ACTION_NONE ,-1},{-1,PLAYER_ACTION_NONE ,-1},{-1,PLAYER_ACTION_NONE ,-1} }
-			},
-			{ /* river */
-				{ {-1,PLAYER_ACTION_NONE ,-1},{-1,PLAYER_ACTION_NONE ,-1},{-1,PLAYER_ACTION_NONE ,-1},{-1,PLAYER_ACTION_NONE ,-1} },
-				{ {-1,PLAYER_ACTION_CHECK,-1},{-1,PLAYER_ACTION_NONE ,-1},{-1,PLAYER_ACTION_NONE ,-1},{-1,PLAYER_ACTION_NONE ,-1} },
-				{ {-1,PLAYER_ACTION_CHECK,-1},{-1,PLAYER_ACTION_NONE ,-1},{-1,PLAYER_ACTION_NONE ,-1},{-1,PLAYER_ACTION_NONE ,-1} },
-				{ {-1,PLAYER_ACTION_CHECK,-1},{-1,PLAYER_ACTION_NONE ,-1},{-1,PLAYER_ACTION_NONE ,-1},{-1,PLAYER_ACTION_NONE ,-1} },
-				{ {-1,PLAYER_ACTION_CHECK,-1},{-1,PLAYER_ACTION_NONE ,-1},{-1,PLAYER_ACTION_NONE ,-1},{-1,PLAYER_ACTION_NONE ,-1} },
-				{ {-1,PLAYER_ACTION_CHECK,-1},{-1,PLAYER_ACTION_NONE ,-1},{-1,PLAYER_ACTION_NONE ,-1},{-1,PLAYER_ACTION_NONE ,-1} },
-				{ {-1,PLAYER_ACTION_CHECK,-1},{-1,PLAYER_ACTION_NONE ,-1},{-1,PLAYER_ACTION_NONE ,-1},{-1,PLAYER_ACTION_NONE ,-1} },
-				{ {-1,PLAYER_ACTION_CHECK,-1},{-1,PLAYER_ACTION_NONE ,-1},{-1,PLAYER_ACTION_NONE ,-1},{-1,PLAYER_ACTION_NONE ,-1} },
-				{ {-1,PLAYER_ACTION_CHECK,-1},{-1,PLAYER_ACTION_NONE ,-1},{-1,PLAYER_ACTION_NONE ,-1},{-1,PLAYER_ACTION_NONE ,-1} },
-				{ {-1,PLAYER_ACTION_CHECK,-1},{-1,PLAYER_ACTION_NONE ,-1},{-1,PLAYER_ACTION_NONE ,-1},{-1,PLAYER_ACTION_NONE ,-1} }
-			}
-		}
-	};
-
-	if((unsigned)handID <= sizeof(playerActionMatrix)/sizeof(int)/cntBeRo/cntPlayer/cntActions/cntValues) {
-		int max_thd = 0;
-		unsigned next_action_idx = 0;
-		for(unsigned action_idx=0; action_idx<cntActions; action_idx++) {
-			if(mySet > playerActionMatrix[handID-1][gameState][seatID][action_idx][0] && playerActionMatrix[handID-1][gameState][seatID][action_idx][0] > max_thd) {
-				max_thd = playerActionMatrix[handID-1][gameState][seatID][action_idx][0];
-				next_action_idx = action_idx;
-			}
-			*playerAction = (PlayerAction)playerActionMatrix[handID-1][gameState][seatID][next_action_idx][1];
-			if(*playerAction == PLAYER_ACTION_BET) {
-				*bet = playerActionMatrix[handID-1][gameState][seatID][next_action_idx][2];
-			} else if(*playerAction == PLAYER_ACTION_RAISE || *playerAction == PLAYER_ACTION_ALLIN) {
-				*raise = playerActionMatrix[handID-1][gameState][seatID][next_action_idx][2];
+	if(debug_mode) {
+		if((unsigned)handID <= sizeof(playerActionMatrix)/sizeof(int)/debug_mode_cntBeRo/MAX_NUMBER_OF_PLAYERS/debug_mode_cntActions/debug_mode_cntValues) {
+			int max_thd = 0;
+			unsigned next_action_idx = 0;
+			for(unsigned action_idx=0; action_idx<debug_mode_cntActions; action_idx++) {
+				if(mySet > playerActionMatrix[handID-1][gameState][seatID][action_idx][0] && playerActionMatrix[handID-1][gameState][seatID][action_idx][0] > max_thd) {
+					max_thd = playerActionMatrix[handID-1][gameState][seatID][action_idx][0];
+					next_action_idx = action_idx;
+				}
+				*playerAction = (PlayerAction)playerActionMatrix[handID-1][gameState][seatID][next_action_idx][1];
+				if(*playerAction == PLAYER_ACTION_BET) {
+					*bet = playerActionMatrix[handID-1][gameState][seatID][next_action_idx][2];
+				} else if(*playerAction == PLAYER_ACTION_RAISE || *playerAction == PLAYER_ACTION_ALLIN) {
+					*raise = playerActionMatrix[handID-1][gameState][seatID][next_action_idx][2];
+				}
 			}
 		}
 	}

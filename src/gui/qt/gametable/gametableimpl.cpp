@@ -1443,7 +1443,7 @@ void gameTableImpl::dealHoleCards()
 		(*it_c)->getMyCards(tempCardsIntArray);
 		for(j=0; j<2; j++) {
 			if((*it_c)->getMyActiveStatus()) {
-				if (( (*it_c)->getMyID() == 0) || DEBUG_MODE) {
+				if (( (*it_c)->getMyID() == 0) || (currentGame->getCurrentHand()->getLog() && currentGame->getCurrentHand()->getLog()->getDebugMode()) ) {
 					tempCardsPixmapArray[j].load(myCardDeckStyle->getCurrentDir()+QString::number(tempCardsIntArray[j], 10)+".png");
 					if(myConfig->readConfigInt("AntiPeekMode")) {
 						holeCardsArray[(*it_c)->getMyID()][j]->setPixmap(flipside, true);
@@ -2805,29 +2805,23 @@ void gameTableImpl::postRiverRunAnimation6()
 			}
 		}
 
-		if( !DEBUG_MODE ) {
-
-			if(myStartWindow->getSession()->getGameType() == Session::GAME_TYPE_LOCAL) {
-				currentGameOver = true;
+		if(myStartWindow->getSession()->getGameType() == Session::GAME_TYPE_LOCAL) {
+			currentGameOver = true;
 #ifdef GUI_800x480
-				tabs.pushButton_break->setDisabled(false);
+			tabs.pushButton_break->setDisabled(false);
 #else
-				pushButton_break->setDisabled(false);
+			pushButton_break->setDisabled(false);
 #endif
-				QFontMetrics tempMetrics = this->fontMetrics();
-				int width = tempMetrics.width(tr("Start"));
+			QFontMetrics tempMetrics = this->fontMetrics();
+			int width = tempMetrics.width(tr("Start"));
 #ifdef GUI_800x480
-				tabs.pushButton_break->setMinimumSize(width+10,20);
-				tabs.pushButton_break->setText(tr("Start"));
+			tabs.pushButton_break->setMinimumSize(width+10,20);
+			tabs.pushButton_break->setText(tr("Start"));
 #else
-				pushButton_break->setMinimumSize(width+10,20);
-				pushButton_break->setText(tr("Start"));
+			pushButton_break->setMinimumSize(width+10,20);
+			pushButton_break->setText(tr("Start"));
 #endif
-				blinkingStartButtonAnimationTimer->start(500);
-			}
-		} else {
-			myStartWindow->callNewGameDialog();
-			//Bei Cancel nichts machen!!!
+			blinkingStartButtonAnimationTimer->start(500);
 		}
 		return;
 	}

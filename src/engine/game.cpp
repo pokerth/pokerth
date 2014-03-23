@@ -56,11 +56,9 @@ Game::Game(GuiInterface* gui, boost::shared_ptr<EngineFactory> factory,
 
 	dealerPosition = startData.startDealerPlayerId;
 
-	if(DEBUG_MODE) {
-		startSmallBlind = myLog->debugMode_getStartSmallBlind();
-		currentSmallBlind = startSmallBlind;
-		dealerPosition = myLog->debugMode_getStartDealerPosition();
-	}
+	// debug mode
+	myLog->debugMode_getStartSmallBlind(&startSmallBlind,&currentSmallBlind);
+	myLog->debugMode_getStartDealerPosition(&dealerPosition);
 
 	int i;
 
@@ -109,8 +107,10 @@ Game::Game(GuiInterface* gui, boost::shared_ptr<EngineFactory> factory,
 			++player_i;
 		}
 
+		// debug mode
+		myLog->debugMode_getPlayerStartCash(&myStartCash, i);
+
 		// create player objects
-		if(DEBUG_MODE) myStartCash = myLog->debugMode_getPlayerStartCash(i);
 		boost::shared_ptr<PlayerInterface> tmpPlayer = myFactory->createPlayer(i, uniqueId, type, myName, myAvatarFile, myStartCash, startQuantityPlayers > i, myStayOnTableStatus, 0);
 		tmpPlayer->setIsSessionActive(true);
 		tmpPlayer->setMyGuid(myGuid);
