@@ -77,7 +77,7 @@ LocalHand::LocalHand(boost::shared_ptr<EngineFactory> f, GuiInterface *g, boost:
 	for(i=0; i<5; i++) tempBoardArray[i] = cardsArray[i];
 
 	// debug mode
-	myLog->debugMode_getBoardCards(tempBoardArray,myID);
+    if(myLog) myLog->debugMode_getBoardCards(tempBoardArray,myID);
 
 	// prepare whole player hand
 	for(i=0; i<5; i++) tempPlayerAndBoardArray[i+2] = tempBoardArray[i];
@@ -92,7 +92,7 @@ LocalHand::LocalHand(boost::shared_ptr<EngineFactory> f, GuiInterface *g, boost:
 		for(j=0; j<2; j++) tempPlayerArray[j] = cardsArray[2*k+j+5];
 
 		// debug mode
-		myLog->debugMode_getPlayerCards(tempPlayerArray,myID,k);
+        if(myLog) myLog->debugMode_getPlayerCards(tempPlayerArray,myID,k);
 
 		// complete whole player hand
 		for(j=0; j<2; j++) tempPlayerAndBoardArray[j] = tempPlayerArray[j];
