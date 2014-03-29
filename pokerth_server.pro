@@ -180,6 +180,7 @@ unix : !mac {
 	BOOST_THREAD = boost_thread boost_thread-mt
 	BOOST_PROGRAM_OPTIONS = boost_program_options boost_program_options-mt
 	BOOST_IOSTREAMS = boost_iostreams boost_iostreams-mt
+	BOOST_CHRONO = boost_chrono boost_chrono-mt
 	BOOST_SYS = boost_system boost_system-mt
 	BOOST_REGEX = boost_regex boost_regex-mt
 	BOOST_RANDOM = boost_random boost_random-mt
@@ -231,6 +232,14 @@ unix : !mac {
 				message("Found $$lib")
 				BOOST_REGEX = -l$$lib
 			}
+			for(lib, BOOST_CHRONO):exists($${dir}/lib$${lib}.so*) {
+				message("Found $$lib")
+				BOOST_CHRONO = -l$$lib
+			}
+			for(lib, BOOST_CHRONO):exists($${dir}/lib$${lib}.a) {
+				message("Found $$lib")
+				BOOST_CHRONO = -l$$lib
+			}
 			for(lib, BOOST_RANDOM):exists($${dir}/lib$${lib}.so*) {
 				message("Found $$lib")
 				BOOST_RANDOM = -l$$lib
@@ -249,8 +258,8 @@ unix : !mac {
 			}
 		}
 	}
-	BOOST_LIBS = $$BOOST_THREAD $$BOOST_FS $$BOOST_PROGRAM_OPTIONS $$BOOST_IOSTREAMS $$BOOST_REGEX $$BOOST_RANDOM $$BOOST_SYS
-	!count(BOOST_LIBS, 7){
+	BOOST_LIBS = $$BOOST_THREAD $$BOOST_FS $$BOOST_PROGRAM_OPTIONS $$BOOST_IOSTREAMS $$BOOST_REGEX $$BOOST_CHRONO $$BOOST_RANDOM $$BOOST_SYS
+	!count(BOOST_LIBS, 8){
 		error("Unable to find boost libraries in PREFIX=$${PREFIX}")
 	}
 
@@ -301,6 +310,7 @@ mac {
 	LIBS += /usr/local/lib/libboost_thread.a
 	LIBS += /usr/local/lib/libboost_filesystem.a
 	LIBS += /usr/local/lib/libboost_regex.a
+	LIBS += /usr/local/lib/libboost_chrono.a
 	LIBS += /usr/local/lib/libboost_random.a
 	LIBS += /usr/local/lib/libboost_system.a
 	LIBS += /usr/local/lib/libboost_iostreams.a
