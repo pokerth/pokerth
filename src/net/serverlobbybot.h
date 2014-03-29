@@ -34,6 +34,7 @@
 #define _SERVERLOBBYBOT_H_
 
 #include <boost/asio.hpp>
+#include <boost/asio/steady_timer.hpp>
 #include <boost/enable_shared_from_this.hpp>
 #include <string>
 #include <list>
@@ -86,7 +87,7 @@ private:
 	boost::shared_ptr<ServerLobbyThread> m_lobbyThread;
 	boost::shared_ptr<IrcThread> m_ircLobbyThread;
 
-	boost::asio::deadline_timer m_reconnectTimer;
+	boost::asio::steady_timer m_reconnectTimer;
 };
 
 #endif

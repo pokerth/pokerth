@@ -35,6 +35,7 @@
 
 #include <boost/shared_ptr.hpp>
 #include <boost/asio.hpp>
+#include <boost/asio/steady_timer.hpp>
 #include <boost/enable_shared_from_this.hpp>
 #include <string>
 #include <algorithm>
@@ -218,7 +219,7 @@ protected:
 
 	ClientState &GetState();
 	void SetState(ClientState &newState);
-	boost::asio::deadline_timer &GetStateTimer();
+	boost::asio::steady_timer &GetStateTimer();
 
 	SenderHelper &GetSender();
 
@@ -341,8 +342,8 @@ private:
 	mutable boost::mutex m_pingDataMutex;
 	PingData m_pingData;
 
-	boost::asio::deadline_timer m_stateTimer;
-	boost::asio::deadline_timer m_avatarTimer;
+	boost::asio::steady_timer m_stateTimer;
+	boost::asio::steady_timer m_avatarTimer;
 
 	friend class AbstractClientStateReceiving;
 	friend class ClientStateInit;

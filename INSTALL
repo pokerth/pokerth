@@ -11,7 +11,7 @@ Linux:
 - libgsasl version >= 1.4 --> http://www.gnu.org/software/gsasl/
 - libboost_thread, libboost_filesystem, libboost_datetime, libboost_program_options,
   libboost_iostreams, libboost_asio, libboost_regex, libboost_random, libboost_uuid
-  (version >= 1.44, latest always recommended)  --> http://www.boost.org/
+  (version >= 1.49, latest always recommended)  --> http://www.boost.org/
 - libSDL_mixer, libSDL  --> http://www.libsdl.org/
 - libSQLite3 --> http://sqlite.org/
 - libtinyxml > 2.0 --> http://www.sourceforge.net/projects/tinyxml

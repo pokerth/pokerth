@@ -34,6 +34,7 @@
 #define _SERVERGAME_H_
 
 #include <boost/enable_shared_from_this.hpp>
+#include <boost/asio/steady_timer.hpp>
 #include <third_party/boost/timers.hpp>
 #include <map>
 
@@ -177,8 +178,8 @@ protected:
 	ServerGameState &GetState();
 	void SetState(ServerGameState &newState);
 
-	boost::asio::deadline_timer &GetStateTimer1();
-	boost::asio::deadline_timer &GetStateTimer2();
+	boost::asio::steady_timer &GetStateTimer1();
+	boost::asio::steady_timer &GetStateTimer2();
 
 	const StartData &GetStartData() const;
 	void SetStartData(const StartData &startData);
@@ -237,9 +238,9 @@ private:
 	ConfigFile		   &m_playerConfig;
 	unsigned			m_gameNum;
 	unsigned			m_curPetitionId;
-	boost::asio::deadline_timer m_voteKickTimer;
-	boost::asio::deadline_timer m_stateTimer1;
-	boost::asio::deadline_timer m_stateTimer2;
+	boost::asio::steady_timer m_voteKickTimer;
+	boost::asio::steady_timer m_stateTimer1;
+	boost::asio::steady_timer m_stateTimer2;
 	bool				m_isNameReported;
 
 	friend class ServerLobbyThread;
