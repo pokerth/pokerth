@@ -52,6 +52,12 @@
 
 using namespace std;
 
+#ifdef BOOST_ASIO_HAS_STD_CHRONO
+using namespace std::chrono;
+#else
+using namespace boost::chrono;
+#endif
+
 //#define POKERTH_SERVER_TEST
 
 #ifdef POKERTH_SERVER_TEST
@@ -575,7 +581,7 @@ ServerGameStateInit::RegisterAdminTimer(boost::shared_ptr<ServerGame> server)
 	// No admin timeout in LAN or ranking games.
 	if (server->GetLobbyThread().GetServerMode() != SERVER_MODE_LAN && server->GetGameData().gameType != GAME_TYPE_RANKING) {
 		server->GetStateTimer1().expires_from_now(
-			boost::posix_time::seconds(SERVER_GAME_ADMIN_TIMEOUT_SEC - SERVER_GAME_ADMIN_WARNING_REMAINING_SEC));
+			seconds(SERVER_GAME_ADMIN_TIMEOUT_SEC - SERVER_GAME_ADMIN_WARNING_REMAINING_SEC));
 		server->GetStateTimer1().async_wait(
 			boost::bind(
 				&ServerGameStateInit::TimerAdminWarning, this, boost::asio::placeholders::error, server));
@@ -594,7 +600,7 @@ ServerGameStateInit::RegisterAutoStartTimer(boost::shared_ptr<ServerGame> server
 	// No autostart in LAN games.
 	if (server->GetLobbyThread().GetServerMode() != SERVER_MODE_LAN) {
 		server->GetStateTimer2().expires_from_now(
-			boost::posix_time::seconds(SERVER_AUTOSTART_GAME_DELAY_SEC));
+			seconds(SERVER_AUTOSTART_GAME_DELAY_SEC));
 		server->GetStateTimer2().async_wait(
 			boost::bind(
 				&ServerGameStateInit::TimerAutoStart, this, boost::asio::placeholders::error, server));
@@ -632,7 +638,7 @@ ServerGameStateInit::TimerAdminWarning(const boost::system::error_code &ec, boos
 		}
 		// Start timeout timer.
 		server->GetStateTimer1().expires_from_now(
-			boost::posix_time::seconds(SERVER_GAME_ADMIN_WARNING_REMAINING_SEC));
+			seconds(SERVER_GAME_ADMIN_WARNING_REMAINING_SEC));
 		server->GetStateTimer1().async_wait(
 			boost::bind(
 				&ServerGameStateInit::TimerAdminTimeout, this, boost::asio::placeholders::error, server));
@@ -767,7 +773,7 @@ void
 ServerGameStateStartGame::Enter(boost::shared_ptr<ServerGame> server)
 {
 	server->GetStateTimer1().expires_from_now(
-		boost::posix_time::seconds(SERVER_START_GAME_TIMEOUT_SEC));
+		seconds(SERVER_START_GAME_TIMEOUT_SEC));
 	server->GetStateTimer1().async_wait(
 		boost::bind(
 			&ServerGameStateStartGame::TimerTimeout, this, boost::asio::placeholders::error, server));
@@ -930,7 +936,7 @@ void
 ServerGameStateHand::Enter(boost::shared_ptr<ServerGame> server)
 {
 	server->GetStateTimer1().expires_from_now(
-		boost::posix_time::milliseconds(SERVER_LOOP_DELAY_MSEC));
+		milliseconds(SERVER_LOOP_DELAY_MSEC));
 	server->GetStateTimer1().async_wait(
 		boost::bind(
 			&ServerGameStateHand::TimerLoop, this, boost::asio::placeholders::error, server));
@@ -1007,7 +1013,7 @@ ServerGameStateHand::EngineLoop(boost::shared_ptr<ServerGame> server)
 			curGame.getCurrentHand()->setCardsShown(true);
 
 			server->GetStateTimer1().expires_from_now(
-				boost::posix_time::seconds(SERVER_SHOW_CARDS_DELAY_SEC));
+				seconds(SERVER_SHOW_CARDS_DELAY_SEC));
 			server->GetStateTimer1().async_wait(
 				boost::bind(
 					&ServerGameStateHand::TimerShowCards, this, boost::asio::placeholders::error, server));
@@ -1015,7 +1021,7 @@ ServerGameStateHand::EngineLoop(boost::shared_ptr<ServerGame> server)
 			SendNewRoundCards(*server, curGame, newRound);
 
 			server->GetStateTimer1().expires_from_now(
-				boost::posix_time::seconds(GetDealCardsDelaySec(*server)));
+				seconds(GetDealCardsDelaySec(*server)));
 			server->GetStateTimer1().async_wait(
 				boost::bind(
 					&ServerGameStateHand::TimerLoop, this, boost::asio::placeholders::error, server));
@@ -1043,7 +1049,7 @@ ServerGameStateHand::EngineLoop(boost::shared_ptr<ServerGame> server)
 			// If the player is computer controlled, let the engine act.
 			if (curPlayer->getMyType() == PLAYER_TYPE_COMPUTER) {
 				server->GetStateTimer1().expires_from_now(
-					boost::posix_time::seconds(SERVER_COMPUTER_ACTION_DELAY_SEC));
+					seconds(SERVER_COMPUTER_ACTION_DELAY_SEC));
 				server->GetStateTimer1().async_wait(
 					boost::bind(
 						&ServerGameStateHand::TimerComputerAction, this, boost::asio::placeholders::error, server));
@@ -1054,7 +1060,7 @@ ServerGameStateHand::EngineLoop(boost::shared_ptr<ServerGame> server)
 					PerformPlayerAction(*server, curPlayer, PLAYER_ACTION_FOLD, 0);
 
 					server->GetStateTimer1().expires_from_now(
-						boost::posix_time::milliseconds(SERVER_LOOP_DELAY_MSEC));
+						milliseconds(SERVER_LOOP_DELAY_MSEC));
 					server->GetStateTimer1().async_wait(
 						boost::bind(
 							&ServerGameStateHand::TimerLoop, this, boost::asio::placeholders::error, server));
@@ -1122,7 +1128,7 @@ ServerGameStateHand::EngineLoop(boost::shared_ptr<ServerGame> server)
 
 				// View a dialog for a new game - delayed.
 				server->GetStateTimer1().expires_from_now(
-					boost::posix_time::seconds(SERVER_DELAY_NEXT_GAME_SEC));
+					seconds(SERVER_DELAY_NEXT_GAME_SEC));
 				server->GetStateTimer1().async_wait(
 					boost::bind(
 						&ServerGameStateHand::TimerNextGame, this, boost::asio::placeholders::error, server, winnerPlayer->getMyUniqueID()));
@@ -1141,7 +1147,7 @@ ServerGameStateHand::TimerShowCards(const boost::system::error_code &ec, boost::
 		SendNewRoundCards(*server, curGame, curGame.getCurrentHand()->getCurrentRound());
 
 		server->GetStateTimer1().expires_from_now(
-			boost::posix_time::seconds(GetDealCardsDelaySec(*server)));
+			seconds(GetDealCardsDelaySec(*server)));
 		server->GetStateTimer1().async_wait(
 			boost::bind(
 				&ServerGameStateHand::TimerLoop, this, boost::asio::placeholders::error, server));
@@ -1512,7 +1518,7 @@ ServerGameStateWaitPlayerAction::Enter(boost::shared_ptr<ServerGame> server)
 		int timeoutSec = server->GetGameData().playerActionTimeoutSec + SERVER_PLAYER_TIMEOUT_ADD_DELAY_SEC;
 #endif
 
-		server->GetStateTimer1().expires_from_now(boost::posix_time::seconds(timeoutSec));
+		server->GetStateTimer1().expires_from_now(seconds(timeoutSec));
 		server->GetStateTimer1().async_wait(
 			boost::bind(
 				&ServerGameStateWaitPlayerAction::TimerTimeout, this, boost::asio::placeholders::error, server));
@@ -1646,7 +1652,7 @@ ServerGameStateWaitNextHand::Enter(boost::shared_ptr<ServerGame> server)
 #endif
 
 	server->GetStateTimer1().expires_from_now(
-		boost::posix_time::seconds(timeoutSec));
+		seconds(timeoutSec));
 
 	server->GetStateTimer1().async_wait(
 		boost::bind(

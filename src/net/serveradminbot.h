@@ -34,6 +34,7 @@
 #define _SERVERADMINBOT_H_
 
 #include <boost/asio.hpp>
+#include <boost/asio/steady_timer.hpp>
 #include <boost/thread.hpp>
 #include <boost/enable_shared_from_this.hpp>
 #include <third_party/boost/timers.hpp>
@@ -96,9 +97,9 @@ private:
 	boost::shared_ptr<IrcThread> m_ircAdminThread;
 	boost::timers::portable::second_timer m_notifyTimer;
 
-	boost::asio::deadline_timer m_reconnectTimer;
-	boost::asio::deadline_timer m_notifyLoopTimer;
-	boost::asio::deadline_timer m_checkFileTimer;
+	boost::asio::steady_timer m_reconnectTimer;
+	boost::asio::steady_timer m_notifyLoopTimer;
+	boost::asio::steady_timer m_checkFileTimer;
 };
 
 #endif

@@ -66,6 +66,12 @@ using namespace std;
 using namespace boost::filesystem;
 using boost::asio::ip::tcp;
 
+#ifdef BOOST_ASIO_HAS_STD_CHRONO
+using namespace std::chrono;
+#else
+using namespace boost::chrono;
+#endif
+
 ClientThread::ClientThread(GuiInterface &gui, AvatarManager &avatarManager, Log *myLog)
 	: m_ioService(new boost::asio::io_service), m_clientLog(myLog), m_curState(NULL), m_gui(gui),
 	  m_avatarManager(avatarManager), m_isServerSelected(false),
@@ -586,7 +592,7 @@ void
 ClientThread::RegisterTimers()
 {
 	m_avatarTimer.expires_from_now(
-		boost::posix_time::milliseconds(CLIENT_AVATAR_LOOP_MSEC));
+		milliseconds(CLIENT_AVATAR_LOOP_MSEC));
 	m_avatarTimer.async_wait(
 		boost::bind(
 			&ClientThread::TimerCheckAvatarDownloads, shared_from_this(), boost::asio::placeholders::error));
@@ -910,7 +916,7 @@ ClientThread::TimerCheckAvatarDownloads(const boost::system::error_code& ec)
 			PassAvatarFileToManager(playerId, tmpAvatar);
 		}
 		m_avatarTimer.expires_from_now(
-			boost::posix_time::milliseconds(CLIENT_AVATAR_LOOP_MSEC));
+			milliseconds(CLIENT_AVATAR_LOOP_MSEC));
 		m_avatarTimer.async_wait(
 			boost::bind(
 				&ClientThread::TimerCheckAvatarDownloads, shared_from_this(), boost::asio::placeholders::error));
@@ -1022,7 +1028,7 @@ ClientThread::SetState(ClientState &newState)
 	m_curState->Enter(shared_from_this());
 }
 
-boost::asio::deadline_timer &
+boost::asio::steady_timer &
 ClientThread::GetStateTimer()
 {
 	return m_stateTimer;

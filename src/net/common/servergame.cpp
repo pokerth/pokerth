@@ -53,6 +53,12 @@
 
 using namespace std;
 
+#ifdef BOOST_ASIO_HAS_STD_CHRONO
+using namespace std::chrono;
+#else
+using namespace boost::chrono;
+#endif
+
 static bool LessThanPlayerHandStartMoney(const boost::shared_ptr<PlayerInterface> p1, const boost::shared_ptr<PlayerInterface> p2)
 {
 	return p1->getMyRoundStartCash() < p2->getMyRoundStartCash();
@@ -276,7 +282,7 @@ ServerGame::TimerVoteKick(const boost::system::error_code &ec)
 				m_voteKickData.reset();
 			}
 			m_voteKickTimer.expires_from_now(
-				boost::posix_time::milliseconds(SERVER_CHECK_VOTE_KICK_INTERVAL_MSEC));
+				milliseconds(SERVER_CHECK_VOTE_KICK_INTERVAL_MSEC));
 			m_voteKickTimer.async_wait(
 				boost::bind(
 					&ServerGame::TimerVoteKick, shared_from_this(), boost::asio::placeholders::error));
@@ -515,7 +521,7 @@ ServerGame::InternalAskVoteKick(boost::shared_ptr<SessionData> byWhom, unsigned 
 					SendToAllPlayers(packet, SessionData::Game);
 
 					m_voteKickTimer.expires_from_now(
-						boost::posix_time::milliseconds(SERVER_CHECK_VOTE_KICK_INTERVAL_MSEC));
+						milliseconds(SERVER_CHECK_VOTE_KICK_INTERVAL_MSEC));
 					m_voteKickTimer.async_wait(
 						boost::bind(
 							&ServerGame::TimerVoteKick, shared_from_this(), boost::asio::placeholders::error));
@@ -1073,13 +1079,13 @@ ServerGame::SetState(ServerGameState &newState)
 	m_curState->Enter(shared_from_this());
 }
 
-boost::asio::deadline_timer &
+boost::asio::steady_timer &
 ServerGame::GetStateTimer1()
 {
 	return m_stateTimer1;
 }
 
-boost::asio::deadline_timer &
+boost::asio::steady_timer &
 ServerGame::GetStateTimer2()
 {
 	return m_stateTimer2;
