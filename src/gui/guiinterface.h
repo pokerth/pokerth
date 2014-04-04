@@ -119,8 +119,6 @@ public:
 	virtual void logDealBoardCardsMsg(int roundID, int card1, int card2, int card3, int card4 = -1, int card5 = -1) = 0;
 	virtual void logFlipHoleCardsMsg(std::string playerName, int card1, int card2, int cardsValueInt = -1, std::string showHas = "shows") = 0;
 	virtual void logPlayerWinGame(std::string playerName, int gameID) =0;
-	virtual void flushLogAtGame(int gameID) =0;
-	virtual void flushLogAtHand() =0;
 
 
 };
