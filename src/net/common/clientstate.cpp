@@ -517,7 +517,11 @@ ClientStateStartConnect::HandleConnect(const boost::system::error_code& ec, boos
 							client));
 		} else {
 			if (ec != boost::asio::error::operation_aborted) {
-				throw ClientException(__FILE__, __LINE__, ERR_SOCK_CONNECT_FAILED, ec.value());
+				if (client->GetContext().GetAddrFamily() == AF_INET6) {
+					throw ClientException(__FILE__, __LINE__, ERR_SOCK_CONNECT_IPV6_FAILED, ec.value());
+				} else {
+					throw ClientException(__FILE__, __LINE__, ERR_SOCK_CONNECT_FAILED, ec.value());
+				}
 			}
 		}
 	}
@@ -529,7 +533,12 @@ ClientStateStartConnect::TimerTimeout(const boost::system::error_code& ec, boost
 	if (!ec && &client->GetState() == this) {
 		boost::system::error_code ec;
 		client->GetContext().GetSessionData()->GetAsioSocket()->close(ec);
-		throw ClientException(__FILE__, __LINE__, ERR_SOCK_CONNECT_TIMEOUT, 0);
+		if (client->GetContext().GetAddrFamily() == AF_INET6) {
+			throw ClientException(__FILE__, __LINE__, ERR_SOCK_CONNECT_IPV6_TIMEOUT, 0);
+		}
+		else {
+			throw ClientException(__FILE__, __LINE__, ERR_SOCK_CONNECT_TIMEOUT, 0);
+		}
 	}
 }
 
