@@ -1264,7 +1264,7 @@ void LocalPlayer::preflopEngine()
 	// 	cout << myID << ": " << myOdds << " - " << myNiveau[0] << " " << myNiveau[2] << " - " << "Bluff: " << sBluffStatus << endl;
 
 	// debug mode
-    if(currentHand->getLog()) currentHand->getLog()->debugMode_getPlayerAction(&myAction, &bet, &raise, GAME_STATE_PREFLOP, currentHand->getMyID(), myUniqueID, mySet);
+	if(currentHand->getLog()) currentHand->getLog()->debugMode_getPlayerAction(&myAction, &bet, &raise, GAME_STATE_PREFLOP, currentHand->getMyID(), myUniqueID, mySet);
 
 	evaluation(bet, raise);
 }
@@ -1526,7 +1526,7 @@ void LocalPlayer::flopEngine()
 	}
 
 	// debug mode
-    if(currentHand->getLog()) currentHand->getLog()->debugMode_getPlayerAction(&myAction, &bet, &raise, GAME_STATE_FLOP, currentHand->getMyID(), myUniqueID, mySet);
+	if(currentHand->getLog()) currentHand->getLog()->debugMode_getPlayerAction(&myAction, &bet, &raise, GAME_STATE_FLOP, currentHand->getMyID(), myUniqueID, mySet);
 
 	evaluation(bet, raise);
 
@@ -1801,7 +1801,7 @@ void LocalPlayer::turnEngine()
 	}
 
 	// debug mode
-    if(currentHand->getLog()) currentHand->getLog()->debugMode_getPlayerAction(&myAction, &bet, &raise, GAME_STATE_TURN, currentHand->getMyID(), myUniqueID, mySet);
+	if(currentHand->getLog()) currentHand->getLog()->debugMode_getPlayerAction(&myAction, &bet, &raise, GAME_STATE_TURN, currentHand->getMyID(), myUniqueID, mySet);
 
 	evaluation(bet, raise);
 
@@ -2062,7 +2062,7 @@ void LocalPlayer::riverEngine()
 	}
 
 	// debug mode
-    if(currentHand->getLog()) currentHand->getLog()->debugMode_getPlayerAction(&myAction, &bet, &raise, GAME_STATE_RIVER, currentHand->getMyID(), myUniqueID, mySet);
+	if(currentHand->getLog()) currentHand->getLog()->debugMode_getPlayerAction(&myAction, &bet, &raise, GAME_STATE_RIVER, currentHand->getMyID(), myUniqueID, mySet);
 
 	evaluation(bet, raise);
 

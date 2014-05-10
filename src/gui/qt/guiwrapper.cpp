@@ -287,14 +287,6 @@ void GuiWrapper::logPlayerWinGame(std::string playerName, int gameID)
 {
 	myGuiLog->signalLogPlayerWinGame(QString::fromUtf8(playerName.c_str()), gameID);
 }
-void GuiWrapper::flushLogAtGame(int gameID)
-{
-	myGuiLog->signalFlushLogAtGame(gameID);
-}
-void GuiWrapper::flushLogAtHand()
-{
-	myGuiLog->signalFlushLogAtHand();
-}
 
 
 void GuiWrapper::SignalNetClientConnect(int actionID)

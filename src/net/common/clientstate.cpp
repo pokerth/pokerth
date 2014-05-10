@@ -1809,7 +1809,6 @@ ClientStateRunHand::InternalHandlePacket(boost::shared_ptr<ClientThread> client,
 				curGame->getPlayerByUniqueId(curGame->getCurrentHand()->getCurrentBeRo()->getBigBlindPositionId())->getMySet(),
 				curGame->getPlayerByUniqueId(curGame->getCurrentHand()->getCurrentBeRo()->getSmallBlindPositionId())->getMyName(),
 				curGame->getPlayerByUniqueId(curGame->getCurrentHand()->getCurrentBeRo()->getBigBlindPositionId())->getMyName());
-			client->GetGui().flushLogAtHand();
 			client->GetClientLog()->logNewHandMsg(
 				curGame->getCurrentHandID(),
 				curGame->getPlayerByUniqueId(curGame->getCurrentHand()->getDealerPosition())->getMyID()+1,
