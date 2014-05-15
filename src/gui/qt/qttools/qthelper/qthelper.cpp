@@ -91,7 +91,11 @@ std::string QtHelper::getDataPathStdString(const char * /*argv0*/)
 		// we are in a bin directory. e.g. /usr/bin
 		path += "/../share/pokerth/data/";
 
-	} else {
+    } else if (QRegExp("lib/(\\w|_)*-(\\w|_)*-(\\w|_)*/?$").indexIn(path) != -1) {
+        // we are in a triplet lib directory. e.g. /usr/lib/x86_64-linux-gnu/
+        path += "/../../share/pokerth/data/";
+
+    } else {
 		path += "/data/";
 	}
 #endif
