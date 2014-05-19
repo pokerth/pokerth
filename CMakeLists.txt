@@ -85,8 +85,16 @@ set(OTHER_FILES
 
 qtcreator_add_project_resources(${OTHER_FILES})
 
+# Build runtime files in the build root so we can run in the build dir
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
+
 add_subdirectory(data)
-include(pokerth_db.cmake)
-include(pokerth_protocol.cmake)
-include(pokerth_lib.cmake)
-include(pokerth_game.cmake)
+add_subdirectory(cmake/projects)
+#include(pokerth_db.cmake)
+#include(pokerth_protocol.cmake)
+#include(pokerth_lib.cmake)
+#include(pokerth_game.cmake)
+#if(BUILD_SERVER)
+#    include(pokerth_server.cmake)
+#    include(chatcleaner.cmake)
+#endif(BUILD_SERVER)

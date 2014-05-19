@@ -33,7 +33,11 @@
 #include <net/asiosendbuffer.h>
 #include <boost/bind.hpp>
 #include <core/loghelper.h>
+#ifndef PROTOBUF_INCLUDE_RELATIVE
 #include <third_party/protobuf/chatcleaner.pb.h>
+#else //PROTOBUF_INCLUDE_RELATIVE
+#include "chatcleaner.pb.h"
+#endif //PROTOBUF_INCLUDE_RELATIVE
 
 #include <sstream>
 
