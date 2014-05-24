@@ -905,17 +905,9 @@ LocalPlayer::LocalPlayer(ConfigFile *c, int id, unsigned uniqueId, PlayerType ty
 
 }
 
-
 LocalPlayer::~LocalPlayer()
 {
 }
-
-
-void LocalPlayer::setHand(HandInterface* br)
-{
-	currentHand = br;
-}
-
 
 void LocalPlayer::action()
 {
@@ -1269,7 +1261,6 @@ void LocalPlayer::preflopEngine()
 	evaluation(bet, raise);
 }
 
-
 void LocalPlayer::flopEngine()
 {
 
@@ -1531,7 +1522,6 @@ void LocalPlayer::flopEngine()
 	evaluation(bet, raise);
 
 }
-
 
 void LocalPlayer::turnEngine()
 {
@@ -1807,7 +1797,6 @@ void LocalPlayer::turnEngine()
 
 }
 
-
 void LocalPlayer::riverEngine()
 {
 
@@ -2068,7 +2057,6 @@ void LocalPlayer::riverEngine()
 
 }
 
-
 void LocalPlayer::evaluation(int bet, int raise)
 {
 
@@ -2192,7 +2180,6 @@ void LocalPlayer::evaluation(int bet, int raise)
 	currentHand->getCurrentBeRo()->setHighestSet(highestSet);
 
 }
-
 
 int LocalPlayer::flopCardsValue(int* cards)
 {
@@ -2827,7 +2814,6 @@ int LocalPlayer::flopCardsValue(int* cards)
 
 }
 
-
 void LocalPlayer::calcMyOdds()
 {
 
@@ -2941,8 +2927,8 @@ void LocalPlayer::calcMyOdds()
 								tempOpponentCardsArray[1] = j;
 								tempOpponentCardsArray[6] = k;
 								tempMyCardsArray[6] = k;
-								tempMyCardsValue = CardsValue::cardsValue(tempMyCardsArray,0);
-								tempOpponentCardsValue = CardsValue::cardsValue(tempOpponentCardsArray,0);
+								tempMyCardsValue = CardsValue::cardsValueOld(tempMyCardsArray,0);
+								tempOpponentCardsValue = CardsValue::cardsValueOld(tempOpponentCardsArray,0);
 
 								if(tempMyCardsValue>=tempOpponentCardsValue) countMy++;
 							}
@@ -2995,8 +2981,8 @@ void LocalPlayer::calcMyOdds()
 
 						tempOpponentCardsArray[0] = i;
 						tempOpponentCardsArray[1] = j;
-						tempMyCardsValue = CardsValue::cardsValue(tempMyCardsArray,0);
-						tempOpponentCardsValue = CardsValue::cardsValue(tempOpponentCardsArray,0);
+						tempMyCardsValue = CardsValue::cardsValueOld(tempMyCardsArray,0);
+						tempOpponentCardsValue = CardsValue::cardsValueOld(tempOpponentCardsArray,0);
 
 						if(tempMyCardsValue>=tempOpponentCardsValue) countMy++;
 					}
@@ -3490,8 +3476,8 @@ void LocalPlayer::flopEngine3()
 									tempOpponentCardsArray[6] = l;
 									tempMyCardsArray[5] = k;
 									tempMyCardsArray[6] = l;
-									tempMyCardsValue = CardsValue::cardsValue(tempMyCardsArray,0);
-									tempOpponentCardsValue = CardsValue::cardsValue(tempOpponentCardsArray,0);
+									tempMyCardsValue = CardsValue::cardsValueOld(tempMyCardsArray,0);
+									tempOpponentCardsValue = CardsValue::cardsValueOld(tempOpponentCardsArray,0);
 
 									if(tempMyCardsValue>=tempOpponentCardsValue) countMy++;
 
@@ -3659,8 +3645,8 @@ void LocalPlayer::turnEngine3()
 							tempOpponentCardsArray[1] = j;
 							tempOpponentCardsArray[6] = k;
 							tempMyCardsArray[6] = k;
-							tempMyCardsValue = CardsValue::cardsValue(tempMyCardsArray,0);
-							tempOpponentCardsValue = CardsValue::cardsValue(tempOpponentCardsArray,0);
+							tempMyCardsValue = CardsValue::cardsValueOld(tempMyCardsArray,0);
+							tempOpponentCardsValue = CardsValue::cardsValueOld(tempOpponentCardsArray,0);
 
 							if(tempMyCardsValue>=tempOpponentCardsValue) countMy++;
 						}
@@ -3823,8 +3809,8 @@ void LocalPlayer::riverEngine3()
 
 					tempOpponentCardsArray[0] = i;
 					tempOpponentCardsArray[1] = j;
-					tempMyCardsValue = CardsValue::cardsValue(tempMyCardsArray,0);
-					tempOpponentCardsValue = CardsValue::cardsValue(tempOpponentCardsArray,0);
+					tempMyCardsValue = CardsValue::cardsValueOld(tempMyCardsArray,0);
+					tempOpponentCardsValue = CardsValue::cardsValueOld(tempOpponentCardsArray,0);
 
 					if(tempMyCardsValue>=tempOpponentCardsValue) countMy++;
 				}

@@ -98,7 +98,7 @@ LocalHand::LocalHand(boost::shared_ptr<EngineFactory> f, GuiInterface *g, boost:
 		for(j=0; j<2; j++) tempPlayerAndBoardArray[j] = tempPlayerArray[j];
 
 		(*it)->setMyCards(tempPlayerArray);
-		(*it)->setMyCardsValueInt(CardsValue::cardsValue(tempPlayerAndBoardArray, bestHandPos));
+		(*it)->setMyCardsValueInt(CardsValue::cardsValueOld(tempPlayerAndBoardArray, bestHandPos));
 		(*it)->setMyBestHandPosition(bestHandPos);
 		(*it)->setMyRoundStartCash((*it)->getMyCash());
 

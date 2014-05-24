@@ -83,3 +83,13 @@ void Tools::GetRand(int minValue, int maxValue, unsigned count, int *out)
 	}
 }
 
+int Tools::bitcount(int in)
+{
+	int count=0 ;
+	while (in) {
+		count++ ;
+		in &= (in - 1) ;
+	}
+	return count ;
+}
+

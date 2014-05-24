@@ -48,8 +48,9 @@ public:
 
 	~LocalPlayer();
 
-	void setHand(HandInterface *);
-
+	void setHand(HandInterface *theValue) {
+		currentHand = theValue;
+	}
 	int getMyID() const {
 		return myID;
 	}
