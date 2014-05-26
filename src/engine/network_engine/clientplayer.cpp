@@ -38,12 +38,12 @@ using namespace std;
 ClientPlayer::ClientPlayer(ConfigFile *c, int id, unsigned uniqueId, PlayerType type, std::string name, std::string avatar, int sC, bool aS, bool sotS, int mB)
 	: PlayerInterface(), myConfig(c), currentHand(0), myID(id), myUniqueID(uniqueId), myType(type),
 	  myName(name), myAvatar(avatar), myDude(0), myDude4(0), myCardsValueInt(0), myOdds(-1.0), logHoleCardsDone(false), myCash(sC), mySet(0), myLastRelativeSet(0),
-	  myAction(PLAYER_ACTION_NONE), myButton(mB), myActiveStatus(aS), myStayOnTableStatus(sotS), myTurn(false), myCardsFlip(false), myRoundStartCash(0),
+	  myAction(PLAYER_ACTION_NONE), myButton(mB), myActiveStatus(aS), myStayOnTableStatus(sotS), myTurn(false), myHoleCardsFlip(false), myRoundStartCash(0),
 	  lastMoneyWon(0), sBluff(0), sBluffStatus(false), m_isSessionActive(false), m_isKicked(false), m_isMuted(false)
 {
 	myBestHandPosition[0] = myBestHandPosition[1] = myBestHandPosition[2] = myBestHandPosition[3] = myBestHandPosition[4] = 0;
 	myNiveau[0] = myNiveau[1] = myNiveau[2] = 0;
-	myCards[0] = myCards[1] = 0;
+	myHoleCards[0] = myHoleCards[1] = 0;
 	myAverageSets[0] = myAverageSets[1] = myAverageSets[2] = myAverageSets[3] = 0;
 	myAggressive[0] = myAggressive[1] = myAggressive[2] = myAggressive[3] = myAggressive[4] = myAggressive[5] = myAggressive[6] = false;
 }
@@ -264,19 +264,19 @@ ClientPlayer::getMyStayOnTableStatus() const
 }
 
 void
-ClientPlayer::setMyCards(int* theValue)
+ClientPlayer::setMyHoleCards(int* theValue)
 {
 	boost::recursive_mutex::scoped_lock lock(m_syncMutex);
 	for (int i = 0; i < 2; i++)
-		myCards[i] = theValue[i];
+		myHoleCards[i] = theValue[i];
 }
 
 void
-ClientPlayer::getMyCards(int* theValue) const
+ClientPlayer::getMyHoleCards(int* theValue) const
 {
 	boost::recursive_mutex::scoped_lock lock(m_syncMutex);
 	for (int i = 0; i < 2; i++)
-		theValue[i] = myCards[i];
+		theValue[i] = myHoleCards[i];
 }
 
 void
@@ -294,21 +294,21 @@ ClientPlayer::getMyTurn() const
 }
 
 void
-ClientPlayer::setMyCardsFlip(bool theValue, int state)
+ClientPlayer::setMyHoleCardsFlip(bool theValue, int state)
 {
 	boost::recursive_mutex::scoped_lock lock(m_syncMutex);
-	myCardsFlip = theValue;
+	myHoleCardsFlip = theValue;
 	// log flipping cards
-	if (myCardsFlip) {
+	if (myHoleCardsFlip) {
 		switch(state) {
 		case 1:
-			currentHand->getGuiInterface()->logFlipHoleCardsMsg(myName, myCards[0], myCards[1], myCardsValueInt);
+			currentHand->getGuiInterface()->logFlipHoleCardsMsg(myName, myHoleCards[0], myHoleCards[1], myCardsValueInt);
 			break;
 		case 2:
-			currentHand->getGuiInterface()->logFlipHoleCardsMsg(myName, myCards[0], myCards[1]);
+			currentHand->getGuiInterface()->logFlipHoleCardsMsg(myName, myHoleCards[0], myHoleCards[1]);
 			break;
 		case 3:
-			currentHand->getGuiInterface()->logFlipHoleCardsMsg(myName, myCards[0], myCards[1], myCardsValueInt, "has");
+			currentHand->getGuiInterface()->logFlipHoleCardsMsg(myName, myHoleCards[0], myHoleCards[1], myCardsValueInt, "has");
 			break;
 		default:
 			;
@@ -317,10 +317,10 @@ ClientPlayer::setMyCardsFlip(bool theValue, int state)
 }
 
 bool
-ClientPlayer::getMyCardsFlip() const
+ClientPlayer::getMyHoleCardsFlip() const
 {
 	boost::recursive_mutex::scoped_lock lock(m_syncMutex);
-	return myCardsFlip;
+	return myHoleCardsFlip;
 }
 
 void

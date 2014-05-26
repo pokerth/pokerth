@@ -470,7 +470,7 @@ void guiLog::showLog(QString fileStringPdb, QTextBrowser *tb_tmp, int uniqueGame
 
 int guiLog::exportLog(QString fileStringPdb,int modus,int uniqueGameID_req)
 {
-    bool neu = true;
+	bool neu = true;
 
 	result_struct results;
 	results.result_Session = 0;

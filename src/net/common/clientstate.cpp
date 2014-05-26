@@ -535,8 +535,7 @@ ClientStateStartConnect::TimerTimeout(const boost::system::error_code& ec, boost
 		client->GetContext().GetSessionData()->GetAsioSocket()->close(ec);
 		if (client->GetContext().GetAddrFamily() == AF_INET6) {
 			throw ClientException(__FILE__, __LINE__, ERR_SOCK_CONNECT_IPV6_TIMEOUT, 0);
-		}
-		else {
+		} else {
 			throw ClientException(__FILE__, __LINE__, ERR_SOCK_CONNECT_TIMEOUT, 0);
 		}
 	}
@@ -1652,7 +1651,7 @@ ClientStateWaitHand::InternalHandlePacket(boost::shared_ptr<ClientThread> client
 		// Basic synchronisation before a new hand is started.
 		client->GetGui().waitForGuiUpdateDone();
 		// Start new hand.
-		client->GetGame()->getSeatsList()->front()->setMyCards(myCards);
+		client->GetGame()->getSeatsList()->front()->setMyHoleCards(myCards);
 		client->GetGame()->initHand();
 		client->GetGame()->getCurrentHand()->setSmallBlind(netHandStart.smallblind());
 		client->GetGame()->getCurrentHand()->getCurrentBeRo()->setMinimumRaise(2 * netHandStart.smallblind());
@@ -1692,7 +1691,7 @@ ClientStateWaitHand::InternalHandlePacket(boost::shared_ptr<ClientThread> client
 		int bestHandPos[5];
 		tmpCards[0] = static_cast<int>(r.resultcard1());
 		tmpCards[1] = static_cast<int>(r.resultcard2());
-		tmpPlayer->setMyCards(tmpCards);
+		tmpPlayer->setMyHoleCards(tmpCards);
 		for (int num = 0; num < 5; num++) {
 			bestHandPos[num] = r.besthandposition(num);
 		}
@@ -1940,7 +1939,7 @@ ClientStateRunHand::InternalHandlePacket(boost::shared_ptr<ClientThread> client,
 			int tmpCards[2];
 			tmpCards[0] = static_cast<int>(p.allincard1());
 			tmpCards[1] = static_cast<int>(p.allincard2());
-			tmpPlayer->setMyCards(tmpCards);
+			tmpPlayer->setMyHoleCards(tmpCards);
 		}
 		client->GetGui().flipHolecardsAllIn();
 		if(curGame->getCurrentHand()->getCurrentRound()<GAME_STATE_RIVER) {
@@ -2012,7 +2011,7 @@ ClientStateRunHand::InternalHandlePacket(boost::shared_ptr<ClientThread> client,
 			int bestHandPos[5];
 			tmpCards[0] = static_cast<int>(r.resultcard1());
 			tmpCards[1] = static_cast<int>(r.resultcard2());
-			tmpPlayer->setMyCards(tmpCards);
+			tmpPlayer->setMyHoleCards(tmpCards);
 			for (int num = 0; num < 5; num++) {
 				bestHandPos[num] = r.besthandposition(num);
 			}

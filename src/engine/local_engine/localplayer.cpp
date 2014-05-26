@@ -861,7 +861,7 @@ static const RoundData FlopValues[] = {
 LocalPlayer::LocalPlayer(ConfigFile *c, int id, unsigned uniqueId, PlayerType type, std::string name, std::string avatar, int sC, bool aS, bool sotS, int mB)
 	: PlayerInterface(), myConfig(c), currentHand(0), myID(id), myUniqueID(uniqueId), myType(type), myName(name), myAvatar(avatar),
 	  myDude(0), myDude4(0), myCardsValueInt(0), myOdds(-1.0), logHoleCardsDone(false), myCash(sC), mySet(0), myLastRelativeSet(0), myAction(PLAYER_ACTION_NONE),
-	  myButton(mB), myActiveStatus(aS), myStayOnTableStatus(sotS), myTurn(0), myCardsFlip(0), myRoundStartCash(0), lastMoneyWon(0),
+	  myButton(mB), myActiveStatus(aS), myStayOnTableStatus(sotS), myTurn(0), myHoleCardsFlip(0), myRoundStartCash(0), lastMoneyWon(0),
 	  sBluff(0), sBluffStatus(false), m_actionTimeoutCounter(0), m_isSessionActive(false), m_isKicked(false), m_isMuted(false)
 {
 
@@ -870,7 +870,7 @@ LocalPlayer::LocalPlayer(ConfigFile *c, int id, unsigned uniqueId, PlayerType ty
 		myNiveau[i] = 0;
 	}
 	for(i=0; i<2; i++) {
-		myCards[i] = -1;
+		myHoleCards[i] = -1;
 	}
 
 	// myBestHandPosition mit -1 initialisieren
@@ -1070,7 +1070,7 @@ void LocalPlayer::preflopEngine()
 		myNiveau[2] += (21-myCash/individualHighestSet)/2;
 	}
 
-	//	cout << myID << ": " << myHoleCardsValue << " - " << myNiveau[0] << " " << myNiveau[2] << " - " << myCards[0] << " " << myCards[1] << endl;
+	//	cout << myID << ": " << myHoleCardsValue << " - " << myNiveau[0] << " " << myNiveau[2] << " - " << myHoleCards[0] << " " << myHoleCards[1] << endl;
 
 	// count number of active human players
 	size_t countHumanPlayers = 0;
@@ -1530,7 +1530,7 @@ void LocalPlayer::turnEngine()
 	// 		int boardCards[5];
 	// 		int i;
 
-	// 		for(i=0; i<2; i++) tempArray[i] = myCards[i];
+	// 		for(i=0; i<2; i++) tempArray[i] = myHoleCards[i];
 	// 		currentBoard->getMyCards(boardCards);
 	// 		for(i=0; i<4; i++) tempArray[2+i] = boardCards[i];
 
@@ -1804,7 +1804,7 @@ void LocalPlayer::riverEngine()
 	// 	int boardCards[5];
 	// 	int i;
 
-	// 	for(i=0; i<2; i++) tempArray[i] = myCards[i];
+	// 	for(i=0; i<2; i++) tempArray[i] = myHoleCards[i];
 	// 	currentBoard->getMyCards(boardCards);
 	// 	for(i=0; i<4; i++) tempArray[2+i] = boardCards[i];
 
@@ -2821,9 +2821,9 @@ void LocalPlayer::calcMyOdds()
 
 	switch(currentHand->getCurrentRound()) {
 
-	case 0: {
+	case GAME_STATE_PREFLOP: {
 
-		handCode = CardsValue::holeCardsToIntCode(myCards);
+		handCode = CardsValue::holeCardsToIntCode(myHoleCards);
 
 		// übergang solange preflopValue und flopValue noch nicht bereinigt
 		int players = currentHand->getActivePlayerList()->size();
@@ -2841,14 +2841,14 @@ void LocalPlayer::calcMyOdds()
 
 	}
 	break;
-	case 1: {
+	case GAME_STATE_FLOP: {
 
 		int tempArray[5];
 		int boardCards[5];
 
 		int i;
 
-		for(i=0; i<2; i++) tempArray[i] = myCards[i];
+		for(i=0; i<2; i++) tempArray[i] = myHoleCards[i];
 		currentHand->getBoard()->getMyCards(boardCards);
 		for(i=0; i<3; i++) tempArray[2+i] = boardCards[i];
 
@@ -2886,9 +2886,7 @@ void LocalPlayer::calcMyOdds()
 
 	}
 	break;
-	case 2: {
-
-		// Prozent ausrechnen
+	case GAME_STATE_TURN: {
 
 		int i, j, k;
 		int tempBoardCardsArray[5];
@@ -2896,8 +2894,8 @@ void LocalPlayer::calcMyOdds()
 		int tempOpponentCardsArray[7];
 		currentHand->getBoard()->getMyCards(tempBoardCardsArray);
 
-		tempMyCardsArray[0] = myCards[0];
-		tempMyCardsArray[1] = myCards[1];
+		tempMyCardsArray[0] = myHoleCards[0];
+		tempMyCardsArray[1] = myHoleCards[1];
 		tempMyCardsArray[2] = tempBoardCardsArray[0];
 		tempMyCardsArray[3] = tempBoardCardsArray[1];
 		tempMyCardsArray[4] = tempBoardCardsArray[2];
@@ -2908,6 +2906,12 @@ void LocalPlayer::calcMyOdds()
 		tempOpponentCardsArray[4] = tempBoardCardsArray[2];
 		tempOpponentCardsArray[5] = tempBoardCardsArray[3];
 
+
+
+		int myCards[4] = { 0,0,0,0 };
+		int opponentCards[4] = { 0,0,0,0 };
+
+
 		int tempMyCardsValue;
 		int tempOpponentCardsValue;
 
@@ -2915,11 +2919,11 @@ void LocalPlayer::calcMyOdds()
 		int countMy = 0;
 
 		for(i=0; i<49; i++) {
-			if(i != myCards[0] && i != myCards[1] && i != tempBoardCardsArray[0] && i != tempBoardCardsArray[1] && i != tempBoardCardsArray[2]) {
+			if(i != myHoleCards[0] && i != myHoleCards[1] && i != tempBoardCardsArray[0] && i != tempBoardCardsArray[1] && i != tempBoardCardsArray[2]) {
 				for(j=i+1; j<50; j++) {
-					if(j != myCards[0] && j != myCards[1] && j != tempBoardCardsArray[0] && j != tempBoardCardsArray[1] && j != tempBoardCardsArray[2]) {
+					if(j != myHoleCards[0] && j != myHoleCards[1] && j != tempBoardCardsArray[0] && j != tempBoardCardsArray[1] && j != tempBoardCardsArray[2]) {
 						for(k=j+1; k<51; k++) {
-							if(k != myCards[0] && k != myCards[1] && k != tempBoardCardsArray[0] && k != tempBoardCardsArray[1] && k != tempBoardCardsArray[2]) {
+							if(k != myHoleCards[0] && k != myHoleCards[1] && k != tempBoardCardsArray[0] && k != tempBoardCardsArray[1] && k != tempBoardCardsArray[2]) {
 
 								countAll++;
 
@@ -2942,7 +2946,7 @@ void LocalPlayer::calcMyOdds()
 
 	}
 	break;
-	case 3: {
+	case GAME_STATE_RIVER: {
 
 		// Prozent ausrechnen
 
@@ -2952,8 +2956,8 @@ void LocalPlayer::calcMyOdds()
 		int tempOpponentCardsArray[7];
 		currentHand->getBoard()->getMyCards(tempBoardCardsArray);
 
-		tempMyCardsArray[0] = myCards[0];
-		tempMyCardsArray[1] = myCards[1];
+		tempMyCardsArray[0] = myHoleCards[0];
+		tempMyCardsArray[1] = myHoleCards[1];
 		tempMyCardsArray[2] = tempBoardCardsArray[0];
 		tempMyCardsArray[3] = tempBoardCardsArray[1];
 		tempMyCardsArray[4] = tempBoardCardsArray[2];
@@ -2973,9 +2977,9 @@ void LocalPlayer::calcMyOdds()
 		int countMy = 0;
 
 		for(i=0; i<49; i++) {
-			if(i != myCards[0] && i != myCards[1] && i != tempBoardCardsArray[0] && i != tempBoardCardsArray[1] && i != tempBoardCardsArray[2]) {
+			if(i != myHoleCards[0] && i != myHoleCards[1] && i != tempBoardCardsArray[0] && i != tempBoardCardsArray[1] && i != tempBoardCardsArray[2]) {
 				for(j=i+1; j<50; j++) {
-					if(j != myCards[0] && j != myCards[1] && j != tempBoardCardsArray[0] && j != tempBoardCardsArray[1] && j != tempBoardCardsArray[2]) {
+					if(j != myHoleCards[0] && j != myHoleCards[1] && j != tempBoardCardsArray[0] && j != tempBoardCardsArray[1] && j != tempBoardCardsArray[2]) {
 
 						countAll++;
 
@@ -3277,7 +3281,7 @@ void LocalPlayer::preflopEngine3()
 	// 	cout << "preflop-bluff " << bluff << endl;
 
 	// Potential
-	int potential = 10*(4*(CardsValue::holeCardsClass(myCards[0], myCards[1]))+1*tempRand)/50-myDude;
+	int potential = 10*(4*(CardsValue::holeCardsClass(myHoleCards[0], myHoleCards[1]))+1*tempRand)/50-myDude;
 
 	int setToHighest = currentHand->getCurrentBeRo()->getHighestSet() - mySet;
 
@@ -3287,7 +3291,7 @@ void LocalPlayer::preflopEngine3()
 	Tools::GetRand(2, 3, 1, &tempFold);
 
 	// FOLD --> wenn Potential negativ oder HighestSet zu hoch
-	if( (potential*setToHighest<0 || (setToHighest > tempFold * currentHand->getSmallBlind() &&  potential<1) || (setToHighest > 2 * tempFold * currentHand->getSmallBlind() &&  potential<2) || (setToHighest > 4 * tempFold * currentHand->getSmallBlind() &&  potential<3) || (setToHighest > 10 * tempFold * currentHand->getSmallBlind() &&  potential<4))  && CardsValue::holeCardsClass(myCards[0], myCards[1]) < 9 && bluff > 15) {
+	if( (potential*setToHighest<0 || (setToHighest > tempFold * currentHand->getSmallBlind() &&  potential<1) || (setToHighest > 2 * tempFold * currentHand->getSmallBlind() &&  potential<2) || (setToHighest > 4 * tempFold * currentHand->getSmallBlind() &&  potential<3) || (setToHighest > 10 * tempFold * currentHand->getSmallBlind() &&  potential<4))  && CardsValue::holeCardsClass(myHoleCards[0], myHoleCards[1]) < 9 && bluff > 15) {
 		myAction = PLAYER_ACTION_FOLD;
 	} else {
 		// RAISE --> wenn hohes Potential
@@ -3443,8 +3447,8 @@ void LocalPlayer::flopEngine3()
 	int tempOpponentCardsArray[7];
 	currentHand->getBoard()->getMyCards(tempBoardCardsArray);
 
-	tempMyCardsArray[0] = myCards[0];
-	tempMyCardsArray[1] = myCards[1];
+	tempMyCardsArray[0] = myHoleCards[0];
+	tempMyCardsArray[1] = myHoleCards[1];
 	tempMyCardsArray[2] = tempBoardCardsArray[0];
 	tempMyCardsArray[3] = tempBoardCardsArray[1];
 	tempMyCardsArray[4] = tempBoardCardsArray[2];
@@ -3460,13 +3464,13 @@ void LocalPlayer::flopEngine3()
 	int countMy = 0;
 
 	for(i=0; i<49; i++) {
-		if(i != myCards[0] && i != myCards[1] && i != tempBoardCardsArray[0] && i != tempBoardCardsArray[1] && i != tempBoardCardsArray[2]) {
+		if(i != myHoleCards[0] && i != myHoleCards[1] && i != tempBoardCardsArray[0] && i != tempBoardCardsArray[1] && i != tempBoardCardsArray[2]) {
 			for(j=i+1; j<50; j++) {
-				if(j != myCards[0] && j != myCards[1] && j != tempBoardCardsArray[0] && j != tempBoardCardsArray[1] && j != tempBoardCardsArray[2]) {
+				if(j != myHoleCards[0] && j != myHoleCards[1] && j != tempBoardCardsArray[0] && j != tempBoardCardsArray[1] && j != tempBoardCardsArray[2]) {
 					for(k=j+1; k<51; k++) {
-						if(k != myCards[0] && k != myCards[1] && k != tempBoardCardsArray[0] && k != tempBoardCardsArray[1] && k != tempBoardCardsArray[2]) {
+						if(k != myHoleCards[0] && k != myHoleCards[1] && k != tempBoardCardsArray[0] && k != tempBoardCardsArray[1] && k != tempBoardCardsArray[2]) {
 							for(l=k+1; l<52; l++) {
-								if(l != myCards[0] && l != myCards[1] && l != tempBoardCardsArray[0] && l != tempBoardCardsArray[1] && l != tempBoardCardsArray[2]) {
+								if(l != myHoleCards[0] && l != myHoleCards[1] && l != tempBoardCardsArray[0] && l != tempBoardCardsArray[1] && l != tempBoardCardsArray[2]) {
 
 									countAll++;
 
@@ -3614,8 +3618,8 @@ void LocalPlayer::turnEngine3()
 	int tempOpponentCardsArray[7];
 	currentHand->getBoard()->getMyCards(tempBoardCardsArray);
 
-	tempMyCardsArray[0] = myCards[0];
-	tempMyCardsArray[1] = myCards[1];
+	tempMyCardsArray[0] = myHoleCards[0];
+	tempMyCardsArray[1] = myHoleCards[1];
 	tempMyCardsArray[2] = tempBoardCardsArray[0];
 	tempMyCardsArray[3] = tempBoardCardsArray[1];
 	tempMyCardsArray[4] = tempBoardCardsArray[2];
@@ -3633,11 +3637,11 @@ void LocalPlayer::turnEngine3()
 	int countMy = 0;
 
 	for(i=0; i<49; i++) {
-		if(i != myCards[0] && i != myCards[1] && i != tempBoardCardsArray[0] && i != tempBoardCardsArray[1] && i != tempBoardCardsArray[2]) {
+		if(i != myHoleCards[0] && i != myHoleCards[1] && i != tempBoardCardsArray[0] && i != tempBoardCardsArray[1] && i != tempBoardCardsArray[2]) {
 			for(j=i+1; j<50; j++) {
-				if(j != myCards[0] && j != myCards[1] && j != tempBoardCardsArray[0] && j != tempBoardCardsArray[1] && j != tempBoardCardsArray[2]) {
+				if(j != myHoleCards[0] && j != myHoleCards[1] && j != tempBoardCardsArray[0] && j != tempBoardCardsArray[1] && j != tempBoardCardsArray[2]) {
 					for(k=j+1; k<51; k++) {
-						if(k != myCards[0] && k != myCards[1] && k != tempBoardCardsArray[0] && k != tempBoardCardsArray[1] && k != tempBoardCardsArray[2]) {
+						if(k != myHoleCards[0] && k != myHoleCards[1] && k != tempBoardCardsArray[0] && k != tempBoardCardsArray[1] && k != tempBoardCardsArray[2]) {
 
 							countAll++;
 
@@ -3780,8 +3784,8 @@ void LocalPlayer::riverEngine3()
 	int tempOpponentCardsArray[7];
 	currentHand->getBoard()->getMyCards(tempBoardCardsArray);
 
-	tempMyCardsArray[0] = myCards[0];
-	tempMyCardsArray[1] = myCards[1];
+	tempMyCardsArray[0] = myHoleCards[0];
+	tempMyCardsArray[1] = myHoleCards[1];
 	tempMyCardsArray[2] = tempBoardCardsArray[0];
 	tempMyCardsArray[3] = tempBoardCardsArray[1];
 	tempMyCardsArray[4] = tempBoardCardsArray[2];
@@ -3801,9 +3805,9 @@ void LocalPlayer::riverEngine3()
 	int countMy = 0;
 
 	for(i=0; i<49; i++) {
-		if(i != myCards[0] && i != myCards[1] && i != tempBoardCardsArray[0] && i != tempBoardCardsArray[1] && i != tempBoardCardsArray[2]) {
+		if(i != myHoleCards[0] && i != myHoleCards[1] && i != tempBoardCardsArray[0] && i != tempBoardCardsArray[1] && i != tempBoardCardsArray[2]) {
 			for(j=i+1; j<50; j++) {
-				if(j != myCards[0] && j != myCards[1] && j != tempBoardCardsArray[0] && j != tempBoardCardsArray[1] && j != tempBoardCardsArray[2]) {
+				if(j != myHoleCards[0] && j != myHoleCards[1] && j != tempBoardCardsArray[0] && j != tempBoardCardsArray[1] && j != tempBoardCardsArray[2]) {
 
 					countAll++;
 

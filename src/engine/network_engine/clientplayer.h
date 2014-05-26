@@ -89,14 +89,14 @@ public:
 	void setMyStayOnTableStatus(bool theValue);
 	bool getMyStayOnTableStatus() const;
 
-	void setMyCards(int* theValue);
-	void getMyCards(int* theValue) const;
+	void setMyHoleCards(int* theValue);
+	void getMyHoleCards(int* theValue) const;
 
 	void setMyTurn(bool theValue);
 	bool getMyTurn() const;
 
-	void setMyCardsFlip(bool theValue, int state);
-	bool getMyCardsFlip() const;
+	void setMyHoleCardsFlip(bool theValue, int state);
+	bool getMyHoleCardsFlip() const;
 
 	void setMyCardsValueInt(int theValue);
 	int getMyCardsValueInt() const;
@@ -184,7 +184,7 @@ private:
 	int myNiveau[3];
 	bool logHoleCardsDone;
 
-	int myCards[2];
+	int myHoleCards[2];
 	int myCash;
 	int mySet;
 	int myLastRelativeSet;
@@ -193,7 +193,7 @@ private:
 	bool myActiveStatus; // 0 = inactive, 1 = active
 	bool myStayOnTableStatus; // 0 = left, 1 = stay
 	bool myTurn; // 0 = no, 1 = yes
-	bool myCardsFlip; // 0 = cards are not fliped, 1 = cards are already flipped,
+	bool myHoleCardsFlip; // 0 = cards are not fliped, 1 = cards are already flipped,
 	int myRoundStartCash;
 	int lastMoneyWon;
 

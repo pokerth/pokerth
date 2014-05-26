@@ -53,7 +53,7 @@ LocalHand::LocalHand(boost::shared_ptr<EngineFactory> f, GuiInterface *g, boost:
 	for(it=seatsList->begin(); it!=seatsList->end(); ++it) {
 		(*it)->setHand(this);
 		// set myFlipCards 0
-		(*it)->setMyCardsFlip(0, 0);
+		(*it)->setMyHoleCardsFlip(0, 0);
 	}
 
 	// generate cards and assign to board and player
@@ -97,7 +97,7 @@ LocalHand::LocalHand(boost::shared_ptr<EngineFactory> f, GuiInterface *g, boost:
 		// complete whole player hand
 		for(j=0; j<2; j++) tempPlayerAndBoardArray[j] = tempPlayerArray[j];
 
-		(*it)->setMyCards(tempPlayerArray);
+		(*it)->setMyHoleCards(tempPlayerArray);
 		(*it)->setMyCardsValueInt(CardsValue::cardsValueOld(tempPlayerAndBoardArray, bestHandPos));
 		(*it)->setMyBestHandPosition(bestHandPos);
 		(*it)->setMyRoundStartCash((*it)->getMyCash());

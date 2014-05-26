@@ -834,7 +834,7 @@ void gameTableImpl::applySettings(settingsDialogImpl* mySettingsDialog)
 			QPixmap tempCardsPixmapArray[2];
 			int tempCardsIntArray[2];
 
-			humanPlayer->getMyCards(tempCardsIntArray);
+			humanPlayer->getMyHoleCards(tempCardsIntArray);
 			if(myConfig->readConfigInt("AntiPeekMode")) {
 				holeCardsArray[0][0]->setPixmap(flipside, true);
 				tempCardsPixmapArray[0] = QPixmap::fromImage(QImage(myCardDeckStyle->getCurrentDir()+QString::number(tempCardsIntArray[0], 10)+".png"));
@@ -1440,7 +1440,7 @@ void gameTableImpl::dealHoleCards()
 	PlayerListConstIterator it_c;
 	PlayerList seatsList = currentGame->getSeatsList();
 	for (it_c=seatsList->begin(); it_c!=seatsList->end(); ++it_c) {
-		(*it_c)->getMyCards(tempCardsIntArray);
+		(*it_c)->getMyHoleCards(tempCardsIntArray);
 		for(j=0; j<2; j++) {
 			if((*it_c)->getMyActiveStatus()) {
 				if (( (*it_c)->getMyID() == 0) || (currentGame->getCurrentHand()->getLog() && currentGame->getCurrentHand()->getLog()->getDebugMode()) ) {
@@ -2550,7 +2550,7 @@ void gameTableImpl::postRiverRunAnimation2()
 			for (it_c=activePlayerList->begin(); it_c!=activePlayerList->end(); ++it_c) {
 				if((*it_c)->getMyAction() != PLAYER_ACTION_FOLD) {
 					//set Player value (logging) for all in already shown cards
-					(*it_c)->setMyCardsFlip(1,3);
+					(*it_c)->setMyHoleCardsFlip(1,3);
 				}
 			}
 		}
@@ -2843,7 +2843,7 @@ void gameTableImpl::showHoleCards(unsigned playerId, bool allIn)
 
 		if((*it_c)->getMyUniqueID() == playerId) {
 
-			(*it_c)->getMyCards(tempCardsIntArray);
+			(*it_c)->getMyHoleCards(tempCardsIntArray);
 			for(j=0; j<2; j++) {
 
 				if(showFlipcardAnimation) { // with Eye-Candy
@@ -2855,9 +2855,9 @@ void gameTableImpl::showHoleCards(unsigned playerId, bool allIn)
 			}
 			//set Player value (logging)
 			if(currentHand->getCurrentRound() < GAME_STATE_RIVER || allIn) {
-				(*it_c)->setMyCardsFlip(1,2); //for bero before postriver or allin just log the hole cards
+				(*it_c)->setMyHoleCardsFlip(1,2); //for bero before postriver or allin just log the hole cards
 			} else {
-				(*it_c)->setMyCardsFlip(1,1); //for postriver log the value
+				(*it_c)->setMyHoleCardsFlip(1,1); //for postriver log the value
 			}
 		}
 	}
@@ -4014,7 +4014,7 @@ void gameTableImpl::refreshCardsChance(GameState bero)
 			int boardCards[5];
 			int holeCards[2];
 
-			humanPlayer->getMyCards(holeCards);
+			humanPlayer->getMyHoleCards(holeCards);
 			myStartWindow->getSession()->getCurrentGame()->getCurrentHand()->getBoard()->getMyCards(boardCards);
 
 			if(humanPlayer->getMyAction() == PLAYER_ACTION_FOLD) {

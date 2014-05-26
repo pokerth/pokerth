@@ -772,9 +772,9 @@ void startWindowImpl::networkError(int errorID, int /*osErrorID*/)
 	}
 	break;
 	case ERR_SOCK_CONNECT_IPV6_FAILED: {
-									  MyMessageBox::warning(this, tr("Network Error"),
-										  tr("Could not connect to the server.\n\nPlease note: IPv6 is enabled in the settings. The connection fails if your provider does not support IPv6.\nThis may be fixed by unchecking the \"Use IPv6\" checkbox in the settings."),
-										  QMessageBox::Close);
+		MyMessageBox::warning(this, tr("Network Error"),
+							  tr("Could not connect to the server.\n\nPlease note: IPv6 is enabled in the settings. The connection fails if your provider does not support IPv6.\nThis may be fixed by unchecking the \"Use IPv6\" checkbox in the settings."),
+							  QMessageBox::Close);
 	}
 	break;
 	case ERR_SOCK_CONNECT_TIMEOUT: {
@@ -784,9 +784,9 @@ void startWindowImpl::networkError(int errorID, int /*osErrorID*/)
 	}
 	break;
 	case ERR_SOCK_CONNECT_IPV6_TIMEOUT: {
-									   MyMessageBox::warning(this, tr("Network Error"),
-										   tr("Connection timed out.\nPlease check the server address.\n\nPlease note: IPv6 is enabled in the settings. The connection fails if your provider does not support IPv6.\nThis may be fixed by unchecking the \"Use IPv6\" checkbox in the settings."),
-										   QMessageBox::Close);
+		MyMessageBox::warning(this, tr("Network Error"),
+							  tr("Connection timed out.\nPlease check the server address.\n\nPlease note: IPv6 is enabled in the settings. The connection fails if your provider does not support IPv6.\nThis may be fixed by unchecking the \"Use IPv6\" checkbox in the settings."),
+							  QMessageBox::Close);
 	}
 	break;
 	case ERR_SOCK_SELECT_FAILED: {

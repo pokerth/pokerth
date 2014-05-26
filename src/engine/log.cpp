@@ -601,7 +601,7 @@ Log::logHoleCardsHandName(PlayerList activePlayerList, boost::shared_ptr<PlayerI
 		if( mySqliteLogDb != 0) {
 
 			int myCards[2];
-			player->getMyCards(myCards);
+			player->getMyHoleCards(myCards);
 			sql += "UPDATE Hand SET ";
 			if(currentRound==GAME_STATE_POST_RIVER && player->getMyCardsValueInt()>0) {
 				sql += "Seat_" + boost::lexical_cast<string>(player->getMyID()+1) + "_Hand_text=\"" + CardsValue::determineHandName(player->getMyCardsValueInt(),activePlayerList) + "\"";

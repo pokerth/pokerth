@@ -44,7 +44,7 @@ ClientHand::ClientHand(boost::shared_ptr<EngineFactory> f, GuiInterface *g, boos
 	for(it=seatsList->begin(); it!=seatsList->end(); ++it) {
 		(*it)->setHand(this);
 		// myFlipCards auf 0 setzen
-		(*it)->setMyCardsFlip(0, 0);
+		(*it)->setMyHoleCardsFlip(0, 0);
 	}
 
 	// roundStartCashArray fuellen
