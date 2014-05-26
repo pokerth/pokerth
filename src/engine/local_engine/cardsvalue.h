@@ -48,6 +48,7 @@ class CardsValue
 {
 public:
 	static int holeCardsClass(int, int);
+	static int cardsValueShort(int[4]);
 	static int cardsValue(int[4], int[4]);
 	static KickerValue determineKickerValue(int, int, int);
 	static int cardsValueOld(int[7], int[5]);

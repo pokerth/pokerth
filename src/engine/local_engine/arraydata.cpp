@@ -1054,17 +1054,9 @@ vector< vector<int> > ArrayData::getHandChancePreflop(int handCode)
 
 	int check = -1;
 
-	int i;
-
 	vector< vector<int> > chance(2);
-
-	chance[0].resize(10);
-	chance[1].resize(10);
-
-	for(i=0; i<10; i++) {
-		chance[0][i] = 0;
-		chance[1][i] = 0;
-	}
+	chance[0].assign(10,0);
+	chance[1].assign(10,0);
 
 	for (unsigned val = 0; val < NUM_HAND_CHANCE_PREFLOP; val++) {
 		if(handCode == handChancePreflop[val].hand) {
