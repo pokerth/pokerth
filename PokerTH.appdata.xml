@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Copyright 2014 PokerTH GbR <webmaster@pokerth.net> -->
+<application>
+ <id type="desktop">PokerTH.desktop</id>
+ <metadata_license>AGPLv3</metadata_license>
+ <project_license>AGPLv3</project_license>
+ <name>PokerTH</name>
+ <summary>Poker game with single- and multiplayer support</summary>
+ <description>
+	<p>PokerTH is a poker game for the popular Texas Hold'em Poker variant with a lot of features:</p>
+	<ul>
+		<li>Singleplayer games with up to 9 computer-opponents</li>
+		<li>Multiplayer network games</li>
+		<li>Internet online games</li>
+		<li>Changeable table and card styles with online style gallery</li>
+		<li>Online ranking website with result tables</li>
+	</ul>
+  </p>
+ </description>
+ <screenshots>
+  <screenshot type="default" width="624" height="351">http://www.pokerth.net/pokerth_appdata_table1.png</screenshot>
+  <screenshot width="624" height="351">http://www.pokerth.net/pokerth_appdata_table2.png</screenshot>
+ </screenshots>
+ <url type="homepage">http://www.pokerth.net</url>
+ <updatecontact>webmaster@pokerth.net</updatecontact>
+</application> 
