@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Copyright 2014 PokerTH GbR <webmaster@pokerth.net> -->
 <application>
- <id type="desktop">PokerTH.desktop</id>
+ <id type="desktop">pokerth.desktop</id>
  <metadata_license>CC-BY-3.0</metadata_license>
  <project_license>AGPL-3.0</project_license>
  <name>PokerTH</name>
