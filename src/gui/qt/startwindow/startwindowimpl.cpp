@@ -61,7 +61,7 @@
 
 #ifdef ANDROID
 #ifndef ANDROID_TEST
-#include "QtGui/5.2.0/QtGui/qpa/qplatformnativeinterface.h"
+#include "QtGui/5.3.0/QtGui/qpa/qplatformnativeinterface.h"
 #include <jni.h>
 #endif
 #endif
@@ -114,7 +114,7 @@ startWindowImpl::startWindowImpl(ConfigFile *c, Log *l)
 		//if custom bg file could not be found load the big origin file
 		centralwidget->setStyleSheet(".QWidget { background-image: url(:/android/android-data/gfx/gui/misc/startwindowbg10_mobile.png); background-position: top center; background-origin: content; background-repeat: no-repeat;}");
 	}
-	this->showFullScreen();
+	this->setWindowState(Qt::WindowFullScreen);
 
 	//TODO HACK Missing QSystemScreenSaver::setScreenSaverInhibited(true)
 //		#ifndef ANDROID_TEST
