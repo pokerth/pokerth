@@ -7,7 +7,7 @@
  <name>PokerTH</name>
  <summary>Poker game with single- and multiplayer support</summary>
  <description>
-	<p>PokerTH is a poker game for the popular Texas Hold'em Poker variant. You can play singleplayer games with up to 9 computer-opponents or meet other PokerTH players around the world via internet games. Also multiplayer games in your LAN are possible with the networks game mode. If you like to change the look and feel of the PokerTH gametable or the card decks just visit the styles gallery and choose your favourite style. To compare your poker skills with the other PokerTH players you can check your game results and rankings on our website.</p>
+	<p>PokerTH is a poker game for the popular Texas Hold'em Poker variant. You can play singleplayer games with up to 9 computer-opponents or meet other PokerTH players around the world via internet games. Also multiplayer games in your LAN are possible with the network game mode. If you like to change the look and feel of the PokerTH gametable or the card deck just visit the styles gallery and choose your favourite style. To compare your poker skills with the other PokerTH players you can check your game results and rankings on our website.</p>
  </description>
  <screenshots>
   <screenshot type="default" width="624" height="351">http://www.pokerth.net/pokerth_appdata_table1.png</screenshot>
