@@ -422,6 +422,8 @@ unix:!mac {
 		boost_iostreams-mt
 	BOOST_REGEX = boost_regex \
 		boost_regex-mt
+	BOOST_CHRONO = boost_chrono \
+		boost_chrono-mt
 	BOOST_SYS = boost_system \
 		boost_system-mt
 	BOOST_RANDOM = boost_random \
@@ -463,6 +465,14 @@ unix:!mac {
 				message("Found $$lib")
 				BOOST_REGEX = -l$$lib
 			}
+			for(lib, BOOST_CHRONO):exists($${dir}/lib$${lib}.so*) {
+				message("Found $$lib")
+				BOOST_CHRONO = -l$$lib
+			}
+			for(lib, BOOST_CHRONO):exists($${dir}/lib$${lib}.a) {
+				message("Found $$lib")
+				BOOST_CHRONO = -l$$lib
+			}
 			!android{
 				for(lib, BOOST_RANDOM):exists($${dir}/lib$${lib}.so*) {
 					message("Found $$lib")
@@ -487,9 +497,10 @@ unix:!mac {
 			$$BOOST_FS \
 			$$BOOST_IOSTREAMS \
 			$$BOOST_REGEX \
+			$$BOOST_CHRONO \
 			$$BOOST_RANDOM \
 			$$BOOST_SYS
-		!count(BOOST_LIBS, 6):error("Unable to find boost libraries in PREFIX=$${PREFIX}")
+		!count(BOOST_LIBS, 7):error("Unable to find boost libraries in PREFIX=$${PREFIX}")
 		if($$system(sdl-config --version)):error("sdl-config not found in PATH - libSDL_mixer, libSDL are required!")
 		UNAME = $$system(uname -s)
 		BSD = $$find(UNAME, "BSD")
@@ -509,6 +520,7 @@ unix:!mac {
 			$$BOOST_FS \
 			$$BOOST_IOSTREAMS \
 			$$BOOST_REGEX \
+			$$BOOST_CHRONO \
 			$$BOOST_SYS
 		!count(BOOST_LIBS, 5):error("Unable to find boost libraries in PREFIX=$${PREFIX}/armv5")
 		LIBS += -ltinyxml
@@ -575,6 +587,7 @@ mac {
 	LIBS += /usr/local/lib/libboost_thread.a
 	LIBS += /usr/local/lib/libboost_filesystem.a
 	LIBS += /usr/local/lib/libboost_regex.a
+	LIBS += /usr/local/lib/libboost_chrono.a
 	LIBS += /usr/local/lib/libboost_random.a
 	LIBS += /usr/local/lib/libboost_system.a
 	LIBS += /usr/local/lib/libboost_iostreams.a

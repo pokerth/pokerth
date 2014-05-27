@@ -221,52 +221,304 @@ int CardsValue::holeCardsClass(int one, int two)
 
 }
 
-int CardsValue::holeCardsToIntCode(int* cards)
+int CardsValue::holeCardsToIntCode(int holeCards[2])
 {
 
 	// Code der HoleCards ermitteln
-	if(cards[0]%13 == cards[1]%13) {
-		return ((cards[0]%13)*1000 + (cards[0]%13)*10);
+	if(holeCards[0]%13 == holeCards[1]%13) {
+		return ((holeCards[0]%13)*1000 + (holeCards[0]%13)*10);
 	} else {
-		if(cards[0]%13 < cards[1]%13) {
-			if(cards[0]/13 == cards[1]/13) {
-				return ((cards[0]%13)*1000 + (cards[1]%13)*10 + 1);
+		if(holeCards[0]%13 < holeCards[1]%13) {
+			if(holeCards[0]/13 == holeCards[1]/13) {
+				return ((holeCards[0]%13)*1000 + (holeCards[1]%13)*10 + 1);
 			} else {
-				return ((cards[0]%13)*1000 + (cards[1]%13)*10);
+				return ((holeCards[0]%13)*1000 + (holeCards[1]%13)*10);
 			}
 		} else {
-			if(cards[0]/13 == cards[1]/13) {
-				return ((cards[1]%13)*1000 + (cards[0]%13)*10 + 1);
+			if(holeCards[0]/13 == holeCards[1]/13) {
+				return ((holeCards[1]%13)*1000 + (holeCards[0]%13)*10 + 1);
 			} else {
-				return ((cards[1]%13)*1000 + (cards[0]%13)*10);
+				return ((holeCards[1]%13)*1000 + (holeCards[0]%13)*10);
 			}
 		}
 	}
 
 }
 
-/* DO NOT USE, THIS MAY LEAK MEMORY
-int* CardsValue::intCodeToHoleCards(int code)
+static const int straight[10] = { 7936, 3968, 1984, 992, 496, 248, 124, 62, 31, 4111 };
+
+int CardsValue::cardsValueShort(int cards[4])
 {
 
-	// one possibility !!!
+	int color_idx;
+	int card_idx;
 
-	int* cards = new int[2];
-
-	cards[0] = code/1000;
-	cards[1] = (code-cards[0]*1000)/10;
-
-	if(cards[0]==cards[1]) {
-		cards[1] +=13;
-	} else {
-		if(code%10 == 0) cards[1] +=13;
+	// Royal Flush, Straight Flush, Flush
+	for(color_idx=0; color_idx<4; color_idx++) { // check all colors
+		if(Tools::bitcount(cards[color_idx])>=5) { // check if at least 5 cards of one color
+			if((cards[color_idx] & straight[0]) == straight[0]) // check for Royal Flush
+				return 9;
+			else { // check for Straight Flush
+				for(card_idx=1; card_idx<10; card_idx++) {
+					if((cards[color_idx] & straight[card_idx]) == straight[card_idx]) {
+						return 8; // Straight Flush
+					}
+				}
+			}
+			return 5; // Flush
+		}
 	}
 
-	return cards;
+	int AND = cards[0] & cards[1] & cards[2] & cards[3];
 
-}*/
+	// Four of a Kind
+	if(AND) {
+		return 7;
+	}
 
-int CardsValue::cardsValue(int* cards, int* position)
+	int OR = cards[0] | cards[1] | cards[2] | cards[3];
+
+	// Straight
+	for(card_idx=0; card_idx<10; card_idx++) {
+		if((OR & straight[card_idx]) == straight[card_idx]) {
+			return 4;
+		}
+	}
+
+	int color_1_idx, color_2_idx, color_3_idx, color_4_idx, color_5_idx;
+	int temp;
+
+	// Full House, Three of a Kind
+	for(color_1_idx=0; color_1_idx<2; color_1_idx++) {
+		for(color_2_idx=color_1_idx+1; color_2_idx<3; color_2_idx++) {
+			for(color_3_idx=color_2_idx+1; color_3_idx<4; color_3_idx++) {
+				temp = cards[color_1_idx] & cards[color_2_idx] & cards[color_3_idx];
+				if(Tools::bitcount(temp) == 2) { // two times Three of a Kind
+					return 6; // Full House
+				} else {
+					if(temp) {
+						for(color_4_idx=0; color_4_idx<3; color_4_idx++) {
+							for(color_5_idx=color_4_idx+1; color_5_idx<4; color_5_idx++) {
+								if(~temp & cards[color_4_idx] & cards[color_5_idx]) { // search for additional pair
+									return 6;  // Full House
+								}
+							}
+						}
+						return 3; // Three of a Kind
+					}
+				}
+			}
+		}
+	}
+
+	// Two Pairs, Two of a Kind
+	for(color_1_idx=0; color_1_idx<3; color_1_idx++) {
+		for(color_2_idx=color_1_idx+1; color_2_idx<4; color_2_idx++) {
+			temp = cards[color_1_idx] & cards[color_2_idx];
+			if(Tools::bitcount(temp) >= 2) { // at least two times Two of a Kind
+				return 2; // Two Pairs
+			} else {
+				if(temp) { // search for second pair
+					for(color_3_idx=0; color_3_idx<3; color_3_idx++) {
+						for(color_4_idx=color_3_idx+1; color_4_idx<4; color_4_idx++) {
+							if(~temp & cards[color_3_idx] & cards[color_4_idx]) {
+								return 2; // Two Pairs
+							}
+						}
+					}
+					return 1; // Two of a Kind
+				}
+			}
+		}
+	}
+
+	return 0; // High Card
+}
+
+int CardsValue::cardsValue(int cards[4], int bestHand[4])
+{
+	int color_1_idx;
+	int card_idx;
+	KickerValue kickerValue1;
+
+	// Royal Flush, Straight Flush, Flush
+	for(color_1_idx=0; color_1_idx<4; color_1_idx++) { // check all colors
+		if(Tools::bitcount(cards[color_1_idx])>=5) { // check if at least 5 cards of one color
+			if((cards[color_1_idx] & straight[0]) == straight[0]) { // check for Royal Flush
+				if(bestHand) bestHand[color_1_idx] = straight[0];
+				return 900000000; // Royal Flush
+			} else {
+				for(card_idx=1; card_idx<10; card_idx++) {
+					if((cards[color_1_idx] & straight[card_idx]) == straight[card_idx]) { // check for Straight Flush
+						if(bestHand)  bestHand[color_1_idx] = straight[card_idx];
+						return (800000000+(12-card_idx)*1000000); // Straight Flush
+					}
+				}
+			}
+			// Flush
+			kickerValue1 = determineKickerValue(cards[color_1_idx],0,4);
+			if(bestHand) bestHand[color_1_idx] = kickerValue1.select;
+			return 500000000 + kickerValue1.factorValue;
+		}
+	}
+
+	int AND = cards[0] & cards[1] & cards[2] & cards[3];
+	int OR = cards[0] | cards[1] | cards[2] | cards[3];
+	int temp1;
+	KickerValue kickerValue2;
+
+	// Four of a Kind
+	if(AND) {
+		kickerValue1 = determineKickerValue(AND,0,0);
+		kickerValue2 = determineKickerValue(OR & ~AND,1,1);
+		if(bestHand) {
+			temp1 = kickerValue2.select;
+			for(color_1_idx=3; color_1_idx>=0; color_1_idx--) {
+				bestHand[color_1_idx] = (cards[color_1_idx] & (kickerValue1.select | temp1));
+				if(bestHand[color_1_idx] & temp1) temp1 = 0;
+			}
+		}
+		return 700000000 + kickerValue1.factorValue + kickerValue2.factorValue;
+	}
+
+	// Straight
+	for(card_idx=0; card_idx<10; card_idx++) {
+		if((OR & straight[card_idx]) == straight[card_idx]) {
+			if(bestHand) {
+				temp1 = straight[card_idx];
+				for(color_1_idx=3; color_1_idx>=0; color_1_idx--) {
+					bestHand[color_1_idx] += (temp1 & cards[color_1_idx]);
+					temp1 &= ~bestHand[color_1_idx];
+				}
+			}
+			return 400000000 + (12-card_idx)*1000000;
+		}
+	}
+
+	int color_2_idx, color_3_idx;
+	int temp2;
+
+	// Full House, Three of a Kind
+	temp1 = 0;
+	for(color_1_idx=0; color_1_idx<2; color_1_idx++) {
+		for(color_2_idx=color_1_idx+1; color_2_idx<3; color_2_idx++) {
+			for(color_3_idx=color_2_idx+1; color_3_idx<4; color_3_idx++) {
+				temp1 |= cards[color_1_idx] & cards[color_2_idx] & cards[color_3_idx];
+			}
+		}
+	}
+	if(temp1) {
+		if(Tools::bitcount(temp1) == 2) {
+			// two times Three of a Kind
+			if(bestHand) {
+				kickerValue1 = determineKickerValue(temp1,0,0);
+				kickerValue2 = determineKickerValue(kickerValue1.remain,1,1);
+				temp2 = 0;
+				for(color_1_idx=3; color_1_idx>=0; color_1_idx--) {
+					if(temp2<2) bestHand[color_1_idx] += (cards[color_1_idx] & (kickerValue1.select | kickerValue2.select));
+					else bestHand[color_1_idx] += (cards[color_1_idx] & kickerValue1.select);
+					if(cards[color_1_idx] & kickerValue2.select) temp2++;
+				}
+			}
+			return 600000000 + determineKickerValue(temp1,0,1).factorValue;
+		} else {
+			// one times Three of a Kind
+			temp2 = temp1;
+			temp1 = 0;
+			// check for additional pair
+			for(color_1_idx=0; color_1_idx<3; color_1_idx++) {
+				for(color_2_idx=color_1_idx+1; color_2_idx<4; color_2_idx++) {
+					temp1 |= cards[color_1_idx] & cards[color_2_idx];
+				}
+			}
+			temp1 &= ~temp2; // remove Three of a Kind from found pairs
+			if(temp1) {
+				// with additional pair
+				kickerValue1 = determineKickerValue(temp2,0,0);
+				kickerValue2 = determineKickerValue(temp1,1,1);
+				if(bestHand) {
+					for(color_1_idx=3; color_1_idx>=0; color_1_idx--) bestHand[color_1_idx] = (cards[color_1_idx] & (kickerValue1.select | kickerValue2.select));
+				}
+				return 600000000 + kickerValue1.factorValue + kickerValue2.factorValue;  // Full House
+			} else {
+				// without addition pair
+				kickerValue1 = determineKickerValue(temp2,0,0);
+				kickerValue2 = determineKickerValue(OR & ~temp2,1,2);
+				if(bestHand) {
+					for(color_1_idx=3; color_1_idx>=0; color_1_idx--) bestHand[color_1_idx] = (cards[color_1_idx] & (kickerValue1.select | kickerValue2.select));
+				}
+				return 300000000 + kickerValue1.factorValue + kickerValue2.factorValue; // Three of a Kind
+			}
+		}
+	}
+
+	// Two Pairs, Two of a Kind
+	temp1 = 0;
+	for(color_1_idx=0; color_1_idx<3; color_1_idx++) {
+		for(color_2_idx=color_1_idx+1; color_2_idx<4; color_2_idx++) {
+			temp1  |= (cards[color_1_idx] & cards[color_2_idx]);
+		}
+	}
+	if(temp1) {
+		if(Tools::bitcount(temp1) >= 2) { // at least two times Two of a Kind
+			kickerValue1 = determineKickerValue(temp1,0,1);
+			kickerValue2 = determineKickerValue(OR & ~kickerValue1.select,2,2);
+			if(bestHand) {
+				temp1 = (kickerValue1.select | kickerValue2.select);
+				for(color_1_idx=3; color_1_idx>=0; color_1_idx--) {
+					bestHand[color_1_idx] += (cards[color_1_idx] & temp1);
+					if(bestHand[color_1_idx] & kickerValue2.select) temp1 &= ~kickerValue2.select;
+				}
+			}
+			return 200000000 + kickerValue1.factorValue + kickerValue2.factorValue; // Two Pairs
+		} else {
+			kickerValue1 = determineKickerValue(temp1,0,0);
+			kickerValue2 = determineKickerValue(OR & ~temp1,1,3);
+			if(bestHand) {
+				for(color_1_idx=3; color_1_idx>=0; color_1_idx--) {
+					bestHand[color_1_idx] += (cards[color_1_idx] & (kickerValue1.select | kickerValue2.select));
+				}
+			}
+			return 100000000 + kickerValue1.factorValue + kickerValue2.factorValue; // Two of a Kind
+		}
+	}
+
+	// High Card
+	kickerValue1 = determineKickerValue(OR,0,4);
+	if(bestHand) {
+		for(color_1_idx=3; color_1_idx>=0; color_1_idx--) {
+			bestHand[color_1_idx] += (cards[color_1_idx] & kickerValue1.select);
+		}
+	}
+	return kickerValue1.factorValue;
+
+}
+
+static const int factor_kicker_short[4] = {1000000,10000,100,1};
+static const int factor_kicker_long[5] = {1000000,10000,100,10,1};
+
+KickerValue CardsValue::determineKickerValue(int testValue, int factorPointerStart, int factorPointerEnd)
+{
+	KickerValue kickerValue;
+	kickerValue.factorValue = 0;
+	kickerValue.remain = testValue;
+	kickerValue.select = 0;
+	int compareValue = 4096;
+	int factorPointer = factorPointerStart;
+	for(int card_idx=0; (factorPointer<=factorPointerEnd) & (card_idx<13); card_idx++) {
+		if(kickerValue.remain >= compareValue) {
+			if(factorPointerEnd - factorPointerStart==4) kickerValue.factorValue += (12-card_idx)*factor_kicker_long[factorPointer];
+			else kickerValue.factorValue += (12-card_idx)*factor_kicker_short[factorPointer];
+			kickerValue.remain &= ~compareValue;
+			factorPointer++;
+		}
+		compareValue >>= 1;
+	}
+	kickerValue.select = testValue & ~kickerValue.remain;
+	return kickerValue;
+}
+
+int CardsValue::cardsValueOld(int cards[7], int position[5])
 {
 
 	int array[7][3];
@@ -645,26 +897,18 @@ int CardsValue::cardsValue(int* cards, int* position)
 }
 
 
-std::vector< std::vector<int> > CardsValue::calcCardsChance(GameState beRoID, int* playerCards, int* boardCards)
+std::vector< std::vector<int> > CardsValue::calcCardsChance(GameState beRoID, int playerCards[2], int boardCards[5])
 {
-	int i,j;
+	int card_idx_1, card_idx_2;
 
 	std::vector< std::vector<int> > chance(2);
+	chance[0].assign(10,0);
+	chance[1].assign(10,0);
 
-	chance[0].resize(10);
-	chance[1].resize(10);
-
-	for(i=0; i<10; i++) {
-		chance[0][i] = 0;
-		chance[1][i] = 0;
-	}
-
-	int cards[7];
+	int cards[4] = { 0,0,0,0 };
 	int sum = 0;
 
-	cards[0] = playerCards[0];
-	cards[1] = playerCards[1];
-	for(i=0; i<5; i++) cards[i+2] = boardCards[i];
+	for(card_idx_1=0; card_idx_1<2; card_idx_1++) cards[playerCards[card_idx_1]/13] |= (1 << (playerCards[card_idx_1]%13));
 
 	switch(beRoID) {
 	case GAME_STATE_PREFLOP: {
@@ -675,48 +919,58 @@ std::vector< std::vector<int> > CardsValue::calcCardsChance(GameState beRoID, in
 	break;
 	case GAME_STATE_FLOP: {
 
-		for(i=0; i<51; i++) {
-			if(i!=cards[0] && i!=cards[1] && i!=cards[2] && i!=cards[3] && i!=cards[4]) {
-				for(j=i+1; j<52; j++) {
-					if(j!=cards[0] && j!=cards[1] && j!=cards[2] && j!=cards[3] && j!=cards[4]) {
-						cards[5] = i;
-						cards[6] = j;
-						(chance[0][cardsValue(cards,0)/100000000])++;
+		for(card_idx_1=0; card_idx_1<3; card_idx_1++) cards[boardCards[card_idx_1]/13] |= (1 << (boardCards[card_idx_1]%13));
+
+		for(card_idx_1=0; card_idx_1<51; card_idx_1++) {
+			if((cards[card_idx_1/13] & (1 << (card_idx_1%13))) == 0) {
+				cards[card_idx_1/13] |= (1 << (card_idx_1%13));
+				for(card_idx_2=card_idx_1+1; card_idx_2<52; card_idx_2++) {
+					if((cards[card_idx_2/13] & (1 << (card_idx_2%13))) == 0) {
+						cards[card_idx_2/13] |= (1 << (card_idx_2%13));
+						(chance[0][cardsValueShort(cards)])++;
 						sum++;
+						cards[card_idx_2/13] &= ~(1 << (card_idx_2%13));
 					}
 				}
+				cards[card_idx_1/13] &= ~(1 << (card_idx_1%13));
 			}
-		}
-		for(i=0; i<10; i++) {
-			if(chance[0][i] > 0) chance[1][i] = 1;
-			chance[0][i] = (int)(((double)chance[0][i]/(double)sum)*100.0+0.5);
 		}
 
 	}
 	break;
 	case GAME_STATE_TURN: {
 
-		for(i=0; i<52; i++) {
-			if(i!=cards[0] && i!=cards[1] && i!=cards[2] && i!=cards[3] && i!=cards[4] && i!=cards[5]) {
-				cards[6] = i;
-				(chance[0][cardsValue(cards,0)/100000000])++;
+		for(card_idx_1=0; card_idx_1<4; card_idx_1++) cards[boardCards[card_idx_1]/13] |= (1 << (boardCards[card_idx_1]%13));
+
+		for(card_idx_1=0; card_idx_1<52; card_idx_1++) {
+			if((cards[card_idx_1/13] & (1 << (card_idx_1%13))) == 0) {
+				cards[card_idx_1/13] |= (1 << (card_idx_1%13));
+				(chance[0][cardsValueShort(cards)])++;
 				sum++;
+				cards[card_idx_1/13] &= ~(1 << (card_idx_1%13));
 			}
-		}
-		for(i=0; i<10; i++) {
-			if(chance[0][i] > 0) chance[1][i] = 1;
-			chance[0][i] = (int)(((double)chance[0][i]/(double)sum)*100.0+0.5);
 		}
 
 	}
 	break;
 	case GAME_STATE_RIVER: {
-		chance[0][cardsValue(cards,0)/100000000] = 100;
-		chance[1][cardsValue(cards,0)/100000000] = 1;
+
+		for(card_idx_1=0; card_idx_1<5; card_idx_1++) cards[boardCards[card_idx_1]/13] |= (1 << (boardCards[card_idx_1]%13));
+
+		chance[0][cardsValueShort(cards)] = 1;
+		sum = 1;
+
 	}
 	break;
 	default: {
 	}
+	}
+
+	if(beRoID>GAME_STATE_PREFLOP) {
+		for(int hand_idx=0; hand_idx<10; hand_idx++) {
+			if(chance[0][hand_idx] > 0) chance[1][hand_idx] = 1;
+			chance[0][hand_idx] = (int)(((double)chance[0][hand_idx]/(double)sum)*100.0+0.5);
+		}
 	}
 
 	return chance;

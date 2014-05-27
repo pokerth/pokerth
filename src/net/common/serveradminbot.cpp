@@ -49,6 +49,12 @@
 using namespace std;
 using namespace boost::filesystem;
 
+#ifdef BOOST_ASIO_HAS_STD_CHRONO
+using namespace std::chrono;
+#else
+using namespace boost::chrono;
+#endif
+
 ServerAdminBot::ServerAdminBot(boost::shared_ptr<boost::asio::io_service> ioService)
 	: m_notifyTimeoutMinutes(0), m_notifyIntervalMinutes(0), m_notifyCounter(0),
 	  m_notifyTimer(boost::posix_time::time_duration(0, 0, 0), boost::timers::portable::second_timer::manual_start),
@@ -272,17 +278,17 @@ ServerAdminBot::Run()
 	if (m_ircAdminThread) {
 		// Initialise the timers.
 		m_reconnectTimer.expires_from_now(
-			boost::posix_time::seconds(SERVER_RESTART_IRC_BOT_INTERVAL_SEC));
+			seconds(SERVER_RESTART_IRC_BOT_INTERVAL_SEC));
 		m_reconnectTimer.async_wait(
 			boost::bind(
 				&ServerAdminBot::ReconnectHandler, shared_from_this(), boost::asio::placeholders::error));
 		m_notifyLoopTimer.expires_from_now(
-			boost::posix_time::seconds(SERVER_NOTIFY_IRC_BOT_INTERVAL_SEC));
+			seconds(SERVER_NOTIFY_IRC_BOT_INTERVAL_SEC));
 		m_notifyLoopTimer.async_wait(
 			boost::bind(
 				&ServerAdminBot::NotifyLoop, shared_from_this(), boost::asio::placeholders::error));
 		m_checkFileTimer.expires_from_now(
-			boost::posix_time::seconds(SERVER_CHECK_IRC_BOT_INTERVAL_SEC));
+			seconds(SERVER_CHECK_IRC_BOT_INTERVAL_SEC));
 		m_checkFileTimer.async_wait(
 			boost::bind(
 				&ServerAdminBot::CheckFileHandler, shared_from_this(), boost::asio::placeholders::error));
@@ -298,7 +304,7 @@ ServerAdminBot::ReconnectHandler(const boost::system::error_code& ec)
 		Reconnect();
 
 		m_reconnectTimer.expires_from_now(
-			boost::posix_time::seconds(SERVER_RESTART_IRC_BOT_INTERVAL_SEC));
+			seconds(SERVER_RESTART_IRC_BOT_INTERVAL_SEC));
 		m_reconnectTimer.async_wait(
 			boost::bind(
 				&ServerAdminBot::ReconnectHandler, shared_from_this(), boost::asio::placeholders::error));
@@ -330,7 +336,7 @@ ServerAdminBot::CheckFileHandler(const boost::system::error_code& ec)
 			Reconnect();
 		}
 		m_checkFileTimer.expires_from_now(
-			boost::posix_time::seconds(SERVER_CHECK_IRC_BOT_INTERVAL_SEC));
+			seconds(SERVER_CHECK_IRC_BOT_INTERVAL_SEC));
 		m_checkFileTimer.async_wait(
 			boost::bind(
 				&ServerAdminBot::CheckFileHandler, shared_from_this(), boost::asio::placeholders::error));
@@ -386,7 +392,7 @@ ServerAdminBot::NotifyLoop(const boost::system::error_code& ec)
 			}
 		}
 		m_notifyLoopTimer.expires_from_now(
-			boost::posix_time::seconds(SERVER_NOTIFY_IRC_BOT_INTERVAL_SEC));
+			seconds(SERVER_NOTIFY_IRC_BOT_INTERVAL_SEC));
 		m_notifyLoopTimer.async_wait(
 			boost::bind(
 				&ServerAdminBot::NotifyLoop, shared_from_this(), boost::asio::placeholders::error));

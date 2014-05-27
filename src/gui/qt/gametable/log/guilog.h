@@ -81,8 +81,6 @@ public slots:
 	void logSpectatorLeftMsg(QString playerName, int wasKicked);
 	void logSpectatorJoinedMsg(QString playerName);
 	void logPlayerWinGame(QString playerName, int gameID);
-	void flushLogAtGame(int gameID);
-	void flushLogAtHand();
 	void exportLogPdbToHtml(QString fileStringPdb, QString exportFileString);
 	void exportLogPdbToTxt(QString fileStringPdb, QString exportFileString);
 	void showLog(QString fileStringPdb, QTextBrowser *tb, int uniqueGameID = 0);
@@ -115,8 +113,6 @@ signals:
 	void signalLogSpectatorJoinedMsg(QString playerName);
 	void signalLogNewGameAdminMsg(QString playerName);
 	void signalLogPlayerWinGame(QString playerName, int gameID);
-	void signalFlushLogAtGame(int gameID);
-	void signalFlushLogAtHand();
 
 
 private:

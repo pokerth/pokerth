@@ -105,8 +105,6 @@ void ServerGuiWrapper::logNewBlindsSetsMsg(int /*sbSet*/, int /*bbSet*/, std::st
 void ServerGuiWrapper::logDealBoardCardsMsg(int /*roundID*/, int /*card1*/, int /*card2*/, int /*card3*/, int /*card4*/, int /*card5*/) {}
 void ServerGuiWrapper::logFlipHoleCardsMsg(std::string /*playerName*/, int /*card1*/, int /*card2*/, int /*cardsValueInt*/, std::string /*showHas*/) {}
 void ServerGuiWrapper::logPlayerWinGame(std::string /*playerName*/, int /*gameID*/) {}
-void ServerGuiWrapper::flushLogAtGame(int /*gameID*/) {}
-void ServerGuiWrapper::flushLogAtHand() {}
 
 void ServerGuiWrapper::SignalNetClientServerListAdd(unsigned serverId)
 {

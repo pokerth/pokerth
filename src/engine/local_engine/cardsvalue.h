@@ -38,18 +38,26 @@
 #include <iostream>
 #include <vector>
 
+struct KickerValue {
+	int factorValue;
+	int select;
+	int remain;
+};
+
 class CardsValue
 {
 public:
 	static int holeCardsClass(int, int);
-	static int cardsValue(int*, int*);
+	static int cardsValueShort(int[4]);
+	static int cardsValue(int[4], int[4]);
+	static KickerValue determineKickerValue(int, int, int);
+	static int cardsValueOld(int[7], int[5]);
 	static std::string determineHandName(int myCardsValueInt, PlayerList activePlayerList);
 	static std::list<std::string> translateCardsValueCode(int cardsValueCode);
 
-	static int holeCardsToIntCode(int*);
-	static int* intCodeToHoleCards(int);
+	static int holeCardsToIntCode(int[2]);
 
-	static std::vector< std::vector<int> > calcCardsChance(GameState, int*, int*);
+	static std::vector< std::vector<int> > calcCardsChance(GameState, int[2], int[5]);
 	//static int** showdown(GameState, int**, int);
 
 };

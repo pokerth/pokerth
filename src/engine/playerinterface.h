@@ -87,14 +87,14 @@ public:
 	virtual void setMyStayOnTableStatus(bool theValue) =0;
 	virtual bool getMyStayOnTableStatus() const =0;
 
-	virtual void setMyCards(int* theValue) =0;
-	virtual void getMyCards(int* theValue) const =0;
+	virtual void setMyHoleCards(int* theValue) =0;
+	virtual void getMyHoleCards(int* theValue) const =0;
 
 	virtual void setMyTurn(bool theValue) =0;
 	virtual bool getMyTurn() const =0;
 
-	virtual void setMyCardsFlip(bool theValue, int state) =0;
-	virtual bool getMyCardsFlip() const =0;
+	virtual void setMyHoleCardsFlip(bool theValue, int state) =0;
+	virtual bool getMyHoleCardsFlip() const =0;
 
 	virtual void setMyCardsValueInt(int theValue) =0;
 	virtual int getMyCardsValueInt() const =0;
