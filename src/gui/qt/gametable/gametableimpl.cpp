@@ -69,7 +69,7 @@
 
 #ifdef ANDROID
 #ifndef ANDROID_TEST
-#include "QtGui/5.2.0/QtGui/qpa/qplatformnativeinterface.h"
+#include "QtGui/5.3.0/QtGui/qpa/qplatformnativeinterface.h"
 #include <jni.h>
 #endif
 #endif
@@ -3254,7 +3254,6 @@ bool gameTableImpl::eventFilter(QObject *obj, QEvent *event)
 		myChat->nickAutoCompletition();
 		return true;
 	} else if (event->type() == QEvent::KeyPress && keyEvent->key() == Qt::Key_Back) {
-		event->ignore();
 		closeGameTable();
 		return true;
 	} else if (event->type() == QEvent::Close) {
@@ -4297,11 +4296,12 @@ void gameTableImpl::restoreGameTableGeometry()
 		}
 #endif
 	} else {
+#ifndef ANDROID
 		//resize only if style size allow this and if NOT fixed windows size
 		if(!myGameTableStyle->getIfFixedWindowSize().toInt() && myConfig->readConfigInt("GameTableHeightSave") <= myGameTableStyle->getMaximumWindowHeight().toInt() && myConfig->readConfigInt("GameTableHeightSave") >= myGameTableStyle->getMinimumWindowHeight().toInt() && myConfig->readConfigInt("GameTableWidthSave") <= myGameTableStyle->getMaximumWindowWidth().toInt() && myConfig->readConfigInt("GameTableWidthSave") >= myGameTableStyle->getMinimumWindowWidth().toInt()) {
-
 			this->resize(myConfig->readConfigInt("GameTableWidthSave"), myConfig->readConfigInt("GameTableHeightSave"));
 		}
+#endif
 	}
 #ifdef ANDROID
 	if(getAndroidApiVersion() == 10) {
@@ -4310,6 +4310,9 @@ void gameTableImpl::restoreGameTableGeometry()
 		int availableHeight = dw.screenGeometry().height();
 		this->showNormal();
 		this->setGeometry(0,0,availableWidth, availableHeight);
+	}
+	else {
+		this->showFullScreen();
 	}
 #endif
 }
