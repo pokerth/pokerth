@@ -139,7 +139,7 @@ bool changeContentDialogImpl::eventFilter(QObject *obj, QEvent *event)
 		event->ignore();
 		return false;
 	} else if (event->type() == QEvent::KeyPress && keyEvent->key() == Qt::Key_Back) {
-		this->reject();
+		event->ignore();
 		return true;
 	} else {
 		// pass the event on to the parent class

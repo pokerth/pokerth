@@ -155,10 +155,18 @@ void LogFileDialog::exportLogToHtml()
 
 	if(selectedItem) {
 		QFileInfo fi(selectedItem->data(0, Qt::UserRole).toString());
-		QString fileName = QFileDialog::getSaveFileName(this, tr("Export PokerTH log file to HTML"),
-						   QDir::homePath()+"/"+fi.baseName()+".html",
-						   tr("PokerTH HTML log (*.html)"));
-
+		QFileDialog dlg(this, tr("Export PokerTH log file to HTML"),
+						QDir::homePath()+"/"+fi.baseName()+".html",
+						tr("PokerTH HTML log (*.html)"));
+		dlg.setFileMode(QFileDialog::AnyFile);
+		dlg.setAcceptMode(QFileDialog::AcceptSave);
+#ifdef ANDROID
+		dlg.setWindowState(Qt::WindowFullScreen);
+#endif
+		QString fileName;
+		if(dlg.exec()) {
+			fileName = dlg.selectedFiles().first();
+		}
 		if(!fileName.isEmpty()) {
 			myGuiLog->exportLogPdbToHtml(selectedItem->data(0, Qt::UserRole).toString(),fileName);
 		}
@@ -171,10 +179,18 @@ void LogFileDialog::exportLogToTxt()
 
 	if(selectedItem) {
 		QFileInfo fi(selectedItem->data(0, Qt::UserRole).toString());
-		QString fileName = QFileDialog::getSaveFileName(this, tr("Export PokerTH log file to plain text"),
-						   QDir::homePath()+"/"+fi.baseName()+".txt",
-						   tr("PokerTH plain text log (*.txt)"));
-
+		QFileDialog dlg(this, tr("Export PokerTH log file to plain text"),
+						 QDir::homePath()+"/"+fi.baseName()+".txt",
+						 tr("PokerTH plain text log (*.txt)"));
+		dlg.setFileMode(QFileDialog::AnyFile);
+		dlg.setAcceptMode(QFileDialog::AcceptSave);
+#ifdef ANDROID
+		dlg.setWindowState(Qt::WindowFullScreen);
+#endif
+		QString fileName;
+		if(dlg.exec()) {
+			fileName = dlg.selectedFiles().first();
+		}
 		if(!fileName.isEmpty()) {
 			myGuiLog->exportLogPdbToTxt(selectedItem->data(0, Qt::UserRole).toString(),fileName);
 		}
@@ -187,10 +203,18 @@ void LogFileDialog::saveLogFileAs()
 
 	if(selectedItem) {
 		QFileInfo fi(selectedItem->data(0, Qt::UserRole).toString());
-		QString fileName = QFileDialog::getSaveFileName(this, tr("Save PokerTH log file"),
-						   QDir::homePath()+"/"+fi.baseName()+".pdb",
-						   tr("PokerTH SQL log (*.pdb)"));
-
+		QFileDialog dlg(this, tr("Save PokerTH log file"),
+						QDir::homePath()+"/"+fi.baseName()+".pdb",
+						tr("PokerTH SQL log (*.pdb)"));
+		dlg.setFileMode(QFileDialog::AnyFile);
+		dlg.setAcceptMode(QFileDialog::AcceptSave);
+#ifdef ANDROID
+		dlg.setWindowState(Qt::WindowFullScreen);
+#endif
+		QString fileName;
+		if(dlg.exec()) {
+			fileName = dlg.selectedFiles().first();
+		}
 		if(!fileName.isEmpty()) {
 			QFile::copy(selectedItem->data(0, Qt::UserRole).toString(), fileName);
 		}
@@ -227,6 +251,9 @@ void LogFileDialog::keyPressEvent ( QKeyEvent * event )
 		if(ui->treeWidget_logFiles->hasFocus()) {
 			ui->pushButton_deleteLog->click();
 		}
+	}
+	else {
+		QDialog::keyPressEvent(event);
 	}
 }
 

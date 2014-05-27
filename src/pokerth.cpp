@@ -75,6 +75,13 @@
 #define ENABLE_LEAK_CHECK()
 #endif
 
+// #ifdef ANDROID
+// #ifndef ANDROID_TEST
+// // #include "QtGui/5.3.0/QtGui/qpa/qplatformnativeinterface.h"
+// // #include <jni.h>
+// #endif
+// #endif
+
 using namespace std;
 
 class startWindowImpl;
@@ -246,6 +253,29 @@ int main( int argc, char **argv )
 
 	startWindowImpl mainWin(myConfig,myLog);
 #ifdef ANDROID
+// 	//Do not start if API is smaller than x
+// 	int api = -2;
+// #ifndef ANDROID_TEST
+// 	JavaVM *currVM = (JavaVM *)QApplication::platformNativeInterface()->nativeResourceForIntegration("JavaVM");
+// 	JNIEnv* env;
+// 	if (currVM->AttachCurrentThread(&env, NULL)<0) {
+// 		qCritical()<<"AttachCurrentThread failed";
+// 	} else {
+// 		jclass jclassApplicationClass = env->FindClass("android/os/Build$VERSION");
+// 		if (jclassApplicationClass) {
+// 			api = env->GetStaticIntField(jclassApplicationClass, env->GetStaticFieldID(jclassApplicationClass,"SDK_INT", "I"));
+// 		}
+// 		currVM->DetachCurrentThread();
+// 	}
+// #endif
+// Test api and maybe do not start for further android releases
+//	if(api < 14) {
+//		QMessageBox box(QMessageBox::Critical, "PokerTH Error", "Sorry, PokerTH needs Android version 4.0 or above to start", QMessageBox::Ok);
+//		box.show();
+//	}
+//	else {
+//		mainWin.show();
+//	}
 	mainWin.show();
 #else
 	a.setActivationWindow(&mainWin, true);

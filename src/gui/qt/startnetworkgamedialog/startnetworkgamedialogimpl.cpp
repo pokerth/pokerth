@@ -240,6 +240,7 @@ void startNetworkGameDialogImpl::keyPressEvent ( QKeyEvent * event )
 	} else {
 		keyUpDownChatCounter = 0;
 	}
+	QDialog::keyPressEvent(event);
 }
 
 bool startNetworkGameDialogImpl::eventFilter(QObject *obj, QEvent *event)

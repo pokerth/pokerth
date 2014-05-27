@@ -1332,7 +1332,7 @@ void GameTableStyleReader::showOutdatedErrorMessage()
 
 void GameTableStyleReader::setTableBackground(gameTableImpl *gt)
 {
-	gt->setStyleSheet("QMainWindow { background-image: url(\""+Table+"\"); background-position: bottom center; background-origin: content;  background-repeat: no-repeat;}");
+	gt->centralWidget()->setStyleSheet(".QWidget { background-image: url(\""+Table+"\"); background-position: bottom center; background-origin: content;  background-repeat: no-repeat;}");
 }
 
 void GameTableStyleReader::setChatLogStyle(QTextBrowser *tb)
