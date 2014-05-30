@@ -1,6 +1,6 @@
 /*****************************************************************************
  * PokerTH - The open source texas holdem engine                             *
- * Copyright (C) 2006-2013 Felix Hammer, Florian Thauer, Lothar May          *
+ * Copyright (C) 2006-2014 Felix Hammer, Florian Thauer, Lothar May          *
  *                                                                           *
  * This program is free software: you can redistribute it and/or modify      *
  * it under the terms of the GNU Affero General Public License as            *
@@ -29,9 +29,15 @@
  * as that of the covered work.                                              *
  *****************************************************************************/
 
+import "src/third_party/gogoprotobuf/gogo.proto";
+
 option java_package = "de.pokerth.protocol";
 option java_outer_classname = "ProtoBuf";
 option optimize_for = LITE_RUNTIME;
+
+option (gogoproto.marshaler_all) = true;
+option (gogoproto.unmarshaler_all) = true;
+option (gogoproto.sizer_all) = true;
 
 // Enumerations used by several messages.
 
@@ -145,24 +151,21 @@ message AnnounceMessage {
 	required	uint32			numPlayersOnServer = 5;
 }
 
-// buildId contains a constant build id (specific for Windows/Linux/Mac builds)
-message InitMessage {
+message AuthClientRequestMessage {
 	required	AnnounceMessage.Version		requestedVersion = 1;
+	// buildId contains a constant build id (specific for Windows/Linux/Mac builds)
 	required	uint32			buildId = 2;
-	optional	bytes			myLastSessionId = 3;
-	optional	string			authServerPassword = 4;
 	enum LoginType {
 		guestLogin = 0;
 		authenticatedLogin = 1;
 		unauthenticatedLogin = 2;
 	}
-	required	LoginType		login = 5;
+	required	LoginType		login = 3;
+	optional	string			authServerPassword = 4;
 	// Only used for guest login or unauthenticated login.
-	optional	string			nickName = 6;
+	optional	string			nickName = 5;
 	// Authenticated login data is according to SCRAM SHA-1
-	optional	bytes			clientUserData = 7;
-	// Ignored for guest login.
-	optional	bytes			avatarHash = 8;
+	optional	bytes			clientUserData = 6;
 }
 
 message AuthServerChallengeMessage {
@@ -174,12 +177,18 @@ message AuthClientResponseMessage {
 }
 
 message AuthServerVerificationMessage {
-	required	bytes			serverVerification = 1;
+	required	bytes			yourSessionId = 1;
+	required	uint32			yourPlayerId = 2;
+	optional	bytes			serverVerification = 3;
+}
+
+message InitMessage {
+	optional	bytes			myLastSessionId = 1;
+	// Ignored for guest login.
+	optional	bytes			avatarHash = 2;
 }
 
 message InitAckMessage {
-	required	bytes			yourSessionId = 1;
-	required	uint32			yourPlayerId = 2;
 	optional	bytes			yourAvatarHash = 3;
 	optional	uint32			rejoinGameId = 4;
 }
@@ -277,95 +286,98 @@ message PlayerInfoReplyMessage {
 	optional	PlayerInfoData	playerInfoData = 2;
 }
 
-// The following request will not be confirmed by the server. It is used,
-// optionally, to reduce server traffic. The server might ignore it.
+// The following request is used optionally to reduce server traffic.
 message SubscriptionRequestMessage {
+	required	uint32				requestId = 1;
 	enum SubscriptionAction {
 		unsubscribeGameList = 1;
 		resubscribeGameList = 2;
 	}
-	required	SubscriptionAction	subscriptionAction = 1;
+	required	SubscriptionAction	subscriptionAction = 2;
 }
 
-message JoinExistingGameMessage {
-	required	uint32			gameId = 1;
-	optional	string			password = 2;
-	optional	bool			autoLeave = 3 [default = false];
-	optional	bool			spectateOnly = 4 [default = false];
+message SubscriptionReplyMessage {
+	required	uint32				requestId = 1;
+	required	bool				ack = 2;
 }
 
-message JoinNewGameMessage {
-	required	NetGameInfo		gameInfo = 1;
-	optional	string			password = 2;
-	optional	bool			autoLeave = 3;
+message CreateGameMessage {
+	required	uint32			requestId = 1;
+	required	NetGameInfo		gameInfo = 2;
+	optional	string			password = 3;
+	optional	bool			autoLeave = 4;
 }
 
-message RejoinExistingGameMessage {
-	required	uint32			gameId = 1;
-	optional	bool			autoLeave = 2;
+message CreateGameFailedMessage {
+	required	uint32			requestId = 1;
+	enum CreateGameFailureReason {
+		notAllowedAsGuest = 1;
+		gameNameInUse = 2;
+		badGameName = 3;
+		invalidSettings = 4;
+	}
+	required	CreateGameFailureReason	createGameFailureReason = 2;
+}
+
+message JoinGameMessage {
+	optional	string			password = 1;
+	optional	bool			autoLeave = 2 [default = false];
+	optional	bool			spectateOnly = 3 [default = false];
+}
+
+message RejoinGameMessage {
+	optional	bool			autoLeave = 1 [default = false];
 }
 
 message JoinGameAckMessage {
-	required	uint32			gameId = 1;
-	required	bool			areYouGameAdmin = 2;
-	required	NetGameInfo		gameInfo = 3;
-	optional	bool			spectateOnly = 4;
+	required	bool			areYouGameAdmin = 1;
+	required	NetGameInfo		gameInfo = 2;
+	optional	bool			spectateOnly = 3;
 }
 
 message JoinGameFailedMessage {
-	required	uint32			gameId = 1;
 	enum JoinGameFailureReason {
 		invalidGame = 1;
 		gameIsFull = 2;
 		gameIsRunning = 3;
 		invalidPassword = 4;
-		notAllowedAsGuest = 5;
-		notInvited = 6;
-		gameNameInUse = 7;
-		badGameName = 8;
-		invalidSettings = 9;
-		ipAddressBlocked = 10;
-		rejoinFailed = 11;
-		noSpectatorsAllowed = 12;
+		notInvited = 5;
+		ipAddressBlocked = 6;
+		rejoinFailed = 7;
+		noSpectatorsAllowed = 8;
 	}
-	required	JoinGameFailureReason	joinGameFailureReason = 2;
+	required	JoinGameFailureReason	joinGameFailureReason = 1;
 }
 
 message GamePlayerJoinedMessage {
-	required	uint32			gameId = 1;
-	required	uint32			playerId = 2;
-	required	bool			isGameAdmin = 3;
+	required	uint32			playerId = 1;
+	required	bool			isGameAdmin = 2;
 }
 
 message GamePlayerLeftMessage {
-	required	uint32			gameId = 1;
-	required	uint32			playerId = 2;
+	required	uint32			playerId = 1;
 	enum GamePlayerLeftReason {
 		leftOnRequest = 0;
 		leftKicked = 1;
 		leftError = 2;
 	}
-	required	GamePlayerLeftReason	gamePlayerLeftReason = 3;
+	required	GamePlayerLeftReason	gamePlayerLeftReason = 2;
 }
 
 message GameSpectatorJoinedMessage {
-	required	uint32			gameId = 1;
-	required	uint32			playerId = 2;
+	required	uint32			playerId = 1;
 }
 
 message GameSpectatorLeftMessage {
-	required	uint32			gameId = 1;
-	required	uint32			playerId = 2;
-	required	GamePlayerLeftMessage.GamePlayerLeftReason	gameSpectatorLeftReason = 3;
+	required	uint32			playerId = 1;
+	required	GamePlayerLeftMessage.GamePlayerLeftReason	gameSpectatorLeftReason = 2;
 }
 
 message GameAdminChangedMessage {
-	required	uint32			gameId = 1;
-	required	uint32			newAdminPlayerId = 2;
+	required	uint32			newAdminPlayerId = 1;
 }
 
 message RemovedFromGameMessage {
-	required	uint32			gameId = 1;
 	enum RemovedFromGameReason {
 		removedOnRequest = 0; // No error, client wished to leave.
 		kickedFromGame = 1;
@@ -375,16 +387,14 @@ message RemovedFromGameMessage {
 		removedStartFailed = 5;
 		gameClosed = 6;
 	}
-	required	RemovedFromGameReason	removedFromGameReason = 2;
+	required	RemovedFromGameReason	removedFromGameReason = 1;
 }
 
 message KickPlayerRequestMessage {
-	required	uint32			gameId = 1;
-	required	uint32			playerId = 2;
+	required	uint32			playerId = 1;
 }
 
 message LeaveGameRequestMessage {
-	required	uint32			gameId = 1;
 }
 
 message InvitePlayerToGameMessage {
@@ -414,124 +424,109 @@ message RejectInvNotifyMessage {
 }
 
 message StartEventMessage {
-	required	uint32			gameId = 1;
 	enum StartEventType {
 		startEvent = 0;
 		rejoinEvent = 1;
 	}
-	required	StartEventType	startEventType = 2;
-	optional	bool			fillWithComputerPlayers = 3;
+	required	StartEventType	startEventType = 1;
+	optional	bool			fillWithComputerPlayers = 2;
 }
 
 message StartEventAckMessage {
-	required	uint32			gameId = 1;
 }
 
 message GameStartInitialMessage {
-	required	uint32			gameId = 1;
-	required	uint32			startDealerPlayerId = 2;
-	repeated	uint32			playerSeats = 3 [packed = true];
+	required	uint32			startDealerPlayerId = 1;
+	repeated	uint32			playerSeats = 2 [packed = true];
 }
 
 message GameStartRejoinMessage {
-	required	uint32			gameId = 1;
-	required	uint32			startDealerPlayerId = 2;
-	required	uint32			handNum = 3;
+	required	uint32			startDealerPlayerId = 1;
+	required	uint32			handNum = 2;
 	message RejoinPlayerData {
 		required	uint32			playerId = 1;
 		required	uint32			playerMoney = 2;
 	}
-	repeated	RejoinPlayerData	rejoinPlayerData = 4;
+	repeated	RejoinPlayerData	rejoinPlayerData = 3;
 }
 
 message HandStartMessage {
-	required	uint32			gameId = 1;
 	message PlainCards {
 		required	uint32			plainCard1 = 1;
 		required	uint32			plainCard2 = 2;
 	}
-	optional	PlainCards		plainCards = 2;
-	optional	bytes			encryptedCards = 3;
-	required	uint32			smallBlind = 4;
-	repeated	NetPlayerState	seatStates = 5;
-	optional	uint32			dealerPlayerId = 6;
+	optional	PlainCards		plainCards = 1;
+	optional	bytes			encryptedCards = 2;
+	required	uint32			smallBlind = 3;
+	repeated	NetPlayerState	seatStates = 4;
+	optional	uint32			dealerPlayerId = 5;
 }
 
 message PlayersTurnMessage {
-	required	uint32			gameId = 1;
-	required	uint32			playerId = 2;
-	required	NetGameState	gameState = 3;
+	required	uint32			playerId = 1;
+	required	NetGameState	gameState = 2;
 }
 
 message MyActionRequestMessage {
-	required	uint32			gameId = 1;
-	required	uint32			handNum = 2;
-	required	NetGameState	gameState = 3;
-	required	NetPlayerAction	myAction = 4;
-	required	uint32			myRelativeBet = 5;
+	required	uint32			handNum = 1;
+	required	NetGameState	gameState = 2;
+	required	NetPlayerAction	myAction = 3;
+	required	uint32			myRelativeBet = 4;
 }
 
 message YourActionRejectedMessage {
-	required	uint32			gameId = 1;
-	required	NetGameState	gameState = 2;
-	required	NetPlayerAction	yourAction = 3;
-	required	uint32			yourRelativeBet = 4;
+	required	NetGameState	gameState = 1;
+	required	NetPlayerAction	yourAction = 2;
+	required	uint32			yourRelativeBet = 3;
 	enum RejectionReason {
 		rejectedInvalidGameState = 1;
 		rejectedNotYourTurn = 2;
 		rejectedActionNotAllowed = 3;
 	}
-	required	RejectionReason	rejectionReason = 5;
+	required	RejectionReason	rejectionReason = 4;
 }
 
 message PlayersActionDoneMessage {
-	required	uint32			gameId = 1;
-	required	uint32			playerId = 2;
-	required	NetGameState	gameState = 3;
-	required	NetPlayerAction	playerAction = 4;
-	required	uint32			totalPlayerBet = 5;
-	required	uint32			playerMoney = 6;
-	required	uint32			highestSet = 7;
-	required	uint32			minimumRaise = 8;
+	required	uint32			playerId = 1;
+	required	NetGameState	gameState = 2;
+	required	NetPlayerAction	playerAction = 3;
+	required	uint32			totalPlayerBet = 4;
+	required	uint32			playerMoney = 5;
+	required	uint32			highestSet = 6;
+	required	uint32			minimumRaise = 7;
 }
 
 message DealFlopCardsMessage {
-	required	uint32			gameId = 1;
-	required	uint32			flopCard1 = 2;
-	required	uint32			flopCard2 = 3;
-	required	uint32			flopCard3 = 4;
+	required	uint32			flopCard1 = 1;
+	required	uint32			flopCard2 = 2;
+	required	uint32			flopCard3 = 3;
 }
 
 message DealTurnCardMessage {
-	required	uint32			gameId = 1;
-	required	uint32			turnCard = 2;
+	required	uint32			turnCard = 1;
 }
 
 message DealRiverCardMessage {
-	required	uint32			gameId = 1;
-	required	uint32			riverCard = 2;
+	required	uint32			riverCard = 1;
 }
 
 message AllInShowCardsMessage {
-	required	uint32			gameId = 1;
 	message PlayerAllIn {
 		required	uint32			playerId = 1;
 		required	uint32			allInCard1 = 2;
 		required	uint32			allInCard2 = 3;
 	}
-	repeated	PlayerAllIn		playersAllIn = 2;
+	repeated	PlayerAllIn		playersAllIn = 1;
 }
 
 message EndOfHandShowCardsMessage {
-	required	uint32			gameId = 1;
-	repeated	PlayerResult	playerResults = 2;
+	repeated	PlayerResult	playerResults = 1;
 }
 
 message EndOfHandHideCardsMessage {
-	required	uint32			gameId = 1;
-	required	uint32			playerId = 2;
-	required	uint32			moneyWon = 3;
-	required	uint32			playerMoney = 4;
+	required	uint32			playerId = 1;
+	required	uint32			moneyWon = 2;
+	required	uint32			playerMoney = 3;
 }
 
 message ShowMyCardsRequestMessage {
@@ -542,8 +537,7 @@ message AfterHandShowCardsMessage {
 }
 
 message EndOfGameMessage {
-	required	uint32			gameId = 1;
-	required	uint32			winnerPlayerId = 2;
+	required	uint32			winnerPlayerId = 1;
 }
 
 message PlayerIdChangedMessage {
@@ -552,13 +546,11 @@ message PlayerIdChangedMessage {
 }
 
 message AskKickPlayerMessage {
-	required	uint32			gameId = 1;
-	required	uint32			playerId = 2;
+	required	uint32			playerId = 1;
 }
 
 message AskKickDeniedMessage {
-	required	uint32			gameId = 1;
-	required	uint32			playerId = 2;
+	required	uint32			playerId = 1;
 	enum KickDeniedReason {
 		kickDeniedInvalidGameState = 0;
 		kickDeniedNotPossible = 1;
@@ -566,56 +558,51 @@ message AskKickDeniedMessage {
 		kickDeniedAlreadyInProgress = 3;
 		kickDeniedInvalidPlayerId = 4;
 	}
-	required	KickDeniedReason	kickDeniedReason = 3;
+	required	KickDeniedReason	kickDeniedReason = 2;
 }
 
 message StartKickPetitionMessage {
-	required	uint32			gameId = 1;
-	required	uint32			petitionId = 2;
-	required	uint32			proposingPlayerId = 3;
-	required	uint32			kickPlayerId = 4;
-	required	uint32			kickTimeoutSec = 5;
-	required	uint32			numVotesNeededToKick = 6;
+	required	uint32			petitionId = 1;
+	required	uint32			proposingPlayerId = 2;
+	required	uint32			kickPlayerId = 3;
+	required	uint32			kickTimeoutSec = 4;
+	required	uint32			numVotesNeededToKick = 5;
 }
 
 message VoteKickRequestMessage {
-	required	uint32			gameId = 1;
-	required	uint32			petitionId = 2;
-	required	bool			voteKick = 3;
+	required	uint32			petitionId = 1;
+	required	bool			voteKick = 2;
 }
 
 message VoteKickReplyMessage {
-	required	uint32			gameId = 1;
-	required	uint32			petitionId = 2;
+	required	uint32			petitionId = 1;
 	enum VoteKickReplyType {
 		voteKickAck = 0;
 		voteKickDeniedInvalid = 1;
 		voteKickDeniedAlreadyVoted = 2;
 	}
-	required	VoteKickReplyType	voteKickReplyType = 3;
+	required	VoteKickReplyType	voteKickReplyType = 2;
 }
 
 message KickPetitionUpdateMessage {
-	required	uint32			gameId = 1;
-	required	uint32			petitionId = 2;
-	required	uint32			numVotesAgainstKicking = 3;
-	required	uint32			numVotesInFavourOfKicking = 4;
-	required	uint32			numVotesNeededToKick = 5;
+	required	uint32			petitionId = 1;
+	required	uint32			numVotesAgainstKicking = 2;
+	required	uint32			numVotesInFavourOfKicking = 3;
+	required	uint32			numVotesNeededToKick = 4;
 }
 
 message EndKickPetitionMessage {
-	required	uint32			gameId = 1;
-	required	uint32			petitionId = 2;
-	required	uint32			numVotesAgainstKicking = 3;
-	required	uint32			numVotesInFavourOfKicking = 4;
-	required	uint32			resultPlayerKicked = 5;
+	required	uint32			petitionId = 1;
+	required	uint32			numVotesAgainstKicking = 2;
+	required	uint32			numVotesInFavourOfKicking = 3;
+	required	uint32			resultPlayerKicked = 4;
 	enum PetitionEndReason {
 		petitionEndEnoughVotes = 0;
 		petitionEndTooFewPlayers = 1;
 		petitionEndPlayerLeft = 2;
 		petitionEndTimeout = 3;
 	}
-	required	PetitionEndReason	petitionEndReason = 6;
+	required	PetitionEndReason	petitionEndReason = 5;
 }
 
 message StatisticsMessage {
@@ -630,23 +617,20 @@ message StatisticsMessage {
 }
 
 message ChatRequestMessage {
-	optional	uint32			targetGameId = 1;
 	optional	uint32			targetPlayerId = 2;
 	required	string			chatText = 3;
 }
 
 message ChatMessage {
-	optional	uint32			gameId = 1;
-	optional	uint32			playerId = 2;
+	optional	uint32			playerId = 1;
 	enum ChatType {
-		chatTypeLobby = 0;
-		chatTypeGame = 1;
-		chatTypeBot = 2;
-		chatTypeBroadcast = 3;
-		chatTypePrivate = 4;
+		chatTypeStandard = 0;
+		chatTypeBot = 1;
+		chatTypeBroadcast = 2;
+		chatTypePrivate = 3;
 	}
-	required	ChatType		chatType = 3;
-	required	string			chatText = 4;
+	required	ChatType		chatType = 2;
+	required	string			chatText = 3;
 }
 
 message ChatRejectMessage {
@@ -749,173 +733,234 @@ message AdminBanPlayerAckMessage {
 	required	AdminBanPlayerResult	banPlayerResult = 2;
 }
 
-// The main message type (it is prefixed by 4 bytes length of the message).
+message AuthMessage {
+	enum AuthMessageType {
+		Type_AuthClientRequestMessage = 1;
+		Type_AuthServerChallengeMessage = 2;
+		Type_AuthClientResponseMessage = 3;
+		Type_AuthServerVerificationMessage = 4;
+		Type_ErrorMessage = 1024;
+	}
+	required	AuthMessageType					messageType = 1;
 
+	optional	AuthClientRequestMessage		authClientRequestMessage = 2;
+	optional	AuthServerChallengeMessage		authServerChallengeMessage = 3;
+	optional	AuthClientResponseMessage		authClientResponseMessage = 4;
+	optional	AuthServerVerificationMessage	authServerVerificationMessage = 5;
+	optional	ErrorMessage					errorMessage = 1025;
+}
+
+message LobbyMessage {
+	enum LobbyMessageType {
+		Type_InitMessage = 1;
+		Type_InitAckMessage = 2;
+		Type_AvatarRequestMessage = 3;
+		Type_AvatarHeaderMessage = 4;
+		Type_AvatarDataMessage = 5;
+		Type_AvatarEndMessage = 6;
+		Type_UnknownAvatarMessage = 7;
+		Type_PlayerListMessage = 8;
+		Type_GameListNewMessage = 9;
+		Type_GameListUpdateMessage = 10;
+		Type_GameListPlayerJoinedMessage = 11;
+		Type_GameListPlayerLeftMessage = 12;
+		Type_GameListSpectatorJoinedMessage = 13;
+		Type_GameListSpectatorLeftMessage = 14;
+		Type_GameListAdminChangedMessage = 15;
+		Type_PlayerInfoRequestMessage = 16;
+		Type_PlayerInfoReplyMessage = 17;
+		Type_SubscriptionRequestMessage = 18;
+		Type_SubscriptionReplyMessage = 19;
+		Type_CreateGameMessage = 20;
+		Type_CreateGameFailedMessage = 21;
+		Type_InvitePlayerToGameMessage = 22;
+		Type_InviteNotifyMessage = 23;
+		Type_RejectGameInvitationMessage = 24;
+		Type_RejectInvNotifyMessage = 25;
+		Type_StatisticsMessage = 26;
+		Type_ChatRequestMessage = 27;
+		Type_ChatMessage = 28;
+		Type_ChatRejectMessage = 29;
+		Type_DialogMessage = 30;
+		Type_TimeoutWarningMessage = 31;
+		Type_ResetTimeoutMessage = 32;
+		Type_ReportAvatarMessage = 33;
+		Type_ReportAvatarAckMessage = 34;
+		Type_ReportGameMessage = 35;
+		Type_ReportGameAckMessage = 36;
+		Type_AdminRemoveGameMessage = 37;
+		Type_AdminRemoveGameAckMessage = 38;
+		Type_AdminBanPlayerMessage = 39;
+		Type_AdminBanPlayerAckMessage = 40;
+		Type_ErrorMessage = 1024;
+	}
+	required	LobbyMessageType				messageType = 1;
+
+	optional	InitMessage						initMessage = 2;
+	optional	InitAckMessage					initAckMessage = 3;
+	optional	AvatarRequestMessage			avatarRequestMessage = 4;
+	optional	AvatarHeaderMessage				avatarHeaderMessage = 5;
+	optional	AvatarDataMessage				avatarDataMessage = 6;
+	optional	AvatarEndMessage				avatarEndMessage = 7;
+	optional	UnknownAvatarMessage			unknownAvatarMessage = 8;
+	optional	PlayerListMessage				playerListMessage = 9;
+	optional	GameListNewMessage				gameListNewMessage = 10;
+	optional	GameListUpdateMessage			gameListUpdateMessage = 11;
+	optional	GameListPlayerJoinedMessage		gameListPlayerJoinedMessage = 12;
+	optional	GameListPlayerLeftMessage		gameListPlayerLeftMessage = 13;
+	optional	GameListSpectatorJoinedMessage	gameListSpectatorJoinedMessage = 14;
+	optional	GameListSpectatorLeftMessage	gameListSpectatorLeftMessage = 15;
+	optional	GameListAdminChangedMessage		gameListAdminChangedMessage = 16;
+	optional	PlayerInfoRequestMessage		playerInfoRequestMessage = 17;
+	optional	PlayerInfoReplyMessage			playerInfoReplyMessage = 18;
+	optional	SubscriptionRequestMessage		subscriptionRequestMessage = 19;
+	optional	SubscriptionReplyMessage		subscriptionReplyMessage = 20;
+	optional	CreateGameMessage				createGameMessage = 21;
+	optional	CreateGameFailedMessage			createGameFailedMessage = 22;
+	optional	InvitePlayerToGameMessage		invitePlayerToGameMessage = 23;
+	optional	InviteNotifyMessage				inviteNotifyMessage = 24;
+	optional	RejectGameInvitationMessage		rejectGameInvitationMessage = 25;
+	optional	RejectInvNotifyMessage			rejectInvNotifyMessage = 26;
+	optional	StatisticsMessage				statisticsMessage = 27;
+	optional	ChatRequestMessage				chatRequestMessage = 28;
+	optional	ChatMessage						chatMessage = 29;
+	optional	ChatRejectMessage				chatRejectMessage = 30;
+	optional	DialogMessage					dialogMessage = 31;
+	optional	TimeoutWarningMessage			timeoutWarningMessage = 32;
+	optional	ResetTimeoutMessage				resetTimeoutMessage = 33;
+	optional	ReportAvatarMessage				reportAvatarMessage = 34;
+	optional	ReportAvatarAckMessage			reportAvatarAckMessage = 35;
+	optional	ReportGameMessage				reportGameMessage = 36;
+	optional	ReportGameAckMessage			reportGameAckMessage = 37;
+	optional	AdminRemoveGameMessage			adminRemoveGameMessage = 38;
+	optional	AdminRemoveGameAckMessage		adminRemoveGameAckMessage = 39;
+	optional	AdminBanPlayerMessage			adminBanPlayerMessage = 40;
+	optional	AdminBanPlayerAckMessage		adminBanPlayerAckMessage = 41;
+	optional	ErrorMessage					errorMessage = 1025;
+}
+
+message GameManagementMessage {
+	enum GameManagementMessageType {
+		Type_JoinGameMessage = 1;
+		Type_RejoinGameMessage = 2;
+		Type_JoinGameAckMessage = 3;
+		Type_JoinGameFailedMessage = 4;
+		Type_GamePlayerJoinedMessage = 5;
+		Type_GamePlayerLeftMessage = 6;
+		Type_GameSpectatorJoinedMessage = 7;
+		Type_GameSpectatorLeftMessage = 8;
+		Type_GameAdminChangedMessage = 9;
+		Type_RemovedFromGameMessage = 10;
+		Type_KickPlayerRequestMessage = 11;
+		Type_LeaveGameRequestMessage = 12;
+		Type_StartEventMessage = 13;
+		Type_StartEventAckMessage = 14;
+		Type_GameStartInitialMessage = 15;
+		Type_GameStartRejoinMessage = 16;
+		Type_EndOfGameMessage = 17;
+		Type_PlayerIdChangedMessage = 18;
+		Type_AskKickPlayerMessage = 19;
+		Type_AskKickDeniedMessage = 20;
+		Type_StartKickPetitionMessage = 21;
+		Type_VoteKickRequestMessage = 22;
+		Type_VoteKickReplyMessage = 23;
+		Type_KickPetitionUpdateMessage = 24;
+		Type_EndKickPetitionMessage = 25;
+		Type_ChatRequestMessage = 26;
+		Type_ChatMessage = 27;
+		Type_ChatRejectMessage = 28;
+		Type_ErrorMessage = 1024;
+	}
+	required	GameManagementMessageType		messageType = 1;
+
+	optional	JoinGameMessage					joinGameMessage = 2;
+	optional	RejoinGameMessage				rejoinGameMessage = 3;
+	optional	JoinGameAckMessage				joinGameAckMessage = 4;
+	optional	JoinGameFailedMessage			joinGameFailedMessage = 5;
+	optional	GamePlayerJoinedMessage			gamePlayerJoinedMessage = 6;
+	optional	GamePlayerLeftMessage			gamePlayerLeftMessage = 7;
+	optional	GameSpectatorJoinedMessage		gameSpectatorJoinedMessage = 8;
+	optional	GameSpectatorLeftMessage		gameSpectatorLeftMessage = 9;
+	optional	GameAdminChangedMessage			gameAdminChangedMessage = 10;
+	optional	RemovedFromGameMessage			removedFromGameMessage = 11;
+	optional	KickPlayerRequestMessage		kickPlayerRequestMessage = 12;
+	optional	LeaveGameRequestMessage			leaveGameRequestMessage = 13;
+	optional	StartEventMessage				startEventMessage = 14;
+	optional	StartEventAckMessage			startEventAckMessage = 15;
+	optional	GameStartInitialMessage			gameStartInitialMessage = 16;
+	optional	GameStartRejoinMessage			gameStartRejoinMessage = 17;
+	optional	EndOfGameMessage				endOfGameMessage = 18;
+	optional	PlayerIdChangedMessage			playerIdChangedMessage = 19;
+	optional	AskKickPlayerMessage			askKickPlayerMessage = 20;
+	optional	AskKickDeniedMessage			askKickDeniedMessage = 21;
+	optional	StartKickPetitionMessage		startKickPetitionMessage = 22;
+	optional	VoteKickRequestMessage			voteKickRequestMessage = 23;
+	optional	VoteKickReplyMessage			voteKickReplyMessage = 24;
+	optional	KickPetitionUpdateMessage		kickPetitionUpdateMessage = 25;
+	optional	EndKickPetitionMessage			endKickPetitionMessage = 26;
+	optional	ChatRequestMessage				chatRequestMessage = 27;
+	optional	ChatMessage						chatMessage = 28;
+	optional	ChatRejectMessage				chatRejectMessage = 29;
+	optional	ErrorMessage					errorMessage = 1025;
+}
+
+message GameEngineMessage {
+	enum GameEngineMessageType {
+		Type_HandStartMessage = 1;
+		Type_PlayersTurnMessage = 2;
+		Type_MyActionRequestMessage = 3;
+		Type_YourActionRejectedMessage = 4;
+		Type_PlayersActionDoneMessage = 5;
+		Type_DealFlopCardsMessage = 6;
+		Type_DealTurnCardMessage = 7;
+		Type_DealRiverCardMessage = 8;
+		Type_AllInShowCardsMessage = 9;
+		Type_EndOfHandShowCardsMessage = 10;
+		Type_EndOfHandHideCardsMessage = 11;
+		Type_ShowMyCardsRequestMessage = 12;
+		Type_AfterHandShowCardsMessage = 13;
+	}
+	required	GameEngineMessageType			messageType = 1;
+
+	optional	HandStartMessage				handStartMessage = 2;
+	optional	PlayersTurnMessage				playersTurnMessage = 3;
+	optional	MyActionRequestMessage			myActionRequestMessage = 4;
+	optional	YourActionRejectedMessage		yourActionRejectedMessage = 5;
+	optional	PlayersActionDoneMessage		playersActionDoneMessage = 6;
+	optional	DealFlopCardsMessage			dealFlopCardsMessage = 7;
+	optional	DealTurnCardMessage				dealTurnCardMessage = 8;
+	optional	DealRiverCardMessage			dealRiverCardMessage = 9;
+	optional	AllInShowCardsMessage			allInShowCardsMessage = 10;
+	optional	EndOfHandShowCardsMessage		endOfHandShowCardsMessage = 11;
+	optional	EndOfHandHideCardsMessage		endOfHandHideCardsMessage = 12;
+	optional	ShowMyCardsRequestMessage		showMyCardsRequestMessage = 13;
+	optional	AfterHandShowCardsMessage		afterHandShowCardsMessage = 14;
+}
+
+message GameMessage {
+	enum GameMessageType {
+		Type_GameManagementMessage = 1;
+		Type_GameEngineMessage = 2;
+	}
+	required	GameMessageType					messageType = 1;
+	required	uint32							gameId = 2;
+
+	optional	GameManagementMessage			gameManagementMessage = 3;
+	optional	GameEngineMessage				gameEngineMessage = 4;
+}
+
+// The main message type (with TCP, it is prefixed by 4 bytes length of the message).
 message PokerTHMessage {
 	enum PokerTHMessageType {
 		Type_AnnounceMessage = 1;
-		Type_InitMessage = 2;
-		Type_AuthServerChallengeMessage = 3;
-		Type_AuthClientResponseMessage = 4;
-		Type_AuthServerVerificationMessage = 5;
-		Type_InitAckMessage = 6;
-		Type_AvatarRequestMessage = 7;
-		Type_AvatarHeaderMessage = 8;
-		Type_AvatarDataMessage = 9;
-		Type_AvatarEndMessage = 10;
-		Type_UnknownAvatarMessage = 11;
-		Type_PlayerListMessage = 12;
-		Type_GameListNewMessage = 13;
-		Type_GameListUpdateMessage = 14;
-		Type_GameListPlayerJoinedMessage = 15;
-		Type_GameListPlayerLeftMessage = 16;
-		Type_GameListAdminChangedMessage = 17;
-		Type_PlayerInfoRequestMessage = 18;
-		Type_PlayerInfoReplyMessage = 19;
-		Type_SubscriptionRequestMessage = 20;
-		Type_JoinExistingGameMessage = 21;
-		Type_JoinNewGameMessage = 22;
-		Type_RejoinExistingGameMessage = 23;
-		Type_JoinGameAckMessage = 24;
-		Type_JoinGameFailedMessage = 25;
-		Type_GamePlayerJoinedMessage = 26;
-		Type_GamePlayerLeftMessage = 27;
-		Type_GameAdminChangedMessage = 28;
-		Type_RemovedFromGameMessage = 29;
-		Type_KickPlayerRequestMessage = 30;
-		Type_LeaveGameRequestMessage = 31;
-		Type_InvitePlayerToGameMessage = 32;
-		Type_InviteNotifyMessage = 33;
-		Type_RejectGameInvitationMessage = 34;
-		Type_RejectInvNotifyMessage = 35;
-		Type_StartEventMessage = 36;
-		Type_StartEventAckMessage = 37;
-		Type_GameStartInitialMessage = 38;
-		Type_GameStartRejoinMessage = 39;
-		Type_HandStartMessage = 40;
-		Type_PlayersTurnMessage = 41;
-		Type_MyActionRequestMessage = 42;
-		Type_YourActionRejectedMessage = 43;
-		Type_PlayersActionDoneMessage = 44;
-		Type_DealFlopCardsMessage = 45;
-		Type_DealTurnCardMessage = 46;
-		Type_DealRiverCardMessage = 47;
-		Type_AllInShowCardsMessage = 48;
-		Type_EndOfHandShowCardsMessage = 49;
-		Type_EndOfHandHideCardsMessage = 50;
-		Type_ShowMyCardsRequestMessage = 51;
-		Type_AfterHandShowCardsMessage = 52;
-		Type_EndOfGameMessage = 53;
-		Type_PlayerIdChangedMessage = 54;
-		Type_AskKickPlayerMessage = 55;
-		Type_AskKickDeniedMessage = 56;
-		Type_StartKickPetitionMessage = 57;
-		Type_VoteKickRequestMessage = 58;
-		Type_VoteKickReplyMessage = 59;
-		Type_KickPetitionUpdateMessage = 60;
-		Type_EndKickPetitionMessage = 61;
-		Type_StatisticsMessage = 62;
-		Type_ChatRequestMessage = 63;
-		Type_ChatMessage = 64;
-		Type_ChatRejectMessage = 65;
-		Type_DialogMessage = 66;
-		Type_TimeoutWarningMessage = 67;
-		Type_ResetTimeoutMessage = 68;
-		Type_ReportAvatarMessage = 69;
-		Type_ReportAvatarAckMessage = 70;
-		Type_ReportGameMessage = 71;
-		Type_ReportGameAckMessage = 72;
-		Type_ErrorMessage = 73;
-		Type_AdminRemoveGameMessage = 74;
-		Type_AdminRemoveGameAckMessage = 75;
-		Type_AdminBanPlayerMessage = 76;
-		Type_AdminBanPlayerAckMessage = 77;
-		Type_GameListSpectatorJoinedMessage = 78;
-		Type_GameListSpectatorLeftMessage = 79;
-		Type_GameSpectatorJoinedMessage = 80;
-		Type_GameSpectatorLeftMessage = 81;
+		Type_AuthMessage = 2;
+		Type_LobbyMessage = 3;
+		Type_GameMessage = 4;
 	}
 	required	PokerTHMessageType				messageType = 1;
 
 	optional	AnnounceMessage					announceMessage = 2;
-	optional	InitMessage						initMessage = 3;
-	optional	AuthServerChallengeMessage		authServerChallengeMessage = 4;
-	optional	AuthClientResponseMessage		authClientResponseMessage = 5;
-	optional	AuthServerVerificationMessage	authServerVerificationMessage = 6;
-	optional	InitAckMessage					initAckMessage = 7;
-	optional	AvatarRequestMessage			avatarRequestMessage = 8;
-	optional	AvatarHeaderMessage				avatarHeaderMessage = 9;
-	optional	AvatarDataMessage				avatarDataMessage = 10;
-	optional	AvatarEndMessage				avatarEndMessage = 11;
-	optional	UnknownAvatarMessage			unknownAvatarMessage = 12;
-	optional	PlayerListMessage				playerListMessage = 13;
-	optional	GameListNewMessage				gameListNewMessage = 14;
-	optional	GameListUpdateMessage			gameListUpdateMessage = 15;
-	optional	GameListPlayerJoinedMessage		gameListPlayerJoinedMessage = 16;
-	optional	GameListPlayerLeftMessage		gameListPlayerLeftMessage = 17;
-	optional	GameListAdminChangedMessage		gameListAdminChangedMessage = 18;
-	optional	PlayerInfoRequestMessage		playerInfoRequestMessage = 19;
-	optional	PlayerInfoReplyMessage			playerInfoReplyMessage = 20;
-	optional	SubscriptionRequestMessage		subscriptionRequestMessage = 21;
-	optional	JoinExistingGameMessage			joinExistingGameMessage = 22;
-	optional	JoinNewGameMessage				joinNewGameMessage = 23;
-	optional	RejoinExistingGameMessage		rejoinExistingGameMessage = 24;
-	optional	JoinGameAckMessage				joinGameAckMessage = 25;
-	optional	JoinGameFailedMessage			joinGameFailedMessage = 26;
-	optional	GamePlayerJoinedMessage			gamePlayerJoinedMessage = 27;
-	optional	GamePlayerLeftMessage			gamePlayerLeftMessage = 28;
-	optional	GameAdminChangedMessage			gameAdminChangedMessage = 29;
-	optional	RemovedFromGameMessage			removedFromGameMessage = 30;
-	optional	KickPlayerRequestMessage		kickPlayerRequestMessage = 31;
-	optional	LeaveGameRequestMessage			leaveGameRequestMessage = 32;
-	optional	InvitePlayerToGameMessage		invitePlayerToGameMessage = 33;
-	optional	InviteNotifyMessage				inviteNotifyMessage = 34;
-	optional	RejectGameInvitationMessage		rejectGameInvitationMessage = 35;
-	optional	RejectInvNotifyMessage			rejectInvNotifyMessage = 36;
-	optional	StartEventMessage				startEventMessage = 37;
-	optional	StartEventAckMessage			startEventAckMessage = 38;
-	optional	GameStartInitialMessage			gameStartInitialMessage = 39;
-	optional	GameStartRejoinMessage			gameStartRejoinMessage = 40;
-	optional	HandStartMessage				handStartMessage = 41;
-	optional	PlayersTurnMessage				playersTurnMessage = 42;
-	optional	MyActionRequestMessage			myActionRequestMessage = 43;
-	optional	YourActionRejectedMessage		yourActionRejectedMessage = 44;
-	optional	PlayersActionDoneMessage		playersActionDoneMessage = 45;
-	optional	DealFlopCardsMessage			dealFlopCardsMessage = 46;
-	optional	DealTurnCardMessage				dealTurnCardMessage = 47;
-	optional	DealRiverCardMessage			dealRiverCardMessage = 48;
-	optional	AllInShowCardsMessage			allInShowCardsMessage = 49;
-	optional	EndOfHandShowCardsMessage		endOfHandShowCardsMessage = 50;
-	optional	EndOfHandHideCardsMessage		endOfHandHideCardsMessage = 51;
-	optional	ShowMyCardsRequestMessage		showMyCardsRequestMessage = 52;
-	optional	AfterHandShowCardsMessage		afterHandShowCardsMessage = 53;
-	optional	EndOfGameMessage				endOfGameMessage = 54;
-	optional	PlayerIdChangedMessage			playerIdChangedMessage = 55;
-	optional	AskKickPlayerMessage			askKickPlayerMessage = 56;
-	optional	AskKickDeniedMessage			askKickDeniedMessage = 57;
-	optional	StartKickPetitionMessage		startKickPetitionMessage = 58;
-	optional	VoteKickRequestMessage			voteKickRequestMessage = 59;
-	optional	VoteKickReplyMessage			voteKickReplyMessage = 60;
-	optional	KickPetitionUpdateMessage		kickPetitionUpdateMessage = 61;
-	optional	EndKickPetitionMessage			endKickPetitionMessage = 62;
-	optional	StatisticsMessage				statisticsMessage = 63;
-	optional	ChatRequestMessage				chatRequestMessage = 64;
-	optional	ChatMessage						chatMessage = 65;
-	optional	ChatRejectMessage				chatRejectMessage = 66;
-	optional	DialogMessage					dialogMessage = 67;
-	optional	TimeoutWarningMessage			timeoutWarningMessage = 68;
-	optional	ResetTimeoutMessage				resetTimeoutMessage = 69;
-	optional	ReportAvatarMessage				reportAvatarMessage = 70;
-	optional	ReportAvatarAckMessage			reportAvatarAckMessage = 71;
-	optional	ReportGameMessage				reportGameMessage = 72;
-	optional	ReportGameAckMessage			reportGameAckMessage = 73;
-	optional	ErrorMessage					errorMessage = 74;
-	optional	AdminRemoveGameMessage			adminRemoveGameMessage = 75;
-	optional	AdminRemoveGameAckMessage		adminRemoveGameAckMessage = 76;
-	optional	AdminBanPlayerMessage			adminBanPlayerMessage = 77;
-	optional	AdminBanPlayerAckMessage		adminBanPlayerAckMessage = 78;
-	optional	GameListSpectatorJoinedMessage	gameListSpectatorJoinedMessage = 79;
-	optional	GameListSpectatorLeftMessage	gameListSpectatorLeftMessage = 80;
-	optional	GameSpectatorJoinedMessage		gameSpectatorJoinedMessage = 81;
-	optional	GameSpectatorLeftMessage		gameSpectatorLeftMessage = 82;
+	optional	AuthMessage						authMessage = 3;
+	optional	LobbyMessage					lobbyMessage = 4;
+	optional	GameMessage						gameMessage = 5;
 }
