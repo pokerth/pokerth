@@ -396,7 +396,6 @@ int CardsValue::cardsValue(int cards[4], int bestHand[4])
 	}
 
 	int color_2_idx, color_3_idx;
-	int temp2;
 
 	// Full House, Three of a Kind
 	temp1 = 0;
@@ -413,7 +412,7 @@ int CardsValue::cardsValue(int cards[4], int bestHand[4])
 			if(bestHand) {
 				kickerValue1 = determineKickerValue(temp1,0,0);
 				kickerValue2 = determineKickerValue(kickerValue1.remain,1,1);
-				temp2 = 0;
+                int temp2 = 0;
 				for(color_1_idx=3; color_1_idx>=0; color_1_idx--) {
 					if(temp2<2) bestHand[color_1_idx] += (cards[color_1_idx] & (kickerValue1.select | kickerValue2.select));
 					else bestHand[color_1_idx] += (cards[color_1_idx] & kickerValue1.select);
@@ -423,7 +422,7 @@ int CardsValue::cardsValue(int cards[4], int bestHand[4])
 			return 600000000 + determineKickerValue(temp1,0,1).factorValue;
 		} else {
 			// one times Three of a Kind
-			temp2 = temp1;
+            int temp2 = temp1;
 			temp1 = 0;
 			// check for additional pair
 			for(color_1_idx=0; color_1_idx<3; color_1_idx++) {
@@ -899,8 +898,6 @@ int CardsValue::cardsValueOld(int cards[7], int position[5])
 
 std::vector< std::vector<int> > CardsValue::calcCardsChance(GameState beRoID, int playerCards[2], int boardCards[5])
 {
-	int card_idx_1, card_idx_2;
-
 	std::vector< std::vector<int> > chance(2);
 	chance[0].assign(10,0);
 	chance[1].assign(10,0);
@@ -908,6 +905,7 @@ std::vector< std::vector<int> > CardsValue::calcCardsChance(GameState beRoID, in
 	int cards[4] = { 0,0,0,0 };
 	int sum = 0;
 
+    int card_idx_1;
 	for(card_idx_1=0; card_idx_1<2; card_idx_1++) cards[playerCards[card_idx_1]/13] |= (1 << (playerCards[card_idx_1]%13));
 
 	switch(beRoID) {
@@ -924,7 +922,7 @@ std::vector< std::vector<int> > CardsValue::calcCardsChance(GameState beRoID, in
 		for(card_idx_1=0; card_idx_1<51; card_idx_1++) {
 			if((cards[card_idx_1/13] & (1 << (card_idx_1%13))) == 0) {
 				cards[card_idx_1/13] |= (1 << (card_idx_1%13));
-				for(card_idx_2=card_idx_1+1; card_idx_2<52; card_idx_2++) {
+                for(int card_idx_2=card_idx_1+1; card_idx_2<52; card_idx_2++) {
 					if((cards[card_idx_2/13] & (1 << (card_idx_2%13))) == 0) {
 						cards[card_idx_2/13] |= (1 << (card_idx_2%13));
 						(chance[0][cardsValueShort(cards)])++;

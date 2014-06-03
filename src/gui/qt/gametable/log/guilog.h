@@ -137,6 +137,7 @@ private:
 	QTextBrowser* tb;
 	GameTableStyleReader *myStyle;
 	std::string mySqliteLogFileName;
+    bool newVersion;
 
 	friend class GuiWrapper;
 

@@ -2908,8 +2908,8 @@ void LocalPlayer::calcMyOdds()
 
 
 
-		int myCards[4] = { 0,0,0,0 };
-		int opponentCards[4] = { 0,0,0,0 };
+//		int myCards[4] = { 0,0,0,0 };
+//		int opponentCards[4] = { 0,0,0,0 };
 
 
 		int tempMyCardsValue;

@@ -42,6 +42,7 @@ using namespace std;
 
 guiLog::guiLog(gameTableImpl* w, ConfigFile *c) : myW(w), myConfig(c), myLogDir(0), myHtmlLogFile(0), myHtmlLogFile_old(0), myTxtLogFile(0), tb(0)
 {
+    newVersion = true;
 
 	myW->setGuiLog(this);
 	myStyle = myW->getMyGameTableStyle();
@@ -470,8 +471,6 @@ void guiLog::showLog(QString fileStringPdb, QTextBrowser *tb_tmp, int uniqueGame
 
 int guiLog::exportLog(QString fileStringPdb,int modus,int uniqueGameID_req)
 {
-	bool neu = true;
-
 	result_struct results;
 	results.result_Session = 0;
 	results.result_Game = 0;
@@ -567,7 +566,7 @@ int guiLog::exportLog(QString fileStringPdb,int modus,int uniqueGameID_req)
 		switch(modus) {
 		case 1:
 			log_string = "<h3><b>" + log_string + "</b></h3>\n";
-			// if(!neu) log_string = "<img src='logo.png'>\n" + log_string;
+            // if(!newVersion) log_string = "<img src='logo.png'>\n" + log_string;
 			break;
 		case 2:
 			log_string += "";
@@ -658,7 +657,7 @@ int guiLog::exportLog(QString fileStringPdb,int modus,int uniqueGameID_req)
 				switch(modus) {
 				case 1:
 					log_string = "<table><tr><td width=\"600\" align=\"center\"><hr noshade size=\"3\"><b>" + log_string;
-					if(!neu) log_string += "</b></td><td></td></tr></table>";
+                    if(!newVersion) log_string += "</b></td><td></td></tr></table>";
 					else log_string += "</b></td></tr></table>";
 					break;
 				case 2:
@@ -720,7 +719,7 @@ int guiLog::exportLog(QString fileStringPdb,int modus,int uniqueGameID_req)
 
 				switch(modus) {
 				case 1:
-					if(!neu) log_string += "</br>";
+                    if(!newVersion) log_string += "</br>";
 					else log_string += "<br />";
 					break;
 				case 2:
@@ -758,7 +757,7 @@ int guiLog::exportLog(QString fileStringPdb,int modus,int uniqueGameID_req)
 								log_string += ")";
 								switch(modus) {
 								case 1:
-									if(!neu) log_string += "</br>";
+                                    if(!newVersion) log_string += "</br>";
 									else log_string += "<br />";
 									break;
 								case 2:
@@ -781,7 +780,7 @@ int guiLog::exportLog(QString fileStringPdb,int modus,int uniqueGameID_req)
 					}
 				}
 
-				if(neu) {
+                if(newVersion) {
 
 					if(modus == 1) log_string += "<br />";
 
@@ -903,7 +902,7 @@ int guiLog::exportLog(QString fileStringPdb,int modus,int uniqueGameID_req)
 					if(nRow_Action == 1) {
 						switch(modus) {
 						case 1:
-							if(!neu) log_string += "</br>";
+                            if(!newVersion) log_string += "</br>";
 							else log_string += "<br />";
 							break;
 						case 2:
@@ -921,7 +920,7 @@ int guiLog::exportLog(QString fileStringPdb,int modus,int uniqueGameID_req)
 
 				}
 
-				if(!neu && modus==1) log_string += "</br>";
+                if(!newVersion && modus==1) log_string += "</br>";
 
 				writeLog(log_string,modus);
 				log_string = "";
@@ -949,10 +948,10 @@ int guiLog::exportLog(QString fileStringPdb,int modus,int uniqueGameID_req)
 						}
 						switch(modus) {
 						case 1:
-							if(!neu) round_string = "</br><b>" + round_string + "</b>";
+                            if(!newVersion) round_string = "</br><b>" + round_string + "</b>";
 							else round_string = "<br /><b>" + round_string + "</b>";
 							if(round_ctr >= GAME_STATE_FLOP) {
-								if(!neu) round_string = "</br>\n" + round_string;
+                                if(!newVersion) round_string = "</br>\n" + round_string;
 								else round_string = "<br />\n" + round_string;
 							}
 							break;
@@ -1019,7 +1018,7 @@ int guiLog::exportLog(QString fileStringPdb,int modus,int uniqueGameID_req)
 					for(action_ctr=1; action_ctr<=nRow_Action; action_ctr++) {
 						switch(modus) {
 						case 1:
-							if(!neu) {
+                            if(!newVersion) {
 								if(action_ctr>1 && (boost::lexical_cast<std::string>(results.result_Action[3*(action_ctr-1)+1]) == "wins" || boost::lexical_cast<std::string>(results.result_Action[3*(action_ctr-1)+1]) == "sits out" || boost::lexical_cast<std::string>(results.result_Action[3*(action_ctr-1)+1]) == "wins (side pot)"))
 									log_string += "\n";
 								else
@@ -1037,7 +1036,7 @@ int guiLog::exportLog(QString fileStringPdb,int modus,int uniqueGameID_req)
 						default:
 							;
 						}
-						if(!neu && boost::lexical_cast<std::string>(results.result_Action[3*action_ctr+1]) == "wins (side pot)") {
+                        if(!newVersion && boost::lexical_cast<std::string>(results.result_Action[3*action_ctr+1]) == "wins (side pot)") {
 							action_string += player[boost::lexical_cast<int>(results.result_Action[3*action_ctr])-1];
 							action_string += " wins $";
 							action_string += boost::lexical_cast<std::string>(results.result_Action[3*action_ctr+2]);
@@ -1057,7 +1056,7 @@ int guiLog::exportLog(QString fileStringPdb,int modus,int uniqueGameID_req)
 						if(boost::lexical_cast<std::string>(results.result_Action[3*action_ctr+1]) == "wins game") {
 							switch(modus) {
 							case 1:
-								if(!neu) action_string = "</br></br><i><b>" + action_string + " " + boost::lexical_cast<std::string>(gameID) + "!</i></b></br>";
+                                if(!newVersion) action_string = "</br></br><i><b>" + action_string + " " + boost::lexical_cast<std::string>(gameID) + "!</i></b></br>";
 								else action_string = "</br><i><b>" + action_string + " " + boost::lexical_cast<std::string>(gameID) + "!</b></i>";
 								break;
 							case 2:
@@ -1075,7 +1074,7 @@ int guiLog::exportLog(QString fileStringPdb,int modus,int uniqueGameID_req)
 						if(boost::lexical_cast<std::string>(results.result_Action[3*action_ctr+1]) == "wins" || boost::lexical_cast<std::string>(results.result_Action[3*action_ctr+1]) == "wins (side pot)") {
 							switch(modus) {
 							case 1:
-								if(!neu) action_string = "</br><i>" + action_string + "</i>";
+                                if(!newVersion) action_string = "</br><i>" + action_string + "</i>";
 								else action_string = "<i>" + action_string + "</i>";
 								break;
 							case 3:
@@ -1090,7 +1089,7 @@ int guiLog::exportLog(QString fileStringPdb,int modus,int uniqueGameID_req)
 						if(boost::lexical_cast<std::string>(results.result_Action[3*action_ctr+1]) == "has left the game" || boost::lexical_cast<std::string>(results.result_Action[3*action_ctr+1]) == "was kicked from the game" || boost::lexical_cast<std::string>(results.result_Action[3*action_ctr+1]) == "is game admin now" || boost::lexical_cast<std::string>(results.result_Action[3*action_ctr+1]) == "has joined the game") {
 							switch(modus) {
 							case 1:
-								if(!neu) action_string = "<i>" + action_string + "!</i>";
+                                if(!newVersion) action_string = "<i>" + action_string + "!</i>";
 								else action_string = "<i>" + action_string + "</i>";
 								break;
 							case 3:
@@ -1105,7 +1104,7 @@ int guiLog::exportLog(QString fileStringPdb,int modus,int uniqueGameID_req)
 						if(boost::lexical_cast<std::string>(results.result_Action[3*action_ctr+1]) == "sits out") {
 							switch(modus) {
 							case 1:
-								if(!neu) action_string = "</br><i><span style=\"font-size:smaller;\">" + action_string + "</span></i>";
+                                if(!newVersion) action_string = "</br><i><span style=\"font-size:smaller;\">" + action_string + "</span></i>";
 								else action_string = "<i><span style=\"font-size:smaller;\">" + action_string + "</span></i>";
 								break;
 							case 3:
@@ -1122,7 +1121,7 @@ int guiLog::exportLog(QString fileStringPdb,int modus,int uniqueGameID_req)
 						// show cards
 						if(boost::lexical_cast<std::string>(results.result_Action[3*action_ctr+1]) == "shows" || boost::lexical_cast<std::string>(results.result_Action[3*action_ctr+1]) == "has") {
 							// log cards
-							if(!neu && round_ctr == GAME_STATE_POST_RIVER) log_string += " [ ";
+                            if(!newVersion && round_ctr == GAME_STATE_POST_RIVER) log_string += " [ ";
 							else log_string += " [";
 							if(modus == 1 || modus == 3) log_string += "<b>";
 
@@ -1193,10 +1192,10 @@ int guiLog::exportLog(QString fileStringPdb,int modus,int uniqueGameID_req)
 
 						}
 
-						if(!neu && boost::lexical_cast<std::string>(results.result_Action[3*action_ctr+1]) != "wins" && boost::lexical_cast<std::string>(results.result_Action[3*action_ctr+1]) != "shows" && boost::lexical_cast<std::string>(results.result_Action[3*action_ctr+1]) != "has" && boost::lexical_cast<std::string>(results.result_Action[3*action_ctr+1]) != "sits out" && boost::lexical_cast<std::string>(results.result_Action[3*action_ctr+1]) != "wins (side pot)" && boost::lexical_cast<std::string>(results.result_Action[3*action_ctr+1]) != "wins game" && boost::lexical_cast<std::string>(results.result_Action[3*action_ctr+1]) != "has left the game" && boost::lexical_cast<std::string>(results.result_Action[3*action_ctr+1]) != "was kicked from the game" && boost::lexical_cast<std::string>(results.result_Action[3*action_ctr+1]) != "is game admin now" && boost::lexical_cast<std::string>(results.result_Action[3*action_ctr+1]) != "has joined the game") {
+                        if(!newVersion && boost::lexical_cast<std::string>(results.result_Action[3*action_ctr+1]) != "wins" && boost::lexical_cast<std::string>(results.result_Action[3*action_ctr+1]) != "shows" && boost::lexical_cast<std::string>(results.result_Action[3*action_ctr+1]) != "has" && boost::lexical_cast<std::string>(results.result_Action[3*action_ctr+1]) != "sits out" && boost::lexical_cast<std::string>(results.result_Action[3*action_ctr+1]) != "wins (side pot)" && boost::lexical_cast<std::string>(results.result_Action[3*action_ctr+1]) != "wins game" && boost::lexical_cast<std::string>(results.result_Action[3*action_ctr+1]) != "has left the game" && boost::lexical_cast<std::string>(results.result_Action[3*action_ctr+1]) != "was kicked from the game" && boost::lexical_cast<std::string>(results.result_Action[3*action_ctr+1]) != "is game admin now" && boost::lexical_cast<std::string>(results.result_Action[3*action_ctr+1]) != "has joined the game") {
 							log_string += ".";
 						}
-						if(neu && boost::lexical_cast<std::string>(results.result_Action[3*action_ctr+1]) != "wins game" && boost::lexical_cast<std::string>(results.result_Action[3*action_ctr+1]) != "has left the game" && boost::lexical_cast<std::string>(results.result_Action[3*action_ctr+1]) != "was kicked from the game" && boost::lexical_cast<std::string>(results.result_Action[3*action_ctr+1]) != "is game admin now" && boost::lexical_cast<std::string>(results.result_Action[3*action_ctr+1]) != "has joined the game")
+                        if(newVersion && boost::lexical_cast<std::string>(results.result_Action[3*action_ctr+1]) != "wins game" && boost::lexical_cast<std::string>(results.result_Action[3*action_ctr+1]) != "has left the game" && boost::lexical_cast<std::string>(results.result_Action[3*action_ctr+1]) != "was kicked from the game" && boost::lexical_cast<std::string>(results.result_Action[3*action_ctr+1]) != "is game admin now" && boost::lexical_cast<std::string>(results.result_Action[3*action_ctr+1]) != "has joined the game")
 							log_string += ".";
 
 					}
