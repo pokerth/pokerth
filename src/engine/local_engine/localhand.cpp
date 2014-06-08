@@ -158,19 +158,19 @@ void LocalHand::start()
 void LocalHand::assignButtons()
 {
 
-    PlayerListIterator seatIt;
+	PlayerListIterator seatIt;
 
 	// delete all buttons
-    for (seatIt=seatsList->begin(); seatIt!=seatsList->end(); ++seatIt) {
-        (*seatIt)->setMyButton(BUTTON_NONE);
+	for (seatIt=seatsList->begin(); seatIt!=seatsList->end(); ++seatIt) {
+		(*seatIt)->setMyButton(BUTTON_NONE);
 	}
 
 	// assign dealer button
-    seatIt = getSeatIt(dealerPosition);
-    if(seatIt == seatsList->end()) {
+	seatIt = getSeatIt(dealerPosition);
+	if(seatIt == seatsList->end()) {
 		throw LocalException(__FILE__, __LINE__, ERR_SEAT_NOT_FOUND);
 	}
-    (*seatIt)->setMyButton(BUTTON_DEALER);
+	(*seatIt)->setMyButton(BUTTON_DEALER);
 
 
 	// assign Small Blind next to dealer. ATTENTION: in heads up it is big blind
@@ -181,40 +181,40 @@ void LocalHand::assignButtons()
 		throw LocalException(__FILE__, __LINE__, ERR_SEAT_NOT_FOUND);
 	}
 
-    for(size_t i=0; i<seatsList->size(); i++) {
+	for(size_t i=0; i<seatsList->size(); i++) {
 
 		++dealerPositionIt;
 		if(dealerPositionIt == seatsList->end()) dealerPositionIt = seatsList->begin();
 
-        PlayerListIterator activePlayerIt = getActivePlayerIt( (*dealerPositionIt)->getMyUniqueID() );
-        if(activePlayerIt != activePlayerList->end() ) {
+		PlayerListIterator activePlayerIt = getActivePlayerIt( (*dealerPositionIt)->getMyUniqueID() );
+		if(activePlayerIt != activePlayerList->end() ) {
 			nextActivePlayerFound = true;
 			if(activePlayerList->size() > 2) {
 				//small blind normal
-                (*activePlayerIt)->setMyButton(2);
-                smallBlindPosition = (*activePlayerIt)->getMyUniqueID();
+				(*activePlayerIt)->setMyButton(2);
+				smallBlindPosition = (*activePlayerIt)->getMyUniqueID();
 			} else {
 				//big blind in heads up
-                (*activePlayerIt)->setMyButton(3);
-                bigBlindPosition = (*activePlayerIt)->getMyUniqueID();
+				(*activePlayerIt)->setMyButton(3);
+				bigBlindPosition = (*activePlayerIt)->getMyUniqueID();
 				// lastPlayerAction for showing cards
 			}
 
 			// first player after dealer have to show his cards first (in showdown)
-            lastActionPlayerID = (*activePlayerIt)->getMyUniqueID();
+			lastActionPlayerID = (*activePlayerIt)->getMyUniqueID();
 			myBoard->setLastActionPlayerID(lastActionPlayerID);
 
-            ++activePlayerIt;
-            if(activePlayerIt == activePlayerList->end()) activePlayerIt = activePlayerList->begin();
+			++activePlayerIt;
+			if(activePlayerIt == activePlayerList->end()) activePlayerIt = activePlayerList->begin();
 
 			if(activePlayerList->size() > 2) {
 				//big blind normal
-                (*activePlayerIt)->setMyButton(3);
-                bigBlindPosition = (*activePlayerIt)->getMyUniqueID();
+				(*activePlayerIt)->setMyButton(3);
+				bigBlindPosition = (*activePlayerIt)->getMyUniqueID();
 			} else {
 				//small blind in heads up
-                (*activePlayerIt)->setMyButton(2);
-                smallBlindPosition = (*activePlayerIt)->getMyUniqueID();
+				(*activePlayerIt)->setMyButton(2);
+				smallBlindPosition = (*activePlayerIt)->getMyUniqueID();
 			}
 
 			break;

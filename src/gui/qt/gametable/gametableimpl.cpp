@@ -4310,8 +4310,7 @@ void gameTableImpl::restoreGameTableGeometry()
 		int availableHeight = dw.screenGeometry().height();
 		this->showNormal();
 		this->setGeometry(0,0,availableWidth, availableHeight);
-	}
-	else {
+	} else {
 		this->showFullScreen();
 	}
 #endif

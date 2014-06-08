@@ -180,8 +180,8 @@ void LogFileDialog::exportLogToTxt()
 	if(selectedItem) {
 		QFileInfo fi(selectedItem->data(0, Qt::UserRole).toString());
 		QFileDialog dlg(this, tr("Export PokerTH log file to plain text"),
-						 QDir::homePath()+"/"+fi.baseName()+".txt",
-						 tr("PokerTH plain text log (*.txt)"));
+						QDir::homePath()+"/"+fi.baseName()+".txt",
+						tr("PokerTH plain text log (*.txt)"));
 		dlg.setFileMode(QFileDialog::AnyFile);
 		dlg.setAcceptMode(QFileDialog::AcceptSave);
 #ifdef ANDROID
@@ -251,8 +251,7 @@ void LogFileDialog::keyPressEvent ( QKeyEvent * event )
 		if(ui->treeWidget_logFiles->hasFocus()) {
 			ui->pushButton_deleteLog->click();
 		}
-	}
-	else {
+	} else {
 		QDialog::keyPressEvent(event);
 	}
 }
