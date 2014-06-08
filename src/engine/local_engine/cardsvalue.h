@@ -58,6 +58,8 @@ public:
 	static int holeCardsToIntCode(int[2]);
 
 	static std::vector< std::vector<int> > calcCardsChance(GameState, int[2], int[5]);
+
+	static int bitcount(int in);
 	//static int** showdown(GameState, int**, int);
 
 };

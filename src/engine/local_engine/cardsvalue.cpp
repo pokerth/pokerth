@@ -255,7 +255,7 @@ int CardsValue::cardsValueShort(int cards[4])
 
 	// Royal Flush, Straight Flush, Flush
 	for(color_idx=0; color_idx<4; color_idx++) { // check all colors
-		if(Tools::bitcount(cards[color_idx])>=5) { // check if at least 5 cards of one color
+		if(bitcount(cards[color_idx])>=5) { // check if at least 5 cards of one color
 			if((cards[color_idx] & straight[0]) == straight[0]) // check for Royal Flush
 				return 9;
 			else { // check for Straight Flush
@@ -293,7 +293,7 @@ int CardsValue::cardsValueShort(int cards[4])
 		for(color_2_idx=color_1_idx+1; color_2_idx<3; color_2_idx++) {
 			for(color_3_idx=color_2_idx+1; color_3_idx<4; color_3_idx++) {
 				temp = cards[color_1_idx] & cards[color_2_idx] & cards[color_3_idx];
-				if(Tools::bitcount(temp) == 2) { // two times Three of a Kind
+				if(bitcount(temp) == 2) { // two times Three of a Kind
 					return 6; // Full House
 				} else {
 					if(temp) {
@@ -315,7 +315,7 @@ int CardsValue::cardsValueShort(int cards[4])
 	for(color_1_idx=0; color_1_idx<3; color_1_idx++) {
 		for(color_2_idx=color_1_idx+1; color_2_idx<4; color_2_idx++) {
 			temp = cards[color_1_idx] & cards[color_2_idx];
-			if(Tools::bitcount(temp) >= 2) { // at least two times Two of a Kind
+			if(bitcount(temp) >= 2) { // at least two times Two of a Kind
 				return 2; // Two Pairs
 			} else {
 				if(temp) { // search for second pair
@@ -343,7 +343,7 @@ int CardsValue::cardsValue(int cards[4], int bestHand[4])
 
 	// Royal Flush, Straight Flush, Flush
 	for(color_1_idx=0; color_1_idx<4; color_1_idx++) { // check all colors
-		if(Tools::bitcount(cards[color_1_idx])>=5) { // check if at least 5 cards of one color
+		if(bitcount(cards[color_1_idx])>=5) { // check if at least 5 cards of one color
 			if((cards[color_1_idx] & straight[0]) == straight[0]) { // check for Royal Flush
 				if(bestHand) bestHand[color_1_idx] = straight[0];
 				return 900000000; // Royal Flush
@@ -407,12 +407,12 @@ int CardsValue::cardsValue(int cards[4], int bestHand[4])
 		}
 	}
 	if(temp1) {
-		if(Tools::bitcount(temp1) == 2) {
+		if(bitcount(temp1) == 2) {
 			// two times Three of a Kind
 			if(bestHand) {
 				kickerValue1 = determineKickerValue(temp1,0,0);
 				kickerValue2 = determineKickerValue(kickerValue1.remain,1,1);
-                int temp2 = 0;
+				int temp2 = 0;
 				for(color_1_idx=3; color_1_idx>=0; color_1_idx--) {
 					if(temp2<2) bestHand[color_1_idx] += (cards[color_1_idx] & (kickerValue1.select | kickerValue2.select));
 					else bestHand[color_1_idx] += (cards[color_1_idx] & kickerValue1.select);
@@ -422,7 +422,7 @@ int CardsValue::cardsValue(int cards[4], int bestHand[4])
 			return 600000000 + determineKickerValue(temp1,0,1).factorValue;
 		} else {
 			// one times Three of a Kind
-            int temp2 = temp1;
+			int temp2 = temp1;
 			temp1 = 0;
 			// check for additional pair
 			for(color_1_idx=0; color_1_idx<3; color_1_idx++) {
@@ -459,7 +459,7 @@ int CardsValue::cardsValue(int cards[4], int bestHand[4])
 		}
 	}
 	if(temp1) {
-		if(Tools::bitcount(temp1) >= 2) { // at least two times Two of a Kind
+		if(bitcount(temp1) >= 2) { // at least two times Two of a Kind
 			kickerValue1 = determineKickerValue(temp1,0,1);
 			kickerValue2 = determineKickerValue(OR & ~kickerValue1.select,2,2);
 			if(bestHand) {
@@ -905,7 +905,7 @@ std::vector< std::vector<int> > CardsValue::calcCardsChance(GameState beRoID, in
 	int cards[4] = { 0,0,0,0 };
 	int sum = 0;
 
-    int card_idx_1;
+	int card_idx_1;
 	for(card_idx_1=0; card_idx_1<2; card_idx_1++) cards[playerCards[card_idx_1]/13] |= (1 << (playerCards[card_idx_1]%13));
 
 	switch(beRoID) {
@@ -922,7 +922,7 @@ std::vector< std::vector<int> > CardsValue::calcCardsChance(GameState beRoID, in
 		for(card_idx_1=0; card_idx_1<51; card_idx_1++) {
 			if((cards[card_idx_1/13] & (1 << (card_idx_1%13))) == 0) {
 				cards[card_idx_1/13] |= (1 << (card_idx_1%13));
-                for(int card_idx_2=card_idx_1+1; card_idx_2<52; card_idx_2++) {
+				for(int card_idx_2=card_idx_1+1; card_idx_2<52; card_idx_2++) {
 					if((cards[card_idx_2/13] & (1 << (card_idx_2%13))) == 0) {
 						cards[card_idx_2/13] |= (1 << (card_idx_2%13));
 						(chance[0][cardsValueShort(cards)])++;
@@ -2570,6 +2570,16 @@ std::list<std::string> CardsValue::translateCardsValueCode(int cardsValueCode)
 
 	return cardString;
 
+}
+
+int CardsValue::bitcount(int in)
+{
+	int count=0 ;
+	while (in) {
+		count++ ;
+		in &= (in - 1) ;
+	}
+	return count ;
 }
 
 
