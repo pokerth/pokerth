@@ -51,7 +51,6 @@ public:
 	static int cardsValueShort(int[4]);
 	static int cardsValue(int[4], int[4] = 0);
 	static KickerValue determineKickerValue(int, int, int);
-	static int cardsValueOld(int[7], int[5]);
 	static std::string determineHandName(int myCardsValueInt, PlayerList activePlayerList);
 	static std::list<std::string> translateCardsValueCode(int cardsValueCode);
 
