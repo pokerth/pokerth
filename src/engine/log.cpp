@@ -755,22 +755,22 @@ Log::debugMode_getStartDealerPosition(unsigned* dealerPosition)
 }
 
 void
-Log::debugMode_getBoardCards(int *tempBoardArray, int handID)
+Log::debugMode_getBoardCards(int *boardCards, int handID)
 {
 	if(debug_mode) {
 		if((unsigned)handID <= sizeof(debug_mode_boardCards)/sizeof(unsigned)/5) {
-			for(int i=0; i<5; i++) tempBoardArray[i] = debug_mode_boardCards[handID-1][i];
+			for(int i=0; i<5; i++) boardCards[i] = debug_mode_boardCards[handID-1][i];
 		}
 	}
 }
 
 void
-Log::debugMode_getPlayerCards(int *tempPlayerArray, int handID, int seatID)
+Log::debugMode_getPlayerCards(int *playerCards, int handID, int seatID)
 {
 	if(debug_mode) {
 		if((unsigned)handID <= sizeof(debug_mode_playerCards)/sizeof(int)/MAX_NUMBER_OF_PLAYERS/2) {
 			for(int i=0; i<2; i++) {
-				if(debug_mode_playerCards[handID-1][seatID][i]>=0) tempPlayerArray[i] = debug_mode_playerCards[handID-1][seatID][i];
+				if(debug_mode_playerCards[handID-1][seatID][i]>=0) playerCards[i] = debug_mode_playerCards[handID-1][seatID][i];
 			}
 		}
 	}

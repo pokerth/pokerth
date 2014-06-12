@@ -636,7 +636,7 @@ int CardsValue::cardsValueOld(int cards[7], int position[5])
 	// Karten fr den Vierling-, Full-House-, Drilling- und Paartest umsortieren
 	for(k1=0; k1<7; k1++) {
 		for(k2=k1+1; k2<7; k2++) {
-			if(array[k1][1]<array[k2][1]) {
+			if(array[k1][1]<array[k2][1] || (array[k1][1]==array[k2][1] && array[k1][0]<array[k2][0])) { // gleiche kartenwerte nach farben abwärts
 				ktemp[0] = array[k1][0];
 				ktemp[1] = array[k1][1];
 				ktemp[2] = array[k1][2];
@@ -650,22 +650,22 @@ int CardsValue::cardsValueOld(int cards[7], int position[5])
 		}
 	}
 
-	// nach Position sortieren: erst board, dann hole cards
-	for(k1=0; k1<7; k1++) {
-		for(k2=k1+1; k2<7; k2++) {
-			if(array[k1][1]==array[k2][1] && array[k1][2]<array[k2][2]) {
-				ktemp[0] = array[k1][0];
-				ktemp[1] = array[k1][1];
-				ktemp[2] = array[k1][2];
-				array[k1][0] = array[k2][0];
-				array[k1][1] = array[k2][1];
-				array[k1][2] = array[k2][2];
-				array[k2][0] = ktemp[0];
-				array[k2][1] = ktemp[1];
-				array[k2][2] = ktemp[2];
-			}
-		}
-	}
+//	// nach Position sortieren: erst board, dann hole cards
+//	for(k1=0; k1<7; k1++) {
+//		for(k2=k1+1; k2<7; k2++) {
+//			if(array[k1][1]==array[k2][1] && array[k1][2]<array[k2][2]) {
+//				ktemp[0] = array[k1][0];
+//				ktemp[1] = array[k1][1];
+//				ktemp[2] = array[k1][2];
+//				array[k1][0] = array[k2][0];
+//				array[k1][1] = array[k2][1];
+//				array[k1][2] = array[k2][2];
+//				array[k2][0] = ktemp[0];
+//				array[k2][1] = ktemp[1];
+//				array[k2][2] = ktemp[2];
+//			}
+//		}
+//	}
 
 	// auf Vierling (Klasse 7) testen
 	for(j1=0; j1<4; j1++) {
@@ -2578,8 +2578,36 @@ int CardsValue::bitcount(int in)
 	while (in) {
 		count++ ;
 		in &= (in - 1) ;
+
 	}
 	return count ;
+}
+
+int
+CardsValue::bestHandToPosition(int bestHand[4], int cardArray[7], int position[5])
+{
+
+	for(int card_idx=0; card_idx<5; card_idx++) position[card_idx] = -1;
+
+	int position_ctr = 0;
+	for(int color_idx=0; color_idx<4; color_idx++) {
+		for(int card_idx_1=0; card_idx_1<13; card_idx_1++) {
+			if(bestHand[color_idx] & (1<<card_idx_1)) {
+				for(int card_idx_2=0; card_idx_2<7; card_idx_2++) {
+					if(cardArray[card_idx_2] == color_idx*13+card_idx_1) {
+						if(position_ctr<5) {
+							position[position_ctr] = card_idx_2;
+							position_ctr++;
+						} else {
+							return 0;
+						}
+					}
+				}
+			}
+		}
+	}
+	if(position_ctr!=5) return 0;
+	else return 1;
 }
 
 
