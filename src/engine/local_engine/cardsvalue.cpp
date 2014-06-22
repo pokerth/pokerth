@@ -255,7 +255,7 @@ int CardsValue::cardsValueShort(int cards[4])
 
 	// Royal Flush, Straight Flush, Flush
 	for(color_idx=0; color_idx<4; color_idx++) { // check all colors
-		if(Tools::bitcount(cards[color_idx])>=5) { // check if at least 5 cards of one color
+		if(bitcount(cards[color_idx])>=5) { // check if at least 5 cards of one color
 			if((cards[color_idx] & straight[0]) == straight[0]) // check for Royal Flush
 				return 9;
 			else { // check for Straight Flush
@@ -293,7 +293,7 @@ int CardsValue::cardsValueShort(int cards[4])
 		for(color_2_idx=color_1_idx+1; color_2_idx<3; color_2_idx++) {
 			for(color_3_idx=color_2_idx+1; color_3_idx<4; color_3_idx++) {
 				temp = cards[color_1_idx] & cards[color_2_idx] & cards[color_3_idx];
-				if(Tools::bitcount(temp) == 2) { // two times Three of a Kind
+				if(bitcount(temp) == 2) { // two times Three of a Kind
 					return 6; // Full House
 				} else {
 					if(temp) {
@@ -315,7 +315,7 @@ int CardsValue::cardsValueShort(int cards[4])
 	for(color_1_idx=0; color_1_idx<3; color_1_idx++) {
 		for(color_2_idx=color_1_idx+1; color_2_idx<4; color_2_idx++) {
 			temp = cards[color_1_idx] & cards[color_2_idx];
-			if(Tools::bitcount(temp) >= 2) { // at least two times Two of a Kind
+			if(bitcount(temp) >= 2) { // at least two times Two of a Kind
 				return 2; // Two Pairs
 			} else {
 				if(temp) { // search for second pair
@@ -343,7 +343,7 @@ int CardsValue::cardsValue(int cards[4], int bestHand[4])
 
 	// Royal Flush, Straight Flush, Flush
 	for(color_1_idx=0; color_1_idx<4; color_1_idx++) { // check all colors
-		if(Tools::bitcount(cards[color_1_idx])>=5) { // check if at least 5 cards of one color
+		if(bitcount(cards[color_1_idx])>=5) { // check if at least 5 cards of one color
 			if((cards[color_1_idx] & straight[0]) == straight[0]) { // check for Royal Flush
 				if(bestHand) bestHand[color_1_idx] = straight[0];
 				return 900000000; // Royal Flush
@@ -396,7 +396,6 @@ int CardsValue::cardsValue(int cards[4], int bestHand[4])
 	}
 
 	int color_2_idx, color_3_idx;
-	int temp2;
 
 	// Full House, Three of a Kind
 	temp1 = 0;
@@ -408,12 +407,12 @@ int CardsValue::cardsValue(int cards[4], int bestHand[4])
 		}
 	}
 	if(temp1) {
-		if(Tools::bitcount(temp1) == 2) {
+		if(bitcount(temp1) == 2) {
 			// two times Three of a Kind
 			if(bestHand) {
 				kickerValue1 = determineKickerValue(temp1,0,0);
 				kickerValue2 = determineKickerValue(kickerValue1.remain,1,1);
-				temp2 = 0;
+				int temp2 = 0;
 				for(color_1_idx=3; color_1_idx>=0; color_1_idx--) {
 					if(temp2<2) bestHand[color_1_idx] += (cards[color_1_idx] & (kickerValue1.select | kickerValue2.select));
 					else bestHand[color_1_idx] += (cards[color_1_idx] & kickerValue1.select);
@@ -423,7 +422,7 @@ int CardsValue::cardsValue(int cards[4], int bestHand[4])
 			return 600000000 + determineKickerValue(temp1,0,1).factorValue;
 		} else {
 			// one times Three of a Kind
-			temp2 = temp1;
+			int temp2 = temp1;
 			temp1 = 0;
 			// check for additional pair
 			for(color_1_idx=0; color_1_idx<3; color_1_idx++) {
@@ -460,7 +459,7 @@ int CardsValue::cardsValue(int cards[4], int bestHand[4])
 		}
 	}
 	if(temp1) {
-		if(Tools::bitcount(temp1) >= 2) { // at least two times Two of a Kind
+		if(bitcount(temp1) >= 2) { // at least two times Two of a Kind
 			kickerValue1 = determineKickerValue(temp1,0,1);
 			kickerValue2 = determineKickerValue(OR & ~kickerValue1.select,2,2);
 			if(bestHand) {
@@ -518,389 +517,8 @@ KickerValue CardsValue::determineKickerValue(int testValue, int factorPointerSta
 	return kickerValue;
 }
 
-int CardsValue::cardsValueOld(int cards[7], int position[5])
-{
-
-	int array[7][3];
-	int j1, j2, j3, j4, j5, k1, k2, ktemp[3];
-
-	// Kartenwerte umwandeln (z.B. [ 11 (Karo K�ig) -> 0 11 ] oder [ 31 (Pik 7) -> 2 5 ] )
-	for(j1=0; j1<7; j1++) {
-		array[j1][0] = cards[j1]/13;
-		array[j1][1] = cards[j1]%13;
-		array[j1][2] = j1;
-	}
-
-	// Karten nach Farben sortieren: Kreuz - Pik - Herz - Karo
-	for(k1=0; k1<7; k1++) {
-		for(k2=k1+1; k2<7; k2++) {
-			if(array[k1][0]<array[k2][0]) {
-				ktemp[0] = array[k1][0];
-				ktemp[1] = array[k1][1];
-				ktemp[2] = array[k1][2];
-				array[k1][0] = array[k2][0];
-				array[k1][1] = array[k2][1];
-				array[k1][2] = array[k2][2];
-				array[k2][0] = ktemp[0];
-				array[k2][1] = ktemp[1];
-				array[k2][2] = ktemp[2];
-			}
-		}
-	}
-
-	// Karten innerhalb der Farben nach der Gr�e sortieren: Ass - K�ig - Dame - ... - 4 - 3 - 2
-	for(k1=0; k1<7; k1++) {
-		for(k2=k1+1; k2<7; k2++) {
-			if(array[k1][0]==array[k2][0] && array[k1][1]<array[k2][1]) {
-				ktemp[0] = array[k1][0];
-				ktemp[1] = array[k1][1];
-				ktemp[2] = array[k1][2];
-				array[k1][0] = array[k2][0];
-				array[k1][1] = array[k2][1];
-				array[k1][2] = array[k2][2];
-				array[k2][0] = ktemp[0];
-				array[k2][1] = ktemp[1];
-				array[k2][2] = ktemp[2];
-			}
-		}
-	}
-
-	// Karten auf Bl�ter testen. Klasseneinteilung absteigend: 9 - Royal Flush, 8 - Straight Flush, ... 2 - Zwei Paare, 1 - Ein Paar, 0 - Nischt
-
-	// auf Royal Flush (Klasse 9) und Straight Flush (Klasse 8) testen
-	for(j1=0; j1<3; j1++) {
-		// 5 Karten gleiche Farbe ?
-		if(array[j1][0] == array[j1+1][0] && array[j1][0] == array[j1+2][0] && array[j1][0] == array[j1+3][0] && array[j1][0] == array[j1+4][0]) {
-			// zus�zlich in Stra�nform ?
-			if(array[j1][1]-1 == array[j1+1][1] && array[j1+1][1]-1 == array[j1+2][1] && array[j1+2][1]-1 == array[j1+3][1] && array[j1+3][1]-1 == array[j1+4][1]) {
-				// mit Ass an der Spitze ?
-				if(array[j1][1] == 12) {
-					// Royal Flush (9*100000000)
-					if(position) {
-						// Position-Array fuellen
-						for(j2=0; j2<5; j2++) {
-							position[j2] = array[j1+j2][2];
-						}
-					}
-					return 900000000;
-				}
-				// sonst nur Straight Flush (8*100000000 + (h�hste Straight-Karte)*1000000)
-				else {
-					if(position) {
-						// Position-Array fuellen
-						for(j2=0; j2<5; j2++) {
-							position[j2] = array[j1+j2][2];
-						}
-					}
-					return 800000000+array[j1][1]*1000000;
-				}
-			}
-		}
-	}
-
-	// Straight Flush Ausnahme: 5-4-3-2-A
-	for(j1=0; j1<3; j1++) {
-		// 5 Karten gleiche Farbe ?
-		if(array[j1][0] == array[j1+1][0] && array[j1][0] == array[j1+2][0] && array[j1][0] == array[j1+3][0] && array[j1][0] == array[j1+4][0]) {
-			for(j2=j1+1; j2<4; j2++) {
-				if(array[j1][1]-9==array[j2][1] && array[j2][1]-1==array[j2+1][1] && array[j2+1][1]-1==array[j2+2][1] && array[j2+2][1]-1==array[j2+3][1] && array[j1][0]==array[j2+2][0] && array[j1][0]==array[j2+3][0]) {
-					// Straight Flush mit 5 als höchste Karte -> 8*100000000+3*1000000
-					if(position) {
-						// Position-Array fuellen
-						position[0] = array[j1][2];
-						for(j3=0; j3<4; j3++) {
-							position[j3+1] = array[j2+j3][2];
-						}
-					}
-					return 800000000+3*1000000;
-				}
-			}
-		}
-	}
-
-	// auf Flush (Klasse 5) testen
-	for(j1=0; j1<3; j1++) {
-		if(array[j1][0] == array[j1+1][0] && array[j1][0] == array[j1+2][0] && array[j1][0] == array[j1+3][0] && array[j1][0] == array[j1+4][0]) {
-			// Flush -> 5*10000000 + h�ste Flush Karten mit absteigender Wertung
-			if(position) {
-				// Position-Array fuellen
-				for(j2=0; j2<5; j2++) {
-					position[j2] = array[j1+j2][2];
-				}
-			}
-			return 500000000+array[j1][1]*1000000+array[j1+1][1]*10000+array[j1+2][1]*100+array[j1+3][1]*10+array[j1+4][1];
-		}
-	}
-
-
-
-	// Karten fr den Vierling-, Full-House-, Drilling- und Paartest umsortieren
-	for(k1=0; k1<7; k1++) {
-		for(k2=k1+1; k2<7; k2++) {
-			if(array[k1][1]<array[k2][1]) {
-				ktemp[0] = array[k1][0];
-				ktemp[1] = array[k1][1];
-				ktemp[2] = array[k1][2];
-				array[k1][0] = array[k2][0];
-				array[k1][1] = array[k2][1];
-				array[k1][2] = array[k2][2];
-				array[k2][0] = ktemp[0];
-				array[k2][1] = ktemp[1];
-				array[k2][2] = ktemp[2];
-			}
-		}
-	}
-
-	// nach Position sortieren: erst board, dann hole cards
-	for(k1=0; k1<7; k1++) {
-		for(k2=k1+1; k2<7; k2++) {
-			if(array[k1][1]==array[k2][1] && array[k1][2]<array[k2][2]) {
-				ktemp[0] = array[k1][0];
-				ktemp[1] = array[k1][1];
-				ktemp[2] = array[k1][2];
-				array[k1][0] = array[k2][0];
-				array[k1][1] = array[k2][1];
-				array[k1][2] = array[k2][2];
-				array[k2][0] = ktemp[0];
-				array[k2][1] = ktemp[1];
-				array[k2][2] = ktemp[2];
-			}
-		}
-	}
-
-	// auf Vierling (Klasse 7) testen
-	for(j1=0; j1<4; j1++) {
-		if(array[j1][1] == array[j1+1][1] && array[j1][1] == array[j1+2][1] && array[j1][1] == array[j1+3][1]) {
-			// Position des Kickers ermitteln und der Blattwertung als dritte Gewichtung hinzuaddieren
-			if(j1==0) {
-				if(position) {
-					// Position-Array fuellen
-					for(j2=0; j2<5; j2++) {
-						position[j2] = array[j2][2];
-					}
-				}
-				return 700000000+array[j1][1]*1000000+array[j1+4][1]*10000;
-			} else {
-				if(position) {
-					// Position-Array fuellen
-					for(j2=0; j2<4; j2++) {
-						position[j2] = array[j1+j2][2];
-					}
-					position[4] = array[0][2];
-				}
-				return 700000000+array[j1][1]*1000000+array[0][1]*10000;
-			}
-		}
-	}
-
-	// Hilfsvariablen fr die Full-House-Paar- und -Drilling-Zuordnung
-	int drei, zwei;
-
-	// auf Straight (Klasse 4) und Full House (Klasse 6) testen
-	for(j1=0; j1<7; j1++) {
-		for(j2=j1+1; j2<7; j2++) {
-			for(j3=j2+1; j3<7; j3++) {
-				for(j4=j3+1; j4<7; j4++) {
-					for(j5=j4+1; j5<7; j5++) {
-						// Straight
-						if(array[j1][1]-1 == array[j2][1] && array[j2][1]-1 == array[j3][1] && array[j3][1]-1 == array[j4][1] && array[j4][1]-1 == array[j5][1]) {
-							if(position) {
-								// Position-Array fuellen
-								position[0] = array[j1][2];
-								position[1] = array[j2][2];
-								position[2] = array[j3][2];
-								position[3] = array[j4][2];
-								position[4] = array[j5][2];
-							}
-							return 400000000+array[j1][1]*1000000;
-						}
-						// Full House
-						if((array[j1][1] == array[j2][1] && array[j1][1] == array[j3][1] && array[j4][1] == array[j5][1]) || (array[j3][1] == array[j4][1] && array[j3][1] == array[j5][1] && array[j1][1] == array[j2][1])) {
-							if(position) {
-								// Position-Array fuellen
-								position[0] = array[j1][2];
-								position[1] = array[j2][2];
-								position[2] = array[j3][2];
-								position[3] = array[j4][2];
-								position[4] = array[j5][2];
-							}
-							// Paar und Drilling des Full House ermitteln ermitteln
-							if(array[j3][1]==array[j1][1]) {
-								drei = array[j1][1];
-								zwei = array[j4][1];
-							} else {
-								drei = array[j4][1];
-								zwei = array[j1][1];
-							}
-							return 600000000+drei*1000000+zwei*10000;
-						}
-					}
-				}
-			}
-		}
-	}
-
-	// auf Straight-Spezialfall ( 5 4 3 2 A ) testen
-	for(j1=0; j1<7; j1++) {
-		for(j2=j1+1; j2<7; j2++) {
-			for(j3=j2+1; j3<7; j3++) {
-				for(j4=j3+1; j4<7; j4++) {
-					for(j5=j4+1; j5<7; j5++) {
-						if(array[j1][1]-9 == array[j2][1] && array[j2][1]-1 == array[j3][1] && array[j3][1]-1 == array[j4][1] && array[j4][1]-1 == array[j5][1]) {
-							if(position) {
-								// Position-Array fuellen
-								position[0] = array[j1][2];
-								position[1] = array[j2][2];
-								position[2] = array[j3][2];
-								position[3] = array[j4][2];
-								position[4] = array[j5][2];
-							}
-							return 400000000+array[j2][1]*1000000;
-						}
-					}
-				}
-			}
-		}
-	}
-
-	// auf Drilling (Klasse 3) testen
-	for(j1=0; j1<5; j1++) {
-		if(array[j1][1] == array[j1+1][1] && array[j1][1] == array[j1+2][1]) {
-			// Kicker ermitteln
-			if(j1==0) {
-				if(position) {
-					// Position-Array fuellen
-					for(j2=0; j2<5; j2++) {
-						position[j2] = array[j2][2];
-					}
-				}
-				return 300000000+array[j1][1]*1000000+array[j1+3][1]*10000+array[j1+4][1]*100;
-			} else {
-				if(j1==1) {
-					if(position) {
-						// Position-Array fuellen
-						for(j2=0; j2<5; j2++) {
-							position[j2] = array[j2][2];
-						}
-					}
-					return 300000000+array[j1][1]*1000000+array[j1-1][1]*10000+array[j1+3][1]*100;
-				} else {
-					if(position) {
-						// Position-Array fuellen
-						for(j2=0; j2<3; j2++) {
-							position[j2] = array[j1+j2][2];
-						}
-						position[3] = array[0][2];
-						position[4] = array[1][2];
-					}
-					return 300000000+array[j1][1]*1000000+array[0][1]*10000+array[1][1]*100;
-				}
-			}
-		}
-	}
-
-	// auf Zwei Paare (Klasse 2) testen
-	for(j1=0; j1<4; j1++) {
-		for(j2=j1+2; j2<6; j2++) {
-			if(array[j1][1] == array[j1+1][1] && array[j2][1] == array[j2+1][1]) {
-				// Kicker ermitteln
-				if(j1==0) {
-					if(j2==2) {
-						if(position) {
-							// Position-Array fuellen
-							position[0] = array[j1][2];
-							position[1] = array[j1+1][2];
-							position[2] = array[j2][2];
-							position[3] = array[j2+1][2];
-							position[4] = array[j2+2][2];
-						}
-						return 200000000+array[j1][1]*1000000+array[j2][1]*10000+array[j2+2][1]*100;
-					} else {
-						if(position) {
-							// Position-Array fuellen
-							position[0] = array[j1][2];
-							position[1] = array[j1+1][2];
-							position[2] = array[j2][2];
-							position[3] = array[j2+1][2];
-							position[4] = array[j1+2][2];
-						}
-						return 200000000+array[j1][1]*1000000+array[j2][1]*10000+array[j1+2][1]*100;
-					}
-				} else {
-					if(position) {
-						// Position-Array fuellen
-						position[0] = array[j1][2];
-						position[1] = array[j1+1][2];
-						position[2] = array[j2][2];
-						position[3] = array[j2+1][2];
-						position[4] = array[0][2];
-					}
-					return 200000000+array[j1][1]*1000000+array[j2][1]*10000+array[0][1]*100;
-				}
-			}
-		}
-	}
-
-	// auf Paar (Klasse 1) testen
-	for(j1=0; j1<6; j1++) {
-		if(array[j1][1] == array[j1+1][1]) {
-			// Kicker ermitteln
-			if(j1==0) {
-				if(position) {
-					// Position-Array fuellen
-					for(j2=0; j2<5; j2++) {
-						position[j2] = array[j2][2];
-					}
-				}
-				return 100000000+array[j1][1]*1000000+array[j1+2][1]*10000+array[j1+3][1]*100+array[j1+4][1];
-			}
-			if(j1==1) {
-				if(position) {
-					// Position-Array fuellen
-					for(j2=0; j2<5; j2++) {
-						position[j2] = array[j2][2];
-					}
-				}
-				return 100000000+array[j1][1]*1000000+array[j1-1][1]*10000+array[j1+2][1]*100+array[j1+3][1];
-			}
-			if(j1==2) {
-				if(position) {
-					// Position-Array fuellen
-					for(j2=0; j2<5; j2++) {
-						position[j2] = array[j2][2];
-					}
-				}
-				return 100000000+array[j1][1]*1000000+array[j1-2][1]*10000+array[j1-1][1]*100+array[j1+2][1];
-			} else {
-				if(position) {
-					// Position-Array fuellen
-					for(j2=0; j2<2; j2++) {
-						position[j2] = array[j1+j2][2];
-					}
-					position[2] = array[0][2];
-					position[3] = array[1][2];
-					position[4] = array[2][2];
-				}
-				return 100000000+array[j1][1]*1000000+array[0][1]*10000+array[1][1]*100+array[2][1];
-			}
-		}
-	}
-
-	// Highest Card (Klasse 0) + Kicker
-	if(position) {
-		// Position-Array fuellen
-		for(j2=0; j2<5; j2++) {
-			position[j2] = array[j2][2];
-		}
-	}
-	return array[0][1]*1000000+array[1][1]*10000+array[2][1]*100+array[3][1]*10+array[4][1];
-}
-
-
 std::vector< std::vector<int> > CardsValue::calcCardsChance(GameState beRoID, int playerCards[2], int boardCards[5])
 {
-	int card_idx_1, card_idx_2;
-
 	std::vector< std::vector<int> > chance(2);
 	chance[0].assign(10,0);
 	chance[1].assign(10,0);
@@ -908,6 +526,7 @@ std::vector< std::vector<int> > CardsValue::calcCardsChance(GameState beRoID, in
 	int cards[4] = { 0,0,0,0 };
 	int sum = 0;
 
+	int card_idx_1;
 	for(card_idx_1=0; card_idx_1<2; card_idx_1++) cards[playerCards[card_idx_1]/13] |= (1 << (playerCards[card_idx_1]%13));
 
 	switch(beRoID) {
@@ -924,7 +543,7 @@ std::vector< std::vector<int> > CardsValue::calcCardsChance(GameState beRoID, in
 		for(card_idx_1=0; card_idx_1<51; card_idx_1++) {
 			if((cards[card_idx_1/13] & (1 << (card_idx_1%13))) == 0) {
 				cards[card_idx_1/13] |= (1 << (card_idx_1%13));
-				for(card_idx_2=card_idx_1+1; card_idx_2<52; card_idx_2++) {
+				for(int card_idx_2=card_idx_1+1; card_idx_2<52; card_idx_2++) {
 					if((cards[card_idx_2/13] & (1 << (card_idx_2%13))) == 0) {
 						cards[card_idx_2/13] |= (1 << (card_idx_2%13));
 						(chance[0][cardsValueShort(cards)])++;
@@ -2572,6 +2191,44 @@ std::list<std::string> CardsValue::translateCardsValueCode(int cardsValueCode)
 
 	return cardString;
 
+}
+
+int CardsValue::bitcount(int in)
+{
+	int count=0 ;
+	while (in) {
+		count++ ;
+		in &= (in - 1) ;
+
+	}
+	return count ;
+}
+
+int
+CardsValue::bestHandToPosition(int bestHand[4], int cardArray[7], int position[5])
+{
+
+	for(int card_idx=0; card_idx<5; card_idx++) position[card_idx] = -1;
+
+	int position_ctr = 0;
+	for(int color_idx=0; color_idx<4; color_idx++) {
+		for(int card_idx_1=0; card_idx_1<13; card_idx_1++) {
+			if(bestHand[color_idx] & (1<<card_idx_1)) {
+				for(int card_idx_2=0; card_idx_2<7; card_idx_2++) {
+					if(cardArray[card_idx_2] == color_idx*13+card_idx_1) {
+						if(position_ctr<5) {
+							position[position_ctr] = card_idx_2;
+							position_ctr++;
+						} else {
+							return 0;
+						}
+					}
+				}
+			}
+		}
+	}
+	if(position_ctr!=5) return 0;
+	else return 1;
 }
 
 

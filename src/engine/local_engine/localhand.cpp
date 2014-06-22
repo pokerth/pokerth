@@ -58,7 +58,7 @@ LocalHand::LocalHand(boost::shared_ptr<EngineFactory> f, GuiInterface *g, boost:
 
 	// generate cards and assign to board and player
 	const int NumCards = 52;
-	int cardsArray[NumCards] = {
+	int cards[NumCards] = {
 		0,  1,  2,  3,  4,  5,  6,  7,  8,  9,
 		10, 11, 12, 13, 14, 15, 16, 17, 18, 19,
 		20, 21, 22, 23, 24, 25, 26, 27, 28, 29,
@@ -66,48 +66,49 @@ LocalHand::LocalHand(boost::shared_ptr<EngineFactory> f, GuiInterface *g, boost:
 		40, 41, 42, 43, 44, 45, 46, 47, 48, 49,
 		50, 51
 	};
-	Tools::ShuffleArrayNonDeterministic(cardsArray, NumCards);
-	int tempBoardArray[5];
-	int tempPlayerArray[2];
-	int tempPlayerAndBoardArray[7];
-	int bestHandPos[5];
+	Tools::ShuffleArrayNonDeterministic(cards, NumCards);
+	int boardCards[5];
+	int playerHoleCards[2];
+	int playerCards[7];
 	int sBluff;
 
 	// board cards
-	for(i=0; i<5; i++) tempBoardArray[i] = cardsArray[i];
+	for(i=0; i<5; i++) boardCards[i] = cards[i];
 
 	// debug mode
-	if(myLog) myLog->debugMode_getBoardCards(tempBoardArray,myID);
+	if(myLog) myLog->debugMode_getBoardCards(boardCards,myID);
 
 	// prepare whole player hand
-	for(i=0; i<5; i++) tempPlayerAndBoardArray[i+2] = tempBoardArray[i];
+	for(i=0; i<5; i++) playerCards[i+2] = boardCards[i];
 
 	k = 0;
-	myBoard->setMyCards(tempBoardArray);
+	myBoard->setMyCards(boardCards);
 	for(it=activePlayerList->begin(); it!=activePlayerList->end(); ++it, k++) {
 
-		(*it)->getMyBestHandPosition(bestHandPos);
-
 		// hole cards
-		for(j=0; j<2; j++) tempPlayerArray[j] = cardsArray[2*k+j+5];
-
-		// debug mode
-		if(myLog) myLog->debugMode_getPlayerCards(tempPlayerArray,myID,k);
+		for(j=0; j<2; j++) playerHoleCards[j] = cards[2*k+j+5];
+		(*it)->setMyHoleCards(playerHoleCards);
+		if(myLog) myLog->debugMode_getPlayerCards(playerHoleCards,myID,k); // debug mode
 
 		// complete whole player hand
-		for(j=0; j<2; j++) tempPlayerAndBoardArray[j] = tempPlayerArray[j];
+		for(j=0; j<2; j++) playerCards[j] = playerHoleCards[j];
 
-		(*it)->setMyHoleCards(tempPlayerArray);
-		(*it)->setMyCardsValueInt(CardsValue::cardsValueOld(tempPlayerAndBoardArray, bestHandPos));
-		(*it)->setMyBestHandPosition(bestHandPos);
-		(*it)->setMyRoundStartCash((*it)->getMyCash());
+		// determine cards value
+		int bestHand[4] = { 0,0,0,0 };
+		int playerCardsColor[4] = { 0,0,0,0 };
+		for(j=0; j<7; j++) playerCardsColor[playerCards[j]/13] |= (1 << playerCards[j]%13);
+		(*it)->setMyCardsValueInt(CardsValue::cardsValue(playerCardsColor,bestHand));
 
-		// error-check
-		for(j=0; j<5; j++) {
-			if (bestHandPos[j] == -1) {
-				LOG_ERROR(__FILE__ << " (" << __LINE__ << "): ERROR getMyBestHandPosition");
-			}
+		// determine position of best 5 cards
+		int bestHandPos[5];
+		if(CardsValue::bestHandToPosition(bestHand,playerCards,bestHandPos)) {
+			(*it)->setMyBestHandPosition(bestHandPos);
+		} else {
+			LOG_ERROR(__FILE__ << " (" << __LINE__ << "): ERROR getMyBestHandPosition");
 		}
+
+		// set round start cash
+		(*it)->setMyRoundStartCash((*it)->getMyCash());
 
 		// set sBluff for all players --> TODO for ai-player in internet
 		if((*it)->getMyID() != 0) {
@@ -158,20 +159,19 @@ void LocalHand::start()
 void LocalHand::assignButtons()
 {
 
-	size_t i;
-	PlayerListIterator it;
+	PlayerListIterator seatIt;
 
 	// delete all buttons
-	for (it=seatsList->begin(); it!=seatsList->end(); ++it) {
-		(*it)->setMyButton(BUTTON_NONE);
+	for (seatIt=seatsList->begin(); seatIt!=seatsList->end(); ++seatIt) {
+		(*seatIt)->setMyButton(BUTTON_NONE);
 	}
 
 	// assign dealer button
-	it = getSeatIt(dealerPosition);
-	if(it == seatsList->end()) {
+	seatIt = getSeatIt(dealerPosition);
+	if(seatIt == seatsList->end()) {
 		throw LocalException(__FILE__, __LINE__, ERR_SEAT_NOT_FOUND);
 	}
-	(*it)->setMyButton(BUTTON_DEALER);
+	(*seatIt)->setMyButton(BUTTON_DEALER);
 
 
 	// assign Small Blind next to dealer. ATTENTION: in heads up it is big blind
@@ -182,40 +182,40 @@ void LocalHand::assignButtons()
 		throw LocalException(__FILE__, __LINE__, ERR_SEAT_NOT_FOUND);
 	}
 
-	for(i=0; i<seatsList->size(); i++) {
+	for(size_t i=0; i<seatsList->size(); i++) {
 
 		++dealerPositionIt;
 		if(dealerPositionIt == seatsList->end()) dealerPositionIt = seatsList->begin();
 
-		it = getActivePlayerIt( (*dealerPositionIt)->getMyUniqueID() );
-		if(it != activePlayerList->end() ) {
+		PlayerListIterator activePlayerIt = getActivePlayerIt( (*dealerPositionIt)->getMyUniqueID() );
+		if(activePlayerIt != activePlayerList->end() ) {
 			nextActivePlayerFound = true;
 			if(activePlayerList->size() > 2) {
 				//small blind normal
-				(*it)->setMyButton(2);
-				smallBlindPosition = (*it)->getMyUniqueID();
+				(*activePlayerIt)->setMyButton(2);
+				smallBlindPosition = (*activePlayerIt)->getMyUniqueID();
 			} else {
 				//big blind in heads up
-				(*it)->setMyButton(3);
-				bigBlindPosition = (*it)->getMyUniqueID();
+				(*activePlayerIt)->setMyButton(3);
+				bigBlindPosition = (*activePlayerIt)->getMyUniqueID();
 				// lastPlayerAction for showing cards
 			}
 
 			// first player after dealer have to show his cards first (in showdown)
-			lastActionPlayerID = (*it)->getMyUniqueID();
+			lastActionPlayerID = (*activePlayerIt)->getMyUniqueID();
 			myBoard->setLastActionPlayerID(lastActionPlayerID);
 
-			++it;
-			if(it == activePlayerList->end()) it = activePlayerList->begin();
+			++activePlayerIt;
+			if(activePlayerIt == activePlayerList->end()) activePlayerIt = activePlayerList->begin();
 
 			if(activePlayerList->size() > 2) {
 				//big blind normal
-				(*it)->setMyButton(3);
-				bigBlindPosition = (*it)->getMyUniqueID();
+				(*activePlayerIt)->setMyButton(3);
+				bigBlindPosition = (*activePlayerIt)->getMyUniqueID();
 			} else {
 				//small blind in heads up
-				(*it)->setMyButton(2);
-				smallBlindPosition = (*it)->getMyUniqueID();
+				(*activePlayerIt)->setMyButton(2);
+				smallBlindPosition = (*activePlayerIt)->getMyUniqueID();
 			}
 
 			break;
@@ -395,11 +395,11 @@ void LocalHand::switchRounds()
 
 		//log board cards for allin
 		if(currentRound >= GAME_STATE_FLOP) {
-			int tempBoardCardsArray[5];
+			int boardCards[5];
 
-			myBoard->getMyCards(tempBoardCardsArray);
-			myGui->logDealBoardCardsMsg(currentRound, tempBoardCardsArray[0], tempBoardCardsArray[1], tempBoardCardsArray[2], tempBoardCardsArray[3], tempBoardCardsArray[4]);
-			if(myLog) myLog->logBoardCards(tempBoardCardsArray);
+			myBoard->getMyCards(boardCards);
+			myGui->logDealBoardCardsMsg(currentRound, boardCards[0], boardCards[1], boardCards[2], boardCards[3], boardCards[4]);
+			if(myLog) myLog->logBoardCards(boardCards);
 		}
 
 	}

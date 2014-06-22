@@ -792,20 +792,20 @@ void gameTableImpl::applySettings(settingsDialogImpl* mySettingsDialog)
 	//refresh board cards if game is running
 	if(myStartWindow->getSession()->getCurrentGame()) {
 
-		int tempBoardCardsArray[5];
-		myStartWindow->getSession()->getCurrentGame()->getCurrentHand()->getBoard()->getMyCards(tempBoardCardsArray);
+		int boardCards[5];
+		myStartWindow->getSession()->getCurrentGame()->getCurrentHand()->getBoard()->getMyCards(boardCards);
 		GameState currentState = myStartWindow->getSession()->getCurrentGame()->getCurrentHand()->getCurrentBeRo()->getMyBeRoID();
 		if(currentState >= GAME_STATE_FLOP && currentState <= GAME_STATE_POST_RIVER)
 			for(int i=0; i<3; i++) {
-				QPixmap card = QPixmap::fromImage(QImage(myCardDeckStyle->getCurrentDir()+QString::number(tempBoardCardsArray[i], 10)+".png"));
+				QPixmap card = QPixmap::fromImage(QImage(myCardDeckStyle->getCurrentDir()+QString::number(boardCards[i], 10)+".png"));
 				boardCardsArray[i]->setPixmap(card, false);
 			}
 		if(currentState >= GAME_STATE_TURN && currentState <= GAME_STATE_POST_RIVER) {
-			QPixmap card = QPixmap::fromImage(QImage(myCardDeckStyle->getCurrentDir()+QString::number(tempBoardCardsArray[3], 10)+".png"));
+			QPixmap card = QPixmap::fromImage(QImage(myCardDeckStyle->getCurrentDir()+QString::number(boardCards[3], 10)+".png"));
 			boardCardsArray[3]->setPixmap(card, false);
 		}
 		if(currentState == GAME_STATE_RIVER || currentState == GAME_STATE_POST_RIVER) {
-			QPixmap card = QPixmap::fromImage(QImage(myCardDeckStyle->getCurrentDir()+QString::number(tempBoardCardsArray[4], 10)+".png"));
+			QPixmap card = QPixmap::fromImage(QImage(myCardDeckStyle->getCurrentDir()+QString::number(boardCards[4], 10)+".png"));
 			boardCardsArray[4]->setPixmap(card, false);
 		}
 	}
@@ -1532,10 +1532,10 @@ void gameTableImpl::dealFlopCards3()
 void gameTableImpl::dealFlopCards4()
 {
 
-	int tempBoardCardsArray[5];
+	int boardCards[5];
 
-	myStartWindow->getSession()->getCurrentGame()->getCurrentHand()->getBoard()->getMyCards(tempBoardCardsArray);
-	QPixmap card = QPixmap::fromImage(QImage(myCardDeckStyle->getCurrentDir()+QString::number(tempBoardCardsArray[0], 10)+".png"));
+	myStartWindow->getSession()->getCurrentGame()->getCurrentHand()->getBoard()->getMyCards(boardCards);
+	QPixmap card = QPixmap::fromImage(QImage(myCardDeckStyle->getCurrentDir()+QString::number(boardCards[0], 10)+".png"));
 
 	//Config? mit oder ohne Eye-Candy?
 	if(myConfig->readConfigInt("ShowFlipCardsAnimation")) {
@@ -1552,9 +1552,9 @@ void gameTableImpl::dealFlopCards4()
 void gameTableImpl::dealFlopCards5()
 {
 
-	int tempBoardCardsArray[5];
-	myStartWindow->getSession()->getCurrentGame()->getCurrentHand()->getBoard()->getMyCards(tempBoardCardsArray);
-	QPixmap card = QPixmap::fromImage(QImage(myCardDeckStyle->getCurrentDir()+QString::number(tempBoardCardsArray[1], 10)+".png"));
+	int boardCards[5];
+	myStartWindow->getSession()->getCurrentGame()->getCurrentHand()->getBoard()->getMyCards(boardCards);
+	QPixmap card = QPixmap::fromImage(QImage(myCardDeckStyle->getCurrentDir()+QString::number(boardCards[1], 10)+".png"));
 
 	//Config? mit oder ohne Eye-Candy?
 	if(myConfig->readConfigInt("ShowFlipCardsAnimation")) {
@@ -1571,9 +1571,9 @@ void gameTableImpl::dealFlopCards5()
 void gameTableImpl::dealFlopCards6()
 {
 
-	int tempBoardCardsArray[5];
-	myStartWindow->getSession()->getCurrentGame()->getCurrentHand()->getBoard()->getMyCards(tempBoardCardsArray);
-	QPixmap card = QPixmap::fromImage(QImage(myCardDeckStyle->getCurrentDir()+QString::number(tempBoardCardsArray[2], 10)+".png"));
+	int boardCards[5];
+	myStartWindow->getSession()->getCurrentGame()->getCurrentHand()->getBoard()->getMyCards(boardCards);
+	QPixmap card = QPixmap::fromImage(QImage(myCardDeckStyle->getCurrentDir()+QString::number(boardCards[2], 10)+".png"));
 
 	//Config? mit oder ohne Eye-Candy?
 	if(myConfig->readConfigInt("ShowFlipCardsAnimation")) {
@@ -1615,9 +1615,9 @@ void gameTableImpl::dealTurnCards1()
 void gameTableImpl::dealTurnCards2()
 {
 
-	int tempBoardCardsArray[5];
-	myStartWindow->getSession()->getCurrentGame()->getCurrentHand()->getBoard()->getMyCards(tempBoardCardsArray);
-	QPixmap card = QPixmap::fromImage(QImage(myCardDeckStyle->getCurrentDir()+QString::number(tempBoardCardsArray[3], 10)+".png"));
+	int boardCards[5];
+	myStartWindow->getSession()->getCurrentGame()->getCurrentHand()->getBoard()->getMyCards(boardCards);
+	QPixmap card = QPixmap::fromImage(QImage(myCardDeckStyle->getCurrentDir()+QString::number(boardCards[3], 10)+".png"));
 
 	//Config? mit oder ohne Eye-Candy?
 	if(myConfig->readConfigInt("ShowFlipCardsAnimation")) {
@@ -1660,9 +1660,9 @@ void gameTableImpl::dealRiverCards1()
 void gameTableImpl::dealRiverCards2()
 {
 
-	int tempBoardCardsArray[5];
-	myStartWindow->getSession()->getCurrentGame()->getCurrentHand()->getBoard()->getMyCards(tempBoardCardsArray);
-	QPixmap card = QPixmap::fromImage(QImage(myCardDeckStyle->getCurrentDir()+QString::number(tempBoardCardsArray[4], 10)+".png"));
+	int boardCards[5];
+	myStartWindow->getSession()->getCurrentGame()->getCurrentHand()->getBoard()->getMyCards(boardCards);
+	QPixmap card = QPixmap::fromImage(QImage(myCardDeckStyle->getCurrentDir()+QString::number(boardCards[4], 10)+".png"));
 
 	//Config? mit oder ohne Eye-Candy?
 	if(myConfig->readConfigInt("ShowFlipCardsAnimation")) {
@@ -4310,8 +4310,7 @@ void gameTableImpl::restoreGameTableGeometry()
 		int availableHeight = dw.screenGeometry().height();
 		this->showNormal();
 		this->setGeometry(0,0,availableWidth, availableHeight);
-	}
-	else {
+	} else {
 		this->showFullScreen();
 	}
 #endif

@@ -282,10 +282,10 @@ public:
 	void turnEngine();
 	void riverEngine();
 
-	void preflopEngine3();
-	void flopEngine3();
-	void turnEngine3();
-	void riverEngine3();
+//	void preflopEngine3();
+//	void flopEngine3();
+//	void turnEngine3();
+//	void riverEngine3();
 
 	int flopCardsValue(int*);
 	int turnCardsValue(int*);

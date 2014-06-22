@@ -147,26 +147,26 @@ void LocalBeRo::run()
 		//log the turned cards
 		if(!logBoardCardsDone) {
 
-			int tempBoardCardsArray[5];
+			int boardCards[5];
 
-			myHand->getBoard()->getMyCards(tempBoardCardsArray);
+			myHand->getBoard()->getMyCards(boardCards);
 
 			switch(myBeRoID) {
 			case GAME_STATE_FLOP:
-				myHand->getGuiInterface()->logDealBoardCardsMsg(myBeRoID, tempBoardCardsArray[0], tempBoardCardsArray[1], tempBoardCardsArray[2]);
+				myHand->getGuiInterface()->logDealBoardCardsMsg(myBeRoID, boardCards[0], boardCards[1], boardCards[2]);
 				break;
 			case GAME_STATE_TURN:
-				myHand->getGuiInterface()->logDealBoardCardsMsg(myBeRoID, tempBoardCardsArray[0], tempBoardCardsArray[1], tempBoardCardsArray[2], tempBoardCardsArray[3]);
+				myHand->getGuiInterface()->logDealBoardCardsMsg(myBeRoID, boardCards[0], boardCards[1], boardCards[2], boardCards[3]);
 				break;
 			case GAME_STATE_RIVER:
-				myHand->getGuiInterface()->logDealBoardCardsMsg(myBeRoID, tempBoardCardsArray[0], tempBoardCardsArray[1], tempBoardCardsArray[2], tempBoardCardsArray[3], tempBoardCardsArray[4]);
+				myHand->getGuiInterface()->logDealBoardCardsMsg(myBeRoID, boardCards[0], boardCards[1], boardCards[2], boardCards[3], boardCards[4]);
 
 				break;
 			default: {
 				LOG_ERROR(__FILE__ << " (" << __LINE__ << "): ERROR - wrong myBeRoID");
 			}
 			}
-			if(myHand->getLog()) myHand->getLog()->logBoardCards(tempBoardCardsArray);
+			if(myHand->getLog()) myHand->getLog()->logBoardCards(boardCards);
 			logBoardCardsDone = true;
 
 		}
