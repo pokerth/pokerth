@@ -88,7 +88,7 @@ public:
 	void clientJoinGame(unsigned gameId, const std::string &password);
 	void clientRejoinGame(unsigned gameId);
 
-	void startNetworkServer(bool dedicated);
+	void startNetworkServer(bool dedicated, bool lan_local = false);
 	void sendLeaveCurrentGame();
 	void sendStartEvent(bool fillUpWithCpuPlayers);
 	void terminateNetworkServer();

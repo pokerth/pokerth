@@ -301,6 +301,7 @@ ServerLobbyThread::AddConnection(boost::shared_ptr<SessionData> sessionData)
 			netAnnounce->set_latestbetarevision(POKERTH_BETA_REVISION);
 			switch (GetServerMode()) {
 			case SERVER_MODE_LAN:
+			case SERVER_MODE_LAN_LOCAL:
 				netAnnounce->set_servertype(AnnounceMessage::serverTypeLAN);
 				break;
 			case SERVER_MODE_INTERNET_NOAUTH:
@@ -1353,6 +1354,9 @@ ServerLobbyThread::HandleNetPacketCreateGame(boost::shared_ptr<SessionData> sess
 				session->GetPlayerData()->GetDBId(),
 				GetGui(),
 				m_serverConfig));
+#ifdef NEW_LOCAL_GAME
+		if(m_mode == SERVER_MODE_LAN_LOCAL) game->setLanLocal(true);
+#endif
 		game->Init();
 
 		// Add game to list of games.
